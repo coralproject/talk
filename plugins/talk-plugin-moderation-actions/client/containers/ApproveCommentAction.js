@@ -1,27 +1,28 @@
 import React from 'react';
-import {compose} from 'react-apollo';
-import {closeMenu} from '../actions';
 import {bindActionCreators} from 'redux';
+import {connect} from 'plugin-api/beta/client/hocs';
 import {getErrorMessages} from 'plugin-api/beta/client/utils';
+import {withSetCommentStatus} from 'plugin-api/beta/client/hocs';
 import {notify} from 'plugin-api/beta/client/actions/notification';
 import ApproveCommentAction from '../components/ApproveCommentAction';
 import {connect, withSetCommentStatus} from 'plugin-api/beta/client/hocs';
 
 class ApproveCommentActionContainer extends React.Component {
 
-  approveComment = () => {
-    const {setCommentStatus, closeMenu, comment} = this.props;
-    
+  approveComment = async () => {
+    const {setCommentStatus, comment, hideMenu, notify} = this.props;
+
     try {
-      setCommentStatus({
+      await setCommentStatus({
         commentId: comment.id,
         status: 'ACCEPTED'
       });
-
-      closeMenu();
-    } catch (err) {
+    }
+    catch(err) {
       notify('error', getErrorMessages(err));
     }
+
+    hideMenu();
   }
 
   render() {
@@ -31,8 +32,7 @@ class ApproveCommentActionContainer extends React.Component {
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    notify,
-    closeMenu
+    notify
   }, dispatch);
 
 const enhance = compose(

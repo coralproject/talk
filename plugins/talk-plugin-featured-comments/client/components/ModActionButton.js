@@ -29,12 +29,23 @@ export class ModActionButton extends React.Component {
     });
   }
 
+  handleDeleteTag = () => {
+    this.props.deleteTag();
+    this.props.closeTooltip();
+  }
+
+  handlePostTag = () => {
+    this.props.postTag();
+    this.props.closeTooltip();
+  }
+
   render() {
-    const {alreadyTagged, deleteTag, postTag} = this.props;
+    const {alreadyTagged} = this.props;
+    const {handleDeleteTag, handlePostTag} = this;
 
     return (
       <button className={cn(`${pluginName}-tag-button`, styles.button, {[styles.featured] : alreadyTagged})}
-        onClick={alreadyTagged ? deleteTag : postTag}
+        onClick={alreadyTagged ? handleDeleteTag : handlePostTag}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave} >
 

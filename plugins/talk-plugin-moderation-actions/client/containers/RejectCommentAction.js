@@ -1,8 +1,8 @@
 import React from 'react';
-import {compose} from 'react-apollo';
-import {closeMenu} from '../actions';
 import {bindActionCreators} from 'redux';
-import {getErrorMessages} from 'plugin-api/beta/client/utils';
+import {connect} from 'plugin-api/beta/client/hocs';
+import {getErrorMessages} from 'plugin-api/beta/client/utils'
+import {withSetCommentStatus} from 'plugin-api/beta/client/hocs';
 import {notify} from 'plugin-api/beta/client/actions/notification';
 import RejectCommentAction from '../components/RejectCommentAction';
 import {connect, withSetCommentStatus} from 'plugin-api/beta/client/hocs';
@@ -10,18 +10,19 @@ import {connect, withSetCommentStatus} from 'plugin-api/beta/client/hocs';
 class RejectCommentActionContainer extends React.Component {
 
   rejectComment = () => {
-    const {setCommentStatus, closeMenu, comment} = this.props;
-    
+    const {setCommentStatus, comment, hideMenu, notify} = this.props;
+
     try {
-      setCommentStatus({
+      await setCommentStatus({
         commentId: comment.id,
         status: 'REJECTED'
       });
-      
-      closeMenu();
-    } catch (err) {
+    }
+    catch(err) {
       notify('error', getErrorMessages(err));
     }
+
+    hideMenu();
   }
 
   render() {
@@ -31,8 +32,7 @@ class RejectCommentActionContainer extends React.Component {
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    notify,
-    closeMenu
+    notify
   }, dispatch);
 
 const enhance = compose(
