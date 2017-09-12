@@ -1,12 +1,12 @@
 import React from 'react';
 import {matchLinks} from '../utils';
 
-const wordSeperator = /([.\s'"?!])/;
+const wordSeparator = /([.\s'"?!])/;
 
 // markWords looks for `words` inside `body` and highlights them by returning
 // an array of React Elements.
 function markWords(body, words, keyPrefix) {
-  const tokens = body.split(wordSeperator);
+  const tokens = body.split(wordSeparator);
   const content = [];
   let tmp = [];
   tokens.forEach((token, i) => {
