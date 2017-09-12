@@ -1,9 +1,8 @@
 import React from 'react';
-import Linkify from 'react-linkify';
-const linkify = new Linkify();
+import {linkRegexp} from '../utils/regexp';
 
 export default ({text, children}) => {
-  const hasLinks = !!linkify.getMatches(text);
+  const hasLinks = text.match(linkRegexp);
 
   if (!hasLinks) {
     return null;
