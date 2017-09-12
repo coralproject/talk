@@ -26,9 +26,9 @@ class StreamTabPanelContainer extends React.Component {
     // it does not result in a change of slot children.
     const changes = getShallowChanges(this.props, next);
     if (changes.length === 1 && changes[0] === 'reduxState') {
-      const prevUuid = this.getSlotElements(this.props.tabSlot, this.props).map((el) => el.type.talkUuid);
-      const nextUuid = this.getSlotElements(next.tabSlot, next).map((el) => el.type.talkUuid);
-      return !isEqual(prevUuid, nextUuid);
+      const prevKeys = this.getSlotElements(this.props.tabSlot, this.props).map((el) => el.key);
+      const nextKeys = this.getSlotElements(next.tabSlot, next).map((el) => el.key);
+      return !isEqual(prevKeys, nextKeys);
     }
 
     // Prevent Slot from rerendering when no props has shallowly changed.

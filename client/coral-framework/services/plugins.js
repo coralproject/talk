@@ -8,7 +8,6 @@ import flatten from 'lodash/flatten';
 import mapValues from 'lodash/mapValues';
 import {getDisplayName} from 'coral-framework/helpers/hoc';
 import camelize from '../helpers/camelize';
-import uuid from 'uuid/v4';
 
 // This is returned for pluginConfig when it is empty.
 const emptyConfig = {};
@@ -63,9 +62,6 @@ function addMetaDataToSlotComponents(plugins) {
 
         // Attach plugin name to the component
         component.talkPluginName = plugin.name;
-
-        // Attach uuid to the component
-        component.talkUuid = uuid();
       });
     });
   });
