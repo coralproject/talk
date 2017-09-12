@@ -11,6 +11,8 @@ class RejectCommentActionContainer extends React.Component {
       commentId: comment.id,
       status: 'REJECTED'
     });
+    
+    hideTooltip();
   }
 
   render() {

@@ -31,8 +31,8 @@ export default class ModerationActions extends React.Component {
                 data={data}
               />
 
-              <ApproveCommentAction comment={comment} />
-              <RejectCommentAction comment={comment} />
+              <ApproveCommentAction comment={comment} hideTooltip={hideTooltip} />
+              <RejectCommentAction comment={comment} hideTooltip={hideTooltip} />
             </Tooltip>
           )}
         </div>
