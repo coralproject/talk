@@ -9,7 +9,7 @@ import {connect, withSetCommentStatus} from 'plugin-api/beta/client/hocs';
 
 class RejectCommentActionContainer extends React.Component {
 
-  rejectComment = () => {
+  rejectComment = async () => {
     const {setCommentStatus, comment, hideMenu, notify} = this.props;
 
     try {
