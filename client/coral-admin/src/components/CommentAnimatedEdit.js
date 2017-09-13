@@ -7,6 +7,7 @@ export default ({children, body}) => {
   return (
     <CSSTransitionGroup
       component={'div'}
+      className={styles.root}
       transitionName={{
         enter: styles.bodyEnter,
         enterActive: styles.bodyEnterActive,
