@@ -4,10 +4,11 @@ import {t} from 'plugin-api/beta/client/services';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 import cn from 'classnames';
 
-export default ({banUser, comment: {}}) => (
+export default ({banUser}) => (
   <button 
     className={cn(styles.button, 'talk-plugin-moderation-actions-reject')}
     onClick={banUser} >
-    Ban User
+    <Icon name="block" className={styles.icon} />
+    {t('talk-plugin-moderation-actions.ban_user')}
   </button>
 );

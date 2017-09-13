@@ -42,7 +42,6 @@ class ModerationActionsContainer extends React.Component {
   }
 
   render() {
-    console.log(this.props.root, this.props.comment)
     return <ModerationActions
       data={this.props.data}
       root={this.props.root}
