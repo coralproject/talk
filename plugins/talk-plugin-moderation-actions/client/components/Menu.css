@@ -1,4 +1,4 @@
-.tooltip {
+.menu {
   background-color: white;
   border: solid 1px #999;
   border-radius: 3px;
@@ -14,7 +14,7 @@
   color: #616161;
 }
 
-.tooltip::before{
+.menu::before{
   content: '';
   border: 10px solid transparent;
   border-top-color: #999;
@@ -24,7 +24,7 @@
   transform: rotate(180deg);
 }
 
-.tooltip::after{
+.menu::after{
   content: '';
   border: 10px solid transparent;
   border-top-color: white;

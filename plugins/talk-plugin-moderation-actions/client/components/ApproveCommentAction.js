@@ -7,17 +7,15 @@ import cn from 'classnames';
 const isApproved = (status) => (status === 'ACCEPTED');
 
 export default ({approveComment, comment: {status}}) => (
-  <button className={cn(styles.button, 'talk-plugin-moderation-actions-reject')} onClick={approveComment}>
-    {isApproved(status) ? (
-      <span className={styles.approved}>
-        <Icon name="check_circle" className={styles.icon} />
-        {t('talk-plugin-moderation-actions.approved_comment')}
-      </span>
-    ) : (
-      <span>
-        <Icon name="done" className={styles.icon} />
-        {t('talk-plugin-moderation-actions.approve_comment')}
-      </span>
-    )}
-  </button>
+  isApproved(status) ? (
+    <span className={styles.approved}>
+      <Icon name="check_circle" className={styles.icon} />
+      {t('talk-plugin-moderation-actions.approved_comment')}
+    </span>
+  ) : (
+    <button className={cn(styles.button, 'talk-plugin-moderation-actions-reject')} onClick={approveComment}>
+      <Icon name="done" className={styles.icon} />
+      {t('talk-plugin-moderation-actions.approve_comment')}
+    </button>
+  )
 );

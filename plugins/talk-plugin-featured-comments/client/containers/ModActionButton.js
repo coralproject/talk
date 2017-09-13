@@ -1,10 +1,17 @@
 import {compose} from 'react-apollo';
-import {excludeIf} from 'plugin-api/beta/client/hocs';
-import {can} from 'plugin-api/beta/client/services';
-import Button from '../components/Button';
+import {bindActionCreators} from 'redux';
+import ModActionButton from '../components/ModActionButton';
+import {withTags, connect} from 'plugin-api/beta/client/hocs';
+import {closeMenu} from 'plugins/talk-plugin-moderation-actions/client/actions';
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({
+    closeMenu,
+  }, dispatch);
 
 const enhance = compose(
-  excludeIf((props) => !can(props.user, 'MODERATE_COMMENTS')),
+  withTags('featured'),
+  connect(null, mapDispatchToProps),
 );
 
-export default enhance(Button);
+export default enhance(ModActionButton);
