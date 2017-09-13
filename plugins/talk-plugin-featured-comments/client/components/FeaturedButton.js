@@ -1,12 +1,11 @@
 import React from 'react';
 import cn from 'classnames';
-import styles from './Button.css';
+import styles from './FeaturedButton.css';
 import {pluginName} from '../../package.json';
 import {can} from 'plugin-api/beta/client/services';
-import {withTags} from 'plugin-api/beta/client/hocs';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 
-const Button = (props) => {
+const FeaturedButton = (props) => {
   const {alreadyTagged, deleteTag, postTag, user} = props;
 
   return can(user, 'MODERATE_COMMENTS') ? (
@@ -23,4 +22,4 @@ const Button = (props) => {
   ) : null ;
 };
 
-export default withTags('featured')(Button);
+export default FeaturedButton;
