@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {getErrorMessages} from 'plugin-api/beta/client/utils';
 import {notify} from 'plugin-api/beta/client/actions/notification';
 import BanUserAction from '../components/BanUserAction';
-import {connect, withSetCommentStatus, withSetUserStatus} from 'plugin-api/beta/client/hocs';
+import {connect, withSetCommentStatus, withSetUserStatus, excludeIf} from 'plugin-api/beta/client/hocs';
 
 class BanUserActionContainer extends React.Component {
 
@@ -53,7 +53,8 @@ const mapDispatchToProps = (dispatch) =>
 const enhance = compose(
   connect(null, mapDispatchToProps),
   withSetCommentStatus,
-  withSetUserStatus
+  withSetUserStatus,
+  excludeIf(({root: {me}, comment}) => !me || me.id === comment.user.id),
 );
 
 export default enhance(BanUserActionContainer);
