@@ -20,9 +20,9 @@ class Slot extends React.Component {
     // it does not result in a change of slot children.
     const changes = getShallowChanges(this.props, next);
     if (changes.length === 1 && changes[0] === 'reduxState') {
-      const prevChildrenUuid = this.getChildren(this.props).map((child) => child.type.talkUuid);
-      const nextChildrenUuid = this.getChildren(next).map((child) => child.type.talkUuid);
-      return !isEqual(prevChildrenUuid, nextChildrenUuid);
+      const prevChildrenKeys = this.getChildren(this.props).map((child) => child.key);
+      const nextChildrenKeys = this.getChildren(next).map((child) => child.key);
+      return !isEqual(prevChildrenKeys, nextChildrenKeys);
     }
 
     // Prevent Slot from rerendering when no props has shallowly changed.
