@@ -8,7 +8,6 @@ import flatten from 'lodash/flatten';
 import mapValues from 'lodash/mapValues';
 import {getDisplayName} from 'coral-framework/helpers/hoc';
 import camelize from '../helpers/camelize';
-import uuid from 'uuid/v4';
 
 // This is returned for pluginConfig when it is empty.
 const emptyConfig = {};
@@ -63,9 +62,6 @@ function addMetaDataToSlotComponents(plugins) {
 
         // Attach plugin name to the component
         component.talkPluginName = plugin.name;
-
-        // Attach uuid to the component
-        component.talkUuid = uuid();
       });
     });
   });
@@ -77,30 +73,8 @@ class PluginsService {
     addMetaDataToSlotComponents(plugins);
   }
 
-  getSlotComponents(slot, reduxState, props = {}, queryData = {}) {
-    const pluginConfig = reduxState.config.plugin_config || emptyConfig;
-    return flatten(this.plugins
-
-      // Filter out components that have slots and have been disabled in `plugin_config`
-      .filter((o) => o.module.slots && (!pluginConfig || !pluginConfig[o.name] || !pluginConfig[o.name].disable_components))
-
-      .filter((o) => o.module.slots[slot])
-      .map((o) => o.module.slots[slot])
-    )
-      .filter((component) => {
-        if(!component.isExcluded) {
-          return true;
-        }
-        let resolvedProps = this.getSlotComponentProps(component, reduxState, props, queryData);
-        if (component.mapStateToProps) {
-          resolvedProps = {...resolvedProps, ...component.mapStateToProps(reduxState)};
-        }
-        return !component.isExcluded(resolvedProps);
-      });
-  }
-
   isSlotEmpty(slot, reduxState, props = {}, queryData = {}) {
-    return this.getSlotComponents(slot, reduxState, props, queryData).length === 0;
+    return this.getSlotElements(slot, reduxState, props, queryData).length === 0;
   }
 
   /**
@@ -124,10 +98,42 @@ class PluginsService {
    * Returns React Elements for given slot.
    */
   getSlotElements(slot, reduxState, props = {}, queryData = {}) {
-    return this.getSlotComponents(slot, reduxState, props, queryData)
-      .map((component, i) => {
-        return React.createElement(component, {key: i, ...this.getSlotComponentProps(component, reduxState, props, queryData)});
-      });
+    const pluginConfig = reduxState.config.plugin_config || emptyConfig;
+
+    const isDisabled = (component) => {
+      if (
+        pluginConfig &&
+        pluginConfig[component.talkPluginName] &&
+        pluginConfig[component.talkPluginName].disable_components
+      ) {
+        return true;
+      }
+
+      // Check if component is excluded.
+      if(component.isExcluded) {
+        let resolvedProps = this.getSlotComponentProps(component, reduxState, props, queryData);
+        if (component.mapStateToProps) {
+          resolvedProps = {...resolvedProps, ...component.mapStateToProps(reduxState)};
+        }
+        return component.isExcluded(resolvedProps);
+      }
+
+      return false;
+    };
+
+    return flatten(this.plugins
+      .filter((o) => o.module.slots && o.module.slots[slot])
+      .map((o) => o.module.slots[slot])
+    )
+      .map((component, i) => ({
+        component,
+        disabled: isDisabled(component),
+        key: i,
+      }))
+      .filter((o) => !o.disabled)
+      .map(({component, key}) =>
+        React.createElement(component, {key, ...this.getSlotComponentProps(component, reduxState, props, queryData)})
+      );
   }
 
   getSlotFragments(slot, part) {
