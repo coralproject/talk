@@ -1,5 +1,6 @@
 import React from 'react';
 import {matchLinks} from '../utils';
+import memoize from 'lodash/memoize';
 
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
@@ -7,26 +8,33 @@ function escapeRegExp(string) {
 
 function generateRegExp(phrases) {
   const inner = phrases
-    .map((phrase) => {
-      return phrase.split(/\s+/)
+    .map((phrase) =>
+      phrase.split(/\s+/)
         .map((word) => escapeRegExp(word))
-        .join('[\\s"?!.]+');
-    }).join('|');
+        .join('[\\s"?!.]+')
+    ).join('|');
 
-  return `(^|[^\\w])(${inner})(?=[^\\w]|$)`;
+  return new RegExp(`(^|[^\\w])(${inner})(?=[^\\w]|$)`, 'iu');
 }
 
-// markPhrases looks for `phrases` inside `body` and highlights them by returning
+// Generate a regular expression detecting `suspectWords` and `bannedWords` phrases.
+function getPhrasesRegexp(suspectWords, bannedWords) {
+  return generateRegExp([...suspectWords, ...bannedWords]);
+}
+
+// Memoized version as arguments rarely change.
+const getPhrasesRegexpMemoized = memoize(getPhrasesRegexp);
+
+// markPhrases looks for `supsectWords` and `bannedWords` inside `body` and highlights them by returning
 // an array of React Elements.
-function markPhrases(body, phrases, keyPrefix) {
-  const regexp = new RegExp(generateRegExp(phrases), 'iu');
+function markPhrases(body, suspectWords, bannedWords, keyPrefix) {
+  const regexp = getPhrasesRegexpMemoized(suspectWords, bannedWords);
   const tokens = body.split(regexp);
-  return tokens.map((token, i) => {
-    if (i % 3 === 2) {
-      return <mark key={`${keyPrefix}_${i}`}>{token}</mark>;
-    }
-    return token;
-  });
+  return tokens.map((token, i) =>
+    i % 3 === 2
+      ? <mark key={`${keyPrefix}_${i}`}>{token}</mark>
+      : token
+  );
 }
 
 // markLinks looks for links inside `body` and highlights them by returning
@@ -48,7 +56,6 @@ function markLinks(body) {
 }
 
 export default ({suspectWords, bannedWords, body, ...rest}) => {
-  const phrases = [...suspectWords, ...bannedWords];
 
   // First highlight links.
   const content = markLinks(body)
@@ -60,7 +67,7 @@ export default ({suspectWords, bannedWords, body, ...rest}) => {
       }
 
       // Highlight suspect and banned phrase inside this part of text.
-      return markPhrases(element, phrases, index);
+      return markPhrases(element, suspectWords, bannedWords, index);
     });
   return (
     <div {...rest}>
