@@ -6,6 +6,7 @@ import {Icon} from 'plugin-api/beta/client/components/ui';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import RejectCommentAction from '../containers/RejectCommentAction';
 import ApproveCommentAction from '../containers/ApproveCommentAction';
+import BanUserAction from '../containers/BanUserAction';
 import {Slot} from 'plugin-api/beta/client/components';
 
 export default class ModerationActions extends React.Component {
@@ -29,6 +30,7 @@ export default class ModerationActions extends React.Component {
               />
               <ApproveCommentAction comment={comment} hideMenu={hideMenu} />
               <RejectCommentAction comment={comment} hideMenu={hideMenu} />
+              <BanUserAction comment={comment} hideMenu={hideMenu} />
             </Menu>
           )}
         </div>

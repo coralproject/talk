@@ -47,9 +47,9 @@ class ModerationActionsContainer extends React.Component {
       root={this.props.root}
       asset={this.props.asset}
       comment={this.props.comment}
-      menuVisible={this.props.showMenuForComment === this.props.comment.id}
       toogleMenu={this.toogleMenu}
       hideMenu={this.hideMenu}
+      menuVisible={this.props.showMenuForComment === this.props.comment.id}
     />;
   }
 }
@@ -77,6 +77,9 @@ const enhance = compose(
       fragment TalkModerationActions_comment on Comment {
         id
         status
+        user {
+          id
+        }
         tags {
           tag {
             name
