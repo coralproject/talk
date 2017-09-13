@@ -12,10 +12,10 @@
   width: 100%;
   text-align: left;
   letter-spacing: 0.3px;
+}
 
-  &:hover {
-    background-color: #D8D8D8;
-  }
+.button:not(.approved):hover {
+  background-color: #D8D8D8;
 }
 
 .icon {
@@ -24,6 +24,8 @@
 }
 
 .approved {
+  display: inline-block;
   color: #519954;
   font-weight: bold;
+  padding: 6px;
 }

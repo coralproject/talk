@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import Tooltip from './Tooltip';
+import Menu from './Menu';
 import styles from './ModerationActions.css';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 import ClickOutside from 'coral-framework/components/ClickOutside';
@@ -9,51 +9,27 @@ import ApproveCommentAction from '../containers/ApproveCommentAction';
 import {Slot} from 'plugin-api/beta/client/components';
 
 export default class ModerationActions extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      tooltip: false
-    };
-  }
-
-  toogleTooltip = () => {
-    const {tooltip} = this.state;
-    this.setState({
-      tooltip: !tooltip
-    });
-  }
-
-  hideTooltip = () => {
-    this.setState({
-      tooltip: false
-    });
-  }
-
   render() {
-    const {tooltip} = this.state;
-    const {comment, asset, data} = this.props;
+    const {comment, asset, data, menuVisible, toogleMenu, hideMenu} = this.props;
 
     return(
-      <ClickOutside onClickOutside={this.hideTooltip}>
+      <ClickOutside onClickOutside={hideMenu}>
         <div className={cn(styles.moderationActions, 'talk-plugin-moderation-actions')}>
-          <span onClick={this.toogleTooltip} className={cn(styles.arrow, 'talk-plugin-moderation-actions-arrow')}>
-            {tooltip ? <Icon name="keyboard_arrow_up" className={styles.icon} /> : 
+          <span onClick={toogleMenu} className={cn(styles.arrow, 'talk-plugin-moderation-actions-arrow')}>
+            {menuVisible ? <Icon name="keyboard_arrow_up" className={styles.icon} /> : 
               <Icon name="keyboard_arrow_down" className={styles.icon} />}
           </span>
-          {tooltip && (
-            <Tooltip>
-
+          {menuVisible && (
+            <Menu>
               <Slot
                 className="talk-plugin-modetarion-actions-slot"
                 fill="moderationActions"
                 queryData={{comment, asset}}
                 data={data}
               />
-
-              <ApproveCommentAction comment={comment} />
-              <RejectCommentAction comment={comment} />
-            </Tooltip>
+              <ApproveCommentAction comment={comment} hideMenu={hideMenu} />
+              <RejectCommentAction comment={comment} hideMenu={hideMenu} />
+            </Menu>
           )}
         </div>
       </ClickOutside>
