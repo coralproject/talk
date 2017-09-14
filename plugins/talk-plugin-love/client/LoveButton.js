@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.css';
 import {withReaction} from 'plugin-api/beta/client/hocs';
-import {t, can} from 'plugin-api/beta/client/services';
+import {t} from 'plugin-api/beta/client/services';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 import cn from 'classnames';
 
@@ -13,7 +13,6 @@ class LoveButton extends React.Component {
       postReaction,
       deleteReaction,
       showSignInDialog,
-      addNotification,
       alreadyReacted,
       user,
     } = this.props;
@@ -21,12 +20,6 @@ class LoveButton extends React.Component {
     // If the current user does not exist, trigger sign in dialog.
     if (!user) {
       showSignInDialog();
-      return;
-    }
-
-    // If the current user is suspended, do nothing.
-    if (!can(user, 'INTERACT_WITH_COMMUNITY')) {
-      addNotification('error', t('error.NOT_AUTHORIZED'));
       return;
     }
 
