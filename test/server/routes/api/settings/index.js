@@ -16,17 +16,17 @@ describe('/api/v1/settings', () => {
 
   describe('#get', () => {
 
-    it('should return a settings object', () => {
-      return chai.request(app)
-        .get('/api/v1/settings')
-        .set(passport.inject({
-          roles: ['ADMIN']
-        }))
-        .then((res) => {
-          expect(res).to.have.status(200);
-          expect(res).to.be.json;
-          expect(res.body).to.have.property('moderation', 'PRE');
-        });
+    it('should return a settings object', async () => {
+      for (let role of ['ADMIN', 'MODERATOR']) {
+        const res = await chai.request(app)
+          .get('/api/v1/settings')
+          .set(passport.inject({
+            roles: [role]
+          }));
+        expect(res).to.have.status(200);
+        expect(res).to.be.json;
+        expect(res.body).to.have.property('moderation', 'PRE');
+      }
     });
   });
 
@@ -45,6 +45,14 @@ describe('/api/v1/settings', () => {
         .then((settings) => {
           expect(settings).to.have.property('moderation', 'POST');
         });
+    });
+
+    it('should require ADMIN role', () => {
+      const promise = chai.request(app)
+        .put('/api/v1/settings')
+        .set(passport.inject({roles: ['MODERATOR']}))
+        .send({moderation: 'POST'});
+      return expect(promise).to.eventually.be.rejected;
     });
   });
 

@@ -37,78 +37,88 @@ describe('/api/v1/assets', () => {
   describe('#get', () => {
 
     it('should return all assets without a search query', async () => {
-      const res = await chai.request(app)
-        .get('/api/v1/assets')
-        .set(passport.inject({roles: ['ADMIN']}));
+      for (const role of ['ADMIN', 'MODERATOR']) {
+        const res = await chai.request(app)
+          .get('/api/v1/assets')
+          .set(passport.inject({roles: [role]}));
 
-      const body = res.body;
+        const body = res.body;
 
-      expect(body).to.have.property('count', 2);
-      expect(body).to.have.property('result');
+        expect(body).to.have.property('count', 2);
+        expect(body).to.have.property('result');
 
-      const assets = body.result;
+        const assets = body.result;
 
-      expect(assets).to.have.length(2);
+        expect(assets).to.have.length(2);
+      }
     });
 
     it('should return assets that we search for', async () => {
-      const res = await chai.request(app)
-        .get('/api/v1/assets?search=term2')
-        .set(passport.inject({roles: ['ADMIN']}));
+      for (const role of ['ADMIN', 'MODERATOR']) {
+        const res = await chai.request(app)
+          .get('/api/v1/assets?search=term2')
+          .set(passport.inject({roles: [role]}));
 
-      const body = res.body;
+        const body = res.body;
 
-      expect(body).to.have.property('count', 1);
-      expect(body).to.have.property('result');
+        expect(body).to.have.property('count', 1);
+        expect(body).to.have.property('result');
 
-      const assets = body.result;
+        const assets = body.result;
 
-      expect(assets).to.have.length(1);
+        expect(assets).to.have.length(1);
 
-      const asset = assets[0];
+        const asset = assets[0];
 
-      expect(asset).to.have.property('url', 'https://coralproject.net/news/asset2');
-      expect(asset).to.have.property('title', 'Asset 2');
+        expect(asset).to.have.property('url', 'https://coralproject.net/news/asset2');
+        expect(asset).to.have.property('title', 'Asset 2');
+      }
     });
 
     it('should not return assets that we do not search for', async () => {
-      const res = await chai.request(app)
-        .get('/api/v1/assets?search=term3')
-        .set(passport.inject({roles: ['ADMIN']}));
-      const body = res.body;
+      for (const role of ['ADMIN', 'MODERATOR']) {
+        const res = await chai.request(app)
+          .get('/api/v1/assets?search=term3')
+          .set(passport.inject({roles: [role]}));
+        const body = res.body;
 
-      expect(body).to.have.property('count', 0);
-      expect(body).to.have.property('result');
+        expect(body).to.have.property('count', 0);
+        expect(body).to.have.property('result');
 
-      expect(body.result).to.be.empty;
+        expect(body.result).to.be.empty;
+      }
     });
 
     it('should return only closed assets', async () => {
-      const res = await chai.request(app)
-        .get('/api/v1/assets?filter=closed')
-        .set(passport.inject({roles: ['ADMIN']}));
-      const body = res.body;
+      for (const role of ['ADMIN', 'MODERATOR']) {
+        const res = await chai.request(app)
+          .get('/api/v1/assets?filter=closed')
+          .set(passport.inject({roles: [role]}));
+        const body = res.body;
 
-      expect(body).to.have.property('count', 1);
-      expect(body).to.have.property('result');
+        expect(body).to.have.property('count', 1);
+        expect(body).to.have.property('result');
 
-      const assets = body.result;
+        const assets = body.result;
 
-      expect(assets[0]).to.have.property('title', 'Asset 1');
+        expect(assets[0]).to.have.property('title', 'Asset 1');
+      }
     });
 
     it('should return only opened assets', async () => {
-      const res = await chai.request(app)
-        .get('/api/v1/assets?filter=open')
-        .set(passport.inject({roles: ['ADMIN']}));
-      const body = res.body;
+      for (const role of ['ADMIN', 'MODERATOR']) {
+        const res = await chai.request(app)
+          .get('/api/v1/assets?filter=open')
+          .set(passport.inject({roles: [role]}));
+        const body = res.body;
 
-      expect(body).to.have.property('count', 1);
-      expect(body).to.have.property('result');
+        expect(body).to.have.property('count', 1);
+        expect(body).to.have.property('result');
 
-      const assets = body.result;
+        const assets = body.result;
 
-      expect(assets[0]).to.have.property('title', 'Asset 2');
+        expect(assets[0]).to.have.property('title', 'Asset 2');
+      }
     });
 
   });
@@ -132,6 +142,20 @@ describe('/api/v1/assets', () => {
       const closedAsset = await AssetsService.findByUrl('http://test.com');
       expect(closedAsset).to.have.property('isClosed', true);
       expect(closedAsset).to.have.property('closedAt').and.to.not.equal(null);
+    });
+
+    it('should require ADMIN role', async () => {
+      const today = Date.now();
+
+      const asset = await AssetsService.findOrCreateByUrl('http://test.com');
+      expect(asset).to.have.property('isClosed', false);
+      expect(asset).to.have.property('closedAt', null);
+
+      const promise = chai.request(app)
+        .put(`/api/v1/assets/${asset.id}/status`)
+        .set(passport.inject({roles: ['MODERATOR']}))
+        .send({closedAt: today});
+      await expect(promise).to.eventually.be.rejected;
     });
   });
 
