@@ -9,8 +9,9 @@ export const closeMenu = () => ({
   type: CLOSE_MENU,
 });
 
-export const openDialog = () => ({
+export const openDialog = (comment) => ({
   type: OPEN_DIALOG,
+  comment
 });
 
 export const closeDialog = () => ({

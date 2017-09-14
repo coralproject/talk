@@ -2,7 +2,8 @@ import {OPEN_MENU, CLOSE_MENU, OPEN_DIALOG, CLOSE_DIALOG} from './constants';
 
 const initialState = {
   showMenuForComment: null,
-  showDialog: false
+  showDialog: false,
+  comment: null
 };
 
 export default function reducer(state = initialState, action) {
@@ -20,12 +21,14 @@ export default function reducer(state = initialState, action) {
   case OPEN_DIALOG:
     return {
       ...state,
-      showDialog: true
+      showDialog: true,
+      comment: action.comment
     };
   case CLOSE_DIALOG:
     return {
       ...state,
-      showDialog: false
+      showDialog: false,
+      comment: null
     };
   default :
     return state;

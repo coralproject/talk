@@ -3,13 +3,16 @@ import {compose} from 'react-apollo';
 import {openDialog} from '../actions';
 import {bindActionCreators} from 'redux';
 import BanUserAction from '../components/BanUserAction';
-import {notify} from 'plugin-api/beta/client/actions/notification';
 import {connect, excludeIf} from 'plugin-api/beta/client/hocs';
 
 class BanUserActionContainer extends React.Component {
+  onBanUser = () => {
+    this.props.openDialog(this.props.comment);
+  }
+
   render() {
     return <BanUserAction 
-      openDialog={this.props.openDialog}
+      onBanUser={this.onBanUser}
       comment={this.props.comment}
       openDialog={this.props.openDialog}
     />;

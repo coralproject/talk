@@ -2,7 +2,7 @@
 import React from 'react';
 import {compose} from 'react-apollo';
 import {bindActionCreators} from 'redux';
-import {closeDialog} from '../actions';
+import {closeDialog, closeMenu} from '../actions';
 import {notify} from 'plugin-api/beta/client/actions/notification';
 import {connect, withSetCommentStatus, withSetUserStatus} from 'plugin-api/beta/client/hocs';
 import {getErrorMessages} from 'plugin-api/beta/client/utils';
@@ -14,7 +14,8 @@ class BanUserDialogContainer extends React.Component {
     const {
       notify,
       comment,
-      hideMenu,
+      closeMenu,
+      closeDialog,
       setCommentStatus,
       setUserStatus
     } = this.props;
@@ -25,7 +26,8 @@ class BanUserDialogContainer extends React.Component {
         status: 'BANNED'
       });
 
-      hideMenu();
+      closeMenu();
+      closeDialog();
 
       if (comment.status !== 'REJECTED') {
         await setCommentStatus({
@@ -52,12 +54,14 @@ class BanUserDialogContainer extends React.Component {
 
 const mapStateToProps = ({talkPluginModerationActions: state}) => ({
   showDialog: state.showDialog,
+  comment: state.comment
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     notify,
-    closeDialog
+    closeDialog,
+    closeMenu
   }, dispatch);
 
 const enhance = compose(
