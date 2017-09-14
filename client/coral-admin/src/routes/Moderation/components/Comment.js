@@ -127,7 +127,7 @@ class Comment extends React.Component {
           </div>
           <CommentAnimatedEdit body={comment.body}>
             <div className={styles.itemBody}>
-              <p className={styles.body}>
+              <div className={styles.body}>
                 <CommentBodyHighlighter
                   suspectWords={suspectWords}
                   bannedWords={bannedWords}
@@ -141,7 +141,7 @@ class Comment extends React.Component {
                 >
                   <Icon name="open_in_new" /> {t('comment.view_context')}
                 </a>
-              </p>
+              </div>
               <Slot
                 fill="adminCommentContent"
                 data={data}
