@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import t from 'coral-framework/services/i18n';
-import {join} from 'path';
+import join from 'url-join';
 import styles from './Configure.css';
 import {Button, Card} from 'coral-ui';
 import {BASE_URL} from 'coral-framework/constants/url';
