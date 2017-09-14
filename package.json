@@ -136,7 +136,6 @@
     "morgan": "^1.8.2",
     "ms": "^2.0.0",
     "murmurhash-js": "^1.0.0",
-    "natural": "^0.5.4",
     "node-emoji": "^1.8.1",
     "node-fetch": "^1.7.2",
     "nodemailer": "^2.6.4",
