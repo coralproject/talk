@@ -59,6 +59,13 @@ const genDeepCommentCount = async (context, parent_ids) => {
 };
 
 module.exports = {
+  typeDefs: `
+    type Comment {
+
+      # deepReplyCount is the count of all decendant replies.
+      deepReplyCount: Int
+    }
+  `,
   loaders: (context) => ({
     Comments: {
       getDeepCount: new DataLoader((parent_ids) => genDeepCommentCount(context, parent_ids)),
@@ -66,7 +73,7 @@ module.exports = {
   }),
   resolvers: {
     Comment: {
-      replyCount({id}, args, {loaders: {Comments}}) {
+      deepReplyCount({id}, args, {loaders: {Comments}}) {
         return Comments.getDeepCount.load(id);
       }
     }
