@@ -5,6 +5,7 @@ import {Dialog, Button} from 'plugin-api/beta/client/components/ui';
 
 export default ({showDialog, closeDialog, banUser}) => (
   <Dialog open={showDialog} className={styles.dialog}>
+    <span className={styles.close} onClick={closeDialog}>×</span>
     <h3>{t('talk-plugin-moderation-actions.ban_user_dialog_headline')}</h3>
     <p>
       {t('talk-plugin-moderation-actions.ban_user_dialog_copy')}
