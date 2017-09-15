@@ -51,7 +51,7 @@ class StreamContainer extends React.Component {
           return prev;
         }
 
-        if (['PREMOD', 'REJECTED'].includes(commentEdited.status)) {
+        if (['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(commentEdited.status)) {
           return removeCommentFromEmbedQuery(prev, commentEdited.id);
         }
       },

@@ -215,7 +215,7 @@ describe('graph.mutations.editComment', () => {
         body: 'I have been edited to add a link: https://coralproject.net/'
       },
       afterEdit: {
-        status: 'PREMOD',
+        status: 'SYSTEM_WITHHELD',
       },
     },
   ].forEach(({description, settings, beforeEdit, edit, afterEdit, error}) => {
