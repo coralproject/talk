@@ -56,7 +56,7 @@ yarn build
 
 ## Running
 
-Refer to the `README.md` file for required configuration variables to add to the
+Refer to the [configuration](https://coralproject.github.io/talk/docs/running/configuration/) page for required configuration variables to add to the
 environment.
 
 You can start the server after configuring the server using the command:

@@ -6,7 +6,9 @@ const ActionsService = require('../../services/actions');
 const TagsService = require('../../services/tags');
 const CommentsService = require('../../services/comments');
 const KarmaService = require('../../services/karma');
-const linkify = require('linkify-it')();
+const tlds = require('tlds');
+const linkify = require('linkify-it')()
+  .tlds(tlds);
 const Wordlist = require('../../services/wordlist');
 const {
   CREATE_COMMENT,

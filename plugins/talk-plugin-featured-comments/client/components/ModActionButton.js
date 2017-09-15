@@ -3,10 +3,9 @@ import cn from 'classnames';
 import styles from './ModActionButton.css';
 import {pluginName} from '../../package.json';
 import {t} from 'plugin-api/beta/client/services';
-import {withTags} from 'plugin-api/beta/client/hocs';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 
-export class Button extends React.Component {
+export class ModActionButton extends React.Component {
   constructor() {
     super();
 
@@ -30,12 +29,23 @@ export class Button extends React.Component {
     });
   }
 
+  handleDeleteTag = () => {
+    this.props.deleteTag();
+    this.props.closeMenu();
+  }
+
+  handlePostTag = () => {
+    this.props.postTag();
+    this.props.closeMenu();
+  }
+
   render() {
-    const {alreadyTagged, deleteTag, postTag} = this.props;
+    const {alreadyTagged} = this.props;
+    const {handleDeleteTag, handlePostTag} = this;
 
     return (
       <button className={cn(`${pluginName}-tag-button`, styles.button, {[styles.featured] : alreadyTagged})}
-        onClick={alreadyTagged ? deleteTag : postTag}
+        onClick={alreadyTagged ? handleDeleteTag : handlePostTag}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave} >
 
@@ -56,5 +66,5 @@ export class Button extends React.Component {
   }
 }
 
-export default withTags('featured')(Button);
+export default ModActionButton;
 

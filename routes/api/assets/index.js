@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const authorization = require('../../../middleware/authorization');
 
 const errors = require('../../../errors');
 const AssetsService = require('../../../services/assets');
@@ -33,7 +34,7 @@ const FilterOpenAssets = (query, filter) => {
 };
 
 // List assets.
-router.get('/', async (req, res, next) => {
+router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
 
   const {
     limit = 20,
@@ -72,7 +73,7 @@ router.get('/', async (req, res, next) => {
 });
 
 // Get an asset by id.
-router.get('/:asset_id', async (req, res, next) => {
+router.get('/:asset_id', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
   try {
 
     // Send back the asset.
@@ -87,7 +88,7 @@ router.get('/:asset_id', async (req, res, next) => {
   }
 });
 
-router.put('/:asset_id/settings', async (req, res, next) => {
+router.put('/:asset_id/settings', authorization.needed('ADMIN'), async (req, res, next) => {
   try {
     await AssetsService.overrideSettings(req.params.asset_id, req.body);
     res.status(204).end();
@@ -96,7 +97,7 @@ router.put('/:asset_id/settings', async (req, res, next) => {
   }
 });
 
-router.put('/:asset_id/status', async (req, res, next) => {
+router.put('/:asset_id/status', authorization.needed('ADMIN'), async (req, res, next) => {
   const {
     closedAt,
     closedMessage
