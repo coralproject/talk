@@ -4,10 +4,8 @@ export const viewUserDetail = (userId) => ({type: actions.VIEW_USER_DETAIL, user
 export const hideUserDetail = () => ({type: actions.HIDE_USER_DETAIL});
 
 export const changeUserDetailStatuses = (tab) => {
-  let statuses;
-  if (tab === 'all') {
-    statuses = ['NONE', 'ACCEPTED', 'REJECTED', 'PREMOD'];
-  } else if (tab === 'rejected') {
+  let statuses = [];
+  if (tab === 'rejected') {
     statuses = ['REJECTED'];
   }
   return {type: actions.CHANGE_USER_DETAIL_STATUSES, tab, statuses};
