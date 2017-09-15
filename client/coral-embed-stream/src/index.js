@@ -42,7 +42,7 @@ function preInit({store, pym}) {
   return new Promise((resolve) => {
     pym.sendMessage('getConfig');
     pym.onMessage('config', (config) => {
-      store.dispatch(addExternalConfig(config));
+      store.dispatch(addExternalConfig(JSON.parse(config)));
       store.dispatch(checkLogin());
       resolve();
     });

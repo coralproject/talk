@@ -89,7 +89,7 @@ describe('services.Wordlist', () => {
         'I have bad $ hit lling',
         'That\'s a p***ch!',
       ].forEach((word) => {
-        expect(wordlist.scan('body', word)).to.be.undefined;
+        expect(wordlist.scan('body', word)).to.be.deep.equal({});
       });
     });
 

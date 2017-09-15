@@ -118,6 +118,8 @@ class Wordlist {
       // word (suspect).
       return errors;
     }
+
+    return errors;
   }
 
   /**
