@@ -223,8 +223,11 @@ class Stream extends React.Component {
     const slotQueryData = {root, asset};
 
     if (!highlightedComment && !comments) {
+      if (highlightedComment === null) {
+        return <StreamError>{t('stream.comment_not_found')}</StreamError>;
+      }
       console.error('Talk: No comments came back from the graph given that query. Please, check the query params.');
-      return <StreamError />;
+      return <StreamError>{t('common.error')}</StreamError>;
     }
 
     return (
