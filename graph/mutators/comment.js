@@ -225,6 +225,10 @@ const filterNewComment = async (context, {body, asset_id}) => {
   ];
 };
 
+/**
+ * moderationPhases is an array of phases carried out in order until a status is
+ * returned.
+ */
 const moderationPhases = [
 
   // This phase checks to see if the comment is long enough.
