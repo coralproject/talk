@@ -167,7 +167,7 @@ describe('graph.mutations.createComment', () => {
 
     [
       {message: 'comment does not contain banned/suspect words', body: 'This is such a nice comment!', status: 'NONE', flagged: false},
-      {message: 'comment contains banned words', body: 'This is the WORST comment!', status: 'REJECTED', flagged: false},
+      {message: 'comment contains banned words', body: 'This is the WORST comment!', status: 'REJECTED', flagged: true},
       {message: 'comment contains suspect words', body: 'This is the EH comment!', status: 'NONE', flagged: true}
     ].forEach(({message, body, status, flagged}) => {
       describe(message, () => {
@@ -222,6 +222,9 @@ describe('graph.mutations.createComment', () => {
 
           return graphql(schema, query, {}, context)
             .then(({data, errors}) => {
+              if (errors) {
+                console.error(errors);
+              }
               expect(errors).to.be.undefined;
               expect(data.createComment).to.have.property('comment').not.null;
               expect(data.createComment).to.have.property('errors').null;
