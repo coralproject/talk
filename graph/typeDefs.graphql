@@ -242,6 +242,10 @@ enum COMMENT_STATUS {
   # new comments that haven't been moderated yet are referred to as
   # "premoderated" or "premod" comments.
   PREMOD
+
+  # SYSTEM_WITHHELD represents a comment that was withheld by the system because
+  # it was flagged by an internal process for further review.
+  SYSTEM_WITHHELD
 }
 
 # The types of action there are as enums.
@@ -369,7 +373,8 @@ type Comment {
   # the replies that were made to the comment.
   replies(query: RepliesQuery = {}): CommentConnection!
 
-  # The count of replies on a comment.
+  # replyCount is the number of replies with a depth of 1. Only direct replies
+  # to this comment are counted.
   replyCount: Int
 
   # Actions completed on the parent. Requires the `ADMIN` role.
