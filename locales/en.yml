@@ -323,6 +323,7 @@ en:
     user_no_comment: "You've never left a comment. Join the conversation!"
   stream:
     temporarily_suspended: "In accordance with {0}'s community guidelines, your account has been temporarily suspended. Please rejoin the conversation {1}."
+    comment_not_found: "Comment was not found"
   step_1_header: "Report an issue"
   step_2_header: "Help us understand"
   step_3_header: "Thank you for your input"
