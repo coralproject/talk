@@ -13,10 +13,10 @@ export const name = 'talk-plugin-commentbox';
 
 // Given a newly posted comment's status, show a notification to the user
 // if needed
-export const notifyForNewCommentStatus = (notify, status) => {
-  if (status === 'REJECTED') {
+export const notifyForNewCommentStatus = (notify, comment) => {
+  if (comment.status === 'REJECTED') {
     notify('error', t('comment_box.comment_post_banned_word'));
-  } else if (status === 'PREMOD' || status === 'SYSTEM_WITHHELD') {
+  } else if (comment.status === 'PREMOD' || comment.status === 'SYSTEM_WITHHELD') {
     notify('success', t('comment_box.comment_post_notif_premod'));
   }
 };
@@ -74,7 +74,7 @@ class CommentBox extends React.Component {
         // Execute postSubmit Hooks
         this.state.hooks.postSubmit.forEach((hook) => hook(data));
 
-        notifyForNewCommentStatus(notify, postedComment.status);
+        notifyForNewCommentStatus(notify, postedComment);
 
         if (commentPostedHandler) {
           commentPostedHandler();

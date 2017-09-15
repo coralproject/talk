@@ -282,8 +282,8 @@ const resolveNewCommentStatus = async (context, {asset_id, body, status}, wordli
 
     // If the user is not a reliable commenter (passed the unreliability
     // threshold by having too many rejected comments) then we can change the
-    // status of the comment to `PREMOD`, therefore pushing the user's comments
-    // away from the public eye until a moderator can manage them. This of
+    // status of the comment to `SYSTEM_WITHHELD`, therefore pushing the user's
+    // comments away from the public eye until a moderator can manage them. This of
     // course can only be applied if the comment's current status is `NONE`,
     // we don't want to interfere if the comment was rejected.
     if (KarmaService.isReliable('comment', user.metadata.trust) === false) {

@@ -77,6 +77,14 @@ export default {
           title
           url
         }
+        actions {
+          __typename
+          id
+          ... on FlagAction {
+            reason
+            message
+          }
+        }
         tags {
           tag {
             name
