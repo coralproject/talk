@@ -28,7 +28,8 @@ export default ({headers, commenters, onHeaderClickHandler, onRoleChange, onComm
             {row.created_at}
           </td>
           <td className="mdl-data-table__cell--non-numeric">
-            <SelectField label={'Select me'} value={row.status || ''}
+            <SelectField
+              value={row.status || ''}
               className={styles.selectField}
               label={t('community.status')}
               onChange={(status) => onCommenterStatusChange(row.id, status)}>
@@ -37,7 +38,8 @@ export default ({headers, commenters, onHeaderClickHandler, onRoleChange, onComm
             </SelectField>
           </td>
           <td className="mdl-data-table__cell--non-numeric">
-            <SelectField label={'Select me'} value={row.roles[0] || ''}
+            <SelectField
+              value={row.roles[0] || ''}
               className={styles.selectField}
               label={t('community.role')}
               onChange={(role) => onRoleChange(row.id, role)}>
