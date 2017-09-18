@@ -37,7 +37,7 @@ module.exports = {
           input.actions.push({
             action_type: 'FLAG',
             user_id: null,
-            group_id: 'Comment contains toxic language',
+            group_id: 'TOXIC_COMMENT',
             metadata: {}
           });
         }
