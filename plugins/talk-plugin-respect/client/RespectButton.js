@@ -2,7 +2,7 @@ import React from 'react';
 import Icon from './Icon';
 import styles from './styles.css';
 import {withReaction} from 'plugin-api/beta/client/hocs';
-import {t, can} from 'plugin-api/beta/client/services';
+import {t} from 'plugin-api/beta/client/services';
 import cn from 'classnames';
 
 const plugin = 'talk-plugin-respect';
@@ -14,19 +14,12 @@ class RespectButton extends React.Component {
       deleteReaction,
       showSignInDialog,
       alreadyReacted,
-      addNotification,
       user,
     } = this.props;
 
     // If the current user does not exist, trigger sign in dialog.
     if (!user) {
       showSignInDialog();
-      return;
-    }
-
-    // If the current user is suspended, do nothing.
-    if (!can(user, 'INTERACT_WITH_COMMUNITY')) {
-      addNotification('error', t('error.NOT_AUTHORIZED'));
       return;
     }
 

@@ -17,21 +17,13 @@ class SuspendUserDialogContainer extends Component {
     const {userId, username, commentStatus, commentId, hideSuspendUserDialog, setCommentStatus, suspendUser, notify} = this.props;
     hideSuspendUserDialog();
     try {
-      const result = await suspendUser({id: userId, message, until});
-      if (result.data.suspendUser.errors) {
-        throw result.data.suspendUser.errors;
-      }
+      await suspendUser({id: userId, message, until});
       notify(
         'success',
         t('suspenduser.notify_suspend_until', username, timeago(until)),
       );
       if (commentId && commentStatus && commentStatus !== 'REJECTED') {
-        return setCommentStatus({commentId, status: 'REJECTED'})
-          .then((result) => {
-            if (result.data.setCommentStatus.errors) {
-              throw result.data.setCommentStatus.errors;
-            }
-          });
+        await setCommentStatus({commentId, status: 'REJECTED'});
       }
     }
     catch(err) {
