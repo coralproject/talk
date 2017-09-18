@@ -201,7 +201,7 @@ class Stream extends React.Component {
       data,
       root,
       appendItemArray,
-      root: {asset, asset: {comment: highlightedComment, comments}},
+      root: {asset, asset: {comment: highlightedComment}},
       postComment,
       notify,
       updateItem,
@@ -222,9 +222,8 @@ class Stream extends React.Component {
     const slotProps = {data};
     const slotQueryData = {root, asset};
 
-    if (!highlightedComment && !comments) {
-      console.error('Talk: No comments came back from the graph given that query. Please, check the query params.');
-      return <StreamError />;
+    if (highlightedComment === null) {
+      return <StreamError>{t('stream.comment_not_found')}</StreamError>;
     }
 
     return (

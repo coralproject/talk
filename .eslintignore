@@ -25,5 +25,6 @@ plugins/*
 !plugins/talk-plugin-moderation-actions
 !plugins/talk-plugin-toxic-comments
 !plugins/talk-plugin-remember-sort
+!plugins/talk-plugin-deep-reply-count
 
 node_modules
