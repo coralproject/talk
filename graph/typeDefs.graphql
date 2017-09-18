@@ -337,6 +337,15 @@ input CommentCountQuery {
   tags: [String!]
 }
 
+# UserCountQuery allows the ability to query user counts by specific
+# methods.
+input UserCountQuery {
+
+  # comments returned will only be ones which have at least one action of this
+  # type.
+  action_type: ACTION_TYPE
+}
+
 type EditInfo {
   edited: Boolean!
   editableUntil: Date
@@ -832,6 +841,10 @@ type RootQuery {
   # Return the count of comments satisfied by the query. Note that this edge is
   # expensive as it is not batched. Requires the `ADMIN` role.
   commentCount(query: CommentCountQuery!): Int
+
+  # Return the count of users satisfied by the query. Note that this edge is
+  # expensive as it is not batched. Requires the `ADMIN` role.
+  userCount(query: UserCountQuery!): Int
 
   # The currently logged in user based on the request. Requires any logged in
   # role.
