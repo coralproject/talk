@@ -31,7 +31,7 @@
     "react/no-find-dom-node": "off",
 
     // TODO: Use default after fixing the errors.
-    "react/prop-types": "off",
+    "react/prop-types": "warn",
 
     "array-callback-return": "warn",
     "arrow-parens": ["warn", "always"],
