@@ -105,7 +105,9 @@ AdminLogin.propTypes = {
   handleLogin: PropTypes.func.isRequired,
   passwordRequestSuccess: PropTypes.string,
   loginError: PropTypes.string,
-  recaptchaPublic: PropTypes.string
+  recaptchaPublic: PropTypes.string,
+  requestPasswordReset: PropTypes.func,
+  errorMessage: PropTypes.string,
 };
 
 export default AdminLogin;

@@ -28,7 +28,11 @@ const ActionButton = ({type = '', active, ...props}) => {
 };
 
 ActionButton.propTypes = {
-  active: PropTypes.bool
+  active: PropTypes.bool,
+  type: PropTypes.oneOf(['APPROVE', 'REJECT']),
+  minimal: PropTypes.bool,
+  acceptComment: PropTypes.func,
+  rejectComment: PropTypes.func,
 };
 
 export default ActionButton;
