@@ -81,11 +81,13 @@ module.exports = class CommentsService {
    * @param {String} status     the new Comment status
    */
   static async edit({id, author_id, body, status}) {
+    const EDITABLE_STATUSES = ['NONE', 'PREMOD', 'ACCEPTED'];
+
     const query = {
       id,
       author_id,
       status: {
-        $in: ['NONE', 'PREMOD', 'ACCEPTED'],
+        $in: EDITABLE_STATUSES,
       },
     };
 
@@ -130,7 +132,7 @@ module.exports = class CommentsService {
       }
 
       // Check to see if the comment had a status that was editable.
-      if (!['NONE', 'PREMOD', 'ACCEPTED'].includes(comment.status)) {
+      if (!EDITABLE_STATUSES.includes(comment.status)) {
         debug('rejecting comment edit because original comment has a non-editable status');
         throw errors.ErrNotAuthorized;
       }
