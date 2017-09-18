@@ -6,8 +6,8 @@ import {getDisplayName} from 'coral-framework/helpers/hoc';
 import {capitalize} from 'coral-framework/helpers/strings';
 import {withAddTag, withRemoveTag} from 'coral-framework/graphql/mutations';
 import withFragments from 'coral-framework/hocs/withFragments';
-import {addNotification} from 'coral-framework/actions/notification';
-import {forEachError, isTagged} from 'coral-framework/utils';
+import {notify} from 'coral-framework/actions/notification';
+import {getErrorMessages, isTagged} from 'coral-framework/utils';
 import hoistStatics from 'recompose/hoistStatics';
 import {getDefinitionName} from '../utils';
 
@@ -37,7 +37,7 @@ export default (tag, options = {}) => hoistStatics((WrappedComponent) => {
     loading = false;
 
     postTag = () => {
-      const {comment, asset, addNotification} = this.props;
+      const {comment, asset, notify} = this.props;
 
       if (this.loading) {
         return;
@@ -45,23 +45,25 @@ export default (tag, options = {}) => hoistStatics((WrappedComponent) => {
 
       this.loading = true;
 
-      this.props.addTag({
+      return this.props.addTag({
         id: comment.id,
         name: TAG,
         assetId: asset.id,
         itemType: 'COMMENTS',
       })
-        .then(() => {
+        .then((result) => {
           this.loading = false;
+          return result;
         })
         .catch((err) => {
           this.loading = false;
-          forEachError(err, ({msg}) => addNotification('error', msg));
+          notify('error', getErrorMessages(err));
+          throw err;
         });
     }
 
     deleteTag = () => {
-      const {comment, asset, addNotification} = this.props;
+      const {comment, asset, notify} = this.props;
 
       if (this.loading) {
         return;
@@ -73,12 +75,14 @@ export default (tag, options = {}) => hoistStatics((WrappedComponent) => {
         assetId: asset.id,
         itemType: 'COMMENTS',
       })
-        .then(() => {
+        .then((result) => {
           this.loading = false;
+          return result;
         })
         .catch((err) => {
           this.loading = false;
-          forEachError(err, ({msg}) => addNotification('error', msg));
+          notify('error', getErrorMessages(err));
+          throw err;
         });
     }
 
@@ -105,7 +109,7 @@ export default (tag, options = {}) => hoistStatics((WrappedComponent) => {
   });
 
   const mapDispatchToProps = (dispatch) =>
-    bindActionCreators({addNotification}, dispatch);
+    bindActionCreators({notify}, dispatch);
 
   const enhance = compose(
     withFragments({

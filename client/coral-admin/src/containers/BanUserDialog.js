@@ -6,15 +6,22 @@ import {hideBanUserDialog} from '../actions/banUserDialog';
 import {withSetUserStatus, withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {compose} from 'react-apollo';
 import t from 'coral-framework/services/i18n';
+import {getErrorMessages} from 'coral-framework/utils';
+import {notify} from 'coral-framework/actions/notification';
 
 class BanUserDialogContainer extends Component {
 
   banUser = async () => {
-    const {userId, commentId, commentStatus, setUserStatus, setCommentStatus, hideBanUserDialog} = this.props;
-    await setUserStatus({userId, status: 'BANNED'});
-    hideBanUserDialog();
-    if (commentId && commentStatus && commentStatus !== 'REJECTED') {
-      await setCommentStatus({commentId, status: 'REJECTED'});
+    const {userId, commentId, commentStatus, setUserStatus, setCommentStatus, hideBanUserDialog, notify} = this.props;
+    try {
+      await setUserStatus({userId, status: 'BANNED'});
+      hideBanUserDialog();
+      if (commentId && commentStatus && commentStatus !== 'REJECTED') {
+        await setCommentStatus({commentId, status: 'REJECTED'});
+      }
+    }
+    catch(err) {
+      notify('error', getErrorMessages(err));
     }
   }
 
@@ -50,6 +57,7 @@ const mapStateToProps = ({banUserDialog: {open, userId, username, commentId, com
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
     hideBanUserDialog,
+    notify,
   }, dispatch),
 });
 
