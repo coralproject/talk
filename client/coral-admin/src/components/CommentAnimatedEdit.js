@@ -2,8 +2,9 @@ import React from 'react';
 import {murmur3} from 'murmurhash-js';
 import {CSSTransitionGroup} from 'react-transition-group';
 import styles from './CommentAnimatedEdit.css';
+import PropTypes from 'prop-types';
 
-export default ({children, body}) => {
+const CommentBodyHighlighter = ({children, body}) => {
   return (
     <CSSTransitionGroup
       component={'div'}
@@ -23,3 +24,10 @@ export default ({children, body}) => {
     </CSSTransitionGroup>
   );
 };
+
+CommentBodyHighlighter.propTypes = {
+  children: PropTypes.node,
+  body: PropTypes.string,
+};
+
+export default CommentBodyHighlighter;

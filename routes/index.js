@@ -11,6 +11,7 @@ const errors = require('../errors');
 const {createGraphOptions} = require('../graph');
 const accepts = require('accepts');
 const apollo = require('graphql-server-express');
+const {DISABLE_STATIC_SERVER} = require('../config');
 
 const router = express.Router();
 
@@ -39,20 +40,26 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-router.use('/client', express.static(path.join(__dirname, '../dist')));
-router.use('/public', express.static(path.join(__dirname, '../public')));
+if (!DISABLE_STATIC_SERVER) {
 
-/**
- * Serves a file based on a relative path.
- */
-const serveFile = (filename) => (req, res) => res.sendFile(path.join(__dirname, filename));
+  /**
+   * Serve the directories under public/dist from this router.
+   */
+  router.use('/client', express.static(path.join(__dirname, '../dist')));
+  router.use('/public', express.static(path.join(__dirname, '../public')));
 
-/**
- * Serves the embed javascript files.
- */
-router.get('/embed.js', serveFile('../dist/embed.js'));
-router.get('/embed.js.gz', serveFile('../dist/embed.js.gz'));
-router.get('/embed.js.map', serveFile('../dist/embed.js.map'));
+  /**
+   * Serves a file based on a relative path.
+   */
+  const serveFile = (filename) => (req, res) => res.sendFile(path.join(__dirname, filename));
+
+  /**
+   * Serves the embed javascript files.
+   */
+  router.get('/embed.js', serveFile('../dist/embed.js'));
+  router.get('/embed.js.gz', serveFile('../dist/embed.js.gz'));
+  router.get('/embed.js.map', serveFile('../dist/embed.js.map'));
+}
 
 //==============================================================================
 // PASSPORT MIDDLEWARE
