@@ -19,6 +19,8 @@ class FlaggedAccounts extends React.Component {
       me,
       viewUserDetail,
     } = this.props;
+    
+    console.log('Flagged Accounts ROOT', this.props.root);
 
     const hasResults = users.nodes && !!users.nodes.length;
 

@@ -74,9 +74,11 @@ export default class Community extends Component {
       );
     }
 
+    // console.log('Community Container', this.props);
+
     return (
       <div>
-        <FlaggedAccounts />
+        <FlaggedAccounts {...this.props} />
         <RejectUsernameDialog
           open={community.rejectUsernameDialog}
           handleClose={props.hideRejectUsernameDialog}
@@ -94,12 +96,8 @@ export default class Community extends Component {
 
     return (
       <div>
-        <CommunityMenu
-          flaggedUsernamesCount={flaggedUsernamesCount}
-        />
-        <div>
-          { tab }
-        </div>
+        <CommunityMenu flaggedUsernamesCount={flaggedUsernamesCount} />
+        <div>{tab}</div>
       </div>
     );
   }

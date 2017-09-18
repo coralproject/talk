@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
-import withQuery from 'coral-framework/hocs/withQuery';
+import {withFragments} from 'plugin-api/beta/client/hocs';
 import {Spinner} from 'coral-ui';
 
 import {withSetUserStatus} from 'coral-framework/graphql/mutations';
@@ -50,6 +50,8 @@ class FlaggedAccountsContainer extends Component {
   };
 
   render() {
+    console.log('Flagged AccountsContainer', this.props);
+
     if (this.props.data.error) {
       return <div>{this.props.data.error.message}</div>;
     }
@@ -88,31 +90,6 @@ const LOAD_MORE_QUERY = gql`
   ${FlaggedUser.fragments.user}
 `;
 
-export const withFlaggedAccountsyQuery = withQuery(gql`
-  query TalkAdmin_FlaggedAccounts {
-    ...${getDefinitionName(FlaggedUser.fragments.root)}
-    users(query:{action_type: FLAG, statuses: [PENDING], limit: 10}){
-      hasNextPage
-      endCursor
-      nodes {
-        __typename
-        ...${getDefinitionName(FlaggedUser.fragments.user)}
-      }
-    }
-    me {
-      __typename
-      ...${getDefinitionName(FlaggedUser.fragments.me)}
-    }
-  }
-  ${FlaggedUser.fragments.root}
-  ${FlaggedUser.fragments.user}
-  ${FlaggedUser.fragments.me}
-`, {
-  options: {
-    fetchPolicy: 'network-only',
-  },
-});
-
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     showBanUserDialog,
@@ -123,6 +100,23 @@ const mapDispatchToProps = (dispatch) =>
 
 export default compose(
   connect(null, mapDispatchToProps),
-  withFlaggedAccountsyQuery,
   withSetUserStatus,
+  withFragments({
+    root: gql`
+      fragment TalkAdminCommunity_FlaggedAccounts_root on RootQuery {
+        users(query:{action_type: FLAG, statuses: [PENDING], limit: 10}){
+          hasNextPage
+          endCursor
+          nodes {
+            __typename
+            ...${getDefinitionName(FlaggedUser.fragments.user)}
+          }
+        }
+        me {
+          id
+        }
+      }
+      ${FlaggedUser.fragments.user}
+    `,
+  }),
 )(FlaggedAccountsContainer);
