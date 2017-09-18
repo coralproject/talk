@@ -90,10 +90,13 @@ export default class Community extends Component {
   render() {
     const {searchValue} = this.state;
     const tab = this.getTabContent(searchValue, this.props);
+    const {root: {flaggedUsernamesCount}} = this.props;
 
     return (
       <div>
-        <CommunityMenu />
+        <CommunityMenu
+          flaggedUsernamesCount={flaggedUsernamesCount}
+        />
         <div>
           { tab }
         </div>

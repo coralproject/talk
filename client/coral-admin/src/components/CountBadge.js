@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './CommentCount.css';
+import styles from './CountBadge.css';
 
 import t from 'coral-framework/services/i18n';
 
-const CommentCount = ({count}) => {
+const CountBadge = ({count}) => {
   let number = count;
 
   // shorten large counts to abbreviations
@@ -21,8 +21,8 @@ const CommentCount = ({count}) => {
   );
 };
 
-CommentCount.propTypes = {
+CountBadge.propTypes = {
   count: PropTypes.number.isRequired
 };
 
-export default CommentCount;
+export default CountBadge;

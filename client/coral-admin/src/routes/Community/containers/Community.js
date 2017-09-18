@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {compose} from 'react-apollo';
+import {compose, gql} from 'react-apollo';
+import withQuery from 'coral-framework/hocs/withQuery';
 
 import {withSetUserStatus, withRejectUsername} from 'coral-framework/graphql/mutations';
 import {
@@ -29,6 +30,19 @@ const mapStateToProps = (state) => ({
   community: state.community,
 });
 
+
+const withFlaggedUsernamesCount = withQuery(gql`
+    query TalkAdmin_FlaggedUsernamesCount {
+      flaggedUsernamesCount: userCount(query: {
+        action_type: FLAG
+      })
+    }
+  `, {
+  options: {
+    fetchPolicy: 'network-only',
+  },
+});
+
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     fetchAccounts,
@@ -41,4 +55,5 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withSetUserStatus,
   withRejectUsername,
+  withFlaggedUsernamesCount,
 )(CommunityContainer);
