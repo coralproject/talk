@@ -24,13 +24,14 @@
     "promise/no-promise-in-callback": "warn",
     "promise/no-callback-in-promise": "warn",
 
-    // TODO: Change all these to "error", or remove and use defaults.
     "react/display-name": "off",
-    "react/jsx-no-duplicate-props": "warn",
-    "react/jsx-no-target-blank": "warn",
-    "react/no-find-dom-node": "warn",
-    "react/no-unknown-property": "warn",
-    "react/prop-types": "off",
+
+    // We'll keeping using this, as we'll switch over to Preact and we don't
+    // need to worry about deprecation.
+    "react/no-find-dom-node": "off",
+
+    // TODO: Use default after fixing the errors.
+    "react/prop-types": "warn",
 
     "array-callback-return": "warn",
     "arrow-parens": ["warn", "always"],

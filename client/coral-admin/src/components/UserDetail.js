@@ -183,7 +183,6 @@ export default class UserDetail extends React.Component {
                   key={comment.id}
                   user={user}
                   comment={comment}
-                  selected={false}
                   suspectWords={suspectWords}
                   bannedWords={bannedWords}
                   actions={actionsMap[status]}
