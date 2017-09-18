@@ -160,7 +160,7 @@ class Stream extends React.Component {
           loading={loading}
           appendTabs={
             <Tab tabId={'all'} key='all'>
-              All Comments <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
+            {t('settings.all_comments')} <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
             </Tab>
           }
           appendTabPanes={
