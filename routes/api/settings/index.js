@@ -1,9 +1,10 @@
 const express = require('express');
 const SettingsService = require('../../../services/settings');
+const authorization = require('../../../middleware/authorization');
 
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
   try {
     let settings = await SettingsService.retrieve();
     res.json(settings);
@@ -12,7 +13,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.put('/', async (req, res, next) => {
+router.put('/', authorization.needed('ADMIN'), async (req, res, next) => {
   try {
     await SettingsService.update(req.body);
     res.status(204).end();

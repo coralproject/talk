@@ -1,13 +1,39 @@
 const debug = require('debug')('talk:services:wordlist');
 const _ = require('lodash');
-const {RegexpTokenizer} = require('natural');
-const tokenizer = new RegexpTokenizer({pattern: /[.\s'"?!]/});
-const nameTokenizer = new RegexpTokenizer({pattern: /_/});
 const SettingsService = require('./settings');
 const Errors = require('../errors');
+const memoize = require('lodash/memoize');
 
-// REGEX to prevent emoji's from entering the wordlist.
-const EMOJI_REGEX = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff])[\ufe0e\ufe0f]?(?:[\u0300-\u036f\ufe20-\ufe23\u20d0-\u20f0]|\ud83c[\udffb-\udfff])?(?:\u200d(?:[^\ud800-\udfff]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff])[\ufe0e\ufe0f]?(?:[\u0300-\u036f\ufe20-\ufe23\u20d0-\u20f0]|\ud83c[\udffb-\udfff])?)*/;
+/**
+ * Escape string for special regular expression characters.
+ */
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
+/**
+ * Generate a regulare expression that catches the `phrases`.
+ */
+function generateRegExp(phrases) {
+  const inner = phrases
+    .map((phrase) =>
+      phrase.split(/\s+/)
+        .map((word) => escapeRegExp(word))
+        .join('[\\s"?!.]+')
+    ).join('|');
+
+  return new RegExp(`(^|[^\\w])(${inner})(?=[^\\w]|$)`, 'iu');
+}
+
+/**
+ * Memoized version of generateRegExp.
+ */
+const generateRegExpMemoized = memoize(generateRegExp, (phrases) => phrases.join(','));
+
+/**
+ * Never matching regexp that exits immediately.
+ */
+const neverMatch = /(?!)/;
 
 /**
  * The root wordlist object.
@@ -16,9 +42,9 @@ const EMOJI_REGEX = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\ud
 class Wordlist {
 
   constructor() {
-    this.lists = {
-      banned: [],
-      suspect: []
+    this.regexp = {
+      banned: neverMatch,
+      suspect: neverMatch,
     };
   }
 
@@ -48,98 +74,14 @@ class Wordlist {
         return;
       }
 
-      this.lists[k] = Wordlist.parseList(lists[k]);
+      this.regexp[k] = lists[k] && lists[k].length > 0
+        ? generateRegExpMemoized(lists[k])
+        : neverMatch;
 
       debug(`Added ${lists[k].length} words to the ${k} wordlist.`);
     });
 
     return Promise.resolve(this);
-  }
-
-  /**
-   * Parses the list content.
-   * @param  {Array} list array of words to parse for a list.
-   * @return {Array}      the parsed list
-   */
-  static parseList(list) {
-    return _.uniq(list.filter((word) => {
-      if (EMOJI_REGEX.test(word)) {
-        return false;
-      }
-
-      return true;
-    })
-      .map((word) => {
-        if (word.length === 1) {
-          return [word];
-        }
-
-        return tokenizer.tokenize(word.toLowerCase());
-      })
-      .filter((tokens) => {
-        if (tokens.length === 0) {
-          return false;
-        }
-
-        return true;
-      }));
-  }
-
-  /**
-   * Tests the phrase to see if it contains any of the defined blockwords.
-   * @param  {String} phrase value to check for blockwords.
-   * @return {Boolean}       true if a blockword is found, false otherwise.
-   */
-  match(list, phrase, tk = tokenizer) {
-
-    // Lowercase the word to ensure that we don't miss a match due to
-    // capitalization.
-    let lowerPhraseWords = tk.tokenize(phrase.toLowerCase());
-
-    // This will return true in the event that at least one blockword is found
-    // in the phrase.
-    return list.some((blockphrase) => {
-
-      // First, let's see if we can find the first word in the blockphrase in the
-      // source phrase.
-      let idx = lowerPhraseWords.indexOf(blockphrase[0]);
-
-      if (idx === -1) {
-
-        // The first blockword in the blockphrase did not match the source phrase
-        // anywhere.
-        return false;
-      }
-
-      // Here we'll quick respond with true in the event that the blockphrase was
-      // just a single word.
-      if (blockphrase.length === 1) {
-        return true;
-      }
-
-      // We found the first word in the source phrase! Lets ensure it matches the
-      // rest of the blockphrase...
-
-      // Check to see if it even has the length to support this word!
-      if (lowerPhraseWords.length < idx + blockphrase.length - 1) {
-
-        // We couldn't possibly have the entire phrase here because we don't have
-        // enough entries!
-        return false;
-      }
-
-      for (let i = 1; i < blockphrase.length; i++) {
-
-        // Check to see if the next word also matches!
-        if (lowerPhraseWords[idx + i] !== blockphrase[i]) {
-          return false;
-        }
-      }
-
-      // We've walked over all the words of the blockphrase, and haven't had a
-      // mismatch... It does contain the whole word!
-      return true;
-    });
   }
 
   /**
@@ -156,7 +98,7 @@ class Wordlist {
     }
 
     // Check if the field contains a banned word.
-    if (this.match(this.lists.banned, phrase)) {
+    if (this.regexp.banned.test(phrase)) {
       debug(`the field "${fieldName}" contained a phrase "${phrase}" which contained a banned word/phrase`);
 
       errors.banned = Errors.ErrContainsProfanity;
@@ -166,8 +108,8 @@ class Wordlist {
       return errors;
     }
 
-    // Check if the field contains a banned word.
-    if (this.match(this.lists.suspect, phrase)) {
+    // Check if the field contains a suspected word.
+    if (this.regexp.suspect.test(phrase)) {
       debug(`the field "${fieldName}" contained a phrase "${phrase}" which contained a suspected word/phrase`);
 
       errors.suspect = Errors.ErrContainsProfanity;
@@ -176,6 +118,8 @@ class Wordlist {
       // word (suspect).
       return errors;
     }
+
+    return errors;
   }
 
   /**
@@ -231,14 +175,10 @@ class Wordlist {
     return wl
       .load()
       .then(() => {
-        if (!wl.checkName(wl.lists.banned, username)) {
+        if (wl.regexp.banned.test(username)) {
           return Errors.ErrContainsProfanity;
         }
       });
-  }
-
-  checkName(list, name) {
-    return !this.match(list, name, nameTokenizer);
   }
 
   /**

@@ -27,43 +27,9 @@ describe('services.Wordlist', () => {
 
   beforeEach(() => SettingsService.init(settings));
 
-  describe('#init', () => {
+  describe('#regexp', () => {
 
     before(() => wordlist.upsert(wordlists));
-
-    it('parses the wordlists correctly', () => {
-      expect(wordlist.lists.banned).to.deep.equal([
-        [ 'cookies' ],
-        [ 'how', 'to', 'do', 'bad', 'things' ],
-        [ 'how', 'to', 'do', 'really', 'bad', 'things' ],
-        [ 's', 'h', 'i', 't' ],
-        [ '$hit' ],
-        [ 'p**ch' ],
-        [ 'p*ch' ],
-      ]);
-      expect(wordlist.lists.suspect).to.deep.equal([
-        [ 'do', 'bad', 'things' ],
-      ]);
-    });
-
-  });
-
-  describe('#parseList', () => {
-    it('does not include emojis in the wordlist', () => {
-      let list = Wordlist.parseList([
-        '🖕',
-        '🖕 asdf',
-        'asd🖕asdf',
-        'asd🖕',
-      ]);
-
-      expect(list).to.have.length(0);
-    });
-  });
-
-  const bannedList = Wordlist.parseList(wordlists.banned);
-
-  describe('#match', () => {
 
     it('does match on a bad word', () => {
       [
@@ -76,7 +42,7 @@ describe('services.Wordlist', () => {
         'This stuff is $hit!',
         'That\'s a p**ch!',
       ].forEach((word) => {
-        expect(wordlist.match(bannedList, word)).to.be.true;
+        expect(wordlist.regexp.banned.test(word)).to.be.true;
       });
     });
 
@@ -90,7 +56,7 @@ describe('services.Wordlist', () => {
         'I have bad $ hit lling',
         'That\'s a p***ch!',
       ].forEach((word) => {
-        expect(wordlist.match(bannedList, word)).to.be.false;
+        expect(wordlist.regexp.banned.test(word)).to.be.false;
       });
     });
 
@@ -123,30 +89,10 @@ describe('services.Wordlist', () => {
         'I have bad $ hit lling',
         'That\'s a p***ch!',
       ].forEach((word) => {
-        expect(wordlist.scan('body', word)).to.be.undefined;
+        expect(wordlist.scan('body', word)).to.be.deep.equal({});
       });
     });
 
-  });
-
-  describe('#checkName', () => {
-    [
-      'flowers',
-      'joy',
-      'lots_of_candy'
-    ].forEach((username) => {
-      it(`does not match on list=banned name=${username}`, () => {
-        expect(wordlist.checkName(bannedList, username)).to.be.true;
-      });
-    });
-
-    [
-      'cookies'
-    ].forEach((username) => {
-      it(`does match on list=banned name=${username}`, () => {
-        expect(wordlist.checkName(bannedList, username)).to.be.false;
-      });
-    });
   });
 
   describe('#filter', () => {
