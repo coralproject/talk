@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {
-  RECAPTCHA_PUBLIC,
-  WEBSOCKET_LIVE_URI,
-} = require('../../config');
+const {data} = require('../static');
 
 // Get /email-confirmation expects a signed JWT in the hash
 router.get('/confirm-email', (req, res) => {
@@ -20,11 +17,6 @@ router.get('/password-reset', (req, res) => {
 });
 
 router.get('*', (req, res) => {
-  const data = {
-    TALK_RECAPTCHA_PUBLIC: RECAPTCHA_PUBLIC,
-    LIVE_URI: WEBSOCKET_LIVE_URI,
-  };
-
   res.render('admin', {data});
 });
 

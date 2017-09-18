@@ -90,6 +90,12 @@ These are only used during the webpack build.
   managing the auth state manually, auth cannot be persisted, for further
   information refer to the [Persistence Documentation]({{ "/docs/running/persistence/" | absolute_url }})**
   (Default `${ssl ? 'ws' : 'wss'}://${location.host}${TALK_ROOT_URL_MOUNT_PATH}api/v1/live`)
+- `TALK_STATIC_URI` (_optional_) - Used to set the uri where the static assets
+  should be served from. This is used when you want to upload the static assets
+  through your build process to a service like Google Cloud Storage or Amazon S3
+  and you would then specify the CDN/Storage url. (Default `process.env.TALK_ROOT_URL`)
+- `TALK_DISABLE_STATIC_SERVER` (_optional_) - When `TRUE`, it will not mount the
+  static asset serving routes on the router. (Default `FALSE`)
 
 ### Word Filter
 
