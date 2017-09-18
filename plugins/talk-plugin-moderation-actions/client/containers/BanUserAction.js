@@ -3,7 +3,7 @@ import {compose} from 'react-apollo';
 import {openBanDialog} from '../actions';
 import {bindActionCreators} from 'redux';
 import BanUserAction from '../components/BanUserAction';
-import {connect, excludeIf} from 'plugin-api/beta/client/hocs';
+import {connect} from 'plugin-api/beta/client/hocs';
 
 class BanUserActionContainer extends React.Component {
   onBanUser = () => {
