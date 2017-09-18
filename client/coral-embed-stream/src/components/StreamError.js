@@ -1,9 +1,8 @@
 import React from 'react';
 import styles from './StreamError.css';
-import t from 'coral-framework/services/i18n';
 
-export const StreamError = () => (
+export const StreamError = ({children}) => (
   <div className={styles.streamError}>
-    {t('common.error')}
+    {children}
   </div>
 );

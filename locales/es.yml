@@ -349,6 +349,7 @@ es:
   step_3_header: "Gracias por tu participación"
   stream:
     temporarily_suspended: "De acuerdo con la guía de la comunidad de {0}, su cuenta ha sido temporalmente suspendida. Por favor unirse a la conversación {1}."
+    comment_not_found: "Comentario no encontrado"
   streams:
     all: "Todos"
     article: "Artículo"

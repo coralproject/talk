@@ -117,6 +117,13 @@ const CONFIG = {
   // TALK_ROOT_URL and use it to mount the paths on.
   ROOT_URL_MOUNT_PATH: process.env.TALK_ROOT_URL_MOUNT_PATH === 'TRUE',
 
+  // DISABLE_STATIC_SERVER when TRUE will disable the routes used for static
+  // asset serving.
+  DISABLE_STATIC_SERVER: process.env.TALK_DISABLE_STATIC_SERVER === 'TRUE',
+
+  // STATIC_URI is the base uri where static files are hosted.
+  STATIC_URI: process.env.TALK_STATIC_URI || process.env.TALK_ROOT_URL,
+
   // The keepalive timeout (in ms) that should be used to send keep alive
   // messages through the websocket to keep the socket alive.
   KEEP_ALIVE: process.env.TALK_KEEP_ALIVE || '30s',
