@@ -73,12 +73,12 @@ const CoralHeader = ({
               <Menu target="menu-settings" align="right">
                 <MenuItem onClick={() => showShortcuts(true)}>{t('configure.shortcuts')}</MenuItem>
                 <MenuItem>
-                  <a href="https://github.com/coralproject/talk/releases" target="_blank">
+                  <a href="https://github.com/coralproject/talk/releases" target="_blank" rel="noopener noreferrer">
                       View latest version
                   </a>
                 </MenuItem>
                 <MenuItem>
-                  <a href="https://coralproject.net/contribute.html#other-ideas-and-bug-reports" target="_blank">
+                  <a href="https://coralproject.net/contribute.html#other-ideas-and-bug-reports" target="_blank" rel="noopener noreferrer">
                       Report a bug or give feedback
                   </a>
                 </MenuItem>

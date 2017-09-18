@@ -150,7 +150,6 @@ class CommentBox extends React.Component {
     return <div>
       <CommentForm
         defaultValue={this.props.defaultValue}
-        bodyInputId={isReply ? 'replyText' : 'commentText'}
         bodyLabel={isReply ? t('comment_box.reply') : t('comment.comment')}
         maxCharCount={maxCharCount}
         charCountEnable={this.props.charCountEnable}

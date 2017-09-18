@@ -58,6 +58,7 @@ class ActionsMenu extends React.Component {
 
 ActionsMenu.propTypes = {
   icon: PropTypes.string,
+  children: PropTypes.node,
 };
 
 export default ActionsMenu;
