@@ -11,7 +11,7 @@ import {Slot} from 'plugin-api/beta/client/components';
 
 export default class ModerationActions extends React.Component {
   render() {
-    const {comment, asset, data, menuVisible, toogleMenu, hideMenu} = this.props;
+    const {comment, root, asset, data, menuVisible, toogleMenu, hideMenu} = this.props;
 
     return(
       <ClickOutside onClickOutside={hideMenu}>
@@ -30,7 +30,7 @@ export default class ModerationActions extends React.Component {
               />
               <ApproveCommentAction comment={comment} hideMenu={hideMenu} />
               <RejectCommentAction comment={comment} hideMenu={hideMenu} />
-              <BanUserAction comment={comment} hideMenu={hideMenu} />
+              <BanUserAction comment={comment} root={root} hideMenu={hideMenu} />
             </Menu>
           )}
         </div>
