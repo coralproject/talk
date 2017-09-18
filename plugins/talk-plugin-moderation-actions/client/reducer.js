@@ -22,7 +22,8 @@ export default function reducer(state = initialState, action) {
     return {
       ...state,
       showDialog: true,
-      comment: action.comment
+      commentId: action.commentId,
+      authorId: action.authorId
     };
   case CLOSE_DIALOG:
     return {

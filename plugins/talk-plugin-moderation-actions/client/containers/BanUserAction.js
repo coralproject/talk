@@ -1,27 +1,29 @@
 import React from 'react';
 import {compose} from 'react-apollo';
-import {openDialog} from '../actions';
+import {openBanDialog} from '../actions';
 import {bindActionCreators} from 'redux';
 import BanUserAction from '../components/BanUserAction';
 import {connect, excludeIf} from 'plugin-api/beta/client/hocs';
 
 class BanUserActionContainer extends React.Component {
   onBanUser = () => {
-    this.props.openDialog(this.props.comment);
+    this.props.openBanDialog({
+      commentId: this.props.comment.id,
+      authorId: this.props.comment.user.id
+    });
   }
 
   render() {
     return <BanUserAction 
       onBanUser={this.onBanUser}
       comment={this.props.comment}
-      openDialog={this.props.openDialog}
     />;
   }
 }
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    openDialog
+    openBanDialog
   }, dispatch);
 
 const enhance = compose(

@@ -13,7 +13,8 @@ class BanUserDialogContainer extends React.Component {
   banUser = async () => {
     const {
       notify,
-      comment,
+      authorId,
+      commentId,
       closeMenu,
       closeDialog,
       setCommentStatus,
@@ -22,7 +23,7 @@ class BanUserDialogContainer extends React.Component {
 
     try {
       await setUserStatus({
-        userId: comment.user.id,
+        userId: authorId,
         status: 'BANNED'
       });
 
@@ -31,7 +32,7 @@ class BanUserDialogContainer extends React.Component {
 
       if (comment.status !== 'REJECTED') {
         await setCommentStatus({
-          commentId: comment.id,
+          commentId: commentId,
           status: 'REJECTED'
         });
       }
@@ -54,7 +55,8 @@ class BanUserDialogContainer extends React.Component {
 
 const mapStateToProps = ({talkPluginModerationActions: state}) => ({
   showDialog: state.showDialog,
-  comment: state.comment
+  commentId: state.commentId,
+  authorId: state.authorId
 });
 
 const mapDispatchToProps = (dispatch) =>
