@@ -5,10 +5,12 @@ en:
     approved_comment: "Approved"
     moderation_actions: "Moderation Actions"
     ban_user: "Ban User"
-    ban_user_dialog_copy: "Are you sure you would like to ban this user?"
+    ban_user_dialog_sub: "Are you sure you would like to ban this user?"
+    ban_user_dialog_copy: "Note: Banning this user will also place this comment in the Rejected queue."
     ban_user_dialog_cancel: "Cancel"
     ban_user_dialog_yes: "Yes. Ban user"
-    ban_user_dialog_headline: Ban User
+    ban_user_dialog_headline: "Ban User?"
+    
 es:
   talk-plugin-moderation-actions:
     reject_comment: "Rechazar"
@@ -16,7 +18,8 @@ es:
     approved_comment: "Aprobado"
     moderation_actions: "Acciones de Moderación"
     ban_user: "Banear usuario"
-    ban_user_dialog_copy: "Está seguro de querer banear a este usuario?"
+    ban_user_dialog_sub: "Está seguro de querer banear a este usuario?"
+    ban_user_dialog_copy: "Nota: Baneando a este usuario pondrá el comentario en la cola de comentarios Rechazados."
     ban_user_dialog_cancel: "Cancelar"
     ban_user_dialog_yes: "Si. Banear usuario"
-    ban_user_dialog_headline: "Ban User"
+    ban_user_dialog_headline: "Banear Usuario?"

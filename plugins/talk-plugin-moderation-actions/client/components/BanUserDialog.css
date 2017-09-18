@@ -5,7 +5,20 @@
 
 .buttons {
   text-align: right;
-  padding-top: 10px;
+  margin: 20px;
+  text-align: center;
+}
+
+.cancel, .confirm {
+  width: 48%;
+}
+
+.cancel {
+  margin-right: 10px;
+}
+
+.copy {
+  font-style: italic;
 }
 
 .close {
