@@ -5,7 +5,12 @@ const path = require('path');
 const helmet = require('helmet');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
-const {BASE_URL, BASE_PATH, MOUNT_PATH} = require('./url');
+const {
+  BASE_URL,
+  BASE_PATH,
+  MOUNT_PATH,
+  STATIC_URL,
+} = require('./url');
 const routes = require('./routes');
 const debug = require('debug')('talk:app');
 
@@ -55,6 +60,7 @@ app.set('view engine', 'ejs');
 app.locals.BASE_URL = BASE_URL;
 app.locals.BASE_PATH = BASE_PATH;
 app.locals.MOUNT_PATH = MOUNT_PATH;
+app.locals.STATIC_URL = STATIC_URL;
 
 debug(`mounting routes on the ${MOUNT_PATH} path`);
 
