@@ -13,7 +13,7 @@ export default {
   },
   reported: {
     action_type: 'FLAG',
-    statuses: ['NONE', 'PREMOD'],
+    statuses: ['NONE', 'PREMOD', 'SYSTEM_WITHHELD'],
     icon: 'flag',
     name: t('modqueue.reported'),
   },

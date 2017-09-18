@@ -51,7 +51,7 @@ class StreamContainer extends React.Component {
           return prev;
         }
 
-        if (['PREMOD', 'REJECTED'].includes(commentEdited.status)) {
+        if (['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(commentEdited.status)) {
           return removeCommentFromEmbedQuery(prev, commentEdited.id);
         }
       },
@@ -178,7 +178,7 @@ class StreamContainer extends React.Component {
 
   render() {
     if (!this.props.root.asset
-      || !this.props.root.asset.comment
+      || this.props.root.asset.comment === undefined
       && !this.props.root.asset.comments
     ) {
       return <Spinner />;
