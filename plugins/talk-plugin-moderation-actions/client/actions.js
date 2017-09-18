@@ -9,10 +9,11 @@ export const closeMenu = () => ({
   type: CLOSE_MENU,
 });
 
-export const openBanDialog = ({commentId, authorId}) => ({
+export const openBanDialog = ({commentId, authorId, commentStatus}) => ({
   type: OPEN_BAN_DIALOG,
   commentId,
-  authorId
+  authorId,
+  commentStatus
 });
 
 export const closeBanDialog = () => ({

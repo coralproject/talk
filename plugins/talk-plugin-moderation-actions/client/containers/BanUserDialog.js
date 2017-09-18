@@ -2,7 +2,7 @@
 import React from 'react';
 import {compose} from 'react-apollo';
 import {bindActionCreators} from 'redux';
-import {closeDialog, closeMenu} from '../actions';
+import {closeBanDialog, closeMenu} from '../actions';
 import {notify} from 'plugin-api/beta/client/actions/notification';
 import {connect, withSetCommentStatus, withSetUserStatus} from 'plugin-api/beta/client/hocs';
 import {getErrorMessages} from 'plugin-api/beta/client/utils';
@@ -15,8 +15,9 @@ class BanUserDialogContainer extends React.Component {
       notify,
       authorId,
       commentId,
+      commentStatus,
       closeMenu,
-      closeDialog,
+      closeBanDialog,
       setCommentStatus,
       setUserStatus
     } = this.props;
@@ -28,9 +29,9 @@ class BanUserDialogContainer extends React.Component {
       });
 
       closeMenu();
-      closeDialog();
+      closeBanDialog();
 
-      if (comment.status !== 'REJECTED') {
+      if (commentStatus !== 'REJECTED') {
         await setCommentStatus({
           commentId: commentId,
           status: 'REJECTED'
@@ -46,15 +47,15 @@ class BanUserDialogContainer extends React.Component {
     return (
       <BanUserDialog 
         banUser={this.banUser} 
-        showDialog={this.props.showDialog}
-        closeDialog={this.props.closeDialog}
+        showBanDialog={this.props.showBanDialog}
+        closeBanDialog={this.props.closeBanDialog}
       />
     );
   }
 }
 
 const mapStateToProps = ({talkPluginModerationActions: state}) => ({
-  showDialog: state.showDialog,
+  showBanDialog: state.showBanDialog,
   commentId: state.commentId,
   authorId: state.authorId
 });
@@ -62,7 +63,7 @@ const mapStateToProps = ({talkPluginModerationActions: state}) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     notify,
-    closeDialog,
+    closeBanDialog,
     closeMenu
   }, dispatch);
 

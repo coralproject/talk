@@ -1,9 +1,11 @@
-import {OPEN_MENU, CLOSE_MENU, OPEN_DIALOG, CLOSE_DIALOG} from './constants';
+import {OPEN_MENU, CLOSE_MENU, OPEN_BAN_DIALOG, CLOSE_BAN_DIALOG} from './constants';
 
 const initialState = {
   showMenuForComment: null,
-  showDialog: false,
-  comment: null
+  showBanDialog: false,
+  authorId: null,
+  commentId: null,
+  commentStatus: null
 };
 
 export default function reducer(state = initialState, action) {
@@ -18,18 +20,21 @@ export default function reducer(state = initialState, action) {
       ...state,
       showMenuForComment: null
     };
-  case OPEN_DIALOG:
+  case OPEN_BAN_DIALOG:
     return {
       ...state,
-      showDialog: true,
+      showBanDialog: true,
+      authorId: action.authorId,
       commentId: action.commentId,
-      authorId: action.authorId
+      commentStatus: action.commentStatus
     };
-  case CLOSE_DIALOG:
+  case CLOSE_BAN_DIALOG:
     return {
       ...state,
-      showDialog: false,
-      comment: null
+      showBanDialog: false,
+      authorId: null,
+      commentId: null,
+      commentStatus: null
     };
   default :
     return state;

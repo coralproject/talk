@@ -9,6 +9,7 @@ class BanUserActionContainer extends React.Component {
   onBanUser = () => {
     this.props.openBanDialog({
       commentId: this.props.comment.id,
+      commentStatus: this.props.comment.status,
       authorId: this.props.comment.user.id
     });
   }
