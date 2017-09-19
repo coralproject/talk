@@ -64,6 +64,13 @@ export default {
             hasNextPage
           }
         }
+        actions {
+          __typename
+          ... on FlagAction {
+            reason
+            message
+          }
+        }
       }
 
       fragment CoralEmbedStream_CreateCommentResponse_Comment on Comment {
@@ -76,14 +83,6 @@ export default {
           id
           title
           url
-        }
-        actions {
-          __typename
-          id
-          ... on FlagAction {
-            reason
-            message
-          }
         }
         tags {
           tag {
@@ -123,6 +122,8 @@ export default {
       optimisticResponse: {
         createComment: {
           __typename: 'CreateCommentResponse',
+          errors: null,
+          actions: [],
           comment: {
             __typename: 'Comment',
             user: {

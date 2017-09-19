@@ -11,12 +11,20 @@ import {CommentForm} from './CommentForm';
 
 export const name = 'talk-plugin-commentbox';
 
+const notifyReasons = ['LINKS', 'TRUST'];
+
+function shouldNotify(actions = []) {
+  return actions.some(({__typename, reason}) => __typename === 'FlagAction' && notifyReasons.includes(reason));
+}
+
 // Given a newly posted comment's status, show a notification to the user
 // if needed
-export const notifyForNewCommentStatus = (notify, comment) => {
+export const notifyForNewCommentStatus = (notify, comment, actions) => {
   if (comment.status === 'REJECTED') {
     notify('error', t('comment_box.comment_post_banned_word'));
-  } else if (comment.status === 'PREMOD' || comment.status === 'SYSTEM_WITHHELD') {
+  } else if (
+    comment.status === 'PREMOD' ||
+    comment.status === 'SYSTEM_WITHHELD' && shouldNotify(actions)) {
     notify('success', t('comment_box.comment_post_notif_premod'));
   }
 };
@@ -70,11 +78,12 @@ class CommentBox extends React.Component {
       .then(({data}) => {
         this.setState({loadingState: 'success', body: ''});
         const postedComment = data.createComment.comment;
+        const actions = data.createComment.actions;
 
         // Execute postSubmit Hooks
         this.state.hooks.postSubmit.forEach((hook) => hook(data));
 
-        notifyForNewCommentStatus(notify, postedComment);
+        notifyForNewCommentStatus(notify, postedComment, actions);
 
         if (commentPostedHandler) {
           commentPostedHandler();
@@ -187,6 +196,7 @@ CommentBox.propTypes = {
   isReply: PropTypes.bool.isRequired,
   canPost: PropTypes.bool,
   notify: PropTypes.func.isRequired,
+  commentBox: PropTypes.object,
 };
 
 const mapStateToProps = ({commentBox}) => ({commentBox});

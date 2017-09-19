@@ -4,16 +4,14 @@ import {Link} from 'react-router';
 
 import {Icon} from 'coral-ui';
 import FlagBox from './FlagBox';
-import ReplyBadge from './ReplyBadge';
 import styles from './UserDetailComment.css';
-import CommentType from './CommentType';
 import {getActionSummary} from 'coral-framework/utils';
 import ActionButton from 'coral-admin/src/components/ActionButton';
 import CommentBodyHighlighter from 'coral-admin/src/components/CommentBodyHighlighter';
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
-import {getCommentType} from 'coral-admin/src/utils/comment';
 import CommentAnimatedEdit from './CommentAnimatedEdit';
+import CommentLabels from '../containers/CommentLabels';
 
 import t, {timeago} from 'coral-framework/services/i18n';
 
@@ -35,7 +33,6 @@ class UserDetailComment extends React.Component {
 
     const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
     const flagActions = comment.actions && comment.actions.filter((a) => a.__typename === 'FlagAction');
-    const commentType = getCommentType(comment);
 
     return (
       <li
@@ -59,9 +56,8 @@ class UserDetailComment extends React.Component {
                 : null
             }
 
-            <div className={styles.badgeBar}>
-              {comment.hasParent && <ReplyBadge/>}
-              <CommentType type={commentType}/>
+            <div className={styles.labels}>
+              <CommentLabels comment={comment} />
             </div>
           </div>
           <div className={styles.story}>

@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.coreLabels {
+  > *:not(:last-child) {
+    margin-right: 3px;
+  }
+}
+
+.slot {
+  &:not(:empty) {
+    padding-left: 3px;
+  }
+  > *:not(:last-child) {
+    margin-right: 3px;
+  }
+}
+
+.replyLabel {
+  background-color: #3D73D5;
+}
+
+.premodLabel {
+  background-color: #063B9A;
+}
