@@ -58,7 +58,8 @@ CommunityContainer.propTypes = {
 const withData = withQuery(gql`
     query TalkAdmin_FlaggedUsernamesCount {
       flaggedUsernamesCount: userCount(query: {
-        action_type: FLAG
+        action_type: FLAG,
+        statuses: [PENDING]
       })
       ...${getDefinitionName(FlaggedAccounts.fragments.root)}
       ...${getDefinitionName(FlaggedUser.fragments.root)}
