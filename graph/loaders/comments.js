@@ -281,12 +281,14 @@ const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, auth
 
   // Only administrators can search for comments with statuses that are not
   // `null`, or `'ACCEPTED'`.
-  if (ctx.user != null && ctx.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS) && statuses && statuses.length > 0) {
-    comments = comments.where({
-      status: {
-        $in: statuses
-      }
-    });
+  if (ctx.user != null && ctx.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS)) {
+    if (statuses && statuses.length > 0) {
+      comments = comments.where({
+        status: {
+          $in: statuses
+        }
+      });
+    }
   } else {
     comments = comments.where({
       status: {
