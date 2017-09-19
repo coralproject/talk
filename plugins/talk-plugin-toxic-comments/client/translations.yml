@@ -3,4 +3,8 @@ en:
     COMMENT_IS_TOXIC: |
       Are you sure? The language in this comment might violate our community guidelines.
       You can edit the comment or submit it for moderator review.
+  talk-plugin-toxic-comments:
+    still_toxic: |
+      This edited comment might still violate our community guidelines.
+      Our moderation team will review your comment shortly.
 es:

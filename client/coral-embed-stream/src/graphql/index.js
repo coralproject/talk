@@ -123,6 +123,7 @@ export default {
       optimisticResponse: {
         createComment: {
           __typename: 'CreateCommentResponse',
+          errors: null,
           comment: {
             __typename: 'Comment',
             user: {
@@ -132,6 +133,7 @@ export default {
             },
             created_at: new Date().toISOString(),
             body,
+            actions: [],
             action_summaries: [],
             tags: tags.map((tag) => ({
               tag: {

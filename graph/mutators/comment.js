@@ -393,13 +393,12 @@ const moderationPhases = [
 ];
 
 /**
- * This resolves a given comment's status to take into account moderator actions
- * are applied.
+ * This resolves a given comment's status and actions.
  * @param  {Object} context graphql context
  * @param  {String} body          body of the comment
  * @param  {String} [asset_id]    asset for the comment
  * @param  {Object} [wordlist={}] the results of the wordlist scan
- * @return {Promise}              resolves to the comment's status
+ * @return {Object}               resolves to the comment's status and actions
  */
 const resolveCommentModeration = async (context, comment) => {
 
@@ -418,6 +417,8 @@ const resolveCommentModeration = async (context, comment) => {
   // Combine the asset and the settings to get the asset settings.
   const assetSettings = await AssetsService.rectifySettings(asset, settings);
 
+  let actions = comment.actions || [];
+
   // Loop over all the moderation phases and see if we've resolved the status.
   for (const phase of moderationPhases) {
     const result = await phase(context, comment, {
@@ -429,13 +430,14 @@ const resolveCommentModeration = async (context, comment) => {
 
     if (result) {
 
-      // Merge the comment and the result together.
-      comment = merge(comment, result);
+      if (result.actions) {
+        actions.push(...result.actions);
+      }
 
       // If this result contained a status, then we've finished resolving
       // phases!
       if (result.status) {
-        return comment.actions;
+        return {status: result.status, actions};
       }
     }
   }
@@ -454,17 +456,20 @@ const createPublicComment = async (context, comment) => {
   // We then take the wordlist and the comment into consideration when
   // considering what status to assign the new comment, and resolve the new
   // status to set the comment to.
-  let actions = await resolveCommentModeration(context, comment);
+  let {actions, status} = await resolveCommentModeration(context, comment);
+
+  // Assign status to comment.
+  comment.status = status;
 
   // Then we actually create the comment with the new status.
-  comment = await createComment(context, comment);
+  const result = await createComment(context, comment);
 
   // Create all the actions that were determined during the moderation check
   // phase.
-  await createActions(comment.id, actions);
+  await createActions(result.id, actions);
 
   // Finally, we return the comment.
-  return comment;
+  return result;
 };
 
 // createActions will for each of the provided actions, create the given action
@@ -515,10 +520,10 @@ const edit = async (context, {id, asset_id, edit: {body}}) => {
   let comment = {id, asset_id, body};
 
   // Determine the new status of the comment.
-  const actions = await resolveCommentModeration(context, comment);
+  const {actions, status} = await resolveCommentModeration(context, comment);
 
   // Execute the edit.
-  comment = await CommentsService.edit({id, author_id: context.user.id, body, status: comment.status});
+  comment = await CommentsService.edit({id, author_id: context.user.id, body, status});
 
   // Create all the actions that were determined during the moderation check
   // phase.

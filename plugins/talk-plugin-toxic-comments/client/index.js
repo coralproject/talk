@@ -1,5 +1,5 @@
 import translations from './translations.yml';
-import CheckToxicityHook from './components/CheckToxicityHook';
+import CheckToxicityHook from './containers/CheckToxicityHook';
 
 export default {
   translations,

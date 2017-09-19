@@ -11,12 +11,20 @@ import {CommentForm} from './CommentForm';
 
 export const name = 'talk-plugin-commentbox';
 
+const notifyReasons = ['LINKS', 'TRUST'];
+
+function shouldNotify(actions = []) {
+  return actions.some(({reason}) => notifyReasons.includes(reason));
+}
+
 // Given a newly posted comment's status, show a notification to the user
 // if needed
 export const notifyForNewCommentStatus = (notify, comment) => {
   if (comment.status === 'REJECTED') {
     notify('error', t('comment_box.comment_post_banned_word'));
-  } else if (comment.status === 'PREMOD' || comment.status === 'SYSTEM_WITHHELD') {
+  } else if (
+    comment.status === 'PREMOD' ||
+    comment.status === 'SYSTEM_WITHHELD' && shouldNotify(comment.actions)) {
     notify('success', t('comment_box.comment_post_notif_premod'));
   }
 };
@@ -187,6 +195,7 @@ CommentBox.propTypes = {
   isReply: PropTypes.bool.isRequired,
   canPost: PropTypes.bool,
   notify: PropTypes.func.isRequired,
+  commentBox: PropTypes.object,
 };
 
 const mapStateToProps = ({commentBox}) => ({commentBox});
