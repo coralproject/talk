@@ -50,7 +50,6 @@ const RootQuery = {
     return Comments.getCountByQuery(query);
   },
 
-
   async userCount(_, {query}, {user, loaders: {Users}}) {
     if (user == null || !user.can(SEARCH_OTHER_USERS)) {
       return null;

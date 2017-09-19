@@ -107,7 +107,6 @@ const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, 
   };
 };
 
-
 /**
  * Retrieves the count of users based on the passed in query.
  * @param  {Object} context   graph context
@@ -129,10 +128,9 @@ const getCountByQuery = async ({loaders: {Actions}}, {action_type}) => {
     });
   }
 
-
   return UserModel
-  .find(query)
-  .count();
+    .find(query)
+    .count();
 };
 
 /**
