@@ -303,7 +303,6 @@ pt_BR:
   report_notif_remove: "Seu marcado foi removido."
   reported: Reportado
   settings:
-    all_comments: "Todos os comentários"
     from_settings_page: "Na página de Perfil, você pode ver seu histórico de comentários."
     my_comment_history: "Histórico de comentários"
     profile: Perfil
@@ -312,8 +311,8 @@ pt_BR:
     to_access: "para acessar o perfil"
     user_no_comment: "Você nunca deixou um comentário. Participe da conversa!"
   stream:
-    temporarily_suspended: "
-    De acordo com as diretrizes da comunidade de {0}, sua conta foi temporariamente suspensa. Por favor, volte para a conversa {1}."
+    all_comments: "Todos os comentários"
+    temporarily_suspended: "De acordo com as diretrizes da comunidade de {0}, sua conta foi temporariamente suspensa. Por favor, volte para a conversa {1}."
   step_1_header: "Relatar um problema"
   step_2_header: "Ajude-nos a entender"
   step_3_header: "Obrigdo por sua contribuição"
