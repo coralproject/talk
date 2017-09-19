@@ -26,13 +26,12 @@ class CommunityContainer extends Component {
   }
 
   render() {
-    return <Community {...this.props} />
+    return <Community {...this.props} />;
   }
 }
 const mapStateToProps = (state) => ({
   community: state.community,
 });
-
 
 const withData = withQuery(gql`
     query TalkAdmin_FlaggedUsernamesCount {

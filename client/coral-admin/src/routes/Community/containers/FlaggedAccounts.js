@@ -50,8 +50,6 @@ class FlaggedAccountsContainer extends Component {
   };
 
   render() {
-    console.log('Flagged AccountsContainer', this.props);
-
     if (this.props.data.error) {
       return <div>{this.props.data.error.message}</div>;
     }
