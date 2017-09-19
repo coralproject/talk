@@ -1,4 +1,18 @@
 .root {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.coreLabels {
+  > *:not(:last-child) {
+    margin-right: 3px;
+  }
+}
+
+.slot {
+  &:not(:empty) {
+    padding-left: 3px;
+  }
   > *:not(:last-child) {
     margin-right: 3px;
   }

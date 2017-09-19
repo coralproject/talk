@@ -4,9 +4,9 @@ import styles from './Label.css';
 import {Icon} from 'coral-ui';
 import cn from 'classnames';
 
-const Label = ({iconName, children, className, isFlag}) => {
+const Label = ({iconName, children, className}) => {
   return (
-    <span className={cn(className, styles.root, {[styles.isFlag]: isFlag})}>
+    <span className={cn(className, styles.root)}>
       <Icon name={iconName} className={styles.icon} /> {children}
     </span>
   );
@@ -14,7 +14,6 @@ const Label = ({iconName, children, className, isFlag}) => {
 
 Label.propTypes = {
   className: PropTypes.string,
-  isFlag: PropTypes.bool,
   children: PropTypes.node.isRequired,
   iconName: PropTypes.string,
 };

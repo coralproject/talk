@@ -1,6 +1,11 @@
 import {gql} from 'react-apollo';
 import CommentLabels from '../components/CommentLabels';
 import withFragments from 'coral-framework/hocs/withFragments';
+import {getSlotFragmentSpreads} from 'coral-framework/utils';
+
+const slots = [
+  'adminCommentLabels',
+];
 
 export default withFragments({
   comment: gql`
@@ -16,6 +21,7 @@ export default withFragments({
           id
         }
       }
+      ${getSlotFragmentSpreads(slots, 'comment')}
     }
   `
 })(CommentLabels);
