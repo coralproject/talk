@@ -50,6 +50,14 @@ const RootQuery = {
     return Comments.getCountByQuery(query);
   },
 
+  async userCount(_, {query}, {user, loaders: {Users}}) {
+    if (user == null || !user.can(SEARCH_OTHER_USERS)) {
+      return null;
+    }
+
+    return Users.getCountByQuery(query);
+  },
+
   assetMetrics(_, query, {user, loaders: {Metrics: {Assets}}}) {
     if (user == null || !user.can(SEARCH_ASSETS)) {
       return null;

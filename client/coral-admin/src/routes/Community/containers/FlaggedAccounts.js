@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
-import withQuery from 'coral-framework/hocs/withQuery';
+import {withFragments} from 'plugin-api/beta/client/hocs';
 import {Spinner} from 'coral-ui';
+import PropTypes from 'prop-types';
 
 import {withSetUserStatus} from 'coral-framework/graphql/mutations';
 import {showBanUserDialog} from 'actions/banUserDialog';
@@ -24,7 +25,10 @@ class FlaggedAccountsContainer extends Component {
   }
 
   approveUser = ({userId}) => {
-    return this.props.setUserStatus({userId, status: 'APPROVED'});
+    return this.props.setUserStatus({
+      userId,
+      status: 'APPROVED'
+    });
   }
 
   loadMore = () => {
@@ -74,6 +78,16 @@ class FlaggedAccountsContainer extends Component {
   }
 }
 
+FlaggedAccountsContainer.propTypes = {
+  showBanUserDialog: PropTypes.func,
+  showSuspendUserDialog: PropTypes.func,
+  showRejectUsernameDialog: PropTypes.func,
+  viewUserDetail: PropTypes.func,
+  setUserStatus: PropTypes.func,
+  data: PropTypes.object,
+  root: PropTypes.object
+};
+
 const LOAD_MORE_QUERY = gql`
   query TalkAdmin_LoadMoreFlaggedAccounts($limit: Int, $cursor: Cursor) {
     users(query:{action_type: FLAG, statuses: [PENDING], limit: $limit, cursor: $cursor}){
@@ -88,31 +102,6 @@ const LOAD_MORE_QUERY = gql`
   ${FlaggedUser.fragments.user}
 `;
 
-export const withFlaggedAccountsyQuery = withQuery(gql`
-  query TalkAdmin_FlaggedAccounts {
-    ...${getDefinitionName(FlaggedUser.fragments.root)}
-    users(query:{action_type: FLAG, statuses: [PENDING], limit: 10}){
-      hasNextPage
-      endCursor
-      nodes {
-        __typename
-        ...${getDefinitionName(FlaggedUser.fragments.user)}
-      }
-    }
-    me {
-      __typename
-      ...${getDefinitionName(FlaggedUser.fragments.me)}
-    }
-  }
-  ${FlaggedUser.fragments.root}
-  ${FlaggedUser.fragments.user}
-  ${FlaggedUser.fragments.me}
-`, {
-  options: {
-    fetchPolicy: 'network-only',
-  },
-});
-
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     showBanUserDialog,
@@ -123,6 +112,23 @@ const mapDispatchToProps = (dispatch) =>
 
 export default compose(
   connect(null, mapDispatchToProps),
-  withFlaggedAccountsyQuery,
   withSetUserStatus,
+  withFragments({
+    root: gql`
+      fragment TalkAdminCommunity_FlaggedAccounts_root on RootQuery {
+        users(query:{action_type: FLAG, statuses: [PENDING], limit: 10}){
+          hasNextPage
+          endCursor
+          nodes {
+            __typename
+            ...${getDefinitionName(FlaggedUser.fragments.user)}
+          }
+        }
+        me {
+          id
+        }
+      }
+      ${FlaggedUser.fragments.user}
+    `,
+  }),
 )(FlaggedAccountsContainer);

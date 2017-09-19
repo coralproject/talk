@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CommentCount from './CommentCount';
+import CountBadge from '../../../components/CountBadge';
 import styles from './styles.css';
 import {SelectField, Option} from 'react-mdl-selectfield';
 import {Icon} from 'coral-ui';
@@ -28,7 +28,7 @@ const ModerationMenu = ({
               to={getModPath(queue.key, asset.id)}
               className={cn('mdl-tabs__tab', styles.tab, {[styles.active]: activeTab === queue.key})}
               activeClassName={styles.active}>
-              <Icon name={queue.icon} className={styles.tabIcon} /> {queue.name} <CommentCount count={queue.count} />
+              <Icon name={queue.icon} className={styles.tabIcon} /> {queue.name} <CountBadge count={queue.count} />
             </Link>
           )}
         </div>
