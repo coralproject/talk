@@ -398,7 +398,7 @@ const moderationPhases = [
  * @param  {String} body          body of the comment
  * @param  {String} [asset_id]    asset for the comment
  * @param  {Object} [wordlist={}] the results of the wordlist scan
- * @return {Object}               resolves to the comment's status and actions
+ * @return {Promise}              resolves to the comment's status and actions
  */
 const resolveCommentModeration = async (context, comment) => {
 
