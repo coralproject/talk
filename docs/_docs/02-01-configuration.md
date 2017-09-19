@@ -55,18 +55,21 @@ These are only used during the webpack build.
 #### Advanced
 {:.no_toc}
 
-- `TALK_REDIS_RECONNECTION_MAX_ATTEMPTS` (_optional_) - the amount of attempts
-  that a redis connection will attempt to reconnect before aborting with an
-  error. (Default `100`)
-- `TALK_REDIS_RECONNECTION_MAX_RETRY_TIME` (_optional_) - the time in string
-  format for the maximum amount of time that a client can be considered
-  "connecting" before attempts at reconnection are aborted with an error.
-  (Default `1 min`)
+- `TALK_REDIS_CLIENT_CONFIG` (_optional_) - configuration overrides for the
+  redis client configuration in a JSON encoded string. Configuration is
+  overridden as the second parameter to the redis client constructor, and is
+  merged with default configuration. (Default `{}`)
 - `TALK_REDIS_RECONNECTION_BACKOFF_FACTOR` (_optional_) - the time factor that
   will be multiplied against the current attempt count inbetween attempts to
   connect to redis. (Default `500 ms`)
 - `TALK_REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME` (_optional_) - the minimum time
   used to delay before attempting to reconnect to redis. (Default `1 sec`)
+- `TALK_REDIS_CLUSTER_MODE` (_optional_) - the cluster mode of the redis client.
+  Can be either `NONE` or `CLUSTER`. (Default `NONE`)
+- `TALK_REDIS_CLUSTER_CONFIGURATION` (_optional_) - the json serialized form of
+  the cluster nodes. Only required when `TALK_REDIS_CLUSTER_MODE=CLUSTER`. See
+  https://github.com/luin/ioredis#cluster for configuration details.
+  (Default `[]`)
 
 ### Server
 
@@ -131,7 +134,7 @@ is not needed in most situations.
   use to set a cookie containing a JWT that was issued by Talk.
   (Default `process.env.TALK_JWT_COOKIE_NAME`)
 - `TALK_JWT_COOKIE_NAMES` (_optional_) - the different cookie names to check for
-  a JWT token in, seperated by `,`. By default, we always use the
+  a JWT token in, separated by `,`. By default, we always use the
   `process.env.TALK_JWT_COOKIE_NAME` and `process.env.TALK_JWT_SIGNING_COOKIE_NAME`
   for this value. Any additional cookie names specified here will be appended to
   the list of cookie names to inspect.

@@ -86,14 +86,17 @@ const CONFIG = {
   MONGO_URL: process.env.TALK_MONGO_URL,
   REDIS_URL: process.env.TALK_REDIS_URL,
 
-  // REDIS_RECONNECTION_MAX_ATTEMPTS is the amount of attempts that a redis
-  // connection will attempt to reconnect before aborting with an error.
-  REDIS_RECONNECTION_MAX_ATTEMPTS: parseInt(process.env.TALK_REDIS_RECONNECTION_MAX_ATTEMPTS || '100'),
+  // REDIS_CLIENT_CONFIG is the optional configuration that is merged with the
+  // function config to provide deep control of the redis connection beheviour.
+  REDIS_CLIENT_CONFIG: process.env.TALK_REDIS_CLIENT_CONFIGURATION || '{}',
 
-  // REDIS_RECONNECTION_MAX_RETRY_TIME is the time in string format for the
-  // maximum amount of time that a client can be considered "connecting" before
-  // attempts at reconnection are aborted with an error.
-  REDIS_RECONNECTION_MAX_RETRY_TIME: ms(process.env.TALK_REDIS_RECONNECTION_MAX_RETRY_TIME || '1 min'),
+  // REDIS_CLUSTER_MODE allows configuration on the type of cluster mode enabled
+  // on the redis client. Can be either `NONE` or `CLUSTER`.
+  REDIS_CLUSTER_MODE: process.env.TALK_REDIS_CLUSTER_MODE || 'NONE',
+
+  // REDIS_CLUSTER_CONFIGURATION contains the json string for the redis cluster
+  // configuration.
+  REDIS_CLUSTER_CONFIGURATION: process.env.TALK_REDIS_CLUSTER_CONFIGURATION || '[]',
 
   // REDIS_RECONNECTION_BACKOFF_FACTOR is the factor that will be multiplied
   // against the current attempt count inbetween attempts to connect to redis.
@@ -237,6 +240,26 @@ if (process.env.NODE_ENV === 'test' && !CONFIG.MONGO_URL) {
 if (process.env.NODE_ENV === 'test' && !CONFIG.REDIS_URL) {
   CONFIG.REDIS_URL = 'redis://localhost/1';
 }
+
+// REDIS_CLUSTER_CONFIGURATION should be parsed when the cluster mode !== none.
+if (CONFIG.REDIS_CLUSTER_MODE === 'CLUSTER') {
+  try {
+    CONFIG.REDIS_CLUSTER_CONFIGURATION = JSON.parse(CONFIG.REDIS_CLUSTER_CONFIGURATION);
+  } catch (err) {
+    throw new Error('TALK_REDIS_CLUSTER_CONFIGURATION is not valid JSON, see https://github.com/luin/ioredis#cluster for valid syntax of the list of cluster nodes');
+  }
+
+  if (!Array.isArray(CONFIG.REDIS_CLUSTER_CONFIGURATION)) {
+    throw new Error('TALK_REDIS_CLUSTER_MODE is CLUSTER, but the TALK_REDIS_CLUSTER_CONFIGURATION is invalid, see https://github.com/luin/ioredis#cluster for valid syntax of the list of cluster nodes');
+  }
+
+  if (CONFIG.REDIS_CLUSTER_CONFIGURATION.length === 0) {
+    throw new Error('TALK_REDIS_CLUSTER_CONFIGURATION must have at least one node specified in the cluster, see https://github.com/luin/ioredis#cluster for valid syntax of the list of cluster nodes');
+  }
+}
+
+// Client config is a JSON encoded string, defaulting to `{}`.
+CONFIG.REDIS_CLIENT_CONFIG = JSON.parse(CONFIG.REDIS_CLIENT_CONFIG);
 
 //------------------------------------------------------------------------------
 // Recaptcha configuration
