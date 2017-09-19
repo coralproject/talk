@@ -848,7 +848,7 @@ type RootQuery {
   commentCount(query: CommentCountQuery!): Int
 
   # Return the count of users satisfied by the query. Note that this edge is
-  # expensive as it is not batched. Requires the `ADMIN` role.
+  # expensive as it is not batched. This field is restricted.
   userCount(query: UserCountQuery!): Int
 
   # The currently logged in user based on the request. Requires any logged in

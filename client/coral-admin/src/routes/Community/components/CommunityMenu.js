@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './CommunityMenu.css';
 import t from 'coral-framework/services/i18n';
 import {Link} from 'react-router';
+import PropTypes from 'prop-types';
 import CountBadge from '../../../components/CountBadge';
 
 const CommunityMenu = ({flaggedUsernamesCount = 0}) => {
@@ -23,6 +24,10 @@ const CommunityMenu = ({flaggedUsernamesCount = 0}) => {
       </div>
     </div>
   );
+};
+
+CommunityMenu.propTypes = {
+  flaggedUsernamesCount: PropTypes.number,
 };
 
 export default CommunityMenu;

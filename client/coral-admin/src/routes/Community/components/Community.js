@@ -74,8 +74,6 @@ export default class Community extends Component {
       );
     }
 
-    // console.log('Community Container', this.props);
-
     return (
       <div>
         <FlaggedAccounts {...this.props} />
