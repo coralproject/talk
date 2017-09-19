@@ -8,7 +8,6 @@
   height: 24px;
   letter-spacing: 0.4px;
   line-height: 22px;
-  background: #063B9A;
   min-width: 80px;
   text-align: center;
 }
@@ -20,7 +19,4 @@
   margin-right: 4px;
 }
 
-.isFlag {
-  background: #d03235;
-}
 

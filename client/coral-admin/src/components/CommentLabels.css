@@ -1,2 +1,13 @@
 .root {
+  > *:not(:last-child) {
+    margin-right: 3px;
+  }
+}
+
+.replyLabel {
+  background-color: #3D73D5;
+}
+
+.premodLabel {
+  background-color: #063B9A;
 }

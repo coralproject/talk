@@ -107,9 +107,7 @@ class Comment extends React.Component {
               }
               <div className={styles.adminCommentInfoBar}>
                 <CommentLabels
-                  status={comment.status}
-                  actions={comment.actions}
-                  isReply={!!comment.hasParent}
+                  comment={comment}
                 />
                 <Slot
                   fill="adminCommentInfoBar"

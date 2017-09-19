@@ -1,6 +1,8 @@
 import {gql} from 'react-apollo';
 import UserDetailComment from '../components/UserDetailComment';
 import withFragments from 'coral-framework/hocs/withFragments';
+import {getDefinitionName} from 'coral-framework/utils';
+import CommentLabels from './CommentLabels';
 
 export default withFragments({
   comment: gql`
@@ -35,6 +37,8 @@ export default withFragments({
       editing {
         edited
       }
+      ...${getDefinitionName(CommentLabels.fragments.comment)}
     }
+    ${CommentLabels.fragments.comment}
   `
 })(UserDetailComment);
