@@ -28,6 +28,7 @@ class CommunityContainer extends Component {
 
   render() {
     return <Community 
+      fetchAccounts={this.props.fetchAccounts}
       community={this.props.community}
       hideRejectUsernameDialog={this.props.hideRejectUsernameDialog}
       updateSorting={this.props.updateSorting}
