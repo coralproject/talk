@@ -28,7 +28,6 @@ export default {
     name: t('modqueue.rejected'),
   },
   all: {
-    statuses: ['NONE', 'PREMOD', 'ACCEPTED', 'REJECTED'],
     icon: 'question_answer',
     name: t('modqueue.all'),
   },
