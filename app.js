@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
+const merge = require('lodash/merge');
 const helmet = require('helmet');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
@@ -10,6 +11,7 @@ const {
   BASE_PATH,
   MOUNT_PATH,
   STATIC_URL,
+  HELMET_CONFIGURATION,
 } = require('./url');
 const routes = require('./routes');
 const debug = require('debug')('talk:app');
@@ -31,9 +33,9 @@ app.set('trust proxy', 1);
 
 // Enable a suite of security good practices through helmet. We disable
 // frameguard to allow crossdomain injection of the embed.
-app.use(helmet({
+app.use(helmet(merge(HELMET_CONFIGURATION, {
   frameguard: false,
-}));
+})));
 
 // Compress the responses if appropriate.
 app.use(compression());

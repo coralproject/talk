@@ -186,6 +186,14 @@ span {
   padding: 10px 0;
   min-height: 0;
 
+  /*
+   Fix rendering issues in Safari by promoting this
+   into its own layer.
+
+   https://www.pivotaltracker.com/story/show/151142211
+  */
+  transform: translateZ(0);
+
   .container {
     padding: 0 14px;
   }

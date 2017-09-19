@@ -7,12 +7,13 @@ import {getDisplayName} from 'coral-framework/helpers/hoc';
 import {compose, gql} from 'react-apollo';
 import withFragments from 'coral-framework/hocs/withFragments';
 import withMutation from 'coral-framework/hocs/withMutation';
-import {addNotification} from 'coral-framework/actions/notification';
+import {notify} from 'coral-framework/actions/notification';
 import {capitalize} from 'coral-framework/helpers/strings';
-import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
+import {getMyActionSummary, getTotalActionCount, getErrorMessages} from 'coral-framework/utils';
 import hoistStatics from 'recompose/hoistStatics';
 import * as PropTypes from 'prop-types';
 import {getDefinitionName} from '../utils';
+import {t, can} from 'plugin-api/beta/client/services';
 
 // TODO: Auth logic needs refactoring.
 import {showSignInDialog} from 'coral-embed-stream/src/actions/auth';
@@ -248,9 +249,23 @@ export default (reaction, options = {}) => hoistStatics((WrappedComponent) => {
         return;
       }
       this.duringMutation = true;
+
+      // If the current user is suspended, do nothing.
+      if (!can(this.props.user, 'INTERACT_WITH_COMMUNITY')) {
+        notify('error', t('error.NOT_AUTHORIZED'));
+        return;
+      }
+
       return this.props.postReaction(this.props.comment)
-        .then((result) => {this.duringMutation = false; return Promise.resolve(result); })
-        .catch((err) => {this.duringMutation = false; throw err; });
+        .then((result) => {
+          this.duringMutation = false;
+          return result;
+        })
+        .catch((err) => {
+          this.duringMutation = false;
+          this.props.notify('error', getErrorMessages(err));
+          throw err;
+        });
     }
 
     deleteReaction = () => {
@@ -258,9 +273,23 @@ export default (reaction, options = {}) => hoistStatics((WrappedComponent) => {
         return;
       }
       this.duringMutation = true;
+
+      // If the current user is suspended, do nothing.
+      if (!can(this.props.user, 'INTERACT_WITH_COMMUNITY')) {
+        notify('error', t('error.NOT_AUTHORIZED'));
+        return;
+      }
+
       return this.props.deleteReaction(this.props.comment)
-        .then((result) => {this.duringMutation = false; return Promise.resolve(result); })
-        .catch((err) => {this.duringMutation = false; throw err; });
+        .then((result) => {
+          this.duringMutation = false;
+          return result;
+        })
+        .catch((err) => {
+          this.duringMutation = false;
+          this.props.notify('error', getErrorMessages(err));
+          throw err;
+        });
     }
 
     render() {
@@ -283,7 +312,7 @@ export default (reaction, options = {}) => hoistStatics((WrappedComponent) => {
         asset={asset}
         comment={comment}
         showSignInDialog={this.props.showSignInDialog}
-        addNotification={this.props.addNotification}
+        notify={this.props.notify}
         user={this.props.user}
         reactionSummary={reactionSummary}
         count={count}
@@ -386,7 +415,7 @@ export default (reaction, options = {}) => hoistStatics((WrappedComponent) => {
   });
 
   const mapDispatchToProps = (dispatch) =>
-    bindActionCreators({showSignInDialog, addNotification}, dispatch);
+    bindActionCreators({showSignInDialog, notify}, dispatch);
 
   const enhance = compose(
     withFragments({

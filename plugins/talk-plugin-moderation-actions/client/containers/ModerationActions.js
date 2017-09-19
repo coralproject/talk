@@ -47,9 +47,9 @@ class ModerationActionsContainer extends React.Component {
       root={this.props.root}
       asset={this.props.asset}
       comment={this.props.comment}
-      menuVisible={this.props.showMenuForComment === this.props.comment.id}
       toogleMenu={this.toogleMenu}
       hideMenu={this.hideMenu}
+      menuVisible={this.props.showMenuForComment === this.props.comment.id}
     />;
   }
 }
@@ -68,6 +68,13 @@ const mapDispatchToProps = (dispatch) =>
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withFragments({
+    root: gql`
+      fragment TalkModerationActions_root on RootQuery {
+        me {
+          id
+        }
+      }`
+    ,
     asset: gql`
       fragment TalkModerationActions_asset on Asset {
         id
@@ -77,6 +84,9 @@ const enhance = compose(
       fragment TalkModerationActions_comment on Comment {
         id
         status
+        user {
+          id
+        }
         tags {
           tag {
             name
