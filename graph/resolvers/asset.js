@@ -23,6 +23,7 @@ const Asset = {
 
     // Include the asset id in the search.
     query.asset_id = id;
+    query.statuses = ['NONE', 'ACCEPTED'];
 
     return Comments.getByQuery(query);
   },

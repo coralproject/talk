@@ -91,12 +91,19 @@ const getParentCountsByAssetID = (context, asset_ids) => {
 const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, author_id, tags, action_type}) => {
   let query = CommentModel.find();
 
-  if (ids) {
-    query = query.where({id: {$in: ids}});
+  if (
+    (context.user != null && context.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS)) ||
+    statuses && statuses.every((status) => ['NONE', 'ACCEPTED'].includes(status))
+  ) {
+    if (statuses) {
+      query = query.where({status: {$in: statuses}});
+    }
+  } else {
+    return null;
   }
 
-  if (statuses) {
-    query = query.where({status: {$in: statuses}});
+  if (ids) {
+    query = query.where({id: {$in: ids}});
   }
 
   if (asset_id != null) {
@@ -281,7 +288,10 @@ const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, auth
 
   // Only administrators can search for comments with statuses that are not
   // `null`, or `'ACCEPTED'`.
-  if (ctx.user != null && ctx.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS)) {
+  if (
+    (ctx.user != null && ctx.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS)) ||
+    statuses && statuses.every((status) => ['NONE', 'ACCEPTED'].includes(status))
+  ) {
     if (statuses && statuses.length > 0) {
       comments = comments.where({
         status: {
@@ -290,11 +300,7 @@ const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, auth
       });
     }
   } else {
-    comments = comments.where({
-      status: {
-        $in: ['NONE', 'ACCEPTED']
-      }
-    });
+    return null;
   }
 
   if (ctx.user != null && ctx.user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
