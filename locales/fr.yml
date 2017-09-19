@@ -263,7 +263,6 @@ fr:
   reported: Signalé
   set_best: "Sélectionner comme le meilleur"
   settings:
-    all_comments: "Tous les commentaires"
     from_settings_page: "Dans la page Profil, vous pouvez voir l'historique de vos commentaires."
     my_comment_history: "Mon historique de commentaires"
     profile: Profil
@@ -272,6 +271,7 @@ fr:
     to_access: "Accéder au profil"
     user_no_comment: "Vous n'avez jamais laissé de commentaire. Rejoignez la conversation!"
   stream:
+    all_comments: "Tous les commentaires"
     temporarily_suspended: "Conformément à la charte d'utilisation des commentaires de {0}, votre compte a été temporairement suspendu. Merci de revenir dans la conversation {1}."
   step_1_header: "Signaler un problème"
   step_2_header: "Aidez-nous à comprendre"

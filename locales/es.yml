@@ -305,7 +305,6 @@ es:
   report_notif_remove: "Tu reporte ha sido eliminado."
   reported: "Reportado"
   settings:
-    all_comments: "Todos los comentarios"
     from_settings_page: "Desde la página de configuración puedes ver tu historial de comentarios."
     my_comment_history: "Mi historial de comentarios"
     profile: Perfil
@@ -348,6 +347,7 @@ es:
   step_2_header: "Ayúdanos a comprender"
   step_3_header: "Gracias por tu participación"
   stream:
+    all_comments: "Todos los comentarios"
     temporarily_suspended: "De acuerdo con la guía de la comunidad de {0}, su cuenta ha sido temporalmente suspendida. Por favor unirse a la conversación {1}."
     comment_not_found: "Comentario no encontrado"
   streams:
