@@ -77,7 +77,10 @@ export default class Community extends Component {
 
     return (
       <div>
-        <FlaggedAccounts {...this.props} />
+        <FlaggedAccounts
+          data={this.props.data}
+          root={this.props.root}
+        />
         <RejectUsernameDialog
           open={community.rejectUsernameDialog}
           handleClose={props.hideRejectUsernameDialog}

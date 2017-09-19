@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
 import {withFragments} from 'plugin-api/beta/client/hocs';
 import {Spinner} from 'coral-ui';
+import PropTypes from 'prop-types';
 
 import {withSetUserStatus} from 'coral-framework/graphql/mutations';
 import {showBanUserDialog} from 'actions/banUserDialog';
@@ -24,7 +25,10 @@ class FlaggedAccountsContainer extends Component {
   }
 
   approveUser = ({userId}) => {
-    return this.props.setUserStatus({userId, status: 'APPROVED'});
+    return this.props.setUserStatus({
+      userId,
+      status: 'APPROVED'
+    });
   }
 
   loadMore = () => {
@@ -73,6 +77,16 @@ class FlaggedAccountsContainer extends Component {
     );
   }
 }
+
+FlaggedAccountsContainer.propTypes = {
+  showBanUserDialog: PropTypes.func,
+  showSuspendUserDialog: PropTypes.func,
+  showRejectUsernameDialog: PropTypes.func,
+  viewUserDetail: PropTypes.func,
+  setUserStatus: PropTypes.func,
+  data: PropTypes.object,
+  root: PropTypes.object
+};
 
 const LOAD_MORE_QUERY = gql`
   query TalkAdmin_LoadMoreFlaggedAccounts($limit: Int, $cursor: Cursor) {
