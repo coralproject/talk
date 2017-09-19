@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 
 import {Icon} from 'coral-ui';
-import ReplyBadge from 'coral-admin/src/components/ReplyBadge';
 import FlagBox from 'coral-admin/src/components/FlagBox';
 import styles from './styles.css';
-import CommentType from 'coral-admin/src/components/CommentType';
+import CommentLabels from 'coral-admin/src/components/CommentLabels';
 import CommentAnimatedEdit from 'coral-admin/src/components/CommentAnimatedEdit';
 import Slot from 'coral-framework/components/Slot';
 import {getActionSummary} from 'coral-framework/utils';
@@ -16,7 +15,6 @@ import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import CommentBodyHighlighter from 'coral-admin/src/components/CommentBodyHighlighter';
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
-import {getCommentType} from 'coral-admin/src/utils/comment';
 
 import t, {timeago} from 'coral-framework/services/i18n';
 
@@ -66,7 +64,6 @@ class Comment extends React.Component {
 
     const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
     const flagActions = comment.actions && comment.actions.filter((a) => a.__typename === 'FlagAction');
-    const commentType = getCommentType(comment);
 
     const selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
 
@@ -109,8 +106,11 @@ class Comment extends React.Component {
                 </ActionsMenu>
               }
               <div className={styles.adminCommentInfoBar}>
-                {comment.hasParent && <ReplyBadge/>}
-                <CommentType type={commentType} className={styles.commentType}/>
+                <CommentLabels
+                  status={comment.status}
+                  actions={comment.actions}
+                  isReply={!!comment.hasParent}
+                />
                 <Slot
                   fill="adminCommentInfoBar"
                   data={data}

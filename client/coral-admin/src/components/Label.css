@@ -1,0 +1,26 @@
+.root {
+  display: inline-block;
+  color: white;
+  background: grey;
+  box-sizing: border-box;
+  padding: 2px 5px;
+  font-size: 12px;
+  height: 24px;
+  letter-spacing: 0.4px;
+  line-height: 22px;
+  background: #063B9A;
+  min-width: 80px;
+  text-align: center;
+}
+
+.icon {
+  font-size: 14px;
+  vertical-align: text-top;
+  margin: 0;
+  margin-right: 4px;
+}
+
+.isFlag {
+  background: #d03235;
+}
+
