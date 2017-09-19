@@ -4,6 +4,7 @@ import CommunityMenu from './CommunityMenu';
 import People from './People';
 import FlaggedAccounts from '../containers/FlaggedAccounts';
 import RejectUsernameDialog from './RejectUsernameDialog';
+import PropTypes from 'prop-types';
 
 export default class Community extends Component {
 
@@ -101,3 +102,14 @@ export default class Community extends Component {
   }
 }
 
+Community.propTypes = {
+  community: PropTypes.object,
+  fetchAccounts: PropTypes.func,
+  hideRejectUsernameDialog: PropTypes.func,
+  updateSorting: PropTypes.func,
+  newPage: PropTypes.func,
+  route: PropTypes.object,
+  rejectUsername: PropTypes.func,
+  data: PropTypes.object,
+  root: PropTypes.object
+};
