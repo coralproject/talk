@@ -94,7 +94,7 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, au
   // If user queries for statuses other than NONE and/or ACCEPTED statuses, it needs
   // special priviledges.
   if (
-    statuses && statuses.some((status) => !['NONE', 'ACCEPTED'].includes(status)) &&
+    !statuses || statuses.some((status) => !['NONE', 'ACCEPTED'].includes(status)) &&
     (context.user == null || !context.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS))
   ) {
     return null;
@@ -291,7 +291,7 @@ const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, auth
   // If user queries for statuses other than NONE and/or ACCEPTED statuses, it needs
   // special priviledges.
   if (
-    statuses && statuses.some((status) => !['NONE', 'ACCEPTED'].includes(status)) &&
+    !statuses || statuses.some((status) => !['NONE', 'ACCEPTED'].includes(status)) &&
     (ctx.user == null || !ctx.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS))
   ) {
     return null;
