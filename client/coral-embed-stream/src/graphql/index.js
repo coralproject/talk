@@ -64,9 +64,12 @@ export default {
             hasNextPage
           }
         }
-        flags {
-          reason
-          message
+        actions {
+          __typename
+          ... on FlagAction {
+            reason
+            message
+          }
         }
       }
 
@@ -120,7 +123,7 @@ export default {
         createComment: {
           __typename: 'CreateCommentResponse',
           errors: null,
-          flags: [],
+          actions: [],
           comment: {
             __typename: 'Comment',
             user: {

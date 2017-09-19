@@ -2,11 +2,10 @@ const RootMutation = {
   createComment: async (_, {input}, {mutators: {Comment}, loaders: {Actions}}) => {
     const comment = await Comment.create(input);
 
-    // Retrieve flags that was assigned to comment.
+    // Retrieve actions that was assigned to comment.
     const actions = await Actions.getByID.load(comment.id);
-    const flags = actions.filter(({action_type}) => action_type === 'FLAG');
 
-    return {comment, flags};
+    return {comment, actions};
   },
   editComment: async (_, {id, asset_id, edit: {body}}, {mutators: {Comment}}) => ({
     comment: await Comment.edit({id, asset_id, edit: {body}}),

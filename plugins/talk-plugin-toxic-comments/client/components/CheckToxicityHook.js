@@ -23,8 +23,8 @@ export default class CheckToxicityHook extends React.Component {
     });
 
     this.toxicityPostHook = this.props.registerHook('postSubmit', (result) => {
-      const flags = result.createComment.flags;
-      if (flags && flags.some(({reason}) => reason === 'TOXIC_COMMENT')) {
+      const actions = result.createComment.actions;
+      if (actions && actions.some(({__typename, reason}) => __typename === 'FlagAction' && reason === 'TOXIC_COMMENT')) {
         this.props.notify('error', t('talk-plugin-toxic-comments.still_toxic'));
       }
 

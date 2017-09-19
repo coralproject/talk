@@ -261,7 +261,7 @@ enum ACTION_TYPE {
 # CommentsQuery allows the ability to query comments by a specific methods.
 input CommentsQuery {
 
-  # Author of the comments
+  # Author of the commente
   author_id: ID
 
   # Current status of a comment.
@@ -877,8 +877,8 @@ type CreateCommentResponse implements Response {
   # The comment that was created.
   comment: Comment
 
-  # Flags that was assigned during creation of the comment.
-  flags: [FlagAction]
+  # Actions that was assigned during creation of the comment.
+  actions: [Action]
 
   # An array of errors relating to the mutation that occurred.
   errors: [UserError!]
