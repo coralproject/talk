@@ -348,6 +348,9 @@ input UserCountQuery {
   # comments returned will only be ones which have at least one action of this
   # type.
   action_type: ACTION_TYPE
+
+  # Current status of a user.
+  statuses: [USER_STATUS]
 }
 
 type EditInfo {

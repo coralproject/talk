@@ -115,7 +115,7 @@ const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, 
  * @return {Promise}          resolves to the counts of the users from the
  *                            query
  */
-const getCountByQuery = async ({loaders: {Actions}}, {action_type}) => {
+const getCountByQuery = async ({loaders: {Actions}}, {action_type, statuses}) => {
   let query = UserModel.find();
 
   if (action_type) {
@@ -124,6 +124,14 @@ const getCountByQuery = async ({loaders: {Actions}}, {action_type}) => {
     query = query.find({
       id: {
         $in: userIds
+      }
+    });
+  }
+
+  if (statuses) {
+    query = query.where({
+      status: {
+        $in: statuses
       }
     });
   }
