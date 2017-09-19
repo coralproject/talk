@@ -13,18 +13,18 @@ export const name = 'talk-plugin-commentbox';
 
 const notifyReasons = ['LINKS', 'TRUST'];
 
-function shouldNotify(actions = []) {
-  return actions.some(({reason}) => notifyReasons.includes(reason));
+function shouldNotify(flags = []) {
+  return flags.some(({reason}) => notifyReasons.includes(reason));
 }
 
 // Given a newly posted comment's status, show a notification to the user
 // if needed
-export const notifyForNewCommentStatus = (notify, comment) => {
+export const notifyForNewCommentStatus = (notify, comment, flags) => {
   if (comment.status === 'REJECTED') {
     notify('error', t('comment_box.comment_post_banned_word'));
   } else if (
     comment.status === 'PREMOD' ||
-    comment.status === 'SYSTEM_WITHHELD' && shouldNotify(comment.actions)) {
+    comment.status === 'SYSTEM_WITHHELD' && shouldNotify(flags)) {
     notify('success', t('comment_box.comment_post_notif_premod'));
   }
 };
@@ -78,11 +78,12 @@ class CommentBox extends React.Component {
       .then(({data}) => {
         this.setState({loadingState: 'success', body: ''});
         const postedComment = data.createComment.comment;
+        const flags = data.createComment.flags;
 
         // Execute postSubmit Hooks
         this.state.hooks.postSubmit.forEach((hook) => hook(data));
 
-        notifyForNewCommentStatus(notify, postedComment);
+        notifyForNewCommentStatus(notify, postedComment, flags);
 
         if (commentPostedHandler) {
           commentPostedHandler();
