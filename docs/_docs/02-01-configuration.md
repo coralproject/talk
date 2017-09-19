@@ -96,6 +96,12 @@ These are only used during the webpack build.
   and you would then specify the CDN/Storage url. (Default `process.env.TALK_ROOT_URL`)
 - `TALK_DISABLE_STATIC_SERVER` (_optional_) - When `TRUE`, it will not mount the
   static asset serving routes on the router. (Default `FALSE`)
+- `TALK_HELMET_CONFIGURATION` (_optional_) - A JSON string representing the
+  configuration passed to the
+  [helmet](https://github.com/helmetjs/helmet) middleware. It can be used to
+  disable features like [HSTS](https://helmetjs.github.io/docs/hsts/) and others
+  by simply providing the configuration as detailed on the
+  [helmet README](https://github.com/helmetjs/helmet). (Default `{}`)
 
 ### Word Filter
 
