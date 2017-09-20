@@ -3,7 +3,7 @@ import * as actions from '../constants/userDetail';
 const initialState = {
   userId: null,
   activeTab: 'all',
-  statuses: [],
+  statuses: null,
   selectedCommentIds: [],
 };
 
