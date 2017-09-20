@@ -1,7 +1,12 @@
 const RootMutation = {
-  createComment: async (_, {input}, {mutators: {Comment}}) => ({
-    comment: await Comment.create(input),
-  }),
+  createComment: async (_, {input}, {mutators: {Comment}, loaders: {Actions}}) => {
+    const comment = await Comment.create(input);
+
+    // Retrieve actions that was assigned to comment.
+    const actions = await Actions.getByID.load(comment.id);
+
+    return {comment, actions};
+  },
   editComment: async (_, {id, asset_id, edit: {body}}, {mutators: {Comment}}) => ({
     comment: await Comment.edit({id, asset_id, edit: {body}}),
   }),

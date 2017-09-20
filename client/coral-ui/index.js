@@ -26,4 +26,5 @@ export {default as Option} from './components/Option';
 export {default as SnackBar} from './components/SnackBar';
 export {default as TextArea} from './components/TextArea';
 export {default as Drawer} from './components/Drawer';
-export {default as Badge} from './components/Badge';
+export {default as Label} from './components/Label';
+export {default as FlagLabel} from './components/FlagLabel';

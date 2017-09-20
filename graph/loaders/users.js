@@ -108,6 +108,40 @@ const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, 
 };
 
 /**
+ * Retrieves the count of users based on the passed in query.
+ * @param  {Object} context   graph context
+ * @param  {Object} query     query to execute against the users collection
+ *                            to compute the counts
+ * @return {Promise}          resolves to the counts of the users from the
+ *                            query
+ */
+const getCountByQuery = async ({loaders: {Actions}}, {action_type, statuses}) => {
+  let query = UserModel.find();
+
+  if (action_type) {
+    const userIds = await Actions.getByTypes({action_type, item_type: 'USERS'});
+
+    query = query.find({
+      id: {
+        $in: userIds
+      }
+    });
+  }
+
+  if (statuses) {
+    query = query.where({
+      status: {
+        $in: statuses
+      }
+    });
+  }
+
+  return UserModel
+    .find(query)
+    .count();
+};
+
+/**
  * Creates a set of loaders based on a GraphQL context.
  * @param  {Object} context the context of the GraphQL request
  * @return {Object}         object of loaders
@@ -115,6 +149,7 @@ const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, 
 module.exports = (context) => ({
   Users: {
     getByQuery: (query) => getUsersByQuery(context, query),
-    getByID: new DataLoader((ids) => genUserByIDs(context, ids))
+    getByID: new DataLoader((ids) => genUserByIDs(context, ids)),
+    getCountByQuery: (query) => getCountByQuery(context, query)
   }
 });

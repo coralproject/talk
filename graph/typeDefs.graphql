@@ -261,11 +261,12 @@ enum ACTION_TYPE {
 # CommentsQuery allows the ability to query comments by a specific methods.
 input CommentsQuery {
 
-  # Author of the comments
+  # Author of the commente
   author_id: ID
 
-  # Current status of a comment. Requires the `ADMIN` role.
-  statuses: [COMMENT_STATUS!]
+  # Current status of a comment.
+  # This field is restricted.
+  statuses: [COMMENT_STATUS!] = [NONE, ACCEPTED]
 
   # Asset that a comment is on.
   asset_id: ID
@@ -317,8 +318,9 @@ input RepliesQuery {
 # methods.
 input CommentCountQuery {
 
-  # Current status of a comment. Requires the `ADMIN` role.
-  statuses: [COMMENT_STATUS!]
+  # Current status of a comment.
+  # This field is restricted.
+  statuses: [COMMENT_STATUS!] = [NONE, ACCEPTED]
 
   # Asset that a comment is on.
   asset_id: ID
@@ -339,6 +341,18 @@ input CommentCountQuery {
 
   # Filter by a specific tag name.
   tags: [String!]
+}
+
+# UserCountQuery allows the ability to query user counts by specific
+# methods.
+input UserCountQuery {
+
+  # comments returned will only be ones which have at least one action of this
+  # type.
+  action_type: ACTION_TYPE
+
+  # Current status of a user.
+  statuses: [USER_STATUS]
 }
 
 type EditInfo {
@@ -688,7 +702,7 @@ type Asset {
 
   # The comments that are attached to the asset. When `deep` is true, the
   # comments returned will be at all depths.
-  comments(query: CommentsQuery = {}, deep: Boolean = false): CommentConnection!
+  comments(query: CommentsQuery = {}, deep: Boolean = false): CommentConnection
 
   # A Comment from the Asset by comment's ID
   comment(id: ID!): Comment
@@ -838,6 +852,10 @@ type RootQuery {
   # expensive as it is not batched. Requires the `ADMIN` role.
   commentCount(query: CommentCountQuery!): Int
 
+  # Return the count of users satisfied by the query. Note that this edge is
+  # expensive as it is not batched. This field is restricted.
+  userCount(query: UserCountQuery!): Int
+
   # The currently logged in user based on the request. Requires any logged in
   # role.
   me: User
@@ -874,6 +892,9 @@ type CreateCommentResponse implements Response {
 
   # The comment that was created.
   comment: Comment
+
+  # Actions that was assigned during creation of the comment.
+  actions: [Action]
 
   # An array of errors relating to the mutation that occurred.
   errors: [UserError!]

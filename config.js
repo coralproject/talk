@@ -80,6 +80,14 @@ const CONFIG = {
   INSTALL_LOCK: process.env.TALK_INSTALL_LOCK === 'TRUE',
 
   //------------------------------------------------------------------------------
+  // Middleware Configuration
+  //------------------------------------------------------------------------------
+
+  // HELMET_CONFIGURATION provides the entrypoint to override options for the
+  // helmet middleware used.
+  HELMET_CONFIGURATION: JSON.parse(process.env.TALK_HELMET_CONFIGURATION || '{}'),
+
+  //------------------------------------------------------------------------------
   // External database url's
   //------------------------------------------------------------------------------
 

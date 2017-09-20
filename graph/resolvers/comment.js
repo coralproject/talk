@@ -26,6 +26,7 @@ const Comment = {
 
     query.asset_id = asset_id;
     query.parent_id = id;
+    query.statuses = ['NONE', 'ACCEPTED'];
 
     return Comments.getByQuery(query);
   },

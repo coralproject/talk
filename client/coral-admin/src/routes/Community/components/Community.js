@@ -4,6 +4,7 @@ import CommunityMenu from './CommunityMenu';
 import People from './People';
 import FlaggedAccounts from '../containers/FlaggedAccounts';
 import RejectUsernameDialog from './RejectUsernameDialog';
+import PropTypes from 'prop-types';
 
 export default class Community extends Component {
 
@@ -76,7 +77,10 @@ export default class Community extends Component {
 
     return (
       <div>
-        <FlaggedAccounts />
+        <FlaggedAccounts
+          data={this.props.data}
+          root={this.props.root}
+        />
         <RejectUsernameDialog
           open={community.rejectUsernameDialog}
           handleClose={props.hideRejectUsernameDialog}
@@ -90,15 +94,25 @@ export default class Community extends Component {
   render() {
     const {searchValue} = this.state;
     const tab = this.getTabContent(searchValue, this.props);
+    const {root: {flaggedUsernamesCount}} = this.props;
 
     return (
       <div>
-        <CommunityMenu />
-        <div>
-          { tab }
-        </div>
+        <CommunityMenu flaggedUsernamesCount={flaggedUsernamesCount} />
+        <div>{tab}</div>
       </div>
     );
   }
 }
 
+Community.propTypes = {
+  community: PropTypes.object,
+  fetchAccounts: PropTypes.func,
+  hideRejectUsernameDialog: PropTypes.func,
+  updateSorting: PropTypes.func,
+  newPage: PropTypes.func,
+  route: PropTypes.object,
+  rejectUsername: PropTypes.func,
+  data: PropTypes.object,
+  root: PropTypes.object
+};

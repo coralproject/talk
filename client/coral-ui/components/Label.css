@@ -1,4 +1,4 @@
-.badge {
+.root {
   display: inline-block;
   color: white;
   background: grey;
@@ -8,8 +8,8 @@
   height: 24px;
   letter-spacing: 0.4px;
   line-height: 22px;
-  background-color: #3D73D5;
-  margin-right: 4px;
+  min-width: 80px;
+  text-align: center;
 }
 
 .icon {
@@ -18,3 +18,5 @@
   margin: 0;
   margin-right: 4px;
 }
+
+
