@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Icon} from '../coral-ui';
 import styles from './Comment.css';
 import Slot from 'coral-framework/components/Slot';
-import PubDate from 'coral-framework/components/PubDate';
+import CommentTimestamp from 'coral-framework/components/CommentTimestamp';
 import CommentContent from '../coral-embed-stream/src/components/CommentContent';
 import cn from 'classnames';
 import {getTotalReactionsCount} from 'coral-framework/utils';
@@ -62,7 +62,7 @@ class Comment extends React.Component {
               <Icon name="schedule" className={styles.iconDate} />
               <Slot
                 fill="historyCommentTimestamp"
-                defaultComponent={PubDate}
+                defaultComponent={CommentTimestamp}
                 className={'talk-history-comment-published-date'}
                 created_at={comment.created_at}
                 data={data}

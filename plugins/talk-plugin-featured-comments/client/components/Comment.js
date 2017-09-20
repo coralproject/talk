@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './Comment.css';
 import {t} from 'plugin-api/beta/client/services';
-import {Slot, CommentAuthorName, PubDate} from 'plugin-api/beta/client/components';
+import {Slot, CommentAuthorName, CommentTimestamp} from 'plugin-api/beta/client/components';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 import {pluginName} from '../../package.json';
 import FeaturedButton from '../containers/FeaturedButton';
@@ -36,8 +36,8 @@ class Comment extends React.Component {
 
           <Slot
             fill="commentTimestamp"
-            defaultComponent={PubDate}
-            className={cn(styles.timestamp, `${pluginName}-comment-timeago`)}
+            defaultComponent={CommentTimestamp}
+            className={cn(styles.timestamp, `${pluginName}-comment-timestamp`)}
             created_at={comment.created_at}
             data={data}
             queryData={queryData}
