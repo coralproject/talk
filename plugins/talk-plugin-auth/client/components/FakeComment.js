@@ -1,9 +1,9 @@
 import React from 'react';
 import t from 'coral-framework/services/i18n';
 import {ReplyButton} from 'talk-plugin-replies';
-import PubDate from 'talk-plugin-pubdate/PubDate';
 import styles from './FakeComment.css';
 import {Icon} from 'plugin-api/beta/client/components/ui';
+import {PubDate} from 'plugin-api/beta/client/components';
 
 export const FakeComment = ({username, created_at, body}) => (
   <div className={styles.root}>
