@@ -54,7 +54,7 @@ class Comment extends React.Component {
         <div className={styles.sidebar}>
           <ul>
             <li>
-              <a onClick={link(`${comment.asset.url}?commentId=${comment.id}`)}>
+              <a onClick={link(`${comment.asset.url}?commentId=${comment.id}`)} className={styles.viewLink}>
                 <Icon name="open_in_new" className={styles.iconView}/>{t('view_conversation')}
               </a>
             </li>

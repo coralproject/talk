@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {timeago} from 'coral-framework/services/i18n';
+import cn from 'classnames';
+import styles from './PubDate.css';
 
-const name = 'talk-plugin-pubdate';
-
-const PubDate = ({created_at}) => <div className={`${name}-text`}>
-  {timeago(created_at)}
-</div>;
+const PubDate = ({className, created_at}) => (
+  <div className={cn(className, styles.pubdate, 'talk-comment-pubdate')}>
+    {timeago(created_at)}
+  </div>
+);
 
 PubDate.propTypes = {
+  className: PropTypes.string,
   created_at: PropTypes.string,
 };
 
