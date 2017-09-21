@@ -233,8 +233,7 @@ pt_BR:
     success_name_update: "Seu nome de usuário foi atualizado"
     success_update_settings: "As alterações que você fez foram aplicadas no hilo de comentários neste artigo"
     show_all_replies: Exibir todas as respostas
-    show_1_more_reply: Exibir mais 1 resposta
-    show_x_more_replies: Exibir mais {0} respostas
+    show_more_replies: Exibir mais respostas
     view_more_comments: "ver mais comentários"
     view_reply: "ver resposta"
   from_settings_page: "Na página de Perfil, você pode ver seu histórico de comentários."
