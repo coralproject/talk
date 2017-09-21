@@ -9,11 +9,8 @@ class LoadMore extends React.Component {
     if (!count) {
       return t('framework.show_all_replies');
     }
-    if (count === 1) {
-      return t('framework.show_1_more_reply');
-    }
 
-    return t('framework.show_x_more_replies', count);
+    return t('framework.show_more_replies');
   }
 
   render () {
