@@ -6,8 +6,43 @@ import styles from './styles.css';
 import EmptyCard from '../../../components/EmptyCard';
 import {actionsMap} from '../../../utils/moderationQueueActionsMap';
 import LoadMore from '../../../components/LoadMore';
+import ViewMore from './ViewMore';
 import t from 'coral-framework/services/i18n';
 import {CSSTransitionGroup} from 'react-transition-group';
+
+const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
+
+// resetCursors will return the id cursors of the first and second comment of
+// the current comment list. The cursors are used to dertermine which
+// comments to show. The spare cursor functions as a backup in case one
+// of the comments gets deleted.
+function resetCursors(state, props) {
+  if (props.comments && props.comments.length) {
+    const idCursors = [props.comments[0].id];
+    if (props.comments[1]) {
+      idCursors.push(props.comments[1].id);
+    }
+    return {idCursors};
+  }
+  return {idCursors: []};
+}
+
+// invalidateCursor is called whenever a comment is removed which is referenced
+// by one of the 2 id cursors. It returns a new set of id cursors calculated
+// using the help of the backup cursor.
+function invalidateCursor(invalidated, state, props) {
+  const alt = invalidated === 1 ? 0 : 1;
+  const idCursors = [];
+  if (state.idCursors[alt]) {
+    idCursors.push(state.idCursors[alt]);
+    const index = props.comments.findIndex((node) => node.id === idCursors[0]);
+    const nextInLine = props.comments[index + 1];
+    if (nextInLine) {
+      idCursors.push(nextInLine.id);
+    }
+  }
+  return {idCursors};
+}
 
 class ModerationQueue extends React.Component {
   isLoadingMore = false;
@@ -38,6 +73,9 @@ class ModerationQueue extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      ...resetCursors(this.state, props),
+    };
   }
 
   componentDidUpdate (prev) {
@@ -51,6 +89,59 @@ class ModerationQueue extends React.Component {
     }
   }
 
+  componentWillReceiveProps(next) {
+    const {comments: prevComments} = this.props;
+    const {comments: nextComments} = next;
+
+    if (!prevComments && nextComments) {
+      this.setState(resetCursors);
+      return;
+    }
+
+    if (
+      prevComments && nextComments &&
+        nextComments.length < prevComments.length
+    ) {
+
+      // Invalidate first cursor if referenced comment was removed.
+      if (this.state.idCursors[0] && !hasComment(nextComments, this.state.idCursors[0])) {
+        this.setState(invalidateCursor(0, this.state, next));
+      }
+
+      // Invalidate second cursor if referenced comment was removed.
+      if (this.state.idCursors[1] && !hasComment(nextComments, this.state.idCursors[1])) {
+        this.setState(invalidateCursor(1, this.state, next));
+      }
+    }
+  }
+
+  viewNewComments = () => {
+    this.setState(resetCursors);
+  };
+
+  // getVisibileComments returns a list containing comments
+  // which comes after the `idCursor`.
+  getVisibleComments() {
+    const {comments} = this.props;
+    const idCursor = this.state.idCursors[0];
+
+    if (!comments) {
+      return [];
+    }
+
+    const view = [];
+    let pastCursor = false;
+    comments.forEach((comment) => {
+      if (comment.id === idCursor) {
+        pastCursor = true;
+      }
+      if (pastCursor) {
+        view.push(comment);
+      }
+    });
+    return view;
+  }
+
   render () {
     const {
       comments,
@@ -62,8 +153,14 @@ class ModerationQueue extends React.Component {
       ...props
     } = this.props;
 
+    const view = this.getVisibleComments();
+
     return (
       <div id="moderationList" className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
+        <ViewMore
+          viewMore={this.viewNewComments}
+          count={comments.length - view.length}
+        />
         <CSSTransitionGroup
           key={activeTab}
           component={'ul'}
@@ -80,7 +177,7 @@ class ModerationQueue extends React.Component {
           transitionLeaveTimeout={1000}
         >
           {
-            comments.map((comment, i) => {
+            view.map((comment, i) => {
               const status = comment.action_summaries ? 'FLAGGED' : comment.status;
               return <Comment
                 data={this.props.data}

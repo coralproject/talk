@@ -1,0 +1,21 @@
+.viewMoreContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.viewMore {
+  width: 100%;
+  text-align: center;
+  color: #FFF;
+  max-width: 660px;
+  margin-bottom: 30px;
+  background-color: #2376D8;
+  cursor: pointer;
+}
+
+.viewMore:hover {
+  background-color: #4399FF;
+}
+
+
