@@ -231,7 +231,7 @@ es:
       msg: "Tu cuenta está suspendida porque tu nombre de usuario ha sido considerado no apropiado para el espacio. Para recuperar la cuenta, por favor ingresar un nuevo nombre de usuario. Contáctanos si tienes alguna pregunta."
     my_comments: "Mis Comentarios"
     my_profile: "Mi perfil"
-    new_count: "Ver {0} {1} nuevo"
+    new_count: "Ver {0} más {1} "
     profile: Perfil
     show_all_comments: "Mostrar todos los comentarios"
     success_bio_update: "Tu biografia fue actualizada"

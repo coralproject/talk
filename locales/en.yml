@@ -233,7 +233,7 @@ en:
       msg: "Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions."
     my_comments: "My Comments"
     my_profile: "My profile"
-    new_count: "View {0} new {1}"
+    new_count: "View {0} more {1}"
     profile: Profile
     show_all_comments: "Show all comments"
     success_bio_update: "Your biography has been updated"
