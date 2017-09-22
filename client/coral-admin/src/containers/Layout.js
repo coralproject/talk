@@ -25,6 +25,7 @@ class LayoutContainer extends Component {
     checkLogin();
     fetchConfig();
   }
+
   render() {
 
     const {
@@ -65,8 +66,8 @@ class LayoutContainer extends Component {
         <Layout
           handleLogout={logout}
           toggleShortcutModal={toggleShortcutModal}
-          {...this.props}
-        >
+          root={this.props.root} 
+          auth={this.props.auth} >
           <BanUserDialog />
           <SuspendUserDialog />
           <UserDetail />

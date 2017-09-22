@@ -6,11 +6,13 @@ import styles from './Header.css';
 import t from 'coral-framework/services/i18n';
 import {Logo} from './Logo';
 import {can} from 'coral-framework/services/perms';
+import Indicator from './Indicator';
 
 const CoralHeader = ({
   handleLogout,
   showShortcuts = () => {},
-  auth
+  auth,
+  root,
 }) => (
   <Header className={styles.header}>
     <Logo className={styles.logo} />
@@ -33,6 +35,7 @@ const CoralHeader = ({
                   to="/admin/moderate"
                   activeClassName={styles.active}>
                   {t('configure.moderate')}
+                  <Indicator />
                 </Link>
               )
             }
@@ -43,13 +46,16 @@ const CoralHeader = ({
               activeClassName={styles.active}>
               {t('configure.stories')}
             </Link>
+
             <Link
               id='communityNav'
               className={styles.navLink}
               to="/admin/community"
               activeClassName={styles.active}>
               {t('configure.community')}
+              {root.flaggedUsernamesCount !== 0 && <Indicator />}
             </Link>
+
             {
               can(auth.user, 'UPDATE_CONFIG') && (
                 <Link

@@ -8,15 +8,22 @@ import styles from './Layout.css';
 const Layout = ({
   children,
   handleLogout = () => {},
-  toggleShortcutModal,
+  toggleShortcutModal = () => {},
   restricted = false,
-  ...props}) => (
+  root,
+  auth,
+}) => (
   <LayoutMDL className={styles.layout} fixedDrawer>
     <Header
       handleLogout={handleLogout}
       showShortcuts={toggleShortcutModal}
-      {...props} />
-    <Drawer handleLogout={handleLogout} restricted={restricted} {...props} />
+      root={root}
+      auth={auth}
+    />
+    <Drawer 
+      handleLogout={handleLogout}
+      restricted={restricted}
+    />
     <div className={styles.layout}>
       {children}
     </div>
@@ -24,6 +31,9 @@ const Layout = ({
 );
 
 Layout.propTypes = {
+  children: PropTypes.node,
+  auth: PropTypes.object,
+  root: PropTypes.object,
   handleLogout: PropTypes.func,
   toggleShortcutModal: PropTypes.func,
   restricted: PropTypes.bool // hide elements from a user that's logged out
