@@ -183,7 +183,7 @@ class Moderation extends Component {
   }
 
   render () {
-    const {root, data, moderation, settings, viewUserDetail, hideUserDetail, activeTab, getModPath, queueConfig, handleCommentChange, ...props} = this.props;
+    const {root, data, moderation, settings, viewUserDetail, activeTab, getModPath, queueConfig, handleCommentChange, ...props} = this.props;
     const {asset} = root;
     const assetId = asset && asset.id;
 
@@ -234,7 +234,6 @@ class Moderation extends Component {
           commentCount={activeTabCount}
           currentUserId={this.props.auth.user.id}
           viewUserDetail={viewUserDetail}
-          hideUserDetail={hideUserDetail}
         />
         <ModerationKeysModal
           hideShortcutsNote={props.hideShortcutsNote}
@@ -263,8 +262,6 @@ class Moderation extends Component {
 
 Moderation.propTypes = {
   viewUserDetail: PropTypes.func.isRequired,
-  hideUserDetail: PropTypes.func.isRequired,
-  singlView: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   toggleStorySearch: PropTypes.func.isRequired,
   getModPath: PropTypes.func.isRequired,
@@ -280,7 +277,7 @@ Moderation.propTypes = {
   rejectComment: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
   loadMore: PropTypes.func.isRequired,
-  singleView: PropTypes.bool,
+  singleView: PropTypes.func.isRequired,
   activeTab: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
