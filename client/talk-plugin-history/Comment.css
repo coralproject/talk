@@ -49,25 +49,30 @@
 
   li {
     margin-bottom: 5px;
-
-    &:nth-child(1) {
-      color: #5394D7;
-    }
-
-    &:nth-child(2) {
-      color: #909090;
-    }
-
-
-    i {
-      margin-right: 5px;
-      font-size: 15px;
-    }
-
-    a:hover {
-      cursor: pointer;
-    }
   }
+}
+
+.viewLink {
+  color: #5394D7;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.iconView {
+  margin-right: 5px;
+  font-size: 15px;
+  vertical-align: middle;
+  padding-bottom: 1px;
+}
+
+.iconDate {
+  margin-right: 5px;
+  font-size: 15px;
+  color: #696969;
+  vertical-align: middle;
+  padding-bottom: 1px;
 }
 
 @custom-media --mobile-viewport (max-width: 480px);
@@ -92,7 +97,3 @@
   color: inherit;
 }
 
-.iconView, .iconDate {
-  vertical-align: middle;
-  padding-bottom: 1px;
-}

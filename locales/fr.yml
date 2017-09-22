@@ -190,7 +190,7 @@ fr:
       msg: "Votre compte est actuellement suspendu car votre nom d'utilisateur a été jugé inapproprié. Pour restaurer votre compte, entrez un nouveau nom d'utilisateur. Contactez-nous si vous avez des questions."
     my_comments: "Mes commentaires"
     my_profile: "Mon profil"
-    new_count: "Voir {0} nouveau {1}"
+    new_count: "Voir {0} plus {1}"
     profile: Profil
     show_all_comments: "Afficher tous les commentaires"
     success_bio_update: "Votre biographie a été mise à jour"

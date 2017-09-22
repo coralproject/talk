@@ -31,7 +31,7 @@ const CreateUsernameDialog = ({
         <FakeComment
           className={styles.fakeComment}
           username={formData.username}
-          created_at={Date.now()}
+          created_at={new Date().toISOString()}
           body={t('createdisplay.fake_comment_body')}
         />
         <p className={styles.ifyoudont}>

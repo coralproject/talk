@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Icon} from '../coral-ui';
 import styles from './Comment.css';
 import Slot from 'coral-framework/components/Slot';
-import PubDate from '../talk-plugin-pubdate/PubDate';
+import CommentTimestamp from 'coral-framework/components/CommentTimestamp';
 import CommentContent from '../coral-embed-stream/src/components/CommentContent';
 import cn from 'classnames';
 import {getTotalReactionsCount} from 'coral-framework/utils';
@@ -15,6 +15,7 @@ class Comment extends React.Component {
   render() {
     const {comment, link, data, root} = this.props;
     const reactionCount = getTotalReactionsCount(comment.action_summaries);
+    const queryData = {root, comment, asset: comment.asset};
 
     return (
       <div className={styles.myComment}>
@@ -24,7 +25,7 @@ class Comment extends React.Component {
             defaultComponent={CommentContent}
             className={cn(styles.commentBody, 'my-comment-body')}
             data={data}
-            queryData={{root, comment, asset: comment.asset}}
+            queryData={queryData}
           />
           <div className={cn(styles.commentSummary, 'comment-summary')}>
             <span className={cn(styles.commentSummaryReactions, 'comment-summary-reactions', {[styles.countZero]: reactionCount === 0})}>
@@ -37,7 +38,7 @@ class Comment extends React.Component {
             <span className={cn('comment-summary-replies', {[styles.countZero]: comment.replyCount === 0})}>
               <Icon name="reply" />
               <span className={cn(styles.replyCount, 'comment-summary-reply-count')}>
-                {comment.replyCount} 
+                {comment.replyCount}
               </span>
               {comment.replyCount === 1 ? t('common.reply') : t('common.replies')}
             </span>
@@ -53,15 +54,20 @@ class Comment extends React.Component {
         <div className={styles.sidebar}>
           <ul>
             <li>
-              <a onClick={link(`${comment.asset.url}?commentId=${comment.id}`)}>
+              <a onClick={link(`${comment.asset.url}?commentId=${comment.id}`)} className={styles.viewLink}>
                 <Icon name="open_in_new" className={styles.iconView}/>{t('view_conversation')}
               </a>
             </li>
             <li>
               <Icon name="schedule" className={styles.iconDate} />
-              <PubDate
-                className={styles.pubdate}
+              <Slot
+                fill="historyCommentTimestamp"
+                defaultComponent={CommentTimestamp}
+                className={'talk-history-comment-published-date'}
                 created_at={comment.created_at}
+                data={data}
+                queryData={queryData}
+                inline
               />
             </li>
           </ul>
