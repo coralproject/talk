@@ -67,8 +67,8 @@ export default class Moderation extends Component {
     return root[activeTab].nodes;
   }
 
-  scrollTo = (toId) =>
-    document.querySelector(`#comment_${toId}`).scrollIntoView({behavior: 'smooth'});
+  scrollTo = (toId, smooth = true) =>
+    document.querySelector(`#comment_${toId}`).scrollIntoView(smooth ? {behavior: 'smooth'} : {});
 
   select = async (next, props = this.props, selectedCommentId = this.state.selectedCommentId) => {
     const comments = this.getComments(props);
@@ -177,7 +177,7 @@ export default class Moderation extends Component {
 
     // Scroll to comment when changing from single wiew to normal view.
     if (prevProps.moderation.singleView !== this.props.moderation.singleView && this.state.selectedCommentId) {
-      this.scrollTo(this.state.selectedCommentId);
+      this.scrollTo(this.state.selectedCommentId, false);
     }
   }
 
