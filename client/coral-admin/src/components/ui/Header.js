@@ -35,7 +35,7 @@ const CoralHeader = ({
                   to="/admin/moderate"
                   activeClassName={styles.active}>
                   {t('configure.moderate')}
-                  <Indicator />
+                  {(root.premodCount !== 0  || root.reportedCount !== 0) && <Indicator />}
                 </Link>
               )
             }

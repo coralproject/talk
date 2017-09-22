@@ -17,6 +17,7 @@ import withQuery from 'coral-framework/hocs/withQuery';
 import {bindActionCreators} from 'redux';
 import {getDefinitionName} from 'coral-framework/utils';
 import Community from '../routes/Community/containers/Community';
+import Header from '../containers/Header';
 
 class LayoutContainer extends Component {
   componentWillMount() {
@@ -105,8 +106,10 @@ LayoutContainer.propTypes = {
 
 const withData = withQuery(gql`
   query TalkAdmin_initialQuery {
+    ...${getDefinitionName(Header.fragments.root)}
     ...${getDefinitionName(Community.fragments.root)}
   }
+  ${Header.fragments.root}
   ${Community.fragments.root}
   `, {
   options: {
