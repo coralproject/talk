@@ -35,7 +35,7 @@ const CoralHeader = ({
                   to="/admin/moderate"
                   activeClassName={styles.active}>
                   {t('configure.moderate')}
-                  {(root.premodCount !== 0  || root.reportedCount !== 0) && <Indicator />}
+                  {(root.premodCount || root.reportedCount) && <Indicator />}
                 </Link>
               )
             }
@@ -53,7 +53,7 @@ const CoralHeader = ({
               to="/admin/community"
               activeClassName={styles.active}>
               {t('configure.community')}
-              {root.flaggedUsernamesCount !== 0 && <Indicator />}
+              {root.flaggedUsernamesCount && <Indicator />}
             </Link>
 
             {
