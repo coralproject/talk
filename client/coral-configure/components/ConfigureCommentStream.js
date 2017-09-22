@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Checkbox} from 'coral-ui';
 import QuestionBoxBuilder from './QuestionBoxBuilder';
+import cn from 'classnames';
 
 import styles from './ConfigureCommentStream.css';
 
@@ -13,7 +14,7 @@ export default ({handleChange, handleApply, changed, ...props}) => (
         <h3>{t('configure.title')}</h3>
         <Button
           type="submit"
-          className={styles.apply}
+          className={cn(styles.apply, 'configureCommentStreamSubmitButton')}
           onChange={handleChange}
           cStyle={changed ? 'green' : 'darkGrey'} >
           {t('configure.apply')}
