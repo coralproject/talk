@@ -529,7 +529,7 @@ export default class Comment extends React.Component {
             <div className={cn(styles.footer, 'talk-stream-comment-footer')}>
               {isActive &&
                 <div className={'talk-stream-comment-actions-container'}>
-                  <div className="commentActionsLeft comment__action-container">
+                  <div className="commentActionsLeftContainer commentActionsLeft comment__action-container">
                     <Slot
                       fill="commentReactions"
                       {...slotProps}
@@ -545,7 +545,7 @@ export default class Comment extends React.Component {
                         />
                       </ActionButton>}
                   </div>
-                  <div className="commentActionsRight comment__action-container">
+                  <div className="commentActionsRightContainer commentActionsRight comment__action-container">
                     <Slot
                       fill="commentActions"
                       wrapperComponent={ActionButton}
