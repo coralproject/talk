@@ -1,11 +1,13 @@
-.list {
+.root {
   padding: 8px 0;
   list-style: none;
   display: block;
+  margin-top: 16px;
 }
 
-.emptyCardContainer {
-  margin-top: 16px;
+.list {
+  padding: 0;
+  margin: 0;
 }
 
 .commentLeave {

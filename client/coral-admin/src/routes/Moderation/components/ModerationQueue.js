@@ -143,10 +143,8 @@ class ModerationQueue extends React.Component {
 
     if (comments.length === 0) {
       return (
-        <div id="moderationList" className={styles.list}>
-          <div className={styles.emptyCardContainer}>
-            <EmptyCard>{t('modqueue.empty_queue')}</EmptyCard>
-          </div>
+        <div className={styles.root}>
+          <EmptyCard>{t('modqueue.empty_queue')}</EmptyCard>
         </div>
       );
     }
@@ -156,7 +154,7 @@ class ModerationQueue extends React.Component {
       const comment = comments[index];
       const status = comment.action_summaries ? 'FLAGGED' : comment.status;
       return (
-        <div id="moderationList" className={styles.list}>
+        <div className={styles.root}>
           <Comment
             data={this.props.data}
             root={this.props.root}
@@ -181,7 +179,7 @@ class ModerationQueue extends React.Component {
     const view = this.getVisibleComments();
 
     return (
-      <div id="moderationList" className={styles.list}>
+      <div className={styles.root}>
         <ViewMore
           viewMore={this.viewNewComments}
           count={comments.length - view.length}
@@ -189,7 +187,7 @@ class ModerationQueue extends React.Component {
         <CSSTransitionGroup
           key={activeTab}
           component={'ul'}
-          style={{paddingLeft: 0}}
+          className={styles.list}
           transitionName={{
             enter: styles.commentEnter,
             enterActive: styles.commentEnterActive,
