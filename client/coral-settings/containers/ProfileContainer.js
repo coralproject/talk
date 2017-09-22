@@ -71,7 +71,7 @@ class ProfileContainer extends Component {
     const emailAddress = localProfile && localProfile.id;
 
     return (
-      <div>
+      <div className='profileContainer'>
         <h2>{user.username}</h2>
         {emailAddress ? <p>{emailAddress}</p> : null}
 
