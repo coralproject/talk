@@ -25,7 +25,8 @@ Story.propTypes = {
   author: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  open: PropTypes.bool.isRequired
+  open: PropTypes.bool.isRequired,
+  goToStory: PropTypes.func.isRequired,
 };
 
 export default Story;

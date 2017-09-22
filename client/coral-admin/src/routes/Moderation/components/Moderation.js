@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import key from 'keymaster';
 
 import ModerationQueue from './ModerationQueue';
@@ -8,7 +9,7 @@ import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import StorySearch from '../containers/StorySearch';
 import Slot from 'coral-framework/components/Slot';
 
-export default class Moderation extends Component {
+class Moderation extends Component {
   constructor(props) {
     super(props);
     const comments = this.getComments(props);
@@ -259,3 +260,30 @@ export default class Moderation extends Component {
     );
   }
 }
+
+Moderation.propTypes = {
+  viewUserDetail: PropTypes.func.isRequired,
+  hideUserDetail: PropTypes.func.isRequired,
+  singlView: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  toggleStorySearch: PropTypes.func.isRequired,
+  getModPath: PropTypes.func.isRequired,
+  storySearchChange: PropTypes.func.isRequired,
+  moderation: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
+  queueConfig: PropTypes.object.isRequired,
+  handleCommentChange: PropTypes.func.isRequired,
+  setSortOrder: PropTypes.func.isRequired,
+  showBanUserDialog: PropTypes.func.isRequired,
+  showSuspendUserDialog: PropTypes.func.isRequired,
+  rejectComment: PropTypes.func.isRequired,
+  acceptComment: PropTypes.func.isRequired,
+  loadMore: PropTypes.func.isRequired,
+  singleView: PropTypes.bool,
+  activeTab: PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
+};
+
+export default Moderation;

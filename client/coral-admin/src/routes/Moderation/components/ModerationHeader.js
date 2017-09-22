@@ -30,7 +30,8 @@ ModerationHeader.propTypes = {
     id: PropTypes.string
   }),
   openSearch: PropTypes.func.isRequired,
-  closeSearch: PropTypes.func.isRequired
+  closeSearch: PropTypes.func.isRequired,
+  searchVisible: PropTypes.bool,
 };
 
 export default ModerationHeader;

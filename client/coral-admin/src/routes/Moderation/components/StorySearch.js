@@ -93,7 +93,13 @@ StorySearch.propTypes = {
   clearAndCloseSearch: PropTypes.func.isRequired,
   moderation: PropTypes.object.isRequired,
   handleSearchChange: PropTypes.func.isRequired,
-  assetId: PropTypes.string
+  assetId: PropTypes.string,
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
+  handleEsc: PropTypes.func.isRequired,
+  handleEnter: PropTypes.func.isRequired,
+  goToModerateAll: PropTypes.func.isRequired,
+  searchValue: PropTypes.string,
 };
 
 export default StorySearch;

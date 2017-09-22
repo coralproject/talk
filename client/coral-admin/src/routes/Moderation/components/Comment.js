@@ -226,8 +226,12 @@ Comment.propTypes = {
       title: PropTypes.string,
       url: PropTypes.string,
       id: PropTypes.string
-    })
-  })
+    }),
+  }),
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
+  actions: PropTypes.array.isRequired,
+  selected: PropTypes.bool,
 };
 
 export default Comment;

@@ -49,7 +49,11 @@ ModerationMenu.propTypes = {
   items: PropTypes.array.isRequired,
   asset: PropTypes.shape({
     id: PropTypes.string
-  })
+  }),
+  selectSort: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
+  getModPath: PropTypes.func.isRequired,
+  activeTab: PropTypes.string.isRequired,
 };
 
 export default ModerationMenu;

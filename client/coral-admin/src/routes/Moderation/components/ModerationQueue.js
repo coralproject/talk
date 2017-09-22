@@ -47,18 +47,6 @@ function invalidateCursor(invalidated, state, props) {
 class ModerationQueue extends React.Component {
   isLoadingMore = false;
 
-  static propTypes = {
-    viewUserDetail: PropTypes.func.isRequired,
-    bannedWords: PropTypes.arrayOf(PropTypes.string).isRequired,
-    suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
-    currentAsset: PropTypes.object,
-    showBanUserDialog: PropTypes.func.isRequired,
-    showSuspendUserDialog: PropTypes.func.isRequired,
-    rejectComment: PropTypes.func.isRequired,
-    acceptComment: PropTypes.func.isRequired,
-    comments: PropTypes.array.isRequired
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -232,5 +220,25 @@ class ModerationQueue extends React.Component {
     );
   }
 }
+
+ModerationQueue.propTypes = {
+  viewUserDetail: PropTypes.func.isRequired,
+  bannedWords: PropTypes.arrayOf(PropTypes.string).isRequired,
+  suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentAsset: PropTypes.object,
+  showBanUserDialog: PropTypes.func.isRequired,
+  showSuspendUserDialog: PropTypes.func.isRequired,
+  rejectComment: PropTypes.func.isRequired,
+  acceptComment: PropTypes.func.isRequired,
+  comments: PropTypes.array.isRequired,
+  commentCount: PropTypes.number.isRequired,
+  loadMore: PropTypes.func.isRequired,
+  selectedCommentId: PropTypes.string,
+  singleView: PropTypes.bool,
+  activeTab: PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
+  currentUserId: PropTypes.string.isRequired,
+};
 
 export default ModerationQueue;
