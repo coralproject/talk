@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, cloneElement} from 'react';
 import {connect} from 'react-redux';
 import Layout from '../components/ui/Layout';
 import {fetchConfig} from '../actions/config';
@@ -10,6 +10,13 @@ import {toggleModal as toggleShortcutModal} from '../actions/moderation';
 import {checkLogin, handleLogin, requestPasswordReset, logout} from '../actions/auth';
 import {can} from 'coral-framework/services/perms';
 import UserDetail from 'coral-admin/src/containers/UserDetail';
+import PropTypes from 'prop-types';
+import {compose, gql} from 'react-apollo';
+
+import withQuery from 'coral-framework/hocs/withQuery';
+import {bindActionCreators} from 'redux';
+import {getDefinitionName} from 'coral-framework/utils';
+import Community from '../routes/Community/containers/Community';
 
 class LayoutContainer extends Component {
   componentWillMount() {
@@ -19,6 +26,7 @@ class LayoutContainer extends Component {
     fetchConfig();
   }
   render() {
+
     const {
       user,
       loggedIn,
@@ -29,13 +37,16 @@ class LayoutContainer extends Component {
     } = this.props.auth;
 
     const {
-      handleLogout,
+      children,
+      logout,
       toggleShortcutModal,
-      TALK_RECAPTCHA_PUBLIC
+      TALK_RECAPTCHA_PUBLIC,
     } = this.props;
+
     if (loadingUser) {
       return <FullLoading />;
     }
+
     if (!loggedIn) {
       return (
         <AdminLogin
@@ -48,17 +59,21 @@ class LayoutContainer extends Component {
         />
       );
     }
+
     if (can(user, 'ACCESS_ADMIN') && loggedIn) {
       return (
         <Layout
-          handleLogout={handleLogout}
+          handleLogout={logout}
           toggleShortcutModal={toggleShortcutModal}
           {...this.props}
         >
           <BanUserDialog />
           <SuspendUserDialog />
           <UserDetail />
-          {this.props.children}
+          {cloneElement(children, {
+            root: this.props.root,
+            data: this.props.data
+          })}
         </Layout>
       );
     } else if (loggedIn) {
@@ -72,19 +87,48 @@ class LayoutContainer extends Component {
   }
 }
 
+LayoutContainer.propTypes = {
+  children: PropTypes.node,
+  requestPasswordReset: PropTypes.func,
+  handleLogin: PropTypes.func,
+  auth: PropTypes.object,
+  handleLogout: PropTypes.func,
+  logout: PropTypes.func,
+  toggleShortcutModal: PropTypes.func,
+  TALK_RECAPTCHA_PUBLIC: PropTypes.string,
+  checkLogin: PropTypes.func,
+  fetchConfig: PropTypes.func,
+  root: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+};
+
+const withData = withQuery(gql`
+  query TalkAdmin_initialQuery {
+    ...${getDefinitionName(Community.fragments.root)}
+  }
+  ${Community.fragments.root}
+  `, {
+  options: {
+    fetchPolicy: 'network-only',
+  },
+});
+
 const mapStateToProps = (state) => ({
   auth: state.auth,
   TALK_RECAPTCHA_PUBLIC: state.config.data.TALK_RECAPTCHA_PUBLIC,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  checkLogin: () => dispatch(checkLogin()),
-  fetchConfig: () => dispatch(fetchConfig()),
-  handleLogin: (username, password, recaptchaResponse) =>
-    dispatch(handleLogin(username, password, recaptchaResponse)),
-  requestPasswordReset: (email) => dispatch(requestPasswordReset(email)),
-  toggleShortcutModal: (toggle) => dispatch(toggleShortcutModal(toggle)),
-  handleLogout: () => dispatch(logout())
-});
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({
+    checkLogin,
+    fetchConfig,
+    handleLogin,
+    requestPasswordReset,
+    toggleShortcutModal,
+    logout
+  }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withData
+)(LayoutContainer);
