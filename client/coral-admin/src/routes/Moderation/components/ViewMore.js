@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Button} from 'coral-ui';
 import styles from './ViewMore.css';
 import cn from 'classnames';
+import t from 'coral-framework/services/i18n';
 
 const ViewMore = ({viewMore, count, className, ...rest}) =>
   <div {...rest} className={cn(className, styles.viewMoreContainer)}>
@@ -10,7 +11,9 @@ const ViewMore = ({viewMore, count, className, ...rest}) =>
       count > 0 && <Button
         className={styles.viewMore}
         onClick={viewMore}>
-        View {count} New {count > 1 ? 'Comments' : 'Comment'}
+        {count === 1
+          ? t('framework.new_count', count, t('framework.comment'))
+          : t('framework.new_count', count, t('framework.comments'))}
       </Button>
     }
   </div>;

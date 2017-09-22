@@ -12,10 +12,10 @@
   margin-bottom: 30px;
   background-color: #2376D8;
   cursor: pointer;
+  text-transform: capitalize;
 }
 
 .viewMore:hover {
   background-color: #4399FF;
 }
-
 
