@@ -1,0 +1,28 @@
+.list {
+  padding: 8px 0;
+  list-style: none;
+  display: block;
+}
+
+.emptyCardContainer {
+  margin-top: 16px;
+}
+
+.commentLeave {
+  opacity: 1.0;
+}
+
+.commentLeaveActive {
+  opacity: 0;
+  transition: opacity 800ms;
+}
+
+.commentEnter {
+  opacity: 0;
+}
+
+.commentEnterActive {
+  opacity: 1.0;
+  transition: opacity 800ms;
+}
+

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Comment from '../containers/Comment';
-import styles from './styles.css';
+import styles from './ModerationQueue.css';
 import EmptyCard from '../../../components/EmptyCard';
 import {actionsMap} from '../../../utils/moderationQueueActionsMap';
 import LoadMore from '../../../components/LoadMore';
@@ -59,18 +59,6 @@ class ModerationQueue extends React.Component {
     comments: PropTypes.array.isRequired
   }
 
-  loadMore = () => {
-    if (!this.isLoadingMore) {
-      this.isLoadingMore = true;
-      this.props.loadMore(this.props.activeTab)
-        .then(() => this.isLoadingMore = false)
-        .catch((e) => {
-          this.isLoadingMore = false;
-          throw e;
-        });
-    }
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -85,7 +73,7 @@ class ModerationQueue extends React.Component {
     // AND there are more comments available on the server,
     // go ahead and load more comments
     if (prev.comments.length > 0 && comments.length === 0 && commentCount > 0) {
-      this.loadMore();
+      this.props.loadMore();
     }
   }
 
@@ -145,7 +133,7 @@ class ModerationQueue extends React.Component {
   render () {
     const {
       comments,
-      selectedIndex,
+      selectedCommentId,
       commentCount,
       singleView,
       viewUserDetail,
@@ -153,10 +141,47 @@ class ModerationQueue extends React.Component {
       ...props
     } = this.props;
 
+    if (comments.length === 0) {
+      return (
+        <div id="moderationList" className={styles.list}>
+          <div className={styles.emptyCardContainer}>
+            <EmptyCard>{t('modqueue.empty_queue')}</EmptyCard>
+          </div>
+        </div>
+      );
+    }
+
+    if (singleView) {
+      const index = comments.findIndex((comment) => comment.id === selectedCommentId);
+      const comment = comments[index];
+      const status = comment.action_summaries ? 'FLAGGED' : comment.status;
+      return (
+        <div id="moderationList" className={styles.list}>
+          <Comment
+            data={this.props.data}
+            root={this.props.root}
+            key={comment.id}
+            comment={comment}
+            selected={true}
+            suspectWords={props.suspectWords}
+            bannedWords={props.bannedWords}
+            viewUserDetail={viewUserDetail}
+            actions={actionsMap[status]}
+            showBanUserDialog={props.showBanUserDialog}
+            showSuspendUserDialog={props.showSuspendUserDialog}
+            acceptComment={props.acceptComment}
+            rejectComment={props.rejectComment}
+            currentAsset={props.currentAsset}
+            currentUserId={this.props.currentUserId}
+          />;
+        </div>
+      );
+    }
+
     const view = this.getVisibleComments();
 
     return (
-      <div id="moderationList" className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
+      <div id="moderationList" className={styles.list}>
         <ViewMore
           viewMore={this.viewNewComments}
           count={comments.length - view.length}
@@ -177,36 +202,32 @@ class ModerationQueue extends React.Component {
           transitionLeaveTimeout={1000}
         >
           {
-            view.map((comment, i) => {
-              const status = comment.action_summaries ? 'FLAGGED' : comment.status;
-              return <Comment
-                data={this.props.data}
-                root={this.props.root}
-                key={comment.id}
-                comment={comment}
-                selected={i === selectedIndex}
-                suspectWords={props.suspectWords}
-                bannedWords={props.bannedWords}
-                viewUserDetail={viewUserDetail}
-                actions={actionsMap[status]}
-                showBanUserDialog={props.showBanUserDialog}
-                showSuspendUserDialog={props.showSuspendUserDialog}
-                acceptComment={props.acceptComment}
-                rejectComment={props.rejectComment}
-                currentAsset={props.currentAsset}
-                currentUserId={this.props.currentUserId}
-              />;
-            })
+            view
+              .map((comment) => {
+                const status = comment.action_summaries ? 'FLAGGED' : comment.status;
+                return <Comment
+                  data={this.props.data}
+                  root={this.props.root}
+                  key={comment.id}
+                  comment={comment}
+                  selected={comment.id === selectedCommentId}
+                  suspectWords={props.suspectWords}
+                  bannedWords={props.bannedWords}
+                  viewUserDetail={viewUserDetail}
+                  actions={actionsMap[status]}
+                  showBanUserDialog={props.showBanUserDialog}
+                  showSuspendUserDialog={props.showSuspendUserDialog}
+                  acceptComment={props.acceptComment}
+                  rejectComment={props.rejectComment}
+                  currentAsset={props.currentAsset}
+                  currentUserId={this.props.currentUserId}
+                />;
+              })
           }
         </CSSTransitionGroup>
-        {comments.length === 0 &&
-            <div className={styles.emptyCardContainer}>
-              <EmptyCard>{t('modqueue.empty_queue')}</EmptyCard>
-            </div>
-        }
 
         <LoadMore
-          loadMore={this.loadMore}
+          loadMore={this.props.loadMore}
           showLoadMore={comments.length < commentCount}
         />
       </div>

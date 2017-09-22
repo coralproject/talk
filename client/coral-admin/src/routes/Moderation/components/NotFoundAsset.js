@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import styles from './styles.css';
+import styles from './NotFoundAsset.css';
 
 const NotFound = (props) => (
   <div className={`mdl-card mdl-shadow--2dp ${styles.notFound}`}>

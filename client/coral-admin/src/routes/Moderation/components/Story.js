@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './StorySearch.css';
+import styles from './Story.css';
 
 const formatDate = (date) => {
   const d = new Date(date);

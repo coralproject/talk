@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Icon} from 'coral-ui';
-import styles from './styles.css';
+import styles from './ModerationHeader.css';
 import t from 'coral-framework/services/i18n';
 
 const ModerationHeader = ({asset, searchVisible, openSearch, closeSearch}) => {
