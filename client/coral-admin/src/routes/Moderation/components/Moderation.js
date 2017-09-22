@@ -74,20 +74,25 @@ class Moderation extends Component {
   select = async (next, props = this.props, selectedCommentId = this.state.selectedCommentId) => {
     const comments = this.getComments(props);
 
+    // No comments to be selected.
     if (comments.length === 0){
       return;
     }
 
+    // Find current index if we have a selected comment.
     const index = selectedCommentId
       ? comments.findIndex((comment) => comment.id === selectedCommentId)
       : null;
 
     if (next) {
+
+      // Grab first one if we don't have a selected comment yet.
       if (!selectedCommentId) {
         this.setState({selectedCommentId: comments[0].id}, () => this.scrollTo(comments[0].id));
         return;
       }
 
+      // Select next one when we still have more comments left.
       if (index < comments.length - 1) {
         this.setState({selectedCommentId: comments[index + 1].id}, () => this.scrollTo(comments[index + 1].id));
         return;
@@ -107,10 +112,13 @@ class Moderation extends Component {
         return;
       }
     } else {
+
+      // We have no selected comment, so just skip it.
       if (!selectedCommentId) {
         return;
       }
 
+      // If we still have previous comments take the one before.
       if (index > 0) {
         this.setState({selectedCommentId: comments[index - 1].id}, () => this.scrollTo(comments[index - 1].id));
         return;
@@ -157,10 +165,14 @@ class Moderation extends Component {
       const prevComments = this.getComments(this.props);
       const nextComments = this.getComments(nextProps);
       if (nextComments.length < prevComments.length) {
+
+        // Comments have changed, now check if our selected comment has left the queue.
         if (
           this.state.selectedCommentId &&
           !nextComments.some((comment) => comment.id === this.state.selectedCommentId)
         ) {
+
+          // Determine a comment to select.
           const prevIndex = prevComments.findIndex((comment) => comment.id === this.state.selectedCommentId);
           if (prevIndex !== prevComments.length - 1) {
             this.setState({selectedCommentId: prevComments[prevIndex + 1].id});
