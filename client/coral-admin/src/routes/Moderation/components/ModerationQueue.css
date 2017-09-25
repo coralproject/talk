@@ -1,0 +1,30 @@
+.root {
+  padding: 8px 0;
+  list-style: none;
+  display: block;
+  margin-top: 16px;
+}
+
+.list {
+  padding: 0;
+  margin: 0;
+}
+
+.commentLeave {
+  opacity: 1.0;
+}
+
+.commentLeaveActive {
+  opacity: 0;
+  transition: opacity 800ms;
+}
+
+.commentEnter {
+  opacity: 0;
+}
+
+.commentEnterActive {
+  opacity: 1.0;
+  transition: opacity 800ms;
+}
+

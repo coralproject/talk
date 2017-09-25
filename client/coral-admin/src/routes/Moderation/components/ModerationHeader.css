@@ -1,0 +1,39 @@
+.header {
+  background-color: #2c2c2c;
+  color: white;
+  margin-bottom: -1px;
+}
+
+.searchTrigger {
+  position: relative;
+  top: .2em;
+}
+
+.moderateAsset {
+  a {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    color: white;
+    text-transform: capitalize;
+    font-weight: 400;
+    font-size: 20px;
+    letter-spacing: 1px;
+    transition: background-color 200ms;
+    opacity: 1;
+
+    &:hover {
+       cursor: pointer;
+       background-color: #212121;
+    }
+    span {
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 344px;
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+}

@@ -182,10 +182,10 @@ const createComment = async (context, {tags = [], body, asset_id, parent_id = nu
       Comments.parentCountByAssetID.incr(asset_id);
     }
     Comments.countByAssetID.incr(asset_id);
-
-    // Publish the newly added comment via the subscription.
-    pubsub.publish('commentAdded', comment);
   }
+
+  // Publish the newly added comment via the subscription.
+  pubsub.publish('commentAdded', comment);
 
   return comment;
 };
