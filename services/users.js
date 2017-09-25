@@ -610,11 +610,15 @@ module.exports = class UsersService {
    * @param {String} token the JSON Web Token to verify
    */
   static async verifyPasswordResetToken(token) {
-    const {userId, loc} = await UsersService.verifyToken(token, {
+    const {userId, loc, version} = await UsersService.verifyToken(token, {
       subject: PASSWORD_RESET_JWT_SUBJECT
     });
 
     const user = await UsersService.findById(userId);
+
+    if (version !== user.__v) {
+      throw new Error('password reset token has expired');
+    }
 
     return [user, loc];
   }
