@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {compose, gql} from 'react-apollo';
-import {withFragments} from 'plugin-api/beta/client/hocs';
+import withQuery from 'coral-framework/hocs/withQuery';
 import {getDefinitionName} from 'coral-framework/utils';
 import {withSetUserStatus, withRejectUsername} from 'coral-framework/graphql/mutations';
 import FlaggedAccounts from '../containers/FlaggedAccounts';
@@ -62,26 +62,27 @@ const mapDispatchToProps = (dispatch) =>
     newPage,
   }, dispatch);
 
+const withData = withQuery(gql`
+  query TalkAdmin_FlaggedUsernamesCount {
+    flaggedUsernamesCount: userCount(query: {
+      action_type: FLAG,
+      statuses: [PENDING]
+    })
+    ...${getDefinitionName(FlaggedAccounts.fragments.root)}
+    ...${getDefinitionName(FlaggedUser.fragments.root)}
+    me {
+      ...${getDefinitionName(FlaggedUser.fragments.me)}
+      __typename
+    }
+  }
+  ${FlaggedAccounts.fragments.root}
+  ${FlaggedUser.fragments.root}
+  ${FlaggedUser.fragments.me}
+`);
+
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withSetUserStatus,
   withRejectUsername,
-  withFragments({
-    root: gql`
-      fragment TalkAdmin_Community on RootQuery {
-        flaggedUsernamesCount: userCount(query: {
-          action_type: FLAG,
-          statuses: [PENDING]
-        })
-        ...${getDefinitionName(FlaggedAccounts.fragments.root)}
-        ...${getDefinitionName(FlaggedUser.fragments.root)}
-        me {
-          ...${getDefinitionName(FlaggedUser.fragments.me)}
-          __typename
-        }
-      }
-      ${FlaggedAccounts.fragments.root}
-      ${FlaggedUser.fragments.root}
-      ${FlaggedUser.fragments.me}
-  `}),
+  withData
 )(CommunityContainer);

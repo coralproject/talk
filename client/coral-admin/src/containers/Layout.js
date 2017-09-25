@@ -1,5 +1,6 @@
-import React, {Component, cloneElement} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import Layout from '../components/ui/Layout';
 import {fetchConfig} from '../actions/config';
 import AdminLogin from '../components/AdminLogin';
@@ -11,15 +12,8 @@ import {checkLogin, handleLogin, requestPasswordReset, logout} from '../actions/
 import {can} from 'coral-framework/services/perms';
 import UserDetail from 'coral-admin/src/containers/UserDetail';
 import PropTypes from 'prop-types';
-import {compose, gql} from 'react-apollo';
 
-import withQuery from 'coral-framework/hocs/withQuery';
-import {bindActionCreators} from 'redux';
-import {getDefinitionName} from 'coral-framework/utils';
-import Community from '../routes/Community/containers/Community';
-import Header from '../containers/Header';
-
-class LayoutContainer extends Component {
+class LayoutContainer extends React.Component {
   componentWillMount() {
     const {checkLogin, fetchConfig} = this.props;
 
@@ -67,15 +61,11 @@ class LayoutContainer extends Component {
         <Layout
           handleLogout={logout}
           toggleShortcutModal={toggleShortcutModal}
-          root={this.props.root} 
           auth={this.props.auth} >
           <BanUserDialog />
           <SuspendUserDialog />
           <UserDetail />
-          {cloneElement(children, {
-            root: this.props.root,
-            data: this.props.data
-          })}
+          {children}
         </Layout>
       );
     } else if (loggedIn) {
@@ -99,23 +89,8 @@ LayoutContainer.propTypes = {
   toggleShortcutModal: PropTypes.func,
   TALK_RECAPTCHA_PUBLIC: PropTypes.string,
   checkLogin: PropTypes.func,
-  fetchConfig: PropTypes.func,
-  root: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
+  fetchConfig: PropTypes.func
 };
-
-const withData = withQuery(gql`
-  query TalkAdmin_initialQuery {
-    ...${getDefinitionName(Header.fragments.root)}
-    ...${getDefinitionName(Community.fragments.root)}
-  }
-  ${Header.fragments.root}
-  ${Community.fragments.root}
-  `, {
-  options: {
-    fetchPolicy: 'network-only',
-  },
-});
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -131,8 +106,5 @@ const mapDispatchToProps = (dispatch) =>
     toggleShortcutModal,
     logout
   }, dispatch);
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withData
-)(LayoutContainer);
+  
+export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer);
