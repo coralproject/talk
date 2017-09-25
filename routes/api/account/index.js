@@ -50,21 +50,17 @@ router.post('/password/reset', async (req, res, next) => {
 
   try {
     let token = await UsersService.createPasswordResetToken(email, loc);
-    if (!token) {
-      res.status(204).end();
-      return;
+    if (token) {
+      await mailer.sendSimple({
+        template: 'password-reset',
+        locals: {
+          token,
+          rootURL: ROOT_URL
+        },
+        subject: 'Password Reset',
+        to: email
+      });
     }
-
-    // Send the password reset email.
-    await mailer.sendSimple({
-      template: 'password-reset',             // needed to know which template to render!
-      locals: {                                     // specifies the template locals.
-        token,
-        rootURL: ROOT_URL
-      },
-      subject: 'Password Reset',
-      to: email
-    });
 
     res.status(204).end();
   } catch (e) {
