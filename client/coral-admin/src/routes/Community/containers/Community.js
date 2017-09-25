@@ -25,7 +25,7 @@ class CommunityContainer extends Component {
   }
 
   render() {
-    return <Community 
+    return <Community
       fetchAccounts={this.props.fetchAccounts}
       community={this.props.community}
       hideRejectUsernameDialog={this.props.hideRejectUsernameDialog}
@@ -63,7 +63,7 @@ const mapDispatchToProps = (dispatch) =>
   }, dispatch);
 
 const withData = withQuery(gql`
-  query TalkAdmin_FlaggedUsernamesCount {
+  query TalkAdmin_Community {
     flaggedUsernamesCount: userCount(query: {
       action_type: FLAG,
       statuses: [PENDING]
