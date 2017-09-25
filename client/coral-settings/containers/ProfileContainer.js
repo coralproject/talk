@@ -71,7 +71,7 @@ class ProfileContainer extends Component {
     const emailAddress = localProfile && localProfile.id;
 
     return (
-      <div className='profileContainer'>
+      <div className='talk-embed-stream-profile-container'>
         <h2>{user.username}</h2>
         {emailAddress ? <p>{emailAddress}</p> : null}
 

@@ -14,7 +14,7 @@ export default ({handleChange, handleApply, changed, ...props}) => (
         <h3>{t('configure.title')}</h3>
         <Button
           type="submit"
-          className={cn(styles.apply, 'configureCommentStreamSubmitButton')}
+          className={cn(styles.apply, 'talk-embed-stream-configuration-submit-button')}
           onChange={handleChange}
           cStyle={changed ? 'green' : 'darkGrey'} >
           {t('configure.apply')}

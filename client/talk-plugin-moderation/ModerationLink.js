@@ -7,8 +7,8 @@ import t from 'coral-framework/services/i18n';
 import {BASE_PATH} from 'coral-framework/constants/url';
 
 const ModerationLink = (props) => props.isAdmin ? (
-  <div className={cn(styles.moderationLink, 'moderationLinkContainer')}>
-    <a className='moderationLink' href={`${BASE_PATH}admin/moderate/${props.assetId}`} target="_blank">
+  <div className={cn(styles.moderationLink, 'talk-embed-stream-moderation-container')}>
+    <a className='talk-embed-stream-moderation-link' href={`${BASE_PATH}admin/moderate/${props.assetId}`} target="_blank">
       {t('moderate_this_stream')}
     </a>
   </div>

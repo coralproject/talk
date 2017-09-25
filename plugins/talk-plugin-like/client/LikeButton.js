@@ -35,7 +35,7 @@ class LikeButton extends React.Component {
     return (
       <div className={cn(styles.container, `${plugin}-container`)}>
         <button
-          className={cn(styles.button, {[styles.liked, 'likedButton']: alreadyReacted}, `${plugin}-button`)}
+          className={cn(styles.button, {[styles.liked, 'talk-plugin-like-liked']: alreadyReacted}, `${plugin}-button`)}
           onClick={this.handleClick}
         >
           <span className={cn(`${plugin}-label`, styles.label)}>

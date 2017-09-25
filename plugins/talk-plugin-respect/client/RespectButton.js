@@ -35,7 +35,7 @@ class RespectButton extends React.Component {
     return (
       <div className={cn(styles.container, `${plugin}-container`)}>
         <button
-          className={cn(styles.button, {[styles.respected, 'respectedButton']: alreadyReacted}, `${plugin}-button`)}
+          className={cn(styles.button, {[styles.respected, 'talk-plugin-respect-respected']: alreadyReacted}, `${plugin}-button`)}
           onClick={this.handleClick}
         >
           <span className={cn(`${plugin}-label`, styles.label)}>

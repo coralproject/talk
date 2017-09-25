@@ -8,7 +8,7 @@ export default (props) => (
   <span>
     {
       isTagged(props.comment.tags, 'OFF_TOPIC') && props.depth === 0 ? (
-        <span className={cn(styles.tag, 'offTopicTagLabel')}>
+        <span className={cn(styles.tag, 'talk-stream-comment-offtopic-tag-label')}>
           {t('off_topic')}
         </span>
       ) : null
