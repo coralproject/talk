@@ -1,0 +1,24 @@
+.actionButton {
+  transform: scale(.8);
+  margin: 0;
+}
+
+.minimal {
+  width: 45px;
+  min-width: 0;
+}
+
+.approve__active {
+  box-shadow: none;
+  color: white;
+  background-color: #519954;
+  cursor: not-allowed;
+}
+
+.reject__active, .rejected__active {
+  color: white;
+  background-color: #D03235;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
