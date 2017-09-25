@@ -95,8 +95,9 @@ class ProfileContainer extends Component {
 const slots = [
   'profileSections',
 
-  // TODO: This Slot should be included in `talk-plugin-history` instead.
+  // TODO: These Slots should be included in `talk-plugin-history` instead.
   'commentContent',
+  'historyCommentTimestamp',
 ];
 
 const CommentFragment = gql`

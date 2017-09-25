@@ -85,10 +85,6 @@ body {
 
 /* Info Box Styles */
 
-.hidden  {
-  visibility: hidden;
-  display: none;
-}
 
 .talk-plugin-infobox-info {
   top: 0;
@@ -235,10 +231,6 @@ button.comment__action-button[disabled],
   color: #F00;
 }
 
-.talk-plugin-pubdate-text {
-  display: inline-block;
-}
-
 /* Flag Styles */
 
 .talk-plugin-flags-popup-form {
@@ -367,4 +359,7 @@ button.comment__action-button[disabled],
   color: white;
 }
 
-
+.hidden  {
+  visibility: hidden;
+  display: none;
+}

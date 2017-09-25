@@ -233,15 +233,14 @@ en:
       msg: "Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions."
     my_comments: "My Comments"
     my_profile: "My profile"
-    new_count: "View {0} new {1}"
+    new_count: "View {0} more {1}"
     profile: Profile
     show_all_comments: "Show all comments"
     success_bio_update: "Your biography has been updated"
     success_name_update: "Your username has been updated"
     success_update_settings: "The changes you have made have been applied to the comment stream on this article"
     show_all_replies: Show all replies
-    show_1_more_reply: Show 1 more reply
-    show_x_more_replies: Show {0} more replies
+    show_more_replies: Show more replies
     view_more_comments: "view more comments"
     view_reply: "view reply"
   from_settings_page: "From the Profile Page you can see your comment history."
