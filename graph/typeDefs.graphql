@@ -1356,7 +1356,8 @@ type Subscription {
 
   # Get an update whenever a comment was added.
   # `asset_id` is required except for users with the `ADMIN` or `MODERATOR` role.
-  commentAdded(asset_id: ID): Comment
+  # Non privileged user can only subscribe to 'NONE' and/or 'ACCEPTED' statuses.
+  commentAdded(asset_id: ID, statuses: [COMMENT_STATUS!] = [NONE, ACCEPTED]): Comment
 
   # Get an update whenever a comment was edited.
   # `asset_id` is required except for users with the `ADMIN` or `MODERATOR` role.
