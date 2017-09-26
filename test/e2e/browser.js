@@ -10,15 +10,15 @@ class Browser {
 
   async setUp(done) {
     try {
-      this.browser = await puppeteer.launch(this.options);
+      this.browser = await puppeteer.launch(this.options.puppeteer);
       done();
     } catch (err) {
       throw err;
     }
   }
 
-  setOptions(opts) {
-    this.options = opts;
+  setOptions(options) {
+    this.options = options;
   }
 
   test(promise) {
