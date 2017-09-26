@@ -4,9 +4,6 @@ const UsersService = require('../../../services/users');
 const mailer = require('../../../services/mailer');
 const authorization = require('../../../middleware/authorization');
 const errors = require('../../../errors');
-const {
-  ROOT_URL
-} = require('../../../config');
 
 //==============================================================================
 // ROUTES
@@ -50,21 +47,16 @@ router.post('/password/reset', async (req, res, next) => {
 
   try {
     let token = await UsersService.createPasswordResetToken(email, loc);
-    if (!token) {
-      res.status(204).end();
-      return;
+    if (token) {
+      await mailer.sendSimple({
+        template: 'password-reset',
+        locals: {
+          token,
+        },
+        subject: 'Password Reset',
+        to: email
+      });
     }
-
-    // Send the password reset email.
-    await mailer.sendSimple({
-      template: 'password-reset',             // needed to know which template to render!
-      locals: {                                     // specifies the template locals.
-        token,
-        rootURL: ROOT_URL
-      },
-      subject: 'Password Reset',
-      to: email
-    });
 
     res.status(204).end();
   } catch (e) {
@@ -78,22 +70,23 @@ router.post('/password/reset', async (req, res, next) => {
  * 2) the new password {String}
  */
 router.put('/password/reset', async (req, res, next) => {
-
-  const {
-    token,
-    password
-  } = req.body;
+  const {check} = req.query;
+  const {token, password} = req.body;
 
   if (!token) {
     return next(errors.ErrMissingToken);
   }
 
-  if (!password || password.length < 8) {
+  if (check !== 'true' && (!password || password.length < 8)) {
     return next(errors.ErrPasswordTooShort);
   }
 
   try {
     let [user, loc] = await UsersService.verifyPasswordResetToken(token);
+    if (check === 'true') {
+      res.status(204).end();
+      return;
+    }
 
     // Change the users' password.
     await UsersService.changePassword(user.id, password);
