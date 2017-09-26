@@ -17,4 +17,8 @@ export default withQuery(gql`
       statuses: [PENDING]
     })
   }
-`)(Header);
+`, {
+    options: {
+      pollInterval: 5000
+    }
+  })(Header);
