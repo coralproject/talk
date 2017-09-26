@@ -1,0 +1,49 @@
+
+.story {
+  padding: 7px 50px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  min-height: 50px;
+  box-sizing: border-box;
+  transition: background-color 400ms;
+
+  &:hover {
+    background-color: #efefef;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.title, .meta {
+  margin: 0;
+  color: black;
+  font-size: 15px;
+}
+
+.author, .createdAt, .status {
+  font-size: 17px;
+  display: inline-block;
+  font-size: .8em;
+}
+
+.createdAt {
+  text-align: center;
+}
+
+.author {
+  display: inline-block;
+  width: 200px;
+  color: #aaa;
+}
+
+.createdAt {
+  display: inline-block;
+  width: 200px;
+  color: #aaa;
+}
+
+
