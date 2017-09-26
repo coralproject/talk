@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './StorySearch.css';
+import styles from './Story.css';
 
 const formatDate = (date) => {
   const d = new Date(date);
@@ -25,7 +25,8 @@ Story.propTypes = {
   author: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  open: PropTypes.bool.isRequired
+  open: PropTypes.bool.isRequired,
+  goToStory: PropTypes.func.isRequired,
 };
 
 export default Story;

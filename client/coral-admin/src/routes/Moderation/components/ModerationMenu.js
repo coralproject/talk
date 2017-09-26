@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CountBadge from '../../../components/CountBadge';
-import styles from './styles.css';
+import styles from './ModerationMenu.css';
 import {SelectField, Option} from 'react-mdl-selectfield';
 import {Icon} from 'coral-ui';
 import {Link} from 'react-router';
@@ -49,7 +49,11 @@ ModerationMenu.propTypes = {
   items: PropTypes.array.isRequired,
   asset: PropTypes.shape({
     id: PropTypes.string
-  })
+  }),
+  selectSort: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
+  getModPath: PropTypes.func.isRequired,
+  activeTab: PropTypes.string.isRequired,
 };
 
 export default ModerationMenu;

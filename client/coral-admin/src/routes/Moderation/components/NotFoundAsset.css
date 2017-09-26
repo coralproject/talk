@@ -1,0 +1,20 @@
+
+.notFound {
+  position: relative;
+  margin: 20px auto;
+  text-align: center;
+  padding: 68px 45px;
+  vertical-align: middle;
+  min-width: 500px;
+
+  a {
+    color: rgb(244, 126, 107);
+    font-weight: 500;
+  }
+}
+
+.goToStreams {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
