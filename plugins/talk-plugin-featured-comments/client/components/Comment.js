@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './Comment.css';
 import {t} from 'plugin-api/beta/client/services';
-import {Slot, CommentAuthorName, CommentTimestamp} from 'plugin-api/beta/client/components';
+import {Slot, CommentAuthorName, CommentTimestamp, CommentContent} from 'plugin-api/beta/client/components';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 import {pluginName} from '../../package.json';
 import FeaturedButton from '../containers/FeaturedButton';
@@ -19,9 +19,14 @@ class Comment extends React.Component {
     return (
       <div className={cn(styles.root, `${pluginName}-comment`)}>
 
-        <blockquote className={cn(styles.quote, `${pluginName}-comment-body`)}>
-          {comment.body}
-        </blockquote>
+        <Slot
+          component={'blockquote'}
+          className={cn(styles.quote, `${pluginName}-comment-body`)}
+          fill="commentContent"
+          defaultComponent={CommentContent}
+          data={data}
+          queryData={queryData}
+        />
 
         <div className={cn(`${pluginName}-comment-username-box`)}>
 
