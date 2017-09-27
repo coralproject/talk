@@ -1,7 +1,6 @@
 const {test} = require('./browser');
 const {murmur3} = require('murmurhash-js');
 const uuid = require('uuid');
-const {expect} = require('chai');
 const {getEmbedStream} = require('./utils/frame');
 
 describe('Stream', () => {
