@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 
 import {Icon} from 'coral-ui';
 import FlagBox from 'coral-admin/src/components/FlagBox';
-import styles from './styles.css';
+import styles from './Comment.css';
 import CommentLabels from 'coral-admin/src/components/CommentLabels';
 import CommentAnimatedEdit from 'coral-admin/src/components/CommentAnimatedEdit';
 import Slot from 'coral-framework/components/Slot';
@@ -72,7 +72,8 @@ class Comment extends React.Component {
     return (
       <li
         tabIndex={0}
-        className={cn(className, 'mdl-card', selectionStateCSS, styles.Comment, styles.listItem, {[styles.selected]: selected})}
+        className={cn(className, 'mdl-card', selectionStateCSS, styles.root, {[styles.selected]: selected})}
+        id={`comment_${comment.id}`}
       >
         <div className={styles.container}>
           <div className={styles.itemHeader}>
@@ -225,8 +226,12 @@ Comment.propTypes = {
       title: PropTypes.string,
       url: PropTypes.string,
       id: PropTypes.string
-    })
-  })
+    }),
+  }),
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
+  actions: PropTypes.array.isRequired,
+  selected: PropTypes.bool,
 };
 
 export default Comment;
