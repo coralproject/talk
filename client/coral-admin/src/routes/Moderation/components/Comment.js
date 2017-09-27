@@ -185,11 +185,6 @@ class Comment extends React.Component {
             </div>
           </CommentAnimatedEdit>
         </div>
-        <Slot
-          fill="adminCommentDetailArea"
-          data={data}
-          queryData={queryData}
-        />
         {flagActions && flagActions.length
           ? <FlagBox
             actions={flagActions}
@@ -197,6 +192,11 @@ class Comment extends React.Component {
             viewUserDetail={viewUserDetail}
           />
           : null}
+        <Slot
+          fill="adminCommentDetailArea"
+          data={data}
+          queryData={queryData}
+        />
       </li>
     );
   }

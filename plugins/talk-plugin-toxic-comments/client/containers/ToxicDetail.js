@@ -1,12 +1,12 @@
 import {compose, gql} from 'react-apollo';
 import {withFragments, excludeIf} from 'plugin-api/beta/client/hocs';
-import ToxicLabel from '../components/ToxicLabel';
-import {isToxic} from '../utils';
+import ToxicDetail from '../components/ToxicDetail';
 
 const enhance = compose(
   withFragments({
     comment: gql`
-      fragment TalkToxicComments_ToxicLabel_Comment on Comment {
+      fragment TalkToxicComments_ToxicDetail_Comment on Comment {
+        toxicity
         actions {
           __typename
           ... on FlagAction {
@@ -15,7 +15,7 @@ const enhance = compose(
         }
       }`,
   }),
-  excludeIf(({comment: {actions}}) => !isToxic(actions)),
+  excludeIf(({comment: {toxicity}}) => toxicity === null),
 );
 
-export default enhance(ToxicLabel);
+export default enhance(ToxicDetail);

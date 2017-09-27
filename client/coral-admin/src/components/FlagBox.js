@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Icon} from 'coral-ui';
 import styles from './FlagBox.css';
 import t from 'coral-framework/services/i18n';
+import CommentDetail from './CommentDetail';
 
 const shortReasons = {
   'This comment is offensive': t('modqueue.offensive'),
@@ -39,45 +39,42 @@ class FlagBox extends Component {
 
     return (
       <div className={styles.flagBox}>
-        <div className={styles.container}>
-          <div className={styles.header}>
-            <Icon name='flag'/><h3>{t('community.flags')} ({actionSummaries.length}):</h3>
-            <ul>
+        <a onClick={this.toggleDetail} className={styles.moreDetail}>{showDetail ? t('modqueue.less_detail') : t('modqueue.more_detail')}</a>
+        <CommentDetail
+          icon={'flag'}
+          header={`${t('community.flags')} (${actionSummaries.length})`}
+          info={
+            <ul className={styles.info}>
               {actionSummaries.map((action, i) =>
                 <li key={i} className={styles.lessDetail}> {this.reasonMap(action.reason)} (<strong>{action.count}</strong>)</li>
               )}
             </ul>
-            <a onClick={this.toggleDetail} className={styles.moreDetail}>{showDetail ? t('modqueue.less_detail') : t('modqueue.more_detail')}</a>
-          </div>
+          }>
           {showDetail && (
-            <div className={styles.detail}>
-              <ul>
-                {actionSummaries.map((summary, i) => {
-
-                  const actionList = actions.filter((a) => a.reason === summary.reason);
-
-                  return (
-                    <li key={i}>
-                      {this.reasonMap(summary.reason)} (<strong>{summary.count}</strong>)
-                      <ul>
-                        {actionList.map((action, j) =>
-                          <li key={`${i}_${j}`} className={styles.subDetail}>
-                            {action.user &&
-                              <a className={styles.username} onClick={() => viewUserDetail(action.user.id)}>
-                                {action.user.username}
-                              </a>
-                            }
-                            {action.message}
-                          </li>
-                        )}
-                      </ul>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+            <ul className={styles.detail}>
+              {actionSummaries.map((summary, i) => {
+                const actionList = actions.filter((a) => a.reason === summary.reason);
+                return (
+                  <li key={i}>
+                    {this.reasonMap(summary.reason)} (<strong>{summary.count}</strong>)
+                    <ul>
+                      {actionList.map((action, j) =>
+                        <li key={`${i}_${j}`} className={styles.subDetail}>
+                          {action.user &&
+                            <a className={styles.username} onClick={() => viewUserDetail(action.user.id)}>
+                              {action.user.username}
+                            </a>
+                          }
+                          {action.message}
+                        </li>
+                      )}
+                    </ul>
+                  </li>
+                );
+              })}
+            </ul>
           )}
-        </div>
+        </CommentDetail>
       </div>
     );
   }
