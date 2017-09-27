@@ -2,6 +2,8 @@ const debug = require('debug')('talk:services:domainlist');
 const _ = require('lodash');
 const SettingsService = require('./settings');
 
+const {ROOT_URL} = require('../config');
+
 /**
  * The root domainlist object.
  * @type {Object}
@@ -17,31 +19,24 @@ class Domainlist {
   /**
    * Loads domains white list in from the database
    */
-  load() {
-    return SettingsService
-      .retrieve()
-      .then((settings) => {
-
-        // Insert the settings domains whitelist.
-        this.upsert(settings.domains);
-      });
+  async load() {
+    const {domains} = await SettingsService.retrieve();
+    this.upsert(domains);
   }
 
   /**
    * Inserts the domains whitelist data
    * @param  {Array} list list of domains to be set to the whitelist
    */
-  upsert(lists) {
+  async upsert(lists) {
 
     // Add the domains to this array and also be sure are all unique domains
     if (!('whitelist' in lists)) {
       return;
     }
 
-    this.lists['whitelist'] = Domainlist.parseList(lists['whitelist']);
-    debug(`Added ${lists['whitelist'].length} domains to the whitelist.`);
-
-    return Promise.resolve(this);
+    this.lists.whitelist = Domainlist.parseList(lists.whitelist);
+    debug(`Added ${lists.whitelist.length} domains to the whitelist.`);
   }
 
   /**
@@ -51,19 +46,22 @@ class Domainlist {
    */
   match(list, url) {
 
+    // Parse the url that we're matching with.
     const domainToMatch = Domainlist.parseURL(url);
 
     // This will return true in the event that at least one blockword is found
     // in the phrase.
-    for (let i = 0; i < list.length; i++) {
-      if (list[i] === domainToMatch) {
-        return true;
-      }
-    }
+    return list.indexOf(domainToMatch) >= 0;
+  }
 
-    // We've walked over all the whitelisted domains, and haven't had a
-    // mismatch... It is not an allowed domain!
-    return false;
+  /**
+   * Checks to see if the passed url matches the domain of the root path.
+   *
+   * @param {String} url
+   * @returns {Boolean} true if the domains match
+   */
+  static matchMount(url) {
+    return Domainlist.parseURL(url) === Domainlist.parseURL(ROOT_URL);
   }
 
   /**
@@ -84,7 +82,7 @@ class Domainlist {
     let domain;
 
     // removes protocol and get domain
-    if (url.indexOf('://') > -1) {
+    if (url.indexOf('//') > -1) {
       domain = url.split('/')[2];
     } else {
       domain = url.split('/')[0];
@@ -96,13 +94,14 @@ class Domainlist {
     return domain.toLowerCase();
   }
 
-  static urlCheck(url) {
+  static async urlCheck(url) {
     const dl = new Domainlist();
 
-    return dl.load()
-      .then(() => {
-        return dl.match(dl.lists['whitelist'], url);
-      });
+    // Load the domain list.
+    await dl.load();
+
+    // Perform a match.
+    return dl.match(dl.lists.whitelist, url);
   }
 
 }

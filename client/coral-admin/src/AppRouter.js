@@ -6,7 +6,7 @@ import Configure from 'routes/Configure';
 import Dashboard from 'routes/Dashboard';
 import Install from 'routes/Install';
 import Stories from 'routes/Stories';
-import {CommunityLayout, Community} from 'routes/Community';
+import Community from 'routes/Community/containers/Community';
 import {ModerationLayout, Moderation} from 'routes/Moderation';
 
 import Layout from 'containers/Layout';
@@ -22,7 +22,7 @@ const routes = (
 
       {/* Community Routes */}
 
-      <Route path='community' component={CommunityLayout}>
+      <Route path='community'>
         <Route path='flagged' components={Community}>
           <Route path=':id' components={Community} />
         </Route>
