@@ -1,4 +1,4 @@
-import qs from 'qs';
+import queryString from 'query-string';
 
 import {
   FETCH_COMMENTERS_REQUEST,
@@ -17,9 +17,8 @@ import {
 import t from 'coral-framework/services/i18n';
 
 export const fetchAccounts = (query = {}) => (dispatch, _, {rest}) => {
-
   dispatch(requestFetchAccounts());
-  rest(`/users?${qs.stringify(query)}`)
+  rest(`/users?${queryString.stringify(query)}`)
     .then(({result, page, count, limit, totalPages}) =>{
       dispatch({
         type: FETCH_COMMENTERS_SUCCESS,

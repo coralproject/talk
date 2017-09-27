@@ -5,20 +5,20 @@ const name = 'talk-plugin-comment-content';
 
 const CommentContent = ({comment}) => {
   const textbreaks = comment.body.split('\n');
-  return <div className={`${name}-text`}>
+  return <span className={`${name}-text`}>
     {
       textbreaks.map((line, i) => {
         return (
           <span key={i} className={`${name}-line`}>
             <Linkify properties={{target: '_blank'}}>
-              {line}
+              {line.trim()}
             </Linkify>
-            <br className={`${name}-linebreak`}/>
+            {i !== textbreaks.length - 1 && <br className={`${name}-linebreak`}/>}
           </span>
         );
       })
     }
-  </div>;
+  </span>;
 };
 
 export default CommentContent;

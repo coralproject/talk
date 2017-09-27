@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import Layout from '../components/ui/Layout';
 import {fetchConfig} from '../actions/config';
 import AdminLogin from '../components/AdminLogin';
@@ -10,15 +11,18 @@ import {toggleModal as toggleShortcutModal} from '../actions/moderation';
 import {checkLogin, handleLogin, requestPasswordReset, logout} from '../actions/auth';
 import {can} from 'coral-framework/services/perms';
 import UserDetail from 'coral-admin/src/containers/UserDetail';
+import PropTypes from 'prop-types';
 
-class LayoutContainer extends Component {
+class LayoutContainer extends React.Component {
   componentWillMount() {
     const {checkLogin, fetchConfig} = this.props;
 
     checkLogin();
     fetchConfig();
   }
+
   render() {
+
     const {
       user,
       loggedIn,
@@ -29,13 +33,16 @@ class LayoutContainer extends Component {
     } = this.props.auth;
 
     const {
-      handleLogout,
+      children,
+      logout,
       toggleShortcutModal,
-      TALK_RECAPTCHA_PUBLIC
+      TALK_RECAPTCHA_PUBLIC,
     } = this.props;
+
     if (loadingUser) {
       return <FullLoading />;
     }
+
     if (!loggedIn) {
       return (
         <AdminLogin
@@ -48,17 +55,17 @@ class LayoutContainer extends Component {
         />
       );
     }
+
     if (can(user, 'ACCESS_ADMIN') && loggedIn) {
       return (
         <Layout
-          handleLogout={handleLogout}
+          handleLogout={logout}
           toggleShortcutModal={toggleShortcutModal}
-          {...this.props}
-        >
+          auth={this.props.auth} >
           <BanUserDialog />
           <SuspendUserDialog />
           <UserDetail />
-          {this.props.children}
+          {children}
         </Layout>
       );
     } else if (loggedIn) {
@@ -72,19 +79,32 @@ class LayoutContainer extends Component {
   }
 }
 
+LayoutContainer.propTypes = {
+  children: PropTypes.node,
+  requestPasswordReset: PropTypes.func,
+  handleLogin: PropTypes.func,
+  auth: PropTypes.object,
+  handleLogout: PropTypes.func,
+  logout: PropTypes.func,
+  toggleShortcutModal: PropTypes.func,
+  TALK_RECAPTCHA_PUBLIC: PropTypes.string,
+  checkLogin: PropTypes.func,
+  fetchConfig: PropTypes.func
+};
+
 const mapStateToProps = (state) => ({
   auth: state.auth,
   TALK_RECAPTCHA_PUBLIC: state.config.data.TALK_RECAPTCHA_PUBLIC,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  checkLogin: () => dispatch(checkLogin()),
-  fetchConfig: () => dispatch(fetchConfig()),
-  handleLogin: (username, password, recaptchaResponse) =>
-    dispatch(handleLogin(username, password, recaptchaResponse)),
-  requestPasswordReset: (email) => dispatch(requestPasswordReset(email)),
-  toggleShortcutModal: (toggle) => dispatch(toggleShortcutModal(toggle)),
-  handleLogout: () => dispatch(logout())
-});
-
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({
+    checkLogin,
+    fetchConfig,
+    handleLogin,
+    requestPasswordReset,
+    toggleShortcutModal,
+    logout
+  }, dispatch);
+  
 export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer);
