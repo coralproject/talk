@@ -16,6 +16,7 @@
     "lint-fix": "yarn lint --fix",
     "test": "TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
     "test-cover": "TEST_MODE=unit NODE_ENV=test istanbul cover _mocha --report text --check-coverage -- -R spec",
+    "test-e2e": "TEST_MODE=e2e NODE_ENV=test mocha --timeout 10000 test/e2e/runner.js test/e2e/*.spec.js ",
     "heroku-postbuild": "./bin/cli plugins reconcile && yarn build",
     "generate-introspection": "WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js"
   },

@@ -1,4 +1,8 @@
 module.exports = {
   url: 'http://localhost:3000',
-  puppeteer: {}
+  typeDelay: 10,
+  puppeteer: {
+    headless: false,
+    slowMo: 100
+  }
 };
