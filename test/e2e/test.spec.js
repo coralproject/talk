@@ -35,6 +35,47 @@ describe('Stream', () => {
     await page.click('#coralSignUpButton');
     await page.waitForSelector('#coralLogInButton');
     await page.click('#coralLogInButton');
+  }));
+
+  it('posts a comment', test(async (browser, {url}) => {
+    const page = await browser.newPage();
+    await page.goto(url, {waitUntil: 'networkidle'});
+
+    const embed = await getEmbed(page.mainFrame());
+
+    function getEmbed(frame) {
+      if (frame.name() !== 'coralStreamEmbed_iframe') {
+        for (let child of frame.childFrames()) {
+          getEmbed(child);
+        }
+      }
+      return frame;
+    }
+
+    const myProfileTab = await embed.$('.talk-embed-stream-profile-tab');
+    await myProfileTab.click();
+
+    console.log(myProfileTab);
+
+    embedStreamIframe.waitForSelector('.talk-embed-stream-profile-tab');
+    console.log(embedStreamIframe);
+
+    const myProfileTab = await embedStreamIframe.$('.talk-embed-stream-profile-tab');
+    await myProfileTab.click();
+
+    console.log(embedStreamIframe);
+
     await browser.close();
+  
+
+    // Focusing the comment box
+    await embedStreamIframe.waitForSelector('#commentText');
+    await embedStreamIframe.focus('#commentText');
+    await embedStreamIframe.type('This is a test comment', {delay: typeDelay});
+    expect(await embedStreamIframe.evaluate((result) => result)).toBe('This is a test comment');
+    
+    // Posting Comment
+    await embedStreamIframe.click('.talk-plugin-commentbox-button');
+
   }));
 });
