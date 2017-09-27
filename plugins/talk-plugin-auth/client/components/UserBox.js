@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators({logout}, dispatch);
 
 UserBox.propTypes = {
-  loggedIn: PropTypes.func,
+  loggedIn: PropTypes.bool,
   user: PropTypes.object,
   logout: PropTypes.func,
   onShowProfile: PropTypes.func,

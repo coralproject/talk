@@ -2,55 +2,77 @@ const {test} = require('./browser');
 const {murmur3} = require('murmurhash-js');
 const uuid = require('uuid');
 const {getEmbedStream} = require('./utils/frame');
+const {expect} = require('chai');
 
 describe('Stream', () => {
 
-  it('creates an user and logs in', test(async (browser, {url, typeDelay}) => {
+  it('creates a new asset', test(async (browser, {opts: {url}}) => {
     const rHash = murmur3(uuid.v4());
-    const testData = {
+    const page = await browser.newPage();
+    await page.goto(`${url}/assets/title/test-${rHash}`, {waitUntil: 'networkidle'});
+  }));
+
+  it('goes to the embed iframe',  test(async (browser, _, context) => {
+    const page = browser.currentPage;
+    const embedStream = await getEmbedStream(page.mainFrame());
+
+    // Set the embedStream
+    const embedStreamUrl = embedStream.url();
+    context.setData({embedStreamUrl});
+    
+    // TODO: (bc) CHANGE WHEN THIS ISSUE IS SOLVED: https://github.com/GoogleChrome/puppeteer/issues/684
+    // Going to the embed stream url
+    await page.goto(embedStreamUrl, {
+      waitUntil: 'networkidle'
+    });
+
+    expect(page.url()).to.equal(embedStreamUrl);
+  }));
+
+  it('not logged in user clicks my profile tab', test(async (browser, {$}) => {
+    const page = browser.currentPage;
+
+    await page.click($.Stream.myProfileTab);
+    await page.waitForSelector($.Stream.tabContent);
+    const notLoggedInMessage = await page.waitForSelector($.Stream.notLoggedInMessage);
+
+    expect(notLoggedInMessage).to.be.undefined;
+  }));
+
+  it('creates an user and logs in', test(async (browser, {opts: {url, typeDelay}, $, data}) => {
+    const rHash = murmur3(uuid.v4());
+
+    const formData = {
       email: `test_${rHash}@test.test`,
       username: `test${rHash}`,
       password: `testpassword${rHash}`
     };
 
-    const page = await browser.newPage();
+    const page = await browser.currentPage;
     await page.goto(url, {waitUntil: 'networkidle'});
-
-    // TODO (bc) handle the popup if possible
-    // const frames = await page.frames();
-    // const embedStreamIframe = frames.find((f) => f.name() === 'coralStreamEmbed_iframe');
-  
-    // const signInButton = await embedStreamIframe.$('#coralSignInButton');
-    // signInButton.click();
 
     await page.goto('http://localhost:3000/embed/stream/login');
     await page.click('#coralRegister');
     await page.focus('#signInDialog #email');
-    await page.type(testData.email, {delay: typeDelay});
+    await page.type(formData.email, {delay: typeDelay});
     await page.focus('#signInDialog #username');
-    await page.type(testData.username, {delay: typeDelay});
+    await page.type(formData.username, {delay: typeDelay});
     await page.focus('#password');
-    await page.type(testData.password, {delay: typeDelay});
+    await page.type(formData.password, {delay: typeDelay});
     await page.focus('#confirmPassword');
-    await page.type(testData.password, {delay: typeDelay});
+    await page.type(formData.password, {delay: typeDelay});
     await page.click('#coralSignUpButton');
     await page.waitForSelector('#coralLogInButton');
     await page.click('#coralLogInButton');
+    
+    await page.goto(data.embedStreamUrl, {waitUntil: 'networkidle'});
+
+    const username = await page.waitForSelector($.Stream.authUserboxUsername);
+    expect(username).to.equal(formData.username);
   }));
 
-  it('posts a comment', test(async (browser, {url}, typeDelay) => {
-    const page = await browser.newPage();
-    
-    await page.goto(url, {
-      waitUntil: 'networkidle'
-    });
-
-    const embedStream = await getEmbedStream(page.mainFrame());
-    
-    // Going to the embed stream url
-    await page.goto(embedStream.url(), {
-      waitUntil: 'networkidle'
-    });
+  it('posts a comment', test(async (browser, {opts: {typeDelay}}) => {
+    const page = await browser.currentPage;
 
     await page.waitForSelector('#commentText');
     await page.focus('#commentText');
