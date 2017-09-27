@@ -27,8 +27,8 @@ class Browser {
         .then(() => {
           done();
         })
-        .catch(() => {
-          done();
+        .catch((err) => {
+          done(err);
         });
     };
   }

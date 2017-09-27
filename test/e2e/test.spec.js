@@ -1,6 +1,8 @@
 const {test} = require('./browser');
 const {murmur3} = require('murmurhash-js');
 const uuid = require('uuid');
+const {expect} = require('chai');
+const {getEmbedStream} = require('./utils/frame');
 
 describe('Stream', () => {
 
@@ -37,45 +39,25 @@ describe('Stream', () => {
     await page.click('#coralLogInButton');
   }));
 
-  it('posts a comment', test(async (browser, {url}) => {
+  it('posts a comment', test(async (browser, {url}, typeDelay) => {
     const page = await browser.newPage();
-    await page.goto(url, {waitUntil: 'networkidle'});
+    
+    await page.goto(url, {
+      waitUntil: 'networkidle'
+    });
 
-    const embed = await getEmbed(page.mainFrame());
+    const embedStream = await getEmbedStream(page.mainFrame());
+    
+    // Going to the embed stream url
+    await page.goto(embedStream.url(), {
+      waitUntil: 'networkidle'
+    });
 
-    function getEmbed(frame) {
-      if (frame.name() !== 'coralStreamEmbed_iframe') {
-        for (let child of frame.childFrames()) {
-          getEmbed(child);
-        }
-      }
-      return frame;
-    }
-
-    const myProfileTab = await embed.$('.talk-embed-stream-profile-tab');
-    await myProfileTab.click();
-
-    console.log(myProfileTab);
-
-    embedStreamIframe.waitForSelector('.talk-embed-stream-profile-tab');
-    console.log(embedStreamIframe);
-
-    const myProfileTab = await embedStreamIframe.$('.talk-embed-stream-profile-tab');
-    await myProfileTab.click();
-
-    console.log(embedStreamIframe);
-
-    await browser.close();
-  
-
-    // Focusing the comment box
-    await embedStreamIframe.waitForSelector('#commentText');
-    await embedStreamIframe.focus('#commentText');
-    await embedStreamIframe.type('This is a test comment', {delay: typeDelay});
-    expect(await embedStreamIframe.evaluate((result) => result)).toBe('This is a test comment');
+    await page.waitForSelector('#commentText');
+    await page.focus('#commentText');
+    await page.type('This is a test comment', {delay: typeDelay});
     
     // Posting Comment
-    await embedStreamIframe.click('.talk-plugin-commentbox-button');
-
+    await page.click('.talk-plugin-commentbox-button');
   }));
 });
