@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import TagLabel from 'talk-plugin-tag-label/TagLabel';
-import PubDate from 'talk-plugin-pubdate/PubDate';
+import CommentTimestamp from 'coral-framework/components/CommentTimestamp';
 import {ReplyBox, ReplyButton} from 'talk-plugin-replies';
 import {FlagComment} from 'talk-plugin-flags';
 import {can} from 'coral-framework/services/perms';
@@ -16,7 +16,7 @@ import mapValues from 'lodash/mapValues';
 import LoadMore from './LoadMore';
 import {getEditableUntilDate} from './util';
 import {findCommentWithId} from '../graphql/utils';
-import CommentContent from './CommentContent';
+import CommentContent from 'coral-framework/components/CommentContent';
 import Slot from 'coral-framework/components/Slot';
 import CommentTombstone from './CommentTombstone';
 import InactiveCommentLabel from './InactiveCommentLabel';
@@ -465,7 +465,14 @@ export default class Comment extends React.Component {
               />
 
               <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
-                <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
+                <Slot
+                  fill="commentTimestamp"
+                  defaultComponent={CommentTimestamp}
+                  className={'talk-stream-comment-published-date'}
+                  created_at={comment.created_at}
+                  queryData={queryData}
+                  {...slotProps}
+                />
                 {
                   (comment.editing && comment.editing.edited)
                     ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>

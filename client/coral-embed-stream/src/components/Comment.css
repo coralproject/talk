@@ -50,11 +50,6 @@
   pointer-events: none;
 }
 
-.bylineSecondary {
-  color: #696969;
-  font-size: 12px;
-}
-
 .editedMarker {
   font-style: italic;
 }

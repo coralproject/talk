@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Logo.css';
 import {CoralLogo} from 'coral-ui';
+import PropTypes from 'prop-types';
 
 export const Logo = ({className = ''}) => (
   <div className={`${styles.logo} ${className}`}>
@@ -10,3 +11,7 @@ export const Logo = ({className = ''}) => (
     </h1>
   </div>
 );
+
+Logo.propTypes = {
+  className: PropTypes.string
+};

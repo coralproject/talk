@@ -26,10 +26,30 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
   commentAdded: (options, args) => ({
     commentAdded: {
       filter: (comment, context) => {
+
+        // Only priviledged users can subscribe to all assets.
         if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ADDED))) {
           return false;
         }
-        return !args.asset_id || comment.asset_id === args.asset_id;
+
+        // If user scubsscribes for statuses other than NONE and/or ACCEPTED statuses, it needs
+        // special priviledges.
+        if (
+          (!args.statuses || args.statuses.some((status) => !['NONE', 'ACCEPTED'].includes(status))) &&
+          (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ADDED))
+        ) {
+          return false;
+        }
+
+        if (args.asset_id && comment.asset_id !== args.asset_id) {
+          return false;
+        }
+
+        if (args.statuses && !args.statuses.includes(comment.status)) {
+          return false;
+        }
+
+        return true;
       }
     },
   }),
