@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 
 import {Icon} from 'coral-ui';
-import FlagBox from 'coral-admin/src/components/FlagBox';
+import CommentDetails from 'coral-admin/src/components/CommentDetails';
 import styles from './Comment.css';
 import CommentLabels from 'coral-admin/src/components/CommentLabels';
 import CommentAnimatedEdit from 'coral-admin/src/components/CommentAnimatedEdit';
@@ -186,7 +186,7 @@ class Comment extends React.Component {
           </CommentAnimatedEdit>
         </div>
         {flagActions && flagActions.length
-          ? <FlagBox
+          ? <CommentDetails
             actions={flagActions}
             actionSummaries={flagActionSummaries}
             viewUserDetail={viewUserDetail}

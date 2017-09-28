@@ -17,12 +17,6 @@ export default withFragments({
         title
         url
       }
-      action_summaries {
-        count
-        ... on FlagActionSummary {
-          reason
-        }
-      }
       actions {
         ... on FlagAction {
           id

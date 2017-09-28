@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 
 import {Icon} from 'coral-ui';
-import FlagBox from './FlagBox';
+import CommentDetails from './CommentDetails';
 import styles from './UserDetailComment.css';
-import {getActionSummary} from 'coral-framework/utils';
 import ActionButton from 'coral-admin/src/components/ActionButton';
 import CommentBodyHighlighter from 'coral-admin/src/components/CommentBodyHighlighter';
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
@@ -31,7 +30,6 @@ class UserDetailComment extends React.Component {
       ...props
     } = this.props;
 
-    const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
     const flagActions = comment.actions && comment.actions.filter((a) => a.__typename === 'FlagAction');
 
     return (
@@ -117,9 +115,8 @@ class UserDetailComment extends React.Component {
           </CommentAnimatedEdit>
         </div>
         {flagActions && flagActions.length
-          ? <FlagBox
+          ? <CommentDetails
             actions={flagActions}
-            actionSummaries={flagActionSummaries}
             viewUserDetail={viewUserDetail}
           />
           : null}
@@ -139,7 +136,6 @@ UserDetailComment.propTypes = {
   toggleSelect: PropTypes.func,
   comment: PropTypes.shape({
     body: PropTypes.string.isRequired,
-    action_summaries: PropTypes.array,
     actions: PropTypes.array,
     created_at: PropTypes.string.isRequired,
     asset: PropTypes.shape({
