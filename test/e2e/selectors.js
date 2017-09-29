@@ -1,5 +1,8 @@
 module.exports = {
   Stream: {
+    'commentBoxTextarea': '#commentText',
+    'commentBoxPostButton': '.talk-plugin-commentbox-button',
+    'firstCommentContent': '.talk-stream-comment.talk-stream-comment-level-0 .talk-plugin-comment-content-text',
     'streamTab': '#talk-embed-stream-container .talk-tab.talk-embed-stream-comments-tab button',
     'myProfileTab': '#talk-embed-stream-container .talk-tab.talk-embed-stream-profile-tab button',
     'tabContent': '#talk-embed-stream-tab-content',
@@ -11,5 +14,15 @@ module.exports = {
     'myCommentHistory': "#talk-embed-stream-tab-content .talk-my-profile-comment-history",
     'myCommentHistoryReactions': '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions',
     'myCommentHistoryReactionCount': '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions .comment-summary-reaction-count'
+  },
+  Login: {
+    register: '#coralRegister',
+    emailField: '#signInDialog #email',
+    usernameField: '#signInDialog #username',
+    passwordField: '#signInDialog #password',
+    confirmPasswordField: '#signInDialog #confirmPassword',
+    usernameField: '#signInDialog #username',
+    signUpButton: '#coralSignUpButton',
+    loginButton: '#coralLogInButton',
   }
 };

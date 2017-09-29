@@ -9,10 +9,12 @@ describe('Stream', () => {
   it('creates a new asset', test(async (browser, {opts: {url}}) => {
     const rHash = murmur3(uuid.v4());
     const page = await browser.newPage();
-    await page.goto(`${url}/assets/title/test-${rHash}`, {waitUntil: 'networkidle'});
+    const assetTitle = `test@${rHash}`;
+    await page.goto(`${url}/assets/title/${assetTitle}`, {waitUntil: 'networkidle'});
 
-    // Assertions
-    // Test the asset title?
+    // Checking asset title
+    const pageTitle = await page.title();
+    expect(pageTitle).to.equal(assetTitle);
   }));
 
   it('goes to the embed iframe',  test(async (browser, _, context) => {
@@ -24,87 +26,101 @@ describe('Stream', () => {
     context.setData({embedStreamUrl});
     
     // TODO: (bc) CHANGE WHEN THIS ISSUE IS SOLVED: https://github.com/GoogleChrome/puppeteer/issues/684
+
     // Going to the embed stream url
     await page.goto(embedStreamUrl, {waitUntil: 'networkidle'});
     
-    // Assertions
+    // The URLs should match
     expect(page.url()).to.equal(embedStreamUrl);
   }));
 
   it('not logged in user clicks my profile tab', test(async (browser, {$}) => {
     const page = browser.currentPage;
 
+    // Clicking profile tab
     const profileTab = await page.$($.Stream.myProfileTab);
     expect(profileTab).to.not.equal(null);
     await profileTab.click();
 
     await page.waitForSelector($.Stream.tabContent);
 
+    // Not signed in users should get not-logged-in messages
     const notLoggedInMessage = await page.waitForSelector($.Stream.notLoggedInMessage);
-    expect(notLoggedInMessage).to.be.undefined;
+    expect(notLoggedInMessage).to.not.equal(null);
   }));
 
   it('creates an user and user logs in', test(async (browser, {opts: {url, typeDelay}, $, data}) => {
+    const page = await browser.currentPage;
     const rHash = murmur3(uuid.v4());
-
     const formData = {
       email: `test_${rHash}@test.test`,
       username: `test${rHash}`,
       password: `testpassword${rHash}`
     };
 
-    const page = await browser.currentPage;
+    // Go to Login View
+    await page.goto(`${url}/embed/stream/login`, {waitUntil: 'networkidle'});
+    
+    // Click Register
+    await page.click($.Login.register);
+    await page.focus($.Login.emailField);
 
-    await page.goto('http://localhost:3000/embed/stream/login', {waitUntil: 'networkidle'});
-    await page.click('#coralRegister');
-    await page.focus('#signInDialog #email');
+    // Filling the form
     await page.type(formData.email, {delay: typeDelay});
-    await page.focus('#signInDialog #username');
+    await page.focus($.Login.usernameField);
     await page.type(formData.username, {delay: typeDelay});
-    await page.focus('#password');
+    await page.focus($.Login.passwordField);
     await page.type(formData.password, {delay: typeDelay});
-    await page.focus('#confirmPassword');
+    await page.focus($.Login.confirmPasswordField);
     await page.type(formData.password, {delay: typeDelay});
-    await page.click('#coralSignUpButton');
 
-    await page.waitForSelector('#coralLogInButton');
+    // Clicking Sign-Up
+    await page.click($.Login.signUpButton);
+
+    // Clicking Login
+    await page.waitForSelector($.Login.loginButton);
     await page.click('#coralLogInButton');
     await page.waitForNavigation({waitUntil: 'networkidle'});
 
+    // Going to the Embed Stream
     await page.goto(data.embedStreamUrl, {waitUntil: 'networkidle', networkIdleTimeout: 3000});
 
+    // Checking logged-in Username
     const userBoxEl = await page.waitForSelector($.Stream.authUserboxUsername);
     expect(userBoxEl).to.not.equal(null);
   }));
 
-  it('user posts a comment', test(async (browser, {opts: {typeDelay}}) => {
+  it('user posts a comment', test(async (browser, {opts: {typeDelay}, $}) => {
     const page = await browser.currentPage;
+    const testData = {body: 'This is a test comment'}
 
-    await page.waitForSelector('#commentText');
-    await page.focus('#commentText');
-    await page.type('This is a test comment', {delay: typeDelay});
+    await page.waitForSelector($.Stream.commentBoxTextarea);
+    await page.focus($.Stream.commentBoxTextarea);
+    await page.type(testData.body, {delay: typeDelay});
     
     // Posting Comment
-    await page.click('.talk-plugin-commentbox-button');
+    await page.click($.Stream.commentBoxPostButton);
     await page.waitForNavigation({waitUntil: 'networkidle'});
 
-    // Assertions
+    // Check if comment was posted
+    const firstCommentHandle = await page.$($.Stream.firstCommentContent);
+    const firstCommentContent = await page.evaluate(el => el.textContent, firstCommentHandle);
+    expect(firstCommentContent).to.equal(testData.body);
   }));
 
   it('signed in user sees comment history', test(async (browser, {$, data}) => {
     const page = await browser.currentPage;
     await page.click($.Stream.myProfileTab);
     await page.waitForNavigation({waitUntil: 'networkidle'});
-    await page.waitForSelector('#talk-embed-stream-tab-content');
+    await page.waitForSelector($.Stream.tabContent);
 
+    // Checking if Comment History exists
     const myCommentHistory = await page.$($.MyProfile.myCommentHistory);
-
     expect(myCommentHistory).to.not.equal(null);
   }));
 
   it('user sees replies and reactions to comments', test(async (browser, {$}) => {
     const page = await browser.currentPage;
-
     await page.waitForSelector($.MyProfile.myCommentHistory);
 
     // Check for Reactions
@@ -154,12 +170,4 @@ describe('Stream', () => {
     expect(reactionsCount).to.equal('1');
 
   }));
-
-  // it('user can visit story link', test(async (browser, {opts: {typeDelay}}) => {
-  //   const page = await browser.currentPage;
-  // }));
-
-  // it('user can view a conversation', test(async (browser, {opts: {typeDelay}}) => {
-  //   const page = await browser.currentPage;
-  // }));
 });
