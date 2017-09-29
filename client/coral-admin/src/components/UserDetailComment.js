@@ -70,7 +70,7 @@ class UserDetailComment extends React.Component {
           </div>
           <CommentAnimatedEdit body={comment.body}>
             <div className={styles.bodyContainer}>
-              <p className={styles.body}>
+              <div className={styles.body}>
                 <CommentBodyHighlighter
                   suspectWords={suspectWords}
                   bannedWords={bannedWords}
@@ -84,7 +84,7 @@ class UserDetailComment extends React.Component {
                 >
                   <Icon name="open_in_new" /> {t('comment.view_context')}
                 </a>
-              </p>
+              </div>
               <div className={styles.sideActions}>
                 <IfHasLink text={comment.body}>
                   <span className={styles.hasLinks}>

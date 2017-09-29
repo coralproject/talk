@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './CommentDetails.css';
 import t from 'coral-framework/services/i18n';
 import Slot from 'coral-framework/components/Slot';
+import IfSlotIsNotEmpty from 'coral-framework/components/IfSlotIsNotEmpty';
 
 class CommentDetails extends Component {
   state = {
@@ -32,13 +33,25 @@ class CommentDetails extends Component {
 
     return (
       <div className={styles.root}>
-        <a onClick={this.toggleDetail} className={styles.moreDetail}>{showDetail ? t('modqueue.less_detail') : t('modqueue.more_detail')}</a>
+        <IfSlotIsNotEmpty
+          queryData={queryData}
+          slot={['adminCommentMoreDetails', 'adminCommentMoreFlagDetails']}
+        >
+          <a onClick={this.toggleDetail} className={styles.moreDetail}>
+            {showDetail ? t('modqueue.less_detail') : t('modqueue.more_detail')}
+          </a>
+        </IfSlotIsNotEmpty>
         <Slot
           fill="adminCommentDetailArea"
           data={data}
           queryData={queryData}
           more={showDetail}
         />
+        {showDetail && <Slot
+          fill="adminCommentMoreDetails"
+          data={data}
+          queryData={queryData}
+        />}
       </div>
     );
   }

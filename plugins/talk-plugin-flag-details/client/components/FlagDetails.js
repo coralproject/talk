@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import styles from './FlagDetails.css';
 import {t} from 'plugin-api/beta/client/services';
 import CommentDetail from 'coral-admin/src/components/CommentDetail';
+import {Slot, IfSlotIsNotEmpty} from 'plugin-api/beta/client/components';
 
 class FlagDetails extends Component {
 
   render() {
-    const {comment: {actions}, viewUserDetail, more} = this.props;
+    const {comment: {actions}, viewUserDetail, more, data, root, comment} = this.props;
 
     const flagActions = actions && actions.filter((a) => a.__typename === 'FlagAction');
     const summaries = flagActions.reduce((sum, action) => {
@@ -23,6 +24,11 @@ class FlagDetails extends Component {
     }, {});
 
     const userFlagReasons = Object.keys(summaries).filter((reason) => summaries[reason].userFlagged);
+
+    const queryData = {
+      root,
+      comment,
+    };
 
     return (
       <CommentDetail
@@ -59,6 +65,18 @@ class FlagDetails extends Component {
               ))
             }
           </ul>
+        )}
+        {more && (
+          <IfSlotIsNotEmpty
+            slot="adminCommentMoreFlagDetails"
+            queryData={queryData}
+          >
+            <Slot
+              fill="adminCommentMoreFlagDetails"
+              data={data}
+              queryData={queryData}
+            />
+          </IfSlotIsNotEmpty>
         )}
       </CommentDetail>
     );

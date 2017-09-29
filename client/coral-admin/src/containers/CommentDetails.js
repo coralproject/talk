@@ -5,6 +5,7 @@ import withFragments from 'coral-framework/hocs/withFragments';
 
 const slots = [
   'adminCommentDetailArea',
+  'adminCommentMoreDetails',
 ];
 
 export default withFragments({

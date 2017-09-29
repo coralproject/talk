@@ -4,6 +4,11 @@ import {bindActionCreators} from 'redux';
 import {withFragments, excludeIf} from 'plugin-api/beta/client/hocs';
 import {viewUserDetail} from 'coral-admin/src/actions/userDetail';
 import {connect} from 'react-redux';
+import {getSlotFragmentSpreads} from 'plugin-api/beta/client/utils';
+
+const slots = [
+  'adminCommentMoreFlagDetails',
+];
 
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
@@ -14,6 +19,12 @@ const mapDispatchToProps = (dispatch) => ({
 const enhance = compose(
   connect(null, mapDispatchToProps),
   withFragments({
+    root: gql`
+      fragment CoralAdmin_FlagDetails_root on RootQuery {
+        __typename
+        ${getSlotFragmentSpreads(slots, 'root')}
+      }
+    `,
     comment: gql`
       fragment CoralAdmin_FlagDetails_comment on Comment {
         actions {
@@ -28,6 +39,7 @@ const enhance = compose(
             }
           }
         }
+        ${getSlotFragmentSpreads(slots, 'comment')}
       }
     `
   }),

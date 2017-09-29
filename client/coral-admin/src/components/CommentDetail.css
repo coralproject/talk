@@ -1,5 +1,4 @@
 .root {
-  margin-left: 16px;
 }
 
 .headerContainer {
@@ -25,6 +24,10 @@
 .details {
   padding: 0 20px 16px;
   font-size: 12px;
+
+  &:empty {
+    display: none;
+  }
 }
 
 .icon {

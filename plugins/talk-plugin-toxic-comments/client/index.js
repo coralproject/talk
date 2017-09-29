@@ -1,13 +1,15 @@
 import translations from './translations.yml';
 import CheckToxicityHook from './containers/CheckToxicityHook';
 import ToxicLabel from './containers/ToxicLabel';
-import ToxicDetail from './containers/ToxicDetail';
+import ToxicCommentDetail from './containers/ToxicCommentDetail';
+import ToxicCommentFlagDetail from './containers/ToxicCommentFlagDetail';
 
 export default {
   translations,
   slots: {
     commentInputDetailArea: [CheckToxicityHook],
     adminCommentLabels: [ToxicLabel],
-    adminCommentDetailArea: [ToxicDetail],
+    adminCommentMoreDetails: [ToxicCommentDetail],
+    adminCommentMoreFlagDetails: [ToxicCommentFlagDetail],
   },
 };

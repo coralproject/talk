@@ -1,5 +1,5 @@
 import {compose, gql} from 'react-apollo';
-import {withFragments, excludeIf} from 'plugin-api/beta/client/hocs';
+import {withFragments} from 'plugin-api/beta/client/hocs';
 import ToxicDetail from '../components/ToxicDetail';
 
 const enhance = compose(
@@ -15,7 +15,6 @@ const enhance = compose(
         }
       }`,
   }),
-  excludeIf(({comment: {toxicity}, more}) => !more || toxicity === null),
 );
 
 export default enhance(ToxicDetail);
