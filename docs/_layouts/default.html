@@ -1,34 +1,28 @@
----
----
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
 
-<!doctype html>
-<!--
-  Minimal Mistakes Jekyll Theme 4.4.2 by Michael Rose
-  Copyright 2017 Michael Rose - mademistakes.com | @mmistakes
-  Free for personal and commercial use under the MIT license
-  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE.txt
--->
-<html lang="{{ site.locale | slice: 0,2 | default: "en" }}" class="no-js">
-  <head>
-    {% include head.html %}
-    {% include head/custom.html %}
-  </head>
+  {% include head.html %}
 
-  <body class="layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}">
+  <body>
+    <div>
+      <div>
 
-    {% include browser-upgrade.html %}
-    {% include masthead.html %}
+        {% include sidebar.html %}
 
-    {{ content }}
+        <main class="content" role="main">
 
-    <div class="page__footer">
-      <footer>
-        {% include footer/custom.html %}
+          {% include header.html %}
+
+          {{ content }}
+
+
+        </main>
+
         {% include footer.html %}
-      </footer>
+
+      </div>
     </div>
 
-    {% include scripts.html %}
 
   </body>
 </html>

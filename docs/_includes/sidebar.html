@@ -1,23 +1,30 @@
-{% if page.author_profile or layout.author_profile or page.sidebar %}
-  <div class="sidebar sticky">
-  {% if page.author_profile or layout.author_profile %}{% include author-profile.html %}{% endif %}
-  {% if page.sidebar %}
-    {% for s in page.sidebar %}
-      {% if s.image %}
-        <img src=
-        {% if s.image contains "://" %}
-          "{{ s.image }}"
-        {% else %}
-          "{{ s.image | absolute_url }}"
-        {% endif %}
-        alt="{% if s.image_alt %}{{ s.image_alt }}{% endif %}">
-      {% endif %}
-      {% if s.title %}<h3>{{ s.title }}</h3>{% endif %}
-      {% if s.text %}{{ s.text | markdownify }}{% endif %}
+<aside class="sidebar">
+  <a class="brand" href="{{ "/" | relative_url }}">
+    <h2>
+      {% include images/logo.svg %}
+      <span>Talk</span>
+    </h2>
+  </a>
+  <ul class="sidebar__list">
+  {% for item in site.data.nav.items %}
+    <li class="sidebar__section{% for item in item.children %}{% if page.url == item.url %} active toggled{% endif %}{% endfor %}">
+      <a href="#" class="sidebar__header">{{ item.title }}</a>
+      <ul class="sidebar__links">
+        {% for item in item.children %}
+          <li class="{% if page.url == item.url %}active{% endif %}">
+            <a href="{% if page.url != item.url %}{{ item.url | relative_url }}{% else %}#{% endif %}">{{ item.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
     {% endfor %}
-    {% if page.sidebar.nav %}
-      {% include nav_list nav=page.sidebar.nav %}
-    {% endif %}
-  {% endif %}
+  </ul>
+
+
+  <div class="notice">
+    <p>Don't see what you're looking for? We're upgrading the docs, check out our <a href="https://github.com/coralproject/talk/tree/ef49d9a3d2acc4d2fc03b00e0c872dfbc57f005a/docs/_docs" target="_blank" class="coral-link-invert">old docs</a>.</p>
+    <p><a href="https://coralproject.net/" class="coral-link-invert" target="_blank">The Coral Project</a> from Mozilla</p>
+    <a href="https://www.mozilla.org/" target="_blank" title="Mozilla"><figure class="mozilla" alt="Mozilla">{% include images/moz-logo-bw-rgb.svg %}</figure></a>
   </div>
-{% endif %}
+</aside>
+<div class="sidebar__backdrop"></div>
