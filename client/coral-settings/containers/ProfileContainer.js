@@ -73,8 +73,8 @@ class ProfileContainer extends Component {
     const emailAddress = localProfile && localProfile.id;
 
     return (
-      <div className={cn('talk-my-profile__comment-history', {
-        'talk-my-profile__comment-history--no-comments': !me.comments.nodes.length
+      <div className={cn('talk-my-profile-comment-history', {
+        'talk-my-profile-comment-history-no-comments': !me.comments.nodes.length
       })}>
         <h2>{user.username}</h2>
         {emailAddress ? <p>{emailAddress}</p> : null}
@@ -90,7 +90,7 @@ class ProfileContainer extends Component {
         <h3>{t('framework.my_comments')}</h3>
         {me.comments.nodes.length
           ? <CommentHistory data={data} root={root} comments={me.comments} link={link} loadMore={this.loadMore}/>
-          : <p className='talk-my-profile__comment-history__no-comments-cta'>{t('user_no_comment')}</p>}
+          : <p className='talk-my-profile-comment-history-no-comments-cta'>{t('user_no_comment')}</p>}
       </div>
     );
   }

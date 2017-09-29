@@ -1,11 +1,15 @@
 module.exports = {
   Stream: {
+    'streamTab': '#talk-embed-stream-container .talk-tab.talk-embed-stream-comments-tab button',
     'myProfileTab': '#talk-embed-stream-container .talk-tab.talk-embed-stream-profile-tab button',
     'tabContent': '#talk-embed-stream-tab-content',
     'notLoggedInMessage': '.talk-not-logged-in-message',
     'authUserboxUsername': '.talk-stream-auth-userbox .talk-stream-auth-userbox-username',
+    'likeButton': '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-footer .talk-plugin-like-button'
   },
   MyProfile: {
-    'myCommentHistory': "#talk-embed-stream-tab-content .talk-my-profile-comment-history"
+    'myCommentHistory': "#talk-embed-stream-tab-content .talk-my-profile-comment-history",
+    'myCommentHistoryReactions': '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions',
+    'myCommentHistoryReactionCount': '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions .comment-summary-reaction-count'
   }
 };

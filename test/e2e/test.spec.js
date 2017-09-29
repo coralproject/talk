@@ -34,10 +34,13 @@ describe('Stream', () => {
   it('not logged in user clicks my profile tab', test(async (browser, {$}) => {
     const page = browser.currentPage;
 
-    await page.click($.Stream.myProfileTab);
-    await page.waitForSelector($.Stream.tabContent);
-    const notLoggedInMessage = await page.waitForSelector($.Stream.notLoggedInMessage);
+    const profileTab = await page.$($.Stream.myProfileTab);
+    expect(profileTab).to.not.equal(null);
+    await profileTab.click();
 
+    await page.waitForSelector($.Stream.tabContent);
+
+    const notLoggedInMessage = await page.waitForSelector($.Stream.notLoggedInMessage);
     expect(notLoggedInMessage).to.be.undefined;
   }));
 
@@ -95,12 +98,48 @@ describe('Stream', () => {
     await page.waitForSelector('#talk-embed-stream-tab-content');
 
     const myCommentHistory = await page.$($.MyProfile.myCommentHistory);
+
     expect(myCommentHistory).to.not.equal(null);
   }));
 
-  // it('user sees replies and reactions to comments', test(async (browser, {opts: {typeDelay}}) => {
-  //   const page = await browser.currentPage;
-  // }));
+  it('user sees replies and reactions to comments', test(async (browser, {$}) => {
+    const page = await browser.currentPage;
+
+    await page.waitForSelector($.MyProfile.myCommentHistory);
+
+    // Check for Reactions
+    const reactions = await page.$($.MyProfile.myCommentHistoryReactions);
+    expect(reactions).to.not.equal(null);
+
+    // Check for Reactions Count
+    const reactionsCountHandle = await page.$($.MyProfile.myCommentHistoryReactionCount);
+    expect(reactionsCountHandle).to.not.equal(null);
+
+    // Check number of Reactions
+    const reactionsCount = await page.evaluate(el => el.innerText, reactionsCountHandle);
+    expect(reactionsCount).to.equal('0');
+  }));
+
+  it('user goes to the stream and replies and reacts to comment', test(async (browser, {$}) => {
+    const page = await browser.currentPage;
+
+    await page.click($.Stream.streamTab);
+    await page.waitForNavigation({waitUntil: 'networkidle'});
+    await page.waitForSelector('#talk-embed-stream-tab-content');
+    
+    // Like first comment
+    const likeButton = await page.$($.Stream.likeButton);
+    expect(likeButton).to.not.equal(null);
+    likeButton.click();
+
+    // Go to the profile Tab
+    await page.click($.Stream.myProfileTab);
+    await page.waitForNavigation({waitUntil: 'networkidle'});
+    await page.waitForSelector('#talk-embed-stream-tab-content');
+
+    const myCommentHistory = await page.$($.MyProfile.myCommentHistory);
+
+  }));
 
   // it('user can visit story link', test(async (browser, {opts: {typeDelay}}) => {
   //   const page = await browser.currentPage;
