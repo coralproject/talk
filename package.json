@@ -185,13 +185,13 @@
     "yamljs": "^0.2.10"
   },
   "devDependencies": {
+    "@coralproject/eslint-config-talk": "^0.0.3",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-http": "^3.0.0",
     "enzyme": "^2.9.1",
     "eslint": "^4.5.0",
     "eslint-plugin-mocha": "^4.11.0",
-    "@coralproject/eslint-config-talk": "^0.0.1",
     "mocha": "^3.1.2",
     "mocha-junit-reporter": "^1.12.1",
     "nodemon": "^1.11.0",

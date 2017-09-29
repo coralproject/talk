@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@coralproject/eslint-config-talk@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@coralproject/eslint-config-talk/-/eslint-config-talk-0.0.1.tgz#b92b8d2cdea9d346ae11bc21779a600a4e70d634"
+"@coralproject/eslint-config-talk@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@coralproject/eslint-config-talk/-/eslint-config-talk-0.0.3.tgz#94965e984519920510f8a18be381f57ea38ee999"
   dependencies:
     eslint-plugin-json "^1.2.0"
     eslint-plugin-promise "^3.3.1"
