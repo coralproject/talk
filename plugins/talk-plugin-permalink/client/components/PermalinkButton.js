@@ -73,7 +73,9 @@ export default class PermalinkButton extends React.Component {
             ref={(ref) => this.linkButton = ref}
             onClick={this.toggle}
             className={cn(`${name}-button`, styles.button)}>
-            {t('permalink')}
+            <span className='talk-plugin-permalink-button-label'>
+              {t('permalink')}
+            </span>
             <Icon name="link" className={styles.icon}/>
           </button>
 
