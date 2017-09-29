@@ -137,7 +137,21 @@ describe('Stream', () => {
     await page.waitForNavigation({waitUntil: 'networkidle'});
     await page.waitForSelector('#talk-embed-stream-tab-content');
 
+    // Check my Comment history
     const myCommentHistory = await page.$($.MyProfile.myCommentHistory);
+    expect(myCommentHistory).to.not.equal(null);
+    
+    // Check for Reactions
+    const reactions = await page.$($.MyProfile.myCommentHistoryReactions);
+    expect(reactions).to.not.equal(null);
+
+    // Check for Reactions Count
+    const reactionsCountHandle = await page.$($.MyProfile.myCommentHistoryReactionCount);
+    expect(reactionsCountHandle).to.not.equal(null);
+
+    // Check number of Reactions
+    const reactionsCount = await page.evaluate(el => el.innerText, reactionsCountHandle);
+    expect(reactionsCount).to.equal('1');
 
   }));
 
