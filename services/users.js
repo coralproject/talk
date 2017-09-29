@@ -1,8 +1,6 @@
 const assert = require('assert');
 const uuid = require('uuid');
 const bcrypt = require('bcryptjs');
-const url = require('url');
-const Wordlist = require('./wordlist');
 const errors = require('../errors');
 
 const {
@@ -22,9 +20,10 @@ const USER_ROLES = require('../models/enum/user_roles');
 const RECAPTCHA_WINDOW_SECONDS = 60 * 10; // 10 minutes.
 const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha will be required.
 
-const SettingsService = require('./settings');
 const ActionsService = require('./actions');
 const MailerService = require('./mailer');
+const Wordlist = require('./wordlist');
+const Domainlist = require('./domainlist');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
 const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
@@ -557,11 +556,10 @@ module.exports = class UsersService {
 
     email = email.toLowerCase();
 
-    const [user, settings] = await Promise.all([
+    const [user, domainValidated] = await Promise.all([
       UserModel.findOne({profiles: {$elemMatch: {id: email}}}),
-      SettingsService.retrieve(),
+      Domainlist.urlCheck(loc),
     ]);
-
     if (!user) {
 
       // Since we don't want to reveal that the email does/doesn't exist
@@ -569,19 +567,11 @@ module.exports = class UsersService {
       // endpoint.
       return;
     }
-    let redirectDomain;
-    try {
-      const {hostname, port} = url.parse(loc);
-      redirectDomain = hostname;
-      if (port) {
-        redirectDomain += `:${port}`;
-      }
-    } catch (e) {
-      throw new Error('redirect location is invalid');
-    }
 
-    if (settings.domains.whitelist.indexOf(redirectDomain) === -1) {
-      throw new Error('redirect location is not on the list of acceptable domains');
+    // If the domain didn't match any of the whitelisted domains and if it
+    // didn't match the mount domain, then throw an error.
+    if (!domainValidated && !Domainlist.matchMount(loc)) {
+      throw new Error('user supplied location exists on non-permitted domain');
     }
 
     const payload = {
@@ -619,16 +609,18 @@ module.exports = class UsersService {
    * Verifies a jwt and returns the associated user.
    * @param {String} token the JSON Web Token to verify
    */
-  static verifyPasswordResetToken(token) {
-    return UsersService
-      .verifyToken(token, {
-        subject: PASSWORD_RESET_JWT_SUBJECT
-      })
+  static async verifyPasswordResetToken(token) {
+    const {userId, loc, version} = await UsersService.verifyToken(token, {
+      subject: PASSWORD_RESET_JWT_SUBJECT
+    });
 
-      // TODO: add search by __v as well
-      .then((decoded) => {
-        return Promise.all([UsersService.findById(decoded.userId), decoded.loc]);
-      });
+    const user = await UsersService.findById(userId);
+
+    if (version !== user.__v) {
+      throw new Error('password reset token has expired');
+    }
+
+    return [user, loc];
   }
 
   /**
