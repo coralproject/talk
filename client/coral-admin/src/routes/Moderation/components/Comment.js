@@ -8,13 +8,13 @@ import styles from './Comment.css';
 import CommentLabels from 'coral-admin/src/components/CommentLabels';
 import CommentAnimatedEdit from 'coral-admin/src/components/CommentAnimatedEdit';
 import Slot from 'coral-framework/components/Slot';
-import {getActionSummary} from 'coral-framework/utils';
-import ActionButton from 'coral-admin/src/components/ActionButton';
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import CommentBodyHighlighter from 'coral-admin/src/components/CommentBodyHighlighter';
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
+import ApproveButton from 'coral-admin/src/components/ApproveButton';
+import RejectButton from 'coral-admin/src/components/RejectButton';
 
 import t, {timeago} from 'coral-framework/services/i18n';
 
@@ -45,11 +45,19 @@ class Comment extends React.Component {
     return viewUserDetail(comment.user.id);
   };
 
+  approve = () => (this.props.comment.status === 'ACCEPTED'
+    ? null
+    : this.props.acceptComment({commentId: this.props.comment.id})
+  );
+
+  reject = () => (this.props.comment.status === 'REJECTED'
+    ? null
+    : this.props.rejectComment({commentId: this.props.comment.id})
+  );
+
   render() {
     const {
-      actions = [],
       comment,
-      viewUserDetail,
       suspectWords,
       bannedWords,
       selected,
@@ -58,15 +66,9 @@ class Comment extends React.Component {
       root,
       currentUserId,
       currentAsset,
-      acceptComment,
-      rejectComment,
     } = this.props;
 
-    const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
-    const flagActions = comment.actions && comment.actions.filter((a) => a.__typename === 'FlagAction');
-
     const selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
-
     const queryData = {root, comment, asset: comment.asset};
 
     return (
@@ -153,28 +155,14 @@ class Comment extends React.Component {
                   </span>
                 </IfHasLink>
                 <div className={`actions ${styles.actions}`}>
-                  {actions.map((action, i) => {
-                    const active =
-                      (action === 'REJECT' && comment.status === 'REJECTED') ||
-                      (action === 'APPROVE' && comment.status === 'ACCEPTED');
-                    return (
-                      <ActionButton
-                        key={i}
-                        type={action}
-                        user={comment.user}
-                        status={comment.status}
-                        active={active}
-                        acceptComment={() =>
-                          (comment.status === 'ACCEPTED'
-                            ? null
-                            : acceptComment({commentId: comment.id}))}
-                        rejectComment={() =>
-                          (comment.status === 'REJECTED'
-                            ? null
-                            : rejectComment({commentId: comment.id}))}
-                      />
-                    );
-                  })}
+                  <ApproveButton
+                    active={comment.status === 'ACCEPTED'}
+                    onClick={this.approve}
+                  />
+                  <RejectButton
+                    active={comment.status === 'REJECTED'}
+                    onClick={this.reject}
+                  />
                 </div>
                 <Slot
                   fill="adminSideActions"
@@ -185,17 +173,10 @@ class Comment extends React.Component {
             </div>
           </CommentAnimatedEdit>
         </div>
-        {flagActions && flagActions.length
-          ? <CommentDetails
-            actions={flagActions}
-            actionSummaries={flagActionSummaries}
-            viewUserDetail={viewUserDetail}
-          />
-          : null}
-        <Slot
-          fill="adminCommentDetailArea"
+        <CommentDetails
           data={data}
-          queryData={queryData}
+          root={root}
+          comment={comment}
         />
       </li>
     );
@@ -214,6 +195,8 @@ Comment.propTypes = {
   showSuspendUserDialog: PropTypes.func.isRequired,
   currentUserId: PropTypes.string.isRequired,
   comment: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
     action_summaries: PropTypes.array,
     actions: PropTypes.array,
@@ -230,7 +213,6 @@ Comment.propTypes = {
   }),
   data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
-  actions: PropTypes.array.isRequired,
   selected: PropTypes.bool,
 };
 

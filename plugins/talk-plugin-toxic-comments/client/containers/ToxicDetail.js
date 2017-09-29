@@ -15,7 +15,7 @@ const enhance = compose(
         }
       }`,
   }),
-  excludeIf(({comment: {toxicity}}) => toxicity === null),
+  excludeIf(({comment: {toxicity}, more}) => !more || toxicity === null),
 );
 
 export default enhance(ToxicDetail);

@@ -5,32 +5,38 @@ import {Link} from 'react-router';
 import {Icon} from 'coral-ui';
 import CommentDetails from './CommentDetails';
 import styles from './UserDetailComment.css';
-import ActionButton from 'coral-admin/src/components/ActionButton';
 import CommentBodyHighlighter from 'coral-admin/src/components/CommentBodyHighlighter';
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
 import CommentAnimatedEdit from './CommentAnimatedEdit';
 import CommentLabels from '../containers/CommentLabels';
+import ApproveButton from './ApproveButton';
+import RejectButton from 'coral-admin/src/components/RejectButton';
 
 import t, {timeago} from 'coral-framework/services/i18n';
 
 class UserDetailComment extends React.Component {
 
+  approve = () => (this.props.comment.status === 'ACCEPTED'
+    ? null
+    : this.props.acceptComment({commentId: this.props.comment.id})
+  );
+
+  reject = () => (this.props.comment.status === 'REJECTED'
+    ? null
+    : this.props.rejectComment({commentId: this.props.comment.id})
+  );
+
   render() {
     const {
-      actions = [],
       comment,
-      viewUserDetail,
       suspectWords,
       bannedWords,
       selected,
       toggleSelect,
       className,
-      user,
-      ...props
+      data,
     } = this.props;
-
-    const flagActions = comment.actions && comment.actions.filter((a) => a.__typename === 'FlagAction');
 
     return (
       <li
@@ -86,40 +92,26 @@ class UserDetailComment extends React.Component {
                   </span>
                 </IfHasLink>
                 <div className={styles.actions}>
-                  {actions.map((action, i) => {
-                    const active =
-                      (action === 'REJECT' && comment.status === 'REJECTED') ||
-                      (action === 'APPROVE' && comment.status === 'ACCEPTED');
-                    return (
-                      <ActionButton
-                        minimal={true}
-                        key={i}
-                        type={action}
-                        user={user}
-                        status={comment.status}
-                        active={active}
-                        acceptComment={() =>
-                          (comment.status === 'ACCEPTED'
-                            ? null
-                            : props.acceptComment({commentId: comment.id}))}
-                        rejectComment={() =>
-                          (comment.status === 'REJECTED'
-                            ? null
-                            : props.rejectComment({commentId: comment.id}))}
-                      />
-                    );
-                  })}
+                  <ApproveButton
+                    active={comment.status === 'ACCEPTED'}
+                    onClick={this.approve}
+                    minimal
+                  />
+                  <RejectButton
+                    active={comment.status === 'REJECTED'}
+                    onClick={this.reject}
+                    minimal
+                  />
                 </div>
               </div>
             </div>
           </CommentAnimatedEdit>
         </div>
-        {flagActions && flagActions.length
-          ? <CommentDetails
-            actions={flagActions}
-            viewUserDetail={viewUserDetail}
-          />
-          : null}
+        <CommentDetails
+          data={data}
+          root={root}
+          comment={comment}
+        />
       </li>
     );
   }
@@ -135,6 +127,8 @@ UserDetailComment.propTypes = {
   bannedWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   toggleSelect: PropTypes.func,
   comment: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
     actions: PropTypes.array,
     created_at: PropTypes.string.isRequired,

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styles from './CommentDetails.css';
 import t from 'coral-framework/services/i18n';
-import FlagDetails from './FlagDetails';
+import Slot from 'coral-framework/components/Slot';
 
 class CommentDetails extends Component {
   state = {
@@ -23,15 +23,20 @@ class CommentDetails extends Component {
   }
 
   render() {
-    const {actions, viewUserDetail} = this.props;
+    const {data, root, comment} = this.props;
     const {showDetail} = this.state;
+    const queryData = {
+      root,
+      comment,
+    };
 
     return (
       <div className={styles.root}>
         <a onClick={this.toggleDetail} className={styles.moreDetail}>{showDetail ? t('modqueue.less_detail') : t('modqueue.more_detail')}</a>
-        <FlagDetails
-          actions={actions}
-          viewUserDetail={viewUserDetail}
+        <Slot
+          fill="adminCommentDetailArea"
+          data={data}
+          queryData={queryData}
           more={showDetail}
         />
       </div>
@@ -40,11 +45,9 @@ class CommentDetails extends Component {
 }
 
 CommentDetails.propTypes = {
-  actions: PropTypes.arrayOf(PropTypes.shape({
-    message: PropTypes.string,
-    user: PropTypes.shape({username: PropTypes.string})
-  })).isRequired,
-  viewUserDetail: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
+  comment: PropTypes.object.isRequired,
 };
 
 export default CommentDetails;
