@@ -12,7 +12,7 @@ const UserBox = ({loggedIn, user, logout, onShowProfile}) => (
       loggedIn ? (
         <div className={`${styles.userBox} talk-stream-auth-userbox`}>
           <span className={styles.userBoxLoggedIn}>{t('sign_in.logged_in_as')}</span>
-          <a className="talk-stream-auth-userbox-usernamme" onClick={onShowProfile}>{user.username}</a>. {t('sign_in.not_you')}
+          <a className="talk-stream-auth-userbox-username" onClick={onShowProfile}>{user.username}</a>. {t('sign_in.not_you')}
           <a className={`${styles.logout} talk-stream-userbox-logout`} onClick={() => logout()}>
             {t('sign_in.logout')}
           </a>

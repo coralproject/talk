@@ -3,6 +3,7 @@ module.exports = {
   typeDelay: 0,
   puppeteer: {
     headless: false,
-    slowMo: 250
+    timeout: 30000,
+    slowMo: 0
   }
 };

@@ -25,8 +25,8 @@ class CommentHistory extends React.Component {
   render() {
     const {link, comments, data, root} = this.props;
     return (
-      <div className={`${styles.header} commentHistory`}>
-        <div className="commentHistory__list">
+      <div className={`${styles.header} talk-my-profile-comment-history`}>
+        <div className="talk-my-profile-comment-history-list">
           {comments.nodes.map((comment, i) => {
             return <Comment
               key={i}

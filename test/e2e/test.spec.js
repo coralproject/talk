@@ -10,6 +10,9 @@ describe('Stream', () => {
     const rHash = murmur3(uuid.v4());
     const page = await browser.newPage();
     await page.goto(`${url}/assets/title/test-${rHash}`, {waitUntil: 'networkidle'});
+
+    // Assertions
+    // Test the asset title?
   }));
 
   it('goes to the embed iframe',  test(async (browser, _, context) => {
@@ -22,10 +25,9 @@ describe('Stream', () => {
     
     // TODO: (bc) CHANGE WHEN THIS ISSUE IS SOLVED: https://github.com/GoogleChrome/puppeteer/issues/684
     // Going to the embed stream url
-    await page.goto(embedStreamUrl, {
-      waitUntil: 'networkidle'
-    });
-
+    await page.goto(embedStreamUrl, {waitUntil: 'networkidle'});
+    
+    // Assertions
     expect(page.url()).to.equal(embedStreamUrl);
   }));
 
@@ -39,7 +41,7 @@ describe('Stream', () => {
     expect(notLoggedInMessage).to.be.undefined;
   }));
 
-  it('creates an user and logs in', test(async (browser, {opts: {url, typeDelay}, $, data}) => {
+  it('creates an user and user logs in', test(async (browser, {opts: {url, typeDelay}, $, data}) => {
     const rHash = murmur3(uuid.v4());
 
     const formData = {
@@ -49,9 +51,8 @@ describe('Stream', () => {
     };
 
     const page = await browser.currentPage;
-    await page.goto(url, {waitUntil: 'networkidle'});
 
-    await page.goto('http://localhost:3000/embed/stream/login');
+    await page.goto('http://localhost:3000/embed/stream/login', {waitUntil: 'networkidle'});
     await page.click('#coralRegister');
     await page.focus('#signInDialog #email');
     await page.type(formData.email, {delay: typeDelay});
@@ -62,16 +63,18 @@ describe('Stream', () => {
     await page.focus('#confirmPassword');
     await page.type(formData.password, {delay: typeDelay});
     await page.click('#coralSignUpButton');
+
     await page.waitForSelector('#coralLogInButton');
     await page.click('#coralLogInButton');
-    
-    await page.goto(data.embedStreamUrl, {waitUntil: 'networkidle'});
+    await page.waitForNavigation({waitUntil: 'networkidle'});
 
-    const username = await page.waitForSelector($.Stream.authUserboxUsername);
-    expect(username).to.equal(formData.username);
+    await page.goto(data.embedStreamUrl, {waitUntil: 'networkidle', networkIdleTimeout: 3000});
+
+    const userBoxEl = await page.waitForSelector($.Stream.authUserboxUsername);
+    expect(userBoxEl).to.not.equal(null);
   }));
 
-  it('posts a comment', test(async (browser, {opts: {typeDelay}}) => {
+  it('user posts a comment', test(async (browser, {opts: {typeDelay}}) => {
     const page = await browser.currentPage;
 
     await page.waitForSelector('#commentText');
@@ -80,5 +83,30 @@ describe('Stream', () => {
     
     // Posting Comment
     await page.click('.talk-plugin-commentbox-button');
+    await page.waitForNavigation({waitUntil: 'networkidle'});
+
+    // Assertions
   }));
+
+  it('signed in user sees comment history', test(async (browser, {$, data}) => {
+    const page = await browser.currentPage;
+    await page.click($.Stream.myProfileTab);
+    await page.waitForNavigation({waitUntil: 'networkidle'});
+    await page.waitForSelector('#talk-embed-stream-tab-content');
+
+    const myCommentHistory = await page.$($.MyProfile.myCommentHistory);
+    expect(myCommentHistory).to.not.equal(null);
+  }));
+
+  // it('user sees replies and reactions to comments', test(async (browser, {opts: {typeDelay}}) => {
+  //   const page = await browser.currentPage;
+  // }));
+
+  // it('user can visit story link', test(async (browser, {opts: {typeDelay}}) => {
+  //   const page = await browser.currentPage;
+  // }));
+
+  // it('user can view a conversation', test(async (browser, {opts: {typeDelay}}) => {
+  //   const page = await browser.currentPage;
+  // }));
 });
