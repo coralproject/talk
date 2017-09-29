@@ -1,24 +1,3 @@
 {
-    "env": {
-        "browser": true,
-        "es6": true,
-        "mocha": true
-    },
-    "extends": "../.eslintrc.json",
-    "parserOptions": {
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true,
-            "jsx": true
-        }
-    },
-    "parser": "babel-eslint",
-    "plugins": [
-        "react"
-    ],
-    "rules": {
-        "react/jsx-uses-react": "error",
-        "react/jsx-uses-vars": "error",
-        "no-console": ["warn", { "allow": ["warn", "error"] }]
-    }
+  "extends": "@coralproject/eslint-config-talk/client"
 }
