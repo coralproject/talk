@@ -1,0 +1,19 @@
+items:
+  - title: Installation
+    children:
+      - title: Talk Quickstart
+        url: /
+      - title: Installation from Docker
+        url: /installation-from-docker/
+      - title: Installation from Source
+        url: /installation-from-source/
+  - title: Configuration
+    children:
+      - title: Required Configuration
+        url: /configuration/
+      - title: Advanced Configuration
+        url: /advanced-configuration/
+  - title: Plugins
+    children:
+      - title: Plugins Overview
+        url: /plugins/
