@@ -1,6 +1,3 @@
-_site/
-.sass-cache/
+_site
+.sass-cache
 .jekyll-metadata
-_pdf
-.idea/
-.DS_Store

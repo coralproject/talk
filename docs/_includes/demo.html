@@ -1,0 +1,13 @@
+In order for the demo to work, you must add
+`{{ site.url | remove: "http://" | remove: "https://" | remove: "/" }}` to your
+permitted domains list. You can do this by visiting
+[http://127.0.0.1:3000/admin/configure](http://127.0.0.1:3000/admin/configure){:target="_blank"}
+now and selecting *Tech Settings* from the sidebar.
+
+Once you have added the domain of these docs, you can click the button below.
+
+<div class="demo">
+  <button id="talk-demo-embed-button" type="button" class="btn btn-block btn-coral">Start Demo</button>
+  <div class="alert" role="alert"></div>
+  <div class="mount"></div>
+</div>
