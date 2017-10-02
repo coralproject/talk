@@ -100,11 +100,14 @@ describe('Stream', () => {
     
     // Posting Comment
     await page.click($.Stream.commentBoxPostButton);
+    await page.waitFor(2000);
     await page.waitForNavigation({waitUntil: 'networkidle'});
 
     // Check if comment was posted
     const firstCommentHandle = await page.$($.Stream.firstCommentContent);
-    const firstCommentContent = await page.evaluate(el => el.textContent, firstCommentHandle);
+    expect(firstCommentHandle).to.not.equal(null);
+
+    const firstCommentContent = await page.evaluate((el) => el.textContent, firstCommentHandle);
     expect(firstCommentContent).to.equal(testData.body);
   }));
 

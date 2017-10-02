@@ -4,7 +4,7 @@ import {Icon} from '../coral-ui';
 import styles from './Comment.css';
 import Slot from 'coral-framework/components/Slot';
 import CommentTimestamp from 'coral-framework/components/CommentTimestamp';
-import CommentContent from '../coral-embed-stream/src/components/CommentContent';
+import CommentContent from 'coral-framework/components/CommentContent';
 import cn from 'classnames';
 import {getTotalReactionsCount} from 'coral-framework/utils';
 

@@ -6,13 +6,9 @@ const merge = require('lodash/merge');
 const helmet = require('helmet');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
-const {
-  BASE_URL,
-  BASE_PATH,
-  MOUNT_PATH,
-  STATIC_URL,
-  HELMET_CONFIGURATION,
-} = require('./url');
+const {HELMET_CONFIGURATION} = require('./config');
+const {MOUNT_PATH} = require('./url');
+const {applyLocals} = require('./services/locals');
 const routes = require('./routes');
 const debug = require('debug')('talk:app');
 
@@ -57,12 +53,8 @@ app.set('view engine', 'ejs');
 // ROUTES
 //==============================================================================
 
-// Apply the BASE_PATH, BASE_URL, and MOUNT_PATH on the app.locals, which will
-// make them available on the templates and the routers.
-app.locals.BASE_URL = BASE_URL;
-app.locals.BASE_PATH = BASE_PATH;
-app.locals.MOUNT_PATH = MOUNT_PATH;
-app.locals.STATIC_URL = STATIC_URL;
+// Add the locals to the app renderer.
+applyLocals(app.locals);
 
 debug(`mounting routes on the ${MOUNT_PATH} path`);
 

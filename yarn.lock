@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@coralproject/eslint-config-talk@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@coralproject/eslint-config-talk/-/eslint-config-talk-0.0.3.tgz#94965e984519920510f8a18be381f57ea38ee999"
+  dependencies:
+    eslint-plugin-json "^1.2.0"
+    eslint-plugin-promise "^3.3.1"
+    eslint-plugin-react "^7.3.0"
+
 "@kadira/storybook-deployer@^1.1.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@kadira/storybook-deployer/-/storybook-deployer-1.2.0.tgz#1708f5cb37fa08ab4173b1bd99df6f4717dfae12"
@@ -1350,10 +1358,6 @@ check-more-types@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/check-more-types/-/check-more-types-2.3.0.tgz#b8397c69dc92a3e645f18932c045b09c74419ec4"
 
-check-valid-url@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/check-valid-url/-/check-valid-url-0.0.2.tgz#938fc545fc90b71edf800f7345bfd36f3aa0a057"
-
 cheerio@^0.20.0:
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/cheerio/-/cheerio-0.20.0.tgz#5c710f2bab95653272842ba01c6ea61b3545ec35"
@@ -1880,17 +1884,6 @@ css-loader@^0.28.5:
     postcss-value-parser "^3.3.0"
     source-list-map "^2.0.0"
 
-css-modules-loader-core@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/css-modules-loader-core/-/css-modules-loader-core-1.0.1.tgz#94e3eec9bc8174df0f974641f3e0d0550497f694"
-  dependencies:
-    icss-replace-symbols "1.0.2"
-    postcss "5.1.2"
-    postcss-modules-extract-imports "1.0.0"
-    postcss-modules-local-by-default "1.1.1"
-    postcss-modules-scope "1.0.2"
-    postcss-modules-values "1.2.2"
-
 css-parse@1.7.x:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/css-parse/-/css-parse-1.7.0.tgz#321f6cf73782a6ff751111390fc05e2c657d8c9b"
@@ -2062,6 +2055,10 @@ debug@~0.7.4:
 decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
+
+decode-uri-component@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
 
 deep-eql@^0.1.3:
   version "0.1.3"
@@ -2417,13 +2414,6 @@ escodegen@^1.6.1:
     optionator "^0.8.1"
   optionalDependencies:
     source-map "~0.2.0"
-
-eslint-module-utils@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/eslint-module-utils/-/eslint-module-utils-2.1.1.tgz#abaec824177613b8a95b299639e1b6facf473449"
-  dependencies:
-    debug "^2.6.8"
-    pkg-dir "^1.0.0"
 
 eslint-plugin-json@^1.2.0:
   version "1.2.0"
@@ -3000,12 +2990,6 @@ gauge@~2.7.1:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-generic-names@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/generic-names/-/generic-names-1.0.2.tgz#e25b7feceb5b5a8f28f5f972a7ccfe57e562adcd"
-  dependencies:
-    loader-utils "^0.2.16"
-
 get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
@@ -3226,6 +3210,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6,
 graphql-anywhere@^3.0.0, graphql-anywhere@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/graphql-anywhere/-/graphql-anywhere-3.0.1.tgz#73531db861174c8f212eafb9f8e84944b38b4e5a"
+
+graphql-anywhere@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/graphql-anywhere/-/graphql-anywhere-3.1.0.tgz#3ea0d8e8646b5cee68035016a9a7557c15c21e96"
 
 graphql-docs@^0.2.0:
   version "0.2.0"
@@ -3560,7 +3548,7 @@ iconv-lite@^0.4.17, iconv-lite@~0.4.13:
   version "0.4.18"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.18.tgz#23d8656b16aae6742ac29732ea8f0336a4789cf2"
 
-icss-replace-symbols@1.0.2, icss-replace-symbols@^1.0.2:
+icss-replace-symbols@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/icss-replace-symbols/-/icss-replace-symbols-1.0.2.tgz#cb0b6054eb3af6edc9ab1d62d01933e2d4c8bfa5"
 
@@ -4795,7 +4783,7 @@ metascraper@^1.0.7:
     popsicle "^6.2.0"
     to-title-case "^1.0.0"
 
-methods@1.x, methods@^1.1.1, methods@^1.1.2, methods@~1.1.2:
+methods@^1.1.1, methods@^1.1.2, methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
 
@@ -5586,12 +5574,6 @@ pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
 
-pkg-dir@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-1.0.0.tgz#7a4b508a8d5bb2d629d447056ff4e9c9314cf3d4"
-  dependencies:
-    find-up "^1.0.0"
-
 pkg-dir@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-2.0.0.tgz#f6d5d1109e19d63edf428e0bd57e12777615334b"
@@ -5847,47 +5829,32 @@ postcss-mixins@^2.1.0:
     postcss "^5.0.10"
     postcss-simple-vars "^1.0.1"
 
-postcss-modules-extract-imports@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/postcss-modules-extract-imports/-/postcss-modules-extract-imports-1.0.0.tgz#5b07f368e350cda6fd5c8844b79123a7bd3e37be"
-  dependencies:
-    postcss "^5.0.4"
-
 postcss-modules-extract-imports@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/postcss-modules-extract-imports/-/postcss-modules-extract-imports-1.0.1.tgz#8fb3fef9a6dd0420d3f6d4353cf1ff73f2b2a341"
   dependencies:
     postcss "^5.0.4"
 
-postcss-modules-local-by-default@1.1.1, postcss-modules-local-by-default@^1.0.1:
+postcss-modules-local-by-default@^1.0.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/postcss-modules-local-by-default/-/postcss-modules-local-by-default-1.1.1.tgz#29a10673fa37d19251265ca2ba3150d9040eb4ce"
   dependencies:
     css-selector-tokenizer "^0.6.0"
     postcss "^5.0.4"
 
-postcss-modules-scope@1.0.2, postcss-modules-scope@^1.0.0:
+postcss-modules-scope@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/postcss-modules-scope/-/postcss-modules-scope-1.0.2.tgz#ff977395e5e06202d7362290b88b1e8cd049de29"
   dependencies:
     css-selector-tokenizer "^0.6.0"
     postcss "^5.0.4"
 
-postcss-modules-values@1.2.2, postcss-modules-values@^1.1.0:
+postcss-modules-values@^1.1.0:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/postcss-modules-values/-/postcss-modules-values-1.2.2.tgz#f0e7d476fe1ed88c5e4c7f97533a3e772ad94ca1"
   dependencies:
     icss-replace-symbols "^1.0.2"
     postcss "^5.0.14"
-
-postcss-modules@^0.5.2:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/postcss-modules/-/postcss-modules-0.5.2.tgz#9d682fed3f282bd64b2aa4feb6f22a2af435ffda"
-  dependencies:
-    css-modules-loader-core "^1.0.1"
-    generic-names "^1.0.1"
-    postcss "^5.1.2"
-    string-hash "^1.1.0"
 
 postcss-nested@^1.0.0:
   version "1.0.1"
@@ -6039,15 +6006,7 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-postcss@5.1.2:
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.1.2.tgz#bd84886a66bcad489afaf7c673eed5ef639551e2"
-  dependencies:
-    js-base64 "^2.1.9"
-    source-map "^0.5.6"
-    supports-color "^3.1.2"
-
-postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.19, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.1.2, postcss@^5.2.13, postcss@^5.2.15, postcss@^5.2.16, postcss@^5.2.17, postcss@^5.2.4, postcss@^5.2.5:
+postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.19, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.2.13, postcss@^5.2.15, postcss@^5.2.16, postcss@^5.2.17, postcss@^5.2.4, postcss@^5.2.5:
   version "5.2.17"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.17.tgz#cf4f597b864d65c8a492b2eabe9d706c879c388b"
   dependencies:
@@ -6335,11 +6294,13 @@ query-string@^4.1.0, query-string@^4.2.2:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
-query-strings@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/query-strings/-/query-strings-0.0.1.tgz#d22bab97c9d39e2267b3b8e5f78592424b3e58cd"
+query-string@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-5.0.0.tgz#fbdf7004b4d2aff792f9871981b7a2794f555947"
   dependencies:
-    check-valid-url "0.0.2"
+    decode-uri-component "^0.2.0"
+    object-assign "^4.1.0"
+    strict-uri-encode "^1.0.0"
 
 querystring-es3@^0.2.0:
   version "0.2.1"
@@ -7346,13 +7307,6 @@ superagent@^2.0.0:
     mime "^1.3.4"
     qs "^6.1.0"
     readable-stream "^2.0.5"
-
-supertest@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/supertest/-/supertest-2.0.1.tgz#a058081d788f1515d4700d7502881e6b759e44cd"
-  dependencies:
-    methods "1.x"
-    superagent "^2.0.0"
 
 supports-color@3.1.2, supports-color@^3.1.0:
   version "3.1.2"

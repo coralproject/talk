@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import PropTypes from 'prop-types';
 import {compose, gql} from 'react-apollo';
 import withQuery from 'coral-framework/hocs/withQuery';
-import PropTypes from 'prop-types';
-
+import {getDefinitionName} from 'coral-framework/utils';
+import {withSetUserStatus, withRejectUsername} from 'coral-framework/graphql/mutations';
 import FlaggedAccounts from '../containers/FlaggedAccounts';
 import FlaggedUser from '../containers/FlaggedUser';
-
-import {withSetUserStatus, withRejectUsername} from 'coral-framework/graphql/mutations';
-import {getDefinitionName} from 'coral-framework/utils';
 
 import {
   fetchAccounts,
@@ -27,7 +25,7 @@ class CommunityContainer extends Component {
   }
 
   render() {
-    return <Community 
+    return <Community
       fetchAccounts={this.props.fetchAccounts}
       community={this.props.community}
       hideRejectUsernameDialog={this.props.hideRejectUsernameDialog}
@@ -56,28 +54,6 @@ CommunityContainer.propTypes = {
   root: PropTypes.object
 };
 
-const withData = withQuery(gql`
-    query TalkAdmin_FlaggedUsernamesCount {
-      flaggedUsernamesCount: userCount(query: {
-        action_type: FLAG,
-        statuses: [PENDING]
-      })
-      ...${getDefinitionName(FlaggedAccounts.fragments.root)}
-      ...${getDefinitionName(FlaggedUser.fragments.root)}
-      me {
-        ...${getDefinitionName(FlaggedUser.fragments.me)}
-        __typename
-      }
-    }
-    ${FlaggedAccounts.fragments.root}
-    ${FlaggedUser.fragments.root}
-    ${FlaggedUser.fragments.me}
-  `, {
-  options: {
-    fetchPolicy: 'network-only',
-  },
-});
-
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     fetchAccounts,
@@ -86,9 +62,27 @@ const mapDispatchToProps = (dispatch) =>
     newPage,
   }, dispatch);
 
+const withData = withQuery(gql`
+  query TalkAdmin_Community {
+    flaggedUsernamesCount: userCount(query: {
+      action_type: FLAG,
+      statuses: [PENDING]
+    })
+    ...${getDefinitionName(FlaggedAccounts.fragments.root)}
+    ...${getDefinitionName(FlaggedUser.fragments.root)}
+    me {
+      ...${getDefinitionName(FlaggedUser.fragments.me)}
+      __typename
+    }
+  }
+  ${FlaggedAccounts.fragments.root}
+  ${FlaggedUser.fragments.root}
+  ${FlaggedUser.fragments.me}
+`);
+
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withSetUserStatus,
   withRejectUsername,
-  withData,
+  withData
 )(CommunityContainer);

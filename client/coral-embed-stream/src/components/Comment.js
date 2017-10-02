@@ -16,7 +16,7 @@ import mapValues from 'lodash/mapValues';
 import LoadMore from './LoadMore';
 import {getEditableUntilDate} from './util';
 import {findCommentWithId} from '../graphql/utils';
-import CommentContent from './CommentContent';
+import CommentContent from 'coral-framework/components/CommentContent';
 import Slot from 'coral-framework/components/Slot';
 import CommentTombstone from './CommentTombstone';
 import InactiveCommentLabel from './InactiveCommentLabel';
@@ -529,7 +529,7 @@ export default class Comment extends React.Component {
             <div className={cn(styles.footer, 'talk-stream-comment-footer')}>
               {isActive &&
                 <div className={'talk-stream-comment-actions-container'}>
-                  <div className="commentActionsLeft comment__action-container">
+                  <div className="talk-embed-stream-comment-actions-container-left commentActionsLeft comment__action-container">
                     <Slot
                       fill="commentReactions"
                       {...slotProps}
@@ -545,7 +545,7 @@ export default class Comment extends React.Component {
                         />
                       </ActionButton>}
                   </div>
-                  <div className="commentActionsRight comment__action-container">
+                  <div className="talk-embed-stream-comment-actions-container-right commentActionsRight comment__action-container">
                     <Slot
                       fill="commentActions"
                       wrapperComponent={ActionButton}
