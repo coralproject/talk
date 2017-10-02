@@ -78,7 +78,7 @@ fr:
     comment_count_text_pre: "Les commentaires seront limités à"
     comment_settings: Paramètres
     comment_stream: "Fil de commentaires"
-    comment_stream_will_close: "Le fil de commentaires va se fermer dans"
+    comment_stream_will_close: "Le fil de commentaires va se fermer"
     community: Communauté
     configure: Configurer
     copy_and_paste: "Copiez et collez le code ci-dessous dans votre CMS pour intégrer votre boîte de commentaires dans vos articles."
