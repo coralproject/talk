@@ -87,7 +87,7 @@ pt_BR:
     comment_count_text_pre: "Os comentários serão limitados a"
     comment_settings: Configurações
     comment_stream: "Hilo de comentários"
-    comment_stream_will_close: "O hilo de comentários será fechado em"
+    comment_stream_will_close: "O hilo de comentários será fechado"
     community: Comunidade
     configure: Configurar
     copy_and_paste: "Copie e cole o código abaixo em seu CMS para incorporar sua caixa de comentários em seus artigos."
