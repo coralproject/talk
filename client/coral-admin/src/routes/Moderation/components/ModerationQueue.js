@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Comment from '../containers/Comment';
 import styles from './ModerationQueue.css';
 import EmptyCard from '../../../components/EmptyCard';
-import {actionsMap} from '../../../utils/moderationQueueActionsMap';
 import LoadMore from '../../../components/LoadMore';
 import ViewMore from './ViewMore';
 import t from 'coral-framework/services/i18n';
@@ -140,7 +139,6 @@ class ModerationQueue extends React.Component {
     if (singleView) {
       const index = comments.findIndex((comment) => comment.id === selectedCommentId);
       const comment = comments[index];
-      const status = comment.action_summaries ? 'FLAGGED' : comment.status;
       return (
         <div className={styles.root}>
           <Comment
@@ -152,7 +150,6 @@ class ModerationQueue extends React.Component {
             suspectWords={props.suspectWords}
             bannedWords={props.bannedWords}
             viewUserDetail={viewUserDetail}
-            actions={actionsMap[status]}
             showBanUserDialog={props.showBanUserDialog}
             showSuspendUserDialog={props.showSuspendUserDialog}
             acceptComment={props.acceptComment}
@@ -190,7 +187,6 @@ class ModerationQueue extends React.Component {
           {
             view
               .map((comment) => {
-                const status = comment.action_summaries ? 'FLAGGED' : comment.status;
                 return <Comment
                   data={this.props.data}
                   root={this.props.root}
@@ -200,7 +196,6 @@ class ModerationQueue extends React.Component {
                   suspectWords={props.suspectWords}
                   bannedWords={props.bannedWords}
                   viewUserDetail={viewUserDetail}
-                  actions={actionsMap[status]}
                   showBanUserDialog={props.showBanUserDialog}
                   showSuspendUserDialog={props.showSuspendUserDialog}
                   acceptComment={props.acceptComment}

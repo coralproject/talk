@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './FlaggedUser.css';
 
-import ActionButton from './ActionButton';
-
 // TODO: Should not rely on plugin.
 import {username} from 'talk-plugin-flags/helpers/flagReasons';
 
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
+import ApproveButton from 'coral-admin/src/components/ApproveButton';
+import RejectButton from 'coral-admin/src/components/RejectButton';
 
 import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
@@ -35,15 +35,16 @@ class User extends React.Component {
   });
 
   viewAuthorDetail = () => this.props.viewUserDetail(this.props.user.id);
+  showRejectUsernameDialog = () => this.props.showRejectUsernameDialog({id: this.props.user.id});
+  approveUser = () => this.props.approveUser({
+    userId: this.props.user.id,
+  });
 
   render() {
     const {
       user,
-      modActionButtons,
       viewUserDetail,
       selected,
-      approveUser,
-      showRejectUsernameDialog,
       me,
       className,
     } = this.props;
@@ -125,14 +126,12 @@ class User extends React.Component {
             </div>
             <div className={styles.sideActions}>
               <div className={styles.actions}>
-                {modActionButtons.map((action, i) =>
-                  <ActionButton key={i}
-                    type={action.toUpperCase()}
-                    user={user}
-                    approveUser={approveUser}
-                    showRejectUsernameDialog={showRejectUsernameDialog}
-                  />
-                )}
+                <ApproveButton
+                  onClick={this.approveUser}
+                />
+                <RejectButton
+                  onClick={this.showRejectUsernameDialog}
+                />
               </div>
             </div>
           </div>
