@@ -1,6 +1,7 @@
 import {gql} from 'react-apollo';
 import Comment from '../components/Comment';
 import CommentLabels from '../../../containers/CommentLabels';
+import CommentDetails from '../../../containers/CommentDetails';
 import withFragments from 'coral-framework/hocs/withFragments';
 import {getSlotFragmentSpreads, getDefinitionName} from 'coral-framework/utils';
 
@@ -16,8 +17,12 @@ export default withFragments({
     fragment CoralAdmin_ModerationComment_root on RootQuery {
       __typename
       ${getSlotFragmentSpreads(slots, 'root')}
+      ...${getDefinitionName(CommentLabels.fragments.root)}
+      ...${getDefinitionName(CommentDetails.fragments.root)}
     }
-    `,
+    ${CommentLabels.fragments.root}
+    ${CommentDetails.fragments.root}
+  `,
   comment: gql`
     fragment CoralAdmin_ModerationComment_comment on Comment {
       id
@@ -34,33 +39,15 @@ export default withFragments({
         title
         url
       }
-      action_summaries {
-        count
-        ... on FlagActionSummary {
-          reason
-          __typename
-        }
-      }
-      actions {
-        ... on FlagAction {
-          id
-          reason
-          message
-          user {
-            id
-            username
-          }
-          __typename
-        }
-        __typename
-      }
       editing {
         edited
       }
       hasParent
       ${getSlotFragmentSpreads(slots, 'comment')}
       ...${getDefinitionName(CommentLabels.fragments.comment)}
+      ...${getDefinitionName(CommentDetails.fragments.comment)}
     }
     ${CommentLabels.fragments.comment}
+    ${CommentDetails.fragments.comment}
   `
 })(Comment);

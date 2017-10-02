@@ -5,3 +5,6 @@ input CreateCommentInput {
   checkToxicity: Boolean
 }
 
+type Comment {
+  toxicity: Float
+}

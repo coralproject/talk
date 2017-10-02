@@ -1,0 +1,11 @@
+.info {
+  background-color: rgba(44, 44, 44, 0.89);
+  color: white;
+  padding: 2px 4px;
+  font-size: 0.8em;
+  margin-left: 6px;
+}
+
+.toxic {
+  background-color: #d03235;
+}

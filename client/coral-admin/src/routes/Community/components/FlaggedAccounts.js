@@ -47,7 +47,6 @@ class FlaggedAccounts extends React.Component {
                       <FlaggedUser
                         user={user}
                         key={user.id}
-                        modActionButtons={['APPROVE', 'REJECT']}
                         showBanUserDialog={showBanUserDialog}
                         showSuspendUserDialog={showSuspendUserDialog}
                         showRejectUsernameDialog={showRejectUsernameDialog}

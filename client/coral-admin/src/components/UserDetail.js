@@ -5,7 +5,6 @@ import styles from './UserDetail.css';
 import {Icon, Button, Drawer, Spinner} from 'coral-ui';
 import {Slot} from 'coral-framework/components';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
-import {actionsMap} from '../utils/moderationQueueActionsMap';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import LoadMore from '../components/LoadMore';
 import cn from 'classnames';
@@ -70,6 +69,7 @@ export default class UserDetail extends React.Component {
 
   renderLoaded() {
     const {
+      data,
       root,
       root: {
         user,
@@ -177,15 +177,15 @@ export default class UserDetail extends React.Component {
           <div>
             {
               nodes.map((comment) => {
-                const status = comment.action_summaries ? 'FLAGGED' : comment.status;
                 const selected = selectedCommentIds.indexOf(comment.id) !== -1;
                 return <Comment
                   key={comment.id}
                   user={user}
+                  root={root}
+                  data={data}
                   comment={comment}
                   suspectWords={suspectWords}
                   bannedWords={bannedWords}
-                  actions={actionsMap[status]}
                   acceptComment={this.acceptThenReload}
                   rejectComment={this.rejectThenReload}
                   selected={selected}
