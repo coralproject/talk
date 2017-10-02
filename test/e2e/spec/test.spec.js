@@ -1,10 +1,10 @@
-const {test} = require('./browser');
+const {test} = require('../browser');
 const {murmur3} = require('murmurhash-js');
 const uuid = require('uuid');
-const {getEmbedStream} = require('./utils/frame');
+const {getEmbedStream} = require('../utils/frame');
 const {expect} = require('chai');
 
-describe('Stream', () => {
+describe('Embed Stream', () => {
 
   it('creates a new asset', test(async (browser, {opts: {url}}) => {
     const rHash = murmur3(uuid.v4());
@@ -100,7 +100,6 @@ describe('Stream', () => {
     
     // Posting Comment
     await page.click($.Stream.commentBoxPostButton);
-    await page.waitFor(2000);
     await page.waitForNavigation({waitUntil: 'networkidle'});
 
     // Check if comment was posted

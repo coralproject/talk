@@ -1,1 +1,3 @@
+runner.js
+spec/**.spec.js
 --timeout 30000

@@ -5,8 +5,3 @@ before((done) => {
   browser.setOptions(options); 
   browser.setUp(done);
 });
-
-after(() => {
-  
-  // browser.close();
-});

@@ -2,7 +2,7 @@ module.exports = {
   Stream: {
     'commentBoxTextarea': '#commentText',
     'commentBoxPostButton': '.talk-plugin-commentbox-button',
-    'firstCommentContent': '.talk-stream-comment.talk-stream-comment-level-0 .talk-plugin-comment-content-text',
+    'firstCommentContent': '.talk-stream-comment.talk-stream-comment-level-0 .talk-embed-stream-comment-content',
     'streamTab': '#talk-embed-stream-container .talk-tab.talk-embed-stream-comments-tab button',
     'myProfileTab': '#talk-embed-stream-container .talk-tab.talk-embed-stream-profile-tab button',
     'tabContent': '#talk-embed-stream-tab-content',
