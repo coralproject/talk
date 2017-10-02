@@ -1,4 +1,3 @@
-import React from 'react';
 import SubscriberBadge from '../components/SubscriberBadge';
 import {compose, gql} from 'react-apollo';
 import {withFragments, excludeIf} from 'plugin-api/beta/client/hocs';
