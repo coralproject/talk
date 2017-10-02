@@ -41,22 +41,17 @@ fr:
     banned: Banni
     banned_user: "Utilisateur banni"
     cancel: Signalé
-    dont_like_username: "Je n'aime pas ce nom d'utilisateur"
     flaggedaccounts: "Noms d'utilisateurs signalés"
     flags: Signalements
-    impersonating: "Cet utilisateur se fait passer pour quelqu'un d'autre"
     loading: "Chargement des résultats"
     moderator: Modérateur
     newsroom_role: "Rôle de la salle de presse"
     no_flagged_accounts: "La liste des comptes signalés est vide."
     no_results: "Aucun utilisateur n'a été trouvé avec ce nom d'utilisateur ou cette adresse de messagerie. Ils se cachent !"
     note: "Remarque: bannir cet utilisateur ne lui permettra pas de modifier les commentaires ou de supprimer quoi que ce soit."
-    offensive: "Ce commentaire est offensant"
-    other: Autre
     people: Gens
     role: "Sélectionnez le rôle ..."
     select_status: "Sélectionnez l'état ..."
-    spam_ads: "Spam / Annonces"
     staff: "Équipe"
     status: Statut
     username_and_email: "Nom d'utilisateur et e-mail"

@@ -1,3 +1,6 @@
 en:
-  talk-plugin-fag-details:
-
+  talk-plugin-flag-details:
+    flags: Flags
+es:
+  talk-plugin-flag-details:
+    flags: Reportes

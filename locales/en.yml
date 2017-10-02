@@ -262,11 +262,9 @@ en:
     ban_user: "Ban"
     billion: B
     close: Close
-    dont_like_username: "Don't like username"
     empty_queue: "No more comments to moderate! You're all caught up. Go have some ☕️"
     flagged: flagged
     reported: reported
-    impersonating: Impersonating
     less_detail: "Less detail"
     likes: likes
     million: M
@@ -277,9 +275,7 @@ en:
     newest_first: "Newest First"
     navigation: Navigation
     next_comment: "Go to the next comment"
-    offensive: Offensive
     oldest_first: "Oldest First"
-    other: Other
     premod: pre-mod
     prev_comment: "Go to the previous comment"
     reject: "Reject"
@@ -290,7 +286,6 @@ en:
     shortcuts: "Shortcuts"
     show_shortcuts: "Show Shortcuts"
     singleview: "Toggle single comment edit view"
-    spam_ads: Spam/Ads
     thismenu: "Open this menu"
     thousand: k
     try_these: "Try these"

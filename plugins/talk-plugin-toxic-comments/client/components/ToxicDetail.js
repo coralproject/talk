@@ -4,18 +4,19 @@ import {isToxic} from '../utils';
 import styles from './ToxicDetail.css';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
+import {t} from 'plugin-api/beta/client/services';
 
 const getInfo = (toxicity, actions) => {
   const toxic = isToxic(actions);
-  let text = 'Unlikely';
+  let text = t('talk-plugin-toxic-comments.unlikely');
   if (toxicity > 0.8) {
-    text = 'Highly Likely';
+    text = t('talk-plugin-toxic-comments.highly_likely');
   }
   else if (toxicity >= 0.5) {
-    text = 'Possibly';
+    text = t('talk-plugin-toxic-comments.possibly');
   }
   else if (toxicity >= 0.7) {
-    text = 'Likely';
+    text = t('talk-plugin-toxic-comments.likely');
   }
 
   return (
@@ -31,7 +32,7 @@ const getInfo = (toxicity, actions) => {
 const ToxicLabel = ({comment: {actions, toxicity}}) => (
   <CommentDetail
     icon={'add_box'}
-    header={'Toxic Comment'}
+    header={t('talk-plugin-toxic-comments.toxic_comment')}
     info={getInfo(toxicity, actions)}
   />
 );

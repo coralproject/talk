@@ -30,7 +30,7 @@ class FlagDetails extends Component {
     return (
       <CommentDetail
         icon={'flag'}
-        header={`${t('community.flags')} (${Object.keys(summaries).length})`}
+        header={`${t('talk-plugin-flag-details.flags')} (${Object.keys(summaries).length})`}
         info={
           <ul className={styles.info}>
             {reasons.map((reason) =>

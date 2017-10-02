@@ -255,10 +255,8 @@ es:
     approved: "Aprobado"
     billion: B
     close: Cerrar
-    dont_like_username: "No me gusta el nombre de usuario"
     empty_queue: "¡No hay más comentarios para moderar! Tiempo para un ☕️"
     flagged: Reportado
-    impersonating: Impersonando
     less_detail: "Menos detalles"
     likes: likes
     million: M
@@ -269,9 +267,7 @@ es:
     newest_first: "Primero el más nuevo"
     navigation: Navegación
     next_comment: "Ir al siguiente comentario"
-    offensive: Ofensivo
     oldest_first: "Primero el más antiguo"
-    other: Otro
     premod: pre-mod
     prev_comment: "Ir al comentario anterior"
     reject: "Rechazar"
@@ -282,7 +278,6 @@ es:
     shortcuts: Atajos
     show_shortcuts: "Mostrar Atajos"
     singleview: "Colocar vista de edición de comentario único"
-    spam_ads: Spam/Publicidad
     thismenu: "Abrir este menu"
     thousand: k
     try_these: "Intentar estos"
