@@ -1,12 +1,14 @@
 const Redis = require('ioredis');
+const merge = require('lodash/merge');
 const debug = require('debug')('talk:services:redis');
 const enabled = require('debug').enabled('talk:services:redis');
 const {
   REDIS_URL,
-  REDIS_RECONNECTION_MAX_ATTEMPTS,
-  REDIS_RECONNECTION_MAX_RETRY_TIME,
   REDIS_RECONNECTION_BACKOFF_FACTOR,
   REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME,
+  REDIS_CLIENT_CONFIG,
+  REDIS_CLUSTER_MODE,
+  REDIS_CLUSTER_CONFIGURATION,
 } = require('../config');
 
 const attachMonitors = (client) => {
@@ -16,8 +18,8 @@ const attachMonitors = (client) => {
   if (enabled) {
     client.on('connect', () => debug('client connected'));
     client.on('ready', () => debug('client ready'));
-    client.on('reconnecting', () => debug('client connection lost, attempting to reconnect'));
     client.on('close', () => debug('client closed the connection'));
+    client.on('reconnecting', () => debug('client connection lost, attempting to reconnect'));
     client.on('end', () => debug('client ended'));
   }
 
@@ -27,44 +29,30 @@ const attachMonitors = (client) => {
       console.error('Error connecting to redis:', err);
     }
   });
+  client.on('node error', (err) => debug('node error', err));
 };
 
-const connectionOptions = {
-  retry_strategy: function(options) {
-    if (options.error && options.error.code !== 'ECONNREFUSED') {
+function retryStrategy(times) {
+  const delay = Math.max(times * REDIS_RECONNECTION_BACKOFF_FACTOR, REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME);
 
-      debug('retry strategy: none, an error occured');
+  debug(`retry strategy: try to reconnect ${delay} ms from now`);
 
-      // End reconnecting on a specific error and flush all commands with a individual error
-      return options.error;
-    }
-    if (options.total_retry_time > REDIS_RECONNECTION_MAX_RETRY_TIME) {
-
-      debug('retry strategy: none, exhausted retry time');
-
-      // End reconnecting after a specific timeout and flush all commands with a individual error
-      return new Error('Retry time exhausted');
-    }
-
-    if (options.attempt > REDIS_RECONNECTION_MAX_ATTEMPTS) {
-
-      debug('retry strategy: none, exhausted retry attempts');
-
-      // End reconnecting with built in error
-      return undefined;
-    }
-
-    // reconnect after
-    const delay = Math.max(options.attempt * REDIS_RECONNECTION_BACKOFF_FACTOR, REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME);
-
-    debug(`retry strategy: try to reconnect ${delay} ms from now`);
-
-    return delay;
-  }
-};
+  return delay;
+}
 
 const createClient = () => {
-  let client = new Redis(REDIS_URL, connectionOptions);
+  let client;
+  if (REDIS_CLUSTER_MODE === 'NONE') {
+    client = new Redis(REDIS_URL, merge({}, REDIS_CLIENT_CONFIG, {
+      retryStrategy,
+    }));
+  } else if (REDIS_CLUSTER_MODE === 'CLUSTER') {
+    client = new Redis.Cluster(REDIS_CLUSTER_CONFIGURATION, merge({
+      scaleReads: 'slave',
+    }, REDIS_CLIENT_CONFIG, {
+      clusterRetryStrategy: retryStrategy,
+    }));
+  }
 
   // Attach the monitors that will print debug messages to the console.
   attachMonitors(client);

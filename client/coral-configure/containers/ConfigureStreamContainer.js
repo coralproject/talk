@@ -102,7 +102,7 @@ class ConfigureStreamContainer extends Component {
     const closedTimeout = dirtySettings.closedTimeout;
 
     return (
-      <div>
+      <div className='talk-embed-stream-configuration-container'>
         <ConfigureCommentStream
           handleChange={this.handleChange}
           handleApply={this.handleApply}
