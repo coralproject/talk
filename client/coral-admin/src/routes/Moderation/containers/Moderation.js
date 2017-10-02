@@ -363,7 +363,9 @@ const withModQueueQuery = withQuery(({queueConfig}) => gql`
       organizationName
       moderation
     }
+    ...${getDefinitionName(Comment.fragments.root)}
   }
+  ${Comment.fragments.root}
   ${commentConnectionFragment}
 `, {
   options: (props) => {

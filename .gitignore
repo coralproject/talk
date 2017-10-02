@@ -44,5 +44,6 @@ plugins/*
 !plugins/talk-plugin-remember-sort
 !plugins/talk-plugin-deep-reply-count
 !plugins/talk-plugin-subscriber
+!plugins/talk-plugin-flag-details
 
 **/node_modules/*

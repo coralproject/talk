@@ -21,6 +21,7 @@
     "talk-plugin-author-menu",
     "talk-plugin-member-since",
     "talk-plugin-ignore-user",
-    "talk-plugin-moderation-actions"
+    "talk-plugin-moderation-actions",
+    "talk-plugin-flag-details"
   ]
 }
