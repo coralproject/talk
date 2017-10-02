@@ -503,7 +503,7 @@ export default class Comment extends React.Component {
                 <InactiveCommentLabel status={comment.status}/>
               }
             </div>
-            <div className={styles.content}>
+            <div className={cn(styles.content, 'talk-embed-stream-comment-content')}>
               {
                 this.state.isEditing
                   ? <EditableCommentContent
