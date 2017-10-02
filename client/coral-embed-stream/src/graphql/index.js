@@ -157,10 +157,6 @@ export default {
                 created_at: new Date().toISOString(),
                 __typename: 'Tag'
               },
-              assigned_by: {
-                id: auth.user.id,
-                __typename: 'User'
-              },
               __typename: 'TagLink'
             })),
             status: 'NONE',
