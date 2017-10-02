@@ -52,14 +52,15 @@ class Moderation extends Component {
   moderate = (accept) => {
     const {acceptComment, rejectComment} = this.props;
     const {selectedCommentId} = this.state;
-    const comments = this.getComments();
-    const comment = comments[selectedCommentId];
-    const commentId = {commentId: comment.id};
 
+    const comments = this.getComments();
+    const commentIdx = comments.findIndex((comment) => comment.id === selectedCommentId);
+    const comment = comments[commentIdx];
+    
     if (accept) {
-      comment.status !== 'ACCEPTED' && acceptComment(commentId);
+      comment.status !== 'ACCEPTED' && acceptComment({commentId: comment.id});
     } else {
-      comment.status !== 'REJECTED' && rejectComment(commentId);
+      comment.status !== 'REJECTED' && rejectComment({commentId: comment.id});
     }
   }
 
