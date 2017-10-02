@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styles from './FlagDetails.css';
 import {t} from 'plugin-api/beta/client/services';
-import CommentDetail from 'coral-admin/src/components/CommentDetail';
-import {Slot, IfSlotIsNotEmpty} from 'plugin-api/beta/client/components';
+import {Slot, IfSlotIsNotEmpty, CommentDetail} from 'plugin-api/beta/client/components';
 
 class FlagDetails extends Component {
 

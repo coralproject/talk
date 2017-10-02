@@ -1,5 +1,5 @@
 import React from 'react';
-import CommentDetail from 'coral-admin/src/components/CommentDetail';
+import {CommentDetail} from 'plugin-api/beta/client/components';
 import {isToxic} from '../utils';
 import styles from './ToxicDetail.css';
 import cn from 'classnames';
