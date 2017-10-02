@@ -2,7 +2,7 @@ import {compose, gql} from 'react-apollo';
 import FlagDetails from '../components/FlagDetails';
 import {bindActionCreators} from 'redux';
 import {withFragments, excludeIf} from 'plugin-api/beta/client/hocs';
-import {viewUserDetail} from 'coral-admin/src/actions/userDetail';
+import {viewUserDetail} from 'plugin-api/beta/client/actions/admin';
 import {connect} from 'react-redux';
 import {getSlotFragmentSpreads} from 'plugin-api/beta/client/utils';
 
