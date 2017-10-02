@@ -96,6 +96,11 @@ export default {
         user {
           id
           username
+          tags {
+            tag {
+              name
+            }
+          }
         }
         action_summaries {
           count
@@ -129,7 +134,19 @@ export default {
             user: {
               __typename: 'User',
               id: auth.user.id,
-              username: auth.user.username
+              username: auth.user.username,
+              tags: tags.map((tag) => ({
+                tag: {
+                  name: tag,
+                  created_at: new Date().toISOString(),
+                  __typename: 'Tag'
+                },
+                assigned_by: {
+                  id: auth.user.id,
+                  __typename: 'User'
+                },
+                __typename: 'TagLink'
+              })),
             },
             created_at: new Date().toISOString(),
             body,
