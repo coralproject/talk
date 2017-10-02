@@ -11,7 +11,7 @@ module.exports = {
     'likeButton': '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-footer .talk-plugin-like-button'
   },
   MyProfile: {
-    'myCommentHistory': "#talk-embed-stream-tab-content .talk-my-profile-comment-history",
+    'myCommentHistory': '#talk-embed-stream-tab-content .talk-my-profile-comment-history',
     'myCommentHistoryReactions': '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions',
     'myCommentHistoryReactionCount': '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions .comment-summary-reaction-count'
   },
@@ -21,7 +21,6 @@ module.exports = {
     usernameField: '#signInDialog #username',
     passwordField: '#signInDialog #password',
     confirmPasswordField: '#signInDialog #confirmPassword',
-    usernameField: '#signInDialog #username',
     signUpButton: '#coralSignUpButton',
     loginButton: '#coralLogInButton',
   }

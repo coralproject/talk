@@ -79,7 +79,7 @@ describe('Stream', () => {
 
     // Clicking Login
     await page.waitForSelector($.Login.loginButton);
-    await page.click('#coralLogInButton');
+    await page.click($.Login.loginButton);
     await page.waitForNavigation({waitUntil: 'networkidle'});
 
     // Going to the Embed Stream
@@ -92,7 +92,7 @@ describe('Stream', () => {
 
   it('user posts a comment', test(async (browser, {opts: {typeDelay}, $}) => {
     const page = await browser.currentPage;
-    const testData = {body: 'This is a test comment'}
+    const testData = {body: 'This is a test comment'};
 
     await page.waitForSelector($.Stream.commentBoxTextarea);
     await page.focus($.Stream.commentBoxTextarea);
@@ -108,7 +108,7 @@ describe('Stream', () => {
     expect(firstCommentContent).to.equal(testData.body);
   }));
 
-  it('signed in user sees comment history', test(async (browser, {$, data}) => {
+  it('signed in user sees comment history', test(async (browser, {$}) => {
     const page = await browser.currentPage;
     await page.click($.Stream.myProfileTab);
     await page.waitForNavigation({waitUntil: 'networkidle'});
@@ -132,7 +132,7 @@ describe('Stream', () => {
     expect(reactionsCountHandle).to.not.equal(null);
 
     // Check number of Reactions
-    const reactionsCount = await page.evaluate(el => el.innerText, reactionsCountHandle);
+    const reactionsCount = await page.evaluate((el) => el.innerText, reactionsCountHandle);
     expect(reactionsCount).to.equal('0');
   }));
 
@@ -141,7 +141,7 @@ describe('Stream', () => {
 
     await page.click($.Stream.streamTab);
     await page.waitForNavigation({waitUntil: 'networkidle'});
-    await page.waitForSelector('#talk-embed-stream-tab-content');
+    await page.waitForSelector($.Stream.tabContent);
     
     // Like first comment
     const likeButton = await page.$($.Stream.likeButton);
@@ -151,7 +151,7 @@ describe('Stream', () => {
     // Go to the profile Tab
     await page.click($.Stream.myProfileTab);
     await page.waitForNavigation({waitUntil: 'networkidle'});
-    await page.waitForSelector('#talk-embed-stream-tab-content');
+    await page.waitForSelector($.Stream.tabContent);
 
     // Check my Comment history
     const myCommentHistory = await page.$($.MyProfile.myCommentHistory);
@@ -166,7 +166,7 @@ describe('Stream', () => {
     expect(reactionsCountHandle).to.not.equal(null);
 
     // Check number of Reactions
-    const reactionsCount = await page.evaluate(el => el.innerText, reactionsCountHandle);
+    const reactionsCount = await page.evaluate((el) => el.innerText, reactionsCountHandle);
     expect(reactionsCount).to.equal('1');
 
   }));
