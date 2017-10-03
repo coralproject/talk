@@ -11,7 +11,7 @@ const modify = async ({user, loaders: {Tags}}, operation, {name, id, item_type, 
   const tags = await Tags.getAll.load({id, item_type, asset_id});
 
   // Resolve the TagLink that should be used to insert to the user. This will
-  // addtionally return with an ownership property that can be used to determine
+  // additionally return with an ownership property that can be used to determine
   // that the user who adds this tag must also be the owner of the resource.
   let {tagLink, ownership} = TagsService.resolveLink(user, tags, {name, item_type});
 

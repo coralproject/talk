@@ -13,8 +13,8 @@ const RootMutation = {
   createFlag: async (_, {flag: {item_id, item_type, reason, message}}, {mutators: {Action}}) => ({
     flag: Action.create({item_id, item_type, action_type: 'FLAG', group_id: reason, metadata: {message}}),
   }),
-  createDontAgree: async (_, {dontagree: {item_id, item_type, reason, message}}, {mutators: {Action}}) => ({
-    dontagree: await Action.create({item_id, item_type, action_type: 'DONTAGREE', group_id: reason, metadata: {message}}),
+  createDontAgree: async (_, {dontagree: {item_id, item_type, message}}, {mutators: {Action}}) => ({
+    dontagree: await Action.create({item_id, item_type, action_type: 'DONTAGREE', metadata: {message}}),
   }),
   deleteAction: async (_, {id}, {mutators: {Action}}) => {
     await Action.delete({id});

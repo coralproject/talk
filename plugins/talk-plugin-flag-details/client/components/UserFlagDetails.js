@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {t} from 'plugin-api/beta/client/services';
 import styles from './UserFlagDetails.css';
 
 class UserFlagDetails extends Component {
@@ -25,7 +26,7 @@ class UserFlagDetails extends Component {
         {Object.keys(summaries)
           .map((reason) => (
             <li key={reason}>
-              {reason} ({summaries[reason].count})
+              {t(`flags.reasons.comment.${reason.toLowerCase()}`)} ({summaries[reason].count})
               <ul className={styles.subDetail}>
                 {summaries[reason].actions.map((action) =>
                   <li key={action.user.id}>

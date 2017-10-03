@@ -17,21 +17,11 @@ const {
   ADD_COMMENT_TAG,
   EDIT_COMMENT
 } = require('../../perms/constants');
+const debug = require('debug')('talk:graph:mutators:comment');
 
 const {
   DISABLE_AUTOFLAG_SUSPECT_WORDS
 } = require('../../config');
-
-const debug = require('debug')('talk:graph:mutators:tags');
-const plugins = require('../../services/plugins');
-
-const pluginTags = plugins.get('server', 'tags').reduce((acc, {plugin, tags}) => {
-  debug(`added plugin '${plugin.name}'`);
-
-  acc = acc.concat(tags);
-
-  return acc;
-}, []);
 
 const resolveTagsForComment = async ({user, loaders: {Tags}}, {asset_id, tags = []}) => {
   const item_type = 'COMMENTS';
@@ -47,8 +37,6 @@ const resolveTagsForComment = async ({user, loaders: {Tags}}, {asset_id, tags = 
     if (!Array.isArray(globalTags)) {
       globalTags = [];
     }
-
-    globalTags = globalTags.concat(pluginTags);
 
     // Merge in the tags for the given comment.
     tags = tags.map((name) => {

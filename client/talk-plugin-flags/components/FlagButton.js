@@ -7,6 +7,7 @@ import {PopupMenu, Button} from 'coral-ui';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import cn from 'classnames';
 import styles from './styles.css';
+import * as REASONS from '../helpers/flagReasons';
 
 const name = 'talk-plugin-flags';
 
@@ -88,10 +89,9 @@ export default class FlagButton extends Component {
       let action = {
         item_id,
         item_type: itemType,
-        reason: null,
         message
       };
-      if (reason === 'COMMENT_NOAGREE') {
+      if (reason === REASONS.comment.noagree) {
         postDontAgree(action)
           .then(({data}) => {
             if (itemType === 'COMMENTS') {
@@ -118,7 +118,7 @@ export default class FlagButton extends Component {
   onPopupOptionClick = (sets) => (e) => {
 
     // If flagging a user, indicate that this is referencing the username rather than the bio
-    if(sets === 'itemType' && e.target.value === 'users') {
+    if (sets === 'itemType' && e.target.value === 'users') {
       this.setState({field: 'username'});
     }
 

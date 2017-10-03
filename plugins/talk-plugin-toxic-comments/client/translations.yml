@@ -12,4 +12,8 @@ en:
     still_toxic: |
       This edited comment might still violate our community guidelines.
       Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Contains toxic language"
 es:
