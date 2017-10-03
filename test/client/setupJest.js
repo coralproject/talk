@@ -5,8 +5,8 @@ Enzyme.configure({adapter: new Adapter()});
 
 // Storage Mock
 
-// TODO: If our code is written well, there shouldn't be a hardcoded dependency
-// to the local storage, and this global mock wouldn't be needed.
+// TODO: Some places in our code (e.g. translations) has a hardcoded dependency
+// to the local storage. Fixing it and we can remove this global mock.
 
 function storageMock() {
   let storage = {};
