@@ -1,0 +1,4 @@
+{
+    "extends": "@coralproject/eslint-config-talk"
+  }
+  
