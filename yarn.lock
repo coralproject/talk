@@ -2,10 +2,11 @@
 # yarn lockfile v1
 
 
-"@coralproject/eslint-config-talk@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@coralproject/eslint-config-talk/-/eslint-config-talk-0.0.3.tgz#94965e984519920510f8a18be381f57ea38ee999"
+"@coralproject/eslint-config-talk@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@coralproject/eslint-config-talk/-/eslint-config-talk-0.0.4.tgz#35a28c10b12bc4da96417afbce17b4743d3bfcf6"
   dependencies:
+    eslint-plugin-jest "^21.2.0"
     eslint-plugin-json "^1.2.0"
     eslint-plugin-promise "^3.3.1"
     eslint-plugin-react "^7.3.0"
@@ -758,16 +759,7 @@ babel-plugin-transform-es2015-modules-amd@^6.24.1:
     babel-runtime "^6.22.0"
     babel-template "^6.24.1"
 
-babel-plugin-transform-es2015-modules-commonjs@^6.24.1:
-  version "6.24.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-es2015-modules-commonjs/-/babel-plugin-transform-es2015-modules-commonjs-6.24.1.tgz#d3e310b40ef664a36622200097c6d440298f2bfe"
-  dependencies:
-    babel-plugin-transform-strict-mode "^6.24.1"
-    babel-runtime "^6.22.0"
-    babel-template "^6.24.1"
-    babel-types "^6.24.1"
-
-babel-plugin-transform-es2015-modules-commonjs@^6.26.0:
+babel-plugin-transform-es2015-modules-commonjs@^6.24.1, babel-plugin-transform-es2015-modules-commonjs@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-es2015-modules-commonjs/-/babel-plugin-transform-es2015-modules-commonjs-6.26.0.tgz#0d8394029b7dc6abe1a97ef181e00758dd2e5d8a"
   dependencies:
@@ -2502,6 +2494,10 @@ escodegen@^1.6.1:
   optionalDependencies:
     source-map "~0.2.0"
 
+eslint-plugin-jest@^21.2.0:
+  version "21.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-21.2.0.tgz#292044df9cf0866ad9c530e78e6528fae287b926"
+
 eslint-plugin-json@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-json/-/eslint-plugin-json-1.2.0.tgz#9ba73bb0be99d50093e889f5b968463d2a30efae"
@@ -4139,13 +4135,13 @@ istanbul-api@^1.1.0-alpha, istanbul-api@^1.1.1:
     mkdirp "^0.5.1"
     once "^1.4.0"
 
-istanbul-lib-coverage@^1.0.1, istanbul-lib-coverage@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/istanbul-lib-coverage/-/istanbul-lib-coverage-1.1.1.tgz#73bfb998885299415c93d38a3e9adf784a77a9da"
-
-istanbul-lib-coverage@^1.0.2:
+istanbul-lib-coverage@^1.0.1, istanbul-lib-coverage@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/istanbul-lib-coverage/-/istanbul-lib-coverage-1.0.2.tgz#87a0c015b6910651cb3b184814dfb339337e25e1"
+
+istanbul-lib-coverage@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/istanbul-lib-coverage/-/istanbul-lib-coverage-1.1.1.tgz#73bfb998885299415c93d38a3e9adf784a77a9da"
 
 istanbul-lib-hook@^1.0.5:
   version "1.0.5"

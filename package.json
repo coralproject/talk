@@ -186,7 +186,7 @@
     "yamljs": "^0.2.10"
   },
   "devDependencies": {
-    "@coralproject/eslint-config-talk": "^0.0.3",
+    "@coralproject/eslint-config-talk": "^0.0.4",
     "babel-jest": "^21.2.0",
     "babel-plugin-dynamic-import-node": "^1.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
