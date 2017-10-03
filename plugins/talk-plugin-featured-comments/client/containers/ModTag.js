@@ -1,13 +1,6 @@
 import ModTag from '../components/ModTag';
-import {withTags, connect} from 'plugin-api/beta/client/hocs';
-import {gql, compose} from 'react-apollo';
-import {bindActionCreators} from 'redux';
-import {notify} from 'plugin-api/beta/client/actions/notification';
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({
-    notify,
-  }, dispatch);
+import {withTags} from 'plugin-api/beta/client/hocs';
+import {gql} from 'react-apollo';
 
 const fragments = {
   comment: gql`
@@ -18,10 +11,6 @@ const fragments = {
     }
   `
 };
-const enhance = compose(
-  withTags('featured', {fragments}),
-  connect(null, mapDispatchToProps),
-);
 
-export default enhance(ModTag);
+export default withTags('featured', {fragments})(ModTag);
 
