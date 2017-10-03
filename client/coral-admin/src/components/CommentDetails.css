@@ -1,0 +1,18 @@
+.root {
+  min-height: 25px;
+  padding: 0 16px;
+}
+
+.moreDetail {
+  position: absolute;
+  font-size: 12px;
+  font-weight: 500;
+  color: black;
+  right: 16px;
+
+  &:hover {
+    opacity: 0.9;
+    cursor: pointer;
+  }
+}
+

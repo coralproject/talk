@@ -3,10 +3,20 @@ import UserDetailComment from '../components/UserDetailComment';
 import withFragments from 'coral-framework/hocs/withFragments';
 import {getDefinitionName} from 'coral-framework/utils';
 import CommentLabels from './CommentLabels';
+import CommentDetails from './CommentDetails';
 
 export default withFragments({
+  root: gql`
+    fragment CoralAdmin_UserDetailComment_root on RootQuery {
+      __typename
+      ...${getDefinitionName(CommentLabels.fragments.root)}
+      ...${getDefinitionName(CommentDetails.fragments.root)}
+    }
+    ${CommentLabels.fragments.root}
+    ${CommentDetails.fragments.root}
+  `,
   comment: gql`
-    fragment CoralAdmin_UserDetail_comment on Comment {
+    fragment CoralAdmin_UserDetailComment_comment on Comment {
       id
       body
       created_at
@@ -17,28 +27,13 @@ export default withFragments({
         title
         url
       }
-      action_summaries {
-        count
-        ... on FlagActionSummary {
-          reason
-        }
-      }
-      actions {
-        ... on FlagAction {
-          id
-          reason
-          message
-          user {
-            id
-            username
-          }
-        }
-      }
       editing {
         edited
       }
       ...${getDefinitionName(CommentLabels.fragments.comment)}
+      ...${getDefinitionName(CommentDetails.fragments.comment)}
     }
     ${CommentLabels.fragments.comment}
+    ${CommentDetails.fragments.comment}
   `
 })(UserDetailComment);
