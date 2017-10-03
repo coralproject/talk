@@ -78,7 +78,11 @@ const withData = withQuery(gql`
   ${FlaggedAccounts.fragments.root}
   ${FlaggedUser.fragments.root}
   ${FlaggedUser.fragments.me}
-`);
+`, {
+  options: {
+    fetchPolicy: 'network-only',
+  },
+});
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

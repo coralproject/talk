@@ -23,8 +23,9 @@ class IfSlotIsNotEmpty extends React.Component {
   }
 
   isSlotEmpty(props = this.props) {
-    const {slot, className: _a, reduxState, component: _b = 'div', children: _c, ...rest} = props;
-    return this.context.plugins.isSlotEmpty(slot, reduxState, rest);
+    const {slot, className: _a, reduxState, component: _b = 'div', children: _c, queryData, ...rest} = props;
+    const slots = Array.isArray(slot) ? slot : [slot];
+    return slots.every((slot) => this.context.plugins.isSlotEmpty(slot, reduxState, rest, queryData));
   }
 
   render() {
@@ -34,7 +35,7 @@ class IfSlotIsNotEmpty extends React.Component {
 }
 
 IfSlotIsNotEmpty.propTypes = {
-  slot: PropTypes.string,
+  slot: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 };
 
 const mapStateToProps = (state) => ({

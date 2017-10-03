@@ -160,8 +160,10 @@ export const withUserDetailQuery = withQuery(gql`
     }) {
       ...CoralAdmin_Moderation_CommentConnection
     }
+    ...${getDefinitionName(UserDetailComment.fragments.root)}
     ${getSlotFragmentSpreads(slots, 'root')}
   }
+  ${UserDetailComment.fragments.root}
   ${commentConnectionFragment}
 `, {
   options: ({userId, statuses}) => {
