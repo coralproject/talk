@@ -4,7 +4,7 @@ import {compose, gql} from 'react-apollo';
 import TabPane from '../components/TabPane';
 import {withFragments, connect} from 'plugin-api/beta/client/hocs';
 import Comment from '../containers/Comment';
-import {addNotification} from 'plugin-api/beta/client/actions/notification';
+import {notify} from 'plugin-api/beta/client/actions/notification';
 import {viewComment} from 'coral-embed-stream/src/actions/stream';
 import {appendNewNodes, getDefinitionName} from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
@@ -81,7 +81,7 @@ const LOAD_MORE_QUERY = gql`
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     viewComment,
-    addNotification,
+    notify,
   }, dispatch);
 
 const enhance = compose(

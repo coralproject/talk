@@ -1,9 +1,8 @@
 {
   "presets": [
-    "es2015"
+    ["es2015"]
   ],
   "plugins": [
-    "add-module-exports",
     "transform-class-properties",
     "transform-decorators-legacy",
     "transform-object-assign",

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import styles from './ModTag.css';
 import {t} from 'plugin-api/beta/client/services';
 import {Icon} from 'plugin-api/beta/client/components/ui';
-import * as notification from 'coral-admin/src/services/notification';
+import {getErrorMessages} from 'plugin-api/beta/client/utils';
 
 export default class ModTag extends React.Component {
   constructor() {
@@ -32,10 +32,10 @@ export default class ModTag extends React.Component {
   postTag = async () => {
     try {
       await this.props.postTag();
-      notification.success(t('talk-plugin-featured-comments.notify_self_featured', this.props.comment.user.username));
+      this.props.notify('success', t('talk-plugin-featured-comments.notify_self_featured', this.props.comment.user.username));
     }
     catch(err) {
-      notification.showMutationErrors(err);
+      this.props.notify('error', getErrorMessages(err));
     }
   }
 
