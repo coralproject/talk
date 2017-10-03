@@ -1,1 +1,5 @@
-export {default as reducer} from './reducer';
+import reducer from './reducer';
+
+export default {
+  reducer
+};

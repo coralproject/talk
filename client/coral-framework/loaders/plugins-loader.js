@@ -21,7 +21,7 @@ module.exports = function(source) {
   this.cacheable();
   const config = this.exec(source, this.resourcePath);
   const plugins = getPluginList(config).map((plugin) => `{
-    module: require('${plugin}/client').default,
+    module: require('${plugin}/client'),
     name: '${plugin}'
   }`);
 
