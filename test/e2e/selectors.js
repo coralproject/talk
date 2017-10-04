@@ -13,7 +13,8 @@ module.exports = {
   MyProfile: {
     'myCommentHistory': '#talk-embed-stream-tab-content .talk-my-profile-comment-history',
     'myCommentHistoryReactions': '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions',
-    'myCommentHistoryReactionCount': '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions .comment-summary-reaction-count'
+    'myCommentHistoryReactionCount': '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions .comment-summary-reaction-count',
+    'myCommentHistoryComment': 'talk-my-profile-comment-history-comment'
   },
   Login: {
     register: '#coralRegister',

@@ -1,6 +1,6 @@
 const {test} = require('../browser');
-const {murmur3} = require('murmurhash-js');
 const uuid = require('uuid');
+const {murmur3} = require('murmurhash-js');
 const {getEmbedStream} = require('../utils/frame');
 const {expect} = require('chai');
 
@@ -87,7 +87,9 @@ describe('Embed Stream', () => {
 
     // Checking logged-in Username
     const userBoxEl = await page.waitForSelector($.Stream.authUserboxUsername);
+    const username = await page.evaluate((el) => el.textContent, userBoxEl);
     expect(userBoxEl).to.not.equal(null);
+    expect(username).to.equal(formData.username);
   }));
 
   it('user posts a comment', test(async (browser, {opts: {typeDelay}, $}) => {
@@ -115,10 +117,16 @@ describe('Embed Stream', () => {
     await page.click($.Stream.myProfileTab);
     await page.waitForNavigation({waitUntil: 'networkidle'});
     await page.waitForSelector($.Stream.tabContent);
+    const testData = {body: 'This is a test comment'};
 
     // Checking if Comment History exists
     const myCommentHistory = await page.$($.MyProfile.myCommentHistory);
     expect(myCommentHistory).to.not.equal(null);
+    
+    // Checking if the body of the comment matches
+    const firstCommentHandle = await page.$($.MyProfile.myCommentHistoryComment);
+    const firstCommentContent = await page.evaluate((el) => el.textContent, firstCommentHandle);
+    expect(firstCommentContent).to.equal(testData.body);
   }));
 
   it('user sees replies and reactions to comments', test(async (browser, {$}) => {
