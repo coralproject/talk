@@ -1,4 +1,4 @@
-import ApolloClient, {addTypename, IntrospectionFragmentMatcher, createNetworkInterface} from 'apollo-client';
+import ApolloClient, {IntrospectionFragmentMatcher, createNetworkInterface} from 'apollo-client';
 import {SubscriptionClient, addGraphQLSubscriptions} from 'subscriptions-transport-ws';
 import MessageTypes from 'subscriptions-transport-ws/dist/message-types';
 
@@ -64,7 +64,6 @@ export function createClient(options = {}) {
     connectToDevTools: true,
     addTypename: true,
     fragmentMatcher: new IntrospectionFragmentMatcher({introspectionQueryResultData: introspectionData}),
-    queryTransformer: addTypename,
     dataIdFromObject: (result) => {
       if (result.id && result.__typename) { // eslint-disable-line no-underscore-dangle
         return `${result.__typename}_${result.id}`; // eslint-disable-line no-underscore-dangle
