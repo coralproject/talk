@@ -51,7 +51,6 @@ pt_BR:
     banned: Proibida
     banned_user: "Usuário proibido"
     cancel: Cancelar
-    dont_like_username: "Não gostei do nome de usuário"
     flaggedaccounts: "Nomes de usuários marcados"
     flags: Marcadas
     impersonating: "Representação"
@@ -60,12 +59,9 @@ pt_BR:
     newsroom_role: "Papel de empresa"
     no_flagged_accounts: "A fila de nomes de usuários marcados está atualmente vazia."
     no_results: "Nenhum usuário encontrado com esse nome de usuário ou e-mail. Eles estão se escondendo!"
-    offensive: "Ofensiva"
-    other: Outra
     people: Pessoas
     role: "Selecione um papel..."
     select_status: "Selecione um status..."
-    spam_ads: "Spam/anúncios"
     staff: "Funcionários"
     status: Status
     username_and_email: "Nome de usuário e email"
@@ -87,7 +83,7 @@ pt_BR:
     comment_count_text_pre: "Os comentários serão limitados a"
     comment_settings: Configurações
     comment_stream: "Hilo de comentários"
-    comment_stream_will_close: "O hilo de comentários será fechado em"
+    comment_stream_will_close: "O hilo de comentários será fechado"
     community: Comunidade
     configure: Configurar
     copy_and_paste: "Copie e cole o código abaixo em seu CMS para incorporar sua caixa de comentários em seus artigos."

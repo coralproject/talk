@@ -8,6 +8,12 @@ const slots = [
 ];
 
 export default withFragments({
+  root: gql`
+    fragment CoralAdmin_CommentLabels_root on RootQuery {
+      __typename
+      ${getSlotFragmentSpreads(slots, 'root')}
+    }
+  `,
   comment: gql`
     fragment CoralAdmin_CommentLabels_comment on Comment {
       hasParent
