@@ -15,14 +15,14 @@ const getActionItem = async ({loaders: {Comments, Users}}, {item_id, item_type})
   if (item_type === 'COMMENTS') {
     const comment = await Comments.get.load(item_id);
     if (!comment) {
-      throw new Error('Comment not found');
+      throw errors.ErrNotFound;
     }
 
     return comment;
   } else if (item_type === 'USERS') {
     const user = await Users.getByID.load(item_id);
     if (!user) {
-      throw new Error('User not found');
+      throw errors.ErrNotFound;
     }
 
     return user;
