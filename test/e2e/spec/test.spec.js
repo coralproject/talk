@@ -86,7 +86,7 @@ describe('Embed Stream', () => {
     await page.goto(data.embedStreamUrl, {waitUntil: 'networkidle', networkIdleTimeout: 3000});
 
     // Checking logged-in Username
-    const userBoxEl = await page.waitForSelector($.Stream.authUserboxUsername);
+    const userBoxEl = await page.$($.Stream.authUserboxUsername);
     const username = await page.evaluate((el) => el.textContent, userBoxEl);
     expect(userBoxEl).to.not.equal(null);
     expect(username).to.equal(formData.username);
