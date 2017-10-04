@@ -250,17 +250,17 @@ en:
   moderate_this_stream: "Moderate this stream"
   flags:
     reasons:
-      user:
-        username_offensive: "Username is offensive"
-        username_nolike: "Does not like"
-        username_impersonating: "Username is impersonating another user"
-        username_spam: "Usernams contains spam"
-        username_other: "Other"
-      comment:
-        comment_offensive: "Contains offensive content"
-        comment_spam: "Contains spam"
-        comment_noagree: "Does not agree"
-        comment_other: "Other"
+       user:
+         username_offensive: "Offensive"
+         username_nolike: "Dislike"
+         username_impersonating: "Impersonation"
+         username_spam: "Spam"
+         username_other: "Other"
+       comment:
+         comment_offensive: "Offensive"
+         comment_spam: "Spam"
+         comment_noagree: "Disagree"
+         comment_other: "Other"
   modqueue:
     account: "account flags"
     actions: Actions
