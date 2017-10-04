@@ -13,7 +13,7 @@ import pt_BR from '../../../locales/pt_BR.yml';
 
 // Translations are happening at https://translate.lingohub.com/the-coral-project/dashboard
 
-const defaultLanguage = process.env.TALK_DEFAULT_LAN;
+const defaultLanguage = process.env.TALK_DEFAULT_LANG;
 const translations = {...en, ...es, ...fr, ...pt_BR};
 
 let lang;
