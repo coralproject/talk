@@ -1,15 +1,12 @@
 const errors = require('../../errors');
-
 const ActionModel = require('../../models/action');
 const AssetsService = require('../../services/assets');
 const ActionsService = require('../../services/actions');
 const TagsService = require('../../services/tags');
 const CommentsService = require('../../services/comments');
 const KarmaService = require('../../services/karma');
-const tlds = require('tlds');
 const merge = require('lodash/merge');
-const linkify = require('linkify-it')()
-  .tlds(tlds);
+const linkify = require('linkify-it')().tlds(require('tlds'));
 const Wordlist = require('../../services/wordlist');
 const {
   CREATE_COMMENT,
@@ -18,10 +15,7 @@ const {
   EDIT_COMMENT
 } = require('../../perms/constants');
 const debug = require('debug')('talk:graph:mutators:comment');
-
-const {
-  DISABLE_AUTOFLAG_SUSPECT_WORDS
-} = require('../../config');
+const {DISABLE_AUTOFLAG_SUSPECT_WORDS} = require('../../config');
 
 const resolveTagsForComment = async ({user, loaders: {Tags}}, {asset_id, tags = []}) => {
   const item_type = 'COMMENTS';
@@ -280,7 +274,7 @@ const moderationPhases = [
     }
   },
 
-  // This phase checks to see if the comment's length exeeds maximum.
+  // This phase checks to see if the comment's length exceeds maximum.
   (context, comment, {assetSettings: {charCountEnable, charCount}}) => {
 
     // Reject if the comment is too long
@@ -350,7 +344,7 @@ const moderationPhases = [
     }
   },
 
-  // This phase checks to see if the comment was already perscribed a status.
+  // This phase checks to see if the comment was already prescribed a status.
   (context, comment) => {
 
     // If the status was already defined, don't redefine it. It's only defined
