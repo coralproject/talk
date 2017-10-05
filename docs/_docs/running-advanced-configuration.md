@@ -24,6 +24,10 @@ otherwise the application will fail to start.
 Configure the duration for which comment counts are cached for, parsed by
 [ms](https://www.npmjs.com/package/ms){:target="_blank"}. (Default `1hr`)
 
+## TALK_DEFAULT_LANG
+
+Specify the default translation language. (Default `en`)
+
 ## TALK_DEFAULT_STREAM_TAB
 
 Specify the default stream tab in the admin. (Default `all`)
