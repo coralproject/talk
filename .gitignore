@@ -47,3 +47,4 @@ plugins/*
 !plugins/talk-plugin-flag-details
 
 **/node_modules/*
+yarn-error.log
