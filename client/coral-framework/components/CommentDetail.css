@@ -1,0 +1,37 @@
+.root {
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header {
+  vertical-align: middle;
+  margin: 0;
+  font-weight: 500;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 12px;
+  margin-right: 7px;
+}
+
+.info {
+  font-size: 12px;
+}
+
+.details {
+  padding: 0 20px 16px;
+  font-size: 12px;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.icon {
+  vertical-align: middle;
+  font-size: 12px;
+  margin-right: 7px;
+}

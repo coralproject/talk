@@ -45,6 +45,12 @@
   border-left: 3px solid rgb(35,118,216);
 }
 
+.bylineSecondary {
+  display: flex;
+  color: #696969;
+  font-size: 12px;
+}
+
 .pendingComment {
   filter: blur(2px);
   pointer-events: none;

@@ -87,7 +87,7 @@ module.exports = {
       name: 'FEATURED',
       permissions: {
         public: true,
-        self: true,
+        self: false,
         roles: []
       },
       models: ['COMMENTS'],

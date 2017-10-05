@@ -51,7 +51,7 @@ class RejectUsernameDialog extends Component  {
     const next = () => this.setState({stage: stage + 1});
     const suspend = async () => {
       try {
-        await rejectUsername({id: user.user.id, message: this.state.email});
+        await rejectUsername({id: user.id, message: this.state.email});
         this.props.handleClose();
       } catch (err) {
 

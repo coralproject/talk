@@ -1,0 +1,45 @@
+
+.info {
+  vertical-align: middle;
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  font-size: 12px;
+  margin: 0;
+}
+
+.detail  {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.subDetail {
+  margin-left:10px;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  font-weight: normal;
+  color: #888;
+}
+
+.lessDetail {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.username {
+  color: #393B44;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 2px 5px;
+  border-radius: 2px;
+  margin-left: -5px;
+  transition: background-color 200ms ease;
+  &:hover {
+    background-color: #E0E0E0;
+  }
+}
