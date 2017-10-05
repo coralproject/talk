@@ -26,6 +26,8 @@ class Moderation extends Component {
     key('s', () => singleView());
     key('shift+/', () => toggleModal(true));
     key('esc', () => toggleModal(false));
+    key('ctrl+f', () => this.openSearch());
+    key('t', () => this.nextQueue());
     key('j', () => this.select(true));
     key('k', () => this.select(false));
     key('f', () => this.moderate(false));
@@ -34,6 +36,26 @@ class Moderation extends Component {
 
   onClose = () => {
     this.props.toggleModal(false);
+  }
+
+  nextQueue = () => {
+    const queueConfig = this.props.queueConfig;
+    const activeTab = this.props.activeTab;
+    const assetId = this.props.data.variables.asset_id;
+    const menuItems = Object.keys(queueConfig).map((queue) => ({
+      key: queue
+    }));
+
+    let activeTabIndex, nextQueueIndex;
+    for (let i = 0; i < menuItems.length; i++) {
+      if (menuItems[i].key === activeTab){
+        activeTabIndex = i;
+        break;
+      }
+    }
+
+    nextQueueIndex = (activeTabIndex === menuItems.length - 1) ? 0 : activeTabIndex + 1;
+    this.props.router.push(this.props.getModPath(menuItems[nextQueueIndex].key, assetId));
   }
 
   closeSearch = () => {
@@ -53,14 +75,17 @@ class Moderation extends Component {
     const {acceptComment, rejectComment} = this.props;
     const {selectedCommentId} = this.state;
 
-    const comments = this.getComments();
-    const commentIdx = comments.findIndex((comment) => comment.id === selectedCommentId);
-    const comment = comments[commentIdx];
-    
-    if (accept) {
-      comment.status !== 'ACCEPTED' && acceptComment({commentId: comment.id});
-    } else {
-      comment.status !== 'REJECTED' && rejectComment({commentId: comment.id});
+    // Accept or reject only if there's a selected comment
+    if(selectedCommentId != null){
+      const comments = this.getComments();
+      const commentIdx = comments.findIndex((comment) => comment.id === selectedCommentId);
+      const comment = comments[commentIdx];
+      
+      if (accept) {
+        comment.status !== 'ACCEPTED' && acceptComment({commentId: comment.id});
+      } else {
+        comment.status !== 'REJECTED' && rejectComment({commentId: comment.id});
+      }
     }
   }
 
@@ -147,6 +172,8 @@ class Moderation extends Component {
     key.unbind('s');
     key.unbind('shift+/');
     key.unbind('esc');
+    key.unbind('ctrl+f');
+    key.unbind('t');
     key.unbind('j');
     key.unbind('k');
     key.unbind('f');

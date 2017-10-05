@@ -275,6 +275,8 @@ en:
     newest_first: "Newest First"
     navigation: Navigation
     next_comment: "Go to the next comment"
+    toggle_search: "Open search"
+    next_queue: "Switch queues"
     oldest_first: "Oldest First"
     premod: pre-mod
     prev_comment: "Go to the previous comment"

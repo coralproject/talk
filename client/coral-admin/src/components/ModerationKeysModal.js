@@ -10,6 +10,8 @@ const shortcuts = [
     shortcuts: {
       'j': 'modqueue.next_comment',
       'k': 'modqueue.prev_comment',
+      'ctrl+f': 'modqueue.toggle_search',
+      't': 'modqueue.next_queue',
       's': 'modqueue.singleview',
       '?': 'modqueue.thismenu'
     }
