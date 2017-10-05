@@ -17,14 +17,13 @@ const updateCharCountEnable = (updateSettings, charCountChecked) => () => {
   updateSettings({charCountEnable});
 };
 
-const updateCharCount = (updateSettings, settingsError) => (event) => {
+const updateCharCount = (updateSettings) => (event) => {
+  let error = null;
   const charCount = event.target.value;
   if (charCount.match(/[^0-9]/) || charCount.length === 0) {
-    settingsError('charCount', true);
-  } else {
-    settingsError('charCount', false);
+    error = true;
   }
-  updateSettings({charCount: charCount});
+  updateSettings({charCount: charCount}, {setError: {'charCount': error}});
 };
 
 const updateInfoBoxEnable = (updateSettings, infoBox) => () => {
@@ -68,7 +67,7 @@ const updateEditCommentWindowLength = (updateSettings) => (e) => {
   updateSettings({editCommentWindowLength: milliseconds || value});
 };
 
-const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
+const StreamSettings = ({updateSettings, settings, errors}) => {
 
   // just putting this here for shorthand below
   const on = styles.enabledSetting;
@@ -76,6 +75,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
 
   return (
     <div className={styles.Configure}>
+      <h3>{t('configure.stream_settings')}</h3>
       <Card className={`${styles.configSetting} ${settings.charCountEnable ? on : off}`}>
         <div className={styles.action}>
           <Checkbox
@@ -89,7 +89,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
             <input type='text'
               className={`${styles.inlineTextfield} ${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
               htmlFor='charCount'
-              onChange={updateCharCount(updateSettings, settingsError)}
+              onChange={updateCharCount(updateSettings)}
               value={settings.charCount}
               disabled={settings.charCountEnable ? '' : 'disabled'}
             />

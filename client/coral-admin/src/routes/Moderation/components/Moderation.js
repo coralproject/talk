@@ -56,7 +56,7 @@ class Moderation extends Component {
     const comments = this.getComments();
     const commentIdx = comments.findIndex((comment) => comment.id === selectedCommentId);
     const comment = comments[commentIdx];
-    
+
     if (accept) {
       comment.status !== 'ACCEPTED' && acceptComment({commentId: comment.id});
     } else {
@@ -196,7 +196,7 @@ class Moderation extends Component {
   }
 
   render () {
-    const {root, data, moderation, settings, viewUserDetail, activeTab, getModPath, queueConfig, handleCommentChange, ...props} = this.props;
+    const {root, data, moderation, viewUserDetail, activeTab, getModPath, queueConfig, handleCommentChange, ...props} = this.props;
     const {asset} = root;
     const assetId = asset && asset.id;
 
@@ -235,8 +235,6 @@ class Moderation extends Component {
           activeTab={activeTab}
           singleView={moderation.singleView}
           selectedCommentId={this.state.selectedCommentId}
-          bannedWords={settings.wordlist.banned}
-          suspectWords={settings.wordlist.suspect}
           showBanUserDialog={props.showBanUserDialog}
           showSuspendUserDialog={props.showSuspendUserDialog}
           acceptComment={props.acceptComment}
@@ -281,7 +279,6 @@ Moderation.propTypes = {
   storySearchChange: PropTypes.func.isRequired,
   moderation: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  settings: PropTypes.object.isRequired,
   queueConfig: PropTypes.object.isRequired,
   handleCommentChange: PropTypes.func.isRequired,
   setSortOrder: PropTypes.func.isRequired,

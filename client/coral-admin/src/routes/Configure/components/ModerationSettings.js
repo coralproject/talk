@@ -28,6 +28,7 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
 
   return (
     <div className={styles.Configure}>
+      <h3>{t('configure.moderation_settings')}</h3>
       <Card className={`${styles.configSetting} ${settings.requireEmailConfirmation ? on : off}`}>
         <div className={styles.action}>
           <Checkbox

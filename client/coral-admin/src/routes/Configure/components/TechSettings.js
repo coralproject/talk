@@ -14,6 +14,7 @@ const updateCustomCssUrl = (updateSettings) => (event) => {
 const TechSettings = ({settings, onChangeDomainlist, updateSettings}) => {
   return (
     <div className={styles.Configure}>
+      <h3>{t('configure.tech_settings')}</h3>
       <Domainlist
         domains={settings.domains.whitelist}
         onChangeDomainlist={onChangeDomainlist} />
