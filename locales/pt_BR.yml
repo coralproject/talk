@@ -161,6 +161,8 @@ pt_BR:
     edit_window_expired: "Você não pode mais editar esse comentário. A janela de tempo para fazê-lo expirou. Por que não publicar outro?"
     edit_window_expired_close: "Fechar"
     edit_window_timer_prefix: "Para editar:"
+    minute: "minuto"
+    minutes_plural: "minutos"
     second: "segundo"
     seconds_plural: "segundos"
   email:

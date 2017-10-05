@@ -170,6 +170,8 @@ en:
     edit_window_expired: "You can no longer edit this comment. The time window to do so has expired. Why not post another one?"
     edit_window_expired_close: "Close"
     edit_window_timer_prefix: "Edit Window: "
+    minute: "minute"
+    minutes_plural: "minutes"
     second: "second"
     seconds_plural: "seconds"
   email:

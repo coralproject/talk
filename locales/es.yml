@@ -169,6 +169,8 @@ es:
     edit_window_expired: "No se puede editar este comentario. El periodo de edición ya ha concluido. Podrías publicar uno nuevo :-)"
     edit_window_expired_close: "Cerrar"
     edit_window_timer_prefix: "Ventana Edición:"
+    minute: "minuto"
+    minutes_plural: "minutos"
     second: "segundo"
     seconds_plural: "segundos"
   email:
