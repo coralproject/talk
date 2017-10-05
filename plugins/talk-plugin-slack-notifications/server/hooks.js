@@ -19,24 +19,26 @@ module.exports = {
           }
         } = result;
         const username = context.user.username;
-        const response = await fetch(SLACK_WEBHOOK_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          timeout: SLACK_WEBHOOK_TIMEOUT,
-          body: JSON.stringify({
-            attachments: [{
-              text: text,
-              footer: `Comment by ${username}`,
-              ts: Math.floor(Date.parse(createdAt) / 1000),
-            }]
-          }),
+        process.nextTick(async () => {
+          const response = await fetch(SLACK_WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            timeout: SLACK_WEBHOOK_TIMEOUT,
+            body: JSON.stringify({
+              attachments: [{
+                text: text,
+                footer: `Comment by ${username}`,
+                ts: Math.floor(Date.parse(createdAt) / 1000),
+              }]
+            }),
+          });
+          if (!response.ok) {
+            const responseText = await response.text();
+            console.trace(`Posting to Slack failed with HTTP code ${response.status} and body '${responseText}'`);
+          }
         });
-        if (!response.ok) {
-          const responseText = await response.text();
-          console.trace(`Posting to Slack failed with HTTP code ${response.status} and body '${responseText}'`);
-        }
         return result;
       },
     },
