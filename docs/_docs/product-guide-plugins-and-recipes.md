@@ -1,5 +1,5 @@
 ---
-title: Plugins & Recipes
+title: Plugin and Recipe List
 permalink: /plugins-and-recipes/
 class: product-guide
 ---
