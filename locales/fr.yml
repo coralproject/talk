@@ -138,6 +138,8 @@ fr:
     edit_window_expired: "Vous ne pouvez plus modifier ce commentaire. La fenêtre de temps pour le faire a expiré. Pourquoi ne pas en publier un autre ?"
     edit_window_expired_close: "Fermer"
     edit_window_timer_prefix: "Fenêtre d'édition :"
+    minute: "minute"
+    minutes_plural: "minutes"
     second: "seconde"
     seconds_plural: "secondes"
     unexpected_error: "Erreur inattendue lors de l'enregistrement des modifications. Désolé !"
