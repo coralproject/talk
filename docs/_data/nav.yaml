@@ -17,3 +17,9 @@ items:
     children:
       - title: Plugins Overview
         url: /plugins/
+  - title: Product Guide
+    children: 
+      - title: How Talk Works
+        url: /how-talk-works/
+      - title: Plugin and Recipe List
+       url: /plugins-and-recipes/
