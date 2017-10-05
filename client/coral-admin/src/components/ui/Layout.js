@@ -21,6 +21,7 @@ const Layout = ({
     <Drawer 
       handleLogout={handleLogout}
       restricted={restricted}
+      auth={auth}
     />
     <div className={styles.layout}>
       {children}
