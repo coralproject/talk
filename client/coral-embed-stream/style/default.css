@@ -270,6 +270,7 @@ button.comment__action-button[disabled],
   width: 75%;
   font-size: 16px;
   border: 1px solid #ccc;
+  max-width: calc(100% - 40px);
 }
 
 /* Close comments */
