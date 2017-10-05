@@ -45,16 +45,13 @@ export class CountdownSeconds extends React.Component {
     if (typeof classNameForMsRemaining === 'function') {
       classFromProp = classNameForMsRemaining(msRemaining);
     }
-    if (wholeMinRemaining > 0) {
-      return (
-        <span className={classFromProp}>
-          {`${wholeMinRemaining} ${minUnit} ${wholeSecRemaining} ${secUnit}`}
-        </span>
-      );
-    }
+    const text = wholeMinRemaining > 0
+      ? `${wholeMinRemaining} ${minUnit} ${wholeSecRemaining} ${secUnit}`
+      : `${wholeSecRemaining} ${secUnit}`;
+
     return (
       <span className={classFromProp}>
-        {`${wholeSecRemaining} ${secUnit}`}
+        {text}
       </span>
     );
   }
