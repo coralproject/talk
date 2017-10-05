@@ -163,6 +163,8 @@ pt_BR:
     edit_window_timer_prefix: "Para editar:"
     second: "segundo"
     seconds_plural: "segundos"
+    minute: "minuto"
+    minutes_plural: "minutos"
   email:
     confirm:
       has_been_requested: "Uma confirmação de e-mail foi solicitada para a seguinte conta:"

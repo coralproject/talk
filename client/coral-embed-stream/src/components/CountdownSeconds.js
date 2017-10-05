@@ -35,16 +35,26 @@ export class CountdownSeconds extends React.Component {
     const {until, classNameForMsRemaining} = this.props;
     const msRemaining = until - now;
     const secRemaining = msRemaining / 1000;
-    const wholeSecRemaining = Math.floor(secRemaining);
-    const plural = secRemaining !== 1;
-    const units = t(plural ? 'edit_comment.seconds_plural' : 'edit_comment.second');
+    const minRemaining = secRemaining / 60;
+    const secToMinRemaining = secRemaining % 60;
+    const wholeMinRemaining = Math.floor(minRemaining);
+    const wholeSecRemaining = Math.floor(secToMinRemaining);
+    const secUnit = t(wholeSecRemaining !== 1 ? 'edit_comment.seconds_plural' : 'edit_comment.second');
+    const minUnit = t(wholeMinRemaining !== 1 ? 'edit_comment.minutes_plural' : 'edit_comment.minute');
     let classFromProp;
     if (typeof classNameForMsRemaining === 'function') {
       classFromProp = classNameForMsRemaining(msRemaining);
     }
+    if (wholeMinRemaining > 0) {
+      return (
+        <span className={classFromProp}>
+          {`${wholeMinRemaining} ${minUnit} ${wholeSecRemaining} ${secUnit}`}
+        </span>
+      );
+    }
     return (
       <span className={classFromProp}>
-        {`${wholeSecRemaining} ${units}`}
+        {`${wholeSecRemaining} ${secUnit}`}
       </span>
     );
   }
