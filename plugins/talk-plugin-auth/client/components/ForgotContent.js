@@ -5,19 +5,15 @@ import {Button, TextField} from 'plugin-api/beta/client/components/ui';
 import t from 'coral-framework/services/i18n';
 
 class ForgotContent extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      value: '',
-    };
-  }
+  
+  state = {value: ''};
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.fetchForgotPassword(this.state.value);
   };
 
-  handleChangEmail = (e) => {
+  handleChangeEmail = (e) => {
     const {value} = e.target;
     this.setState({value});
   }
@@ -39,7 +35,8 @@ class ForgotContent extends React.Component {
               id="email"
               name="email"
               label={t('sign_in.email')}
-              onChange={this.handleChangEmail}
+              onChange={this.handleChangeEmail}
+              value={this.state.value}
             />
           </div>
           <Button
