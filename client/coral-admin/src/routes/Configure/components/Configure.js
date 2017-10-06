@@ -19,33 +19,21 @@ export default class Configure extends Component {
     this.setState({activeSection});
   }
 
-  getSection (section) {
-    let SectionComponent;
+  getSectionComponent(section) {
     switch(section){
     case 'stream':
-      SectionComponent = StreamSettings;
-      break;
+      return StreamSettings;
     case 'moderation':
-      SectionComponent = ModerationSettings;
-      break;
+      return ModerationSettings;
     case 'tech':
-      SectionComponent = TechSettings;
+      return TechSettings;
     }
-
-    return (
-      <div className={styles.settingsSection}>
-        <SectionComponent
-          data={this.props.data}
-          root={this.props.root}
-          settings={this.props.settings}
-        />
-      </div>
-    );
+    throw new Error(`Unknown section ${section}`);
   }
 
   render () {
     const {activeSection} = this.state;
-    const section = this.getSection(activeSection);
+    const SectionComponent = this.getSectionComponent(activeSection);
     const {auth: {user}, canSave, savePending} = this.props;
 
     if (!can(user, 'UPDATE_CONFIG')) {
@@ -92,7 +80,13 @@ export default class Configure extends Component {
 
         </div>
         <div className={styles.mainContent}>
-          {section}
+          <div className={styles.settingsSection}>
+            <SectionComponent
+              data={this.props.data}
+              root={this.props.root}
+              settings={this.props.settings}
+            />
+          </div>
         </div>
       </div>
     );
@@ -101,9 +95,6 @@ export default class Configure extends Component {
 
 Configure.propTypes = {
   notify: PropTypes.func.isRequired,
-  updateWordlist: PropTypes.func.isRequired,
-  updateSettings: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
   savePending: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
