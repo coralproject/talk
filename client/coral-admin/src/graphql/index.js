@@ -29,6 +29,16 @@ export default {
         }
       }
     }),
+    UpdateSettings: ({variables: {input}})  => ({
+      updateQueries: {
+        TalkAdmin_Configure: (prev) => {
+          const updated = update(prev, {
+            settings: {$merge: input},
+          });
+          return updated;
+        }
+      }
+    }),
   },
 };
 

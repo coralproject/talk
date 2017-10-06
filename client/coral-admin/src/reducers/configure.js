@@ -30,6 +30,12 @@ export default function configure(state = initialState, action) {
 
     return next;
   }
+  case actions.CLEAR_PENDING:
+    return {
+      ...state,
+      pending: {},
+      canSave: false,
+    };
   }
   return state;
 }

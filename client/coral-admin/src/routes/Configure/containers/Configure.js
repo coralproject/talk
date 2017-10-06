@@ -6,8 +6,11 @@ import withQuery from 'coral-framework/hocs/withQuery';
 import {Spinner} from 'coral-ui';
 import {notify} from 'coral-framework/actions/notification';
 import merge from 'lodash/merge';
+import {withUpdateSettings} from 'coral-framework/graphql/mutations';
+import {getErrorMessages} from 'coral-framework/utils';
 import {
   updatePending,
+  clearPending,
 } from '../../../actions/configure';
 
 import Configure from '../components/Configure';
@@ -48,6 +51,16 @@ class ConfigureContainer extends Component {
     this.props.updatePending({updater: {$merge: settings}, errorUpdater: {$merge: setError}});
   };
 
+  savePending = async () => {
+    try {
+      await this.props.updateSettings(this.props.pending);
+      this.props.clearPending();
+    }
+    catch(err) {
+      this.props.notify('error', getErrorMessages(err));
+    }
+  };
+
   render () {
     if(this.props.data.loading) {
       return <Spinner/>;
@@ -66,12 +79,13 @@ class ConfigureContainer extends Component {
       root={this.props.root}
       settings={merged}
       canSave={this.props.canSave}
+      savePending={this.savePending}
     />;
   }
 }
 
 const withConfigureQuery = withQuery(gql`
-  query CoralEmbedStream_Embed {
+  query TalkAdmin_Configure {
     settings {
       moderation
       requireEmailConfirmation
@@ -115,9 +129,11 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     notify,
     updatePending,
+    clearPending,
   }, dispatch);
 
 export default compose(
+  withUpdateSettings,
   withConfigureQuery,
   connect(mapStateToProps, mapDispatchToProps),
 )(ConfigureContainer);

@@ -14,10 +14,6 @@ export default class Configure extends Component {
     activeSection: 'stream',
   };
 
-  saveSettings = () => {
-    this.props.saveSettingsToServer();
-  }
-
   changeSection = (activeSection) => {
     this.setState({activeSection});
   }
@@ -57,7 +53,7 @@ export default class Configure extends Component {
   render () {
     const {activeSection} = this.state;
     const section = this.getSection(activeSection);
-    const {auth: {user}, canSave} = this.props;
+    const {auth: {user}, canSave, savePending} = this.props;
 
     if (!can(user, 'UPDATE_CONFIG')) {
       return <p>You must be an administrator to access config settings. Please find the nearest Admin and ask them to level you up!</p>;
@@ -82,7 +78,7 @@ export default class Configure extends Component {
               canSave ?
                 <Button
                   raised
-                  onClick={this.saveSettings}
+                  onClick={savePending}
                   className={styles.changedSave}
                   icon='check'
                   full
