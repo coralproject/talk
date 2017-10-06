@@ -555,7 +555,7 @@ type FlagAction implements Action {
   id: ID!
 
   # The reason for which the Flag Action was created.
-  reason: FLAG_REASON
+  reason: String
 
   # An optional message sent with the flagging action by the user.
   message: String
@@ -596,7 +596,7 @@ type FlagActionSummary implements ActionSummary {
   count: Int!
 
   # The reason for which the Flag Action was created.
-  reason: FLAG_REASON
+  reason: String
 
   # The flag by the current user against the parent entity with this reason.
   current_user: FlagAction

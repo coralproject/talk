@@ -267,7 +267,7 @@ const moderationPhases = [
         actions: [{
           action_type: 'FLAG',
           user_id: null,
-          group_id: 'Matched suspect word filter',
+          group_id: 'SUSPECT_WORD',
           metadata: {}
         }],
       };
@@ -302,7 +302,7 @@ const moderationPhases = [
 
       // Add the flag related to Trust to the comment.
       return {
-        status:'SYSTEM_WITHHELD',
+        status: 'SYSTEM_WITHHELD',
         actions: [{
           action_type: 'FLAG',
           user_id: null,
