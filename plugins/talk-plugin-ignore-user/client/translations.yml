@@ -11,10 +11,12 @@ en:
     notify_success: |
       You are now ignoring {0}. You can undo this action from My Profile.
     confirmation_title: Ignore {0}?
+    notify_ignore_staff: Staff members cannot be ignored.
 es:
   talk-plugin-ignore-user:
     section_title: "Usuarios ignorados"
     stop_ignoring: "No ignorar más"
+    notify_ignore_staff: Los miembros del personal no pueden ser ignorados.
 fr:
   talk-plugin-ignore-user:
     section_title: "Utilisateurs ignorés"

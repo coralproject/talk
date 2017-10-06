@@ -8,17 +8,25 @@ import {notify} from 'plugin-api/beta/client/actions/notification';
 import {t} from 'plugin-api/beta/client/services';
 import {getErrorMessages} from 'plugin-api/beta/client/utils';
 
+const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
+
 class IgnoreUserConfirmationContainer extends React.Component {
 
   ignoreUser = () => {
     const {ignoreUser, notify, comment, closeMenu} = this.props;
-    ignoreUser(comment.user.id)
-      .then(() => {
-        notify('success', t('talk-plugin-ignore-user.notify_success', comment.user.username));
-      })
-      .catch((err) => {
-        notify('error', getErrorMessages(err));
-      });
+    if (isStaff(comment.tags)) {
+      notify('error', t('talk-plugin-ignore-user.notify_ignore_staff'));
+    }
+    else
+    {
+      ignoreUser(comment.user.id)
+        .then(() => {
+          notify('success', t('talk-plugin-ignore-user.notify_success', comment.user.username));
+        })
+        .catch((err) => {
+          notify('error', getErrorMessages(err));
+        });
+    }
     closeMenu();
   };
 
@@ -47,6 +55,12 @@ const withIgnoreUserConfirmationFragments = withFragments({
       user {
         id
         username
+      }
+      tags {
+        tag {
+          name
+          created_at
+        }
       }
     }`,
 });
