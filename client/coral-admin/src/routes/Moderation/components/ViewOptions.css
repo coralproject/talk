@@ -13,10 +13,9 @@
     width: 650px;
     margin: 0 auto;
     position: relative;
-    
     display: flex;
     flex-direction: row;
-
+    margin-top: 10px;
     height: 60px;
   }
 }
