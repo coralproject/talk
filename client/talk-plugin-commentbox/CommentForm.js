@@ -82,15 +82,10 @@ export class CommentForm extends React.Component {
     }
   }
 
-  removeNewLine = (string) => {
-    return string.replace(/\n/g, '');
-  }
-
   render() {
     const {maxCharCount, submitEnabled, cancelButtonClassName, submitButtonClassName, charCountEnable, body, loadingState} = this.props;
 
-    const cleanedBody = this.removeNewLine(body);
-    const length = cleanedBody.trim().length;
+    const length = body.trim().length;
     const isRespectingMaxCount = (length) => charCountEnable && maxCharCount && length > maxCharCount; 
     const disableSubmitButton = !length || isRespectingMaxCount(length) || !submitEnabled({body}) || loadingState === 'loading';
     const disableCancelButton = loadingState === 'loading';
