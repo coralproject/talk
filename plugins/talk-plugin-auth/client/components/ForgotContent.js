@@ -1,13 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './styles.css';
-import {Button} from 'plugin-api/beta/client/components/ui';
+import {Button, TextField} from 'plugin-api/beta/client/components/ui';
 import t from 'coral-framework/services/i18n';
 
 class ForgotContent extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      value: '',
+    };
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.fetchForgotPassword(this.emailInput.value);
+    this.props.fetchForgotPassword(this.state.value);
   };
+
+  handleChangEmail = (e) => {
+    const {value} = e.target;
+    this.setState({value});
+  }
 
   render() {
     const {changeView, auth} = this.props;
@@ -20,13 +33,13 @@ class ForgotContent extends React.Component {
         </div>
         <form onSubmit={this.handleSubmit}>
           <div className={styles.textField}>
-            <label htmlFor="email">{t('sign_in.email')}</label>
-            <input
-              ref={(input) => (this.emailInput = input)}
-              type="text"
+            <TextField
+              type="email"
               style={{fontSize: 16}}
               id="email"
               name="email"
+              label={t('sign_in.email')}
+              onChange={this.handleChangEmail}
             />
           </div>
           <Button
@@ -68,5 +81,11 @@ class ForgotContent extends React.Component {
     );
   }
 }
+
+ForgotContent.propTypes = {
+  auth: PropTypes.object,
+  changeView: PropTypes.func,
+  fetchForgotPassword: PropTypes.func,
+};
 
 export default ForgotContent;
