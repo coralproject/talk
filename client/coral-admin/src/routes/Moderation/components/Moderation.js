@@ -224,12 +224,13 @@ class Moderation extends Component {
           asset={asset}
           getModPath={getModPath}
           items={menuItems}
-          selectSort={this.props.setSortOrder}
-          sort={this.props.moderation.sortOrder}
           activeTab={activeTab}
         />
         <div className={cn(styles.container, 'talk-admin-moderation-container')}>
-          <ViewOptions />
+          <ViewOptions
+            selectSort={this.props.setSortOrder}
+            sort={this.props.moderation.sortOrder}
+          />
           <ModerationQueue
             key={`${activeTab}_${this.props.moderation.sortOrder}`}
             data={this.props.data}
