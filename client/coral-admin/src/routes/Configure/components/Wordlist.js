@@ -2,6 +2,7 @@ import React from 'react';
 import t from 'coral-framework/services/i18n';
 import TagsInput from 'coral-admin/src/components/TagsInput';
 import styles from './Configure.css';
+import PropTypes from 'prop-types';
 import {Card} from 'coral-ui';
 
 const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
@@ -29,5 +30,11 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
     </Card>
   </div>
 );
+
+Wordlist.propTypes = {
+  suspectWords: PropTypes.array.isRequired,
+  bannedWords: PropTypes.array.isRequired,
+  onChangeWordlist: PropTypes.func.isRequired,
+};
 
 export default Wordlist;

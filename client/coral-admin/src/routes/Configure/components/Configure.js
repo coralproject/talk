@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 
 import {Button, List, Item} from 'coral-ui';
 import styles from './Configure.css';
-import StreamSettings from './StreamSettings';
+import StreamSettings from '../containers/StreamSettings';
 import ModerationSettings from './ModerationSettings';
 import TechSettings from './TechSettings';
 import t from 'coral-framework/services/i18n';
 import {can} from 'coral-framework/services/perms';
+import PropTypes from 'prop-types';
 
 export default class Configure extends Component {
 
@@ -23,9 +24,9 @@ export default class Configure extends Component {
     switch(section){
     case 'stream':
       sectionComponent = <StreamSettings
+        data={this.props.data}
+        root={this.props.root}
         settings={this.props.settings}
-        updateSettings={this.props.updateSettings}
-        errors={this.props.errors}
       />;
       break;
     case 'moderation':
@@ -105,3 +106,17 @@ export default class Configure extends Component {
     );
   }
 }
+
+Configure.propTypes = {
+  notify: PropTypes.func.isRequired,
+  updateWordlist: PropTypes.func.isRequired,
+  updateDomainlist: PropTypes.func.isRequired,
+  updateSettings: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  savePending: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
+  canSave: PropTypes.bool.isRequired,
+};

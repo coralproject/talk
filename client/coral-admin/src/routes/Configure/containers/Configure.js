@@ -5,9 +5,11 @@ import {compose, gql} from 'react-apollo';
 import withQuery from 'coral-framework/hocs/withQuery';
 import {Spinner} from 'coral-ui';
 import {notify} from 'coral-framework/actions/notification';
+import PropTypes from 'prop-types';
 import merge from 'lodash/merge';
 import {withUpdateSettings} from 'coral-framework/graphql/mutations';
-import {getErrorMessages} from 'coral-framework/utils';
+import {getErrorMessages, getDefinitionName} from 'coral-framework/utils';
+import StreamSettings from './StreamSettings';
 import {
   updatePending,
   clearPending,
@@ -110,13 +112,17 @@ const withConfigureQuery = withQuery(gql`
       domains {
         whitelist
       }
+      ...${getDefinitionName(StreamSettings.fragments.settings)}
     }
+    ...${getDefinitionName(StreamSettings.fragments.root)}
   }
+  ${StreamSettings.fragments.root}
+  ${StreamSettings.fragments.settings}
   `, {
-    options: () => ({
-      variables: {},
-    }),
-  });
+  options: () => ({
+    variables: {},
+  }),
+});
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -138,3 +144,15 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
 )(ConfigureContainer);
 
+ConfigureContainer.propTypes = {
+  updatePending: PropTypes.func.isRequired,
+  updateSettings: PropTypes.func.isRequired,
+  clearPending: PropTypes.func.isRequired,
+  notify: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  canSave: PropTypes.bool.isRequired,
+  pending: PropTypes.object.isRequired,
+};

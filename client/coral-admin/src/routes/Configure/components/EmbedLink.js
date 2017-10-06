@@ -7,11 +7,7 @@ import {BASE_URL} from 'coral-framework/constants/url';
 
 class EmbedLink extends Component {
 
-  constructor (props) {
-    super(props);
-
-    this.state = {copied: false};
-  }
+  state = {copied: false};
 
   copyToClipBoard = () => {
     const copyTextarea = document.querySelector(`.${styles.embedInput}`);

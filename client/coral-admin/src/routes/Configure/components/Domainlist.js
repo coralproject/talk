@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Card} from 'coral-ui';
 import styles from './Configure.css';
 import TagsInput from 'coral-admin/src/components/TagsInput';
@@ -20,6 +21,11 @@ const Domainlist = ({domains, onChangeDomainlist}) => {
       </div>
     </Card>
   );
+};
+
+Domainlist.propTypes = {
+  domains: PropTypes.array.isRequired,
+  onChangeDomainlist: PropTypes.func.isRequired,
 };
 
 export default Domainlist;
