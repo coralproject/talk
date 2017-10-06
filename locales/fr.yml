@@ -140,6 +140,8 @@ fr:
     edit_window_timer_prefix: "Fenêtre d'édition :"
     second: "seconde"
     seconds_plural: "secondes"
+    minute: "minute"
+    minutes_plural: "minutes"
     unexpected_error: "Erreur inattendue lors de l'enregistrement des modifications. Désolé !"
   embedlink:
     copy: "Copier dans le presse-papier"
