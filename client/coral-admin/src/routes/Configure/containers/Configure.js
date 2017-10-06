@@ -10,6 +10,7 @@ import merge from 'lodash/merge';
 import {withUpdateSettings} from 'coral-framework/graphql/mutations';
 import {getErrorMessages, getDefinitionName} from 'coral-framework/utils';
 import StreamSettings from './StreamSettings';
+import TechSettings from './TechSettings';
 import {
   updatePending,
   clearPending,
@@ -28,21 +29,6 @@ class ConfigureContainer extends Component {
         }
         return {
           ...wordlist,
-          ...changeSet,
-        };
-      }},
-    }});
-  };
-
-  updateDomainlist = (listName, list) => {
-    this.props.updatePending({updater: {
-      domains: {$apply: (domains) => {
-        const changeSet = {[listName]: list};
-        if (!domains) {
-          return changeSet;
-        }
-        return {
-          ...domains,
           ...changeSet,
         };
       }},
@@ -73,7 +59,6 @@ class ConfigureContainer extends Component {
     return <Configure
       notify={this.props.notify}
       updateWordlist={this.updateWordlist}
-      updateDomainlist={this.updateDomainlist}
       updateSettings={this.updateSettings}
       errors={this.props.errors}
       auth={this.props.auth}
@@ -113,11 +98,15 @@ const withConfigureQuery = withQuery(gql`
         whitelist
       }
       ...${getDefinitionName(StreamSettings.fragments.settings)}
+      ...${getDefinitionName(TechSettings.fragments.settings)}
     }
     ...${getDefinitionName(StreamSettings.fragments.root)}
+    ...${getDefinitionName(TechSettings.fragments.root)}
   }
   ${StreamSettings.fragments.root}
   ${StreamSettings.fragments.settings}
+  ${TechSettings.fragments.root}
+  ${TechSettings.fragments.settings}
   `, {
   options: () => ({
     variables: {},
