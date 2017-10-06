@@ -18,6 +18,12 @@ import Configure from '../components/Configure';
 
 class ConfigureContainer extends Component {
 
+  // Merge current settings with pending settings.
+  getMergedSettings = (props = this.props) => merge({}, props.root.settings, props.pending);
+
+  // Cached merged settings.
+  mergedSettings = this.getMergedSettings();
+
   savePending = async () => {
     try {
       await this.props.updateSettings(this.props.pending);
@@ -28,19 +34,25 @@ class ConfigureContainer extends Component {
     }
   };
 
+  componentWillReceiveProps(nextProps) {
+
+    // Recalculate merged settings when necessary.
+    if (this.props.root.settings !== nextProps.root.settings || this.props.pending !== nextProps.pending) {
+      this.mergedSettings = this.getMergedSettings(nextProps);
+    }
+  }
+
   render () {
     if(this.props.data.loading) {
       return <Spinner/>;
     }
-
-    const merged = merge({}, this.props.root.settings, this.props.pending);
 
     return <Configure
       notify={this.props.notify}
       auth={this.props.auth}
       data={this.props.data}
       root={this.props.root}
-      settings={merged}
+      settings={this.mergedSettings}
       canSave={this.props.canSave}
       savePending={this.savePending}
       setActiveSection={this.props.setActiveSection}
