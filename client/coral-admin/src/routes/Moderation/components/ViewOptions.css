@@ -1,0 +1,35 @@
+@custom-media --tablet (max-width: 1024px);
+
+.viewOptions {
+  display: inline-block;
+  width: 220px;
+  position: absolute;
+  padding: 0;
+  @media (--tablet) {
+    width: 650px;
+    margin: 0 auto;
+    position: relative;
+    display: block;
+  }
+}
+
+.headline {
+  margin: 0;
+  font-size: 1.1rem;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  padding: 0 20px;
+}
+
+.viewOptionsContent {
+  padding: 10px 20px;
+}
+
+.viewOptionsList {
+  padding: 0;
+  margin: 0;
+  color: rgba(0,0,0,.54);
+}
+
+.viewOptionsItem {
+  list-style: none;
+}
