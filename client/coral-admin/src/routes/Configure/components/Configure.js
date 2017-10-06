@@ -11,14 +11,6 @@ import PropTypes from 'prop-types';
 
 export default class Configure extends Component {
 
-  state = {
-    activeSection: 'stream',
-  };
-
-  changeSection = (activeSection) => {
-    this.setState({activeSection});
-  }
-
   getSectionComponent(section) {
     switch(section){
     case 'stream':
@@ -32,9 +24,8 @@ export default class Configure extends Component {
   }
 
   render () {
-    const {activeSection} = this.state;
+    const {auth: {user}, canSave, savePending, setActiveSection, activeSection} = this.props;
     const SectionComponent = this.getSectionComponent(activeSection);
-    const {auth: {user}, canSave, savePending} = this.props;
 
     if (!can(user, 'UPDATE_CONFIG')) {
       return <p>You must be an administrator to access config settings. Please find the nearest Admin and ask them to level you up!</p>;
@@ -43,7 +34,7 @@ export default class Configure extends Component {
     return (
       <div className={styles.container}>
         <div className={styles.leftColumn}>
-          <List onChange={this.changeSection} activeItem={activeSection}>
+          <List onChange={setActiveSection} activeItem={activeSection}>
             <Item itemId='stream' icon='speaker_notes'>
               {t('configure.stream_settings')}
             </Item>
@@ -101,4 +92,6 @@ Configure.propTypes = {
   root: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   canSave: PropTypes.bool.isRequired,
+  setActiveSection: PropTypes.func.isRequired,
+  activeSection: PropTypes.string.isRequired,
 };

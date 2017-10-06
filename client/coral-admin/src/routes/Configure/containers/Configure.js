@@ -12,7 +12,7 @@ import {getErrorMessages, getDefinitionName} from 'coral-framework/utils';
 import StreamSettings from './StreamSettings';
 import TechSettings from './TechSettings';
 import ModerationSettings from './ModerationSettings';
-import {clearPending} from '../../../actions/configure';
+import {clearPending, setActiveSection} from '../../../actions/configure';
 
 import Configure from '../components/Configure';
 
@@ -43,6 +43,8 @@ class ConfigureContainer extends Component {
       settings={merged}
       canSave={this.props.canSave}
       savePending={this.savePending}
+      setActiveSection={this.props.setActiveSection}
+      activeSection={this.props.activeSection}
     />;
   }
 }
@@ -74,12 +76,14 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   pending: state.configure.pending,
   canSave: state.configure.canSave,
+  activeSection: state.configure.activeSection,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     notify,
     clearPending,
+    setActiveSection,
   }, dispatch);
 
 export default compose(
@@ -91,10 +95,12 @@ export default compose(
 ConfigureContainer.propTypes = {
   updateSettings: PropTypes.func.isRequired,
   clearPending: PropTypes.func.isRequired,
+  setActiveSection: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   canSave: PropTypes.bool.isRequired,
   pending: PropTypes.object.isRequired,
+  activeSection: PropTypes.string.isRequired,
 };

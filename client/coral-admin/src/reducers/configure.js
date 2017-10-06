@@ -6,6 +6,7 @@ const initialState = {
   canSave: false,
   pending: {},
   errors: {},
+  activeSection: 'stream',
 };
 
 export default function configure(state = initialState, action) {
@@ -35,6 +36,11 @@ export default function configure(state = initialState, action) {
       ...state,
       pending: {},
       canSave: false,
+    };
+  case actions.SET_ACTIVE_SECTION:
+    return {
+      ...state,
+      activeSection: action.section,
     };
   }
   return state;
