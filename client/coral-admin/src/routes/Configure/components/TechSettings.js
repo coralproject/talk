@@ -4,6 +4,7 @@ import {Card} from 'coral-ui';
 import Domainlist from './Domainlist';
 import EmbedLink from './EmbedLink';
 import styles from './Configure.css';
+import Slot from 'coral-framework/components/Slot';
 import t from 'coral-framework/services/i18n';
 
 class TechSettings extends React.Component {
@@ -29,7 +30,7 @@ class TechSettings extends React.Component {
   };
 
   render() {
-    const {settings} = this.props;
+    const {settings, data, root} = this.props;
     return (
       <div className={styles.Configure}>
         <h3>{t('configure.tech_settings')}</h3>
@@ -47,6 +48,11 @@ class TechSettings extends React.Component {
               onChange={this.updateCustomCssUrl} />
           </div>
         </Card>
+        <Slot
+          fill="adminTechSettings"
+          data={data}
+          queryData={{root, settings}}
+        />
       </div>
     );
   }

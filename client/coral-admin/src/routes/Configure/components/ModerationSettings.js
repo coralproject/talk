@@ -4,6 +4,7 @@ import styles from './Configure.css';
 import {Card} from 'coral-ui';
 import {Checkbox} from 'react-mdl';
 import Wordlist from './Wordlist';
+import Slot from 'coral-framework/components/Slot';
 import t from 'coral-framework/services/i18n';
 
 class ModerationSettings extends React.Component {
@@ -39,7 +40,7 @@ class ModerationSettings extends React.Component {
   };
 
   render() {
-    const {settings} = this.props;
+    const {settings, data, root} = this.props;
 
     // just putting this here for shorthand below
     const on = styles.enabledSetting;
@@ -91,6 +92,11 @@ class ModerationSettings extends React.Component {
           bannedWords={settings.wordlist.banned}
           suspectWords={settings.wordlist.suspect}
           onChangeWordlist={this.updateWordlist} />
+        <Slot
+          fill="adminModerationSettings"
+          data={data}
+          queryData={{root, settings}}
+        />
       </div>
     );
   }

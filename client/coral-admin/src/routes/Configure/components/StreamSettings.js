@@ -5,6 +5,7 @@ import styles from './Configure.css';
 import {Checkbox, Textfield} from 'react-mdl';
 import {Card, Icon, TextArea} from 'coral-ui';
 import PropTypes from 'prop-types';
+import Slot from 'coral-framework/components/Slot';
 import MarkdownEditor from 'coral-framework/components/MarkdownEditor';
 
 const TIMESTAMPS = {
@@ -96,7 +97,7 @@ class StreamSettings extends React.Component {
   };
 
   render() {
-    const {settings, errors} = this.props;
+    const {settings, data, root, errors} = this.props;
 
     // just putting this here for shorthand below
     const on = styles.enabledSetting;
@@ -216,6 +217,11 @@ class StreamSettings extends React.Component {
           </div>
         </Card>
         {/* the above card should be the last one if at all possible because of z-index issues with the selects */}
+        <Slot
+          fill="adminStreamSettings"
+          data={data}
+          queryData={{root, settings}}
+        />
       </div>
     );
   }
