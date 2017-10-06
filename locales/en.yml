@@ -172,6 +172,8 @@ en:
     edit_window_timer_prefix: "Edit Window: "
     second: "second"
     seconds_plural: "seconds"
+    minute: "minute"
+    minutes_plural: "minutes"
   email:
     confirm:
       has_been_requested: "A email confirmation has been requested for the following account:"
