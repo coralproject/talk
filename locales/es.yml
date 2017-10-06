@@ -171,6 +171,8 @@ es:
     edit_window_timer_prefix: "Ventana Edición:"
     second: "segundo"
     seconds_plural: "segundos"
+    minute: "minuto"
+    minutes_plural: "minutos"
   email:
     confirm:
       has_been_requested: "Un correo de confirmación ha sido pedido para la siguiente cuenta:"
