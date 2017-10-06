@@ -6,86 +6,101 @@ import {Checkbox} from 'react-mdl';
 import Wordlist from './Wordlist';
 import t from 'coral-framework/services/i18n';
 
-const updateModeration = (updateSettings, mod) => () => {
-  const moderation = mod === 'PRE' ? 'POST' : 'PRE';
-  updateSettings({moderation});
-};
+class ModerationSettings extends React.Component {
 
-const updateEmailConfirmation = (updateSettings, verify) => () => {
-  updateSettings({requireEmailConfirmation: !verify});
-};
+  updateModeration = () => {
+    const updater = {moderation: {$set: this.props.settings.moderation === 'PRE' ? 'POST' : 'PRE'}};
+    this.props.updatePending({updater});
+  };
 
-const updatePremodLinksEnable = (updateSettings, premodLinks) => () => {
-  const premodLinksEnable = !premodLinks;
-  updateSettings({premodLinksEnable});
-};
+  updateEmailConfirmation = () => {
+    const updater = {requireEmailConfirmation: {$set: !this.props.settings.requireEmailConfirmation}};
+    this.props.updatePending({updater});
+  };
 
-const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
+  updatePremodLinksEnable = () => {
+    const updater = {premodLinksEnable: {$set: !this.props.settings.premodLinksEnable}};
+    this.props.updatePending({updater});
+  };
 
-  // just putting this here for shorthand below
-  const on = styles.enabledSetting;
-  const off = styles.disabledSetting;
+  updateWordlist = (listName, list) => {
+    this.props.updatePending({updater: {
+      wordlist: {$apply: (wordlist) => {
+        const changeSet = {[listName]: list};
+        if (!wordlist) {
+          return changeSet;
+        }
+        return {
+          ...wordlist,
+          ...changeSet,
+        };
+      }},
+    }});
+  };
 
-  return (
-    <div className={styles.Configure}>
-      <h3>{t('configure.moderation_settings')}</h3>
-      <Card className={`${styles.configSetting} ${settings.requireEmailConfirmation ? on : off}`}>
-        <div className={styles.action}>
-          <Checkbox
-            onChange={updateEmailConfirmation(updateSettings, settings.requireEmailConfirmation)}
-            checked={settings.requireEmailConfirmation} />
-        </div>
-        <div className={styles.content}>
-          <div className={styles.settingsHeader}>{t('configure.require_email_verification')}</div>
-          <p className={settings.requireEmailConfirmation ? '' : styles.disabledSettingText}>
-            {t('configure.require_email_verification_text')}
-          </p>
-        </div>
-      </Card>
-      <Card className={`${styles.configSetting} ${settings.moderation === 'PRE' ? on : off}`}>
-        <div className={styles.action}>
-          <Checkbox
-            onChange={updateModeration(updateSettings, settings.moderation)}
-            checked={settings.moderation === 'PRE'} />
-        </div>
-        <div className={styles.content}>
-          <div className={styles.settingsHeader}>{t('configure.enable_pre_moderation')}</div>
-          <p className={settings.moderation === 'PRE' ? '' : styles.disabledSettingText}>
-            {t('configure.enable_pre_moderation_text')}
-          </p>
-        </div>
-      </Card>
-      <Card className={`${styles.configSetting} ${settings.premodLinksEnable ? on : off}`}>
-        <div className={styles.action}>
-          <Checkbox
-            onChange={updatePremodLinksEnable(updateSettings, settings.premodLinksEnable)}
-            checked={settings.premodLinksEnable} />
-        </div>
-        <div className={styles.content}>
-          <div className={styles.settingsHeader}>{t('configure.enable_premod_links')}</div>
-          <p>
-            {t('configure.enable_premod_links_text')}
-          </p>
-        </div>
-      </Card>
-      <Wordlist
-        bannedWords={settings.wordlist.banned}
-        suspectWords={settings.wordlist.suspect}
-        onChangeWordlist={onChangeWordlist} />
-    </div>
-  );
-};
+  render() {
+    const {settings} = this.props;
+
+    // just putting this here for shorthand below
+    const on = styles.enabledSetting;
+    const off = styles.disabledSetting;
+
+    return (
+      <div className={styles.Configure}>
+        <h3>{t('configure.moderation_settings')}</h3>
+        <Card className={`${styles.configSetting} ${settings.requireEmailConfirmation ? on : off}`}>
+          <div className={styles.action}>
+            <Checkbox
+              onChange={this.updateEmailConfirmation}
+              checked={settings.requireEmailConfirmation} />
+          </div>
+          <div className={styles.content}>
+            <div className={styles.settingsHeader}>{t('configure.require_email_verification')}</div>
+            <p className={settings.requireEmailConfirmation ? '' : styles.disabledSettingText}>
+              {t('configure.require_email_verification_text')}
+            </p>
+          </div>
+        </Card>
+        <Card className={`${styles.configSetting} ${settings.moderation === 'PRE' ? on : off}`}>
+          <div className={styles.action}>
+            <Checkbox
+              onChange={this.updateModeration}
+              checked={settings.moderation === 'PRE'} />
+          </div>
+          <div className={styles.content}>
+            <div className={styles.settingsHeader}>{t('configure.enable_pre_moderation')}</div>
+            <p className={settings.moderation === 'PRE' ? '' : styles.disabledSettingText}>
+              {t('configure.enable_pre_moderation_text')}
+            </p>
+          </div>
+        </Card>
+        <Card className={`${styles.configSetting} ${settings.premodLinksEnable ? on : off}`}>
+          <div className={styles.action}>
+            <Checkbox
+              onChange={this.updatePremodLinksEnable}
+              checked={settings.premodLinksEnable} />
+          </div>
+          <div className={styles.content}>
+            <div className={styles.settingsHeader}>{t('configure.enable_premod_links')}</div>
+            <p>
+              {t('configure.enable_premod_links_text')}
+            </p>
+          </div>
+        </Card>
+        <Wordlist
+          bannedWords={settings.wordlist.banned}
+          suspectWords={settings.wordlist.suspect}
+          onChangeWordlist={this.updateWordlist} />
+      </div>
+    );
+  }
+}
 
 ModerationSettings.propTypes = {
-  onChangeWordlist: PropTypes.func.isRequired,
-  settings: PropTypes.shape({
-    moderation: PropTypes.string.isRequired,
-    wordlist: PropTypes.shape({
-      banned: PropTypes.array.isRequired,
-      suspect: PropTypes.array.isRequired
-    })
-  }).isRequired,
-  updateSettings: PropTypes.func.isRequired
+  updatePending: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
 };
 
 export default ModerationSettings;

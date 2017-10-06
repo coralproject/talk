@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {Button, List, Item} from 'coral-ui';
 import styles from './Configure.css';
 import StreamSettings from '../containers/StreamSettings';
-import ModerationSettings from './ModerationSettings';
+import ModerationSettings from '../containers/ModerationSettings';
 import TechSettings from '../containers/TechSettings';
 import t from 'coral-framework/services/i18n';
 import {can} from 'coral-framework/services/perms';
@@ -20,33 +20,25 @@ export default class Configure extends Component {
   }
 
   getSection (section) {
-    let sectionComponent;
+    let SectionComponent;
     switch(section){
     case 'stream':
-      sectionComponent = <StreamSettings
-        data={this.props.data}
-        root={this.props.root}
-        settings={this.props.settings}
-      />;
+      SectionComponent = StreamSettings;
       break;
     case 'moderation':
-      sectionComponent = <ModerationSettings
-        onChangeWordlist={this.props.updateWordlist}
-        settings={this.props.settings}
-        updateSettings={this.props.updateSettings}
-      />;
+      SectionComponent = ModerationSettings;
       break;
     case 'tech':
-      sectionComponent = <TechSettings
-        data={this.props.data}
-        root={this.props.root}
-        settings={this.props.settings}
-      />;
+      SectionComponent = TechSettings;
     }
 
     return (
       <div className={styles.settingsSection}>
-        {sectionComponent}
+        <SectionComponent
+          data={this.props.data}
+          root={this.props.root}
+          settings={this.props.settings}
+        />
       </div>
     );
   }

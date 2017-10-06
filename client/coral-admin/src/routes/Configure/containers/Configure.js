@@ -11,6 +11,7 @@ import {withUpdateSettings} from 'coral-framework/graphql/mutations';
 import {getErrorMessages, getDefinitionName} from 'coral-framework/utils';
 import StreamSettings from './StreamSettings';
 import TechSettings from './TechSettings';
+import ModerationSettings from './ModerationSettings';
 import {
   updatePending,
   clearPending,
@@ -99,14 +100,18 @@ const withConfigureQuery = withQuery(gql`
       }
       ...${getDefinitionName(StreamSettings.fragments.settings)}
       ...${getDefinitionName(TechSettings.fragments.settings)}
+      ...${getDefinitionName(ModerationSettings.fragments.settings)}
     }
     ...${getDefinitionName(StreamSettings.fragments.root)}
     ...${getDefinitionName(TechSettings.fragments.root)}
+    ...${getDefinitionName(ModerationSettings.fragments.root)}
   }
   ${StreamSettings.fragments.root}
   ${StreamSettings.fragments.settings}
   ${TechSettings.fragments.root}
   ${TechSettings.fragments.settings}
+  ${ModerationSettings.fragments.root}
+  ${ModerationSettings.fragments.settings}
   `, {
   options: () => ({
     variables: {},
