@@ -164,6 +164,19 @@ describe('services.UsersService', () => {
       const userAfterIgnoring2 = await UsersService.findById(user.id);
       expect(userAfterIgnoring2.ignoresUsers.length).to.equal(2);
     });
+
+    it('should not ignore a staff member', async () => {
+      const user = mockUsers[0];
+      const usersToIgnore = [mockUsers[1]];
+      await UsersService.addRoleToUser(usersToIgnore[0].id, 'STAFF');
+
+      try {
+        await UsersService.ignoreUsers(user.id, usersToIgnore.map((u) => u.id));
+      } catch (err) {
+        expect(err.status).to.equal(400);
+        expect(err.translation_key).to.equal('CANNOT_IGNORE_STAFF');
+      }
+    });
   });
 
   describe('#ban', () => {
