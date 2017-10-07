@@ -267,6 +267,8 @@ es:
     newest_first: "Primero el más nuevo"
     navigation: Navegación
     next_comment: "Ir al siguiente comentario"
+    toggle_search: "Abrir búsqueda"
+    next_queue: "Próxima cola"
     oldest_first: "Primero el más antiguo"
     premod: pre-mod
     prev_comment: "Ir al comentario anterior"

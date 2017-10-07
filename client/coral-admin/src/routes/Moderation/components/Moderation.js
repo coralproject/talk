@@ -42,19 +42,14 @@ class Moderation extends Component {
     const queueConfig = this.props.queueConfig;
     const activeTab = this.props.activeTab;
     const assetId = this.props.data.variables.asset_id;
+
     const menuItems = Object.keys(queueConfig).map((queue) => ({
       key: queue
     }));
 
-    let activeTabIndex, nextQueueIndex;
-    for (let i = 0; i < menuItems.length; i++) {
-      if (menuItems[i].key === activeTab){
-        activeTabIndex = i;
-        break;
-      }
-    }
+    const activeTabIndex = menuItems.findIndex((item) => item.key === activeTab);
+    const nextQueueIndex = (activeTabIndex === menuItems.length - 1) ? 0 : activeTabIndex + 1;
 
-    nextQueueIndex = (activeTabIndex === menuItems.length - 1) ? 0 : activeTabIndex + 1;
     this.props.router.push(this.props.getModPath(menuItems[nextQueueIndex].key, assetId));
   }
 
