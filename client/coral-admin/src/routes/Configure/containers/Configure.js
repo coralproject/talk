@@ -6,7 +6,7 @@ import withQuery from 'coral-framework/hocs/withQuery';
 import {Spinner} from 'coral-ui';
 import {notify} from 'coral-framework/actions/notification';
 import PropTypes from 'prop-types';
-import merge from 'lodash/merge';
+import assignWith from 'lodash/assignWith';
 import {withUpdateSettings} from 'coral-framework/graphql/mutations';
 import {getErrorMessages, getDefinitionName} from 'coral-framework/utils';
 import StreamSettings from './StreamSettings';
@@ -16,10 +16,20 @@ import {clearPending, setActiveSection} from '../../../actions/configure';
 
 import Configure from '../components/Configure';
 
+// Like lodash merge but does not recurse into arrays.
+const mergeExcludingArrays = (objValue, srcValue) => {
+  if (typeof srcValue === 'object' && !Array.isArray(srcValue)) {
+    return assignWith({}, objValue, srcValue, mergeExcludingArrays);
+  }
+  return srcValue;
+};
+
 class ConfigureContainer extends Component {
 
   // Merge current settings with pending settings.
-  getMergedSettings = (props = this.props) => merge({}, props.root.settings, props.pending);
+  getMergedSettings = (props = this.props) => {
+    return assignWith({}, props.root.settings, props.pending, mergeExcludingArrays);
+  }
 
   // Cached merged settings.
   mergedSettings = this.getMergedSettings();
