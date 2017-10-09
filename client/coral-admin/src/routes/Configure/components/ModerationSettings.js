@@ -49,7 +49,7 @@ class ModerationSettings extends React.Component {
 
     return (
       <div>
-        <h3>{t('configure.moderation_settings')}</h3>
+        <h3 className={styles.title}>{t('configure.moderation_settings')}</h3>
         <Card className={cn(styles.card, settings.requireEmailConfirmation ? on : off)}>
           <div className={styles.action}>
             <Checkbox

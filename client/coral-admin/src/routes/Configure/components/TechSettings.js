@@ -33,7 +33,7 @@ class TechSettings extends React.Component {
     const {settings, data, root} = this.props;
     return (
       <div>
-        <h3>{t('configure.tech_settings')}</h3>
+        <h3 className={styles.title}>{t('configure.tech_settings')}</h3>
         <Domainlist
           domains={settings.domains.whitelist}
           onChangeDomainlist={this.updateDomainlist} />

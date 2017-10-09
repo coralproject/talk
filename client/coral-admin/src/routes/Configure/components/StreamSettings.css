@@ -1,3 +1,9 @@
+.title {
+  color: black;
+  font-size: 1.26em;
+  font-weight: 500;
+}
+
 .card {
   margin-bottom: 20px;
   align-items: flex-start;

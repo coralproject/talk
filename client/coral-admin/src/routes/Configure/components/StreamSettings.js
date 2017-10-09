@@ -106,7 +106,7 @@ class StreamSettings extends React.Component {
 
     return (
       <div>
-        <h3>{t('configure.stream_settings')}</h3>
+        <h3 className={styles.title}>{t('configure.stream_settings')}</h3>
         <Card className={cn(styles.card, settings.charCountEnable ? on : off)}>
           <div className={styles.action}>
             <Checkbox
