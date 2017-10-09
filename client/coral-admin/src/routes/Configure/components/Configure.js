@@ -71,13 +71,11 @@ export default class Configure extends Component {
 
         </div>
         <div className={styles.mainContent}>
-          <div className={styles.settingsSection}>
-            <SectionComponent
-              data={this.props.data}
-              root={this.props.root}
-              settings={this.props.settings}
-            />
-          </div>
+          <SectionComponent
+            data={this.props.data}
+            root={this.props.root}
+            settings={this.props.settings}
+          />
         </div>
       </div>
     );

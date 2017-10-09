@@ -16,11 +16,6 @@
   width: 100%;
 }
 
-.actions {
-  display: inline-block;
-  width: 100%;
-}
-
 .action {
   display: inline-block;
   position: absolute;
@@ -49,3 +44,4 @@
 .disabledSettingText {
   color: #ccc;
 }
+

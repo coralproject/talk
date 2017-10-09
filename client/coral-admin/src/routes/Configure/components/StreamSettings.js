@@ -1,12 +1,13 @@
 import React from 'react';
 import {SelectField, Option} from 'react-mdl-selectfield';
 import t from 'coral-framework/services/i18n';
-import styles from './Configure.css';
+import styles from './StreamSettings.css';
 import {Checkbox, Textfield} from 'react-mdl';
 import {Card, Icon, TextArea} from 'coral-ui';
 import PropTypes from 'prop-types';
 import Slot from 'coral-framework/components/Slot';
 import MarkdownEditor from 'coral-framework/components/MarkdownEditor';
+import cn from 'classnames';
 
 const TIMESTAMPS = {
   weeks: 60 * 60 * 24 * 7,
@@ -104,20 +105,20 @@ class StreamSettings extends React.Component {
     const off = styles.disabledSetting;
 
     return (
-      <div className={styles.Configure}>
+      <div>
         <h3>{t('configure.stream_settings')}</h3>
-        <Card className={`${styles.configSetting} ${settings.charCountEnable ? on : off}`}>
+        <Card className={cn(styles.card, settings.charCountEnable ? on : off)}>
           <div className={styles.action}>
             <Checkbox
               onChange={this.updateCharCountEnable}
               checked={settings.charCountEnable} />
           </div>
           <div className={styles.content}>
-            <div className={styles.settingsHeader}>{t('configure.comment_count_header')}</div>
+            <div className={styles.header}>{t('configure.comment_count_header')}</div>
             <p className={settings.charCountEnable ? '' : styles.disabledSettingText}>
               <span>{t('configure.comment_count_text_pre')}</span>
               <input type='text'
-                className={`${styles.inlineTextfield} ${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
+                className={cn(styles.inlineTextfield, styles.charCountTexfield, settings.charCountEnable && styles.charCountTexfieldEnable)}
                 htmlFor='charCount'
                 onChange={this.updateCharCount}
                 value={settings.charCount}
@@ -135,20 +136,20 @@ class StreamSettings extends React.Component {
             </p>
           </div>
         </Card>
-        <Card className={`${styles.configSetting} ${styles.configSettingInfoBox} ${settings.infoBoxEnable ? on : off}`}>
+        <Card className={cn(styles.card, styles.configSettingInfoBox, settings.infoBoxEnable ? on : off)}>
           <div className={styles.action}>
             <Checkbox
               onChange={this.updateInfoBoxEnable}
               checked={settings.infoBoxEnable} />
           </div>
           <div className={styles.content}>
-            <div className={styles.settingsHeader}>
+            <div className={styles.header}>
               {t('configure.include_comment_stream')}
             </div>
             <p className={settings.infoBoxEnable ? '' : styles.disabledSettingText}>
               {t('configure.include_comment_stream_desc')}
             </p>
-            <div className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
+            <div className={cn(styles.configSettingInfoBox, settings.infoBoxEnable ? null : styles.hidden)} >
               <MarkdownEditor
                 className={styles.descriptionBox}
                 onChange={this.updateInfoBoxContent}
@@ -157,9 +158,9 @@ class StreamSettings extends React.Component {
             </div>
           </div>
         </Card>
-        <Card className={`${styles.configSetting} ${styles.configSettingInfoBox}`}>
+        <Card className={cn(styles.card, styles.configSettingInfoBox)}>
           <div className={styles.wrapper}>
-            <div className={styles.settingsHeader}>{t('configure.closed_stream_settings')}</div>
+            <div className={styles.header}>{t('configure.closed_stream_settings')}</div>
             <p>{t('configure.closed_comments_desc')}</p>
             <div>
               <TextArea className={styles.descriptionBox}
@@ -170,13 +171,13 @@ class StreamSettings extends React.Component {
           </div>
         </Card>
         {/* Edit Comment Timeframe */}
-        <Card className={styles.configSetting}>
-          <div className={styles.settingsHeader}>{t('configure.edit_comment_timeframe_heading')}</div>
+        <Card className={styles.card}>
+          <div className={styles.header}>{t('configure.edit_comment_timeframe_heading')}</div>
           <p>
             {t('configure.edit_comment_timeframe_text_pre')}
             &nbsp;
             <input
-              className={`${styles.inlineTextfield} ${styles.editCommentTimeframeTextfield}`}
+              className={cn(styles.inlineTextfield, styles.editCommentTimeframeTextfield)}
               type="number"
               min="0"
               onChange={this.updateEditCommentWindowLength}
@@ -188,14 +189,14 @@ class StreamSettings extends React.Component {
             {t('configure.edit_comment_timeframe_text_post')}
           </p>
         </Card>
-        <Card className={`${styles.configSetting} ${styles.configSettingInfoBox}`}>
+        <Card className={cn(styles.card, styles.configSettingInfoBox)}>
           <div className={styles.action}>
             <Checkbox
               onChange={this.updateAutoClose}
               checked={settings.autoCloseStream} />
           </div>
           <div className={styles.content}>
-            <div className={styles.settingsHeader}>{t('configure.close_after')}</div>
+            <div className={styles.header}>{t('configure.close_after')}</div>
             <br />
             <Textfield
               type='number'
