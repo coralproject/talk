@@ -1250,14 +1250,6 @@ input UpdateDomainsInput {
   whitelist: [String!]
 }
 
-# UpdateWordlistResponse contains any errors that were rendered as a result
-# of the mutation.
-type UpdateWordlistResponse implements Response {
-
-  # An array of errors relating to the mutation that occurred.
-  errors: [UserError!]
-}
-
 # CreateTokenInput contains the input to create the token.
 input CreateTokenInput {
 
@@ -1341,10 +1333,6 @@ type RootMutation {
   # updateSettings will update the global settings.
   # Mutation is restricted.
   updateSettings(input: UpdateSettingsInput!): UpdateSettingsResponse
-
-  # updateWordlist will update the given Wordlist.
-  # Mutation is restricted.
-  updateWordlist(input: UpdateWordlistInput!): UpdateWordlistResponse
 
   # Ignore comments by another user
   ignoreUser(id: ID!): IgnoreUserResponse

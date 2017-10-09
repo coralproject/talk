@@ -6,7 +6,7 @@ function dotizeRecurse(result, object, path = '') {
     const newPath = path ? `${path}.${key}` : key;
     if (typeof object[key] === 'object' && !Array.isArray(object[key])) {
       dotizeRecurse(result, object[key], newPath);
-      return;
+      continue;
     }
     result[newPath] = object[key];
   }
@@ -65,19 +65,6 @@ module.exports = class SettingsService {
       upsert: true,
       new: true,
       setDefaultsOnInsert: true
-    });
-  }
-
-  /**
-   * updateWordlist will update the wordlists.
-   *
-   * @param {Object} wordlist the Wordlist object
-   */
-  static updateWordlist(wordlist) {
-    return SettingModel.findOneAndUpdate(selector, {
-      $set: {
-        wordlist,
-      },
     });
   }
 
