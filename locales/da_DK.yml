@@ -1,12 +1,12 @@
 dk:
   your_account_has_been_suspended: Din konto er midlertidigt suspenderet
   your_account_has_been_banned: Din konto er blevet banned.
-  your_username_has_been_rejected: Din konto er blevet suspenderet fordi dit brugernavn er blevet anset for upassende. For at gendanne din konto, venligst indtast et ny brugernavn.
+  your_username_has_been_rejected: Din konto er blevet suspenderet fordi dit brugernavn er blevet anset for upassende. For at gendanne din konto, venligst indtast et nyt brugernavn.
   embed_comments_tab: Kommentarer
   bandialog:
     are_you_sure: "Er du sikker på du vil banne {0}?"
     ban_user: "Ban Bruger?"
-    banned_user: "Banned Bruger"
+    banned_user: "Bannet Bruger"
     cancel: "Afbryd"
     note: "Note: {0}"
     note_reject_comment: "Hvis du banner denne bruger vil det også placere denne kommentar i den afviste kø"
@@ -30,7 +30,7 @@ dk:
     name: "Navn"
     comment_post_notif: "Din kommentar er blevet sendt"
     comment_post_notif_premod: "Tak for at skrive en kommentar. Vores moderatorer vil gennemgå din kommentar inden for kort tid."
-    comment_post_banned_word:  "Din kommentyar indeholder et eller flere ord, der ikke er tilladt, derfor vil den ikke bliver offentliggjort. Hvis du mener, at denne besked er forkert, bedes du kontakte vores moderatorer"
+    comment_post_banned_word:  "Din kommentar indeholder et eller flere ord, der ikke er tilladt, derfor vil den ikke bliver offentliggjort. Hvis du mener, at denne besked er forkert, bedes du kontakte vores moderatorer"
     characters_remaining: "tegn tilbage"
   comment_offensive: "Denne kommentar er stødende"
   comment_singular: Kommentar
@@ -62,8 +62,8 @@ dk:
     impersonating: "Personefterligning"
     loading: "Indlæser resultater"
     moderator: Moderator
-    newsroom_role: "Newsroom Rolle"
-    no_flagged_accounts: "Køen for flagged kontoer er tom i øjeblikket"
+    newsroom_role: "Nyhedsrum Rolle"
+    no_flagged_accounts: "Køen for flagget kontoer er tom i øjeblikket"
     no_results: "Igen brugere fundet med det brugernavn eller email-adresse. De gemmer sig!"
     offensive: "Offensiv"
     other: Andre
@@ -77,13 +77,13 @@ dk:
     yes_ban_user: "Ja Ban Bruger"
   configure:
     apply: Anvend
-    banned_word_text: "Kommentarer, der indeholder disse ord eller sætninger (Ikke følsom over for store eller små bogstaver) fjernes automatisk fra kommentarstrømmen. Indtast et org og tryk på Enter eller Tab for at tilføje. Indsæt eventuelt en kommasepareret liste."
-    banned_words_title: "Banned ord liste"
+    banned_word_text: "Kommentarer, der indeholder disse ord eller sætninger (Ikke følsom over for store eller små bogstaver) fjernes automatisk fra kommentarstrømmen. Indtast et ord og tryk på Enter eller Tab for at tilføje. Indsæt eventuelt en kommasepareret liste."
+    banned_words_title: "Bannet ord liste"
     close: "Luk"
     close_after: "Luk kommentarene efter"
     close_stream: "Luk strømmen"
-    close_stream_configuration: "Denne kommentar strøm er lukket i øjeblikket. Ved at åbne denne kommentarstrøm kan nye kommentarer indsendes og vises."
-    closed_comments_desc: "Skriv en besked, der skal vises når, din kommentar strøm er lukket og ikke længere accepterer kommentarer."
+    close_stream_configuration: "Denne kommentarstrøm er lukket i øjeblikket. Ved at åbne denne kommentarstrøm kan nye kommentarer indsendes og vises."
+    closed_comments_desc: "Skriv en besked, der skal vises når, din kommentarstrøm er lukket og ikke længere accepterer kommentarer."
     closed_comments_label: "Skriv en besked..."
     closed_stream_settings: "Lukket strøm besked"
     comment_count_error: "Indtæst venligst et gyldigt numemr."
@@ -97,27 +97,27 @@ dk:
     configure: Konfigurer
     copy_and_paste: "Kopier og indsæt kode nedenfor i dit CMS system for at indlejre din kommentarboks i dine artiker."
     custom_css_url: "Brugerdefineret CSS URL"
-    custom_css_url_desc: "URL til et CSS stylesheet der tilsidesætter den alimdelige stream stilart. Kan være internt eller externt"
+    custom_css_url_desc: "URL til et CSS stylesheet der tilsidesætter den alimdelige strøms stilart. Kan være internt eller externt"
     dashboard: Instrumentbræt
     days: Dage
-    description: "Som en administrator kan du tilpasse indstillingerne til kommentarstrømmen for denne historie:"
-    domain_list_text: "Indtast de domæner du gerne vil tillade til Talk. f.eks. Dine lokale udviklings miljø (fx. localhost:3000 staging.domain.com domain.com)."
+    description: "Som administrator kan du tilpasse indstillingerne til kommentarstrømmen for denne historie:"
+    domain_list_text: "Indtast de domæner du gerne vil tillade til Talk. f.eks. Dit lokale udviklings miljø (fx. localhost:3000 staging.domain.com domain.com)."
     domain_list_title: "Tilladte domæner."
-    edit_comment_timeframe_heading: "Edit Comment Timeframe"
-    edit_comment_timeframe_text_pre: "Commenters will have"
+    edit_comment_timeframe_heading: "Rediger kommentar tidsramme"
+    edit_comment_timeframe_text_pre: "Kommentatorer vil have"
     edit_comment_timeframe_text_post: "sekunder for at redigere deres kommentarer."
     embed_comment_stream: "Indlejre strøm"
-    enable_premod_links_text: "Moderatorer skal godkende enhver kommentar, der indeholder et link før det bliver offentliggøres."
+    enable_premod_links_text: "Moderatorer skal godkende enhver kommentar, der indeholder et link før det bliver offentliggjort."
     enable_pre_moderation: "Aktiver forud moderering"
     enable_pre_moderation_text: "Moderatorer skal godkende enhver kommentar før den offentliggøres."
     enable_premod_links: "Forud moderer kommentarer der indeholder links"
     enable_premod: "Aktiver forud moderering"
     enable_premod_description: "Moderatorer skal godkende enhver kommentar før den offentliggøres"
-    enable_premod_links_description: "Moderatorer skal godkende enhver kommentar, der indeholder et link før det bliver offentliggøres."
+    enable_premod_links_description: "Moderatorer skal godkende enhver kommentar, der indeholder et link før det bliver offentliggjort."
     enable_questionbox: "Stil et spørgsmål til læserne"
     enable_questionbox_description: "Dette spørgsmål vises øverst i denne kommentarstrøm. Stil et spørgsmål til læserne om et bestemt problem i artiklen eller stil spørgsmål til diskussion mv."
     hours: Timer
-    include_comment_stream: "Inkluder kommentarstrøms beskrivelsen for læsere"
+    include_comment_stream: "Inkluder kommentarstrømmens beskrivelse for læsere"
     include_comment_stream_desc: "Skriv en besked, der skal tilføjes øverst i din kommentarstrøm. Indsæt et emne der omfatter fællesskabsretningslinjer mv."
     include_text: "Medtag din tekst her."
     include_question_here: "Stil dit spørgsmål her:"
@@ -146,7 +146,7 @@ dk:
     error_create: "Fejl ved ændring af brugernavn"
     fake_comment_body: "Dette er et eksempel på en kommentar. Læsere kan dele deres tanker og meninger med nyhedsrummet i kommentarfeltet"
     fake_comment_date: "1 minut siden"
-    if_you_dont_change_your_name: "If you don't change your username at this step your Facebook display name will appear alongside of all your comments."
+    if_you_dont_change_your_name: "Hvis du ikke ændrer dit brugernavn på dette trin, vil dit Facebook brugernavn vises sammen med alle dine kommentarer"
     required_field: "Påkrævet felt"
     save: Gem
     special_characters: "Brugernavne kan kun indeholde bogstaver og _"
@@ -154,7 +154,7 @@ dk:
     write_your_username: "Rediger dit brugernavn"
     your_username: "Dit brugernavn vises på hver kommentar du sender."
   dashboard:
-    auto_update: "Data automatically updates every five minutes or when you Reload."
+    auto_update: "Data opdateres automatisk hvert femte minut, eller når du genindlæser."
     comment_count: kommentarer
     flags: Flags
     most_flags: "Historier med de fleste flags"
@@ -162,12 +162,12 @@ dk:
     next_update: "{0} minutter indtil næste opdatering."
     no_activity: "Der har ikke været nogen kommentarer i løbet af de sidste fem minutter."
     no_flags: "Der har ikke været nogle flag i de sidste 5 minutter! Hurra!"
-    no_likes: "Der har ikke været nogen ligende i de sidste 5 minutter. Helt stille"
+    no_likes: "Der har ikke været nogen der syntes godt om noget i de sidste 5 minutter. Helt stille"
   done: Færdig
   edit_comment:
     body_input_label: "Rediger denne kommentar"
     save_button: "Gem ændringer"
-    edit_window_expired: "You can no longer edit this comment. The time window to do so has expired. Why not post another one?"
+    edit_window_expired: "Du kan ikke længere redigere denne kommentar. Tidsvinduet for at gøre det er udløbet. Hvorfor skriver du ikke en ny?"
     edit_window_expired_close: "Luk"
     edit_window_timer_prefix: "Luk vindue: "
     second: "sekund"
@@ -191,13 +191,13 @@ dk:
     NO_SPECIAL_CHARACTERS: "Brugernavne kan kun indeholder bogstaver og _"
     PASSWORD_LENGTH: "Adgangskoden er for kort"
     PROFANITY_ERROR: "Brugernavne må ikke inholde stødende indhold. Kontakt venligst administratoren, hvis du mener at dette er en fejl."
-    USERNAME_IN_USE: "Brugernavn allerede i brug"
+    USERNAME_IN_USE: "Brugernavnet er allerede i brug"
     USERNAME_REQUIRED: "Du skal indtaste et brugernavn"
     EDIT_WINDOW_ENDED: "Du kan ikke længere redigere denne kommentar. Tidsvinduet for at gøre det er udløbet."
     EDIT_USERNAME_NOT_AUTHORIZED: "Du har ikke tilladelse til at opdatere dit brugernavn."
     SAME_USERNAME_PROVIDED: "Du skal indsende et andet brugernavn."
     EMAIL_IN_USE: "Email adressen er allerede i brug"
-    EMAIL_REQUIRED: "En emailadresse er påkrævet"
+    EMAIL_REQUIRED: "En email adresse er påkrævet"
     LOGIN_MAXIMUM_EXCEEDED: "Du har lavet for mange mislykkede adgangskodeforsøg. Vent venligst."
     PASSWORD_REQUIRED: "Du skal indtaste et kodeord"
     COMMENTING_CLOSED: "Kommentering er allerede lukket"
@@ -230,7 +230,7 @@ dk:
       button: Indsend
       error: "Brugernavne kan kun indeholde bogstaver og _"
       label: "Nyt brugernavn"
-      msg: "Din konto er midlertidigt suspenderet, fordi dit brugernavn er blevet anset for upassende. For at gendanne din konto skal du indtaste et nyt brugernavn. Kontakt os venligst. hvis du har spørgsmål."
+      msg: "Din konto er midlertidigt suspenderet, fordi dit brugernavn er blevet anset for upassende. For at gendanne din konto skal du indtaste et nyt brugernavn. Kontakt os venligst, hvis du har spørgsmål."
     my_comments: "Mine kommentarer"
     my_profile: "Min profil"
     new_count: "Se {0} mere {1}"
@@ -247,7 +247,7 @@ dk:
   like: Synes godt om
   loading_results: "Indlæser resultater"
   marketing: "Dette ligner en annonce/markedsføring"
-  moderate_this_stream: "Moderat denne strøm"
+  moderate_this_stream: "Moderer denne strøm"
   modqueue:
     account: "konto flag"
     actions: Handlinger
@@ -262,11 +262,11 @@ dk:
     ban_user: "Ban"
     billion: M
     close: Close
-    empty_queue: "No more comments to moderate! You're all caught up. Go have some ☕️"
+    empty_queue: "Ikke flere kommentarer til at moderer! Du har indhentet det hele. Gå ud og tag noget ☕️"
     flagged: flagged
-    reported: reported
-    less_detail: "Less detail"
-    likes: likes
+    reported: Rapporteret
+    less_detail: "Færre detajler"
+    likes: Syntes godt om
     million: M
     mod_faster: "Moderer hurtigere med tastaturgenveje"
     moderate: "Moderer →"
@@ -325,7 +325,7 @@ dk:
     all: Alle
     article: Historie
     closed: Lukket
-    empty_result: "Ingen assets matcher denne søgning. Måske forsøge at udvide din søgning?"
+    empty_result: "Ingen egenskaber matcher denne søgning. Måske prøv og forsøge at udvide din søgning?"
     filter_streams: "Filtrer strømme"
     newest: Nyeste
     oldest: Ældste
@@ -337,7 +337,7 @@ dk:
     stream_status: "Strøm Status"
   suspenduser:
     title_suspend: "Suspendere bruger"
-    description_suspend: "Du suspenderer {0}. Denne kommentar vil gå til den afviste kø, og {0} vil ikke kunne synes godt om, rapportere, svare eller indsende indtil suspensionstiden er færdig."
+    description_suspend: "Du suspenderer {0}. Denne kommentar vil gå til den afviste kø, og {0} vil ikke kunne synes godt om, rapportere, svare eller indsende indtil suspenderings tiden er færdig."
     select_duration: "Vælg suspenderings tid"
     one_hour: "1 time"
     hours: "{0} timer"
@@ -346,7 +346,7 @@ dk:
     suspend_user: "Suspender bruger"
     email_message_suspend: "Kære {0},\n\nI overensstemmelse med {1}'s retningslinjer for fællesskabet er din konto midlertidigt suspenderet. Under suspensionen vil du ikke kunne kommentere, flagge eller engagere dig med andre kommentarer. Venligst tilslut dig til samtalen{2}.'"
     title_notify: "Underret bruygeren om deres midlertidige suspension"
-    notify_suspend_until: "Bruger {0} er midlertidigt suspenderet. Denne suspension ophører automatisk {1}."
+    notify_suspend_until: "Bruger {0} er midlertidigt suspenderet. Denne suspension ophører automatisk om {1}."
     description_notify: "Suspendering af denne bruger vil midlertidigt deaktivere deres konto og skjule alle deres kommentarer på webstedet."
     write_message: "Skriv en besked"
     send: Send
@@ -358,13 +358,13 @@ dk:
     description_notify: "Suspendering af denne bruger vil midlertidigt deaktivere deres konto, og skjule alle deres kommentarer på webstedet."
     title_reject: "Vi har bemærket at du afviste et brugernavn."
     suspend_user: "Suspender bruger"
-    yes_suspend: "Ya suspender"
+    yes_suspend: "Ja suspender"
     email_message_reject: "Et andet medlem af samfundet har for nylig flagget dit brugernavn til anmeldelse. På grund af indholdet blev din bruger afvist. Det betyder, at du ikke længere kan kommentere, synes godt om eller flagge indhold, før du omskriver dit brugernavn. Venligst send os en e-mail, hvis du har spørgsmål eller bekymringer."
     write_message: "Skriv en besked"
     send: Send
   thank_you: "Vi sætter pris på din sikkerhed og feedback. En moderator vil gennemgå din rapport"
   user:
-    bio_flags: "flag for denn biografi"
+    bio_flags: "flag for denne bio"
     user_bio: "Bruger Biografi"
     username_flags: "flag for dette brugernavn"
   user_impersonating: "Denne bruger efterligner"
@@ -376,7 +376,7 @@ dk:
       description: "Lad os oprette dit Talk-fællesskab på bare nogle få korte trin"
       submit: "Kom igang"
     add_organization:
-      description: "Fortæl os navnet på din organisation. Dette vises i e-mails, når du inviterer nye teammedlemmer."
+      description: "Fortæl os navnet på din organisation. Dette vises i emails, når du inviterer nye teammedlemmer."
       label: "Organisationens navn"
       save: "Gem"
     create:
