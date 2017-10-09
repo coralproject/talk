@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Card} from 'coral-ui';
 import Domainlist from './Domainlist';
 import EmbedLink from './EmbedLink';
-import styles from './Configure.css';
+import styles from './TechSettings.css';
 import Slot from 'coral-framework/components/Slot';
 import t from 'coral-framework/services/i18n';
 
@@ -32,15 +32,15 @@ class TechSettings extends React.Component {
   render() {
     const {settings, data, root} = this.props;
     return (
-      <div className={styles.Configure}>
+      <div>
         <h3>{t('configure.tech_settings')}</h3>
         <Domainlist
           domains={settings.domains.whitelist}
           onChangeDomainlist={this.updateDomainlist} />
         <EmbedLink />
-        <Card className={styles.configSetting}>
+        <Card className={styles.card}>
           <div className={styles.wrapper}>
-            <div className={styles.settingsHeader}>{t('configure.custom_css_url')}</div>
+            <div className={styles.header}>{t('configure.custom_css_url')}</div>
             <p>{t('configure.custom_css_url_desc')}</p>
             <input
               className={styles.customCSSInput}
