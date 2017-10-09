@@ -172,6 +172,8 @@ en:
     edit_window_timer_prefix: "Edit Window: "
     second: "second"
     seconds_plural: "seconds"
+    minute: "minute"
+    minutes_plural: "minutes"
   email:
     confirm:
       has_been_requested: "A email confirmation has been requested for the following account:"
@@ -275,6 +277,8 @@ en:
     newest_first: "Newest First"
     navigation: Navigation
     next_comment: "Go to the next comment"
+    toggle_search: "Open search"
+    next_queue: "Switch queues"
     oldest_first: "Oldest First"
     premod: pre-mod
     prev_comment: "Go to the previous comment"
