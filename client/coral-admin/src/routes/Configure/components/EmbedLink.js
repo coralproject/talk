@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import t from 'coral-framework/services/i18n';
 import join from 'url-join';
-import styles from './Configure.css';
+import styles from './EmbedLink.css';
 import {Button, Card} from 'coral-ui';
 import {BASE_URL} from 'coral-framework/constants/url';
 
@@ -34,9 +34,9 @@ class EmbedLink extends Component {
 "></script>
     `.trim();
     return (
-      <Card shadow="2" className={styles.configSetting}>
+      <Card shadow="2" className={styles.card}>
         <div className={styles.wrapper}>
-          <div className={styles.settingsHeader}>Embed Comment Stream</div>
+          <div className={styles.header}>Embed Comment Stream</div>
           <p>{t('configure.copy_and_paste')}</p>
           <textarea rows={5} type='text' className={styles.embedInput} value={embedText} readOnly={true}/>
           <div className={styles.actions}>
