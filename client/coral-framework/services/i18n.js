@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import merge from 'lodash/merge';
 
 import daTA from '../../../node_modules/timeago.js/locales/da';
-import esTA from '../../../node_modules/timeago.js/locales/es'
+import esTA from '../../../node_modules/timeago.js/locales/es';
 import frTA from '../../../node_modules/timeago.js/locales/fr';
 import pt_BRTA from '../../../node_modules/timeago.js/locales/pt_BR';
 
@@ -47,7 +47,7 @@ function init() {
   }
 
   ta.register('es', esTA);
-  ta.register('da', da);
+  ta.register('da', daTA);
   ta.register('fr', frTA);
   ta.register('pt_BR', pt_BRTA);
   timeagoInstance = ta();
