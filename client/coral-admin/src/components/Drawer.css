@@ -1,0 +1,13 @@
+@custom-media --table-viewport (max-width: 1024px);
+
+:global {
+  .mdl-layout__drawer-button {
+    visibility: hidden;
+  }
+
+  @media (--table-viewport) {
+    .mdl-layout__drawer-button {
+      visibility: visible;
+    }
+  }
+}
