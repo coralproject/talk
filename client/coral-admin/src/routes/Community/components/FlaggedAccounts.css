@@ -2,6 +2,8 @@
   padding: 10px;
   display: flex;
   padding-bottom: 200px;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .mainFlaggedContent {
