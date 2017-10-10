@@ -172,6 +172,8 @@ en:
     edit_window_timer_prefix: "Edit Window: "
     second: "second"
     seconds_plural: "seconds"
+    minute: "minute"
+    minutes_plural: "minutes"
   email:
     confirm:
       has_been_requested: "A email confirmation has been requested for the following account:"
@@ -186,7 +188,7 @@ en:
   embedlink:
     copy: "Copy to Clipboard"
   error:
-    COMMENT_TOO_SHORT: "Your comment must have something in it"
+    COMMENT_TOO_SHORT: "Comments should be more than one character, please revise your comment and try again."
     NOT_AUTHORIZED: "You are not authorized to perform this action."
     NO_SPECIAL_CHARACTERS: "Usernames can contain letters numbers and _ only"
     PASSWORD_LENGTH: "Password is too short"
@@ -275,6 +277,8 @@ en:
     newest_first: "Newest First"
     navigation: Navigation
     next_comment: "Go to the next comment"
+    toggle_search: "Open search"
+    next_queue: "Switch queues"
     oldest_first: "Oldest First"
     premod: pre-mod
     prev_comment: "Go to the previous comment"
