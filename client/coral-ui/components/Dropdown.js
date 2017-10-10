@@ -108,7 +108,8 @@ Dropdown.propTypes = {
   label: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.number,
-    PropTypes.string
+    PropTypes.string,
+    PropTypes.bool
   ]),
 };
 
