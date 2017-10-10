@@ -266,8 +266,8 @@ en:
          suspect_word: "Suspect Word"
          banned_word: "Banned Word"
          body_count: "Body exceeds max length"
-         links: "Links"
          trust: "Trust"
+         links: "Link"
   modqueue:
     account: "account flags"
     actions: Actions
