@@ -7,29 +7,22 @@ import ClickOutside from 'coral-framework/components/ClickOutside';
 
 class Dropdown extends React.Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+
     this.state = {
       isOpen: false
     };
   }
-
-  fireChange = (newState) => {
-    if (this.props.onChange) {
-      this.props.onChange(newState.selected.value);
-    }
-  }
   
   setValue = (value, label) => {
-    const newState = {
-      selected: {
-        label: label,
-        value: value
-      },
+    if (this.props.onChange) {
+      this.props.onChange(value, label);
+    }
+
+    this.setState({
       isOpen: false
-    };
-    this.fireChange(newState);
-    this.setState(newState);
+    });
   }
 
   handleClick = () => {
@@ -66,7 +59,7 @@ class Dropdown extends React.Component {
               .map((child) =>
                 React.cloneElement(child, {
                   key: child.props.value,
-                  onClick: () => this.setValue(child.props.value, child.props.children)
+                  onClick: () => this.setValue(child.props.value, child.props.label)
                 }))}
           </ul>
         </div>

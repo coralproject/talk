@@ -35,8 +35,8 @@ const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onComme
               label={capitalize(row.status)}
               placeholder={t('community.status')}
               onChange={(status) => onCommenterStatusChange(row.id, status)}>     
-              <Option value={'ACTIVE'}>{t('community.active')}</Option>
-              <Option value={'BANNED'}>{t('community.banned')}</Option>
+              <Option value={'ACTIVE'} label={t('community.active')} />
+              <Option value={'BANNED'} label={t('community.banned')} />
             </Dropdown>       
           </td>
           <td className="mdl-data-table__cell--non-numeric">
@@ -45,10 +45,10 @@ const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onComme
               label={capitalize(row.roles[0]) || t('community.none')}
               placeholder={t('community.role')}
               onChange={(role) => onRoleChange(row.id, role)}>
-              <Option value={''}>{t('community.none')}</Option>
-              <Option value={'STAFF'}>{t('community.staff')}</Option>
-              <Option value={'MODERATOR'}>{t('community.moderator')}</Option>
-              <Option value={'ADMIN'}>{t('community.admin')}</Option>
+              <Option value={''} label={t('community.none')} />
+              <Option value={'STAFF'} label={t('community.staff')} />
+              <Option value={'MODERATOR'} label={t('community.moderator')} />
+              <Option value={'ADMIN'} label={t('community.admin')} />
             </Dropdown>
           </td>
         </tr>

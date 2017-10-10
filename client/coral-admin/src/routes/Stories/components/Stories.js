@@ -69,8 +69,8 @@ class Stories extends Component {
         value={closed}
         label={closed ? t('streams.closed') : t('streams.open')}
         onChange={(value) => this.onStatusClick(!value, id)}>     
-        <Option value={null}>{t('streams.closed')}</Option>
-        <Option value={true}>{t('streams.open')}</Option>
+        <Option value={null} label={t('streams.closed')} />
+        <Option value={true} label={t('streams.open')} />
       </Dropdown> 
     );
   }
