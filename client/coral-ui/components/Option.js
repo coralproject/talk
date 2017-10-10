@@ -12,7 +12,12 @@ const Option = ({className, children, onClick}) => (
 Option.propTypes = {
   className: PropTypes.string,
   children: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  value: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+    PropTypes.bool
+  ]),
 };
 
 export default Option;
