@@ -10,27 +10,12 @@ class Dropdown extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: {
-        label: props.label || '',
-        value: props.value || ''
-      },
       isOpen: false
     };
   }
-  
-  componentWillReceiveProps(newProps) {
-    if (newProps.value && newProps.value !== this.state.selected.value) {
-      this.setState({
-        selected: {
-          label: newProps.label,
-          value: newProps.value
-        }
-      });
-    }
-  }
 
   fireChange = (newState) => {
-    if (newState.selected !== this.state.selected && this.props.onChange) {
+    if (this.props.onChange) {
       this.props.onChange(newState.selected.value);
     }
   }
