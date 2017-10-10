@@ -29,16 +29,6 @@ class Dropdown extends React.Component {
     }
   }
 
-  compoentDidMount() {
-    document.addEventListener('click', this.handleClick, false);
-    document.addEventListener('touchend', this.handleClick, false);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this.handleClick, false);
-    document.removeEventListener('touchend', this.handleClick, false);
-  }
-
   fireChange = (newState) => {
     if (newState.selected !== this.state.selected && this.props.onChange) {
       this.props.onChange(newState.selected.value);
