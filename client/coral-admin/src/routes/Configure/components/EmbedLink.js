@@ -4,7 +4,7 @@ import join from 'url-join';
 import styles from './EmbedLink.css';
 import {Button} from 'coral-ui';
 import {BASE_URL} from 'coral-framework/constants/url';
-import ConfigureCard from './ConfigureCard';
+import ConfigureCard from 'coral-framework/components/ConfigureCard';
 
 class EmbedLink extends Component {
 

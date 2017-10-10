@@ -2,7 +2,7 @@ import React from 'react';
 import t from 'coral-framework/services/i18n';
 import TagsInput from 'coral-admin/src/components/TagsInput';
 import PropTypes from 'prop-types';
-import ConfigureCard from './ConfigureCard';
+import ConfigureCard from 'coral-framework/components/ConfigureCard';
 
 const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
   <div>

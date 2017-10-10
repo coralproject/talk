@@ -6,7 +6,7 @@ import styles from './TechSettings.css';
 import Slot from 'coral-framework/components/Slot';
 import t from 'coral-framework/services/i18n';
 import ConfigurePage from './ConfigurePage';
-import ConfigureCard from './ConfigureCard';
+import ConfigureCard from 'coral-framework/components/ConfigureCard';
 
 class TechSettings extends React.Component {
 

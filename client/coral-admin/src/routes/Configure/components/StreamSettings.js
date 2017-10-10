@@ -9,7 +9,7 @@ import Slot from 'coral-framework/components/Slot';
 import MarkdownEditor from 'coral-framework/components/MarkdownEditor';
 import cn from 'classnames';
 import ConfigurePage from './ConfigurePage';
-import ConfigureCard from './ConfigureCard';
+import ConfigureCard from 'coral-framework/components/ConfigureCard';
 
 const TIMESTAMPS = {
   weeks: 60 * 60 * 24 * 7,
