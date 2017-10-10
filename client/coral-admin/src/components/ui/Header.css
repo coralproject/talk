@@ -26,7 +26,7 @@
 .header > div {
   position: relative;
   padding: 0;
-  width: 1280px;
+  max-width: 1280px;
   margin: 0 auto;
   height: 58px;
 }
