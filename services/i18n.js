@@ -16,7 +16,7 @@ let defaultLanguage = 'en';
 let language = defaultLanguage;
 const languages = ['en', 'da', 'es', 'fr', 'pt_BR'];
 
-const translations = Object.assign(en, es, fr, pt_BR, da_DK);
+const translations = Object.assign(en, es, fr, pt_BR, da);
 
 /**
  * Exposes a service object to allow translations.

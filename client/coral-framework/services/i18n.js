@@ -3,10 +3,10 @@ import has from 'lodash/has';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 
-import daTA from 'timeago.js/locales/da';
-import esTA from 'timeago.js/locales/es'
-import frTA from 'timeago.js/locales/fr`';
-import pt_BRTA from 'timeago.js/locales/pt_BR';
+import daTA from '../../../node_modules/timeago.js/locales/da';
+import esTA from '../../../node_modules/timeago.js/locales/es'
+import frTA from '../../../node_modules/timeago.js/locales/fr';
+import pt_BRTA from '../../../node_modules/timeago.js/locales/pt_BR';
 
 import en from '../../../locales/en.yml';
 import da from '../../../locales/da.yml';
