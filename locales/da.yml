@@ -203,7 +203,7 @@ da:
     COMMENTING_CLOSED: "Kommentering er allerede lukket"
     NOT_FOUND: "Ressource ikke fundet"
     ALREADY_EXISTS: "Ressource eksisterer allerede"
-       INVALID_ASSET_URL: "Aktivitetswebadresse er ugyldig"
+    INVALID_ASSET_URL: "Aktivitetswebadresse er ugyldig"
     email: "Ikke en gylding e-mail"
     confirm_password: "Kodeordene matcher ikke. Tjek venligst igen."
     network_error: "Det lykkedes ikke at oprette forbindelse til serveren. Tjek din internetforbindelse og prøv igen."
