@@ -1,0 +1,395 @@
+dk:
+  your_account_has_been_suspended: Din konto er midlertidigt suspenderet
+  your_account_has_been_banned: Din konto er blevet banned.
+  your_username_has_been_rejected: Din konto er blevet suspenderet fordi dit brugernavn er blevet anset for upassende. For at gendanne din konto, venligst indtast et nyt brugernavn.
+  embed_comments_tab: Kommentarer
+  bandialog:
+    are_you_sure: "Er du sikker på du vil banne {0}?"
+    ban_user: "Ban Bruger?"
+    banned_user: "Bannet Bruger"
+    cancel: "Afbryd"
+    note: "Note: {0}"
+    note_reject_comment: "Hvis du banner denne bruger vil det også placere denne kommentar i den afviste kø"
+    note_ban_user: "Hvis du banner denne bruger vil det forhindre dem i at redigere kommentarer eller fjerne noget"
+    yes_ban_user: "Ja, Ban Bruger"
+  bio_offensive: "Denne biografi er stødende"
+  cancel: "Afbryd"
+  characters_remaining: "tegn tilbage"
+  comment:
+    anon: "Anonym"
+    ban_user: "Ban Bruger"
+    comment: "Skriv en kommentar"
+    edited: Redigeret
+    flagged: "markeret"
+    view_context: "Vis kontekst"
+  comment_box:
+    post: "Send"
+    cancel: "Afbryd"
+    reply: "Svar"
+    comment: "Skriv en kommentar"
+    name: "Navn"
+    comment_post_notif: "Din kommentar er blevet sendt"
+    comment_post_notif_premod: "Tak for at skrive en kommentar. Vores moderatorer vil gennemgå din kommentar inden for kort tid."
+    comment_post_banned_word:  "Din kommentar indeholder et eller flere ord, der ikke er tilladt, derfor vil den ikke bliver offentliggjort. Hvis du mener, at denne besked er forkert, bedes du kontakte vores moderatorer"
+    characters_remaining: "tegn tilbage"
+  comment_offensive: "Denne kommentar er stødende"
+  comment_singular: Kommentar
+  comment_plural: Kommentarer
+  comment_post_banned_word: "Din kommentyar indeholder et eller flere ord, der ikke er tilladt, derfor vil den ikke bliver offentliggjort. Hvis du mener, at denne besked er forkert, bedes du kontakte vores moderatorer"
+  comment_post_notif: "Din kommentar er blevet offentliggjort"
+  comment_post_notif_premod: "Tak for at skrive en kommentar. Vores moderatorer vil gennemgå din kommentar inden for kort tid."
+  common:
+    copy: 'Kopier'
+    error: 'Der er sket en fejl.'
+    reply: 'svar'
+    replies: 'svar'
+    reaction: 'reaktion'
+    reactions: 'reaktioner'
+    story: 'Historie'
+  community:
+    account_creation_date: "Oprettelsedato for konto"
+    active: Aktive
+    admin: Administrator
+    ads_marketing: "Dette ligner en annonce/markedsføring"
+    are_you_sure: "Er du sikker på at du vil banne {0}?"
+    ban_user: "Ban Bruger?"
+    banned: Bannet
+    banned_user: "Bannet Bruger"
+    cancel: Afbryd
+    dont_like_username: "Synses ikke om brugernavnet"
+    flaggedaccounts: "Flagged Brugernavne"
+    flags: Flags
+    impersonating: "Personefterligning"
+    loading: "Indlæser resultater"
+    moderator: Moderator
+    newsroom_role: "Nyhedsrum Rolle"
+    no_flagged_accounts: "Køen for flagget kontoer er tom i øjeblikket"
+    no_results: "Igen brugere fundet med det brugernavn eller email-adresse. De gemmer sig!"
+    offensive: "Offensiv"
+    other: Andre
+    people: Mennesker
+    role: "Vælg rolle..."
+    select_status: "Vælg status..."
+    spam_ads: "Spam/Reklamer"
+    staff: "Personale"
+    status: Status
+    username_and_email: "Brugernavn eller email-adresse"
+    yes_ban_user: "Ja Ban Bruger"
+  configure:
+    apply: Anvend
+    banned_word_text: "Kommentarer, der indeholder disse ord eller sætninger (Ikke følsom over for store eller små bogstaver) fjernes automatisk fra kommentarstrømmen. Indtast et ord og tryk på Enter eller Tab for at tilføje. Indsæt eventuelt en kommasepareret liste."
+    banned_words_title: "Bannet ord liste"
+    close: "Luk"
+    close_after: "Luk kommentarene efter"
+    close_stream: "Luk strømmen"
+    close_stream_configuration: "Denne kommentarstrøm er lukket i øjeblikket. Ved at åbne denne kommentarstrøm kan nye kommentarer indsendes og vises."
+    closed_comments_desc: "Skriv en besked, der skal vises når, din kommentarstrøm er lukket og ikke længere accepterer kommentarer."
+    closed_comments_label: "Skriv en besked..."
+    closed_stream_settings: "Lukket strøm besked"
+    comment_count_error: "Indtæst venligst et gyldigt numemr."
+    comment_count_header: "Begræns kommentar længde"
+    comment_count_text_post: tegn
+    comment_count_text_pre: "Kommentarer vil være begrænset til"
+    comment_settings: Indstillinger
+    comment_stream: "Kommentarstrøm"
+    comment_stream_will_close: "Denne kommentarstrøm vil blive lukkes"
+    community: Fællesskab
+    configure: Konfigurer
+    copy_and_paste: "Kopier og indsæt kode nedenfor i dit CMS system for at indlejre din kommentarboks i dine artiker."
+    custom_css_url: "Brugerdefineret CSS URL"
+    custom_css_url_desc: "URL til et CSS stylesheet der tilsidesætter den alimdelige strøms stilart. Kan være internt eller externt"
+    dashboard: Instrumentbræt
+    days: Dage
+    description: "Som administrator kan du tilpasse indstillingerne til kommentarstrømmen for denne historie:"
+    domain_list_text: "Indtast de domæner du gerne vil tillade til Talk. f.eks. Dit lokale udviklings miljø (fx. localhost:3000 staging.domain.com domain.com)."
+    domain_list_title: "Tilladte domæner."
+    edit_comment_timeframe_heading: "Rediger kommentar tidsramme"
+    edit_comment_timeframe_text_pre: "Kommentatorer vil have"
+    edit_comment_timeframe_text_post: "sekunder for at redigere deres kommentarer."
+    embed_comment_stream: "Indlejre strøm"
+    enable_premod_links_text: "Moderatorer skal godkende enhver kommentar, der indeholder et link før det bliver offentliggjort."
+    enable_pre_moderation: "Aktiver forud moderering"
+    enable_pre_moderation_text: "Moderatorer skal godkende enhver kommentar før den offentliggøres."
+    enable_premod_links: "Forud moderer kommentarer der indeholder links"
+    enable_premod: "Aktiver forud moderering"
+    enable_premod_description: "Moderatorer skal godkende enhver kommentar før den offentliggøres"
+    enable_premod_links_description: "Moderatorer skal godkende enhver kommentar, der indeholder et link før det bliver offentliggjort."
+    enable_questionbox: "Stil et spørgsmål til læserne"
+    enable_questionbox_description: "Dette spørgsmål vises øverst i denne kommentarstrøm. Stil et spørgsmål til læserne om et bestemt problem i artiklen eller stil spørgsmål til diskussion mv."
+    hours: Timer
+    include_comment_stream: "Inkluder kommentarstrømmens beskrivelse for læsere"
+    include_comment_stream_desc: "Skriv en besked, der skal tilføjes øverst i din kommentarstrøm. Indsæt et emne der omfatter fællesskabsretningslinjer mv."
+    include_text: "Medtag din tekst her."
+    include_question_here: "Stil dit spørgsmål her:"
+    moderate: Moderat
+    moderation_settings: "Moderator indstillinger"
+    open: "Åben"
+    open_stream: "Åben strøm"
+    open_stream_configuration: "Denne kommentarstrøm er i øjeblikket åben. Ved at lukke denne kommentarstrøm kan der ikke indsendes nye kommentarer, og alle tidligere kommentarer vil stadig blive vist."
+    require_email_verification: "Kræv email verifikation"
+    require_email_verification_text: "Nye brugere skal verificere deres email før de kan kommenterer"
+    save_changes: "Gem ændringer"
+    shortcuts: Genveje
+    sign_out: "Log ud"
+    stories: Historier
+    stream_settings: "Strøm indstillinger"
+    suspect_word_title: "Mistænkte ord liste"
+    suspect_word_text: "Kommentarer der indeholder disse ord eller sætninger (Ikke følsom over for store eller små bogstaver) vil blive fremhævet i kommentarstrømmen. Indtast et ord, og tryk på Enter eller Tab for at tilføje. Indsæt eventuelt en kommasepareret liste."
+    tech_settings: "Tekniske indstillinger"
+    title: "Konfigurer kommentarstrøm"
+    weeks: Uger
+    wordlist: "Forbudte ord"
+  continue: "Fortsæt"
+  createdisplay:
+    check_the_form: "Ugyldig formular. Tjek venligst felterne"
+    continue: "Fprtsæt med det samme Facebook brugernavn"
+    error_create: "Fejl ved ændring af brugernavn"
+    fake_comment_body: "Dette er et eksempel på en kommentar. Læsere kan dele deres tanker og meninger med nyhedsrummet i kommentarfeltet"
+    fake_comment_date: "1 minut siden"
+    if_you_dont_change_your_name: "Hvis du ikke ændrer dit brugernavn på dette trin, vil dit Facebook brugernavn vises sammen med alle dine kommentarer"
+    required_field: "Påkrævet felt"
+    save: Gem
+    special_characters: "Brugernavne kan kun indeholde bogstaver og _"
+    username: Brugernavn
+    write_your_username: "Rediger dit brugernavn"
+    your_username: "Dit brugernavn vises på hver kommentar du sender."
+  dashboard:
+    auto_update: "Data opdateres automatisk hvert femte minut, eller når du genindlæser."
+    comment_count: kommentarer
+    flags: Flags
+    most_flags: "Historier med de fleste flags"
+    most_conversations: "Historier med de fleste samtaler"
+    next_update: "{0} minutter indtil næste opdatering."
+    no_activity: "Der har ikke været nogen kommentarer i løbet af de sidste fem minutter."
+    no_flags: "Der har ikke været nogle flag i de sidste 5 minutter! Hurra!"
+    no_likes: "Der har ikke været nogen der syntes godt om noget i de sidste 5 minutter. Helt stille"
+  done: Færdig
+  edit_comment:
+    body_input_label: "Rediger denne kommentar"
+    save_button: "Gem ændringer"
+    edit_window_expired: "Du kan ikke længere redigere denne kommentar. Tidsvinduet for at gøre det er udløbet. Hvorfor skriver du ikke en ny?"
+    edit_window_expired_close: "Luk"
+    edit_window_timer_prefix: "Luk vindue: "
+    second: "sekund"
+    seconds_plural: "sekunder"
+  email:
+    confirm:
+      has_been_requested: "Der er anmodet om en e-mail bekræftelse for følgende konto:"
+      to_confirm: "For at bekræfte kontoen, skal du besøge følgende link:"
+      confirm_email: "Bekræft Email"
+      if_you_did_not: "Hvis du ikke har anmodet om dette, kan du med sikkerhed ignorere denne email."
+      subject: "Email Bekræftelse"
+    password_reset:
+      we_received_a_request: "Vi har modtaget en anmodning om at nulstille din adgangskode. Hvis du ikke har anmodet om denne ændring, kan du ignoere denne email."
+      if_you_did: "Hvis du gjorde,"
+      please_click: "venligst klik her for at nulstille adgangskoden"
+  embedlink:
+    copy: "Kopier til udklipsholder"
+  error:
+    COMMENT_TOO_SHORT: "Din kommentar skal indeholde noget"
+    NOT_AUTHORIZED: "Du har ikke tilladelse til at udføre denne handling."
+    NO_SPECIAL_CHARACTERS: "Brugernavne kan kun indeholder bogstaver og _"
+    PASSWORD_LENGTH: "Adgangskoden er for kort"
+    PROFANITY_ERROR: "Brugernavne må ikke inholde stødende indhold. Kontakt venligst administratoren, hvis du mener at dette er en fejl."
+    USERNAME_IN_USE: "Brugernavnet er allerede i brug"
+    USERNAME_REQUIRED: "Du skal indtaste et brugernavn"
+    EDIT_WINDOW_ENDED: "Du kan ikke længere redigere denne kommentar. Tidsvinduet for at gøre det er udløbet."
+    EDIT_USERNAME_NOT_AUTHORIZED: "Du har ikke tilladelse til at opdatere dit brugernavn."
+    SAME_USERNAME_PROVIDED: "Du skal indsende et andet brugernavn."
+    EMAIL_IN_USE: "Email adressen er allerede i brug"
+    EMAIL_REQUIRED: "En email adresse er påkrævet"
+    LOGIN_MAXIMUM_EXCEEDED: "Du har lavet for mange mislykkede adgangskodeforsøg. Vent venligst."
+    PASSWORD_REQUIRED: "Du skal indtaste et kodeord"
+    COMMENTING_CLOSED: "Kommentering er allerede lukket"
+    NOT_FOUND: "Ressource ikke fundet"
+    ALREADY_EXISTS: "Ressource eksisterer allerede"
+       INVALID_ASSET_URL: "Aktivitetswebadresse er ugyldig"
+    email: "Ikke en gylding e-mail"
+    confirm_password: "Kodeordene matcher ikke. Tjek venligst igen."
+    network_error: "Det lykkedes ikke at oprette forbindelse til serveren. Tjek din internetforbindelse og prøv igen."
+    email_not_verified: "E-mail adresse {0} ikke bekræftet."
+    email_password: "E-mail og/eller kodeord er forkert."
+    organization_name: "Organisationsnavn må kun indeholde bogstaver og tal."
+    password: "Adgangskoden skal være mindst 8 tegn"
+    username: "Brugernavne kan kun indeholde bogstaver og _"
+    unexpected: "Der opstod en uventet fejl. Undskyld!"
+  flag_comment: "Rapportér kommentar"
+  flag_reason: "Årsag til rapportering (Valgfrit)"
+  flag_username: "Rapporter brugernavn"
+  framework:
+    banned_account_header: "Din konto er i øjeblikket bannet"
+    banned_account_body: "Det betyder at du ikke kan synes godt om, rapportere eller skrive kommentarer."
+    comment: kommentar
+    comment_is_ignored: "Denne kommentar er skjult, fordi du ignoerede denne bruger."
+    comment_is_rejected: "Du har afvist denne kommentar."
+    comment_is_hidden: "Denne kommentar er ikke tilgængelig"
+    comments: kommentarer
+    configure_stream: "Konfigurer"
+    content_not_available: "Dette indhold er ikke tilgængeligt"
+    edit_name:
+      button: Indsend
+      error: "Brugernavne kan kun indeholde bogstaver og _"
+      label: "Nyt brugernavn"
+      msg: "Din konto er midlertidigt suspenderet, fordi dit brugernavn er blevet anset for upassende. For at gendanne din konto skal du indtaste et nyt brugernavn. Kontakt os venligst, hvis du har spørgsmål."
+    my_comments: "Mine kommentarer"
+    my_profile: "Min profil"
+    new_count: "Se {0} mere {1}"
+    profile: Profil
+    show_all_comments: "Vis alle kommentarer"
+    success_bio_update: "Din biografi er blevet opdateret"
+    success_name_update: "Dit brugernavn er blevet opdateret"
+    success_update_settings: "De ændringer du har foretaget, er blevet anvendt til kommentarstrømmen på denne artikel."
+    show_all_replies: Vis alle svar
+    show_more_replies: Vis flere svar
+    view_more_comments: "se flere kommentarer"
+    view_reply: "vis svar"
+  from_settings_page: "Fra profilsiden kan du se din kommentarhistorie."
+  like: Synes godt om
+  loading_results: "Indlæser resultater"
+  marketing: "Dette ligner en annonce/markedsføring"
+  moderate_this_stream: "Moderer denne strøm"
+  modqueue:
+    account: "konto flag"
+    actions: Handlinger
+    all: alle
+    all_streams: "Alle Strømme"
+    notify_edited: '{0} redigeret kommentar "{1}"'
+    notify_accepted: '{0} accepteret kommentar "{1}"'
+    notify_rejected: '{0} afvist kommentar "{1}"'
+    notify_flagged: '{0} flagget kommentar "{1}"'
+    approve: "Godkend"
+    approved: "Godkendt"
+    ban_user: "Ban"
+    billion: M
+    close: Close
+    empty_queue: "Ikke flere kommentarer til at moderer! Du har indhentet det hele. Gå ud og tag noget ☕️"
+    flagged: flagged
+    reported: Rapporteret
+    less_detail: "Færre detajler"
+    likes: Syntes godt om
+    million: M
+    mod_faster: "Moderer hurtigere med tastaturgenveje"
+    moderate: "Moderer →"
+    more_detail: "Flere detaljer"
+    new: Ny
+    newest_first: "Nyeste først"
+    navigation: Navigation
+    next_comment: "Gå til næste kommentar"
+    oldest_first: "Ældste Først"
+    premod: pre-mod
+    prev_comment: "Gå til den forrige kommentar"
+    reject: "Afvis"
+    rejected: "Afvist"
+    reply: "Svar"
+    select_stream: "Vælg strøm"
+    shift_key: "⇧"
+    shortcuts: "Genveje"
+    show_shortcuts: "Vis genveje"
+    singleview: "Skift enkeltkommentar redigerings visning"
+    thismenu: "Åben denne menu"
+    thousand: k
+    try_these: "Prøv disse"
+    view_more_shortcuts: "Se flere genveje"
+  my_comment_history: "Min kommentar Historie"
+  name: Navn
+  no_agree_comment: "Jeg er ikke enig med denne kommentar"
+  no_like_bio: "Jeg kan ikke lide denne biografi"
+  no_like_username: "Jeg kan ikke lide dette brugernavn"
+  other: Andet
+  permalink: Link
+  personal_info: "Denne kommentar afslører personligt identificerbare oplysninger"
+  post: Post
+  profile: Profil
+  profile_settings: "Profilindstillinger"
+  reply: Svar
+  report: Rapporter
+  report_notif: "Tak fordi du rapporterede denne kommentar. Vores modereringsteam har fået besked, og vil gennemgå det inden for kort tid."
+  report_notif_remove: "Din rapport er blevet fjernet"
+  reported: Rapporteret
+  settings:
+    from_settings_page: "Fra profilsiden kan du se din kommentarhistorie."
+    my_comment_history: "Min kommentarhistorie"
+    profile: Profil
+    profile_settings: "Profilindstillinger"
+    sign_in: "Log ind"
+    to_access: "for at tilgå din profil"
+    user_no_comment: "Du har aldrig efterladt en kommentar. Deltag i samtalen!"
+  stream:
+    all_comments: "Alle kommentarer"
+    temporarily_suspended: "I overensstemmelse med {0}'s retningslinjer for fællesskabet er din konto midlertidigt suspenderet. Venligst tilslut dig samtalen {1}."
+    comment_not_found: "Kommentar blev ikke fundet"
+  step_1_header: "Rapportér et problem"
+  step_2_header: "Hjælp os med at forstå"
+  step_3_header: "Tak for din indsats"
+  streams:
+    all: Alle
+    article: Historie
+    closed: Lukket
+    empty_result: "Ingen egenskaber matcher denne søgning. Måske prøv og forsøge at udvide din søgning?"
+    filter_streams: "Filtrer strømme"
+    newest: Nyeste
+    oldest: Ældste
+    open: Åben
+    pubdate: "Udgivelsedato"
+    search: Søg
+    sort_by: "Sorter efter"
+    status: "Strøm status"
+    stream_status: "Strøm Status"
+  suspenduser:
+    title_suspend: "Suspendere bruger"
+    description_suspend: "Du suspenderer {0}. Denne kommentar vil gå til den afviste kø, og {0} vil ikke kunne synes godt om, rapportere, svare eller indsende indtil suspenderings tiden er færdig."
+    select_duration: "Vælg suspenderings tid"
+    one_hour: "1 time"
+    hours: "{0} timer"
+    days: "{0} dage"
+    cancel: "Afbryd"
+    suspend_user: "Suspender bruger"
+    email_message_suspend: "Kære {0},\n\nI overensstemmelse med {1}'s retningslinjer for fællesskabet er din konto midlertidigt suspenderet. Under suspensionen vil du ikke kunne kommentere, flagge eller engagere dig med andre kommentarer. Venligst tilslut dig til samtalen{2}.'"
+    title_notify: "Underret bruygeren om deres midlertidige suspension"
+    notify_suspend_until: "Bruger {0} er midlertidigt suspenderet. Denne suspension ophører automatisk om {1}."
+    description_notify: "Suspendering af denne bruger vil midlertidigt deaktivere deres konto og skjule alle deres kommentarer på webstedet."
+    write_message: "Skriv en besked"
+    send: Send
+  reject_username:
+    username: brugernavn
+    no_cancel: "Nej Afbryd"
+    description_reject: "Vil du midlertidigt forbyde denne bruger på grund af deres {0}? Hvis du gør det, vil det midlertidigt skjule deres kommentarer, indtil de omskriver deres {0}."
+    title_notify: "Underret brugeren om deres midlertidige suspension"
+    description_notify: "Suspendering af denne bruger vil midlertidigt deaktivere deres konto, og skjule alle deres kommentarer på webstedet."
+    title_reject: "Vi har bemærket at du afviste et brugernavn."
+    suspend_user: "Suspender bruger"
+    yes_suspend: "Ja suspender"
+    email_message_reject: "Et andet medlem af samfundet har for nylig flagget dit brugernavn til anmeldelse. På grund af indholdet blev din bruger afvist. Det betyder, at du ikke længere kan kommentere, synes godt om eller flagge indhold, før du omskriver dit brugernavn. Venligst send os en e-mail, hvis du har spørgsmål eller bekymringer."
+    write_message: "Skriv en besked"
+    send: Send
+  thank_you: "Vi sætter pris på din sikkerhed og feedback. En moderator vil gennemgå din rapport"
+  user:
+    bio_flags: "flag for denne bio"
+    user_bio: "Bruger Biografi"
+    username_flags: "flag for dette brugernavn"
+  user_impersonating: "Denne bruger efterligner"
+  user_no_comment: "Du har aldrig efterladt en kommentar. Deltag i samtalen"
+  username_offensive: "Dette brugernavn er stødende"
+  view_conversation: "Vis samtale"
+  install:
+    initial:
+      description: "Lad os oprette dit Talk-fællesskab på bare nogle få korte trin"
+      submit: "Kom igang"
+    add_organization:
+      description: "Fortæl os navnet på din organisation. Dette vises i emails, når du inviterer nye teammedlemmer."
+      label: "Organisationens navn"
+      save: "Gem"
+    create:
+      email: "Email adresse"
+      username: "Brugernavn"
+      password: "Kodeord"
+      confirm_password: "Bekræft kodeord"
+      save: "Gem"
+    permitted_domains:
+      title: "Tilladte domæner"
+      description: "Indtast de domæner, du gerne vil tillade til Talk. f.eks. dine lokale, og produktionsmiljøer. (fx. localhost:3000, staging.domain.com, domain.com)."
+      submit: "Afslut installationen"
+    final:
+      description: "Tak fordi du installerede Talk! Vi sendte en email for at bekræfte din e-mail-adresse. Mens du færdigøre oprettelsen af kontoen, kan du begynde at engagere med dine læsere."
+      launch: "Lancere Talk"
+      close: "Luk dette installations program"
