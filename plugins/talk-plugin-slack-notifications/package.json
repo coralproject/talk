@@ -1,0 +1,9 @@
+{
+  "name": "@coralproject/talk-plugin-slack-notifications",
+  "pluginName": "talk-plugin-slack-notifications",
+  "version": "0.0.1",
+  "description": "Posts new comments to Slack via a webhook",
+  "main": "index.js",
+  "author": "The Coral Project Team <coral@mozillafoundation.org>",
+  "license": "Apache-2.0"
+}
