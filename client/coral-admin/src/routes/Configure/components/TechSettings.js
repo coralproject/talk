@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Card} from 'coral-ui';
 import Domainlist from './Domainlist';
 import EmbedLink from './EmbedLink';
 import styles from './TechSettings.css';
 import Slot from 'coral-framework/components/Slot';
 import t from 'coral-framework/services/i18n';
+import ConfigurePage from './ConfigurePage';
+import ConfigureCard from './ConfigureCard';
 
 class TechSettings extends React.Component {
 
@@ -32,28 +33,26 @@ class TechSettings extends React.Component {
   render() {
     const {settings, data, root} = this.props;
     return (
-      <div>
-        <h3 className={styles.title}>{t('configure.tech_settings')}</h3>
+      <ConfigurePage
+        title={t('configure.tech_settings')}
+      >
         <Domainlist
           domains={settings.domains.whitelist}
           onChangeDomainlist={this.updateDomainlist} />
         <EmbedLink />
-        <Card className={styles.card}>
-          <div className={styles.wrapper}>
-            <div className={styles.header}>{t('configure.custom_css_url')}</div>
-            <p>{t('configure.custom_css_url_desc')}</p>
-            <input
-              className={styles.customCSSInput}
-              value={settings.customCssUrl}
-              onChange={this.updateCustomCssUrl} />
-          </div>
-        </Card>
+        <ConfigureCard title={t('configure.custom_css_url')}>
+          <p>{t('configure.custom_css_url_desc')}</p>
+          <input
+            className={styles.customCSSInput}
+            value={settings.customCssUrl}
+            onChange={this.updateCustomCssUrl} />
+        </ConfigureCard>
         <Slot
           fill="adminTechSettings"
           data={data}
           queryData={{root, settings}}
         />
-      </div>
+      </ConfigurePage>
     );
   }
 }

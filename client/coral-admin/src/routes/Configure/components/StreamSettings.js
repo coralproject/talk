@@ -2,12 +2,14 @@ import React from 'react';
 import {SelectField, Option} from 'react-mdl-selectfield';
 import t from 'coral-framework/services/i18n';
 import styles from './StreamSettings.css';
-import {Checkbox, Textfield} from 'react-mdl';
-import {Card, Icon, TextArea} from 'coral-ui';
+import {Textfield} from 'react-mdl';
+import {Icon, TextArea} from 'coral-ui';
 import PropTypes from 'prop-types';
 import Slot from 'coral-framework/components/Slot';
 import MarkdownEditor from 'coral-framework/components/MarkdownEditor';
 import cn from 'classnames';
+import ConfigurePage from './ConfigurePage';
+import ConfigureCard from './ConfigureCard';
 
 const TIMESTAMPS = {
   weeks: 60 * 60 * 24 * 7,
@@ -100,130 +102,109 @@ class StreamSettings extends React.Component {
   render() {
     const {settings, data, root, errors} = this.props;
 
-    // just putting this here for shorthand below
-    const on = styles.enabledSetting;
-    const off = styles.disabledSetting;
-
     return (
-      <div>
-        <h3 className={styles.title}>{t('configure.stream_settings')}</h3>
-        <Card className={cn(styles.card, settings.charCountEnable ? on : off)}>
-          <div className={styles.action}>
-            <Checkbox
-              onChange={this.updateCharCountEnable}
-              checked={settings.charCountEnable} />
-          </div>
-          <div className={styles.content}>
-            <div className={styles.header}>{t('configure.comment_count_header')}</div>
-            <p className={settings.charCountEnable ? '' : styles.disabledSettingText}>
-              <span>{t('configure.comment_count_text_pre')}</span>
-              <input type='text'
-                className={cn(styles.inlineTextfield, styles.charCountTexfield, settings.charCountEnable && styles.charCountTexfieldEnable)}
-                htmlFor='charCount'
-                onChange={this.updateCharCount}
-                value={settings.charCount}
-                disabled={settings.charCountEnable ? '' : 'disabled'}
-              />
-              <span>{t('configure.comment_count_text_post')}</span>
-              {
-                errors.charCount &&
-                  <span className={styles.settingsError}>
-                    <br/>
-                    <Icon name="error_outline"/>
-                    {t('configure.comment_count_error')}
-                  </span>
-              }
-            </p>
-          </div>
-        </Card>
-        <Card className={cn(styles.card, styles.configSettingInfoBox, settings.infoBoxEnable ? on : off)}>
-          <div className={styles.action}>
-            <Checkbox
-              onChange={this.updateInfoBoxEnable}
-              checked={settings.infoBoxEnable} />
-          </div>
-          <div className={styles.content}>
-            <div className={styles.header}>
-              {t('configure.include_comment_stream')}
-            </div>
-            <p className={settings.infoBoxEnable ? '' : styles.disabledSettingText}>
-              {t('configure.include_comment_stream_desc')}
-            </p>
-            <div className={cn(styles.configSettingInfoBox, settings.infoBoxEnable ? null : styles.hidden)} >
-              <MarkdownEditor
-                className={styles.descriptionBox}
-                onChange={this.updateInfoBoxContent}
-                value={settings.infoBoxContent}
-              />
-            </div>
-          </div>
-        </Card>
-        <Card className={cn(styles.card, styles.configSettingInfoBox)}>
-          <div className={styles.wrapper}>
-            <div className={styles.header}>{t('configure.closed_stream_settings')}</div>
-            <p>{t('configure.closed_comments_desc')}</p>
-            <div>
-              <TextArea className={styles.descriptionBox}
-                onChange={this.updateClosedMessage}
-                value={settings.closedMessage}
-              />
-            </div>
-          </div>
-        </Card>
-        {/* Edit Comment Timeframe */}
-        <Card className={styles.card}>
-          <div className={styles.header}>{t('configure.edit_comment_timeframe_heading')}</div>
+      <ConfigurePage
+        title={t('configure.stream_settings')}
+      >
+        <ConfigureCard
+          checked={settings.charCountEnable}
+          onCheckbox={this.updateCharCountEnable}
+          title={t('configure.comment_count_header')}
+        >
+          <span>{t('configure.comment_count_text_pre')}</span>
+          <input type='text'
+            className={cn(styles.inlineTextfield, styles.charCountTexfield, settings.charCountEnable && styles.charCountTexfieldEnable)}
+            htmlFor='charCount'
+            onChange={this.updateCharCount}
+            value={settings.charCount}
+            disabled={settings.charCountEnable ? '' : 'disabled'}
+          />
+          <span>{t('configure.comment_count_text_post')}</span>
+          {
+            errors.charCount &&
+              <span className={styles.settingsError}>
+                <br/>
+                <Icon name="error_outline"/>
+                {t('configure.comment_count_error')}
+              </span>
+          }
+        </ConfigureCard>
+        <ConfigureCard
+          checked={settings.infoBoxEnable}
+          onCheckbox={this.updateInfoBoxEnable}
+          title={t('configure.include_comment_stream')}
+        >
           <p>
-            {t('configure.edit_comment_timeframe_text_pre')}
-            &nbsp;
-            <input
-              className={cn(styles.inlineTextfield, styles.editCommentTimeframeTextfield)}
-              type="number"
-              min="0"
-              onChange={this.updateEditCommentWindowLength}
-              placeholder="30"
-              defaultValue={(settings.editCommentWindowLength / 1000) /* saved as ms, rendered as seconds */}
-              pattern='[0-9]+([\.][0-9]*)?'
-            />
-            &nbsp;
-            {t('configure.edit_comment_timeframe_text_post')}
+            {t('configure.include_comment_stream_desc')}
           </p>
-        </Card>
-        <Card className={cn(styles.card, styles.configSettingInfoBox)}>
-          <div className={styles.action}>
-            <Checkbox
-              onChange={this.updateAutoClose}
-              checked={settings.autoCloseStream} />
+          <div className={cn(styles.configSettingInfoBox, settings.infoBoxEnable ? null : styles.hidden)} >
+            <MarkdownEditor
+              className={styles.descriptionBox}
+              onChange={this.updateInfoBoxContent}
+              value={settings.infoBoxContent}
+            />
           </div>
-          <div className={styles.content}>
-            <div className={styles.header}>{t('configure.close_after')}</div>
-            <br />
-            <Textfield
-              type='number'
-              pattern='[0-9]+'
-              style={{width: 50}}
-              onChange={this.updateClosedTimeout}
-              value={getTimeoutAmount(settings.closedTimeout)}
-              label={t('configure.closed_comments_label')} />
-            <div className={styles.configTimeoutSelect}>
-              <SelectField
-                label="comments closed time window"
-                value={getTimeoutMeasure(settings.closedTimeout)}
-                onChange={this.updateClosedTimeoutMeasure}>
-                <Option value={'hours'}>{t('configure.hours')}</Option>
-                <Option value={'days'}>{t('configure.days')}</Option>
-                <Option value={'weeks'}>{t('configure.weeks')}</Option>
-              </SelectField>
-            </div>
+        </ConfigureCard>
+        <ConfigureCard
+          checked={settings.configSettingInfoBox}
+          onCheckbox={this.updateClosedMessage}
+          title={t('configure.closed_stream_settings')}
+        >
+          <p>{t('configure.closed_comments_desc')}</p>
+          <div>
+            <TextArea className={styles.descriptionBox}
+              onChange={this.updateClosedMessage}
+              value={settings.closedMessage}
+            />
           </div>
-        </Card>
+        </ConfigureCard>
+        <ConfigureCard
+          title={t('configure.edit_comment_timeframe_heading')}
+        >
+          {t('configure.edit_comment_timeframe_text_pre')}
+          &nbsp;
+          <input
+            className={cn(styles.inlineTextfield, styles.editCommentTimeframeTextfield)}
+            type="number"
+            min="0"
+            onChange={this.updateEditCommentWindowLength}
+            placeholder="30"
+            defaultValue={(settings.editCommentWindowLength / 1000) /* saved as ms, rendered as seconds */}
+            pattern='[0-9]+([\.][0-9]*)?'
+          />
+          &nbsp;
+          {t('configure.edit_comment_timeframe_text_post')}
+        </ConfigureCard>
+        <ConfigureCard
+          checked={settings.autoCloseStream}
+          onCheckbox={this.updateAutoClose}
+          title={t('configure.close_after')}
+        >
+          <Textfield
+            type='number'
+            pattern='[0-9]+'
+            style={{width: 50}}
+            onChange={this.updateClosedTimeout}
+            value={getTimeoutAmount(settings.closedTimeout)}
+            label={t('configure.closed_comments_label')} />
+          <div className={styles.configTimeoutSelect}>
+            <SelectField
+              label="comments closed time window"
+              value={getTimeoutMeasure(settings.closedTimeout)}
+              onChange={this.updateClosedTimeoutMeasure}>
+              <Option value={'hours'}>{t('configure.hours')}</Option>
+              <Option value={'days'}>{t('configure.days')}</Option>
+              <Option value={'weeks'}>{t('configure.weeks')}</Option>
+            </SelectField>
+          </div>
+        </ConfigureCard>
         {/* the above card should be the last one if at all possible because of z-index issues with the selects */}
         <Slot
           fill="adminStreamSettings"
           data={data}
           queryData={{root, settings}}
         />
-      </div>
+      </ConfigurePage>
     );
   }
 }

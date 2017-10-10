@@ -1,9 +1,3 @@
-.title {
-  color: black;
-  font-size: 1.26em;
-  font-weight: 500;
-}
-
 .card {
   margin-bottom: 20px;
   align-items: flex-start;
@@ -20,6 +14,8 @@
 
 .wrapper {
   width: 100%;
+  font-size: 14px;
+  letter-spacing: 0;
 }
 
 .action {
@@ -34,7 +30,6 @@
   display: inline-block;
   padding: 0px 30px;
   box-sizing: border-box;
-  width: 100%;
 }
 
 .enabledSetting {
@@ -49,5 +44,6 @@
 
 .disabledSettingText {
   color: #ccc;
+  pointer-events: none;
 }
 

@@ -1,27 +1,3 @@
-.title {
-  color: black;
-  font-size: 1.26em;
-  font-weight: 500;
-}
-
-.card {
-  margin-bottom: 20px;
-  align-items: flex-start;
-  min-height: 100px;
-  max-width: 600px;
-}
-
-.header {
-  margin-top: 3px;
-  margin-bottom: 7px;
-  font-size: 18px;
-  font-weight: 500;
-}
-
-.wrapper {
-  width: 100%;
-}
-
 .customCSSInput {
   width: 100%;
   font-size: 14px;

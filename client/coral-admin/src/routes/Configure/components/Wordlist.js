@@ -1,33 +1,26 @@
 import React from 'react';
 import t from 'coral-framework/services/i18n';
 import TagsInput from 'coral-admin/src/components/TagsInput';
-import styles from './Wordlist.css';
 import PropTypes from 'prop-types';
-import {Card} from 'coral-ui';
+import ConfigureCard from './ConfigureCard';
 
 const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
   <div>
-    <Card className={styles.card}>
-      <div className={styles.header}>{t('configure.banned_words_title')}</div>
+    <ConfigureCard title={t('configure.banned_words_title')}>
       <p>{t('configure.banned_word_text')}</p>
-      <div className={styles.wrapper}>
-        <TagsInput
-          value={bannedWords}
-          inputProps={{placeholder: 'word or phrase'}}
-          onChange={(tags) => onChangeWordlist('banned', tags)}
-        />
-      </div>
-    </Card>
-    <Card className={styles.card}>
-      <div className={styles.header}>{t('configure.suspect_word_title')}</div>
+      <TagsInput
+        value={bannedWords}
+        inputProps={{placeholder: 'word or phrase'}}
+        onChange={(tags) => onChangeWordlist('banned', tags)}
+      />
+    </ConfigureCard>
+    <ConfigureCard title={t('configure.suspect_word_title')}>
       <p>{t('configure.suspect_word_text')}</p>
-      <div className={styles.wrapper}>
-        <TagsInput
-          value={suspectWords}
-          inputProps={{placeholder: 'word or phrase'}}
-          onChange={(tags) => onChangeWordlist('suspect', tags)} />
-      </div>
-    </Card>
+      <TagsInput
+        value={suspectWords}
+        inputProps={{placeholder: 'word or phrase'}}
+        onChange={(tags) => onChangeWordlist('suspect', tags)} />
+    </ConfigureCard>
   </div>
 );
 
