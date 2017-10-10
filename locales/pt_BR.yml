@@ -215,8 +215,6 @@ pt_BR:
     password: "A senha deve conter pelo menos 8 caracteres"
     username: "Nomes de usuários podem conter números de letras e _ somente"
     unexpected: "Ocorreu um erro inesperado. Desculpa!"
-    COMMENT_FLAG_FAILED: "Houve um problema relatando o comentário"
-    COMMENT_USER_FAILED: "Houve um problema relatando o usuário"
   flag_comment: "Informe o comentário"
   flag_reason: "Motivo do relatório (opcional)"
   flag_username: "Informe o nome de usuário"
