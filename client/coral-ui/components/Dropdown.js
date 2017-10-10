@@ -50,11 +50,11 @@ class Dropdown extends React.Component {
   render() {
     return (
       <ClickOutside onClickOutside={this.hideMenu}>
-        <div className={styles.dropdown} onClick={this.handleClick}>
+        <div className={styles.dropdown} onClick={this.handleClick} role="menu" aria-label="Dropdown">
           {this.props.icon && <Icon name={this.props.icon} className={styles.icon} />}
           <span className={styles.label}>{this.renderLabel()}</span>
           {this.state.isOpen ? <Icon name="keyboard_arrow_up" className={styles.arrow} /> : <Icon name="keyboard_arrow_down" className={styles.arrow} />}
-          <ul className={cn(styles.list, {[styles.listActive] : this.state.isOpen})}>
+          <ul className={cn(styles.list, {[styles.listActive] : this.state.isOpen})} role="menubar" aria-hidden="true">
             {React.Children.toArray(this.props.children)
               .map((child) =>
                 React.cloneElement(child, {
