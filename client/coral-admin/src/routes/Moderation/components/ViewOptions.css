@@ -1,4 +1,4 @@
-@custom-media --tablet (max-width: 1024px);
+@custom-media --tablet (max-width: 1180px);
 
 .viewOptions {
   display: inline-block;
@@ -8,6 +8,7 @@
   overflow: visible;
   height: 144px;
   min-height: auto;
+  z-index: 10;
 
   @media (--tablet) {
     width: 650px;
