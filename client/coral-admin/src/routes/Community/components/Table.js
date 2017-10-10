@@ -1,9 +1,11 @@
 import React from 'react';
-import {SelectField, Option} from 'react-mdl-selectfield';
 import styles from '../components/Table.css';
 import t from 'coral-framework/services/i18n';
+import PropTypes from 'prop-types';
+import {Dropdown, Option} from 'coral-ui';
+import capitalize from 'lodash/capitalize';
 
-export default ({headers, commenters, onHeaderClickHandler, onRoleChange, onCommenterStatusChange, viewUserDetail}) => (
+const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onCommenterStatusChange, viewUserDetail}) => (
   <table className={`mdl-data-table ${styles.dataTable}`}>
     <thead>
       <tr>
@@ -28,29 +30,40 @@ export default ({headers, commenters, onHeaderClickHandler, onRoleChange, onComm
             {row.created_at}
           </td>
           <td className="mdl-data-table__cell--non-numeric">
-            <SelectField
-              value={row.status || ''}
-              className={styles.selectField}
-              label={t('community.status')}
-              onChange={(status) => onCommenterStatusChange(row.id, status)}>
+            <Dropdown 
+              value={row.status}
+              label={capitalize(row.status)}
+              placeholder={t('community.status')}
+              onChange={(status) => onCommenterStatusChange(row.id, status)}>     
               <Option value={'ACTIVE'}>{t('community.active')}</Option>
               <Option value={'BANNED'}>{t('community.banned')}</Option>
-            </SelectField>
+            </Dropdown>       
           </td>
           <td className="mdl-data-table__cell--non-numeric">
-            <SelectField
-              value={row.roles[0] || ''}
-              className={styles.selectField}
-              label={t('community.role')}
+            <Dropdown
+              value={row.roles[0] || t('community.none')}
+              label={capitalize(row.roles[0]) || t('community.none')}
+              placeholder={t('community.role')}
               onChange={(role) => onRoleChange(row.id, role)}>
-              <Option value={''}>.</Option>
+              <Option value={''}>{t('community.none')}</Option>
               <Option value={'STAFF'}>{t('community.staff')}</Option>
               <Option value={'MODERATOR'}>{t('community.moderator')}</Option>
               <Option value={'ADMIN'}>{t('community.admin')}</Option>
-            </SelectField>
+            </Dropdown>
           </td>
         </tr>
       ))}
     </tbody>
   </table>
 );
+
+Table.propTypes = {
+  headers: PropTypes.array,
+  commenters: PropTypes.array,
+  onHeaderClickHandler: PropTypes.func,
+  onRoleChange: PropTypes.func,
+  onCommenterStatusChange: PropTypes.func,
+  viewUserDetail: PropTypes.func,
+};
+
+export default Table;
