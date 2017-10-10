@@ -6,8 +6,8 @@ import styles from './Drawer.css';
 import t from 'coral-framework/services/i18n';
 import {can} from 'coral-framework/services/perms';
 
-const CoralDrawer = ({handleLogout, auth}) => (
-  <Drawer className={styles.header}>
+const CoralDrawer = ({handleLogout, auth = {}}) => (
+  <Drawer className={styles.drawer}>
     { auth && auth.user && can(auth.user, 'ACCESS_ADMIN') ?
       <div>
         <Navigation className={styles.nav}>
@@ -57,7 +57,8 @@ const CoralDrawer = ({handleLogout, auth}) => (
 
 CoralDrawer.propTypes = {
   handleLogout: PropTypes.func.isRequired,
-  restricted: PropTypes.bool // hide app elements from a logged out user
+  restricted: PropTypes.bool, // hide app elements from a logged out user
+  auth: PropTypes.object
 };
 
 export default CoralDrawer;
