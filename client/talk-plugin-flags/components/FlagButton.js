@@ -99,6 +99,7 @@ export default class FlagButton extends Component {
             }
           })
           .catch((err) => {
+            this.props.notify('error', t('error.COMMENT_FLAG_FAILED'));
             console.error(err);
           });
       } else {
@@ -109,6 +110,7 @@ export default class FlagButton extends Component {
             }
           })
           .catch((err) => {
+            this.props.notify('error', t('error.USER_FLAG_FAILED'));
             console.error(err);
           });
       }

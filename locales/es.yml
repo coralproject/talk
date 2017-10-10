@@ -213,6 +213,8 @@ es:
     username: "Los nombres pueden contener letras números y _"
     USERNAME_IN_USE: "Este nombre ya está siendo usado."
     USERNAME_REQUIRED: "Debe ingresar un nombre"
+    COMMENT_FLAG_FAILED: "Hubo un error reportando este comentario"
+    COMMENT_USER_FAILED: "Hubo un error reportando este usuario"
   flag_comment: "Reportar este comentario"
   flag_reason: "Razón por la que hacer este reporte (Opcional)"
   flag_username: "Reportar el nombre de usuario"
