@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import key from 'keymaster';
-
+import cn from 'classnames';
+import styles from './Moderation.css';
 import ModerationQueue from './ModerationQueue';
 import ModerationMenu from './ModerationMenu';
 import ModerationHeader from './ModerationHeader';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import StorySearch from '../containers/StorySearch';
 import Slot from 'coral-framework/components/Slot';
+import ViewOptions from './ViewOptions';
 
 class Moderation extends Component {
   constructor(props) {
@@ -244,45 +246,48 @@ class Moderation extends Component {
           asset={asset}
           getModPath={getModPath}
           items={menuItems}
-          selectSort={this.props.setSortOrder}
-          sort={this.props.moderation.sortOrder}
           activeTab={activeTab}
         />
-        <ModerationQueue
-          key={`${activeTab}_${this.props.moderation.sortOrder}`}
-          data={this.props.data}
-          root={this.props.root}
-          currentAsset={asset}
-          comments={comments.nodes}
-          activeTab={activeTab}
-          singleView={moderation.singleView}
-          selectedCommentId={this.state.selectedCommentId}
-          bannedWords={settings.wordlist.banned}
-          suspectWords={settings.wordlist.suspect}
-          showBanUserDialog={props.showBanUserDialog}
-          showSuspendUserDialog={props.showSuspendUserDialog}
-          acceptComment={props.acceptComment}
-          rejectComment={props.rejectComment}
-          loadMore={this.loadMore}
-          assetId={assetId}
-          sort={this.props.moderation.sortOrder}
-          commentCount={activeTabCount}
-          currentUserId={this.props.auth.user.id}
-          viewUserDetail={viewUserDetail}
-        />
-        <ModerationKeysModal
-          hideShortcutsNote={props.hideShortcutsNote}
-          shortcutsNoteVisible={moderation.shortcutsNoteVisible}
-          open={moderation.modalOpen}
-          onClose={this.onClose}/>
-
+        <div className={cn(styles.container, 'talk-admin-moderation-container')}>
+          <ViewOptions
+            selectSort={this.props.setSortOrder}
+            sort={this.props.moderation.sortOrder}
+          />
+          <ModerationQueue
+            key={`${activeTab}_${this.props.moderation.sortOrder}`}
+            data={this.props.data}
+            root={this.props.root}
+            currentAsset={asset}
+            comments={comments.nodes}
+            activeTab={activeTab}
+            singleView={moderation.singleView}
+            selectedCommentId={this.state.selectedCommentId}
+            bannedWords={settings.wordlist.banned}
+            suspectWords={settings.wordlist.suspect}
+            showBanUserDialog={props.showBanUserDialog}
+            showSuspendUserDialog={props.showSuspendUserDialog}
+            acceptComment={props.acceptComment}
+            rejectComment={props.rejectComment}
+            loadMore={this.loadMore}
+            assetId={assetId}
+            sort={this.props.moderation.sortOrder}
+            commentCount={activeTabCount}
+            currentUserId={this.props.auth.user.id}
+            viewUserDetail={viewUserDetail}
+          />
+          <ModerationKeysModal
+            hideShortcutsNote={props.hideShortcutsNote}
+            shortcutsNoteVisible={moderation.shortcutsNoteVisible}
+            open={moderation.modalOpen}
+            onClose={this.onClose}
+          />
+        </div>
         <StorySearch
           assetId={assetId}
           moderation={this.props.moderation}
           closeSearch={this.closeSearch}
           storySearchChange={this.props.storySearchChange}
         />
-
         <Slot
           data={data}
           queryData={{root, asset}}
