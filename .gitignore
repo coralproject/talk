@@ -15,6 +15,8 @@ client/coral-framework/graphql/introspection.json
 *.DS_STORE
 
 coverage/
+tests_output/
+local.log
 
 plugins.json
 plugins/*
