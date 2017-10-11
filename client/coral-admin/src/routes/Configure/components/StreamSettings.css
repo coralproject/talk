@@ -1,0 +1,55 @@
+.configSettingInfoBox {
+  min-height: 100px;
+  margin-bottom: 20px;
+  width: auto;
+  height: auto;
+  text-align: left;
+  overflow: visible;
+}
+
+.descriptionBox {
+  margin-top: 15px;
+
+  input {
+    height: 150px;
+  }
+}
+
+.configTimeoutSelect {
+  display: inline-block;
+  margin-left: 20px;
+
+  i { /* fix for firefox and react-mdl-selectfield@0.2.0 */
+    padding: 20px 0;
+    vertical-align: top;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.inlineTextfield {
+  border-color: #ccc;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+  text-align: center;
+  font-size: inherit;
+}
+
+.inlineTextfield:focus {
+  outline: none;
+}
+
+.charCountTexfield, .editCommentTimeframeTextfield {
+  width: 4em;
+  padding: 0px;
+}
+
+.charCountTexfieldEnabled {
+  border-color: #00796b;
+}
+
+
+
+

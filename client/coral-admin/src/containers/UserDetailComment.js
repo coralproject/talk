@@ -8,7 +8,12 @@ import CommentDetails from './CommentDetails';
 export default withFragments({
   root: gql`
     fragment CoralAdmin_UserDetailComment_root on RootQuery {
-      __typename
+      settings {
+        wordlist {
+          banned
+          suspect
+        }
+      }
       ...${getDefinitionName(CommentLabels.fragments.root)}
       ...${getDefinitionName(CommentDetails.fragments.root)}
     }

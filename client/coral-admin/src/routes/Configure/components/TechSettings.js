@@ -1,44 +1,67 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Card} from 'coral-ui';
 import Domainlist from './Domainlist';
 import EmbedLink from './EmbedLink';
-import styles from './Configure.css';
+import styles from './TechSettings.css';
+import Slot from 'coral-framework/components/Slot';
 import t from 'coral-framework/services/i18n';
+import ConfigurePage from './ConfigurePage';
+import ConfigureCard from 'coral-framework/components/ConfigureCard';
 
-const updateCustomCssUrl = (updateSettings) => (event) => {
-  const customCssUrl = event.target.value;
-  updateSettings({customCssUrl});
-};
+class TechSettings extends React.Component {
 
-const TechSettings = ({settings, onChangeDomainlist, updateSettings}) => {
-  return (
-    <div className={styles.Configure}>
-      <Domainlist
-        domains={settings.domains.whitelist}
-        onChangeDomainlist={onChangeDomainlist} />
-      <EmbedLink />
-      <Card className={styles.configSetting}>
-        <div className={styles.wrapper}>
-          <div className={styles.settingsHeader}>{t('configure.custom_css_url')}</div>
+  updateCustomCssUrl = (event) => {
+    const updater = {customCssUrl: {$set: event.target.value}};
+    this.props.updatePending({updater});
+  };
+
+  updateDomainlist = (listName, list) => {
+    this.props.updatePending({updater: {
+      domains: {$apply: (domains) => {
+        const changeSet = {[listName]: list};
+        if (!domains) {
+          return changeSet;
+        }
+        return {
+          ...domains,
+          ...changeSet,
+        };
+      }},
+    }});
+  };
+
+  render() {
+    const {settings, data, root} = this.props;
+    return (
+      <ConfigurePage
+        title={t('configure.tech_settings')}
+      >
+        <Domainlist
+          domains={settings.domains.whitelist}
+          onChangeDomainlist={this.updateDomainlist} />
+        <EmbedLink />
+        <ConfigureCard title={t('configure.custom_css_url')}>
           <p>{t('configure.custom_css_url_desc')}</p>
           <input
             className={styles.customCSSInput}
             value={settings.customCssUrl}
-            onChange={updateCustomCssUrl(updateSettings)} />
-        </div>
-      </Card>
-    </div>
-  );
-};
+            onChange={this.updateCustomCssUrl} />
+        </ConfigureCard>
+        <Slot
+          fill="adminTechSettings"
+          data={data}
+          queryData={{root, settings}}
+        />
+      </ConfigurePage>
+    );
+  }
+}
 
 TechSettings.propTypes = {
-  settings: PropTypes.shape({
-    domains: PropTypes.shape({
-      whitelist: PropTypes.array.isRequired
-    })
-  }).isRequired,
-  updateSettings: PropTypes.func.isRequired
+  updatePending: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
 };
 
 export default TechSettings;
