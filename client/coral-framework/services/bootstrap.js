@@ -178,6 +178,10 @@ export async function createContext({
     await preInit(context);
   }
 
+  if (init) {
+    await init(context);
+  }
+
   // Run initialization.
   await Promise.all([init, plugins.executeInit(context)]);
   return context;
