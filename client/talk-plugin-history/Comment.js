@@ -18,7 +18,7 @@ class Comment extends React.Component {
     const queryData = {root, comment, asset: comment.asset};
 
     return (
-      <div className={styles.myComment}>
+      <div className={cn(styles.myComment, 'talk-my-profile-comment-history-comment')}>
         <div>
           <Slot
             fill="commentContent"

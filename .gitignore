@@ -48,3 +48,4 @@ plugins/*
 !plugins/talk-plugin-slack-notifications
 
 **/node_modules/*
+yarn-error.log

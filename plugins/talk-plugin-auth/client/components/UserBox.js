@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './styles.css';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import t from 'coral-framework/services/i18n';
@@ -11,7 +12,7 @@ const UserBox = ({loggedIn, user, logout, onShowProfile}) => (
       loggedIn ? (
         <div className={`${styles.userBox} talk-stream-auth-userbox`}>
           <span className={styles.userBoxLoggedIn}>{t('sign_in.logged_in_as')}</span>
-          <a onClick={onShowProfile}>{user.username}</a>. {t('sign_in.not_you')}
+          <a className="talk-stream-auth-userbox-username" onClick={onShowProfile}>{user.username}</a>. {t('sign_in.not_you')}
           <a className={`${styles.logout} talk-stream-userbox-logout`} onClick={() => logout()}>
             {t('sign_in.logout')}
           </a>
@@ -28,5 +29,12 @@ const mapStateToProps = ({auth}) => ({
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({logout}, dispatch);
+
+UserBox.propTypes = {
+  loggedIn: PropTypes.bool,
+  user: PropTypes.object,
+  logout: PropTypes.func,
+  onShowProfile: PropTypes.func,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserBox);
