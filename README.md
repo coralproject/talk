@@ -18,9 +18,10 @@ Check out our Docs: https://coralproject.github.io/talk/
 - Project: https://coralproject.net/
 - Roadmap: https://www.pivotaltracker.com/n/projects/1863625
 
-## Testing
+## End-to-End Testing
 
-Talk uses Nightwatch as our end-to-end and cross-browser testing framework provided with love by our friends at Browserstack.
+Talk uses [Nightwatch](http://nightwatchjs.org/) to write e2e tests. The Testing infrastructure is provided with love by our friends at Browserstack that allows us to run our tests in real browsers.
+
 
 ![](/public/img/browserstack_logo.png)
 
