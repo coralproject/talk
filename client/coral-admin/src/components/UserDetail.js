@@ -17,8 +17,6 @@ export default class UserDetail extends React.Component {
     userId: PropTypes.string.isRequired,
     hideUserDetail: PropTypes.func.isRequired,
     root: PropTypes.object.isRequired,
-    bannedWords: PropTypes.array.isRequired,
-    suspectWords: PropTypes.array.isRequired,
     acceptComment: PropTypes.func.isRequired,
     rejectComment: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
@@ -79,8 +77,6 @@ export default class UserDetail extends React.Component {
       },
       activeTab,
       selectedCommentIds,
-      bannedWords,
-      suspectWords,
       toggleSelect,
       bulkAccept,
       bulkReject,
@@ -184,8 +180,6 @@ export default class UserDetail extends React.Component {
                   root={root}
                   data={data}
                   comment={comment}
-                  suspectWords={suspectWords}
-                  bannedWords={bannedWords}
                   acceptComment={this.acceptThenReload}
                   rejectComment={this.rejectThenReload}
                   selected={selected}
