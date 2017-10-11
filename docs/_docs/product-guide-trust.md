@@ -1,6 +1,6 @@
 ---
 title: Trust
-permalink: /trust//
+permalink: /trust/
 class: product-guide
 ---
 
