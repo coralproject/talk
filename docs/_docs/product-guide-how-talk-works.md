@@ -1,6 +1,6 @@
 ---
 title: How Talk Works
-permalink: /how-talk-works//
+permalink: /how-talk-works/
 class: product-guide
 ---
 
