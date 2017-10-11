@@ -1,3 +1,9 @@
-.Option {
-  
+.option {
+  padding: 10px;
+  text-transform: capitalize;
+}
+
+.option:hover {
+  background-color: #eee;
+  cursor: pointer;
 }

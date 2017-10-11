@@ -1,14 +1,23 @@
 import React from 'react';
-import {Option as OptionMDL} from 'react-mdl-selectfield';
+import PropTypes from 'prop-types';
 import styles from './Option.css';
+import cn from 'classnames';
 
-const Option = (props) => {
-  const {children, ...attrs} = props;
-  return (
-    <OptionMDL className={styles.Option} {...attrs}>
-      {children}
-    </OptionMDL>
-  );
+const Option = ({className, label = '', onClick}) => (
+  <li className={cn(styles.option, className)} onClick={onClick} role="menuitem">
+    {label}
+  </li>
+);
+
+Option.propTypes = {
+  className: PropTypes.string,
+  label: PropTypes.string,
+  onClick: PropTypes.func,
+  value: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+    PropTypes.bool
+  ]),
 };
 
 export default Option;

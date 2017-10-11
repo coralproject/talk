@@ -18,6 +18,12 @@ Check out our Docs: https://coralproject.github.io/talk/
 - Project: https://coralproject.net/
 - Roadmap: https://www.pivotaltracker.com/n/projects/1863625
 
+## Testing
+
+Talk uses Nightwatch as our end-to-end and cross-browser testing framework provided with love by our friends at Browserstack.
+
+![](/public/img/browserstack_logo.png)
+
 ## License
 
     Copyright 2017 Mozilla Foundation
