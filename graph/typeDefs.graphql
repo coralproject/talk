@@ -1217,6 +1217,12 @@ input UpdateSettingsInput {
   # editCommentWindowLength is the length of time (in milliseconds) after a
   # comment is posted that it can still be edited by the author.
   editCommentWindowLength: Int
+
+  # wordlist allows chaninging the available wordlists.
+  wordlist: UpdateWordlistInput
+
+  # domains allows changing the available lists of domains.
+  domains: UpdateDomainsInput
 }
 
 # UpdateSettingsResponse contains any errors that were rendered as a result
@@ -1231,18 +1237,17 @@ type UpdateSettingsResponse implements Response {
 input UpdateWordlistInput {
 
   # banned words will by default reject the comment if it is found.
-  banned: [String!]!
+  banned: [String!]
 
   # suspect words will simply flag the comment.
-  suspect: [String!]!
+  suspect: [String!]
 }
 
-# UpdateWordlistResponse contains any errors that were rendered as a result
-# of the mutation.
-type UpdateWordlistResponse implements Response {
+# UpdateDomainsInput describes all the available lists of domains.
+input UpdateDomainsInput {
 
-  # An array of errors relating to the mutation that occurred.
-  errors: [UserError!]
+  # whitelist is the list of domains that the embed is allowed to render on.
+  whitelist: [String!]
 }
 
 # CreateTokenInput contains the input to create the token.
@@ -1328,10 +1333,6 @@ type RootMutation {
   # updateSettings will update the global settings.
   # Mutation is restricted.
   updateSettings(input: UpdateSettingsInput!): UpdateSettingsResponse
-
-  # updateWordlist will update the given Wordlist.
-  # Mutation is restricted.
-  updateWordlist(input: UpdateWordlistInput!): UpdateWordlistResponse
 
   # Ignore comments by another user
   ignoreUser(id: ID!): IgnoreUserResponse

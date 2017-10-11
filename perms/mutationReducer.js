@@ -19,7 +19,6 @@ module.exports = (user, perm) => {
   case types.SET_COMMENT_STATUS:
   case types.UPDATE_CONFIG:
   case types.UPDATE_SETTINGS:
-  case types.UPDATE_WORDLIST:
   case types.UPDATE_ASSET_SETTINGS:
   case types.UPDATE_ASSET_STATUS:
     return check(user, ['ADMIN', 'MODERATOR']);

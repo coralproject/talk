@@ -1,6 +1,7 @@
 import auth from './auth';
 import assets from './assets';
-import settings from './settings';
+import dashboard from './dashboard';
+import configure from './configure';
 import community from './community';
 import moderation from './moderation';
 import install from './install';
@@ -12,10 +13,11 @@ import userDetail from './userDetail';
 export default {
   auth,
   banUserDialog,
+  dashboard,
+  configure,
   suspendUserDialog,
   userDetail,
   assets,
-  settings,
   community,
   moderation,
   install,
