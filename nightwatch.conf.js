@@ -1,5 +1,6 @@
 const nightwatch_config = {
   src_folders: './test/e2e/specs/',
+  output_folder: './test/e2e/tests_output',
 
   selenium : {
     'start_process': false,
