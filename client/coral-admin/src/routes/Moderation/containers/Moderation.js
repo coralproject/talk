@@ -13,7 +13,6 @@ import {isPremod, getModPath} from '../../../utils';
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {handleCommentChange} from '../graphql';
 
-import {fetchSettings} from 'actions/settings';
 import {showBanUserDialog} from 'actions/banUserDialog';
 import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 import {viewUserDetail} from '../../../actions/userDetail';
@@ -146,7 +145,6 @@ class ModerationContainer extends Component {
 
   componentWillMount() {
     this.props.clearState();
-    this.props.fetchSettings();
     this.subscribeToUpdates();
   }
 
@@ -384,7 +382,6 @@ const withModQueueQuery = withQuery(({queueConfig}) => gql`
 
 const mapStateToProps = (state) => ({
   moderation: state.moderation,
-  settings: state.settings,
   auth: state.auth,
 });
 
@@ -392,7 +389,6 @@ const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
     toggleModal,
     singleView,
-    fetchSettings,
     showBanUserDialog,
     hideShortcutsNote,
     toggleStorySearch,
