@@ -10,7 +10,10 @@ const nightwatch_config = {
 
   test_settings: {
     default: {
-      launch_url: process.env.E2E_LAUNCH_URL || 'http://localhost:3000',
+      globals: {
+        waitForConditionTimeout: 5000,
+      },
+      launch_url: process.env.TALK_ROOT_URL || 'http://localhost:3000',
       desiredCapabilities: {
         'browserstack.user': process.env.BROWSERSTACK_USER || 'coralproject2',
         'browserstack.key': process.env.BROWSERSTACK_KEY,

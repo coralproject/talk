@@ -1,6 +1,13 @@
 const uuid = require('uuid');
 const {murmur3} = require('murmurhash-js');
 
+const iframeId = 'coralStreamEmbed_iframe';
+
+const $ = {
+  streamEmbedIframe: `#${iframeId}`,
+  streamTabContainer: '.talk-stream-tab-container',
+};
+
 module.exports = {
   'Creates a new asset': (client) => {
     const assetTitle = `test@${murmur3(uuid.v4())}`;
@@ -8,9 +15,9 @@ module.exports = {
     client
       .url(`${client.launchUrl}/assets/title/${assetTitle}`)
       .assert.title(assetTitle)
-      .waitForElementVisible('#coralStreamEmbed_iframe', 1000)
-      .frame('coralStreamEmbed_iframe')
-        .waitForElementVisible('.talk-stream-tab-container', 1000)
+      .waitForElementVisible($.streamEmbedIframe)
+      .frame(iframeId)
+        .waitForElementVisible($.streamTabContainer)
         .frameParent()
       .end();
   }

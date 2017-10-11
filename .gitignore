@@ -17,6 +17,7 @@ client/coral-framework/graphql/introspection.json
 coverage/
 test/e2e/tests_output/
 test/e2e/bslocal.log
+browserstack.err
 
 plugins.json
 plugins/*
