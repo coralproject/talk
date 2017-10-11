@@ -18,7 +18,9 @@
     "test": "TEST_MODE=unit NODE_ENV=test jest && TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
     "test-cover": "TEST_MODE=unit NODE_ENV=test istanbul cover _mocha --report text --check-coverage -- -R spec",
     "heroku-postbuild": "./bin/cli plugins reconcile && yarn build",
-    "generate-introspection": "WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js"
+    "generate-introspection": "WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "talk": {
     "migration": {
@@ -177,13 +179,14 @@
     "timekeeper": "^1.0.0",
     "tlds": "^1.196.0",
     "url-join": "^2.0.2",
-    "url-loader": "^0.5.9",
+    "url-loader": "^0.6.0",
     "url-search-params": "^0.9.0",
     "uuid": "^3.1.0",
     "webpack": "^2.3.1",
     "webpack-sources": "^1.0.1",
     "yaml-loader": "^0.4.0",
-    "yamljs": "^0.2.10"
+    "yamljs": "^0.2.10",
+    "snyk": "^1.42.5"
   },
   "devDependencies": {
     "@coralproject/eslint-config-talk": "^0.0.4",
@@ -212,5 +215,6 @@
   },
   "release": {
     "analyzeCommits": "simple-commit-message"
-  }
+  },
+  "snyk": true
 }
