@@ -13,17 +13,21 @@ items:
         url: /configuration/
       - title: Advanced Configuration
         url: /advanced-configuration/
-  - title: Plugins
-    children:
-      - title: Plugins Overview
-        url: /plugins/
   - title: Product Guide
-    children: 
+    children:
       - title: How Talk Works
         url: /how-talk-works/
-      - title: Plugin and Recipe List
-        url: /plugins-and-recipes/
       - title: Trust
         url: /trust/
       - title: Toxic Comments
         url: /toxic-comments/
+  - title: Plugins
+    children:
+      - title: Plugins Overview
+        url: /plugins/
+      - title: Default Plugins
+        url: /default-plugins/
+      - title: Additional Plugins
+        url: /additional-plugins/
+      - title: Plugin Recipes
+        url: /plugin-recipes/
