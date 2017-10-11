@@ -18,6 +18,13 @@ Check out our Docs: https://coralproject.github.io/talk/
 - Project: https://coralproject.net/
 - Roadmap: https://www.pivotaltracker.com/n/projects/1863625
 
+## End-to-End Testing
+
+Talk uses [Nightwatch](http://nightwatchjs.org/) to write e2e tests. The Testing infrastructure is provided with love by our friends at Browserstack that allows us to run our tests in real browsers.
+
+
+![](/public/img/browserstack_logo.png)
+
 ## License
 
     Copyright 2017 Mozilla Foundation
@@ -26,8 +33,12 @@ Check out our Docs: https://coralproject.github.io/talk/
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-        http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
-    Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    Unless required by applicable law or agreed to in writing, 
+    software distributed under the License is distributed on an 
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
+    either express or implied.
 
-    See the License for the specific language governing permissions and limitations under the License.
+    See the License for the specific language governing permissions 
+    and limitations under the License.
