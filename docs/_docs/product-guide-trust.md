@@ -23,4 +23,10 @@ You can configure your own Trust thresholds by using `TRUST_THRESHOLD` in your c
 
 ### Reliable and Unreliable Flaggers
 
-Details coming soon.
+Trust also calculates how reliable users are in terms of the comments they report. This information is displayed to moderators in the User History drawer, which is accessed by clicking on a user’s name in the Admin.
+
+If a user's reports mostly match what moderators reject, their Report status will display to moderators as Reliable in the user information drawer. If a user's reports mostly differ from what moderators reject, their Report status will show as Unreliable.
+
+If we don't have enough reports to make a call, or the reports even out, their status is Neutral.
+
+Note: Report Karma doesn't include reports of "I don't agree with this comment".

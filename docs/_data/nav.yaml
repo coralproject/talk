@@ -22,4 +22,6 @@ items:
       - title: How Talk Works
         url: /how-talk-works/
       - title: Plugin and Recipe List
-       url: /plugins-and-recipes/
+        url: /plugins-and-recipes/
+      - title: Trust
+        url: /trust/
