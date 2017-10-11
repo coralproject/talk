@@ -6,3 +6,4 @@ export {default as CommentAuthorName} from 'coral-framework/components/CommentAu
 export {default as CommentTimestamp} from 'coral-framework/components/CommentTimestamp';
 export {default as CommentDetail} from 'coral-framework/components/CommentDetail';
 export {default as CommentContent} from 'coral-framework/components/CommentContent';
+export {default as ConfigureCard} from 'coral-framework/components/ConfigureCard';

@@ -9,6 +9,8 @@ import cn from 'classnames';
 import styles from './styles.css';
 import * as REASONS from '../helpers/flagReasons';
 
+import {getErrorMessages} from 'coral-framework/utils';
+
 const name = 'talk-plugin-flags';
 
 export default class FlagButton extends Component {
@@ -99,6 +101,7 @@ export default class FlagButton extends Component {
             }
           })
           .catch((err) => {
+            this.props.notify('error', getErrorMessages(err));
             console.error(err);
           });
       } else {
@@ -109,6 +112,7 @@ export default class FlagButton extends Component {
             }
           })
           .catch((err) => {
+            this.props.notify('error', getErrorMessages(err));
             console.error(err);
           });
       }

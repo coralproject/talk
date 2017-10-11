@@ -61,9 +61,6 @@ const RootMutation = {
   updateSettings: async (_, {input: settings}, {mutators: {Settings}}) => {
     await Settings.update(settings);
   },
-  updateWordlist: async (_, {input: wordlist}, {mutators: {Settings}}) => {
-    await Settings.updateWordlist(wordlist);
-  },
   createToken: async (_, {input}, {mutators: {Token}}) => ({
     token: await Token.create(input),
   }),
