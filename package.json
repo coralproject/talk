@@ -12,7 +12,7 @@
     "build": "WEBPACK=TRUE NODE_ENV=production webpack -p --config webpack.config.js --bail",
     "prebuild-watch": "yarn generate-introspection",
     "build-watch": "WEBPACK=TRUE NODE_ENV=development webpack --progress --config webpack.config.js --watch",
-    "lint": "eslint --ext=.js --ext=.json bin/* .",
+    "lint": "yamllint locales/*.yml && eslint --ext=.js --ext=.json bin/* .",
     "lint-fix": "yarn lint --fix",
     "jest-watch": "TEST_MODE=unit NODE_ENV=test jest --watch",
     "test": "TEST_MODE=unit NODE_ENV=test jest && TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
@@ -207,7 +207,8 @@
     "nodemon": "^1.11.0",
     "pre-git": "^3.15.3",
     "sinon": "^3.2.1",
-    "sinon-chai": "^2.13.0"
+    "sinon-chai": "^2.13.0",
+    "yaml-lint": "^1.0.0"
   },
   "engines": {
     "node": "^8"
