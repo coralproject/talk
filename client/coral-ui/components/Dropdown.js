@@ -15,9 +15,9 @@ class Dropdown extends React.Component {
     };
   }
   
-  setValue = (value, label) => {
+  setValue = (value) => {
     if (this.props.onChange) {
-      this.props.onChange(value, label);
+      this.props.onChange(value);
     }
 
     this.setState({
