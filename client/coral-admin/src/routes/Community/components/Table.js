@@ -3,7 +3,6 @@ import styles from '../components/Table.css';
 import t from 'coral-framework/services/i18n';
 import PropTypes from 'prop-types';
 import {Dropdown, Option} from 'coral-ui';
-import capitalize from 'lodash/capitalize';
 import cn from 'classnames';
 
 const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onCommenterStatusChange, viewUserDetail}) => (

@@ -281,6 +281,7 @@ es:
     select_stream: "Seleccionar hilo de comentarios"
     shift_key: ⇧
     shortcuts: Atajos
+    sort: "Ordenar"
     show_shortcuts: "Mostrar Atajos"
     singleview: "Colocar vista de edición de comentario único"
     thismenu: "Abrir este menu"

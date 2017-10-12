@@ -79,9 +79,10 @@ class Dropdown extends React.Component {
   }
 
   render() {
+    const {className = ''} = this.props;
     return (
       <ClickOutside onClickOutside={this.hideMenu}>
-        <div className={styles.dropdown} onClick={this.handleClick} onKeyDown={this.handleKeyDown} role="button" aria-label="Dropdown" aria-haspopup="true" tabIndex="0">
+        <div className={cn(styles.dropdown, className)} onClick={this.handleClick} onKeyDown={this.handleKeyDown} role="button" aria-label="Dropdown" aria-haspopup="true" tabIndex="0">
           {this.props.icon && <Icon name={this.props.icon} className={styles.icon} />}
           <span className={styles.label}>{this.renderLabel()}</span>
           {this.state.isOpen ? <Icon name="keyboard_arrow_up" className={styles.arrow} /> : <Icon name="keyboard_arrow_down" className={styles.arrow} />}
@@ -101,6 +102,7 @@ class Dropdown extends React.Component {
 }
 
 Dropdown.propTypes = {
+  className: PropTypes.string,
   placeholder: PropTypes.string,
   icon: PropTypes.string,
   onChange: PropTypes.func.isRequired,
