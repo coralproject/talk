@@ -75,13 +75,13 @@ export default class Embed extends React.Component {
           activeTab={activeTab}
           id='talk-embed-stream-tab-content'
         >
-          <TabPane tabId={'stream'}>
+          <TabPane tabId={'stream'} className={'talk-embed-stream-comments-tab-pane'}>
             <Stream data={data} root={root} />
           </TabPane>
-          <TabPane tabId={'profile'}>
+          <TabPane tabId={'profile'} className={'talk-embed-stream-profile-tab-pane'}>
             <ProfileContainer />
           </TabPane>
-          <TabPane tabId={'config'}>
+          <TabPane tabId={'config'} className={'talk-embed-stream-configuration-tab-pane'}>
             <ConfigureStreamContainer />
           </TabPane>
         </TabContent>
