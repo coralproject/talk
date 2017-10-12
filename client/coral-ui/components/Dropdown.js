@@ -25,10 +25,24 @@ class Dropdown extends React.Component {
     });
   }
 
-  handleClick = () => {
+  toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
     });
+  }
+
+  handleClick = () => {
+    this.toggle();
+  }
+
+  handleKeyDown = (e) => {
+    const code = e.which;
+    
+    // 13 = Return, 32 = Space
+    if ((code === 13) || (code === 32)) {
+      e.preventDefault();
+      this.toggle();
+    }
   }
 
   hideMenu = () => {
@@ -50,11 +64,11 @@ class Dropdown extends React.Component {
   render() {
     return (
       <ClickOutside onClickOutside={this.hideMenu}>
-        <div className={styles.dropdown} onClick={this.handleClick} role="menu" aria-label="Dropdown">
+        <div className={styles.dropdown} onClick={this.handleClick} onKeyDown={this.handleKeyDown} role="button" aria-label="Dropdown" aria-haspopup="true" tabIndex="1">
           {this.props.icon && <Icon name={this.props.icon} className={styles.icon} />}
           <span className={styles.label}>{this.renderLabel()}</span>
           {this.state.isOpen ? <Icon name="keyboard_arrow_up" className={styles.arrow} /> : <Icon name="keyboard_arrow_down" className={styles.arrow} />}
-          <ul className={cn(styles.list, {[styles.listActive] : this.state.isOpen})} role="menubar" aria-hidden="true">
+          <ul className={cn(styles.list, {[styles.listActive] : this.state.isOpen})} role="menubar" aria-hidden="true" tabIndex="2">
             {React.Children.toArray(this.props.children)
               .map((child) =>
                 React.cloneElement(child, {

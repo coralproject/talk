@@ -6,13 +6,15 @@ import {Dropdown, Option} from 'coral-ui';
 import capitalize from 'lodash/capitalize';
 
 const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onCommenterStatusChange, viewUserDetail}) => (
-  <table className={`mdl-data-table ${styles.dataTable}`}>
+  <table className={`mdl-data-table ${styles.dataTable}`} tabIndex="-1">
     <thead>
       <tr>
         {headers.map((header, i) =>(
           <th
             key={i}
             className="mdl-data-table__cell--non-numeric"
+            scope="col"
+            tabIndex="0"
             onClick={() => onHeaderClickHandler({field: header.field})}>
             {header.title}
           </th>
@@ -21,12 +23,12 @@ const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onComme
     </thead>
     <tbody>
       {commenters.map((row, i)=> (
-        <tr key={i}>
-          <td className="mdl-data-table__cell--non-numeric">
+        <tr key={i} tabIndex="0">
+          <td className="mdl-data-table__cell--non-numeric" tabIndex="1">
             <button onClick={() => {viewUserDetail(row.id);}} className={styles.button}>{row.username}</button>
             <span className={styles.email}>{row.profiles.map(({id}) => id)}</span>
           </td>
-          <td className="mdl-data-table__cell--non-numeric">
+          <td className="mdl-data-table__cell--non-numeric" tabIndex="1">
             {row.created_at}
           </td>
           <td className="mdl-data-table__cell--non-numeric">
