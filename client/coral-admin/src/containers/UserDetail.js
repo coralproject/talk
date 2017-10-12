@@ -11,6 +11,7 @@ import {
   changeUserDetailStatuses,
   clearUserDetailSelections,
   toggleSelectCommentInUserDetail,
+  toggleSelectAllCommentInUserDetail
 } from 'coral-admin/src/actions/userDetail';
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
@@ -120,6 +121,7 @@ class UserDetailContainer extends React.Component {
       bulkAccept={this.bulkAccept}
       changeStatus={this.props.changeUserDetailStatuses}
       toggleSelect={this.props.toggleSelectCommentInUserDetail}
+      toggleSelectAll={this.props.toggleSelectAllCommentInUserDetail}
       acceptComment={this.acceptComment}
       rejectComment={this.rejectComment}
       loading={loading}
@@ -188,6 +190,7 @@ const mapDispatchToProps = (dispatch) => ({
     toggleSelectCommentInUserDetail,
     viewUserDetail,
     hideUserDetail,
+    toggleSelectAllCommentInUserDetail
   }, dispatch)
 });
 
