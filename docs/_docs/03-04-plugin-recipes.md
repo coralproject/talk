@@ -16,7 +16,7 @@ The following are the available recipes for use:
 
 {% include toc.html %}
 
-## recipe-avatar
+### recipe-avatar
 
 Source: [talk-recipes/tree/master/plugins/avatar](https://github.com/coralproject/talk-recipes/tree/master/plugins/avatar){:target="_blank"}
 
@@ -24,7 +24,7 @@ Provides support for avatars hosted via third party, extends the User Model and
 provides UI on the client-side too.
 
 
-## recipe-translations
+### recipe-translations
 
 Source: [talk-recipes/tree/master/plugins/translations](https://github.com/coralproject/talk-recipes/tree/master/plugins/translations){:target="_blank"}
 
@@ -32,7 +32,7 @@ Provides an example for overriding application text through the translation
 system.
 
 
-## recipe-subscriber
+### recipe-subscriber
 
 Source: [talk-recipes/tree/master/plugins/subscriber](https://github.com/coralproject/talk-recipes/tree/master/plugins/subscriber){:target="_blank"}
 
@@ -41,7 +41,7 @@ Provides an example for adding `SUBSCRIBER` badges for users with the
 the auth system.
 
 
-## recipe-author-name
+### recipe-author-name
 
 Source: [talk-recipes/tree/master/plugins/author-name](https://github.com/coralproject/talk-recipes/tree/master/plugins/author-name){:target="_blank"}
 

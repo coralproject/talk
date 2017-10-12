@@ -4,7 +4,7 @@ permalink: /trust/
 ---
 
 Trust is a set of components within Talk that incorporate automated moderation
-behaviors based on a user interactions.
+features based on a user's previous behavior.
 
 ### User Karma Score
 
@@ -28,7 +28,7 @@ Here are the default thresholds:
 +3 and higher: Reliable
 ```
 
-You can configure your own Trust thresholds by using [TRUST_THRESHOLD]({{"/advanced-configuration/#trust_thresholds" | relative_url }}{:.param} in your
+You can configure your own Trust thresholds by using [TRUST_THRESHOLD]({{"/advanced-configuration/#trust_thresholds" | relative_url }}{:.param}) in your
 configuration.
 
 
