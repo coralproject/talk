@@ -17,6 +17,10 @@ items:
     children:
       - title: How Talk Works
         url: /how-talk-works/
+      - title: Commenter Features
+        url: /commenter-features/
+      - title: Moderator Features
+        url: /moderator-features/
       - title: Trust
         url: /trust/
       - title: Toxic Comments
