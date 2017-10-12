@@ -231,10 +231,9 @@ pre {
 }
 
 .coral-link {
-  border-bottom: 2px dotted $coral_button_border_color;
+  border-bottom: 1px solid $coral_button_border_color;
   color: $coral_button_color;
   text-decoration: none;
-  font-weight: bold;
 
   &:hover {
     color: $coral_button_hover_color;

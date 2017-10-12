@@ -4,11 +4,8 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     colorator (1.1.0)
-    cssminify2 (2.0.1)
-    execjs (2.7.0)
     ffi (1.9.18)
     forwardable-extended (2.6.0)
-    htmlcompressor (0.3.1)
     jekyll (3.5.2)
       addressable (~> 2.4)
       colorator (~> 1.0)
@@ -20,11 +17,6 @@ GEM
       pathutil (~> 0.9)
       rouge (~> 1.7)
       safe_yaml (~> 1.0)
-    jekyll-minifier (0.1.4)
-      cssminify2 (~> 2.0)
-      htmlcompressor (~> 0.3)
-      jekyll (~> 3.5)
-      uglifier (~> 3.2)
     jekyll-sass-converter (1.5.0)
       sass (~> 3.4)
     jekyll-seo-tag (2.3.0)
@@ -50,15 +42,12 @@ GEM
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
-    uglifier (3.2.0)
-      execjs (>= 0.3.0, < 3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   jekyll (= 3.5.2)
-  jekyll-minifier (~> 0.1.4)
   jekyll-seo-tag (~> 2.1)
   tzinfo-data
 
