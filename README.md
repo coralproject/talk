@@ -20,7 +20,7 @@ Check out our Docs: https://coralproject.github.io/talk/
 
 ## End-to-End Testing
 
-Talk uses [Nightwatch](http://nightwatchjs.org/) to write e2e tests. The Testing infrastructure is provided with love by our friends at Browserstack that allows us to run our tests in real browsers.
+Talk uses [Nightwatch](http://nightwatchjs.org/) to write e2e tests. The testing infrastructure that allows us to run our tests in real browsers is provided with love by our friends at Browserstack.
 
 
 ![](/public/img/browserstack_logo.png)

@@ -221,6 +221,50 @@ describe('services.UsersService', () => {
     });
   });
 
+  describe('#search', () => {
+    it('should return all the results without a value', async () => {
+      expect(await UsersService.search()).to.have.length(3);
+    });
+
+    it('should match the search terms', async () => {
+      const tests = [
+        {
+          search: 'monster',
+          results: 1,
+          id: mockUsers[1].id,
+        },
+        {
+          search: 'Stamp',
+          results: 1,
+          id: mockUsers[0].id,
+        },
+        {
+          search: 'sockmonster@gmail.com',
+          results: 1,
+          id: mockUsers[1].id,
+        },
+        {
+          search: 'marvel',
+          results: 1,
+          id: mockUsers[2].id,
+        },
+        {
+          search: 'gmail.com',
+          results: 3
+        }
+      ];
+
+      for (const test of tests) {
+        const users = await UsersService.search(test.search);
+
+        expect(users).to.have.length(test.results);
+        if (test.results === 1) {
+          expect(users[0]).to.have.property('id', test.id);
+        }
+      }
+    });
+  });
+
   describe('#editName', () => {
     it('should let the user edit their username if the proper toggle is set', () => {
       return UsersService
