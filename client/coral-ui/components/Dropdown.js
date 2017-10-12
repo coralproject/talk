@@ -66,10 +66,13 @@ class Dropdown extends React.Component {
   }
 
   renderLabel() {
-    if (this.props.label) {
-      return this.props.label;
-    } else if (this.props.value) {
-      return this.props.value;
+    const options = React.Children.toArray(this.props.children);
+    const option = options.find((option) => option.props.value === this.props.value);
+
+    if (option.label) {
+      return option.label;
+    } else if(option.value) {
+      return option.value;
     } else {
       return this.props.placeholder;
     }
@@ -102,7 +105,6 @@ Dropdown.propTypes = {
   icon: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
-  label: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
