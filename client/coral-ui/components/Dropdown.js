@@ -69,10 +69,10 @@ class Dropdown extends React.Component {
     const options = React.Children.toArray(this.props.children);
     const option = options.find((option) => option.props.value === this.props.value);
 
-    if (option.label) {
-      return option.label;
-    } else if(option.value) {
-      return option.value;
+    if (option.props.label) {
+      return option.props.label;
+    } else if(option.props.value) {
+      return option.props.value;
     } else {
       return this.props.placeholder;
     }

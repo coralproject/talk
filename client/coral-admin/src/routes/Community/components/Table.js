@@ -34,7 +34,6 @@ const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onComme
           <td className="mdl-data-table__cell--non-numeric">
             <Dropdown 
               value={row.status}
-              label={capitalize(row.status)}
               placeholder={t('community.status')}
               onChange={(status) => onCommenterStatusChange(row.id, status)}>     
               <Option value={'ACTIVE'} label={t('community.active')} />
@@ -43,8 +42,7 @@ const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onComme
           </td>
           <td className="mdl-data-table__cell--non-numeric">
             <Dropdown
-              value={row.roles[0] || t('community.none')}
-              label={capitalize(row.roles[0]) || t('community.none')}
+              value={row.roles[0] || ''}
               placeholder={t('community.role')}
               onChange={(role) => onRoleChange(row.id, role)}>
               <Option value={''} label={t('community.none')} />
