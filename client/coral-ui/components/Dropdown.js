@@ -14,6 +14,20 @@ class Dropdown extends React.Component {
       isOpen: false
     };
   }
+
+  handleOptionKeyDown = (value, e) => {
+    const code = e.which;
+    
+    // 13 = Return, 32 = Space
+    if ((code === 13) || (code === 32)) {
+      e.preventDefault();
+      this.setValue(value);
+    }
+  }
+
+  handleOptionClick = (value) => {
+    this.setValue(value);
+  }
   
   setValue = (value) => {
     if (this.props.onChange) {
@@ -73,7 +87,8 @@ class Dropdown extends React.Component {
               .map((child) =>
                 React.cloneElement(child, {
                   key: child.props.value,
-                  onClick: () => this.setValue(child.props.value, child.props.label)
+                  onClick: () => this.handleOptionClick(child.props.value),
+                  onKeyDown: (e) => this.handleOptionKeyDown(child.props.value, e)
                 }))}
           </ul>
         </div>
