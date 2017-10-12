@@ -28,13 +28,13 @@ Plugins are additional functionality which are optional to use with Talk. You
 can turn these on or off, depending on your specific needs. Plugins are either
 part of our core plugins, which ship with Talk, or they are developed by 3rd
 parties and either used privately and internally, or are open sourced for use
-across the greater community. You can explore the plugins we offer by vising our [Default Plugins]({{ "/default-plugins/" | relative_url}})
+across the greater community. You can explore the plugins we offer by visiting our [Default Plugins]({{ "/default-plugins/" | relative_url}})
 and [Additional Plugins]({{ "/additional-plugins/" | relative_url }}) pages.
 
 ## Recipes
 
 Recipes are plugin templates that are created by the Talk team and 3rd party
 developers, in order to help contributors and newsrooms build plugins easily.
-You can explore the recipes we offer by vising our [Plugin Recipes]({{ "/plugin-recipes/" | relative_url}})
+You can explore the recipes we offer by visiting our [Plugin Recipes]({{ "/plugin-recipes/" | relative_url}})
 page.
 

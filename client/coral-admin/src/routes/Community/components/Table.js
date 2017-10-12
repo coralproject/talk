@@ -4,9 +4,10 @@ import t from 'coral-framework/services/i18n';
 import PropTypes from 'prop-types';
 import {Dropdown, Option} from 'coral-ui';
 import capitalize from 'lodash/capitalize';
+import cn from 'classnames';
 
 const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onCommenterStatusChange, viewUserDetail}) => (
-  <table className={`mdl-data-table ${styles.dataTable}`} tabIndex="-1">
+  <table className={`mdl-data-table ${styles.dataTable}`}>
     <thead>
       <tr>
         {headers.map((header, i) =>(
@@ -23,12 +24,12 @@ const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onComme
     </thead>
     <tbody>
       {commenters.map((row, i)=> (
-        <tr key={i} tabIndex="0">
-          <td className="mdl-data-table__cell--non-numeric" tabIndex="1">
-            <button onClick={() => {viewUserDetail(row.id);}} className={styles.button}>{row.username}</button>
+        <tr key={i}>
+          <td className="mdl-data-table__cell--non-numeric" tabIndex="0">
+            <button onClick={() => {viewUserDetail(row.id);}} className={cn(styles.username, styles.button)}>{row.username}</button>
             <span className={styles.email}>{row.profiles.map(({id}) => id)}</span>
           </td>
-          <td className="mdl-data-table__cell--non-numeric" tabIndex="1">
+          <td className="mdl-data-table__cell--non-numeric" tabIndex="0">
             {row.created_at}
           </td>
           <td className="mdl-data-table__cell--non-numeric">
