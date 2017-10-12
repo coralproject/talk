@@ -42,11 +42,11 @@ export const witDashboardQuery = withQuery(gql`
     }
   }
 `, {
-    options: ({settings: {dashboardWindowStart, dashboardWindowEnd}}) => {
+    options: ({windowStart, windowEnd}) => {
       return {
         variables: {
-          from: dashboardWindowStart,
-          to: dashboardWindowEnd
+          from: windowStart,
+          to: windowEnd,
         }
       };
     }
@@ -54,8 +54,8 @@ export const witDashboardQuery = withQuery(gql`
 
 const mapStateToProps = (state) => {
   return {
-    settings: state.settings,
-    moderation: state.moderation
+    windowStart: state.dashboard.windowStart,
+    windowEnd: state.dashboard.windowEnd,
   };
 };
 

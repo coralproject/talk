@@ -15,7 +15,12 @@ const slots = [
 export default withFragments({
   root: gql`
     fragment CoralAdmin_ModerationComment_root on RootQuery {
-      __typename
+      settings {
+        wordlist {
+          banned
+          suspect
+        }
+      }
       ${getSlotFragmentSpreads(slots, 'root')}
       ...${getDefinitionName(CommentLabels.fragments.root)}
       ...${getDefinitionName(CommentDetails.fragments.root)}
