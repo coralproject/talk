@@ -116,7 +116,7 @@ module.exports = class AssetsService {
   static search({value, limit, open, sortOrder, cursor} = {}) {
     let assets = AssetModel.find({});
 
-    if (value) {
+    if (value && value.length > 0) {
       assets.merge({
         $text: {
           $search: value
