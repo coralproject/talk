@@ -19,7 +19,7 @@ If you've already configured your application with the required configuration,
 you can further customize it's behavior by applying
 [Advanced Configuration]({{ "/advanced-configuration/" | relative_url }}).
 
-## TALK_MONGO_URL
+### TALK_MONGO_URL
 
 The database connection string for the MongoDB database. This usually takes the
 form of:
@@ -31,7 +31,7 @@ TALK_MONGO_URL=mongodb://<DATABASE USER>:<DATABASE PASSWORD>@<DATABASE HOST>:<DA
 Refer to [connection string uri format](https://docs.mongodb.com/manual/reference/connection-string/){:target="_blank"}
 for the detailed url scheme of the MongoDB url.
 
-## TALK_REDIS_URL
+### TALK_REDIS_URL
 
 The database connection string for the Redis database. This usually takes the
 form of:
@@ -50,7 +50,7 @@ TALK_REDIS_URL=redis://127.0.0.1:6379/2
 Refer to [uri scheme](http://www.iana.org/assignments/uri-schemes/prov/redis){:target="_blank"}
 for the detailed url scheme of the Redis url.
 
-## TALK_ROOT_URL
+### TALK_ROOT_URL
 
 The root url of the installed application externally available in the format:
 
@@ -70,7 +70,7 @@ TALK_ROOT_URL=https://talk.coralproject.net/
 _Note that we omitted the `PORT`, as it was implied by setting the `SCHEME` to
 `https`._
 
-## TALK_JWT_SECRET
+### TALK_JWT_SECRET
 
 Used to specify the application signing secret. You can specify this using a
 simple string, we recommend using a password generator and pasting it's output.
@@ -85,7 +85,7 @@ Be default, we sign our tokens with HMAC using a SHA-256 hash algorithm. If you
 want to change the signing algorithm, or use multiple signing/verifying keys,
 refer to our [Advanced Configuration]({{ "/advanced-configuration/" | relative_url }}) documentation.
 
-## TALK_FACEBOOK_APP_ID
+### TALK_FACEBOOK_APP_ID
 
 The Facebook App ID for your Facebook Login enabled app. You can learn more
 about getting a Facebook App ID at the
@@ -95,7 +95,7 @@ or by visiting the
 guide. This is only required while the `talk-plugin-facebook-auth` plugin is
 enabled.
 
-## TALK_FACEBOOK_APP_SECRET
+### TALK_FACEBOOK_APP_SECRET
 
 The Facebook App Secret for your Facebook Login enabled app. You can learn more
 about getting a Facebook App Secret at the
