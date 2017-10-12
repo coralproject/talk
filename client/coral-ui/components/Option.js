@@ -4,7 +4,7 @@ import styles from './Option.css';
 import cn from 'classnames';
 
 const Option = ({className, label = '', onClick}) => (
-  <li className={cn(styles.option, className)} onClick={onClick} role="menuitem" tabIndex="3">
+  <li className={cn(styles.option, className)} onClick={onClick} role="menuitem" tabIndex="0">
     {label}
   </li>
 );

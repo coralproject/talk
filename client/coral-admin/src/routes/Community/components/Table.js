@@ -15,7 +15,6 @@ const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onComme
             key={i}
             className="mdl-data-table__cell--non-numeric"
             scope="col"
-            tabIndex="0"
             onClick={() => onHeaderClickHandler({field: header.field})}>
             {header.title}
           </th>
@@ -25,11 +24,11 @@ const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onComme
     <tbody>
       {commenters.map((row, i)=> (
         <tr key={i}>
-          <td className="mdl-data-table__cell--non-numeric" tabIndex="0">
+          <td className="mdl-data-table__cell--non-numeric">
             <button onClick={() => {viewUserDetail(row.id);}} className={cn(styles.username, styles.button)}>{row.username}</button>
             <span className={styles.email}>{row.profiles.map(({id}) => id)}</span>
           </td>
-          <td className="mdl-data-table__cell--non-numeric" tabIndex="0">
+          <td className="mdl-data-table__cell--non-numeric">
             {row.created_at}
           </td>
           <td className="mdl-data-table__cell--non-numeric">
