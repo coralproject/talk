@@ -4,12 +4,12 @@ module.exports = {
   'page_objects_path': './test/e2e/page_objects',
   'selenium': {
     'start_process': true,
-    'server_path': 'node_modules/selenium-standalone/.selenium/selenium-server/2.53.1-server.jar',
+    'server_path': 'node_modules/selenium-standalone/.selenium/selenium-server/3.5.3-server.jar',
     'log_path': './test/e2e/reports',
     'host': '127.0.0.1',
     'port': 6666,
     'cli_args': {
-      'webdriver.chrome.driver': 'node_modules/selenium-standalone/.selenium/chromedriver/2.25-x64-chromedriver'
+      'webdriver.chrome.driver': 'node_modules/selenium-standalone/.selenium/chromedriver/2.32-x64-chromedriver'
     }
   },
   'test_settings': {
