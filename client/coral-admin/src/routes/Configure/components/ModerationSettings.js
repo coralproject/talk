@@ -18,6 +18,10 @@ class ModerationSettings extends React.Component {
     this.props.updatePending({updater});
   };
 
+  updatePremodNewUserEnable = () => {
+    const updater = {premodNewUserEnable: {$set: !this.props.settings.premodNewUserEnable}};
+    this.props.updatePending({updater});
+  }
   updatePremodLinksEnable = () => {
     const updater = {premodLinksEnable: {$set: !this.props.settings.premodLinksEnable}};
     this.props.updatePending({updater});
@@ -40,7 +44,6 @@ class ModerationSettings extends React.Component {
 
   render() {
     const {settings, data, root} = this.props;
-
     return (
       <ConfigurePage
         title={t('configure.moderation_settings')}
@@ -58,6 +61,13 @@ class ModerationSettings extends React.Component {
           title={t('configure.enable_pre_moderation')}
         >
           {t('configure.enable_pre_moderation_text')}
+        </ConfigureCard>
+        <ConfigureCard
+          checked={settings.premodNewUserEnable}
+          onCheckbox={this.updatePremodNewUserEnable}
+          title={t('configure.enable_premod_newuser')}
+        >
+          {t('configure.enable_premod_newuser_text')}
         </ConfigureCard>
         <ConfigureCard
           checked={settings.premodLinksEnable}

@@ -646,6 +646,9 @@ type Settings {
   # premodLinksEnable will put all comments that contain links into premod.
   premodLinksEnable: Boolean
 
+  # premodNewUserEnable will put all comments by new users into premod.
+  premodNewUserEnable: Boolean
+
   # questionBoxIcon is the icon for the Question Box.
   questionBoxIcon: String
 
@@ -1024,6 +1027,9 @@ input AssetSettingsInput {
   # premodLinksEnable will put all comments that contain links into premod.
   premodLinksEnable: Boolean
 
+  # premodNewUserEnable will put all comments by new users into premod.
+  premodNewUserEnable: Boolean
+
   # moderation is the moderation mode for the asset.
   moderation: MODERATION_MODE
 
@@ -1186,6 +1192,9 @@ input UpdateSettingsInput {
 
   # premodLinksEnable will put all comments that contain links into premod.
   premodLinksEnable: Boolean
+
+  # premodNewUserEnable will put all comments by new users into premod.
+  premodNewUserEnable: Boolean
 
   # questionBoxIcon is the icon for the Question Box.
   questionBoxIcon: String

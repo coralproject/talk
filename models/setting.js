@@ -41,6 +41,10 @@ const SettingSchema = new Schema({
     type: String,
     default: ''
   },
+  premodNewUserEnable: {
+    type: Boolean,
+    default: false
+  },
   premodLinksEnable: {
     type: Boolean,
     default: false
