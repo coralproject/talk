@@ -5,6 +5,7 @@ import Table from '../containers/Table';
 import {Pager, Icon} from 'coral-ui';
 import EmptyCard from '../../../components/EmptyCard';
 import t from 'coral-framework/services/i18n';
+import PropTypes from 'prop-types';
 
 const tableHeaders = [
   {
@@ -60,6 +61,14 @@ const People = ({commenters, searchValue, onSearchChange, ...props}) => {
       </div>
     </div>
   );
+};
+
+People.propTypes = {
+  commenters: PropTypes.array,
+  searchValue: PropTypes.string,
+  onSearchChange: PropTypes.func,
+  totalPages: PropTypes.number,
+  onNewPageHandler: PropTypes.func,
 };
 
 export default People;
