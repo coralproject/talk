@@ -1,9 +1,10 @@
 .option {
   padding: 10px;
   text-transform: capitalize;
-}
+  outline: none;
 
-.option:hover {
-  background-color: #eee;
-  cursor: pointer;
+  &:focus, &:hover {
+    background-color: #d8d8d8;
+    cursor: pointer;
+  }
 }
