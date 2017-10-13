@@ -4,7 +4,7 @@
   outline: none;
 
   &:focus, &:hover {
-    background-color: #d8d8d8;
+    background-color: #ccc;
     cursor: pointer;
   }
 }

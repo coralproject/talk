@@ -18,12 +18,12 @@
   outline: none;
 
   &:focus {
-    background: #666;
+    background: #888;
   }
 }
 
 .toggleOpen {
-  background: #666;
+  background: #888;
 }
 
 .label {
