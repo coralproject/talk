@@ -41,9 +41,6 @@ h2, h3, h4 {
 }
 
 article.configuration {
-  h2 {
-    font-weight: bolder;
-  }
 
   h2, .toc {
     @extend .param;
