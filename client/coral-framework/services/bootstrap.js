@@ -7,6 +7,7 @@ import {createRestClient} from './rest';
 import thunk from 'redux-thunk';
 import {loadTranslations} from './i18n';
 import bowser from 'bowser';
+import noop from 'lodash/noop';
 import {BASE_PATH} from 'coral-framework/constants/url';
 import {createPluginsService} from './plugins';
 import {createNotificationService} from './notification';
@@ -77,7 +78,7 @@ export async function createContext({
   graphqlExtension = {},
   notification,
   preInit,
-  init,
+  init = noop,
 } = {}) {
   const eventEmitter = new EventEmitter({wildcard: true});
   const storage = createStorage();
@@ -179,6 +180,6 @@ export async function createContext({
   }
 
   // Run initialization.
-  await Promise.all([init, plugins.executeInit(context)]);
+  await Promise.all([init(context), plugins.executeInit(context)]);
   return context;
 }
