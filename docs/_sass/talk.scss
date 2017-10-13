@@ -36,13 +36,17 @@ h2, h3, h4 {
   }
 }
 
+.param {
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
 article.configuration {
   h2 {
     font-weight: bolder;
   }
 
-  h2, .toc, .param {
-    font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  h2, .toc {
+    @extend .param;
   }
 }
 
@@ -227,10 +231,9 @@ pre {
 }
 
 .coral-link {
-  border-bottom: 2px dotted $coral_button_border_color;
+  border-bottom: 1px solid $coral_button_border_color;
   color: $coral_button_color;
   text-decoration: none;
-  font-weight: bold;
 
   &:hover {
     color: $coral_button_hover_color;
@@ -258,6 +261,9 @@ pre {
 .content {
   article {
     p a:not(.plain-link) {
+      @extend .coral-link;
+    }
+    ul:not(.toc__menu) li a {
       @extend .coral-link;
     }
   }

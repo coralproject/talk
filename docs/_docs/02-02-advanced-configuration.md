@@ -19,37 +19,37 @@ If this is your first time configuring Talk, ensure you've also added the
 [Required Configuration]({{ "/configuration/" | relative_url }}) as well,
 otherwise the application will fail to start.
 
-## TALK_CACHE_EXPIRY_COMMENT_COUNT
+### TALK_CACHE_EXPIRY_COMMENT_COUNT
 
 Configure the duration for which comment counts are cached for, parsed by
 [ms](https://www.npmjs.com/package/ms){:target="_blank"}. (Default `1hr`)
 
-## TALK_DEFAULT_LANG
+### TALK_DEFAULT_LANG
 
 Specify the default translation language. (Default `en`)
 
-## TALK_DEFAULT_STREAM_TAB
+### TALK_DEFAULT_STREAM_TAB
 
 Specify the default stream tab in the admin. (Default `all`)
 
-## TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS
+### TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS
 
 When `TRUE`, disables flagging of comments that match the suspect word filter. (Default `FALSE`)
 
-## TALK_DISABLE_EMBED_POLYFILL
+### TALK_DISABLE_EMBED_POLYFILL
 
 When set to `TRUE`, the build process will not include the
 [babel-polyfill](https://babeljs.io/docs/usage/polyfill/){:target="_blank"}
 in the embed.js target that is loaded on the page that loads the embed. (Default
 `FALSE`)
 
-## TALK_DISABLE_STATIC_SERVER
+### TALK_DISABLE_STATIC_SERVER
 
 When `TRUE`, it will not mount the static asset serving routes on the router.
 This is used primarily in conjunction with [TALK_STATIC_URI](#talk_static_uri){: .param}
 when the static assets are being hosted on an external domain. (Default `FALSE`)
 
-## TALK_HELMET_CONFIGURATION
+### TALK_HELMET_CONFIGURATION
 
 A JSON string representing the configuration passed to the
 [helmet](https://github.com/helmetjs/helmet){:target="_blank"} middleware. It
@@ -68,20 +68,20 @@ TALK_HELMET_CONFIGURATION={"hsts": false}
 
 To disable these headers from being sent.
 
-## TALK_INSTALL_LOCK
+### TALK_INSTALL_LOCK
 
 When `TRUE`, disables the dynamic setup endpoint `/admin/install` from even
 loading. This prevents hits to the database with enabled. This should always be
 set to `TRUE` after you've deployed Talk. (Default `FALSE`)
 
-## TALK_JWT_ALG
+### TALK_JWT_ALG
 
 The algorithm used to sign/verify JWT’s used for session management. Read up
 about alternative algorithms on the
 [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken#algorithms-supported){:target="_blank"}
 package. (Default `HS256`)
 
-### Shared Secret
+#### Shared Secret
 {:.no_toc}
 
 You would use a shared secret when you have no need to share the tokens with
@@ -102,7 +102,7 @@ These must be provided in the form:
 ```
 {: .no-copy}
 
-### Asymmetric Secret
+#### Asymmetric Secret
 {:.no_toc}
 
 You would use a asymmetric secret when you want to share the token in your
@@ -138,23 +138,23 @@ certificates that match our required format: [coralcert](https://github.com/cora
 This tool can generate RSA and ECDSA certificates, check it's [README](https://github.com/coralproject/coralcert){:target="_blank"}
 for more details.
 
-## TALK_JWT_AUDIENCE
+### TALK_JWT_AUDIENCE
 
 The audience [aud](https://tools.ietf.org/html/rfc7519#section-4.1.3){:target="_blank"}
 claim for login JWT tokens. (Default `talk`)
 
-## TALK_JWT_CLEAR_COOKIE_LOGOUT
+### TALK_JWT_CLEAR_COOKIE_LOGOUT
 
 When `FALSE`, Talk will not clear the cookie with name
 [TALK_JWT_SIGNING_COOKIE_NAME](#talk_jwt_signing_cookie_name){: .param} when logging out
 but will still blacklist the token. (Default `TRUE`)
 
-## TALK_JWT_COOKIE_NAME
+### TALK_JWT_COOKIE_NAME
 
 The default cookie name to check for a valid JWT token to use for verifying a
 user. (Default `authorization`)
 
-## TALK_JWT_COOKIE_NAMES
+### TALK_JWT_COOKIE_NAMES
 
 The different cookie names to check for a JWT token in, separated by a `,`. By
 default, we always use the value of [TALK_JWT_COOKIE_NAME](#talk_jwt_cookie_name){: .param}
@@ -176,19 +176,19 @@ Would mean we would check the following cookies (in order) for a valid token:
 2. `coralproject.talk`
 3. `coralproject.auth`
 
-## TALK_JWT_DISABLE_AUDIENCE
+### TALK_JWT_DISABLE_AUDIENCE
 
 When `TRUE`, Talk will not verify or sign JWT’s with an audience
 [aud](https://tools.ietf.org/html/rfc7519#section-4.1.3){:target="_blank"}
 claim, even if [TALK_JWT_AUDIENCE](#talk_jwt_audience){: .param} is set. (Default `FALSE`)
 
-## TALK_JWT_DISABLE_ISSUER
+### TALK_JWT_DISABLE_ISSUER
 
 When `TRUE`, Talk will not verify or sign JWT’s with an issuer
 [iss](https://tools.ietf.org/html/rfc7519#section-4.1.1){:target="_blank"}
 claim, even if [TALK_JWT_ISSUER](#talk_jwt_issuer){: .param} is set. (Default `FALSE`)
 
-## TALK_JWT_EXPIRY
+### TALK_JWT_EXPIRY
 
 The expiry duration [exp](https://tools.ietf.org/html/rfc7519#section-4.1.4){:target="_blank"}
 for the tokens issued for logged in sessions, parsed by
@@ -199,12 +199,12 @@ If the user logs out, then an entry is created in the token blacklist of it's
 set to be automatically removed at it's expiry time. It is important for this
 reason to create reasonable expiry lengths as to minimize the storage overhead.
 
-## TALK_JWT_ISSUER
+### TALK_JWT_ISSUER
 
 The issuer [iss](https://tools.ietf.org/html/rfc7519#section-4.1.1){:target="_blank"}
 claim for login JWT tokens. (Defaults to value of [TALK_ROOT_URL]({{ "/configuration/#talk_root_url" | relative_url }}){: .param})
 
-## TALK_JWT_SECRET
+### TALK_JWT_SECRET
 
 Used to specify the application signing secret. You can specify this using a
 simple string, we recommend using a password generator and pasting it's output.
@@ -225,7 +225,7 @@ Refer to the documentation for [TALK_JWT_ALG](#talk_jwt_alg){: .param} for other
 methods and other forms of the `TALK_JWT_SECRET`. If you are interested in using
 multiple keys, then refer to [TALK_JWT_SECRETS](#talk_jwt_secrets){: .param}.
 
-## TALK_JWT_SECRETS
+### TALK_JWT_SECRETS
 
 Used when specifying multiple secrets used for key rotations. This is a JSON
 encoded array, where each element matches the JWT Secret pattern. When this is
@@ -261,12 +261,12 @@ Refer to the documentation on the [TALK_JWT_ALG](#talk_jwt_alg){: .param} for mo
 information on what to store in these parameters.
 {: .code-aside}
 
-## TALK_JWT_SIGNING_COOKIE_NAME
+### TALK_JWT_SIGNING_COOKIE_NAME
 
 The default cookie name that is use to set a cookie containing a JWT that was
 issued by Talk. (Defaults to value of [TALK_JWT_COOKIE_NAME](#talk_jwt_cookie_name){: .param})
 
-## TALK_JWT_USER_ID_CLAIM
+### TALK_JWT_USER_ID_CLAIM
 
 Specify the claim using dot notation for where the user id should be stored/read
 to/from. (Default `sub`)
@@ -287,13 +287,13 @@ Then we would set `TALK_JWT_USER_ID_CLAIM` to:
 TALK_JWT_USER_ID_CLAIM=user.id
 ```
 
-## TALK_KEEP_ALIVE
+### TALK_KEEP_ALIVE
 
 The keepalive timeout that should be used to send keep alive messages through
 the websocket to keep the socket alive, parsed by
 [ms](https://www.npmjs.com/package/ms){:target="_blank"}. (Default `30s`)
 
-## TALK_RECAPTCHA_PUBLIC
+### TALK_RECAPTCHA_PUBLIC
 
 Client secret used for enabling reCAPTCHA powered logins. If
 [TALK_RECAPTCHA_SECRET](#talk_recaptcha_secret){: .param} and
@@ -302,7 +302,7 @@ default to providing only a time based lockout. Refer to
 [reCAPTCHA](https://www.google.com/recaptcha/intro/index.html) for information
 on getting an account setup.
 
-## TALK_RECAPTCHA_SECRET
+### TALK_RECAPTCHA_SECRET
 
 Server secret used for enabling reCAPTCHA powered logins. If
 [TALK_RECAPTCHA_SECRET](#talk_recaptcha_secret){: .param} and
@@ -311,7 +311,7 @@ default to providing only a time based lockout. Refer to
 [reCAPTCHA](https://www.google.com/recaptcha/intro/index.html) for information
 on getting an account setup.
 
-## TALK_REDIS_CLIENT_CONFIG
+### TALK_REDIS_CLIENT_CONFIG
 
 Configuration overrides for the redis client configuration in a JSON encoded
 string. Configuration is overridden as the second parameter to the redis client
@@ -319,30 +319,30 @@ constructor, and is merged with default configuration. Refer to the
 [ioredis](https://github.com/luin/ioredis){:target="_blank"} docs on the
 available options. (Default `{}`)
 
-## TALK_REDIS_CLUSTER_CONFIGURATION
+### TALK_REDIS_CLUSTER_CONFIGURATION
 
 The JSON encoded form of the cluster nodes. Only required when
 [TALK_REDIS_CLUSTER_MODE](#talk_redis_cluster_mode){: .param} is `CLUSTER`. See
 [https://github.com/luin/ioredis#cluster](https://github.com/luin/ioredis#cluster){:target="_blank"}
 for configuration details. (Default `[]`)
 
-## TALK_REDIS_CLUSTER_MODE
+### TALK_REDIS_CLUSTER_MODE
 
 The cluster mode of the redis client. Can be either `NONE` or `CLUSTER`.
 (Default `NONE`)
 
-## TALK_REDIS_RECONNECTION_BACKOFF_FACTOR
+### TALK_REDIS_RECONNECTION_BACKOFF_FACTOR
 
 The time factor that will be multiplied against the current attempt count
 between attempts to connect to redis, parsed by
 [ms](https://www.npmjs.com/package/ms){:target="_blank"}. (Default `500 ms`)
 
-## TALK_REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME
+### TALK_REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME
 
 The minimum time used to delay before attempting to reconnect to redis, parsed
 by [ms](https://www.npmjs.com/package/ms){:target="_blank"}. (Default `1 sec`)
 
-## TALK_ROOT_URL_MOUNT_PATH
+### TALK_ROOT_URL_MOUNT_PATH
 
 When set to `TRUE`, the routes will be mounted onto the `<PATHNAME>` component
 of the [TALK_ROOT_URL]({{ "/configuration/#talk_root_url" | relative_url }}){: .param}.
@@ -361,7 +361,7 @@ Then all the routes for the API will be expecting to be hit on `/talk/`, such as
 can perform the path stripping when serving an upstream proxy, but some CDN's
 cannot. You would use this option in the latter situation.
 
-## TALK_SMTP_EMAIL
+### TALK_SMTP_EMAIL
 
 The email address to send emails from using the SMTP provider in the format:
 
@@ -371,23 +371,23 @@ TALK_SMTP_EMAIL="The Coral Project" <support@coralproject.net>
 
 Including the name and email address.
 
-## TALK_SMTP_HOST
+### TALK_SMTP_HOST
 
 The domain for the SMTP provider that you are using.
 
-## TALK_SMTP_PASSWORD
+### TALK_SMTP_PASSWORD
 
 The password for the SMTP provider you are using.
 
-## TALK_SMTP_PORT
+### TALK_SMTP_PORT
 
 The port for the SMTP provider that you are using.
 
-## TALK_SMTP_USERNAME
+### TALK_SMTP_USERNAME
 
 The username of the SMTP provider you are using.
 
-## TALK_STATIC_URI
+### TALK_STATIC_URI
 
 Used to set the uri where the static assets should be served from. This is used
 when you want to upload the static assets through your build process to a
@@ -395,14 +395,14 @@ service like Google Cloud Storage or Amazon S3 and you would then specify the
 CDN/Storage url. (Defaults to value of
 [TALK_ROOT_URL]({{ "/configuration/#talk_root_url" | relative_url }}){: .param})
 
-## TALK_THREADING_LEVEL
+### TALK_THREADING_LEVEL
 
 Specify the maximum depth of the comment thread. (Default `3`)
 
 **Note that a high value for `TALK_THREADING_LEVEL` will result in large
 performance impacts.**
 
-## TALK_WEBSOCKET_LIVE_URI
+### TALK_WEBSOCKET_LIVE_URI
 
 Used to override the location to connect to the websocket endpoint to
 potentially another host. This should be used when you need to route websocket
@@ -419,7 +419,7 @@ is `FALSE`, or the path component of
 **Warning: if used without managing the auth state manually, auth
 cannot be persisted due to browser restrictions.**
 
-## TRUST_THRESHOLDS
+### TRUST_THRESHOLDS
 
 Configure the reliability thresholds for flagging and commenting. (Default
 `comment:2,-1;flag:2,-1`)

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {compose} from 'react-apollo';
 import {setRole, setCommenterStatus} from '../../../actions/community';
 import Table from '../components/Table';
 import {viewUserDetail} from '../../../actions/userDetail';
+import PropTypes from 'prop-types';
 
 class TableContainer extends Component {
 
@@ -22,6 +22,12 @@ class TableContainer extends Component {
   }
 }
 
+TableContainer.propTypes = {
+  setRole: PropTypes.func,
+  setCommenterStatus: PropTypes.func,
+  commenters: PropTypes.array,
+};
+
 const mapStateToProps = (state) => ({
   commenters: state.community.accounts,
 });
@@ -33,7 +39,5 @@ const mapDispatchToProps = (dispatch) =>
     viewUserDetail,
   }, dispatch);
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-)(TableContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(TableContainer);
 
