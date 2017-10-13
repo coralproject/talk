@@ -3,7 +3,6 @@ import IgnoreUserConfirmation from './containers/IgnoreUserConfirmation';
 import IgnoredUserSection from './containers/IgnoredUserSection';
 import translations from './translations.yml';
 import update from 'immutability-helper';
-import get from 'lodash/get';
 
 export default {
   slots: {
@@ -15,11 +14,7 @@ export default {
   mutations: {
     IgnoreUser: ({variables}) => ({
       updateQueries: {
-        CoralEmbedStream_Embed: (previousData, {mutationResult: {data: {ignoreUser}}}) => {
-          if (get(ignoreUser, 'errors.length')) {
-            return previousData;
-          }
-
+        CoralEmbedStream_Embed: (previousData) => {
           const ignoredUserId = variables.id;
           const updated = update(previousData, {me: {ignoredUsers: {$push: [{
             id: ignoredUserId,
