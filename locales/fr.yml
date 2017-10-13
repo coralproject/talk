@@ -93,6 +93,7 @@ fr:
     enable_pre_moderation_text: "Les modérateurs doivent approuver tout commentaire avant qu'il ne soit publié."
     enable_premod_newuser: "Pré-modérés Nouveaux commentateurs"
     enable_premod_newuser_text: "Les nouveaux commentateurs ont automatiquement leur premier commentaire pré-modéré. Une fois le premier commentaire approuvé, ils peuvent commenter comme des utilisateurs réguliers."
+    enable_premod_newuser_description: "Les nouveaux commentateurs ont automatiquement leur premier commentaire pré-modéré. Une fois le premier commentaire approuvé, ils peuvent commenter comme des utilisateurs réguliers."
     enable_premod_links: "Modérer les commentaires contenant des liens"
     enable_premod: "Activer la modération a priori"
     enable_premod_description: "Les modérateurs doivent approuver tout commentaire avant sa publication."

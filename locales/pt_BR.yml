@@ -112,6 +112,7 @@ pt_BR:
     enable_pre_moderation_text: "Demandar aprovação de moderadores para todos os comentários."
     enable_premod_newuser: "Novos comentaristas pré-moderados"
     enable_premod_newuser_text: "Os novos comentadores automaticamente têm seu primeiro comentário pré-moderado. Uma vez aprovado o primeiro comentário, eles podem comentar como usuários regulares."
+    enable_premod_newuser_description: "Os novos comentadores automaticamente têm seu primeiro comentário pré-moderado. Uma vez aprovado o primeiro comentário, eles podem comentar como usuários regulares."
     enable_premod_links: "Os moderadores devem aprovar qualquer comentário antes de ser publicado."
     enable_premod: "Habilitar pré-moderação"
     enable_premod_description: "Demandar aprovação de moderadores para todos os comentários."

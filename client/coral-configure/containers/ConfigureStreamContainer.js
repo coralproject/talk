@@ -31,6 +31,7 @@ class ConfigureStreamContainer extends Component {
     const premod = elements.premod.checked;
     const questionBoxEnable = elements.qboxenable.checked;
     const premodLinksEnable = elements.plinksenable.checked;
+    const premodNewUserEnable = elements.pnewuserenable.checked;
     const {changed} = this.state;
 
     const newConfig = {
@@ -38,7 +39,8 @@ class ConfigureStreamContainer extends Component {
       questionBoxEnable,
       questionBoxContent,
       questionBoxIcon,
-      premodLinksEnable
+      premodLinksEnable,
+      premodNewUserEnable,
     };
 
     if (changed) {
@@ -67,7 +69,9 @@ class ConfigureStreamContainer extends Component {
     if (e.target && e.target.id === 'plinksenable') {
       changes.premodLinksEnable = e.target.value;
     }
-
+    if (e.target && e.target.id === 'pnewuserenable') {
+      changes.premodNewUserEnable = e.target.value;
+    }
     this.setState({
       changed: true,
       dirtySettings: {
@@ -108,6 +112,7 @@ class ConfigureStreamContainer extends Component {
           handleApply={this.handleApply}
           changed={this.state.changed}
           premodLinksEnable={dirtySettings.premodLinksEnable}
+          premodNewUserEnable={dirtySettings.premodNewUserEnable}
           premod={premod}
           questionBoxIcon={dirtySettings.questionBoxIcon}
           questionBoxEnable={dirtySettings.questionBoxEnable}

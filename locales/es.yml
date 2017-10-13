@@ -111,6 +111,7 @@ es:
     enable_pre_moderation_text: "Los moderadores deben aprobar todo comentario antes que sea publicado."
     enable_premod_newuser: "Los nuevos comentaristas premodernizados"
     enable_premod_newuser_text: "Los nuevos comentaristas obtienen automáticamente su primer comentario previamente moderado. Una vez que se aprueba el primer comentario, pueden comentar como usuarios regulares."
+    enable_premod_newuser_description: "Los nuevos comentaristas obtienen automáticamente su primer comentario previamente moderado. Una vez que se aprueba el primer comentario, pueden comentar como usuarios regulares."    
     enable_premod_links: "Pre-Moderar Comentarios que contienen Enlaces"
     enable_premod: "Activar Pre Moderación"
     enable_premod_description: "Los y las moderadoras deben aprobar cualquier comentario antes de su publicación"

@@ -38,6 +38,18 @@ export default ({handleChange, handleApply, changed, ...props}) => (
           <Checkbox
             className={styles.checkbox}
             cStyle={changed ? 'green' : 'darkGrey'}
+            name="pnewuserenable"
+            onChange={handleChange}
+            defaultChecked={props.premodNewUserenable}
+            info={{
+              title: t('configure.enable_premod_newuser'),
+              description: t('configure.enable_premod_newuser_description')
+            }} />
+        </li>
+        <li>
+          <Checkbox
+            className={styles.checkbox}
+            cStyle={changed ? 'green' : 'darkGrey'}
             name="plinksenable"
             onChange={handleChange}
             defaultChecked={props.premodLinksEnable}
