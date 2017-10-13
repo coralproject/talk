@@ -50,7 +50,7 @@ class Stories extends Component {
     return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
   }
 
-  onStatusClick = async (closeStream, id) => {
+  onStatusChange = async (closeStream, id) => {
     try {
       this.props.updateAssetState(id, closeStream ? Date.now() : null);
       const {search, sort, filter, page} = this.state;
@@ -63,14 +63,14 @@ class Stories extends Component {
   renderTitle = (title, {id}) =>  <Link to={`/admin/moderate/${id}`}>{title}</Link>
 
   renderStatus = (closedAt, {id}) => {
-    const closed = closedAt && new Date(closedAt).getTime() < Date.now();
+    const closed = !!(closedAt && new Date(closedAt).getTime() < Date.now());
     return (
-      <Dropdown 
+      <Dropdown
         value={closed}
-        onChange={(value) => this.onStatusClick(!value, id)}>     
-        <Option value={null} label={t('streams.closed')} />
-        <Option value={true} label={t('streams.open')} />
-      </Dropdown> 
+        onChange={(value) => this.onStatusChange(value, id)}>
+        <Option value={false} label={t('streams.open')} />
+        <Option value={true} label={t('streams.closed')} />
+      </Dropdown>
     );
   }
 
