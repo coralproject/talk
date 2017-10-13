@@ -75,6 +75,7 @@ en:
     status: Status
     username_and_email: "Username and Email"
     yes_ban_user: "Yes Ban User"
+    none: "None"
   configure:
     apply: Apply
     banned_word_text: "Comments which contain these words or phrases (not case-sensitive) will be automatically removed from the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
@@ -289,6 +290,7 @@ en:
     select_stream: "Select Stream"
     shift_key: "⇧"
     shortcuts: "Shortcuts"
+    sort: "Sort"
     show_shortcuts: "Show Shortcuts"
     singleview: "Toggle single comment edit view"
     thismenu: "Open this menu"
