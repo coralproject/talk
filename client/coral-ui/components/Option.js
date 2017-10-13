@@ -12,6 +12,7 @@ class Option extends React.Component {
   };
 
   focus = () => {this.ref.focus();}
+  hasFocus = () => document.activeElement === this.ref;
 
   render() {
     const {className, label = '', onClick, onKeyDown} = this.props;

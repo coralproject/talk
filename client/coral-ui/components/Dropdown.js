@@ -8,8 +8,7 @@ import ClickOutside from 'coral-framework/components/ClickOutside';
 class Dropdown extends React.Component {
 
   toggleRef = null;
-  firstOptionRef = null;
-  lastOptionRef = null;
+  optionsRef = [];
 
   state = {
     isOpen: false
@@ -23,13 +22,37 @@ class Dropdown extends React.Component {
     }
   }
 
+  goUp = () => {
+    const index = this.optionsRef.findIndex((ref) => ref.hasFocus());
+    if (index > 0) {
+      this.optionsRef[index - 1].focus();
+    }
+  }
+
+  goDown = () => {
+    const index = this.optionsRef.findIndex((ref) => ref.hasFocus());
+    if (index < this.optionsRef.length - 1) {
+      this.optionsRef[index + 1].focus();
+    }
+  }
+
   handleOptionKeyDown = (value, e) => {
     const code = e.which;
 
-    // 13 = Return, 32 = Space
-    if ((code === 13) || (code === 32)) {
+    switch (code) {
+    case 13: // 13 = Return
+    case 32: // 32 = Space
       e.preventDefault();
       this.setValue(value);
+      break;
+    case 38: // 38 = Arrow Up
+      e.preventDefault();
+      this.goUp();
+      break;
+    case 40: // 40 = Arrow Down
+      e.preventDefault();
+      this.goDown();
+      break;
     }
   }
 
@@ -76,12 +99,7 @@ class Dropdown extends React.Component {
   handleToggleRef = (ref) => this.toggleRef = ref;
 
   handleOptionsRef = (ref, index) => {
-    if (index === 0) {
-      this.firstOptionRef = ref;
-    }
-    if (index === this.props.children.length - 1) {
-      this.lastOptionRef = ref;
-    }
+    this.optionsRef[index] = ref;
 
     // Focus on current value when menu opens.
     if (ref) {
@@ -93,8 +111,8 @@ class Dropdown extends React.Component {
   }
 
   // Trap keyboard focus inside the dropdown until a value has been chosen.
-  trapFocusBegin = () => this.lastOptionRef.focus();
-  trapFocusEnd = () => this.firstOptionRef.focus();
+  trapFocusBegin = () => this.optionsRef[this.optionsRef.length - 1].focus();
+  trapFocusEnd = () => this.optionsRef[0].focus();
 
   renderLabel() {
     const options = React.Children.toArray(this.props.children);
