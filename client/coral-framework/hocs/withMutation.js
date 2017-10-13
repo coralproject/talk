@@ -108,7 +108,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
                   res[key] = (prev, result) => {
                     if (getResponseErrors(result.mutationResult)) {
 
-                    // Do not run updates when we have mutation errors.
+                      // Do not run updates when we have mutation errors.
                       return prev;
                     }
                     return map[key](prev, result) || prev;
@@ -116,6 +116,11 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
                 } else {
                   const existing = res[key];
                   res[key] = (prev, result) => {
+                    if (getResponseErrors(result.mutationResult)) {
+
+                      // Do not run updates when we have mutation errors.
+                      return prev;
+                    }
                     const next = existing(prev, result);
                     return map[key](next, result) || next;
                   };
