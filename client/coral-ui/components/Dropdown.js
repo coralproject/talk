@@ -128,12 +128,12 @@ class Dropdown extends React.Component {
   }
 
   render() {
-    const {className, toggleClassName} = this.props;
+    const {className, toggleClassName, toggleOpenClassName} = this.props;
     return (
       <ClickOutside onClickOutside={this.hideMenu}>
         <div className={cn(styles.dropdown, className)}>
           <div
-            className={cn(styles.toggle, toggleClassName, {[styles.toggleOpen]: this.state.isOpen})}
+            className={cn(styles.toggle, toggleClassName, {[cn(this.state.isOpen, toggleOpenClassName)]: this.state.isOpen})}
             onClick={this.handleClick}
             onKeyDown={this.handleKeyDown}
             role="button"
@@ -172,6 +172,7 @@ class Dropdown extends React.Component {
 Dropdown.propTypes = {
   className: PropTypes.string,
   toggleClassName: PropTypes.string,
+  toggleOpenClassName: PropTypes.string,
   placeholder: PropTypes.string,
   icon: PropTypes.string,
   onChange: PropTypes.func.isRequired,

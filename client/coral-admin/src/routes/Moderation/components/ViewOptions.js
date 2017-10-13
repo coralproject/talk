@@ -18,12 +18,13 @@ class ViewOptions extends React.Component {
         <h2 className={cn(styles.headline, 'talk-admin-moderation-view-options-headline')}>
           View Options
         </h2>
-        <div className={styles.viewOptionsContent}> 
+        <div className={styles.viewOptionsContent}>
           <ul className={styles.viewOptionsList}>
             <li className={styles.viewOptionsItem}>
               Sort Comments
               <Dropdown
-                className={styles.selectField}
+                toggleClassName={styles.dropdownToggle}
+                toggleOpenClassName={styles.dropdownToggleOpen}
                 placeholder={t('modqueue.sort')}
                 value={sort}
                 onChange={(sort) => selectSort(sort)}>

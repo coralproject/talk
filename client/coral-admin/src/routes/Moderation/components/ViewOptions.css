@@ -53,10 +53,8 @@
   list-style: none;
 }
 
-.selectField {
+.dropdow {
   position: relative;
-  background: #7B7B7B;
-  color: white;
   margin-top: 5px;
 
   @media (--tablet) {
@@ -64,4 +62,17 @@
     margin-top: 0px;
     margin-left: 10px;
   }
+}
+
+.dropdownToggle {
+  background: #7B7B7B;
+  color: white;
+
+  &:focus {
+    background: #aaa;
+  }
+}
+
+.dropdownToggleOpen {
+  background: #aaa;
 }
