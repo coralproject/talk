@@ -31,11 +31,8 @@ module.exports = {
         'enabled': true,
         'on_failure': true,
         'on_error': true,
-        'path': './tests/e2e/reports'
+        'path': './test/e2e/reports'
       },
-      'exclude': [
-        './tests/e2e/tests/EmbedStreamTests.js'
-      ]
     },
     'integration': {
       'launch_url': 'http://localhost:3000'
