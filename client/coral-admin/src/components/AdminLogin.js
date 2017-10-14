@@ -35,19 +35,22 @@ class AdminLogin extends React.Component {
   render () {
     const {errorMessage, loginMaxExceeded, recaptchaPublic} = this.props;
     const signInForm = (
-      <form onSubmit={this.handleSignIn}>
+      <form className="talk-admin-login-sign-in" onSubmit={this.handleSignIn}>
         {errorMessage && <Alert>{errorMessage}</Alert>}
         <TextField
+          id="email"
           label='Email Address'
           value={this.state.email}
           onChange={(e) => this.setState({email: e.target.value})} />
         <TextField
+          id="password"
           label='Password'
           value={this.state.password}
           onChange={(e) => this.setState({password: e.target.value})}
           type='password' />
         <div style={{height: 10}}></div>
         <Button
+          className="talk-admin-login-sign-in-button"
           type='submit'
           cStyle='black'
           full
