@@ -1,16 +1,3 @@
-const uuid = require('uuid');
-const {murmur3} = require('murmurhash-js');
-
-const rHash = murmur3(uuid.v4());
-
-const testData = {
-  organizationName: 'Coral',
-  email: `test_${rHash}@test.test`,
-  username: `test${rHash}`,
-  password: `testpassword${rHash}`,
-  domain: 'http://localhost:3000'
-};
-
 module.exports = {
   '@tags': ['install'],
   'User goes to install': (client) => {
@@ -36,7 +23,8 @@ module.exports = {
   },
   'User fills step 2': (client) => {
     const installPage = client.page.installPage();
-    
+    const {testData} = client.globals;
+
     installPage
       .waitForElementVisible('@step2organizationNameInput')
       .setValue('@step2organizationNameInput', testData.organizationName)
@@ -51,7 +39,8 @@ module.exports = {
   },
   'User fills step 3': (client) => {
     const installPage = client.page.installPage();
-    
+    const {testData} = client.globals;
+
     installPage
       .setValue('@step3EmailInput', testData.email)
       .setValue('@step3UsernameInput', testData.username)
@@ -68,7 +57,8 @@ module.exports = {
   },
   'User fills step 4': (client) => {
     const installPage = client.page.installPage();
-    
+    const testData = client.page.getTestData();
+
     installPage
       .waitForElementVisible('@step4DomainInput')
       .setValue('@step4DomainInput', testData.domain);

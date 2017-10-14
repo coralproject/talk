@@ -6,7 +6,7 @@ module.exports = {
     ready() {
       return this
         .waitForElementVisible('body', 2000);
-    },
+    }
   }],
   elements: {
     'getStartedButton': '.talk-install-get-started-button',
