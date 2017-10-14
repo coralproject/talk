@@ -4,6 +4,7 @@ import Layout from 'coral-admin/src/components/ui/Layout';
 import styles from './NotFound.css';
 import {Button, TextField, Alert, Success} from 'coral-ui';
 import Recaptcha from 'react-recaptcha';
+import cn from 'classnames';
 
 class AdminLogin extends React.Component {
 
@@ -90,7 +91,7 @@ class AdminLogin extends React.Component {
     );
     return (
       <Layout fixedDrawer restricted={true}>
-        <div className={styles.loginLayout}>
+        <div className={cn(styles.loginLayout, 'talk-admin-login')}>
           <h1 className={styles.loginHeader}>Team sign in</h1>
           <p className={styles.loginCTA}>Sign in to interact with your community.</p>
           { this.state.requestPassword ? requestPasswordForm : signInForm }
