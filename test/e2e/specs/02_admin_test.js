@@ -5,9 +5,12 @@ module.exports = {
     const {testData} = client.globals;
     
     adminPage
-      .waitForElementVisible('@loginLayout');
-
-    console.log(testData);
+      .waitForElementVisible('@loginLayout')
+      .waitForElementVisible('@signInForm')
+      .setValue('@emailInput', testData.email)
+      .setValue('@passwordInput', testData.password)
+      .waitForElementVisible('@signInButton')
+      .click('@signInButton');
 
   },
   after: (client) => {

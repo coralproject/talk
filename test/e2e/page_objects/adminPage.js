@@ -9,6 +9,10 @@ module.exports = {
     },
   }],
   elements: {
-    'loginLayout': '.talk-admin-login'
+    'loginLayout': '.talk-admin-login',
+    'signInForm': '.talk-admin-login-sign-in',
+    'emailInput': '.talk-admin-login-sign-in #email',
+    'passwordInput': '.talk-admin-login-sign-in #password',
+    'signInButton': '.talk-admin-login-sign-in-button',
   }
 };
