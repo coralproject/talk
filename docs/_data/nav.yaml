@@ -25,6 +25,8 @@ items:
         url: /trust/
       - title: Toxic Comments
         url: /toxic-comments/
+      - title: Configuring Talk
+        url: /configuring-talk/
   - title: Plugins
     children:
       - title: Plugins Overview
