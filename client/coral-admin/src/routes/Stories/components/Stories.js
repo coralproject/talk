@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
-import styles from './Stories.css';
-import t from 'coral-framework/services/i18n';
 import {Link} from 'react-router';
-
-import {Pager, Icon} from 'coral-ui';
-import {DataTable, TableHeader, RadioGroup, Radio} from 'react-mdl';
-import EmptyCard from 'coral-admin/src/components/EmptyCard';
+import PropTypes from 'prop-types';
 import sortBy from 'lodash/sortBy';
+import {Dropdown, Option, Pager, Icon} from 'coral-ui';
+import {DataTable, TableHeader, RadioGroup, Radio} from 'react-mdl';
+import t from 'coral-framework/services/i18n';
+import styles from './Stories.css';
+import EmptyCard from 'coral-admin/src/components/EmptyCard';
 
 const limit = 25;
 
-export default class Stories extends Component {
+class Stories extends Component {
 
   state = {
     search: '',
@@ -50,51 +50,28 @@ export default class Stories extends Component {
     return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
   }
 
-  onStatusClick = (closeStream, id, statusMenuOpen) => async () => {
-    if (statusMenuOpen) {
-      this.setState((prev) => {
-        prev.statusMenus[id] = false;
-        return prev;
-      });
-
-      try {
-        await this.props.updateAssetState(id, closeStream ? Date.now() : null);
-        const {search, sort, filter, page} = this.state;
-        this.props.fetchAssets(page, limit, search, sort, filter);
-      } catch (err) {
-
-        // TODO: handle error.
-        console.error(err);
-      }
-    } else {
-      this.setState((prev) => {
-        prev.statusMenus[id] = true;
-        return prev;
-      });
+  onStatusChange = async (closeStream, id) => {
+    try {
+      this.props.updateAssetState(id, closeStream ? Date.now() : null);
+      const {search, sort, filter, page} = this.state;
+      this.props.fetchAssets(page, limit, search, sort, filter);
+    } catch(err) {
+      console.error(err);
     }
   }
 
   renderTitle = (title, {id}) =>  <Link to={`/admin/moderate/${id}`}>{title}</Link>
 
   renderStatus = (closedAt, {id}) => {
-    const closed = closedAt && new Date(closedAt).getTime() < Date.now();
-    const statusMenuOpen = this.state.statusMenus[id];
-    return <div className={styles.statusMenu}>
-      <div
-        className={closed ? styles.statusMenuClosed : styles.statusMenuOpen}
-        onClick={this.onStatusClick(closed, id, statusMenuOpen)}>
-        {!statusMenuOpen && <Icon className={styles.statusMenuIcon} name='keyboard_arrow_down'/>}
-        {closed ? t('streams.closed') : t('streams.open')}
-      </div>
-      {
-        statusMenuOpen &&
-        <div
-          className={!closed ? styles.statusMenuClosed : styles.statusMenuOpen}
-          onClick={this.onStatusClick(!closed, id, statusMenuOpen)}>
-          {!closed ? t('streams.closed') : t('streams.open')}
-        </div>
-      }
-    </div>;
+    const closed = !!(closedAt && new Date(closedAt).getTime() < Date.now());
+    return (
+      <Dropdown
+        value={closed}
+        onChange={(value) => this.onStatusChange(value, id)}>
+        <Option value={false} label={t('streams.open')} />
+        <Option value={true} label={t('streams.closed')} />
+      </Dropdown>
+    );
   }
 
   onPageClick = (page) => {
@@ -173,4 +150,12 @@ export default class Stories extends Component {
     );
   }
 }
+
+Stories.propTypes = {
+  assets: PropTypes.object,
+  fetchAssets: PropTypes.func,
+  updateAssetState: PropTypes.func,
+};
+
+export default Stories;
 
