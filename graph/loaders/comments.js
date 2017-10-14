@@ -92,7 +92,7 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, au
   let query = CommentModel.find();
 
   // If user queries for statuses other than NONE and/or ACCEPTED statuses, it needs
-  // special priviledges.
+  // special privileges.
   if (
     (!statuses || statuses.some((status) => !['NONE', 'ACCEPTED'].includes(status))) &&
     (context.user == null || !context.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS))
@@ -100,7 +100,7 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, au
     return null;
   }
 
-  if (statuses) {
+  if (statuses && statuses.length > 0) {
     query = query.where({status: {$in: statuses}});
   }
 

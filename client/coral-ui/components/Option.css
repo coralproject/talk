@@ -1,3 +1,10 @@
-.Option {
-  
+.option {
+  padding: 10px;
+  text-transform: capitalize;
+  outline: none;
+
+  &:focus, &:hover {
+    background-color: #ccc;
+    cursor: pointer;
+  }
 }
