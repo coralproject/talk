@@ -3,6 +3,7 @@
   align-items: flex-start;
   min-height: 100px;
   max-width: 600px;
+  overflow: visible;
 }
 
 .header {

@@ -19,6 +19,13 @@
   }
 }
 
+.username, .email {
+  max-width: 215px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .email {
   display: block;
 }
