@@ -127,3 +127,26 @@ Talk also supports a number of keyboard shortcuts that moderators can leverage t
 | `?`      | Open this menu                  |
 | `d`      | Approve                         |
 | `f`      | Reject                          |
+
+### Stories
+
+In the Stories tab moderators can view all the stories that have Talk comments embedded on them, as well as be able to Open or Close comment streams on stories.
+
+### Community
+
+The Community tab houses everything having to do with your team and your commenters.
+
+#### Moderating Usernames
+
+Any usernames that have been reported will show in the Reported Usernames sub-tab. Moderators can approve usernames if they’re suitable, or reject a username. If a username is rejected, the commenter will be notified that they need to change their username; until they do, they will be suspended from Talk. The updated username then again appears in this queue for a decision by moderators.
+
+#### Managing People & Roles
+
+All your team and commenters show in the People sub-tab. From here, you can manage your team members’ roles (Admins, Moderators, Staff), as well as search for commenters and take action on them (e.g. Ban/Un-ban, Suspend, etc.). 
+### Configure
+
+See [Configuring Talk](LINK).
+
+## Moderating via the Comment Stream
+
+Moderators can also choose to moderate comments in situ. If you are logged in as a Moderator or Admin, you will see a caret dropdown on each comment that allows you to Approve, Reject, or Feature comments, or Ban a User directly from the comment stream.
