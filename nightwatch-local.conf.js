@@ -2,6 +2,7 @@ module.exports = {
   'src_folders': './test/e2e/specs/',
   'output_folder': './test/e2e/tests_output',
   'page_objects_path': './test/e2e/page_objects',
+  'globals_path': './test/e2e/globals',
   'selenium': {
     'start_process': true,
     'server_path': 'node_modules/selenium-standalone/.selenium/selenium-server/3.5.3-server.jar',
@@ -26,9 +27,6 @@ module.exports = {
         'databaseEnabled': true,
         'applicationCacheEnabled': false,
         'nativeEvents': true
-      },
-      'globals': {
-        'waitForConditionTimeout': 5000,
       },
       'screenshots' : {
         'enabled': true,
