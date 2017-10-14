@@ -32,7 +32,7 @@ module.exports = {
         'enabled': true,
         'on_failure': true,
         'on_error': true,
-        'path': './test/e2e/reports'
+        'path': './test/e2e/tests_output'
       },
     },
     'integration': {
