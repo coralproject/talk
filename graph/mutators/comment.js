@@ -189,7 +189,7 @@ const createComment = async (context, {tags = [], body, asset_id, parent_id = nu
     author_id: user.id,
     metadata,
   });
-
+  console.log('COMMENT STATUS', status)
   // If the loaders are present, clear the caches for these values because we
   // just added a new comment, hence the counts should be updated. We should
   // perform these increments in the event that we do have a new comment that
@@ -393,9 +393,8 @@ const moderationPhases = [
   // This phase checks to see if the user is new, if they are,
   // and premod new users is turned on the comment is premod.
   (context, comment, {assetSettings: {premodNewUserEnable}}) => {
-    console.log('user', context.user);
-    if (context.user && context.user.newUser) {
-      if (premodNewUserEnable){
+    if (premodNewUserEnable && context.user && context.user.newUser) {
+      if (!context.user.roles.length){
         return {
           status: 'PREMOD',
         };
@@ -408,13 +407,12 @@ const moderationPhases = [
   (context, comment, {assetSettings: {moderation}}) => {
     // If the settings say that we're in premod mode, then the comment is in
     // premod status.
-    console.log('Moderation', moderation);
+
     if (moderation === 'PRE') {
       return {
         status: 'PREMOD',
       };
     }
-
     return {
       status: 'NONE',
     };
@@ -534,7 +532,7 @@ const setStatus = async ({user, loaders: {Comments}}, {id, status}) => {
   process.nextTick(adjustKarma(Comments, id, status));
 
   // udpateNewUser will remove the newUser flag, if applicable
-  process.nextTick(removeNewUser(Comments, id));
+  process.nextTick(removeNewUser(Comments, id, status));
   
   return comment;
 };
