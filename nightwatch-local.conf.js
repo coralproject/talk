@@ -39,8 +39,5 @@ module.exports = {
         path: './test/e2e/tests_output'
       },
     },
-    integration: {
-      launch_url: 'http://localhost:3000'
-    }
   }
 };
