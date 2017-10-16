@@ -387,7 +387,22 @@ const moderationPhases = [
     }
 
     return {
-      status: 'NONE',
+      status: context.user.status.preMod,
+    };
+  },
+
+  // This pahse checks to see if the user is new, if they are,
+  // and premod new users is turned on the comment is premod. Otherwise, it's none.
+  (context, comment, {assetSettings: {premodNewUserEnable}}) => {
+    if (context.user && context.user.settings.newUser) {
+      if (premodNewUserEnable){
+        return {
+          status: 'PREMOD',
+        };
+      }
+    }
+    return {
+      status: 'NONE'
     };
   }
 ];

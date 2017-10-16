@@ -124,6 +124,10 @@ const UserSchema = new Schema({
     bio: {
       type: String,
       default: ''
+    },
+    newUser: {
+      type: Boolean,
+      default: true,
     }
   },
 
