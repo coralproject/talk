@@ -928,7 +928,6 @@ module.exports = class UsersService {
    * @param {String} userId the id of the user to modify
    */
   static async updateNewUser(id) {
-    console.log('updating newuser')
     await UserModel.update({id}, {
       newUser: false
     });

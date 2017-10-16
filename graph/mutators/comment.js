@@ -189,7 +189,6 @@ const createComment = async (context, {tags = [], body, asset_id, parent_id = nu
     author_id: user.id,
     metadata,
   });
-  console.log('COMMENT STATUS', status)
   // If the loaders are present, clear the caches for these values because we
   // just added a new comment, hence the counts should be updated. We should
   // perform these increments in the event that we do have a new comment that
