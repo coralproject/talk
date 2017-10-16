@@ -6,6 +6,7 @@ const ActionsService = require('../../services/actions');
 const TagsService = require('../../services/tags');
 const CommentsService = require('../../services/comments');
 const KarmaService = require('../../services/karma');
+const UserService = require('../../services/users');
 const tlds = require('tlds');
 const merge = require('lodash/merge');
 const linkify = require('linkify-it')()
@@ -148,6 +149,22 @@ const adjustKarma = (Comments, id, status) => async () => {
   }
 };
 
+/**
+ * removeNewUser will remove the "New User" status from a commenter when their comment is approved
+ * If the current user is not a new user, no action will be taken
+ */
+
+const removeNewUser = (Comments, id, status) => async () => {
+  try {
+    let comment = await Comments.get.load(id);
+    if (status === 'ACCEPTED') {
+      await UserService.updateNewUser(comment.author_id);
+    }
+    return;
+  } catch (e) {
+    console.error(e);
+  }
+};
 /**
  * Creates a new comment.
  * @param  {Object} user          the user performing the request
@@ -391,7 +408,7 @@ const moderationPhases = [
     };
   },
 
-  // This pahse checks to see if the user is new, if they are,
+  // This phase checks to see if the user is new, if they are,
   // and premod new users is turned on the comment is premod. Otherwise, it's none.
   (context, comment, {assetSettings: {premodNewUserEnable}}) => {
     if (context.user && context.user.settings.newUser) {
@@ -519,6 +536,9 @@ const setStatus = async ({user, loaders: {Comments}}, {id, status}) => {
   // adjust the affected user's karma in the next tick.
   process.nextTick(adjustKarma(Comments, id, status));
 
+  // udpateNewUser will remove the newUser flag, if applicable
+  process.nextTick(removeNewUser(id));
+  
   return comment;
 };
 

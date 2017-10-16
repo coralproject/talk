@@ -125,10 +125,11 @@ const UserSchema = new Schema({
       type: String,
       default: ''
     },
-    newUser: {
-      type: Boolean,
-      default: true,
-    }
+  },
+  
+  newUser: {
+    type: Boolean,
+    default: true,
   },
 
   ignoresUsers: [{
