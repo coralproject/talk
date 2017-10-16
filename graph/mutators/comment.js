@@ -390,27 +390,10 @@ const moderationPhases = [
       };
     }
   },
-
-  // This phase checks to see if the settings have premod enabled, if they do,
-  // the comment is premod, otherwise, it's just none.
-  (context, comment, {assetSettings: {moderation}}) => {
-
-    // If the settings say that we're in premod mode, then the comment is in
-    // premod status.
-    if (moderation === 'PRE') {
-      return {
-        status: 'PREMOD',
-      };
-    }
-
-    return {
-      status: context.user.status.preMod,
-    };
-  },
-
   // This phase checks to see if the user is new, if they are,
-  // and premod new users is turned on the comment is premod. Otherwise, it's none.
+  // and premod new users is turned on the comment is premod.
   (context, comment, {assetSettings: {premodNewUserEnable}}) => {
+    console.log('user', context.user);
     if (context.user && context.user.newUser) {
       if (premodNewUserEnable){
         return {
@@ -418,10 +401,24 @@ const moderationPhases = [
         };
       }
     }
+  },
+
+  // This phase checks to see if the settings have premod enabled, if they do,
+  // the comment is premod, otherwise, it's just none.
+  (context, comment, {assetSettings: {moderation}}) => {
+    // If the settings say that we're in premod mode, then the comment is in
+    // premod status.
+    console.log('Moderation', moderation);
+    if (moderation === 'PRE') {
+      return {
+        status: 'PREMOD',
+      };
+    }
+
     return {
-      status: 'NONE'
+      status: 'NONE',
     };
-  }
+  },
 ];
 
 /**
@@ -453,13 +450,13 @@ const resolveCommentModeration = async (context, comment) => {
 
   // Loop over all the moderation phases and see if we've resolved the status.
   for (const phase of moderationPhases) {
+    console.log(phase.toString());
     const result = await phase(context, comment, {
       asset,
       assetSettings,
       settings,
       wordlist,
     });
-
     if (result) {
 
       if (result.actions) {
@@ -537,7 +534,7 @@ const setStatus = async ({user, loaders: {Comments}}, {id, status}) => {
   process.nextTick(adjustKarma(Comments, id, status));
 
   // udpateNewUser will remove the newUser flag, if applicable
-  process.nextTick(removeNewUser(Comments, id, status));
+  process.nextTick(removeNewUser(Comments, id));
   
   return comment;
 };
