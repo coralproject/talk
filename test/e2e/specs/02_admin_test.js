@@ -2,13 +2,14 @@ module.exports = {
   '@tags': ['admin', 'login'],
   'Admin logs in': (client) => {
     const adminPage = client.page.adminPage();
-    const {testData} = client.globals;
-    
+    const {testData: {admin}} = client.globals;
+
     adminPage
+      .navigate()
       .waitForElementVisible('@loginLayout')
       .waitForElementVisible('@signInForm')
-      .setValue('@emailInput', testData.email)
-      .setValue('@passwordInput', testData.password)
+      .setValue('@emailInput', admin.email)
+      .setValue('@passwordInput', admin.password)
       .waitForElementVisible('@signInButton')
       .click('@signInButton');
 

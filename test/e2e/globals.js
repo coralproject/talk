@@ -1,14 +1,24 @@
-const uuid = require('uuid');
-const {murmur3} = require('murmurhash-js');
-const rHash = murmur3(uuid.v4());
+const serve = require('../../scripts/e2e-serve');
+const mongoose = require('../../services/mongoose');
+const {shutdown} = require('../../bin/util');
 
 module.exports = {
+  before: async (done) => {
+    await mongoose.connection.dropDatabase();
+    await serve();
+    done();
+  },
+  after: (done) => {
+    shutdown();
+    done();
+  },
   waitForConditionTimeout: 5000,
   testData: {
+    admin: {
+      email: 'admin@test.com',
+      username: 'admin',
+      password: 'testtest',
+    },
     organizationName: 'Coral',
-    email: `test_${rHash}@test.test`,
-    username: `test${rHash}`,
-    password: `testpassword${rHash}`,
-    domain: 'http://localhost:3000'
   }
 };

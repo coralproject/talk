@@ -5,7 +5,7 @@ module.exports = {
     },
     ready() {
       return this
-        .waitForElementVisible('body', 2000);
+        .waitForElementVisible('body');
     }
   }],
   elements: {
@@ -20,7 +20,7 @@ module.exports = {
     'step3ConfirmPasswordInput': '.talk-install-step-3 #confirmPassword',
     'step3saveButton': '.talk-install-step-3-save-button',
     'step4': '.talk-install-step-4',
-    'step4DomainInput': '.talk-install-step-4-permited-domains-input',
+    'step4DomainInput': '.talk-install-step-4-permited-domains-input input',
     'step4saveButton': '.talk-install-step-4-save-button',
   }
 };

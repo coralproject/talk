@@ -5,7 +5,7 @@ module.exports = {
     },
     ready() {
       return this
-        .waitForElementVisible('body', 2000);
+        .waitForElementVisible('body');
     },
   }],
   elements: {

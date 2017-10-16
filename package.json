@@ -15,7 +15,7 @@
     "lint": "yamllint locales/*.yml && eslint --ext=.js --ext=.json bin/* .",
     "lint-fix": "yarn lint --fix",
     "jest-watch": "TEST_MODE=unit NODE_ENV=test jest --watch",
-    "e2e": "./scripts/e2e.js",
+    "e2e": "NODE_ENV=test ./scripts/e2e.js",
     "pree2e-local": "./scripts/e2e-local.sh",
     "e2e-local": "nightwatch --config nightwatch-local.conf.js",
     "test": "TEST_MODE=unit NODE_ENV=test jest && TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",

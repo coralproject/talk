@@ -1,18 +1,13 @@
-const uuid = require('uuid');
-const {murmur3} = require('murmurhash-js');
 
 module.exports = {
   'Creates a new asset': (client) => {
-    const asset = `test@${murmur3(uuid.v4())}`;
+    const asset = 'newAssetTest';
     const embedStream = client.page.embedStream();
 
     embedStream
       .navigateToAsset(asset)
       .assert.title(asset)
       .getEmbedSection();
-
-    client
-      .end();
   },
 
   'not logged in user clicks my profile tab': (client) => {
@@ -27,8 +22,9 @@ module.exports = {
 
     profile
       .assert.visible('@notLoggedIn');
-
-    client
-      .end();
   },
+
+  after: (client) => {
+    client.end();
+  }
 };
