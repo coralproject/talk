@@ -447,7 +447,6 @@ const resolveCommentModeration = async (context, comment) => {
 
   // Loop over all the moderation phases and see if we've resolved the status.
   for (const phase of moderationPhases) {
-    console.log(phase.toString());
     const result = await phase(context, comment, {
       asset,
       assetSettings,
