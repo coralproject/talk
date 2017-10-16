@@ -411,7 +411,7 @@ const moderationPhases = [
   // This phase checks to see if the user is new, if they are,
   // and premod new users is turned on the comment is premod. Otherwise, it's none.
   (context, comment, {assetSettings: {premodNewUserEnable}}) => {
-    if (context.user && context.user.settings.newUser) {
+    if (context.user && context.user.newUser) {
       if (premodNewUserEnable){
         return {
           status: 'PREMOD',
@@ -537,7 +537,7 @@ const setStatus = async ({user, loaders: {Comments}}, {id, status}) => {
   process.nextTick(adjustKarma(Comments, id, status));
 
   // udpateNewUser will remove the newUser flag, if applicable
-  process.nextTick(removeNewUser(id));
+  process.nextTick(removeNewUser(Comments, id, status));
   
   return comment;
 };
