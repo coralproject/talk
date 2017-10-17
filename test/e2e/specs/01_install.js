@@ -1,47 +1,47 @@
 module.exports = {
   '@tags': ['install'],
   'User goes to install': (client) => {
-    const installPage = client.page.installPage();
+    const install = client.page.install();
 
-    installPage
+    install
       .navigate()
       .ready();
 
   },
   'User clicks get started button': (client) => {
-    const installPage = client.page.installPage();
+    const install = client.page.install();
 
-    installPage
+    install
       .waitForElementVisible('@getStartedButton')
       .click('@getStartedButton');
   },
   'User should see step 2 - Add Organization Name': (client) => {
-    const installPage = client.page.installPage();
+    const install = client.page.install();
 
-    installPage
+    install
       .waitForElementVisible('@step2');
   },
   'User fills step 2': (client) => {
-    const installPage = client.page.installPage();
+    const install = client.page.install();
     const {testData} = client.globals;
 
-    installPage
+    install
       .waitForElementVisible('@step2organizationNameInput')
       .setValue('@step2organizationNameInput', testData.organizationName)
       .waitForElementVisible('@step2saveButton')
       .click('@step2saveButton');
   },
   'User should see step 3 - Create your account': (client) => {
-    const installPage = client.page.installPage();
+    const install = client.page.install();
 
-    installPage
+    install
       .waitForElementVisible('@step3');
   },
   'User fills step 3': (client) => {
-    const installPage = client.page.installPage();
+    const install = client.page.install();
     const {testData: {admin}} = client.globals;
 
-    installPage
+    install
       .setValue('@step3EmailInput', admin.email)
       .setValue('@step3UsernameInput', admin.username)
       .setValue('@step3PasswordInput', admin.password)
@@ -50,21 +50,21 @@ module.exports = {
       .click('@step3saveButton');
   },
   'User should see step 4 - Domain Whitelist': (client) => {
-    const installPage = client.page.installPage();
+    const install = client.page.install();
 
-    installPage
+    install
       .waitForElementVisible('@step4');
   },
   'User fills step 4': (client) => {
-    const installPage = client.page.installPage();
+    const install = client.page.install();
 
-    installPage
+    install
       .waitForElementVisible('@step4DomainInput')
       .setValue('@step4DomainInput', client.launchUrl);
 
     client.keys(client.Keys.ENTER);
 
-    installPage
+    install
       .waitForElementVisible('@step4saveButton')
       .click('@step4saveButton');
   },

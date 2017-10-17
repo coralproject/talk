@@ -1,7 +1,7 @@
 module.exports = {
   '@tags': ['admin', 'login'],
   'Admin logs in': (client) => {
-    const adminPage = client.page.adminPage();
+    const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;
 
     adminPage
