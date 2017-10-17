@@ -14,7 +14,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
       exitCode=$result
     fi
 
-    # Sleep abit to let browserstackLocal to close properly.
+    # Sleep a bit to let browserstack-local to close properly.
     sleep 2
   }
 
