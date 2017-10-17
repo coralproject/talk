@@ -74,6 +74,7 @@ es:
     status: Estado
     username_and_email: "Usuario y Correo"
     yes_ban_user: "Si, Suspendan el usuario"
+    none: "Ninguno"
   configure:
     apply: Aplicar
     banned_word_text: "Comentarios que contengan estas palabras o frases,  en mayusculas o minúsculas, serán automáticamente eliminados del hilo de comentario. Escribir una palabra y apretar Enter o Tabulador para agregarla. O pueden pegar una lista de palabras separadas por coma."
@@ -283,6 +284,7 @@ es:
     select_stream: "Seleccionar hilo de comentarios"
     shift_key: ⇧
     shortcuts: Atajos
+    sort: "Ordenar"
     show_shortcuts: "Mostrar Atajos"
     singleview: "Colocar vista de edición de comentario único"
     thismenu: "Abrir este menu"
