@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {withQuery} from 'coral-framework/hocs';
 import Slot from 'coral-framework/components/Slot';
-
+import cn from 'classnames';
 import {link} from 'coral-framework/services/pym';
 import NotLoggedIn from '../components/NotLoggedIn';
 import {Spinner} from 'coral-ui';
@@ -71,7 +71,9 @@ class ProfileContainer extends Component {
     const emailAddress = localProfile && localProfile.id;
 
     return (
-      <div className='talk-embed-stream-profile-container'>
+      <div className={cn('talk-my-profile-comment-history', {
+        'talk-my-profile-comment-history-no-comments': !me.comments.nodes.length
+      })}>
         <h2>{user.username}</h2>
         {emailAddress ? <p>{emailAddress}</p> : null}
 
@@ -86,7 +88,7 @@ class ProfileContainer extends Component {
         <h3>{t('framework.my_comments')}</h3>
         {me.comments.nodes.length
           ? <CommentHistory data={data} root={root} comments={me.comments} link={link} loadMore={this.loadMore}/>
-          : <p>{t('user_no_comment')}</p>}
+          : <p className='talk-my-profile-comment-history-no-comments-cta'>{t('user_no_comment')}</p>}
       </div>
     );
   }
