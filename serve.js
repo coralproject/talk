@@ -1,28 +1,21 @@
-#!/usr/bin/env node
-
-const debug = require('debug')('talk:e2e:serve');
-const app = require('../app');
-const errors = require('../errors');
+const app = require('./app');
+const debug = require('debug')('talk:cli:serve');
+const errors = require('./errors');
 const {createServer} = require('http');
-const scraper = require('../services/scraper');
-const mailer = require('../services/mailer');
-const SetupService = require('../services/setup');
-const kue = require('../services/kue');
-const mongoose = require('../services/mongoose');
-const util = require('../bin/util');
-const cache = require('../services/cache');
-const MigrationService = require('../services/migration');
-const {createSubscriptionManager} = require('../graph/subscriptions');
+const scraper = require('./services/scraper');
+const mailer = require('./services/mailer');
+const MigrationService = require('./services/migration');
+const SetupService = require('./services/setup');
+const kue = require('./services/kue');
+const mongoose = require('./services/mongoose');
+const cache = require('./services/cache');
+const util = require('./bin/util');
+const {createSubscriptionManager} = require('./graph/subscriptions');
 const {
   PORT
-} = require('../config');
-
-/**
-* Get port from environment and store in Express.
-*/
+} = require('./config');
 
 const port = normalizePort(PORT);
-app.set('port', port);
 
 /**
 * Create HTTP server.
@@ -95,7 +88,8 @@ async function onListening() {
 /**
  * Start the app.
  */
-async function serve() {
+async function serve({jobs = true, websockets = true} = {}) {
+
   try {
 
     // Check to see if the application is installed. If the application
@@ -131,6 +125,8 @@ async function serve() {
       console.error(e);
       process.exit(1);
     }
+
+    debug('migrations do not have to be run');
   }
 
   /**
@@ -144,23 +140,29 @@ async function serve() {
   server.listen(port, () => {
 
     // Mount the websocket server if requested.
-    debug(`Websocket Server Listening on ${port}`);
+    if (websockets) {
+      debug(`Websocket Server Listening on ${port}`);
 
-    // Mount the subscriptions server on the application server.
-    createSubscriptionManager(server);
+      // Mount the subscriptions server on the application server.
+      createSubscriptionManager(server);
+    }
   });
 
-  // Start the scraper processor.
-  scraper.process();
+  // Enable job processing on the thread if enabled.
+  if (jobs) {
 
-  // Start the mail processor.
-  mailer.process();
+    // Start the scraper processor.
+    scraper.process();
+
+    // Start the mail processor.
+    mailer.process();
+  }
 
   // Define a safe shutdown function to call in the event we need to shutdown
   // because the node hooks are below which will interrupt the shutdown process.
   // Shutdown the mongoose connection, the app server, and the scraper.
   util.onshutdown([
-    () => kue.Task.shutdown(),
+    () => jobs ? kue.Task.shutdown() : null,
     () => mongoose.disconnect(),
     () => server.close()
   ]);

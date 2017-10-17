@@ -1,4 +1,4 @@
-const serve = require('../../scripts/e2e-serve');
+const serve = require('../../serve');
 const mongoose = require('../../services/mongoose');
 const {shutdown} = require('../../bin/util');
 
