@@ -18,14 +18,43 @@ const nightwatch_config = {
     default: {
       launch_url: ROOT_URL,
       desiredCapabilities: {
+        browser: 'chrome',
         'browserstack.user': process.env.BROWSERSTACK_USER || 'coralproject2',
         'browserstack.key': process.env.BROWSERSTACK_KEY,
         'browserstack.local': true,
         'browserstack.debug': true,
         'browserstack.networkLogs': true,
-        'browser': 'chrome',
       }
-    }
+    },
+    chrome: {
+      desiredCapabilities: {
+        browser: 'chrome',
+      },
+    },
+    firefox: {
+      desiredCapabilities: {
+        browser: 'firefox',
+      },
+    },
+    safari: {
+      desiredCapabilities: {
+        browser: 'safari',
+      },
+    },
+    ie: {
+      desiredCapabilities: {
+        browser: 'internet explorer',
+
+        // Windows 10 seem to have troubles with the browserstackLocal tunnel (11.17.17).
+        os: 'Windows',
+        os_version: '8.1',
+      },
+    },
+    edge: {
+      desiredCapabilities: {
+        browser: 'edge',
+      },
+    },
   }
 };
 
