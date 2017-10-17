@@ -39,6 +39,13 @@ module.exports = {
         path: './test/e2e/tests_output'
       },
     },
+    ci: {
+      desiredCapabilities: {
+        chromeOptions : {
+          args: ['--headless', '--disable-gpu']
+        },
+      },
+    },
     headless: {
       desiredCapabilities: {
         chromeOptions : {
