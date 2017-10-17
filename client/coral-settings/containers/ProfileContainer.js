@@ -71,24 +71,23 @@ class ProfileContainer extends Component {
     const emailAddress = localProfile && localProfile.id;
 
     return (
-      <div className={cn('talk-my-profile-comment-history', {
-        'talk-my-profile-comment-history-no-comments': !me.comments.nodes.length
-      })}>
+      <div className="talk-my-profile">
         <h2>{user.username}</h2>
-        {emailAddress ? <p>{emailAddress}</p> : null}
-
+        {emailAddress && <p>{emailAddress}</p>}
         <Slot
           fill="profileSections"
           data={data}
           queryData={{root}}
         />
-
         <hr />
-
         <h3>{t('framework.my_comments')}</h3>
-        {me.comments.nodes.length
-          ? <CommentHistory data={data} root={root} comments={me.comments} link={link} loadMore={this.loadMore}/>
-          : <p className='talk-my-profile-comment-history-no-comments-cta'>{t('user_no_comment')}</p>}
+        <div className={cn('talk-my-profile-comment-history', {
+          'talk-my-profile-comment-history-no-comments': !me.comments.nodes.length
+        })}>
+          {me.comments.nodes.length
+            ? <CommentHistory data={data} root={root} comments={me.comments} link={link} loadMore={this.loadMore}/>
+            : <p className='talk-my-profile-comment-history-no-comments-cta'>{t('user_no_comment')}</p>}
+        </div>
       </div>
     );
   }
