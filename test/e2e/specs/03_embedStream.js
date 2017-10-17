@@ -1,5 +1,6 @@
-
 module.exports = {
+  '@tags': ['embedStream'],
+
   'Creates a new asset': (client) => {
     const asset = 'newAssetTest';
     const embedStream = client.page.embedStream();

@@ -1,5 +1,6 @@
 module.exports = {
   '@tags': ['install'],
+
   'User goes to install': (client) => {
     const install = client.page.install();
 
