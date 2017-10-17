@@ -17,13 +17,13 @@ We also provide a Facebook auth plugin that supports logging in with Facebook (y
 
 Talk supports a standard comment hierarchy. There are top-level (or parent) comments, and then replies to that comment (or children comments). 
 
-**Permalinks**
+### Permalinks
 
 All levels of comments and replies are able to be linked to via permalink. Permalinks are structured using a `commentId` query param:
 
 https://domain.com/article-asset-slug/?commentId=0879edd7-1c4f-4918-abd2-a770db446b75
 
-**Threading**
+### Threading
 
 Talk supports by default 3 levels of threading, meaning each top-level comment has a depth of 3 replies; replies beyond that are not nested below the 3rd level. You can adjust this using the `TALK_THREADING_LEVEL` configuration variable. We don’t recommend deep threading because it can cause issues with styling, especially on mobile.
 
@@ -37,7 +37,7 @@ You can style threaded comments using these CSS classes:
   talk-stream-pending-comment
 ```
 
-**Automatic Updates**
+### Automatic Updates
 
 Talk supports real-time loading and updating of comments, via subscriptions (specifically GraphQL Subscriptions); this enables us to not have to refresh to see new comments on a given comment stream. 
 
@@ -45,7 +45,7 @@ Talk enables this via “Load More” buttons for both top-level comments (this 
 
 We’ve decided to go this route in order to make the viewing experience as smooth as possible, so that the feed of comments doesn’t change as you’re reading just because new comments are coming in. This could be especially disruptive on breaking news and/or controversial stories with very active discussions.
 
-**Comment Character Limits**
+### Comment Character Limits
 
 You can enable Talk to limit the character length for comments, for example, some newsrooms we’ve worked with prefer a limit between 2000 and 5000 characters. Commenters will be alerted that they have gone over that number and won’t be able to submit their comment until they’ve edited it. This can be a useful tool to ensure commenters are concise with their comments.
 
@@ -125,18 +125,18 @@ The My Profile tab is where commenters can go to see their comment history, as w
 
 Talk leverages notification and messages on the stream to alert users to important information about their comment or their account.
 
-**Pre-moderation of comments**
+### Pre-moderation of comments
 
 If a stream is set to Pre-mod, or a commenter’s Trust karma score has fallen to negative, or if for any other reason their comment is being pre-moderated, they will get a notification letting them know this when they post a comment.
 
-**Suspension because of Username**
+### Suspension because of Username
 
 When a commenter has been suspended because their username is inappropriate, they will see a message at the top of their streams stating this.
 
-**Timed Suspension**
+### Timed Suspension
 
 When a commenter has been suspended for a block of time (aka a “time-out”), they will see a message at the top of their streams stating this.
 
-**Ban**
+### Ban
 
 When a commenter has been banned, they will see a message at the top of their streams staging this.
