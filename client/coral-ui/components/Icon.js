@@ -4,12 +4,13 @@ import {Icon as IconMDL}  from 'react-mdl';
 import cn from 'classnames';
 import styles from './Icon.css';
 
-const Icon = ({className = '', name}) => (
-  <IconMDL className={cn(styles.root, className)} name={name} />
+const Icon = ({className = '', ...rest}) => (
+  <IconMDL className={cn(styles.root, className)} {...rest} />
 );
 
 Icon.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 export default Icon;

@@ -25,7 +25,15 @@ export default class UserDetail extends React.Component {
     toggleSelect: PropTypes.func.isRequired,
     bulkAccept: PropTypes.func.isRequired,
     bulkReject: PropTypes.func.isRequired,
-    toggleSelectAll: PropTypes.func.isRequired
+    toggleSelectAll: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    data: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+    }),
+    activeTab: PropTypes.string.isRequired,
+    selectedCommentIds: PropTypes.array.isRequired,
+    viewUserDetail: PropTypes.any.isRequired,
+    loadMore: PropTypes.any.isRequired
   }
 
   rejectThenReload = async (info) => {
@@ -140,24 +148,22 @@ export default class UserDetail extends React.Component {
 
             <ul className={styles.stats}>
               <li className={styles.stat}>
-                <span className={styles.statItem}> Total Comments </span>
-                <spam className={styles.statResult}> {totalComments} </spam>
+                <span className={styles.statItem}>Total Comments</span>
+                <span className={styles.statResult}>{totalComments}</span>
               </li>
               <li className={styles.stat}>
-                <spam className={styles.statItem}> Reject Rate </spam>
-                <spam className={styles.statResult}> {`${(rejectedPercent).toFixed(1)}%`} </spam>
+                <span className={styles.statItem}>Reject Rate</span>
+                <span className={styles.statResult}>
+                  {rejectedPercent.toFixed(1)}%
+                </span>
               </li>
               <li className={styles.stat}>
-                <spam className={styles.statItem}> Reports </spam>
-                <spam className={cn(styles.statReportResult, styles[getReliability(user.reliable.flagger)])}>
+                <span className={styles.statItem}>Reports</span>
+                <span className={cn(styles.statReportResult, styles[getReliability(user.reliable.flagger)])}>
                   {capitalize(getReliability(user.reliable.flagger))}
-                </spam>
+                </span>
               </li>
             </ul>
-
-            <p className={styles.small}>
-              Data represents the last six months of activity
-            </p>
           </div>
 
           <Slot
@@ -165,7 +171,6 @@ export default class UserDetail extends React.Component {
             data={this.props.data}
             queryData={{root, user}}
           />
-
           <hr />
           <div className={(selectedCommentIds.length > 0) ? cn(styles.bulkActionHeader, styles.selected) : styles.bulkActionHeader}>
             {
@@ -186,7 +191,7 @@ export default class UserDetail extends React.Component {
                       onClick={this.bulkRejectThenReload}
                       minimal
                     />
-                    <span> {`${selectedCommentIds.length} comments selected`}</span>
+                    <span>  {selectedCommentIds.length} comments selected</span>
                   </div>
                 )
             }
