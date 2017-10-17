@@ -2,10 +2,7 @@
 
 set -e
 
-if [[ -z "${BROWSERSTACK_KEY}" ]]; then
-  # When browserstack is not available test locally using chrome headless.
-  yarn e2e -- --env chrome-headless
-else
+if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
   # Test using browserstack.
   yarn e2e-browserstack -- --env chrome
   sleep 2
@@ -20,4 +17,7 @@ else
   sleep 2
 
   yarn e2e-browserstack -- --env edge
+else
+  # When browserstack is not available test locally using chrome headless.
+  yarn e2e -- --env chrome-headless
 fi
