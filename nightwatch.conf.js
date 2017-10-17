@@ -14,7 +14,8 @@ module.exports = {
     host: '127.0.0.1',
     port: 6666,
     cli_args: {
-      'webdriver.chrome.driver': 'node_modules/selenium-standalone/.selenium/chromedriver/2.32-x64-chromedriver'
+      'webdriver.chrome.driver': 'node_modules/selenium-standalone/.selenium/chromedriver/2.32-x64-chromedriver',
+      'webdriver.gecko.driver': 'node_modules/selenium-standalone/.selenium/geckodriver/0.18.0-x64-geckodriver',
     }
   },
   test_settings: {
@@ -39,14 +40,7 @@ module.exports = {
         path: './test/e2e/tests_output'
       },
     },
-    ci: {
-      desiredCapabilities: {
-        chromeOptions : {
-          args: ['--headless', '--disable-gpu']
-        },
-      },
-    },
-    headless: {
+    'chrome-headless': {
       desiredCapabilities: {
         chromeOptions : {
           args: ['--headless', '--disable-gpu']
