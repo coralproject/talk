@@ -4,7 +4,7 @@ const {
 
 const nightwatch_config = {
   src_folders: './test/e2e/specs/',
-  output_folder: './test/e2e/tests_output',
+  output_folder: './test/e2e/reports',
   page_objects_path: './test/e2e/page_objects',
   globals_path: './test/e2e/globals',
 

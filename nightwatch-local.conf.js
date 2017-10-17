@@ -4,13 +4,13 @@ const {
 
 module.exports = {
   src_folders: './test/e2e/specs/',
-  output_folder: './test/e2e/tests_output',
+  output_folder: './test/e2e/reports',
   page_objects_path: './test/e2e/page_objects',
   globals_path: './test/e2e/globals',
   selenium: {
     start_process: true,
     server_path: 'node_modules/selenium-standalone/.selenium/selenium-server/3.5.3-server.jar',
-    log_path: './test/e2e/reports',
+    log_path: './test/e2e/',
     host: '127.0.0.1',
     port: 6666,
     cli_args: {
@@ -30,7 +30,7 @@ module.exports = {
         webStorageEnabled: true,
         databaseEnabled: true,
         applicationCacheEnabled: false,
-        nativeEvents: true
+        nativeEvents: true,
       },
       screenshots : {
         enabled: true,
@@ -39,5 +39,12 @@ module.exports = {
         path: './test/e2e/tests_output'
       },
     },
-  }
+    headless: {
+      desiredCapabilities: {
+        chromeOptions : {
+          args: ['--headless', '--disable-gpu']
+        },
+      },
+    },
+  },
 };
