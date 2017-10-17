@@ -13,6 +13,8 @@ Coming soon!
 
 **How can I manage Assets with Talk?**
 
+**How can I add a new translation for Talk?**
+
 **How can I style Talk?**
 
 **How do I submit a PR to Talk?**
