@@ -406,7 +406,6 @@ const moderationPhases = [
   (context, comment, {assetSettings: {moderation}}) => {
     // If the settings say that we're in premod mode, then the comment is in
     // premod status.
-
     if (moderation === 'PRE') {
       return {
         status: 'PREMOD',
