@@ -5,13 +5,13 @@ module.exports = {
 
     install
       .navigate()
-      .ready();
+      .expect.section('@step1').to.be.present;
 
   },
   'User clicks get started button': (client) => {
-    const install = client.page.install();
+    const step1 = client.page.install().section.step1;
 
-    install
+    step1
       .waitForElementVisible('@getStartedButton')
       .click('@getStartedButton');
   },
@@ -19,54 +19,60 @@ module.exports = {
     const install = client.page.install();
 
     install
-      .waitForElementVisible('@step2');
+      .expect.section('@step2').to.be.present;
   },
   'User fills step 2': (client) => {
-    const install = client.page.install();
+    const step2 = client.page.install().section.step2;
     const {testData} = client.globals;
 
-    install
-      .waitForElementVisible('@step2organizationNameInput')
-      .setValue('@step2organizationNameInput', testData.organizationName)
-      .waitForElementVisible('@step2saveButton')
-      .click('@step2saveButton');
+    step2
+      .waitForElementVisible('@organizationNameInput')
+      .setValue('@organizationNameInput', testData.organizationName)
+      .waitForElementVisible('@saveButton')
+      .click('@saveButton');
   },
   'User should see step 3 - Create your account': (client) => {
     const install = client.page.install();
 
     install
-      .waitForElementVisible('@step3');
+      .expect.section('@step3').to.be.present;
   },
   'User fills step 3': (client) => {
-    const install = client.page.install();
+    const step3 = client.page.install().section.step3;
     const {testData: {admin}} = client.globals;
 
-    install
-      .setValue('@step3EmailInput', admin.email)
-      .setValue('@step3UsernameInput', admin.username)
-      .setValue('@step3PasswordInput', admin.password)
-      .setValue('@step3ConfirmPasswordInput', admin.password)
-      .waitForElementVisible('@step3saveButton')
-      .click('@step3saveButton');
+    step3
+      .setValue('@emailInput', admin.email)
+      .setValue('@usernameInput', admin.username)
+      .setValue('@passwordInput', admin.password)
+      .setValue('@confirmPasswordInput', admin.password)
+      .waitForElementVisible('@saveButton')
+      .click('@saveButton');
   },
   'User should see step 4 - Domain Whitelist': (client) => {
     const install = client.page.install();
 
     install
-      .waitForElementVisible('@step4');
+      .expect.section('@step4').to.be.present;
   },
   'User fills step 4': (client) => {
-    const install = client.page.install();
+    const step4 = client.page.install().section.step4;
 
-    install
-      .waitForElementVisible('@step4DomainInput')
-      .setValue('@step4DomainInput', client.launchUrl);
+    step4
+      .waitForElementVisible('@domainInput')
+      .setValue('@domainInput', client.launchUrl);
 
     client.keys(client.Keys.ENTER);
 
+    step4
+      .waitForElementVisible('@saveButton')
+      .click('@saveButton');
+  },
+  'User should see step 5 - Final Step': (client) => {
+    const install = client.page.install();
+
     install
-      .waitForElementVisible('@step4saveButton')
-      .click('@step4saveButton');
+      .expect.section('@step5').to.be.present;
   },
   after: (client) => {
     client.end();
