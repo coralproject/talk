@@ -53,7 +53,7 @@ class ProfileContainer extends Component {
   };
 
   render() {
-    const {auth, auth: {user}, showSignInDialog, root, data} = this.props;
+    const {auth, auth: {user: authUser}, showSignInDialog, root, data} = this.props;
     const {me} = this.props.root;
     const loading = this.props.data.loading;
 
@@ -65,15 +65,15 @@ class ProfileContainer extends Component {
       return <Spinner />;
     }
 
-    const localProfile = user.profiles.find(
+    const localProfile = authUser.profiles.find(
       (p) => p.provider === 'local'
     );
     const emailAddress = localProfile && localProfile.id;
 
     return (
-      <div className="talk-my-profile">
-        <h2>{user.username}</h2>
-        {emailAddress && <p>{emailAddress}</p>}
+      <div className="talk-my-profile talk-embed-stream-profile-container">
+        <h2>{me.username}</h2>
+        {emailAddress ? <p>{emailAddress}</p> : null}
         <Slot
           fill="profileSections"
           data={data}
@@ -141,6 +141,7 @@ const withProfileQuery = withQuery(
   query CoralEmbedStream_Profile {
     me {
       id
+      username
       comments(query: {limit: 10}) {
         ...TalkSettings_CommentConnectionFragment
       }
