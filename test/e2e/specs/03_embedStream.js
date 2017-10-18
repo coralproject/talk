@@ -112,8 +112,8 @@ module.exports = {
       .getEmbedSection();
 
     embed
-      .waitForElementVisible('@likeButton')
-      .click('@likeButton');
+      .waitForElementVisible('@respectButton')
+      .click('@respectButton');
 
     const profile = embed
       .getProfileSection();
