@@ -178,6 +178,7 @@
     "simplemde": "^1.11.2",
     "smoothscroll-polyfill": "^0.3.5",
     "snake-case": "^2.1.0",
+    "snyk": "^1.43.0",
     "style-loader": "^0.16.0",
     "subscriptions-transport-ws": "^0.7.2",
     "timeago.js": "^2.0.3",
@@ -190,8 +191,7 @@
     "webpack": "^2.3.1",
     "webpack-sources": "^1.0.1",
     "yaml-loader": "^0.4.0",
-    "yamljs": "^0.2.10",
-    "snyk": "^1.43.0"
+    "yamljs": "^0.2.10"
   },
   "devDependencies": {
     "@coralproject/eslint-config-talk": "^0.0.4",
