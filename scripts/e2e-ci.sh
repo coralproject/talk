@@ -23,7 +23,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
   browserstack firefox
   # browserstack safari – Safari >= 8 has issues connecting to browserstack-local. Safari < 8 is too old.
   browserstack ie
-  # browserstack edge - Edge randomly fails when switching from the login popup back to the main window.
+  # browserstack edge - Edge 14 & 15 randomly fails when switching from the login popup back to the main window.
 
   exit $exitCode
 else
