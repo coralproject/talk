@@ -29,3 +29,12 @@ patch:
         patched: '2017-10-11T02:07:15.455Z'
     - simplemde > marked:
         patched: '2017-10-11T02:07:15.455Z'
+  'npm:debug:20170905':
+    - node-pre-gyp > tar-pack > debug:
+        patched: '2017-10-18T20:54:11.305Z'
+  'npm:ms:20170412':
+    - node-pre-gyp > tar-pack > debug > ms:
+        patched: '2017-10-18T20:54:11.305Z'
+  'npm:tough-cookie:20170905':
+    - node-pre-gyp > request > tough-cookie:
+        patched: '2017-10-18T20:54:11.305Z'
