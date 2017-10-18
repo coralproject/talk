@@ -208,12 +208,19 @@ const ErrMaxRateLimit = new APIError('Rate limit exeeded', {
   status: 429,
 });
 
+// ErrCannotIgnoreStaff is returned when a user tries to ignore a staff member.
+const ErrCannotIgnoreStaff = new APIError('Cannot ignore staff members.', {
+  translation_key: 'CANNOT_IGNORE_STAFF',
+  status: 400,
+});
+
 module.exports = {
   APIError,
   ErrAlreadyExists,
   ErrAssetCommentingClosed,
   ErrAssetURLAlreadyExists,
   ErrAuthentication,
+  ErrCannotIgnoreStaff,
   ErrCommentTooShort,
   ErrContainsProfanity,
   ErrEditWindowHasEnded,

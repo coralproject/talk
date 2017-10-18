@@ -2,6 +2,7 @@ const assert = require('assert');
 const uuid = require('uuid');
 const bcrypt = require('bcryptjs');
 const errors = require('../errors');
+const some = require('lodash/some');
 
 const {
   ROOT_URL
@@ -859,11 +860,16 @@ module.exports = class UsersService {
    * @param  {String} id the id of the user that is ignoring another users
    * @param  {Array<String>} usersToIgnore Array of user IDs to ignore
    */
-  static ignoreUsers(id, usersToIgnore) {
+  static async ignoreUsers(id, usersToIgnore) {
     assert(Array.isArray(usersToIgnore), 'usersToIgnore is an array');
     assert(usersToIgnore.every((u) => typeof u === 'string'), 'usersToIgnore is an array of string user IDs');
     if (usersToIgnore.includes(id)) {
       throw new Error('Users cannot ignore themselves');
+    }
+
+    const users = await UsersService.findByIdArray(usersToIgnore);
+    if (some(users, (user) => user.isStaff())) {
+      throw errors.ErrCannotIgnoreStaff;
     }
 
     // TODO: For each usersToIgnore, make sure they exist?
