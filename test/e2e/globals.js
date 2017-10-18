@@ -19,6 +19,14 @@ module.exports = {
       username: 'admin',
       password: 'testtest',
     },
+    user: {
+      email: 'user@test.com',
+      username: 'user',
+      password: 'testtest',
+    },
+    comment: {
+      body: 'This is a test comment'
+    },
     organizationName: 'Coral',
   }
 };

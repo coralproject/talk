@@ -27,17 +27,37 @@ module.exports = {
           this.expect.section('@profile').to.be.present;
           return this.section.profile;
         },
+        getCommentsSection: function() {
+          this.click('@commentsTabButton');
+          this.expect.section('@comments').to.be.present;
+          return this.section.comments;
+        },
       }],
       selector: '#talk-embed-stream-container',
       elements: {
+        logoutButton: '.talk-stream-userbox-logout',
+        commentsTabButton: '.talk-embed-stream-comments-tab > button',
         profileTabButton: '.talk-embed-stream-profile-tab > button',
+        signInButton: '#coralSignInButton',
+        commentBoxTextarea: '#commentText',
+        commentBoxPostButton: '.talk-plugin-commentbox-button',
+        firstCommentContent: '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-content',
+        likeButton: '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-footer .talk-plugin-like-button'
       },
       sections: {
         profile: {
           selector: '.talk-embed-stream-profile-tab-pane',
           elements: {
             notLoggedIn: '.talk-embed-stream-not-logged-in',
+            myCommentHistory: '.talk-my-profile-comment-history',
+            myCommentHistoryReactions: '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions',
+            myCommentHistoryReactionCount: '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions .comment-summary-reaction-count',
+            myCommentHistoryComment: '.talk-my-profile-comment-history .my-comment-body'
           },
+        },
+        comments: {
+          selector: '.talk-embed-stream-comments-tab-pane',
+          elements: {},
         },
       },
     },
