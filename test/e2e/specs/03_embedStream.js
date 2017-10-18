@@ -114,8 +114,8 @@ module.exports = {
       .getEmbedSection();
 
     embed
-      .waitForElementVisible('@likeButton')
-      .click('@likeButton');
+      .waitForElementVisible('@respectButton')
+      .click('@respectButton');
 
     const profile = embed
       .getProfileSection();
@@ -136,6 +136,7 @@ module.exports = {
       .getEmbedSection();
 
     embed
+      .waitForElementVisible('@commentsTabButton')
       .click('@commentsTabButton')
       .waitForElementVisible('@logoutButton')
       .click('@logoutButton');

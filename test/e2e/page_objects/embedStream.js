@@ -42,7 +42,7 @@ module.exports = {
         commentBoxTextarea: '#commentText',
         commentBoxPostButton: '.talk-plugin-commentbox-button',
         firstCommentContent: '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-content',
-        likeButton: '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-footer .talk-plugin-like-button'
+        respectButton: '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-footer .talk-plugin-respect-button'
       },
       sections: {
         profile: {
