@@ -22,9 +22,7 @@
     "test": "TEST_MODE=unit NODE_ENV=test jest && TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
     "test-cover": "TEST_MODE=unit NODE_ENV=test istanbul cover _mocha --report text --check-coverage -- -R spec",
     "heroku-postbuild": "./bin/cli plugins reconcile && yarn build",
-    "generate-introspection": "WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "generate-introspection": "WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js"
   },
   "talk": {
     "migration": {
@@ -178,7 +176,6 @@
     "simplemde": "^1.11.2",
     "smoothscroll-polyfill": "^0.3.5",
     "snake-case": "2.1.0",
-    "snyk": "1.43.0",
     "style-loader": "^0.16.0",
     "subscriptions-transport-ws": "^0.7.2",
     "timeago.js": "^2.0.3",
