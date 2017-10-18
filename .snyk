@@ -16,6 +16,10 @@ ignore:
     - react-mdl-selectfield > @kadira/storybook-deployer > shelljs:
         reason: None given
         expires: '2017-11-17T15:49:54.237Z'
+  'npm:tunnel-agent:20170305':
+    - selenium-standalone > request > tunnel-agent:
+        reason: None given
+        expires: '2017-11-17T16:36:11.559Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:marked:20170112':
