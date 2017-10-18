@@ -7,9 +7,7 @@ machine:
   environment:
     PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     NODE_ENV: "test"
-
-dependencies:
-  override:
+  pre:
     # TODO: use the following to add in support for MongoDB 3.4.
     # # Upgrade the database version to 3.4.
     # - sudo apt-get purge mongodb-org*
@@ -24,6 +22,9 @@ dependencies:
     - sudo rm -f /usr/bin/google-chrome*
     - sudo apt-get update
     - sudo apt-get install chromium-browser
+
+dependencies:
+  override:
 
     # Install node dependencies.
     - yarn --version
