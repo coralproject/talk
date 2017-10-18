@@ -102,6 +102,14 @@ const SettingSchema = new Schema({
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
+  },
+  toObject: {
+    transform: (doc, ret) => {
+      delete ret._id;
+      delete ret.__v;
+
+      return ret;
+    }
   }
 });
 
