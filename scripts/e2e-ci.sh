@@ -21,7 +21,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
   # Test using browserstack.
   browserstack chrome
   browserstack firefox
-  browserstack safari
+  # browserstack safari – Safari >= 8 has issues connecting to browserstack-local. Safari < 8 is too old.
   browserstack ie
   browserstack edge
 

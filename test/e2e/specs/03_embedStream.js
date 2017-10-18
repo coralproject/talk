@@ -22,8 +22,10 @@ module.exports = {
       .waitForElementVisible('@signInButton')
       .click('@signInButton');
 
+    client.pause(3000);
+
     // Focusing on the Login PopUp
-    client.window_handles((result) => {
+    client.windowHandles((result) => {
       const handle = result.value[1];
       client.switchWindow(handle);
     });
@@ -44,7 +46,7 @@ module.exports = {
       .click('@loginButton');
 
     // Focusing on the Embed Window
-    client.window_handles((result) => {
+    client.windowHandles((result) => {
       const handle = result.value[0];
       client.switchWindow(handle);
     });
@@ -106,7 +108,7 @@ module.exports = {
   },
   'user goes to the stream and replies and reacts to comment': (client) => {
     const embedStream = client.page.embedStream();
-    
+
     const embed = embedStream
       .navigate()
       .getEmbedSection();
@@ -128,7 +130,7 @@ module.exports = {
   },
   'user logs out': (client) => {
     const embedStream = client.page.embedStream();
-    
+
     const embed = embedStream
       .navigate()
       .getEmbedSection();

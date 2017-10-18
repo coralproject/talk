@@ -29,30 +29,37 @@ const nightwatch_config = {
     chrome: {
       desiredCapabilities: {
         browser: 'chrome',
+        browser_version: '60',
       },
     },
     firefox: {
       desiredCapabilities: {
         browser: 'firefox',
+        browser_version: '56',
       },
     },
     safari: {
       desiredCapabilities: {
+
+        // Safari since 8 seems to have troubles with the browserstack-local tunnel (10.18.17)
         browser: 'safari',
+        browser_version: '10',
       },
     },
     ie: {
       desiredCapabilities: {
         browser: 'internet explorer',
 
-        // Windows 10 seem to have troubles with the browserstackLocal tunnel (11.17.17).
+        // Windows 10 + IE seems to have troubles with the browserstack-local tunnel (10.17.17).
         os: 'Windows',
         os_version: '8.1',
+        browser_version: '11',
       },
     },
     edge: {
       desiredCapabilities: {
         browser: 'edge',
+        browser_version: '15',
       },
     },
   }
