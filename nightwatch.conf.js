@@ -37,13 +37,13 @@ module.exports = {
         enabled: true,
         on_failure: true,
         on_error: true,
-        path: './test/e2e/tests_output'
+        path: process.env.REPORTS_FOLDER || './test/e2e/reports',
       },
     },
     'chrome-headless': {
       desiredCapabilities: {
         chromeOptions : {
-          args: ['--headless', '--disable-gpu']
+          args: ['--headless', '--disable-gpu'],
         },
       },
     },
