@@ -134,6 +134,7 @@ module.exports = {
       .getEmbedSection();
 
     embed
+      .waitForElementVisible('@commentsTabButton')
       .click('@commentsTabButton')
       .waitForElementVisible('@logoutButton')
       .click('@logoutButton');
