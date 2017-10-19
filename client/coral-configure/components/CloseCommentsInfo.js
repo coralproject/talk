@@ -23,7 +23,7 @@ const CloseCommentsInfo = ({status, onClick}) => (
 
 CloseCommentsInfo.propTypes = {
   status: PropTypes.string,
-  onClick: PropTypes.onClick,
+  onClick: PropTypes.func,
 };
 
 export default CloseCommentsInfo;
