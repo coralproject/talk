@@ -1,9 +1,9 @@
 import React from 'react';
 import {Button} from 'coral-ui';
-
+import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
 
-export default ({status, onClick}) => (
+const CloseCommentsInfo = ({status, onClick}) => (
   status === 'open' ? (
     <div className="close-comments-intro-wrapper">
       <p>
@@ -20,3 +20,10 @@ export default ({status, onClick}) => (
     </div>
   )
 );
+
+CloseCommentsInfo.propTypes = {
+  status: PropTypes.string,
+  onClick: PropTypes.onClick,
+};
+
+export default CloseCommentsInfo;
