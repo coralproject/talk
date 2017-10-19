@@ -519,6 +519,7 @@ export default class Comment extends React.Component {
                   : <div>
                     <Slot
                       fill="commentContent"
+                      className='talk-stream-comment-content'
                       defaultComponent={CommentContent}
                       {...slotProps}
                       queryData={queryData}

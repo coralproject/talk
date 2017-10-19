@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Comment from './Comment';
-import styles from './CommentHistory.css';
 import LoadMore from './LoadMore';
 import {forEachError} from 'plugin-api/beta/client/utils';
 
@@ -25,7 +24,7 @@ class CommentHistory extends React.Component {
   render() {
     const {link, comments, data, root} = this.props;
     return (
-      <div className={`${styles.header} commentHistory`}>
+      <div>
         <div className="commentHistory__list">
           {comments.nodes.map((comment, i) => {
             return <Comment
@@ -49,7 +48,12 @@ class CommentHistory extends React.Component {
 }
 
 CommentHistory.propTypes = {
-  comments: PropTypes.object.isRequired
+  comments: PropTypes.object.isRequired,
+  loadMore: PropTypes.func,
+  notify: PropTypes.func,
+  link: PropTypes.func,
+  data: PropTypes.object,
+  root: PropTypes.object
 };
 
 export default CommentHistory;
