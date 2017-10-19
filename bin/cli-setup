@@ -195,7 +195,7 @@ const performSetup = async () => {
       password: user.password
     }
   });
-    
+
   console.log('Settings created.');
   console.log(`User ${newUser.id} created.`);
   console.log('\nTalk is now installed!');
