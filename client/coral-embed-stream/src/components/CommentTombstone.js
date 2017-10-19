@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
 
 // Render in place of a Comment when the author of the comment is <action>
@@ -33,5 +33,9 @@ class CommentTombstone extends React.Component {
     );
   }
 }
+
+CommentTombstone.propTypes = {
+  action: PropTypes.string,
+};
 
 export default CommentTombstone;
