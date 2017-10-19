@@ -23,6 +23,7 @@ function init({store, storage}) {
 async function main() {
   const notification = createNotificationService(toast);
   const context = await createContext({reducers, graphqlExtension, pluginsConfig, notification, init});
+
   render(
     <TalkProvider {...context}>
       <App />

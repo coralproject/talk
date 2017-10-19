@@ -58,12 +58,11 @@ class Comment extends React.Component {
   render() {
     const {
       comment,
-      suspectWords,
-      bannedWords,
       selected,
       className,
       data,
       root,
+      root: {settings},
       currentUserId,
       currentAsset,
     } = this.props;
@@ -130,8 +129,8 @@ class Comment extends React.Component {
             <div className={styles.itemBody}>
               <div className={styles.body}>
                 <CommentBodyHighlighter
-                  suspectWords={suspectWords}
-                  bannedWords={bannedWords}
+                  suspectWords={settings.wordlist.suspect}
+                  bannedWords={settings.wordlist.banned}
                   body={comment.body}
                 />
                 {' '}
@@ -188,8 +187,6 @@ Comment.propTypes = {
   acceptComment: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
   className: PropTypes.string,
-  suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
-  bannedWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentAsset: PropTypes.object,
   showBanUserDialog: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func.isRequired,

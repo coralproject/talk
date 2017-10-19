@@ -303,11 +303,32 @@ class Stream extends React.Component {
 }
 
 Stream.propTypes = {
+  activeStreamTab: PropTypes.string,
+  data: PropTypes.object,
+  root: PropTypes.object,
+  activeReplyBox: PropTypes.string,
+  setActiveReplyBox: PropTypes.func,
+  commentClassNames: PropTypes.array,
+  setActiveStreamTab: PropTypes.func,
+  loadMoreComments: PropTypes.func,
+  postFlag: PropTypes.func,
+  postDontAgree: PropTypes.func,
+  deleteAction: PropTypes.func,
+  showSignInDialog: PropTypes.func,
+  loadNewReplies: PropTypes.func,
+  auth: PropTypes.object,
+  emit: PropTypes.func,
+  sortOrder: PropTypes.string,
+  sortBy: PropTypes.string,
+  loading: PropTypes.bool,
+  editName: PropTypes.func,
+  appendItemArray: PropTypes.func,
+  updateItem: PropTypes.func, 
+  viewAllComments: PropTypes.func,
   notify: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
-
-  // edit a comment, passed (id, asset_id, { body })
-  editComment: PropTypes.func
+  editComment: PropTypes.func,
+  userIsDegraged: PropTypes.bool,
 };
 
 export default Stream;

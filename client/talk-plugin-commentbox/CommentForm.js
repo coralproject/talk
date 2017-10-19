@@ -87,7 +87,12 @@ export class CommentForm extends React.Component {
 
     const length = body.length;
     const isRespectingMaxCount = (length) => charCountEnable && maxCharCount && length > maxCharCount;
-    const disableSubmitButton = !length || isRespectingMaxCount(length) || !submitEnabled({body}) || loadingState === 'loading';
+    const disableSubmitButton =
+      !length ||
+      body.trim().length === 0 ||
+      isRespectingMaxCount(length) ||
+      !submitEnabled({body}) ||
+      loadingState === 'loading';
     const disableCancelButton = loadingState === 'loading';
     const disableTextArea = loadingState === 'loading';
 

@@ -1,0 +1,78 @@
+@custom-media --tablet (max-width: 1180px);
+
+.viewOptions {
+  display: inline-block;
+  width: 220px;
+  position: absolute;
+  padding: 0;
+  overflow: visible;
+  height: 144px;
+  min-height: auto;
+  z-index: 10;
+
+  @media (--tablet) {
+    width: 650px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    height: 60px;
+  }
+}
+
+.headline {
+  margin: 0;
+  font-size: 1.1rem;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  padding: 0 20px;
+
+  @media (--tablet) {
+    flex: 1;
+    display: inline-block;
+    border-bottom: none;
+    line-height: 60px;
+  }
+}
+
+.viewOptionsContent {
+  padding: 10px 20px;
+
+  @media (--tablet) {
+    display: inline-block;
+  }
+}
+
+.viewOptionsList {
+  padding: 0;
+  margin: 0;
+  color: rgba(0,0,0,.54);
+}
+
+.viewOptionsItem {
+  list-style: none;
+}
+
+.dropdow {
+  position: relative;
+  margin-top: 5px;
+
+  @media (--tablet) {
+    display: inline-block;
+    margin-top: 0px;
+    margin-left: 10px;
+  }
+}
+
+.dropdownToggle {
+  background: #7B7B7B;
+  color: white;
+
+  &:focus {
+    background: #aaa;
+  }
+}
+
+.dropdownToggleOpen {
+  background: #aaa;
+}

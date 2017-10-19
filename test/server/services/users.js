@@ -164,6 +164,19 @@ describe('services.UsersService', () => {
       const userAfterIgnoring2 = await UsersService.findById(user.id);
       expect(userAfterIgnoring2.ignoresUsers.length).to.equal(2);
     });
+
+    it('should not ignore a staff member', async () => {
+      const user = mockUsers[0];
+      const usersToIgnore = [mockUsers[1]];
+      await UsersService.addRoleToUser(usersToIgnore[0].id, 'STAFF');
+
+      try {
+        await UsersService.ignoreUsers(user.id, usersToIgnore.map((u) => u.id));
+      } catch (err) {
+        expect(err.status).to.equal(400);
+        expect(err.translation_key).to.equal('CANNOT_IGNORE_STAFF');
+      }
+    });
   });
 
   describe('#ban', () => {
@@ -205,6 +218,50 @@ describe('services.UsersService', () => {
         .then((user) => {
           expect(user).to.have.property('canEditName', true);
         });
+    });
+  });
+
+  describe('#search', () => {
+    it('should return all the results without a value', async () => {
+      expect(await UsersService.search()).to.have.length(3);
+    });
+
+    it('should match the search terms', async () => {
+      const tests = [
+        {
+          search: 'monster',
+          results: 1,
+          id: mockUsers[1].id,
+        },
+        {
+          search: 'Stamp',
+          results: 1,
+          id: mockUsers[0].id,
+        },
+        {
+          search: 'sockmonster@gmail.com',
+          results: 1,
+          id: mockUsers[1].id,
+        },
+        {
+          search: 'marvel',
+          results: 1,
+          id: mockUsers[2].id,
+        },
+        {
+          search: 'gmail.com',
+          results: 3
+        }
+      ];
+
+      for (const test of tests) {
+        const users = await UsersService.search(test.search);
+
+        expect(users).to.have.length(test.results);
+        if (test.results === 1) {
+          expect(users[0]).to.have.property('id', test.id);
+        }
+      }
     });
   });
 

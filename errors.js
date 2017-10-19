@@ -195,6 +195,12 @@ const ErrAssetURLAlreadyExists = new APIError('Asset URL already exists, cannot 
   status: 409
 });
 
+// ErrCannotIgnoreStaff is returned when a user tries to ignore a staff member.
+const ErrCannotIgnoreStaff = new APIError('Cannot ignore staff members.', {
+  translation_key: 'CANNOT_IGNORE_STAFF',
+  status: 400
+});
+
 module.exports = {
   ExtendableError,
   APIError,
@@ -221,5 +227,6 @@ module.exports = {
   ErrLoginAttemptMaximumExceeded,
   ErrEditWindowHasEnded,
   ErrCommentTooShort,
-  ErrAssetURLAlreadyExists
+  ErrAssetURLAlreadyExists,
+  ErrCannotIgnoreStaff
 };

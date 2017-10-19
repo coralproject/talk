@@ -152,7 +152,7 @@ export const withUserDetailQuery = withQuery(gql`
       }
       ${getSlotFragmentSpreads(slots, 'user')}
     }
-    totalComments: commentCount(query: {author_id: $author_id})
+    totalComments: commentCount(query: {author_id: $author_id, statuses: []})
     rejectedComments: commentCount(query: {author_id: $author_id, statuses: [REJECTED]})
     comments: comments(query: {
       author_id: $author_id,
@@ -179,8 +179,6 @@ const mapStateToProps = (state) => ({
   selectedCommentIds: state.userDetail.selectedCommentIds,
   statuses: state.userDetail.statuses,
   activeTab: state.userDetail.activeTab,
-  bannedWords: state.settings.wordlist.banned,
-  suspectWords: state.settings.wordlist.suspect,
 });
 
 const mapDispatchToProps = (dispatch) => ({

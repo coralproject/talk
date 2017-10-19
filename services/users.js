@@ -2,6 +2,7 @@ const assert = require('assert');
 const uuid = require('uuid');
 const bcrypt = require('bcryptjs');
 const errors = require('../errors');
+const some = require('lodash/some');
 
 const {
   ROOT_URL
@@ -24,6 +25,7 @@ const ActionsService = require('./actions');
 const MailerService = require('./mailer');
 const Wordlist = require('./wordlist');
 const Domainlist = require('./domainlist');
+const {escapeRegExp} = require('./regex');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
 const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
@@ -630,14 +632,19 @@ module.exports = class UsersService {
    * @return {Promise}
    */
   static search(value) {
+    if (!value || typeof value !== 'string' || value.length === 0) {
+      return UserModel.find({});
+    }
+
+    value = escapeRegExp(value);
+
     return UserModel.find({
       $or: [
 
         // Search by a prefix match on the username.
         {
-          'username': {
-            $regex: new RegExp(`^${value}`),
-            $options: 'i'
+          'lowercaseUsername': {
+            $regex: new RegExp(value.toLowerCase())
           }
         },
 
@@ -646,7 +653,7 @@ module.exports = class UsersService {
           'profiles': {
             $elemMatch: {
               id: {
-                $regex: new RegExp(`^${value}`),
+                $regex: new RegExp(value),
                 $options: 'i'
               },
               provider: 'local'
@@ -879,11 +886,16 @@ module.exports = class UsersService {
    * @param  {String} id the id of the user that is ignoring another users
    * @param  {Array<String>} usersToIgnore Array of user IDs to ignore
    */
-  static ignoreUsers(id, usersToIgnore) {
+  static async ignoreUsers(id, usersToIgnore) {
     assert(Array.isArray(usersToIgnore), 'usersToIgnore is an array');
     assert(usersToIgnore.every((u) => typeof u === 'string'), 'usersToIgnore is an array of string user IDs');
     if (usersToIgnore.includes(id)) {
       throw new Error('Users cannot ignore themselves');
+    }
+
+    const users = await UsersService.findByIdArray(usersToIgnore);
+    if (some(users, (user) => user.isStaff())) {
+      throw errors.ErrCannotIgnoreStaff;
     }
 
     // TODO: For each usersToIgnore, make sure they exist?
