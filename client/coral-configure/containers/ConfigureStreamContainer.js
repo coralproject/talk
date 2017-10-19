@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
-
+import PropTypes from 'prop-types';
 import {updateOpenStatus, updateConfiguration} from 'coral-embed-stream/src/actions/asset';
-
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
-
 import t, {timeago} from 'coral-framework/services/i18n';
 
 class ConfigureStreamContainer extends Component {
@@ -138,6 +136,14 @@ const mapDispatchToProps = (dispatch) => ({
   updateStatus: (status) => dispatch(updateOpenStatus(status)),
   updateConfiguration: (newConfig) => dispatch(updateConfiguration(newConfig)),
 });
+
+ConfigureStreamContainer.propTypes = {
+  updateStatus: PropTypes.func,
+  closedTimeout: PropTypes.string,
+  created_at: PropTypes.string,
+  updateConfiguration: PropTypes.func,
+  asset: PropTypes.object,
+};
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps)

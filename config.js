@@ -119,7 +119,7 @@ const CONFIG = {
   //------------------------------------------------------------------------------
 
   // Port to bind to.
-  PORT: process.env.TALK_PORT || process.env.PORT || '3000',
+  PORT: process.env.TALK_PORT || process.env.PORT || process.env.NODE_ENV === 'test' ? '3001' : '3000',
 
   // The URL for this Talk Instance as viewable from the outside.
   ROOT_URL: process.env.TALK_ROOT_URL || null,
@@ -182,12 +182,13 @@ const CONFIG = {
 // CONFIG VALIDATION
 //==============================================================================
 
-if (CONFIG.ROOT_URL_MOUNT_PATH && !CONFIG.ROOT_URL) {
-  throw new Error('TALK_ROOT_URL must be specified if TALK_ROOT_URL_MOUNT_PATH is set to TRUE');
-}
-
-if (process.env.NODE_ENV === 'test' && !CONFIG.ROOT_URL) {
-  CONFIG.ROOT_URL = 'http://localhost:3000';
+if (process.env.NODE_ENV === 'test') {
+  if (!CONFIG.ROOT_URL) {
+    CONFIG.ROOT_URL = 'http://localhost:3001';
+  }
+  if (!CONFIG.STATIC_URL) {
+    CONFIG.STATIC_URI = 'http://localhost:3001';
+  }
 } else if (!CONFIG.ROOT_URL) {
   throw new Error('TALK_ROOT_URL must be provided');
 }

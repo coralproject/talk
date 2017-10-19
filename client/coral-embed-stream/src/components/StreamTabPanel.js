@@ -6,9 +6,9 @@ import styles from './StreamTabPanel.css';
 class StreamTabPanel extends React.Component {
 
   render() {
-    const {activeTab, setActiveTab, tabs, tabPanes, sub, loading} = this.props;
+    const {activeTab, setActiveTab, tabs, tabPanes, sub, loading, ...rest} = this.props;
     return (
-      <div>
+      <div {...rest}>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} sub={sub}>
           {tabs}
         </TabBar>
@@ -26,6 +26,7 @@ class StreamTabPanel extends React.Component {
 StreamTabPanel.propTypes = {
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
   tabs: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.arrayOf(PropTypes.element)

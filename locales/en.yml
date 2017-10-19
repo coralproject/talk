@@ -328,6 +328,8 @@ en:
     all_comments: "All Comments"
     temporarily_suspended: "In accordance with {0}'s community guidelines, your account has been temporarily suspended. Please rejoin the conversation {1}."
     comment_not_found: "Comment was not found"
+    no_comments: "There are no comments yet, why don’t you write one?"
+    no_comments_and_closed: "There were no comments on this article."
   step_1_header: "Report an issue"
   step_2_header: "Help us understand"
   step_3_header: "Thank you for your input"
