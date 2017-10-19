@@ -31,6 +31,16 @@ describe('services.SettingsService', () => {
         expect(updatedSettings).to.have.property('infoBoxContent', 'yeah');
       });
     });
+
+    it('should be ok when receiving an object based off of a mongoose model', async () => {
+      const mockSettings = {moderation: 'POST', infoBoxEnable: true, infoBoxContent: 'yeah'};
+      await SettingsService.update(mockSettings);
+
+      const settings = await SettingsService.retrieve();
+      settings.charCount = 500;
+
+      await SettingsService.update(settings.toObject());
+    });
   });
 
   describe('#get', () => {

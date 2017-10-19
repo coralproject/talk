@@ -137,7 +137,7 @@
     "metascraper": "1.0.7",
     "minimist": "^1.2.0",
     "moment": "^2.18.1",
-    "mongoose": "4.11.14",
+    "mongoose": "^4.12.3",
     "morgan": "1.9.0",
     "ms": "^2.0.0",
     "murmurhash-js": "^1.0.0",
