@@ -363,6 +363,8 @@ es:
     all_comments: "Todos los comentarios"
     temporarily_suspended: "De acuerdo con la guía de la comunidad de {0}, su cuenta ha sido temporalmente suspendida. Por favor unirse a la conversación {1}."
     comment_not_found: "Comentario no encontrado"
+    no_comments: "Todavía no hay comentarios. ¿Por qué no escribes uno?"
+    no_comments_and_closed: "No hubo comentarios en este artículo."
   streams:
     all: "Todos"
     article: "Artículo"

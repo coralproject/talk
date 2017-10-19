@@ -4,6 +4,7 @@ import Layout from 'coral-admin/src/components/ui/Layout';
 import styles from './NotFound.css';
 import {Button, TextField, Alert, Success} from 'coral-ui';
 import Recaptcha from 'react-recaptcha';
+import cn from 'classnames';
 
 class AdminLogin extends React.Component {
 
@@ -34,19 +35,22 @@ class AdminLogin extends React.Component {
   render () {
     const {errorMessage, loginMaxExceeded, recaptchaPublic} = this.props;
     const signInForm = (
-      <form onSubmit={this.handleSignIn}>
+      <form className="talk-admin-login-sign-in" onSubmit={this.handleSignIn}>
         {errorMessage && <Alert>{errorMessage}</Alert>}
         <TextField
+          id="email"
           label='Email Address'
           value={this.state.email}
           onChange={(e) => this.setState({email: e.target.value})} />
         <TextField
+          id="password"
           label='Password'
           value={this.state.password}
           onChange={(e) => this.setState({password: e.target.value})}
           type='password' />
         <div style={{height: 10}}></div>
         <Button
+          className="talk-admin-login-sign-in-button"
           type='submit'
           cStyle='black'
           full
@@ -90,7 +94,7 @@ class AdminLogin extends React.Component {
     );
     return (
       <Layout fixedDrawer restricted={true}>
-        <div className={styles.loginLayout}>
+        <div className={cn(styles.loginLayout, 'talk-admin-login')}>
           <h1 className={styles.loginHeader}>Team sign in</h1>
           <p className={styles.loginCTA}>Sign in to interact with your community.</p>
           { this.state.requestPassword ? requestPasswordForm : signInForm }

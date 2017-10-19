@@ -1,10 +1,11 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
 import {TransitionGroup} from 'react-transition-group';
 import {forEachError} from 'coral-framework/utils';
 import Comment from '../containers/Comment';
+import NoComments from './NoComments';
 
 const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 
@@ -144,53 +145,82 @@ class AllCommentsPane extends React.Component {
     } = this.props;
 
     const {loadingState} = this.state;
-    const view = this.getVisibleComments();
+    const visibleComments = this.getVisibleComments();
 
     return (
-      <div className="talk-stream-comments-container">
-        <NewCount
-          count={comments.nodes.length - view.length}
-          loadMore={this.viewNewComments}
-        />
-        <TransitionGroup component='div' className="embed__stream">
-          {view.map((comment) => {
-            return (
-              <Comment
-                commentClassNames={commentClassNames}
-                data={data}
-                root={root}
-                disableReply={disableReply}
-                setActiveReplyBox={setActiveReplyBox}
-                activeReplyBox={activeReplyBox}
-                notify={notify}
-                depth={0}
-                postComment={postComment}
-                asset={asset}
-                currentUser={currentUser}
-                postFlag={postFlag}
-                postDontAgree={postDontAgree}
-                loadMore={loadNewReplies}
-                deleteAction={deleteAction}
-                showSignInDialog={showSignInDialog}
-                key={comment.id}
-                comment={comment}
-                charCountEnable={charCountEnable}
-                maxCharCount={maxCharCount}
-                editComment={editComment}
-                emit={emit}
-              />
-            );
-          })}
-        </TransitionGroup>
-        <LoadMore
-          topLevel={true}
-          moreComments={asset.comments.hasNextPage}
-          loadMore={this.loadMore}
-          loadingState={loadingState}
-        />
+      <div>
+        {visibleComments.length ? (
+          <div className="talk-stream-comments-container">
+            <NewCount
+              count={comments.nodes.length - visibleComments.length}
+              loadMore={this.viewNewComments}
+            />
+            <TransitionGroup component='div' className="embed__stream">
+              {visibleComments.map((comment) => {
+                return (
+                  <Comment
+                    commentClassNames={commentClassNames}
+                    data={data}
+                    root={root}
+                    disableReply={disableReply}
+                    setActiveReplyBox={setActiveReplyBox}
+                    activeReplyBox={activeReplyBox}
+                    notify={notify}
+                    depth={0}
+                    postComment={postComment}
+                    asset={asset}
+                    currentUser={currentUser}
+                    postFlag={postFlag}
+                    postDontAgree={postDontAgree}
+                    loadMore={loadNewReplies}
+                    deleteAction={deleteAction}
+                    showSignInDialog={showSignInDialog}
+                    key={comment.id}
+                    comment={comment}
+                    charCountEnable={charCountEnable}
+                    maxCharCount={maxCharCount}
+                    editComment={editComment}
+                    emit={emit}
+                  />
+                );
+              })}
+            </TransitionGroup>
+            <LoadMore
+              topLevel={true}
+              moreComments={asset.comments.hasNextPage}
+              loadMore={this.loadMore}
+              loadingState={loadingState}
+            />
+          </div>
+        ) : (
+          <NoComments assetClosed={asset.isClosed} />
+        )}
       </div>
     );
   }
 }
+
+AllCommentsPane.propTypes = {
+  data: PropTypes.object,
+  root: PropTypes.object,
+  comments: PropTypes.object,
+  commentClassNames: PropTypes.array,
+  setActiveReplyBox: PropTypes.func,
+  activeReplyBox: PropTypes.string,
+  notify: PropTypes.func,
+  disableReply: PropTypes.bool,
+  postComment: PropTypes.func,
+  asset: PropTypes.object,
+  currentUser: PropTypes.object,
+  postFlag: PropTypes.func,
+  postDontAgree: PropTypes.func,
+  loadNewReplies: PropTypes.func,
+  deleteAction: PropTypes.func,
+  showSignInDialog: PropTypes.func,
+  charCountEnable: PropTypes.bool,
+  maxCharCount: PropTypes.number,
+  editComment: PropTypes.func,
+  emit: PropTypes.func,
+};
 
 export default AllCommentsPane;
