@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {withQuery} from 'coral-framework/hocs';
 import Slot from 'coral-framework/components/Slot';
-
+import cn from 'classnames';
 import {link} from 'coral-framework/services/pym';
 import NotLoggedIn from '../components/NotLoggedIn';
 import {Spinner} from 'coral-ui';
@@ -53,7 +53,7 @@ class ProfileContainer extends Component {
   };
 
   render() {
-    const {auth, auth: {user}, showSignInDialog, root, data} = this.props;
+    const {auth, auth: {user: authUser}, showSignInDialog, root, data} = this.props;
     const {me} = this.props.root;
     const loading = this.props.data.loading;
 
@@ -65,28 +65,29 @@ class ProfileContainer extends Component {
       return <Spinner />;
     }
 
-    const localProfile = user.profiles.find(
+    const localProfile = authUser.profiles.find(
       (p) => p.provider === 'local'
     );
     const emailAddress = localProfile && localProfile.id;
 
     return (
-      <div className='talk-embed-stream-profile-container'>
-        <h2>{user.username}</h2>
+      <div className="talk-my-profile talk-embed-stream-profile-container">
+        <h2>{me.username}</h2>
         {emailAddress ? <p>{emailAddress}</p> : null}
-
         <Slot
           fill="profileSections"
           data={data}
           queryData={{root}}
         />
-
         <hr />
-
         <h3>{t('framework.my_comments')}</h3>
-        {me.comments.nodes.length
-          ? <CommentHistory data={data} root={root} comments={me.comments} link={link} loadMore={this.loadMore}/>
-          : <p>{t('user_no_comment')}</p>}
+        <div className={cn('talk-my-profile-comment-history', {
+          'talk-my-profile-comment-history-no-comments': !me.comments.nodes.length
+        })}>
+          {me.comments.nodes.length
+            ? <CommentHistory data={data} root={root} comments={me.comments} link={link} loadMore={this.loadMore}/>
+            : <p className='talk-my-profile-comment-history-no-comments-cta'>{t('user_no_comment')}</p>}
+        </div>
       </div>
     );
   }
@@ -140,6 +141,7 @@ const withProfileQuery = withQuery(
   query CoralEmbedStream_Profile {
     me {
       id
+      username
       comments(query: {limit: 10}) {
         ...TalkSettings_CommentConnectionFragment
       }

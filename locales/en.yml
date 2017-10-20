@@ -57,13 +57,13 @@ en:
     banned_user: "Banned User"
     cancel: Cancel
     dont_like_username: "Dislike username"
-    flaggedaccounts: "Flagged Usernames"
+    flaggedaccounts: "Reported Usernames"
     flags: Flags
     impersonating: "Impersonation"
     loading: "Loading results"
     moderator: Moderator
     newsroom_role: "Newsroom Role"
-    no_flagged_accounts: "The Flagged Usernames queue is currently empty."
+    no_flagged_accounts: "The Reported Usernames queue is currently empty."
     no_results: "No users found with that user name or email address. They're hiding!"
     offensive: "Offensive"
     other: Other
@@ -75,6 +75,7 @@ en:
     status: Status
     username_and_email: "Username and Email"
     yes_ban_user: "Yes Ban User"
+    none: "None"
   configure:
     apply: Apply
     banned_word_text: "Comments which contain these words or phrases (not case-sensitive) will be automatically removed from the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
@@ -206,6 +207,7 @@ en:
     NOT_FOUND: "Resource not found"
     ALREADY_EXISTS: "Resource already exists"
     INVALID_ASSET_URL: "Assert URL is invalid"
+    CANNOT_IGNORE_STAFF: "Cannot ignore Staff members."
     email: "Not a valid E-Mail"
     confirm_password: "Passwords don't match. Please check again"
     network_error: "Failed to connect to server. Check your internet connection and try again."
@@ -288,6 +290,7 @@ en:
     select_stream: "Select Stream"
     shift_key: "⇧"
     shortcuts: "Shortcuts"
+    sort: "Sort"
     show_shortcuts: "Show Shortcuts"
     singleview: "Toggle single comment edit view"
     thismenu: "Open this menu"
@@ -322,6 +325,8 @@ en:
     all_comments: "All Comments"
     temporarily_suspended: "In accordance with {0}'s community guidelines, your account has been temporarily suspended. Please rejoin the conversation {1}."
     comment_not_found: "Comment was not found"
+    no_comments: "There are no comments yet, why don’t you write one?"
+    no_comments_and_closed: "There were no comments on this article."
   step_1_header: "Report an issue"
   step_2_header: "Help us understand"
   step_3_header: "Thank you for your input"
