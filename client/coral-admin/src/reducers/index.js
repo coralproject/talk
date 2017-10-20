@@ -9,6 +9,7 @@ import config from './config';
 import banUserDialog from './banUserDialog';
 import suspendUserDialog from './suspendUserDialog';
 import userDetail from './userDetail';
+import showRejectConfirmation from './showRejectConfirmation';
 
 export default {
   auth,
@@ -22,4 +23,5 @@ export default {
   moderation,
   install,
   config,
+  showRejectConfirmation,
 };
