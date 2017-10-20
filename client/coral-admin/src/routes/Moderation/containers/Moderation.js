@@ -55,7 +55,6 @@ function getTab(props) {
 
 class ModerationContainer extends Component {
   subscriptions = [];
-  lastRejectedCommentId = null;
 
   handleCommentChange = (root, comment, notifyText) => {
     return handleCommentChange(
