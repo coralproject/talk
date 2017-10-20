@@ -117,17 +117,14 @@ class ModerationContainer extends Component {
         document: COMMENT_EDITED_SUBSCRIPTION,
         variables,
         updateQuery: (prev, {subscriptionData: {data: {commentEdited: comment}}}) => {
-          const notifyText = t('modqueue.notify_edited', comment.user.username, prepareNotificationText(comment.body));
-          return this.handleCommentChange(prev, comment, notifyText);
+          return this.handleCommentChange(prev, comment);
         },
       },
       {
         document: COMMENT_FLAGGED_SUBSCRIPTION,
         variables,
         updateQuery: (prev, {subscriptionData: {data: {commentFlagged: comment}}}) => {
-          const user = comment.actions[comment.actions.length - 1].user;
-          const notifyText = t('modqueue.notify_flagged', user.username, prepareNotificationText(comment.body));
-          return this.handleCommentChange(prev, comment, notifyText);
+          return this.handleCommentChange(prev, comment);
         },
       },
     ];
