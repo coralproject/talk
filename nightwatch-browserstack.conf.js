@@ -23,7 +23,9 @@ const nightwatch_config = {
         'browserstack.key': process.env.BROWSERSTACK_KEY,
         'browserstack.local': true,
         'browserstack.debug': true,
-        'browserstack.networkLogs': true,
+
+        // Disable this, as it makes bs slow and brittle.
+        'browserstack.networkLogs': false,
       }
     },
     chrome: {
@@ -49,8 +51,6 @@ const nightwatch_config = {
     ie: {
       desiredCapabilities: {
         browser: 'internet explorer',
-
-        // Windows 10 + IE seems to have troubles with the browserstack-local tunnel (10.17.17).
         os: 'Windows',
         os_version: '8.1',
         browser_version: '11',
