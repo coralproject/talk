@@ -131,11 +131,12 @@
   .bulkAction:last-child {
     margin-left: -10px;
   }
-  span {
-    align-self: center;
-    font-weight: 500;
-    margin-left: 15px;
-  }
+}
+
+.selectedCommentsInfo {
+  align-self: center;
+  font-weight: 500;
+  margin-left: 15px;
 }
 
 .loadMore>button {

@@ -16,6 +16,7 @@ import {
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
+import {notify} from 'coral-framework/actions/notification';
 
 const commentConnectionFragment = gql`
   fragment CoralAdmin_Moderation_CommentConnection on CommentConnection {
@@ -190,7 +191,8 @@ const mapDispatchToProps = (dispatch) => ({
     toggleSelectCommentInUserDetail,
     viewUserDetail,
     hideUserDetail,
-    toggleSelectAllCommentInUserDetail
+    toggleSelectAllCommentInUserDetail,
+    notify
   }, dispatch)
 });
 

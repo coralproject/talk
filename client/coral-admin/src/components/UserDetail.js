@@ -12,6 +12,7 @@ import capitalize from 'lodash/capitalize';
 import {getReliability} from 'coral-framework/utils/user';
 import ApproveButton from './ApproveButton';
 import RejectButton from './RejectButton';
+import {getErrorMessages} from 'coral-framework/utils';
 
 export default class UserDetail extends React.Component {
 
@@ -33,7 +34,8 @@ export default class UserDetail extends React.Component {
     activeTab: PropTypes.string.isRequired,
     selectedCommentIds: PropTypes.array.isRequired,
     viewUserDetail: PropTypes.any.isRequired,
-    loadMore: PropTypes.any.isRequired
+    loadMore: PropTypes.any.isRequired,
+    notify: PropTypes.func.isRequired
   }
 
   rejectThenReload = async (info) => {
@@ -44,6 +46,7 @@ export default class UserDetail extends React.Component {
 
       // TODO: handle error.
       console.error(err);
+      this.props.notify('error', getErrorMessages(err));
     }
   }
 
@@ -55,6 +58,7 @@ export default class UserDetail extends React.Component {
 
       // TODO: handle error.
       console.error(err);
+      this.props.notify('error', getErrorMessages(err));
     }
   }
 
@@ -66,6 +70,7 @@ export default class UserDetail extends React.Component {
 
       // TODO: handle error.
       console.error(err);
+      this.props.notify('error', getErrorMessages(err));
     }
   }
 
@@ -77,6 +82,7 @@ export default class UserDetail extends React.Component {
 
       // TODO: handle error.
       console.error(err);
+      this.props.notify('error', getErrorMessages(err));
     }
   }
 
@@ -191,7 +197,7 @@ export default class UserDetail extends React.Component {
                       onClick={this.bulkRejectThenReload}
                       minimal
                     />
-                    <span>  {selectedCommentIds.length} comments selected</span>
+                    <span className={styles.selectedCommentsInfo}>  {selectedCommentIds.length} comments selected</span>
                   </div>
                 )
             }
