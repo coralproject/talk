@@ -41,7 +41,3 @@ items:
     children:
       - title: FAQ
         url: /faq/
-  - title: Developer Tutorials
-    children:
-      - title: Developer Tutorials
-        url: /developer-tutorials/

@@ -53,11 +53,11 @@ The History badge signifies comments that have been flagged because of a user’
 
 **Toxic**
 
-The Toxic badge signifies comments that are above the set Toxicity Probability Threshold. Note you must have `talk-plugin-toxic-comments` enabled. [Read more about Toxic Comments here](LINK).
+The Toxic badge signifies comments that are above the set Toxicity Probability Threshold. Note you must have `talk-plugin-toxic-comments` enabled. [Read more about Toxic Comments here]({{ "/toxic-comments/" | relative_url}}).
 
 **Suspect**
 
-The Suspect badge signifies comments that contain a Suspect Word. [Read more about Suspect Words here](LINK).
+The Suspect badge signifies comments that contain a Suspect Word.
 
 **Contains Link**
 
@@ -107,7 +107,7 @@ This shows the % of comments a commenter has had rejected by moderators, or auto
 
 **Reports**
 
-This shows if a commenter is a reliable flagger, an unreliable flagger, or a neutral flagger. [Read more about reliable and unreliable flaggers here](LINK).
+This shows if a commenter is a reliable flagger, an unreliable flagger, or a neutral flagger. [Read more about reliable and unreliable flaggers here]({{ "/trust/#reliable-and-unreliable-flaggers" | relative_url }}).
 
 **Moderating from this View**
 
@@ -145,7 +145,7 @@ Any usernames that have been reported will show in the Reported Usernames sub-ta
 All your team and commenters show in the People sub-tab. From here, you can manage your team members’ roles (Admins, Moderators, Staff), as well as search for commenters and take action on them (e.g. Ban/Un-ban, Suspend, etc.). 
 ### Configure
 
-See [Configuring Talk](LINK).
+See [Configuring Talk]({{ "/configuring-talk/" | relative_url }}).
 
 ## Moderating via the Comment Stream
 

@@ -17,7 +17,7 @@ Allows toggling of pre-moderating comments that have links.
 
 ### Ask Readers a Question & Question Icons
 
-Admins can choose to Ask Readers a Question in order to help guide the discussion. [Read more about why this is important on our blog](https://blog.coralproject.net/the-empty-box/).
+Admins can choose to Ask Readers a Question in order to help guide the discussion. [Read more about why this is important on our blog](https://blog.coralproject.net/the-empty-box/){:target="_blank"}.
 
 There are a selection of icons to display different messaging other than a question on a particular stream, like an announcement, or general information about the story.
 
@@ -38,7 +38,7 @@ A maximum comment length across the site.
 
 #### Comment Stream Description
 
-Description text that will appear above every comment stream site-wide. We recommend linking to your Code of Conduct or Community Guidelines. [Read tips on how to write a Code of Conduct here](https://guides.coralproject.net/create-a-code-of-conduct/).
+Description text that will appear above every comment stream site-wide. We recommend linking to your Code of Conduct or Community Guidelines. [Read tips on how to write a Code of Conduct here](https://guides.coralproject.net/create-a-code-of-conduct/){:target="_blank"}.
 
 #### Closed Stream Message
 

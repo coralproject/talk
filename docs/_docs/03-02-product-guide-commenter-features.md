@@ -25,7 +25,7 @@ https://domain.com/article-asset-slug/?commentId=0879edd7-1c4f-4918-abd2-a770db4
 
 ### Threading
 
-Talk supports by default 3 levels of threading, meaning each top-level comment has a depth of 3 replies; replies beyond that are not nested below the 3rd level. You can adjust this using the `TALK_THREADING_LEVEL` configuration variable. We don’t recommend deep threading because it can cause issues with styling, especially on mobile.
+Talk supports by default 3 levels of threading, meaning each top-level comment has a depth of 3 replies; replies beyond that are not nested below the 3rd level. You can adjust this using the [`TALK_THREADING_LEVEL`]({{ "/advanced-configuration/#talk_threading_level" | relative_url }})configuration variable. We don’t recommend deep threading because it can cause issues with styling, especially on mobile.
 
 You can style threaded comments using these CSS classes:
 
@@ -51,7 +51,7 @@ You can enable Talk to limit the character length for comments, for example, som
 
 ## Comment Reactions
 
-Talk comes with a `respect` button out of the box. Why a “respect” button, you ask? [Read more here](https://mediaengagement.org/research/engagement-buttons/). 
+Talk comes with a `respect` button out of the box. Why a “respect” button, you ask? [Read more here](https://mediaengagement.org/research/engagement-buttons/){:target="_blank"}. 
 
 We also have 2 more plugins, `like` and `love`, that you can turn on and experiment with on your own Talk install. 
 
@@ -113,7 +113,7 @@ The Staff user badge that shows when a commenter has an Admin, Moderator, or Sta
 
 The Featured comment badge shows when a comment has been featured.
 
-Another optional badge is the Subscriber badge (which is available as a [Recipe](/plugin-recipes/#recipe-subscriber). 
+Another optional badge is the Subscriber badge (which is available as a [Recipe]({{ "/plugin-recipes/#recipe-subscriber" | relative_url}}). 
 
 Badges are another easy part of Talk to customize by creating a new `tag`, then setting some rules for when it should show, and how the badge should be styled.
 
