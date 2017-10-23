@@ -263,7 +263,8 @@ pre {
     p a:not(.plain-link) {
       @extend .coral-link;
     }
-    ul:not(.toc__menu) li a {
+    ul:not(.toc__menu) li a,
+    ol li a {
       @extend .coral-link;
     }
   }

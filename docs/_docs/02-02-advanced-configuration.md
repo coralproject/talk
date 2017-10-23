@@ -26,9 +26,17 @@ Configure the duration for which comment counts are cached for, parsed by
 
 ### TALK_DEFAULT_LANG
 
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+image you can specify it with `--build-arg TALK_DEFAULT_LANG=en`.
+
 Specify the default translation language. (Default `en`)
 
 ### TALK_DEFAULT_STREAM_TAB
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+image you can specify it with `--build-arg TALK_DEFAULT_STREAM_TAB=all`.
 
 Specify the default stream tab in the admin. (Default `all`)
 
@@ -396,6 +404,10 @@ CDN/Storage url. (Defaults to value of
 [TALK_ROOT_URL]({{ "/configuration/#talk_root_url" | relative_url }}){: .param})
 
 ### TALK_THREADING_LEVEL
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+image you can specify it with `--build-arg TALK_THREADING_LEVEL=3`.
 
 Specify the maximum depth of the comment thread. (Default `3`)
 

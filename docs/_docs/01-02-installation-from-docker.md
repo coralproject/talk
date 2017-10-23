@@ -95,10 +95,12 @@ FROM coralproject/talk:latest-onbuild
 And running the following to build the docker image:
 
 ```bash
-docker build -t my-awesome-talk-image .
+docker build -t my-awesome-talk-image --build-arg TALK_DEFAULT_LANG=es .
 ```
 
-Don't forget to replace `my-awesome-talk-image` with your own image name.
+Don't forget to replace `my-awesome-talk-image` with your own image name, and
+specify your build variables with the `--build-arg`. Refer to [Dockerfile.onbuild](https://github.com/coralproject/talk/blob/master/Dockerfile.onbuild){:target="_blank"} for the
+available build variables.
 {: .code-aside}
 
 This accomplishes a lot:
@@ -108,6 +110,9 @@ This accomplishes a lot:
 2. Installs any new dependencies that were required by any new plugins.
 3. Builds the new static bundles so that they are ready to serve when the image
    is running.
+4. Specifies a build time variable [TALK_DEFAULT_LANG]({{ "/advanced-configuration/#talk_default_lang" | relative_url }}){:.param}. Refer
+to [Dockerfile.onbuild](https://github.com/coralproject/talk/blob/master/Dockerfile.onbuild){:target="_blank"} for the
+available build variables.
 
 This means that you can create a repository for your organization that simply
 includes the above `Dockerfile`, a directory of `plugins`, and a `plugins.json`
