@@ -98,17 +98,17 @@ Requires: [talk-plugin-viewing-options](#talk-plugin-viewing-options){:.param}
 
 Provides a sort for the newest comments first.
 
-## talk-plugin-most-respected
+## talk-plugin-sort-most-respected
 
-Source: [plugins/talk-plugin-most-respected](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-most-respected){:target="_blank"}
+Source: [plugins/talk-plugin-sort-most-respected](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-sort-most-respected){:target="_blank"}
 
 Requires: [talk-plugin-viewing-options](#talk-plugin-viewing-options){:.param}, [talk-plugin-respect](#talk-plugin-respect){:.param}
 
 Provides a sort for the comments with the most `respect` reactions first.
 
-## talk-plugin-most-replied
+## talk-plugin-sort-most-replied
 
-Source: [plugins/talk-plugin-most-replied](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-most-replied){:target="_blank"}
+Source: [plugins/talk-plugin-sort-most-replied](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-sort-most-replied){:target="_blank"}
 
 Requires: [talk-plugin-viewing-options](#talk-plugin-viewing-options){:.param}
 
