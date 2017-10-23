@@ -3,6 +3,9 @@ const errors = require('../errors');
 const {createClientFactory} = require('./redis');
 const client = createClientFactory();
 
+/**
+ * Limit is designed to support rate limiting a resource.
+ */
 class Limit {
   constructor(prefix, max, duration) {
     this.ttl = ms(duration) / 1000;
@@ -10,16 +13,37 @@ class Limit {
     this.max = max;
   }
 
+  /**
+   * key will compose the redis key used to store the rate limit information.
+   *
+   * @param {String} value the string to use that is being limited
+   * @returns {String} the redis key to set
+   */
   key(value) {
     return `limit[${this.prefix}][${value}]`;
   }
 
+  /**
+   * get will fetch the current number of attempts within the given window
+   * duration.
+   *
+   * @param {String} value the value to limit with
+   * @returns {Integer} the number of tries within the current window
+   */
   async get(value) {
     const key = this.key(value);
 
     return client().get(key);
   }
 
+  /**
+   * test will increment the number of tries, reset the window length and
+   * will throw an error if the number of tries exceed the maximum for the
+   * window duration.
+   *
+   * @param {String} value the value to limit with
+   * @returns {Promise} resolves to the number of tries, or throws an error
+   */
   async test(value) {
     const key = this.key(value);
 
