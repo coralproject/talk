@@ -11,13 +11,13 @@ Talk ships with several plugins that aren't enabled by default:
 These plugins can be enabled by consulting the
 [Plugins Overview]({{ "/plugins/" | relative_url }}) page.
 
-### talk-plugin-like
+## talk-plugin-like
 
 Source: [plugins/talk-plugin-like](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-like){:target="_blank"}
 
 Enables a `like` reaction button.
 
-### talk-plugin-sort-most-liked
+## talk-plugin-sort-most-liked
 
 Source: [plugins/talk-plugin-sort-most-liked](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-sort-most-liked){:target="_blank"}
 
@@ -25,13 +25,13 @@ Requires: [talk-plugin-viewing-options]({{ "/default-plugins/#talk-plugin-viewin
 
 Provides a sort for the comments with the most `like` reactions first.
 
-### talk-plugin-love
+## talk-plugin-love
 
 Source: [plugins/talk-plugin-love](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-love){:target="_blank"}
 
 Enables a `love` reaction button.
 
-### talk-plugin-sort-most-loved
+## talk-plugin-sort-most-loved
 
 Source: [plugins/talk-plugin-sort-most-loved](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-sort-most-loved){:target="_blank"}
 
@@ -39,7 +39,7 @@ Requires: [talk-plugin-viewing-options]({{ "/default-plugins/#talk-plugin-viewin
 
 Provides a sort for the comments with the most `love` reactions first.
 
-### talk-plugin-remember-sort
+## talk-plugin-remember-sort
 
 Source: [plugins/talk-plugin-remember-sort](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-remember-sort){:target="_blank"}
 
@@ -47,7 +47,7 @@ Requires: [talk-plugin-viewing-options]({{ "/default-plugins/#talk-plugin-viewin
 
 Enables saving a user’s last sort selection as they browse other articles.
 
-### talk-plugin-deep-reply-count
+## talk-plugin-deep-reply-count
 
 Source: [plugins/talk-plugin-deep-reply-count](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-deep-reply-count){:target="_blank"}
 
@@ -55,7 +55,7 @@ Enables counting of comments to include replies via a new graph edge. Not
 recommended for large installations as it will unreasonably reduce the query
 efficiency to compute this number.
 
-### talk-plugin-slack-notifications
+## talk-plugin-slack-notifications
 
 Source: [plugins/talk-plugin-slack-notifications](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-slack-notifications){:target="_blank"}
 
@@ -70,12 +70,11 @@ Slack, if this isn't what you want, be sure to use the provided plugin as a
 recipe to further customize the behavior*.
 
 Configuration:
-{:.no_toc}
 
 - `SLACK_WEBHOOK_URL` (**required**) - The webhook url that will be
   used to post new comments to.
 
-### talk-plugin-toxic-comments
+## talk-plugin-toxic-comments
 
 Source: [plugins/talk-plugin-toxic-comments](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-toxic-comments){:target="_blank"}
 
@@ -85,7 +84,6 @@ threshold. For more information on what Toxic Comments are, check out the
 [Toxic Comments]({{ "/toxic-comments/" | relative_url }}) documentation.
 
 Configuration:
-{:.no_toc}
 
 - `TALK_PERSPECTIVE_API_KEY` (**required**) - The API Key for Perspective. You
   can register and get your own key at [http://perspectiveapi.com/](http://perspectiveapi.com/){:target="_blank"}.
@@ -97,7 +95,7 @@ Configuration:
   be processed before it will skip the toxicity analysis, parsed by
   [ms](https://www.npmjs.com/package/ms){:target="_blank"}. (Default `300ms`)
 
-### talk-plugin-subscriber
+## talk-plugin-subscriber
 
 Source: [plugins/talk-plugin-subscriber](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-subscriber){:target="_blank"}
 
