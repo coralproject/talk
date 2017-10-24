@@ -165,7 +165,8 @@ export const withUserDetailQuery = withQuery(gql`
 `, {
   options: ({userId, statuses}) => {
     return {
-      variables: {author_id: userId, statuses}
+      variables: {author_id: userId, statuses},
+      fetchPolicy: 'network-only',
     };
   },
   skip: (ownProps) => !ownProps.userId,
