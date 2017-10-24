@@ -75,6 +75,8 @@ class PeopleContainer extends React.Component {
       onHeaderClickHandler={this.onHeaderClickHandler}
       onNewPageHandler={this.onNewPageHandler}
       totalPages={this.props.community.totalPagesPeople}
+      setCommenterStatus={this.props.setCommenterStatus}
+      setRole={this.props.setRole}
     />;
   }
 }
@@ -83,8 +85,8 @@ PeopleContainer.propTypes = {
   newPage: PropTypes.func,
   fetchUsers: PropTypes.func,
   updateSorting: PropTypes.func,
-  setRole: PropTypes.func,
-  setCommenterStatus: PropTypes.func,
+  setRole: PropTypes.func.isRequired,
+  setCommenterStatus: PropTypes.func.isRequired,
   community: PropTypes.object,
 };
 

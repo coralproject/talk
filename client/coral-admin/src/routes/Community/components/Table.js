@@ -24,7 +24,7 @@ const headers = [
   }
 ];
 
-const Table = ({users, onHeaderClickHandler, onRoleChange, onCommenterStatusChange, viewUserDetail}) => (
+const Table = ({users, onHeaderClickHandler, setRole, setCommenterStatus, viewUserDetail}) => (
   <table className={`mdl-data-table ${styles.dataTable}`}>
     <thead>
       <tr>
@@ -53,7 +53,7 @@ const Table = ({users, onHeaderClickHandler, onRoleChange, onCommenterStatusChan
             <Dropdown 
               value={row.status}
               placeholder={t('community.status')}
-              onChange={(status) => onCommenterStatusChange(row.id, status)}>     
+              onChange={(status) => setCommenterStatus(row.id, status)}>     
               <Option value={'ACTIVE'} label={t('community.active')} />
               <Option value={'BANNED'} label={t('community.banned')} />
             </Dropdown>       
@@ -62,7 +62,7 @@ const Table = ({users, onHeaderClickHandler, onRoleChange, onCommenterStatusChan
             <Dropdown
               value={row.roles[0] || ''}
               placeholder={t('community.role')}
-              onChange={(role) => onRoleChange(row.id, role)}>
+              onChange={(role) => setRole(row.id, role)}>
               <Option value={''} label={t('community.none')} />
               <Option value={'STAFF'} label={t('community.staff')} />
               <Option value={'MODERATOR'} label={t('community.moderator')} />
@@ -78,8 +78,8 @@ const Table = ({users, onHeaderClickHandler, onRoleChange, onCommenterStatusChan
 Table.propTypes = {
   users: PropTypes.array,
   onHeaderClickHandler: PropTypes.func.isRequired,
-  onRoleChange: PropTypes.func,
-  onCommenterStatusChange: PropTypes.func,
+  setRole: PropTypes.func.isRequired,
+  setCommenterStatus: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func,
 };
 

@@ -15,6 +15,8 @@ const People = (props) => {
     onHeaderClickHandler,
     onNewPageHandler,
     totalPages,
+    setRole,
+    setCommenterStatus,
   } = props;
 
   const hasResults = !!users.length;
@@ -39,6 +41,8 @@ const People = (props) => {
           hasResults
             ? <Table
               users={users}
+              setRole={setRole}
+              setCommenterStatus={setCommenterStatus}
               onHeaderClickHandler={onHeaderClickHandler}
             />
             : <EmptyCard>{t('community.no_results')}</EmptyCard>
@@ -60,6 +64,8 @@ People.propTypes = {
   onSearchChange: PropTypes.func,
   totalPages: PropTypes.number,
   onNewPageHandler: PropTypes.func,
+  setCommenterStatus: PropTypes.func.isRequired,
+  setRole: PropTypes.func.isRequired,
 };
 
 export default People;

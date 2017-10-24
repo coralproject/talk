@@ -48,6 +48,8 @@ class Community extends Component {
 Community.propTypes = {
   route: PropTypes.object,
   community: PropTypes.object,
+  rejectUsername: PropTypes.func.isRequired,
+  hideRejectUsernameDialog: PropTypes.func.isRequired,
   data: PropTypes.object,
   root: PropTypes.object,
 };

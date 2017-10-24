@@ -16,7 +16,7 @@ router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, nex
     field = 'created_at',
     page = 1,
     asc = 'false',
-    limit = 50 // Total Per Page
+    limit = 20 // Total Per Page
   } = req.query;
 
   try {
