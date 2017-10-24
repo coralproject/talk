@@ -41,6 +41,11 @@ export default function banUserDialog(state = initialState, action) {
       ...state,
       selectedCommentIds: state.selectedCommentIds.filter((id) => id !== action.id),
     };
+  case actions.SELECT_ALL_USER_DETAIL_COMMENT:
+    return {
+      ...state,
+      selectedCommentIds: action.ids
+    };
   default:
     return state;
   }
