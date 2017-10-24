@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.css';
 import Table from './Table';
-import {Paginate, Icon} from 'coral-ui';
+import {Icon} from 'coral-ui';
 import EmptyCard from '../../../components/EmptyCard';
 import t from 'coral-framework/services/i18n';
 
@@ -46,14 +46,11 @@ const People = (props) => {
               viewUserDetail={viewUserDetail}
               setCommenterStatus={setCommenterStatus}
               onHeaderClickHandler={onHeaderClickHandler}
+              pageCount={totalPages}
+              onPageChange={onNewPageHandler}
             />
             : <EmptyCard>{t('community.no_results')}</EmptyCard>
         }
-        
-        <Paginate
-          pageCount={totalPages}
-          onPageChange={onNewPageHandler}
-        />
       </div>
     </div>
   );
