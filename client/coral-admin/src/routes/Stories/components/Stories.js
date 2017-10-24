@@ -139,10 +139,9 @@ class Stories extends Component {
                   {t('streams.status')}
                 </TableHeader>
               </DataTable>
-              {/* <Paginate
-                totalPages={Math.ceil((assets.count || 0) / limit)}
-                page={this.state.page}
-                onNewPageHandler={this.onPageClick} /> */}
+              <Paginate
+                pageCount={Math.ceil((assets.count || 0) / limit)}
+                onPageChange={this.onPageClick} />
             </div>
             : <EmptyCard>{t('streams.empty_result')}</EmptyCard>
         }
