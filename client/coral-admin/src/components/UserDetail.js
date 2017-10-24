@@ -44,7 +44,6 @@ export default class UserDetail extends React.Component {
       this.props.data.refetch();
     } catch (err) {
 
-      // TODO: handle error.
       console.error(err);
       this.props.notify('error', getErrorMessages(err));
     }
@@ -56,7 +55,6 @@ export default class UserDetail extends React.Component {
       this.props.data.refetch();
     } catch (err) {
 
-      // TODO: handle error.
       console.error(err);
       this.props.notify('error', getErrorMessages(err));
     }
@@ -68,7 +66,6 @@ export default class UserDetail extends React.Component {
       this.props.data.refetch();
     } catch (err) {
 
-      // TODO: handle error.
       console.error(err);
       this.props.notify('error', getErrorMessages(err));
     }
@@ -80,7 +77,6 @@ export default class UserDetail extends React.Component {
       this.props.data.refetch();
     } catch (err) {
 
-      // TODO: handle error.
       console.error(err);
       this.props.notify('error', getErrorMessages(err));
     }
