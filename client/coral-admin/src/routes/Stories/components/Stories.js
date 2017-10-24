@@ -19,11 +19,7 @@ class Stories extends Component {
   }
 
   componentDidMount () {
-    const {sort} = this.state;
-
-    this.props.fetchAssets({
-      sort,
-    });
+    this.fetchAssets();
   }
 
   onSettingChange = (setting) => (e) => {
@@ -39,21 +35,14 @@ class Stories extends Component {
   }
 
   onSearchChange = (e) => {
-    const {fetchAssets} = this.props;
     const {value} = e.target;
-    const {sort, filter, limit} = this.state;
 
     this.setState((prevState) => {
       prevState.searchValue = value;
       clearTimeout(prevState.timer);
 
       prevState.timer = setTimeout(() => {
-        fetchAssets({
-          value,
-          sort,
-          filter,
-          limit,
-        });
+        this.fetchAssets();
       }, 350);
       return prevState;
     });
@@ -64,18 +53,24 @@ class Stories extends Component {
     return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
   }
 
-  onStatusChange = async (closeStream, id) => {
-    const {fetchAssets, updateAssetState} = this.props;
+  fetchAssets = (query) => {
     const {searchValue, sort, filter, limit} = this.state;
+
+    this.props.fetchAssets({
+      value: searchValue,
+      sort,
+      filter,
+      limit,
+      ...query
+    });
+  };
+
+  onStatusChange = async (closeStream, id) => {
+    const {updateAssetState} = this.props;
 
     try {
       updateAssetState(id, closeStream ? Date.now() : null);
-      fetchAssets({
-        value: searchValue,
-        sort,
-        filter,
-        limit,
-      });
+      this.fetchAssets();
     } catch(err) {
       console.error(err);
     }
@@ -97,15 +92,7 @@ class Stories extends Component {
 
   onPageClick = ({selected}) => {
     const page = selected + 1;
-    const {searchValue, sort, filter, limit} = this.state;
-
-    this.props.fetchAssets({
-      page,
-      value: searchValue,
-      sort,
-      filter,
-      limit,
-    });
+    this.props.fetchAssets({page});
   }
 
   render () {
