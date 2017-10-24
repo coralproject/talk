@@ -4,18 +4,20 @@
 
 .page, .previous, .next, .break {
   display: inline-block;
+  list-style: none;
   margin-right: 5px;
+}
+
+.pageLink, .previousLink, .nextLink {
+  display: inline-block;
+  color: #696969;
+  cursor: pointer;
   height: 30px;
   text-align: center;
   vertical-align: middle;
   line-height: 30px;
   width: 30px;
-  list-style: none;
-}
-
-.pageLink, .previousLink, .nextLink {
-  color: #696969;
-  cursor: default;
+  user-select: none;
 }
 
 .previousLink, .nextLink {
