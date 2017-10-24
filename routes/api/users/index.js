@@ -31,8 +31,8 @@ router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, nex
       UsersService
         .search(value)
         .sort(queryOpts.sort)
-        .skip(queryOpts.skip)
-        .limit(queryOpts.limit)
+        .skip(parseInt(queryOpts.skip))
+        .limit(parseInt(queryOpts.limit))
         .lean(),
       UsersService.search(value).count()
     ]);

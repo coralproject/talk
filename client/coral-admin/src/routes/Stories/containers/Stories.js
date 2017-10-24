@@ -1,19 +1,9 @@
-import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {compose} from 'react-apollo';
 import {fetchAssets, updateAssetState} from 'coral-admin/src/actions/assets';
 import Stories from '../components/Stories';
 
-class StoriesContainer extends Component {
-  render () {
-    return <Stories {...this.props} />;
-  }
-}
-
-const mapStateToProps = (state) => ({
-  assets: state.assets
-});
+const mapStateToProps = ({assets}) => ({assets});
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
@@ -21,7 +11,5 @@ const mapDispatchToProps = (dispatch) =>
     updateAssetState,
   }, dispatch);
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-)(StoriesContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(Stories);
 

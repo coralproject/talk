@@ -37,34 +37,44 @@ const FilterOpenAssets = (query, filter) => {
 router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
 
   const {
-    limit = 20,
-    skip = 0,
-    sort = 'asc',
+    value = '',
     field = 'created_at',
+    page = 1, 
+    asc = 'false',
     filter = 'all',
-    search = ''
+    limit = 20,
   } = req.query;
 
   try {
+
+    const queryOpts = {
+      sort: {[field]: (asc === 'true') ? 1 : -1},
+      skip: (page - 1) * limit,
+      limit
+    };
 
     // Find all the assets.
     let [result, count] = await Promise.all([
 
       // Find the actuall assets.
-      FilterOpenAssets(AssetsService.search({value: search}), filter)
-        .sort({[field]: (sort === 'asc') ? 1 : -1})
-        .skip(parseInt(skip))
-        .limit(parseInt(limit)),
+      FilterOpenAssets(AssetsService.search({value}), filter)
+        .sort(queryOpts.sort)
+        .skip(parseInt(queryOpts.skip))
+        .limit(parseInt(queryOpts.limit))
+        .lean(),
 
       // Get the count of actual assets.
-      FilterOpenAssets(AssetsService.search({value: search}), filter)
+      FilterOpenAssets(AssetsService.search({value}), filter)
         .count()
     ]);
 
     // Send back the asset data.
     res.json({
       result,
-      count
+      limit: Number(limit),
+      count,
+      page: Number(page),
+      totalPages: Math.ceil(count / (limit === 0 ? 1 : limit))
     });
   } catch (e) {
     return next(e);

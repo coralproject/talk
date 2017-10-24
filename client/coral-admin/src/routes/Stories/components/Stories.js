@@ -8,38 +8,54 @@ import t from 'coral-framework/services/i18n';
 import styles from './Stories.css';
 import EmptyCard from 'coral-admin/src/components/EmptyCard';
 
-const limit = 25;
-
 class Stories extends Component {
 
   state = {
-    search: '',
+    searchValue: '',
     sort: 'desc',
     filter: 'all',
     statusMenus: {},
     timer: null,
-    page: 0
   }
 
   componentDidMount () {
-    this.props.fetchAssets(0, limit, '', this.state.sortBy);
+    const {sort} = this.state;
+
+    this.props.fetchAssets({
+      sort,
+    });
   }
 
   onSettingChange = (setting) => (e) => {
-    let options = this.state;
-    this.setState({[setting]: e.target.value});
-    options[setting] = e.target.value;
-    this.props.fetchAssets(0, limit, options.search, options.sort, options.filter);
+    const {searchValue, sort, filter} = this.state;
+    
+    this.setState({
+      [setting]: e.target.value
+    });
+
+    this.props.fetchAssets({
+      value: searchValue,
+      sort,
+      filter,
+    });
   }
 
   onSearchChange = (e) => {
-    const search = e.target.value;
+    const {fetchAssets} = this.props;
+    const {value} = e.target;
+    const {sort, filter, limit} = this.state;
+
     this.setState((prevState) => {
-      prevState.search = search;
+      prevState.searchValue = value;
       clearTimeout(prevState.timer);
-      const fetchAssets = this.props.fetchAssets;
+
       prevState.timer = setTimeout(() => {
-        fetchAssets(0, limit, search, this.state.sort, this.state.filter);
+        fetchAssets({
+          value,
+          sort,
+          filter,
+          limit,
+        });
       }, 350);
       return prevState;
     });
@@ -51,10 +67,17 @@ class Stories extends Component {
   }
 
   onStatusChange = async (closeStream, id) => {
+    const {fetchAssets, updateAssetState} = this.props;
+    const {searchValue, sort, filter, limit} = this.state;
+
     try {
-      this.props.updateAssetState(id, closeStream ? Date.now() : null);
-      const {search, sort, filter, page} = this.state;
-      this.props.fetchAssets(page, limit, search, sort, filter);
+      updateAssetState(id, closeStream ? Date.now() : null);
+      fetchAssets({
+        value: searchValue,
+        sort,
+        filter,
+        limit,
+      });
     } catch(err) {
       console.error(err);
     }
@@ -74,10 +97,17 @@ class Stories extends Component {
     );
   }
 
-  onPageClick = (page) => {
-    this.setState({page});
-    const {search, sort, filter} = this.state;
-    this.props.fetchAssets((page - 1) * limit, limit, search, sort, filter);
+  onPageClick = ({selected}) => {
+    const page = selected + 1;
+    const {searchValue, sort, filter, limit} = this.state;
+
+    this.props.fetchAssets({
+      page,
+      value: searchValue,
+      sort,
+      filter,
+      limit,
+    });
   }
 
   render () {
@@ -140,7 +170,7 @@ class Stories extends Component {
                 </TableHeader>
               </DataTable>
               <Paginate
-                pageCount={Math.ceil((assets.count || 0) / limit)}
+                pageCount={assets.totalPages}
                 onPageChange={this.onPageClick} />
             </div>
             : <EmptyCard>{t('streams.empty_result')}</EmptyCard>

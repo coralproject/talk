@@ -16,6 +16,8 @@ export default function assets (state = initialState, action) {
     }, {});
 
     return update(state, {
+      totalPages: {$set: action.totalPages},
+      page: {$set: action.page},
       byId: {$set: assets},
       count: {$set: action.count},
       ids: {$set: Object.keys(assets)},
