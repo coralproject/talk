@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import cn from 'classnames';
 import {Link} from 'react-router';
 import PropTypes from 'prop-types';
 import sortBy from 'lodash/sortBy';
@@ -106,7 +107,7 @@ class Stories extends Component {
     }
 
     return (
-      <div className={styles.container}>
+      <div className={cn('talk-admin-stories', styles.container)}>
         <div className={styles.leftColumn}>
           <div className={styles.searchBox}>
             <Icon name='search' className={styles.searchIcon}/>

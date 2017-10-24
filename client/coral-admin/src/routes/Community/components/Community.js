@@ -35,7 +35,7 @@ class Community extends Component {
     const {root: {flaggedUsernamesCount}} = this.props;
 
     return (
-      <div>
+      <div className="talk-admin-community">
         <CommunityMenu flaggedUsernamesCount={flaggedUsernamesCount} />
         <div className={styles.container}>
           {this.renderTab()}
