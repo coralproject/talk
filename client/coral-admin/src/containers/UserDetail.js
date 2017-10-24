@@ -43,22 +43,16 @@ class UserDetailContainer extends React.Component {
       return this.props.setCommentStatus({commentId, status});
     });
 
-    try {
-      await Promise.all(changes);
-      this.props.clearUserDetailSelections(); // un-select everything
-    } catch (err) {
-
-      // TODO: handle error.
-      console.error(err);
-    }
+    await Promise.all(changes);
+    this.props.clearUserDetailSelections(); // un-select everything
   }
 
   bulkReject = () => {
-    this.bulkSetCommentStatus('REJECTED');
+    return this.bulkSetCommentStatus('REJECTED');
   }
 
   bulkAccept = () => {
-    this.bulkSetCommentStatus('ACCEPTED');
+    return this.bulkSetCommentStatus('ACCEPTED');
   }
 
   acceptComment = ({commentId}) => {
@@ -171,7 +165,8 @@ export const withUserDetailQuery = withQuery(gql`
 `, {
   options: ({userId, statuses}) => {
     return {
-      variables: {author_id: userId, statuses}
+      variables: {author_id: userId, statuses},
+      fetchPolicy: 'network-only',
     };
   },
   skip: (ownProps) => !ownProps.userId,

@@ -7,9 +7,9 @@ permalink: /commenter-features/
 
 There are 2 ways that newsrooms can support signup/login functionality with Talk:
 
-*Use Talk’s auth plugin out of the box (supports account registration with username and password, as well as features like forgot password)
+* Use Talk’s auth plugin out of the box (supports account registration with username and password, as well as features like forgot password)
 
-*Create their own auth plugin to integrate with your own auth systems
+* Create their own auth plugin to integrate with your own auth systems
 
 We also provide a Facebook auth plugin that supports logging in with Facebook (you must provide your own Facebook App ID and Secret, which you can read more about here: [https://developers.facebook.com](https://developers.facebook.com){:target="_blank"})
 
