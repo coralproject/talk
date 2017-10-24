@@ -96,7 +96,7 @@ class Stories extends Component {
   }
 
   render () {
-    const {search, sort, filter} = this.state;
+    const {searchValue, sort, filter} = this.state;
     const {assets} = this.props;
 
     const assetsIds = sortBy(assets.ids.map((id) => assets.byId[id]), 'publication_date');
@@ -112,7 +112,7 @@ class Stories extends Component {
             <Icon name='search' className={styles.searchIcon}/>
             <input
               type='text'
-              value={search}
+              value={searchValue}
               className={styles.searchBoxInput}
               onChange={this.onSearchChange}
               placeholder={t('streams.search')}/>
