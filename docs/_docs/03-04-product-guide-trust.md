@@ -6,7 +6,7 @@ permalink: /trust/
 Trust is a set of components within Talk that incorporate automated moderation
 features based on a user's previous behavior.
 
-### User Karma Score
+## User Karma Score
 
 Using Trust’s calculations, Talk will automatically pre-moderate comments of
 users who have a negative karma score. All users start out with a `0` neutral
@@ -32,7 +32,7 @@ You can configure your own Trust thresholds by using [TRUST_THRESHOLD]({{"/advan
 configuration.
 
 
-### Reliable and Unreliable Flaggers
+## Reliable and Unreliable Flaggers
 
 Trust also calculates how reliable users are in terms of the comments they
 report. This information is displayed to moderators in the User History drawer,

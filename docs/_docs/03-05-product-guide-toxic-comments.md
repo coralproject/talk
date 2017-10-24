@@ -21,7 +21,7 @@ Talk (0.8 or 80% is the default), which works like this:
 Read more about Coral’s take on toxicity
 [on our blog](https://blog.coralproject.net/toxic-avenging/){:target="_blank"}.
 
-### What is the Perspective API?
+## What is the Perspective API?
 
 The likely toxicity of a comment is evaluated using scores generated from
 [Perspective API](http://perspectiveapi.com/){:target="_blank"}. This is part of
@@ -48,12 +48,12 @@ We’ve talked with their team on several occasions, and have been impressed by
 their dedication and commitment to this issue. These are smart people who are
 trying to improve a broken part of the internet.
 
-### How do I add the Toxic Comments plugin?
+## How do I add the Toxic Comments plugin?
 To enable this behavior, visit the
 [talk-plugin-toxic-comments]({{ "/additional-plugins/#talk-plugin-toxic-comments" | relative_url }})
 plugin documentation.
 
 
-### Request an API Key
+## Request an API Key
 
 You can read more about Google's Perspective API and/or request an API key here: [http://perspectiveapi.com/](http://perspectiveapi.com/).

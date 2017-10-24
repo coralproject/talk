@@ -20,3 +20,9 @@ export const toggleSelectCommentInUserDetail = (id, active) => {
   };
 };
 
+export const toggleSelectAllCommentInUserDetail = (ids, active) => {
+  return {
+    type: active ? actions.SELECT_ALL_USER_DETAIL_COMMENT : actions.CLEAR_USER_DETAIL_SELECTIONS,
+    ids
+  };
+};
