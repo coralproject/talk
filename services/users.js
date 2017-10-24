@@ -668,8 +668,8 @@ module.exports = class UsersService {
    * Returns a count of the current users.
    * @return {Promise}
    */
-  static count() {
-    return UserModel.count();
+  static count(query = {}) {
+    return UserModel.count(query);
   }
 
   /**
