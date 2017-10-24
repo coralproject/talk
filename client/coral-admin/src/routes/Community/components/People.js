@@ -17,6 +17,7 @@ const People = (props) => {
     totalPages,
     setRole,
     setCommenterStatus,
+    viewUserDetail,
   } = props;
 
   const hasResults = !!users.length;
@@ -42,12 +43,13 @@ const People = (props) => {
             ? <Table
               users={users}
               setRole={setRole}
+              viewUserDetail={viewUserDetail}
               setCommenterStatus={setCommenterStatus}
               onHeaderClickHandler={onHeaderClickHandler}
             />
             : <EmptyCard>{t('community.no_results')}</EmptyCard>
         }
-
+        
         <Paginate
           pageCount={totalPages}
           onPageChange={onNewPageHandler}
@@ -66,6 +68,7 @@ People.propTypes = {
   onNewPageHandler: PropTypes.func,
   setCommenterStatus: PropTypes.func.isRequired,
   setRole: PropTypes.func.isRequired,
+  viewUserDetail: PropTypes.func.isRequired,
 };
 
 export default People;

@@ -77,6 +77,7 @@ class PeopleContainer extends React.Component {
       totalPages={this.props.community.totalPagesPeople}
       setCommenterStatus={this.props.setCommenterStatus}
       setRole={this.props.setRole}
+      viewUserDetail={this.props.viewUserDetail}
     />;
   }
 }
@@ -87,6 +88,7 @@ PeopleContainer.propTypes = {
   updateSorting: PropTypes.func,
   setRole: PropTypes.func.isRequired,
   setCommenterStatus: PropTypes.func.isRequired,
+  viewUserDetail: PropTypes.func.isRequired,
   community: PropTypes.object,
 };
 

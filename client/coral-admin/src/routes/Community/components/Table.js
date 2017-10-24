@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../components/Table.css';
+import styles from './Table.css';
 import t from 'coral-framework/services/i18n';
 import PropTypes from 'prop-types';
 import {Dropdown, Option} from 'coral-ui';
@@ -24,14 +24,14 @@ const headers = [
   }
 ];
 
-const Table = ({users, onHeaderClickHandler, setRole, setCommenterStatus, viewUserDetail}) => (
+const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUserDetail}) => (
   <table className={`mdl-data-table ${styles.dataTable}`}>
     <thead>
       <tr>
         {headers.map((header, i) =>(
           <th
             key={i}
-            className="mdl-data-table__cell--non-numeric"
+            className={cn('mdl-data-table__cell--non-numeric', styles.header)}
             scope="col"
             onClick={() => onHeaderClickHandler({field: header.field})}>
             {header.title}
@@ -80,7 +80,7 @@ Table.propTypes = {
   onHeaderClickHandler: PropTypes.func.isRequired,
   setRole: PropTypes.func.isRequired,
   setCommenterStatus: PropTypes.func.isRequired,
-  viewUserDetail: PropTypes.func,
+  viewUserDetail: PropTypes.func.isRequired,
 };
 
 export default Table;

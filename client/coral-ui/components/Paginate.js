@@ -11,7 +11,6 @@ const Paginate = ({pageCount, onPageChange}) => (
     pageRangeDisplayed={5}
     marginPagesDisplayed={2}
     onPageChange={onPageChange}
-    breakLabel={<a href="">...</a>}
     breakClassName={styles.break}
     containerClassName={styles.container}
     pageClassName={styles.page}

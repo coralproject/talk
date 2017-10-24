@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.page, .previous, .next {
+.page, .previous, .next, .break {
   display: inline-block;
   margin-right: 5px;
   height: 30px;
