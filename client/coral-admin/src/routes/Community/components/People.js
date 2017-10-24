@@ -1,33 +1,24 @@
 import React from 'react';
-
 import styles from './styles.css';
-import Table from '../containers/Table';
-import {Pager, Icon} from 'coral-ui';
+import Table from './Table';
+import {Paginate, Icon} from 'coral-ui';
 import EmptyCard from '../../../components/EmptyCard';
 import t from 'coral-framework/services/i18n';
+
 import PropTypes from 'prop-types';
 
-const tableHeaders = [
-  {
-    title: t('community.username_and_email'),
-    field: 'username'
-  },
-  {
-    title: t('community.account_creation_date'),
-    field: 'created_at'
-  },
-  {
-    title: t('community.status'),
-    field: 'status'
-  },
-  {
-    title: t('community.newsroom_role'),
-    field: 'role'
-  }
-];
+const People = (props) => {
+  const {
+    users = [],
+    searchValue,
+    onSearchChange,
+    onHeaderClickHandler,
+    onNewPageHandler,
+    totalPages,
+  } = props;
 
-const People = ({commenters, searchValue, onSearchChange, ...props}) => {
-  const hasResults = !!commenters.length;
+  const hasResults = !!users.length;
+
   return (
     <div className={styles.container}>
       <div className={styles.leftColumn}>
@@ -47,16 +38,15 @@ const People = ({commenters, searchValue, onSearchChange, ...props}) => {
         {
           hasResults
             ? <Table
-              headers={tableHeaders}
-              commenters={commenters}
-              onHeaderClickHandler={props.onHeaderClickHandler}
+              users={users}
+              onHeaderClickHandler={onHeaderClickHandler}
             />
             : <EmptyCard>{t('community.no_results')}</EmptyCard>
         }
-        <Pager
-          totalPages={props.totalPages}
-          page={props.page}
-          onNewPageHandler={props.onNewPageHandler}
+
+        <Paginate
+          pageCount={totalPages}
+          onPageChange={onNewPageHandler}
         />
       </div>
     </div>
@@ -64,7 +54,8 @@ const People = ({commenters, searchValue, onSearchChange, ...props}) => {
 };
 
 People.propTypes = {
-  commenters: PropTypes.array,
+  onHeaderClickHandler: PropTypes.func,
+  users: PropTypes.array,
   searchValue: PropTypes.string,
   onSearchChange: PropTypes.func,
   totalPages: PropTypes.number,

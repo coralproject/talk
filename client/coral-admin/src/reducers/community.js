@@ -1,7 +1,7 @@
 import {
-  FETCH_COMMENTERS_REQUEST,
-  FETCH_COMMENTERS_FAILURE,
-  FETCH_COMMENTERS_SUCCESS,
+  FETCH_USERS_REQUEST,
+  FETCH_USERS_SUCCESS,
+  FETCH_USERS_FAILURE,
   SORT_UPDATE,
   SET_ROLE,
   SET_COMMENTER_STATUS,
@@ -15,7 +15,7 @@ const initialState = {
   community: {},
   isFetchingPeople: false,
   errorPeople: '',
-  accounts: [],
+  users: [],
   fieldPeople: 'created_at',
   ascPeople: false,
   totalPagesPeople: 0,
@@ -27,19 +27,19 @@ const initialState = {
 
 export default function community (state = initialState, action) {
   switch (action.type) {
-  case FETCH_COMMENTERS_REQUEST :
+  case FETCH_USERS_REQUEST :
     return {
       ...state,
       isFetchingPeople: true,
     };
-  case FETCH_COMMENTERS_FAILURE :
+  case FETCH_USERS_FAILURE :
     return {
       ...state,
       isFetchingPeople: false,
       errorPeople: action.error,
     };
-  case FETCH_COMMENTERS_SUCCESS : {
-    const {accounts, type, page, count, limit, totalPages, ...rest} = action; // eslint-disable-line
+  case FETCH_USERS_SUCCESS : {
+    const {users, type, page, count, limit, totalPages, ...rest} = action; // eslint-disable-line
     return {
       ...state,
       isFetchingPeople: false,
@@ -49,27 +49,27 @@ export default function community (state = initialState, action) {
       limitPeople: limit,
       totalPagesPeople: totalPages,
       ...rest,
-      accounts, // Sets to normal array
+      users, // Sets to normal array
     };
   }
   case SET_ROLE : {
-    const commenters = state.accounts;
+    const commenters = state.users;
     const idx = commenters.findIndex((el) => el.id === action.id);
 
     commenters[idx].roles[0] = action.role;
     return {
       ...state,
-      accounts: commenters.map((id) => id),
+      users: commenters.map((id) => id),
     };
   }
   case SET_COMMENTER_STATUS: {
-    const commenters = state.accounts;
+    const commenters = state.users;
     const idx = commenters.findIndex((el) => el.id === action.id);
 
     commenters[idx].status = action.status;
     return {
       ...state,
-      accounts: commenters.map((id) => id),
+      users: commenters.map((id) => id),
     };
 
   }

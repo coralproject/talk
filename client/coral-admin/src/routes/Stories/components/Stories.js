@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import PropTypes from 'prop-types';
 import sortBy from 'lodash/sortBy';
-import {Dropdown, Option, Pager, Icon} from 'coral-ui';
+import {Dropdown, Option, Paginate, Icon} from 'coral-ui';
 import {DataTable, TableHeader, RadioGroup, Radio} from 'react-mdl';
 import t from 'coral-framework/services/i18n';
 import styles from './Stories.css';
@@ -139,10 +139,10 @@ class Stories extends Component {
                   {t('streams.status')}
                 </TableHeader>
               </DataTable>
-              <Pager
+              {/* <Paginate
                 totalPages={Math.ceil((assets.count || 0) / limit)}
                 page={this.state.page}
-                onNewPageHandler={this.onPageClick} />
+                onNewPageHandler={this.onPageClick} /> */}
             </div>
             : <EmptyCard>{t('streams.empty_result')}</EmptyCard>
         }

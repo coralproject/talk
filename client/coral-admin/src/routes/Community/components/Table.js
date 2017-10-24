@@ -5,7 +5,26 @@ import PropTypes from 'prop-types';
 import {Dropdown, Option} from 'coral-ui';
 import cn from 'classnames';
 
-const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onCommenterStatusChange, viewUserDetail}) => (
+const headers = [
+  {
+    title: t('community.username_and_email'),
+    field: 'username'
+  },
+  {
+    title: t('community.account_creation_date'),
+    field: 'created_at'
+  },
+  {
+    title: t('community.status'),
+    field: 'status'
+  },
+  {
+    title: t('community.newsroom_role'),
+    field: 'role'
+  }
+];
+
+const Table = ({users, onHeaderClickHandler, onRoleChange, onCommenterStatusChange, viewUserDetail}) => (
   <table className={`mdl-data-table ${styles.dataTable}`}>
     <thead>
       <tr>
@@ -21,7 +40,7 @@ const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onComme
       </tr>
     </thead>
     <tbody>
-      {commenters.map((row, i)=> (
+      {users.map((row, i)=> (
         <tr key={i}>
           <td className="mdl-data-table__cell--non-numeric">
             <button onClick={() => {viewUserDetail(row.id);}} className={cn(styles.username, styles.button)}>{row.username}</button>
@@ -57,9 +76,8 @@ const Table = ({headers, commenters, onHeaderClickHandler, onRoleChange, onComme
 );
 
 Table.propTypes = {
-  headers: PropTypes.array,
-  commenters: PropTypes.array,
-  onHeaderClickHandler: PropTypes.func,
+  users: PropTypes.array,
+  onHeaderClickHandler: PropTypes.func.isRequired,
   onRoleChange: PropTypes.func,
   onCommenterStatusChange: PropTypes.func,
   viewUserDetail: PropTypes.func,
