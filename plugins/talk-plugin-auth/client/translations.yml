@@ -1,7 +1,7 @@
 en:
   sign_in:
     email_verify_cta: "Please verify your email address."
-    request_new_verify_email: "Request another email:"
+    request_new_verify_email: "Request another email"
     verify_email: "Thank you for creating an account! We sent an email to the address you provided to verify your account."
     verify_email2: "You must verify your account before engaging with the community."
     not_you: "Not you?"
@@ -45,7 +45,7 @@ en:
 es:
   sign_in:
     email_verify_cta: "Por favor confirme su correo."
-    request_new_verify_email: "Enviar otro correo:"
+    request_new_verify_email: "Enviar otro correo"
     verify_email: "¡Gracias por crear una cuenta! Le enviamos un correo a la direcció\
       n que dio para confirmar su cuenta."
     verify_email2: "Debe confirmarla antes de poder involucrarse en la comunidad."
@@ -92,7 +92,7 @@ es:
 fr:
   sign_in:
     email_verify_cta: "Merci de vérifier votre adresse e-mail."
-    request_new_verify_email: "Demander un nouvel envoi d'e-mail :"
+    request_new_verify_email: "Demander un nouvel envoi d'e-mail"
     verify_email: "Merci d'avoir créé un compte ! Nous avons envoyé un courrier électronique à l'adresse que vous avez fournie pour vérifier votre adresse e-mail."
     verify_email2: "Vous devez vérifier votre adresse e-mail avant de vous engager auprès de la communauté."
     not_you: "Pas vous ?"
