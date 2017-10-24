@@ -1,16 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, TextField, Spinner, Success, Alert} from 'plugin-api/beta/client/components/ui';
+import {Button, TextField, Spinner, Alert} from 'plugin-api/beta/client/components/ui';
 import styles from './styles.css';
 import t from 'coral-framework/services/i18n';
 
 const SignInContent = ({
   handleChange,
-  handleChangeEmail,
-  emailToBeResent,
-  handleResendVerification,
-  emailVerificationLoading,
-  emailVerificationSuccess,
   formData,
   changeView,
   handleSignIn,
@@ -21,71 +16,56 @@ const SignInContent = ({
     <div className="coral-sign-in">
       <div className={`${styles.header} header`}>
         <h1>
-          {auth.emailVerificationFailure
-            ? t('sign_in.email_verify_cta')
-            : t('sign_in.sign_in_to_join')}
+          {t('sign_in.sign_in_to_join')}
         </h1>
       </div>
-      {auth.error && <Alert>{auth.error}</Alert>}
-      {auth.emailVerificationFailure
-        ? <form onSubmit={handleResendVerification}>
-          <p>{t('sign_in.request_new_verify_email')}</p>
+      {auth.error &&
+        <Alert>
+          {auth.error.translation_key ? t(`error.${auth.error.translation_key}`) : auth.error.toString()}
+        </Alert>}
+      <div>
+        <div className={`${styles.socialConnections} social-connections`}>
+          <Button cStyle="facebook" onClick={fetchSignInFacebook} full>
+            {t('sign_in.facebook_sign_in')}
+          </Button>
+        </div>
+        <div className={styles.separator}>
+          <h1>
+            {t('sign_in.or')}
+          </h1>
+        </div>
+        <form onSubmit={handleSignIn}>
           <TextField
-            id="confirm-email"
+            id="email"
             type="email"
             label={t('sign_in.email')}
-            value={emailToBeResent}
-            onChange={handleChangeEmail}
+            value={formData.email}
+            style={{fontSize: 16}}
+            onChange={handleChange}
           />
-          <Button id="resendConfirmEmail" type="submit" cStyle="black" full>
-              Send Email
-          </Button>
-          {emailVerificationLoading && <Spinner />}
-          {emailVerificationSuccess && <Success />}
+          <TextField
+            id="password"
+            type="password"
+            label={t('sign_in.password')}
+            value={formData.password}
+            style={{fontSize: 16}}
+            onChange={handleChange}
+          />
+          <div className={styles.action}>
+            {!auth.isLoading
+              ? <Button
+                id="coralLogInButton"
+                type="submit"
+                cStyle="black"
+                className={styles.signInButton}
+                full
+              >
+                {t('sign_in.sign_in')}
+              </Button>
+              : <Spinner />}
+          </div>
         </form>
-        : <div>
-          <div className={`${styles.socialConnections} social-connections`}>
-            <Button cStyle="facebook" onClick={fetchSignInFacebook} full>
-              {t('sign_in.facebook_sign_in')}
-            </Button>
-          </div>
-          <div className={styles.separator}>
-            <h1>
-              {t('sign_in.or')}
-            </h1>
-          </div>
-          <form onSubmit={handleSignIn}>
-            <TextField
-              id="email"
-              type="email"
-              label={t('sign_in.email')}
-              value={formData.email}
-              style={{fontSize: 16}}
-              onChange={handleChange}
-            />
-            <TextField
-              id="password"
-              type="password"
-              label={t('sign_in.password')}
-              value={formData.password}
-              style={{fontSize: 16}}
-              onChange={handleChange}
-            />
-            <div className={styles.action}>
-              {!auth.isLoading
-                ? <Button
-                  id="coralLogInButton"
-                  type="submit"
-                  cStyle="black"
-                  className={styles.signInButton}
-                  full
-                >
-                  {t('sign_in.sign_in')}
-                </Button>
-                : <Spinner />}
-            </div>
-          </form>
-        </div>}
+      </div>
       <div className={`${styles.footer} footer`}>
         <span>
           <a onClick={() => changeView('FORGOT')}>
@@ -111,12 +91,12 @@ SignInContent.propTypes = {
   }).isRequired,
   fetchSignInFacebook: PropTypes.func.isRequired,
   handleSignIn: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
   changeView: PropTypes.func.isRequired,
   emailVerificationLoading: PropTypes.bool.isRequired,
   emailVerificationSuccess: PropTypes.bool.isRequired,
-  handleResendVerification: PropTypes.func.isRequired,
-  handleChangeEmail: PropTypes.func.isRequired,
-  emailToBeResent: PropTypes.string.isRequired
+  resendVerification: PropTypes.func.isRequired,
+  formData: PropTypes.object,
 };
 
 export default SignInContent;
