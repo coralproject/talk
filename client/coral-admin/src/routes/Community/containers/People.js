@@ -21,14 +21,25 @@ class PeopleContainer extends React.Component {
     timer: null
   };
 
+  fetchUsers = (query = {}) => {
+    const {community} = this.props;
+    
+    this.props.fetchUsers({
+      value: this.state.searchValue,
+      field: community.fieldPeople,
+      asc: community.ascPeople,
+      ...query
+    });
+  }
+
   componentWillMount() {
-    this.props.fetchUsers();
+    this.fetchUsers();
   }
 
   onKeyDownHandler = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      this.search();
+      this.fetchUsers();
     }
   }
 
@@ -38,9 +49,9 @@ class PeopleContainer extends React.Component {
     this.setState((prevState) => {
       prevState.searchValue = value;
       clearTimeout(prevState.timer);
-      const fetchAccounts = this.props.fetchUsers;
+
       prevState.timer = setTimeout(() => {
-        fetchAccounts({value});
+        this.fetchUsers({value});
       }, 350);
       return prevState;
     });
@@ -48,25 +59,15 @@ class PeopleContainer extends React.Component {
 
   onHeaderClickHandler = (sort) => {
     this.props.updateSorting(sort);
-    this.search();
+    this.fetchUsers();
   }
 
   onNewPageHandler = ({selected}) => {
     const page = selected + 1;
     this.props.newPage(page);
-    this.search({page});
+    this.fetchUsers({page});
   }
 
-  search(query = {}) {
-    const {community} = this.props;
-
-    this.props.fetchUsers({
-      value: this.state.searchValue,
-      field: community.fieldPeople,
-      asc: community.ascPeople,
-      ...query
-    });
-  }
   render() {
     return <People 
       users={this.props.community.users}
