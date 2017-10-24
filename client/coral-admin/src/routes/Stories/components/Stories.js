@@ -27,16 +27,14 @@ class Stories extends Component {
   }
 
   onSettingChange = (setting) => (e) => {
-    const {searchValue, sort, filter} = this.state;
-    
-    this.setState({
-      [setting]: e.target.value
-    });
+    const {searchValue} = this.state;
+    const criteria = {[setting]: e.target.value};
+
+    this.setState(criteria);
 
     this.props.fetchAssets({
       value: searchValue,
-      sort,
-      filter,
+      ...criteria,
     });
   }
 
