@@ -79,7 +79,7 @@ class Stories extends Component {
         {
           assetsIds.length
             ? <div className={styles.mainContent}>
-              <DataTable className={styles.streamsTable} rows={assetsIds} onClick={this.goToModeration}>
+              <DataTable className={styles.streamsTable} rows={assetsIds}>
                 <TableHeader name="title" cellFormatter={this.renderTitle}>{t('streams.article')}</TableHeader>
                 <TableHeader name="publication_date" cellFormatter={this.renderDate}>
                   {t('streams.pubdate')}
