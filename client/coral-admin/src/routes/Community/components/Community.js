@@ -1,78 +1,18 @@
 import React, {Component} from 'react';
-
-import CommunityMenu from './CommunityMenu';
-import People from './People';
-import FlaggedAccounts from '../containers/FlaggedAccounts';
-import RejectUsernameDialog from './RejectUsernameDialog';
 import PropTypes from 'prop-types';
+import styles from './Community.css';
+import People from '../containers/People';
+import CommunityMenu from './CommunityMenu';
+import RejectUsernameDialog from './RejectUsernameDialog';
+import FlaggedAccounts from '../containers/FlaggedAccounts';
 
-export default class Community extends Component {
-
-  state = {
-    searchValue: '',
-    timer: null
-  };
-
-  onKeyDownHandler = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      this.search();
-    }
-  }
-
-  onSearchChange = (e) => {
-    const value = e.target.value;
-    this.setState((prevState) => {
-      prevState.searchValue = value;
-      clearTimeout(prevState.timer);
-      const fetchAccounts = this.props.fetchAccounts;
-      prevState.timer = setTimeout(() => {
-        fetchAccounts({value});
-      }, 350);
-      return prevState;
-    });
-  }
-
-  onHeaderClickHandler = (sort) => {
-    this.props.updateSorting(sort);
-    this.search();
-  }
-
-  onNewPageHandler = (page) => {
-    this.props.newPage(page);
-    this.search({page});
-  }
-
-  search(query = {}) {
-    const {community} = this.props;
-
-    this.props.fetchAccounts({
-      value: this.state.searchValue,
-      field: community.fieldPeople,
-      asc: community.ascPeople,
-      ...query
-    });
-  }
-
-  getTabContent(searchValue, props) {
-    const {community} = props;
-    const activeTab = props.route.path === ':id' ? 'flagged' : props.route.path;
+class Community extends Component {
+  renderTab() {
+    const {route, community, ...props} = this.props; 
+    const activeTab = route.path === ':id' ? 'flagged' : route.path;
 
     if (activeTab === 'people') {
-      return (
-        <People
-          isFetching={community.isFetchingPeople}
-          commenters={community.accounts}
-          searchValue={searchValue}
-          onSearchChange={this.onSearchChange}
-          error={community.errorPeople}
-          totalPages={community.totalPagesPeople}
-          page={community.pagePeople}
-          onKeyDown={this.onKeyDownHandler}
-          onHeaderClickHandler={this.onHeaderClickHandler}
-          onNewPageHandler={this.onNewPageHandler}
-        />
-      );
+      return <People community={community} />;
     }
 
     return (
@@ -82,37 +22,36 @@ export default class Community extends Component {
           root={this.props.root}
         />
         <RejectUsernameDialog
-          open={community.rejectUsernameDialog}
-          handleClose={props.hideRejectUsernameDialog}
           user={community.user}
+          open={community.rejectUsernameDialog}
           rejectUsername={props.rejectUsername}
+          handleClose={props.hideRejectUsernameDialog}
         />
       </div>
     );
   }
 
   render() {
-    const {searchValue} = this.state;
-    const tab = this.getTabContent(searchValue, this.props);
     const {root: {flaggedUsernamesCount}} = this.props;
 
     return (
-      <div>
+      <div className="talk-admin-community">
         <CommunityMenu flaggedUsernamesCount={flaggedUsernamesCount} />
-        <div>{tab}</div>
+        <div className={styles.container}>
+          {this.renderTab()}
+        </div>
       </div>
     );
   }
 }
 
 Community.propTypes = {
-  community: PropTypes.object,
-  fetchAccounts: PropTypes.func,
-  hideRejectUsernameDialog: PropTypes.func,
-  updateSorting: PropTypes.func,
-  newPage: PropTypes.func,
   route: PropTypes.object,
-  rejectUsername: PropTypes.func,
+  community: PropTypes.object,
+  rejectUsername: PropTypes.func.isRequired,
+  hideRejectUsernameDialog: PropTypes.func.isRequired,
   data: PropTypes.object,
-  root: PropTypes.object
+  root: PropTypes.object,
 };
+
+export default Community;

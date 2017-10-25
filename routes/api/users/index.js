@@ -10,25 +10,32 @@ const {
   ROOT_URL
 } = require('../../../config');
 
-// get a list of users.
 router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
+
   const {
     value = '',
     field = 'created_at',
     page = 1,
     asc = 'false',
-    limit = 50 // Total Per Page
+    limit = 20 // Total Per Page
   } = req.query;
 
   try {
 
+    const queryOpts = {
+      sort: {[field]: (asc === 'true') ? 1 : -1},
+      skip: (page - 1) * limit,
+      limit
+    };
+
     let [result, count] = await Promise.all([
       UsersService
         .search(value)
-        .sort({[field]: (asc === 'true') ? 1 : -1})
-        .skip((page - 1) * limit)
-        .limit(limit),
-      UsersService.count()
+        .sort(queryOpts.sort)
+        .skip(parseInt(queryOpts.skip))
+        .limit(parseInt(queryOpts.limit))
+        .lean(),
+      UsersService.search(value).count()
     ]);
 
     res.json({
@@ -42,7 +49,6 @@ router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, nex
   } catch (e) {
     next(e);
   }
-
 });
 
 router.post('/:user_id/role', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {

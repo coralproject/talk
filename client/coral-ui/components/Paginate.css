@@ -1,0 +1,33 @@
+.container {
+  text-align: center;
+}
+
+.page, .previous, .next, .break {
+  display: inline-block;
+  list-style: none;
+  margin-right: 5px;
+}
+
+.pageLink, .previousLink, .nextLink {
+  display: inline-block;
+  color: #696969;
+  cursor: pointer;
+  height: 30px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 30px;
+  width: 30px;
+  user-select: none;
+}
+
+.previousLink, .nextLink {
+  font-size: 1.8em;
+}
+
+.active {
+  background-color: #696969;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+  a {
+    color: white;
+  }
+}
