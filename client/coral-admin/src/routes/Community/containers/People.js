@@ -9,7 +9,7 @@ import {viewUserDetail} from '../../../actions/userDetail';
 import {
   fetchUsers,
   updateSorting,
-  newPage,
+  setPage,
   hideRejectUsernameDialog,
   setCommenterStatus,
   setRole,
@@ -23,7 +23,7 @@ class PeopleContainer extends React.Component {
 
   fetchUsers = (query = {}) => {
     const {community} = this.props;
-    
+
     this.props.fetchUsers({
       value: this.state.searchValue,
       field: community.fieldPeople,
@@ -62,19 +62,19 @@ class PeopleContainer extends React.Component {
     this.fetchUsers();
   }
 
-  onNewPageHandler = ({selected}) => {
+  onPageChange = ({selected}) => {
     const page = selected + 1;
-    this.props.newPage(page);
+    this.props.setPage(page);
     this.fetchUsers({page});
   }
 
   render() {
-    return <People 
+    return <People
       users={this.props.community.users}
       searchValue={this.state.searchValue}
       onSearchChange={this.onSearchChange}
       onHeaderClickHandler={this.onHeaderClickHandler}
-      onNewPageHandler={this.onNewPageHandler}
+      onPageChange={this.onPageChange}
       totalPages={this.props.community.totalPagesPeople}
       setCommenterStatus={this.props.setCommenterStatus}
       setRole={this.props.setRole}
@@ -84,7 +84,7 @@ class PeopleContainer extends React.Component {
 }
 
 PeopleContainer.propTypes = {
-  newPage: PropTypes.func,
+  setPage: PropTypes.func,
   fetchUsers: PropTypes.func,
   updateSorting: PropTypes.func,
   setRole: PropTypes.func.isRequired,
@@ -95,7 +95,7 @@ PeopleContainer.propTypes = {
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    newPage,
+    setPage,
     fetchUsers,
     updateSorting,
     hideRejectUsernameDialog,

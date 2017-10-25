@@ -3,6 +3,7 @@ import {
   FETCH_USERS_SUCCESS,
   FETCH_USERS_FAILURE,
   SORT_UPDATE,
+  SET_PAGE,
   SET_ROLE,
   SET_COMMENTER_STATUS,
   SHOW_BANUSER_DIALOG,
@@ -52,6 +53,11 @@ export default function community (state = initialState, action) {
       users, // Sets to normal array
     };
   }
+  case SET_PAGE:
+    return {
+      ...state,
+      pagePeople: action.page,
+    };
   case SET_ROLE : {
     const commenters = state.users;
     const idx = commenters.findIndex((el) => el.id === action.id);

@@ -5,7 +5,7 @@ import {
   FETCH_USERS_SUCCESS,
   FETCH_USERS_FAILURE,
   SORT_UPDATE,
-  COMMENTERS_NEW_PAGE,
+  SET_PAGE,
   SET_ROLE,
   SET_COMMENTER_STATUS,
   SHOW_BANUSER_DIALOG,
@@ -45,8 +45,9 @@ export const updateSorting = (sort) => ({
   sort
 });
 
-export const newPage = () => ({
-  type: COMMENTERS_NEW_PAGE
+export const setPage = (page) => ({
+  type: SET_PAGE,
+  page,
 });
 
 export const setRole = (id, role) => (dispatch, _, {rest}) => {
