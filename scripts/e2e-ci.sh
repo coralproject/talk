@@ -21,9 +21,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
   # Test using browserstack.
   browserstack chrome
   browserstack firefox
-
-  # temporarily turn off ci, please fix https://www.pivotaltracker.com/story/show/152144406.
-  # browserstack ie
+  browserstack ie
 
   # Safari >= 8 has issues connecting to browserstack-local. Safari < 8 is too old.
   # browserstack safari
