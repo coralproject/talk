@@ -1,10 +1,9 @@
 module.exports = {
   '@tags': ['admin', 'login'],
-  beforeEach: (client) => {
-
-    // Testing Desktop
-    client.resizeWindow(1280, 800);
-  },
+   beforeEach: (client) => {
+    
+    client.resizeWindow(1024, 800);
+  }, 
   'Admin logs in': (client) => {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;
@@ -29,9 +28,14 @@ module.exports = {
 
     adminPage
       .navigate()
-      .waitForElementVisible('@storiesNav')
-      .click('@storiesNav')
+      .waitForElementVisible('@drawerButton')
+      .click('@drawerButton')
+      .waitForElementVisible('@storiesDrawerNav')
+      .click('@storiesDrawerNav')
+      .waitForElementVisible('@drawerOverlay')
+      .click('@drawerOverlay')
       .waitForElementVisible('@storiesSection');
+
   },
 
   'Admin goes to Community': (client) => {
@@ -39,9 +43,13 @@ module.exports = {
 
     adminPage
       .navigate()
-      .waitForElementVisible('@communityNav')
-      .click('@communityNav')
-      .waitForElementVisible('@communitySection');      
+      .waitForElementVisible('@drawerButton')
+      .click('@drawerButton')
+      .waitForElementVisible('@communityDrawerNav')
+      .click('@communityDrawerNav')
+      .waitForElementVisible('@drawerOverlay')
+      .click('@drawerOverlay')
+      .waitForElementVisible('@communitySection');
   },
   after: (client) => {
     client.end();

@@ -8,7 +8,7 @@ import {can} from 'coral-framework/services/perms';
 import cn from 'classnames';
 
 const CoralDrawer = ({handleLogout, auth = {}}) => (
-  <Drawer className={styles.drawer}>
+  <Drawer className={cn('talk-admin-drawer-nav', styles.drawer)}>
     { auth && auth.user && can(auth.user, 'ACCESS_ADMIN') ?
       <div>
         <Navigation className={styles.nav}>
