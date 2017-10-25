@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import cn from 'classnames';
 import {Link} from 'react-router';
 import PropTypes from 'prop-types';
-import sortBy from 'lodash/sortBy';
 import {Dropdown, Option, Paginate, Icon} from 'coral-ui';
 import {DataTable, TableHeader, RadioGroup, Radio} from 'react-mdl';
 import t from 'coral-framework/services/i18n';
@@ -11,70 +10,9 @@ import EmptyCard from 'coral-admin/src/components/EmptyCard';
 
 class Stories extends Component {
 
-  state = {
-    searchValue: '',
-    sort: 'desc',
-    filter: 'all',
-    statusMenus: {},
-    timer: null,
-  }
-
-  componentDidMount () {
-    this.fetchAssets();
-  }
-
-  onSettingChange = (setting) => (e) => {
-    const {searchValue} = this.state;
-    const criteria = {[setting]: e.target.value};
-
-    this.setState(criteria);
-
-    this.props.fetchAssets({
-      value: searchValue,
-      ...criteria,
-    });
-  }
-
-  onSearchChange = (e) => {
-    const {value} = e.target;
-
-    this.setState((prevState) => {
-      prevState.searchValue = value;
-      clearTimeout(prevState.timer);
-
-      prevState.timer = setTimeout(() => {
-        this.fetchAssets();
-      }, 350);
-      return prevState;
-    });
-  }
-
   renderDate = (date) => {
     const d = new Date(date);
     return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
-  }
-
-  fetchAssets = (query) => {
-    const {searchValue, sort, filter, limit} = this.state;
-
-    this.props.fetchAssets({
-      value: searchValue,
-      sort,
-      filter,
-      limit,
-      ...query
-    });
-  };
-
-  onStatusChange = async (closeStream, id) => {
-    const {updateAssetState} = this.props;
-
-    try {
-      updateAssetState(id, closeStream ? Date.now() : null);
-      this.fetchAssets();
-    } catch(err) {
-      console.error(err);
-    }
   }
 
   renderTitle = (title, {id}) =>  <Link to={`/admin/moderate/${id}`}>{title}</Link>
@@ -84,27 +22,16 @@ class Stories extends Component {
     return (
       <Dropdown
         value={closed}
-        onChange={(value) => this.onStatusChange(value, id)}>
+        onChange={(value) => this.props.onStatusChange(value, id)}>
         <Option value={false} label={t('streams.open')} />
         <Option value={true} label={t('streams.closed')} />
       </Dropdown>
     );
   }
 
-  onPageClick = ({selected}) => {
-    const page = selected + 1;
-    this.props.fetchAssets({page});
-  }
-
   render () {
-    const {searchValue, sort, filter} = this.state;
-    const {assets} = this.props;
-
-    const assetsIds = sortBy(assets.ids.map((id) => assets.byId[id]), 'publication_date');
-
-    if (this.state.sort === 'desc') {
-      assetsIds.reverse();
-    }
+    const {assets, searchValue, filter, onSearchChange, onSettingChange, onPageChange, asc} = this.props;
+    const rows = assets.ids.map((id) => assets.byId[id]);
 
     return (
       <div className={cn('talk-admin-stories', styles.container)}>
@@ -115,7 +42,7 @@ class Stories extends Component {
               type='text'
               value={searchValue}
               className={styles.searchBoxInput}
-              onChange={this.onSearchChange}
+              onChange={onSearchChange}
               placeholder={t('streams.search')}/>
           </div>
           <div className={styles.optionHeader}>{t('streams.filter_streams')}</div>
@@ -124,7 +51,7 @@ class Stories extends Component {
             name='status filter'
             value={filter}
             childContainer='div'
-            onChange={this.onSettingChange('filter')}
+            onChange={onSettingChange('filter')}
             className={styles.radioGroup}
           >
             <Radio value='all'>{t('streams.all')}</Radio>
@@ -134,19 +61,19 @@ class Stories extends Component {
           <div className={styles.optionHeader}>{t('streams.sort_by')}</div>
           <RadioGroup
             name='sort by'
-            value={sort}
+            value={asc}
             childContainer='div'
-            onChange={this.onSettingChange('sort')}
+            onChange={onSettingChange('asc')}
             className={styles.radioGroup}
           >
-            <Radio value='desc'>{t('streams.newest')}</Radio>
-            <Radio value='asc'>{t('streams.oldest')}</Radio>
+            <Radio value='false'>{t('streams.newest')}</Radio>
+            <Radio value='true'>{t('streams.oldest')}</Radio>
           </RadioGroup>
         </div>
         {
-          assetsIds.length
+          rows.length
             ? <div className={styles.mainContent}>
-              <DataTable className={styles.streamsTable} rows={assetsIds} onClick={this.goToModeration}>
+              <DataTable className={styles.streamsTable} rows={rows}>
                 <TableHeader name="title" cellFormatter={this.renderTitle}>{t('streams.article')}</TableHeader>
                 <TableHeader name="publication_date" cellFormatter={this.renderDate}>
                   {t('streams.pubdate')}
@@ -157,7 +84,8 @@ class Stories extends Component {
               </DataTable>
               <Paginate
                 pageCount={assets.totalPages}
-                onPageChange={this.onPageClick} />
+                page={assets.page - 1}
+                onPageChange={onPageChange} />
             </div>
             : <EmptyCard>{t('streams.empty_result')}</EmptyCard>
         }
@@ -168,8 +96,13 @@ class Stories extends Component {
 
 Stories.propTypes = {
   assets: PropTypes.object,
-  fetchAssets: PropTypes.func,
-  updateAssetState: PropTypes.func,
+  searchValue: PropTypes.string,
+  asc: PropTypes.string,
+  filter: PropTypes.string,
+  onStatusChange: PropTypes.func.isRequired,
+  onSearchChange: PropTypes.func.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  onSettingChange: PropTypes.func.isRequired,
 };
 
 export default Stories;

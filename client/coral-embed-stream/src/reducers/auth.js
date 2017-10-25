@@ -10,7 +10,7 @@ const initialState = {
   showCreateUsernameDialog: false,
   checkedInitialLogin: false,
   view: 'SIGNIN',
-  error: '',
+  error: null,
   passwordRequestSuccess: null,
   passwordRequestFailure: null,
   emailVerificationFailure: false,
@@ -45,14 +45,15 @@ export default function auth (state = initialState, action) {
       showSignInDialog: true,
       signInDialogFocus: true,
     };
-  case actions.HIDE_SIGNIN_DIALOG :
+  case actions.RESET_SIGNIN_DIALOG:
+  case actions.HIDE_SIGNIN_DIALOG:
     return {
       ...state,
       isLoading: false,
       showSignInDialog: false,
       signInDialogFocus: false,
       view: 'SIGNIN',
-      error: '',
+      error: null,
       passwordRequestFailure: null,
       passwordRequestSuccess: null,
       emailVerificationFailure: false,
@@ -74,7 +75,7 @@ export default function auth (state = initialState, action) {
     return {
       ...state,
       showCreateUsernameDialog: false,
-      error: '',
+      error: null,
     };
   case actions.CREATE_USERNAME_FAILURE:
     return {
@@ -92,6 +93,7 @@ export default function auth (state = initialState, action) {
   case actions.FETCH_SIGNIN_REQUEST:
     return {
       ...state,
+      email: action.email,
       isLoading: true,
     };
   case actions.CHECK_LOGIN_FAILURE:
@@ -120,6 +122,7 @@ export default function auth (state = initialState, action) {
       isLoading: false,
       error: action.error,
       user: null,
+      view: action.error.translation_key === 'EMAIL_NOT_VERIFIED' ? 'RESEND_VERIFICATION' : state.view,
     };
   case actions.FETCH_SIGNUP_FACEBOOK_REQUEST:
     return {
@@ -175,7 +178,7 @@ export default function auth (state = initialState, action) {
   case actions.VALID_FORM:
     return {
       ...state,
-      error: '',
+      error: null,
     };
   case actions.FETCH_FORGOT_PASSWORD_SUCCESS:
     return {
@@ -200,7 +203,7 @@ export default function auth (state = initialState, action) {
   case actions.VERIFY_EMAIL_FAILURE:
     return {
       ...state,
-      emailVerificationFailure: true,
+      emailVerificationFailure: action.error,
       emailVerificationLoading: false,
     };
   case actions.VERIFY_EMAIL_REQUEST:

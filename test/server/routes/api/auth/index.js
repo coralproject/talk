@@ -74,10 +74,8 @@ describe('/api/v1/auth/local', () => {
           .catch((err) => {
             expect(err).to.have.status(401);
             err.response.body.should.have.property('error');
-            err.response.body.error.should.have.property('metadata');
-            err.response.body.error.metadata.should.have.property('message', 'maria@gmail.com');
 
-            return UsersService.createEmailConfirmToken(mockUser.id, mockUser.profiles[0].id);
+            return UsersService.createEmailConfirmToken(mockUser, mockUser.profiles[0].id);
           })
           .then(UsersService.verifyEmailConfirmation)
           .then(() => {

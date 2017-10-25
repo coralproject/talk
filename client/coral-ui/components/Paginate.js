@@ -4,9 +4,10 @@ import ReactPaginate from 'react-paginate';
 import styles from './Paginate.css';
 import Icon from './Icon';
 
-const Paginate = ({pageCount, onPageChange}) => (
+const Paginate = ({pageCount, page, onPageChange}) => (
   <ReactPaginate
     initialPage={0}
+    forcePage={page}
     pageCount={pageCount}
     pageRangeDisplayed={5}
     marginPagesDisplayed={2}
@@ -26,6 +27,7 @@ const Paginate = ({pageCount, onPageChange}) => (
 );
 
 Paginate.propTypes = {
+  page: PropTypes.number.isRequired,
   pageCount: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
 };

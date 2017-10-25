@@ -4,11 +4,14 @@ import {
   FETCH_ASSETS_REQUEST,
   FETCH_ASSETS_SUCCESS,
   FETCH_ASSETS_FAILURE,
+  SET_PAGE,
+  SET_SEARCH_VALUE,
+  SET_CRITERIA,
   UPDATE_ASSET_STATE_REQUEST,
   UPDATE_ASSET_STATE_SUCCESS,
   UPDATE_ASSET_STATE_FAILURE,
   UPDATE_ASSETS
-} from '../constants/assets';
+} from '../constants/stories';
 
 import t from 'coral-framework/services/i18n';
 
@@ -52,3 +55,19 @@ export const updateAssetState = (id, closedAt) => (dispatch, _, {rest}) => {
 export const updateAssets = (assets) => (dispatch) => {
   dispatch({type: UPDATE_ASSETS, assets});
 };
+
+export const setPage = (page) => ({
+  type: SET_PAGE,
+  page,
+});
+
+export const setSearchValue = (value) => ({
+  type: SET_SEARCH_VALUE,
+  value,
+});
+
+export const setCriteria = (criteria) => ({
+  type: SET_CRITERIA,
+  criteria,
+});
+

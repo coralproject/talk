@@ -24,7 +24,7 @@ const headers = [
   }
 ];
 
-const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUserDetail, pageCount, onPageChange}) => (
+const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUserDetail, pageCount, page, onPageChange}) => (
   <div>
     <table className={`mdl-data-table ${styles.dataTable}`}>
       <thead>
@@ -51,13 +51,13 @@ const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUs
               {row.created_at}
             </td>
             <td className="mdl-data-table__cell--non-numeric">
-              <Dropdown 
+              <Dropdown
                 value={row.status}
                 placeholder={t('community.status')}
-                onChange={(status) => setCommenterStatus(row.id, status)}>     
+                onChange={(status) => setCommenterStatus(row.id, status)}>
                 <Option value={'ACTIVE'} label={t('community.active')} />
                 <Option value={'BANNED'} label={t('community.banned')} />
-              </Dropdown>       
+              </Dropdown>
             </td>
             <td className="mdl-data-table__cell--non-numeric">
               <Dropdown
@@ -76,6 +76,7 @@ const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUs
     </table>
     <Paginate
       pageCount={pageCount}
+      page={page - 1}
       onPageChange={onPageChange}
     />
   </div>
@@ -88,6 +89,7 @@ Table.propTypes = {
   setCommenterStatus: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
   pageCount: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
 };
 

@@ -97,7 +97,8 @@ class ErrAssetCommentingClosed extends APIError {
 class ErrAuthentication extends APIError {
   constructor(message = null) {
     super('authentication error occured', {
-      status: 401
+      status: 401,
+      translation_key: 'AUTHENTICATION'
     }, {
       message
     });
@@ -195,38 +196,52 @@ const ErrAssetURLAlreadyExists = new APIError('Asset URL already exists, cannot 
   status: 409
 });
 
+// ErrNotVerified is returned when a user tries to login with valid credentials
+// but their email address is not yet verified.
+const ErrNotVerified = new APIError('User does not have a verified email address', {
+  translation_key: 'EMAIL_NOT_VERIFIED',
+  status: 401,
+});
+
+const ErrMaxRateLimit = new APIError('Rate limit exeeded', {
+  translation_key: 'RATE_LIMIT_EXCEEDED',
+  status: 429,
+});
+
 // ErrCannotIgnoreStaff is returned when a user tries to ignore a staff member.
 const ErrCannotIgnoreStaff = new APIError('Cannot ignore staff members.', {
   translation_key: 'CANNOT_IGNORE_STAFF',
-  status: 400
+  status: 400,
 });
 
 module.exports = {
-  ExtendableError,
   APIError,
   ErrAlreadyExists,
-  ErrPasswordTooShort,
-  ErrSettingsNotInit,
+  ErrAssetCommentingClosed,
+  ErrAssetURLAlreadyExists,
+  ErrAuthentication,
+  ErrCannotIgnoreStaff,
+  ErrCommentTooShort,
+  ErrContainsProfanity,
+  ErrEditWindowHasEnded,
+  ErrEmailTaken,
+  ErrInstallLock,
+  ErrInvalidAssetURL,
+  ErrLoginAttemptMaximumExceeded,
+  ErrMaxRateLimit,
   ErrMissingEmail,
   ErrMissingPassword,
   ErrMissingToken,
-  ErrEmailTaken,
-  ErrSpecialChars,
   ErrMissingUsername,
-  ErrContainsProfanity,
-  ErrUsernameTaken,
-  ErrAssetCommentingClosed,
-  ErrNotFound,
-  ErrInvalidAssetURL,
-  ErrAuthentication,
   ErrNotAuthorized,
+  ErrNotFound,
+  ErrNotVerified,
+  ErrPasswordTooShort,
   ErrPermissionUpdateUsername,
   ErrSameUsernameProvided,
   ErrSettingsInit,
-  ErrInstallLock,
-  ErrLoginAttemptMaximumExceeded,
-  ErrEditWindowHasEnded,
-  ErrCommentTooShort,
-  ErrAssetURLAlreadyExists,
-  ErrCannotIgnoreStaff
+  ErrSettingsNotInit,
+  ErrSpecialChars,
+  ErrUsernameTaken,
+  ExtendableError,
 };

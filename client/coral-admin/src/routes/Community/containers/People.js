@@ -9,23 +9,21 @@ import {viewUserDetail} from '../../../actions/userDetail';
 import {
   fetchUsers,
   updateSorting,
-  newPage,
+  setPage,
   hideRejectUsernameDialog,
   setCommenterStatus,
   setRole,
+  setSearchValue,
 } from '../../../actions/community';
 
 class PeopleContainer extends React.Component {
-  state = {
-    searchValue: '',
-    timer: null
-  };
+  timer=null;
 
   fetchUsers = (query = {}) => {
     const {community} = this.props;
-    
+
     this.props.fetchUsers({
-      value: this.state.searchValue,
+      value: community.searchValue,
       field: community.fieldPeople,
       asc: community.ascPeople,
       ...query
@@ -46,15 +44,11 @@ class PeopleContainer extends React.Component {
   onSearchChange = (e) => {
     const value = e.target.value;
 
-    this.setState((prevState) => {
-      prevState.searchValue = value;
-      clearTimeout(prevState.timer);
-
-      prevState.timer = setTimeout(() => {
-        this.fetchUsers({value});
-      }, 350);
-      return prevState;
-    });
+    this.props.setSearchValue(value);
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.fetchUsers({value});
+    }, 350);
   }
 
   onHeaderClickHandler = (sort) => {
@@ -62,46 +56,49 @@ class PeopleContainer extends React.Component {
     this.fetchUsers();
   }
 
-  onNewPageHandler = ({selected}) => {
+  onPageChange = ({selected}) => {
     const page = selected + 1;
-    this.props.newPage(page);
+    this.props.setPage(page);
     this.fetchUsers({page});
   }
 
   render() {
-    return <People 
+    return <People
       users={this.props.community.users}
-      searchValue={this.state.searchValue}
+      searchValue={this.props.community.searchValue}
       onSearchChange={this.onSearchChange}
       onHeaderClickHandler={this.onHeaderClickHandler}
-      onNewPageHandler={this.onNewPageHandler}
+      onPageChange={this.onPageChange}
       totalPages={this.props.community.totalPagesPeople}
       setCommenterStatus={this.props.setCommenterStatus}
       setRole={this.props.setRole}
+      page={this.props.community.pagePeople}
       viewUserDetail={this.props.viewUserDetail}
     />;
   }
 }
 
 PeopleContainer.propTypes = {
-  newPage: PropTypes.func,
+  setPage: PropTypes.func,
   fetchUsers: PropTypes.func,
   updateSorting: PropTypes.func,
   setRole: PropTypes.func.isRequired,
   setCommenterStatus: PropTypes.func.isRequired,
+  setSearchValue: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
   community: PropTypes.object,
 };
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    newPage,
+    setPage,
     fetchUsers,
     updateSorting,
     hideRejectUsernameDialog,
     setCommenterStatus,
     setRole,
     viewUserDetail,
+    setSearchValue,
   }, dispatch);
 
 export default connect(null, mapDispatchToProps)(PeopleContainer);
