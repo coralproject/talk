@@ -31,7 +31,7 @@ const nightwatch_config = {
     chrome: {
       desiredCapabilities: {
         browser: 'chrome',
-        browser_version: '60',
+        browser_version: '62',
       },
     },
     firefox: {
