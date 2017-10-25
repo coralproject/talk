@@ -16,7 +16,11 @@ module.exports = {
       .setValue('@emailInput', admin.email)
       .setValue('@passwordInput', admin.password)
       .waitForElementVisible('@signInButton')
-      .click('@signInButton')
+      .click('@signInButton');
+
+    client.pause(3000);
+    
+    adminPage
       .waitForElementVisible('@moderationContainer');
   },
 
