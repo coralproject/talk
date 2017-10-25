@@ -29,11 +29,11 @@ class StoriesContainer extends Component {
   }
 
   fetchAssets = (query) => {
-    const {searchValue, sort, filter, limit} = this.props;
+    const {searchValue, asc, filter, limit} = this.props;
 
     this.props.fetchAssets({
       value: searchValue,
-      sort,
+      asc,
       filter,
       limit,
       ...query
@@ -61,7 +61,7 @@ class StoriesContainer extends Component {
     return <Stories
       assets={this.props.assets}
       searchValue={this.props.searchValue}
-      sort={this.props.sort}
+      asc={this.props.asc}
       filter={this.props.filter}
       limit={this.props.limit}
       onPageChange={this.onPageChange}
@@ -75,7 +75,7 @@ class StoriesContainer extends Component {
 const mapStateToProps = ({stories}) => ({
   assets: stories.assets,
   searchValue: stories.searchValue,
-  sort: stories.criteria.sort,
+  asc: stories.criteria.asc,
   filter: stories.criteria.filter,
   limit: stories.criteria.limit,
 });
@@ -92,7 +92,7 @@ const mapDispatchToProps = (dispatch) =>
 StoriesContainer.propTypes = {
   assets: PropTypes.object,
   searchValue: PropTypes.string,
-  sort: PropTypes.string,
+  asc: PropTypes.string,
   filter: PropTypes.string,
   limit: PropTypes.number,
   setPage: PropTypes.func.isRequired,

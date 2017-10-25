@@ -39,7 +39,7 @@ router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, nex
   const {
     value = '',
     field = 'created_at',
-    page = 1, 
+    page = 1,
     asc = 'false',
     filter = 'all',
     limit = 20,

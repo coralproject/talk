@@ -9,7 +9,7 @@ const initialState = {
   },
   searchValue: '',
   criteria: {
-    sort: 'desc',
+    asc: 'false',
     filter: 'all',
   },
 };

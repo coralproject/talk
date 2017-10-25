@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import cn from 'classnames';
 import {Link} from 'react-router';
 import PropTypes from 'prop-types';
-import sortBy from 'lodash/sortBy';
 import {Dropdown, Option, Paginate, Icon} from 'coral-ui';
 import {DataTable, TableHeader, RadioGroup, Radio} from 'react-mdl';
 import t from 'coral-framework/services/i18n';
@@ -31,13 +30,8 @@ class Stories extends Component {
   }
 
   render () {
-    const {assets, searchValue, sort, filter, onSearchChange, onSettingChange, onPageChange} = this.props;
-
-    const assetsIds = sortBy(assets.ids.map((id) => assets.byId[id]), 'publication_date');
-
-    if (sort === 'desc') {
-      assetsIds.reverse();
-    }
+    const {assets, searchValue, filter, onSearchChange, onSettingChange, onPageChange, asc} = this.props;
+    const rows = assets.ids.map((id) => assets.byId[id]);
 
     return (
       <div className={cn('talk-admin-stories', styles.container)}>
@@ -67,19 +61,19 @@ class Stories extends Component {
           <div className={styles.optionHeader}>{t('streams.sort_by')}</div>
           <RadioGroup
             name='sort by'
-            value={sort}
+            value={asc}
             childContainer='div'
-            onChange={onSettingChange('sort')}
+            onChange={onSettingChange('asc')}
             className={styles.radioGroup}
           >
-            <Radio value='desc'>{t('streams.newest')}</Radio>
-            <Radio value='asc'>{t('streams.oldest')}</Radio>
+            <Radio value='false'>{t('streams.newest')}</Radio>
+            <Radio value='true'>{t('streams.oldest')}</Radio>
           </RadioGroup>
         </div>
         {
-          assetsIds.length
+          rows.length
             ? <div className={styles.mainContent}>
-              <DataTable className={styles.streamsTable} rows={assetsIds}>
+              <DataTable className={styles.streamsTable} rows={rows}>
                 <TableHeader name="title" cellFormatter={this.renderTitle}>{t('streams.article')}</TableHeader>
                 <TableHeader name="publication_date" cellFormatter={this.renderDate}>
                   {t('streams.pubdate')}
@@ -103,7 +97,7 @@ class Stories extends Component {
 Stories.propTypes = {
   assets: PropTypes.object,
   searchValue: PropTypes.string,
-  sort: PropTypes.string,
+  asc: PropTypes.string,
   filter: PropTypes.string,
   onStatusChange: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
