@@ -4,6 +4,7 @@ import {
   FETCH_USERS_FAILURE,
   SORT_UPDATE,
   SET_PAGE,
+  SET_SEARCH_VALUE,
   SET_ROLE,
   SET_COMMENTER_STATUS,
   SHOW_BANUSER_DIALOG,
@@ -17,6 +18,7 @@ const initialState = {
   isFetchingPeople: false,
   errorPeople: '',
   users: [],
+  searchValue: '',
   fieldPeople: 'created_at',
   ascPeople: false,
   totalPagesPeople: 0,
@@ -106,6 +108,11 @@ export default function community (state = initialState, action) {
       ...state,
       user: action.user,
       rejectUsernameDialog: true
+    };
+  case SET_SEARCH_VALUE:
+    return {
+      ...state,
+      searchValue: action.value,
     };
   default :
     return state;

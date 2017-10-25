@@ -6,6 +6,7 @@ import {
   FETCH_USERS_FAILURE,
   SORT_UPDATE,
   SET_PAGE,
+  SET_SEARCH_VALUE,
   SET_ROLE,
   SET_COMMENTER_STATUS,
   SHOW_BANUSER_DIALOG,
@@ -48,6 +49,11 @@ export const updateSorting = (sort) => ({
 export const setPage = (page) => ({
   type: SET_PAGE,
   page,
+});
+
+export const setSearchValue = (value) => ({
+  type: SET_SEARCH_VALUE,
+  value,
 });
 
 export const setRole = (id, role) => (dispatch, _, {rest}) => {
