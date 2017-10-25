@@ -15,6 +15,7 @@ const People = (props) => {
     onHeaderClickHandler,
     onPageChange,
     totalPages,
+    page,
     setRole,
     setCommenterStatus,
     viewUserDetail,
@@ -48,6 +49,7 @@ const People = (props) => {
               onHeaderClickHandler={onHeaderClickHandler}
               pageCount={totalPages}
               onPageChange={onPageChange}
+              page={page}
             />
             : <EmptyCard>{t('community.no_results')}</EmptyCard>
         }
@@ -59,6 +61,7 @@ const People = (props) => {
 People.propTypes = {
   onHeaderClickHandler: PropTypes.func,
   users: PropTypes.array,
+  page: PropTypes.number.isRequired,
   searchValue: PropTypes.string,
   onSearchChange: PropTypes.func,
   totalPages: PropTypes.number,

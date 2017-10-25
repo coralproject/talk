@@ -1,4 +1,4 @@
-import * as actions from '../constants/assets';
+import * as actions from '../constants/stories';
 import update from 'immutability-helper';
 
 const initialState = {
@@ -35,6 +35,11 @@ export default function assets (state = initialState, action) {
     return update(state, {
       assets: {$set: action.assets},
     });
+  case actions.SET_PAGE:
+    return {
+      ...state,
+      page: action.page,
+    };
   default:
     return state;
   }

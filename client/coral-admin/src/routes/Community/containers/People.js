@@ -78,6 +78,7 @@ class PeopleContainer extends React.Component {
       totalPages={this.props.community.totalPagesPeople}
       setCommenterStatus={this.props.setCommenterStatus}
       setRole={this.props.setRole}
+      page={this.props.community.pagePeople}
       viewUserDetail={this.props.viewUserDetail}
     />;
   }

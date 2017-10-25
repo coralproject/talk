@@ -91,8 +91,9 @@ class Stories extends Component {
     );
   }
 
-  onPageClick = ({selected}) => {
+  onPageChange = ({selected}) => {
     const page = selected + 1;
+    this.props.setPage(page);
     this.props.fetchAssets({page});
   }
 
@@ -157,7 +158,8 @@ class Stories extends Component {
               </DataTable>
               <Paginate
                 pageCount={assets.totalPages}
-                onPageChange={this.onPageClick} />
+                page={assets.page - 1}
+                onPageChange={this.onPageChange} />
             </div>
             : <EmptyCard>{t('streams.empty_result')}</EmptyCard>
         }
@@ -168,6 +170,7 @@ class Stories extends Component {
 
 Stories.propTypes = {
   assets: PropTypes.object,
+  setPage: PropTypes.func,
   fetchAssets: PropTypes.func,
   updateAssetState: PropTypes.func,
 };
