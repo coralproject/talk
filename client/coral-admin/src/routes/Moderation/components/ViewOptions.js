@@ -23,6 +23,7 @@ class ViewOptions extends React.Component {
             <li className={styles.viewOptionsItem}>
               Sort Comments
               <Dropdown
+                containerClassName={styles.dropdownContainer}
                 toggleClassName={styles.dropdownToggle}
                 toggleOpenClassName={styles.dropdownToggleOpen}
                 placeholder={t('modqueue.sort')}
