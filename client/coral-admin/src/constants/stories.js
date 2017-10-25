@@ -11,3 +11,5 @@ export const UPDATE_ASSET_STATE_FAILURE = `${prefix}_UPDATE_ASSET_STATE_FAILURE`
 export const UPDATE_ASSETS = `${prefix}_UPDATE_ASSETS`;
 
 export const SET_PAGE = `${prefix}_SET_PAGE`;
+export const SET_SEARCH_VALUE = `${prefix}_SET_SEARCH_VALUE`;
+export const SET_CRITERIA = `${prefix}_SET_CRITERIA`;

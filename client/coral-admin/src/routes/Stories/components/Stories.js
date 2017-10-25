@@ -11,70 +11,9 @@ import EmptyCard from 'coral-admin/src/components/EmptyCard';
 
 class Stories extends Component {
 
-  state = {
-    searchValue: '',
-    sort: 'desc',
-    filter: 'all',
-    statusMenus: {},
-    timer: null,
-  }
-
-  componentDidMount () {
-    this.fetchAssets();
-  }
-
-  onSettingChange = (setting) => (e) => {
-    const {searchValue} = this.state;
-    const criteria = {[setting]: e.target.value};
-
-    this.setState(criteria);
-
-    this.props.fetchAssets({
-      value: searchValue,
-      ...criteria,
-    });
-  }
-
-  onSearchChange = (e) => {
-    const {value} = e.target;
-
-    this.setState((prevState) => {
-      prevState.searchValue = value;
-      clearTimeout(prevState.timer);
-
-      prevState.timer = setTimeout(() => {
-        this.fetchAssets();
-      }, 350);
-      return prevState;
-    });
-  }
-
   renderDate = (date) => {
     const d = new Date(date);
     return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
-  }
-
-  fetchAssets = (query) => {
-    const {searchValue, sort, filter, limit} = this.state;
-
-    this.props.fetchAssets({
-      value: searchValue,
-      sort,
-      filter,
-      limit,
-      ...query
-    });
-  };
-
-  onStatusChange = async (closeStream, id) => {
-    const {updateAssetState} = this.props;
-
-    try {
-      updateAssetState(id, closeStream ? Date.now() : null);
-      this.fetchAssets();
-    } catch(err) {
-      console.error(err);
-    }
   }
 
   renderTitle = (title, {id}) =>  <Link to={`/admin/moderate/${id}`}>{title}</Link>
@@ -84,26 +23,19 @@ class Stories extends Component {
     return (
       <Dropdown
         value={closed}
-        onChange={(value) => this.onStatusChange(value, id)}>
+        onChange={(value) => this.props.onStatusChange(value, id)}>
         <Option value={false} label={t('streams.open')} />
         <Option value={true} label={t('streams.closed')} />
       </Dropdown>
     );
   }
 
-  onPageChange = ({selected}) => {
-    const page = selected + 1;
-    this.props.setPage(page);
-    this.props.fetchAssets({page});
-  }
-
   render () {
-    const {searchValue, sort, filter} = this.state;
-    const {assets} = this.props;
+    const {assets, searchValue, sort, filter, onSearchChange, onSettingChange, onPageChange} = this.props;
 
     const assetsIds = sortBy(assets.ids.map((id) => assets.byId[id]), 'publication_date');
 
-    if (this.state.sort === 'desc') {
+    if (sort === 'desc') {
       assetsIds.reverse();
     }
 
@@ -116,7 +48,7 @@ class Stories extends Component {
               type='text'
               value={searchValue}
               className={styles.searchBoxInput}
-              onChange={this.onSearchChange}
+              onChange={onSearchChange}
               placeholder={t('streams.search')}/>
           </div>
           <div className={styles.optionHeader}>{t('streams.filter_streams')}</div>
@@ -125,7 +57,7 @@ class Stories extends Component {
             name='status filter'
             value={filter}
             childContainer='div'
-            onChange={this.onSettingChange('filter')}
+            onChange={onSettingChange('filter')}
             className={styles.radioGroup}
           >
             <Radio value='all'>{t('streams.all')}</Radio>
@@ -137,7 +69,7 @@ class Stories extends Component {
             name='sort by'
             value={sort}
             childContainer='div'
-            onChange={this.onSettingChange('sort')}
+            onChange={onSettingChange('sort')}
             className={styles.radioGroup}
           >
             <Radio value='desc'>{t('streams.newest')}</Radio>
@@ -159,7 +91,7 @@ class Stories extends Component {
               <Paginate
                 pageCount={assets.totalPages}
                 page={assets.page - 1}
-                onPageChange={this.onPageChange} />
+                onPageChange={onPageChange} />
             </div>
             : <EmptyCard>{t('streams.empty_result')}</EmptyCard>
         }
@@ -170,9 +102,13 @@ class Stories extends Component {
 
 Stories.propTypes = {
   assets: PropTypes.object,
-  setPage: PropTypes.func,
-  fetchAssets: PropTypes.func,
-  updateAssetState: PropTypes.func,
+  searchValue: PropTypes.string,
+  sort: PropTypes.string,
+  filter: PropTypes.string,
+  onStatusChange: PropTypes.func.isRequired,
+  onSearchChange: PropTypes.func.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  onSettingChange: PropTypes.func.isRequired,
 };
 
 export default Stories;
