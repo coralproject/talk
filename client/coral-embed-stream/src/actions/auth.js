@@ -23,6 +23,10 @@ export const hideSignInDialog = () => (dispatch) => {
   dispatch({type: actions.HIDE_SIGNIN_DIALOG});
 };
 
+export const resetSignInDialog = () => (dispatch) => {
+  dispatch({type: actions.HIDE_SIGNIN_DIALOG});
+};
+
 export const focusSignInDialog = () => ({
   type: actions.FOCUS_SIGNIN_DIALOG,
 });
@@ -94,8 +98,9 @@ export const cleanState = () => ({
 
 // Sign In Actions
 
-const signInRequest = () => ({
-  type: actions.FETCH_SIGNIN_REQUEST
+const signInRequest = (email) => ({
+  type: actions.FETCH_SIGNIN_REQUEST,
+  email,
 });
 
 const signInFailure = (error) => ({
@@ -122,7 +127,7 @@ export const handleAuthToken = (token) => (dispatch, _, {storage}) => {
 
 export const fetchSignIn = (formData) => {
   return (dispatch, _, {rest}) => {
-    dispatch(signInRequest());
+    dispatch(signInRequest(formData.email));
 
     return rest('/auth/local', {method: 'POST', body: formData})
       .then(({token}) => {
@@ -144,8 +149,7 @@ export const fetchSignIn = (formData) => {
           // invalid credentials
           dispatch(signInFailure(t('error.email_password'), error.metadata));
         } else {
-          const str = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
-          dispatch(signInFailure(str));
+          dispatch(signInFailure(error));
         }
       });
   };
@@ -349,8 +353,9 @@ const verifyEmailSuccess = () => ({
   type: actions.VERIFY_EMAIL_SUCCESS
 });
 
-const verifyEmailFailure = () => ({
-  type: actions.VERIFY_EMAIL_FAILURE
+const verifyEmailFailure = (error) => ({
+  type: actions.VERIFY_EMAIL_FAILURE,
+  error,
 });
 
 export const requestConfirmEmail = (email) => (dispatch, getState, {rest}) => {
@@ -366,8 +371,8 @@ export const requestConfirmEmail = (email) => (dispatch, getState, {rest}) => {
     })
     .catch((error) => {
       console.error(error);
-      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
-      dispatch(verifyEmailFailure(errorMessage));
+      dispatch(verifyEmailFailure(error));
+      throw error;
     });
 };
 

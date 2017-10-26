@@ -1,11 +1,12 @@
 import queryString from 'query-string';
 
 import {
-  FETCH_COMMENTERS_REQUEST,
-  FETCH_COMMENTERS_SUCCESS,
-  FETCH_COMMENTERS_FAILURE,
+  FETCH_USERS_REQUEST,
+  FETCH_USERS_SUCCESS,
+  FETCH_USERS_FAILURE,
   SORT_UPDATE,
-  COMMENTERS_NEW_PAGE,
+  SET_PAGE,
+  SET_SEARCH_VALUE,
   SET_ROLE,
   SET_COMMENTER_STATUS,
   SHOW_BANUSER_DIALOG,
@@ -16,13 +17,13 @@ import {
 
 import t from 'coral-framework/services/i18n';
 
-export const fetchAccounts = (query = {}) => (dispatch, _, {rest}) => {
-  dispatch(requestFetchAccounts());
+export const fetchUsers = (query = {}) => (dispatch, _, {rest}) => {
+  dispatch(requestFetchUsers());
   rest(`/users?${queryString.stringify(query)}`)
     .then(({result, page, count, limit, totalPages}) =>{
       dispatch({
-        type: FETCH_COMMENTERS_SUCCESS,
-        accounts: result,
+        type: FETCH_USERS_SUCCESS,
+        users: result,
         page,
         count,
         limit,
@@ -32,12 +33,12 @@ export const fetchAccounts = (query = {}) => (dispatch, _, {rest}) => {
     .catch((error) => {
       console.error(error);
       const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
-      dispatch({type: FETCH_COMMENTERS_FAILURE, error: errorMessage});
+      dispatch({type: FETCH_USERS_FAILURE, error: errorMessage});
     });
 };
 
-const requestFetchAccounts = () => ({
-  type: FETCH_COMMENTERS_REQUEST
+const requestFetchUsers = () => ({
+  type: FETCH_USERS_REQUEST
 });
 
 export const updateSorting = (sort) => ({
@@ -45,8 +46,14 @@ export const updateSorting = (sort) => ({
   sort
 });
 
-export const newPage = () => ({
-  type: COMMENTERS_NEW_PAGE
+export const setPage = (page) => ({
+  type: SET_PAGE,
+  page,
+});
+
+export const setSearchValue = (value) => ({
+  type: SET_SEARCH_VALUE,
+  value,
 });
 
 export const setRole = (id, role) => (dispatch, _, {rest}) => {

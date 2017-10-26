@@ -1,12 +1,17 @@
+import queryString from 'query-string';
+
 import {
   FETCH_ASSETS_REQUEST,
   FETCH_ASSETS_SUCCESS,
   FETCH_ASSETS_FAILURE,
+  SET_PAGE,
+  SET_SEARCH_VALUE,
+  SET_CRITERIA,
   UPDATE_ASSET_STATE_REQUEST,
   UPDATE_ASSET_STATE_SUCCESS,
   UPDATE_ASSET_STATE_FAILURE,
   UPDATE_ASSETS
-} from '../constants/assets';
+} from '../constants/stories';
 
 import t from 'coral-framework/services/i18n';
 
@@ -16,13 +21,16 @@ import t from 'coral-framework/services/i18n';
 
 // Fetch a page of assets
 // Get comments to fill each of the three lists on the mod queue
-export const fetchAssets = (skip = '', limit = '', search = '', sort = '', filter = '') => (dispatch, _, {rest}) => {
+export const fetchAssets = (query = {}) => (dispatch, _, {rest}) => {
   dispatch({type: FETCH_ASSETS_REQUEST});
-  return rest(`/assets?skip=${skip}&limit=${limit}&sort=${sort}&search=${search}&filter=${filter}`)
-    .then(({result, count}) =>
+  return rest(`/assets?${queryString.stringify(query)}`)
+    .then(({result, page, count, limit, totalPages}) =>
       dispatch({type: FETCH_ASSETS_SUCCESS,
         assets: result,
-        count
+        page,
+        count,
+        limit,
+        totalPages,
       }))
     .catch((error) => {
       console.error(error);
@@ -47,3 +55,19 @@ export const updateAssetState = (id, closedAt) => (dispatch, _, {rest}) => {
 export const updateAssets = (assets) => (dispatch) => {
   dispatch({type: UPDATE_ASSETS, assets});
 };
+
+export const setPage = (page) => ({
+  type: SET_PAGE,
+  page,
+});
+
+export const setSearchValue = (value) => ({
+  type: SET_SEARCH_VALUE,
+  value,
+});
+
+export const setCriteria = (criteria) => ({
+  type: SET_CRITERIA,
+  criteria,
+});
+

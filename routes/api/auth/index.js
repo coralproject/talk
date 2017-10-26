@@ -12,6 +12,10 @@ router.get('/', (req, res, next) => {
     return;
   }
 
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+
   // Send back the user object.
   res.json({user: req.user});
 });
