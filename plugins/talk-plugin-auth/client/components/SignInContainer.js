@@ -15,6 +15,7 @@ import {
   fetchSignUpFacebook,
   fetchForgotPassword,
   requestConfirmEmail,
+  resetSignInDialog,
   facebookCallback,
   invalidForm,
   validForm,
@@ -31,7 +32,6 @@ class SignInContainer extends React.Component {
         password: '',
         confirmPassword: ''
       },
-      emailToBeResent: '',
       errors: {},
       showErrors: false
     };
@@ -80,26 +80,15 @@ class SignInContainer extends React.Component {
     );
   };
 
-  handleChangeEmail = (e) => {
-    const {value} = e.target;
-    this.setState({emailToBeResent: value});
-  };
-
-  handleResendVerification = (e) => {
-    e.preventDefault();
+  resendVerification = () => {
     this.props
-      .requestConfirmEmail(
-        this.state.emailToBeResent,
-      )
+      .requestConfirmEmail(this.props.auth.email)
       .then(() => {
         setTimeout(() => {
 
           // allow success UI to be shown for a second, and then close the modal
-          this.props.hideSignInDialog();
+          this.props.resetSignInDialog();
         }, 2500);
-      })
-      .catch((err) => {
-        console.error(err);
       });
   };
 
@@ -194,6 +183,7 @@ const mapDispatchToProps = (dispatch) =>
       requestConfirmEmail,
       changeView,
       hideSignInDialog,
+      resetSignInDialog,
       invalidForm,
       validForm
     },

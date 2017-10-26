@@ -4,47 +4,26 @@
 }
 
 .spinner {
-    -webkit-animation: rotator 1.4s linear infinite;
     animation: rotator 1.4s linear infinite;
-}
-
-@-webkit-keyframes rotator {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(270deg);
-        transform: rotate(270deg);
-    }
 }
 
 @keyframes rotator {
     0% {
-        -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
     }
     100% {
-        -webkit-transform: rotate(270deg);
         transform: rotate(270deg);
     }
 }
+
+
+
 .path {
+    stroke: #f67150;
     stroke-dasharray: 187;
     stroke-dashoffset: 0;
-    -webkit-transform-origin: center;
     transform-origin: center;
-    -webkit-animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
     animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
-}
-
-@-webkit-keyframes colors {
-    0% {
-        stroke: #f67150;
-    }
-    100% {
-        stroke: #f6a47e;
-    }
 }
 
 @keyframes colors {
@@ -55,33 +34,35 @@
         stroke: #f6a47e;
     }
 }
-@-webkit-keyframes dash {
-    0% {
-        stroke-dashoffset: 187;
-    }
-    50% {
-        stroke-dashoffset: 46.75;
-        -webkit-transform: rotate(135deg);
-        transform: rotate(135deg);
-    }
-    100% {
-        stroke-dashoffset: 187;
-        -webkit-transform: rotate(450deg);
-        transform: rotate(450deg);
-    }
-}
+
 @keyframes dash {
     0% {
         stroke-dashoffset: 187;
     }
     50% {
         stroke-dashoffset: 46.75;
-        -webkit-transform: rotate(135deg);
         transform: rotate(135deg);
     }
     100% {
         stroke-dashoffset: 187;
-        -webkit-transform: rotate(450deg);
         transform: rotate(450deg);
     }
+}
+
+@keyframes fullRotator {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Hack for IE and Edge as they don't support css animations on SVG elements. */
+_:-ms-lang(x), .path {
+  stroke-dasharray: 160;
+}
+
+_:-ms-lang(x), .spinner {
+  animation: fullRotator 1.4s linear infinite;
 }

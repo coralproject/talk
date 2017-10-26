@@ -56,7 +56,7 @@ describe('/api/v1/assets', () => {
     it('should return assets that we search for', async () => {
       for (const role of ['ADMIN', 'MODERATOR']) {
         const res = await chai.request(app)
-          .get('/api/v1/assets?search=term2')
+          .get('/api/v1/assets?value=term2')
           .set(passport.inject({roles: [role]}));
 
         const body = res.body;
@@ -78,7 +78,7 @@ describe('/api/v1/assets', () => {
     it('should not return assets that we do not search for', async () => {
       for (const role of ['ADMIN', 'MODERATOR']) {
         const res = await chai.request(app)
-          .get('/api/v1/assets?search=term3')
+          .get('/api/v1/assets?value=term3')
           .set(passport.inject({roles: [role]}));
         const body = res.body;
 

@@ -241,13 +241,21 @@ function listUsers() {
       });
 
       users.forEach((user) => {
+        let state = user.disabled ? 'Disabled' : 'Enabled';
+        const profile = user.profiles.find(({provider}) => provider === 'local');
+        if (profile && profile.metadata && profile.metadata.confirmed_at) {
+          state += ', Verified';
+        } else {
+          state += ', Unverified';
+        }
+
         table.push([
           user.id,
           user.username,
           user.profiles.map((p) => p.provider).join(', '),
           user.roles.join(', '),
           user.status,
-          user.disabled ? 'Disabled' : 'Enabled'
+          state
         ]);
       });
 
@@ -396,6 +404,23 @@ function enableUser(userID) {
     });
 }
 
+/**
+ * Verifies an email address for a user.
+ *
+ * @param userID the user's id
+ * @param email  the user's email address to be verified
+ */
+async function verify(userID, email) {
+  try {
+    await UsersService.confirmEmail(userID, email);
+    console.log(`User ${userID} had their email ${email} verified.`);
+    util.shutdown();
+  } catch (err) {
+    console.error(err);
+    util.shutdown(1);
+  }
+}
+
 //==============================================================================
 // Setting up the program command line arguments.
 //==============================================================================
@@ -466,6 +491,11 @@ program
   .command('enable <userID>')
   .description('enable a given user from logging in')
   .action(enableUser);
+
+program
+  .command('verify <userID> <email>')
+  .description('verifies the given user\'s email address')
+  .action(verify);
 
 program.parse(process.argv);
 

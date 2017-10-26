@@ -2,14 +2,18 @@
   width: 100%;
   border-left: none;
   border-right: none;
+}
 
-  th {
-    font-size: 1.1em;
-  }
+th.header {
+  font-size: 1.1em;
+}
 
-  th:nth-child(2), th:nth-child(3) {
-    width: 100px;
-  }
+th.header:hover {
+  cursor: pointer;
+}
+
+th.header:nth-child(2), th.header:nth-child(3) {
+  width: 100px;
 }
 
 .button {
