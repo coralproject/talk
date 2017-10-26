@@ -1,5 +1,5 @@
-const {check} = require('./utils');
-const types = require('./constants');
+const {check} = require('../utils');
+const types = require('../constants');
 
 module.exports = (user, perm) => {
   switch (perm) {
