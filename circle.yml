@@ -50,7 +50,7 @@ test:
     - MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml MOCHA_REPORTER=mocha-junit-reporter yarn test
     # Check dependancies using nsp.
     - nsp check
-    - yarn e2e-ci
+    # - yarn e2e-ci
 
 deployment:
   release:
