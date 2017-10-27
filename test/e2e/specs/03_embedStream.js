@@ -1,3 +1,31 @@
+class SortedWindowHandler {
+
+  constructor(client) {
+    this.client = client;
+    this.client.windowHandles((result) => {
+      this.handles = result.value;
+      if (this.handles.length > 2) {
+        throw new Error('SortedWindowHandler must be created before new windows were created.');
+      }
+    });
+  }
+
+  windowHandles(callback) {
+    this.client.windowHandles((result) => {
+      console.log(result);
+      this.handles = this.handles.filter((handle) => result.value.includes(handle));
+      const remaining = result.value.filter((handle) => !this.handles.includes(handle));
+      if (remaining.length === 1) {
+        this.handles.push(remaining[0]);
+      }
+      if (remaining.length > 1) {
+        throw new Error('Cannot detect new window handle, because more than one windows was created.');
+      }
+      callback(this.handles);
+    });
+  }
+}
+
 module.exports = {
   '@tags': ['embedStream', 'login'],
   'creates a new asset': (client) => {
@@ -18,16 +46,15 @@ module.exports = {
       .navigate()
       .getEmbedSection();
 
+    const windowHandler = new SortedWindowHandler(client);
+
     embed
       .waitForElementVisible('@signInButton')
       .click('@signInButton');
 
-    client.pause(3000);
-
     // Focusing on the Login PopUp
-    client.windowHandles((result) => {
-      const handle = result.value[1];
-      client.switchWindow(handle);
+    windowHandler.windowHandles((handles) => {
+      client.switchWindow(handles[1]);
     });
 
     const login = client.page.login();
@@ -45,10 +72,19 @@ module.exports = {
       .waitForElementVisible('@loginButton')
       .click('@loginButton');
 
+    // Give a tiny bit of time to let popup close.
+    client.pause(50);
+
+    if (client.capabilities.browserName === 'MicrosoftEdge') {
+
+      // More time for edge.
+      // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/7393dbfda8387e43b6d5851f359b0c07db414973
+      client.pause(1000);
+    }
+
     // Focusing on the Embed Window
-    client.windowHandles((result) => {
-      const handle = result.value[0];
-      client.switchWindow(handle);
+    windowHandler.windowHandles((handles) => {
+      client.switchWindow(handles[0]);
     });
   },
   'user posts a comment': (client) => {

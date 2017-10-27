@@ -1,5 +1,8 @@
 #!/bin/bash
 
+CIRCLE_TEST_REPORTS=${CIRCLE_TEST_REPORTS:-./test/e2e/reports}
+CIRCLE_BRANCH=${CIRCLE_BRANCH:-master}
+
 if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
 
   exitCode=0
