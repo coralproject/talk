@@ -27,7 +27,13 @@ const nightwatch_config = {
         // Disable this, as it makes bs slow and brittle.
         'browserstack.networkLogs': false,
         'browserstack.resolution': '1600x1200',
-      }
+      },
+      screenshots : {
+        enabled: true,
+        on_failure: true,
+        on_error: true,
+        path: process.env.REPORTS_FOLDER || './test/e2e/reports',
+      },
     },
     chrome: {
       desiredCapabilities: {
