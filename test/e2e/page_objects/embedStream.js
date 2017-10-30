@@ -23,11 +23,13 @@ module.exports = {
     embed: {
       commands: [{
         getProfileSection: function() {
+          this.waitForElementVisible('@profileTabButton');
           this.click('@profileTabButton');
           this.expect.section('@profile').to.be.present;
           return this.section.profile;
         },
         getCommentsSection: function() {
+          this.waitForElementVisible('@commentsTabButton');
           this.click('@commentsTabButton');
           this.expect.section('@comments').to.be.present;
           return this.section.comments;
