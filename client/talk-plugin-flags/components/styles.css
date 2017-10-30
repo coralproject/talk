@@ -3,6 +3,10 @@
   margin: 5px 0px 5px 10px;
 }
 
+button[disabled] {
+  cursor: default;
+}
+
 .flaggedIcon {
   color: #f00
 }
