@@ -45,10 +45,8 @@ class User extends React.Component {
     } = this.props;
 
     return (
-      <li
-        tabIndex={0}
-        className={cn(className, styles.root, {[styles.rootSelected]: selected})}
-      >
+      <li tabIndex={0}
+        className={cn(className, styles.root, {[styles.rootSelected]: selected})} >
         <div className={cn('talk-admin-community-flagged-user', styles.container)}>
           <div className={cn('talk-admin-community-flagged-user-header', styles.header)}>
             <div className={styles.author}>
@@ -140,7 +138,7 @@ class User extends React.Component {
 User.propTypes = {
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,
-  viewUserDetail: PropTypes.object,
+  viewUserDetail: PropTypes.func,
   showRejectUsernameDialog: PropTypes.func,
   approveUser: PropTypes.func,
   user: PropTypes.object,

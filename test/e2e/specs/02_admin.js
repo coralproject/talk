@@ -51,6 +51,7 @@ module.exports = {
       .click('@drawerOverlay')
       .waitForElementVisible('@communitySection');
   },
+
   after: (client) => {
     client.end();
   }
