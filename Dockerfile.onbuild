@@ -9,9 +9,10 @@ ONBUILD ARG TALK_PLUGINS_JSON
 # Bundle app source
 ONBUILD COPY . /usr/src/app
 
-# At this stage, we need to install the development dependancies again because
-# we need to have webpack available. We then build the new dependancies and
-# clear out the development dependancies again. After this we of course need to
+# At this stage, we need to install the development dependencies again because
+# we need to have webpack available. We then build the new dependencies and
+# clear out the development dependencies again. After this we of course need to
 # clear out the yarn cache, this saves quite a lot of size.
 ONBUILD RUN cli plugins reconcile && \
-            yarn build
+            yarn build && \
+            yarn cache clean
