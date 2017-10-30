@@ -26,6 +26,10 @@ module.exports = {
       .waitForElementVisible('@signInButton')
       .click('@signInButton');
 
+    // Wait for window to be created
+    // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/17b1a79682bef2498cb0be86eac317a08c976b0a#automate_button
+    client.pause(200);
+
     // Focusing on the Login PopUp
     windowHandler.windowHandles((handles) => {
       client.switchWindow(handles[1]);
