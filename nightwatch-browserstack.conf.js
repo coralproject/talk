@@ -59,7 +59,7 @@ const nightwatch_config = {
       desiredCapabilities: {
         browser: 'internet explorer',
         os: 'Windows',
-        os_version: '8.1',
+        os_version: '10',
         browser_version: '11',
       },
     },
@@ -67,6 +67,8 @@ const nightwatch_config = {
       desiredCapabilities: {
         browser: 'edge',
         browser_version: '15',
+        os: 'Windows',
+        os_version: '10',
       },
     },
   }
