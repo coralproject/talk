@@ -43,7 +43,7 @@ module.exports = {
     'chrome-headless': {
       desiredCapabilities: {
         chromeOptions : {
-          args: ['--headless', '--disable-gpu', 'window-size=1280,800'],
+          args: ['--headless', '--disable-gpu', 'window-size=1600,1200'],
         },
       },
     },
