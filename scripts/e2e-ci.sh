@@ -8,13 +8,17 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
   exitCode=0
 
   browserstack() {
+    echo "-- Start e2e for $1 --"
     REPORTS_FOLDER="$CIRCLE_TEST_REPORTS/$1" yarn e2e-browserstack -- --env "$1"
 
     # Determine exit code.
     result=$?
     if [ "$result" -gt "0" ]
     then
+      echo "-- Success e2e for $1 --"
       exitCode=$result
+    else
+      echo "-- Failed e2e for $1 --"
     fi
 
     # Sleep a bit to let browserstack-local to close properly.
