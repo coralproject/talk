@@ -145,7 +145,7 @@ async function ValidateUserLogin(loginProfile, user, done) {
     // If the profile doesn't have a metadata field, or it does not have a
     // confirmed_at field, or that field is null, then send them back.
     if (!profile.metadata || !profile.metadata.confirmed_at || profile.metadata.confirmed_at === null) {
-      return done(new errors.ErrAuthentication(loginProfile.id));
+      return done(errors.ErrNotVerified);
     }
   }
 

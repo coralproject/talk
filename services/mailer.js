@@ -64,7 +64,11 @@ const options = {
 };
 
 if (SMTP_PORT) {
-  options.port = SMTP_PORT;
+  try {
+    options.port = parseInt(SMTP_PORT);
+  } catch (e) {
+    throw new Error('TALK_SMTP_PORT is not an integer');
+  }
 } else {
   options.port = 25;
 }

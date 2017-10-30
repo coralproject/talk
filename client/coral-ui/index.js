@@ -18,7 +18,7 @@ export {default as Item} from './components/Item';
 export {default as Card} from './components/Card';
 export {default as TextField} from './components/TextField';
 export {default as Success} from './components/Success';
-export {default as Pager} from './components/Pager';
+export {default as Paginate} from './components/Paginate';
 export {default as Wizard} from './components/Wizard';
 export {default as WizardNav} from './components/WizardNav';
 export {default as SnackBar} from './components/SnackBar';
