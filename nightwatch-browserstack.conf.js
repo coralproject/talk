@@ -39,12 +39,16 @@ const nightwatch_config = {
       desiredCapabilities: {
         browser: 'chrome',
         browser_version: '62',
+        os: 'Windows',
+        os_version: '10',
       },
     },
     firefox: {
       desiredCapabilities: {
         browser: 'firefox',
         browser_version: '56',
+        os: 'Windows',
+        os_version: '10',
       },
     },
     safari: {
