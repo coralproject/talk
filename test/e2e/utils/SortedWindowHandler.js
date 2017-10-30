@@ -1,5 +1,15 @@
+
+/**
+ * SortedWindowHandler assists in making e2e tests more robust by returning
+ * deterministic window handles. An instance must be created before new windows
+ * are created and windowHandles must be called each time a window was created or
+ * closed.
+ */
 class SortedWindowHandler {
 
+  /**
+   * Constructor, must be called before new windows were created.
+   */
   constructor(client) {
     this.client = client;
     this.client.windowHandles((result) => {
@@ -10,6 +20,9 @@ class SortedWindowHandler {
     });
   }
 
+  /**
+   * windowHandles will call given `callback` with an array of window handles.
+   */
   windowHandles(callback) {
     this.client.windowHandles((result) => {
       this.handles = this.handles.filter((handle) => result.value.includes(handle));
