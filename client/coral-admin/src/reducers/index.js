@@ -1,5 +1,5 @@
 import auth from './auth';
-import assets from './assets';
+import stories from './stories';
 import dashboard from './dashboard';
 import configure from './configure';
 import community from './community';
@@ -18,7 +18,7 @@ export default {
   configure,
   suspendUserDialog,
   userDetail,
-  assets,
+  stories,
   community,
   moderation,
   install,

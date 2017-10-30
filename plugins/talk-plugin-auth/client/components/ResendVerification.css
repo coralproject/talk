@@ -1,0 +1,15 @@
+.header {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.notVerified {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 2px;
+  border: solid 1px #dddd00;
+  background: #FFFF9C;
+  color: #777700;
+}
+
