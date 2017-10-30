@@ -15,10 +15,10 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
     result=$?
     if [ "$result" -gt "0" ]
     then
-      echo "-- Success e2e for $1 --"
+      echo "-- Failed e2e for $1 --"
       exitCode=$result
     else
-      echo "-- Failed e2e for $1 --"
+      echo "-- Success e2e for $1 --"
     fi
 
     # Sleep a bit to let browserstack-local to close properly.
