@@ -1,18 +1,14 @@
 import React from 'react';
 import styles from './FlaggedUser.css';
-
-// TODO: Should not rely on plugin.
+import PropTypes from 'prop-types';
+import cn from 'classnames';
+import t from 'coral-framework/services/i18n';
 import {username} from 'talk-plugin-flags/helpers/flagReasons';
-
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import ApproveButton from 'coral-admin/src/components/ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
 
-import cn from 'classnames';
-import t from 'coral-framework/services/i18n';
-
-// TODO: Should work with custom flags too.
 const shortReasons = {
   [username.other]: t('community.other'),
   [username.spam]: t('community.spam_ads'),
@@ -21,7 +17,6 @@ const shortReasons = {
   [username.impersonating]: t('community.impersonating'),
 };
 
-// Render a single user for the list
 class User extends React.Component {
 
   showSuspenUserDialog = () => this.props.showSuspendUserDialog({
@@ -54,8 +49,8 @@ class User extends React.Component {
         tabIndex={0}
         className={cn(className, styles.root, {[styles.rootSelected]: selected})}
       >
-        <div className={styles.container}>
-          <div className={styles.header}>
+        <div className={cn('talk-admin-community-flagged-user', styles.container)}>
+          <div className={cn('talk-admin-community-flagged-user-header', styles.header)}>
             <div className={styles.author}>
               <button
                 onClick={this.viewAuthorDetail}
@@ -78,8 +73,7 @@ class User extends React.Component {
               }
             </div>
           </div>
-
-          <div className={styles.body}>
+          <div className={cn('talk-admin-community-flagged-user-body', styles.body)}>
             <div className={styles.flagged}>
               <div className={styles.flaggedByCount}>
                 <i className={cn('material-icons', styles.flagIcon)}>flag</i>
@@ -127,9 +121,11 @@ class User extends React.Component {
             <div className={styles.sideActions}>
               <div className={styles.actions}>
                 <ApproveButton
+                  className="talk-admin-flagged-user-approve-button"
                   onClick={this.approveUser}
                 />
                 <RejectButton
+                  className="talk-admin-flagged-user-reject-button"
                   onClick={this.showRejectUsernameDialog}
                 />
               </div>
@@ -140,5 +136,17 @@ class User extends React.Component {
     );
   }
 }
+
+User.propTypes = {
+  showSuspendUserDialog: PropTypes.func,
+  showBanUserDialog: PropTypes.func,
+  viewUserDetail: PropTypes.object,
+  showRejectUsernameDialog: PropTypes.func,
+  approveUser: PropTypes.func,
+  user: PropTypes.object,
+  className: PropTypes.string,
+  selected: PropTypes.bool,
+  me: PropTypes.object,
+};
 
 export default User;
