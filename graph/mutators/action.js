@@ -41,7 +41,7 @@ const createAction = async ({user = {}, pubsub, loaders: {Comments}}, {item_id, 
   }
 
   if (comment) {
-      pubsub.publish('commentFlagged', comment);
+    pubsub.publish('commentFlagged', comment);
   }
 
   return action;
