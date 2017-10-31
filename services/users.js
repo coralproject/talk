@@ -420,7 +420,7 @@ module.exports = class UsersService {
             locals: {                            // specifies the template locals.
               body: 'In accordance with The Coral Project’s community guidelines, your account has been banned. You are now longer allowed to comment, flag or engage with our community.'
             },
-            subject: '[Talk] Your account has been banned',
+            subject: 'Your account has been banned',
             to: localProfile.id  // This only works if the user has registered via e-mail.
             // We may want a standard way to access a user's e-mail address in the future
           };
