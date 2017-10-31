@@ -33,7 +33,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
 
     # Determine exit code.
     result=$?
-    if [ "$result" -gt "0" ]; then
+    if [ "$result" -ne "0" ]; then
       echo "-- Failed e2e for $1 #$try --"
 
       # Try again until E2E_MAX_RETRIES is reached.
