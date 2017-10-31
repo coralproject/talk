@@ -3,7 +3,8 @@
 CIRCLE_TEST_REPORTS=${CIRCLE_TEST_REPORTS:-./test/e2e/reports}
 CIRCLE_BRANCH=${CIRCLE_BRANCH:-master}
 
-MAX_RETRIES=1
+# Amount of retries before failure.
+MAX_RETRIES=${MAX_RETRIES:-1}
 
 # Safari >= 8 has issues connecting to browserstack-local. Safari < 8 is too old.
 BROWSERS="chrome firefox ie edge" #safari
@@ -33,7 +34,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
       echo "-- Failed e2e for $1 #$try --"
 
       # Try again of MAX_RETRIES is not reached.
-      if [ "$try" -lt $MAX_RETRIES ]; then
+      if [ "$try" -lt "$MAX_RETRIES" ]; then
         let try=try+1
         browserstack "$1" "$try"
         return
