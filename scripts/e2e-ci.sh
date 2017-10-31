@@ -6,6 +6,9 @@ CIRCLE_BRANCH=${CIRCLE_BRANCH:-master}
 # Amount of retries before failure.
 MAX_RETRIES=${MAX_RETRIES:-1}
 
+# Amount of seconds between tests.
+SLEEP_BETWEEN_TESTS=${SLEEP_BETWEEN_TESTS:-1}
+
 # Safari >= 8 has issues connecting to browserstack-local. Safari < 8 is too old.
 BROWSERS="chrome firefox ie edge" #safari
 
@@ -36,6 +39,10 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
       # Try again of MAX_RETRIES is not reached.
       if [ "$try" -lt "$MAX_RETRIES" ]; then
         let try=try+1
+
+        # Sleep a bit to let browserstack-local to close properly.
+        sleep "$SLEEP_BETWEEN_TESTS"
+
         browserstack "$1" "$try"
         return
       fi
@@ -54,7 +61,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
     fi
 
     # Sleep a bit to let browserstack-local to close properly.
-    sleep 2
+    sleep "$SLEEP_BETWEEN_TESTS"
   }
 
   # Test using browserstack.
