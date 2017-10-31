@@ -30,7 +30,7 @@ Learn more about Talk, including a deep dive into features for commenters and mo
 
 Talk uses [Nightwatch](https://nightwatchjs.org/) as our e2e testing framework. The testing infrastructure that allows us to run our tests in real browsers is provided with love by our friends at [Browserstack](https://browserstack.com).
 
-![](/public/img/browserstack_logo.png)
+[![Browserstack](/public/img/browserstack_logo.png)](https://browserstack.com)
 
 ## License
 
