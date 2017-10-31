@@ -4,10 +4,10 @@ CIRCLE_TEST_REPORTS=${CIRCLE_TEST_REPORTS:-./test/e2e/reports}
 CIRCLE_BRANCH=${CIRCLE_BRANCH:-master}
 
 # Amount of retries before failure.
-MAX_RETRIES=${MAX_RETRIES:-1}
+E2E_MAX_RETRIES=${E2E_MAX_RETRIES:-1}
 
 # Amount of seconds between tests.
-SLEEP_BETWEEN_TESTS=${SLEEP_BETWEEN_TESTS:-1}
+E2E_SLEEP_BETWEEN_TESTS=${E2E_SLEEP_BETWEEN_TESTS:-1}
 
 # Safari >= 8 has issues connecting to browserstack-local. Safari < 8 is too old.
 BROWSERS="chrome firefox ie edge" #safari
@@ -36,12 +36,12 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
     if [ "$result" -gt "0" ]; then
       echo "-- Failed e2e for $1 #$try --"
 
-      # Try again of MAX_RETRIES is not reached.
-      if [ "$try" -lt "$MAX_RETRIES" ]; then
+      # Try again of E2E_MAX_RETRIES is not reached.
+      if [ "$try" -lt "$E2E_MAX_RETRIES" ]; then
         let try=try+1
 
         # Sleep a bit to let browserstack-local to close properly.
-        sleep "$SLEEP_BETWEEN_TESTS"
+        sleep "$E2E_SLEEP_BETWEEN_TESTS"
 
         browserstack "$1" "$try"
         return
@@ -61,7 +61,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
     fi
 
     # Sleep a bit to let browserstack-local to close properly.
-    sleep "$SLEEP_BETWEEN_TESTS"
+    sleep "$E2E_SLEEP_BETWEEN_TESTS"
   }
 
   # Test using browserstack.
