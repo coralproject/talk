@@ -1,7 +1,5 @@
-# Talk
+# Talk &middot; [![CircleCI](https://circleci.com/gh/coralproject/talk.svg?style=svg)](https://circleci.com/gh/coralproject/talk) [![NSP Status](https://nodesecurity.io/orgs/coralproject/projects/07ce2e4c-99fb-48f8-b50b-69d2d2c081b8/badge)](https://nodesecurity.io/orgs/coralproject/projects/07ce2e4c-99fb-48f8-b50b-69d2d2c081b8)
 
-[![CircleCI](https://circleci.com/gh/coralproject/talk.svg?style=svg)](https://circleci.com/gh/coralproject/talk)
-[![NSP Status](https://nodesecurity.io/orgs/coralproject/projects/07ce2e4c-99fb-48f8-b50b-69d2d2c081b8/badge)](https://nodesecurity.io/orgs/coralproject/projects/07ce2e4c-99fb-48f8-b50b-69d2d2c081b8)
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2Fcoralproject%2Ftalk&env[TALK_FACEBOOK_APP_ID]=ignore&env[TALK_FACEBOOK_APP_SECRET]=ignore)
 
 Online comments are broken. Our open-source commenting platform, Talk, rethinks how moderation, comment display, and conversation function, creating the opportunity for safer, smarter discussions around your work. [Read more about Talk here](https://coralproject.net/products/talk.html).
@@ -32,4 +30,4 @@ Talk uses [Nightwatch](https://nightwatchjs.org/) as our e2e testing framework. 
 
 ## License
 
-Talk is licensed under the [Apache License v2.0](/LICENSE).
+Talk is released under the [Apache License, v2.0](/LICENSE).
