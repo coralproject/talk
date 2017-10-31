@@ -41,10 +41,7 @@ const createAction = async ({user = {}, pubsub, loaders: {Comments}}, {item_id, 
   }
 
   if (comment) {
-    let user = await UsersService.findById(comment.author_id);
-    if(!user.roles){
       pubsub.publish('commentFlagged', comment);
-    }
   }
 
   return action;
