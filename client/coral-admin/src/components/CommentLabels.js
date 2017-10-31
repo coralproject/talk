@@ -6,8 +6,17 @@ import FlagLabel from 'coral-ui/components/FlagLabel';
 import cn from 'classnames';
 import styles from './CommentLabels.css';
 
+const staffRoles = ['ADMIN', 'STAFF', 'MODERATOR'];
+
 function isUserFlagged(actions) {
   return actions.some((action) => action.__typename === 'FlagAction' && action.user);
+}
+
+function getUserFlaggedType(actions) {
+  return actions
+    .filter((action) => action.__typename === 'FlagAction' && action.user)
+    .map((action) => action.user.roles.some((role) => staffRoles.includes(role)))
+    .some((staff) => staff) ? 'Staff' : 'User';
 }
 
 function hasSuspectedWords(actions) {
@@ -24,7 +33,7 @@ const CommentLabels = ({comment, comment: {className, status, actions, hasParent
       <div className={styles.coreLabels}>
         {hasParent && <Label iconName="reply" className={styles.replyLabel}>reply</Label>}
         {status === 'PREMOD' && <Label iconName="query_builder" className={styles.premodLabel}>Pre-Mod</Label>}
-        {isUserFlagged(actions) && <FlagLabel iconName="person">User</FlagLabel>}
+        {isUserFlagged(actions) && <FlagLabel iconName="person">{getUserFlaggedType(actions)}</FlagLabel>}
         {hasSuspectedWords(actions) && <FlagLabel iconName="sms_failed">Suspect</FlagLabel>}
         {hasHistoryFlag(actions) && <FlagLabel iconName="sentiment_very_dissatisfied">History</FlagLabel>}
       </div>
