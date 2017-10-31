@@ -296,6 +296,7 @@ en:
     show_shortcuts: "Show Shortcuts"
     singleview: "Toggle single comment edit view"
     thismenu: "Open this menu"
+    jumptoqueue: "Jump to specific queue"
     thousand: k
     try_these: "Try these"
     view_more_shortcuts: "View more shortcuts"

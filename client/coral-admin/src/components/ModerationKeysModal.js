@@ -12,6 +12,7 @@ const shortcuts = [
       'k': 'modqueue.prev_comment',
       'ctrl+f': 'modqueue.toggle_search',
       't': 'modqueue.next_queue',
+      '1...5': 'modqueue.jumptoqueue',
       's': 'modqueue.singleview',
       '?': 'modqueue.thismenu'
     }
