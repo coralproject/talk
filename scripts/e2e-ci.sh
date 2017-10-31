@@ -30,7 +30,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
     # Determine exit code.
     result=$?
     if [ "$result" -gt "0" ]; then
-      echo "-- Failed e2e for $1 --"
+      echo "-- Failed e2e for $1 #$try --"
 
       # Try again of MAX_RETRIES is not reached.
       if [ "$try" -lt $MAX_RETRIES ]; then
@@ -45,7 +45,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
       # Remember exit code.
       exitCode=$result
     else
-      echo "-- Success e2e for $1 --"
+      echo "-- Success e2e for $1 #$try --"
 
       # Succeeded, add to list of succeeded browsers.
       succeededBrowsers="$succeededBrowsers $1"
