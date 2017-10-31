@@ -14,10 +14,10 @@ BROWSERS="chrome firefox ie edge" #safari
 
 if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
 
-  # List of failed browsers
+  # List of failed browsers.
   failedBrowsers=
 
-  # List of succeeded browsers
+  # List of succeeded browsers.
   succeededBrowsers=
 
   exitCode=0
@@ -36,11 +36,11 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
     if [ "$result" -gt "0" ]; then
       echo "-- Failed e2e for $1 #$try --"
 
-      # Try again of E2E_MAX_RETRIES is not reached.
+      # Try again until E2E_MAX_RETRIES is reached.
       if [ "$try" -lt "$E2E_MAX_RETRIES" ]; then
         let try=try+1
 
-        # Sleep a bit to let browserstack-local to close properly.
+        # Sleep a bit to let browserstack-local close properly.
         sleep "$E2E_SLEEP_BETWEEN_TESTS"
 
         browserstack "$1" "$try"
@@ -60,7 +60,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
       eval "browser_${1}_succeeded_at=$try"
     fi
 
-    # Sleep a bit to let browserstack-local to close properly.
+    # Sleep a bit to let browserstack-local close properly.
     sleep "$E2E_SLEEP_BETWEEN_TESTS"
   }
 
