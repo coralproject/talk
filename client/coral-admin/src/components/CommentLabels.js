@@ -14,9 +14,11 @@ function isUserFlagged(actions) {
 
 function getUserFlaggedType(actions) {
   return actions
-    .filter((action) => action.__typename === 'FlagAction' && action.user)
-    .map((action) => action.user.roles.some((role) => staffRoles.includes(role)))
-    .some((staff) => staff) ? 'Staff' : 'User';
+    .some((action) =>
+      action.__typename === 'FlagAction' &&
+      action.user &&
+      action.user.roles.some((role) => staffRoles.includes(role))
+    ) ? 'Staff' : 'User';
 }
 
 function hasSuspectedWords(actions) {
