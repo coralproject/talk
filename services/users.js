@@ -398,7 +398,7 @@ module.exports = class UsersService {
     // TODO: current updating status behavior is weird.
     // once a user has been `APPROVED` its status cannot be
     // changed anymore.
-    return UserModel.findOneAndUpdate({
+    const user = await UserModel.findOneAndUpdate({
       id,
       status: {
         $ne: 'APPROVED'
@@ -410,6 +410,25 @@ module.exports = class UsersService {
     }, {
       new: true,
     });
+
+    if (status === 'BANNED') {
+      let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+      if (localProfile) {
+        const options =
+          {
+            template: 'banned',              // needed to know which template to render!
+            locals: {                            // specifies the template locals.
+              body: 'In accordance with The Coral Project’s community guidelines, your account has been banned. You are now longer allowed to comment, flag or engage with our community.'
+            },
+            subject: 'Your account has been banned',
+            to: localProfile.id  // This only works if the user has registered via e-mail.
+            // We may want a standard way to access a user's e-mail address in the future
+          };
+        await MailerService.sendSimple(options);
+      }
+
+    }
+    return user;
   }
 
   /**
