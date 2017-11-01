@@ -23,6 +23,7 @@ machine:
     - sudo apt-get update
     - sudo apt-get install chromium-browser
 
+    - echo $DOCKER_EMAIL
     # Download the browserstack binary file
     - wget "https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip"
     # Unzip the browserstack binary file
