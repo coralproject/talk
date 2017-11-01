@@ -28,7 +28,7 @@ machine:
     # Unzip the browserstack binary file
     - unzip BrowserStackLocal-linux-x64.zip
     # Run the file with your access key
-    - ./BrowserStackLocal $ACCESS_KEY:
+    - ./BrowserStackLocal $BROWSERSTACK_KEY:
         background: true
 
 dependencies:
