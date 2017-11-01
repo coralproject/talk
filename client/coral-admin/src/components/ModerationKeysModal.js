@@ -4,35 +4,38 @@ import Modal from 'components/Modal';
 import styles from './ModerationKeysModal.css';
 import t from 'coral-framework/services/i18n';
 
-const shortcuts = [
-  {
-    title: 'modqueue.navigation',
-    shortcuts: {
-      'j': 'modqueue.next_comment',
-      'k': 'modqueue.prev_comment',
-      'ctrl+f': 'modqueue.toggle_search',
-      't': 'modqueue.next_queue',
-      '1...5': 'modqueue.jumptoqueue',
-      's': 'modqueue.singleview',
-      '?': 'modqueue.thismenu'
-    }
-  },
-  {
-    title: 'modqueue.actions',
-    shortcuts: {
-      'd': 'modqueue.approve',
-      'f': 'modqueue.reject'
-    }
-  }
-];
-
 export default class ModerationKeysModal extends React.Component {
 
   static propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     hideShortcutsNote: PropTypes.func.isRequired,
-    shortcutsNoteVisible: PropTypes.string.isRequired
+    shortcutsNoteVisible: PropTypes.string.isRequired,
+    queueCount: PropTypes.number.isRequired
+  }
+
+  buildShortcuts = () => {
+    return [
+      {
+        title: 'modqueue.navigation',
+        shortcuts: {
+          'j': 'modqueue.next_comment',
+          'k': 'modqueue.prev_comment',
+          'ctrl+f': 'modqueue.toggle_search',
+          't': 'modqueue.next_queue',
+          [`1...${this.props.queueCount}`]: 'modqueue.jump_to_queue',
+          's': 'modqueue.singleview',
+          '?': 'modqueue.thismenu'
+        }
+      },
+      {
+        title: 'modqueue.actions',
+        shortcuts: {
+          'd': 'modqueue.approve',
+          'f': 'modqueue.reject'
+        }
+      }
+    ];
   }
 
   render () {
@@ -52,7 +55,7 @@ export default class ModerationKeysModal extends React.Component {
         <Modal open={open} onClose={onClose}>
           <h3>{t('modqueue.shortcuts')}</h3>
           <div className={styles.container}>
-            {shortcuts.map((shortcut, i) => (
+            {this.buildShortcuts().map((shortcut, i) => (
               <table className={styles.table} key={i}>
                 <thead>
                   <tr>
