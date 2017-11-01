@@ -2,7 +2,6 @@
 
 const Nightwatch = require('nightwatch');
 const browserstack = require('browserstack-local');
-const {onshutdown} = require('../bin/util');
 
 async function start() {
   try {
