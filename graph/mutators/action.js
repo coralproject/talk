@@ -35,7 +35,7 @@ const createAction = async ({user = {}, pubsub, loaders: {Comments}}, {item_id, 
 
     // Set the user as pending if it was a user flag and user has no Admin, Staff or Moderation roles
     let user = await UsersService.findById(item_id);
-    if(!user.roles){
+    if(!user.isStaff()){
       await UsersService.setStatus(item_id, 'PENDING');
     }
   }
