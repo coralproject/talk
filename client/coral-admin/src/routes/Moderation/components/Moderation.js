@@ -10,6 +10,7 @@ import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import StorySearch from '../containers/StorySearch';
 import Slot from 'coral-framework/components/Slot';
 import ViewOptions from './ViewOptions';
+import RejectConfirmation from './RejectConfirmation';
 
 class Moderation extends Component {
   constructor(props) {
@@ -260,6 +261,10 @@ class Moderation extends Component {
             selectSort={this.props.setSortOrder}
             sort={this.props.moderation.sortOrder}
           />
+          <RejectConfirmation
+            onUndo={this.props.undoRejectComment}
+            show={this.props.rejectConfirmation.show}
+          />
           <ModerationQueue
             key={`${activeTab}_${this.props.moderation.sortOrder}`}
             data={this.props.data}
@@ -317,6 +322,10 @@ Moderation.propTypes = {
   setSortOrder: PropTypes.func.isRequired,
   showBanUserDialog: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func.isRequired,
+  rejectConfirmation: PropTypes.object.isRequired,
+  showRejectConfirmation: PropTypes.func.isRequired,
+  hideRejectConfirmation: PropTypes.func.isRequired,
+  undoRejectComment: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
   loadMore: PropTypes.func.isRequired,

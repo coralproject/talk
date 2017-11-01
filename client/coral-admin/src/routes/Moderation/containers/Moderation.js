@@ -16,6 +16,8 @@ import {handleCommentChange} from '../graphql';
 import {showBanUserDialog} from 'actions/banUserDialog';
 import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 import {viewUserDetail} from '../../../actions/userDetail';
+import {showRejectConfirmation, hideRejectConfirmation} from '../../../actions/showRejectConfirmation';
+
 import {
   toggleModal,
   singleView,
@@ -150,7 +152,6 @@ class ModerationContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
     // Resubscribe when we change between assets.
     if(this.props.data.variables.asset_id !== nextProps.data.variables.asset_id) {
       this.resubscribe(nextProps.data.variables);
@@ -162,7 +163,14 @@ class ModerationContainer extends Component {
   }
 
   rejectComment = ({commentId}) => {
+    this.props.showRejectConfirmation(commentId);
     return this.props.setCommentStatus({commentId, status: 'REJECTED'});
+  }
+
+  undoRejectComment = () => {
+    this.props.hideRejectConfirmation();
+    this.props.setCommentStatus({commentId: this.props.rejectConfirmation.commentId, status: 'NONE'});
+    this.props.data.refetch();
   }
 
   loadMore = (tab) => {
@@ -232,6 +240,7 @@ class ModerationContainer extends Component {
       loadMore={this.loadMore}
       acceptComment={this.acceptComment}
       rejectComment={this.rejectComment}
+      undoRejectComment={this.undoRejectComment}
       activeTab={this.activeTab}
       queueConfig={currentQueueConfig}
       handleCommentChange={this.handleCommentChange}
@@ -377,10 +386,13 @@ const withModQueueQuery = withQuery(({queueConfig}) => gql`
   },
 });
 
-const mapStateToProps = (state) => ({
-  moderation: state.moderation,
-  auth: state.auth,
-});
+const mapStateToProps = (state) => {
+  return ({
+    moderation: state.moderation,
+    auth: state.auth,
+    rejectConfirmation: state.showRejectConfirmation,
+  });
+};
 
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
@@ -390,6 +402,8 @@ const mapDispatchToProps = (dispatch) => ({
     hideShortcutsNote,
     toggleStorySearch,
     showSuspendUserDialog,
+    showRejectConfirmation,
+    hideRejectConfirmation,
     viewUserDetail,
     setSortOrder,
     storySearchChange,

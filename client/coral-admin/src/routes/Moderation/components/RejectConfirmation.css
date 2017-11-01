@@ -1,0 +1,17 @@
+.rejectConfirmation {
+  margin: 10px auto 0px auto;
+  padding-left: 14px;
+  width: 500px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 2px;
+  text-align: left;
+  font-size: 1rem;
+  color: #03296a;
+  background-color: rgba(228, 228, 228, 1);
+}
+
+.undo {
+  cursor: pointer;
+  text-decoration: underline;
+}
