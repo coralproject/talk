@@ -71,27 +71,28 @@ describe('graph.mutations.createComment', () => {
     beforeEach(() => AssetModel.create({id: '123'}));
 
     [
-      {user: new UserModel({status: 'ACTIVE'}), error: null},
-      {user: new UserModel({status: 'BANNED'}), error: 'NOT_AUTHORIZED'},
-      {user: new UserModel({status: 'PENDING'}), error: null},
-      {user: new UserModel({status: 'APPROVED'}), error: null}
+      {user: new UserModel({}), error: null},
+      {user: new UserModel({banned: true}), error: 'NOT_AUTHORIZED'},
+      {user: new UserModel({suspended: new Date((new Date()).getTime() - (10 * 86400000))}), error: null},
+      {user: new UserModel({suspended: new Date((new Date()).getTime() + (10 * 86400000))}), error: 'NOT_AUTHORIZED'},
     ].forEach(({user, error}) => {
-      describe(`user.status=${user.status}`, () => {
-        it(error ? 'does not create the comment' : 'creates the comment', () => {
+      describe(`user.banned=${user.banned} user.suspended=${user.suspended}`, () => {
+        it(error ? 'does not create the comment' : 'creates the comment', async () => {
           const context = new Context({user});
+          const {data, errors} = await graphql(schema, query, {}, context);
 
-          return graphql(schema, query, {}, context)
-            .then(({data, errors}) => {
-              expect(errors).to.be.undefined;
-              if (error) {
-                expect(data.createComment).to.have.property('comment').null;
-                expect(data.createComment).to.have.property('errors').not.null;
-                expect(data.createComment.errors[0]).to.have.property('translation_key', error);
-              } else {
-                expect(data.createComment).to.have.property('comment').not.null;
-                expect(data.createComment).to.have.property('errors').null;
-              }
-            });
+          expect(errors).to.be.undefined;
+          if (error) {
+            expect(data.createComment).to.have.property('comment').null;
+            expect(data.createComment).to.have.property('errors').not.null;
+            expect(data.createComment.errors[0]).to.have.property('translation_key', error);
+          } else {
+            if (data.createComment.errors && data.createComment.errors.length > 0) {
+              console.error(data.createComment.errors);
+            }
+            expect(data.createComment).to.have.property('errors').null;
+            expect(data.createComment).to.have.property('comment').not.null;
+          }
         });
       });
     });
@@ -109,7 +110,7 @@ describe('graph.mutations.createComment', () => {
         beforeEach(() => asset.save());
 
         it(error ? 'does not create the comment' : 'creates the comment', () => {
-          const context = new Context({user: new UserModel({status: 'ACTIVE'})});
+          const context = new Context({user: new UserModel({})});
 
           return graphql(schema, query, {}, context)
             .then(({data, errors}) => {
@@ -142,7 +143,7 @@ describe('graph.mutations.createComment', () => {
         beforeEach(() => AssetModel.create({id: '123', settings: {moderation}}));
 
         it(`creates comment with status=${status}`, () => {
-          const context = new Context({user: new UserModel({status: 'ACTIVE'})});
+          const context = new Context({user: new UserModel()});
 
           return graphql(schema, query, {}, context)
             .then(({data, errors}) => {
@@ -172,33 +173,30 @@ describe('graph.mutations.createComment', () => {
     ].forEach(({message, body, status, flagged}) => {
       describe(message, () => {
 
-        it(`should create a comment with status=${status} and it ${flagged ? 'should' : 'should not'} be flagged`, () => {
-          const context = new Context({user: new UserModel({status: 'ACTIVE'})});
+        it(`should create a comment with status=${status} and it ${flagged ? 'should' : 'should not'} be flagged`, async () => {
+          const context = new Context({user: new UserModel({})});
 
-          return graphql(schema, query, {}, context, {
+          const {data, errors} = await graphql(schema, query, {}, context, {
             input: {
               asset_id: '123',
               body
             }
-          })
-            .then(({data, errors}) => {
-              expect(errors).to.be.undefined;
-              expect(data.createComment).to.have.property('comment').not.null;
-              expect(data.createComment.comment).to.have.property('status', status);
-              expect(data.createComment).to.have.property('errors').null;
+          });
 
-              return ActionModel.find({
-                item_id: data.createComment.comment.id,
-                action_type: 'FLAG'
-              });
-            })
-            .then((actions) => {
-              if (flagged) {
-                expect(actions).to.have.length(1);
-              } else {
-                expect(actions).to.have.length(0);
-              }
-            });
+          expect(errors).to.be.undefined;
+          expect(data.createComment).to.have.property('comment').not.null;
+          expect(data.createComment.comment).to.have.property('status', status);
+          expect(data.createComment).to.have.property('errors').null;
+
+          const actions = await ActionModel.find({
+            item_id: data.createComment.comment.id,
+            action_type: 'FLAG'
+          });
+          if (flagged) {
+            expect(actions).to.have.length(1);
+          } else {
+            expect(actions).to.have.length(0);
+          }
         });
 
       });
@@ -217,30 +215,26 @@ describe('graph.mutations.createComment', () => {
     ].forEach(({roles, tag}) => {
       describe(`user.roles=${JSON.stringify(roles)}`, () => {
 
-        it(`creates comment ${tag ? `with tag=${tag}` : 'without tags'}`, () => {
+        it(`creates comment ${tag ? `with tag=${tag}` : 'without tags'}`, async () => {
           const context = new Context({user: new UserModel({roles})});
 
-          return graphql(schema, query, {}, context)
-            .then(({data, errors}) => {
-              if (errors) {
-                console.error(errors);
-              }
-              expect(errors).to.be.undefined;
-              expect(data.createComment).to.have.property('comment').not.null;
-              expect(data.createComment).to.have.property('errors').null;
+          const {data, errors} = await graphql(schema, query, {}, context);
 
-              return CommentsService.findById(data.createComment.comment.id);
-            })
-            .then(({tags}) => {
-              if (tag) {
-                expect(tags).to.have.length(1);
-                expect(tags[0].tag.name).to.have.equal(tag);
-              } else {
-                expect(tags).length(0);
-              }
-            });
+          if (errors) {
+            console.error(errors);
+          }
+          expect(errors).to.be.undefined;
+          expect(data.createComment).to.have.property('comment').not.null;
+          expect(data.createComment).to.have.property('errors').null;
+
+          const {tags} = await CommentsService.findById(data.createComment.comment.id);
+          if (tag) {
+            expect(tags).to.have.length(1);
+            expect(tags[0].tag.name).to.have.equal(tag);
+          } else {
+            expect(tags).length(0);
+          }
         });
-
       });
     });
 

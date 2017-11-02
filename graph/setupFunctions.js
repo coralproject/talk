@@ -27,13 +27,13 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
     commentAdded: {
       filter: (comment, context) => {
 
-        // Only priviledged users can subscribe to all assets.
+        // Only privileged users can subscribe to all assets.
         if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ADDED))) {
           return false;
         }
 
-        // If user scubsscribes for statuses other than NONE and/or ACCEPTED statuses, it needs
-        // special priviledges.
+        // If user subscribes for statuses other than NONE and/or ACCEPTED statuses, it needs
+        // special privileges.
         if (
           (!args.statuses || args.statuses.some((status) => !['NONE', 'ACCEPTED'].includes(status))) &&
           (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ADDED))

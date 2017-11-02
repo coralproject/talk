@@ -66,7 +66,7 @@ describe('graph.mutations.removeTag', () => {
     Object.entries({
       'anonymous': undefined,
       'regular commenter': new UserModel({}),
-      'banned moderator': new UserModel({roles: ['MODERATOR'], status: 'BANNED'})
+      'banned moderator': new UserModel({roles: ['MODERATOR'], banned: true})
     }).forEach(([userDescription, user]) => {
       it(userDescription, async function () {
         const context = new Context({user});

@@ -6,7 +6,6 @@ const {
   SEARCH_OTHERS_COMMENTS,
   UPDATE_USER_ROLES,
   SEARCH_COMMENT_METRICS,
-  VIEW_SUSPENSION_INFO,
   LIST_OWN_TOKENS
 } = require('../../perms/constants');
 
@@ -84,12 +83,12 @@ const User = {
     }
   },
 
-  suspension({id, suspension}, _, {user}) {
-    if (user.id !== id && !user.can(VIEW_SUSPENSION_INFO)) {
-      return null;
-    }
-    return suspension;
-  }
+  // suspension({id, suspension}, _, {user}) {
+  //   if (user.id !== id && !user.can(VIEW_SUSPENSION_INFO)) {
+  //     return null;
+  //   }
+  //   return suspension;
+  // }
 };
 
 // Decorate the User type resolver with a tags field.

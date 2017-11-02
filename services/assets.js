@@ -1,7 +1,7 @@
 const CommentModel = require('../models/comment');
 const AssetModel = require('../models/asset');
 const SettingsService = require('./settings');
-const domainlist = require('./domainlist');
+const DomainList = require('./domain_list');
 const errors = require('../errors');
 const merge = require('lodash/merge');
 
@@ -64,7 +64,7 @@ module.exports = class AssetsService {
 
     // Check the URL to confirm that is in the domain whitelist
     return Promise.all([
-      domainlist.urlCheck(url),
+      DomainList.urlCheck(url),
       SettingsService.retrieve()
     ]).then(([whitelisted, settings]) => {
 

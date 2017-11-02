@@ -19,14 +19,17 @@ const RootMutation = {
   deleteAction: async (_, {id}, {mutators: {Action}}) => {
     await Action.delete({id});
   },
-  setUserStatus: async (_, {id, status}, {mutators: {User}}) => {
-    await User.setUserStatus({id, status});
+  approveUsername: async (_, {id}, {mutators: {User}}) => {
+    await User.setUserUsernameStatus(id, 'APPROVED');
   },
-  suspendUser: async (_, {input: {id, message, until}}, {mutators: {User}}) => {
-    await User.suspendUser({id, message, until});
+  rejectUsername: async (_, {id}, {mutators: {User}}) => {
+    await User.setUserUsernameStatus(id, 'REJECTED');
   },
-  rejectUsername: async (_, {input: {id, message}}, {mutators: {User}}) => {
-    await User.rejectUsername({id, message});
+  setUserSuspensionStatus: async (_, {input: {id, until}}, {mutators: {User}}) => {
+    await User.setUserSuspensionStatus(id, until);
+  },
+  setUserBanStatus: async (_, {input: {id, status}}, {mutators: {User}}) => {
+    await User.setUserBanStatus(id, status);
   },
   ignoreUser: async (_, {id}, {mutators: {User}}) => {
     await User.ignoreUser({id});

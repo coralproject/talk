@@ -12,6 +12,7 @@ const {createGraphOptions} = require('../graph');
 const accepts = require('accepts');
 const apollo = require('graphql-server-express');
 const {DISABLE_STATIC_SERVER} = require('../config');
+const SetupService = require('../services/setup');
 
 const router = express.Router();
 
@@ -19,28 +20,28 @@ const router = express.Router();
 // STATIC FILES
 //==============================================================================
 
-// If the application is in production mode, then add gzip rewriting for the
-// content.
-if (process.env.NODE_ENV === 'production') {
-  router.get('*.js', (req, res, next) => {
-    const accept = accepts(req);
-    if (accept.encoding(['gzip']) === 'gzip') {
-
-      // Adjsut the headers on the request by adding a content type header
-      // because express won't be able to detect the mime-type with the .gz
-      // extension and we need to decalre support for the gzip encoding.
-      res.set('Content-Type', 'application/javascript');
-      res.set('Content-Encoding', 'gzip');
-
-      // Rewrite the url so that the gzip version will be served instead.
-      req.url = `${req.url}.gz`;
-    }
-
-    next();
-  });
-}
-
 if (!DISABLE_STATIC_SERVER) {
+
+  // If the application is in production mode, then add gzip rewriting for the
+  // content.
+  if (process.env.NODE_ENV === 'production') {
+    router.get('*.js', (req, res, next) => {
+      const accept = accepts(req);
+      if (accept.encoding(['gzip']) === 'gzip') {
+
+      // Adjust the headers on the request by adding a content type header
+      // because express won't be able to detect the mime-type with the .gz
+      // extension and we need to declare support for the gzip encoding.
+        res.set('Content-Type', 'application/javascript');
+        res.set('Content-Encoding', 'gzip');
+
+        // Rewrite the url so that the gzip version will be served instead.
+        req.url = `${req.url}.gz`;
+      }
+
+      next();
+    });
+  }
 
   /**
    * Serve the directories under public/dist from this router.
@@ -100,7 +101,7 @@ if (process.env.NODE_ENV !== 'production') {
     });
   });
 
-  // GraphQL documention.
+  // GraphQL documentation.
   router.get('/admin/docs', (req, res) => {
     res.render('admin/docs');
   });
@@ -118,14 +119,28 @@ router.use('/embed', require('./embed'));
 if (process.env.NODE_ENV !== 'production') {
   router.use('/assets', require('./assets'));
 
-  router.get('/', (req, res) => {
-    return res.render('article', {
-      title: 'Coral Talk',
-      asset_url: '',
-      asset_id: '',
-      body: '',
-      basePath: '/client/embed/stream'
-    });
+  router.get('/', async (req, res) => {
+    try {
+      await SetupService.isAvailable();
+      return res.redirect('/admin/install');
+    } catch (e) {
+      return res.render('article', {
+        title: 'Coral Talk',
+        asset_url: '',
+        asset_id: '',
+        body: '',
+        basePath: '/client/embed/stream'
+      });
+    }
+  });
+} else {
+  router.get('/', async (req, res, next) => {
+    try {
+      await SetupService.isAvailable();
+      return res.redirect('/admin/install');
+    } catch (e) {
+      return res.redirect('/admin');
+    }
   });
 }
 

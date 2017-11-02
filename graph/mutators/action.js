@@ -1,5 +1,4 @@
 const ActionsService = require('../../services/actions');
-const UsersService = require('../../services/users');
 const errors = require('../../errors');
 const {CREATE_ACTION, DELETE_ACTION} = require('../../perms/constants');
 
@@ -30,15 +29,6 @@ const createAction = async ({user = {}, pubsub, loaders: {Comments}}, {item_id, 
     action_type,
     metadata
   });
-
-  if (item_type === 'USERS' && action_type === 'FLAG') {
-
-    // Set the user as pending if it was a user flag and user has no Admin, Staff or Moderation roles
-    let user = await UsersService.findById(item_id);
-    if(!user.isStaff()){
-      await UsersService.setStatus(item_id, 'PENDING');
-    }
-  }
 
   if (comment) {
     pubsub.publish('commentFlagged', comment);

@@ -6,41 +6,32 @@
   "private": true,
   "scripts": {
     "postinstall": "./bin/cli plugins reconcile --skip-remote",
-    "start": "./bin/cli serve -j -w",
-    "dev-start": "nodemon -w . -w bin/cli -w bin/cli-serve --config .nodemon.json --exec \"yarn generate-introspection && ./bin/cli -c .env serve -j -w\"",
-    "prebuild": "yarn generate-introspection",
-    "build": "WEBPACK=TRUE NODE_ENV=production webpack -p --config webpack.config.js --bail",
-    "prebuild-watch": "yarn generate-introspection",
-    "build-watch": "WEBPACK=TRUE NODE_ENV=development webpack --progress --config webpack.config.js --watch",
-    "lint": "yamllint locales/*.yml && eslint --ext=.js --ext=.json bin/* .",
-    "lint-fix": "yarn lint --fix",
-    "jest-watch": "TEST_MODE=unit NODE_ENV=test jest --watch",
-    "e2e-ci": "./scripts/e2e-ci.sh",
-    "e2e-browserstack": "NODE_ENV=test ./scripts/e2e-browserstack.js --config nightwatch-browserstack.conf.js",
+    "generate-introspection": "WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js",
+    "watch": "npm-run-all generate-introspection --parallel watch:*",
+    "watch:client": "NODE_ENV=development webpack --progress --watch",
+    "watch:server": "nodemon --config .nodemon.json",
+    "start:development": "NODE_ENV=development ./bin/cli -c .env serve -j -w",
+    "start:production": "NODE_ENV=production ./bin/cli serve -j -w",
+    "build": "NODE_ENV=production webpack -p --bail",
+    "lint:yaml": "yamllint locales/*.yml",
+    "lint:js": "eslint --ext=.js --ext=.json bin/* .",
+    "lint": "npm-run-all lint:*",
+    "plugins:reconcile": "./bin/cli plugins reconcile",
+    "test": "npm-run-all test:client test:server",
+    "test:server": "TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
+    "test:client": "TEST_MODE=unit NODE_ENV=test jest",
+    "test:client:watch": "TEST_MODE=unit NODE_ENV=test jest --watch",
     "pree2e": "selenium-standalone install",
+    "pree2e:ci": "selenium-standalone install",
+    "pree2e:browserstack": "selenium-standalone install",
     "e2e": "NODE_ENV=test nightwatch",
-    "test": "TEST_MODE=unit NODE_ENV=test jest && TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
-    "test-cover": "TEST_MODE=unit NODE_ENV=test istanbul cover _mocha --report text --check-coverage -- -R spec",
-    "heroku-postbuild": "./bin/cli plugins reconcile && yarn build",
-    "generate-introspection": "WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js"
+    "e2e:ci": "./scripts/e2e-ci.sh",
+    "e2e:browserstack": "NODE_ENV=test ./scripts/e2e-browserstack.js --config nightwatch-browserstack.conf.js",
+    "heroku-postbuild": "npm-run-all plugins:reconcile build"
   },
   "talk": {
     "migration": {
       "minVersion": 1496771633
-    }
-  },
-  "config": {
-    "pre-git": {
-      "commit-msg": [],
-      "pre-commit": [
-        "yarn lint",
-        "yarn test"
-      ],
-      "pre-push": [
-        "yarn test"
-      ],
-      "post-commit": [],
-      "post-merge": []
     }
   },
   "repository": {
@@ -122,7 +113,6 @@
     "imports-loader": "^0.7.1",
     "inquirer": "^3.2.2",
     "ioredis": "3.1.4",
-    "istanbul": "^1.1.0-alpha.1",
     "joi": "^10.6.0",
     "json-loader": "^0.5.7",
     "jsonwebtoken": "^7.4.3",
@@ -144,6 +134,7 @@
     "node-emoji": "^1.8.1",
     "node-fetch": "^1.7.2",
     "nodemailer": "^2.6.4",
+    "npm-run-all": "^4.1.1",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.0",
     "passport-local": "^1.0.0",
@@ -172,7 +163,6 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "resolve": "^1.4.0",
-    "selenium-standalone": "^6.11.0",
     "semver": "^5.4.1",
     "simplemde": "^1.11.2",
     "smoothscroll-polyfill": "^0.3.5",
@@ -199,6 +189,7 @@
     "browserstack-local": "^1.3.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
+    "chai-datetime": "^1.5.0",
     "chai-http": "^3.0.0",
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-15": "^1.0.0",
@@ -210,16 +201,12 @@
     "mocha-junit-reporter": "^1.12.1",
     "nightwatch": "^0.9.16",
     "nodemon": "^1.11.0",
-    "pre-git": "^3.15.3",
+    "selenium-standalone": "^6.11.0",
     "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
     "yaml-lint": "^1.0.0"
   },
   "engines": {
     "node": "^8"
-  },
-  "release": {
-    "analyzeCommits": "simple-commit-message"
-  },
-  "snyk": true
+  }
 }
