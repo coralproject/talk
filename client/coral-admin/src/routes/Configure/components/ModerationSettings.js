@@ -19,7 +19,8 @@ class ModerationSettings extends React.Component {
   };
 
   updatePremodNewUserEnable = () => {
-    const updater = {premodNewUserEnable: {$set: !this.props.settings.premodNewUserEnable}};
+    const newUserDate = isNaN(Date.parse(this.props.settings.premodNewUserEnable)) ?  new Date().toString() : null;
+    const updater = {premodNewUserEnable: {$set: newUserDate}};
     this.props.updatePending({updater});
   }
   updatePremodLinksEnable = () => {
@@ -63,7 +64,7 @@ class ModerationSettings extends React.Component {
           {t('configure.enable_pre_moderation_text')}
         </ConfigureCard>
         <ConfigureCard
-          checked={settings.premodNewUserEnable}
+          checked={!isNaN(Date.parse(settings.premodNewUserEnable))}
           onCheckbox={this.updatePremodNewUserEnable}
           title={t('configure.enable_premod_newuser')}
         >

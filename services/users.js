@@ -915,16 +915,6 @@ module.exports = class UsersService {
       }
     });
   }
-
-  /**
-   * Remove New User status
-   * @param {String} userId the id of the user to modify
-   */
-  static async updateNewUser(id) {
-    await UserModel.update({id}, {
-      newUser: false
-    });
-  }
 };
 
 // Extract all the tokenUserNotFound plugins so we can integrate with other

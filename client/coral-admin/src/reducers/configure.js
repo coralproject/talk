@@ -28,7 +28,6 @@ export default function configure(state = initialState, action) {
     next = update(next, {
       canSave: {$set: canSave},
     });
-
     return next;
   }
   case actions.CLEAR_PENDING:

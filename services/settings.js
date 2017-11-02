@@ -59,6 +59,7 @@ module.exports = class SettingsService {
    * @return {Promise} settings Promise that resolves to the entire (updated) settings object.
    */
   static update(settings) {
+
     return SettingModel.findOneAndUpdate(selector, {
       $set: dotize(settings)
     }, {
