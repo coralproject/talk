@@ -126,11 +126,6 @@ const UserSchema = new Schema({
       default: ''
     },
   },
-  
-  newUser: {
-    type: Boolean,
-    default: true,
-  },
 
   ignoresUsers: [{
 

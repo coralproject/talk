@@ -50,7 +50,7 @@ export default class Configure extends Component {
               canSave ?
                 <Button
                   raised
-                  onClick={savePending}
+                  onClick={(savePending)}
                   className={styles.changedSave}
                   icon='check'
                   full

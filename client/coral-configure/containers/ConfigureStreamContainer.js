@@ -29,7 +29,7 @@ class ConfigureStreamContainer extends Component {
     const premod = elements.premod.checked;
     const questionBoxEnable = elements.qboxenable.checked;
     const premodLinksEnable = elements.plinksenable.checked;
-    const premodNewUserEnable = elements.pnewuserenable.checked;
+    const premodNewUserEnable = elements.pnewuserenable.checked ? new Date() : null;
     const {changed} = this.state;
 
     const newConfig = {
@@ -53,7 +53,6 @@ class ConfigureStreamContainer extends Component {
 
   handleChange (e, newChanges) {
     let changes = {};
-
     if (changes) {
       changes = {...newChanges};
     }

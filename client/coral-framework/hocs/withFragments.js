@@ -88,7 +88,6 @@ export default (fragments) => hoistStatics((BaseComponent) => {
 
     componentWillReceiveProps(next) {
       this.shallowChanges = getShallowChanges(this.props, next);
-
       if (this.fragmentKeys.some((key) => this.shallowChanges.indexOf(key) >= 0)) {
         const nextFilteredProps = filterProps(next, this.fragments);
         this.queryDataHasChanged = !hasEqualLeaves(this.filteredProps, nextFilteredProps);

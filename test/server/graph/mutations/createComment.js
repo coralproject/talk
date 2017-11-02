@@ -162,16 +162,16 @@ describe('graph.mutations.createComment', () => {
     beforeEach(() => AssetModel.create({id: '123'}));
 
     [
-      {contextNewUser: false, premodNewUserEnable: false, status: 'NONE'},
-      {contextNewUser: true, premodNewUserEnable: false, status: 'NONE'},
-      {contextNewUser: false, premodNewUserEnable: true, status: 'NONE'},
-      {contextNewUser: true, premodNewUserEnable: true, status: 'PREMOD'},
-    ].forEach(({contextNewUser, premodNewUserEnable, status}) => {
-      describe(`${contextNewUser ? 'new' : ''} user with premodNewUser ${premodNewUserEnable ? 'on' : 'off'}`, () => {
+      {contextNewUserCreated: '2017-01-01', premodNewUserEnable: null, status: 'NONE'},
+      {contextNewUserCreated: '2017-01-01', premodNewUserEnable: null, status: 'NONE'},
+      {contextUserCreated: '2016-12-30', premodNewUserEnable: '2017-01-01', status: 'NONE'},
+      {contextNewUserCreated: '2017-11-02', premodNewUserEnable: '2017-01-01', status: 'PREMOD'},
+    ].forEach(({contextNewUserCreated, premodNewUserEnable, status}) => {
+      describe(`${contextNewUserCreated ? 'new' : ''} user with premodNewUser ${premodNewUserEnable ? 'on' : 'off'}`, () => {
         beforeEach(() => SettingsService.update({premodNewUserEnable}));
 
         it(`should create a comment with status ${status}`, () => {
-          const context = new Context({user: new UserModel({newUser: contextNewUser})});
+          const context = new Context({user: new UserModel({created_at: contextNewUserCreated})});
           return graphql(schema, query, {}, context, {
             asset_id: '123',
             body: 'An innocuous comment',
