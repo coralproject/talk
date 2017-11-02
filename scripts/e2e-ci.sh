@@ -29,7 +29,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
 
     echo "-- Start e2e for $1 #$try --"
 
-    REPORTS_FOLDER="$CIRCLE_TEST_REPORTS/$1" yarn test:e2e:browserstack --env "$1"
+    REPORTS_FOLDER="$CIRCLE_TEST_REPORTS/$1" yarn e2e:browserstack --env "$1"
 
     # Determine exit code.
     result=$?
@@ -85,7 +85,7 @@ if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
   exit $exitCode
 else
   # When browserstack is not available test locally using chrome headless.
-  REPORTS_FOLDER="$CIRCLE_TEST_REPORTS/chrome" yarn test:e2e --env chrome-headless
+  REPORTS_FOLDER="$CIRCLE_TEST_REPORTS/chrome" yarn e2e --env chrome-headless
 
   # Will exit with status of last command.
   exit $?
