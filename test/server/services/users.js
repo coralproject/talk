@@ -223,63 +223,72 @@ describe('services.UsersService', () => {
     });
   });
 
-  // describe('#editName', () => {
-  //   it('should let the user edit their username if the proper toggle is set', () => {
-  //     return UsersService
-  //       .toggleNameEdit(mockUsers[0].id, true)
-  //       .then(() => UsersService.editName(mockUsers[0].id, 'Jojo'))
-  //       .then(() => UsersService.findById(mockUsers[0].id))
-  //       .then((user) => {
-  //         expect(user).to.have.property('username', 'Jojo');
-  //         expect(user).to.have.property('canEditName', false);
-  //       });
-  //   });
+  describe('#changeUsername', () => {
+    [
+      {status: 'UNSET'},
+      {status: 'REJECTED'},
+      {error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: 'SET'},
+      {error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: 'APPROVED'},
+      {error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: 'CHANGED'},
+    ].forEach(({status, error}) => {
+      it(`${error ? 'should not' : 'should'} let them change the username if they have the status of ${status}`, async () => {
+        const user = mockUsers[0];
 
-  //   it('should let the user submit the same username if user is not banned (create username)', () => {
-  //     return UsersService
-  //       .toggleNameEdit(mockUsers[0].id, true)
-  //       .then(() => UsersService.editName(mockUsers[0].id, mockUsers[0].username))
-  //       .then(() => UsersService.findById(mockUsers[0].id))
-  //       .then((user) => {
-  //         expect(user).to.have.property('username', mockUsers[0].username);
-  //         expect(user).to.have.property('canEditName', false);
-  //       });
-  //   });
+        // Set the user to the desired status.
+        await UsersService.setUsernameStatus(user.id, status);
 
-  //   it('should return error when a banned user submits the same username (rejected username)', () => {
-  //     return UsersService
-  //       .toggleNameEdit(mockUsers[0].id, true)
-  //       .then(() => UsersService.setStatus(mockUsers[0].id, 'BANNED'))
-  //       .then(() => UsersService.editName(mockUsers[0].id, mockUsers[0].username))
-  //       .then(() => UsersService.findById(mockUsers[0].id))
-  //       .then(() => {
-  //         throw new Error('Error expected');
-  //       })
-  //       .catch((err) => {
-  //         expect(err.status).to.equal(400);
-  //         expect(err.translation_key).to.equal('SAME_USERNAME_PROVIDED');
-  //       });
-  //   });
+        try {
+          await UsersService.changeUsername(user.id, 'spock');
+        } catch (err) {
+          if (error) {
+            expect(err).have.property('translation_key', error);
+          } else {
+            throw err;
+          }
+        }
+      });
+    });
 
-  //   it('should return an error if canEditName is false', async () => {
-  //     return expect(UsersService.editName(mockUsers[0].id, 'Jojo')).to.eventually.be.rejected;
-  //   });
+    it('should refuse changing the username to the same username', async () => {
+      const user = mockUsers[0];
 
-  //   it('should return an error if the username is already taken', async () => {
-  //     await UsersService.toggleNameEdit(mockUsers[0].id, true);
-  //     return expect(UsersService.editName(mockUsers[0].id, 'Marvel')).to.eventually.be.rejected;
-  //   });
+      // Set the user to the desired status.
+      await UsersService.setUsernameStatus(user.id, 'UNSET');
 
-  //   it('should not allow non-alphanumeric characters in usernames', () => {
-  //     return UsersService
-  //       .isValidUsername('hi🖕')
-  //       .then(() => {
-  //         expect(false).to.be.true;
-  //       })
-  //       .catch((err) => {
-  //         expect(err).to.be.ok;
-  //       });
-  //   });
-  // });
+      try {
+        await UsersService.changeUsername(user.id, user.username);
+        throw new Error('edit was processed successfully');
+      } catch (err) {
+        expect(err).have.property('translation_key', 'SAME_USERNAME_PROVIDED');
+      }
+    });
 
+    it('should refuse changing the username to one already taken', async () => {
+      const user = mockUsers[0];
+      const otherUser = mockUsers[1];
+
+      // Set the user to the desired status.
+      await UsersService.setUsernameStatus(user.id, 'UNSET');
+
+      try {
+        await UsersService.changeUsername(user.id, otherUser.username);
+        throw new Error('edit was processed successfully');
+      } catch (err) {
+        expect(err).have.property('translation_key', 'USERNAME_IN_USE');
+      }
+    });
+  });
+
+  describe('#isValidUsername', () => {
+    it('should not allow non-alphanumeric characters in usernames', () => {
+      return UsersService
+        .isValidUsername('hi🖕')
+        .then(() => {
+          expect(false).to.be.true;
+        })
+        .catch((err) => {
+          expect(err).to.be.ok;
+        });
+    });
+  });
 });

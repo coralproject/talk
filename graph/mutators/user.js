@@ -8,24 +8,7 @@ const {
 } = require('../../perms/constants');
 
 const setUserUsernameStatus = async (ctx, id, status) => {
-  const user = await UserModel.findOneAndUpdate({id}, {
-    $set: {
-      'status.username.status': status
-    },
-    $push: {
-      'status.username.history': {
-        status,
-        assigned_by: ctx.user.id,
-        created_at: Date.now()
-      }
-    }
-  }, {
-    new: true
-  });
-  if (user === null) {
-    throw errors.ErrNotFound;
-  }
-
+  const user = await UsersService.setUsernameStatus(id, status, ctx.user.id);
   if (status === 'REJECTED') {
     ctx.pubsub.publish('usernameRejected', user);
   }

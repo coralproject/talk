@@ -60,7 +60,7 @@ module.exports = class UsersService {
   }
 
   /**
-   * This records an unsucesfull login attempt for the given email address. If
+   * This records an unsuccessful login attempt for the given email address. If
    * the maximum has been reached, the promise will be rejected with:
    *
    *  errors.ErrLoginAttemptMaximumExceeded
@@ -80,8 +80,81 @@ module.exports = class UsersService {
     }
   }
 
+  static async setUsernameStatus(id, status, assignedBy = null) {
+    const user = await UserModel.findOneAndUpdate({id}, {
+      $set: {
+        'status.username.status': status
+      },
+      $push: {
+        'status.username.history': {
+          status,
+          assigned_by: assignedBy,
+          created_at: Date.now()
+        }
+      }
+    }, {
+      new: true
+    });
+    if (user === null) {
+      throw errors.ErrNotFound;
+    }
+
+    return user;
+  }
+
+  static async changeUsername(id, username) {
+    try {
+      let user = await UserModel.findOneAndUpdate({
+        id,
+        username: {$ne: username},
+        'status.username.status': {
+          $in: ['UNSET', 'REJECTED']
+        }
+      }, {
+        $set: {
+          username,
+          lowercaseUsername: username.toLowerCase(),
+          'status.username.status': 'CHANGED',
+        },
+        $push: {
+          'status.username.history': {
+            status: 'CHANGED',
+            assigned_by: id,
+            created_at: Date.now()
+          }
+        }
+      }, {
+        new: true
+      });
+      if (!user) {
+        user = await UsersService.findById(id);
+        if (user === null) {
+          throw errors.ErrNotFound;
+        }
+
+        if (!['UNSET', 'REJECTED'].includes(user.status.username.status)) {
+          throw errors.ErrPermissionUpdateUsername;
+        }
+
+        if (user.username === username) {
+          throw errors.ErrSameUsernameProvided;
+        }
+
+        throw new Error('edit username failed for an unexpected reason');
+      }
+
+      return user;
+    } catch (err) {
+      if (err.code === 11000) {
+        throw errors.ErrUsernameTaken;
+      }
+
+      throw err;
+    }
+  }
+
   /**
-   * This checks to see if the current login attempts against a user exeeds the
+   * This checks to see if the current login attempts against a user exceeds the
    * maximum value allowed, if so, it rejects with:
    *
    *  errors.ErrLoginAttemptMaximumExceeded
