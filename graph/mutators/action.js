@@ -57,8 +57,11 @@ const createAction = async (ctx, {item_id, item_type, action_type, group_id, met
   if (action_type === 'FLAG') {
     if (item_type === 'USERS') {
 
-      // Set the user as pending if it was a user flag.
-      await UsersService.setStatus(item_id, 'PENDING');
+      // Set the user as pending if it was a user flag and user has no Admin, Staff or Moderation roles
+      let user = await UsersService.findById(item_id);
+      if (!user.isStaff()) {
+        await UsersService.setStatus(item_id, 'PENDING');
+      }
     } else if (item_type === 'COMMENTS') {
 
       // Push that the comment was flagged, don't wait for it to finish.

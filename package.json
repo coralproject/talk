@@ -172,7 +172,7 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "resolve": "^1.4.0",
-    "selenium-standalone": "6.9.0",
+    "selenium-standalone": "^6.11.0",
     "semver": "^5.4.1",
     "simplemde": "^1.11.2",
     "smoothscroll-polyfill": "^0.3.5",

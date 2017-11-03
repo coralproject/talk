@@ -34,6 +34,8 @@ class Moderation extends Component {
     key('k', () => this.select(false));
     key('f', () => this.moderate(false));
     key('d', () => this.moderate(true));
+    this.getMenuItems()
+      .forEach((menuItem, idx) => key(`${idx + 1}`, () => this.selectQueue(menuItem)));
   }
 
   onClose = () => {
@@ -41,19 +43,22 @@ class Moderation extends Component {
   }
 
   nextQueue = () => {
-    const queueConfig = this.props.queueConfig;
     const activeTab = this.props.activeTab;
-    const assetId = this.props.data.variables.asset_id;
 
-    const menuItems = Object.keys(queueConfig).map((queue) => ({
-      key: queue
-    }));
+    const menuItems = this.getMenuItems();
 
-    const activeTabIndex = menuItems.findIndex((item) => item.key === activeTab);
+    const activeTabIndex = menuItems.findIndex((item) => item === activeTab);
     const nextQueueIndex = (activeTabIndex === menuItems.length - 1) ? 0 : activeTabIndex + 1;
 
-    this.props.router.push(this.props.getModPath(menuItems[nextQueueIndex].key, assetId));
+    this.selectQueue(menuItems[nextQueueIndex]);
   }
+
+  selectQueue = (key) => {
+    const assetId = this.props.data.variables.asset_id;
+    this.props.router.push(this.props.getModPath(key, assetId));
+  }
+
+  getMenuItems = () => Object.keys(this.props.queueConfig);
 
   closeSearch = () => {
     const {toggleStorySearch} = this.props;
@@ -175,6 +180,8 @@ class Moderation extends Component {
     key.unbind('k');
     key.unbind('f');
     key.unbind('d');
+    this.getMenuItems()
+      .forEach((menuItem, idx) => key.unbind(`${idx + 1}`));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -276,6 +283,7 @@ class Moderation extends Component {
             shortcutsNoteVisible={moderation.shortcutsNoteVisible}
             open={moderation.modalOpen}
             onClose={this.onClose}
+            queueCount={this.getMenuItems().length}
           />
         </div>
         <StorySearch
