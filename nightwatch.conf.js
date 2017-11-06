@@ -9,13 +9,13 @@ module.exports = {
   globals_path: './test/e2e/globals',
   selenium: {
     start_process: true,
-    server_path: 'node_modules/selenium-standalone/.selenium/selenium-server/3.5.3-server.jar',
+    server_path: 'node_modules/selenium-standalone/.selenium/selenium-server/3.6.0-server.jar',
     log_path: './test/e2e/',
     host: '127.0.0.1',
     port: 6666,
     cli_args: {
-      'webdriver.chrome.driver': 'node_modules/selenium-standalone/.selenium/chromedriver/2.32-x64-chromedriver',
-      'webdriver.gecko.driver': 'node_modules/selenium-standalone/.selenium/geckodriver/0.18.0-x64-geckodriver',
+      'webdriver.chrome.driver': 'node_modules/selenium-standalone/.selenium/chromedriver/2.33-x64-chromedriver',
+      'webdriver.gecko.driver': 'node_modules/selenium-standalone/.selenium/geckodriver/0.19.0-x64-geckodriver',
     }
   },
   test_settings: {
@@ -43,7 +43,7 @@ module.exports = {
     'chrome-headless': {
       desiredCapabilities: {
         chromeOptions : {
-          args: ['--headless', '--disable-gpu', 'window-size=1280,800'],
+          args: ['--headless', '--disable-gpu', 'window-size=1600,1200'],
         },
       },
     },
