@@ -1,11 +1,9 @@
-const serve = require('../../serve');
 const mongoose = require('../../services/mongoose');
 const {shutdown} = require('../../bin/util');
 
 module.exports = {
   before: async (done) => {
     await mongoose.connection.dropDatabase();
-    await serve();
     done();
   },
   after: (done) => {
