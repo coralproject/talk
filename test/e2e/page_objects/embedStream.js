@@ -59,6 +59,14 @@ module.exports = {
             popUpText: '.talk-plugin-flags-popup-text',
           }
         },
+        mod: {
+          selector: '.talk-plugin-moderation-actions',
+          elements: {
+            arrow: '.talk-plugin-moderation-actions-arrow',
+            menu: '.talk-plugin-modetarion-actions-menu',
+            banButton: 'talk-plugin-moderation-actions-ban',
+          },
+        },
         profile: {
           selector: '.talk-embed-stream-profile-tab-pane',
           elements: {

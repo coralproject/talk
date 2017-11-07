@@ -125,7 +125,6 @@ module.exports = {
     embed
       .waitForElementVisible('@restrictedMessageBox');
   },
-
   'user picks another username': (client) => {
     const {testData: {user}} = client.globals;
     const embedStream = client.page.embedStream();
