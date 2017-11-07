@@ -119,7 +119,7 @@ async function runBrowserTests(browsers, config, retries = 1, reportsFolder, bro
         printSection(`e2e test for ${browser} #${t}`);
         await nightwatch(browser, config, reportsFolder, browserstack);
         succeeded[browser] = t;
-        console.log(`==> Succeeded e2e for ${browser} #${t}\n`.green);
+        console.log(`\n==> Succeeded e2e for ${browser} #${t}\n`.green);
         break;
       }
       catch (ex) {
@@ -127,7 +127,7 @@ async function runBrowserTests(browsers, config, retries = 1, reportsFolder, bro
           console.log('There was an error while starting the test runner:\n\n');
           process.stderr.write(`${ex.stack}\n`);
         }
-        console.log(`==> Failed e2e for ${browser} #${t}\n`.red);
+        console.log(`\n==> Failed e2e for ${browser} #${t}\n`.red);
       }
     }
   }
