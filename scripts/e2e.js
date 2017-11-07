@@ -9,6 +9,7 @@ const Table = require('cli-table');
 const serve = require('../serve');
 const childProcess = require('child_process');
 const uuid = require('uuid').v4;
+const mongoose = require('../services/mongoose');
 
 // Make things colorful!
 require('colors');
@@ -150,6 +151,8 @@ async function start(program) {
       await startTunnel(program.bsKey, localIdentifier);
     }
 
+    console.log('Dropping test database');
+    await mongoose.connection.dropDatabase();
     await serve();
 
     if (program.bsKey) {
@@ -192,7 +195,7 @@ program
   .option('-u, --bs-user [user]', 'Browserstack user', 'coralproject2')
   .option('-k, --bs-key [key]', 'Browserstack api key')
   .option('--no-tunnel', 'Dont start browserstack-local')
-  .option('-b, --browsers [list of browsers]', 'Browsers to test', 'chrome,firefox,ie,edge')
+  .option('-b, --browsers [list of browsers]', 'Browsers to test', 'chrome')
   .option('-r, --retries [number]', 'Number of retries before failing', '1')
   .option('--headless', 'Start in headless mode for local e2e')
   .option('--reports-folder [folder]', 'Reports folder', './test/e2e/reports')

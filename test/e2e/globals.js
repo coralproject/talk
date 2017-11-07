@@ -3,6 +3,7 @@ const {shutdown} = require('../../bin/util');
 
 module.exports = {
   before: async (done) => {
+    console.log('Dropping test database');
     await mongoose.connection.dropDatabase();
     done();
   },
