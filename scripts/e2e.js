@@ -161,6 +161,8 @@ async function start(program) {
       browserstack.key = program.bsKey;
       browserstack.user = program.bsUser;
     } else {
+
+      // Install selenium standalone.
       await seleniumInstall();
       if (program.headless) {
         browsers = browsers.map((b) => `${b}-headless`);
@@ -192,6 +194,7 @@ async function start(program) {
 
 program
   .version('0.1.0')
+  .description('Perform e2e testing locally or if browserstack credentials are provided on browserstack.')
   .option('-u, --bs-user [user]', 'Browserstack user', 'coralproject2')
   .option('-k, --bs-key [key]', 'Browserstack api key')
   .option('--no-tunnel', 'Dont start browserstack-local')
