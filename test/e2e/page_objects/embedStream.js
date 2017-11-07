@@ -2,15 +2,49 @@ const iframeId = 'coralStreamEmbed_iframe';
 
 module.exports = {
   commands: [{
-    navigateToAsset: function(asset) {
+    navigateToAsset(asset) {
       this.api.url(`${this.api.launchUrl}/assets/title/${asset}`);
       return this;
     },
-    getEmbedSection: function() {
+    getEmbedSection() {
       this.waitForElementVisible('@iframe');
       this.api.frame(iframeId);
       this.expect.section('@embed').to.be.present;
       return this.section.embed;
+    },
+    login(user = {}) {
+      const embedStream = this.page.embedStream();
+  
+      const embed = embedStream
+        .navigate()
+        .getEmbedSection();
+  
+      embed
+        .waitForElementVisible('@signInButton')
+        .click('@signInButton');
+  
+      this.pause(3000);
+  
+      // Focusing on the Login PopUp
+      this.windowHandles((result) => {
+        const handle = result.value[1];
+        this.switchWindow(handle);
+      });
+
+      const login = this.page.login();
+      
+      login
+        .setValue('@emailInput', user.email)
+        .setValue('@passwordInput', user.password)
+        .waitForElementVisible('@signIn')
+        .waitForElementVisible('@loginButton')
+        .click('@loginButton');
+
+      // Focusing on the Embed Window
+      this.windowHandles((result) => {
+        const handle = result.value[0];
+        this.switchWindow(handle);
+      });
     },
   }],
   url: function() {
@@ -22,12 +56,12 @@ module.exports = {
   sections: {
     embed: {
       commands: [{
-        getProfileSection: function() {
+        getProfileSection() {
           this.click('@profileTabButton');
           this.expect.section('@profile').to.be.present;
           return this.section.profile;
         },
-        getCommentsSection: function() {
+        getCommentsSection() {
           this.click('@commentsTabButton');
           this.expect.section('@comments').to.be.present;
           return this.section.comments;
@@ -64,7 +98,9 @@ module.exports = {
           elements: {
             arrow: '.talk-plugin-moderation-actions-arrow',
             menu: '.talk-plugin-modetarion-actions-menu',
-            banButton: 'talk-plugin-moderation-actions-ban',
+            banButton: '.talk-plugin-moderation-actions-ban',
+            banDialog: '.talk-ban-user-dialog',
+            banDialogbanButton: '.talk-ban-user-dialog-button-ban',
           },
         },
         profile: {

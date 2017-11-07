@@ -1,4 +1,5 @@
 module.exports = {
+
   'admin logs in': (client) => {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;
@@ -24,7 +25,7 @@ module.exports = {
       .navigate()
       .getEmbedSection();
   },
-  'ban': (client) => {
+  'admin bans user': (client) => {
     const modSection = client.page.embedStream().section.embed.section.mod;
 
     modSection
@@ -32,6 +33,27 @@ module.exports = {
       .click('@arrow')
       .waitForElementVisible('@menu')
       .waitForElementVisible('@banButton')
-      .click('@banButton');
-  }
+      .click('@banButton')
+      .waitForElementVisible('@banDialog')
+      .waitForElementVisible('@banDialogbanButton')
+      .click('@banDialogbanButton')
+      .waitForElementNotVisible('@banDialog');
+  },
+  'user logs in': (client) => {
+    const {testData: {user}} = client.globals;
+    const embedStream = client.page.embedStream();
+
+    embedStream
+      .login(user);
+  },
+  'user account is banned, should see restricted message box': (client) => {
+    const embedStream = client.page.embedStream();
+
+    const embed = embedStream
+      .navigate()
+      .getEmbedSection();
+
+    embed
+      .waitForElementVisible('@restrictedMessageBox');
+  },
 };
