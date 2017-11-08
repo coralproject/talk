@@ -3,14 +3,20 @@ const types = require('../constants');
 
 module.exports = (user, perm) => {
   switch (perm) {
+  case types.CHANGE_USERNAME:
+    return user.status.username.status === 'REJECTED';
+
+  case types.SET_USERNAME:
+    return user.status.username.status === 'UNSET';
+
   case types.CREATE_COMMENT:
   case types.CREATE_ACTION:
   case types.DELETE_ACTION:
-  case types.EDIT_NAME:
   case types.EDIT_COMMENT:
 
-    // Anyone can do these things if they aren't suspended or banned.
-    return true;
+    // Anyone can do these things if they aren't suspended, banned, or blocked
+    // as they're editing their username.
+    return !['UNSET', 'REJECTED'].includes(user.status.username.status);
 
   case types.ADD_COMMENT_TAG:
   case types.REMOVE_COMMENT_TAG:

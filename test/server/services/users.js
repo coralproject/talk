@@ -223,59 +223,86 @@ describe('services.UsersService', () => {
     });
   });
 
-  describe('#changeUsername', () => {
-    [
-      {status: 'UNSET'},
-      {status: 'REJECTED'},
-      {error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: 'SET'},
-      {error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: 'APPROVED'},
-      {error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: 'CHANGED'},
-    ].forEach(({status, error}) => {
-      it(`${error ? 'should not' : 'should'} let them change the username if they have the status of ${status}`, async () => {
+  [
+    {func: 'changeUsername', okStatus: 'REJECTED', notOKStatus: 'UNSET', newStatus: 'CHANGED'},
+    {func: 'setUsername', okStatus: 'UNSET', notOKStatus: 'REJECTED', newStatus: 'SET'},
+  ].forEach(({func, okStatus, notOKStatus, newStatus}) => {
+    describe(`#${func}`, () => {
+      [
+        {status: okStatus},
+        {error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: notOKStatus},
+        {error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: 'SET'},
+        {error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: 'APPROVED'},
+        {error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: 'CHANGED'},
+      ].forEach(({status, error}) => {
+        it(`${error ? 'should not' : 'should'} let them change the username if they have the status of ${status}`, async () => {
+          const user = mockUsers[0];
+
+          // Set the user to the desired status.
+          await UsersService.setUsernameStatus(user.id, status);
+
+          try {
+            await UsersService[func](user.id, 'spock');
+          } catch (err) {
+            if (error) {
+              expect(err).have.property('translation_key', error);
+            } else {
+              throw err;
+            }
+          }
+        });
+      });
+
+      it(`should change the status to ${newStatus} when changed`, async () => {
         const user = mockUsers[0];
 
         // Set the user to the desired status.
-        await UsersService.setUsernameStatus(user.id, status);
+        await UsersService.setUsernameStatus(user.id, okStatus);
+
+        const editedUser = await UsersService[func](user.id, 'spock');
+
+        expect(editedUser.status.username.status).to.equal(newStatus);
 
         try {
-          await UsersService.changeUsername(user.id, 'spock');
+          await UsersService[func](user.id, 'spock');
+          throw new Error('edit was processed successfully');
         } catch (err) {
-          if (error) {
-            expect(err).have.property('translation_key', error);
-          } else {
-            throw err;
-          }
+          expect(err).have.property('translation_key', 'EDIT_USERNAME_NOT_AUTHORIZED');
         }
       });
-    });
 
-    it('should refuse changing the username to the same username', async () => {
-      const user = mockUsers[0];
+      it(`${func === 'changeUsername' ? 'should' : 'should not'} refuse changing the username to the same username`, async () => {
+        const user = mockUsers[0];
 
-      // Set the user to the desired status.
-      await UsersService.setUsernameStatus(user.id, 'UNSET');
+        // Set the user to the desired status.
+        await UsersService.setUsernameStatus(user.id, okStatus);
 
-      try {
-        await UsersService.changeUsername(user.id, user.username);
-        throw new Error('edit was processed successfully');
-      } catch (err) {
-        expect(err).have.property('translation_key', 'SAME_USERNAME_PROVIDED');
-      }
-    });
+        if (func === 'changeUsername') {
+          try {
+            await UsersService[func](user.id, user.username);
+            throw new Error('edit was processed successfully');
+          } catch (err) {
+            expect(err).have.property('translation_key', 'SAME_USERNAME_PROVIDED');
+          }
+        } else {
+          await UsersService[func](user.id, user.username);
+        }
+      });
 
-    it('should refuse changing the username to one already taken', async () => {
-      const user = mockUsers[0];
-      const otherUser = mockUsers[1];
+      it('should refuse changing the username to one already taken', async () => {
+        const user = mockUsers[0];
+        const otherUser = mockUsers[1];
 
-      // Set the user to the desired status.
-      await UsersService.setUsernameStatus(user.id, 'UNSET');
+        // Set the user to the desired status.
+        await UsersService.setUsernameStatus(user.id, okStatus);
 
-      try {
-        await UsersService.changeUsername(user.id, otherUser.username);
-        throw new Error('edit was processed successfully');
-      } catch (err) {
-        expect(err).have.property('translation_key', 'USERNAME_IN_USE');
-      }
+        try {
+          await UsersService[func](user.id, otherUser.username);
+          throw new Error('edit was processed successfully');
+        } catch (err) {
+          expect(err).have.property('translation_key', 'USERNAME_IN_USE');
+        }
+      });
     });
   });
 

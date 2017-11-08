@@ -102,23 +102,25 @@ module.exports = class UsersService {
     return user;
   }
 
-  static async changeUsername(id, username) {
+  static async _setUsername(id, username, fromStatus, toStatus, resetAllowed = false) {
     try {
-      let user = await UserModel.findOneAndUpdate({
+      const query = {
         id,
-        username: {$ne: username},
-        'status.username.status': {
-          $in: ['UNSET', 'REJECTED']
-        }
-      }, {
+        'status.username.status': fromStatus
+      };
+      if (!resetAllowed) {
+        query.username = {$ne: username};
+      }
+
+      let user = await UserModel.findOneAndUpdate(query, {
         $set: {
           username,
           lowercaseUsername: username.toLowerCase(),
-          'status.username.status': 'CHANGED',
+          'status.username.status': toStatus,
         },
         $push: {
           'status.username.history': {
-            status: 'CHANGED',
+            status: toStatus,
             assigned_by: id,
             created_at: Date.now()
           }
@@ -132,11 +134,11 @@ module.exports = class UsersService {
           throw errors.ErrNotFound;
         }
 
-        if (!['UNSET', 'REJECTED'].includes(user.status.username.status)) {
+        if (user.status.username.status !== fromStatus) {
           throw errors.ErrPermissionUpdateUsername;
         }
 
-        if (user.username === username) {
+        if (!resetAllowed && user.username === username) {
           throw errors.ErrSameUsernameProvided;
         }
 
@@ -151,6 +153,14 @@ module.exports = class UsersService {
 
       throw err;
     }
+  }
+
+  static async setUsername(id, username) {
+    return UsersService._setUsername(id, username, 'UNSET', 'SET', true);
+  }
+
+  static async changeUsername(id, username) {
+    return UsersService._setUsername(id, username, 'REJECTED', 'CHANGED');
   }
 
   /**

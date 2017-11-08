@@ -25,6 +25,12 @@ const RootMutation = {
   rejectUsername: async (_, {id}, {mutators: {User}}) => {
     await User.setUserUsernameStatus(id, 'REJECTED');
   },
+  changeUsername: async (_, {id, username}, {mutators: {User}}) => {
+    await User.changeUsername(id, username);
+  },
+  setUsername: async (_, {id, username}, {mutators: {User}}) => {
+    await User.setUsername(id, username);
+  },
   setUserSuspensionStatus: async (_, {input: {id, until}}, {mutators: {User}}) => {
     await User.setUserSuspensionStatus(id, until);
   },

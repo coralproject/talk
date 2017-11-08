@@ -2,6 +2,8 @@ const errors = require('../../errors');
 const UserModel = require('../../models/user');
 const UsersService = require('../../services/users');
 const {
+  CHANGE_USERNAME,
+  SET_USERNAME,
   SET_USER_USERNAME_STATUS,
   SET_USER_BAN_STATUS,
   SET_USER_SUSPENSION_STATUS,
@@ -70,10 +72,20 @@ const stopIgnoringUser = ({user}, userToStopIgnoring) => {
   return UsersService.stopIgnoringUsers(user.id, [userToStopIgnoring.id]);
 };
 
+const changeUsername = async (ctx, id, username) => {
+  return UsersService.changeUsername(id, username);
+};
+
+const setUsername = async (ctx, id, username) => {
+  return UsersService.setUsername(id, username);
+};
+
 module.exports = (ctx) => {
   let mutators = {
     User: {
       ignoreUser: () => Promise.reject(errors.ErrNotAuthorized),
+      changeUsername: () => Promise.reject(errors.ErrNotAuthorized),
+      setUsername: () => Promise.reject(errors.ErrNotAuthorized),
       stopIgnoringUser: () => Promise.reject(errors.ErrNotAuthorized),
       setUserUsernameStatus: () => Promise.reject(errors.ErrNotAuthorized),
       setUserBanStatus: () => Promise.reject(errors.ErrNotAuthorized),
@@ -84,6 +96,14 @@ module.exports = (ctx) => {
   if (ctx.user) {
     mutators.User.ignoreUser = (action) => ignoreUser(ctx, action);
     mutators.User.stopIgnoringUser = (action) => stopIgnoringUser(ctx, action);
+
+    if (ctx.user.can(CHANGE_USERNAME)) {
+      mutators.User.changeUsername = (id, username) => changeUsername(ctx, id, username);
+    }
+
+    if (ctx.user.can(SET_USERNAME)) {
+      mutators.User.setUsername = (id, username) => setUsername(ctx, id, username);
+    }
 
     if (ctx.user.can(SET_USER_USERNAME_STATUS)) {
       mutators.User.setUserUsernameStatus = (id, status) => setUserUsernameStatus(ctx, id, status);
