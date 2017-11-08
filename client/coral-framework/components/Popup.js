@@ -22,6 +22,9 @@ export default class Popup extends Component {
     );
 
     this.setCallbacks();
+
+    // For some reasons IE needs a timeout before setting the callbacks...
+    setTimeout(() => this.setCallbacks(), 1000);
   }
 
   setCallbacks() {

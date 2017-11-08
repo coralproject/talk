@@ -147,8 +147,6 @@ class ModerationQueue extends React.Component {
             key={comment.id}
             comment={comment}
             selected={true}
-            suspectWords={props.suspectWords}
-            bannedWords={props.bannedWords}
             viewUserDetail={viewUserDetail}
             showBanUserDialog={props.showBanUserDialog}
             showSuspendUserDialog={props.showSuspendUserDialog}
@@ -193,8 +191,6 @@ class ModerationQueue extends React.Component {
                   key={comment.id}
                   comment={comment}
                   selected={comment.id === selectedCommentId}
-                  suspectWords={props.suspectWords}
-                  bannedWords={props.bannedWords}
                   viewUserDetail={viewUserDetail}
                   showBanUserDialog={props.showBanUserDialog}
                   showSuspendUserDialog={props.showSuspendUserDialog}
@@ -218,8 +214,6 @@ class ModerationQueue extends React.Component {
 
 ModerationQueue.propTypes = {
   viewUserDetail: PropTypes.func.isRequired,
-  bannedWords: PropTypes.arrayOf(PropTypes.string).isRequired,
-  suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentAsset: PropTypes.object,
   showBanUserDialog: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func.isRequired,

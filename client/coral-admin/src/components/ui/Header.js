@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 import PropTypes from 'prop-types';
 import {Navigation, Header, IconButton, MenuItem, Menu} from 'react-mdl';
 import {Link, IndexLink} from 'react-router';
@@ -24,7 +25,7 @@ const CoralHeader = ({
               <Navigation className={styles.nav}>
                 <IndexLink
                   id='dashboardNav'
-                  className={styles.navLink}
+                  className={cn('talk-admin-nav-dashboard', styles.navLink)}
                   to="/admin/dashboard"
                   activeClassName={styles.active}>
                   {t('configure.dashboard')}
@@ -33,7 +34,7 @@ const CoralHeader = ({
                   can(auth.user, 'MODERATE_COMMENTS') && (
                     <Link
                       id='moderateNav'
-                      className={styles.navLink}
+                      className={cn('talk-admin-nav-moderate', styles.navLink)}
                       to="/admin/moderate"
                       activeClassName={styles.active}>
                       {t('configure.moderate')}
@@ -42,8 +43,8 @@ const CoralHeader = ({
                   )
                 }
                 <Link
-                  id='streamsNav'
-                  className={styles.navLink}
+                  id='storiesNav'
+                  className={cn('talk-admin-nav-stories', styles.navLink)}
                   to="/admin/stories"
                   activeClassName={styles.active}>
                   {t('configure.stories')}
@@ -51,7 +52,7 @@ const CoralHeader = ({
 
                 <Link
                   id='communityNav'
-                  className={styles.navLink}
+                  className={cn('talk-admin-nav-community', styles.navLink)}
                   to="/admin/community"
                   activeClassName={styles.active}>
                   {t('configure.community')}
@@ -62,7 +63,7 @@ const CoralHeader = ({
                   can(auth.user, 'UPDATE_CONFIG') && (
                     <Link
                       id='configureNav'
-                      className={styles.navLink}
+                      className={cn('talk-admin-nav-configure', styles.navLink)}
                       to="/admin/configure"
                       activeClassName={styles.active}>
                       {t('configure.configure')}
@@ -75,9 +76,9 @@ const CoralHeader = ({
           }
           <div className={styles.rightPanel}>
             <ul>
-              <li className={styles.settings}>
+              <li className={cn(styles.settings, 'talk-admin-header-settings')}>
                 <div>
-                  <IconButton name="settings" id="menu-settings"/>
+                  <IconButton name="settings" id="menu-settings" className="talk-admin-header-settings-button"/>
                   <Menu target="menu-settings" align="right">
                     <MenuItem onClick={() => showShortcuts(true)}>{t('configure.shortcuts')}</MenuItem>
                     <MenuItem>
@@ -90,7 +91,7 @@ const CoralHeader = ({
                           Report a bug or give feedback
                       </a>
                     </MenuItem>
-                    <MenuItem onClick={handleLogout}>
+                    <MenuItem onClick={handleLogout} className="talk-admin-header-sign-out">
                       {t('configure.sign_out')}
                     </MenuItem>
                   </Menu>

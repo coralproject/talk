@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './ViewOptions.css';
-import {Card} from 'coral-ui';
 import cn from 'classnames';
-import {SelectField, Option} from 'react-mdl-selectfield';
 import t from 'coral-framework/services/i18n';
+import {Card, Dropdown, Option} from 'coral-ui';
 
 class ViewOptions extends React.Component {
   render() {
@@ -19,18 +18,20 @@ class ViewOptions extends React.Component {
         <h2 className={cn(styles.headline, 'talk-admin-moderation-view-options-headline')}>
           View Options
         </h2>
-        <div className={styles.viewOptionsContent}> 
+        <div className={styles.viewOptionsContent}>
           <ul className={styles.viewOptionsList}>
             <li className={styles.viewOptionsItem}>
               Sort Comments
-              <SelectField
-                className={styles.selectField}
-                label="Sort"
+              <Dropdown
+                containerClassName={styles.dropdownContainer}
+                toggleClassName={styles.dropdownToggle}
+                toggleOpenClassName={styles.dropdownToggleOpen}
+                placeholder={t('modqueue.sort')}
                 value={sort}
                 onChange={(sort) => selectSort(sort)}>
-                <Option value={'DESC'}>{t('modqueue.newest_first')}</Option>
-                <Option value={'ASC'}>{t('modqueue.oldest_first')}</Option>
-              </SelectField>
+                <Option value={'DESC'} label={t('modqueue.newest_first')} />
+                <Option value={'ASC'} label={t('modqueue.oldest_first')} />
+              </Dropdown>
             </li>
           </ul>
         </div>

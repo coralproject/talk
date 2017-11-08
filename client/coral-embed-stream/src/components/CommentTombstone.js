@@ -1,6 +1,7 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
+import styles from './CommentTombstone.css';
 
 // Render in place of a Comment when the author of the comment is <action>
 class CommentTombstone extends React.Component {
@@ -19,19 +20,18 @@ class CommentTombstone extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="talk-comment-tombstone">
         <hr aria-hidden={true} />
-        <p style={{
-          backgroundColor: '#F0F0F0',
-          textAlign: 'center',
-          padding: '1em',
-          color: '#3E4F71',
-        }}>
+        <p className={styles.commentTombstone}>
           {this.getCopy()}
         </p>
       </div>
     );
   }
 }
+
+CommentTombstone.propTypes = {
+  action: PropTypes.string,
+};
 
 export default CommentTombstone;

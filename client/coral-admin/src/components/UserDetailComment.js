@@ -30,12 +30,11 @@ class UserDetailComment extends React.Component {
   render() {
     const {
       comment,
-      suspectWords,
-      bannedWords,
       selected,
       toggleSelect,
       className,
       data,
+      root: {settings: {wordlist: {banned, suspect}}},
     } = this.props;
 
     return (
@@ -72,8 +71,8 @@ class UserDetailComment extends React.Component {
             <div className={styles.bodyContainer}>
               <div className={styles.body}>
                 <CommentBodyHighlighter
-                  suspectWords={suspectWords}
-                  bannedWords={bannedWords}
+                  suspectWords={suspect}
+                  bannedWords={banned}
                   body={comment.body}
                 />
                 {' '}
@@ -123,9 +122,15 @@ UserDetailComment.propTypes = {
   acceptComment: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
   className: PropTypes.string,
-  suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
-  bannedWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   toggleSelect: PropTypes.func,
+  root: PropTypes.shape({
+    settings: PropTypes.shape({
+      wordlist: PropTypes.shape({
+        suspect: PropTypes.arrayOf(PropTypes.string).isRequired,
+        banned: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }),
+    }),
+  }),
   comment: PropTypes.shape({
     id: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
@@ -136,8 +141,8 @@ UserDetailComment.propTypes = {
       title: PropTypes.string,
       url: PropTypes.string,
       id: PropTypes.string
-    })
-  })
+    }),
+  }),
 };
 
 export default UserDetailComment;

@@ -39,7 +39,8 @@
   margin-right: 0px;
 }
 
-.statItem, .statReportResult {
+.statItem,
+.statReportResult {
   padding: 3px 5px;
   background-color: #D8D8D8;
   border-radius: 3px;
@@ -48,7 +49,7 @@
   font-size: 0.9em;
   line-height: normal;
   letter-spacing: 0.4px;
-  min-width: 60px; 
+  min-width: 60px;
 }
 
 .statResult {
@@ -94,12 +95,11 @@
 }
 
 .commentStatuses {
-  padding: 10px 0 0 0;
+  padding: 0 0 0 10px;
   margin: 0;
-  height: 52px;
+  align-self: center;
   list-style: none;
   box-sizing: border-box;
-
   li {
     display: inline-block;
     margin-right: 10px;
@@ -116,11 +116,11 @@
 .bulkActionGroup {
   height: 52px;
   background-color: #efefef;
-
+  padding: 0 0 0 10px;
+  display: flex;
   i {
     margin-right: 0;
   }
-
   .bulkAction {
     display: inline-block;
     width: 48px;
@@ -128,17 +128,39 @@
     transform: scale(.7);
     min-width: 0;
   }
-
   .bulkAction:last-child {
     margin-left: -10px;
   }
 }
 
-.loadMore > button {
-  background-color: #696969;
+.selectedCommentsInfo {
+  align-self: center;
+  font-weight: 500;
+  margin-left: 15px;
+}
 
+.loadMore>button {
+  background-color: #696969;
   &:hover {
     background-color: #404040;
     color: white;
+  }
+}
+
+.toggleAll {
+  padding: 0 10px 0 0;
+  align-self: center;
+}
+
+.commentList {
+  clear: both;
+}
+
+.bulkActionHeader {
+  display: flex;
+  justify-content: space-between;
+  height: 52px;
+  &.selected {
+    background-color: #efefef;
   }
 }

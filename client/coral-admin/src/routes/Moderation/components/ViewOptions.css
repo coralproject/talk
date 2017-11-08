@@ -53,45 +53,26 @@
   list-style: none;
 }
 
-.selectField {
+.dropdownContainer {
   position: relative;
-  width: 140px;
-  height: 36px;
-  top: 5px;
-  margin-right: 10px;
-  background: #7B7B7B;
-  color: white;
-  padding: 6px 15px;
-  box-sizing: border-box;
-  border-radius: 2px;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+  margin-top: 5px;
 
   @media (--tablet) {
     display: inline-block;
+    margin-top: 0px;
     margin-left: 10px;
   }
+}
 
-  > div {
-    padding: 0;
+.dropdownToggle {
+  background: #7B7B7B;
+  color: white;
+
+  &:focus {
+    background: #aaa;
   }
+}
 
-  i {
-    position: absolute;
-    top: 7px;
-    right: 7px;
-  }
-
-  input {
-    font-size: 1rem;
-    border-bottom: 0px;
-    font-family: inherit;
-  }
-
-  label {
-    top: -4px;
-  }
-
-  &:hover {
-    cursor: pointer;
-   }
+.dropdownToggleOpen {
+  background: #aaa;
 }

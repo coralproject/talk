@@ -13,7 +13,6 @@ import {isPremod, getModPath} from '../../../utils';
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {handleCommentChange} from '../graphql';
 
-import {fetchSettings} from 'actions/settings';
 import {showBanUserDialog} from 'actions/banUserDialog';
 import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 import {viewUserDetail} from '../../../actions/userDetail';
@@ -116,17 +115,14 @@ class ModerationContainer extends Component {
         document: COMMENT_EDITED_SUBSCRIPTION,
         variables,
         updateQuery: (prev, {subscriptionData: {data: {commentEdited: comment}}}) => {
-          const notifyText = t('modqueue.notify_edited', comment.user.username, prepareNotificationText(comment.body));
-          return this.handleCommentChange(prev, comment, notifyText);
+          return this.handleCommentChange(prev, comment);
         },
       },
       {
         document: COMMENT_FLAGGED_SUBSCRIPTION,
         variables,
         updateQuery: (prev, {subscriptionData: {data: {commentFlagged: comment}}}) => {
-          const user = comment.actions[comment.actions.length - 1].user;
-          const notifyText = t('modqueue.notify_flagged', user.username, prepareNotificationText(comment.body));
-          return this.handleCommentChange(prev, comment, notifyText);
+          return this.handleCommentChange(prev, comment);
         },
       },
     ];
@@ -146,7 +142,6 @@ class ModerationContainer extends Component {
 
   componentWillMount() {
     this.props.clearState();
-    this.props.fetchSettings();
     this.subscribeToUpdates();
   }
 
@@ -384,7 +379,6 @@ const withModQueueQuery = withQuery(({queueConfig}) => gql`
 
 const mapStateToProps = (state) => ({
   moderation: state.moderation,
-  settings: state.settings,
   auth: state.auth,
 });
 
@@ -392,7 +386,6 @@ const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
     toggleModal,
     singleView,
-    fetchSettings,
     showBanUserDialog,
     hideShortcutsNote,
     toggleStorySearch,

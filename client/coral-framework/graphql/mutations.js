@@ -340,3 +340,21 @@ export const withStopIgnoringUser = withMutation(
         });
       }}),
   });
+
+export const withUpdateSettings = withMutation(
+  gql`
+    mutation UpdateSettings($input: UpdateSettingsInput!) {
+      updateSettings(input: $input) {
+        ...UpdateSettingsResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      updateSettings: (input) => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      }}),
+  });

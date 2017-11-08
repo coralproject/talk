@@ -5,5 +5,8 @@
   "description": "Provides support for measuring the toxicity of user comments using the Perspectives API",
   "main": "index.js",
   "author": "The Coral Project Team <coral@mozillafoundation.org>",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "dependencies": {
+    "ms": "^2.0.0"
+  }
 }

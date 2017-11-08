@@ -213,12 +213,14 @@ class Stream extends React.Component {
     const open = !asset.isClosed;
 
     const banned = user && user.status === 'BANNED';
+    const pending = user && user.status === 'PENDING';
+
     const temporarilySuspended =
       user &&
       user.suspension.until &&
       new Date(user.suspension.until) > new Date();
 
-    const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
+    const showCommentBox = loggedIn && ((!banned && !pending & !temporarilySuspended && !highlightedComment) || keepCommentBox);
     const slotProps = {data};
     const slotQueryData = {root, asset};
 
@@ -303,11 +305,32 @@ class Stream extends React.Component {
 }
 
 Stream.propTypes = {
+  activeStreamTab: PropTypes.string,
+  data: PropTypes.object,
+  root: PropTypes.object,
+  activeReplyBox: PropTypes.string,
+  setActiveReplyBox: PropTypes.func,
+  commentClassNames: PropTypes.array,
+  setActiveStreamTab: PropTypes.func,
+  loadMoreComments: PropTypes.func,
+  postFlag: PropTypes.func,
+  postDontAgree: PropTypes.func,
+  deleteAction: PropTypes.func,
+  showSignInDialog: PropTypes.func,
+  loadNewReplies: PropTypes.func,
+  auth: PropTypes.object,
+  emit: PropTypes.func,
+  sortOrder: PropTypes.string,
+  sortBy: PropTypes.string,
+  loading: PropTypes.bool,
+  editName: PropTypes.func,
+  appendItemArray: PropTypes.func,
+  updateItem: PropTypes.func, 
+  viewAllComments: PropTypes.func,
   notify: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
-
-  // edit a comment, passed (id, asset_id, { body })
-  editComment: PropTypes.func
+  editComment: PropTypes.func,
+  userIsDegraged: PropTypes.bool,
 };
 
 export default Stream;

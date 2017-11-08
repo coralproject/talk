@@ -34,6 +34,8 @@ class Moderation extends Component {
     key('k', () => this.select(false));
     key('f', () => this.moderate(false));
     key('d', () => this.moderate(true));
+    this.getMenuItems()
+      .forEach((menuItem, idx) => key(`${idx + 1}`, () => this.selectQueue(menuItem)));
   }
 
   onClose = () => {
@@ -41,19 +43,22 @@ class Moderation extends Component {
   }
 
   nextQueue = () => {
-    const queueConfig = this.props.queueConfig;
     const activeTab = this.props.activeTab;
-    const assetId = this.props.data.variables.asset_id;
 
-    const menuItems = Object.keys(queueConfig).map((queue) => ({
-      key: queue
-    }));
+    const menuItems = this.getMenuItems();
 
-    const activeTabIndex = menuItems.findIndex((item) => item.key === activeTab);
+    const activeTabIndex = menuItems.findIndex((item) => item === activeTab);
     const nextQueueIndex = (activeTabIndex === menuItems.length - 1) ? 0 : activeTabIndex + 1;
 
-    this.props.router.push(this.props.getModPath(menuItems[nextQueueIndex].key, assetId));
+    this.selectQueue(menuItems[nextQueueIndex]);
   }
+
+  selectQueue = (key) => {
+    const assetId = this.props.data.variables.asset_id;
+    this.props.router.push(this.props.getModPath(key, assetId));
+  }
+
+  getMenuItems = () => Object.keys(this.props.queueConfig);
 
   closeSearch = () => {
     const {toggleStorySearch} = this.props;
@@ -77,7 +82,7 @@ class Moderation extends Component {
       const comments = this.getComments();
       const commentIdx = comments.findIndex((comment) => comment.id === selectedCommentId);
       const comment = comments[commentIdx];
-      
+
       if (accept) {
         comment.status !== 'ACCEPTED' && acceptComment({commentId: comment.id});
       } else {
@@ -175,6 +180,8 @@ class Moderation extends Component {
     key.unbind('k');
     key.unbind('f');
     key.unbind('d');
+    this.getMenuItems()
+      .forEach((menuItem, idx) => key.unbind(`${idx + 1}`));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -220,7 +227,7 @@ class Moderation extends Component {
   }
 
   render () {
-    const {root, data, moderation, settings, viewUserDetail, activeTab, getModPath, queueConfig, handleCommentChange, ...props} = this.props;
+    const {root, data, moderation, viewUserDetail, activeTab, getModPath, queueConfig, handleCommentChange, ...props} = this.props;
     const {asset} = root;
     const assetId = asset && asset.id;
 
@@ -262,15 +269,11 @@ class Moderation extends Component {
             activeTab={activeTab}
             singleView={moderation.singleView}
             selectedCommentId={this.state.selectedCommentId}
-            bannedWords={settings.wordlist.banned}
-            suspectWords={settings.wordlist.suspect}
             showBanUserDialog={props.showBanUserDialog}
             showSuspendUserDialog={props.showSuspendUserDialog}
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment}
             loadMore={this.loadMore}
-            assetId={assetId}
-            sort={this.props.moderation.sortOrder}
             commentCount={activeTabCount}
             currentUserId={this.props.auth.user.id}
             viewUserDetail={viewUserDetail}
@@ -280,6 +283,7 @@ class Moderation extends Component {
             shortcutsNoteVisible={moderation.shortcutsNoteVisible}
             open={moderation.modalOpen}
             onClose={this.onClose}
+            queueCount={this.getMenuItems().length}
           />
         </div>
         <StorySearch
@@ -308,7 +312,6 @@ Moderation.propTypes = {
   storySearchChange: PropTypes.func.isRequired,
   moderation: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  settings: PropTypes.object.isRequired,
   queueConfig: PropTypes.object.isRequired,
   handleCommentChange: PropTypes.func.isRequired,
   setSortOrder: PropTypes.func.isRequired,
@@ -321,6 +324,7 @@ Moderation.propTypes = {
   activeTab: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
 };
 
 export default Moderation;

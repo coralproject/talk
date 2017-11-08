@@ -32,7 +32,6 @@ export default class ModTag extends React.Component {
   postTag = async () => {
     try {
       await this.props.postTag();
-      this.props.notify('success', t('talk-plugin-featured-comments.notify_self_featured', this.props.comment.user.username));
     }
     catch(err) {
       this.props.notify('error', getErrorMessages(err));

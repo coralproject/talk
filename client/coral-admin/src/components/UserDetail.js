@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Comment from '../containers/UserDetailComment';
 import styles from './UserDetail.css';
-import {Icon, Button, Drawer, Spinner} from 'coral-ui';
+import {Icon, Drawer, Spinner} from 'coral-ui';
 import {Slot} from 'coral-framework/components';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import ClickOutside from 'coral-framework/components/ClickOutside';
@@ -10,6 +10,9 @@ import LoadMore from '../components/LoadMore';
 import cn from 'classnames';
 import capitalize from 'lodash/capitalize';
 import {getReliability} from 'coral-framework/utils/user';
+import ApproveButton from './ApproveButton';
+import RejectButton from './RejectButton';
+import {getErrorMessages} from 'coral-framework/utils';
 
 export default class UserDetail extends React.Component {
 
@@ -17,14 +20,22 @@ export default class UserDetail extends React.Component {
     userId: PropTypes.string.isRequired,
     hideUserDetail: PropTypes.func.isRequired,
     root: PropTypes.object.isRequired,
-    bannedWords: PropTypes.array.isRequired,
-    suspectWords: PropTypes.array.isRequired,
     acceptComment: PropTypes.func.isRequired,
     rejectComment: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
     toggleSelect: PropTypes.func.isRequired,
     bulkAccept: PropTypes.func.isRequired,
     bulkReject: PropTypes.func.isRequired,
+    toggleSelectAll: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    data: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+    }),
+    activeTab: PropTypes.string.isRequired,
+    selectedCommentIds: PropTypes.array.isRequired,
+    viewUserDetail: PropTypes.any.isRequired,
+    loadMore: PropTypes.any.isRequired,
+    notify: PropTypes.func.isRequired
   }
 
   rejectThenReload = async (info) => {
@@ -33,8 +44,8 @@ export default class UserDetail extends React.Component {
       this.props.data.refetch();
     } catch (err) {
 
-      // TODO: handle error.
       console.error(err);
+      this.props.notify('error', getErrorMessages(err));
     }
   }
 
@@ -44,8 +55,30 @@ export default class UserDetail extends React.Component {
       this.props.data.refetch();
     } catch (err) {
 
-      // TODO: handle error.
       console.error(err);
+      this.props.notify('error', getErrorMessages(err));
+    }
+  }
+
+  bulkAcceptThenReload = async () => {
+    try {
+      await this.props.bulkAccept();
+      this.props.data.refetch();
+    } catch (err) {
+
+      console.error(err);
+      this.props.notify('error', getErrorMessages(err));
+    }
+  }
+
+  bulkRejectThenReload = async () => {
+    try {
+      await this.props.bulkReject();
+      this.props.data.refetch();
+    } catch (err) {
+
+      console.error(err);
+      this.props.notify('error', getErrorMessages(err));
     }
   }
 
@@ -79,14 +112,11 @@ export default class UserDetail extends React.Component {
       },
       activeTab,
       selectedCommentIds,
-      bannedWords,
-      suspectWords,
       toggleSelect,
-      bulkAccept,
-      bulkReject,
       hideUserDetail,
       viewUserDetail,
       loadMore,
+      toggleSelectAll
     } = this.props;
 
     let rejectedPercent = (rejectedComments / totalComments) * 100;
@@ -104,14 +134,14 @@ export default class UserDetail extends React.Component {
           <div>
             <ul className={styles.userDetailList}>
               <li>
-                <Icon name="assignment_ind"/>
+                <Icon name="assignment_ind" />
                 <span className={styles.userDetailItem}>Member Since:</span>
                 {new Date(user.created_at).toLocaleString()}
               </li>
 
               {user.profiles.map(({id}) =>
                 <li key={id}>
-                  <Icon name="email"/>
+                  <Icon name="email" />
                   <span className={styles.userDetailItem}>Email:</span>
                   {id} <ButtonCopyToClipboard className={styles.copyButton} icon="content_copy" copyText={id} />
                 </li>
@@ -120,24 +150,22 @@ export default class UserDetail extends React.Component {
 
             <ul className={styles.stats}>
               <li className={styles.stat}>
-                <span className={styles.statItem}> Total Comments </span>
-                <spam className={styles.statResult}> {totalComments} </spam>
+                <span className={styles.statItem}>Total Comments</span>
+                <span className={styles.statResult}>{totalComments}</span>
               </li>
               <li className={styles.stat}>
-                <spam className={styles.statItem}> Reject Rate </spam>
-                <spam className={styles.statResult}> {`${(rejectedPercent).toFixed(1)}%`} </spam>
+                <span className={styles.statItem}>Reject Rate</span>
+                <span className={styles.statResult}>
+                  {rejectedPercent.toFixed(1)}%
+                </span>
               </li>
               <li className={styles.stat}>
-                <spam className={styles.statItem}> Reports </spam>
-                <spam className={cn(styles.statReportResult, styles[getReliability(user.reliable.flagger)])}>
+                <span className={styles.statItem}>Reports</span>
+                <span className={cn(styles.statReportResult, styles[getReliability(user.reliable.flagger)])}>
                   {capitalize(getReliability(user.reliable.flagger))}
-                </spam>
+                </span>
               </li>
             </ul>
-
-            <p className={styles.small}>
-              Data represents the last six months of activity
-            </p>
           </div>
 
           <Slot
@@ -145,36 +173,42 @@ export default class UserDetail extends React.Component {
             data={this.props.data}
             queryData={{root, user}}
           />
-
-          <hr/>
-          {
-            selectedCommentIds.length === 0
-              ? (
-                <ul className={styles.commentStatuses}>
-                  <li className={activeTab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
-                  <li className={activeTab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>Rejected</li>
-                </ul>
-              )
-              : (
-                <div className={styles.bulkActionGroup}>
-                  <Button
-                    onClick={bulkAccept}
-                    className={styles.bulkAction}
-                    cStyle='approve'
-                    icon='done'>
-                  </Button>
-                  <Button
-                    onClick={bulkReject}
-                    className={styles.bulkAction}
-                    cStyle='reject'
-                    icon='close'>
-                  </Button>
-                  {`${selectedCommentIds.length} comments selected`}
-                </div>
-              )
-          }
-
-          <div>
+          <hr />
+          <div className={(selectedCommentIds.length > 0) ? cn(styles.bulkActionHeader, styles.selected) : styles.bulkActionHeader}>
+            {
+              selectedCommentIds.length === 0
+                ? (
+                  <ul className={styles.commentStatuses}>
+                    <li className={activeTab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
+                    <li className={activeTab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>Rejected</li>
+                  </ul>
+                )
+                : (
+                  <div className={styles.bulkActionGroup}>
+                    <ApproveButton
+                      onClick={this.bulkAcceptThenReload}
+                      minimal
+                    />
+                    <RejectButton
+                      onClick={this.bulkRejectThenReload}
+                      minimal
+                    />
+                    <span className={styles.selectedCommentsInfo}>  {selectedCommentIds.length} comments selected</span>
+                  </div>
+                )
+            }
+            <div className={styles.toggleAll}>
+              <input
+                type='checkbox'
+                id='toogleAll'
+                checked={selectedCommentIds.length > 0 && selectedCommentIds.length === nodes.length}
+                onChange={(e) => {
+                  toggleSelectAll(nodes.map((comment) => comment.id), e.target.checked);
+                }} />
+              <label htmlFor='toogleAll'>Select all</label>
+            </div>
+          </div>
+          <div className={styles.commentList}>
             {
               nodes.map((comment) => {
                 const selected = selectedCommentIds.indexOf(comment.id) !== -1;
@@ -184,8 +218,6 @@ export default class UserDetail extends React.Component {
                   root={root}
                   data={data}
                   comment={comment}
-                  suspectWords={suspectWords}
-                  bannedWords={bannedWords}
                   acceptComment={this.acceptThenReload}
                   rejectComment={this.rejectThenReload}
                   selected={selected}
@@ -205,7 +237,7 @@ export default class UserDetail extends React.Component {
     );
   }
 
-  render () {
+  render() {
     if (this.props.loading) {
       return this.renderLoading();
     }

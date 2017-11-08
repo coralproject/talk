@@ -13,7 +13,31 @@ items:
         url: /configuration/
       - title: Advanced Configuration
         url: /advanced-configuration/
+  - title: Product Guide
+    children:
+      - title: How Talk Works
+        url: /how-talk-works/
+      - title: Commenter Features
+        url: /commenter-features/
+      - title: Moderator Features
+        url: /moderator-features/
+      - title: Trust
+        url: /trust/
+      - title: Toxic Comments
+        url: /toxic-comments/
+      - title: Configuring Talk
+        url: /configuring-talk/
   - title: Plugins
     children:
       - title: Plugins Overview
         url: /plugins/
+      - title: Default Plugins
+        url: /default-plugins/
+      - title: Additional Plugins
+        url: /additional-plugins/
+      - title: Plugin Recipes
+        url: /plugin-recipes/
+  - title: FAQ
+    children:
+      - title: FAQ
+        url: /faq/

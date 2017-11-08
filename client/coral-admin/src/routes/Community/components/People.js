@@ -1,32 +1,28 @@
 import React from 'react';
-
 import styles from './styles.css';
-import Table from '../containers/Table';
-import {Pager, Icon} from 'coral-ui';
+import Table from './Table';
+import {Icon} from 'coral-ui';
 import EmptyCard from '../../../components/EmptyCard';
 import t from 'coral-framework/services/i18n';
 
-const tableHeaders = [
-  {
-    title: t('community.username_and_email'),
-    field: 'username'
-  },
-  {
-    title: t('community.account_creation_date'),
-    field: 'created_at'
-  },
-  {
-    title: t('community.status'),
-    field: 'status'
-  },
-  {
-    title: t('community.newsroom_role'),
-    field: 'role'
-  }
-];
+import PropTypes from 'prop-types';
 
-const People = ({commenters, searchValue, onSearchChange, ...props}) => {
-  const hasResults = !!commenters.length;
+const People = (props) => {
+  const {
+    users = [],
+    searchValue,
+    onSearchChange,
+    onHeaderClickHandler,
+    onPageChange,
+    totalPages,
+    page,
+    setRole,
+    setCommenterStatus,
+    viewUserDetail,
+  } = props;
+
+  const hasResults = !!users.length;
+
   return (
     <div className={styles.container}>
       <div className={styles.leftColumn}>
@@ -46,20 +42,33 @@ const People = ({commenters, searchValue, onSearchChange, ...props}) => {
         {
           hasResults
             ? <Table
-              headers={tableHeaders}
-              commenters={commenters}
-              onHeaderClickHandler={props.onHeaderClickHandler}
+              users={users}
+              setRole={setRole}
+              viewUserDetail={viewUserDetail}
+              setCommenterStatus={setCommenterStatus}
+              onHeaderClickHandler={onHeaderClickHandler}
+              pageCount={totalPages}
+              onPageChange={onPageChange}
+              page={page}
             />
             : <EmptyCard>{t('community.no_results')}</EmptyCard>
         }
-        <Pager
-          totalPages={props.totalPages}
-          page={props.page}
-          onNewPageHandler={props.onNewPageHandler}
-        />
       </div>
     </div>
   );
+};
+
+People.propTypes = {
+  onHeaderClickHandler: PropTypes.func,
+  users: PropTypes.array,
+  page: PropTypes.number.isRequired,
+  searchValue: PropTypes.string,
+  onSearchChange: PropTypes.func,
+  totalPages: PropTypes.number,
+  onPageChange: PropTypes.func,
+  setCommenterStatus: PropTypes.func.isRequired,
+  setRole: PropTypes.func.isRequired,
+  viewUserDetail: PropTypes.func.isRequired,
 };
 
 export default People;
