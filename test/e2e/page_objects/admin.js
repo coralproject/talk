@@ -7,6 +7,23 @@ module.exports = {
       return this
         .waitForElementVisible('body');
     },
+    login(user = {}) {
+      const adminPage = this.page.admin();
+  
+      adminPage
+        .navigate()
+        .waitForElementVisible('@loginLayout')
+        .waitForElementVisible('@signInForm')
+        .setValue('@emailInput', user.email)
+        .setValue('@passwordInput', user.password)
+        .waitForElementVisible('@signInButton')
+        .click('@signInButton');
+  
+      this.pause(3000);
+      
+      adminPage
+        .waitForElementVisible('@moderationContainer');
+    },
   }],
   elements: {
     'loginLayout': '.talk-admin-login',

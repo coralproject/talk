@@ -46,6 +46,19 @@ module.exports = {
         this.switchWindow(handle);
       });
     },
+    logout() {
+      const embedStream = this.page.embedStream();
+      
+      const embed = embedStream
+        .navigate()
+        .getEmbedSection();
+  
+      embed
+        .waitForElementVisible('@commentsTabButton')
+        .click('@commentsTabButton')
+        .waitForElementVisible('@logoutButton')
+        .click('@logoutButton');
+    }
   }],
   url: function() {
     return this.api.launchUrl;
