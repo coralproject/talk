@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-
+import cn from 'classnames';
 import {Dialog, Button} from 'coral-ui';
 import styles from './RejectUsernameDialog.css';
 
@@ -28,12 +28,6 @@ const stages = [
 class RejectUsernameDialog extends Component  {
 
   state = {email: '', stage: 0}
-
-  static propTypes = {
-    stage: PropTypes.number,
-    handleClose: PropTypes.func.isRequired,
-    rejectUsername: PropTypes.func.isRequired
-  }
 
   componentDidMount() {
     this.setState({email: t('reject_username.email_message_reject'), about: t('reject_username.username')});
@@ -76,7 +70,7 @@ class RejectUsernameDialog extends Component  {
     const {stage} = this.state;
 
     return <Dialog
-      className={styles.suspendDialog}
+      className={cn(styles.suspendDialog, 'talk-reject-username-dialog')}
       id="rejectUsernameDialog"
       open={open}
       onClose={handleClose}
@@ -96,15 +90,18 @@ class RejectUsernameDialog extends Component  {
                   <div className={styles.emailContainer}>
                     <textarea
                       rows={5}
-                      className={styles.emailInput}
+                      className={cn(styles.emailInput, 'talk-reject-username-dialog-suspension-message')}
                       value={this.state.email}
                       onChange={this.onEmailChange}/>
                   </div>
                 </div>
         }
-        <div className={styles.modalButtons}>
+        <div className={cn(styles.modalButtons, 'talk-reject-username-dialog-buttons')}>
           {Object.keys(stages[stage].options).map((key, i) => (
-            <Button key={i} onClick={this.onActionClick(stage, i)}>
+            <Button
+              key={i}
+              className={cn('talk-reject-username-dialog-button', `talk-reject-username-dialog-button-${key}`)}
+              onClick={this.onActionClick(stage, i)} >
               {t(stages[stage].options[key], t('reject_username.username'))}
             </Button>
           ))}
@@ -113,5 +110,13 @@ class RejectUsernameDialog extends Component  {
     </Dialog>;
   }
 }
+
+RejectUsernameDialog.propTypes = {
+  stage: PropTypes.number,
+  handleClose: PropTypes.func.isRequired,
+  rejectUsername: PropTypes.func.isRequired,
+  user: PropTypes.object,
+  open: PropTypes.bool,
+};
 
 export default RejectUsernameDialog;
