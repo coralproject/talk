@@ -1,8 +1,11 @@
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
+const MailerService = require('../../../services/mailer');
 
 const chai = require('chai');
 chai.use(require('chai-as-promised'));
+const sinon = require('sinon');
+chai.use(require('sinon-chai'));
 const expect = chai.expect;
 
 describe('services.UsersService', () => {
@@ -15,7 +18,7 @@ describe('services.UsersService', () => {
     mockUsers = await UsersService.createLocalUsers([{
       email: 'stampi@gmail.com',
       username: 'Stampi',
-      password: '1Coral!-'
+      password: '1Coral!-',
     }, {
       email: 'sockmonster@gmail.com',
       username: 'Sockmonster',
@@ -25,6 +28,12 @@ describe('services.UsersService', () => {
       username: 'Marvel',
       password: '3Coral!3'
     }]);
+
+    sinon.spy(MailerService, 'sendSimple');
+  });
+
+  afterEach(() => {
+    MailerService.sendSimple.restore();
   });
 
   describe('#findById()', () => {
@@ -149,7 +158,11 @@ describe('services.UsersService', () => {
         .then(() => UsersService.findById(mockUsers[0].id))
         .then((user) => {
           expect(user).to.have.property('status', 'ACTIVE');
+        })
+        .then(() => {
+          expect(MailerService.sendSimple).to.not.have.been.called;
         });
+
     });
   });
 
@@ -188,6 +201,12 @@ describe('services.UsersService', () => {
         .then(() => UsersService.findById(mockUsers[0].id))
         .then((user) => {
           expect(user).to.have.property('status', 'BANNED');
+        })
+        .then(() => {
+          expect(MailerService.sendSimple).to.have.been.calledWithMatch({
+            template: 'banned',
+            to: mockUsers[0].profiles[0].id
+          });
         });
     });
 

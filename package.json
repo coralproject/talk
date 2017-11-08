@@ -1,6 +1,6 @@
 {
   "name": "talk",
-  "version": "3.7.0",
+  "version": "3.7.1",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
   "private": true,
@@ -172,7 +172,7 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "resolve": "^1.4.0",
-    "selenium-standalone": "6.9.0",
+    "selenium-standalone": "^6.11.0",
     "semver": "^5.4.1",
     "simplemde": "^1.11.2",
     "smoothscroll-polyfill": "^0.3.5",

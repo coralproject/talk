@@ -1,9 +1,9 @@
 module.exports = {
   '@tags': ['admin', 'login'],
    beforeEach: (client) => {
-    
+
     client.resizeWindow(1024, 800);
-  }, 
+  },
   'Admin logs in': (client) => {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;
@@ -17,8 +17,6 @@ module.exports = {
       .waitForElementVisible('@signInButton')
       .click('@signInButton');
 
-    client.pause(3000);
-    
     adminPage
       .waitForElementVisible('@moderationContainer');
   },
