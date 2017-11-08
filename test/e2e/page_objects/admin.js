@@ -7,10 +7,8 @@ module.exports = {
       return this
         .waitForElementVisible('body');
     },
-    login(user = {}) {
-      const adminPage = this.page.admin();
-  
-      adminPage
+    login(user = {}) {  
+      this
         .navigate()
         .waitForElementVisible('@loginLayout')
         .waitForElementVisible('@signInForm')
@@ -19,9 +17,9 @@ module.exports = {
         .waitForElementVisible('@signInButton')
         .click('@signInButton');
   
-      this.pause(3000);
+      this.api.pause(3000);
       
-      adminPage
+      this
         .waitForElementVisible('@moderationContainer');
     },
   }],
