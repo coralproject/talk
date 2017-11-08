@@ -1,5 +1,3 @@
-const SortedWindowHandler = require('../utils/SortedWindowHandler');
-
 module.exports = {
   '@tags': ['embedStream', 'login'],
   'creates a new asset': (client) => {
@@ -16,54 +14,8 @@ module.exports = {
     const {testData: {user}} = client.globals;
     const embedStream = client.page.embedStream();
 
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    const windowHandler = new SortedWindowHandler(client);
-
-    embed
-      .waitForElementVisible('@signInButton')
-      .click('@signInButton');
-
-    // Wait for window to be created
-    // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/17b1a79682bef2498cb0be86eac317a08c976b0a#automate_button
-    client.pause(200);
-
-    // Focusing on the Login PopUp
-    windowHandler.windowHandles((handles) => {
-      client.switchWindow(handles[1]);
-    });
-
-    const login = client.page.login();
-
-    login
-      .waitForElementVisible('@registerButton')
-      .click('@registerButton')
-      .setValue('@emailInput', user.email)
-      .setValue('@usernameInput', user.username)
-      .setValue('@passwordInput', user.password)
-      .setValue('@confirmPasswordInput', user.password)
-      .waitForElementVisible('@signUpButton')
-      .click('@signUpButton')
-      .waitForElementVisible('@signIn')
-      .waitForElementVisible('@loginButton')
-      .click('@loginButton');
-
-    // Give a tiny bit of time to let popup close.
-    client.pause(50);
-
-    if (client.capabilities.browserName === 'MicrosoftEdge') {
-
-      // More time for edge.
-      // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/7393dbfda8387e43b6d5851f359b0c07db414973
-      client.pause(1000);
-    }
-
-    // Focusing on the Embed Window
-    windowHandler.windowHandles((handles) => {
-      client.switchWindow(handles[0]);
-    });
+    embedStream
+      .login(user);
   },
   'user posts a comment': (client) => {
     const embedStream = client.page.embedStream();

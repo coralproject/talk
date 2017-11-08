@@ -1,4 +1,5 @@
 const iframeId = 'coralStreamEmbed_iframe';
+const SortedWindowHandler = require('../utils/SortedWindowHandler');
 
 module.exports = {
   commands: [{
@@ -18,36 +19,53 @@ module.exports = {
       return this.section.embed;
     },
     login(user = {}) {
-
       const embed = this
         .navigate()
         .getEmbedSection();
+  
+      const windowHandler = new SortedWindowHandler(this);
   
       embed
         .waitForElementVisible('@signInButton')
         .click('@signInButton');
   
-      this.api.pause(3000);
+      // Wait for window to be created
+      // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/17b1a79682bef2498cb0be86eac317a08c976b0a#automate_button
+      this.api.pause(200);
   
       // Focusing on the Login PopUp
-      this.api.windowHandles((result) => {
-        const handle = result.value[1];
-        this.api.switchWindow(handle);
+      windowHandler.windowHandles((handles) => {
+        this.api.switchWindow(handles[1]);
       });
-
+  
       const login = this.api.page.login();
-      
+  
       login
+        .waitForElementVisible('@registerButton')
+        .click('@registerButton')
         .setValue('@emailInput', user.email)
+        .setValue('@usernameInput', user.username)
         .setValue('@passwordInput', user.password)
+        .setValue('@confirmPasswordInput', user.password)
+        .waitForElementVisible('@signUpButton')
+        .click('@signUpButton')
         .waitForElementVisible('@signIn')
         .waitForElementVisible('@loginButton')
         .click('@loginButton');
-
+  
+      // Give a tiny bit of time to let popup close.
+      this.api.pause(50);
+  
+      if (this.api.capabilities.browserName === 'MicrosoftEdge') {
+  
+        // More time for edge.
+        // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/7393dbfda8387e43b6d5851f359b0c07db414973
+        this.api.pause(1000);
+      }
+  
       // Focusing on the Embed Window
-      this.api.windowHandles((result) => {
-        const handle = result.value[0];
-        this.api.switchWindow(handle);
+      windowHandler.windowHandles((handles) => {
+        this.api.switchWindow(handles[0]);
       });
     },
     logout() {      
