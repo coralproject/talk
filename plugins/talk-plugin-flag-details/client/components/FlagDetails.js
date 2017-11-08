@@ -35,7 +35,7 @@ class FlagDetails extends Component {
           <ul className={styles.info}>
             {reasons.map((reason) =>
               <li key={reason} className={styles.lessDetail}>
-                {reason} {summaries[reason].userFlagged && `(${summaries[reason].count})`}
+                {t(`flags.reasons.comment.${reason.toLowerCase()}`)} {summaries[reason].userFlagged && `(${summaries[reason].count})`}
               </li>
             )}
           </ul>

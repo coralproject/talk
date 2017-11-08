@@ -518,6 +518,36 @@ type FlagAssetActionSummary implements AssetActionSummary {
   actionableItemCount: Int
 }
 
+enum FLAG_REASON {
+
+  # The current user thinks that the flagged username is offensive.
+  USERNAME_OFFENSIVE
+
+  # The current user does not like the flagged username.
+  USERNAME_NOLIKE
+
+  # The current user thinks that the flagged username is being used to
+  # impersonate another user.
+  USERNAME_IMPERSONATING
+
+  # The current user thinks that the flagged username is spam.
+  USERNAME_SPAM
+
+  # The current user thinks that the flagged username is wrong for another
+  # reason.
+  USERNAME_OTHER
+
+  # The current user thinks that the flagged comment is offensive.
+  COMMENT_OFFENSIVE
+
+  # The current user thinks that the flagged comment is spam.
+  COMMENT_SPAM
+
+  # The current user thinks that the flagged comment is wrong for another
+  # reason.
+  COMMENT_OTHER
+}
+
 # A FLAG action that contains flag metadata.
 type FlagAction implements Action {
 
@@ -545,9 +575,6 @@ type DontAgreeAction implements Action {
 
   # The ID of the DontAgree Action.
   id: ID!
-
-  # The reason for which the DontAgree Action was created.
-  reason: String
 
   # An optional message sent with the flagging action by the user.
   message: String
@@ -580,9 +607,6 @@ type DontAgreeActionSummary implements ActionSummary {
 
   # The total count of flags with this reason.
   count: Int!
-
-  # The reason for which the Flag Action was created.
-  reason: String
 
   # The don't agree action by the current user against the parent entity with this reason.
   current_user: DontAgreeAction
@@ -948,7 +972,7 @@ input CreateFlagInput {
   item_type: ACTION_ITEM_TYPE!
 
   # The reason for flagging the item.
-  reason: String!
+  reason: FLAG_REASON
 
   # An optional message sent with the flagging action by the user.
   message: String
@@ -986,9 +1010,6 @@ input CreateDontAgreeInput {
 
   # The type of the item for which we are to create the don't agree.
   item_type: ACTION_ITEM_TYPE!
-
-  # The reason for not agreeing with the item.
-  reason: String
 
   # An optional message sent with the don't agree action by the user.
   message: String

@@ -4,12 +4,20 @@ en:
       Are you sure? The language in this comment might violate our community guidelines.
       You can edit the comment or submit it for moderator review.
   talk-plugin-toxic-comments:
-    unlikely: Unlikely
-    highly_likely: Highly Likely
-    possibly: Possibly
-    likely: Likely
-    toxic_comment: Toxic Comment
+    unlikely: "Unlikely"
+    highly_likely: "Highly Likely"
+    possibly: "Possibly"
+    likely: "Likely"
+    toxic_comment: "Toxic Comment"
     still_toxic: |
       This edited comment might still violate our community guidelines.
       Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Highly likely to be Toxic"
 es:
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Muy probable que sea tóxico"
