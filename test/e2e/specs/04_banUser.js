@@ -50,4 +50,33 @@ module.exports = {
     embed
       .waitForElementVisible('@restrictedMessageBox');
   },
+  'user logs out': (client) => {
+    const embedStream = client.page.embedStream();
+
+    embedStream
+      .logout();
+  },
+  'admin logs in (2)': (client) => {
+    const adminPage = client.page.admin();
+    const {testData: {admin}} = client.globals;
+
+    adminPage
+      .login(admin);
+  },
+  'admin goes to community': (client) => {
+    const community = client.page.adminCommunity();
+    
+    community
+      .goToPeople();
+  },
+  'admin removes ban from user': (client) => {
+    const modSection = client.page.adminCommunity().section.people;
+
+    modSection
+      .waitForElementVisible('@row')
+      .waitForElementVisible('@dropdownStatus')
+      .click('@dropdownStatus')
+      .waitForElementVisible('@dropdownStatusActive')
+      .click('@optionActive');
+  },
 };

@@ -7,6 +7,10 @@ module.exports = {
       return this
         .waitForElementVisible('body');
     },
+    goToPeople() {
+      this
+        .navigate(`${this.url()}/people`);
+    },
   }],
   elements: {
     container: '.talk-admin-community',
@@ -18,5 +22,18 @@ module.exports = {
     usernameDialogButtons: '.talk-reject-username-dialog-buttons',
     usernameDialogSuspend: '.talk-reject-username-dialog-button-k',
     usernameDialogSuspensionMessage: '.talk-reject-username-dialog-suspension-message'
+  },
+  sections: {
+    people: {
+      selector: '.talk-admin-community-people-container',
+      elements: {
+        row: '.talk-admin-community-people-row',
+        dropdownStatus: '.talk-admin-community-people-dd-status',
+        dropdownRole: '.talk-admin-community-people-dd-role',
+        dropdownStatusActive: '.talk-admin-community-people-dd-status .dd-list-active',
+        optionActive: '.dd-option#ACTIVE',
+        optionBanned: '.dd-option#BANNED',
+      }
+    }
   }
 };
