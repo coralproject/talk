@@ -13,9 +13,8 @@ module.exports = {
       return this.section.embed;
     },
     login(user = {}) {
-      const embedStream = this.page.embedStream();
-  
-      const embed = embedStream
+
+      const embed = this
         .navigate()
         .getEmbedSection();
   
@@ -23,15 +22,15 @@ module.exports = {
         .waitForElementVisible('@signInButton')
         .click('@signInButton');
   
-      this.pause(3000);
+      this.api.pause(3000);
   
       // Focusing on the Login PopUp
-      this.windowHandles((result) => {
+      this.api.windowHandles((result) => {
         const handle = result.value[1];
-        this.switchWindow(handle);
+        this.api.switchWindow(handle);
       });
 
-      const login = this.page.login();
+      const login = this.api.page.login();
       
       login
         .setValue('@emailInput', user.email)
@@ -41,15 +40,13 @@ module.exports = {
         .click('@loginButton');
 
       // Focusing on the Embed Window
-      this.windowHandles((result) => {
+      this.api.windowHandles((result) => {
         const handle = result.value[0];
-        this.switchWindow(handle);
+        this.api.switchWindow(handle);
       });
     },
-    logout() {
-      const embedStream = this.page.embedStream();
-      
-      const embed = embedStream
+    logout() {      
+      const embed = this
         .navigate()
         .getEmbedSection();
   
@@ -95,6 +92,8 @@ module.exports = {
         restrictedMessageBox: '.talk-restricted-message-box',
         suspendedAccountInput: '.talk-suspended-account-username-input',
         suspendedAccountSubmitButton: '.talk-suspended-account-submit-button',
+        banDialog: '.talk-ban-user-dialog',
+        banDialogConfirmButton: '.talk-ban-user-dialog-button-confirm',
       },
       sections: {
         flag: {
@@ -112,8 +111,6 @@ module.exports = {
             arrow: '.talk-plugin-moderation-actions-arrow',
             menu: '.talk-plugin-modetarion-actions-menu',
             banButton: '.talk-plugin-moderation-actions-ban',
-            banDialog: '.talk-ban-user-dialog',
-            banDialogbanButton: '.talk-ban-user-dialog-button-ban',
           },
         },
         profile: {

@@ -52,7 +52,7 @@ const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUs
             </td>
             <td className="mdl-data-table__cell--non-numeric">
               <Dropdown
-                className="talk-admin-community-people-dd-status"
+                containerClassName="talk-admin-community-people-dd-status"
                 value={row.status}
                 placeholder={t('community.status')}
                 onChange={(status) => setCommenterStatus(row.id, status)}>
@@ -62,7 +62,7 @@ const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUs
             </td>
             <td className="mdl-data-table__cell--non-numeric">
               <Dropdown
-                className="talk-admin-community-people-dd-role"
+                containerClassName="talk-admin-community-people-dd-role"
                 value={row.roles[0] || ''}
                 placeholder={t('community.role')}
                 onChange={(role) => setRole(row.id, role)}>

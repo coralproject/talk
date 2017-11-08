@@ -27,7 +27,7 @@ module.exports = {
     people: {
       selector: '.talk-admin-community-people-container',
       elements: {
-        row: '.talk-admin-community-people-row',
+        firstRow: '.talk-admin-community-people-row:first-child',
         dropdownStatus: '.talk-admin-community-people-dd-status',
         dropdownRole: '.talk-admin-community-people-dd-role',
         dropdownStatusActive: '.talk-admin-community-people-dd-status .dd-list-active',

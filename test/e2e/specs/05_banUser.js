@@ -14,6 +14,7 @@ module.exports = {
       .getEmbedSection();
   },
   'admin bans user': (client) => {
+    const embed = client.page.embedStream().section.embed;
     const modSection = client.page.embedStream().section.embed.section.mod;
 
     modSection
@@ -21,10 +22,12 @@ module.exports = {
       .click('@arrow')
       .waitForElementVisible('@menu')
       .waitForElementVisible('@banButton')
-      .click('@banButton')
+      .click('@banButton');
+
+    embed
       .waitForElementVisible('@banDialog')
-      .waitForElementVisible('@banDialogbanButton')
-      .click('@banDialogbanButton')
+      .waitForElementVisible('@banDialogConfirmButton')
+      .click('@banDialogConfirmButton')
       .waitForElementNotVisible('@banDialog');
   },
   'admin logs out': (client) => {
@@ -73,7 +76,7 @@ module.exports = {
     const modSection = client.page.adminCommunity().section.people;
 
     modSection
-      .waitForElementVisible('@row')
+      .waitForElementVisible('@firstRow')
       .waitForElementVisible('@dropdownStatus')
       .click('@dropdownStatus')
       .waitForElementVisible('@dropdownStatusActive')
