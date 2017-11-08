@@ -42,7 +42,7 @@ const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUs
       </thead>
       <tbody>
         {users.map((row, i)=> (
-          <tr key={i}>
+          <tr key={i} className="talk-admin-community-people-row">
             <td className="mdl-data-table__cell--non-numeric">
               <button onClick={() => {viewUserDetail(row.id);}} className={cn(styles.username, styles.button)}>{row.username}</button>
               <span className={styles.email}>{row.profiles.map(({id}) => id)}</span>
@@ -52,6 +52,7 @@ const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUs
             </td>
             <td className="mdl-data-table__cell--non-numeric">
               <Dropdown
+                className="talk-admin-community-people-dd-status"
                 value={row.status}
                 placeholder={t('community.status')}
                 onChange={(status) => setCommenterStatus(row.id, status)}>
@@ -61,6 +62,7 @@ const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUs
             </td>
             <td className="mdl-data-table__cell--non-numeric">
               <Dropdown
+                className="talk-admin-community-people-dd-role"
                 value={row.roles[0] || ''}
                 placeholder={t('community.role')}
                 onChange={(role) => setRole(row.id, role)}>
