@@ -15,7 +15,15 @@ function generateRegExp(phrases) {
         .join('[\\s"?!.]+')
     ).join('|');
 
-  return new RegExp(`(^|[^\\w])(${inner})(?=[^\\w]|$)`, 'iu');
+  const pattern = `(^|[^\\w])(${inner})(?=[^\\w]|$)`;
+  try {
+    return new RegExp(pattern, 'iu');
+  }
+  catch (_err) {
+
+    // IE does not support unicode support, so we'll create one without.
+    return new RegExp(pattern, 'i');
+  }
 }
 
 // Generate a regular expression detecting `suspectWords` and `bannedWords` phrases.

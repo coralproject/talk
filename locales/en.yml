@@ -254,6 +254,24 @@ en:
   loading_results: "Loading Results"
   marketing: "This looks like an ad/marketing"
   moderate_this_stream: "Moderate this stream"
+  flags:
+    reasons:
+       user:
+         username_offensive: "Offensive"
+         username_nolike: "Dislike"
+         username_impersonating: "Impersonation"
+         username_spam: "Spam"
+         username_other: "Other"
+       comment:
+         comment_offensive: "Offensive"
+         comment_spam: "Spam"
+         comment_noagree: "Disagree"
+         comment_other: "Other"
+         suspect_word: "Suspect Word"
+         banned_word: "Banned Word"
+         body_count: "Body exceeds max length"
+         trust: "Trust"
+         links: "Link"
   modqueue:
     account: "account flags"
     actions: Actions
