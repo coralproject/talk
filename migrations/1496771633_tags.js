@@ -17,7 +17,7 @@ module.exports = {
       }}
     ]);
 
-    // If no comments were found, nothing needes to be done!
+    // If no comments were found, nothing needs to be done!
     if (comments.length <= 0) {
       return;
     }

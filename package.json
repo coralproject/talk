@@ -33,7 +33,7 @@
   },
   "talk": {
     "migration": {
-      "minVersion": 1507322128
+      "minVersion": 1510174676
     }
   },
   "repository": {
@@ -228,5 +228,8 @@
       "post-checkout": [],
       "post-merge": []
     }
+  },
+  "release": {
+    "analyzeCommits": "simple-commit-message"
   }
 }
