@@ -11,19 +11,19 @@ module.exports = {
       this
         .waitForElementVisible('@drawerButton')
         .click('@drawerButton');
-      this.expect.section('@drawer').to.be.present;
+      this.expect.section('@drawer').to.be.visible;
       return this.section.drawer;
     },
     goToStories() {
       this
         .click('@storiesNav')
-        .expect.section('@stories').to.be.present;
+        .expect.section('@stories').to.be.visible;
       return this.section.stories;
     },
     goToCommunity() {
       this
         .click('@communityNav')
-        .expect.section('@community').to.be.present;
+        .expect.section('@community').to.be.visible;
       return this.section.community;
     },
     logout() {
@@ -62,7 +62,7 @@ module.exports = {
         goToPeople() {
           this
             .click('@peopleNav')
-            .expect.section('@people').to.be.present;
+            .expect.section('@people').to.be.visible;
           return this.section.people;
         },
       }],
@@ -98,20 +98,21 @@ module.exports = {
         goToStories() {
           this
             .click('@storiesButton');
-          this.parent.expect.section('@stories').to.be.present;
+          this.parent.expect.section('@stories').to.be.visible;
           this.close();
           return this.parent.section.stories;
         },
         goToCommunity() {
           this
             .click('@communityButton');
-          this.parent.expect.section('@community').to.be.present;
+          this.parent.expect.section('@community').to.be.visible;
           this.close();
           return this.parent.section.stories;
         },
         close() {
           this.parent
-            .click('@drawerOverlay');
+            .click('@drawerOverlay')
+            .waitForElementNotPresent('@drawerOverlay');
         },
       }],
       elements: {
@@ -129,7 +130,7 @@ module.exports = {
             .waitForElementVisible('@signInButton')
             .click('@signInButton');
           const adminPage = this.api.page.admin();
-          adminPage.expect.section('@moderate').to.be.present;
+          adminPage.expect.section('@moderate').to.be.visible;
           return adminPage.section.moderate;
         },
       }],

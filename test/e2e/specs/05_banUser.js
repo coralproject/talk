@@ -21,7 +21,7 @@ module.exports = {
 
     adminPage
       .navigate()
-      .expect.section('@login').to.be.present;
+      .expect.section('@login').to.be.visible;
 
     adminPage.section.login
       .login(admin);
@@ -83,7 +83,7 @@ module.exports = {
 
     adminPage
       .navigate()
-      .expect.section('@login').to.be.present;
+      .expect.section('@login').to.be.visible;
 
     adminPage.section.login
       .login(admin);
@@ -129,7 +129,7 @@ module.exports = {
     const comments = embedStream.section.comments;
 
     comments
-      .waitForElementPresent('@commentBoxTextarea')
-      .waitForElementPresent('@commentBoxPostButton');
+      .waitForElementVisible('@commentBoxTextarea')
+      .waitForElementVisible('@commentBoxPostButton');
   },
 };

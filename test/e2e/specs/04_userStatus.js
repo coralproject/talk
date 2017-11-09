@@ -21,7 +21,7 @@ module.exports = {
 
     adminPage
       .navigate()
-      .expect.section('@login').to.be.present;
+      .expect.section('@login').to.be.visible;
 
     adminPage.section.login
       .login(admin);

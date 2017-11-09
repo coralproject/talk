@@ -21,7 +21,7 @@ module.exports = {
     const {testData: {admin}} = client.globals;
 
     adminPage.navigate();
-    adminPage.expect.section('@login').to.be.present;
+    adminPage.expect.section('@login').to.be.visible;
     adminPage.section.login.login(admin);
   },
 

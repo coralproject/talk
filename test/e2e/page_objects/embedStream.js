@@ -5,19 +5,19 @@ module.exports = {
   commands: [{
     ready: function() {
       this.switchToIframe();
-      this.expect.section('@comments').to.be.present;
+      this.expect.section('@comments').to.be.visible;
       return this.section.comments;
     },
     goToProfileSection: function() {
       this.waitForElementVisible('@profileTabButton');
       this.click('@profileTabButton');
-      this.expect.section('@profile').to.be.present;
+      this.expect.section('@profile').to.be.visible;
       return this.section.profile;
     },
     goToCommentsSection: function() {
       this.waitForElementVisible('@commentsTabButton');
       this.click('@commentsTabButton');
-      this.expect.section('@comments').to.be.present;
+      this.expect.section('@comments').to.be.visible;
       return this.section.comments;
     },
     navigateToAsset: function(asset) {

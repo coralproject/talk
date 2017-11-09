@@ -21,7 +21,7 @@ module.exports = {
 
     install
       .navigate()
-      .expect.section('@step1').to.be.present;
+      .expect.section('@step1').to.be.visible;
 
   },
   'User clicks get started button': (client) => {
@@ -35,7 +35,7 @@ module.exports = {
     const install = client.page.install();
 
     install
-      .expect.section('@step2').to.be.present;
+      .expect.section('@step2').to.be.visible;
   },
   'User fills step 2': (client) => {
     const step2 = client.page.install().section.step2;
@@ -51,7 +51,7 @@ module.exports = {
     const install = client.page.install();
 
     install
-      .expect.section('@step3').to.be.present;
+      .expect.section('@step3').to.be.visible;
   },
   'User fills step 3': (client) => {
     const step3 = client.page.install().section.step3;
@@ -69,7 +69,7 @@ module.exports = {
     const install = client.page.install();
 
     install
-      .expect.section('@step4').to.be.present;
+      .expect.section('@step4').to.be.visible;
   },
   'User fills step 4': (client) => {
     const step4 = client.page.install().section.step4;
@@ -88,6 +88,6 @@ module.exports = {
     const install = client.page.install();
 
     install
-      .expect.section('@step5').to.be.present;
+      .expect.section('@step5').to.be.visible;
   },
 };
