@@ -5,7 +5,9 @@ module.exports = {
 
     adminPage
       .navigate()
-      .ready()
+      .expect.section('@login').to.be.present;
+
+    adminPage.section.login
       .login(admin);
   },
   'navigate to the embed stream': (client) => {
@@ -65,19 +67,24 @@ module.exports = {
 
     adminPage
       .navigate()
-      .ready()
+      .expect.section('@login').to.be.present;
+
+    adminPage.section.login
       .login(admin);
   },
   'admin goes to community': (client) => {
-    const community = client.page.adminCommunity();
+    const adminPage = client.page.admin();
 
-    community
-      .goToPeople();
+    adminPage
+      .goToCommunity()
+        .goToPeople();
   },
   'admin removes ban from user': (client) => {
-    const modSection = client.page.adminCommunity().section.people;
+    const people = client.page.admin()
+      .section.community
+      .section.people;
 
-    modSection
+    people
       .waitForElementVisible('@firstRow')
       .waitForElementVisible('@dropdownStatus')
       .click('@dropdownStatus')

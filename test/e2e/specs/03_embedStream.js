@@ -21,8 +21,8 @@ module.exports = {
       .ready();
 
     comments
-      .openLoginPopup((login) => {
-        login.register(user);
+      .openLoginPopup((popup) => {
+        popup.register(user);
       });
   },
   'user posts a comment': (client) => {

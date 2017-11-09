@@ -8,37 +8,25 @@ module.exports = {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;
 
-    adminPage
-      .navigate()
-      .ready()
-      .login(admin);
+    adminPage.navigate();
+    adminPage.expect.section('@login').to.be.present;
+    adminPage.section.login.login(admin);
   },
 
   'Admin goes to Stories': (client) => {
     const adminPage = client.page.admin();
 
     adminPage
-      .waitForElementVisible('@drawerButton')
-      .click('@drawerButton')
-      .waitForElementVisible('@storiesDrawerNav')
-      .click('@storiesDrawerNav')
-      .waitForElementVisible('@drawerOverlay')
-      .click('@drawerOverlay')
-      .waitForElementVisible('@storiesSection');
-
+      .openDrawer()
+        .goToStories();
   },
 
   'Admin goes to Community': (client) => {
     const adminPage = client.page.admin();
 
     adminPage
-      .waitForElementVisible('@drawerButton')
-      .click('@drawerButton')
-      .waitForElementVisible('@communityDrawerNav')
-      .click('@communityDrawerNav')
-      .waitForElementVisible('@drawerOverlay')
-      .click('@drawerOverlay')
-      .waitForElementVisible('@communitySection');
+      .openDrawer()
+        .goToCommunity();
   },
 
   after: (client) => {

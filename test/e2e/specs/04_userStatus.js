@@ -1,11 +1,16 @@
 module.exports = {
+   beforeEach: (client) => {
+    client.resizeWindow(1600, 1200);
+  },
   'admin logs in': (client) => {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;
 
     adminPage
       .navigate()
-      .ready()
+      .expect.section('@login').to.be.present;
+
+    adminPage.section.login
       .login(admin);
   },
   'admin flags user\'s username as offensive': (client) => {
@@ -32,25 +37,26 @@ module.exports = {
       .click('@continueButton');
   },
   'admin goes to Reported Usernames': (client) => {
-    const community = client.page.adminCommunity();
+    const adminPage = client.page.admin();
+
+    const community = adminPage
+      .navigate()
+      .ready()
+      .goToCommunity();
 
     community
-      .navigate();
-
-    community
-      .waitForElementVisible('@container')
       .waitForElementVisible('@flaggedAccountsContainer')
       .waitForElementVisible('@flaggedUser');
   },
   'admin rejects the user flag': (client) => {
-    const community = client.page.adminCommunity();
+    const community = client.page.admin().section.community;
 
     community
       .waitForElementVisible('@flaggedUserRejectButton')
       .click('@flaggedUserRejectButton');
   },
   'admin suspends the user': (client) => {
-    const community = client.page.adminCommunity();
+    const community = client.page.admin().section.community;
 
     community
       .waitForElementVisible('@usernameDialog')
@@ -62,13 +68,7 @@ module.exports = {
       .waitForElementNotPresent('@flaggedUser');
   },
   'admin logs out': (client) => {
-    const admin = client.page.admin();
-
-    admin
-      .waitForElementVisible('@settingsButton')
-      .click('@settingsButton')
-      .waitForElementVisible('@signOutButton')
-      .click('@signOutButton');
+    client.page.admin().logout();
   },
   'user logs in': (client) => {
     const {testData: {user}} = client.globals;

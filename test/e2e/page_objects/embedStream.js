@@ -64,8 +64,8 @@ module.exports = {
             this.api.switchWindow(handles[1]);
           });
 
-          const login = this.api.page.login().ready();
-          callback(login);
+          const popup = this.api.page.popup().ready();
+          callback(popup);
 
           // Give a tiny bit of time to let popup close.
           this.api.pause(50);
@@ -80,7 +80,7 @@ module.exports = {
           // Focusing on the Embed Window
           windowHandler.windowHandles((handles) => {
             this.api.switchWindow(handles[0]);
-            this.api.page.embedStream().switchToIframe();
+            this.parent.switchToIframe();
           });
         },
         logout() {
