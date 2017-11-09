@@ -80,8 +80,16 @@ module.exports = {
           // Focusing on the Embed Window
           windowHandler.windowHandles((handles) => {
             this.api.switchWindow(handles[0]);
-            this.parent.switchToIframe();
+
+            // For some reasons firefox does not automatically load auth after login.
+            // https://www.browserstack.com/automate/builds/37650cb4e66c6edce0ba0800a1c1b7e7f74bf991/sessions/7a4e9da69b0f9ecdf8b7fa9150639e47b1532cb0#automate_button
+            if (this.api.capabilities.browserName === 'firefox') {
+              this.parent.navigate().ready();
+            } else {
+              this.parent.switchToIframe();
+            }
           });
+          return this;
         },
         logout() {
           this
