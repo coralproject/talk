@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
 import styles from './SuspendAccount.css';
 import {Button} from 'coral-ui';
@@ -66,17 +67,16 @@ class SuspendedAccount extends Component {
             </label>
             <input
               type='text'
-              className={styles.editNameInput}
+              className={cn(styles.editNameInput, 'talk-suspended-account-username-input')}
               value={username}
               placeholder={t('framework.edit_name.label')}
               id='username'
               onChange={(e) => this.setState({username: e.target.value})}
               rows={3}/><br/>
             <Button
-              onClick={this.onSubmitClick}>
-              {
-                t('framework.edit_name.button')
-              }
+              className="talk-suspended-account-submit-button"
+              onClick={this.onSubmitClick} >
+              {t('framework.edit_name.button')}
             </Button>
           </div> : null
       }
