@@ -71,10 +71,10 @@ class ModerationContainer extends Component {
     const id = getAssetId(this.props);
     const tab = getTab(this.props);
 
-    // Grab premod from asset or from settings
-    const premod = !id ? settings.moderation : asset.settings.moderation;
+    // Grab premod from asset or from settings if it's defined.
+    const setting = id && asset && asset.settings ? asset.settings.moderation : settings.moderation;
 
-    const queue = isPremod(premod) ? 'premod' : 'new';
+    const queue = isPremod(setting) ? 'premod' : 'new';
     const activeTab = tab ? tab : queue;
 
     return activeTab;
