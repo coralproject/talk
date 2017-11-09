@@ -11,6 +11,10 @@ module.exports = {
     done();
   },
 
+  after: (client) => {
+    client.end();
+  },
+
   'admin logs in': (client) => {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;

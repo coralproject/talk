@@ -11,6 +11,10 @@ module.exports = {
     done();
   },
 
+  after: (client) => {
+    client.end();
+  },
+
   'admin logs in': (client) => {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;
@@ -105,7 +109,7 @@ module.exports = {
       .setValue('@suspendedAccountInput', `${user.username}_alternative`)
       .waitForElementVisible('@suspendedAccountSubmitButton')
       .click('@suspendedAccountSubmitButton')
-      .waitForElementVisible('@suspendedAccountInput');
+      .waitForElementNotPresent('@suspendedAccountInput');
   },
   'user should not be able to comment': (client) => {
     const embedStream = client.page.embedStream();
@@ -115,7 +119,4 @@ module.exports = {
       .waitForElementNotPresent('@commentBoxTextarea')
       .waitForElementNotPresent('@commentBoxPostButton');
   },
-  after: (client) => {
-    client.end();
-  }
 };

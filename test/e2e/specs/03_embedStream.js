@@ -12,6 +12,10 @@ module.exports = {
     done();
   },
 
+  after: (client) => {
+    client.end();
+  },
+
   'creates a new asset': (client) => {
     const asset = 'newAssetTest';
     const embedStream = client.page.embedStream();
@@ -105,7 +109,4 @@ module.exports = {
     profile
       .assert.visible('@notLoggedIn');
   },
-  after: (client) => {
-    client.end();
-  }
 };

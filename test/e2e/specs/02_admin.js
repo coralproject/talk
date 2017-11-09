@@ -12,6 +12,10 @@ module.exports = {
     done();
   },
 
+  after: (client) => {
+    client.end();
+  },
+
   'Admin logs in': (client) => {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;
@@ -36,8 +40,4 @@ module.exports = {
       .openDrawer()
         .goToCommunity();
   },
-
-  after: (client) => {
-    client.end();
-  }
 };

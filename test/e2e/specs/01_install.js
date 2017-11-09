@@ -12,6 +12,10 @@ module.exports = {
     done();
   },
 
+  after: (client) => {
+    client.end();
+  },
+
   'User goes to install': (client) => {
     const install = client.page.install();
 
@@ -86,7 +90,4 @@ module.exports = {
     install
       .expect.section('@step5').to.be.present;
   },
-  after: (client) => {
-    client.end();
-  }
 };
