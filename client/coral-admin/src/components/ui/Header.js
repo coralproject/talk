@@ -76,9 +76,9 @@ const CoralHeader = ({
           }
           <div className={styles.rightPanel}>
             <ul>
-              <li className={styles.settings}>
+              <li className={cn(styles.settings, 'talk-admin-header-settings')}>
                 <div>
-                  <IconButton name="settings" id="menu-settings"/>
+                  <IconButton name="settings" id="menu-settings" className="talk-admin-header-settings-button"/>
                   <Menu target="menu-settings" align="right">
                     <MenuItem onClick={() => showShortcuts(true)}>{t('configure.shortcuts')}</MenuItem>
                     <MenuItem>
@@ -91,7 +91,7 @@ const CoralHeader = ({
                           Report a bug or give feedback
                       </a>
                     </MenuItem>
-                    <MenuItem onClick={handleLogout}>
+                    <MenuItem onClick={handleLogout} className="talk-admin-header-sign-out">
                       {t('configure.sign_out')}
                     </MenuItem>
                   </Menu>
