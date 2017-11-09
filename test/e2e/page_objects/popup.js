@@ -5,7 +5,7 @@ module.exports = {
         .waitForElementVisible('body');
     },
     login(user) {
-      this
+      return this
         .setValue('@emailInput', user.email)
         .setValue('@passwordInput', user.password)
         .waitForElementVisible('@signIn')
@@ -13,7 +13,7 @@ module.exports = {
         .click('@loginButton');
     },
     register(user) {
-      this
+      return this
         .waitForElementVisible('@registerButton')
         .click('@registerButton')
         .setValue('@emailInput', user.email)
