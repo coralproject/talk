@@ -48,10 +48,24 @@ module.exports = {
         signInButton: '#coralSignInButton',
         commentBoxTextarea: '#commentText',
         commentBoxPostButton: '.talk-plugin-commentbox-button',
+        firstComment: '.talk-stream-comment.talk-stream-comment-level-0',
         firstCommentContent: '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-content',
-        respectButton: '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-footer .talk-plugin-respect-button'
+        flagButton: '.talk-stream-comment.talk-stream-comment-level-0 .talk-plugin-flags-button',
+        respectButton: '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-footer .talk-plugin-respect-button',
+        restrictedMessageBox: '.talk-restricted-message-box',
+        suspendedAccountInput: '.talk-suspended-account-username-input',
+        suspendedAccountSubmitButton: '.talk-suspended-account-submit-button',
       },
       sections: {
+        flag: {
+          selector: '.talk-plugin-flags-popup',
+          elements: {
+            offensiveUsernameRadio: '.talk-plugin-flags-popup-radio#USERNAME_OFFENSIVE',
+            flagUsernameRadio: '.talk-plugin-flags-popup-radio#USERS',
+            continueButton: '.talk-plugin-flags-popup-button',
+            popUpText: '.talk-plugin-flags-popup-text',
+          }
+        },
         profile: {
           selector: '.talk-embed-stream-profile-tab-pane',
           elements: {
@@ -59,7 +73,7 @@ module.exports = {
             myCommentHistory: '.talk-my-profile-comment-history',
             myCommentHistoryReactions: '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions',
             myCommentHistoryReactionCount: '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions .comment-summary-reaction-count',
-            myCommentHistoryComment: '.talk-my-profile-comment-history .my-comment-body'
+            myCommentHistoryComment: '.talk-my-profile-comment-history .my-comment-body',
           },
         },
         comments: {

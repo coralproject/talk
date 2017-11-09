@@ -23,5 +23,7 @@ module.exports = {
     'moderationContainer': '.talk-admin-moderation-container',
     'drawerButton': '.mdl-layout__drawer-button',
     'drawerOverlay': 'div.mdl-layout__obfuscator.is-visible',
+    'settingsButton': '.talk-admin-header-settings-button',
+    'signOutButton': '.talk-admin-header-sign-out',
   }
 };
