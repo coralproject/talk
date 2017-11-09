@@ -1,5 +1,4 @@
 const errors = require('../../errors');
-const UserModel = require('../../models/user');
 const UsersService = require('../../services/users');
 const {
   CHANGE_USERNAME,
@@ -19,48 +18,14 @@ const setUserUsernameStatus = async (ctx, id, status) => {
 };
 
 const setUserBanStatus = async (ctx, id, status) => {
-  const user = await UserModel.findOneAndUpdate({id}, {
-    $set: {
-      'status.banned.status': status
-    },
-    $push: {
-      'status.banned.history': {
-        status,
-        assigned_by: ctx.user.id,
-        created_at: Date.now()
-      }
-    }
-  }, {
-    new: true
-  });
-  if (user === null) {
-    throw errors.ErrNotFound;
-  }
-
+  const user = await UsersService.setBanStatus(id, status, ctx.user.id);
   if (user.banned) {
     ctx.pubsub.publish('userBanned', user);
   }
 };
 
 const setUserSuspensionStatus = async (ctx, id, until) => {
-  const user = await UserModel.findOneAndUpdate({id}, {
-    $set: {
-      'status.suspension.until': until
-    },
-    $push: {
-      'status.suspension.history': {
-        until,
-        assigned_by: ctx.user.id,
-        created_at: Date.now()
-      }
-    }
-  }, {
-    new: true
-  });
-  if (user === null) {
-    throw errors.ErrNotFound;
-  }
-
+  const user = await UsersService.setSuspensionStatus(id, until, ctx.user.id);
   if (user.suspended) {
     ctx.pubsub.publish('userSuspended', user);
   }
