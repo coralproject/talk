@@ -102,9 +102,10 @@ module.exports = {
 
     comments
       .waitForElementVisible('@suspendedAccountInput')
-      .setValue('@suspendedAccountInput', `${user.username}-alternative`)
+      .setValue('@suspendedAccountInput', `${user.username}_alternative`)
       .waitForElementVisible('@suspendedAccountSubmitButton')
-      .click('@suspendedAccountSubmitButton');
+      .click('@suspendedAccountSubmitButton')
+      .waitForElementVisible('@suspendedAccountInput');
   },
   'user should not be able to comment': (client) => {
     const embedStream = client.page.embedStream();
