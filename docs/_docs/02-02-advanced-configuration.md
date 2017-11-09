@@ -374,7 +374,7 @@ cannot. You would use this option in the latter situation.
 The email address to send emails from using the SMTP provider in the format:
 
 ```plain
-TALK_SMTP_FROM_EMAIL="The Coral Project" <support@coralproject.net>
+TALK_SMTP_FROM_ADDRESS="The Coral Project" <support@coralproject.net>
 ```
 
 Including the name and email address.
