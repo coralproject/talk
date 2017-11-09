@@ -1,8 +1,15 @@
 module.exports = {
   '@tags': ['admin', 'login'],
 
-   beforeEach: (client) => {
+   before: (client) => {
     client.resizeWindow(1024, 800);
+  },
+
+  afterEach: (client, done) => {
+    if (client.currentTest.results.failed) {
+      throw new Error('Test Case failed, skipping all the rest');
+    }
+    done();
   },
 
   'Admin logs in': (client) => {

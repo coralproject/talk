@@ -1,8 +1,15 @@
 module.exports = {
   '@tags': ['embedStream', 'login'],
 
-   beforeEach: (client) => {
+   before: (client) => {
     client.resizeWindow(1600, 1200);
+  },
+
+  afterEach: (client, done) => {
+    if (client.currentTest.results.failed) {
+      throw new Error('Test Case failed, skipping all the rest');
+    }
+    done();
   },
 
   'creates a new asset': (client) => {

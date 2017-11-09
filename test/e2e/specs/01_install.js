@@ -1,8 +1,15 @@
 module.exports = {
   '@tags': ['install'],
 
-   beforeEach: (client) => {
+   before: (client) => {
     client.resizeWindow(1600, 1200);
+  },
+
+  afterEach: (client, done) => {
+    if (client.currentTest.results.failed) {
+      throw new Error('Test Case failed, skipping all the rest');
+    }
+    done();
   },
 
   'User goes to install': (client) => {
