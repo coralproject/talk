@@ -107,4 +107,29 @@ module.exports = {
       .waitForElementVisible('@dropdownStatusActive')
       .click('@optionActive');
   },
+  'admin logs out 2': (client) => {
+    client.page.admin().logout();
+  },
+  'navigate to the embed stream 2': (client) => {
+    const embedStream = client.page.embedStream();
+
+    embedStream
+      .navigate()
+      .ready();
+  },
+  'user logs in 2': (client) => {
+    const {testData: {user}} = client.globals;
+    const comments = client.page.embedStream().section.comments;
+
+    comments
+      .openLoginPopup((popup) => popup.login(user));
+  },
+  'user should be able to comment': (client) => {
+    const embedStream = client.page.embedStream();
+    const comments = embedStream.section.comments;
+
+    comments
+      .waitForElementPresent('@commentBoxTextarea')
+      .waitForElementPresent('@commentBoxPostButton');
+  },
 };
