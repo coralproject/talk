@@ -29,7 +29,7 @@ module.exports = {
 
       // Pause a bit to let iframe initialize in the hope that it'll
       // fix https://www.browserstack.com/automate/builds/96419cf46e3d6376a36ae6d3f90934112df1ed91/sessions/224f1a1566c1c8c7859e2e76ece51862200f0173#automate_button
-      this.api.pause(200);
+      this.api.pause(1000);
 
       this.api.frame(iframeId);
       return this;
