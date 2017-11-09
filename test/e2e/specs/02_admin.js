@@ -1,9 +1,10 @@
 module.exports = {
   '@tags': ['admin', 'login'],
-   beforeEach: (client) => {
 
+   beforeEach: (client) => {
     client.resizeWindow(1024, 800);
   },
+
   'Admin logs in': (client) => {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;

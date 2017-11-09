@@ -1,7 +1,9 @@
 module.exports = {
+
    beforeEach: (client) => {
     client.resizeWindow(1600, 1200);
   },
+
   'admin logs in': (client) => {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;

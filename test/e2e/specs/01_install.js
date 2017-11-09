@@ -1,6 +1,10 @@
 module.exports = {
   '@tags': ['install'],
 
+   beforeEach: (client) => {
+    client.resizeWindow(1600, 1200);
+  },
+
   'User goes to install': (client) => {
     const install = client.page.install();
 

@@ -1,5 +1,10 @@
 module.exports = {
   '@tags': ['embedStream', 'login'],
+
+   beforeEach: (client) => {
+    client.resizeWindow(1600, 1200);
+  },
+
   'creates a new asset': (client) => {
     const asset = 'newAssetTest';
     const embedStream = client.page.embedStream();

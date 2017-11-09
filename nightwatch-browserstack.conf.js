@@ -26,7 +26,7 @@ const nightwatch_config = {
 
         // Disable this, as it makes bs slow and brittle.
         'browserstack.networkLogs': false,
-        'browserstack.resolution': '1600x1200',
+        'resolution': '1600x1200',
       },
       screenshots : {
         enabled: true,
