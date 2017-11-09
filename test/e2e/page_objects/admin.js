@@ -7,19 +7,14 @@ module.exports = {
       return this
         .waitForElementVisible('body');
     },
-    login(user = {}) {  
+    login(user) {
       this
-        .navigate()
         .waitForElementVisible('@loginLayout')
         .waitForElementVisible('@signInForm')
         .setValue('@emailInput', user.email)
         .setValue('@passwordInput', user.password)
         .waitForElementVisible('@signInButton')
-        .click('@signInButton');
-  
-      this.api.pause(3000);
-      
-      this
+        .click('@signInButton')
         .waitForElementVisible('@moderationContainer');
     },
   }],

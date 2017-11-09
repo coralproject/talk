@@ -10,22 +10,14 @@ module.exports = {
 
     adminPage
       .navigate()
-      .waitForElementVisible('@loginLayout')
-      .waitForElementVisible('@signInForm')
-      .setValue('@emailInput', admin.email)
-      .setValue('@passwordInput', admin.password)
-      .waitForElementVisible('@signInButton')
-      .click('@signInButton');
-
-    adminPage
-      .waitForElementVisible('@moderationContainer');
+      .ready()
+      .login(admin);
   },
 
   'Admin goes to Stories': (client) => {
     const adminPage = client.page.admin();
 
     adminPage
-      .navigate()
       .waitForElementVisible('@drawerButton')
       .click('@drawerButton')
       .waitForElementVisible('@storiesDrawerNav')
@@ -40,7 +32,6 @@ module.exports = {
     const adminPage = client.page.admin();
 
     adminPage
-      .navigate()
       .waitForElementVisible('@drawerButton')
       .click('@drawerButton')
       .waitForElementVisible('@communityDrawerNav')

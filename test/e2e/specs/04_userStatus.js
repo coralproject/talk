@@ -5,32 +5,22 @@ module.exports = {
 
     adminPage
       .navigate()
-      .waitForElementVisible('@loginLayout')
-      .waitForElementVisible('@signInForm')
-      .setValue('@emailInput', admin.email)
-      .setValue('@passwordInput', admin.password)
-      .waitForElementVisible('@signInButton')
-      .click('@signInButton');
-
-    client.pause(3000);
-    
-    adminPage
-      .waitForElementVisible('@moderationContainer');
+      .ready()
+      .login(admin);
   },
   'admin flags user\'s username as offensive': (client) => {
     const embedStream = client.page.embedStream();
-    const flagSection = client.page.embedStream().section.embed.section.flag;
 
-    const embed = embedStream
+    const comments = embedStream
       .navigate()
-      .getEmbedSection();
+      .ready();
 
-    embed
+    comments
       .waitForElementVisible('@firstComment')
       .waitForElementVisible('@flagButton')
       .click('@flagButton');
 
-    flagSection
+    comments.section.flag
       .waitForElementVisible('@flagUsernameRadio')
       .click('@flagUsernameRadio')
       .waitForElementVisible('@continueButton')
@@ -54,14 +44,14 @@ module.exports = {
   },
   'admin rejects the user flag': (client) => {
     const community = client.page.adminCommunity();
-    
+
     community
       .waitForElementVisible('@flaggedUserRejectButton')
       .click('@flaggedUserRejectButton');
   },
   'admin suspends the user': (client) => {
     const community = client.page.adminCommunity();
-    
+
     community
       .waitForElementVisible('@usernameDialog')
       .waitForElementVisible('@usernameDialogButtons')
@@ -84,56 +74,24 @@ module.exports = {
     const {testData: {user}} = client.globals;
     const embedStream = client.page.embedStream();
 
-    const embed = embedStream
+    embedStream
       .navigate()
-      .getEmbedSection();
-
-    embed
-      .waitForElementVisible('@signInButton')
-      .click('@signInButton');
-
-    client.pause(3000);
-
-    // Focusing on the Login PopUp
-    client.windowHandles((result) => {
-      const handle = result.value[1];
-      client.switchWindow(handle);
-    });
-
-    const login = client.page.login();
-
-    login
-      .setValue('@emailInput', user.email)
-      .setValue('@passwordInput', user.password)
-      .waitForElementVisible('@signIn')
-      .waitForElementVisible('@loginButton')
-      .click('@loginButton');
-
-    // Focusing on the Embed Window
-    client.windowHandles((result) => {
-      const handle = result.value[0];
-      client.switchWindow(handle);
-    });
+      .ready()
+      .openLoginPopup((popup) => popup.login(user));
   },
   'user account is suspended, should see restricted message box': (client) => {
     const embedStream = client.page.embedStream();
+    const comments = embedStream.section.comments;
 
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    embed
+    comments
       .waitForElementVisible('@restrictedMessageBox');
   },
   'user picks another username': (client) => {
-    const {testData: {user}} = client.globals;
     const embedStream = client.page.embedStream();
-    
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
+    const comments = embedStream.section.comments;
+    const {testData: {user}} = client.globals;
 
-    embed
+    comments
       .waitForElementVisible('@suspendedAccountInput')
       .setValue('@suspendedAccountInput', `${user.username}-alternative`)
       .waitForElementVisible('@suspendedAccountSubmitButton')
@@ -141,16 +99,13 @@ module.exports = {
   },
   'user should not be able to comment': (client) => {
     const embedStream = client.page.embedStream();
-    
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
+    const comments = embedStream.section.comments;
 
-    embed
+    comments
       .waitForElementNotPresent('@commentBoxTextarea')
       .waitForElementNotPresent('@commentBoxPostButton');
   },
   after: (client) => {
-    client.end(); 
+    client.end();
   }
 };

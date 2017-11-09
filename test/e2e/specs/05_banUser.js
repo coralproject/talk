@@ -4,6 +4,8 @@ module.exports = {
     const {testData: {admin}} = client.globals;
 
     adminPage
+      .navigate()
+      .ready()
       .login(admin);
   },
   'navigate to the embed stream': (client) => {
@@ -11,52 +13,50 @@ module.exports = {
 
     embedStream
       .navigate()
-      .getEmbedSection();
+      .ready();
   },
   'admin bans user': (client) => {
-    const embed = client.page.embedStream().section.embed;
-    const modSection = client.page.embedStream().section.embed.section.mod;
+    const embedStream = client.page.embedStream();
+    const comments = embedStream.section.comments;
 
-    modSection
+    comments.section.mod
       .waitForElementVisible('@arrow')
       .click('@arrow')
       .waitForElementVisible('@menu')
       .waitForElementVisible('@banButton')
       .click('@banButton');
 
-    embed
+    embedStream
       .waitForElementVisible('@banDialog')
       .waitForElementVisible('@banDialogConfirmButton')
       .click('@banDialogConfirmButton')
       .waitForElementNotVisible('@banDialog');
   },
   'admin logs out': (client) => {
-    const embedStream = client.page.embedStream();
+    const comments = client.page.embedStream().section.comments;
 
-    embedStream
+    comments
       .logout();
   },
   'user logs in': (client) => {
     const {testData: {user}} = client.globals;
-    const embedStream = client.page.embedStream();
+    const comments = client.page.embedStream().section.comments;
 
-    embedStream
-      .login(user);
+    comments
+      .openLoginPopup((popup) => popup.login(user));
   },
   'user account is banned, should see restricted message box': (client) => {
     const embedStream = client.page.embedStream();
+    const comments = embedStream.section.comments;
 
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    embed
+    comments
       .waitForElementVisible('@restrictedMessageBox');
   },
   'user logs out': (client) => {
     const embedStream = client.page.embedStream();
+    const comments = embedStream.section.comments;
 
-    embedStream
+    comments
       .logout();
   },
   'admin logs in (2)': (client) => {
@@ -64,11 +64,13 @@ module.exports = {
     const {testData: {admin}} = client.globals;
 
     adminPage
+      .navigate()
+      .ready()
       .login(admin);
   },
   'admin goes to community': (client) => {
     const community = client.page.adminCommunity();
-    
+
     community
       .goToPeople();
   },

@@ -3,11 +3,28 @@ const SortedWindowHandler = require('../utils/SortedWindowHandler');
 
 module.exports = {
   commands: [{
-    navigateToAsset(asset) {
+    ready: function() {
+      this.switchToIframe();
+      this.expect.section('@comments').to.be.present;
+      return this.section.comments;
+    },
+    goToProfileSection: function() {
+      this.waitForElementVisible('@profileTabButton');
+      this.click('@profileTabButton');
+      this.expect.section('@profile').to.be.present;
+      return this.section.profile;
+    },
+    goToCommentsSection: function() {
+      this.waitForElementVisible('@commentsTabButton');
+      this.click('@commentsTabButton');
+      this.expect.section('@comments').to.be.present;
+      return this.section.comments;
+    },
+    navigateToAsset: function(asset) {
       this.api.url(`${this.api.launchUrl}/assets/title/${asset}`);
       return this;
     },
-    getEmbedSection() {
+    switchToIframe: function() {
       this.waitForElementVisible('@iframe');
 
       // Pause a bit to let iframe initialize in the hope that it'll
@@ -15,98 +32,66 @@ module.exports = {
       this.api.pause(200);
 
       this.api.frame(iframeId);
-      this.expect.section('@embed').to.be.present;
-      return this.section.embed;
+      return this;
     },
-    login(user = {}) {
-      const embed = this
-        .navigate()
-        .getEmbedSection();
-  
-      const windowHandler = new SortedWindowHandler(this);
-  
-      embed
-        .waitForElementVisible('@signInButton')
-        .click('@signInButton');
-  
-      // Wait for window to be created
-      // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/17b1a79682bef2498cb0be86eac317a08c976b0a#automate_button
-      this.api.pause(200);
-  
-      // Focusing on the Login PopUp
-      windowHandler.windowHandles((handles) => {
-        this.api.switchWindow(handles[1]);
-      });
-  
-      const login = this.api.page.login();
-  
-      login
-        .waitForElementVisible('@registerButton')
-        .click('@registerButton')
-        .setValue('@emailInput', user.email)
-        .setValue('@usernameInput', user.username)
-        .setValue('@passwordInput', user.password)
-        .setValue('@confirmPasswordInput', user.password)
-        .waitForElementVisible('@signUpButton')
-        .click('@signUpButton')
-        .waitForElementVisible('@signIn')
-        .waitForElementVisible('@loginButton')
-        .click('@loginButton');
-  
-      // Give a tiny bit of time to let popup close.
-      this.api.pause(50);
-  
-      if (this.api.capabilities.browserName === 'MicrosoftEdge') {
-  
-        // More time for edge.
-        // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/7393dbfda8387e43b6d5851f359b0c07db414973
-        this.api.pause(1000);
-      }
-  
-      // Focusing on the Embed Window
-      windowHandler.windowHandles((handles) => {
-        this.api.switchWindow(handles[0]);
-      });
-    },
-    logout() {      
-      const embed = this
-        .navigate()
-        .getEmbedSection();
-  
-      embed
-        .waitForElementVisible('@commentsTabButton')
-        .click('@commentsTabButton')
-        .waitForElementVisible('@logoutButton')
-        .click('@logoutButton');
-    }
   }],
   url: function() {
     return this.api.launchUrl;
   },
   elements: {
     iframe: `#${iframeId}`,
+    commentsTabButton: '.talk-embed-stream-comments-tab > button',
+    profileTabButton: '.talk-embed-stream-profile-tab > button',
+    banDialog: '.talk-ban-user-dialog',
+    banDialogConfirmButton: '.talk-ban-user-dialog-button-confirm',
   },
   sections: {
-    embed: {
+    comments: {
       commands: [{
-        getProfileSection() {
-          this.waitForElementVisible('@profileTabButton');
-          this.click('@profileTabButton');
-          this.expect.section('@profile').to.be.present;
-          return this.section.profile;
+        openLoginPopup(callback) {
+          const windowHandler = new SortedWindowHandler(this.api);
+
+          this
+            .waitForElementVisible('@signInButton')
+            .click('@signInButton');
+
+          // Wait for window to be created
+          // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/17b1a79682bef2498cb0be86eac317a08c976b0a#automate_button
+          this.api.pause(200);
+
+          // Focusing on the Login PopUp
+          windowHandler.windowHandles((handles) => {
+            this.api.switchWindow(handles[1]);
+          });
+
+          const login = this.api.page.login().ready();
+          callback(login);
+
+          // Give a tiny bit of time to let popup close.
+          this.api.pause(50);
+
+          if (this.api.capabilities.browserName === 'MicrosoftEdge') {
+
+            // More time for edge.
+            // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/7393dbfda8387e43b6d5851f359b0c07db414973
+            this.api.pause(1000);
+          }
+
+          // Focusing on the Embed Window
+          windowHandler.windowHandles((handles) => {
+            this.api.switchWindow(handles[0]);
+            this.api.page.embedStream().switchToIframe();
+          });
         },
-        getCommentsSection() {
-          this.waitForElementVisible('@commentsTabButton');
-          this.click('@commentsTabButton');
-          this.expect.section('@comments').to.be.present;
-          return this.section.comments;
+        logout() {
+          this
+            .waitForElementVisible('@logoutButton')
+            .click('@logoutButton');
         },
       }],
-      selector: '#talk-embed-stream-container',
+      selector: '.talk-embed-stream-comments-tab-pane',
       elements: {
         logoutButton: '.talk-stream-userbox-logout',
-        commentsTabButton: '.talk-embed-stream-comments-tab > button',
-        profileTabButton: '.talk-embed-stream-profile-tab > button',
         signInButton: '#coralSignInButton',
         commentBoxTextarea: '#commentText',
         commentBoxPostButton: '.talk-plugin-commentbox-button',
@@ -117,8 +102,6 @@ module.exports = {
         restrictedMessageBox: '.talk-restricted-message-box',
         suspendedAccountInput: '.talk-suspended-account-username-input',
         suspendedAccountSubmitButton: '.talk-suspended-account-submit-button',
-        banDialog: '.talk-ban-user-dialog',
-        banDialogConfirmButton: '.talk-ban-user-dialog-button-confirm',
       },
       sections: {
         flag: {
@@ -138,20 +121,16 @@ module.exports = {
             banButton: '.talk-plugin-moderation-actions-ban',
           },
         },
-        profile: {
-          selector: '.talk-embed-stream-profile-tab-pane',
-          elements: {
-            notLoggedIn: '.talk-embed-stream-not-logged-in',
-            myCommentHistory: '.talk-my-profile-comment-history',
-            myCommentHistoryReactions: '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions',
-            myCommentHistoryReactionCount: '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions .comment-summary-reaction-count',
-            myCommentHistoryComment: '.talk-my-profile-comment-history .my-comment-body',
-          },
-        },
-        comments: {
-          selector: '.talk-embed-stream-comments-tab-pane',
-          elements: {},
-        },
+      },
+    },
+    profile: {
+      selector: '.talk-embed-stream-profile-tab-pane',
+      elements: {
+        notLoggedIn: '.talk-embed-stream-not-logged-in',
+        myCommentHistory: '.talk-my-profile-comment-history',
+        myCommentHistoryReactions: '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions',
+        myCommentHistoryReactionCount: '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions .comment-summary-reaction-count',
+        myCommentHistoryComment: '.talk-my-profile-comment-history .my-comment-body',
       },
     },
   },
