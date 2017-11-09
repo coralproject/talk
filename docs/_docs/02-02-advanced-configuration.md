@@ -369,7 +369,7 @@ Then all the routes for the API will be expecting to be hit on `/talk/`, such as
 can perform the path stripping when serving an upstream proxy, but some CDN's
 cannot. You would use this option in the latter situation.
 
-## TALK_SMTP_FROM_EMAIL
+## TALK_SMTP_FROM_ADDRESS
 
 The email address to send emails from using the SMTP provider in the format:
 
