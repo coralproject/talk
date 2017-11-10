@@ -104,21 +104,26 @@ module.exports = {
       .waitForElementVisible('@supendUserSendButton')
       .click('@supendUserSendButton');
 
-    // Wating for animation to be over.
     adminPage
       .waitForElementVisible('@toast')
-      .waitForElementVisible('@settingsButton', 8000);
+      .waitForElementVisible('@toastClose')
+      .click('@toastClose');
 
   },
   'admin logs out': (client) => {
-    const comments = client.page.embedStream().section.comments;
+    const adminPage = client.page.admin();
 
-    comments
+    adminPage
       .logout();
   },
   'user logs in (2)': (client) => {
     const {testData: {user}} = client.globals;
+    const embedStream = client.page.embedStream();
     const comments = client.page.embedStream().section.comments;
+
+    embedStream
+      .navigate()
+      .ready();
 
     comments
       .openLoginPopup((popup) => popup.login(user));
