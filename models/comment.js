@@ -60,6 +60,7 @@ const CommentSchema = new Schema({
   body_history: [BodyHistoryItemSchema],
   asset_id: String,
   author_id: String,
+  user_ip: String,
   status_history: [StatusSchema],
   status: {
     type: String,

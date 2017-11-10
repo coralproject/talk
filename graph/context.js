@@ -48,6 +48,9 @@ class Context {
     // one.
     this.id = parent.id || uuid.v4();
 
+    // Load user IP address
+    this.user_ip = parent.ip;
+
     // Load the current logged in user to `user`, otherwise this will be null.
     if (parent.user) {
       this.user = parent.user;

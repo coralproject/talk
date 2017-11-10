@@ -80,6 +80,15 @@ class SignInContainer extends React.Component {
     );
   };
 
+  fillAnonymous = () => {
+    this.setState({
+      formData: {
+        email: 'anonymous@site.com',
+        password: 'P@ssw0rd',
+      }
+    });
+  }
+
   resendVerification = () => {
     this.props
       .requestConfirmEmail(this.props.auth.email)
