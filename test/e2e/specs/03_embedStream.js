@@ -1,7 +1,21 @@
-const SortedWindowHandler = require('../utils/SortedWindowHandler');
-
 module.exports = {
   '@tags': ['embedStream', 'login'],
+
+   before: (client) => {
+    client.resizeWindow(1600, 1200);
+  },
+
+  afterEach: (client, done) => {
+    if (client.currentTest.results.failed) {
+      throw new Error('Test Case failed, skipping all the rest');
+    }
+    done();
+  },
+
+  after: (client) => {
+    client.end();
+  },
+
   'creates a new asset': (client) => {
     const asset = 'newAssetTest';
     const embedStream = client.page.embedStream();
@@ -9,91 +23,42 @@ module.exports = {
     embedStream
       .navigateToAsset(asset)
       .assert.title(asset)
-      .getEmbedSection();
+      .ready();
   },
 
   'creates an user and user logs in': (client) => {
     const {testData: {user}} = client.globals;
     const embedStream = client.page.embedStream();
 
-    const embed = embedStream
+    // Go back to default asset.
+    const comments =
+      embedStream
       .navigate()
-      .getEmbedSection();
+      .ready();
 
-    const windowHandler = new SortedWindowHandler(client);
-
-    embed
-      .waitForElementVisible('@signInButton')
-      .click('@signInButton');
-
-    // Wait for window to be created
-    // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/17b1a79682bef2498cb0be86eac317a08c976b0a#automate_button
-    client.pause(200);
-
-    // Focusing on the Login PopUp
-    windowHandler.windowHandles((handles) => {
-      client.switchWindow(handles[1]);
-    });
-
-    const login = client.page.login();
-
-    login
-      .waitForElementVisible('@registerButton')
-      .click('@registerButton')
-      .setValue('@emailInput', user.email)
-      .setValue('@usernameInput', user.username)
-      .setValue('@passwordInput', user.password)
-      .setValue('@confirmPasswordInput', user.password)
-      .waitForElementVisible('@signUpButton')
-      .click('@signUpButton')
-      .waitForElementVisible('@signIn')
-      .waitForElementVisible('@loginButton')
-      .click('@loginButton');
-
-    // Give a tiny bit of time to let popup close.
-    client.pause(50);
-
-    if (client.capabilities.browserName === 'MicrosoftEdge') {
-
-      // More time for edge.
-      // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/7393dbfda8387e43b6d5851f359b0c07db414973
-      client.pause(1000);
-    }
-
-    // Focusing on the Embed Window
-    windowHandler.windowHandles((handles) => {
-      client.switchWindow(handles[0]);
-    });
+    comments
+      .openLoginPopup((popup) => {
+        popup.register(user);
+      });
   },
   'user posts a comment': (client) => {
-    const embedStream = client.page.embedStream();
+    const comments = client.page.embedStream().section.comments;
     const {testData: {comment}} = client.globals;
 
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    embed
+    comments
       .waitForElementVisible('@commentBoxTextarea')
       .setValue('@commentBoxTextarea', comment.body)
       .waitForElementVisible('@commentBoxPostButton')
       .click('@commentBoxPostButton')
       .waitForElementVisible('@firstCommentContent')
       .getText('@firstCommentContent', (result) => {
-        embed.assert.equal(result.value, comment.body);
+        comments.assert.equal(result.value, comment.body);
       });
   },
 
   'signed in user sees comment history': (client) => {
-    const embedStream = client.page.embedStream();
+    const profile = client.page.embedStream().goToProfileSection();
     const {testData: {comment}} = client.globals;
-
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    const profile = embed
-      .getProfileSection();
 
     profile
       .waitForElementVisible('@myCommentHistory')
@@ -103,14 +68,7 @@ module.exports = {
       });
   },
   'user sees replies and reactions to comments': (client) => {
-    const embedStream = client.page.embedStream();
-
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    const profile = embed
-      .getProfileSection();
+    const profile = client.page.embedStream().section.profile;
 
     profile
       .waitForElementVisible('@myCommentHistory')
@@ -122,17 +80,12 @@ module.exports = {
   },
   'user goes to the stream and replies and reacts to comment': (client) => {
     const embedStream = client.page.embedStream();
-
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    embed
+    const comments = embedStream.goToCommentsSection();
+    comments
       .waitForElementVisible('@respectButton')
       .click('@respectButton');
 
-    const profile = embed
-      .getProfileSection();
+    const profile = embedStream.goToProfileSection();
 
     profile
       .waitForElementVisible('@myCommentHistory')
@@ -144,31 +97,16 @@ module.exports = {
   },
   'user logs out': (client) => {
     const embedStream = client.page.embedStream();
+    const comments = embedStream.goToCommentsSection();
 
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    embed
-      .waitForElementVisible('@commentsTabButton')
-      .click('@commentsTabButton')
-      .waitForElementVisible('@logoutButton')
-      .click('@logoutButton');
+    comments
+      .logout();
   },
   'not logged in user clicks my profile tab': (client) => {
     const embedStream = client.page.embedStream();
-
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    const profile = embed
-      .getProfileSection();
+    const profile = embedStream.goToProfileSection();
 
     profile
       .assert.visible('@notLoggedIn');
   },
-  after: (client) => {
-    client.end();
-  }
 };

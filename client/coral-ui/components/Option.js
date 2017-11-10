@@ -16,8 +16,9 @@ class Option extends React.Component {
 
   render() {
     const {className, label = '', onClick, onKeyDown} = this.props;
+    const id = this.props.id ? this.props.id : this.props.value;
     return (
-      <li className={cn(styles.option, className)} onClick={onClick} onKeyDown={onKeyDown} role="option" tabIndex="0" ref={this.handleRef}>
+      <li className={cn(styles.option, className, 'dd-option')} onClick={onClick} onKeyDown={onKeyDown} role="option" tabIndex="0" ref={this.handleRef} id={id}>
         {label}
       </li>
     );
@@ -26,6 +27,7 @@ class Option extends React.Component {
 
 Option.propTypes = {
   className: PropTypes.string,
+  id: PropTypes.string,
   label: PropTypes.string,
   onClick: PropTypes.func,
   onKeyDown: PropTypes.func,
