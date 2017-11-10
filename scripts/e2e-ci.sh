@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPORTS_FOLDER=${CIRCLE_TEST_REPORTS:-./test/e2e/reports}
-CIRCLE_BRANCH=${CIRCLE_BRANCH_XX:-master}
+CIRCLE_BRANCH=${CIRCLE_BRANCH:-master}
 
 # Amount of retries before failure.
 E2E_MAX_RETRIES=${E2E_MAX_RETRIES:-1}
