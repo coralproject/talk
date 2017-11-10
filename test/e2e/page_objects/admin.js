@@ -14,6 +14,12 @@ module.exports = {
       this.expect.section('@drawer').to.be.visible;
       return this.section.drawer;
     },
+    goToModerate() {
+      this
+        .click('@moderateNav')
+        .expect.section('@moderate').to.be.visible;
+      return this.section.stories;
+    },
     goToStories() {
       this
         .click('@storiesNav')
@@ -45,12 +51,22 @@ module.exports = {
     'drawerOverlay': 'div.mdl-layout__obfuscator.is-visible',
     'storiesNav': '.talk-admin-nav-stories',
     'communityNav': '.talk-admin-nav-community',
+    'moderateNav': '.talk-admin-nav-moderate',
     'settingsButton': '.talk-admin-header-settings-button',
     'signOutButton': '.talk-admin-header-sign-out',
   },
   sections: {
     moderate: {
       selector: '.talk-admin-moderation-container',
+      elements: {
+        suspendUserDialog: '.talk-admin-suspend-user-dialog',
+        suspendUserConfirmButton: 'talk-admin-suspend-user-dialog-confirm',
+        supendUserSendButton: 'talk-admin-suspend-user-dialog-send',
+        comment: '.talk-admin-moderate-comment',
+        commentActionMenu: '.talk-admin-moderate-comment-actions-menu',
+        actionItemSuspendUser: '.talk-admin-moderate-comment-actions-menu .action-menu-item#supendUser',
+        actionMenuButton: '.talk-admin-moderate-comment-actions-menu #actions-dropdown-0'
+      }
     },
     stories: {
       selector: '.talk-admin-stories',

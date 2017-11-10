@@ -117,8 +117,10 @@ module.exports = {
           elements: {
             offensiveUsernameRadio: '.talk-plugin-flags-popup-radio#USERNAME_OFFENSIVE',
             flagUsernameRadio: '.talk-plugin-flags-popup-radio#USERS',
+            flagCommentRadio: '.talk-plugin-flags-popup-radio#COMMENTS',
             continueButton: '.talk-plugin-flags-popup-button',
             popUpText: '.talk-plugin-flags-popup-text',
+            spamCommentRadio: '.talk-plugin-flags-popup-radio#COMMENT_SPAM',
           }
         },
         mod: {
