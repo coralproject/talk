@@ -16,7 +16,12 @@ module.exports = {
   },
   'user logs in': (client) => {
     const {testData: {user}} = client.globals;
+    const embedStream = client.page.embedStream();
     const comments = client.page.embedStream().section.comments;
+
+    embedStream
+      .navigate()
+      .ready();
 
     comments
       .openLoginPopup((popup) => popup.login(user));

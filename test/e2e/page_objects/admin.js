@@ -18,7 +18,7 @@ module.exports = {
       this
         .click('@moderateNav')
         .expect.section('@moderate').to.be.visible;
-      return this.section.stories;
+      return this.section.moderate;
     },
     goToStories() {
       this
