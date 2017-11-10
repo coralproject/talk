@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import SuspendUserDialog from '../components/SuspendUserDialog';
@@ -43,6 +44,12 @@ class SuspendUserDialogContainer extends Component {
     );
   }
 }
+
+SuspendUserDialogContainer.propTypes = {
+  open: PropTypes.bool,
+  hideSuspendUserDialog: PropTypes.func,
+  username: PropTypes.object,
+};
 
 const withOrganizationName = withQuery(gql`
   query CoralAdmin_SuspendUserDialog {
