@@ -20,9 +20,7 @@ module.exports = {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;
 
-    adminPage.navigate();
-    adminPage.expect.section('@login').to.be.visible;
-    adminPage.section.login.login(admin);
+    adminPage.navigateAndLogin(admin);
   },
 
   'Admin goes to Stories': (client) => {

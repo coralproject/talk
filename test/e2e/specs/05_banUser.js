@@ -19,12 +19,7 @@ module.exports = {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;
 
-    adminPage
-      .navigate()
-      .expect.section('@login').to.be.visible;
-
-    adminPage.section.login
-      .login(admin);
+    adminPage.navigateAndLogin(admin);
   },
   'navigate to the embed stream': (client) => {
     const embedStream = client.page.embedStream();
@@ -81,12 +76,7 @@ module.exports = {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;
 
-    adminPage
-      .navigate()
-      .expect.section('@login').to.be.visible;
-
-    adminPage.section.login
-      .login(admin);
+    adminPage.navigateAndLogin(admin);
   },
   'admin goes to community': (client) => {
     const adminPage = client.page.admin();

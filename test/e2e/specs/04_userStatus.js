@@ -19,12 +19,7 @@ module.exports = {
     const adminPage = client.page.admin();
     const {testData: {admin}} = client.globals;
 
-    adminPage
-      .navigate()
-      .expect.section('@login').to.be.visible;
-
-    adminPage.section.login
-      .login(admin);
+    adminPage.navigateAndLogin(admin);
   },
   'admin flags user\'s username as offensive': (client) => {
     const embedStream = client.page.embedStream();

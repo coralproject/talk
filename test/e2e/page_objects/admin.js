@@ -33,6 +33,12 @@ module.exports = {
         .waitForElementVisible('@signOutButton')
         .click('@signOutButton');
     },
+    navigateAndLogin(user) {
+      this
+        .navigate()
+        .expect.section('@login').to.be.visible;
+      return this.section.login.login(user);
+    },
   }],
   elements: {
     'drawerButton': '.mdl-layout__drawer-button',
@@ -113,6 +119,7 @@ module.exports = {
           this.parent
             .click('@drawerOverlay')
             .waitForElementNotPresent('@drawerOverlay');
+          return this.parent;
         },
       }],
       elements: {
