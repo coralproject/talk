@@ -47,24 +47,24 @@ module.exports = {
     },
   }],
   elements: {
-    'drawerButton': '.mdl-layout__drawer-button',
-    'drawerOverlay': 'div.mdl-layout__obfuscator.is-visible',
-    'storiesNav': '.talk-admin-nav-stories',
-    'communityNav': '.talk-admin-nav-community',
-    'moderateNav': '.talk-admin-nav-moderate',
-    'settingsButton': '.talk-admin-header-settings-button',
-    'signOutButton': '.talk-admin-header-sign-out',
+    drawerButton: '.mdl-layout__drawer-button',
+    drawerOverlay: 'div.mdl-layout__obfuscator.is-visible',
+    storiesNav: '.talk-admin-nav-stories',
+    communityNav: '.talk-admin-nav-community',
+    moderateNav: '.talk-admin-nav-moderate',
+    settingsButton: '.talk-admin-header-settings-button',
+    signOutButton: '.talk-admin-header-sign-out',
+    suspendUserDialog: '.talk-admin-suspend-user-dialog',
+    suspendUserConfirmButton: '.talk-admin-suspend-user-dialog-confirm',
+    supendUserSendButton: '.talk-admin-suspend-user-dialog-send',
   },
   sections: {
     moderate: {
       selector: '.talk-admin-moderation-container',
       elements: {
-        suspendUserDialog: '.talk-admin-suspend-user-dialog',
-        suspendUserConfirmButton: 'talk-admin-suspend-user-dialog-confirm',
-        supendUserSendButton: 'talk-admin-suspend-user-dialog-send',
         comment: '.talk-admin-moderate-comment',
         commentActionMenu: '.talk-admin-moderate-comment-actions-menu',
-        actionItemSuspendUser: '.talk-admin-moderate-comment-actions-menu .action-menu-item#supendUser',
+        actionItemSuspendUser: '.action-menu-item#suspendUser',
         actionMenuButton: '.talk-admin-moderate-comment-actions-menu #actions-dropdown-0'
       }
     },
