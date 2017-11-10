@@ -96,13 +96,19 @@ module.exports = {
       .click('@actionMenuButton')
       .waitForElementVisible('@actionItemSuspendUser')
       .click('@actionItemSuspendUser');
-      
+
     adminPage 
       .waitForElementVisible('@suspendUserDialog')
       .waitForElementVisible('@suspendUserConfirmButton')
       .click('@suspendUserConfirmButton')
       .waitForElementVisible('@supendUserSendButton')
       .click('@supendUserSendButton');
+
+    // Wating for animation to be over.
+    adminPage
+      .waitForElementVisible('@toast')
+      .waitForElementVisible('@settingsButton', 8000);
+
   },
   'admin logs out': (client) => {
     const comments = client.page.embedStream().section.comments;

@@ -57,6 +57,7 @@ module.exports = {
     suspendUserDialog: '.talk-admin-suspend-user-dialog',
     suspendUserConfirmButton: '.talk-admin-suspend-user-dialog-confirm',
     supendUserSendButton: '.talk-admin-suspend-user-dialog-send',
+    toast: '.toastify',
   },
   sections: {
     moderate: {
