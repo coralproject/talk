@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import Menu from './Menu';
 import styles from './ModerationActions.css';
@@ -21,7 +22,7 @@ export default class ModerationActions extends React.Component {
               <Icon name="keyboard_arrow_down" className={styles.icon} />}
           </span>
           {menuVisible && (
-            <Menu>
+            <Menu className="talk-plugin-modetarion-actions-menu">
               <Slot
                 className="talk-plugin-modetarion-actions-slot"
                 fill="moderationActions"
@@ -38,3 +39,13 @@ export default class ModerationActions extends React.Component {
     );
   }
 }
+
+ModerationActions.propTypes = {
+  comment: PropTypes.object,
+  root: PropTypes.object,
+  asset: PropTypes.object,
+  data: PropTypes.object,
+  menuVisible: PropTypes.bool,
+  toogleMenu: PropTypes.func,
+  hideMenu: PropTypes.func,
+};
