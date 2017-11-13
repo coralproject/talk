@@ -213,12 +213,14 @@ class Stream extends React.Component {
     const open = !asset.isClosed;
 
     const banned = user && user.status === 'BANNED';
+    const pending = user && user.status === 'PENDING';
+
     const temporarilySuspended =
       user &&
       user.suspension.until &&
       new Date(user.suspension.until) > new Date();
 
-    const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
+    const showCommentBox = loggedIn && ((!banned && !pending & !temporarilySuspended && !highlightedComment) || keepCommentBox);
     const slotProps = {data};
     const slotQueryData = {root, asset};
 

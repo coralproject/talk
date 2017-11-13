@@ -22,11 +22,12 @@ const nightwatch_config = {
         'browserstack.user': process.env.BROWSERSTACK_USER || 'coralproject2',
         'browserstack.key': process.env.BROWSERSTACK_KEY,
         'browserstack.local': true,
+        'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER ? process.env.BROWSERSTACK_LOCAL_IDENTIFIER : undefined,
         'browserstack.debug': true,
 
         // Disable this, as it makes bs slow and brittle.
         'browserstack.networkLogs': false,
-        'browserstack.resolution': '1600x1200',
+        'resolution': '1600x1200',
       },
       screenshots : {
         enabled: true,

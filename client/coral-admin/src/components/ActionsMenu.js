@@ -32,8 +32,9 @@ class ActionsMenu extends React.Component {
   };
 
   render() {
+    const {className = ''} = this.props;
     return (
-      <div className={styles.root} onBlur={this.syncOpenState} >
+      <div className={cn(styles.root, className)} onBlur={this.syncOpenState} >
         <Button
           cStyle='actions'
           className={cn(styles.button, {[styles.buttonOpen]: this.state.open})}
@@ -59,6 +60,7 @@ class ActionsMenu extends React.Component {
 ActionsMenu.propTypes = {
   icon: PropTypes.string,
   children: PropTypes.node,
+  className: PropTypes.string,
 };
 
 export default ActionsMenu;

@@ -73,7 +73,7 @@ class Comment extends React.Component {
     return (
       <li
         tabIndex={0}
-        className={cn(className, 'mdl-card', selectionStateCSS, styles.root, {[styles.selected]: selected})}
+        className={cn(className, 'mdl-card', selectionStateCSS, styles.root, {[styles.selected]: selected}, 'talk-admin-moderate-comment')}
         id={`comment_${comment.id}`}
       >
         <div className={styles.container}>
@@ -95,7 +95,7 @@ class Comment extends React.Component {
                   : null
               }
               {currentUserId !== comment.user.id &&
-                <ActionsMenu icon="not_interested">
+                <ActionsMenu icon="not_interested" className="talk-admin-moderate-comment-actions-menu">
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
                     onClick={this.showSuspendUserDialog}>
