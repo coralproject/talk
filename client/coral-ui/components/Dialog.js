@@ -10,12 +10,12 @@ export default class Dialog extends Component {
     onCancel: PropTypes.func,
     onClose: PropTypes.func,
     open: PropTypes.bool,
-    style: PropTypes.object
+    style: PropTypes.object,
   };
 
   static defaultProps = {
     onCancel: (e) => e.preventDefault(),
-    onClose: (e) => e.preventDefault()
+    onClose: (e) => e.preventDefault(),
   };
 
   componentDidMount(){
