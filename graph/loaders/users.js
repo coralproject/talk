@@ -1,7 +1,7 @@
 const DataLoader = require('dataloader');
 
 const util = require('./util');
-const union = require('lodash/union');
+const sc = require('snake-case');
 
 const {
   SEARCH_OTHER_USERS,
@@ -72,7 +72,7 @@ const genUserByIDs = async (context, ids) => {
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the users query
  */
-const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, state, action_type, sortOrder}) => {
+const getUsersByQuery = async ({user}, {ids, limit, cursor, state, action_type, sortOrder}) => {
   let query = UserModel.find();
 
   if (action_type || state) {
@@ -82,9 +82,14 @@ const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, 
 
     if (state) {
       mergeState(query, state);
-    } else {
-      const userIds = await Actions.getByTypes({action_type, item_type: 'USERS'});
-      ids = ids ? union(ids, userIds) : userIds;
+    }
+
+    if (action_type) {
+      query.merge({
+        [`action_counts.${sc(action_type.toLowerCase())}`]: {
+          $gt: 0
+        }
+      });
     }
   }
 
@@ -152,21 +157,25 @@ const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, 
  * @return {Promise}          resolves to the counts of the users from the
  *                            query
  */
-const getCountByQuery = async ({loaders: {Actions}}, {action_type, state}) => {
+const getCountByQuery = async ({user}, {action_type, state}) => {
   let query = UserModel.find();
 
-  if (action_type) {
-    const userIds = await Actions.getByTypes({action_type, item_type: 'USERS'});
+  if (action_type || state) {
+    if (!user || !user.can(SEARCH_OTHER_USERS)) {
+      return null;
+    }
 
-    query.merge({
-      id: {
-        $in: userIds
-      }
-    });
-  }
+    if (state) {
+      mergeState(query, state);
+    }
 
-  if (state) {
-    mergeState(query, state);
+    if (action_type) {
+      query.merge({
+        [`action_counts.${sc(action_type.toLowerCase())}`]: {
+          $gt: 0
+        }
+      });
+    }
   }
 
   return UserModel

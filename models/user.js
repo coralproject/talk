@@ -174,6 +174,12 @@ const UserSchema = new Schema({
   // IgnoresUsers is an array of user id's that the current user is ignoring.
   ignoresUsers: [String],
 
+  // Counts to store related to actions taken on the given user.
+  action_counts: {
+    default: {},
+    type: Object,
+  },
+
   // Tags are added by the self or by administrators.
   tags: [TagLinkSchema],
 
