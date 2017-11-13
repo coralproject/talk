@@ -40,6 +40,8 @@ module.exports = {
         path: process.env.REPORTS_FOLDER || './test/e2e/reports',
       },
     },
+    'chrome': {
+    },
     'chrome-headless': {
       desiredCapabilities: {
         chromeOptions : {

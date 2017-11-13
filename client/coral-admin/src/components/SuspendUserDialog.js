@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Dialog} from 'coral-ui';
 import {RadioGroup, Radio} from 'react-mdl';
 import styles from './SuspendUserDialog.css';
+import cn from 'classnames';
 
 import Button from 'coral-ui/components/Button';
 
@@ -87,7 +88,7 @@ class SuspendUserDialog extends React.Component {
           <Button cStyle="white" className={styles.cancel} onClick={onCancel} raised>
             {t('suspenduser.cancel')}
           </Button>
-          <Button cStyle="black" className={styles.perform} onClick={this.goToStep1} raised>
+          <Button cStyle="black" className={cn(styles.perform, 'talk-admin-suspend-user-dialog-confirm')} onClick={this.goToStep1} raised>
             {t('suspenduser.suspend_user')}
           </Button>
         </div>
@@ -120,7 +121,7 @@ class SuspendUserDialog extends React.Component {
           </Button>
           <Button
             cStyle="black"
-            className={styles.perform}
+            className={cn(styles.perform, 'talk-admin-suspend-user-dialog-send')}
             onClick={this.handlePerform}
             disabled={this.state.message.length === 0}
             raised
@@ -137,7 +138,7 @@ class SuspendUserDialog extends React.Component {
     const {step} = this.state;
     return (
       <Dialog
-        className={styles.dialog}
+        className={cn(styles.dialog, 'talk-admin-suspend-user-dialog')}
         onCancel={onCancel}
         open={open}
       >

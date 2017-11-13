@@ -1,5 +1,6 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
+import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
 import EmptyCard from 'coral-admin/src/components/EmptyCard';
 import LoadMore from '../../../components/LoadMore';
@@ -23,7 +24,7 @@ class FlaggedAccounts extends React.Component {
     const hasResults = users.nodes && !!users.nodes.length;
 
     return (
-      <div className={styles.container}>
+      <div className={cn('talk-adnin-community-flagged-accounts', styles.container)}>
         <div className={styles.mainFlaggedContent}>
           {
             hasResults
@@ -69,5 +70,16 @@ class FlaggedAccounts extends React.Component {
     );
   }
 }
+
+FlaggedAccounts.propTypes = {
+  users: PropTypes.object,
+  loadMore: PropTypes.func,
+  showBanUserDialog: PropTypes.func,
+  showSuspendUserDialog: PropTypes.func,
+  showRejectUsernameDialog: PropTypes.func,
+  approveUser: PropTypes.func,
+  me: PropTypes.object,
+  viewUserDetail: PropTypes.func,
+};
 
 export default FlaggedAccounts;
