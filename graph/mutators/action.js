@@ -42,6 +42,15 @@ const createAction = async (ctx, {item_id, item_type, action_type, group_id, met
   // Gets the item referenced by the action.
   const item = await getActionItem(ctx, {item_id, item_type});
 
+  if (action_type === 'FLAG' && item_type === 'USERS') {
+
+    // The item is a user, and this is a flag. Check to see if they are staff,
+    // if they are, don't permit the flag.
+    if (item.isStaff()) {
+      throw errors.ErrNotAuthorized;
+    }
+  }
+
   // Create the action itself.
   let action = await ActionsService.create({
     item_id,
@@ -52,13 +61,11 @@ const createAction = async (ctx, {item_id, item_type, action_type, group_id, met
     metadata
   });
 
-  // If the action is a flag.
-  if (action_type === 'FLAG') {
-    if (item_type === 'COMMENTS') {
+  if (action_type === 'FLAG' && item_type === 'COMMENTS') {
 
-      // Push that the comment was flagged, don't wait for it to finish.
-      pubsub.publish('commentFlagged', item);
-    }
+    // The item is a comment, and this is a flag. Push that the comment was
+    // flagged, don't wait for it to finish.
+    pubsub.publish('commentFlagged', item);
   }
 
   return action;
