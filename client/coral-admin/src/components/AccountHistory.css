@@ -1,0 +1,22 @@
+.table, .headerRow, .row {
+  display: flex;
+}
+
+.headerRowItem, .item {
+  flex: 1;
+}
+
+.headerRowItem {
+  text-align: center;
+  color: #595959;
+  font-weight: bold;
+}
+
+.headerRow, .row {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.action {
+  color: black;
+  font-weight: bold;
+}
