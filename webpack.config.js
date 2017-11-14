@@ -1,5 +1,5 @@
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs-extra');
 const CompressionPlugin = require('compression-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
@@ -133,6 +133,26 @@ const config = {
     ]
   }
 };
+
+//==============================================================================
+// CSS overrides resolver
+//==============================================================================
+const cssOverrides = fs.readJsonSync(path.resolve(__dirname, 'css-overrides.json'), { throws: false });
+if (cssOverrides && cssOverrides.length) {
+  cssOverrides.forEach(({ oldPath, newPath }) => {
+    // Must both be CSS files
+    if (oldPath.endsWith('.css') && newPath.endsWith('.css')) {
+      const regExpStr = oldPath
+        .split('/')
+        .join('\\/')
+        .replace('.css', '\\.css$')
+      config.plugins.push(new webpack.NormalModuleReplacementPlugin(
+        new RegExp(regExpStr),
+        path.resolve(__dirname, newPath)
+      ));
+    }
+  });
+}
 
 //==============================================================================
 // Production configuration overrides

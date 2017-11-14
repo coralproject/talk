@@ -51,4 +51,6 @@ plugins/*
 !plugins/talk-plugin-flag-details
 !plugins/talk-plugin-slack-notifications
 
+css-overrides.json
+
 **/node_modules/*
