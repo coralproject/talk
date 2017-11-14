@@ -17,6 +17,7 @@ en:
   characters_remaining: "characters remaining"
   comment:
     anon: "Anonymous"
+    undo_reject: "Undo"
     ban_user: "Ban User"
     comment: "Post a comment"
     edited: Edited
