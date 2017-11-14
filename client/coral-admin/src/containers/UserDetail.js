@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {compose, gql} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -124,6 +125,17 @@ class UserDetailContainer extends React.Component {
       {...this.props} />;
   }
 }
+
+UserDetailContainer.propTypes = {
+  changeUserDetailStatuses: PropTypes.func,
+  toggleSelectCommentInUserDetail: PropTypes.func,
+  toggleSelectAllCommentInUserDetail: PropTypes.func,
+  data: PropTypes.object,
+  root: PropTypes.object,
+  setCommentStatus: PropTypes.func,
+  clearUserDetailSelections: PropTypes.func,
+  selectedCommentIds: PropTypes.func,
+};
 
 const LOAD_MORE_QUERY = gql`
   query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Cursor, $author_id: ID!, $statuses: [COMMENT_STATUS!]) {
