@@ -1,8 +1,16 @@
-const assert = require('assert');
 const uuid = require('uuid');
 const bcrypt = require('bcryptjs');
 const errors = require('../errors');
 const some = require('lodash/some');
+const merge = require('lodash/merge');
+const events = require('./events');
+const timeago = require('./timeago');
+
+const {
+  USERS_SUSPENSION_CHANGE,
+  USERS_BAN_CHANGE,
+  USERS_USERNAME_STATUS_CHANGE,
+} = require('./events/constants');
 
 const {
   ROOT_URL
@@ -15,7 +23,6 @@ const {
 const debug = require('debug')('talk:services:users');
 
 const UserModel = require('../models/user');
-const USER_STATUS = require('../models/enum/user_status');
 const USER_ROLES = require('../models/enum/user_roles');
 
 const RECAPTCHA_WINDOW = '10m'; // 10 minutes.
@@ -23,8 +30,10 @@ const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha 
 
 const ActionsService = require('./actions');
 const MailerService = require('./mailer');
+const i18n = require('./i18n');
 const Wordlist = require('./wordlist');
-const Domainlist = require('./domainlist');
+const DomainList = require('./domain_list');
+const SettingsService = require('./settings');
 const {escapeRegExp} = require('./regex');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
@@ -40,7 +49,7 @@ const loginRateLimiter = new Limit('loginAttempts', RECAPTCHA_INCORRECT_TRIGGER,
 
 // UsersService is the interface for the application to interact with the
 // UserModel through.
-module.exports = class UsersService {
+class UsersService {
 
   /**
    * Returns a user (if found) for the given email address.
@@ -61,7 +70,7 @@ module.exports = class UsersService {
   }
 
   /**
-   * This records an unsucesfull login attempt for the given email address. If
+   * This records an unsuccessful login attempt for the given email address. If
    * the maximum has been reached, the promise will be rejected with:
    *
    *  errors.ErrLoginAttemptMaximumExceeded
@@ -81,8 +90,190 @@ module.exports = class UsersService {
     }
   }
 
+  static async setSuspensionStatus(id, until, assignedBy = null) {
+    let user = await UserModel.findOneAndUpdate({id}, {
+      $set: {
+        'status.suspension.until': until
+      },
+      $push: {
+        'status.suspension.history': {
+          until,
+          assigned_by: assignedBy,
+          created_at: Date.now()
+        }
+      }
+    }, {
+      new: true
+    });
+    if (user === null) {
+      user = await UserModel.findOne({id});
+      if (user === null) {
+        throw errors.ErrNotFound;
+      }
+
+      if (
+        user.status.suspension.until === until ||
+        (
+          user.status.suspension.until.getTime() > until.getTime() - 1000 &&
+          user.status.suspension.until.getTime() < until.getTime() + 1000
+        )
+      ) {
+        return user;
+      }
+
+      throw new Error('suspension status change edit failed for an unknown reason');
+    }
+
+    // Emit that the user username status was changed.
+    await events.emitAsync(USERS_SUSPENSION_CHANGE, user, until);
+
+    return user;
+  }
+
+  static async setBanStatus(id, status, assignedBy = null) {
+    let user = await UserModel.findOneAndUpdate({
+      id,
+      status: {
+        $ne: status
+      }
+    }, {
+      $set: {
+        'status.banned.status': status
+      },
+      $push: {
+        'status.banned.history': {
+          status,
+          assigned_by: assignedBy,
+          created_at: Date.now()
+        }
+      }
+    }, {
+      new: true
+    });
+    if (user === null) {
+      user = await UserModel.findOne({id});
+      if (user === null) {
+        throw errors.ErrNotFound;
+      }
+
+      if (user.status.banned.status === status) {
+        return user;
+      }
+
+      throw new Error('ban status change edit failed for an unknown reason');
+    }
+
+    // Emit that the user ban status was changed.
+    await events.emitAsync(USERS_BAN_CHANGE, user, status);
+
+    return user;
+  }
+
+  static async setUsernameStatus(id, status, assignedBy = null) {
+    let user = await UserModel.findOneAndUpdate({
+      id,
+      status: {
+        $ne: status
+      }
+    }, {
+      $set: {
+        'status.username.status': status
+      },
+      $push: {
+        'status.username.history': {
+          status,
+          assigned_by: assignedBy,
+          created_at: Date.now()
+        }
+      }
+    }, {
+      new: true
+    });
+    if (user === null) {
+      user = await UserModel.findOne({id});
+      if (user === null) {
+        throw errors.ErrNotFound;
+      }
+
+      if (user.status.username.status === status) {
+        return user;
+      }
+
+      throw new Error('username status change edit failed for an unknown reason');
+    }
+
+    // Emit that the user username status was changed.
+    await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, status);
+
+    return user;
+  }
+
+  static async _setUsername(id, username, fromStatus, toStatus, resetAllowed = false) {
+    try {
+      const query = {
+        id,
+        'status.username.status': fromStatus
+      };
+      if (!resetAllowed) {
+        query.username = {$ne: username};
+      }
+
+      let user = await UserModel.findOneAndUpdate(query, {
+        $set: {
+          username,
+          lowercaseUsername: username.toLowerCase(),
+          'status.username.status': toStatus,
+        },
+        $push: {
+          'status.username.history': {
+            status: toStatus,
+            assigned_by: id,
+            created_at: Date.now()
+          }
+        }
+      }, {
+        new: true
+      });
+      if (!user) {
+        user = await UsersService.findById(id);
+        if (user === null) {
+          throw errors.ErrNotFound;
+        }
+
+        if (user.status.username.status !== fromStatus) {
+          throw errors.ErrPermissionUpdateUsername;
+        }
+
+        if (!resetAllowed && user.username === username) {
+          throw errors.ErrSameUsernameProvided;
+        }
+
+        throw new Error('edit username failed for an unexpected reason');
+      }
+
+      // Emit that the user username status was changed.
+      await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, toStatus);
+
+      return user;
+    } catch (err) {
+      if (err.code === 11000) {
+        throw errors.ErrUsernameTaken;
+      }
+
+      throw err;
+    }
+  }
+
+  static async setUsername(id, username) {
+    return UsersService._setUsername(id, username, 'UNSET', 'SET', true);
+  }
+
+  static async changeUsername(id, username) {
+    return UsersService._setUsername(id, username, 'REJECTED', 'CHANGED');
+  }
+
   /**
-   * This checks to see if the current login attempts against a user exeeds the
+   * This checks to see if the current login attempts against a user exceeds the
    * maximum value allowed, if so, it rejects with:
    *
    *  errors.ErrLoginAttemptMaximumExceeded
@@ -181,11 +372,53 @@ module.exports = class UsersService {
           lowercaseUsername: username.toLowerCase(),
           roles: [],
           profiles: [{id, provider}],
-          canEditName: true
+          status: {
+            username: {
+              status: 'UNSET',
+              history: {
+                status: 'UNSET'
+              }
+            }
+          }
         });
 
         return user.save();
       });
+  }
+
+  /**
+   * sendEmailConfirmation sends a confirmation email to the user.
+   * @param {String}     user  the user to send the email to
+   * @param {String}     email   the email for the user to send the email to
+   */
+  static async sendEmailConfirmation(user, email, redirectURI = ROOT_URL) {
+    let token = await UsersService.createEmailConfirmToken(user, email, redirectURI);
+
+    return MailerService.sendSimple({
+      template: 'email-confirm',
+      locals: {
+        token,
+        rootURL: ROOT_URL,
+        email
+      },
+      subject: i18n.t('email.confirm.subject'),
+      to: email
+    });
+  }
+
+  static async sendEmail(user, options) {
+    const localProfile = user.profiles.find((profile) => profile.provider === 'local');
+    if (!localProfile) {
+      throw new Error('user does not have an email');
+    }
+
+    const {id: to} = localProfile;
+
+    options = merge(options, {
+      to,
+    });
+
+    return MailerService.sendSimple(options);
   }
 
   static async changePassword(id, password) {
@@ -289,7 +522,15 @@ module.exports = class UsersService {
           id: email,
           provider: 'local'
         }
-      ]
+      ],
+      status: {
+        username: {
+          status: 'SET',
+          history: {
+            status: 'SET'
+          }
+        }
+      }
     });
 
     try {
@@ -305,36 +546,6 @@ module.exports = class UsersService {
     }
 
     return user;
-  }
-
-  /**
-   * Disables a given user account.
-   * @param  {String}   id   id of a user
-   * @param  {Function} done callback after the operation is complete
-   */
-  static disableUser(id) {
-    return UserModel.update({
-      id
-    }, {
-      $set: {
-        disabled: true
-      }
-    });
-  }
-
-  /**
-   * Enables a given user account.
-   * @param  {String}   id   id of a user
-   * @param  {Function} done callback after the operation is complete
-   */
-  static enableUser(id) {
-    return UserModel.update({
-      id
-    }, {
-      $set: {
-        disabled: false
-      }
-    });
   }
 
   /**
@@ -378,131 +589,6 @@ module.exports = class UsersService {
         roles: role
       }
     });
-  }
-
-  /**
-   * Set status of a user.
-   * @param  {String}   id   id of a user
-   * @param  {String}   status status to set
-   * @param  {Function} done callback after the operation is complete
-   */
-  static async setStatus(id, status) {
-
-    // Check to see if the user status is in the allowable set of roles.
-    if (USER_STATUS.indexOf(status) === -1) {
-
-      // User status is not supported! Error out here.
-      throw new Error(`status ${status} is not supported`);
-    }
-
-    // TODO: current updating status behavior is weird.
-    // once a user has been `APPROVED` its status cannot be
-    // changed anymore.
-    const user = await UserModel.findOneAndUpdate({
-      id,
-      status: {
-        $ne: 'APPROVED'
-      }
-    }, {
-      $set: {
-        status
-      }
-    }, {
-      new: true,
-    });
-
-    if (status === 'BANNED') {
-      let localProfile = user.profiles.find((profile) => profile.provider === 'local');
-      if (localProfile) {
-        const options =
-          {
-            template: 'banned',              // needed to know which template to render!
-            locals: {                            // specifies the template locals.
-              body: 'In accordance with The Coral Project’s community guidelines, your account has been banned. You are now longer allowed to comment, flag or engage with our community.'
-            },
-            subject: 'Your account has been banned',
-            to: localProfile.id  // This only works if the user has registered via e-mail.
-            // We may want a standard way to access a user's e-mail address in the future
-          };
-        await MailerService.sendSimple(options);
-      }
-
-    }
-    return user;
-  }
-
-  /**
-   * Suspend a user until specified time.
-   * @param  {String}   id                  id of a user
-   * @param  {String}   message             message to be send to the user
-   * @param  {Date}     until               date until the suspension is valid.
-   */
-  static async suspendUser(id, message, until) {
-    const user = await UserModel.findOneAndUpdate({id}, {
-      $set: {
-        suspension: {
-          until,
-        },
-      }
-    }, {
-      new: true,
-    });
-
-    if (message) {
-      let localProfile = user.profiles.find((profile) => profile.provider === 'local');
-      if (localProfile) {
-        const options =
-          {
-            template: 'suspension',              // needed to know which template to render!
-            locals: {                            // specifies the template locals.
-              body: message
-            },
-            subject: 'Your account has been suspended',
-            to: localProfile.id  // This only works if the user has registered via e-mail.
-            // We may want a standard way to access a user's e-mail address in the future
-          };
-
-        await MailerService.sendSimple(options);
-      }
-    }
-
-    return user;
-  }
-
-  /**
-   * Reject username. It changes the status to BANNED and canEditName to True.
-   * @param  {String}   id                  id of a user
-   * @param  {String}   message             message to be send to the user
-   * @param  {Date}     until               date until the suspension is valid.
-   */
-  static async rejectUsername(id, message) {
-    const user = await UserModel.findOneAndUpdate({id}, {
-      $set: {
-        status: 'BANNED',
-        canEditName: true,
-      }
-    }, {
-      new: true,
-    });
-
-    if (message) {
-      let localProfile = user.profiles.find(({provider}) => provider === 'local');
-      if (localProfile) {
-        const options = {
-          template: 'suspension',              // needed to know which template to render!
-          locals: {                            // specifies the template locals.
-            body: message
-          },
-          subject: 'Email Suspension',
-          to: localProfile.id  // This only works if the user has registered via e-mail.
-          // We may want a standard way to access a user's e-mail address in the future
-        };
-
-        await MailerService.sendSimple(options);
-      }
-    }
-
-    return user;
   }
 
   /**
@@ -567,7 +653,7 @@ module.exports = class UsersService {
 
     const [user, domainValidated] = await Promise.all([
       UserModel.findOne({profiles: {$elemMatch: {id: email}}}),
-      Domainlist.urlCheck(loc),
+      DomainList.urlCheck(loc),
     ]);
     if (!user) {
 
@@ -579,7 +665,7 @@ module.exports = class UsersService {
 
     // If the domain didn't match any of the whitelisted domains and if it
     // didn't match the mount domain, then throw an error.
-    if (!domainValidated && !Domainlist.matchMount(loc)) {
+    if (!domainValidated && !DomainList.matchMount(loc)) {
       throw new Error('user supplied location exists on non-permitted domain');
     }
 
@@ -727,7 +813,7 @@ module.exports = class UsersService {
    */
   static async createEmailConfirmToken(user, email, referer = ROOT_URL) {
     if (!email || typeof email !== 'string') {
-      throw new Error('email is required when creating a JWT for resetting passord');
+      throw new Error('email is required when creating a JWT for resetting password');
     }
 
     // Conform the email to lowercase.
@@ -792,96 +878,11 @@ module.exports = class UsersService {
   }
 
   /**
-   * Returns all users with pending 'ADMIN'ation actions.
-   * @return {Promise}
-   */
-  static moderationQueue() {
-    return UserModel.find({status: 'PENDING'});
-  }
-
-  /**
-   * Gives the user the ability to edit their username.
-   * @param  {String} id the id of the user to be toggled.
-   * @param  {Boolean} canEditName sets whether the user can edit their name.
-   * @return {Promise}
-   */
-  static toggleNameEdit(id, canEditName) {
-    return UserModel.update({id}, {
-      $set: {canEditName}
-    });
-  }
-
-  /**
-   * Updates the user's username.
-   * @param  {String} id       The id of the user.
-   * @param  {String} username The new username for the user.
-   * @return {Promise}
-   */
-  static async editName(id, username) {
-
-    // TODO: Revisit this when we revamped User status workflows.
-    const queryUsernameRejected = {
-      id,
-      username: {$ne: username},
-      status: 'BANNED',
-      canEditName: true
-    };
-
-    const queryCreateUsername = {
-      id,
-      status: 'ACTIVE',
-      canEditName: true
-    };
-
-    try {
-      const result = await UserModel.findOneAndUpdate({
-        $or: [queryUsernameRejected, queryCreateUsername],
-      }, {
-        $set: {
-          username: username,
-          lowercaseUsername: username.toLowerCase(),
-          canEditName: false,
-          status: 'PENDING',
-        }
-      }, {
-        new: true,
-      });
-
-      if (!result) {
-        const user = await UsersService.findById(id);
-        if (user === null) {
-          throw errors.ErrNotFound;
-        }
-
-        if (!user.canEditName) {
-          throw errors.ErrPermissionUpdateUsername;
-        }
-
-        if (user.username === username) {
-          throw errors.ErrSameUsernameProvided;
-        }
-
-        throw new Error('edit username failed for an unexpected reason');
-      }
-
-      return result;
-    }
-    catch(err) {
-      if (err.code === 11000) {
-        throw errors.ErrUsernameTaken;
-      }
-      throw err;
-    }
-  }
-
-  /**
    * Ignore another user
    * @param  {String} id the id of the user that is ignoring another users
    * @param  {Array<String>} usersToIgnore Array of user IDs to ignore
    */
   static async ignoreUsers(id, usersToIgnore) {
-    assert(Array.isArray(usersToIgnore), 'usersToIgnore is an array');
-    assert(usersToIgnore.every((u) => typeof u === 'string'), 'usersToIgnore is an array of string user IDs');
     if (usersToIgnore.includes(id)) {
       throw new Error('Users cannot ignore themselves');
     }
@@ -891,7 +892,6 @@ module.exports = class UsersService {
       throw errors.ErrCannotIgnoreStaff;
     }
 
-    // TODO: For each usersToIgnore, make sure they exist?
     return UserModel.update({id}, {
       $addToSet:  {
         ignoresUsers: {
@@ -907,15 +907,66 @@ module.exports = class UsersService {
    * @param  {Array<String>} usersToStopIgnoring Array of user IDs to stop ignoring
    */
   static async stopIgnoringUsers(id, usersToStopIgnoring) {
-    assert(Array.isArray(usersToStopIgnoring), 'usersToStopIgnoring is an array');
-    assert(usersToStopIgnoring.every((u) => typeof u === 'string'), 'usersToStopIgnoring is an array of string user IDs');
     await UserModel.update({id}, {
       $pullAll:  {
         ignoresUsers: usersToStopIgnoring
       }
     });
   }
-};
+}
+
+module.exports = UsersService;
+
+events.on(USERS_BAN_CHANGE, async (user, status) => {
+
+  // Check to see if the user was banned now and is currently banned.
+  if (user.banned && status) {
+    await UsersService.sendEmail(user, {
+      template: 'banned',
+      locals: {
+        body: 'In accordance with The Coral Project’s community guidelines, your account has been banned. You are now longer allowed to comment, flag or engage with our community.'
+      },
+      subject: 'Your account has been banned',
+    });
+  }
+});
+
+events.on(USERS_SUSPENSION_CHANGE, async (user, until) => {
+
+  // Check to see if the user was suspended now and is currently suspended.
+  if (user.suspended && until !== null && until > Date.now()) {
+    const {organizationName} = await SettingsService.retrieve();
+
+    const message = i18n.t(
+      'suspenduser.email_message_suspend',
+      user.username,
+      organizationName,
+      timeago(until),
+    );
+
+    await UsersService.sendEmail(user, {
+      template: 'suspension',
+      locals: {
+        body: message,
+      },
+      subject: 'Your account has been banned',
+    });
+  }
+});
+
+events.on(USERS_USERNAME_STATUS_CHANGE, async (user, status) => {
+  if (status === 'REJECTED') {
+    const message = i18n.t('reject_username.email_message_reject');
+
+    await UsersService.sendEmail(user, {
+      template: 'suspension',
+      locals: {
+        body: message
+      },
+      subject: 'Username Rejected'
+    });
+  }
+});
 
 // Extract all the tokenUserNotFound plugins so we can integrate with other
 // providers.

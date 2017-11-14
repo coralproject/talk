@@ -1,15 +1,12 @@
 const errors = require('../../errors');
-
 const ActionModel = require('../../models/action');
 const AssetsService = require('../../services/assets');
 const ActionsService = require('../../services/actions');
 const TagsService = require('../../services/tags');
 const CommentsService = require('../../services/comments');
 const KarmaService = require('../../services/karma');
-const tlds = require('tlds');
 const merge = require('lodash/merge');
-const linkify = require('linkify-it')()
-  .tlds(tlds);
+const linkify = require('linkify-it')().tlds(require('tlds'));
 const Wordlist = require('../../services/wordlist');
 const {
   CREATE_COMMENT,
@@ -17,21 +14,8 @@ const {
   ADD_COMMENT_TAG,
   EDIT_COMMENT
 } = require('../../perms/constants');
-
-const {
-  DISABLE_AUTOFLAG_SUSPECT_WORDS
-} = require('../../config');
-
-const debug = require('debug')('talk:graph:mutators:tags');
-const plugins = require('../../services/plugins');
-
-const pluginTags = plugins.get('server', 'tags').reduce((acc, {plugin, tags}) => {
-  debug(`added plugin '${plugin.name}'`);
-
-  acc = acc.concat(tags);
-
-  return acc;
-}, []);
+const debug = require('debug')('talk:graph:mutators:comment');
+const {DISABLE_AUTOFLAG_SUSPECT_WORDS} = require('../../config');
 
 const resolveTagsForComment = async ({user, loaders: {Tags}}, {asset_id, tags = []}) => {
   const item_type = 'COMMENTS';
@@ -47,8 +31,6 @@ const resolveTagsForComment = async ({user, loaders: {Tags}}, {asset_id, tags = 
     if (!Array.isArray(globalTags)) {
       globalTags = [];
     }
-
-    globalTags = globalTags.concat(pluginTags);
 
     // Merge in the tags for the given comment.
     tags = tags.map((name) => {
@@ -285,14 +267,14 @@ const moderationPhases = [
         actions: [{
           action_type: 'FLAG',
           user_id: null,
-          group_id: 'Matched suspect word filter',
+          group_id: 'SUSPECT_WORD',
           metadata: {}
         }],
       };
     }
   },
 
-  // This phase checks to see if the comment's length exeeds maximum.
+  // This phase checks to see if the comment's length exceeds maximum.
   (context, comment, {assetSettings: {charCountEnable, charCount}}) => {
 
     // Reject if the comment is too long
@@ -320,7 +302,7 @@ const moderationPhases = [
 
       // Add the flag related to Trust to the comment.
       return {
-        status:'SYSTEM_WITHHELD',
+        status: 'SYSTEM_WITHHELD',
         actions: [{
           action_type: 'FLAG',
           user_id: null,
@@ -362,7 +344,7 @@ const moderationPhases = [
     }
   },
 
-  // This phase checks to see if the comment was already perscribed a status.
+  // This phase checks to see if the comment was already prescribed a status.
   (context, comment) => {
 
     // If the status was already defined, don't redefine it. It's only defined

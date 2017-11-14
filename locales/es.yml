@@ -249,6 +249,19 @@ es:
   loading_results: "Cargando Resultados"
   marketing: "Esto parece una propaganda"
   moderate_this_stream: "Moderar este hilo de comentarios"
+  flags:
+    reasons:
+       user:
+         username_offensive: "Es ofensivo"
+         username_nolike: "No le gusta"
+         username_impersonating: "Está suplantando identidad"
+         username_spam: "Contiene spam"
+         username_other: "Otra razón"
+       comment:
+         comment_offensive: "Es ofensivo"
+         comment_spam: "Contiene spam"
+         comment_noagree: "No está de acuerdo"
+         comment_other: "Otra razón"
   modqueue:
     account: "reportes de cuentas"
     actions: Acciones

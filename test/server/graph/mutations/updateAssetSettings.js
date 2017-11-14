@@ -22,8 +22,7 @@ describe('graph.mutations.updateAssetSettings', () => {
         translation_key
       }
     }
-  }
-`;
+  }`;
 
   describe('context with different user roles', () => {
 

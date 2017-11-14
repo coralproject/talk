@@ -26,7 +26,6 @@ beforeEach(async () => {
   }));
 });
 
-after(function(done) {
+after(async function() {
   mongoose.disconnect();
-  done();
 });

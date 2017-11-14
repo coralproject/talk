@@ -22,7 +22,7 @@ const withData = withQuery(gql`
   query TalkAdmin_Community {
     flaggedUsernamesCount: userCount(query: {
       action_type: FLAG,
-      statuses: [PENDING]
+      statuses: [SET, CHANGED]
     })
     ...${getDefinitionName(FlaggedAccounts.fragments.root)}
     ...${getDefinitionName(FlaggedUser.fragments.root)}
