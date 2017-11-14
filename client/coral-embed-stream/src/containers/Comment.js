@@ -3,6 +3,7 @@ import React from 'react';
 import Comment from '../components/Comment';
 import {withFragments} from 'coral-framework/hocs';
 import {getSlotFragmentSpreads} from 'coral-framework/utils';
+import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {THREADING_LEVEL} from '../constants/stream';
 import hoistStatics from 'recompose/hoistStatics';
 import {nest} from '../graphql/utils';
@@ -130,6 +131,7 @@ const withCommentFragments = withFragments({
 const enhance = compose(
   withAnimateEnter,
   withCommentFragments,
+  withSetCommentStatus,
 );
 
 export default enhance(Comment);
