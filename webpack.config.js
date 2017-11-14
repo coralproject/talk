@@ -139,12 +139,16 @@ const config = {
 //==============================================================================
 const cssOverrides = fs.readJsonSync(path.resolve(__dirname, 'css-overrides.json'), { throws: false });
 if (cssOverrides && cssOverrides.length) {
-  cssOverrides.forEach(({ regExpStr, newRelPath }) => {
-    // Must be a CSS file
-    if (regExpStr.endsWith('.css')) {
+  cssOverrides.forEach(({ oldPath, newPath }) => {
+    // Must both be CSS files
+    if (oldPath.endsWith('.css') && newPath.endsWith('.css')) {
+      const regExpStr = oldPath
+        .split('/')
+        .join('\\/')
+        .replace('.css', '\\.css$')
       config.plugins.push(new webpack.NormalModuleReplacementPlugin(
-        new RegExp(`${regExpStr}$`),
-        path.resolve(__dirname, newRelPath)
+        new RegExp(regExpStr),
+        path.resolve(__dirname, newPath)
       ));
     }
   });
