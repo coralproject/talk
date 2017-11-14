@@ -76,6 +76,9 @@ const singleCommentFragment = gql`
       id
       username
     }
+    status_history {
+      type
+    }
     action_summaries {
       __typename
       count

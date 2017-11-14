@@ -263,6 +263,7 @@ en:
     notify_accepted: '{0} accepted comment "{1}"'
     notify_rejected: '{0} rejected comment "{1}"'
     notify_flagged: '{0} flagged comment "{1}"'
+    notify_reset: '{0} reset status of comment "{1}"'
     approve: "Approve"
     approved: "Approved"
     ban_user: "Ban"
