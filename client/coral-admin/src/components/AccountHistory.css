@@ -1,13 +1,21 @@
+.table {
+  flex-direction: column;
+}
+
 .table, .headerRow, .row {
   display: flex;
 }
 
 .headerRowItem, .item {
   flex: 1;
+  padding: 20px;
+
+  &:nth-child(2) {
+    flex: 2;
+  }
 }
 
 .headerRowItem {
-  text-align: center;
   color: #595959;
   font-weight: bold;
 }

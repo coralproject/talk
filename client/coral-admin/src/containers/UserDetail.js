@@ -134,7 +134,7 @@ UserDetailContainer.propTypes = {
   root: PropTypes.object,
   setCommentStatus: PropTypes.func,
   clearUserDetailSelections: PropTypes.func,
-  selectedCommentIds: PropTypes.func,
+  selectedCommentIds: PropTypes.array,
 };
 
 const LOAD_MORE_QUERY = gql`

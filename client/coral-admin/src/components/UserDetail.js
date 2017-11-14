@@ -13,6 +13,7 @@ import {getReliability} from 'coral-framework/utils/user';
 import ApproveButton from './ApproveButton';
 import RejectButton from './RejectButton';
 import {getErrorMessages} from 'coral-framework/utils';
+import AccountHistory from './AccountHistory';
 
 export default class UserDetail extends React.Component {
 
@@ -82,12 +83,8 @@ export default class UserDetail extends React.Component {
     }
   }
 
-  showAll = () => {
-    this.props.changeStatus('all');
-  }
-
-  showRejected = () => {
-    this.props.changeStatus('rejected');
+  show = (content) => {
+    this.props.changeStatus(content);
   }
 
   renderLoading() {
@@ -179,8 +176,9 @@ export default class UserDetail extends React.Component {
               selectedCommentIds.length === 0
                 ? (
                   <ul className={styles.commentStatuses}>
-                    <li className={activeTab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
-                    <li className={activeTab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>Rejected</li>
+                    <li className={activeTab === 'all' ? styles.active : ''} onClick={() => this.show('all')}>All</li>
+                    <li className={activeTab === 'rejected' ? styles.active : ''} onClick={() => this.show('rejected')}>Rejected</li>
+                    <li className={activeTab === 'history' ? styles.active : ''} onClick={() => this.show('history')}>Account History</li>
                   </ul>
                 )
                 : (
@@ -208,25 +206,32 @@ export default class UserDetail extends React.Component {
               <label htmlFor='toogleAll'>Select all</label>
             </div>
           </div>
-          <div className={styles.commentList}>
-            {
-              nodes.map((comment) => {
-                const selected = selectedCommentIds.indexOf(comment.id) !== -1;
-                return <Comment
-                  key={comment.id}
-                  user={user}
-                  root={root}
-                  data={data}
-                  comment={comment}
-                  acceptComment={this.acceptThenReload}
-                  rejectComment={this.rejectThenReload}
-                  selected={selected}
-                  toggleSelect={toggleSelect}
-                  viewUserDetail={viewUserDetail}
-                />;
-              })
-            }
-          </div>
+
+          { 
+            activeTab !== 'history' ?
+              <div className={styles.commentList}>
+                {
+                  nodes.map((comment) => {
+                    const selected = selectedCommentIds.indexOf(comment.id) !== -1;
+                    return <Comment
+                      key={comment.id}
+                      user={user}
+                      root={root}
+                      data={data}
+                      comment={comment}
+                      acceptComment={this.acceptThenReload}
+                      rejectComment={this.rejectThenReload}
+                      selected={selected}
+                      toggleSelect={toggleSelect}
+                      viewUserDetail={viewUserDetail}
+                    />;
+                  })
+                }
+              </div>
+              :
+              <AccountHistory />
+          }
+
           <LoadMore
             className={styles.loadMore}
             loadMore={loadMore}
