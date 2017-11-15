@@ -14,7 +14,11 @@
 }
 
 .main {
-  width: 100%;
+  min-width: 70%;
+}
+
+.sidebar {
+  min-width: 30%;
 }
 
 .commentBody {
