@@ -112,6 +112,17 @@ class ModerationContainer extends Component {
         },
       },
       {
+        document: COMMENT_RESET_SUBSCRIPTION,
+        variables,
+        updateQuery: (prev, {subscriptionData: {data: {commentReset: comment}}}) => {
+          const user = comment.status_history[comment.status_history.length - 1].assigned_by;
+          const notifyText = this.props.auth.user.id === user.id
+            ? ''
+            : t('modqueue.notify_reset', user.username, prepareNotificationText(comment.body));
+          return this.handleCommentChange(prev, comment, notifyText);
+        },
+      },
+      {
         document: COMMENT_EDITED_SUBSCRIPTION,
         variables,
         updateQuery: (prev, {subscriptionData: {data: {commentEdited: comment}}}) => {
@@ -285,6 +296,23 @@ const COMMENT_ACCEPTED_SUBSCRIPTION = gql`
 const COMMENT_REJECTED_SUBSCRIPTION = gql`
   subscription CommentRejected($asset_id: ID){
     commentRejected(asset_id: $asset_id){
+      ...${getDefinitionName(Comment.fragments.comment)}
+      status_history {
+        type
+        created_at
+        assigned_by {
+          id
+          username
+        }
+      }
+    }
+  }
+  ${Comment.fragments.comment}
+`;
+
+const COMMENT_RESET_SUBSCRIPTION = gql`
+  subscription CommentReset($asset_id: ID){
+    commentReset(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
       status_history {
         type
