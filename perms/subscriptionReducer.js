@@ -9,6 +9,8 @@ module.exports = (user, perm) => {
     return check(user, ['ADMIN', 'MODERATOR']);
   case types.SUBSCRIBE_COMMENT_REJECTED:
     return check(user, ['ADMIN', 'MODERATOR']);
+  case types.SUBSCRIBE_COMMENT_RESET:
+    return check(user, ['ADMIN', 'MODERATOR']);
   case types.SUBSCRIBE_ALL_COMMENT_EDITED:
     return check(user, ['ADMIN', 'MODERATOR']);
   case types.SUBSCRIBE_ALL_COMMENT_ADDED:

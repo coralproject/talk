@@ -102,6 +102,9 @@ export default {
             }
           }
         }
+        status_history {
+          type
+        }
         action_summaries {
           count
           current_user {
@@ -182,6 +185,7 @@ export default {
               editableUntil: new Date().toISOString(),
               edited: false,
             },
+            status_history: [],
             id: `pending-${uuid()}`,
           }
         }
