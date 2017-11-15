@@ -19,7 +19,7 @@ import cn from 'classnames';
 import {getTopLevelParent, attachCommentToParent} from '../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
 import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
-import StreamTabPanel from '../containers/StreamTabPanel';
+import ExtendableTabPanel from '../containers/ExtendableTabPanel';
 
 import styles from './Stream.css';
 
@@ -106,7 +106,7 @@ class Stream extends React.Component {
     );
   }
 
-  renderTabPanel() {
+  renderExtendableTabPanel() {
     const {
       data,
       root,
@@ -135,7 +135,7 @@ class Stream extends React.Component {
     const slotProps = {data};
     const slotQueryData = {root, asset};
 
-    // `key` of `StreamTabPanel` depends on sorting so that we always reset
+    // `key` of `ExtendableTabPanel` depends on sorting so that we always reset
     // the state when changing sorting.
     return (
       <div className={cn('talk-stream-tab-container', styles.tabContainer)}>
@@ -148,23 +148,24 @@ class Stream extends React.Component {
             {...slotProps}
           />
         </div>
-        <StreamTabPanel
+        <ExtendableTabPanel
           key={`${sortBy}_${sortOrder}`}
           activeTab={activeStreamTab}
           setActiveTab={setActiveStreamTab}
-          fallbackTab={'all'}
-          tabSlot={'streamTabs'}
-          tabPaneSlot={'streamTabPanes'}
+          fallbackTab='all'
+          tabSlot='streamTabs'
+          tabSlotPrepend='streamTabsPrepend'
+          tabPaneSlot='streamTabPanes'
           slotProps={slotProps}
           queryData={slotQueryData}
           loading={loading}
-          appendTabs={
+          tabs={
             <Tab tabId={'all'} key='all'>
               {t('stream.all_comments')} <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
             </Tab>
           }
-          appendTabPanes={
-            <TabPane tabId={'all'} key='all'>
+          tabPanes={
+            <TabPane tabId='all' key='all'>
               <AllCommentsPane
                 data={data}
                 root={root}
@@ -297,7 +298,7 @@ class Stream extends React.Component {
 
         {highlightedComment
           ? this.renderHighlightedComment()
-          : this.renderTabPanel()
+          : this.renderExtendableTabPanel()
         }
       </div>
     );
@@ -325,7 +326,7 @@ Stream.propTypes = {
   loading: PropTypes.bool,
   editName: PropTypes.func,
   appendItemArray: PropTypes.func,
-  updateItem: PropTypes.func, 
+  updateItem: PropTypes.func,
   viewAllComments: PropTypes.func,
   notify: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
