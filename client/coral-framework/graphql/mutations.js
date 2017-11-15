@@ -361,7 +361,7 @@ export const withUpdateSettings = withMutation(
 
 export const withUpdateAssetSettings = withMutation(
   gql`
-    mutation UpdateAssetSettings(id: ID!, $input: AssetSettingsInput!) {
+    mutation UpdateAssetSettings($id: ID!, $input: AssetSettingsInput!) {
       updateAssetSettings(id: $id, input: $input) {
         ...UpdateAssetSettingsResponse
       }
