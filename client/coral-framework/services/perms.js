@@ -1,5 +1,26 @@
 import intersection from 'lodash/intersection';
 
+// =========================================================================
+// BASIC PERMISSIONS
+// =========================================================================
+
+const basicPerms = {
+  'INTERACT_WITH_COMMUNITY': (user) => {
+    const banned = user.status.banned.status;
+    const suspended = user.status.suspension.until && new Date(user.status.suspension.until) > new Date();
+
+    return !banned && !suspended;
+  },
+  'EDIT_NAME': (user) => {
+    const usernameStatus = user.status.username.status;
+    return usernameStatus === 'UNSET' || usernameStatus === 'REJECTED';
+  }
+};
+
+// =========================================================================
+// PERMISSIONS BY ROLE
+// =========================================================================
+
 const basicRoles = {
   HAS_STAFF_TAG: ['ADMIN', 'MODERATOR', 'STAFF']
 };
@@ -23,16 +44,18 @@ export const can = (user, ...perms) => {
     return false;
   }
 
-  const banned = user.status === 'BANNED';
-  const suspended = user.suspension.until && new Date(user.suspension.until) > new Date();
-
   return perms.every((perm) => {
-    if (perm === 'INTERACT_WITH_COMMUNITY') {
-      return !banned && !suspended;
+
+    // Basic Permissions
+    const permAction = basicPerms[perm];
+    if (typeof permAction !== 'undefined') {
+      return permAction(user);
     }
+
+    // Permissions by Role
     const role = roles[perm];
     if (typeof role === 'undefined') {
-      throw new Error(`${perm} is not a valid role`);
+      throw new Error(`${perm} is not a valid role or permission`);
     }
 
     return intersection(role, user.roles).length > 0;

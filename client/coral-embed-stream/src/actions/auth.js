@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import bowser from 'bowser';
 import * as actions from '../constants/auth';
 import {notify} from 'coral-framework/actions/notification';
-
+import {can} from 'coral-framework/services/perms';
 import t from 'coral-framework/services/i18n';
 
 export const showSignInDialog = () => ({
@@ -322,7 +322,7 @@ export const checkLogin = () => (dispatch, _, {rest, client, pym, storage}) => {
       pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
 
       // Display create username dialog if necessary.
-      if (result.user.canEditName && result.user.status !== 'BANNED') {
+      if (can(result.user, 'EDIT_NAME') && result.user.status.banned.status) {
         dispatch(showCreateUsernameDialog());
       }
     })

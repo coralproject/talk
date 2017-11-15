@@ -217,8 +217,8 @@ class Stream extends React.Component {
 
     const temporarilySuspended =
       user &&
-      user.suspension.until &&
-      new Date(user.suspension.until) > new Date();
+      user.status.suspension.until &&
+      new Date(user.status.suspension.until) > new Date();
 
     const showCommentBox = loggedIn && ((!banned && !pending & !temporarilySuspended && !highlightedComment) || keepCommentBox);
     const slotProps = {data};
@@ -257,12 +257,12 @@ class Stream extends React.Component {
                   {t(
                     'stream.temporarily_suspended',
                     root.settings.organizationName,
-                    timeago(user.suspension.until)
+                    timeago(user.status.suspension.until)
                   )}
                 </RestrictedMessageBox>}
             {banned &&
                 <SuspendedAccount
-                  canEditName={user && user.canEditName}
+                  canEditName={can(user, 'EDIT_NAME')}
                   editName={editName}
                   currentUsername={user.username}
                 />}

@@ -322,7 +322,19 @@ const fragments = {
         ...${getDefinitionName(Comment.fragments.asset)}
       }
       me {
-        status
+        state {
+          status {
+            username {
+              status
+            }
+            banned {
+              status
+            }
+            suspension {
+              until
+            }
+          }
+        }
         ignoredUsers {
           id
         }
