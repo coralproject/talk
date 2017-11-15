@@ -24,6 +24,10 @@ const headers = [
   }
 ];
 
+const getStatus = (status) => {
+  return status.banned.status ? 'BANNED' : 'ACTIVE';
+};
+
 const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUserDetail, pageCount, page, onPageChange}) => (
   <div>
     <table className={`mdl-data-table ${styles.dataTable}`}>
@@ -53,7 +57,7 @@ const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUs
             <td className="mdl-data-table__cell--non-numeric">
               <Dropdown
                 containerClassName="talk-admin-community-people-dd-status"
-                value={row.status}
+                value={getStatus(row.status)}
                 placeholder={t('community.status')}
                 onChange={(status) => setCommenterStatus(row.id, status)}>
                 <Option value={'ACTIVE'} label={t('community.active')} />

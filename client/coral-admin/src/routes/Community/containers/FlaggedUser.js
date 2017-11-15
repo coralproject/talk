@@ -17,7 +17,19 @@ export default withFragments({
     fragment TalkAdminCommunity_FlaggedUser_user on User {
       id
       username
-      status
+      state {
+        status {
+          username {
+            status
+          }
+          banned {
+            status
+          }
+          suspension {
+            until
+          }
+        }
+      }
       roles
       actions{
         id

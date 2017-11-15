@@ -129,7 +129,7 @@ export default compose(
             action_type: FLAG,
             state: {
               status: {
-                username: [PENDING]
+                username: [SET, CHANGED]
               }
             }
             limit: 10
