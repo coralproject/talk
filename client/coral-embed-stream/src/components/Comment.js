@@ -345,7 +345,10 @@ export default class Comment extends React.Component {
 
     if (!highlighted && this.commentIsRejected(comment)) {
       return <CommentTombstone action='reject' onUndo={() => {
-        this.props.setCommentStatus({commentId: comment.id, status: 'NONE'});
+        this.props.setCommentStatus({
+          commentId: comment.id,
+          status: comment.status_history[comment.status_history.length - 2].type,
+        });
       }}/>;
     }
 
