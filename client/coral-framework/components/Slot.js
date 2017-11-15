@@ -90,7 +90,10 @@ Slot.propTypes = {
   inline: PropTypes.bool,
   className: PropTypes.string,
   reduxState: PropTypes.object,
-  defaultComponent: PropTypes.component,
+  defaultComponent: PropTypes.oneOfType([
+    PropTypes.component,
+    PropTypes.string,
+  ]),
 
   /**
    * You may specify the component to use as the root wrapper.
