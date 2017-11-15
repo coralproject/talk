@@ -25,7 +25,7 @@ class CommentTombstone extends React.Component {
         <p className={styles.commentTombstone}>
           {this.getCopy()}
           {this.props.action === 'reject' &&
-            <span className={styles.undo} onClick={this.props.onUndo}>Undo</span>
+            <span className={styles.undo} onClick={this.props.onUndo}>{t('comment.undo_reject')}</span>
           }
         </p>
       </div>
