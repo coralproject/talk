@@ -88,7 +88,7 @@ export const withRemoveTag = withMutation(
             asset_id: assetId,
             item_type: itemType,
           },
-          optimisticResponse: {
+          o3timisticResponse: {
             removeTag: {
               __typename: 'ModifyTagResponse',
               errors: null,
@@ -353,6 +353,25 @@ export const withUpdateSettings = withMutation(
       updateSettings: (input) => {
         return mutate({
           variables: {
+            input,
+          },
+        });
+      }}),
+  });
+
+export const withUpdateAssetSettings = withMutation(
+  gql`
+    mutation UpdateAssetSettings(id: ID!, $input: AssetSettingsInput!) {
+      updateAssetSettings(id: $id, input: $input) {
+        ...UpdateAssetSettingsResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      updateAssetSettings: (id, input) => {
+        return mutate({
+          variables: {
+            id,
             input,
           },
         });
