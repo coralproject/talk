@@ -90,7 +90,16 @@ FlaggedAccountsContainer.propTypes = {
 
 const LOAD_MORE_QUERY = gql`
   query TalkAdmin_LoadMoreFlaggedAccounts($limit: Int, $cursor: Cursor) {
-    users(query:{action_type: FLAG, statuses: [PENDING], limit: $limit, cursor: $cursor}){
+    users(query:{
+        action_type: FLAG,
+        state: {
+          status: {
+            username: [PENDING]
+          }
+        },
+        limit: $limit,
+        cursor: $cursor
+      }){
       hasNextPage
       endCursor
       nodes {
@@ -116,7 +125,15 @@ export default compose(
   withFragments({
     root: gql`
       fragment TalkAdminCommunity_FlaggedAccounts_root on RootQuery {
-        users(query:{action_type: FLAG, statuses: [PENDING], limit: 10}){
+        users(query:{
+            action_type: FLAG,
+            state: {
+              status: {
+                username: [PENDING]
+              }
+            }
+            limit: 10
+          }){
           hasNextPage
           endCursor
           nodes {

@@ -20,10 +20,16 @@ const mapDispatchToProps = (dispatch) =>
 
 const withData = withQuery(gql`
   query TalkAdmin_Community {
-    flaggedUsernamesCount: userCount(query: {
-      action_type: FLAG,
-      statuses: [SET, CHANGED]
-    })
+    flaggedUsernamesCount: userCount(
+      query:{
+        action_type: FLAG,
+        state: {
+          status: {
+            username: [SET, CHANGED]
+          }
+        }
+      }
+    )
     ...${getDefinitionName(FlaggedAccounts.fragments.root)}
     ...${getDefinitionName(FlaggedUser.fragments.root)}
     me {

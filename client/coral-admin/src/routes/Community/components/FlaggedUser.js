@@ -55,15 +55,16 @@ class User extends React.Component {
                 className={styles.button}>
                 {user.username}
               </button>
+              {console.log(user.status.banned.status, user)}
               {me.id !== user.id &&
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem
-                    disabled={user.status === 'BANNED'}
+                    disabled={user.status.banned.status === 'BANNED'}
                     onClick={this.showSuspenUserDialog}>
                     Suspend User
                   </ActionsMenuItem>
                   <ActionsMenuItem
-                    disabled={user.status === 'BANNED'}
+                    disabled={user.status.banned.status === 'BANNED'}
                     onClick={this.showBanUserDialog}>
                     Ban User
                   </ActionsMenuItem>
