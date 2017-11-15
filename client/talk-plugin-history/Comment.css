@@ -13,6 +13,14 @@
   border-bottom: solid 1px #EBEBEB;
 }
 
+.main {
+  width: 100%;
+}
+
+.commentBody {
+  word-wrap: break-word;
+}
+
 .assetURL {
   text-decoration: none;
   font-weight: bold;
@@ -44,7 +52,8 @@
     margin-top: 0;
     margin-bottom: 0;
     list-style-type: none;
-    min-width: 136px;
+    min-width: 140px;
+    padding: 0px 10px;
   }
 
   li {
