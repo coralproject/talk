@@ -16,10 +16,10 @@ import {isCommentActive} from 'coral-framework/utils';
 import {Button, Tab, TabCount, TabPane} from 'coral-ui';
 import cn from 'classnames';
 
-import {getTopLevelParent, attachCommentToParent} from '../graphql/utils';
+import {getTopLevelParent, attachCommentToParent} from '../../../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
 import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
-import ExtendableTabPanel from '../containers/ExtendableTabPanel';
+import ExtendableTabPanel from '../../../containers/ExtendableTabPanel';
 
 import styles from './Stream.css';
 

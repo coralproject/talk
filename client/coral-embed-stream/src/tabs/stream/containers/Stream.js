@@ -2,7 +2,7 @@ import React from 'react';
 import {gql, compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {ADDTL_COMMENTS_ON_LOAD_MORE, THREADING_LEVEL} from '../constants/stream';
+import {ADDTL_COMMENTS_ON_LOAD_MORE, THREADING_LEVEL} from '../../../constants/stream';
 import {
   withPostComment, withPostFlag, withPostDontAgree,
   withDeleteAction, withEditComment
@@ -10,7 +10,7 @@ import {
 
 import * as authActions from 'coral-embed-stream/src/actions/auth';
 import * as notificationActions from 'coral-framework/actions/notification';
-import {setActiveReplyBox, setActiveTab, viewAllComments} from '../actions/stream';
+import {setActiveReplyBox, setActiveTab, viewAllComments} from '../../../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
 import {withFragments, withEmit} from 'coral-framework/hocs';
@@ -23,7 +23,7 @@ import {
   removeCommentFromEmbedQuery,
   insertFetchedCommentsIntoEmbedQuery,
   nest,
-} from '../graphql/utils';
+} from '../../../graphql/utils';
 
 const {showSignInDialog, editName} = authActions;
 const {notify} = notificationActions;

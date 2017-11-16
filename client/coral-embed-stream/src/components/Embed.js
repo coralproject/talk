@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Stream from '../containers/Stream';
+import Stream from '../tabs/stream/containers/Stream';
 import Slot from 'coral-framework/components/Slot';
 import {can} from 'coral-framework/services/perms';
 import t from 'coral-framework/services/i18n';

@@ -13,7 +13,7 @@ import * as assetActions from '../actions/asset';
 import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {withQuery} from 'coral-framework/hocs';
 import Embed from '../components/Embed';
-import Stream from './Stream';
+import Stream from '../tabs/stream/containers/Stream';
 import {notify} from 'coral-framework/actions/notification';
 import t from 'coral-framework/services/i18n';
 import PropTypes from 'prop-types';
