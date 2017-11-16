@@ -48,7 +48,7 @@ class SuspendUserDialogContainer extends Component {
 SuspendUserDialogContainer.propTypes = {
   open: PropTypes.bool,
   hideSuspendUserDialog: PropTypes.func,
-  username: PropTypes.object,
+  username: PropTypes.string,
 };
 
 const withOrganizationName = withQuery(gql`

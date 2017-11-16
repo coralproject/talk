@@ -24,6 +24,9 @@ class CommentTombstone extends React.Component {
         <hr aria-hidden={true} />
         <p className={styles.commentTombstone}>
           {this.getCopy()}
+          {this.props.action === 'reject' &&
+            <span className={styles.undo} onClick={this.props.onUndo}>{t('comment.undo_reject')}</span>
+          }
         </p>
       </div>
     );
@@ -32,6 +35,7 @@ class CommentTombstone extends React.Component {
 
 CommentTombstone.propTypes = {
   action: PropTypes.string,
+  onUndo: PropTypes.func,
 };
 
 export default CommentTombstone;
