@@ -90,13 +90,19 @@ Slot.propTypes = {
   inline: PropTypes.bool,
   className: PropTypes.string,
   reduxState: PropTypes.object,
-  defaultComponent: PropTypes.component,
+  defaultComponent: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string,
+  ]),
 
   /**
    * You may specify the component to use as the root wrapper.
    * Defaults to 'div'.
    */
-  component: PropTypes.any,
+  component: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string,
+  ]),
 
   // props coming from graphql must be passed through this property.
   queryData: PropTypes.object,
