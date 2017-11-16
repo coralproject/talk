@@ -382,3 +382,22 @@ export const withUpdateAssetSettings = withMutation(
         });
       }}),
   });
+
+export const withUpdateAssetStatus = withMutation(
+  gql`
+    mutation UpdateAssetStatus($id: ID!, $input: AssetStatusInput!) {
+      updateAssetStatus(id: $id, input: $input) {
+        ...UpdateAssetStatusResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      updateAssetStatus: (id, input) => {
+        return mutate({
+          variables: {
+            id,
+            input,
+          },
+        });
+      }}),
+  });

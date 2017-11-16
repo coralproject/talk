@@ -18,6 +18,7 @@ export default {
     'StopIgnoringUserResponse',
     'UpdateSettingsResponse',
     'UpdateAssetSettingsResponse',
+    'UpdateAssetStatusResponse',
   )
 };
 
