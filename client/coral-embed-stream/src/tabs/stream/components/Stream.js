@@ -47,7 +47,8 @@ class Stream extends React.Component {
       activeReplyBox,
       setActiveReplyBox,
       commentClassNames,
-      root: {asset, asset: {comment}},
+      asset,
+      asset: {comment},
       postComment,
       notify,
       editComment,
@@ -113,7 +114,8 @@ class Stream extends React.Component {
       activeReplyBox,
       setActiveReplyBox,
       commentClassNames,
-      root: {asset, asset: {comments, totalCommentCount}},
+      asset,
+      asset: {comments, totalCommentCount},
       postComment,
       notify,
       editComment,
@@ -169,6 +171,7 @@ class Stream extends React.Component {
               <AllCommentsPane
                 data={data}
                 root={root}
+                asset={asset}
                 comments={comments}
                 commentClassNames={commentClassNames}
                 setActiveReplyBox={setActiveReplyBox}
@@ -176,7 +179,6 @@ class Stream extends React.Component {
                 notify={notify}
                 disableReply={!open}
                 postComment={postComment}
-                asset={asset}
                 currentUser={user}
                 postFlag={postFlag}
                 postDontAgree={postDontAgree}
@@ -202,7 +204,8 @@ class Stream extends React.Component {
       data,
       root,
       appendItemArray,
-      root: {asset, asset: {comment: highlightedComment}},
+      asset,
+      asset: {comment: highlightedComment},
       postComment,
       notify,
       updateItem,

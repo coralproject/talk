@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Stream from '../tabs/stream/containers/Stream';
+import Configure from '../tabs/configure/containers/Configure';
 import Slot from 'coral-framework/components/Slot';
 import {can} from 'coral-framework/services/perms';
 import t from 'coral-framework/services/i18n';
@@ -42,6 +43,11 @@ export default class Embed extends React.Component {
     if (can(user, 'UPDATE_CONFIG')) {
       tabs.push(
         <Tab key='config' tabId='config' className='talk-embed-stream-configuration-tab'>
+          {t('framework.configure_stream')}
+        </Tab>
+      );
+      tabs.push(
+        <Tab key='config2' tabId='config2'>
           {t('framework.configure_stream')}
         </Tab>
       );
@@ -87,13 +93,16 @@ export default class Embed extends React.Component {
           tabs={this.getTabs()}
           tabPanes={[
             <TabPane key='stream' tabId='stream' className='talk-embed-stream-comments-tab-pane'>
-              <Stream data={data} root={root} />
+              <Stream data={data} root={root} asset={root.asset} />
             </TabPane>,
             <TabPane key='profile' tabId='profile' className='talk-embed-stream-profile-tab-pane'>
               <ProfileContainer />
             </TabPane>,
             <TabPane key='config' tabId='config' className='talk-embed-stream-configuration-tab-pane'>
               <ConfigureStreamContainer />
+            </TabPane>,
+            <TabPane key='config2' tabId='config2' className='talk-embed-stream-configuration2-tab-pane'>
+              <Configure data={data} root={root} asset={root.asset} />
             </TabPane>,
           ]}
         />
