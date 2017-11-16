@@ -151,6 +151,9 @@ const USERNAME_REJECTED_SUBSCRIPTION = gql`
 
 const slots = [
   'embed',
+  'embedStreamTabs',
+  'embedStreamTabsPrepend',
+  'embedStreamTabPanes',
 ];
 
 const EMBED_QUERY = gql`

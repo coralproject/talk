@@ -5,7 +5,8 @@ import Slot from 'coral-framework/components/Slot';
 import {can} from 'coral-framework/services/perms';
 import t from 'coral-framework/services/i18n';
 
-import {TabBar, Tab, TabContent, TabPane} from 'coral-ui';
+import ExtendableTabPanel from '../containers/ExtendableTabPanel';
+import {Tab, TabPane} from 'coral-ui';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import Popup from 'coral-framework/components/Popup';
 import IfSlotIsNotEmpty from 'coral-framework/components/IfSlotIsNotEmpty';
@@ -28,9 +29,28 @@ export default class Embed extends React.Component {
     this.props.setActiveTab(tab);
   };
 
+  getTabs() {
+    const {user} = this.props.auth;
+    const tabs = [
+      <Tab key='stream' tabId='stream' className='talk-embed-stream-comments-tab'>
+        {t('embed_comments_tab')}
+      </Tab>,
+      <Tab key='profile' tabId='profile' className='talk-embed-stream-profile-tab'>
+        {t('framework.my_profile')}
+      </Tab>,
+    ];
+    if (can(user, 'UPDATE_CONFIG')) {
+      tabs.push(
+        <Tab key='config' tabId='config' className='talk-embed-stream-configuration-tab'>
+          {t('framework.configure_stream')}
+        </Tab>
+      );
+    }
+    return tabs;
+  }
+
   render() {
     const {activeTab, commentId, root, data, auth: {showSignInDialog, signInDialogFocus}, blurSignInDialog, focusSignInDialog, hideSignInDialog, router: {location: {query: {parentUrl}}}} = this.props;
-    const {user} = this.props.auth;
     const hasHighlightedComment = !!commentId;
 
     return (
@@ -47,44 +67,36 @@ export default class Embed extends React.Component {
             onClose={hideSignInDialog}
           />
         </IfSlotIsNotEmpty>
-        <TabBar
-          onTabClick={this.changeTab}
-          activeTab={activeTab}
-          className='talk-embed-stream-tab-bar'
-          aria-controls='talk-embed-stream-tab-content'
-        >
-          <Tab tabId={'stream'} className={'talk-embed-stream-comments-tab'}>
-            {t('embed_comments_tab')}
-          </Tab>
-          <Tab tabId={'profile'} className={'talk-embed-stream-profile-tab'}>
-            {t('framework.my_profile')}
-          </Tab>
-          {can(user, 'UPDATE_CONFIG') &&
-            <Tab tabId={'config'} className={'talk-embed-stream-configuration-tab'}>
-              {t('framework.configure_stream')}
-            </Tab>
-          }
-        </TabBar>
+
         <Slot
           data={data}
           queryData={{root}}
           fill="embed"
         />
 
-        <TabContent
+        <ExtendableTabPanel
+          className='talk-embed-stream-tab-bar'
           activeTab={activeTab}
-          id='talk-embed-stream-tab-content'
-        >
-          <TabPane tabId={'stream'} className={'talk-embed-stream-comments-tab-pane'}>
-            <Stream data={data} root={root} />
-          </TabPane>
-          <TabPane tabId={'profile'} className={'talk-embed-stream-profile-tab-pane'}>
-            <ProfileContainer />
-          </TabPane>
-          <TabPane tabId={'config'} className={'talk-embed-stream-configuration-tab-pane'}>
-            <ConfigureStreamContainer />
-          </TabPane>
-        </TabContent>
+          setActiveTab={this.changeTab}
+          fallbackTab='stream'
+          tabSlot='embedStreamTabs'
+          tabSlotPrepend='embedStreamTabsPrepend'
+          tabPaneSlot='embedStreamTabPanes'
+          slotProps={{data}}
+          queryData={{root}}
+          tabs={this.getTabs()}
+          tabPanes={[
+            <TabPane key='stream' tabId='stream' className='talk-embed-stream-comments-tab-pane'>
+              <Stream data={data} root={root} />
+            </TabPane>,
+            <TabPane key='profile' tabId='profile' className='talk-embed-stream-profile-tab-pane'>
+              <ProfileContainer />
+            </TabPane>,
+            <TabPane key='config' tabId='config' className='talk-embed-stream-configuration-tab-pane'>
+              <ConfigureStreamContainer />
+            </TabPane>,
+          ]}
+        />
       </div>
     );
   }
