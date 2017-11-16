@@ -515,5 +515,6 @@ module.exports = {
   HandleAuthPopupCallback,
   HandleGenerateCredentials,
   HandleLogout,
-  CheckBlacklisted
+  CheckBlacklisted,
+  CheckRecaptcha,
 };
