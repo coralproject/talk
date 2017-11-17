@@ -385,7 +385,7 @@ export const withUpdateAssetSettings = withMutation(
 
 export const withUpdateAssetStatus = withMutation(
   gql`
-    mutation UpdateAssetStatus($id: ID!, $input: AssetStatusInput!) {
+    mutation UpdateAssetStatus($id: ID!, $input: UpdateAssetStatusInput!) {
       updateAssetStatus(id: $id, input: $input) {
         ...UpdateAssetStatusResponse
       }
@@ -398,6 +398,29 @@ export const withUpdateAssetStatus = withMutation(
             id,
             input,
           },
+          optimisticResponse: {
+            updateAssetStatus: {
+              __typename: 'UpdateAssetStatusResponse',
+              errors: null,
+            }
+          },
+          update: (proxy) => {
+            if (input.closedAt !== undefined) {
+              const fragment = gql`
+                fragment Talk_UpdateAssetStatusResponse on Asset {
+                  closedAt
+                  isClosed
+                }`;
+
+              const fragmentId = `Asset_${id}`;
+              const data = {
+                __typename: 'Asset',
+                closedAt: input.closedAt,
+                isClosed: !!input.closedAt && new Date(input.closedAt).getTime() <= new Date().getTime(),
+              };
+              proxy.writeFragment({fragment, id: fragmentId, data});
+            }
+          }
         });
       }}),
   });

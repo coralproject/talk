@@ -10,6 +10,8 @@ class Configure extends React.Component {
         <AssetStatusInfo
           isClosed={this.props.isClosed}
           closedAt={this.props.closedAt}
+          onOpen={this.props.onOpenAsset}
+          onClose={this.props.onCloseAsset}
         />
       </div>
     );
@@ -17,8 +19,10 @@ class Configure extends React.Component {
 }
 
 Configure.propTypes = {
-  isClosed: PropTypes.bool,
-  closedAt: PropTypes.object,
+  isClosed: PropTypes.bool.isRequired,
+  closedAt: PropTypes.string,
+  onOpenAsset: PropTypes.func.isRequired,
+  onCloseAsset: PropTypes.func.isRequired,
 };
 
 export default Configure;
