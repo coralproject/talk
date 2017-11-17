@@ -138,6 +138,9 @@ export const withSetCommentStatus = withMutation(
             const fragment = gql`
               fragment Talk_SetCommentStatus on Comment {
                 status
+                status_history {
+                  type
+                }
               }`;
 
             const fragmentId = `Comment_${commentId}`;
@@ -145,6 +148,8 @@ export const withSetCommentStatus = withMutation(
             const data = proxy.readFragment({fragment, id: fragmentId});
 
             data.status = status;
+            data.status_history = data.status_history ? data.status_history : [];
+            data.status_history.push({__typename: 'CommentStatusHistory', type: status});
 
             proxy.writeFragment({fragment, id: fragmentId, data});
           }

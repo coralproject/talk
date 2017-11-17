@@ -6,6 +6,8 @@ module.exports = (user, perm) => {
   case types.SUBSCRIBE_COMMENT_FLAGGED:
   case types.SUBSCRIBE_COMMENT_ACCEPTED:
   case types.SUBSCRIBE_COMMENT_REJECTED:
+  case types.SUBSCRIBE_COMMENT_RESET:
+    return check(user, ['ADMIN', 'MODERATOR']);
   case types.SUBSCRIBE_ALL_COMMENT_EDITED:
   case types.SUBSCRIBE_ALL_COMMENT_ADDED:
   case types.SUBSCRIBE_ALL_USER_SUSPENDED:

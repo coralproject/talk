@@ -52,13 +52,11 @@ const RootMutation = {
   setCommentStatus: async (_, {id, status}, {mutators: {Comment}, pubsub}) => {
     const comment = await Comment.setStatus({id, status});
     if (status === 'ACCEPTED') {
-
-      // Publish the comment status change via the subscription.
       pubsub.publish('commentAccepted', comment);
     } else if (status === 'REJECTED') {
-
-      // Publish the comment status change via the subscription.
       pubsub.publish('commentRejected', comment);
+    } else if (status === 'NONE') {
+      pubsub.publish('commentReset', comment);
     }
   },
   addTag: async (_, {tag}, {mutators: {Tag}}) => {

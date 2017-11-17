@@ -19,7 +19,7 @@ class Comment extends React.Component {
 
     return (
       <div className={styles.myComment}>
-        <div>
+        <div className={styles.main}>
           <Slot
             fill="commentContent"
             defaultComponent={CommentContent}

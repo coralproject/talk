@@ -1499,6 +1499,10 @@ type Subscription {
   # Requires the `ADMIN` or `MODERATOR` role.
   commentRejected(asset_id: ID): Comment
 
+  # Get an update whenever the status of a comment has been reset.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentReset(asset_id: ID): Comment
+
   # Get an update whenever a user has been suspended.
   # `user_id` must match id of current user except for
   # users with the `ADMIN` or `MODERATOR` role.
