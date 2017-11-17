@@ -5,6 +5,7 @@ import Configure from '../tabs/configure/containers/Configure';
 import Slot from 'coral-framework/components/Slot';
 import {can} from 'coral-framework/services/perms';
 import t from 'coral-framework/services/i18n';
+import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
 
 import ExtendableTabPanel from '../containers/ExtendableTabPanel';
 import {Tab, TabPane} from 'coral-ui';
@@ -56,11 +57,12 @@ export default class Embed extends React.Component {
   }
 
   render() {
-    const {activeTab, commentId, root, data, auth: {showSignInDialog, signInDialogFocus}, blurSignInDialog, focusSignInDialog, hideSignInDialog, router: {location: {query: {parentUrl}}}} = this.props;
+    const {activeTab, commentId, root, root: {asset}, data, auth: {showSignInDialog, signInDialogFocus}, blurSignInDialog, focusSignInDialog, hideSignInDialog, router: {location: {query: {parentUrl}}}} = this.props;
     const hasHighlightedComment = !!commentId;
 
     return (
       <div className={cn('talk-embed-stream', {'talk-embed-stream-highlight-comment': hasHighlightedComment})}>
+        <AutomaticAssetClosure asset={asset} />
         <IfSlotIsNotEmpty slot="login">
           <Popup
             href={`embed/stream/login?parentUrl=${encodeURIComponent(parentUrl)}`}

@@ -14,6 +14,7 @@ import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {withQuery} from 'coral-framework/hocs';
 import Embed from '../components/Embed';
 import Stream from '../tabs/stream/containers/Stream';
+import AutomaticAssetClosure from './AutomaticAssetClosure';
 import Configure from '../tabs/configure/containers/Configure';
 import {notify} from 'coral-framework/actions/notification';
 import t from 'coral-framework/services/i18n';
@@ -174,6 +175,7 @@ const EMBED_QUERY = gql`
     asset(id: $assetId, url: $assetUrl) {
       ...${getDefinitionName(Configure.fragments.asset)}
       ...${getDefinitionName(Stream.fragments.asset)}
+      ...${getDefinitionName(AutomaticAssetClosure.fragments.asset)}
     }
     ${getSlotFragmentSpreads(slots, 'root')}
     ...${getDefinitionName(Stream.fragments.root)}
@@ -183,6 +185,7 @@ const EMBED_QUERY = gql`
   ${Stream.fragments.asset}
   ${Configure.fragments.root}
   ${Configure.fragments.asset}
+  ${AutomaticAssetClosure.fragments.asset}
 `;
 
 export const withEmbedQuery = withQuery(EMBED_QUERY, {

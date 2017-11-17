@@ -18,7 +18,6 @@ import cn from 'classnames';
 
 import {getTopLevelParent, attachCommentToParent} from '../../../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
-import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
 import ExtendableTabPanel from '../../../containers/ExtendableTabPanel';
 
 import styles from './Stream.css';
@@ -234,7 +233,6 @@ class Stream extends React.Component {
 
     return (
       <div id="stream" className={styles.root}>
-        <AutomaticAssetClosure assetId={asset.id} closedAt={asset.closedAt}/>
         {highlightedComment &&
           <Button
             cStyle="darkGrey"
