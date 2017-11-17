@@ -1,5 +1,5 @@
 import React from 'react';
-import AssetStatusInfo from './AssetStatusInfo';
+import AssetStatusInfo from '../containers/AssetStatusInfo';
 import PropTypes from 'prop-types';
 
 class Configure extends React.Component {
@@ -8,10 +8,7 @@ class Configure extends React.Component {
       <div className='talk-embed-stream-configuration-container'>
         <hr />
         <AssetStatusInfo
-          isClosed={this.props.isClosed}
-          closedAt={this.props.closedAt}
-          onOpen={this.props.onOpenAsset}
-          onClose={this.props.onCloseAsset}
+          asset={this.props.asset}
         />
       </div>
     );
@@ -19,10 +16,9 @@ class Configure extends React.Component {
 }
 
 Configure.propTypes = {
-  isClosed: PropTypes.bool.isRequired,
-  closedAt: PropTypes.string,
-  onOpenAsset: PropTypes.func.isRequired,
-  onCloseAsset: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
+  asset: PropTypes.object.isRequired,
 };
 
 export default Configure;
