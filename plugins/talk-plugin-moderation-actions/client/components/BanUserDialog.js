@@ -33,7 +33,7 @@ const BanUserDialog = ({showBanDialog, closeBanDialog, banUser}) => (
 );
 
 BanUserDialog.propTypes = {
-  showBanDialog: PropTypes.func.isRequired,
+  showBanDialog: PropTypes.bool.isRequired,
   closeBanDialog: PropTypes.func.isRequired,
   banUser: PropTypes.func.isRequired,
 };

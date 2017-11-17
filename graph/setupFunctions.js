@@ -2,6 +2,7 @@ const {
   SUBSCRIBE_COMMENT_ACCEPTED,
   SUBSCRIBE_COMMENT_REJECTED,
   SUBSCRIBE_COMMENT_FLAGGED,
+  SUBSCRIBE_COMMENT_RESET,
   SUBSCRIBE_ALL_COMMENT_EDITED,
   SUBSCRIBE_ALL_COMMENT_ADDED,
   SUBSCRIBE_ALL_USER_SUSPENDED,
@@ -87,6 +88,16 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
     commentRejected: {
       filter: (comment, context) => {
         if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_REJECTED)) {
+          return false;
+        }
+        return !args.asset_id || comment.asset_id === args.asset_id;
+      }
+    },
+  }),
+  commentReset: (options, args) => ({
+    commentReset: {
+      filter: (comment, context) => {
+        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_RESET)) {
           return false;
         }
         return !args.asset_id || comment.asset_id === args.asset_id;

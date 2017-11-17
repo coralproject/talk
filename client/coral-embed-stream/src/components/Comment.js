@@ -182,6 +182,7 @@ export default class Comment extends React.Component {
         editableUntil: PropTypes.string,
       })
     }).isRequired,
+    setCommentStatus: PropTypes.func.isRequired,
 
     // edit a comment, passed (id, asset_id, { body })
     editComment: PropTypes.func,
@@ -343,7 +344,12 @@ export default class Comment extends React.Component {
     } = this.props;
 
     if (!highlighted && this.commentIsRejected(comment)) {
-      return <CommentTombstone action='reject' />;
+      return <CommentTombstone action='reject' onUndo={() => {
+        this.props.setCommentStatus({
+          commentId: comment.id,
+          status: comment.status_history[comment.status_history.length - 2].type,
+        });
+      }}/>;
     }
 
     if (this.commentIsIgnored(comment)) {
