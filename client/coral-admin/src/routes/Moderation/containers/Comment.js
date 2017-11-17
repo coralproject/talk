@@ -47,6 +47,9 @@ export default withFragments({
       editing {
         edited
       }
+      status_history {
+        type
+      }
       hasParent
       ${getSlotFragmentSpreads(slots, 'comment')}
       ...${getDefinitionName(CommentLabels.fragments.comment)}
