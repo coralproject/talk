@@ -14,9 +14,7 @@ const mapping = {
 module.exports = {
   async up() {
 
-    // Setup the batch operation.
-    const batch = ActionModel.collection.initializeUnorderedBulkOp();
-
+    const updates = [];
     for (const item_type in mapping) {
       const mappings = mapping[item_type];
 
@@ -32,19 +30,29 @@ module.exports = {
         //   group_id: <NEW_GROUP_ID>
         // }
 
-        batch.find({
+        updates.push({query: {
           group_id: OLD_GROUP_ID,
           item_type,
-        }).update({
+        }, update: {
           $set: {
             group_id: NEW_GROUP_ID,
           },
-        });
+        }});
       }
     }
 
-    // Execute the batch update operation.
-    await batch.execute();
+    if (updates.length > 0) {
+
+    // Setup the batch operation.
+      const batch = ActionModel.collection.initializeUnorderedBulkOp();
+
+      for (const {query, update} of updates) {
+        batch.find(query).update(update);
+      }
+
+      // Execute the batch update operation.
+      await batch.execute();
+    }
   }
 };
 

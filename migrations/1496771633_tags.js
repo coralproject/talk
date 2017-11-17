@@ -22,8 +22,7 @@ module.exports = {
       return;
     }
 
-    // Create a new batch operation.
-    let batch = CommentModel.collection.initializeUnorderedBulkOp();
+    const updates = [];
 
     // Loop over the comments retrieved, updating the tag structure.
     for (let {id, tags} of comments) {
@@ -73,11 +72,22 @@ module.exports = {
         created_at
       }));
 
-      // Execute the batch operation.
-      batch.find({id}).updateOne({$set: {tags}});
+      updates.push({query: {id}, update: {$set: {tags}}});
     }
 
-    // Execute the batch update operation.
-    await batch.execute();
+    if (updates.length > 0) {
+
+      // Create a new batch operation.
+      let batch = CommentModel.collection.initializeUnorderedBulkOp();
+
+      for (const {query, update} of updates) {
+
+        // Execute the batch operation.
+        batch.find(query).updateOne(update);
+      }
+
+      // Execute the batch update operation.
+      await batch.execute();
+    }
   }
 };

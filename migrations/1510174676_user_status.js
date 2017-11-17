@@ -22,12 +22,10 @@ module.exports = {
 
     const created_at = Date.now();
 
-    // Create a new batch operation.
-    let bulk = UserModel.collection.initializeUnorderedBulkOp();
-
     // Get the first batch of users.
     let cursor = await getUserBatch();
 
+    const updates = [];
     while (await cursor.hasNext()) {
       const user = await cursor.next();
 
@@ -201,11 +199,21 @@ module.exports = {
         throw new Error(`${status} is an invalid status`);
       }
 
-      bulk.find({id}).updateOne(update);
+      updates.push({query: {id}, update});
     }
 
-    // Execute the bulk update operation.
-    await bulk.execute();
+    if (updates.length > 0) {
+
+      // Create a new batch operation.
+      let bulk = UserModel.collection.initializeUnorderedBulkOp();
+
+      for (const {query, update} of updates) {
+        bulk.find(query).updateOne(update);
+      }
+
+      // Execute the bulk update operation.
+      await bulk.execute();
+    }
   }
 };
 
