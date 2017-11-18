@@ -3,6 +3,7 @@ import {gql, compose} from 'react-apollo';
 import {withFragments} from 'coral-framework/hocs';
 import Configure from '../components/Configure';
 import AssetStatusInfo from './AssetStatusInfo';
+import Settings from './Settings';
 import PropTypes from 'prop-types';
 import {getDefinitionName} from 'coral-framework/utils';
 
@@ -33,8 +34,10 @@ const withConfigureFragments = withFragments({
     fragment CoralEmbedStream_Configure_asset on Asset {
       __typename
       ...${getDefinitionName(AssetStatusInfo.fragments.asset)}
+      ...${getDefinitionName(Settings.fragments.asset)}
     }
     ${AssetStatusInfo.fragments.asset}
+    ${Settings.fragments.asset}
   `,
 });
 

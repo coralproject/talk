@@ -32,9 +32,6 @@ const withAssetStatusInfoFragments = withFragments({
       id
       closedAt
       isClosed
-      settings {
-        moderation
-      }
     }
   `,
 });
