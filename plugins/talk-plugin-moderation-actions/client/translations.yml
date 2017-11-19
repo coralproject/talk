@@ -10,7 +10,7 @@ en:
     ban_user_dialog_cancel: "Cancel"
     ban_user_dialog_yes: "Yes. Ban user"
     ban_user_dialog_headline: "Ban User?"
-    
+
 es:
   talk-plugin-moderation-actions:
     reject_comment: "Rechazar"
@@ -23,3 +23,16 @@ es:
     ban_user_dialog_cancel: "Cancelar"
     ban_user_dialog_yes: "Si. Banear usuario"
     ban_user_dialog_headline: "Banear Usuario?"
+
+ru:
+  talk-plugin-moderation-actions:
+    reject_comment: "Отклонить"
+    approve_comment: "Одобрить"
+    approved_comment: "Одобренный"
+    moderation_actions: "Действия модератора"
+    ban_user: "Заблокировать пользователя"
+    ban_user_dialog_sub: "Вы уверены что хотите заблокировать пользователя?"
+    ban_user_dialog_copy: "Примечание: При блокировке пользователя этот комментарий добавится в список отклонённых."
+    ban_user_dialog_cancel: "Отменить"
+    ban_user_dialog_yes: "Да. Заблокировать пользователя"
+    ban_user_dialog_headline: "Заблокировать пользователя?"

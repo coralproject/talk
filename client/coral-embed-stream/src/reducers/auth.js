@@ -146,6 +146,25 @@ export default function auth (state = initialState, action) {
       error: action.error,
       user: null,
     };
+  case actions.FETCH_ANONYMOUS_SIGNIN_REQUEST:
+    return {
+      ...state,
+      isLoading: true,
+    };
+  case actions.FETCH_ANONYMOUS_SIGNIN_FAILURE:
+    return {
+      ...state,
+      error: action.error,
+      user: null,
+      isLoading: false,
+    };
+  case actions.FETCH_ANONYMOUS_SIGNIN_SUCCESS:
+    return {
+      ...state,
+      isLoading: false,
+      loggedIn: true,
+      user: purge(action.user)
+    };
   case actions.FETCH_SIGNUP_REQUEST:
     return {
       ...state,

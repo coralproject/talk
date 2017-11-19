@@ -1,0 +1,409 @@
+ru:
+  your_account_has_been_suspended: Ваша учетная запись была временно приостановлена.
+  your_account_has_been_banned: Ваша учетная запись заблокирована.
+  your_username_has_been_rejected: Ваша учетная запись заблокирована, так как ваше имя пользователя было сочтено неуместным. Чтобы восстановить свою учетную запись, введите новое имя пользователя.
+  embed_comments_tab: Комментарии
+  bandialog:
+    are_you_sure: "Вы уверены, что хотите заблокировать {0}?"
+    ban_user: "Заблокировать пользователя?"
+    banned_user: "Заблокированные пользователи"
+    cancel: "Отмена"
+    note: "Примечание: {0}"
+    note_reject_comment: "При блокировке пользователя этот комментарий добавится в список отклонённых."
+    note_ban_user: "Заблокированный пользователь не сможет редактировать комментарии или удалять что-либо."
+    yes_ban_user: "Да, заблокировать пользователя"
+  bio_offensive: "Эта биография оскорбительна"
+  cancel: "Отмена"
+  characters_remaining: "оставшиеся символы"
+  comment:
+    anon: "Аноним"
+    ban_user: "Заблокировать пользователя"
+    comment: "Написать комментарий"
+    edited: Отредактированно
+    flagged: "помеченные"
+    view_context: "Просмотреть контекст"
+  comment_box:
+    post: "Написать"
+    cancel: "Отмена"
+    reply: "Ответить"
+    comment: "Написать комментарий"
+    name: "Имя"
+    comment_post_notif: "Ваш комментарий опубликован."
+    comment_post_notif_premod: "Благодарим за публикацию. Наша команда модераторов в ближайшее время рассмотрит ваш комментарий."
+    comment_post_banned_word:  "Ваш комментарий содержит одно или несколько запрещённых слов, поэтому он не будет опубликован. Если вы считаете, что это сообщение неверно, обратитесь в нашу группу модераторов."
+    characters_remaining: "оставшиеся символы"
+  comment_offensive: "Этот комментарий оскорбителен"
+  comment_singular: Комментарий
+  comment_plural: Комментарии
+  comment_post_banned_word: "Ваш комментарий содержит одно или несколько запрещённых слов, поэтому он не будет опубликован. Если вы считаете, что это сообщение неверно, обратитесь в нашу группу модераторов."
+  comment_post_notif: "Ваш комментарий опубликован."
+  comment_post_notif_premod: "Благодарим за публикацию. Наша команда модераторов в ближайшее время рассмотрит ваш комментарий."
+  common:
+    copy: 'Копировать'
+    error: 'Возникла ошибка.'
+    reply: 'ответ'
+    replies: 'ответы'
+    reaction: 'реакция'
+    reactions: 'реакции'
+    story: 'История'
+  community:
+    account_creation_date: "Дата регистрации"
+    active: Активный
+    admin: Администратор
+    anonymous: Аноним
+    ads_marketing: "Это похоже на рекламу/маркетинг"
+    are_you_sure: "Вы уверены, что хотите заблокировать {0}?"
+    ban_user: "Заблокировать пользователя?"
+    banned: Заблокирован
+    banned_user: " Заблокированный пользователь"
+    cancel: Отмена
+    dont_like_username: "Не нравится имя пользователя"
+    flaggedaccounts: "Жалобы на имена пользователей"
+    flags: Пометки
+    impersonating: "Impersonation"
+    loading: "Загрузка результатов"
+    moderator: Модератор
+    newsroom_role: "Роль"
+    no_flagged_accounts: "Жалобы на имена пользователей отсутствуют."
+    no_results: "Пользователи с таким именем или e-mail не найдены."
+    offensive: "Оскорбительный"
+    other: Другое
+    people: Пользователи
+    role: "Выберите роль..."
+    select_status: "Выберите статус..."
+    spam_ads: "Спам/Реклама"
+    staff: "Сотрудник"
+    status: Статус
+    username_and_email: "Имя и e-mail"
+    yes_ban_user: "Да заблокировать пользователя"
+    none: "None"
+  configure:
+    apply: Применить
+    banned_word_text: "Комментарии, содержащие эти слова или фразы (не учитывающие регистр), будут автоматически удалены из списка комментариев. Введите слово и нажмите Enter или Tab для добавления. При желании вставьте список, разделенный запятыми."
+    banned_words_title: "Список запрещенных слов"
+    close: "Закрыть"
+    close_after: "Закрыть комментарии через"
+    close_stream: "Закрыть список комментариев"
+    close_stream_configuration: "Этот список комментариев в настоящее время закрыт. Открывая этот список комментариев, новые комментарии могут быть отправлены и отображены"
+    closed_comments_desc: "Напишите сообщение, которое будет отображаться, когда список комментариев будет закрыт и больше не будет принимать комментарии."
+    closed_comments_label: "Напишите сообщение..."
+    closed_stream_settings: "Сообщение закрытого списка комментариев"
+    comment_count_error: "Пожалуйста введите правильное число."
+    comment_count_header: "Максимальная длина комментария"
+    comment_count_text_post: символов
+    comment_count_text_pre: "Комментарии будут ограничены"
+    comment_settings: Настройки
+    comment_stream: "Список комментариев"
+    comment_stream_will_close: "Список комментариев будет закрыт"
+    community: Сообщество
+    configure: Настройки
+    copy_and_paste: "Скопируйте и вставьте код ниже в свою CMS, чтобы вставить комментарии в статьи"
+    custom_css_url: "Пользовательский CSS URL"
+    custom_css_url_desc: "URL-адрес таблицы стилей CSS, которая будет переопределять стили по умолчанию. Может быть внутренним или внешним."
+    dashboard: Dashboard
+    days: Дни
+    description: "В качестве администратора вы можете настроить параметры списка комментариев для этой истории:"
+    domain_list_text: "Введите домены, которые вы хотите разрешить для комментариев, например. ваши локальные среды разработки и домен сайта (например, localhost:3000 staging.domain.com domain.com)."
+    domain_list_title: "Допустимые домены"
+    edit_comment_timeframe_heading: "Изменить комментарий"
+    edit_comment_timeframe_text_pre: "У комментаторов будет"
+    edit_comment_timeframe_text_post: "секунд для редактирования своих комментариев."
+    embed_comment_stream: "Embed Stream"
+    enable_premod_links_text: "Moderators must approve any comment containing a link before it is published."
+    enable_pre_moderation: "Enable pre-moderation"
+    enable_pre_moderation_text: "Moderators must approve any comment before it is published."
+    enable_premod_links: "Pre-Moderate Comments Containing Links"
+    enable_premod: "Enable Premoderation"
+    enable_premod_description: "Moderators must approve any comment before it is published."
+    enable_premod_links_description: "Moderators must approve any comment containing a link before it is published."
+    enable_questionbox: "Ask Readers a Question"
+    enable_questionbox_description: "This question will appear at the top of this comment stream. Ask readers about a certain issue in the article or pose discussion questions etc."
+    hours: Часы
+    include_comment_stream: "Include Comment Stream Description for Readers"
+    include_comment_stream_desc: "Write a message to be added to the top of your comment stream. Pose a topic include community guidelines etc."
+    include_text: "Include your text here."
+    include_question_here: "Write your question here:"
+    moderate: Комментарии
+    moderation_settings: "Настройки модератора"
+    open: "Открыть"
+    open_stream: "Открыть список комментариев"
+    open_stream_configuration: "This comment stream is currently open. By closing this comment stream no new comments may be submitted and all previous comments will still be displayed."
+    require_email_verification: "Require Email Verification"
+    require_email_verification_text: "New Users must verify their email before commenting"
+    save_changes: "Сохранить изменения"
+    shortcuts: Shortcuts
+    sign_out: "Выйти"
+    stories: Истории
+    stream_settings: "Stream Settings"
+    suspect_word_title: "Suspect words list"
+    suspect_word_text: "Comments which contain these words or phrases (not case-sensitive) will be highlighted in the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
+    tech_settings: "Tech Settings"
+    title: "Configure Comment Stream"
+    weeks: Недели
+    wordlist: "Запрещённые слова"
+  continue: "Продолжить"
+  createdisplay:
+    check_the_form: "Invalid Form. Please check the fields"
+    continue: "Continue with the same Facebook username"
+    error_create: "Error when changing username"
+    fake_comment_body: "This is an example comment. Readers can share their thoughts and opinions with newsrooms in the comments section."
+    fake_comment_date: "1 minute ago"
+    if_you_dont_change_your_name: "If you don't change your username at this step your Facebook display name will appear alongside of all your comments."
+    required_field: "Required field"
+    save: Сохранить
+    special_characters: "Usernames can contain letters numbers and _ only"
+    username: Имя
+    write_your_username: "Edit your username"
+    your_username: "Your username appears on every comment you post."
+  dashboard:
+    auto_update: "Data automatically updates every five minutes or when you Reload."
+    comment_count: комментариев
+    flags: Flags
+    most_flags: "Stories with the most flags"
+    most_conversations: "Stories with the most conversations"
+    next_update: "{0} minutes until next update."
+    no_activity: "There haven't been any comments anywhere in the last five minutes."
+    no_flags: "There have been no flags in the last 5 minutes! Hooray!"
+    no_likes: "There have been no likes in the last 5 minutes. All quiet."
+  done: Done
+  edit_comment:
+    body_input_label: "Редактировать комментарий"
+    save_button: "Сохранить изменения"
+    edit_window_expired: "You can no longer edit this comment. The time window to do so has expired. Why not post another one?"
+    edit_window_expired_close: "Закрыть"
+    edit_window_timer_prefix: "Edit Window: "
+    second: "second"
+    seconds_plural: "seconds"
+    minute: "minute"
+    minutes_plural: "minutes"
+  email:
+    confirm:
+      has_been_requested: "A email confirmation has been requested for the following account:"
+      to_confirm: "To confirm the account, please visit the following link:"
+      confirm_email: "Confirm Email"
+      if_you_did_not: "If you did not request this, you can safely ignore this email."
+      subject: "Подтверждение e-mail"
+    password_reset:
+      we_received_a_request: "We received a request to reset your password. If you did not request this change, you can ignore this email."
+      if_you_did: "If you did,"
+      please_click: "please click here to reset password"
+  embedlink:
+    copy: "Копировать"
+  error:
+    COMMENT_TOO_SHORT: "Comments should be more than one character, please revise your comment and try again."
+    NOT_AUTHORIZED: "You are not authorized to perform this action."
+    NO_SPECIAL_CHARACTERS: "Usernames can contain letters numbers and _ only"
+    PASSWORD_LENGTH: "Password is too short"
+    PROFANITY_ERROR: "Usernames must not contain profanity. Please contact the administrator if you believe this to be in error."
+    RATE_LIMIT_EXCEEDED: "Rate limit exceeded"
+    USERNAME_IN_USE: "Username already in use"
+    USERNAME_REQUIRED: "Must input a username"
+    EMAIL_NOT_VERIFIED: "E-mail address not verified"
+    EDIT_WINDOW_ENDED: "You can no longer edit this comment. The time window to do so has expired."
+    EDIT_USERNAME_NOT_AUTHORIZED: "You do not have permission to update your username."
+    SAME_USERNAME_PROVIDED: "You must submit a different username."
+    EMAIL_IN_USE: "Email address already in use"
+    EMAIL_REQUIRED: "An email address is required"
+    LOGIN_MAXIMUM_EXCEEDED: "You have made too many unsuccessful password attempts. Please wait."
+    PASSWORD_REQUIRED: "Must input a password"
+    COMMENTING_CLOSED: "Commenting is already closed"
+    NOT_FOUND: "Resource not found"
+    ALREADY_EXISTS: "Resource already exists"
+    INVALID_ASSET_URL: "Assert URL is invalid"
+    CANNOT_IGNORE_STAFF: "Cannot ignore Staff members."
+    email: "Not a valid E-Mail"
+    confirm_password: "Passwords don't match. Please check again"
+    network_error: "Failed to connect to server. Check your internet connection and try again."
+    email_not_verified: "E-mail address {0} not verified."
+    email_password: "E-mail and/or password combination incorrect."
+    organization_name: "Organization name must only contain letters or numbers."
+    password: "Password must be at least 8 characters"
+    username: "Usernames can contain letters numbers and _ only"
+    unexpected: "Unexpected error occurred. Sorry!"
+  flag_comment: "Пожаловаться на комментарий"
+  flag_reason: "Причина жалобы (не обязательно)"
+  flag_username: "Пожаловаться на имя пользователя"
+  framework:
+    banned_account_header: "Your account is currently banned."
+    banned_account_body: "This means that you cannot Like, Report, or write comments."
+    comment: комментарий
+    comment_is_ignored: "This comment is hidden because you ignored this user."
+    comment_is_rejected: "You have rejected this comment."
+    comment_is_hidden: "This comment is not available."
+    comments: комментарии
+    configure_stream: "Configure"
+    content_not_available: "This content is not available"
+    edit_name:
+      button: Сохранить
+      error: "Usernames can contain letters numbers and _ only"
+      label: "Новое имя"
+      msg: "Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions."
+    my_comments: "Мои комментарии"
+    my_profile: "Моя учётная запись"
+    new_count: "View {0} more {1}"
+    profile: Учётная запись
+    show_all_comments: "Показать все комментарии"
+    success_bio_update: "Your biography has been updated"
+    success_name_update: "Your username has been updated"
+    success_update_settings: "The changes you have made have been applied to the comment stream on this article"
+    show_all_replies: Показать все ответы
+    show_more_replies: Показать больше ответов
+    view_more_comments: "посмотреть больше комментариев"
+    view_reply: "посмотреть ответы"
+  from_settings_page: "From the Profile Page you can see your comment history."
+  like: Нравится
+  loading_results: "Загрузка результатов"
+  marketing: "This looks like an ad/marketing"
+  moderate_this_stream: "Модерировать этот список комментариев"
+  modqueue:
+    account: "account flags"
+    actions: Действия
+    all: все
+    all_streams: "Все списки комментариев"
+    notify_edited: '{0} отредактировал комментарий "{1}"'
+    notify_accepted: '{0} одобрил комментарий "{1}"'
+    notify_rejected: '{0} отклонил комментарий "{1}"'
+    notify_flagged: '{0} пометил комментарий "{1}"'
+    approve: "Одобрить"
+    approved: "Одобренные"
+    ban_user: "Заблокировать"
+    billion: B
+    close: Закрыть
+    empty_queue: "No more comments to moderate! You're all caught up. Go have some ☕️"
+    flagged: flagged
+    reported: reported
+    less_detail: "Меньше"
+    likes: likes
+    million: M
+    mod_faster: "Moderate faster with keyboard shortcuts"
+    moderate: "Модерировать →"
+    more_detail: "Больше"
+    new: Новый
+    newest_first: "Сначала новые"
+    navigation: Navigation
+    next_comment: "К следующему комментарию"
+    toggle_search: "Открыть поиск"
+    next_queue: "Switch queues"
+    oldest_first: "Сначала старые"
+    premod: На модерации
+    prev_comment: "К предыдущему комментарию"
+    reject: "Отклонить"
+    rejected: "Отклонённые"
+    reply: "Ответить"
+    select_stream: "Выбрать список комментариев"
+    shift_key: "⇧"
+    shortcuts: "Shortcuts"
+    sort: "Сортировка"
+    show_shortcuts: "Show Shortcuts"
+    singleview: "Toggle single comment edit view"
+    thismenu: "Открыть меню"
+    jump_to_queue: "Jump to specific queue"
+    thousand: k
+    try_these: "Try these"
+    view_more_shortcuts: "View more shortcuts"
+  my_comment_history: "История моих комментариев"
+  name: Имя
+  no_agree_comment: "I don't agree with this comment"
+  no_like_bio: "I don't like this bio"
+  no_like_username: "I don't like this username"
+  other: Другое
+  permalink: Ссылка
+  personal_info: "This comment reveals personally identifiable information"
+  post: Опубликовать
+  profile: Учётная запись
+  profile_settings: "Настройки учётной записи"
+  reply: Ответить
+  report: Пожаловаться
+  report_notif: "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly."
+  report_notif_remove: "Ваша жалоба удалена."
+  reported: Жалобы
+  settings:
+    from_settings_page: "From the Profile Page you can see your comment history."
+    my_comment_history: "История моих комментариев"
+    profile: Учётная запись
+    profile_settings: "Настройки учётной записи"
+    sign_in: "Войти"
+    to_access: "to access Profile"
+    user_no_comment: "You've never left a comment. Join the conversation!"
+  stream:
+    all_comments: "Все комментарии"
+    temporarily_suspended: "In accordance with {0}'s community guidelines, your account has been temporarily suspended. Please rejoin the conversation {1}."
+    comment_not_found: "Comment was not found"
+    no_comments: "There are no comments yet, why don’t you write one?"
+    no_comments_and_closed: "There were no comments on this article."
+  step_1_header: "Report an issue"
+  step_2_header: "Help us understand"
+  step_3_header: "Thank you for your input"
+  streams:
+    all: Все
+    article: Истории
+    closed: Закрытый
+    empty_result: "No assets match this search. Maybe try widening your search?"
+    filter_streams: "Фильтровать списки"
+    newest: Новые
+    oldest: Старые
+    open: Открытый
+    pubdate: "Дата публикации"
+    search: Поиск
+    sort_by: "Сортировать по"
+    status: "Статус"
+    stream_status: "Статус"
+  suspenduser:
+    title_suspend: "Suspend User"
+    description_suspend: "You are suspending {0}. This comment will go to the Rejected queue, and {0} will not be allowed to like, report, reply or post until the suspension time is complete."
+    select_duration: "Select suspension duration"
+    one_hour: "1 hour"
+    hours: "{0} hours"
+    days: "{0} days"
+    cancel: "Cancel"
+    suspend_user: "Suspend User"
+    email_message_suspend: "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}."
+    title_notify: "Notify the user of their temporary suspension"
+    notify_suspend_until: "User {0} has been temporarily suspended. This suspension will automatically end {1}."
+    description_notify: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
+    write_message: "Написать сообщение"
+    send: Отправить
+  reject_username:
+    username: имя
+    no_cancel: "No cancel"
+    description_reject: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
+    title_notify: "Notify the user of their temporary suspension"
+    description_notify: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
+    title_reject: "We noticed you rejected a username"
+    suspend_user: "Suspend User"
+    yes_suspend: "Yes suspend"
+    email_message_reject: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
+    write_message: "Написать сообщение"
+    send: Отправить
+  thank_you: "We value your safety and feedback. A moderator will review your report."
+  user:
+    bio_flags: "flags for this bio"
+    user_bio: "Биография пользователя"
+    username_flags: "flags for this username"
+    anonymous_username: "Аноним"
+  user_impersonating: "This user is impersonating"
+  user_no_comment: "You've never left a comment. Join the conversation!"
+  username_offensive: "This username is offensive"
+  view_conversation: "View Conversation"
+  install:
+    initial:
+      description: "Let's set up your Talk community in just a few short steps."
+      submit: "Начать"
+    add_organization:
+      description: "Please tell us the name of your organization. This will appear in emails when inviting new team members."
+      label: "Название организации"
+      save: "Сохранить"
+    create:
+      email: "E-mail"
+      username: "Имя"
+      password: "Пароль"
+      confirm_password: "Подтверждение пароля"
+      save: "Сохранить"
+    permitted_domains:
+      title: "Разрешённые домены"
+      description: "Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com)."
+      submit: "Закончить установку"
+    final:
+      description: "Thanks for installing Talk! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now."
+      launch: "Запустить Talk"
+      close: "Закрыть этот установщик"

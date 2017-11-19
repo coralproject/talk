@@ -3,3 +3,6 @@ en:
     label: Oldest first
 es:
   talk-plugin-sort-oldest:
+ru:
+  talk-plugin-sort-oldest:
+    label: Более старые сначала

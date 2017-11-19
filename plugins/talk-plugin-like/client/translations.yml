@@ -6,4 +6,7 @@ es:
   talk-plugin-like:
     like: Me Gusta
     liked: Me Gustó
-
+ru:
+  talk-plugin-like:
+    like: Нравится
+    liked: Нравится

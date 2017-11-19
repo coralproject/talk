@@ -145,7 +145,6 @@ export const fetchSignIn = (formData) => {
             signInFailure(t('error.email_not_verified', error.metadata))
           );
         } else if (error.translation_key === 'NOT_AUTHORIZED') {
-
           // invalid credentials
           dispatch(signInFailure(t('error.email_password'), error.metadata));
         } else {
@@ -180,6 +179,31 @@ export const fetchSignInFacebook = () => (dispatch, _, {rest}) => {
     'Continue with Facebook',
     'menubar=0,resizable=0,width=500,height=500,top=200,left=500'
   );
+};
+
+//==============================================================================
+// SIGN IN ANONYMOUS
+//==============================================================================
+
+const anonymousSignInRequest = () => ({type: actions.FETCH_ANONYMOUS_SIGNIN_REQUEST});
+const anonymousSignInSuccess = (user) => ({type: actions.FETCH_ANONYMOUS_SIGNIN_SUCCESS, user});
+const anonymousSignInFailure = (error) => ({type: actions.FETCH_ANONYMOUS_SIGNIN_FAILURE, error});
+
+export const fetchAnonymousSignIn = () => (dispatch, getState, {rest}) => {
+  dispatch(anonymousSignInRequest());
+
+  rest('/auth/anonymous', {method: 'GET'})
+    .then(({user, token}) => {
+      if (!bowser.safari && !bowser.ios) {
+        dispatch(handleAuthToken(token));
+      }
+      dispatch(anonymousSignInSuccess(user));
+    })
+    .catch((error) => {
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(anonymousSignInFailure(errorMessage));
+    });
 };
 
 //==============================================================================

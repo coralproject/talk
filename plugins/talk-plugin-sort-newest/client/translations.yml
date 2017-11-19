@@ -3,3 +3,6 @@ en:
     label: Newest first
 es:
   talk-plugin-sort-newest:
+ru:
+  talk-plugin-sort-newest:
+    label: Более новые сначала

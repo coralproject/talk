@@ -2,6 +2,7 @@
   "server": [
     "talk-plugin-auth",
     "talk-plugin-facebook-auth",
+    "talk-plugin-anonymous-auth",
     "talk-plugin-featured-comments",
     "talk-plugin-offtopic"
   ],
@@ -10,11 +11,9 @@
     "talk-plugin-comment-content",
     "talk-plugin-featured-comments",
     "talk-plugin-flag-details",
-    "talk-plugin-ignore-user",
     "talk-plugin-moderation-actions",
     "talk-plugin-offtopic",
     "talk-plugin-sort-most-replied",
-    "talk-plugin-sort-most-respected",
     "talk-plugin-sort-newest",
     "talk-plugin-sort-oldest",
     "talk-plugin-viewing-options"

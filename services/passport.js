@@ -86,6 +86,23 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
   res.json({user, token});
 };
 
+// HandleGenerateCredentialsAnonymous validates that an authentication scheme did indeed
+// return a user, if it did, then sign and return the user and token to be used
+// by the frontend to display and update the UI.
+const HandleGenerateCredentialsAnonymous = (user, req, res, next) => () => {
+  if (!user) {
+    return next(errors.ErrNotAuthorized);
+  }
+
+  // Generate the token to re-issue to the frontend.
+  const token = GenerateToken(user);
+
+  SetTokenForSafari(req, res, token);
+
+  // Send back the details!
+  res.json({user, token});
+};
+
 /**
  * Returns the response to the login attempt via a popup callback with some JS.
  */
@@ -514,6 +531,7 @@ module.exports = {
   HandleFailedAttempt,
   HandleAuthPopupCallback,
   HandleGenerateCredentials,
+  HandleGenerateCredentialsAnonymous,
   HandleLogout,
   CheckBlacklisted,
   CheckRecaptcha,

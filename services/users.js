@@ -309,6 +309,46 @@ module.exports = class UsersService {
   }
 
   /**
+   * Creates the anonymous user.
+   */
+  static async createAnonymousUser(ip) {
+    const createdAt = +new Date();
+    const random5Chars = Math.random()
+      .toString(36)
+      .substr(2, 5);
+
+    const id = `anonymous_${ip}_${createdAt}_${random5Chars}`;
+    const hashedPassword = await bcrypt.hash(id, SALT_ROUNDS);
+
+    let user = new UserModel({
+      username: 'Аноним',
+      lowercaseUsername: id.toLowerCase(),
+      password: hashedPassword,
+      roles: ['ANONYMOUS'],
+      profiles: [
+        {
+          id,
+          provider: 'anonymous'
+        }
+      ]
+    });
+
+    try {
+      user = await user.save();
+    } catch (err) {
+      if (err.code === 11000) {
+        if (err.message.match('Username')) {
+          throw errors.ErrUsernameTaken;
+        }
+        throw errors.ErrEmailTaken;
+      }
+      throw err;
+    }
+
+    return user;
+  }
+
+  /**
    * Disables a given user account.
    * @param  {String}   id   id of a user
    * @param  {Function} done callback after the operation is complete

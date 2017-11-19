@@ -4,5 +4,8 @@
   },
   "es": {
     "off_topic": "Fuera de Topico"
+  },
+  "ru": {
+    "off_topic": "Не по теме"
   }
 }

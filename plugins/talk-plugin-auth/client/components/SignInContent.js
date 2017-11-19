@@ -10,8 +10,7 @@ const SignInContent = ({
   changeView,
   handleSignIn,
   auth,
-  fetchSignInFacebook,
-  fillAnonymous
+  fetchSignInFacebook
 }) => {
   return (
     <div className="coral-sign-in">
@@ -64,18 +63,6 @@ const SignInContent = ({
                 {t('sign_in.sign_in')}
               </Button>
               : <Spinner />}
-            {!auth.isLoading
-              ? <Button
-                id="coralLogInButton"
-                type="submit"
-                cStyle="black"
-                className={styles.signInButton}
-                full
-                onClick={fillAnonymous}
-              >
-                {t('sign_in.continue_as_anonymous')}
-              </Button>
-              : <Spinner />}
           </div>
         </form>
       </div>
@@ -109,8 +96,7 @@ SignInContent.propTypes = {
   emailVerificationLoading: PropTypes.bool.isRequired,
   emailVerificationSuccess: PropTypes.bool.isRequired,
   resendVerification: PropTypes.func.isRequired,
-  formData: PropTypes.object,
-  fillAnonymous: PropTypes.func.isRequired
+  formData: PropTypes.object
 };
 
 export default SignInContent;
