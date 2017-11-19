@@ -18,7 +18,7 @@ class SuspendUserDialogContainer extends Component {
     const {userId, username, commentStatus, commentId, hideSuspendUserDialog, setCommentStatus, suspendUser, notify} = this.props;
     hideSuspendUserDialog();
     try {
-      await suspendUser({id: userId, message, until});
+      await suspendUser({id: userId, until});
       notify(
         'success',
         t('suspenduser.notify_suspend_until', username, timeago(until)),
