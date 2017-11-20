@@ -15,6 +15,7 @@ import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
 import {isCommentActive} from 'coral-framework/utils';
 import {Button, Tab, TabCount, TabPane} from 'coral-ui';
 import cn from 'classnames';
+import get from 'lodash/get';
 
 import {getTopLevelParent, attachCommentToParent} from '../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
@@ -212,8 +213,8 @@ class Stream extends React.Component {
     const {keepCommentBox} = this.state;
     const open = !asset.isClosed;
 
-    const banned = user && user.status.banned.status;
-    const pending = user && user.status.username.status === 'CHANGED' || user.status.username.status === 'SET';
+    const banned = get(user, 'status.banned.status');
+    const pending = get(user, 'status.username.status') === 'CHANGED' || get(user, 'status.username.status') === 'SET';
 
     const temporarilySuspended =
       user &&

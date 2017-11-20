@@ -55,7 +55,6 @@ class User extends React.Component {
                 className={styles.button}>
                 {user.username}
               </button>
-              {console.log(user.status.banned.status, user)}
               {me.id !== user.id &&
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem

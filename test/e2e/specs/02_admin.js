@@ -36,6 +36,7 @@ module.exports = {
 
     adminPage
       .openDrawer()
-        .goToCommunity();
+      .goToCommunity();
+      
   },
 };
