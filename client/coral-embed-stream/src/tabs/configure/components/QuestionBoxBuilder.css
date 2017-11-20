@@ -30,7 +30,6 @@
   margin-right: 10px;
   position: relative;
   border: solid 2px #F0F0F0;
-  transition: border 0.3s cubic-bezier(.4,0,.2,1);
   outline: 0;
 
   &:hover {
