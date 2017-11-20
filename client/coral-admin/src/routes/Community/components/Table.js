@@ -59,7 +59,7 @@ const Table = ({users, setRole, onHeaderClickHandler, setUserBanStatus, viewUser
                 containerClassName="talk-admin-community-people-dd-status"
                 value={getStatus(row.status)}
                 placeholder={t('community.status')}
-                onChange={(status) => setUserBanStatus({id: row.id, status: status !== 'BANNED'})}>
+                onChange={(status) => setUserBanStatus({id: row.id, status: status === 'BANNED'})}>
                 <Option value={'ACTIVE'} label={t('community.active')} />
                 <Option value={'BANNED'} label={t('community.banned')} />
               </Dropdown>

@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {compose} from 'react-apollo';
 import People from '../components/People';
 import PropTypes from 'prop-types';
+import {withSetUserBanStatus} from 'coral-framework/graphql/mutations';
 
 import {viewUserDetail} from '../../../actions/userDetail';
 
@@ -99,4 +101,7 @@ const mapDispatchToProps = (dispatch) =>
     setSearchValue,
   }, dispatch);
 
-export default connect(null, mapDispatchToProps)(PeopleContainer);
+export default compose(
+  connect(null, mapDispatchToProps),
+  withSetUserBanStatus,
+)(PeopleContainer);
