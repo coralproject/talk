@@ -8,6 +8,7 @@ import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import ApproveButton from 'coral-admin/src/components/ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
+import get from 'lodash/get';
 
 const shortReasons = {
   [username.other]: t('community.other'),
@@ -58,12 +59,12 @@ class User extends React.Component {
               {me.id !== user.id &&
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem
-                    disabled={user.status.banned.status === 'BANNED'}
+                    disabled={!get(user, 'status.suspension.until')}
                     onClick={this.showSuspenUserDialog}>
                     Suspend User
                   </ActionsMenuItem>
                   <ActionsMenuItem
-                    disabled={user.status.banned.status === 'BANNED'}
+                    disabled={get(user, 'status.banned.status') === 'BANNED'}
                     onClick={this.showBanUserDialog}>
                     Ban User
                   </ActionsMenuItem>

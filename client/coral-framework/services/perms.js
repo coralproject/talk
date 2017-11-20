@@ -1,4 +1,5 @@
 import intersection from 'lodash/intersection';
+import get from 'lodash/get';
 
 // =========================================================================
 // BASIC PERMISSIONS
@@ -6,8 +7,9 @@ import intersection from 'lodash/intersection';
 
 const basicPerms = {
   'INTERACT_WITH_COMMUNITY': (user) => {
-    const banned = user.status.banned.status;
-    const suspended = user.status.suspension.until && new Date(user.status.suspension.until) > new Date();
+    const banned = get(user, 'status.banned.status');
+    const suspensionUntil = get(user, 'status.suspension.until');
+    const suspended = suspensionUntil && new Date(suspensionUntil) > new Date();
 
     return !banned && !suspended;
   },

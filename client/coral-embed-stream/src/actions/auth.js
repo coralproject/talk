@@ -4,6 +4,7 @@ import * as actions from '../constants/auth';
 import {notify} from 'coral-framework/actions/notification';
 import {can} from 'coral-framework/services/perms';
 import t from 'coral-framework/services/i18n';
+import get from 'lodash/get';
 
 export const showSignInDialog = () => ({
   type: actions.SHOW_SIGNIN_DIALOG,
@@ -322,7 +323,7 @@ export const checkLogin = () => (dispatch, _, {rest, client, pym, storage}) => {
       pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
 
       // Display create username dialog if necessary.
-      if (can(result.user, 'EDIT_NAME') && result.user.status.banned.status) {
+      if (can(result.user, 'EDIT_NAME') && get(result.user, 'status.banned.status')) {
         dispatch(showCreateUsernameDialog());
       }
     })

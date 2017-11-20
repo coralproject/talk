@@ -83,7 +83,7 @@ module.exports = {
 
     adminPage
       .goToCommunity()
-        .goToPeople();
+      .goToPeople();
   },
   'admin removes ban from user': (client) => {
     const people = client.page.admin()

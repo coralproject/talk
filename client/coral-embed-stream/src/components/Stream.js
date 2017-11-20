@@ -23,7 +23,6 @@ import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
 import StreamTabPanel from '../containers/StreamTabPanel';
 
 import styles from './Stream.css';
-import { log } from 'util';
 
 class Stream extends React.Component {
 
@@ -215,11 +214,12 @@ class Stream extends React.Component {
     const open = !asset.isClosed;
 
     const banned = get(user, 'status.banned.status');
-    
+    const suspensionUntil = get(user, 'status.suspension.until');
+
     const temporarilySuspended =
       user &&
-      user.status.suspension.until &&
-      new Date(user.status.suspension.until) > new Date();
+      suspensionUntil &&
+      new Date(suspensionUntil) > new Date();
 
     const showCommentBox = loggedIn && ((!banned & !temporarilySuspended && !highlightedComment) || keepCommentBox);
 
@@ -259,7 +259,7 @@ class Stream extends React.Component {
                   {t(
                     'stream.temporarily_suspended',
                     root.settings.organizationName,
-                    timeago(user.status.suspension.until)
+                    timeago(suspensionUntil)
                   )}
                 </RestrictedMessageBox>}
             {banned &&
