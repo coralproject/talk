@@ -23,6 +23,7 @@ import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
 import StreamTabPanel from '../containers/StreamTabPanel';
 
 import styles from './Stream.css';
+import { log } from 'util';
 
 class Stream extends React.Component {
 
@@ -214,14 +215,14 @@ class Stream extends React.Component {
     const open = !asset.isClosed;
 
     const banned = get(user, 'status.banned.status');
-    const pending = get(user, 'status.username.status') === 'CHANGED' || get(user, 'status.username.status') === 'SET';
-
+    
     const temporarilySuspended =
       user &&
       user.status.suspension.until &&
       new Date(user.status.suspension.until) > new Date();
 
-    const showCommentBox = loggedIn && ((!banned && !pending & !temporarilySuspended && !highlightedComment) || keepCommentBox);
+    const showCommentBox = loggedIn && ((!banned & !temporarilySuspended && !highlightedComment) || keepCommentBox);
+
     const slotProps = {data};
     const slotQueryData = {root, asset};
 
