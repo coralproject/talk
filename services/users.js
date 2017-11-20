@@ -552,43 +552,22 @@ class UsersService {
    * Adds a role to a user.
    * @param  {String}   id   id of a user
    * @param  {String}   role role to add
-   * @param  {Function} done callback after the operation is complete
    */
-  static async addRoleToUser(id, role) {
-    const roles = [];
-
-    // Check to see if the user role is in the allowable set of roles.
-    if (role && USER_ROLES.indexOf(role) === -1) {
-
-      // User role is not supported! Error out here.
-      throw new Error(`role ${role} is not supported`);
-    } else if(role) {
-      roles.push(role);
-    }
-
-    return UserModel.update({id}, {$set: {roles}});
+  static addRoleToUser(id, role) {
+    return UserModel.update({id}, {$addToSet: {roles: role}}, {runValidators: true});
   }
 
   /**
    * Removes a role from a user.
    * @param  {String}   id   id of a user
    * @param  {String}   role role to remove
-   * @param  {Function} done callback after the operation is complete
    */
   static async removeRoleFromUser(id, role) {
-
-    // Check to see if the user role is in the allowable set of roles.
-    if (USER_ROLES.indexOf(role) === -1) {
-
-      // User role is not supported! Error out here.
-      throw new Error(`role ${role} is not supported`);
-    }
-
     return UserModel.update({id}, {
       $pull: {
         roles: role
       }
-    });
+    }, {runValidators: true});
   }
 
   /**

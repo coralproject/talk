@@ -91,7 +91,8 @@ const UserSchema = new Schema({
   // user.
   roles: [{
     type: String,
-    enum: USER_ROLES
+    enum: USER_ROLES,
+    required: true
   }],
 
   // Status stores the user status information regarding permissions,

@@ -289,13 +289,6 @@ function mergeUsers(dstUserID, srcUserID) {
  * @param  {String} role   the role to add
  */
 function addRole(userID, role) {
-
-  if (USER_ROLES.indexOf(role) === -1) {
-    console.error(`Role '${role}' is not supported. Supported roles are ${USER_ROLES.join(', ')}.`);
-    util.shutdown(1);
-    return;
-  }
-
   UsersService
     .addRoleToUser(userID, role)
     .then(() => {
