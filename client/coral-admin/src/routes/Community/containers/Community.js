@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
 import withQuery from 'coral-framework/hocs/withQuery';
 import {getDefinitionName} from 'coral-framework/utils';
-import {withSetUserStatus, withRejectUsername} from 'coral-framework/graphql/mutations';
+import {withSetUserBanStatus, withRejectUsername} from 'coral-framework/graphql/mutations';
 import FlaggedAccounts from '../containers/FlaggedAccounts';
 import FlaggedUser from '../containers/FlaggedUser';
 import {hideRejectUsernameDialog} from '../../../actions/community';
@@ -48,7 +48,7 @@ const withData = withQuery(gql`
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withSetUserStatus,
+  withSetUserBanStatus,
   withRejectUsername,
   withData
 )(Community);

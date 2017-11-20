@@ -11,13 +11,12 @@ import {
   updateSorting,
   setPage,
   hideRejectUsernameDialog,
-  setCommenterStatus,
   setRole,
   setSearchValue,
 } from '../../../actions/community';
 
 class PeopleContainer extends React.Component {
-  timer=null;
+  timer = null;
 
   fetchUsers = (query = {}) => {
     const {community} = this.props;
@@ -70,7 +69,7 @@ class PeopleContainer extends React.Component {
       onHeaderClickHandler={this.onHeaderClickHandler}
       onPageChange={this.onPageChange}
       totalPages={this.props.community.totalPagesPeople}
-      setCommenterStatus={this.props.setCommenterStatus}
+      setUserBanStatus={this.props.setUserBanStatus}
       setRole={this.props.setRole}
       page={this.props.community.pagePeople}
       viewUserDetail={this.props.viewUserDetail}
@@ -83,7 +82,7 @@ PeopleContainer.propTypes = {
   fetchUsers: PropTypes.func,
   updateSorting: PropTypes.func,
   setRole: PropTypes.func.isRequired,
-  setCommenterStatus: PropTypes.func.isRequired,
+  setUserBanStatus: PropTypes.func.isRequired,
   setSearchValue: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
   community: PropTypes.object,
@@ -95,7 +94,6 @@ const mapDispatchToProps = (dispatch) =>
     fetchUsers,
     updateSorting,
     hideRejectUsernameDialog,
-    setCommenterStatus,
     setRole,
     viewUserDetail,
     setSearchValue,

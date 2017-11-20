@@ -8,7 +8,6 @@ export default {
     'SuspendUserResponse',
     'RejectUsernameResponse',
     'CreateCommentResponse',
-    'SetUserStatusResponse',
     'CreateFlagResponse',
     'EditCommentResponse',
     'PostFlagResponse',

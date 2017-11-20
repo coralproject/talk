@@ -7,7 +7,7 @@ export {default as connect} from 'coral-framework/hocs/connect';
 export {default as withEmit} from 'coral-framework/hocs/withEmit';
 export {
   withIgnoreUser,
-  withSetUserStatus,
+  withSetUserBanStatus,
   withStopIgnoringUser,
   withSetCommentStatus,
 } from 'coral-framework/graphql/mutations';

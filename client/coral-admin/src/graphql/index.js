@@ -13,15 +13,15 @@ function mapLeaves(o, mapper) {
 
 export default {
   mutations: {
-    SetUserStatus: ({variables: {status, userId}}) => ({
+    SetUserBanStatus: ({variables: {status, id}}) => ({
       updateQueries: {
         TalkAdmin_Community: (prev) => {
-          if (status !== 'APPROVED') {
+          if (!status) {
             return prev;
           }
           const updated = update(prev, {
             users: {
-              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== userId)},
+              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== id)},
             },
           });
           return updated;

@@ -1,10 +1,11 @@
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {compose} from 'react-apollo';
 import {bindActionCreators} from 'redux';
 import {closeBanDialog, closeMenu} from '../actions';
 import {notify} from 'plugin-api/beta/client/actions/notification';
-import {connect, withSetCommentStatus, withSetUserStatus} from 'plugin-api/beta/client/hocs';
+import {connect, withSetCommentStatus, withSetUserBanStatus} from 'plugin-api/beta/client/hocs';
 import {getErrorMessages} from 'plugin-api/beta/client/utils';
 import BanUserDialog from '../components/BanUserDialog';
 
@@ -19,13 +20,13 @@ class BanUserDialogContainer extends React.Component {
       closeMenu,
       closeBanDialog,
       setCommentStatus,
-      setUserStatus
+      setUserBanStatus
     } = this.props;
 
     try {
-      await setUserStatus({
-        userId: authorId,
-        status: 'BANNED'
+      await setUserBanStatus({
+        id: authorId,
+        status: true,
       });
 
       closeMenu();
@@ -54,23 +55,28 @@ class BanUserDialogContainer extends React.Component {
   }
 }
 
+BanUserDialogContainer.propTypes = {
+  showBanDialog: PropTypes.func,
+  closeBanDialog: PropTypes.func,
+};
+
 const mapStateToProps = ({talkPluginModerationActions: state}) => ({
   showBanDialog: state.showBanDialog,
   commentId: state.commentId,
-  authorId: state.authorId
+  authorId: state.authorId,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     notify,
     closeBanDialog,
-    closeMenu
+    closeMenu,
   }, dispatch);
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withSetCommentStatus,
-  withSetUserStatus
+  withSetUserBanStatus
 );
 
 export default enhance(BanUserDialogContainer);

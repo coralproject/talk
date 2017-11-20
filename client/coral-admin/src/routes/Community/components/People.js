@@ -18,7 +18,7 @@ const People = (props) => {
     totalPages,
     page,
     setRole,
-    setCommenterStatus,
+    setUserBanStatus,
     viewUserDetail,
   } = props;
 
@@ -46,7 +46,7 @@ const People = (props) => {
               users={users}
               setRole={setRole}
               viewUserDetail={viewUserDetail}
-              setCommenterStatus={setCommenterStatus}
+              setUserBanStatus={setUserBanStatus}
               onHeaderClickHandler={onHeaderClickHandler}
               pageCount={totalPages}
               onPageChange={onPageChange}
@@ -67,7 +67,7 @@ People.propTypes = {
   onSearchChange: PropTypes.func,
   totalPages: PropTypes.number,
   onPageChange: PropTypes.func,
-  setCommenterStatus: PropTypes.func.isRequired,
+  setUserBanStatus: PropTypes.func.isRequired,
   setRole: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
 };
