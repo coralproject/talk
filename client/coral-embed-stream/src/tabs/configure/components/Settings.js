@@ -22,8 +22,9 @@ class Settings extends React.Component {
       onToggleQuestionBox,
       onQuestionBoxIconChange,
       onQuestionBoxContentChange,
+      canSave,
+      onApply,
     } = this.props;
-    const changed = false;
     return (
       <div className={styles.wrapper}>
         <div className={styles.container}>
@@ -31,8 +32,9 @@ class Settings extends React.Component {
           <Button
             type="submit"
             className={cn(styles.apply, 'talk-embed-stream-configuration-submit-button')}
-            checked={changed}
-            cStyle={changed ? 'green' : 'darkGrey'}
+            checked={canSave}
+            cStyle={canSave ? 'green' : 'darkGrey'}
+            onClick={onApply}
           >
             {t('configure.apply')}
           </Button>
@@ -77,9 +79,13 @@ class Settings extends React.Component {
 
 Settings.propTypes = {
   settings: PropTypes.object.isRequired,
+  canSave: PropTypes.bool.isRequired,
   onToggleModeration: PropTypes.func.isRequired,
   onTogglePremodLinks: PropTypes.func.isRequired,
   onToggleQuestionBox: PropTypes.func.isRequired,
+  onQuestionBoxContentChange: PropTypes.func.isRequired,
+  onQuestionBoxIconChange: PropTypes.func.isRequired,
+  onApply: PropTypes.func.isRequired,
 };
 
 export default Settings;

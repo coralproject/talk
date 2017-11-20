@@ -56,7 +56,8 @@ class SettingsContainer extends React.Component {
       onToggleQuestionBox={this.toggleQuestionBox}
       onQuestionBoxIconChange={this.setQuestionBoxIcon}
       onQuestionBoxContentChange={this.setQuestionBoxContent}
-
+      onApply={this.savePending}
+      canSave={this.props.canSave}
     />;
   }
 }
@@ -69,6 +70,7 @@ SettingsContainer.propTypes = {
   clearPending: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
   updatePending: PropTypes.func.isRequired,
+  canSave: PropTypes.bool.isRequired,
 };
 
 const withSettingsFragments = withFragments({
