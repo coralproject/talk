@@ -379,6 +379,12 @@ export const withUpdateAssetSettings = withMutation(
             id,
             input,
           },
+          optimisticResponse: {
+            updateAssetStatus: {
+              __typename: 'UpdateAssetSettingsResponse',
+              errors: null,
+            }
+          },
         });
       }}),
   });

@@ -4,6 +4,7 @@ const SettingsService = require('./settings');
 const domainlist = require('./domainlist');
 const errors = require('../errors');
 const merge = require('lodash/merge');
+const {dotize} = require('./utils');
 
 module.exports = class AssetsService {
 
@@ -99,10 +100,9 @@ module.exports = class AssetsService {
    * @return {[type]}          [description]
    */
   static overrideSettings(id, settings) {
+    console.log(settings, dotize({settings}));
     return AssetModel.findOneAndUpdate({id}, {
-      $set: {
-        settings
-      }
+      $set: dotize({settings})
     }, {
       new: true
     });

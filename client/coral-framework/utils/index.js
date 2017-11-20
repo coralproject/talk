@@ -3,7 +3,8 @@ import t from 'coral-framework/services/i18n';
 import union from 'lodash/union';
 import {capitalize} from 'coral-framework/helpers/strings';
 import assignWith from 'lodash/assignWith';
-export * from 'coral-framework/helpers/strings';
+import mapValues from 'lodash/mapValues';
+export * from 'coral-framework/helpers/strings'
 
 export const getTotalActionCount = (type, comment) => {
   return comment.action_summaries
@@ -207,3 +208,12 @@ export function mergeExcludingArrays(objValue, srcValue) {
   return srcValue;
 }
 
+// Map nested object leaves. Array objects are considered leaves.
+export function mapLeaves(o, mapper) {
+  return mapValues(o, (val) => {
+    if (typeof val === 'object' && !Array.isArray(val)) {
+      return mapLeaves(val, mapper);
+    }
+    return mapper(val);
+  });
+}
