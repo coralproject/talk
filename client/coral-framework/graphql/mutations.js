@@ -196,16 +196,16 @@ export const withRejectUsername = withMutation(
     })
   });
 
-export const withSetUsername = withMutation(
+export const withChangeUsername = withMutation(
   gql`
-    mutation RejectUsername($id: ID!, $username: String!) {
-      setUsername(id: $id, username: $username) {
-        ...SetUsernameResponse
+    mutation ChangeUsername($id: ID!, $username: String!) {
+      changeUsername(id: $id, username: $username) {
+        ...ChangeUsernameResponse
       }
     }
   `, {
     props: ({mutate}) => ({
-      setUsername: (id, username) => {
+      changeUsername: (id, username) => {
         return mutate({
           variables: {
             id,

@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import errorMsj from 'coral-framework/helpers/error';
 import validate from 'coral-framework/helpers/validate';
 import CreateUsernameDialog from './CreateUsernameDialog';
-import {withSetUsername} from 'coral-framework/graphql/mutations';
+import {withChangeUsername} from 'coral-framework/graphql/mutations';
 import {compose} from 'react-apollo';
 
 import t from 'coral-framework/services/i18n';
@@ -94,8 +94,9 @@ class ChangeUsernameContainer extends React.Component {
     const {errors, formData: {username}} = this.state;
     const {validForm, invalidForm} = this.props;
     this.displayErrors();
+
     if (this.isCompleted() && !Object.keys(errors).length) {
-      this.props.setUsername(this.props.auth.user.id, username);
+      this.props.changeUsername(this.props.auth.user.id, username);
       validForm();
     } else {
       invalidForm(t('createdisplay.check_the_form'));
@@ -131,7 +132,7 @@ ChangeUsernameContainer.propTypes = {
   validForm: PropTypes.func,
   invalidForm: PropTypes.func,
   loggedIn: PropTypes.bool,
-  setUsername: PropTypes.func,
+  changeUsername: PropTypes.func,
 };
 
 const mapStateToProps = ({auth}) => ({
@@ -151,6 +152,6 @@ const mapDispatchToProps = (dispatch) =>
   );
 
 export default compose(
-  withSetUsername,
+  withChangeUsername,
   connect(mapStateToProps, mapDispatchToProps),
 )(ChangeUsernameContainer);
