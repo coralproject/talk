@@ -4,7 +4,7 @@ import union from 'lodash/union';
 import {capitalize} from 'coral-framework/helpers/strings';
 import assignWith from 'lodash/assignWith';
 import mapValues from 'lodash/mapValues';
-export * from 'coral-framework/helpers/strings'
+export * from 'coral-framework/helpers/strings';
 
 export const getTotalActionCount = (type, comment) => {
   return comment.action_summaries

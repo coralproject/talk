@@ -380,7 +380,7 @@ export const withUpdateAssetSettings = withMutation(
             input,
           },
           optimisticResponse: {
-            updateAssetStatus: {
+            updateAssetSettings: {
               __typename: 'UpdateAssetSettingsResponse',
               errors: null,
             }

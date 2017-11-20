@@ -11,7 +11,7 @@ import RestrictedMessageBox
   from 'coral-framework/components/RestrictedMessageBox';
 import t, {timeago} from 'coral-framework/services/i18n';
 import CommentBox from 'talk-plugin-commentbox/CommentBox';
-import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
+import QuestionBox from '../../../components/QuestionBox';
 import {isCommentActive} from 'coral-framework/utils';
 import {Button, Tab, TabCount, TabPane} from 'coral-ui';
 import cn from 'classnames';

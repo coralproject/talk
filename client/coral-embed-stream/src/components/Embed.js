@@ -12,8 +12,6 @@ import {Tab, TabPane} from 'coral-ui';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import Popup from 'coral-framework/components/Popup';
 import IfSlotIsNotEmpty from 'coral-framework/components/IfSlotIsNotEmpty';
-import ConfigureStreamContainer
-  from 'coral-configure/containers/ConfigureStreamContainer';
 import cn from 'classnames';
 
 export default class Embed extends React.Component {
@@ -22,9 +20,6 @@ export default class Embed extends React.Component {
     // TODO: move data fetching to appropiate containers.
     switch (tab) {
     case 'profile':
-      this.props.data.refetch();
-      break;
-    case 'config':
       this.props.data.refetch();
       break;
     }
@@ -43,12 +38,7 @@ export default class Embed extends React.Component {
     ];
     if (can(user, 'UPDATE_CONFIG')) {
       tabs.push(
-        <Tab key='config' tabId='config' className='talk-embed-stream-configuration-tab'>
-          {t('framework.configure_stream')}
-        </Tab>
-      );
-      tabs.push(
-        <Tab key='config2' tabId='config2'>
+        <Tab key='config' tabId='config'>
           {t('framework.configure_stream')}
         </Tab>
       );
@@ -101,9 +91,6 @@ export default class Embed extends React.Component {
               <ProfileContainer />
             </TabPane>,
             <TabPane key='config' tabId='config' className='talk-embed-stream-configuration-tab-pane'>
-              <ConfigureStreamContainer />
-            </TabPane>,
-            <TabPane key='config2' tabId='config2' className='talk-embed-stream-configuration2-tab-pane'>
               <Configure data={data} root={root} asset={root.asset} />
             </TabPane>,
           ]}
