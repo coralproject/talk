@@ -200,7 +200,7 @@ class Stream extends React.Component {
     const {
       data,
       root,
-      appendItemArray,
+      appendItemArray,  
       root: {asset, asset: {comment: highlightedComment}},
       postComment,
       notify,
@@ -212,7 +212,7 @@ class Stream extends React.Component {
     const {keepCommentBox} = this.state;
     const open = !asset.isClosed;
 
-    const banned = user && user.status.banned;
+    const banned = user && user.status.banned.status;
     const pending = user && user.status.username.status === 'CHANGED' || user.status.username.status === 'SET';
 
     const temporarilySuspended =
