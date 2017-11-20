@@ -56,7 +56,7 @@ class BanUserDialogContainer extends React.Component {
 }
 
 BanUserDialogContainer.propTypes = {
-  showBanDialog: PropTypes.func,
+  showBanDialog: PropTypes.bool,
   closeBanDialog: PropTypes.func,
 };
 
