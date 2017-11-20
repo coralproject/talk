@@ -212,8 +212,8 @@ class Stream extends React.Component {
     const {keepCommentBox} = this.state;
     const open = !asset.isClosed;
 
-    const banned = user && user.status === 'BANNED';
-    const pending = user && user.status === 'PENDING';
+    const banned = user && user.status.banned;
+    const pending = user && user.status.username.status === 'CHANGED' || user.status.username.status === 'SET';
 
     const temporarilySuspended =
       user &&
