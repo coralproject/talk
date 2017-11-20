@@ -1,0 +1,27 @@
+.root {
+  position: relative;
+  margin: 12px 12px 12px 0;
+}
+
+.action {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-left: 4px;
+}
+
+.title {
+  font-size: 14px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.content {
+  display: inline-block;
+  padding: 0px 50px;
+  box-sizing: border-box;
+}
+
+

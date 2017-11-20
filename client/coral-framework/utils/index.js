@@ -2,6 +2,7 @@ import {gql} from 'react-apollo';
 import t from 'coral-framework/services/i18n';
 import union from 'lodash/union';
 import {capitalize} from 'coral-framework/helpers/strings';
+import assignWith from 'lodash/assignWith';
 export * from 'coral-framework/helpers/strings';
 
 export const getTotalActionCount = (type, comment) => {
@@ -197,3 +198,12 @@ export function getTotalReactionsCount(actionSummaries) {
     .filter(({__typename}) => !NOT_REACTION_TYPES.includes(__typename))
     .reduce((total, {count}) => total + count, 0);
 }
+
+// Like lodash merge but does not recurse into arrays.
+export function mergeExcludingArrays(objValue, srcValue) {
+  if (typeof srcValue === 'object' && !Array.isArray(srcValue)) {
+    return assignWith({}, objValue, srcValue, mergeExcludingArrays);
+  }
+  return srcValue;
+}
+
