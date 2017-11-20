@@ -1,6 +1,6 @@
 .root {
   position: relative;
-  margin: 12px 12px 12px 0;
+  margin: 12px 12px 24px 0;
 }
 
 .action {
@@ -12,16 +12,22 @@
 }
 
 .title {
+  display: block;
   font-size: 14px;
   margin-bottom: 5px;
   font-weight: bold;
   cursor: pointer;
+  padding-right: 50px;
+}
+
+.description{
+  padding-right: 50px;
 }
 
 .content {
   display: inline-block;
-  padding: 0px 50px;
   box-sizing: border-box;
+  padding-left: 50px;
 }
 
 

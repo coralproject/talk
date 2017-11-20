@@ -1,0 +1,20 @@
+.iconBubble{
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  color: #9E9E9E;
+  font-size: 24px;
+  z-index: 0;
+}
+
+.iconPerson{
+  z-index: 2;
+  top: 12px;
+  left: 12px;
+  position: absolute;
+  font-size: 33px;
+  color: #262626;
+}
+
+.root {
+}

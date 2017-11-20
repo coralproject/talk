@@ -10,7 +10,7 @@ class Configuration extends React.Component {
   id = uuid();
 
   render() {
-    const {title, children, className, onCheckbox, checked, ...rest} = this.props;
+    const {title, description, children, className, onCheckbox, checked, ...rest} = this.props;
     return (
       <div {...rest} className={cn(styles.root, className)}>
         {checked !== undefined &&
@@ -26,6 +26,7 @@ class Configuration extends React.Component {
           [styles.content]: checked !== undefined,
         })}>
           <label htmlFor={this.id} className={styles.title}>{title}</label>
+          <div className={styles.description}>{description}</div>
           <div>
             {children}
           </div>
@@ -37,6 +38,7 @@ class Configuration extends React.Component {
 
 Configuration.propTypes = {
   title: PropTypes.string.isRequired,
+  description: PropTypes.string,
   className: PropTypes.string,
   onCheckbox: PropTypes.func,
   checked: PropTypes.bool,

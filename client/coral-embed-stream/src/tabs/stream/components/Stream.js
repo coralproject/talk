@@ -252,7 +252,14 @@ class Stream extends React.Component {
               content={asset.settings.questionBoxContent}
               enable={asset.settings.questionBoxEnable}
               icon={asset.settings.questionBoxIcon}
-            />
+            >
+              <Slot
+                fill="streamQuestionArea"
+                queryData={slotQueryData}
+                {...slotProps}
+              />
+            </QuestionBox>
+
             {!banned &&
                 temporarilySuspended &&
                 <RestrictedMessageBox>

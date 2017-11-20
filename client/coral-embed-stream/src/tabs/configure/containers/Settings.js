@@ -22,6 +22,21 @@ class SettingsContainer extends React.Component {
     this.props.updatePending({updater});
   };
 
+  toggleQuestionBox = () => {
+    const updater = {questionBoxEnable: {$set: !this.props.mergedSettings.questionBoxEnable}};
+    this.props.updatePending({updater});
+  };
+
+  setQuestionBoxIcon = (icon) => {
+    const updater = {questionBoxIcon: {$set: icon}};
+    this.props.updatePending({updater});
+  };
+
+  setQuestionBoxContent = (content) => {
+    const updater = {questionBoxContent: {$set: content}};
+    this.props.updatePending({updater});
+  };
+
   savePending = async () => {
     try {
       await this.props.updateAssetSettings(this.props.asset.id, this.props.pending);
@@ -36,8 +51,12 @@ class SettingsContainer extends React.Component {
     return <Settings
       settings={this.props.mergedSettings}
       savePending={this.savePending}
-      toggleModeration={this.toggleModeration}
-      togglePremodLinks={this.togglePremodLinks}
+      onToggleModeration={this.toggleModeration}
+      onTogglePremodLinks={this.togglePremodLinks}
+      onToggleQuestionBox={this.toggleQuestionBox}
+      onQuestionBoxIconChange={this.setQuestionBoxIcon}
+      onQuestionBoxContentChange={this.setQuestionBoxContent}
+
     />;
   }
 }
@@ -59,6 +78,9 @@ const withSettingsFragments = withFragments({
       settings {
         moderation
         premodLinksEnable
+        questionBoxEnable
+        questionBoxIcon
+        questionBoxContent
       }
     }
   `,

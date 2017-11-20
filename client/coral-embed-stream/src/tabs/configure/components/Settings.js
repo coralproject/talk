@@ -5,10 +5,24 @@ import t from 'coral-framework/services/i18n';
 import cn from 'classnames';
 import styles from './Settings.css';
 import Configuration from './Configuration';
+import QuestionBoxBuilder from './QuestionBoxBuilder';
 
 class Settings extends React.Component {
   render() {
-    const {settings: {moderation, premodLinksEnable}, toggleModeration, togglePremodLinks} = this.props;
+    const {
+      settings: {
+        moderation,
+        premodLinksEnable,
+        questionBoxEnable,
+        questionBoxContent,
+        questionBoxIcon,
+      },
+      onToggleModeration,
+      onTogglePremodLinks,
+      onToggleQuestionBox,
+      onQuestionBoxIconChange,
+      onQuestionBoxContentChange,
+    } = this.props;
     const changed = false;
     return (
       <div className={styles.wrapper}>
@@ -28,16 +42,32 @@ class Settings extends React.Component {
           <Configuration
             checked={moderation === 'PRE'}
             title={t('configure.enable_premod')}
-            onCheckbox={toggleModeration}
-          >
-            {t('configure.enable_premod_description')}
-          </Configuration>
+            description={t('configure.enable_premod_description')}
+            onCheckbox={onToggleModeration}
+          />
           <Configuration
             checked={premodLinksEnable}
             title={t('configure.enable_premod_links')}
-            onCheckbox={togglePremodLinks}
+            description={t('configure.enable_premod_description')}
+            onCheckbox={onTogglePremodLinks}
+          />
+          <Configuration
+            checked={questionBoxEnable}
+            title={t('configure.enable_questionbox')}
+            description={t('configure.enable_questionbox_description')}
+            onCheckbox={onToggleQuestionBox}
           >
-            {t('configure.enable_premod_description')}
+            {
+              questionBoxEnable &&
+                <div className={styles.questionBoxContainer}>
+                  <QuestionBoxBuilder
+                    questionBoxIcon={questionBoxIcon}
+                    questionBoxContent={questionBoxContent}
+                    onIconChange={onQuestionBoxIconChange}
+                    onContentChange={onQuestionBoxContentChange}
+                  />
+                </div>
+            }
           </Configuration>
         </div>
       </div>
@@ -47,8 +77,9 @@ class Settings extends React.Component {
 
 Settings.propTypes = {
   settings: PropTypes.object.isRequired,
-  toggleModeration: PropTypes.func.isRequired,
-  togglePremodLinks: PropTypes.func.isRequired,
+  onToggleModeration: PropTypes.func.isRequired,
+  onTogglePremodLinks: PropTypes.func.isRequired,
+  onToggleQuestionBox: PropTypes.func.isRequired,
 };
 
 export default Settings;
