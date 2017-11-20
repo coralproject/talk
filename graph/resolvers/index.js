@@ -22,6 +22,7 @@ const TagLink = require('./tag_link');
 const Tag = require('./tag');
 const UserError = require('./user_error');
 const User = require('./user');
+const UserState = require('./user_state');
 const ValidationUserError = require('./validation_user_error');
 
 const plugins = require('../../services/plugins');
@@ -49,6 +50,7 @@ let resolvers = {
   Tag,
   UserError,
   User,
+  UserState,
   ValidationUserError,
 };
 
