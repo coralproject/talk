@@ -28,7 +28,7 @@ export default {
         }
       }
     }),
-    RejectUsername: ({variables: {input: {id: userId}}})  => ({
+    RejectUsername: ({variables: {id: userId}})  => ({
       updateQueries: {
         TalkAdmin_Community: (prev) => {
           const updated = update(prev, {

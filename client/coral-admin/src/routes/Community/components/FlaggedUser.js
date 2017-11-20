@@ -59,7 +59,7 @@ class User extends React.Component {
               {me.id !== user.id &&
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem
-                    disabled={!get(user, 'status.suspension.until')}
+                    disabled={get(user, 'status.suspension.until')}
                     onClick={this.showSuspenUserDialog}>
                     Suspend User
                   </ActionsMenuItem>

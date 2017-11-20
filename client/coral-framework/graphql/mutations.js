@@ -179,17 +179,17 @@ export const withSuspendUser = withMutation(
 
 export const withRejectUsername = withMutation(
   gql`
-    mutation RejectUsername($input: RejectUsernameInput!) {
-      rejectUsername(input: $input) {
-        ...RejectUsernameResponse
+    mutation RejectUsername($id: ID!) {
+      rejectUsername(id: $id) {
+        ...SetUsernameStatusResponse
       }
     }
   `, {
     props: ({mutate}) => ({
-      rejectUsername: (input) => {
+      rejectUsername: (id) => {
         return mutate({
           variables: {
-            input,
+            id,
           },
         });
       }
