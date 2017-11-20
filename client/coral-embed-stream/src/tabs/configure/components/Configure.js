@@ -8,6 +8,8 @@ class Configure extends React.Component {
     return (
       <div className='talk-embed-stream-configuration-container'>
         <Settings
+          data={this.props.data}
+          root={this.props.root}
           asset={this.props.asset}
         />
         <hr />

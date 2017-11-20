@@ -1,7 +1,7 @@
 import React from 'react';
 import {gql, compose} from 'react-apollo';
 import {withFragments, withMergedSettings} from 'coral-framework/hocs';
-import {getErrorMessages} from 'coral-framework/utils';
+import {getErrorMessages, getSlotFragmentSpreads} from 'coral-framework/utils';
 import Settings from '../components/Settings.js';
 import PropTypes from 'prop-types';
 import {withUpdateAssetSettings} from 'coral-framework/graphql/mutations';
@@ -9,6 +9,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {notify} from 'coral-framework/actions/notification';
 import {clearPending, updatePending} from '../../../actions/configure';
+
+const slots = [
+  'streamSettings',
+];
 
 class SettingsContainer extends React.Component {
 
@@ -48,8 +52,11 @@ class SettingsContainer extends React.Component {
   };
 
   render() {
+    const {mergedSettings, canSave, data, root, asset} = this.props;
     return <Settings
-      settings={this.props.mergedSettings}
+      settings={mergedSettings}
+      queryData={{root, asset, settings: mergedSettings}}
+      slotProps={{data}}
       savePending={this.savePending}
       onToggleModeration={this.toggleModeration}
       onTogglePremodLinks={this.togglePremodLinks}
@@ -57,12 +64,14 @@ class SettingsContainer extends React.Component {
       onQuestionBoxIconChange={this.setQuestionBoxIcon}
       onQuestionBoxContentChange={this.setQuestionBoxContent}
       onApply={this.savePending}
-      canSave={this.props.canSave}
+      canSave={canSave}
     />;
   }
 }
 
 SettingsContainer.propTypes = {
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
   asset: PropTypes.object.isRequired,
   pending: PropTypes.object.isRequired,
   mergedSettings: PropTypes.object.isRequired,
@@ -74,6 +83,12 @@ SettingsContainer.propTypes = {
 };
 
 const withSettingsFragments = withFragments({
+  root: gql`
+    fragment CoralEmbedStream_Settings_root on RootQuery {
+      __typename
+      ${getSlotFragmentSpreads(slots, 'root')}
+    }
+  `,
   asset: gql`
     fragment CoralEmbedStream_Settings_asset on Asset {
       id
@@ -83,7 +98,9 @@ const withSettingsFragments = withFragments({
         questionBoxEnable
         questionBoxIcon
         questionBoxContent
+        ${getSlotFragmentSpreads(slots, 'settings')}
       }
+      ${getSlotFragmentSpreads(slots, 'asset')}
     }
   `,
 });

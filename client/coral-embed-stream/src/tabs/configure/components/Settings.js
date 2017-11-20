@@ -6,6 +6,7 @@ import cn from 'classnames';
 import styles from './Settings.css';
 import Configuration from './Configuration';
 import QuestionBoxBuilder from './QuestionBoxBuilder';
+import Slot from 'coral-framework/components/Slot';
 
 class Settings extends React.Component {
   render() {
@@ -24,6 +25,8 @@ class Settings extends React.Component {
       onQuestionBoxContentChange,
       canSave,
       onApply,
+      slotProps,
+      queryData,
     } = this.props;
     return (
       <div className={styles.wrapper}>
@@ -35,6 +38,7 @@ class Settings extends React.Component {
             checked={canSave}
             cStyle={canSave ? 'green' : 'darkGrey'}
             onClick={onApply}
+            disabled={!canSave}
           >
             {t('configure.apply')}
           </Button>
@@ -71,6 +75,11 @@ class Settings extends React.Component {
                 </div>
             }
           </Configuration>
+          <Slot
+            fill="streamSettings"
+            queryData={queryData}
+            {...slotProps}
+          />
         </div>
       </div>
     );
@@ -78,6 +87,8 @@ class Settings extends React.Component {
 }
 
 Settings.propTypes = {
+  queryData: PropTypes.object.isRequired,
+  slotProps: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   canSave: PropTypes.bool.isRequired,
   onToggleModeration: PropTypes.func.isRequired,
