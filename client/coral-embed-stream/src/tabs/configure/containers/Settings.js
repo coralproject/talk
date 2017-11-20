@@ -17,6 +17,11 @@ class SettingsContainer extends React.Component {
     this.props.updatePending({updater});
   };
 
+  togglePremodLinks = () => {
+    const updater = {premodLinksEnable: {$set: !this.props.mergedSettings.premodLinksEnable}};
+    this.props.updatePending({updater});
+  };
+
   savePending = async () => {
     try {
       await this.props.updateAssetSettings(this.props.asset.id, this.props.pending);
@@ -32,6 +37,7 @@ class SettingsContainer extends React.Component {
       settings={this.props.mergedSettings}
       savePending={this.savePending}
       toggleModeration={this.toggleModeration}
+      togglePremodLinks={this.togglePremodLinks}
     />;
   }
 }
@@ -52,6 +58,7 @@ const withSettingsFragments = withFragments({
       id
       settings {
         moderation
+        premodLinksEnable
       }
     }
   `,

@@ -8,7 +8,7 @@ import Configuration from './Configuration';
 
 class Settings extends React.Component {
   render() {
-    const {settings: {moderation}, toggleModeration} = this.props;
+    const {settings: {moderation, premodLinksEnable}, toggleModeration, togglePremodLinks} = this.props;
     const changed = false;
     return (
       <div className={styles.wrapper}>
@@ -32,6 +32,13 @@ class Settings extends React.Component {
           >
             {t('configure.enable_premod_description')}
           </Configuration>
+          <Configuration
+            checked={premodLinksEnable}
+            title={t('configure.enable_premod_links')}
+            onCheckbox={togglePremodLinks}
+          >
+            {t('configure.enable_premod_description')}
+          </Configuration>
         </div>
       </div>
     );
@@ -41,6 +48,7 @@ class Settings extends React.Component {
 Settings.propTypes = {
   settings: PropTypes.object.isRequired,
   toggleModeration: PropTypes.func.isRequired,
+  togglePremodLinks: PropTypes.func.isRequired,
 };
 
 export default Settings;
