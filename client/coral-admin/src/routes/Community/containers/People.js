@@ -63,6 +63,11 @@ class PeopleContainer extends React.Component {
     this.fetchUsers({page});
   }
 
+  setUserBanStatus = async (input) => {
+    await this.props.setUserBanStatus(input);
+    this.fetchUsers();
+  } 
+
   render() {
     return <People
       users={this.props.community.users}
@@ -71,7 +76,7 @@ class PeopleContainer extends React.Component {
       onHeaderClickHandler={this.onHeaderClickHandler}
       onPageChange={this.onPageChange}
       totalPages={this.props.community.totalPagesPeople}
-      setUserBanStatus={this.props.setUserBanStatus}
+      setUserBanStatus={this.setUserBanStatus}
       setRole={this.props.setRole}
       page={this.props.community.pagePeople}
       viewUserDetail={this.props.viewUserDetail}
