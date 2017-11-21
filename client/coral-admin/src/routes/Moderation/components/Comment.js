@@ -120,11 +120,11 @@ class Comment extends React.Component {
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
                     onClick={this.showSuspendUserDialog}>
-                    Suspend User</ActionsMenuItem>
+                    {t('common.suspend')}</ActionsMenuItem>
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
                     onClick={this.showBanUserDialog}>
-                    Ban User
+                    {t('common.ban')}
                   </ActionsMenuItem>
                 </ActionsMenu>
               }
@@ -143,7 +143,7 @@ class Comment extends React.Component {
           </div>
 
           <div className={styles.moderateArticle}>
-            Story: {comment.asset.title}
+            {t('common.story')}: {comment.asset.title}
             {!currentAsset &&
               <Link to={`/admin/moderate/${comment.asset.id}`}>{t('modqueue.moderate')}</Link>}
           </div>

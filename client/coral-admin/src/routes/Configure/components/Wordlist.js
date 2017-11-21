@@ -10,7 +10,7 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
       <p>{t('configure.banned_word_text')}</p>
       <TagsInput
         value={bannedWords}
-        inputProps={{placeholder: 'word or phrase'}}
+        inputProps={{placeholder: t('configure.word_or_phrase')}}
         onChange={(tags) => onChangeWordlist('banned', tags)}
       />
     </ConfigureCard>
@@ -18,7 +18,7 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
       <p>{t('configure.suspect_word_text')}</p>
       <TagsInput
         value={suspectWords}
-        inputProps={{placeholder: 'word or phrase'}}
+        inputProps={{placeholder: t('configure.word_or_phrase')}}
         onChange={(tags) => onChangeWordlist('suspect', tags)} />
     </ConfigureCard>
   </div>

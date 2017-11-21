@@ -47,6 +47,15 @@ en:
     reaction: 'reaction'
     reactions: 'reactions'
     story: 'Story'
+    suspend: 'Suspend User'
+    ban: 'Ban User'
+    recent_stories: "Most Recent Stories"
+    search_results: "Search Results"
+    search: "Search"
+    no_results: "No results"
+    author: "By"
+    open: Open
+    closed: Closed
   community:
     account_creation_date: "Account Creation Date"
     active: Active
@@ -97,6 +106,7 @@ en:
     comment_stream_will_close: "The comment stream will close"
     community: Community
     configure: Configure
+    word_or_phrase: "word or pharse"
     copy_and_paste: "Copy and paste code below into your CMS to embed your comment box in your articles"
     custom_css_url: "Custom CSS URL"
     custom_css_url_desc: "URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external."
@@ -131,6 +141,8 @@ en:
     require_email_verification_text: "New Users must verify their email before commenting"
     save_changes: "Save Changes"
     shortcuts: Shortcuts
+    view_latest: "View latest version"
+    report_bug: "Report a bug or give feedback"
     sign_out: "Sign Out"
     stories: Stories
     stream_settings: "Stream Settings"
@@ -296,6 +308,7 @@ en:
     thousand: k
     try_these: "Try these"
     view_more_shortcuts: "View more shortcuts"
+    moderate_all_stories: "Moderate comments on All Stories"
   my_comment_history: "My comment History"
   name: Name
   no_agree_comment: "I don't agree with this comment"
@@ -343,6 +356,8 @@ en:
     sort_by: "Sort By"
     status: "Stream Status"
     stream_status: "Stream Status"
+    view_options: "View Options"
+    sort_comments: "Sort Comments"
   suspenduser:
     title_suspend: "Suspend User"
     description_suspend: "You are suspending {0}. This comment will go to the Rejected queue, and {0} will not be allowed to like, report, reply or post until the suspension time is complete."
@@ -402,3 +417,16 @@ en:
       description: "Thanks for installing Talk! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now."
       launch: "Launch Talk"
       close: "Close this Installer"
+  user_details:
+    member_since: "Member Since"
+    total_comments: "Total Comments"
+    reject_rate: "Reject Rate"
+    reports: "Reports"
+    comments_selected: "comments selected"
+    select_all: "Select all"
+    all: "All"
+    rejected: "Rejected"
+  reliability:
+    neutral: neutral
+    reliable: reliable
+    unreliable: unreliable

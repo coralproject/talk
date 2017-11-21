@@ -60,12 +60,12 @@ class User extends React.Component {
                   <ActionsMenuItem
                     disabled={user.status === 'BANNED'}
                     onClick={this.showSuspenUserDialog}>
-                    Suspend User
+                    {t('common.suspend')}
                   </ActionsMenuItem>
                   <ActionsMenuItem
                     disabled={user.status === 'BANNED'}
                     onClick={this.showBanUserDialog}>
-                    Ban User
+                    {t('common.ban')}
                   </ActionsMenuItem>
                 </ActionsMenu>
               }

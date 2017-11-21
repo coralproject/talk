@@ -5,6 +5,7 @@ import Slot from 'coral-framework/components/Slot';
 import FlagLabel from 'coral-ui/components/FlagLabel';
 import cn from 'classnames';
 import styles from './CommentLabels.css';
+import t from 'coral-framework/services/i18n';
 
 const staffRoles = ['ADMIN', 'STAFF', 'MODERATOR'];
 
@@ -33,8 +34,8 @@ const CommentLabels = ({comment, comment: {className, status, actions, hasParent
   return (
     <div className={cn(className, styles.root)}>
       <div className={styles.coreLabels}>
-        {hasParent && <Label iconName="reply" className={styles.replyLabel}>reply</Label>}
-        {status === 'PREMOD' && <Label iconName="query_builder" className={styles.premodLabel}>Pre-Mod</Label>}
+        {hasParent && <Label iconName="reply" className={styles.replyLabel}>{t('common.reply')}</Label>}
+        {status === 'PREMOD' && <Label iconName="query_builder" className={styles.premodLabel}>{t('modqueue.premod')}</Label>}
         {isUserFlagged(actions) && <FlagLabel iconName="person">{getUserFlaggedType(actions)}</FlagLabel>}
         {hasSuspectedWords(actions) && <FlagLabel iconName="sms_failed">Suspect</FlagLabel>}
         {hasHistoryFlag(actions) && <FlagLabel iconName="sentiment_very_dissatisfied">History</FlagLabel>}
