@@ -361,15 +361,15 @@ en:
     email_message_suspend: "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}."
     title_notify: "Notify the user of their temporary suspension"
     notify_suspend_until: "User {0} has been temporarily suspended. This suspension will automatically end {1}."
-    description_notify: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
+    description_notify: "Suspending this user will temporarily disable their account."
     write_message: "Write a message"
     send: Send
   reject_username:
     username: username
     no_cancel: "No cancel"
-    description_reject: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
+    description_reject: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily suspend this user until they rewrite their {0}."
     title_notify: "Notify the user of their temporary suspension"
-    description_notify: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
+    description_notify: "Suspending this user will temporarily disable their account."
     title_reject: "We noticed you rejected a username"
     suspend_user: "Suspend User"
     yes_suspend: "Yes suspend"
