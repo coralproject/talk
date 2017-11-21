@@ -13,7 +13,7 @@ import t, {timeago} from 'coral-framework/services/i18n';
 import CommentBox from 'talk-plugin-commentbox/CommentBox';
 import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
 import {isCommentActive} from 'coral-framework/utils';
-import {Button, Tab, TabCount, TabPane} from 'coral-ui';
+import {Tab, TabCount, TabPane} from 'coral-ui';
 import cn from 'classnames';
 
 import {getTopLevelParent, attachCommentToParent} from '../graphql/utils';
@@ -58,6 +58,7 @@ class Stream extends React.Component {
       loadNewReplies,
       auth: {user},
       emit,
+      viewAllComments,
     } = this.props;
 
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
@@ -76,6 +77,14 @@ class Stream extends React.Component {
 
     return (
       <div className={cn('talk-stream-highlighted-container', styles.highlightedContainer)}>
+        <div className={cn('talk-stream-show-all-comments-button-container', styles.viewAllButtonContainer)}>
+          <button
+            className={cn('talk-stream-show-all-comments-button', styles.viewAllButton)}
+            onClick={viewAllComments}
+          >
+            {t('framework.show_all_comments')}
+          </button>
+        </div>
         <Comment
           data={data}
           root={root}
@@ -205,7 +214,6 @@ class Stream extends React.Component {
       postComment,
       notify,
       updateItem,
-      viewAllComments,
       auth: {loggedIn, user},
       editName,
     } = this.props;
@@ -231,15 +239,6 @@ class Stream extends React.Component {
     return (
       <div id="stream" className={styles.root}>
         <AutomaticAssetClosure assetId={asset.id} closedAt={asset.closedAt}/>
-        {highlightedComment &&
-          <Button
-            cStyle="darkGrey"
-            className={cn('talk-stream-show-all-comments-button', styles.viewAllButton)}
-            onClick={viewAllComments}
-          >
-            {t('framework.show_all_comments')}
-          </Button>}
-
         {open
           ? <div id="commentBox">
             <InfoBox
@@ -325,7 +324,7 @@ Stream.propTypes = {
   loading: PropTypes.bool,
   editName: PropTypes.func,
   appendItemArray: PropTypes.func,
-  updateItem: PropTypes.func, 
+  updateItem: PropTypes.func,
   viewAllComments: PropTypes.func,
   notify: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
