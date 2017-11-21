@@ -31,7 +31,7 @@ class TechSettings extends React.Component {
   };
 
   render() {
-    const {settings, data, root} = this.props;
+    const {settings, data, root, errors, updatePending} = this.props;
     return (
       <ConfigurePage
         title={t('configure.tech_settings')}
@@ -51,6 +51,8 @@ class TechSettings extends React.Component {
           fill="adminTechSettings"
           data={data}
           queryData={{root, settings}}
+          updatePending={updatePending}
+          errors={errors}
         />
       </ConfigurePage>
     );
@@ -59,6 +61,7 @@ class TechSettings extends React.Component {
 
 TechSettings.propTypes = {
   updatePending: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
