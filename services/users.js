@@ -3,14 +3,15 @@ const bcrypt = require('bcryptjs');
 const errors = require('../errors');
 const some = require('lodash/some');
 const merge = require('lodash/merge');
-const events = require('./events');
 const timeago = require('./timeago');
 
 const {
+  USERS_NEW,
   USERS_SUSPENSION_CHANGE,
   USERS_BAN_CHANGE,
   USERS_USERNAME_STATUS_CHANGE,
 } = require('./events/constants');
+const events = require('./events');
 
 const {
   ROOT_URL
@@ -23,7 +24,6 @@ const {
 const debug = require('debug')('talk:services:users');
 
 const UserModel = require('../models/user');
-const USER_ROLES = require('../models/enum/user_roles');
 
 const RECAPTCHA_WINDOW = '10m'; // 10 minutes.
 const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha will be required.
@@ -347,43 +347,47 @@ class UsersService {
    * @param  {Object}   profile - User social/external profile
    * @param  {Function} done    [description]
    */
-  static findOrCreateExternalUser({id, provider, displayName}) {
-    return UserModel
-      .findOne({
-        profiles: {
-          $elemMatch: {
-            id,
-            provider
+  static async findOrCreateExternalUser({id, provider, displayName}) {
+    let user = await UserModel.findOne({
+      profiles: {
+        $elemMatch: {
+          id,
+          provider
+        }
+      }
+    });
+    if (user) {
+      return user;
+    }
+
+    // User does not exist and need to be created.
+
+    // Create an initial username for the user.
+    let username = UsersService.castUsername(displayName);
+
+    // The user was not found, lets create them!
+    user = new UserModel({
+      username,
+      lowercaseUsername: username.toLowerCase(),
+      roles: [],
+      profiles: [{id, provider}],
+      status: {
+        username: {
+          status: 'UNSET',
+          history: {
+            status: 'UNSET'
           }
         }
-      })
-      .then((user) => {
-        if (user) {
-          return user;
-        }
+      }
+    });
 
-        // User does not exist and need to be created.
+    // Save the user in the database.
+    await user.save();
 
-        let username = UsersService.castUsername(displayName);
+    // Emit that the user was created.
+    events.emit(USERS_NEW, user);
 
-        // The user was not found, lets create them!
-        user = new UserModel({
-          username,
-          lowercaseUsername: username.toLowerCase(),
-          roles: [],
-          profiles: [{id, provider}],
-          status: {
-            username: {
-              status: 'UNSET',
-              history: {
-                status: 'UNSET'
-              }
-            }
-          }
-        });
-
-        return user.save();
-      });
+    return user;
   }
 
   /**
@@ -544,6 +548,9 @@ class UsersService {
       }
       throw err;
     }
+
+    // Emit that the user was created.
+    events.emit(USERS_NEW, user);
 
     return user;
   }
