@@ -196,6 +196,15 @@ class Stream extends React.Component {
     );
   }
 
+  launchDeathStar = () => {
+    for (let i = 0; i < 20; i++) {
+      this.props.postComment({
+        asset_id: this.props.root.asset.id,
+        body: 'death is certain',
+      });
+    }
+  }
+
   render() {
     const {
       data,
@@ -231,6 +240,12 @@ class Stream extends React.Component {
     return (
       <div id="stream" className={styles.root}>
         <AutomaticAssetClosure assetId={asset.id} closedAt={asset.closedAt}/>
+        <Button
+          cStyle="darkGrey"
+          onClick={this.launchDeathStar}
+        >
+          Launch Death Star
+        </Button>
         {highlightedComment &&
           <Button
             cStyle="darkGrey"
@@ -325,7 +340,7 @@ Stream.propTypes = {
   loading: PropTypes.bool,
   editName: PropTypes.func,
   appendItemArray: PropTypes.func,
-  updateItem: PropTypes.func, 
+  updateItem: PropTypes.func,
   viewAllComments: PropTypes.func,
   notify: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
