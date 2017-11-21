@@ -3,6 +3,15 @@ import assignWith from 'lodash/assignWith';
 import get from 'lodash/get';
 import {withPropsOnChange} from 'recompose';
 
+/**
+ * Exports a HOC that applies props at `pending` to
+ * props at `settings` and writes into `result` prop name.
+ * `Settings`, and `pending` can have a dotnotation like
+ * "asset.settings".
+ *
+ * Example:
+ * withMergedSettings('asset.settings', 'pending', 'mergedSettings')
+ */
 const withMergedSettings = (settings, pending, result) =>
   withPropsOnChange(
     (props, nextProps) =>

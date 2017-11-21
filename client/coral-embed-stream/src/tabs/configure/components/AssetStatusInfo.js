@@ -18,11 +18,13 @@ class AssetStatusInfo extends React.Component {
     this.setupTimer(nextProps);
   }
 
+  // Rerendering interval. If remaining time > 1min, rerender every minute, otherwise evey second.
   interval(closedAt) {
     const diff = new Date(closedAt).getTime() - new Date().getTime();
     return diff > 60000 ? 60000 : 1000;
   }
 
+  // Timer that counts down the remaining time.
   setupTimer({closedAt, isClosed} = this.props) {
     if (this.timer && (isClosed || !closedAt)) {
       clearTimeout(this.timer);
