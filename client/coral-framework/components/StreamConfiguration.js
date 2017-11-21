@@ -1,8 +1,8 @@
 import React from 'react';
-import Checkbox from './Checkbox';
+import Checkbox from 'coral-ui/components/Checkbox';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import styles from './Configuration.css';
+import styles from './StreamConfiguration.css';
 import uuid from 'uuid/v4';
 
 class Configuration extends React.Component {

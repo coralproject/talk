@@ -1,16 +1,28 @@
 import React from 'react';
 import styles from './Checkbox.css';
+import cn from 'classnames';
+import PropTypes from 'prop-types';
 
-export default ({name, cStyle = 'base', onChange, label, className, info, ...attrs}) => (
-  <label className={`${styles.label} ${styles[`type--${cStyle}`]} ${className}`} htmlFor={name}>
-    <input type="checkbox" id={name} name={name} onChange={onChange} {...attrs} />
-    <span className={styles.checkbox}></span>
-    {label && <span>{label}</span>}
-    {info && (
-      <div className={styles.checkboxInfo}>
-        <h4>{info.title}</h4>
-        <span>{info.description}</span>
-      </div>
-    )}
+const Checkbox = ({onChange, checked, className, ...rest}) => (
+  <label className={cn(styles.root, className)}>
+    <input
+      type="checkbox"
+      className={cn(styles.input, {[styles.inputChecked]: checked})}
+      onChange={onChange}
+      checked={checked}
+      {...rest}
+    />
+    <span
+      className={cn(styles.checkbox, {[styles.checkboxChecked]: checked})}
+      aria-hidden='true'
+    ></span>
   </label>
 );
+
+Checkbox.propTypes = {
+  className: PropTypes.string,
+  onChange: PropTypes.func,
+  checked: PropTypes.bool,
+};
+
+export default Checkbox;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
 import cn from 'classnames';
 import styles from './Settings.css';
-import Configuration from './Configuration';
+import Configuration from 'coral-framework/components/StreamConfiguration';
 import QuestionBoxBuilder from './QuestionBoxBuilder';
 import Slot from 'coral-framework/components/Slot';
 
