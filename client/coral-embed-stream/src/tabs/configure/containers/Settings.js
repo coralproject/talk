@@ -52,11 +52,11 @@ class SettingsContainer extends React.Component {
   };
 
   render() {
-    const {mergedSettings, canSave, data, root, asset} = this.props;
+    const {mergedSettings, canSave, data, root, asset, errors, updatePending} = this.props;
     return <Settings
       settings={mergedSettings}
       queryData={{root, asset, settings: mergedSettings}}
-      slotProps={{data}}
+      slotProps={{data, updatePending, errors}}
       savePending={this.savePending}
       onToggleModeration={this.toggleModeration}
       onTogglePremodLinks={this.togglePremodLinks}
@@ -74,6 +74,7 @@ SettingsContainer.propTypes = {
   root: PropTypes.object.isRequired,
   asset: PropTypes.object.isRequired,
   pending: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
   mergedSettings: PropTypes.object.isRequired,
   updateAssetSettings: PropTypes.func.isRequired,
   clearPending: PropTypes.func.isRequired,
@@ -108,6 +109,7 @@ const withSettingsFragments = withFragments({
 const mapStateToProps = (state) => ({
   pending: state.configure.pending,
   canSave: state.configure.canSave,
+  errors: state.configure.errors,
 });
 
 const mapDispatchToProps = (dispatch) =>
