@@ -30,6 +30,7 @@ const withConfigureFragments = withFragments({
       __typename
       ...${getDefinitionName(Settings.fragments.root)}
     }
+    ${Settings.fragments.root}
   `,
   asset: gql`
     fragment CoralEmbedStream_Configure_asset on Asset {
@@ -39,7 +40,6 @@ const withConfigureFragments = withFragments({
     }
     ${AssetStatusInfo.fragments.asset}
     ${Settings.fragments.asset}
-    ${Settings.fragments.root}
   `,
 });
 
