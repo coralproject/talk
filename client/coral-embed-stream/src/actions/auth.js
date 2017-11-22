@@ -323,7 +323,7 @@ export const checkLogin = () => (dispatch, _, {rest, client, pym, storage}) => {
       pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
 
       // Display create username dialog if necessary.
-      if (can(result.user, 'EDIT_NAME') && get(result.user, 'status.banned.status')) {
+      if (can(result.user, 'EDIT_NAME') && !get(result.user, 'status.banned.status')) {
         dispatch(showCreateUsernameDialog());
       }
     })

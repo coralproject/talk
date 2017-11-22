@@ -92,12 +92,13 @@ class ChangeUsernameContainer extends React.Component {
   handleSubmitUsername = (e) => {
     e.preventDefault();
     const {errors, formData: {username}} = this.state;
-    const {validForm, invalidForm} = this.props;
+    const {validForm, invalidForm, hideCreateUsernameDialog, changeUsername} = this.props;
     this.displayErrors();
 
     if (this.isCompleted() && !Object.keys(errors).length) {
-      this.props.changeUsername(this.props.auth.user.id, username);
+      changeUsername(this.props.auth.user.id, username);
       validForm();
+      hideCreateUsernameDialog();
     } else {
       invalidForm(t('createdisplay.check_the_form'));
     }
