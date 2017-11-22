@@ -263,11 +263,7 @@ class Stream extends React.Component {
                     timeago(suspensionUntil)
                   )}
                 </RestrictedMessageBox>}
-            {!banned && rejectedUsername &&
-            <ChangeUsername
-              canEditName={can(user, 'EDIT_NAME')}
-              user={user}
-            />}
+            {!banned && rejectedUsername && <ChangeUsername user={user} />}
             {banned && <BannedAccount />}
             {showCommentBox &&
                 <CommentBox
