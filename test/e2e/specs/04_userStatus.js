@@ -70,7 +70,6 @@ module.exports = {
       .waitForElementVisible('@usernameDialogButtons')
       .waitForElementVisible('@usernameDialogSuspend')
       .click('@usernameDialogSuspend')
-      .waitForElementVisible('@usernameDialogSuspensionMessage')
       .click('@usernameDialogSuspend')
       .waitForElementNotPresent('@flaggedUser');
   },
