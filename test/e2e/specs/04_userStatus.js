@@ -87,13 +87,6 @@ module.exports = {
       .ready()
       .openLoginPopup((popup) => popup.login(user));
   },
-  'user account is suspended, should see restricted message box': (client) => {
-    const embedStream = client.page.embedStream();
-    const comments = embedStream.section.comments;
-
-    comments
-      .waitForElementVisible('@restrictedMessageBox');
-  },
   'user picks another username': (client) => {
     const embedStream = client.page.embedStream();
     const comments = embedStream.section.comments;
