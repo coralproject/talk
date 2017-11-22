@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {StreamError} from './StreamError';
 import Comment from '../containers/Comment';
+import BannedAccount from './BannedAccount';
 import ChangeUsername from '../containers/ChangeUsername';
 import Slot from 'coral-framework/components/Slot';
 import InfoBox from 'talk-plugin-infobox/InfoBox';
@@ -208,7 +209,6 @@ class Stream extends React.Component {
       updateItem,
       viewAllComments,
       auth: {loggedIn, user},
-      editName,
     } = this.props;
     const {keepCommentBox} = this.state;
     const open = !asset.isClosed;
@@ -263,11 +263,12 @@ class Stream extends React.Component {
                     timeago(suspensionUntil)
                   )}
                 </RestrictedMessageBox>}
-            {rejectedUsername &&
-                <ChangeUsername
-                  canEditName={can(user, 'EDIT_NAME')}
-                  user={user}
-                />}
+            {!banned && rejectedUsername &&
+            <ChangeUsername
+              canEditName={can(user, 'EDIT_NAME')}
+              user={user}
+            />}
+            {banned && <BannedAccount />}
             {showCommentBox &&
                 <CommentBox
                   notify={notify}

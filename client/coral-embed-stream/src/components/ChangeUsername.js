@@ -37,7 +37,6 @@ class ChangeUsername extends Component {
     } else {
       this.setState({alert: t('framework.edit_name.error')});
     }
-
   }
 
   render () {
@@ -45,40 +44,34 @@ class ChangeUsername extends Component {
     const {username, alert} = this.state;
 
     return <RestrictedMessageBox>
-      <span>{
-        canEditName ?
-          t('framework.edit_name.msg')
-          :
+      {canEditName &&
+        <div>
           <span>
-            <b>{t('framework.banned_account_header')}</b><br/> {t('framework.banned_account_body')}
+            {t('framework.edit_name.msg')}
           </span>
-      }</span>
-      {
-        canEditName ?
-          <div>
-            <div className={styles.alert}>
-              {alert}
-            </div>
-            <label
-              htmlFor='username'
-              className="screen-reader-text"
-              aria-hidden={true}>
-              {t('framework.edit_name.label')}
-            </label>
-            <input
-              type='text'
-              className={cn(styles.editNameInput, 'talk-change-username-username-input')}
-              value={username}
-              placeholder={t('framework.edit_name.label')}
-              id='username'
-              onChange={(e) => this.setState({username: e.target.value})}
-              rows={3}/><br/>
-            <Button
-              className="talk-change-username-submit-button"
-              onClick={this.onSubmitClick} >
-              {t('framework.edit_name.button')}
-            </Button>
-          </div> : null
+          <div className={styles.alert}>
+            {alert}
+          </div>
+          <label
+            htmlFor='username'
+            className="screen-reader-text"
+            aria-hidden={true}>
+            {t('framework.edit_name.label')}
+          </label>
+          <input
+            type='text'
+            className={cn(styles.editNameInput, 'talk-change-username-username-input')}
+            value={username}
+            placeholder={t('framework.edit_name.label')}
+            id='username'
+            onChange={(e) => this.setState({username: e.target.value})}
+            rows={3}/><br/>
+          <Button
+            className="talk-change-username-submit-button"
+            onClick={this.onSubmitClick} >
+            {t('framework.edit_name.button')}
+          </Button>
+        </div>
       }
     </RestrictedMessageBox>;
   }
