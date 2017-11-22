@@ -44,7 +44,7 @@ module.exports = class CommentsService {
     const savedCommentModel = await commentModel.save();
 
     // Emit that the comment was created!
-    events.emit(COMMENTS_NEW, savedCommentModel);
+    await events.emitAsync(COMMENTS_NEW, savedCommentModel);
 
     return savedCommentModel;
   }
@@ -193,7 +193,7 @@ module.exports = class CommentsService {
       }
     }
 
-    events.emit(COMMENTS_EDIT, originalComment, editedComment);
+    await events.emitAsync(COMMENTS_EDIT, originalComment, editedComment);
 
     return editedComment;
   }
@@ -305,7 +305,7 @@ module.exports = class CommentsService {
 
     // Emit that the comment was edited, and pass the original comment and the
     // edited comment.
-    events.emit(COMMENTS_EDIT, originalComment, editedComment);
+    await events.emitAsync(COMMENTS_EDIT, originalComment, editedComment);
 
     return editedComment;
   }

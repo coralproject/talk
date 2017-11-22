@@ -144,6 +144,9 @@ const UserSchema = new Schema({
         // assigned_by stores the user id of the user who assigned this status.
         assigned_by: {type: String, default: null},
 
+        // message stores the email content sent to the user.
+        message: {type: String, default: null},
+
         // created_at stores the date when this status was assigned.
         created_at: {type: Date, default: Date.now}
       }],
@@ -165,6 +168,9 @@ const UserSchema = new Schema({
 
         // assigned_by stores the user id of the user who assigned this status.
         assigned_by: {type: String, default: null},
+
+        // message stores the email content sent to the user.
+        message: {type: String, default: null},
 
         // created_at stores the date when this status was assigned.
         created_at: {type: Date, default: Date.now}

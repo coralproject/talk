@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const UsersService = require('../../../services/users');
-const mailer = require('../../../services/mailer');
 const errors = require('../../../errors');
 const authorization = require('../../../middleware/authorization');
 const Limit = require('../../../services/limit');
@@ -50,30 +49,6 @@ router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, nex
 router.post('/:user_id/role', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
   try {
     await UsersService.addRoleToUser(req.params.user_id, req.body.role);
-    res.status(204).end();
-  } catch (e) {
-    next(e);
-  }
-});
-
-router.post('/:user_id/email', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
-  try {
-    let user = await UsersService.findById(req.params.user_id);
-
-    let localProfile = user.profiles.find((profile) => profile.provider === 'local');
-    if (!localProfile) {
-      return next(errors.ErrMissingEmail);
-    }
-
-    await mailer.sendSimple({
-      template: 'notification',  // needed to know which template to render!
-      locals: {                  // specifies the template locals.
-        body: req.body.body
-      },
-      subject: req.body.subject,
-      to: localProfile.id        // This only works if the user has registered via e-mail.
-    });
-
     res.status(204).end();
   } catch (e) {
     next(e);

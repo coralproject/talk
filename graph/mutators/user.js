@@ -17,15 +17,15 @@ const setUserUsernameStatus = async (ctx, id, status) => {
   }
 };
 
-const setUserBanStatus = async (ctx, id, status) => {
-  const user = await UsersService.setBanStatus(id, status, ctx.user.id);
+const setUserBanStatus = async (ctx, id, status = false, message = null) => {
+  const user = await UsersService.setBanStatus(id, status, ctx.user.id, message);
   if (user.banned) {
     ctx.pubsub.publish('userBanned', user);
   }
 };
 
-const setUserSuspensionStatus = async (ctx, id, until) => {
-  const user = await UsersService.setSuspensionStatus(id, until, ctx.user.id);
+const setUserSuspensionStatus = async (ctx, id, until = null, message = null) => {
+  const user = await UsersService.setSuspensionStatus(id, until, ctx.user.id, message);
   if (user.suspended) {
     ctx.pubsub.publish('userSuspended', user);
   }
@@ -77,11 +77,11 @@ module.exports = (ctx) => {
     }
 
     if (ctx.user.can(SET_USER_BAN_STATUS)) {
-      mutators.User.setUserBanStatus = (id, status) => setUserBanStatus(ctx, id, status);
+      mutators.User.setUserBanStatus = (id, status, message) => setUserBanStatus(ctx, id, status, message);
     }
 
     if (ctx.user.can(SET_USER_SUSPENSION_STATUS)) {
-      mutators.User.setUserSuspensionStatus = (id, until) => setUserSuspensionStatus(ctx, id, until);
+      mutators.User.setUserSuspensionStatus = (id, until, message) => setUserSuspensionStatus(ctx, id, until, message);
     }
   }
 

@@ -5,10 +5,14 @@ const Context = require('../../../../graph/context');
 const SettingsService = require('../../../../services/settings');
 const UserModel = require('../../../../models/user');
 const UsersService = require('../../../../services/users');
+const MailerService = require('../../../../services/mailer');
 
-const {expect} = require('chai');
+const sinon = require('sinon');
+const chai = require('chai');
+chai.use(require('sinon-chai'));
+const {expect} = chai;
 
-describe('graph.mutations.setUserBanStatus', () => {
+describe('graph.mutations.banUser', () => {
   let user;
   beforeEach(async () => {
     await SettingsService.init();
@@ -16,11 +20,34 @@ describe('graph.mutations.setUserBanStatus', () => {
     user = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
   });
 
-  const setUserBanStatusMutation = `
-    mutation SetUserBanStatus($user_id: ID!, $status: Boolean!) {
-      setUserBanStatus(input: {
+  let spy;
+  before(() => {
+    spy = sinon.spy(MailerService, 'sendSimple');
+  });
+
+  afterEach(() => {
+    spy.reset();
+  });
+
+  after(() => {
+    spy.restore();
+  });
+
+  const banUserMutation = `
+    mutation BanUser($user_id: ID!, $message: String!) {
+      banUser(input: {
         id: $user_id,
-        status: $status
+        message: $message
+      }) {
+        errors {
+          translation_key
+        }
+      }
+    }
+
+    mutation UnBanUser($user_id: ID!) {
+      unBanUser(input: {
+        id: $user_id
       }) {
         errors {
           translation_key
@@ -51,40 +78,42 @@ describe('graph.mutations.setUserBanStatus', () => {
 
       const ctx = new Context({user: actor});
 
-      const {data, errors} = await graphql(schema, setUserBanStatusMutation, {}, ctx, {
+      const {data, errors} = await graphql(schema, banUserMutation, {}, ctx, {
         user_id: user.id,
-        status: true
-      });
+        message: 'This is a message'
+      }, 'BanUser');
 
       if (errors && errors.length > 0) {
         console.error(errors);
       }
       expect(errors).to.be.undefined;
       if (error) {
-        expect(data.setUserBanStatus).to.have.property('errors').not.null;
-        expect(data.setUserBanStatus.errors[0]).to.have.property('translation_key', error);
+        expect(data.banUser).to.have.property('errors').not.null;
+        expect(data.banUser.errors[0]).to.have.property('translation_key', error);
       } else {
-        expect(data.setUserBanStatus).to.be.null;
+        expect(data.banUser).to.be.null;
 
         user = await UserModel.findOne({id: user.id});
 
         expect(user.status.banned.status).to.be.true;
         expect(user.status.banned.history).to.have.length(1);
         expect(user.status.banned.history[0]).to.have.property('status', true);
+        expect(user.status.banned.history[0]).to.have.property('message', 'This is a message');
         expect(user.status.banned.history[0]).to.have.property('assigned_by', actor.id);
         expect(user.status.banned.history[0]).to.have.property('created_at').not.null;
 
         expect(user.banned).to.be.true;
 
-        const res = await graphql(schema, setUserBanStatusMutation, {}, ctx, {
+        expect(spy).to.have.been.calledOnce;
+
+        const res = await graphql(schema, banUserMutation, {}, ctx, {
           user_id: user.id,
-          status: false
-        });
+        }, 'UnBanUser');
         if (res.errors && res.errors.length > 0) {
           console.error(res.errors);
         }
         expect(res.errors).to.be.undefined;
-        expect(res.data.setUserBanStatus).to.be.null;
+        expect(res.data.unBanUser).to.be.null;
 
         user = await UserModel.findOne({id: user.id});
 

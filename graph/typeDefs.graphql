@@ -1012,15 +1012,6 @@ enum ACTION_ITEM_TYPE {
   USERS
 }
 
-input CreateLikeInput {
-
-  # The item's id for which we are to create a like.
-  item_id: ID!
-
-  # The type of the item for which we are to create the like.
-  item_type: ACTION_ITEM_TYPE!
-}
-
 # CreateCommentInput is the input content used to create a new comment.
 input CreateCommentInput {
 
@@ -1035,7 +1026,6 @@ input CreateCommentInput {
 
   # Tags
   tags: [String]
-
 }
 
 input CreateFlagInput {
@@ -1088,16 +1078,6 @@ input CreateDontAgreeInput {
 
   # An optional message sent with the don't agree action by the user.
   message: String
-}
-
-# Input for suspendUser mutation.
-input SetUserSuspensionStatusInput {
-
-  # id of target user.
-  id: ID!
-
-  # target user will be suspended until this date.
-  until: Date
 }
 
 # Configurable settings that can be overridden for the Asset. You must specify
@@ -1153,22 +1133,6 @@ type UpdateAssetSettingsResponse implements Response {
 # DeleteActionResponse is the response returned with possibly some errors
 # relating to the delete action attempt.
 type DeleteActionResponse implements Response {
-
-  # An array of errors relating to the mutation that occurred.
-  errors: [UserError!]
-}
-
-# SetUserSuspensionStatusResponse is the response returned with possibly some
-# errors relating to the suspend action attempt.
-type SetUserSuspensionStatusResponse implements Response {
-
-  # An array of errors relating to the mutation that occurred.
-  errors: [UserError!]
-}
-
-# RejectUsernameResponse is the response returned with possibly some errors
-# relating to the reject username action attempt.
-type RejectUsernameResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
   errors: [UserError!]
@@ -1356,18 +1320,40 @@ type RevokeTokenResponse implements Response {
   errors: [UserError!]
 }
 
-# SetUserBanStatusInput contains the input to change the ban status of a given
-# user.
-input SetUserBanStatusInput {
-
-  # id is the user to set the ban status on.
+input BanUserInput {
   id: ID!
-
-  # status is the ban status to set on the target user.
-  status: Boolean!
+  message: String!
 }
 
-type SetUserBanStatusResponse implements Response {
+input UnBanUserInput {
+  id: ID!
+}
+
+type BanUsersResponse implements Response {
+  errors: [UserError!]
+}
+
+type UnBanUserResponse implements Response {
+  errors: [UserError!]
+}
+
+input SuspendUserInput {
+  id: ID!
+  message: String!
+  until: Date!
+}
+
+type SuspendUserResponse implements Response {
+  errors: [UserError!]
+}
+
+input UnSuspendUserInput {
+  id: ID!
+}
+
+# UnSuspendUserResponse is the response returned with possibly some
+# errors relating to the suspend action attempt.
+type UnSuspendUserResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
   errors: [UserError!]
@@ -1411,11 +1397,19 @@ type RootMutation {
 
   # Sets the suspension status on a given user. Requires the `MODERATOR` role.
   # Mutation is restricted.
-  setUserSuspensionStatus(input: SetUserSuspensionStatusInput!): SetUserSuspensionStatusResponse
+  suspendUser(input: SuspendUserInput!): SuspendUserResponse
+
+  # Sets the suspension status on a given user. Requires the `MODERATOR` role.
+  # Mutation is restricted.
+  unSuspendUser(input: UnSuspendUserInput!): UnSuspendUserResponse
 
   # Sets the ban status on a given user. Requires the `MODERATOR` role.
   # Mutation is restricted.
-  setUserBanStatus(input: SetUserBanStatusInput!): SetUserBanStatusResponse
+  banUser(input: BanUserInput!): BanUsersResponse
+
+  # Sets the ban status on a given user. Requires the `MODERATOR` role.
+  # Mutation is restricted.
+  unBanUser(input: UnBanUserInput!): UnBanUserResponse
 
   # Sets the username status on a given user to `APPROVED`. Requires the
   # `MODERATOR` role. Mutation is restricted.

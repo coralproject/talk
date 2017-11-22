@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const errors = require('../errors');
 const some = require('lodash/some');
 const merge = require('lodash/merge');
-const timeago = require('./timeago');
 
 const {
   USERS_NEW,
@@ -33,7 +32,6 @@ const MailerService = require('./mailer');
 const i18n = require('./i18n');
 const Wordlist = require('./wordlist');
 const DomainList = require('./domain_list');
-const SettingsService = require('./settings');
 const {escapeRegExp} = require('./regex');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
@@ -90,7 +88,7 @@ class UsersService {
     }
   }
 
-  static async setSuspensionStatus(id, until, assignedBy = null) {
+  static async setSuspensionStatus(id, until, assignedBy = null, message) {
     let user = await UserModel.findOneAndUpdate({id}, {
       $set: {
         'status.suspension.until': until
@@ -99,11 +97,13 @@ class UsersService {
         'status.suspension.history': {
           until,
           assigned_by: assignedBy,
+          message,
           created_at: Date.now()
         }
       }
     }, {
-      new: true
+      new: true,
+      runValidators: true
     });
     if (user === null) {
       user = await UserModel.findOne({id});
@@ -125,12 +125,12 @@ class UsersService {
     }
 
     // Emit that the user username status was changed.
-    await events.emitAsync(USERS_SUSPENSION_CHANGE, user, until);
+    await await events.emitAsync(USERS_SUSPENSION_CHANGE, user, {until, message, assignedBy});
 
     return user;
   }
 
-  static async setBanStatus(id, status, assignedBy = null) {
+  static async setBanStatus(id, status, assignedBy = null, message) {
     let user = await UserModel.findOneAndUpdate({
       id,
       status: {
@@ -144,6 +144,7 @@ class UsersService {
         'status.banned.history': {
           status,
           assigned_by: assignedBy,
+          message,
           created_at: Date.now()
         }
       }
@@ -164,7 +165,7 @@ class UsersService {
     }
 
     // Emit that the user ban status was changed.
-    await events.emitAsync(USERS_BAN_CHANGE, user, status);
+    await await events.emitAsync(USERS_BAN_CHANGE, user, {status, assignedBy, message});
 
     return user;
   }
@@ -203,7 +204,7 @@ class UsersService {
     }
 
     // Emit that the user username status was changed.
-    await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, status);
+    await await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, {status, assignedBy});
 
     return user;
   }
@@ -252,7 +253,7 @@ class UsersService {
       }
 
       // Emit that the user username status was changed.
-      await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, toStatus);
+      await await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, toStatus);
 
       return user;
     } catch (err) {
@@ -385,7 +386,7 @@ class UsersService {
     await user.save();
 
     // Emit that the user was created.
-    events.emit(USERS_NEW, user);
+    await events.emitAsync(USERS_NEW, user);
 
     return user;
   }
@@ -550,7 +551,7 @@ class UsersService {
     }
 
     // Emit that the user was created.
-    events.emit(USERS_NEW, user);
+    await events.emitAsync(USERS_NEW, user);
 
     return user;
   }
@@ -903,53 +904,30 @@ class UsersService {
 
 module.exports = UsersService;
 
-events.on(USERS_BAN_CHANGE, async (user, status) => {
+events.on(USERS_BAN_CHANGE, async (user, {status, message}) => {
 
   // Check to see if the user was banned now and is currently banned.
-  if (user.banned && status) {
+  if (user.banned && status && message && message.length > 0) {
     await UsersService.sendEmail(user, {
-      template: 'banned',
-      locals: {
-        body: 'In accordance with The Coral Project’s community guidelines, your account has been banned. You are now longer allowed to comment, flag or engage with our community.'
-      },
-      subject: 'Your account has been banned',
-    });
-  }
-});
-
-events.on(USERS_SUSPENSION_CHANGE, async (user, until) => {
-
-  // Check to see if the user was suspended now and is currently suspended.
-  if (user.suspended && until !== null && until > Date.now()) {
-    const {organizationName} = await SettingsService.retrieve();
-
-    const message = i18n.t(
-      'suspenduser.email_message_suspend',
-      user.username,
-      organizationName,
-      timeago(until),
-    );
-
-    await UsersService.sendEmail(user, {
-      template: 'suspension',
-      locals: {
-        body: message,
-      },
-      subject: 'Your account has been banned',
-    });
-  }
-});
-
-events.on(USERS_USERNAME_STATUS_CHANGE, async (user, status) => {
-  if (status === 'REJECTED') {
-    const message = i18n.t('reject_username.email_message_reject');
-
-    await UsersService.sendEmail(user, {
-      template: 'suspension',
+      template: 'plain',
       locals: {
         body: message
       },
-      subject: 'Username Rejected'
+      subject: 'Your account has been banned',
+    });
+  }
+});
+
+events.on(USERS_SUSPENSION_CHANGE, async (user, {until, message}) => {
+
+  // Check to see if the user was suspended now and is currently suspended.
+  if (user.suspended && until !== null && until > Date.now() && message && message.length > 0) {
+    await UsersService.sendEmail(user, {
+      template: 'plain',
+      locals: {
+        body: message,
+      },
+      subject: 'Your account has been suspended',
     });
   }
 });

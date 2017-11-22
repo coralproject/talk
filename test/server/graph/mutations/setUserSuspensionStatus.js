@@ -6,12 +6,15 @@ const Context = require('../../../../graph/context');
 const SettingsService = require('../../../../services/settings');
 const UserModel = require('../../../../models/user');
 const UsersService = require('../../../../services/users');
+const MailerService = require('../../../../services/mailer');
 
+const sinon = require('sinon');
 const chai = require('chai');
 chai.use(require('chai-datetime'));
+chai.use(require('sinon-chai'));
 const {expect} = chai;
 
-describe('graph.mutations.setUserSuspensionStatus', () => {
+describe('graph.mutations.suspendUser', () => {
   let user;
   beforeEach(async () => {
     await SettingsService.init();
@@ -19,11 +22,35 @@ describe('graph.mutations.setUserSuspensionStatus', () => {
     user = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
   });
 
-  const setUserSuspensionStatusMutation = `
-    mutation SetUserUsernameStatus($user_id: ID!, $until: Date) {
-      setUserSuspensionStatus(input: {
+  let spy;
+  before(() => {
+    spy = sinon.spy(MailerService, 'sendSimple');
+  });
+
+  afterEach(() => {
+    spy.reset();
+  });
+
+  after(() => {
+    spy.restore();
+  });
+
+  const mutation = `
+    mutation SuspendUser($user_id: ID!, $until: Date!, $message: String!) {
+      suspendUser(input: {
         id: $user_id,
-        until: $until
+        until: $until,
+        message: $message,
+      }) {
+        errors {
+          translation_key
+        }
+      }
+    }
+
+    mutation UnSuspendUser($user_id: ID!) {
+      unSuspendUser(input: {
+        id: $user_id,
       }) {
         errors {
           translation_key
@@ -57,20 +84,21 @@ describe('graph.mutations.setUserSuspensionStatus', () => {
       const now = new Date();
       const oneHourFromNow = new Date(new Date(now).setHours(now.getHours() + 1));
 
-      const {data, errors} = await graphql(schema, setUserSuspensionStatusMutation, {}, ctx, {
+      const {data, errors} = await graphql(schema, mutation, {}, ctx, {
         user_id: user.id,
-        until: oneHourFromNow
-      });
+        until: oneHourFromNow,
+        message: 'This is a message'
+      }, 'SuspendUser');
 
       if (errors && errors.length > 0) {
         console.error(errors);
       }
       expect(errors).to.be.undefined;
       if (error) {
-        expect(data.setUserSuspensionStatus).to.have.property('errors').not.null;
-        expect(data.setUserSuspensionStatus.errors[0]).to.have.property('translation_key', error);
+        expect(data.suspendUser).to.have.property('errors').not.null;
+        expect(data.suspendUser.errors[0]).to.have.property('translation_key', error);
       } else {
-        expect(data.setUserSuspensionStatus).to.be.null;
+        expect(data.suspendUser).to.be.null;
 
         user = await UserModel.findOne({id: user.id});
 
@@ -79,6 +107,7 @@ describe('graph.mutations.setUserSuspensionStatus', () => {
         expect(user.status.suspension.history).to.have.length(1);
         expect(user.status.suspension.history[0]).to.have.property('until').to.be.withinTime(new Date(oneHourFromNow.getTime() - 1000), new Date(oneHourFromNow.getTime() + 1000));
         expect(user.status.suspension.history[0]).to.have.property('assigned_by', actor.id);
+        expect(user.status.suspension.history[0]).to.have.property('message', 'This is a message');
         expect(user.status.suspension.history[0]).to.have.property('created_at').not.null;
 
         expect(user.suspended).to.be.true;
@@ -86,15 +115,17 @@ describe('graph.mutations.setUserSuspensionStatus', () => {
         expect(user.suspended).to.be.false;
         timekeeper.reset();
 
-        const res = await graphql(schema, setUserSuspensionStatusMutation, {}, ctx, {
+        expect(spy).to.have.been.calledOnce;
+
+        const res = await graphql(schema, mutation, {}, ctx, {
           user_id: user.id,
           until: null
-        });
+        }, 'UnSuspendUser');
         if (res.errors && res.errors.length > 0) {
           console.error(res.errors);
         }
         expect(res.errors).to.be.undefined;
-        expect(res.data.setUserSuspensionStatus).to.be.null;
+        expect(res.data.unSuspendUser).to.be.null;
 
         user = await UserModel.findOne({id: user.id});
 
