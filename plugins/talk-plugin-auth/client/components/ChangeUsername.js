@@ -15,7 +15,6 @@ import {
   hideCreateUsernameDialog,
   invalidForm,
   validForm,
-  createUsername
 } from 'coral-embed-stream/src/actions/auth';
 
 class ChangeUsernameContainer extends React.Component {
@@ -140,7 +139,6 @@ const mapStateToProps = ({auth}) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      createUsername,
       showCreateUsernameDialog,
       hideCreateUsernameDialog,
       invalidForm,

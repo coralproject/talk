@@ -2,7 +2,6 @@ import jwtDecode from 'jwt-decode';
 import bowser from 'bowser';
 import * as actions from '../constants/auth';
 import {notify} from 'coral-framework/actions/notification';
-import {can} from 'coral-framework/services/perms';
 import t from 'coral-framework/services/i18n';
 import get from 'lodash/get';
 
@@ -36,44 +35,18 @@ export const blurSignInDialog = () => ({
   type: actions.BLUR_SIGNIN_DIALOG,
 });
 
-export const createUsernameRequest = () => ({
-  type: actions.CREATE_USERNAME_REQUEST
-});
 export const showCreateUsernameDialog = () => ({
   type: actions.SHOW_CREATEUSERNAME_DIALOG
 });
+
 export const hideCreateUsernameDialog = () => ({
   type: actions.HIDE_CREATEUSERNAME_DIALOG
-});
-
-const createUsernameSuccess = () => ({
-  type: actions.CREATE_USERNAME_SUCCESS
-});
-
-const createUsernameFailure = (error) => ({
-  type: actions.CREATE_USERNAME_FAILURE,
-  error
 });
 
 export const updateUsername = ({username}) => ({
   type: actions.UPDATE_USERNAME,
   username
 });
-
-export const createUsername = (userId, formData) => (dispatch, _, {rest}) => {
-  dispatch(createUsernameRequest());
-  rest('/account/username', {method: 'PUT', body: formData})
-    .then(() => {
-      dispatch(createUsernameSuccess());
-      dispatch(hideCreateUsernameDialog());
-      dispatch(updateUsername(formData));
-    })
-    .catch((error) => {
-      console.error(error);
-      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
-      dispatch(createUsernameFailure(errorMessage));
-    });
-};
 
 export const changeView = (view) => (dispatch) => {
   dispatch({
@@ -322,8 +295,8 @@ export const checkLogin = () => (dispatch, _, {rest, client, pym, storage}) => {
       dispatch(checkLoginSuccess(result.user));
       pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
 
-      // Display create username dialog if necessary.
-      if (can(result.user, 'EDIT_NAME') && get(result.user, 'status.banned.status')) {
+      // This is for login via social. Usernames should be set.
+      if (get(result.user, 'status.username.status') === 'UNSET' && !get(result.user, 'status.banned.status')) {
         dispatch(showCreateUsernameDialog());
       }
     })
