@@ -14,7 +14,7 @@ import {
   invalidForm,
   validForm,
   createUsername
-} from 'coral-framework/actions/auth';
+} from 'coral-embed-stream/src/actions/auth';
 
 class ChangeUsernameContainer extends React.Component {
   constructor(props) {
@@ -129,10 +129,11 @@ ChangeUsernameContainer.propTypes = {
   validForm: PropTypes.func,
   invalidForm: PropTypes.func,
   loggedIn: PropTypes.bool,
+  changeUsername: PropTypes.func,
 };
 
 const mapStateToProps = ({auth}) => ({
-  auth: auth.toJS()
+  auth: auth
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -150,4 +151,3 @@ const mapDispatchToProps = (dispatch) =>
 export default connect(mapStateToProps, mapDispatchToProps)(
   ChangeUsernameContainer
 );
-
