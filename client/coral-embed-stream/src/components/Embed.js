@@ -65,36 +65,13 @@ export default class Embed extends React.Component {
             onClose={hideSignInDialog}
           />
         </IfSlotIsNotEmpty>
-
         <Slot
           data={data}
           queryData={{root}}
           fill="embed"
         />
 
-        <ExtendableTabPanel
-          className='talk-embed-stream-tab-bar'
-          activeTab={activeTab}
-          setActiveTab={this.changeTab}
-          fallbackTab='stream'
-          tabSlot='embedStreamTabs'
-          tabSlotPrepend='embedStreamTabsPrepend'
-          tabPaneSlot='embedStreamTabPanes'
-          slotProps={{data}}
-          queryData={{root}}
-          tabs={this.getTabs()}
-          tabPanes={[
-            <TabPane key='stream' tabId='stream' className='talk-embed-stream-comments-tab-pane'>
-              <Stream data={data} root={root} asset={root.asset} />
-            </TabPane>,
-            <TabPane key='profile' tabId='profile' className='talk-embed-stream-profile-tab-pane'>
-              <ProfileContainer />
-            </TabPane>,
-            <TabPane key='config' tabId='config' className='talk-embed-stream-configuration-tab-pane'>
-              <Configure data={data} root={root} asset={root.asset} />
-            </TabPane>,
-          ]}
-        />
+        <Stream data={data} root={root} />
       </div>
     );
   }
