@@ -381,6 +381,9 @@ type Comment {
   # The ID of the comment.
   id: ID!
 
+  # The ip of the user.
+  user_ip: String
+
   # The actual comment data.
   body: String!
 

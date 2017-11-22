@@ -141,6 +141,7 @@ class Comment extends React.Component {
               </div>
             </div>
           </div>
+          <div className={styles.ipAddress}>{comment.user_ip}</div>
 
           <div className={styles.moderateArticle}>
             {t('common.story')}: {comment.asset.title}

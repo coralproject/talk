@@ -32,6 +32,7 @@ export default withFragments({
     fragment CoralAdmin_ModerationComment_comment on Comment {
       id
       body
+      user_ip
       created_at
       status
       user {
