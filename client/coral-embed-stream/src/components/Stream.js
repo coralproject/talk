@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {StreamError} from './StreamError';
 import Comment from '../containers/Comment';
-import SuspendedAccount from './SuspendedAccount';
+import ChangeUsername from '../containers/ChangeUsername';
 import Slot from 'coral-framework/components/Slot';
 import InfoBox from 'talk-plugin-infobox/InfoBox';
 import {can} from 'coral-framework/services/perms';
@@ -215,6 +215,7 @@ class Stream extends React.Component {
 
     const banned = get(user, 'status.banned.status');
     const suspensionUntil = get(user, 'status.suspension.until');
+    const rejectedUsername = get(user, 'status.username.status') === 'REJECTED';
 
     const temporarilySuspended =
       user &&
@@ -262,11 +263,10 @@ class Stream extends React.Component {
                     timeago(suspensionUntil)
                   )}
                 </RestrictedMessageBox>}
-            {banned &&
-                <SuspendedAccount
+            {rejectedUsername &&
+                <ChangeUsername
                   canEditName={can(user, 'EDIT_NAME')}
-                  editName={editName}
-                  currentUsername={user.username}
+                  user={user}
                 />}
             {showCommentBox &&
                 <CommentBox

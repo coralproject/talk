@@ -2,34 +2,34 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
-import styles from './SuspendAccount.css';
+import styles from './ChangeUsername.css';
 import {Button} from 'coral-ui';
 import validate from 'coral-framework/helpers/validate';
 import RestrictedMessageBox from 'coral-framework/components/RestrictedMessageBox';
 
-class SuspendedAccount extends Component {
+class ChangeUsername extends Component {
 
   static propTypes = {
-    canEditName: PropTypes.bool,
-    editName: PropTypes.func.isRequired,
-    currentUsername: PropTypes.string.isRequired,
+    canEditName: PropTypes.bool.isRequired,
+    changeUsername: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
   }
 
   state = {
     username: '',
-    alert: ''
+    alert: '',
   }
 
   onSubmitClick = (e) => {
-    const {editName} = this.props;
+    const {changeUsername, user} = this.props;
     const {username} = this.state;
     e.preventDefault();
 
-    if (username === this.props.currentUsername) {
+    if (username === this.props.user.username) {
       this.setState({alert: t('error.SAME_USERNAME_PROVIDED')});
     }
     else if (validate.username(username)) {
-      editName(username)
+      changeUsername(user.id, username)
         .then(() => location.reload())
         .catch((error) => {
           this.setState({alert: t(`error.${error.translation_key}`)});
@@ -67,14 +67,14 @@ class SuspendedAccount extends Component {
             </label>
             <input
               type='text'
-              className={cn(styles.editNameInput, 'talk-suspended-account-username-input')}
+              className={cn(styles.editNameInput, 'talk-change-username-username-input')}
               value={username}
               placeholder={t('framework.edit_name.label')}
               id='username'
               onChange={(e) => this.setState({username: e.target.value})}
               rows={3}/><br/>
             <Button
-              className="talk-suspended-account-submit-button"
+              className="talk-change-username-submit-button"
               onClick={this.onSubmitClick} >
               {t('framework.edit_name.button')}
             </Button>
@@ -84,4 +84,4 @@ class SuspendedAccount extends Component {
   }
 }
 
-export default SuspendedAccount;
+export default ChangeUsername;
