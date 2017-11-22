@@ -83,7 +83,7 @@ class RejectUsernameDialog extends Component  {
         <div className={styles.description}>
           {t(stages[stage].description, t('reject_username.username'))}
         </div>
-        {
+        {/* {
           stage === 1 &&
                 <div className={styles.writeContainer}>
                   <div className={styles.emailMessage}>{t('reject_username.write_message')}</div>
@@ -95,7 +95,7 @@ class RejectUsernameDialog extends Component  {
                       onChange={this.onEmailChange}/>
                   </div>
                 </div>
-        }
+        } */}
         <div className={cn(styles.modalButtons, 'talk-reject-username-dialog-buttons')}>
           {Object.keys(stages[stage].options).map((key, i) => (
             <Button

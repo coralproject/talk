@@ -98,7 +98,6 @@ class SuspendUserDialog extends React.Component {
 
   renderStep1() {
     const {onCancel, username} = this.props;
-    const {message} = this.state;
     return (
       <section>
         <h1 className={styles.header}>
@@ -107,14 +106,14 @@ class SuspendUserDialog extends React.Component {
         <p className={styles.description}>
           {t('suspenduser.description_notify', username)}
         </p>
-        <fieldset>
+        {/* <fieldset>
           <legend className={styles.legend}>{t('suspenduser.write_message')}</legend>
           <textarea
             rows={5}
             className={styles.messageInput}
             value={message}
             onChange={this.handleMessageChange} />
-        </fieldset>
+        </fieldset> */}
         <div className={styles.buttons}>
           <Button cStyle="white" className={styles.cancel} onClick={onCancel} raised>
             {t('suspenduser.cancel')}
