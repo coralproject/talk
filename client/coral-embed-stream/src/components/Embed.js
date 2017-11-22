@@ -47,44 +47,13 @@ export default class Embed extends React.Component {
             onClose={hideSignInDialog}
           />
         </IfSlotIsNotEmpty>
-        <TabBar
-          onTabClick={this.changeTab}
-          activeTab={activeTab}
-          className='talk-embed-stream-tab-bar'
-          aria-controls='talk-embed-stream-tab-content'
-        >
-          <Tab tabId={'stream'} className={'talk-embed-stream-comments-tab'}>
-            {t('embed_comments_tab')}
-          </Tab>
-          <Tab tabId={'profile'} className={'talk-embed-stream-profile-tab'}>
-            {t('framework.my_profile')}
-          </Tab>
-          {can(user, 'UPDATE_CONFIG') &&
-            <Tab tabId={'config'} className={'talk-embed-stream-configuration-tab'}>
-              {t('framework.configure_stream')}
-            </Tab>
-          }
-        </TabBar>
         <Slot
           data={data}
           queryData={{root}}
           fill="embed"
         />
 
-        <TabContent
-          activeTab={activeTab}
-          id='talk-embed-stream-tab-content'
-        >
-          <TabPane tabId={'stream'} className={'talk-embed-stream-comments-tab-pane'}>
-            <Stream data={data} root={root} />
-          </TabPane>
-          <TabPane tabId={'profile'} className={'talk-embed-stream-profile-tab-pane'}>
-            <ProfileContainer />
-          </TabPane>
-          <TabPane tabId={'config'} className={'talk-embed-stream-configuration-tab-pane'}>
-            <ConfigureStreamContainer />
-          </TabPane>
-        </TabContent>
+        <Stream data={data} root={root} />
       </div>
     );
   }
