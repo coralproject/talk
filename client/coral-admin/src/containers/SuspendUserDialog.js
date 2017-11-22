@@ -14,7 +14,7 @@ import {notify} from 'coral-framework/actions/notification';
 
 class SuspendUserDialogContainer extends Component {
 
-  suspendUser = async ({message, until}) => {
+  suspendUser = async ({until}) => {
     const {userId, username, commentStatus, commentId, hideSuspendUserDialog, setCommentStatus, suspendUser, notify} = this.props;
     hideSuspendUserDialog();
     try {
