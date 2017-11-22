@@ -2,6 +2,7 @@ const loaders = require('./loaders');
 const mutators = require('./mutators');
 const uuid = require('uuid');
 const merge = require('lodash/merge');
+const connectors = require('./connectors');
 
 const plugins = require('../services/plugins');
 const pubsub = require('../services/pubsub');
@@ -50,6 +51,9 @@ class Context {
     if (user) {
       this.user = user;
     }
+
+    // Attach the connectors.
+    this.connectors = connectors;
 
     // Create the loaders.
     this.loaders = loaders(this);
