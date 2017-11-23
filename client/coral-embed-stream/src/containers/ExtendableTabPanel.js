@@ -2,7 +2,8 @@ import React from 'react';
 import ExtendableTabPanel from '../components/ExtendableTabPanel';
 import {connect} from 'react-redux';
 import omit from 'lodash/omit';
-import {Tab, TabPane} from 'coral-ui';
+import {TabPane} from 'coral-ui';
+import ExtendableTab from '../components/ExtendableTab';
 import {getShallowChanges} from 'coral-framework/utils';
 import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
@@ -61,9 +62,9 @@ class ExtendableTabPanelContainer extends React.Component {
   getSlotTabElements(slot) {
     return this.getSlotElements(slot).map((el) => {
       return (
-        <Tab tabId={el.type.talkPluginName} key={el.type.talkPluginName}>
+        <ExtendableTab tabId={el.type.talkPluginName} key={el.type.talkPluginName}>
           {React.cloneElement(el, {active: this.props.activeTab === el.type.talkPluginName})}
-        </Tab>
+        </ExtendableTab>
       );
     });
   }
