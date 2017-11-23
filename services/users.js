@@ -125,7 +125,7 @@ class UsersService {
     }
 
     // Emit that the user username status was changed.
-    await await events.emitAsync(USERS_SUSPENSION_CHANGE, user, {until, message, assignedBy});
+    await events.emitAsync(USERS_SUSPENSION_CHANGE, user, {until, message, assignedBy});
 
     return user;
   }
@@ -165,7 +165,7 @@ class UsersService {
     }
 
     // Emit that the user ban status was changed.
-    await await events.emitAsync(USERS_BAN_CHANGE, user, {status, assignedBy, message});
+    await events.emitAsync(USERS_BAN_CHANGE, user, {status, assignedBy, message});
 
     return user;
   }
@@ -204,7 +204,7 @@ class UsersService {
     }
 
     // Emit that the user username status was changed.
-    await await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, {status, assignedBy});
+    await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, {status, assignedBy});
 
     return user;
   }
@@ -253,7 +253,7 @@ class UsersService {
       }
 
       // Emit that the user username status was changed.
-      await await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, toStatus);
+      await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, toStatus);
 
       return user;
     } catch (err) {
