@@ -160,9 +160,9 @@ export const withSetCommentStatus = withMutation(
 
 export const withSuspendUser = withMutation(
   gql`
-    mutation SuspendUser($input: SetUserSuspensionStatusInput!) {
-      setUserSuspensionStatus(input: $input) {
-        ...SetUserSuspensionStatusResponse
+    mutation SuspendUser($input: SuspendUserInput!) {
+      suspendUser(input: $input) {
+        ...SuspendUserResponse
       }
     }
   `, {
