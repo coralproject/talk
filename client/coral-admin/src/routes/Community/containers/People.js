@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {compose} from 'react-apollo';
 import People from '../components/People';
 import PropTypes from 'prop-types';
-import {withSetUserBanStatus} from 'coral-framework/graphql/mutations';
+import {withUnBanUser, withBanUser} from 'coral-framework/graphql/mutations';
 
 import {viewUserDetail} from '../../../actions/userDetail';
 
@@ -63,8 +63,9 @@ class PeopleContainer extends React.Component {
     this.fetchUsers({page});
   }
 
-  setUserBanStatus = async (input) => {
-    await this.props.setUserBanStatus(input);
+  setUserBanStatus = async (id, bannedStatus) => {
+    const {banUser, unBanUser} = this.props;
+    await bannedStatus ? banUser({id, message: ''}) : unBanUser({id});
     this.fetchUsers();
   } 
 
@@ -89,7 +90,8 @@ PeopleContainer.propTypes = {
   fetchUsers: PropTypes.func,
   updateSorting: PropTypes.func,
   setRole: PropTypes.func.isRequired,
-  setUserBanStatus: PropTypes.func.isRequired,
+  banUser: PropTypes.func.isRequired,
+  unBanUser: PropTypes.func.isRequired,
   setSearchValue: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
   community: PropTypes.object,
@@ -108,5 +110,6 @@ const mapDispatchToProps = (dispatch) =>
 
 export default compose(
   connect(null, mapDispatchToProps),
-  withSetUserBanStatus,
+  withBanUser,
+  withUnBanUser,
 )(PeopleContainer);

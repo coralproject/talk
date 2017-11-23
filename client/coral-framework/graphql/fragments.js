@@ -4,7 +4,8 @@ import {createDefaultResponseFragments} from '../utils';
 export default {
   ...createDefaultResponseFragments(
     'ChangeUsernameResponse',
-    'SetUserBanStatusResponse',
+    'BanUsersResponse',
+    'UnBanUserResponse',
     'SetUserSuspensionStatusResponse',
     'SetCommentStatusResponse',
     'SuspendUserResponse',
