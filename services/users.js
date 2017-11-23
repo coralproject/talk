@@ -209,7 +209,7 @@ class UsersService {
     return user;
   }
 
-  static async _setUsername(id, username, fromStatus, toStatus, resetAllowed = false) {
+  static async _setUsername(id, username, fromStatus, toStatus, assignedBy, resetAllowed = false) {
     try {
       const query = {
         id,
@@ -228,7 +228,7 @@ class UsersService {
         $push: {
           'status.username.history': {
             status: toStatus,
-            assigned_by: id,
+            assigned_by: assignedBy,
             created_at: Date.now()
           }
         }
@@ -265,12 +265,12 @@ class UsersService {
     }
   }
 
-  static async setUsername(id, username) {
-    return UsersService._setUsername(id, username, 'UNSET', 'SET', true);
+  static async setUsername(id, username, assignedBy) {
+    return UsersService._setUsername(id, username, 'UNSET', 'SET', assignedBy, true);
   }
 
-  static async changeUsername(id, username) {
-    return UsersService._setUsername(id, username, 'REJECTED', 'CHANGED');
+  static async changeUsername(id, username, assignedBy) {
+    return UsersService._setUsername(id, username, 'REJECTED', 'CHANGED', assignedBy);
   }
 
   /**

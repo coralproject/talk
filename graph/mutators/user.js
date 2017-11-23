@@ -40,11 +40,11 @@ const stopIgnoringUser = ({user}, userToStopIgnoring) => {
 };
 
 const changeUsername = async (ctx, id, username) => {
-  return UsersService.changeUsername(id, username);
+  return UsersService.changeUsername(id, username, ctx.user.id);
 };
 
 const setUsername = async (ctx, id, username) => {
-  return UsersService.setUsername(id, username);
+  return UsersService.setUsername(id, username, ctx.user.id);
 };
 
 module.exports = (ctx) => {

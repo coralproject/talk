@@ -26,6 +26,24 @@ describe('graph.mutations.changeUsername', () => {
         }
       }
     }
+
+    query User {
+      me {
+        state {
+          status {
+            username {
+              history {
+                status
+                assigned_by {
+                  username
+                }
+                created_at
+              }
+            }
+          }
+        }
+      }
+    }
   `;
 
   [
@@ -44,7 +62,7 @@ describe('graph.mutations.changeUsername', () => {
       let res = await graphql(schema, changeUsernameMutation, {}, ctx, {
         user_id: user.id,
         username,
-      });
+      }, 'ChangeUsername');
 
       if (res.errors && res.errors.length > 0) {
         console.error(res.errors);
@@ -65,7 +83,7 @@ describe('graph.mutations.changeUsername', () => {
       res = await graphql(schema, changeUsernameMutation, {}, ctx, {
         user_id: user.id,
         username,
-      });
+      }, 'ChangeUsername');
 
       if (res.errors && res.errors.length > 0) {
         console.error(res.errors);
@@ -74,9 +92,15 @@ describe('graph.mutations.changeUsername', () => {
       expect(res.errors).to.be.undefined;
       expect(res.data.changeUsername).to.be.null;
 
-      user = await UsersService.findById(user.id);
+      res = await graphql(schema, changeUsernameMutation, {}, ctx, {}, 'User');
 
-      expect(user.status.username.status, 'CHANGED');
+      if (res.errors && res.errors.length > 0) {
+        console.error(res.errors);
+      }
+
+      expect(res.errors).to.be.undefined;
+
+      expect(res.data.me.state.status.username.status, 'CHANGED');
     });
   });
 });
