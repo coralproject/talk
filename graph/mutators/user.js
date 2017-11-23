@@ -6,6 +6,7 @@ const {
   SET_USER_USERNAME_STATUS,
   SET_USER_BAN_STATUS,
   SET_USER_SUSPENSION_STATUS,
+  UPDATE_USER_ROLES,
 } = require('../../perms/constants');
 
 const setUserUsernameStatus = async (ctx, id, status) => {
@@ -47,22 +48,37 @@ const setUsername = async (ctx, id, username) => {
   return UsersService.setUsername(id, username, ctx.user.id);
 };
 
+const addRole = (ctx, id, role) => {
+  return UsersService.addRoleToUser(id, role);
+};
+
+const removeRole = (ctx, id, role) => {
+  return UsersService.removeRoleFromUser(id, role);
+};
+
 module.exports = (ctx) => {
   let mutators = {
     User: {
-      ignoreUser: () => Promise.reject(errors.ErrNotAuthorized),
+      addRole: () => Promise.reject(errors.ErrNotAuthorized),
       changeUsername: () => Promise.reject(errors.ErrNotAuthorized),
-      setUsername: () => Promise.reject(errors.ErrNotAuthorized),
-      stopIgnoringUser: () => Promise.reject(errors.ErrNotAuthorized),
-      setUserUsernameStatus: () => Promise.reject(errors.ErrNotAuthorized),
+      ignoreUser: () => Promise.reject(errors.ErrNotAuthorized),
+      removeRole: () => Promise.reject(errors.ErrNotAuthorized),
       setUserBanStatus: () => Promise.reject(errors.ErrNotAuthorized),
       setUserSuspensionStatus: () => Promise.reject(errors.ErrNotAuthorized),
+      setUserUsernameStatus: () => Promise.reject(errors.ErrNotAuthorized),
+      setUsername: () => Promise.reject(errors.ErrNotAuthorized),
+      stopIgnoringUser: () => Promise.reject(errors.ErrNotAuthorized),
     }
   };
 
   if (ctx.user) {
     mutators.User.ignoreUser = (action) => ignoreUser(ctx, action);
     mutators.User.stopIgnoringUser = (action) => stopIgnoringUser(ctx, action);
+
+    if (ctx.user.can(UPDATE_USER_ROLES)) {
+      mutators.User.addRole = (id, role) => addRole(ctx, id, role);
+      mutators.User.removeRole = (id, role) => removeRole(ctx, id, role);
+    }
 
     if (ctx.user.can(CHANGE_USERNAME)) {
       mutators.User.changeUsername = (id, username) => changeUsername(ctx, id, username);

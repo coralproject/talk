@@ -55,6 +55,15 @@ router.post('/:user_id/role', authorization.needed('ADMIN', 'MODERATOR'), async 
   }
 });
 
+router.delete('/:user_id/role', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
+  try {
+    await UsersService.removeRoleFromUser(req.params.user_id, req.body.role);
+    res.status(204).end();
+  } catch (e) {
+    next(e);
+  }
+});
+
 // create a local user.
 router.post('/', async (req, res, next) => {
   const {email, password, username} = req.body;

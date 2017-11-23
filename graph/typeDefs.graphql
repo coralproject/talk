@@ -1377,6 +1377,12 @@ type SetUsernameResponse implements Response {
   errors: [UserError!]
 }
 
+type ModifyUserRoleResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 # All mutations for the application are defined on this object.
 type RootMutation {
 
@@ -1437,6 +1443,12 @@ type RootMutation {
 
   # Removes a tag.
   removeTag(tag: ModifyTagInput!): ModifyTagResponse
+
+  # Adds a role to a user.
+  addUserRole(id: ID!, role: USER_ROLES!): ModifyUserRoleResponse
+
+  # Removes a role from a user.
+  removeUserRole(id: ID!, role: USER_ROLES!): ModifyUserRoleResponse
 
   # Updates settings on a given asset.
   # Mutation is restricted.
