@@ -53,10 +53,6 @@ class UsersService {
    * Returns a user (if found) for the given email address.
    */
   static findLocalUser(email) {
-    if (!email || typeof email !== 'string') {
-      return Promise.reject('email is required for findLocalUser');
-    }
-
     return UserModel.findOne({
       profiles: {
         $elemMatch: {
@@ -111,6 +107,9 @@ class UsersService {
         throw errors.ErrNotFound;
       }
 
+      // Date comparisons are difficult when using MongoDB. Javascript will
+      // store the date at a higher precision than Mongo can store, hence we
+      // check if the date is within 1 second of the time we're trying to set.
       if (
         user.status.suspension.until === until ||
         (
@@ -149,7 +148,8 @@ class UsersService {
         }
       }
     }, {
-      new: true
+      new: true,
+      runValidators: true
     });
     if (user === null) {
       user = await UserModel.findOne({id});
