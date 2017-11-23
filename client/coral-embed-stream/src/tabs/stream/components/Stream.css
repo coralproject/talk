@@ -2,9 +2,22 @@
   margin-top: 6px;
 }
 
-.viewAllButton {
+.viewAllButtonContainer {
   position: absolute;
-  right: 0px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: -11px;
+  z-index: 10;
+}
+
+.viewAllButton {
+  composes: buttonReset from "coral-framework/styles/reset.css";
+
+  background-color: #4D8FCC;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 2px;
 }
 
 .tabPanel {
