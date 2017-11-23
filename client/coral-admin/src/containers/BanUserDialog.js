@@ -15,7 +15,7 @@ class BanUserDialogContainer extends Component {
   banUser = async () => {
     const {userId, commentId, commentStatus, banUser, setCommentStatus, hideBanUserDialog, notify} = this.props;
     try {
-      await banUser({id: userId, status: true});
+      await banUser({id: userId, message: ''});
       hideBanUserDialog();
       if (commentId && commentStatus && commentStatus !== 'REJECTED') {
         await setCommentStatus({commentId, status: 'REJECTED'});

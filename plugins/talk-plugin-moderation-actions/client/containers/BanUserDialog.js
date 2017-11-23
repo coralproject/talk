@@ -26,7 +26,7 @@ class BanUserDialogContainer extends React.Component {
     try {
       await banUser({
         id: authorId,
-        status: true,
+        message: '',
       });
 
       closeMenu();
