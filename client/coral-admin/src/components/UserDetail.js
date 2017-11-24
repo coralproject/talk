@@ -14,6 +14,7 @@ import ApproveButton from './ApproveButton';
 import RejectButton from './RejectButton';
 import {getErrorMessages} from 'coral-framework/utils';
 import AccountHistory from './AccountHistory';
+import {TabBar, Tab, TabContent, TabPane} from 'coral-ui';
 
 export default class UserDetail extends React.Component {
 
@@ -195,6 +196,7 @@ export default class UserDetail extends React.Component {
                   </div>
                 )
             }
+
             <div className={styles.toggleAll}>
               <input
                 type='checkbox'
@@ -205,6 +207,7 @@ export default class UserDetail extends React.Component {
                 }} />
               <label htmlFor='toogleAll'>Select all</label>
             </div>
+            
           </div>
 
           { 
