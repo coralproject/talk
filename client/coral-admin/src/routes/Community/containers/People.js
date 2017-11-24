@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {compose} from 'react-apollo';
 import People from '../components/People';
 import PropTypes from 'prop-types';
-import {withUnBanUser, withBanUser} from 'coral-framework/graphql/mutations';
+import {withUnBanUser, withBanUser, withAddUserRole, withRemoveUserRole} from 'coral-framework/graphql/mutations';
 
 import {viewUserDetail} from '../../../actions/userDetail';
 
@@ -13,7 +13,6 @@ import {
   updateSorting,
   setPage,
   hideRejectUsernameDialog,
-  setRole,
   setSearchValue,
 } from '../../../actions/community';
 
@@ -66,7 +65,13 @@ class PeopleContainer extends React.Component {
   setUserBanStatus = async (id, bannedStatus) => {
     const {banUser, unBanUser} = this.props;
     await bannedStatus ? banUser({id, message: ''}) : unBanUser({id});
-    this.fetchUsers();
+    await this.fetchUsers();
+  } 
+   
+  setRole = async (id, role) => {
+    const {addUserRole, removeUserRole} = this.props;
+    await role ? addUserRole(id, role) : removeUserRole(id, role);
+    await this.fetchUsers();
   } 
 
   render() {
@@ -78,7 +83,8 @@ class PeopleContainer extends React.Component {
       onPageChange={this.onPageChange}
       totalPages={this.props.community.totalPagesPeople}
       setUserBanStatus={this.setUserBanStatus}
-      setRole={this.props.setRole}
+      setRole={this.setRole}
+      removeUserRole={this.props.removeUserRole}
       page={this.props.community.pagePeople}
       viewUserDetail={this.props.viewUserDetail}
     />;
@@ -89,7 +95,8 @@ PeopleContainer.propTypes = {
   setPage: PropTypes.func,
   fetchUsers: PropTypes.func,
   updateSorting: PropTypes.func,
-  setRole: PropTypes.func.isRequired,
+  addUserRole: PropTypes.func.isRequired,
+  removeUserRole: PropTypes.func.isRequired,
   banUser: PropTypes.func.isRequired,
   unBanUser: PropTypes.func.isRequired,
   setSearchValue: PropTypes.func.isRequired,
@@ -103,7 +110,6 @@ const mapDispatchToProps = (dispatch) =>
     fetchUsers,
     updateSorting,
     hideRejectUsernameDialog,
-    setRole,
     viewUserDetail,
     setSearchValue,
   }, dispatch);
@@ -112,4 +118,6 @@ export default compose(
   connect(null, mapDispatchToProps),
   withBanUser,
   withUnBanUser,
+  withAddUserRole,
+  withRemoveUserRole,
 )(PeopleContainer);

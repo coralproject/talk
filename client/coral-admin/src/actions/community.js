@@ -7,7 +7,6 @@ import {
   SORT_UPDATE,
   SET_PAGE,
   SET_SEARCH_VALUE,
-  SET_ROLE,
   SHOW_BANUSER_DIALOG,
   HIDE_BANUSER_DIALOG,
   SHOW_REJECT_USERNAME_DIALOG,
@@ -54,13 +53,6 @@ export const setSearchValue = (value) => ({
   type: SET_SEARCH_VALUE,
   value,
 });
-
-export const setRole = (id, role) => (dispatch, _, {rest}) => {
-  return rest(`/users/${id}/role`, {method: 'POST', body: {role}})
-    .then(() => {
-      return dispatch({type: SET_ROLE, id, role});
-    });
-};
 
 // Ban User Dialog
 export const showBanUserDialog = (user) => ({type: SHOW_BANUSER_DIALOG, user});

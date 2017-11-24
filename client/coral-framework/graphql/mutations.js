@@ -254,6 +254,46 @@ export const withUnBanUser = withMutation(
     }),
   });
 
+export const withAddUserRole = withMutation(
+  gql`
+    mutation AddUserRole($id: ID!, $role: USER_ROLES!) {
+      addUserRole(id: $id, role: $role) {
+        ...ModifyUserRoleResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      addUserRole: (id, role) => {
+        return mutate({
+          variables: {
+            id,
+            role,
+          },
+        });
+      }
+    }),
+  });
+
+export const withRemoveUserRole = withMutation(
+  gql`
+    mutation RemoveUserRole($id: ID!, $role: USER_ROLES!) {
+      removeUserRole(id: $id, role: $role) {
+        ...ModifyUserRoleResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      removeUserRole: (id, role) => {
+        return mutate({
+          variables: {
+            id,
+            role,
+          },
+        });
+      }
+    }),
+  });
+
 export const withPostComment = withMutation(
   gql`
     mutation PostComment($input: CreateCommentInput!) {

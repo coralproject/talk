@@ -37,6 +37,9 @@ enum USER_ROLES {
 
   # a moderator of the site
   MODERATOR
+
+  # a staff of the site
+  STAFF
 }
 
 # Token is a personal access token associated with a given user.
