@@ -229,7 +229,9 @@ export default class UserDetail extends React.Component {
                 }
               </div>
               :
-              <AccountHistory />
+              <AccountHistory
+                userState={user.state}
+              />
           }
 
           <LoadMore

@@ -159,6 +159,37 @@ export const withUserDetailQuery = withQuery(gql`
       reliable {
         flagger
       }
+      state {
+        status {
+          suspension {
+            history {
+              until
+              created_at
+              assigned_by {
+                username
+              }
+            }
+          }
+          banned {
+            history {
+              status
+              assigned_by {
+                username
+              }
+              created_at
+            }
+          }
+          username {
+            history {
+              status
+              assigned_by {
+                username
+              }
+              created_at
+            }
+          }
+        }
+      }
       ${getSlotFragmentSpreads(slots, 'user')}
     }
     totalComments: commentCount(query: {author_id: $author_id, statuses: []})
