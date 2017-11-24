@@ -52,7 +52,7 @@ const decorateUserField = (typeResolver, field) => {
 
   // The default resolver for the user decorator is loading the user by id.
   let fieldResolver = (obj, args, ctx) =>
-    ctx.loaders.Users.getByID.get(obj[field]);
+    ctx.loaders.Users.getByID.load(obj[field]);
 
   // The resolver can be overridden however. This decorator will simply wrap the
   // field with a permission check.
