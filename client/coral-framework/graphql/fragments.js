@@ -8,7 +8,7 @@ export default {
     'UnBanUserResponse',
     'SetUserSuspensionStatusResponse',
     'SetCommentStatusResponse',
-    'SuspendUserResponse',
+    'SetUsernameStatusResponse',
     'SuspendUserResponse',
     'CreateCommentResponse',
     'CreateFlagResponse',
