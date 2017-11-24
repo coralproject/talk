@@ -94,33 +94,16 @@
   width: calc(100% - 90px);
 }
 
-.commentStatuses {
-  padding: 0 0 0 10px;
-  margin: 0;
-  align-self: center;
-  list-style: none;
-  box-sizing: border-box;
-  li {
-    display: inline-block;
-    margin-right: 10px;
-    cursor: pointer;
-    padding: 0 10px;
-  }
-}
-
-.active {
-  font-weight: bold;
-  border-bottom: 3px solid #F36451;
-}
-
 .bulkActionGroup {
   height: 52px;
   background-color: #efefef;
   padding: 0 0 0 10px;
   display: flex;
+
   i {
     margin-right: 0;
   }
+
   .bulkAction {
     display: inline-block;
     width: 48px;
@@ -139,7 +122,7 @@
   margin-left: 15px;
 }
 
-.loadMore>button {
+.loadMore > button {
   background-color: #696969;
   &:hover {
     background-color: #404040;
@@ -160,7 +143,38 @@
   display: flex;
   justify-content: space-between;
   height: 52px;
+
   &.selected {
     background-color: #efefef;
   }
+}
+
+.tabBar {
+  padding: 0 0 0 10px;
+  margin: 0;
+  align-self: center;
+  list-style: none;
+  box-sizing: border-box;
+  border: none;
+}
+
+.tab {
+  display: inline-block;
+  margin-right: 10px;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.tabButton {
+  border: none;
+  background: white;
+  border-radius: 0;
+  font-size: 1em;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.tabButtonActive {
+  font-weight: bold;
+  border-bottom: 3px solid #F36451;
 }

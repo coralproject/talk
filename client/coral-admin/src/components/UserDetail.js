@@ -86,8 +86,7 @@ class UserDetail extends React.Component {
         rejectedComments,
         comments: {
           nodes,
-          hasNextPage
-        }
+          hasNextPage}
       },
       activeTab,
       selectedCommentIds,
@@ -162,15 +161,23 @@ class UserDetail extends React.Component {
                   <TabBar
                     onTabClick={this.changeTab}
                     activeTab={activeTab}
-                    className={cn(styles.commentStatuses, 'talk-admin-user-detail-tab-bar')}
-                    aria-controls='talk-admin-user-detail-content' >
-                    <Tab tabId={'all'} className={'talk-admin-user-detail-all-tab'}>
+                    className={cn(styles.tabBar, 'talk-admin-user-detail-tab-bar')}
+                    aria-controls='talk-admin-user-detail-content'
+                    tabClassNames={{
+                      button: styles.tabButton,
+                      buttonActive: styles.tabButtonActive,
+                    }} >
+                    <Tab
+                      tabId={'all'}
+                      className={cn(styles.tab, styles.button, 'talk-admin-user-detail-all-tab')} >
                       All
                     </Tab>
-                    <Tab tabId={'rejected'} className={'talk-admin-user-detail-rejected-tab'}>
+                    <Tab 
+                      tabId={'rejected'}
+                      className={cn(styles.tab, 'talk-admin-user-detail-rejected-tab')} >
                       Rejected
                     </Tab>
-                    <Tab tabId={'history'} className={'talk-admin-user-detail-history-tab'}>
+                    <Tab tabId={'history'} className={cn(styles.tab, styles.button, 'talk-admin-user-detail-history-tab')}>
                       Account History
                     </Tab>
                   </TabBar>
@@ -190,16 +197,18 @@ class UserDetail extends React.Component {
                 )
             }
 
-            <div className={styles.toggleAll}>
-              <input
-                type='checkbox'
-                id='toogleAll'
-                checked={selectedCommentIds.length > 0 && selectedCommentIds.length === nodes.length}
-                onChange={(e) => {
-                  toggleSelectAll(nodes.map((comment) => comment.id), e.target.checked);
-                }} />
-              <label htmlFor='toogleAll'>Select all</label>
-            </div>
+            {(activeTab === 'all' || activeTab === 'rejected') && (
+              <div className={styles.toggleAll}>
+                <input
+                  type='checkbox'
+                  id='toogleAll'
+                  checked={selectedCommentIds.length > 0 && selectedCommentIds.length === nodes.length}
+                  onChange={(e) => {
+                    toggleSelectAll(nodes.map((comment) => comment.id), e.target.checked);
+                  }} />
+                <label htmlFor='toogleAll'>Select all</label>
+              </div>
+            )}
 
           </div>
 
