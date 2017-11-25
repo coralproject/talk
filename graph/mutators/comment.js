@@ -1,6 +1,7 @@
 const errors = require('../../errors');
 
 const ActionModel = require('../../models/action');
+const CommentModel = require('../../models/comment');
 const AssetsService = require('../../services/assets');
 const ActionsService = require('../../services/actions');
 const TagsService = require('../../services/tags');
@@ -172,7 +173,6 @@ const createComment = async (context, {tags = [], body, asset_id, parent_id = nu
     author_id: user.id,
     metadata,
   });
-
   // If the loaders are present, clear the caches for these values because we
   // just added a new comment, hence the counts should be updated. We should
   // perform these increments in the event that we do have a new comment that
@@ -373,11 +373,45 @@ const moderationPhases = [
       };
     }
   },
+  // This phase checks to see if the user is new, if they are,
+  // and premod new users is turned on the comment is premod.
+  async ({user}, comment, {assetSettings: {premodNewUserEnable}}) => {
+    // If the premodNewUsersAfter feature is enabled, then ensure that the user
+    // is new enough to warrant the check.
+    if (
+      premodNewUserEnable !== null &&
+      user.created_at >= new Date (premodNewUserEnable)
+    ) {
+
+      // If the karma for the comment is above 0, then we know that there
+      // was at least one approved comment.
+      if (
+        user.metadata &&
+        user.metadata.trust &&
+        user.metadata.trust.comment &&
+        user.metadata.trust.comment.karma > 0
+      ) {
+        return;
+      }
+
+      // We weren't able to determine with the Karma if the user has had an approved comment
+      // or not. We need to check with the comment's collection.
+      const acceptedComments = await CommentModel.find({
+        author_id: user.id,
+        status: 'ACCEPTED',
+      }).count();
+      console.log(acceptedComments);
+      if (acceptedComments <= 0) {
+        return {
+          status: 'PREMOD',
+        };
+      }
+    }
+  },
 
   // This phase checks to see if the settings have premod enabled, if they do,
   // the comment is premod, otherwise, it's just none.
   (context, comment, {assetSettings: {moderation}}) => {
-
     // If the settings say that we're in premod mode, then the comment is in
     // premod status.
     if (moderation === 'PRE') {
@@ -385,11 +419,10 @@ const moderationPhases = [
         status: 'PREMOD',
       };
     }
-
     return {
       status: 'NONE',
     };
-  }
+  },
 ];
 
 /**
@@ -427,7 +460,6 @@ const resolveCommentModeration = async (context, comment) => {
       settings,
       wordlist,
     });
-
     if (result) {
 
       if (result.actions) {

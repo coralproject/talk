@@ -181,7 +181,7 @@ module.exports = class UsersService {
           lowercaseUsername: username.toLowerCase(),
           roles: [],
           profiles: [{id, provider}],
-          canEditName: true
+          canEditName: true,
         });
 
         return user.save();

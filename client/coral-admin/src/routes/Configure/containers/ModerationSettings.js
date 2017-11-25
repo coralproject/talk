@@ -27,6 +27,7 @@ export default compose(
       fragment TalkAdmin_ModerationSettings_settings on Settings {
         requireEmailConfirmation
         moderation
+        premodNewUserEnable
         premodLinksEnable
         wordlist {
           suspect

@@ -32,8 +32,8 @@ class ConfigureContainer extends Component {
   }
 
   // Cached merged settings.
-  mergedSettings = this.getMergedSettings();
 
+  mergedSettings = this.getMergedSettings();
   savePending = async () => {
     try {
       await this.props.updateSettings(this.props.pending);

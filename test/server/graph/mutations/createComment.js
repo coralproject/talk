@@ -157,6 +157,50 @@ describe('graph.mutations.createComment', () => {
     });
 
   });
+  describe('comments made by a', () => {
+
+    beforeEach(() => AssetModel.create({id: '123'}));
+
+    [
+      {contextNewUserCreated: '2017-01-01', premodNewUserEnable: null, status: 'NONE'},
+      {contextNewUserCreated: '2017-01-01', premodNewUserEnable: null, status: 'NONE'},
+      {contextUserCreated: '2016-12-30', premodNewUserEnable: '2017-01-01', status: 'NONE'},
+      {contextNewUserCreated: '2017-11-02', premodNewUserEnable: '2017-01-01', status: 'PREMOD'},
+    ].forEach(({contextNewUserCreated, premodNewUserEnable, status}) => {
+      describe(`${contextNewUserCreated ? 'new' : ''} user with premodNewUser ${premodNewUserEnable ? 'on' : 'off'}`, () => {
+        beforeEach(() => SettingsService.update({premodNewUserEnable}));
+
+        it(`should create a comment with status ${status}`, () => {
+          const context = new Context({user: new UserModel({created_at: contextNewUserCreated})});
+          return graphql(schema, query, {}, context, {
+            asset_id: '123',
+            body: 'An innocuous comment',
+          })
+            .then(({data, errors}) => {
+              expect(errors).to.be.undefined;
+              expect(data.createComment).to.have.property('comment').not.null;
+              expect(data.createComment).to.have.property('errors').null;
+              expect(data.createComment.comment).to.have.property('status', status);
+            });
+        });
+
+      });
+      describe('staff member', () => {
+        beforeEach(() => SettingsService.update({premodNewUserEnable}));
+        it('should not go into premod, regardless of premodNewUser setting', () => {
+          const context = new Context({user: new UserModel({newUser: true, roles: ['ADMIN']})});
+          return graphql(schema, query, {}, context, {
+            asset_id: '123',
+            body: 'A wise comment',
+          })
+            .then(({data}) => {
+              expect(data.createComment.comment).to.have.property('status', 'NONE');
+            });
+        });
+      });
+    });
+
+  });
 
   describe('comments with/without banned words', () => {
 
