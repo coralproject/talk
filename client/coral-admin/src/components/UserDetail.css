@@ -122,21 +122,9 @@
   margin-left: 15px;
 }
 
-.loadMore > button {
-  background-color: #696969;
-  &:hover {
-    background-color: #404040;
-    color: white;
-  }
-}
-
 .toggleAll {
   padding: 0 10px 0 0;
   align-self: center;
-}
-
-.commentList {
-  clear: both;
 }
 
 .bulkActionHeader {

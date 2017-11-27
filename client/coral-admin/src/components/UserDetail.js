@@ -6,10 +6,9 @@ import {getErrorMessages} from 'coral-framework/utils';
 import styles from './UserDetail.css';
 import RejectButton from './RejectButton';
 import ApproveButton from './ApproveButton';
-import LoadMore from '../components/LoadMore';
 import AccountHistory from './AccountHistory';
 import {Slot} from 'coral-framework/components';
-import Comment from '../containers/UserDetailComment';
+import UserDetailCommentList from '../components/UserDetailCommentList';
 import {getReliability} from 'coral-framework/utils/user';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import ClickOutside from 'coral-framework/components/ClickOutside';
@@ -86,7 +85,7 @@ class UserDetail extends React.Component {
         rejectedComments,
         comments: {
           nodes,
-          hasNextPage}
+        }
       },
       activeTab,
       selectedCommentIds,
@@ -214,46 +213,30 @@ class UserDetail extends React.Component {
 
           <TabContent activeTab={activeTab} className='talk-admin-user-detail-content'>
             <TabPane tabId={'all'} className={'talk-admin-user-detail-all-tab-pane'}>
-              <div className={styles.commentList}>
-                {
-                  nodes.map((comment) => {
-                    const selected = selectedCommentIds.indexOf(comment.id) !== -1;
-                    return <Comment
-                      key={comment.id}
-                      user={user}
-                      root={root}
-                      data={data}
-                      comment={comment}
-                      acceptComment={this.acceptThenReload}
-                      rejectComment={this.rejectThenReload}
-                      selected={selected}
-                      toggleSelect={toggleSelect}
-                      viewUserDetail={viewUserDetail}
-                    />;
-                  })
-                }
-              </div>
+              <UserDetailCommentList
+                user={user}
+                root={root}
+                data={data}
+                loadMore={loadMore}
+                toggleSelect={toggleSelect}
+                viewUserDetail={viewUserDetail}
+                acceptComment={this.acceptThenReload}
+                rejectComment={this.rejectThenReload}
+                selectedCommentIds={selectedCommentIds}
+              />
             </TabPane>
             <TabPane tabId={'rejected'} className={'talk-admin-user-detail-rejected-tab-pane'}>
-              <div className={styles.commentList}>
-                {
-                  nodes.map((comment) => {
-                    const selected = selectedCommentIds.indexOf(comment.id) !== -1;
-                    return <Comment
-                      key={comment.id}
-                      user={user}
-                      root={root}
-                      data={data}
-                      comment={comment}
-                      acceptComment={this.acceptThenReload}
-                      rejectComment={this.rejectThenReload}
-                      selected={selected}
-                      toggleSelect={toggleSelect}
-                      viewUserDetail={viewUserDetail}
-                    />;
-                  })
-                }
-              </div>
+              <UserDetailCommentList
+                user={user}
+                root={root}
+                data={data}
+                loadMore={loadMore}
+                toggleSelect={toggleSelect}
+                viewUserDetail={viewUserDetail}
+                acceptComment={this.acceptThenReload}
+                rejectComment={this.rejectThenReload}
+                selectedCommentIds={selectedCommentIds}
+              />
             </TabPane>
             <TabPane tabId={'history'} className={'talk-admin-user-detail-history-tab-pane'}>
               <AccountHistory
@@ -261,13 +244,6 @@ class UserDetail extends React.Component {
               />
             </TabPane>
           </TabContent>
-
-          <LoadMore
-            className={styles.loadMore}
-            loadMore={loadMore}
-            showLoadMore={hasNextPage}
-          />
-          
         </Drawer>
       </ClickOutside>
     );
