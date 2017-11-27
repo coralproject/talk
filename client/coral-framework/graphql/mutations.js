@@ -177,6 +177,25 @@ export const withSuspendUser = withMutation(
     })
   });
 
+export const withApproveUsername = withMutation(
+  gql`
+    mutation ApproveUsername($id: ID!) {
+      approveUsername(id: $id) {
+        ...SetUsernameStatusResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      approveUsername: (id) => {
+        return mutate({
+          variables: {
+            id,
+          },
+        });
+      }
+    })
+  });
+
 export const withRejectUsername = withMutation(
   gql`
     mutation RejectUsername($id: ID!) {

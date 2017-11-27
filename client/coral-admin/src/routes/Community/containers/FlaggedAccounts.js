@@ -6,7 +6,7 @@ import {withFragments} from 'plugin-api/beta/client/hocs';
 import {Spinner} from 'coral-ui';
 import PropTypes from 'prop-types';
 
-import {withUnBanUser} from 'coral-framework/graphql/mutations';
+import {withApproveUsername} from 'coral-framework/graphql/mutations';
 import {showBanUserDialog} from 'actions/banUserDialog';
 import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 import {showRejectUsernameDialog} from '../../../actions/community';
@@ -24,11 +24,8 @@ class FlaggedAccountsContainer extends Component {
     super(props);
   }
 
-  approveUser = ({userId}) => {
-    return this.props.unBanUser({
-      id: userId,
-      status: false
-    });
+  approveUser = ({userId: id}) => {
+    return this.props.approveUsername(id);
   }
 
   loadMore = () => {
@@ -83,7 +80,7 @@ FlaggedAccountsContainer.propTypes = {
   showSuspendUserDialog: PropTypes.func,
   showRejectUsernameDialog: PropTypes.func,
   viewUserDetail: PropTypes.func,
-  unBanUser: PropTypes.func,
+  approveUsername: PropTypes.func,
   data: PropTypes.object,
   root: PropTypes.object
 };
@@ -121,7 +118,7 @@ const mapDispatchToProps = (dispatch) =>
 
 export default compose(
   connect(null, mapDispatchToProps),
-  withUnBanUser,
+  withApproveUsername,
   withFragments({
     root: gql`
       fragment TalkAdminCommunity_FlaggedAccounts_root on RootQuery {
