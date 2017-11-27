@@ -182,7 +182,7 @@ type User {
   actions: [Action!]
 
   # the current roles of the user.
-  roles: [USER_ROLES!]
+  role: USER_ROLES
 
   # the current profiles of the user.
   profiles: [UserProfile]
@@ -1380,7 +1380,7 @@ type SetUsernameResponse implements Response {
   errors: [UserError!]
 }
 
-type ModifyUserRoleResponse implements Response {
+type SetUserRoleResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
   errors: [UserError!]
@@ -1447,11 +1447,9 @@ type RootMutation {
   # Removes a tag.
   removeTag(tag: ModifyTagInput!): ModifyTagResponse
 
-  # Adds a role to a user.
-  addUserRole(id: ID!, role: USER_ROLES!): ModifyUserRoleResponse
-
-  # Removes a role from a user.
-  removeUserRole(id: ID!, role: USER_ROLES!): ModifyUserRoleResponse
+  # Set's a given users role to the one provided. If `null` is passed, the user
+  # will not have any role.
+  setUserRole(id: ID!, role: USER_ROLES): SetUserRoleResponse
 
   # Updates settings on a given asset.
   # Mutation is restricted.

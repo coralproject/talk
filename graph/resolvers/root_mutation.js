@@ -55,11 +55,8 @@ const RootMutation = {
   updateAssetStatus: async (_, {id, input: status}, {mutators: {Asset}}) => {
     await Asset.updateStatus(id, status);
   },
-  addUserRole: async (_, {id, role}, {mutators: {User}}) => {
-    await User.addRole(id, role);
-  },
-  removeUserRole: async (_, {id, role}, {mutators: {User}}) => {
-    await User.removeRole(id, role);
+  setUserRole: async (_, {id, role}, {mutators: {User}}) => {
+    await User.setRole(id, role);
   },
   setCommentStatus: async (_, {id, status}, {mutators: {Comment}, pubsub}) => {
     const comment = await Comment.setStatus({id, status});

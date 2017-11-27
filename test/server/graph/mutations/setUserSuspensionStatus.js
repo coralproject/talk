@@ -60,18 +60,17 @@ describe('graph.mutations.suspendUser', () => {
   `;
 
   [
-    {self: true, error: 'NOT_AUTHORIZED', roles: null},
-    {self: true, error: 'NOT_AUTHORIZED', roles: ['STAFF']},
-    {self: true, error: 'NOT_AUTHORIZED', roles: []},
-    {error: 'NOT_AUTHORIZED', roles: null},
-    {error: 'NOT_AUTHORIZED', roles: ['STAFF']},
-    {error: 'NOT_AUTHORIZED', roles: []},
-    {error: false, roles: ['MODERATOR']},
-    {error: false, roles: ['ADMIN']},
-    {error: false, roles: ['ADMIN', 'MODERATOR']},
-  ].forEach(({self, error, roles}) => {
-    it(`${error ? 'can not' : 'can'} suspend ${self ? 'themself' : 'another user'} as a user with roles ${roles && roles.length ? roles : JSON.stringify(roles)}`, async () => {
-      const actor = new UserModel({roles});
+    {self: true, error: 'NOT_AUTHORIZED', role: 'COMMENTER'},
+    {self: true, error: 'NOT_AUTHORIZED', role: 'STAFF'},
+    {self: true, error: 'NOT_AUTHORIZED', role: 'COMMENTER'},
+    {error: 'NOT_AUTHORIZED', role: 'COMMENTER'},
+    {error: 'NOT_AUTHORIZED', role: 'STAFF'},
+    {error: 'NOT_AUTHORIZED', role: 'COMMENTER'},
+    {error: false, role: 'MODERATOR'},
+    {error: false, role: 'ADMIN'},
+  ].forEach(({self, error, role}) => {
+    it(`${error ? 'can not' : 'can'} suspend ${self ? 'themself' : 'another user'} as a user with role ${role}`, async () => {
+      const actor = new UserModel({role});
 
       // If we're testing self assign, set the id of the actor to the user
       // we're acting on.

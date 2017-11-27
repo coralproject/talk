@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const uuid = require('uuid');
 const TagLinkSchema = require('./schema/tag_link');
 const TokenSchema = require('./schema/token');
-const intersection = require('lodash/intersection');
 const can = require('../perms');
 
 // USER_ROLES is the array of roles that is permissible as a user role.
@@ -87,13 +86,13 @@ const UserSchema = new Schema({
   // Tokens are the individual personal access tokens for a given user.
   tokens: [TokenSchema],
 
-  // Roles provides an array of roles (as strings) that is associated with a
-  // user.
-  roles: [{
+  // Role is the specific user role that the user holds.
+  role: {
     type: String,
     enum: USER_ROLES,
-    required: true
-  }],
+    required: true,
+    default: 'COMMENTER',
+  },
 
   // Status stores the user status information regarding permissions,
   // capabilities and moderation state.
@@ -225,7 +224,7 @@ UserSchema.index({
  * returns true if a commenter is staff
  */
 UserSchema.method('isStaff', function () {
-  return intersection(['ADMIN', 'MODERATOR', 'STAFF'], this.roles).length !== 0;
+  return this.role !== 'COMMENTER';
 });
 
 /**

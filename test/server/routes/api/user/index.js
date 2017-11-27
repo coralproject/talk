@@ -30,7 +30,7 @@ describe('/api/v1/users/:user_id/email/confirm', () => {
 
       return chai.request(app)
         .post(`/api/v1/users/${mockUser.id}/email/confirm`)
-        .set(passport.inject({roles: ['ADMIN']}))
+        .set(passport.inject({role: 'ADMIN'}))
         .then((res) => {
           expect(res).to.have.status(204);
           expect(mailer.task.tasks).to.have.length(1);
@@ -40,7 +40,7 @@ describe('/api/v1/users/:user_id/email/confirm', () => {
     it('should send a 404 on not matching a user', () => {
       return chai.request(app)
         .post(`/api/v1/users/${mockUser.id}/email/confirm`)
-        .set(passport.inject({roles: ['ADMIN']}))
+        .set(passport.inject({role: 'ADMIN'}))
         .then((res) => {
           expect(res).to.have.status(204);
           expect(mailer.task.tasks).to.have.length(1);

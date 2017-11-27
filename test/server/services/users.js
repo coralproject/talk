@@ -168,7 +168,7 @@ describe('services.UsersService', () => {
     it('should not ignore a staff member', async () => {
       const user = mockUsers[0];
       const usersToIgnore = [mockUsers[1]];
-      await UsersService.addRoleToUser(usersToIgnore[0].id, 'STAFF');
+      await UsersService.setRole(usersToIgnore[0].id, 'STAFF');
 
       try {
         await UsersService.ignoreUsers(user.id, usersToIgnore.map((u) => u.id));

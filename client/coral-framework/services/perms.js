@@ -1,4 +1,3 @@
-import intersection from 'lodash/intersection';
 import get from 'lodash/get';
 
 // =========================================================================
@@ -60,6 +59,6 @@ export const can = (user, ...perms) => {
       throw new Error(`${perm} is not a valid role or permission`);
     }
 
-    return intersection(role, user.roles).length > 0;
+    return role.includes(user.role);
   });
 };

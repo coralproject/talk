@@ -66,7 +66,7 @@ const Table = ({users, setRole, onHeaderClickHandler, setUserBanStatus, viewUser
             <td className="mdl-data-table__cell--non-numeric">
               <Dropdown
                 containerClassName="talk-admin-community-people-dd-role"
-                value={row.roles[0] || ''}
+                value={row.role || ''}
                 placeholder={t('community.role')}
                 onChange={(role) => setRole(row.id, role)}>
                 <Option value={''} label={t('community.none')} />

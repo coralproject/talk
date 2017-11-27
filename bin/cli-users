@@ -34,11 +34,11 @@ function getUserCreateAnswers(options) {
       password: options.password,
       confirmPassword: options.password,
       username: options.name,
-      roles: []
+      role: 'COMMENTER'
     };
 
     if (options.role && USER_ROLES.indexOf(options.role) > -1) {
-      user.roles = [options.role];
+      user.roles = options.role;
     }
 
     return Promise.resolve(user);
@@ -87,9 +87,9 @@ function getUserCreateAnswers(options) {
       }
     },
     {
-      name: 'roles',
+      name: 'role',
       message: 'User Role',
-      type: 'checkbox',
+      type: 'list',
       choices: USER_ROLES
     }
   ]);
@@ -106,13 +106,7 @@ async function createUser(options) {
     }
 
     const user = await UsersService.createLocalUser(answers.email.trim(), answers.password.trim(), answers.username.trim());
-
-    if (answers.roles.length > 0) {
-      for (const role of answers.roles) {
-        await UsersService.addRoleToUser(user.id, role);
-      }
-    }
-
+    await UsersService.setRole(user.id, answers.role);
     await UsersService.sendEmailConfirmation(user, answers.email.trim());
 
     console.log(`Created User ${user.id}.`);
@@ -250,7 +244,7 @@ function listUsers() {
           user.id,
           user.username,
           user.profiles.map((p) => p.provider).join(', '),
-          user.roles.join(', '),
+          user.role,
           user.status,
           state
         ]);

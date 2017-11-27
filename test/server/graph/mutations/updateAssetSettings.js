@@ -27,12 +27,13 @@ describe('graph.mutations.updateAssetSettings', () => {
   describe('context with different user roles', () => {
 
     [
-      {error: 'NOT_AUTHORIZED'},
-      {roles: ['ADMIN', 'MODERATOR']},
-      {roles: ['MODERATOR']},
-    ].forEach(({roles, error}) => {
-      it(roles ? roles.join(', ') : '<None>', async () => {
-        const user = new UserModel({roles});
+      {role: 'COMMENTER', error: 'NOT_AUTHORIZED'},
+      {role: 'STAFF', error: 'NOT_AUTHORIZED'},
+      {role: 'ADMIN'},
+      {role: 'MODERATOR'},
+    ].forEach(({role, error}) => {
+      it(`role = ${role}`, async () => {
+        const user = new UserModel({role});
         const ctx = new Context({user});
 
         const settings = {

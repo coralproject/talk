@@ -48,21 +48,16 @@ const setUsername = async (ctx, id, username) => {
   return UsersService.setUsername(id, username, ctx.user.id);
 };
 
-const addRole = (ctx, id, role) => {
-  return UsersService.addRoleToUser(id, role);
-};
-
-const removeRole = (ctx, id, role) => {
-  return UsersService.removeRoleFromUser(id, role);
+const setRole = (ctx, id, role) => {
+  return UsersService.setRole(id, role);
 };
 
 module.exports = (ctx) => {
   let mutators = {
     User: {
-      addRole: () => Promise.reject(errors.ErrNotAuthorized),
       changeUsername: () => Promise.reject(errors.ErrNotAuthorized),
       ignoreUser: () => Promise.reject(errors.ErrNotAuthorized),
-      removeRole: () => Promise.reject(errors.ErrNotAuthorized),
+      setRole: () => Promise.reject(errors.ErrNotAuthorized),
       setUserBanStatus: () => Promise.reject(errors.ErrNotAuthorized),
       setUserSuspensionStatus: () => Promise.reject(errors.ErrNotAuthorized),
       setUserUsernameStatus: () => Promise.reject(errors.ErrNotAuthorized),
@@ -76,8 +71,7 @@ module.exports = (ctx) => {
     mutators.User.stopIgnoringUser = (action) => stopIgnoringUser(ctx, action);
 
     if (ctx.user.can(UPDATE_USER_ROLES)) {
-      mutators.User.addRole = (id, role) => addRole(ctx, id, role);
-      mutators.User.removeRole = (id, role) => removeRole(ctx, id, role);
+      mutators.User.setRole = (id, role) => setRole(ctx, id, role);
     }
 
     if (ctx.user.can(CHANGE_USERNAME)) {

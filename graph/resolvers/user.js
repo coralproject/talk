@@ -67,11 +67,11 @@ const User = {
     const connection = await Users.getByQuery({ids: user.ignoresUsers});
     return connection.nodes;
   },
-  roles({id, roles}, _, {user}) {
+  role({id, role}, _, {user}) {
 
     // If the user is not an admin, only return the current user's roles.
     if (user && (user.can(UPDATE_USER_ROLES) || user.id === id)) {
-      return roles;
+      return role;
     }
 
     return null;

@@ -26,17 +26,12 @@ describe('graph.mutations.updateSettings', () => {
   describe('context with different user roles', () => {
 
     [
-      {error: 'NOT_AUTHORIZED'},
-      {error: 'NOT_AUTHORIZED', roles: []},
-      {roles: ['ADMIN']},
-      {roles: ['ADMIN', 'MODERATOR']},
-      {roles: ['MODERATOR']},
-    ].forEach(({roles, error}) => {
-      it(roles ? roles.join(', ') : '<None>', async () => {
-        let user;
-        if (roles != null) {
-          user = new UserModel({roles});
-        }
+      {error: 'NOT_AUTHORIZED', role: 'COMMENTER'},
+      {role: 'ADMIN'},
+      {role: 'MODERATOR'},
+    ].forEach(({role, error}) => {
+      it(`role = ${role}`, async () => {
+        const user = new UserModel({role});
         const ctx = new Context({user});
 
         const newSettings = {
@@ -74,7 +69,7 @@ describe('graph.mutations.updateSettings', () => {
   });
 
   describe('nested objects', () => {
-    const user = new UserModel({roles: ['ADMIN']});
+    const user = new UserModel({role: 'ADMIN'});
     const ctx = new Context({user});
 
     it('should handle nested objects', async () => {

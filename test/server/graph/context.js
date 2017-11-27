@@ -13,7 +13,7 @@ describe('graph.Context', () => {
     let c;
 
     beforeEach(() => {
-      c = new Context({user: new User({id: '1', roles: ['ADMIN']})});
+      c = new Context({user: new User({id: '1', role: 'ADMIN'})});
     });
 
     it('creates a context with a user', (done) => {

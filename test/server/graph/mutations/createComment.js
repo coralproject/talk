@@ -208,15 +208,14 @@ describe('graph.mutations.createComment', () => {
     beforeEach(() => AssetModel.create({id: '123'}));
 
     [
-      {roles: [], tag: null},
-      {roles: ['ADMIN'], tag: 'STAFF'},
-      {roles: ['MODERATOR'], tag: 'STAFF'},
-      {roles: ['ADMIN', 'MODERATOR'], tag: 'STAFF'}
-    ].forEach(({roles, tag}) => {
-      describe(`user.roles=${JSON.stringify(roles)}`, () => {
+      {role: 'COMMENTER', tag: null},
+      {role: 'ADMIN', tag: 'STAFF'},
+      {role: 'MODERATOR', tag: 'STAFF'},
+    ].forEach(({role, tag}) => {
+      describe(`user.role=${JSON.stringify(role)}`, () => {
 
         it(`creates comment ${tag ? `with tag=${tag}` : 'without tags'}`, async () => {
-          const context = new Context({user: new UserModel({roles})});
+          const context = new Context({user: new UserModel({role})});
 
           const {data, errors} = await graphql(schema, query, {}, context);
 

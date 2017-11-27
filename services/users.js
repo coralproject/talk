@@ -370,7 +370,6 @@ class UsersService {
     user = new UserModel({
       username,
       lowercaseUsername: username.toLowerCase(),
-      roles: [],
       profiles: [{id, provider}],
       status: {
         username: {
@@ -521,7 +520,6 @@ class UsersService {
       username,
       lowercaseUsername: username.toLowerCase(),
       password: hashedPassword,
-      roles: [],
       profiles: [
         {
           id: email,
@@ -557,25 +555,12 @@ class UsersService {
   }
 
   /**
-   * Adds a role to a user.
+   * Sets a given user's role to the one provided.
    * @param  {String}   id   id of a user
    * @param  {String}   role role to add
    */
-  static addRoleToUser(id, role) {
-    return UserModel.update({id}, {$addToSet: {roles: role}}, {runValidators: true});
-  }
-
-  /**
-   * Removes a role from a user.
-   * @param  {String}   id   id of a user
-   * @param  {String}   role role to remove
-   */
-  static async removeRoleFromUser(id, role) {
-    return UserModel.update({id}, {
-      $pull: {
-        roles: role
-      }
-    }, {runValidators: true});
+  static setRole(id, role) {
+    return UserModel.update({id}, {$set: {role}}, {runValidators: true});
   }
 
   /**

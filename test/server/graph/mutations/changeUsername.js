@@ -47,15 +47,18 @@ describe('graph.mutations.changeUsername', () => {
   `;
 
   [
-    {roles: null},
-    {roles: ['STAFF']},
-    {roles: []},
-    {roles: ['MODERATOR']},
-    {roles: ['ADMIN']},
-    {roles: ['ADMIN', 'MODERATOR']},
-  ].forEach(({roles}) => {
-    it(`can change the username with roles ${roles && roles.length ? roles : JSON.stringify(roles)}`, async () => {
+    {role: 'COMMENTER'},
+    {role: 'STAFF'},
+    {role: 'COMMENTER'},
+    {role: 'MODERATOR'},
+    {role: 'ADMIN'},
+  ].forEach(({role}) => {
+    it(`can change the username with roles ${role}`, async () => {
       let username = 'spock';
+
+      // Update the user role.
+      await UsersService.setRole(user.id, role);
+      user.role = role;
 
       let ctx = new Context({user});
 

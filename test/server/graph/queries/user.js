@@ -60,13 +60,13 @@ describe('graph.queries.user', () => {
     `;
 
     [
-      {roles: [], can: false},
-      {roles: ['STAFF'], can: false},
-      {roles: ['STAFF', 'MODERATOR'], can: true},
-      {roles: ['STAFF', 'MODERATOR', 'ADMIN'], can: true},
-    ].forEach(({roles, can}) => {
-      it(`${can ? 'can' : 'can not'} query with roles = ${roles.length > 0 ? roles : '<none>'}`, async () => {
-        const actor = new UserModel({roles});
+      {role: 'COMMENTER', can: false},
+      {role: 'STAFF', can: false},
+      {role: 'MODERATOR', can: true},
+      {role: 'ADMIN', can: true},
+    ].forEach(({role, can}) => {
+      it(`${can ? 'can' : 'can not'} query with role = ${role}`, async () => {
+        const actor = new UserModel({role});
         const ctx = new Context({user: actor});
 
         const {data, errors} = await graphql(schema, query, {}, ctx, {

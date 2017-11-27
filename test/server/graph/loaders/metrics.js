@@ -46,7 +46,7 @@ describe('graph.loaders.Metrics', () => {
           beforeEach(() => ActionModel.create(actions));
 
           it(`returns the correct amount of metrics flagged=${flagged}`, () => {
-            const context = new Context({user: new UserModel({roles: ['ADMIN']})});
+            const context = new Context({user: new UserModel({role: 'ADMIN'})});
 
             return graphql(schema, query, {}, context, {
               from: (new Date()).setMinutes((new Date()).getMinutes() - 5),
@@ -112,7 +112,7 @@ describe('graph.loaders.Metrics', () => {
           beforeEach(() => ActionModel.create(actions));
 
           it(`returns the correct amount of metrics flagged=${flagged}`, () => {
-            const context = new Context({user: new UserModel({roles: ['ADMIN']})});
+            const context = new Context({user: new UserModel({role: 'ADMIN'})});
 
             return graphql(schema, query, {}, context, {
               from: (new Date()).setMinutes((new Date()).getMinutes() - 5),

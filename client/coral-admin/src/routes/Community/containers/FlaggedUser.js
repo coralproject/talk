@@ -30,7 +30,7 @@ export default withFragments({
           }
         }
       }
-      roles
+      role
       actions{
         id
         created_at
