@@ -84,7 +84,7 @@ module.exports = {
       permissions: {
         public: true,
         self: false,
-        roles: []
+        roles: ['ADMIN', 'MODERATOR']
       },
       models: ['COMMENTS'],
       created_at: new Date()
