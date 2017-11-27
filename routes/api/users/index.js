@@ -48,16 +48,7 @@ router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, nex
 
 router.post('/:user_id/role', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
   try {
-    await UsersService.addRoleToUser(req.params.user_id, req.body.role);
-    res.status(204).end();
-  } catch (e) {
-    next(e);
-  }
-});
-
-router.delete('/:user_id/role', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
-  try {
-    await UsersService.removeRoleFromUser(req.params.user_id, req.body.role);
+    await UsersService.setRole(req.params.user_id, req.body.role);
     res.status(204).end();
   } catch (e) {
     next(e);

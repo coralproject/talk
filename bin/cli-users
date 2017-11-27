@@ -282,42 +282,30 @@ function mergeUsers(dstUserID, srcUserID) {
  * @param  {String} userUD id of the user to add the role to
  * @param  {String} role   the role to add
  */
-function addRole(userID, role) {
-  UsersService
-    .addRoleToUser(userID, role)
-    .then(() => {
-      console.log(`Added the ${role} role to User ${userID}.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
+async function setRole(userID, role, options) {
+  try {
+    if (options.interactive || !role) {
+      const answers = await inquirer.prompt([
+        {
+          name: 'role',
+          message: 'User Role',
+          type: 'list',
+          choices: USER_ROLES
+        }
+      ]);
 
-/**
- * Removes a role from a user
- * @param  {String} userUD id of the user to remove the role from
- * @param  {String} role   the role to remove
- */
-function removeRole(userID, role) {
+      role = answers.role;
+    }
 
-  if (USER_ROLES.indexOf(role) === -1) {
-    console.error(`Role '${role}' is not supported. Supported roles are ${USER_ROLES.join(', ')}.`);
+    await UsersService.setRole(userID, role);
+
+    console.log(`Set User ${userID} to the ${role} role.`);
+    util.shutdown();
+  } catch (err) {
+    console.error(err);
     util.shutdown(1);
-    return;
   }
 
-  UsersService
-    .removeRoleFromUser(userID, role)
-    .then(() => {
-      console.log(`Removed the ${role} role from User ${userID}.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
 }
 
 /**
@@ -379,14 +367,10 @@ program
   .action(mergeUsers);
 
 program
-  .command('addrole <userID> <role>')
-  .description('adds a role to a given user')
-  .action(addRole);
-
-program
-  .command('removerole <userID> <role>')
-  .description('removes a role from a given user')
-  .action(removeRole);
+  .command('setrole <userID> [role]')
+  .option('-i, --interactive', 'Enable interactive mode')
+  .description('sets the role on a user')
+  .action(setRole);
 
 program
   .command('verify <userID> <email>')
