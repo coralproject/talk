@@ -14,6 +14,9 @@ es:
     yes_ban_user: "Si, Suspender al usuario"
     write_a_message: "Escribe un mensaje"
     send: "Enviar"
+    notify_ban_headline: "Notificar al usuario de la suspensión"
+    notify_ban_description: "Esto notificará al usuario por email que fueron suspendidos de la comunidad"
+    email_message_ban: "Dear {0},\n\nSomeone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, like or report comments. if you think this has been done in error, please contact our community team."
   bio_offensive: "Esta biografia es ofensiva"
   cancel: Cancelar
   characters_remaining: "carácteres restantes"

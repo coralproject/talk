@@ -13,13 +13,25 @@ class BanUserDialog extends React.Component {
   
   state = initialState;
 
+  componentWillReceiveProps(next) {
+    if (this.props.open && !next.open) {
+      this.setState(initialState);
+    }
+  }
+  
   handleMessageChange = (e) => {
     const {value: message} = e; 
     this.setState({message});
   }
 
-  goToStep = (step) => {
-    this.setState({step});
+  goToStep1 = () => {
+    this.setState({
+      step: 1,
+      message: t(
+        'bandialog.email_message_ban',
+        this.props.username,
+      ),
+    });
   }
 
   renderStep0() {
@@ -30,18 +42,20 @@ class BanUserDialog extends React.Component {
     } = this.props;
 
     return (
-      <div>
-        <div className={styles.header}>
-          <h2>{t('bandialog.ban_user')}</h2>
-        </div>
-        <div className={styles.separator}>
-          <h3>{t('bandialog.are_you_sure', username)}</h3>
-          <p>{info}</p>
-        </div>
+      <section>
+        <h2 className={styles.header}>
+          {t('bandialog.ban_user')}
+        </h2>
+        <h3 className={styles.subheader}>
+          {t('bandialog.are_you_sure', username)}
+        </h3>
+        <p className={styles.description}>
+          {info}
+        </p>
         <div className={styles.buttons}>
           <Button
             className={cn('talk-ban-user-dialog-button-cancel')}
-            cStyle="cancel"
+            cStyle="white"
             onClick={onCancel}
             raised >
             {t('bandialog.cancel')}
@@ -49,12 +63,12 @@ class BanUserDialog extends React.Component {
           <Button 
             className={cn('talk-ban-user-dialog-button-confirm')}
             cStyle="black"
-            onClick={() => this.goToStep(1)}
+            onClick={this.goToStep1}
             raised >
             {t('bandialog.yes_ban_user')}
           </Button>
         </div>
-      </div>
+      </section>
     );
   }
 
@@ -67,32 +81,39 @@ class BanUserDialog extends React.Component {
     const {message} = this.state;
 
     return (
-      <div>
-        <h2>Notify the user of ban</h2>
-        <p>This will notify the user by email that they have been banned from the community</p>
+      <section>
+        <h2 className={styles.header}>
+          {t('bandialog.notify_ban_headline')}
+        </h2>
+        <p className={styles.description}>
+          {t('bandialog.notify_ban_description')}
+        </p>
         <fieldset>
           <legend className={styles.legend}>{t('bandialog.write_a_message')}</legend>
           <textarea
           rows={5}
           className={styles.messageInput}
           value={message}
-          onChange={this.handleMessageChange} />
+          onChange={this.handleMessageChange}
+          />
         </fieldset>
-        <Button
-          className={cn('talk-ban-user-dialog-button-cancel')}
-          cStyle="cancel"
-          onClick={onCancel}
-          raised >
-          {t('bandialog.cancel')}
-        </Button>
-        <Button 
-          className={cn('talk-ban-user-dialog-button-confirm')}
-          cStyle="black"
-          onClick={onPerform}
-          raised >
-          {t('bandialog.send')}
-        </Button>
-      </div>
+        <div className={styles.buttons}>
+          <Button
+            className={cn('talk-ban-user-dialog-button-cancel')}
+            cStyle="white"
+            onClick={onCancel}
+            raised >
+            {t('bandialog.cancel')}
+          </Button>
+          <Button 
+            className={cn('talk-ban-user-dialog-button-confirm')}
+            cStyle="black"
+            onClick={onPerform}
+            raised >
+            {t('bandialog.send')}
+          </Button>
+        </div>
+      </section>
     )
   }
 
