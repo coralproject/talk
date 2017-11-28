@@ -13,6 +13,7 @@ es:
     note_ban_user: "Suspender a este usuario no le va a permitir (al usuario) borrar ni editar ni comentar."
     yes_ban_user: "Si, Suspender al usuario"
     write_a_message: "Escribe un mensaje"
+    send: "Enviar"
   bio_offensive: "Esta biografia es ofensiva"
   cancel: Cancelar
   characters_remaining: "carácteres restantes"

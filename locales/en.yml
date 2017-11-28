@@ -13,6 +13,7 @@ en:
     note_ban_user: "Banning this user will not let them edit comment or remove anything."
     yes_ban_user: "Yes, Ban User"
     write_a_message: "Write a message"
+    send: "Send"
   bio_offensive: "This bio is offensive"
   cancel: "Cancel"
   characters_remaining: "characters remaining"
