@@ -64,7 +64,13 @@ class PeopleContainer extends React.Component {
 
   setUserBanStatus = async (id, bannedStatus) => {
     const {banUser, unBanUser} = this.props;
-    await bannedStatus ? banUser({id, message: ''}) : unBanUser({id});
+
+    if (bannedStatus) {
+      await banUser({id, message: ''});
+    } else {
+      await unBanUser({id});
+    }
+
     await this.fetchUsers();
   } 
 
