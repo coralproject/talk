@@ -1,9 +1,9 @@
 import React from 'react';
 import {Spinner, TabBar, TabContent} from 'coral-ui';
 import PropTypes from 'prop-types';
-import styles from './StreamTabPanel.css';
+import styles from './ExtendableTabPanel.css';
 
-class StreamTabPanel extends React.Component {
+class ExtendableTabPanel extends React.Component {
 
   render() {
     const {activeTab, setActiveTab, tabs, tabPanes, sub, loading, ...rest} = this.props;
@@ -23,7 +23,7 @@ class StreamTabPanel extends React.Component {
   }
 }
 
-StreamTabPanel.propTypes = {
+ExtendableTabPanel.propTypes = {
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,
   loading: PropTypes.bool,
@@ -39,4 +39,4 @@ StreamTabPanel.propTypes = {
   sub: PropTypes.bool,
 };
 
-export default StreamTabPanel;
+export default ExtendableTabPanel;
