@@ -30,9 +30,13 @@ export default {
     }),
     ApproveUsername: ({variables: {id}}) => ({
       updateQueries: {
-        TalkAdmin_LoadMoreFlaggedAccounts: (prev) => {
-          console.log(prev, id);
-          return prev;
+        TalkAdmin_Community: (prev) => {
+          const updated = update(prev, {
+            users: {
+              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== userId)},
+            },
+          });
+          return updated;
         }
       }
     }),
