@@ -87,7 +87,7 @@ const CoralHeader = ({
                       </a>
                     </MenuItem>
                     <MenuItem>
-                      <a href="https://coralproject.net/contribute.html#other-ideas-and-bug-reports" target="_blank" rel="noopener noreferrer">
+                      <a href="https://support.coralproject.net" target="_blank" rel="noopener noreferrer">
                           Report a bug or give feedback
                       </a>
                     </MenuItem>

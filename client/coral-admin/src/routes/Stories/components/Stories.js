@@ -48,7 +48,7 @@ class Stories extends Component {
           <div className={styles.optionHeader}>{t('streams.filter_streams')}</div>
           <div className={styles.optionDetail}>{t('streams.stream_status')}</div>
           <RadioGroup
-            name='status filter'
+            name='statusFilter'
             value={filter}
             childContainer='div'
             onChange={onSettingChange('filter')}
@@ -60,7 +60,7 @@ class Stories extends Component {
           </RadioGroup>
           <div className={styles.optionHeader}>{t('streams.sort_by')}</div>
           <RadioGroup
-            name='sort by'
+            name='sortBy'
             value={asc}
             childContainer='div'
             onChange={onSettingChange('asc')}
