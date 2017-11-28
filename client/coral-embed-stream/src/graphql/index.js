@@ -2,6 +2,7 @@ import {gql} from 'react-apollo';
 import update from 'immutability-helper';
 import uuid from 'uuid/v4';
 import {insertCommentIntoEmbedQuery, removeCommentFromEmbedQuery} from './utils';
+import {mapLeaves} from 'coral-framework/utils';
 
 export default {
   fragments: {
@@ -217,6 +218,18 @@ export default {
           return removeCommentFromEmbedQuery(prev, comment.id);
         },
       },
+    }),
+    UpdateAssetSettings: ({variables: {input}})  => ({
+      updateQueries: {
+        CoralEmbedStream_Embed: (prev) => {
+          const updated = update(prev, {
+            asset: {
+              settings: mapLeaves(input, (leaf) => ({$set: leaf})),
+            },
+          });
+          return updated;
+        }
+      }
     }),
   },
 };

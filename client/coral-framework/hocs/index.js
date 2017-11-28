@@ -5,3 +5,4 @@ export {default as withCopyToClipboard} from './withCopyToClipboard';
 export {default as withEmit} from './withEmit';
 export {default as excludeIf} from './excludeIf';
 export {default as connect} from './connect';
+export {default as withMergedSettings} from './withMergedSettings';

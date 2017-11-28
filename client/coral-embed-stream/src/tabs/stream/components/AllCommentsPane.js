@@ -14,7 +14,7 @@ const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 // comments to show. The spare cursor functions as a backup in case one
 // of the comments gets deleted.
 function resetCursors(state, props) {
-  const comments = props.root.asset.comments;
+  const comments = props.asset.comments;
   if (comments && comments.nodes.length) {
     const idCursors = [comments.nodes[0].id];
     if (comments.nodes[1]) {
@@ -30,7 +30,7 @@ function resetCursors(state, props) {
 // using the help of the backup cursor.
 function invalidateCursor(invalidated, state, props) {
   const alt = invalidated === 1 ? 0 : 1;
-  const comments = props.root.asset.comments;
+  const comments = props.asset.comments;
   const idCursors = [];
   if (state.idCursors[alt]) {
     idCursors.push(state.idCursors[alt]);

@@ -2,7 +2,7 @@ import React from 'react';
 import {gql, compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {ADDTL_COMMENTS_ON_LOAD_MORE, THREADING_LEVEL} from '../constants/stream';
+import {ADDTL_COMMENTS_ON_LOAD_MORE, THREADING_LEVEL} from '../../../constants/stream';
 import {
   withPostComment, withPostFlag, withPostDontAgree,
   withDeleteAction, withEditComment
@@ -10,7 +10,7 @@ import {
 
 import * as authActions from 'coral-embed-stream/src/actions/auth';
 import * as notificationActions from 'coral-framework/actions/notification';
-import {setActiveReplyBox, setActiveTab, viewAllComments} from '../actions/stream';
+import {setActiveReplyBox, setActiveTab, viewAllComments} from '../../../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
 import {withFragments, withEmit} from 'coral-framework/hocs';
@@ -23,7 +23,7 @@ import {
   removeCommentFromEmbedQuery,
   insertFetchedCommentsIntoEmbedQuery,
   nest,
-} from '../graphql/utils';
+} from '../../../graphql/utils';
 
 const {showSignInDialog, editName} = authActions;
 const {notify} = notificationActions;
@@ -36,7 +36,7 @@ class StreamContainer extends React.Component {
     this.commentsEditedSubscription = this.props.data.subscribeToMore({
       document: COMMENTS_EDITED_SUBSCRIPTION,
       variables: {
-        assetId: this.props.root.asset.id,
+        assetId: this.props.asset.id,
       },
       updateQuery: (prev, {subscriptionData: {data: {commentEdited}}}) => {
 
@@ -62,7 +62,7 @@ class StreamContainer extends React.Component {
     this.commentsAddedSubscription = this.props.data.subscribeToMore({
       document: COMMENTS_ADDED_SUBSCRIPTION,
       variables: {
-        assetId: this.props.root.asset.id,
+        assetId: this.props.asset.id,
       },
       updateQuery: (prev, {subscriptionData: {data: {commentAdded}}}) => {
 
@@ -116,7 +116,7 @@ class StreamContainer extends React.Component {
         limit: parent_id ? 999999 : ADDTL_COMMENTS_ON_LOAD_MORE,
         cursor: comment.replies.endCursor,
         parent_id,
-        asset_id: this.props.root.asset.id,
+        asset_id: this.props.asset.id,
         sortOrder: 'ASC',
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
@@ -131,9 +131,9 @@ class StreamContainer extends React.Component {
       query: LOAD_MORE_QUERY,
       variables: {
         limit: ADDTL_COMMENTS_ON_LOAD_MORE,
-        cursor: this.props.root.asset.comments.endCursor,
+        cursor: this.props.asset.comments.endCursor,
         parent_id: null,
-        asset_id: this.props.root.asset.id,
+        asset_id: this.props.asset.id,
         sortOrder: this.props.data.variables.sortOrder,
         sortBy: this.props.data.variables.sortBy,
         excludeIgnored: this.props.data.variables.excludeIgnored,
@@ -177,9 +177,9 @@ class StreamContainer extends React.Component {
   }
 
   render() {
-    if (!this.props.root.asset
-      || this.props.root.asset.comment === undefined
-      && !this.props.root.asset.comments
+    if (!this.props.asset
+      || this.props.asset.comment === undefined
+      && !this.props.asset.comments
     ) {
       return <Spinner />;
     }
@@ -279,49 +279,6 @@ const slots = [
 const fragments = {
   root: gql`
     fragment CoralEmbedStream_Stream_root on RootQuery {
-      asset(id: $assetId, url: $assetUrl) {
-        comment(id: $commentId) @include(if: $hasComment) {
-          ...CoralEmbedStream_Stream_comment
-          ${nest(`
-            parent {
-              ...CoralEmbedStream_Stream_comment
-              ...nest
-            }
-          `, THREADING_LEVEL)}
-        }
-        id
-        title
-        url
-        closedAt
-        isClosed
-        created_at
-        settings {
-          moderation
-          infoBoxEnable
-          infoBoxContent
-          premodLinksEnable
-          questionBoxEnable
-          questionBoxContent
-          questionBoxIcon
-          closedTimeout
-          closedMessage
-          charCountEnable
-          charCount
-          requireEmailConfirmation
-        }
-        commentCount @skip(if: $hasComment)
-        totalCommentCount @skip(if: $hasComment)
-        comments(query: {limit: 10, excludeIgnored: $excludeIgnored, sortOrder: $sortOrder, sortBy: $sortBy}) @skip(if: $hasComment) {
-          nodes {
-            ...CoralEmbedStream_Stream_comment
-          }
-          hasNextPage
-          startCursor
-          endCursor
-        }
-        ${getSlotFragmentSpreads(slots, 'asset')}
-        ...${getDefinitionName(Comment.fragments.asset)}
-      }
       me {
         status
         ignoredUsers {
@@ -334,8 +291,52 @@ const fragments = {
       ${getSlotFragmentSpreads(slots, 'root')}
       ...${getDefinitionName(Comment.fragments.root)}
     }
-    ${Comment.fragments.asset}
     ${Comment.fragments.root}
+  `,
+  asset: gql`
+    fragment CoralEmbedStream_Stream_asset on Asset {
+      comment(id: $commentId) @include(if: $hasComment) {
+        ...CoralEmbedStream_Stream_comment
+        ${nest(`
+          parent {
+            ...CoralEmbedStream_Stream_comment
+            ...nest
+          }
+        `, THREADING_LEVEL)}
+      }
+      id
+      title
+      url
+      isClosed
+      created_at
+      settings {
+        moderation
+        infoBoxEnable
+        infoBoxContent
+        premodLinksEnable
+        questionBoxEnable
+        questionBoxContent
+        questionBoxIcon
+        closedTimeout
+        closedMessage
+        charCountEnable
+        charCount
+        requireEmailConfirmation
+      }
+      commentCount @skip(if: $hasComment)
+      totalCommentCount @skip(if: $hasComment)
+      comments(query: {limit: 10, excludeIgnored: $excludeIgnored, sortOrder: $sortOrder, sortBy: $sortBy}) @skip(if: $hasComment) {
+        nodes {
+          ...CoralEmbedStream_Stream_comment
+        }
+        hasNextPage
+        startCursor
+        endCursor
+      }
+      ${getSlotFragmentSpreads(slots, 'asset')}
+      ...${getDefinitionName(Comment.fragments.asset)}
+    }
+    ${Comment.fragments.asset}
     ${commentFragment}
   `,
 };

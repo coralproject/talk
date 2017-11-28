@@ -100,7 +100,7 @@ class StreamSettings extends React.Component {
   };
 
   render() {
-    const {settings, data, root, errors} = this.props;
+    const {settings, data, root, errors, updatePending} = this.props;
 
     return (
       <ConfigurePage
@@ -205,6 +205,8 @@ class StreamSettings extends React.Component {
           fill="adminStreamSettings"
           data={data}
           queryData={{root, settings}}
+          updatePending={updatePending}
+          errors={errors}
         />
       </ConfigurePage>
     );

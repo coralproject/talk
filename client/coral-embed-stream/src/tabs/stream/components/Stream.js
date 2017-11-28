@@ -11,15 +11,14 @@ import RestrictedMessageBox
   from 'coral-framework/components/RestrictedMessageBox';
 import t, {timeago} from 'coral-framework/services/i18n';
 import CommentBox from 'talk-plugin-commentbox/CommentBox';
-import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
+import QuestionBox from '../../../components/QuestionBox';
 import {isCommentActive} from 'coral-framework/utils';
 import {Tab, TabCount, TabPane} from 'coral-ui';
 import cn from 'classnames';
 
-import {getTopLevelParent, attachCommentToParent} from '../graphql/utils';
+import {getTopLevelParent, attachCommentToParent} from '../../../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
-import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
-import ExtendableTabPanel from '../containers/ExtendableTabPanel';
+import ExtendableTabPanel from '../../../containers/ExtendableTabPanel';
 
 import styles from './Stream.css';
 
@@ -47,7 +46,8 @@ class Stream extends React.Component {
       activeReplyBox,
       setActiveReplyBox,
       commentClassNames,
-      root: {asset, asset: {comment}},
+      asset,
+      asset: {comment},
       postComment,
       notify,
       editComment,
@@ -122,7 +122,8 @@ class Stream extends React.Component {
       activeReplyBox,
       setActiveReplyBox,
       commentClassNames,
-      root: {asset, asset: {comments, totalCommentCount}},
+      asset,
+      asset: {comments, totalCommentCount},
       postComment,
       notify,
       editComment,
@@ -178,6 +179,7 @@ class Stream extends React.Component {
               <AllCommentsPane
                 data={data}
                 root={root}
+                asset={asset}
                 comments={comments}
                 commentClassNames={commentClassNames}
                 setActiveReplyBox={setActiveReplyBox}
@@ -185,7 +187,6 @@ class Stream extends React.Component {
                 notify={notify}
                 disableReply={!open}
                 postComment={postComment}
-                asset={asset}
                 currentUser={user}
                 postFlag={postFlag}
                 postDontAgree={postDontAgree}
@@ -211,7 +212,8 @@ class Stream extends React.Component {
       data,
       root,
       appendItemArray,
-      root: {asset, asset: {comment: highlightedComment}},
+      asset,
+      asset: {comment: highlightedComment},
       postComment,
       notify,
       updateItem,
@@ -239,7 +241,6 @@ class Stream extends React.Component {
 
     return (
       <div id="stream" className={styles.root}>
-        <AutomaticAssetClosure assetId={asset.id} closedAt={asset.closedAt}/>
         {open
           ? <div id="commentBox">
             <InfoBox
@@ -250,7 +251,14 @@ class Stream extends React.Component {
               content={asset.settings.questionBoxContent}
               enable={asset.settings.questionBoxEnable}
               icon={asset.settings.questionBoxIcon}
-            />
+            >
+              <Slot
+                fill="streamQuestionArea"
+                queryData={slotQueryData}
+                {...slotProps}
+              />
+            </QuestionBox>
+
             {!banned &&
                 temporarilySuspended &&
                 <RestrictedMessageBox>
