@@ -7,7 +7,7 @@ import styles from './BanUserDialog.css';
 import Button from 'coral-ui/components/Button';
 import t from 'coral-framework/services/i18n';
 
-const BanUserDialog = ({open, onCancel, onPerform, username, info}) => (
+const BanUserDialog = ({open, onCancel, onPerform, username, info, handleMessageChange, message}) => (
   <Dialog
     className={cn(styles.dialog, 'talk-ban-user-dialog')}
     id="banUserDialog"
@@ -20,8 +20,16 @@ const BanUserDialog = ({open, onCancel, onPerform, username, info}) => (
     </div>
     <div className={styles.separator}>
       <h3>{t('bandialog.are_you_sure', username)}</h3>
-      <i>{info}</i>
+      <p>{info}</p>
     </div>
+    <fieldset>
+      <legend className={styles.legend}>{t('bandialog.write_a_message')}</legend>
+      <textarea
+        rows={5}
+        className={styles.messageInput}
+        value={message}
+        onChange={this.handleMessageChange} />
+    </fieldset>
     <div className={styles.buttons}>
       <Button
         className={cn(styles.cancel, 'talk-ban-user-dialog-button-cancel')}
@@ -47,6 +55,8 @@ BanUserDialog.propTypes = {
   onCancel: PropTypes.func.isRequired,
   username: PropTypes.string,
   info: PropTypes.string,
+  message: PropTypes.string,
+  handleMessageChange: PropTypes.func.isRequired,
 };
 
 export default BanUserDialog;

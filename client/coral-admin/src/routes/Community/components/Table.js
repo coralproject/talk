@@ -27,7 +27,7 @@ const getStatus = (status) => {
   return status.banned.status ? 'BANNED' : 'ACTIVE';
 };
 
-const Table = ({users, setRole, onHeaderClickHandler, setUserBanStatus, viewUserDetail, pageCount, page, onPageChange}) => (
+const Table = ({users, setUserRole, onHeaderClickHandler, setUserBanStatus, viewUserDetail, pageCount, page, onPageChange}) => (
   <div>
     <table className={`mdl-data-table ${styles.dataTable}`}>
       <thead>
@@ -66,10 +66,10 @@ const Table = ({users, setRole, onHeaderClickHandler, setUserBanStatus, viewUser
             <td className="mdl-data-table__cell--non-numeric">
               <Dropdown
                 containerClassName="talk-admin-community-people-dd-role"
-                value={row.role || ''}
+                value={row.role}
                 placeholder={t('community.role')}
-                onChange={(role) => setRole(row.id, role)}>
-                <Option value={''} label={t('community.none')} />
+                onChange={(role) => setUserRole(row.id, role)}>
+                <Option value={'COMMENTER'} label={t('community.commenter')} />
                 <Option value={'STAFF'} label={t('community.staff')} />
                 <Option value={'MODERATOR'} label={t('community.moderator')} />
                 <Option value={'ADMIN'} label={t('community.admin')} />
@@ -90,7 +90,7 @@ const Table = ({users, setRole, onHeaderClickHandler, setUserBanStatus, viewUser
 Table.propTypes = {
   users: PropTypes.array,
   onHeaderClickHandler: PropTypes.func.isRequired,
-  setRole: PropTypes.func.isRequired,
+  setUserRole: PropTypes.func.isRequired,
   setUserBanStatus: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
   pageCount: PropTypes.number.isRequired,

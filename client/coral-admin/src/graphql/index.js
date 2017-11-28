@@ -28,6 +28,14 @@ export default {
         }
       }
     }),
+    ApproveUsername: ({variables: {id}}) => ({
+      updateQueries: {
+        TalkAdmin_LoadMoreFlaggedAccounts: (prev) => {
+          console.log(prev, id);
+          return prev;
+        }
+      }
+    }),
     RejectUsername: ({variables: {id: userId}})  => ({
       updateQueries: {
         TalkAdmin_Community: (prev) => {

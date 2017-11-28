@@ -3,7 +3,7 @@ import {createDefaultResponseFragments} from '../utils';
 // fragments defined here are automatically registered.
 export default {
   ...createDefaultResponseFragments(
-    'ModifyUserRoleResponse',
+    'SetUserRoleResponse',
     'ChangeUsernameResponse',
     'BanUsersResponse',
     'UnBanUserResponse',

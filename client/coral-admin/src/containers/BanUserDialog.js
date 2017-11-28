@@ -11,6 +11,18 @@ import {getErrorMessages} from 'coral-framework/utils';
 import {notify} from 'coral-framework/actions/notification';
 
 class BanUserDialogContainer extends Component {
+  constructor() {
+    super();
+    
+    this.state = {
+      message: '',
+    };
+  }
+
+  handleMessageChange = (e) => {
+    const {value: message} = e; 
+    this.setState(message);
+  }
 
   banUser = async () => {
     const {userId, commentId, commentStatus, banUser, setCommentStatus, hideBanUserDialog, notify} = this.props;
@@ -42,6 +54,8 @@ class BanUserDialogContainer extends Component {
         onCancel={this.props.hideBanUserDialog}
         username={this.props.username}
         info={this.getInfo()}
+        message={this.state.message}
+        handleMessageChange={this.handleMessageChange}
       />
     );
   }

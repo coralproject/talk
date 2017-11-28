@@ -17,7 +17,7 @@ const People = (props) => {
     onPageChange,
     totalPages,
     page,
-    setRole,
+    setUserRole,
     setUserBanStatus,
     viewUserDetail,
   } = props;
@@ -44,7 +44,7 @@ const People = (props) => {
           hasResults
             ? <Table
               users={users}
-              setRole={setRole}
+              setUserRole={setUserRole}
               viewUserDetail={viewUserDetail}
               setUserBanStatus={setUserBanStatus}
               onHeaderClickHandler={onHeaderClickHandler}
@@ -68,7 +68,7 @@ People.propTypes = {
   totalPages: PropTypes.number,
   onPageChange: PropTypes.func,
   setUserBanStatus: PropTypes.func.isRequired,
-  setRole: PropTypes.func.isRequired,
+  setUserRole: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
 };
 

@@ -4,7 +4,6 @@
   width: 500px;
   top: 50%;
   transform: translateY(-50%);
-  height: 184px;
   padding: 20px;
 
   h2 {
@@ -162,4 +161,17 @@ input.error{
 .buttons {
   margin: 20px;
   text-align: center;
+}
+
+.legend {
+  padding: 0;
+  font-weight: bold;
+}
+
+.messageInput {
+  border-radius: 3px;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  box-sizing: border-box;
 }
