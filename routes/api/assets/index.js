@@ -38,7 +38,7 @@ router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, nex
 
   const {
     value = '',
-    field = 'created_at',
+    field = 'publication_date',
     page = 1,
     asc = 'false',
     filter = 'all',
@@ -46,9 +46,10 @@ router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, nex
   } = req.query;
 
   try {
+    const order = (asc === 'true') ? 1 : -1;
 
     const queryOpts = {
-      sort: {[field]: (asc === 'true') ? 1 : -1},
+      sort: {[field]: order, 'created_at': order},
       skip: (page - 1) * limit,
       limit
     };

@@ -8,10 +8,13 @@ const program = require('./commander');
 const inquirer = require('inquirer');
 const UsersService = require('../services/users');
 const UserModel = require('../models/user');
+const CommentModel = require('../models/comment');
+const ActionModel = require('../models/action');
 const USER_ROLES = require('../models/enum/user_roles');
 const mongoose = require('../services/mongoose');
 const util = require('./util');
 const Table = require('cli-table');
+const databaseVerifications = require('./verifications/database');
 
 const validateRequired = (msg = 'Field is required', len = 1) => (input) => {
   if (input && input.length >= len) {
@@ -113,26 +116,48 @@ async function createUser(options) {
     util.shutdown();
   } catch (err) {
     console.error(err);
-    util.shutdown();
+    util.shutdown(1);
   }
 }
 
 /**
  * Deletes a user.
  */
-function deleteUser(userID) {
-  UserModel
-    .findOneAndRemove({
-      id: userID
-    })
-    .then(() => {
-      console.log('Deleted user');
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown();
-    });
+async function deleteUser(userID) {
+
+  try {
+
+    // Find the user we're removing.
+    const user = await UserModel.findOne({id: userID});
+    if (!user) {
+      throw new Error(`user with id ${userID} not found`);
+    }
+
+    // Remove all the user's actions.
+    await ActionModel
+      .where({user_id: user.id})
+      .setOptions({multi: true})
+      .remove();
+
+    // Remove all the user's comments.
+    await CommentModel
+      .where({author_id: user.id})
+      .setOptions({multi: true})
+      .remove();
+
+    // Update the counts that might have changed.
+    for (const verification of databaseVerifications) {
+      await verification({fix: true, limit: Infinity, batch: 1000});
+    }
+
+    // Remove the user.
+    await user.remove();
+
+    util.shutdown();
+  } catch (err) {
+    console.error(err);
+    util.shutdown(1);
+  }
 }
 
 /**
