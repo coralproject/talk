@@ -39,7 +39,7 @@ class ModerationSettings extends React.Component {
   };
 
   render() {
-    const {settings, data, root} = this.props;
+    const {settings, data, root, updatePending, errors} = this.props;
 
     return (
       <ConfigurePage
@@ -74,6 +74,8 @@ class ModerationSettings extends React.Component {
           fill="adminModerationSettings"
           data={data}
           queryData={{root, settings}}
+          updatePending={updatePending}
+          errors={errors}
         />
       </ConfigurePage>
     );
@@ -82,6 +84,7 @@ class ModerationSettings extends React.Component {
 
 ModerationSettings.propTypes = {
   updatePending: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,

@@ -16,7 +16,7 @@ export default {
   reducer,
   translations,
   slots: {
-    streamTabs: [Tab],
+    streamTabsPrepend: [Tab],
     streamTabPanes: [TabPane],
     commentInfoBar: [Tag],
     moderationActions: [ModActionButton],
@@ -57,7 +57,7 @@ export default {
           }
 
           const comment = findCommentInEmbedQuery(previous, variables.id);
-                    
+
           if (previous.asset.comments) {
             updated = update(previous, {
               asset: {
@@ -101,7 +101,7 @@ export default {
       updateQueries: {
         CoralEmbedStream_Embed: (previous) => {
           let updated = previous;
-           
+
           if (variables.name !== 'FEATURED') {
             return;
           }

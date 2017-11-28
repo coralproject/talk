@@ -4,9 +4,9 @@ import Comment from '../components/Comment';
 import {withFragments} from 'coral-framework/hocs';
 import {getSlotFragmentSpreads} from 'coral-framework/utils';
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
-import {THREADING_LEVEL} from '../constants/stream';
+import {THREADING_LEVEL} from '../../../constants/stream';
 import hoistStatics from 'recompose/hoistStatics';
-import {nest} from '../graphql/utils';
+import {nest} from '../../../graphql/utils';
 
 const slots = [
   'streamQuestionArea',

@@ -91,7 +91,7 @@ describe('services.AssetsService', () => {
         .findOrCreateByUrl('https://override.test.com/asset')
         .then((asset) => {
           expect(asset).to.have.property('settings');
-          expect(asset.settings).to.be.null;
+          expect(asset.settings).to.be.empty;
 
           return AssetsService.overrideSettings(asset.id, {moderation: 'PRE'});
         })

@@ -3,16 +3,14 @@ import cn from 'classnames';
 import styles from './QuestionBox.css';
 import {Icon} from 'coral-ui';
 import Markdown from 'coral-framework/components/Markdown';
+import DefaultQuestionBoxIcon from './DefaultQuestionBoxIcon';
 
-import Slot from 'coral-framework/components/Slot';
-
-const QuestionBox = ({content, enable, icon = '', className = ''}) => (
-  <div className={cn(styles.qbInfo, {[styles.hidden]: !enable}, 'questionbox-info', className)}>
+const QuestionBox = ({content, icon, className, children}) => (
+  <div className={cn(styles.qbInfo, 'questionbox-info', className)}>
     {
       icon === 'default' ? (
         <div className={cn(styles.qbIconContainer)}>
-          <Icon name="chat_bubble" className={cn(styles.iconBubble)} />
-          <Icon name="person" className={cn(styles.iconPerson)} />
+          <DefaultQuestionBoxIcon />
         </div>
       ) : (
         <div className={cn(styles.qbIconContainer)}>
@@ -23,8 +21,7 @@ const QuestionBox = ({content, enable, icon = '', className = ''}) => (
     <div className={cn(styles.qbContent, 'questionbox-content')}>
       <Markdown content={content} />
     </div>
-
-    <Slot fill="streamQuestionArea" />
+    {children}
   </div>
 );
 

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
-import styles from './SuspendAccount.css';
+import styles from './SuspendedAccount.css';
 import {Button} from 'coral-ui';
 import validate from 'coral-framework/helpers/validate';
 import RestrictedMessageBox from 'coral-framework/components/RestrictedMessageBox';

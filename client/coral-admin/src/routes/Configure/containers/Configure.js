@@ -2,37 +2,19 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
-import withQuery from 'coral-framework/hocs/withQuery';
+import {withQuery, withMergedSettings} from 'coral-framework/hocs';
 import {Spinner} from 'coral-ui';
 import {notify} from 'coral-framework/actions/notification';
 import PropTypes from 'prop-types';
-import assignWith from 'lodash/assignWith';
 import {withUpdateSettings} from 'coral-framework/graphql/mutations';
 import {getErrorMessages, getDefinitionName} from 'coral-framework/utils';
 import StreamSettings from './StreamSettings';
 import TechSettings from './TechSettings';
 import ModerationSettings from './ModerationSettings';
 import {clearPending, setActiveSection} from '../../../actions/configure';
-
 import Configure from '../components/Configure';
 
-// Like lodash merge but does not recurse into arrays.
-const mergeExcludingArrays = (objValue, srcValue) => {
-  if (typeof srcValue === 'object' && !Array.isArray(srcValue)) {
-    return assignWith({}, objValue, srcValue, mergeExcludingArrays);
-  }
-  return srcValue;
-};
-
 class ConfigureContainer extends Component {
-
-  // Merge current settings with pending settings.
-  getMergedSettings = (props = this.props) => {
-    return assignWith({}, props.root.settings, props.pending, mergeExcludingArrays);
-  }
-
-  // Cached merged settings.
-  mergedSettings = this.getMergedSettings();
 
   savePending = async () => {
     try {
@@ -44,14 +26,6 @@ class ConfigureContainer extends Component {
     }
   };
 
-  componentWillReceiveProps(nextProps) {
-
-    // Recalculate merged settings when necessary.
-    if (this.props.root.settings !== nextProps.root.settings || this.props.pending !== nextProps.pending) {
-      this.mergedSettings = this.getMergedSettings(nextProps);
-    }
-  }
-
   render () {
     if(this.props.data.loading) {
       return <Spinner/>;
@@ -62,7 +36,7 @@ class ConfigureContainer extends Component {
       auth={this.props.auth}
       data={this.props.data}
       root={this.props.root}
-      settings={this.mergedSettings}
+      settings={this.props.mergedSettings}
       canSave={this.props.canSave}
       savePending={this.savePending}
       setActiveSection={this.props.setActiveSection}
@@ -112,6 +86,7 @@ export default compose(
   withUpdateSettings,
   withConfigureQuery,
   connect(mapStateToProps, mapDispatchToProps),
+  withMergedSettings('root.settings', 'pending', 'mergedSettings'),
 )(ConfigureContainer);
 
 ConfigureContainer.propTypes = {
@@ -124,5 +99,6 @@ ConfigureContainer.propTypes = {
   root: PropTypes.object.isRequired,
   canSave: PropTypes.bool.isRequired,
   pending: PropTypes.object.isRequired,
+  mergedSettings: PropTypes.object.isRequired,
   activeSection: PropTypes.string.isRequired,
 };

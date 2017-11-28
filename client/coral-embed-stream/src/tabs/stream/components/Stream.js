@@ -11,15 +11,14 @@ import RestrictedMessageBox
   from 'coral-framework/components/RestrictedMessageBox';
 import t, {timeago} from 'coral-framework/services/i18n';
 import CommentBox from 'talk-plugin-commentbox/CommentBox';
-import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
+import QuestionBox from '../../../components/QuestionBox';
 import {isCommentActive} from 'coral-framework/utils';
 import {Tab, TabCount, TabPane} from 'coral-ui';
 import cn from 'classnames';
 
-import {getTopLevelParent, attachCommentToParent} from '../graphql/utils';
+import {getTopLevelParent, attachCommentToParent} from '../../../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
-import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
-import StreamTabPanel from '../containers/StreamTabPanel';
+import ExtendableTabPanel from '../../../containers/ExtendableTabPanel';
 
 import styles from './Stream.css';
 
@@ -47,7 +46,8 @@ class Stream extends React.Component {
       activeReplyBox,
       setActiveReplyBox,
       commentClassNames,
-      root: {asset, asset: {comment}},
+      asset,
+      asset: {comment},
       postComment,
       notify,
       editComment,
@@ -115,14 +115,15 @@ class Stream extends React.Component {
     );
   }
 
-  renderTabPanel() {
+  renderExtendableTabPanel() {
     const {
       data,
       root,
       activeReplyBox,
       setActiveReplyBox,
       commentClassNames,
-      root: {asset, asset: {comments, totalCommentCount}},
+      asset,
+      asset: {comments, totalCommentCount},
       postComment,
       notify,
       editComment,
@@ -144,7 +145,7 @@ class Stream extends React.Component {
     const slotProps = {data};
     const slotQueryData = {root, asset};
 
-    // `key` of `StreamTabPanel` depends on sorting so that we always reset
+    // `key` of `ExtendableTabPanel` depends on sorting so that we always reset
     // the state when changing sorting.
     return (
       <div className={cn('talk-stream-tab-container', styles.tabContainer)}>
@@ -157,26 +158,28 @@ class Stream extends React.Component {
             {...slotProps}
           />
         </div>
-        <StreamTabPanel
+        <ExtendableTabPanel
           key={`${sortBy}_${sortOrder}`}
           activeTab={activeStreamTab}
           setActiveTab={setActiveStreamTab}
-          fallbackTab={'all'}
-          tabSlot={'streamTabs'}
-          tabPaneSlot={'streamTabPanes'}
+          fallbackTab='all'
+          tabSlot='streamTabs'
+          tabSlotPrepend='streamTabsPrepend'
+          tabPaneSlot='streamTabPanes'
           slotProps={slotProps}
           queryData={slotQueryData}
           loading={loading}
-          appendTabs={
+          tabs={
             <Tab tabId={'all'} key='all'>
               {t('stream.all_comments')} <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
             </Tab>
           }
-          appendTabPanes={
-            <TabPane tabId={'all'} key='all'>
+          tabPanes={
+            <TabPane tabId='all' key='all'>
               <AllCommentsPane
                 data={data}
                 root={root}
+                asset={asset}
                 comments={comments}
                 commentClassNames={commentClassNames}
                 setActiveReplyBox={setActiveReplyBox}
@@ -184,7 +187,6 @@ class Stream extends React.Component {
                 notify={notify}
                 disableReply={!open}
                 postComment={postComment}
-                asset={asset}
                 currentUser={user}
                 postFlag={postFlag}
                 postDontAgree={postDontAgree}
@@ -210,7 +212,8 @@ class Stream extends React.Component {
       data,
       root,
       appendItemArray,
-      root: {asset, asset: {comment: highlightedComment}},
+      asset,
+      asset: {comment: highlightedComment},
       postComment,
       notify,
       updateItem,
@@ -238,7 +241,6 @@ class Stream extends React.Component {
 
     return (
       <div id="stream" className={styles.root}>
-        <AutomaticAssetClosure assetId={asset.id} closedAt={asset.closedAt}/>
         {open
           ? <div id="commentBox">
             <InfoBox
@@ -249,7 +251,14 @@ class Stream extends React.Component {
               content={asset.settings.questionBoxContent}
               enable={asset.settings.questionBoxEnable}
               icon={asset.settings.questionBoxIcon}
-            />
+            >
+              <Slot
+                fill="streamQuestionArea"
+                queryData={slotQueryData}
+                {...slotProps}
+              />
+            </QuestionBox>
+
             {!banned &&
                 temporarilySuspended &&
                 <RestrictedMessageBox>
@@ -296,7 +305,7 @@ class Stream extends React.Component {
 
         {highlightedComment
           ? this.renderHighlightedComment()
-          : this.renderTabPanel()
+          : this.renderExtendableTabPanel()
         }
       </div>
     );

@@ -7,9 +7,8 @@
   margin: 0 10px;
 }
 
-.wrapper ul {
-  list-style: none;
-  padding: 0;
+.description {
+  max-width: 380px;
 }
 
 .checkbox {
@@ -17,19 +16,14 @@
   margin: 12px 12px 12px 0;
 }
 
-.wrapper h4 {
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-.wrapper p {
-  max-width: 380px;
+.list {
+  margin-top: 26px;
 }
 
 .wrapper {
   margin-bottom: 20px;
 }
 
-.hidden {
-  display: none;
+.questionBoxContainer {
+  margin-top: 24px;
 }
