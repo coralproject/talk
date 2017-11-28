@@ -1,10 +1,9 @@
-.label {
+.root {
   position: relative;
   display: inline-block;
 }
 
-.label input {
-  visibility: hidden;
+.input {
   position: absolute;
   left: 7px;
   bottom: 7px;
@@ -12,6 +11,7 @@
   padding: 0;
   outline: none;
   cursor: pointer;
+  pointer-events: none;
   opacity: 0;
 }
 
@@ -19,21 +19,9 @@
   cursor: pointer;
 }
 
-.label input[type="checkbox"]:checked + .checkbox:before {
-  content: "\e834";
-}
-
-.label input[type="checkbox"] + .checkbox:before {
+.checkbox:before {
   content: "\e835";
   color: #717171;
-}
-
-.label.type--green input[type="checkbox"] + .checkbox:before {
-  color: #00a291;
-}
-
-.label input[type="checkbox"] + .checkbox:before {
-  position: absolute;
   left: 4px;
   top: 0px;
   width: 18px;
@@ -49,22 +37,23 @@
   white-space: nowrap;
   direction: ltr;
   vertical-align: -6px;
-  -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-feature-settings: 'liga';
   font-feature-settings: 'liga';
-  -webkit-transition: all .2s ease;
   transition: all .2s ease;
   z-index: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.checkboxInfo {
-  display: inline-block;
-  max-width: 360px;
-  margin-left: 50px;
+.checkboxChecked:before {
+  content: "\e834";
+  color: #00a291;
 }
 
-.checkboxInfo h4 {
-  margin: 0 0 5px;
+.input:focus + .checkbox:before {
+  color: #00a291;
+}
+
+.input:focus + .checkboxChecked:before {
+  color: #00e291;
 }

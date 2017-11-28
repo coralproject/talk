@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Stream from '../containers/Stream';
+import Stream from '../tabs/stream/containers/Stream';
+import Configure from '../tabs/configure/containers/Configure';
 import Slot from 'coral-framework/components/Slot';
 import {can} from 'coral-framework/services/perms';
 import t from 'coral-framework/services/i18n';
+import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
 
 import ExtendableTabPanel from '../containers/ExtendableTabPanel';
 import {Tab, TabPane} from 'coral-ui';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import Popup from 'coral-framework/components/Popup';
 import IfSlotIsNotEmpty from 'coral-framework/components/IfSlotIsNotEmpty';
-import ConfigureStreamContainer
-  from 'coral-configure/containers/ConfigureStreamContainer';
 import cn from 'classnames';
 
 export default class Embed extends React.Component {
@@ -20,9 +20,6 @@ export default class Embed extends React.Component {
     // TODO: move data fetching to appropiate containers.
     switch (tab) {
     case 'profile':
-      this.props.data.refetch();
-      break;
-    case 'config':
       this.props.data.refetch();
       break;
     }
@@ -41,7 +38,7 @@ export default class Embed extends React.Component {
     ];
     if (can(user, 'UPDATE_CONFIG')) {
       tabs.push(
-        <Tab key='config' tabId='config' className='talk-embed-stream-configuration-tab'>
+        <Tab key='config' tabId='config'>
           {t('framework.configure_stream')}
         </Tab>
       );
@@ -50,11 +47,12 @@ export default class Embed extends React.Component {
   }
 
   render() {
-    const {activeTab, commentId, root, data, auth: {showSignInDialog, signInDialogFocus}, blurSignInDialog, focusSignInDialog, hideSignInDialog, router: {location: {query: {parentUrl}}}} = this.props;
+    const {activeTab, commentId, root, root: {asset}, data, auth: {showSignInDialog, signInDialogFocus}, blurSignInDialog, focusSignInDialog, hideSignInDialog, router: {location: {query: {parentUrl}}}} = this.props;
     const hasHighlightedComment = !!commentId;
 
     return (
       <div className={cn('talk-embed-stream', {'talk-embed-stream-highlight-comment': hasHighlightedComment})}>
+        <AutomaticAssetClosure asset={asset} />
         <IfSlotIsNotEmpty slot="login">
           <Popup
             href={`embed/stream/login?parentUrl=${encodeURIComponent(parentUrl)}`}
@@ -87,13 +85,13 @@ export default class Embed extends React.Component {
           tabs={this.getTabs()}
           tabPanes={[
             <TabPane key='stream' tabId='stream' className='talk-embed-stream-comments-tab-pane'>
-              <Stream data={data} root={root} />
+              <Stream data={data} root={root} asset={root.asset} />
             </TabPane>,
             <TabPane key='profile' tabId='profile' className='talk-embed-stream-profile-tab-pane'>
               <ProfileContainer />
             </TabPane>,
             <TabPane key='config' tabId='config' className='talk-embed-stream-configuration-tab-pane'>
-              <ConfigureStreamContainer />
+              <Configure data={data} root={root} asset={root.asset} />
             </TabPane>,
           ]}
         />
