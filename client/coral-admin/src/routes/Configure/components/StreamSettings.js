@@ -180,22 +180,24 @@ class StreamSettings extends React.Component {
           onCheckbox={this.updateAutoClose}
           title={t('configure.close_after')}
         >
-          <Textfield
-            type='number'
-            pattern='[0-9]+'
-            style={{width: 50}}
-            onChange={this.updateClosedTimeout}
-            value={getTimeoutAmount(settings.closedTimeout)}
-            label={t('configure.closed_comments_label')} />
-          <div className={styles.configTimeoutSelect}>
-            <SelectField
-              label="comments closed time window"
-              value={getTimeoutMeasure(settings.closedTimeout)}
-              onChange={this.updateClosedTimeoutMeasure}>
-              <Option value={'hours'}>{t('configure.hours')}</Option>
-              <Option value={'days'}>{t('configure.days')}</Option>
-              <Option value={'weeks'}>{t('configure.weeks')}</Option>
-            </SelectField>
+          <div className={styles.autoCloseWrapper}>
+            <Textfield
+              type='number'
+              pattern='[0-9]+'
+              style={{width: 50}}
+              onChange={this.updateClosedTimeout}
+              value={getTimeoutAmount(settings.closedTimeout)}
+              label={t('configure.closed_comments_label')} />
+            <div className={styles.configTimeoutSelect}>
+              <SelectField
+                label="comments closed time window"
+                value={getTimeoutMeasure(settings.closedTimeout)}
+                onChange={this.updateClosedTimeoutMeasure}>
+                <Option value={'hours'}>{t('configure.hours')}</Option>
+                <Option value={'days'}>{t('configure.days')}</Option>
+                <Option value={'weeks'}>{t('configure.weeks')}</Option>
+              </SelectField>
+            </div>
           </div>
         </ConfigureCard>
         {/* the above card should be the last one if at all possible because of z-index issues with the selects */}

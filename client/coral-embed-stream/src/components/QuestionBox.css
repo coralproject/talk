@@ -13,6 +13,8 @@
   min-height: 50px;
   display: flex;
   border-radius: 3px;
+  padding-right: 40px;
+  box-sizing: border-box;
 }
 
 .icon {
@@ -63,4 +65,3 @@
   justify-content: center;
   font-weight: 400;
 }
-
