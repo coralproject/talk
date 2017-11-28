@@ -33,7 +33,7 @@ export default {
         TalkAdmin_Community: (prev) => {
           const updated = update(prev, {
             users: {
-              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== userId)},
+              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== id)},
             },
           });
           return updated;

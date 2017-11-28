@@ -76,7 +76,6 @@ class BanUserDialog extends React.Component {
     const {
       onCancel,
       onPerform,
-      handleMessageChange,
     } = this.props;
     const {message} = this.state;
 
@@ -91,10 +90,10 @@ class BanUserDialog extends React.Component {
         <fieldset>
           <legend className={styles.legend}>{t('bandialog.write_a_message')}</legend>
           <textarea
-          rows={5}
-          className={styles.messageInput}
-          value={message}
-          onChange={this.handleMessageChange}
+            rows={5}
+            className={styles.messageInput}
+            value={message}
+            onChange={this.handleMessageChange}
           />
         </fieldset>
         <div className={styles.buttons}>
@@ -114,7 +113,7 @@ class BanUserDialog extends React.Component {
           </Button>
         </div>
       </section>
-    )
+    );
   }
 
   render() {
@@ -122,18 +121,18 @@ class BanUserDialog extends React.Component {
     const {open, onCancel} = this.props;
     return (
       <Dialog
-      className={cn(styles.dialog, 'talk-ban-user-dialog')}
-      id="banUserDialog"
-      open={open}
-      onCancel={onCancel}
-      title={t('bandialog.ban_user')}>
+        className={cn(styles.dialog, 'talk-ban-user-dialog')}
+        id="banUserDialog"
+        open={open}
+        onCancel={onCancel}
+        title={t('bandialog.ban_user')} >
         <span className={styles.close} onClick={onCancel}>×</span>
         {step === 0 && this.renderStep0()}
         {step === 1 && this.renderStep1()}
       </Dialog>
-    )
+    );
   }
- };
+}
 
 BanUserDialog.propTypes = {
   open: PropTypes.bool,
