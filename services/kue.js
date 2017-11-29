@@ -21,6 +21,9 @@ const getQueue = () => {
     }
   });
 
+  // Watch for stuck jobs to manage.
+  queue.watchStuckJobs(1000);
+
   return queue;
 };
 
@@ -47,6 +50,7 @@ class Task {
         .attempts(this.attempts)
         .delay(this.delay)
         .backoff({type: 'exponential'})
+        .removeOnComplete(true)
         .save((err) => {
           if (err) {
             return reject(err);
@@ -64,6 +68,15 @@ class Task {
    */
   process(callback) {
     return getQueue().process(this.name, callback);
+  }
+
+  /**
+   * Connect to redis now by getting the queue.
+   */
+  static connect() {
+
+    // Force setup the redis connection for kue.
+    getQueue();
   }
 
   /**
@@ -145,3 +158,5 @@ if (process.env.NODE_ENV === 'test') {
   module.exports.Task = Task;
 }
 
+// Add the job reference to the exported params.
+module.exports.Job = kue.Job;
