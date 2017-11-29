@@ -197,12 +197,20 @@ class Stream extends React.Component {
   }
 
   launchDeathStar = () => {
-    for (let i = 0; i < 20; i++) {
-      this.props.postComment({
-        asset_id: this.props.root.asset.id,
-        body: 'death is certain',
-      });
-    }
+    let i = 100;
+    const launch = () => {
+      setTimeout(() => {
+        this.props.postComment({
+          asset_id: this.props.root.asset.id,
+          body: 'death is certain',
+        });
+        i--;
+        if (i > 0) {
+          launch();
+        }
+      }, 500);
+    };
+    launch();
   }
 
   render() {
