@@ -23,23 +23,16 @@ const CoralHeader = ({
           {
             auth && auth.user && can(auth.user, 'ACCESS_ADMIN') ?
               <Navigation className={styles.nav}>
-                <IndexLink
-                  id='dashboardNav'
-                  className={cn('talk-admin-nav-dashboard', styles.navLink)}
-                  to="/admin/dashboard"
-                  activeClassName={styles.active}>
-                  {t('configure.dashboard')}
-                </IndexLink>
                 {
                   can(auth.user, 'MODERATE_COMMENTS') && (
-                    <Link
+                    <IndexLink
                       id='moderateNav'
                       className={cn('talk-admin-nav-moderate', styles.navLink)}
                       to="/admin/moderate"
                       activeClassName={styles.active}>
                       {t('configure.moderate')}
                       {(root.premodCount !== 0 || root.reportedCount !== 0) && <Indicator />}
-                    </Link>
+                    </IndexLink>
                   )
                 }
                 <Link
