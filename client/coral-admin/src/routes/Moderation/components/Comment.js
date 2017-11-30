@@ -97,11 +97,11 @@ class Comment extends React.Component {
               {currentUserId !== comment.user.id &&
                 <ActionsMenu icon="not_interested" className="talk-admin-moderate-comment-actions-menu">
                   <ActionsMenuItem
-                    disabled={comment.user.status === 'BANNED'}
+                    disabled={comment.user.state.status.suspension.status}
                     onClick={this.showSuspendUserDialog}>
                     Suspend User</ActionsMenuItem>
                   <ActionsMenuItem
-                    disabled={comment.user.status === 'BANNED'}
+                    disabled={comment.user.state.status.banned.status}
                     onClick={this.showBanUserDialog}>
                     Ban User
                   </ActionsMenuItem>
