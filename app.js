@@ -11,6 +11,7 @@ const {MOUNT_PATH} = require('./url');
 const {applyLocals} = require('./services/locals');
 const routes = require('./routes');
 const debug = require('debug')('talk:app');
+const {ENABLE_TRACING, APOLLO_ENGINE_KEY, PORT} = require('./config');
 
 const app = express();
 
@@ -21,6 +22,22 @@ const app = express();
 // Add the logging middleware only if we aren't testing.
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
+}
+
+if (process.env.NODE_ENV === 'development' && ENABLE_TRACING && APOLLO_ENGINE_KEY) {
+  const {Engine} = require('apollo-engine');
+
+  const engine = new Engine({
+    engineConfig: {
+      apiKey: APOLLO_ENGINE_KEY
+    },
+    graphqlPort: PORT,
+    endpoint: '/api/v1/graph/ql',
+  });
+
+  engine.start();
+
+  app.use(engine.expressMiddleware());
 }
 
 // Trust the first proxy in front of us, this will enable us to trust the fact

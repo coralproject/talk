@@ -111,10 +111,12 @@ CommentSchema.index({
 // Add an index that is optimized for sorting based on the action count data.
 CommentSchema.index({
   'created_at': 1,
-  'action_counts': 1,
+  'action_counts.flag': 1,
 }, {
   background: true,
 });
+
+// TODO: Evaluate adding indexes for each reaction as well.
 
 // Add an index that is optimized for sorting based on the created_at timestamp
 // but also good at locating comments that have a specific asset id.

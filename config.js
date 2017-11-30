@@ -20,6 +20,9 @@ const CONFIG = {
   // WEBPACK indicates when webpack is currently building.
   WEBPACK: process.env.WEBPACK === 'TRUE',
 
+  APOLLO_ENGINE_KEY: process.env.APOLLO_ENGINE_KEY || null,
+  ENABLE_TRACING: Boolean(process.env.APOLLO_ENGINE_KEY),
+
   //------------------------------------------------------------------------------
   // JWT based configuration
   //------------------------------------------------------------------------------

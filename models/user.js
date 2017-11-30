@@ -220,6 +220,24 @@ UserSchema.index({
   background: false
 });
 
+// This query is executed often, to count the number of flagged accounts with
+// usernames.
+UserSchema.index({
+  'action_counts.flag': 1,
+  'status.username.status': 1,
+}, {
+  background: true
+});
+
+// Sorting users by created at is the default people search.
+UserSchema.index({
+  'created_at': -1,
+}, {
+  background: true,
+});
+
+// TODO: Add indexes for searching the user collection. Needs product decision.
+
 /**
  * returns true if a commenter is staff
  */
