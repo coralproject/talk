@@ -53,6 +53,9 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
     data = null;
     name = '';
 
+    // Pending subscription data.
+    subscriptionQueue = [];
+
     get graphqlRegistry() {
       return this.context.graphqlRegistry;
     }
@@ -62,10 +65,15 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
     }
 
     resolveDocument(documentOrCallback) {
-      const document = typeof documentOrCallback === 'function'
+      let document = typeof documentOrCallback === 'function'
         ? documentOrCallback(this.props, this.context)
         : documentOrCallback;
-      return this.graphqlRegistry.resolveFragments(document);
+      document = this.graphqlRegistry.resolveFragments(document);
+
+      // We also add typenames to the document which apollo would usually do,
+      // but we also use the network interface in subscriptions directly
+      // which require the resolved typenames.
+      return addTypenameToDocument(document);
     }
 
     emitWhenNeeded(data) {
@@ -81,43 +89,38 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
       this.context.eventEmitter.emit(`query.${this.name}.${status}`, {variables, data: root});
     }
 
-    subscribeToMoreThrottled = ({document, variables, updateQuery}, wait = 1000) => {
+    // Handle any pending susbcription data in the subscription queue at max once every second.
+    // Updates are batched in written into apollo in one go.
+    processSubscriptionQueue = throttle(() => {
+      const variables = typeof this.wrappedOptions === 'function'
+        ? this.wrappedOptions(this.props).variables
+        : this.wrappedOptions.variables;
+
+      const previousResult = this.client.readQuery({
+        query: this.resolvedDocument,
+        variables,
+      });
+
+      let result = previousResult;
+
+      this.subscriptionQueue.forEach(([updateQuery, data]) => {
+        result = updateQuery(result, {subscriptionData: {data}});
+      });
+
+      if (result !== previousResult) {
+        this.client.writeQuery({
+          query: this.resolvedDocument,
+          variables,
+          data: result,
+        });
+      }
+      this.subscriptionQueue = [];
+    }, 1000);
+
+    subscribeToMoreThrottled = ({document, variables, updateQuery}) => {
 
       // We need to add the typenames and resolve fragments.
-      const rootQuery = addTypenameToDocument(this.resolvedDocument);
       const query = addTypenameToDocument(this.graphqlRegistry.resolveFragments(document));
-      let batched = [];
-
-      // Process data in a batched fashion.
-      const processData = () => {
-        const variables = typeof this.wrappedOptions === 'function'
-          ? this.wrappedOptions(this.props).variables
-          : this.wrappedOptions.variables;
-
-        const previousResult = this.client.readQuery({
-          query: rootQuery,
-          variables,
-        });
-
-        let result = previousResult;
-
-        batched.forEach((data) => {
-          result = updateQuery(result, {subscriptionData: {data}});
-        });
-
-        if (result !== previousResult) {
-          this.client.writeQuery({
-            query: rootQuery,
-            variables,
-            data: result,
-          });
-        }
-        batched = [];
-      };
-
-      // throttle to handle high loads of traffic.
-      const processDataThrottled = throttle(processData, wait);
-
       const handler = (error, data) => {
         if (error) {
 
@@ -126,8 +129,10 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
           return;
         }
         if (data) {
-          batched.push(data);
-          processDataThrottled();
+          this.subscriptionQueue.push([updateQuery, data]);
+
+          // Triggers the throttled subscription queue processor.
+          this.processSubscriptionQueue();
         }
       };
 

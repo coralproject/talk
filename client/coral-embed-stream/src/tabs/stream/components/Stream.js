@@ -212,7 +212,7 @@ class Stream extends React.Component {
     const launch = () => {
       setTimeout(() => {
         this.props.postComment({
-          asset_id: this.props.root.asset.id,
+          asset_id: this.props.asset.id,
           body: 'death is certain',
         });
         i--;
