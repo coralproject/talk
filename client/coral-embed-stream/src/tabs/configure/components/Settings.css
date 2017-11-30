@@ -1,0 +1,29 @@
+.container {
+  position: relative;
+}
+
+.apply {
+  float: right;
+  margin: 0 10px;
+}
+
+.description {
+  max-width: 380px;
+}
+
+.checkbox {
+  vertical-align: top;
+  margin: 12px 12px 12px 0;
+}
+
+.list {
+  margin-top: 26px;
+}
+
+.wrapper {
+  margin-bottom: 20px;
+}
+
+.questionBoxContainer {
+  margin-top: 24px;
+}

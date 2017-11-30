@@ -275,22 +275,6 @@ button.comment__action-button[disabled],
 
 /* Close comments */
 
-.close-comments-intro-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.close-comments-intro-wrapper button {
-  width: 300px;
-  margin-left: 20px;
-}
-
-.close-comments-intro-wrapper button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 .close-comments-message {
   box-sizing: border-box;
   width: 100%;
