@@ -208,7 +208,7 @@ class Stream extends React.Component {
         if (i > 0) {
           launch();
         }
-      }, 500);
+      }, 100);
     };
     launch();
   }

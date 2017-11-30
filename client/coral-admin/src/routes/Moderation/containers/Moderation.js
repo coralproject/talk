@@ -138,7 +138,7 @@ class ModerationContainer extends Component {
       },
     ];
 
-    this.subscriptions = parameters.map((param) => this.props.data.subscribeToMore(param));
+    this.subscriptions = parameters.map((param) => this.props.data.subscribeToMoreDebounced(param));
   }
 
   unsubscribe() {

@@ -3,6 +3,9 @@ import {graphql} from 'react-apollo';
 import {getDefinitionName, separateDataAndRoot, getResponseErrors} from '../utils';
 import PropTypes from 'prop-types';
 import hoistStatics from 'recompose/hoistStatics';
+import {getOperationName} from 'apollo-client/queries/getFromAST';
+import {addTypenameToDocument} from 'apollo-client/queries/queryTransform';
+import debounce from 'lodash/debounce';
 
 const withSkipOnErrors = (reducer) => (prev, action, ...rest) => {
   if (action.type === 'APOLLO_MUTATION_RESULT' && getResponseErrors(action.result)) {
@@ -40,16 +43,22 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
     static contextTypes = {
       eventEmitter: PropTypes.object,
       graphqlRegistry: PropTypes.object,
+      client: PropTypes.object,
     };
 
     // Lazily resolve fragments from graphRegistry to support circular dependencies.
     memoized = null;
+    resolvedDocument = null;
     lastNetworkStatus = null;
     data = null;
     name = '';
 
     get graphqlRegistry() {
       return this.context.graphqlRegistry;
+    }
+
+    get client() {
+      return this.context.client;
     }
 
     resolveDocument(documentOrCallback) {
@@ -71,6 +80,68 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
       const {root} = separateDataAndRoot(data);
       this.context.eventEmitter.emit(`query.${this.name}.${status}`, {variables, data: root});
     }
+
+    subscribeToMoreDebounced = ({document, variables, updateQuery}) => {
+
+      // We need to add the typenames and resolve fragments.
+      const rootQuery = addTypenameToDocument(this.resolvedDocument);
+      const query = addTypenameToDocument(this.graphqlRegistry.resolveFragments(document));
+      let batched = [];
+
+      // Process data in a batched fashion.
+      const processData = () => {
+        const variables = typeof this.wrappedOptions === 'function'
+          ? this.wrappedOptions(this.props).variables
+          : this.wrappedOptions.variables;
+        const previousResult = this.client.readQuery({
+          query: rootQuery,
+          variables,
+        });
+
+        let result = previousResult;
+
+        batched.forEach((data) => {
+          result = updateQuery(result, {subscriptionData: {data}});
+        });
+
+        if (result !== previousResult) {
+          this.client.writeQuery({
+            query: rootQuery,
+            variables,
+            data: result,
+          });
+        }
+        batched = [];
+      };
+
+      // Debounce to handle high loads of traffic.
+      const processDataDebounced = debounce(processData, 250, {'maxWait': 2000});
+
+      const handler = (error, data) => {
+        if (error) {
+
+          // TODO: shuld this show a notification?
+          console.error(error);
+          return;
+        }
+        if (data) {
+          batched.push(data);
+          processDataDebounced();
+        }
+      };
+
+      // Start subscription.
+      const request = {
+        query,
+        variables,
+        operationName: getOperationName(query),
+      };
+
+      const id = this.client.networkInterface.subscribe(request, handler);
+
+      // Return unsubscribe callback.
+      return () => this.client.networkInterface.unsubscribe(id);
+    };
 
     nextData(data) {
       this.emitWhenNeeded(data);
@@ -102,6 +173,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
           stopPolling: data.stopPolling,
           refetch: data.refetch,
           updateQuery: data.updateQuery,
+          subscribeToMoreDebounced: this.subscribeToMoreDebounced,
           subscribeToMore: (stmArgs) => {
             const resolvedDocument = this.resolveDocument(stmArgs.document);
 
@@ -190,10 +262,10 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
 
     getWrapped = () => {
       if (!this.memoized) {
-        const resolvedDocument = this.resolveDocument(document);
-        this.name = getDefinitionName(resolvedDocument);
+        this.resolvedDocument = this.resolveDocument(document);
+        this.name = getDefinitionName(this.resolvedDocument);
         this.memoized = graphql(
-          resolvedDocument,
+          this.resolvedDocument,
           {...this.wrappedConfig, options: this.wrappedOptions},
         )(WrappedComponent);
       }
