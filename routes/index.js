@@ -9,10 +9,10 @@ const i18n = require('../services/i18n');
 const enabled = require('debug').enabled;
 const errors = require('../errors');
 const {createGraphOptions} = require('../graph');
-const accepts = require('accepts');
 const apollo = require('graphql-server-express');
 const {DISABLE_STATIC_SERVER} = require('../config');
 const SetupService = require('../services/setup');
+const static = require('express-static-gzip');
 
 const router = express.Router();
 
@@ -22,44 +22,20 @@ const router = express.Router();
 
 if (!DISABLE_STATIC_SERVER) {
 
-  // If the application is in production mode, then add gzip rewriting for the
-  // content.
-  if (process.env.NODE_ENV === 'production') {
-    router.get('*.js', (req, res, next) => {
-      const accept = accepts(req);
-      if (accept.encoding(['gzip']) === 'gzip') {
-
-      // Adjust the headers on the request by adding a content type header
-      // because express won't be able to detect the mime-type with the .gz
-      // extension and we need to declare support for the gzip encoding.
-        res.set('Content-Type', 'application/javascript');
-        res.set('Content-Encoding', 'gzip');
-
-        // Rewrite the url so that the gzip version will be served instead.
-        req.url = `${req.url}.gz`;
-      }
-
-      next();
-    });
-  }
-
   /**
    * Serve the directories under public/dist from this router.
    */
-  router.use('/client', express.static(path.join(__dirname, '../dist')));
   router.use('/public', express.static(path.join(__dirname, '../public')));
-
-  /**
-   * Serves a file based on a relative path.
-   */
-  const serveFile = (filename) => (req, res) => res.sendFile(path.join(__dirname, filename));
-
-  /**
-   * Serves the embed javascript files.
-   */
-  router.get('/embed.js', serveFile('../dist/embed.js'));
-  router.get('/embed.js.gz', serveFile('../dist/embed.js.gz'));
-  router.get('/embed.js.map', serveFile('../dist/embed.js.map'));
+  router.use('/static', static(path.resolve(path.join(__dirname, '../dist')), {
+    indexFromEmptyFile: false,
+    enableBrotli: true,
+    customCompressions: [
+      {
+        encodingName: 'deflate',
+        fileExtension: 'zz',
+      },
+    ],
+  }));
 }
 
 //==============================================================================
@@ -129,7 +105,7 @@ if (process.env.NODE_ENV !== 'production') {
         asset_url: '',
         asset_id: '',
         body: '',
-        basePath: '/client/embed/stream'
+        basePath: '/static/embed/stream'
       });
     }
   });

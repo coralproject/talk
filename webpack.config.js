@@ -1,11 +1,11 @@
 const path = require('path');
 const fs = require('fs');
 const CompressionPlugin = require('compression-webpack-plugin');
+const BrotliPlugin = require('brotli-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const _ = require('lodash');
 const Copy = require('copy-webpack-plugin');
-const {LicenseWebpackPlugin} = require('license-webpack-plugin');
 const webpack = require('webpack');
 const debug = require('debug')('talk:webpack');
 
@@ -36,8 +36,9 @@ const config = {
   target: 'web',
   output: {
     path: path.join(__dirname, 'dist'),
-    publicPath: '/client/',
-    filename: '[name].js'
+    publicPath: '/static/',
+    filename: '[name].js',
+    chunkFilename: '[name].chunk.js',
   },
   module: {
     rules: [
@@ -88,10 +89,6 @@ const config = {
     ]
   },
   plugins: [
-    new LicenseWebpackPlugin({
-      pattern: /^(MIT|ISC|BSD.*)$/,
-      suppressErrors: true,
-    }),
     new Copy([
       ...buildEmbeds.map((embed) => ({
         from: path.join(__dirname, 'client', `coral-embed-${embed}`, 'style'),
@@ -113,7 +110,8 @@ const config = {
       'TALK_THREADING_LEVEL': '3',
       'TALK_DEFAULT_STREAM_TAB': 'all',
       'TALK_DEFAULT_LANG': 'en'
-    })
+    }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
   resolveLoader: {
     modules: ['node_modules', path.resolve(__dirname, 'client/coral-framework/loaders')],
@@ -139,13 +137,23 @@ const config = {
 //==============================================================================
 
 if (process.env.NODE_ENV === 'production') {
-  config.plugins.push(new CompressionPlugin({
-    asset: '[path].gz[query]',
-    algorithm: 'gzip',
-    test: /\.(js)$/,
-    threshold: 10240,
-    minRatio: 0.8
-  }));
+  config.plugins.push(
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      asset: '[path].gz[query]',
+      test: /\.(js|css)$/,
+    }),
+    new CompressionPlugin({
+      algorithm: 'deflate',
+      asset: '[path].zz[query]',
+      test: /\.(js|css)$/,
+    }),
+    new BrotliPlugin({
+      asset: '[path].br[query]',
+      threshold: 10240,
+      test: /\.(js|css)$/,
+    })
+  );
 }
 
 //==============================================================================
