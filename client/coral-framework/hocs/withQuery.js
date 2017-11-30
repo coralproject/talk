@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import hoistStatics from 'recompose/hoistStatics';
 import {getOperationName} from 'apollo-client/queries/getFromAST';
 import {addTypenameToDocument} from 'apollo-client/queries/queryTransform';
-import debounce from 'lodash/debounce';
+import throttle from 'lodash/throttle';
 
 const withSkipOnErrors = (reducer) => (prev, action, ...rest) => {
   if (action.type === 'APOLLO_MUTATION_RESULT' && getResponseErrors(action.result)) {
@@ -81,7 +81,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
       this.context.eventEmitter.emit(`query.${this.name}.${status}`, {variables, data: root});
     }
 
-    subscribeToMoreDebounced = ({document, variables, updateQuery}) => {
+    subscribeToMoreThrottled = ({document, variables, updateQuery}, wait = 1000) => {
 
       // We need to add the typenames and resolve fragments.
       const rootQuery = addTypenameToDocument(this.resolvedDocument);
@@ -114,8 +114,8 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
         batched = [];
       };
 
-      // Debounce to handle high loads of traffic.
-      const processDataDebounced = debounce(processData, 250, {'maxWait': 2000});
+      // throttle to handle high loads of traffic.
+      const processDataThrottled = throttle(processData, wait);
 
       const handler = (error, data) => {
         if (error) {
@@ -126,7 +126,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
         }
         if (data) {
           batched.push(data);
-          processDataDebounced();
+          processDataThrottled();
         }
       };
 
@@ -173,7 +173,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
           stopPolling: data.stopPolling,
           refetch: data.refetch,
           updateQuery: data.updateQuery,
-          subscribeToMoreDebounced: this.subscribeToMoreDebounced,
+          subscribeToMoreThrottled: this.subscribeToMoreThrottled,
           subscribeToMore: (stmArgs) => {
             const resolvedDocument = this.resolveDocument(stmArgs.document);
 
