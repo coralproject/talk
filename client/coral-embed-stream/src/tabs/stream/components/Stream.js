@@ -213,7 +213,12 @@ class Stream extends React.Component {
       root,
       appendItemArray,
       asset,
-      asset: {comment: highlightedComment},
+      asset: {
+        comment: highlightedComment,
+        settings: {
+          questionBoxEnable,
+        }
+      },
       postComment,
       notify,
       updateItem,
@@ -246,18 +251,17 @@ class Stream extends React.Component {
               content={asset.settings.infoBoxContent}
               enable={asset.settings.infoBoxEnable}
             />
-            <QuestionBox
-              content={asset.settings.questionBoxContent}
-              enable={asset.settings.questionBoxEnable}
-              icon={asset.settings.questionBoxIcon}
-            >
-              <Slot
-                fill="streamQuestionArea"
-                queryData={slotQueryData}
-                {...slotProps}
-              />
-            </QuestionBox>
-
+            {questionBoxEnable && (
+              <QuestionBox 
+                content={asset.settings.questionBoxContent}
+                icon={asset.settings.questionBoxIcon}>
+                <Slot
+                  fill="streamQuestionArea"
+                  queryData={slotQueryData}
+                  {...slotProps}
+                />
+              </QuestionBox>
+            )}
             {!banned &&
                 temporarilySuspended &&
                 <RestrictedMessageBox>
