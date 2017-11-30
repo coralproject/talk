@@ -1,7 +1,6 @@
 import React from 'react';
 import StreamTabPanel from '../components/StreamTabPanel';
 import {connect} from 'react-redux';
-import omit from 'lodash/omit';
 import {Tab, TabPane} from 'coral-ui';
 import {getShallowChanges} from 'coral-framework/utils';
 import isEqual from 'lodash/isEqual';
@@ -106,7 +105,7 @@ StreamTabPanelContainer.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  reduxState: omit(state, 'apollo'),
+  reduxState: state,
 });
 
 export default connect(mapStateToProps, null)(StreamTabPanelContainer);

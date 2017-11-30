@@ -13,13 +13,14 @@ class TalkProvider extends React.Component {
       notification: this.props.notification,
       storage: this.props.storage,
       history: this.props.history,
+      store: this.props.store,
     };
   }
 
   render() {
-    const {children, client, store} = this.props;
+    const {children, client} = this.props;
     return (
-      <ApolloProvider client={client} store={store}>
+      <ApolloProvider client={client}>
         {children}
       </ApolloProvider>
     );
@@ -35,6 +36,7 @@ TalkProvider.childContextTypes = {
   notification: PropTypes.object,
   storage: PropTypes.object,
   history: PropTypes.object,
+  store: PropTypes.object,
 };
 
 export default TalkProvider;

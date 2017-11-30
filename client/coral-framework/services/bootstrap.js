@@ -159,20 +159,27 @@ export async function createContext({
     pym.sendMessage('event', JSON.stringify({eventName, value}));
   });
 
+  // Create our redux store.
   const finalReducers = {
     ...reducers,
     ...plugins.getReducers(),
-    apollo: client.reducer(),
   };
 
   store = createStore(finalReducers, [
-    client.middleware(),
     thunk.withExtraArgument(context),
-    apolloErrorReporter,
     createReduxEmitter(eventEmitter),
   ]);
 
   context.store = store;
+
+  // Create apollo redux store.
+  context.apolloStore = createStore({
+    apollo: client.reducer(),
+  }, [
+    client.middleware(),
+    apolloErrorReporter,
+    createReduxEmitter(eventEmitter),
+  ]);
 
   // Run pre initialization.
   if (preInit) {

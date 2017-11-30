@@ -1,7 +1,6 @@
 import React, {Children} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import omit from 'lodash/omit';
 import {getShallowChanges} from 'coral-framework/utils';
 
 class IfSlotIsNotEmpty extends React.Component {
@@ -39,7 +38,7 @@ IfSlotIsNotEmpty.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  reduxState: omit(state, 'apollo'),
+  reduxState: state,
 });
 
 export default connect(mapStateToProps, null)(IfSlotIsNotEmpty);
