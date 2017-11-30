@@ -9,13 +9,13 @@ import {can} from 'coral-framework/services/perms';
 import {TransitionGroup} from 'react-transition-group';
 import cn from 'classnames';
 import styles from './Comment.css';
-import {THREADING_LEVEL} from '../constants/stream';
+import {THREADING_LEVEL} from '../../../constants/stream';
 import merge from 'lodash/merge';
 import mapValues from 'lodash/mapValues';
 
 import LoadMore from './LoadMore';
 import {getEditableUntilDate} from './util';
-import {findCommentWithId} from '../graphql/utils';
+import {findCommentWithId} from '../../../graphql/utils';
 import CommentContent from 'coral-framework/components/CommentContent';
 import Slot from 'coral-framework/components/Slot';
 import CommentTombstone from './CommentTombstone';

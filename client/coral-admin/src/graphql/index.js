@@ -1,15 +1,5 @@
 import update from 'immutability-helper';
-import mapValues from 'lodash/mapValues';
-
-// Map nested object leaves. Array objects are considered leaves.
-function mapLeaves(o, mapper) {
-  return mapValues(o, (val) => {
-    if (typeof val === 'object' && !Array.isArray(val)) {
-      return mapLeaves(val, mapper);
-    }
-    return mapper(val);
-  });
-}
+import {mapLeaves} from 'coral-framework/utils';
 
 export default {
   mutations: {

@@ -45,7 +45,7 @@ const AssetSchema = new Schema({
   // always after running `rectifySettings` against it.
   settings: {
     type: Schema.Types.Mixed,
-    default: null
+    default: {},
   },
 
   // Tags are added by the self or by administrators.
