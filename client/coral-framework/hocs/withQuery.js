@@ -93,6 +93,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
         const variables = typeof this.wrappedOptions === 'function'
           ? this.wrappedOptions(this.props).variables
           : this.wrappedOptions.variables;
+
         const previousResult = this.client.readQuery({
           query: rootQuery,
           variables,

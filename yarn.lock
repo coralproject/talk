@@ -3507,7 +3507,11 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-graphql-anywhere@^3.0.1, graphql-anywhere@^3.1.0:
+"graphql-anywhere-optimized@git+https://git@github.com/cvle/graphql-anywhere#optimized":
+  version "3.1.0"
+  resolved "git+https://git@github.com/cvle/graphql-anywhere#7338ffed17ff27d79e56ae09ad4adeea33c21388"
+
+graphql-anywhere@^3.0.1:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/graphql-anywhere/-/graphql-anywhere-3.1.0.tgz#3ea0d8e8646b5cee68035016a9a7557c15c21e96"
 
