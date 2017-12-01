@@ -124,7 +124,10 @@ export async function createContext({
   const plugins = createPluginsService(pluginsConfig);
   const graphql = createGraphQLService(
     createGraphQLRegistry(plugins.getSlotFragments.bind(plugins)),
-    introspectionData,
+    {
+      introspectionData,
+      optimize: true,
+    },
   );
   if (!notification) {
 
