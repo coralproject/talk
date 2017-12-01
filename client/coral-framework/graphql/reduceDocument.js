@@ -6,10 +6,24 @@ import {
   getOperationDefinition,
 } from 'apollo-utilities';
 
-import {murmur3} from 'murmurhash-js';
-
 function getDirectivesID(directives) {
-  return murmur3(JSON.stringify(directives));
+  let id = '';
+  directives.forEach((directive) => {
+    id += `@${directive.name.value}(`;
+    let first = true;
+    directive.arguments.forEach((arg) => {
+      if (!first) {
+        id += ',';
+      }
+      first = false;
+      const value = arg.value.kind === 'Variable'
+        ? `$${arg.value.name.value}`
+        : arg.value.value;
+      id += `${arg.name.value}:${value}`;
+    });
+    id += ')';
+  });
+  return id;
 }
 
 // If two definitions have the same id, they can be merged.
