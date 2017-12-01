@@ -3513,7 +3513,7 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6:
 
 "graphql-anywhere-optimized@git+https://git@github.com/cvle/graphql-anywhere#optimized":
   version "3.1.0"
-  resolved "git+https://git@github.com/cvle/graphql-anywhere#7338ffed17ff27d79e56ae09ad4adeea33c21388"
+  resolved "git+https://git@github.com/cvle/graphql-anywhere#3f5d9e5c619ac4c4065af83abd7f76b84fb81e7c"
 
 graphql-anywhere@^3.0.1:
   version "3.1.0"
