@@ -6,6 +6,10 @@ import hoistStatics from 'recompose/hoistStatics';
 import {getOperationName} from 'apollo-client/queries/getFromAST';
 import {addTypenameToDocument} from 'apollo-client/queries/queryTransform';
 import throttle from 'lodash/throttle';
+import reduceDocument, {createTypeGetter} from '../graphql/reduceDocument';
+import introspectionData from '../graphql/introspection.json';
+
+const typeGetter = createTypeGetter(introspectionData);
 
 const withSkipOnErrors = (reducer) => (prev, action, ...rest) => {
   if (action.type === 'APOLLO_MUTATION_RESULT' && getResponseErrors(action.result)) {
@@ -68,7 +72,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
       let document = typeof documentOrCallback === 'function'
         ? documentOrCallback(this.props, this.context)
         : documentOrCallback;
-      document = this.graphqlRegistry.resolveFragments(document);
+      document = reduceDocument(this.graphqlRegistry.resolveFragments(document), {typeGetter});
 
       // We also add typenames to the document which apollo would usually do,
       // but we also use the network interface in subscriptions directly
