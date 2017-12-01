@@ -6,10 +6,10 @@ import {
   getOperationDefinition,
 } from 'apollo-utilities';
 
-function getDefinitionName(definition) {
+function getDefinitionID(definition) {
   switch (definition.kind) {
   case 'FragmentSpread':
-    return definition.name.value;
+    return `FragmentSpread_${definition.name.value}`;
   case 'Field':
     return `Field_${definition.alias ? definition.alias.value : definition.name.value}`;
   case 'InlineFragment':
@@ -23,7 +23,7 @@ function getDefinitionName(definition) {
  * Merge selections of 2 definitions.
  */
 export function mergeDefinitions(a, b) {
-  const name = getDefinitionName(a);
+  const name = getDefinitionID(a);
 
   if (!!a.selectionSet !== !!b.selectionSet) {
     throw Error(`incompatible field definition for ${name}`);
@@ -46,7 +46,7 @@ export function mergeDefinitions(a, b) {
  */
 export function mergeSelectionSets(a, b) {
   const selectionsMap = [...a.selections, ...b.selections].reduce((o, sel) => {
-    const selName = getDefinitionName(sel);
+    const selName = getDefinitionID(sel);
     if (!(selName in o)) {
       o[selName] = sel;
       return o;
@@ -100,7 +100,7 @@ function getTransformedSelections(definition, path, gqlType, execContext) {
     }
     if (sel.kind !== 'FragmentSpread') {
       const transformed = transformDefinition(sel, execContext, path, gqlType);
-      const name = getDefinitionName(sel);
+      const name = getDefinitionID(sel);
 
       // Merge existing value.
       if (name in o) {
@@ -125,7 +125,7 @@ function getTransformedSelections(definition, path, gqlType, execContext) {
         ...fragment,
         kind: 'InlineFragment',
       };
-      const name = getDefinitionName(node);
+      const name = getDefinitionID(node);
 
       // Merge existing value.
       if (name in o) {
@@ -146,7 +146,7 @@ function getTransformedSelections(definition, path, gqlType, execContext) {
         return;
       }
 
-      const selName = getDefinitionName(s);
+      const selName = getDefinitionID(s);
       if (!(selName in o)) {
         o[selName] = s;
         return;
