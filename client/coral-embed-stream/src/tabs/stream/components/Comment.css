@@ -158,10 +158,6 @@
 
   > * {
     margin: 3px 0;
-
-    &:first-child {
-      margin-left: 0;
-    }
   }
 
   @media (min-width: 480px) {
@@ -169,8 +165,8 @@
     align-items: center;
     flex-direction: row;
 
-    > div {
-      margin: 0px 5px;
+    > * {
+      margin: 0 3px 0 0;
     }
   }
 }
