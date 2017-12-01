@@ -4,7 +4,6 @@ const debug = require('debug')('talk:graph:loaders');
 const Actions = require('./actions');
 const Assets = require('./assets');
 const Comments = require('./comments');
-const Metrics = require('./metrics');
 const Settings = require('./settings');
 const Tags = require('./tags');
 const Users = require('./users');
@@ -17,7 +16,6 @@ let loaders = [
   Actions,
   Assets,
   Comments,
-  Metrics,
   Settings,
   Tags,
   Users,

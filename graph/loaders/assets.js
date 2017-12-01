@@ -79,11 +79,6 @@ const findOrCreateAssetByURL = async (context, asset_url) => {
   return asset;
 };
 
-const getAssetsForMetrics = async ({loaders: {Comments}}) => {
-  return Comments.getByQuery({action_type: 'FLAG'})
-    .then((connection) => connection.nodes);
-};
-
 const findByUrl = async (context, asset_url) => {
 
   // Verify that the asset_url is parsable.
@@ -111,7 +106,6 @@ module.exports = (context) => ({
     findByUrl: (url) => findByUrl(context, url),
     getByQuery: (query) => getAssetsByQuery(context, query),
     getByID: new DataLoader((ids) => genAssetsByID(context, ids)),
-    getForMetrics: () => getAssetsForMetrics(context),
     getAll: new util.SingletonResolver(() => AssetModel.find({}))
   }
 });

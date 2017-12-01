@@ -98,7 +98,6 @@ es:
     copy_and_paste: "Copiar y pegar el código de más abajo en tu CMS para colocar la caja de comentarios en tus artículos"
     custom_css_url: "URL CSS a medida"
     custom_css_url_desc: "URL de una hoja de estilo que va a sobrescribir los estilos por defecto del hilo de comentarios. Puede ser interna o externa."
-    dashboard: Panel
     days: Días
     description: "Como Administrador/a puedes modificar la configuración de los comentarios en este artículo"
     domain_list_text: "Agrega dominios permitidos a Talk, por ejemplo tu localhost, staging y ambientes de producción (ej. localhost:3000, staging.domain.com, domain.com)."
@@ -153,16 +152,6 @@ es:
     username: "Nombre"
     write_your_username: "Edita tu nombre"
     your_username: "Tu nombre aparece en cada comentario que publiques."
-  dashboard:
-    auto_update: "Los datos se actualizan automáticamente cada cinco minutos o cuando refresca el navegador."
-    comment_count: "comentarios"
-    flags: "Reportes"
-    most_flags: "Artículos con la mayor cantidad de reportes"
-    most_conversations: "Artículos con las mayores conversaciones"
-    next_update: "{0} minutos hasta la próxima actualización."
-    no_activity: "¡No han habido comentarios en ningún lado en los últimos 5 minutos."
-    no_flags: "¡No ha habido ningún reporte en los últimos 5 minutos! Bravo!"
-    no_likes: "¡No ha habido ningún 'me gusta' en los últimos 5 minutos. Todo tranquilo."
   done: "Hecho"
   edit_comment:
     body_input_label: "Editar este comentario"

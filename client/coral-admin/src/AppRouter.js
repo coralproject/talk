@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {Router, Route, IndexRedirect, IndexRoute} from 'react-router';
 
 import Configure from 'routes/Configure';
-import Dashboard from 'routes/Dashboard';
 import Install from 'routes/Install';
 import Stories from 'routes/Stories';
 import Community from 'routes/Community/containers/Community';
@@ -18,7 +17,6 @@ const routes = (
       <IndexRedirect to='/admin/moderate' />
       <Route path='configure' component={Configure} />
       <Route path='stories' component={Stories} />
-      <Route path='dashboard' component={Dashboard} />
 
       {/* Community Routes */}
 
