@@ -6,14 +6,27 @@ import {
   getOperationDefinition,
 } from 'apollo-utilities';
 
+import {murmur3} from 'murmurhash-js';
+
+function getDirectivesID(directives) {
+  return murmur3(JSON.stringify(directives));
+}
+
+// If two definitions have the same id, they can be merged.
 function getDefinitionID(definition) {
+
+  // Only merge when directives are exactly the same.
+  const trailing = definition.directives.length
+    ? `_${getDirectivesID(definition.directives)}`
+    : '';
+
   switch (definition.kind) {
   case 'FragmentSpread':
     return `FragmentSpread_${definition.name.value}`;
   case 'Field':
-    return `Field_${definition.alias ? definition.alias.value : definition.name.value}`;
+    return `Field_${definition.alias ? definition.alias.value : definition.name.value}${trailing}`;
   case 'InlineFragment':
-    return `InlineFragment_${definition.typeCondition.name.value}`;
+    return `InlineFragment_${definition.typeCondition.name.value}${trailing}`;
   default:
     throw new Error(`unknown definition kind ${definition.kind}`);
   }
