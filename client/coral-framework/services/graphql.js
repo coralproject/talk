@@ -9,13 +9,17 @@ import {addTypenameToDocument} from 'apollo-client/queries/queryTransform';
 export function createGraphQLService(registry, introspectionData) {
   const typeGetter = createTypeGetter(introspectionData);
 
+  // Use shared fragment map.
+  // Attention: Fragment names must be unique otherwise weird things will happen.
+  const fragmentMap = {};
+
   return {
     registry,
     resolveDocument(documentOrCallback, props, context) {
       let document = typeof documentOrCallback === 'function'
         ? documentOrCallback(props, context)
         : documentOrCallback;
-      document = reduceDocument(registry.resolveFragments(document), {typeGetter});
+      document = reduceDocument(registry.resolveFragments(document), {typeGetter, fragmentMap});
 
       // We also add typenames to the document which apollo would usually do,
       // but we also use the network interface in subscriptions directly

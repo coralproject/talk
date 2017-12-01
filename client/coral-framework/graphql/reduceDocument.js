@@ -63,12 +63,32 @@ export function mergeSelectionSets(a, b) {
   };
 }
 
+function getFragment(name, execContext) {
+  const {
+    rawFragmentMap,
+    fragmentMap,
+  } = execContext;
+
+  if (!(name in fragmentMap)) {
+    const fragment = rawFragmentMap[name];
+
+    if (!fragment) {
+      throw new Error(`fragment ${fragment.name.value} does not exist`);
+    }
+
+    const typeCondition = fragment.typeCondition.name.value;
+    const transformed = transformDefinition(fragment, execContext, `type.${typeCondition}`, typeCondition);
+    fragmentMap[name] = transformed;
+  }
+
+  return fragmentMap[name];
+}
+
 /**
  * Return selections with resolved named fragments and directives.
  */
 function getTransformedSelections(definition, path, gqlType, execContext) {
   const {
-    fragmentMap,
     variables,
   } = execContext;
 
@@ -92,7 +112,7 @@ function getTransformedSelections(definition, path, gqlType, execContext) {
       return o;
     }
 
-    const fragment = fragmentMap[sel.name.value];
+    const fragment = getFragment(sel.name.value, execContext);
 
     if (!fragment) {
       throw new Error(`fragment ${fragment.name.value} does not exist`);
@@ -105,20 +125,19 @@ function getTransformedSelections(definition, path, gqlType, execContext) {
         ...fragment,
         kind: 'InlineFragment',
       };
-      const transformed = transformDefinition(node, execContext, path, typeCondition);
       const name = getDefinitionName(node);
 
       // Merge existing value.
       if (name in o) {
-        o[name] = mergeDefinitions(o[name], transformed);
+        o[name] = mergeDefinitions(o[name], node);
         return o;
       }
 
-      o[name] = transformed;
+      o[name] = node;
       return o;
     }
 
-    const fragmentSelections = getTransformedSelections(fragment, path, typeCondition, execContext);
+    const fragmentSelections = fragment.selectionSet.selections;
     fragmentSelections.forEach((s) => {
 
       if (variables && !shouldInclude(s, variables)) {
@@ -184,7 +203,8 @@ export default function reduceDocument(document, options = {}) {
     : `type.${mainDefinition.typeCondition.name.value}`;
 
   const execContext = {
-    fragmentMap: createFragmentMap(fragments),
+    rawFragmentMap: createFragmentMap(fragments),
+    fragmentMap: options.fragmentMap || {},
     keepFragments: [],
     variables: options.variables,
     typeGetter: options.typeGetter || (() => null),
