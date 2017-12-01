@@ -129,7 +129,7 @@ function getTransformedSelections(definition, path, gqlType, execContext) {
     const typeCondition = fragment.typeCondition.name.value;
 
     // Turn NamedFragment into an InlineFragment.
-    if (gqlType !== typeCondition) {
+    if (gqlType !== typeCondition || fragment.directives.length) {
       const node = {
         ...fragment,
         kind: 'InlineFragment',
@@ -215,7 +215,6 @@ export default function reduceDocument(document, options = {}) {
   const execContext = {
     rawFragmentMap: createFragmentMap(fragments),
     fragmentMap: options.fragmentMap || {},
-    keepFragments: [],
     variables: options.variables,
     typeGetter: options.typeGetter || (() => null),
   };
