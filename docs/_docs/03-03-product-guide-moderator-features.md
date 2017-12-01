@@ -8,13 +8,6 @@ permalink: /moderator-features/
 The Admin is your moderators will moderate your comments, and your Admins will
 configure and manage the different parts of Talk.
 
-### Dashboard
-
-The Dashboard provides real-time information to moderators so they know at a
-glance where they should direct their attention. It shows what articles are
-receiving the most reports and where the most active conversations are
-happening.
-
 ### Moderate
 
 This is the tab where Moderators will spend the majority of their time. They can
