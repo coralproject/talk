@@ -76,7 +76,7 @@ export function mergeSelectionSets(a, b) {
   };
 }
 
-function getFragment(name, execContext) {
+function getFragmentOrDie(name, execContext) {
   const {
     rawFragmentMap,
     fragmentMap,
@@ -125,14 +125,10 @@ function getTransformedSelections(definition, path, gqlType, execContext) {
       return o;
     }
 
-    const fragment = getFragment(sel.name.value, execContext);
-
-    if (!fragment) {
-      throw new Error(`fragment ${fragment.name.value} does not exist`);
-    }
-
+    const fragment = getFragmentOrDie(sel.name.value, execContext);
     const typeCondition = fragment.typeCondition.name.value;
 
+    // Turn NamedFragment into an InlineFragment.
     if (gqlType !== typeCondition) {
       const node = {
         ...fragment,
@@ -150,6 +146,7 @@ function getTransformedSelections(definition, path, gqlType, execContext) {
       return o;
     }
 
+    // Merge NamedFragment directly into selections.
     const fragmentSelections = fragment.selectionSet.selections;
     fragmentSelections.forEach((s) => {
 
