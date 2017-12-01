@@ -42,18 +42,15 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
     static contextTypes = {
       eventEmitter: PropTypes.object,
       store: PropTypes.object,
-      graphqlRegistry: PropTypes.object,
+      graphql: PropTypes.object,
     };
 
     get graphqlRegistry() {
-      return this.context.graphqlRegistry;
+      return this.context.graphql.registry;
     }
 
     resolveDocument(documentOrCallback) {
-      const document = typeof documentOrCallback === 'function'
-        ? documentOrCallback(this.props, this.context)
-        : documentOrCallback;
-      return this.graphqlRegistry.resolveFragments(document);
+      return this.context.graphql.resolveDocument(documentOrCallback, this.props, this.context);
     }
 
     // Lazily resolve fragments from graphRegistry to support circular dependencies.

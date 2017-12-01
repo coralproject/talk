@@ -179,7 +179,9 @@ export default function reduceDocument(document, options = {}) {
   const mainDefinition = getMainDefinition(document);
   const fragments = getFragmentDefinitions(document);
   const operationDefinition = getOperationDefinition(document);
-  const path = operationDefinition.operation;
+  const path = operationDefinition
+    ? operationDefinition.operation
+    : `type.${mainDefinition.typeCondition.name.value}`;
 
   const execContext = {
     fragmentMap: createFragmentMap(fragments),
@@ -224,6 +226,17 @@ export function createTypeGetter(introspectionData) {
     const parts = path.split('.');
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
+
+      // Handle special path e.g. 'type.ROOT_QUERY.fieldName'
+      if (part === 'type') {
+        const type = parts[i + 1];
+        const nextPath = `type.${type}`;
+        result[nextPath] = type;
+        currentPath = nextPath;
+        i++;
+        continue;
+      }
+
       const nextPath = currentPath ? `${currentPath}.${part}` : part;
       if (nextPath in result) {
         currentPath = nextPath;

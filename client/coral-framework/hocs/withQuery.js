@@ -4,12 +4,7 @@ import {getDefinitionName, separateDataAndRoot, getResponseErrors} from '../util
 import PropTypes from 'prop-types';
 import hoistStatics from 'recompose/hoistStatics';
 import {getOperationName} from 'apollo-client/queries/getFromAST';
-import {addTypenameToDocument} from 'apollo-client/queries/queryTransform';
 import throttle from 'lodash/throttle';
-import reduceDocument, {createTypeGetter} from '../graphql/reduceDocument';
-import introspectionData from '../graphql/introspection.json';
-
-const typeGetter = createTypeGetter(introspectionData);
 
 const withSkipOnErrors = (reducer) => (prev, action, ...rest) => {
   if (action.type === 'APOLLO_MUTATION_RESULT' && getResponseErrors(action.result)) {
@@ -46,7 +41,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
   return class WithQuery extends React.Component {
     static contextTypes = {
       eventEmitter: PropTypes.object,
-      graphqlRegistry: PropTypes.object,
+      graphql: PropTypes.object,
       client: PropTypes.object,
     };
 
@@ -61,7 +56,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
     subscriptionQueue = [];
 
     get graphqlRegistry() {
-      return this.context.graphqlRegistry;
+      return this.context.graphql.registry;
     }
 
     get client() {
@@ -69,15 +64,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
     }
 
     resolveDocument(documentOrCallback) {
-      let document = typeof documentOrCallback === 'function'
-        ? documentOrCallback(this.props, this.context)
-        : documentOrCallback;
-      document = reduceDocument(this.graphqlRegistry.resolveFragments(document), {typeGetter});
-
-      // We also add typenames to the document which apollo would usually do,
-      // but we also use the network interface in subscriptions directly
-      // which require the resolved typenames.
-      return addTypenameToDocument(document);
+      return this.context.graphql.resolveDocument(documentOrCallback, this.props, this.context);
     }
 
     emitWhenNeeded(data) {
@@ -124,7 +111,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
     subscribeToMoreThrottled = ({document, variables, updateQuery}) => {
 
       // We need to add the typenames and resolve fragments.
-      const query = addTypenameToDocument(this.graphqlRegistry.resolveFragments(document));
+      const query = this.resolveDocument(document);
       const handler = (error, data) => {
         if (error) {
 
