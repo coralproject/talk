@@ -452,39 +452,41 @@ export default class Comment extends React.Component {
           <div className={cn(styles.commentContainer, 'talk-stream-comment-container')}>
             <div className={cn(styles.header, 'talk-stream-comment-header')}>
 
-              <Slot
-                className={cn(styles.username, 'talk-stream-comment-user-name')}
-                fill="commentAuthorName"
-                defaultComponent={CommentAuthorName}
-                queryData={queryData}
-                {...slotProps}
-              />
-
-              {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
-
-              <Slot
-                className={cn('talk-stream-comment-author-tags')}
-                fill="commentAuthorTags"
-                queryData={queryData}
-                {...slotProps}
-                inline
-              />
-
-              <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
+              <div className={cn(styles.headerContainer, 'talk-stream-comment-header-container')}>
                 <Slot
-                  fill="commentTimestamp"
-                  defaultComponent={CommentTimestamp}
-                  className={'talk-stream-comment-published-date'}
-                  created_at={comment.created_at}
+                  className={cn(styles.username, 'talk-stream-comment-user-name')}
+                  fill="commentAuthorName"
+                  defaultComponent={CommentAuthorName}
                   queryData={queryData}
                   {...slotProps}
                 />
-                {
-                  (comment.editing && comment.editing.edited)
-                    ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
-                    : null
-                }
-              </span>
+
+                {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
+
+                <Slot
+                  className={cn('talk-stream-comment-author-tags')}
+                  fill="commentAuthorTags"
+                  queryData={queryData}
+                  {...slotProps}
+                  inline
+                />
+
+                <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
+                  <Slot
+                    fill="commentTimestamp"
+                    defaultComponent={CommentTimestamp}
+                    className={'talk-stream-comment-published-date'}
+                    created_at={comment.created_at}
+                    queryData={queryData}
+                    {...slotProps}
+                  />
+                  {
+                    (comment.editing && comment.editing.edited)
+                      ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
+                      : null
+                  }
+                </span>
+              </div>
 
               <Slot
                 className={styles.commentInfoBar}

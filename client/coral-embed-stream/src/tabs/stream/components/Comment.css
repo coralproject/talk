@@ -119,6 +119,8 @@
 
 .commentInfoBar {
   margin-left: auto;
+  flex: 1;
+  text-align: right;
 }
 
 @keyframes enter {
@@ -129,9 +131,6 @@
 
 .enter {
   animation: enter 1000ms;
-}
-
-.commentContainer {
 }
 
 .commentAvatar {
@@ -153,6 +152,11 @@
 
 .header {
   margin: 10px 0;
+  display: flex;
+}
+
+.headerContainer {
+  flex: 1;
   flex-direction: column;
   align-items: flex-start;
 
