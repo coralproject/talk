@@ -20,7 +20,7 @@ class UserInfoTooltip extends React.Component {
 
   render() {
     const {menuVisible} = this.state;
-    const {user} = this.props;
+    const {banned, suspended} = this.props;
 
     return (
       <ClickOutside onClickOutside={this.hideMenu}>
@@ -32,7 +32,7 @@ class UserInfoTooltip extends React.Component {
           {menuVisible && (
             <div className={cn(styles.menu, 'talk-admin-user-info-tooltip-menu')}>
               {
-                user.status === 'BANNED' && (
+                banned && (
                   <div className={cn(styles.description, 'talk-admin-user-info-tooltip-description-banned')}>
                     <ul className={cn(styles.descriptionList, 'talk-admin-user-info-tooltip-description-list')}>
                       <li className={cn(styles.descriptionItem, 'talk-admin-user-info-tooltip-description-item')}>
@@ -49,7 +49,7 @@ class UserInfoTooltip extends React.Component {
               }
 
               {
-                user.status === 'SUSPENDED' && (
+                suspended && (
                   <div className={cn(styles.description, 'talk-admin-user-info-tooltip-description-suspended')}>
                     <ul className={cn(styles.descriptionList, 'talk-admin-user-info-tooltip-description-list')}>
                       <li className={cn(styles.descriptionItem, 'talk-admin-user-info-tooltip-description-item')}>
@@ -72,7 +72,6 @@ class UserInfoTooltip extends React.Component {
                   </div>
                 )
               }
-
             </div>
           )}
         </div>
@@ -83,6 +82,8 @@ class UserInfoTooltip extends React.Component {
 
 UserInfoTooltip.propTypes = {
   user: PropTypes.object,
+  banned: PropTypes.bool,
+  suspended: PropTypes.bool,
 };
 
 export default UserInfoTooltip;
