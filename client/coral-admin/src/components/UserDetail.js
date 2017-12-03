@@ -15,7 +15,8 @@ import RejectButton from './RejectButton';
 import {getErrorMessages} from 'coral-framework/utils';
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
-
+import UserInfoTooltip from './UserInfoTooltip';
+ 
 class UserDetail extends React.Component {
 
   rejectThenReload = async (info) => {
@@ -155,6 +156,8 @@ class UserDetail extends React.Component {
 
             </ActionsMenu>
           }
+
+          {user.status !== 'ACTIVE' && <UserInfoTooltip user={user} />}
 
           <div>
             <ul className={styles.userDetailList}>

@@ -6,7 +6,6 @@
 
 .root {
   color: black;
-  vertical-align: super;
   > :global(.mdl-menu__container) {
     margin-left: 10px;
   }
@@ -22,7 +21,7 @@
 .arrowIcon {
   margin-left: 6px;
   margin-right: 0;
-  vertical-align: middle;
+  vertical-align: middle; 
   margin-right: 0;
   font-size: 14px;
 }
