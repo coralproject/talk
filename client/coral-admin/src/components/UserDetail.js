@@ -134,6 +134,8 @@ class UserDetail extends React.Component {
       user.suspension.until &&
       new Date(user.suspension.until) > new Date();
 
+    const banned = user.status === 'BANNED';
+
     return (
       <ClickOutside onClickOutside={hideUserDetail}>
         <Drawer onClose={hideUserDetail}>
@@ -147,7 +149,7 @@ class UserDetail extends React.Component {
               className={cn(styles.actionsMenu, 'talk-admin-user-detail-actions-menu')}
               buttonClassNames={cn({
                 [styles.actionsMenuSuspended]: suspended,
-                [styles.actionsMenuBanned]: user.status === 'BANNED',
+                [styles.actionsMenuBanned]: banned,
               }, 'talk-admin-user-detail-actions-button')}
               label={this.getActionMenuLabel()}>
 
@@ -156,7 +158,7 @@ class UserDetail extends React.Component {
                 Remove Suspension
               </ActionsMenuItem>}
 
-              {user.status === 'BANNED' && <ActionsMenuItem
+              {banned && <ActionsMenuItem
                 onClick={this.showSuspenUserDialog}>
                 Remove Ban
               </ActionsMenuItem>}
@@ -166,7 +168,7 @@ class UserDetail extends React.Component {
                 Suspend User
               </ActionsMenuItem>}
 
-              {user.status !== 'BANNED' && <ActionsMenuItem
+              {!banned && <ActionsMenuItem
                 onClick={this.showBanUserDialog}>
                 Ban User
               </ActionsMenuItem>}
@@ -174,7 +176,7 @@ class UserDetail extends React.Component {
             </ActionsMenu>
           }
 
-          {user.status !== 'ACTIVE' && <UserInfoTooltip user={user} />}
+          {banned || suspended && <UserInfoTooltip user={user} />}
 
           <div>
             <ul className={styles.userDetailList}>
