@@ -8,8 +8,6 @@ import styles from './Comment.css';
 import CommentLabels from 'coral-admin/src/components/CommentLabels';
 import CommentAnimatedEdit from 'coral-admin/src/components/CommentAnimatedEdit';
 import Slot from 'coral-framework/components/Slot';
-import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
-import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import CommentBodyHighlighter from 'coral-admin/src/components/CommentBodyHighlighter';
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
@@ -19,26 +17,6 @@ import RejectButton from 'coral-admin/src/components/RejectButton';
 import t, {timeago} from 'coral-framework/services/i18n';
 
 class Comment extends React.Component {
-
-  showSuspendUserDialog = () => {
-    const {comment, showSuspendUserDialog} = this.props;
-    return showSuspendUserDialog({
-      userId: comment.user.id,
-      username: comment.user.username,
-      commentId: comment.id,
-      commentStatus: comment.status,
-    });
-  };
-
-  showBanUserDialog = () => {
-    const {comment, showBanUserDialog} = this.props;
-    return showBanUserDialog({
-      userId: comment.user.id,
-      username: comment.user.username,
-      commentId: comment.id,
-      commentStatus: comment.status,
-    });
-  };
 
   viewUserDetail = () => {
     const {viewUserDetail, comment} = this.props;
@@ -63,7 +41,6 @@ class Comment extends React.Component {
       data,
       root,
       root: {settings},
-      currentUserId,
       currentAsset,
     } = this.props;
 
@@ -93,19 +70,6 @@ class Comment extends React.Component {
                 (comment.editing && comment.editing.edited)
                   ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
                   : null
-              }
-              {currentUserId !== comment.user.id &&
-                <ActionsMenu icon="not_interested" className="talk-admin-moderate-comment-actions-menu">
-                  <ActionsMenuItem
-                    disabled={comment.user.status === 'BANNED'}
-                    onClick={this.showSuspendUserDialog}>
-                    Suspend User</ActionsMenuItem>
-                  <ActionsMenuItem
-                    disabled={comment.user.status === 'BANNED'}
-                    onClick={this.showBanUserDialog}>
-                    Ban User
-                  </ActionsMenuItem>
-                </ActionsMenu>
               }
               <div className={styles.adminCommentInfoBar}>
                 <CommentLabels
@@ -188,8 +152,6 @@ Comment.propTypes = {
   rejectComment: PropTypes.func.isRequired,
   className: PropTypes.string,
   currentAsset: PropTypes.object,
-  showBanUserDialog: PropTypes.func.isRequired,
-  showSuspendUserDialog: PropTypes.func.isRequired,
   currentUserId: PropTypes.string.isRequired,
   comment: PropTypes.shape({
     id: PropTypes.string.isRequired,

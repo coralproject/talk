@@ -17,6 +17,8 @@ import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
 import {notify} from 'coral-framework/actions/notification';
+import {showBanUserDialog} from 'actions/banUserDialog';
+import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 
 const commentConnectionFragment = gql`
   fragment CoralAdmin_Moderation_CommentConnection on CommentConnection {
@@ -181,6 +183,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
+    showBanUserDialog,
+    showSuspendUserDialog,
     changeUserDetailStatuses,
     clearUserDetailSelections,
     toggleSelectCommentInUserDetail,

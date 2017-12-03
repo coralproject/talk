@@ -269,8 +269,6 @@ class Moderation extends Component {
             activeTab={activeTab}
             singleView={moderation.singleView}
             selectedCommentId={this.state.selectedCommentId}
-            showBanUserDialog={props.showBanUserDialog}
-            showSuspendUserDialog={props.showSuspendUserDialog}
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment}
             loadMore={this.loadMore}
@@ -315,8 +313,6 @@ Moderation.propTypes = {
   queueConfig: PropTypes.object.isRequired,
   handleCommentChange: PropTypes.func.isRequired,
   setSortOrder: PropTypes.func.isRequired,
-  showBanUserDialog: PropTypes.func.isRequired,
-  showSuspendUserDialog: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
   loadMore: PropTypes.func.isRequired,
