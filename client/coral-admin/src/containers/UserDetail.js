@@ -150,6 +150,9 @@ export const withUserDetailQuery = withQuery(gql`
         flagger
       }
       status
+      suspension {
+        until
+      }
       ${getSlotFragmentSpreads(slots, 'user')}
     }
     totalComments: commentCount(query: {author_id: $author_id, statuses: []})

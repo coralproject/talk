@@ -174,14 +174,14 @@
   display: inline-block;
 }
 
-.actionsMenuBanned {
-  background-color: #E45241;
-  border-color: #E45241;
-  color: white;
-}
-
 .actionsMenuSuspended {
   background-color: #F29336;
   border-color: #F29336;
+  color: white;
+}
+
+.actionsMenuBanned {
+  background-color: #E45241;
+  border-color: #E45241;
   color: white;
 }
