@@ -149,6 +149,7 @@ export const withUserDetailQuery = withQuery(gql`
       reliable {
         flagger
       }
+      status
       ${getSlotFragmentSpreads(slots, 'user')}
     }
     totalComments: commentCount(query: {author_id: $author_id, statuses: []})

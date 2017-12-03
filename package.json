@@ -156,7 +156,7 @@
     "react-apollo": "^1.4.12",
     "react-dom": "^15.4.2",
     "react-input-autosize": "^1.1.4",
-    "react-mdl": "^1.7.2",
+    "react-mdl": "^1.11.0",
     "react-mdl-selectfield": "^0.2.0",
     "react-paginate": "^5.0.0",
     "react-recaptcha": "^2.2.6",

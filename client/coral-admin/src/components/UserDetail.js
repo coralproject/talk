@@ -124,17 +124,35 @@ class UserDetail extends React.Component {
           </h3>
 
           {user.id &&
-            <ActionsMenu icon="not_interested" className={cn(styles.actionsMenu, 'talk-admin-user-detail-actions-menu')}>
-              <ActionsMenuItem
-                disabled={user.status === 'BANNED'}
+            <ActionsMenu
+              icon="person"
+              className={cn(styles.actionsMenu, 'talk-admin-user-detail-actions-menu')}
+              buttonClassNames={cn({
+                [styles.actionsMenuSuspended]: user.status === 'SUSPENDED',
+                [styles.actionsMenuBanned]: user.status === 'BANNED',
+              }, 'talk-admin-user-detail-actions-button')}
+              label={user.status !== 'ACTIVE' ? capitalize(user.status) : ''}>
+
+              {user.status === 'SUSPENDED' && <ActionsMenuItem
+                onClick={this.showSuspenUserDialog}>
+                Remove Suspension
+              </ActionsMenuItem>}
+
+              {user.status === 'BANNED' && <ActionsMenuItem
+                onClick={this.showSuspenUserDialog}>
+                Remove Ban
+              </ActionsMenuItem>}
+
+              {user.status !== 'SUSPENDED' && <ActionsMenuItem
                 onClick={this.showSuspenUserDialog}>
                 Suspend User
-              </ActionsMenuItem>
-              <ActionsMenuItem
-                disabled={user.status === 'BANNED'}
+              </ActionsMenuItem>}
+
+              {user.status !== 'BANNED' && <ActionsMenuItem
                 onClick={this.showBanUserDialog}>
                 Ban User
-              </ActionsMenuItem>
+              </ActionsMenuItem>}
+
             </ActionsMenu>
           }
 
