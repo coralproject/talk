@@ -164,3 +164,11 @@
     background-color: #efefef;
   }
 }
+
+.username {
+  display: inline-block;
+}
+
+.actionsMenu {
+  display: inline-block;
+}

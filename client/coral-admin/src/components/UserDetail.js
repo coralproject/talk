@@ -71,13 +71,13 @@ class UserDetail extends React.Component {
   }
 
   showSuspenUserDialog = () => this.props.showSuspendUserDialog({
-    userId: this.props.user.id,
-    username: this.props.user.username,
+    userId: this.props.root.user.id,
+    username: this.props.root.user.username,
   });
 
   showBanUserDialog = () => this.props.showBanUserDialog({
-    userId: this.props.user.id,
-    username: this.props.user.username,
+    userId: this.props.root.user.id,
+    username: this.props.root.user.username,
   });
 
   renderLoading() {
@@ -119,10 +119,12 @@ class UserDetail extends React.Component {
     return (
       <ClickOutside onClickOutside={hideUserDetail}>
         <Drawer onClose={hideUserDetail}>
-          <h3>{user.username}</h3>
+          <h3 className={cn(styles.username, 'talk-admin-user-detail-username')}>
+            {user.username}
+          </h3>
 
-          {user.id !== user.id &&
-            <ActionsMenu icon="not_interested">
+          {user.id &&
+            <ActionsMenu icon="not_interested" className={cn(styles.actionsMenu, 'talk-admin-user-detail-actions-menu')}>
               <ActionsMenuItem
                 disabled={user.status === 'BANNED'}
                 onClick={this.showSuspenUserDialog}>
@@ -251,7 +253,6 @@ class UserDetail extends React.Component {
 }
 
 UserDetail.propTypes = {
-  user: PropTypes.object.isRequired,
   hideUserDetail: PropTypes.func.isRequired,
   root: PropTypes.object.isRequired,
   acceptComment: PropTypes.func.isRequired,
