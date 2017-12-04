@@ -7360,18 +7360,9 @@ react-mdl-selectfield@^0.2.0:
     react-dom "^15.3.1"
     react-mdl "^1.7.1"
 
-react-mdl@^1.11.0:
+react-mdl@^1.11.0, react-mdl@^1.7.1:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/react-mdl/-/react-mdl-1.11.0.tgz#7e07ee1009dd9b358b616dc400ff2ae1845a2e67"
-  dependencies:
-    clamp "^1.0.1"
-    classnames "^2.2.3"
-    lodash.isequal "^4.4.0"
-    prop-types "^15.5.0"
-
-react-mdl@^1.7.1:
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/react-mdl/-/react-mdl-1.10.3.tgz#f783e26a5eea4154a32129ab2562c09d5eeacf0d"
   dependencies:
     clamp "^1.0.1"
     classnames "^2.2.3"
