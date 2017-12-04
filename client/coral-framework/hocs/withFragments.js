@@ -64,18 +64,15 @@ function hasEqualLeaves(a, b, path = '') {
 export default (fragments) => hoistStatics((BaseComponent) => {
   class WithFragments extends React.Component {
     static contextTypes = {
-      graphqlRegistry: PropTypes.object,
+      graphql: PropTypes.object,
     };
 
     get graphqlRegistry() {
-      return this.context.graphqlRegistry;
+      return this.context.graphql.registry;
     }
 
     resolveDocument(documentOrCallback) {
-      const document = typeof documentOrCallback === 'function'
-        ? documentOrCallback(this.props, this.context)
-        : documentOrCallback;
-      return this.graphqlRegistry.resolveFragments(document);
+      return this.context.graphql.resolveDocument(documentOrCallback, this.props, this.context);
     }
 
     fragments = mapValues(fragments, (val) => this.resolveDocument(val));

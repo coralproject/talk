@@ -2,7 +2,6 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './Slot.css';
 import {connect} from 'react-redux';
-import omit from 'lodash/omit';
 import kebabCase from 'lodash/kebabCase';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
@@ -121,7 +120,7 @@ Slot.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  reduxState: omit(state, 'apollo'),
+  reduxState: state,
 });
 
 export default connect(mapStateToProps, null)(Slot);

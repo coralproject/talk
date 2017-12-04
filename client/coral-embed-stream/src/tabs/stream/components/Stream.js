@@ -252,7 +252,7 @@ class Stream extends React.Component {
               enable={asset.settings.infoBoxEnable}
             />
             {questionBoxEnable && (
-              <QuestionBox 
+              <QuestionBox
                 content={asset.settings.questionBoxContent}
                 icon={asset.settings.questionBoxIcon}>
                 <Slot
