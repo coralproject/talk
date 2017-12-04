@@ -19,7 +19,8 @@ const {
 } = require('../../perms/constants');
 
 const {
-  DISABLE_AUTOFLAG_SUSPECT_WORDS
+  DISABLE_AUTOFLAG_SUSPECT_WORDS,
+  IGNORE_FLAGS_AGAINST_STAFF,
 } = require('../../config');
 
 const debug = require('debug')('talk:graph:mutators:tags');
@@ -292,7 +293,7 @@ const moderationPhases = [
     }
   },
 
-  // This phase checks to see if the comment's length exeeds maximum.
+  // This phase checks to see if the comment's length exceeds maximum.
   (context, comment, {assetSettings: {charCountEnable, charCount}}) => {
 
     // Reject if the comment is too long
@@ -309,6 +310,15 @@ const moderationPhases = [
             count: comment.body.length,
           }
         }]
+      };
+    }
+  },
+
+  // If a given user is a staff member, always approve their comment.
+  (context) => {
+    if (IGNORE_FLAGS_AGAINST_STAFF && context.user && context.user.isStaff()) {
+      return {
+        status: 'ACCEPTED',
       };
     }
   },
@@ -362,7 +372,7 @@ const moderationPhases = [
     }
   },
 
-  // This phase checks to see if the comment was already perscribed a status.
+  // This phase checks to see if the comment was already prescribed a status.
   (context, comment) => {
 
     // If the status was already defined, don't redefine it. It's only defined
