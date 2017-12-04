@@ -138,7 +138,7 @@ class UserDetail extends React.Component {
 
     return (
       <ClickOutside onClickOutside={hideUserDetail}>
-        <Drawer onClose={hideUserDetail}>
+        <Drawer className="talk-admin-user-detail-drawer" onClose={hideUserDetail}>
           <h3 className={cn(styles.username, 'talk-admin-user-detail-username')}>
             {user.username}
           </h3>

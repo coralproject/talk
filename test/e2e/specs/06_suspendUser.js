@@ -82,7 +82,7 @@ module.exports = {
   },
   'admin suspends user': (client) => {
     const adminPage = client.page.admin();
-    const moderate = adminPage.section.moderate;
+    const {moderate, userDetailDrawer} = adminPage.section;
     
     adminPage
       .navigate()
@@ -91,8 +91,11 @@ module.exports = {
 
     moderate
       .waitForElementVisible('@comment')
-      .waitForElementVisible('@commentActionMenu')
-      .waitForElementVisible('@actionMenuButton')
+      .waitForElementVisible('@commentUsername')
+      .click('@commentUsername');
+
+    userDetailDrawer
+      .waitForElementVisible('@actionsMenu')
       .click('@actionMenuButton')
       .waitForElementVisible('@actionItemSuspendUser')
       .click('@actionItemSuspendUser');

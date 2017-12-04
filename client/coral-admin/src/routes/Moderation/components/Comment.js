@@ -56,13 +56,13 @@ class Comment extends React.Component {
         <div className={styles.container}>
           <div className={styles.itemHeader}>
             <div className={styles.author}>
-              {
-                (
-                  <span className={styles.username} onClick={this.viewUserDetail}>
-                    {comment.user.username}
-                  </span>
-                )
-              }
+
+              <span
+                className={cn(styles.username, 'talk-admin-moderate-comment-username')}
+                onClick={this.viewUserDetail}>
+                {comment.user.username}
+              </span>
+
               <span className={styles.created}>
                 {timeago(comment.created_at)}
               </span>
