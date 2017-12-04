@@ -1,5 +1,8 @@
 const errors = require('../../errors');
 const {CREATE_ACTION, DELETE_ACTION} = require('../../perms/constants');
+const {
+  IGNORE_FLAGS_AGAINST_STAFF,
+} = require('../../config');
 
 /**
  * getActionItem will return the item that is associated with the given action.
@@ -56,12 +59,16 @@ const createAction = async (ctx, {item_id, item_type, action_type, group_id, met
   // Gets the item referenced by the action.
   const item = await getActionItem(ctx, {item_id, item_type});
 
-  if (action_type === 'FLAG' && item_type === 'USERS') {
+  // If we are ignoring flags against staff, ensure that the target isn't a
+  // staff member.
+  if (IGNORE_FLAGS_AGAINST_STAFF) {
+    if (action_type === 'FLAG') {
 
-    // The item is a user, and this is a flag. Check to see if they are staff,
-    // if they are, don't permit the flag.
-    if (item.isStaff()) {
-      throw errors.ErrNotAuthorized;
+      // If the item is a user, and this is a flag. Check to see if they are
+      // staff, if they are, don't permit the flag.
+      if (item_type === 'USERS' && item.isStaff()) {
+        return null;
+      }
     }
   }
 
