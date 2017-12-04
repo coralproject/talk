@@ -13,7 +13,7 @@ import t, {timeago} from 'coral-framework/services/i18n';
 import CommentBox from 'talk-plugin-commentbox/CommentBox';
 import QuestionBox from '../../../components/QuestionBox';
 import {isCommentActive} from 'coral-framework/utils';
-import {Tab, TabCount, TabPane, Button} from 'coral-ui';
+import {Tab, TabCount, TabPane} from 'coral-ui';
 import cn from 'classnames';
 
 import {getTopLevelParent, attachCommentToParent} from '../../../graphql/utils';
@@ -207,23 +207,6 @@ class Stream extends React.Component {
     );
   }
 
-  launchDeathStar = () => {
-    let i = 100;
-    const launch = () => {
-      setTimeout(() => {
-        this.props.postComment({
-          asset_id: this.props.asset.id,
-          body: 'death is certain',
-        });
-        i--;
-        if (i > 0) {
-          launch();
-        }
-      }, 100);
-    };
-    launch();
-  }
-
   render() {
     const {
       data,
@@ -262,12 +245,6 @@ class Stream extends React.Component {
 
     return (
       <div id="stream" className={styles.root}>
-        <Button
-          cStyle="darkGrey"
-          onClick={this.launchDeathStar}
-        >
-          Launch Death Star
-        </Button>
         {open
           ? <div id="commentBox">
             <InfoBox
