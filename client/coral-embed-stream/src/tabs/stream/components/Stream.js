@@ -213,7 +213,12 @@ class Stream extends React.Component {
       root,
       appendItemArray,
       asset,
-      asset: {comment: highlightedComment},
+      asset: {
+        comment: highlightedComment,
+        settings: {
+          questionBoxEnable,
+        }
+      },
       postComment,
       notify,
       updateItem,
@@ -224,14 +229,13 @@ class Stream extends React.Component {
     const open = !asset.isClosed;
 
     const banned = user && user.status === 'BANNED';
-    const pending = user && user.status === 'PENDING';
 
     const temporarilySuspended =
       user &&
       user.suspension.until &&
       new Date(user.suspension.until) > new Date();
 
-    const showCommentBox = loggedIn && ((!banned && !pending & !temporarilySuspended && !highlightedComment) || keepCommentBox);
+    const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
     const slotProps = {data};
     const slotQueryData = {root, asset};
 
@@ -247,18 +251,17 @@ class Stream extends React.Component {
               content={asset.settings.infoBoxContent}
               enable={asset.settings.infoBoxEnable}
             />
-            <QuestionBox
-              content={asset.settings.questionBoxContent}
-              enable={asset.settings.questionBoxEnable}
-              icon={asset.settings.questionBoxIcon}
-            >
-              <Slot
-                fill="streamQuestionArea"
-                queryData={slotQueryData}
-                {...slotProps}
-              />
-            </QuestionBox>
-
+            {questionBoxEnable && (
+              <QuestionBox
+                content={asset.settings.questionBoxContent}
+                icon={asset.settings.questionBoxIcon}>
+                <Slot
+                  fill="streamQuestionArea"
+                  queryData={slotQueryData}
+                  {...slotProps}
+                />
+              </QuestionBox>
+            )}
             {!banned &&
                 temporarilySuspended &&
                 <RestrictedMessageBox>

@@ -1,7 +1,6 @@
 import React from 'react';
 import ExtendableTabPanel from '../components/ExtendableTabPanel';
 import {connect} from 'react-redux';
-import omit from 'lodash/omit';
 import {TabPane} from 'coral-ui';
 import ExtendableTab from '../components/ExtendableTab';
 import {getShallowChanges} from 'coral-framework/utils';
@@ -128,7 +127,7 @@ ExtendableTabPanelContainer.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  reduxState: omit(state, 'apollo'),
+  reduxState: state,
 });
 
 export default connect(mapStateToProps, null)(ExtendableTabPanelContainer);

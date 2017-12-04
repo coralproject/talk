@@ -190,11 +190,9 @@ body {
   background-color: #4C1066;
   color: white;
   display: inline-block;
-  margin: 0px 5px;
-  padding: 5px 5px;
   border-radius: 2px;
   font-size: 12px;
-  font-weight: bold;
+  padding: 5px 6px;
 }
 
 /* Comment Action Styles */

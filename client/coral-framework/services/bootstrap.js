@@ -12,6 +12,7 @@ import {BASE_PATH} from 'coral-framework/constants/url';
 import {createPluginsService} from './plugins';
 import {createNotificationService} from './notification';
 import {createGraphQLRegistry} from './graphqlRegistry';
+import {createGraphQLService} from './graphql';
 import globalFragments from 'coral-framework/graphql/fragments';
 import {createStorage, createPymStorage} from 'coral-framework/services/storage';
 import {createHistory} from 'coral-framework/services/history';
@@ -121,7 +122,13 @@ export async function createContext({
     introspectionData,
   });
   const plugins = createPluginsService(pluginsConfig);
-  const graphqlRegistry = createGraphQLRegistry(plugins.getSlotFragments.bind(plugins));
+  const graphql = createGraphQLService(
+    createGraphQLRegistry(plugins.getSlotFragments.bind(plugins)),
+    {
+      introspectionData,
+      optimize: process.env.NODE_ENV === 'production',
+    },
+  );
   if (!notification) {
 
     // Use default notification service (pym based)
@@ -134,7 +141,7 @@ export async function createContext({
     plugins,
     eventEmitter,
     rest,
-    graphqlRegistry,
+    graphql,
     notification,
     storage,
     history,
@@ -143,13 +150,13 @@ export async function createContext({
   };
 
   // Load framework fragments.
-  Object.keys(globalFragments).forEach((key) => graphqlRegistry.addFragment(key, globalFragments[key]));
+  Object.keys(globalFragments).forEach((key) => graphql.registry.addFragment(key, globalFragments[key]));
 
   // Register graphql extension
-  graphqlRegistry.add(graphqlExtension);
+  graphql.registry.add(graphqlExtension);
 
   // Register plugin graphql extensions.
-  plugins.getGraphQLExtensions().forEach((ext) => graphqlRegistry.add(ext));
+  plugins.getGraphQLExtensions().forEach((ext) => graphql.registry.add(ext));
 
   // Load plugin translations.
   plugins.getTranslations().forEach((t) => loadTranslations(t));
@@ -159,20 +166,27 @@ export async function createContext({
     pym.sendMessage('event', JSON.stringify({eventName, value}));
   });
 
+  // Create our redux store.
   const finalReducers = {
     ...reducers,
     ...plugins.getReducers(),
-    apollo: client.reducer(),
   };
 
   store = createStore(finalReducers, [
-    client.middleware(),
     thunk.withExtraArgument(context),
-    apolloErrorReporter,
     createReduxEmitter(eventEmitter),
   ]);
 
   context.store = store;
+
+  // Create apollo redux store.
+  context.apolloStore = createStore({
+    apollo: client.reducer(),
+  }, [
+    client.middleware(),
+    apolloErrorReporter,
+    createReduxEmitter(eventEmitter),
+  ]);
 
   // Run pre initialization.
   if (preInit) {

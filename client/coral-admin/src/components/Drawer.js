@@ -12,20 +12,14 @@ const CoralDrawer = ({handleLogout, auth = {}}) => (
     { auth && auth.user && can(auth.user, 'ACCESS_ADMIN') ?
       <div>
         <Navigation className={styles.nav}>
-          <IndexLink
-            className={cn('talk-admin-nav-dashboard', styles.navLink)}
-            to="/admin/dashboard"
-            activeClassName={styles.active}>
-            {t('configure.dashboard')}
-          </IndexLink>
           {
             can(auth.user, 'MODERATE_COMMENTS') && (
-              <Link
+              <IndexLink
                 className={cn('talk-admin-nav-moderate', styles.navLink)}   
                 to="/admin/moderate"
                 activeClassName={styles.active}>
                 {t('configure.moderate')}
-              </Link>
+              </IndexLink>
             )
           }
           <Link
