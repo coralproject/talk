@@ -20,7 +20,7 @@ import update from 'immutability-helper';
 import {notify} from 'coral-framework/actions/notification';
 
 const commentConnectionFragment = gql`
-  fragment CoralAdmin_Moderation_CommentConnection on CommentConnection {
+  fragment CoralAdmin_UserDetail_CommentConnection on CommentConnection {
     nodes {
       ...${getDefinitionName(UserDetailComment.fragments.comment)}
     }
@@ -198,7 +198,7 @@ export const withUserDetailQuery = withQuery(gql`
       author_id: $author_id,
       statuses: $statuses
     }) {
-      ...CoralAdmin_Moderation_CommentConnection
+      ...CoralAdmin_UserDetail_CommentConnection
     }
     ...${getDefinitionName(UserDetailComment.fragments.root)}
     ${getSlotFragmentSpreads(slots, 'root')}

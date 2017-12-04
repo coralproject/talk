@@ -1,7 +1,6 @@
 const {
   SEARCH_ASSETS,
   SEARCH_OTHERS_COMMENTS,
-  SEARCH_COMMENT_METRICS,
   SEARCH_OTHER_USERS
 } = require('../../perms/constants');
 
@@ -56,27 +55,6 @@ const RootQuery = {
     }
 
     return Users.getCountByQuery(query);
-  },
-
-  assetMetrics(_, query, {user, loaders: {Metrics: {Assets}}}) {
-    if (user == null || !user.can(SEARCH_ASSETS)) {
-      return null;
-    }
-
-    const {sortBy} = query;
-    if (sortBy === 'ACTIVITY') {
-      return Assets.getActivity(query);
-    }
-
-    return Assets.get(query);
-  },
-
-  commentMetrics(_, query, {user, loaders: {Metrics: {Comments}}}) {
-    if (user == null || !user.can(SEARCH_COMMENT_METRICS)) {
-      return null;
-    }
-
-    return Comments.get(query);
   },
 
   // This returns the current user, ensure that if we aren't logged in, we

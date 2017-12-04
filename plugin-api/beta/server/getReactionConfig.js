@@ -179,10 +179,22 @@ function getReactionConfig(reaction) {
       RootMutation: {
         [`create${Reaction}Action`]: async (_, {input: {item_id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => {
           const comment = await Comments.get.load(item_id);
+          if (!comment) {
+            throw errors.ErrNotFound;
+          }
 
-          let action;
           try {
-            action = await Action.create({item_id, item_type: 'COMMENTS', action_type: REACTION});
+            const action = await Action.create({item_id, item_type: 'COMMENTS', action_type: REACTION});
+
+            if (pubsub) {
+
+              // The comment is needed to allow better filtering e.g. by asset_id.
+              pubsub.publish(`${reaction}ActionCreated`, {action, comment});
+            }
+
+            return {
+              [reaction]: action,
+            };
           } catch (err) {
             if (err instanceof errors.ErrAlreadyExists) {
               return err.metadata.existing;
@@ -190,16 +202,6 @@ function getReactionConfig(reaction) {
 
             throw err;
           }
-
-          if (pubsub) {
-
-            // The comment is needed to allow better filtering e.g. by asset_id.
-            pubsub.publish(`${reaction}ActionCreated`, {action, comment});
-          }
-
-          return {
-            [reaction]: action,
-          };
         },
         [`delete${Reaction}Action`]: async (_, {input: {id}}, {mutators: {Action}, pubsub, loaders: {Comments}})  => {
           const action = await Action.delete({id});

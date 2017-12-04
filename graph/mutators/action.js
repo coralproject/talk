@@ -1,6 +1,8 @@
-const ActionsService = require('../../services/actions');
 const errors = require('../../errors');
 const {CREATE_ACTION, DELETE_ACTION} = require('../../perms/constants');
+const {
+  IGNORE_FLAGS_AGAINST_STAFF,
+} = require('../../config');
 
 /**
  * getActionItem will return the item that is associated with the given action.
@@ -10,21 +12,21 @@ const {CREATE_ACTION, DELETE_ACTION} = require('../../perms/constants');
  * @param {Object} action the action being performed
  * @return {Promise}      resolves to the referenced item
  */
-const getActionItem = async ({loaders: {Comments, Users}}, {item_id, item_type}) => {
-  if (item_type === 'COMMENTS') {
-    const comment = await Comments.get.load(item_id);
-    if (!comment) {
-      throw errors.ErrNotFound;
-    }
+const getActionItem = async (ctx, {item_id, item_type}) => {
+  const {
+    loaders: {
+      Comments,
+      Users,
+    },
+  } = ctx;
 
-    return comment;
-  } else if (item_type === 'USERS') {
-    const user = await Users.getByID.load(item_id);
-    if (!user) {
-      throw errors.ErrNotFound;
-    }
-
-    return user;
+  switch (item_type) {
+  case 'COMMENTS':
+    return Comments.get.load(item_id);
+  case 'USERS':
+    return Users.getByID.load(item_id);
+  default:
+    return null;
   }
 };
 
@@ -37,10 +39,34 @@ const getActionItem = async ({loaders: {Comments, Users}}, {item_id, item_type})
  * @return {Promise}       resolves to the action created
  */
 const createAction = async (ctx, {item_id, item_type, action_type, group_id, metadata = {}}) => {
-  const {user = {}, pubsub} = ctx;
+  const {
+    user = {},
+    pubsub,
+    connectors: {
+      services: {
+        Actions,
+      },
+    },
+  } = ctx;
 
   // Gets the item referenced by the action.
   const item = await getActionItem(ctx, {item_id, item_type});
+  if (!item || item === null) {
+    throw errors.ErrNotFound;
+  }
+
+  // If we are ignoring flags against staff, ensure that the target isn't a
+  // staff member.
+  if (IGNORE_FLAGS_AGAINST_STAFF) {
+    if (action_type === 'FLAG') {
+
+      // If the item is a user, and this is a flag. Check to see if they are
+      // staff, if they are, don't permit the flag.
+      if (item_type === 'USERS' && item.isStaff()) {
+        return null;
+      }
+    }
+  }
 
   if (action_type === 'FLAG' && item_type === 'USERS') {
 
@@ -52,7 +78,7 @@ const createAction = async (ctx, {item_id, item_type, action_type, group_id, met
   }
 
   // Create the action itself.
-  let action = await ActionsService.create({
+  let action = await Actions.create({
     item_id,
     item_type,
     user_id: user.id,
@@ -78,10 +104,21 @@ const createAction = async (ctx, {item_id, item_type, action_type, group_id, met
  * @param  {String} id   the id of the action to delete
  * @return {Promise}     resolves to the deleted action, or null if not found.
  */
-const deleteAction = ({user}, {id}) => ActionsService.delete({id, user_id: user.id});
+const deleteAction = (ctx, {id}) => {
+  const {
+    user,
+    connectors: {
+      services: {
+        Actions,
+      },
+    },
+  } = ctx;
+
+  return Actions.delete({id, user_id: user.id});
+};
 
 module.exports = (ctx) => {
-  const mutators = {
+  let mutators = {
     Action: {
       create: () => Promise.reject(errors.ErrNotAuthorized),
       delete: () => Promise.reject(errors.ErrNotAuthorized)

@@ -118,6 +118,7 @@ const config = {
   },
   resolve: {
     alias: {
+      'graphql-anywhere': '@coralproject/graphql-anywhere-optimized',
       'plugin-api': path.resolve(__dirname, 'plugin-api/'),
       plugins: path.resolve(__dirname, 'plugins/'),
       pluginsConfig: pluginsPath

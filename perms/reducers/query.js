@@ -8,15 +8,13 @@ module.exports = (user, perm) => {
   case types.SEARCH_ACTIONS:
   case types.SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS:
   case types.SEARCH_OTHERS_COMMENTS:
-  case types.SEARCH_COMMENT_METRICS:
+    return check(user, ['ADMIN', 'MODERATOR']);
   case types.SEARCH_COMMENT_STATUS_HISTORY:
   case types.VIEW_USER_STATUS:
   case types.VIEW_PROTECTED_SETTINGS:
     return check(user, ['ADMIN', 'MODERATOR']);
-
   case types.LIST_OWN_TOKENS:
     return check(user, ['ADMIN']);
-
   default:
     break;
   }

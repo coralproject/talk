@@ -3,6 +3,8 @@ import {graphql} from 'react-apollo';
 import {getDefinitionName, separateDataAndRoot, getResponseErrors} from '../utils';
 import PropTypes from 'prop-types';
 import hoistStatics from 'recompose/hoistStatics';
+import {getOperationName} from 'apollo-client/queries/getFromAST';
+import throttle from 'lodash/throttle';
 
 const withSkipOnErrors = (reducer) => (prev, action, ...rest) => {
   if (action.type === 'APOLLO_MUTATION_RESULT' && getResponseErrors(action.result)) {
@@ -39,24 +41,30 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
   return class WithQuery extends React.Component {
     static contextTypes = {
       eventEmitter: PropTypes.object,
-      graphqlRegistry: PropTypes.object,
+      graphql: PropTypes.object,
+      client: PropTypes.object,
     };
 
     // Lazily resolve fragments from graphRegistry to support circular dependencies.
     memoized = null;
+    resolvedDocument = null;
     lastNetworkStatus = null;
     data = null;
     name = '';
 
+    // Pending subscription data.
+    subscriptionQueue = [];
+
     get graphqlRegistry() {
-      return this.context.graphqlRegistry;
+      return this.context.graphql.registry;
+    }
+
+    get client() {
+      return this.context.client;
     }
 
     resolveDocument(documentOrCallback) {
-      const document = typeof documentOrCallback === 'function'
-        ? documentOrCallback(this.props, this.context)
-        : documentOrCallback;
-      return this.graphqlRegistry.resolveFragments(document);
+      return this.context.graphql.resolveDocument(documentOrCallback, this.props, this.context);
     }
 
     emitWhenNeeded(data) {
@@ -71,6 +79,66 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
       const {root} = separateDataAndRoot(data);
       this.context.eventEmitter.emit(`query.${this.name}.${status}`, {variables, data: root});
     }
+
+    // Handle any pending susbcription data in the subscription queue at max once every second.
+    // Updates are batched in written into apollo in one go.
+    processSubscriptionQueue = throttle(() => {
+      const variables = typeof this.wrappedOptions === 'function'
+        ? this.wrappedOptions(this.props).variables
+        : this.wrappedOptions.variables;
+
+      const previousResult = this.client.readQuery({
+        query: this.resolvedDocument,
+        variables,
+      });
+
+      let result = previousResult;
+
+      this.subscriptionQueue.forEach(([updateQuery, data]) => {
+        result = updateQuery(result, {subscriptionData: {data}});
+      });
+
+      if (result !== previousResult) {
+        this.client.writeQuery({
+          query: this.resolvedDocument,
+          variables,
+          data: result,
+        });
+      }
+      this.subscriptionQueue = [];
+    }, 1000);
+
+    subscribeToMoreThrottled = ({document, variables, updateQuery}) => {
+
+      // We need to add the typenames and resolve fragments.
+      const query = this.resolveDocument(document);
+      const handler = (error, data) => {
+        if (error) {
+
+          // TODO: shuld this show a notification?
+          console.error(error);
+          return;
+        }
+        if (data) {
+          this.subscriptionQueue.push([updateQuery, data]);
+
+          // Triggers the throttled subscription queue processor.
+          this.processSubscriptionQueue();
+        }
+      };
+
+      // Start subscription.
+      const request = {
+        query,
+        variables,
+        operationName: getOperationName(query),
+      };
+
+      const id = this.client.networkInterface.subscribe(request, handler);
+
+      // Return unsubscribe callback.
+      return () => this.client.networkInterface.unsubscribe(id);
+    };
 
     nextData(data) {
       this.emitWhenNeeded(data);
@@ -102,6 +170,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
           stopPolling: data.stopPolling,
           refetch: data.refetch,
           updateQuery: data.updateQuery,
+          subscribeToMoreThrottled: this.subscribeToMoreThrottled,
           subscribeToMore: (stmArgs) => {
             const resolvedDocument = this.resolveDocument(stmArgs.document);
 
@@ -190,10 +259,10 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
 
     getWrapped = () => {
       if (!this.memoized) {
-        const resolvedDocument = this.resolveDocument(document);
-        this.name = getDefinitionName(resolvedDocument);
+        this.resolvedDocument = this.resolveDocument(document);
+        this.name = getDefinitionName(this.resolvedDocument);
         this.memoized = graphql(
-          resolvedDocument,
+          this.resolvedDocument,
           {...this.wrappedConfig, options: this.wrappedOptions},
         )(WrappedComponent);
       }

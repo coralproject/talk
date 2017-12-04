@@ -5,9 +5,8 @@ const {
   SEARCH_OTHER_USERS,
   SEARCH_OTHERS_COMMENTS,
   UPDATE_USER_ROLES,
-  SEARCH_COMMENT_METRICS,
   LIST_OWN_TOKENS,
-  VIEW_USER_STATUS
+  VIEW_USER_STATUS,
 } = require('../../perms/constants');
 
 const User = {
@@ -79,7 +78,7 @@ const User = {
 
   // Extract the reliability from the user metadata if they have permission.
   reliable(user, _, {user: requestingUser}) {
-    if (requestingUser && requestingUser.can(SEARCH_COMMENT_METRICS)) {
+    if (requestingUser && requestingUser.can(SEARCH_ACTIONS)) {
       return KarmaService.model(user);
     }
   },

@@ -923,19 +923,6 @@ enum SORT_COMMENTS_BY {
   REPLIES
 }
 
-# Metrics for the assets.
-enum ASSET_METRICS_SORT {
-
-  # Represents a FlagAction.
-  FLAG
-
-  # Represents a don't agree action.
-  DONTAGREE
-
-  # Represents activity.
-  ACTIVITY
-}
-
 type RootQuery {
 
   # Site wide settings and defaults.
@@ -970,14 +957,6 @@ type RootQuery {
 
   # a single User by id
   user(id: ID!): User
-
-  # Asset metrics related to user actions are saturated into the assets
-  # returned. Parameters `from` and `to` are related to the action created_at field.
-  assetMetrics(from: Date!, to: Date!, sortBy: ASSET_METRICS_SORT!, limit: Int = 10): [Asset!]
-
-  # Comment metrics related to user actions are saturated into the comments
-  # returned. Parameters `from` and `to` are related to the action created_at field.
-  commentMetrics(from: Date!, to: Date!, sortBy: ACTION_TYPE!, limit: Int = 10): [Comment!]
 }
 
 ################################################################################

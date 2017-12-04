@@ -98,7 +98,6 @@ pt_BR:
     copy_and_paste: "Copie e cole o código abaixo em seu CMS para incorporar sua caixa de comentários em seus artigos."
     custom_css_url: "URL para CSS customizado"
     custom_css_url_desc: "URL de uma folha de estilo CSS para substituir os estilos padrão dos comentários embutidos. Pode ser interno ou externo."
-    dashboard: Painel de controle
     days: Dias
     description: "Como administrador, você pode personalizar as configurações da lista de comentários para esta história:"
     domain_list_text: "Insira os domínios que você gostaria de permitir para o Talk, como seus ambientes de desenvolvimento, teste ou produção (ej. localhost:3000 staging.domain.com domain.com)."
@@ -153,16 +152,6 @@ pt_BR:
     username: Nome de usuário
     write_your_username: "Edite seu nome de usuário"
     your_username: "Nosso nome de usuário aparece em todos os comentários que você publica."
-  dashboard:
-    auto_update: "Atualizado autimaticamente a cada minutos ou após recarregamento."
-    comment_count: comentários
-    flags: Marcações
-    most_flags: "Conversas com mais comentários marcados"
-    most_conversations: "Conversas com mais comentários"
-    next_update: "{0} minutos até a próxima atualização."
-    no_activity: "Não houve nenhum comentário nos últimos cinco minutos."
-    no_flags: "Não houve nenhum comentário marcado em nenhum lugar nos últimos 5 minutos. Hip Hip Uha!"
-    no_likes: "Não houve reações nos últimos 5 minutos."
   done: Feito
   edit_comment:
     body_input_label: "Edite este comentário"

@@ -15,7 +15,10 @@ const {
   EDIT_COMMENT
 } = require('../../perms/constants');
 const debug = require('debug')('talk:graph:mutators:comment');
-const {DISABLE_AUTOFLAG_SUSPECT_WORDS} = require('../../config');
+const {
+  DISABLE_AUTOFLAG_SUSPECT_WORDS,
+  IGNORE_FLAGS_AGAINST_STAFF,
+} = require('../../config');
 
 const resolveTagsForComment = async ({user, loaders: {Tags}}, {asset_id, tags = []}) => {
   const item_type = 'COMMENTS';
@@ -291,6 +294,15 @@ const moderationPhases = [
             count: comment.body.length,
           }
         }]
+      };
+    }
+  },
+
+  // If a given user is a staff member, always approve their comment.
+  (context) => {
+    if (IGNORE_FLAGS_AGAINST_STAFF && context.user && context.user.isStaff()) {
+      return {
+        status: 'ACCEPTED',
       };
     }
   },
