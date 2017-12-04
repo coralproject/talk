@@ -701,7 +701,10 @@ class UsersService {
       return UserModel.find({});
     }
 
-    value = escapeRegExp(value);
+    value = escapeRegExp(value).toLowerCase();
+
+    // Compile the prefix search regex.
+    const $regex = new RegExp(`^${value}`);
 
     return UserModel.find({
       $or: [
@@ -709,8 +712,8 @@ class UsersService {
         // Search by a prefix match on the username.
         {
           'lowercaseUsername': {
-            $regex: new RegExp(value.toLowerCase())
-          }
+            $regex,
+          },
         },
 
         // Search by a prefix match on the email address.
@@ -718,14 +721,13 @@ class UsersService {
           'profiles': {
             $elemMatch: {
               id: {
-                $regex: new RegExp(value),
-                $options: 'i'
+                $regex,
               },
-              provider: 'local'
-            }
-          }
-        }
-      ]
+              provider: 'local',
+            },
+          },
+        },
+      ],
     });
   }
 

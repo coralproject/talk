@@ -187,17 +187,12 @@ describe('services.UsersService', () => {
     it('should match the search terms', async () => {
       const tests = [
         {
-          search: 'monster',
-          results: 1,
-          id: mockUsers[1].id,
-        },
-        {
           search: 'Stamp',
           results: 1,
           id: mockUsers[0].id,
         },
         {
-          search: 'sockmonster@gmail.com',
+          search: 'sockmonster',
           results: 1,
           id: mockUsers[1].id,
         },
@@ -207,9 +202,10 @@ describe('services.UsersService', () => {
           id: mockUsers[2].id,
         },
         {
-          search: 'gmail.com',
-          results: 3
-        }
+          search: 'marvel',
+          results: 1,
+          id: mockUsers[2].id,
+        },
       ];
 
       for (const test of tests) {

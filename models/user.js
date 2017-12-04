@@ -220,6 +220,14 @@ UserSchema.index({
   background: false
 });
 
+UserSchema.index({
+  'lowercaseUsername': 1,
+  'profiles.id': 1,
+  'created_at': -1,
+}, {
+  background: true,
+});
+
 // This query is executed often, to count the number of flagged accounts with
 // usernames.
 UserSchema.index({

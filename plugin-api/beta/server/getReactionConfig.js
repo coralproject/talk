@@ -1,9 +1,23 @@
 const {SEARCH_OTHER_USERS} = require('../../../perms/constants');
 const errors = require('../../../errors');
 const pluralize = require('pluralize');
+const sc = require('snake-case');
+const CommentModel = require('../../../models/comment');
+const {CREATE_MONGO_INDEXES} = require('../../../config');
 
 function getReactionConfig(reaction) {
   reaction = reaction.toLowerCase();
+
+  if (CREATE_MONGO_INDEXES) {
+
+    // Create the index on the comment model based on the reaction config.
+    CommentModel.collection.createIndex({
+      created_at: 1,
+      [`action_counts.${sc(reaction)}`]: 1
+    }, {
+      background: true,
+    });
+  }
 
   const reactionPlural = pluralize(reaction);
   const Reaction = reaction.charAt(0).toUpperCase() + reaction.slice(1);
@@ -112,6 +126,14 @@ function getReactionConfig(reaction) {
 
   return {
     typeDefs,
+    schemas: ({CommentSchema}) => {
+      CommentSchema.index({
+        'created_at': 1,
+        [`action_counts.${sc(reaction)}`]: 1,
+      }, {
+        background: true,
+      });
+    },
     context: {
       Sort: () => ({
         Comments: {

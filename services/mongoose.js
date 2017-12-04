@@ -5,7 +5,8 @@ const queryDebugger = require('debug')('talk:db:query');
 
 const {
   MONGO_URL,
-  WEBPACK
+  WEBPACK,
+  CREATE_MONGO_INDEXES,
 } = require('../config');
 
 // Loading the formatter from Mongoose:
@@ -56,6 +57,9 @@ if (WEBPACK) {
   mongoose
     .connect(MONGO_URL, {
       useMongoClient: true,
+      config: {
+        autoIndex: CREATE_MONGO_INDEXES,
+      },
     })
     .then(() => {
       debug('connection established');

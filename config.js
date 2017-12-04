@@ -23,6 +23,10 @@ const CONFIG = {
   APOLLO_ENGINE_KEY: process.env.APOLLO_ENGINE_KEY || null,
   ENABLE_TRACING: Boolean(process.env.APOLLO_ENGINE_KEY),
 
+  // When TRUE, it ensures that database indexes created in core will not add
+  // indexes.
+  CREATE_MONGO_INDEXES: process.env.DISABLE_CREATE_MONGO_INDEXES !== 'TRUE',
+
   //------------------------------------------------------------------------------
   // JWT based configuration
   //------------------------------------------------------------------------------
