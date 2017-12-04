@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+files:
+ - source: /
+   destination: /var/lib/nodejs/talk
+hooks:
+  ApplicationStop:
+    - location: ./scripts/aws/ApplicationStop.sh
+  AfterInstall:
+    - location: ./scripts/aws/AfterInstall.sh
+  ApplicationStart:
+    - location: ./scripts/aws/ApplicationStart.sh
+  ValidateService:
+    - location: ./scripts/aws/ValidateService.sh
+      timeout: 300
