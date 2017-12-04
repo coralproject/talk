@@ -11,6 +11,10 @@
     eslint-plugin-promise "^3.3.1"
     eslint-plugin-react "^7.3.0"
 
+"@coralproject/graphql-anywhere-optimized@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@coralproject/graphql-anywhere-optimized/-/graphql-anywhere-optimized-0.1.0.tgz#3456f16f790d8593b0ca4355910578ab1c6edab5"
+
 "@kadira/storybook-deployer@^1.1.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@kadira/storybook-deployer/-/storybook-deployer-1.2.0.tgz#1708f5cb37fa08ab4173b1bd99df6f4717dfae12"
@@ -3510,10 +3514,6 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6:
 "graceful-readlink@>= 1.0.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
-
-"graphql-anywhere-optimized@git+https://git@github.com/cvle/graphql-anywhere#optimized":
-  version "3.1.0"
-  resolved "git+https://git@github.com/cvle/graphql-anywhere#3f5d9e5c619ac4c4065af83abd7f76b84fb81e7c"
 
 graphql-anywhere@^3.0.1:
   version "3.1.0"
