@@ -395,18 +395,34 @@ module.exports = class UsersService {
       throw new Error(`status ${status} is not supported`);
     }
 
-    // TODO: current updating status behavior is weird.
-    // once a user has been `APPROVED` its status cannot be
-    // changed anymore.
-    const user = await UserModel.findOneAndUpdate({
-      id,
-      status: {
-        $ne: 'APPROVED'
-      }
-    }, {
+    // Compose the query.
+    const query = {id};
+
+    // Insert extra validations into the query.
+    switch (status) {
+    case 'ACTIVE':
+    case 'BANNED':
+    case 'APPROVED':
+
+      // A user cannot become change their status from what it is already.
+      query.status = {
+        $ne: status,
+      };
+      break;
+    case 'PENDING':
+
+      // A user cannot become pending if they are already approved, pending, or
+      // banned
+      query.status = {
+        $nin: [status, 'APPROVED', 'BANNED'],
+      };
+      break;
+    }
+
+    const user = await UserModel.findOneAndUpdate(query, {
       $set: {
-        status
-      }
+        status,
+      },
     }, {
       new: true,
     });
@@ -426,8 +442,8 @@ module.exports = class UsersService {
           };
         await MailerService.sendSimple(options);
       }
-
     }
+
     return user;
   }
 
