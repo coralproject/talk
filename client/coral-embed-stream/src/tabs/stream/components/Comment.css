@@ -160,18 +160,22 @@
   flex-direction: column;
   align-items: flex-start;
 
-  > * {
-    margin: 3px 0;
-  }
-
   @media (min-width: 480px) {
     display: flex;
     align-items: center;
     flex-direction: row;
+  }
+}
 
-    > * {
-      margin: 0 3px 0 0;
-    }
+.tagsContainer {
+  display: flex;
+}
+
+.tagsContainer > * {
+  margin: 3px;
+
+  &:first-child {
+    margin-left: 0px;
   }
 }
 

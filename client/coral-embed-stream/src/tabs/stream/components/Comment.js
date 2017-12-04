@@ -461,15 +461,17 @@ export default class Comment extends React.Component {
                   {...slotProps}
                 />
 
-                {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
+                <div className={cn(styles.tagsContainer, 'talk-stream-comment-header-tags-container')}>
+                  {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 
-                <Slot
-                  className={cn('talk-stream-comment-author-tags')}
-                  fill="commentAuthorTags"
-                  queryData={queryData}
-                  {...slotProps}
-                  inline
-                />
+                  <Slot
+                    className={cn(styles.commentAuthorTagsSlot, 'talk-stream-comment-author-tags')}
+                    fill="commentAuthorTags"
+                    queryData={queryData}
+                    {...slotProps}
+                    inline
+                  />
+                </div>
 
                 <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
                   <Slot
