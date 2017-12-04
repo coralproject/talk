@@ -126,7 +126,7 @@ export async function createContext({
     createGraphQLRegistry(plugins.getSlotFragments.bind(plugins)),
     {
       introspectionData,
-      optimize: true,
+      optimize: process.env.NODE_ENV === 'production',
     },
   );
   if (!notification) {
