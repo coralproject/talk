@@ -21,7 +21,7 @@ const keyfunc = (key) => {
  * This wraps a complicated function with a cache, in the event that the item is
  * not inside the cache, it will perform the work to get it and then set it
  * followed by returning the value.
- * @param  {Mixed} key       Either an array of items or string represening this
+ * @param  {Mixed} key       Either an array of items or string representing this
  *                           work
  * @param  {Integer} expiry  Time in seconds for the cache entry to live for
  * @param  {Function} work   A function that returns a promise that can be
@@ -30,7 +30,7 @@ const keyfunc = (key) => {
  */
 cache.wrap = async (key, expiry, work, kf = keyfunc) => {
   let value = await cache.get(key, kf);
-  if (value !== null) {
+  if (typeof value !== 'undefined' && value !== null) {
     debug('wrap: hit', kf(key));
     return value;
   }
@@ -187,11 +187,13 @@ cache.wrapMany = async (keys, expiry, work, kf = keyfunc) => {
  * @return {Promise}
  */
 cache.get = async (key, kf = keyfunc) => cache.client.get(kf(key)).then((reply) => {
-  if (reply !== null) {
+  if (typeof reply !== 'undefined' && reply !== null) {
 
     // Parse the stored cache value from JSON.
     return JSON.parse(reply);
   }
+
+  return null;
 });
 
 /**
@@ -207,7 +209,7 @@ cache.getMany = async (keys, kf = keyfunc) => cache.client.mget(keys.map(kf)).th
   for (let i = 0; i < replies.length; i++) {
     let value = null;
 
-    if (replies[i] != null) {
+    if (typeof replies[i] !== 'undefined' && replies[i] !== null) {
 
       // Parse the stored cache value from JSON.
       value = JSON.parse(replies[i]);
