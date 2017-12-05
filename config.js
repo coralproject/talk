@@ -184,7 +184,7 @@ const CONFIG = {
   // IGNORE_FLAGS_AGAINST_STAFF disables staff members from entering the
   // reported queue from comments after this was enabled and from reports
   // against the staff members user account.
-  IGNORE_FLAGS_AGAINST_STAFF: process.env.TALK_DISABLE_IGNORE_FLAGS_AGAINST_STAFF === 'TRUE',
+  IGNORE_FLAGS_AGAINST_STAFF: process.env.TALK_DISABLE_IGNORE_FLAGS_AGAINST_STAFF !== 'TRUE',
 };
 
 //==============================================================================
