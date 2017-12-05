@@ -197,6 +197,30 @@ CommentSchema.virtual('visible').get(function() {
   return ['ACCEPTED', 'NONE'].includes(this.status);
 });
 
+
+/* CUSTOM INDEXES: START */
+
+// MAIN BOOST
+
+CommentSchema.index({'status' : 1, asset_id: 1, parent_id: 1, created_at: -1});
+CommentSchema.index({'tags.tag.name' : 1, asset_id: 1, status: -1});
+
+
+// ADMIN BOOST
+
+CommentSchema.index({'action_counts.flag' : 1, 'status': 1});
+CommentSchema.index({'created_at': -1});
+// CommentSchema.index({'id' : 1});
+
+/* ensureIndex */
+// CommentSchema.index({'asset_id': 1, 'status' : 1});
+// CommentSchema.index({'asset_id': 1, 'status' : 1, parent_id: 1});
+
+// CommentSchema.index({'status': 1, 'created_at': -1})
+// CommentSchema.index({'status' : 1, 'action_counts.flag': 1, 'created_at': -1})
+
+/* CUSTOM INDEXES: END */
+
 // Comment model.
 const Comment = mongoose.model('Comment', CommentSchema);
 
