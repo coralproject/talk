@@ -18,6 +18,11 @@ export default withFragments({
   comment: gql`
     fragment CoralAdmin_CommentDetails_comment on Comment {
       __typename
+      status_history {
+        assigned_by {
+          username
+        }
+      }
       ${getSlotFragmentSpreads(slots, 'comment')}
     }
   `

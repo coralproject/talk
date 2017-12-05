@@ -32,6 +32,8 @@ class CommentDetails extends Component {
       comment,
     };
 
+    const details = comment.status_history.slice(-1)[0];
+
     return (
       <div className={styles.root}>
         <IfSlotIsNotEmpty
@@ -55,6 +57,7 @@ class CommentDetails extends Component {
           clearHeightCache={clearHeightCache}
           queryData={queryData}
         />}
+        <p className={styles.assignedBy}>{details.assigned_by && details.assigned_by.username}</p>
       </div>
     );
   }
