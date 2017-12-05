@@ -19,7 +19,6 @@ const Jwt = require('../services/jwt');
 const Karma = require('../services/karma');
 const Kue = require('../services/kue');
 const Limit = require('../services/limit');
-const Locals = require('../services/locals');
 const Mailer = require('../services/mailer');
 const Metadata = require('../services/metadata');
 const Migration = require('../services/migration');
@@ -59,7 +58,6 @@ const connectors = {
     Karma,
     Kue,
     Limit,
-    Locals,
     Mailer,
     Metadata,
     Migration,

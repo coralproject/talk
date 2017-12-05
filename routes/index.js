@@ -1,18 +1,21 @@
-const express = require('express');
-const path = require('path');
-const plugins = require('../services/plugins');
-const debug = require('debug')('talk:routes');
+const SetupService = require('../services/setup');
+const apollo = require('apollo-server-express');
 const authentication = require('../middleware/authentication');
-const {passport} = require('../services/passport');
-const pubsub = require('../middleware/pubsub');
-const i18n = require('../services/i18n');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const debug = require('debug')('talk:routes');
 const enabled = require('debug').enabled;
 const errors = require('../errors');
-const {createGraphOptions} = require('../graph');
-const apollo = require('apollo-server-express');
+const express = require('express');
+const i18n = require('../services/i18n');
+const path = require('path');
+const plugins = require('../services/plugins');
+const staticTemplate = require('../middleware/staticTemplate');
+const pubsub = require('../middleware/pubsub');
+const staticMiddleware = require('express-static-gzip');
 const {DISABLE_STATIC_SERVER} = require('../config');
-const SetupService = require('../services/setup');
-const static = require('express-static-gzip');
+const {createGraphOptions} = require('../graph');
+const {passport} = require('../services/passport');
 
 const router = express.Router();
 
@@ -26,7 +29,7 @@ if (!DISABLE_STATIC_SERVER) {
    * Serve the directories under public/dist from this router.
    */
   router.use('/public', express.static(path.join(__dirname, '../public')));
-  router.use('/static', static(path.resolve(path.join(__dirname, '../dist')), {
+  router.use('/static', staticMiddleware(path.resolve(path.join(__dirname, '../dist')), {
     indexFromEmptyFile: false,
     enableBrotli: true,
     customCompressions: [
@@ -39,8 +42,21 @@ if (!DISABLE_STATIC_SERVER) {
 }
 
 //==============================================================================
+// STATIC ROUTES
+//==============================================================================
+
+router.use('/admin', staticTemplate, require('./admin'));
+router.use('/embed', staticTemplate, require('./embed'));
+
+//==============================================================================
 // PASSPORT MIDDLEWARE
 //==============================================================================
+
+// Parse the cookies on the request.
+router.use(cookieParser());
+
+// Parse the body json if it's there.
+router.use(bodyParser.json());
 
 const passportDebug = require('debug')('talk:passport');
 
@@ -89,13 +105,11 @@ if (process.env.NODE_ENV !== 'production') {
 //==============================================================================
 
 router.use('/api/v1', require('./api'));
-router.use('/admin', require('./admin'));
-router.use('/embed', require('./embed'));
 
+// Development routes.
 if (process.env.NODE_ENV !== 'production') {
-  router.use('/assets', require('./assets'));
-
-  router.get('/', async (req, res) => {
+  router.use('/assets', staticTemplate, require('./assets'));
+  router.get('/', staticTemplate, async (req, res) => {
     try {
       await SetupService.isAvailable();
       return res.redirect('/admin/install');

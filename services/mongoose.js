@@ -73,7 +73,7 @@ if (WEBPACK) {
 module.exports = mongoose;
 
 // Here we include all the models that mongoose is used for, this ensures that
-// when we import mongoose that we also start up all the indexing opreations
+// when we import mongoose that we also start up all the indexing operations
 // here.
 require('../models/action');
 require('../models/asset');
