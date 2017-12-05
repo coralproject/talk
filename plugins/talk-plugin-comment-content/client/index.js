@@ -1,7 +1,9 @@
 import CommentContent from './containers/CommentContent';
+import CommentMoreDetails from './containers/CommentMoreDetails';
 
 export default {
   slots: {
-    commentContent: [CommentContent]
+    commentContent: [CommentContent],
+    adminCommentMoreDetails: [CommentMoreDetails]
   }
 };
