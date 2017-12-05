@@ -3519,6 +3519,12 @@ graphql-anywhere@^3.0.1:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/graphql-anywhere/-/graphql-anywhere-3.1.0.tgz#3ea0d8e8646b5cee68035016a9a7557c15c21e96"
 
+graphql-ast-tools@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/graphql-ast-tools/-/graphql-ast-tools-0.1.5.tgz#840c8027b71d60b560482d08e70988e5bc91da90"
+  dependencies:
+    apollo-utilities "^1.0.3"
+
 graphql-docs@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/graphql-docs/-/graphql-docs-0.2.0.tgz#cf803f9c9d354fa03e89073d74e419261a5bfa74"

@@ -1,4 +1,4 @@
-import reduceDocument, {createTypeGetter} from '../graphql/reduceDocument';
+import {transformDocument, createTypeGetter} from 'graphql-ast-tools';
 import {addTypenameToDocument} from 'apollo-client/queries/queryTransform';
 
 /**
@@ -10,7 +10,7 @@ export function createGraphQLService(registry, {
   introspectionData,
   optimize = false,
 }) {
-  const reduceOptions = {
+  const transformOptions = {
     typeGetter: optimize && introspectionData ? createTypeGetter(introspectionData) : null,
 
     // Use shared fragment map.
@@ -27,7 +27,7 @@ export function createGraphQLService(registry, {
       document = registry.resolveFragments(document);
 
       if (optimize) {
-        document = reduceDocument(document, reduceOptions);
+        document = transformDocument(document, transformOptions);
       }
 
       // We also add typenames to the document which apollo would usually do,
