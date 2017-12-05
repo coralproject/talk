@@ -5,7 +5,6 @@ const errors = require('../errors');
 const Action = require('../models/action');
 const Asset = require('../models/asset');
 const Comment = require('../models/comment');
-const Setting = require('../models/setting');
 const User = require('../models/user');
 
 // Services.
@@ -44,7 +43,6 @@ const connectors = {
     Action,
     Asset,
     Comment,
-    Setting,
     User,
   },
   services: {
