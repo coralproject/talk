@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const {data} = require('../static');
 
 // Get /email-confirmation expects a signed JWT in the hash
 router.get('/confirm-email', (req, res) => {
@@ -17,7 +16,7 @@ router.get('/password-reset', (req, res) => {
 });
 
 router.get('*', (req, res) => {
-  res.render('admin', {data});
+  res.render('admin');
 });
 
 module.exports = router;
