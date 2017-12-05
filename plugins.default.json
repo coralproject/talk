@@ -2,6 +2,7 @@
   "server": [
     "talk-plugin-auth",
     "talk-plugin-facebook-auth",
+    "talk-plugin-anonymous-auth",
     "talk-plugin-featured-comments",
     "talk-plugin-offtopic"
   ],
