@@ -20,6 +20,10 @@ const CONFIG = {
   // WEBPACK indicates when webpack is currently building.
   WEBPACK: process.env.WEBPACK === 'TRUE',
 
+  // When TRUE, it ensures that database indexes created in core will not add
+  // indexes.
+  CREATE_MONGO_INDEXES: process.env.DISABLE_CREATE_MONGO_INDEXES !== 'TRUE',
+
   //------------------------------------------------------------------------------
   // JWT based configuration
   //------------------------------------------------------------------------------
@@ -180,7 +184,7 @@ const CONFIG = {
   // IGNORE_FLAGS_AGAINST_STAFF disables staff members from entering the
   // reported queue from comments after this was enabled and from reports
   // against the staff members user account.
-  IGNORE_FLAGS_AGAINST_STAFF: process.env.TALK_DISABLE_IGNORE_FLAGS_AGAINST_STAFF === 'TRUE',
+  IGNORE_FLAGS_AGAINST_STAFF: process.env.TALK_DISABLE_IGNORE_FLAGS_AGAINST_STAFF !== 'TRUE',
 };
 
 //==============================================================================

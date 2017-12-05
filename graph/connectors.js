@@ -5,7 +5,6 @@ const errors = require('../errors');
 const Action = require('../models/action');
 const Asset = require('../models/asset');
 const Comment = require('../models/comment');
-const Setting = require('../models/setting');
 const User = require('../models/user');
 
 // Services.
@@ -19,7 +18,6 @@ const Jwt = require('../services/jwt');
 const Karma = require('../services/karma');
 const Kue = require('../services/kue');
 const Limit = require('../services/limit');
-const Locals = require('../services/locals');
 const Mailer = require('../services/mailer');
 const Metadata = require('../services/metadata');
 const Migration = require('../services/migration');
@@ -45,7 +43,6 @@ const connectors = {
     Action,
     Asset,
     Comment,
-    Setting,
     User,
   },
   services: {
@@ -59,7 +56,6 @@ const connectors = {
     Karma,
     Kue,
     Limit,
-    Locals,
     Mailer,
     Metadata,
     Migration,

@@ -108,10 +108,60 @@ CommentSchema.index({
   background: false
 });
 
+CommentSchema.index({
+  'status': 1,
+  'created_at': 1,
+}, {
+  background: true,
+});
+
+CommentSchema.index({
+  'status': 1,
+  'created_at': 1,
+  'asset_id': 1,
+}, {
+  background: true,
+});
+
 // Add an index that is optimized for sorting based on the action count data.
 CommentSchema.index({
   'created_at': 1,
-  'action_counts': 1,
+  'action_counts.flag': 1,
+}, {
+  background: true,
+});
+
+CommentSchema.index({
+  'created_at': 1,
+  'action_counts.flag': 1,
+  'status': 1,
+}, {
+  background: true,
+});
+
+// Add an index that is optimized for finding flagged comments.
+CommentSchema.index({
+  'asset_id': 1,
+  'created_at': 1,
+  'action_counts.flag': 1,
+}, {
+  background: true,
+});
+
+// Add an index for the reply sort.
+CommentSchema.index({
+  'asset_id': 1,
+  'created_at': -1,
+  'reply_count': -1,
+}, {
+  background: true,
+});
+
+// Optimize for tag searches/counts.
+CommentSchema.index({
+  'asset_id': 1,
+  'tags.tag.name': 1,
+  'status': 1,
 }, {
   background: true,
 });
