@@ -1,4 +1,6 @@
 machine:
+  timezone:
+    America/New_York
   node:
     version: 8
   services:
@@ -53,13 +55,21 @@ test:
     - yarn e2e-ci
 
 deployment:
-  release:
-    tag: /v[0-9]+(\.[0-9]+)*/
-    commands:
-      - bash ./scripts/docker.sh deploy
-
-  latest:
+  prd:
+    tag: /v[0-9]+\.[0-9]+\.[0-9]+/
+    owner: nymag
+    codedeploy:
+      talk:
+        deployment_group: talk-prd
+  qa:
     branch: master
-    owner: coralproject
-    commands:
-      - bash ./scripts/docker.sh deploy
+    owner: nymag
+    codedeploy:
+      talk:
+        deployment_group: talk-qa
+  stg:
+    branch: stg
+    owner: nymag
+    codedeploy:
+      talk:
+        deployment_group: talk-stg
