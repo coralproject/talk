@@ -71,7 +71,7 @@ export default class Embed extends React.Component {
           fill="embed"
         />
 
-        <Stream data={data} root={root} />
+        <Stream data={data} root={root} asset={root.asset} />
       </div>
     );
   }
