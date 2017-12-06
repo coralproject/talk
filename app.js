@@ -11,6 +11,7 @@ const {MOUNT_PATH} = require('./url');
 const {applyLocals} = require('./services/locals');
 const routes = require('./routes');
 const debug = require('debug')('talk:app');
+const healthCheck = require('@nymdev/health-check');
 
 const app = express();
 
@@ -57,6 +58,23 @@ app.set('view engine', 'ejs');
 applyLocals(app.locals);
 
 debug(`mounting routes on the ${MOUNT_PATH} path`);
+
+// add health check
+app.use(healthCheck({
+  env: [
+    'TALK_MONGO_URL',
+    'TALK_REDIS_URL',
+    'TALK_ROOT_URL',
+    'TALK_PORT'
+  ],
+  required: [
+    'TALK_MONGO_URL',
+    'TALK_REDIS_URL',
+    'TALK_ROOT_URL',
+    'TALK_PORT'
+  ]
+}));
+
 
 // Actually apply the routes.
 app.use(MOUNT_PATH, routes);
