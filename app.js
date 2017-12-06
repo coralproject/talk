@@ -75,7 +75,6 @@ app.use(healthCheck({
   ]
 }));
 
-
 // Actually apply the routes.
 app.use(MOUNT_PATH, routes);
 
