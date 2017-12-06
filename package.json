@@ -142,6 +142,7 @@
     "node-emoji": "^1.8.1",
     "node-fetch": "^1.7.2",
     "nodemailer": "^2.6.4",
+    "@nymdev/health-check": "^0.1.0",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.0",
     "passport-local": "^1.0.0",
