@@ -2,8 +2,6 @@
   "server": [
     "talk-plugin-toxic-comments",
     "vulture-insider",
-    "talk-plugin-auth",
-    "talk-plugin-facebook-auth",
     "talk-plugin-featured-comments",
     "talk-plugin-offtopic",
     "talk-plugin-respect",
@@ -12,7 +10,6 @@
   "client": [
     "talk-plugin-toxic-comments",
     "vulture-insider",
-    "talk-plugin-auth",
     "talk-plugin-author-menu",
     "talk-plugin-comment-content",
     "talk-plugin-featured-comments",
