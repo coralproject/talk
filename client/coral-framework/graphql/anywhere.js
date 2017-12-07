@@ -2,7 +2,7 @@ import graphql from '@coralproject/graphql-anywhere-optimized';
 import {createTypeGetter} from 'graphql-ast-tools';
 import introspectionData from './introspection.json';
 
-// User typeGetter to get more optimized documents.
+// Use typeGetter to get more optimized documents.
 const typeGetter = createTypeGetter(introspectionData);
 
 // Use global fragment cache for transformed fragments.
