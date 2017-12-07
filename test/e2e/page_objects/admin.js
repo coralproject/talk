@@ -65,9 +65,7 @@ module.exports = {
       selector: '.talk-admin-moderation-container',
       elements: {
         comment: '.talk-admin-moderate-comment',
-        commentActionMenu: '.talk-admin-moderate-comment-actions-menu',
-        actionItemSuspendUser: '.action-menu-item#suspendUser',
-        actionMenuButton: '.talk-admin-moderate-comment-actions-menu #actions-dropdown-0'
+        commentUsername: '.talk-admin-moderate-comment-username',
       }
     },
     stories: {
@@ -114,6 +112,14 @@ module.exports = {
             optionBanned: '.dd-option#BANNED',
           }
         }
+      }
+    },
+    userDetailDrawer: {
+      selector: '.talk-admin-user-detail-drawer',
+      elements: {
+        'actionsMenu': '.talk-admin-user-detail-actions-button',
+        'actionItemSuspendUser': '.action-menu-item#suspendUser',
+        'actionMenuButton': '.talk-admin-user-detail-actions-menu #actions-dropdown-0',
       }
     },
     drawer: {

@@ -166,3 +166,23 @@
   font-weight: bold;
   border-bottom: 3px solid #F36451;
 }
+.username {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.actionsMenu {
+  display: inline-block;
+}
+
+.actionsMenuSuspended {
+  background-color: #F29336;
+  border-color: #F29336;
+  color: white;
+}
+
+.actionsMenuBanned {
+  background-color: #E45241;
+  border-color: #E45241;
+  color: white;
+}

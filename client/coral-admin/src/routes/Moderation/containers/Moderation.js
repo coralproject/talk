@@ -12,9 +12,6 @@ import {isPremod, getModPath} from '../../../utils';
 
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {handleCommentChange} from '../graphql';
-
-import {showBanUserDialog} from 'actions/banUserDialog';
-import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 import {viewUserDetail} from '../../../actions/userDetail';
 import {
   toggleModal,
@@ -414,10 +411,8 @@ const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
     toggleModal,
     singleView,
-    showBanUserDialog,
     hideShortcutsNote,
     toggleStorySearch,
-    showSuspendUserDialog,
     viewUserDetail,
     setSortOrder,
     storySearchChange,

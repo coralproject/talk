@@ -5,10 +5,7 @@ import {compose, gql} from 'react-apollo';
 import {withFragments} from 'plugin-api/beta/client/hocs';
 import {Spinner} from 'coral-ui';
 import PropTypes from 'prop-types';
-
 import {withApproveUsername} from 'coral-framework/graphql/mutations';
-import {showBanUserDialog} from 'actions/banUserDialog';
-import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 import {showRejectUsernameDialog} from '../../../actions/community';
 import {viewUserDetail} from '../../../actions/userDetail';
 import {getDefinitionName} from 'coral-framework/utils';
@@ -60,8 +57,6 @@ class FlaggedAccountsContainer extends Component {
     }
     return (
       <FlaggedAccounts
-        showBanUserDialog={this.props.showBanUserDialog}
-        showSuspendUserDialog={this.props.showSuspendUserDialog}
         showRejectUsernameDialog={this.props.showRejectUsernameDialog}
         viewUserDetail={this.props.viewUserDetail}
         approveUser={this.approveUser}
@@ -76,13 +71,11 @@ class FlaggedAccountsContainer extends Component {
 }
 
 FlaggedAccountsContainer.propTypes = {
-  showBanUserDialog: PropTypes.func,
-  showSuspendUserDialog: PropTypes.func,
   showRejectUsernameDialog: PropTypes.func,
   viewUserDetail: PropTypes.func,
   approveUsername: PropTypes.func,
   data: PropTypes.object,
-  root: PropTypes.object
+  root: PropTypes.object,
 };
 
 const LOAD_MORE_QUERY = gql`
@@ -110,8 +103,6 @@ const LOAD_MORE_QUERY = gql`
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    showBanUserDialog,
-    showSuspendUserDialog,
     showRejectUsernameDialog,
     viewUserDetail,
   }, dispatch);

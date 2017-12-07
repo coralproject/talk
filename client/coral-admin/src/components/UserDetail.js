@@ -13,7 +13,11 @@ import {getReliability} from 'coral-framework/utils/user';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import {Icon, Drawer, Spinner, TabBar, Tab, TabContent, TabPane} from 'coral-ui';
-
+import LoadMore from '../components/LoadMore';
+import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
+import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
+import UserInfoTooltip from './UserInfoTooltip';
+ 
 class UserDetail extends React.Component {
 
   rejectThenReload = async (info) => {
@@ -66,6 +70,7 @@ class UserDetail extends React.Component {
 
   render() {
 
+<<<<<<< HEAD
     if (this.props.loading) {
       return (
         <ClickOutside onClickOutside={this.props.hideUserDetail}>
@@ -76,6 +81,41 @@ class UserDetail extends React.Component {
       );
     }
 
+=======
+  showSuspenUserDialog = () => this.props.showSuspendUserDialog({
+    userId: this.props.root.user.id,
+    username: this.props.root.user.username,
+  });
+
+  showBanUserDialog = () => this.props.showBanUserDialog({
+    userId: this.props.root.user.id,
+    username: this.props.root.user.username,
+  });
+
+  renderLoading() {
+    return (
+      <ClickOutside onClickOutside={this.props.hideUserDetail}>
+        <Drawer onClose={this.props.hideUserDetail}>
+          <Spinner />
+        </Drawer>
+      </ClickOutside>
+    );
+  }
+
+  getActionMenuLabel() {
+    const {root: {user}} = this.props;
+    
+    if (user.status === 'BANNED') {
+      return 'Banned';
+    } else if (user.suspension.until && new Date(user.suspension.until) > new Date()) {
+      return 'Suspended';
+    } else {
+      return '';
+    }
+  }
+
+  renderLoaded() {
+>>>>>>> c53fe4b1976db5b4644e2a48d03c85c3fdf56733
     const {
       data,
       root,
@@ -102,10 +142,54 @@ class UserDetail extends React.Component {
       rejectedPercent = 0;
     }
 
+    const suspended =
+      user &&
+      user.suspension.until &&
+      new Date(user.suspension.until) > new Date();
+
+    const banned = user.status === 'BANNED';
+
     return (
       <ClickOutside onClickOutside={hideUserDetail}>
-        <Drawer onClose={hideUserDetail}>
-          <h3>{user.username}</h3>
+        <Drawer className="talk-admin-user-detail-drawer" onClose={hideUserDetail}>
+          <h3 className={cn(styles.username, 'talk-admin-user-detail-username')}>
+            {user.username}
+          </h3>
+
+          {user.id &&
+            <ActionsMenu
+              icon="person"
+              className={cn(styles.actionsMenu, 'talk-admin-user-detail-actions-menu')}
+              buttonClassNames={cn({
+                [styles.actionsMenuSuspended]: suspended,
+                [styles.actionsMenuBanned]: banned,
+              }, 'talk-admin-user-detail-actions-button')}
+              label={this.getActionMenuLabel()}>
+
+              {suspended && <ActionsMenuItem
+                onClick={this.showSuspenUserDialog}>
+                Remove Suspension
+              </ActionsMenuItem>}
+
+              {banned && <ActionsMenuItem
+                onClick={this.showSuspenUserDialog}>
+                Remove Ban
+              </ActionsMenuItem>}
+
+              {!suspended && <ActionsMenuItem
+                onClick={this.showSuspenUserDialog}>
+                Suspend User
+              </ActionsMenuItem>}
+
+              {!banned && <ActionsMenuItem
+                onClick={this.showBanUserDialog}>
+                Ban User
+              </ActionsMenuItem>}
+
+            </ActionsMenu>
+          }
+
+          {banned || suspended && <UserInfoTooltip user={user} banned={banned} suspended={suspended} />}
 
           <div>
             <ul className={styles.userDetailList}>
@@ -251,7 +335,10 @@ class UserDetail extends React.Component {
 }
 
 UserDetail.propTypes = {
+<<<<<<< HEAD
   userId: PropTypes.string.isRequired,
+=======
+>>>>>>> c53fe4b1976db5b4644e2a48d03c85c3fdf56733
   hideUserDetail: PropTypes.func.isRequired,
   root: PropTypes.object.isRequired,
   acceptComment: PropTypes.func.isRequired,
@@ -269,7 +356,13 @@ UserDetail.propTypes = {
   selectedCommentIds: PropTypes.array.isRequired,
   viewUserDetail: PropTypes.any.isRequired,
   loadMore: PropTypes.any.isRequired,
+<<<<<<< HEAD
   notify: PropTypes.func.isRequired
+=======
+  notify: PropTypes.func.isRequired,
+  showSuspendUserDialog: PropTypes.func,
+  showBanUserDialog: PropTypes.func,
+>>>>>>> c53fe4b1976db5b4644e2a48d03c85c3fdf56733
 };
 
 export default UserDetail;
