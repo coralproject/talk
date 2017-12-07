@@ -89,8 +89,8 @@ class UserDetail extends React.Component {
   }
 
   getActionMenuLabel() {
-    const {root: {user}} = this.props;
-    
+    // const {root: {user}} = this.props;
+    //
     // if (user.status === 'BANNED') {
     //   return 'Banned';
     // } else if (user.suspension.until && new Date(user.suspension.until) > new Date()) {
@@ -135,7 +135,6 @@ class UserDetail extends React.Component {
       user &&
       suspensionUntil &&
       new Date(suspensionUntil) > new Date();
-
 
     return (
       <ClickOutside onClickOutside={hideUserDetail}>
@@ -223,7 +222,7 @@ class UserDetail extends React.Component {
           />
 
           <hr />
-          
+
           <div className={(selectedCommentIds.length > 0) ? cn(styles.bulkActionHeader, styles.selected) : styles.bulkActionHeader}>
 
             {
@@ -243,7 +242,7 @@ class UserDetail extends React.Component {
                       className={cn(styles.tab, styles.button, 'talk-admin-user-detail-all-tab')} >
                       All
                     </Tab>
-                    <Tab 
+                    <Tab
                       tabId={'rejected'}
                       className={cn(styles.tab, 'talk-admin-user-detail-rejected-tab')} >
                       Rejected
