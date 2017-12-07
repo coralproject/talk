@@ -1,0 +1,11 @@
+{
+  "name": "@coralproject/talk-plugin-subscriber",
+  "version": "0.1.0",
+  "description": "A Recipe to display a user badge",
+  "main": "index.js",
+  "author": "The Coral Project Team <coral@mozillafoundation.org>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "moment": "^2.18.1"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "server": [
+    "talk-plugin-toxic-comments",
+    "vulture-insider",
+    "talk-plugin-auth",
+    "talk-plugin-facebook-auth",
+    "talk-plugin-featured-comments",
+    "talk-plugin-offtopic",
+    "talk-plugin-respect",
+    "vulture-insider"
+  ],
+  "client": [
+    "talk-plugin-toxic-comments",
+    "vulture-insider",
+    "talk-plugin-auth",
+    "talk-plugin-author-menu",
+    "talk-plugin-comment-content",
+    "talk-plugin-featured-comments",
+    "talk-plugin-flag-details",
+    "talk-plugin-ignore-user",
+    "talk-plugin-member-since",
+    "talk-plugin-moderation-actions",
+    "talk-plugin-offtopic",
+    "talk-plugin-permalink",
+    "talk-plugin-respect",
+    "talk-plugin-sort-most-replied",
+    "talk-plugin-sort-most-respected",
+    "talk-plugin-sort-newest",
+    "talk-plugin-sort-oldest",
+    "talk-plugin-viewing-options"
+  ]
+}

@@ -20,7 +20,6 @@ test/e2e/bslocal.log
 test/e2e/selenium-debug.log
 browserstack.err
 
-plugins.json
 plugins/*
 !plugins/talk-plugin-facebook-auth
 !plugins/talk-plugin-auth
@@ -50,5 +49,6 @@ plugins/*
 !plugins/talk-plugin-subscriber
 !plugins/talk-plugin-flag-details
 !plugins/talk-plugin-slack-notifications
+!plugins/vulture-insider
 
 **/node_modules/*

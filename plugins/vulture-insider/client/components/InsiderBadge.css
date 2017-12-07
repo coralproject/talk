@@ -1,0 +1,13 @@
+.badge {
+  background-color: #00bcf1;
+  color: white;
+  display: inline-block;
+  margin: 0px 5px;
+  padding: 5px 5px;
+  border-radius: 2px;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.6px;
+  font-weight: bold;
+}
