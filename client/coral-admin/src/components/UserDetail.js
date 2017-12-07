@@ -13,11 +13,11 @@ import {getReliability} from 'coral-framework/utils/user';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import {Icon, Drawer, Spinner, TabBar, Tab, TabContent, TabPane} from 'coral-ui';
-import LoadMore from '../components/LoadMore';
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import UserInfoTooltip from './UserInfoTooltip';
- 
+import get from 'lodash/get';
+
 class UserDetail extends React.Component {
 
   rejectThenReload = async (info) => {
@@ -68,20 +68,6 @@ class UserDetail extends React.Component {
     this.props.changeStatus(tab);
   }
 
-  render() {
-
-<<<<<<< HEAD
-    if (this.props.loading) {
-      return (
-        <ClickOutside onClickOutside={this.props.hideUserDetail}>
-          <Drawer onClose={this.props.hideUserDetail}>
-            <Spinner />
-          </Drawer>
-        </ClickOutside>
-      );
-    }
-
-=======
   showSuspenUserDialog = () => this.props.showSuspendUserDialog({
     userId: this.props.root.user.id,
     username: this.props.root.user.username,
@@ -105,17 +91,17 @@ class UserDetail extends React.Component {
   getActionMenuLabel() {
     const {root: {user}} = this.props;
     
-    if (user.status === 'BANNED') {
-      return 'Banned';
-    } else if (user.suspension.until && new Date(user.suspension.until) > new Date()) {
-      return 'Suspended';
-    } else {
-      return '';
-    }
+    // if (user.status === 'BANNED') {
+    //   return 'Banned';
+    // } else if (user.suspension.until && new Date(user.suspension.until) > new Date()) {
+    //   return 'Suspended';
+    // } else {
+    //   return '';
+    // }
+    return '';
   }
 
   renderLoaded() {
->>>>>>> c53fe4b1976db5b4644e2a48d03c85c3fdf56733
     const {
       data,
       root,
@@ -142,12 +128,14 @@ class UserDetail extends React.Component {
       rejectedPercent = 0;
     }
 
+    const banned = get(user, 'status.banned.status');
+    const suspensionUntil = get(user, 'status.suspension.until');
+
     const suspended =
       user &&
-      user.suspension.until &&
-      new Date(user.suspension.until) > new Date();
+      suspensionUntil &&
+      new Date(suspensionUntil) > new Date();
 
-    const banned = user.status === 'BANNED';
 
     return (
       <ClickOutside onClickOutside={hideUserDetail}>
@@ -332,13 +320,17 @@ class UserDetail extends React.Component {
       </ClickOutside>
     );
   }
+
+  render() {
+    if (this.props.loading) {
+      return this.renderLoading();
+    }
+    return this.renderLoaded();
+  }
 }
 
 UserDetail.propTypes = {
-<<<<<<< HEAD
   userId: PropTypes.string.isRequired,
-=======
->>>>>>> c53fe4b1976db5b4644e2a48d03c85c3fdf56733
   hideUserDetail: PropTypes.func.isRequired,
   root: PropTypes.object.isRequired,
   acceptComment: PropTypes.func.isRequired,
@@ -356,13 +348,9 @@ UserDetail.propTypes = {
   selectedCommentIds: PropTypes.array.isRequired,
   viewUserDetail: PropTypes.any.isRequired,
   loadMore: PropTypes.any.isRequired,
-<<<<<<< HEAD
-  notify: PropTypes.func.isRequired
-=======
   notify: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,
->>>>>>> c53fe4b1976db5b4644e2a48d03c85c3fdf56733
 };
 
 export default UserDetail;
