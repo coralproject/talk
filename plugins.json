@@ -1,16 +1,13 @@
 {
   "server": [
     "talk-plugin-auth",
-    "talk-plugin-toxic-comments",
     "vulture-insider",
     "talk-plugin-featured-comments",
     "talk-plugin-offtopic",
-    "talk-plugin-respect",
     "vulture-insider"
   ],
   "client": [
     "talk-plugin-auth",
-    "talk-plugin-toxic-comments",
     "vulture-insider",
     "talk-plugin-author-menu",
     "talk-plugin-comment-content",
@@ -20,10 +17,11 @@
     "talk-plugin-member-since",
     "talk-plugin-moderation-actions",
     "talk-plugin-offtopic",
+    "talk-plugin-like",
+    "talk-plugin-most-liked",
+    "talk-plugin-remember-sort",
     "talk-plugin-permalink",
-    "talk-plugin-respect",
     "talk-plugin-sort-most-replied",
-    "talk-plugin-sort-most-respected",
     "talk-plugin-sort-newest",
     "talk-plugin-sort-oldest",
     "talk-plugin-viewing-options"
