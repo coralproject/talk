@@ -1,5 +1,6 @@
 {
   "server": [
+    "talk-plugin-auth",
     "talk-plugin-toxic-comments",
     "vulture-insider",
     "talk-plugin-featured-comments",
@@ -8,6 +9,7 @@
     "vulture-insider"
   ],
   "client": [
+    "talk-plugin-auth",
     "talk-plugin-toxic-comments",
     "vulture-insider",
     "talk-plugin-author-menu",
