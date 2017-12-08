@@ -108,7 +108,7 @@ class StreamContainer extends React.Component {
   }
 
   loadNewReplies = (parent_id) => {
-    const comment = findCommentInEmbedQuery(this.props, parent_id);
+    const comment = findCommentInEmbedQuery(this.props.root, parent_id);
 
     return this.props.data.fetchMore({
       query: LOAD_MORE_QUERY,
