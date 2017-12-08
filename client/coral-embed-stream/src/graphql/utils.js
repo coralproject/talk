@@ -141,18 +141,18 @@ export function findCommentWithId(nodes, id) {
   return findComment(nodes, (node) => node.id === id);
 }
 
-export function findCommentInEmbedQuery(root, callbackOrId) {
+export function findCommentInEmbedQuery(props, callbackOrId) {
   let callback = callbackOrId;
   if (typeof callbackOrId === 'string') {
     callback = (node) => node.id === callbackOrId;
   }
-  if (root.asset.comment) {
-    return findComment([getTopLevelParent(root.asset.comment)], callback);
+  if (props.asset.comment) {
+    return findComment([getTopLevelParent(props.asset.comment)], callback);
   }
-  if (!root.asset.comments) {
+  if (!props.asset.comments) {
     return false;
   }
-  return findComment(root.asset.comments.nodes, callback);
+  return findComment(props.asset.comments.nodes, callback);
 }
 
 function findAndInsertFetchedComments(parent, comments, parent_id) {
