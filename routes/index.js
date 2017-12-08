@@ -14,8 +14,20 @@ const {DISABLE_STATIC_SERVER} = require('../config');
 const {createGraphOptions} = require('../graph');
 const {passport} = require('../services/passport');
 const staticTemplate = require('../middleware/staticTemplate');
+const register = require('prom-client').register;
+const traceMetrics = require('../services/metrics');
 
 const router = express.Router();
+
+
+//==============================================================================
+// PROMETHEUS METRICS
+//==============================================================================
+
+router.get('/_metrics', (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.send(register.metrics());
+});
 
 //==============================================================================
 // STATIC FILES
@@ -104,6 +116,11 @@ router.use('/api', authentication, pubsub);
 //==============================================================================
 // GraphQL Router
 //==============================================================================
+
+router.use((req, res, next) => {
+  traceMetrics(req);
+  next();
+});
 
 // GraphQL endpoint.
 router.use('/api/v1/graph/ql', apollo.graphqlExpress(createGraphOptions));
