@@ -1,31 +1,14 @@
 const DataLoader = require('dataloader');
-const url = require('url');
+const {URL} = require('url');
+const {singleJoinBy, SingletonResolver} = require('./util');
 
-const errors = require('../../errors');
-const scraper = require('../../services/scraper');
-const util = require('./util');
-
-const AssetModel = require('../../models/asset');
-const AssetsService = require('../../services/assets');
-
-/**
- * Retrieves assets by an array of ids.
- * @param {Object} context the context of the request
- * @param {Array}  ids     array of ids to lookup
- */
-const genAssetsByID = (context, ids) => AssetModel.find({
+const genAssetsByID = ({connectors: {models: {Asset}}}, ids) => Asset.find({
   id: {
     $in: ids
   }
-}).then(util.singleJoinBy(ids, 'id'));
+}).then(singleJoinBy(ids, 'id'));
 
-/**
- * [getAssetsByQuery description]
- * @param  {Object} context  the context of the request
- * @param  {Object} query    the query
- * @return {Promise}         resolves the assets
- */
-const getAssetsByQuery = async (context, query) => {
+const getAssetsByQuery = async ({connectors: {services: {Assets}}}, query) => {
 
   // If we are requesting based on a limit, ask for one more than we want.
   const limit = query.limit;
@@ -33,7 +16,7 @@ const getAssetsByQuery = async (context, query) => {
     query.limit += 1;
   }
 
-  const nodes = await AssetsService.search(query);
+  const nodes = await Assets.search(query);
 
   // The hasNextPage is always handled the same (ask for one more than we need,
   // if there is one more, than there is more).
@@ -54,58 +37,121 @@ const getAssetsByQuery = async (context, query) => {
   };
 };
 
-/**
- * This endpoint find or creates an asset at the given url when it is loaded.
- * @param   {Object} context   the context of the request
- * @param   {String} asset_url the url passed in from the query
- * @returns {Promise}          resolves to the asset
- */
-const findOrCreateAssetByURL = async (context, asset_url) => {
+const findOrCreateAssetByURL = async (ctx, url) => {
 
-  // Verify that the asset_url is parsable.
-  let parsed_asset_url = url.parse(asset_url);
-  if (!parsed_asset_url.protocol) {
-    throw errors.ErrInvalidAssetURL;
+  // Pull our connectors out of the context.
+  const {
+    loaders: {
+      Assets,
+      Settings,
+    },
+    connectors: {
+      models: {
+        Asset,
+      },
+      services: {
+        DomainList,
+        Scraper,
+      },
+      errors: {
+        ErrInvalidAssetURL,
+      },
+    },
+  } = ctx;
+
+  // Try to validate that the url is valid. If the URL constructor throws an
+  // error, throw our internal ErrInvalidAssetURL instead. This will validate
+  // that the url contains a valid scheme.
+  try {
+    new URL(url);
+  } catch (err) {
+    throw ErrInvalidAssetURL;
   }
 
-  let asset = await AssetsService.findOrCreateByUrl(asset_url);
+  // Try the easy lookup first.
+  let asset = await Assets.findByUrl(url);
+  if (asset) {
+    return asset;
+  }
 
-  // If the asset wasn't scraped before, scrape it! Otherwise just return
-  // the asset.
+  // Seems the asset wasn't here yet.. We should do some validation.
+
+  // Check for whitelisting + get the settings at the same time.
+  const [
+    whitelisted,
+    settings,
+  ] = await Promise.all([
+    DomainList.urlCheck(url),
+    Settings.load('autoCloseStream closedTimeout'),
+  ]);
+
+  // If the domain wasn't whitelisted, then we shouldn't create this asset!
+  if (!whitelisted) {
+    throw ErrInvalidAssetURL;
+  }
+
+  // Construct the update operator that we'll use to create the asset.
+  const update = {
+    $setOnInsert: {
+      url,
+    },
+  };
+
+  // If the auto-close stream is enabled, close the stream after the designated
+  // timeout.
+  if (settings.autoCloseStream) {
+    update.$setOnInsert.closedAt = new Date(Date.now() + settings.closedTimeout * 1000);
+  }
+
+  // We're using the findOneAndUpdate here instead of a insert to protect
+  // against race conditions.
+  asset = await Asset.findOneAndUpdate({
+    url,
+  }, update, {
+
+    // Ensure that if it's new, we return the new object created.
+    new: true,
+
+    // Perform an upsert in the event that this doesn't exist.
+    upsert: true,
+
+    // Set the default values if not provided based on the mongoose models.
+    setDefaultsOnInsert: true,
+
+    // Ensure that we validate the input that we do have.
+    runValidators: true,
+  });
+
+  // If this is a new asset, then we need to scrape it!
   if (!asset.scraped) {
-    await scraper.create(asset);
+
+    // Create the Scraper job.
+    await Scraper.create(asset);
   }
 
   return asset;
 };
 
-const findByUrl = async (context, asset_url) => {
+const findByUrl = async ({connectors: {errors, services: {Assets}}}, asset_url) => {
 
-  // Verify that the asset_url is parsable.
-  let parsed_asset_url = url.parse(asset_url);
-  if (!parsed_asset_url.protocol) {
+  // Try to validate that the url is valid. If the URL constructor throws an
+  // error, throw our internal ErrInvalidAssetURL instead. This will validate
+  // that the url contains a valid scheme.
+  try {
+    new URL(asset_url);
+  } catch (err) {
     throw errors.ErrInvalidAssetURL;
   }
 
-  return AssetsService.findByUrl(asset_url);
+  return Assets.findByUrl(asset_url);
 };
 
-/**
- * Creates a set of loaders based on a GraphQL context.
- * @param  {Object} context the context of the GraphQL request
- * @return {Object}         object of loaders
- */
-
-module.exports = (context) => ({
+module.exports = (ctx) => ({
   Assets: {
-
-    // TODO: decide whether we want to move these to mutators or not, as in fact
-    // this operation create a new asset if one isn't found.
-    getByURL: (url) => findOrCreateAssetByURL(context, url),
-
-    findByUrl: (url) => findByUrl(context, url),
-    getByQuery: (query) => getAssetsByQuery(context, query),
-    getByID: new DataLoader((ids) => genAssetsByID(context, ids)),
-    getAll: new util.SingletonResolver(() => AssetModel.find({}))
+    getByURL: (url) => findOrCreateAssetByURL(ctx, url),
+    findByUrl: (url) => findByUrl(ctx, url),
+    getByQuery: (query) => getAssetsByQuery(ctx, query),
+    getByID: new DataLoader((ids) => genAssetsByID(ctx, ids)),
+    getAll: new SingletonResolver(() => ctx.connectors.models.Asset.find({}))
   }
 });

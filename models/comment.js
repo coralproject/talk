@@ -123,20 +123,23 @@ CommentSchema.index({
   background: true,
 });
 
-// Add an index that is optimized for sorting based on the action count data.
-CommentSchema.index({
-  'created_at': 1,
-  'action_counts.flag': 1,
-}, {
-  background: true,
-});
-
+// Create a sparse index to search across.
 CommentSchema.index({
   'created_at': 1,
   'action_counts.flag': 1,
   'status': 1,
 }, {
   background: true,
+  sparse: true,
+});
+
+// Create a sparse index to search across.
+CommentSchema.index({
+  'action_counts.flag': 1,
+  'status': 1,
+}, {
+  background: true,
+  sparse: true,
 });
 
 // Add an index that is optimized for finding flagged comments.
@@ -164,6 +167,15 @@ CommentSchema.index({
   'status': 1,
 }, {
   background: true,
+});
+
+// Optimize for tag searches/counts.
+CommentSchema.index({
+  'tags.tag.name': 1,
+  'status': 1,
+}, {
+  background: true,
+  sparse: true,
 });
 
 // Add an index that is optimized for sorting based on the created_at timestamp
