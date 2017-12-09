@@ -15,10 +15,9 @@ const {createGraphOptions} = require('../graph');
 const {passport} = require('../services/passport');
 const staticTemplate = require('../middleware/staticTemplate');
 const register = require('prom-client').register;
-const traceMetrics = require('../services/metrics');
+const traceMetricsMiddleware = require('../services/metrics-middleware');
 
 const router = express.Router();
-
 
 //==============================================================================
 // PROMETHEUS METRICS
@@ -113,14 +112,12 @@ router.use(passport.initialize());
 // (if present) the JWT on the request.
 router.use('/api', authentication, pubsub);
 
+// Attach prometheus metrics middleware
+router.use(traceMetricsMiddleware);
+
 //==============================================================================
 // GraphQL Router
 //==============================================================================
-
-router.use((req, res, next) => {
-  traceMetrics(req);
-  next();
-});
 
 // GraphQL endpoint.
 router.use('/api/v1/graph/ql', apollo.graphqlExpress(createGraphOptions));
