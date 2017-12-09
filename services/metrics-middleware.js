@@ -6,29 +6,22 @@ const {
   featuredCommentsTotalCounter,
   unfeaturedCommentsTotalCounter
 } = require('./metrics/comments');
-const {
-  loggedInUsersCounter,
-  loggedOutUsersCounter,
-  loggedInAnonymousUsersCounter
-} = require('./metrics/users');
+const {loggedInUsersGauge} = require('./metrics/users');
 
 function metricsMiddleware(req, res, next) {
 
   const {url, method, body = {}} = req;
   const {operationName, variables} = body;
 
+  const isAnonymousUserLogInAction = url === '/api/v1/auth/anonymous' && method === 'GET';
   const isUserLogInAction = url === '/api/v1/auth/local' && method === 'POST';
-  const isUserLogInAsAnonymousAction = url === '/api/v1/auth/anonymous' && method === 'GET';
   const isUserLogOutAction = url === '/api/v1/auth' && method === 'DELETE';
 
   // user logs in
-  isUserLogInAction && loggedInUsersCounter.inc();
-
-  // user logs in as anonymous
-  isUserLogInAsAnonymousAction && loggedInAnonymousUsersCounter.inc();
+  (isUserLogInAction || isAnonymousUserLogInAction) && loggedInUsersGauge.inc();
 
   // user logs out
-  isUserLogOutAction && loggedOutUsersCounter.inc();
+  isUserLogOutAction && loggedInUsersGauge.dec();
 
   if (!operationName || !variables) {
     next();
