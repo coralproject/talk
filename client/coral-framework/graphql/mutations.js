@@ -177,6 +177,25 @@ export const withSuspendUser = withMutation(
     })
   });
 
+export const withUnSuspendUser = withMutation(
+  gql`
+    mutation UnSuspendUser($input: SuspendUserInput!) {
+      unSuspendUser(input: $input) {
+        ...SuspendUserResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      unSuspendUser: (input) => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      }
+    }),
+  });
+
 export const withApproveUsername = withMutation(
   gql`
     mutation ApproveUsername($id: ID!) {
