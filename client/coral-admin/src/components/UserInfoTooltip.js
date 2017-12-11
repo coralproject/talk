@@ -4,6 +4,7 @@ import cn from 'classnames';
 import {Icon} from 'coral-ui';
 import styles from './UserInfoTooltip.css';
 import ClickOutside from 'coral-framework/components/ClickOutside';
+import moment from 'moment';
 
 const initialState = {menuVisible: false};
 
@@ -18,9 +19,14 @@ class UserInfoTooltip extends React.Component {
     this.setState({menuVisible: false});
   }
 
+  getLastHistoryItem = (user, status = 'banned') => {
+    const userHistory = user.state.status[status].history;
+    return userHistory[userHistory.length - 1];
+  }
+
   render() {
     const {menuVisible} = this.state;
-    const {banned, suspended} = this.props;
+    const {user, banned, suspended} = this.props;
 
     return (
       <ClickOutside onClickOutside={this.hideMenu}>
@@ -36,12 +42,12 @@ class UserInfoTooltip extends React.Component {
                   <div className={cn(styles.description, 'talk-admin-user-info-tooltip-description-banned')}>
                     <ul className={cn(styles.descriptionList, 'talk-admin-user-info-tooltip-description-list')}>
                       <li className={cn(styles.descriptionItem, 'talk-admin-user-info-tooltip-description-item')}>
-                        <strong>Banned On</strong>
-                        <span></span>
+                        <strong className={styles.strongItem}>Banned On</strong>
+                        <span>{moment(new Date(this.getLastHistoryItem(user, 'banned').created_at)).format('MMMM Do YYYY, h:mm:ss a')}</span>
                       </li>
                       <li className={cn(styles.descriptionItem, 'talk-admin-user-info-tooltip-description-item')}>
-                        <strong>By</strong>
-                        <span></span>
+                        <strong className={styles.strongItem}>By</strong>
+                        <span>{this.getLastHistoryItem(user, 'banned').assigned_by.username}</span>
                       </li>
                     </ul>
                   </div>
@@ -53,20 +59,20 @@ class UserInfoTooltip extends React.Component {
                   <div className={cn(styles.description, 'talk-admin-user-info-tooltip-description-suspended')}>
                     <ul className={cn(styles.descriptionList, 'talk-admin-user-info-tooltip-description-list')}>
                       <li className={cn(styles.descriptionItem, 'talk-admin-user-info-tooltip-description-item')}>
-                        <strong>Suspension</strong>
+                        <strong className={styles.strongItem}>Suspension</strong>
                         <span></span>
                       </li>
                       <li className={cn(styles.descriptionItem, 'talk-admin-user-info-tooltip-description-item')}>
-                        <strong>By</strong>
-                        <span></span>
+                        <strong className={styles.strongItem}>By</strong>
+                        <span>{this.getLastHistoryItem(user, 'suspended').assigned_by.username}</span>
                       </li>
                       <li className={cn(styles.descriptionItem, 'talk-admin-user-info-tooltip-description-item')}>
-                        <strong>Start</strong>
-                        <span></span>
+                        <strong className={styles.strongItem}>Start</strong>
+                        <span>{moment(new Date(this.getLastHistoryItem(user, 'suspended').created_at)).format('MMMM Do YYYY, h:mm:ss a')}</span>
                       </li>
                       <li className={cn(styles.descriptionItem, 'talk-admin-user-info-tooltip-description-item')}>
-                        <strong>End</strong>
-                        <span></span>
+                        <strong className={styles.strongItem}>End</strong>
+                        <span>{moment(new Date(this.getLastHistoryItem(user, 'suspended').until)).format('MMMM Do YYYY, h:mm:ss a')}</span>
                       </li>
                     </ul>
                   </div>

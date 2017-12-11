@@ -60,6 +60,10 @@
   list-style: none;
 }
 
+.strongItem {
+  margin-right: 3px;
+}
+
 .descriptionItem {
   font-size: 0.9em;
 }

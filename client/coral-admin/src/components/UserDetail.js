@@ -176,7 +176,7 @@ class UserDetail extends React.Component {
             </ActionsMenu>
           }
 
-          {banned || suspended && <UserInfoTooltip user={user} banned={banned} suspended={suspended} />}
+          {(banned || suspended) && <UserInfoTooltip user={user} banned={banned} suspended={suspended} />}
 
           <div>
             <ul className={styles.userDetailList}>
