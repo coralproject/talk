@@ -89,15 +89,17 @@ class UserDetail extends React.Component {
   }
 
   getActionMenuLabel() {
-    // const {root: {user}} = this.props;
-    //
-    // if (user.status === 'BANNED') {
-    //   return 'Banned';
-    // } else if (user.suspension.until && new Date(user.suspension.until) > new Date()) {
-    //   return 'Suspended';
-    // } else {
-    //   return '';
-    // }
+    const {root: {user}} = this.props;
+
+    const banned = get(user, 'state.status.banned.status');
+    const suspensionUntil = get(user, 'state.status.suspension.until');
+
+    if (banned) {
+      return 'Banned';
+    } else if (suspensionUntil && new Date(suspensionUntil) > new Date()) {
+      return 'Suspended';
+    }
+
     return '';
   }
 
@@ -128,8 +130,8 @@ class UserDetail extends React.Component {
       rejectedPercent = 0;
     }
 
-    const banned = get(user, 'status.banned.status');
-    const suspensionUntil = get(user, 'status.suspension.until');
+    const banned = get(user, 'state.status.banned.status');
+    const suspensionUntil = get(user, 'state.status.suspension.until');
 
     const suspended =
       user &&
@@ -153,22 +155,18 @@ class UserDetail extends React.Component {
               }, 'talk-admin-user-detail-actions-button')}
               label={this.getActionMenuLabel()}>
 
-              {suspended && <ActionsMenuItem
+              {suspended ? <ActionsMenuItem
                 onClick={this.showSuspenUserDialog}>
                 Remove Suspension
-              </ActionsMenuItem>}
-
-              {banned && <ActionsMenuItem
-                onClick={this.showSuspenUserDialog}>
-                Remove Ban
-              </ActionsMenuItem>}
-
-              {!suspended && <ActionsMenuItem
+              </ActionsMenuItem> : <ActionsMenuItem
                 onClick={this.showSuspenUserDialog}>
                 Suspend User
               </ActionsMenuItem>}
 
-              {!banned && <ActionsMenuItem
+              {banned ? <ActionsMenuItem
+                onClick={this.showSuspenUserDialog}>
+                Remove Ban
+              </ActionsMenuItem> : <ActionsMenuItem
                 onClick={this.showBanUserDialog}>
                 Ban User
               </ActionsMenuItem>}

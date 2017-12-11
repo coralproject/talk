@@ -164,6 +164,7 @@ export const withUserDetailQuery = withQuery(gql`
       state {
         status {
           suspension {
+            until
             history {
               until
               created_at
@@ -173,6 +174,7 @@ export const withUserDetailQuery = withQuery(gql`
             }
           }
           banned {
+            status
             history {
               status
               assigned_by {
@@ -182,6 +184,7 @@ export const withUserDetailQuery = withQuery(gql`
             }
           }
           username {
+            status
             history {
               status
               assigned_by {
