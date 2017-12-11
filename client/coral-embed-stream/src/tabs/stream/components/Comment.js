@@ -505,7 +505,7 @@ export default class Comment extends React.Component {
                     this.state.isEditable &&
                     <a
                       className={cn(styles.link, {[styles.active]: this.state.isEditing})}
-                      onClick={this.onClickEdit}>Edit</a>
+                      onClick={this.onClickEdit}>{t('comment.edit')}</a>
                   }
                 </span>
               }

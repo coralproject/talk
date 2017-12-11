@@ -33,7 +33,7 @@ function setLocale(locale) {
 }
 
 function getLocale() {
-  return (localStorage.getItem('locale') || navigator.language || defaultLanguage).split('-')[0];
+  return (localStorage.getItem('locale')  || defaultLanguage || navigator.language).split('-')[0];
 }
 
 function init() {
