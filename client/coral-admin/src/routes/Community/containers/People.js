@@ -36,7 +36,6 @@ class PeopleContainer extends React.Component {
 
   setUserRole = async (id, role) => {
     await this.props.setUserRole(id, role);
-    await this.fetchUsers();
   }
 
   loadMore = () => {

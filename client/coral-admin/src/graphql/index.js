@@ -3,6 +3,28 @@ import {mapLeaves} from 'coral-framework/utils';
 
 export default {
   mutations: {
+    SetUserRole: ({variables: {id: userId, role}}) => ({
+      updateQueries: {
+        TalkAdmin_Community: (prev) => {
+
+          const updated = update(prev, {
+            users: {
+              nodes: {
+                $apply: (nodes) => nodes.map((node) => {
+                  if (node.id === userId) {
+                    node.role = role;
+                  }
+                  
+                  return node;
+                })
+              },
+            },
+          });
+          
+          return updated;
+        }
+      }
+    }),
     BanUser: ({variables: {input: {id: userId}}}) => ({
       updateQueries: {
         TalkAdmin_Community: (prev) => {
