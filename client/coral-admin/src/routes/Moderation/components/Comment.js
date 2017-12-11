@@ -65,6 +65,7 @@ class Comment extends React.Component {
       root: {settings},
       currentUserId,
       currentAsset,
+      clearHeightCache,
     } = this.props;
 
     const selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
@@ -114,6 +115,7 @@ class Comment extends React.Component {
                 <Slot
                   fill="adminCommentInfoBar"
                   data={data}
+                  clearHeightCache={clearHeightCache}
                   queryData={queryData}
                 />
               </div>
@@ -145,6 +147,7 @@ class Comment extends React.Component {
               <Slot
                 fill="adminCommentContent"
                 data={data}
+                clearHeightCache={clearHeightCache}
                 queryData={queryData}
               />
               <div className={styles.sideActions}>
@@ -166,6 +169,7 @@ class Comment extends React.Component {
                 <Slot
                   fill="adminSideActions"
                   data={data}
+                  clearHeightCache={clearHeightCache}
                   queryData={queryData}
                 />
               </div>
@@ -176,6 +180,7 @@ class Comment extends React.Component {
           data={data}
           root={root}
           comment={comment}
+          clearHeightCache={clearHeightCache}
         />
       </li>
     );
@@ -191,6 +196,7 @@ Comment.propTypes = {
   showBanUserDialog: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func.isRequired,
   currentUserId: PropTypes.string.isRequired,
+  clearHeightCache: PropTypes.func,
   comment: PropTypes.shape({
     id: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,

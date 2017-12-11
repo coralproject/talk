@@ -178,7 +178,7 @@ class ModerationContainer extends Component {
 
   loadMore = (tab) => {
     const variables = {
-      limit: 10,
+      limit: 50,
       cursor: this.props.root[tab].endCursor,
       sortOrder: this.props.data.variables.sortOrder,
       asset_id: this.props.data.variables.asset_id,

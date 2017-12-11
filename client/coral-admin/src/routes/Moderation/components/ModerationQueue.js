@@ -7,7 +7,8 @@ import EmptyCard from '../../../components/EmptyCard';
 import LoadMore from '../../../components/LoadMore';
 import ViewMore from './ViewMore';
 import t from 'coral-framework/services/i18n';
-import {CSSTransitionGroup} from 'react-transition-group';
+import {WindowScroller, CellMeasurer, CellMeasurerCache, List} from 'react-virtualized';
+import throttle from 'lodash/throttle';
 
 const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 
@@ -43,13 +44,36 @@ function invalidateCursor(invalidated, state, props) {
   return {idCursors};
 }
 
+let keyMapper = null;
+
+// In this example, average cell height is assumed to be about 50px.
+// This value will be used for the initial `Grid` layout.
+// Width is not dynamic.
+const cache = new CellMeasurerCache({
+  fixedWidth: true,
+  defaultHeight: 250,
+  keyMapper: (index) => keyMapper(index),
+});
+
 class ModerationQueue extends React.Component {
   isLoadingMore = false;
+  cache = cache;
+  listRef = null;
 
   constructor(props) {
     super(props);
     this.state = {
       ...resetCursors(this.state, props),
+    };
+    keyMapper = (index) => {
+      const view = this.getVisibleComments();
+      if (index < view.length) {
+        return view[index].id;
+      }
+      else if (index === view.length) {
+        return 'loadMore';
+      }
+      throw new Error(`unknown index ${index}`);
     };
   }
 
@@ -63,6 +87,10 @@ class ModerationQueue extends React.Component {
       this.props.loadMore();
     }
   }
+
+  handleListRef = (list) => {
+    this.listRef = list;
+  };
 
   componentWillReceiveProps(next) {
     const {comments: prevComments} = this.props;
@@ -94,6 +122,11 @@ class ModerationQueue extends React.Component {
     this.setState(resetCursors);
   };
 
+  reflowList = throttle(() => {
+    this.cache.clearAll();
+    this.listRef.recomputeRowHeights();
+  }, 500);
+
   // getVisibileComments returns a list containing comments
   // which comes after the `idCursor`.
   getVisibleComments() {
@@ -117,14 +150,68 @@ class ModerationQueue extends React.Component {
     return view;
   }
 
+  rowRenderer = ({
+    index,       // Index of row within collection
+    parent,
+    style        // Style object to be applied to row (to position it)
+  }) => {
+    if (index === parent.props.rowCount - 1) {
+      return (
+        <CellMeasurer
+          cache={this.cache}
+          columnIndex={0}
+          key={'loadMore'}
+          parent={parent}
+          rowIndex={index}
+        >
+          <div
+            style={style}
+          >
+            <LoadMore
+              loadMore={this.props.loadMore}
+              showLoadMore={this.props.comments.length < this.props.commentCount}
+            />
+          </div>
+        </CellMeasurer>
+      );
+    }
+    const comment = this.props.comments[index];
+    return (
+      <CellMeasurer
+        cache={this.cache}
+        columnIndex={0}
+        key={comment.id}
+        parent={parent}
+        rowIndex={index}
+      >
+        <div
+          style={style}
+        >
+          <Comment
+            data={this.props.data}
+            root={this.props.root}
+            comment={comment}
+            selected={comment.id === this.props.selectedCommentId}
+            viewUserDetail={this.props.viewUserDetail}
+            showBanUserDialog={this.props.showBanUserDialog}
+            showSuspendUserDialog={this.props.showSuspendUserDialog}
+            acceptComment={this.props.acceptComment}
+            rejectComment={this.props.rejectComment}
+            currentAsset={this.props.currentAsset}
+            currentUserId={this.props.currentUserId}
+            clearHeightCache={() => {this.cache.clear(index); this.listRef.recomputeRowHeights(index); }}
+          />
+        </div>
+      </CellMeasurer>
+    );
+  };
+
   render () {
     const {
       comments,
       selectedCommentId,
-      commentCount,
       singleView,
       viewUserDetail,
-      activeTab,
       ...props
     } = this.props;
 
@@ -167,46 +254,27 @@ class ModerationQueue extends React.Component {
           viewMore={this.viewNewComments}
           count={comments.length - view.length}
         />
-        <CSSTransitionGroup
-          key={activeTab}
-          component={'ul'}
-          className={styles.list}
-          transitionName={{
-            enter: styles.commentEnter,
-            enterActive: styles.commentEnterActive,
-            leave: styles.commentLeave,
-            leaveActive: styles.commentLeaveActive,
-          }}
-          transitionEnter={true}
-          transitionLeave={true}
-          transitionEnterTimeout={1000}
-          transitionLeaveTimeout={1000}
-        >
-          {
-            view
-              .map((comment) => {
-                return <Comment
-                  data={this.props.data}
-                  root={this.props.root}
-                  key={comment.id}
-                  comment={comment}
-                  selected={comment.id === selectedCommentId}
-                  viewUserDetail={viewUserDetail}
-                  showBanUserDialog={props.showBanUserDialog}
-                  showSuspendUserDialog={props.showSuspendUserDialog}
-                  acceptComment={props.acceptComment}
-                  rejectComment={props.rejectComment}
-                  currentAsset={props.currentAsset}
-                  currentUserId={this.props.currentUserId}
-                />;
-              })
-          }
-        </CSSTransitionGroup>
-
-        <LoadMore
-          loadMore={this.props.loadMore}
-          showLoadMore={comments.length < commentCount}
-        />
+        <WindowScroller onResize={this.reflowList}>
+          {({height, isScrolling, onChildScroll, scrollTop}) => (
+            <List
+              ref={this.handleListRef}
+              autoHeight
+              style={{
+                width: '100%',
+                outline: 'none',
+              }}
+              height={height}
+              width={1280}
+              scrollTop={scrollTop}
+              isScrolling={isScrolling}
+              onScroll={onChildScroll}
+              rowCount={view.length + 1}
+              deferredMeasurementCache={this.cache}
+              rowRenderer={this.rowRenderer}
+              rowHeight={this.cache.rowHeight}
+            />
+          )}
+        </WindowScroller>
       </div>
     );
   }

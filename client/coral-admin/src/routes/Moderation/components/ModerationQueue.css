@@ -2,7 +2,10 @@
   padding: 8px 0;
   list-style: none;
   display: block;
-  margin-top: 16px;
+}
+
+:global(html) {
+  height: inherit;
 }
 
 .list {
@@ -15,12 +18,12 @@
 }
 
 .commentLeaveActive {
-  opacity: 0;
+  opacity: 0.1;
   transition: opacity 800ms;
 }
 
 .commentEnter {
-  opacity: 0;
+  opacity: 0.1;
 }
 
 .commentEnterActive {
