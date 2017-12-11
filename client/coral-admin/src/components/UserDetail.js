@@ -13,30 +13,11 @@ import {getReliability} from 'coral-framework/utils/user';
 import ApproveButton from './ApproveButton';
 import RejectButton from './RejectButton';
 import {getErrorMessages} from 'coral-framework/utils';
-
-export default class UserDetail extends React.Component {
-
-  static propTypes = {
-    userId: PropTypes.string.isRequired,
-    hideUserDetail: PropTypes.func.isRequired,
-    root: PropTypes.object.isRequired,
-    acceptComment: PropTypes.func.isRequired,
-    rejectComment: PropTypes.func.isRequired,
-    changeStatus: PropTypes.func.isRequired,
-    toggleSelect: PropTypes.func.isRequired,
-    bulkAccept: PropTypes.func.isRequired,
-    bulkReject: PropTypes.func.isRequired,
-    toggleSelectAll: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired,
-    data: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-    }),
-    activeTab: PropTypes.string.isRequired,
-    selectedCommentIds: PropTypes.array.isRequired,
-    viewUserDetail: PropTypes.any.isRequired,
-    loadMore: PropTypes.any.isRequired,
-    notify: PropTypes.func.isRequired
-  }
+import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
+import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
+import UserInfoTooltip from './UserInfoTooltip';
+ 
+class UserDetail extends React.Component {
 
   rejectThenReload = async (info) => {
     try {
@@ -90,6 +71,16 @@ export default class UserDetail extends React.Component {
     this.props.changeStatus('rejected');
   }
 
+  showSuspenUserDialog = () => this.props.showSuspendUserDialog({
+    userId: this.props.root.user.id,
+    username: this.props.root.user.username,
+  });
+
+  showBanUserDialog = () => this.props.showBanUserDialog({
+    userId: this.props.root.user.id,
+    username: this.props.root.user.username,
+  });
+
   renderLoading() {
     return (
       <ClickOutside onClickOutside={this.props.hideUserDetail}>
@@ -98,6 +89,18 @@ export default class UserDetail extends React.Component {
         </Drawer>
       </ClickOutside>
     );
+  }
+
+  getActionMenuLabel() {
+    const {root: {user}} = this.props;
+    
+    if (user.status === 'BANNED') {
+      return 'Banned';
+    } else if (user.suspension.until && new Date(user.suspension.until) > new Date()) {
+      return 'Suspended';
+    } else {
+      return '';
+    }
   }
 
   renderLoaded() {
@@ -126,10 +129,54 @@ export default class UserDetail extends React.Component {
       rejectedPercent = 0;
     }
 
+    const suspended =
+      user &&
+      user.suspension.until &&
+      new Date(user.suspension.until) > new Date();
+
+    const banned = user.status === 'BANNED';
+
     return (
       <ClickOutside onClickOutside={hideUserDetail}>
-        <Drawer onClose={hideUserDetail}>
-          <h3>{user.username}</h3>
+        <Drawer className="talk-admin-user-detail-drawer" onClose={hideUserDetail}>
+          <h3 className={cn(styles.username, 'talk-admin-user-detail-username')}>
+            {user.username}
+          </h3>
+
+          {user.id &&
+            <ActionsMenu
+              icon="person"
+              className={cn(styles.actionsMenu, 'talk-admin-user-detail-actions-menu')}
+              buttonClassNames={cn({
+                [styles.actionsMenuSuspended]: suspended,
+                [styles.actionsMenuBanned]: banned,
+              }, 'talk-admin-user-detail-actions-button')}
+              label={this.getActionMenuLabel()}>
+
+              {suspended && <ActionsMenuItem
+                onClick={this.showSuspenUserDialog}>
+                Remove Suspension
+              </ActionsMenuItem>}
+
+              {banned && <ActionsMenuItem
+                onClick={this.showSuspenUserDialog}>
+                Remove Ban
+              </ActionsMenuItem>}
+
+              {!suspended && <ActionsMenuItem
+                onClick={this.showSuspenUserDialog}>
+                Suspend User
+              </ActionsMenuItem>}
+
+              {!banned && <ActionsMenuItem
+                onClick={this.showBanUserDialog}>
+                Ban User
+              </ActionsMenuItem>}
+
+            </ActionsMenu>
+          }
+
+          {banned || suspended && <UserInfoTooltip user={user} banned={banned} suspended={suspended} />}
 
           <div>
             <ul className={styles.userDetailList}>
@@ -244,3 +291,28 @@ export default class UserDetail extends React.Component {
     return this.renderLoaded();
   }
 }
+
+UserDetail.propTypes = {
+  hideUserDetail: PropTypes.func.isRequired,
+  root: PropTypes.object.isRequired,
+  acceptComment: PropTypes.func.isRequired,
+  rejectComment: PropTypes.func.isRequired,
+  changeStatus: PropTypes.func.isRequired,
+  toggleSelect: PropTypes.func.isRequired,
+  bulkAccept: PropTypes.func.isRequired,
+  bulkReject: PropTypes.func.isRequired,
+  toggleSelectAll: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  data: PropTypes.shape({
+    refetch: PropTypes.func.isRequired,
+  }),
+  activeTab: PropTypes.string.isRequired,
+  selectedCommentIds: PropTypes.array.isRequired,
+  viewUserDetail: PropTypes.any.isRequired,
+  loadMore: PropTypes.any.isRequired,
+  notify: PropTypes.func.isRequired,
+  showSuspendUserDialog: PropTypes.func,
+  showBanUserDialog: PropTypes.func,
+};
+
+export default UserDetail;

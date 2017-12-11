@@ -13,8 +13,6 @@ class FlaggedAccounts extends React.Component {
     const {
       users,
       loadMore,
-      showBanUserDialog,
-      showSuspendUserDialog,
       showRejectUsernameDialog,
       approveUser,
       me,
@@ -48,8 +46,6 @@ class FlaggedAccounts extends React.Component {
                       <FlaggedUser
                         user={user}
                         key={user.id}
-                        showBanUserDialog={showBanUserDialog}
-                        showSuspendUserDialog={showSuspendUserDialog}
                         showRejectUsernameDialog={showRejectUsernameDialog}
                         approveUser={approveUser}
                         me={me}
@@ -74,8 +70,6 @@ class FlaggedAccounts extends React.Component {
 FlaggedAccounts.propTypes = {
   users: PropTypes.object,
   loadMore: PropTypes.func,
-  showBanUserDialog: PropTypes.func,
-  showSuspendUserDialog: PropTypes.func,
   showRejectUsernameDialog: PropTypes.func,
   approveUser: PropTypes.func,
   me: PropTypes.object,

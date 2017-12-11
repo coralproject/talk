@@ -1,10 +1,11 @@
 import React from 'react';
+import cn from 'classnames';
 import PropTypes from 'prop-types';
 import styles from './Drawer.css';
 
-const Drawer = ({children, onClose}) => {
+const Drawer = ({children, onClose, className = ''}) => {
   return (
-    <div className={styles.drawer}>
+    <div className={cn(styles.drawer, className)}>
       <div className={styles.closeButton} onClick={onClose}>×</div>
       <div className={styles.content}>
         {children}
@@ -15,7 +16,9 @@ const Drawer = ({children, onClose}) => {
 
 Drawer.propTypes = {
   active: PropTypes.bool,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node,
+  className: PropTypes.string,
 };
 
 export default Drawer;

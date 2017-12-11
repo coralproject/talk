@@ -7,8 +7,6 @@ import {Spinner} from 'coral-ui';
 import PropTypes from 'prop-types';
 
 import {withSetUserStatus} from 'coral-framework/graphql/mutations';
-import {showBanUserDialog} from 'actions/banUserDialog';
-import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 import {showRejectUsernameDialog} from '../../../actions/community';
 import {viewUserDetail} from '../../../actions/userDetail';
 import {getDefinitionName} from 'coral-framework/utils';
@@ -63,8 +61,6 @@ class FlaggedAccountsContainer extends Component {
     }
     return (
       <FlaggedAccounts
-        showBanUserDialog={this.props.showBanUserDialog}
-        showSuspendUserDialog={this.props.showSuspendUserDialog}
         showRejectUsernameDialog={this.props.showRejectUsernameDialog}
         viewUserDetail={this.props.viewUserDetail}
         approveUser={this.approveUser}
@@ -79,8 +75,6 @@ class FlaggedAccountsContainer extends Component {
 }
 
 FlaggedAccountsContainer.propTypes = {
-  showBanUserDialog: PropTypes.func,
-  showSuspendUserDialog: PropTypes.func,
   showRejectUsernameDialog: PropTypes.func,
   viewUserDetail: PropTypes.func,
   setUserStatus: PropTypes.func,
@@ -104,8 +98,6 @@ const LOAD_MORE_QUERY = gql`
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    showBanUserDialog,
-    showSuspendUserDialog,
     showRejectUsernameDialog,
     viewUserDetail,
   }, dispatch);
