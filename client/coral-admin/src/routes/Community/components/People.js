@@ -18,7 +18,6 @@ const People = (props) => {
     totalPages,
     page,
     setUserRole,
-    setUserBanStatus,
     viewUserDetail,
   } = props;
 
@@ -46,11 +45,14 @@ const People = (props) => {
               users={users}
               setUserRole={setUserRole}
               viewUserDetail={viewUserDetail}
-              setUserBanStatus={setUserBanStatus}
               onHeaderClickHandler={onHeaderClickHandler}
               pageCount={totalPages}
               onPageChange={onPageChange}
               page={page}
+              unBanUser={props.unBanUser}
+              unSuspendUser={props.unSuspendUser}
+              showSuspendUserDialog={props.showSuspendUserDialog}
+              showBanUserDialog={props.showBanUserDialog}
             />
             : <EmptyCard>{t('community.no_results')}</EmptyCard>
         }
@@ -67,9 +69,12 @@ People.propTypes = {
   onSearchChange: PropTypes.func,
   totalPages: PropTypes.number,
   onPageChange: PropTypes.func,
-  setUserBanStatus: PropTypes.func.isRequired,
   setUserRole: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
+  unBanUser: PropTypes.func.isRequired,
+  unSuspendUser: PropTypes.func.isRequired,
+  showSuspendUserDialog: PropTypes.func,
+  showBanUserDialog: PropTypes.func,
 };
 
 export default People;

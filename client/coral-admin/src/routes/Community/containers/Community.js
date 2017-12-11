@@ -6,6 +6,7 @@ import {getDefinitionName} from 'coral-framework/utils';
 import {withRejectUsername} from 'coral-framework/graphql/mutations';
 import FlaggedAccounts from '../containers/FlaggedAccounts';
 import FlaggedUser from '../containers/FlaggedUser';
+import People from '../containers/People';
 import {hideRejectUsernameDialog} from '../../../actions/community';
 import Community from '../components/Community';
 
@@ -32,6 +33,7 @@ const withData = withQuery(gql`
     )
     ...${getDefinitionName(FlaggedAccounts.fragments.root)}
     ...${getDefinitionName(FlaggedUser.fragments.root)}
+    ...${getDefinitionName(People.fragments.root)}
     me {
       ...${getDefinitionName(FlaggedUser.fragments.me)}
       __typename
@@ -39,6 +41,7 @@ const withData = withQuery(gql`
   }
   ${FlaggedAccounts.fragments.root}
   ${FlaggedUser.fragments.root}
+  ${People.fragments.root}
   ${FlaggedUser.fragments.me}
 `, {
   options: {

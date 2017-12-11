@@ -34,7 +34,7 @@ class FlaggedAccountsContainer extends Component {
       },
       updateQuery: (previous, {fetchMoreResult:{users}}) => {
         const updated = update(previous, {
-          users: {
+          flaggedUsers: {
             nodes: {
               $apply: (nodes) => appendNewNodes(nodes, users.nodes),
             },
@@ -63,7 +63,7 @@ class FlaggedAccountsContainer extends Component {
         loadMore={this.loadMore}
         data={this.props.data}
         root={this.props.root}
-        users={this.props.root.users}
+        users={this.props.root.flaggedUsers}
         me={this.props.root.me}
       />
     );
@@ -80,7 +80,7 @@ FlaggedAccountsContainer.propTypes = {
 
 const LOAD_MORE_QUERY = gql`
   query TalkAdmin_LoadMoreFlaggedAccounts($limit: Int, $cursor: Cursor) {
-    users(query:{
+    flaggedUsers: users(query:{
         action_type: FLAG,
         state: {
           status: {
@@ -113,7 +113,7 @@ export default compose(
   withFragments({
     root: gql`
       fragment TalkAdminCommunity_FlaggedAccounts_root on RootQuery {
-        users(query:{
+        flaggedUsers: users(query:{
             action_type: FLAG,
             state: {
               status: {

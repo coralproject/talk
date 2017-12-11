@@ -1,11 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {compose} from 'react-apollo';
+import {compose, gql} from 'react-apollo';
 import People from '../components/People';
 import PropTypes from 'prop-types';
-import {withUnBanUser, withBanUser, withSetUserRole} from 'coral-framework/graphql/mutations';
-
+import {withFragments} from 'plugin-api/beta/client/hocs';
+import {withUnBanUser, withUnSuspendUser, withSetUserRole} from 'coral-framework/graphql/mutations';
+import {showBanUserDialog} from 'actions/banUserDialog';
+import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 import {viewUserDetail} from '../../../actions/userDetail';
 
 import {
@@ -62,18 +64,6 @@ class PeopleContainer extends React.Component {
     this.fetchUsers({page});
   }
 
-  setUserBanStatus = async (id, bannedStatus) => {
-    const {banUser, unBanUser} = this.props;
-
-    if (bannedStatus) {
-      await banUser({id, message: ''});
-    } else {
-      await unBanUser({id});
-    }
-
-    await this.fetchUsers();
-  } 
-
   setUserRole = async (id, role) => {
     await this.props.setUserRole(id, role);
     await this.fetchUsers();
@@ -87,10 +77,13 @@ class PeopleContainer extends React.Component {
       onHeaderClickHandler={this.onHeaderClickHandler}
       onPageChange={this.onPageChange}
       totalPages={this.props.community.totalPagesPeople}
-      setUserBanStatus={this.setUserBanStatus}
       setUserRole={this.setUserRole}
       page={this.props.community.pagePeople}
       viewUserDetail={this.props.viewUserDetail}
+      showSuspendUserDialog={this.props.showSuspendUserDialog}
+      showBanUserDialog={this.props.showBanUserDialog}
+      unBanUser={this.props.unBanUser}
+      unSuspendUser={this.props.unBanUser}
     />;
   }
 }
@@ -100,11 +93,13 @@ PeopleContainer.propTypes = {
   fetchUsers: PropTypes.func,
   updateSorting: PropTypes.func,
   setUserRole: PropTypes.func.isRequired,
-  banUser: PropTypes.func.isRequired,
   unBanUser: PropTypes.func.isRequired,
+  unSuspendUser: PropTypes.func.isRequired,
   setSearchValue: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
   community: PropTypes.object,
+  showSuspendUserDialog: PropTypes.func,
+  showBanUserDialog: PropTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) =>
@@ -115,11 +110,28 @@ const mapDispatchToProps = (dispatch) =>
     hideRejectUsernameDialog,
     viewUserDetail,
     setSearchValue,
+    showSuspendUserDialog,
+    showBanUserDialog,
   }, dispatch);
 
 export default compose(
   connect(null, mapDispatchToProps),
-  withBanUser,
-  withUnBanUser,
   withSetUserRole,
+  withUnBanUser,
+  withUnSuspendUser,
+  withFragments({
+    root: gql`
+      fragment TalkAdminCommunity_People_root on RootQuery {
+        users(query: {}){
+          hasNextPage
+          endCursor
+          nodes {
+            __typename
+            id
+          }
+        }
+      }
+
+    `,
+  }),
 )(PeopleContainer);
