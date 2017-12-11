@@ -18,6 +18,9 @@ const targetPlugins = manager.section('targets').plugins;
 
 debug(`Using ${pluginsPath} as the plugin configuration path`);
 
+
+console.log('=======++',process.env.TALK_DEFAULT_LANG);
+
 const buildTargets = [
   'coral-admin',
   'coral-docs'

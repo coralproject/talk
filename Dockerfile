@@ -21,6 +21,8 @@ ARG TALK_DEFAULT_STREAM_TAB=all
 ARG TALK_DEFAULT_LANG=en
 ARG TALK_PLUGINS_JSON
 
+RUN env
+
 # Install app dependencies and build static assets.
 RUN yarn global add node-gyp && \
     yarn install --frozen-lockfile && \
