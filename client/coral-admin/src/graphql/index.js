@@ -3,8 +3,48 @@ import {mapLeaves} from 'coral-framework/utils';
 
 export default {
   mutations: {
+    BanUser: ({variables: {input: {id: userId}}}) => ({
+      updateQueries: {
+        TalkAdmin_Community: (prev) => {
+
+          const updated = update(prev, {
+            users: {
+              nodes: {
+                $apply: (nodes) => nodes.map((node) => {
+                  if (node.id === userId) {
+                    node.state.status.banned.status = true;
+                  }
+                  
+                  return node;
+                })
+              },
+            },
+          });
+          
+          return updated;
+        }
+      }
+    }),
     UnBanUser: ({variables: {input: {id: userId}}}) => ({
       updateQueries: {
+        TalkAdmin_Community: (prev) => {
+
+          const updated = update(prev, {
+            users: {
+              nodes: {
+                $apply: (nodes) => nodes.map((node) => {
+                  if (node.id === userId) {
+                    node.state.status.banned.status = false;
+                  }
+                  
+                  return node;
+                })
+              },
+            },
+          });
+          
+          return updated;
+        },
         CoralAdmin_Moderation: (prev) => {
 
           const updated = update(prev, {

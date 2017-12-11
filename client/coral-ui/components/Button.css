@@ -150,6 +150,7 @@
      box-shadow: none;
      color: white;
      background-color: #616161;
+     border-color: transparent;
   }
 
   > .icon {

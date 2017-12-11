@@ -39,9 +39,9 @@ const withData = withQuery(gql`
       __typename
     }
   }
+  ${People.fragments.root}
   ${FlaggedAccounts.fragments.root}
   ${FlaggedUser.fragments.root}
-  ${People.fragments.root}
   ${FlaggedUser.fragments.me}
 `, {
   options: {

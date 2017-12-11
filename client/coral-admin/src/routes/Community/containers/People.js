@@ -9,59 +9,29 @@ import {withUnBanUser, withUnSuspendUser, withSetUserRole} from 'coral-framework
 import {showBanUserDialog} from 'actions/banUserDialog';
 import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 import {viewUserDetail} from '../../../actions/userDetail';
-
-import {
-  fetchUsers,
-  updateSorting,
-  setPage,
-  hideRejectUsernameDialog,
-  setSearchValue,
-} from '../../../actions/community';
+import {appendNewNodes} from 'plugin-api/beta/client/utils';
+import update from 'immutability-helper';
+import {Spinner} from 'coral-ui';
 
 class PeopleContainer extends React.Component {
   timer = null;
 
-  fetchUsers = (query = {}) => {
-    const {community} = this.props;
-
-    this.props.fetchUsers({
-      value: community.searchValue,
-      field: community.fieldPeople,
-      asc: community.ascPeople,
-      ...query
-    });
-  }
-
-  componentWillMount() {
-    this.fetchUsers();
-  }
-
   onKeyDownHandler = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      this.fetchUsers();
+      // this.fetchUsers();
     }
   }
 
   onSearchChange = (e) => {
     const value = e.target.value;
+    console.log(value);
 
-    this.props.setSearchValue(value);
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.fetchUsers({value});
-    }, 350);
-  }
+    // clearTimeout(this.timer);
 
-  onHeaderClickHandler = (sort) => {
-    this.props.updateSorting(sort);
-    this.fetchUsers();
-  }
-
-  onPageChange = ({selected}) => {
-    const page = selected + 1;
-    this.props.setPage(page);
-    this.fetchUsers({page});
+    // this.timer = setTimeout(() => {
+    //   // this.fetchUsers({value});
+    // }, 350);
   }
 
   setUserRole = async (id, role) => {
@@ -69,50 +39,91 @@ class PeopleContainer extends React.Component {
     await this.fetchUsers();
   }
 
+  loadMore = () => {
+    return this.props.data.fetchMore({
+      query: LOAD_MORE_QUERY,
+      variables: {
+        limit: 5,
+        cursor: this.props.root.users.endCursor,
+      },
+      updateQuery: (previous, {fetchMoreResult:{users}}) => {
+        const updated = update(previous, {
+          flaggedUsers: {
+            nodes: {
+              $apply: (nodes) => appendNewNodes(nodes, users.nodes),
+            },
+            hasNextPage: {$set: users.hasNextPage},
+            endCursor: {$set: users.endCursor},
+          },
+        });
+        return updated;
+      },
+    });
+  };
+
   render() {
+
+    if (this.props.data.error) {
+      return <div>{this.props.data.error.message}</div>;
+    }
+
+    if (this.props.data.loading) {
+      return <div><Spinner/></div>;
+    }
+
     return <People
-      users={this.props.community.users}
-      searchValue={this.props.community.searchValue}
-      onSearchChange={this.onSearchChange}
-      onHeaderClickHandler={this.onHeaderClickHandler}
-      onPageChange={this.onPageChange}
-      totalPages={this.props.community.totalPagesPeople}
-      setUserRole={this.setUserRole}
-      page={this.props.community.pagePeople}
+      onSearchChange={this.onSearchChange}  
       viewUserDetail={this.props.viewUserDetail}
+      setUserRole={this.setUserRole}
       showSuspendUserDialog={this.props.showSuspendUserDialog}
       showBanUserDialog={this.props.showBanUserDialog}
       unBanUser={this.props.unBanUser}
       unSuspendUser={this.props.unBanUser}
+      data={this.props.data}
+      root={this.props.root}
+      users={this.props.root.users}
+      loadMore={this.loadMore}
     />;
   }
 }
 
 PeopleContainer.propTypes = {
-  setPage: PropTypes.func,
-  fetchUsers: PropTypes.func,
-  updateSorting: PropTypes.func,
+  community: PropTypes.object,
   setUserRole: PropTypes.func.isRequired,
   unBanUser: PropTypes.func.isRequired,
   unSuspendUser: PropTypes.func.isRequired,
-  setSearchValue: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
-  community: PropTypes.object,
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,
+  data: PropTypes.object,
+  root: PropTypes.object,
 };
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    setPage,
-    fetchUsers,
-    updateSorting,
-    hideRejectUsernameDialog,
     viewUserDetail,
-    setSearchValue,
     showSuspendUserDialog,
     showBanUserDialog,
   }, dispatch);
+
+const LOAD_MORE_QUERY = gql`
+  query TalkAdminCommunity_People_LoadMoreUsers($limit: Int, $cursor: Cursor) {
+    users(query: {}){
+      hasNextPage
+      endCursor
+      nodes {
+        __typename
+        id
+        username
+        created_at
+        profiles {
+          id
+          provider
+        }
+      }
+    }
+  }
+`;
 
 export default compose(
   connect(null, mapDispatchToProps),
@@ -128,10 +139,26 @@ export default compose(
           nodes {
             __typename
             id
+            username
+            role
+            created_at
+            profiles {
+              id
+              provider
+            }
+            state {
+              status {
+                banned {
+                  status
+                }
+                suspension {
+                  until
+                }
+              }
+            }
           }
         }
       }
-
     `,
   }),
 )(PeopleContainer);

@@ -9,14 +9,13 @@ import ApproveButton from './ApproveButton';
 import AccountHistory from './AccountHistory';
 import {Slot} from 'coral-framework/components';
 import UserDetailCommentList from '../components/UserDetailCommentList';
-import {getReliability} from 'coral-framework/utils/user';
+import {getReliability, isSuspended, isBanned} from 'coral-framework/utils/user';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import {Icon, Drawer, Spinner, TabBar, Tab, TabContent, TabPane} from 'coral-ui';
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import UserInfoTooltip from './UserInfoTooltip';
-import get from 'lodash/get';
 
 class UserDetail extends React.Component {
 
@@ -91,12 +90,9 @@ class UserDetail extends React.Component {
   getActionMenuLabel() {
     const {root: {user}} = this.props;
 
-    const banned = get(user, 'state.status.banned.status');
-    const suspensionUntil = get(user, 'state.status.suspension.until');
-
-    if (banned) {
+    if (isBanned(user)) {
       return 'Banned';
-    } else if (suspensionUntil && new Date(suspensionUntil) > new Date()) {
+    } else if (isSuspended(user)) {
       return 'Suspended';
     }
 
@@ -132,13 +128,8 @@ class UserDetail extends React.Component {
       rejectedPercent = 0;
     }
 
-    const banned = get(user, 'state.status.banned.status');
-    const suspensionUntil = get(user, 'state.status.suspension.until');
-
-    const suspended =
-      user &&
-      suspensionUntil &&
-      new Date(suspensionUntil) > new Date();
+    const banned = isBanned(user);
+    const suspended = isSuspended(user);
 
     return (
       <ClickOutside onClickOutside={hideUserDetail}>

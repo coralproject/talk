@@ -44,6 +44,7 @@
   }
   &:hover, &:active, &:focus {
     background-color: #e2e2e2;
+    border-color: #616161;
   }
   &[disabled], &[disabled]:hover, &[disabled]:focus, &[disabled]:active {
     background-color: #262626;
