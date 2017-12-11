@@ -3,6 +3,83 @@ import {mapLeaves} from 'coral-framework/utils';
 
 export default {
   mutations: {
+    UnBanUser: ({variables: {input: {id: userId}}}) => ({
+      updateQueries: {
+        CoralAdmin_Moderation: (prev) => {
+
+          const updated = update(prev, {
+            new: {
+              nodes: {
+                $apply: (nodes) => nodes.map((node) => {
+                  if (node.user.id === userId) {
+                    node.user.state.status.banned.status = false;
+                  }
+                  
+                  return node;
+                })
+              },
+            },
+            all: {
+              nodes: {
+                $apply: (nodes) => nodes.map((node) => {
+                  if (node.user.id === userId) {
+                    node.user.state.status.banned.status = false;
+                  }
+                  
+                  return node;
+                })
+              },
+            },
+            approved: {
+              nodes: {
+                $apply: (nodes) => nodes.map((node) => {
+                  if (node.user.id === userId) {
+                    node.user.state.status.banned.status = false;
+                  }
+                  
+                  return node;
+                })
+              },
+            },
+            premod: {
+              nodes: {
+                $apply: (nodes) => nodes.map((node) => {
+                  if (node.user.id === userId) {
+                    node.user.state.status.banned.status = false;
+                  }
+                  
+                  return node;
+                })
+              },
+            },
+            rejected: {
+              nodes: {
+                $apply: (nodes) => nodes.map((node) => {
+                  if (node.user.id === userId) {
+                    node.user.state.status.banned.status = false;
+                  }
+                  
+                  return node;
+                })
+              },
+            },
+            reported: {
+              nodes: {
+                $apply: (nodes) => nodes.map((node) => {
+                  if (node.user.id === userId) {
+                    node.user.state.status.banned.status = false;
+                  }
+                  
+                  return node;
+                })
+              },
+            }
+          });
+
+          return updated;
+        }
+      }
+    }),
     SetUserBanStatus: ({variables: {status, id}}) => ({
       updateQueries: {
         TalkAdmin_Community: (prev) => {
