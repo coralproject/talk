@@ -19,6 +19,7 @@ const RootMutation = require('./root_mutation');
 const RootQuery = require('./root_query');
 const Settings = require('./settings');
 const Subscription = require('./subscription');
+const SuspensionStatusHistory = require('./suspension_status_history');
 const Tag = require('./tag');
 const TagLink = require('./tag_link');
 const User = require('./user');
@@ -49,6 +50,7 @@ let resolvers = {
   RootQuery,
   Settings,
   Subscription,
+  SuspensionStatusHistory,
   Tag,
   TagLink,
   User,
