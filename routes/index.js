@@ -14,8 +14,6 @@ const {DISABLE_STATIC_SERVER} = require('../config');
 const {createGraphOptions} = require('../graph');
 const {passport} = require('../services/passport');
 const staticTemplate = require('../middleware/staticTemplate');
-const register = require('prom-client').register;
-const traceMetricsMiddleware = require('../services/metrics-middleware');
 
 const router = express.Router();
 
@@ -23,10 +21,7 @@ const router = express.Router();
 // PROMETHEUS METRICS
 //==============================================================================
 
-router.get('/_metrics', (req, res) => {
-  res.set('Content-Type', register.contentType);
-  res.send(register.metrics());
-});
+router.use('/_metrics', require('./metrics'));
 
 //==============================================================================
 // STATIC FILES
@@ -111,9 +106,6 @@ router.use(passport.initialize());
 // Attach the authentication middleware, this will be responsible for decoding
 // (if present) the JWT on the request.
 router.use('/api', authentication, pubsub);
-
-// Attach prometheus metrics middleware
-router.use(traceMetricsMiddleware);
 
 //==============================================================================
 // GraphQL Router

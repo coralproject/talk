@@ -11,7 +11,7 @@ function trackRelease(last_commit_hash) {
     console.log('ERROR: BUILD_NUMBER is undefined!');
     return;
   }
-  console.log('last_commit_hash', last_commit_hash)
+
   releaseVersion.set({commit_hash: last_commit_hash}, Number(process.env.BUILD_NUMBER));
 }
 
