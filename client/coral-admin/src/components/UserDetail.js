@@ -121,7 +121,9 @@ class UserDetail extends React.Component {
       hideUserDetail,
       viewUserDetail,
       loadMore,
-      toggleSelectAll
+      toggleSelectAll,
+      unBanUser,
+      unSuspendUser,
     } = this.props;
 
     let rejectedPercent = (rejectedComments / totalComments) * 100;
@@ -156,7 +158,7 @@ class UserDetail extends React.Component {
               label={this.getActionMenuLabel()}>
 
               {suspended ? <ActionsMenuItem
-                onClick={this.showSuspenUserDialog}>
+                onClick={() => unSuspendUser({id: user.id})}>
                 Remove Suspension
               </ActionsMenuItem> : <ActionsMenuItem
                 onClick={this.showSuspenUserDialog}>
@@ -164,7 +166,7 @@ class UserDetail extends React.Component {
               </ActionsMenuItem>}
 
               {banned ? <ActionsMenuItem
-                onClick={this.showSuspenUserDialog}>
+                onClick={() => unBanUser({id: user.id})}>
                 Remove Ban
               </ActionsMenuItem> : <ActionsMenuItem
                 onClick={this.showBanUserDialog}>
@@ -348,6 +350,8 @@ UserDetail.propTypes = {
   notify: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,
+  unBanUser: PropTypes.func.isRequired,
+  unSuspendUser: PropTypes.func.isRequired,
 };
 
 export default UserDetail;
