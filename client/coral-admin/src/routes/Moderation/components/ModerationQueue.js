@@ -9,6 +9,7 @@ import ViewMore from './ViewMore';
 import t from 'coral-framework/services/i18n';
 import {WindowScroller, CellMeasurer, CellMeasurerCache, List} from 'react-virtualized';
 import throttle from 'lodash/throttle';
+import key from 'keymaster';
 
 const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 
@@ -75,6 +76,46 @@ class ModerationQueue extends React.Component {
       }
       throw new Error(`unknown index ${index}`);
     };
+    const view = this.getVisibleComments();
+    if (view.length) {
+      props.selectCommentId(view[0].id);
+    }
+  }
+
+  componentDidMount() {
+    key('j', () => this.selectDown());
+    key('k', () => this.selectUp());
+  }
+
+  componentWillUnmount() {
+    key.unbind('j');
+    key.unbind('k');
+  }
+
+  async selectDown() {
+    const view = this.getVisibleComments();
+    const index = view.findIndex(({id}) => id === this.props.selectedCommentId);
+    if (index === view.length - 1 && this.props.comments.length !== this.props.commentCount) {
+      await this.props.loadMore();
+      this.selectDown();
+      return;
+    }
+    if (index < view.length - 1) {
+      this.props.selectCommentId(view[index + 1].id);
+    }
+  }
+
+  selectUp() {
+    const view = this.getVisibleComments();
+    const index = view.findIndex(({id}) => id === this.props.selectedCommentId);
+
+    if (index === 0 && view.length < this.props.comments.length) {
+      this.viewNewComments(() => this.selectUp());
+      return;
+    }
+    if (index > 0) {
+      this.props.selectCommentId(view[index - 1].id);
+    }
   }
 
   componentDidUpdate (prev) {
@@ -85,6 +126,15 @@ class ModerationQueue extends React.Component {
     // go ahead and load more comments
     if (prev.comments.length > 0 && comments.length === 0 && commentCount > 0) {
       this.props.loadMore();
+    }
+
+    // Scroll to selected comment.
+    if (prev.selectedCommentId !== this.props.selectedCommentId) {
+
+      const view = this.getVisibleComments();
+      const index = view.findIndex(({id}) => id === this.props.selectedCommentId);
+
+      this.listRef.scrollToRow(index);
     }
   }
 
@@ -118,8 +168,11 @@ class ModerationQueue extends React.Component {
     }
   }
 
-  viewNewComments = () => {
-    this.setState(resetCursors, () => this.reflowList());
+  viewNewComments = (callback) => {
+    this.setState(resetCursors, () => {
+      this.reflowList();
+      callback && callback();
+    });
   };
 
   reflowList = throttle(() => {
@@ -203,6 +256,7 @@ class ModerationQueue extends React.Component {
             currentAsset={this.props.currentAsset}
             currentUserId={this.props.currentUserId}
             clearHeightCache={() => {this.cache.clear(index); this.listRef.recomputeRowHeights(index); }}
+            selectComment={() => this.props.selectCommentId(comment.id)}
           />
         </div>
       </CellMeasurer>
@@ -244,6 +298,7 @@ class ModerationQueue extends React.Component {
             rejectComment={props.rejectComment}
             currentAsset={props.currentAsset}
             currentUserId={this.props.currentUserId}
+            selectComment={() => this.props.selectCommentId(comment.id)}
           />;
         </div>
       );
@@ -287,6 +342,7 @@ ModerationQueue.propTypes = {
   viewUserDetail: PropTypes.func.isRequired,
   currentAsset: PropTypes.object,
   showBanUserDialog: PropTypes.func.isRequired,
+  selectCommentId: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,

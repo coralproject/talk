@@ -23,7 +23,8 @@ import {
   toggleStorySearch,
   setSortOrder,
   storySearchChange,
-  clearState
+  clearState,
+  selectCommentId,
 } from 'actions/moderation';
 import withQueueConfig from '../hoc/withQueueConfig';
 import {notify} from 'coral-framework/actions/notification';
@@ -246,6 +247,7 @@ class ModerationContainer extends Component {
       activeTab={this.activeTab}
       queueConfig={currentQueueConfig}
       handleCommentChange={this.handleCommentChange}
+      selectedCommentId={this.props.selectedCommentId}
     />;
   }
 }
@@ -423,6 +425,7 @@ const mapDispatchToProps = (dispatch) => ({
     storySearchChange,
     clearState,
     notify,
+    selectCommentId,
   }, dispatch),
 });
 

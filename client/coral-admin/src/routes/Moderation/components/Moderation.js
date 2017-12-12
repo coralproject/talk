@@ -12,15 +12,8 @@ import Slot from 'coral-framework/components/Slot';
 import ViewOptions from './ViewOptions';
 
 class Moderation extends Component {
-  constructor(props) {
-    super(props);
-    const comments = this.getComments(props);
 
-    this.state = {
-      selectedCommentId: comments[0] ? comments[0].id : null,
-    };
-
-  }
+  state = {};
 
   componentWillMount() {
     const {toggleModal, singleView} = this.props;
@@ -30,8 +23,6 @@ class Moderation extends Component {
     key('esc', () => toggleModal(false));
     key('ctrl+f', () => this.openSearch());
     key('t', () => this.nextQueue());
-    key('j', () => this.select(true));
-    key('k', () => this.select(false));
     key('f', () => this.moderate(false));
     key('d', () => this.moderate(true));
     this.getMenuItems()
@@ -96,64 +87,6 @@ class Moderation extends Component {
     return root[activeTab].nodes;
   }
 
-  scrollTo = (toId, smooth = true) =>
-    document.querySelector(`#comment_${toId}`).scrollIntoView(smooth ? {behavior: 'smooth'} : {});
-
-  select = async (next, props = this.props, selectedCommentId = this.state.selectedCommentId) => {
-    const comments = this.getComments(props);
-
-    // No comments to be selected.
-    if (comments.length === 0){
-      return;
-    }
-
-    // Find current index if we have a selected comment.
-    const index = selectedCommentId
-      ? comments.findIndex((comment) => comment.id === selectedCommentId)
-      : null;
-
-    if (next) {
-
-      // Grab first one if we don't have a selected comment yet.
-      if (!selectedCommentId) {
-        this.setState({selectedCommentId: comments[0].id}, () => this.scrollTo(comments[0].id));
-        return;
-      }
-
-      // Select next one when we still have more comments left.
-      if (index < comments.length - 1) {
-        this.setState({selectedCommentId: comments[index + 1].id}, () => this.scrollTo(comments[index + 1].id));
-        return;
-      } else {
-
-        // We hit the end of the list, load more comments if we have.
-        if (comments.length < this.getActiveTabCount()) {
-          const res = await this.loadMore();
-
-          // If `loadMore` was already in progress, res would be false.
-          if (res) {
-
-            // Select next comment after loading has completed.
-            this.select(true);
-          }
-        }
-        return;
-      }
-    } else {
-
-      // We have no selected comment, so just skip it.
-      if (!selectedCommentId) {
-        return;
-      }
-
-      // If we still have previous comments take the one before.
-      if (index > 0) {
-        this.setState({selectedCommentId: comments[index - 1].id}, () => this.scrollTo(comments[index - 1].id));
-        return;
-      }
-    }
-  }
-
   loadMore = async () => {
     if (!this.isLoadingMore) {
       this.isLoadingMore = true;
@@ -176,8 +109,6 @@ class Moderation extends Component {
     key.unbind('esc');
     key.unbind('ctrl+f');
     key.unbind('t');
-    key.unbind('j');
-    key.unbind('k');
     key.unbind('f');
     key.unbind('d');
     this.getMenuItems()
@@ -186,11 +117,8 @@ class Moderation extends Component {
 
   componentWillReceiveProps(nextProps) {
 
-    if (this.props.activeTab !== nextProps.activeTab) {
-
-      // Reset selection when changing tabs.
-      this.select(true, nextProps, null);
-    } else {
+    // TODO: Adapt to react virtualized.
+    if (this.props.activeTab === nextProps.activeTab) {
 
       // Detect if comment has left the queue and find next or prev selected comment to set it
       // as the new selectedCommentId.
@@ -215,14 +143,6 @@ class Moderation extends Component {
           }
         }
       }
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-
-    // Scroll to comment when changing from single wiew to normal view.
-    if (prevProps.moderation.singleView !== this.props.moderation.singleView && this.state.selectedCommentId) {
-      this.scrollTo(this.state.selectedCommentId, false);
     }
   }
 
@@ -268,7 +188,7 @@ class Moderation extends Component {
             comments={comments.nodes}
             activeTab={activeTab}
             singleView={moderation.singleView}
-            selectedCommentId={this.state.selectedCommentId}
+            selectedCommentId={moderation.selectedCommentId}
             showBanUserDialog={props.showBanUserDialog}
             showSuspendUserDialog={props.showSuspendUserDialog}
             acceptComment={props.acceptComment}
@@ -277,6 +197,7 @@ class Moderation extends Component {
             commentCount={activeTabCount}
             currentUserId={this.props.auth.user.id}
             viewUserDetail={viewUserDetail}
+            selectCommentId={props.selectCommentId}
           />
           <ModerationKeysModal
             hideShortcutsNote={props.hideShortcutsNote}
@@ -307,6 +228,7 @@ class Moderation extends Component {
 Moderation.propTypes = {
   viewUserDetail: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
+  selectedCommentId: PropTypes.string,
   toggleStorySearch: PropTypes.func.isRequired,
   getModPath: PropTypes.func.isRequired,
   storySearchChange: PropTypes.func.isRequired,

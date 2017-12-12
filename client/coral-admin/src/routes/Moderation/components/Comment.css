@@ -12,6 +12,7 @@
   padding: 10px 0;
   margin-top: 13px;
   min-height: 0;
+  outline: 0;
 
   /*
    Fix rendering issues in Safari by promoting this

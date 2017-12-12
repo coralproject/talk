@@ -20,6 +20,16 @@ import t, {timeago} from 'coral-framework/services/i18n';
 
 class Comment extends React.Component {
 
+  ref = null;
+
+  handleRef = (ref) => this.ref = ref;
+
+  handleFocusOrClick = () => {
+    if (!this.props.selected) {
+      this.props.selectComment();
+    }
+  };
+
   showSuspendUserDialog = () => {
     const {comment, showSuspendUserDialog} = this.props;
     return showSuspendUserDialog({
@@ -55,6 +65,12 @@ class Comment extends React.Component {
     : this.props.rejectComment({commentId: this.props.comment.id})
   );
 
+  componentDidUpdate(prev) {
+    if (!prev.selected && this.props.selected) {
+      this.ref.focus();
+    }
+  }
+
   render() {
     const {
       comment,
@@ -76,6 +92,9 @@ class Comment extends React.Component {
         tabIndex={0}
         className={cn(className, 'mdl-card', selectionStateCSS, styles.root, {[styles.selected]: selected}, 'talk-admin-moderate-comment')}
         id={`comment_${comment.id}`}
+        onClick={this.handleFocusOrClick}
+        ref={this.handleRef}
+        onFocus={this.handleFocusOrClick}
       >
         <div className={styles.container}>
           <div className={styles.itemHeader}>
@@ -190,7 +209,9 @@ class Comment extends React.Component {
 Comment.propTypes = {
   viewUserDetail: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
+  selectComment: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   className: PropTypes.string,
   currentAsset: PropTypes.object,
   showBanUserDialog: PropTypes.func.isRequired,
