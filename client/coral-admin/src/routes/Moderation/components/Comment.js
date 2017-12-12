@@ -209,7 +209,7 @@ class Comment extends React.Component {
 Comment.propTypes = {
   viewUserDetail: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
-  selectComment: PropTypes.func.isRequired,
+  selectComment: PropTypes.func,
   rejectComment: PropTypes.func.isRequired,
   onClick: PropTypes.func,
   className: PropTypes.string,

@@ -129,7 +129,7 @@ class ModerationQueue extends React.Component {
     }
 
     // Scroll to selected comment.
-    if (prev.selectedCommentId !== this.props.selectedCommentId) {
+    if (prev.selectedCommentId !== this.props.selectedCommentId && this.listRef) {
 
       const view = this.getVisibleComments();
       const index = view.findIndex(({id}) => id === this.props.selectedCommentId);
@@ -298,7 +298,6 @@ class ModerationQueue extends React.Component {
             rejectComment={props.rejectComment}
             currentAsset={props.currentAsset}
             currentUserId={this.props.currentUserId}
-            selectComment={() => this.props.selectCommentId(comment.id)}
           />;
         </div>
       );
