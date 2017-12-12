@@ -119,7 +119,7 @@ class ModerationQueue extends React.Component {
   }
 
   viewNewComments = () => {
-    this.setState(resetCursors);
+    this.setState(resetCursors, () => this.reflowList());
   };
 
   reflowList = throttle(() => {
@@ -155,7 +155,9 @@ class ModerationQueue extends React.Component {
     parent,
     style        // Style object to be applied to row (to position it)
   }) => {
-    if (index === parent.props.rowCount - 1) {
+    const view = this.getVisibleComments();
+    const rowCount = view.length + 1;
+    if (index === rowCount - 1) {
       return (
         <CellMeasurer
           cache={this.cache}
@@ -175,7 +177,8 @@ class ModerationQueue extends React.Component {
         </CellMeasurer>
       );
     }
-    const comment = this.props.comments[index];
+
+    const comment = view[index];
     return (
       <CellMeasurer
         cache={this.cache}
