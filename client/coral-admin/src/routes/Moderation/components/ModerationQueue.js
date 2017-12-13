@@ -84,6 +84,9 @@ class ModerationQueue extends React.Component {
   componentDidMount() {
     key('j', () => this.selectDown());
     key('k', () => this.selectUp());
+
+    // TODO: Workaround for issue https://github.com/bvaughn/react-virtualized/issues/866
+    this.reflowList();
   }
 
   componentWillUnmount() {
