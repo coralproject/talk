@@ -70,10 +70,9 @@ export class Talk {
     // Extract the asset url.
     if (opts.asset_url) {
       query.asset_url = opts.asset_url;
-    } else if (!opts.asset_id) {
+    } else {
 
-      // The asset url was not provided and the asset id was also not provided,
-      // we need to infer the asset url from details on the page.
+      // The asset url was not provided so we need to infer the asset url from // details on the page.
 
       try {
         query.asset_url = document.querySelector('link[rel="canonical"]').href;
