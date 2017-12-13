@@ -11,7 +11,8 @@ const UserModel = require('../../models/user');
 
 module.exports.tokenUserNotFound = ({jwt}) => {
   const id = jwt.sub,
-    username = jwt.usn;
+    username = jwt.usn,
+    email = jwt.eml;
 
   return UserModel.findOneAndUpdate({
     id
@@ -22,7 +23,7 @@ module.exports.tokenUserNotFound = ({jwt}) => {
     roles: [],
     profiles: [{
       provider: 'nymag',
-      id
+      id: email
     }]
   }, {
     setDefaultsOnInsert: true,
