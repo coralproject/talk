@@ -4,8 +4,7 @@
     "vulture-insider",
     "talk-plugin-featured-comments",
     "talk-plugin-offtopic",
-    "talk-plugin-respect",
-    "vulture-insider"
+    "talk-plugin-like"
   ],
   "client": [
     "vulture-insider",
