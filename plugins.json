@@ -1,0 +1,28 @@
+{
+  "server": [
+    "nymag-auth",
+    "vulture-insider",
+    "talk-plugin-featured-comments",
+    "talk-plugin-offtopic",
+    "talk-plugin-respect",
+    "vulture-insider"
+  ],
+  "client": [
+    "vulture-insider",
+    "talk-plugin-author-menu",
+    "talk-plugin-comment-content",
+    "talk-plugin-featured-comments",
+    "talk-plugin-flag-details",
+    "talk-plugin-ignore-user",
+    "talk-plugin-member-since",
+    "talk-plugin-moderation-actions",
+    "talk-plugin-offtopic",
+    "talk-plugin-permalink",
+    "talk-plugin-like",
+    "talk-plugin-sort-most-replied",
+    "talk-plugin-sort-newest",
+    "talk-plugin-sort-oldest",
+    "talk-plugin-viewing-options",
+    "talk-plugin-remember-sort"
+  ]
+}
