@@ -13,7 +13,9 @@ import ViewOptions from './ViewOptions';
 
 class Moderation extends Component {
 
-  state = {};
+  state = {
+    isLoadingMore: false,
+  };
 
   componentWillMount() {
     const {toggleModal, singleView} = this.props;
@@ -88,15 +90,15 @@ class Moderation extends Component {
   }
 
   loadMore = async () => {
-    if (!this.isLoadingMore) {
-      this.isLoadingMore = true;
+    if (!this.state.isLoadingMore) {
+      this.setState({isLoadingMore: true});
       try {
         const result = await this.props.loadMore(this.props.activeTab);
-        this.isLoadingMore = false;
+        this.setState({isLoadingMore: false});
         return result;
       }
       catch (e) {
-        this.isLoadingMore = false;
+        this.setState({isLoadingMore: false});
         throw e;
       }
     }
@@ -194,6 +196,7 @@ class Moderation extends Component {
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment}
             loadMore={this.loadMore}
+            isLoadingMore={this.state.isLoadingMore}
             commentCount={activeTabCount}
             currentUserId={this.props.auth.user.id}
             viewUserDetail={viewUserDetail}

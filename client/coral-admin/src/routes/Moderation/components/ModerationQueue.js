@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Comment from '../containers/Comment';
 import styles from './ModerationQueue.css';
 import EmptyCard from '../../../components/EmptyCard';
-import LoadMore from '../../../components/LoadMore';
+import AutoLoadMore from './AutoLoadMore';
 import ViewMore from './ViewMore';
 import t from 'coral-framework/services/i18n';
 import {WindowScroller, CellMeasurer, CellMeasurerCache, List} from 'react-virtualized';
@@ -57,7 +57,6 @@ const cache = new CellMeasurerCache({
 });
 
 class ModerationQueue extends React.Component {
-  isLoadingMore = false;
   cache = cache;
   listRef = null;
 
@@ -222,9 +221,9 @@ class ModerationQueue extends React.Component {
           <div
             style={style}
           >
-            <LoadMore
+            <AutoLoadMore
               loadMore={this.props.loadMore}
-              showLoadMore={this.props.comments.length < this.props.commentCount}
+              loading={this.props.isLoadingMore}
             />
           </div>
         </CellMeasurer>
@@ -304,6 +303,7 @@ class ModerationQueue extends React.Component {
     }
 
     const view = this.getVisibleComments();
+    const hasMore = this.props.comments.length < this.props.commentCount;
 
     return (
       <div className={styles.root}>
@@ -325,7 +325,7 @@ class ModerationQueue extends React.Component {
               scrollTop={scrollTop}
               isScrolling={isScrolling}
               onScroll={onChildScroll}
-              rowCount={view.length + 1}
+              rowCount={hasMore ? view.length + 1 : view.length}
               deferredMeasurementCache={this.cache}
               rowRenderer={this.rowRenderer}
               rowHeight={this.cache.rowHeight}
@@ -350,6 +350,7 @@ ModerationQueue.propTypes = {
   loadMore: PropTypes.func.isRequired,
   selectedCommentId: PropTypes.string,
   singleView: PropTypes.bool,
+  isLoadingMore: PropTypes.bool,
   activeTab: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,

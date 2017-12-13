@@ -179,7 +179,7 @@ class ModerationContainer extends Component {
 
   loadMore = (tab) => {
     const variables = {
-      limit: 50,
+      limit: 20,
       cursor: this.props.root[tab].endCursor,
       sortOrder: this.props.data.variables.sortOrder,
       asset_id: this.props.data.variables.asset_id,
@@ -363,7 +363,8 @@ const withModQueueQuery = withQuery(({queueConfig}) => gql`
         ${queueConfig[queue].tags ? `tags: ["${queueConfig[queue].tags.join('", "')}"],` : ''}
         ${queueConfig[queue].action_type ? `action_type: ${queueConfig[queue].action_type}` : ''}
         asset_id: $asset_id,
-        sortOrder: $sortOrder
+        sortOrder: $sortOrder,
+        limit: 20,
       }) {
         ...CoralAdmin_Moderation_CommentConnection
       }

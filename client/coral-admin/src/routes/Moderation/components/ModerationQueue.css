@@ -2,6 +2,7 @@
   padding: 8px 0;
   list-style: none;
   display: block;
+  min-height: 650px;
 }
 
 :global(html) {
