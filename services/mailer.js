@@ -99,8 +99,8 @@ const mailer = module.exports = {
 
     attachLocals(locals);
 
-    // Attach the templating function.
-    locals['t'] = i18n.t;
+    // Attach the translation function.
+    locals.t = i18n.t;
 
     return Promise.all([
 
@@ -112,7 +112,7 @@ const mailer = module.exports = {
     ])
       .then(([html, text]) => {
 
-      // Create the job.
+        // Create the job.
         return mailer.task.create({
           title: 'Mail',
           message: {

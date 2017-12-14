@@ -41,7 +41,7 @@ const loadPluginTranslations = () => {
   }
 
   // Load the plugin translations.
-  plugins.forEach('server', 'translations').forEach(({plugin, translations: filename}) => {
+  plugins.get('server', 'translations').forEach(({plugin, translations: filename}) => {
     debug(`added plugin '${plugin.name}'`);
 
     const pack = yaml.parse(fs.readFileSync(filename, 'utf8'));
@@ -62,11 +62,6 @@ const i18n = {
    * Create the new Task kue.
    */
   init(req) {
-
-    // Loads the translations into the translations array from plugins. This is
-    // done lazily to ensure that we don't have an import cycle.
-    loadPluginTranslations();
-
     const lang = accepts(req).language(languages);
     language = lang ? lang : defaultLanguage;
   },
@@ -75,6 +70,10 @@ const i18n = {
    * Translates a key.
    */
   t(key, ...replacements) {
+
+    // Loads the translations into the translations array from plugins. This is
+    // done lazily to ensure that we don't have an import cycle.
+    loadPluginTranslations();
 
     // Check if the translation exists on the object.
     if (_.has(translations[language], key)) {
