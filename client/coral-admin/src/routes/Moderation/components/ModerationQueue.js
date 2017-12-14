@@ -81,6 +81,10 @@ const cache = new CellMeasurerCache({
 
 class ModerationQueue extends React.Component {
   listRef = null;
+  callbackCaches = {
+    clearHeightCache: {},
+    selectCommentId: {},
+  };
 
   constructor(props) {
     super(props);
@@ -286,6 +290,16 @@ class ModerationQueue extends React.Component {
     }
     else {
       const comment = view[index];
+
+      // Use callback cache so not to change the identity of these arrow functions.
+      // Otherwise shallow compare will fail to optimize.
+      if (!this.callbackCaches.clearHeightCache[index]) {
+        this.callbackCaches.clearHeightCache[index] = () => this.reflowList(index);
+      }
+      if (!this.callbackCaches.selectCommentId[comment.id]) {
+        this.callbackCaches.selectCommentId[comment.id] = () => this.props.selectCommentId(comment.id);
+      }
+
       key = comment.id;
       child = (
         <div
@@ -304,8 +318,8 @@ class ModerationQueue extends React.Component {
             rejectComment={this.props.rejectComment}
             currentAsset={this.props.currentAsset}
             currentUserId={this.props.currentUserId}
-            clearHeightCache={() => this.reflowList(index)}
-            selectComment={() => this.props.selectCommentId(comment.id)}
+            clearHeightCache={this.callbackCaches.clearHeightCache[index]}
+            selectComment={this.callbackCaches.selectCommentId[comment.id]}
           />
         </div>
       );
