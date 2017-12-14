@@ -20,6 +20,9 @@ const CONFIG = {
   // WEBPACK indicates when webpack is currently building.
   WEBPACK: process.env.WEBPACK === 'TRUE',
 
+  // EMAIL_SUBJECT_PREFIX is the string before emails in the subject.
+  EMAIL_SUBJECT_PREFIX: process.env.TALK_EMAIL_SUBJECT_PREFIX || '[Talk]',
+
   // When TRUE, it ensures that database indexes created in core will not add
   // indexes.
   CREATE_MONGO_INDEXES: process.env.DISABLE_CREATE_MONGO_INDEXES !== 'TRUE',

@@ -13,7 +13,8 @@ const {
   SMTP_USERNAME,
   SMTP_PORT,
   SMTP_PASSWORD,
-  SMTP_FROM_ADDRESS
+  SMTP_FROM_ADDRESS,
+  EMAIL_SUBJECT_PREFIX,
 } = require('../config');
 
 // load all the templates as strings
@@ -95,7 +96,7 @@ const mailer = module.exports = {
     }
 
     // Prefix the subject with `[Talk]`.
-    subject = `[Talk] ${subject}`;
+    subject = `${EMAIL_SUBJECT_PREFIX} ${subject}`;
 
     attachLocals(locals);
 
