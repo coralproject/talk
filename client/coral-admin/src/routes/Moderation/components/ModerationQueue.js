@@ -110,12 +110,18 @@ class ModerationQueue extends React.Component {
   componentWillUnmount() {
     key.unbind('j');
     key.unbind('k');
+
+    this.props.cleanUpQueue(this.props.activeTab);
+  }
+
+  getCommentCountWithoutDagling(props = this.props) {
+    return props.comments.filter((comment) => props.commentBelongToQueue(props.activeTab, comment)).length;
   }
 
   async selectDown() {
     const view = this.state.view;
     const index = view.findIndex(({id}) => id === this.props.selectedCommentId);
-    if (index === view.length - 1 && this.props.comments.length !== this.props.commentCount) {
+    if (index === view.length - 1 && this.getCommentCountWithoutDagling() !== this.props.commentCount) {
       await this.props.loadMore();
       this.selectDown();
       return;
@@ -139,20 +145,20 @@ class ModerationQueue extends React.Component {
   }
 
   componentDidUpdate (prev) {
-    const {comments, commentCount} = this.props;
+    const {commentCount, selectedCommentId} = this.props;
 
     // if the user just moderated the last (visible) comment
     // AND there are more comments available on the server,
     // go ahead and load more comments
-    if (prev.comments.length > 0 && comments.length === 0 && commentCount > 0) {
+    if (prev.comments.length > 0 && this.getCommentCountWithoutDagling() === 0 && commentCount > 0) {
       this.props.loadMore();
     }
 
     // Scroll to selected comment.
-    if (prev.selectedCommentId !== this.props.selectedCommentId && this.listRef) {
+    if (prev.selectedCommentId !== selectedCommentId && this.listRef) {
 
       const view = this.state.view;
-      const index = view.findIndex(({id}) => id === this.props.selectedCommentId);
+      const index = view.findIndex(({id}) => id === selectedCommentId);
 
       this.listRef.scrollToRow(index);
     }
@@ -244,7 +250,7 @@ class ModerationQueue extends React.Component {
     const view = this.state.view;
     const rowCount = view.length + 1;
     if (index === rowCount - 1) {
-      const hasMore = this.props.comments.length < this.props.commentCount;
+      const hasMore = this.getCommentCountWithoutDagling() < this.props.commentCount;
       return (
         <CellMeasurer
           cache={this.cache}
@@ -282,6 +288,7 @@ class ModerationQueue extends React.Component {
             data={this.props.data}
             root={this.props.root}
             comment={comment}
+            dangling={!this.props.commentBelongToQueue(this.props.activeTab, comment)}
             selected={comment.id === this.props.selectedCommentId}
             viewUserDetail={this.props.viewUserDetail}
             showBanUserDialog={this.props.showBanUserDialog}
@@ -380,7 +387,8 @@ ModerationQueue.propTypes = {
   showSuspendUserDialog: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
-  comments: PropTypes.array.isRequired,
+  commentBelongToQueue: PropTypes.func.isRequired,
+  cleanUpQueue: PropTypes.func.isRequired,
   commentCount: PropTypes.number.isRequired,
   loadMore: PropTypes.func.isRequired,
   selectedCommentId: PropTypes.string,

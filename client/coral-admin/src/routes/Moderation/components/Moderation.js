@@ -164,11 +164,13 @@ class Moderation extends Component {
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment}
             loadMore={this.loadMore}
+            commentBelongToQueue={this.props.commentBelongToQueue}
             isLoadingMore={this.state.isLoadingMore}
             commentCount={activeTabCount}
             currentUserId={this.props.auth.user.id}
             viewUserDetail={viewUserDetail}
             selectCommentId={props.selectCommentId}
+            cleanUpQueue={props.cleanUpQueue}
           />
           <ModerationKeysModal
             hideShortcutsNote={props.hideShortcutsNote}
@@ -202,10 +204,12 @@ Moderation.propTypes = {
   selectedCommentId: PropTypes.string,
   toggleStorySearch: PropTypes.func.isRequired,
   getModPath: PropTypes.func.isRequired,
+  cleanUpQueue: PropTypes.func.isRequired,
   storySearchChange: PropTypes.func.isRequired,
   moderation: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   queueConfig: PropTypes.object.isRequired,
+  commentBelongToQueue: PropTypes.func.isRequired,
   handleCommentChange: PropTypes.func.isRequired,
   setSortOrder: PropTypes.func.isRequired,
   showBanUserDialog: PropTypes.func.isRequired,

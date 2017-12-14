@@ -82,6 +82,7 @@ class Comment extends React.Component {
       currentUserId,
       currentAsset,
       clearHeightCache,
+      dangling,
     } = this.props;
 
     const selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
@@ -90,7 +91,7 @@ class Comment extends React.Component {
     return (
       <li
         tabIndex={0}
-        className={cn(className, 'mdl-card', selectionStateCSS, styles.root, {[styles.selected]: selected}, 'talk-admin-moderate-comment')}
+        className={cn(className, 'mdl-card', selectionStateCSS, styles.root, {[styles.selected]: selected, [styles.dangling]: dangling}, 'talk-admin-moderate-comment')}
         id={`comment_${comment.id}`}
         onClick={this.handleFocusOrClick}
         ref={this.handleRef}
@@ -213,6 +214,7 @@ Comment.propTypes = {
   rejectComment: PropTypes.func.isRequired,
   onClick: PropTypes.func,
   className: PropTypes.string,
+  dangling: PropTypes.bool,
   currentAsset: PropTypes.object,
   showBanUserDialog: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func.isRequired,

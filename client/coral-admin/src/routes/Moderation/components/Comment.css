@@ -27,6 +27,10 @@
   }
 }
 
+.dangling {
+  background-color: #efefef;
+}
+
 .container {
   padding: 0 14px;
 }

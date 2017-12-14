@@ -11,7 +11,7 @@ import NotFoundAsset from '../components/NotFoundAsset';
 import {isPremod, getModPath} from '../../../utils';
 
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
-import {handleCommentChange} from '../graphql';
+import {handleCommentChange, commentBelongToQueue, cleanUpQueue} from '../graphql';
 
 import {showBanUserDialog} from 'actions/banUserDialog';
 import {showSuspendUserDialog} from 'actions/suspendUserDialog';
@@ -169,12 +169,24 @@ class ModerationContainer extends Component {
     }
   }
 
+  cleanUpQueue = (queue) => {
+    if (!this.props.data.loading) {
+      this.props.data.updateQuery((query) => {
+        return cleanUpQueue(query, queue, this.props.queueConfig);
+      });
+    }
+  }
+
   acceptComment = ({commentId}) => {
     return this.props.setCommentStatus({commentId, status: 'ACCEPTED'});
   }
 
   rejectComment = ({commentId}) => {
     return this.props.setCommentStatus({commentId, status: 'REJECTED'});
+  }
+
+  commentBelongToQueue = (queue, comment) => {
+    return commentBelongToQueue(queue, comment, this.props.queueConfig);
   }
 
   loadMore = (tab) => {
@@ -248,6 +260,8 @@ class ModerationContainer extends Component {
       queueConfig={currentQueueConfig}
       handleCommentChange={this.handleCommentChange}
       selectedCommentId={this.props.selectedCommentId}
+      commentBelongToQueue={this.commentBelongToQueue}
+      cleanUpQueue={this.cleanUpQueue}
     />;
   }
 }
@@ -388,6 +402,9 @@ const withModQueueQuery = withQuery(({queueConfig}) => gql`
     settings {
       organizationName
       moderation
+    }
+    me {
+      id
     }
     ...${getDefinitionName(Comment.fragments.root)}
   }

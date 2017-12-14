@@ -14,21 +14,3 @@
   margin: 0;
 }
 
-.commentLeave {
-  opacity: 1.0;
-}
-
-.commentLeaveActive {
-  opacity: 0.1;
-  transition: opacity 800ms;
-}
-
-.commentEnter {
-  opacity: 0.1;
-}
-
-.commentEnterActive {
-  opacity: 1.0;
-  transition: opacity 800ms;
-}
-
