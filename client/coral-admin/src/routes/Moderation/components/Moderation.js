@@ -67,8 +67,7 @@ class Moderation extends Component {
   }
 
   moderate = (accept) => {
-    const {acceptComment, rejectComment} = this.props;
-    const {selectedCommentId} = this.state;
+    const {acceptComment, rejectComment, moderation: {selectedCommentId}} = this.props;
 
     // Accept or reject only if there's a selected comment
     if(selectedCommentId != null){
@@ -115,37 +114,6 @@ class Moderation extends Component {
     key.unbind('d');
     this.getMenuItems()
       .forEach((menuItem, idx) => key.unbind(`${idx + 1}`));
-  }
-
-  componentWillReceiveProps(nextProps) {
-
-    // TODO: Adapt to react virtualized.
-    if (this.props.activeTab === nextProps.activeTab) {
-
-      // Detect if comment has left the queue and find next or prev selected comment to set it
-      // as the new selectedCommentId.
-      const prevComments = this.getComments(this.props);
-      const nextComments = this.getComments(nextProps);
-      if (nextComments.length < prevComments.length) {
-
-        // Comments have changed, now check if our selected comment has left the queue.
-        if (
-          this.state.selectedCommentId &&
-          !nextComments.some((comment) => comment.id === this.state.selectedCommentId)
-        ) {
-
-          // Determine a comment to select.
-          const prevIndex = prevComments.findIndex((comment) => comment.id === this.state.selectedCommentId);
-          if (prevIndex !== prevComments.length - 1) {
-            this.setState({selectedCommentId: prevComments[prevIndex + 1].id});
-          } else if(prevIndex > 0) {
-            this.setState({selectedCommentId: prevComments[prevIndex - 1].id});
-          } else {
-            this.setState({selectedCommentId: null});
-          }
-        }
-      }
-    }
   }
 
   render () {

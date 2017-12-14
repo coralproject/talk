@@ -43,8 +43,7 @@ function invalidateCursor(invalidated, state, props) {
       idCursors.push(nextInLine.id);
     }
   }
-  const view = getVisibleComments(props.comments, idCursors[0]);
-  return {idCursors, view};
+  return idCursors;
 }
 
 // getVisibileComments returns a list containing comments
@@ -175,6 +174,8 @@ class ModerationQueue extends React.Component {
       return;
     }
 
+    let idCursors = this.state.idCursors;
+
     if (
       prevComments && nextComments &&
       nextComments.length < prevComments.length
@@ -182,18 +183,40 @@ class ModerationQueue extends React.Component {
 
       // Invalidate first cursor if referenced comment was removed.
       if (this.state.idCursors[0] && !hasComment(nextComments, this.state.idCursors[0])) {
-        this.setState(invalidateCursor(0, this.state, next));
+        idCursors = invalidateCursor(0, this.state, next);
       }
 
       // Invalidate second cursor if referenced comment was removed.
       if (this.state.idCursors[1] && !hasComment(nextComments, this.state.idCursors[1])) {
-        this.setState(invalidateCursor(1, this.state, next));
+        idCursors = invalidateCursor(1, this.state, next);
       }
-      return;
+
+      if (
+        this.props.selectedCommentId &&
+        !hasComment(nextComments, this.props.selectedCommentId)
+      ) {
+        const view = this.state.view;
+        let nextSelectedCommentId = null;
+
+        // Determine a comment to select.
+        const prevIndex = view.findIndex((comment) => comment.id === this.props.selectedCommentId);
+        if (prevIndex !== view.length - 1) {
+          nextSelectedCommentId = view[prevIndex + 1].id;
+        } else if(prevIndex > 0) {
+          nextSelectedCommentId = view[prevIndex - 1].id;
+        }
+        this.props.selectCommentId(nextSelectedCommentId);
+      }
     }
 
     if (prevComments !== nextComments) {
-      this.setState({view: getVisibleComments(nextComments, this.state.idCursors[0])});
+      const nextView = getVisibleComments(nextComments, idCursors[0]);
+      this.setState({idCursors, view: nextView});
+
+      // TODO: removing a comment from the list seems to render incorrect..
+      // Find first changed comment and perform a reflow.
+      const index = this.state.view.findIndex((comment, i) => nextView[i] !== comment);
+      this.reflowList(index);
     }
   }
 
@@ -204,9 +227,15 @@ class ModerationQueue extends React.Component {
     });
   };
 
-  reflowList = throttle(() => {
-    this.cache.clearAll();
-    this.listRef.recomputeRowHeights();
+  reflowList = throttle((index) => {
+    if (index >= 0) {
+      this.cache.clear(index);
+      this.listRef.recomputeRowHeights(index);
+    }
+    else {
+      this.cache.clearAll();
+      this.listRef.recomputeRowHeights();
+    }
   }, 500);
 
   rowRenderer = ({
@@ -261,7 +290,7 @@ class ModerationQueue extends React.Component {
             rejectComment={this.props.rejectComment}
             currentAsset={this.props.currentAsset}
             currentUserId={this.props.currentUserId}
-            clearHeightCache={() => {this.cache.clear(index); this.listRef.recomputeRowHeights(index); }}
+            clearHeightCache={() => this.reflowList(index)}
             selectComment={() => this.props.selectCommentId(comment.id)}
           />
         </div>
