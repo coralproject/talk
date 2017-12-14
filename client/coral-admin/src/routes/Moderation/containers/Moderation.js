@@ -172,7 +172,7 @@ class ModerationContainer extends Component {
   cleanUpQueue = (queue) => {
     if (!this.props.data.loading) {
       this.props.data.updateQuery((query) => {
-        return cleanUpQueue(query, queue, this.props.queueConfig);
+        return cleanUpQueue(query, queue, this.props.moderation.sortOrder, this.props.queueConfig);
       });
     }
   }

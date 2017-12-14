@@ -64,7 +64,7 @@ function addCommentToQueue(root, queue, comment, sortOrder) {
   return update(root, changes);
 }
 
-export function sortComments(nodes, sortOrder) {
+function sortComments(nodes, sortOrder) {
   const sortAlgo = sortOrder === 'ASC' ? ascending : descending;
   return nodes.sort(sortAlgo);
 }
@@ -82,6 +82,9 @@ function getCommentQueues(comment, queueConfig) {
   return queues;
 }
 
+/**
+ * Return whether or not the comment belongs to the queue.
+ */
 export function commentBelongToQueue(queue, comment, queueConfig) {
   const {action_type, statuses, tags} = queueConfig[queue];
   let belong = true;
@@ -123,13 +126,17 @@ function applyCommentChanges(root, comment, queueConfig) {
   return root;
 }
 
-export function cleanUpQueue(root, queue, queueConfig) {
+/**
+ * Remove dangling comments, sort and resize queues.
+ */
+export function cleanUpQueue(root, queue, sortOrder, queueConfig) {
   return update(root, {
     [queue]: {
       nodes: {
         $apply: (nodes) =>
           sortComments(
-            nodes.filter((comment) => commentBelongToQueue(queue, comment, queueConfig))
+            nodes.filter((comment) => commentBelongToQueue(queue, comment, queueConfig)),
+            sortOrder,
           ).slice(0, 100),
       },
     },
@@ -180,6 +187,9 @@ export function handleCommentChange(root, comment, sortOrder, notify, queueConfi
       showNotificationOnce();
     }
 
+    // We need to apply every comment change, because we use
+    // batched subscription handler which bypasses apollo that would
+    // have done that for us.
     next = applyCommentChanges(next, comment, queueConfig);
   });
   return next;
