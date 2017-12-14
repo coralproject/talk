@@ -69,9 +69,6 @@ function getVisibleComments(comments, idCursor) {
 
 let keyMapper = null;
 
-// In this example, average cell height is assumed to be about 50px.
-// This value will be used for the initial `Grid` layout.
-// Width is not dynamic.
 const cache = new CellMeasurerCache({
   fixedWidth: true,
   defaultHeight: 250,
@@ -213,9 +210,9 @@ class ModerationQueue extends React.Component {
       const nextView = getVisibleComments(nextComments, idCursors[0]);
       this.setState({idCursors, view: nextView});
 
-      // TODO: removing a comment from the list seems to render incorrect..
+      // TODO: removing or adding a comment from the list seems to render incorrect, is this a bug?
       // Find first changed comment and perform a reflow.
-      const index = this.state.view.findIndex((comment, i) => nextView[i] !== comment);
+      const index = this.state.view.findIndex((comment, i) => !nextView[i] || nextView[i].id !== comment.id);
       this.reflowList(index);
     }
   }
