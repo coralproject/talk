@@ -59,6 +59,11 @@ function addCommentToQueue(root, queue, comment, sortOrder) {
   return update(root, changes);
 }
 
+export function sortComments(nodes, sortOrder) {
+  const sortAlgo = sortOrder === 'ASC' ? ascending : descending;
+  return nodes.sort(sortAlgo);
+}
+
 /**
  * getCommentQueues determines in which queues a comment should be placed.
  */
@@ -81,6 +86,14 @@ function getCommentQueues(comment, queueConfig) {
     }
   });
   return queues;
+}
+
+function isVisible(id) {
+  return !!document.getElementById(`comment_${id}`);
+}
+
+function isEndOfListVisible(root, queue) {
+  return root[queue].nodes.length === 0 || !!document.getElementById('end-of-comment-list');
 }
 
 /**
@@ -111,22 +124,18 @@ export function handleCommentChange(root, comment, sortOrder, notify, queueConfi
     if (nextQueues.indexOf(queue) >= 0) {
       if (!queueHasComment(next, queue, comment.id)) {
         next = addCommentToQueue(next, queue, comment, sortOrder);
-        if (notify && activeQueue === queue && shouldCommentBeAdded(next, queue, comment, sortOrder)) {
+        if (notify && activeQueue === queue && isEndOfListVisible(root, queue)) {
           showNotificationOnce();
         }
       }
     } else if(queueHasComment(next, queue, comment.id)){
       next = removeCommentFromQueue(next, queue, comment.id);
-      if (notify && activeQueue === queue) {
+      if (notify && isVisible(comment.id)) {
         showNotificationOnce();
       }
     }
 
-    if (
-      notify
-      && queueHasComment(next, queue, comment.id)
-      && activeQueue === queue
-    ) {
+    if (notify && isVisible(comment.id)) {
       showNotificationOnce();
     }
   });

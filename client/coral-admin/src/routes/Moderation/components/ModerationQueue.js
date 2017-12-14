@@ -166,7 +166,7 @@ class ModerationQueue extends React.Component {
     const {comments: prevComments} = this.props;
     const {comments: nextComments} = next;
 
-    if (!prevComments && nextComments) {
+    if (!prevComments && nextComments || !prevComments.length && nextComments.length) {
       this.setState(resetCursors);
       return;
     }
@@ -227,11 +227,11 @@ class ModerationQueue extends React.Component {
   reflowList = throttle((index) => {
     if (index >= 0) {
       this.cache.clear(index);
-      this.listRef.recomputeRowHeights(index);
+      this.listRef && this.listRef.recomputeRowHeights(index);
     }
     else {
       this.cache.clearAll();
-      this.listRef.recomputeRowHeights();
+      this.listRef && this.listRef.recomputeRowHeights();
     }
   }, 500);
 
@@ -243,6 +243,7 @@ class ModerationQueue extends React.Component {
     const view = this.state.view;
     const rowCount = view.length + 1;
     if (index === rowCount - 1) {
+      const hasMore = this.props.comments.length < this.props.commentCount;
       return (
         <CellMeasurer
           cache={this.cache}
@@ -253,11 +254,12 @@ class ModerationQueue extends React.Component {
         >
           <div
             style={style}
+            id={'end-of-comment-list'}
           >
-            <AutoLoadMore
+            {hasMore && <AutoLoadMore
               loadMore={this.props.loadMore}
               loading={this.props.isLoadingMore}
-            />
+            />}
           </div>
         </CellMeasurer>
       );
@@ -336,7 +338,6 @@ class ModerationQueue extends React.Component {
     }
 
     const view = this.state.view;
-    const hasMore = this.props.comments.length < this.props.commentCount;
 
     return (
       <div className={styles.root}>
@@ -358,7 +359,7 @@ class ModerationQueue extends React.Component {
               scrollTop={scrollTop}
               isScrolling={isScrolling}
               onScroll={onChildScroll}
-              rowCount={hasMore ? view.length + 1 : view.length}
+              rowCount={view.length + 1}
               deferredMeasurementCache={this.cache}
               rowRenderer={this.rowRenderer}
               rowHeight={this.cache.rowHeight}
