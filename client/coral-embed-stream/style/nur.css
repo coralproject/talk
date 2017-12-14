@@ -153,3 +153,16 @@ button + .talk-plugin-commentbox-cancel-button {
 .talk-stream-no-comments-message {
     background-color: #fff !important;
 }
+
+.talk-plugin-infobox-info {
+    background-color: #fff;
+    padding: 0;
+    color: #9e9e9e;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.talk-plugin-infobox-info a,
+.talk-embed-stream-moderation-link {
+    color: #009fd1;
+}
