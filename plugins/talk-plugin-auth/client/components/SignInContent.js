@@ -9,8 +9,7 @@ const SignInContent = ({
   formData,
   changeView,
   handleSignIn,
-  auth,
-  fetchSignInFacebook
+  auth
 }) => {
   return (
     <div className="coral-sign-in">
@@ -24,16 +23,6 @@ const SignInContent = ({
           {auth.error.translation_key ? t(`error.${auth.error.translation_key}`) : auth.error.toString()}
         </Alert>}
       <div>
-        <div className={`${styles.socialConnections} social-connections`}>
-          <Button cStyle="facebook" onClick={fetchSignInFacebook} full>
-            {t('sign_in.facebook_sign_in')}
-          </Button>
-        </div>
-        <div className={styles.separator}>
-          <h1>
-            {t('sign_in.or')}
-          </h1>
-        </div>
         <form onSubmit={handleSignIn}>
           <TextField
             id="email"
@@ -89,7 +78,6 @@ SignInContent.propTypes = {
     error: PropTypes.string,
     emailVerificationFailure: PropTypes.bool
   }).isRequired,
-  fetchSignInFacebook: PropTypes.func.isRequired,
   handleSignIn: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   changeView: PropTypes.func.isRequired,

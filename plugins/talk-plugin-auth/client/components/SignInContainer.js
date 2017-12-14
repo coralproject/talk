@@ -11,12 +11,9 @@ import {
   fetchSignUp,
   fetchSignIn,
   hideSignInDialog,
-  fetchSignInFacebook,
-  fetchSignUpFacebook,
   fetchForgotPassword,
   requestConfirmEmail,
   resetSignInDialog,
-  facebookCallback,
   invalidForm,
   validForm,
 } from 'coral-embed-stream/src/actions/auth';
@@ -56,12 +53,12 @@ class SignInContainer extends React.Component {
 
     // Listening to FB changes
     // FB localStorage key is 'auth'
-    const authCallback = this.props.facebookCallback;
+    // const authCallback = this.props.facebookCallback;
 
-    if (e.key === 'auth') {
-      const {err, data} = JSON.parse(e.newValue);
-      authCallback(err, data);
-    }
+    // if (e.key === 'auth') {
+      // const {err, data} = JSON.parse(e.newValue);
+      // authCallback(err, data);
+    // }
   };
 
   handleChange = (e) => {
@@ -174,11 +171,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      facebookCallback,
       fetchSignUp,
       fetchSignIn,
-      fetchSignInFacebook,
-      fetchSignUpFacebook,
       fetchForgotPassword,
       requestConfirmEmail,
       changeView,
