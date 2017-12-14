@@ -130,7 +130,7 @@ export function cleanUpQueue(root, queue, queueConfig) {
         $apply: (nodes) =>
           sortComments(
             nodes.filter((comment) => commentBelongToQueue(queue, comment, queueConfig))
-          ).slice(0, 50),
+          ).slice(0, 100),
       },
     },
   });
