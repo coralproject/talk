@@ -18,14 +18,15 @@ const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 // comments to show. The spare cursor functions as a backup in case one
 // of the comments gets deleted.
 function resetCursors(state, props) {
+  let idCursors = [];
   if (props.comments && props.comments.length) {
-    const idCursors = [props.comments[0].id];
+    idCursors.push(props.comments[0].id);
     if (props.comments[1]) {
       idCursors.push(props.comments[1].id);
     }
-    return {idCursors};
   }
-  return {idCursors: []};
+  const view = getVisibleComments(props.comments, idCursors[0]);
+  return {idCursors, view};
 }
 
 // invalidateCursor is called whenever a comment is removed which is referenced
@@ -42,7 +43,29 @@ function invalidateCursor(invalidated, state, props) {
       idCursors.push(nextInLine.id);
     }
   }
-  return {idCursors};
+  const view = getVisibleComments(props.comments, idCursors[0]);
+  return {idCursors, view};
+}
+
+// getVisibileComments returns a list containing comments
+// which comes after the `idCursor`.
+function getVisibleComments(comments, idCursor) {
+
+  if (!comments) {
+    return [];
+  }
+
+  const view = [];
+  let pastCursor = false;
+  comments.forEach((comment) => {
+    if (comment.id === idCursor) {
+      pastCursor = true;
+    }
+    if (pastCursor) {
+      view.push(comment);
+    }
+  });
+  return view;
 }
 
 let keyMapper = null;
@@ -66,7 +89,7 @@ class ModerationQueue extends React.Component {
       ...resetCursors(this.state, props),
     };
     keyMapper = (index) => {
-      const view = this.getVisibleComments();
+      const view = this.state.view;
       if (index < view.length) {
         return view[index].id;
       }
@@ -75,9 +98,8 @@ class ModerationQueue extends React.Component {
       }
       throw new Error(`unknown index ${index}`);
     };
-    const view = this.getVisibleComments();
-    if (view.length) {
-      props.selectCommentId(view[0].id);
+    if (this.state.view.length) {
+      props.selectCommentId(this.state.view[0].id);
     }
   }
 
@@ -95,7 +117,7 @@ class ModerationQueue extends React.Component {
   }
 
   async selectDown() {
-    const view = this.getVisibleComments();
+    const view = this.state.view;
     const index = view.findIndex(({id}) => id === this.props.selectedCommentId);
     if (index === view.length - 1 && this.props.comments.length !== this.props.commentCount) {
       await this.props.loadMore();
@@ -108,7 +130,7 @@ class ModerationQueue extends React.Component {
   }
 
   selectUp() {
-    const view = this.getVisibleComments();
+    const view = this.state.view;
     const index = view.findIndex(({id}) => id === this.props.selectedCommentId);
 
     if (index === 0 && view.length < this.props.comments.length) {
@@ -133,7 +155,7 @@ class ModerationQueue extends React.Component {
     // Scroll to selected comment.
     if (prev.selectedCommentId !== this.props.selectedCommentId && this.listRef) {
 
-      const view = this.getVisibleComments();
+      const view = this.state.view;
       const index = view.findIndex(({id}) => id === this.props.selectedCommentId);
 
       this.listRef.scrollToRow(index);
@@ -155,7 +177,7 @@ class ModerationQueue extends React.Component {
 
     if (
       prevComments && nextComments &&
-        nextComments.length < prevComments.length
+      nextComments.length < prevComments.length
     ) {
 
       // Invalidate first cursor if referenced comment was removed.
@@ -167,6 +189,11 @@ class ModerationQueue extends React.Component {
       if (this.state.idCursors[1] && !hasComment(nextComments, this.state.idCursors[1])) {
         this.setState(invalidateCursor(1, this.state, next));
       }
+      return;
+    }
+
+    if (prevComments !== nextComments) {
+      this.setState({view: getVisibleComments(nextComments, this.state.idCursors[0])});
     }
   }
 
@@ -182,35 +209,12 @@ class ModerationQueue extends React.Component {
     this.listRef.recomputeRowHeights();
   }, 500);
 
-  // getVisibileComments returns a list containing comments
-  // which comes after the `idCursor`.
-  getVisibleComments() {
-    const {comments} = this.props;
-    const idCursor = this.state.idCursors[0];
-
-    if (!comments) {
-      return [];
-    }
-
-    const view = [];
-    let pastCursor = false;
-    comments.forEach((comment) => {
-      if (comment.id === idCursor) {
-        pastCursor = true;
-      }
-      if (pastCursor) {
-        view.push(comment);
-      }
-    });
-    return view;
-  }
-
   rowRenderer = ({
     index,       // Index of row within collection
     parent,
     style        // Style object to be applied to row (to position it)
   }) => {
-    const view = this.getVisibleComments();
+    const view = this.state.view;
     const rowCount = view.length + 1;
     if (index === rowCount - 1) {
       return (
@@ -305,13 +309,13 @@ class ModerationQueue extends React.Component {
       );
     }
 
-    const view = this.getVisibleComments();
+    const view = this.state.view;
     const hasMore = this.props.comments.length < this.props.commentCount;
 
     return (
       <div className={styles.root}>
         <ViewMore
-          viewMore={this.viewNewComments}
+          viewMore={() => this.viewNewComments()}
           count={comments.length - view.length}
         />
         <WindowScroller onResize={this.reflowList}>
