@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-bottom: -8px;
 }
 
 .viewMore {
@@ -15,7 +14,8 @@
   cursor: pointer;
   text-transform: capitalize;
   margin: 0;
-  margin-bottom: 8px;
+  margin-top: -18px;
+  margin-bottom: -4px;
 }
 
 .viewMore:hover {

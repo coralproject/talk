@@ -3,6 +3,7 @@
   list-style: none;
   display: block;
   min-height: 650px;
+  margin-top: 16px;
 }
 
 :global(html) {
