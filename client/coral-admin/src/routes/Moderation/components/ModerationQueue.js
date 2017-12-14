@@ -377,9 +377,9 @@ class ModerationQueue extends React.Component {
             <List
               ref={this.handleListRef}
               autoHeight
+              className={styles.list}
               style={{
                 width: '100%',
-                outline: 'none',
               }}
               height={height}
               width={1280}
