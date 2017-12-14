@@ -48,6 +48,9 @@ export default withFragments({
         edited
       }
       status_history {
+        assigned_by {
+          id
+        }
         type
       }
       hasParent
