@@ -166,8 +166,9 @@ class ModerationQueue extends React.Component {
     const {comments: prevComments} = this.props;
     const {comments: nextComments} = next;
 
-    if (!prevComments && nextComments || !prevComments.length && nextComments.length) {
-      this.setState(resetCursors);
+    // New comments where added and our cursor list is incomplete.
+    if (this.state.idCursors.length < 2 && nextComments.length > this.state.idCursors.length) {
+      this.setState(resetCursors(this.state, next));
       return;
     }
 
