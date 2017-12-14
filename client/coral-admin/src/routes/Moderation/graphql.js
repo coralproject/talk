@@ -45,17 +45,14 @@ function addCommentToQueue(root, queue, comment, sortOrder) {
     return root;
   }
 
-  const sortAlgo = sortOrder === 'ASC' ? ascending : descending;
   const changes = {
     [`${queue}Count`]: {$set: root[`${queue}Count`] + 1},
   };
 
   if (shouldCommentBeAdded(root, queue, comment, sortOrder)) {
-    const nodes = root[queue].nodes.concat(comment).sort(sortAlgo);
+    const nodes = root[queue].nodes.concat(comment);
     changes[queue] = {
       nodes: {$set: nodes},
-      startCursor: {$set: nodes[0].created_at},
-      endCursor: {$set: nodes[nodes.length - 1].created_at},
     };
   }
 
