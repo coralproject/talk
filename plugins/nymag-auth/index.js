@@ -10,13 +10,13 @@
 const UserModel = require('../../models/user');
 
 module.exports.tokenUserNotFound = ({jwt}) => {
-  if (!jwt) {
-    return;
-  }
-
   const id = jwt.sub,
     username = jwt.usn,
     email = jwt.eml;
+
+  if (!username || !id || !email) {
+    return;
+  }
 
   return UserModel.findOneAndUpdate({
     id
