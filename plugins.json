@@ -1,6 +1,5 @@
 {
   "server": [
-    "talk-plugin-auth",
     "nymag-auth",
     "vulture-insider",
     "talk-plugin-featured-comments",
@@ -8,7 +7,6 @@
     "talk-plugin-like"
   ],
   "client": [
-    "talk-plugin-auth",
     "vulture-insider",
     "talk-plugin-author-menu",
     "talk-plugin-comment-content",
