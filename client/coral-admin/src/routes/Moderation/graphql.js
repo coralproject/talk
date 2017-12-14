@@ -55,7 +55,17 @@ function addCommentToQueue(root, queue, comment, sortOrder) {
   };
 
   if (shouldCommentBeAdded(root, queue, comment, sortOrder)) {
-    const nodes = root[queue].nodes.concat(comment);
+    const cursor = new Date(root[queue].startCursor);
+    const date = new Date(comment.created_at);
+
+    let append = sortOrder === 'ASC'
+      ? date >= cursor
+      : date <= cursor;
+
+    const nodes = append
+      ? root[queue].nodes.concat(comment)
+      : [comment].concat(...root[queue].nodes);
+
     changes[queue] = {
       nodes: {$set: nodes},
     };
