@@ -4,7 +4,7 @@ const kue = require('./kue');
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
-const {applyLocals} = require('./locals');
+const {attachLocals} = require('../middleware/staticTemplate');
 
 const i18n = require('./i18n');
 
@@ -97,7 +97,7 @@ const mailer = module.exports = {
     // Prefix the subject with `[Talk]`.
     subject = `[Talk] ${subject}`;
 
-    applyLocals(locals);
+    attachLocals(locals);
 
     // Attach the templating function.
     locals['t'] = i18n.t;

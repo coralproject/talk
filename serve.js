@@ -75,9 +75,6 @@ function normalizePort(val) {
 
 async function onListening() {
 
-  // Start the cache instance.
-  await cache.init();
-
   let addr = server.address();
   let bind = typeof addr === 'string'
     ? `pipe ${addr}`
@@ -88,7 +85,10 @@ async function onListening() {
 /**
  * Start the app.
  */
-async function serve({jobs = true, websockets = true} = {}) {
+async function serve({jobs = false, websockets = false} = {}) {
+
+  // Start the cache instance.
+  await cache.init();
 
   try {
 

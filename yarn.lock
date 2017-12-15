@@ -11,6 +11,12 @@
     eslint-plugin-promise "^3.3.1"
     eslint-plugin-react "^7.3.0"
 
+"@coralproject/graphql-anywhere-optimized@^0.1.0":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@coralproject/graphql-anywhere-optimized/-/graphql-anywhere-optimized-0.1.5.tgz#67c862bf908ea717d9521ea76266b5bc9f109c65"
+  dependencies:
+    graphql-ast-tools "^0.2.2"
+
 "@kadira/storybook-deployer@^1.1.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@kadira/storybook-deployer/-/storybook-deployer-1.2.0.tgz#1708f5cb37fa08ab4173b1bd99df6f4717dfae12"
@@ -271,6 +277,10 @@ apollo-link-core@^0.5.0:
     graphql "^0.10.3"
     graphql-tag "^2.4.2"
     zen-observable-ts "^0.4.4"
+
+apollo-utilities@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.0.3.tgz#bf435277609850dd442cf1d5c2e8bc6655eaa943"
 
 app-module-path@^2.2.0:
   version "2.2.0"
@@ -3590,9 +3600,15 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-graphql-anywhere@^3.0.1, graphql-anywhere@^3.1.0:
+graphql-anywhere@^3.0.1:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/graphql-anywhere/-/graphql-anywhere-3.1.0.tgz#3ea0d8e8646b5cee68035016a9a7557c15c21e96"
+
+graphql-ast-tools@0.2.3, graphql-ast-tools@^0.2.2:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/graphql-ast-tools/-/graphql-ast-tools-0.2.3.tgz#447fb05905ebb90f0a5bba81d5715249e9937135"
+  dependencies:
+    apollo-utilities "^1.0.3"
 
 graphql-docs@0.2.0:
   version "0.2.0"
