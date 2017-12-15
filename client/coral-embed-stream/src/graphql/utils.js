@@ -38,7 +38,7 @@ function applyToCommentsOrigin(root, callback) {
 function findAndInsertComment(parent, comment) {
   const isAsset = parent.__typename === 'Asset';
   const [connectionField, countField, action] = isAsset
-    ? ['comments', 'commentCount', '$unshift']
+    ? ['comments', 'totalCommentCount', '$unshift']
     : ['replies', 'replyCount', '$push'];
 
   if (
@@ -79,7 +79,7 @@ export function insertCommentIntoEmbedQuery(root, comment) {
 
 function findAndRemoveComment(parent, id) {
   const [connectionField, countField] = parent.__typename === 'Asset'
-    ? ['comments', 'commentCount']
+    ? ['comments', 'totalCommentCount']
     : ['replies', 'replyCount'];
 
   const connection = parent[connectionField];
