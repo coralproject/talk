@@ -207,7 +207,7 @@ export default class FlagButton extends Component {
                     }
                     {
                       this.state.reason && <div>
-                        <label htmlFor={'message'} className={`${name}-popup-radio-label`}>
+                        <label htmlFor={'message'} className={`${name}-popup-textarea-label`}>
                           {t('flag_reason')}
                         </label><br/>
                         <textarea

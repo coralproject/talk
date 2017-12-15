@@ -456,3 +456,8 @@ Could be read as:
   added back to the queue.
 - At the moment of writing, behavior is not attached to the flagging
   reliability, but it is recorded.
+
+## TALK_DISABLE_IGNORE_FLAGS_AGAINST_STAFF
+
+When `TRUE`, staff members will have their accounts and comments moderated the
+same as any other user in the system. (Default `FALSE`)

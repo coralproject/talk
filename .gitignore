@@ -50,5 +50,6 @@ plugins/*
 !plugins/talk-plugin-flag-details
 !plugins/talk-plugin-slack-notifications
 !plugins/vulture-insider
+!plugins/nymag-auth
 
 **/node_modules/*

@@ -1,17 +1,20 @@
-const express = require('express');
-const path = require('path');
-const plugins = require('../services/plugins');
-const debug = require('debug')('talk:routes');
-const authentication = require('../middleware/authentication');
-const {passport} = require('../services/passport');
-const pubsub = require('../middleware/pubsub');
-const i18n = require('../services/i18n');
-const enabled = require('debug').enabled;
-const errors = require('../errors');
-const {createGraphOptions} = require('../graph');
 const accepts = require('accepts');
 const apollo = require('graphql-server-express');
+const authentication = require('../middleware/authentication');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const debug = require('debug')('talk:routes');
+const enabled = require('debug').enabled;
+const errors = require('../errors');
+const express = require('express');
+const i18n = require('../services/i18n');
+const path = require('path');
+const plugins = require('../services/plugins');
+const pubsub = require('../middleware/pubsub');
 const {DISABLE_STATIC_SERVER} = require('../config');
+const {createGraphOptions} = require('../graph');
+const {passport} = require('../services/passport');
+const staticTemplate = require('../middleware/staticTemplate');
 
 const router = express.Router();
 
@@ -62,8 +65,21 @@ if (!DISABLE_STATIC_SERVER) {
 }
 
 //==============================================================================
+// STATIC ROUTES
+//==============================================================================
+
+router.use('/admin', staticTemplate, require('./admin'));
+router.use('/embed', staticTemplate, require('./embed'));
+
+//==============================================================================
 // PASSPORT MIDDLEWARE
 //==============================================================================
+
+// Parse the cookies on the request.
+router.use(cookieParser());
+
+// Parse the body json if it's there.
+router.use(bodyParser.json());
 
 const passportDebug = require('debug')('talk:passport');
 
@@ -112,13 +128,11 @@ if (process.env.NODE_ENV !== 'production') {
 //==============================================================================
 
 router.use('/api/v1', require('./api'));
-router.use('/admin', require('./admin'));
-router.use('/embed', require('./embed'));
 
+// Development routes.
 if (process.env.NODE_ENV !== 'production') {
-  router.use('/assets', require('./assets'));
-
-  router.get('/', (req, res) => {
+  router.use('/assets', staticTemplate, require('./assets'));
+  router.get('/', staticTemplate, (req, res) => {
     return res.render('article', {
       title: 'Coral Talk',
       asset_url: '',

@@ -1,13 +1,12 @@
 {
   "server": [
-    "talk-plugin-auth",
+    "nymag-auth",
     "vulture-insider",
     "talk-plugin-featured-comments",
     "talk-plugin-offtopic",
-    "vulture-insider"
+    "talk-plugin-like"
   ],
   "client": [
-    "talk-plugin-auth",
     "vulture-insider",
     "talk-plugin-author-menu",
     "talk-plugin-comment-content",
@@ -21,9 +20,11 @@
     "talk-plugin-most-liked",
     "talk-plugin-remember-sort",
     "talk-plugin-permalink",
+    "talk-plugin-like",
     "talk-plugin-sort-most-replied",
     "talk-plugin-sort-newest",
     "talk-plugin-sort-oldest",
-    "talk-plugin-viewing-options"
+    "talk-plugin-viewing-options",
+    "talk-plugin-remember-sort"
   ]
 }
