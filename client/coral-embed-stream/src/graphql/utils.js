@@ -142,17 +142,21 @@ export function findCommentWithId(nodes, id) {
 }
 
 export function findCommentInEmbedQuery(root, callbackOrId) {
+  return findCommentInAsset(root.asset, callbackOrId);
+}
+
+export function findCommentInAsset(asset, callbackOrId) {
   let callback = callbackOrId;
   if (typeof callbackOrId === 'string') {
     callback = (node) => node.id === callbackOrId;
   }
-  if (root.asset.comment) {
-    return findComment([getTopLevelParent(root.asset.comment)], callback);
+  if (asset.comment) {
+    return findComment([getTopLevelParent(asset.comment)], callback);
   }
-  if (!root.asset.comments) {
+  if (!asset.comments) {
     return false;
   }
-  return findComment(root.asset.comments.nodes, callback);
+  return findComment(asset.comments.nodes, callback);
 }
 
 function findAndInsertFetchedComments(parent, comments, parent_id) {

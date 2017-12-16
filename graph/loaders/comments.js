@@ -82,54 +82,52 @@ const getParentCountsByAssetID = (context, asset_ids) => {
 
 /**
  * Retrieves the count of comments based on the passed in query.
- * @param  {Object} context   graph context
+ * @param  {Object} ctx   graph context
  * @param  {Object} query     query to execute against the comments collection
  *                            to compute the counts
  * @return {Promise}          resolves to the counts of the comments from the
  *                            query
  */
-const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, author_id, tags, action_type}) => {
-  let query = CommentModel.find();
+const getCommentCountByQuery = (ctx, options) => {
+  const {statuses, asset_id, parent_id, author_id, tags, action_type} = options;
 
   // If user queries for statuses other than NONE and/or ACCEPTED statuses, it needs
   // special privileges.
   if (
     (!statuses || statuses.some((status) => !['NONE', 'ACCEPTED'].includes(status))) &&
-    (context.user == null || !context.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS))
+    (ctx.user == null || !ctx.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS))
   ) {
     return null;
   }
 
-  if (statuses && statuses.length > 0) {
-    query = query.where({status: {$in: statuses}});
-  }
-
-  if (ids) {
-    query = query.where({id: {$in: ids}});
-  }
+  const query = CommentModel.find();
 
   if (asset_id != null) {
-    query = query.where({asset_id});
+    query.merge({asset_id});
   }
 
   if (parent_id !== undefined) {
-    query = query.where({parent_id});
+    query.merge({parent_id});
   }
 
   if (author_id) {
-    query = query.where({author_id});
+    query.merge({author_id});
   }
 
-  if (context.user != null && context.user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
-    query = query.where({
+  if (ctx.user != null && ctx.user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
+    query.merge({
       [`action_counts.${sc(action_type.toLowerCase())}`]: {
         $gt: 0,
       },
     });
   }
 
-  if (tags) {
-    query = query.find({
+  if (statuses && statuses.length > 0) {
+    query.merge({status: {$in: statuses}});
+  }
+
+  if (tags && tags.length > 0) {
+    query.merge({
       'tags.tag.name': {
         $in: tags,
       },
@@ -289,7 +287,7 @@ const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, auth
   let comments = CommentModel.find();
 
   // If user queries for statuses other than NONE and/or ACCEPTED statuses, it needs
-  // special priviledges.
+  // special privileges.
   if (
     (!statuses || statuses.some((status) => !['NONE', 'ACCEPTED'].includes(status))) &&
     (ctx.user == null || !ctx.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS))

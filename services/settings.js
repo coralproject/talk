@@ -1,5 +1,5 @@
 const SettingModel = require('../models/setting');
-const hcache = require('./hcache');
+const cache = require('./cache');
 const errors = require('../errors');
 const {dotize} = require('./utils');
 
@@ -35,7 +35,7 @@ module.exports = class SettingsService {
     if (process.env.NODE_ENV === 'production') {
 
       // When in production, wrap the settings retrieval with a cache.
-      const settings = await hcache.wrap('settings', fields, 60, () => retrieve(fields));
+      const settings = await cache.h.wrap('settings', fields, 60, () => retrieve(fields));
 
       return new SettingModel(settings);
     }
@@ -58,7 +58,7 @@ module.exports = class SettingsService {
     });
 
     if (process.env.NODE_ENV === 'production') {
-      await hcache.del('settings');
+      await cache.h.invalidate('settings');
     }
 
     return updatedSettings;
