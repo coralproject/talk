@@ -19,6 +19,7 @@ import {Spinner} from 'coral-ui';
 import {can} from 'coral-framework/services/perms';
 import {
   findCommentInEmbedQuery,
+  findCommentInAsset,
   insertCommentIntoEmbedQuery,
   removeCommentFromEmbedQuery,
   insertFetchedCommentsIntoEmbedQuery,
@@ -108,7 +109,7 @@ class StreamContainer extends React.Component {
   }
 
   loadNewReplies = (parent_id) => {
-    const comment = findCommentInEmbedQuery(this.props.root, parent_id);
+    const comment = findCommentInAsset(this.props.asset, parent_id);
 
     return this.props.data.fetchMore({
       query: LOAD_MORE_QUERY,

@@ -108,6 +108,12 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
       this.subscriptionQueue = [];
     }, 1000);
 
+    handleOnLoaded() {
+
+      // Trigger subscription queue processing after query has loaded.
+      setTimeout(() => this.processSubscriptionQueue(), 1000);
+    }
+
     subscribeToMoreThrottled = ({document, variables, updateQuery}) => {
 
       // We need to add the typenames and resolve fragments.
@@ -122,8 +128,12 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
         if (data) {
           this.subscriptionQueue.push([updateQuery, data]);
 
-          // Triggers the throttled subscription queue processor.
-          this.processSubscriptionQueue();
+          // Only trigger handler when query has been loaded.
+          if (!this.data.loading) {
+
+            // Triggers the throttled subscription queue processor.
+            this.processSubscriptionQueue();
+          }
         }
       };
 
@@ -145,6 +155,11 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
 
       // If data was previously set, we update it in a immutable way.
       if (this.data) {
+
+        if (this.data.loading && !data.loading) {
+          this.handleOnLoaded();
+        }
+
         if (this.data.networkStatus !== data.networkStatus ||
             this.data.loading !== data.loading ||
             this.data.error !== data.error ||
