@@ -9,6 +9,10 @@ en:
     notify_self_featured: 'The comment from {0} is now featured and approved'
     notify_featured: '{0} featured and approved comment "{1}"'
     notify_unfeatured: '{0} unfeatured comment "{1}"'
+    feature_comment: Feature comment?
+    are_you_sure: Are you sure you would like to feature this comment?
+    cancel: Cancel
+    yes_feature_comment: Yes, feature comment
 es:
   talk-plugin-featured-comments:
     un_feature: Desmarcar
@@ -17,3 +21,7 @@ es:
     featured_comments: Comentarios Remarcados
     go_to_conversation: Ir al comentario
     tooltip_description: Comentarios seleccionados por nuestro equipo que valen la pena ser leidos
+    feature_comment: Destacar comentario?
+    are_you_sure: Está seguro que desea destacar este comentario?
+    cancel: Cancelar
+    yes_feature_comment: Si, destacar comentario
