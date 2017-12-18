@@ -29,6 +29,10 @@ export default class ModTag extends React.Component {
     });
   }
 
+  openFeaturedDialog = (comment, asset) => {
+    this.props.openFeaturedDialog(comment, asset);
+  }
+
   render() {
     const {alreadyTagged, deleteTag, comment, asset} = this.props;
 
@@ -42,7 +46,7 @@ export default class ModTag extends React.Component {
       </span>
     ) : (
       <span className={cn(styles.tag, {[styles.featured]: alreadyTagged})}
-        onClick={() => this.props.openFeaturedDialog(comment, asset)} >
+        onClick={() => this.openFeaturedDialog(comment, asset)} >
         <Icon name="star_outline" className={cn(styles.tagIcon)} />
         {alreadyTagged ? t('talk-plugin-featured-comments.featured') : t('talk-plugin-featured-comments.feature')}
       </span>
