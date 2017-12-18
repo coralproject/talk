@@ -156,6 +156,7 @@ class Moderation extends Component {
             root={this.props.root}
             currentAsset={asset}
             comments={comments.nodes}
+            hasNextPage={comments.hasNextPage}
             activeTab={activeTab}
             singleView={moderation.singleView}
             selectedCommentId={moderation.selectedCommentId}

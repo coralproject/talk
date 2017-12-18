@@ -274,14 +274,13 @@ class ModerationQueue extends React.Component {
     // Last element of list is our AutoLoadMore component and contains an
     // id indicating that this is the last element in list.
     if (index === rowCount - 1) {
-      const hasMore = this.getCommentCountWithoutDagling() < this.props.commentCount;
       key = 'end-of-comment-list';
       child = (
         <div
           style={style}
           id={'end-of-comment-list'}
         >
-          {hasMore && <AutoLoadMore
+          {this.props.hasNextPage && <AutoLoadMore
             loadMore={this.props.loadMore}
             loading={this.props.isLoadingMore}
           />}
@@ -427,6 +426,8 @@ ModerationQueue.propTypes = {
   selectedCommentId: PropTypes.string,
   singleView: PropTypes.bool,
   isLoadingMore: PropTypes.bool,
+  hasNextPage: PropTypes.bool,
+  comments: PropTypes.array,
   activeTab: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,

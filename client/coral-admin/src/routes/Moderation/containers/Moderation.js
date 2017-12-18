@@ -207,7 +207,6 @@ class ModerationContainer extends Component {
           [tab]: {
             nodes: {$push: comments.nodes},
             hasNextPage: {$set: comments.hasNextPage},
-            startCursor: {$set: comments.startCursor},
             endCursor: {$set: comments.endCursor},
           },
         });

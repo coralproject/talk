@@ -45,7 +45,7 @@ function shouldCommentBeAdded(root, queue, comment, sortOrder) {
     : new Date(comment.created_at) >= cursor;
 }
 
-function addCommentToQueue(root, queue, comment, sortOrder) {
+function addCommentToQueue(root, queue, comment, sortOrder, cleanup) {
   if (queueHasComment(root, queue, comment.id)) {
     return root;
   }
@@ -54,24 +54,32 @@ function addCommentToQueue(root, queue, comment, sortOrder) {
     [`${queue}Count`]: {$set: root[`${queue}Count`] + 1},
   };
 
-  if (shouldCommentBeAdded(root, queue, comment, sortOrder)) {
-    const cursor = new Date(root[queue].startCursor);
-    const date = new Date(comment.created_at);
-
-    let append = sortOrder === 'ASC'
-      ? date >= cursor
-      : date <= cursor;
-
-    const nodes = append
-      ? root[queue].nodes.concat(comment)
-      : [comment].concat(...root[queue].nodes);
-
-    changes[queue] = {
-      nodes: {$set: nodes},
-    };
+  if (!shouldCommentBeAdded(root, queue, comment, sortOrder)) {
+    return update(root, changes);
   }
 
-  return update(root, changes);
+  const cursor = new Date(root[queue].startCursor);
+  const date = new Date(comment.created_at);
+
+  let append = sortOrder === 'ASC'
+    ? date >= cursor
+    : date <= cursor;
+
+  const nodes = append
+    ? root[queue].nodes.concat(comment)
+    : [comment].concat(...root[queue].nodes);
+
+  changes[queue] = {
+    nodes: {$set: nodes},
+  };
+
+  const next = update(root, changes);
+
+  if (!cleanup) {
+    return next;
+  }
+
+  return cleanUpQueue(next, queue, sortOrder);
 }
 
 function sortComments(nodes, sortOrder) {
@@ -138,17 +146,31 @@ function applyCommentChanges(root, comment, queueConfig) {
 
 /**
  * Remove dangling comments, sort and resize queues.
+ * If queueConfig is omitted, dangling comments are not removed.
  */
 export function cleanUpQueue(root, queue, sortOrder, queueConfig) {
+  let nodes = root[queue].nodes;
+  let hasNextPage = root[queue].hasNextPage;
+
+  if (queueConfig) {
+    nodes = root[queue].nodes.filter((comment) => commentBelongToQueue(queue, comment, queueConfig));
+  }
+
+  nodes = sortComments(
+    nodes,
+    sortOrder,
+  );
+
+  if (nodes.length > 2) {
+    nodes = nodes.slice(0, 2);
+    hasNextPage = true;
+  }
+
   return update(root, {
     [queue]: {
-      nodes: {
-        $apply: (nodes) =>
-          sortComments(
-            nodes.filter((comment) => commentBelongToQueue(queue, comment, queueConfig)),
-            sortOrder,
-          ).slice(0, 100),
-      },
+      nodes: {$set: nodes},
+      endCursor: {$set: nodes[nodes.length - 1].created_at},
+      hasNextPage: {$set: hasNextPage},
     },
   });
 }
@@ -180,7 +202,7 @@ export function handleCommentChange(root, comment, sortOrder, notify, queueConfi
   Object.keys(queueConfig).forEach((queue) => {
     if (nextQueues.indexOf(queue) >= 0) {
       if (!queueHasComment(next, queue, comment.id)) {
-        next = addCommentToQueue(next, queue, comment, sortOrder);
+        next = addCommentToQueue(next, queue, comment, sortOrder, activeQueue !== queue);
         if (notify && activeQueue === queue && isEndOfListVisible(root, queue)) {
           showNotificationOnce();
         }
