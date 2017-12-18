@@ -9,7 +9,7 @@ import Button from 'coral-ui/components/Button';
 const FeaturedDialog = ({showFeaturedDialog, closeFeaturedDialog, postTag}) => (
   <Dialog
     className={cn(styles.dialog, 'talk-featured-dialog')}
-    id="banUserDialog"
+    id="talkFeaturedDialog"
     open={showFeaturedDialog}
     onCancel={closeFeaturedDialog} >
     <span className={styles.close} onClick={closeFeaturedDialog}>×</span>
@@ -41,8 +41,7 @@ const FeaturedDialog = ({showFeaturedDialog, closeFeaturedDialog, postTag}) => (
 );
 
 FeaturedDialog.propTypes = {
-  showFeaturedDialog: PropTypes.bool,
-  postTag: PropTypes.func.isRequired,
+  showFeaturedDialog: PropTypes.bool.isRequired,
   closeFeaturedDialog: PropTypes.func.isRequired,
 };
 

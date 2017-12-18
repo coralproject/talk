@@ -6,6 +6,8 @@ import {closeFeaturedDialog} from '../actions';
 
 const mapStateToProps = ({talkPluginFeaturedComments: state}) => ({
   showFeaturedDialog: state.showFeaturedDialog,
+  comment: state.comment,
+  asset: state.asset,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -14,8 +16,8 @@ const mapDispatchToProps = (dispatch) =>
   }, dispatch);
 
 const enhance = compose(
-  withTags('featured'),
   connect(mapStateToProps, mapDispatchToProps),
+  withTags('featured'),
 );
 
 export default enhance(FeaturedDialog);
