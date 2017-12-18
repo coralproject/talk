@@ -25,8 +25,28 @@ class SortedWindowHandler {
    */
   windowHandles(callback) {
     this.client.windowHandles((result) => {
-      this.handles = this.handles.filter((handle) => result.value.includes(handle));
-      const remaining = result.value.filter((handle) => !this.handles.includes(handle));
+      if (Array.isArray(result.value)) {
+        this.handles = this.handles.filter((handle) => {
+          for (let i = 0; i < result.value.length; i++) {
+            if (result.value[i] === handle) {
+              return true;
+            }
+          }
+
+          return false;
+        });
+      } else {
+        this.handles = [];
+      }
+      const remaining = result.value.filter((handle) => {
+        for (let i = 0; i < this.handles.length; i++) {
+          if (this.handles[i] === handle) {
+            return false;
+          }
+        }
+
+        return true;
+      });
       if (remaining.length === 1) {
         this.handles.push(remaining[0]);
       }
