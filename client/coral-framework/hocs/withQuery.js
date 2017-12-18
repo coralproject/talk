@@ -49,8 +49,9 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
     memoized = null;
     resolvedDocument = null;
     lastNetworkStatus = null;
-    data = null;
     name = '';
+    apolloData = null;
+    data = null;
 
     // Pending subscription data.
     subscriptionQueue = [];
@@ -151,6 +152,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
     };
 
     nextData(data) {
+      this.apolloData = data;
       this.emitWhenNeeded(data);
 
       // If data was previously set, we update it in a immutable way.
@@ -181,16 +183,24 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
           variables: data.variables,
           networkStatus: data.networkStatus,
           loading: data.loading,
-          startPolling: data.startPolling,
-          stopPolling: data.stopPolling,
-          refetch: data.refetch,
-          updateQuery: data.updateQuery,
           subscribeToMoreThrottled: this.subscribeToMoreThrottled,
+          startPolling: (...args) => {
+            return this.apolloData.startPolling(...args);
+          },
+          stopPolling: (...args) => {
+            return this.apolloData.stopPolling(...args);
+          },
+          updateQuery: (...args) => {
+            return this.apolloData.updateQuery(...args);
+          },
+          refetch: (...args) => {
+            return this.apolloData.refetch(...args);
+          },
           subscribeToMore: (stmArgs) => {
             const resolvedDocument = this.resolveDocument(stmArgs.document);
 
             // Resolve document fragments before passing it to `apollo-client`.
-            return data.subscribeToMore({
+            return this.apolloData.subscribeToMore({
               ...stmArgs,
               document: resolvedDocument,
               onError: (err) => {
@@ -209,7 +219,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
               {variables: lmArgs.variables});
 
             // Resolve document fragments before passing it to `apollo-client`.
-            return data.fetchMore({
+            return this.apolloData.fetchMore({
               ...lmArgs,
               query: resolvedDocument,
             })

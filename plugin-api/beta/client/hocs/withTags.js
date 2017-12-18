@@ -87,11 +87,12 @@ export default (tag, options = {}) => hoistStatics((WrappedComponent) => {
     }
 
     render() {
-      const {root, asset, comment, user, config} = this.props;
+      const {root, asset, comment, user, config, ...rest} = this.props;
 
       const alreadyTagged = isTagged(comment.tags, TAG);
 
       return <WrappedComponent
+        {...rest}
         root={root}
         asset={asset}
         comment={comment}
@@ -134,9 +135,9 @@ export default (tag, options = {}) => hoistStatics((WrappedComponent) => {
         ${fragments.comment ? fragments.comment : ''}
       `
     }),
-    connect(mapStateToProps, mapDispatchToProps),
     withAddTag,
-    withRemoveTag
+    withRemoveTag,
+    connect(mapStateToProps, mapDispatchToProps),
   );
 
   WithTags.displayName = `WithTags(${getDisplayName(WrappedComponent)})`;

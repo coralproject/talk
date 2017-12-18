@@ -285,6 +285,7 @@ const fragments = {
         ignoredUsers {
           id
         }
+        roles
       }
       settings {
         organizationName
