@@ -6,6 +6,7 @@ import update from 'immutability-helper';
 import ModTag from './containers/ModTag';
 import ModActionButton from './containers/ModActionButton';
 import ModSubscription from './containers/ModSubscription';
+import FeaturedConfirmation from './containers/FeaturedConfirmation';
 import {gql} from 'react-apollo';
 
 import {findCommentInEmbedQuery} from 'coral-embed-stream/src/graphql/utils';
@@ -18,7 +19,7 @@ export default {
     streamTabPanes: [TabPane],
     commentInfoBar: [Tag],
     moderationActions: [ModActionButton],
-    adminModeration: [ModSubscription],
+    adminModeration: [ModSubscription, FeaturedConfirmation],
     adminCommentInfoBar: [ModTag],
   },
   mutations: {
