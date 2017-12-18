@@ -193,7 +193,12 @@ export default {
       },
       updateQueries: {
         CoralEmbedStream_Embed: (prev, {mutationResult: {data: {createComment: {comment}}}}) => {
-          if (prev.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED' || comment.status === 'SYSTEM_WITHHELD') {
+          if (
+            prev.me.roles.indexOf('ADMIN') === -1 && prev.asset.settings.moderation === 'PRE' ||
+            comment.status === 'PREMOD' ||
+            comment.status === 'REJECTED' ||
+            comment.status === 'SYSTEM_WITHHELD'
+          ) {
             return prev;
           }
           return insertCommentIntoEmbedQuery(prev, comment);
