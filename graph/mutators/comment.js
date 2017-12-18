@@ -178,7 +178,7 @@ const createComment = async (context, {tags = [], body, asset_id, parent_id = nu
   // just added a new comment, hence the counts should be updated. We should
   // perform these increments in the event that we do have a new comment that
   // is approved or without a comment.
-  if (status === 'NONE' || status === 'APPROVED') {
+  if (status === 'NONE' || status === 'ACCEPTED') {
     if (parent_id === null) {
       Comments.parentCountByAssetID.incr(asset_id);
     }
