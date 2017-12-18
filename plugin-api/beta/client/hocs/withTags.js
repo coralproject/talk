@@ -92,6 +92,7 @@ export default (tag, options = {}) => hoistStatics((WrappedComponent) => {
       const alreadyTagged = isTagged(comment.tags, TAG);
 
       return <WrappedComponent
+        {...rest}
         root={root}
         asset={asset}
         comment={comment}
@@ -100,7 +101,6 @@ export default (tag, options = {}) => hoistStatics((WrappedComponent) => {
         postTag={this.postTag}
         deleteTag={this.deleteTag}
         config={config}
-        {...rest}
       />;
     }
   }
