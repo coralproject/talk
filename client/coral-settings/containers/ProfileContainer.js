@@ -61,7 +61,7 @@ class ProfileContainer extends Component {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
     }
 
-    if (loading) {
+    if (loading || !me) {
       return <Spinner />;
     }
 
