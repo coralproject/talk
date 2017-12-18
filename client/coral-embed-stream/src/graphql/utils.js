@@ -67,13 +67,6 @@ function findAndInsertComment(parent, comment) {
 }
 
 export function insertCommentIntoEmbedQuery(root, comment) {
-
-  // Increase total comment count by one.
-  root = update(root, {
-    asset: {
-      totalCommentCount: {$apply: (c) => c + 1},
-    },
-  });
   return applyToCommentsOrigin(root, (origin) => findAndInsertComment(origin, comment));
 }
 
@@ -104,13 +97,6 @@ function findAndRemoveComment(parent, id) {
 }
 
 export function removeCommentFromEmbedQuery(root, id) {
-
-  // Decrease total comment by one.
-  root = update(root, {
-    asset: {
-      totalCommentCount: {$apply: (c) => c - 1},
-    },
-  });
   return applyToCommentsOrigin(root, (origin) => findAndRemoveComment(origin, id));
 }
 
