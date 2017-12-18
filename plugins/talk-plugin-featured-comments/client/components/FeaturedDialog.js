@@ -6,13 +6,13 @@ import styles from './FeaturedDialog.css';
 import {t} from 'plugin-api/beta/client/services';
 import Button from 'coral-ui/components/Button';
 
-const FeaturedDialog = ({open, onCancel, onPerform}) => (
+const FeaturedDialog = ({showFeaturedDialog, closeFeaturedDialog, postTag}) => (
   <Dialog
     className={cn(styles.dialog, 'talk-featured-dialog')}
     id="banUserDialog"
-    open={open}
-    onCancel={onCancel} >
-    <span className={styles.close} onClick={onCancel}>×</span>
+    open={showFeaturedDialog}
+    onCancel={closeFeaturedDialog} >
+    <span className={styles.close} onClick={closeFeaturedDialog}>×</span>
     <div className={styles.header}>
       <h2>
         {t('talk-plugin-featured-comments.feature_comment')}
@@ -25,14 +25,14 @@ const FeaturedDialog = ({open, onCancel, onPerform}) => (
       <Button
         className={cn(styles.cancel, 'talk-featured-dialog-button-cancel')}
         cStyle="cancel"
-        onClick={onCancel}
+        onClick={closeFeaturedDialog}
         raised >
         {t('talk-plugin-featured-comments.cancel')}
       </Button>
       <Button 
         className={cn(styles.perform, 'talk-featured-dialog-button-confirm')}
         cStyle="black"
-        onClick={onPerform}
+        onClick={postTag}
         raised >
         {t('talk-plugin-featured-comments.yes_feature_comment')}
       </Button>
@@ -41,9 +41,9 @@ const FeaturedDialog = ({open, onCancel, onPerform}) => (
 );
 
 FeaturedDialog.propTypes = {
-  open: PropTypes.bool,
-  onPerform: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  showFeaturedDialog: PropTypes.bool,
+  postTag: PropTypes.func.isRequired,
+  closeFeaturedDialog: PropTypes.func.isRequired,
 };
 
 export default FeaturedDialog;
