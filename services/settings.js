@@ -2,6 +2,7 @@ const SettingModel = require('../models/setting');
 const cache = require('./cache');
 const errors = require('../errors');
 const {dotize} = require('./utils');
+const {SETTINGS_CACHE_TIME} = require('../config');
 
 /**
  * The selector used to uniquely identify the settings document.
@@ -35,7 +36,7 @@ module.exports = class SettingsService {
     if (process.env.NODE_ENV === 'production') {
 
       // When in production, wrap the settings retrieval with a cache.
-      const settings = await cache.h.wrap('settings', fields, 60, () => retrieve(fields));
+      const settings = await cache.h.wrap('settings', fields, SETTINGS_CACHE_TIME / 1000, () => retrieve(fields));
 
       return new SettingModel(settings);
     }
