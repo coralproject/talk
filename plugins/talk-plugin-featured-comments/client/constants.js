@@ -1,0 +1,4 @@
+const prefix = 'TALK_FEATURED_COMMENTS_ACTIONS';
+
+export const OPEN_FEATURED_DIALOG = `${prefix}_OPEN_FEATURED_DIALOG`;
+export const CLOSE_FEATURED_DIALOG = `${prefix}_CLOSE_FEATURED_DIALOG`;
