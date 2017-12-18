@@ -24,6 +24,7 @@ const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha 
 const ActionsService = require('./actions');
 const MailerService = require('./mailer');
 const Wordlist = require('./wordlist');
+const i18n = require('./i18n');
 const Domainlist = require('./domainlist');
 const {escapeRegExp} = require('./regex');
 
@@ -430,16 +431,14 @@ module.exports = class UsersService {
     if (status === 'BANNED') {
       let localProfile = user.profiles.find((profile) => profile.provider === 'local');
       if (localProfile) {
-        const options =
-          {
-            template: 'banned',              // needed to know which template to render!
-            locals: {                            // specifies the template locals.
-              body: 'In accordance with The Coral Project’s community guidelines, your account has been banned. You are now longer allowed to comment, flag or engage with our community.'
-            },
-            subject: 'Your account has been banned',
-            to: localProfile.id  // This only works if the user has registered via e-mail.
-            // We may want a standard way to access a user's e-mail address in the future
-          };
+        const options = {
+          template: 'banned',
+          locals: {
+            body: i18n.t('email.banned.body'),
+          },
+          subject: i18n.t('email.banned.subject'),
+          to: localProfile.id
+        };
         await MailerService.sendSimple(options);
       }
     }
@@ -467,16 +466,14 @@ module.exports = class UsersService {
     if (message) {
       let localProfile = user.profiles.find((profile) => profile.provider === 'local');
       if (localProfile) {
-        const options =
-          {
-            template: 'suspension',              // needed to know which template to render!
-            locals: {                            // specifies the template locals.
-              body: message
-            },
-            subject: 'Your account has been suspended',
-            to: localProfile.id  // This only works if the user has registered via e-mail.
-            // We may want a standard way to access a user's e-mail address in the future
-          };
+        const options = {
+          template: 'suspension',
+          locals: {
+            body: message
+          },
+          subject: i18n.t('email.suspended.subject'),
+          to: localProfile.id,
+        };
 
         await MailerService.sendSimple(options);
       }
@@ -509,7 +506,7 @@ module.exports = class UsersService {
           locals: {                            // specifies the template locals.
             body: message
           },
-          subject: 'Email Suspension',
+          subject: i18n.t('email.suspended.subject'),
           to: localProfile.id  // This only works if the user has registered via e-mail.
           // We may want a standard way to access a user's e-mail address in the future
         };
