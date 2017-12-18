@@ -24,6 +24,10 @@ const CONFIG = {
   // indexes.
   CREATE_MONGO_INDEXES: process.env.DISABLE_CREATE_MONGO_INDEXES !== 'TRUE',
 
+  // SETTINGS_CACHE_TIME is the time that we'll cache the settings in redis before
+  // fetching again.
+  SETTINGS_CACHE_TIME: ms(process.env.TALK_SETTINGS_CACHE_TIME || '1hr'),
+
   //------------------------------------------------------------------------------
   // JWT based configuration
   //------------------------------------------------------------------------------
