@@ -2,12 +2,11 @@ import React from 'react';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import {Dialog} from 'coral-ui';
-import styles from './FeaturedConfirmation.css';
-
+import styles from './FeaturedDialog.css';
+import {t} from 'plugin-api/beta/client/services';
 import Button from 'coral-ui/components/Button';
-import t from 'coral-framework/services/i18n';
 
-const FeaturedConfirmation = ({open, onCancel, onPerform}) => (
+const FeaturedDialog = ({open, onCancel, onPerform}) => (
   <Dialog
     className={cn(styles.dialog, 'talk-featured-dialog')}
     id="banUserDialog"
@@ -41,10 +40,10 @@ const FeaturedConfirmation = ({open, onCancel, onPerform}) => (
   </Dialog>
 );
 
-FeaturedConfirmation.propTypes = {
+FeaturedDialog.propTypes = {
   open: PropTypes.bool,
   onPerform: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
 
-export default FeaturedConfirmation;
+export default FeaturedDialog;

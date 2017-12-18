@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './ModTag.css';
 import {t} from 'plugin-api/beta/client/services';
@@ -29,15 +30,6 @@ export default class ModTag extends React.Component {
     });
   }
 
-  postTag = async () => {
-    try {
-      await this.props.postTag();
-    }
-    catch(err) {
-      this.props.notify('error', getErrorMessages(err));
-    }
-  }
-
   render() {
     const {alreadyTagged, deleteTag} = this.props;
 
@@ -51,10 +43,17 @@ export default class ModTag extends React.Component {
       </span>
     ) : (
       <span className={cn(styles.tag, {[styles.featured]: alreadyTagged})}
-        onClick={this.postTag} >
+        onClick={this.props.openFeaturedDialog} >
         <Icon name="star_outline" className={cn(styles.tagIcon)} />
         {alreadyTagged ? t('talk-plugin-featured-comments.featured') : t('talk-plugin-featured-comments.feature')}
       </span>
     );
   }
 }
+
+ModTag.propTypes = {
+  alreadyTagged: PropTypes.bool,
+  deleteTag: PropTypes.func,
+  notify: PropTypes.func,
+  openFeaturedDialog: PropTypes.func,
+};
