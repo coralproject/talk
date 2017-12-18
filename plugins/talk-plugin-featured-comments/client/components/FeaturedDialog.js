@@ -13,13 +13,9 @@ const FeaturedDialog = ({showFeaturedDialog, closeFeaturedDialog, postTag}) => (
     open={showFeaturedDialog}
     onCancel={closeFeaturedDialog} >
     <span className={styles.close} onClick={closeFeaturedDialog}>×</span>
-    <div className={styles.header}>
-      <h2>
-        {t('talk-plugin-featured-comments.feature_comment')}
-      </h2>
-    </div>
-    <div className={styles.separator}>
-      <h3>{t('talk-plugin-featured-comments.are_you_sure')}</h3>
+    <h2 className={styles.header}>{t('talk-plugin-featured-comments.feature_comment')}</h2>
+    <div className={styles.content}>
+      {t('talk-plugin-featured-comments.are_you_sure')}
     </div>
     <div className={styles.buttons}>
       <Button

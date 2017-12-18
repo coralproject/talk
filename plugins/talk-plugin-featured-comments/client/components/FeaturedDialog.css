@@ -22,7 +22,6 @@
   right: 20px;
 }
 
-  
 .cancel {
   margin-right: 5px;
 }
@@ -35,4 +34,8 @@
   margin-top: 8px;
   margin-bottom: 6px;
   text-align: right;
+}
+
+.content {
+  margin-bottom: 20px;
 }
