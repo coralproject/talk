@@ -9,7 +9,8 @@ const kue = require('kue');
 // singleton Queue instance. So you can configure and use only a single Queue
 // object within your node.js process.
 let queue = null;
-const getQueue = () => {
+let isManaging = false;
+const getQueue = ({managed = false} = {}) => {
   if (queue) {
     return queue;
   }
@@ -21,8 +22,16 @@ const getQueue = () => {
     }
   });
 
-  // Watch for stuck jobs to manage.
-  queue.watchStuckJobs(1000);
+  // If this is a managed queue, and we aren't managing yet, then start the
+  // management.
+  if (managed && !isManaging) {
+
+    // Watch for stuck jobs to manage.
+    queue.watchStuckJobs(60000);
+
+    // Mark that we've now started management routines.
+    isManaging = true;
+  }
 
   return queue;
 };
@@ -67,7 +76,9 @@ class Task {
    * Process jobs for the queue.
    */
   process(callback) {
-    return getQueue().process(this.name, callback);
+
+    // Get the queue in managed mode.
+    return getQueue({managed: true}).process(this.name, callback);
   }
 
   /**
