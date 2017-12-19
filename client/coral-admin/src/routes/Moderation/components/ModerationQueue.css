@@ -2,29 +2,15 @@
   padding: 8px 0;
   list-style: none;
   display: block;
+  min-height: 650px;
   margin-top: 16px;
 }
 
+:global(html) {
+  height: inherit;
+}
+
 .list {
-  padding: 0;
-  margin: 0;
-}
-
-.commentLeave {
-  opacity: 1.0;
-}
-
-.commentLeaveActive {
-  opacity: 0;
-  transition: opacity 800ms;
-}
-
-.commentEnter {
-  opacity: 0;
-}
-
-.commentEnterActive {
-  opacity: 1.0;
-  transition: opacity 800ms;
+  outline: none;
 }
 

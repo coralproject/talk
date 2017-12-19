@@ -65,6 +65,14 @@ const COMMENT_FEATURED_SUBSCRIPTION = gql`
     commentFeatured(asset_id: $assetId) {
       comment {
         ...${getDefinitionName(Comment.fragments.comment)}
+        status_history {
+          type
+          created_at
+          assigned_by {
+            id
+            username
+          }
+        }
       }
       user {
         id
