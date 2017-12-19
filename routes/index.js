@@ -7,7 +7,7 @@ const debug = require('debug')('talk:routes');
 const enabled = require('debug').enabled;
 const errors = require('../errors');
 const express = require('express');
-const i18n = require('../services/i18n');
+const i18n = require('../middleware/i18n');
 const path = require('path');
 const plugins = require('../services/plugins');
 const pubsub = require('../middleware/pubsub');
@@ -64,6 +64,9 @@ if (!DISABLE_STATIC_SERVER) {
   router.get('/embed.js.map', serveFile('../dist/embed.js.map'));
 }
 
+// Add the i18n middleware to all routes.
+router.use(i18n);
+
 //==============================================================================
 // STATIC ROUTES
 //==============================================================================
@@ -110,24 +113,24 @@ router.use('/api/v1/graph/ql', apollo.graphqlExpress(createGraphOptions));
 if (process.env.NODE_ENV !== 'production') {
 
   // Interactive graphiql interface.
-  router.use('/api/v1/graph/iql', (req, res) => {
+  router.use('/api/v1/graph/iql', staticTemplate, (req, res) => {
     res.render('graphiql', {
-      endpointURL: `${req.app.locals.BASE_URL}api/v1/graph/ql`
+      endpointURL: 'api/v1/graph/ql'
     });
   });
 
-  // GraphQL documention.
+  // GraphQL documentation.
   router.get('/admin/docs', (req, res) => {
     res.render('admin/docs');
   });
 
 }
 
+router.use('/api/v1', require('./api'));
+
 //==============================================================================
 // ROUTES
 //==============================================================================
-
-router.use('/api/v1', require('./api'));
 
 // Development routes.
 if (process.env.NODE_ENV !== 'production') {
@@ -183,8 +186,6 @@ router.use('/', (err, req, res, next) => {
   if (err !== errors.ErrNotFound) {
     console.error(err);
   }
-
-  i18n.init(req);
 
   if (err instanceof errors.APIError) {
     res.status(err.status);

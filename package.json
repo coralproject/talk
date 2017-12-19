@@ -1,6 +1,6 @@
 {
   "name": "talk",
-  "version": "3.8.2",
+  "version": "3.9.0",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
   "private": true,
@@ -167,6 +167,7 @@
     "react-test-renderer": "15.5",
     "react-toastify": "^1.5.0",
     "react-transition-group": "^1.1.3",
+    "react-virtualized": "9.13.0",
     "recompose": "^0.23.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",

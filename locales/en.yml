@@ -166,6 +166,11 @@ en:
     minute: "minute"
     minutes_plural: "minutes"
   email:
+    suspended:
+      subject: "Your account has been suspended"
+    banned:
+      subject: "Your account has been banned"
+      body: "In accordance with The Coral Project’s community guidelines, your account has been banned. You are now longer allowed to comment, flag or engage with our community."
     confirm:
       has_been_requested: "A email confirmation has been requested for the following account:"
       to_confirm: "To confirm the account, please visit the following link:"
@@ -315,7 +320,7 @@ en:
   no_like_bio: "I don't like this bio"
   no_like_username: "I don't like this username"
   other: Other
-  permalink: Link
+  permalink: Share
   personal_info: "This comment reveals personally identifiable information"
   post: Post
   profile: Profile

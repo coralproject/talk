@@ -50,7 +50,7 @@
       }
     }
     // We don't use safe-serialize for location, because it's not client input.
-    var fetchURL = locationQuery(otherParams, '<%= endpointURL %>');
+    var fetchURL = locationQuery(otherParams, '<%= BASE_URL %><%= endpointURL %>');
 
     // Defines a GraphQL fetcher using the fetch API.
     function graphQLFetcher(graphQLParams) {

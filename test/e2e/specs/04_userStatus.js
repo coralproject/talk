@@ -94,6 +94,14 @@ module.exports = {
     comments
       .waitForElementVisible('@restrictedMessageBox');
   },
+  'user should not be able to comment': (client) => {
+    const embedStream = client.page.embedStream();
+    const comments = embedStream.section.comments;
+
+    comments
+      .waitForElementNotPresent('@commentBoxTextarea')
+      .waitForElementNotPresent('@commentBoxPostButton');
+  },
   'user picks another username': (client) => {
     const embedStream = client.page.embedStream();
     const comments = embedStream.section.comments;
@@ -106,12 +114,12 @@ module.exports = {
       .click('@suspendedAccountSubmitButton')
       .waitForElementNotPresent('@suspendedAccountInput');
   },
-  'user should not be able to comment': (client) => {
+  'user should be able to comment': (client) => {
     const embedStream = client.page.embedStream();
     const comments = embedStream.section.comments;
 
     comments
-      .waitForElementNotPresent('@commentBoxTextarea')
-      .waitForElementNotPresent('@commentBoxPostButton');
+      .waitForElementVisible('@commentBoxTextarea')
+      .waitForElementVisible('@commentBoxPostButton');
   },
 };
