@@ -1,4 +1,8 @@
-const {makeExecutableSchema} = require('graphql-tools');
+const {
+  makeExecutableSchema,
+  addSchemaLevelResolveFunction,
+} = require('graphql-tools');
+const debug = require('debug')('talk:graph:schema');
 const {decorateWithHooks} = require('./hooks');
 const {decorateWithErrorHandler} = require('./errorHandler');
 
@@ -13,5 +17,12 @@ decorateWithHooks(schema, plugins.get('server', 'hooks'));
 
 // Handle errors like masking in production and mutation errors.
 decorateWithErrorHandler(schema);
+
+// For each schemaLevelResolveFunction, add it to the schema.
+plugins.get('server', 'schemaLevelResolveFunction').forEach(({plugin, schemaLevelResolveFunction}) => {
+  debug(`added schemaLevelResolveFunction from plugin '${plugin.name}'`);
+
+  addSchemaLevelResolveFunction(schema, schemaLevelResolveFunction);
+});
 
 module.exports = schema;
