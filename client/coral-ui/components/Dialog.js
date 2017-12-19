@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import dialogPolyfill from 'dialog-polyfill';
 import 'dialog-polyfill/dialog-polyfill.css';
+import styles from './Dialog.css';
 
 export default class Dialog extends Component {
   static propTypes = {
@@ -54,7 +55,7 @@ export default class Dialog extends Component {
     return (
       <dialog
         ref={(el) => { this.dialog = el; }}
-        className={`mdl-dialog ${className}`}
+        className={`mdl-dialog ${className} ${styles.dialog}`}
         {...rest}
       >
         {children}
