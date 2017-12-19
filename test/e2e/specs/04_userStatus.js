@@ -73,7 +73,7 @@ module.exports = {
       .waitForElementVisible('@usernameDialogSuspend')
       .click('@usernameDialogSuspend')
       .waitForElementVisible('@usernameDialogSuspensionMessage')
-      .click('@usernameDialogSuspend'),
+      .click('@usernameDialogSuspend');
 
     community
       .waitForElementNotPresent('@flaggedUser');
