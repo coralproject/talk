@@ -12,9 +12,7 @@ E2E_WAIT_FOR_TIMEOUT=${E2E_WAIT_FOR_TIMEOUT:-5000}
 # Safari >= 8 has issues connecting to browserstack-local. Safari < 8 is too old.
 # IE 64bit has issues with receiving keyboard input. Let's wait for them to fix it.
 
-# FIXME: disabled firefox,edge until fixing pass is done
-# E2E_BROWSERS=${E2E_BROWSERS:-chrome,firefox,edge} #ie safari
-E2E_BROWSERS=${E2E_BROWSERS:-chrome}
+E2E_BROWSERS=${E2E_BROWSERS:-chrome,firefox,edge} #ie safari
 
 if [[ "${CIRCLE_BRANCH}" == "master" && -n "$BROWSERSTACK_KEY" ]]; then
   echo Testing on browserstack
