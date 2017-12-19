@@ -20,6 +20,16 @@ import t, {timeago} from 'coral-framework/services/i18n';
 
 class Comment extends React.Component {
 
+  ref = null;
+
+  handleRef = (ref) => this.ref = ref;
+
+  handleFocusOrClick = () => {
+    if (!this.props.selected) {
+      this.props.selectComment();
+    }
+  };
+
   showSuspendUserDialog = () => {
     const {comment, showSuspendUserDialog} = this.props;
     return showSuspendUserDialog({
@@ -55,6 +65,12 @@ class Comment extends React.Component {
     : this.props.rejectComment({commentId: this.props.comment.id})
   );
 
+  componentDidUpdate(prev) {
+    if (!prev.selected && this.props.selected) {
+      this.ref.focus();
+    }
+  }
+
   render() {
     const {
       comment,
@@ -65,6 +81,8 @@ class Comment extends React.Component {
       root: {settings},
       currentUserId,
       currentAsset,
+      clearHeightCache,
+      dangling,
     } = this.props;
 
     const selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
@@ -73,8 +91,11 @@ class Comment extends React.Component {
     return (
       <li
         tabIndex={0}
-        className={cn(className, 'mdl-card', selectionStateCSS, styles.root, {[styles.selected]: selected}, 'talk-admin-moderate-comment')}
+        className={cn(className, 'mdl-card', selectionStateCSS, styles.root, {[styles.selected]: selected, [styles.dangling]: dangling}, 'talk-admin-moderate-comment')}
         id={`comment_${comment.id}`}
+        onClick={this.handleFocusOrClick}
+        ref={this.handleRef}
+        onFocus={this.handleFocusOrClick}
       >
         <div className={styles.container}>
           <div className={styles.itemHeader}>
@@ -114,6 +135,7 @@ class Comment extends React.Component {
                 <Slot
                   fill="adminCommentInfoBar"
                   data={data}
+                  clearHeightCache={clearHeightCache}
                   queryData={queryData}
                 />
               </div>
@@ -145,6 +167,7 @@ class Comment extends React.Component {
               <Slot
                 fill="adminCommentContent"
                 data={data}
+                clearHeightCache={clearHeightCache}
                 queryData={queryData}
               />
               <div className={styles.sideActions}>
@@ -166,6 +189,7 @@ class Comment extends React.Component {
                 <Slot
                   fill="adminSideActions"
                   data={data}
+                  clearHeightCache={clearHeightCache}
                   queryData={queryData}
                 />
               </div>
@@ -176,6 +200,7 @@ class Comment extends React.Component {
           data={data}
           root={root}
           comment={comment}
+          clearHeightCache={clearHeightCache}
         />
       </li>
     );
@@ -185,12 +210,16 @@ class Comment extends React.Component {
 Comment.propTypes = {
   viewUserDetail: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
+  selectComment: PropTypes.func,
   rejectComment: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   className: PropTypes.string,
+  dangling: PropTypes.bool,
   currentAsset: PropTypes.object,
   showBanUserDialog: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func.isRequired,
   currentUserId: PropTypes.string.isRequired,
+  clearHeightCache: PropTypes.func,
   comment: PropTypes.shape({
     id: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
