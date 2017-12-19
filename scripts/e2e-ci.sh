@@ -12,9 +12,7 @@ E2E_WAIT_FOR_TIMEOUT=${E2E_WAIT_FOR_TIMEOUT:-5000}
 
 # Safari >= 8 has issues connecting to browserstack-local. Safari < 8 is too old.
 # IE 64bit has issues with receiving keyboard input. Let's wait for them to fix it.
-
 E2E_BROWSERS=${E2E_BROWSERS:-chrome,firefox,edge} #ie safari
-
 
 if [[ "${E2E_DISABLE}" == "true" ]]; then
   echo E2E is disabled.
