@@ -1,3 +1,6 @@
+const debug = require('debug')('talk:graph:connectors');
+const merge = require('lodash/merge');
+
 // Errors.
 const errors = require('../errors');
 
@@ -76,4 +79,9 @@ const connectors = {
   },
 };
 
-module.exports = connectors;
+module.exports = Plugins.get('server', 'connectors').reduce((defaultConnectors, {plugin, connectors: pluginConnectors}) => {
+  debug(`adding plugin '${plugin.name}'`);
+
+  // Merge in the plugin connectors.
+  return merge(defaultConnectors, pluginConnectors);
+}, connectors);
