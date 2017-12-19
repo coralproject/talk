@@ -21,10 +21,11 @@ class CommentDetails extends Component {
     this.setState((state) => ({
       showDetail: !state.showDetail
     }));
+    this.props.clearHeightCache && this.props.clearHeightCache();
   }
 
   render() {
-    const {data, root, comment} = this.props;
+    const {data, root, comment, clearHeightCache} = this.props;
     const {showDetail} = this.state;
     const queryData = {
       root,
@@ -44,12 +45,14 @@ class CommentDetails extends Component {
         <Slot
           fill="adminCommentDetailArea"
           data={data}
+          clearHeightCache={clearHeightCache}
           queryData={queryData}
           more={showDetail}
         />
         {showDetail && <Slot
           fill="adminCommentMoreDetails"
           data={data}
+          clearHeightCache={clearHeightCache}
           queryData={queryData}
         />}
       </div>
@@ -61,6 +64,7 @@ CommentDetails.propTypes = {
   data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   comment: PropTypes.object.isRequired,
+  clearHeightCache: PropTypes.func,
 };
 
 export default CommentDetails;

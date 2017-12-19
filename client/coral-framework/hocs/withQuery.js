@@ -84,6 +84,9 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
     // Handle any pending susbcription data in the subscription queue at max once every second.
     // Updates are batched in written into apollo in one go.
     processSubscriptionQueue = throttle(() => {
+      if (!this.subscriptionQueue.length) {
+        return;
+      }
       const variables = typeof this.wrappedOptions === 'function'
         ? this.wrappedOptions(this.props).variables
         : this.wrappedOptions.variables;

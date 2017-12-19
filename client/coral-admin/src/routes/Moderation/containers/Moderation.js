@@ -11,7 +11,7 @@ import NotFoundAsset from '../components/NotFoundAsset';
 import {isPremod, getModPath} from '../../../utils';
 
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
-import {handleCommentChange} from '../graphql';
+import {handleCommentChange, commentBelongToQueue, cleanUpQueue} from '../graphql';
 
 import {showBanUserDialog} from 'actions/banUserDialog';
 import {showSuspendUserDialog} from 'actions/suspendUserDialog';
@@ -23,7 +23,8 @@ import {
   toggleStorySearch,
   setSortOrder,
   storySearchChange,
-  clearState
+  clearState,
+  selectCommentId,
 } from 'actions/moderation';
 import withQueueConfig from '../hoc/withQueueConfig';
 import {notify} from 'coral-framework/actions/notification';
@@ -168,6 +169,14 @@ class ModerationContainer extends Component {
     }
   }
 
+  cleanUpQueue = (queue) => {
+    if (!this.props.data.loading) {
+      this.props.data.updateQuery((query) => {
+        return cleanUpQueue(query, queue, this.props.moderation.sortOrder, this.props.queueConfig);
+      });
+    }
+  }
+
   acceptComment = ({commentId}) => {
     return this.props.setCommentStatus({commentId, status: 'ACCEPTED'});
   }
@@ -176,9 +185,13 @@ class ModerationContainer extends Component {
     return this.props.setCommentStatus({commentId, status: 'REJECTED'});
   }
 
+  commentBelongToQueue = (queue, comment) => {
+    return commentBelongToQueue(queue, comment, this.props.queueConfig);
+  }
+
   loadMore = (tab) => {
     const variables = {
-      limit: 10,
+      limit: 20,
       cursor: this.props.root[tab].endCursor,
       sortOrder: this.props.data.variables.sortOrder,
       asset_id: this.props.data.variables.asset_id,
@@ -194,7 +207,6 @@ class ModerationContainer extends Component {
           [tab]: {
             nodes: {$push: comments.nodes},
             hasNextPage: {$set: comments.hasNextPage},
-            startCursor: {$set: comments.startCursor},
             endCursor: {$set: comments.endCursor},
           },
         });
@@ -246,6 +258,9 @@ class ModerationContainer extends Component {
       activeTab={this.activeTab}
       queueConfig={currentQueueConfig}
       handleCommentChange={this.handleCommentChange}
+      selectedCommentId={this.props.selectedCommentId}
+      commentBelongToQueue={this.commentBelongToQueue}
+      cleanUpQueue={this.cleanUpQueue}
     />;
   }
 }
@@ -361,7 +376,8 @@ const withModQueueQuery = withQuery(({queueConfig}) => gql`
         ${queueConfig[queue].tags ? `tags: ["${queueConfig[queue].tags.join('", "')}"],` : ''}
         ${queueConfig[queue].action_type ? `action_type: ${queueConfig[queue].action_type}` : ''}
         asset_id: $asset_id,
-        sortOrder: $sortOrder
+        sortOrder: $sortOrder,
+        limit: 20,
       }) {
         ...CoralAdmin_Moderation_CommentConnection
       }
@@ -385,6 +401,9 @@ const withModQueueQuery = withQuery(({queueConfig}) => gql`
     settings {
       organizationName
       moderation
+    }
+    me {
+      id
     }
     ...${getDefinitionName(Comment.fragments.root)}
   }
@@ -423,6 +442,7 @@ const mapDispatchToProps = (dispatch) => ({
     storySearchChange,
     clearState,
     notify,
+    selectCommentId,
   }, dispatch),
 });
 
