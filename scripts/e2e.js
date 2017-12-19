@@ -59,7 +59,7 @@ function seleniumInstall() {
   });
 }
 
-function nightwatch(env, config, reportsFolder, browserstack) {
+function nightwatch(env, config, reportsFolder, browserstack, timeout) {
   return new Promise((resolve, reject) => {
     try {
       const nw = childProcess.spawn(
@@ -71,6 +71,7 @@ function nightwatch(env, config, reportsFolder, browserstack) {
             'BROWSERSTACK_KEY': browserstack.key,
             'BROWSERSTACK_USER': browserstack.user,
             'REPORTS_FOLDER': `${reportsFolder}/${env}`,
+            'WAIT_FOR_TIMEOUT': timeout,
           }),
           stdio: 'inherit',
         });
@@ -111,13 +112,13 @@ function printSection(txt) {
   console.log('*****************************'.magenta);
 }
 
-async function runBrowserTests(browsers, config, retries = 1, reportsFolder, browserstack) {
+async function runBrowserTests(browsers, config, retries = 1, reportsFolder, browserstack, timeout) {
   const succeeded = {};
   for (let browser of browsers) {
     for (let t = 0; t < retries + 1; t++) {
       try {
         printSection(`e2e test for ${browser} #${t}`);
-        await nightwatch(browser, config, reportsFolder, browserstack);
+        await nightwatch(browser, config, reportsFolder, browserstack, timeout);
         succeeded[browser] = t;
         console.log(`\n==> Succeeded e2e for ${browser} #${t}\n`.green);
         break;
@@ -143,6 +144,7 @@ async function start(program) {
   const date = new Date().toISOString()
     .replace(/[T.]/g, '-')
     .replace(/:/g, '');
+  const timeout = program.timeout;
   const reportsFolder = `${program.reportsFolder}/${date}`;
   let exitCode = 0;
   let config = 'nightwatch.conf.js';
@@ -175,6 +177,7 @@ async function start(program) {
       retries,
       reportsFolder,
       browserstack,
+      timeout,
     );
     if (!succeeded) {
       exitCode = 1;
@@ -202,6 +205,7 @@ program
   .option('-r, --retries [number]', 'Number of retries before failing', '1')
   .option('--headless', 'Start in headless mode for local e2e')
   .option('--reports-folder [folder]', 'Reports folder', './test/e2e/reports')
+  .option('--timeout [number]', 'Timeout for WaitForConditions', '5000')
   .parse(process.argv);
 
 start(program);

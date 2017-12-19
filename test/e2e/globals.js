@@ -11,7 +11,7 @@ module.exports = {
     shutdown();
     done();
   },
-  waitForConditionTimeout: 5000,
+  waitForConditionTimeout: parseInt(process.env.WAIT_FOR_TIMEOUT) || 5000,
   testData: {
     admin: {
       email: 'admin@test.com',
