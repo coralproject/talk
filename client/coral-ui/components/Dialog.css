@@ -3,7 +3,6 @@
 }
 
 :global(.backdrop) {
-  z-index: 100148;
   left: 0;
   top: 0;
   width: 100%;
