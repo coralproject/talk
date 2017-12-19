@@ -64,15 +64,18 @@ module.exports = {
       .click('@flaggedUserRejectButton');
   },
   'admin suspends the user': (client) => {
+    const adminPage = client.page.admin();
     const community = client.page.admin().section.community;
 
-    community
+    adminPage
       .waitForElementVisible('@usernameDialog')
       .waitForElementVisible('@usernameDialogButtons')
       .waitForElementVisible('@usernameDialogSuspend')
       .click('@usernameDialogSuspend')
       .waitForElementVisible('@usernameDialogSuspensionMessage')
-      .click('@usernameDialogSuspend')
+      .click('@usernameDialogSuspend'),
+
+    community
       .waitForElementNotPresent('@flaggedUser');
   },
   'admin logs out': (client) => {
