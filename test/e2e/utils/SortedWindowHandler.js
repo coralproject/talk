@@ -25,28 +25,14 @@ class SortedWindowHandler {
    */
   windowHandles(callback) {
     this.client.windowHandles((result) => {
-      if (Array.isArray(result.value)) {
-        this.handles = this.handles.filter((handle) => {
-          for (let i = 0; i < result.value.length; i++) {
-            if (result.value[i] === handle) {
-              return true;
-            }
-          }
 
-          return false;
-        });
-      } else {
-        this.handles = [];
+      if (result.value.message) {
+        throw new Error(result.value.message);
       }
-      const remaining = result.value.filter((handle) => {
-        for (let i = 0; i < this.handles.length; i++) {
-          if (this.handles[i] === handle) {
-            return false;
-          }
-        }
 
-        return true;
-      });
+      this.handles = this.handles.filter((handle) => result.value.includes(handle));
+      const remaining = result.value.filter((handle) => !this.handles.includes(handle));
+
       if (remaining.length === 1) {
         this.handles.push(remaining[0]);
       }
@@ -55,6 +41,14 @@ class SortedWindowHandler {
       }
       callback(this.handles);
     });
+  }
+
+  /**
+   *  Switch to main window handle and remove latest handle.
+   */
+  pop() {
+    this.client.switchWindow(this.handles[0]);
+    this.handles.splice(-1, 1);
   }
 }
 
