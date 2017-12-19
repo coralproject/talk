@@ -137,6 +137,10 @@ module.exports = {
           this.parent
             .click('@drawerOverlay')
             .waitForElementNotPresent('@drawerOverlay');
+
+          // Wait a bit to let animations terminate cleanly.
+          this.api.pause(200);
+
           return this.parent;
         },
       }],
