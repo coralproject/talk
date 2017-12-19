@@ -152,6 +152,10 @@ export function cleanUpQueue(root, queue, sortOrder, queueConfig) {
   let nodes = root[queue].nodes;
   let hasNextPage = root[queue].hasNextPage;
 
+  if (!nodes.length) {
+    return root;
+  }
+
   if (queueConfig) {
     nodes = root[queue].nodes.filter((comment) => commentBelongToQueue(queue, comment, queueConfig));
   }
