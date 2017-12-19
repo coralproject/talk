@@ -8,7 +8,7 @@ E2E_DISABLE=${E2E_DISABLE:-false}
 E2E_MAX_RETRIES=${E2E_MAX_RETRIES:-1}
 
 # Timeout for WaitForConditions.
-E2E_WAIT_FOR_TIMEOUT=${E2E_WAIT_FOR_TIMEOUT:-5000}
+E2E_WAIT_FOR_TIMEOUT=${E2E_WAIT_FOR_TIMEOUT:-10000}
 
 # Safari >= 8 has issues connecting to browserstack-local. Safari < 8 is too old.
 # IE 64bit has issues with receiving keyboard input. Let's wait for them to fix it.
