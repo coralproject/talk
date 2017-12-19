@@ -205,7 +205,7 @@ program
   .option('-r, --retries [number]', 'Number of retries before failing', '1')
   .option('--headless', 'Start in headless mode for local e2e')
   .option('--reports-folder [folder]', 'Reports folder', './test/e2e/reports')
-  .option('--timeout [number]', 'Timeout for WaitForConditions', '5000')
+  .option('--timeout [number]', 'Timeout for WaitForConditions', '10000')
   .parse(process.argv);
 
 start(program);
