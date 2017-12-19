@@ -165,8 +165,8 @@ export function cleanUpQueue(root, queue, sortOrder, queueConfig) {
     sortOrder,
   );
 
-  if (nodes.length > 2) {
-    nodes = nodes.slice(0, 2);
+  if (nodes.length > 100) {
+    nodes = nodes.slice(0, 100);
     hasNextPage = true;
   }
 
