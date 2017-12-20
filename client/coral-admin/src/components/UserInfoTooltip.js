@@ -64,15 +64,15 @@ class UserInfoTooltip extends React.Component {
                       </li>
                       <li className={cn(styles.descriptionItem, 'talk-admin-user-info-tooltip-description-item')}>
                         <strong className={styles.strongItem}>By</strong>
-                        <span>{this.getLastHistoryItem(user, 'suspended').assigned_by.username}</span>
+                        <span>{this.getLastHistoryItem(user, 'suspension').assigned_by.username}</span>
                       </li>
                       <li className={cn(styles.descriptionItem, 'talk-admin-user-info-tooltip-description-item')}>
                         <strong className={styles.strongItem}>Start</strong>
-                        <span>{moment(new Date(this.getLastHistoryItem(user, 'suspended').created_at)).format('MMMM Do YYYY, h:mm:ss a')}</span>
+                        <span>{moment(new Date(this.getLastHistoryItem(user, 'suspension').created_at)).format('MMMM Do YYYY, h:mm:ss a')}</span>
                       </li>
                       <li className={cn(styles.descriptionItem, 'talk-admin-user-info-tooltip-description-item')}>
                         <strong className={styles.strongItem}>End</strong>
-                        <span>{moment(new Date(this.getLastHistoryItem(user, 'suspended').until)).format('MMMM Do YYYY, h:mm:ss a')}</span>
+                        <span>{moment(new Date(this.getLastHistoryItem(user, 'suspension').until)).format('MMMM Do YYYY, h:mm:ss a')}</span>
                       </li>
                     </ul>
                   </div>
