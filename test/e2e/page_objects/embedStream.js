@@ -62,24 +62,12 @@ module.exports = {
           // Focusing on the Login PopUp
           windowHandler.windowHandles((handles) => {
             this.api.switchWindow(handles[1]);
-          });
 
-          const popup = this.api.page.popup().ready();
-          callback(popup);
+            const popup = this.api.page.popup().ready();
+            callback(popup);
 
-          // Give a tiny bit of time to let popup close.
-          this.api.pause(50);
-
-          if (this.api.capabilities.browserName === 'MicrosoftEdge') {
-
-            // More time for edge.
-            // https://www.browserstack.com/automate/builds/1ceccf4efb4683b7feb890f45a32b5922b40ed3f/sessions/7393dbfda8387e43b6d5851f359b0c07db414973
-            this.api.pause(1000);
-          }
-
-          // Focusing on the Embed Window
-          windowHandler.windowHandles((handles) => {
-            this.api.switchWindow(handles[0]);
+            // Focus on the Embed Window.
+            windowHandler.pop();
 
             // For some reasons firefox does not automatically load auth after login.
             // https://www.browserstack.com/automate/builds/37650cb4e66c6edce0ba0800a1c1b7e7f74bf991/sessions/7a4e9da69b0f9ecdf8b7fa9150639e47b1532cb0#automate_button
@@ -89,6 +77,7 @@ module.exports = {
               this.parent.switchToIframe();
             }
           });
+
           return this;
         },
         logout() {

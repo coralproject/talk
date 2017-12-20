@@ -8,7 +8,8 @@
   overflow: visible;
   height: 144px;
   min-height: auto;
-  z-index: 4;
+  margin-top: 16px;
+  z-index: 10;
 
   @media (--tablet) {
     width: 650px;

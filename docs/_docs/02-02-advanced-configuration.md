@@ -461,3 +461,9 @@ Could be read as:
 
 When `TRUE`, staff members will have their accounts and comments moderated the
 same as any other user in the system. (Default `FALSE`)
+
+## TALK_EMAIL_SUBJECT_PREFIX
+
+The prefix for the subject of emails sent. An email with the specified subject
+of `Email Confirmation` would then be sent as `[Talk] Email Confirmation`.
+(Default `[Talk]`)

@@ -144,7 +144,7 @@ UserDetailContainer.propTypes = {
 const LOAD_MORE_QUERY = gql`
   query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Cursor, $author_id: ID!, $statuses: [COMMENT_STATUS!]) {
     comments(query: {limit: $limit, cursor: $cursor, author_id: $author_id, statuses: $statuses}) {
-      ...CoralAdmin_Moderation_CommentConnection
+      ...CoralAdmin_UserDetail_CommentConnection
     }
   }
   ${commentConnectionFragment}

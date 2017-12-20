@@ -12,13 +12,9 @@ const {
 } = require('./events/constants');
 const events = require('./events');
 
-const {
-  ROOT_URL
-} = require('../config');
+const {ROOT_URL} = require('../config');
 
-const {
-  jwt: JWT_SECRET
-} = require('../secrets');
+const {jwt: JWT_SECRET} = require('../secrets');
 
 const debug = require('debug')('talk:services:users');
 
@@ -43,12 +39,15 @@ const SALT_ROUNDS = 10;
 
 // Create a redis client to use for authentication.
 const Limit = require('./limit');
-const loginRateLimiter = new Limit('loginAttempts', RECAPTCHA_INCORRECT_TRIGGER, RECAPTCHA_WINDOW);
+const loginRateLimiter = new Limit(
+  'loginAttempts',
+  RECAPTCHA_INCORRECT_TRIGGER,
+  RECAPTCHA_WINDOW
+);
 
 // UsersService is the interface for the application to interact with the
 // UserModel through.
 class UsersService {
-
   /**
    * Returns a user (if found) for the given email address.
    */
@@ -57,9 +56,9 @@ class UsersService {
       profiles: {
         $elemMatch: {
           id: email.toLowerCase(),
-          provider: 'local'
-        }
-      }
+          provider: 'local',
+        },
+      },
     });
   }
 
@@ -85,22 +84,26 @@ class UsersService {
   }
 
   static async setSuspensionStatus(id, until, assignedBy = null, message) {
-    let user = await UserModel.findOneAndUpdate({id}, {
-      $set: {
-        'status.suspension.until': until
+    let user = await UserModel.findOneAndUpdate(
+      {id},
+      {
+        $set: {
+          'status.suspension.until': until,
+        },
+        $push: {
+          'status.suspension.history': {
+            until,
+            assigned_by: assignedBy,
+            message,
+            created_at: Date.now(),
+          },
+        },
       },
-      $push: {
-        'status.suspension.history': {
-          until,
-          assigned_by: assignedBy,
-          message,
-          created_at: Date.now()
-        }
+      {
+        new: true,
+        runValidators: true,
       }
-    }, {
-      new: true,
-      runValidators: true
-    });
+    );
     if (user === null) {
       user = await UserModel.findOne({id});
       if (user === null) {
@@ -112,45 +115,53 @@ class UsersService {
       // check if the date is within 1 second of the time we're trying to set.
       if (
         user.status.suspension.until === until ||
-        (
-          user.status.suspension.until.getTime() > until.getTime() - 1000 &&
-          user.status.suspension.until.getTime() < until.getTime() + 1000
-        )
+        (user.status.suspension.until.getTime() > until.getTime() - 1000 &&
+          user.status.suspension.until.getTime() < until.getTime() + 1000)
       ) {
         return user;
       }
 
-      throw new Error('suspension status change edit failed for an unknown reason');
+      throw new Error(
+        'suspension status change edit failed for an unknown reason'
+      );
     }
 
     // Emit that the user username status was changed.
-    await events.emitAsync(USERS_SUSPENSION_CHANGE, user, {until, message, assignedBy});
+    await events.emitAsync(USERS_SUSPENSION_CHANGE, user, {
+      until,
+      message,
+      assignedBy,
+    });
 
     return user;
   }
 
   static async setBanStatus(id, status, assignedBy = null, message) {
-    let user = await UserModel.findOneAndUpdate({
-      id,
-      status: {
-        $ne: status
-      }
-    }, {
-      $set: {
-        'status.banned.status': status
+    let user = await UserModel.findOneAndUpdate(
+      {
+        id,
+        status: {
+          $ne: status,
+        },
       },
-      $push: {
-        'status.banned.history': {
-          status,
-          assigned_by: assignedBy,
-          message,
-          created_at: Date.now()
-        }
+      {
+        $set: {
+          'status.banned.status': status,
+        },
+        $push: {
+          'status.banned.history': {
+            status,
+            assigned_by: assignedBy,
+            message,
+            created_at: Date.now(),
+          },
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
       }
-    }, {
-      new: true,
-      runValidators: true
-    });
+    );
     if (user === null) {
       user = await UserModel.findOne({id});
       if (user === null) {
@@ -165,31 +176,39 @@ class UsersService {
     }
 
     // Emit that the user ban status was changed.
-    await events.emitAsync(USERS_BAN_CHANGE, user, {status, assignedBy, message});
+    await events.emitAsync(USERS_BAN_CHANGE, user, {
+      status,
+      assignedBy,
+      message,
+    });
 
     return user;
   }
 
   static async setUsernameStatus(id, status, assignedBy = null) {
-    let user = await UserModel.findOneAndUpdate({
-      id,
-      status: {
-        $ne: status
-      }
-    }, {
-      $set: {
-        'status.username.status': status
+    let user = await UserModel.findOneAndUpdate(
+      {
+        id,
+        status: {
+          $ne: status,
+        },
       },
-      $push: {
-        'status.username.history': {
-          status,
-          assigned_by: assignedBy,
-          created_at: Date.now()
-        }
+      {
+        $set: {
+          'status.username.status': status,
+        },
+        $push: {
+          'status.username.history': {
+            status,
+            assigned_by: assignedBy,
+            created_at: Date.now(),
+          },
+        },
+      },
+      {
+        new: true,
       }
-    }, {
-      new: true
-    });
+    );
     if (user === null) {
       user = await UserModel.findOne({id});
       if (user === null) {
@@ -200,41 +219,57 @@ class UsersService {
         return user;
       }
 
-      throw new Error('username status change edit failed for an unknown reason');
+      throw new Error(
+        'username status change edit failed for an unknown reason'
+      );
     }
 
     // Emit that the user username status was changed.
-    await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, {status, assignedBy});
+    await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, {
+      status,
+      assignedBy,
+    });
 
     return user;
   }
 
-  static async _setUsername(id, username, fromStatus, toStatus, assignedBy, resetAllowed = false) {
+  static async _setUsername(
+    id,
+    username,
+    fromStatus,
+    toStatus,
+    assignedBy,
+    resetAllowed = false
+  ) {
     try {
       const query = {
         id,
-        'status.username.status': fromStatus
+        'status.username.status': fromStatus,
       };
       if (!resetAllowed) {
         query.username = {$ne: username};
       }
 
-      let user = await UserModel.findOneAndUpdate(query, {
-        $set: {
-          username,
-          lowercaseUsername: username.toLowerCase(),
-          'status.username.status': toStatus,
+      let user = await UserModel.findOneAndUpdate(
+        query,
+        {
+          $set: {
+            username,
+            lowercaseUsername: username.toLowerCase(),
+            'status.username.status': toStatus,
+          },
+          $push: {
+            'status.username.history': {
+              status: toStatus,
+              assigned_by: assignedBy,
+              created_at: Date.now(),
+            },
+          },
         },
-        $push: {
-          'status.username.history': {
-            status: toStatus,
-            assigned_by: assignedBy,
-            created_at: Date.now()
-          }
+        {
+          new: true,
         }
-      }, {
-        new: true
-      });
+      );
       if (!user) {
         user = await UsersService.findById(id);
         if (user === null) {
@@ -266,11 +301,24 @@ class UsersService {
   }
 
   static async setUsername(id, username, assignedBy) {
-    return UsersService._setUsername(id, username, 'UNSET', 'SET', assignedBy, true);
+    return UsersService._setUsername(
+      id,
+      username,
+      'UNSET',
+      'SET',
+      assignedBy,
+      true
+    );
   }
 
   static async changeUsername(id, username, assignedBy) {
-    return UsersService._setUsername(id, username, 'REJECTED', 'CHANGED', assignedBy);
+    return UsersService._setUsername(
+      id,
+      username,
+      'REJECTED',
+      'CHANGED',
+      assignedBy
+    );
   }
 
   /**
@@ -294,18 +342,21 @@ class UsersService {
    * Sets or unsets the recaptcha_required flag on a user's local profile.
    */
   static flagForRecaptchaRequirement(email, required) {
-    return UserModel.update({
-      profiles: {
-        $elemMatch: {
-          id: email.toLowerCase(),
-          provider: 'local'
-        }
+    return UserModel.update(
+      {
+        profiles: {
+          $elemMatch: {
+            id: email.toLowerCase(),
+            provider: 'local',
+          },
+        },
+      },
+      {
+        $set: {
+          'profiles.$.metadata.recaptcha_required': required,
+        },
       }
-    }, {
-      $set: {
-        'profiles.$.metadata.recaptcha_required': required
-      }
-    });
+    );
   }
 
   /**
@@ -320,11 +371,10 @@ class UsersService {
   static mergeUsers(dstUserID, srcUserID) {
     let srcUser, dstUser;
 
-    return Promise
-      .all([
-        UserModel.findOne({id: dstUserID}).exec(),
-        UserModel.findOne({id: srcUserID}).exec()
-      ])
+    return Promise.all([
+      UserModel.findOne({id: dstUserID}).exec(),
+      UserModel.findOne({id: srcUserID}).exec(),
+    ])
       .then((users) => {
         dstUser = users[0];
         srcUser = users[1];
@@ -353,9 +403,9 @@ class UsersService {
       profiles: {
         $elemMatch: {
           id,
-          provider
-        }
-      }
+          provider,
+        },
+      },
     });
     if (user) {
       return user;
@@ -375,10 +425,10 @@ class UsersService {
         username: {
           status: 'UNSET',
           history: {
-            status: 'UNSET'
-          }
-        }
-      }
+            status: 'UNSET',
+          },
+        },
+      },
     });
 
     // Save the user in the database.
@@ -396,22 +446,28 @@ class UsersService {
    * @param {String}     email   the email for the user to send the email to
    */
   static async sendEmailConfirmation(user, email, redirectURI = ROOT_URL) {
-    let token = await UsersService.createEmailConfirmToken(user, email, redirectURI);
+    let token = await UsersService.createEmailConfirmToken(
+      user,
+      email,
+      redirectURI
+    );
 
     return MailerService.sendSimple({
       template: 'email-confirm',
       locals: {
         token,
         rootURL: ROOT_URL,
-        email
+        email,
       },
       subject: i18n.t('email.confirm.subject'),
-      to: email
+      to: email,
     });
   }
 
   static async sendEmail(user, options) {
-    const localProfile = user.profiles.find((profile) => profile.provider === 'local');
+    const localProfile = user.profiles.find(
+      (profile) => profile.provider === 'local'
+    );
     if (!localProfile) {
       throw new Error('user does not have an email');
     }
@@ -428,12 +484,15 @@ class UsersService {
   static async changePassword(id, password) {
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-    return UserModel.update({id}, {
-      $inc: {__v: 1},
-      $set: {
-        password: hashedPassword
+    return UserModel.update(
+      {id},
+      {
+        $inc: {__v: 1},
+        $set: {
+          password: hashedPassword,
+        },
       }
-    });
+    );
   }
 
   /**
@@ -442,10 +501,15 @@ class UsersService {
    * @return {Promise}     Resolves with the users that were created
    */
   static createLocalUsers(users) {
-    return Promise.all(users.map((user) => {
-      return UsersService
-        .createLocalUser(user.email, user.password, user.username);
-    }));
+    return Promise.all(
+      users.map((user) => {
+        return UsersService.createLocalUser(
+          user.email,
+          user.password,
+          user.username
+        );
+      })
+    );
   }
 
   /**
@@ -466,7 +530,6 @@ class UsersService {
     }
 
     if (checkAgainstWordlist) {
-
       // check for profanity
       let err = await Wordlist.usernameCheck(username);
       if (err) {
@@ -501,7 +564,6 @@ class UsersService {
    * @param  {Function} done        callback
    */
   static async createLocalUser(email, password, username) {
-
     if (!email) {
       throw errors.ErrMissingEmail;
     }
@@ -511,7 +573,7 @@ class UsersService {
 
     await Promise.all([
       UsersService.isValidUsername(username),
-      UsersService.isValidPassword(password)
+      UsersService.isValidPassword(password),
     ]);
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -523,17 +585,17 @@ class UsersService {
       profiles: [
         {
           id: email,
-          provider: 'local'
-        }
+          provider: 'local',
+        },
       ],
       status: {
         username: {
           status: 'SET',
           history: {
-            status: 'SET'
-          }
-        }
-      }
+            status: 'SET',
+          },
+        },
+      },
     });
 
     try {
@@ -566,7 +628,7 @@ class UsersService {
   /**
    * Finds a user with the id.
    * @param {String} id  user id (uuid)
-  */
+   */
   static findById(id) {
     return UserModel.findOne({id});
   }
@@ -577,13 +639,11 @@ class UsersService {
    * @param {Object} token  a jwt token used to sign in the user
    */
   static async findOrCreateByIDToken(id, token) {
-
     // Try to get the user.
     let user = await UserModel.findOne({id});
 
     // If the user was not found, try to look it up.
     if (user === null) {
-
       // If the user wasn't found, it will return null and the variable will be
       // unchanged.
       user = await lookupUserNotFound(token);
@@ -595,21 +655,24 @@ class UsersService {
   /**
    * Finds users in an array of ids.
    * @param {Array} ids  array of user identifiers (uuid)
-  */
+   */
   static findByIdArray(ids) {
     return UserModel.find({
-      id: {$in: ids}
+      id: {$in: ids},
     });
   }
 
   /**
    * Finds public user information by an array of ids.
    * @param {Array} ids  array of user identifiers (uuid)
-  */
+   */
   static findPublicByIdArray(ids) {
-    return UserModel.find({
-      id: {$in: ids}
-    }, 'id username');
+    return UserModel.find(
+      {
+        id: {$in: ids},
+      },
+      'id username'
+    );
   }
 
   /**
@@ -618,7 +681,9 @@ class UsersService {
    */
   static async createPasswordResetToken(email, loc) {
     if (!email || typeof email !== 'string') {
-      throw new Error('email is required when creating a JWT for resetting passord');
+      throw new Error(
+        'email is required when creating a JWT for resetting passord'
+      );
     }
 
     email = email.toLowerCase();
@@ -628,7 +693,6 @@ class UsersService {
       DomainList.urlCheck(loc),
     ]);
     if (!user) {
-
       // Since we don't want to reveal that the email does/doesn't exist
       // just go ahead and resolve the Promise with null and check in the
       // endpoint.
@@ -646,12 +710,12 @@ class UsersService {
       email,
       loc,
       userId: user.id,
-      version: user.__v
+      version: user.__v,
     };
 
     return JWT_SECRET.sign(payload, {
       expiresIn: '1d',
-      subject: PASSWORD_RESET_JWT_SUBJECT
+      subject: PASSWORD_RESET_JWT_SUBJECT,
     });
   }
 
@@ -678,7 +742,7 @@ class UsersService {
    */
   static async verifyPasswordResetToken(token) {
     const {userId, loc, version} = await UsersService.verifyToken(token, {
-      subject: PASSWORD_RESET_JWT_SUBJECT
+      subject: PASSWORD_RESET_JWT_SUBJECT,
     });
 
     const user = await UsersService.findById(userId);
@@ -708,17 +772,16 @@ class UsersService {
 
     return UserModel.find({
       $or: [
-
         // Search by a prefix match on the username.
         {
-          'lowercaseUsername': {
+          lowercaseUsername: {
             $regex,
           },
         },
 
         // Search by a prefix match on the email address.
         {
-          'profiles': {
+          profiles: {
             $elemMatch: {
               id: {
                 $regex,
@@ -752,13 +815,16 @@ class UsersService {
    * @return {Promise}
    */
   static updateSettings(id, settings) {
-    return UserModel.update({
-      id
-    }, {
-      $set: {
-        settings
+    return UserModel.update(
+      {
+        id,
+      },
+      {
+        $set: {
+          settings,
+        },
       }
-    });
+    );
   }
 
   /**
@@ -774,7 +840,7 @@ class UsersService {
       item_type: 'users',
       user_id,
       action_type,
-      metadata
+      metadata,
     });
   }
 
@@ -787,7 +853,9 @@ class UsersService {
    */
   static async createEmailConfirmToken(user, email, referer = ROOT_URL) {
     if (!email || typeof email !== 'string') {
-      throw new Error('email is required when creating a JWT for resetting password');
+      throw new Error(
+        'email is required when creating a JWT for resetting password'
+      );
     }
 
     // Conform the email to lowercase.
@@ -796,22 +864,27 @@ class UsersService {
     const tokenOptions = {
       jwtid: uuid.v4(),
       expiresIn: '1d',
-      subject: EMAIL_CONFIRM_JWT_SUBJECT
+      subject: EMAIL_CONFIRM_JWT_SUBJECT,
     };
 
     // Get the profile representing the local account.
-    let profile = user.profiles.find((profile) => profile.id === email && profile.provider === 'local');
+    let profile = user.profiles.find(
+      (profile) => profile.id === email && profile.provider === 'local'
+    );
 
     // Ensure that the user email hasn't already been verified.
     if (profile && profile.metadata && profile.metadata.confirmed_at) {
       throw new Error('email address already confirmed');
     }
 
-    return JWT_SECRET.sign({
-      email,
-      referer,
-      userID: user.id
-    }, tokenOptions);
+    return JWT_SECRET.sign(
+      {
+        email,
+        referer,
+        userID: user.id,
+      },
+      tokenOptions
+    );
   }
 
   /**
@@ -823,7 +896,7 @@ class UsersService {
    */
   static async verifyEmailConfirmation(token) {
     let {userID, email, referer} = await UsersService.verifyToken(token, {
-      subject: EMAIL_CONFIRM_JWT_SUBJECT
+      subject: EMAIL_CONFIRM_JWT_SUBJECT,
     });
 
     await UsersService.confirmEmail(userID, email);
@@ -835,20 +908,22 @@ class UsersService {
    * Marks the email on the user as confirmed.
    */
   static confirmEmail(id, email) {
-    return UserModel
-      .update({
+    return UserModel.update(
+      {
         id,
         profiles: {
           $elemMatch: {
             id: email,
-            provider: 'local'
-          }
-        }
-      }, {
+            provider: 'local',
+          },
+        },
+      },
+      {
         $set: {
-          'profiles.$.metadata.confirmed_at': new Date()
-        }
-      });
+          'profiles.$.metadata.confirmed_at': new Date(),
+        },
+      }
+    );
   }
 
   /**
@@ -866,13 +941,16 @@ class UsersService {
       throw errors.ErrCannotIgnoreStaff;
     }
 
-    return UserModel.update({id}, {
-      $addToSet:  {
-        ignoresUsers: {
-          $each: usersToIgnore
-        }
+    return UserModel.update(
+      {id},
+      {
+        $addToSet: {
+          ignoresUsers: {
+            $each: usersToIgnore,
+          },
+        },
       }
-    });
+    );
   }
 
   /**
@@ -881,24 +959,26 @@ class UsersService {
    * @param  {Array<String>} usersToStopIgnoring Array of user IDs to stop ignoring
    */
   static async stopIgnoringUsers(id, usersToStopIgnoring) {
-    await UserModel.update({id}, {
-      $pullAll:  {
-        ignoresUsers: usersToStopIgnoring
+    await UserModel.update(
+      {id},
+      {
+        $pullAll: {
+          ignoresUsers: usersToStopIgnoring,
+        },
       }
-    });
+    );
   }
 }
 
 module.exports = UsersService;
 
 events.on(USERS_BAN_CHANGE, async (user, {status, message}) => {
-
   // Check to see if the user was banned now and is currently banned.
   if (user.banned && status && message && message.length > 0) {
     await UsersService.sendEmail(user, {
       template: 'plain',
       locals: {
-        body: message
+        body: message,
       },
       subject: 'Your account has been banned',
     });
@@ -906,9 +986,14 @@ events.on(USERS_BAN_CHANGE, async (user, {status, message}) => {
 });
 
 events.on(USERS_SUSPENSION_CHANGE, async (user, {until, message}) => {
-
   // Check to see if the user was suspended now and is currently suspended.
-  if (user.suspended && until !== null && until > Date.now() && message && message.length > 0) {
+  if (
+    user.suspended &&
+    until !== null &&
+    until > Date.now() &&
+    message &&
+    message.length > 0
+  ) {
     await UsersService.sendEmail(user, {
       template: 'plain',
       locals: {

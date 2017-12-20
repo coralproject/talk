@@ -7,6 +7,7 @@ const initialState = {
   storySearchString: '',
   shortcutsNoteVisible: 'show',
   sortOrder: 'DESC',
+  selectedCommentId: '',
 };
 
 export default function moderation (state = initialState, action) {
@@ -50,6 +51,11 @@ export default function moderation (state = initialState, action) {
     return {
       ...state,
       sortOrder: action.order,
+    };
+  case actions.MODERATION_SELECT_COMMENT:
+    return {
+      ...state,
+      selectedCommentId: action.id,
     };
   default:
     return state;

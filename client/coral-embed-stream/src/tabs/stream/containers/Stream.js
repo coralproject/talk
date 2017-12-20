@@ -297,6 +297,7 @@ const fragments = {
         ignoredUsers {
           id
         }
+        roles
       }
       settings {
         organizationName
@@ -336,7 +337,6 @@ const fragments = {
         charCount
         requireEmailConfirmation
       }
-      commentCount @skip(if: $hasComment)
       totalCommentCount @skip(if: $hasComment)
       comments(query: {limit: 10, excludeIgnored: $excludeIgnored, sortOrder: $sortOrder, sortBy: $sortBy}) @skip(if: $hasComment) {
         nodes {
@@ -357,7 +357,6 @@ const fragments = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   refetching: state.embed.refetching,
-  commentCountCache: state.stream.commentCountCache,
   activeReplyBox: state.stream.activeReplyBox,
   commentId: state.stream.commentId,
   assetId: state.stream.assetId,

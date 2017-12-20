@@ -34,3 +34,8 @@ export const storySearchChange = (value) => ({
 export const clearState = () => ({
   type: actions.MODERATION_CLEAR_STATE
 });
+
+export const selectCommentId = (id) => ({
+  type: actions.MODERATION_SELECT_COMMENT,
+  id,
+});

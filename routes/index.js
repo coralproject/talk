@@ -1,13 +1,12 @@
 const SetupService = require('../services/setup');
 const apollo = require('apollo-server-express');
 const authentication = require('../middleware/authentication');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const debug = require('debug')('talk:routes');
 const enabled = require('debug').enabled;
 const errors = require('../errors');
 const express = require('express');
-const i18n = require('../services/i18n');
+const i18n = require('../middleware/i18n');
 const path = require('path');
 const plugins = require('../services/plugins');
 const staticTemplate = require('../middleware/staticTemplate');
@@ -41,6 +40,9 @@ if (!DISABLE_STATIC_SERVER) {
   }));
 }
 
+// Add the i18n middleware to all routes.
+router.use(i18n);
+
 //==============================================================================
 // STATIC ROUTES
 //==============================================================================
@@ -56,7 +58,7 @@ router.use('/embed', staticTemplate, require('./embed'));
 router.use(cookieParser());
 
 // Parse the body json if it's there.
-router.use(bodyParser.json());
+router.use(express.json());
 
 const passportDebug = require('debug')('talk:passport');
 
@@ -100,11 +102,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 }
 
+router.use('/api/v1', require('./api'));
+
 //==============================================================================
 // ROUTES
 //==============================================================================
-
-router.use('/api/v1', require('./api'));
 
 // Development routes.
 if (process.env.NODE_ENV !== 'production') {
@@ -174,8 +176,6 @@ router.use('/', (err, req, res, next) => {
   if (err !== errors.ErrNotFound) {
     console.error(err);
   }
-
-  i18n.init(req);
 
   if (err instanceof errors.APIError) {
     res.status(err.status);

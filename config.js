@@ -16,16 +16,26 @@ const debug = require('debug')('talk:config');
 //==============================================================================
 
 const CONFIG = {
-
   // WEBPACK indicates when webpack is currently building.
   WEBPACK: process.env.WEBPACK === 'TRUE',
 
   APOLLO_ENGINE_KEY: process.env.APOLLO_ENGINE_KEY || null,
   ENABLE_TRACING: Boolean(process.env.APOLLO_ENGINE_KEY),
 
+  // EMAIL_SUBJECT_PREFIX is the string before emails in the subject.
+  EMAIL_SUBJECT_PREFIX: process.env.TALK_EMAIL_SUBJECT_PREFIX || '[Talk]',
+
+  // DEFAULT_LANG is the default language used for server sent emails and
+  // rendered text.
+  DEFAULT_LANG: process.env.TALK_DEFAULT_LANG || 'en',
+
   // When TRUE, it ensures that database indexes created in core will not add
   // indexes.
   CREATE_MONGO_INDEXES: process.env.DISABLE_CREATE_MONGO_INDEXES !== 'TRUE',
+
+  // SETTINGS_CACHE_TIME is the time that we'll cache the settings in redis before
+  // fetching again.
+  SETTINGS_CACHE_TIME: ms(process.env.TALK_SETTINGS_CACHE_TIME || '1hr'),
 
   //------------------------------------------------------------------------------
   // JWT based configuration
@@ -44,14 +54,19 @@ const CONFIG = {
 
   // JWT_SIGNING_COOKIE_NAME will be the cookie set when cookies are issued.
   // This defaults to the TALK_JWT_COOKIE_NAME value.
-  JWT_SIGNING_COOKIE_NAME: process.env.TALK_JWT_SIGNING_COOKIE_NAME || process.env.TALK_JWT_COOKIE_NAME || 'authorization',
+  JWT_SIGNING_COOKIE_NAME:
+    process.env.TALK_JWT_SIGNING_COOKIE_NAME ||
+    process.env.TALK_JWT_COOKIE_NAME ||
+    'authorization',
 
   // JWT_COOKIE_NAMES declares the many cookie names used for verification.
   JWT_COOKIE_NAMES: process.env.TALK_JWT_COOKIE_NAMES || null,
 
   // JWT_CLEAR_COOKIE_LOGOUT specifies whether the named cookie should be
   // cleared when the user is logged out.
-  JWT_CLEAR_COOKIE_LOGOUT: process.env.TALK_JWT_CLEAR_COOKIE_LOGOUT ? process.env.TALK_JWT_CLEAR_COOKIE_LOGOUT !== 'FALSE' : true,
+  JWT_CLEAR_COOKIE_LOGOUT: process.env.TALK_JWT_CLEAR_COOKIE_LOGOUT
+    ? process.env.TALK_JWT_CLEAR_COOKIE_LOGOUT !== 'FALSE'
+    : true,
 
   // JWT_DISABLE_AUDIENCE when TRUE will disable the audience claim (aud) from tokens.
   JWT_DISABLE_AUDIENCE: process.env.TALK_JWT_DISABLE_AUDIENCE === 'TRUE',
@@ -92,7 +107,9 @@ const CONFIG = {
 
   // HELMET_CONFIGURATION provides the entrypoint to override options for the
   // helmet middleware used.
-  HELMET_CONFIGURATION: JSON.parse(process.env.TALK_HELMET_CONFIGURATION || '{}'),
+  HELMET_CONFIGURATION: JSON.parse(
+    process.env.TALK_HELMET_CONFIGURATION || '{}'
+  ),
 
   //------------------------------------------------------------------------------
   // External database url's
@@ -111,22 +128,30 @@ const CONFIG = {
 
   // REDIS_CLUSTER_CONFIGURATION contains the json string for the redis cluster
   // configuration.
-  REDIS_CLUSTER_CONFIGURATION: process.env.TALK_REDIS_CLUSTER_CONFIGURATION || '[]',
+  REDIS_CLUSTER_CONFIGURATION:
+    process.env.TALK_REDIS_CLUSTER_CONFIGURATION || '[]',
 
   // REDIS_RECONNECTION_BACKOFF_FACTOR is the factor that will be multiplied
   // against the current attempt count inbetween attempts to connect to redis.
-  REDIS_RECONNECTION_BACKOFF_FACTOR: ms(process.env.TALK_REDIS_RECONNECTION_BACKOFF_FACTOR || '500 ms'),
+  REDIS_RECONNECTION_BACKOFF_FACTOR: ms(
+    process.env.TALK_REDIS_RECONNECTION_BACKOFF_FACTOR || '500 ms'
+  ),
 
   // REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME is the minimum time used to delay
   // before attempting to reconnect to redis.
-  REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME: ms(process.env.TALK_REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME || '1 sec'),
+  REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME: ms(
+    process.env.TALK_REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME || '1 sec'
+  ),
 
   //------------------------------------------------------------------------------
   // Server Config
   //------------------------------------------------------------------------------
 
   // Port to bind to.
-  PORT: process.env.TALK_PORT || process.env.PORT || (process.env.NODE_ENV === 'test' ? '3001' : '3000'),
+  PORT:
+    process.env.TALK_PORT ||
+    process.env.PORT ||
+    (process.env.NODE_ENV === 'test' ? '3001' : '3000'),
 
   // The URL for this Talk Instance as viewable from the outside.
   ROOT_URL: process.env.TALK_ROOT_URL || null,
@@ -150,7 +175,8 @@ const CONFIG = {
   // Cache configuration
   //------------------------------------------------------------------------------
 
-  CACHE_EXPIRY_COMMENT_COUNT: process.env.TALK_CACHE_EXPIRY_COMMENT_COUNT || '1hr',
+  CACHE_EXPIRY_COMMENT_COUNT:
+    process.env.TALK_CACHE_EXPIRY_COMMENT_COUNT || '1hr',
 
   //------------------------------------------------------------------------------
   // Recaptcha configuration
@@ -170,7 +196,9 @@ const CONFIG = {
   SMTP_FROM_ADDRESS: process.env.TALK_SMTP_FROM_ADDRESS,
   SMTP_HOST: process.env.TALK_SMTP_HOST,
   SMTP_PASSWORD: process.env.TALK_SMTP_PASSWORD,
-  SMTP_PORT: process.env.TALK_SMTP_PORT ? parseInt(process.env.TALK_SMTP_PORT) : undefined,
+  SMTP_PORT: process.env.TALK_SMTP_PORT
+    ? parseInt(process.env.TALK_SMTP_PORT)
+    : undefined,
   SMTP_USERNAME: process.env.TALK_SMTP_USERNAME,
 
   //------------------------------------------------------------------------------
@@ -179,7 +207,8 @@ const CONFIG = {
 
   // DISABLE_AUTOFLAG_SUSPECT_WORDS is true when the suspect words that are
   // matched should not be flagged.
-  DISABLE_AUTOFLAG_SUSPECT_WORDS: process.env.TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS === 'TRUE',
+  DISABLE_AUTOFLAG_SUSPECT_WORDS:
+    process.env.TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS === 'TRUE',
 
   // TRUST_THRESHOLDS defines the thresholds used for automoderation.
   TRUST_THRESHOLDS: process.env.TRUST_THRESHOLDS || 'comment:2,-1;flag:2,-1',
@@ -187,7 +216,8 @@ const CONFIG = {
   // IGNORE_FLAGS_AGAINST_STAFF disables staff members from entering the
   // reported queue from comments after this was enabled and from reports
   // against the staff members user account.
-  IGNORE_FLAGS_AGAINST_STAFF: process.env.TALK_DISABLE_IGNORE_FLAGS_AGAINST_STAFF !== 'TRUE',
+  IGNORE_FLAGS_AGAINST_STAFF:
+    process.env.TALK_DISABLE_IGNORE_FLAGS_AGAINST_STAFF !== 'TRUE',
 };
 
 //==============================================================================
@@ -214,7 +244,9 @@ if (CONFIG.JWT_SECRETS) {
 } else if (!CONFIG.JWT_SECRET) {
   if (process.env.NODE_ENV === 'test') {
     if (!CONFIG.JWT_ALG.startsWith('HS')) {
-      throw new Error('Providing a asymmetric signing/verfying algorithm without a corresponding secret is not permitted');
+      throw new Error(
+        'Providing a asymmetric signing/verfying algorithm without a corresponding secret is not permitted'
+      );
     }
 
     CONFIG.JWT_SECRET = 'keyboard cat';
@@ -243,7 +275,12 @@ if (CONFIG.JWT_COOKIE_NAMES) {
 }
 
 // Add in the default cookie names and strip duplicates.
-CONFIG.JWT_COOKIE_NAMES = uniq(CONFIG.JWT_COOKIE_NAMES.concat([CONFIG.JWT_COOKIE_NAME, CONFIG.JWT_SIGNING_COOKIE_NAME]));
+CONFIG.JWT_COOKIE_NAMES = uniq(
+  CONFIG.JWT_COOKIE_NAMES.concat([
+    CONFIG.JWT_COOKIE_NAME,
+    CONFIG.JWT_SIGNING_COOKIE_NAME,
+  ])
+);
 
 //------------------------------------------------------------------------------
 // External database url's
@@ -265,17 +302,25 @@ if (process.env.NODE_ENV === 'test' && !CONFIG.REDIS_URL) {
 // REDIS_CLUSTER_CONFIGURATION should be parsed when the cluster mode !== none.
 if (CONFIG.REDIS_CLUSTER_MODE === 'CLUSTER') {
   try {
-    CONFIG.REDIS_CLUSTER_CONFIGURATION = JSON.parse(CONFIG.REDIS_CLUSTER_CONFIGURATION);
+    CONFIG.REDIS_CLUSTER_CONFIGURATION = JSON.parse(
+      CONFIG.REDIS_CLUSTER_CONFIGURATION
+    );
   } catch (err) {
-    throw new Error('TALK_REDIS_CLUSTER_CONFIGURATION is not valid JSON, see https://github.com/luin/ioredis#cluster for valid syntax of the list of cluster nodes');
+    throw new Error(
+      'TALK_REDIS_CLUSTER_CONFIGURATION is not valid JSON, see https://github.com/luin/ioredis#cluster for valid syntax of the list of cluster nodes'
+    );
   }
 
   if (!Array.isArray(CONFIG.REDIS_CLUSTER_CONFIGURATION)) {
-    throw new Error('TALK_REDIS_CLUSTER_MODE is CLUSTER, but the TALK_REDIS_CLUSTER_CONFIGURATION is invalid, see https://github.com/luin/ioredis#cluster for valid syntax of the list of cluster nodes');
+    throw new Error(
+      'TALK_REDIS_CLUSTER_MODE is CLUSTER, but the TALK_REDIS_CLUSTER_CONFIGURATION is invalid, see https://github.com/luin/ioredis#cluster for valid syntax of the list of cluster nodes'
+    );
   }
 
   if (CONFIG.REDIS_CLUSTER_CONFIGURATION.length === 0) {
-    throw new Error('TALK_REDIS_CLUSTER_CONFIGURATION must have at least one node specified in the cluster, see https://github.com/luin/ioredis#cluster for valid syntax of the list of cluster nodes');
+    throw new Error(
+      'TALK_REDIS_CLUSTER_CONFIGURATION must have at least one node specified in the cluster, see https://github.com/luin/ioredis#cluster for valid syntax of the list of cluster nodes'
+    );
   }
 }
 
@@ -296,7 +341,13 @@ CONFIG.RECAPTCHA_ENABLED =
   CONFIG.RECAPTCHA_PUBLIC &&
   CONFIG.RECAPTCHA_PUBLIC.length > 0;
 
-debug(`reCAPTCHA is ${CONFIG.RECAPTCHA_ENABLED ? 'enabled' : 'disabled, required config is not present'}`);
+debug(
+  `reCAPTCHA is ${
+    CONFIG.RECAPTCHA_ENABLED
+      ? 'enabled'
+      : 'disabled, required config is not present'
+  }`
+);
 
 //------------------------------------------------------------------------------
 // SMTP Server configuration
@@ -312,6 +363,12 @@ CONFIG.EMAIL_ENABLED =
   CONFIG.SMTP_HOST &&
   CONFIG.SMTP_HOST.length > 0;
 
-debug(`Email is ${CONFIG.EMAIL_ENABLED ? 'enabled' : 'disabled, required config is not present'}`);
+debug(
+  `Email is ${
+    CONFIG.EMAIL_ENABLED
+      ? 'enabled'
+      : 'disabled, required config is not present'
+  }`
+);
 
 module.exports = CONFIG;
