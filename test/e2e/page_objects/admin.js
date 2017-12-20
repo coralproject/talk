@@ -117,6 +117,13 @@ module.exports = {
     userDetailDrawer: {
       selector: '.talk-admin-user-detail-drawer',
       elements: {
+        'tabBar': 'talk-admin-user-detail-tab-bar',
+        'allTab': 'talk-admin-user-detail-all-tab',
+        'rejectedTab': 'talk-admin-user-detail-rejected-tab',
+        'historyTab': 'talk-admin-user-detail-history-tab', 
+        'historyPane': 'talk-admin-user-detail-history-tab-pane', 
+        'accountHistory': 'talk-admin-account-history',
+        'accountHistoryRowStatus':'talk-admin-account-history-row-status',
         'actionsMenu': '.talk-admin-user-detail-actions-button',
         'actionItemSuspendUser': '.action-menu-item#suspendUser',
         'actionMenuButton': '.talk-admin-user-detail-actions-menu #actions-dropdown-0',
