@@ -28,18 +28,24 @@ class AccountHistory extends React.Component {
     const userHistory = buildUserHistory(userState);
     return (
       <div>
-        <div className={styles.table}>
-          <div className={styles.headerRow}>
+        <div className={cn(styles.table, 'talk-admin-account-history')}>
+          <div className={cn(styles.headerRow, 'talk-admin-account-history-header-row')}>
             <div className={styles.headerRowItem}>Date</div>
             <div className={styles.headerRowItem}>Action</div>
             <div className={styles.headerRowItem}>Moderation</div>
           </div>
           {
             userHistory.map((h, i) => (
-              <div className={styles.row} key={i}>
-                <div className={styles.item}>{moment(new Date(h.created_at)).format('MMM DD, YYYY')}</div>
-                <div className={cn(styles.item, styles.action)}>{buildActionResponse(h.__typename, h.status)}</div>
-                <div className={styles.item}>{h.assigned_by ? h.assigned_by.username : 'SYSTEM'}</div>
+              <div className={cn(styles.row, 'talk-admin-account-history-row')} key={i}>
+                <div className={cn(styles.item, 'talk-admin-account-history-row-date')}>
+                  {moment(new Date(h.created_at)).format('MMM DD, YYYY')}
+                </div>
+                <div className={cn(styles.item, styles.action, 'talk-admin-account-history-row-status')}>
+                  {buildActionResponse(h.__typename, h.status)}
+                </div>
+                <div className={cn(styles.item, 'talk-admin-account-history-row-assigned-by')}>
+                  {h.assigned_by ? h.assigned_by.username : 'SYSTEM'}
+                </div>
               </div>
             ))
           }
