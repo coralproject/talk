@@ -102,8 +102,10 @@ module.exports = {
 
     adminPage 
       .waitForElementVisible('@suspendUserDialog')
+      .waitForElementVisible('@suspendUserDialogStep0')
       .waitForElementVisible('@suspendUserConfirmButton')
       .click('@suspendUserConfirmButton')
+      .waitForElementVisible('@suspendUserDialogStep1')
       .waitForElementVisible('@supendUserSendButton')
       .click('@supendUserSendButton');
 

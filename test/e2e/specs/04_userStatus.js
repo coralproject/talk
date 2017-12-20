@@ -62,17 +62,16 @@ module.exports = {
   },
   'admin suspends the user': (client) => {
     const adminPage = client.page.admin();
-    const community = client.page.admin().section.community;
 
     adminPage
       .waitForElementVisible('@usernameDialog')
       .waitForElementVisible('@usernameDialogButtons')
-      .waitForElementVisible('@usernameDialogSuspend')
+      .waitForElementVisible('@usernameDialogStep0')   
+      .waitForElementVisible('@usernameDialogSuspend')   
       .click('@usernameDialogSuspend')
-      .waitForElementVisible('@usernameDialogSuspensionMessage')
+      .waitForElementVisible('@usernameDialogStep1')      
+      .waitForElementVisible('@usernameDialogSuspend')
       .click('@usernameDialogSuspend');
-
-    community.waitForElementNotPresent('@flaggedUser');
   },
   'admin logs out': (client) => {
     client.page.admin().logout();
