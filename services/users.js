@@ -48,6 +48,7 @@ const loginRateLimiter = new Limit(
 // UsersService is the interface for the application to interact with the
 // UserModel through.
 class UsersService {
+
   /**
    * Returns a user (if found) for the given email address.
    */
@@ -530,6 +531,7 @@ class UsersService {
     }
 
     if (checkAgainstWordlist) {
+
       // check for profanity
       let err = await Wordlist.usernameCheck(username);
       if (err) {
@@ -639,11 +641,13 @@ class UsersService {
    * @param {Object} token  a jwt token used to sign in the user
    */
   static async findOrCreateByIDToken(id, token) {
+
     // Try to get the user.
     let user = await UserModel.findOne({id});
 
     // If the user was not found, try to look it up.
     if (user === null) {
+
       // If the user wasn't found, it will return null and the variable will be
       // unchanged.
       user = await lookupUserNotFound(token);
@@ -693,6 +697,7 @@ class UsersService {
       DomainList.urlCheck(loc),
     ]);
     if (!user) {
+
       // Since we don't want to reveal that the email does/doesn't exist
       // just go ahead and resolve the Promise with null and check in the
       // endpoint.
@@ -772,6 +777,7 @@ class UsersService {
 
     return UserModel.find({
       $or: [
+
         // Search by a prefix match on the username.
         {
           lowercaseUsername: {
@@ -973,6 +979,7 @@ class UsersService {
 module.exports = UsersService;
 
 events.on(USERS_BAN_CHANGE, async (user, {status, message}) => {
+
   // Check to see if the user was banned now and is currently banned.
   if (user.banned && status && message && message.length > 0) {
     await UsersService.sendEmail(user, {
@@ -986,6 +993,7 @@ events.on(USERS_BAN_CHANGE, async (user, {status, message}) => {
 });
 
 events.on(USERS_SUSPENSION_CHANGE, async (user, {until, message}) => {
+
   // Check to see if the user was suspended now and is currently suspended.
   if (
     user.suspended &&
