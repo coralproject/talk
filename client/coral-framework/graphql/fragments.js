@@ -10,6 +10,7 @@ export default {
     'SetUserSuspensionStatusResponse',
     'SetCommentStatusResponse',
     'SetUsernameStatusResponse',
+    'UnSuspendUserResponse',
     'SuspendUserResponse',
     'CreateCommentResponse',
     'CreateFlagResponse',
