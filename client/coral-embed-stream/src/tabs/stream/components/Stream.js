@@ -238,7 +238,7 @@ class Stream extends React.Component {
       suspensionUntil &&
       new Date(suspensionUntil) > new Date();
 
-    const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
+    const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !rejectedUsername && !highlightedComment) || keepCommentBox);
     const slotProps = {data};
     const slotQueryData = {root, asset};
 
