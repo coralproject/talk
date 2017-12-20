@@ -165,7 +165,7 @@ export default {
       updateQueries: {
         TalkAdmin_Community: (prev) => {
           const updated = update(prev, {
-            users: {
+            flaggedUsers: {
               nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== id)},
             },
           });
@@ -177,13 +177,13 @@ export default {
       updateQueries: {
         TalkAdmin_Community: (prev) => {
           const updated = update(prev, {
-            users: {
+            flaggedUsers: {
               nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== userId)},
             },
           });
           return updated;
         }
-      }
+      },
     }),
     UpdateSettings: ({variables: {input}})  => ({
       updateQueries: {
