@@ -113,6 +113,26 @@ module.exports = {
       .click('@toastClose');
 
   },
+  'admin checks user status and ban and suspension history': (client) => {
+    const adminPage = client.page.admin();
+    const {moderate, userDetailDrawer} = adminPage.section;
+
+    moderate
+      .waitForElementVisible('@comment')
+      .waitForElementVisible('@commentUsername')
+      .click('@commentUsername');
+
+    userDetailDrawer
+      .waitForElementVisible('@tabBar')
+      .waitForElementVisible('@allTab')
+      .click('@allTab')
+      .waitForElementVisible('@rejectedTab')
+      .click('@rejectedTab')
+      .waitForElementVisible('@historyTab')
+      .click('@historyTab')
+      .waitForElementVisible('@historyPane')
+      .waitForElementVisible('@accountHistory');
+  },
   'admin logs out': (client) => {
     const adminPage = client.page.admin();
 
