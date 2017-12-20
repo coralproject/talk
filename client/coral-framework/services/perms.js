@@ -5,17 +5,17 @@ import get from 'lodash/get';
 // =========================================================================
 
 const basicPerms = {
-  'INTERACT_WITH_COMMUNITY': (user) => {
+  INTERACT_WITH_COMMUNITY: (user) => {
     const banned = get(user, 'status.banned.status');
     const suspensionUntil = get(user, 'status.suspension.until');
     const suspended = suspensionUntil && new Date(suspensionUntil) > new Date();
 
     return !banned && !suspended;
   },
-  'EDIT_NAME': (user) => {
+  EDIT_NAME: (user) => {
     const usernameStatus = user.status.username.status;
     return usernameStatus === 'UNSET' || usernameStatus === 'REJECTED';
-  }
+  },
 };
 
 // =========================================================================
@@ -23,30 +23,28 @@ const basicPerms = {
 // =========================================================================
 
 const basicRoles = {
-  HAS_STAFF_TAG: ['ADMIN', 'MODERATOR', 'STAFF']
+  HAS_STAFF_TAG: ['ADMIN', 'MODERATOR', 'STAFF'],
 };
 
 const queryRoles = {
   UPDATE_CONFIG: ['ADMIN'],
   ACCESS_ADMIN: ['ADMIN', 'MODERATOR'],
-  VIEW_USER_EMAILS: ['ADMIN']
+  VIEW_USER_EMAILS: ['ADMIN'],
 };
 
 const mutationRoles = {
   CHANGE_ROLES: ['ADMIN'],
-  MODERATE_COMMENTS: ['ADMIN', 'MODERATOR']
+  MODERATE_COMMENTS: ['ADMIN', 'MODERATOR'],
 };
 
 const roles = {...basicRoles, ...queryRoles, ...mutationRoles};
 
 export const can = (user, ...perms) => {
-
   if (!user) {
     return false;
   }
 
   return perms.every((perm) => {
-
     // Basic Permissions
     const permAction = basicPerms[perm];
     if (typeof permAction !== 'undefined') {

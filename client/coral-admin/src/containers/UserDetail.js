@@ -199,6 +199,9 @@ export const withUserDetailQuery = withQuery(gql`
       }
       ${getSlotFragmentSpreads(slots, 'user')}
     }
+    me {
+      id
+    }
     totalComments: commentCount(query: {author_id: $author_id, statuses: []})
     rejectedComments: commentCount(query: {author_id: $author_id, statuses: [REJECTED]})
     comments: comments(query: {

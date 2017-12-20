@@ -2,15 +2,25 @@ import React from 'react';
 import {gql, compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {ADDTL_COMMENTS_ON_LOAD_MORE, THREADING_LEVEL} from '../../../constants/stream';
 import {
-  withPostComment, withPostFlag, withPostDontAgree,
-  withDeleteAction, withEditComment
+  ADDTL_COMMENTS_ON_LOAD_MORE,
+  THREADING_LEVEL,
+} from '../../../constants/stream';
+import {
+  withPostComment,
+  withPostFlag,
+  withPostDontAgree,
+  withDeleteAction,
+  withEditComment,
 } from 'coral-framework/graphql/mutations';
 
 import * as authActions from 'coral-embed-stream/src/actions/auth';
 import * as notificationActions from 'coral-framework/actions/notification';
-import {setActiveReplyBox, setActiveTab, viewAllComments} from '../../../actions/stream';
+import {
+  setActiveReplyBox,
+  setActiveTab,
+  viewAllComments,
+} from '../../../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
 import {withFragments, withEmit} from 'coral-framework/hocs';
@@ -40,10 +50,12 @@ class StreamContainer extends React.Component {
         assetId: this.props.asset.id,
       },
       updateQuery: (prev, {subscriptionData: {data: {commentEdited}}}) => {
-
         // Ignore mutations from me.
         // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
-        if (this.props.auth.user && commentEdited.user.id === this.props.auth.user.id) {
+        if (
+          this.props.auth.user &&
+          commentEdited.user.id === this.props.auth.user.id
+        ) {
           return prev;
         }
 
@@ -52,7 +64,11 @@ class StreamContainer extends React.Component {
           return prev;
         }
 
-        if (['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(commentEdited.status)) {
+        if (
+          ['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(
+            commentEdited.status
+          )
+        ) {
           return removeCommentFromEmbedQuery(prev, commentEdited.id);
         }
       },
@@ -66,17 +82,22 @@ class StreamContainer extends React.Component {
         assetId: this.props.asset.id,
       },
       updateQuery: (prev, {subscriptionData: {data: {commentAdded}}}) => {
-
         // Ignore mutations from me.
         // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
-        if (this.props.auth.user && commentAdded.user.id === this.props.auth.user.id) {
+        if (
+          this.props.auth.user &&
+          commentAdded.user.id === this.props.auth.user.id
+        ) {
           return prev;
         }
 
         // Exit if author is ignored.
         if (
           this.props.root.me &&
-          this.props.root.me.ignoredUsers.some(({id}) => id === commentAdded.user.id)) {
+          this.props.root.me.ignoredUsers.some(
+            ({id}) => id === commentAdded.user.id
+          )
+        ) {
           return prev;
         }
 
@@ -121,11 +142,11 @@ class StreamContainer extends React.Component {
         sortOrder: 'ASC',
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
-      updateQuery: (prev, {fetchMoreResult:{comments}}) => {
+      updateQuery: (prev, {fetchMoreResult: {comments}}) => {
         return insertFetchedCommentsIntoEmbedQuery(prev, comments, parent_id);
       },
     });
-  }
+  };
 
   loadMoreComments = () => {
     return this.props.data.fetchMore({
@@ -139,7 +160,7 @@ class StreamContainer extends React.Component {
         sortBy: this.props.data.variables.sortBy,
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
-      updateQuery: (prev, {fetchMoreResult:{comments}}) => {
+      updateQuery: (prev, {fetchMoreResult: {comments}}) => {
         return insertFetchedCommentsIntoEmbedQuery(prev, comments);
       },
     });
@@ -168,7 +189,10 @@ class StreamContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.sortOrder !== nextProps.sortOrder || this.props.sortBy !== nextProps.sortBy) {
+    if (
+      this.props.sortOrder !== nextProps.sortOrder ||
+      this.props.sortBy !== nextProps.sortBy
+    ) {
       nextProps.data.refetch();
     }
   }
@@ -178,23 +202,25 @@ class StreamContainer extends React.Component {
   }
 
   render() {
-    if (!this.props.asset
-      || this.props.asset.comment === undefined
-      && !this.props.asset.comments
+    if (
+      !this.props.asset ||
+      (this.props.asset.comment === undefined && !this.props.asset.comments)
     ) {
       return <Spinner />;
     }
 
     const streamLoading = this.props.refetching || this.props.data.loading;
 
-    return <Stream
-      {...this.props}
-      loadMore={this.loadMore}
-      loadMoreComments={this.loadMoreComments}
-      loadNewReplies={this.loadNewReplies}
-      userIsDegraged={this.userIsDegraged()}
-      loading={streamLoading}
-    />;
+    return (
+      <Stream
+        {...this.props}
+        loadMore={this.loadMore}
+        loadMoreComments={this.loadMoreComments}
+        loadNewReplies={this.loadNewReplies}
+        userIsDegraged={this.userIsDegraged()}
+        loading={streamLoading}
+      />
+    );
   }
 }
 
@@ -211,8 +237,8 @@ const commentFragment = gql`
 `;
 
 const COMMENTS_ADDED_SUBSCRIPTION = gql`
-  subscription CommentAdded($assetId: ID!, $excludeIgnored: Boolean){
-    commentAdded(asset_id: $assetId){
+  subscription CommentAdded($assetId: ID!, $excludeIgnored: Boolean) {
+    commentAdded(asset_id: $assetId) {
       parent {
         id
       }
@@ -223,8 +249,8 @@ const COMMENTS_ADDED_SUBSCRIPTION = gql`
 `;
 
 const COMMENTS_EDITED_SUBSCRIPTION = gql`
-  subscription CommentEdited($assetId: ID!){
-    commentEdited(asset_id: $assetId){
+  subscription CommentEdited($assetId: ID!) {
+    commentEdited(asset_id: $assetId) {
       id
       body
       status
@@ -297,7 +323,7 @@ const fragments = {
         ignoredUsers {
           id
         }
-        roles
+        role
       }
       settings {
         organizationName
@@ -311,12 +337,15 @@ const fragments = {
     fragment CoralEmbedStream_Stream_asset on Asset {
       comment(id: $commentId) @include(if: $hasComment) {
         ...CoralEmbedStream_Stream_comment
-        ${nest(`
+        ${nest(
+          `
           parent {
             ...CoralEmbedStream_Stream_comment
             ...nest
           }
-        `, THREADING_LEVEL)}
+        `,
+          THREADING_LEVEL
+        )}
       }
       id
       title
@@ -372,14 +401,17 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({
-    showSignInDialog,
-    notify,
-    setActiveReplyBox,
-    editName,
-    viewAllComments,
-    setActiveStreamTab: setActiveTab,
-  }, dispatch);
+  bindActionCreators(
+    {
+      showSignInDialog,
+      notify,
+      setActiveReplyBox,
+      editName,
+      viewAllComments,
+      setActiveStreamTab: setActiveTab,
+    },
+    dispatch
+  );
 
 export default compose(
   withFragments(fragments),
@@ -389,5 +421,5 @@ export default compose(
   withPostFlag,
   withPostDontAgree,
   withDeleteAction,
-  withEditComment,
+  withEditComment
 )(StreamContainer);

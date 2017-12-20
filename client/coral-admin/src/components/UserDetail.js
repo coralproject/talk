@@ -104,6 +104,7 @@ class UserDetail extends React.Component {
       data,
       root,
       root: {
+        me,
         user,
         totalComments,
         rejectedComments,
@@ -130,7 +131,7 @@ class UserDetail extends React.Component {
 
     const banned = isBanned(user);
     const suspended = isSuspended(user);
-
+    
     return (
       <ClickOutside onClickOutside={hideUserDetail}>
         <Drawer className="talk-admin-user-detail-drawer" onClose={hideUserDetail}>
@@ -152,6 +153,7 @@ class UserDetail extends React.Component {
                 onClick={() => unSuspendUser({id: user.id})}>
                 Remove Suspension
               </ActionsMenuItem> : <ActionsMenuItem
+                disabled={me.id === user.id}
                 onClick={this.showSuspenUserDialog}>
                 Suspend User
               </ActionsMenuItem>}
@@ -160,6 +162,7 @@ class UserDetail extends React.Component {
                 onClick={() => unBanUser({id: user.id})}>
                 Remove Ban
               </ActionsMenuItem> : <ActionsMenuItem
+                disabled={me.id === user.id}
                 onClick={this.showBanUserDialog}>
                 Ban User
               </ActionsMenuItem>}
