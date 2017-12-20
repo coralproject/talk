@@ -54,10 +54,8 @@ const nightwatch_config = {
     },
     safari: {
       desiredCapabilities: {
-
-        // Safari since 8 seems to have troubles with the browserstack-local tunnel (10.18.17)
         browser: 'safari',
-        browser_version: '10',
+        browser_version: '11',
       },
     },
     ie: {
