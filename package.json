@@ -160,6 +160,7 @@
     "react-mdl": "^1.7.2",
     "react-mdl-selectfield": "^0.2.0",
     "react-paginate": "^5.0.0",
+    "react-portal": "^4.1.2",
     "react-recaptcha": "^2.2.6",
     "react-redux": "^4.4.5",
     "react-router": "^3.0.0",
