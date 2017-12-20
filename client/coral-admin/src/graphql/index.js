@@ -1,5 +1,6 @@
 import update from 'immutability-helper';
 import {mapLeaves} from 'coral-framework/utils';
+import {gql} from 'react-apollo';
 
 export default {
   mutations: {
@@ -25,121 +26,124 @@ export default {
         }
       }
     }),
-    BanUser: ({variables: {input: {id: userId}}}) => ({
-      updateQueries: {
-        TalkAdmin_Community: (prev) => {
+    SuspendUser: ({variables: {input: {id}}}) => ({
+      update: (proxy) => {
+        const fragment = gql`
+        fragment Talk_UpdateUserStatus on User {
+          state {
+            status {
+              suspension {
+                until
+              }
+            }
+          }
+        }`;
 
-          const updated = update(prev, {
-            users: {
-              nodes: {
-                $apply: (nodes) => nodes.map((node) => {
-                  if (node.id === userId) {
-                    node.state.status.banned.status = true;
-                  }
-                  
-                  return node;
-                })
-              },
-            },
-          });
-          
-          return updated;
-        }
+        const fragmentId = `User_${id}`;
+
+        const data = proxy.readFragment({fragment, id: fragmentId});
+
+        const updated = update(data, {
+          state : {
+            status: {
+              suspension: {
+                until: {$set: new Date()}
+              }
+            }
+          }
+        });
+
+        proxy.writeFragment({fragment, id: fragmentId, data: updated});
       }
     }),
-    UnBanUser: ({variables: {input: {id: userId}}}) => ({
-      updateQueries: {
-        TalkAdmin_Community: (prev) => {
-
-          const updated = update(prev, {
-            users: {
-              nodes: {
-                $apply: (nodes) => nodes.map((node) => {
-                  if (node.id === userId) {
-                    node.state.status.banned.status = false;
-                  }
-                  
-                  return node;
-                })
-              },
-            },
-          });
-          
-          return updated;
-        },
-        CoralAdmin_Moderation: (prev) => {
-
-          const updated = update(prev, {
-            new: {
-              nodes: {
-                $apply: (nodes) => nodes.map((node) => {
-                  if (node.user.id === userId) {
-                    node.user.state.status.banned.status = false;
-                  }
-                  
-                  return node;
-                })
-              },
-            },
-            all: {
-              nodes: {
-                $apply: (nodes) => nodes.map((node) => {
-                  if (node.user.id === userId) {
-                    node.user.state.status.banned.status = false;
-                  }
-                  
-                  return node;
-                })
-              },
-            },
-            approved: {
-              nodes: {
-                $apply: (nodes) => nodes.map((node) => {
-                  if (node.user.id === userId) {
-                    node.user.state.status.banned.status = false;
-                  }
-                  
-                  return node;
-                })
-              },
-            },
-            premod: {
-              nodes: {
-                $apply: (nodes) => nodes.map((node) => {
-                  if (node.user.id === userId) {
-                    node.user.state.status.banned.status = false;
-                  }
-                  
-                  return node;
-                })
-              },
-            },
-            rejected: {
-              nodes: {
-                $apply: (nodes) => nodes.map((node) => {
-                  if (node.user.id === userId) {
-                    node.user.state.status.banned.status = false;
-                  }
-                  
-                  return node;
-                })
-              },
-            },
-            reported: {
-              nodes: {
-                $apply: (nodes) => nodes.map((node) => {
-                  if (node.user.id === userId) {
-                    node.user.state.status.banned.status = false;
-                  }
-                  
-                  return node;
-                })
-              },
+    UnSuspendUser: ({variables: {input: {id}}}) => ({
+      update: (proxy) => {
+        const fragment = gql`
+        fragment Talk_UpdateUserStatus on User {
+          state {
+            status {
+              suspension {
+                until
+              }
             }
-          });
+          }
+        }`;
 
-          return updated;
-        }
+        const fragmentId = `User_${id}`;
+
+        const data = proxy.readFragment({fragment, id: fragmentId});
+
+        const updated = update(data, {
+          state : {
+            status: {
+              suspension: {
+                until: {$set: null}
+              }
+            }
+          }
+        });
+
+        proxy.writeFragment({fragment, id: fragmentId, data: updated});
+      }
+    }),
+    BanUser: ({variables: {input: {id}}}) => ({
+      update: (proxy) => {
+        const fragment = gql`
+        fragment Talk_UpdateUserStatus on User {
+          state {
+            status {
+              banned {
+                status
+              }
+            }
+          }
+        }`;
+
+        const fragmentId = `User_${id}`;
+
+        const data = proxy.readFragment({fragment, id: fragmentId});
+
+        const updated = update(data, {
+          state : {
+            status: {
+              banned: {
+                status: {$set: true}
+              }
+            }
+          }
+        });
+
+        proxy.writeFragment({fragment, id: fragmentId, data: updated});
+      }
+    }),
+    UnBanUser: ({variables: {input: {id}}}) => ({
+      update: (proxy) => {
+        const fragment = gql`
+        fragment Talk_UpdateUserStatus on User {
+          state {
+            status {
+              banned {
+                status
+              }
+            }
+          }
+        }`;
+
+        const fragmentId = `User_${id}`;
+
+        const data = proxy.readFragment({fragment, id: fragmentId});
+
+        const updated = update(data, {
+          state : {
+            status: {
+              banned: {
+                status: {$set: false}
+              }
+            }
+          }
+        });
+
+        proxy.writeFragment({fragment, id: fragmentId, data: updated});
       }
     }),
     SetUserBanStatus: ({variables: {status, id}}) => ({
