@@ -70,7 +70,7 @@ class RejectUsernameDialog extends Component  {
     const {stage} = this.state;
 
     return <Dialog
-      className={cn(styles.suspendDialog, 'talk-reject-username-dialog')}
+      className={cn(styles.suspendDialog, 'talk-admin-reject-username-dialog')}
       id="rejectUsernameDialog"
       open={open}
       onClose={handleClose}
@@ -79,7 +79,7 @@ class RejectUsernameDialog extends Component  {
       <div className={styles.title}>
         {t(stages[stage].title, t('reject_username.username'))}
       </div>
-      <div className={styles.container}>
+      <div className={cn(styles.container, `talk-admin-reject-username-dialog-step-${stage}`)}>
         <div className={styles.description}>
           {t(stages[stage].description, t('reject_username.username'))}
         </div>
@@ -90,17 +90,17 @@ class RejectUsernameDialog extends Component  {
                   <div className={styles.emailContainer}>
                     <textarea
                       rows={5}
-                      className={cn(styles.emailInput, 'talk-reject-username-dialog-suspension-message')}
+                      className={cn(styles.emailInput, 'talk-admin-reject-username-dialog-suspension-message')}
                       value={this.state.email}
                       onChange={this.onEmailChange}/>
                   </div>
                 </div>
         } */}
-        <div className={cn(styles.modalButtons, 'talk-reject-username-dialog-buttons')}>
+        <div className={cn(styles.modalButtons, 'talk-admin-reject-username-dialog-buttons')}>
           {Object.keys(stages[stage].options).map((key, i) => (
             <Button
               key={i}
-              className={cn('talk-reject-username-dialog-button', `talk-reject-username-dialog-button-${key}`)}
+              className={cn('talk-admin-username-dialog-button', `talk-admin-reject-username-dialog-button-${key}`)}
               onClick={this.onActionClick(stage, i)} >
               {t(stages[stage].options[key], t('reject_username.username'))}
             </Button>
