@@ -1,7 +1,6 @@
 const accepts = require('accepts');
 const apollo = require('graphql-server-express');
 const authentication = require('../middleware/authentication');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const debug = require('debug')('talk:routes');
 const enabled = require('debug').enabled;
@@ -82,7 +81,7 @@ router.use('/embed', staticTemplate, require('./embed'));
 router.use(cookieParser());
 
 // Parse the body json if it's there.
-router.use(bodyParser.json());
+router.use(express.json());
 
 const passportDebug = require('debug')('talk:passport');
 
