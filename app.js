@@ -50,7 +50,7 @@ if (ENABLE_TRACING && APOLLO_ENGINE_KEY) {
       apiKey: APOLLO_ENGINE_KEY
     },
     graphqlPort: PORT,
-    endpoint: '/api/v1/graph/ql',
+    endpoint: `${MOUNT_PATH}api/v1/graph/ql`,
   });
 
   engine.start();
