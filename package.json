@@ -52,6 +52,7 @@
     "@coralproject/graphql-anywhere-optimized": "^0.1.0",
     "accepts": "^1.3.4",
     "apollo-client": "^1.9.1",
+    "apollo-engine": "^0.6.0",
     "apollo-server-express": "^1.2.0",
     "apollo-utilities": "^1.0.3",
     "app-module-path": "^2.2.0",
@@ -185,7 +186,6 @@
   },
   "devDependencies": {
     "@coralproject/eslint-config-talk": "^0.0.4",
-    "apollo-engine": "^0.6.0",
     "babel-jest": "^21.2.0",
     "babel-plugin-dynamic-import-node": "^1.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
