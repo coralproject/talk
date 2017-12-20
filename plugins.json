@@ -22,7 +22,6 @@
     "talk-plugin-sort-most-replied",
     "talk-plugin-sort-newest",
     "talk-plugin-sort-oldest",
-    "talk-plugin-viewing-options",
-    "talk-plugin-remember-sort"
+    "talk-plugin-viewing-options"
   ]
 }
