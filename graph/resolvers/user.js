@@ -5,8 +5,8 @@ const {
   SEARCH_OTHER_USERS,
   SEARCH_OTHERS_COMMENTS,
   UPDATE_USER_ROLES,
-  VIEW_SUSPENSION_INFO,
-  LIST_OWN_TOKENS
+  LIST_OWN_TOKENS,
+  VIEW_USER_STATUS,
 } = require('../../perms/constants');
 
 const User = {
@@ -66,11 +66,11 @@ const User = {
     const connection = await Users.getByQuery({ids: user.ignoresUsers});
     return connection.nodes;
   },
-  roles({id, roles}, _, {user}) {
+  role({id, role}, _, {user}) {
 
     // If the user is not an admin, only return the current user's roles.
     if (user && (user.can(UPDATE_USER_ROLES) || user.id === id)) {
-      return roles;
+      return role;
     }
 
     return null;
@@ -83,11 +83,10 @@ const User = {
     }
   },
 
-  suspension({id, suspension}, _, {user}) {
-    if (user.id !== id && !user.can(VIEW_SUSPENSION_INFO)) {
-      return null;
+  state(user, args, ctx) {
+    if (ctx.user && (ctx.user.id === user.id || ctx.user.can(VIEW_USER_STATUS))) {
+      return user;
     }
-    return suspension;
   }
 };
 

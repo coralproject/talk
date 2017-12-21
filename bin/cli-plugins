@@ -7,7 +7,7 @@
 // Interface heavily inspired by the yarn package manager:
 // https://yarnpkg.com/
 
-const program = require('./commander');
+const program = require('commander');
 const inquirer = require('inquirer');
 
 // Make things colorful!

@@ -3,6 +3,11 @@ import has from 'lodash/has';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 
+import 'moment/locale/da';
+import 'moment/locale/es';
+import 'moment/locale/fr';
+import 'moment/locale/pt-br';
+
 import daTA from 'timeago.js/locales/da';
 import esTA from 'timeago.js/locales/es';
 import frTA from 'timeago.js/locales/fr';

@@ -98,13 +98,4 @@ router.put('/password/reset', async (req, res, next) => {
   }
 });
 
-router.put('/username', authorization.needed(), async (req, res, next) => {
-  try {
-    await UsersService.editName(req.user.id, req.body.username);
-    res.status(204).end();
-  } catch (e) {
-    return next(e);
-  }
-});
-
 module.exports = router;

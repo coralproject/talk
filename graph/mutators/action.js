@@ -1,5 +1,4 @@
 const errors = require('../../errors');
-const UsersService = require('../../services/users');
 const {CREATE_ACTION, DELETE_ACTION} = require('../../perms/constants');
 const {
   IGNORE_FLAGS_AGAINST_STAFF,
@@ -69,6 +68,15 @@ const createAction = async (ctx, {item_id, item_type, action_type, group_id, met
     }
   }
 
+  if (action_type === 'FLAG' && item_type === 'USERS') {
+
+    // The item is a user, and this is a flag. Check to see if they are staff,
+    // if they are, don't permit the flag.
+    if (item.isStaff()) {
+      throw errors.ErrNotAuthorized;
+    }
+  }
+
   // Create the action itself.
   let action = await Actions.create({
     item_id,
@@ -79,17 +87,11 @@ const createAction = async (ctx, {item_id, item_type, action_type, group_id, met
     metadata
   });
 
-  if (action_type === 'FLAG') {
-    if (item_type === 'USERS') {
+  if (action_type === 'FLAG' && item_type === 'COMMENTS') {
 
-      // Set the user's status as pending, as we need to review it.
-      await UsersService.setStatus(item_id, 'PENDING');
-    } else if (item_type === 'COMMENTS') {
-
-      // The item is a comment, and this is a flag. Push that the comment was
-      // flagged, don't wait for it to finish.
-      pubsub.publish('commentFlagged', item);
-    }
+    // The item is a comment, and this is a flag. Push that the comment was
+    // flagged, don't wait for it to finish.
+    pubsub.publish('commentFlagged', item);
   }
 
   return action;

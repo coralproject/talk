@@ -5,8 +5,6 @@ import {
   SORT_UPDATE,
   SET_PAGE,
   SET_SEARCH_VALUE,
-  SET_ROLE,
-  SET_COMMENTER_STATUS,
   SHOW_BANUSER_DIALOG,
   HIDE_BANUSER_DIALOG,
   SHOW_REJECT_USERNAME_DIALOG,
@@ -60,27 +58,6 @@ export default function community (state = initialState, action) {
       ...state,
       pagePeople: action.page,
     };
-  case SET_ROLE : {
-    const commenters = state.users;
-    const idx = commenters.findIndex((el) => el.id === action.id);
-
-    commenters[idx].roles[0] = action.role;
-    return {
-      ...state,
-      users: commenters.map((id) => id),
-    };
-  }
-  case SET_COMMENTER_STATUS: {
-    const commenters = state.users;
-    const idx = commenters.findIndex((el) => el.id === action.id);
-
-    commenters[idx].status = action.status;
-    return {
-      ...state,
-      users: commenters.map((id) => id),
-    };
-
-  }
   case SORT_UPDATE :
     return {
       ...state,

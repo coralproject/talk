@@ -228,7 +228,7 @@ export default function auth (state = initialState, action) {
       redirectUri: action.uri,
     };
   case 'APOLLO_SUBSCRIPTION_RESULT':
-    if (action.operationName === 'UserBanned' && state.getIn(['user', 'id']) === action.variables.user_id) {
+    if (action.operationName === 'UserBanned' && state.user.id === action.variables.user_id) {
       return {
         ...state,
         user: {
@@ -237,7 +237,7 @@ export default function auth (state = initialState, action) {
         },
       };
     }
-    if (action.operationName === 'UserSuspended' && state.getIn(['user', 'id']) === action.variables.user_id) {
+    if (action.operationName === 'UserSuspended' && state.user.id === action.variables.user_id) {
       return {
         ...state,
         user: {
@@ -246,7 +246,7 @@ export default function auth (state = initialState, action) {
         },
       };
     }
-    if (action.operationName === 'UsernameRejected' && state.getIn(['user', 'id']) === action.variables.user_id) {
+    if (action.operationName === 'UsernameRejected' && state.user.id === action.variables.user_id) {
       return {
         ...state,
         user: {

@@ -1,6 +1,5 @@
 module.exports = {
-
-   before: (client) => {
+  before: (client) => {
     client.resizeWindow(1600, 1200);
   },
 
@@ -21,12 +20,10 @@ module.exports = {
 
     adminPage.navigateAndLogin(admin);
   },
-  'admin flags user\'s username as offensive': (client) => {
+  'admin flags users username as offensive': (client) => {
     const embedStream = client.page.embedStream();
 
-    const comments = embedStream
-      .navigate()
-      .ready();
+    const comments = embedStream.navigate().ready();
 
     comments
       .waitForElementVisible('@firstComment')
@@ -70,11 +67,13 @@ module.exports = {
     adminPage
       .waitForElementVisible('@usernameDialog')
       .waitForElementVisible('@usernameDialogButtons')
-      .waitForElementVisible('@usernameDialogSuspend')
+      .waitForElementVisible('@usernameDialogStep0')   
+      .waitForElementVisible('@usernameDialogSuspend')   
       .click('@usernameDialogSuspend')
-      .waitForElementVisible('@usernameDialogSuspensionMessage')
+      .waitForElementVisible('@usernameDialogStep1')      
+      .waitForElementVisible('@usernameDialogSuspend')
       .click('@usernameDialogSuspend');
-
+    
     community
       .waitForElementNotPresent('@flaggedUser');
   },
@@ -94,8 +93,7 @@ module.exports = {
     const embedStream = client.page.embedStream();
     const comments = embedStream.section.comments;
 
-    comments
-      .waitForElementVisible('@restrictedMessageBox');
+    comments.waitForElementVisible('@restrictedMessageBox');
   },
   'user should not be able to comment': (client) => {
     const embedStream = client.page.embedStream();
@@ -111,11 +109,11 @@ module.exports = {
     const {testData: {user}} = client.globals;
 
     comments
-      .waitForElementVisible('@suspendedAccountInput')
-      .setValue('@suspendedAccountInput', `${user.username}_alternative`)
-      .waitForElementVisible('@suspendedAccountSubmitButton')
-      .click('@suspendedAccountSubmitButton')
-      .waitForElementNotPresent('@suspendedAccountInput');
+      .waitForElementVisible('@changeUsernameInput')
+      .setValue('@changeUsernameInput', `${user.username}_alternative`)
+      .waitForElementVisible('@changeUsernameSubmitButton')
+      .click('@changeUsernameSubmitButton')
+      .waitForElementNotPresent('@changeUsernameInput');
   },
   'user should be able to comment': (client) => {
     const embedStream = client.page.embedStream();

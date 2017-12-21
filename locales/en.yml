@@ -12,6 +12,11 @@ en:
     note_reject_comment: "Banning this user will also place this comment in the Rejected queue."
     note_ban_user: "Banning this user will not let them edit comment or remove anything."
     yes_ban_user: "Yes, Ban User"
+    write_a_message: "Write a message"
+    send: "Send"
+    notify_ban_headline: "Notify the user of ban"
+    notify_ban_description: "This will notify the user by email that they have been banned from the community"
+    email_message_ban: "Dear {0},\n\nSomeone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, like or report comments. if you think this has been done in error, please contact our community team."
   bio_offensive: "This bio is offensive"
   cancel: "Cancel"
   characters_remaining: "characters remaining"
@@ -76,7 +81,7 @@ en:
     status: Status
     username_and_email: "Username and Email"
     yes_ban_user: "Yes Ban User"
-    none: "None"
+    commenter: "Commenter"
   configure:
     apply: Apply
     banned_word_text: "Comments which contain these words or phrases (not case-sensitive) will be automatically removed from the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."

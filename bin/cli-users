@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
+const program = require('commander');
 const inquirer = require('inquirer');
 const UsersService = require('../services/users');
 const UserModel = require('../models/user');
@@ -37,11 +37,11 @@ function getUserCreateAnswers(options) {
       password: options.password,
       confirmPassword: options.password,
       username: options.name,
-      roles: []
+      role: 'COMMENTER'
     };
 
     if (options.role && USER_ROLES.indexOf(options.role) > -1) {
-      user.roles = [options.role];
+      user.roles = options.role;
     }
 
     return Promise.resolve(user);
@@ -90,9 +90,9 @@ function getUserCreateAnswers(options) {
       }
     },
     {
-      name: 'roles',
+      name: 'role',
       message: 'User Role',
-      type: 'checkbox',
+      type: 'list',
       choices: USER_ROLES
     }
   ]);
@@ -109,20 +109,11 @@ async function createUser(options) {
     }
 
     const user = await UsersService.createLocalUser(answers.email.trim(), answers.password.trim(), answers.username.trim());
-    console.log(`Created user ${user.id}.`);
+    await UsersService.setRole(user.id, answers.role);
+    await UsersService.sendEmailConfirmation(user, answers.email.trim());
 
-    if (answers.roles.length > 0) {
-      return Promise.all(answers.roles.map((role) => {
-        return UsersService
-          .addRoleToUser(user.id, role)
-          .then(() => {
-            console.log(`Added the role ${role} to User ${user.id}.`);
-          });
-      }));
-    }
-
+    console.log(`Created User ${user.id}.`);
     util.shutdown();
-
   } catch (err) {
     console.error(err);
     util.shutdown(1);
@@ -266,19 +257,19 @@ function listUsers() {
       });
 
       users.forEach((user) => {
-        let state = user.disabled ? 'Disabled' : 'Enabled';
         const profile = user.profiles.find(({provider}) => provider === 'local');
+        let state;
         if (profile && profile.metadata && profile.metadata.confirmed_at) {
-          state += ', Verified';
+          state = 'Verified';
         } else {
-          state += ', Unverified';
+          state = 'Unverified';
         }
 
         table.push([
           user.id,
           user.username,
           user.profiles.map((p) => p.provider).join(', '),
-          user.roles.join(', '),
+          user.role,
           user.status,
           state
         ]);
@@ -316,117 +307,30 @@ function mergeUsers(dstUserID, srcUserID) {
  * @param  {String} userUD id of the user to add the role to
  * @param  {String} role   the role to add
  */
-function addRole(userID, role) {
+async function setRole(userID, role, options) {
+  try {
+    if (options.interactive || !role) {
+      const answers = await inquirer.prompt([
+        {
+          name: 'role',
+          message: 'User Role',
+          type: 'list',
+          choices: USER_ROLES
+        }
+      ]);
 
-  if (USER_ROLES.indexOf(role) === -1) {
-    console.error(`Role '${role}' is not supported. Supported roles are ${USER_ROLES.join(', ')}.`);
+      role = answers.role;
+    }
+
+    await UsersService.setRole(userID, role);
+
+    console.log(`Set User ${userID} to the ${role} role.`);
+    util.shutdown();
+  } catch (err) {
+    console.error(err);
     util.shutdown(1);
-    return;
   }
 
-  UsersService
-    .addRoleToUser(userID, role)
-    .then(() => {
-      console.log(`Added the ${role} role to User ${userID}.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
-
-/**
- * Removes a role from a user
- * @param  {String} userUD id of the user to remove the role from
- * @param  {String} role   the role to remove
- */
-function removeRole(userID, role) {
-
-  if (USER_ROLES.indexOf(role) === -1) {
-    console.error(`Role '${role}' is not supported. Supported roles are ${USER_ROLES.join(', ')}.`);
-    util.shutdown(1);
-    return;
-  }
-
-  UsersService
-    .removeRoleFromUser(userID, role)
-    .then(() => {
-      console.log(`Removed the ${role} role from User ${userID}.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
-
-/**
- * Ban a user
- * @param  {String} userID id of the user to ban
- */
-function ban(userID) {
-  UsersService
-    .setStatus(userID, 'BANNED')
-    .then(() => {
-      console.log(`Banned the User ${userID}.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
-
-/**
- * Unban a user
- * @param  {String} userUD id of the user to remove the role from
- */
-function unban(userID) {
-  UsersService
-    .setStatus(userID, 'ACTIVE')
-    .then(() => {
-      console.log(`Unban the User ${userID}.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
-
-/**
- * Disable a given user.
- * @param  {String} userID the ID of a user to disable
- */
-function disableUser(userID) {
-  UsersService
-    .disableUser(userID)
-    .then(() => {
-      console.log(`User ${userID} was disabled.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
-
-/**
- * Enabled a given user.
- * @param  {String} userID the ID of a user to enable
- */
-function enableUser(userID) {
-  UsersService
-    .enableUser(userID)
-    .then(() => {
-      console.log(`User ${userID} was enabled.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
 }
 
 /**
@@ -488,34 +392,10 @@ program
   .action(mergeUsers);
 
 program
-  .command('addrole <userID> <role>')
-  .description('adds a role to a given user')
-  .action(addRole);
-
-program
-  .command('removerole <userID> <role>')
-  .description('removes a role from a given user')
-  .action(removeRole);
-
-program
-  .command('ban <userID>')
-  .description('ban a given user')
-  .action(ban);
-
-program
-  .command('uban <userID>')
-  .description('unban a given user')
-  .action(unban);
-
-program
-  .command('disable <userID>')
-  .description('disable a given user from logging in')
-  .action(disableUser);
-
-program
-  .command('enable <userID>')
-  .description('enable a given user from logging in')
-  .action(enableUser);
+  .command('setrole <userID> [role]')
+  .option('-i, --interactive', 'Enable interactive mode')
+  .description('sets the role on a user')
+  .action(setRole);
 
 program
   .command('verify <userID> <email>')

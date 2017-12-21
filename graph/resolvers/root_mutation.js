@@ -19,14 +19,29 @@ const RootMutation = {
   deleteAction: async (_, {id}, {mutators: {Action}}) => {
     await Action.delete({id});
   },
-  setUserStatus: async (_, {id, status}, {mutators: {User}}) => {
-    await User.setUserStatus({id, status});
+  approveUsername: async (_, {id}, {mutators: {User}}) => {
+    await User.setUserUsernameStatus(id, 'APPROVED');
   },
-  suspendUser: async (_, {input: {id, message, until}}, {mutators: {User}}) => {
-    await User.suspendUser({id, message, until});
+  rejectUsername: async (_, {id}, {mutators: {User}}) => {
+    await User.setUserUsernameStatus(id, 'REJECTED');
   },
-  rejectUsername: async (_, {input: {id, message}}, {mutators: {User}}) => {
-    await User.rejectUsername({id, message});
+  changeUsername: async (_, {id, username}, {mutators: {User}}) => {
+    await User.changeUsername(id, username);
+  },
+  setUsername: async (_, {id, username}, {mutators: {User}}) => {
+    await User.setUsername(id, username);
+  },
+  suspendUser: async (obj, {input: {id, until, message}}, {mutators: {User}}) => {
+    await User.setUserSuspensionStatus(id, until, message);
+  },
+  unSuspendUser: async (obj, {input: {id}}, {mutators: {User}}) => {
+    await  User.setUserSuspensionStatus(id);
+  },
+  banUser: async (obj, {input: {id, message}}, {mutators: {User}}) => {
+    await User.setUserBanStatus(id, true, message);
+  },
+  unBanUser: async (obj, {input: {id}}, {mutators: {User}}) => {
+    await  User.setUserBanStatus(id, false);
   },
   ignoreUser: async (_, {id}, {mutators: {User}}) => {
     await User.ignoreUser({id});
@@ -39,6 +54,9 @@ const RootMutation = {
   },
   updateAssetStatus: async (_, {id, input: status}, {mutators: {Asset}}) => {
     await Asset.updateStatus(id, status);
+  },
+  setUserRole: async (_, {id, role}, {mutators: {User}}) => {
+    await User.setRole(id, role);
   },
   setCommentStatus: async (_, {id, status}, {mutators: {Comment}, pubsub}) => {
     const comment = await Comment.setStatus({id, status});

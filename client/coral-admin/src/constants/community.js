@@ -6,8 +6,6 @@ export const FETCH_USERS_FAILURE = `${prefix}_FETCH_USERS_FAILURE`;
 
 export const SORT_UPDATE = `${prefix}_SORT_UPDATE`;
 export const SET_PAGE = `${prefix}_SET_PAGE`;
-export const SET_ROLE = `${prefix}_SET_ROLE`;
-export const SET_COMMENTER_STATUS = `${prefix}_SET_COMMENTER_STATUS`;
 
 export const FETCH_FLAGGED_COMMENTERS_REQUEST = `${prefix}_FETCH_FLAGGED_COMMENTERS_REQUEST`;
 export const FETCH_FLAGGED_COMMENTERS_SUCCESS = `${prefix}_FETCH_FLAGGED_COMMENTERS_SUCCESS`;

@@ -17,6 +17,7 @@ module.exports = {
   },
 
   'creates a new asset': (client) => {
+
     const asset = 'newAssetTest';
     const embedStream = client.page.embedStream();
 

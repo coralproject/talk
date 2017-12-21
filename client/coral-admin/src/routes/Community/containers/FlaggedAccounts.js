@@ -5,10 +5,7 @@ import {compose, gql} from 'react-apollo';
 import {withFragments} from 'plugin-api/beta/client/hocs';
 import {Spinner} from 'coral-ui';
 import PropTypes from 'prop-types';
-
-import {withSetUserStatus} from 'coral-framework/graphql/mutations';
-import {showBanUserDialog} from 'actions/banUserDialog';
-import {showSuspendUserDialog} from 'actions/suspendUserDialog';
+import {withApproveUsername} from 'coral-framework/graphql/mutations';
 import {showRejectUsernameDialog} from '../../../actions/community';
 import {viewUserDetail} from '../../../actions/userDetail';
 import {getDefinitionName} from 'coral-framework/utils';
@@ -24,11 +21,8 @@ class FlaggedAccountsContainer extends Component {
     super(props);
   }
 
-  approveUser = ({userId}) => {
-    return this.props.setUserStatus({
-      userId,
-      status: 'APPROVED'
-    });
+  approveUser = ({userId: id}) => {
+    return this.props.approveUsername(id);
   }
 
   loadMore = () => {
@@ -40,7 +34,7 @@ class FlaggedAccountsContainer extends Component {
       },
       updateQuery: (previous, {fetchMoreResult:{users}}) => {
         const updated = update(previous, {
-          users: {
+          flaggedUsers: {
             nodes: {
               $apply: (nodes) => appendNewNodes(nodes, users.nodes),
             },
@@ -63,15 +57,13 @@ class FlaggedAccountsContainer extends Component {
     }
     return (
       <FlaggedAccounts
-        showBanUserDialog={this.props.showBanUserDialog}
-        showSuspendUserDialog={this.props.showSuspendUserDialog}
         showRejectUsernameDialog={this.props.showRejectUsernameDialog}
         viewUserDetail={this.props.viewUserDetail}
         approveUser={this.approveUser}
         loadMore={this.loadMore}
         data={this.props.data}
         root={this.props.root}
-        users={this.props.root.users}
+        users={this.props.root.flaggedUsers}
         me={this.props.root.me}
       />
     );
@@ -79,18 +71,25 @@ class FlaggedAccountsContainer extends Component {
 }
 
 FlaggedAccountsContainer.propTypes = {
-  showBanUserDialog: PropTypes.func,
-  showSuspendUserDialog: PropTypes.func,
   showRejectUsernameDialog: PropTypes.func,
   viewUserDetail: PropTypes.func,
-  setUserStatus: PropTypes.func,
+  approveUsername: PropTypes.func,
   data: PropTypes.object,
-  root: PropTypes.object
+  root: PropTypes.object,
 };
 
 const LOAD_MORE_QUERY = gql`
   query TalkAdmin_LoadMoreFlaggedAccounts($limit: Int, $cursor: Cursor) {
-    users(query:{action_type: FLAG, statuses: [PENDING], limit: $limit, cursor: $cursor}){
+    flaggedUsers: users(query:{
+        action_type: FLAG,
+        state: {
+          status: {
+            username: [PENDING]
+          }
+        },
+        limit: $limit,
+        cursor: $cursor
+      }){
       hasNextPage
       endCursor
       nodes {
@@ -104,19 +103,25 @@ const LOAD_MORE_QUERY = gql`
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    showBanUserDialog,
-    showSuspendUserDialog,
     showRejectUsernameDialog,
     viewUserDetail,
   }, dispatch);
 
 export default compose(
   connect(null, mapDispatchToProps),
-  withSetUserStatus,
+  withApproveUsername,
   withFragments({
     root: gql`
       fragment TalkAdminCommunity_FlaggedAccounts_root on RootQuery {
-        users(query:{action_type: FLAG, statuses: [PENDING], limit: 10}){
+        flaggedUsers: users(query:{
+            action_type: FLAG,
+            state: {
+              status: {
+                username: [SET, CHANGED]
+              }
+            }
+            limit: 10
+          }){
           hasNextPage
           endCursor
           nodes {

@@ -82,8 +82,8 @@ module.exports = {
   },
   'admin suspends user': (client) => {
     const adminPage = client.page.admin();
-    const moderate = adminPage.section.moderate;
-    
+    const {moderate, userDetailDrawer} = adminPage.section;
+
     adminPage
       .navigate()
       .ready()
@@ -91,16 +91,21 @@ module.exports = {
 
     moderate
       .waitForElementVisible('@comment')
-      .waitForElementVisible('@commentActionMenu')
-      .waitForElementVisible('@actionMenuButton')
+      .waitForElementVisible('@commentUsername')
+      .click('@commentUsername');
+
+    userDetailDrawer
+      .waitForElementVisible('@actionsMenu')
       .click('@actionMenuButton')
       .waitForElementVisible('@actionItemSuspendUser')
       .click('@actionItemSuspendUser');
 
-    adminPage 
+    adminPage
       .waitForElementVisible('@suspendUserDialog')
+      .waitForElementVisible('@suspendUserDialogStep0')
       .waitForElementVisible('@suspendUserConfirmButton')
       .click('@suspendUserConfirmButton')
+      .waitForElementVisible('@suspendUserDialogStep1')
       .waitForElementVisible('@supendUserSendButton')
       .click('@supendUserSendButton');
 
@@ -109,6 +114,27 @@ module.exports = {
       .waitForElementVisible('@toastClose')
       .click('@toastClose');
 
+  },
+  'admin checks user status and ban and suspension history': (client) => {
+    const adminPage = client.page.admin();
+    const {moderate, userDetailDrawer} = adminPage.section;
+
+    moderate
+      .waitForElementVisible('@comment')
+      .waitForElementVisible('@commentUsername')
+      .click('@commentUsername');
+
+    userDetailDrawer
+      .waitForElementVisible('@tabBar')
+      .waitForElementVisible('@allTab')
+      .click('@allTab')
+      .waitForElementVisible('@rejectedTab')
+      .click('@rejectedTab')
+      .waitForElementVisible('@historyTab')
+      .click('@historyTab')
+      .waitForElementVisible('@historyPane')
+      .waitForElementVisible('@accountHistory')
+      .click('@closeButton');
   },
   'admin logs out': (client) => {
     const adminPage = client.page.admin();

@@ -10,6 +10,7 @@ const {HELMET_CONFIGURATION} = require('./config');
 const {MOUNT_PATH} = require('./url');
 const routes = require('./routes');
 const debug = require('debug')('talk:app');
+const {ENABLE_TRACING, APOLLO_ENGINE_KEY, PORT} = require('./config');
 
 const app = express();
 
@@ -39,6 +40,22 @@ plugins.get('server', 'app').forEach(({plugin, app: callback}) => {
 // Add the logging middleware only if we aren't testing.
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
+}
+
+if (ENABLE_TRACING && APOLLO_ENGINE_KEY) {
+  const {Engine} = require('apollo-engine');
+
+  const engine = new Engine({
+    engineConfig: {
+      apiKey: APOLLO_ENGINE_KEY
+    },
+    graphqlPort: PORT,
+    endpoint: `${MOUNT_PATH}api/v1/graph/ql`,
+  });
+
+  engine.start();
+
+  app.use(engine.expressMiddleware());
 }
 
 // Trust the first proxy in front of us, this will enable us to trust the fact

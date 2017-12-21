@@ -177,39 +177,135 @@ export const withSuspendUser = withMutation(
     })
   });
 
-export const withRejectUsername = withMutation(
+export const withUnSuspendUser = withMutation(
   gql`
-    mutation RejectUsername($input: RejectUsernameInput!) {
-      rejectUsername(input: $input) {
-        ...RejectUsernameResponse
+    mutation UnSuspendUser($input: UnSuspendUserInput!) {
+      unSuspendUser(input: $input) {
+        ...UnSuspendUserResponse
       }
     }
   `, {
     props: ({mutate}) => ({
-      rejectUsername: (input) => {
+      unSuspendUser: (input) => {
         return mutate({
           variables: {
             input,
           },
         });
       }
-    })
+    }),
   });
 
-export const withSetUserStatus = withMutation(
+export const withApproveUsername = withMutation(
   gql`
-    mutation SetUserStatus($userId: ID!, $status: USER_STATUS!) {
-      setUserStatus(id: $userId, status: $status) {
-        ...SetUserStatusResponse
+    mutation ApproveUsername($id: ID!) {
+      approveUsername(id: $id) {
+        ...SetUsernameStatusResponse
       }
     }
   `, {
     props: ({mutate}) => ({
-      setUserStatus: ({userId, status}) => {
+      approveUsername: (id) => {
         return mutate({
           variables: {
-            userId,
-            status
+            id,
+          },
+        });
+      }
+    })
+  });
+
+export const withRejectUsername = withMutation(
+  gql`
+    mutation RejectUsername($id: ID!) {
+      rejectUsername(id: $id) {
+        ...SetUsernameStatusResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      rejectUsername: (id) => {
+        return mutate({
+          variables: {
+            id,
+          },
+        });
+      }
+    })
+  });
+
+export const withChangeUsername = withMutation(
+  gql`
+    mutation ChangeUsername($id: ID!, $username: String!) {
+      changeUsername(id: $id, username: $username) {
+        ...ChangeUsernameResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      changeUsername: (id, username) => {
+        return mutate({
+          variables: {
+            id,
+            username,
+          },
+        });
+      }
+    })
+  });
+
+export const withBanUser = withMutation(
+  gql`
+    mutation BanUser($input: BanUserInput!) {
+      banUser(input: $input) {
+        ...BanUsersResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      banUser: (input) => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      }
+    }),
+  });
+
+export const withUnBanUser = withMutation(
+  gql`
+    mutation UnBanUser($input: UnBanUserInput!) {
+      unBanUser(input: $input) {
+        ...UnBanUserResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      unBanUser: (input) => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      }
+    }),
+  });
+
+export const withSetUserRole = withMutation(
+  gql`
+    mutation SetUserRole($id: ID!, $role: USER_ROLES!) {
+      setUserRole(id: $id, role: $role) {
+        ...SetUserRoleResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      setUserRole: (id, role) => {
+        return mutate({
+          variables: {
+            id,
+            role,
           },
         });
       }
@@ -228,7 +324,7 @@ export const withPostComment = withMutation(
       postComment: (input) => {
         return mutate({
           variables: {
-            input
+            input,
           },
         });
       }

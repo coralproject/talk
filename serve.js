@@ -79,7 +79,7 @@ async function onListening() {
   let bind = typeof addr === 'string'
     ? `pipe ${addr}`
     : `port ${addr.port}`;
-  debug(`API Server Listening on ${bind}`);
+  console.log(`API Server Listening on ${bind}`);
 }
 
 /**
@@ -141,7 +141,7 @@ async function serve({jobs = false, websockets = false} = {}) {
 
     // Mount the websocket server if requested.
     if (websockets) {
-      debug(`Websocket Server Listening on ${port}`);
+      console.log(`Websocket Server Listening on ${port}`);
 
       // Mount the subscriptions server on the application server.
       createSubscriptionManager(server);

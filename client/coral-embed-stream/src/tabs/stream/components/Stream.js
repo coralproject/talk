@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {StreamError} from './StreamError';
 import Comment from '../containers/Comment';
-import SuspendedAccount from './SuspendedAccount';
+import BannedAccount from '../../../components/BannedAccount';
+import ChangeUsername from '../../../containers/ChangeUsername';
 import Slot from 'coral-framework/components/Slot';
 import InfoBox from 'talk-plugin-infobox/InfoBox';
 import {can} from 'coral-framework/services/perms';
@@ -15,6 +16,7 @@ import QuestionBox from '../../../components/QuestionBox';
 import {isCommentActive} from 'coral-framework/utils';
 import {Tab, TabCount, TabPane} from 'coral-ui';
 import cn from 'classnames';
+import get from 'lodash/get';
 
 import {getTopLevelParent, attachCommentToParent} from '../../../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
@@ -223,19 +225,20 @@ class Stream extends React.Component {
       notify,
       updateItem,
       auth: {loggedIn, user},
-      editName,
     } = this.props;
     const {keepCommentBox} = this.state;
     const open = !asset.isClosed;
 
-    const banned = user && user.status === 'BANNED';
+    const banned = get(user, 'status.banned.status');
+    const suspensionUntil = get(user, 'status.suspension.until');
+    const rejectedUsername = get(user, 'status.username.status') === 'REJECTED';
 
     const temporarilySuspended =
       user &&
-      user.suspension.until &&
-      new Date(user.suspension.until) > new Date();
+      suspensionUntil &&
+      new Date(suspensionUntil) > new Date();
 
-    const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
+    const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !rejectedUsername && !highlightedComment) || keepCommentBox);
     const slotProps = {data};
     const slotQueryData = {root, asset};
 
@@ -268,15 +271,11 @@ class Stream extends React.Component {
                   {t(
                     'stream.temporarily_suspended',
                     root.settings.organizationName,
-                    timeago(user.suspension.until)
+                    timeago(suspensionUntil)
                   )}
                 </RestrictedMessageBox>}
-            {banned &&
-                <SuspendedAccount
-                  canEditName={user && user.canEditName}
-                  editName={editName}
-                  currentUsername={user.username}
-                />}
+            {!banned && rejectedUsername && <ChangeUsername user={user} />}
+            {banned && <BannedAccount />}
             {showCommentBox &&
                 <CommentBox
                   notify={notify}

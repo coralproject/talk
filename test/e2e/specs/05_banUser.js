@@ -83,7 +83,7 @@ module.exports = {
 
     adminPage
       .goToCommunity()
-        .goToPeople();
+      .goToPeople();
   },
   'admin removes ban from user': (client) => {
     const people = client.page.admin()
@@ -95,7 +95,7 @@ module.exports = {
       .waitForElementVisible('@dropdownStatus')
       .click('@dropdownStatus')
       .waitForElementVisible('@dropdownStatusActive')
-      .click('@optionActive');
+      .click('@optionRemoveBan');
   },
   'admin logs out 2': (client) => {
     client.page.admin().logout();

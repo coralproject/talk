@@ -116,10 +116,18 @@ const USER_BANNED_SUBSCRIPTION = gql`
   subscription UserBanned($user_id: ID!) {
     userBanned(user_id: $user_id){
       id
-      status
-      canEditName
-      suspension {
-        until
+      state {
+        status {
+          username {
+            status
+          }
+          banned {
+            status
+          }
+          suspension {
+            until
+          }
+        }
       }
     }
   }
@@ -129,10 +137,18 @@ const USER_SUSPENDED_SUBSCRIPTION = gql`
   subscription UserSuspended($user_id: ID!) {
     userSuspended(user_id: $user_id){
       id
-      status
-      canEditName
-      suspension {
-        until
+      state {
+        status {
+          username {
+            status
+          }
+          banned {
+            status
+          }
+          suspension {
+            until
+          }
+        }
       }
     }
   }
@@ -142,10 +158,18 @@ const USERNAME_REJECTED_SUBSCRIPTION = gql`
   subscription UsernameRejected($user_id: ID!) {
     usernameRejected(user_id: $user_id){
       id
-      status
-      canEditName
-      suspension {
-        until
+      state {
+        status {
+          username {
+            status
+          }
+          banned {
+            status
+          }
+          suspension {
+            until
+          }
+        }
       }
     }
   }
@@ -170,7 +194,19 @@ const EMBED_QUERY = gql`
   ) {
     me {
       id
-      status
+      state {
+        status {
+          username {
+            status
+          }
+          banned {
+            status
+          }
+          suspension {
+            until
+          }
+        }
+      }
     }
     asset(id: $assetId, url: $assetUrl) {
       ...${getDefinitionName(Configure.fragments.asset)}

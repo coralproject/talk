@@ -40,7 +40,7 @@ describe('/api/v1/assets', () => {
       for (const role of ['ADMIN', 'MODERATOR']) {
         const res = await chai.request(app)
           .get('/api/v1/assets')
-          .set(passport.inject({roles: [role]}));
+          .set(passport.inject({role}));
 
         const body = res.body;
 
@@ -57,7 +57,7 @@ describe('/api/v1/assets', () => {
       for (const role of ['ADMIN', 'MODERATOR']) {
         const res = await chai.request(app)
           .get('/api/v1/assets?value=term2')
-          .set(passport.inject({roles: [role]}));
+          .set(passport.inject({role}));
 
         const body = res.body;
 
@@ -79,7 +79,7 @@ describe('/api/v1/assets', () => {
       for (const role of ['ADMIN', 'MODERATOR']) {
         const res = await chai.request(app)
           .get('/api/v1/assets?value=term3')
-          .set(passport.inject({roles: [role]}));
+          .set(passport.inject({role}));
         const body = res.body;
 
         expect(body).to.have.property('count', 0);
@@ -93,7 +93,7 @@ describe('/api/v1/assets', () => {
       for (const role of ['ADMIN', 'MODERATOR']) {
         const res = await chai.request(app)
           .get('/api/v1/assets?filter=closed')
-          .set(passport.inject({roles: [role]}));
+          .set(passport.inject({role}));
         const body = res.body;
 
         expect(body).to.have.property('count', 1);
@@ -109,7 +109,7 @@ describe('/api/v1/assets', () => {
       for (const role of ['ADMIN', 'MODERATOR']) {
         const res = await chai.request(app)
           .get('/api/v1/assets?filter=open')
-          .set(passport.inject({roles: [role]}));
+          .set(passport.inject({role}));
         const body = res.body;
 
         expect(body).to.have.property('count', 1);
@@ -134,7 +134,7 @@ describe('/api/v1/assets', () => {
 
       const res = await chai.request(app)
         .put(`/api/v1/assets/${asset.id}/status`)
-        .set(passport.inject({roles: ['ADMIN']}))
+        .set(passport.inject({role: 'ADMIN'}))
         .send({closedAt: today});
 
       expect(res).to.have.status(204);
@@ -153,7 +153,7 @@ describe('/api/v1/assets', () => {
 
       const promise = chai.request(app)
         .put(`/api/v1/assets/${asset.id}/status`)
-        .set(passport.inject({roles: ['MODERATOR']}))
+        .set(passport.inject({role: 'MODERATOR'}))
         .send({closedAt: today});
       await expect(promise).to.eventually.be.rejected;
     });

@@ -196,7 +196,4 @@ CommentSchema.virtual('visible').get(function() {
   return ['ACCEPTED', 'NONE'].includes(this.status);
 });
 
-// Comment model.
-const Comment = mongoose.model('Comment', CommentSchema);
-
-module.exports = Comment;
+module.exports = mongoose.model('Comment', CommentSchema);
