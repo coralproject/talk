@@ -1,7 +1,8 @@
 module.exports = {
   '@tags': ['admin', 'login'],
 
-   before: (client) => {
+  before: (client) => {
+    client.setWindowPosition(0, 0);
     client.resizeWindow(1024, 800);
   },
 
