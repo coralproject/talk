@@ -30,138 +30,150 @@ const headers = [
   }
 ];
 
-const getActionMenuLabel = (user) => {
+class People extends React.Component {
 
-  if (isBanned(user)) {
-    return 'Banned';
-  } else if (isSuspended(user)) {
-    return 'Suspended';
+  getActionMenuLabel = (user) => {
+    if (isBanned(user)) {
+      return 'Banned';
+    } else if (isSuspended(user)) {
+      return 'Suspended';
+    }
+    return '';
+  };
+
+  unSuspendUser = (input) => {
+    this.props.unSuspendUser(input);
   }
 
-  return '';
-};
+  unBanUser = (input) => {
+    this.props.unBanUser(input);
+  }
 
-const People = (props) => {
-  const {
-    onSearchChange,
-    users = [],
-    setUserRole,
-    viewUserDetail,
-    loadMore,
-    unSuspendUser,
-    unBanUser,
-    showSuspendUserDialog,
-    showBanUserDialog,
-  } = props;
+  showBanUserDialog = (input) => {
+    this.props.showBanUserDialog(input);
+  }
 
-  const hasResults = !!users.nodes.length;
+  showSuspendUserDialog = (input) => {
+    this.props.showSuspendUserDialog(input);
+  }
 
-  return (
-    <div className={cn(styles.container, 'talk-admin-community-people-container')}>
-      <div className={styles.leftColumn}>
-        <div className={styles.searchBox}>
-          <Icon name='search' className={styles.searchIcon}/>
-          <input
-            id="commenters-search"
-            type="text"
-            className={styles.searchBoxInput}
-            defaultValue=''
-            onChange={onSearchChange}
-            placeholder={t('streams.search')}
-          />
+  render () {
+    const {
+      onSearchChange,
+      users = [],
+      setUserRole,
+      viewUserDetail,
+      loadMore,
+    } = this.props;
+    
+    const hasResults = !!users.nodes.length;
+    
+    return (
+      <div className={cn(styles.container, 'talk-admin-community-people-container')}>
+        <div className={styles.leftColumn}>
+          <div className={styles.searchBox}>
+            <Icon name='search' className={styles.searchIcon}/>
+            <input
+              id="commenters-search"
+              type="text"
+              className={styles.searchBoxInput}
+              defaultValue=''
+              onChange={onSearchChange}
+              placeholder={t('streams.search')}
+            />
+          </div>
+        </div>
+        <div className={styles.mainContent}>
+          {
+            hasResults
+              ? <div>
+                <div>
+                  <table className={`mdl-data-table ${styles.dataTable}`}>
+                    <thead>
+                      <tr>
+                        {headers.map((header, i) =>(
+                          <th
+                            key={i}
+                            className={cn('mdl-data-table__cell--non-numeric', styles.header)}
+                            scope="col" >
+                            {header.title}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {users.nodes.map((user, i)=> (
+                        <tr key={i} className="talk-admin-community-people-row">
+                          <td className="mdl-data-table__cell--non-numeric">
+                            <button onClick={() => {viewUserDetail(user.id);}} className={cn(styles.username, styles.button)}>{user.username}</button>
+                            <span className={styles.email}>{user.profiles.map(({id}) => id)}</span>
+                          </td>
+                          <td className="mdl-data-table__cell--non-numeric">
+                            {moment(new Date(user.created_at)).format('MMMM Do YYYY, h:mm:ss a')}
+                          </td>
+                          <td className="mdl-data-table__cell--non-numeric">
+                            <ActionsMenu
+                              icon="person"
+                              className={cn(styles.actionsMenu, 'talk-admin-community-people-dd-status')}
+                              buttonClassNames={cn(styles.actionsMenuButton, {
+                                [styles.actionsMenuSuspended]: isSuspended(user),
+                                [styles.actionsMenuBanned]: isBanned(user),
+                              }, 'talk-admin-user-detail-actions-button')}
+                              label={this.getActionMenuLabel(user)} >
+                              
+                              {isSuspended(user) ? <ActionsMenuItem
+                                onClick={() => this.unSuspendUser({id: user.id})}>
+                                Remove Suspension
+                              </ActionsMenuItem> : <ActionsMenuItem
+                                onClick={() => this.showSuspendUserDialog({
+                                  userId: user.id,
+                                  username: user.username,
+                                })}>
+                                Suspend User
+                              </ActionsMenuItem>}
+
+                              {isBanned(user) ? <ActionsMenuItem
+                                onClick={() => this.unBanUser({id: user.id})}>
+                                Remove Ban
+                              </ActionsMenuItem> : <ActionsMenuItem
+                                onClick={() => this.showBanUserDialog({
+                                  userId: user.id,
+                                  username: user.username,
+                                })}>
+                                Ban User
+                              </ActionsMenuItem>}
+  
+                            </ActionsMenu>
+                          </td>
+                          <td className="mdl-data-table__cell--non-numeric">
+                            <Dropdown
+                              containerClassName="talk-admin-community-people-dd-role"
+                              value={user.role}
+                              placeholder={t('community.role')}
+                              onChange={(role) => setUserRole(user.id, role)}>
+                              <Option value={'COMMENTER'} label={t('community.commenter')} />
+                              <Option value={'STAFF'} label={t('community.staff')} />
+                              <Option value={'MODERATOR'} label={t('community.moderator')} />
+                              <Option value={'ADMIN'} label={t('community.admin')} />
+                            </Dropdown>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <LoadMore
+                  loadMore={loadMore}
+                  showLoadMore={users.hasNextPage}
+                />
+              </div>
+              : <EmptyCard>{t('community.no_results')}</EmptyCard>
+          }
         </div>
       </div>
-      <div className={styles.mainContent}>
-        {
-          hasResults
-            ? <div>
-              <div>
-                <table className={`mdl-data-table ${styles.dataTable}`}>
-                  <thead>
-                    <tr>
-                      {headers.map((header, i) =>(
-                        <th
-                          key={i}
-                          className={cn('mdl-data-table__cell--non-numeric', styles.header)}
-                          scope="col" >
-                          {header.title}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {users.nodes.map((user, i)=> (
-                      <tr key={i} className="talk-admin-community-people-row">
-                        <td className="mdl-data-table__cell--non-numeric">
-                          <button onClick={() => {viewUserDetail(user.id);}} className={cn(styles.username, styles.button)}>{user.username}</button>
-                          <span className={styles.email}>{user.profiles.map(({id}) => id)}</span>
-                        </td>
-                        <td className="mdl-data-table__cell--non-numeric">
-                          {moment(new Date(user.created_at)).format('MMMM Do YYYY, h:mm:ss a')}
-                        </td>
-                        <td className="mdl-data-table__cell--non-numeric">
-                        
-                          <ActionsMenu
-                            icon="person"
-                            className={cn(styles.actionsMenu, 'talk-admin-community-people-dd-status')}
-                            buttonClassNames={cn(styles.actionsMenuButton, {
-                              [styles.actionsMenuSuspended]: isSuspended(user),
-                              [styles.actionsMenuBanned]: isBanned(user),
-                            }, 'talk-admin-user-detail-actions-button')}
-                            label={getActionMenuLabel(user)} >
-
-                            {isSuspended(user) ? <ActionsMenuItem
-                              onClick={() => unSuspendUser({id: user.id})}>
-                              Remove Suspension
-                            </ActionsMenuItem> : <ActionsMenuItem
-                              onClick={() => showSuspendUserDialog({
-                                userId: user.id,
-                                username: user.username,
-                              })}>
-                              Suspend User
-                            </ActionsMenuItem>}
-
-                            {isBanned(user) ? <ActionsMenuItem
-                              onClick={() => unBanUser({id: user.id})}>
-                              Remove Ban
-                            </ActionsMenuItem> : <ActionsMenuItem
-                              onClick={() => showBanUserDialog({
-                                userId: user.id,
-                                username: user.username,
-                              })}>
-                              Ban User
-                            </ActionsMenuItem>}
-
-                          </ActionsMenu>
-                        </td>
-                        <td className="mdl-data-table__cell--non-numeric">
-                          <Dropdown
-                            containerClassName="talk-admin-community-people-dd-role"
-                            value={user.role}
-                            placeholder={t('community.role')}
-                            onChange={(role) => setUserRole(user.id, role)}>
-                            <Option value={'COMMENTER'} label={t('community.commenter')} />
-                            <Option value={'STAFF'} label={t('community.staff')} />
-                            <Option value={'MODERATOR'} label={t('community.moderator')} />
-                            <Option value={'ADMIN'} label={t('community.admin')} />
-                          </Dropdown>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <LoadMore
-                loadMore={loadMore}
-                showLoadMore={users.hasNextPage}
-              />
-            </div>
-            : <EmptyCard>{t('community.no_results')}</EmptyCard>
-        }
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 People.propTypes = {
   users: PropTypes.object.isRequired,

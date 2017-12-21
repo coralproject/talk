@@ -77,7 +77,7 @@ class PeopleContainer extends React.Component {
       showSuspendUserDialog={this.props.showSuspendUserDialog}
       showBanUserDialog={this.props.showBanUserDialog}
       unBanUser={this.props.unBanUser}
-      unSuspendUser={this.props.unBanUser}
+      unSuspendUser={this.props.unSuspendUser}
       data={this.props.data}
       root={this.props.root}
       users={this.props.root.users}
@@ -127,8 +127,8 @@ const LOAD_MORE_QUERY = gql`
 export default compose(
   connect(null, mapDispatchToProps),
   withSetUserRole,
-  withUnBanUser,
   withUnSuspendUser,
+  withUnBanUser,
   withFragments({
     root: gql`
       fragment TalkAdminCommunity_People_root on RootQuery {
