@@ -25,8 +25,14 @@ class SortedWindowHandler {
    */
   windowHandles(callback) {
     this.client.windowHandles((result) => {
+
+      if (result.value.message) {
+        throw new Error(result.value.message);
+      }
+
       this.handles = this.handles.filter((handle) => result.value.includes(handle));
       const remaining = result.value.filter((handle) => !this.handles.includes(handle));
+
       if (remaining.length === 1) {
         this.handles.push(remaining[0]);
       }
@@ -35,6 +41,14 @@ class SortedWindowHandler {
       }
       callback(this.handles);
     });
+  }
+
+  /**
+   *  Switch to main window handle and remove latest handle.
+   */
+  pop() {
+    this.client.switchWindow(this.handles[0]);
+    this.handles.splice(-1, 1);
   }
 }
 
