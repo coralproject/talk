@@ -2,6 +2,20 @@ import update from 'immutability-helper';
 import {mapLeaves} from 'coral-framework/utils';
 import {gql} from 'react-apollo';
 
+const userStatusFragment = gql`
+  fragment Talk_UpdateUserStatus on User {
+    state {
+      status {
+        banned {
+          status
+        }
+        suspension {
+          until
+        }
+      }
+    }
+  }`;
+
 export default {
   mutations: {
     SetUserRole: ({variables: {id: userId, role}}) => ({
@@ -26,52 +40,29 @@ export default {
         }
       }
     }),
-    SuspendUser: ({variables: {input: {id}}}) => ({
+    SuspendUser: ({variables: {input: {id, until}}}) => ({
       update: (proxy) => {
-        const fragment = gql`
-        fragment Talk_UpdateUserStatus on User {
-          state {
-            status {
-              suspension {
-                until
-              }
-            }
-          }
-        }`;
-
         const fragmentId = `User_${id}`;
 
-        const data = proxy.readFragment({fragment, id: fragmentId});
+        const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
 
         const updated = update(data, {
           state : {
             status: {
               suspension: {
-                until: {$set: new Date()}
+                until: {$set: until}
               }
             }
           }
         });
 
-        proxy.writeFragment({fragment, id: fragmentId, data: updated});
+        proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
       }
     }),
     UnSuspendUser: ({variables: {input: {id}}}) => ({
       update: (proxy) => {
-        const fragment = gql`
-        fragment Talk_UpdateUserStatus on User {
-          state {
-            status {
-              suspension {
-                until
-              }
-            }
-          }
-        }`;
-
         const fragmentId = `User_${id}`;
-
-        const data = proxy.readFragment({fragment, id: fragmentId});
+        const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
 
         const updated = update(data, {
           state : {
@@ -83,26 +74,14 @@ export default {
           }
         });
 
-        proxy.writeFragment({fragment, id: fragmentId, data: updated});
-      }
+        proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
+      },
     }),
     BanUser: ({variables: {input: {id}}}) => ({
       update: (proxy) => {
-        const fragment = gql`
-        fragment Talk_UpdateUserStatus on User {
-          state {
-            status {
-              banned {
-                status
-              }
-            }
-          }
-        }`;
-
         const fragmentId = `User_${id}`;
-
-        const data = proxy.readFragment({fragment, id: fragmentId});
-
+        const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
+        
         const updated = update(data, {
           state : {
             status: {
@@ -113,25 +92,13 @@ export default {
           }
         });
 
-        proxy.writeFragment({fragment, id: fragmentId, data: updated});
+        proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
       }
     }),
     UnBanUser: ({variables: {input: {id}}}) => ({
       update: (proxy) => {
-        const fragment = gql`
-        fragment Talk_UpdateUserStatus on User {
-          state {
-            status {
-              banned {
-                status
-              }
-            }
-          }
-        }`;
-
         const fragmentId = `User_${id}`;
-
-        const data = proxy.readFragment({fragment, id: fragmentId});
+        const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
 
         const updated = update(data, {
           state : {
@@ -143,7 +110,7 @@ export default {
           }
         });
 
-        proxy.writeFragment({fragment, id: fragmentId, data: updated});
+        proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
       }
     }),
     SetUserBanStatus: ({variables: {status, id}}) => ({
@@ -197,4 +164,3 @@ export default {
     }),
   },
 };
-
