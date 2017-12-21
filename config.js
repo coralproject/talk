@@ -11,7 +11,7 @@ const uniq = require('lodash/uniq');
 const ms = require('ms');
 const debug = require('debug')('talk:config');
 
-const localAddress = require('ip').address();
+const localAddress = require('ip').address('private');
 
 //==============================================================================
 // CONFIG INITIALIZATION
