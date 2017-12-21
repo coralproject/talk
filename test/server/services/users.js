@@ -278,25 +278,10 @@ describe('services.UsersService', () => {
             await UsersService[func](user.id, user.username);
             throw new Error('edit was processed successfully');
           } catch (err) {
-            expect(err).have.property('translation_key', 'SAME_USERNAME_PROVIDED');
+            expect(err).have.property('translation_key', 'USERNAME_IN_USE');
           }
         } else {
           await UsersService[func](user.id, user.username);
-        }
-      });
-
-      it('should refuse changing the username to one already taken', async () => {
-        const user = mockUsers[0];
-        const otherUser = mockUsers[1];
-
-        // Set the user to the desired status.
-        await UsersService.setUsernameStatus(user.id, okStatus);
-
-        try {
-          await UsersService[func](user.id, otherUser.username);
-          throw new Error('edit was processed successfully');
-        } catch (err) {
-          expect(err).have.property('translation_key', 'USERNAME_IN_USE');
         }
       });
     });

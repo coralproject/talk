@@ -282,7 +282,7 @@ class UsersService {
         }
 
         if (!resetAllowed && user.username === username) {
-          throw errors.ErrSameUsernameProvided;
+          throw errors.ErrUsernameTaken;
         }
 
         throw new Error('edit username failed for an unexpected reason');
