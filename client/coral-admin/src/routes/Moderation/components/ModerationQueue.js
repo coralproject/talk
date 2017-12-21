@@ -190,20 +190,24 @@ class ModerationQueue extends React.Component {
   componentDidUpdate (prev) {
     const {commentCount, selectedCommentId} = this.props;
 
-    // If the user just moderated the last (visible) comment
-    // AND there are more comments available on the server,
-    // go ahead and load more comments
-    if (prev.comments.length > 0 && this.getCommentCountWithoutDagling() === 0 && commentCount > 0) {
-      this.props.loadMore();
+    const switchedToMultiMode = prev.singleView && !this.props.singleView;
+    const switchedMode = prev.singleView !== this.props.singleView;
+    const selectedDifferentComment = prev.selectedCommentId !== selectedCommentId && selectedCommentId;
+    const moderatedLastComment = prev.comments.length > 0 && this.getCommentCountWithoutDagling() === 0;
+    const hasMoreComment = commentCount > 0;
+
+    if (switchedToMultiMode) {
+
+      // Reflow virtual list.
+      this.reflowList();
     }
 
-    // Scroll to selected comment.
-    if (prev.selectedCommentId !== selectedCommentId && this.listRef) {
+    if (switchedMode || selectedDifferentComment) {
+      this.scrollToSelectedComment();
+    }
 
-      const view = this.state.view;
-      const index = view.findIndex(({id}) => id === selectedCommentId);
-
-      this.listRef.scrollToRow(index);
+    if (moderatedLastComment && hasMoreComment) {
+      this.props.loadMore();
     }
   }
 
@@ -241,6 +245,17 @@ class ModerationQueue extends React.Component {
   handleListRef = (list) => {
     this.listRef = list;
   };
+
+  scrollToSelectedComment = (props = this.props, state = this.state) => {
+    if (props.singleMode) {
+      document.querySelector(`#comment_${props.selectedCommentId}`).scrollIntoView();
+    }
+    else if(this.listRef) {
+      const view = state.view;
+      const index = view.findIndex(({id}) => id === props.selectedCommentId);
+      this.listRef.scrollToRow(index);
+    }
+  }
 
   viewNewComments = (callback) => {
     this.setState(resetCursors, () => {
@@ -372,6 +387,7 @@ class ModerationQueue extends React.Component {
             rejectComment={props.rejectComment}
             currentAsset={props.currentAsset}
             currentUserId={this.props.currentUserId}
+            dangling={!this.props.commentBelongToQueue(this.props.activeTab, comment)}
           />;
         </div>
       );
