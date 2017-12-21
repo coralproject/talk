@@ -17,7 +17,7 @@ function getUserFlaggedType(actions) {
     .some((action) =>
       action.__typename === 'FlagAction' &&
       action.user &&
-      action.user.roles.some((role) => staffRoles.includes(role))
+      staffRoles.includes(action.user.role)
     ) ? 'Staff' : 'User';
 }
 

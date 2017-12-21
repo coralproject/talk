@@ -15,7 +15,10 @@ const {
   EDIT_COMMENT
 } = require('../../perms/constants');
 const debug = require('debug')('talk:graph:mutators:comment');
-const {DISABLE_AUTOFLAG_SUSPECT_WORDS} = require('../../config');
+const {
+  DISABLE_AUTOFLAG_SUSPECT_WORDS,
+  IGNORE_FLAGS_AGAINST_STAFF,
+} = require('../../config');
 
 const resolveTagsForComment = async ({user, loaders: {Tags}}, {asset_id, tags = []}) => {
   const item_type = 'COMMENTS';
@@ -159,7 +162,7 @@ const createComment = async (context, {tags = [], body, asset_id, parent_id = nu
   // just added a new comment, hence the counts should be updated. We should
   // perform these increments in the event that we do have a new comment that
   // is approved or without a comment.
-  if (status === 'NONE' || status === 'APPROVED') {
+  if (status === 'NONE' || status === 'ACCEPTED') {
     if (parent_id === null) {
       Comments.parentCountByAssetID.incr(asset_id);
     }
@@ -291,6 +294,15 @@ const moderationPhases = [
             count: comment.body.length,
           }
         }]
+      };
+    }
+  },
+
+  // If a given user is a staff member, always approve their comment.
+  (context) => {
+    if (IGNORE_FLAGS_AGAINST_STAFF && context.user && context.user.isStaff()) {
+      return {
+        status: 'ACCEPTED',
       };
     }
   },

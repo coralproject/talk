@@ -37,7 +37,19 @@ export default withFragments({
       user {
         id
         username
-        status
+        state {
+          status {
+            username {
+              status
+            }
+            banned {
+              status
+            }
+            suspension {
+              until
+            }
+          }
+        }
       }
       asset {
         id
@@ -46,6 +58,9 @@ export default withFragments({
       }
       editing {
         edited
+      }
+      status_history {
+        type
       }
       hasParent
       ${getSlotFragmentSpreads(slots, 'comment')}

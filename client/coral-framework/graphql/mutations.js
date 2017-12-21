@@ -88,7 +88,7 @@ export const withRemoveTag = withMutation(
             asset_id: assetId,
             item_type: itemType,
           },
-          optimisticResponse: {
+          o3timisticResponse: {
             removeTag: {
               __typename: 'ModifyTagResponse',
               errors: null,
@@ -138,6 +138,9 @@ export const withSetCommentStatus = withMutation(
             const fragment = gql`
               fragment Talk_SetCommentStatus on Comment {
                 status
+                status_history {
+                  type
+                }
               }`;
 
             const fragmentId = `Comment_${commentId}`;
@@ -145,6 +148,8 @@ export const withSetCommentStatus = withMutation(
             const data = proxy.readFragment({fragment, id: fragmentId});
 
             data.status = status;
+            data.status_history = data.status_history ? data.status_history : [];
+            data.status_history.push({__typename: 'CommentStatusHistory', type: status});
 
             proxy.writeFragment({fragment, id: fragmentId, data});
           }
@@ -172,39 +177,135 @@ export const withSuspendUser = withMutation(
     })
   });
 
-export const withRejectUsername = withMutation(
+export const withUnSuspendUser = withMutation(
   gql`
-    mutation RejectUsername($input: RejectUsernameInput!) {
-      rejectUsername(input: $input) {
-        ...RejectUsernameResponse
+    mutation UnSuspendUser($input: UnSuspendUserInput!) {
+      unSuspendUser(input: $input) {
+        ...UnSuspendUserResponse
       }
     }
   `, {
     props: ({mutate}) => ({
-      rejectUsername: (input) => {
+      unSuspendUser: (input) => {
         return mutate({
           variables: {
             input,
           },
         });
       }
-    })
+    }),
   });
 
-export const withSetUserStatus = withMutation(
+export const withApproveUsername = withMutation(
   gql`
-    mutation SetUserStatus($userId: ID!, $status: USER_STATUS!) {
-      setUserStatus(id: $userId, status: $status) {
-        ...SetUserStatusResponse
+    mutation ApproveUsername($id: ID!) {
+      approveUsername(id: $id) {
+        ...SetUsernameStatusResponse
       }
     }
   `, {
     props: ({mutate}) => ({
-      setUserStatus: ({userId, status}) => {
+      approveUsername: (id) => {
         return mutate({
           variables: {
-            userId,
-            status
+            id,
+          },
+        });
+      }
+    })
+  });
+
+export const withRejectUsername = withMutation(
+  gql`
+    mutation RejectUsername($id: ID!) {
+      rejectUsername(id: $id) {
+        ...SetUsernameStatusResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      rejectUsername: (id) => {
+        return mutate({
+          variables: {
+            id,
+          },
+        });
+      }
+    })
+  });
+
+export const withChangeUsername = withMutation(
+  gql`
+    mutation ChangeUsername($id: ID!, $username: String!) {
+      changeUsername(id: $id, username: $username) {
+        ...ChangeUsernameResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      changeUsername: (id, username) => {
+        return mutate({
+          variables: {
+            id,
+            username,
+          },
+        });
+      }
+    })
+  });
+
+export const withBanUser = withMutation(
+  gql`
+    mutation BanUser($input: BanUserInput!) {
+      banUser(input: $input) {
+        ...BanUsersResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      banUser: (input) => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      }
+    }),
+  });
+
+export const withUnBanUser = withMutation(
+  gql`
+    mutation UnBanUser($input: UnBanUserInput!) {
+      unBanUser(input: $input) {
+        ...UnBanUserResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      unBanUser: (input) => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      }
+    }),
+  });
+
+export const withSetUserRole = withMutation(
+  gql`
+    mutation SetUserRole($id: ID!, $role: USER_ROLES!) {
+      setUserRole(id: $id, role: $role) {
+        ...SetUserRoleResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      setUserRole: (id, role) => {
+        return mutate({
+          variables: {
+            id,
+            role,
           },
         });
       }
@@ -223,7 +324,7 @@ export const withPostComment = withMutation(
       postComment: (input) => {
         return mutate({
           variables: {
-            input
+            input,
           },
         });
       }
@@ -355,6 +456,73 @@ export const withUpdateSettings = withMutation(
           variables: {
             input,
           },
+        });
+      }}),
+  });
+
+export const withUpdateAssetSettings = withMutation(
+  gql`
+    mutation UpdateAssetSettings($id: ID!, $input: AssetSettingsInput!) {
+      updateAssetSettings(id: $id, input: $input) {
+        ...UpdateAssetSettingsResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      updateAssetSettings: (id, input) => {
+        return mutate({
+          variables: {
+            id,
+            input,
+          },
+          optimisticResponse: {
+            updateAssetSettings: {
+              __typename: 'UpdateAssetSettingsResponse',
+              errors: null,
+            }
+          },
+        });
+      }}),
+  });
+
+export const withUpdateAssetStatus = withMutation(
+  gql`
+    mutation UpdateAssetStatus($id: ID!, $input: UpdateAssetStatusInput!) {
+      updateAssetStatus(id: $id, input: $input) {
+        ...UpdateAssetStatusResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      updateAssetStatus: (id, input) => {
+        return mutate({
+          variables: {
+            id,
+            input,
+          },
+          optimisticResponse: {
+            updateAssetStatus: {
+              __typename: 'UpdateAssetStatusResponse',
+              errors: null,
+            }
+          },
+          update: (proxy) => {
+            if (input.closedAt !== undefined) {
+              const fragment = gql`
+                fragment Talk_UpdateAssetStatusResponse on Asset {
+                  closedAt
+                  isClosed
+                }`;
+
+              const fragmentId = `Asset_${id}`;
+              const data = {
+                __typename: 'Asset',
+                closedAt: input.closedAt,
+                isClosed: !!input.closedAt && new Date(input.closedAt).getTime() <= new Date().getTime(),
+              };
+              proxy.writeFragment({fragment, id: fragmentId, data});
+            }
+          }
         });
       }}),
   });

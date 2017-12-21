@@ -1,0 +1,42 @@
+.root {
+  margin-top: 6px;
+}
+
+.viewAllButtonContainer {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: -11px;
+  z-index: 10;
+}
+
+.viewAllButton {
+  composes: buttonReset from "coral-framework/styles/reset.css";
+
+  background-color: #4D8FCC;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 2px;
+}
+
+.tabPanel {
+  margin-top: 8px;
+}
+
+.filterWrapper {
+  position: absolute;
+  right: 0;
+  margin-top: 4px;
+}
+
+.highlightedContainer {
+  margin-top: 28px;
+}
+
+.tabContainer {
+  position: relative;
+  margin-top: 28px;
+  padding-bottom: 50px;
+  min-height: 600px;
+}

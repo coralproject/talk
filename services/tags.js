@@ -97,7 +97,7 @@ class TagsService {
 
       // If the tag has roles defined, and the current user has at least one of
       // the required roles, then modify the tag without checking for ownership.
-      if (tag.permissions && tag.permissions.roles && tag.permissions.roles.some((role) => user.roles.include(role))) {
+      if (tag.permissions && tag.permissions.roles && tag.permissions.roles.includes(user.role)) {
         return {tagLink, ownership: false};
       }
 

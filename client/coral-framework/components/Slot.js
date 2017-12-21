@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './Slot.css';
 import {connect} from 'react-redux';
-import omit from 'lodash/omit';
+import kebabCase from 'lodash/kebabCase';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 import {getShallowChanges} from 'coral-framework/utils';
@@ -58,6 +58,7 @@ class Slot extends React.Component {
       childFactory,
       defaultComponent: DefaultComponent,
       queryData,
+      fill,
     } = this.props;
     const {plugins} = this.context;
     let children = this.getChildren();
@@ -72,7 +73,7 @@ class Slot extends React.Component {
     }
 
     return (
-      <Component className={cn({[styles.inline]: inline, [styles.debug]: pluginConfig.debug}, className)}>
+      <Component className={cn({[styles.inline]: inline, [styles.debug]: pluginConfig.debug}, className, `talk-slot-${kebabCase(fill)}`)}>
         {children}
       </Component>
     );
@@ -85,12 +86,22 @@ Slot.defaultProps = {
 
 Slot.propTypes = {
   fill: PropTypes.string.isRequired,
+  inline: PropTypes.bool,
+  className: PropTypes.string,
+  reduxState: PropTypes.object,
+  defaultComponent: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string,
+  ]),
 
   /**
    * You may specify the component to use as the root wrapper.
    * Defaults to 'div'.
    */
-  component: PropTypes.any,
+  component: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string,
+  ]),
 
   // props coming from graphql must be passed through this property.
   queryData: PropTypes.object,
@@ -109,7 +120,7 @@ Slot.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  reduxState: omit(state, 'apollo'),
+  reduxState: state,
 });
 
 export default connect(mapStateToProps, null)(Slot);

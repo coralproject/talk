@@ -1,9 +1,23 @@
 const {SEARCH_OTHER_USERS} = require('../../../perms/constants');
 const errors = require('../../../errors');
 const pluralize = require('pluralize');
+const sc = require('snake-case');
+const CommentModel = require('../../../models/comment');
+const {CREATE_MONGO_INDEXES} = require('../../../config');
 
 function getReactionConfig(reaction) {
   reaction = reaction.toLowerCase();
+
+  if (CREATE_MONGO_INDEXES) {
+
+    // Create the index on the comment model based on the reaction config.
+    CommentModel.collection.createIndex({
+      created_at: 1,
+      [`action_counts.${sc(reaction)}`]: 1
+    }, {
+      background: true,
+    });
+  }
 
   const reactionPlural = pluralize(reaction);
   const Reaction = reaction.charAt(0).toUpperCase() + reaction.slice(1);
@@ -112,6 +126,14 @@ function getReactionConfig(reaction) {
 
   return {
     typeDefs,
+    schemas: ({CommentSchema}) => {
+      CommentSchema.index({
+        'created_at': 1,
+        [`action_counts.${sc(reaction)}`]: 1,
+      }, {
+        background: true,
+      });
+    },
     context: {
       Sort: () => ({
         Comments: {
@@ -157,10 +179,22 @@ function getReactionConfig(reaction) {
       RootMutation: {
         [`create${Reaction}Action`]: async (_, {input: {item_id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => {
           const comment = await Comments.get.load(item_id);
+          if (!comment) {
+            throw errors.ErrNotFound;
+          }
 
-          let action;
           try {
-            action = await Action.create({item_id, item_type: 'COMMENTS', action_type: REACTION});
+            const action = await Action.create({item_id, item_type: 'COMMENTS', action_type: REACTION});
+
+            if (pubsub) {
+
+              // The comment is needed to allow better filtering e.g. by asset_id.
+              pubsub.publish(`${reaction}ActionCreated`, {action, comment});
+            }
+
+            return {
+              [reaction]: action,
+            };
           } catch (err) {
             if (err instanceof errors.ErrAlreadyExists) {
               return err.metadata.existing;
@@ -168,16 +202,6 @@ function getReactionConfig(reaction) {
 
             throw err;
           }
-
-          if (pubsub) {
-
-            // The comment is needed to allow better filtering e.g. by asset_id.
-            pubsub.publish(`${reaction}ActionCreated`, {action, comment});
-          }
-
-          return {
-            [reaction]: action,
-          };
         },
         [`delete${Reaction}Action`]: async (_, {input: {id}}, {mutators: {Action}, pubsub, loaders: {Comments}})  => {
           const action = await Action.delete({id});

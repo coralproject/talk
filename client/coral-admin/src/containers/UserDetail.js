@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {compose, gql} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -13,13 +14,15 @@ import {
   toggleSelectCommentInUserDetail,
   toggleSelectAllCommentInUserDetail
 } from 'coral-admin/src/actions/userDetail';
-import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
+import {withSetCommentStatus, withUnBanUser, withUnSuspendUser} from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
 import {notify} from 'coral-framework/actions/notification';
+import {showBanUserDialog} from 'actions/banUserDialog';
+import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 
 const commentConnectionFragment = gql`
-  fragment CoralAdmin_Moderation_CommentConnection on CommentConnection {
+  fragment CoralAdmin_UserDetail_CommentConnection on CommentConnection {
     nodes {
       ...${getDefinitionName(UserDetailComment.fragments.comment)}
     }
@@ -125,10 +128,23 @@ class UserDetailContainer extends React.Component {
   }
 }
 
+UserDetailContainer.propTypes = {
+  changeUserDetailStatuses: PropTypes.func,
+  toggleSelectCommentInUserDetail: PropTypes.func,
+  toggleSelectAllCommentInUserDetail: PropTypes.func,
+  data: PropTypes.object,
+  root: PropTypes.object,
+  setCommentStatus: PropTypes.func,
+  clearUserDetailSelections: PropTypes.func,
+  selectedCommentIds: PropTypes.array,
+  unBanUser: PropTypes.func.isRequired,
+  unSuspendUser: PropTypes.func.isRequired,
+};
+
 const LOAD_MORE_QUERY = gql`
   query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Cursor, $author_id: ID!, $statuses: [COMMENT_STATUS!]) {
     comments(query: {limit: $limit, cursor: $cursor, author_id: $author_id, statuses: $statuses}) {
-      ...CoralAdmin_Moderation_CommentConnection
+      ...CoralAdmin_UserDetail_CommentConnection
     }
   }
   ${commentConnectionFragment}
@@ -147,7 +163,44 @@ export const withUserDetailQuery = withQuery(gql`
       reliable {
         flagger
       }
+      state {
+        status {
+          suspension {
+            until
+            history {
+              until
+              created_at
+              assigned_by {
+                username
+              }
+            }
+          }
+          banned {
+            status
+            history {
+              status
+              assigned_by {
+                username
+              }
+              created_at
+            }
+          }
+          username {
+            status
+            history {
+              status
+              assigned_by {
+                username
+              }
+              created_at
+            }
+          }
+        }
+      }
       ${getSlotFragmentSpreads(slots, 'user')}
+    }
+    me {
+      id
     }
     totalComments: commentCount(query: {author_id: $author_id, statuses: []})
     rejectedComments: commentCount(query: {author_id: $author_id, statuses: [REJECTED]})
@@ -155,7 +208,7 @@ export const withUserDetailQuery = withQuery(gql`
       author_id: $author_id,
       statuses: $statuses
     }) {
-      ...CoralAdmin_Moderation_CommentConnection
+      ...CoralAdmin_UserDetail_CommentConnection
     }
     ...${getDefinitionName(UserDetailComment.fragments.root)}
     ${getSlotFragmentSpreads(slots, 'root')}
@@ -181,6 +234,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
+    showBanUserDialog,
+    showSuspendUserDialog,
     changeUserDetailStatuses,
     clearUserDetailSelections,
     toggleSelectCommentInUserDetail,
@@ -195,4 +250,6 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withUserDetailQuery,
   withSetCommentStatus,
+  withUnBanUser,
+  withUnSuspendUser,
 )(UserDetailContainer);

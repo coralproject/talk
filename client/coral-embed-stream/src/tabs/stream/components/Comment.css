@@ -1,0 +1,192 @@
+.root {
+  margin-left: 20px;
+  margin-bottom: 16px;
+  position: relative;
+  padding-top: 12px;
+}
+
+.rootLevel0:first-child {
+  padding-top: 0;
+  border: 0;
+}
+
+.rootLevel0 {
+  margin-left: 0px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.comment {
+  position: relative;
+  padding-left: 15px;
+}
+
+.commentLevel0 {
+  padding-left: 0px;
+}
+
+.commentLevel1 {
+  border-left: 3px #212121 solid;
+}
+
+.commentLevel2 {
+  border-left: 2px #6a6a6a solid;
+}
+
+.commentLevel3 {
+  border-left: 2px #9e9e9e solid;
+}
+
+.commentLevel4 {
+  border-left: 2px #c1c1c1 solid;
+}
+
+.highlightedComment {
+  padding-left: 15px;
+  border-left: 3px solid rgb(35,118,216);
+}
+
+.bylineSecondary {
+  display: flex;
+  color: #696969;
+  font-size: 12px;
+}
+
+.pendingComment {
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.editedMarker {
+  font-style: italic;
+}
+
+.hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.editCommentForm {
+  margin-bottom: 10px;
+}
+
+.editCommentForm .buttonContainerLeft {
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.editCommentForm .buttonContainerLeft .editWindowRemaining {
+  margin-right: 1em;
+}
+
+.editCommentForm .button {
+  flex-shrink: 0;
+}
+
+.editWindowAlmostOver {
+  font-weight: bold;
+}
+
+.link {
+  color: #2376D8;
+  cursor: pointer;
+}
+
+.popover {
+  position: absolute;
+  z-index: 1;
+}
+
+/* Wizard used for Ignore User, Delete Comment confirmations */
+.Wizard {
+  background-color: #2E343B;
+  color: white;
+  padding: 1em;
+  max-width: 220px; /* consider moving to better class */
+}
+
+.Wizard header {
+  font-weight: bold;
+}
+
+.Wizard .textAlignRight {
+  text-align: right;
+}
+
+.commentInfoBar {
+  margin-left: auto;
+  flex: 1;
+  text-align: right;
+}
+
+@keyframes enter {
+  0% {background-color: rgba(0, 0, 0, 0);}
+  50% {background-color: rgba(255,255,0, 0.2);}
+  100% {background-color: rgba(0, 0, 0, 0);}
+}
+
+.enter {
+  animation: enter 1000ms;
+}
+
+.commentAvatar {
+  max-width: 60px;
+}
+
+.commentAvatar:empty {
+  display: none;
+}
+
+.timerIcon {
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.commentFooter {
+  padding-top: 8px;
+}
+
+.header {
+  margin: 10px 0;
+  display: flex;
+}
+
+.headerContainer {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+
+  @media (min-width: 480px) {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+  }
+}
+
+.tagsContainer {
+  display: flex;
+}
+
+.tagsContainer > * {
+  margin: 3px;
+
+  &:first-child {
+    margin-left: 0px;
+  }
+}
+
+.content {
+  word-wrap: break-word;
+}
+
+.footer {
+  min-height: 10px;
+}
+
+.username {
+  margin-right: 5px;
+}

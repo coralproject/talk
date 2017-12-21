@@ -1,17 +1,20 @@
-const express = require('express');
-const path = require('path');
-const plugins = require('../services/plugins');
-const debug = require('debug')('talk:routes');
+const SetupService = require('../services/setup');
+const apollo = require('apollo-server-express');
 const authentication = require('../middleware/authentication');
-const {passport} = require('../services/passport');
-const pubsub = require('../middleware/pubsub');
-const i18n = require('../services/i18n');
+const cookieParser = require('cookie-parser');
+const debug = require('debug')('talk:routes');
 const enabled = require('debug').enabled;
 const errors = require('../errors');
-const {createGraphOptions} = require('../graph');
-const accepts = require('accepts');
-const apollo = require('graphql-server-express');
+const express = require('express');
+const i18n = require('../middleware/i18n');
+const path = require('path');
+const plugins = require('../services/plugins');
+const staticTemplate = require('../middleware/staticTemplate');
+const pubsub = require('../middleware/pubsub');
+const staticMiddleware = require('express-static-gzip');
 const {DISABLE_STATIC_SERVER} = require('../config');
+const {createGraphOptions} = require('../graph');
+const {passport} = require('../services/passport');
 
 const router = express.Router();
 
@@ -19,51 +22,53 @@ const router = express.Router();
 // STATIC FILES
 //==============================================================================
 
-// If the application is in production mode, then add gzip rewriting for the
-// content.
-if (process.env.NODE_ENV === 'production') {
-  router.get('*.js', (req, res, next) => {
-    const accept = accepts(req);
-    if (accept.encoding(['gzip']) === 'gzip') {
-
-      // Adjsut the headers on the request by adding a content type header
-      // because express won't be able to detect the mime-type with the .gz
-      // extension and we need to decalre support for the gzip encoding.
-      res.set('Content-Type', 'application/javascript');
-      res.set('Content-Encoding', 'gzip');
-
-      // Rewrite the url so that the gzip version will be served instead.
-      req.url = `${req.url}.gz`;
-    }
-
-    next();
-  });
-}
-
 if (!DISABLE_STATIC_SERVER) {
 
   /**
-   * Serve the directories under public/dist from this router.
+   * Serve the directories under public.
    */
-  router.use('/client', express.static(path.join(__dirname, '../dist')));
-  router.use('/public', express.static(path.join(__dirname, '../public')));
+  const public = path.resolve(path.join(__dirname, '../public'));
+  router.use('/public', express.static(public));
 
   /**
-   * Serves a file based on a relative path.
+   * Serve the directories under dist.
    */
-  const serveFile = (filename) => (req, res) => res.sendFile(path.join(__dirname, filename));
-
-  /**
-   * Serves the embed javascript files.
-   */
-  router.get('/embed.js', serveFile('../dist/embed.js'));
-  router.get('/embed.js.gz', serveFile('../dist/embed.js.gz'));
-  router.get('/embed.js.map', serveFile('../dist/embed.js.map'));
+  const dist = path.resolve(path.join(__dirname, '../dist'));
+  if (process.env.NODE_ENV === 'production') {
+    router.use('/static', staticMiddleware(dist, {
+      indexFromEmptyFile: false,
+      enableBrotli: true,
+      customCompressions: [
+        {
+          encodingName: 'deflate',
+          fileExtension: 'zz',
+        },
+      ],
+    }));
+  } else {
+    router.use('/static', express.static(dist));
+  }
 }
+
+// Add the i18n middleware to all routes.
+router.use(i18n);
+
+//==============================================================================
+// STATIC ROUTES
+//==============================================================================
+
+router.use('/admin', staticTemplate, require('./admin'));
+router.use('/embed', staticTemplate, require('./embed'));
 
 //==============================================================================
 // PASSPORT MIDDLEWARE
 //==============================================================================
+
+// Parse the cookies on the request.
+router.use(cookieParser());
+
+// Parse the body json if it's there.
+router.use(express.json());
 
 const passportDebug = require('debug')('talk:passport');
 
@@ -94,38 +99,50 @@ router.use('/api/v1/graph/ql', apollo.graphqlExpress(createGraphOptions));
 if (process.env.NODE_ENV !== 'production') {
 
   // Interactive graphiql interface.
-  router.use('/api/v1/graph/iql', (req, res) => {
+  router.use('/api/v1/graph/iql', staticTemplate, (req, res) => {
     res.render('graphiql', {
-      endpointURL: `${req.app.locals.BASE_URL}api/v1/graph/ql`
+      endpointURL: 'api/v1/graph/ql'
     });
   });
 
-  // GraphQL documention.
+  // GraphQL documentation.
   router.get('/admin/docs', (req, res) => {
     res.render('admin/docs');
   });
 
 }
 
+router.use('/api/v1', require('./api'));
+
 //==============================================================================
 // ROUTES
 //==============================================================================
 
-router.use('/api/v1', require('./api'));
-router.use('/admin', require('./admin'));
-router.use('/embed', require('./embed'));
-
+// Development routes.
 if (process.env.NODE_ENV !== 'production') {
-  router.use('/assets', require('./assets'));
-
-  router.get('/', (req, res) => {
-    return res.render('article', {
-      title: 'Coral Talk',
-      asset_url: '',
-      asset_id: '',
-      body: '',
-      basePath: '/client/embed/stream'
-    });
+  router.use('/assets', staticTemplate, require('./assets'));
+  router.get('/', staticTemplate, async (req, res) => {
+    try {
+      await SetupService.isAvailable();
+      return res.redirect('/admin/install');
+    } catch (e) {
+      return res.render('article', {
+        title: 'Coral Talk',
+        asset_url: '',
+        asset_id: '',
+        body: '',
+        basePath: '/static/embed/stream'
+      });
+    }
+  });
+} else {
+  router.get('/', async (req, res, next) => {
+    try {
+      await SetupService.isAvailable();
+      return res.redirect('/admin/install');
+    } catch (e) {
+      return res.redirect('/admin');
+    }
   });
 }
 
@@ -169,8 +186,6 @@ router.use('/', (err, req, res, next) => {
   if (err !== errors.ErrNotFound) {
     console.error(err);
   }
-
-  i18n.init(req);
 
   if (err instanceof errors.APIError) {
     res.status(err.status);

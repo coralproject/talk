@@ -1,9 +1,11 @@
 const CommentModel = require('../models/comment');
 const AssetModel = require('../models/asset');
 const SettingsService = require('./settings');
-const domainlist = require('./domainlist');
+const DomainList = require('./domain_list');
 const errors = require('../errors');
 const merge = require('lodash/merge');
+const isEmpty = require('lodash/isEmpty');
+const {dotize} = require('./utils');
 
 module.exports = class AssetsService {
 
@@ -39,7 +41,7 @@ module.exports = class AssetsService {
     ]);
 
     // If the asset exists and has settings then return the merged object.
-    if (asset && asset.settings) {
+    if (asset && asset.settings && !isEmpty(asset.settings)) {
       settings = merge({}, globalSettings, asset.settings);
     } else {
       settings = globalSettings;
@@ -64,7 +66,7 @@ module.exports = class AssetsService {
 
     // Check the URL to confirm that is in the domain whitelist
     return Promise.all([
-      domainlist.urlCheck(url),
+      DomainList.urlCheck(url),
       SettingsService.retrieve()
     ]).then(([whitelisted, settings]) => {
 
@@ -94,18 +96,38 @@ module.exports = class AssetsService {
 
   /**
    * Updates the settings for the asset.
-   * @param  {[type]} id       [description]
-   * @param  {[type]} settings [description]
-   * @return {[type]}          [description]
+   * @param  {String} id        id of asset
+   * @param  {Object} settings  new settings values
+   * @return {Promise}
    */
-  static overrideSettings(id, settings) {
-    return AssetModel.findOneAndUpdate({id}, {
-      $set: {
-        settings
+  static async overrideSettings(id, settings) {
+    try {
+      const result =  await AssetModel.findOneAndUpdate({id}, {
+
+        // The effect of dotize is that only the provided setting values are overwritten
+        // and does not replace the whole object.
+        $set: dotize({settings})
+      }, {
+        new: true
+      });
+      return result;
+    } catch (e) {
+
+      // Legacy data models contains `settings=null` as a default which cannot be traversed.
+      // New data models uses `settings={}`.
+      if (e.code === 16837) {
+
+        // Overwrite it fully in this case.
+        const result =  await AssetModel.findOneAndUpdate({id}, {
+          $set: {settings}
+        }, {
+          new: true
+        });
+        return result;
+      } else {
+        throw e;
       }
-    }, {
-      new: true
-    });
+    }
   }
 
   /**

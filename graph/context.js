@@ -2,6 +2,7 @@ const loaders = require('./loaders');
 const mutators = require('./mutators');
 const uuid = require('uuid');
 const merge = require('lodash/merge');
+const connectors = require('./connectors');
 
 const plugins = require('../services/plugins');
 const pubsub = require('../services/pubsub');
@@ -41,15 +42,19 @@ const decorateContextPlugins = (context, contextPlugins) => {
  * Stores the request context.
  */
 class Context {
-  constructor({user = null}) {
+  constructor(parent) {
 
-    // Generate a new context id for the request.
-    this.id = uuid.v4();
+    // Generate a new context id for the request if the parent doesn't provide
+    // one.
+    this.id = parent.id || uuid.v4();
 
-    // Load the current logged in user to `user`, otherwise this'll be null.
-    if (user) {
-      this.user = user;
+    // Load the current logged in user to `user`, otherwise this will be null.
+    if (parent.user) {
+      this.user = parent.user;
     }
+
+    // Attach the connectors.
+    this.connectors = connectors;
 
     // Create the loaders.
     this.loaders = loaders(this);
@@ -62,6 +67,9 @@ class Context {
 
     // Bind the publish/subscribe to the context.
     this.pubsub = pubsub.getClient();
+
+    // Bind the parent context.
+    this.parent = parent;
   }
 }
 

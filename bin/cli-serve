@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-const program = require('./commander');
+const program = require('commander');
+const util = require('./util');
 const serve = require('../serve');
 
 //==============================================================================
@@ -13,5 +14,8 @@ program
   .parse(process.argv);
 
 // Start serving.
-serve({jobs: program.jobs, websockets: program.websockets});
+serve({jobs: program.jobs, websockets: program.websockets}).catch((err) => {
+  console.error(err);
+  util.shutdown(1);
+});
 

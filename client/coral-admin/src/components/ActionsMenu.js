@@ -32,17 +32,18 @@ class ActionsMenu extends React.Component {
   };
 
   render() {
+    const {className = '', buttonClassNames = '', label = ''} = this.props;
     return (
-      <div className={styles.root} onBlur={this.syncOpenState} >
+      <div className={cn(styles.root, className)} onBlur={this.syncOpenState} >
         <Button
           cStyle='actions'
-          className={cn(styles.button, {[styles.buttonOpen]: this.state.open})}
+          className={cn(styles.button, {[styles.buttonOpen]: this.state.open}, buttonClassNames)}
           disabled={false}
           id={this.id}
           onClick={this.syncOpenState}
           icon={this.props.icon}
           raised>
-          {t('modqueue.actions')}
+          {label ? label : t('modqueue.actions')}
           <Icon
             name={this.state.open ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
             className={styles.arrowIcon}
@@ -59,6 +60,9 @@ class ActionsMenu extends React.Component {
 ActionsMenu.propTypes = {
   icon: PropTypes.string,
   children: PropTypes.node,
+  className: PropTypes.string,
+  label: PropTypes.string,
+  buttonClassNames: PropTypes.string,
 };
 
 export default ActionsMenu;

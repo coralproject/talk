@@ -5,7 +5,8 @@ const queryDebugger = require('debug')('talk:db:query');
 
 const {
   MONGO_URL,
-  WEBPACK
+  WEBPACK,
+  CREATE_MONGO_INDEXES,
 } = require('../config');
 
 // Loading the formatter from Mongoose:
@@ -56,6 +57,9 @@ if (WEBPACK) {
   mongoose
     .connect(MONGO_URL, {
       useMongoClient: true,
+      config: {
+        autoIndex: CREATE_MONGO_INDEXES,
+      },
     })
     .then(() => {
       debug('connection established');
@@ -69,7 +73,7 @@ if (WEBPACK) {
 module.exports = mongoose;
 
 // Here we include all the models that mongoose is used for, this ensures that
-// when we import mongoose that we also start up all the indexing opreations
+// when we import mongoose that we also start up all the indexing operations
 // here.
 require('../models/action');
 require('../models/asset');

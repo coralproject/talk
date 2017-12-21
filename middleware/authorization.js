@@ -20,7 +20,7 @@ const ErrNotAuthorized = require('../errors').ErrNotAuthorized;
 authorization.has = (user, ...roles) => {
 
   // If no user is specified, then they can't have the roles you want!
-  if (!user || !user.roles) {
+  if (!user) {
     return false;
   }
 
@@ -31,7 +31,7 @@ authorization.has = (user, ...roles) => {
 
   // If there's a user, and roles, then check to see that the user has at least
   // one of those roles.
-  return roles.some((role) => user.roles.includes(role));
+  return roles.some((role) => user.role === role);
 };
 
 /**

@@ -13,11 +13,11 @@ class TabBar extends React.Component {
   getRootClassName({className, classNames = {}, sub} = this.props) {
     return cn(
       'talk-tab-bar',
-      className,
       {
         [classNames.root || styles.root]: !sub,
         [classNames.rootSub || styles.rootSub]: sub,
-      }
+      },
+      className,
     );
   }
 

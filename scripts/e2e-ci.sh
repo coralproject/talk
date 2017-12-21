@@ -1,92 +1,29 @@
 #!/bin/bash
 
-CIRCLE_TEST_REPORTS=${CIRCLE_TEST_REPORTS:-./test/e2e/reports}
+REPORTS_FOLDER=${CIRCLE_TEST_REPORTS:-./test/e2e/reports}
 CIRCLE_BRANCH=${CIRCLE_BRANCH:-master}
+E2E_DISABLE=${E2E_DISABLE:-false}
 
 # Amount of retries before failure.
 E2E_MAX_RETRIES=${E2E_MAX_RETRIES:-1}
 
-# Amount of seconds between tests.
-E2E_SLEEP_BETWEEN_TESTS=${E2E_SLEEP_BETWEEN_TESTS:-1}
+# Timeout for WaitForConditions.
+E2E_WAIT_FOR_TIMEOUT=${E2E_WAIT_FOR_TIMEOUT:-10000}
 
 # Safari >= 8 has issues connecting to browserstack-local. Safari < 8 is too old.
-BROWSERS="chrome firefox ie edge" #safari
+# IE 64bit has issues with receiving keyboard input. Let's wait for them to fix it.
+E2E_BROWSERS=${E2E_BROWSERS:-chrome,firefox,edge} #ie safari
 
-if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
+if [[ "${E2E_DISABLE}" == "true" ]]; then
+  echo E2E is disabled.
+  exit
+fi
 
-  # List of failed browsers.
-  failedBrowsers=
-
-  # List of succeeded browsers.
-  succeededBrowsers=
-
-  exitCode=0
-
-  browserstack() {
-
-    # Current number of tries.
-    try=${2:-0}
-
-    echo "-- Start e2e for $1 #$try --"
-
-    REPORTS_FOLDER="$CIRCLE_TEST_REPORTS/$1" yarn e2e-browserstack --env "$1"
-
-    # Determine exit code.
-    result=$?
-    if [ "$result" -ne "0" ]; then
-      echo "-- Failed e2e for $1 #$try --"
-
-      # Try again until E2E_MAX_RETRIES is reached.
-      if [ "$try" -lt "$E2E_MAX_RETRIES" ]; then
-        let try=try+1
-
-        # Sleep a bit to let browserstack-local close properly.
-        sleep "$E2E_SLEEP_BETWEEN_TESTS"
-
-        browserstack "$1" "$try"
-        return
-      fi
-
-      # Failed, add to list of failed browsers.
-      failedBrowsers="$failedBrowsers $1"
-
-      # Remember exit code.
-      exitCode=$result
-    else
-      echo "-- Success e2e for $1 #$try --"
-
-      # Succeeded, add to list of succeeded browsers.
-      succeededBrowsers="$succeededBrowsers $1"
-      eval "browser_${1}_succeeded_at=$try"
-    fi
-
-    # Sleep a bit to let browserstack-local close properly.
-    sleep "$E2E_SLEEP_BETWEEN_TESTS"
-  }
-
-  # Test using browserstack.
-  for browser in $BROWSERS
-  do
-    browserstack "$browser"
-  done
-
-
-  # Print information about succeeded browsers.
-  for x in $succeededBrowsers
-  do
-    echo "Succeeded $x at try #$(eval "echo \$browser_${x}_succeeded_at")"
-  done
-
-  # Print information about failed browsers.
-  for x in $failedBrowsers
-  do
-    echo "Failed $x"
-  done
-  exit $exitCode
+if [[ "${CIRCLE_BRANCH}" == "master" && -n "$BROWSERSTACK_KEY" ]]; then
+  echo Testing on browserstack
+  yarn e2e --reports-folder "$REPORTS_FOLDER" --bs-key "$BROWSERSTACK_KEY" --retries "$E2E_MAX_RETRIES" --timeout "$E2E_WAIT_FOR_TIMEOUT" --browsers "$E2E_BROWSERS"
 else
   # When browserstack is not available test locally using chrome headless.
-  REPORTS_FOLDER="$CIRCLE_TEST_REPORTS/chrome" yarn e2e -- --env chrome-headless
-
-  # Will exit with status of last command.
-  exit $?
+  echo Testing locally
+  yarn e2e --reports-folder "$REPORTS_FOLDER" --retries "$E2E_MAX_RETRIES" --headless
 fi

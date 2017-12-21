@@ -27,7 +27,7 @@ module.exports = class SetupService {
 
       // Get the current settings, we are expecing an error here.
       await SettingsService.retrieve();
-      
+
       // We should NOT have gotten a settings object, this means that the
       // application is already setup. Error out here.
       throw errors.ErrSettingsInit;
@@ -88,10 +88,10 @@ module.exports = class SetupService {
 
     // Grant them administrative privileges and confirm the email account.
     await Promise.all([
-      UsersService.addRoleToUser(user.id, 'ADMIN'),
+      UsersService.setRole(user.id, 'ADMIN'),
       UsersService.confirmEmail(user.id, email)
     ]);
-    
+
     return {
       settings,
       user

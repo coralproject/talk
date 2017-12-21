@@ -1,57 +1,91 @@
-const has = require('lodash/has');
-const get = require('lodash/get');
-
-const yaml = require('yamljs');
-
-const da = yaml.load('./locales/da.yml');
-const es = yaml.load('./locales/es.yml');
-const en = yaml.load('./locales/en.yml');
-const fr = yaml.load('./locales/fr.yml');
-const pt_BR = yaml.load('./locales/pt_BR.yml');
-
+const fs = require('fs');
+const path = require('path');
+const debug = require('debug')('talk:services:i18n');
 const accepts = require('accepts');
+const _ = require('lodash');
+const yaml = require('yamljs');
+const plugins = require('./plugins');
+const {DEFAULT_LANG} = require('../config');
 
-// default language
-let defaultLanguage = 'en';
-let language = defaultLanguage;
-const languages = ['en', 'da', 'es', 'fr', 'pt_BR'];
+const resolve = (...paths) => path.resolve(path.join(__dirname, '..', 'locales', ...paths));
 
-const translations = Object.assign(en, es, fr, pt_BR, da);
+// Load all the translations.
+let translations = fs.readdirSync(resolve())
+
+  // Resolve all the filenames relative the the locales directory.
+  .map((filename) => resolve(filename))
+
+  // Translations are only yml/yaml files.
+  .filter((filename) => /\.(yaml|yml)$/.test(filename))
+
+  // Load the translation files from disk.
+  .map((filename) => fs.readFileSync(filename, 'utf8'))
+
+  // Load the translation files.
+  .reduce((packs, contents) => {
+
+    const pack = yaml.parse(contents);
+
+    return _.merge(packs, pack);
+  }, {});
+
+// Create a list of all supported translations.
+const languages = Object.keys(translations);
+
+let loadedPluginTranslations = false;
+const loadPluginTranslations = () => {
+  if (loadedPluginTranslations) {
+    return;
+  }
+
+  // Load the plugin translations.
+  plugins.get('server', 'translations').forEach(({plugin, translations: filename}) => {
+    debug(`added plugin '${plugin.name}'`);
+
+    const pack = yaml.parse(fs.readFileSync(filename, 'utf8'));
+
+    translations = _.merge(translations, pack);
+  });
+
+  loadedPluginTranslations = true;
+};
+
+const t = (language) => (key, ...replacements) => {
+
+  // Loads the translations into the translations array from plugins. This is
+  // done lazily to ensure that we don't have an import cycle.
+  loadPluginTranslations();
+
+  // Check if the translation exists on the object.
+  if (_.has(translations[language], key)) {
+
+    // Get the translation value.
+    let translation = _.get(translations[language], key);
+
+    // Replace any {n} with the arguments passed to this method.
+    replacements.forEach((str, n) => {
+      translation = translation.replace(new RegExp(`\\{${n}\\}`, 'g'), str);
+    });
+
+    return translation;
+  } else {
+    console.warn(`${key} language key not set`);
+    return key;
+  }
+};
 
 /**
  * Exposes a service object to allow translations.
  * @type {Object}
  */
 const i18n = {
-
-  /**
-   * Create the new Task kue.
-   */
-  init(req) {
+  request(req) {
     const lang = accepts(req).language(languages);
-    language = lang ? lang : defaultLanguage;
+    const language = lang ? lang : DEFAULT_LANG;
+
+    return t(language);
   },
-
-  /**
-   * Translates a key.
-   */
-  t(key, ...replacements) {
-
-    if (has(translations[language], key)) {
-
-      let translation = get(translations[language], key);
-
-      // replace any {n} with the arguments passed to this method
-      replacements.forEach((str, i) => {
-        translation = translation.replace(new RegExp(`\\{${i}\\}`, 'g'), str);
-      });
-
-      return translation;
-    } else {
-      console.warn(`${key} language key not set`);
-      return key;
-    }
-  },
+  t: t(DEFAULT_LANG),
 };
 
 module.exports = i18n;

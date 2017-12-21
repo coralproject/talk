@@ -1,44 +1,156 @@
 import update from 'immutability-helper';
-import mapValues from 'lodash/mapValues';
+import {mapLeaves} from 'coral-framework/utils';
+import {gql} from 'react-apollo';
 
-// Map nested object leaves. Array objects are considered leaves.
-function mapLeaves(o, mapper) {
-  return mapValues(o, (val) => {
-    if (typeof val === 'object' && !Array.isArray(val)) {
-      return mapLeaves(val, mapper);
+const userStatusFragment = gql`
+  fragment Talk_UpdateUserStatus on User {
+    state {
+      status {
+        banned {
+          status
+        }
+        suspension {
+          until
+        }
+      }
     }
-    return mapper(val);
-  });
-}
+  }`;
 
 export default {
   mutations: {
-    SetUserStatus: ({variables: {status, userId}}) => ({
+    SetUserRole: ({variables: {id: userId, role}}) => ({
       updateQueries: {
         TalkAdmin_Community: (prev) => {
-          if (status !== 'APPROVED') {
+
+          const updated = update(prev, {
+            users: {
+              nodes: {
+                $apply: (nodes) => nodes.map((node) => {
+                  if (node.id === userId) {
+                    node.role = role;
+                  }
+                  
+                  return node;
+                })
+              },
+            },
+          });
+          
+          return updated;
+        }
+      }
+    }),
+    SuspendUser: ({variables: {input: {id, until}}}) => ({
+      update: (proxy) => {
+        const fragmentId = `User_${id}`;
+
+        const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
+
+        const updated = update(data, {
+          state : {
+            status: {
+              suspension: {
+                until: {$set: until}
+              }
+            }
+          }
+        });
+
+        proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
+      }
+    }),
+    UnSuspendUser: ({variables: {input: {id}}}) => ({
+      update: (proxy) => {
+        const fragmentId = `User_${id}`;
+        const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
+
+        const updated = update(data, {
+          state : {
+            status: {
+              suspension: {
+                until: {$set: null}
+              }
+            }
+          }
+        });
+
+        proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
+      },
+    }),
+    BanUser: ({variables: {input: {id}}}) => ({
+      update: (proxy) => {
+        const fragmentId = `User_${id}`;
+        const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
+        
+        const updated = update(data, {
+          state : {
+            status: {
+              banned: {
+                status: {$set: true}
+              }
+            }
+          }
+        });
+
+        proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
+      }
+    }),
+    UnBanUser: ({variables: {input: {id}}}) => ({
+      update: (proxy) => {
+        const fragmentId = `User_${id}`;
+        const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
+
+        const updated = update(data, {
+          state : {
+            status: {
+              banned: {
+                status: {$set: false}
+              }
+            }
+          }
+        });
+
+        proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
+      }
+    }),
+    SetUserBanStatus: ({variables: {status, id}}) => ({
+      updateQueries: {
+        TalkAdmin_Community: (prev) => {
+          if (!status) {
             return prev;
           }
           const updated = update(prev, {
             users: {
-              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== userId)},
+              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== id)},
             },
           });
           return updated;
         }
       }
     }),
-    RejectUsername: ({variables: {input: {id: userId}}})  => ({
+    ApproveUsername: ({variables: {id}}) => ({
       updateQueries: {
         TalkAdmin_Community: (prev) => {
           const updated = update(prev, {
-            users: {
-              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== userId)},
+            flaggedUsers: {
+              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== id)},
             },
           });
           return updated;
         }
       }
+    }),
+    RejectUsername: ({variables: {id: userId}})  => ({
+      updateQueries: {
+        TalkAdmin_Community: (prev) => {
+          const updated = update(prev, {
+            flaggedUsers: {
+              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== userId)},
+            },
+          });
+          return updated;
+        }
+      },
     }),
     UpdateSettings: ({variables: {input}})  => ({
       updateQueries: {
@@ -52,4 +164,3 @@ export default {
     }),
   },
 };
-
