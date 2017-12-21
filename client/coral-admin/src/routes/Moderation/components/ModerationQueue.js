@@ -190,6 +190,29 @@ class ModerationQueue extends React.Component {
   componentDidUpdate (prev) {
     const {commentCount, selectedCommentId} = this.props;
 
+    // Switching to multi mode.
+    if (prev.singleView && !this.props.singleView) {
+
+      // Reflow virtual list.
+      this.reflowList();
+
+      // Scroll to selected comment.
+      if (this.props.selectedCommentId) {
+        const view = this.state.view;
+        const index = view.findIndex(({id}) => id === selectedCommentId);
+        this.listRef.scrollToRow(index);
+      }
+    }
+
+    // Switching to single mode.
+    if (!prev.singleView && this.props.singleView) {
+
+      // Scroll to comment.
+      if (this.props.selectedCommentId) {
+        document.querySelector(`#comment_${this.props.selectedCommentId}`).scrollIntoView();
+      }
+    }
+
     // If the user just moderated the last (visible) comment
     // AND there are more comments available on the server,
     // go ahead and load more comments
@@ -197,7 +220,7 @@ class ModerationQueue extends React.Component {
       this.props.loadMore();
     }
 
-    // Scroll to selected comment.
+    // Scroll to new selected comment.
     if (prev.selectedCommentId !== selectedCommentId && this.listRef) {
 
       const view = this.state.view;
@@ -372,6 +395,7 @@ class ModerationQueue extends React.Component {
             rejectComment={props.rejectComment}
             currentAsset={props.currentAsset}
             currentUserId={this.props.currentUserId}
+            dangling={!this.props.commentBelongToQueue(this.props.activeTab, comment)}
           />;
         </div>
       );
