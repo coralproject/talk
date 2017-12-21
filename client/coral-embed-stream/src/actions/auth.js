@@ -278,6 +278,8 @@ const checkLoginSuccess = (user, isAdmin) => ({
   isAdmin
 });
 
+const ErrNotLoggedIn = new Error('Not logged in');
+
 export const checkLogin = () => (dispatch, _, {rest, client, pym, storage}) => {
   dispatch(checkLoginRequest());
   rest('/auth')
@@ -286,7 +288,7 @@ export const checkLogin = () => (dispatch, _, {rest, client, pym, storage}) => {
         if (storage) {
           storage.removeItem('token');
         }
-        throw new Error('Not logged in');
+        throw ErrNotLoggedIn;
       }
 
       // Reset the websocket.
@@ -301,7 +303,9 @@ export const checkLogin = () => (dispatch, _, {rest, client, pym, storage}) => {
       }
     })
     .catch((error) => {
-      console.error(error);
+      if (error !== ErrNotLoggedIn) {
+        console.error(error);
+      }
       if (error.status && error.status === 401 && storage) {
 
         // Unauthorized.
