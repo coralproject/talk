@@ -95,7 +95,7 @@ module.exports = {
       .waitForElementVisible('@dropdownStatus')
       .click('@dropdownStatus')
       .waitForElementVisible('@dropdownStatusActive')
-      .click('@optionActive');
+      .click('@optionRemoveBan');
   },
   'admin logs out 2': (client) => {
     client.page.admin().logout();

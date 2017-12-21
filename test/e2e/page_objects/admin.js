@@ -111,9 +111,11 @@ module.exports = {
             firstRow: '.talk-admin-community-people-row:first-child',
             dropdownStatus: '.talk-admin-community-people-dd-status',
             dropdownRole: '.talk-admin-community-people-dd-role',
-            dropdownStatusActive: '.talk-admin-community-people-dd-status .dd-list-active',
-            optionActive: '.dd-option#ACTIVE',
-            optionBanned: '.dd-option#BANNED',
+            dropdownStatusActive: '.talk-admin-community-people-dd-status .is-upgraded',
+            optionSuspendUser: '.action-menu-item#suspendUser',
+            optionBanUser: '.action-menu-item#banUser',
+            optionRemoveBan: '.action-menu-item#removeBan',
+            optionRemoveSuspension: '.action-menu-item#removeSuspension',
           }
         }
       }
