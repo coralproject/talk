@@ -72,8 +72,10 @@ class SharedCacheDataLoader extends DataLoader {
   constructor(prefix, expiry, batchLoadFn, options) {
     super(SharedCacheDataLoader.batchLoadFn(prefix, expiry, batchLoadFn), options);
 
+    // Expiry is provided as a number in ms, we're using commands optimized for
+    // seconds, so convert this to seconds.
+    this._expiry = Math.floor(expiry / 1000);
     this._prefix = prefix;
-    this._expiry = expiry;
     this._keyFunc = SharedCacheDataLoader.keyFunc(this._prefix);
   }
 

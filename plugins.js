@@ -57,6 +57,10 @@ const hookSchemas = {
   resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.func())),
   typeDefs: Joi.string(),
   schemaLevelResolveFunction: Joi.func(),
+  websockets: Joi.object({
+    onConnect: Joi.func(),
+    onDisconnect: Joi.func(),
+  }),
 };
 
 /**
