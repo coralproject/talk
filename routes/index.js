@@ -25,19 +25,29 @@ const router = express.Router();
 if (!DISABLE_STATIC_SERVER) {
 
   /**
-   * Serve the directories under public/dist from this router.
+   * Serve the directories under public.
    */
-  router.use('/public', express.static(path.join(__dirname, '../public')));
-  router.use('/static', staticMiddleware(path.resolve(path.join(__dirname, '../dist')), {
-    indexFromEmptyFile: false,
-    enableBrotli: true,
-    customCompressions: [
-      {
-        encodingName: 'deflate',
-        fileExtension: 'zz',
-      },
-    ],
-  }));
+  const public = path.resolve(path.join(__dirname, '../public'));
+  router.use('/public', express.static(public));
+
+  /**
+   * Serve the directories under dist.
+   */
+  const dist = path.resolve(path.join(__dirname, '../dist'));
+  if (process.env.NODE_ENV === 'production') {
+    router.use('/static', staticMiddleware(dist, {
+      indexFromEmptyFile: false,
+      enableBrotli: true,
+      customCompressions: [
+        {
+          encodingName: 'deflate',
+          fileExtension: 'zz',
+        },
+      ],
+    }));
+  } else {
+    router.use('/static', express.static(dist));
+  }
 }
 
 // Add the i18n middleware to all routes.
