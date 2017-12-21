@@ -7,6 +7,10 @@
 // entrypoint for the entire applications configuration.
 require('env-rewrite').rewrite();
 
+// Apply all the configuration provided in the .env file if it isn't already
+// in the environment.
+require('dotenv').config();
+
 const uniq = require('lodash/uniq');
 const ms = require('ms');
 const debug = require('debug')('talk:config');

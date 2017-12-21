@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
+const program = require('commander');
 const {head, map} = require('lodash');
 const Matcher = require('did-you-mean');
 

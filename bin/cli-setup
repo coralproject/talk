@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
+const program = require('commander');
 const inquirer = require('inquirer');
 const mongoose = require('../services/mongoose');
 const SettingModel = require('../models/setting');

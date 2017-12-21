@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
+const program = require('commander');
 const inquirer = require('inquirer');
 const UsersService = require('../services/users');
 const UserModel = require('../models/user');
