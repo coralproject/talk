@@ -57,6 +57,10 @@ module.exports = {
     suspendUserDialog: '.talk-admin-suspend-user-dialog',
     suspendUserConfirmButton: '.talk-admin-suspend-user-dialog-confirm',
     supendUserSendButton: '.talk-admin-suspend-user-dialog-send',
+    usernameDialog: '.talk-reject-username-dialog',
+    usernameDialogButtons: '.talk-reject-username-dialog-buttons',
+    usernameDialogSuspend: '.talk-reject-username-dialog-button-k',
+    usernameDialogSuspensionMessage: '.talk-reject-username-dialog-suspension-message',
     toast: '.toastify',
     toastClose: '.toastify__close',
   },
@@ -97,10 +101,6 @@ module.exports = {
         flaggedUser:'.talk-admin-community-flagged-user',
         flaggedUserApproveButton: '.talk-admin-flagged-user-approve-button',
         flaggedUserRejectButton: '.talk-admin-flagged-user-reject-button',
-        usernameDialog: '.talk-reject-username-dialog',
-        usernameDialogButtons: '.talk-reject-username-dialog-buttons',
-        usernameDialogSuspend: '.talk-reject-username-dialog-button-k',
-        usernameDialogSuspensionMessage: '.talk-reject-username-dialog-suspension-message'
       },
       sections: {
         people: {
@@ -137,6 +137,10 @@ module.exports = {
           this.parent
             .click('@drawerOverlay')
             .waitForElementNotPresent('@drawerOverlay');
+
+          // Wait a bit to let animations terminate cleanly.
+          this.api.pause(200);
+
           return this.parent;
         },
       }],

@@ -13,7 +13,8 @@ const {
   SMTP_USERNAME,
   SMTP_PORT,
   SMTP_PASSWORD,
-  SMTP_FROM_ADDRESS
+  SMTP_FROM_ADDRESS,
+  EMAIL_SUBJECT_PREFIX,
 } = require('../config');
 
 // load all the templates as strings
@@ -95,12 +96,12 @@ const mailer = module.exports = {
     }
 
     // Prefix the subject with `[Talk]`.
-    subject = `[Talk] ${subject}`;
+    subject = `${EMAIL_SUBJECT_PREFIX} ${subject}`;
 
     attachLocals(locals);
 
-    // Attach the templating function.
-    locals['t'] = i18n.t;
+    // Attach the translation function.
+    locals.t = i18n.t;
 
     return Promise.all([
 
@@ -112,7 +113,7 @@ const mailer = module.exports = {
     ])
       .then(([html, text]) => {
 
-      // Create the job.
+        // Create the job.
         return mailer.task.create({
           title: 'Mail',
           message: {
