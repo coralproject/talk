@@ -152,6 +152,7 @@ class ModerationQueue extends React.Component {
       nextComments &&
       nextComments.length < prevComments.length
     ) {
+
       // Invalidate first cursor if referenced comment was removed.
       if (
         this.state.idCursors[0] &&

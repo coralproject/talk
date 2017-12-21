@@ -111,10 +111,10 @@ class ModerationContainer extends Component {
             this.props.auth.user.id === user.id
               ? ''
               : t(
-                  'modqueue.notify_accepted',
-                  user.username,
-                  prepareNotificationText(comment.body)
-                );
+                'modqueue.notify_accepted',
+                user.username,
+                prepareNotificationText(comment.body)
+              );
           return this.handleCommentChange(prev, comment, notifyText);
         },
       },
@@ -132,10 +132,10 @@ class ModerationContainer extends Component {
             this.props.auth.user.id === user.id
               ? ''
               : t(
-                  'modqueue.notify_rejected',
-                  user.username,
-                  prepareNotificationText(comment.body)
-                );
+                'modqueue.notify_rejected',
+                user.username,
+                prepareNotificationText(comment.body)
+              );
           return this.handleCommentChange(prev, comment, notifyText);
         },
       },
@@ -153,10 +153,10 @@ class ModerationContainer extends Component {
             this.props.auth.user.id === user.id
               ? ''
               : t(
-                  'modqueue.notify_reset',
-                  user.username,
-                  prepareNotificationText(comment.body)
-                );
+                'modqueue.notify_reset',
+                user.username,
+                prepareNotificationText(comment.body)
+              );
           return this.handleCommentChange(prev, comment, notifyText);
         },
       },
@@ -207,6 +207,7 @@ class ModerationContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
     // Resubscribe when we change between assets.
     if (
       this.props.data.variables.asset_id !== nextProps.data.variables.asset_id
@@ -275,12 +276,14 @@ class ModerationContainer extends Component {
 
     if (assetId) {
       if (asset === null) {
+
         // Not found.
         return <NotFoundAsset assetId={assetId} />;
       }
     }
 
     if (data.loading) {
+
       // loading.
       return <Spinner />;
     }
@@ -424,23 +427,23 @@ const withModQueueQuery = withQuery(
   ({queueConfig}) => gql`
   query CoralAdmin_Moderation($asset_id: ID, $sortOrder: SORT_ORDER, $allAssets: Boolean!, $nullStatuses: [COMMENT_STATUS!]) {
     ${Object.keys(queueConfig).map(
-      (queue) => `
+    (queue) => `
       ${queue}: comments(query: {
         statuses: ${
-          queueConfig[queue].statuses
-            ? `[${queueConfig[queue].statuses.join(', ')}],`
-            : '$nullStatuses'
-        }
+  queueConfig[queue].statuses
+    ? `[${queueConfig[queue].statuses.join(', ')}],`
+    : '$nullStatuses'
+}
         ${
-          queueConfig[queue].tags
-            ? `tags: ["${queueConfig[queue].tags.join('", "')}"],`
-            : ''
-        }
+  queueConfig[queue].tags
+    ? `tags: ["${queueConfig[queue].tags.join('", "')}"],`
+    : ''
+}
         ${
-          queueConfig[queue].action_type
-            ? `action_type: ${queueConfig[queue].action_type}`
-            : ''
-        }
+  queueConfig[queue].action_type
+    ? `action_type: ${queueConfig[queue].action_type}`
+    : ''
+}
         asset_id: $asset_id,
         sortOrder: $sortOrder,
         limit: 20,
@@ -448,29 +451,29 @@ const withModQueueQuery = withQuery(
         ...CoralAdmin_Moderation_CommentConnection
       }
     `
-    )}
+  )}
     ${Object.keys(queueConfig).map(
-      (queue) => `
+    (queue) => `
       ${queue}Count: commentCount(query: {
         statuses: ${
-          queueConfig[queue].statuses
-            ? `[${queueConfig[queue].statuses.join(', ')}],`
-            : '$nullStatuses'
-        }
+  queueConfig[queue].statuses
+    ? `[${queueConfig[queue].statuses.join(', ')}],`
+    : '$nullStatuses'
+}
         ${
-          queueConfig[queue].tags
-            ? `tags: ["${queueConfig[queue].tags.join('", "')}"],`
-            : ''
-        }
+  queueConfig[queue].tags
+    ? `tags: ["${queueConfig[queue].tags.join('", "')}"],`
+    : ''
+}
         ${
-          queueConfig[queue].action_type
-            ? `action_type: ${queueConfig[queue].action_type}`
-            : ''
-        }
+  queueConfig[queue].action_type
+    ? `action_type: ${queueConfig[queue].action_type}`
+    : ''
+}
         asset_id: $asset_id,
       })
     `
-    )}
+  )}
     asset(id: $asset_id) @skip(if: $allAssets) {
       id
       title

@@ -19,6 +19,7 @@ class PeopleContainer extends React.Component {
   onKeyDownHandler = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
+
       // this.fetchUsers();
     }
   }

@@ -42,7 +42,7 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
-if (process.env.NODE_ENV === 'development' && ENABLE_TRACING && APOLLO_ENGINE_KEY) {
+if (ENABLE_TRACING && APOLLO_ENGINE_KEY) {
   const {Engine} = require('apollo-engine');
 
   const engine = new Engine({
@@ -50,7 +50,7 @@ if (process.env.NODE_ENV === 'development' && ENABLE_TRACING && APOLLO_ENGINE_KE
       apiKey: APOLLO_ENGINE_KEY
     },
     graphqlPort: PORT,
-    endpoint: '/api/v1/graph/ql',
+    endpoint: `${MOUNT_PATH}api/v1/graph/ql`,
   });
 
   engine.start();

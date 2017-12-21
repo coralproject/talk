@@ -16,6 +16,7 @@ const debug = require('debug')('talk:config');
 //==============================================================================
 
 const CONFIG = {
+
   // WEBPACK indicates when webpack is currently building.
   WEBPACK: process.env.WEBPACK === 'TRUE',
 

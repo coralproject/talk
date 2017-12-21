@@ -45,6 +45,7 @@ export const can = (user, ...perms) => {
   }
 
   return perms.every((perm) => {
+
     // Basic Permissions
     const permAction = basicPerms[perm];
     if (typeof permAction !== 'undefined') {

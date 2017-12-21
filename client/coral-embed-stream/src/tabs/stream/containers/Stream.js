@@ -50,6 +50,7 @@ class StreamContainer extends React.Component {
         assetId: this.props.asset.id,
       },
       updateQuery: (prev, {subscriptionData: {data: {commentEdited}}}) => {
+
         // Ignore mutations from me.
         // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
         if (
@@ -82,6 +83,7 @@ class StreamContainer extends React.Component {
         assetId: this.props.asset.id,
       },
       updateQuery: (prev, {subscriptionData: {data: {commentAdded}}}) => {
+
         // Ignore mutations from me.
         // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
         if (
@@ -338,14 +340,14 @@ const fragments = {
       comment(id: $commentId) @include(if: $hasComment) {
         ...CoralEmbedStream_Stream_comment
         ${nest(
-          `
+    `
           parent {
             ...CoralEmbedStream_Stream_comment
             ...nest
           }
         `,
-          THREADING_LEVEL
-        )}
+    THREADING_LEVEL
+  )}
       }
       id
       title
