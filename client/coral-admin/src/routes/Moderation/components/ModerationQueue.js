@@ -195,22 +195,17 @@ class ModerationQueue extends React.Component {
 
       // Reflow virtual list.
       this.reflowList();
-
-      // Scroll to selected comment.
-      if (this.props.selectedCommentId) {
-        const view = this.state.view;
-        const index = view.findIndex(({id}) => id === selectedCommentId);
-        this.listRef.scrollToRow(index);
-      }
     }
 
-    // Switching to single mode.
-    if (!prev.singleView && this.props.singleView) {
+    if (
 
-      // Scroll to comment.
-      if (this.props.selectedCommentId) {
-        document.querySelector(`#comment_${this.props.selectedCommentId}`).scrollIntoView();
-      }
+      // Switching mode.
+      prev.singleView !== this.props.singleView ||
+
+      // Select different comment.
+      prev.selectedCommentId !== selectedCommentId && selectedCommentId
+    ) {
+      this.scrollToSelectedComment();
     }
 
     // If the user just moderated the last (visible) comment
@@ -218,15 +213,6 @@ class ModerationQueue extends React.Component {
     // go ahead and load more comments
     if (prev.comments.length > 0 && this.getCommentCountWithoutDagling() === 0 && commentCount > 0) {
       this.props.loadMore();
-    }
-
-    // Scroll to new selected comment.
-    if (prev.selectedCommentId !== selectedCommentId && this.listRef) {
-
-      const view = this.state.view;
-      const index = view.findIndex(({id}) => id === selectedCommentId);
-
-      this.listRef.scrollToRow(index);
     }
   }
 
@@ -264,6 +250,17 @@ class ModerationQueue extends React.Component {
   handleListRef = (list) => {
     this.listRef = list;
   };
+
+  scrollToSelectedComment = (props = this.props, state = this.state) => {
+    if (props.singleMode) {
+      document.querySelector(`#comment_${props.selectedCommentId}`).scrollIntoView();
+    }
+    else if(this.listRef) {
+      const view = state.view;
+      const index = view.findIndex(({id}) => id === props.selectedCommentId);
+      this.listRef.scrollToRow(index);
+    }
+  }
 
   viewNewComments = (callback) => {
     this.setState(resetCursors, () => {
