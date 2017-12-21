@@ -123,11 +123,12 @@ module.exports = {
     userDetailDrawer: {
       selector: '.talk-admin-user-detail-drawer',
       elements: {
+        'closeButton': '.talk-admin-user-detail-drawer-close-button',
         'tabBar': '.talk-admin-user-detail-tab-bar',
         'allTab': '.talk-admin-user-detail-all-tab',
         'rejectedTab': '.talk-admin-user-detail-rejected-tab',
-        'historyTab': '.talk-admin-user-detail-history-tab', 
-        'historyPane': '.talk-admin-user-detail-history-tab-pane', 
+        'historyTab': '.talk-admin-user-detail-history-tab',
+        'historyPane': '.talk-admin-user-detail-history-tab-pane',
         'accountHistory': '.talk-admin-account-history',
         'accountHistoryRowStatus':'.talk-admin-account-history-row-status',
         'actionsMenu': '.talk-admin-user-detail-actions-button',

@@ -83,7 +83,7 @@ module.exports = {
   'admin suspends user': (client) => {
     const adminPage = client.page.admin();
     const {moderate, userDetailDrawer} = adminPage.section;
-    
+
     adminPage
       .navigate()
       .ready()
@@ -100,7 +100,7 @@ module.exports = {
       .waitForElementVisible('@actionItemSuspendUser')
       .click('@actionItemSuspendUser');
 
-    adminPage 
+    adminPage
       .waitForElementVisible('@suspendUserDialog')
       .waitForElementVisible('@suspendUserDialogStep0')
       .waitForElementVisible('@suspendUserConfirmButton')
@@ -133,7 +133,8 @@ module.exports = {
       .waitForElementVisible('@historyTab')
       .click('@historyTab')
       .waitForElementVisible('@historyPane')
-      .waitForElementVisible('@accountHistory');
+      .waitForElementVisible('@accountHistory')
+      .click('@closeButton');
   },
   'admin logs out': (client) => {
     const adminPage = client.page.admin();

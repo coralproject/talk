@@ -6,7 +6,8 @@ import styles from './Drawer.css';
 const Drawer = ({children, onClose, className = ''}) => {
   return (
     <div className={cn(styles.drawer, className)}>
-      <div className={styles.closeButton} onClick={onClose}>×</div>
+      {/* TODO: Swap out with button */}
+      <div className={cn(styles.closeButton, [className, 'close-button'].join('-'))} onClick={onClose}>×</div>
       <div className={styles.content}>
         {children}
       </div>
