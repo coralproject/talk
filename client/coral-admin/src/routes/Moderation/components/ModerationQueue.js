@@ -190,28 +190,22 @@ class ModerationQueue extends React.Component {
   componentDidUpdate (prev) {
     const {commentCount, selectedCommentId} = this.props;
 
-    // Switching to multi mode.
-    if (prev.singleView && !this.props.singleView) {
+    const switchedToMultiMode = prev.singleView && !this.props.singleView;
+    const switchedMode = prev.singleView !== this.props.singleView;
+    const selectedDifferentComment = prev.selectedCommentId !== selectedCommentId && selectedCommentId;
+    const moderatedLastComment = prev.comments.length > 0 && this.getCommentCountWithoutDagling() === 0;
+
+    if (switchedToMultiMode) {
 
       // Reflow virtual list.
       this.reflowList();
     }
 
-    if (
-
-      // Switching mode.
-      prev.singleView !== this.props.singleView ||
-
-      // Select different comment.
-      prev.selectedCommentId !== selectedCommentId && selectedCommentId
-    ) {
+    if (switchedMode || selectedDifferentComment) {
       this.scrollToSelectedComment();
     }
 
-    // If the user just moderated the last (visible) comment
-    // AND there are more comments available on the server,
-    // go ahead and load more comments
-    if (prev.comments.length > 0 && this.getCommentCountWithoutDagling() === 0 && commentCount > 0) {
+    if (moderatedLastComment && commentCount > 0) {
       this.props.loadMore();
     }
   }
