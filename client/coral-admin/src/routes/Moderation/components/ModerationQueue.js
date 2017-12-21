@@ -194,6 +194,7 @@ class ModerationQueue extends React.Component {
     const switchedMode = prev.singleView !== this.props.singleView;
     const selectedDifferentComment = prev.selectedCommentId !== selectedCommentId && selectedCommentId;
     const moderatedLastComment = prev.comments.length > 0 && this.getCommentCountWithoutDagling() === 0;
+    const hasMoreComment = commentCount > 0;
 
     if (switchedToMultiMode) {
 
@@ -205,7 +206,7 @@ class ModerationQueue extends React.Component {
       this.scrollToSelectedComment();
     }
 
-    if (moderatedLastComment && commentCount > 0) {
+    if (moderatedLastComment && hasMoreComment) {
       this.props.loadMore();
     }
   }
