@@ -29,11 +29,11 @@ describe('services.UsersService', () => {
       password: '3Coral!3'
     }]);
 
-    sinon.spy(MailerService, 'sendSimple');
+    sinon.spy(MailerService, 'send');
   });
 
   afterEach(() => {
-    MailerService.sendSimple.restore();
+    MailerService.send.restore();
   });
 
   describe('#findById()', () => {
@@ -160,7 +160,7 @@ describe('services.UsersService', () => {
           expect(user).to.have.property('status', 'ACTIVE');
         })
         .then(() => {
-          expect(MailerService.sendSimple).to.not.have.been.called;
+          expect(MailerService.send).to.not.have.been.called;
         });
 
     });
@@ -203,7 +203,7 @@ describe('services.UsersService', () => {
           expect(user).to.have.property('status', 'BANNED');
         })
         .then(() => {
-          expect(MailerService.sendSimple).to.have.been.calledWithMatch({
+          expect(MailerService.send).to.have.been.calledWithMatch({
             template: 'banned',
             to: mockUsers[0].profiles[0].id
           });

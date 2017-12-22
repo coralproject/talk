@@ -17,27 +17,31 @@ router.get('/', authorization.needed(), (req, res, next) => {
 // payload parameter and if it verifies, it updates the confirmed_at date on the
 // local profile.
 router.post('/email/verify', async (req, res, next) => {
-
-  const {
-    token
-  } = req.body;
+  const {token, check} = req.body;
 
   if (!token) {
-    return next(errors.ErrMissingToken);
+    return next(errors.ErrEmailVerificationToken);
+  }
+
+  if (check) {
+    try {
+      await UsersService.verifyEmailConfirmationToken(token);
+      return res.status(204).end();
+    } catch (err) {
+      console.error(err);
+      return next(errors.ErrEmailVerificationToken);
+    }
   }
 
   try {
     let {referer} = await UsersService.verifyEmailConfirmation(token);
-    res.json({redirectUri: referer});
-  } catch (e) {
-    return next(e);
+    return res.json({redirectUri: referer});
+  } catch (err) {
+    console.error(err);
+    return next(errors.ErrEmailVerificationToken);
   }
 });
 
-/**
- * this endpoint takes an email (username) and checks if it belongs to a User account
- * if it does, create a JWT and send an email
- */
 router.post('/password/reset', async (req, res, next) => {
   const {email, loc} = req.body;
 
@@ -48,7 +52,7 @@ router.post('/password/reset', async (req, res, next) => {
   try {
     let token = await UsersService.createPasswordResetToken(email, loc);
     if (token) {
-      await mailer.sendSimple({
+      await mailer.send({
         template: 'password-reset',
         locals: {
           token,
@@ -64,34 +68,34 @@ router.post('/password/reset', async (req, res, next) => {
   }
 });
 
-/**
- * expects 2 fields in the body of the request
- * 1) the token that was in the url of the email link {String}
- * 2) the new password {String}
- */
 router.put('/password/reset', async (req, res, next) => {
-  const {check} = req.query;
-  const {token, password} = req.body;
+  const {token, password, check = false} = req.body;
 
   if (!token) {
-    return next(errors.ErrMissingToken);
+    return next(errors.ErrPasswordResetToken);
   }
 
-  if (check !== 'true' && (!password || password.length < 8)) {
+  if (check) {
+    try {
+      await UsersService.verifyPasswordResetToken(token);
+      return res.status(204).end();
+    } catch (err) {
+      console.error(err);
+      return next(errors.ErrPasswordResetToken);
+    }
+  }
+
+  if (!password || password.length < 8) {
     return next(errors.ErrPasswordTooShort);
   }
 
   try {
-    let [user, loc] = await UsersService.verifyPasswordResetToken(token);
-    if (check === 'true') {
-      res.status(204).end();
-      return;
-    }
+    let [user, redirect] = await UsersService.verifyPasswordResetToken(token);
 
     // Change the users' password.
     await UsersService.changePassword(user.id, password);
 
-    res.json({redirect: loc});
+    res.json({redirect});
   } catch (e) {
     console.error(e);
     return next(errors.ErrNotAuthorized);

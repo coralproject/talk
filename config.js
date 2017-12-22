@@ -175,11 +175,11 @@ const CONFIG = {
   // SMTP Server configuration
   //------------------------------------------------------------------------------
 
-  SMTP_FROM_ADDRESS: process.env.TALK_SMTP_FROM_ADDRESS,
   SMTP_HOST: process.env.TALK_SMTP_HOST,
-  SMTP_PASSWORD: process.env.TALK_SMTP_PASSWORD,
-  SMTP_PORT: process.env.TALK_SMTP_PORT ? parseInt(process.env.TALK_SMTP_PORT) : undefined,
   SMTP_USERNAME: process.env.TALK_SMTP_USERNAME,
+  SMTP_PORT: process.env.TALK_SMTP_PORT,
+  SMTP_PASSWORD: process.env.TALK_SMTP_PASSWORD,
+  SMTP_FROM_ADDRESS: process.env.TALK_SMTP_FROM_ADDRESS,
 
   //------------------------------------------------------------------------------
   // Flagging Config

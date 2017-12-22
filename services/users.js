@@ -439,7 +439,7 @@ module.exports = class UsersService {
           subject: i18n.t('email.banned.subject'),
           to: localProfile.id
         };
-        await MailerService.sendSimple(options);
+        await MailerService.send(options);
       }
     }
 
@@ -475,7 +475,7 @@ module.exports = class UsersService {
           to: localProfile.id,
         };
 
-        await MailerService.sendSimple(options);
+        await MailerService.send(options);
       }
     }
 
@@ -511,7 +511,7 @@ module.exports = class UsersService {
           // We may want a standard way to access a user's e-mail address in the future
         };
 
-        await MailerService.sendSimple(options);
+        await MailerService.send(options);
       }
     }
 
@@ -767,6 +767,36 @@ module.exports = class UsersService {
     }, tokenOptions);
   }
 
+  static async verifyEmailConfirmationToken(token) {
+    const decoded = await UsersService.verifyToken(token, {
+      subject: EMAIL_CONFIRM_JWT_SUBJECT
+    });
+
+    const user = await UserModel.findOne({
+      id: decoded.userID,
+      profiles: {
+        $elemMatch: {
+          id: decoded.email,
+          provider: 'local',
+        },
+      },
+    });
+    if (!user) {
+      throw errors.ErrNotFound;
+    }
+
+    const profile = user.profiles.find(({id}) => id === decoded.email);
+    if (!profile) {
+      throw errors.ErrNotFound;
+    }
+
+    if (profile.metadata && profile.metadata.confirmed_at !== null) {
+      throw errors.ErrEmailVerificationToken;
+    }
+
+    return decoded;
+  }
+
   /**
    * This verifies that a given token was for the email confirmation and updates
    * that user's profile with a 'confirmed_at' parameter with the current date.
@@ -775,9 +805,7 @@ module.exports = class UsersService {
    * @return {Promise}
    */
   static async verifyEmailConfirmation(token) {
-    let {userID, email, referer} = await UsersService.verifyToken(token, {
-      subject: EMAIL_CONFIRM_JWT_SUBJECT
-    });
+    let {userID, email, referer} = await UsersService.verifyEmailConfirmationToken(token);
 
     await UsersService.confirmEmail(userID, email);
 

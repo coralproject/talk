@@ -1,3 +1,5 @@
+const SettingsService = require('../services/settings');
+
 const {
   BASE_URL,
   BASE_PATH,
@@ -24,8 +26,8 @@ const TEMPLATE_LOCALS = {
   },
 };
 
-// attachLocals will attach the locals to the response only.
-const attachLocals = (locals) => {
+// attachStaticLocals will attach the locals to the response only.
+const attachStaticLocals = (locals) => {
   for (const key in TEMPLATE_LOCALS) {
     const value = TEMPLATE_LOCALS[key];
 
@@ -33,13 +35,22 @@ const attachLocals = (locals) => {
   }
 };
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
+
+  try {
+
+    // Attach the custom css url.
+    const {customCssUrl} = await SettingsService.retrieve('customCssUrl');
+    res.locals.customCssUrl = customCssUrl;
+  } catch (err) {
+    console.warn(err);
+  }
 
   // Always attach the locals.
-  attachLocals(res.locals);
+  attachStaticLocals(res.locals);
 
   // Forward the request.
   next();
 };
 
-module.exports.attachLocals = attachLocals;
+module.exports.attachStaticLocals = attachStaticLocals;
