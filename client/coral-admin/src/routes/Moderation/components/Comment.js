@@ -15,8 +15,9 @@ import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
 import ApproveButton from 'coral-admin/src/components/ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
+import moment from 'moment';
 
-import t, {timeago} from 'coral-framework/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 class Comment extends React.Component {
 
@@ -108,7 +109,7 @@ class Comment extends React.Component {
                 )
               }
               <span className={styles.created}>
-                {timeago(comment.created_at)}
+                {moment(comment.created_at).format('HH:mm DD/MM/YYYY')}
               </span>
               {
                 (comment.editing && comment.editing.edited)
