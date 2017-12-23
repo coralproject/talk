@@ -21,12 +21,10 @@ es:
     featured_comments: Comentarios Remarcados
     go_to_conversation: Ir al comentario
     tooltip_description: Comentarios seleccionados por nuestro equipo que valen la pena ser leidos
-<<<<<<< HEAD
     feature_comment: Destacar comentario?
     are_you_sure: Está seguro que desea destacar este comentario?
     cancel: Cancelar
     yes_feature_comment: Si, destacar comentario
-=======
 ru:
   talk-plugin-featured-comments:
     un_feature: Отменить
@@ -38,4 +36,3 @@ ru:
     notify_self_featured: 'Комментарий из {0} отмечен как "Избранный" и одобрен'
     notify_featured: '{0} отметил как "Избранный" и одобрил комментарий "{1}"'
     notify_unfeatured: '{0} снял отметку "Избранный" с комментария "{1}"'
->>>>>>> Anonymous (#4)
