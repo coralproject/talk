@@ -15,6 +15,7 @@
     "talk-plugin-sort-most-replied",
     "talk-plugin-sort-newest",
     "talk-plugin-sort-oldest",
-    "talk-plugin-viewing-options"
+    "talk-plugin-viewing-options",
+    "talk-plugin-comment-status-blame-log"
   ]
 }

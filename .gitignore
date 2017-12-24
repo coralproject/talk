@@ -51,5 +51,6 @@ plugins/*
 !plugins/talk-plugin-subscriber
 !plugins/talk-plugin-flag-details
 !plugins/talk-plugin-slack-notifications
+!plugins/talk-plugin-comment-status-blame-log
 
 **/node_modules/*
