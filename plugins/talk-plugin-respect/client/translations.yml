@@ -6,4 +6,7 @@ es:
   talk-plugin-respect:
     respect: Respetar
     respected: Respetado
-
+zh_CN:
+  talk-plugin-respect:
+    respect: "尊重"
+    respected: "已尊重"

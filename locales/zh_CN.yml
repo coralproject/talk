@@ -142,7 +142,7 @@ zh_CN:
     wordlist: "被禁词汇"
   continue: "继续"
   createdisplay:
-    check_the_form: "表格无效。请检查字段"
+    check_the_form: "表格无效。请检查字段。"
     continue: "使用 Facebook 用户名"
     error_create: "更改用户名时发生了错误"
     fake_comment_body: "此为评论样例。读者可以在评论部分中分享他们关于新闻编辑室的想法和意见。"
@@ -150,7 +150,7 @@ zh_CN:
     if_you_dont_change_your_name: "若您不在此改变用户名，您的 Facebook 用户名将随您的评论一同出现。"
     required_field: "必需字段"
     save: "保存"
-    special_characters: "用户名只能包含字母跟下划线"
+    special_characters: "用户名只能包含字母、数字跟下划线"
     username: "用户名"
     write_your_username: "编辑您的用户名"
     your_username: "您的用户名将随您发表的所有评论一同出现。"
@@ -186,7 +186,7 @@ zh_CN:
   error:
     COMMENT_TOO_SHORT: "评论至少应有一个字符。请修改您的评论，再度尝试。"
     NOT_AUTHORIZED: "您没有权限进行该操作"
-    NO_SPECIAL_CHARACTERS: "用户名只能包含字母跟下划线"
+    NO_SPECIAL_CHARACTERS: "用户名只能包含字母、数字跟下划线"
     PASSWORD_LENGTH: "密码太短"
     PROFANITY_ERROR: "用户名不能包含污言秽语。如果您确信判断有误，请联系管理员。"
     RATE_LIMIT_EXCEEDED: "超出频率限制"
@@ -212,7 +212,7 @@ zh_CN:
     email_password: "邮箱与密码的组合错误。"
     organization_name: "组织名只能包含字母或数字。"
     password: "密码长度需至少为 8 字符"
-    username: "用户名只能包含字母跟下划线"
+    username: "用户名只能包含字母、数字跟下划线"
     unexpected: "发生了异常错误。对不起！"
   flag_comment: "举报评论"
   flag_reason: "举报理由（可选）"
@@ -229,7 +229,7 @@ zh_CN:
     content_not_available: "该内容不可用"
     edit_name:
       button: "提交"
-      error: "用户名只能包含字母跟下划线"
+      error: "用户名只能包含字母、数字跟下划线"
       label: "新用户名"
       msg: "因为您的用户名不恰当，您的帐号目前已被屏蔽。要恢复，请输入新用户名。若您有任何问题，请联系我们。"
     my_comments: "我的评论"
@@ -355,7 +355,7 @@ zh_CN:
     email_message_suspend: "尊敬的 {0},\n\n根据 {1} 的社群指引方针，您的帐号已被暂时停用。停用期内您无法评论、举报，或与其他评论者互动。请稍后加入对话 {2}。"
     title_notify: "提醒用户帐号被停用"
     notify_suspend_until: "用户 {0} 已被暂时停用。 将在 {1} 后自动恢复。"
-    description_notify: "Suspending this user will temporarily disable their account."
+    description_notify: "停用该用户将暂时禁用用户的帐号。"
     write_message: "填写信息"
     send: "发送"
   reject_username:

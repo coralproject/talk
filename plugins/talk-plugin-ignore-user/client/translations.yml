@@ -23,3 +23,13 @@ pt_Br:
     section_title: "Usuários ignorados"
     section_info: "Porque você ignorou os seguintes comentadores, seus comentários estão ocultos."
     stop_ignoring: "Pare de ignorar"
+zh_CN:
+  talk-plugin-ignore-user:
+    section_title: "被忽略用户"
+    section_info: "因为您忽略了下述评论者，他们的评论将会被隐藏。"
+    stop_ignoring: "停止忽略"
+    ignore_user: "忽略用户"
+    cancel: "取消"
+    confirmation: "当您忽略用户时，您将看不到该用户的所有评论。您可以在资料页面撤销此操作。"
+    notify_success: "您现在已忽略 {0}。您可以在资料页面撤销此操作。"
+    confirmation_title: "忽略 {0}？"

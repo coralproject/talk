@@ -4,3 +4,6 @@ en:
 es:
   talk-plugin-member-since:
     member_since: "Miembro desde"
+zh_CN:
+  talk-plugin-member-since:
+    member_since: "成员加入日期"

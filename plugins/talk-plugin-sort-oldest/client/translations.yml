@@ -3,3 +3,6 @@ en:
     label: Oldest first
 es:
   talk-plugin-sort-oldest:
+zh_CN:
+  talk-plugin-sort-oldest:
+    label: "最早发表在先"
