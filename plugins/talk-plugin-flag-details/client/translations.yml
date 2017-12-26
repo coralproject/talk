@@ -4,3 +4,6 @@ en:
 es:
   talk-plugin-flag-details:
     flags: Reportes
+ru:
+  talk-plugin-flag-details:
+    flags: Жалобы

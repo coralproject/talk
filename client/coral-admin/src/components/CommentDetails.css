@@ -16,3 +16,7 @@
   }
 }
 
+.assignedBy {
+  text-align: right;
+  color: gray;
+}

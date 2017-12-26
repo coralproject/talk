@@ -52,6 +52,11 @@
   position: relative;
 }
 
+.ipAddress {
+  font-size: 14px;
+  color: #D03235;
+}
+
 .sideActions {
   height: 100%;
   top: 0;

@@ -26,8 +26,7 @@ class SignUpContent extends React.Component {
       errors,
       showErrors,
       changeView,
-      handleSignUp,
-      fetchSignUpFacebook
+      handleSignUp
     } = this.props;
 
     return (
@@ -41,16 +40,6 @@ class SignUpContent extends React.Component {
         {auth.error && <Alert>{auth.error}</Alert>}
         {!auth.successSignUp &&
           <div>
-            <div className={styles.socialConnections}>
-              <Button cStyle="facebook" onClick={fetchSignUpFacebook} full>
-                {t('sign_in.facebook_sign_up')}
-              </Button>
-            </div>
-            <div className={styles.separator}>
-              <h1>
-                {t('sign_in.or')}
-              </h1>
-            </div>
             <form onSubmit={handleSignUp}>
               <TextField
                 id="email"

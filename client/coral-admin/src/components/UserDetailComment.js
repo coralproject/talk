@@ -64,7 +64,7 @@ class UserDetailComment extends React.Component {
             </div>
           </div>
           <div className={styles.story}>
-            Story: {comment.asset.title}
+            {t('common.story')}: {comment.asset.title}
             {<Link to={`/admin/moderate/${comment.asset.id}`}>{t('modqueue.moderate')}</Link>}
           </div>
           <CommentAnimatedEdit body={comment.body}>

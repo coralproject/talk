@@ -149,15 +149,17 @@ class Stream extends React.Component {
     // the state when changing sorting.
     return (
       <div className={cn('talk-stream-tab-container', styles.tabContainer)}>
-        <div
-          className={cn('talk-stream-filter-wrapper', styles.filterWrapper)}
-        >
-          <Slot
-            fill="streamFilter"
-            queryData={slotQueryData}
-            {...slotProps}
-          />
-        </div>
+        {(totalCommentCount > 1)
+        && (
+          <div className={cn('talk-stream-filter-wrapper', styles.filterWrapper)}>
+            <Slot
+              fill="streamFilter"
+              queryData={slotQueryData}
+              {...slotProps}
+            />
+          </div>
+        )}
+
         <ExtendableTabPanel
           key={`${sortBy}_${sortOrder}`}
           activeTab={activeStreamTab}
@@ -247,10 +249,6 @@ class Stream extends React.Component {
       <div id="stream" className={styles.root}>
         {open
           ? <div id="commentBox">
-            <InfoBox
-              content={asset.settings.infoBoxContent}
-              enable={asset.settings.infoBoxEnable}
-            />
             {questionBoxEnable && (
               <QuestionBox
                 content={asset.settings.questionBoxContent}
@@ -305,6 +303,11 @@ class Stream extends React.Component {
             isAdmin={can(user, 'MODERATE_COMMENTS')}
           />
         )}
+
+        <InfoBox
+          content={asset.settings.infoBoxContent}
+          enable={asset.settings.infoBoxEnable}
+        />
 
         {highlightedComment
           ? this.renderHighlightedComment()

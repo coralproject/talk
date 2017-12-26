@@ -16,12 +16,12 @@ class ViewOptions extends React.Component {
     return (
       <Card className={cn(styles.viewOptions, 'talk-admin-moderation-view-options')}>
         <h2 className={cn(styles.headline, 'talk-admin-moderation-view-options-headline')}>
-          View Options
+          {t('streams.view_options')}
         </h2>
         <div className={styles.viewOptionsContent}>
           <ul className={styles.viewOptionsList}>
             <li className={styles.viewOptionsItem}>
-              Sort Comments
+              {t('streams.sort_comments')}
               <Dropdown
                 containerClassName={styles.dropdownContainer}
                 toggleClassName={styles.dropdownToggle}

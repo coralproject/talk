@@ -7,6 +7,7 @@ import {CountdownSeconds} from './CountdownSeconds';
 import {getEditableUntilDate} from './util';
 import {can} from 'coral-framework/services/perms';
 import {forEachError} from 'coral-framework/utils';
+import cn from 'classnames';
 
 import {Icon} from 'coral-ui';
 import t from 'coral-framework/services/i18n';
@@ -134,7 +135,7 @@ export class EditableCommentContent extends React.Component {
           loadingState={this.state.loadingState}
           buttonContainerStart={
             <div className={styles.buttonContainerLeft}>
-              <span className={styles.editWindowRemaining}>
+              <span className={cn(styles.editWindowRemaining, 'talk-edit-countdown-container')}>
                 {
                   this.isEditWindowExpired()
                     ? <span>

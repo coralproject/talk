@@ -1,14 +1,16 @@
+import t from 'coral-framework/services/i18n';
+
 /**
  * getReliability
  * retrieves reliability value as string
  */
-  
+
 export const getReliability = (reliabilityValue) => {
   if (reliabilityValue === null) {
-    return 'neutral';
+    return t('reliability.neutral');
   } else if (reliabilityValue) {
-    return 'reliable';
+    return t('reliability.reliable');
   } else {
-    return 'unreliable';
+    return t('reliability.unreliable');
   }
 };

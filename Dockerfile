@@ -15,6 +15,12 @@ COPY . /usr/src/app
 # Ensure the runtime of the container is in production mode.
 ENV NODE_ENV production
 
+# arguments for build
+ARG TALK_THREADING_LEVEL=3
+ARG TALK_DEFAULT_STREAM_TAB=all
+ARG TALK_DEFAULT_LANG=en
+ARG TALK_PLUGINS_JSON
+
 # Install app dependencies and build static assets.
 RUN yarn global add node-gyp && \
     yarn install --frozen-lockfile && \

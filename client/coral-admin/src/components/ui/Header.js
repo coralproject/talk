@@ -19,7 +19,7 @@ const CoralHeader = ({
     <div className={styles.headerWrapper}>
       <Header className={styles.header}>
         <Logo className={styles.logo} />
-        <div> 
+        <div>
           {
             auth && auth.user && can(auth.user, 'ACCESS_ADMIN') ?
               <Navigation className={styles.nav}>
@@ -76,12 +76,12 @@ const CoralHeader = ({
                     <MenuItem onClick={() => showShortcuts(true)}>{t('configure.shortcuts')}</MenuItem>
                     <MenuItem>
                       <a href="https://github.com/coralproject/talk/releases" target="_blank" rel="noopener noreferrer">
-                          View latest version
+                        {t('configure.view_latest')}
                       </a>
                     </MenuItem>
                     <MenuItem>
-                      <a href="https://support.coralproject.net" target="_blank" rel="noopener noreferrer">
-                          Report a bug or give feedback
+                      <a href="https://coralproject.net/contribute.html#other-ideas-and-bug-reports" target="_blank" rel="noopener noreferrer">
+                        {t('configure.report_bug')}
                       </a>
                     </MenuItem>
                     <MenuItem onClick={handleLogout} className="talk-admin-header-sign-out">

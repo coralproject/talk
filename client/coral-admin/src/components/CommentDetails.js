@@ -36,7 +36,7 @@ class CommentDetails extends Component {
       <div className={styles.root}>
         <IfSlotIsNotEmpty
           queryData={queryData}
-          slot={['adminCommentMoreDetails', 'adminCommentMoreFlagDetails']}
+          slot={['adminCommentMoreDetails', 'adminCommentMoreFlagDetails', 'adminCommentStatusBlameLog']}
         >
           <a onClick={this.toggleDetail} className={styles.moreDetail}>
             {showDetail ? t('modqueue.less_detail') : t('modqueue.more_detail')}
@@ -51,6 +51,12 @@ class CommentDetails extends Component {
         />
         {showDetail && <Slot
           fill="adminCommentMoreDetails"
+          data={data}
+          clearHeightCache={clearHeightCache}
+          queryData={queryData}
+        />}
+        {showDetail && <Slot
+          fill="adminCommentStatusBlameLog"
           data={data}
           clearHeightCache={clearHeightCache}
           queryData={queryData}

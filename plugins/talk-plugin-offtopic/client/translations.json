@@ -1,8 +1,14 @@
 {
   "en": {
-    "off_topic": "Off Topic"
+    "off_topic": "Off Topic",
+    "hide_off_topic": "Hide Off-Topic Comments"
   },
   "es": {
-    "off_topic": "Fuera de Topico"
+    "off_topic": "Fuera de Topico",
+    "hide_off_topic": "Hide Off-Topic Comments"
+  },
+  "ru": {
+    "off_topic": "Не по теме",
+    "hide_off_topic": "Скрыть сообщения не по теме"
   }
 }

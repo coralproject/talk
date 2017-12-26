@@ -1,0 +1,168 @@
+body {
+    padding-bottom: 10px;
+    font-size: 15px;
+}
+#talk-embed-stream-container {
+    padding: 0;
+}
+
+.talk-plugin-commentbox-textarea {
+    color: #212121;
+    margin-top: 15px;
+    font-size: 15px;
+    line-height: 1.2;
+    border-radius: 2px;
+}
+
+.talk-plugin-commentbox-textarea[placeholder] {
+    color: #757575;
+}
+
+.talk-plugin-commentbox-button-container {
+    margin-top: 0;
+}
+
+.talk-plugin-commentbox-button-container,
+.talk-slot-comment-input-detail-area {
+    display: block;
+}
+
+.talk-slot-comment-input-detail-area label {
+    padding-left: 0;
+}
+
+.talk-plugin-commentbox-button,
+.talk-plugin-commentbox-cancel-button,
+#coralSignInButton,
+#SignInAsAnonymousButton,
+.talk-load-more-button {
+    font-size: 13px !important;
+    line-height: 14px !important;
+    text-transform: uppercase !important;
+    border-radius: 2px !important;
+    border: 1px solid #009fd1 !important;
+    color: #009fd1 !important;
+    background: #fff !important;
+    font-weight: 500 !important;
+    padding: 9px 15px !important;
+    position: static !important;
+    float: none !important;
+}
+
+.talk-load-more-button {
+    margin: 24px 0 0 0 !important;
+}
+
+.talk-plugin-commentbox-button,
+.talk-plugin-commentbox-cancel-button {
+    width: 100%;
+}
+
+button + .talk-plugin-commentbox-button,
+button + .talk-plugin-commentbox-cancel-button {
+    margin: 16px 0 !important;
+}
+
+.talk-slot-stream {
+    display: inline-block;
+    width: 100%;
+}
+
+.talk-tab-bar {
+    margin-top: 10px !important;
+}
+
+.talk-stream-tab-container {
+    margin-top: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+}
+
+.talk-plugin-commentbox-button {
+    margin: 0 !important;
+}
+
+.talk-stream-comment {
+    border-left: none !important;
+    border-bottom: 1px solid #eeeeee;
+    padding: 24px 0 24px !important;
+}
+
+.talk-tab-content {
+    padding-top: 0 !important;
+}
+
+.talk-stream-comment .talk-stream-comment {
+    margin-left: 24px !important;
+}
+
+.talk-plugin-commentbox-cancel-button {
+    margin: 0 10px 0 0 !important;
+}
+
+.talk-plugin-commentbox-button[disabled] {
+    opacity: .5;
+}
+
+.talk-plugin-commentbox-button:not(:disabled):hover,
+.talk-plugin-commentbox-button:not(:disabled):active,
+#coralSignInButton:hover,
+#coralSignInButton:active,
+#SignInAsAnonymousButton:hover,
+#SignInAsAnonymousButton:active,
+.talk-plugin-commentbox-cancel-button:hover,
+.talk-plugin-commentbox-cancel-button:active,
+.talk-load-more-button:hover,
+.talk-load-more-button:active {
+    background-color: #009fd1 !important;
+    color: #fff !important;
+}
+
+.talk-stream-comment-header {
+    margin: 0 0 24px !important;
+}
+
+.talk-stream-comment-wrapper {
+    border: none !important;
+    padding: 0 !important;
+}
+
+.talk-slot-comment-author-name {
+    font-size: 15px;
+    color: #005394;
+    line-height: 20px;
+    margin-right: 0;
+}
+
+.talk-comment-timestamp {
+    font-weight: 500;
+    color: #9e9e9e;
+    margin: 0 8px;
+    line-height: 20px;
+}
+
+.talk-plugin-replies-textarea {
+    display: inline-block;
+    width: 100%;
+}
+
+.talk-edit-countdown-container {
+    margin: 16px 0;
+}
+
+.talk-stream-no-comments-message {
+    background-color: #fff !important;
+}
+
+.talk-plugin-infobox-info {
+    background-color: #fff;
+    padding: 0;
+    color: #9e9e9e;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.talk-plugin-infobox-info a,
+.talk-embed-stream-moderation-link {
+    color: #009fd1;
+}

@@ -6,3 +6,8 @@ en:
 es:
   talk-plugin-viewing-options:
     viewing_options: "Opciones de visualización"
+ru:
+  talk-plugin-viewing-options:
+    viewing_options: "Настройки просмотра"
+    sort: Сортировка
+    filter: Фильтр

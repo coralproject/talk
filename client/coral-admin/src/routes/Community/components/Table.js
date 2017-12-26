@@ -70,6 +70,7 @@ const Table = ({users, setRole, onHeaderClickHandler, setCommenterStatus, viewUs
                 <Option value={'STAFF'} label={t('community.staff')} />
                 <Option value={'MODERATOR'} label={t('community.moderator')} />
                 <Option value={'ADMIN'} label={t('community.admin')} />
+                <Option value={'ANONYMOUS'} label={t('community.anonymous')} />
               </Dropdown>
             </td>
           </tr>

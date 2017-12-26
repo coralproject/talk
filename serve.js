@@ -14,6 +14,14 @@ const {createSubscriptionManager} = require('./graph/subscriptions');
 const {
   PORT
 } = require('./config');
+const {exec} = require('child_process');
+const trackRelease = require('./services/metrics/release');
+const trackDefaultMetrics = require('./services/metrics/default');
+
+trackDefaultMetrics({timeout: 5000});
+
+// track release: last commit hash and Jenkins build number
+exec('git rev-parse HEAD', (err, stdout) => trackRelease(stdout.replace(/\n/, '')));
 
 const port = normalizePort(PORT);
 

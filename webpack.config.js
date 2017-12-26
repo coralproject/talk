@@ -109,10 +109,10 @@ const config = {
       }
     }),
     new webpack.EnvironmentPlugin({
-      'TALK_PLUGINS_JSON': '{}',
-      'TALK_THREADING_LEVEL': '3',
-      'TALK_DEFAULT_STREAM_TAB': 'all',
-      'TALK_DEFAULT_LANG': 'en'
+      'TALK_PLUGINS_JSON': process.env.TALK_PLUGINS_JSON || '{}',
+      'TALK_THREADING_LEVEL': process.env.TALK_THREADING_LEVEL || '3',
+      'TALK_DEFAULT_STREAM_TAB': process.env.TALK_DEFAULT_STREAM_TAB || 'all',
+      'TALK_DEFAULT_LANG': process.env.TALK_DEFAULT_LANG || 'en'
     })
   ],
   resolveLoader: {

@@ -13,6 +13,7 @@ import {getReliability} from 'coral-framework/utils/user';
 import ApproveButton from './ApproveButton';
 import RejectButton from './RejectButton';
 import {getErrorMessages} from 'coral-framework/utils';
+import t from 'coral-framework/services/i18n';
 
 export default class UserDetail extends React.Component {
 
@@ -135,7 +136,7 @@ export default class UserDetail extends React.Component {
             <ul className={styles.userDetailList}>
               <li>
                 <Icon name="assignment_ind" />
-                <span className={styles.userDetailItem}>Member Since:</span>
+                <span className={styles.userDetailItem}>{t('user_details.member_since')}:</span>
                 {new Date(user.created_at).toLocaleString()}
               </li>
 
@@ -150,17 +151,17 @@ export default class UserDetail extends React.Component {
 
             <ul className={styles.stats}>
               <li className={styles.stat}>
-                <span className={styles.statItem}>Total Comments</span>
+                <span className={styles.statItem}>{t('user_details.total_comments')}</span>
                 <span className={styles.statResult}>{totalComments}</span>
               </li>
               <li className={styles.stat}>
-                <span className={styles.statItem}>Reject Rate</span>
+                <span className={styles.statItem}>{t('user_details.reject_rate')}</span>
                 <span className={styles.statResult}>
                   {rejectedPercent.toFixed(1)}%
                 </span>
               </li>
               <li className={styles.stat}>
-                <span className={styles.statItem}>Reports</span>
+                <span className={styles.statItem}>{t('user_details.reports')}</span>
                 <span className={cn(styles.statReportResult, styles[getReliability(user.reliable.flagger)])}>
                   {capitalize(getReliability(user.reliable.flagger))}
                 </span>
@@ -179,8 +180,8 @@ export default class UserDetail extends React.Component {
               selectedCommentIds.length === 0
                 ? (
                   <ul className={styles.commentStatuses}>
-                    <li className={activeTab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
-                    <li className={activeTab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>Rejected</li>
+                    <li className={activeTab === 'all' ? styles.active : ''} onClick={this.showAll}>{t('user_details.all')}</li>
+                    <li className={activeTab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>{t('user_details.rejected')}</li>
                   </ul>
                 )
                 : (
@@ -193,7 +194,7 @@ export default class UserDetail extends React.Component {
                       onClick={this.bulkRejectThenReload}
                       minimal
                     />
-                    <span className={styles.selectedCommentsInfo}>  {selectedCommentIds.length} comments selected</span>
+                    <span className={styles.selectedCommentsInfo}>  {selectedCommentIds.length} {t('user_details.comments_selected')}</span>
                   </div>
                 )
             }
@@ -205,7 +206,7 @@ export default class UserDetail extends React.Component {
                 onChange={(e) => {
                   toggleSelectAll(nodes.map((comment) => comment.id), e.target.checked);
                 }} />
-              <label htmlFor='toogleAll'>Select all</label>
+              <label htmlFor='toogleAll'>{t('user_details.select_all')}</label>
             </div>
           </div>
           <div className={styles.commentList}>

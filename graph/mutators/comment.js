@@ -168,6 +168,7 @@ const createComment = async (context, {tags = [], body, asset_id, parent_id = nu
     body,
     asset_id,
     parent_id,
+    user_ip: context.user_ip,
     status,
     tags,
     author_id: user.id,

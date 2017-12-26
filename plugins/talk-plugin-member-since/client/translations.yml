@@ -4,3 +4,6 @@ en:
 es:
   talk-plugin-member-since:
     member_since: "Miembro desde"
+ru:
+  talk-plugin-member-since:
+    member_since: "Дата регистрации"
