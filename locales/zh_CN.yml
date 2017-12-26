@@ -178,7 +178,7 @@ zh_CN:
       if_you_did_not: "若您没有申请这封邮件，您可以忽略本邮件。"
       subject: "确认邮箱"
     password_reset:
-      we_received_a_request: "我们受到了重置您的密码的请求。若您没有申请这封邮件，您可以忽略本邮件。"
+      we_received_a_request: "我们收到了重置密码的请求。若您没有申请重置密码，您可以忽略本邮件。"
       if_you_did: "若您曾申请，"
       please_click: "请点击此处重置密码"
   embedlink:
