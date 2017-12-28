@@ -319,7 +319,7 @@ default to providing only a time based lockout. Refer to
 [reCAPTCHA](https://www.google.com/recaptcha/intro/index.html) for information
 on getting an account setup.
 
-## TALK_REDIS_CLIENT_CONFIG
+## TALK_REDIS_CLIENT_CONFIGURATION
 
 Configuration overrides for the redis client configuration in a JSON encoded
 string. Configuration is overridden as the second parameter to the redis client
