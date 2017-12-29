@@ -1,0 +1,59 @@
+.root {
+}
+
+.iconList {
+  display: flex;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.item {
+  list-style-type: none;
+}
+
+.button {
+  composes: buttonReset from "coral-framework/styles/reset.css";
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #F0F0F0;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  text-align: center;
+  line-height: 48px;
+  color: #252525;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-right: 10px;
+  position: relative;
+  border: solid 2px #F0F0F0;
+  outline: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.button:focus {
+  border: solid 2px #00c96B;
+}
+
+.buttonActive {
+  border: solid 2px #00796B;
+}
+
+.defaultIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.questionBox {
+  margin: 10px 0;
+}
+

@@ -11,6 +11,9 @@ const Subscription = {
   commentRejected(comment) {
     return comment;
   },
+  commentReset(comment) {
+    return comment;
+  },
   commentFlagged(comment) {
     return comment;
   },

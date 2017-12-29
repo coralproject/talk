@@ -11,13 +11,15 @@ import {
   changeUserDetailStatuses,
   clearUserDetailSelections,
   toggleSelectCommentInUserDetail,
+  toggleSelectAllCommentInUserDetail
 } from 'coral-admin/src/actions/userDetail';
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
+import {notify} from 'coral-framework/actions/notification';
 
 const commentConnectionFragment = gql`
-  fragment CoralAdmin_Moderation_CommentConnection on CommentConnection {
+  fragment CoralAdmin_UserDetail_CommentConnection on CommentConnection {
     nodes {
       ...${getDefinitionName(UserDetailComment.fragments.comment)}
     }
@@ -41,22 +43,16 @@ class UserDetailContainer extends React.Component {
       return this.props.setCommentStatus({commentId, status});
     });
 
-    try {
-      await Promise.all(changes);
-      this.props.clearUserDetailSelections(); // un-select everything
-    } catch (err) {
-
-      // TODO: handle error.
-      console.error(err);
-    }
+    await Promise.all(changes);
+    this.props.clearUserDetailSelections(); // un-select everything
   }
 
   bulkReject = () => {
-    this.bulkSetCommentStatus('REJECTED');
+    return this.bulkSetCommentStatus('REJECTED');
   }
 
   bulkAccept = () => {
-    this.bulkSetCommentStatus('ACCEPTED');
+    return this.bulkSetCommentStatus('ACCEPTED');
   }
 
   acceptComment = ({commentId}) => {
@@ -120,6 +116,7 @@ class UserDetailContainer extends React.Component {
       bulkAccept={this.bulkAccept}
       changeStatus={this.props.changeUserDetailStatuses}
       toggleSelect={this.props.toggleSelectCommentInUserDetail}
+      toggleSelectAll={this.props.toggleSelectAllCommentInUserDetail}
       acceptComment={this.acceptComment}
       rejectComment={this.rejectComment}
       loading={loading}
@@ -131,7 +128,7 @@ class UserDetailContainer extends React.Component {
 const LOAD_MORE_QUERY = gql`
   query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Cursor, $author_id: ID!, $statuses: [COMMENT_STATUS!]) {
     comments(query: {limit: $limit, cursor: $cursor, author_id: $author_id, statuses: $statuses}) {
-      ...CoralAdmin_Moderation_CommentConnection
+      ...CoralAdmin_UserDetail_CommentConnection
     }
   }
   ${commentConnectionFragment}
@@ -158,7 +155,7 @@ export const withUserDetailQuery = withQuery(gql`
       author_id: $author_id,
       statuses: $statuses
     }) {
-      ...CoralAdmin_Moderation_CommentConnection
+      ...CoralAdmin_UserDetail_CommentConnection
     }
     ...${getDefinitionName(UserDetailComment.fragments.root)}
     ${getSlotFragmentSpreads(slots, 'root')}
@@ -168,7 +165,8 @@ export const withUserDetailQuery = withQuery(gql`
 `, {
   options: ({userId, statuses}) => {
     return {
-      variables: {author_id: userId, statuses}
+      variables: {author_id: userId, statuses},
+      fetchPolicy: 'network-only',
     };
   },
   skip: (ownProps) => !ownProps.userId,
@@ -188,6 +186,8 @@ const mapDispatchToProps = (dispatch) => ({
     toggleSelectCommentInUserDetail,
     viewUserDetail,
     hideUserDetail,
+    toggleSelectAllCommentInUserDetail,
+    notify
   }, dispatch)
 });
 

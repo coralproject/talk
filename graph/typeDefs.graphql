@@ -818,19 +818,6 @@ enum USER_STATUS {
   APPROVED
 }
 
-# Metrics for the assets.
-enum ASSET_METRICS_SORT {
-
-  # Represents a FlagAction.
-  FLAG
-
-  # Represents a don't agree action.
-  DONTAGREE
-
-  # Represents activity.
-  ACTIVITY
-}
-
 type RootQuery {
 
   # Site wide settings and defaults.
@@ -865,14 +852,6 @@ type RootQuery {
 
   # a single User by id
   user(id: ID!): User
-
-  # Asset metrics related to user actions are saturated into the assets
-  # returned. Parameters `from` and `to` are related to the action created_at field.
-  assetMetrics(from: Date!, to: Date!, sortBy: ASSET_METRICS_SORT!, limit: Int = 10): [Asset!]
-
-  # Comment metrics related to user actions are saturated into the comments
-  # returned. Parameters `from` and `to` are related to the action created_at field.
-  commentMetrics(from: Date!, to: Date!, sortBy: ACTION_TYPE!, limit: Int = 10): [Comment!]
 }
 
 ################################################################################
@@ -1375,6 +1354,10 @@ type Subscription {
   # Get an update whenever a comment has been rejected.
   # Requires the `ADMIN` or `MODERATOR` role.
   commentRejected(asset_id: ID): Comment
+
+  # Get an update whenever the status of a comment has been reset.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentReset(asset_id: ID): Comment
 
   # Get an update whenever a user has been suspended.
   # `user_id` must match id of current user except for

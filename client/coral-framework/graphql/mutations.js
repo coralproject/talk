@@ -88,7 +88,7 @@ export const withRemoveTag = withMutation(
             asset_id: assetId,
             item_type: itemType,
           },
-          optimisticResponse: {
+          o3timisticResponse: {
             removeTag: {
               __typename: 'ModifyTagResponse',
               errors: null,
@@ -138,6 +138,9 @@ export const withSetCommentStatus = withMutation(
             const fragment = gql`
               fragment Talk_SetCommentStatus on Comment {
                 status
+                status_history {
+                  type
+                }
               }`;
 
             const fragmentId = `Comment_${commentId}`;
@@ -145,6 +148,8 @@ export const withSetCommentStatus = withMutation(
             const data = proxy.readFragment({fragment, id: fragmentId});
 
             data.status = status;
+            data.status_history = data.status_history ? data.status_history : [];
+            data.status_history.push({__typename: 'CommentStatusHistory', type: status});
 
             proxy.writeFragment({fragment, id: fragmentId, data});
           }
@@ -355,6 +360,73 @@ export const withUpdateSettings = withMutation(
           variables: {
             input,
           },
+        });
+      }}),
+  });
+
+export const withUpdateAssetSettings = withMutation(
+  gql`
+    mutation UpdateAssetSettings($id: ID!, $input: AssetSettingsInput!) {
+      updateAssetSettings(id: $id, input: $input) {
+        ...UpdateAssetSettingsResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      updateAssetSettings: (id, input) => {
+        return mutate({
+          variables: {
+            id,
+            input,
+          },
+          optimisticResponse: {
+            updateAssetSettings: {
+              __typename: 'UpdateAssetSettingsResponse',
+              errors: null,
+            }
+          },
+        });
+      }}),
+  });
+
+export const withUpdateAssetStatus = withMutation(
+  gql`
+    mutation UpdateAssetStatus($id: ID!, $input: UpdateAssetStatusInput!) {
+      updateAssetStatus(id: $id, input: $input) {
+        ...UpdateAssetStatusResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      updateAssetStatus: (id, input) => {
+        return mutate({
+          variables: {
+            id,
+            input,
+          },
+          optimisticResponse: {
+            updateAssetStatus: {
+              __typename: 'UpdateAssetStatusResponse',
+              errors: null,
+            }
+          },
+          update: (proxy) => {
+            if (input.closedAt !== undefined) {
+              const fragment = gql`
+                fragment Talk_UpdateAssetStatusResponse on Asset {
+                  closedAt
+                  isClosed
+                }`;
+
+              const fragmentId = `Asset_${id}`;
+              const data = {
+                __typename: 'Asset',
+                closedAt: input.closedAt,
+                isClosed: !!input.closedAt && new Date(input.closedAt).getTime() <= new Date().getTime(),
+              };
+              proxy.writeFragment({fragment, id: fragmentId, data});
+            }
+          }
         });
       }}),
   });

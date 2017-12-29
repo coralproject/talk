@@ -1,0 +1,67 @@
+.qbInfo {
+  top: 0;
+  border: 0;
+  background: #F0F0F0;
+  color: black;
+  width: 100%;
+  text-align: left;
+  padding-left: 0px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  font-size: 14px;
+  overflow: hidden;
+  min-height: 50px;
+  display: flex;
+  border-radius: 3px;
+  padding-right: 40px;
+  box-sizing: border-box;
+}
+
+.icon {
+  z-index: 2;
+  top: 12px;
+  left: 12px;
+  position: absolute;
+  font-size: 33px;
+  color: #262626;
+}
+
+.iconBubble{
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  color: #9E9E9E;
+  font-size: 24px;
+  z-index: 0;
+}
+
+.iconPerson{
+  z-index: 2;
+  top: 12px;
+  left: 12px;
+  position: absolute;
+  font-size: 33px;
+  color: #262626;
+}
+
+.qbIconContainer {
+  position: relative;
+  border: 0;
+  color: white;
+  padding: 20px;
+  margin-left: 0px !important;
+  margin-right: 10px;
+  display: inline-block;
+  width: 10px;
+  min-height: 100%;
+  padding: 5px 20px;
+  vertical-align: middle;
+}
+
+.qbContent {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+}

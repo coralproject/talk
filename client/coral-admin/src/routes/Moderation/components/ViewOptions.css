@@ -8,6 +8,7 @@
   overflow: visible;
   height: 144px;
   min-height: auto;
+  margin-top: 16px;
   z-index: 10;
 
   @media (--tablet) {
@@ -53,7 +54,7 @@
   list-style: none;
 }
 
-.dropdow {
+.dropdownContainer {
   position: relative;
   margin-top: 5px;
 

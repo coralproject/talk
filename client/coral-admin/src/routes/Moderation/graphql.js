@@ -16,16 +16,21 @@ function queueHasComment(root, queue, id) {
   return root[queue].nodes.find((c) => c.id === id);
 }
 
-function removeCommentFromQueue(root, queue, id) {
+function removeCommentFromQueue(root, queue, id, dangling = false) {
   if (!queueHasComment(root, queue, id)) {
     return root;
   }
-  return update(root, {
+  const changes = {
     [`${queue}Count`]: {$set: root[`${queue}Count`] - 1},
-    [queue]: {
+  };
+
+  if (!dangling) {
+    changes[queue] = {
       nodes: {$apply: (nodes) => nodes.filter((c) => c.id !== id)},
-    },
-  });
+    };
+  }
+
+  return update(root, changes);
 }
 
 function shouldCommentBeAdded(root, queue, comment, sortOrder) {
@@ -40,26 +45,46 @@ function shouldCommentBeAdded(root, queue, comment, sortOrder) {
     : new Date(comment.created_at) >= cursor;
 }
 
-function addCommentToQueue(root, queue, comment, sortOrder) {
+function addCommentToQueue(root, queue, comment, sortOrder, cleanup) {
   if (queueHasComment(root, queue, comment.id)) {
     return root;
   }
 
-  const sortAlgo = sortOrder === 'ASC' ? ascending : descending;
   const changes = {
     [`${queue}Count`]: {$set: root[`${queue}Count`] + 1},
   };
 
-  if (shouldCommentBeAdded(root, queue, comment, sortOrder)) {
-    const nodes = root[queue].nodes.concat(comment).sort(sortAlgo);
-    changes[queue] = {
-      nodes: {$set: nodes},
-      startCursor: {$set: nodes[0].created_at},
-      endCursor: {$set: nodes[nodes.length - 1].created_at},
-    };
+  if (!shouldCommentBeAdded(root, queue, comment, sortOrder)) {
+    return update(root, changes);
   }
 
-  return update(root, changes);
+  const cursor = new Date(root[queue].startCursor);
+  const date = new Date(comment.created_at);
+
+  let append = sortOrder === 'ASC'
+    ? date >= cursor
+    : date <= cursor;
+
+  const nodes = append
+    ? root[queue].nodes.concat(comment)
+    : [comment].concat(...root[queue].nodes);
+
+  changes[queue] = {
+    nodes: {$set: nodes},
+  };
+
+  const next = update(root, changes);
+
+  if (!cleanup) {
+    return next;
+  }
+
+  return cleanUpQueue(next, queue, sortOrder);
+}
+
+function sortComments(nodes, sortOrder) {
+  const sortAlgo = sortOrder === 'ASC' ? ascending : descending;
+  return nodes.sort(sortAlgo);
 }
 
 /**
@@ -68,22 +93,90 @@ function addCommentToQueue(root, queue, comment, sortOrder) {
 function getCommentQueues(comment, queueConfig) {
   const queues = [];
   Object.keys(queueConfig).forEach((key) => {
-    const {action_type, statuses, tags} = queueConfig[key];
-    let addToQueues = true;
-    if (statuses && statuses.indexOf(comment.status) === -1) {
-      addToQueues = false;
-    }
-    if (tags && (!comment.tags || !comment.tags.some((tagLink) => tags.indexOf(tagLink.tag.name) >= 0))) {
-      addToQueues = false;
-    }
-    if (action_type && (!comment.actions || !comment.actions.some((a) => a.__typename.toLowerCase() === `${action_type.toLowerCase()}action`))) {
-      addToQueues = false;
-    }
-    if (addToQueues) {
+    if (commentBelongToQueue(key, comment, queueConfig)) {
       queues.push(key);
     }
   });
   return queues;
+}
+
+/**
+ * Return whether or not the comment belongs to the queue.
+ */
+export function commentBelongToQueue(queue, comment, queueConfig) {
+  const {action_type, statuses, tags} = queueConfig[queue];
+  let belong = true;
+  if (statuses && statuses.indexOf(comment.status) === -1) {
+    belong = false;
+  }
+  if (tags && (!comment.tags || !comment.tags.some((tagLink) => tags.indexOf(tagLink.tag.name) >= 0))) {
+    belong = false;
+  }
+  if (action_type && (!comment.actions || !comment.actions.some((a) => a.__typename.toLowerCase() === `${action_type.toLowerCase()}action`))) {
+    belong = false;
+  }
+  return belong;
+}
+
+function isVisible(id) {
+  return !!document.getElementById(`comment_${id}`);
+}
+
+function isEndOfListVisible(root, queue) {
+  return root[queue].nodes.length === 0 || !!document.getElementById('end-of-comment-list');
+}
+
+function applyCommentChanges(root, comment, queueConfig) {
+  const queues = Object.keys(queueConfig);
+  for (let i = 0; i < queues.length; i++) {
+    const queue = queues[i];
+    const index = root[queue].nodes.findIndex(({id}) => id === comment.id);
+    if (index > -1) {
+      return update(root, {
+        [queue]: {
+          nodes: {
+            [index]: {$merge: comment},
+          },
+        },
+      });
+    }
+  }
+  return root;
+}
+
+/**
+ * Remove dangling comments, sort and resize queues.
+ * If queueConfig is omitted, dangling comments are not removed.
+ */
+export function cleanUpQueue(root, queue, sortOrder, queueConfig) {
+  let nodes = root[queue].nodes;
+  let hasNextPage = root[queue].hasNextPage;
+
+  if (!nodes.length) {
+    return root;
+  }
+
+  if (queueConfig) {
+    nodes = root[queue].nodes.filter((comment) => commentBelongToQueue(queue, comment, queueConfig));
+  }
+
+  nodes = sortComments(
+    nodes,
+    sortOrder,
+  );
+
+  if (nodes.length > 100) {
+    nodes = nodes.slice(0, 100);
+    hasNextPage = true;
+  }
+
+  return update(root, {
+    [queue]: {
+      nodes: {$set: nodes},
+      endCursor: {$set: nodes[nodes.length - 1].created_at},
+      hasNextPage: {$set: hasNextPage},
+    },
+  });
 }
 
 /**
@@ -113,25 +206,27 @@ export function handleCommentChange(root, comment, sortOrder, notify, queueConfi
   Object.keys(queueConfig).forEach((queue) => {
     if (nextQueues.indexOf(queue) >= 0) {
       if (!queueHasComment(next, queue, comment.id)) {
-        next = addCommentToQueue(next, queue, comment, sortOrder);
-        if (notify && activeQueue === queue && shouldCommentBeAdded(next, queue, comment, sortOrder)) {
+        next = addCommentToQueue(next, queue, comment, sortOrder, activeQueue !== queue);
+        if (notify && activeQueue === queue && isEndOfListVisible(root, queue)) {
           showNotificationOnce();
         }
       }
     } else if(queueHasComment(next, queue, comment.id)){
-      next = removeCommentFromQueue(next, queue, comment.id);
-      if (notify && activeQueue === queue) {
+      const dangling = activeQueue === queue && comment.status_history[comment.status_history.length - 1].assigned_by.id !== root.me.id;
+      next = removeCommentFromQueue(next, queue, comment.id, dangling);
+      if (notify && isVisible(comment.id)) {
         showNotificationOnce();
       }
     }
 
-    if (
-      notify
-      && queueHasComment(next, queue, comment.id)
-      && activeQueue === queue
-    ) {
+    if (notify && isVisible(comment.id)) {
       showNotificationOnce();
     }
+
+    // We need to apply every comment change, because we use
+    // batched subscription handler which bypasses apollo that would
+    // have done that for us.
+    next = applyCommentChanges(next, comment, queueConfig);
   });
   return next;
 }

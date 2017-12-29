@@ -128,10 +128,10 @@ class Dropdown extends React.Component {
   }
 
   render() {
-    const {className, toggleClassName, toggleOpenClassName} = this.props;
+    const {containerClassName, toggleClassName, toggleOpenClassName} = this.props;
     return (
       <ClickOutside onClickOutside={this.hideMenu}>
-        <div className={cn(styles.dropdown, className)}>
+        <div className={cn(styles.dropdown, containerClassName, 'dd dd-container')}>
           <div
             className={cn(styles.toggle, toggleClassName, {[cn(this.state.isOpen, toggleOpenClassName)]: this.state.isOpen})}
             onClick={this.handleClick}
@@ -149,7 +149,7 @@ class Dropdown extends React.Component {
           {this.state.isOpen &&
             <div>
               <div tabIndex="0" onFocus={this.trapFocusBegin} />
-              <ul className={cn(styles.list, {[styles.listActive] : this.state.isOpen})}>
+              <ul className={cn(styles.list, {[styles.listActive] : this.state.isOpen}, 'dd-list-active')}>
                 {React.Children.toArray(this.props.children)
                   .map((child, i) =>
                     React.cloneElement(child, {
@@ -170,7 +170,7 @@ class Dropdown extends React.Component {
 }
 
 Dropdown.propTypes = {
-  className: PropTypes.string,
+  containerClassName: PropTypes.string,
   toggleClassName: PropTypes.string,
   toggleOpenClassName: PropTypes.string,
   placeholder: PropTypes.string,

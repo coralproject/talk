@@ -2,6 +2,7 @@ import {gql} from 'react-apollo';
 import update from 'immutability-helper';
 import uuid from 'uuid/v4';
 import {insertCommentIntoEmbedQuery, removeCommentFromEmbedQuery} from './utils';
+import {mapLeaves} from 'coral-framework/utils';
 
 export default {
   fragments: {
@@ -102,6 +103,9 @@ export default {
             }
           }
         }
+        status_history {
+          type
+        }
         action_summaries {
           count
           current_user {
@@ -182,13 +186,19 @@ export default {
               editableUntil: new Date().toISOString(),
               edited: false,
             },
+            status_history: [],
             id: `pending-${uuid()}`,
           }
         }
       },
       updateQueries: {
         CoralEmbedStream_Embed: (prev, {mutationResult: {data: {createComment: {comment}}}}) => {
-          if (prev.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED' || comment.status === 'SYSTEM_WITHHELD') {
+          if (
+            prev.me.roles.indexOf('ADMIN') === -1 && prev.asset.settings.moderation === 'PRE' ||
+            comment.status === 'PREMOD' ||
+            comment.status === 'REJECTED' ||
+            comment.status === 'SYSTEM_WITHHELD'
+          ) {
             return prev;
           }
           return insertCommentIntoEmbedQuery(prev, comment);
@@ -213,6 +223,18 @@ export default {
           return removeCommentFromEmbedQuery(prev, comment.id);
         },
       },
+    }),
+    UpdateAssetSettings: ({variables: {input}})  => ({
+      updateQueries: {
+        CoralEmbedStream_Embed: (prev) => {
+          const updated = update(prev, {
+            asset: {
+              settings: mapLeaves(input, (leaf) => ({$set: leaf})),
+            },
+          });
+          return updated;
+        }
+      }
     }),
   },
 };

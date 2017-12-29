@@ -19,6 +19,6 @@ export default withQuery(gql`
   }
 `, {
     options: {
-      pollInterval: 5000
+      pollInterval: 10000
     }
   })(Header);

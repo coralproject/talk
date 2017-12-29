@@ -1,39 +1,29 @@
 #!/bin/bash
 
-if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
+REPORTS_FOLDER=${CIRCLE_TEST_REPORTS:-./test/e2e/reports}
+CIRCLE_BRANCH=${CIRCLE_BRANCH:-master}
+E2E_DISABLE=${E2E_DISABLE:-false}
 
-  exitCode=0
+# Amount of retries before failure.
+E2E_MAX_RETRIES=${E2E_MAX_RETRIES:-1}
 
-  browserstack() {
-    REPORTS_FOLDER="$CIRCLE_TEST_REPORTS/$1" yarn e2e-browserstack -- --env "$1"
+# Timeout for WaitForConditions.
+E2E_WAIT_FOR_TIMEOUT=${E2E_WAIT_FOR_TIMEOUT:-10000}
 
-    # Determine exit code.
-    result=$?
-    if [ "$result" -gt "0" ]
-    then
-      exitCode=$result
-    fi
+# Safari >= 8 has issues connecting to browserstack-local. Safari < 8 is too old.
+# IE 64bit has issues with receiving keyboard input. Let's wait for them to fix it.
+E2E_BROWSERS=${E2E_BROWSERS:-chrome,firefox,edge} #ie safari
 
-    # Sleep a bit to let browserstack-local to close properly.
-    sleep 2
-  }
+if [[ "${E2E_DISABLE}" == "true" ]]; then
+  echo E2E is disabled.
+  exit
+fi
 
-  # Test using browserstack.
-  browserstack chrome
-  browserstack firefox
-  browserstack ie
-
-  # Safari >= 8 has issues connecting to browserstack-local. Safari < 8 is too old.
-  # browserstack safari
-
-  # Edge 14 & 15 randomly fails when switching from the login popup back to the main window.
-  # browserstack edge
-
-  exit $exitCode
+if [[ "${CIRCLE_BRANCH}" == "master" && -n "$BROWSERSTACK_KEY" ]]; then
+  echo Testing on browserstack
+  yarn e2e --reports-folder "$REPORTS_FOLDER" --bs-key "$BROWSERSTACK_KEY" --retries "$E2E_MAX_RETRIES" --timeout "$E2E_WAIT_FOR_TIMEOUT" --browsers "$E2E_BROWSERS"
 else
   # When browserstack is not available test locally using chrome headless.
-  REPORTS_FOLDER="$CIRCLE_TEST_REPORTS/chrome" yarn e2e -- --env chrome-headless
-
-  # Will exit with status of last command.
-  exit $?
+  echo Testing locally
+  yarn e2e --reports-folder "$REPORTS_FOLDER" --retries "$E2E_MAX_RETRIES" --headless
 fi

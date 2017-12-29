@@ -5,34 +5,31 @@ import {IndexLink, Link} from 'react-router';
 import styles from './Drawer.css';
 import t from 'coral-framework/services/i18n';
 import {can} from 'coral-framework/services/perms';
+import cn from 'classnames';
 
 const CoralDrawer = ({handleLogout, auth = {}}) => (
-  <Drawer className={styles.drawer}>
+  <Drawer className={cn('talk-admin-drawer-nav', styles.drawer)}>
     { auth && auth.user && can(auth.user, 'ACCESS_ADMIN') ?
       <div>
         <Navigation className={styles.nav}>
-          <IndexLink
-            className={styles.navLink}
-            to="/admin/dashboard"
-            activeClassName={styles.active}>
-            {t('configure.dashboard')}
-          </IndexLink>
           {
             can(auth.user, 'MODERATE_COMMENTS') && (
-              <Link
-                className={styles.navLink}
+              <IndexLink
+                className={cn('talk-admin-nav-moderate', styles.navLink)}   
                 to="/admin/moderate"
                 activeClassName={styles.active}>
                 {t('configure.moderate')}
-              </Link>
+              </IndexLink>
             )
           }
-          <Link className={styles.navLink}
+          <Link
+            className={cn('talk-admin-nav-stories', styles.navLink)}
             to="/admin/stories"
             activeClassName={styles.active}>
             {t('configure.stories')}
           </Link>
-          <Link className={styles.navLink}
+          <Link
+            className={cn('talk-admin-nav-community', styles.navLink)}
             to="/admin/community"
             activeClassName={styles.active}>
             {t('configure.community')}
@@ -41,7 +38,7 @@ const CoralDrawer = ({handleLogout, auth = {}}) => (
             can(auth.user, 'UPDATE_CONFIG') &&
             (
               <Link
-                className={styles.navLink}
+                className={cn('talk-admin-nav-configure', styles.navLink)}
                 to="/admin/configure"
                 activeClassName={styles.active}>
                 {t('configure.configure')}

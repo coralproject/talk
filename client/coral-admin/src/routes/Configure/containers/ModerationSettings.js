@@ -10,6 +10,10 @@ const slots = [
   'adminModerationSettings',
 ];
 
+const mapStateToProps = (state) => ({
+  errors: state.configure.errors,
+});
+
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     updatePending,
@@ -36,5 +40,5 @@ export default compose(
       }
     `
   }),
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
 )(ModerationSettings);

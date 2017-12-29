@@ -38,7 +38,7 @@ function applyToCommentsOrigin(root, callback) {
 function findAndInsertComment(parent, comment) {
   const isAsset = parent.__typename === 'Asset';
   const [connectionField, countField, action] = isAsset
-    ? ['comments', 'commentCount', '$unshift']
+    ? ['comments', 'totalCommentCount', '$unshift']
     : ['replies', 'replyCount', '$push'];
 
   if (
@@ -67,19 +67,12 @@ function findAndInsertComment(parent, comment) {
 }
 
 export function insertCommentIntoEmbedQuery(root, comment) {
-
-  // Increase total comment count by one.
-  root = update(root, {
-    asset: {
-      totalCommentCount: {$apply: (c) => c + 1},
-    },
-  });
   return applyToCommentsOrigin(root, (origin) => findAndInsertComment(origin, comment));
 }
 
 function findAndRemoveComment(parent, id) {
   const [connectionField, countField] = parent.__typename === 'Asset'
-    ? ['comments', 'commentCount']
+    ? ['comments', 'totalCommentCount']
     : ['replies', 'replyCount'];
 
   const connection = parent[connectionField];
@@ -104,13 +97,6 @@ function findAndRemoveComment(parent, id) {
 }
 
 export function removeCommentFromEmbedQuery(root, id) {
-
-  // Decrease total comment by one.
-  root = update(root, {
-    asset: {
-      totalCommentCount: {$apply: (c) => c - 1},
-    },
-  });
   return applyToCommentsOrigin(root, (origin) => findAndRemoveComment(origin, id));
 }
 
@@ -142,17 +128,21 @@ export function findCommentWithId(nodes, id) {
 }
 
 export function findCommentInEmbedQuery(root, callbackOrId) {
+  return findCommentInAsset(root.asset, callbackOrId);
+}
+
+export function findCommentInAsset(asset, callbackOrId) {
   let callback = callbackOrId;
   if (typeof callbackOrId === 'string') {
     callback = (node) => node.id === callbackOrId;
   }
-  if (root.asset.comment) {
-    return findComment([getTopLevelParent(root.asset.comment)], callback);
+  if (asset.comment) {
+    return findComment([getTopLevelParent(asset.comment)], callback);
   }
-  if (!root.asset.comments) {
+  if (!asset.comments) {
     return false;
   }
-  return findComment(root.asset.comments.nodes, callback);
+  return findComment(asset.comments.nodes, callback);
 }
 
 function findAndInsertFetchedComments(parent, comments, parent_id) {

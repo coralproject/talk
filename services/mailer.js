@@ -4,7 +4,7 @@ const kue = require('./kue');
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
-const {applyLocals} = require('./locals');
+const {attachLocals} = require('../middleware/staticTemplate');
 
 const i18n = require('./i18n');
 
@@ -13,7 +13,8 @@ const {
   SMTP_USERNAME,
   SMTP_PORT,
   SMTP_PASSWORD,
-  SMTP_FROM_ADDRESS
+  SMTP_FROM_ADDRESS,
+  EMAIL_SUBJECT_PREFIX,
 } = require('../config');
 
 // load all the templates as strings
@@ -64,7 +65,11 @@ const options = {
 };
 
 if (SMTP_PORT) {
-  options.port = SMTP_PORT;
+  try {
+    options.port = parseInt(SMTP_PORT);
+  } catch (e) {
+    throw new Error('TALK_SMTP_PORT is not an integer');
+  }
 } else {
   options.port = 25;
 }
@@ -91,12 +96,12 @@ const mailer = module.exports = {
     }
 
     // Prefix the subject with `[Talk]`.
-    subject = `[Talk] ${subject}`;
+    subject = `${EMAIL_SUBJECT_PREFIX} ${subject}`;
 
-    applyLocals(locals);
+    attachLocals(locals);
 
-    // Attach the templating function.
-    locals['t'] = i18n.t;
+    // Attach the translation function.
+    locals.t = i18n.t;
 
     return Promise.all([
 
@@ -108,7 +113,7 @@ const mailer = module.exports = {
     ])
       .then(([html, text]) => {
 
-      // Create the job.
+        // Create the job.
         return mailer.task.create({
           title: 'Mail',
           message: {

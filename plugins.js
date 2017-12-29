@@ -55,7 +55,12 @@ const hookSchemas = {
   loaders: Joi.func().maxArity(1),
   mutators: Joi.func().maxArity(1),
   resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.func())),
-  typeDefs: Joi.string()
+  typeDefs: Joi.string(),
+  schemaLevelResolveFunction: Joi.func(),
+  websockets: Joi.object({
+    onConnect: Joi.func(),
+    onDisconnect: Joi.func(),
+  }),
 };
 
 /**
@@ -172,7 +177,7 @@ class PluginSection {
     if (this.required) {
       return;
     }
-    
+
     this.required = true;
     this.plugins.forEach((plugin) => {
 

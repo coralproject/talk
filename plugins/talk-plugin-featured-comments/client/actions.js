@@ -1,9 +1,16 @@
-import {SHOW_TOOLTIP, HIDE_TOOLTIP} from './constants';
+import {OPEN_FEATURED_DIALOG, CLOSE_FEATURED_DIALOG} from './constants';
 
-export const showTooltip = () => ({
-  type: SHOW_TOOLTIP
+export const openFeaturedDialog = (comment, asset) => ({
+  type: OPEN_FEATURED_DIALOG,
+  comment: {
+    id: comment.id,
+    tags: comment.tags,
+  },
+  asset: {
+    id: asset.id,
+  },
 });
 
-export const hideTooltip = () => ({
-  type: HIDE_TOOLTIP
+export const closeFeaturedDialog = () => ({
+  type: CLOSE_FEATURED_DIALOG,
 });

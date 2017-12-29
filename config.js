@@ -20,6 +20,21 @@ const CONFIG = {
   // WEBPACK indicates when webpack is currently building.
   WEBPACK: process.env.WEBPACK === 'TRUE',
 
+  // EMAIL_SUBJECT_PREFIX is the string before emails in the subject.
+  EMAIL_SUBJECT_PREFIX: process.env.TALK_EMAIL_SUBJECT_PREFIX || '[Talk]',
+
+  // DEFAULT_LANG is the default language used for server sent emails and
+  // rendered text.
+  DEFAULT_LANG: process.env.TALK_DEFAULT_LANG || 'en',
+
+  // When TRUE, it ensures that database indexes created in core will not add
+  // indexes.
+  CREATE_MONGO_INDEXES: process.env.DISABLE_CREATE_MONGO_INDEXES !== 'TRUE',
+
+  // SETTINGS_CACHE_TIME is the time that we'll cache the settings in redis before
+  // fetching again.
+  SETTINGS_CACHE_TIME: ms(process.env.TALK_SETTINGS_CACHE_TIME || '1hr'),
+
   //------------------------------------------------------------------------------
   // JWT based configuration
   //------------------------------------------------------------------------------
@@ -119,7 +134,7 @@ const CONFIG = {
   //------------------------------------------------------------------------------
 
   // Port to bind to.
-  PORT: process.env.TALK_PORT || process.env.PORT || process.env.NODE_ENV === 'test' ? '3001' : '3000',
+  PORT: process.env.TALK_PORT || process.env.PORT || (process.env.NODE_ENV === 'test' ? '3001' : '3000'),
 
   // The URL for this Talk Instance as viewable from the outside.
   ROOT_URL: process.env.TALK_ROOT_URL || null,
@@ -163,7 +178,7 @@ const CONFIG = {
   SMTP_FROM_ADDRESS: process.env.TALK_SMTP_FROM_ADDRESS,
   SMTP_HOST: process.env.TALK_SMTP_HOST,
   SMTP_PASSWORD: process.env.TALK_SMTP_PASSWORD,
-  SMTP_PORT: process.env.TALK_SMTP_PORT,
+  SMTP_PORT: process.env.TALK_SMTP_PORT ? parseInt(process.env.TALK_SMTP_PORT) : undefined,
   SMTP_USERNAME: process.env.TALK_SMTP_USERNAME,
 
   //------------------------------------------------------------------------------
@@ -175,7 +190,12 @@ const CONFIG = {
   DISABLE_AUTOFLAG_SUSPECT_WORDS: process.env.TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS === 'TRUE',
 
   // TRUST_THRESHOLDS defines the thresholds used for automoderation.
-  TRUST_THRESHOLDS: process.env.TRUST_THRESHOLDS || 'comment:2,-1;flag:2,-1'
+  TRUST_THRESHOLDS: process.env.TRUST_THRESHOLDS || 'comment:2,-1;flag:2,-1',
+
+  // IGNORE_FLAGS_AGAINST_STAFF disables staff members from entering the
+  // reported queue from comments after this was enabled and from reports
+  // against the staff members user account.
+  IGNORE_FLAGS_AGAINST_STAFF: process.env.TALK_DISABLE_IGNORE_FLAGS_AGAINST_STAFF !== 'TRUE',
 };
 
 //==============================================================================

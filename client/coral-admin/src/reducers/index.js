@@ -1,6 +1,5 @@
 import auth from './auth';
-import assets from './assets';
-import dashboard from './dashboard';
+import stories from './stories';
 import configure from './configure';
 import community from './community';
 import moderation from './moderation';
@@ -13,11 +12,10 @@ import userDetail from './userDetail';
 export default {
   auth,
   banUserDialog,
-  dashboard,
   configure,
   suspendUserDialog,
   userDetail,
-  assets,
+  stories,
   community,
   moderation,
   install,

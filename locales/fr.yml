@@ -79,7 +79,6 @@ fr:
     copy_and_paste: "Copiez et collez le code ci-dessous dans votre CMS pour intégrer votre boîte de commentaires dans vos articles."
     custom_css_url: "URL CSS personnalisée"
     custom_css_url_desc: "URL d'une feuille de style CSS qui remplacera les styles par défaut d'intégration des commentaires. Peut être interne ou externe."
-    dashboard: Tableau de bord
     days: Journées
     description: "En tant qu'administrateur, vous pouvez personnaliser les paramètres du fil de commentaires pour cet élément."
     domain_list_text: "Entrez les domaines que vous souhaitez autoriser pour Talk, par exemple vos environnements locaux de production et de production (ex : localhost: 3000 staging.domain.com domain.com)."
@@ -121,16 +120,6 @@ fr:
     weeks: Semaines
     wordlist: "Mots interdits"
   continue: Continuer
-  dashboard:
-    auto_update: "Les données sont automatiquement mises à jour toutes les cinq minutes ou lorsque vous rechargez."
-    comment_count: commentaires
-    flags: signalements
-    most_flags: "Articles avec le plus de signalements"
-    most_conversations: "Articles avec le plus de conversations"
-    next_update: "{0} minutes jusqu'à la prochaine mise à jour."
-    no_activity: "Il n'y a eu aucun commentaire nulle part dans les cinq dernières minutes."
-    no_flags: "Il n'y a pas eu aucun signalement au cours des 5 dernières minutes! Hooray !"
-    no_likes: "Il n'y a pas eu de \"J'aime\" au cours des 5 dernières minutes. Tout est calme."
   done: Terminé
   edit_comment:
     body_input_label: "Modifier ce commentaire"
@@ -248,7 +237,7 @@ fr:
   no_like_bio: "Je n'aime pas cette biographie"
   no_like_username: "Je n'aime pas ce nom d'utilisateur"
   other: Autre
-  permalink: Lien
+  permalink: Partager
   personal_info: "Ce commentaire révèle des informations personnelles identifiables"
   post: Publier
   profile: Profil
@@ -291,10 +280,10 @@ fr:
     bio: Bio
     cancel: "Annuler"
     days: "{0} jours"
-    description_0: "Voulez-vous interdire temporairement cet utilisateur en raison de leur {0} ? Cela dissimulera temporairement leurs commentaires jusqu'à ce qu'ils réécrivent leurs {0}."
-    description_1: "Suspendre cet utilisateur désactivera temporairement son compte et cachera tous ses commentaires sur le site."
-    description_notify: "Suspendre cet utilisateur désactivera temporairement son compte et cachera tous ses commentaires sur le site."
-    description_reject: "Voulez-vous interdire temporairement cet utilisateur en raison de leur {0}? Cela dissimulera temporairement leurs commentaires jusqu'à ce qu'ils réécrivent leurs {0}."
+    description_0: "Voulez-vous interdire temporairement cet utilisateur en raison de leur {0} ? Cela va temporairement suspendre l'utilisateur jusqu'à ce qu'ils réécrivent leurs {0}."
+    description_1: "Suspendre cet utilisateur désactivera temporairement son compte."
+    description_notify: "Suspendre cet utilisateur désactivera temporairement son compte."
+    description_reject: "Voulez-vous interdire temporairement cet utilisateur en raison de leur {0}? Cela va temporairement suspendre l'utilisateur jusqu'à ce qu'ils réécrivent leurs {0}."
     description_suspend: "Vous suspendez {0}. Ce commentaire sera rejeté, et {0} ne sera pas autorisé à aimer, à signaler, à répondre ou à publier jusqu'à ce que la suspension soit levée."
     email: "Un autre membre de la communauté a récemment signalé votre nom d'utilisateur pour examen. En raison de son contenu, votre utilisateur a été rejeté. Cela signifie que vous ne pouvez plus commenter ou signaler du contenu jusqu'à ce que vous changiez votre nom d'utilisateur. Veuillez nous envoyer un e-mail si vous avez des questions ou des préoccupations."
     email_subject: "Votre compte a été suspendu"

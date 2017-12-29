@@ -18,12 +18,13 @@ const UserModel = require('../models/user');
 const USER_STATUS = require('../models/enum/user_status');
 const USER_ROLES = require('../models/enum/user_roles');
 
-const RECAPTCHA_WINDOW_SECONDS = 60 * 10; // 10 minutes.
+const RECAPTCHA_WINDOW = '10m'; // 10 minutes.
 const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha will be required.
 
 const ActionsService = require('./actions');
 const MailerService = require('./mailer');
 const Wordlist = require('./wordlist');
+const i18n = require('./i18n');
 const Domainlist = require('./domainlist');
 const {escapeRegExp} = require('./regex');
 
@@ -35,9 +36,8 @@ const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
 const SALT_ROUNDS = 10;
 
 // Create a redis client to use for authentication.
-const {createClientFactory} = require('./redis');
-
-const client = createClientFactory();
+const Limit = require('./limit');
+const loginRateLimiter = new Limit('loginAttempts', RECAPTCHA_INCORRECT_TRIGGER, RECAPTCHA_WINDOW);
 
 // UsersService is the interface for the application to interact with the
 // UserModel through.
@@ -71,23 +71,14 @@ module.exports = class UsersService {
    * where future login attempts must be made with the recaptcha flag.
    */
   static async recordLoginAttempt(email) {
-    const rdskey = `la[${email.toLowerCase().trim()}]`;
+    try {
+      await loginRateLimiter.test(email.toLowerCase().trim());
+    } catch (err) {
+      if (err === errors.ErrMaxRateLimit) {
+        throw errors.ErrLoginAttemptMaximumExceeded;
+      }
 
-    const replies = await client()
-      .multi()
-      .incr(rdskey)
-      .expire(rdskey, RECAPTCHA_WINDOW_SECONDS)
-      .exec();
-
-    // if this is new or has no expiry
-    if (replies[0] === 1 || replies[1] === -1) {
-
-      // then expire it after the timeout
-      client().expire(rdskey, RECAPTCHA_WINDOW_SECONDS);
-    }
-
-    if (replies[0] >= RECAPTCHA_INCORRECT_TRIGGER) {
-      throw errors.ErrLoginAttemptMaximumExceeded;
+      throw err;
     }
   }
 
@@ -98,9 +89,7 @@ module.exports = class UsersService {
    *  errors.ErrLoginAttemptMaximumExceeded
    */
   static async checkLoginAttempts(email) {
-    const rdskey = `la[${email.toLowerCase().trim()}]`;
-
-    const attempts = await client().get(rdskey);
+    const attempts = await loginRateLimiter.get(email.toLowerCase().trim());
     if (!attempts) {
       return;
     }
@@ -407,21 +396,54 @@ module.exports = class UsersService {
       throw new Error(`status ${status} is not supported`);
     }
 
-    // TODO: current updating status behavior is weird.
-    // once a user has been `APPROVED` its status cannot be
-    // changed anymore.
-    return UserModel.findOneAndUpdate({
-      id,
-      status: {
-        $ne: 'APPROVED'
-      }
-    }, {
+    // Compose the query.
+    const query = {id};
+
+    // Insert extra validations into the query.
+    switch (status) {
+    case 'ACTIVE':
+    case 'BANNED':
+    case 'APPROVED':
+
+      // A user cannot become change their status from what it is already.
+      query.status = {
+        $ne: status,
+      };
+      break;
+    case 'PENDING':
+
+      // A user cannot become pending if they are already approved, pending, or
+      // banned
+      query.status = {
+        $nin: [status, 'APPROVED', 'BANNED'],
+      };
+      break;
+    }
+
+    const user = await UserModel.findOneAndUpdate(query, {
       $set: {
-        status
-      }
+        status,
+      },
     }, {
       new: true,
     });
+
+    if (status === 'BANNED') {
+      let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+      if (localProfile) {
+        const options = {
+          template: 'banned',
+          locals: {
+            body: i18n.t('email.banned.body'),
+          },
+          subject: i18n.t('email.banned.subject'),
+          to: localProfile.id
+        };
+        await MailerService.sendSimple(options);
+      }
+    }
+
+    return user;
   }
 
   /**
@@ -444,16 +466,14 @@ module.exports = class UsersService {
     if (message) {
       let localProfile = user.profiles.find((profile) => profile.provider === 'local');
       if (localProfile) {
-        const options =
-          {
-            template: 'suspension',              // needed to know which template to render!
-            locals: {                            // specifies the template locals.
-              body: message
-            },
-            subject: 'Your account has been suspended',
-            to: localProfile.id  // This only works if the user has registered via e-mail.
-            // We may want a standard way to access a user's e-mail address in the future
-          };
+        const options = {
+          template: 'suspension',
+          locals: {
+            body: message
+          },
+          subject: i18n.t('email.suspended.subject'),
+          to: localProfile.id,
+        };
 
         await MailerService.sendSimple(options);
       }
@@ -486,7 +506,7 @@ module.exports = class UsersService {
           locals: {                            // specifies the template locals.
             body: message
           },
-          subject: 'Email Suspension',
+          subject: i18n.t('email.suspended.subject'),
           to: localProfile.id  // This only works if the user has registered via e-mail.
           // We may want a standard way to access a user's e-mail address in the future
         };
@@ -668,8 +688,8 @@ module.exports = class UsersService {
    * Returns a count of the current users.
    * @return {Promise}
    */
-  static count() {
-    return UserModel.count();
+  static count(query = {}) {
+    return UserModel.count(query);
   }
 
   /**
@@ -718,7 +738,7 @@ module.exports = class UsersService {
    * @param  {String} email The email that we are needing to get confirmed.
    * @return {Promise}
    */
-  static async createEmailConfirmToken(userID = null, email, referer = ROOT_URL) {
+  static async createEmailConfirmToken(user, email, referer = ROOT_URL) {
     if (!email || typeof email !== 'string') {
       throw new Error('email is required when creating a JWT for resetting passord');
     }
@@ -731,20 +751,6 @@ module.exports = class UsersService {
       expiresIn: '1d',
       subject: EMAIL_CONFIRM_JWT_SUBJECT
     };
-
-    let user;
-    if (!userID) {
-
-      // If there is no userID, we're coming from the endpoint where a new user
-      // is re-requesting a confirmation email and we don't know the userID.
-      user = await UserModel.findOne({profiles: {$elemMatch: {id: email, provider: 'local'}}});
-    } else {
-      user = await UsersService.findById(userID);
-    }
-
-    if (!user) {
-      throw errors.ErrNotFound;
-    }
 
     // Get the profile representing the local account.
     let profile = user.profiles.find((profile) => profile.id === email && profile.provider === 'local');

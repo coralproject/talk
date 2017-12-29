@@ -3,24 +3,25 @@ import Tag from './containers/Tag';
 import TabPane from './containers/TabPane';
 import translations from './translations.yml';
 import update from 'immutability-helper';
-import reducer from './reducer';
 import ModTag from './containers/ModTag';
 import ModActionButton from './containers/ModActionButton';
 import ModSubscription from './containers/ModSubscription';
+import FeaturedDialog from './containers/FeaturedDialog';
 import {gql} from 'react-apollo';
+import reducer from './reducer';
 
 import {findCommentInEmbedQuery} from 'coral-embed-stream/src/graphql/utils';
 import {prependNewNodes} from 'plugin-api/beta/client/utils';
 
 export default {
-  reducer,
   translations,
+  reducer,
   slots: {
-    streamTabs: [Tab],
+    streamTabsPrepend: [Tab],
     streamTabPanes: [TabPane],
     commentInfoBar: [Tag],
     moderationActions: [ModActionButton],
-    adminModeration: [ModSubscription],
+    adminModeration: [ModSubscription, FeaturedDialog],
     adminCommentInfoBar: [ModTag],
   },
   mutations: {
@@ -57,7 +58,7 @@ export default {
           }
 
           const comment = findCommentInEmbedQuery(previous, variables.id);
-                    
+
           if (previous.asset.comments) {
             updated = update(previous, {
               asset: {
@@ -101,7 +102,7 @@ export default {
       updateQueries: {
         CoralEmbedStream_Embed: (previous) => {
           let updated = previous;
-           
+
           if (variables.name !== 'FEATURED') {
             return;
           }

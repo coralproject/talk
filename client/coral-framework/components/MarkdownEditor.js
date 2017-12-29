@@ -107,6 +107,11 @@ export default class MarkdownEditor extends Component  {
       ...config,
       element: this.textarea,
     });
+
+    // Don't trap the key, to stay accessible.
+    this.editor.codemirror.options.extraKeys['Tab'] = false;
+    this.editor.codemirror.options.extraKeys['Shift-Tab'] = false;
+
     this.editor.codemirror.on('change', this.onChange);
   }
 

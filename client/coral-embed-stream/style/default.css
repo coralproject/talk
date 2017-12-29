@@ -190,11 +190,9 @@ body {
   background-color: #4C1066;
   color: white;
   display: inline-block;
-  margin: 0px 5px;
-  padding: 5px 5px;
   border-radius: 2px;
   font-size: 12px;
-  font-weight: bold;
+  padding: 5px 6px;
 }
 
 /* Comment Action Styles */
@@ -274,22 +272,6 @@ button.comment__action-button[disabled],
 }
 
 /* Close comments */
-
-.close-comments-intro-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.close-comments-intro-wrapper button {
-  width: 300px;
-  margin-left: 20px;
-}
-
-.close-comments-intro-wrapper button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
 
 .close-comments-message {
   box-sizing: border-box;

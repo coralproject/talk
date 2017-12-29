@@ -22,20 +22,34 @@ const nightwatch_config = {
         'browserstack.user': process.env.BROWSERSTACK_USER || 'coralproject2',
         'browserstack.key': process.env.BROWSERSTACK_KEY,
         'browserstack.local': true,
+        'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER ? process.env.BROWSERSTACK_LOCAL_IDENTIFIER : undefined,
         'browserstack.debug': true,
-        'browserstack.networkLogs': true,
-      }
+
+        // Disable this, as it makes bs slow and brittle.
+        'browserstack.networkLogs': false,
+        'resolution': '1600x1200',
+      },
+      screenshots : {
+        enabled: true,
+        on_failure: true,
+        on_error: true,
+        path: process.env.REPORTS_FOLDER || './test/e2e/reports',
+      },
     },
     chrome: {
       desiredCapabilities: {
         browser: 'chrome',
-        browser_version: '60',
+        browser_version: '62',
+        os: 'Windows',
+        os_version: '10',
       },
     },
     firefox: {
       desiredCapabilities: {
         browser: 'firefox',
         browser_version: '56',
+        os: 'Windows',
+        os_version: '10',
       },
     },
     safari: {
@@ -49,17 +63,22 @@ const nightwatch_config = {
     ie: {
       desiredCapabilities: {
         browser: 'internet explorer',
-
-        // Windows 10 + IE seems to have troubles with the browserstack-local tunnel (10.17.17).
         os: 'Windows',
-        os_version: '8.1',
+        os_version: '10',
         browser_version: '11',
+
+        // The x64 bit IEDriver that is used by IE 11 has a known issue with sendKeys where
+        // it may enter incorrect keys (shift + key).
+        // This adds a delay for each character as temporary fix as advised from the browserstack support.
+        'browserstack.customSendKeys': 800,
       },
     },
     edge: {
       desiredCapabilities: {
         browser: 'edge',
         browser_version: '15',
+        os: 'Windows',
+        os_version: '10',
       },
     },
   }

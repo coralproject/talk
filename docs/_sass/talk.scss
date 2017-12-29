@@ -16,11 +16,25 @@ body {
 }
 
 h1 {
-  font-size: 1.7em;
+  font-size: 2rem;
 }
 
-h2, h3, h4 {
+h2 {
   margin: 1.6em 0 0.8em;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+h3 {
+  margin: 1.6em 0 0.8em;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+h4 {
+  margin: 1.6em 0 0.8em;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .btn-coral {
@@ -41,10 +55,6 @@ h2, h3, h4 {
 }
 
 article.configuration {
-  h2 {
-    font-weight: bolder;
-  }
-
   h2, .toc {
     @extend .param;
   }
@@ -263,7 +273,8 @@ pre {
     p a:not(.plain-link) {
       @extend .coral-link;
     }
-    ul:not(.toc__menu) li a {
+    ul:not(.toc__menu) li a,
+    ol li a {
       @extend .coral-link;
     }
   }
@@ -411,4 +422,3 @@ a.brand {
     }
   }
 }
-

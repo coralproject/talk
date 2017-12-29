@@ -1,5 +1,21 @@
 module.exports = {
   '@tags': ['embedStream', 'login'],
+
+   before: (client) => {
+    client.resizeWindow(1600, 1200);
+  },
+
+  afterEach: (client, done) => {
+    if (client.currentTest.results.failed) {
+      throw new Error('Test Case failed, skipping all the rest');
+    }
+    done();
+  },
+
+  after: (client) => {
+    client.end();
+  },
+
   'creates a new asset': (client) => {
     const asset = 'newAssetTest';
     const embedStream = client.page.embedStream();
@@ -7,79 +23,42 @@ module.exports = {
     embedStream
       .navigateToAsset(asset)
       .assert.title(asset)
-      .getEmbedSection();
+      .ready();
   },
 
   'creates an user and user logs in': (client) => {
     const {testData: {user}} = client.globals;
     const embedStream = client.page.embedStream();
 
-    const embed = embedStream
+    // Go back to default asset.
+    const comments =
+      embedStream
       .navigate()
-      .getEmbedSection();
+      .ready();
 
-    embed
-      .waitForElementVisible('@signInButton')
-      .click('@signInButton');
-
-    client.pause(3000);
-
-    // Focusing on the Login PopUp
-    client.windowHandles((result) => {
-      const handle = result.value[1];
-      client.switchWindow(handle);
-    });
-
-    const login = client.page.login();
-
-    login
-      .waitForElementVisible('@registerButton')
-      .click('@registerButton')
-      .setValue('@emailInput', user.email)
-      .setValue('@usernameInput', user.username)
-      .setValue('@passwordInput', user.password)
-      .setValue('@confirmPasswordInput', user.password)
-      .waitForElementVisible('@signUpButton')
-      .click('@signUpButton')
-      .waitForElementVisible('@signIn')
-      .waitForElementVisible('@loginButton')
-      .click('@loginButton');
-
-    // Focusing on the Embed Window
-    client.windowHandles((result) => {
-      const handle = result.value[0];
-      client.switchWindow(handle);
-    });
+    comments
+      .openLoginPopup((popup) => {
+        popup.register(user);
+      });
   },
   'user posts a comment': (client) => {
-    const embedStream = client.page.embedStream();
+    const comments = client.page.embedStream().section.comments;
     const {testData: {comment}} = client.globals;
 
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    embed
+    comments
       .waitForElementVisible('@commentBoxTextarea')
       .setValue('@commentBoxTextarea', comment.body)
       .waitForElementVisible('@commentBoxPostButton')
       .click('@commentBoxPostButton')
       .waitForElementVisible('@firstCommentContent')
       .getText('@firstCommentContent', (result) => {
-        embed.assert.equal(result.value, comment.body);
+        comments.assert.equal(result.value, comment.body);
       });
   },
 
   'signed in user sees comment history': (client) => {
-    const embedStream = client.page.embedStream();
+    const profile = client.page.embedStream().goToProfileSection();
     const {testData: {comment}} = client.globals;
-
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    const profile = embed
-      .getProfileSection();
 
     profile
       .waitForElementVisible('@myCommentHistory')
@@ -89,14 +68,7 @@ module.exports = {
       });
   },
   'user sees replies and reactions to comments': (client) => {
-    const embedStream = client.page.embedStream();
-
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    const profile = embed
-      .getProfileSection();
+    const profile = client.page.embedStream().section.profile;
 
     profile
       .waitForElementVisible('@myCommentHistory')
@@ -108,17 +80,12 @@ module.exports = {
   },
   'user goes to the stream and replies and reacts to comment': (client) => {
     const embedStream = client.page.embedStream();
-
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    embed
+    const comments = embedStream.goToCommentsSection();
+    comments
       .waitForElementVisible('@respectButton')
       .click('@respectButton');
 
-    const profile = embed
-      .getProfileSection();
+    const profile = embedStream.goToProfileSection();
 
     profile
       .waitForElementVisible('@myCommentHistory')
@@ -130,31 +97,16 @@ module.exports = {
   },
   'user logs out': (client) => {
     const embedStream = client.page.embedStream();
+    const comments = embedStream.goToCommentsSection();
 
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    embed
-      .waitForElementVisible('@commentsTabButton')
-      .click('@commentsTabButton')
-      .waitForElementVisible('@logoutButton')
-      .click('@logoutButton');
+    comments
+      .logout();
   },
   'not logged in user clicks my profile tab': (client) => {
     const embedStream = client.page.embedStream();
-
-    const embed = embedStream
-      .navigate()
-      .getEmbedSection();
-
-    const profile = embed
-      .getProfileSection();
+    const profile = embedStream.goToProfileSection();
 
     profile
       .assert.visible('@notLoggedIn');
   },
-  after: (client) => {
-    client.end();
-  }
 };

@@ -1,8 +1,11 @@
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
+const MailerService = require('../../../services/mailer');
 
 const chai = require('chai');
 chai.use(require('chai-as-promised'));
+const sinon = require('sinon');
+chai.use(require('sinon-chai'));
 const expect = chai.expect;
 
 describe('services.UsersService', () => {
@@ -15,7 +18,7 @@ describe('services.UsersService', () => {
     mockUsers = await UsersService.createLocalUsers([{
       email: 'stampi@gmail.com',
       username: 'Stampi',
-      password: '1Coral!-'
+      password: '1Coral!-',
     }, {
       email: 'sockmonster@gmail.com',
       username: 'Sockmonster',
@@ -25,6 +28,12 @@ describe('services.UsersService', () => {
       username: 'Marvel',
       password: '3Coral!3'
     }]);
+
+    sinon.spy(MailerService, 'sendSimple');
+  });
+
+  afterEach(() => {
+    MailerService.sendSimple.restore();
   });
 
   describe('#findById()', () => {
@@ -88,17 +97,19 @@ describe('services.UsersService', () => {
   describe('#createEmailConfirmToken', () => {
 
     it('should create a token for a valid user', async () => {
-      const token = await UsersService.createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id);
+      const token = await UsersService.createEmailConfirmToken(mockUsers[0], mockUsers[0].profiles[0].id);
       expect(token).to.not.be.null;
     });
 
     it('should not create a token for a user already verified', async () => {
-      const token = await UsersService.createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id);
+      const token = await UsersService.createEmailConfirmToken(mockUsers[0], mockUsers[0].profiles[0].id);
       expect(token).to.not.be.null;
 
       await UsersService.verifyEmailConfirmation(token);
 
-      return expect(UsersService.createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id)).to.eventually.be.rejected;
+      const user = await UsersService.findById(mockUsers[0].id);
+
+      return expect(UsersService.createEmailConfirmToken(user, mockUsers[0].profiles[0].id)).to.eventually.be.rejected;
     });
 
   });
@@ -106,7 +117,7 @@ describe('services.UsersService', () => {
   describe('#verifyEmailConfirmation', () => {
 
     it('should correctly validate a valid token', async () => {
-      const token = await UsersService.createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id);
+      const token = await UsersService.createEmailConfirmToken(mockUsers[0], mockUsers[0].profiles[0].id);
       expect(token).to.not.be.null;
 
       return expect(UsersService.verifyEmailConfirmation(token)).to.eventually.not.be.rejected;
@@ -122,7 +133,7 @@ describe('services.UsersService', () => {
 
     it('should update the user model when verification is complete', () => {
       return UsersService
-        .createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id)
+        .createEmailConfirmToken(mockUsers[0], mockUsers[0].profiles[0].id)
         .then((token) => {
           expect(token).to.not.be.null;
 
@@ -147,7 +158,11 @@ describe('services.UsersService', () => {
         .then(() => UsersService.findById(mockUsers[0].id))
         .then((user) => {
           expect(user).to.have.property('status', 'ACTIVE');
+        })
+        .then(() => {
+          expect(MailerService.sendSimple).to.not.have.been.called;
         });
+
     });
   });
 
@@ -186,6 +201,12 @@ describe('services.UsersService', () => {
         .then(() => UsersService.findById(mockUsers[0].id))
         .then((user) => {
           expect(user).to.have.property('status', 'BANNED');
+        })
+        .then(() => {
+          expect(MailerService.sendSimple).to.have.been.calledWithMatch({
+            template: 'banned',
+            to: mockUsers[0].profiles[0].id
+          });
         });
     });
 
