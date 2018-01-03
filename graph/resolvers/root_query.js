@@ -78,7 +78,7 @@ const RootQuery = {
 
   // This endpoint is used for loading the user moderation queues (users whose username has been flagged),
   // so hide it in the event that we aren't an admin.
-  async users(_, {query}, {user, loaders: {Users}}) {
+  users(_, {query}, {user, loaders: {Users}}) {
     if (user == null || !user.can(SEARCH_OTHER_USERS)) {
       return null;
     }

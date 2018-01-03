@@ -5,56 +5,6 @@ const errors = require('../../../errors');
 const authorization = require('../../../middleware/authorization');
 const Limit = require('../../../services/limit');
 
-router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
-
-  const {
-    value = '',
-    field = 'created_at',
-    page = 1,
-    asc = 'false',
-    limit = 20 // Total Per Page
-  } = req.query;
-
-  try {
-
-    const queryOpts = {
-      sort: {[field]: (asc === 'true') ? 1 : -1},
-      skip: (page - 1) * limit,
-      limit
-    };
-
-    let [result, count] = await Promise.all([
-      UsersService
-        .search(value)
-        .sort(queryOpts.sort)
-        .skip(parseInt(queryOpts.skip))
-        .limit(parseInt(queryOpts.limit))
-        .lean(),
-      UsersService.search(value).count()
-    ]);
-
-    res.json({
-      result,
-      limit: Number(limit),
-      count,
-      page: Number(page),
-      totalPages: Math.ceil(count / (limit === 0 ? 1 : limit))
-    });
-
-  } catch (e) {
-    next(e);
-  }
-});
-
-router.post('/:user_id/role', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
-  try {
-    await UsersService.setRole(req.params.user_id, req.body.role);
-    res.status(204).end();
-  } catch (e) {
-    next(e);
-  }
-});
-
 // create a local user.
 router.post('/', async (req, res, next) => {
   const {email, password, username} = req.body;

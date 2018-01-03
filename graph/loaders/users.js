@@ -8,6 +8,7 @@ const {
 } = require('../../perms/constants');
 
 const UsersService = require('../../services/users');
+const {escapeRegExp} = require('../../services/regex');
 const UserModel = require('../../models/user');
 
 const mergeState = (query, state) => {
@@ -72,12 +73,46 @@ const genUserByIDs = async (context, ids) => {
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the users query
  */
-const getUsersByQuery = async ({user}, {ids, limit, cursor, state, action_type, sortOrder}) => {
+const getUsersByQuery = async ({user}, {limit, cursor, value = '', state, action_type, sortOrder}) => {
   let query = UserModel.find();
 
-  if (action_type || state) {
+  if (action_type || state || value.length > 0) {
     if (!user || !user.can(SEARCH_OTHER_USERS)) {
       return null;
+    }
+
+    if (value.length > 0) {
+
+      // Lowercase the search term and escape any regex characters.
+      value = escapeRegExp(value).toLowerCase();
+
+      // Compile the prefix search regex.
+      const $regex = new RegExp(`^${value}`);
+
+      // Merge in the regex params.
+      query.merge({
+        $or: [
+
+          // Search by a prefix match on the username.
+          {
+            lowercaseUsername: {
+              $regex,
+            },
+          },
+
+          // Search by a prefix match on the email address.
+          {
+            profiles: {
+              $elemMatch: {
+                id: {
+                  $regex,
+                },
+                provider: 'local',
+              },
+            },
+          },
+        ],
+      });
     }
 
     if (state) {
@@ -91,14 +126,6 @@ const getUsersByQuery = async ({user}, {ids, limit, cursor, state, action_type, 
         }
       });
     }
-  }
-
-  if (ids) {
-    query = query.find({
-      id: {
-        $in: ids
-      }
-    });
   }
 
   if (cursor) {
@@ -125,6 +152,7 @@ const getUsersByQuery = async ({user}, {ids, limit, cursor, state, action_type, 
   // Sort by created_at.
   query.sort({created_at: sortOrder === 'DESC' ? -1 : 1});
 
+  // Execute the query.
   const nodes = await query.exec();
 
   // The hasNextPage is always handled the same (ask for one more than we need,

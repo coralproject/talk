@@ -179,46 +179,6 @@ describe('services.UsersService', () => {
     });
   });
 
-  describe('#search', () => {
-    it('should return all the results without a value', async () => {
-      expect(await UsersService.search()).to.have.length(3);
-    });
-
-    it('should match the search terms', async () => {
-      const tests = [
-        {
-          search: 'Stamp',
-          results: 1,
-          id: mockUsers[0].id,
-        },
-        {
-          search: 'sockmonster',
-          results: 1,
-          id: mockUsers[1].id,
-        },
-        {
-          search: 'marvel',
-          results: 1,
-          id: mockUsers[2].id,
-        },
-        {
-          search: 'marvel',
-          results: 1,
-          id: mockUsers[2].id,
-        },
-      ];
-
-      for (const test of tests) {
-        const users = await UsersService.search(test.search);
-
-        expect(users).to.have.length(test.results);
-        if (test.results === 1) {
-          expect(users[0]).to.have.property('id', test.id);
-        }
-      }
-    });
-  });
-
   [
     {func: 'changeUsername', okStatus: 'REJECTED', notOKStatus: 'UNSET', newStatus: 'CHANGED'},
     {func: 'setUsername', okStatus: 'UNSET', notOKStatus: 'REJECTED', newStatus: 'SET'},

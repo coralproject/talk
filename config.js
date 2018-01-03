@@ -27,7 +27,14 @@ const CONFIG = {
   // WEBPACK indicates when webpack is currently building.
   WEBPACK: process.env.WEBPACK === 'TRUE',
 
+  // APOLLO_ENGINE_KEY specifies the key used to connect Talk to
+  // https://engine.apollo.com/ for tracing of GraphQL requests.
+  //
+  // Note: Apollo Engine is a premium service, may not be free for certain
+  // volumes of queries.
   APOLLO_ENGINE_KEY: process.env.APOLLO_ENGINE_KEY || null,
+
+  // ENABLE_TRACING is true when the APOLLO_ENGINE_KEY is provided.
   ENABLE_TRACING: Boolean(process.env.APOLLO_ENGINE_KEY),
 
   // EMAIL_SUBJECT_PREFIX is the string before emails in the subject.
