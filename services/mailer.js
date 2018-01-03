@@ -4,7 +4,7 @@ const kue = require('./kue');
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
-const {attachStaticLocals} = require('../middleware/staticTemplate');
+const {TEMPLATE_LOCALS} = require('../middleware/staticTemplate');
 
 const i18n = require('./i18n');
 
@@ -62,11 +62,11 @@ const mailer = {};
 // is enabled, we will be simulating that emails are being sent, because in a
 // production system, emails should and would be sent.
 mailer.enabled = Boolean(
-  SMTP_HOST && SMTP_HOST.length > 0 &&
-  SMTP_USERNAME && SMTP_USERNAME.length > 0 &&
-  SMTP_PORT && SMTP_PORT.length > 0 &&
-  SMTP_PASSWORD && SMTP_PASSWORD.length > 0 &&
-  SMTP_FROM_ADDRESS && SMTP_FROM_ADDRESS.length > 0
+  SMTP_HOST &&
+  SMTP_USERNAME &&
+  SMTP_PORT &&
+  SMTP_PASSWORD &&
+  SMTP_FROM_ADDRESS
 ) || process.env.NODE_ENV === 'test';
 
 if (mailer.enabled) {
@@ -101,31 +101,29 @@ mailer.task = new kue.Task({
 /**
  * send will create a new message and send it.
  */
-mailer.send = async ({template, locals, to, subject}) => {
+mailer.send = async (options) => {
   if (!mailer.enabled) {
     throw new Error('email is not enabled because required configuration is not available');
   }
 
-  // Attach the template locals.
-  attachStaticLocals(locals);
-
-  // Attach the translation function.
-  locals.t = i18n.t;
+  // Create the new locals object and attach the static locals and the i18n
+  // framework.
+  const locals = _.merge({}, options.locals, TEMPLATE_LOCALS, {t: i18n.t});
 
   // Render the templates.
   const [
     html,
     text,
   ] = await Promise.all(['html', 'txt'].map((fmt) => {
-    return templates.render(template, fmt, locals);
+    return templates.render(options.template, fmt, locals);
   }));
 
   // Create the job.
   return mailer.task.create({
     title: 'Mail',
     message: {
-      to,
-      subject: `${EMAIL_SUBJECT_PREFIX} ${subject}`,
+      to: options.to,
+      subject: `${EMAIL_SUBJECT_PREFIX} ${options.subject}`,
       text,
       html
     }

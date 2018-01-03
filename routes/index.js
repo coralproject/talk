@@ -189,7 +189,7 @@ router.use('/', (err, req, res, next) => {
   if (err instanceof errors.APIError) {
     res.status(err.status);
     res.render('error', {
-      message: res.locals.t(err.translation_key),
+      message: res.locals.t(`error.${err.translation_key}`),
       error: process.env.NODE_ENV === 'development' ? err : {}
     });
   } else {

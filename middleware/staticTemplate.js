@@ -54,3 +54,4 @@ module.exports = async (req, res, next) => {
 };
 
 module.exports.attachStaticLocals = attachStaticLocals;
+module.exports.TEMPLATE_LOCALS = TEMPLATE_LOCALS;
