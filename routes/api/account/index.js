@@ -13,25 +13,43 @@ router.get('/', authorization.needed(), (req, res, next) => {
   res.json(req.user);
 });
 
-// POST /email/confirm takes the password confirmation token available as a
-// payload parameter and if it verifies, it updates the confirmed_at date on the
-// local profile.
-router.post('/email/verify', async (req, res, next) => {
-  const {token, check} = req.body;
+/**
+ * verifyTokenOnCheck will verify that the request contains a token, and if
+ * being checked, will return the check status to the user.
+ *
+ * @param {Function} verifier the function used to verify the token, will throw on error
+ * @param {Object} error the error object to send back in the event an error is found
+ */
+const verifyTokenOnCheck = (verifier, error) => async (req, res, next) => {
+  const {token, check = false} = req.body;
 
   if (!token) {
-    return next(errors.ErrEmailVerificationToken);
+    return next(error);
   }
 
   if (check) {
     try {
-      await UsersService.verifyEmailConfirmationToken(token);
-      return res.status(204).end();
+      await verifier(token);
+
+      res.status(204).end();
+
+      // Don't continue to pass it onto the next middleware, as we've only been
+      // asked to verify the token.
+      return;
     } catch (err) {
       console.error(err);
-      return next(errors.ErrEmailVerificationToken);
+      return next(error);
     }
   }
+
+  next();
+};
+
+// POST /email/confirm takes the password confirmation token available as a
+// payload parameter and if it verifies, it updates the confirmed_at date on the
+// local profile.
+router.post('/email/verify', verifyTokenOnCheck(UsersService.verifyEmailConfirmationToken, errors.ErrEmailVerificationToken), async (req, res, next) => {
+  const {token} = req.body;
 
   try {
     let {referer} = await UsersService.verifyEmailConfirmation(token);
@@ -68,22 +86,8 @@ router.post('/password/reset', async (req, res, next) => {
   }
 });
 
-router.put('/password/reset', async (req, res, next) => {
-  const {token, password, check = false} = req.body;
-
-  if (!token) {
-    return next(errors.ErrPasswordResetToken);
-  }
-
-  if (check) {
-    try {
-      await UsersService.verifyPasswordResetToken(token);
-      return res.status(204).end();
-    } catch (err) {
-      console.error(err);
-      return next(errors.ErrPasswordResetToken);
-    }
-  }
+router.put('/password/reset', verifyTokenOnCheck(UsersService.verifyPasswordResetToken, errors.ErrPasswordResetToken), async (req, res, next) => {
+  const {token, password} = req.body;
 
   if (!password || password.length < 8) {
     return next(errors.ErrPasswordTooShort);
