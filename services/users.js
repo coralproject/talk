@@ -628,7 +628,9 @@ module.exports = class UsersService {
   }
 
   /**
-   * Verifies a jwt and returns the associated user.
+   * Verifies a jwt and returns the associated user. Throws an error when the
+   * token isn't valid.
+   *
    * @param {String} token the JSON Web Token to verify
    */
   static async verifyPasswordResetToken(token) {
@@ -648,6 +650,7 @@ module.exports = class UsersService {
   /**
    * Finds a user using a value which gets compared using a prefix match against
    * the user's email address and/or their username.
+   *
    * @param  {String} value value to search by
    * @return {Promise}
    */
@@ -767,6 +770,12 @@ module.exports = class UsersService {
     }, tokenOptions);
   }
 
+  /**
+   * verifyEmailConfirmationToken checks the validity of a given token without
+   * actually confirming the user's email address.
+   *
+   * @param {String} token the token to verify
+   */
   static async verifyEmailConfirmationToken(token) {
     const decoded = await UsersService.verifyToken(token, {
       subject: EMAIL_CONFIRM_JWT_SUBJECT
