@@ -32,6 +32,14 @@ let translations = fs.readdirSync(resolve())
 // Create a list of all supported translations.
 const languages = Object.keys(translations);
 
+// Move the default language to the front.
+if (languages.includes(DEFAULT_LANG)) {
+  const from = languages.indexOf(DEFAULT_LANG);
+  languages.splice(from, 1);
+  languages.splice(0, 0, DEFAULT_LANG);
+}
+debug(`loaded language sets for ${languages}`);
+
 let loadedPluginTranslations = false;
 const loadPluginTranslations = () => {
   if (loadedPluginTranslations) {
@@ -80,8 +88,11 @@ const t = (language) => (key, ...replacements) => {
  */
 const i18n = {
   request(req) {
+    debug(`possible languages given request '${accepts(req).languages()}'`);
     const lang = accepts(req).language(languages);
+    debug(`parsed request language as '${lang}'`);
     const language = lang ? lang : DEFAULT_LANG;
+    debug(`decided language as '${language}'`);
 
     return t(language);
   },
