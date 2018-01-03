@@ -3,3 +3,6 @@ en:
     label: Most loved first
 es:
   talk-plugin-sort-most-loved:
+zh_TW:
+  talk-plugin-sort-most-loved:
+    label: 被喜歡最多優先
