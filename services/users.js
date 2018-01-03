@@ -634,6 +634,10 @@ module.exports = class UsersService {
    * @param {String} token the JSON Web Token to verify
    */
   static async verifyPasswordResetToken(token) {
+    if (!token) {
+      throw new Error('cannot verify an empty token');
+    }
+
     const {userId, loc, version} = await UsersService.verifyToken(token, {
       subject: PASSWORD_RESET_JWT_SUBJECT
     });
@@ -777,6 +781,10 @@ module.exports = class UsersService {
    * @param {String} token the token to verify
    */
   static async verifyEmailConfirmationToken(token) {
+    if (!token) {
+      throw new Error('cannot verify an empty token');
+    }
+
     const decoded = await UsersService.verifyToken(token, {
       subject: EMAIL_CONFIRM_JWT_SUBJECT
     });
