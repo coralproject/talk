@@ -1,6 +1,7 @@
 module.exports = {
 
   before: (client) => {
+    client.setWindowPosition(0, 0);
     client.resizeWindow(1600, 1200);
   },
 
@@ -83,7 +84,7 @@ module.exports = {
   'admin suspends user': (client) => {
     const adminPage = client.page.admin();
     const moderate = adminPage.section.moderate;
-    
+
     adminPage
       .navigate()
       .ready()
@@ -97,7 +98,7 @@ module.exports = {
       .waitForElementVisible('@actionItemSuspendUser')
       .click('@actionItemSuspendUser');
 
-    adminPage 
+    adminPage
       .waitForElementVisible('@suspendUserDialog')
       .waitForElementVisible('@suspendUserConfirmButton')
       .click('@suspendUserConfirmButton')

@@ -54,23 +54,19 @@ const nightwatch_config = {
     },
     safari: {
       desiredCapabilities: {
-
-        // Safari since 8 seems to have troubles with the browserstack-local tunnel (10.18.17)
         browser: 'safari',
-        browser_version: '10',
+        browser_version: '11',
       },
     },
+
+    // The x64 bit IEDriver that is used by IE 11 has a known issue with sendKeys where
+    // it may enter incorrect keys (shift + key).
     ie: {
       desiredCapabilities: {
         browser: 'internet explorer',
         os: 'Windows',
         os_version: '10',
         browser_version: '11',
-
-        // The x64 bit IEDriver that is used by IE 11 has a known issue with sendKeys where
-        // it may enter incorrect keys (shift + key).
-        // This adds a delay for each character as temporary fix as advised from the browserstack support.
-        'browserstack.customSendKeys': 800,
       },
     },
     edge: {
