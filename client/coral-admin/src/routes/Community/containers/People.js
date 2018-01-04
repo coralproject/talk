@@ -95,8 +95,8 @@ class PeopleContainer extends React.Component {
       setUserRole={this.setUserRole}
       showSuspendUserDialog={this.props.showSuspendUserDialog}
       showBanUserDialog={this.props.showBanUserDialog}
-      unBanUser={this.props.unBanUser}
-      unSuspendUser={this.props.unSuspendUser}
+      unbanUser={this.props.unbanUser}
+      unsuspendUser={this.props.unsuspendUser}
       data={this.props.data}
       root={this.props.root}
       users={this.props.root.users}
@@ -108,8 +108,8 @@ class PeopleContainer extends React.Component {
 PeopleContainer.propTypes = {
   community: PropTypes.object,
   setUserRole: PropTypes.func.isRequired,
-  unBanUser: PropTypes.func.isRequired,
-  unSuspendUser: PropTypes.func.isRequired,
+  unbanUser: PropTypes.func.isRequired,
+  unsuspendUser: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,

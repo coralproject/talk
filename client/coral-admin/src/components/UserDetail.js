@@ -119,10 +119,11 @@ class UserDetail extends React.Component {
       viewUserDetail,
       loadMore,
       toggleSelectAll,
-      unBanUser,
-      unSuspendUser,
+      unbanUser,
+      unsuspendUser,
     } = this.props;
 
+    // if totalComments is 0, you're dividing by zero
     let rejectedPercent = (rejectedComments / totalComments) * 100;
 
     if (rejectedPercent === Infinity || isNaN(rejectedPercent)) {
@@ -150,7 +151,7 @@ class UserDetail extends React.Component {
               label={this.getActionMenuLabel()}>
 
               {suspended ? <ActionsMenuItem
-                onClick={() => unSuspendUser({id: user.id})}>
+                onClick={() => unsuspendUser({id: user.id})}>
                 Remove Suspension
               </ActionsMenuItem> : <ActionsMenuItem
                 disabled={me.id === user.id}
@@ -159,7 +160,7 @@ class UserDetail extends React.Component {
               </ActionsMenuItem>}
 
               {banned ? <ActionsMenuItem
-                onClick={() => unBanUser({id: user.id})}>
+                onClick={() => unbanUser({id: user.id})}>
                 Remove Ban
               </ActionsMenuItem> : <ActionsMenuItem
                 disabled={me.id === user.id}
@@ -344,8 +345,8 @@ UserDetail.propTypes = {
   notify: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,
-  unBanUser: PropTypes.func.isRequired,
-  unSuspendUser: PropTypes.func.isRequired,
+  unbanUser: PropTypes.func.isRequired,
+  unsuspendUser: PropTypes.func.isRequired,
 };
 
 export default UserDetail;

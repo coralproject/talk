@@ -137,8 +137,8 @@ UserDetailContainer.propTypes = {
   setCommentStatus: PropTypes.func,
   clearUserDetailSelections: PropTypes.func,
   selectedCommentIds: PropTypes.array,
-  unBanUser: PropTypes.func.isRequired,
-  unSuspendUser: PropTypes.func.isRequired,
+  unbanUser: PropTypes.func.isRequired,
+  unsuspendUser: PropTypes.func.isRequired,
 };
 
 const LOAD_MORE_QUERY = gql`

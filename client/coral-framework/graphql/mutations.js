@@ -186,7 +186,7 @@ export const withUnSuspendUser = withMutation(
     }
   `, {
     props: ({mutate}) => ({
-      unSuspendUser: (input) => {
+      unsuspendUser: (input) => {
         return mutate({
           variables: {
             input,
@@ -282,7 +282,7 @@ export const withUnBanUser = withMutation(
     }
   `, {
     props: ({mutate}) => ({
-      unBanUser: (input) => {
+      unbanUser: (input) => {
         return mutate({
           variables: {
             input,

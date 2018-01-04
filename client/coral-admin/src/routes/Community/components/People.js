@@ -41,12 +41,12 @@ class People extends React.Component {
     return '';
   };
 
-  unSuspendUser = (input) => {
-    this.props.unSuspendUser(input);
+  unsuspendUser = (input) => {
+    this.props.unsuspendUser(input);
   }
 
-  unBanUser = (input) => {
-    this.props.unBanUser(input);
+  unbanUser = (input) => {
+    this.props.unbanUser(input);
   }
 
   showBanUserDialog = (input) => {
@@ -122,7 +122,7 @@ class People extends React.Component {
                               label={this.getActionMenuLabel(user)} >
                               
                               {isSuspended(user) ? <ActionsMenuItem
-                                onClick={() => this.unSuspendUser({id: user.id})}>
+                                onClick={() => this.unsuspendUser({id: user.id})}>
                                 Remove Suspension
                               </ActionsMenuItem> : <ActionsMenuItem
                                 onClick={() => this.showSuspendUserDialog({
@@ -133,7 +133,7 @@ class People extends React.Component {
                               </ActionsMenuItem>}
 
                               {isBanned(user) ? <ActionsMenuItem
-                                onClick={() => this.unBanUser({id: user.id})}>
+                                onClick={() => this.unbanUser({id: user.id})}>
                                 Remove Ban
                               </ActionsMenuItem> : <ActionsMenuItem
                                 onClick={() => this.showBanUserDialog({
@@ -180,8 +180,8 @@ People.propTypes = {
   onSearchChange: PropTypes.func.isRequired,
   setUserRole: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
-  unBanUser: PropTypes.func.isRequired,
-  unSuspendUser: PropTypes.func.isRequired,
+  unbanUser: PropTypes.func.isRequired,
+  unsuspendUser: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,
   loadMore: PropTypes.func.isRequired,
