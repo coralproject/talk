@@ -11,6 +11,8 @@ const uniq = require('lodash/uniq');
 const ms = require('ms');
 const debug = require('debug')('talk:config');
 
+const localAddress = require('ip').address('private');
+
 //==============================================================================
 // CONFIG INITIALIZATION
 //==============================================================================
@@ -204,10 +206,10 @@ const CONFIG = {
 
 if (process.env.NODE_ENV === 'test') {
   if (!CONFIG.ROOT_URL) {
-    CONFIG.ROOT_URL = 'http://localhost:3001';
+    CONFIG.ROOT_URL = `http://${localAddress}:3001`;
   }
   if (!CONFIG.STATIC_URL) {
-    CONFIG.STATIC_URI = 'http://localhost:3001';
+    CONFIG.STATIC_URI = `http://${localAddress}:3001`;
   }
 } else if (!CONFIG.ROOT_URL) {
   throw new Error('TALK_ROOT_URL must be provided');

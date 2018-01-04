@@ -1,7 +1,8 @@
 module.exports = {
   '@tags': ['install'],
 
-   before: (client) => {
+  before: (client) => {
+    client.setWindowPosition(0, 0);
     client.resizeWindow(1600, 1200);
   },
 
