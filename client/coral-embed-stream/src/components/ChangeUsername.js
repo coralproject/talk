@@ -60,7 +60,7 @@ class ChangeUsername extends Component {
           value={username}
           placeholder={t('framework.edit_name.label')}
           onChange={(e) => this.setState({username: e.target.value})}
-          rows={3}/><br/>
+        /><br/>
         <Button
           className="talk-change-username-submit-button"
           onClick={this.onSubmitClick} >
