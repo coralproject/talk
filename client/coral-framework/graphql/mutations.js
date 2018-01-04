@@ -177,7 +177,7 @@ export const withSuspendUser = withMutation(
     })
   });
 
-export const withUnSuspendUser = withMutation(
+export const withUnsuspendUser = withMutation(
   gql`
     mutation UnSuspendUser($input: UnSuspendUserInput!) {
       unSuspendUser(input: $input) {
@@ -273,7 +273,7 @@ export const withBanUser = withMutation(
     }),
   });
 
-export const withUnBanUser = withMutation(
+export const withUnbanUser = withMutation(
   gql`
     mutation UnBanUser($input: UnBanUserInput!) {
       unBanUser(input: $input) {

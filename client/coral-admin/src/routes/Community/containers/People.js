@@ -5,7 +5,7 @@ import {compose, gql} from 'react-apollo';
 import People from '../components/People';
 import PropTypes from 'prop-types';
 import {withFragments} from 'plugin-api/beta/client/hocs';
-import {withUnBanUser, withUnSuspendUser, withSetUserRole} from 'coral-framework/graphql/mutations';
+import {withUnbanUser, withUnsuspendUser, withSetUserRole} from 'coral-framework/graphql/mutations';
 import {showBanUserDialog} from 'actions/banUserDialog';
 import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 import {viewUserDetail} from '../../../actions/userDetail';
@@ -194,8 +194,8 @@ const SEARCH_QUERY = gql`
 export default compose(
   connect(null, mapDispatchToProps),
   withSetUserRole,
-  withUnSuspendUser,
-  withUnBanUser,
+  withUnsuspendUser,
+  withUnbanUser,
   withFragments({
     root: gql`
       fragment TalkAdminCommunity_People_root on RootQuery {

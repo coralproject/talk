@@ -14,7 +14,7 @@ import {
   toggleSelectCommentInUserDetail,
   toggleSelectAllCommentInUserDetail
 } from 'coral-admin/src/actions/userDetail';
-import {withSetCommentStatus, withUnBanUser, withUnSuspendUser} from 'coral-framework/graphql/mutations';
+import {withSetCommentStatus, withUnbanUser, withUnsuspendUser} from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
 import {notify} from 'coral-framework/actions/notification';
@@ -250,6 +250,6 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withUserDetailQuery,
   withSetCommentStatus,
-  withUnBanUser,
-  withUnSuspendUser,
+  withUnbanUser,
+  withUnsuspendUser,
 )(UserDetailContainer);
