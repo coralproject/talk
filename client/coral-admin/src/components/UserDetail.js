@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import capitalize from 'lodash/capitalize';
 import {getErrorMessages} from 'coral-framework/utils';
 import styles from './UserDetail.css';
-import RejectButton from './RejectButton';
-import ApproveButton from './ApproveButton';
 import AccountHistory from './AccountHistory';
 import {Slot} from 'coral-framework/components';
 import UserDetailCommentList from '../components/UserDetailCommentList';
@@ -108,9 +106,6 @@ class UserDetail extends React.Component {
         user,
         totalComments,
         rejectedComments,
-        comments: {
-          nodes,
-        }
       },
       activeTab,
       selectedCommentIds,
@@ -218,64 +213,29 @@ class UserDetail extends React.Component {
 
           <hr />
 
-          <div className={(selectedCommentIds.length > 0) ? cn(styles.bulkActionHeader, styles.selected) : styles.bulkActionHeader}>
-
-            {
-              selectedCommentIds.length === 0
-                ? (
-                  <TabBar
-                    onTabClick={this.changeTab}
-                    activeTab={activeTab}
-                    className={cn(styles.tabBar, 'talk-admin-user-detail-tab-bar')}
-                    aria-controls='talk-admin-user-detail-content'
-                    tabClassNames={{
-                      button: styles.tabButton,
-                      buttonActive: styles.tabButtonActive,
-                    }} >
-                    <Tab
-                      tabId={'all'}
-                      className={cn(styles.tab, styles.button, 'talk-admin-user-detail-all-tab')} >
-                      All
-                    </Tab>
-                    <Tab
-                      tabId={'rejected'}
-                      className={cn(styles.tab, 'talk-admin-user-detail-rejected-tab')} >
-                      Rejected
-                    </Tab>
-                    <Tab tabId={'history'} className={cn(styles.tab, styles.button, 'talk-admin-user-detail-history-tab')}>
-                      Account History
-                    </Tab>
-                  </TabBar>
-                )
-                : (
-                  <div className={styles.bulkActionGroup}>
-                    <ApproveButton
-                      onClick={this.bulkAcceptThenReload}
-                      minimal
-                    />
-                    <RejectButton
-                      onClick={this.bulkRejectThenReload}
-                      minimal
-                    />
-                    <span className={styles.selectedCommentsInfo}>  {selectedCommentIds.length} comments selected</span>
-                  </div>
-                )
-            }
-
-            {(activeTab === 'all' || activeTab === 'rejected') && (
-              <div className={styles.toggleAll}>
-                <input
-                  type='checkbox'
-                  id='toogleAll'
-                  checked={selectedCommentIds.length > 0 && selectedCommentIds.length === nodes.length}
-                  onChange={(e) => {
-                    toggleSelectAll(nodes.map((comment) => comment.id), e.target.checked);
-                  }} />
-                <label htmlFor='toogleAll'>Select all</label>
-              </div>
-            )}
-
-          </div>
+          <TabBar
+            onTabClick={this.changeTab}
+            activeTab={activeTab}
+            className={cn(styles.tabBar, 'talk-admin-user-detail-tab-bar')}
+            aria-controls='talk-admin-user-detail-content'
+            tabClassNames={{
+              button: styles.tabButton,
+              buttonActive: styles.tabButtonActive,
+            }} >
+            <Tab
+              tabId={'all'}
+              className={cn(styles.tab, styles.button, 'talk-admin-user-detail-all-tab')} >
+              All
+            </Tab>
+            <Tab
+              tabId={'rejected'}
+              className={cn(styles.tab, 'talk-admin-user-detail-rejected-tab')} >
+              Rejected
+            </Tab>
+            <Tab tabId={'history'} className={cn(styles.tab, styles.button, 'talk-admin-user-detail-history-tab')}>
+              Account History
+            </Tab>
+          </TabBar>
 
           <TabContent activeTab={activeTab} className='talk-admin-user-detail-content'>
             <TabPane tabId={'all'} className={'talk-admin-user-detail-all-tab-pane'}>
@@ -289,6 +249,9 @@ class UserDetail extends React.Component {
                 acceptComment={this.acceptThenReload}
                 rejectComment={this.rejectThenReload}
                 selectedCommentIds={selectedCommentIds}
+                toggleSelectAll={toggleSelectAll}
+                bulkAcceptThenReload={this.bulkAcceptThenReload}
+                bulkRejectThenReload={this.bulkRejectThenReload}
               />
             </TabPane>
             <TabPane tabId={'rejected'} className={'talk-admin-user-detail-rejected-tab-pane'}>
@@ -302,6 +265,9 @@ class UserDetail extends React.Component {
                 acceptComment={this.acceptThenReload}
                 rejectComment={this.rejectThenReload}
                 selectedCommentIds={selectedCommentIds}
+                toggleSelectAll={toggleSelectAll}
+                bulkAcceptThenReload={this.bulkAcceptThenReload}
+                bulkRejectThenReload={this.bulkRejectThenReload}
               />
             </TabPane>
             <TabPane tabId={'history'} className={'talk-admin-user-detail-history-tab-pane'}>

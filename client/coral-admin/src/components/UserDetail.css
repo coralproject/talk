@@ -94,49 +94,6 @@
   width: calc(100% - 90px);
 }
 
-.bulkActionGroup {
-  height: 52px;
-  background-color: #efefef;
-  padding: 0 0 0 10px;
-  display: flex;
-
-  i {
-    margin-right: 0;
-  }
-
-  .bulkAction {
-    display: inline-block;
-    width: 48px;
-    height: 48px;
-    transform: scale(.7);
-    min-width: 0;
-  }
-  .bulkAction:last-child {
-    margin-left: -10px;
-  }
-}
-
-.selectedCommentsInfo {
-  align-self: center;
-  font-weight: 500;
-  margin-left: 15px;
-}
-
-.toggleAll {
-  padding: 0 10px 0 0;
-  align-self: center;
-}
-
-.bulkActionHeader {
-  display: flex;
-  justify-content: space-between;
-  height: 52px;
-
-  &.selected {
-    background-color: #efefef;
-  }
-}
-
 .tabBar {
   padding: 0 0 0 10px;
   margin: 0;

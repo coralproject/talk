@@ -117,6 +117,8 @@ class UserDetailComment extends React.Component {
 }
 
 UserDetailComment.propTypes = {
+  selected: PropTypes.bool,
+  data: PropTypes.object,
   user: PropTypes.object.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,

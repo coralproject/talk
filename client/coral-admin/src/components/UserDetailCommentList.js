@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import styles from './UserDetailCommentList.css';
 import LoadMore from '../components/LoadMore';
 import Comment from '../containers/UserDetailComment';
+import RejectButton from './RejectButton';
+import ApproveButton from './ApproveButton';
 
 const UserDetailCommentList = (props) => {
   const {
@@ -21,10 +23,40 @@ const UserDetailCommentList = (props) => {
     toggleSelect,
     viewUserDetail,
     loadMore,
+    toggleSelectAll,
+    bulkAcceptThenReload,
+    bulkRejectThenReload,
   } = props;
 
   return (
     <div className={cn(styles.commentList, 'talk-admin-user-detail-comment-list')}>
+      
+      <div className={(selectedCommentIds.length > 0) ? cn(styles.bulkActionHeader, styles.selected) : styles.bulkActionHeader}>
+        {selectedCommentIds.length > 0 && (
+          <div className={styles.bulkActionGroup}>
+            <ApproveButton
+              onClick={bulkAcceptThenReload}
+              minimal
+            />
+            <RejectButton
+              onClick={bulkRejectThenReload}
+              minimal
+            />
+            <span className={styles.selectedCommentsInfo}>  {selectedCommentIds.length} comments selected</span>
+          </div>
+        )}
+
+        <div className={styles.toggleAll}>
+          <input
+            type='checkbox'
+            id='toogleAll'
+            checked={selectedCommentIds.length > 0 && selectedCommentIds.length === nodes.length}
+            onChange={(e) => {
+              toggleSelectAll(nodes.map((comment) => comment.id), e.target.checked);
+            }} />
+          <label htmlFor='toogleAll'>Select all</label>
+        </div>
+      </div>
       {
         nodes.map((comment) => {
           const selected = selectedCommentIds.indexOf(comment.id) !== -1;
@@ -60,6 +92,9 @@ UserDetailCommentList.propTypes = {
   viewUserDetail: PropTypes.any.isRequired,
   loadMore: PropTypes.any.isRequired,
   toggleSelect: PropTypes.func.isRequired,
+  toggleSelectAll: PropTypes.func.isRequired,
+  bulkAcceptThenReload: PropTypes.func.isRequired,
+  bulkRejectThenReload: PropTypes.func.isRequired,
 };
 
 export default UserDetailCommentList;
