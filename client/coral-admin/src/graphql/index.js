@@ -16,29 +16,26 @@ const userStatusFragment = gql`
     }
   }`;
 
+const userRoleFragment = gql`
+  fragment Talk_UpdateUserRole on User {
+    role
+  }`;
+
 export default {
   mutations: {
-    SetUserRole: ({variables: {id: userId, role}}) => ({
-      updateQueries: {
-        TalkAdmin_Community: (prev) => {
+    SetUserRole: ({variables: {id, role}}) => ({
+      update: (proxy) => {
+        const fragmentId = `User_${id}`;
+        const data = proxy.readFragment({fragment: userRoleFragment, id: fragmentId});
 
-          const updated = update(prev, {
-            users: {
-              nodes: {
-                $apply: (nodes) => nodes.map((node) => {
-                  if (node.id === userId) {
-                    node.role = role;
-                  }
-                  
-                  return node;
-                })
-              },
-            },
-          });
-          
-          return updated;
-        }
-      }
+        const updated = update(data, {
+          role: {
+            $set: role
+          }
+        });
+
+        proxy.writeFragment({fragment: userRoleFragment, id: fragmentId, data: updated});
+      },
     }),
     SuspendUser: ({variables: {input: {id, until}}}) => ({
       update: (proxy) => {
