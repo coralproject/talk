@@ -263,13 +263,13 @@ CONFIG.JWT_COOKIE_NAMES = uniq(CONFIG.JWT_COOKIE_NAMES.concat([CONFIG.JWT_COOKIE
 // testing environment. Every new mongo instance comes with a test database by
 // default, this is consistent with common testing and use case practices.
 if (process.env.NODE_ENV === 'test' && !CONFIG.MONGO_URL) {
-  CONFIG.MONGO_URL = `mongodb://${localAddress}/test`;
+  CONFIG.MONGO_URL = 'mongodb://localhost/test';
 }
 
 // Reset the redis url in the event it hasn't been overridden and we are in a
 // testing environment.
 if (process.env.NODE_ENV === 'test' && !CONFIG.REDIS_URL) {
-  CONFIG.REDIS_URL = `redis://${localAddress}/1`;
+  CONFIG.REDIS_URL = 'redis://localhost/1';
 }
 
 // REDIS_CLUSTER_CONFIGURATION should be parsed when the cluster mode !== none.
