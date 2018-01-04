@@ -13,6 +13,16 @@ en:
       This edited comment might still violate our community guidelines.
       Our moderation team will review your comment shortly.
 es:
+zh_CN:
+  error:
+    COMMENT_IS_TOXIC: "您确定吗？此评论的表述可能违反了我们的社群指引方针。您可以编辑评论，或直接提交让管理人员审查。"
+  talk-plugin-toxic-comments:
+    unlikely: "极低可能"
+    highly_likely: "极高可能"
+    possibly: "不太可能"
+    likely: "比较可能"
+    toxic_comment: "有毒评论"
+    still_toxic: "此编辑后评论可能仍违反了我们的社群指引方针。我们的审查团队将马上处理您的评论。"
 zh_TW:
   error:
     COMMENT_IS_TOXIC: |
