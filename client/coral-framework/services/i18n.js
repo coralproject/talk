@@ -52,11 +52,9 @@ function init() {
   ta.register('da', daTA);
   ta.register('fr', frTA);
   ta.register('pt_BR', pt_BRTA);
-<<<<<<< HEAD
   ta.register('zh_CN', zh_CNTA);
-=======
   ta.register('zh_TW', zh_TWTA);
->>>>>>> 1125351cd1e39fefd7160930896c4f7118a611c6
+
   timeagoInstance = ta();
 }
 
