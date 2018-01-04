@@ -15,7 +15,8 @@ const UserDetailCommentList = (props) => {
       user,
       comments: {
         nodes,
-        hasNextPage}
+        hasNextPage
+      }
     },
     acceptComment,
     rejectComment,
@@ -44,6 +45,7 @@ const UserDetailCommentList = (props) => {
             />
             <span className={styles.selectedCommentsInfo}>  {selectedCommentIds.length} comments selected</span>
           </div>
+
         )}
 
         <div className={styles.toggleAll}>
