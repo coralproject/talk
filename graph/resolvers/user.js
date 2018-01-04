@@ -50,7 +50,7 @@ const User = {
 
     return tokens;
   },
-  async ignoredUsers({id}, args, {user, loaders: {Users}}) {
+  ignoredUsers({id}, args, {user, loaders: {Users}}) {
 
     // Only allow a logged in user that is either the current user or is a staff
     // member to access the ignoredUsers of a given user.
@@ -63,8 +63,7 @@ const User = {
       return [];
     }
 
-    const connection = await Users.getByQuery({ids: user.ignoresUsers});
-    return connection.nodes;
+    return Users.getByID.loadMany(user.ignoresUsers);
   },
   role({id, role}, _, {user}) {
 

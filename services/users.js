@@ -28,7 +28,6 @@ const MailerService = require('./mailer');
 const i18n = require('./i18n');
 const Wordlist = require('./wordlist');
 const DomainList = require('./domain_list');
-const {escapeRegExp} = require('./regex');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
 const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
@@ -757,47 +756,6 @@ class UsersService {
     }
 
     return [user, loc];
-  }
-
-  /**
-   * Finds a user using a value which gets compared using a prefix match against
-   * the user's email address and/or their username.
-   * @param  {String} value value to search by
-   * @return {Promise}
-   */
-  static search(value) {
-    if (!value || typeof value !== 'string' || value.length === 0) {
-      return UserModel.find({});
-    }
-
-    value = escapeRegExp(value).toLowerCase();
-
-    // Compile the prefix search regex.
-    const $regex = new RegExp(`^${value}`);
-
-    return UserModel.find({
-      $or: [
-
-        // Search by a prefix match on the username.
-        {
-          lowercaseUsername: {
-            $regex,
-          },
-        },
-
-        // Search by a prefix match on the email address.
-        {
-          profiles: {
-            $elemMatch: {
-              id: {
-                $regex,
-              },
-              provider: 'local',
-            },
-          },
-        },
-      ],
-    });
   }
 
   /**
