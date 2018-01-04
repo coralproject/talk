@@ -102,8 +102,8 @@ class People extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {users.nodes.map((user, i)=> (
-                        <tr key={i} className="talk-admin-community-people-row">
+                      {users.nodes.map((user)=> (
+                        <tr key={user.id} className="talk-admin-community-people-row">
                           <td className="mdl-data-table__cell--non-numeric">
                             <button onClick={() => {viewUserDetail(user.id);}} className={cn(styles.username, styles.button)}>{user.username}</button>
                             <span className={styles.email}>{user.profiles.map(({id}) => id)}</span>
