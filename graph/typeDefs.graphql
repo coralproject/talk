@@ -233,7 +233,11 @@ input UsersQuery {
   # Users returned will only be ones which have at least one action of this.
   action_type: ACTION_TYPE
 
+  # state will filter the users to a specific set of users that meet.
   state: UserStateInput
+
+  # value is the search string to use to search for a pa
+  value: String = ""
 
   # Limit the number of results to be returned.
   limit: Int = 10
