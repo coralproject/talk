@@ -10,7 +10,7 @@ en:
     ban_user_dialog_cancel: "Cancel"
     ban_user_dialog_yes: "Yes. Ban user"
     ban_user_dialog_headline: "Ban User?"
-    
+
 es:
   talk-plugin-moderation-actions:
     reject_comment: "Rechazar"
@@ -23,3 +23,27 @@ es:
     ban_user_dialog_cancel: "Cancelar"
     ban_user_dialog_yes: "Si. Banear usuario"
     ban_user_dialog_headline: "Banear Usuario?"
+zh_CN:
+  talk-plugin-moderation-actions:
+    reject_comment: "拒绝"
+    approve_comment: "接受"
+    approved_comment: "已接受"
+    moderation_actions: "审查操作"
+    ban_user: "屏蔽用户"
+    ban_user_dialog_sub: "您确定要屏蔽该用户吗？"
+    ban_user_dialog_copy: "注意：屏蔽该用户同时会将此评论置于被拒绝队列。"
+    ban_user_dialog_cancel: "取消"
+    ban_user_dialog_yes: "是，确定屏蔽"
+    ban_user_dialog_headline: "屏蔽用户？"
+zh_TW:
+  talk-plugin-moderation-actions:
+    reject_comment: "拒絕"
+    approve_comment: "批准"
+    approved_comment: "已批准"
+    moderation_actions: "審核動作"
+    ban_user: "禁止用戶"
+    ban_user_dialog_sub: "您確定要禁止該用戶嗎?"
+    ban_user_dialog_copy: "注意: 禁止該用戶會同時將這條評論加入拒絕隊列。"
+    ban_user_dialog_cancel: "取消"
+    ban_user_dialog_yes: "是的。禁止用戶"
+    ban_user_dialog_headline: "禁止該用戶?"

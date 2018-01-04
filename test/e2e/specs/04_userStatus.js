@@ -1,4 +1,5 @@
 module.exports = {
+
   before: (client) => {
     client.resizeWindow(1600, 1200);
   },
