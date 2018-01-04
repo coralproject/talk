@@ -228,6 +228,9 @@ export default function auth (state = initialState, action) {
       redirectUri: action.uri,
     };
   case 'APOLLO_SUBSCRIPTION_RESULT':
+
+    // @TODO: These don't work anymore because apollo store has been decoupled
+    
     if (action.operationName === 'UserBanned' && state.user.id === action.variables.user_id) {
       return {
         ...state,
