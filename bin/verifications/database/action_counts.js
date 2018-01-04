@@ -2,6 +2,7 @@ const UserModel = require('../../../models/user');
 const CommentModel = require('../../../models/comment');
 const ActionsService = require('../../../services/actions');
 const {arrayJoinBy} = require('../../../graph/loaders/util');
+const {get} = require('lodash');
 const sc = require('snake-case');
 const debug = require('debug')('talk:cli:verify');
 
@@ -49,11 +50,7 @@ async function processBatch(Model, documents) {
       const ACTION_COUNT_FIELD = `${ACTION_TYPE}_${GROUP_ID}`;
 
       // Check that the action summaries match the cached counts.
-      if (
-        !document.action_counts ||
-        !(ACTION_COUNT_FIELD in document.action_counts) ||
-        document.action_counts[ACTION_COUNT_FIELD] !== actionSummary.count
-      ) {
+      if (get(document, ['action_counts', ACTION_COUNT_FIELD]) !== actionSummary.count) {
 
         // Batch updates for those changes.
         ops.push({
@@ -65,7 +62,10 @@ async function processBatch(Model, documents) {
     // Group all the action summaries together from all the different group
     // ids.
     let groupedActionSummaries = actionSummaries.reduce((acc, actionSummary) => {
-      const ACTION_TYPE = sc(actionSummary.action_type.toLowerCase());
+
+      // action_type is already snake cased (as it would have had to be when it
+      // was inserted in the database).
+      const ACTION_TYPE = actionSummary.action_type.toLowerCase();
 
       if (!(ACTION_TYPE in acc)) {
         acc[ACTION_TYPE] = 0;
@@ -80,11 +80,7 @@ async function processBatch(Model, documents) {
       const count = groupedActionSummaries[ACTION_COUNT_FIELD];
 
       // Check that the action summaries match the cached counts.
-      if (
-        !document.action_counts ||
-        !(ACTION_COUNT_FIELD in document.action_counts) ||
-        document.action_counts[ACTION_COUNT_FIELD] !== count
-      ) {
+      if (get(document, ['action_counts', ACTION_COUNT_FIELD]) !== count) {
 
         // Batch updates for those changes.
         ops.push({
