@@ -51,8 +51,7 @@ class ChangeUsername extends Component {
         </div>
         <label
           htmlFor='username'
-          className="screen-reader-text"
-          aria-hidden={true}>
+          className="screen-reader-text">
           {t('framework.edit_name.label')}
         </label>
         <input
@@ -60,7 +59,6 @@ class ChangeUsername extends Component {
           className={cn(styles.editNameInput, 'talk-change-username-username-input')}
           value={username}
           placeholder={t('framework.edit_name.label')}
-          id='username'
           onChange={(e) => this.setState({username: e.target.value})}
           rows={3}/><br/>
         <Button
