@@ -61,7 +61,7 @@ async function processBatch(Model, documents) {
 
     // Group all the action summaries together from all the different group
     // ids.
-    let groupedActionSummaries = actionSummaries.reduce((acc, actionSummary) => {
+    const groupedActionSummaries = actionSummaries.reduce((acc, actionSummary) => {
 
       // action_type is already snake cased (as it would have had to be when it
       // was inserted in the database).
