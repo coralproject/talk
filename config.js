@@ -7,12 +7,9 @@
 // entrypoint for the entire applications configuration.
 require('env-rewrite').rewrite();
 
-if (process.env.NODE_ENV === 'development') {
-
-  // Apply all the configuration provided in the .env file if it isn't already
-  // in the environment.
-  require('dotenv').config();
-}
+// Apply all the configuration provided in the .env file if it isn't already
+// in the environment.
+require('dotenv').config();
 
 const uniq = require('lodash/uniq');
 const ms = require('ms');
