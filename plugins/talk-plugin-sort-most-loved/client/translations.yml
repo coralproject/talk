@@ -6,3 +6,6 @@ es:
 zh_CN:
   talk-plugin-sort-most-loved:
     label: "最多被爱在前"
+zh_TW:
+  talk-plugin-sort-most-loved:
+    label: 被喜歡最多優先

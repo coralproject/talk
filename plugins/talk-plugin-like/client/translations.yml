@@ -10,3 +10,7 @@ zh_CN:
   talk-plugin-like:
     like: "喜欢"
     liked: "已喜欢"
+zh_TW:
+  talk-plugin-like:
+    like: 讚
+    liked: 已讚

@@ -6,3 +6,6 @@ es:
 zh_CN:
   talk-plugin-sort-newest:
     label: "最新发表在前"
+zh_TW:
+  talk-plugin-sort-newest:
+    label: 最新優先

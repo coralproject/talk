@@ -6,3 +6,6 @@ es:
 zh_CN:
   talk-plugin-sort-most-respected:
     label: "最受尊重在前"
+zh_TW:
+  talk-plugin-sort-most-respected:
+    label: 最受尊重優先
