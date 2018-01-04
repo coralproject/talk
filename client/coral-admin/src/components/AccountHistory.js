@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {murmur3} from 'murmurhash-js';
 import styles from './AccountHistory.css';
 import cn from 'classnames';
 import flatten from 'lodash/flatten';
@@ -35,8 +36,8 @@ class AccountHistory extends React.Component {
             <div className={styles.headerRowItem}>Moderation</div>
           </div>
           {
-            userHistory.map((h, i) => (
-              <div className={cn(styles.row, 'talk-admin-account-history-row')} key={i}>
+            userHistory.map((h) => (
+              <div className={cn(styles.row, 'talk-admin-account-history-row')} key={`${h.__typename}_${murmur3(h.created_at)}`}>
                 <div className={cn(styles.item, 'talk-admin-account-history-row-date')}>
                   {moment(new Date(h.created_at)).format('MMM DD, YYYY')}
                 </div>
