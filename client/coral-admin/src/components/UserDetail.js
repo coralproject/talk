@@ -64,7 +64,7 @@ class UserDetail extends React.Component {
   }
 
   changeTab = (tab) => {
-    this.props.changeStatus(tab);
+    this.props.changeTab(tab);
   }
 
   showSuspenUserDialog = () => this.props.showSuspendUserDialog({
@@ -329,7 +329,7 @@ UserDetail.propTypes = {
   root: PropTypes.object.isRequired,
   acceptComment: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
-  changeStatus: PropTypes.func.isRequired,
+  changeTab: PropTypes.func.isRequired,
   toggleSelect: PropTypes.func.isRequired,
   bulkAccept: PropTypes.func.isRequired,
   bulkReject: PropTypes.func.isRequired,

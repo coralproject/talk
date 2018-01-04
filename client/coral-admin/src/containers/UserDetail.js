@@ -9,7 +9,7 @@ import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {
   viewUserDetail,
   hideUserDetail,
-  changeUserDetailStatuses,
+  changeTab,
   clearUserDetailSelections,
   toggleSelectCommentInUserDetail,
   toggleSelectAllCommentInUserDetail
@@ -117,7 +117,7 @@ class UserDetailContainer extends React.Component {
     return <UserDetail
       bulkReject={this.bulkReject}
       bulkAccept={this.bulkAccept}
-      changeStatus={this.props.changeUserDetailStatuses}
+      changeTab={this.props.changeTab}
       toggleSelect={this.props.toggleSelectCommentInUserDetail}
       toggleSelectAll={this.props.toggleSelectAllCommentInUserDetail}
       acceptComment={this.acceptComment}
@@ -129,7 +129,7 @@ class UserDetailContainer extends React.Component {
 }
 
 UserDetailContainer.propTypes = {
-  changeUserDetailStatuses: PropTypes.func,
+  changeTab: PropTypes.func,
   toggleSelectCommentInUserDetail: PropTypes.func,
   toggleSelectAllCommentInUserDetail: PropTypes.func,
   data: PropTypes.object,
@@ -236,7 +236,7 @@ const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
     showBanUserDialog,
     showSuspendUserDialog,
-    changeUserDetailStatuses,
+    changeTab,
     clearUserDetailSelections,
     toggleSelectCommentInUserDetail,
     viewUserDetail,
