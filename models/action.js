@@ -21,8 +21,8 @@ const ActionSchema = new Schema({
   item_id: String,
   user_id: String,
 
-  // The element that summaries will additionally group on in addtion to their action_type, item_type, and
-  // item_id.
+  // The element that summaries will additionally group on in addition to their
+  // action_type, item_type, and item_id.
   group_id: String,
 
   // Additional metadata stored on the field.
@@ -32,6 +32,14 @@ const ActionSchema = new Schema({
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   }
+});
+
+// Create an index on the `item_id` field so that queries looking for
+// actions based on the item id can resolve faster.
+ActionSchema.index({
+  'item_id': 1
+}, {
+  background: true
 });
 
 const Action = mongoose.model('Action', ActionSchema);
