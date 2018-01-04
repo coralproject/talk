@@ -54,6 +54,7 @@ function init() {
   ta.register('pt_BR', pt_BRTA);
   ta.register('zh_CN', zh_CNTA);
   ta.register('zh_TW', zh_TWTA);
+
   timeagoInstance = ta();
 }
 
