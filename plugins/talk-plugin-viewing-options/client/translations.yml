@@ -6,3 +6,13 @@ en:
 es:
   talk-plugin-viewing-options:
     viewing_options: "Opciones de visualización"
+zh_CN:
+  talk-plugin-viewing-options:
+    viewing_options: "查看选项"
+    sort: "排序"
+    filter: "过滤"
+zh_TW:
+  talk-plugin-viewing-options:
+    viewing_options: "查看選項"
+    sort: 排序
+    filter: 過濾

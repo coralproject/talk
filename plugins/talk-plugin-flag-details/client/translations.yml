@@ -4,3 +4,9 @@ en:
 es:
   talk-plugin-flag-details:
     flags: Reportes
+zh_CN:
+  talk-plugin-flag-details:
+    flags: "报告"
+zh_TW:
+  talk-plugin-flag-details:
+    flags: 標記

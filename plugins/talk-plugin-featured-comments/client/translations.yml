@@ -25,3 +25,33 @@ es:
     are_you_sure: Está seguro que desea destacar este comentario?
     cancel: Cancelar
     yes_feature_comment: Si, destacar comentario
+zh_CN:
+  talk-plugin-featured-comments:
+    un_feature: "取消精选"
+    feature: "精选"
+    featured: "精选评论"
+    featured_comments: "精选评论"
+    go_to_conversation: "跳转至对话"
+    tooltip_description: "我们团队认为值得一看的评论"
+    notify_self_featured: '已接受 {0} 的评论，并设为精选评论'
+    notify_featured: '{0} 接受了评论 "{1}"，并将其设为精选评论'
+    notify_unfeatured: '{0} 将 "{1}" 从精选评论中撤下'
+    feature_comment: "设置为精选评论？"
+    are_you_sure: "您确定要将这个评论设置为精选评论？"
+    cancel: "取消"
+    yes_feature_comment: "确认精选"
+zh_TW:
+  talk-plugin-featured-comments:
+    un_feature: "取消精選"
+    feature: "精選"
+    featured: "精選評論"
+    featured_comments: "精選評論"
+    go_to_conversation: "跳轉至對話"
+    tooltip_description: "我們團隊認為值得一看的評論"
+    notify_self_featured: '已接受 {0} 的評論，並設為精選評論'
+    notify_featured: '{0} 接受了評論 "{1}"，並將其設為精選評論'
+    notify_unfeatured: '{0} 將 "{1}" 從精選評論中撤下'
+    feature_comment: "設置為精選評論？"
+    are_you_sure: "您確定要將這個評論設置為精選評論？"
+    cancel: "取消"
+    yes_feature_comment: "確認精選"
