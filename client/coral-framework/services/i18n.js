@@ -7,17 +7,18 @@ import daTA from 'timeago.js/locales/da';
 import esTA from 'timeago.js/locales/es';
 import frTA from 'timeago.js/locales/fr';
 import pt_BRTA from 'timeago.js/locales/pt_BR';
+import zh_TWTA from 'timeago.js/locales/zh_TW';
 
 import en from '../../../locales/en.yml';
 import da from '../../../locales/da.yml';
 import es from '../../../locales/es.yml';
 import fr from '../../../locales/fr.yml';
 import pt_BR from '../../../locales/pt_BR.yml';
-
+import zh_TW from '../../../locales/zh_TW.yml';
 // Translations are happening at https://translate.lingohub.com/the-coral-project/dashboard
 
 const defaultLanguage = process.env.TALK_DEFAULT_LANG;
-const translations = {...en, ...da, ...es, ...fr, ...pt_BR};
+const translations = {...en, ...da, ...es, ...fr, ...pt_BR, ...zh_TW};
 
 let lang;
 let timeagoInstance;
@@ -50,6 +51,7 @@ function init() {
   ta.register('da', daTA);
   ta.register('fr', frTA);
   ta.register('pt_BR', pt_BRTA);
+  ta.register('zh_TW', zh_TWTA);
   timeagoInstance = ta();
 }
 

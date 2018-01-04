@@ -6,4 +6,7 @@ es:
   talk-plugin-like:
     like: Me Gusta
     liked: Me Gustó
-
+zh_TW:
+  talk-plugin-like:
+    like: 讚
+    liked: 已讚

@@ -3,3 +3,6 @@ en:
     label: Newest first
 es:
   talk-plugin-sort-newest:
+zh_TW:
+  talk-plugin-sort-newest:
+    label: 最新優先
