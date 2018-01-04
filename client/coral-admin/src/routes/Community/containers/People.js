@@ -16,24 +16,41 @@ import {Spinner} from 'coral-ui';
 class PeopleContainer extends React.Component {
   timer = null;
 
-  onKeyDownHandler = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-
-      // this.fetchUsers();
-    }
-  }
+  state = {
+    searchValue: ''
+  };
 
   onSearchChange = (e) => {
-    const value = e.target.value;
-    console.log(value);
-
-    // clearTimeout(this.timer);
-
-    // this.timer = setTimeout(() => {
-    //   // this.fetchUsers({value});
-    // }, 350);
+    const {value} = e.target;
+    this.setState({searchValue: value}, () => {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.search(value);
+      }, 350);
+    });
   }
+
+  search = async (value) =>  {
+    return this.props.data.fetchMore({
+      query: SEARCH_QUERY,
+      variables: {
+        value,
+        limit: 5,
+      },
+      updateQuery: (previous, {fetchMoreResult:{users}}) => {
+        const updated = update(previous, {
+          users: {
+            nodes: {
+              $set: users.nodes,
+            },
+            hasNextPage: {$set: users.hasNextPage},
+            endCursor: {$set: users.endCursor},
+          },
+        });
+        return updated;
+      },
+    });
+  };
 
   setUserRole = async (id, role) => {
     await this.props.setUserRole(id, role);
@@ -43,12 +60,13 @@ class PeopleContainer extends React.Component {
     return this.props.data.fetchMore({
       query: LOAD_MORE_QUERY,
       variables: {
+        value: this.state.searchValue,
         limit: 5,
         cursor: this.props.root.users.endCursor,
       },
       updateQuery: (previous, {fetchMoreResult:{users}}) => {
         const updated = update(previous, {
-          flaggedUsers: {
+          users: {
             nodes: {
               $apply: (nodes) => appendNewNodes(nodes, users.nodes),
             },
@@ -107,18 +125,66 @@ const mapDispatchToProps = (dispatch) =>
   }, dispatch);
 
 const LOAD_MORE_QUERY = gql`
-  query TalkAdminCommunity_People_LoadMoreUsers($limit: Int, $cursor: Cursor) {
-    users(query: {}){
+  query TalkAdminCommunity_People_LoadMoreUsers($limit: Int, $cursor: Cursor, $value: String) {
+    users(query: {
+      value: $value,
+      limit: $limit,
+      cursor: $cursor
+    }){
       hasNextPage
       endCursor
       nodes {
         __typename
         id
         username
+        role
         created_at
         profiles {
           id
           provider
+        }
+        state {
+          status {
+            banned {
+              status
+            }
+            suspension {
+              until
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const SEARCH_QUERY = gql`
+  query TalkAdminCommunity_People_SearchUsers($value: String, $limit: Int) {
+    users(query: {
+      value: $value,
+      limit: $limit,
+    }){
+      hasNextPage
+      endCursor
+      nodes {
+        __typename
+        id
+        username
+        role
+        created_at
+        profiles {
+          id
+          provider
+        }
+        state {
+          status {
+            banned {
+              status
+            }
+            suspension {
+              until
+            }
+          }
         }
       }
     }
