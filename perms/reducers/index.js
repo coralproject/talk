@@ -11,6 +11,13 @@ module.exports = [
       return false;
     }
   },
+  (user) => {
+
+    // System users can do everything!
+    if (user.system === true) {
+      return true;
+    }
+  },
   query,
   mutation,
   subscription,

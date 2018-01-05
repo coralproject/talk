@@ -359,35 +359,6 @@ class UsersService {
     );
   }
 
-  /**
-   * Merges two users together by taking all the profiles on a given user and
-   * pushing them into the source user followed by deleting the destination user's
-   * user account. This will
-   * not merge the roles associated with the source user.
-   * @param  {String} dstUserID id of the user to which is the target of the merge
-   * @param  {String} srcUserID id of the user to which is the source of the merge
-   * @return {Promise}          resolves when the users are merged
-   */
-  static mergeUsers(dstUserID, srcUserID) {
-    let srcUser, dstUser;
-
-    return Promise.all([
-      UserModel.findOne({id: dstUserID}).exec(),
-      UserModel.findOne({id: srcUserID}).exec(),
-    ])
-      .then((users) => {
-        dstUser = users[0];
-        srcUser = users[1];
-
-        srcUser.profiles.forEach((profile) => {
-          dstUser.profiles.push(profile);
-        });
-
-        return srcUser.remove();
-      })
-      .then(() => dstUser.save());
-  }
-
   static castUsername(username) {
     return username.replace(/ /g, '_').replace(/[^a-zA-Z_]/g, '');
   }

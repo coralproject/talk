@@ -5,6 +5,7 @@ const uuid = require('uuid');
 const TagLinkSchema = require('./schema/tag_link');
 const TokenSchema = require('./schema/token');
 const can = require('../perms');
+const {get} = require('lodash');
 
 // USER_ROLES is the array of roles that is permissible as a user role.
 const USER_ROLES = require('./enum/user_roles');
@@ -244,8 +245,6 @@ UserSchema.index({
   background: true,
 });
 
-// TODO: Add indexes for searching the user collection. Needs product decision.
-
 /**
  * returns true if a commenter is staff
  */
@@ -278,6 +277,22 @@ UserSchema.method('verifyPassword', function(password) {
  */
 UserSchema.method('can', function(...actions) {
   return can(this, ...actions);
+});
+
+/**
+ * hasVerifiedEmail will return true if at least one of the local email accounts
+ * have their email verified.
+ */
+UserSchema.virtual('hasVerifiedEmail').get(function() {
+  return this.profiles
+    .filter(({provider}) => provider === 'local')
+    .some((profile) => {
+      const confirmedAt = get(profile, 'metadata.confirmed_at') || null;
+
+      // If the profile doesn't have a metadata field, or it does not have a
+      // confirmed_at field, or that field is null, then send them back.
+      return confirmedAt !== null;
+    });
 });
 
 /**
