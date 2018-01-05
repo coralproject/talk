@@ -6,68 +6,25 @@
     <title>Email Verification</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
-
-    <style media="screen">
-      #root {
-        max-width: 400px;
-        padding-top: 100px;
-        margin: 0 auto;
-        background: #fff;
-      }
-
-      .coral-card-wide > .mdl-card__title {
-        color: #fff;
-        height: 176px;
-        background: #F47E6B url('/path/to/logo.jpg') center / cover;
-      }
-      .coral-card-wide > .mdl-card__menu {
-        color: #fff;
-      }
-
-      .error-console {
-        display: none;
-        margin-top: 10px;
-        border-radius: 4px;
-        background-color: pink;
-        color: red;
-        border: 1px solid red;
-        padding: 10px;
-      }
-
-      .error-console.active {
-        display: block;
-      }
-    </style>
+    <link rel="stylesheet" href="/public/css/admin.css">
+    <%_ if (locals.customCssUrl) { _%>
+    <link href="<%= customCssUrl %>" rel="stylesheet" type="text/css">
+    <%_ } _%>
   </head>
-  <body>
+  <body class="confirm-email-page">
     <div id="root">
-      <div class="coral-card-wide mdl-card mdl-shadow--2dp">
-        <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text">Verify Email Address</h2>
-        </div>
-        <div class="mdl-card__supporting-text">
-          Click the button below to verify the email on your new user account.
-        </div>
-        <div class="mdl-card__actions mdl-card--border">
-          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="verify-email">
-            Verify
-          </a>
-          <div style="display: none" id="p2" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
-        </div>
-      </div>
-
+      <div class="error-console container"></div>
+      <form id="verify-email-form" class="container">
+        <legend class="legend"><%= t('confirm_email.click_to_confirm') %></legend>
+        <button type="submit"><%= t('confirm_email.confirm') %></button>
+      </form>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <script>
-      $(function () {
-        function showError(message) {
-          $('.error-console').text(message).addClass('active');
-        }
-
-        function handleClick (e) {
+    <script src="/public/javascripts/admin.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        function handleSubmit(e) {
           e.preventDefault();
-          $('#p2').css('display', 'block');
           $('.error-console').removeClass('active');
 
           $.ajax({
@@ -82,7 +39,18 @@
           });
         }
 
-        $('#verify-email').on('click', handleClick);
+        $.ajax({
+          url: '<%= BASE_PATH %>api/v1/account/email/verify',
+          contentType: 'application/json',
+          method: 'POST',
+          data: JSON.stringify({token: location.hash.replace('#', ''), check: true})
+        })
+        .then(function () {
+          $('#verify-email-form').fadeIn().on('submit', handleSubmit);
+        })
+        .catch(function (error) {
+          showError(error.responseText);
+        });
       });
     </script>
   </body>

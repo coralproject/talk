@@ -99,7 +99,7 @@ router.post('/:user_id/email', authorization.needed('ADMIN', 'MODERATOR'), async
       return next(errors.ErrMissingEmail);
     }
 
-    await mailer.sendSimple({
+    await mailer.send({
       template: 'notification',  // needed to know which template to render!
       locals: {                  // specifies the template locals.
         body: req.body.body
@@ -122,7 +122,7 @@ router.post('/:user_id/email', authorization.needed('ADMIN', 'MODERATOR'), async
 const SendEmailConfirmation = async (user, email, referer) => {
   let token = await UsersService.createEmailConfirmToken(user, email, referer);
 
-  return mailer.sendSimple({
+  return mailer.send({
     template: 'email-confirm',
     locals: {
       token,

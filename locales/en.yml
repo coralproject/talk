@@ -14,6 +14,15 @@ en:
     yes_ban_user: "Yes, Ban User"
   bio_offensive: "This bio is offensive"
   cancel: "Cancel"
+  confirm_email:
+    click_to_confirm: "Click below to confirm your email address"
+    confirm: "Confirm"
+  password_reset:
+    set_new_password: "Change Your Password"
+    new_password: "New Password"
+    new_password_help: "Password must be at least 8 characters"
+    confirm_new_password: "Confirm New Password"
+    change_password: "Change Password"
   characters_remaining: "characters remaining"
   comment:
     anon: "Anonymous"
@@ -184,6 +193,8 @@ en:
   embedlink:
     copy: "Copy to Clipboard"
   error:
+    EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
+    PASSWORD_RESET_TOKEN_INVALID: "Your password reset link is invalid."
     COMMENT_TOO_SHORT: "Comments should be more than one character, please revise your comment and try again."
     NOT_AUTHORIZED: "You are not authorized to perform this action."
     NO_SPECIAL_CHARACTERS: "Usernames can contain letters numbers and _ only"
