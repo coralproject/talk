@@ -24,7 +24,7 @@ describe('graph.mutations.suspendUser', () => {
 
   let spy;
   before(() => {
-    spy = sinon.spy(MailerService, 'sendSimple');
+    spy = sinon.spy(MailerService, 'send');
   });
 
   afterEach(() => {

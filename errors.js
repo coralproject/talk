@@ -69,9 +69,17 @@ const ErrMissingUsername = new APIError('A username is required to create a user
   status: 400
 });
 
-// ErrMissingToken is returned in the event that the password reset is requested
+// ErrEmailVerificationToken is returned in the event that the password reset is requested
 // without a token.
-const ErrMissingToken = new APIError('token is required', {
+const ErrEmailVerificationToken = new APIError('token is required', {
+  translation_key: 'EMAIL_VERIFICATION_TOKEN_INVALID',
+  status: 400
+});
+
+// ErrPasswordResetToken is returned in the event that the password reset is requested
+// without a token.
+const ErrPasswordResetToken = new APIError('token is required', {
+  translation_key: 'PASSWORD_RESET_TOKEN_INVALID',
   status: 400
 });
 
@@ -225,7 +233,8 @@ module.exports = {
   ErrMaxRateLimit,
   ErrMissingEmail,
   ErrMissingPassword,
-  ErrMissingToken,
+  ErrEmailVerificationToken,
+  ErrPasswordResetToken,
   ErrMissingUsername,
   ErrNotAuthorized,
   ErrNotFound,

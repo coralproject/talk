@@ -29,11 +29,11 @@ describe('services.UsersService', () => {
       password: '3Coral!3'
     }]);
 
-    sinon.spy(MailerService, 'sendSimple');
+    sinon.spy(MailerService, 'send');
   });
 
   afterEach(() => {
-    MailerService.sendSimple.restore();
+    MailerService.send.restore();
   });
 
   describe('#findById()', () => {

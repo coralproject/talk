@@ -452,7 +452,7 @@ class UsersService {
       redirectURI
     );
 
-    return MailerService.sendSimple({
+    return MailerService.send({
       template: 'email-confirm',
       locals: {
         token,
@@ -478,7 +478,7 @@ class UsersService {
       to,
     });
 
-    return MailerService.sendSimple(options);
+    return MailerService.send(options);
   }
 
   static async changePassword(id, password) {
@@ -741,10 +741,16 @@ class UsersService {
   }
 
   /**
-   * Verifies a jwt and returns the associated user.
+   * Verifies a jwt and returns the associated user. Throws an error when the
+   * token isn't valid.
+   *
    * @param {String} token the JSON Web Token to verify
    */
   static async verifyPasswordResetToken(token) {
+    if (!token) {
+      throw new Error('cannot verify an empty token');
+    }
+
     const {userId, loc, version} = await UsersService.verifyToken(token, {
       subject: PASSWORD_RESET_JWT_SUBJECT,
     });
@@ -852,6 +858,46 @@ class UsersService {
   }
 
   /**
+   * verifyEmailConfirmationToken checks the validity of a given token without
+   * actually confirming the user's email address.
+   *
+   * @param {String} token the token to verify
+   */
+  static async verifyEmailConfirmationToken(token) {
+    if (!token) {
+      throw new Error('cannot verify an empty token');
+    }
+
+    const decoded = await UsersService.verifyToken(token, {
+      subject: EMAIL_CONFIRM_JWT_SUBJECT
+    });
+
+    const user = await UserModel.findOne({
+      id: decoded.userID,
+      profiles: {
+        $elemMatch: {
+          id: decoded.email,
+          provider: 'local',
+        },
+      },
+    });
+    if (!user) {
+      throw errors.ErrNotFound;
+    }
+
+    const profile = user.profiles.find(({id}) => id === decoded.email);
+    if (!profile) {
+      throw errors.ErrNotFound;
+    }
+
+    if (profile.metadata && profile.metadata.confirmed_at !== null) {
+      throw errors.ErrEmailVerificationToken;
+    }
+
+    return decoded;
+  }
+
+  /**
    * This verifies that a given token was for the email confirmation and updates
    * that user's profile with a 'confirmed_at' parameter with the current date.
    * @param  {String} token the token containing the email confirmation details
@@ -859,9 +905,7 @@ class UsersService {
    * @return {Promise}
    */
   static async verifyEmailConfirmation(token) {
-    let {userID, email, referer} = await UsersService.verifyToken(token, {
-      subject: EMAIL_CONFIRM_JWT_SUBJECT,
-    });
+    let {userID, email, referer} = await UsersService.verifyEmailConfirmationToken(token);
 
     await UsersService.confirmEmail(userID, email);
 

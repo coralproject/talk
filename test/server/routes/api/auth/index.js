@@ -54,7 +54,7 @@ describe('/api/v1/auth/local', () => {
           .catch((err) => {
             expect(err).to.not.be.null;
             expect(err.response).to.have.status(401);
-            expect(err.response.body).to.have.property('message', 'not authorized');
+            expect(err.response.body).to.have.property('message', 'You are not authorized to perform this action.');
           });
       });
 
