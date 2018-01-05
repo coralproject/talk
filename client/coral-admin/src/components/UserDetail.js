@@ -128,9 +128,9 @@ class UserDetail extends React.Component {
 
     const banned = isBanned(user);
     const suspended = isSuspended(user);
-    
+
     return (
-      <ClickOutside onClickOutside={!modal && hideUserDetail}>
+      <ClickOutside onClickOutside={modal ? null : hideUserDetail}>
         <Drawer className="talk-admin-user-detail-drawer" onClose={hideUserDetail}>
           <h3 className={cn(styles.username, 'talk-admin-user-detail-username')}>
             {user.username}
