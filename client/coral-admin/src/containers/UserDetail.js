@@ -230,6 +230,7 @@ const mapStateToProps = (state) => ({
   selectedCommentIds: state.userDetail.selectedCommentIds,
   statuses: state.userDetail.statuses,
   activeTab: state.userDetail.activeTab,
+  modal: state.ui.modal
 });
 
 const mapDispatchToProps = (dispatch) => ({

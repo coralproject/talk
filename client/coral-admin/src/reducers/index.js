@@ -8,6 +8,7 @@ import config from './config';
 import banUserDialog from './banUserDialog';
 import suspendUserDialog from './suspendUserDialog';
 import userDetail from './userDetail';
+import ui from './ui';
 
 export default {
   auth,
@@ -20,4 +21,5 @@ export default {
   moderation,
   install,
   config,
+  ui,
 };

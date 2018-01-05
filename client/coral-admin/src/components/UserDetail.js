@@ -116,6 +116,7 @@ class UserDetail extends React.Component {
       toggleSelectAll,
       unbanUser,
       unsuspendUser,
+      modal,
     } = this.props;
 
     // if totalComments is 0, you're dividing by zero
@@ -129,7 +130,7 @@ class UserDetail extends React.Component {
     const suspended = isSuspended(user);
     
     return (
-      <ClickOutside onClickOutside={hideUserDetail}>
+      <ClickOutside onClickOutside={!modal && hideUserDetail}>
         <Drawer className="talk-admin-user-detail-drawer" onClose={hideUserDetail}>
           <h3 className={cn(styles.username, 'talk-admin-user-detail-username')}>
             {user.username}
