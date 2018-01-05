@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+const util = require('./util');
 const program = require('commander');
 const parseDuration = require('ms');
 const Table = require('cli-table');
@@ -12,7 +13,6 @@ const CommentModel = require('../models/comment');
 const AssetsService = require('../services/assets');
 const mongoose = require('../services/mongoose');
 const scraper = require('../services/scraper');
-const util = require('./util');
 const inquirer = require('inquirer');
 
 // Register the shutdown criteria.

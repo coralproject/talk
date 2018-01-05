@@ -156,6 +156,10 @@ async function searchUsers() {
           throw errors[0];
         }
 
+        if (data.users === null) {
+          return [];
+        }
+
         return data.users.nodes.map((user) => {
           const emails = user.profiles
             .filter(({provider}) => provider === 'local')

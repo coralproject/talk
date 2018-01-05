@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
+const util = require('./util');
 const program = require('commander');
 const mongoose = require('../services/mongoose');
-const util = require('./util');
 const databaseVerifications = require('./verifications/database');
 
 // Register the shutdown criteria.

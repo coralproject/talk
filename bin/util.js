@@ -1,3 +1,7 @@
+
+// Setup the environment.
+require('../services/env');
+
 const debug = require('debug')('talk:util');
 
 const util = module.exports = {};

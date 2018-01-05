@@ -295,6 +295,14 @@ UserSchema.virtual('hasVerifiedEmail').get(function() {
     });
 });
 
+UserSchema.virtual('system')
+  .get(function() {
+    return this._system;
+  })
+  .set(function(system) {
+    this._system = system;
+  });
+
 /**
  * banned returns true when the user is currently banned, and sets the banned
  * status locally.
