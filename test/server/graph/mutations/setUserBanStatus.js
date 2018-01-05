@@ -46,7 +46,7 @@ describe('graph.mutations.banUser', () => {
     }
 
     mutation UnBanUser($user_id: ID!) {
-      unBanUser(input: {
+      unbanUser(input: {
         id: $user_id
       }) {
         errors {
@@ -112,7 +112,7 @@ describe('graph.mutations.banUser', () => {
           console.error(res.errors);
         }
         expect(res.errors).to.be.undefined;
-        expect(res.data.unBanUser).to.be.null;
+        expect(res.data.unbanUser).to.be.null;
 
         user = await UserModel.findOne({id: user.id});
 

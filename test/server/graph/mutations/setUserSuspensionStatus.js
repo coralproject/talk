@@ -49,7 +49,7 @@ describe('graph.mutations.suspendUser', () => {
     }
 
     mutation UnSuspendUser($user_id: ID!) {
-      unSuspendUser(input: {
+      unsuspendUser(input: {
         id: $user_id,
       }) {
         errors {
@@ -124,7 +124,7 @@ describe('graph.mutations.suspendUser', () => {
           console.error(res.errors);
         }
         expect(res.errors).to.be.undefined;
-        expect(res.data.unSuspendUser).to.be.null;
+        expect(res.data.unsuspendUser).to.be.null;
 
         user = await UserModel.findOne({id: user.id});
 

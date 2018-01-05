@@ -1396,7 +1396,7 @@ type RootMutation {
 
   # Sets the suspension status on a given user. Requires the `MODERATOR` role.
   # Mutation is restricted.
-  unSuspendUser(input: UnSuspendUserInput!): UnSuspendUserResponse
+  unsuspendUser(input: UnSuspendUserInput!): UnSuspendUserResponse
 
   # Sets the ban status on a given user. Requires the `MODERATOR` role.
   # Mutation is restricted.
@@ -1404,7 +1404,7 @@ type RootMutation {
 
   # Sets the ban status on a given user. Requires the `MODERATOR` role.
   # Mutation is restricted.
-  unBanUser(input: UnBanUserInput!): UnBanUserResponse
+  unbanUser(input: UnBanUserInput!): UnBanUserResponse
 
   # Sets the username status on a given user to `APPROVED`. Requires the
   # `MODERATOR` role. Mutation is restricted.
