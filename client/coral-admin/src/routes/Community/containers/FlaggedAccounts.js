@@ -30,16 +30,16 @@ class FlaggedAccountsContainer extends Component {
       query: LOAD_MORE_QUERY,
       variables: {
         limit: 5,
-        cursor: this.props.root.users.endCursor,
+        cursor: this.props.root.flaggedUsers.endCursor,
       },
-      updateQuery: (previous, {fetchMoreResult:{users}}) => {
+      updateQuery: (previous, {fetchMoreResult:{flaggedUsers}}) => {
         const updated = update(previous, {
           flaggedUsers: {
             nodes: {
-              $apply: (nodes) => appendNewNodes(nodes, users.nodes),
+              $apply: (nodes) => appendNewNodes(nodes, flaggedUsers.nodes),
             },
-            hasNextPage: {$set: users.hasNextPage},
-            endCursor: {$set: users.endCursor},
+            hasNextPage: {$set: flaggedUsers.hasNextPage},
+            endCursor: {$set: flaggedUsers.endCursor},
           },
         });
         return updated;
@@ -55,6 +55,7 @@ class FlaggedAccountsContainer extends Component {
     if (this.props.data.loading) {
       return <div><Spinner/></div>;
     }
+
     return (
       <FlaggedAccounts
         showRejectUsernameDialog={this.props.showRejectUsernameDialog}
@@ -84,7 +85,7 @@ const LOAD_MORE_QUERY = gql`
         action_type: FLAG,
         state: {
           status: {
-            username: [PENDING]
+            username: [SET, CHANGED]
           }
         },
         limit: $limit,
