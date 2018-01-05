@@ -238,7 +238,7 @@ describe('services.UsersService', () => {
             await UsersService[func](user.id, user.username);
             throw new Error('edit was processed successfully');
           } catch (err) {
-            expect(err).have.property('translation_key', 'USERNAME_IN_USE');
+            expect(err).have.property('translation_key', 'SAME_USERNAME_PROVIDED');
           }
         } else {
           await UsersService[func](user.id, user.username);

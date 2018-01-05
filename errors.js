@@ -59,6 +59,11 @@ const ErrUsernameTaken = new APIError('Username already in use', {
   status: 400
 });
 
+const ErrSameUsernameProvided = new APIError('Username provided for change is the same as current', {
+  translation_key: 'SAME_USERNAME_PROVIDED',
+  status: 400
+});
+
 const ErrSpecialChars = new APIError('No special characters are allowed in a username', {
   translation_key: 'NO_SPECIAL_CHARACTERS',
   status: 400
@@ -245,5 +250,6 @@ module.exports = {
   ErrSettingsNotInit,
   ErrSpecialChars,
   ErrUsernameTaken,
+  ErrSameUsernameProvided,
   ExtendableError,
 };
