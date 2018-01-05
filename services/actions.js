@@ -1,7 +1,6 @@
 const ActionModel = require('../models/action');
 const CommentModel = require('../models/comment');
 const UserModel = require('../models/user');
-const sc = require('snake-case');
 const _ = require('lodash');
 const errors = require('../errors');
 const events = require('./events');
@@ -253,14 +252,14 @@ module.exports = class ActionsService {
 };
 
 const incrActionCounts = async (action, value) => {
-  const ACTION_TYPE = sc(action.action_type.toLowerCase());
+  const ACTION_TYPE = action.action_type.toLowerCase();
 
   const update = {
     [`action_counts.${ACTION_TYPE}`]: value,
   };
 
   if (action.group_id && action.group_id.length > 0) {
-    const GROUP_ID = sc(action.group_id.toLowerCase());
+    const GROUP_ID = action.group_id.toLowerCase();
 
     update[`action_counts.${ACTION_TYPE}_${GROUP_ID}`] = value;
   }

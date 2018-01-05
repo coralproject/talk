@@ -57,7 +57,7 @@ module.exports = {
   hooks: {
     RootMutation: {
       addTag: {
-        async post(obj, {tag: {name, id, item_type}}, {user, mutators: {Comment}, pubsub}, _info) {
+        async post(obj, {tag: {name, id, item_type}}, {user, mutators: {Comment}, pubsub}) {
           if (name === 'FEATURED' && item_type === 'COMMENTS') {
             const comment = await Comment.setStatus({id: id, status: 'ACCEPTED'});
             if (comment) {
@@ -67,7 +67,7 @@ module.exports = {
         },
       },
       removeTag: {
-        async post(obj, {tag: {name, id, item_type}}, {user, loaders: {Comments}, pubsub}, _info) {
+        async post(obj, {tag: {name, id, item_type}}, {user, loaders: {Comments}, pubsub}) {
           if (name === 'FEATURED' && item_type === 'COMMENTS') {
             const comment = await Comments.get.load(id);
             if (comment) {
