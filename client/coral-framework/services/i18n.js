@@ -3,6 +3,7 @@ import has from 'lodash/has';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 
+import moment from 'moment';
 import 'moment/locale/da';
 import 'moment/locale/es';
 import 'moment/locale/fr';
@@ -44,6 +45,9 @@ function getLocale() {
 function init() {
   const locale = getLocale();
   setLocale(locale);
+
+  // Setting moment 
+  moment.locale(locale);
 
   // Extract language key.
   lang = locale.split('-')[0];
