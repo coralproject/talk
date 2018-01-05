@@ -140,7 +140,7 @@ class UsersService {
     let user = await UserModel.findOneAndUpdate(
       {
         id,
-        status: {
+        'status.banned.status': {
           $ne: status,
         },
       },
@@ -189,7 +189,7 @@ class UsersService {
     let user = await UserModel.findOneAndUpdate(
       {
         id,
-        status: {
+        'status.username.status': {
           $ne: status,
         },
       },
