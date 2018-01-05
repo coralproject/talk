@@ -83,7 +83,10 @@ class RejectUsernameDialog extends Component  {
         <div className={styles.description}>
           {t(stages[stage].description, t('reject_username.username'))}
         </div>
+
         {/* {
+
+          // Suspension Message: This functionality it's not entirely done on the BE - It will be released soon. 
           stage === 1 &&
                 <div className={styles.writeContainer}>
                   <div className={styles.emailMessage}>{t('reject_username.write_message')}</div>
