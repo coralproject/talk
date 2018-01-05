@@ -4,7 +4,8 @@ import {findDOMNode} from 'react-dom';
 
 export default class ClickOutside extends Component {
   static propTypes = {
-    onClickOutside: PropTypes.func.isRequired
+    onClickOutside: PropTypes.func,
+    children: PropTypes.node,
   };
 
   static contextTypes = {
@@ -16,7 +17,7 @@ export default class ClickOutside extends Component {
   handleClick = (e) => {
     const {onClickOutside} = this.props;
     if (!e || !this.domNode.contains(e.target)) {
-      onClickOutside(e);
+      onClickOutside && onClickOutside(e);
     }
   };
 
