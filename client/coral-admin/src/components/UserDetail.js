@@ -314,6 +314,7 @@ UserDetail.propTypes = {
   showBanUserDialog: PropTypes.func,
   unbanUser: PropTypes.func.isRequired,
   unsuspendUser: PropTypes.func.isRequired,
+  modal: PropTypes.bool,
 };
 
 export default UserDetail;
