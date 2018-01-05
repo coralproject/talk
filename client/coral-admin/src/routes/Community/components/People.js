@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import styles from './styles.css';
+import styles from './People.css';
 import {Icon, Dropdown, Option} from 'coral-ui';
 import EmptyCard from '../../../components/EmptyCard';
 import t from 'coral-framework/services/i18n';
