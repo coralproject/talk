@@ -5,6 +5,11 @@ import {notify} from 'coral-framework/actions/notification';
 import t from 'coral-framework/services/i18n';
 import get from 'lodash/get';
 
+export const updateStatus = (status) => ({
+  type: actions.UPDATE_STATUS,
+  status,
+});
+
 export const showSignInDialog = () => ({
   type: actions.SHOW_SIGNIN_DIALOG,
 });

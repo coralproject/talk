@@ -21,7 +21,14 @@ import t from 'coral-framework/services/i18n';
 import PropTypes from 'prop-types';
 import {setActiveTab} from '../actions/embed';
 
-const {logout, checkLogin, focusSignInDialog, blurSignInDialog, hideSignInDialog} = authActions;
+const {
+  logout,
+  checkLogin,
+  focusSignInDialog,
+  blurSignInDialog,
+  hideSignInDialog,
+  updateStatus,
+} = authActions;
 const {fetchAssetSuccess} = assetActions;
 
 class EmbedContainer extends React.Component {
@@ -35,20 +42,23 @@ class EmbedContainer extends React.Component {
     if (props.auth.loggedIn) {
       const newSubscriptions = [{
         document: USER_BANNED_SUBSCRIPTION,
-        updateQuery: () => {
+        updateQuery: (_, {subscriptionData: {data: {userBanned: {state}}}}) => {
           notify('info', t('your_account_has_been_banned'));
+          props.updateStatus(state.status);
         },
       },
       {
         document: USER_SUSPENDED_SUBSCRIPTION,
-        updateQuery: () => {
+        updateQuery: (_, {subscriptionData: {data: {userSuspended: {state}}}}) => {
           notify('info', t('your_account_has_been_suspended'));
+          props.updateStatus(state.status);
         },
       },
       {
         document: USERNAME_REJECTED_SUBSCRIPTION,
-        updateQuery: () => {
+        updateQuery: (_, {subscriptionData: {data: {usernameRejected: {state}}}}) => {
           notify('info', t('your_username_has_been_rejected'));
+          props.updateStatus(state.status);
         },
       }];
 
@@ -260,6 +270,7 @@ const mapDispatchToProps = (dispatch) =>
       focusSignInDialog,
       blurSignInDialog,
       hideSignInDialog,
+      updateStatus,
     },
     dispatch
   );
