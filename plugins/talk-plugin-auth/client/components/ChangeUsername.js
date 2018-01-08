@@ -6,7 +6,8 @@ import {bindActionCreators} from 'redux';
 import errorMsj from 'coral-framework/helpers/error';
 import validate from 'coral-framework/helpers/validate';
 import CreateUsernameDialog from './CreateUsernameDialog';
-import {withChangeUsername} from 'coral-framework/graphql/mutations';
+import {withSetUsername} from 'coral-framework/graphql/mutations';
+import {forEachError} from 'plugin-api/beta/client/utils';
 
 import t from 'coral-framework/services/i18n';
 
@@ -88,21 +89,34 @@ class ChangeUsernameContainer extends React.Component {
     this.setState({showErrors: show});
   };
 
+  async setUsernameAndClose(username, props = this.props) {
+    const {validForm, invalidForm, setUsername, hideCreateUsernameDialog} = props;
+    try {
+      await setUsername(this.props.auth.user.id, username);
+      hideCreateUsernameDialog();
+      validForm();
+    }
+    catch(error) {
+      const msgs = [];
+      forEachError(error, ({msg}) => msgs.push(msg));
+      invalidForm(t(msgs.join(', ')));
+    }
+  }
+
   handleSubmitUsername = (e) => {
     e.preventDefault();
     const {errors, formData: {username}} = this.state;
     const {validForm, invalidForm} = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
-      this.props.changeUsername(this.props.auth.user.id, username);
-      validForm();
+      this.setUsernameAndClose(username);
     } else {
       invalidForm(t('createdisplay.check_the_form'));
     }
   };
 
   handleClose = () => {
-    this.props.hideCreateUsernameDialog();
+    this.setUsernameAndClose(this.props.auth.user.username);
   };
 
   render() {
@@ -148,6 +162,6 @@ const mapDispatchToProps = (dispatch) =>
   );
 
 export default compose(
-  withChangeUsername,
+  withSetUsername,
   connect(mapStateToProps, mapDispatchToProps)
 )(ChangeUsernameContainer);
