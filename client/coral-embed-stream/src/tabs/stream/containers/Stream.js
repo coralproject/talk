@@ -211,7 +211,8 @@ class StreamContainer extends React.Component {
       return <Spinner />;
     }
 
-    const streamLoading = this.props.refetching || this.props.data.loading;
+    // @TODO: Detect refetch when we have apollo 2.0.
+    const streamLoading = this.props.data.loading;
 
     return (
       <Stream
@@ -387,7 +388,6 @@ const fragments = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  refetching: state.embed.refetching,
   activeReplyBox: state.stream.activeReplyBox,
   commentId: state.stream.commentId,
   assetId: state.stream.assetId,
