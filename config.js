@@ -343,35 +343,11 @@ CONFIG.REDIS_CLIENT_CONFIG = JSON.parse(CONFIG.REDIS_CLIENT_CONFIG);
  */
 CONFIG.RECAPTCHA_ENABLED =
   CONFIG.RECAPTCHA_SECRET &&
-  CONFIG.RECAPTCHA_SECRET.length > 0 &&
-  CONFIG.RECAPTCHA_PUBLIC &&
-  CONFIG.RECAPTCHA_PUBLIC.length > 0;
+  CONFIG.RECAPTCHA_PUBLIC;
 
 debug(
   `reCAPTCHA is ${
     CONFIG.RECAPTCHA_ENABLED
-      ? 'enabled'
-      : 'disabled, required config is not present'
-  }`
-);
-
-//------------------------------------------------------------------------------
-// SMTP Server configuration
-//------------------------------------------------------------------------------
-
-CONFIG.EMAIL_ENABLED =
-  CONFIG.SMTP_FROM_ADDRESS &&
-  CONFIG.SMTP_FROM_ADDRESS.length > 0 &&
-  CONFIG.SMTP_USERNAME &&
-  CONFIG.SMTP_USERNAME.length > 0 &&
-  CONFIG.SMTP_PASSWORD &&
-  CONFIG.SMTP_PASSWORD.length > 0 &&
-  CONFIG.SMTP_HOST &&
-  CONFIG.SMTP_HOST.length > 0;
-
-debug(
-  `Email is ${
-    CONFIG.EMAIL_ENABLED
       ? 'enabled'
       : 'disabled, required config is not present'
   }`

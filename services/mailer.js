@@ -54,7 +54,6 @@ const mailer = {};
 mailer.enabled = Boolean(
   SMTP_HOST &&
   SMTP_USERNAME &&
-  SMTP_PORT &&
   SMTP_PASSWORD &&
   SMTP_FROM_ADDRESS
 ) || process.env.NODE_ENV === 'test';
