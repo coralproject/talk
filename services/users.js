@@ -24,7 +24,7 @@ const RECAPTCHA_WINDOW = '10m'; // 10 minutes.
 const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha will be required.
 
 const ActionsService = require('./actions');
-const MailerService = require('./mailer');
+const mailer = require('./mailer');
 const i18n = require('./i18n');
 const Wordlist = require('./wordlist');
 const DomainList = require('./domain_list');
@@ -423,7 +423,7 @@ class UsersService {
       redirectURI
     );
 
-    return MailerService.send({
+    return mailer.send({
       template: 'email-confirm',
       locals: {
         token,
@@ -449,7 +449,7 @@ class UsersService {
       to,
     });
 
-    return MailerService.send(options);
+    return mailer.send(options);
   }
 
   static async changePassword(id, password) {

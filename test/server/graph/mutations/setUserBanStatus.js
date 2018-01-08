@@ -5,7 +5,7 @@ const Context = require('../../../../graph/context');
 const SettingsService = require('../../../../services/settings');
 const UserModel = require('../../../../models/user');
 const UsersService = require('../../../../services/users');
-const MailerService = require('../../../../services/mailer');
+const mailer = require('../../../../services/mailer');
 
 const sinon = require('sinon');
 const chai = require('chai');
@@ -22,7 +22,7 @@ describe('graph.mutations.banUser', () => {
 
   let spy;
   before(() => {
-    spy = sinon.spy(MailerService, 'send');
+    spy = sinon.spy(mailer, 'send');
   });
 
   afterEach(() => {
