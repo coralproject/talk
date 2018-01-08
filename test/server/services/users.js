@@ -1,6 +1,6 @@
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
-const MailerService = require('../../../services/mailer');
+const mailer = require('../../../services/mailer');
 
 const chai = require('chai');
 chai.use(require('chai-as-promised'));
@@ -29,11 +29,11 @@ describe('services.UsersService', () => {
       password: '3Coral!3'
     }]);
 
-    sinon.spy(MailerService, 'send');
+    sinon.spy(mailer, 'send');
   });
 
   afterEach(() => {
-    MailerService.send.restore();
+    mailer.send.restore();
   });
 
   describe('#findById()', () => {
