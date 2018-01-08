@@ -179,9 +179,9 @@ export const withSuspendUser = withMutation(
 
 export const withUnsuspendUser = withMutation(
   gql`
-    mutation UnSuspendUser($input: UnSuspendUserInput!) {
+    mutation UnsuspendUser($input: UnsuspendUserInput!) {
       unsuspendUser(input: $input) {
-        ...UnSuspendUserResponse
+        ...UnsuspendUserResponse
       }
     }
   `, {
@@ -275,9 +275,9 @@ export const withBanUser = withMutation(
 
 export const withUnbanUser = withMutation(
   gql`
-    mutation UnBanUser($input: UnBanUserInput!) {
+    mutation UnbanUser($input: UnbanUserInput!) {
       unbanUser(input: $input) {
-        ...UnBanUserResponse
+        ...UnbanUserResponse
       }
     }
   `, {
