@@ -54,21 +54,29 @@ module.exports = {
     moderateNav: '.talk-admin-nav-moderate',
     settingsButton: '.talk-admin-header-settings-button',
     signOutButton: '.talk-admin-header-sign-out',
-    suspendUserDialog: '.talk-admin-suspend-user-dialog',
-    suspendUserDialogStep0: '.talk-admin-suspend-user-dialog-step-0',
-    suspendUserDialogStep1: '.talk-admin-suspend-user-dialog-step-1',
-    suspendUserConfirmButton: '.talk-admin-suspend-user-dialog-confirm',
-    supendUserSendButton: '.talk-admin-suspend-user-dialog-send',
-    usernameDialog: '.talk-admin-reject-username-dialog',
-    usernameDialogStep0: '.talk-admin-reject-username-dialog-step-0',
-    usernameDialogStep1: '.talk-admin-reject-username-dialog-step-1',
-    usernameDialogButtons: '.talk-admin-reject-username-dialog-buttons',
-    usernameDialogSuspend: '.talk-admin-reject-username-dialog-button-k',
-    usernameDialogSuspensionMessage: '.talk-admin-reject-username-dialog-suspension-message',
     toast: '.toastify',
     toastClose: '.toastify__close',
   },
   sections: {
+    suspendUserDialog: {
+      selector: '.talk-admin-suspend-user-dialog',
+      elements: {
+        step0: '.talk-admin-suspend-user-dialog-step-0',
+        step1: '.talk-admin-suspend-user-dialog-step-1',
+        confirmButton: '.talk-admin-suspend-user-dialog-confirm',
+        sendButton: '.talk-admin-suspend-user-dialog-send',
+      }
+    },
+    usernameDialog: {
+      selector: '.talk-admin-reject-username-dialog',
+      elements: {
+        step0: '.talk-admin-reject-username-dialog-step-0',
+        step1: '.talk-admin-reject-username-dialog-step-1',
+        buttons: '.talk-admin-reject-username-dialog-buttons',
+        suspend: '.talk-admin-reject-username-dialog-button-k',
+        suspensionMessage: '.talk-admin-reject-username-dialog-suspension-message',
+      } 
+    },
     moderate: {
       selector: '.talk-admin-moderation-container',
       elements: {
