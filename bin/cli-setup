@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+const util = require('./util');
 const program = require('commander');
 const inquirer = require('inquirer');
 const mongoose = require('../services/mongoose');
@@ -12,7 +13,6 @@ const MODERATION_OPTIONS = require('../models/enum/moderation_options');
 const SettingsService = require('../services/settings');
 const SetupService = require('../services/setup');
 const UsersService = require('../services/users');
-const util = require('./util');
 const errors = require('../errors');
 
 // Register the shutdown criteria.

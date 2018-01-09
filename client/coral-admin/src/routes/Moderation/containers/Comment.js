@@ -37,19 +37,6 @@ export default withFragments({
       user {
         id
         username
-        state {
-          status {
-            username {
-              status
-            }
-            banned {
-              status
-            }
-            suspension {
-              until
-            }
-          }
-        }
       }
       asset {
         id

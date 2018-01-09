@@ -2,14 +2,8 @@
 // application. All defaults are assumed here, validation should also be
 // completed here.
 
-// Perform rewrites to the runtime environment variables based on the contents
-// of the process.env.REWRITE_ENV if it exists. This is done here as it is the
-// entrypoint for the entire applications configuration.
-require('env-rewrite').rewrite();
-
-// Apply all the configuration provided in the .env file if it isn't already
-// in the environment.
-require('dotenv').config();
+// Setup the environment.
+require('./services/env');
 
 const uniq = require('lodash/uniq');
 const ms = require('ms');
@@ -207,13 +201,11 @@ const CONFIG = {
   // SMTP Server configuration
   //------------------------------------------------------------------------------
 
-  SMTP_FROM_ADDRESS: process.env.TALK_SMTP_FROM_ADDRESS,
   SMTP_HOST: process.env.TALK_SMTP_HOST,
-  SMTP_PASSWORD: process.env.TALK_SMTP_PASSWORD,
-  SMTP_PORT: process.env.TALK_SMTP_PORT
-    ? parseInt(process.env.TALK_SMTP_PORT)
-    : undefined,
   SMTP_USERNAME: process.env.TALK_SMTP_USERNAME,
+  SMTP_PORT: process.env.TALK_SMTP_PORT,
+  SMTP_PASSWORD: process.env.TALK_SMTP_PASSWORD,
+  SMTP_FROM_ADDRESS: process.env.TALK_SMTP_FROM_ADDRESS,
 
   //------------------------------------------------------------------------------
   // Flagging Config
@@ -351,35 +343,11 @@ CONFIG.REDIS_CLIENT_CONFIG = JSON.parse(CONFIG.REDIS_CLIENT_CONFIG);
  */
 CONFIG.RECAPTCHA_ENABLED =
   CONFIG.RECAPTCHA_SECRET &&
-  CONFIG.RECAPTCHA_SECRET.length > 0 &&
-  CONFIG.RECAPTCHA_PUBLIC &&
-  CONFIG.RECAPTCHA_PUBLIC.length > 0;
+  CONFIG.RECAPTCHA_PUBLIC;
 
 debug(
   `reCAPTCHA is ${
     CONFIG.RECAPTCHA_ENABLED
-      ? 'enabled'
-      : 'disabled, required config is not present'
-  }`
-);
-
-//------------------------------------------------------------------------------
-// SMTP Server configuration
-//------------------------------------------------------------------------------
-
-CONFIG.EMAIL_ENABLED =
-  CONFIG.SMTP_FROM_ADDRESS &&
-  CONFIG.SMTP_FROM_ADDRESS.length > 0 &&
-  CONFIG.SMTP_USERNAME &&
-  CONFIG.SMTP_USERNAME.length > 0 &&
-  CONFIG.SMTP_PASSWORD &&
-  CONFIG.SMTP_PASSWORD.length > 0 &&
-  CONFIG.SMTP_HOST &&
-  CONFIG.SMTP_HOST.length > 0;
-
-debug(
-  `Email is ${
-    CONFIG.EMAIL_ENABLED
       ? 'enabled'
       : 'disabled, required config is not present'
   }`

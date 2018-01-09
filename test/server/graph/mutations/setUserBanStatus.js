@@ -5,7 +5,7 @@ const Context = require('../../../../graph/context');
 const SettingsService = require('../../../../services/settings');
 const UserModel = require('../../../../models/user');
 const UsersService = require('../../../../services/users');
-const MailerService = require('../../../../services/mailer');
+const mailer = require('../../../../services/mailer');
 
 const sinon = require('sinon');
 const chai = require('chai');
@@ -22,7 +22,7 @@ describe('graph.mutations.banUser', () => {
 
   let spy;
   before(() => {
-    spy = sinon.spy(MailerService, 'sendSimple');
+    spy = sinon.spy(mailer, 'send');
   });
 
   afterEach(() => {
@@ -46,7 +46,7 @@ describe('graph.mutations.banUser', () => {
     }
 
     mutation UnBanUser($user_id: ID!) {
-      unBanUser(input: {
+      unbanUser(input: {
         id: $user_id
       }) {
         errors {
@@ -112,7 +112,7 @@ describe('graph.mutations.banUser', () => {
           console.error(res.errors);
         }
         expect(res.errors).to.be.undefined;
-        expect(res.data.unBanUser).to.be.null;
+        expect(res.data.unbanUser).to.be.null;
 
         user = await UserModel.findOne({id: user.id});
 

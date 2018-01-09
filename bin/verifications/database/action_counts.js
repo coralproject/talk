@@ -3,7 +3,6 @@ const CommentModel = require('../../../models/comment');
 const ActionsService = require('../../../services/actions');
 const {arrayJoinBy} = require('../../../graph/loaders/util');
 const {get} = require('lodash');
-const sc = require('snake-case');
 const debug = require('debug')('talk:cli:verify');
 
 const MODELS = [
@@ -38,8 +37,8 @@ async function processBatch(Model, documents) {
       }
 
       // And we generate the group id.
-      const ACTION_TYPE = sc(actionSummary.action_type.toLowerCase());
-      const GROUP_ID = sc(actionSummary.group_id.toLowerCase());
+      const ACTION_TYPE = actionSummary.action_type.toLowerCase();
+      const GROUP_ID = actionSummary.group_id.toLowerCase();
 
       if (GROUP_ID.length <= 0) {
         continue;

@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
-const program = require('commander');
 const util = require('./util');
+const program = require('commander');
 const inquirer = require('inquirer');
 const mongoose = require('../services/mongoose');
 const MigrationService = require('../services/migration');

@@ -34,13 +34,13 @@ const RootMutation = {
   suspendUser: async (obj, {input: {id, until, message}}, {mutators: {User}}) => {
     await User.setUserSuspensionStatus(id, until, message);
   },
-  unSuspendUser: async (obj, {input: {id}}, {mutators: {User}}) => {
+  unsuspendUser: async (obj, {input: {id}}, {mutators: {User}}) => {
     await  User.setUserSuspensionStatus(id);
   },
   banUser: async (obj, {input: {id, message}}, {mutators: {User}}) => {
     await User.setUserBanStatus(id, true, message);
   },
-  unBanUser: async (obj, {input: {id}}, {mutators: {User}}) => {
+  unbanUser: async (obj, {input: {id}}, {mutators: {User}}) => {
     await  User.setUserBanStatus(id, false);
   },
   ignoreUser: async (_, {id}, {mutators: {User}}) => {

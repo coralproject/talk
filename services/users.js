@@ -24,7 +24,7 @@ const RECAPTCHA_WINDOW = '10m'; // 10 minutes.
 const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha will be required.
 
 const ActionsService = require('./actions');
-const MailerService = require('./mailer');
+const mailer = require('./mailer');
 const i18n = require('./i18n');
 const Wordlist = require('./wordlist');
 const DomainList = require('./domain_list');
@@ -140,7 +140,7 @@ class UsersService {
     let user = await UserModel.findOneAndUpdate(
       {
         id,
-        status: {
+        'status.banned.status': {
           $ne: status,
         },
       },
@@ -189,7 +189,7 @@ class UsersService {
     let user = await UserModel.findOneAndUpdate(
       {
         id,
-        status: {
+        'status.username.status': {
           $ne: status,
         },
       },
@@ -281,7 +281,7 @@ class UsersService {
         }
 
         if (!resetAllowed && user.username === username) {
-          throw errors.ErrUsernameTaken;
+          throw errors.ErrSameUsernameProvided;
         }
 
         throw new Error('edit username failed for an unexpected reason');
@@ -359,35 +359,6 @@ class UsersService {
     );
   }
 
-  /**
-   * Merges two users together by taking all the profiles on a given user and
-   * pushing them into the source user followed by deleting the destination user's
-   * user account. This will
-   * not merge the roles associated with the source user.
-   * @param  {String} dstUserID id of the user to which is the target of the merge
-   * @param  {String} srcUserID id of the user to which is the source of the merge
-   * @return {Promise}          resolves when the users are merged
-   */
-  static mergeUsers(dstUserID, srcUserID) {
-    let srcUser, dstUser;
-
-    return Promise.all([
-      UserModel.findOne({id: dstUserID}).exec(),
-      UserModel.findOne({id: srcUserID}).exec(),
-    ])
-      .then((users) => {
-        dstUser = users[0];
-        srcUser = users[1];
-
-        srcUser.profiles.forEach((profile) => {
-          dstUser.profiles.push(profile);
-        });
-
-        return srcUser.remove();
-      })
-      .then(() => dstUser.save());
-  }
-
   static castUsername(username) {
     return username.replace(/ /g, '_').replace(/[^a-zA-Z_]/g, '');
   }
@@ -452,7 +423,7 @@ class UsersService {
       redirectURI
     );
 
-    return MailerService.sendSimple({
+    return mailer.send({
       template: 'email-confirm',
       locals: {
         token,
@@ -478,7 +449,7 @@ class UsersService {
       to,
     });
 
-    return MailerService.sendSimple(options);
+    return mailer.send(options);
   }
 
   static async changePassword(id, password) {
@@ -741,10 +712,16 @@ class UsersService {
   }
 
   /**
-   * Verifies a jwt and returns the associated user.
+   * Verifies a jwt and returns the associated user. Throws an error when the
+   * token isn't valid.
+   *
    * @param {String} token the JSON Web Token to verify
    */
   static async verifyPasswordResetToken(token) {
+    if (!token) {
+      throw new Error('cannot verify an empty token');
+    }
+
     const {userId, loc, version} = await UsersService.verifyToken(token, {
       subject: PASSWORD_RESET_JWT_SUBJECT,
     });
@@ -852,6 +829,46 @@ class UsersService {
   }
 
   /**
+   * verifyEmailConfirmationToken checks the validity of a given token without
+   * actually confirming the user's email address.
+   *
+   * @param {String} token the token to verify
+   */
+  static async verifyEmailConfirmationToken(token) {
+    if (!token) {
+      throw new Error('cannot verify an empty token');
+    }
+
+    const decoded = await UsersService.verifyToken(token, {
+      subject: EMAIL_CONFIRM_JWT_SUBJECT
+    });
+
+    const user = await UserModel.findOne({
+      id: decoded.userID,
+      profiles: {
+        $elemMatch: {
+          id: decoded.email,
+          provider: 'local',
+        },
+      },
+    });
+    if (!user) {
+      throw errors.ErrNotFound;
+    }
+
+    const profile = user.profiles.find(({id}) => id === decoded.email);
+    if (!profile) {
+      throw errors.ErrNotFound;
+    }
+
+    if (profile.metadata && profile.metadata.confirmed_at !== null) {
+      throw errors.ErrEmailVerificationToken;
+    }
+
+    return decoded;
+  }
+
+  /**
    * This verifies that a given token was for the email confirmation and updates
    * that user's profile with a 'confirmed_at' parameter with the current date.
    * @param  {String} token the token containing the email confirmation details
@@ -859,9 +876,7 @@ class UsersService {
    * @return {Promise}
    */
   static async verifyEmailConfirmation(token) {
-    let {userID, email, referer} = await UsersService.verifyToken(token, {
-      subject: EMAIL_CONFIRM_JWT_SUBJECT,
-    });
+    let {userID, email, referer} = await UsersService.verifyEmailConfirmationToken(token);
 
     await UsersService.confirmEmail(userID, email);
 

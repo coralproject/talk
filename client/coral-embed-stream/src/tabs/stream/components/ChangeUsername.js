@@ -6,6 +6,7 @@ import styles from './ChangeUsername.css';
 import {Button} from 'coral-ui';
 import validate from 'coral-framework/helpers/validate';
 import RestrictedMessageBox from 'coral-framework/components/RestrictedMessageBox';
+import {forEachError} from 'plugin-api/beta/client/utils';
 
 class ChangeUsername extends Component {
 
@@ -31,7 +32,9 @@ class ChangeUsername extends Component {
       changeUsername(user.id, username)
         .then(() => location.reload())
         .catch((error) => {
-          this.setState({alert: t(`error.${error.translation_key}`)});
+          let errorMsg = '';
+          forEachError(error, ({msg}) => errorMsg = errorMsg ? `${errorMsg}, ${msg}` : msg);
+          this.setState({alert: errorMsg});
         });
     } else {
       this.setState({alert: t('framework.edit_name.error')});

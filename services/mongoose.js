@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
-const debug = require('debug')('talk:db');
-const enabled = require('debug').enabled;
-const queryDebugger = require('debug')('talk:db:query');
-
 const {
   MONGO_URL,
   WEBPACK,
   CREATE_MONGO_INDEXES,
 } = require('../config');
+
+const mongoose = require('mongoose');
+const debug = require('debug')('talk:db');
+const enabled = require('debug').enabled;
+const queryDebugger = require('debug')('talk:db:query');
 
 // Loading the formatter from Mongoose:
 //

@@ -4,10 +4,10 @@
  * Module dependencies.
  */
 
+const util = require('./util');
 const program = require('commander');
 const scraper = require('../services/scraper');
 const mailer = require('../services/mailer');
-const util = require('./util');
 const mongoose = require('../services/mongoose');
 const kue = require('../services/kue');
 

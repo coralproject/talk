@@ -1,7 +1,6 @@
 const DataLoader = require('dataloader');
 
 const util = require('./util');
-const sc = require('snake-case');
 
 const {
   SEARCH_OTHER_USERS,
@@ -121,7 +120,7 @@ const getUsersByQuery = async ({user}, {limit, cursor, value = '', state, action
 
     if (action_type) {
       query.merge({
-        [`action_counts.${sc(action_type.toLowerCase())}`]: {
+        [`action_counts.${action_type.toLowerCase()}`]: {
           $gt: 0
         }
       });
@@ -199,7 +198,7 @@ const getCountByQuery = async ({user}, {action_type, state}) => {
 
     if (action_type) {
       query.merge({
-        [`action_counts.${sc(action_type.toLowerCase())}`]: {
+        [`action_counts.${action_type.toLowerCase()}`]: {
           $gt: 0
         }
       });

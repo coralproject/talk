@@ -1,6 +1,6 @@
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
-const MailerService = require('../../../services/mailer');
+const mailer = require('../../../services/mailer');
 
 const chai = require('chai');
 chai.use(require('chai-as-promised'));
@@ -29,11 +29,11 @@ describe('services.UsersService', () => {
       password: '3Coral!3'
     }]);
 
-    sinon.spy(MailerService, 'sendSimple');
+    sinon.spy(mailer, 'send');
   });
 
   afterEach(() => {
-    MailerService.sendSimple.restore();
+    mailer.send.restore();
   });
 
   describe('#findById()', () => {
@@ -238,7 +238,7 @@ describe('services.UsersService', () => {
             await UsersService[func](user.id, user.username);
             throw new Error('edit was processed successfully');
           } catch (err) {
-            expect(err).have.property('translation_key', 'USERNAME_IN_USE');
+            expect(err).have.property('translation_key', 'SAME_USERNAME_PROVIDED');
           }
         } else {
           await UsersService[func](user.id, user.username);

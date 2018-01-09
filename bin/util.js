@@ -1,3 +1,7 @@
+
+// Setup the environment.
+require('../services/env');
+
 const debug = require('debug')('talk:util');
 
 const util = module.exports = {};
@@ -54,3 +58,10 @@ util.onshutdown = (jobs) => {
 process.on('SIGTERM',   () => util.shutdown(0, 'SIGTERM'));
 process.on('SIGINT',    () => util.shutdown(0, 'SIGINT'));
 process.once('SIGUSR2', () => util.shutdown(0, 'SIGUSR2'));
+
+// Makes the script crash on unhandled rejections instead of silently
+// ignoring them. In the future, promise rejections that are not handled will
+// terminate the Node.js process with a non-zero exit code.
+process.on('unhandledRejection', (err) => {
+  throw err;
+});

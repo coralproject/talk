@@ -56,7 +56,7 @@ export default {
         proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
       }
     }),
-    UnSuspendUser: ({variables: {input: {id}}}) => ({
+    UnsuspendUser: ({variables: {input: {id}}}) => ({
       update: (proxy) => {
         const fragmentId = `User_${id}`;
         const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
@@ -92,7 +92,7 @@ export default {
         proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
       }
     }),
-    UnBanUser: ({variables: {input: {id}}}) => ({
+    UnbanUser: ({variables: {input: {id}}}) => ({
       update: (proxy) => {
         const fragmentId = `User_${id}`;
         const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
