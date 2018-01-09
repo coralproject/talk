@@ -35,7 +35,7 @@ function viewportDimensions() {
 }
 
 export default class Stream {
-  constructor(el, talkBaseUrl, query, opts) {
+  constructor(el, talkBaseUrl, query, {events, ...opts}) {
 
     // Create and save the options.
 
@@ -64,8 +64,8 @@ export default class Stream {
     });
 
     // Attach to the events emitted by the pym parent.
-    if (opts.events) {
-      opts.events(this.emitter);
+    if (events) {
+      events(this.emitter);
     }
 
     this.pym.onMessage('getConfig', () => {
