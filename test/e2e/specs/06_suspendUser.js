@@ -83,7 +83,7 @@ module.exports = {
   },
   'admin suspends user': (client) => {
     const adminPage = client.page.admin();
-    const {moderate, userDetailDrawer} = adminPage.section;
+    const {moderate, userDetailDrawer, suspendUserDialog} = adminPage.section;
 
     adminPage
       .navigate()
@@ -101,14 +101,13 @@ module.exports = {
       .waitForElementVisible('@actionItemSuspendUser')
       .click('@actionItemSuspendUser');
 
-    adminPage
-      .waitForElementVisible('@suspendUserDialog')
-      .waitForElementVisible('@suspendUserDialogStep0')
-      .waitForElementVisible('@suspendUserConfirmButton')
-      .click('@suspendUserConfirmButton')
-      .waitForElementVisible('@suspendUserDialogStep1')
-      .waitForElementVisible('@supendUserSendButton')
-      .click('@supendUserSendButton');
+    suspendUserDialog
+      .waitForElementVisible('@step0')
+      .waitForElementVisible('@confirmButton')
+      .click('@confirmButton')
+      .waitForElementVisible('@step1')
+      .waitForElementVisible('@sendButton')
+      .click('@sendButton');
 
     adminPage
       .waitForElementVisible('@toast')

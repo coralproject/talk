@@ -54,15 +54,19 @@ module.exports = {
     moderateNav: '.talk-admin-nav-moderate',
     settingsButton: '.talk-admin-header-settings-button',
     signOutButton: '.talk-admin-header-sign-out',
-    suspendUserDialog: '.talk-admin-suspend-user-dialog',
-    suspendUserDialogStep0: '.talk-admin-suspend-user-dialog-step-0',
-    suspendUserDialogStep1: '.talk-admin-suspend-user-dialog-step-1',
-    suspendUserConfirmButton: '.talk-admin-suspend-user-dialog-confirm',
-    supendUserSendButton: '.talk-admin-suspend-user-dialog-send',
     toast: '.toastify',
     toastClose: '.toastify__close',
   },
   sections: {
+    suspendUserDialog: {
+      selector: '.talk-admin-suspend-user-dialog',
+      elements: {
+        step0: '.talk-admin-suspend-user-dialog-step-0',
+        step1: '.talk-admin-suspend-user-dialog-step-1',
+        confirmButton: '.talk-admin-suspend-user-dialog-confirm',
+        sendButton: '.talk-admin-suspend-user-dialog-send',
+      }
+    },
     usernameDialog: {
       selector: '.talk-admin-reject-username-dialog',
       elements: {
