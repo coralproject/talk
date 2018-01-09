@@ -2,28 +2,24 @@ import URLSearchParams from 'url-search-params';
 import Stream from './Stream';
 import StreamInterface from './StreamInterface';
 
-function parseAssetURL(config) {
+// Rebuild the origin if it isn't defined. This is our poor-mans polyfill
+// for the location API's.
+if (!window.location.origin) {
+  window.location.origin = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
+}
 
-  if (config.asset_url) {
+// parses the Asset URL from the config variable
+function parseAssetURL() {
+  try {
 
-    // Extract the asset url from the configuration.
-    return config.asset_url;
-  } else {
+    // Try to get the url from the canonical tag on the page.
+    return document.querySelector('link[rel="canonical"]').href;
+  } catch (e) {
+    console.warn(
+      'This page does not include a canonical link tag. Talk has inferred this asset_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages.'
+    );
 
-    // The asset url was not provided so we need to infer the asset url from // details on the page.
-    try {
-      return document.querySelector('link[rel="canonical"]').href;
-    } catch (e) {
-      console.warn(
-        'This page does not include a canonical link tag. Talk has inferred this asset_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages.'
-      );
-
-      if (!window.location.origin) {
-        window.location.origin = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
-      }
-
-      return window.location.origin + window.location.pathname;
-    }
+    return window.location.origin + window.location.pathname;
   }
 }
 
@@ -76,9 +72,12 @@ export class Talk {
     const query = {};
 
     // Parse the url parameters to extract some of the information.
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('commentId')) {
-      query.comment_id = urlParams.get('commentId');
+    const search = new URLSearchParams(window.location.search);
+
+    // Pull the commentID out from the query params.
+    const commentID = search.get('commentId') || search.get('commentID');
+    if (commentID) {
+      query.comment_id = commentID;
     }
 
     // Extract the asset id from the options.
@@ -87,7 +86,10 @@ export class Talk {
     }
 
     // Parse the Asset URL.
-    query.asset_url = parseAssetURL(config);
+    query.asset_url = config.asset_url;
+    if (!query.asset_url) {
+      query.asset_url = parseAssetURL();
+    }
 
     // Create the new Stream.
     const stream = new Stream(element, config.talk, query, config);
