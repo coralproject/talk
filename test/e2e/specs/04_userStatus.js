@@ -67,7 +67,7 @@ module.exports = {
     const usernameDialog = client.page.admin().section.usernameDialog;
 
     usernameDialog
-      .waitForElementVisible('buttons')
+      .waitForElementVisible('@buttons')
       .waitForElementVisible('@step0')   
       .waitForElementVisible('@suspend')   
       .click('@suspend')
