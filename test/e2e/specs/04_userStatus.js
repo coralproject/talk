@@ -63,18 +63,17 @@ module.exports = {
       .click('@flaggedUserRejectButton');
   },
   'admin suspends the user': (client) => {
-    const adminPage = client.page.admin();
     const community = client.page.admin().section.community;
+    const usernameDialog = client.page.admin().section.usernameDialog;
 
-    adminPage
-      .waitForElementVisible('@usernameDialog')
-      .waitForElementVisible('@usernameDialogButtons')
-      .waitForElementVisible('@usernameDialogStep0')   
-      .waitForElementVisible('@usernameDialogSuspend')   
-      .click('@usernameDialogSuspend')
-      .waitForElementVisible('@usernameDialogStep1')      
-      .waitForElementVisible('@usernameDialogSuspend')
-      .click('@usernameDialogSuspend');
+    usernameDialog
+      .waitForElementVisible('buttons')
+      .waitForElementVisible('@step0')   
+      .waitForElementVisible('@suspend')   
+      .click('@suspend')
+      .waitForElementVisible('@step1')      
+      .waitForElementVisible('@suspend')
+      .click('@suspend');
     
     community
       .waitForElementNotPresent('@flaggedUser');
