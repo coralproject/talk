@@ -35,12 +35,13 @@ function viewportDimensions() {
 }
 
 export default class Stream {
-  constructor(el, talkBaseUrl, query, {events, ...opts}) {
+  constructor(el, talkBaseUrl, query, config) {
+    this.query = query;
 
-    // Create and save the options.
+    // Extract the non-opts opts from the object.
+    const {events = null, snackBarStyles = null, onAuthChanged = null, ...opts} = config;
 
     this.opts = opts;
-    this.query = query;
 
     this.emitter = new EventEmitter({wildcard: true});
     this.pym = new pym.Parent(el.id, buildStreamIframeUrl(talkBaseUrl, query), {
@@ -48,7 +49,7 @@ export default class Stream {
       id: `${el.id}_iframe`,
       name: `${el.id}_iframe`
     });
-    this.snackBar = new Snackbar(opts.snackBarStyles || {});
+    this.snackBar = new Snackbar(snackBarStyles || {});
 
     // Workaround: IOS Safari ignores `width` but respects `min-width` value.
     this.pym.el.firstChild.style.width = '1px';
@@ -73,9 +74,9 @@ export default class Stream {
     });
 
     // If the auth changes, and someone is listening for it, then re-emit it.
-    if (opts.onAuthChanged) {
+    if (onAuthChanged) {
       this.pym.onMessage('coral-auth-changed', (message) => {
-        opts.onAuthChanged(message ? JSON.parse(message) : null);
+        onAuthChanged(message ? JSON.parse(message) : null);
       });
     }
 
