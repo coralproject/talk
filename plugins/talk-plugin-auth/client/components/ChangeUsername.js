@@ -6,7 +6,8 @@ import {bindActionCreators} from 'redux';
 import errorMsj from 'coral-framework/helpers/error';
 import validate from 'coral-framework/helpers/validate';
 import CreateUsernameDialog from './CreateUsernameDialog';
-import {withChangeUsername} from 'coral-framework/graphql/mutations';
+import {withSetUsername} from 'coral-framework/graphql/mutations';
+import {forEachError} from 'plugin-api/beta/client/utils';
 
 import t from 'coral-framework/services/i18n';
 
@@ -15,6 +16,7 @@ import {
   hideCreateUsernameDialog,
   invalidForm,
   validForm,
+  updateUsername,
 } from 'coral-embed-stream/src/actions/auth';
 
 class ChangeUsernameContainer extends React.Component {
@@ -88,21 +90,40 @@ class ChangeUsernameContainer extends React.Component {
     this.setState({showErrors: show});
   };
 
+  async setUsernameAndClose(username, props = this.props) {
+    const {validForm, invalidForm, setUsername, hideCreateUsernameDialog, updateUsername} = props;
+    try {
+
+      // Perform mutation
+      await setUsername(this.props.auth.user.id, username);
+
+      // Also change in redux store...
+      updateUsername(username);
+
+      hideCreateUsernameDialog();
+      validForm();
+    }
+    catch(error) {
+      const msgs = [];
+      forEachError(error, ({msg}) => msgs.push(msg));
+      invalidForm(t(msgs.join(', ')));
+    }
+  }
+
   handleSubmitUsername = (e) => {
     e.preventDefault();
     const {errors, formData: {username}} = this.state;
-    const {validForm, invalidForm} = this.props;
+    const {invalidForm} = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
-      this.props.changeUsername(this.props.auth.user.id, username);
-      validForm();
+      this.setUsernameAndClose(username);
     } else {
       invalidForm(t('createdisplay.check_the_form'));
     }
   };
 
   handleClose = () => {
-    this.props.hideCreateUsernameDialog();
+    this.setUsernameAndClose(this.props.auth.user.username);
   };
 
   render() {
@@ -142,12 +163,13 @@ const mapDispatchToProps = (dispatch) =>
       showCreateUsernameDialog,
       hideCreateUsernameDialog,
       invalidForm,
-      validForm
+      validForm,
+      updateUsername,
     },
     dispatch
   );
 
 export default compose(
-  withChangeUsername,
+  withSetUsername,
   connect(mapStateToProps, mapDispatchToProps)
 )(ChangeUsernameContainer);

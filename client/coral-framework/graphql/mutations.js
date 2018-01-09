@@ -234,6 +234,11 @@ export const withRejectUsername = withMutation(
     })
   });
 
+const SetUsernameFragment = gql`
+  fragment Talk_SetUsername on User {
+    username
+  }`;
+
 export const withChangeUsername = withMutation(
   gql`
     mutation ChangeUsername($id: ID!, $username: String!) {
@@ -249,6 +254,42 @@ export const withChangeUsername = withMutation(
             id,
             username,
           },
+          update: (proxy) => {
+            const fragmentId = `User_${id}`;
+            const data = {
+              __typename: 'User',
+              username,
+            };
+            proxy.writeFragment({fragment: SetUsernameFragment, id: fragmentId, data});
+          }
+        });
+      }
+    })
+  });
+
+export const withSetUsername = withMutation(
+  gql`
+    mutation SetUsername($id: ID!, $username: String!) {
+      setUsername(id: $id, username: $username) {
+        ...SetUsernameResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      setUsername: (id, username) => {
+        return mutate({
+          variables: {
+            id,
+            username,
+          },
+          update: (proxy) => {
+            const fragmentId = `User_${id}`;
+            const data = {
+              __typename: 'User',
+              username,
+            };
+            proxy.writeFragment({fragment: SetUsernameFragment, id: fragmentId, data});
+          }
         });
       }
     })

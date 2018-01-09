@@ -5,6 +5,7 @@ export default {
   ...createDefaultResponseFragments(
     'SetUserRoleResponse',
     'ChangeUsernameResponse',
+    'SetUsernameResponse',
     'BanUsersResponse',
     'UnbanUserResponse',
     'SetUserSuspensionStatusResponse',
