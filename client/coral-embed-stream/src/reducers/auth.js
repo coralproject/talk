@@ -198,6 +198,7 @@ export default function auth (state = initialState, action) {
       user: {
         ...state.user,
         username: action.username,
+        lowercaseUsername: action.username.toLowerCase(),
       }
     };
   case actions.VERIFY_EMAIL_FAILURE:
@@ -230,7 +231,7 @@ export default function auth (state = initialState, action) {
   case 'APOLLO_SUBSCRIPTION_RESULT':
 
     // @TODO: These don't work anymore because apollo store has been decoupled
-    
+
     if (action.operationName === 'UserBanned' && state.user.id === action.variables.user_id) {
       return {
         ...state,

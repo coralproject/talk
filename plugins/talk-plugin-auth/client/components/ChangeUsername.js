@@ -16,6 +16,7 @@ import {
   hideCreateUsernameDialog,
   invalidForm,
   validForm,
+  updateUsername,
 } from 'coral-embed-stream/src/actions/auth';
 
 class ChangeUsernameContainer extends React.Component {
@@ -90,9 +91,15 @@ class ChangeUsernameContainer extends React.Component {
   };
 
   async setUsernameAndClose(username, props = this.props) {
-    const {validForm, invalidForm, setUsername, hideCreateUsernameDialog} = props;
+    const {validForm, invalidForm, setUsername, hideCreateUsernameDialog, updateUsername} = props;
     try {
+
+      // Perform mutation
       await setUsername(this.props.auth.user.id, username);
+
+      // Also change in redux store...
+      updateUsername(username);
+
       hideCreateUsernameDialog();
       validForm();
     }
@@ -106,7 +113,7 @@ class ChangeUsernameContainer extends React.Component {
   handleSubmitUsername = (e) => {
     e.preventDefault();
     const {errors, formData: {username}} = this.state;
-    const {validForm, invalidForm} = this.props;
+    const {invalidForm} = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
       this.setUsernameAndClose(username);
@@ -156,7 +163,8 @@ const mapDispatchToProps = (dispatch) =>
       showCreateUsernameDialog,
       hideCreateUsernameDialog,
       invalidForm,
-      validForm
+      validForm,
+      updateUsername,
     },
     dispatch
   );
