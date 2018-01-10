@@ -3,7 +3,7 @@ import {compose, gql} from 'react-apollo';
 import StorySearch from '../components/StorySearch';
 import {withRouter} from 'react-router';
 import withQuery from 'coral-framework/hocs/withQuery';
-import {isEmpty} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 class StorySearchContainer extends React.Component {
   constructor(props) {
