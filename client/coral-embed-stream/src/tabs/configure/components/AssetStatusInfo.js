@@ -46,14 +46,16 @@ class AssetStatusInfo extends React.Component {
   render() {
     const {isClosed, closedAt, onClose, onOpen} = this.props;
     return (
-      <div>
+      <div className="talk-config-close-comments">
         <h3>{!isClosed ? t('configure.close') : t('configure.open')} {t('configure.comment_stream')}</h3>
         {(!isClosed && closedAt) ? <p>{t('configure.comment_stream_will_close')} {timeago(new Date(closedAt))}.</p> : ''}
-        <div className={cn('close-comments-intro-wrapper', styles.wrapper)}>
+        <div className={cn('talk-config-close-comments-wrapper', styles.wrapper)}>
           <p>
             {!isClosed ? t('configure.open_stream_configuration') : t('configure.close_stream_configuration')}
           </p>
-          <Button className={styles.button} onClick={!isClosed ? onClose : onOpen}>
+          <Button
+            className={cn(styles.button, `talk-config-close-comments-${isClosed ? 'open' : 'close'}-button`)}
+            onClick={!isClosed ? onClose : onOpen}>
             {!isClosed ? t('configure.close_stream') : t('configure.open_stream')}
           </Button>
         </div>
