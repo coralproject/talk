@@ -48,7 +48,7 @@ module.exports = {
     iframe: `#${iframeId}`,
     commentsTabButton: '.talk-embed-stream-comments-tab > button',
     profileTabButton: '.talk-embed-stream-profile-tab > button',
-    configTabButton: '.talk-embed-stream-profile-tab > button',
+    configTabButton: '.talk-embed-stream-config-tab > button',
     banDialog: '.talk-ban-user-dialog',
     banDialogConfirmButton: '.talk-ban-user-dialog-button-confirm',
   },
