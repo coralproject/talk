@@ -1,27 +1,27 @@
 const expect = require('chai').expect;
-const Domainlist = require('../../../services/domainlist');
+const DomainList = require('../../../services/domain_list');
 const SettingsService = require('../../../services/settings');
 
-describe('services.Domainlist', () => {
+describe('services.DomainList', () => {
 
-  const domainlists = {
+  const domainLists = {
     whitelist: [
       'nytimes.com',
       'wapo.com'
     ]
   };
 
-  let domainlist = new Domainlist();
+  let domainList = new DomainList();
   const settings = {id: '1', moderation: 'PRE', domainlist: {whitelist: ['nytimes.com', 'wapo.com']}};
 
   beforeEach(() => SettingsService.init(settings));
 
   describe('#init', () => {
 
-    before(() => domainlist.upsert(domainlists));
+    before(() => domainList.upsert(domainLists));
 
     it('has entries', () => {
-      expect(domainlist.lists.whitelist).to.not.be.empty;
+      expect(domainList.lists.whitelist).to.not.be.empty;
     });
 
   });
@@ -92,21 +92,21 @@ describe('services.Domainlist', () => {
         ['google.Ca:80', 'google.ca'],
         ['google.Ca:443', 'google.ca'],
       ].forEach(([domain, hostname]) => {
-        expect(Domainlist.parseURL(domain), `domain ${domain} should be parsed as ${hostname}`).to.equal(hostname);
+        expect(DomainList.parseURL(domain), `domain ${domain} should be parsed as ${hostname}`).to.equal(hostname);
       });
     });
   });
 
   describe('#match', () => {
 
-    const whiteList = Domainlist.parseList(domainlists['whitelist']);
+    const whiteList = DomainList.parseList(domainLists['whitelist']);
 
     it('does match on an included domain', () => {
       [
         'http://wapo.com',
         'nytimes.com'
       ].forEach((domain) => {
-        expect(domainlist.match(whiteList, domain)).to.be.true;
+        expect(domainList.match(whiteList, domain)).to.be.true;
       });
     });
 
@@ -116,7 +116,7 @@ describe('services.Domainlist', () => {
         'www.badsite.com',
         'otherexample.com'
       ].forEach((domain) => {
-        expect(domainlist.match(whiteList, domain)).to.be.false;
+        expect(domainList.match(whiteList, domain)).to.be.false;
       });
     });
   });

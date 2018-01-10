@@ -71,6 +71,18 @@ class Context {
     // Bind the parent context.
     this.parent = parent;
   }
+
+  /**
+   *
+   */
+  static forSystem() {
+    const {models: {User}} = connectors;
+
+    // Create the system user.
+    const user = new User({system: true});
+
+    return new Context({user});
+  }
 }
 
 module.exports = Context;

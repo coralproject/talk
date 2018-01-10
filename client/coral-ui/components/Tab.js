@@ -17,14 +17,14 @@ class Tab extends React.Component {
   getRootClassName({active, className, sub, classNames = {}} = this.props) {
     return cn(
       'talk-tab',
-      className,
       {
         [classNames.root || styles.root]: !sub,
         [classNames.rootSub || styles.rootSub]: sub,
         [classNames.rootActive || styles.rootActive]: active && !sub,
         [classNames.rootSubActive || styles.rootSubActive]: active && sub,
         'talk-tab-active': active,
-      }
+      },
+      className,
     );
   }
 

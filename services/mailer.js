@@ -1,12 +1,11 @@
 const debug = require('debug')('talk:services:mailer');
 const nodemailer = require('nodemailer');
 const kue = require('./kue');
+const i18n = require('./i18n');
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs-extra');
 const _ = require('lodash');
 const {TEMPLATE_LOCALS} = require('../middleware/staticTemplate');
-
-const i18n = require('./i18n');
 
 const {
   SMTP_HOST,
@@ -23,38 +22,29 @@ const templates = {
 };
 
 // load the templates per request during development
-templates.render = (name, format = 'txt', context) => new Promise((resolve, reject) => {
+templates.render = async (name, format = 'txt', context) => {
 
-  // If we are in production mode, check the view cache.
   if (process.env.NODE_ENV === 'production') {
-    if (name in templates.data && format in templates.data[name]) {
-      let view = templates.data[name][format];
 
-      return resolve(view(context));
+    // If we are in production mode, check the view cache.
+    const view = _.get(templates.data, [name, format], null);
+    if (view !== null) {
+      return view(context);
     }
   }
 
   const filename = path.join(__dirname, 'email', [name, format, 'ejs'].join('.'));
+  const file = await fs.readFile(filename, 'utf8');
+  const view = _.template(file);
 
-  fs.readFile(filename, (err, file) => {
-    if (err) {
-      return reject(err);
-    }
-
-    let view = _.template(file);
+  if (process.env.NODE_ENV === 'production') {
 
     // If we are in production mode, fill the view cache.
-    if (process.env.NODE_ENV === 'production') {
-      if (!(name in templates.data)) {
-        templates.data[name] = {};
-      }
+    _.set(templates.data, [name, format], view);
+  }
 
-      templates.data[name][format] = view;
-    }
-
-    return resolve(view(context));
-  });
-});
+  return view(context);
+};
 
 const mailer = {};
 
@@ -64,7 +54,6 @@ const mailer = {};
 mailer.enabled = Boolean(
   SMTP_HOST &&
   SMTP_USERNAME &&
-  SMTP_PORT &&
   SMTP_PASSWORD &&
   SMTP_FROM_ADDRESS
 ) || process.env.NODE_ENV === 'test';
@@ -103,7 +92,9 @@ mailer.task = new kue.Task({
  */
 mailer.send = async (options) => {
   if (!mailer.enabled) {
-    throw new Error('email is not enabled because required configuration is not available');
+    const err = new Error('sending email is not enabled because required configuration is not available');
+    console.warn(err);
+    return;
   }
 
   // Create the new locals object and attach the static locals and the i18n
@@ -118,7 +109,7 @@ mailer.send = async (options) => {
     return templates.render(options.template, fmt, locals);
   }));
 
-  // Create the job.
+  // Create the job to send the email later.
   return mailer.task.create({
     title: 'Mail',
     message: {

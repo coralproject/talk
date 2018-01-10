@@ -31,7 +31,7 @@ describe('graph.mutations.addTag', () => {
   `;
 
   it('moderators can add tags to comments', async () => {
-    const user = new UserModel({roles: ['MODERATOR']});
+    const user = new UserModel({role: 'MODERATOR'});
     const context = new Context({user});
     const res = await graphql(schema, query, {}, context, {id: comment.id, asset_id: asset.id, name: 'BEST'}, 'AddCommentTag');
     if (res.errors && res.errors.length) {
@@ -48,7 +48,7 @@ describe('graph.mutations.addTag', () => {
     Object.entries({
       'anonymous': undefined,
       'regular commenter': new UserModel({}),
-      'banned moderator': new UserModel({roles: ['MODERATOR'], status: 'BANNED'})
+      'banned moderator': new UserModel({role: 'MODERATOR', banned: true})
     }).forEach(([ userDescription, user ]) => {
       it(userDescription, async () => {
         const context = new Context({user});

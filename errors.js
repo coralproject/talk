@@ -59,6 +59,11 @@ const ErrUsernameTaken = new APIError('Username already in use', {
   status: 400
 });
 
+const ErrSameUsernameProvided = new APIError('Username provided for change is the same as current', {
+  translation_key: 'SAME_USERNAME_PROVIDED',
+  status: 400
+});
+
 const ErrSpecialChars = new APIError('No special characters are allowed in a username', {
   translation_key: 'NO_SPECIAL_CHARACTERS',
   status: 400
@@ -173,12 +178,6 @@ const ErrPermissionUpdateUsername = new APIError('You do not have permission to 
   status: 403
 });
 
-// ErrSameUsernameProvided is returned when attempting to update a username to the same username.
-const ErrSameUsernameProvided = new APIError('Same username provided.', {
-  translation_key: 'SAME_USERNAME_PROVIDED',
-  status: 400
-});
-
 // ErrLoginAttemptMaximumExceeded is returned when the login maximum is exceeded.
 const ErrLoginAttemptMaximumExceeded = new APIError('You have made too many incorrect password attempts.', {
   translation_key: 'LOGIN_MAXIMUM_EXCEEDED',
@@ -247,10 +246,10 @@ module.exports = {
   ErrNotVerified,
   ErrPasswordTooShort,
   ErrPermissionUpdateUsername,
-  ErrSameUsernameProvided,
   ErrSettingsInit,
   ErrSettingsNotInit,
   ErrSpecialChars,
   ErrUsernameTaken,
+  ErrSameUsernameProvided,
   ExtendableError,
 };

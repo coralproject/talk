@@ -62,7 +62,7 @@ class SuspendUserDialog extends React.Component {
     const {onCancel, username} = this.props;
     const {duration} = this.state;
     return (
-      <section>
+      <section className="talk-admin-suspend-user-dialog-step-0">
         <h1 className={styles.header}>
           {t('suspenduser.title_suspend')}
         </h1>
@@ -97,10 +97,10 @@ class SuspendUserDialog extends React.Component {
   }
 
   renderStep1() {
-    const {onCancel, username} = this.props;
     const {message} = this.state;
+    const {onCancel, username} = this.props;
     return (
-      <section>
+      <section className="talk-admin-suspend-user-dialog-step-1">
         <h1 className={styles.header}>
           {t('suspenduser.title_notify')}
         </h1>

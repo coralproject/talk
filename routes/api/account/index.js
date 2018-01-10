@@ -109,13 +109,4 @@ router.put('/password/reset', tokenCheck(UsersService.verifyPasswordResetToken, 
   }
 });
 
-router.put('/username', authorization.needed(), async (req, res, next) => {
-  try {
-    await UsersService.editName(req.user.id, req.body.username);
-    res.status(204).end();
-  } catch (e) {
-    return next(e);
-  }
-});
-
 module.exports = router;

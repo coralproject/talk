@@ -20,9 +20,7 @@ describe('/api/v1/settings', () => {
       for (let role of ['ADMIN', 'MODERATOR']) {
         const res = await chai.request(app)
           .get('/api/v1/settings')
-          .set(passport.inject({
-            roles: [role]
-          }));
+          .set(passport.inject({role}));
         expect(res).to.have.status(200);
         expect(res).to.be.json;
         expect(res.body).to.have.property('moderation', 'PRE');
@@ -35,7 +33,7 @@ describe('/api/v1/settings', () => {
     it('should update the settings', () => {
       return chai.request(app)
         .put('/api/v1/settings')
-        .set(passport.inject({roles: ['ADMIN']}))
+        .set(passport.inject({role: 'ADMIN'}))
         .send({moderation: 'POST'})
         .then((res) => {
           expect(res).to.have.status(204);
@@ -50,7 +48,7 @@ describe('/api/v1/settings', () => {
     it('should require ADMIN role', () => {
       const promise = chai.request(app)
         .put('/api/v1/settings')
-        .set(passport.inject({roles: ['MODERATOR']}))
+        .set(passport.inject({role: 'MODERATOR'}))
         .send({moderation: 'POST'});
       return expect(promise).to.eventually.be.rejected;
     });

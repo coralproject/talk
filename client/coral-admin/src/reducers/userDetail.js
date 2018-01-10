@@ -25,7 +25,7 @@ export default function banUserDialog(state = initialState, action) {
       ...state,
       selectedCommentIds: [],
     };
-  case actions.CHANGE_USER_DETAIL_STATUSES:
+  case actions.CHANGE_TAB_USER_DETAIL:
     return {
       ...state,
       activeTab: action.tab,

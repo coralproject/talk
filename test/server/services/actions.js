@@ -75,7 +75,7 @@ describe('services.ActionsService', () => {
       expect(retrievedAction).has.property('item_id', comment.id);
     });
 
-    it('fires the callback sucesfully', async () => {
+    it('fires the callback successfully', async () => {
       const srcAction = {
         action_type: 'LIKE',
         item_type: 'COMMENTS',
@@ -113,7 +113,7 @@ describe('services.ActionsService', () => {
       expect(retrievedAction).is.null;
     });
 
-    it('fires the callback sucesfully', async () => {
+    it('fires the callback successfully', async () => {
       const spy = sinon.spy();
       events.once(ACTIONS_DELETE, spy);
 

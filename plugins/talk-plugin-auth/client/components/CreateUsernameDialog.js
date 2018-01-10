@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './styles.css';
 import {Dialog, Alert, TextField, Button} from 'plugin-api/beta/client/components/ui';
 import {FakeComment} from './FakeComment';
@@ -61,5 +62,15 @@ const CreateUsernameDialog = ({
     </div>
   </Dialog>
 );
+
+CreateUsernameDialog.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.func,
+  formData: PropTypes.object,
+  handleSubmitUsername: PropTypes.func,
+  handleChange: PropTypes.func,
+  auth: PropTypes.object,
+  errors: PropTypes.object,
+};
 
 export default CreateUsernameDialog;

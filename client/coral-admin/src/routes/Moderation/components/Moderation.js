@@ -12,7 +12,6 @@ import Slot from 'coral-framework/components/Slot';
 import ViewOptions from './ViewOptions';
 
 class Moderation extends Component {
-
   state = {
     isLoadingMore: false,
   };
@@ -27,13 +26,14 @@ class Moderation extends Component {
     key('t', () => this.nextQueue());
     key('f', () => this.moderate(false));
     key('d', () => this.moderate(true));
-    this.getMenuItems()
-      .forEach((menuItem, idx) => key(`${idx + 1}`, () => this.selectQueue(menuItem)));
+    this.getMenuItems().forEach((menuItem, idx) =>
+      key(`${idx + 1}`, () => this.selectQueue(menuItem))
+    );
   }
 
   onClose = () => {
     this.props.toggleModal(false);
-  }
+  };
 
   nextQueue = () => {
     const activeTab = this.props.activeTab;
@@ -41,38 +41,45 @@ class Moderation extends Component {
     const menuItems = this.getMenuItems();
 
     const activeTabIndex = menuItems.findIndex((item) => item === activeTab);
-    const nextQueueIndex = (activeTabIndex === menuItems.length - 1) ? 0 : activeTabIndex + 1;
+    const nextQueueIndex =
+      activeTabIndex === menuItems.length - 1 ? 0 : activeTabIndex + 1;
 
     this.selectQueue(menuItems[nextQueueIndex]);
-  }
+  };
 
   selectQueue = (key) => {
     const assetId = this.props.data.variables.asset_id;
     this.props.router.push(this.props.getModPath(key, assetId));
-  }
+  };
 
   getMenuItems = () => Object.keys(this.props.queueConfig);
 
   closeSearch = () => {
     const {toggleStorySearch} = this.props;
     toggleStorySearch(false);
-  }
+  };
 
   openSearch = () => {
     this.props.toggleStorySearch(true);
-  }
+  };
 
   getActiveTabCount = (props = this.props) => {
     return props.root[`${props.activeTab}Count`];
-  }
+  };
 
   moderate = (accept) => {
-    const {acceptComment, rejectComment, moderation: {selectedCommentId}} = this.props;
+    const {
+      acceptComment,
+      rejectComment,
+      moderation: {selectedCommentId},
+    } = this.props;
 
     // Accept or reject only if there's a selected comment
-    if(selectedCommentId != null){
+    if (selectedCommentId != null) {
       const comments = this.getComments();
-      const commentIdx = comments.findIndex((comment) => comment.id === selectedCommentId);
+      const commentIdx = comments.findIndex(
+        (comment) => comment.id === selectedCommentId
+      );
       const comment = comments[commentIdx];
 
       if (accept) {
@@ -81,12 +88,12 @@ class Moderation extends Component {
         comment.status !== 'REJECTED' && rejectComment({commentId: comment.id});
       }
     }
-  }
+  };
 
   getComments = (props = this.props) => {
     const {root, activeTab} = props;
     return root[activeTab].nodes;
-  }
+  };
 
   loadMore = async () => {
     if (!this.state.isLoadingMore) {
@@ -95,14 +102,13 @@ class Moderation extends Component {
         const result = await this.props.loadMore(this.props.activeTab);
         this.setState({isLoadingMore: false});
         return result;
-      }
-      catch (e) {
+      } catch (e) {
         this.setState({isLoadingMore: false});
         throw e;
       }
     }
     return false;
-  }
+  };
 
   componentWillUnmount() {
     key.unbind('s');
@@ -112,12 +118,21 @@ class Moderation extends Component {
     key.unbind('t');
     key.unbind('f');
     key.unbind('d');
-    this.getMenuItems()
-      .forEach((menuItem, idx) => key.unbind(`${idx + 1}`));
+    this.getMenuItems().forEach((menuItem, idx) => key.unbind(`${idx + 1}`));
   }
 
-  render () {
-    const {root, data, moderation, viewUserDetail, activeTab, getModPath, queueConfig, handleCommentChange, ...props} = this.props;
+  render() {
+    const {
+      root,
+      data,
+      moderation,
+      viewUserDetail,
+      activeTab,
+      getModPath,
+      queueConfig,
+      handleCommentChange,
+      ...props
+    } = this.props;
     const {asset} = root;
     const assetId = asset && asset.id;
 
@@ -128,7 +143,7 @@ class Moderation extends Component {
       key: queue,
       name: queueConfig[queue].name,
       icon: queueConfig[queue].icon,
-      count: root[`${queue}Count`]
+      count: root[`${queue}Count`],
     }));
 
     return (
@@ -145,7 +160,9 @@ class Moderation extends Component {
           items={menuItems}
           activeTab={activeTab}
         />
-        <div className={cn(styles.container, 'talk-admin-moderation-container')}>
+        <div
+          className={cn(styles.container, 'talk-admin-moderation-container')}
+        >
           <ViewOptions
             selectSort={this.props.setSortOrder}
             sort={this.props.moderation.sortOrder}
@@ -159,9 +176,7 @@ class Moderation extends Component {
             hasNextPage={comments.hasNextPage}
             activeTab={activeTab}
             singleView={moderation.singleView}
-            selectedCommentId={moderation.selectedCommentId}
-            showBanUserDialog={props.showBanUserDialog}
-            showSuspendUserDialog={props.showSuspendUserDialog}
+            selectedCommentId={this.state.selectedCommentId}
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment}
             loadMore={this.loadMore}
@@ -192,7 +207,7 @@ class Moderation extends Component {
           queryData={{root, asset}}
           activeTab={activeTab}
           handleCommentChange={handleCommentChange}
-          fill='adminModeration'
+          fill="adminModeration"
         />
       </div>
     );
@@ -213,8 +228,6 @@ Moderation.propTypes = {
   commentBelongToQueue: PropTypes.func.isRequired,
   handleCommentChange: PropTypes.func.isRequired,
   setSortOrder: PropTypes.func.isRequired,
-  showBanUserDialog: PropTypes.func.isRequired,
-  showSuspendUserDialog: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
   loadMore: PropTypes.func.isRequired,

@@ -14,7 +14,11 @@ export default withQuery(gql`
     })
     flaggedUsernamesCount: userCount(query: {
       action_type: FLAG,
-      statuses: [PENDING]
+      state: {
+        status: {
+          username: [SET, CHANGED]
+        }
+      }
     })
   }
 `, {

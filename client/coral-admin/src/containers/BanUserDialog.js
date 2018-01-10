@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import BanUserDialog from '../components/BanUserDialog';
 import {hideBanUserDialog} from '../actions/banUserDialog';
-import {withSetUserStatus, withSetCommentStatus} from 'coral-framework/graphql/mutations';
+import {withBanUser, withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {compose} from 'react-apollo';
 import t from 'coral-framework/services/i18n';
 import {getErrorMessages} from 'coral-framework/utils';
@@ -12,9 +13,9 @@ import {notify} from 'coral-framework/actions/notification';
 class BanUserDialogContainer extends Component {
 
   banUser = async () => {
-    const {userId, commentId, commentStatus, setUserStatus, setCommentStatus, hideBanUserDialog, notify} = this.props;
+    const {userId, commentId, commentStatus, banUser, setCommentStatus, hideBanUserDialog, notify} = this.props;
     try {
-      await setUserStatus({userId, status: 'BANNED'});
+      await banUser({id: userId, message: ''});
       hideBanUserDialog();
       if (commentId && commentStatus && commentStatus !== 'REJECTED') {
         await setCommentStatus({commentId, status: 'REJECTED'});
@@ -46,6 +47,14 @@ class BanUserDialogContainer extends Component {
   }
 }
 
+BanUserDialogContainer.propTypes = {
+  banUser: PropTypes.func.isRequired,
+  hideBanUserDialog: PropTypes.func,
+  open: PropTypes.bool,
+  username: PropTypes.string,
+  commentStatus: PropTypes.string,
+};
+
 const mapStateToProps = ({banUserDialog: {open, userId, username, commentId, commentStatus}}) => ({
   open,
   userId,
@@ -62,7 +71,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withSetUserStatus,
+  withBanUser,
   withSetCommentStatus,
   connect(
     mapStateToProps,
