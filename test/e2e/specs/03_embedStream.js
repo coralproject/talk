@@ -135,7 +135,7 @@ module.exports = {
     embedStream
       .goToCommentsSection()
       .waitForElementVisible('@firstComment')
-      .waitForElementNotVisible('@replyButton');
+      .waitForElementNotPresent('@replyButton');
 
       embedStream
       .goToConfigSection()
