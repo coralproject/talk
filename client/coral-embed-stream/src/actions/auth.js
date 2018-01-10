@@ -48,7 +48,7 @@ export const hideCreateUsernameDialog = () => ({
   type: actions.HIDE_CREATEUSERNAME_DIALOG
 });
 
-export const updateUsername = ({username}) => ({
+export const updateUsername = (username) => ({
   type: actions.UPDATE_USERNAME,
   username
 });

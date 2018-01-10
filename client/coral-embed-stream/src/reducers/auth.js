@@ -199,6 +199,7 @@ export default function auth (state = initialState, action) {
       user: {
         ...state.user,
         username: action.username,
+        lowercaseUsername: action.username.toLowerCase(),
       }
     };
   case actions.VERIFY_EMAIL_FAILURE:
