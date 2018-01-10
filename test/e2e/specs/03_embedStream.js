@@ -111,4 +111,42 @@ module.exports = {
     profile
       .assert.visible('@notLoggedIn');
   },
+  'admin logs in': (client) => {
+    const {testData: {admin}} = client.globals;
+    const embedStream = client.page.embedStream();
+
+    embedStream
+      .navigate()
+      .ready()
+      .openLoginPopup((popup) => popup.login(admin));
+  },
+  'admin closes stream, users won\'t be able to perform some actions: reply ': (client) => {
+
+    const embedStream = client.page.embedStream();
+
+    embedStream
+      .goToCommentsSection()
+      .waitForElementVisible('@firstComment')
+      .waitForElementVisible('@replyButton');
+
+    embedStream
+      .goToConfigSection()
+      .closeStream();
+
+    embedStream
+      .goToCommentsSection()
+      .waitForElementVisible('@firstComment')
+      .waitForElementNotPresent('@replyButton');
+
+      embedStream
+      .goToConfigSection()
+      .openStream();
+  },
+  'admin logs out': (client) => {
+    const embedStream = client.page.embedStream();
+    const comments = embedStream.goToCommentsSection();
+
+    comments
+      .logout();
+  },
 };
