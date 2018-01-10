@@ -38,7 +38,7 @@ export default class Embed extends React.Component {
     ];
     if (can(user, 'UPDATE_CONFIG')) {
       tabs.push(
-        <Tab key='config' tabId='config'>
+        <Tab key='config' tabId='config' className='talk-embed-stream-config-tab'>
           {t('framework.configure_stream')}
         </Tab>
       );
@@ -90,7 +90,7 @@ export default class Embed extends React.Component {
             <TabPane key='profile' tabId='profile' className='talk-embed-stream-profile-tab-pane'>
               <ProfileContainer />
             </TabPane>,
-            <TabPane key='config' tabId='config' className='talk-embed-stream-configuration-tab-pane'>
+            <TabPane key='config' tabId='config' className='talk-embed-stream-config-tab-pane'>
               <Configure data={data} root={root} asset={root.asset} />
             </TabPane>,
           ]}

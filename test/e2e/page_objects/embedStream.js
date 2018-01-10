@@ -8,6 +8,12 @@ module.exports = {
       this.expect.section('@comments').to.be.visible;
       return this.section.comments;
     },
+    goToConfigSection: function() {
+      this.waitForElementVisible('@configTabButton');
+      this.click('@configTabButton');
+      this.expect.section('@config').to.be.visible;
+      return this.section.config;
+    },
     goToProfileSection: function() {
       this.waitForElementVisible('@profileTabButton');
       this.click('@profileTabButton');
@@ -42,6 +48,7 @@ module.exports = {
     iframe: `#${iframeId}`,
     commentsTabButton: '.talk-embed-stream-comments-tab > button',
     profileTabButton: '.talk-embed-stream-profile-tab > button',
+    configTabButton: '.talk-embed-stream-profile-tab > button',
     banDialog: '.talk-ban-user-dialog',
     banDialogConfirmButton: '.talk-ban-user-dialog-button-confirm',
   },
@@ -95,6 +102,7 @@ module.exports = {
         firstComment: '.talk-stream-comment.talk-stream-comment-level-0',
         firstCommentContent: '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-content',
         flagButton: '.talk-stream-comment.talk-stream-comment-level-0 .talk-plugin-flags-button',
+        replyButton: '.talk-stream-comment.talk-stream-comment-level-0 .talk-plugin-replies-reply-button',
         respectButton: '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-footer .talk-plugin-respect-button',
         restrictedMessageBox: '.talk-restricted-message-box',
         suspendedAccountInput: '.talk-suspended-account-username-input',
@@ -131,6 +139,27 @@ module.exports = {
         myCommentHistoryReactionCount: '.talk-my-profile-comment-history .comment-summary .comment-summary-reactions .comment-summary-reaction-count',
         myCommentHistoryComment: '.talk-my-profile-comment-history .my-comment-body',
       },
+    },
+    config: {
+      selector: '.talk-embed-stream-config-tab-pane',
+      elements: {
+        openStream: '.talk-config-close-comments-open-button',
+        closeStream: '.talk-config-close-comments-close-button',
+      },
+      commands: [{
+        openStream: function() {
+          this.waitForElementVisible('@openStream');
+          this.click('@openStream');
+          this.waitForElementVisible('@closeStream');
+          return this.section.config;
+        },
+        closeStream: function() {
+          this.waitForElementVisible('@closeStream');
+          this.click('@closeStream');
+          this.waitForElementVisible('@openStream');
+          return this.section.config;
+        },
+      }]
     },
   },
 };

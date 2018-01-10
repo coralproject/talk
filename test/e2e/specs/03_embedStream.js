@@ -96,6 +96,20 @@ module.exports = {
         profile.assert.equal(result.value, '1');
       });
   },
+  'stream is closed, user won\'t be able to perform some actions: reply ': (client) => {
+
+    const embedStream = client.page.embedStream();
+
+    embedStream
+      .waitForElementVisible('@firstComment')
+      .waitForElementVisible('@replyButton')
+      .goToProfileSection()
+      .closeStream()
+      .goToCommentsSection()
+      .waitForElementVisible('@firstComment')
+      .waitForElementNotVisible('@replyButton')
+      .openStream();
+  },
   'user logs out': (client) => {
     const embedStream = client.page.embedStream();
     const comments = embedStream.goToCommentsSection();
