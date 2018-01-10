@@ -27,8 +27,8 @@ describe('graph.mutations.updateSettings', () => {
 
     [
       {error: 'NOT_AUTHORIZED', role: 'COMMENTER'},
+      {error: 'NOT_AUTHORIZED', role: 'MODERATOR'},
       {role: 'ADMIN'},
-      {role: 'MODERATOR'},
     ].forEach(({role, error}) => {
       it(`role = ${role}`, async () => {
         const user = new UserModel({role});
