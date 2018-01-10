@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
 import {username} from 'talk-plugin-flags/helpers/flagReasons';
-import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
-import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import ApproveButton from 'coral-admin/src/components/ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
 
@@ -19,18 +17,10 @@ const shortReasons = {
 
 class User extends React.Component {
 
-  showSuspenUserDialog = () => this.props.showSuspendUserDialog({
-    userId: this.props.user.id,
-    username: this.props.user.username,
-  });
-
-  showBanUserDialog = () => this.props.showBanUserDialog({
-    userId: this.props.user.id,
-    username: this.props.user.username,
-  });
-
   viewAuthorDetail = () => this.props.viewUserDetail(this.props.user.id);
+
   showRejectUsernameDialog = () => this.props.showRejectUsernameDialog({id: this.props.user.id});
+
   approveUser = () => this.props.approveUser({
     userId: this.props.user.id,
   });
@@ -40,7 +30,6 @@ class User extends React.Component {
       user,
       viewUserDetail,
       selected,
-      me,
       className,
     } = this.props;
 
@@ -55,20 +44,6 @@ class User extends React.Component {
                 className={styles.button}>
                 {user.username}
               </button>
-              {me.id !== user.id &&
-                <ActionsMenu icon="not_interested">
-                  <ActionsMenuItem
-                    disabled={user.status === 'BANNED'}
-                    onClick={this.showSuspenUserDialog}>
-                    Suspend User
-                  </ActionsMenuItem>
-                  <ActionsMenuItem
-                    disabled={user.status === 'BANNED'}
-                    onClick={this.showBanUserDialog}>
-                    Ban User
-                  </ActionsMenuItem>
-                </ActionsMenu>
-              }
             </div>
           </div>
           <div className={cn('talk-admin-community-flagged-user-body', styles.body)}>
@@ -136,8 +111,6 @@ class User extends React.Component {
 }
 
 User.propTypes = {
-  showSuspendUserDialog: PropTypes.func,
-  showBanUserDialog: PropTypes.func,
   viewUserDetail: PropTypes.func,
   showRejectUsernameDialog: PropTypes.func,
   approveUser: PropTypes.func,

@@ -105,8 +105,8 @@ module.exports = {
         replyButton: '.talk-stream-comment.talk-stream-comment-level-0 .talk-plugin-replies-reply-button',
         respectButton: '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-footer .talk-plugin-respect-button',
         restrictedMessageBox: '.talk-restricted-message-box',
-        suspendedAccountInput: '.talk-suspended-account-username-input',
-        suspendedAccountSubmitButton: '.talk-suspended-account-submit-button',
+        changeUsernameInput: '.talk-change-username-username-input',
+        changeUsernameSubmitButton: '.talk-change-username-submit-button',
       },
       sections: {
         flag: {

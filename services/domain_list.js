@@ -1,4 +1,4 @@
-const debug = require('debug')('talk:services:domainlist');
+const debug = require('debug')('talk:services:domain_list');
 const _ = require('lodash');
 const SettingsService = require('./settings');
 
@@ -8,7 +8,7 @@ const {ROOT_URL} = require('../config');
  * The root domainlist object.
  * @type {Object}
  */
-class Domainlist {
+class DomainList {
 
   constructor() {
     this.lists = {
@@ -35,7 +35,7 @@ class Domainlist {
       return;
     }
 
-    this.lists.whitelist = Domainlist.parseList(lists.whitelist);
+    this.lists.whitelist = DomainList.parseList(lists.whitelist);
     debug(`Added ${lists.whitelist.length} domains to the whitelist.`);
   }
 
@@ -47,7 +47,7 @@ class Domainlist {
   match(list, url) {
 
     // Parse the url that we're matching with.
-    const domainToMatch = Domainlist.parseURL(url);
+    const domainToMatch = DomainList.parseURL(url);
 
     // This will return true in the event that at least one blockword is found
     // in the phrase.
@@ -61,7 +61,7 @@ class Domainlist {
    * @returns {Boolean} true if the domains match
    */
   static matchMount(url) {
-    return Domainlist.parseURL(url) === Domainlist.parseURL(ROOT_URL);
+    return DomainList.parseURL(url) === DomainList.parseURL(ROOT_URL);
   }
 
   /**
@@ -70,7 +70,7 @@ class Domainlist {
    * @return {Array}      the parsed list
    */
   static parseList(list) {
-    return _.uniq(list.map((domain) => Domainlist.parseURL(domain)));
+    return _.uniq(list.map((domain) => DomainList.parseURL(domain)));
   }
 
   /**
@@ -95,7 +95,7 @@ class Domainlist {
   }
 
   static async urlCheck(url) {
-    const dl = new Domainlist();
+    const dl = new DomainList();
 
     // Load the domain list.
     await dl.load();
@@ -106,4 +106,4 @@ class Domainlist {
 
 }
 
-module.exports = Domainlist;
+module.exports = DomainList;

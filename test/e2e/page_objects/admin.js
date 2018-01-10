@@ -54,24 +54,34 @@ module.exports = {
     moderateNav: '.talk-admin-nav-moderate',
     settingsButton: '.talk-admin-header-settings-button',
     signOutButton: '.talk-admin-header-sign-out',
-    suspendUserDialog: '.talk-admin-suspend-user-dialog',
-    suspendUserConfirmButton: '.talk-admin-suspend-user-dialog-confirm',
-    supendUserSendButton: '.talk-admin-suspend-user-dialog-send',
-    usernameDialog: '.talk-reject-username-dialog',
-    usernameDialogButtons: '.talk-reject-username-dialog-buttons',
-    usernameDialogSuspend: '.talk-reject-username-dialog-button-k',
-    usernameDialogSuspensionMessage: '.talk-reject-username-dialog-suspension-message',
     toast: '.toastify',
     toastClose: '.toastify__close',
   },
   sections: {
+    suspendUserDialog: {
+      selector: '.talk-admin-suspend-user-dialog',
+      elements: {
+        step0: '.talk-admin-suspend-user-dialog-step-0',
+        step1: '.talk-admin-suspend-user-dialog-step-1',
+        confirmButton: '.talk-admin-suspend-user-dialog-confirm',
+        sendButton: '.talk-admin-suspend-user-dialog-send',
+      }
+    },
+    usernameDialog: {
+      selector: '.talk-admin-reject-username-dialog',
+      elements: {
+        step0: '.talk-admin-reject-username-dialog-step-0',
+        step1: '.talk-admin-reject-username-dialog-step-1',
+        buttons: '.talk-admin-reject-username-dialog-buttons',
+        suspend: '.talk-admin-reject-username-dialog-button-k',
+        suspensionMessage: '.talk-admin-reject-username-dialog-suspension-message',
+      } 
+    },
     moderate: {
       selector: '.talk-admin-moderation-container',
       elements: {
         comment: '.talk-admin-moderate-comment',
-        commentActionMenu: '.talk-admin-moderate-comment-actions-menu',
-        actionItemSuspendUser: '.action-menu-item#suspendUser',
-        actionMenuButton: '.talk-admin-moderate-comment-actions-menu #actions-dropdown-0'
+        commentUsername: '.talk-admin-moderate-comment-username',
       }
     },
     stories: {
@@ -109,11 +119,29 @@ module.exports = {
             firstRow: '.talk-admin-community-people-row:first-child',
             dropdownStatus: '.talk-admin-community-people-dd-status',
             dropdownRole: '.talk-admin-community-people-dd-role',
-            dropdownStatusActive: '.talk-admin-community-people-dd-status .dd-list-active',
-            optionActive: '.dd-option#ACTIVE',
-            optionBanned: '.dd-option#BANNED',
+            dropdownStatusActive: '.talk-admin-community-people-dd-status .is-upgraded',
+            optionSuspendUser: '.action-menu-item#suspendUser',
+            optionBanUser: '.action-menu-item#banUser',
+            optionRemoveBan: '.action-menu-item#removeBan',
+            optionRemoveSuspension: '.action-menu-item#removeSuspension',
           }
         }
+      }
+    },
+    userDetailDrawer: {
+      selector: '.talk-admin-user-detail-drawer',
+      elements: {
+        'closeButton': '.talk-admin-user-detail-drawer-close-button',
+        'tabBar': '.talk-admin-user-detail-tab-bar',
+        'allTab': '.talk-admin-user-detail-all-tab',
+        'rejectedTab': '.talk-admin-user-detail-rejected-tab',
+        'historyTab': '.talk-admin-user-detail-history-tab',
+        'historyPane': '.talk-admin-user-detail-history-tab-pane',
+        'accountHistory': '.talk-admin-account-history',
+        'accountHistoryRowStatus':'.talk-admin-account-history-row-status',
+        'actionsMenu': '.talk-admin-user-detail-actions-button',
+        'actionItemSuspendUser': '.action-menu-item#suspendUser',
+        'actionMenuButton': '.talk-admin-user-detail-actions-menu #actions-dropdown-0',
       }
     },
     drawer: {

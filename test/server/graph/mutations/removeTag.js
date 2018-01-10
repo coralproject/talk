@@ -34,7 +34,7 @@ describe('graph.mutations.removeTag', () => {
   `;
 
   it('moderators can add remove tags from comments', async () => {
-    const user = new UserModel({roles: ['MODERATOR']});
+    const user = new UserModel({role: 'MODERATOR'});
     const context = new Context({user});
 
     // add a tag first
@@ -66,7 +66,7 @@ describe('graph.mutations.removeTag', () => {
     Object.entries({
       'anonymous': undefined,
       'regular commenter': new UserModel({}),
-      'banned moderator': new UserModel({roles: ['MODERATOR'], status: 'BANNED'})
+      'banned moderator': new UserModel({role: 'MODERATOR', banned: true})
     }).forEach(([userDescription, user]) => {
       it(userDescription, async function () {
         const context = new Context({user});

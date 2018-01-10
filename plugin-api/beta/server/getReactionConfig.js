@@ -1,8 +1,8 @@
 const {SEARCH_OTHER_USERS} = require('../../../perms/constants');
 const errors = require('../../../errors');
 const pluralize = require('pluralize');
-const CommentModel = require('../../../models/comment');
 const sc = require('snake-case');
+const CommentModel = require('../../../models/comment');
 const {CREATE_MONGO_INDEXES} = require('../../../config');
 
 function getReactionConfig(reaction) {
@@ -126,6 +126,14 @@ function getReactionConfig(reaction) {
 
   return {
     typeDefs,
+    schemas: ({CommentSchema}) => {
+      CommentSchema.index({
+        'created_at': 1,
+        [`action_counts.${sc(reaction)}`]: 1,
+      }, {
+        background: true,
+      });
+    },
     context: {
       Sort: () => ({
         Comments: {

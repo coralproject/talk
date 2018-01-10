@@ -1,4 +1,6 @@
 const ActionModel = require('../models/action');
+const CommentModel = require('../models/comment');
+const UserModel = require('../models/user');
 const _ = require('lodash');
 const errors = require('../errors');
 const events = require('./events');
@@ -143,7 +145,7 @@ module.exports = class ActionsService {
     let $group = {
 
       // group unique documents by these properties, we are leveraging the
-      // fact that each uuid is completly unique.
+      // fact that each uuid is completely unique.
       _id: {
         item_id: '$item_id',
         action_type: '$action_type',
@@ -155,7 +157,7 @@ module.exports = class ActionsService {
         $sum: 1
       },
 
-      // we are leveraging the fact that each uuid is completly unique and
+      // we are leveraging the fact that each uuid is completely unique and
       // just grabbing the last instance of the item type here.
       item_type: {
         $first: '$item_type'
@@ -248,3 +250,56 @@ module.exports = class ActionsService {
     }, 'item_id');
   }
 };
+
+const incrActionCounts = async (action, value) => {
+  const ACTION_TYPE = action.action_type.toLowerCase();
+
+  const update = {
+    [`action_counts.${ACTION_TYPE}`]: value,
+  };
+
+  if (action.group_id && action.group_id.length > 0) {
+    const GROUP_ID = action.group_id.toLowerCase();
+
+    update[`action_counts.${ACTION_TYPE}_${GROUP_ID}`] = value;
+  }
+
+  try {
+    switch (action.item_type) {
+    case 'USERS':
+      return UserModel.update({
+        id: action.item_id,
+      }, {
+        $inc: update,
+      });
+    case 'COMMENTS':
+      return CommentModel.update({
+        id: action.item_id,
+      }, {
+        $inc: update,
+      });
+    default:
+      throw new Error('Invalid item type for action summary monitoring');
+    }
+  } catch (err) {
+    console.error(`Can't mutate the action_counts.${ACTION_TYPE}:`, err);
+  }
+};
+
+// When a new action is created, modify the comment.
+events.on(ACTIONS_NEW, async (action) => {
+  if (!action || (action.item_type !== 'COMMENTS' && action.item_type !== 'USERS')) {
+    return;
+  }
+
+  return incrActionCounts(action, 1);
+});
+
+// When an action is deleted, remove the action count on the comment.
+events.on(ACTIONS_DELETE, async (action) => {
+  if (!action || (action.item_type !== 'COMMENTS' && action.item_type !== 'USERS')) {
+    return;
+  }
+
+  return incrActionCounts(action, -1);
+});

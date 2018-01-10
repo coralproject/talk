@@ -56,18 +56,12 @@ describe('graph.queries.settings', () => {
     ];
 
     [
-      {bl: true},
-      {bl: true, roles: []},
-      {bl: false, roles: ['ADMIN']},
-      {bl: false, roles: ['ADMIN', 'MODERATOR']},
-      {bl: false, roles: ['MODERATOR']},
-    ].forEach(({bl, roles}) => {
-      it(roles && roles.length > 0 ? roles.join(', ') : '<None>', async () => {
-        let user;
-        if (roles != null) {
-          user = new UserModel({roles});
-        }
-
+      {bl: true, role: 'COMMENTER'},
+      {bl: false, role: 'ADMIN'},
+      {bl: false, role: 'MODERATOR'},
+    ].forEach(({bl, role}) => {
+      it(`role = ${role}`, async () => {
+        let user = new UserModel({role});
         const ctx = new Context({user});
 
         const res = await graphql(schema, QUERY, {}, ctx);

@@ -37,7 +37,6 @@ export default withFragments({
       user {
         id
         username
-        status
       }
       asset {
         id

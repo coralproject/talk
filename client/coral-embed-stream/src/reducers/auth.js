@@ -1,5 +1,6 @@
 import * as actions from '../constants/auth';
 import pym from 'coral-framework/services/pym';
+import merge from 'lodash/merge';
 
 const initialState = {
   isLoading: false,
@@ -198,6 +199,7 @@ export default function auth (state = initialState, action) {
       user: {
         ...state.user,
         username: action.username,
+        lowercaseUsername: action.username.toLowerCase(),
       }
     };
   case actions.VERIFY_EMAIL_FAILURE:
@@ -227,35 +229,15 @@ export default function auth (state = initialState, action) {
       ...state,
       redirectUri: action.uri,
     };
-  case 'APOLLO_SUBSCRIPTION_RESULT':
-    if (action.operationName === 'UserBanned' && state.getIn(['user', 'id']) === action.variables.user_id) {
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          ...action.result.data.userBanned,
-        },
-      };
-    }
-    if (action.operationName === 'UserSuspended' && state.getIn(['user', 'id']) === action.variables.user_id) {
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          ...action.result.data.userSuspended,
-        },
-      };
-    }
-    if (action.operationName === 'UsernameRejected' && state.getIn(['user', 'id']) === action.variables.user_id) {
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          ...action.result.data.usernameRejected,
-        },
-      };
-    }
-    return state;
+  case actions.UPDATE_STATUS: {
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        status: merge({}, state.user.status, action.status),
+      },
+    };
+  }
   default :
     return state;
   }

@@ -83,7 +83,7 @@ module.exports = {
   },
   'admin suspends user': (client) => {
     const adminPage = client.page.admin();
-    const moderate = adminPage.section.moderate;
+    const {moderate, userDetailDrawer, suspendUserDialog} = adminPage.section;
 
     adminPage
       .navigate()
@@ -92,24 +92,49 @@ module.exports = {
 
     moderate
       .waitForElementVisible('@comment')
-      .waitForElementVisible('@commentActionMenu')
-      .waitForElementVisible('@actionMenuButton')
+      .waitForElementVisible('@commentUsername')
+      .click('@commentUsername');
+
+    userDetailDrawer
+      .waitForElementVisible('@actionsMenu')
       .click('@actionMenuButton')
       .waitForElementVisible('@actionItemSuspendUser')
       .click('@actionItemSuspendUser');
 
-    adminPage
-      .waitForElementVisible('@suspendUserDialog')
-      .waitForElementVisible('@suspendUserConfirmButton')
-      .click('@suspendUserConfirmButton')
-      .waitForElementVisible('@supendUserSendButton')
-      .click('@supendUserSendButton');
+    suspendUserDialog
+      .waitForElementVisible('@step0')
+      .waitForElementVisible('@confirmButton')
+      .click('@confirmButton')
+      .waitForElementVisible('@step1')
+      .waitForElementVisible('@sendButton')
+      .click('@sendButton');
 
     adminPage
       .waitForElementVisible('@toast')
       .waitForElementVisible('@toastClose')
       .click('@toastClose');
 
+  },
+  'admin checks user status and ban and suspension history': (client) => {
+    const adminPage = client.page.admin();
+    const {moderate, userDetailDrawer} = adminPage.section;
+
+    moderate
+      .waitForElementVisible('@comment')
+      .waitForElementVisible('@commentUsername')
+      .click('@commentUsername');
+
+    userDetailDrawer
+      .waitForElementVisible('@tabBar')
+      .waitForElementVisible('@allTab')
+      .click('@allTab')
+      .waitForElementVisible('@rejectedTab')
+      .click('@rejectedTab')
+      .waitForElementVisible('@historyTab')
+      .click('@historyTab')
+      .waitForElementVisible('@historyPane')
+      .waitForElementVisible('@accountHistory')
+      .click('@closeButton');
   },
   'admin logs out': (client) => {
     const adminPage = client.page.admin();

@@ -4,10 +4,10 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
+const util = require('./util');
+const program = require('commander');
 const mongoose = require('../services/mongoose');
 const TokensService = require('../services/tokens');
-const util = require('./util');
 const Table = require('cli-table');
 
 // Register the shutdown criteria.

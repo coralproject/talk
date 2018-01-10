@@ -4,14 +4,15 @@ const Schema = mongoose.Schema;
 const uuid = require('uuid');
 const TagLinkSchema = require('./schema/tag_link');
 const TokenSchema = require('./schema/token');
-const intersection = require('lodash/intersection');
 const can = require('../perms');
+const {get} = require('lodash');
 
 // USER_ROLES is the array of roles that is permissible as a user role.
 const USER_ROLES = require('./enum/user_roles');
 
-// USER_STATUS is the list of statuses that are permitted for the user status.
-const USER_STATUS = require('./enum/user_status');
+// USER_STATUS_USERNAME is the list of statuses that are supported by storing
+// the username state.
+const USER_STATUS_USERNAME = require('./enum/user_status_username');
 
 // ProfileSchema is the mongoose schema defined as the representation of a
 // User's profile stored in MongoDB.
@@ -73,10 +74,6 @@ const UserSchema = new Schema({
     unique: true
   },
 
-  // This is true when the user account is disabled, no action should be
-  // acknowledged when they are disabled. Logins are also prevented.
-  disabled: Boolean,
-
   // This provides a source of identity proof for users who login using the
   // local provider. A local provider will be assumed for users who do not
   // have any social profiles.
@@ -90,48 +87,105 @@ const UserSchema = new Schema({
   // Tokens are the individual personal access tokens for a given user.
   tokens: [TokenSchema],
 
-  // Roles provides an array of roles (as strings) that is associated with a
-  // user.
-  roles: [{
+  // Role is the specific user role that the user holds.
+  role: {
     type: String,
-    enum: USER_ROLES
-  }],
+    enum: USER_ROLES,
+    required: true,
+    default: 'COMMENTER',
+  },
 
-  // Status provides a string that says in which state the account is.
-  // When the account is banned, the user login is disabled.
+  // Status stores the user status information regarding permissions,
+  // capabilities and moderation state.
   status: {
-    type: String,
-    enum: USER_STATUS,
-    default: 'ACTIVE'
-  },
 
-  // Determines whether the user can edit their username.
-  canEditName: {
-    type: Boolean,
-    default: false
-  },
+    // Username stores the current user status for the username as well as the
+    // history of changes.
+    username: {
 
-  // User's suspension details.
-  suspension: {
-    until: {
-      type: Date,
-      default: null,
+      // Status stores the current username status.
+      status: {
+        type: String,
+        enum: USER_STATUS_USERNAME,
+      },
+
+      // History stores the history of username status changes.
+      history: [{
+
+        // Status stores the historical username status.
+        status: {
+          type: String,
+          enum: USER_STATUS_USERNAME,
+        },
+
+        // assigned_by stores the user id of the user who assigned this status.
+        assigned_by: {type: String, default: null},
+
+        // created_at stores the date when this status was assigned.
+        created_at: {type: Date, default: Date.now}
+      }],
     },
-  },
 
-  // User's settings
-  settings: {
-    bio: {
-      type: String,
-      default: ''
+    // Banned stores the current user banned status as well as the history of
+    // changes.
+    banned: {
+
+      // Status stores the current user banned status.
+      status: {
+        type: Boolean,
+        required: true,
+        default: false,
+      },
+      history: [{
+
+        // Status stores the historical banned status.
+        status: Boolean,
+
+        // assigned_by stores the user id of the user who assigned this status.
+        assigned_by: {type: String, default: null},
+
+        // message stores the email content sent to the user.
+        message: {type: String, default: null},
+
+        // created_at stores the date when this status was assigned.
+        created_at: {type: Date, default: Date.now}
+      }],
+    },
+
+    // Suspension stores the current user suspension status as well as the
+    // history of changes.
+    suspension: {
+
+      // until is the date that the user is suspended until.
+      until: {
+        type: Date,
+        default: null,
+      },
+      history: [{
+
+        // until is the date that the user is suspended until.
+        until: Date,
+
+        // assigned_by stores the user id of the user who assigned this status.
+        assigned_by: {type: String, default: null},
+
+        // message stores the email content sent to the user.
+        message: {type: String, default: null},
+
+        // created_at stores the date when this status was assigned.
+        created_at: {type: Date, default: Date.now}
+      }]
     }
   },
 
-  ignoresUsers: [{
+  // IgnoresUsers is an array of user id's that the current user is ignoring.
+  ignoresUsers: [String],
 
-    // user id of another user
-    type: String,
-  }],
+  // Counts to store related to actions taken on the given user.
+  action_counts: {
+    default: {},
+    type: Object,
+  },
 
   // Tags are added by the self or by administrators.
   tags: [TagLinkSchema],
@@ -158,7 +212,7 @@ const UserSchema = new Schema({
   }
 });
 
-// Add the indixies on the user profile data.
+// Add the index on the user profile data.
 UserSchema.index({
   'profiles.id': 1,
   'profiles.provider': 1
@@ -167,11 +221,35 @@ UserSchema.index({
   background: false
 });
 
+UserSchema.index({
+  'lowercaseUsername': 1,
+  'profiles.id': 1,
+  'created_at': -1,
+}, {
+  background: true,
+});
+
+// This query is executed often, to count the number of flagged accounts with
+// usernames.
+UserSchema.index({
+  'action_counts.flag': 1,
+  'status.username.status': 1,
+}, {
+  background: true
+});
+
+// Sorting users by created at is the default people search.
+UserSchema.index({
+  'created_at': -1,
+}, {
+  background: true,
+});
+
 /**
  * returns true if a commenter is staff
  */
 UserSchema.method('isStaff', function () {
-  return intersection(['ADMIN', 'MODERATOR', 'STAFF'], this.roles).length !== 0;
+  return this.role !== 'COMMENTER';
 });
 
 /**
@@ -200,6 +278,62 @@ UserSchema.method('verifyPassword', function(password) {
 UserSchema.method('can', function(...actions) {
   return can(this, ...actions);
 });
+
+/**
+ * hasVerifiedEmail will return true if at least one of the local email accounts
+ * have their email verified.
+ */
+UserSchema.virtual('hasVerifiedEmail').get(function() {
+  return this.profiles
+    .filter(({provider}) => provider === 'local')
+    .some((profile) => {
+      const confirmedAt = get(profile, 'metadata.confirmed_at') || null;
+
+      // If the profile doesn't have a metadata field, or it does not have a
+      // confirmed_at field, or that field is null, then send them back.
+      return confirmedAt !== null;
+    });
+});
+
+UserSchema.virtual('system')
+  .get(function() {
+    return this._system;
+  })
+  .set(function(system) {
+    this._system = system;
+  });
+
+/**
+ * banned returns true when the user is currently banned, and sets the banned
+ * status locally.
+ */
+UserSchema.virtual('banned')
+  .get(function() {
+    return this.status.banned.status;
+  })
+  .set(function(status) {
+    this.status.banned.status = status;
+    this.status.banned.history.push({
+      status,
+      created_at: new Date()
+    });
+  });
+
+/**
+ * suspended returns true when the user is currently suspended, and sets the
+ * suspension status locally.
+ */
+UserSchema.virtual('suspended')
+  .get(function() {
+    return Boolean(this.status.suspension.until && this.status.suspension.until > new Date());
+  })
+  .set(function(until) {
+    this.status.suspension.until = until;
+    this.status.suspension.history.push({
+      until,
+      created_at: new Date()
+    });
+  });
 
 // Create the User model.
 const UserModel = mongoose.model('User', UserSchema);

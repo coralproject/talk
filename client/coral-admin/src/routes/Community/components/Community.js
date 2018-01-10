@@ -12,7 +12,11 @@ class Community extends Component {
     const activeTab = route.path === ':id' ? 'flagged' : route.path;
 
     if (activeTab === 'people') {
-      return <People community={community} />;
+      return <People 
+        community={community}
+        data={this.props.data}
+        root={this.props.root}
+      />;
     }
 
     return (
