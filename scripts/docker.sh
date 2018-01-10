@@ -25,28 +25,38 @@ deploy_tag() {
   for version in $tag_list
   do
       echo "==> tagging $version"
-      docker tag coralproject/talk:latest coralproject/talk:$version
-      docker tag coralproject/talk:latest-onbuild coralproject/talk:$version-onbuild
+      echo docker tag coralproject/talk:latest coralproject/talk:$version
+      echo docker tag coralproject/talk:latest-onbuild coralproject/talk:$version-onbuild
   done
 
-  # Push each of the tags to docker hub, including latest
+  # Push each of the tags to dockerhub, including latest
   for version in $tag_list latest
   do
       echo "==> pushing $version"
-      docker push coralproject/talk:$version
-      docker push coralproject/talk:$version-onbuild
+      echo docker push coralproject/talk:$version
+      echo docker push coralproject/talk:$version-onbuild
   done
 }
 
 deploy_latest() {
   echo "==> pushing latest"
-  docker push coralproject/talk:latest
-  docker push coralproject/talk:latest-onbuild
+  echo docker push coralproject/talk:latest
+  echo docker push coralproject/talk:latest-onbuild
+}
+
+deploy_branch() {
+  echo "==> tagging branch $CIRCLE_BRANCH"
+  echo docker tag coralproject/talk:latest coralproject/talk:$CIRCLE_BRANCH
+  echo docker tag coralproject/talk:latest-onbuild coralproject/talk:$CIRCLE_BRANCH-onbuild
+
+  echo "==> pushing branch $CIRCLE_BRANCH"
+  echo docker push coralproject/talk:$CIRCLE_BRANCH
+  echo docker push coralproject/talk:$CIRCLE_BRANCH-onbuild
 }
 
 # build the repo, including the onbuild tagged versions.
-docker build -t coralproject/talk:latest -f Dockerfile .
-docker build -t coralproject/talk:latest-onbuild -f Dockerfile.onbuild .
+echo docker build -t coralproject/talk:latest -f Dockerfile .
+echo docker build -t coralproject/talk:latest-onbuild -f Dockerfile.onbuild .
 
 if [ "$1" = "deploy" ]
 then
@@ -55,14 +65,20 @@ then
   then
 
     # Log the Docker Daemon in
-    docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+    echo docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
   fi
 
-  # deploy based on the env
-  if [ -n "$CIRCLE_TAG" ]
+  if [ "$CIRCLE_BRANCH" = "master" ]
   then
-    deploy_tag
+
+    # deploy based on the env
+    if [ -n "$CIRCLE_TAG" ]
+    then
+      deploy_tag
+    else
+      deploy_latest
+    fi
   else
-    deploy_latest
+    deploy_branch
   fi
 fi
