@@ -101,8 +101,18 @@ export default class Embed extends React.Component {
 }
 
 Embed.propTypes = {
+  setActiveTab: PropTypes.func,
+  auth: PropTypes.object,
+  blurSignInDialog: PropTypes.func,
+  focusSignInDialog: PropTypes.func,
+  hideSignInDialog: PropTypes.func,
+  router: PropTypes.object,
+  commentId: PropTypes.string,
+  root: PropTypes.object,
+  activeTab: PropTypes.string,
   data: PropTypes.shape({
     loading: PropTypes.bool,
-    error: PropTypes.object
+    error: PropTypes.object,
+    refetch: PropTypes.func,
   }).isRequired
 };

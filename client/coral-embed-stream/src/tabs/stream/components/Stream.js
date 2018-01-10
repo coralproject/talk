@@ -316,6 +316,7 @@ class Stream extends React.Component {
 }
 
 Stream.propTypes = {
+  asset: PropTypes.object,
   activeStreamTab: PropTypes.string,
   data: PropTypes.object,
   root: PropTypes.object,
