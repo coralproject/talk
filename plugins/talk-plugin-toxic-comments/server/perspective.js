@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const {API_ENDPOINT, API_KEY, THRESHOLD, API_TIMEOUT} = require('./config');
+const {API_ENDPOINT, API_KEY, THRESHOLD, API_TIMEOUT, DO_NOT_STORE} = require('./config');
 
 /**
  * Get scores from the perspective api
@@ -20,6 +20,7 @@ async function getScores(text) {
 
       // TODO: support other languages.
       languages: ['en'],
+      doNotStore: DO_NOT_STORE,
       requestedAttributes: {
         TOXICITY: {},
         SEVERE_TOXICITY: {},

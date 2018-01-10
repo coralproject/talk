@@ -5,7 +5,7 @@ class: configuration
 ---
 
 Talk requires configuration in order to customize the installation. The default
-behavior is to load it's configuration from the environment, following the
+behavior is to load its configuration from the environment, following the
 [12 Factor App Manifesto](https://12factor.net/){:target="_blank"}.
 In development, you can specify configuration in a file named `.env` and it will
 be loaded into the environment when you run `yarn dev-start`.
@@ -84,7 +84,7 @@ set to `TRUE` after you've deployed Talk. (Default `FALSE`)
 
 ## TALK_JWT_ALG
 
-The algorithm used to sign/verify JWT’s used for session management. Read up
+The algorithm used to sign/verify JWTs used for session management. Read up
 about alternative algorithms on the
 [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken#algorithms-supported){:target="_blank"}
 package. (Default `HS256`)
