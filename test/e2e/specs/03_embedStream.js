@@ -128,7 +128,7 @@ module.exports = {
       .goToCommentsSection()
       .waitForElementVisible('@firstComment')
       .waitForElementVisible('@replyButton');
-    
+
     embedStream
       .goToConfigSection()
       .closeStream();
@@ -142,7 +142,7 @@ module.exports = {
       .goToConfigSection()
       .openStream();
   },
-  'adming logs out': (client) => {
+  'admin logs out': (client) => {
     const embedStream = client.page.embedStream();
     const comments = embedStream.goToCommentsSection();
 
