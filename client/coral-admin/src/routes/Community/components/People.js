@@ -65,9 +65,9 @@ class People extends React.Component {
       viewUserDetail,
       loadMore,
     } = this.props;
-    
+
     const hasResults = !!users.nodes.length;
-    
+
     return (
       <div className={cn(styles.container, 'talk-admin-community-people-container')}>
         <div className={styles.leftColumn}>
@@ -120,7 +120,7 @@ class People extends React.Component {
                                 [styles.actionsMenuBanned]: isBanned(user),
                               }, 'talk-admin-user-detail-actions-button')}
                               label={this.getActionMenuLabel(user)} >
-                              
+
                               {isSuspended(user) ? <ActionsMenuItem
                                 onClick={() => this.unsuspendUser({id: user.id})}>
                                 Remove Suspension
@@ -142,7 +142,7 @@ class People extends React.Component {
                                 })}>
                                 Ban User
                               </ActionsMenuItem>}
-  
+
                             </ActionsMenu>
                           </td>
                           <td className="mdl-data-table__cell--non-numeric">
@@ -163,6 +163,7 @@ class People extends React.Component {
                   </table>
                 </div>
                 <LoadMore
+                  className={styles.loadMore}
                   loadMore={loadMore}
                   showLoadMore={users.hasNextPage}
                 />

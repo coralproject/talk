@@ -126,3 +126,7 @@ th.header:nth-child(2), th.header:nth-child(3) {
   border-color: #E45241;
   color: white;
 }
+
+.loadMore {
+  margin-top: 24px;
+}
