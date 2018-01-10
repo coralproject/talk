@@ -62,7 +62,10 @@ deployment:
       - bash ./scripts/docker.sh deploy
 
   latest:
-    branch: master
+    branches:
+      only:
+        - master
+        - next
     owner: coralproject
     commands:
       - bash ./scripts/docker.sh deploy
