@@ -10,7 +10,7 @@ en:
     cancel: "Cancel"
     note: "Note: {0}"
     note_reject_comment: "Banning this user will also place this comment in the Rejected queue."
-    note_ban_user: "Banning this user will not let them edit comment or remove anything."
+    note_ban_user: "Banning this user will not let them comment, react to, or report comments."
     yes_ban_user: "Yes, Ban User"
     write_a_message: "Write a message"
     send: "Send"
