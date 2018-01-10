@@ -85,6 +85,7 @@ class Stream extends React.Component {
             {t('framework.show_all_comments')}
           </button>
         </div>
+
         <Comment
           data={data}
           root={root}
@@ -158,6 +159,7 @@ class Stream extends React.Component {
             {...slotProps}
           />
         </div>
+
         <ExtendableTabPanel
           key={`${sortBy}_${sortOrder}`}
           activeTab={activeStreamTab}
@@ -185,7 +187,7 @@ class Stream extends React.Component {
                 setActiveReplyBox={setActiveReplyBox}
                 activeReplyBox={activeReplyBox}
                 notify={notify}
-                disableReply={!open}
+                disableReply={asset.isClosed}
                 postComment={postComment}
                 currentUser={user}
                 postFlag={postFlag}

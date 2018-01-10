@@ -547,6 +547,7 @@ export default class Comment extends React.Component {
                       queryData={queryData}
                       inline
                     />
+
                     {!disableReply &&
                       <ActionButton>
                         <ReplyButton
