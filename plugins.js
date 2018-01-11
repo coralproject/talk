@@ -5,7 +5,6 @@ const debug = require('debug')('talk:plugins');
 const Joi = require('joi');
 const amp = require('app-module-path');
 const pkg = require('./package.json');
-const config = require('./config');
 
 const PLUGINS_JSON = process.env.TALK_PLUGINS_JSON;
 
@@ -71,7 +70,6 @@ const hookSchemas = {
 class PluginContext {
   constructor() {
     this.pkg = pkg;
-    this.config = config;
   }
 }
 
