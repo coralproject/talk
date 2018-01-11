@@ -11,6 +11,7 @@ const uuid = require('uuid');
 const debug = require('debug')('talk:services:passport');
 const bowser = require('bowser');
 const ms = require('ms');
+const _ = require('lodash');
 
 // Create a redis client to use for authentication.
 const {createClientFactory} = require('./redis');
@@ -144,7 +145,7 @@ async function ValidateUserLogin(loginProfile, user, done) {
 
     // If the profile doesn't have a metadata field, or it does not have a
     // confirmed_at field, or that field is null, then send them back.
-    if (!profile.metadata || !profile.metadata.confirmed_at || profile.metadata.confirmed_at === null) {
+    if (_.get(profile, 'metadata.confirmed_at', null) === null) {
       return done(errors.ErrNotVerified);
     }
   }
@@ -318,7 +319,7 @@ const CheckIfNeedsRecaptcha = (user, email) => {
     throw new Error('ID indicated by loginProfile is not on user object');
   }
 
-  if (profile.metadata && profile.metadata.recaptcha_required) {
+  if (_.get(profile, 'metadata.recaptcha_required', false)) {
     return true;
   }
 
@@ -501,7 +502,7 @@ passport.use(new LocalStrategy({
   }
 
   // Define the loginProfile being used to perform an additional
-  // verificaiton.
+  // verification.
   let loginProfile = {id: email, provider: 'local'};
 
   // Perform final steps to login the user.

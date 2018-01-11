@@ -339,7 +339,7 @@ class UsersService {
   }
 
   /**
-   * Sets or unsets the recaptcha_required flag on a user's local profile.
+   * Sets or removes the recaptcha_required flag on a user's local profile.
    */
   static flagForRecaptchaRequirement(email, required) {
     return UserModel.update(
@@ -436,20 +436,17 @@ class UsersService {
   }
 
   static async sendEmail(user, options) {
-    const localProfile = user.profiles.find(
-      (profile) => profile.provider === 'local'
-    );
-    if (!localProfile) {
-      throw new Error('user does not have an email');
+    const email = user.firstEmail;
+    if (!email) {
+
+      // Rather than throwing an error here, we'll
+      console.warn(new Error('user does not have an email'));
+      return;
     }
 
-    const {id: to} = localProfile;
-
-    options = merge(options, {
-      to,
-    });
-
-    return mailer.send(options);
+    return mailer.send(merge({}, options, {
+      to: email,
+    }));
   }
 
   static async changePassword(id, password) {

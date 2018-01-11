@@ -105,8 +105,7 @@ function printUserAsTable(user) {
   table.push(
     {'ID': user.id.gray},
     {'Username': user.username},
-    {'Emails': user.profiles.filter(({provider}) => provider === 'local').map(({id})=> id)
-      .join(', ')},
+    {'Emails': user.emails},
     {'Tags': user.tags ? user.tags.map(({tag: {name}}) => name) : ''},
     {'Role': user.role},
     {'Verified': user.hasVerifiedEmail},
@@ -161,11 +160,7 @@ async function searchUsers() {
         }
 
         return data.users.nodes.map((user) => {
-          const emails = user.profiles
-            .filter(({provider}) => provider === 'local')
-            .map(({id})=> id)
-            .join(', ');
-
+          const emails = user.emails.join(', ');
           return {
             name: `${user.username} (${emails}) ${user.id.gray} - ${user.role.gray}`,
             value: user.id,
@@ -230,8 +225,8 @@ async function verifyUserEmail(userID, email) {
     }
 
     // Get all the user's email addresses.
-    const emails = user.profiles.filter(({provider}) => provider === 'local').map(({id}) => id);
-    if (!emails || emails.length === 0) {
+    const emails = user.emails;
+    if (emails.length === 0) {
       throw new Error('user did not have any email addresses');
     }
 
