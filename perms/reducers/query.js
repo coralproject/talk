@@ -12,6 +12,7 @@ module.exports = (user, perm) => {
   case types.SEARCH_COMMENT_STATUS_HISTORY:
   case types.VIEW_USER_STATUS:
   case types.VIEW_PROTECTED_SETTINGS:
+  case types.VIEW_USER_ROLE:
     return check(user, ['ADMIN', 'MODERATOR']);
   case types.LIST_OWN_TOKENS:
     return check(user, ['ADMIN']);
