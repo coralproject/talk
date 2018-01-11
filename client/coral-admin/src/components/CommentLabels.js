@@ -22,7 +22,7 @@ function getUserFlaggedType(actions) {
 }
 
 function hasSuspectedWords(actions) {
-  return actions.some((action) => action.__typename === 'FlagAction' && action.reason === 'Matched suspect word filter');
+  return actions.some((action) => action.__typename === 'FlagAction' && action.reason === 'SUSPECT_WORD');
 }
 
 function hasHistoryFlag(actions) {
