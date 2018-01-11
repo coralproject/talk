@@ -35,6 +35,9 @@ export default withFragments({
       editing {
         edited
       }
+      status_history {
+        type
+      }
       ...${getDefinitionName(CommentLabels.fragments.comment)}
       ...${getDefinitionName(CommentDetails.fragments.comment)}
     }
