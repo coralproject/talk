@@ -176,7 +176,7 @@ class Moderation extends Component {
             hasNextPage={comments.hasNextPage}
             activeTab={activeTab}
             singleView={moderation.singleView}
-            selectedCommentId={this.state.selectedCommentId}
+            selectedCommentId={moderation.selectedCommentId}
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment}
             loadMore={this.loadMore}
