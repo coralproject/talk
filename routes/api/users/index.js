@@ -79,13 +79,13 @@ router.post('/:user_id/email/confirm', authorization.needed('ADMIN', 'MODERATOR'
     }
 
     // Find the first local profile.
-    let localProfile = user.profiles.find((profile) => profile.provider === 'local');
-    if (!localProfile) {
+    const email = user.firstEmail;
+    if (!email) {
       return next(errors.ErrMissingEmail);
     }
 
     // Send the email to the first local profile that was found.
-    await UsersService.sendEmailConfirmation(user, localProfile.id);
+    await UsersService.sendEmailConfirmation(user, email);
 
     res.status(204).end();
   } catch (e) {

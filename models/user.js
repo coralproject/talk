@@ -280,6 +280,27 @@ UserSchema.method('can', function(...actions) {
 });
 
 /**
+ * firstEmail will return the first email on the user.
+ */
+UserSchema.virtual('firstEmail').get(function() {
+  const emails = this.emails;
+  if (emails.length === 0) {
+    return null;
+  }
+
+  return emails[0];
+});
+
+/**
+ * emails will return all the emails on a user.
+ */
+UserSchema.virtual('emails').get(function() {
+  return (this.profiles || [])
+    .filter(({provider}) => provider === 'local')
+    .map(({id}) => id);
+});
+
+/**
  * hasVerifiedEmail will return true if at least one of the local email accounts
  * have their email verified.
  */
