@@ -205,9 +205,13 @@ const UserSchema = new Schema({
 
   toJSON: {
     transform: function (doc, ret) {
-      delete ret.password;
-      delete ret._id;
       delete ret.__v;
+      delete ret._id;
+      delete ret.password;
+      delete ret.status.username.history;
+      delete ret.status.banned.history;
+      delete ret.status.suspension.history;
+      delete ret.tokens;
     }
   }
 });
