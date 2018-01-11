@@ -4,6 +4,8 @@ const resolve = require('resolve');
 const debug = require('debug')('talk:plugins');
 const Joi = require('joi');
 const amp = require('app-module-path');
+const pkg = require('./package.json');
+const config = require('./config');
 
 const PLUGINS_JSON = process.env.TALK_PLUGINS_JSON;
 
@@ -62,6 +64,16 @@ const hookSchemas = {
     onDisconnect: Joi.func(),
   }),
 };
+
+/**
+ * PluginContext provides server context for the global application.
+ */
+class PluginContext {
+  constructor() {
+    this.pkg = pkg;
+    this.config = config;
+  }
+}
 
 /**
  * isInternal checks to see if a given plugin is internal, and returns true
@@ -168,7 +180,8 @@ Object.keys(plugins).forEach((type) => itteratePlugins(plugins[type]).forEach((p
  * Stores a reference to a section for a section of Plugins.
  */
 class PluginSection {
-  constructor(plugins) {
+  constructor(context, plugins) {
+    this.context = context;
     this.required = false;
     this.plugins = itteratePlugins(plugins);
   }
@@ -195,43 +208,48 @@ class PluginSection {
   }
 
   /**
-   * This itterates over the section to provide all plugin hooks that are
+   * This iterates over the section to provide all plugin hooks that are
    * available.
    */
-  hook(hook) {
+  hook(hookName) {
 
     // Load the plugin source if we haven't already.
     this.require();
 
     return this.plugins
-      .filter(({module}) => hook in module)
-      .filter((plugin) => {
+      .filter(({module}) => hookName in module)
+      .map((plugin) => {
+
+        // Optionally bind the plugin context to a function if it's one.
+        const hook = typeof plugin.module[hookName] === 'function' ?
+          plugin.module[hookName].bind(this.context) :
+          plugin.module[hookName];
 
         // Validate the hook.
-        if (hook in hookSchemas) {
-          Joi.assert(plugin.module[hook], hookSchemas[hook], `Plugin '${plugin.name}' failed validation for the '${hook}' hook`);
+        if (hookName in hookSchemas) {
+          Joi.assert(hook, hookSchemas[hookName], `Plugin '${plugin.name}' failed validation for the '${hookName}' hook`);
         }
 
-        return true;
-      })
-      .map((plugin) => ({
-        plugin,
-        [hook]: plugin.module[hook]
-      }));
+        return {
+          plugin,
+          [hookName]: hook,
+        };
+      });
   }
 }
 
-const NullPluginSection = new PluginSection([]);
+const NullPluginSection = new PluginSection({}, []);
 
 /**
  * Stores references to all the plugins available on the application.
  */
 class PluginManager {
   constructor(plugins) {
+    this.context = new PluginContext();
     this.sections = {};
 
     for (let section in plugins) {
-      this.sections[section] = new PluginSection(plugins[section]);
+      this.sections[section] = new PluginSection(this.context, plugins[section]);
     }
   }
 
