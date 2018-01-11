@@ -138,14 +138,14 @@ class Plugin {
 
   require() {
     if (typeof this.path === 'undefined') {
-      throw new Error(`plugin '${this.name}' is not local and is not resolvable, plugin reconsiliation may be required`);
+      throw new Error(`plugin '${this.name}' is not local and is not resolvable, plugin reconciliation may be required`);
     }
 
     try {
       this.module = require(this.path);
     } catch (e) {
       if (e && e.code && e.code === 'MODULE_NOT_FOUND' && isInternal(this.name)) {
-        console.error(new Error(`plugin '${this.name}' could not be loaded due to missing dependencies, plugin reconsiliation may be required`));
+        console.error(new Error(`plugin '${this.name}' could not be loaded due to missing dependencies, plugin reconciliation may be required`));
         throw e;
       }
 
@@ -156,19 +156,19 @@ class Plugin {
 }
 
 /**
- * Itterates over the plugins and gets the plugin path's, version, and name.
+ * Iterates over the plugins and gets the plugin path's, version, and name.
  *
  * @param {Array<Object|String>} plugins
  * @returns {Array<Object>}
  */
-const itteratePlugins = (plugins) => plugins.map((p) => new Plugin(p));
+const iteratePlugins = (plugins) => plugins.map((p) => new Plugin(p));
 
 // Add each plugin folder to the allowed import path so that they can import our
-// internal dependancies.
-Object.keys(plugins).forEach((type) => itteratePlugins(plugins[type]).forEach((plugin) => {
+// internal dependencies.
+Object.keys(plugins).forEach((type) => iteratePlugins(plugins[type]).forEach((plugin) => {
 
   // The plugin may be remote, and therefore not installed. We check here if the
-  // plugin path is available before trying to monkeypatch it's require path.
+  // plugin path is available before trying to monkey patch it's require path.
   if (plugin.path) {
     amp.enableForDir(path.dirname(plugin.path));
   }
@@ -181,7 +181,7 @@ class PluginSection {
   constructor(context, plugins) {
     this.context = context;
     this.required = false;
-    this.plugins = itteratePlugins(plugins);
+    this.plugins = iteratePlugins(plugins);
   }
 
   require() {
@@ -278,5 +278,5 @@ module.exports = {
   PluginManager,
   isInternal,
   pluginPath,
-  itteratePlugins
+  iteratePlugins
 };
