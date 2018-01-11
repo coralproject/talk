@@ -31,6 +31,13 @@ if (!DISABLE_STATIC_SERVER) {
   router.use('/public', express.static(public));
 
   /**
+   * Redirect old embed calls.
+   */
+  router.get('/embed.js', (req, res) => {
+    res.redirect(301, '/static/embed.js');
+  });
+
+  /**
    * Serve the directories under dist.
    */
   const dist = path.resolve(path.join(__dirname, '../dist'));
