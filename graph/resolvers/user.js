@@ -4,7 +4,7 @@ const {
   SEARCH_ACTIONS,
   SEARCH_OTHER_USERS,
   SEARCH_OTHERS_COMMENTS,
-  UPDATE_USER_ROLES,
+  VIEW_USER_ROLE,
   LIST_OWN_TOKENS,
   VIEW_USER_STATUS,
 } = require('../../perms/constants');
@@ -68,7 +68,7 @@ const User = {
   role({id, role}, _, {user}) {
 
     // If the user is not an admin, only return the current user's roles.
-    if (user && (user.can(UPDATE_USER_ROLES) || user.id === id)) {
+    if (user && (user.can(VIEW_USER_ROLE) || user.id === id)) {
       return role;
     }
 
