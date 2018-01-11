@@ -12,18 +12,18 @@
   margin: 0;
   font-weight: 500;
   display: inline-block;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 12px;
   margin-right: 7px;
 }
 
 .info {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .details {
   padding: 0 20px 16px;
-  font-size: 12px;
+  font-size: 13px;
 
   &:empty {
     display: none;
@@ -32,6 +32,6 @@
 
 .icon {
   vertical-align: middle;
-  font-size: 12px;
+  font-size: 13px;
   margin-right: 7px;
 }
