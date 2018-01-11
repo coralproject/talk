@@ -272,9 +272,7 @@ class UserDetail extends React.Component {
               />
             </TabPane>
             <TabPane tabId={'history'} className={'talk-admin-user-detail-history-tab-pane'}>
-              <AccountHistory
-                userState={user.state}
-              />
+              <AccountHistory user={user} />
             </TabPane>
           </TabContent>
         </Drawer>
