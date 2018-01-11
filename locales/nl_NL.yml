@@ -141,7 +141,7 @@ nl_NL:
     save_changes: "Wijzigingen opslaan"
     shortcuts: Sneltoetsen
     sign_out: "Uitloggen"
-    stories: Verhalen
+    stories: Conversaties
     stream_settings: "Conversatie instellingen"
     suspect_word_title: "Lijst met verdachte woorden"
     suspect_word_text: "Reacties die deze woorden of zinsdelen bevatten (niet hoofdlettergevoelig) zullen worden gemarkeerd in de conversatie. Type een woord en druk op enter of tab om toe te voegen. Je kunt optioneel een komma-gescheiden lijst plakken."
@@ -344,7 +344,7 @@ nl_NL:
     all: Alle
     article: Artikel
     closed: Gesloten
-    empty_result: "Geen middelen gevonden bij deze zoekopdracht. Misschien moet je je zoekopdracht proberen te verbreden?"
+    empty_result: "Niets gevonden bij deze zoekopdracht. Misschien moet je je zoekopdracht proberen te verbreden?"
     filter_streams: "Filter conversaties"
     newest: Nieuwste
     oldest: Oudste
@@ -395,7 +395,7 @@ nl_NL:
       description: "Laten we je Talk-community opzetten met een paar simpele stappen."
       submit: "Begin"
     add_organization:
-      description: "Vertel ons de naam van je organisatie. Dit zal verschijnen in e-mails wanneer je nieuwe teamleden uitnodigt."
+      description: "Vertel ons de naam van je organisatie. Deze zal te zien zijn in e-mails wanneer je nieuwe teamleden uitnodigt."
       label: "Organisatienaam"
       save: "Opslaan"
     create:

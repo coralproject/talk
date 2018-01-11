@@ -17,9 +17,10 @@ import fr from '../../../locales/fr.yml';
 import pt_BR from '../../../locales/pt_BR.yml';
 import zh_CN from '../../../locales/zh_CN.yml';
 import zh_TW from '../../../locales/zh_TW.yml';
+import nl_NL from '../../../locales/nl_NL.yml';
 
 const defaultLanguage = process.env.TALK_DEFAULT_LANG;
-const translations = {...en, ...da, ...es, ...fr, ...pt_BR, ...zh_CN, ...zh_TW};
+const translations = {...en, ...da, ...es, ...fr, ...pt_BR, ...zh_CN, ...zh_TW, ...nl_NL};
 
 let lang;
 let timeagoInstance;
@@ -39,7 +40,6 @@ function getLocale() {
 function init() {
   const locale = getLocale();
   setLocale(locale);
-
   // Extract language key.
   lang = locale.split('-')[0];
 
@@ -54,7 +54,7 @@ function init() {
   ta.register('pt_BR', pt_BRTA);
   ta.register('zh_CN', zh_CNTA);
   ta.register('zh_TW', zh_TWTA);
-
+  
   timeagoInstance = ta();
 }
 
