@@ -37,6 +37,12 @@
   text-align: center;
   cursor: pointer;
 
+  .icon {
+    color: #595959;
+    font-size: 25px;
+    display: block;
+  }
+
   &:hover {
     color: #ccc;
   }

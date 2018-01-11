@@ -121,7 +121,9 @@ const config = {
       'graphql-anywhere': path.resolve(__dirname, 'client/coral-framework/graphql/anywhere'),
       'plugin-api': path.resolve(__dirname, 'plugin-api/'),
       plugins: path.resolve(__dirname, 'plugins/'),
-      pluginsConfig: pluginsPath
+      pluginsConfig: pluginsPath,
+      'lodash': path.resolve(__dirname, path.resolve(__dirname, 'node_modules/lodash-es')),
+      'lodash.isequal': path.resolve(__dirname, 'node_modules/lodash-es/isEqual'),
     },
     modules: [
       path.resolve(__dirname, 'plugins'),
