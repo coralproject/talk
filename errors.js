@@ -158,7 +158,7 @@ const ErrNotAuthorized = new APIError('not authorized', {
 
 // ErrSettingsNotInit is returned when the settings are required but not
 // initialized.
-const ErrSettingsNotInit = new Error('settings not initialized, run `./bin/cli setup` to setup the application first');
+const ErrSettingsNotInit = new Error('Talk is currently not setup. Please proceed to our webinstaller at $ROOT_URL/admin/install or run ./bin/cli-setup. Visit https://coralproject.github.io/talk/ for more information on installation and configuration instructions');
 
 // ErrSettingsInit is returned when the setup endpoint is hit and we are already
 // initialized.
