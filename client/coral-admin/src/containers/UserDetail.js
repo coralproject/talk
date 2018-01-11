@@ -171,6 +171,7 @@ export const withUserDetailQuery = withQuery(gql`
               until
               created_at
               assigned_by {
+                id
                 username
               }
             }
@@ -180,6 +181,7 @@ export const withUserDetailQuery = withQuery(gql`
             history {
               status
               assigned_by {
+                id
                 username
               }
               created_at
@@ -190,6 +192,7 @@ export const withUserDetailQuery = withQuery(gql`
             history {
               status
               assigned_by {
+                id
                 username
               }
               created_at
