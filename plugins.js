@@ -4,6 +4,7 @@ const resolve = require('resolve');
 const debug = require('debug')('talk:plugins');
 const Joi = require('joi');
 const amp = require('app-module-path');
+const pkg = require('./package.json');
 
 const PLUGINS_JSON = process.env.TALK_PLUGINS_JSON;
 
@@ -62,6 +63,15 @@ const hookSchemas = {
     onDisconnect: Joi.func(),
   }),
 };
+
+/**
+ * PluginContext provides server context for the global application.
+ */
+class PluginContext {
+  constructor() {
+    this.pkg = pkg;
+  }
+}
 
 /**
  * isInternal checks to see if a given plugin is internal, and returns true
@@ -128,14 +138,14 @@ class Plugin {
 
   require() {
     if (typeof this.path === 'undefined') {
-      throw new Error(`plugin '${this.name}' is not local and is not resolvable, plugin reconsiliation may be required`);
+      throw new Error(`plugin '${this.name}' is not local and is not resolvable, plugin reconciliation may be required`);
     }
 
     try {
       this.module = require(this.path);
     } catch (e) {
       if (e && e.code && e.code === 'MODULE_NOT_FOUND' && isInternal(this.name)) {
-        console.error(new Error(`plugin '${this.name}' could not be loaded due to missing dependencies, plugin reconsiliation may be required`));
+        console.error(new Error(`plugin '${this.name}' could not be loaded due to missing dependencies, plugin reconciliation may be required`));
         throw e;
       }
 
@@ -146,19 +156,19 @@ class Plugin {
 }
 
 /**
- * Itterates over the plugins and gets the plugin path's, version, and name.
+ * Iterates over the plugins and gets the plugin path's, version, and name.
  *
  * @param {Array<Object|String>} plugins
  * @returns {Array<Object>}
  */
-const itteratePlugins = (plugins) => plugins.map((p) => new Plugin(p));
+const iteratePlugins = (plugins) => plugins.map((p) => new Plugin(p));
 
 // Add each plugin folder to the allowed import path so that they can import our
-// internal dependancies.
-Object.keys(plugins).forEach((type) => itteratePlugins(plugins[type]).forEach((plugin) => {
+// internal dependencies.
+Object.keys(plugins).forEach((type) => iteratePlugins(plugins[type]).forEach((plugin) => {
 
   // The plugin may be remote, and therefore not installed. We check here if the
-  // plugin path is available before trying to monkeypatch it's require path.
+  // plugin path is available before trying to monkey patch it's require path.
   if (plugin.path) {
     amp.enableForDir(path.dirname(plugin.path));
   }
@@ -168,9 +178,10 @@ Object.keys(plugins).forEach((type) => itteratePlugins(plugins[type]).forEach((p
  * Stores a reference to a section for a section of Plugins.
  */
 class PluginSection {
-  constructor(plugins) {
+  constructor(context, plugins) {
+    this.context = context;
     this.required = false;
-    this.plugins = itteratePlugins(plugins);
+    this.plugins = iteratePlugins(plugins);
   }
 
   require() {
@@ -195,43 +206,48 @@ class PluginSection {
   }
 
   /**
-   * This itterates over the section to provide all plugin hooks that are
+   * This iterates over the section to provide all plugin hooks that are
    * available.
    */
-  hook(hook) {
+  hook(hookName) {
 
     // Load the plugin source if we haven't already.
     this.require();
 
     return this.plugins
-      .filter(({module}) => hook in module)
-      .filter((plugin) => {
+      .filter(({module}) => hookName in module)
+      .map((plugin) => {
+
+        // Optionally bind the plugin context to a function if it's one.
+        const hook = typeof plugin.module[hookName] === 'function' ?
+          plugin.module[hookName].bind(this.context) :
+          plugin.module[hookName];
 
         // Validate the hook.
-        if (hook in hookSchemas) {
-          Joi.assert(plugin.module[hook], hookSchemas[hook], `Plugin '${plugin.name}' failed validation for the '${hook}' hook`);
+        if (hookName in hookSchemas) {
+          Joi.assert(hook, hookSchemas[hookName], `Plugin '${plugin.name}' failed validation for the '${hookName}' hook`);
         }
 
-        return true;
-      })
-      .map((plugin) => ({
-        plugin,
-        [hook]: plugin.module[hook]
-      }));
+        return {
+          plugin,
+          [hookName]: hook,
+        };
+      });
   }
 }
 
-const NullPluginSection = new PluginSection([]);
+const NullPluginSection = new PluginSection({}, []);
 
 /**
  * Stores references to all the plugins available on the application.
  */
 class PluginManager {
   constructor(plugins) {
+    this.context = new PluginContext();
     this.sections = {};
 
     for (let section in plugins) {
-      this.sections[section] = new PluginSection(plugins[section]);
+      this.sections[section] = new PluginSection(this.context, plugins[section]);
     }
   }
 
@@ -262,5 +278,5 @@ module.exports = {
   PluginManager,
   isInternal,
   pluginPath,
-  itteratePlugins
+  iteratePlugins
 };
