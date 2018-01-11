@@ -21,7 +21,7 @@ const path = require('path');
 const spawn = require('cross-spawn');
 const semver = require('semver');
 const resolve = require('resolve');
-const {plugins, itteratePlugins, isInternal} = require('../plugins');
+const {plugins, iteratePlugins, isInternal} = require('../plugins');
 
 function existsInNodeModules(name) {
   try {
@@ -71,7 +71,7 @@ function reconcilePackages({quiet = false, upgradeRemote = false}) {
   }
 
   for (let i in plugins) {
-    let section = itteratePlugins(plugins[i]);
+    let section = iteratePlugins(plugins[i]);
 
     for (let j in section) {
       let {name, version} = section[j];
