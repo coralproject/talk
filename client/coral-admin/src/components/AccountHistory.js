@@ -13,20 +13,30 @@ const buildUserHistory = (userState = {}) => {
     .map((k) => userState.status[k].history)), 'created_at', 'desc');
 };
 
-const buildActionResponse = (typename, status) => {
-  const actionResponses = {
-    'UsernameStatusHistory' : `Username Status: ${status}`,
-    'BannedStatusHistory': status ? 'User banned' : 'Ban removed',
-    'SuspensionStatusHistory': status ? 'Account Suspended' : 'Suspension removed'
-  };
+const buildActionResponse = (typename, until, status) => {
+  switch (typename) {
+  case 'UsernameStatusHistory':
+    return `Username ${status}`;
+  case 'BannedStatusHistory':
+    return status ? 'User banned' : 'Ban removed';
+  case 'SuspensionStatusHistory':
+    return until ? 'Account Suspended' : 'Suspension removed' ;
+  default:
+    return '-';
+  }
+};
 
-  return actionResponses[typename];
+const getModerationValue = (userId, assignedBy = {}) => {
+  if (assignedBy && userId !== assignedBy.id) {
+    return assignedBy.username;
+  }
+  return 'SYSTEM';
 };
 
 class AccountHistory extends React.Component {
   render() {
-    const {userState} = this.props;
-    const userHistory = buildUserHistory(userState);
+    const {user} = this.props;
+    const userHistory = buildUserHistory(user.state);
     return (
       <div>
         <div className={cn(styles.table, 'talk-admin-account-history')}>
@@ -36,16 +46,16 @@ class AccountHistory extends React.Component {
             <div className={styles.headerRowItem}>Moderation</div>
           </div>
           {
-            userHistory.map((h) => (
-              <div className={cn(styles.row, 'talk-admin-account-history-row')} key={`${h.__typename}_${murmur3(h.created_at)}`}>
+            userHistory.map(({__typename, created_at, assigned_by, until, status}) => (
+              <div className={cn(styles.row, 'talk-admin-account-history-row')} key={`${__typename}_${murmur3(created_at)}`}>
                 <div className={cn(styles.item, 'talk-admin-account-history-row-date')}>
-                  {moment(new Date(h.created_at)).format('MMM DD, YYYY')}
+                  {moment(new Date(created_at)).format('MMM DD, YYYY')}
                 </div>
                 <div className={cn(styles.item, styles.action, 'talk-admin-account-history-row-status')}>
-                  {buildActionResponse(h.__typename, h.status)}
+                  {buildActionResponse(__typename, until, status)}
                 </div>
                 <div className={cn(styles.item, 'talk-admin-account-history-row-assigned-by')}>
-                  {h.assigned_by ? h.assigned_by.username : 'SYSTEM'}
+                  {getModerationValue(user.id, assigned_by)}
                 </div>
               </div>
             ))
@@ -57,8 +67,7 @@ class AccountHistory extends React.Component {
 }
 
 AccountHistory.propTypes = {
-  history: PropTypes.array,
-  userState: PropTypes.object,
+  user: PropTypes.object.isRequired,
 };
 
 export default AccountHistory;
