@@ -8,4 +8,4 @@ zh_CN:
     label: "最被喜欢在前"
 zh_TW:
   talk-plugin-sort-most-liked:
-    label: 被讚最多優先
+    label: 最被喜歡優先
