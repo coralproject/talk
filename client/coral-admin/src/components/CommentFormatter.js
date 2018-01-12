@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { matchLinks } from '../utils';
 import memoize from 'lodash/memoize';
 
@@ -62,16 +63,43 @@ function markLinks(body) {
   return content;
 }
 
-export default ({ suspectWords, bannedWords, body, ...rest }) => {
-  // First highlight links.
-  const content = markLinks(body).map((element, index) => {
-    // Keep highlighted links.
-    if (typeof element !== 'string') {
-      return element;
-    }
+function format(body, { suspectWords, bannedWords, className = 'comment' }) {
+  // Breaking the body by line break
+  const textbreaks = body.split('\n');
 
-    // Highlight suspect and banned phrase inside this part of text.
-    return markPhrases(element, suspectWords, bannedWords, index);
-  });
-  return <div {...rest}>{content}</div>;
+  return (
+    <span className={`${className}-text`}>
+      {textbreaks.map((line, i) => {
+        const content = markLinks(line).map((element, index) => {
+          // Keep highlighted links.
+          if (typeof element !== 'string') {
+            return element;
+          }
+
+          // Highlight suspect and banned phrase inside this part of text.
+          return markPhrases(element, suspectWords, bannedWords, index);
+        });
+
+        return (
+          <span key={i} className={`${className}-line`}>
+            {content}
+            {i !== textbreaks.length - 1 && (
+              <br className={`${className}-linebreak`} />
+            )}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
+const CommentFormatter = ({ body, settings, ...rest }) => {
+  return <div {...rest}>{format(body, settings)}</div>;
 };
+
+CommentFormatter.propTypes = {
+  settings: PropTypes.object,
+  body: PropTypes.string,
+};
+
+export default CommentFormatter;

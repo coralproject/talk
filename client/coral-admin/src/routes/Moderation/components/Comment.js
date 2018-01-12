@@ -8,7 +8,7 @@ import styles from './Comment.css';
 import CommentLabels from 'coral-admin/src/components/CommentLabels';
 import CommentAnimatedEdit from 'coral-admin/src/components/CommentAnimatedEdit';
 import Slot from 'coral-framework/components/Slot';
-import CommentBodyHighlighter from 'coral-admin/src/components/CommentBodyHighlighter';
+import CommentFormatter from 'coral-admin/src/components/CommentFormatter';
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
 import ApproveButton from 'coral-admin/src/components/ApproveButton';
@@ -126,11 +126,14 @@ class Comment extends React.Component {
           <CommentAnimatedEdit body={comment.body}>
             <div className={styles.itemBody}>
               <div className={styles.body}>
-                <CommentBodyHighlighter
-                  suspectWords={settings.wordlist.suspect}
-                  bannedWords={settings.wordlist.banned}
+                <CommentFormatter
+                  settings={{
+                    suspectWords: settings.wordlist.suspect,
+                    bannedWords: settings.wordlist.banned,
+                    className: 'talk-admin-comment',
+                  }}
                   body={comment.body}
-                />{' '}
+                />
                 <a
                   className={styles.external}
                   href={`${comment.asset.url}?commentId=${comment.id}`}
