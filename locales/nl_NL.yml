@@ -310,7 +310,7 @@ nl_NL:
   my_comment_history: "Mijn reactie geschiedenis"
   name: Naam
   no_agree_comment: "Ik ben het niet eens met deze reactie"
-  no_like_bio: "Ik vind dit bio niet leuk"
+  no_like_bio: "Ik vind deze biografie niet leuk"
   no_like_username: "Ik vind deze gebruikersnaam niet leuk"
   other: Ander
   permalink: Deel
@@ -383,8 +383,8 @@ nl_NL:
     send: Verstuur
   thank_you: "We waarderen je feedback. Een moderator zal je rapport bekijken."
   user:
-    bio_flags: "Meldingen voor dit bio"
-    user_bio: "Gebruikers bio"
+    bio_flags: "Meldingen voor deze biografie"
+    user_bio: "Gebruikers biografie"
     username_flags: "Meldingen voor deze gebruikersnaam"
   user_impersonating: "Deze gebruiker imiteert"
   user_no_comment: "Je hebt nog niet eerder gereageerd. Kom in gesprek!"
