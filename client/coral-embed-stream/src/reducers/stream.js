@@ -29,52 +29,52 @@ const initialState = {
 
 export default function stream(state = initialState, action) {
   switch (action.type) {
-  case actions.SET_ACTIVE_TAB:
-    return {
-      ...state,
-      activeTab: action.tab,
-      previousTab: state.activeTab,
-    };
-  case authActions.LOGOUT:
-    return {
-      ...state,
-      activeReplyBox: '',
-    };
-  case actions.SET_ACTIVE_REPLY_BOX:
-    return {
-      ...state,
-      activeReplyBox: action.id,
-    };
-  case actions.VIEW_ALL_COMMENTS:
-    return {
-      ...state,
-      commentId: '',
-    };
-  case actions.VIEW_COMMENT:
-    return {
-      ...state,
-      commentId: action.id,
-    };
-  case actions.ADD_COMMENT_CLASSNAME :
-    return {
-      ...state,
-      commentClassNames: [...state.commentClassNames, action.className]
-    };
-  case actions.REMOVE_COMMENT_CLASSNAME :
-    return {
-      ...state,
-      commentClassNames: [
-        ...state.commentClassNames.slice(0, action.idx),
-        ...state.commentClassNames.slice(action.idx + 1)
-      ]
-    };
-  case actions.SET_SORT :
-    return {
-      ...state,
-      sortOrder: action.sortOrder ? action.sortOrder : state.sortOrder,
-      sortBy: action.sortBy ? action.sortBy : state.sortBy,
-    };
-  default:
-    return state;
+    case actions.SET_ACTIVE_TAB:
+      return {
+        ...state,
+        activeTab: action.tab,
+        previousTab: state.activeTab,
+      };
+    case authActions.LOGOUT:
+      return {
+        ...state,
+        activeReplyBox: '',
+      };
+    case actions.SET_ACTIVE_REPLY_BOX:
+      return {
+        ...state,
+        activeReplyBox: action.id,
+      };
+    case actions.VIEW_ALL_COMMENTS:
+      return {
+        ...state,
+        commentId: '',
+      };
+    case actions.VIEW_COMMENT:
+      return {
+        ...state,
+        commentId: action.id,
+      };
+    case actions.ADD_COMMENT_CLASSNAME:
+      return {
+        ...state,
+        commentClassNames: [...state.commentClassNames, action.className],
+      };
+    case actions.REMOVE_COMMENT_CLASSNAME:
+      return {
+        ...state,
+        commentClassNames: [
+          ...state.commentClassNames.slice(0, action.idx),
+          ...state.commentClassNames.slice(action.idx + 1),
+        ],
+      };
+    case actions.SET_SORT:
+      return {
+        ...state,
+        sortOrder: action.sortOrder ? action.sortOrder : state.sortOrder,
+        sortBy: action.sortBy ? action.sortBy : state.sortBy,
+      };
+    default:
+      return state;
   }
 }

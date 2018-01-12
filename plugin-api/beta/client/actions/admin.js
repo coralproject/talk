@@ -1,1 +1,1 @@
-export {viewUserDetail} from 'coral-admin/src/actions/userDetail';
+export { viewUserDetail } from 'coral-admin/src/actions/userDetail';

@@ -1,5 +1,11 @@
 const fetch = require('node-fetch');
-const {API_ENDPOINT, API_KEY, THRESHOLD, API_TIMEOUT} = require('./config');
+const {
+  API_ENDPOINT,
+  API_KEY,
+  THRESHOLD,
+  API_TIMEOUT,
+  DO_NOT_STORE,
+} = require('./config');
 
 /**
  * Get scores from the perspective api
@@ -7,32 +13,36 @@ const {API_ENDPOINT, API_KEY, THRESHOLD, API_TIMEOUT} = require('./config');
  * @return {object}        object containing toxicity scores
  */
 async function getScores(text) {
-  const response = await fetch(`${API_ENDPOINT}/comments:analyze?key=${API_KEY}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    timeout: API_TIMEOUT,
-    body: JSON.stringify({
-      comment: {
-        text,
+  const response = await fetch(
+    `${API_ENDPOINT}/comments:analyze?key=${API_KEY}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
+      timeout: API_TIMEOUT,
+      body: JSON.stringify({
+        comment: {
+          text,
+        },
 
-      // TODO: support other languages.
-      languages: ['en'],
-      requestedAttributes: {
-        TOXICITY: {},
-        SEVERE_TOXICITY: {},
-      }
-    }),
-  });
+        // TODO: support other languages.
+        languages: ['en'],
+        doNotStore: DO_NOT_STORE,
+        requestedAttributes: {
+          TOXICITY: {},
+          SEVERE_TOXICITY: {},
+        },
+      }),
+    }
+  );
   const data = await response.json();
   return {
     TOXICITY: {
-      summaryScore: data.attributeScores.TOXICITY.summaryScore.value
+      summaryScore: data.attributeScores.TOXICITY.summaryScore.value,
     },
     SEVERE_TOXICITY: {
-      summaryScore: data.attributeScores.SEVERE_TOXICITY.summaryScore.value
+      summaryScore: data.attributeScores.SEVERE_TOXICITY.summaryScore.value,
     },
   };
 }
@@ -52,9 +62,10 @@ function getProbability(scores) {
  * @return {boolean}
  */
 function isToxic(scoresOrProbability) {
-  const probability = typeof scoresOrProbability === 'object'
-    ? getProbability(scoresOrProbability)
-    : scoresOrProbability;
+  const probability =
+    typeof scoresOrProbability === 'object'
+      ? getProbability(scoresOrProbability)
+      : scoresOrProbability;
   return probability > THRESHOLD;
 }
 
@@ -68,8 +79,7 @@ function maskKeyInError(fn) {
   return async (...args) => {
     try {
       return await fn(...args);
-    }
-    catch(err) {
+    } catch (err) {
       if (err.message) {
         err.message = err.message.replace(API_KEY, '***');
       }

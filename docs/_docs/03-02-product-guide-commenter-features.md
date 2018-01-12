@@ -197,4 +197,4 @@ will see a message at the top of their streams stating this.
 ### Ban
 
 When a commenter has been banned, they will see a message at the top of their
-streams staging this.
+streams stating this.

@@ -1,12 +1,11 @@
 const debug = require('debug')('talk:services:mailer');
 const nodemailer = require('nodemailer');
 const kue = require('./kue');
-const path = require('path');
-const fs = require('fs');
-const _ = require('lodash');
-const {attachLocals} = require('../middleware/staticTemplate');
-
 const i18n = require('./i18n');
+const path = require('path');
+const fs = require('fs-extra');
+const _ = require('lodash');
+const { TEMPLATE_LOCALS } = require('../middleware/staticTemplate');
 
 const {
   SMTP_HOST,
@@ -19,137 +18,131 @@ const {
 
 // load all the templates as strings
 const templates = {
-  data: {}
+  data: {},
 };
 
 // load the templates per request during development
-templates.render = (name, format = 'txt', context) => new Promise((resolve, reject) => {
-
-  // If we are in production mode, check the view cache.
+templates.render = async (name, format = 'txt', context) => {
   if (process.env.NODE_ENV === 'production') {
-    if (name in templates.data && format in templates.data[name]) {
-      let view = templates.data[name][format];
-
-      return resolve(view(context));
+    // If we are in production mode, check the view cache.
+    const view = _.get(templates.data, [name, format], null);
+    if (view !== null) {
+      return view(context);
     }
   }
 
-  const filename = path.join(__dirname, 'email', [name, format, 'ejs'].join('.'));
+  const filename = path.join(
+    __dirname,
+    'email',
+    [name, format, 'ejs'].join('.')
+  );
+  const file = await fs.readFile(filename, 'utf8');
+  const view = _.template(file);
 
-  fs.readFile(filename, (err, file) => {
-    if (err) {
-      return reject(err);
-    }
-
-    let view = _.template(file);
-
+  if (process.env.NODE_ENV === 'production') {
     // If we are in production mode, fill the view cache.
-    if (process.env.NODE_ENV === 'production') {
-      if (!(name in templates.data)) {
-        templates.data[name] = {};
-      }
-
-      templates.data[name][format] = view;
-    }
-
-    return resolve(view(context));
-  });
-}); // ends templates.render
-
-const options = {
-  host: SMTP_HOST,
-  auth: {
-    user: SMTP_USERNAME,
-    pass: SMTP_PASSWORD
+    _.set(templates.data, [name, format], view);
   }
+
+  return view(context);
 };
 
-if (SMTP_PORT) {
-  try {
-    options.port = parseInt(SMTP_PORT);
-  } catch (e) {
-    throw new Error('TALK_SMTP_PORT is not an integer');
+const mailer = {};
+
+// enabled is true when the required configuration is available. When testing
+// is enabled, we will be simulating that emails are being sent, because in a
+// production system, emails should and would be sent.
+mailer.enabled =
+  Boolean(SMTP_HOST && SMTP_USERNAME && SMTP_PASSWORD && SMTP_FROM_ADDRESS) ||
+  process.env.NODE_ENV === 'test';
+
+if (mailer.enabled) {
+  const options = {
+    host: SMTP_HOST,
+    auth: {
+      user: SMTP_USERNAME,
+      pass: SMTP_PASSWORD,
+    },
+  };
+
+  if (SMTP_PORT) {
+    try {
+      options.port = parseInt(SMTP_PORT);
+    } catch (e) {
+      throw new Error('TALK_SMTP_PORT is not an integer');
+    }
+  } else {
+    options.port = 25;
   }
-} else {
-  options.port = 25;
+
+  mailer.transport = nodemailer.createTransport(options);
 }
 
-const defaultTransporter = nodemailer.createTransport(options);
+/**
+ * Create the new Task kue.
+ */
+mailer.task = new kue.Task({
+  name: 'mailer',
+});
 
-const mailer = module.exports = {
-
-  /**
-   * Create the new Task kue.
-   */
-  task: new kue.Task({
-    name: 'mailer'
-  }),
-
-  sendSimple({template, locals, to, subject}) {
-
-    if (!to) {
-      return Promise.reject('sendSimple requires a comma-separated list of "to" addresses');
-    }
-
-    if (!subject) {
-      return Promise.reject('sendSimple requires a subject for the email');
-    }
-
-    // Prefix the subject with `[Talk]`.
-    subject = `${EMAIL_SUBJECT_PREFIX} ${subject}`;
-
-    attachLocals(locals);
-
-    // Attach the translation function.
-    locals.t = i18n.t;
-
-    return Promise.all([
-
-      // Render the HTML version of the email.
-      templates.render(template, 'html', locals),
-
-      // Render the TEXT version of the email.
-      templates.render(template, 'txt', locals)
-    ])
-      .then(([html, text]) => {
-
-        // Create the job.
-        return mailer.task.create({
-          title: 'Mail',
-          message: {
-            to,
-            subject,
-            text,
-            html
-          }
-        });
-      });
-  },
-
-  /**
-   * Start the queue processor for the mailer job.
-   */
-  process() {
-
-    debug(`Now processing ${mailer.task.name} jobs`);
-
-    return mailer.task.process(({id, data}, done) => {
-      debug(`Starting to send mail for Job[${id}]`);
-
-      // Set the `from` field.
-      data.message.from = SMTP_FROM_ADDRESS;
-
-      // Actually send the email.
-      defaultTransporter.sendMail(data.message, (err) => {
-        if (err) {
-          debug(`Failed to send mail for Job[${id}]:`, err);
-          return done(err);
-        }
-
-        debug(`Finished sending mail for Job[${id}]`);
-        return done();
-      });
-    });
+/**
+ * send will create a new message and send it.
+ */
+mailer.send = async options => {
+  if (!mailer.enabled) {
+    const err = new Error(
+      'sending email is not enabled because required configuration is not available'
+    );
+    console.warn(err);
+    return;
   }
 
+  // Create the new locals object and attach the static locals and the i18n
+  // framework.
+  const locals = _.merge({}, options.locals, TEMPLATE_LOCALS, { t: i18n.t });
+
+  // Render the templates.
+  const [html, text] = await Promise.all(
+    ['html', 'txt'].map(fmt => {
+      return templates.render(options.template, fmt, locals);
+    })
+  );
+
+  // Create the job to send the email later.
+  return mailer.task.create({
+    title: 'Mail',
+    message: {
+      to: options.to,
+      subject: `${EMAIL_SUBJECT_PREFIX} ${options.subject}`,
+      text,
+      html,
+    },
+  });
 };
+
+/**
+ * Start the queue processor for the mailer job.
+ */
+mailer.process = () => {
+  debug(`Now processing ${mailer.task.name} jobs`);
+
+  return mailer.task.process(({ id, data }, done) => {
+    debug(`Starting to send mail for Job[${id}]`);
+
+    // Set the `from` field.
+    data.message.from = SMTP_FROM_ADDRESS;
+
+    // Actually send the email.
+    mailer.transport.sendMail(data.message, err => {
+      if (err) {
+        debug(`Failed to send mail for Job[${id}]:`, err);
+        return done(err);
+      }
+
+      debug(`Finished sending mail for Job[${id}]`);
+      return done();
+    });
+  });
+};
+
+module.exports = mailer;

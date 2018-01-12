@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, TextField, Spinner, Alert} from 'plugin-api/beta/client/components/ui';
+import {
+  Button,
+  TextField,
+  Spinner,
+  Alert,
+} from 'plugin-api/beta/client/components/ui';
 import styles from './styles.css';
 import t from 'coral-framework/services/i18n';
 
@@ -10,19 +15,20 @@ const SignInContent = ({
   changeView,
   handleSignIn,
   auth,
-  fetchSignInFacebook
+  fetchSignInFacebook,
 }) => {
   return (
     <div className="coral-sign-in">
       <div className={`${styles.header} header`}>
-        <h1>
-          {t('sign_in.sign_in_to_join')}
-        </h1>
+        <h1>{t('sign_in.sign_in_to_join')}</h1>
       </div>
-      {auth.error &&
+      {auth.error && (
         <Alert>
-          {auth.error.translation_key ? t(`error.${auth.error.translation_key}`) : auth.error.toString()}
-        </Alert>}
+          {auth.error.translation_key
+            ? t(`error.${auth.error.translation_key}`)
+            : auth.error.toString()}
+        </Alert>
+      )}
       <div>
         <div className={`${styles.socialConnections} social-connections`}>
           <Button cStyle="facebook" onClick={fetchSignInFacebook} full>
@@ -30,9 +36,7 @@ const SignInContent = ({
           </Button>
         </div>
         <div className={styles.separator}>
-          <h1>
-            {t('sign_in.or')}
-          </h1>
+          <h1>{t('sign_in.or')}</h1>
         </div>
         <form onSubmit={handleSignIn}>
           <TextField
@@ -40,7 +44,7 @@ const SignInContent = ({
             type="email"
             label={t('sign_in.email')}
             value={formData.email}
-            style={{fontSize: 16}}
+            style={{ fontSize: 16 }}
             onChange={handleChange}
           />
           <TextField
@@ -48,12 +52,12 @@ const SignInContent = ({
             type="password"
             label={t('sign_in.password')}
             value={formData.password}
-            style={{fontSize: 16}}
+            style={{ fontSize: 16 }}
             onChange={handleChange}
           />
           <div className={styles.action}>
-            {!auth.isLoading
-              ? <Button
+            {!auth.isLoading ? (
+              <Button
                 id="coralLogInButton"
                 type="submit"
                 cStyle="black"
@@ -62,7 +66,9 @@ const SignInContent = ({
               >
                 {t('sign_in.sign_in')}
               </Button>
-              : <Spinner />}
+            ) : (
+              <Spinner />
+            )}
           </div>
         </form>
       </div>
@@ -87,7 +93,7 @@ SignInContent.propTypes = {
   auth: PropTypes.shape({
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.string,
-    emailVerificationFailure: PropTypes.bool
+    emailVerificationFailure: PropTypes.bool,
   }).isRequired,
   fetchSignInFacebook: PropTypes.func.isRequired,
   handleSignIn: PropTypes.func.isRequired,

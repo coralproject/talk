@@ -8,7 +8,6 @@ export default {
   translations,
   slots: {
     stream: [UserBox, SignInButton, ChangeUserNameContainer],
-    login: [SignInContainer]
-  }
+    login: [SignInContainer],
+  },
 };
-

@@ -147,7 +147,7 @@ will definitely not work unless you change those values as well.
 You can now start the application by running:
 
 ```bash
-yarn dev-start
+yarn watch:server
 ```
 
 Continue onto the [Running](#running) section for details on how to complete the

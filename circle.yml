@@ -7,6 +7,8 @@ machine:
   environment:
     PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     NODE_ENV: "test"
+    MOCHA_FILE: "${CIRCLE_TEST_REPORTS}/junit/test-results.xml"
+    MOCHA_REPORTER: "mocha-junit-reporter"
   pre:
     # TODO: use the following to add in support for MongoDB 3.4.
     # # Upgrade the database version to 3.4.
@@ -47,10 +49,11 @@ database:
 test:
   override:
     # Run the tests using the junit reporter.
-    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml MOCHA_REPORTER=mocha-junit-reporter yarn test
+    - yarn test
+    # Run the end to end tests
+    - yarn e2e:ci
     # Check dependancies using nsp.
     - nsp check
-    - yarn e2e-ci
 
 deployment:
   release:
@@ -59,7 +62,9 @@ deployment:
       - bash ./scripts/docker.sh deploy
 
   latest:
-    branch: master
+    branch:
+      - master
+      - next
     owner: coralproject
     commands:
       - bash ./scripts/docker.sh deploy

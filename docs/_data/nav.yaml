@@ -41,3 +41,7 @@ items:
     children:
       - title: FAQ
         url: /faq/
+  - title: Migrating
+    children:
+      - title: Migrating to v4.0.0
+        url: /migration/4/

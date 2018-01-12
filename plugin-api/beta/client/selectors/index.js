@@ -1,1 +1,1 @@
-export const pluginConfigSelector = (state) => state.config.pluginConfig;
+export const pluginConfigSelector = state => state.config.pluginConfig;

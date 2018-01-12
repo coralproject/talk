@@ -9,37 +9,67 @@ import styles from './CommentLabels.css';
 const staffRoles = ['ADMIN', 'STAFF', 'MODERATOR'];
 
 function isUserFlagged(actions) {
-  return actions.some((action) => action.__typename === 'FlagAction' && action.user);
+  return actions.some(
+    action => action.__typename === 'FlagAction' && action.user
+  );
 }
 
 function getUserFlaggedType(actions) {
-  return actions
-    .some((action) =>
+  return actions.some(
+    action =>
       action.__typename === 'FlagAction' &&
       action.user &&
-      action.user.roles.some((role) => staffRoles.includes(role))
-    ) ? 'Staff' : 'User';
+      staffRoles.includes(action.user.role)
+  )
+    ? 'Staff'
+    : 'User';
 }
 
 function hasSuspectedWords(actions) {
-  return actions.some((action) => action.__typename === 'FlagAction' && action.reason === 'Matched suspect word filter');
+  return actions.some(
+    action =>
+      action.__typename === 'FlagAction' && action.reason === 'SUSPECT_WORD'
+  );
 }
 
 function hasHistoryFlag(actions) {
-  return actions.some((action) => action.__typename === 'FlagAction' && action.reason === 'TRUST');
+  return actions.some(
+    action => action.__typename === 'FlagAction' && action.reason === 'TRUST'
+  );
 }
 
-const CommentLabels = ({comment, comment: {className, status, actions, hasParent}}) => {
+const CommentLabels = ({
+  comment,
+  comment: { className, status, actions, hasParent },
+}) => {
   return (
     <div className={cn(className, styles.root)}>
       <div className={styles.coreLabels}>
-        {hasParent && <Label iconName="reply" className={styles.replyLabel}>reply</Label>}
-        {status === 'PREMOD' && <Label iconName="query_builder" className={styles.premodLabel}>Pre-Mod</Label>}
-        {isUserFlagged(actions) && <FlagLabel iconName="person">{getUserFlaggedType(actions)}</FlagLabel>}
-        {hasSuspectedWords(actions) && <FlagLabel iconName="sms_failed">Suspect</FlagLabel>}
-        {hasHistoryFlag(actions) && <FlagLabel iconName="sentiment_very_dissatisfied">History</FlagLabel>}
+        {hasParent && (
+          <Label iconName="reply" className={styles.replyLabel}>
+            reply
+          </Label>
+        )}
+        {status === 'PREMOD' && (
+          <Label iconName="query_builder" className={styles.premodLabel}>
+            Pre-Mod
+          </Label>
+        )}
+        {isUserFlagged(actions) && (
+          <FlagLabel iconName="person">{getUserFlaggedType(actions)}</FlagLabel>
+        )}
+        {hasSuspectedWords(actions) && (
+          <FlagLabel iconName="sms_failed">Suspect</FlagLabel>
+        )}
+        {hasHistoryFlag(actions) && (
+          <FlagLabel iconName="sentiment_very_dissatisfied">History</FlagLabel>
+        )}
       </div>
-      <Slot className={styles.slot} fill="adminCommentLabels" queryData={{comment}} />
+      <Slot
+        className={styles.slot}
+        fill="adminCommentLabels"
+        queryData={{ comment }}
+      />
     </div>
   );
 };

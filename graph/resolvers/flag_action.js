@@ -1,13 +1,12 @@
 const FlagAction = {
-
   // Stored in the metadata, extract and return.
-  message({metadata: {message}}) {
+  message({ metadata: { message } }) {
     return message;
   },
-  reason({group_id}) {
+  reason({ group_id }) {
     return group_id;
   },
-  user({user_id}, _, {loaders: {Users}}) {
+  user({ user_id }, _, { loaders: { Users } }) {
     if (!user_id) {
       return null;
     }

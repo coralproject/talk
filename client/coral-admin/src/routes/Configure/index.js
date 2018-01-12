@@ -1,1 +1,1 @@
-export {default} from './containers/Configure';
+export { default } from './containers/Configure';

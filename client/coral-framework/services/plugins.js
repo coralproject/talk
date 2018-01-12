@@ -6,7 +6,7 @@ import flattenDeep from 'lodash/flattenDeep';
 import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
 import mapValues from 'lodash/mapValues';
-import {getDisplayName} from 'coral-framework/helpers/hoc';
+import { getDisplayName } from 'coral-framework/helpers/hoc';
 import camelize from '../helpers/camelize';
 
 // This is returned for pluginConfig when it is empty.
@@ -19,32 +19,32 @@ const memoizedWarnings = [];
 // prints a warning when accessing deeper props.
 function withWarnings(component, queryData) {
   if (process.env.NODE_ENV !== 'production' && window.Proxy) {
-
     // Show warnings when accessing queryData only when not in production.
     return mapValues(queryData, (value, key) => {
-
       // Keep null values..
       if (!queryData[key]) {
         return queryData[key];
       }
       return new Proxy(queryData[key], {
         get(target, name) {
-
           // Detect access from React DevTools and ignore those.
           const error = new Error();
-          const accessFromDevTools = ['backend.js', 'dehydrate']
-            .every((keyword) => error.stack && error.stack.includes(keyword));
+          const accessFromDevTools = ['backend.js', 'dehydrate'].every(
+            keyword => error.stack && error.stack.includes(keyword)
+          );
 
           // Only care about the components defined in the plugins.
           if (component.talkPluginName && !accessFromDevTools) {
-            const warning = `'${getDisplayName(component)}' of '${component.talkPluginName}' accessed '${key}.${name}' but did not define fragments using the withFragment HOC`;
+            const warning = `'${getDisplayName(component)}' of '${
+              component.talkPluginName
+            }' accessed '${key}.${name}' but did not define fragments using the withFragment HOC`;
             if (memoizedWarnings.indexOf(warning) === -1) {
               console.warn(warning);
               memoizedWarnings.push(warning);
             }
           }
           return queryData[key][name];
-        }
+        },
       });
     });
   }
@@ -53,17 +53,16 @@ function withWarnings(component, queryData) {
 }
 
 function addMetaDataToSlotComponents(plugins) {
-
   // Add talkPluginName to Slot Components.
-  plugins.forEach((plugin) => {
+  plugins.forEach(plugin => {
     const slots = plugin.module.slots;
-    slots && Object.keys(slots).forEach((slot) => {
-      slots[slot].forEach((component) => {
-
-        // Attach plugin name to the component
-        component.talkPluginName = plugin.name;
+    slots &&
+      Object.keys(slots).forEach(slot => {
+        slots[slot].forEach(component => {
+          // Attach plugin name to the component
+          component.talkPluginName = plugin.name;
+        });
       });
-    });
   });
 }
 
@@ -74,7 +73,9 @@ class PluginsService {
   }
 
   isSlotEmpty(slot, reduxState, props = {}, queryData = {}) {
-    return this.getSlotElements(slot, reduxState, props, queryData).length === 0;
+    return (
+      this.getSlotElements(slot, reduxState, props, queryData).length === 0
+    );
   }
 
   /**
@@ -86,11 +87,9 @@ class PluginsService {
     return {
       ...props,
       config: pluginConfig,
-      ...(
-        component.fragments
-          ? pick(queryData, Object.keys(component.fragments))
-          : withWarnings(component, queryData)
-      )
+      ...(component.fragments
+        ? pick(queryData, Object.keys(component.fragments))
+        : withWarnings(component, queryData)),
     };
   }
 
@@ -100,7 +99,7 @@ class PluginsService {
   getSlotElements(slot, reduxState, props = {}, queryData = {}) {
     const pluginConfig = reduxState.config.plugin_config || emptyConfig;
 
-    const isDisabled = (component) => {
+    const isDisabled = component => {
       if (
         pluginConfig &&
         pluginConfig[component.talkPluginName] &&
@@ -110,10 +109,18 @@ class PluginsService {
       }
 
       // Check if component is excluded.
-      if(component.isExcluded) {
-        let resolvedProps = this.getSlotComponentProps(component, reduxState, props, queryData);
+      if (component.isExcluded) {
+        let resolvedProps = this.getSlotComponentProps(
+          component,
+          reduxState,
+          props,
+          queryData
+        );
         if (component.mapStateToProps) {
-          resolvedProps = {...resolvedProps, ...component.mapStateToProps(reduxState)};
+          resolvedProps = {
+            ...resolvedProps,
+            ...component.mapStateToProps(reduxState),
+          };
         }
         return component.isExcluded(resolvedProps);
       }
@@ -121,30 +128,42 @@ class PluginsService {
       return false;
     };
 
-    return flatten(this.plugins
-      .filter((o) => o.module.slots && o.module.slots[slot])
-      .map((o) => o.module.slots[slot])
+    return flatten(
+      this.plugins
+        .filter(o => o.module.slots && o.module.slots[slot])
+        .map(o => o.module.slots[slot])
     )
       .map((component, i) => ({
         component,
         disabled: isDisabled(component),
         key: i,
       }))
-      .filter((o) => !o.disabled)
-      .map(({component, key}) =>
-        React.createElement(component, {key, ...this.getSlotComponentProps(component, reduxState, props, queryData)})
+      .filter(o => !o.disabled)
+      .map(({ component, key }) =>
+        React.createElement(component, {
+          key,
+          ...this.getSlotComponentProps(
+            component,
+            reduxState,
+            props,
+            queryData
+          ),
+        })
       );
   }
 
   getSlotFragments(slot, part) {
-    const components = uniq(flattenDeep(this.plugins
-      .filter((o) => o.module.slots ? o.module.slots[slot] : false)
-      .map((o) => o.module.slots[slot])
-    ));
+    const components = uniq(
+      flattenDeep(
+        this.plugins
+          .filter(o => (o.module.slots ? o.module.slots[slot] : false))
+          .map(o => o.module.slots[slot])
+      )
+    );
 
     const documents = components
-      .map((c) => c.fragments)
-      .filter((fragments) => fragments && fragments[part])
+      .map(c => c.fragments)
+      .filter(fragments => fragments && fragments[part])
       .reduce((res, fragments) => {
         res.push(fragments[part]);
         return res;
@@ -155,35 +174,31 @@ class PluginsService {
 
   getGraphQLExtensions() {
     return this.plugins
-      .map((o) => pick(o.module, ['mutations', 'queries', 'fragments']))
-      .filter((o) => !isEmpty(o));
+      .map(o => pick(o.module, ['mutations', 'queries', 'fragments']))
+      .filter(o => !isEmpty(o));
   }
 
   getModQueueConfigs() {
-    return merge(...this.plugins
-      .map((o) => o.module.modQueues)
-      .filter((o) => o));
+    return merge(...this.plugins.map(o => o.module.modQueues).filter(o => o));
   }
 
   getTranslations() {
-    return this.plugins
-      .map((o) => o.module.translations)
-      .filter((o) => o);
+    return this.plugins.map(o => o.module.translations).filter(o => o);
   }
 
   getReducers() {
     return merge(
       ...this.plugins
-        .filter((o) => o.module.reducer)
-        .map((o) => ({[camelize(o.name)] : o.module.reducer}))
+        .filter(o => o.module.reducer)
+        .map(o => ({ [camelize(o.name)]: o.module.reducer }))
     );
   }
 
   async executeInit(context) {
     const results = this.plugins
-      .map((o) => o.module.init)
-      .filter((fn) => fn)
-      .map((fn) => fn(context));
+      .map(o => o.module.init)
+      .filter(fn => fn)
+      .map(fn => fn(context));
     await Promise.all(results);
   }
 }

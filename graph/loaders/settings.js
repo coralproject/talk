@@ -7,13 +7,17 @@ const DataLoader = require('dataloader');
  * @return {Object}         object of loaders
  */
 module.exports = () => {
-  const loader = new DataLoader((selections) => Promise.all(selections.map((fields) => {
-    return SettingsService.retrieve(fields);
-  })));
+  const loader = new DataLoader(selections =>
+    Promise.all(
+      selections.map(fields => {
+        return SettingsService.retrieve(fields);
+      })
+    )
+  );
 
   return {
     Settings: {
       load: (fields = false) => loader.load(fields),
-    }
+    },
   };
 };

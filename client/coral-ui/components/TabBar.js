@@ -9,15 +9,14 @@ import PropTypes from 'prop-types';
  * a tab bar.
  */
 class TabBar extends React.Component {
-
-  getRootClassName({className, classNames = {}, sub} = this.props) {
+  getRootClassName({ className, classNames = {}, sub } = this.props) {
     return cn(
       'talk-tab-bar',
-      className,
       {
         [classNames.root || styles.root]: !sub,
         [classNames.rootSub || styles.rootSub]: sub,
-      }
+      },
+      className
     );
   }
 
@@ -30,33 +29,27 @@ class TabBar extends React.Component {
       onTabClick: _b,
       'aria-controls': ariaControls,
       sub,
-      ...rest,
+      ...rest
     } = this.props;
 
     return (
-      <ul
-        {...rest}
-        role="tablist"
-        className={this.getRootClassName()}
-      >
-        {React.Children.toArray(children)
-          .map((child, i) =>
-            React.cloneElement(child, {
-              tabId: (child.props.tabId !== undefined) ? child.props.tabId : i,
-              active: child.props.tabId === activeTab,
-              onTabClick: this.props.onTabClick,
-              classNames: tabClassNames,
-              'aria-controls': ariaControls,
-              sub,
-            })
-          )}
+      <ul {...rest} role="tablist" className={this.getRootClassName()}>
+        {React.Children.toArray(children).map((child, i) =>
+          React.cloneElement(child, {
+            tabId: child.props.tabId !== undefined ? child.props.tabId : i,
+            active: child.props.tabId === activeTab,
+            onTabClick: this.props.onTabClick,
+            classNames: tabClassNames,
+            'aria-controls': ariaControls,
+            sub,
+          })
+        )}
       </ul>
     );
   }
 }
 
 TabBar.propTypes = {
-
   // className to be added to the root element.
   className: PropTypes.string,
 

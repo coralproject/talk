@@ -4,7 +4,7 @@ import styles from './CountBadge.css';
 
 import t from 'coral-framework/services/i18n';
 
-const CountBadge = ({count}) => {
+const CountBadge = ({ count }) => {
   let number = count;
 
   // shorten large counts to abbreviations
@@ -16,13 +16,11 @@ const CountBadge = ({count}) => {
     number = `${(number / 1e3).toFixed(1)}${t('modqueue.thousand')}`;
   }
 
-  return (
-    <span className={styles.count}>{number}</span>
-  );
+  return <span className={styles.count}>{number}</span>;
 };
 
 CountBadge.propTypes = {
-  count: PropTypes.number.isRequired
+  count: PropTypes.number.isRequired,
 };
 
 export default CountBadge;

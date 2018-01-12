@@ -3,32 +3,39 @@ import PropTypes from 'prop-types';
 
 import TagLabel from 'talk-plugin-tag-label/TagLabel';
 import CommentTimestamp from 'coral-framework/components/CommentTimestamp';
-import {ReplyBox, ReplyButton} from 'talk-plugin-replies';
-import {FlagComment} from 'talk-plugin-flags';
-import {can} from 'coral-framework/services/perms';
-import {TransitionGroup} from 'react-transition-group';
+import { ReplyBox, ReplyButton } from 'talk-plugin-replies';
+import { FlagComment } from 'talk-plugin-flags';
+import { can } from 'coral-framework/services/perms';
+import { TransitionGroup } from 'react-transition-group';
 import cn from 'classnames';
 import styles from './Comment.css';
-import {THREADING_LEVEL} from '../../../constants/stream';
+import { THREADING_LEVEL } from '../../../constants/stream';
 import merge from 'lodash/merge';
 import mapValues from 'lodash/mapValues';
 
 import LoadMore from './LoadMore';
-import {getEditableUntilDate} from './util';
-import {findCommentWithId} from '../../../graphql/utils';
+import { getEditableUntilDate } from './util';
+import { findCommentWithId } from '../../../graphql/utils';
 import CommentContent from 'coral-framework/components/CommentContent';
 import Slot from 'coral-framework/components/Slot';
 import CommentTombstone from './CommentTombstone';
 import InactiveCommentLabel from './InactiveCommentLabel';
-import {EditableCommentContent} from './EditableCommentContent';
-import {getActionSummary, iPerformedThisAction, forEachError, isCommentActive, getShallowChanges} from 'coral-framework/utils';
+import { EditableCommentContent } from './EditableCommentContent';
+import {
+  getActionSummary,
+  iPerformedThisAction,
+  forEachError,
+  isCommentActive,
+  getShallowChanges,
+} from 'coral-framework/utils';
 import t from 'coral-framework/services/i18n';
 import CommentContainer from '../containers/Comment';
-import {CommentAuthorName} from 'coral-framework/components';
+import { CommentAuthorName } from 'coral-framework/components';
 
-const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
-const hasTag = (tags, lookupTag) => !!tags.filter((t) => t.tag.name === lookupTag).length;
-const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
+const isStaff = tags => !tags.every(t => t.tag.name !== 'STAFF');
+const hasTag = (tags, lookupTag) =>
+  !!tags.filter(t => t.tag.name === lookupTag).length;
+const hasComment = (nodes, id) => nodes.some(node => node.id === id);
 
 // resetCursors will return the id cursors of the first and second newest comment in
 // the current reply list. The cursors are used to dertermine which
@@ -41,9 +48,9 @@ function resetCursors(state, props) {
     if (replies.nodes.length >= 2) {
       idCursors.push(replies.nodes[replies.nodes.length - 2].id);
     }
-    return {idCursors};
+    return { idCursors };
   }
-  return {idCursors: []};
+  return { idCursors: [] };
 }
 
 // invalidateCursor is called whenever a comment is removed which is referenced
@@ -55,17 +62,17 @@ function invalidateCursor(invalidated, state, props) {
   const idCursors = [];
   if (state.idCursors[alt]) {
     idCursors.push(state.idCursors[alt]);
-    const index = replies.nodes.findIndex((node) => node.id === idCursors[0]);
+    const index = replies.nodes.findIndex(node => node.id === idCursors[0]);
     const prevInLine = replies.nodes[index - 1];
     if (prevInLine) {
       idCursors.push(prevInLine.id);
     }
   }
-  return {idCursors};
+  return { idCursors };
 }
 
 // hold actions links (e.g. Reply) along the comment footer
-const ActionButton = ({children}) => {
+const ActionButton = ({ children }) => {
   return (
     <span className="comment__action-button comment__action-button--nowrap">
       {children}
@@ -85,7 +92,6 @@ function containsCommentId(props, id) {
 }
 
 export default class Comment extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -103,29 +109,37 @@ export default class Comment extends React.Component {
   }
 
   componentWillReceiveProps(next) {
-    const {comment: {replies: prevReplies}} = this.props;
-    const {comment: {replies: nextReplies}} = next;
+    const { comment: { replies: prevReplies } } = this.props;
+    const { comment: { replies: nextReplies } } = next;
     if (
-      prevReplies && nextReplies &&
-        nextReplies.nodes.length < prevReplies.nodes.length
+      prevReplies &&
+      nextReplies &&
+      nextReplies.nodes.length < prevReplies.nodes.length
     ) {
-
       // Invalidate first cursor if referenced comment was removed.
-      if (this.state.idCursors[0] && !hasComment(nextReplies.nodes, this.state.idCursors[0])) {
+      if (
+        this.state.idCursors[0] &&
+        !hasComment(nextReplies.nodes, this.state.idCursors[0])
+      ) {
         this.setState(invalidateCursor(0, this.state, next));
       }
 
       // Invalidate second cursor if referenced comment was removed.
-      if (this.state.idCursors[1] && !hasComment(nextReplies.nodes, this.state.idCursors[1])) {
+      if (
+        this.state.idCursors[1] &&
+        !hasComment(nextReplies.nodes, this.state.idCursors[1])
+      ) {
         this.setState(invalidateCursor(1, this.state, next));
       }
     }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-
     // Specifically handle `activeReplyBox` if it is the only change.
-    const changes = [...getShallowChanges(this.props, nextProps), ...getShallowChanges(this.state, nextState)];
+    const changes = [
+      ...getShallowChanges(this.props, nextProps),
+      ...getShallowChanges(this.state, nextState),
+    ];
     if (changes.length === 1 && changes[0] === 'activeReplyBox') {
       if (
         !containsCommentId(this.props, this.props.activeReplyBox) &&
@@ -140,7 +154,6 @@ export default class Comment extends React.Component {
   }
 
   static propTypes = {
-
     // id of currently opened ReplyBox. tracked in Stream.js
     activeReplyBox: PropTypes.string.isRequired,
     disableReply: PropTypes.bool,
@@ -156,7 +169,7 @@ export default class Comment extends React.Component {
     liveUpdates: PropTypes.bool,
     asset: PropTypes.object.isRequired,
     currentUser: PropTypes.shape({
-      id: PropTypes.string.isRequired
+      id: PropTypes.string.isRequired,
     }),
     charCountEnable: PropTypes.bool.isRequired,
     maxCharCount: PropTypes.number,
@@ -167,20 +180,20 @@ export default class Comment extends React.Component {
       id: PropTypes.string.isRequired,
       tags: PropTypes.arrayOf(
         PropTypes.shape({
-          name: PropTypes.string
+          name: PropTypes.string,
         })
       ),
       replies: PropTypes.object,
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
-        username: PropTypes.string.isRequired
+        username: PropTypes.string.isRequired,
       }).isRequired,
       editing: PropTypes.shape({
         edited: PropTypes.bool,
 
         // ISO8601
         editableUntil: PropTypes.string,
-      })
+      }),
     }).isRequired,
     setCommentStatus: PropTypes.func.isRequired,
 
@@ -189,24 +202,28 @@ export default class Comment extends React.Component {
 
     // emit custom events
     emit: PropTypes.func.isRequired,
-  }
+  };
 
   editComment = (...args) => {
-    return this.props.editComment(this.props.comment.id, this.props.asset.id, ...args);
-  }
+    return this.props.editComment(
+      this.props.comment.id,
+      this.props.asset.id,
+      ...args
+    );
+  };
 
-  onClickEdit (e) {
+  onClickEdit(e) {
     e.preventDefault();
     if (!can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
       this.props.notify('error', t('error.NOT_AUTHORIZED'));
       return;
     }
-    this.setState({isEditing: true});
+    this.setState({ isEditing: true });
   }
 
-  stopEditing () {
+  stopEditing() {
     if (this._isMounted) {
-      this.setState({isEditing: false});
+      this.setState({ isEditing: false });
     }
   }
 
@@ -219,35 +236,42 @@ export default class Comment extends React.Component {
     return (
       me &&
       me.ignoredUsers &&
-      me.ignoredUsers.find((u) => u.id === comment.user.id)
+      me.ignoredUsers.find(u => u.id === comment.user.id)
     );
   }
 
   hasIgnoredReplies() {
-    return this.props.comment.replies &&
-      this.props.comment.replies.nodes.some((reply) => this.commentIsIgnored(reply));
+    return (
+      this.props.comment.replies &&
+      this.props.comment.replies.nodes.some(reply =>
+        this.commentIsIgnored(reply)
+      )
+    );
   }
 
   loadNewReplies = () => {
-    const {comment: {replies, replyCount, id}, emit} = this.props;
+    const { comment: { replies, replyCount, id }, emit } = this.props;
     if (replyCount > replies.nodes.length) {
-      this.setState({loadingState: 'loading'});
-      this.props.loadMore(id)
+      this.setState({ loadingState: 'loading' });
+      this.props
+        .loadMore(id)
         .then(() => {
           this.setState({
             ...resetCursors(this.state, this.props),
             loadingState: 'success',
           });
         })
-        .catch((error) => {
-          this.setState({loadingState: 'error'});
-          forEachError(error, ({msg}) => {this.props.notify('error', msg);});
+        .catch(error => {
+          this.setState({ loadingState: 'error' });
+          forEachError(error, ({ msg }) => {
+            this.props.notify('error', msg);
+          });
         });
-      emit('ui.Comment.showMoreReplies', {id});
+      emit('ui.Comment.showMoreReplies', { id });
       return;
     }
     this.setState(resetCursors);
-    emit('ui.Comment.showMoreReplies', {id});
+    emit('ui.Comment.showMoreReplies', { id });
   };
 
   showReplyBox = () => {
@@ -261,16 +285,16 @@ export default class Comment extends React.Component {
       this.props.notify('error', t('error.NOT_AUTHORIZED'));
     }
     return;
-  }
+  };
 
   commentPostedHandler = () => {
     this.props.setActiveReplyBox('');
-  }
+  };
 
   // getVisibileReplies returns a list containing comments
   // which were authored by current user or comes before the `idCursor`.
   getVisibileReplies() {
-    const {comment: {replies}, currentUser, liveUpdates} = this.props;
+    const { comment: { replies }, currentUser, liveUpdates } = this.props;
     const idCursor = this.state.idCursors[0];
     const userId = currentUser ? currentUser.id : null;
 
@@ -284,8 +308,8 @@ export default class Comment extends React.Component {
 
     const view = [];
     let pastCursor = false;
-    replies.nodes.forEach((comment) => {
-      if (idCursor && !pastCursor || comment.user.id === userId) {
+    replies.nodes.forEach(comment => {
+      if ((idCursor && !pastCursor) || comment.user.id === userId) {
         view.push(comment);
       }
       if (comment.id === idCursor) {
@@ -305,7 +329,7 @@ export default class Comment extends React.Component {
     if (this.state.isEditable) {
       const msLeftToEdit = editWindowRemainingMs(this.props.comment);
       this.editWindowExpiryTimeout = setTimeout(() => {
-        this.setState({isEditable: false});
+        this.setState({ isEditable: false });
       }, Math.max(msLeftToEdit, 0));
     }
   }
@@ -315,7 +339,7 @@ export default class Comment extends React.Component {
     }
     this._isMounted = false;
   }
-  render () {
+  render() {
     const {
       asset,
       data,
@@ -340,20 +364,26 @@ export default class Comment extends React.Component {
       liveUpdates,
       animateEnter,
       emit,
-      commentClassNames = []
+      commentClassNames = [],
     } = this.props;
 
     if (!highlighted && this.commentIsRejected(comment)) {
-      return <CommentTombstone action='reject' onUndo={() => {
-        this.props.setCommentStatus({
-          commentId: comment.id,
-          status: comment.status_history[comment.status_history.length - 2].type,
-        });
-      }}/>;
+      return (
+        <CommentTombstone
+          action="reject"
+          onUndo={() => {
+            this.props.setCommentStatus({
+              commentId: comment.id,
+              status:
+                comment.status_history[comment.status_history.length - 2].type,
+            });
+          }}
+        />
+      );
     }
 
     if (this.commentIsIgnored(comment)) {
-      return <CommentTombstone action='ignore' />;
+      return <CommentTombstone action="ignore" />;
     }
 
     const view = this.getVisibileReplies();
@@ -361,12 +391,17 @@ export default class Comment extends React.Component {
     // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
     const isActive = isCommentActive(comment.status);
 
-    const {loadingState} = this.state;
+    const { loadingState } = this.state;
     const isPending = comment.id.indexOf('pending') >= 0;
     const isHighlighted = highlighted === comment.id;
 
-    const hasMoreComments = comment.replies && (comment.replies.hasNextPage || comment.replies.nodes.length > view.length);
-    const moreRepliesCount = this.hasIgnoredReplies() ? -1 : comment.replyCount - view.length;
+    const hasMoreComments =
+      comment.replies &&
+      (comment.replies.hasNextPage ||
+        comment.replies.nodes.length > view.length);
+    const moreRepliesCount = this.hasIgnoredReplies()
+      ? -1
+      : comment.replyCount - view.length;
     const flagSummary = getActionSummary('FlagActionSummary', comment);
     const dontAgreeSummary = getActionSummary(
       'DontAgreeActionSummary',
@@ -374,9 +409,9 @@ export default class Comment extends React.Component {
     );
     let myFlag = null;
     if (iPerformedThisAction('FlagActionSummary', comment)) {
-      myFlag = flagSummary.find((s) => s.current_user);
+      myFlag = flagSummary.find(s => s.current_user);
     } else if (iPerformedThisAction('DontAgreeActionSummary', comment)) {
-      myFlag = dontAgreeSummary.find((s) => s.current_user);
+      myFlag = dontAgreeSummary.find(s => s.current_user);
     }
 
     /**
@@ -390,13 +425,15 @@ export default class Comment extends React.Component {
      *
      * This will add myClassName to comments tagged with STAFF TAG.
      * **/
-    const conditionalClassNames =
-      mapValues(merge({}, ...commentClassNames), (condition) => {
+    const conditionalClassNames = mapValues(
+      merge({}, ...commentClassNames),
+      condition => {
         if (condition.tags) {
-          return condition.tags.some((tag) => hasTag(comment.tags, tag));
+          return condition.tags.some(tag => hasTag(comment.tags, tag));
         }
         return false;
-      });
+      }
+    );
 
     const rootClassName = cn(
       'talk-stream-comment-wrapper',
@@ -406,7 +443,7 @@ export default class Comment extends React.Component {
       {
         ...conditionalClassNames,
         [styles.enter]: animateEnter,
-      },
+      }
     );
 
     const commentClassName = cn(
@@ -435,12 +472,8 @@ export default class Comment extends React.Component {
     };
 
     return (
-      <div
-        className={rootClassName}
-        id={`c_${comment.id}`}
-      >
+      <div className={rootClassName} id={`c_${comment.id}`}>
         <div className={commentClassName}>
-
           <Slot
             className={`${styles.commentAvatar} talk-stream-comment-avatar`}
             fill="commentAvatar"
@@ -449,23 +482,43 @@ export default class Comment extends React.Component {
             inline
           />
 
-          <div className={cn(styles.commentContainer, 'talk-stream-comment-container')}>
+          <div
+            className={cn(
+              styles.commentContainer,
+              'talk-stream-comment-container'
+            )}
+          >
             <div className={cn(styles.header, 'talk-stream-comment-header')}>
-
-              <div className={cn(styles.headerContainer, 'talk-stream-comment-header-container')}>
+              <div
+                className={cn(
+                  styles.headerContainer,
+                  'talk-stream-comment-header-container'
+                )}
+              >
                 <Slot
-                  className={cn(styles.username, 'talk-stream-comment-user-name')}
+                  className={cn(
+                    styles.username,
+                    'talk-stream-comment-user-name'
+                  )}
                   fill="commentAuthorName"
                   defaultComponent={CommentAuthorName}
                   queryData={queryData}
                   {...slotProps}
                 />
 
-                <div className={cn(styles.tagsContainer, 'talk-stream-comment-header-tags-container')}>
+                <div
+                  className={cn(
+                    styles.tagsContainer,
+                    'talk-stream-comment-header-tags-container'
+                  )}
+                >
                   {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 
                   <Slot
-                    className={cn(styles.commentAuthorTagsSlot, 'talk-stream-comment-author-tags')}
+                    className={cn(
+                      styles.commentAuthorTagsSlot,
+                      'talk-stream-comment-author-tags'
+                    )}
                     fill="commentAuthorTags"
                     queryData={queryData}
                     {...slotProps}
@@ -473,7 +526,11 @@ export default class Comment extends React.Component {
                   />
                 </div>
 
-                <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
+                <span
+                  className={`${
+                    styles.bylineSecondary
+                  } talk-stream-comment-user-byline`}
+                >
                   <Slot
                     fill="commentTimestamp"
                     defaultComponent={CommentTimestamp}
@@ -482,11 +539,13 @@ export default class Comment extends React.Component {
                     queryData={queryData}
                     {...slotProps}
                   />
-                  {
-                    (comment.editing && comment.editing.edited)
-                      ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
-                      : null
-                  }
+                  {comment.editing && comment.editing.edited ? (
+                    <span>
+                      &nbsp;<span className={styles.editedMarker}>
+                        ({t('comment.edited')})
+                      </span>
+                    </span>
+                  ) : null}
                 </span>
               </div>
 
@@ -497,48 +556,50 @@ export default class Comment extends React.Component {
                 queryData={queryData}
               />
 
-              { isActive && (currentUser && (comment.user.id === currentUser.id)) &&
-
-                /* User can edit/delete their own comment for a short window after posting */
-                <span className={cn(styles.topRight)}>
-                  {
-                    this.state.isEditable &&
-                    <a
-                      className={cn(styles.link, {[styles.active]: this.state.isEditing})}
-                      onClick={this.onClickEdit}>Edit</a>
-                  }
-                </span>
-              }
-              { !isActive &&
-                <InactiveCommentLabel status={comment.status}/>
-              }
+              {isActive &&
+                (currentUser && comment.user.id === currentUser.id) && (
+                  /* User can edit/delete their own comment for a short window after posting */
+                  <span className={cn(styles.topRight)}>
+                    {this.state.isEditable && (
+                      <a
+                        className={cn(styles.link, {
+                          [styles.active]: this.state.isEditing,
+                        })}
+                        onClick={this.onClickEdit}
+                      >
+                        Edit
+                      </a>
+                    )}
+                  </span>
+                )}
+              {!isActive && <InactiveCommentLabel status={comment.status} />}
             </div>
             <div className={styles.content}>
-              {
-                this.state.isEditing
-                  ? <EditableCommentContent
-                    editComment={this.editComment}
-                    notify={notify}
-                    comment={comment}
-                    currentUser={currentUser}
-                    charCountEnable={charCountEnable}
-                    maxCharCount={maxCharCount}
-                    parentId={parentId}
-                    stopEditing={this.stopEditing}
+              {this.state.isEditing ? (
+                <EditableCommentContent
+                  editComment={this.editComment}
+                  notify={notify}
+                  comment={comment}
+                  currentUser={currentUser}
+                  charCountEnable={charCountEnable}
+                  maxCharCount={maxCharCount}
+                  parentId={parentId}
+                  stopEditing={this.stopEditing}
+                />
+              ) : (
+                <div>
+                  <Slot
+                    fill="commentContent"
+                    className="talk-stream-comment-content"
+                    defaultComponent={CommentContent}
+                    {...slotProps}
+                    queryData={queryData}
                   />
-                  : <div>
-                    <Slot
-                      fill="commentContent"
-                      className='talk-stream-comment-content'
-                      defaultComponent={CommentContent}
-                      {...slotProps}
-                      queryData={queryData}
-                    />
-                  </div>
-              }
+                </div>
+              )}
             </div>
             <div className={cn(styles.footer, 'talk-stream-comment-footer')}>
-              {isActive &&
+              {isActive && (
                 <div className={'talk-stream-comment-actions-container'}>
                   <div className="talk-embed-stream-comment-actions-container-left commentActionsLeft comment__action-container">
                     <Slot
@@ -547,14 +608,16 @@ export default class Comment extends React.Component {
                       queryData={queryData}
                       inline
                     />
-                    {!disableReply &&
+
+                    {!disableReply && (
                       <ActionButton>
                         <ReplyButton
                           onClick={this.showReplyBox}
                           parentCommentId={parentId || comment.id}
                           currentUserId={currentUser && currentUser.id}
                         />
-                      </ActionButton>}
+                      </ActionButton>
+                    )}
                   </div>
                   <div className="talk-embed-stream-comment-actions-container-right commentActionsRight comment__action-container">
                     <Slot
@@ -580,27 +643,27 @@ export default class Comment extends React.Component {
                     </ActionButton>
                   </div>
                 </div>
-              }
+              )}
             </div>
           </div>
         </div>
 
-        {activeReplyBox === comment.id
-          ? <ReplyBox
+        {activeReplyBox === comment.id ? (
+          <ReplyBox
             commentPostedHandler={this.commentPostedHandler}
             charCountEnable={charCountEnable}
             maxCharCount={maxCharCount}
             setActiveReplyBox={setActiveReplyBox}
-            parentId={(depth < THREADING_LEVEL) ? comment.id : parentId}
+            parentId={depth < THREADING_LEVEL ? comment.id : parentId}
             notify={notify}
             postComment={postComment}
             currentUser={currentUser}
             assetId={asset.id}
           />
-          : null}
+        ) : null}
 
         <TransitionGroup>
-          {view.map((reply) => {
+          {view.map(reply => {
             return (
               <CommentContainer
                 data={this.props.data}
@@ -646,19 +709,23 @@ export default class Comment extends React.Component {
 }
 
 // return whether the comment is editable
-function commentIsStillEditable (comment) {
+function commentIsStillEditable(comment) {
   const editing = comment && comment.editing;
-  if (!editing) {return false;}
+  if (!editing) {
+    return false;
+  }
   const editableUntil = getEditableUntilDate(comment);
-  const editWindowExpired = (editableUntil - new Date) < 0;
+  const editWindowExpired = editableUntil - new Date() < 0;
   return !editWindowExpired;
 }
 
 // return number of milliseconds before edit window expires
-function editWindowRemainingMs (comment) {
+function editWindowRemainingMs(comment) {
   const editableUntil = getEditableUntilDate(comment);
-  if (!editableUntil) {return;}
+  if (!editableUntil) {
+    return;
+  }
   const now = new Date();
-  const editWindowRemainingMs = (editableUntil - now);
+  const editWindowRemainingMs = editableUntil - now;
   return editWindowRemainingMs;
 }

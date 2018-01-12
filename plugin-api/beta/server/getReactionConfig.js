@@ -1,22 +1,24 @@
-const {SEARCH_OTHER_USERS} = require('../../../perms/constants');
+const { SEARCH_OTHER_USERS } = require('../../../perms/constants');
 const errors = require('../../../errors');
 const pluralize = require('pluralize');
-const CommentModel = require('../../../models/comment');
 const sc = require('snake-case');
-const {CREATE_MONGO_INDEXES} = require('../../../config');
+const CommentModel = require('../../../models/comment');
+const { CREATE_MONGO_INDEXES } = require('../../../config');
 
 function getReactionConfig(reaction) {
   reaction = reaction.toLowerCase();
 
   if (CREATE_MONGO_INDEXES) {
-
     // Create the index on the comment model based on the reaction config.
-    CommentModel.collection.createIndex({
-      created_at: 1,
-      [`action_counts.${sc(reaction)}`]: 1
-    }, {
-      background: true,
-    });
+    CommentModel.collection.createIndex(
+      {
+        created_at: 1,
+        [`action_counts.${sc(reaction)}`]: 1,
+      },
+      {
+        background: true,
+      }
+    );
   }
 
   const reactionPlural = pluralize(reaction);
@@ -126,24 +128,39 @@ function getReactionConfig(reaction) {
 
   return {
     typeDefs,
+    schemas: ({ CommentSchema }) => {
+      CommentSchema.index(
+        {
+          created_at: 1,
+          [`action_counts.${sc(reaction)}`]: 1,
+        },
+        {
+          background: true,
+        }
+      );
+    },
     context: {
       Sort: () => ({
         Comments: {
           [reactionPlural]: {
-            startCursor(ctx, nodes, {cursor}) {
-
+            startCursor(ctx, nodes, { cursor }) {
               // The cursor is the start! This is using numeric pagination.
               return cursor != null ? cursor : 0;
             },
-            endCursor(ctx, nodes, {cursor}) {
-              return nodes.length ? (cursor != null ? cursor : 0) + nodes.length : null;
+            endCursor(ctx, nodes, { cursor }) {
+              return nodes.length
+                ? (cursor != null ? cursor : 0) + nodes.length
+                : null;
             },
-            sort(ctx, query, {cursor, sortOrder}) {
+            sort(ctx, query, { cursor, sortOrder }) {
               if (cursor) {
                 query = query.skip(cursor);
               }
 
-              return query.sort({[`action_counts.${reaction}`]: sortOrder === 'DESC' ? -1 : 1, created_at: sortOrder === 'DESC' ? -1 : 1});
+              return query.sort({
+                [`action_counts.${reaction}`]: sortOrder === 'DESC' ? -1 : 1,
+                created_at: sortOrder === 'DESC' ? -1 : 1,
+              });
             },
           },
         },
@@ -151,37 +168,43 @@ function getReactionConfig(reaction) {
     },
     resolvers: {
       Subscription: {
-        [`${reaction}ActionCreated`]: ({action}) => {
+        [`${reaction}ActionCreated`]: ({ action }) => {
           return action;
         },
-        [`${reaction}ActionDeleted`]: ({action}) => {
+        [`${reaction}ActionDeleted`]: ({ action }) => {
           return action;
         },
       },
       [`${Reaction}Action`]: {
-
         // This will load the user for the specific action. We'll limit this to the
         // admin users only or the current logged in user.
-        user({user_id}, _, {loaders: {Users}, user}) {
+        user({ user_id }, _, { loaders: { Users }, user }) {
           if (user && (user.can(SEARCH_OTHER_USERS) || user_id === user.id)) {
             return Users.getByID.load(user_id);
           }
-        }
+        },
       },
       RootMutation: {
-        [`create${Reaction}Action`]: async (_, {input: {item_id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => {
+        [`create${Reaction}Action`]: async (
+          _,
+          { input: { item_id } },
+          { mutators: { Action }, pubsub, loaders: { Comments } }
+        ) => {
           const comment = await Comments.get.load(item_id);
           if (!comment) {
             throw errors.ErrNotFound;
           }
 
           try {
-            const action = await Action.create({item_id, item_type: 'COMMENTS', action_type: REACTION});
+            const action = await Action.create({
+              item_id,
+              item_type: 'COMMENTS',
+              action_type: REACTION,
+            });
 
             if (pubsub) {
-
               // The comment is needed to allow better filtering e.g. by asset_id.
-              pubsub.publish(`${reaction}ActionCreated`, {action, comment});
+              pubsub.publish(`${reaction}ActionCreated`, { action, comment });
             }
 
             return {
@@ -195,17 +218,20 @@ function getReactionConfig(reaction) {
             throw err;
           }
         },
-        [`delete${Reaction}Action`]: async (_, {input: {id}}, {mutators: {Action}, pubsub, loaders: {Comments}})  => {
-          const action = await Action.delete({id});
+        [`delete${Reaction}Action`]: async (
+          _,
+          { input: { id } },
+          { mutators: { Action }, pubsub, loaders: { Comments } }
+        ) => {
+          const action = await Action.delete({ id });
           if (!action) {
             return null;
           }
 
           const comment = await Comments.get.load(action.item_id);
           if (pubsub) {
-
             // The comment is needed to allow better filtering e.g. by asset_id.
-            pubsub.publish(`${reaction}ActionDeleted`, {action, comment});
+            pubsub.publish(`${reaction}ActionDeleted`, { action, comment });
           }
         },
       },
@@ -213,34 +239,38 @@ function getReactionConfig(reaction) {
     hooks: {
       Action: {
         __resolveType: {
-          post({action_type}) {
+          post({ action_type }) {
             switch (action_type) {
-            case REACTION:
-              return `${Reaction}Action`;
+              case REACTION:
+                return `${Reaction}Action`;
+              default:
+                return undefined;
             }
-          }
-        }
+          },
+        },
       },
       ActionSummary: {
         __resolveType: {
-          post({action_type}) {
+          post({ action_type }) {
             switch (action_type) {
-            case REACTION:
-              return `${Reaction}ActionSummary`;
+              case REACTION:
+                return `${Reaction}ActionSummary`;
+              default:
+                return undefined;
             }
-          }
-        }
-      }
+          },
+        },
+      },
     },
     setupFunctions: {
       [`${reaction}ActionCreated`]: (options, args) => ({
         [`${reaction}ActionCreated`]: {
-          filter: ({comment}) => comment.asset_id === args.asset_id,
+          filter: ({ comment }) => comment.asset_id === args.asset_id,
         },
       }),
       [`${reaction}ActionDeleted`]: (options, args) => ({
         [`${reaction}ActionDeleted`]: {
-          filter: ({comment}) => comment.asset_id === args.asset_id,
+          filter: ({ comment }) => comment.asset_id === args.asset_id,
         },
       }),
     },

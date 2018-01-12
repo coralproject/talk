@@ -1,10 +1,11 @@
-import {Component, cloneElement, Children} from 'react';
+import { Component, cloneElement, Children } from 'react';
 import PropTypes from 'prop-types';
-import {findDOMNode} from 'react-dom';
+import { findDOMNode } from 'react-dom';
 
 export default class ClickOutside extends Component {
   static propTypes = {
-    onClickOutside: PropTypes.func.isRequired
+    onClickOutside: PropTypes.func,
+    children: PropTypes.node,
   };
 
   static contextTypes = {
@@ -13,15 +14,15 @@ export default class ClickOutside extends Component {
 
   domNode = null;
 
-  handleClick = (e) => {
-    const {onClickOutside} = this.props;
+  handleClick = e => {
+    const { onClickOutside } = this.props;
     if (!e || !this.domNode.contains(e.target)) {
-      onClickOutside(e);
+      onClickOutside && onClickOutside(e);
     }
   };
 
   componentDidMount() {
-    const {pym} = this.context;
+    const { pym } = this.context;
     this.domNode = findDOMNode(this);
     document.addEventListener('click', this.handleClick, true);
     if (pym) {
@@ -30,15 +31,17 @@ export default class ClickOutside extends Component {
   }
 
   componentWillUnmount() {
-    const {pym} = this.context;
+    const { pym } = this.context;
     document.removeEventListener('click', this.handleClick, true);
     if (pym) {
-      pym.messageHandlers.click = pym.messageHandlers.click.filter((h) => h !== this.handleClick);
+      pym.messageHandlers.click = pym.messageHandlers.click.filter(
+        h => h !== this.handleClick
+      );
     }
   }
 
   render() {
-    const {children, onClickOutside: _, ...rest} = this.props;
+    const { children, onClickOutside: _, ...rest } = this.props;
     return cloneElement(Children.only(children), rest);
   }
 }

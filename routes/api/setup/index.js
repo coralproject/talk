@@ -7,9 +7,9 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
   try {
     await SetupService.isAvailable();
-    res.json({installed: false});
+    res.json({ installed: false });
   } catch (e) {
-    res.json({installed: true});
+    res.json({ installed: true });
   }
 });
 
@@ -20,13 +20,10 @@ router.post('/', async (req, res, next) => {
     return next(e);
   }
 
-  const {
-    settings,
-    user: {email, password, username}
-  } = req.body;
+  const { settings, user: { email, password, username } } = req.body;
 
   try {
-    await SetupService.setup({settings, user: {email, password, username}});
+    await SetupService.setup({ settings, user: { email, password, username } });
     res.status(204).end();
   } catch (err) {
     return next(err);

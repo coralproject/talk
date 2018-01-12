@@ -1,5 +1,11 @@
 {
+  "exec": "npm-run-all --parallel generate-introspection start:development",
   "verbose": true,
   "ignore": ["test/*", "client/*", "dist/*", "plugins/*/client"],
-  "ext": "js,json,graphql"
+  "ext": "js,json,graphql,yml",
+  "watch": [
+    ".",
+    "bin/cli",
+    "bin/cli-serve"
+  ]
 }

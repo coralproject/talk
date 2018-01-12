@@ -1,6 +1,6 @@
 import React from 'react';
-import {render} from 'react-dom';
-import {GraphQLDocs} from 'graphql-docs';
+import { render } from 'react-dom';
+import { GraphQLDocs } from 'graphql-docs';
 
 import fetcher from './services/fetcher';
 

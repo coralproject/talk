@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {gql, compose} from 'react-apollo';
-import {withFragments} from 'coral-framework/hocs';
+import { gql, compose } from 'react-apollo';
+import { withFragments } from 'coral-framework/hocs';
 
 const FRAGMENT = gql`
   fragment CoralEmbedStream_AutomaticAssetClosure_Fragment on Asset {
@@ -60,7 +60,7 @@ class AutomaticAssetClosure extends React.Component {
       });
 
       if (!asset.isClosed && closedAt) {
-        const diff = (new Date(closedAt) - new Date());
+        const diff = new Date(closedAt) - new Date();
         if (diff >= 0) {
           this.timer = setTimeout(() => this.closeAsset(assetId), diff);
         } else {
@@ -88,8 +88,6 @@ const withAutomaticAssetClosureFragments = withFragments({
   `,
 });
 
-const enhance = compose(
-  withAutomaticAssetClosureFragments,
-);
+const enhance = compose(withAutomaticAssetClosureFragments);
 
 export default enhance(AutomaticAssetClosure);

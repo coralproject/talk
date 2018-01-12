@@ -12,14 +12,18 @@ describe('services.TagsService', () => {
   let comment, user;
   beforeEach(async () => {
     await SettingsService.init();
-    user = await UsersService.createLocalUser('stampi@gmail.com', '1Coral!!', 'Stampi');
+    user = await UsersService.createLocalUser(
+      'stampi@gmail.com',
+      '1Coral!!',
+      'Stampi'
+    );
     comment = await CommentModel.create({
       id: '1',
       body: 'comment 10',
       asset_id: '123',
       status_history: [],
       parent_id: null,
-      author_id: user.id
+      author_id: user.id,
     });
   });
 
@@ -31,43 +35,43 @@ describe('services.TagsService', () => {
 
       await TagsService.add(id, 'COMMENTS', {
         tag: {
-          name
+          name,
         },
-        assigned_by
+        assigned_by,
       });
 
-      const {tags} = await CommentsService.findById(id);
+      const { tags } = await CommentsService.findById(id);
       expect(tags.length).to.equal(1);
       expect(tags[0].tag.name).to.equal(name);
       expect(tags[0].assigned_by).to.equal(assigned_by);
     });
 
-    it('can\'t add same tag.id twice', async () => {
+    it("can't add same tag.id twice", async () => {
       const id = comment.id;
       const name = 'BEST';
       const assigned_by = user.id;
 
       await TagsService.add(id, 'COMMENTS', {
         tag: {
-          name
+          name,
         },
-        assigned_by
+        assigned_by,
       });
 
       {
-        let {tags} = await CommentsService.findById(id);
+        let { tags } = await CommentsService.findById(id);
         expect(tags.length).to.equal(1);
       }
 
       await TagsService.add(id, 'COMMENTS', {
         tag: {
-          name
+          name,
         },
-        assigned_by
+        assigned_by,
       });
 
       {
-        let {tags} = await CommentsService.findById(id);
+        let { tags } = await CommentsService.findById(id);
         expect(tags.length).to.equal(1);
       }
     });
@@ -81,26 +85,26 @@ describe('services.TagsService', () => {
 
       await TagsService.add(id, 'COMMENTS', {
         tag: {
-          name
+          name,
         },
-        assigned_by
+        assigned_by,
       });
 
       {
-        const {tags} = await CommentsService.findById(id);
+        const { tags } = await CommentsService.findById(id);
         expect(tags.length).to.equal(1);
       }
 
       // ok now to remove it
       await TagsService.remove(id, 'COMMENTS', {
         tag: {
-          name
+          name,
         },
-        assigned_by
+        assigned_by,
       });
 
       {
-        const {tags} = await CommentsService.findById(id);
+        const { tags } = await CommentsService.findById(id);
         expect(tags.length).to.equal(0);
       }
     });
@@ -111,33 +115,33 @@ describe('services.TagsService', () => {
 
       await TagsService.add(id, 'COMMENTS', {
         tag: {
-          name: 'ANOTHER'
+          name: 'ANOTHER',
         },
-        assigned_by
+        assigned_by,
       });
 
       await TagsService.add(id, 'COMMENTS', {
         tag: {
-          name
+          name,
         },
-        assigned_by
+        assigned_by,
       });
 
       {
-        const {tags} = await CommentsService.findById(id);
+        const { tags } = await CommentsService.findById(id);
         expect(tags.length).to.equal(2);
       }
 
       // ok now to remove it
       await TagsService.remove(id, 'COMMENTS', {
         tag: {
-          name
+          name,
         },
-        assigned_by
+        assigned_by,
       });
 
       {
-        const {tags} = await CommentsService.findById(id);
+        const { tags } = await CommentsService.findById(id);
         expect(tags.length).to.equal(1);
         expect(tags[0].tag.name).to.equal('ANOTHER');
       }

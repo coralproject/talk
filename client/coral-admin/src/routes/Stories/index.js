@@ -1,1 +1,1 @@
-export {default} from './containers/Stories.js';
+export { default } from './containers/Stories.js';

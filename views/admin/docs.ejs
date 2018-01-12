@@ -25,9 +25,12 @@
         font-weight: bold;
       }
     </style>
+    <%_ if (locals.customCssUrl) { _%>
+    <link href="<%= customCssUrl %>" rel="stylesheet" type="text/css">
+    <%_ } _%>
   </head>
-  <body>
+  <body class="docs-page">
     <div id="root"></div>
-    <script src="<%= STATIC_URL %>client/coral-docs/bundle.js" charset="utf-8"></script>
+    <script src="<%= STATIC_URL %>static/coral-docs/bundle.js" charset="utf-8"></script>
   </body>
 </html>

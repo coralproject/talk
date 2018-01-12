@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import key from 'keymaster';
 import cn from 'classnames';
@@ -12,13 +12,12 @@ import Slot from 'coral-framework/components/Slot';
 import ViewOptions from './ViewOptions';
 
 class Moderation extends Component {
-
   state = {
     isLoadingMore: false,
   };
 
   componentWillMount() {
-    const {toggleModal, singleView} = this.props;
+    const { toggleModal, singleView } = this.props;
 
     key('s', () => singleView());
     key('shift+/', () => toggleModal(true));
@@ -27,82 +26,91 @@ class Moderation extends Component {
     key('t', () => this.nextQueue());
     key('f', () => this.moderate(false));
     key('d', () => this.moderate(true));
-    this.getMenuItems()
-      .forEach((menuItem, idx) => key(`${idx + 1}`, () => this.selectQueue(menuItem)));
+    this.getMenuItems().forEach((menuItem, idx) =>
+      key(`${idx + 1}`, () => this.selectQueue(menuItem))
+    );
   }
 
   onClose = () => {
     this.props.toggleModal(false);
-  }
+  };
 
   nextQueue = () => {
     const activeTab = this.props.activeTab;
 
     const menuItems = this.getMenuItems();
 
-    const activeTabIndex = menuItems.findIndex((item) => item === activeTab);
-    const nextQueueIndex = (activeTabIndex === menuItems.length - 1) ? 0 : activeTabIndex + 1;
+    const activeTabIndex = menuItems.findIndex(item => item === activeTab);
+    const nextQueueIndex =
+      activeTabIndex === menuItems.length - 1 ? 0 : activeTabIndex + 1;
 
     this.selectQueue(menuItems[nextQueueIndex]);
-  }
+  };
 
-  selectQueue = (key) => {
+  selectQueue = key => {
     const assetId = this.props.data.variables.asset_id;
     this.props.router.push(this.props.getModPath(key, assetId));
-  }
+  };
 
   getMenuItems = () => Object.keys(this.props.queueConfig);
 
   closeSearch = () => {
-    const {toggleStorySearch} = this.props;
+    const { toggleStorySearch } = this.props;
     toggleStorySearch(false);
-  }
+  };
 
   openSearch = () => {
     this.props.toggleStorySearch(true);
-  }
+  };
 
   getActiveTabCount = (props = this.props) => {
     return props.root[`${props.activeTab}Count`];
-  }
+  };
 
-  moderate = (accept) => {
-    const {acceptComment, rejectComment, moderation: {selectedCommentId}} = this.props;
+  moderate = accept => {
+    const {
+      acceptComment,
+      rejectComment,
+      moderation: { selectedCommentId },
+    } = this.props;
 
     // Accept or reject only if there's a selected comment
-    if(selectedCommentId != null){
+    if (selectedCommentId != null) {
       const comments = this.getComments();
-      const commentIdx = comments.findIndex((comment) => comment.id === selectedCommentId);
+      const commentIdx = comments.findIndex(
+        comment => comment.id === selectedCommentId
+      );
       const comment = comments[commentIdx];
 
       if (accept) {
-        comment.status !== 'ACCEPTED' && acceptComment({commentId: comment.id});
+        comment.status !== 'ACCEPTED' &&
+          acceptComment({ commentId: comment.id });
       } else {
-        comment.status !== 'REJECTED' && rejectComment({commentId: comment.id});
+        comment.status !== 'REJECTED' &&
+          rejectComment({ commentId: comment.id });
       }
     }
-  }
+  };
 
   getComments = (props = this.props) => {
-    const {root, activeTab} = props;
+    const { root, activeTab } = props;
     return root[activeTab].nodes;
-  }
+  };
 
   loadMore = async () => {
     if (!this.state.isLoadingMore) {
-      this.setState({isLoadingMore: true});
+      this.setState({ isLoadingMore: true });
       try {
         const result = await this.props.loadMore(this.props.activeTab);
-        this.setState({isLoadingMore: false});
+        this.setState({ isLoadingMore: false });
         return result;
-      }
-      catch (e) {
-        this.setState({isLoadingMore: false});
+      } catch (e) {
+        this.setState({ isLoadingMore: false });
         throw e;
       }
     }
     return false;
-  }
+  };
 
   componentWillUnmount() {
     key.unbind('s');
@@ -112,23 +120,32 @@ class Moderation extends Component {
     key.unbind('t');
     key.unbind('f');
     key.unbind('d');
-    this.getMenuItems()
-      .forEach((menuItem, idx) => key.unbind(`${idx + 1}`));
+    this.getMenuItems().forEach((menuItem, idx) => key.unbind(`${idx + 1}`));
   }
 
-  render () {
-    const {root, data, moderation, viewUserDetail, activeTab, getModPath, queueConfig, handleCommentChange, ...props} = this.props;
-    const {asset} = root;
+  render() {
+    const {
+      root,
+      data,
+      moderation,
+      viewUserDetail,
+      activeTab,
+      getModPath,
+      queueConfig,
+      handleCommentChange,
+      ...props
+    } = this.props;
+    const { asset } = root;
     const assetId = asset && asset.id;
 
     const comments = root[activeTab];
 
     const activeTabCount = this.getActiveTabCount();
-    const menuItems = Object.keys(queueConfig).map((queue) => ({
+    const menuItems = Object.keys(queueConfig).map(queue => ({
       key: queue,
       name: queueConfig[queue].name,
       icon: queueConfig[queue].icon,
-      count: root[`${queue}Count`]
+      count: root[`${queue}Count`],
     }));
 
     return (
@@ -145,7 +162,9 @@ class Moderation extends Component {
           items={menuItems}
           activeTab={activeTab}
         />
-        <div className={cn(styles.container, 'talk-admin-moderation-container')}>
+        <div
+          className={cn(styles.container, 'talk-admin-moderation-container')}
+        >
           <ViewOptions
             selectSort={this.props.setSortOrder}
             sort={this.props.moderation.sortOrder}
@@ -160,8 +179,6 @@ class Moderation extends Component {
             activeTab={activeTab}
             singleView={moderation.singleView}
             selectedCommentId={moderation.selectedCommentId}
-            showBanUserDialog={props.showBanUserDialog}
-            showSuspendUserDialog={props.showSuspendUserDialog}
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment}
             loadMore={this.loadMore}
@@ -189,10 +206,10 @@ class Moderation extends Component {
         />
         <Slot
           data={data}
-          queryData={{root, asset}}
+          queryData={{ root, asset }}
           activeTab={activeTab}
           handleCommentChange={handleCommentChange}
-          fill='adminModeration'
+          fill="adminModeration"
         />
       </div>
     );
@@ -213,8 +230,6 @@ Moderation.propTypes = {
   commentBelongToQueue: PropTypes.func.isRequired,
   handleCommentChange: PropTypes.func.isRequired,
   setSortOrder: PropTypes.func.isRequired,
-  showBanUserDialog: PropTypes.func.isRequired,
-  showSuspendUserDialog: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
   loadMore: PropTypes.func.isRequired,

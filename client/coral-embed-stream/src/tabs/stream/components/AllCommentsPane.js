@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
-import {TransitionGroup} from 'react-transition-group';
-import {forEachError} from 'coral-framework/utils';
+import { TransitionGroup } from 'react-transition-group';
+import { forEachError } from 'coral-framework/utils';
 import Comment from '../containers/Comment';
 import NoComments from './NoComments';
 
-const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
+const hasComment = (nodes, id) => nodes.some(node => node.id === id);
 
 // resetCursors will return the id cursors of the first and second comment of
 // the current comment list. The cursors are used to dertermine which
@@ -20,9 +20,9 @@ function resetCursors(state, props) {
     if (comments.nodes[1]) {
       idCursors.push(comments.nodes[1].id);
     }
-    return {idCursors};
+    return { idCursors };
   }
-  return {idCursors: []};
+  return { idCursors: [] };
 }
 
 // invalidateCursor is called whenever a comment is removed which is referenced
@@ -34,17 +34,16 @@ function invalidateCursor(invalidated, state, props) {
   const idCursors = [];
   if (state.idCursors[alt]) {
     idCursors.push(state.idCursors[alt]);
-    const index = comments.nodes.findIndex((node) => node.id === idCursors[0]);
+    const index = comments.nodes.findIndex(node => node.id === idCursors[0]);
     const nextInLine = comments.nodes[index + 1];
     if (nextInLine) {
       idCursors.push(nextInLine.id);
     }
   }
-  return {idCursors};
+  return { idCursors };
 }
 
 class AllCommentsPane extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -54,8 +53,8 @@ class AllCommentsPane extends React.Component {
   }
 
   componentWillReceiveProps(next) {
-    const {comments: prevComments} = this.props;
-    const {comments: nextComments} = next;
+    const { comments: prevComments } = this.props;
+    const { comments: nextComments } = next;
 
     if (!prevComments && nextComments) {
       this.setState(resetCursors);
@@ -63,33 +62,42 @@ class AllCommentsPane extends React.Component {
     }
 
     if (
-      prevComments && nextComments &&
-        nextComments.nodes.length < prevComments.nodes.length
+      prevComments &&
+      nextComments &&
+      nextComments.nodes.length < prevComments.nodes.length
     ) {
-
       // Invalidate first cursor if referenced comment was removed.
-      if (this.state.idCursors[0] && !hasComment(nextComments.nodes, this.state.idCursors[0])) {
+      if (
+        this.state.idCursors[0] &&
+        !hasComment(nextComments.nodes, this.state.idCursors[0])
+      ) {
         this.setState(invalidateCursor(0, this.state, next));
       }
 
       // Invalidate second cursor if referenced comment was removed.
-      if (this.state.idCursors[1] && !hasComment(nextComments.nodes, this.state.idCursors[1])) {
+      if (
+        this.state.idCursors[1] &&
+        !hasComment(nextComments.nodes, this.state.idCursors[1])
+      ) {
         this.setState(invalidateCursor(1, this.state, next));
       }
     }
   }
 
   loadMore = () => {
-    this.setState({loadingState: 'loading'});
-    this.props.loadMore()
+    this.setState({ loadingState: 'loading' });
+    this.props
+      .loadMore()
       .then(() => {
-        this.setState({loadingState: 'success'});
+        this.setState({ loadingState: 'success' });
       })
-      .catch((error) => {
-        this.setState({loadingState: 'error'});
-        forEachError(error, ({msg}) => {this.props.notify('error', msg);});
+      .catch(error => {
+        this.setState({ loadingState: 'error' });
+        forEachError(error, ({ msg }) => {
+          this.props.notify('error', msg);
+        });
       });
-  }
+  };
 
   viewNewComments = () => {
     this.setState(resetCursors);
@@ -99,7 +107,7 @@ class AllCommentsPane extends React.Component {
   // getVisibileComments returns a list containing comments
   // which were authored by current user or comes after the `idCursor`.
   getVisibleComments() {
-    const {comments, currentUser: user} = this.props;
+    const { comments, currentUser: user } = this.props;
     const idCursor = this.state.idCursors[0];
     const userId = user ? user.id : null;
 
@@ -109,7 +117,7 @@ class AllCommentsPane extends React.Component {
 
     const view = [];
     let pastCursor = false;
-    comments.nodes.forEach((comment) => {
+    comments.nodes.forEach(comment => {
       if (comment.id === idCursor) {
         pastCursor = true;
       }
@@ -144,7 +152,7 @@ class AllCommentsPane extends React.Component {
       emit,
     } = this.props;
 
-    const {loadingState} = this.state;
+    const { loadingState } = this.state;
     const visibleComments = this.getVisibleComments();
 
     return (
@@ -155,8 +163,8 @@ class AllCommentsPane extends React.Component {
               count={comments.nodes.length - visibleComments.length}
               loadMore={this.viewNewComments}
             />
-            <TransitionGroup component='div' className="embed__stream">
-              {visibleComments.map((comment) => {
+            <TransitionGroup component="div" className="embed__stream">
+              {visibleComments.map(comment => {
                 return (
                   <Comment
                     commentClassNames={commentClassNames}

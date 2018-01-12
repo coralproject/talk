@@ -1,24 +1,17 @@
 const errors = require('../errors');
 const UserModel = require('../models/user');
 const uuid = require('uuid');
-const {set} = require('lodash');
+const { set } = require('lodash');
 
-const {
-  JWT_ISSUER,
-  JWT_AUDIENCE,
-  JWT_USER_ID_CLAIM,
-} = require('../config');
+const { JWT_ISSUER, JWT_AUDIENCE, JWT_USER_ID_CLAIM } = require('../config');
 
-const {
-  jwt: JWT_SECRET
-} = require('../secrets');
+const { jwt: JWT_SECRET } = require('../secrets');
 
 /**
  * TokenService manages Personal Access Tokens for users. These tokens are
  * persisted in the database and attached to the user.
  */
 module.exports = class TokenService {
-
   /**
    * Creates a token for a user with a given name.
    *
@@ -26,13 +19,12 @@ module.exports = class TokenService {
    * @param {String} tokenName  the name of the token to be created
    */
   static async create(userID, tokenName) {
-
     // Create the token.
     const payload = {
       jti: uuid.v4(),
       iss: JWT_ISSUER,
       aud: JWT_AUDIENCE,
-      pat: true
+      pat: true,
     };
 
     set(payload, JWT_USER_ID_CLAIM, userID);
@@ -44,17 +36,20 @@ module.exports = class TokenService {
     let pat = {
       id: payload.jti,
       name: tokenName,
-      active: true
+      active: true,
     };
 
     // Wait to update the user model with the new PAT.
-    await UserModel.update({id: userID}, {
-      $push: {
-        tokens: pat
+    await UserModel.update(
+      { id: userID },
+      {
+        $push: {
+          tokens: pat,
+        },
       }
-    });
+    );
 
-    return {payload, jwt, pat};
+    return { payload, jwt, pat };
   }
 
   /**
@@ -68,9 +63,9 @@ module.exports = class TokenService {
     let query = {
       tokens: {
         $elemMatch: {
-          id: tokenID
-        }
-      }
+          id: tokenID,
+        },
+      },
     };
 
     if (userID) {
@@ -80,8 +75,8 @@ module.exports = class TokenService {
     // Revoke the token id.
     await UserModel.update(query, {
       $set: {
-        'tokens.$.active': false
-      }
+        'tokens.$.active': false,
+      },
     });
   }
 
@@ -92,17 +87,16 @@ module.exports = class TokenService {
    * @param {String} tokenID the id of the token
    */
   static async validate(userID, tokenID) {
-
     // Find the user.
     let user = await UserModel.findOne({
-      id: userID
+      id: userID,
     });
     if (!user || !user.tokens) {
       throw new errors.ErrAuthentication('user does not exist');
     }
 
     // Extract the token from the user.
-    let token = user.tokens.find(({id}) => id === tokenID);
+    let token = user.tokens.find(({ id }) => id === tokenID);
     if (!token) {
       throw new errors.ErrAuthentication('token does not exist');
     }
@@ -121,14 +115,12 @@ module.exports = class TokenService {
    * @param {String} userID     the id of the user owning the token
    */
   static async list(userID) {
-
     // Get the user specified by the id.
-    let user = await UserModel.findOne({id: userID}).select('tokens');
+    let user = await UserModel.findOne({ id: userID }).select('tokens');
     if (!user || !user.tokens) {
       return [];
     }
 
     return user.tokens;
   }
-
 };

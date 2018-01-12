@@ -1,11 +1,11 @@
 class Introspection {
-  _enums=null;
+  _enums = null;
 
   constructor(data) {
     this._enums = data.__schema.types
-      .filter((type) => type.kind === 'ENUM')
+      .filter(type => type.kind === 'ENUM')
       .reduce((obj, enumType) => {
-        obj[enumType.name] = enumType.enumValues.map((value) => value.name);
+        obj[enumType.name] = enumType.enumValues.map(value => value.name);
         return obj;
       }, {});
   }

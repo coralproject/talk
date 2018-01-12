@@ -1,8 +1,11 @@
-import {gql} from 'react-apollo';
+import { gql } from 'react-apollo';
 import update from 'immutability-helper';
 import uuid from 'uuid/v4';
-import {insertCommentIntoEmbedQuery, removeCommentFromEmbedQuery} from './utils';
-import {mapLeaves} from 'coral-framework/utils';
+import {
+  insertCommentIntoEmbedQuery,
+  removeCommentFromEmbedQuery,
+} from './utils';
+import { mapLeaves } from 'coral-framework/utils';
 
 export default {
   fragments: {
@@ -45,7 +48,7 @@ export default {
         }
       }
     `,
-    CreateDontAgreeResponse : gql`
+    CreateDontAgreeResponse: gql`
       fragment CoralEmbedStream_CreateDontAgreeResponse on CreateDontAgreeResponse {
         dontagree {
           id
@@ -125,8 +128,8 @@ export default {
   },
   mutations: {
     PostComment: ({
-      variables: {input: {asset_id, body, parent_id, tags = []}},
-      state: {auth},
+      variables: { input: { asset_id, body, parent_id, tags = [] } },
+      state: { auth },
     }) => ({
       optimisticResponse: {
         createComment: {
@@ -139,29 +142,29 @@ export default {
               __typename: 'User',
               id: auth.user.id,
               username: auth.user.username,
-              tags: tags.map((tag) => ({
+              tags: tags.map(tag => ({
                 tag: {
                   name: tag,
                   created_at: new Date().toISOString(),
-                  __typename: 'Tag'
+                  __typename: 'Tag',
                 },
                 assigned_by: {
                   id: auth.user.id,
-                  __typename: 'User'
+                  __typename: 'User',
                 },
-                __typename: 'TagLink'
+                __typename: 'TagLink',
               })),
             },
             created_at: new Date().toISOString(),
             body,
             action_summaries: [],
-            tags: tags.map((tag) => ({
+            tags: tags.map(tag => ({
               tag: {
                 name: tag,
                 created_at: new Date().toISOString(),
-                __typename: 'Tag'
+                __typename: 'Tag',
               },
-              __typename: 'TagLink'
+              __typename: 'TagLink',
             })),
             status: 'NONE',
             replyCount: 0,
@@ -171,9 +174,7 @@ export default {
               title: '',
               url: '',
             },
-            parent: parent_id
-              ? {__typename: 'Comment', id: parent_id}
-              : null,
+            parent: parent_id ? { __typename: 'Comment', id: parent_id } : null,
             replies: {
               __typename: 'CommentConnection',
               nodes: [],
@@ -188,13 +189,17 @@ export default {
             },
             status_history: [],
             id: `pending-${uuid()}`,
-          }
-        }
+          },
+        },
       },
       updateQueries: {
-        CoralEmbedStream_Embed: (prev, {mutationResult: {data: {createComment: {comment}}}}) => {
+        CoralEmbedStream_Embed: (
+          prev,
+          { mutationResult: { data: { createComment: { comment } } } }
+        ) => {
           if (
-            prev.me.roles.indexOf('ADMIN') === -1 && prev.asset.settings.moderation === 'PRE' ||
+            (prev.me.role !== 'ADMIN' &&
+              prev.asset.settings.moderation === 'PRE') ||
             comment.status === 'PREMOD' ||
             comment.status === 'REJECTED' ||
             comment.status === 'SYSTEM_WITHHELD'
@@ -203,39 +208,46 @@ export default {
           }
           return insertCommentIntoEmbedQuery(prev, comment);
         },
-        CoralEmbedStream_Profile: (prev, {mutationResult: {data: {createComment: {comment}}}}) => {
+        CoralEmbedStream_Profile: (
+          prev,
+          { mutationResult: { data: { createComment: { comment } } } }
+        ) => {
           return update(prev, {
             me: {
               comments: {
-                nodes: {$unshift: [comment]},
+                nodes: { $unshift: [comment] },
               },
             },
           });
         },
-      }
+      },
     }),
     EditComment: () => ({
       updateQueries: {
-        CoralEmbedStream_Embed: (prev, {mutationResult: {data: {editComment: {comment}}}}) => {
-          if (!['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(comment.status)) {
+        CoralEmbedStream_Embed: (
+          prev,
+          { mutationResult: { data: { editComment: { comment } } } }
+        ) => {
+          if (
+            !['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(comment.status)
+          ) {
             return null;
           }
           return removeCommentFromEmbedQuery(prev, comment.id);
         },
       },
     }),
-    UpdateAssetSettings: ({variables: {input}})  => ({
+    UpdateAssetSettings: ({ variables: { input } }) => ({
       updateQueries: {
-        CoralEmbedStream_Embed: (prev) => {
+        CoralEmbedStream_Embed: prev => {
           const updated = update(prev, {
             asset: {
-              settings: mapLeaves(input, (leaf) => ({$set: leaf})),
+              settings: mapLeaves(input, leaf => ({ $set: leaf })),
             },
           });
           return updated;
-        }
-      }
+        },
+      },
     }),
   },
 };
-

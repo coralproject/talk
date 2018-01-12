@@ -6,13 +6,13 @@
 export function createNotificationService(pym) {
   return {
     success(text) {
-      pym.sendMessage('coral-alert', JSON.stringify({kind: 'success', text}));
+      pym.sendMessage('coral-alert', JSON.stringify({ kind: 'success', text }));
     },
     error(text) {
-      pym.sendMessage('coral-alert', JSON.stringify({kind: 'error', text}));
+      pym.sendMessage('coral-alert', JSON.stringify({ kind: 'error', text }));
     },
     info(text) {
-      pym.sendMessage('coral-alert', JSON.stringify({kind: 'info', text}));
+      pym.sendMessage('coral-alert', JSON.stringify({ kind: 'info', text }));
     },
   };
 }

@@ -4,23 +4,24 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
-const mongoose = require('../services/mongoose');
 const util = require('./util');
+const program = require('commander');
+const mongoose = require('../services/mongoose');
 const databaseVerifications = require('./verifications/database');
 
 // Register the shutdown criteria.
-util.onshutdown([
-  () => mongoose.disconnect()
-]);
+util.onshutdown([() => mongoose.disconnect()]);
 
-async function database({fix = false, limit = Infinity, batch = 1000}) {
+async function database({ fix = false, limit = Infinity, batch = 1000 }) {
   try {
     for (const verification of databaseVerifications) {
-      await verification({fix, limit, batch});
+      await verification({ fix, limit, batch });
     }
   } catch (err) {
-    console.error(`Failed to process all the ${databaseVerifications.length} verifications`, err);
+    console.error(
+      `Failed to process all the ${databaseVerifications.length} verifications`,
+      err
+    );
     util.shutdown(1);
     return;
   }
@@ -36,8 +37,16 @@ program
   .command('db')
   .description('verifies the database integrity')
   .option('-f, --fix', 'fix the problems found with database inconsistencies')
-  .option('-l, --limit [size]', 'limit the amount of documents to process in a single pass, this will ensure only a maximum number of batch operations are issued [default: inf]', parseInt)
-  .option('-b, --batch [size]', 'batch size to process verifications and repairs of documents [default: 1000]', parseInt)
+  .option(
+    '-l, --limit [size]',
+    'limit the amount of documents to process in a single pass, this will ensure only a maximum number of batch operations are issued [default: inf]',
+    parseInt
+  )
+  .option(
+    '-b, --batch [size]',
+    'batch size to process verifications and repairs of documents [default: 1000]',
+    parseInt
+  )
   .action(database);
 
 program.parse(process.argv);
