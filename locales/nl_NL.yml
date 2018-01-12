@@ -291,7 +291,7 @@ nl_NL:
     toggle_search: "Open zoekvenster"
     next_queue: "Verander wachtrij"
     oldest_first: "Oudste eerst"
-    premod: Voor-mod
+    premod: "Wachtend op moderatie"
     prev_comment: "Ga naar de vorige reactie"
     reject: "Wijs af"
     rejected: "Afgewezen"
