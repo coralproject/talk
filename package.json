@@ -209,6 +209,7 @@
     "nightwatch": "^0.9.16",
     "nodemon": "^1.11.0",
     "pre-git": "^3.16.0",
+    "prettier-eslint-cli": "4.7.0",
     "selenium-standalone": "^6.11.0",
     "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
