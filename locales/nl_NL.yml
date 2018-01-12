@@ -1,6 +1,6 @@
 nl_NL:
-  your_account_has_been_suspended: Je account is tijdelijk geschorst
-  your_account_has_been_banned: Je account is verbannen
+  your_account_has_been_suspended: Je account is tijdelijk geschorst.
+  your_account_has_been_banned: Je account is verbannen.
   your_username_has_been_rejected: Je account is geschorst omdat we je gebruikersnaam ongepast vinden. Verander je gebruikersnaam om hem weer te activeren.
   embed_comments_tab: Reacties
   bandialog:
@@ -9,7 +9,7 @@ nl_NL:
     banned_user: "Verbannen gebruiker"
     cancel: "Annuleren"
     note: "Opmerking: {0}"
-    note_reject_comment: "Door deze gebruiker te verbannen verplaats je diens reactie ook naar de lijst met afgewezen reacties"
+    note_reject_comment: "Door deze gebruiker te verbannen verplaats je diens reactie ook naar de lijst met afgewezen reacties."
     note_ban_user: "Door deze gebruiker te verbannen kan deze geen reactie meer wijzigen of verwijderen."
     yes_ban_user: "Ja, verban gebruiker"
   bio_offensive: "Deze biografie is aanstootgevend."
@@ -46,7 +46,7 @@ nl_NL:
   comment_singular: Reactie
   comment_plural: Reacties
   comment_post_banned_word: "Je reactie bevat een of meerdere termen die wij niet toestaan. Neem contact op wanneer je het er niet mee eens bent."
-  comment_post_notif: "Je reactie is geplaatst"
+  comment_post_notif: "Je reactie is geplaatst."
   comment_post_notif_premod: "Dank voor je reactie! Deze wordt zo snel mogelijk gemodereerd."
   common:
     copy: 'Kopieer'
@@ -97,13 +97,13 @@ nl_NL:
     closed_comments_desc: "Schrijf een bericht om weer te geven wanneer de conversatie is afgesloten."
     closed_comments_label: "Schrijf een bericht..."
     closed_stream_settings: "Afgesloten conversatie bericht"
-    comment_count_error: "Voer een geldig getal in"
+    comment_count_error: "Voer een geldig getal in."
     comment_count_header: "Reactielengte beperken"
     comment_count_text_post: tekens
     comment_count_text_pre: "Reacties worden ingekort op"
     comment_settings: Instellingen
     comment_stream: "Conversatie"
-    comment_stream_will_close: "Deze conversatie zal worden afgesloten"
+    comment_stream_will_close: "Deze conversatie zal worden afgesloten."
     community: Community
     configure: Instellen
     copy_and_paste: "Kopieer en plak onderstaande code om je reactie-box in je artikel op te nemen."
@@ -111,7 +111,7 @@ nl_NL:
     custom_css_url_desc: "URL van CSS stylesheet die de standaard Embed Conversatie stylesheet overschrijft. Kan intern of extern zijn."
     days: Dagen
     description: "Als admin kun je de instellingen aanpassen voor de conversatie bij dit verhaal:"
-    domain_list_text: "Voer de domeinen in die je wil toestaan voor Talk, bijvoorbeeld je staging en productie-omgevingen (bijv. localhost:3000 staging.domeinnaam.com domeinnaam.com)"
+    domain_list_text: "Voer de domeinen in die je wil toestaan voor Talk, bijvoorbeeld je staging en productie-omgevingen (bijv. localhost:3000 staging.domeinnaam.com domeinnaam.com)."
     domain_list_title: "Toegestane domeinnamen"
     edit_comment_timeframe_heading: "Wijzig reactie tijdsduur"
     edit_comment_timeframe_text_pre: "Gebruikers hebben"
@@ -154,7 +154,7 @@ nl_NL:
     check_the_form: "Ongeldig formulier. Kijk de invoer na."
     continue: "Doorgaan met dezelfde Facebook gebruikersnaam"
     error_create: "Fout bij het wijzigen van de gebruikersnaam"
-    fake_comment_body: "Dit is een voorbeeld reactie. Lezers kunnen hun gedachten en meningen delen met de Newsrooms in de reactie-sectie"
+    fake_comment_body: "Dit is een voorbeeld reactie. Lezers kunnen hun gedachten en meningen delen met de Newsrooms in de reactie-sectie."
     fake_comment_date: "1 minuut geleden"
     if_you_dont_change_your_name: "Wanneer je gebruikersnaam niet verandert, zal je Facebook gebruikersnaam verschijnen bij al je reacties."
     required_field: "Verplicht veld"
@@ -167,7 +167,7 @@ nl_NL:
   edit_comment:
     body_input_label: "Wijzig deze reactie"
     save_button: "Wijzigingen opslaan"
-    edit_window_expired: "Je kunt deze reactie niet meer wijzigen. De tijdsduur hiervoor is verstreken. "
+    edit_window_expired: "Je kunt deze reactie niet meer wijzigen. De tijdsduur hiervoor is verstreken."
     edit_window_expired_close: "Sluiten"
     edit_window_timer_prefix: "Wijzig venster: "
     second: "seconde"
@@ -176,10 +176,10 @@ nl_NL:
     minutes_plural: "minuten"
   email:
     suspended:
-      subject: "Je account is tijdelijk geschorst"
+      subject: "Je account is tijdelijk geschorst."
     banned:
-      subject: "Je account is verbannen"
-      body: "In lijn met The Coral Project's Community richtlijnen is je account verbannen. Je kunt niet langer reageren, rapporteren of interacteren met onze community"
+      subject: "Je account is verbannen."
+      body: "In lijn met The Coral Project's Community richtlijnen is je account verbannen. Je kunt niet langer reageren, rapporteren of interacteren met onze community."
     confirm:
       has_been_requested: "Een e-mail bevestiging is aangevraagd voor het volgend account:"
       to_confirm: "Ga naar de volgende link om het account te bevestigen:"
@@ -194,7 +194,7 @@ nl_NL:
     copy: "Kopieer naar klembord"
   error:
     EMAIL_VERIFICATION_TOKEN_INVALID: "Ongeldig e-mail verificatie token"
-    PASSWORD_RESET_TOKEN_INVALID: "Je wachtwoord-herstel token is ongeldig"
+    PASSWORD_RESET_TOKEN_INVALID: "Je wachtwoord-herstel token is ongeldig."
     COMMENT_TOO_SHORT: "Reacties moeten meer dan één teken hebben. Herzie je reactie en probeer opnieuw."
     NOT_AUTHORIZED: "Je bent niet geauthoriseerd om dit te doen."
     NO_SPECIAL_CHARACTERS: "Gebruikersnamen kunnen alleen cijfers, letters en _ bevatten."
@@ -210,14 +210,14 @@ nl_NL:
     EMAIL_IN_USE: "E-mailadres al in gebruik"
     EMAIL_REQUIRED: "Een e-mailadres is vereist"
     LOGIN_MAXIMUM_EXCEEDED: "Je hebt te veel mislukte inlogpogingen gedaan. Even geduld aub."
-    PASSWORD_REQUIRED: "Je moet een wachtwoord invoeren"
+    PASSWORD_REQUIRED: "Je moet een wachtwoord invoeren."
     COMMENTING_CLOSED: "Reageren is al afgesloten."
     NOT_FOUND: "Bron niet gevonden"
     ALREADY_EXISTS: "Bron bestaat al"
     INVALID_ASSET_URL: "Ongeldige URL"
     CANNOT_IGNORE_STAFF: "Kan geen Staff-leden negeren."
     email: "Geen geldig e-mailadres"
-    confirm_password: "Wachtwoorden komen niet overeen. Controleer opnieuw"
+    confirm_password: "Wachtwoorden komen niet overeen. Controleer opnieuw."
     network_error: "Kon geen verbinding maken met server. Controleer je internetverbinding en probeer het opnieuw."
     email_not_verified: "E-mailadres {0} is niet geverifiëerd"
     email_password: "E-mail en/of wachtwoord combinatie onjuist"
@@ -248,9 +248,9 @@ nl_NL:
     new_count: "Bekijk {0} meer {1}"
     profile: Profiel
     show_all_comments: "Toon alle reacties"
-    success_bio_update: "Je biografie is bijgewerkt"
-    success_name_update: "Je gebruikersnaam is bijgewerkt"
-    success_update_settings: "De conversatie is aangepast"
+    success_bio_update: "Je biografie is bijgewerkt."
+    success_name_update: "Je gebruikersnaam is bijgewerkt."
+    success_update_settings: "De conversatie is aangepast."
     show_all_replies: Toon alle reacties
     show_more_replies: Toon meer reacties
     view_more_comments: "Bekijk meer reacties"
@@ -336,7 +336,7 @@ nl_NL:
     temporarily_suspended: "In overeenstemming met de community richtlijnen van {0} is je account tijdelijk geschorst. Keer terug naar de conversaties {1}."
     comment_not_found: "Reactie niet gevonden"
     no_comments: "Er zijn nog geen reacties. Schrijf er zelf eentje!"
-    no_comments_and_closed: "Er waren geen reacties op dit artikel"
+    no_comments_and_closed: "Er waren geen reacties op dit artikel."
   step_1_header: "Rapporteer een issue"
   step_2_header: "Help ons begrijpen"
   step_3_header: "Dankjewel voor je input"
