@@ -14,7 +14,8 @@ const AssetModel = require('../../models/asset');
  * @param {String} id the asset's id to update
  * @param {Object} settings the settings to update on the asset.
  */
-const updateSettings = async (ctx, id, settings) => AssetsService.overrideSettings(id, settings);
+const updateSettings = async (ctx, id, settings) =>
+  AssetsService.overrideSettings(id, settings);
 
 /**
  * updateStatus will update the status of an asset.
@@ -24,30 +25,36 @@ const updateSettings = async (ctx, id, settings) => AssetsService.overrideSettin
  * @param {Object} status the status to change on the asset relating to it's
  *                        current state.
  */
-const updateStatus = async (ctx, id, {closedAt, closedMessage}) => AssetModel.update({
-  id,
-}, {
-  $set: {
-    closedAt,
-    closedMessage
-  }
-});
+const updateStatus = async (ctx, id, { closedAt, closedMessage }) =>
+  AssetModel.update(
+    {
+      id,
+    },
+    {
+      $set: {
+        closedAt,
+        closedMessage,
+      },
+    }
+  );
 
-module.exports = (ctx) => {
+module.exports = ctx => {
   let mutators = {
     Asset: {
       updateSettings: () => Promise.reject(errors.ErrNotAuthorized),
-      updateStatus: () => Promise.reject(errors.ErrNotAuthorized)
-    }
+      updateStatus: () => Promise.reject(errors.ErrNotAuthorized),
+    },
   };
 
   if (ctx.user) {
     if (ctx.user.can(UPDATE_ASSET_SETTINGS)) {
-      mutators.Asset.updateSettings = (id, settings) => updateSettings(ctx, id, settings);
+      mutators.Asset.updateSettings = (id, settings) =>
+        updateSettings(ctx, id, settings);
     }
 
     if (ctx.user.can(UPDATE_ASSET_STATUS)) {
-      mutators.Asset.updateStatus = (id, status) => updateStatus(ctx, id, status);
+      mutators.Asset.updateStatus = (id, status) =>
+        updateStatus(ctx, id, status);
     }
   }
 

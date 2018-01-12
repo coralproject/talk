@@ -12,9 +12,9 @@ class Tab extends React.Component {
     if (this.props.onTabClick) {
       this.props.onTabClick(this.props.tabId);
     }
-  }
+  };
 
-  getRootClassName({active, className, sub, classNames = {}} = this.props) {
+  getRootClassName({ active, className, sub, classNames = {} } = this.props) {
     return cn(
       'talk-tab',
       {
@@ -24,20 +24,17 @@ class Tab extends React.Component {
         [classNames.rootSubActive || styles.rootSubActive]: active && sub,
         'talk-tab-active': active,
       },
-      className,
+      className
     );
   }
 
-  getButtonClassName({sub, active, classNames = {}} = this.props) {
-    return cn(
-      'talk-tab-button',
-      {
-        [classNames.button || styles.button]: !sub,
-        [classNames.buttonSub || styles.buttonSub]: sub,
-        [classNames.buttonActive || styles.buttonActive]: active && !sub,
-        [classNames.buttonSubActive || styles.buttonSubActive]: active && sub,
-      }
-    );
+  getButtonClassName({ sub, active, classNames = {} } = this.props) {
+    return cn('talk-tab-button', {
+      [classNames.button || styles.button]: !sub,
+      [classNames.buttonSub || styles.buttonSub]: sub,
+      [classNames.buttonActive || styles.buttonActive]: active && !sub,
+      [classNames.buttonSubActive || styles.buttonSubActive]: active && sub,
+    });
   }
 
   render() {
@@ -49,15 +46,11 @@ class Tab extends React.Component {
       tabId: _d,
       sub: _e,
       'aria-controls': ariaControls,
-      ...rest,
+      ...rest
     } = this.props;
 
     return (
-      <li
-        {...rest}
-        role="presentation"
-        className={this.getRootClassName()}
-      >
+      <li {...rest} role="presentation" className={this.getRootClassName()}>
         <button
           aria-controls={ariaControls}
           role="tab"
@@ -73,7 +66,6 @@ class Tab extends React.Component {
 }
 
 Tab.propTypes = {
-
   // className to be added to the root element.
   className: PropTypes.string,
 

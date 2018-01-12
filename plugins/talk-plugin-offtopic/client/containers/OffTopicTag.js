@@ -1,6 +1,6 @@
-import {gql} from 'react-apollo';
+import { gql } from 'react-apollo';
 import OffTopicTag from '../components/OffTopicTag';
-import {withFragments} from 'plugin-api/beta/client/hocs';
+import { withFragments } from 'plugin-api/beta/client/hocs';
 
 export default withFragments({
   comment: gql`
@@ -11,5 +11,5 @@ export default withFragments({
         }
       }
     }
-  `
+  `,
 })(OffTopicTag);

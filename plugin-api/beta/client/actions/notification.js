@@ -1,1 +1,1 @@
-export {notify} from 'coral-framework/actions/notification';
+export { notify } from 'coral-framework/actions/notification';

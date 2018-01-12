@@ -1,7 +1,7 @@
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-15';
 
-Enzyme.configure({adapter: new Adapter()});
+Enzyme.configure({ adapter: new Adapter() });
 
 // Storage Mock
 
@@ -27,7 +27,7 @@ function storageMock() {
     key: function(i) {
       let keys = Object.keys(storage);
       return keys[i] || null;
-    }
+    },
   };
 }
 

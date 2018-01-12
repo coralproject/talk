@@ -9,13 +9,13 @@ const initialState = {
 
 export default function stream(state = initialState, action) {
   switch (action.type) {
-  case actions.SET_ACTIVE_TAB:
-    return {
-      ...state,
-      activeTab: action.tab,
-      previousTab: state.activeTab,
-    };
-  default:
-    return state;
+    case actions.SET_ACTIVE_TAB:
+      return {
+        ...state,
+        activeTab: action.tab,
+        previousTab: state.activeTab,
+      };
+    default:
+      return state;
   }
 }

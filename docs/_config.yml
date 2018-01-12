@@ -21,7 +21,7 @@ url: "https://coralproject.github.io" # the base hostname & protocol for your si
 google_analytics: UA-73335347-5
 versions:
   node: 8+
-  yarn: 1.0.1+
+  yarn: 1.3.2+
   mongodb: 3.2+
   redis: 3.2.5+
   docker: 17.06.2+

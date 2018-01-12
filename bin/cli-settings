@@ -16,12 +16,12 @@ async function changeOrgName() {
   try {
     let settings = await SettingsService.retrieve();
 
-    let {organizationName} = await inquirer.prompt([
+    let { organizationName } = await inquirer.prompt([
       {
         name: 'organizationName',
         message: 'Organization Name',
-        default: settings.organizationName
-      }
+        default: settings.organizationName,
+      },
     ]);
 
     if (settings.organizationName !== organizationName) {

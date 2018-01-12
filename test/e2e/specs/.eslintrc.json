@@ -1,5 +1,5 @@
 {
-  "extends": "@coralproject/eslint-config-talk",
+  "extends": "../../.eslintrc.json",
   "rules": {
     "indent": "off"
   }

@@ -7,7 +7,7 @@ const Limit = require('../../../services/limit');
 
 // create a local user.
 router.post('/', async (req, res, next) => {
-  const {email, password, username} = req.body;
+  const { email, password, username } = req.body;
   const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
   try {
@@ -29,7 +29,7 @@ const resendRateLimiter = new Limit('/api/v1/users/resend-verify', 1, '1m');
 // trigger an email confirmation re-send by a new user
 router.post('/resend-verify', async (req, res, next) => {
   const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
-  let {email = ''} = req.body;
+  let { email = '' } = req.body;
 
   // Clean up and validate the email.
   email = email.toLowerCase().trim();
@@ -66,31 +66,32 @@ router.post('/resend-verify', async (req, res, next) => {
 });
 
 // trigger an email confirmation re-send from the admin panel
-router.post('/:user_id/email/confirm', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
-  const {
-    user_id
-  } = req.params;
+router.post(
+  '/:user_id/email/confirm',
+  authorization.needed('ADMIN', 'MODERATOR'),
+  async (req, res, next) => {
+    const { user_id } = req.params;
 
-  try {
+    try {
+      let user = await UsersService.findById(user_id);
+      if (!user) {
+        return next(errors.ErrNotFound);
+      }
 
-    let user = await UsersService.findById(user_id);
-    if (!user) {
-      return next(errors.ErrNotFound);
+      // Find the first local profile.
+      const email = user.firstEmail;
+      if (!email) {
+        return next(errors.ErrMissingEmail);
+      }
+
+      // Send the email to the first local profile that was found.
+      await UsersService.sendEmailConfirmation(user, email);
+
+      res.status(204).end();
+    } catch (e) {
+      return next(e);
     }
-
-    // Find the first local profile.
-    let localProfile = user.profiles.find((profile) => profile.provider === 'local');
-    if (!localProfile) {
-      return next(errors.ErrMissingEmail);
-    }
-
-    // Send the email to the first local profile that was found.
-    await UsersService.sendEmailConfirmation(user, localProfile.id);
-
-    res.status(204).end();
-  } catch (e) {
-    return next(e);
   }
-});
+);
 
 module.exports = router;

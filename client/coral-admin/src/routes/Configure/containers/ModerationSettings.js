@@ -1,23 +1,24 @@
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {compose, gql} from 'react-apollo';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { compose, gql } from 'react-apollo';
 import ModerationSettings from '../components/ModerationSettings';
 import withFragments from 'coral-framework/hocs/withFragments';
-import {getSlotFragmentSpreads} from 'coral-framework/utils';
-import {updatePending} from '../../../actions/configure';
+import { getSlotFragmentSpreads } from 'coral-framework/utils';
+import { updatePending } from '../../../actions/configure';
 
-const slots = [
-  'adminModerationSettings',
-];
+const slots = ['adminModerationSettings'];
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   errors: state.configure.errors,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({
-    updatePending,
-  }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      updatePending,
+    },
+    dispatch
+  );
 
 export default compose(
   withFragments({
@@ -38,7 +39,7 @@ export default compose(
         }
         ${getSlotFragmentSpreads(slots, 'settings')}
       }
-    `
+    `,
   }),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps)
 )(ModerationSettings);

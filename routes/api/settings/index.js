@@ -4,14 +4,18 @@ const authorization = require('../../../middleware/authorization');
 
 const router = express.Router();
 
-router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
-  try {
-    let settings = await SettingsService.retrieve();
-    res.json(settings);
-  } catch (e) {
-    return next(e);
+router.get(
+  '/',
+  authorization.needed('ADMIN', 'MODERATOR'),
+  async (req, res, next) => {
+    try {
+      let settings = await SettingsService.retrieve();
+      res.json(settings);
+    } catch (e) {
+      return next(e);
+    }
   }
-});
+);
 
 router.put('/', authorization.needed('ADMIN'), async (req, res, next) => {
   try {

@@ -7,17 +7,11 @@ import Comment from '../containers/UserDetailComment';
 import RejectButton from './RejectButton';
 import ApproveButton from './ApproveButton';
 
-const UserDetailCommentList = (props) => {
+const UserDetailCommentList = props => {
   const {
     data,
     root,
-    root: {
-      user,
-      comments: {
-        nodes,
-        hasNextPage
-      }
-    },
+    root: { user, comments: { nodes, hasNextPage } },
     acceptComment,
     rejectComment,
     selectedCommentIds,
@@ -30,39 +24,49 @@ const UserDetailCommentList = (props) => {
   } = props;
 
   return (
-    <div className={cn(styles.commentList, 'talk-admin-user-detail-comment-list')}>
-      
-      <div className={(selectedCommentIds.length > 0) ? cn(styles.bulkActionHeader, styles.selected) : styles.bulkActionHeader}>
+    <div
+      className={cn(styles.commentList, 'talk-admin-user-detail-comment-list')}
+    >
+      <div
+        className={
+          selectedCommentIds.length > 0
+            ? cn(styles.bulkActionHeader, styles.selected)
+            : styles.bulkActionHeader
+        }
+      >
         {selectedCommentIds.length > 0 && (
           <div className={styles.bulkActionGroup}>
-            <ApproveButton
-              onClick={bulkAcceptThenReload}
-              minimal
-            />
-            <RejectButton
-              onClick={bulkRejectThenReload}
-              minimal
-            />
-            <span className={styles.selectedCommentsInfo}>  {selectedCommentIds.length} comments selected</span>
+            <ApproveButton onClick={bulkAcceptThenReload} minimal />
+            <RejectButton onClick={bulkRejectThenReload} minimal />
+            <span className={styles.selectedCommentsInfo}>
+              {' '}
+              {selectedCommentIds.length} comments selected
+            </span>
           </div>
-
         )}
 
         <div className={styles.toggleAll}>
           <input
-            type='checkbox'
-            id='toogleAll'
-            checked={selectedCommentIds.length > 0 && selectedCommentIds.length === nodes.length}
-            onChange={(e) => {
-              toggleSelectAll(nodes.map((comment) => comment.id), e.target.checked);
-            }} />
-          <label htmlFor='toogleAll'>Select all</label>
+            type="checkbox"
+            id="toogleAll"
+            checked={
+              selectedCommentIds.length > 0 &&
+              selectedCommentIds.length === nodes.length
+            }
+            onChange={e => {
+              toggleSelectAll(
+                nodes.map(comment => comment.id),
+                e.target.checked
+              );
+            }}
+          />
+          <label htmlFor="toogleAll">Select all</label>
         </div>
       </div>
-      {
-        nodes.map((comment) => {
-          const selected = selectedCommentIds.indexOf(comment.id) !== -1;
-          return <Comment
+      {nodes.map(comment => {
+        const selected = selectedCommentIds.indexOf(comment.id) !== -1;
+        return (
+          <Comment
             key={comment.id}
             user={user}
             root={root}
@@ -73,9 +77,9 @@ const UserDetailCommentList = (props) => {
             selected={selected}
             toggleSelect={toggleSelect}
             viewUserDetail={viewUserDetail}
-          />;
-        })
-      }
+          />
+        );
+      })}
       <LoadMore
         className={styles.loadMore}
         loadMore={loadMore}

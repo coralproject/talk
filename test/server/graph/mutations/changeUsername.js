@@ -1,17 +1,21 @@
-const {graphql} = require('graphql');
+const { graphql } = require('graphql');
 
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
 const SettingsService = require('../../../../services/settings');
 const UsersService = require('../../../../services/users');
 
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 describe('graph.mutations.changeUsername', () => {
   let user;
   beforeEach(async () => {
     await SettingsService.init();
-    user = await UsersService.createLocalUser('test@test.com', 'testpassword1!', 'kirk');
+    user = await UsersService.createLocalUser(
+      'test@test.com',
+      'testpassword1!',
+      'kirk'
+    );
 
     expect(user).to.have.property('username', 'kirk');
     expect(user).to.have.property('lowercaseUsername', 'kirk');
@@ -47,12 +51,12 @@ describe('graph.mutations.changeUsername', () => {
   `;
 
   [
-    {role: 'COMMENTER'},
-    {role: 'STAFF'},
-    {role: 'COMMENTER'},
-    {role: 'MODERATOR'},
-    {role: 'ADMIN'},
-  ].forEach(({role}) => {
+    { role: 'COMMENTER' },
+    { role: 'STAFF' },
+    { role: 'COMMENTER' },
+    { role: 'MODERATOR' },
+    { role: 'ADMIN' },
+  ].forEach(({ role }) => {
     it(`can change the username with roles ${role}`, async () => {
       let username = 'spock';
 
@@ -60,12 +64,19 @@ describe('graph.mutations.changeUsername', () => {
       await UsersService.setRole(user.id, role);
       user.role = role;
 
-      let ctx = new Context({user});
+      let ctx = new Context({ user });
 
-      let res = await graphql(schema, changeUsernameMutation, {}, ctx, {
-        user_id: user.id,
-        username,
-      }, 'ChangeUsername');
+      let res = await graphql(
+        schema,
+        changeUsernameMutation,
+        {},
+        ctx,
+        {
+          user_id: user.id,
+          username,
+        },
+        'ChangeUsername'
+      );
 
       if (res.errors && res.errors.length > 0) {
         console.error(res.errors);
@@ -74,19 +85,29 @@ describe('graph.mutations.changeUsername', () => {
       expect(res.errors).to.be.undefined;
       expect(res.data.changeUsername).to.have.property('errors');
       expect(res.data.changeUsername.errors).to.have.length(1);
-      expect(res.data.changeUsername.errors[0]).to.have.property('translation_key', 'NOT_AUTHORIZED');
+      expect(res.data.changeUsername.errors[0]).to.have.property(
+        'translation_key',
+        'NOT_AUTHORIZED'
+      );
 
       // Set the user to the desired status.
       user = await UsersService.setUsernameStatus(user.id, 'REJECTED');
 
       expect(user.status.username.status, 'REJECTED');
 
-      ctx = new Context({user});
+      ctx = new Context({ user });
 
-      res = await graphql(schema, changeUsernameMutation, {}, ctx, {
-        user_id: user.id,
-        username,
-      }, 'ChangeUsername');
+      res = await graphql(
+        schema,
+        changeUsernameMutation,
+        {},
+        ctx,
+        {
+          user_id: user.id,
+          username,
+        },
+        'ChangeUsername'
+      );
 
       if (res.errors && res.errors.length > 0) {
         console.error(res.errors);

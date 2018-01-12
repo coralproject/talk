@@ -17,17 +17,20 @@ const plugins = require('../services/plugins');
 
 const setupFunctions = {
   commentAdded: (options, args, comment, context) => {
-
     // Only privileged users can subscribe to all assets.
-    if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ADDED))) {
+    if (
+      !args.asset_id &&
+      (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ADDED))
+    ) {
       return false;
     }
 
     // If user subscribes for statuses other than NONE and/or ACCEPTED statuses, it needs
     // special privileges.
     if (
-      (!args.statuses || args.statuses.some((status) => !['NONE', 'ACCEPTED'].includes(status))) &&
-          (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ADDED))
+      (!args.statuses ||
+        args.statuses.some(status => !['NONE', 'ACCEPTED'].includes(status))) &&
+      (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ADDED))
     ) {
       return false;
     }
@@ -43,7 +46,10 @@ const setupFunctions = {
     return true;
   },
   commentEdited: (options, args, comment, context) => {
-    if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_EDITED))) {
+    if (
+      !args.asset_id &&
+      (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_EDITED))
+    ) {
       return false;
     }
     return !args.asset_id || comment.asset_id === args.asset_id;
@@ -74,8 +80,9 @@ const setupFunctions = {
   },
   userSuspended: (options, args, user, context) => {
     if (
-      !context.user
-          || args.user_id !== user.id && !context.user.can(SUBSCRIBE_ALL_USER_SUSPENDED)
+      !context.user ||
+      (args.user_id !== user.id &&
+        !context.user.can(SUBSCRIBE_ALL_USER_SUSPENDED))
     ) {
       return false;
     }
@@ -83,8 +90,8 @@ const setupFunctions = {
   },
   userBanned: (options, args, user, context) => {
     if (
-      !context.user
-          || args.user_id !== user.id && !context.user.can(SUBSCRIBE_ALL_USER_BANNED)
+      !context.user ||
+      (args.user_id !== user.id && !context.user.can(SUBSCRIBE_ALL_USER_BANNED))
     ) {
       return false;
     }
@@ -92,8 +99,9 @@ const setupFunctions = {
   },
   usernameRejected: (options, args, user, context) => {
     if (
-      !context.user
-          || args.user_id !== user.id && !context.user.can(SUBSCRIBE_ALL_USERNAME_REJECTED)
+      !context.user ||
+      (args.user_id !== user.id &&
+        !context.user.can(SUBSCRIBE_ALL_USERNAME_REJECTED))
     ) {
       return false;
     }
@@ -101,8 +109,9 @@ const setupFunctions = {
   },
   usernameApproved: (options, args, user, context) => {
     if (
-      !context.user
-          || args.user_id !== user.id && !context.user.can(SUBSCRIBE_ALL_USERNAME_APPROVED)
+      !context.user ||
+      (args.user_id !== user.id &&
+        !context.user.can(SUBSCRIBE_ALL_USERNAME_APPROVED))
     ) {
       return false;
     }
@@ -116,21 +125,25 @@ const setupFunctions = {
  * well as provide new ones. We'll remap our internal representation of the
  * setupFunctions into the format needed by Apollo.
  */
-module.exports = plugins.get('server', 'setupFunctions').reduce((acc, {plugin, setupFunctions}) => {
-  debug(`added plugin '${plugin.name}'`);
+module.exports = plugins.get('server', 'setupFunctions').reduce(
+  (acc, { plugin, setupFunctions }) => {
+    debug(`added plugin '${plugin.name}'`);
 
-  return merge(acc, setupFunctions);
-}, Object.keys(setupFunctions).map((key) => {
-  const filter = setupFunctions[key];
+    return merge(acc, setupFunctions);
+  },
+  Object.keys(setupFunctions)
+    .map(key => {
+      const filter = setupFunctions[key];
 
-  return {
-    [key]: (options, args) => ({
-      [key]: {
-        filter: (user, ctx) => filter(options, args, user, ctx)
-      }
+      return {
+        [key]: (options, args) => ({
+          [key]: {
+            filter: (user, ctx) => filter(options, args, user, ctx),
+          },
+        }),
+      };
     })
-  };
-})
-  .reduce((setupFunction, setupFunctions) => {
-    return merge(setupFunctions, setupFunction);
-  }, {}));
+    .reduce((setupFunction, setupFunctions) => {
+      return merge(setupFunctions, setupFunction);
+    }, {})
+);

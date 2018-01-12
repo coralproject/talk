@@ -1,29 +1,28 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {compose, gql} from 'react-apollo';
-import {withFragments} from 'plugin-api/beta/client/hocs';
-import {Spinner} from 'coral-ui';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { compose, gql } from 'react-apollo';
+import { withFragments } from 'plugin-api/beta/client/hocs';
+import { Spinner } from 'coral-ui';
 import PropTypes from 'prop-types';
-import {withApproveUsername} from 'coral-framework/graphql/mutations';
-import {showRejectUsernameDialog} from '../../../actions/community';
-import {viewUserDetail} from '../../../actions/userDetail';
-import {getDefinitionName} from 'coral-framework/utils';
-import {appendNewNodes} from 'plugin-api/beta/client/utils';
+import { withApproveUsername } from 'coral-framework/graphql/mutations';
+import { showRejectUsernameDialog } from '../../../actions/community';
+import { viewUserDetail } from '../../../actions/userDetail';
+import { getDefinitionName } from 'coral-framework/utils';
+import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
 
 import FlaggedAccounts from '../components/FlaggedAccounts';
 import FlaggedUser from '../containers/FlaggedUser';
 
 class FlaggedAccountsContainer extends Component {
-
   constructor(props) {
     super(props);
   }
 
-  approveUser = ({userId: id}) => {
+  approveUser = ({ userId: id }) => {
     return this.props.approveUsername(id);
-  }
+  };
 
   loadMore = () => {
     return this.props.data.fetchMore({
@@ -32,14 +31,14 @@ class FlaggedAccountsContainer extends Component {
         limit: 5,
         cursor: this.props.root.flaggedUsers.endCursor,
       },
-      updateQuery: (previous, {fetchMoreResult:{flaggedUsers}}) => {
+      updateQuery: (previous, { fetchMoreResult: { flaggedUsers } }) => {
         const updated = update(previous, {
           flaggedUsers: {
             nodes: {
-              $apply: (nodes) => appendNewNodes(nodes, flaggedUsers.nodes),
+              $apply: nodes => appendNewNodes(nodes, flaggedUsers.nodes),
             },
-            hasNextPage: {$set: flaggedUsers.hasNextPage},
-            endCursor: {$set: flaggedUsers.endCursor},
+            hasNextPage: { $set: flaggedUsers.hasNextPage },
+            endCursor: { $set: flaggedUsers.endCursor },
           },
         });
         return updated;
@@ -53,7 +52,11 @@ class FlaggedAccountsContainer extends Component {
     }
 
     if (this.props.data.loading) {
-      return <div><Spinner/></div>;
+      return (
+        <div>
+          <Spinner />
+        </div>
+      );
     }
 
     return (
@@ -102,11 +105,14 @@ const LOAD_MORE_QUERY = gql`
   ${FlaggedUser.fragments.user}
 `;
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({
-    showRejectUsernameDialog,
-    viewUserDetail,
-  }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      showRejectUsernameDialog,
+      viewUserDetail,
+    },
+    dispatch
+  );
 
 export default compose(
   connect(null, mapDispatchToProps),
@@ -136,5 +142,5 @@ export default compose(
       }
       ${FlaggedUser.fragments.user}
     `,
-  }),
+  })
 )(FlaggedAccountsContainer);

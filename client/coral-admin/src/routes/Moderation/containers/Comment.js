@@ -1,9 +1,12 @@
-import {gql} from 'react-apollo';
+import { gql } from 'react-apollo';
 import Comment from '../components/Comment';
 import CommentLabels from '../../../containers/CommentLabels';
 import CommentDetails from '../../../containers/CommentDetails';
 import withFragments from 'coral-framework/hocs/withFragments';
-import {getSlotFragmentSpreads, getDefinitionName} from 'coral-framework/utils';
+import {
+  getSlotFragmentSpreads,
+  getDefinitionName,
+} from 'coral-framework/utils';
 
 const slots = [
   'adminCommentInfoBar',
@@ -56,5 +59,5 @@ export default withFragments({
     }
     ${CommentLabels.fragments.comment}
     ${CommentDetails.fragments.comment}
-  `
+  `,
 })(Comment);

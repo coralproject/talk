@@ -8,4 +8,4 @@ zh_CN:
     label: "最多回复在前"
 zh_TW:
   talk-plugin-sort-most-replied:
-    label: 評論最多優先
+    label: 最多回復在前

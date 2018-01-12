@@ -1,16 +1,18 @@
 import React from 'react';
-import {bindActionCreators} from 'redux';
-import {compose, gql} from 'react-apollo';
+import { bindActionCreators } from 'redux';
+import { compose, gql } from 'react-apollo';
 import TabPane from '../components/TabPane';
-import {withFragments, connect} from 'plugin-api/beta/client/hocs';
+import { withFragments, connect } from 'plugin-api/beta/client/hocs';
 import Comment from '../containers/Comment';
-import {notify} from 'plugin-api/beta/client/actions/notification';
-import {viewComment} from 'coral-embed-stream/src/actions/stream';
-import {appendNewNodes, getDefinitionName} from 'plugin-api/beta/client/utils';
+import { notify } from 'plugin-api/beta/client/actions/notification';
+import { viewComment } from 'coral-embed-stream/src/actions/stream';
+import {
+  appendNewNodes,
+  getDefinitionName,
+} from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
 
 class TabPaneContainer extends React.Component {
-
   loadMore = () => {
     return this.props.data.fetchMore({
       query: LOAD_MORE_QUERY,
@@ -22,17 +24,17 @@ class TabPaneContainer extends React.Component {
         sortBy: this.props.data.variables.sortBy,
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
-      updateQuery: (previous, {fetchMoreResult:{comments}}) => {
+      updateQuery: (previous, { fetchMoreResult: { comments } }) => {
         const updated = update(previous, {
           asset: {
             featuredComments: {
               nodes: {
-                $apply: (nodes) => appendNewNodes(nodes, comments.nodes),
+                $apply: nodes => appendNewNodes(nodes, comments.nodes),
               },
-              hasNextPage: {$set: comments.hasNextPage},
-              endCursor: {$set: comments.endCursor},
+              hasNextPage: { $set: comments.hasNextPage },
+              endCursor: { $set: comments.endCursor },
             },
-          }
+          },
         });
         return updated;
       },
@@ -40,10 +42,7 @@ class TabPaneContainer extends React.Component {
   };
 
   render() {
-    return <TabPane
-      {...this.props}
-      loadMore={this.loadMore}
-    />;
+    return <TabPane {...this.props} loadMore={this.loadMore} />;
   }
 }
 
@@ -78,11 +77,14 @@ const LOAD_MORE_QUERY = gql`
   ${Comment.fragments.comment}
 `;
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({
-    viewComment,
-    notify,
-  }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      viewComment,
+      notify,
+    },
+    dispatch
+  );
 
 const enhance = compose(
   connect(null, mapDispatchToProps),
@@ -118,7 +120,7 @@ const enhance = compose(
       ${Comment.fragments.comment}
       ${Comment.fragments.asset}
     `,
-  }),
+  })
 );
 
 export default enhance(TabPaneContainer);

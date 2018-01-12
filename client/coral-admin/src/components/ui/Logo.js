@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './Logo.css';
-import {CoralLogo} from 'coral-ui';
+import { CoralLogo } from 'coral-ui';
 import PropTypes from 'prop-types';
 
-export const Logo = ({className = ''}) => (
+export const Logo = ({ className = '' }) => (
   <div className={`${styles.logo} ${className}`}>
     <h1>
       <CoralLogo className={styles.base} />
@@ -13,5 +13,5 @@ export const Logo = ({className = ''}) => (
 );
 
 Logo.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };

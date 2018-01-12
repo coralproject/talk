@@ -1,15 +1,10 @@
-const {
-  SharedCounterDataLoader,
-  singleJoinBy,
-} = require('./util');
+const { SharedCounterDataLoader, singleJoinBy } = require('./util');
 const DataLoader = require('dataloader');
 const {
   SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS,
-  SEARCH_OTHERS_COMMENTS
+  SEARCH_OTHERS_COMMENTS,
 } = require('../../perms/constants');
-const {
-  CACHE_EXPIRY_COMMENT_COUNT
-} = require('../../config');
+const { CACHE_EXPIRY_COMMENT_COUNT } = require('../../config');
 const ms = require('ms');
 const sc = require('snake-case');
 
@@ -27,24 +22,24 @@ const getCountsByAssetID = (context, asset_ids) => {
     {
       $match: {
         asset_id: {
-          $in: asset_ids
+          $in: asset_ids,
         },
         status: {
-          $in: ['NONE', 'ACCEPTED']
-        }
-      }
+          $in: ['NONE', 'ACCEPTED'],
+        },
+      },
     },
     {
       $group: {
         _id: '$asset_id',
         count: {
-          $sum: 1
-        }
-      }
-    }
+          $sum: 1,
+        },
+      },
+    },
   ])
     .then(singleJoinBy(asset_ids, '_id'))
-    .then((results) => results.map((result) => result ? result.count : 0));
+    .then(results => results.map(result => (result ? result.count : 0)));
 };
 
 /**
@@ -59,25 +54,25 @@ const getParentCountsByAssetID = (context, asset_ids) => {
     {
       $match: {
         asset_id: {
-          $in: asset_ids
+          $in: asset_ids,
         },
         status: {
-          $in: ['NONE', 'ACCEPTED']
+          $in: ['NONE', 'ACCEPTED'],
         },
-        parent_id: null
-      }
+        parent_id: null,
+      },
     },
     {
       $group: {
         _id: '$asset_id',
         count: {
-          $sum: 1
-        }
-      }
-    }
+          $sum: 1,
+        },
+      },
+    },
   ])
     .then(singleJoinBy(asset_ids, '_id'))
-    .then((results) => results.map((result) => result ? result.count : 0));
+    .then(results => results.map(result => (result ? result.count : 0)));
 };
 
 /**
@@ -89,12 +84,20 @@ const getParentCountsByAssetID = (context, asset_ids) => {
  *                            query
  */
 const getCommentCountByQuery = (ctx, options) => {
-  const {statuses, asset_id, parent_id, author_id, tags, action_type} = options;
+  const {
+    statuses,
+    asset_id,
+    parent_id,
+    author_id,
+    tags,
+    action_type,
+  } = options;
 
   // If user queries for statuses other than NONE and/or ACCEPTED statuses, it needs
   // special privileges.
   if (
-    (!statuses || statuses.some((status) => !['NONE', 'ACCEPTED'].includes(status))) &&
+    (!statuses ||
+      statuses.some(status => !['NONE', 'ACCEPTED'].includes(status))) &&
     (ctx.user == null || !ctx.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS))
   ) {
     return null;
@@ -103,15 +106,15 @@ const getCommentCountByQuery = (ctx, options) => {
   const query = CommentModel.find();
 
   if (asset_id != null) {
-    query.merge({asset_id});
+    query.merge({ asset_id });
   }
 
   if (parent_id !== undefined) {
-    query.merge({parent_id});
+    query.merge({ parent_id });
   }
 
   if (author_id) {
-    query.merge({author_id});
+    query.merge({ author_id });
   }
 
   if (ctx.user != null && ctx.user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
@@ -123,7 +126,7 @@ const getCommentCountByQuery = (ctx, options) => {
   }
 
   if (statuses && statuses.length > 0) {
-    query.merge({status: {$in: statuses}});
+    query.merge({ status: { $in: statuses } });
   }
 
   if (tags && tags.length > 0) {
@@ -134,9 +137,7 @@ const getCommentCountByQuery = (ctx, options) => {
     });
   }
 
-  return CommentModel
-    .find(query)
-    .count();
+  return CommentModel.find(query).count();
 };
 
 /**
@@ -146,22 +147,30 @@ const getCommentCountByQuery = (ctx, options) => {
  * @param {Object} nodes the result set of retrieved comments
  * @param {Object} params the params from the client describing the query
  */
-const getStartCursor = (ctx, nodes, {cursor, sortBy}) => {
+const getStartCursor = (ctx, nodes, { cursor, sortBy }) => {
   switch (sortBy) {
-  case 'CREATED_AT':
-    return nodes.length ? nodes[0].created_at : null;
-  case 'REPLIES':
-
-    // The cursor is the start! This is using numeric pagination.
-    return cursor != null ? cursor : 0;
+    case 'CREATED_AT':
+      return nodes.length ? nodes[0].created_at : null;
+    case 'REPLIES':
+      // The cursor is the start! This is using numeric pagination.
+      return cursor != null ? cursor : 0;
   }
 
   const SORT_KEY = sortBy.toLowerCase();
-  if (!ctx.plugins || !ctx.plugins.Sort.Comments || !ctx.plugins.Sort.Comments[SORT_KEY] || !ctx.plugins.Sort.Comments[SORT_KEY].startCursor) {
-    throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
+  if (
+    !ctx.plugins ||
+    !ctx.plugins.Sort.Comments ||
+    !ctx.plugins.Sort.Comments[SORT_KEY] ||
+    !ctx.plugins.Sort.Comments[SORT_KEY].startCursor
+  ) {
+    throw new Error(
+      `unable to sort by ${sortBy}, no plugin was provided to handle this type`
+    );
   }
 
-  return ctx.plugins.Sort.Comments[SORT_KEY].startCursor(ctx, nodes, {cursor});
+  return ctx.plugins.Sort.Comments[SORT_KEY].startCursor(ctx, nodes, {
+    cursor,
+  });
 };
 
 /**
@@ -171,20 +180,27 @@ const getStartCursor = (ctx, nodes, {cursor, sortBy}) => {
  * @param {Object} nodes the result set of retrieved comments
  * @param {Object} params the params from the client describing the query
  */
-const getEndCursor = (ctx, nodes, {cursor, sortBy}) => {
+const getEndCursor = (ctx, nodes, { cursor, sortBy }) => {
   switch (sortBy) {
-  case 'CREATED_AT':
-    return nodes.length ? nodes[nodes.length - 1].created_at : null;
-  case 'REPLIES':
-    return nodes.length ? (cursor != null ? cursor : 0) + nodes.length : null;
+    case 'CREATED_AT':
+      return nodes.length ? nodes[nodes.length - 1].created_at : null;
+    case 'REPLIES':
+      return nodes.length ? (cursor != null ? cursor : 0) + nodes.length : null;
   }
 
   const SORT_KEY = sortBy.toLowerCase();
-  if (!ctx.plugins || !ctx.plugins.Sort.Comments || !ctx.plugins.Sort.Comments[SORT_KEY] || !ctx.plugins.Sort.Comments[SORT_KEY].endCursor) {
-    throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
+  if (
+    !ctx.plugins ||
+    !ctx.plugins.Sort.Comments ||
+    !ctx.plugins.Sort.Comments[SORT_KEY] ||
+    !ctx.plugins.Sort.Comments[SORT_KEY].endCursor
+  ) {
+    throw new Error(
+      `unable to sort by ${sortBy}, no plugin was provided to handle this type`
+    );
   }
 
-  return ctx.plugins.Sort.Comments[SORT_KEY].endCursor(ctx, nodes, {cursor});
+  return ctx.plugins.Sort.Comments[SORT_KEY].endCursor(ctx, nodes, { cursor });
 };
 
 /**
@@ -195,42 +211,55 @@ const getEndCursor = (ctx, nodes, {cursor, sortBy}) => {
  * @param {Object} query the current mongoose query object
  * @param {Object} params the params from the client describing the query
  */
-const applySort = (ctx, query, {cursor, sortOrder, sortBy}) => {
+const applySort = (ctx, query, { cursor, sortOrder, sortBy }) => {
   switch (sortBy) {
-  case 'CREATED_AT': {
-    if (cursor) {
-      if (sortOrder === 'DESC') {
-        query = query.where({
-          created_at: {
-            $lt: cursor,
-          },
-        });
-      } else {
-        query = query.where({
-          created_at: {
-            $gt: cursor,
-          },
-        });
+    case 'CREATED_AT': {
+      if (cursor) {
+        if (sortOrder === 'DESC') {
+          query = query.where({
+            created_at: {
+              $lt: cursor,
+            },
+          });
+        } else {
+          query = query.where({
+            created_at: {
+              $gt: cursor,
+            },
+          });
+        }
       }
-    }
 
-    return query.sort({created_at: sortOrder === 'DESC' ? -1 : 1});
-  }
-  case 'REPLIES': {
-    if (cursor) {
-      query = query.skip(cursor);
+      return query.sort({ created_at: sortOrder === 'DESC' ? -1 : 1 });
     }
+    case 'REPLIES': {
+      if (cursor) {
+        query = query.skip(cursor);
+      }
 
-    return query.sort({reply_count: sortOrder === 'DESC' ? -1 : 1, created_at: sortOrder === 'DESC' ? -1 : 1});
-  }
+      return query.sort({
+        reply_count: sortOrder === 'DESC' ? -1 : 1,
+        created_at: sortOrder === 'DESC' ? -1 : 1,
+      });
+    }
   }
 
   const SORT_KEY = sortBy.toLowerCase();
-  if (!ctx.plugins || !ctx.plugins.Sort.Comments || !ctx.plugins.Sort.Comments[SORT_KEY] || !ctx.plugins.Sort.Comments[SORT_KEY].sort) {
-    throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
+  if (
+    !ctx.plugins ||
+    !ctx.plugins.Sort.Comments ||
+    !ctx.plugins.Sort.Comments[SORT_KEY] ||
+    !ctx.plugins.Sort.Comments[SORT_KEY].sort
+  ) {
+    throw new Error(
+      `unable to sort by ${sortBy}, no plugin was provided to handle this type`
+    );
   }
 
-  return ctx.plugins.Sort.Comments[SORT_KEY].sort(ctx, query, {cursor, sortOrder});
+  return ctx.plugins.Sort.Comments[SORT_KEY].sort(ctx, query, {
+    cursor,
+    sortOrder,
+  });
 };
 
 /**
@@ -242,10 +271,13 @@ const applySort = (ctx, query, {cursor, sortOrder, sortBy}) => {
  * @param {Object} query the current mongoose query object
  * @param {Object} params the params from the client describing the query
  */
-const executeWithSort = async (ctx, query, {cursor, sortOrder, sortBy, limit}) => {
-
+const executeWithSort = async (
+  ctx,
+  query,
+  { cursor, sortOrder, sortBy, limit }
+) => {
   // Apply the sort to the query.
-  query = applySort(ctx, query, {cursor, sortOrder, sortBy});
+  query = applySort(ctx, query, { cursor, sortOrder, sortBy });
 
   // Apply the limit (if it exists, as it's applied universally).
   if (limit) {
@@ -259,7 +291,6 @@ const executeWithSort = async (ctx, query, {cursor, sortOrder, sortBy, limit}) =
   // if there is one more, than there is more).
   let hasNextPage = false;
   if (limit && nodes.length > limit) {
-
     // There was one more than we expected! Set hasNextPage = true and remove
     // the last item from the array that we requested.
     hasNextPage = true;
@@ -269,8 +300,13 @@ const executeWithSort = async (ctx, query, {cursor, sortOrder, sortBy, limit}) =
   // Use the generator functions below to extract the cursor details based on
   // the current sortBy parameter.
   return {
-    startCursor: getStartCursor(ctx, nodes, {cursor, sortOrder, sortBy, limit}),
-    endCursor: getEndCursor(ctx, nodes, {cursor, sortOrder, sortBy, limit}),
+    startCursor: getStartCursor(ctx, nodes, {
+      cursor,
+      sortOrder,
+      sortBy,
+      limit,
+    }),
+    endCursor: getEndCursor(ctx, nodes, { cursor, sortOrder, sortBy, limit }),
     hasNextPage,
     nodes,
   };
@@ -283,20 +319,37 @@ const executeWithSort = async (ctx, query, {cursor, sortOrder, sortBy, limit}) =
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the comments query
  */
-const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sortOrder, sortBy, excludeIgnored, tags, action_type}) => {
+const getCommentsByQuery = async (
+  ctx,
+  {
+    ids,
+    statuses,
+    asset_id,
+    parent_id,
+    author_id,
+    limit,
+    cursor,
+    sortOrder,
+    sortBy,
+    excludeIgnored,
+    tags,
+    action_type,
+  }
+) => {
   let comments = CommentModel.find();
 
   // If user queries for statuses other than NONE and/or ACCEPTED statuses, it needs
   // special privileges.
   if (
-    (!statuses || statuses.some((status) => !['NONE', 'ACCEPTED'].includes(status))) &&
+    (!statuses ||
+      statuses.some(status => !['NONE', 'ACCEPTED'].includes(status))) &&
     (ctx.user == null || !ctx.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS))
   ) {
     return null;
   }
 
   if (statuses) {
-    comments = comments.where({status: {$in: statuses}});
+    comments = comments.where({ status: { $in: statuses } });
   }
 
   if (ctx.user != null && ctx.user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
@@ -310,8 +363,8 @@ const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, auth
   if (ids) {
     comments = comments.find({
       id: {
-        $in: ids
-      }
+        $in: ids,
+      },
     });
   }
 
@@ -324,27 +377,36 @@ const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, auth
   }
 
   // Only let an admin request any user or the current user request themself.
-  if (ctx.user && (ctx.user.can(SEARCH_OTHERS_COMMENTS) || ctx.user.id === author_id) && author_id != null) {
-    comments = comments.where({author_id});
+  if (
+    ctx.user &&
+    (ctx.user.can(SEARCH_OTHERS_COMMENTS) || ctx.user.id === author_id) &&
+    author_id != null
+  ) {
+    comments = comments.where({ author_id });
   }
 
   if (asset_id) {
-    comments = comments.where({asset_id});
+    comments = comments.where({ asset_id });
   }
 
   // We perform the undefined check because, null, is a valid state for the
   // search to be with, which indicates that it is at depth 0.
   if (parent_id !== undefined) {
-    comments = comments.where({parent_id});
+    comments = comments.where({ parent_id });
   }
 
-  if (excludeIgnored && ctx.user && ctx.user.ignoresUsers && ctx.user.ignoresUsers.length > 0) {
+  if (
+    excludeIgnored &&
+    ctx.user &&
+    ctx.user.ignoresUsers &&
+    ctx.user.ignoresUsers.length > 0
+  ) {
     comments = comments.where({
-      author_id: {$nin: ctx.user.ignoresUsers}
+      author_id: { $nin: ctx.user.ignoresUsers },
     });
   }
 
-  return executeWithSort(ctx, comments, {cursor, sortOrder, sortBy, limit});
+  return executeWithSort(ctx, comments, { cursor, sortOrder, sortBy, limit });
 };
 
 /**
@@ -355,22 +417,22 @@ const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, auth
  * @param  {Array<String>} ids     the comment id's to fetch
  * @return {Promise}       resolves to the comments
  */
-const getComments = ({user}, ids) => {
+const getComments = ({ user }, ids) => {
   let comments;
   if (user && user.can(SEARCH_OTHERS_COMMENTS)) {
     comments = CommentModel.find({
       id: {
-        $in: ids
-      }
+        $in: ids,
+      },
     });
   } else {
     comments = CommentModel.find({
       id: {
-        $in: ids
+        $in: ids,
       },
       status: {
-        $in: ['NONE', 'ACCEPTED']
-      }
+        $in: ['NONE', 'ACCEPTED'],
+      },
     });
   }
   return comments.then(singleJoinBy(ids, 'id'));
@@ -382,12 +444,20 @@ const getComments = ({user}, ids) => {
  * @param  {Object} context the context of the GraphQL request
  * @return {Object}         object of loaders
  */
-module.exports = (context) => ({
+module.exports = context => ({
   Comments: {
-    get: new DataLoader((ids) => getComments(context, ids)),
-    getByQuery: (query) => getCommentsByQuery(context, query),
-    getCountByQuery: (query) => getCommentCountByQuery(context, query),
-    countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getCountsByAssetID(context, ids)),
-    parentCountByAssetID: new SharedCounterDataLoader('Comments.countByAssetID', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getParentCountsByAssetID(context, ids))
-  }
+    get: new DataLoader(ids => getComments(context, ids)),
+    getByQuery: query => getCommentsByQuery(context, query),
+    getCountByQuery: query => getCommentCountByQuery(context, query),
+    countByAssetID: new SharedCounterDataLoader(
+      'Comments.totalCommentCount',
+      ms(CACHE_EXPIRY_COMMENT_COUNT),
+      ids => getCountsByAssetID(context, ids)
+    ),
+    parentCountByAssetID: new SharedCounterDataLoader(
+      'Comments.countByAssetID',
+      ms(CACHE_EXPIRY_COMMENT_COUNT),
+      ids => getParentCountsByAssetID(context, ids)
+    ),
+  },
 });

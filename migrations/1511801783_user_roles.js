@@ -1,6 +1,6 @@
 const UserModel = require('../models/user');
 
-const findNewRole = (roles) => {
+const findNewRole = roles => {
   if (roles.includes('ADMIN')) {
     return 'ADMIN';
   } else if (roles.includes('MODERATOR')) {
@@ -30,7 +30,9 @@ module.exports = {
         },
         update: {
           $set: {
-            role: Array.isArray(user.roles) ? findNewRole(user.roles) : 'COMMENTER',
+            role: Array.isArray(user.roles)
+              ? findNewRole(user.roles)
+              : 'COMMENTER',
           },
           $unset: {
             roles: '',
@@ -40,17 +42,15 @@ module.exports = {
     }
 
     if (updates.length > 0) {
-
       // Create a new batch operation.
       const bulk = UserModel.collection.initializeUnorderedBulkOp();
 
-      for (const {query, update} of updates) {
+      for (const { query, update } of updates) {
         bulk.find(query).updateOne(update);
       }
 
       // Execute the bulk update operation.
       await bulk.execute();
     }
-  }
+  },
 };
-

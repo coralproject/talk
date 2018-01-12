@@ -2,31 +2,29 @@ const DataLoader = require('dataloader');
 
 const util = require('./util');
 
-const {
-  SEARCH_OTHER_USERS,
-} = require('../../perms/constants');
+const { SEARCH_OTHER_USERS } = require('../../perms/constants');
 
 const UsersService = require('../../services/users');
-const {escapeRegExp} = require('../../services/regex');
+const { escapeRegExp } = require('../../services/regex');
 const UserModel = require('../../models/user');
 
 const mergeState = (query, state) => {
-  const {status} = state;
+  const { status } = state;
 
   if (status) {
-    const {username, banned, suspended} = status;
+    const { username, banned, suspended } = status;
 
     if (typeof username !== 'undefined' && username && username.length > 0) {
       query.merge({
         'status.username.status': {
-          $in: username
-        }
+          $in: username,
+        },
       });
     }
 
     if (typeof banned !== 'undefined' && banned !== null) {
       query.merge({
-        'status.banned.status': banned
+        'status.banned.status': banned,
       });
     }
 
@@ -34,17 +32,19 @@ const mergeState = (query, state) => {
       if (suspended) {
         query.merge({
           'status.suspension.until': {
-            $gte: Date.now()
-          }
+            $gte: Date.now(),
+          },
         });
       } else {
         query.merge({
           $or: [
-            {'status.suspension.until': null},
-            {'status.suspension.until': {
-              $lt: Date.now()
-            }}
-          ]
+            { 'status.suspension.until': null },
+            {
+              'status.suspension.until': {
+                $lt: Date.now(),
+              },
+            },
+          ],
         });
       }
     }
@@ -61,9 +61,7 @@ const genUserByIDs = async (context, ids) => {
     return [user];
   }
 
-  return UsersService
-    .findByIdArray(ids)
-    .then(util.singleJoinBy(ids, 'id'));
+  return UsersService.findByIdArray(ids).then(util.singleJoinBy(ids, 'id'));
 };
 
 /**
@@ -72,7 +70,10 @@ const genUserByIDs = async (context, ids) => {
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the users query
  */
-const getUsersByQuery = async ({user}, {limit, cursor, value = '', state, action_type, sortOrder}) => {
+const getUsersByQuery = async (
+  { user },
+  { limit, cursor, value = '', state, action_type, sortOrder }
+) => {
   let query = UserModel.find();
 
   if (action_type || state || value.length > 0) {
@@ -81,7 +82,6 @@ const getUsersByQuery = async ({user}, {limit, cursor, value = '', state, action
     }
 
     if (value.length > 0) {
-
       // Lowercase the search term and escape any regex characters.
       value = escapeRegExp(value).toLowerCase();
 
@@ -91,7 +91,6 @@ const getUsersByQuery = async ({user}, {limit, cursor, value = '', state, action
       // Merge in the regex params.
       query.merge({
         $or: [
-
           // Search by a prefix match on the username.
           {
             lowercaseUsername: {
@@ -121,8 +120,8 @@ const getUsersByQuery = async ({user}, {limit, cursor, value = '', state, action
     if (action_type) {
       query.merge({
         [`action_counts.${action_type.toLowerCase()}`]: {
-          $gt: 0
-        }
+          $gt: 0,
+        },
       });
     }
   }
@@ -131,14 +130,14 @@ const getUsersByQuery = async ({user}, {limit, cursor, value = '', state, action
     if (sortOrder === 'DESC') {
       query = query.where({
         created_at: {
-          $lt: cursor
-        }
+          $lt: cursor,
+        },
       });
     } else {
       query = query.where({
         created_at: {
-          $gt: cursor
-        }
+          $gt: cursor,
+        },
       });
     }
   }
@@ -149,7 +148,7 @@ const getUsersByQuery = async ({user}, {limit, cursor, value = '', state, action
   }
 
   // Sort by created_at.
-  query.sort({created_at: sortOrder === 'DESC' ? -1 : 1});
+  query.sort({ created_at: sortOrder === 'DESC' ? -1 : 1 });
 
   // Execute the query.
   const nodes = await query.exec();
@@ -158,7 +157,6 @@ const getUsersByQuery = async ({user}, {limit, cursor, value = '', state, action
   // if there is one more, than there is more).
   let hasNextPage = false;
   if (limit && nodes.length > limit) {
-
     // There was one more than we expected! Set hasNextPage = true and remove
     // the last item from the array that we requested.
     hasNextPage = true;
@@ -184,7 +182,7 @@ const getUsersByQuery = async ({user}, {limit, cursor, value = '', state, action
  * @return {Promise}          resolves to the counts of the users from the
  *                            query
  */
-const getCountByQuery = async ({user}, {action_type, state}) => {
+const getCountByQuery = async ({ user }, { action_type, state }) => {
   let query = UserModel.find();
 
   if (action_type || state) {
@@ -199,15 +197,13 @@ const getCountByQuery = async ({user}, {action_type, state}) => {
     if (action_type) {
       query.merge({
         [`action_counts.${action_type.toLowerCase()}`]: {
-          $gt: 0
-        }
+          $gt: 0,
+        },
       });
     }
   }
 
-  return UserModel
-    .find(query)
-    .count();
+  return UserModel.find(query).count();
 };
 
 /**
@@ -215,10 +211,10 @@ const getCountByQuery = async ({user}, {action_type, state}) => {
  * @param  {Object} context the context of the GraphQL request
  * @return {Object}         object of loaders
  */
-module.exports = (context) => ({
+module.exports = context => ({
   Users: {
-    getByQuery: (query) => getUsersByQuery(context, query),
-    getByID: new DataLoader((ids) => genUserByIDs(context, ids)),
-    getCountByQuery: (query) => getCountByQuery(context, query)
-  }
+    getByQuery: query => getUsersByQuery(context, query),
+    getByID: new DataLoader(ids => genUserByIDs(context, ids)),
+    getCountByQuery: query => getCountByQuery(context, query),
+  },
 });

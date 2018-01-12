@@ -1,5 +1,5 @@
 import React from 'react';
-import {Spinner} from 'coral-ui';
+import { Spinner } from 'coral-ui';
 import PropTypes from 'prop-types';
 
 /**
@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
  */
 class AutoLoadMore extends React.Component {
   componentDidMount() {
-    if(!this.props.loading) {
+    if (!this.props.loading) {
       this.props.loadMore();
     }
   }

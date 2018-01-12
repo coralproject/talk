@@ -1,11 +1,8 @@
-const {
-  ROOT_URL,
-  ROOT_URL_MOUNT_PATH,
-  STATIC_URI,
-} = require('./config');
-const {URL} = require('url');
+const { ROOT_URL, ROOT_URL_MOUNT_PATH, STATIC_URI } = require('./config');
+const { URL } = require('url');
 
-const trailingSlash = (url) => url && url.length > 0 && url[url.length - 1] === '/' ? url : `${url}/`;
+const trailingSlash = url =>
+  url && url.length > 0 && url[url.length - 1] === '/' ? url : `${url}/`;
 
 // Set the BASE_URL as the ROOT_URL, here we derive the root url by ensuring
 // that it ends in a `/`.

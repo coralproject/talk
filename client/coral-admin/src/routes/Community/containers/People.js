@@ -1,50 +1,54 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {compose, gql} from 'react-apollo';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { compose, gql } from 'react-apollo';
 import People from '../components/People';
 import PropTypes from 'prop-types';
-import {withFragments} from 'plugin-api/beta/client/hocs';
-import {withUnbanUser, withUnsuspendUser, withSetUserRole} from 'coral-framework/graphql/mutations';
-import {showBanUserDialog} from 'actions/banUserDialog';
-import {showSuspendUserDialog} from 'actions/suspendUserDialog';
-import {viewUserDetail} from '../../../actions/userDetail';
-import {appendNewNodes} from 'plugin-api/beta/client/utils';
+import { withFragments } from 'plugin-api/beta/client/hocs';
+import {
+  withUnbanUser,
+  withUnsuspendUser,
+  withSetUserRole,
+} from 'coral-framework/graphql/mutations';
+import { showBanUserDialog } from 'actions/banUserDialog';
+import { showSuspendUserDialog } from 'actions/suspendUserDialog';
+import { viewUserDetail } from '../../../actions/userDetail';
+import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
-import {Spinner} from 'coral-ui';
+import { Spinner } from 'coral-ui';
 
 class PeopleContainer extends React.Component {
   timer = null;
 
   state = {
-    searchValue: ''
+    searchValue: '',
   };
 
-  onSearchChange = (e) => {
-    const {value} = e.target;
-    this.setState({searchValue: value}, () => {
+  onSearchChange = e => {
+    const { value } = e.target;
+    this.setState({ searchValue: value }, () => {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.search(value);
       }, 350);
     });
-  }
+  };
 
-  search = async (value) =>  {
+  search = async value => {
     return this.props.data.fetchMore({
       query: SEARCH_QUERY,
       variables: {
         value,
         limit: 5,
       },
-      updateQuery: (previous, {fetchMoreResult:{users}}) => {
+      updateQuery: (previous, { fetchMoreResult: { users } }) => {
         const updated = update(previous, {
           users: {
             nodes: {
               $set: users.nodes,
             },
-            hasNextPage: {$set: users.hasNextPage},
-            endCursor: {$set: users.endCursor},
+            hasNextPage: { $set: users.hasNextPage },
+            endCursor: { $set: users.endCursor },
           },
         });
         return updated;
@@ -54,7 +58,7 @@ class PeopleContainer extends React.Component {
 
   setUserRole = async (id, role) => {
     await this.props.setUserRole(id, role);
-  }
+  };
 
   loadMore = () => {
     return this.props.data.fetchMore({
@@ -64,14 +68,14 @@ class PeopleContainer extends React.Component {
         limit: 5,
         cursor: this.props.root.users.endCursor,
       },
-      updateQuery: (previous, {fetchMoreResult:{users}}) => {
+      updateQuery: (previous, { fetchMoreResult: { users } }) => {
         const updated = update(previous, {
           users: {
             nodes: {
-              $apply: (nodes) => appendNewNodes(nodes, users.nodes),
+              $apply: nodes => appendNewNodes(nodes, users.nodes),
             },
-            hasNextPage: {$set: users.hasNextPage},
-            endCursor: {$set: users.endCursor},
+            hasNextPage: { $set: users.hasNextPage },
+            endCursor: { $set: users.endCursor },
           },
         });
         return updated;
@@ -80,28 +84,33 @@ class PeopleContainer extends React.Component {
   };
 
   render() {
-
     if (this.props.data.error) {
       return <div>{this.props.data.error.message}</div>;
     }
 
     if (this.props.data.loading) {
-      return <div><Spinner/></div>;
+      return (
+        <div>
+          <Spinner />
+        </div>
+      );
     }
 
-    return <People
-      onSearchChange={this.onSearchChange}  
-      viewUserDetail={this.props.viewUserDetail}
-      setUserRole={this.setUserRole}
-      showSuspendUserDialog={this.props.showSuspendUserDialog}
-      showBanUserDialog={this.props.showBanUserDialog}
-      unbanUser={this.props.unbanUser}
-      unsuspendUser={this.props.unsuspendUser}
-      data={this.props.data}
-      root={this.props.root}
-      users={this.props.root.users}
-      loadMore={this.loadMore}
-    />;
+    return (
+      <People
+        onSearchChange={this.onSearchChange}
+        viewUserDetail={this.props.viewUserDetail}
+        setUserRole={this.setUserRole}
+        showSuspendUserDialog={this.props.showSuspendUserDialog}
+        showBanUserDialog={this.props.showBanUserDialog}
+        unbanUser={this.props.unbanUser}
+        unsuspendUser={this.props.unsuspendUser}
+        data={this.props.data}
+        root={this.props.root}
+        users={this.props.root.users}
+        loadMore={this.loadMore}
+      />
+    );
   }
 }
 
@@ -117,20 +126,23 @@ PeopleContainer.propTypes = {
   root: PropTypes.object,
 };
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({
-    viewUserDetail,
-    showSuspendUserDialog,
-    showBanUserDialog,
-  }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      viewUserDetail,
+      showSuspendUserDialog,
+      showBanUserDialog,
+    },
+    dispatch
+  );
 
 const LOAD_MORE_QUERY = gql`
-  query TalkAdminCommunity_People_LoadMoreUsers($limit: Int, $cursor: Cursor, $value: String) {
-    users(query: {
-      value: $value,
-      limit: $limit,
-      cursor: $cursor
-    }){
+  query TalkAdminCommunity_People_LoadMoreUsers(
+    $limit: Int
+    $cursor: Cursor
+    $value: String
+  ) {
+    users(query: { value: $value, limit: $limit, cursor: $cursor }) {
       hasNextPage
       endCursor
       nodes {
@@ -160,10 +172,7 @@ const LOAD_MORE_QUERY = gql`
 
 const SEARCH_QUERY = gql`
   query TalkAdminCommunity_People_SearchUsers($value: String, $limit: Int) {
-    users(query: {
-      value: $value,
-      limit: $limit,
-    }){
+    users(query: { value: $value, limit: $limit }) {
       hasNextPage
       endCursor
       nodes {
@@ -199,7 +208,7 @@ export default compose(
   withFragments({
     root: gql`
       fragment TalkAdminCommunity_People_root on RootQuery {
-        users(query: {}){
+        users(query: {}) {
           hasNextPage
           endCursor
           nodes {
@@ -226,5 +235,5 @@ export default compose(
         }
       }
     `,
-  }),
+  })
 )(PeopleContainer);

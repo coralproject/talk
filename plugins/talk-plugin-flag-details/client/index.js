@@ -7,5 +7,5 @@ export default {
   slots: {
     adminCommentDetailArea: [FlagDetails],
     adminCommentMoreFlagDetails: [UserFlagDetails],
-  }
+  },
 };

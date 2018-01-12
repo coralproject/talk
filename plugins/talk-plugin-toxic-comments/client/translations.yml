@@ -27,17 +27,17 @@ zh_CN:
   talk-plugin-toxic-comments:
     unlikely: "极低可能"
     highly_likely: "极高可能"
-    possibly: "不太可能"
-    likely: "比较可能"
-    toxic_comment: "有毒评论"
+    possibly: "有可能"
+    likely: "很有可能"
+    toxic_comment: "不当评论"
     still_toxic: "此编辑后评论可能仍违反了我们的社群指引方针。我们的审查团队将马上处理您的评论。"
 zh_TW:
   error:
     COMMENT_IS_TOXIC: |
       確定提交評論？該評論可能包含違反社區準則的言論。您可以編輯該評論或提交以待審核。
   talk-plugin-toxic-comments:
-    unlikely: 不太可能
-    highly_likely: 非常有可能
+    unlikely: 極低可能
+    highly_likely: 極高可能
     possibly: 有可能
     likely: 很有可能
     toxic_comment: 不當評論

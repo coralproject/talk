@@ -1,4 +1,3 @@
-
 function dotizeRecurse(result, object, path = '') {
   for (const key in object) {
     const newPath = path ? `${path}.${key}` : key;

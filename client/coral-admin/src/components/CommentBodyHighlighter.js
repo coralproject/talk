@@ -1,5 +1,5 @@
 import React from 'react';
-import {matchLinks} from '../utils';
+import { matchLinks } from '../utils';
 import memoize from 'lodash/memoize';
 
 function escapeRegExp(string) {
@@ -9,18 +9,18 @@ function escapeRegExp(string) {
 // generate a regulare expression that catches the `phrases`.
 function generateRegExp(phrases) {
   const inner = phrases
-    .map((phrase) =>
-      phrase.split(/\s+/)
-        .map((word) => escapeRegExp(word))
+    .map(phrase =>
+      phrase
+        .split(/\s+/)
+        .map(word => escapeRegExp(word))
         .join('[\\s"?!.]+')
-    ).join('|');
+    )
+    .join('|');
 
   const pattern = `(^|[^\\w])(${inner})(?=[^\\w]|$)`;
   try {
     return new RegExp(pattern, 'iu');
-  }
-  catch (_err) {
-
+  } catch (_err) {
     // IE does not support unicode support, so we'll create one without.
     return new RegExp(pattern, 'i');
   }
@@ -39,10 +39,9 @@ const getPhrasesRegexpMemoized = memoize(getPhrasesRegexp);
 function markPhrases(body, suspectWords, bannedWords, keyPrefix) {
   const regexp = getPhrasesRegexpMemoized(suspectWords, bannedWords);
   const tokens = body.split(regexp);
-  return tokens.map((token, i) =>
-    i % 3 === 2
-      ? <mark key={`${keyPrefix}_${i}`}>{token}</mark>
-      : token
+  return tokens.map(
+    (token, i) =>
+      i % 3 === 2 ? <mark key={`${keyPrefix}_${i}`}>{token}</mark> : token
   );
 }
 
@@ -53,34 +52,26 @@ function markLinks(body) {
   const content = [];
   let index = 0;
   if (matches) {
-    matches
-      .forEach((match, i) => {
-        content.push(body.substring(index, match.index));
-        content.push(<mark key={i}>{match.text}</mark>);
-        index = match.lastIndex;
-      });
+    matches.forEach((match, i) => {
+      content.push(body.substring(index, match.index));
+      content.push(<mark key={i}>{match.text}</mark>);
+      index = match.lastIndex;
+    });
   }
   content.push(body.substring(index));
   return content;
 }
 
-export default ({suspectWords, bannedWords, body, ...rest}) => {
-
+export default ({ suspectWords, bannedWords, body, ...rest }) => {
   // First highlight links.
-  const content = markLinks(body)
-    .map((element, index) => {
+  const content = markLinks(body).map((element, index) => {
+    // Keep highlighted links.
+    if (typeof element !== 'string') {
+      return element;
+    }
 
-      // Keep highlighted links.
-      if (typeof element !== 'string') {
-        return element;
-      }
-
-      // Highlight suspect and banned phrase inside this part of text.
-      return markPhrases(element, suspectWords, bannedWords, index);
-    });
-  return (
-    <div {...rest}>
-      {content}
-    </div>
-  );
+    // Highlight suspect and banned phrase inside this part of text.
+    return markPhrases(element, suspectWords, bannedWords, index);
+  });
+  return <div {...rest}>{content}</div>;
 };

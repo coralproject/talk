@@ -1,15 +1,15 @@
 const CommentModel = require('../../../models/comment');
-const {singleJoinBy} = require('../../../graph/loaders/util');
+const { singleJoinBy } = require('../../../graph/loaders/util');
 const debug = require('debug')('talk:cli:verify');
 
-const getBatch = async (limit, offset) => CommentModel
-  .find({})
-  .select({'id': 1, 'action_counts': 1, 'reply_count': 1})
-  .limit(limit)
-  .skip(offset)
-  .sort('created_at');
+const getBatch = async (limit, offset) =>
+  CommentModel.find({})
+    .select({ id: 1, action_counts: 1, reply_count: 1 })
+    .limit(limit)
+    .skip(offset)
+    .sort('created_at');
 
-module.exports = async ({fix, limit, batch}) => {
+module.exports = async ({ fix, limit, batch }) => {
   let operations = [];
 
   // Count how many comments there are to process.
@@ -23,35 +23,33 @@ module.exports = async ({fix, limit, batch}) => {
 
   // Keep processing documents until there are is none left.
   while (offset < totalCount) {
-
     // Get a batch of comments.
     comments = await getBatch(batch, offset);
-    commentIDs = comments.map(({id}) => id);
+    commentIDs = comments.map(({ id }) => id);
 
     // Get their reply counts.
-    let allReplyCounts = await CommentModel
-      .aggregate([
-        {
-          $match: {
-            parent_id: {
-              $in: commentIDs,
-            },
-            status: {
-              $in: ['NONE', 'ACCEPTED']
-            }
-          }
+    let allReplyCounts = await CommentModel.aggregate([
+      {
+        $match: {
+          parent_id: {
+            $in: commentIDs,
+          },
+          status: {
+            $in: ['NONE', 'ACCEPTED'],
+          },
         },
-        {
-          $group: {
-            _id: '$parent_id',
-            count: {
-              $sum: 1
-            }
-          }
-        }
-      ])
+      },
+      {
+        $group: {
+          _id: '$parent_id',
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+    ])
       .then(singleJoinBy(commentIDs, '_id'))
-      .then((results) => results.map((result) => result ? result.count : 0));
+      .then(results => results.map(result => (result ? result.count : 0)));
 
     // Loop over the comments, with their action summaries.
     for (let i = 0; i < comments.length; i++) {
@@ -75,7 +73,7 @@ module.exports = async ({fix, limit, batch}) => {
         operations.push({
           updateOne: {
             filter: {
-              id: comment.id
+              id: comment.id,
             },
             update: {
               $set: Object.assign({}, ...commentOperations),
@@ -88,10 +86,17 @@ module.exports = async ({fix, limit, batch}) => {
     debug(`Processed batch of ${comments.length} comments.`);
 
     if (operations.length >= limit) {
-      debug(`Queued operations are ${operations.length}, reached limit of ${limit}, not processing any more.`);
+      debug(
+        `Queued operations are ${
+          operations.length
+        }, reached limit of ${limit}, not processing any more.`
+      );
 
       if (operations.length > limit) {
-        debug(`${operations.length - limit} operations have been truncated to enforce the limit`);
+        debug(
+          `${operations.length -
+            limit} operations have been truncated to enforce the limit`
+        );
       }
 
       break;
@@ -103,7 +108,10 @@ module.exports = async ({fix, limit, batch}) => {
   const OPERATIONS_LENGTH = operations.length;
 
   if (limit < Infinity && offset + comments.length < totalCount) {
-    console.log(`Processed ${offset + comments.length}/${totalCount} comments because we reached the update limit of ${limit}.`);
+    console.log(
+      `Processed ${offset +
+        comments.length}/${totalCount} comments because we reached the update limit of ${limit}.`
+    );
   } else {
     console.log(`Processed all ${totalCount} comments.`);
   }
@@ -124,7 +132,9 @@ module.exports = async ({fix, limit, batch}) => {
 
       console.log(`Applied all ${OPERATIONS_LENGTH} fixes.`);
     } else {
-      console.warn('Skipping fixing, --fix was not enabled, pass --fix to fix these errors');
+      console.warn(
+        'Skipping fixing, --fix was not enabled, pass --fix to fix these errors'
+      );
     }
   }
 };

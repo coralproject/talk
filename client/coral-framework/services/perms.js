@@ -5,14 +5,14 @@ import get from 'lodash/get';
 // =========================================================================
 
 const basicPerms = {
-  INTERACT_WITH_COMMUNITY: (user) => {
+  INTERACT_WITH_COMMUNITY: user => {
     const banned = get(user, 'status.banned.status');
     const suspensionUntil = get(user, 'status.suspension.until');
     const suspended = suspensionUntil && new Date(suspensionUntil) > new Date();
 
     return !banned && !suspended;
   },
-  EDIT_NAME: (user) => {
+  EDIT_NAME: user => {
     const usernameStatus = user.status.username.status;
     return usernameStatus === 'UNSET' || usernameStatus === 'REJECTED';
   },
@@ -37,15 +37,14 @@ const mutationRoles = {
   MODERATE_COMMENTS: ['ADMIN', 'MODERATOR'],
 };
 
-const roles = {...basicRoles, ...queryRoles, ...mutationRoles};
+const roles = { ...basicRoles, ...queryRoles, ...mutationRoles };
 
 export const can = (user, ...perms) => {
   if (!user) {
     return false;
   }
 
-  return perms.every((perm) => {
-
+  return perms.every(perm => {
     // Basic Permissions
     const permAction = basicPerms[perm];
     if (typeof permAction !== 'undefined') {

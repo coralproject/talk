@@ -1,4 +1,4 @@
-const {EventEmitter2} = require('eventemitter2');
+const { EventEmitter2 } = require('eventemitter2');
 const constants = require('./constants');
 const debug = require('debug')('talk:services:events');
 const enabled = require('debug').enabled('talk:services:events');
@@ -11,7 +11,11 @@ const emitter = new EventEmitter2({
 // and log a debug message.
 if (enabled) {
   emitter.onAny(function(event) {
-    debug(`[${event}] ${arguments.length - 1} argument${arguments.length - 1 === 1 ? '' : 's'}`);
+    debug(
+      `[${event}] ${arguments.length - 1} argument${
+        arguments.length - 1 === 1 ? '' : 's'
+      }`
+    );
   });
 }
 
@@ -19,11 +23,11 @@ if (enabled) {
 emitter.setMaxListeners(0);
 
 // The default error handler.
-emitter.on('error', (err) => {
+emitter.on('error', err => {
   console.error('events error:', err);
 });
 
-emitter.on('newListener', (event) => {
+emitter.on('newListener', event => {
   if (!(event in constants)) {
     throw new Error(`Event[${event}] not a valid event name`);
   }

@@ -1,5 +1,5 @@
-import {compose, gql} from 'react-apollo';
-import {withFragments} from 'plugin-api/beta/client/hocs';
+import { compose, gql } from 'react-apollo';
+import { withFragments } from 'plugin-api/beta/client/hocs';
 import ToxicDetail from '../components/ToxicDetail';
 
 const enhance = compose(
@@ -13,8 +13,9 @@ const enhance = compose(
             reason
           }
         }
-      }`,
-  }),
+      }
+    `,
+  })
 );
 
 export default enhance(ToxicDetail);

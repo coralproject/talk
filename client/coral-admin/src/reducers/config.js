@@ -1,17 +1,17 @@
 import * as actions from '../actions/config';
 
 const initialState = {
-  data: {}
+  data: {},
 };
 
-export default function config (state = initialState, action) {
+export default function config(state = initialState, action) {
   switch (action.type) {
-  case actions.CONFIG_UPDATED:
-    return {
-      ...state,
-      data: action.data,
-    };
-  default:
-    return state;
+    case actions.CONFIG_UPDATED:
+      return {
+        ...state,
+        data: action.data,
+      };
+    default:
+      return state;
   }
 }

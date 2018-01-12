@@ -25,7 +25,15 @@ import zh_CN from '../../../locales/zh_CN.yml';
 import zh_TW from '../../../locales/zh_TW.yml';
 
 const defaultLanguage = process.env.TALK_DEFAULT_LANG;
-const translations = {...en, ...da, ...es, ...fr, ...pt_BR, ...zh_CN, ...zh_TW};
+const translations = {
+  ...en,
+  ...da,
+  ...es,
+  ...fr,
+  ...pt_BR,
+  ...zh_CN,
+  ...zh_TW,
+};
 
 let lang;
 let timeagoInstance;
@@ -39,14 +47,18 @@ function setLocale(locale) {
 }
 
 function getLocale() {
-  return (localStorage.getItem('locale') || navigator.language || defaultLanguage).split('-')[0];
+  return (
+    localStorage.getItem('locale') ||
+    navigator.language ||
+    defaultLanguage
+  ).split('-')[0];
 }
 
 function init() {
   const locale = getLocale();
   setLocale(locale);
 
-  // Setting moment 
+  // Setting moment
   moment.locale(locale);
 
   // Extract language key.

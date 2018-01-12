@@ -1,10 +1,15 @@
 import styles from './styles.css';
 import React from 'react';
-import {Button, TextField, Spinner, Success, Alert} from 'plugin-api/beta/client/components/ui';
+import {
+  Button,
+  TextField,
+  Spinner,
+  Success,
+  Alert,
+} from 'plugin-api/beta/client/components/ui';
 import t from 'coral-framework/services/i18n';
 
 class SignUpContent extends React.Component {
-
   componentWillReceiveProps(next) {
     if (
       !this.props.emailVerificationEnabled &&
@@ -27,19 +32,17 @@ class SignUpContent extends React.Component {
       showErrors,
       changeView,
       handleSignUp,
-      fetchSignUpFacebook
+      fetchSignUpFacebook,
     } = this.props;
 
     return (
       <div>
         <div className={styles.header}>
-          <h1>
-            {t('sign_in.sign_up')}
-          </h1>
+          <h1>{t('sign_in.sign_up')}</h1>
         </div>
 
         {auth.error && <Alert>{auth.error}</Alert>}
-        {!auth.successSignUp &&
+        {!auth.successSignUp && (
           <div>
             <div className={styles.socialConnections}>
               <Button cStyle="facebook" onClick={fetchSignUpFacebook} full>
@@ -47,9 +50,7 @@ class SignUpContent extends React.Component {
               </Button>
             </div>
             <div className={styles.separator}>
-              <h1>
-                {t('sign_in.or')}
-              </h1>
+              <h1>{t('sign_in.or')}</h1>
             </div>
             <form onSubmit={handleSignUp}>
               <TextField
@@ -57,7 +58,7 @@ class SignUpContent extends React.Component {
                 type="email"
                 label={t('sign_in.email')}
                 value={formData.email}
-                style={{fontSize: 16}}
+                style={{ fontSize: 16 }}
                 showErrors={showErrors}
                 errorMsg={errors.email}
                 onChange={handleChange}
@@ -68,7 +69,7 @@ class SignUpContent extends React.Component {
                 label={t('sign_in.username')}
                 value={formData.username}
                 showErrors={showErrors}
-                style={{fontSize: 16}}
+                style={{ fontSize: 16 }}
                 errorMsg={errors.username}
                 onChange={handleChange}
               />
@@ -78,21 +79,23 @@ class SignUpContent extends React.Component {
                 label={t('sign_in.password')}
                 value={formData.password}
                 showErrors={showErrors}
-                style={{fontSize: 16}}
+                style={{ fontSize: 16 }}
                 errorMsg={errors.password}
                 onChange={handleChange}
                 minLength="8"
               />
-              {errors.password &&
+              {errors.password && (
                 <span className={styles.hint}>
-                  {' '}Password must be at least 8 characters.{' '}
-                </span>}
+                  {' '}
+                  Password must be at least 8 characters.{' '}
+                </span>
+              )}
               <TextField
                 id="confirmPassword"
                 type="password"
                 label={t('sign_in.confirm_password')}
                 value={formData.confirmPassword}
-                style={{fontSize: 16}}
+                style={{ fontSize: 16 }}
                 showErrors={showErrors}
                 errorMsg={errors.confirmPassword}
                 onChange={handleChange}
@@ -111,23 +114,24 @@ class SignUpContent extends React.Component {
                 {auth.isLoading && <Spinner />}
               </div>
             </form>
-          </div>}
-        {auth.successSignUp &&
+          </div>
+        )}
+        {auth.successSignUp && (
           <div>
             <Success />
-            {emailVerificationEnabled &&
+            {emailVerificationEnabled && (
               <p>
                 {t('sign_in.verify_email')}
                 <br />
                 <br />
                 {t('sign_in.verify_email2')}
-              </p>}
-          </div>}
+              </p>
+            )}
+          </div>
+        )}
         <div className={styles.footer}>
-          {t('sign_in.already_have_an_account')} <a
-            id="coralSignInViewTrigger"
-            onClick={() => changeView('SIGNIN')}
-          >
+          {t('sign_in.already_have_an_account')}{' '}
+          <a id="coralSignInViewTrigger" onClick={() => changeView('SIGNIN')}>
             {t('sign_in.sign_in')}
           </a>
         </div>

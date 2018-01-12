@@ -1,8 +1,6 @@
 const debug = require('debug')('talk:services:karma');
 const UserModel = require('../models/user');
-const {
-  TRUST_THRESHOLDS
-} = require('../config');
+const { TRUST_THRESHOLDS } = require('../config');
 
 /**
  * This will create an object with the property name of the action type as the
@@ -21,46 +19,52 @@ const {
  *
  *  comment:2,-2;flag:2,-2
  */
-const parseThresholds = (thresholds) => thresholds
-  .split(';')
-  .filter((threshold) => threshold && threshold.length > 0)
-  .reduce((acc, threshold) => {
-    const thresholds = threshold.split(':');
-    if (thresholds.length < 2) {
-      return acc;
-    }
+const parseThresholds = thresholds =>
+  thresholds
+    .split(';')
+    .filter(threshold => threshold && threshold.length > 0)
+    .reduce(
+      (acc, threshold) => {
+        const thresholds = threshold.split(':');
+        if (thresholds.length < 2) {
+          return acc;
+        }
 
-    let [name, values] = thresholds;
-    let [RELIABLE, UNRELIABLE] = values.split(',').map((value) => parseInt(value));
+        let [name, values] = thresholds;
+        let [RELIABLE, UNRELIABLE] = values
+          .split(',')
+          .map(value => parseInt(value));
 
-    if (!(name in acc)) {
-      acc[name] = {};
-    }
+        if (!(name in acc)) {
+          acc[name] = {};
+        }
 
-    if (isNaN(UNRELIABLE) && !isNaN(RELIABLE)) {
-      acc[name].RELIABLE = RELIABLE;
-      acc[name].UNRELIABLE = RELIABLE;
-    } else {
-      if (!isNaN(UNRELIABLE)) {
-        acc[name].UNRELIABLE = UNRELIABLE;
+        if (isNaN(UNRELIABLE) && !isNaN(RELIABLE)) {
+          acc[name].RELIABLE = RELIABLE;
+          acc[name].UNRELIABLE = RELIABLE;
+        } else {
+          if (!isNaN(UNRELIABLE)) {
+            acc[name].UNRELIABLE = UNRELIABLE;
+          }
+
+          if (!isNaN(RELIABLE)) {
+            acc[name].RELIABLE = RELIABLE;
+          }
+        }
+
+        return acc;
+      },
+      {
+        comment: {
+          RELIABLE: 0,
+          UNRELIABLE: 0,
+        },
+        flag: {
+          RELIABLE: 0,
+          UNRELIABLE: 0,
+        },
       }
-
-      if (!isNaN(RELIABLE)) {
-        acc[name].RELIABLE = RELIABLE;
-      }
-    }
-
-    return acc;
-  }, {
-    comment: {
-      RELIABLE: 0,
-      UNRELIABLE: 0
-    },
-    flag: {
-      RELIABLE: 0,
-      UNRELIABLE: 0
-    }
-  });
+    );
 
 const THRESHOLDS = parseThresholds(TRUST_THRESHOLDS);
 
@@ -88,7 +92,6 @@ class KarmaModel {
  * KarmaService provides interfaces for editing a user's karma.
  */
 class KarmaService {
-
   /**
    * Model returns a KarmaModel based on the passed in user.
    */
@@ -131,27 +134,30 @@ class KarmaService {
 
     let update = {
       $inc: {
-        [key]: direction
-      }
+        [key]: direction,
+      },
     };
 
     if (multi) {
-
       // If it was in multi-mode but there was no user's to adjust, bail.
       if (id.length <= 0) {
         return;
       }
 
-      return UserModel.update({
-        id: {
-          $in: id
+      return UserModel.update(
+        {
+          id: {
+            $in: id,
+          },
+        },
+        update,
+        {
+          multi: true,
         }
-      }, update, {
-        multi: true
-      });
+      );
     }
 
-    return UserModel.update({id}, update);
+    return UserModel.update({ id }, update);
   }
 }
 

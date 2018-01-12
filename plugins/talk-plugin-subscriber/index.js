@@ -5,10 +5,10 @@ module.exports = {
       permissions: {
         public: true,
         self: false,
-        roles: []
+        roles: [],
       },
       models: ['USERS'],
-      created_at: new Date()
-    }
-  ]
+      created_at: new Date(),
+    },
+  ],
 };

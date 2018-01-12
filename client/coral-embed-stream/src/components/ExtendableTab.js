@@ -1,5 +1,5 @@
 import React from 'react';
-import {Tab} from 'coral-ui';
+import { Tab } from 'coral-ui';
 import PropTypes from 'prop-types';
 
 /**
@@ -10,10 +10,10 @@ import PropTypes from 'prop-types';
 class ExtendableTab extends React.Component {
   state = {
     hover: false,
-  }
+  };
 
-  handleMouseEnter = () => this.setState({hover: true});
-  handleMouseLeave = () => this.setState({hover: false});
+  handleMouseEnter = () => this.setState({ hover: true });
+  handleMouseLeave = () => this.setState({ hover: false });
 
   render() {
     return (
@@ -22,7 +22,7 @@ class ExtendableTab extends React.Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
-        {React.cloneElement(this.props.children, {hover: this.state.hover})}
+        {React.cloneElement(this.props.children, { hover: this.state.hover })}
       </Tab>
     );
   }
