@@ -128,7 +128,7 @@ nl_NL:
     enable_questionbox_description: "Deze vraag zal bovenaan de conversatie verschijnen. Vraag lezers naar een probleem in het artikel, poneer discussie vragen, enzovoort."
     hours: Uren
     include_comment_stream: "Neem conversatie beschrijving op voor lezers."
-    include_comment_stream_desc: "Schrijf een bericht voor boven je conversatie. Poneer een stelling, neem je Community richtlijnen op etc."
+    include_comment_stream_desc: "Schrijf een bericht voor boven je conversatie. Poneer een stelling, wijs op de community richtlijnen, etc."
     include_text: "Schrijf hier je tekst."
     include_question_here: "Schrijf je vraag hier:"
     moderate: Modereer
@@ -179,7 +179,7 @@ nl_NL:
       subject: "Je account is tijdelijk geschorst."
     banned:
       subject: "Je account is verbannen."
-      body: "In lijn met The Coral Project's Community richtlijnen is je account verbannen. Je kunt niet langer reageren, rapporteren of interacteren met onze community."
+      body: "In lijn met The Coral Project's community richtlijnen is je account verbannen. Je kunt niet langer reageren, rapporteren of interacteren met onze community."
     confirm:
       has_been_requested: "Een e-mail bevestiging is aangevraagd voor het volgend account:"
       to_confirm: "Ga naar de volgende link om het account te bevestigen:"
