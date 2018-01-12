@@ -11,18 +11,19 @@ const constantsArray = Object.keys(constants);
  * @param {Array<String>} perms the array of permissions that the user must have
  *                              in order to succeed
  */
-const findGrant = (user, perms) => perms.every((perm) => {
-  for (let key in reducers) {
-    const reducer = reducers[key];
-    const grant = reducer(user, perm);
+const findGrant = (user, perms) =>
+  perms.every(perm => {
+    for (let key in reducers) {
+      const reducer = reducers[key];
+      const grant = reducer(user, perm);
 
-    if (typeof grant !== 'undefined' && grant !== null) {
-      return grant;
+      if (typeof grant !== 'undefined' && grant !== null) {
+        return grant;
+      }
     }
-  }
 
-  return false;
-});
+    return false;
+  });
 
 /**
  * returns true, false, or null depending on whether the user has those permissions
@@ -33,8 +34,8 @@ const findGrant = (user, perms) => perms.every((perm) => {
  * @return {Boolean}
  */
 module.exports = (user, ...perms) => {
-  if (perms.some((perm) => !constantsArray.includes(perm))) {
-    const missingPerms = perms.filter((perm) => !constantsArray.includes(perm));
+  if (perms.some(perm => !constantsArray.includes(perm))) {
+    const missingPerms = perms.filter(perm => !constantsArray.includes(perm));
     throw new Error(`${missingPerms.join(' ')} are not valid permissions.`);
   }
 

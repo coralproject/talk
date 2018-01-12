@@ -5,8 +5,9 @@ import AutosizeInput from 'react-input-autosize';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
-const autosizingRenderInput = ({onChange, value, addTag: _, ...other}) =>
-  <AutosizeInput type='text' onChange={onChange} value={value} {...other} />;
+const autosizingRenderInput = ({ onChange, value, addTag: _, ...other }) => (
+  <AutosizeInput type="text" onChange={onChange} value={value} {...other} />
+);
 
 autosizingRenderInput.propTypes = {
   onChange: PropTypes.func,
@@ -14,17 +15,16 @@ autosizingRenderInput.propTypes = {
   addTag: PropTypes.func,
 };
 
-const TagsInputComponent = ({className = '', ...props}) => {
+const TagsInputComponent = ({ className = '', ...props }) => {
   return (
     <TagsInput
       addOnBlur={true}
       addOnPaste={true}
-      pasteSplit={(data) => data.split(',').map((d) => d.trim())}
+      pasteSplit={data => data.split(',').map(d => d.trim())}
       className={cn(styles.root, 'tags-input', className)}
       focusedClassName={styles.rootFocus}
       renderInput={autosizingRenderInput}
       {...props}
-
       tagProps={{
         className: styles.tag,
         classNameRemove: styles.tagRemove,

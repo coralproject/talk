@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {compose} from 'react-apollo';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { compose } from 'react-apollo';
+import { bindActionCreators } from 'redux';
 import errorMsj from 'coral-framework/helpers/error';
 import validate from 'coral-framework/helpers/validate';
 import CreateUsernameDialog from './CreateUsernameDialog';
-import {withSetUsername} from 'coral-framework/graphql/mutations';
-import {forEachError} from 'plugin-api/beta/client/utils';
+import { withSetUsername } from 'coral-framework/graphql/mutations';
+import { forEachError } from 'plugin-api/beta/client/utils';
 
 import t from 'coral-framework/services/i18n';
 
@@ -25,32 +25,36 @@ class ChangeUsernameContainer extends React.Component {
 
     this.state = {
       formData: {
-        username: (props.auth.user && props.auth.user.username) || ''
+        username: (props.auth.user && props.auth.user.username) || '',
       },
       errors: {},
-      showErrors: false
+      showErrors: false,
     };
   }
 
   componentWillReceiveProps(next) {
-    if (!this.props.auth.showCreateUsernameDialog && next.auth.showCreateUsernameDialog) {
+    if (
+      !this.props.auth.showCreateUsernameDialog &&
+      next.auth.showCreateUsernameDialog
+    ) {
       this.setState({
         formData: {
-          username: (this.props.auth.user && this.props.auth.user.username) || '',
+          username:
+            (this.props.auth.user && this.props.auth.user.username) || '',
         },
       });
     }
   }
 
-  handleChange = (e) => {
-    const {name, value} = e.target;
+  handleChange = e => {
+    const { name, value } = e.target;
     this.setState(
-      (state) => ({
+      state => ({
         ...state,
         formData: {
           ...state.formData,
-          [name]: value
-        }
+          [name]: value,
+        },
       }),
       () => {
         this.validation(name, value);
@@ -59,16 +63,16 @@ class ChangeUsernameContainer extends React.Component {
   };
 
   addError = (name, error) => {
-    return this.setState((state) => ({
+    return this.setState(state => ({
       errors: {
         ...state.errors,
-        [name]: error
-      }
+        [name]: error,
+      },
     }));
   };
 
   validation = (name, value) => {
-    const {addError} = this;
+    const { addError } = this;
 
     if (!value.length) {
       addError(name, t('createdisplay.required_field'));
@@ -77,23 +81,28 @@ class ChangeUsernameContainer extends React.Component {
     } else {
       const {[name]: prop, ...errors} = this.state.errors; // eslint-disable-line
       // Removes Error
-      this.setState((state) => ({...state, errors}));
+      this.setState(state => ({ ...state, errors }));
     }
   };
 
   isCompleted = () => {
-    const {formData} = this.state;
-    return !Object.keys(formData).filter((prop) => !formData[prop].length).length;
+    const { formData } = this.state;
+    return !Object.keys(formData).filter(prop => !formData[prop].length).length;
   };
 
   displayErrors = (show = true) => {
-    this.setState({showErrors: show});
+    this.setState({ showErrors: show });
   };
 
   async setUsernameAndClose(username, props = this.props) {
-    const {validForm, invalidForm, setUsername, hideCreateUsernameDialog, updateUsername} = props;
+    const {
+      validForm,
+      invalidForm,
+      setUsername,
+      hideCreateUsernameDialog,
+      updateUsername,
+    } = props;
     try {
-
       // Perform mutation
       await setUsername(this.props.auth.user.id, username);
 
@@ -102,18 +111,17 @@ class ChangeUsernameContainer extends React.Component {
 
       hideCreateUsernameDialog();
       validForm();
-    }
-    catch(error) {
+    } catch (error) {
       const msgs = [];
-      forEachError(error, ({msg}) => msgs.push(msg));
+      forEachError(error, ({ msg }) => msgs.push(msg));
       invalidForm(t(msgs.join(', ')));
     }
   }
 
-  handleSubmitUsername = (e) => {
+  handleSubmitUsername = e => {
     e.preventDefault();
-    const {errors, formData: {username}} = this.state;
-    const {invalidForm} = this.props;
+    const { errors, formData: { username } } = this.state;
+    const { invalidForm } = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
       this.setUsernameAndClose(username);
@@ -127,7 +135,7 @@ class ChangeUsernameContainer extends React.Component {
   };
 
   render() {
-    const {loggedIn, auth} = this.props;
+    const { loggedIn, auth } = this.props;
     return (
       <div>
         <CreateUsernameDialog
@@ -153,11 +161,11 @@ ChangeUsernameContainer.propTypes = {
   changeUsername: PropTypes.func,
 };
 
-const mapStateToProps = ({auth}) => ({
-  auth: auth
+const mapStateToProps = ({ auth }) => ({
+  auth: auth,
 });
 
-const mapDispatchToProps = (dispatch) =>
+const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       showCreateUsernameDialog,

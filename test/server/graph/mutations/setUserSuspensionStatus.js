@@ -1,4 +1,4 @@
-const {graphql} = require('graphql');
+const { graphql } = require('graphql');
 const timekeeper = require('timekeeper');
 
 const schema = require('../../../../graph/schema');
@@ -12,14 +12,18 @@ const sinon = require('sinon');
 const chai = require('chai');
 chai.use(require('chai-datetime'));
 chai.use(require('sinon-chai'));
-const {expect} = chai;
+const { expect } = chai;
 
 describe('graph.mutations.suspendUser', () => {
   let user;
   beforeEach(async () => {
     await SettingsService.init();
 
-    user = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
+    user = await UsersService.createLocalUser(
+      'usernameA@example.com',
+      'password',
+      'usernameA'
+    );
   });
 
   let spy;
@@ -60,17 +64,19 @@ describe('graph.mutations.suspendUser', () => {
   `;
 
   [
-    {self: true, error: 'NOT_AUTHORIZED', role: 'COMMENTER'},
-    {self: true, error: 'NOT_AUTHORIZED', role: 'STAFF'},
-    {self: true, error: 'NOT_AUTHORIZED', role: 'COMMENTER'},
-    {error: 'NOT_AUTHORIZED', role: 'COMMENTER'},
-    {error: 'NOT_AUTHORIZED', role: 'STAFF'},
-    {error: 'NOT_AUTHORIZED', role: 'COMMENTER'},
-    {error: false, role: 'MODERATOR'},
-    {error: false, role: 'ADMIN'},
-  ].forEach(({self, error, role}) => {
-    it(`${error ? 'can not' : 'can'} suspend ${self ? 'themself' : 'another user'} as a user with role ${role}`, async () => {
-      const actor = new UserModel({role});
+    { self: true, error: 'NOT_AUTHORIZED', role: 'COMMENTER' },
+    { self: true, error: 'NOT_AUTHORIZED', role: 'STAFF' },
+    { self: true, error: 'NOT_AUTHORIZED', role: 'COMMENTER' },
+    { error: 'NOT_AUTHORIZED', role: 'COMMENTER' },
+    { error: 'NOT_AUTHORIZED', role: 'STAFF' },
+    { error: 'NOT_AUTHORIZED', role: 'COMMENTER' },
+    { error: false, role: 'MODERATOR' },
+    { error: false, role: 'ADMIN' },
+  ].forEach(({ self, error, role }) => {
+    it(`${error ? 'can not' : 'can'} suspend ${
+      self ? 'themself' : 'another user'
+    } as a user with role ${role}`, async () => {
+      const actor = new UserModel({ role });
 
       // If we're testing self assign, set the id of the actor to the user
       // we're acting on.
@@ -78,16 +84,25 @@ describe('graph.mutations.suspendUser', () => {
         actor.id = user.id;
       }
 
-      const ctx = new Context({user: actor});
+      const ctx = new Context({ user: actor });
 
       const now = new Date();
-      const oneHourFromNow = new Date(new Date(now).setHours(now.getHours() + 1));
+      const oneHourFromNow = new Date(
+        new Date(now).setHours(now.getHours() + 1)
+      );
 
-      const {data, errors} = await graphql(schema, mutation, {}, ctx, {
-        user_id: user.id,
-        until: oneHourFromNow,
-        message: 'This is a message'
-      }, 'SuspendUser');
+      const { data, errors } = await graphql(
+        schema,
+        mutation,
+        {},
+        ctx,
+        {
+          user_id: user.id,
+          until: oneHourFromNow,
+          message: 'This is a message',
+        },
+        'SuspendUser'
+      );
 
       if (errors && errors.length > 0) {
         console.error(errors);
@@ -95,19 +110,37 @@ describe('graph.mutations.suspendUser', () => {
       expect(errors).to.be.undefined;
       if (error) {
         expect(data.suspendUser).to.have.property('errors').not.null;
-        expect(data.suspendUser.errors[0]).to.have.property('translation_key', error);
+        expect(data.suspendUser.errors[0]).to.have.property(
+          'translation_key',
+          error
+        );
       } else {
         expect(data.suspendUser).to.be.null;
 
-        user = await UserModel.findOne({id: user.id});
+        user = await UserModel.findOne({ id: user.id });
 
         // Mongoose messes with the date, check within a 2 second window.
-        expect(user.status.suspension.until).to.be.withinTime(new Date(oneHourFromNow.getTime() - 1000), new Date(oneHourFromNow.getTime() + 1000));
+        expect(user.status.suspension.until).to.be.withinTime(
+          new Date(oneHourFromNow.getTime() - 1000),
+          new Date(oneHourFromNow.getTime() + 1000)
+        );
         expect(user.status.suspension.history).to.have.length(1);
-        expect(user.status.suspension.history[0]).to.have.property('until').to.be.withinTime(new Date(oneHourFromNow.getTime() - 1000), new Date(oneHourFromNow.getTime() + 1000));
-        expect(user.status.suspension.history[0]).to.have.property('assigned_by', actor.id);
-        expect(user.status.suspension.history[0]).to.have.property('message', 'This is a message');
-        expect(user.status.suspension.history[0]).to.have.property('created_at').not.null;
+        expect(user.status.suspension.history[0])
+          .to.have.property('until')
+          .to.be.withinTime(
+            new Date(oneHourFromNow.getTime() - 1000),
+            new Date(oneHourFromNow.getTime() + 1000)
+          );
+        expect(user.status.suspension.history[0]).to.have.property(
+          'assigned_by',
+          actor.id
+        );
+        expect(user.status.suspension.history[0]).to.have.property(
+          'message',
+          'This is a message'
+        );
+        expect(user.status.suspension.history[0]).to.have.property('created_at')
+          .not.null;
 
         expect(user.suspended).to.be.true;
         timekeeper.travel(new Date(oneHourFromNow.getTime() + 10000));
@@ -116,27 +149,48 @@ describe('graph.mutations.suspendUser', () => {
 
         expect(spy).to.have.been.calledOnce;
 
-        const res = await graphql(schema, mutation, {}, ctx, {
-          user_id: user.id,
-          until: null
-        }, 'UnSuspendUser');
+        const res = await graphql(
+          schema,
+          mutation,
+          {},
+          ctx,
+          {
+            user_id: user.id,
+            until: null,
+          },
+          'UnSuspendUser'
+        );
         if (res.errors && res.errors.length > 0) {
           console.error(res.errors);
         }
         expect(res.errors).to.be.undefined;
         expect(res.data.unsuspendUser).to.be.null;
 
-        user = await UserModel.findOne({id: user.id});
+        user = await UserModel.findOne({ id: user.id });
 
         // Mongoose messes with the date, check within a 2 second window.
         expect(user.status.suspension.until).to.be.null;
         expect(user.status.suspension.history).to.have.length(2);
-        expect(user.status.suspension.history[0]).to.have.property('until').to.be.withinTime(new Date(oneHourFromNow.getTime() - 1000), new Date(oneHourFromNow.getTime() + 1000));
-        expect(user.status.suspension.history[0]).to.have.property('assigned_by', actor.id);
-        expect(user.status.suspension.history[0]).to.have.property('created_at').not.null;
-        expect(user.status.suspension.history[1]).to.have.property('until').to.be.null;
-        expect(user.status.suspension.history[1]).to.have.property('assigned_by', actor.id);
-        expect(user.status.suspension.history[1]).to.have.property('created_at').not.null;
+        expect(user.status.suspension.history[0])
+          .to.have.property('until')
+          .to.be.withinTime(
+            new Date(oneHourFromNow.getTime() - 1000),
+            new Date(oneHourFromNow.getTime() + 1000)
+          );
+        expect(user.status.suspension.history[0]).to.have.property(
+          'assigned_by',
+          actor.id
+        );
+        expect(user.status.suspension.history[0]).to.have.property('created_at')
+          .not.null;
+        expect(user.status.suspension.history[1]).to.have.property('until').to
+          .be.null;
+        expect(user.status.suspension.history[1]).to.have.property(
+          'assigned_by',
+          actor.id
+        );
+        expect(user.status.suspension.history[1]).to.have.property('created_at')
+          .not.null;
 
         expect(user.suspended).to.be.false;
       }

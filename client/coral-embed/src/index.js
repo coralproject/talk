@@ -5,13 +5,14 @@ import StreamInterface from './StreamInterface';
 // Rebuild the origin if it isn't defined. This is our poor-mans polyfill
 // for the location API's.
 if (!window.location.origin) {
-  window.location.origin = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
+  window.location.origin = `${window.location.protocol}//${
+    window.location.hostname
+  }${window.location.port ? `:${window.location.port}` : ''}`;
 }
 
 // parses the Asset URL from the config variable
 function parseAssetURL() {
   try {
-
     // Try to get the url from the canonical tag on the page.
     return document.querySelector('link[rel="canonical"]').href;
   } catch (e) {
@@ -24,7 +25,6 @@ function parseAssetURL() {
 }
 
 export class Talk {
-
   /**
    * Render a Talk stream
    * @param {HTMLElement} element - Element to render the stream in
@@ -54,13 +54,19 @@ export class Talk {
    */
   static render(element, config) {
     if (!element) {
-      throw new Error('Please provide Coral.Talk.render() the HTMLElement you want to render Talk in.');
+      throw new Error(
+        'Please provide Coral.Talk.render() the HTMLElement you want to render Talk in.'
+      );
     }
     if (typeof element !== 'object') {
-      throw new Error(`Coral.Talk.render() expected HTMLElement but got ${element} (${typeof element})`);
+      throw new Error(
+        `Coral.Talk.render() expected HTMLElement but got ${element} (${typeof element})`
+      );
     }
     if (!config || typeof config !== 'object' || !config.talk) {
-      throw new Error('Coral.Talk.render() expected configuration with at least opts.talk as the Talk Base URL, none found');
+      throw new Error(
+        'Coral.Talk.render() expected configuration with at least opts.talk as the Talk Base URL, none found'
+      );
     }
 
     // Ensure el has an id, as pym can't directly accept the HTMLElement.

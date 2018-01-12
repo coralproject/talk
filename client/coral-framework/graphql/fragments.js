@@ -1,4 +1,4 @@
-import {createDefaultResponseFragments} from '../utils';
+import { createDefaultResponseFragments } from '../utils';
 
 // fragments defined here are automatically registered.
 export default {
@@ -24,7 +24,6 @@ export default {
     'StopIgnoringUserResponse',
     'UpdateSettingsResponse',
     'UpdateAssetSettingsResponse',
-    'UpdateAssetStatusResponse',
-  )
+    'UpdateAssetStatusResponse'
+  ),
 };
-

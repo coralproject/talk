@@ -1,4 +1,4 @@
-const {decorateUserField} = require('./util');
+const { decorateUserField } = require('./util');
 
 const CommentStatusHistory = {};
 

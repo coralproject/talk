@@ -1,6 +1,6 @@
 import React from 'react';
 const PropTypes = require('prop-types');
-import {ApolloProvider} from 'react-apollo';
+import { ApolloProvider } from 'react-apollo';
 
 class TalkProvider extends React.Component {
   getChildContext() {
@@ -18,12 +18,8 @@ class TalkProvider extends React.Component {
   }
 
   render() {
-    const {children, client} = this.props;
-    return (
-      <ApolloProvider client={client}>
-        {children}
-      </ApolloProvider>
-    );
+    const { children, client } = this.props;
+    return <ApolloProvider client={client}>{children}</ApolloProvider>;
   }
 }
 

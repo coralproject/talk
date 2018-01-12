@@ -79,9 +79,12 @@ const connectors = {
   },
 };
 
-module.exports = Plugins.get('server', 'connectors').reduce((defaultConnectors, {plugin, connectors: pluginConnectors}) => {
-  debug(`adding plugin '${plugin.name}'`);
+module.exports = Plugins.get('server', 'connectors').reduce(
+  (defaultConnectors, { plugin, connectors: pluginConnectors }) => {
+    debug(`adding plugin '${plugin.name}'`);
 
-  // Merge in the plugin connectors.
-  return merge(defaultConnectors, pluginConnectors);
-}, connectors);
+    // Merge in the plugin connectors.
+    return merge(defaultConnectors, pluginConnectors);
+  },
+  connectors
+);

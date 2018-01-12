@@ -1,8 +1,7 @@
-const {decorateWithTags} = require('./util');
+const { decorateWithTags } = require('./util');
 
 const Asset = {
-  async comment({id}, {id: commentId}, {loaders: {Comments}}) {
-
+  async comment({ id }, { id: commentId }, { loaders: { Comments } }) {
     // Load the comment from the database.
     const comment = await Comments.get.load(commentId);
     if (!comment) {
@@ -16,7 +15,7 @@ const Asset = {
 
     return comment;
   },
-  comments({id}, {query, deep}, {loaders: {Comments}}) {
+  comments({ id }, { query, deep }, { loaders: { Comments } }) {
     if (!deep) {
       query.parent_id = null;
     }
@@ -26,14 +25,13 @@ const Asset = {
 
     return Comments.getByQuery(query);
   },
-  commentCount({id, commentCount}, {tags}, {loaders: {Comments}}) {
+  commentCount({ id, commentCount }, { tags }, { loaders: { Comments } }) {
     if (commentCount != null) {
       return commentCount;
     }
 
     // If we are filtering by a tag.
     if (tags && tags.length > 0) {
-
       // Then count the comments with those tags.
       return Comments.getCountByQuery({
         tags,
@@ -45,14 +43,17 @@ const Asset = {
 
     return Comments.parentCountByAssetID.load(id);
   },
-  totalCommentCount({id, totalCommentCount}, {tags}, {loaders: {Comments}}) {
+  totalCommentCount(
+    { id, totalCommentCount },
+    { tags },
+    { loaders: { Comments } }
+  ) {
     if (totalCommentCount != null) {
       return totalCommentCount;
     }
 
     // If we are filtering by a tag.
     if (tags && tags.length > 0) {
-
       // Then count the comments with those tags.
       return Comments.getCountByQuery({
         tags,
@@ -63,8 +64,7 @@ const Asset = {
 
     return Comments.countByAssetID.load(id);
   },
-  async settings({settings = null}, _, {loaders: {Settings}}) {
-
+  async settings({ settings = null }, _, { loaders: { Settings } }) {
     // Load the global settings, and merge them into the asset specific settings
     // if we have some.
     let globalSettings = await Settings.load();
@@ -75,7 +75,7 @@ const Asset = {
     }
 
     return settings;
-  }
+  },
 };
 
 // Decorate the Asset type resolver with a tags field.

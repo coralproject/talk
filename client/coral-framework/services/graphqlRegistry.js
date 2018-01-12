@@ -1,6 +1,6 @@
-import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
+import { getDefinitionName, mergeDocuments } from 'coral-framework/utils';
 import uniq from 'lodash/uniq';
-import {gql} from 'react-apollo';
+import { gql } from 'react-apollo';
 
 /*
  * Disable false-positive warning below, as it doesn't work well with how we currently
@@ -12,7 +12,7 @@ import {gql} from 'react-apollo';
  */
 gql.disableFragmentWarnings();
 
-const getTypeName = (ast) => ast.definitions[0].typeCondition.name.value;
+const getTypeName = ast => ast.definitions[0].typeCondition.name.value;
 
 class GraphQLRegistry {
   fragments = {};
@@ -37,7 +37,7 @@ class GraphQLRegistry {
     const type = getTypeName(document);
     const name = getDefinitionName(document);
     if (!(key in this.fragments)) {
-      this.fragments[key] = {type, names: [name], documents: [document]};
+      this.fragments[key] = { type, names: [name], documents: [document] };
     } else {
       if (type !== this.fragments[key].type) {
         console.error(`Type mismatch ${type} !== ${this.fragments[key].type}`);
@@ -131,9 +131,15 @@ class GraphQLRegistry {
    * });
    */
   add(extension) {
-    Object.keys(extension.fragments || []).forEach((key) => this.addFragment(key, extension.fragments[key]));
-    Object.keys(extension.mutations || []).forEach((key) => this.addMutationOptions(key, extension.mutations[key]));
-    Object.keys(extension.queries || []).forEach((key) => this.addQueryOptions(key, extension.queries[key]));
+    Object.keys(extension.fragments || []).forEach(key =>
+      this.addFragment(key, extension.fragments[key])
+    );
+    Object.keys(extension.mutations || []).forEach(key =>
+      this.addMutationOptions(key, extension.mutations[key])
+    );
+    Object.keys(extension.queries || []).forEach(key =>
+      this.addQueryOptions(key, extension.queries[key])
+    );
   }
 
   /**
@@ -169,7 +175,7 @@ class GraphQLRegistry {
       return '';
     }
 
-    const names = documents.map((d) => getDefinitionName(d));
+    const names = documents.map(d => getDefinitionName(d));
     const typeName = getTypeName(documents[0]);
 
     // Assemble arguments for `gql` to call it directly without using template literals.
@@ -191,7 +197,7 @@ class GraphQLRegistry {
     }
 
     let documents = this.fragments[key].documents;
-    let fields =  `...${this.fragments[key].names.join('\n...')}\n`;
+    let fields = `...${this.fragments[key].names.join('\n...')}\n`;
 
     // Assemble arguments for `gql` to call it directly without using template literals.
     const main = `
@@ -208,7 +214,9 @@ class GraphQLRegistry {
    * return the slot fragments specified by this key.
    */
   getFragmentDocument(key) {
-    return this.getRegistryFragmentDocument(key) || this.getSlotFragmentDocument(key);
+    return (
+      this.getRegistryFragmentDocument(key) || this.getSlotFragmentDocument(key)
+    );
   }
 
   /**
@@ -217,7 +225,6 @@ class GraphQLRegistry {
    */
   resolveFragments(document) {
     if (document.loc.source) {
-
       // Remember keys that we have already resolved.
       const resolvedKeys = [];
 
@@ -236,17 +243,18 @@ class GraphQLRegistry {
       while (!done) {
         done = true;
 
-        const matchedSubFragments = body.match(/\.\.\.([_a-zA-Z][_a-zA-Z0-9]*)/g) || [];
-        uniq(matchedSubFragments.map((f) => f.replace('...', '')))
-          .filter((key) => resolvedKeys.indexOf(key) === -1)
-          .forEach((key) => {
+        const matchedSubFragments =
+          body.match(/\.\.\.([_a-zA-Z][_a-zA-Z0-9]*)/g) || [];
+        uniq(matchedSubFragments.map(f => f.replace('...', '')))
+          .filter(key => resolvedKeys.indexOf(key) === -1)
+          .forEach(key => {
             const doc = this.getFragmentDocument(key);
             if (doc) {
               subFragments.push(doc);
 
               // We found a new fragment, so we are not done yet.
               done = false;
-            } else if(key.startsWith('TalkSlot_')) {
+            } else if (key.startsWith('TalkSlot_')) {
               spreadsToBeRemoved.push(key);
             }
             resolvedKeys.push(key);
@@ -255,14 +263,18 @@ class GraphQLRegistry {
         body = mergeDocuments([body, ...subFragments]).loc.source.body;
       }
 
-      spreadsToBeRemoved.forEach((key) => {
+      spreadsToBeRemoved.forEach(key => {
         const regex = new RegExp(`\\.\\.\\.${key}\n`, 'g');
         body = body.replace(regex, '');
       });
 
-      return gql`${body}`;
+      return gql`
+        ${body}
+      `;
     } else {
-      console.warn('Can only resolve fragments from documents definied using the gql tag.');
+      console.warn(
+        'Can only resolve fragments from documents definied using the gql tag.'
+      );
     }
     return document;
   }

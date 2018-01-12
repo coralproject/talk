@@ -1,6 +1,6 @@
 import update from 'immutability-helper';
-import {mapLeaves} from 'coral-framework/utils';
-import {gql} from 'react-apollo';
+import { mapLeaves } from 'coral-framework/utils';
+import { gql } from 'react-apollo';
 
 const userStatusFragment = gql`
   fragment Talk_UpdateUserStatus on User {
@@ -14,150 +14,189 @@ const userStatusFragment = gql`
         }
       }
     }
-  }`;
+  }
+`;
 
 const userRoleFragment = gql`
   fragment Talk_UpdateUserRole on User {
     role
-  }`;
+  }
+`;
 
 export default {
   mutations: {
-    SetUserRole: ({variables: {id, role}}) => ({
-      update: (proxy) => {
+    SetUserRole: ({ variables: { id, role } }) => ({
+      update: proxy => {
         const fragmentId = `User_${id}`;
-        const data = proxy.readFragment({fragment: userRoleFragment, id: fragmentId});
+        const data = proxy.readFragment({
+          fragment: userRoleFragment,
+          id: fragmentId,
+        });
 
         const updated = update(data, {
           role: {
-            $set: role
-          }
+            $set: role,
+          },
         });
 
-        proxy.writeFragment({fragment: userRoleFragment, id: fragmentId, data: updated});
+        proxy.writeFragment({
+          fragment: userRoleFragment,
+          id: fragmentId,
+          data: updated,
+        });
       },
     }),
-    SuspendUser: ({variables: {input: {id, until}}}) => ({
-      update: (proxy) => {
+    SuspendUser: ({ variables: { input: { id, until } } }) => ({
+      update: proxy => {
         const fragmentId = `User_${id}`;
 
-        const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
-
-        const updated = update(data, {
-          state : {
-            status: {
-              suspension: {
-                until: {$set: until}
-              }
-            }
-          }
+        const data = proxy.readFragment({
+          fragment: userStatusFragment,
+          id: fragmentId,
         });
 
-        proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
-      }
-    }),
-    UnsuspendUser: ({variables: {input: {id}}}) => ({
-      update: (proxy) => {
-        const fragmentId = `User_${id}`;
-        const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
-
         const updated = update(data, {
-          state : {
+          state: {
             status: {
               suspension: {
-                until: {$set: null}
-              }
-            }
-          }
+                until: { $set: until },
+              },
+            },
+          },
         });
 
-        proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
+        proxy.writeFragment({
+          fragment: userStatusFragment,
+          id: fragmentId,
+          data: updated,
+        });
       },
     }),
-    BanUser: ({variables: {input: {id}}}) => ({
-      update: (proxy) => {
+    UnsuspendUser: ({ variables: { input: { id } } }) => ({
+      update: proxy => {
         const fragmentId = `User_${id}`;
-        const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
-        
-        const updated = update(data, {
-          state : {
-            status: {
-              banned: {
-                status: {$set: true}
-              }
-            }
-          }
+        const data = proxy.readFragment({
+          fragment: userStatusFragment,
+          id: fragmentId,
         });
 
-        proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
-      }
-    }),
-    UnbanUser: ({variables: {input: {id}}}) => ({
-      update: (proxy) => {
-        const fragmentId = `User_${id}`;
-        const data = proxy.readFragment({fragment: userStatusFragment, id: fragmentId});
-
         const updated = update(data, {
-          state : {
+          state: {
             status: {
-              banned: {
-                status: {$set: false}
-              }
-            }
-          }
+              suspension: {
+                until: { $set: null },
+              },
+            },
+          },
         });
 
-        proxy.writeFragment({fragment: userStatusFragment, id: fragmentId, data: updated});
-      }
+        proxy.writeFragment({
+          fragment: userStatusFragment,
+          id: fragmentId,
+          data: updated,
+        });
+      },
     }),
-    SetUserBanStatus: ({variables: {status, id}}) => ({
+    BanUser: ({ variables: { input: { id } } }) => ({
+      update: proxy => {
+        const fragmentId = `User_${id}`;
+        const data = proxy.readFragment({
+          fragment: userStatusFragment,
+          id: fragmentId,
+        });
+
+        const updated = update(data, {
+          state: {
+            status: {
+              banned: {
+                status: { $set: true },
+              },
+            },
+          },
+        });
+
+        proxy.writeFragment({
+          fragment: userStatusFragment,
+          id: fragmentId,
+          data: updated,
+        });
+      },
+    }),
+    UnbanUser: ({ variables: { input: { id } } }) => ({
+      update: proxy => {
+        const fragmentId = `User_${id}`;
+        const data = proxy.readFragment({
+          fragment: userStatusFragment,
+          id: fragmentId,
+        });
+
+        const updated = update(data, {
+          state: {
+            status: {
+              banned: {
+                status: { $set: false },
+              },
+            },
+          },
+        });
+
+        proxy.writeFragment({
+          fragment: userStatusFragment,
+          id: fragmentId,
+          data: updated,
+        });
+      },
+    }),
+    SetUserBanStatus: ({ variables: { status, id } }) => ({
       updateQueries: {
-        TalkAdmin_Community: (prev) => {
+        TalkAdmin_Community: prev => {
           if (!status) {
             return prev;
           }
           const updated = update(prev, {
             users: {
-              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== id)},
+              nodes: { $apply: nodes => nodes.filter(node => node.id !== id) },
             },
           });
           return updated;
-        }
-      }
-    }),
-    ApproveUsername: ({variables: {id}}) => ({
-      updateQueries: {
-        TalkAdmin_Community: (prev) => {
-          const updated = update(prev, {
-            flaggedUsers: {
-              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== id)},
-            },
-          });
-          return updated;
-        }
-      }
-    }),
-    RejectUsername: ({variables: {id: userId}})  => ({
-      updateQueries: {
-        TalkAdmin_Community: (prev) => {
-          const updated = update(prev, {
-            flaggedUsers: {
-              nodes: {$apply: (nodes) => nodes.filter((node) => node.id !== userId)},
-            },
-          });
-          return updated;
-        }
+        },
       },
     }),
-    UpdateSettings: ({variables: {input}})  => ({
+    ApproveUsername: ({ variables: { id } }) => ({
       updateQueries: {
-        TalkAdmin_Configure: (prev) => {
+        TalkAdmin_Community: prev => {
           const updated = update(prev, {
-            settings: mapLeaves(input, (leaf) => ({$set: leaf})),
+            flaggedUsers: {
+              nodes: { $apply: nodes => nodes.filter(node => node.id !== id) },
+            },
           });
           return updated;
-        }
-      }
+        },
+      },
+    }),
+    RejectUsername: ({ variables: { id: userId } }) => ({
+      updateQueries: {
+        TalkAdmin_Community: prev => {
+          const updated = update(prev, {
+            flaggedUsers: {
+              nodes: {
+                $apply: nodes => nodes.filter(node => node.id !== userId),
+              },
+            },
+          });
+          return updated;
+        },
+      },
+    }),
+    UpdateSettings: ({ variables: { input } }) => ({
+      updateQueries: {
+        TalkAdmin_Configure: prev => {
+          const updated = update(prev, {
+            settings: mapLeaves(input, leaf => ({ $set: leaf })),
+          });
+          return updated;
+        },
+      },
     }),
   },
 };

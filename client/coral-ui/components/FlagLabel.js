@@ -4,7 +4,7 @@ import styles from './FlagLabel.css';
 import Label from './Label';
 import cn from 'classnames';
 
-const FlagLabel = ({iconName, children, className}) => {
+const FlagLabel = ({ iconName, children, className }) => {
   return (
     <Label iconName={iconName} className={cn(className, styles.flag)}>
       {children}

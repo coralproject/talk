@@ -3,27 +3,25 @@ const DomainList = require('../../../services/domain_list');
 const SettingsService = require('../../../services/settings');
 
 describe('services.DomainList', () => {
-
   const domainLists = {
-    whitelist: [
-      'nytimes.com',
-      'wapo.com'
-    ]
+    whitelist: ['nytimes.com', 'wapo.com'],
   };
 
   let domainList = new DomainList();
-  const settings = {id: '1', moderation: 'PRE', domainlist: {whitelist: ['nytimes.com', 'wapo.com']}};
+  const settings = {
+    id: '1',
+    moderation: 'PRE',
+    domainlist: { whitelist: ['nytimes.com', 'wapo.com'] },
+  };
 
   beforeEach(() => SettingsService.init(settings));
 
   describe('#init', () => {
-
     before(() => domainList.upsert(domainLists));
 
     it('has entries', () => {
       expect(domainList.lists.whitelist).to.not.be.empty;
     });
-
   });
 
   describe('#parseURL', () => {
@@ -92,30 +90,25 @@ describe('services.DomainList', () => {
         ['google.Ca:80', 'google.ca'],
         ['google.Ca:443', 'google.ca'],
       ].forEach(([domain, hostname]) => {
-        expect(DomainList.parseURL(domain), `domain ${domain} should be parsed as ${hostname}`).to.equal(hostname);
+        expect(
+          DomainList.parseURL(domain),
+          `domain ${domain} should be parsed as ${hostname}`
+        ).to.equal(hostname);
       });
     });
   });
 
   describe('#match', () => {
-
     const whiteList = DomainList.parseList(domainLists['whitelist']);
 
     it('does match on an included domain', () => {
-      [
-        'http://wapo.com',
-        'nytimes.com'
-      ].forEach((domain) => {
+      ['http://wapo.com', 'nytimes.com'].forEach(domain => {
         expect(domainList.match(whiteList, domain)).to.be.true;
       });
     });
 
     it('does not match on a not included domain', () => {
-      [
-        'badsite.com',
-        'www.badsite.com',
-        'otherexample.com'
-      ].forEach((domain) => {
+      ['badsite.com', 'www.badsite.com', 'otherexample.com'].forEach(domain => {
         expect(domainList.match(whiteList, domain)).to.be.false;
       });
     });

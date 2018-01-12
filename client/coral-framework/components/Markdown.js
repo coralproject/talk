@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import marked from 'marked';
 
@@ -6,19 +6,20 @@ const renderer = new marked.Renderer();
 
 // Set link target to `_parent` to work properly in an embed.
 renderer.link = (href, title, text) =>
-  `<a target="_parent" href="${href}" ${title ? `title="${title}"` : ''}>${text}</a>`;
+  `<a target="_parent" href="${href}" ${
+    title ? `title="${title}"` : ''
+  }>${text}</a>`;
 
-marked.setOptions({renderer});
+marked.setOptions({ renderer });
 
 export default class Markdown extends PureComponent {
   render() {
-    const {content, ...rest} = this.props;
+    const { content, ...rest } = this.props;
     const __html = marked(content);
-    return <div {...rest} dangerouslySetInnerHTML={{__html}} />;
+    return <div {...rest} dangerouslySetInnerHTML={{ __html }} />;
   }
 }
 
 Markdown.propTypes = {
   content: PropTypes.string,
 };
-

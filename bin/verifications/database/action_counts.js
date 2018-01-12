@@ -1,28 +1,24 @@
 const UserModel = require('../../../models/user');
 const CommentModel = require('../../../models/comment');
 const ActionsService = require('../../../services/actions');
-const {arrayJoinBy} = require('../../../graph/loaders/util');
-const {get} = require('lodash');
+const { arrayJoinBy } = require('../../../graph/loaders/util');
+const { get } = require('lodash');
 const debug = require('debug')('talk:cli:verify');
 
-const MODELS = [
-  UserModel,
-  CommentModel,
-];
+const MODELS = [UserModel, CommentModel];
 
 async function processBatch(Model, documents) {
-
   // Get an array of all the document id's.
-  const documentIDs = documents.map(({id}) => id);
+  const documentIDs = documents.map(({ id }) => id);
 
   // Store all the operations on this batch in this array that we'll return
   // later.
   const operations = [];
 
   // Get the action summaries for this batch.
-  const totalActionSummaries = await ActionsService
-    .getActionSummaries(documentIDs)
-    .then(arrayJoinBy(documentIDs, 'item_id'));
+  const totalActionSummaries = await ActionsService.getActionSummaries(
+    documentIDs
+  ).then(arrayJoinBy(documentIDs, 'item_id'));
 
   // Iterate over the documents.
   for (let i = 0; i < documents.length; i++) {
@@ -49,8 +45,10 @@ async function processBatch(Model, documents) {
       const ACTION_COUNT_FIELD = `${ACTION_TYPE}_${GROUP_ID}`;
 
       // Check that the action summaries match the cached counts.
-      if (get(document, ['action_counts', ACTION_COUNT_FIELD]) !== actionSummary.count) {
-
+      if (
+        get(document, ['action_counts', ACTION_COUNT_FIELD]) !==
+        actionSummary.count
+      ) {
         // Batch updates for those changes.
         ops.push({
           [`action_counts.${ACTION_COUNT_FIELD}`]: actionSummary.count,
@@ -60,27 +58,28 @@ async function processBatch(Model, documents) {
 
     // Group all the action summaries together from all the different group
     // ids.
-    const groupedActionSummaries = actionSummaries.reduce((acc, actionSummary) => {
+    const groupedActionSummaries = actionSummaries.reduce(
+      (acc, actionSummary) => {
+        // action_type is already snake cased (as it would have had to be when it
+        // was inserted in the database).
+        const ACTION_TYPE = actionSummary.action_type.toLowerCase();
 
-      // action_type is already snake cased (as it would have had to be when it
-      // was inserted in the database).
-      const ACTION_TYPE = actionSummary.action_type.toLowerCase();
+        if (!(ACTION_TYPE in acc)) {
+          acc[ACTION_TYPE] = 0;
+        }
 
-      if (!(ACTION_TYPE in acc)) {
-        acc[ACTION_TYPE] = 0;
-      }
+        acc[ACTION_TYPE] += actionSummary.count;
 
-      acc[ACTION_TYPE] += actionSummary.count;
-
-      return acc;
-    }, {});
+        return acc;
+      },
+      {}
+    );
 
     for (const ACTION_COUNT_FIELD of Object.keys(groupedActionSummaries)) {
       const count = groupedActionSummaries[ACTION_COUNT_FIELD];
 
       // Check that the action summaries match the cached counts.
       if (get(document, ['action_counts', ACTION_COUNT_FIELD]) !== count) {
-
         // Batch updates for those changes.
         ops.push({
           [`action_counts.${ACTION_COUNT_FIELD}`]: count,
@@ -94,7 +93,7 @@ async function processBatch(Model, documents) {
       operations.push({
         updateOne: {
           filter: {
-            id: document.id
+            id: document.id,
           },
           update: {
             $set: Object.assign({}, ...ops),
@@ -107,23 +106,21 @@ async function processBatch(Model, documents) {
   return operations;
 }
 
-module.exports = async ({fix, batch}) => {
+module.exports = async ({ fix, batch }) => {
   for (const Model of MODELS) {
-    const cursor = Model
-      .collection
+    const cursor = Model.collection
       .find({})
       .project({
         id: 1,
-        action_counts: 1
+        action_counts: 1,
       })
-      .sort({created_at: 1});
+      .sort({ created_at: 1 });
 
     let operations = [];
     let documents = [];
 
     // While there are documents to process.
     while (await cursor.hasNext()) {
-
       // Load the document.
       const document = await cursor.next();
 
@@ -133,7 +130,6 @@ module.exports = async ({fix, batch}) => {
       // Check to see if the length of the documents array requires us to
       // process it.
       if (documents.length > batch) {
-
         // Process this batch.
         let batchOperations = await processBatch(Model, documents);
 
@@ -147,7 +143,6 @@ module.exports = async ({fix, batch}) => {
 
     // Check to see if there are any documents left over.
     if (documents.length > 0) {
-
       // Process this batch.
       let batchOperations = await processBatch(Model, documents);
 
@@ -157,24 +152,43 @@ module.exports = async ({fix, batch}) => {
 
     const OPERATIONS_LENGTH = operations.length;
 
-    console.log(`action_counts.js: ${OPERATIONS_LENGTH} ${Model.collection.name} need their action counts fixed.`);
+    console.log(
+      `action_counts.js: ${OPERATIONS_LENGTH} ${
+        Model.collection.name
+      } need their action counts fixed.`
+    );
 
     // If fix was enabled, execute the batch writes.
     if (OPERATIONS_LENGTH > 0) {
       if (fix) {
-        debug(`action_counts.js: fixing ${OPERATIONS_LENGTH} ${Model.collection.name}...`);
+        debug(
+          `action_counts.js: fixing ${OPERATIONS_LENGTH} ${
+            Model.collection.name
+          }...`
+        );
 
         while (operations.length) {
-          let result = await Model.collection.bulkWrite(operations.splice(0, batch));
+          let result = await Model.collection.bulkWrite(
+            operations.splice(0, batch)
+          );
 
-          debug(`action_counts.js: fixed batch of ${result.modifiedCount} ${Model.collection.name}.`);
+          debug(
+            `action_counts.js: fixed batch of ${result.modifiedCount} ${
+              Model.collection.name
+            }.`
+          );
         }
 
-        console.log(`action_counts.js: applied all ${OPERATIONS_LENGTH} fixes to ${Model.collection.name}.`);
+        console.log(
+          `action_counts.js: applied all ${OPERATIONS_LENGTH} fixes to ${
+            Model.collection.name
+          }.`
+        );
       } else {
-        console.warn('Skipping fixing, --fix was not enabled, pass --fix to fix these errors');
+        console.warn(
+          'Skipping fixing, --fix was not enabled, pass --fix to fix these errors'
+        );
       }
     }
   }
 };
-

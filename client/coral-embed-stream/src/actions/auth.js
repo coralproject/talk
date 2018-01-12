@@ -1,11 +1,11 @@
 import jwtDecode from 'jwt-decode';
 import bowser from 'bowser';
 import * as actions from '../constants/auth';
-import {notify} from 'coral-framework/actions/notification';
+import { notify } from 'coral-framework/actions/notification';
 import t from 'coral-framework/services/i18n';
 import get from 'lodash/get';
 
-export const updateStatus = (status) => ({
+export const updateStatus = status => ({
   type: actions.UPDATE_STATUS,
   status,
 });
@@ -14,9 +14,8 @@ export const showSignInDialog = () => ({
   type: actions.SHOW_SIGNIN_DIALOG,
 });
 
-export const hideSignInDialog = () => (dispatch) => {
+export const hideSignInDialog = () => dispatch => {
   if (window.opener && window.opener !== window) {
-
     // TODO: We need to address this when we refactor the
     // login popup out of the embed.
 
@@ -25,11 +24,11 @@ export const hideSignInDialog = () => (dispatch) => {
   } else {
     dispatch(checkLogin());
   }
-  dispatch({type: actions.HIDE_SIGNIN_DIALOG});
+  dispatch({ type: actions.HIDE_SIGNIN_DIALOG });
 };
 
-export const resetSignInDialog = () => (dispatch) => {
-  dispatch({type: actions.HIDE_SIGNIN_DIALOG});
+export const resetSignInDialog = () => dispatch => {
+  dispatch({ type: actions.HIDE_SIGNIN_DIALOG });
 };
 
 export const focusSignInDialog = () => ({
@@ -41,90 +40,88 @@ export const blurSignInDialog = () => ({
 });
 
 export const showCreateUsernameDialog = () => ({
-  type: actions.SHOW_CREATEUSERNAME_DIALOG
+  type: actions.SHOW_CREATEUSERNAME_DIALOG,
 });
 
 export const hideCreateUsernameDialog = () => ({
-  type: actions.HIDE_CREATEUSERNAME_DIALOG
+  type: actions.HIDE_CREATEUSERNAME_DIALOG,
 });
 
-export const updateUsername = (username) => ({
+export const updateUsername = username => ({
   type: actions.UPDATE_USERNAME,
-  username
+  username,
 });
 
-export const changeView = (view) => (dispatch) => {
+export const changeView = view => dispatch => {
   dispatch({
     type: actions.CHANGE_VIEW,
-    view
+    view,
   });
 
   switch (view) {
-  case 'SIGNUP':
-    window.resizeTo(500, 800);
-    break;
-  case 'FORGOT':
-    window.resizeTo(500, 400);
-    break;
-  default:
-    window.resizeTo(500, 550);
+    case 'SIGNUP':
+      window.resizeTo(500, 800);
+      break;
+    case 'FORGOT':
+      window.resizeTo(500, 400);
+      break;
+    default:
+      window.resizeTo(500, 550);
   }
 };
 
 export const cleanState = () => ({
-  type: actions.CLEAN_STATE
+  type: actions.CLEAN_STATE,
 });
 
 // Sign In Actions
 
-const signInRequest = (email) => ({
+const signInRequest = email => ({
   type: actions.FETCH_SIGNIN_REQUEST,
   email,
 });
 
-const signInFailure = (error) => ({
+const signInFailure = error => ({
   type: actions.FETCH_SIGNIN_FAILURE,
-  error
+  error,
 });
 
 //==============================================================================
 // AUTH TOKEN
 //==============================================================================
 
-export const handleAuthToken = (token) => (dispatch, _, {storage}) => {
+export const handleAuthToken = token => (dispatch, _, { storage }) => {
   if (storage) {
     storage.setItem('exp', jwtDecode(token).exp);
     storage.setItem('token', token);
   }
 
-  dispatch({type: 'HANDLE_AUTH_TOKEN'});
+  dispatch({ type: 'HANDLE_AUTH_TOKEN' });
 };
 
 //==============================================================================
 // SIGN IN
 //==============================================================================
 
-export const fetchSignIn = (formData) => {
-  return (dispatch, _, {rest}) => {
+export const fetchSignIn = formData => {
+  return (dispatch, _, { rest }) => {
     dispatch(signInRequest(formData.email));
 
-    return rest('/auth/local', {method: 'POST', body: formData})
-      .then(({token}) => {
+    return rest('/auth/local', { method: 'POST', body: formData })
+      .then(({ token }) => {
         if (!bowser.safari && !bowser.ios) {
           dispatch(handleAuthToken(token));
         }
         dispatch(hideSignInDialog());
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         if (error.metadata) {
-
           // the user might not have a valid email. prompt the user user re-request the confirmation email
           dispatch(
             signInFailure(t('error.email_not_verified', error.metadata))
           );
         } else if (error.translation_key === 'NOT_AUTHORIZED') {
-
           // invalid credentials
           dispatch(signInFailure(t('error.email_password'), error.metadata));
         } else {
@@ -139,20 +136,20 @@ export const fetchSignIn = (formData) => {
 //==============================================================================
 
 const signInFacebookRequest = () => ({
-  type: actions.FETCH_SIGNIN_FACEBOOK_REQUEST
+  type: actions.FETCH_SIGNIN_FACEBOOK_REQUEST,
 });
 
-const signInFacebookSuccess = (user) => ({
+const signInFacebookSuccess = user => ({
   type: actions.FETCH_SIGNIN_FACEBOOK_SUCCESS,
-  user
+  user,
 });
 
-const signInFacebookFailure = (error) => ({
+const signInFacebookFailure = error => ({
   type: actions.FETCH_SIGNIN_FACEBOOK_FAILURE,
-  error
+  error,
 });
 
-export const fetchSignInFacebook = () => (dispatch, _, {rest}) => {
+export const fetchSignInFacebook = () => (dispatch, _, { rest }) => {
   dispatch(signInFacebookRequest());
   window.open(
     `${rest.uri}/auth/facebook`,
@@ -166,10 +163,10 @@ export const fetchSignInFacebook = () => (dispatch, _, {rest}) => {
 //==============================================================================
 
 const signUpFacebookRequest = () => ({
-  type: actions.FETCH_SIGNUP_FACEBOOK_REQUEST
+  type: actions.FETCH_SIGNUP_FACEBOOK_REQUEST,
 });
 
-export const fetchSignUpFacebook = () => (dispatch, _, {rest}) => {
+export const fetchSignUpFacebook = () => (dispatch, _, { rest }) => {
   dispatch(signUpFacebookRequest());
   window.open(
     `${rest.uri}/auth/facebook`,
@@ -178,7 +175,7 @@ export const fetchSignUpFacebook = () => (dispatch, _, {rest}) => {
   );
 };
 
-export const facebookCallback = (err, data) => (dispatch) => {
+export const facebookCallback = (err, data) => dispatch => {
   if (err) {
     dispatch(signInFacebookFailure(err));
     return;
@@ -197,25 +194,27 @@ export const facebookCallback = (err, data) => (dispatch) => {
 // SIGN UP
 //==============================================================================
 
-const signUpRequest = () => ({type: actions.FETCH_SIGNUP_REQUEST});
-const signUpSuccess = (user) => ({type: actions.FETCH_SIGNUP_SUCCESS, user});
-const signUpFailure = (error) => ({type: actions.FETCH_SIGNUP_FAILURE, error});
+const signUpRequest = () => ({ type: actions.FETCH_SIGNUP_REQUEST });
+const signUpSuccess = user => ({ type: actions.FETCH_SIGNUP_SUCCESS, user });
+const signUpFailure = error => ({ type: actions.FETCH_SIGNUP_FAILURE, error });
 
-export const fetchSignUp = (formData) => (dispatch, getState, {rest}) => {
+export const fetchSignUp = formData => (dispatch, getState, { rest }) => {
   const redirectUri = getState().auth.redirectUri;
   dispatch(signUpRequest());
 
   rest('/users', {
     method: 'POST',
     body: formData,
-    headers: {'X-Pym-Url': redirectUri}
+    headers: { 'X-Pym-Url': redirectUri },
   })
-    .then(({user}) => {
+    .then(({ user }) => {
       dispatch(signUpSuccess(user));
     })
-    .catch((error) => {
+    .catch(error => {
       console.error(error);
-      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      const errorMessage = error.translation_key
+        ? t(`error.${error.translation_key}`)
+        : error.toString();
       dispatch(signUpFailure(errorMessage));
     });
 };
@@ -225,29 +224,31 @@ export const fetchSignUp = (formData) => (dispatch, getState, {rest}) => {
 //==============================================================================
 
 const forgotPasswordRequest = () => ({
-  type: actions.FETCH_FORGOT_PASSWORD_REQUEST
+  type: actions.FETCH_FORGOT_PASSWORD_REQUEST,
 });
 
 const forgotPasswordSuccess = () => ({
-  type: actions.FETCH_FORGOT_PASSWORD_SUCCESS
+  type: actions.FETCH_FORGOT_PASSWORD_SUCCESS,
 });
 
-const forgotPasswordFailure = (error) => ({
+const forgotPasswordFailure = error => ({
   type: actions.FETCH_FORGOT_PASSWORD_FAILURE,
   error,
 });
 
-export const fetchForgotPassword = (email) => (dispatch, getState, {rest}) => {
+export const fetchForgotPassword = email => (dispatch, getState, { rest }) => {
   dispatch(forgotPasswordRequest(email));
   const redirectUri = getState().auth.redirectUri;
   rest('/account/password/reset', {
     method: 'POST',
-    body: {email, loc: redirectUri}
+    body: { email, loc: redirectUri },
   })
     .then(() => dispatch(forgotPasswordSuccess()))
-    .catch((error) => {
+    .catch(error => {
       console.error(error);
-      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      const errorMessage = error.translation_key
+        ? t(`error.${error.translation_key}`)
+        : error.toString();
       dispatch(forgotPasswordFailure(errorMessage));
     });
 };
@@ -256,8 +257,12 @@ export const fetchForgotPassword = (email) => (dispatch, getState, {rest}) => {
 // LOGOUT
 //==============================================================================
 
-export const logout = () => async (dispatch, _, {rest, client, pym, storage}) => {
-  await rest('/auth', {method: 'DELETE'});
+export const logout = () => async (
+  dispatch,
+  _,
+  { rest, client, pym, storage }
+) => {
+  await rest('/auth', { method: 'DELETE' });
 
   if (storage) {
     storage.removeItem('token');
@@ -266,7 +271,7 @@ export const logout = () => async (dispatch, _, {rest, client, pym, storage}) =>
   // Reset the websocket.
   client.resetWebsocket();
 
-  dispatch({type: actions.LOGOUT});
+  dispatch({ type: actions.LOGOUT });
   pym.sendMessage('coral-auth-changed');
 };
 
@@ -274,21 +279,28 @@ export const logout = () => async (dispatch, _, {rest, client, pym, storage}) =>
 // CHECK LOGIN
 //==============================================================================
 
-const checkLoginRequest = () => ({type: actions.CHECK_LOGIN_REQUEST});
-const checkLoginFailure = (error) => ({type: actions.CHECK_LOGIN_FAILURE, error});
+const checkLoginRequest = () => ({ type: actions.CHECK_LOGIN_REQUEST });
+const checkLoginFailure = error => ({
+  type: actions.CHECK_LOGIN_FAILURE,
+  error,
+});
 
 const checkLoginSuccess = (user, isAdmin) => ({
   type: actions.CHECK_LOGIN_SUCCESS,
   user,
-  isAdmin
+  isAdmin,
 });
 
 const ErrNotLoggedIn = new Error('Not logged in');
 
-export const checkLogin = () => (dispatch, _, {rest, client, pym, storage}) => {
+export const checkLogin = () => (
+  dispatch,
+  _,
+  { rest, client, pym, storage }
+) => {
   dispatch(checkLoginRequest());
   rest('/auth')
-    .then((result) => {
+    .then(result => {
       if (!result.user) {
         if (storage) {
           storage.removeItem('token');
@@ -303,56 +315,60 @@ export const checkLogin = () => (dispatch, _, {rest, client, pym, storage}) => {
       pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
 
       // This is for login via social. Usernames should be set.
-      if (get(result.user, 'status.username.status') === 'UNSET' && !get(result.user, 'status.banned.status')) {
+      if (
+        get(result.user, 'status.username.status') === 'UNSET' &&
+        !get(result.user, 'status.banned.status')
+      ) {
         dispatch(showCreateUsernameDialog());
       }
     })
-    .catch((error) => {
+    .catch(error => {
       if (error !== ErrNotLoggedIn) {
         console.error(error);
       }
       if (error.status && error.status === 401 && storage) {
-
         // Unauthorized.
         storage.removeItem('token');
       }
-      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      const errorMessage = error.translation_key
+        ? t(`error.${error.translation_key}`)
+        : error.toString();
       dispatch(checkLoginFailure(errorMessage));
     });
 };
 
-export const validForm = () => ({type: actions.VALID_FORM});
-export const invalidForm = (error) => ({type: actions.INVALID_FORM, error});
+export const validForm = () => ({ type: actions.VALID_FORM });
+export const invalidForm = error => ({ type: actions.INVALID_FORM, error });
 
 //==============================================================================
 // VERIFY EMAIL
 //==============================================================================
 
 const verifyEmailRequest = () => ({
-  type: actions.VERIFY_EMAIL_REQUEST
+  type: actions.VERIFY_EMAIL_REQUEST,
 });
 
 const verifyEmailSuccess = () => ({
-  type: actions.VERIFY_EMAIL_SUCCESS
+  type: actions.VERIFY_EMAIL_SUCCESS,
 });
 
-const verifyEmailFailure = (error) => ({
+const verifyEmailFailure = error => ({
   type: actions.VERIFY_EMAIL_FAILURE,
   error,
 });
 
-export const requestConfirmEmail = (email) => (dispatch, getState, {rest}) => {
+export const requestConfirmEmail = email => (dispatch, getState, { rest }) => {
   const redirectUri = getState().auth.redirectUri;
   dispatch(verifyEmailRequest());
   return rest('/users/resend-verify', {
     method: 'POST',
-    body: {email},
-    headers: {'X-Pym-Url': redirectUri}
+    body: { email },
+    headers: { 'X-Pym-Url': redirectUri },
   })
     .then(() => {
       dispatch(verifyEmailSuccess());
     })
-    .catch((error) => {
+    .catch(error => {
       console.error(error);
       dispatch(verifyEmailFailure(error));
       throw error;
@@ -360,12 +376,12 @@ export const requestConfirmEmail = (email) => (dispatch, getState, {rest}) => {
 };
 
 // Login Popup actions.
-export const setRequireEmailVerification = (required) => ({
+export const setRequireEmailVerification = required => ({
   type: actions.SET_REQUIRE_EMAIL_VERIFICATION,
   required,
 });
 
-export const setRedirectUri = (uri) => ({
+export const setRedirectUri = uri => ({
   type: actions.SET_REDIRECT_URI,
   uri,
 });
@@ -374,18 +390,23 @@ export const setRedirectUri = (uri) => ({
 // Edit Username
 //==============================================================================
 
-const editUsernameFailure = (error) => ({type: actions.EDIT_USERNAME_FAILURE, error});
-const editUsernameSuccess = () => ({type: actions.EDIT_USERNAME_SUCCESS});
+const editUsernameFailure = error => ({
+  type: actions.EDIT_USERNAME_FAILURE,
+  error,
+});
+const editUsernameSuccess = () => ({ type: actions.EDIT_USERNAME_SUCCESS });
 
-export const editName = (username) => (dispatch, _, {rest}) => {
-  return rest('/account/username', {method: 'PUT', body: {username}})
+export const editName = username => (dispatch, _, { rest }) => {
+  return rest('/account/username', { method: 'PUT', body: { username } })
     .then(() => {
       dispatch(editUsernameSuccess());
       dispatch(notify('success', t('framework.success_name_update')));
     })
-    .catch((error) => {
+    .catch(error => {
       console.error(error);
-      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      const errorMessage = error.translation_key
+        ? t(`error.${error.translation_key}`)
+        : error.toString();
       dispatch(editUsernameFailure(errorMessage));
     });
 };

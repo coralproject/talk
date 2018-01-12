@@ -2,14 +2,13 @@ const debug = require('debug')('talk:services:domain_list');
 const _ = require('lodash');
 const SettingsService = require('./settings');
 
-const {ROOT_URL} = require('../config');
+const { ROOT_URL } = require('../config');
 
 /**
  * The root domainlist object.
  * @type {Object}
  */
 class DomainList {
-
   constructor() {
     this.lists = {
       whitelist: [],
@@ -20,7 +19,7 @@ class DomainList {
    * Loads domains white list in from the database
    */
   async load() {
-    const {domains} = await SettingsService.retrieve();
+    const { domains } = await SettingsService.retrieve();
     this.upsert(domains);
   }
 
@@ -29,7 +28,6 @@ class DomainList {
    * @param  {Array} list list of domains to be set to the whitelist
    */
   async upsert(lists) {
-
     // Add the domains to this array and also be sure are all unique domains
     if (!('whitelist' in lists)) {
       return;
@@ -45,7 +43,6 @@ class DomainList {
    * @return {Boolean}      true if the url contains any of the domains, false otherwise.
    */
   match(list, url) {
-
     // Parse the url that we're matching with.
     const domainToMatch = DomainList.parseURL(url);
 
@@ -70,7 +67,7 @@ class DomainList {
    * @return {Array}      the parsed list
    */
   static parseList(list) {
-    return _.uniq(list.map((domain) => DomainList.parseURL(domain)));
+    return _.uniq(list.map(domain => DomainList.parseURL(domain)));
   }
 
   /**
@@ -78,7 +75,7 @@ class DomainList {
    * @param  {String} url url to parse for a domain.
    * @return {String}      the domain
    */
-  static parseURL(url){
+  static parseURL(url) {
     let domain;
 
     // removes protocol and get domain
@@ -103,7 +100,6 @@ class DomainList {
     // Perform a match.
     return dl.match(dl.lists.whitelist, url);
   }
-
 }
 
 module.exports = DomainList;

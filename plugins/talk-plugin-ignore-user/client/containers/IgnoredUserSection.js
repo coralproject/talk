@@ -1,15 +1,20 @@
 import React from 'react';
 import IgnoredUserSection from '../components/IgnoredUserSection';
-import {compose, gql} from 'react-apollo';
-import {withFragments, excludeIf, withStopIgnoringUser} from 'plugin-api/beta/client/hocs';
+import { compose, gql } from 'react-apollo';
+import {
+  withFragments,
+  excludeIf,
+  withStopIgnoringUser,
+} from 'plugin-api/beta/client/hocs';
 
 class IgnoredUserSectionContainer extends React.Component {
-
   render() {
-    return <IgnoredUserSection
-      stopIgnoringUser={this.props.stopIgnoringUser}
-      ignoredUsers={this.props.root.me.ignoredUsers}
-    />;
+    return (
+      <IgnoredUserSection
+        stopIgnoringUser={this.props.stopIgnoringUser}
+        ignoredUsers={this.props.root.me.ignoredUsers}
+      />
+    );
   }
 }
 
@@ -19,8 +24,8 @@ const withIgnoredUserSectionFragments = withFragments({
       me {
         id
         ignoredUsers {
-          id,
-          username,
+          id
+          username
         }
       }
     }
@@ -30,7 +35,7 @@ const withIgnoredUserSectionFragments = withFragments({
 const enhance = compose(
   withIgnoredUserSectionFragments,
   withStopIgnoringUser,
-  excludeIf(({root: {me}}) => me.ignoredUsers.length === 0),
+  excludeIf(({ root: { me } }) => me.ignoredUsers.length === 0)
 );
 
 export default enhance(IgnoredUserSectionContainer);

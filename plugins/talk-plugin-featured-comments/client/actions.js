@@ -1,4 +1,4 @@
-import {OPEN_FEATURED_DIALOG, CLOSE_FEATURED_DIALOG} from './constants';
+import { OPEN_FEATURED_DIALOG, CLOSE_FEATURED_DIALOG } from './constants';
 
 export const openFeaturedDialog = (comment, asset) => ({
   type: OPEN_FEATURED_DIALOG,

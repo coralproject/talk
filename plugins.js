@@ -36,7 +36,9 @@ try {
   plugins = require(pluginsPath);
 } catch (err) {
   if (err.code === 'ENOENT') {
-    console.error('plugins.json and plugins.default.json not found, plugins will not be active');
+    console.error(
+      'plugins.json and plugins.default.json not found, plugins will not be active'
+    );
   } else {
     throw err;
   }
@@ -49,13 +51,22 @@ const hookSchemas = {
   passport: Joi.func().arity(1),
   router: Joi.func().arity(1),
   context: Joi.object().pattern(/\w/, Joi.func().maxArity(1)),
-  hooks: Joi.object().pattern(/\w/, Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.object({
-    pre: Joi.func(),
-    post: Joi.func()
-  }))),
+  hooks: Joi.object().pattern(
+    /\w/,
+    Joi.object().pattern(
+      /(?:__resolveType|\w+)/,
+      Joi.object({
+        pre: Joi.func(),
+        post: Joi.func(),
+      })
+    )
+  ),
   loaders: Joi.func().maxArity(1),
   mutators: Joi.func().maxArity(1),
-  resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.func())),
+  resolvers: Joi.object().pattern(
+    /\w/,
+    Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.func())
+  ),
   typeDefs: Joi.string(),
   schemaLevelResolveFunction: Joi.func(),
   websockets: Joi.object({
@@ -97,7 +108,10 @@ function isInternal(name) {
 function pluginPath(name) {
   if (isInternal(name)) {
     try {
-      return resolve.sync(name, {moduleDirectory: 'plugins', basedir: process.cwd()});
+      return resolve.sync(name, {
+        moduleDirectory: 'plugins',
+        basedir: process.cwd(),
+      });
     } catch (e) {
       console.warn(e);
       return undefined;
@@ -105,7 +119,7 @@ function pluginPath(name) {
   }
 
   try {
-    return resolve.sync(name, {basedir: process.cwd()});
+    return resolve.sync(name, { basedir: process.cwd() });
   } catch (e) {
     return undefined;
   }
@@ -113,7 +127,6 @@ function pluginPath(name) {
 
 class Plugin {
   constructor(entry) {
-
     // This checks to see if the structure for this entry is an object:
     //
     // {"people": "^1.2.0"}
@@ -123,13 +136,15 @@ class Plugin {
     // "people"
     //
     if (typeof entry === 'object') {
-      this.name = Object.keys(entry).find((name) => name !== null);
+      this.name = Object.keys(entry).find(name => name !== null);
       this.version = entry[this.name];
     } else if (typeof entry === 'string') {
       this.name = entry;
       this.version = `file:./plugins/${this.name}`;
     } else {
-      throw new Error(`plugins.json is malformed, refer to PLUGINS.md for formatting, expected a string or an object for a plugin entry, found a ${typeof entry}`);
+      throw new Error(
+        `plugins.json is malformed, refer to PLUGINS.md for formatting, expected a string or an object for a plugin entry, found a ${typeof entry}`
+      );
     }
 
     // Get the path for the plugin.
@@ -138,18 +153,39 @@ class Plugin {
 
   require() {
     if (typeof this.path === 'undefined') {
-      throw new Error(`plugin '${this.name}' is not local and is not resolvable, plugin reconciliation may be required`);
+      throw new Error(
+        `plugin '${
+          this.name
+        }' is not local and is not resolvable, plugin reconciliation may be required`
+      );
     }
 
     try {
       this.module = require(this.path);
     } catch (e) {
-      if (e && e.code && e.code === 'MODULE_NOT_FOUND' && isInternal(this.name)) {
-        console.error(new Error(`plugin '${this.name}' could not be loaded due to missing dependencies, plugin reconciliation may be required`));
+      if (
+        e &&
+        e.code &&
+        e.code === 'MODULE_NOT_FOUND' &&
+        isInternal(this.name)
+      ) {
+        console.error(
+          new Error(
+            `plugin '${
+              this.name
+            }' could not be loaded due to missing dependencies, plugin reconciliation may be required`
+          )
+        );
         throw e;
       }
 
-      console.error(new Error(`plugin '${this.name}' could not be required from '${this.path}': ${e.message}`));
+      console.error(
+        new Error(
+          `plugin '${this.name}' could not be required from '${this.path}': ${
+            e.message
+          }`
+        )
+      );
       throw e;
     }
   }
@@ -161,18 +197,19 @@ class Plugin {
  * @param {Array<Object|String>} plugins
  * @returns {Array<Object>}
  */
-const iteratePlugins = (plugins) => plugins.map((p) => new Plugin(p));
+const iteratePlugins = plugins => plugins.map(p => new Plugin(p));
 
 // Add each plugin folder to the allowed import path so that they can import our
 // internal dependencies.
-Object.keys(plugins).forEach((type) => iteratePlugins(plugins[type]).forEach((plugin) => {
-
-  // The plugin may be remote, and therefore not installed. We check here if the
-  // plugin path is available before trying to monkey patch it's require path.
-  if (plugin.path) {
-    amp.enableForDir(path.dirname(plugin.path));
-  }
-}));
+Object.keys(plugins).forEach(type =>
+  iteratePlugins(plugins[type]).forEach(plugin => {
+    // The plugin may be remote, and therefore not installed. We check here if the
+    // plugin path is available before trying to monkey patch it's require path.
+    if (plugin.path) {
+      amp.enableForDir(path.dirname(plugin.path));
+    }
+  })
+);
 
 /**
  * Stores a reference to a section for a section of Plugins.
@@ -190,8 +227,7 @@ class PluginSection {
     }
 
     this.required = true;
-    this.plugins.forEach((plugin) => {
-
+    this.plugins.forEach(plugin => {
       // Load the plugin.
       plugin.require();
 
@@ -210,22 +246,27 @@ class PluginSection {
    * available.
    */
   hook(hookName) {
-
     // Load the plugin source if we haven't already.
     this.require();
 
     return this.plugins
-      .filter(({module}) => hookName in module)
-      .map((plugin) => {
-
+      .filter(({ module }) => hookName in module)
+      .map(plugin => {
         // Optionally bind the plugin context to a function if it's one.
-        const hook = typeof plugin.module[hookName] === 'function' ?
-          plugin.module[hookName].bind(this.context) :
-          plugin.module[hookName];
+        const hook =
+          typeof plugin.module[hookName] === 'function'
+            ? plugin.module[hookName].bind(this.context)
+            : plugin.module[hookName];
 
         // Validate the hook.
         if (hookName in hookSchemas) {
-          Joi.assert(hook, hookSchemas[hookName], `Plugin '${plugin.name}' failed validation for the '${hookName}' hook`);
+          Joi.assert(
+            hook,
+            hookSchemas[hookName],
+            `Plugin '${
+              plugin.name
+            }' failed validation for the '${hookName}' hook`
+          );
         }
 
         return {
@@ -247,7 +288,10 @@ class PluginManager {
     this.sections = {};
 
     for (let section in plugins) {
-      this.sections[section] = new PluginSection(this.context, plugins[section]);
+      this.sections[section] = new PluginSection(
+        this.context,
+        plugins[section]
+      );
     }
   }
 
@@ -278,5 +322,5 @@ module.exports = {
   PluginManager,
   isInternal,
   pluginPath,
-  iteratePlugins
+  iteratePlugins,
 };

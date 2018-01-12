@@ -12,9 +12,9 @@ const {
 } = require('./events/constants');
 const events = require('./events');
 
-const {ROOT_URL} = require('../config');
+const { ROOT_URL } = require('../config');
 
-const {jwt: JWT_SECRET} = require('../secrets');
+const { jwt: JWT_SECRET } = require('../secrets');
 
 const debug = require('debug')('talk:services:users');
 
@@ -47,7 +47,6 @@ const loginRateLimiter = new Limit(
 // UsersService is the interface for the application to interact with the
 // UserModel through.
 class UsersService {
-
   /**
    * Returns a user (if found) for the given email address.
    */
@@ -85,7 +84,7 @@ class UsersService {
 
   static async setSuspensionStatus(id, until, assignedBy = null, message) {
     let user = await UserModel.findOneAndUpdate(
-      {id},
+      { id },
       {
         $set: {
           'status.suspension.until': until,
@@ -105,7 +104,7 @@ class UsersService {
       }
     );
     if (user === null) {
-      user = await UserModel.findOne({id});
+      user = await UserModel.findOne({ id });
       if (user === null) {
         throw errors.ErrNotFound;
       }
@@ -163,7 +162,7 @@ class UsersService {
       }
     );
     if (user === null) {
-      user = await UserModel.findOne({id});
+      user = await UserModel.findOne({ id });
       if (user === null) {
         throw errors.ErrNotFound;
       }
@@ -210,7 +209,7 @@ class UsersService {
       }
     );
     if (user === null) {
-      user = await UserModel.findOne({id});
+      user = await UserModel.findOne({ id });
       if (user === null) {
         throw errors.ErrNotFound;
       }
@@ -247,7 +246,7 @@ class UsersService {
         'status.username.status': fromStatus,
       };
       if (!resetAllowed) {
-        query.username = {$ne: username};
+        query.username = { $ne: username };
       }
 
       let user = await UserModel.findOneAndUpdate(
@@ -369,7 +368,7 @@ class UsersService {
    * @param  {Object}   profile - User social/external profile
    * @param  {Function} done    [description]
    */
-  static async findOrCreateExternalUser({id, provider, displayName}) {
+  static async findOrCreateExternalUser({ id, provider, displayName }) {
     let user = await UserModel.findOne({
       profiles: {
         $elemMatch: {
@@ -391,7 +390,7 @@ class UsersService {
     user = new UserModel({
       username,
       lowercaseUsername: username.toLowerCase(),
-      profiles: [{id, provider}],
+      profiles: [{ id, provider }],
       status: {
         username: {
           status: 'UNSET',
@@ -438,24 +437,25 @@ class UsersService {
   static async sendEmail(user, options) {
     const email = user.firstEmail;
     if (!email) {
-
       // Rather than throwing an error here, we'll
       console.warn(new Error('user does not have an email'));
       return;
     }
 
-    return mailer.send(merge({}, options, {
-      to: email,
-    }));
+    return mailer.send(
+      merge({}, options, {
+        to: email,
+      })
+    );
   }
 
   static async changePassword(id, password) {
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
     return UserModel.update(
-      {id},
+      { id },
       {
-        $inc: {__v: 1},
+        $inc: { __v: 1 },
         $set: {
           password: hashedPassword,
         },
@@ -470,7 +470,7 @@ class UsersService {
    */
   static createLocalUsers(users) {
     return Promise.all(
-      users.map((user) => {
+      users.map(user => {
         return UsersService.createLocalUser(
           user.email,
           user.password,
@@ -498,7 +498,6 @@ class UsersService {
     }
 
     if (checkAgainstWordlist) {
-
       // check for profanity
       let err = await Wordlist.usernameCheck(username);
       if (err) {
@@ -591,7 +590,11 @@ class UsersService {
    * @param  {String}   role role to add
    */
   static setRole(id, role) {
-    return UserModel.update({id}, {$set: {role}}, {runValidators: true});
+    return UserModel.update(
+      { id },
+      { $set: { role } },
+      { runValidators: true }
+    );
   }
 
   /**
@@ -599,7 +602,7 @@ class UsersService {
    * @param {String} id  user id (uuid)
    */
   static findById(id) {
-    return UserModel.findOne({id});
+    return UserModel.findOne({ id });
   }
 
   /**
@@ -608,13 +611,11 @@ class UsersService {
    * @param {Object} token  a jwt token used to sign in the user
    */
   static async findOrCreateByIDToken(id, token) {
-
     // Try to get the user.
-    let user = await UserModel.findOne({id});
+    let user = await UserModel.findOne({ id });
 
     // If the user was not found, try to look it up.
     if (user === null) {
-
       // If the user wasn't found, it will return null and the variable will be
       // unchanged.
       user = await lookupUserNotFound(token);
@@ -629,7 +630,7 @@ class UsersService {
    */
   static findByIdArray(ids) {
     return UserModel.find({
-      id: {$in: ids},
+      id: { $in: ids },
     });
   }
 
@@ -640,7 +641,7 @@ class UsersService {
   static findPublicByIdArray(ids) {
     return UserModel.find(
       {
-        id: {$in: ids},
+        id: { $in: ids },
       },
       'id username'
     );
@@ -660,11 +661,10 @@ class UsersService {
     email = email.toLowerCase();
 
     const [user, domainValidated] = await Promise.all([
-      UserModel.findOne({profiles: {$elemMatch: {id: email}}}),
+      UserModel.findOne({ profiles: { $elemMatch: { id: email } } }),
       DomainList.urlCheck(loc),
     ]);
     if (!user) {
-
       // Since we don't want to reveal that the email does/doesn't exist
       // just go ahead and resolve the Promise with null and check in the
       // endpoint.
@@ -719,7 +719,7 @@ class UsersService {
       throw new Error('cannot verify an empty token');
     }
 
-    const {userId, loc, version} = await UsersService.verifyToken(token, {
+    const { userId, loc, version } = await UsersService.verifyToken(token, {
       subject: PASSWORD_RESET_JWT_SUBJECT,
     });
 
@@ -807,7 +807,7 @@ class UsersService {
 
     // Get the profile representing the local account.
     let profile = user.profiles.find(
-      (profile) => profile.id === email && profile.provider === 'local'
+      profile => profile.id === email && profile.provider === 'local'
     );
 
     // Ensure that the user email hasn't already been verified.
@@ -837,7 +837,7 @@ class UsersService {
     }
 
     const decoded = await UsersService.verifyToken(token, {
-      subject: EMAIL_CONFIRM_JWT_SUBJECT
+      subject: EMAIL_CONFIRM_JWT_SUBJECT,
     });
 
     const user = await UserModel.findOne({
@@ -853,7 +853,7 @@ class UsersService {
       throw errors.ErrNotFound;
     }
 
-    const profile = user.profiles.find(({id}) => id === decoded.email);
+    const profile = user.profiles.find(({ id }) => id === decoded.email);
     if (!profile) {
       throw errors.ErrNotFound;
     }
@@ -873,11 +873,15 @@ class UsersService {
    * @return {Promise}
    */
   static async verifyEmailConfirmation(token) {
-    let {userID, email, referer} = await UsersService.verifyEmailConfirmationToken(token);
+    let {
+      userID,
+      email,
+      referer,
+    } = await UsersService.verifyEmailConfirmationToken(token);
 
     await UsersService.confirmEmail(userID, email);
 
-    return {userID, email, referer};
+    return { userID, email, referer };
   }
 
   /**
@@ -913,12 +917,12 @@ class UsersService {
     }
 
     const users = await UsersService.findByIdArray(usersToIgnore);
-    if (some(users, (user) => user.isStaff())) {
+    if (some(users, user => user.isStaff())) {
       throw errors.ErrCannotIgnoreStaff;
     }
 
     return UserModel.update(
-      {id},
+      { id },
       {
         $addToSet: {
           ignoresUsers: {
@@ -936,7 +940,7 @@ class UsersService {
    */
   static async stopIgnoringUsers(id, usersToStopIgnoring) {
     await UserModel.update(
-      {id},
+      { id },
       {
         $pullAll: {
           ignoresUsers: usersToStopIgnoring,
@@ -948,8 +952,7 @@ class UsersService {
 
 module.exports = UsersService;
 
-events.on(USERS_BAN_CHANGE, async (user, {status, message}) => {
-
+events.on(USERS_BAN_CHANGE, async (user, { status, message }) => {
   // Check to see if the user was banned now and is currently banned.
   if (user.banned && status && message && message.length > 0) {
     await UsersService.sendEmail(user, {
@@ -962,8 +965,7 @@ events.on(USERS_BAN_CHANGE, async (user, {status, message}) => {
   }
 });
 
-events.on(USERS_SUSPENSION_CHANGE, async (user, {until, message}) => {
-
+events.on(USERS_SUSPENSION_CHANGE, async (user, { until, message }) => {
   // Check to see if the user was suspended now and is currently suspended.
   if (
     user.suspended &&
@@ -988,11 +990,11 @@ let tokenUserNotFoundHooks = null;
 
 // Provide a function that can loop over the hooks and search for a provider
 // can crack the token to a user.
-const lookupUserNotFound = async (token) => {
+const lookupUserNotFound = async token => {
   if (!Array.isArray(tokenUserNotFoundHooks)) {
     tokenUserNotFoundHooks = require('./plugins')
       .get('server', 'tokenUserNotFound')
-      .map(({plugin, tokenUserNotFound}) => {
+      .map(({ plugin, tokenUserNotFound }) => {
         debug(`added plugin '${plugin.name}' to tokenUserNotFound hooks`);
 
         return tokenUserNotFound;

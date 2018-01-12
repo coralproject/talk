@@ -7,15 +7,18 @@
 const util = require('./util');
 const program = require('commander');
 const inquirer = require('inquirer');
-const {graphql} = require('graphql');
-const {stripIndent} = require('common-tags');
+const { graphql } = require('graphql');
+const { stripIndent } = require('common-tags');
 const Table = require('cli-table');
 
 // Make things colorful!
 require('colors');
 
 // Register the autocomplete plugin.
-inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'));
+inquirer.registerPrompt(
+  'autocomplete',
+  require('inquirer-autocomplete-prompt')
+);
 
 const schema = require('../graph/schema');
 const Context = require('../graph/context');
@@ -28,19 +31,15 @@ const mongoose = require('../services/mongoose');
 const databaseVerifications = require('./verifications/database');
 
 // Register the shutdown criteria.
-util.onshutdown([
-  () => mongoose.disconnect()
-]);
+util.onshutdown([() => mongoose.disconnect()]);
 
 /**
  * Deletes a user and cleans up their associated verifications.
  */
 async function deleteUser(userID) {
-
   try {
-
     // Find the user we're removing.
-    const user = await UserModel.findOne({id: userID});
+    const user = await UserModel.findOne({ id: userID });
     if (!user) {
       throw new Error(`user with id ${userID} not found`);
     }
@@ -54,7 +53,7 @@ async function deleteUser(userID) {
     This might take a long time if there is a lot of data, please confirm that
     you want to continue.
     `);
-    const {confirm} = await inquirer.prompt({
+    const { confirm } = await inquirer.prompt({
       type: 'confirm',
       name: 'confirm',
       message: 'Continue',
@@ -64,27 +63,25 @@ async function deleteUser(userID) {
       return util.shutdown();
     }
 
-    console.warn('Removing user\'s actions');
+    console.warn("Removing user's actions");
 
     // Remove all the user's actions.
-    await ActionModel
-      .where({user_id: user.id})
-      .setOptions({multi: true})
+    await ActionModel.where({ user_id: user.id })
+      .setOptions({ multi: true })
       .remove();
 
-    console.warn('Removing user\'s comments');
+    console.warn("Removing user's comments");
 
     // Remove all the user's comments.
-    await CommentModel
-      .where({author_id: user.id})
-      .setOptions({multi: true})
+    await CommentModel.where({ author_id: user.id })
+      .setOptions({ multi: true })
       .remove();
 
     console.warn('Updating the database indexes');
 
     // Update the counts that might have changed.
     for (const verification of databaseVerifications) {
-      await verification({fix: true, limit: Infinity, batch: 1000});
+      await verification({ fix: true, limit: Infinity, batch: 1000 });
     }
 
     console.warn('Removing the user');
@@ -103,15 +100,19 @@ function printUserAsTable(user) {
   let table = new Table({});
 
   table.push(
-    {'ID': user.id.gray},
-    {'Username': user.username},
-    {'Emails': user.emails},
-    {'Tags': user.tags ? user.tags.map(({tag: {name}}) => name) : ''},
-    {'Role': user.role},
-    {'Verified': user.hasVerifiedEmail},
-    {'Username': user.status.username.status},
-    {'Banned': user.banned},
-    {'Suspension': user.suspended ? `Until ${user.status.suspension.until}` : false},
+    { ID: user.id.gray },
+    { Username: user.username },
+    { Emails: user.emails },
+    { Tags: user.tags ? user.tags.map(({ tag: { name } }) => name) : '' },
+    { Role: user.role },
+    { Verified: user.hasVerifiedEmail },
+    { Username: user.status.username.status },
+    { Banned: user.banned },
+    {
+      Suspension: user.suspended
+        ? `Until ${user.status.suspension.until}`
+        : false,
+    }
   );
 
   console.log(table.toString());
@@ -148,7 +149,7 @@ async function searchUsers() {
           value = '';
         }
 
-        const {data, errors} = await graphql(schema, searchQuery, {}, ctx, {
+        const { data, errors } = await graphql(schema, searchQuery, {}, ctx, {
           value,
         });
         if (errors && errors.length > 0) {
@@ -159,18 +160,20 @@ async function searchUsers() {
           return [];
         }
 
-        return data.users.nodes.map((user) => {
+        return data.users.nodes.map(user => {
           const emails = user.emails.join(', ');
           return {
-            name: `${user.username} (${emails}) ${user.id.gray} - ${user.role.gray}`,
+            name: `${user.username} (${emails}) ${user.id.gray} - ${
+              user.role.gray
+            }`,
             value: user.id,
           };
         });
-      }
+      },
     });
 
-    const {userID} = answers;
-    const user = await UserModel.findOne({id: userID});
+    const { userID } = answers;
+    const user = await UserModel.findOne({ id: userID });
 
     printUserAsTable(user);
     util.shutdown(0);
@@ -187,13 +190,13 @@ async function searchUsers() {
  */
 async function setUserRole(userID) {
   try {
-    const {role} = await inquirer.prompt([
+    const { role } = await inquirer.prompt([
       {
         name: 'role',
         message: 'User Role',
         type: 'list',
-        choices: USER_ROLES
-      }
+        choices: USER_ROLES,
+      },
     ]);
 
     await UsersService.setRole(userID, role);
@@ -204,7 +207,6 @@ async function setUserRole(userID) {
     console.error(err);
     util.shutdown(1);
   }
-
 }
 
 /**
@@ -217,9 +219,8 @@ async function setUserRole(userID) {
  */
 async function verifyUserEmail(userID, email) {
   try {
-
     // Get the user.
-    const user = await UserModel.findOne({id: userID});
+    const user = await UserModel.findOne({ id: userID });
     if (!user) {
       throw new Error(`user with ID ${userID} cannot be found`);
     }
@@ -231,23 +232,20 @@ async function verifyUserEmail(userID, email) {
     }
 
     if (!email && emails.length === 1) {
-
       // The email wasn't passed, and there is only one option.
       email = emails[0];
-    } else if (!emails.includes(email)){
-
+    } else if (!emails.includes(email)) {
       // The email passed doesn't belong to this user.
       throw new Error(`user does not have the email ${email}`);
     } else if (emails.length > 1) {
-
       // The email wasn't passed, and there is more than one choice.
       const answers = await inquirer.prompt([
         {
           name: 'email',
           message: 'Select Email to Verify',
           type: 'list',
-          choices: emails
-        }
+          choices: emails,
+        },
       ]);
 
       email = answers.email;
@@ -284,7 +282,7 @@ program
 
 program
   .command('verify <userID> <email>')
-  .description('verifies the given user\'s email address')
+  .description("verifies the given user's email address")
   .action(verifyUserEmail);
 
 program.parse(process.argv);

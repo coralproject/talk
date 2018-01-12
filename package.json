@@ -16,7 +16,7 @@
     "prebuild": "npm-run-all clean generate-introspection",
     "build": "NODE_ENV=production webpack -p --bail",
     "lint:yaml": "yamllint locales/*.yml",
-    "lint:js": "eslint --ext=.js --ext=.json bin/* .",
+    "lint:js": "eslint bin/* .",
     "lint": "npm-run-all lint:*",
     "plugins:reconcile": "./bin/cli plugins reconcile",
     "test": "npm-run-all test:client test:server",
@@ -188,7 +188,7 @@
     "yamljs": "^0.2.10"
   },
   "devDependencies": {
-    "@coralproject/eslint-config-talk": "^0.0.4",
+    "@coralproject/eslint-config-talk": "^0.1.0",
     "babel-jest": "^21.2.0",
     "babel-plugin-dynamic-import-node": "^1.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",

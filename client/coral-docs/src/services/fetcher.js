@@ -5,6 +5,6 @@ export default function fetcher(query) {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({query}),
-  }).then((res) => res.json());
+    body: JSON.stringify({ query }),
+  }).then(res => res.json());
 }

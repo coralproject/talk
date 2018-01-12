@@ -12,10 +12,10 @@ const plugins = require('../services/plugins');
 const staticTemplate = require('../middleware/staticTemplate');
 const pubsub = require('../middleware/pubsub');
 const staticMiddleware = require('express-static-gzip');
-const {DISABLE_STATIC_SERVER} = require('../config');
-const {createGraphOptions} = require('../graph');
-const {passport} = require('../services/passport');
-const {MOUNT_PATH} = require('../url');
+const { DISABLE_STATIC_SERVER } = require('../config');
+const { createGraphOptions } = require('../graph');
+const { passport } = require('../services/passport');
+const { MOUNT_PATH } = require('../url');
 
 const router = express.Router();
 
@@ -24,7 +24,6 @@ const router = express.Router();
 //==============================================================================
 
 if (!DISABLE_STATIC_SERVER) {
-
   /**
    * Serve the directories under public.
    */
@@ -38,7 +37,9 @@ if (!DISABLE_STATIC_SERVER) {
     const oldEmbed = path.resolve(MOUNT_PATH, 'embed.js');
     const newEmbed = path.resolve(MOUNT_PATH, 'static/embed.js');
 
-    console.warn(`deprecation warning: ${oldEmbed} will be phased out soon, please replace calls from ${oldEmbed} to ${newEmbed}`);
+    console.warn(
+      `deprecation warning: ${oldEmbed} will be phased out soon, please replace calls from ${oldEmbed} to ${newEmbed}`
+    );
     res.redirect(301, newEmbed);
   });
 
@@ -47,16 +48,19 @@ if (!DISABLE_STATIC_SERVER) {
    */
   const dist = path.resolve(path.join(__dirname, '../dist'));
   if (process.env.NODE_ENV === 'production') {
-    router.use('/static', staticMiddleware(dist, {
-      indexFromEmptyFile: false,
-      enableBrotli: true,
-      customCompressions: [
-        {
-          encodingName: 'deflate',
-          fileExtension: 'zz',
-        },
-      ],
-    }));
+    router.use(
+      '/static',
+      staticMiddleware(dist, {
+        indexFromEmptyFile: false,
+        enableBrotli: true,
+        customCompressions: [
+          {
+            encodingName: 'deflate',
+            fileExtension: 'zz',
+          },
+        ],
+      })
+    );
   } else {
     router.use('/static', express.static(dist));
   }
@@ -85,7 +89,7 @@ router.use(express.json());
 const passportDebug = require('debug')('talk:passport');
 
 // Install the passport plugins.
-plugins.get('server', 'passport').forEach((plugin) => {
+plugins.get('server', 'passport').forEach(plugin => {
   passportDebug(`added plugin '${plugin.plugin.name}'`);
 
   // Pass the passport.js instance to the plugin to allow it to inject it's
@@ -109,11 +113,10 @@ router.use('/api/v1/graph/ql', apollo.graphqlExpress(createGraphOptions));
 
 // Only include the graphiql tool if we aren't in production mode.
 if (process.env.NODE_ENV !== 'production') {
-
   // Interactive graphiql interface.
   router.use('/api/v1/graph/iql', staticTemplate, (req, res) => {
     res.render('graphiql', {
-      endpointURL: 'api/v1/graph/ql'
+      endpointURL: 'api/v1/graph/ql',
     });
   });
 
@@ -121,7 +124,6 @@ if (process.env.NODE_ENV !== 'production') {
   router.get('/admin/docs', (req, res) => {
     res.render('admin/docs');
   });
-
 }
 
 router.use('/api/v1', require('./api'));
@@ -143,7 +145,7 @@ if (process.env.NODE_ENV !== 'production') {
         asset_url: '',
         asset_id: '',
         body: '',
-        basePath: '/static/embed/stream'
+        basePath: '/static/embed/stream',
       });
     }
   });
@@ -159,7 +161,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Inject server route plugins.
-plugins.get('server', 'router').forEach((plugin) => {
+plugins.get('server', 'router').forEach(plugin => {
   debug(`added plugin '${plugin.plugin.name}'`);
 
   // Pass the root router to the plugin to mount it's routes.
@@ -187,7 +189,7 @@ router.use('/api', (err, req, res, next) => {
   if (err instanceof errors.APIError) {
     res.status(err.status).json({
       message: res.locals.t(`error.${err.translation_key}`),
-      error: err
+      error: err,
     });
   } else {
     res.status(500).json({});
@@ -203,12 +205,12 @@ router.use('/', (err, req, res, next) => {
     res.status(err.status);
     res.render('error', {
       message: res.locals.t(`error.${err.translation_key}`),
-      error: process.env.NODE_ENV === 'development' ? err : {}
+      error: process.env.NODE_ENV === 'development' ? err : {},
     });
   } else {
     res.render('error', {
       message: err.message,
-      error: process.env.NODE_ENV === 'development' ? err : {}
+      error: process.env.NODE_ENV === 'development' ? err : {},
     });
   }
 });

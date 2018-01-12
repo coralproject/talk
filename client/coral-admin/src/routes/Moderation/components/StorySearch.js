@@ -1,17 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './StorySearch.css';
-import {Button, Spinner, Icon} from 'coral-ui';
+import { Button, Spinner, Icon } from 'coral-ui';
 import Story from './Story';
 
-const StorySearch = (props) => {
-
-  const {
-    root: {
-      assets,
-    },
-    data: {loading}
-  } = props;
+const StorySearch = props => {
+  const { root: { assets }, data: { loading } } = props;
 
   if (!props.moderation.storySearchVisible) {
     return null;
@@ -19,7 +13,11 @@ const StorySearch = (props) => {
 
   return (
     <div>
-      <div className={styles.container} role='alertdialog' onKeyDown={props.handleEsc}>
+      <div
+        className={styles.container}
+        role="alertdialog"
+        onKeyDown={props.handleEsc}
+      >
         <div className={styles.positionShim}>
           <div className={styles.headInput}>
             <input
@@ -30,42 +28,47 @@ const StorySearch = (props) => {
               autoFocus
             />
             <Button
-              cStyle='blue'
+              cStyle="blue"
               className={styles.searchButton}
               onClick={props.search}
-              raised >
+              raised
+            >
               Search
             </Button>
           </div>
           <div className={styles.results}>
-            {props.assetId &&
+            {props.assetId && (
               <div className={styles.cta}>
-                <a onClick={props.goToModerateAll}>Moderate comments on All Stories</a>
+                <a onClick={props.goToModerateAll}>
+                  Moderate comments on All Stories
+                </a>
               </div>
-            }
+            )}
             <div className={styles.storyList}>
+              {props.moderation.storySearchString ? (
+                <div className={styles.searchResults}>
+                  <Icon name="search" />
+                  <span className={styles.headlineRecent}>Search Results</span>
+                </div>
+              ) : (
+                <div className={styles.searchResults}>
+                  <Icon name="access_time" />
+                  <span className={styles.headlineRecent}>
+                    Most Recent Stories
+                  </span>
+                </div>
+              )}
 
-              {
-                props.moderation.storySearchString ? (
-                  <div className={styles.searchResults}>
-                    <Icon name="search" />
-                    <span className={styles.headlineRecent}>Search Results</span>
-                  </div>
-                ) : (
-                  <div className={styles.searchResults}>
-                    <Icon name="access_time" />
-                    <span className={styles.headlineRecent}>Most Recent Stories</span>
-                  </div>
-                )
-              }
+              {loading ? (
+                <Spinner />
+              ) : (
+                assets.nodes.map((story, i) => {
+                  const storyOpen =
+                    story.closedAt === null ||
+                    new Date(story.closedAt) > new Date();
 
-              {
-                loading
-                  ? <Spinner />
-                  : assets.nodes.map((story, i) => {
-                    const storyOpen = story.closedAt === null || new Date(story.closedAt) > new Date();
-
-                    return <Story
+                  return (
+                    <Story
                       key={i}
                       id={story.id}
                       title={story.title}
@@ -73,11 +76,14 @@ const StorySearch = (props) => {
                       open={storyOpen}
                       author={story.author}
                       goToStory={props.goToStory}
-                    />;
-                  })
-              }
+                    />
+                  );
+                })
+              )}
 
-              {assets.nodes.length === 0 && <div className={styles.noResults}>No results</div>}
+              {assets.nodes.length === 0 && (
+                <div className={styles.noResults}>No results</div>
+              )}
             </div>
           </div>
         </div>

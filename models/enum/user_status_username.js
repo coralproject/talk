@@ -1,5 +1,4 @@
 module.exports = [
-
   // UNSET is used when the username can be changed, and does not necessarily
   // require moderator action to become active. This can be used when the user
   // signs up with a social login and has the option of setting their own

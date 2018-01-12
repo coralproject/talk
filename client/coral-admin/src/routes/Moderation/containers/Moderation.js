@@ -1,23 +1,23 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {compose, gql} from 'react-apollo';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { compose, gql } from 'react-apollo';
 import withQuery from 'coral-framework/hocs/withQuery';
-import {getDefinitionName} from 'coral-framework/utils';
+import { getDefinitionName } from 'coral-framework/utils';
 import t from 'coral-framework/services/i18n';
 import update from 'immutability-helper';
 import truncate from 'lodash/truncate';
 import NotFoundAsset from '../components/NotFoundAsset';
-import {isPremod, getModPath} from '../../../utils';
+import { isPremod, getModPath } from '../../../utils';
 
-import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
+import { withSetCommentStatus } from 'coral-framework/graphql/mutations';
 import {
   handleCommentChange,
   commentBelongToQueue,
   cleanUpQueue,
 } from '../graphql';
 
-import {viewUserDetail} from '../../../actions/userDetail';
+import { viewUserDetail } from '../../../actions/userDetail';
 import {
   toggleModal,
   singleView,
@@ -29,15 +29,15 @@ import {
   selectCommentId,
 } from 'actions/moderation';
 import withQueueConfig from '../hoc/withQueueConfig';
-import {notify} from 'coral-framework/actions/notification';
+import { notify } from 'coral-framework/actions/notification';
 
-import {Spinner} from 'coral-ui';
+import { Spinner } from 'coral-ui';
 import Moderation from '../components/Moderation';
 import Comment from './Comment';
 import baseQueueConfig from '../queueConfig';
 
 function prepareNotificationText(text) {
-  return truncate(text, {length: 50}).replace('\n', ' ');
+  return truncate(text, { length: 50 }).replace('\n', ' ');
 }
 
 function getAssetId(props) {
@@ -69,7 +69,7 @@ class ModerationContainer extends Component {
   };
 
   get activeTab() {
-    const {root: {asset, settings}} = this.props;
+    const { root: { asset, settings } } = this.props;
     const id = getAssetId(this.props);
     const tab = getTab(this.props);
 
@@ -92,7 +92,7 @@ class ModerationContainer extends Component {
         variables,
         updateQuery: (
           prev,
-          {subscriptionData: {data: {commentAdded: comment}}}
+          { subscriptionData: { data: { commentAdded: comment } } }
         ) => {
           return this.handleCommentChange(prev, comment);
         },
@@ -102,7 +102,7 @@ class ModerationContainer extends Component {
         variables,
         updateQuery: (
           prev,
-          {subscriptionData: {data: {commentAccepted: comment}}}
+          { subscriptionData: { data: { commentAccepted: comment } } }
         ) => {
           const user =
             comment.status_history[comment.status_history.length - 1]
@@ -111,10 +111,10 @@ class ModerationContainer extends Component {
             this.props.auth.user.id === user.id
               ? ''
               : t(
-                'modqueue.notify_accepted',
-                user.username,
-                prepareNotificationText(comment.body)
-              );
+                  'modqueue.notify_accepted',
+                  user.username,
+                  prepareNotificationText(comment.body)
+                );
           return this.handleCommentChange(prev, comment, notifyText);
         },
       },
@@ -123,7 +123,7 @@ class ModerationContainer extends Component {
         variables,
         updateQuery: (
           prev,
-          {subscriptionData: {data: {commentRejected: comment}}}
+          { subscriptionData: { data: { commentRejected: comment } } }
         ) => {
           const user =
             comment.status_history[comment.status_history.length - 1]
@@ -132,10 +132,10 @@ class ModerationContainer extends Component {
             this.props.auth.user.id === user.id
               ? ''
               : t(
-                'modqueue.notify_rejected',
-                user.username,
-                prepareNotificationText(comment.body)
-              );
+                  'modqueue.notify_rejected',
+                  user.username,
+                  prepareNotificationText(comment.body)
+                );
           return this.handleCommentChange(prev, comment, notifyText);
         },
       },
@@ -144,7 +144,7 @@ class ModerationContainer extends Component {
         variables,
         updateQuery: (
           prev,
-          {subscriptionData: {data: {commentReset: comment}}}
+          { subscriptionData: { data: { commentReset: comment } } }
         ) => {
           const user =
             comment.status_history[comment.status_history.length - 1]
@@ -153,10 +153,10 @@ class ModerationContainer extends Component {
             this.props.auth.user.id === user.id
               ? ''
               : t(
-                'modqueue.notify_reset',
-                user.username,
-                prepareNotificationText(comment.body)
-              );
+                  'modqueue.notify_reset',
+                  user.username,
+                  prepareNotificationText(comment.body)
+                );
           return this.handleCommentChange(prev, comment, notifyText);
         },
       },
@@ -165,7 +165,7 @@ class ModerationContainer extends Component {
         variables,
         updateQuery: (
           prev,
-          {subscriptionData: {data: {commentEdited: comment}}}
+          { subscriptionData: { data: { commentEdited: comment } } }
         ) => {
           return this.handleCommentChange(prev, comment);
         },
@@ -175,20 +175,20 @@ class ModerationContainer extends Component {
         variables,
         updateQuery: (
           prev,
-          {subscriptionData: {data: {commentFlagged: comment}}}
+          { subscriptionData: { data: { commentFlagged: comment } } }
         ) => {
           return this.handleCommentChange(prev, comment);
         },
       },
     ];
 
-    this.subscriptions = parameters.map((param) =>
+    this.subscriptions = parameters.map(param =>
       this.props.data.subscribeToMoreThrottled(param)
     );
   }
 
   unsubscribe() {
-    this.subscriptions.forEach((unsubscribe) => unsubscribe());
+    this.subscriptions.forEach(unsubscribe => unsubscribe());
     this.subscriptions = [];
   }
 
@@ -207,7 +207,6 @@ class ModerationContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
     // Resubscribe when we change between assets.
     if (
       this.props.data.variables.asset_id !== nextProps.data.variables.asset_id
@@ -216,9 +215,9 @@ class ModerationContainer extends Component {
     }
   }
 
-  cleanUpQueue = (queue) => {
+  cleanUpQueue = queue => {
     if (!this.props.data.loading) {
-      this.props.data.updateQuery((query) => {
+      this.props.data.updateQuery(query => {
         return cleanUpQueue(
           query,
           queue,
@@ -229,19 +228,19 @@ class ModerationContainer extends Component {
     }
   };
 
-  acceptComment = ({commentId}) => {
-    return this.props.setCommentStatus({commentId, status: 'ACCEPTED'});
+  acceptComment = ({ commentId }) => {
+    return this.props.setCommentStatus({ commentId, status: 'ACCEPTED' });
   };
 
-  rejectComment = ({commentId}) => {
-    return this.props.setCommentStatus({commentId, status: 'REJECTED'});
+  rejectComment = ({ commentId }) => {
+    return this.props.setCommentStatus({ commentId, status: 'REJECTED' });
   };
 
   commentBelongToQueue = (queue, comment) => {
     return commentBelongToQueue(queue, comment, this.props.queueConfig);
   };
 
-  loadMore = (tab) => {
+  loadMore = tab => {
     const variables = {
       limit: 20,
       cursor: this.props.root[tab].endCursor,
@@ -254,12 +253,12 @@ class ModerationContainer extends Component {
     return this.props.data.fetchMore({
       query: LOAD_MORE_QUERY,
       variables,
-      updateQuery: (prev, {fetchMoreResult: {comments}}) => {
+      updateQuery: (prev, { fetchMoreResult: { comments } }) => {
         return update(prev, {
           [tab]: {
-            nodes: {$push: comments.nodes},
-            hasNextPage: {$set: comments.hasNextPage},
-            endCursor: {$set: comments.endCursor},
+            nodes: { $push: comments.nodes },
+            hasNextPage: { $set: comments.hasNextPage },
+            endCursor: { $set: comments.endCursor },
           },
         });
       },
@@ -267,7 +266,7 @@ class ModerationContainer extends Component {
   };
 
   render() {
-    const {root, root: {asset, settings}, data} = this.props;
+    const { root, root: { asset, settings }, data } = this.props;
     const assetId = getAssetId(this.props);
 
     if (data.error) {
@@ -276,14 +275,12 @@ class ModerationContainer extends Component {
 
     if (assetId) {
       if (asset === null) {
-
         // Not found.
         return <NotFoundAsset assetId={assetId} />;
       }
     }
 
     if (data.loading) {
-
       // loading.
       return <Spinner />;
     }
@@ -424,26 +421,26 @@ const commentConnectionFragment = gql`
 `;
 
 const withModQueueQuery = withQuery(
-  ({queueConfig}) => gql`
+  ({ queueConfig }) => gql`
   query CoralAdmin_Moderation($asset_id: ID, $sortOrder: SORT_ORDER, $allAssets: Boolean!, $nullStatuses: [COMMENT_STATUS!]) {
     ${Object.keys(queueConfig).map(
-    (queue) => `
+      queue => `
       ${queue}: comments(query: {
         statuses: ${
-  queueConfig[queue].statuses
-    ? `[${queueConfig[queue].statuses.join(', ')}],`
-    : '$nullStatuses'
-}
+          queueConfig[queue].statuses
+            ? `[${queueConfig[queue].statuses.join(', ')}],`
+            : '$nullStatuses'
+        }
         ${
-  queueConfig[queue].tags
-    ? `tags: ["${queueConfig[queue].tags.join('", "')}"],`
-    : ''
-}
+          queueConfig[queue].tags
+            ? `tags: ["${queueConfig[queue].tags.join('", "')}"],`
+            : ''
+        }
         ${
-  queueConfig[queue].action_type
-    ? `action_type: ${queueConfig[queue].action_type}`
-    : ''
-}
+          queueConfig[queue].action_type
+            ? `action_type: ${queueConfig[queue].action_type}`
+            : ''
+        }
         asset_id: $asset_id,
         sortOrder: $sortOrder,
         limit: 20,
@@ -451,29 +448,29 @@ const withModQueueQuery = withQuery(
         ...CoralAdmin_Moderation_CommentConnection
       }
     `
-  )}
+    )}
     ${Object.keys(queueConfig).map(
-    (queue) => `
+      queue => `
       ${queue}Count: commentCount(query: {
         statuses: ${
-  queueConfig[queue].statuses
-    ? `[${queueConfig[queue].statuses.join(', ')}],`
-    : '$nullStatuses'
-}
+          queueConfig[queue].statuses
+            ? `[${queueConfig[queue].statuses.join(', ')}],`
+            : '$nullStatuses'
+        }
         ${
-  queueConfig[queue].tags
-    ? `tags: ["${queueConfig[queue].tags.join('", "')}"],`
-    : ''
-}
+          queueConfig[queue].tags
+            ? `tags: ["${queueConfig[queue].tags.join('", "')}"],`
+            : ''
+        }
         ${
-  queueConfig[queue].action_type
-    ? `action_type: ${queueConfig[queue].action_type}`
-    : ''
-}
+          queueConfig[queue].action_type
+            ? `action_type: ${queueConfig[queue].action_type}`
+            : ''
+        }
         asset_id: $asset_id,
       })
     `
-  )}
+    )}
     asset(id: $asset_id) @skip(if: $allAssets) {
       id
       title
@@ -495,7 +492,7 @@ const withModQueueQuery = withQuery(
   ${commentConnectionFragment}
 `,
   {
-    options: (props) => {
+    options: props => {
       const id = getAssetId(props);
       return {
         variables: {
@@ -510,12 +507,12 @@ const withModQueueQuery = withQuery(
   }
 );
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   moderation: state.moderation,
   auth: state.auth,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(
     {
       toggleModal,

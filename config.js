@@ -16,7 +16,6 @@ const localAddress = require('ip').address('private');
 //==============================================================================
 
 const CONFIG = {
-
   // WEBPACK indicates when webpack is currently building.
   WEBPACK: process.env.WEBPACK === 'TRUE',
 
@@ -341,9 +340,7 @@ CONFIG.REDIS_CLIENT_CONFIG = JSON.parse(CONFIG.REDIS_CLIENT_CONFIG);
  * This is true when the recaptcha secret is provided and the Recaptcha feature
  * is to be enabled.
  */
-CONFIG.RECAPTCHA_ENABLED =
-  CONFIG.RECAPTCHA_SECRET &&
-  CONFIG.RECAPTCHA_PUBLIC;
+CONFIG.RECAPTCHA_ENABLED = CONFIG.RECAPTCHA_SECRET && CONFIG.RECAPTCHA_PUBLIC;
 
 debug(
   `reCAPTCHA is ${

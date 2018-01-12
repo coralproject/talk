@@ -6,15 +6,15 @@ import styles from './CommentTombstone.css';
 // Render in place of a Comment when the author of the comment is <action>
 class CommentTombstone extends React.Component {
   getCopy() {
-    const {action} = this.props;
+    const { action } = this.props;
 
     switch (action) {
-    case 'ignore':
-      return t('framework.comment_is_ignored');
-    case 'reject':
-      return t('framework.comment_is_rejected');
-    default :
-      return t('framework.comment_is_hidden');
+      case 'ignore':
+        return t('framework.comment_is_ignored');
+      case 'reject':
+        return t('framework.comment_is_rejected');
+      default:
+        return t('framework.comment_is_hidden');
     }
   }
 
@@ -24,9 +24,11 @@ class CommentTombstone extends React.Component {
         <hr aria-hidden={true} />
         <p className={styles.commentTombstone}>
           {this.getCopy()}
-          {this.props.action === 'reject' &&
-            <span className={styles.undo} onClick={this.props.onUndo}>{t('comment.undo_reject')}</span>
-          }
+          {this.props.action === 'reject' && (
+            <span className={styles.undo} onClick={this.props.onUndo}>
+              {t('comment.undo_reject')}
+            </span>
+          )}
         </p>
       </div>
     );

@@ -7,26 +7,29 @@ import jwtDecode from 'jwt-decode';
 // SIGN IN
 //==============================================================================
 
-export const handleLogin = (email, password, recaptchaResponse) => (dispatch, _, {rest, client, storage}) => {
-  dispatch({type: actions.LOGIN_REQUEST});
+export const handleLogin = (email, password, recaptchaResponse) => (
+  dispatch,
+  _,
+  { rest, client, storage }
+) => {
+  dispatch({ type: actions.LOGIN_REQUEST });
 
   const params = {
     method: 'POST',
     body: {
       email,
-      password
-    }
+      password,
+    },
   };
 
   if (recaptchaResponse) {
     params.headers = {
-      'X-Recaptcha-Response': recaptchaResponse
+      'X-Recaptcha-Response': recaptchaResponse,
     };
   }
 
   return rest('/auth/local', params)
-    .then(({user, token}) => {
-
+    .then(({ user, token }) => {
       if (!user) {
         if (!bowser.safari && !bowser.ios && storage) {
           storage.removeItem('token');
@@ -38,19 +41,19 @@ export const handleLogin = (email, password, recaptchaResponse) => (dispatch, _,
       client.resetWebsocket();
       dispatch(checkLoginSuccess(user));
     })
-    .catch((error) => {
+    .catch(error => {
       console.error(error);
-      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      const errorMessage = error.translation_key
+        ? t(`error.${error.translation_key}`)
+        : error.toString();
 
       if (error.translation_key === 'NOT_AUTHORIZED') {
-
         // invalid credentials
         dispatch({
           type: actions.LOGIN_FAILURE,
-          message: t('error.email_password')
+          message: t('error.email_password'),
         });
-      }
-      else if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
+      } else if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
         dispatch({
           type: actions.LOGIN_MAXIMUM_EXCEEDED,
           message: t(`error.${error.translation_key}`),
@@ -69,27 +72,32 @@ export const handleLogin = (email, password, recaptchaResponse) => (dispatch, _,
 //==============================================================================
 
 const forgotPasswordRequest = () => ({
-  type: actions.FETCH_FORGOT_PASSWORD_REQUEST
+  type: actions.FETCH_FORGOT_PASSWORD_REQUEST,
 });
 
 const forgotPasswordSuccess = () => ({
-  type: actions.FETCH_FORGOT_PASSWORD_SUCCESS
+  type: actions.FETCH_FORGOT_PASSWORD_SUCCESS,
 });
 
-const forgotPasswordFailure = (error) => ({
+const forgotPasswordFailure = error => ({
   type: actions.FETCH_FORGOT_PASSWORD_FAILURE,
   error,
 });
 
-export const requestPasswordReset = (email) => (dispatch, _, {rest}) => {
+export const requestPasswordReset = email => (dispatch, _, { rest }) => {
   dispatch(forgotPasswordRequest(email));
   const redirectUri = location.href;
 
-  return rest('/account/password/reset', {method: 'POST', body: {email,  loc: redirectUri}})
+  return rest('/account/password/reset', {
+    method: 'POST',
+    body: { email, loc: redirectUri },
+  })
     .then(() => dispatch(forgotPasswordSuccess()))
-    .catch((error) => {
+    .catch(error => {
       console.error(error);
-      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      const errorMessage = error.translation_key
+        ? t(`error.${error.translation_key}`)
+        : error.toString();
       dispatch(forgotPasswordFailure(errorMessage));
     });
 };
@@ -99,24 +107,24 @@ export const requestPasswordReset = (email) => (dispatch, _, {rest}) => {
 //==============================================================================
 
 const checkLoginRequest = () => ({
-  type: actions.CHECK_LOGIN_REQUEST
+  type: actions.CHECK_LOGIN_REQUEST,
 });
 
 const checkLoginSuccess = (user, isAdmin) => ({
   type: actions.CHECK_LOGIN_SUCCESS,
   user,
-  isAdmin
+  isAdmin,
 });
 
-const checkLoginFailure = (error) => ({
+const checkLoginFailure = error => ({
   type: actions.CHECK_LOGIN_FAILURE,
-  error
+  error,
 });
 
-export const checkLogin = () => (dispatch, _, {rest, client, storage}) => {
+export const checkLogin = () => (dispatch, _, { rest, client, storage }) => {
   dispatch(checkLoginRequest());
   return rest('/auth')
-    .then(({user}) => {
+    .then(({ user }) => {
       if (!user) {
         if (!bowser.safari && !bowser.ios && storage) {
           storage.removeItem('token');
@@ -127,9 +135,11 @@ export const checkLogin = () => (dispatch, _, {rest, client, storage}) => {
       client.resetWebsocket();
       dispatch(checkLoginSuccess(user));
     })
-    .catch((error) => {
+    .catch(error => {
       console.error(error);
-      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      const errorMessage = error.translation_key
+        ? t(`error.${error.translation_key}`)
+        : error.toString();
       dispatch(checkLoginFailure(errorMessage));
     });
 };
@@ -138,8 +148,8 @@ export const checkLogin = () => (dispatch, _, {rest, client, storage}) => {
 // LOGOUT
 //==============================================================================
 
-export const logout = () => (dispatch, _, {rest, client, storage}) => {
-  return rest('/auth', {method: 'DELETE'}).then(() => {
+export const logout = () => (dispatch, _, { rest, client, storage }) => {
+  return rest('/auth', { method: 'DELETE' }).then(() => {
     if (storage) {
       storage.removeItem('token');
     }
@@ -147,7 +157,7 @@ export const logout = () => (dispatch, _, {rest, client, storage}) => {
     // Reset the websocket.
     client.resetWebsocket();
 
-    dispatch({type: actions.LOGOUT});
+    dispatch({ type: actions.LOGOUT });
   });
 };
 
@@ -155,11 +165,10 @@ export const logout = () => (dispatch, _, {rest, client, storage}) => {
 // AUTH TOKEN
 //==============================================================================
 
-export const handleAuthToken = (token) => (dispatch, _, {storage}) => {
+export const handleAuthToken = token => (dispatch, _, { storage }) => {
   if (storage) {
     storage.setItem('exp', jwtDecode(token).exp);
     storage.setItem('token', token);
   }
-  dispatch({type: 'HANDLE_AUTH_TOKEN'});
+  dispatch({ type: 'HANDLE_AUTH_TOKEN' });
 };
-

@@ -1,7 +1,7 @@
 import React from 'react';
-import {gql, compose} from 'react-apollo';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { gql, compose } from 'react-apollo';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   ADDTL_COMMENTS_ON_LOAD_MORE,
   THREADING_LEVEL,
@@ -23,10 +23,13 @@ import {
 } from '../../../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
-import {withFragments, withEmit} from 'coral-framework/hocs';
-import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
-import {Spinner} from 'coral-ui';
-import {can} from 'coral-framework/services/perms';
+import { withFragments, withEmit } from 'coral-framework/hocs';
+import {
+  getDefinitionName,
+  getSlotFragmentSpreads,
+} from 'coral-framework/utils';
+import { Spinner } from 'coral-ui';
+import { can } from 'coral-framework/services/perms';
 import {
   findCommentInEmbedQuery,
   findCommentInAsset,
@@ -36,8 +39,8 @@ import {
   nest,
 } from '../../../graphql/utils';
 
-const {showSignInDialog, editName} = authActions;
-const {notify} = notificationActions;
+const { showSignInDialog, editName } = authActions;
+const { notify } = notificationActions;
 
 class StreamContainer extends React.Component {
   commentsAddedSubscription = null;
@@ -49,8 +52,10 @@ class StreamContainer extends React.Component {
       variables: {
         assetId: this.props.asset.id,
       },
-      updateQuery: (prev, {subscriptionData: {data: {commentEdited}}}) => {
-
+      updateQuery: (
+        prev,
+        { subscriptionData: { data: { commentEdited } } }
+      ) => {
         // Ignore mutations from me.
         // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
         if (
@@ -82,8 +87,7 @@ class StreamContainer extends React.Component {
       variables: {
         assetId: this.props.asset.id,
       },
-      updateQuery: (prev, {subscriptionData: {data: {commentAdded}}}) => {
-
+      updateQuery: (prev, { subscriptionData: { data: { commentAdded } } }) => {
         // Ignore mutations from me.
         // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
         if (
@@ -97,7 +101,7 @@ class StreamContainer extends React.Component {
         if (
           this.props.root.me &&
           this.props.root.me.ignoredUsers.some(
-            ({id}) => id === commentAdded.user.id
+            ({ id }) => id === commentAdded.user.id
           )
         ) {
           return prev;
@@ -131,7 +135,7 @@ class StreamContainer extends React.Component {
     }
   }
 
-  loadNewReplies = (parent_id) => {
+  loadNewReplies = parent_id => {
     const comment = findCommentInAsset(this.props.asset, parent_id);
 
     return this.props.data.fetchMore({
@@ -144,7 +148,7 @@ class StreamContainer extends React.Component {
         sortOrder: 'ASC',
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
-      updateQuery: (prev, {fetchMoreResult: {comments}}) => {
+      updateQuery: (prev, { fetchMoreResult: { comments } }) => {
         return insertFetchedCommentsIntoEmbedQuery(prev, comments, parent_id);
       },
     });
@@ -162,13 +166,13 @@ class StreamContainer extends React.Component {
         sortBy: this.props.data.variables.sortBy,
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
-      updateQuery: (prev, {fetchMoreResult: {comments}}) => {
+      updateQuery: (prev, { fetchMoreResult: { comments } }) => {
         return insertFetchedCommentsIntoEmbedQuery(prev, comments);
       },
     });
   };
 
-  isSortedByNewestFirst({sortBy, sortOrder} = this.props) {
+  isSortedByNewestFirst({ sortBy, sortOrder } = this.props) {
     return sortBy === 'CREATED_AT' && sortOrder === 'DESC';
   }
 
@@ -199,7 +203,7 @@ class StreamContainer extends React.Component {
     }
   }
 
-  userIsDegraged({auth: {user}} = this.props) {
+  userIsDegraged({ auth: { user } } = this.props) {
     return !can(user, 'INTERACT_WITH_COMMUNITY');
   }
 
@@ -341,14 +345,14 @@ const fragments = {
       comment(id: $commentId) @include(if: $hasComment) {
         ...CoralEmbedStream_Stream_comment
         ${nest(
-    `
+          `
           parent {
             ...CoralEmbedStream_Stream_comment
             ...nest
           }
         `,
-    THREADING_LEVEL
-  )}
+          THREADING_LEVEL
+        )}
       }
       id
       title
@@ -386,7 +390,7 @@ const fragments = {
   `,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   auth: state.auth,
   activeReplyBox: state.stream.activeReplyBox,
   commentId: state.stream.commentId,
@@ -402,7 +406,7 @@ const mapStateToProps = (state) => ({
   sortBy: state.stream.sortBy,
 });
 
-const mapDispatchToProps = (dispatch) =>
+const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       showSignInDialog,

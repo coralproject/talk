@@ -1,23 +1,24 @@
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {compose, gql} from 'react-apollo';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { compose, gql } from 'react-apollo';
 import StreamSettings from '../components/StreamSettings';
 import withFragments from 'coral-framework/hocs/withFragments';
-import {getSlotFragmentSpreads} from 'coral-framework/utils';
-import {updatePending} from '../../../actions/configure';
+import { getSlotFragmentSpreads } from 'coral-framework/utils';
+import { updatePending } from '../../../actions/configure';
 
-const slots = [
-  'adminStreamSettings',
-];
+const slots = ['adminStreamSettings'];
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   errors: state.configure.errors,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({
-    updatePending,
-  }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      updatePending,
+    },
+    dispatch
+  );
 
 export default compose(
   withFragments({
@@ -39,7 +40,7 @@ export default compose(
         closedMessage
         ${getSlotFragmentSpreads(slots, 'settings')}
       }
-    `
+    `,
   }),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps)
 )(StreamSettings);

@@ -4,7 +4,6 @@
 require('env-rewrite').rewrite();
 
 if (process.env.NODE_ENV !== 'test') {
-
   // Apply all the configuration provided in the .env file if it isn't already
   // in the environment.
   require('dotenv').config();

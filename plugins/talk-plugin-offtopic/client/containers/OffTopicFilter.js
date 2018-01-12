@@ -1,24 +1,24 @@
-import {connect} from 'plugin-api/beta/client/hocs';
-import {bindActionCreators} from 'redux';
-import {toggleCheckbox} from '../actions';
-import {commentClassNamesSelector} from 'plugin-api/alpha/client/selectors';
+import { connect } from 'plugin-api/beta/client/hocs';
+import { bindActionCreators } from 'redux';
+import { toggleCheckbox } from '../actions';
+import { commentClassNamesSelector } from 'plugin-api/alpha/client/selectors';
 import OffTopicFilter from '../components/OffTopicFilter';
 import {
   addCommentClassName,
-  removeCommentClassName
+  removeCommentClassName,
 } from 'plugin-api/alpha/client/actions';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   commentClassNames: commentClassNamesSelector(state),
-  checked: state.talkPluginOfftopic.checked
+  checked: state.talkPluginOfftopic.checked,
 });
 
-const mapDispatchToProps = (dispatch) =>
+const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       toggleCheckbox,
       addCommentClassName,
-      removeCommentClassName
+      removeCommentClassName,
     },
     dispatch
   );

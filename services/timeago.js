@@ -7,6 +7,6 @@ ta.register('pt_BR', require('timeago.js/locales/pt_BR'));
 
 const timeago = ta();
 
-module.exports = (time) => {
+module.exports = time => {
   return timeago.format(new Date(time), 'en');
 };

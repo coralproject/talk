@@ -7,13 +7,13 @@ const property = require('lodash/property');
 /**
  * Decorates the typeResolver with the tags field.
  */
-const decorateWithTags = (typeResolver) => {
-  typeResolver.tags = ({tags = []}, _, {user}) => {
+const decorateWithTags = typeResolver => {
+  typeResolver.tags = ({ tags = [] }, _, { user }) => {
     if (user && user.can(ADD_COMMENT_TAG)) {
       return tags;
     }
 
-    return tags.filter((t) => t.tag.permissions.public);
+    return tags.filter(t => t.tag.permissions.public);
   };
 };
 
@@ -49,7 +49,6 @@ const decorateWithPermissionCheck = (typeResolver, protect) => {
  * @param {String} field the field to decorate
  */
 const decorateUserField = (typeResolver, field) => {
-
   // The default resolver for the user decorator is loading the user by id.
   let fieldResolver = (obj, args, ctx) =>
     ctx.loaders.Users.getByID.load(obj[field]);

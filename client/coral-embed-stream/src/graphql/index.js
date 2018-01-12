@@ -1,11 +1,11 @@
-import {gql} from 'react-apollo';
+import { gql } from 'react-apollo';
 import update from 'immutability-helper';
 import uuid from 'uuid/v4';
 import {
   insertCommentIntoEmbedQuery,
   removeCommentFromEmbedQuery,
 } from './utils';
-import {mapLeaves} from 'coral-framework/utils';
+import { mapLeaves } from 'coral-framework/utils';
 
 export default {
   fragments: {
@@ -128,8 +128,8 @@ export default {
   },
   mutations: {
     PostComment: ({
-      variables: {input: {asset_id, body, parent_id, tags = []}},
-      state: {auth},
+      variables: { input: { asset_id, body, parent_id, tags = [] } },
+      state: { auth },
     }) => ({
       optimisticResponse: {
         createComment: {
@@ -142,7 +142,7 @@ export default {
               __typename: 'User',
               id: auth.user.id,
               username: auth.user.username,
-              tags: tags.map((tag) => ({
+              tags: tags.map(tag => ({
                 tag: {
                   name: tag,
                   created_at: new Date().toISOString(),
@@ -158,7 +158,7 @@ export default {
             created_at: new Date().toISOString(),
             body,
             action_summaries: [],
-            tags: tags.map((tag) => ({
+            tags: tags.map(tag => ({
               tag: {
                 name: tag,
                 created_at: new Date().toISOString(),
@@ -174,7 +174,7 @@ export default {
               title: '',
               url: '',
             },
-            parent: parent_id ? {__typename: 'Comment', id: parent_id} : null,
+            parent: parent_id ? { __typename: 'Comment', id: parent_id } : null,
             replies: {
               __typename: 'CommentConnection',
               nodes: [],
@@ -195,7 +195,7 @@ export default {
       updateQueries: {
         CoralEmbedStream_Embed: (
           prev,
-          {mutationResult: {data: {createComment: {comment}}}}
+          { mutationResult: { data: { createComment: { comment } } } }
         ) => {
           if (
             (prev.me.role !== 'ADMIN' &&
@@ -210,12 +210,12 @@ export default {
         },
         CoralEmbedStream_Profile: (
           prev,
-          {mutationResult: {data: {createComment: {comment}}}}
+          { mutationResult: { data: { createComment: { comment } } } }
         ) => {
           return update(prev, {
             me: {
               comments: {
-                nodes: {$unshift: [comment]},
+                nodes: { $unshift: [comment] },
               },
             },
           });
@@ -226,7 +226,7 @@ export default {
       updateQueries: {
         CoralEmbedStream_Embed: (
           prev,
-          {mutationResult: {data: {editComment: {comment}}}}
+          { mutationResult: { data: { editComment: { comment } } } }
         ) => {
           if (
             !['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(comment.status)
@@ -237,12 +237,12 @@ export default {
         },
       },
     }),
-    UpdateAssetSettings: ({variables: {input}}) => ({
+    UpdateAssetSettings: ({ variables: { input } }) => ({
       updateQueries: {
-        CoralEmbedStream_Embed: (prev) => {
+        CoralEmbedStream_Embed: prev => {
           const updated = update(prev, {
             asset: {
-              settings: mapLeaves(input, (leaf) => ({$set: leaf})),
+              settings: mapLeaves(input, leaf => ({ $set: leaf })),
             },
           });
           return updated;

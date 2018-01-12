@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
-import {Icon} from 'coral-ui';
+import { Icon } from 'coral-ui';
 import CommentDetails from 'coral-admin/src/components/CommentDetails';
 import styles from './Comment.css';
 import CommentLabels from 'coral-admin/src/components/CommentLabels';
@@ -14,12 +14,12 @@ import cn from 'classnames';
 import ApproveButton from 'coral-admin/src/components/ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
 
-import t, {timeago} from 'coral-framework/services/i18n';
+import t, { timeago } from 'coral-framework/services/i18n';
 
 class Comment extends React.Component {
   ref = null;
 
-  handleRef = (ref) => (this.ref = ref);
+  handleRef = ref => (this.ref = ref);
 
   handleFocusOrClick = () => {
     if (!this.props.selected) {
@@ -28,19 +28,19 @@ class Comment extends React.Component {
   };
 
   viewUserDetail = () => {
-    const {viewUserDetail, comment} = this.props;
+    const { viewUserDetail, comment } = this.props;
     return viewUserDetail(comment.user.id);
   };
 
   approve = () =>
     this.props.comment.status === 'ACCEPTED'
       ? null
-      : this.props.acceptComment({commentId: this.props.comment.id});
+      : this.props.acceptComment({ commentId: this.props.comment.id });
 
   reject = () =>
     this.props.comment.status === 'REJECTED'
       ? null
-      : this.props.rejectComment({commentId: this.props.comment.id});
+      : this.props.rejectComment({ commentId: this.props.comment.id });
 
   componentDidUpdate(prev) {
     if (!prev.selected && this.props.selected) {
@@ -55,14 +55,14 @@ class Comment extends React.Component {
       className,
       data,
       root,
-      root: {settings},
+      root: { settings },
       currentAsset,
       clearHeightCache,
       dangling,
     } = this.props;
 
     const selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
-    const queryData = {root, comment, asset: comment.asset};
+    const queryData = { root, comment, asset: comment.asset };
 
     return (
       <li
@@ -72,7 +72,7 @@ class Comment extends React.Component {
           'mdl-card',
           selectionStateCSS,
           styles.root,
-          {[styles.selected]: selected, [styles.dangling]: dangling},
+          { [styles.selected]: selected, [styles.dangling]: dangling },
           'talk-admin-moderate-comment'
         )}
         id={`comment_${comment.id}`}

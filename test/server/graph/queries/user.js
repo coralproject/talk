@@ -1,4 +1,4 @@
-const {graphql} = require('graphql');
+const { graphql } = require('graphql');
 
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
@@ -8,18 +8,21 @@ const UsersService = require('../../../../services/users');
 
 const chai = require('chai');
 chai.use(require('chai-datetime'));
-const {expect} = chai;
+const { expect } = chai;
 
 describe('graph.queries.user', () => {
   let user;
   beforeEach(async () => {
     await SettingsService.init();
 
-    user = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
+    user = await UsersService.createLocalUser(
+      'usernameA@example.com',
+      'password',
+      'usernameA'
+    );
   });
 
   describe('state', () => {
-
     const meQuery = `
       query Me {
         me {
@@ -35,9 +38,9 @@ describe('graph.queries.user', () => {
     `;
 
     it('can query me', async () => {
-      const ctx = new Context({user});
+      const ctx = new Context({ user });
 
-      const {data, errors} = await graphql(schema, meQuery, {}, ctx);
+      const { data, errors } = await graphql(schema, meQuery, {}, ctx);
 
       expect(errors).to.be.undefined;
       expect(data.me).to.not.be.null;
@@ -60,16 +63,16 @@ describe('graph.queries.user', () => {
     `;
 
     [
-      {role: 'COMMENTER', can: false},
-      {role: 'STAFF', can: false},
-      {role: 'MODERATOR', can: true},
-      {role: 'ADMIN', can: true},
-    ].forEach(({role, can}) => {
+      { role: 'COMMENTER', can: false },
+      { role: 'STAFF', can: false },
+      { role: 'MODERATOR', can: true },
+      { role: 'ADMIN', can: true },
+    ].forEach(({ role, can }) => {
       it(`${can ? 'can' : 'can not'} query with role = ${role}`, async () => {
-        const actor = new UserModel({role});
-        const ctx = new Context({user: actor});
+        const actor = new UserModel({ role });
+        const ctx = new Context({ user: actor });
 
-        const {data, errors} = await graphql(schema, query, {}, ctx, {
+        const { data, errors } = await graphql(schema, query, {}, ctx, {
           user_id: user.id,
         });
 

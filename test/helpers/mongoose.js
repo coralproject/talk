@@ -13,17 +13,19 @@ before(function(done) {
 });
 
 beforeEach(async () => {
-  await Promise.all(Object.keys(mongoose.connection.collections).map((collection) => {
-    return new Promise((resolve, reject) => {
-      mongoose.connection.collections[collection].remove(function(err) {
-        if (err) {
-          return reject(err);
-        }
+  await Promise.all(
+    Object.keys(mongoose.connection.collections).map(collection => {
+      return new Promise((resolve, reject) => {
+        mongoose.connection.collections[collection].remove(function(err) {
+          if (err) {
+            return reject(err);
+          }
 
-        return resolve();
+          return resolve();
+        });
       });
-    });
-  }));
+    })
+  );
 });
 
 after(async function() {
