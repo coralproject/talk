@@ -1,6 +1,4 @@
-const {
-  ROOT_URL
-} = require('./config');
+const { ROOT_URL } = require('./config');
 
 const nightwatch_config = {
   src_folders: './test/e2e/specs/',
@@ -8,10 +6,10 @@ const nightwatch_config = {
   page_objects_path: './test/e2e/page_objects',
   globals_path: './test/e2e/globals',
 
-  selenium : {
+  selenium: {
     start_process: false,
     host: 'hub-cloud.browserstack.com',
-    port: 80
+    port: 80,
   },
 
   test_settings: {
@@ -22,14 +20,17 @@ const nightwatch_config = {
         'browserstack.user': process.env.BROWSERSTACK_USER || 'coralproject2',
         'browserstack.key': process.env.BROWSERSTACK_KEY,
         'browserstack.local': true,
-        'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER ? process.env.BROWSERSTACK_LOCAL_IDENTIFIER : undefined,
+        'browserstack.localIdentifier': process.env
+          .BROWSERSTACK_LOCAL_IDENTIFIER
+          ? process.env.BROWSERSTACK_LOCAL_IDENTIFIER
+          : undefined,
         'browserstack.debug': true,
 
         // Disable this, as it makes bs slow and brittle.
         'browserstack.networkLogs': false,
-        'resolution': '1600x1200',
+        resolution: '1600x1200',
       },
-      screenshots : {
+      screenshots: {
         enabled: true,
         on_failure: true,
         on_error: true,
@@ -77,11 +78,11 @@ const nightwatch_config = {
         os_version: '10',
       },
     },
-  }
+  },
 };
 
 // Code to copy seleniumhost/port into test settings
-for(const i in nightwatch_config.test_settings){
+for (const i in nightwatch_config.test_settings) {
   const config = nightwatch_config.test_settings[i];
   config['selenium_host'] = nightwatch_config.selenium.host;
   config['selenium_port'] = nightwatch_config.selenium.port;

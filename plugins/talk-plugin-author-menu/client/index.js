@@ -5,7 +5,7 @@ import translations from './translations.yml';
 export default {
   reducer,
   slots: {
-    commentAuthorName: [AuthorName]
+    commentAuthorName: [AuthorName],
   },
-  translations
+  translations,
 };

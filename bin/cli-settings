@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const program = require('./commander');
+const util = require('./util');
+const program = require('commander');
 const inquirer = require('inquirer');
 const mongoose = require('../services/mongoose');
 const SettingsService = require('../services/settings');
-const util = require('./util');
 
 // Register the shutdown criteria.
 util.onshutdown([() => mongoose.disconnect()]);
@@ -16,12 +16,12 @@ async function changeOrgName() {
   try {
     let settings = await SettingsService.retrieve();
 
-    let {organizationName} = await inquirer.prompt([
+    let { organizationName } = await inquirer.prompt([
       {
         name: 'organizationName',
         message: 'Organization Name',
-        default: settings.organizationName
-      }
+        default: settings.organizationName,
+      },
     ]);
 
     if (settings.organizationName !== organizationName) {

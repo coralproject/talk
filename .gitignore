@@ -13,6 +13,7 @@ client/coral-framework/graphql/introspection.json
 .idea/
 *.swp
 *.DS_STORE
+.prettierrc.json
 
 coverage/
 test/e2e/reports/
@@ -52,3 +53,4 @@ plugins/*
 !plugins/talk-plugin-slack-notifications
 
 **/node_modules/*
+yarn-error.log

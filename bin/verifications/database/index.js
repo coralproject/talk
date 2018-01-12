@@ -6,7 +6,5 @@
 //
 //   async ({fix = false, batch = 1000}) => {}
 //
-// where their options are derrived.
-module.exports = [
-  require('./comments'),
-];
+// where their options are derived.
+module.exports = [require('./comment_replies'), require('./action_counts')];

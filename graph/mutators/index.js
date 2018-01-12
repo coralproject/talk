@@ -12,7 +12,6 @@ const User = require('./user');
 const plugins = require('../../services/plugins');
 
 let mutators = [
-
   // Load in the core mutators.
   Comment,
   Action,
@@ -23,12 +22,11 @@ let mutators = [
   User,
 
   // Load the plugin mutators from the manager.
-  ...plugins
-    .get('server', 'mutators').map(({plugin, mutators}) => {
-      debug(`added plugin '${plugin.name}'`);
+  ...plugins.get('server', 'mutators').map(({ plugin, mutators }) => {
+    debug(`added plugin '${plugin.name}'`);
 
-      return mutators;
-    })
+    return mutators;
+  }),
 ];
 
 /**
@@ -36,12 +34,12 @@ let mutators = [
  * @param  {Object} context the context of the GraphQL request
  * @return {Object}         object of mutators
  */
-module.exports = (context) => {
-
+module.exports = context => {
   // We need to return an object to be accessed.
-  return _.merge(...mutators.map((mutators) => {
-
-    // Each set of mutators is a function which takes the context.
-    return mutators(context);
-  }));
+  return _.merge(
+    ...mutators.map(mutators => {
+      // Each set of mutators is a function which takes the context.
+      return mutators(context);
+    })
+  );
 };

@@ -9,4 +9,5 @@ import SortOption from '../components/SortOption';
  * @param  {string} sort.sortOrder
  * @return {Object} Component
  */
-export const createSortOption = (label, sort) => withSortOption({...sort, label})(SortOption);
+export const createSortOption = (label, sort) =>
+  withSortOption({ ...sort, label })(SortOption);

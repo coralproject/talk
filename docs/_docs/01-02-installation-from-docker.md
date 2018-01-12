@@ -121,7 +121,7 @@ your containerized infrastructure. The versioning of our Docker tags as well
 lets you do something like:
 
 ```docker
-FROM coralproject/talk:3.5-onbuild
+FROM coralproject/talk:4.0-onbuild
 ```
 
-Which would pin your image to `3.5` release's.
+Which would pin your image to `4.0` release's.

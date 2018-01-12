@@ -3,6 +3,12 @@ import has from 'lodash/has';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 
+import moment from 'moment';
+import 'moment/locale/da';
+import 'moment/locale/es';
+import 'moment/locale/fr';
+import 'moment/locale/pt-br';
+
 import daTA from 'timeago.js/locales/da';
 import esTA from 'timeago.js/locales/es';
 import frTA from 'timeago.js/locales/fr';
@@ -19,7 +25,15 @@ import zh_CN from '../../../locales/zh_CN.yml';
 import zh_TW from '../../../locales/zh_TW.yml';
 
 const defaultLanguage = process.env.TALK_DEFAULT_LANG;
-const translations = {...en, ...da, ...es, ...fr, ...pt_BR, ...zh_CN, ...zh_TW};
+const translations = {
+  ...en,
+  ...da,
+  ...es,
+  ...fr,
+  ...pt_BR,
+  ...zh_CN,
+  ...zh_TW,
+};
 
 let lang;
 let timeagoInstance;
@@ -33,12 +47,19 @@ function setLocale(locale) {
 }
 
 function getLocale() {
-  return (localStorage.getItem('locale') || navigator.language || defaultLanguage).split('-')[0];
+  return (
+    localStorage.getItem('locale') ||
+    navigator.language ||
+    defaultLanguage
+  ).split('-')[0];
 }
 
 function init() {
   const locale = getLocale();
   setLocale(locale);
+
+  // Setting moment
+  moment.locale(locale);
 
   // Extract language key.
   lang = locale.split('-')[0];

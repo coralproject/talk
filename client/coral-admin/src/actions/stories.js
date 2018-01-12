@@ -10,7 +10,7 @@ import {
   UPDATE_ASSET_STATE_REQUEST,
   UPDATE_ASSET_STATE_SUCCESS,
   UPDATE_ASSET_STATE_FAILURE,
-  UPDATE_ASSETS
+  UPDATE_ASSETS,
 } from '../constants/stories';
 
 import t from 'coral-framework/services/i18n';
@@ -21,53 +21,58 @@ import t from 'coral-framework/services/i18n';
 
 // Fetch a page of assets
 // Get comments to fill each of the three lists on the mod queue
-export const fetchAssets = (query = {}) => (dispatch, _, {rest}) => {
-  dispatch({type: FETCH_ASSETS_REQUEST});
+export const fetchAssets = (query = {}) => (dispatch, _, { rest }) => {
+  dispatch({ type: FETCH_ASSETS_REQUEST });
   return rest(`/assets?${queryString.stringify(query)}`)
-    .then(({result, page, count, limit, totalPages}) =>
-      dispatch({type: FETCH_ASSETS_SUCCESS,
+    .then(({ result, page, count, limit, totalPages }) =>
+      dispatch({
+        type: FETCH_ASSETS_SUCCESS,
         assets: result,
         page,
         count,
         limit,
         totalPages,
-      }))
-    .catch((error) => {
+      })
+    )
+    .catch(error => {
       console.error(error);
-      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
-      dispatch({type: FETCH_ASSETS_FAILURE, error: errorMessage});
+      const errorMessage = error.translation_key
+        ? t(`error.${error.translation_key}`)
+        : error.toString();
+      dispatch({ type: FETCH_ASSETS_FAILURE, error: errorMessage });
     });
 };
 
 // Update an asset state
 // Get comments to fill each of the three lists on the mod queue
-export const updateAssetState = (id, closedAt) => (dispatch, _, {rest}) => {
-  dispatch({type: UPDATE_ASSET_STATE_REQUEST, id, closedAt});
-  return rest(`/assets/${id}/status`, {method: 'PUT', body: {closedAt}})
-    .then(() => dispatch({type: UPDATE_ASSET_STATE_SUCCESS}))
-    .catch((error) => {
+export const updateAssetState = (id, closedAt) => (dispatch, _, { rest }) => {
+  dispatch({ type: UPDATE_ASSET_STATE_REQUEST, id, closedAt });
+  return rest(`/assets/${id}/status`, { method: 'PUT', body: { closedAt } })
+    .then(() => dispatch({ type: UPDATE_ASSET_STATE_SUCCESS }))
+    .catch(error => {
       console.error(error);
-      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
-      dispatch({type: UPDATE_ASSET_STATE_FAILURE, error: errorMessage});
+      const errorMessage = error.translation_key
+        ? t(`error.${error.translation_key}`)
+        : error.toString();
+      dispatch({ type: UPDATE_ASSET_STATE_FAILURE, error: errorMessage });
     });
 };
 
-export const updateAssets = (assets) => (dispatch) => {
-  dispatch({type: UPDATE_ASSETS, assets});
+export const updateAssets = assets => dispatch => {
+  dispatch({ type: UPDATE_ASSETS, assets });
 };
 
-export const setPage = (page) => ({
+export const setPage = page => ({
   type: SET_PAGE,
   page,
 });
 
-export const setSearchValue = (value) => ({
+export const setSearchValue = value => ({
   type: SET_SEARCH_VALUE,
   value,
 });
 
-export const setCriteria = (criteria) => ({
+export const setCriteria = criteria => ({
   type: SET_CRITERIA,
   criteria,
 });
-

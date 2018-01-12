@@ -1,11 +1,13 @@
-import {setSort} from 'plugin-api/beta/client/actions/stream';
-import {sortOrderSelector, sortBySelector} from 'plugin-api/beta/client/selectors/stream';
+import { setSort } from 'plugin-api/beta/client/actions/stream';
+import {
+  sortOrderSelector,
+  sortBySelector,
+} from 'plugin-api/beta/client/selectors/stream';
 
 const STORAGE_PATH = 'talkPluginRememberSort';
 
 export default {
-  init: async ({store, pymStorage, introspection}) => {
-
+  init: async ({ store, pymStorage, introspection }) => {
     // TODO: workaround as this plugin is included in any target and
     // embeds (e.g. admin), but should only be included inside the stream.
 
@@ -32,9 +34,9 @@ export default {
 
       // Save sorting choice to storage if it has changed.
       if (!sort || sort.sortOrder !== sortOrder || sort.sortBy !== sortBy) {
-        sort = {sortOrder, sortBy};
+        sort = { sortOrder, sortBy };
         pymStorage.setItem(STORAGE_PATH, JSON.stringify(sort));
       }
     });
-  }
+  },
 };

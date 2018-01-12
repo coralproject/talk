@@ -1,9 +1,9 @@
 import React from 'react';
 import ExtendableTabPanel from '../components/ExtendableTabPanel';
-import {connect} from 'react-redux';
-import {TabPane} from 'coral-ui';
+import { connect } from 'react-redux';
+import { TabPane } from 'coral-ui';
 import ExtendableTab from '../components/ExtendableTab';
-import {getShallowChanges} from 'coral-framework/utils';
+import { getShallowChanges } from 'coral-framework/utils';
 import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
 
@@ -21,13 +21,16 @@ class ExtendableTabPanelContainer extends React.Component {
   }
 
   shouldComponentUpdate(next) {
-
     // Prevent Slot from rerendering when only reduxState has changed and
     // it does not result in a change of slot children.
     const changes = getShallowChanges(this.props, next);
     if (changes.length === 1 && changes[0] === 'reduxState') {
-      const prevKeys = this.getSlotElements(this.props.tabSlot, this.props).map((el) => el.key);
-      const nextKeys = this.getSlotElements(next.tabSlot, next).map((el) => el.key);
+      const prevKeys = this.getSlotElements(this.props.tabSlot, this.props).map(
+        el => el.key
+      );
+      const nextKeys = this.getSlotElements(next.tabSlot, next).map(
+        el => el.key
+      );
       return !isEqual(prevKeys, nextKeys);
     }
 
@@ -42,12 +45,17 @@ class ExtendableTabPanelContainer extends React.Component {
   }
 
   getTabNames(props = this.props) {
-    return this.getTabElements(props).map((el) => el.props.tabId);
+    return this.getTabElements(props).map(el => el.props.tabId);
   }
 
   getSlotElements(slot, props = this.props) {
-    const {plugins} = this.context;
-    return plugins.getSlotElements(slot, props.reduxState, props.slotProps, props.queryData);
+    const { plugins } = this.context;
+    return plugins.getSlotElements(
+      slot,
+      props.reduxState,
+      props.slotProps,
+      props.queryData
+    );
   }
 
   getPluginTabElements(props = this.props) {
@@ -59,10 +67,15 @@ class ExtendableTabPanelContainer extends React.Component {
   }
 
   getSlotTabElements(slot) {
-    return this.getSlotElements(slot).map((el) => {
+    return this.getSlotElements(slot).map(el => {
       return (
-        <ExtendableTab tabId={el.type.talkPluginName} key={el.type.talkPluginName}>
-          {React.cloneElement(el, {active: this.props.activeTab === el.type.talkPluginName})}
+        <ExtendableTab
+          tabId={el.type.talkPluginName}
+          key={el.type.talkPluginName}
+        >
+          {React.cloneElement(el, {
+            active: this.props.activeTab === el.type.talkPluginName,
+          })}
         </ExtendableTab>
       );
     });
@@ -80,7 +93,7 @@ class ExtendableTabPanelContainer extends React.Component {
   }
 
   getPluginTabPaneElements(props = this.props) {
-    return this.getSlotElements(props.tabPaneSlot).map((el) => {
+    return this.getSlotElements(props.tabPaneSlot).map(el => {
       return (
         <TabPane tabId={el.type.talkPluginName} key={el.type.talkPluginName}>
           {el}
@@ -109,11 +122,11 @@ ExtendableTabPanelContainer.propTypes = {
   setActiveTab: PropTypes.func.isRequired,
   tabs: PropTypes.oneOfType([
     PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element)
+    PropTypes.arrayOf(PropTypes.element),
   ]),
   tabPanes: PropTypes.oneOfType([
     PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element)
+    PropTypes.arrayOf(PropTypes.element),
   ]),
   fallbackTab: PropTypes.string.isRequired,
   tabSlot: PropTypes.string.isRequired,
@@ -126,7 +139,7 @@ ExtendableTabPanelContainer.propTypes = {
   loading: PropTypes.bool,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   reduxState: state,
 });
 

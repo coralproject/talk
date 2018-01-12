@@ -21,17 +21,14 @@ router.get('/', authorization.needed(), (req, res, next) => {
  * @param {Object} error the error object to send back in the event an error is found
  */
 const tokenCheck = (verifier, error) => async (req, res, next) => {
-  const {token = null, check = false} = req.body;
+  const { token = null, check = false } = req.body;
 
   if (check) {
-
     // This request is checking to see if the token is valid.
     try {
-
       // Verify the token.
       await verifier(token);
     } catch (err) {
-
       // Log out the error, slurp it and send out the predefined error to the
       // error handler.
       console.error(err);
@@ -51,20 +48,27 @@ const tokenCheck = (verifier, error) => async (req, res, next) => {
 // POST /email/confirm takes the password confirmation token available as a
 // payload parameter and if it verifies, it updates the confirmed_at date on the
 // local profile.
-router.post('/email/verify', tokenCheck(UsersService.verifyEmailConfirmationToken, errors.ErrEmailVerificationToken), async (req, res, next) => {
-  const {token} = req.body;
+router.post(
+  '/email/verify',
+  tokenCheck(
+    UsersService.verifyEmailConfirmationToken,
+    errors.ErrEmailVerificationToken
+  ),
+  async (req, res, next) => {
+    const { token } = req.body;
 
-  try {
-    let {referer} = await UsersService.verifyEmailConfirmation(token);
-    return res.json({redirectUri: referer});
-  } catch (err) {
-    console.error(err);
-    return next(errors.ErrEmailVerificationToken);
+    try {
+      let { referer } = await UsersService.verifyEmailConfirmation(token);
+      return res.json({ redirectUri: referer });
+    } catch (err) {
+      console.error(err);
+      return next(errors.ErrEmailVerificationToken);
+    }
   }
-});
+);
 
 router.post('/password/reset', async (req, res, next) => {
-  const {email, loc} = req.body;
+  const { email, loc } = req.body;
 
   if (!email) {
     return next(errors.ErrMissingEmail);
@@ -79,7 +83,7 @@ router.post('/password/reset', async (req, res, next) => {
           token,
         },
         subject: 'Password Reset',
-        to: email
+        to: email,
       });
     }
 
@@ -89,33 +93,31 @@ router.post('/password/reset', async (req, res, next) => {
   }
 });
 
-router.put('/password/reset', tokenCheck(UsersService.verifyPasswordResetToken, errors.ErrPasswordResetToken), async (req, res, next) => {
-  const {token, password} = req.body;
+router.put(
+  '/password/reset',
+  tokenCheck(
+    UsersService.verifyPasswordResetToken,
+    errors.ErrPasswordResetToken
+  ),
+  async (req, res, next) => {
+    const { token, password } = req.body;
 
-  if (!password || password.length < 8) {
-    return next(errors.ErrPasswordTooShort);
+    if (!password || password.length < 8) {
+      return next(errors.ErrPasswordTooShort);
+    }
+
+    try {
+      let [user, redirect] = await UsersService.verifyPasswordResetToken(token);
+
+      // Change the users' password.
+      await UsersService.changePassword(user.id, password);
+
+      res.json({ redirect });
+    } catch (e) {
+      console.error(e);
+      return next(errors.ErrNotAuthorized);
+    }
   }
-
-  try {
-    let [user, redirect] = await UsersService.verifyPasswordResetToken(token);
-
-    // Change the users' password.
-    await UsersService.changePassword(user.id, password);
-
-    res.json({redirect});
-  } catch (e) {
-    console.error(e);
-    return next(errors.ErrNotAuthorized);
-  }
-});
-
-router.put('/username', authorization.needed(), async (req, res, next) => {
-  try {
-    await UsersService.editName(req.user.id, req.body.username);
-    res.status(204).end();
-  } catch (e) {
-    return next(e);
-  }
-});
+);
 
 module.exports = router;

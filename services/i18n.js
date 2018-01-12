@@ -5,25 +5,26 @@ const accepts = require('accepts');
 const _ = require('lodash');
 const yaml = require('yamljs');
 const plugins = require('./plugins');
-const {DEFAULT_LANG} = require('../config');
+const { DEFAULT_LANG } = require('../config');
 
-const resolve = (...paths) => path.resolve(path.join(__dirname, '..', 'locales', ...paths));
+const resolve = (...paths) =>
+  path.resolve(path.join(__dirname, '..', 'locales', ...paths));
 
 // Load all the translations.
-let translations = fs.readdirSync(resolve())
+let translations = fs
+  .readdirSync(resolve())
 
   // Resolve all the filenames relative the the locales directory.
-  .map((filename) => resolve(filename))
+  .map(filename => resolve(filename))
 
   // Translations are only yml/yaml files.
-  .filter((filename) => /\.(yaml|yml)$/.test(filename))
+  .filter(filename => /\.(yaml|yml)$/.test(filename))
 
   // Load the translation files from disk.
-  .map((filename) => fs.readFileSync(filename, 'utf8'))
+  .map(filename => fs.readFileSync(filename, 'utf8'))
 
   // Load the translation files.
   .reduce((packs, contents) => {
-
     const pack = yaml.parse(contents);
 
     return _.merge(packs, pack);
@@ -47,26 +48,26 @@ const loadPluginTranslations = () => {
   }
 
   // Load the plugin translations.
-  plugins.get('server', 'translations').forEach(({plugin, translations: filename}) => {
-    debug(`added plugin '${plugin.name}'`);
+  plugins
+    .get('server', 'translations')
+    .forEach(({ plugin, translations: filename }) => {
+      debug(`added plugin '${plugin.name}'`);
 
-    const pack = yaml.parse(fs.readFileSync(filename, 'utf8'));
+      const pack = yaml.parse(fs.readFileSync(filename, 'utf8'));
 
-    translations = _.merge(translations, pack);
-  });
+      translations = _.merge(translations, pack);
+    });
 
   loadedPluginTranslations = true;
 };
 
-const t = (language) => (key, ...replacements) => {
-
+const t = language => (key, ...replacements) => {
   // Loads the translations into the translations array from plugins. This is
   // done lazily to ensure that we don't have an import cycle.
   loadPluginTranslations();
 
   // Check if the translation exists on the object.
   if (_.has(translations[language], key)) {
-
     // Get the translation value.
     let translation = _.get(translations[language], key);
 

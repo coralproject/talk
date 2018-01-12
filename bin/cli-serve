@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const program = require('./commander');
 const util = require('./util');
+const program = require('commander');
 const serve = require('../serve');
 
 //==============================================================================
@@ -10,12 +10,14 @@ const serve = require('../serve');
 
 program
   .option('-j, --jobs', 'enable job processing on this thread')
-  .option('-w, --websockets', 'enable the websocket (subscriptions) handler on this thread')
+  .option(
+    '-w, --websockets',
+    'enable the websocket (subscriptions) handler on this thread'
+  )
   .parse(process.argv);
 
 // Start serving.
-serve({jobs: program.jobs, websockets: program.websockets}).catch((err) => {
+serve({ jobs: program.jobs, websockets: program.websockets }).catch(err => {
   console.error(err);
   util.shutdown(1);
 });
-

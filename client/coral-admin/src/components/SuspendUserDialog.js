@@ -1,25 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Dialog} from 'coral-ui';
-import {RadioGroup, Radio} from 'react-mdl';
+import { Dialog } from 'coral-ui';
+import { RadioGroup, Radio } from 'react-mdl';
 import styles from './SuspendUserDialog.css';
 import cn from 'classnames';
 
 import Button from 'coral-ui/components/Button';
 
-import t, {timeago} from 'coral-framework/services/i18n';
-import {dateAdd} from 'coral-framework/utils';
+import t, { timeago } from 'coral-framework/services/i18n';
+import { dateAdd } from 'coral-framework/utils';
 
-const initialState = {step: 0, duration: '3'};
+const initialState = { step: 0, duration: '3' };
 
 function durationsToDate(hours) {
-
   // Add 1 minute more to help `timeago.js` to display the correct duration.
   return dateAdd(new Date(), 'minute', hours * 60 + 1);
 }
 
 class SuspendUserDialog extends React.Component {
-
   state = initialState;
 
   componentWillReceiveProps(next) {
@@ -28,13 +26,13 @@ class SuspendUserDialog extends React.Component {
     }
   }
 
-  handleDurationChange = (event) => {
-    this.setState({duration: event.target.value});
-  }
+  handleDurationChange = event => {
+    this.setState({ duration: event.target.value });
+  };
 
-  handleMessageChange = (event) => {
-    this.setState({message: event.target.value});
-  }
+  handleMessageChange = event => {
+    this.setState({ message: event.target.value });
+  };
 
   goToStep1 = () => {
     this.setState({
@@ -43,13 +41,12 @@ class SuspendUserDialog extends React.Component {
         'suspenduser.email_message_suspend',
         this.props.username,
         this.props.organizationName,
-        timeago(durationsToDate(this.state.duration)),
+        timeago(durationsToDate(this.state.duration))
       ),
     });
-  }
+  };
 
   handlePerform = () => {
-
     this.props.onPerform({
       message: this.state.message,
 
@@ -59,36 +56,49 @@ class SuspendUserDialog extends React.Component {
   };
 
   renderStep0() {
-    const {onCancel, username} = this.props;
-    const {duration} = this.state;
+    const { onCancel, username } = this.props;
+    const { duration } = this.state;
     return (
-      <section>
-        <h1 className={styles.header}>
-          {t('suspenduser.title_suspend')}
-        </h1>
+      <section className="talk-admin-suspend-user-dialog-step-0">
+        <h1 className={styles.header}>{t('suspenduser.title_suspend')}</h1>
         <p className={styles.description}>
           {t('suspenduser.description_suspend', username)}
         </p>
         <fieldset>
-          <legend className={styles.legend}>{t('suspenduser.select_duration')}</legend>
+          <legend className={styles.legend}>
+            {t('suspenduser.select_duration')}
+          </legend>
           <RadioGroup
-            name='status filter'
+            name="status filter"
             value={duration}
-            childContainer='div'
+            childContainer="div"
             onChange={this.handleDurationChange}
             className={styles.radioGroup}
           >
-            <Radio value='1'>{t('suspenduser.one_hour')}</Radio>
-            <Radio value='3'>{t('suspenduser.hours', 3)}</Radio>
-            <Radio value='24'>{t('suspenduser.hours', 24)}</Radio>
-            <Radio value='168'>{t('suspenduser.days', 7)}</Radio>
+            <Radio value="1">{t('suspenduser.one_hour')}</Radio>
+            <Radio value="3">{t('suspenduser.hours', 3)}</Radio>
+            <Radio value="24">{t('suspenduser.hours', 24)}</Radio>
+            <Radio value="168">{t('suspenduser.days', 7)}</Radio>
           </RadioGroup>
         </fieldset>
         <div className={styles.buttons}>
-          <Button cStyle="white" className={styles.cancel} onClick={onCancel} raised>
+          <Button
+            cStyle="white"
+            className={styles.cancel}
+            onClick={onCancel}
+            raised
+          >
             {t('suspenduser.cancel')}
           </Button>
-          <Button cStyle="black" className={cn(styles.perform, 'talk-admin-suspend-user-dialog-confirm')} onClick={this.goToStep1} raised>
+          <Button
+            cStyle="black"
+            className={cn(
+              styles.perform,
+              'talk-admin-suspend-user-dialog-confirm'
+            )}
+            onClick={this.goToStep1}
+            raised
+          >
             {t('suspenduser.suspend_user')}
           </Button>
         </div>
@@ -97,31 +107,40 @@ class SuspendUserDialog extends React.Component {
   }
 
   renderStep1() {
-    const {onCancel, username} = this.props;
-    const {message} = this.state;
+    const { message } = this.state;
+    const { onCancel, username } = this.props;
     return (
-      <section>
-        <h1 className={styles.header}>
-          {t('suspenduser.title_notify')}
-        </h1>
+      <section className="talk-admin-suspend-user-dialog-step-1">
+        <h1 className={styles.header}>{t('suspenduser.title_notify')}</h1>
         <p className={styles.description}>
           {t('suspenduser.description_notify', username)}
         </p>
         <fieldset>
-          <legend className={styles.legend}>{t('suspenduser.write_message')}</legend>
+          <legend className={styles.legend}>
+            {t('suspenduser.write_message')}
+          </legend>
           <textarea
             rows={5}
             className={styles.messageInput}
             value={message}
-            onChange={this.handleMessageChange} />
+            onChange={this.handleMessageChange}
+          />
         </fieldset>
         <div className={styles.buttons}>
-          <Button cStyle="white" className={styles.cancel} onClick={onCancel} raised>
+          <Button
+            cStyle="white"
+            className={styles.cancel}
+            onClick={onCancel}
+            raised
+          >
             {t('suspenduser.cancel')}
           </Button>
           <Button
             cStyle="black"
-            className={cn(styles.perform, 'talk-admin-suspend-user-dialog-send')}
+            className={cn(
+              styles.perform,
+              'talk-admin-suspend-user-dialog-send'
+            )}
             onClick={this.handlePerform}
             disabled={this.state.message.length === 0}
             raised
@@ -134,8 +153,8 @@ class SuspendUserDialog extends React.Component {
   }
 
   render() {
-    const {open, onCancel} = this.props;
-    const {step} = this.state;
+    const { open, onCancel } = this.props;
+    const { step } = this.state;
     return (
       <Dialog
         className={cn(styles.dialog, 'talk-admin-suspend-user-dialog')}
@@ -143,7 +162,13 @@ class SuspendUserDialog extends React.Component {
         open={open}
       >
         <div className={styles.close}>
-          <button aria-label="Close" onClick={onCancel} className={styles.closeButton}>×</button>
+          <button
+            aria-label="Close"
+            onClick={onCancel}
+            className={styles.closeButton}
+          >
+            ×
+          </button>
         </div>
         {step === 0 && this.renderStep0()}
         {step === 1 && this.renderStep1()}

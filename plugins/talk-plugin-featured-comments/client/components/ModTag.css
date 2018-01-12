@@ -7,11 +7,11 @@
   padding: 0px 5px;
   border-radius: 2px;
   font-size: 12px;
-  height: 24px;
+  height: 26px;
   transition: background-color .2s cubic-bezier(.4,0,.2,1), color .2s cubic-bezier(.4,0,.2,1), border-color .2s cubic-bezier(.4,0,.2,1);
   margin: 2px 0px;
   letter-spacing: 0.4px;
-
+  line-height: 25px;
 }
 
 .tag:hover {
@@ -38,5 +38,5 @@
 .tagIcon {
   margin-right: 5px;
   font-size: 15px;
-  vertical-align: text-bottom;
+  vertical-align: sub;
 }

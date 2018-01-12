@@ -1,4 +1,4 @@
-const {graphql} = require('graphql');
+const { graphql } = require('graphql');
 
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
@@ -6,13 +6,13 @@ const UserModel = require('../../../../models/user');
 const SettingsService = require('../../../../services/settings');
 const AssetModel = require('../../../../models/asset');
 
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 describe('graph.mutations.updateAssetSettings', () => {
   let asset;
   beforeEach(async () => {
     await SettingsService.init();
-    asset = await AssetModel.create({url: 'http://new.test.com/'});
+    asset = await AssetModel.create({ url: 'http://new.test.com/' });
   });
 
   const QUERY = `
@@ -22,19 +22,18 @@ describe('graph.mutations.updateAssetSettings', () => {
         translation_key
       }
     }
-  }
-`;
+  }`;
 
   describe('context with different user roles', () => {
-
     [
-      {error: 'NOT_AUTHORIZED'},
-      {roles: ['ADMIN', 'MODERATOR']},
-      {roles: ['MODERATOR']},
-    ].forEach(({roles, error}) => {
-      it(roles ? roles.join(', ') : '<None>', async () => {
-        const user = new UserModel({roles});
-        const ctx = new Context({user});
+      { role: 'COMMENTER', error: 'NOT_AUTHORIZED' },
+      { role: 'STAFF', error: 'NOT_AUTHORIZED' },
+      { role: 'ADMIN' },
+      { role: 'MODERATOR' },
+    ].forEach(({ role, error }) => {
+      it(`role = ${role}`, async () => {
+        const user = new UserModel({ role });
+        const ctx = new Context({ user });
 
         const settings = {
           premodLinksEnable: false,
@@ -55,16 +54,25 @@ describe('graph.mutations.updateAssetSettings', () => {
 
         if (error) {
           expect(res.data.updateAssetSettings.errors).to.not.be.empty;
-          expect(res.data.updateAssetSettings.errors[0]).to.have.property('translation_key', error);
+          expect(res.data.updateAssetSettings.errors[0]).to.have.property(
+            'translation_key',
+            error
+          );
         } else {
-          if (res.data.updateAssetSettings && res.data.updateAssetSettings.errors) {
+          if (
+            res.data.updateAssetSettings &&
+            res.data.updateAssetSettings.errors
+          ) {
             console.error(res.data.updateAssetSettings.errors);
           }
           expect(res.data.updateAssetSettings).to.be.null;
 
-          const retrievedAsset = await AssetModel.findOne({id: asset.id});
-          Object.keys(settings).forEach((key) => {
-            expect(retrievedAsset.settings).to.have.property(key, settings[key]);
+          const retrievedAsset = await AssetModel.findOne({ id: asset.id });
+          Object.keys(settings).forEach(key => {
+            expect(retrievedAsset.settings).to.have.property(
+              key,
+              settings[key]
+            );
           });
         }
       });

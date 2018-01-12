@@ -15,7 +15,7 @@ const Actions = require('../services/actions');
 const Assets = require('../services/assets');
 const Cache = require('../services/cache');
 const Comments = require('../services/comments');
-const DomainList = require('../services/domainlist');
+const DomainList = require('../services/domain_list');
 const I18n = require('../services/i18n');
 const Jwt = require('../services/jwt');
 const Karma = require('../services/karma');
@@ -79,9 +79,12 @@ const connectors = {
   },
 };
 
-module.exports = Plugins.get('server', 'connectors').reduce((defaultConnectors, {plugin, connectors: pluginConnectors}) => {
-  debug(`adding plugin '${plugin.name}'`);
+module.exports = Plugins.get('server', 'connectors').reduce(
+  (defaultConnectors, { plugin, connectors: pluginConnectors }) => {
+    debug(`adding plugin '${plugin.name}'`);
 
-  // Merge in the plugin connectors.
-  return merge(defaultConnectors, pluginConnectors);
-}, connectors);
+    // Merge in the plugin connectors.
+    return merge(defaultConnectors, pluginConnectors);
+  },
+  connectors
+);

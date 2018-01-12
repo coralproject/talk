@@ -9,7 +9,7 @@
   height: 144px;
   min-height: auto;
   margin-top: 16px;
-  z-index: 10;
+  z-index: 4;
 
   @media (--tablet) {
     width: 650px;

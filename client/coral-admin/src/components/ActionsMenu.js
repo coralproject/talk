@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Icon} from 'coral-ui';
-import {Menu} from 'react-mdl';
+import { Button, Icon } from 'coral-ui';
+import { Menu } from 'react-mdl';
 import cn from 'classnames';
-import {findDOMNode} from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import styles from './ActionsMenu.css';
 
 import t from 'coral-framework/services/i18n';
@@ -13,37 +13,42 @@ let count = 0;
 class ActionsMenu extends React.Component {
   id = `actions-dropdown-${count++}`;
   menu = null;
-  state = {open: false};
+  state = { open: false };
   timeout = null;
 
   componentWillUnmount() {
     clearTimeout(this.timeout);
   }
 
-  handleRef = (ref) => {
+  handleRef = ref => {
     this.menu = ref ? findDOMNode(ref).parentNode : null;
-  }
+  };
 
   syncOpenState = () => {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      this.setState({open: this.menu.className.indexOf('is-visible') >= 0});
+      this.setState({ open: this.menu.className.indexOf('is-visible') >= 0 });
     }, 150);
   };
 
   render() {
-    const {className = ''} = this.props;
+    const { className = '', buttonClassNames = '', label = '' } = this.props;
     return (
-      <div className={cn(styles.root, className)} onBlur={this.syncOpenState} >
+      <div className={cn(styles.root, className)} onBlur={this.syncOpenState}>
         <Button
-          cStyle='actions'
-          className={cn(styles.button, {[styles.buttonOpen]: this.state.open})}
+          cStyle="actions"
+          className={cn(
+            styles.button,
+            { [styles.buttonOpen]: this.state.open },
+            buttonClassNames
+          )}
           disabled={false}
           id={this.id}
           onClick={this.syncOpenState}
           icon={this.props.icon}
-          raised>
-          {t('modqueue.actions')}
+          raised
+        >
+          {label ? label : t('modqueue.actions')}
           <Icon
             name={this.state.open ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
             className={styles.arrowIcon}
@@ -61,6 +66,8 @@ ActionsMenu.propTypes = {
   icon: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,
+  label: PropTypes.string,
+  buttonClassNames: PropTypes.string,
 };
 
 export default ActionsMenu;

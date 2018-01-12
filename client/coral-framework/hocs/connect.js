@@ -1,6 +1,6 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-export default (mapStateToProps, ...rest) => (BaseComponent) => {
+export default (mapStateToProps, ...rest) => BaseComponent => {
   BaseComponent.mapStateToProps = mapStateToProps;
   return connect(mapStateToProps, ...rest)(BaseComponent);
 };

@@ -7,7 +7,7 @@ const buildOptions = (inputOptions = {}) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    credentials: 'same-origin'
+    credentials: 'same-origin',
   };
 
   const options = merge({}, defaultOptions, inputOptions);
@@ -18,9 +18,9 @@ const buildOptions = (inputOptions = {}) => {
   return options;
 };
 
-const handleResp = (res) => {
+const handleResp = res => {
   if (res.status > 399) {
-    return res.json().then((err) => {
+    return res.json().then(err => {
       let message = err.message || res.status;
       const error = new Error();
 
@@ -51,7 +51,7 @@ const handleResp = (res) => {
  * @return {Object}          rest client
  */
 export function createRestClient(options) {
-  const {token, uri} = options;
+  const { token, uri } = options;
   const client = (path, options) => {
     const authToken = typeof token === 'function' ? token() : token;
     let opts = options;

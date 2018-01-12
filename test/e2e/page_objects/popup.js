@@ -1,32 +1,31 @@
 module.exports = {
-  commands: [{
-    ready() {
-      return this
-        .waitForElementVisible('body');
+  commands: [
+    {
+      ready() {
+        return this.waitForElementVisible('body');
+      },
+      login(user) {
+        return this.setValue('@emailInput', user.email)
+          .setValue('@passwordInput', user.password)
+          .waitForElementVisible('@signIn')
+          .waitForElementVisible('@loginButton')
+          .click('@loginButton');
+      },
+      register(user) {
+        return this.waitForElementVisible('@registerButton')
+          .click('@registerButton')
+          .setValue('@emailInput', user.email)
+          .setValue('@usernameInput', user.username)
+          .setValue('@passwordInput', user.password)
+          .setValue('@confirmPasswordInput', user.password)
+          .waitForElementVisible('@signUpButton')
+          .click('@signUpButton')
+          .waitForElementVisible('@signIn')
+          .waitForElementVisible('@loginButton')
+          .click('@loginButton');
+      },
     },
-    login(user) {
-      return this
-        .setValue('@emailInput', user.email)
-        .setValue('@passwordInput', user.password)
-        .waitForElementVisible('@signIn')
-        .waitForElementVisible('@loginButton')
-        .click('@loginButton');
-    },
-    register(user) {
-      return this
-        .waitForElementVisible('@registerButton')
-        .click('@registerButton')
-        .setValue('@emailInput', user.email)
-        .setValue('@usernameInput', user.username)
-        .setValue('@passwordInput', user.password)
-        .setValue('@confirmPasswordInput', user.password)
-        .waitForElementVisible('@signUpButton')
-        .click('@signUpButton')
-        .waitForElementVisible('@signIn')
-        .waitForElementVisible('@loginButton')
-        .click('@loginButton');
-    },
-  }],
+  ],
   elements: {
     registerButton: '#coralRegister',
     signInButton: '#coralSignInButton',
@@ -36,6 +35,6 @@ module.exports = {
     confirmPasswordInput: '#confirmPassword',
     signUpButton: '#coralSignUpButton',
     signIn: '.coral-sign-in',
-    loginButton: '#coralLogInButton'
+    loginButton: '#coralLogInButton',
   },
 };

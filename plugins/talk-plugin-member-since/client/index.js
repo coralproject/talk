@@ -1,10 +1,10 @@
 import MemberSinceInfo from './containers/MemberSinceInfo';
 import translations from './translations.yml';
-import {gql} from 'react-apollo';
+import { gql } from 'react-apollo';
 
 export default {
   slots: {
-    authorMenuInfos: [MemberSinceInfo]
+    authorMenuInfos: [MemberSinceInfo],
   },
   translations,
   fragments: {
@@ -15,7 +15,8 @@ export default {
             created_at
           }
         }
-      }`,
+      }
+    `,
   },
   mutations: {
     PostComment: () => ({
@@ -24,10 +25,10 @@ export default {
           comment: {
             user: {
               created_at: new Date(),
-              __typename: 'User'
+              __typename: 'User',
             },
-            __typename: 'Comment'
-          }
+            __typename: 'Comment',
+          },
         },
       },
     }),

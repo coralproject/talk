@@ -4,27 +4,22 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
+const util = require('./util');
+const program = require('commander');
 const scraper = require('../services/scraper');
 const mailer = require('../services/mailer');
-const util = require('./util');
 const mongoose = require('../services/mongoose');
 const kue = require('../services/kue');
 
-util.onshutdown([
-  () => mongoose.disconnect(),
-]);
+util.onshutdown([() => mongoose.disconnect()]);
 
 /**
  * Starts the job processor.
  */
 function processJobs() {
-
   // The scraper only needs to shutdown when the scraper has actually been
   // started.
-  util.onshutdown([
-    () => kue.Task.shutdown()
-  ]);
+  util.onshutdown([() => kue.Task.shutdown()]);
 
   // Start the scraper processor.
   scraper.process();
@@ -39,13 +34,15 @@ function processJobs() {
  * @return {Promise}
  */
 function removeJob(job) {
-  return new Promise((resolve, reject) => job.remove((err) => {
-    if (err) {
-      return reject(err);
-    }
+  return new Promise((resolve, reject) =>
+    job.remove(err => {
+      if (err) {
+        return reject(err);
+      }
 
-    return resolve(job);
-  }));
+      return resolve(job);
+    })
+  );
 }
 
 /**
@@ -82,17 +79,13 @@ async function getJobBatch(n, includeStuck) {
  * Cleans up the jobs that are in the queue.
  */
 async function cleanupJobs(options) {
-
   // The scraper only needs to shutdown when the scraper has actually been
   // started.
-  util.onshutdown([
-    () => kue.Task.shutdown()
-  ]);
+  util.onshutdown([() => kue.Task.shutdown()]);
 
   const n = 100;
 
   try {
-
     // Connect to redis by establishing a queue.
     kue.Task.connect();
 
@@ -100,9 +93,8 @@ async function cleanupJobs(options) {
     let jobs = await getJobBatch(n, options.stuck);
 
     while (jobs.length > 0) {
-
       // Remove all the jobs.
-      await Promise.all(jobs.map((job) => removeJob(job)));
+      await Promise.all(jobs.map(job => removeJob(job)));
 
       jobCount += jobs.length;
 

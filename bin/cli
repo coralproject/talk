@@ -4,8 +4,9 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
-const {head, map} = require('lodash');
+require('./util');
+const program = require('commander');
+const { head, map } = require('lodash');
 const Matcher = require('did-you-mean');
 
 program
@@ -25,33 +26,35 @@ program
   .parse(process.argv);
 
 // If the command wasn't found, output help.
-const cmds = map(program.commands, '_name');
-const cmd = head(program.args);
-if (!cmds.includes(cmd)) {
-  const m = new Matcher(cmds);
-  const similarCMDs = m.list(cmd);
+const commands = map(program.commands, '_name');
+const command = head(program.args);
+if (!commands.includes(command)) {
+  const m = new Matcher(commands);
+  const similarCommands = m.list(command);
 
-  console.error(`cli '${cmd}' is not a talk cli command. See 'cli --help'.`);
-  if (similarCMDs.length > 0) {
-    const sc = similarCMDs.map(({value}) => `\t${value}\n`).join('');
+  console.error(
+    `cli '${command}' is not a talk cli command. See 'cli --help'.`
+  );
+  if (similarCommands.length > 0) {
+    const sc = similarCommands.map(({ value }) => `\t${value}\n`).join('');
     console.error(`\nThe most similar commands are\n${sc}`);
   }
   process.exit(1);
 }
 
-/**
- * When this provess exists, check to see if we have a running command, if we do
- * check to see if it is still running. If it is, then kill it with a SIGINT
- * signal. This is for the use case where we want to kill the process that is
- * labled with the PID written out by the parent process.
- */
-process.once('exit', () => {
-  if (
+// /**
+//  * When this process exists, check to see if we have a running command, if we do
+//  * check to see if it is still running. If it is, then kill it with a SIGINT
+//  * signal. This is for the use case where we want to kill the process that is
+//  * labeled with the PID written out by the parent process.
+//  */
+// process.once('exit', () => {
+//   if (
 
-    // program.runningCommand &&
-    program.runningCommand.killed === false &&
-    program.runningCommand.exitCode === null
-  ) {
-    program.runningCommand.kill('SIGINT');
-  }
-});
+//     // program.runningCommand &&
+//     program.runningCommand.killed === false &&
+//     program.runningCommand.exitCode === null
+//   ) {
+//     program.runningCommand.kill('SIGINT');
+//   }
+// });

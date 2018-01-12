@@ -1,21 +1,18 @@
-import {connect, withFragments} from 'plugin-api/beta/client/hocs';
-import {bindActionCreators} from 'redux';
+import { connect, withFragments } from 'plugin-api/beta/client/hocs';
+import { bindActionCreators } from 'redux';
 import ViewingOptions from '../components/ViewingOptions';
-import {openMenu, closeMenu} from '../actions';
-import {compose, gql} from 'react-apollo';
-import {getSlotFragmentSpreads} from 'plugin-api/beta/client/utils';
+import { openMenu, closeMenu } from '../actions';
+import { compose, gql } from 'react-apollo';
+import { getSlotFragmentSpreads } from 'plugin-api/beta/client/utils';
 
-const slots = [
-  'viewingOptionsSort',
-  'viewingOptionsFilter',
-];
+const slots = ['viewingOptionsSort', 'viewingOptionsFilter'];
 
-const mapStateToProps = ({talkPluginViewingOptions: state}) => ({
-  open: state.open
+const mapStateToProps = ({ talkPluginViewingOptions: state }) => ({
+  open: state.open,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({openMenu, closeMenu}, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ openMenu, closeMenu }, dispatch);
 
 const withViewingOptionsFragments = withFragments({
   root: gql`
@@ -32,7 +29,7 @@ const withViewingOptionsFragments = withFragments({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withViewingOptionsFragments,
+  withViewingOptionsFragments
 );
 
 export default enhance(ViewingOptions);

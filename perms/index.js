@@ -1,35 +1,29 @@
 const constants = require('./constants');
-const root = require('./rootReducer');
-const queries = require('./queryReducer');
-const mutations = require('./mutationReducer');
-const subscriptions = require('./subscriptionReducer');
+const reducers = require('./reducers');
+const constantsArray = Object.keys(constants);
 
-const reducers = [
-  root,
-  queries,
-  mutations,
-  subscriptions,
-];
-
-// this will make 'reducer' a key in this array. hm.
-const allPermissions = Object.keys(constants);
-
-const findGrant = (user, perms) => {
-
-  return perms.every((perm) => {
-
+/**
+ * findGrant will try to check all the permissions if the user is allowed to do
+ * so.
+ *
+ * @param {Object} user the user being checked whether they have the required
+ *                      permissions
+ * @param {Array<String>} perms the array of permissions that the user must have
+ *                              in order to succeed
+ */
+const findGrant = (user, perms) =>
+  perms.every(perm => {
     for (let key in reducers) {
       const reducer = reducers[key];
       const grant = reducer(user, perm);
 
-      if (grant !== null && typeof grant !== 'undefined') {
+      if (typeof grant !== 'undefined' && grant !== null) {
         return grant;
       }
     }
 
     return false;
   });
-};
 
 /**
  * returns true, false, or null depending on whether the user has those permissions
@@ -40,10 +34,8 @@ const findGrant = (user, perms) => {
  * @return {Boolean}
  */
 module.exports = (user, ...perms) => {
-
-  // Make sure all the passed permissions are not typos.
-  const missingPerms = perms.filter((perm) => !allPermissions.includes(perm));
-  if (missingPerms.length > 0) {
+  if (perms.some(perm => !constantsArray.includes(perm))) {
+    const missingPerms = perms.filter(perm => !constantsArray.includes(perm));
     throw new Error(`${missingPerms.join(' ')} are not valid permissions.`);
   }
 
