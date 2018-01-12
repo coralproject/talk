@@ -356,7 +356,7 @@ nl_NL:
     stream_status: "Conversatie status"
   suspenduser:
     title_suspend: "Schors gebruiker"
-    description_suspend: "Je schorst {0}. Deze reactie zal naar de Afgewezen wachtrij gaan, en {0} zal niet meer kunnen liken, rapporteren of reageren totdat de schorsingsduur verstreken is."
+    description_suspend: "Je schorst {0}. Deze reactie wordt afgewezen, en {0} zal niet meer kunnen liken, rapporteren of reageren totdat de schorsingsduur verstreken is."
     select_duration: "Selecteer schorsingsduur"
     one_hour: "1 uur"
     hours: "{0} uur"
