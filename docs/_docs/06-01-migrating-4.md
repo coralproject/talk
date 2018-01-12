@@ -4,7 +4,7 @@ permalink: /migration/4/
 ---
 
 Since our `v3.*` release, this is the most significant set of changes introduced
-into Talk yet as a major database migration, and template change is required to
+into Talk so far, as a major database migration and template change are both required to
 run it.
 
 ## Dependencies
