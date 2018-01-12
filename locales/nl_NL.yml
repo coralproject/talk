@@ -378,7 +378,7 @@ nl_NL:
     title_reject: "We zagen dat je een gebruikersnaam hebt afgewezen"
     suspend_user: "Schors gebruiker"
     yes_suspend: "Ja, schors"
-    email_message_reject: "Iemand anders uit de community heeft je gebruikersnaam gemeld ter controle. Vanwege diens inhoud is je gebruiker afgewezen. Dit betekent dat je niet langer kunt reageen, liken of inhoud melden totdat je je gebruikersnaam hebt veranderd. Stuur een e-mail aan ons wanneer je vragen of zorgen hebt."
+    email_message_reject: "Iemand anders uit de community heeft je gebruikersnaam gemeld ter controle. Vanwege de inhoud van je gebruikersnaam is je account geschorst. Dit betekent dat je niet langer kunt reageen, liken of inhoud melden totdat je je gebruikersnaam hebt veranderd. Stuur ons een e-mail wanneer je vragen of zorgen hebt."
     write_message: "Schrijf een bericht"
     send: Verstuur
   thank_you: "We waarderen je feedback. Een moderator zal je rapport bekijken."
