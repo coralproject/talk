@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './OffTopicFilter.css';
+import {t} from 'plugin-api/beta/client/services';
 
 export default class OffTopicFilter extends React.Component {
 
@@ -27,7 +28,7 @@ export default class OffTopicFilter extends React.Component {
           checked={this.props.checked}
           className={styles.input}
         />
-        Hide Off-Topic Comments
+        {t('hide_off_topic')}
       </label>
     );
   }

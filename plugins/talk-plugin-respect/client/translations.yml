@@ -8,9 +8,9 @@ es:
     respected: Respetado
 zh_CN:
   talk-plugin-respect:
-    respect: "尊重"
-    respected: "已尊重"
+    respect: "赞"
+    respected: "已赞"
 zh_TW:
   talk-plugin-respect:
-    respect: 尊重
-    respected: 已尊重
+    respect: 讚
+    respected: 已讚
