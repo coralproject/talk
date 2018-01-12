@@ -273,14 +273,14 @@ nl_NL:
     approve: "Goedkeuren"
     approved: "Goedgekeurd"
     ban_user: "Verban"
-    billion: B
+    billion: "G"
     close: Sluiten
     empty_queue: "Geen reacties meer te beoordelen!"
     flagged: gemeld
     reported: gerapporteerd
     less_detail: "Minder detail"
     likes: likes
-    million: M
+    million: "M"
     mod_faster: "Beoordeel sneller met sneltoetsen"
     moderate: "Beoordeel →"
     more_detail: "Meer detail"
