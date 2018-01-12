@@ -15,6 +15,7 @@ const staticMiddleware = require('express-static-gzip');
 const {DISABLE_STATIC_SERVER} = require('../config');
 const {createGraphOptions} = require('../graph');
 const {passport} = require('../services/passport');
+const {MOUNT_PATH} = require('../url');
 
 const router = express.Router();
 
@@ -34,7 +35,11 @@ if (!DISABLE_STATIC_SERVER) {
    * Redirect old embed calls.
    */
   router.get('/embed.js', (req, res) => {
-    res.redirect(301, '/static/embed.js');
+    const oldEmbed = path.resolve(MOUNT_PATH, 'embed.js');
+    const newEmbed = path.resolve(MOUNT_PATH, 'static/embed.js');
+
+    console.warn(`deprecation warning: ${oldEmbed} will be phased out soon, please replace calls from ${oldEmbed} to ${newEmbed}`);
+    res.redirect(301, newEmbed);
   });
 
   /**
