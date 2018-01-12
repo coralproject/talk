@@ -40,7 +40,8 @@ class ActionsMenu extends React.Component {
           className={cn(styles.root, className)}
           onBlur={this.syncOpenState}
           onClick={this.syncOpenState}
-          onKeyUp={this.syncOpenState}>
+          onKeyUp={this.syncOpenState}
+        >
           <Button
             cStyle="actions"
             className={cn(
@@ -80,4 +81,3 @@ ActionsMenu.propTypes = {
 };
 
 export default ActionsMenu;
-
