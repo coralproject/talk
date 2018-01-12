@@ -8,7 +8,7 @@ Talk requires configuration in order to customize the installation. The default
 behavior is to load its configuration from the environment, following the
 [12 Factor App Manifesto](https://12factor.net/){:target="_blank"}.
 In development, you can specify configuration in a file named `.env` and it will
-be loaded into the environment when you run `yarn dev-start`.
+be loaded into the environment when you run `yarn watch:server`.
 
 The following variables have defaults, and are _optional_ to start your
 instance of Talk:
@@ -467,3 +467,23 @@ same as any other user in the system. (Default `FALSE`)
 The prefix for the subject of emails sent. An email with the specified subject
 of `Email Confirmation` would then be sent as `[Talk] Email Confirmation`.
 (Default `[Talk]`)
+
+## DISABLE_CREATE_MONGO_INDEXES
+
+When `TRUE`, Talk will not attempt to create any indices. This is recommended
+for production systems that have ran Talk at least once during setup while unset
+or set to `FALSE`.
+
+## TALK_SETTINGS_CACHE_TIME
+
+The duration of time that the settings object will be kept in the Redis cache,
+parsed by [ms](https://www.npmjs.com/package/ms){:target="_blank"}. (Default
+`1hr`)
+
+## APOLLO_ENGINE_KEY
+
+Used to set the key for use with
+[Apollo Engine](https://www.apollographql.com/engine/){:target="_blank"} for
+tracing of GraphQL requests.
+
+**Note: Apollo Engine is a premium service, charges may apply.**

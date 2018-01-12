@@ -273,7 +273,7 @@ program
   .action(deleteUser);
 
 program
-  .command('search')
+  .command('list')
   .description('searches for a user based on their stored username and email')
   .action(searchUsers);
 
