@@ -4,7 +4,7 @@ import { CSSTransitionGroup } from 'react-transition-group';
 import styles from './CommentAnimatedEdit.css';
 import PropTypes from 'prop-types';
 
-const CommentBodyHighlighter = ({ children, body }) => {
+const CommentAnimatedEdit = ({ children, body }) => {
   return (
     <CSSTransitionGroup
       component={'div'}
@@ -27,9 +27,9 @@ const CommentBodyHighlighter = ({ children, body }) => {
   );
 };
 
-CommentBodyHighlighter.propTypes = {
+CommentAnimatedEdit.propTypes = {
   children: PropTypes.node,
   body: PropTypes.string,
 };
 
-export default CommentBodyHighlighter;
+export default CommentAnimatedEdit;
