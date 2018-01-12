@@ -387,7 +387,7 @@ nl_NL:
     user_bio: "Gebruikers biografie"
     username_flags: "Meldingen voor deze gebruikersnaam"
   user_impersonating: "Deze gebruiker imiteert"
-  user_no_comment: "Je hebt nog niet eerder gereageerd. Kom in gesprek!"
+  user_no_comment: "Je hebt nog niet eerder gereageerd. Laat je mening horen!"
   username_offensive: "Dit is een aanstootgevende gebruikersnaam."
   view_conversation: "Bekijk conversatie"
   install:
