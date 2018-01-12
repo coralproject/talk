@@ -128,7 +128,7 @@ nl_NL:
     enable_questionbox_description: "Deze vraag zal bovenaan de conversatie verschijnen. Vraag lezers naar een probleem in het artikel, poneer discussie vragen, enzovoort."
     hours: Uren
     include_comment_stream: "Neem conversatie beschrijving op voor lezers."
-    include_comment_stream_desc: "Schrijf een bericht voor boven je conversatie. Poneer een stelling, neem je Community richtlijnen op etc."
+    include_comment_stream_desc: "Schrijf een bericht voor boven je conversatie. Poneer een stelling, wijs op de community richtlijnen, etc."
     include_text: "Schrijf hier je tekst."
     include_question_here: "Schrijf je vraag hier:"
     moderate: Modereer
@@ -179,7 +179,7 @@ nl_NL:
       subject: "Je account is tijdelijk geschorst."
     banned:
       subject: "Je account is verbannen."
-      body: "In lijn met The Coral Project's Community richtlijnen is je account verbannen. Je kunt niet langer reageren, rapporteren of interacteren met onze community."
+      body: "In lijn met The Coral Project's community richtlijnen is je account verbannen. Je kunt niet langer reageren, rapporteren of interacteren met onze community."
     confirm:
       has_been_requested: "Een e-mail bevestiging is aangevraagd voor het volgend account:"
       to_confirm: "Ga naar de volgende link om het account te bevestigen:"
@@ -273,14 +273,14 @@ nl_NL:
     approve: "Goedkeuren"
     approved: "Goedgekeurd"
     ban_user: "Verban"
-    billion: B
+    billion: "G"
     close: Sluiten
     empty_queue: "Geen reacties meer te beoordelen!"
     flagged: gemeld
     reported: gerapporteerd
     less_detail: "Minder detail"
     likes: likes
-    million: M
+    million: "M"
     mod_faster: "Beoordeel sneller met sneltoetsen"
     moderate: "Beoordeel →"
     more_detail: "Meer detail"
@@ -291,7 +291,7 @@ nl_NL:
     toggle_search: "Open zoekvenster"
     next_queue: "Verander wachtrij"
     oldest_first: "Oudste eerst"
-    premod: Voor-mod
+    premod: "Pre-moderatie"
     prev_comment: "Ga naar de vorige reactie"
     reject: "Wijs af"
     rejected: "Afgewezen"
@@ -310,7 +310,7 @@ nl_NL:
   my_comment_history: "Mijn reactie geschiedenis"
   name: Naam
   no_agree_comment: "Ik ben het niet eens met deze reactie"
-  no_like_bio: "Ik vind dit bio niet leuk"
+  no_like_bio: "Ik vind deze biografie niet leuk"
   no_like_username: "Ik vind deze gebruikersnaam niet leuk"
   other: Ander
   permalink: Deel
@@ -356,7 +356,7 @@ nl_NL:
     stream_status: "Conversatie status"
   suspenduser:
     title_suspend: "Schors gebruiker"
-    description_suspend: "Je schorst {0}. Deze reactie zal naar de Afgewezen wachtrij gaan, en {0} zal niet meer kunnen liken, rapporteren of reageren totdat de schorsingsduur verstreken is."
+    description_suspend: "Je schorst {0}. Deze reactie wordt afgewezen, en {0} zal niet meer kunnen liken, rapporteren of reageren totdat de schorsingsduur verstreken is."
     select_duration: "Selecteer schorsingsduur"
     one_hour: "1 uur"
     hours: "{0} uur"
@@ -378,16 +378,16 @@ nl_NL:
     title_reject: "We zagen dat je een gebruikersnaam hebt afgewezen"
     suspend_user: "Schors gebruiker"
     yes_suspend: "Ja, schors"
-    email_message_reject: "Iemand anders uit de community heeft je gebruikersnaam gemeld ter controle. Vanwege diens inhoud is je gebruiker afgewezen. Dit betekent dat je niet langer kunt reageen, liken of inhoud melden totdat je je gebruikersnaam hebt veranderd. Stuur een e-mail aan ons wanneer je vragen of zorgen hebt."
+    email_message_reject: "Iemand anders uit de community heeft je gebruikersnaam gemeld ter controle. Vanwege de inhoud van je gebruikersnaam is je account geschorst. Dit betekent dat je niet langer kunt reageen, liken of inhoud melden totdat je je gebruikersnaam hebt veranderd. Stuur ons een e-mail wanneer je vragen of zorgen hebt."
     write_message: "Schrijf een bericht"
     send: Verstuur
   thank_you: "We waarderen je feedback. Een moderator zal je rapport bekijken."
   user:
-    bio_flags: "Meldingen voor dit bio"
-    user_bio: "Gebruikers bio"
+    bio_flags: "Meldingen voor deze biografie"
+    user_bio: "Gebruikers biografie"
     username_flags: "Meldingen voor deze gebruikersnaam"
   user_impersonating: "Deze gebruiker imiteert"
-  user_no_comment: "Je hebt nog niet eerder gereageerd. Kom in gesprek!"
+  user_no_comment: "Je hebt nog niet eerder gereageerd. Laat je mening horen!"
   username_offensive: "Dit is een aanstootgevende gebruikersnaam."
   view_conversation: "Bekijk conversatie"
   install:
