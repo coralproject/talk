@@ -63,13 +63,13 @@ function markLinks(body) {
   return content;
 }
 
-const CommentFormatter = (
+const CommentFormatter = ({
   body,
   suspectWords,
   bannedWords,
   className = 'comment',
   ...rest
-) => {
+}) => {
   // Breaking the body by line break
   const textbreaks = body.split('\n');
 
