@@ -79,12 +79,11 @@ class UserDetailComment extends React.Component {
             <div className={styles.bodyContainer}>
               <div className={styles.body}>
                 <CommentFormatter
-                  settings={{
-                    suspectWords: suspect,
-                    bannedWords: banned,
-                  }}
+                  suspectWords={suspect}
+                  bannedWords={banned}
                   body={comment.body}
-                />{' '}
+                  className="talk-admin-user-detail-comment"
+                />
                 <a
                   className={styles.external}
                   href={`${comment.asset.url}?commentId=${comment.id}`}

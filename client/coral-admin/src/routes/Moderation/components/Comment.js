@@ -127,11 +127,9 @@ class Comment extends React.Component {
             <div className={styles.itemBody}>
               <div className={styles.body}>
                 <CommentFormatter
-                  settings={{
-                    suspectWords: settings.wordlist.suspect,
-                    bannedWords: settings.wordlist.banned,
-                    className: 'talk-admin-comment',
-                  }}
+                  suspectWords={settings.wordlist.suspect}
+                  bannedWords={settings.wordlist.banned}
+                  className="talk-admin-comment"
                   body={comment.body}
                 />
                 <a
