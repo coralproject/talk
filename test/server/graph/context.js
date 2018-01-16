@@ -1,10 +1,9 @@
-
 const User = require('../../../models/user');
 const Context = require('../../../graph/context');
 const errors = require('../../../errors');
 const SettingsService = require('../../../services/settings');
 
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 describe('graph.Context', () => {
   beforeEach(() => SettingsService.init());
@@ -13,10 +12,10 @@ describe('graph.Context', () => {
     let c;
 
     beforeEach(() => {
-      c = new Context({user: new User({id: '1', roles: ['ADMIN']})});
+      c = new Context({ user: new User({ id: '1', role: 'ADMIN' }) });
     });
 
-    it('creates a context with a user', (done) => {
+    it('creates a context with a user', done => {
       expect(c).to.have.property('user');
       expect(c.user).to.have.property('id', '1');
 
@@ -36,10 +35,10 @@ describe('graph.Context', () => {
     let c;
 
     beforeEach(() => {
-      c = new Context({user: undefined});
+      c = new Context({ user: undefined });
     });
 
-    it('creates a context without a user', (done) => {
+    it('creates a context without a user', done => {
       expect(c).to.not.have.property('user');
 
       done();
@@ -54,7 +53,7 @@ describe('graph.Context', () => {
         .then(() => {
           throw new Error('should not reach this point');
         })
-        .catch((err) => {
+        .catch(err => {
           expect(err).to.be.equal(errors.ErrNotAuthorized);
         });
     });

@@ -1,7 +1,7 @@
-import {compose, gql} from 'react-apollo';
+import { compose, gql } from 'react-apollo';
 import Tag from '../components/Tag';
-import {isTagged} from 'plugin-api/beta/client/utils';
-import {withFragments, excludeIf} from 'plugin-api/beta/client/hocs';
+import { isTagged } from 'plugin-api/beta/client/utils';
+import { withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
 
 export default compose(
   withFragments({
@@ -13,6 +13,7 @@ export default compose(
           }
         }
       }
-  `}),
-  excludeIf((props) => !isTagged(props.comment.tags, 'FEATURED'))
+    `,
+  }),
+  excludeIf(props => !isTagged(props.comment.tags, 'FEATURED'))
 )(Tag);

@@ -94,73 +94,52 @@
   width: calc(100% - 90px);
 }
 
-.commentStatuses {
+.tabBar {
   padding: 0 0 0 10px;
   margin: 0;
   align-self: center;
   list-style: none;
   box-sizing: border-box;
-  li {
-    display: inline-block;
-    margin-right: 10px;
-    cursor: pointer;
-    padding: 0 10px;
-  }
+  border: none;
 }
 
-.active {
+.tab {
+  display: inline-block;
+  margin-right: 10px;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.tabButton {
+  border: none;
+  background: white;
+  border-radius: 0;
+  font-size: 1em;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.tabButtonActive {
   font-weight: bold;
   border-bottom: 3px solid #F36451;
 }
-
-.bulkActionGroup {
-  height: 52px;
-  background-color: #efefef;
-  padding: 0 0 0 10px;
-  display: flex;
-  i {
-    margin-right: 0;
-  }
-  .bulkAction {
-    display: inline-block;
-    width: 48px;
-    height: 48px;
-    transform: scale(.7);
-    min-width: 0;
-  }
-  .bulkAction:last-child {
-    margin-left: -10px;
-  }
+.username {
+  display: inline-block;
+  vertical-align: middle;
 }
 
-.selectedCommentsInfo {
-  align-self: center;
-  font-weight: 500;
-  margin-left: 15px;
+.actionsMenu {
+  display: inline-block;
 }
 
-.loadMore>button {
-  background-color: #696969;
-  &:hover {
-    background-color: #404040;
-    color: white;
-  }
+.actionsMenuSuspended {
+  background-color: #F29336;
+  border-color: #F29336;
+  color: white;
 }
 
-.toggleAll {
-  padding: 0 10px 0 0;
-  align-self: center;
-}
-
-.commentList {
-  clear: both;
-}
-
-.bulkActionHeader {
-  display: flex;
-  justify-content: space-between;
-  height: 52px;
-  &.selected {
-    background-color: #efefef;
-  }
+.actionsMenuBanned {
+  background-color: #E45241;
+  border-color: #E45241;
+  color: white;
 }

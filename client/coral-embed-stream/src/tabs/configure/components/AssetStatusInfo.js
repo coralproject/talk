@@ -1,12 +1,11 @@
 import React from 'react';
-import {Button} from 'coral-ui';
+import { Button } from 'coral-ui';
 import PropTypes from 'prop-types';
-import t, {timeago} from 'coral-framework/services/i18n';
+import t, { timeago } from 'coral-framework/services/i18n';
 import cn from 'classnames';
 import styles from './AssetStatusInfo.css';
 
 class AssetStatusInfo extends React.Component {
-
   timer = null;
 
   constructor(props) {
@@ -25,7 +24,7 @@ class AssetStatusInfo extends React.Component {
   }
 
   // Timer that counts down the remaining time.
-  setupTimer({closedAt, isClosed} = this.props) {
+  setupTimer({ closedAt, isClosed } = this.props) {
     if (this.timer && (isClosed || !closedAt)) {
       clearTimeout(this.timer);
       this.timer = null;
@@ -44,17 +43,39 @@ class AssetStatusInfo extends React.Component {
   }
 
   render() {
-    const {isClosed, closedAt, onClose, onOpen} = this.props;
+    const { isClosed, closedAt, onClose, onOpen } = this.props;
     return (
-      <div>
-        <h3>{!isClosed ? t('configure.close') : t('configure.open')} {t('configure.comment_stream')}</h3>
-        {(!isClosed && closedAt) ? <p>{t('configure.comment_stream_will_close')} {timeago(new Date(closedAt))}.</p> : ''}
-        <div className={cn('close-comments-intro-wrapper', styles.wrapper)}>
+      <div className="talk-config-close-comments">
+        <h3>
+          {!isClosed ? t('configure.close') : t('configure.open')}{' '}
+          {t('configure.comment_stream')}
+        </h3>
+        {!isClosed && closedAt ? (
           <p>
-            {!isClosed ? t('configure.open_stream_configuration') : t('configure.close_stream_configuration')}
+            {t('configure.comment_stream_will_close')}{' '}
+            {timeago(new Date(closedAt))}.
           </p>
-          <Button className={styles.button} onClick={!isClosed ? onClose : onOpen}>
-            {!isClosed ? t('configure.close_stream') : t('configure.open_stream')}
+        ) : (
+          ''
+        )}
+        <div
+          className={cn('talk-config-close-comments-wrapper', styles.wrapper)}
+        >
+          <p>
+            {!isClosed
+              ? t('configure.open_stream_configuration')
+              : t('configure.close_stream_configuration')}
+          </p>
+          <Button
+            className={cn(
+              styles.button,
+              `talk-config-close-comments-${isClosed ? 'open' : 'close'}-button`
+            )}
+            onClick={!isClosed ? onClose : onOpen}
+          >
+            {!isClosed
+              ? t('configure.close_stream')
+              : t('configure.open_stream')}
           </Button>
         </div>
       </div>

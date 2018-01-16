@@ -3,5 +3,5 @@ const router = require('./server/router');
 
 module.exports = {
   passport,
-  router
+  router,
 };

@@ -1,31 +1,30 @@
-import {gql} from 'react-apollo';
+import { gql } from 'react-apollo';
 import t from 'coral-framework/services/i18n';
 import union from 'lodash/union';
-import {capitalize} from 'coral-framework/helpers/strings';
+import { capitalize } from 'coral-framework/helpers/strings';
 import assignWith from 'lodash/assignWith';
 import mapValues from 'lodash/mapValues';
 export * from 'coral-framework/helpers/strings';
 
 export const getTotalActionCount = (type, comment) => {
   return comment.action_summaries
-    .filter((s) => s.__typename === type)
+    .filter(s => s.__typename === type)
     .reduce((total, summary) => {
       return total + summary.count;
     }, 0);
 };
 
 export const iPerformedThisAction = (type, comment) => {
-
   // if there is a current_user on any of the ActionSummary(s), the user performed this action
   return comment.action_summaries
-    .filter((a) => a.__typename === type)
-    .some((a) => a.current_user);
+    .filter(a => a.__typename === type)
+    .some(a => a.current_user);
 };
 
 export const getMyActionSummary = (type, comment) => {
   return comment.action_summaries
-    .filter((a) => a.__typename === type)
-    .find((a) => a.current_user);
+    .filter(a => a.__typename === type)
+    .find(a => a.current_user);
 };
 
 /**
@@ -35,7 +34,7 @@ export const getMyActionSummary = (type, comment) => {
  */
 
 export const getActionSummary = (type, comment) => {
-  return comment.action_summaries.filter((a) => a.__typename === type);
+  return comment.action_summaries.filter(a => a.__typename === type);
 };
 
 /**
@@ -50,23 +49,32 @@ export function getDefinitionName(doc, pos = 0) {
  * `data` will contain props like `loading`, `fetchMore`...
  * while `root` contains the actual query data.
  */
-export function separateDataAndRoot(
-  {
-    fetchMore,
-    loading,
-    networkStatus,
-    refetch,
-    startPolling,
-    stopPolling,
-    subscribeToMore,
-    updateQuery,
-    variables,
-    error,
-    ...root,
-  }) {
+export function separateDataAndRoot({
+  fetchMore,
+  loading,
+  networkStatus,
+  refetch,
+  startPolling,
+  stopPolling,
+  subscribeToMore,
+  updateQuery,
+  variables,
+  error,
+  ...root
+}) {
   return {
-    data: {fetchMore, loading, networkStatus, refetch, startPolling,
-      stopPolling, subscribeToMore, updateQuery, variables, error},
+    data: {
+      fetchMore,
+      loading,
+      networkStatus,
+      refetch,
+      startPolling,
+      stopPolling,
+      subscribeToMore,
+      updateQuery,
+      variables,
+      error,
+    },
     root,
   };
 }
@@ -87,22 +95,46 @@ export function dateAdd(date, interval, units) {
       ret.setDate(0);
     }
   };
-  switch(interval.toLowerCase()) {
-  case 'year'   :  ret.setFullYear(ret.getFullYear() + units); checkRollover();  break;
-  case 'quarter':  ret.setMonth(ret.getMonth() + 3 * units); checkRollover();  break;
-  case 'month'  :  ret.setMonth(ret.getMonth() + units); checkRollover();  break;
-  case 'week'   :  ret.setDate(ret.getDate() + 7 * units);  break;
-  case 'day'    :  ret.setDate(ret.getDate() + units);  break;
-  case 'hour'   :  ret.setTime(ret.getTime() + units * 3600000);  break;
-  case 'minute' :  ret.setTime(ret.getTime() + units * 60000);  break;
-  case 'second' :  ret.setTime(ret.getTime() + units * 1000);  break;
-  default       :  ret = undefined;  break;
+  switch (interval.toLowerCase()) {
+    case 'year':
+      ret.setFullYear(ret.getFullYear() + units);
+      checkRollover();
+      break;
+    case 'quarter':
+      ret.setMonth(ret.getMonth() + 3 * units);
+      checkRollover();
+      break;
+    case 'month':
+      ret.setMonth(ret.getMonth() + units);
+      checkRollover();
+      break;
+    case 'week':
+      ret.setDate(ret.getDate() + 7 * units);
+      break;
+    case 'day':
+      ret.setDate(ret.getDate() + units);
+      break;
+    case 'hour':
+      ret.setTime(ret.getTime() + units * 3600000);
+      break;
+    case 'minute':
+      ret.setTime(ret.getTime() + units * 60000);
+      break;
+    case 'second':
+      ret.setTime(ret.getTime() + units * 1000);
+      break;
+    default:
+      ret = undefined;
+      break;
   }
   return ret;
 }
 
 export function mergeDocuments(documents) {
-  const main = typeof documents[0] === 'string' ? documents[0] : documents[0].loc.source.body;
+  const main =
+    typeof documents[0] === 'string'
+      ? documents[0]
+      : documents[0].loc.source.body;
   const substitutions = documents.slice(1);
   const literals = [main, ...substitutions.map(() => '\n')];
   return gql.apply(null, [literals, ...substitutions]);
@@ -110,8 +142,9 @@ export function mergeDocuments(documents) {
 
 export function getResponseErrors(mutationResult) {
   const result = [];
-  Object.keys(mutationResult.data).forEach((response) => {
-    const errors = mutationResult.data[response] && mutationResult.data[response].errors;
+  Object.keys(mutationResult.data).forEach(response => {
+    const errors =
+      mutationResult.data[response] && mutationResult.data[response].errors;
     if (errors && errors.length) {
       result.push(...errors);
     }
@@ -121,7 +154,7 @@ export function getResponseErrors(mutationResult) {
 
 export function createDefaultResponseFragments(...names) {
   const result = {};
-  names.forEach((response) => {
+  names.forEach(response => {
     result[response] = gql`
       fragment Coral_${response} on ${response} {
         errors {
@@ -135,7 +168,7 @@ export function createDefaultResponseFragments(...names) {
 
 export function forEachError(error, callback) {
   const errors = error.errors || [error];
-  errors.forEach((e) => {
+  errors.forEach(e => {
     console.error(e);
 
     let msg = '';
@@ -146,25 +179,29 @@ export function forEachError(error, callback) {
     } else {
       msg = t('error.unexpected');
     }
-    callback({error: e, msg});
+    callback({ error: e, msg });
   });
 }
 
 export function getErrorMessages(error) {
   const result = [];
-  forEachError(error, ({msg}) => result.push(msg));
+  forEachError(error, ({ msg }) => result.push(msg));
   return result;
 }
 
 export function appendNewNodes(nodesA, nodesB) {
-  return nodesA.concat(nodesB.filter((nodeB) => !nodesA.some((nodeA) => nodeA.id === nodeB.id)));
+  return nodesA.concat(
+    nodesB.filter(nodeB => !nodesA.some(nodeA => nodeA.id === nodeB.id))
+  );
 }
 
 export function prependNewNodes(nodesA, nodesB) {
-  return nodesB.filter((nodeB) => !nodesA.some((nodeA) => nodeA.id === nodeB.id)).concat(nodesA);
+  return nodesB
+    .filter(nodeB => !nodesA.some(nodeA => nodeA.id === nodeB.id))
+    .concat(nodesA);
 }
 
-export const isTagged = (tags, which) => tags.some((t) => t.tag.name === which);
+export const isTagged = (tags, which) => tags.some(t => t.tag.name === which);
 
 export * from './url';
 
@@ -175,7 +212,9 @@ export * from './url';
  * `...TalkSlot_SlotName_root`.
  */
 export function getSlotFragmentSpreads(slots, resource) {
-  return `...${slots.map((s) => `TalkSlot_${capitalize(s)}_${resource}`).join('\n...')}\n`;
+  return `...${slots
+    .map(s => `TalkSlot_${capitalize(s)}_${resource}`)
+    .join('\n...')}\n`;
 }
 
 export function isCommentActive(commentStatus) {
@@ -183,21 +222,17 @@ export function isCommentActive(commentStatus) {
 }
 
 export function getShallowChanges(a, b) {
-  return union(Object.keys(a), Object.keys(b))
-    .filter((key) => a[key] !== b[key]);
+  return union(Object.keys(a), Object.keys(b)).filter(key => a[key] !== b[key]);
 }
 
 // TODO: replace with something less fragile.
 // NOT_REACTION_TYPES are the action summaries that are not reactions.
-const NOT_REACTION_TYPES = [
-  'FlagActionSummary',
-  'DontAgreeActionSummary',
-];
+const NOT_REACTION_TYPES = ['FlagActionSummary', 'DontAgreeActionSummary'];
 
 export function getTotalReactionsCount(actionSummaries) {
   return actionSummaries
-    .filter(({__typename}) => !NOT_REACTION_TYPES.includes(__typename))
-    .reduce((total, {count}) => total + count, 0);
+    .filter(({ __typename }) => !NOT_REACTION_TYPES.includes(__typename))
+    .reduce((total, { count }) => total + count, 0);
 }
 
 // Like lodash merge but does not recurse into arrays.
@@ -210,7 +245,7 @@ export function mergeExcludingArrays(objValue, srcValue) {
 
 // Map nested object leaves. Array objects are considered leaves.
 export function mapLeaves(o, mapper) {
-  return mapValues(o, (val) => {
+  return mapValues(o, val => {
     if (typeof val === 'object' && !Array.isArray(val)) {
       return mapLeaves(val, mapper);
     }

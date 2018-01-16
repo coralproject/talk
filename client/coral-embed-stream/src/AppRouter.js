@@ -1,14 +1,14 @@
 import React from 'react';
-import {Router, Route} from 'react-router';
+import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
 import Embed from './containers/Embed';
-import {LoginContainer} from 'coral-sign-in/containers/LoginContainer';
+import { LoginContainer } from 'coral-sign-in/containers/LoginContainer';
 
 const routes = (
   <div>
-    <Route exact path="/embed/stream/login" component={LoginContainer}/>
-    <Route path="*" component={Embed}/>
+    <Route exact path="/embed/stream/login" component={LoginContainer} />
+    <Route path="*" component={Embed} />
   </div>
 );
 

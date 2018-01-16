@@ -1,5 +1,1 @@
-module.exports = [
-  'ASSETS',
-  'COMMENTS',
-  'USERS'
-];
+module.exports = ['ASSETS', 'COMMENTS', 'USERS'];

@@ -2,9 +2,9 @@
  * authorization contains the references to the authorization middleware.
  * @type {Object}
  */
-const authorization = module.exports = {
-  middleware: []
-};
+const authorization = (module.exports = {
+  middleware: [],
+});
 
 const debug = require('debug')('talk:middleware:authorization');
 const ErrNotAuthorized = require('../errors').ErrNotAuthorized;
@@ -18,9 +18,8 @@ const ErrNotAuthorized = require('../errors').ErrNotAuthorized;
  *                        otherwise
  */
 authorization.has = (user, ...roles) => {
-
   // If no user is specified, then they can't have the roles you want!
-  if (!user || !user.roles) {
+  if (!user) {
     return false;
   }
 
@@ -31,7 +30,7 @@ authorization.has = (user, ...roles) => {
 
   // If there's a user, and roles, then check to see that the user has at least
   // one of those roles.
-  return roles.some((role) => user.roles.includes(role));
+  return roles.some(role => user.role === role);
 };
 
 /**
@@ -41,13 +40,11 @@ authorization.has = (user, ...roles) => {
  * @return {Callback}    connect middleware
  */
 authorization.needed = (...roles) => [
-
   // Insert the pre-needed middlware.
   ...authorization.middleware,
 
   // Insert the actual middleware to check for the required role.
   (req, res, next) => {
-
     // All routes that are wrapepd with this middleware actually require a role.
     if (!req.user) {
       debug(`No user on request, returning with ${ErrNotAuthorized}`);
@@ -64,5 +61,5 @@ authorization.needed = (...roles) => [
 
     // Looks like they're allowed!
     return next();
-  }
+  },
 ];

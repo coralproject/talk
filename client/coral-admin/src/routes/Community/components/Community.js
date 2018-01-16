@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Community.css';
 import People from '../containers/People';
@@ -8,19 +8,22 @@ import FlaggedAccounts from '../containers/FlaggedAccounts';
 
 class Community extends Component {
   renderTab() {
-    const {route, community, ...props} = this.props; 
+    const { route, community, ...props } = this.props;
     const activeTab = route.path === ':id' ? 'flagged' : route.path;
 
     if (activeTab === 'people') {
-      return <People community={community} />;
+      return (
+        <People
+          community={community}
+          data={this.props.data}
+          root={this.props.root}
+        />
+      );
     }
 
     return (
       <div>
-        <FlaggedAccounts
-          data={this.props.data}
-          root={this.props.root}
-        />
+        <FlaggedAccounts data={this.props.data} root={this.props.root} />
         <RejectUsernameDialog
           user={community.user}
           open={community.rejectUsernameDialog}
@@ -32,14 +35,12 @@ class Community extends Component {
   }
 
   render() {
-    const {root: {flaggedUsernamesCount}} = this.props;
+    const { root: { flaggedUsernamesCount } } = this.props;
 
     return (
       <div className="talk-admin-community">
         <CommunityMenu flaggedUsernamesCount={flaggedUsernamesCount} />
-        <div className={styles.container}>
-          {this.renderTab()}
-        </div>
+        <div className={styles.container}>{this.renderTab()}</div>
       </div>
     );
   }

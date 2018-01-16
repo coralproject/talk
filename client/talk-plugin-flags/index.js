@@ -1,1 +1,1 @@
-export {default as FlagComment} from './components/FlagComment';
+export { default as FlagComment } from './components/FlagComment';

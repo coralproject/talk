@@ -1,7 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './styles.css';
-import {Dialog, Alert, TextField, Button} from 'plugin-api/beta/client/components/ui';
-import {FakeComment} from './FakeComment';
+import {
+  Dialog,
+  Alert,
+  TextField,
+  Button,
+} from 'plugin-api/beta/client/components/ui';
+import { FakeComment } from './FakeComment';
 import t from 'coral-framework/services/i18n';
 
 const CreateUsernameDialog = ({
@@ -17,12 +23,12 @@ const CreateUsernameDialog = ({
     id="createUsernameDialog"
     open={open}
   >
-    <span className={styles.close} onClick={handleClose}>×</span>
+    <span className={styles.close} onClick={handleClose}>
+      ×
+    </span>
     <div>
       <div className={styles.header}>
-        <h1>
-          {t('createdisplay.write_your_username')}
-        </h1>
+        <h1>{t('createdisplay.write_your_username')}</h1>
       </div>
       <div>
         <p className={styles.yourusername}>
@@ -39,14 +45,16 @@ const CreateUsernameDialog = ({
         </p>
         {props.auth.error && <Alert>{props.auth.error}</Alert>}
         <form id="saveUsername" onSubmit={handleSubmitUsername}>
-          {props.errors.username &&
+          {props.errors.username && (
             <span className={styles.hint}>
-              {' '}{t('createdisplay.special_characters')}{' '}
-            </span>}
+              {' '}
+              {t('createdisplay.special_characters')}{' '}
+            </span>
+          )}
           <div className={styles.saveusername}>
             <TextField
               id="username"
-              style={{fontSize: 16}}
+              style={{ fontSize: 16 }}
               type="string"
               label={t('createdisplay.username')}
               value={formData.username}
@@ -61,5 +69,15 @@ const CreateUsernameDialog = ({
     </div>
   </Dialog>
 );
+
+CreateUsernameDialog.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.func,
+  formData: PropTypes.object,
+  handleSubmitUsername: PropTypes.func,
+  handleChange: PropTypes.func,
+  auth: PropTypes.object,
+  errors: PropTypes.object,
+};
 
 export default CreateUsernameDialog;

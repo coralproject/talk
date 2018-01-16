@@ -2,7 +2,6 @@ const mongoose = require('../../services/mongoose');
 const Schema = mongoose.Schema;
 
 const TokenSchema = new Schema({
-
   // ID is the JTI of a given JWT's identifier.
   id: String,
 
@@ -10,7 +9,7 @@ const TokenSchema = new Schema({
   name: String,
 
   // Active is used to determine if the token is valid.
-  active: Boolean
+  active: Boolean,
 });
 
 module.exports = TokenSchema;

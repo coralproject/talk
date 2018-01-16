@@ -1,14 +1,14 @@
-const {graphql} = require('graphql');
+const { graphql } = require('graphql');
 
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
 const SettingsService = require('../../../../services/settings');
 const UserModel = require('../../../../models/user');
 
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 const defaultSettings = {
-  organizationName: 'The Coral Project'
+  organizationName: 'The Coral Project',
 };
 
 describe('graph.queries.settings', () => {
@@ -47,7 +47,6 @@ describe('graph.queries.settings', () => {
   `;
 
   describe('context with different user roles', () => {
-
     const BLACKLISTED_PROPERTIES = [
       'premodLinksEnable',
       'autoCloseStream',
@@ -56,19 +55,13 @@ describe('graph.queries.settings', () => {
     ];
 
     [
-      {bl: true},
-      {bl: true, roles: []},
-      {bl: false, roles: ['ADMIN']},
-      {bl: false, roles: ['ADMIN', 'MODERATOR']},
-      {bl: false, roles: ['MODERATOR']},
-    ].forEach(({bl, roles}) => {
-      it(roles && roles.length > 0 ? roles.join(', ') : '<None>', async () => {
-        let user;
-        if (roles != null) {
-          user = new UserModel({roles});
-        }
-
-        const ctx = new Context({user});
+      { bl: true, role: 'COMMENTER' },
+      { bl: false, role: 'ADMIN' },
+      { bl: false, role: 'MODERATOR' },
+    ].forEach(({ bl, role }) => {
+      it(`role = ${role}`, async () => {
+        let user = new UserModel({ role });
+        const ctx = new Context({ user });
 
         const res = await graphql(schema, QUERY, {}, ctx);
         if (res.errors) {
@@ -77,7 +70,7 @@ describe('graph.queries.settings', () => {
 
         expect(res.errors).to.be.empty;
         expect(res.data.settings).to.be.object;
-        Object.keys(res.data.settings).forEach((key) => {
+        Object.keys(res.data.settings).forEach(key => {
           if (bl && BLACKLISTED_PROPERTIES.includes(key)) {
             expect(res.data.settings).to.have.property(key, null);
             return;
@@ -93,5 +86,4 @@ describe('graph.queries.settings', () => {
       });
     });
   });
-
 });

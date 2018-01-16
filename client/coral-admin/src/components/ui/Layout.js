@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Layout as LayoutMDL} from 'react-mdl';
+import { Layout as LayoutMDL } from 'react-mdl';
 import Header from '../../containers/Header';
 import Drawer from '../Drawer';
 import styles from './Layout.css';
@@ -18,14 +18,8 @@ const Layout = ({
       showShortcuts={toggleShortcutModal}
       auth={auth}
     />
-    <Drawer 
-      handleLogout={handleLogout}
-      restricted={restricted}
-      auth={auth}
-    />
-    <div className={styles.layout}>
-      {children}
-    </div>
+    <Drawer handleLogout={handleLogout} restricted={restricted} auth={auth} />
+    <div className={styles.layout}>{children}</div>
   </LayoutMDL>
 );
 
@@ -34,7 +28,7 @@ Layout.propTypes = {
   auth: PropTypes.object,
   handleLogout: PropTypes.func,
   toggleShortcutModal: PropTypes.func,
-  restricted: PropTypes.bool // hide elements from a user that's logged out
+  restricted: PropTypes.bool, // hide elements from a user that's logged out
 };
 
 export default Layout;

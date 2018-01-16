@@ -11,29 +11,26 @@ function getNumber(no) {
   return result;
 }
 
-function getRootClassName({className, active, sub}) {
-  return cn(
-    'talk-tab-count',
-    className,
-    {
-      [styles.root]: !sub,
-      [styles.rootSub]: sub,
-      [styles.rootActive]: active && !sub,
-      [styles.rootSubActive]: active && sub,
-      'talk-tab-active': active,
-    }
-  );
+function getRootClassName({ className, active, sub }) {
+  return cn('talk-tab-count', className, {
+    [styles.root]: !sub,
+    [styles.rootSub]: sub,
+    [styles.rootActive]: active && !sub,
+    [styles.rootSubActive]: active && sub,
+    'talk-tab-active': active,
+  });
 }
 
 /**
  * The `TabCount` renders a count number next to a tab name.
  */
-const TabCount = ({children, active, sub, className}) => (
-  <span className={getRootClassName({className, active, sub})}>{getNumber(children)}</span>
+const TabCount = ({ children, active, sub, className }) => (
+  <span className={getRootClassName({ className, active, sub })}>
+    {getNumber(children)}
+  </span>
 );
 
 TabCount.propTypes = {
-
   // className to be added to the root element.
   className: PropTypes.string,
 

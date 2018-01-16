@@ -11,25 +11,20 @@ function getRootClassName(className) {
  * The `TabContent` component accepts `TabPane` components to render
  * the content of a `Tab`.
  */
-const TabContent = ({children, className, activeTab, sub, ...rest}) => (
-  <div
-    {...rest}
-    className={getRootClassName(className)}
-  >
-    {
-      React.Children.toArray(children)
-        .filter((child) => child.props.tabId === activeTab)
-        .map((child, i) =>
-          React.cloneElement(child, {
-            tabId: (child.props.tabId !== undefined) ? child.props.tabId : i,
-            sub,
-          }))
-    }
+const TabContent = ({ children, className, activeTab, sub, ...rest }) => (
+  <div {...rest} className={getRootClassName(className)}>
+    {React.Children.toArray(children)
+      .filter(child => child.props.tabId === activeTab)
+      .map((child, i) =>
+        React.cloneElement(child, {
+          tabId: child.props.tabId !== undefined ? child.props.tabId : i,
+          sub,
+        })
+      )}
   </div>
 );
 
 TabContent.propTypes = {
-
   // className to be added to the root element.
   className: PropTypes.string,
 

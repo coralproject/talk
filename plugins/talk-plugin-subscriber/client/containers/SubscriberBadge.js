@@ -1,8 +1,8 @@
 import SubscriberBadge from '../components/SubscriberBadge';
-import {compose, gql} from 'react-apollo';
-import {withFragments, excludeIf} from 'plugin-api/beta/client/hocs';
+import { compose, gql } from 'react-apollo';
+import { withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
 
-const isSubscriber = (tags = []) => tags.some((t) => t.tag.name === 'SUBSCRIBER');
+const isSubscriber = (tags = []) => tags.some(t => t.tag.name === 'SUBSCRIBER');
 
 const enhance = compose(
   withFragments({
@@ -15,9 +15,10 @@ const enhance = compose(
             }
           }
         }
-      }`
+      }
+    `,
   }),
-  excludeIf(({comment}) => !isSubscriber(comment.user.tags))
+  excludeIf(({ comment }) => !isSubscriber(comment.user.tags))
 );
-  
+
 export default enhance(SubscriberBadge);

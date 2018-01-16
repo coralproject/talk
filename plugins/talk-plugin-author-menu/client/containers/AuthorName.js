@@ -1,15 +1,21 @@
 import React from 'react';
-import {connect, withFragments} from 'plugin-api/beta/client/hocs';
-import {bindActionCreators} from 'redux';
+import { connect, withFragments } from 'plugin-api/beta/client/hocs';
+import { bindActionCreators } from 'redux';
 import AuthorName from '../components/AuthorName';
-import {setContentSlot, resetContentSlot, openMenu, closeMenu} from '../actions';
-import {compose, gql} from 'react-apollo';
-import {getSlotFragmentSpreads, getShallowChanges} from 'plugin-api/beta/client/utils';
+import {
+  setContentSlot,
+  resetContentSlot,
+  openMenu,
+  closeMenu,
+} from '../actions';
+import { compose, gql } from 'react-apollo';
+import {
+  getSlotFragmentSpreads,
+  getShallowChanges,
+} from 'plugin-api/beta/client/utils';
 
 class AuthorNameContainer extends React.Component {
-
   shouldComponentUpdate(nextProps) {
-
     // Specifically handle `showMenuForComment` if it is the only change.
     const changes = getShallowChanges(this.props, nextProps);
     if (changes.length === 1 && changes[0] === 'showMenuForComment') {
@@ -32,45 +38,47 @@ class AuthorNameContainer extends React.Component {
     } else {
       this.props.openMenu(this.props.comment.id);
     }
-  }
+  };
 
   hideMenu = () => {
     if (this.props.showMenuForComment === this.props.comment.id) {
       this.props.closeMenu();
     }
-  }
+  };
 
   render() {
-    return <AuthorName
-      data={this.props.data}
-      root={this.props.root}
-      asset={this.props.asset}
-      comment={this.props.comment}
-      contentSlot={this.props.contentSlot}
-      menuVisible={this.props.showMenuForComment === this.props.comment.id}
-      toggleMenu={this.toggleMenu}
-      hideMenu={this.hideMenu}
-    />;
+    return (
+      <AuthorName
+        data={this.props.data}
+        root={this.props.root}
+        asset={this.props.asset}
+        comment={this.props.comment}
+        contentSlot={this.props.contentSlot}
+        menuVisible={this.props.showMenuForComment === this.props.comment.id}
+        toggleMenu={this.toggleMenu}
+        hideMenu={this.hideMenu}
+      />
+    );
   }
 }
 
-const slots = [
-  'authorMenuInfos',
-  'authorMenuActions',
-];
+const slots = ['authorMenuInfos', 'authorMenuActions'];
 
-const mapStateToProps = ({talkPluginAuthorMenu: state}) => ({
+const mapStateToProps = ({ talkPluginAuthorMenu: state }) => ({
   contentSlot: state.contentSlot,
   showMenuForComment: state.showMenuForComment,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({
-    setContentSlot,
-    resetContentSlot,
-    openMenu,
-    closeMenu,
-  }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      setContentSlot,
+      resetContentSlot,
+      openMenu,
+      closeMenu,
+    },
+    dispatch
+  );
 
 const withAuthorNameFragments = withFragments({
   root: gql`
@@ -96,7 +104,7 @@ const withAuthorNameFragments = withFragments({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withAuthorNameFragments,
+  withAuthorNameFragments
 );
 
 export default enhance(AuthorNameContainer);

@@ -1,5 +1,5 @@
-import {browserHistory} from 'react-router';
-import {useBasename} from 'history';
+import { browserHistory } from 'react-router';
+import { useBasename } from 'history';
 
 /**
  * createHistory returns the history service for react router
@@ -12,6 +12,6 @@ export function createHistory(basename) {
   }
 
   return useBasename(() => browserHistory)({
-    basename
+    basename,
   });
 }

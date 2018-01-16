@@ -5,7 +5,7 @@ import translations from './translations.yml';
 export default {
   reducer,
   slots: {
-    streamFilter: [ViewingOptions]
+    streamFilter: [ViewingOptions],
   },
-  translations
+  translations,
 };

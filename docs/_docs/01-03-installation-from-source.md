@@ -73,7 +73,7 @@ values as well.
 You can now start the application by running:
 
 ```bash
-yarn dev-start
+yarn watch:server
 ```
 
 At this stage, you should refer to the [configuration]({{ "/configuration/" | relative_url }}) for

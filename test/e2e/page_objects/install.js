@@ -1,13 +1,14 @@
 module.exports = {
-  commands: [{
-    url: function() {
-      return `${this.api.launchUrl}/admin/install`;
+  commands: [
+    {
+      url: function() {
+        return `${this.api.launchUrl}/admin/install`;
+      },
+      ready() {
+        return this.waitForElementVisible('body');
+      },
     },
-    ready() {
-      return this
-        .waitForElementVisible('body');
-    }
-  }],
+  ],
   sections: {
     step1: {
       selector: '.talk-install-step-1',

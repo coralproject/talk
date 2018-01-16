@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class Popup extends Component {
@@ -15,11 +15,7 @@ export default class Popup extends Component {
   }
 
   openWindow(props = this.props) {
-    this.ref = window.open(
-      props.href,
-      props.title,
-      props.features,
-    );
+    this.ref = window.open(props.href, props.title, props.features);
 
     this.setCallbacks();
 
@@ -96,31 +92,31 @@ export default class Popup extends Component {
     if (this.props.onLoad) {
       this.props.onLoad();
     }
-  }
+  };
 
   onUnload = () => {
     if (this.props.onUnload) {
       this.props.onUnload();
     }
-  }
+  };
 
   onClose = () => {
     if (this.props.onClose) {
       this.props.onClose();
     }
-  }
+  };
 
   onFocus = () => {
     if (this.props.onFocus) {
       this.props.onFocus();
     }
-  }
+  };
 
   onBlur = () => {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.open && !this.ref) {

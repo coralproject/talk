@@ -1,16 +1,8 @@
 const SettingsService = require('../services/settings');
 
-const {
-  BASE_URL,
-  BASE_PATH,
-  MOUNT_PATH,
-  STATIC_URL,
-} = require('../url');
+const { BASE_URL, BASE_PATH, MOUNT_PATH, STATIC_URL } = require('../url');
 
-const {
-  RECAPTCHA_PUBLIC,
-  WEBSOCKET_LIVE_URI,
-} = require('../config');
+const { RECAPTCHA_PUBLIC, WEBSOCKET_LIVE_URI } = require('../config');
 
 // TEMPLATE_LOCALS stores the static data that is provided as a `text/json` on
 // to the client from the template.
@@ -27,7 +19,7 @@ const TEMPLATE_LOCALS = {
 };
 
 // attachStaticLocals will attach the locals to the response only.
-const attachStaticLocals = (locals) => {
+const attachStaticLocals = locals => {
   for (const key in TEMPLATE_LOCALS) {
     const value = TEMPLATE_LOCALS[key];
 
@@ -36,11 +28,9 @@ const attachStaticLocals = (locals) => {
 };
 
 module.exports = async (req, res, next) => {
-
   try {
-
     // Attach the custom css url.
-    const {customCssUrl} = await SettingsService.retrieve('customCssUrl');
+    const { customCssUrl } = await SettingsService.retrieve('customCssUrl');
     res.locals.customCssUrl = customCssUrl;
   } catch (err) {
     console.warn(err);

@@ -1,153 +1,153 @@
 .dialog {
   border: none;
   box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
-  width: 500px;
+  width: 400px;
   top: 50%;
   transform: translateY(-50%);
-  height: 184px;
   padding: 20px;
+  border-radius: 4px;
+}
 
-  h2 {
-    color: black;
-    font-size: 1.76em;
-    font-weight: 500;
-    margin: 0;
-  }
+.header {
+  color: black;
+  font-size: 1.5em;
+  font-weight: 500;
+  margin: 0 0 8px 0;
+}
 
-  h3 {
-    color: black;
-    font-size: 1.4em;
-    font-weight: 500;
-    margin: 0;
-  }
+.subheader {
+  color: black;
+  font-size: 1.3em;
+  font-weight: 500;
+  margin: 0 0 8px 0;
 }
 
 .textField {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 .textField label {
-    font-size: 1.08em;
-    font-weight: bold;
-    margin-bottom: 5px;
+  font-size: 1.08em;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .textField input {
-    width: 100%;
-    display: block;
-    border: none;
-    outline: none;
-    border: 1px solid rgba(0,0,0,.12);
-    padding: 10px 6px;
-    box-sizing: border-box;
-    border-radius: 2px;
-    margin: 5px auto;
+  width: 100%;
+  display: block;
+  border: none;
+  outline: none;
+  border: 1px solid rgba(0,0,0,.12);
+  padding: 10px 6px;
+  box-sizing: border-box;
+  border-radius: 2px;
+  margin: 5px auto;
 }
 
 .footer {
-    margin: 20px auto 10px;
-    text-align: center;
+  margin: 20px auto 10px;
+  text-align: center;
 }
 
 .footer span {
-    display: block;
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .footer a {
-    color: #2c69b6;
-    cursor: pointer;
-    margin: 0 5px;
+  color: #2c69b6;
+  cursor: pointer;
+  margin: 0 5px;
 }
 
 .socialConnections {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .signInButton {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .close {
-    font-size: 20px;
-    line-height: 14px;
-    top: 10px;
-    right: 10px;
-    position: absolute;
-    display: block;
-    font-weight: bold;
-    color: #363636;
-    cursor: pointer;
+  font-size: 20px;
+  line-height: 14px;
+  top: 10px;
+  right: 10px;
+  position: absolute;
+  display: block;
+  font-weight: bold;
+  color: #363636;
+  cursor: pointer;
 }
 
 .close:hover {
-    color: #6b6b6b;
+  color: #6b6b6b;
 }
 
 input.error{
-    border: solid 2px #f44336;
+  border: solid 2px #f44336;
 }
 
 .errorMsg, .hint {
-    color: grey;
-    font-weight: 600;
-    padding: 3px 0 16px;
+  color: grey;
+  font-weight: 600;
+  padding: 3px 0 16px;
 }
 
 .alert {
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 2px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 2px;
 }
 
 .alert--success {
-    border: solid 1px #1ec00e;
-    background: #cbf1b8;
-    color: #006900;
+  border: solid 1px #1ec00e;
+  background: #cbf1b8;
+  color: #006900;
 }
 
 .alert--error {
-    background: #FFEBEE;
-    color: #B71C1C;
+  background: #FFEBEE;
+  color: #B71C1C;
 }
 
 .userBox a {
-    color: #2c69b6;
-    cursor: pointer;
-    margin: 0px;
+  color: #2c69b6;
+  cursor: pointer;
+  margin: 0px;
 }
 
 .attention {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    background: #B71C1C;
-    color: #FFEBEE;
-    font-weight: bolder;
-    padding: 4px;
-    vertical-align: middle;
-    border-radius: 20px;
-    box-sizing: border-box;
-    font-size: 9px;
-    line-height: 7px;
-    text-align: center;
-    margin-right: 5px;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background: #B71C1C;
+  color: #FFEBEE;
+  font-weight: bolder;
+  padding: 4px;
+  vertical-align: middle;
+  border-radius: 20px;
+  box-sizing: border-box;
+  font-size: 9px;
+  line-height: 7px;
+  text-align: center;
+  margin-right: 5px;
 }
 
 .action {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 .passwordRequestSuccess {
-    border: 1px solid green;
-    background-color: lightgreen;
-    padding: 10px;
+  border: 1px solid green;
+  background-color: lightgreen;
+  padding: 10px;
 }
 
 .passwordRequestFailure {
-    border: 1px solid orange;
-    background-color: 1px solid coral;
-    padding: 10px;
+  border: 1px solid orange;
+  background-color: 1px solid coral;
+  padding: 10px;
 }
 
 .cancel {
@@ -160,6 +160,20 @@ input.error{
 }
 
 .buttons {
-  margin: 20px;
-  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 6px;
+  text-align: right;
+}
+
+.legend {
+  padding: 0;
+  font-weight: bold;
+}
+
+.messageInput {
+  border-radius: 3px;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  box-sizing: border-box;
 }

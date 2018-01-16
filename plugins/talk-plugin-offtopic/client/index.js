@@ -15,6 +15,6 @@ export default {
   slots: {
     commentInputDetailArea: [OffTopicCheckbox],
     commentInfoBar: [OffTopicTag],
-    viewingOptionsFilter: [OffTopicFilter]
-  }
+    viewingOptionsFilter: [OffTopicFilter],
+  },
 };

@@ -4,7 +4,7 @@ import ReactPaginate from 'react-paginate';
 import styles from './Paginate.css';
 import Icon from './Icon';
 
-const Paginate = ({pageCount, page, onPageChange}) => (
+const Paginate = ({ pageCount, page, onPageChange }) => (
   <ReactPaginate
     initialPage={0}
     forcePage={page}
@@ -17,10 +17,10 @@ const Paginate = ({pageCount, page, onPageChange}) => (
     pageClassName={styles.page}
     pageLinkClassName={styles.pageLink}
     activeClassName={styles.active}
-    previousLabel={<Icon name="chevron_left"/>}
+    previousLabel={<Icon name="chevron_left" />}
     previousClassName={styles.previous}
     previousLinkClassName={styles.previousLink}
-    nextLabel={<Icon name="chevron_right"/>}
+    nextLabel={<Icon name="chevron_right" />}
     nextClassName={styles.next}
     nextLinkClassName={styles.nextLink}
   />

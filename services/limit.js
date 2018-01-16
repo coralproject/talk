@@ -1,6 +1,6 @@
 const ms = require('ms');
 const errors = require('../errors');
-const {createClientFactory} = require('./redis');
+const { createClientFactory } = require('./redis');
 const client = createClientFactory();
 
 /**
@@ -55,7 +55,6 @@ class Limit {
 
     // if this is new or has no expiry
     if (tries === 1 || expiry === -1) {
-
       // then expire it after the timeout
       client().expire(key, this.ttl);
     }
