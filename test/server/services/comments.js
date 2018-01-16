@@ -200,31 +200,6 @@ describe('services.CommentsService', () => {
       expect(c.id).to.be.uuid;
       expect(c.status).to.be.equal('ACCEPTED');
     });
-
-    it('creates many new comments', async () => {
-      const [c1, c2, c3] = await CommentsService.publicCreate([
-        {
-          body: 'This is a comment!',
-          status: 'ACCEPTED',
-        },
-        {
-          body: 'This is another comment!',
-        },
-        {
-          body: 'This is a rejected comment!',
-          status: 'REJECTED',
-        },
-      ]);
-
-      expect(c1).to.not.be.null;
-      expect(c1.status).to.be.equal('ACCEPTED');
-
-      expect(c2).to.not.be.null;
-      expect(c2.status).to.be.equal('NONE');
-
-      expect(c3).to.not.be.null;
-      expect(c3.status).to.be.equal('REJECTED');
-    });
   });
 
   describe('#edit', () => {
