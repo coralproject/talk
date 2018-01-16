@@ -13,6 +13,7 @@ module.exports = (user, perm) => {
     case types.SUBSCRIBE_ALL_USER_BANNED:
     case types.SUBSCRIBE_ALL_USERNAME_REJECTED:
     case types.SUBSCRIBE_ALL_USERNAME_APPROVED:
+    case types.SUBSCRIBE_ALL_USERNAME_FLAGGED:
       return check(user, ['ADMIN', 'MODERATOR']);
     default:
       break;

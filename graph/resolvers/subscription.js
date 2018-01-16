@@ -26,6 +26,9 @@ const Subscription = {
   usernameRejected(user) {
     return user;
   },
+  usernameFlagged(user) {
+    return user;
+  },
 };
 
 module.exports = Subscription;

@@ -9,6 +9,7 @@ const {
   SUBSCRIBE_ALL_USER_BANNED,
   SUBSCRIBE_ALL_USERNAME_REJECTED,
   SUBSCRIBE_ALL_USERNAME_APPROVED,
+  SUBSCRIBE_ALL_USERNAME_FLAGGED,
 } = require('../perms/constants');
 
 const merge = require('lodash/merge');
@@ -92,6 +93,16 @@ const setupFunctions = {
     if (
       !context.user ||
       (args.user_id !== user.id && !context.user.can(SUBSCRIBE_ALL_USER_BANNED))
+    ) {
+      return false;
+    }
+    return !args.user_id || user.id === args.user_id;
+  },
+  usernameFlagged: (options, args, user, context) => {
+    if (
+      !context.user ||
+      (args.user_id !== user.id &&
+        !context.user.can(SUBSCRIBE_ALL_USERNAME_FLAGGED))
     ) {
       return false;
     }
