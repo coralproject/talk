@@ -265,6 +265,15 @@ const ErrCannotIgnoreStaff = new APIError('Cannot ignore staff members.', {
   status: 400,
 });
 
+// ErrParentDoesNotVisible is returned when the user tries to reply to a comment
+// that isn't visible.
+const ErrParentDoesNotVisible = new APIError(
+  'Cannot reply to a comment that is not visible',
+  {
+    translation_key: 'COMMENT_PARENT_NOT_VISIBLE',
+  }
+);
+
 module.exports = {
   APIError,
   ErrAlreadyExists,
@@ -276,24 +285,25 @@ module.exports = {
   ErrContainsProfanity,
   ErrEditWindowHasEnded,
   ErrEmailTaken,
+  ErrEmailVerificationToken,
   ErrInstallLock,
   ErrInvalidAssetURL,
   ErrLoginAttemptMaximumExceeded,
   ErrMaxRateLimit,
   ErrMissingEmail,
   ErrMissingPassword,
-  ErrEmailVerificationToken,
-  ErrPasswordResetToken,
   ErrMissingUsername,
   ErrNotAuthorized,
   ErrNotFound,
   ErrNotVerified,
+  ErrParentDoesNotVisible,
+  ErrPasswordResetToken,
   ErrPasswordTooShort,
   ErrPermissionUpdateUsername,
+  ErrSameUsernameProvided,
   ErrSettingsInit,
   ErrSettingsNotInit,
   ErrSpecialChars,
   ErrUsernameTaken,
-  ErrSameUsernameProvided,
   ExtendableError,
 };

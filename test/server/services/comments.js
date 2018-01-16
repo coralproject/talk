@@ -131,6 +131,64 @@ describe('services.CommentsService', () => {
   });
 
   describe('#publicCreate()', () => {
+    describe('does not allow replies to comments that are not visible', () => {
+      it('parent not found', async () => {
+        try {
+          await CommentsService.publicCreate({
+            body: 'This is a comment!',
+            status: 'ACCEPTED',
+            parent_id: 'does not exist',
+          });
+          throw new Error('comment should not have been created');
+        } catch (err) {
+          expect(err).to.have.property(
+            'translation_key',
+            'COMMENT_PARENT_NOT_VISIBLE'
+          );
+        }
+      });
+
+      it('parent REJECTED', async () => {
+        try {
+          const parent = await CommentsService.publicCreate({
+            body: 'This is a comment!',
+            status: 'REJECTED',
+          });
+          await CommentsService.publicCreate({
+            body: 'This is a comment!',
+            status: 'ACCEPTED',
+            parent_id: parent.id,
+          });
+          throw new Error('comment should not have been created');
+        } catch (err) {
+          expect(err).to.have.property(
+            'translation_key',
+            'COMMENT_PARENT_NOT_VISIBLE'
+          );
+        }
+      });
+
+      it('parent SYSTEM_WITHHELD', async () => {
+        try {
+          const parent = await CommentsService.publicCreate({
+            body: 'This is a comment!',
+            status: 'SYSTEM_WITHHELD',
+          });
+          await CommentsService.publicCreate({
+            body: 'This is a comment!',
+            status: 'ACCEPTED',
+            parent_id: parent.id,
+          });
+          throw new Error('comment should not have been created');
+        } catch (err) {
+          expect(err).to.have.property(
+            'translation_key',
+            'COMMENT_PARENT_NOT_VISIBLE'
+          );
+        }
+      });
+    });
+
     it('creates a new comment', async () => {
       const c = await CommentsService.publicCreate({
         body: 'This is a comment!',
