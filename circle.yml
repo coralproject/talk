@@ -19,6 +19,13 @@ machine:
     # - sudo apt-get install -y mongodb-org
     # - sudo service mongod restart
 
+    # Force sync the time.
+    - date
+    - sudo service ntp stop
+    - sudo ntpdate -s time.nist.gov
+    - sudo service ntp start
+    - date
+
     # Install chromium for e2e and remove old google-chrome
     - sudo rm -rf /opt/google/chrome
     - sudo rm -f /usr/bin/google-chrome*
