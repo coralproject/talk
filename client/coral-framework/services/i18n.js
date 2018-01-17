@@ -3,6 +3,8 @@ import has from 'lodash/has';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 
+import { createStorage } from 'coral-framework/services/storage';
+
 import moment from 'moment';
 import 'moment/locale/da';
 import 'moment/locale/es';
@@ -38,25 +40,34 @@ const translations = {
 let lang;
 let timeagoInstance;
 
-function setLocale(locale) {
+function setLocale(storage, locale) {
   try {
-    localStorage.setItem('locale', locale);
+    if (storage) {
+      storage.setItem('locale', locale);
+    }
   } catch (err) {
     console.error(err);
   }
 }
 
-function getLocale() {
-  return (
-    localStorage.getItem('locale') ||
-    navigator.language ||
-    defaultLanguage
-  ).split('-')[0];
+function getLocale(storage) {
+  try {
+    const locale = (
+      (storage && storage.getItem('locale')) ||
+      navigator.language ||
+      defaultLanguage
+    ).split('-')[0];
+
+    return locale;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
 }
 
-function init() {
-  const locale = getLocale();
-  setLocale(locale);
+export function setupTranslations(storage) {
+  const locale = getLocale(storage);
+  setLocale(storage, locale);
 
   // Setting moment
   moment.locale(locale);
@@ -113,5 +124,3 @@ export function t(key, ...replacements) {
 }
 
 export default t;
-
-init();
