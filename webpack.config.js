@@ -22,12 +22,27 @@ const buildTargets = ['coral-admin', 'coral-docs'];
 
 const buildEmbeds = ['stream'];
 
+// In production, default turn off source maps. In development, default use
+// 'cheap-module-source-map'.
+const devtool =
+  process.env.NODE_ENV === 'production'
+    ? process.env.TALK_WEBPACK_SOURCE_MAP
+      ? process.env.TALK_WEBPACK_SOURCE_MAP === 'none'
+        ? false
+        : process.env.TALK_WEBPACK_SOURCE_MAP
+      : false
+    : process.env.TALK_WEBPACK_SOURCE_MAP
+      ? process.env.TALK_WEBPACK_SOURCE_MAP === 'none'
+        ? false
+        : process.env.TALK_WEBPACK_SOURCE_MAP
+      : 'cheap-module-source-map';
+
 //==============================================================================
 // Base Webpack Config
 //==============================================================================
 
 const config = {
-  devtool: 'cheap-module-source-map',
+  devtool,
   target: 'web',
   output: {
     path: path.join(__dirname, 'dist'),
