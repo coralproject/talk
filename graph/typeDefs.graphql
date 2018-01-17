@@ -1516,9 +1516,13 @@ type Subscription {
   # users with the `ADMIN` or `MODERATOR` role.
   usernameRejected(user_id: ID): User
 
-  # Gen an update whenever a username has been approved. `user_id` must match id
+  # Get an update whenever a username has been approved. `user_id` must match id
   # of current user except for users with the `ADMIN` or `MODERATOR` role.
   usernameApproved(user_id: ID): User
+
+  # Get an update whenever a username has been changed. `user_id` must match id
+  # of current user except for users with the `ADMIN` or `MODERATOR` role.
+  usernameChanged(user_id: ID): User
 }
 
 ################################################################################

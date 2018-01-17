@@ -11,13 +11,86 @@ import { viewUserDetail } from '../../../actions/userDetail';
 import { getDefinitionName } from 'coral-framework/utils';
 import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
+import { handleFlaggedUserChange } from '../graphql';
+import { notify } from 'coral-framework/actions/notification';
 
 import FlaggedAccounts from '../components/FlaggedAccounts';
 import FlaggedUser from '../containers/FlaggedUser';
 
 class FlaggedAccountsContainer extends Component {
+  subscriptions = [];
+
   constructor(props) {
     super(props);
+  }
+
+  subscribeToUpdates() {
+    const parameters = [
+      {
+        document: USERNAME_FLAGGED_SUBSCRIPTION,
+        updateQuery: (
+          prev,
+          { subscriptionData: { data: { usernameFlagged: user } } }
+        ) => {
+          return handleFlaggedUserChange(prev, user, () => {
+            this.props.notify('info', `user ${user.username} flagged`);
+          });
+        },
+      },
+      {
+        document: USERNAME_APPROVED_SUBSCRIPTION,
+        updateQuery: (
+          prev,
+          { subscriptionData: { data: { usernameApproved: user } } }
+        ) => {
+          console.log(user);
+          return handleFlaggedUserChange(prev, user, () => {
+            this.props.notify('info', `user ${user.username} approved`);
+          });
+        },
+      },
+      {
+        document: USERNAME_REJECTED_SUBSCRIPTION,
+        updateQuery: (
+          prev,
+          { subscriptionData: { data: { usernameRejected: user } } }
+        ) => {
+          console.log(user);
+          return handleFlaggedUserChange(prev, user, () => {
+            this.props.notify('info', `user ${user.username} rejected`);
+          });
+        },
+      },
+      {
+        document: USERNAME_CHANGED_SUBSCRIPTION,
+        updateQuery: (
+          prev,
+          { subscriptionData: { data: { usernameChanged: user } } }
+        ) => {
+          console.log(user);
+          return handleFlaggedUserChange(prev, user, () => {
+            this.props.notify('info', `user ${user.username} changed`);
+          });
+        },
+      },
+    ];
+
+    this.subscriptions = parameters.map(param =>
+      this.props.data.subscribeToMore(param)
+    );
+  }
+
+  unsubscribe() {
+    this.subscriptions.forEach(unsubscribe => unsubscribe());
+    this.subscriptions = [];
+  }
+
+  componentWillMount() {
+    this.subscribeToUpdates();
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   approveUser = ({ userId: id }) => {
@@ -68,6 +141,10 @@ class FlaggedAccountsContainer extends Component {
         data={this.props.data}
         root={this.props.root}
         users={this.props.root.flaggedUsers}
+        hasMore={
+          this.props.root.flaggedUsers.nodes.length <
+          this.props.root.flaggedUsernamesCount
+        }
         me={this.props.root.me}
       />
     );
@@ -77,6 +154,8 @@ class FlaggedAccountsContainer extends Component {
 FlaggedAccountsContainer.propTypes = {
   showRejectUsernameDialog: PropTypes.func,
   viewUserDetail: PropTypes.func,
+  notify: PropTypes.func,
+  flaggedUsernamesCount: PropTypes.number,
   approveUsername: PropTypes.func,
   data: PropTypes.object,
   root: PropTypes.object,
@@ -105,11 +184,48 @@ const LOAD_MORE_QUERY = gql`
   ${FlaggedUser.fragments.user}
 `;
 
+const USERNAME_FLAGGED_SUBSCRIPTION = gql`
+  subscription TalkAdmin_UsernameFlagged {
+    usernameFlagged {
+      ...${getDefinitionName(FlaggedUser.fragments.user)}
+    }
+  }
+  ${FlaggedUser.fragments.user}
+`;
+
+const USERNAME_APPROVED_SUBSCRIPTION = gql`
+  subscription TalkAdmin_UsernameApproved {
+    usernameApproved {
+      ...${getDefinitionName(FlaggedUser.fragments.user)}
+    }
+  }
+  ${FlaggedUser.fragments.user}
+`;
+
+const USERNAME_REJECTED_SUBSCRIPTION = gql`
+  subscription TalkAdmin_UsernameRejected {
+    usernameRejected {
+      ...${getDefinitionName(FlaggedUser.fragments.user)}
+    }
+  }
+  ${FlaggedUser.fragments.user}
+`;
+
+const USERNAME_CHANGED_SUBSCRIPTION = gql`
+  subscription TalkAdmin_UsernameChanged {
+    usernameChanged {
+      ...${getDefinitionName(FlaggedUser.fragments.user)}
+    }
+  }
+  ${FlaggedUser.fragments.user}
+`;
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       showRejectUsernameDialog,
       viewUserDetail,
+      notify,
     },
     dispatch
   );
@@ -120,6 +236,12 @@ export default compose(
   withFragments({
     root: gql`
       fragment TalkAdminCommunity_FlaggedAccounts_root on RootQuery {
+        flaggedUsernamesCount: userCount(
+          query: {
+            action_type: FLAG
+            state: { status: { username: [SET, CHANGED] } }
+          }
+        )
         flaggedUsers: users(query:{
             action_type: FLAG,
             state: {

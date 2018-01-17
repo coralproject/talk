@@ -56,7 +56,9 @@ const stopIgnoringUser = ({ user }, userToStopIgnoring) => {
 };
 
 const changeUsername = async (ctx, id, username) => {
-  return UsersService.changeUsername(id, username, ctx.user.id);
+  const user = await UsersService.changeUsername(id, username, ctx.user.id);
+  ctx.pubsub.publish('usernameChanged', user);
+  return user;
 };
 
 const setUsername = async (ctx, id, username) => {

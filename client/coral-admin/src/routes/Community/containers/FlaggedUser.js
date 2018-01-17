@@ -17,6 +17,7 @@ export default withFragments({
     fragment TalkAdminCommunity_FlaggedUser_user on User {
       id
       username
+      created_at
       state {
         status {
           username {

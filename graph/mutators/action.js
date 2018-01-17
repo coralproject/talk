@@ -83,7 +83,7 @@ const createAction = async (
       case 'USERS':
         // The item is a user, and this is a flag. Push that the user was
         // flagged, don't wait for it to finish.
-        pubsub.publish('userFlagged', item);
+        pubsub.publish('usernameFlagged', item);
         break;
       default:
     }

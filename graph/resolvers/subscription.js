@@ -23,10 +23,16 @@ const Subscription = {
   userSuspended(user) {
     return user;
   },
+  usernameApproved(user) {
+    return user;
+  },
   usernameRejected(user) {
     return user;
   },
   usernameFlagged(user) {
+    return user;
+  },
+  usernameChanged(user) {
     return user;
   },
 };

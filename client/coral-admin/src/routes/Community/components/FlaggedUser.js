@@ -110,10 +110,12 @@ class User extends React.Component {
               <div className={styles.actions}>
                 <ApproveButton
                   className="talk-admin-flagged-user-approve-button"
+                  active={user.state.status.username.status === 'APPROVED'}
                   onClick={this.approveUser}
                 />
                 <RejectButton
                   className="talk-admin-flagged-user-reject-button"
+                  active={user.state.status.username.status === 'REJECTED'}
                   onClick={this.showRejectUsernameDialog}
                 />
               </div>
