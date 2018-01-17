@@ -72,7 +72,6 @@ class FlaggedAccountsContainer extends Component {
           prev,
           { subscriptionData: { data: { usernameChanged: user } } }
         ) => {
-          console.log(user);
           return handleFlaggedUserChange(prev, user, () => {
             this.props.notify('info', `user ${user.username} changed`);
           });
