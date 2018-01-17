@@ -24,18 +24,21 @@ const buildEmbeds = ['stream'];
 
 // In production, default turn off source maps. In development, default use
 // 'cheap-module-source-map'.
+const DEFAULT_WEBPACK_SOURCE_MAP =
+  process.env.NODE_ENV === 'production' ? 'none' : 'cheap-module-source-map';
+
+// TALK_WEBPACK_SOURCE_MAP is sourced from the environment, defaulting based on
+// the environment.
+const TALK_WEBPACK_SOURCE_MAP = _.get(
+  process.env,
+  'TALK_WEBPACK_SOURCE_MAP',
+  DEFAULT_WEBPACK_SOURCE_MAP
+);
+
+// Set the devtool based on the source map selection, 'none' just means turn off
+// source maps.
 const devtool =
-  process.env.NODE_ENV === 'production'
-    ? process.env.TALK_WEBPACK_SOURCE_MAP
-      ? process.env.TALK_WEBPACK_SOURCE_MAP === 'none'
-        ? false
-        : process.env.TALK_WEBPACK_SOURCE_MAP
-      : false
-    : process.env.TALK_WEBPACK_SOURCE_MAP
-      ? process.env.TALK_WEBPACK_SOURCE_MAP === 'none'
-        ? false
-        : process.env.TALK_WEBPACK_SOURCE_MAP
-      : 'cheap-module-source-map';
+  TALK_WEBPACK_SOURCE_MAP === 'none' ? false : TALK_WEBPACK_SOURCE_MAP;
 
 //==============================================================================
 // Base Webpack Config
