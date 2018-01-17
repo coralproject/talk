@@ -15,7 +15,6 @@ const mongoose = require('../services/mongoose');
 const scraper = require('../services/scraper');
 const inquirer = require('inquirer');
 const { URL } = require('url');
-const errors = require('../errors');
 
 // Register the shutdown criteria.
 util.onshutdown([() => mongoose.disconnect()]);
@@ -127,7 +126,7 @@ async function merge(srcID, dstID) {
   }
 }
 
-async function rewrite(search, replace) {
+async function rewrite(search, replace, options) {
   try {
     search = new RegExp(search);
 
@@ -139,9 +138,7 @@ async function rewrite(search, replace) {
       return util.shutdown(0);
     }
 
-    const bulk = AssetModel.collection.initializeUnorderedBulkOp();
-
-    let ops = 0;
+    let opts = [];
     assets.forEach(({ id, url: oldURL }) => {
       // Replace the url.
       const newURL = oldURL.replace(search, replace);
@@ -150,20 +147,41 @@ async function rewrite(search, replace) {
       try {
         new URL(newURL);
       } catch (err) {
-        throw errors.ErrInvalidAssetURL;
+        throw new Error(
+          `Rewrite would have replaced the valid URL ${oldURL} with an invalid one ${newURL}`
+        );
       }
 
-      // If the url was updated with the operation, then queue up the update op.
-      if (newURL !== oldURL) {
-        ops++;
-        bulk.find({ id }).updateOne({ $set: { url: newURL } });
-      }
+      opts.push({
+        find: { id },
+        updateOne: { $set: { url: newURL } },
+        id,
+        oldURL,
+        newURL,
+      });
     });
 
-    if (ops > 0) {
-      await bulk.execute();
+    if (opts.length > 0) {
+      if (options.dryRun) {
+        const table = new Table({ head: ['ID', 'Old URL', 'New URL'] });
+
+        opts.forEach(({ id, oldURL, newURL }) => {
+          table.push([id, oldURL, newURL]);
+        });
+
+        console.log(table.toString());
+      } else {
+        const bulk = AssetModel.collection.initializeUnorderedBulkOp();
+        opts.forEach(({ find, updateOne, oldURL, newURL }) => {
+          // If the url was updated with the operation, then queue up the update op.
+          if (newURL !== oldURL) {
+            bulk.find(find).updateOne(updateOne);
+          }
+        });
+        await bulk.execute();
+        console.log(`${opts.length} assets had their url's updated`);
+      }
     }
-    console.log(`${ops} assets had their url's updated`);
 
     util.shutdown(0);
   } catch (err) {
@@ -200,6 +218,7 @@ program
 
 program
   .command('rewrite <search> <replace>')
+  .option('-d, --dry-run', 'enables dry run of the replacement')
   .description(
     "rewrites asset url's using the provided regex replacement pattern"
   )
