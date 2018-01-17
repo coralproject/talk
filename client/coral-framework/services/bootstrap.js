@@ -5,7 +5,7 @@ import EventEmitter from 'eventemitter2';
 import { createReduxEmitter } from './events';
 import { createRestClient } from './rest';
 import thunk from 'redux-thunk';
-import { setupTranslations, loadTranslations } from './i18n';
+import { loadTranslations } from './i18n';
 import bowser from 'bowser';
 import noop from 'lodash/noop';
 import { BASE_PATH } from 'coral-framework/constants/url';
@@ -88,10 +88,6 @@ export async function createContext({
   const pymStorage = createPymStorage(pym);
   const history = createHistory(BASE_PATH);
   const introspection = createIntrospection(introspectionData);
-
-  // Setup the translation framework with the storage.
-  setupTranslations(storage);
-
   let store = null;
   const token = () => {
     // Try to get the token from localStorage. If it isn't here, it may

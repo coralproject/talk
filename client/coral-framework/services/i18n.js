@@ -3,13 +3,13 @@ import has from 'lodash/has';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 
-import { createStorage } from 'coral-framework/services/storage';
-
 import moment from 'moment';
 import 'moment/locale/da';
 import 'moment/locale/es';
 import 'moment/locale/fr';
 import 'moment/locale/pt-br';
+
+import { createStorage } from 'coral-framework/services/storage';
 
 import daTA from 'timeago.js/locales/da';
 import esTA from 'timeago.js/locales/es';
@@ -52,20 +52,21 @@ function setLocale(storage, locale) {
 
 function getLocale(storage) {
   try {
-    const locale = (
+    return (
       (storage && storage.getItem('locale')) ||
       navigator.language ||
       defaultLanguage
     ).split('-')[0];
-
-    return locale;
   } catch (err) {
     console.error(err);
     return null;
   }
 }
 
-export function setupTranslations(storage) {
+export function setupTranslations() {
+  // Setup the translation framework with the storage.
+  const storage = createStorage();
+
   const locale = getLocale(storage);
   setLocale(storage, locale);
 
@@ -124,3 +125,6 @@ export function t(key, ...replacements) {
 }
 
 export default t;
+
+// Setup the translations globally as soon as this module runs.
+setupTranslations();
