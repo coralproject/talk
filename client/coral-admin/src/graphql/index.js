@@ -166,6 +166,7 @@ export default {
       updateQueries: {
         TalkAdmin_Community: prev => {
           const updated = update(prev, {
+            flaggedUsernamesCount: { $apply: count => count - 1 },
             flaggedUsers: {
               nodes: { $apply: nodes => nodes.filter(node => node.id !== id) },
             },
@@ -178,6 +179,7 @@ export default {
       updateQueries: {
         TalkAdmin_Community: prev => {
           const updated = update(prev, {
+            flaggedUsernamesCount: { $apply: count => count - 1 },
             flaggedUsers: {
               nodes: {
                 $apply: nodes => nodes.filter(node => node.id !== userId),
