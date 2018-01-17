@@ -6,6 +6,7 @@ import t from 'coral-framework/services/i18n';
 import { username } from 'talk-plugin-flags/helpers/flagReasons';
 import ApproveButton from 'coral-admin/src/components/ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
+import { isFlaggedUserDangling } from '../utils';
 
 const shortReasons = {
   [username.other]: t('community.other'),
@@ -28,8 +29,7 @@ class User extends React.Component {
 
   render() {
     const { user, viewUserDetail, selected, className } = this.props;
-    const dangling =
-      ['APPROVED', 'REJECTED'].indexOf(user.state.status.username.status) >= 0;
+    const dangling = isFlaggedUserDangling(user);
 
     return (
       <li

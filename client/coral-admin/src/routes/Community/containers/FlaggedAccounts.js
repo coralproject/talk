@@ -11,8 +11,9 @@ import { viewUserDetail } from '../../../actions/userDetail';
 import { getDefinitionName } from 'coral-framework/utils';
 import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
-import { handleFlaggedUserChange } from '../graphql';
+import { handleFlaggedUserChange, cleanUpDangling } from '../graphql';
 import { notify } from 'coral-framework/actions/notification';
+import { isFlaggedUserDangling } from '../utils';
 
 import FlaggedAccounts from '../components/FlaggedAccounts';
 import FlaggedUser from '../containers/FlaggedUser';
@@ -26,8 +27,7 @@ class FlaggedAccountsContainer extends Component {
 
   getCountWithoutDangling() {
     return this.props.root.flaggedUsers.nodes.filter(
-      node =>
-        !['APPROVED', 'REJECTED'].includes(node.state.status.username.status)
+      node => !isFlaggedUserDangling(node)
     ).length;
   }
 
@@ -50,7 +50,6 @@ class FlaggedAccountsContainer extends Component {
           prev,
           { subscriptionData: { data: { usernameApproved: user } } }
         ) => {
-          console.log(user);
           return handleFlaggedUserChange(prev, user, () => {
             this.props.notify('info', `user ${user.username} approved`);
           });
@@ -62,7 +61,6 @@ class FlaggedAccountsContainer extends Component {
           prev,
           { subscriptionData: { data: { usernameRejected: user } } }
         ) => {
-          console.log(user);
           return handleFlaggedUserChange(prev, user, () => {
             this.props.notify('info', `user ${user.username} rejected`);
           });
@@ -98,6 +96,15 @@ class FlaggedAccountsContainer extends Component {
 
   componentWillUnmount() {
     this.unsubscribe();
+    this.cleanUpDangling();
+  }
+
+  cleanUpDangling() {
+    if (!this.props.data.loading) {
+      this.props.data.updateQuery(query => {
+        return cleanUpDangling(query);
+      });
+    }
   }
 
   approveUser = ({ userId: id }) => {
