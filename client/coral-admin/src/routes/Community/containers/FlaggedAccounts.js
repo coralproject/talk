@@ -24,6 +24,13 @@ class FlaggedAccountsContainer extends Component {
     super(props);
   }
 
+  getCountWithoutDangling() {
+    return this.props.root.flaggedUsers.nodes.filter(
+      node =>
+        !['APPROVED', 'REJECTED'].includes(node.state.status.username.status)
+    ).length;
+  }
+
   subscribeToUpdates() {
     const parameters = [
       {
@@ -142,8 +149,7 @@ class FlaggedAccountsContainer extends Component {
         root={this.props.root}
         users={this.props.root.flaggedUsers}
         hasMore={
-          this.props.root.flaggedUsers.nodes.length <
-          this.props.root.flaggedUsernamesCount
+          this.getCountWithoutDangling() < this.props.root.flaggedUsernamesCount
         }
         me={this.props.root.me}
       />

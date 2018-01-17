@@ -42,6 +42,12 @@ function incrementFlaggedUserCount(root) {
   });
 }
 
+function decrementFlaggedUserCount(root) {
+  return update(root, {
+    flaggedUsernamesCount: { $apply: count => count - 1 },
+  });
+}
+
 /**
  * Assimilate flagged user changes into current store.
  * @param  {Object}   root             current state of the store
@@ -84,7 +90,7 @@ export function handleFlaggedUserChange(root, user, notify) {
       case 'APPROVED':
       case 'REJECTED':
         notify();
-        return applyUserChanges(root, user);
+        return applyUserChanges(decrementFlaggedUserCount(root), user);
       default:
     }
   }

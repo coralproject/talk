@@ -7,7 +7,7 @@ import { Icon } from 'coral-ui';
 
 import t from 'coral-framework/services/i18n';
 
-const RejectButton = ({ active, minimal, onClick, className }) => {
+const RejectButton = ({ active, minimal, onClick, className, disabled }) => {
   const text = active ? t('modqueue.rejected') : t('modqueue.reject');
   return (
     <button
@@ -17,6 +17,7 @@ const RejectButton = ({ active, minimal, onClick, className }) => {
         className
       )}
       onClick={onClick}
+      disabled={disabled || active}
     >
       <Icon name={'close'} className={styles.icon} />
       {!minimal && text}
@@ -29,6 +30,7 @@ RejectButton.propTypes = {
   active: PropTypes.bool,
   minimal: PropTypes.bool,
   onClick: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 export default RejectButton;

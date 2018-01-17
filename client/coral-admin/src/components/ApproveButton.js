@@ -7,7 +7,7 @@ import { Icon } from 'coral-ui';
 
 import t from 'coral-framework/services/i18n';
 
-const ApproveButton = ({ active, minimal, onClick, className }) => {
+const ApproveButton = ({ active, minimal, onClick, className, disabled }) => {
   const text = active ? t('modqueue.approved') : t('modqueue.approve');
   return (
     <button
@@ -17,6 +17,7 @@ const ApproveButton = ({ active, minimal, onClick, className }) => {
         className
       )}
       onClick={onClick}
+      disabled={disabled || active}
     >
       <Icon name={'done'} className={styles.icon} />
       {!minimal && text}
@@ -28,6 +29,7 @@ ApproveButton.propTypes = {
   className: PropTypes.string,
   active: PropTypes.bool,
   minimal: PropTypes.bool,
+  disabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
