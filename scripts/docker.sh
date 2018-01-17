@@ -68,17 +68,16 @@ then
     docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
   fi
 
-  if [ "$CIRCLE_BRANCH" = "master" ]
+  # deploy based on the env
+  if [ -n "$CIRCLE_TAG" ]
   then
-
-    # deploy based on the env
-    if [ -n "$CIRCLE_TAG" ]
-    then
-      deploy_tag
-    else
-      deploy_latest
-    fi
+    deploy_tag
   else
-    deploy_branch
+    if [ "$CIRCLE_BRANCH" = "master" ]
+    then
+      deploy_latest
+    else
+      deploy_branch
+    fi
   fi
 fi
