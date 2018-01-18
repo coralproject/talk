@@ -34,12 +34,14 @@ describe('graph.queries.asset', () => {
         username: 'usernameC',
       },
     ]);
-    comments = await CommentsService.publicCreate(
-      [0, 0, 1, 1].map(idx => ({
-        author_id: users[idx].id,
-        asset_id: assets[idx].id,
-        body: `hello there! ${String(Math.random()).slice(2)}`,
-      }))
+    comments = await Promise.all(
+      [0, 0, 1, 1].map(idx =>
+        CommentsService.publicCreate({
+          author_id: users[idx].id,
+          asset_id: assets[idx].id,
+          body: `hello there! ${String(Math.random()).slice(2)}`,
+        })
+      )
     );
   });
 

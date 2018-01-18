@@ -116,6 +116,8 @@ describe('graph.mutations.createComment', () => {
               }
               expect(data.createComment).to.have.property('errors').null;
               expect(data.createComment).to.have.property('comment').not.null;
+              expect(data.createComment.comment).to.have.property('id').not
+                .null;
             }
           }
         );
