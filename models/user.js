@@ -209,9 +209,11 @@ const UserSchema = new Schema(
         delete ret.__v;
         delete ret._id;
         delete ret.password;
+        /*
         delete ret.status.username.history;
         delete ret.status.banned.history;
         delete ret.status.suspension.history;
+        */
         delete ret.tokens;
       },
     },

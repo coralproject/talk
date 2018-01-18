@@ -11,7 +11,7 @@ import { viewUserDetail } from '../../../actions/userDetail';
 import { getDefinitionName } from 'coral-framework/utils';
 import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
-import { handleFlaggedUserChange, cleanUpDangling } from '../graphql';
+import { handleFlaggedUsernameChange, cleanUpDangling } from '../graphql';
 import { notify } from 'coral-framework/actions/notification';
 import { isFlaggedUserDangling } from '../utils';
 
@@ -39,7 +39,7 @@ class FlaggedAccountsContainer extends Component {
           prev,
           { subscriptionData: { data: { usernameFlagged: user } } }
         ) => {
-          return handleFlaggedUserChange(prev, user, () => {
+          return handleFlaggedUsernameChange(prev, user, () => {
             this.props.notify('info', `user ${user.username} flagged`);
           });
         },
@@ -50,7 +50,7 @@ class FlaggedAccountsContainer extends Component {
           prev,
           { subscriptionData: { data: { usernameApproved: user } } }
         ) => {
-          return handleFlaggedUserChange(prev, user, () => {
+          return handleFlaggedUsernameChange(prev, user, () => {
             this.props.notify('info', `user ${user.username} approved`);
           });
         },
@@ -61,7 +61,7 @@ class FlaggedAccountsContainer extends Component {
           prev,
           { subscriptionData: { data: { usernameRejected: user } } }
         ) => {
-          return handleFlaggedUserChange(prev, user, () => {
+          return handleFlaggedUsernameChange(prev, user, () => {
             this.props.notify('info', `user ${user.username} rejected`);
           });
         },
@@ -72,7 +72,7 @@ class FlaggedAccountsContainer extends Component {
           prev,
           { subscriptionData: { data: { usernameChanged: user } } }
         ) => {
-          return handleFlaggedUserChange(prev, user, () => {
+          return handleFlaggedUsernameChange(prev, user, () => {
             this.props.notify('info', `user ${user.username} changed`);
           });
         },

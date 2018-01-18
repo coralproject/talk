@@ -22,6 +22,13 @@ export default withFragments({
         status {
           username {
             status
+            history {
+              status
+              assigned_by {
+                id
+              }
+              created_at
+            }
           }
           banned {
             status
