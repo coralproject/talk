@@ -121,6 +121,9 @@ module.exports = {
 
     embedStream.goToConfigSection().closeStream();
 
+    // Pause to give time for action to succeed.
+    client.pause(1000);
+
     embedStream
       .goToCommentsSection()
       .waitForElementVisible('@firstComment')
