@@ -1,5 +1,4 @@
 import update from 'immutability-helper';
-import { isFlaggedUserDangling } from './utils';
 
 function shouldAddFlaggedUser(root, user) {
   const isEmpty = !root.flaggedUsers.nodes.length;
@@ -46,16 +45,6 @@ function incrementFlaggedUserCount(root) {
 function decrementFlaggedUserCount(root) {
   return update(root, {
     flaggedUsernamesCount: { $apply: count => count - 1 },
-  });
-}
-
-export function cleanUpDangling(root) {
-  return update(root, {
-    flaggedUsers: {
-      nodes: {
-        $apply: nodes => nodes.filter(node => !isFlaggedUserDangling(node)),
-      },
-    },
   });
 }
 

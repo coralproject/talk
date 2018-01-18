@@ -164,7 +164,7 @@ export default {
     }),
     ApproveUsername: ({ variables: { id } }) => ({
       updateQueries: {
-        TalkAdmin_Community: prev => {
+        TalkAdmin_Community_FlaggedAccounts: prev => {
           const updated = update(prev, {
             flaggedUsernamesCount: { $apply: count => count - 1 },
             flaggedUsers: {
@@ -177,7 +177,7 @@ export default {
     }),
     RejectUsername: ({ variables: { id: userId } }) => ({
       updateQueries: {
-        TalkAdmin_Community: prev => {
+        TalkAdmin_Community_FlaggedAccounts: prev => {
           const updated = update(prev, {
             flaggedUsernamesCount: { $apply: count => count - 1 },
             flaggedUsers: {

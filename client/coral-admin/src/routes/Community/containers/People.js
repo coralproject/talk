@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { compose, gql } from 'react-apollo';
 import People from '../components/People';
 import PropTypes from 'prop-types';
-import { withFragments } from 'plugin-api/beta/client/hocs';
 import {
   withUnbanUser,
   withUnsuspendUser,
@@ -16,6 +15,7 @@ import { viewUserDetail } from '../../../actions/userDetail';
 import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
 import { Spinner } from 'coral-ui';
+import withQuery from 'coral-framework/hocs/withQuery';
 
 class PeopleContainer extends React.Component {
   timer = null;
@@ -137,7 +137,7 @@ const mapDispatchToProps = dispatch =>
   );
 
 const LOAD_MORE_QUERY = gql`
-  query TalkAdminCommunity_People_LoadMoreUsers(
+  query TalkAdmin_Community_People_LoadMoreUsers(
     $limit: Int
     $cursor: Cursor
     $value: String
@@ -171,7 +171,7 @@ const LOAD_MORE_QUERY = gql`
 `;
 
 const SEARCH_QUERY = gql`
-  query TalkAdminCommunity_People_SearchUsers($value: String, $limit: Int) {
+  query TalkAdmin_Community_People_SearchUsers($value: String, $limit: Int) {
     users(query: { value: $value, limit: $limit }) {
       hasNextPage
       endCursor
@@ -205,9 +205,9 @@ export default compose(
   withSetUserRole,
   withUnsuspendUser,
   withUnbanUser,
-  withFragments({
-    root: gql`
-      fragment TalkAdminCommunity_People_root on RootQuery {
+  withQuery(
+    gql`
+      query TalkAdmin_Community_People {
         users(query: {}) {
           hasNextPage
           endCursor
@@ -235,5 +235,10 @@ export default compose(
         }
       }
     `,
-  })
+    {
+      options: {
+        fetchPolicy: 'network-only',
+      },
+    }
+  )
 )(PeopleContainer);

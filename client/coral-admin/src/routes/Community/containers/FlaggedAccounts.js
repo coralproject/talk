@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { compose, gql } from 'react-apollo';
-import { withFragments } from 'plugin-api/beta/client/hocs';
+import withQuery from 'coral-framework/hocs/withQuery';
 import { Spinner } from 'coral-ui';
 import PropTypes from 'prop-types';
 import { withApproveUsername } from 'coral-framework/graphql/mutations';
@@ -11,7 +11,7 @@ import { viewUserDetail } from '../../../actions/userDetail';
 import { getDefinitionName } from 'coral-framework/utils';
 import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
-import { handleFlaggedUsernameChange, cleanUpDangling } from '../graphql';
+import { handleFlaggedUsernameChange } from '../graphql';
 import { notify } from 'coral-framework/actions/notification';
 import { isFlaggedUserDangling } from '../utils';
 
@@ -95,15 +95,6 @@ class FlaggedAccountsContainer extends Component {
 
   componentWillUnmount() {
     this.unsubscribe();
-    this.cleanUpDangling();
-  }
-
-  cleanUpDangling() {
-    if (!this.props.data.loading) {
-      this.props.data.updateQuery(query => {
-        return cleanUpDangling(query);
-      });
-    }
   }
 
   approveUser = ({ userId: id }) => {
@@ -245,9 +236,9 @@ const mapDispatchToProps = dispatch =>
 export default compose(
   connect(null, mapDispatchToProps),
   withApproveUsername,
-  withFragments({
-    root: gql`
-      fragment TalkAdminCommunity_FlaggedAccounts_root on RootQuery {
+  withQuery(
+    gql`
+      query TalkAdmin_Community_FlaggedAccounts {
         flaggedUsernamesCount: userCount(
           query: {
             action_type: FLAG
@@ -272,9 +263,16 @@ export default compose(
         }
         me {
           id
+          ...${getDefinitionName(FlaggedUser.fragments.me)}
         }
       }
       ${FlaggedUser.fragments.user}
+      ${FlaggedUser.fragments.me}
     `,
-  })
+    {
+      options: {
+        fetchPolicy: 'network-only',
+      },
+    }
+  )
 )(FlaggedAccountsContainer);
