@@ -129,7 +129,7 @@ const setupFunctions = {
     }
     return !args.user_id || user.id === args.user_id;
   },
-  usernameChanged: (options, args, user, context) => {
+  usernameChanged: (options, args, { user }, context) => {
     if (
       !context.user ||
       (args.user_id !== user.id &&

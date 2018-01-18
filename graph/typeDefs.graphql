@@ -1465,6 +1465,11 @@ type RootMutation {
   stopIgnoringUser(id: ID!): StopIgnoringUserResponse
 }
 
+type UsernameChangedPayload {
+  previousUsername: String
+  user: User
+}
+
 ################################################################################
 ## Subscriptions
 ################################################################################
@@ -1522,7 +1527,7 @@ type Subscription {
 
   # Get an update whenever a username has been changed. `user_id` must match id
   # of current user except for users with the `ADMIN` or `MODERATOR` role.
-  usernameChanged(user_id: ID): User
+  usernameChanged(user_id: ID): UsernameChangedPayload
 }
 
 ################################################################################

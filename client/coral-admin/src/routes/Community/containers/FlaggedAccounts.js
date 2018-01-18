@@ -95,10 +95,18 @@ class FlaggedAccountsContainer extends Component {
         document: USERNAME_CHANGED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { usernameChanged: user } } }
+          {
+            subscriptionData: {
+              data: { usernameChanged: { previousUsername, user } },
+            },
+          }
         ) => {
           return handleFlaggedUsernameChange(prev, user, () => {
-            const msg = t('flagged_usernames.notify_changed', 'TODO', user.username);
+            const msg = t(
+              'flagged_usernames.notify_changed',
+              previousUsername,
+              user.username
+            );
             this.props.notify('info', msg);
           });
         },
@@ -263,8 +271,11 @@ const USERNAME_REJECTED_SUBSCRIPTION = gql`
 const USERNAME_CHANGED_SUBSCRIPTION = gql`
   subscription TalkAdmin_UsernameChanged {
     usernameChanged {
-      ...${getDefinitionName(FlaggedUser.fragments.user)}
-      ${historyFields}
+      previousUsername
+      user {
+        ...${getDefinitionName(FlaggedUser.fragments.user)}
+        ${historyFields}
+      }
     }
   }
   ${FlaggedUser.fragments.user}
