@@ -39,7 +39,7 @@ class PeopleContainer extends React.Component {
       query: SEARCH_QUERY,
       variables: {
         value,
-        limit: 5,
+        limit: 10,
       },
       updateQuery: (previous, { fetchMoreResult: { users } }) => {
         const updated = update(previous, {
