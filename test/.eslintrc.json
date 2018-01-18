@@ -7,6 +7,6 @@
   ],
   "extends": "../.eslintrc.json",
   "rules": {
-      "mocha/no-exclusive-tests": "warn"
+      "mocha/no-exclusive-tests": "error"
   }
 }
