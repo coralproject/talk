@@ -61,7 +61,6 @@ if (ENABLE_TRACING && APOLLO_ENGINE_KEY) {
 // Trust the first proxy in front of us, this will enable us to trust the fact
 // that SSL was terminated correctly.
 app.set('trust proxy', 1);
-app.set('json escape', true);
 
 // Enable a suite of security good practices through helmet. We disable
 // frameguard to allow crossdomain injection of the embed.
