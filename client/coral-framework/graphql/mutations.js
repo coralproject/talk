@@ -665,3 +665,46 @@ export const withUpdateAssetStatus = withMutation(
     }),
   }
 );
+
+export const withCloseAsset = withMutation(
+  gql`
+    mutation CloseAsset($id: ID!) {
+      closeAsset(id: $id) {
+        ...CloseAssetResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      closeAsset: id => {
+        return mutate({
+          variables: {
+            id,
+          },
+          optimisticResponse: {
+            closeAsset: {
+              __typename: 'CloseAssetResponse',
+              errors: null,
+            },
+          },
+          update: proxy => {
+            const fragment = gql`
+              fragment Talk_CloseAssetResponse on Asset {
+                closedAt
+                isClosed
+              }
+            `;
+
+            const fragmentId = `Asset_${id}`;
+            const data = {
+              __typename: 'Asset',
+              closedAt: new Date(),
+              isClosed: true,
+            };
+            proxy.writeFragment({ fragment, id: fragmentId, data });
+          },
+        });
+      },
+    }),
+  }
+);

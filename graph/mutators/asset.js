@@ -38,11 +38,30 @@ const updateStatus = async (ctx, id, { closedAt, closedMessage }) =>
     }
   );
 
+/**
+ * closeNow will close an asset for commenting.
+ *
+ * @param {Object} ctx graphql context
+ * @param {String} id the asset's id to close
+ */
+const closeNow = async (ctx, id) =>
+  AssetModel.update(
+    {
+      id,
+    },
+    {
+      $set: {
+        closedAt: new Date(),
+      },
+    }
+  );
+
 module.exports = ctx => {
   let mutators = {
     Asset: {
       updateSettings: () => Promise.reject(errors.ErrNotAuthorized),
       updateStatus: () => Promise.reject(errors.ErrNotAuthorized),
+      closeNow: () => Promise.reject(errors.ErrNotAuthorized),
     },
   };
 
@@ -55,6 +74,7 @@ module.exports = ctx => {
     if (ctx.user.can(UPDATE_ASSET_STATUS)) {
       mutators.Asset.updateStatus = (id, status) =>
         updateStatus(ctx, id, status);
+      mutators.Asset.closeNow = id => closeNow(ctx, id);
     }
   }
 
