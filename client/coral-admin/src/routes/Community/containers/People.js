@@ -115,7 +115,6 @@ class PeopleContainer extends React.Component {
 }
 
 PeopleContainer.propTypes = {
-  community: PropTypes.object,
   setUserRole: PropTypes.func.isRequired,
   unbanUser: PropTypes.func.isRequired,
   unsuspendUser: PropTypes.func.isRequired,
