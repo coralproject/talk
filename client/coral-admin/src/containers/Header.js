@@ -1,6 +1,6 @@
 import { gql } from 'react-apollo';
 import withQuery from 'coral-framework/hocs/withQuery';
-import Header from '../components/ui/Header';
+import Header from '../components/Header';
 
 export default withQuery(
   gql`

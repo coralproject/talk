@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layout as LayoutMDL } from 'react-mdl';
-import Header from '../../containers/Header';
-import Drawer from '../Drawer';
+import Header from '../containers/Header';
+import Drawer from './Drawer';
 import styles from './Layout.css';
 
 const Layout = ({

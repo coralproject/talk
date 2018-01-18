@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Layout from '../components/ui/Layout';
+import Layout from '../components/Layout';
 import { fetchConfig } from '../actions/config';
 import AdminLogin from '../components/AdminLogin';
 import { FullLoading } from '../components/FullLoading';

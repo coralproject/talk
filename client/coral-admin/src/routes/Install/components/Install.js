@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './Install.css';
 import { Wizard, WizardNav } from 'coral-ui';
-import Layout from 'coral-admin/src/components/ui/Layout';
+import Layout from 'coral-admin/src/components/Layout';
 
 import InitialStep from './Steps/InitialStep';
 import AddOrganizationName from './Steps/AddOrganizationName';
