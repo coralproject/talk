@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Community.css';
 import People from '../containers/People';
-import CommunityMenu from './CommunityMenu';
+import CommunityMenu from '../containers/CommunityMenu';
 import RejectUsernameDialog from './RejectUsernameDialog';
 import FlaggedAccounts from '../containers/FlaggedAccounts';
 
@@ -35,11 +35,9 @@ class Community extends Component {
   }
 
   render() {
-    const { root: { flaggedUsernamesCount } } = this.props;
-
     return (
       <div className="talk-admin-community">
-        <CommunityMenu flaggedUsernamesCount={flaggedUsernamesCount} />
+        <CommunityMenu />
         <div className={styles.container}>{this.renderTab()}</div>
       </div>
     );
