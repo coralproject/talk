@@ -37,6 +37,17 @@ const ActionSchema = new Schema(
   }
 );
 
+// Create an index on the `item_id` field so that queries looking for
+// actions based on the item id can resolve faster.
+ActionSchema.index(
+  {
+    item_id: 1,
+  },
+  {
+    background: true,
+  }
+);
+
 const Action = mongoose.model('Action', ActionSchema);
 
 module.exports = Action;
