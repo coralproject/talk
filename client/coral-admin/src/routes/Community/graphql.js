@@ -80,7 +80,6 @@ export function handleFlaggedUsernameChange(root, user, notify) {
         notify();
 
         return update(root, {
-          flaggedUsernamesCount: { $apply: count => count + 1 },
           flaggedUsers: {
             nodes: { $push: [user] },
           },
