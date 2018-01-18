@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { Icon } from 'coral-ui';
 import CommentDetails from './CommentDetails';
 import styles from './UserDetailComment.css';
-import CommentBodyHighlighter from 'coral-admin/src/components/CommentBodyHighlighter';
+import CommentFormatter from 'coral-admin/src/components/CommentFormatter';
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
 import CommentAnimatedEdit from './CommentAnimatedEdit';
@@ -78,11 +78,12 @@ class UserDetailComment extends React.Component {
           <CommentAnimatedEdit body={comment.body}>
             <div className={styles.bodyContainer}>
               <div className={styles.body}>
-                <CommentBodyHighlighter
+                <CommentFormatter
                   suspectWords={suspect}
                   bannedWords={banned}
                   body={comment.body}
-                />{' '}
+                  className="talk-admin-user-detail-comment"
+                />
                 <a
                   className={styles.external}
                   href={`${comment.asset.url}?commentId=${comment.id}`}
