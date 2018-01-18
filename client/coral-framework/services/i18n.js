@@ -9,6 +9,8 @@ import 'moment/locale/es';
 import 'moment/locale/fr';
 import 'moment/locale/pt-br';
 
+import { createStorage } from 'coral-framework/services/storage';
+
 import daTA from 'timeago.js/locales/da';
 import esTA from 'timeago.js/locales/es';
 import frTA from 'timeago.js/locales/fr';
@@ -41,25 +43,35 @@ const translations = {
 let lang;
 let timeagoInstance;
 
-function setLocale(locale) {
+function setLocale(storage, locale) {
   try {
-    localStorage.setItem('locale', locale);
+    if (storage) {
+      storage.setItem('locale', locale);
+    }
   } catch (err) {
     console.error(err);
   }
 }
 
-function getLocale() {
-  return (
-    localStorage.getItem('locale') ||
-    navigator.language ||
-    defaultLanguage
-  ).split('-')[0];
+function getLocale(storage) {
+  try {
+    return (
+      (storage && storage.getItem('locale')) ||
+      navigator.language ||
+      defaultLanguage
+    ).split('-')[0];
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
 }
 
-function init() {
-  const locale = getLocale();
-  setLocale(locale);
+export function setupTranslations() {
+  // Setup the translation framework with the storage.
+  const storage = createStorage();
+
+  const locale = getLocale(storage);
+  setLocale(storage, locale);
 
   // Setting moment
   moment.locale(locale);
@@ -118,4 +130,5 @@ export function t(key, ...replacements) {
 
 export default t;
 
-init();
+// Setup the translations globally as soon as this module runs.
+setupTranslations();

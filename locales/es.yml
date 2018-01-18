@@ -182,6 +182,7 @@ es:
   embedlink:
     copy: "Copiar al portapapeles"
   error:
+    COMMENT_PARENT_NOT_VISIBLE: "El comentario a la que estás contestando ha sido eliminado o no existe."
     COMMENT_TOO_SHORT: "Tu comentario debe tener algo escrito"
     COMMENTING_CLOSED: "Los comentarios ya estan cerrados"
     confirm_password: "Las contraseñas no coinciden. Inténtelo nuevamente"
