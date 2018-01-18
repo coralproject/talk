@@ -61,6 +61,11 @@ en:
     reaction: 'reaction'
     reactions: 'reactions'
     story: 'Story'
+  flagged_usernames:
+    notify_approved: '{0} approved username {1}'
+    notify_rejected: '{0} rejected username {1}'
+    notify_flagged: '{0} reported username {1}'
+    notify_changed: 'user {0} changed his username to {1}'
   community:
     account_creation_date: "Account Creation Date"
     active: Active

@@ -56,13 +56,15 @@ function decrementFlaggedUserCount(root) {
  * @return {Object}                    next state of the store
  */
 export function handleFlaggedUsernameChange(root, user, notify) {
-  // Check if change came from current user, if so ignore it.
-  const lastChange =
-    user.state.status.username.history[
-      user.state.status.username.history.length - 1
-    ];
-  if (lastChange.assigned_by.id === root.me.id) {
-    return root;
+  if (user.state.status.username.status !== 'SET') {
+    // Check if change came from current user, if so ignore it.
+    const lastChange =
+      user.state.status.username.history[
+        user.state.status.username.history.length - 1
+      ];
+    if (lastChange.assigned_by.id === root.me.id) {
+      return root;
+    }
   }
 
   if (!hasFlaggedUser(root, user)) {

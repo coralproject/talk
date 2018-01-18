@@ -14,9 +14,19 @@ import update from 'immutability-helper';
 import { handleFlaggedUsernameChange } from '../graphql';
 import { notify } from 'coral-framework/actions/notification';
 import { isFlaggedUserDangling } from '../utils';
+import t from 'coral-framework/services/i18n';
 
 import FlaggedAccounts from '../components/FlaggedAccounts';
 import FlaggedUser from '../containers/FlaggedUser';
+
+function whoChangedTheStatus(statusObject) {
+  return statusObject.history[statusObject.history.length - 1].assigned_by
+    .username;
+}
+
+function whoFlagged(user) {
+  return user.actions[user.actions.length - 1].user.username;
+}
 
 class FlaggedAccountsContainer extends Component {
   subscriptions = [];
@@ -40,7 +50,12 @@ class FlaggedAccountsContainer extends Component {
           { subscriptionData: { data: { usernameFlagged: user } } }
         ) => {
           return handleFlaggedUsernameChange(prev, user, () => {
-            this.props.notify('info', `user ${user.username} flagged`);
+            const msg = t(
+              'flagged_usernames.notify_flagged',
+              whoFlagged(user),
+              user.username
+            );
+            this.props.notify('info', msg);
           });
         },
       },
@@ -51,7 +66,12 @@ class FlaggedAccountsContainer extends Component {
           { subscriptionData: { data: { usernameApproved: user } } }
         ) => {
           return handleFlaggedUsernameChange(prev, user, () => {
-            this.props.notify('info', `user ${user.username} approved`);
+            const msg = t(
+              'flagged_usernames.notify_approved',
+              whoChangedTheStatus(user.state.status.username),
+              user.username
+            );
+            this.props.notify('info', msg);
           });
         },
       },
@@ -62,7 +82,12 @@ class FlaggedAccountsContainer extends Component {
           { subscriptionData: { data: { usernameRejected: user } } }
         ) => {
           return handleFlaggedUsernameChange(prev, user, () => {
-            this.props.notify('info', `user ${user.username} rejected`);
+            const msg = t(
+              'flagged_usernames.notify_rejected',
+              whoChangedTheStatus(user.state.status.username),
+              user.username
+            );
+            this.props.notify('info', msg);
           });
         },
       },
@@ -73,7 +98,8 @@ class FlaggedAccountsContainer extends Component {
           { subscriptionData: { data: { usernameChanged: user } } }
         ) => {
           return handleFlaggedUsernameChange(prev, user, () => {
-            this.props.notify('info', `user ${user.username} changed`);
+            const msg = t('flagged_usernames.notify_changed', 'TODO', user.username);
+            this.props.notify('info', msg);
           });
         },
       },
@@ -187,10 +213,28 @@ const LOAD_MORE_QUERY = gql`
   ${FlaggedUser.fragments.user}
 `;
 
+const historyFields = `
+  state {
+    status {
+      username {
+        history {
+          status
+          assigned_by {
+            id
+            username
+          }
+          created_at
+        }
+      }
+    }
+  }
+`;
+
 const USERNAME_FLAGGED_SUBSCRIPTION = gql`
   subscription TalkAdmin_UsernameFlagged {
     usernameFlagged {
       ...${getDefinitionName(FlaggedUser.fragments.user)}
+      ${historyFields}
     }
   }
   ${FlaggedUser.fragments.user}
@@ -200,6 +244,7 @@ const USERNAME_APPROVED_SUBSCRIPTION = gql`
   subscription TalkAdmin_UsernameApproved {
     usernameApproved {
       ...${getDefinitionName(FlaggedUser.fragments.user)}
+      ${historyFields}
     }
   }
   ${FlaggedUser.fragments.user}
@@ -209,6 +254,7 @@ const USERNAME_REJECTED_SUBSCRIPTION = gql`
   subscription TalkAdmin_UsernameRejected {
     usernameRejected {
       ...${getDefinitionName(FlaggedUser.fragments.user)}
+      ${historyFields}
     }
   }
   ${FlaggedUser.fragments.user}
@@ -218,6 +264,7 @@ const USERNAME_CHANGED_SUBSCRIPTION = gql`
   subscription TalkAdmin_UsernameChanged {
     usernameChanged {
       ...${getDefinitionName(FlaggedUser.fragments.user)}
+      ${historyFields}
     }
   }
   ${FlaggedUser.fragments.user}
