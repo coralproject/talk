@@ -32,8 +32,8 @@ const Subscription = {
   usernameFlagged(user) {
     return user;
   },
-  usernameChanged(user) {
-    return user;
+  usernameChanged(payload) {
+    return payload;
   },
 };
 
