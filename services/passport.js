@@ -12,6 +12,8 @@ const debug = require('debug')('talk:services:passport');
 const bowser = require('bowser');
 const ms = require('ms');
 const _ = require('lodash');
+const { attachStaticLocals } = require('../middleware/staticTemplate');
+const { encodeJSONForHTML } = require('./response');
 
 // Create a redis client to use for authentication.
 const { createClientFactory } = require('./redis');
@@ -81,6 +83,11 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
 
   SetTokenForSafari(req, res, token);
 
+  // Set the cache control headers.
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+
   // Send back the details!
   res.json({ user, token });
 };
@@ -89,15 +96,28 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
  * Returns the response to the login attempt via a popup callback with some JS.
  */
 const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+
+  // Ensure the only scripts that can run here are those on the Talk domain.
+  res.header('Content-Security-Policy', "default-src 'self';");
+
+  // Attach static locals to the response locals object.
+  attachStaticLocals(res.locals);
+
+  // Attach the encoder on the response locals object.
+  res.locals.encodeJSONForHTML = encodeJSONForHTML;
+
   if (err) {
     return res.render('auth-callback', {
-      auth: JSON.stringify({ err, data: null }),
+      auth: { err, data: null },
     });
   }
 
   if (!user) {
     return res.render('auth-callback', {
-      auth: JSON.stringify({ err: errors.ErrNotAuthorized, data: null }),
+      auth: { err: errors.ErrNotAuthorized, data: null },
     });
   }
 
@@ -108,7 +128,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
 
   // We logged in the user! Let's send back the user data.
   res.render('auth-callback', {
-    auth: JSON.stringify({ err: null, data: { user, token } }),
+    auth: { err: null, data: { user, token } },
   });
 };
 

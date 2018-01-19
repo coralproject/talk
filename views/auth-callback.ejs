@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <script type="text/javascript">
-      <%/* set the auth data in localStorage, this will ensure that only
-           javascript on the same domain can access the data, they can listen
-           for updates by attaching to localStorage event changes */%>
-      localStorage.setItem('auth', '<%- auth %>');
-      setTimeout(function() { window.close(); }, 50);
-    </script>
+    <script type="application/json" id="auth"><%- encodeJSONForHTML(auth) %></script>
+    <script type="text/javascript" src="<%= STATIC_URL %>public/javascripts/auth-callback.js"></script>
   </body>
 </html>
