@@ -20,13 +20,20 @@ function queueHasComment(root, queue, id) {
   return root[queue].nodes.find(c => c.id === id);
 }
 
-function removeCommentFromQueue(root, queue, id, dangling = false) {
+function removeCommentFromQueue(
+  root,
+  queue,
+  id,
+  { dangling = false, keepCount = false }
+) {
   if (!queueHasComment(root, queue, id)) {
     return root;
   }
-  const changes = {
-    [`${queue}Count`]: { $set: root[`${queue}Count`] - 1 },
-  };
+  const changes = {};
+
+  if (!keepCount) {
+    changes[`${queue}Count`] = { $set: root[`${queue}Count`] - 1 };
+  }
 
   if (!dangling) {
     changes[queue] = {
@@ -246,7 +253,22 @@ export function handleCommentChange(
         activeQueue === queue &&
         comment.status_history[comment.status_history.length - 1].assigned_by
           .id !== root.me.id;
-      next = removeCommentFromQueue(next, queue, comment.id, dangling);
+
+      // If status before was already a dangling comment, don't decrease count again.
+      const keepCount = !commentBelongToQueue(
+        queue,
+        {
+          ...comment,
+          status:
+            comment.status_history[comment.status_history.length - 2].type,
+        },
+        queueConfig
+      );
+
+      next = removeCommentFromQueue(next, queue, comment.id, {
+        dangling,
+        keepCount,
+      });
       if (notify && isVisible(comment.id)) {
         showNotificationOnce();
       }
