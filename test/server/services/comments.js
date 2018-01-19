@@ -131,6 +131,64 @@ describe('services.CommentsService', () => {
   });
 
   describe('#publicCreate()', () => {
+    describe('does not allow replies to comments that are not visible', () => {
+      it('parent not found', async () => {
+        try {
+          await CommentsService.publicCreate({
+            body: 'This is a comment!',
+            status: 'ACCEPTED',
+            parent_id: 'does not exist',
+          });
+          throw new Error('comment should not have been created');
+        } catch (err) {
+          expect(err).to.have.property(
+            'translation_key',
+            'COMMENT_PARENT_NOT_VISIBLE'
+          );
+        }
+      });
+
+      it('parent REJECTED', async () => {
+        try {
+          const parent = await CommentsService.publicCreate({
+            body: 'This is a comment!',
+            status: 'REJECTED',
+          });
+          await CommentsService.publicCreate({
+            body: 'This is a comment!',
+            status: 'ACCEPTED',
+            parent_id: parent.id,
+          });
+          throw new Error('comment should not have been created');
+        } catch (err) {
+          expect(err).to.have.property(
+            'translation_key',
+            'COMMENT_PARENT_NOT_VISIBLE'
+          );
+        }
+      });
+
+      it('parent SYSTEM_WITHHELD', async () => {
+        try {
+          const parent = await CommentsService.publicCreate({
+            body: 'This is a comment!',
+            status: 'SYSTEM_WITHHELD',
+          });
+          await CommentsService.publicCreate({
+            body: 'This is a comment!',
+            status: 'ACCEPTED',
+            parent_id: parent.id,
+          });
+          throw new Error('comment should not have been created');
+        } catch (err) {
+          expect(err).to.have.property(
+            'translation_key',
+            'COMMENT_PARENT_NOT_VISIBLE'
+          );
+        }
+      });
+    });
+
     it('creates a new comment', async () => {
       const c = await CommentsService.publicCreate({
         body: 'This is a comment!',
@@ -141,31 +199,6 @@ describe('services.CommentsService', () => {
       expect(c.id).to.not.be.null;
       expect(c.id).to.be.uuid;
       expect(c.status).to.be.equal('ACCEPTED');
-    });
-
-    it('creates many new comments', async () => {
-      const [c1, c2, c3] = await CommentsService.publicCreate([
-        {
-          body: 'This is a comment!',
-          status: 'ACCEPTED',
-        },
-        {
-          body: 'This is another comment!',
-        },
-        {
-          body: 'This is a rejected comment!',
-          status: 'REJECTED',
-        },
-      ]);
-
-      expect(c1).to.not.be.null;
-      expect(c1.status).to.be.equal('ACCEPTED');
-
-      expect(c2).to.not.be.null;
-      expect(c2.status).to.be.equal('NONE');
-
-      expect(c3).to.not.be.null;
-      expect(c3.status).to.be.equal('REJECTED');
     });
   });
 

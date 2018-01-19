@@ -94,6 +94,9 @@ const RootMutation = {
   ) => {
     await Asset.updateStatus(id, status);
   },
+  closeAsset: async (_, { id }, { mutators: { Asset } }) => {
+    await Asset.closeNow(id);
+  },
   setUserRole: async (_, { id, role }, { mutators: { User } }) => {
     await User.setRole(id, role);
   },

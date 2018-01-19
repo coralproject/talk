@@ -7,24 +7,31 @@ const SettingsService = require('./settings');
 const cloneDeep = require('lodash/cloneDeep');
 const errors = require('../errors');
 const events = require('./events');
+const merge = require('lodash/merge');
 const { COMMENTS_NEW, COMMENTS_EDIT } = require('./events/constants');
 
 module.exports = class CommentsService {
   /**
    * Creates a new Comment that came from a public source.
-   * @param  {Mixed} comment either a single comment or an array of comments.
+   * @param  {Object} input either a single comment or an array of comments.
    * @return {Promise}
    */
-  static async publicCreate(comment) {
-    // Check to see if this is an array of comments, if so map it out.
-    if (Array.isArray(comment)) {
-      return Promise.all(comment.map(CommentsService.publicCreate));
+  static async publicCreate(input) {
+    // Extract the parent_id from the comment, if there is one.
+    const { status = 'NONE', parent_id = null } = input;
+
+    // Check to see if we are replying to a comment, and if that comment is
+    // visible.
+    if (parent_id !== null) {
+      const parent = await CommentModel.findOne({ id: parent_id });
+      if (parent === null || !parent.visible) {
+        throw errors.ErrParentDoesNotVisible;
+      }
     }
 
-    const { status = 'NONE' } = comment;
-
-    const commentModel = new CommentModel(
-      Object.assign(
+    // Create the comment in the database.
+    const comment = await CommentModel.create(
+      merge(
         {
           status_history: status
             ? [
@@ -36,21 +43,19 @@ module.exports = class CommentsService {
             : [],
           body_history: [
             {
-              body: comment.body,
+              body: input.body,
               created_at: new Date(),
             },
           ],
         },
-        comment
+        input
       )
     );
 
-    const savedCommentModel = await commentModel.save();
-
     // Emit that the comment was created!
-    await events.emitAsync(COMMENTS_NEW, savedCommentModel);
+    await events.emitAsync(COMMENTS_NEW, comment);
 
-    return savedCommentModel;
+    return comment;
   }
 
   /**

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { matchLinks } from '../utils';
 import memoize from 'lodash/memoize';
 
@@ -62,16 +63,47 @@ function markLinks(body) {
   return content;
 }
 
-export default ({ suspectWords, bannedWords, body, ...rest }) => {
-  // First highlight links.
-  const content = markLinks(body).map((element, index) => {
-    // Keep highlighted links.
-    if (typeof element !== 'string') {
-      return element;
-    }
+const CommentFormatter = ({
+  body,
+  suspectWords,
+  bannedWords,
+  className = 'comment',
+  ...rest
+}) => {
+  // Breaking the body by line break
+  const textbreaks = body.split('\n');
 
-    // Highlight suspect and banned phrase inside this part of text.
-    return markPhrases(element, suspectWords, bannedWords, index);
-  });
-  return <div {...rest}>{content}</div>;
+  return (
+    <span className={`${className}-text`} {...rest}>
+      {textbreaks.map((line, i) => {
+        const content = markLinks(line).map((element, index) => {
+          // Keep highlighted links.
+          if (typeof element !== 'string') {
+            return element;
+          }
+
+          // Highlight suspect and banned phrase inside this part of text.
+          return markPhrases(element, suspectWords, bannedWords, index);
+        });
+
+        return (
+          <span key={i} className={`${className}-line`}>
+            {content}
+            {i !== textbreaks.length - 1 && (
+              <br className={`${className}-linebreak`} />
+            )}
+          </span>
+        );
+      })}
+    </span>
+  );
 };
+
+CommentFormatter.propTypes = {
+  className: PropTypes.string,
+  bannedWords: PropTypes.array,
+  suspectWords: PropTypes.array,
+  body: PropTypes.string,
+};
+
+export default CommentFormatter;
