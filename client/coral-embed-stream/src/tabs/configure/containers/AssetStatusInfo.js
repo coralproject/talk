@@ -3,15 +3,15 @@ import { gql, compose } from 'react-apollo';
 import { withFragments } from 'coral-framework/hocs';
 import AssetStatusInfo from '../components/AssetStatusInfo';
 import PropTypes from 'prop-types';
-import { withUpdateAssetStatus } from 'coral-framework/graphql/mutations';
+import {
+  withUpdateAssetStatus,
+  withCloseAsset,
+} from 'coral-framework/graphql/mutations';
 
 class AssetStatusInfoContainer extends React.Component {
   openAsset = () =>
     this.props.updateAssetStatus(this.props.asset.id, { closedAt: null });
-  closeAsset = () =>
-    this.props.updateAssetStatus(this.props.asset.id, {
-      closedAt: new Date().toISOString(),
-    });
+  closeAsset = () => this.props.closeAsset(this.props.asset.id);
 
   render() {
     return (
@@ -29,6 +29,7 @@ class AssetStatusInfoContainer extends React.Component {
 AssetStatusInfoContainer.propTypes = {
   asset: PropTypes.object.isRequired,
   updateAssetStatus: PropTypes.func.isRequired,
+  closeAsset: PropTypes.func.isRequired,
 };
 
 const withAssetStatusInfoFragments = withFragments({
@@ -41,6 +42,10 @@ const withAssetStatusInfoFragments = withFragments({
   `,
 });
 
-const enhance = compose(withAssetStatusInfoFragments, withUpdateAssetStatus);
+const enhance = compose(
+  withAssetStatusInfoFragments,
+  withUpdateAssetStatus,
+  withCloseAsset
+);
 
 export default enhance(AssetStatusInfoContainer);

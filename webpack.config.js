@@ -7,6 +7,7 @@ const precss = require('precss');
 const _ = require('lodash');
 const Copy = require('copy-webpack-plugin');
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const debug = require('debug')('talk:webpack');
 
 // Possibly load the config from the .env file (if there is one).
@@ -22,12 +23,30 @@ const buildTargets = ['coral-admin', 'coral-docs'];
 
 const buildEmbeds = ['stream'];
 
+// In production, default turn off source maps. In development, default use
+// 'cheap-module-source-map'.
+const DEFAULT_WEBPACK_SOURCE_MAP =
+  process.env.NODE_ENV === 'production' ? 'none' : 'cheap-module-source-map';
+
+// TALK_WEBPACK_SOURCE_MAP is sourced from the environment, defaulting based on
+// the environment.
+const TALK_WEBPACK_SOURCE_MAP = _.get(
+  process.env,
+  'TALK_WEBPACK_SOURCE_MAP',
+  DEFAULT_WEBPACK_SOURCE_MAP
+);
+
+// Set the devtool based on the source map selection, 'none' just means turn off
+// source maps.
+const devtool =
+  TALK_WEBPACK_SOURCE_MAP === 'none' ? false : TALK_WEBPACK_SOURCE_MAP;
+
 //==============================================================================
 // Base Webpack Config
 //==============================================================================
 
 const config = {
-  devtool: 'cheap-module-source-map',
+  devtool,
   target: 'web',
   output: {
     path: path.join(__dirname, 'dist'),
@@ -99,6 +118,7 @@ const config = {
     new webpack.DefinePlugin({
       'process.env': {
         VERSION: `"${require('./package.json').version}"`,
+        NODE_ENV: `${JSON.stringify(process.env.NODE_ENV)}`,
       },
     }),
     new webpack.EnvironmentPlugin({
@@ -153,6 +173,44 @@ const config = {
 
 if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
+    // Pulled from https://slack.engineering/keep-webpack-fast-a-field-guide-for-better-build-performance-f56a5995e8f1
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        compress: {
+          arrows: false,
+          booleans: false,
+          collapse_vars: false,
+          comparisons: false,
+          computed_props: false,
+          hoist_funs: false,
+          hoist_props: false,
+          hoist_vars: false,
+          if_return: false,
+          inline: false,
+          join_vars: false,
+          keep_infinity: true,
+          loops: false,
+          negate_iife: false,
+          properties: false,
+          reduce_funcs: false,
+          reduce_vars: false,
+          sequences: false,
+          side_effects: false,
+          switches: false,
+          top_retain: false,
+          toplevel: false,
+          typeofs: false,
+          unused: false,
+
+          // Switch off all types of compression except those needed to convince
+          // react-devtools that we're using a production build
+          conditionals: true,
+          dead_code: true,
+          evaluate: true,
+        },
+        mangle: true,
+      },
+    }),
     new CompressionPlugin({
       algorithm: 'gzip',
       asset: '[path].gz[query]',

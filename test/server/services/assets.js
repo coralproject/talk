@@ -176,28 +176,30 @@ describe('services.AssetsService', () => {
       );
 
       // Create some comments on both assets.
-      await CommentsService.publicCreate([
-        {
-          asset_id: '1',
-          body: 'This is a comment!',
-          status: 'ACCEPTED',
-        },
-        {
-          asset_id: '1',
-          body: 'This is a comment!',
-          status: 'ACCEPTED',
-        },
-        {
-          asset_id: '2',
-          body: 'This is a comment!',
-          status: 'ACCEPTED',
-        },
-        {
-          asset_id: '2',
-          body: 'This is a comment!',
-          status: 'ACCEPTED',
-        },
-      ]);
+      await Promise.all(
+        [
+          {
+            asset_id: '1',
+            body: 'This is a comment!',
+            status: 'ACCEPTED',
+          },
+          {
+            asset_id: '1',
+            body: 'This is a comment!',
+            status: 'ACCEPTED',
+          },
+          {
+            asset_id: '2',
+            body: 'This is a comment!',
+            status: 'ACCEPTED',
+          },
+          {
+            asset_id: '2',
+            body: 'This is a comment!',
+            status: 'ACCEPTED',
+          },
+        ].map(comment => CommentsService.publicCreate(comment))
+      );
 
       // Merge all the comments from asset 1 into asset 2, followed by deleting
       // asset 1.

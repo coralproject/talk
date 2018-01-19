@@ -1111,6 +1111,14 @@ type UpdateAssetStatusResponse implements Response {
   errors: [UserError!]
 }
 
+# CloseAssetResponse is the response returned with possibly some errors
+# relating to the update status attempt.
+type CloseAssetResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 # UpdateAssetSettingsResponse is the response returned with possibly some errors
 # relating to the update settings attempt.
 type UpdateAssetSettingsResponse implements Response {
@@ -1445,6 +1453,9 @@ type RootMutation {
   # commenting.
   # Mutation is restricted.
   updateAssetStatus(id: ID!, input: UpdateAssetStatusInput!): UpdateAssetStatusResponse
+
+  # closeAsset will close the asset for commenting based on server time.
+  closeAsset(id: ID!): CloseAssetResponse
 
   # updateSettings will update the global settings.
   # Mutation is restricted.
