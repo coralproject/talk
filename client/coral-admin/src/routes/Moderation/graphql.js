@@ -20,20 +20,12 @@ function queueHasComment(root, queue, id) {
   return root[queue].nodes.find(c => c.id === id);
 }
 
-function removeCommentFromQueue(root, queue, id, dangling = false) {
-  if (!queueHasComment(root, queue, id)) {
-    return root;
-  }
+function removeCommentFromQueue(root, queue, id) {
   const changes = {
-    [`${queue}Count`]: { $set: root[`${queue}Count`] - 1 },
-  };
-
-  if (!dangling) {
-    changes[queue] = {
+    [queue]: {
       nodes: { $apply: nodes => nodes.filter(c => c.id !== id) },
-    };
-  }
-
+    },
+  };
   return update(root, changes);
 }
 
@@ -48,19 +40,21 @@ function shouldCommentBeAdded(root, queue, comment, sortOrder) {
     : new Date(comment.created_at) >= cursor;
 }
 
-function addCommentToQueue(root, queue, comment, sortOrder, cleanup) {
-  if (queueHasComment(root, queue, comment.id)) {
-    return root;
-  }
-
+function increaseCommentCount(root, queue) {
   const changes = {
     [`${queue}Count`]: { $set: root[`${queue}Count`] + 1 },
   };
+  return update(root, changes);
+}
 
-  if (!shouldCommentBeAdded(root, queue, comment, sortOrder)) {
-    return update(root, changes);
-  }
+function decreaseCommentCount(root, queue) {
+  const changes = {
+    [`${queue}Count`]: { $set: root[`${queue}Count`] - 1 },
+  };
+  return update(root, changes);
+}
 
+function addCommentToQueue(root, queue, comment, sortOrder) {
   const cursor = new Date(root[queue].startCursor);
   const date = new Date(comment.created_at);
 
@@ -70,17 +64,13 @@ function addCommentToQueue(root, queue, comment, sortOrder, cleanup) {
     ? root[queue].nodes.concat(comment)
     : [comment].concat(...root[queue].nodes);
 
-  changes[queue] = {
-    nodes: { $set: nodes },
+  const changes = {
+    [queue]: {
+      nodes: { $set: nodes },
+    },
   };
 
-  const next = update(root, changes);
-
-  if (!cleanup) {
-    return next;
-  }
-
-  return cleanUpQueue(next, queue, sortOrder);
+  return update(root, changes);
 }
 
 function sortComments(nodes, sortOrder) {
@@ -194,13 +184,13 @@ export function cleanUpQueue(root, queue, sortOrder, queueConfig) {
 
 /**
  * Assimilate comment changes into current store.
- * @param  {Object} root               current state of the store
- * @param  {Object} comment            comment that was changed
- * @param  {string} sortOrder          current sort order of the queues
- * @param  {string} notify             callback to show notification
- *                                     in the current active queue besides the 'all' queue.
- * @param  {Object} queueConfig        queue configuration
- * @return {Object}                    next state of the store
+ * @param  {Object}   root               current state of the store
+ * @param  {Object}   comment            comment that was changed
+ * @param  {string}   sortOrder          current sort order of the queues
+ * @param  {function} notify             callback to show notification
+ *                                       in the current active queue besides the 'all' queue.
+ * @param  {Object}   queueConfig        queue configuration
+ * @return {Object}                      next state of the store
  */
 export function handleCommentChange(
   root,
@@ -212,6 +202,20 @@ export function handleCommentChange(
 ) {
   let next = root;
 
+  // Queues that this comment previously belonged to.
+  const prevQueues =
+    comment.status_history.length <= 1
+      ? []
+      : getCommentQueues(
+          {
+            ...comment,
+            status:
+              comment.status_history[comment.status_history.length - 2].type,
+          },
+          queueConfig
+        );
+
+  // Queues that this comment needs to be placed.
   const nextQueues = getCommentQueues(comment, queueConfig);
 
   let notificationShown = false;
@@ -224,15 +228,26 @@ export function handleCommentChange(
   };
 
   Object.keys(queueConfig).forEach(queue => {
+    // Comment should be placed in queue.
     if (nextQueues.indexOf(queue) >= 0) {
+      // Comment was not previously in this queue.
+      if (prevQueues.indexOf(queue) === -1) {
+        // Increase count.
+        next = increaseCommentCount(next, queue);
+      }
+
       if (!queueHasComment(next, queue, comment.id)) {
-        next = addCommentToQueue(
-          next,
-          queue,
-          comment,
-          sortOrder,
-          activeQueue !== queue
-        );
+        // Check if comment would be in the current view.
+        if (shouldCommentBeAdded(root, queue, comment, sortOrder)) {
+          next = addCommentToQueue(next, queue, comment, sortOrder);
+
+          // This will limit queue sizes.
+          if (activeQueue !== queue) {
+            cleanUpQueue(next, queue, sortOrder);
+          }
+        }
+
+        // Show notification if end of list is visible.
         if (
           notify &&
           activeQueue === queue &&
@@ -241,17 +256,30 @@ export function handleCommentChange(
           showNotificationOnce();
         }
       }
-    } else if (queueHasComment(next, queue, comment.id)) {
+    } else if (prevQueues.indexOf(queue) >= 0) {
+      // Comment previously was in this queue, but not anymore.
+
+      // If action was performed by another user, keep a dangling comment.
       const dangling =
         activeQueue === queue &&
         comment.status_history[comment.status_history.length - 1].assigned_by
           .id !== root.me.id;
-      next = removeCommentFromQueue(next, queue, comment.id, dangling);
-      if (notify && isVisible(comment.id)) {
-        showNotificationOnce();
+
+      // Otherwise remove it
+      if (!dangling) {
+        next = removeCommentFromQueue(next, queue, comment.id);
       }
+
+      // In any case decrease comment count.
+      next = decreaseCommentCount(next, queue);
+    } else if (queueHasComment(next, queue, comment.id)) {
+      // Comment does not belong to his queue and did not belong to this queue previously.
+      // Must be a dangling comment that the current user took action on.
+      // Remove it completely from the queue.
+      next = removeCommentFromQueue(next, queue, comment.id);
     }
 
+    // Show notification if operation affected a currently visible comment.
     if (notify && isVisible(comment.id)) {
       showNotificationOnce();
     }
