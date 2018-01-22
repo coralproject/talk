@@ -110,7 +110,7 @@ function pluginPath(name) {
     try {
       return resolve.sync(name, {
         moduleDirectory: 'plugins',
-        basedir: process.cwd(),
+        basedir: __dirname,
       });
     } catch (e) {
       console.warn(e);
@@ -119,7 +119,7 @@ function pluginPath(name) {
   }
 
   try {
-    return resolve.sync(name, { basedir: process.cwd() });
+    return resolve.sync(name, { basedir: __dirname });
   } catch (e) {
     return undefined;
   }
