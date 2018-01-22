@@ -16,11 +16,15 @@
   transform: scale(.8);
   margin: 0;
 
-  &:hover {
+  &:not(:disabled):hover {
    box-shadow: none;
    color: white;
    background-color: #519954;
    cursor: pointer;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 }
 

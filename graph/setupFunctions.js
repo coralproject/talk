@@ -9,6 +9,8 @@ const {
   SUBSCRIBE_ALL_USER_BANNED,
   SUBSCRIBE_ALL_USERNAME_REJECTED,
   SUBSCRIBE_ALL_USERNAME_APPROVED,
+  SUBSCRIBE_ALL_USERNAME_FLAGGED,
+  SUBSCRIBE_ALL_USERNAME_CHANGED,
 } = require('../perms/constants');
 
 const merge = require('lodash/merge');
@@ -97,6 +99,16 @@ const setupFunctions = {
     }
     return !args.user_id || user.id === args.user_id;
   },
+  usernameFlagged: (options, args, user, context) => {
+    if (
+      !context.user ||
+      (args.user_id !== user.id &&
+        !context.user.can(SUBSCRIBE_ALL_USERNAME_FLAGGED))
+    ) {
+      return false;
+    }
+    return !args.user_id || user.id === args.user_id;
+  },
   usernameRejected: (options, args, user, context) => {
     if (
       !context.user ||
@@ -112,6 +124,16 @@ const setupFunctions = {
       !context.user ||
       (args.user_id !== user.id &&
         !context.user.can(SUBSCRIBE_ALL_USERNAME_APPROVED))
+    ) {
+      return false;
+    }
+    return !args.user_id || user.id === args.user_id;
+  },
+  usernameChanged: (options, args, { user }, context) => {
+    if (
+      !context.user ||
+      (args.user_id !== user.id &&
+        !context.user.can(SUBSCRIBE_ALL_USERNAME_CHANGED))
     ) {
       return false;
     }

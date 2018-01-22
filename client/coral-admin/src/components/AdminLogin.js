@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Layout from 'coral-admin/src/components/ui/Layout';
+import Layout from 'coral-admin/src/components/Layout';
 import styles from './NotFound.css';
 import { Button, TextField, Alert, Success } from 'coral-ui';
 import Recaptcha from 'react-recaptcha';

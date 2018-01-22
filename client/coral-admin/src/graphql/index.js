@@ -1,6 +1,7 @@
 import update from 'immutability-helper';
 import { mapLeaves } from 'coral-framework/utils';
 import { gql } from 'react-apollo';
+import get from 'lodash/get';
 
 const userStatusFragment = gql`
   fragment Talk_UpdateUserStatus on User {
@@ -163,9 +164,22 @@ export default {
       },
     }),
     ApproveUsername: ({ variables: { id } }) => ({
+      optimisticResponse: {
+        approveUsername: {
+          __typename: 'ApproveUsernameResponse',
+          errors: null,
+          isOptimistic: true,
+        },
+      },
       updateQueries: {
-        TalkAdmin_Community: prev => {
+        TalkAdmin_Community_FlaggedAccounts: (prev, { mutationResult }) => {
+          // Remove from list after the mutation was "really" completed.
+          if (get(mutationResult, 'data.approveUsername.isOptimistic')) {
+            return prev;
+          }
+
           const updated = update(prev, {
+            flaggedUsernamesCount: { $apply: count => count - 1 },
             flaggedUsers: {
               nodes: { $apply: nodes => nodes.filter(node => node.id !== id) },
             },
@@ -173,19 +187,90 @@ export default {
           return updated;
         },
       },
+      update: proxy => {
+        proxy.writeFragment({
+          fragment: gql`
+            fragment Talk_ApproveUsername on User {
+              state {
+                status {
+                  username {
+                    status
+                  }
+                }
+              }
+            }
+          `,
+          id: `User_${id}`,
+          data: {
+            __typename: 'User',
+            state: {
+              __typename: 'UserState',
+              status: {
+                __typename: 'UserStatus',
+                username: {
+                  __typename: 'UsernameStatus',
+                  status: 'APPROVED',
+                },
+              },
+            },
+          },
+        });
+      },
     }),
-    RejectUsername: ({ variables: { id: userId } }) => ({
+    RejectUsername: ({ variables: { id } }) => ({
+      optimisticResponse: {
+        rejectUsername: {
+          __typename: 'RejectUsernameResponse',
+          errors: null,
+          isOptimistic: true,
+        },
+      },
       updateQueries: {
-        TalkAdmin_Community: prev => {
+        TalkAdmin_Community_FlaggedAccounts: (prev, { mutationResult }) => {
+          // Remove from list after the mutation was "really" completed.
+          if (get(mutationResult, 'data.rejectUsername.isOptimistic')) {
+            return prev;
+          }
+
           const updated = update(prev, {
+            flaggedUsernamesCount: { $apply: count => count - 1 },
             flaggedUsers: {
               nodes: {
-                $apply: nodes => nodes.filter(node => node.id !== userId),
+                $apply: nodes => nodes.filter(node => node.id !== id),
               },
             },
           });
           return updated;
         },
+      },
+      update: proxy => {
+        proxy.writeFragment({
+          fragment: gql`
+            fragment Talk_RejectUsername on User {
+              state {
+                status {
+                  username {
+                    status
+                  }
+                }
+              }
+            }
+          `,
+          id: `User_${id}`,
+          data: {
+            __typename: 'User',
+            state: {
+              __typename: 'UserState',
+              status: {
+                __typename: 'UserStatus',
+                username: {
+                  __typename: 'UsernameStatus',
+                  status: 'REJECTED',
+                },
+              },
+            },
+          },
+        });
       },
     }),
     UpdateSettings: ({ variables: { input } }) => ({

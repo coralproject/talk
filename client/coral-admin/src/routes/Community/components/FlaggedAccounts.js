@@ -17,6 +17,7 @@ class FlaggedAccounts extends React.Component {
       approveUser,
       me,
       viewUserDetail,
+      hasMore,
     } = this.props;
 
     const hasResults = users.nodes && !!users.nodes.length;
@@ -60,7 +61,7 @@ class FlaggedAccounts extends React.Component {
           ) : (
             <EmptyCard>{t('community.no_flagged_accounts')}</EmptyCard>
           )}
-          <LoadMore loadMore={loadMore} showLoadMore={users.hasNextPage} />
+          <LoadMore loadMore={loadMore} showLoadMore={hasMore} />
         </div>
       </div>
     );
@@ -70,6 +71,7 @@ class FlaggedAccounts extends React.Component {
 FlaggedAccounts.propTypes = {
   users: PropTypes.object,
   loadMore: PropTypes.func,
+  hasMore: PropTypes.bool,
   showRejectUsernameDialog: PropTypes.func,
   approveUser: PropTypes.func,
   me: PropTypes.object,

@@ -5,7 +5,7 @@ import { Router, Route, IndexRedirect, IndexRoute } from 'react-router';
 import Configure from 'routes/Configure';
 import Install from 'routes/Install';
 import Stories from 'routes/Stories';
-import Community from 'routes/Community/containers/Community';
+import Community from 'routes/Community';
 import { ModerationLayout, Moderation } from 'routes/Moderation';
 
 import Layout from 'containers/Layout';
