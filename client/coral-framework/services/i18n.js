@@ -91,7 +91,7 @@ export function setupTranslations() {
   ta.register('zh_CN', zh_CNTA);
   ta.register('zh_TW', zh_TWTA);
   ta.register('nl_NL', nl);
-  
+
   timeagoInstance = ta();
 }
 
