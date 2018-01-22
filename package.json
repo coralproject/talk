@@ -92,6 +92,7 @@
     "dotenv": "^4.0.0",
     "ejs": "^2.5.7",
     "env-rewrite": "^1.0.2",
+    "escape-html": "^1.0.3",
     "eventemitter2": "^4.1.2",
     "exports-loader": "^0.6.4",
     "express": "4.16.0",
