@@ -280,7 +280,7 @@ class ModerationContainer extends Component {
       }
     }
 
-    if (data.loading) {
+    if (data.loading && data.networkStatus !== 3) {
       // loading.
       return <Spinner />;
     }

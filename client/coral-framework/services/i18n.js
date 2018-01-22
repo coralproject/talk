@@ -17,6 +17,7 @@ import frTA from 'timeago.js/locales/fr';
 import pt_BRTA from 'timeago.js/locales/pt_BR';
 import zh_CNTA from 'timeago.js/locales/zh_CN';
 import zh_TWTA from 'timeago.js/locales/zh_TW';
+import nl from 'timeago.js/locales/nl';
 
 import en from '../../../locales/en.yml';
 import da from '../../../locales/da.yml';
@@ -25,6 +26,7 @@ import fr from '../../../locales/fr.yml';
 import pt_BR from '../../../locales/pt_BR.yml';
 import zh_CN from '../../../locales/zh_CN.yml';
 import zh_TW from '../../../locales/zh_TW.yml';
+import nl_NL from '../../../locales/nl_NL.yml';
 
 const defaultLanguage = process.env.TALK_DEFAULT_LANG;
 const translations = {
@@ -32,6 +34,7 @@ const translations = {
   ...da,
   ...es,
   ...fr,
+  ...nl_NL,
   ...pt_BR,
   ...zh_CN,
   ...zh_TW,
@@ -87,6 +90,7 @@ export function setupTranslations() {
   ta.register('pt_BR', pt_BRTA);
   ta.register('zh_CN', zh_CNTA);
   ta.register('zh_TW', zh_TWTA);
+  ta.register('nl_NL', nl);
 
   timeagoInstance = ta();
 }
