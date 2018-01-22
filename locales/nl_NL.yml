@@ -1,0 +1,438 @@
+nl_NL:
+  your_account_has_been_suspended: Je account is tijdelijk geschorst.
+  your_account_has_been_banned: Je account is verbannen.
+  your_username_has_been_rejected: Je account is geschorst omdat we je gebruikersnaam ongepast vinden. Verander je gebruikersnaam om hem weer te activeren.
+  embed_comments_tab: Reacties
+  bandialog:
+    are_you_sure: "Weet je zeker dat je {0} wil verbannen?"
+    ban_user: "Gebruiker verbannen?"
+    banned_user: "Verbannen gebruiker"
+    cancel: "Annuleren"
+    note: "Opmerking: {0}"
+    note_reject_comment: "Door deze gebruiker te verbannen verplaats je diens reactie ook naar de lijst met afgewezen reacties."
+    note_ban_user: "Door deze gebruiker te verbannen kan deze geen reactie meer wijzigen of verwijderen."
+    yes_ban_user: "Ja, verban gebruiker"
+    write_a_message: "Schrijf een bericht"
+    send: "Versturen"
+    notify_ban_headline: "Stel gebruiker op de hoogte van verbanning"
+    notify_ban_description: "Dit stelt de gebruiker via email op de hoogte verbannen te zijn van de community"
+    email_message_ban: "Beste {0},\n\nIemand met toegang tot je account heeft onze community richtlijnen overtreden. Om die reden is je account verbannen. Je kunt niet langer reageren, of reacties goedkeuren of rapporteren. Als je denkt dat dit berust op een vergissing, neem dan contact op met ons community team."
+  bio_offensive: "Deze biografie is aanstootgevend."
+  cancel: "Annuleren"
+  confirm_email:
+    click_to_confirm: "Klik hieronder om je e-mailadres te bevestigen."
+    confirm: "Bevestig"
+  password_reset:
+    set_new_password: "Verander je wachtwoord"
+    new_password: "Nieuw wachtwoord"
+    new_password_help: "Wachtwoord moet minimaal 8 karakters lang zijn."
+    confirm_new_password: "Bevestig nieuw wachtwoord"
+    change_password: "Verander wachtwoord"
+  characters_remaining: "tekens resterend"
+  comment:
+    anon: "Anoniem"
+    undo_reject: "Ongedaan maken"
+    ban_user: "Verban gebruiker"
+    comment: "Plaats een reactie"
+    edited: Gewijzigd
+    flagged: "Gemarkeerd"
+    view_context: "Bekijk context"
+  comment_box:
+    post: "Plaats"
+    cancel: "Annuleren"
+    reply: "Beantwoord"
+    comment: "Plaats een reactie"
+    name: "Naam"
+    comment_post_notif: "Je reactie is geplaatst"
+    comment_post_notif_premod: "Dank voor je reactie! Deze wordt zo snel mogelijk gemodereerd."
+    comment_post_banned_word:  "Je reactie bevat een of meerdere termen die wij niet toestaan. Neem contact op wanneer je het er niet mee eens bent."
+    characters_remaining: "tekens resterend"
+  comment_offensive: "Deze reactie is aanstootgevend"
+  comment_singular: Reactie
+  comment_plural: Reacties
+  comment_post_banned_word: "Je reactie bevat een of meerdere termen die wij niet toestaan. Neem contact op wanneer je het er niet mee eens bent."
+  comment_post_notif: "Je reactie is geplaatst."
+  comment_post_notif_premod: "Dank voor je reactie! Deze wordt zo snel mogelijk gemodereerd."
+  common:
+    copy: 'Kopieer'
+    error: 'Er is een fout opgetreden.'
+    reply: 'antwoord'
+    replies: 'antwoorden'
+    reaction: 'reactie'
+    reactions: 'reacties'
+    story: 'Verhaal'
+  community:
+    account_creation_date: "Aanmaakdatum account"
+    active: Actief
+    admin: Administrator
+    ads_marketing: "Dit lijkt op een advertentie/marketing"
+    are_you_sure: "Weet je zeker dat je {0} wil verbannen?"
+    ban_user: "Verban gebruiker?"
+    banned: Verbannen
+    banned_user: "Verbannen gebruiker"
+    cancel: Annuleren
+    dont_like_username: "Keur gebruikersnaam af"
+    flaggedaccounts: "Gerapporteerde gebruikersnamen"
+    flags: Rapporteringen
+    impersonating: "Imitatie"
+    loading: "Resultaten worden geladen"
+    moderator: Moderator
+    newsroom_role: "Newsroom rol"
+    no_flagged_accounts: "De lijst met gerapporteerde gebruikers is momenteel leeg."
+    no_results: "Geen accounts gevonden met deze gebruikersnaam of e-mailadres."
+    offensive: "Aanstootgevend"
+    other: Anders
+    people: Gebruikers
+    role: "Selecteer rol..."
+    select_status: "Selecteer status..."
+    spam_ads: "Spam/Ads"
+    staff: "Staff"
+    status: Status
+    username_and_email: "Gebruikersnaam en e-mailadres"
+    yes_ban_user: "Ja, verban gebruiker"
+    commenter: "Reageerder"
+  configure:
+    apply: Toepassen
+    banned_word_text: "Reacties die deze woorden of zinnen bevatten (niet hoofdlettergevoelig) worden automatisch uit de conversatie verwijderd. Voer een woord in, en druk op enter of Tab om toe te passen. Je kunt ook een kommagescheiden lijst plakken."
+    banned_words_title: "Lijst met verbannen woorden"
+    close: "Sluiten"
+    close_after: "Reacties afsluiten na"
+    close_stream: "Sluit conversatie"
+    close_stream_configuration: "Deze conversatie is momenteel afgesloten. Door deze te heropenen kunnen nieuwe reacties worden toegevoegd en weergegeven."
+    closed_comments_desc: "Schrijf een bericht om weer te geven wanneer de conversatie is afgesloten."
+    closed_comments_label: "Schrijf een bericht..."
+    closed_stream_settings: "Afgesloten conversatie bericht"
+    comment_count_error: "Voer een geldig getal in."
+    comment_count_header: "Reactielengte beperken"
+    comment_count_text_post: tekens
+    comment_count_text_pre: "Reacties worden ingekort op"
+    comment_settings: Instellingen
+    comment_stream: "Conversatie"
+    comment_stream_will_close: "Deze conversatie zal worden afgesloten."
+    community: Community
+    configure: Instellen
+    copy_and_paste: "Kopieer en plak onderstaande code om je reactie-box in je artikel op te nemen."
+    custom_css_url: "Eigen CSS URL"
+    custom_css_url_desc: "URL van CSS stylesheet die de standaard Embed Conversatie stylesheet overschrijft. Kan intern of extern zijn."
+    days: Dagen
+    description: "Als admin kun je de instellingen aanpassen voor de conversatie bij dit verhaal:"
+    domain_list_text: "Voer de domeinen in die je wil toestaan voor Talk, bijvoorbeeld je staging en productie-omgevingen (bijv. localhost:3000 staging.domeinnaam.com domeinnaam.com)."
+    domain_list_title: "Toegestane domeinnamen"
+    edit_comment_timeframe_heading: "Wijzig reactie tijdsduur"
+    edit_comment_timeframe_text_pre: "Gebruikers hebben"
+    edit_comment_timeframe_text_post: "secondes om hun reactie te wijzigen."
+    embed_comment_stream: "Embed conversatie"
+    enable_premod_links_text: "Moderators moeten elke reactie met een link goedkeuren voordat deze is gepubliceerd."
+    enable_pre_moderation: "Pre-moderatie inschakelen"
+    enable_pre_moderation_text: "Moderators moeten elke reactie goedkeuren voordat deze is gepubliceerd."
+    enable_premod_links: "Pre-Modereer reacties met een link"
+    enable_premod: "Pre-moderatie inschakelen"
+    enable_premod_description: "Moderators moeten elke reactie goedkeuren voordat deze is gepubliceerd."
+    enable_premod_links_description: "Moderators moeten elke reactie met een link goedkeuren voordat deze is gepubliceerd."
+    enable_questionbox: "Stel een vraag aan de lezers"
+    enable_questionbox_description: "Deze vraag zal bovenaan de conversatie verschijnen. Vraag lezers naar een probleem in het artikel, poneer discussie vragen, enzovoort."
+    hours: Uren
+    include_comment_stream: "Neem conversatie beschrijving op voor lezers."
+    include_comment_stream_desc: "Schrijf een bericht voor boven je conversatie. Poneer een stelling, wijs op de community richtlijnen, etc."
+    include_text: "Schrijf hier je tekst."
+    include_question_here: "Schrijf je vraag hier:"
+    moderate: Modereer
+    moderation_settings: "Moderatie instellingen"
+    open: "Open"
+    open_stream: "Open Stream"
+    open_stream_configuration: "Deze converstatie is momenteel open. Door deze te sluiten kunnen geen nieuwe reacties meer worden geplaatst, maar de oude zullen nog steeds worden weergegeven."
+    require_email_verification: "Maak e-mail verificatie vereist"
+    require_email_verification_text: "Nieuwe gebruikers moeten hun e-mailadres verifiëren voordat ze door kunnen gaan."
+    save_changes: "Wijzigingen opslaan"
+    shortcuts: Sneltoetsen
+    sign_out: "Uitloggen"
+    stories: Conversaties
+    stream_settings: "Conversatie instellingen"
+    suspect_word_title: "Lijst met verdachte woorden"
+    suspect_word_text: "Reacties die deze woorden of zinsdelen bevatten (niet hoofdlettergevoelig) zullen worden gemarkeerd in de conversatie. Type een woord en druk op enter of tab om toe te voegen. Je kunt optioneel een komma-gescheiden lijst plakken."
+    tech_settings: "Technische instellingen"
+    title: "Conversatie cnfigureren"
+    weeks: Weken
+    wordlist: "Zwarte woordenlijst"
+  continue: "Doorgaan"
+  createdisplay:
+    check_the_form: "Ongeldig formulier. Kijk de invoer na."
+    continue: "Doorgaan met dezelfde Facebook gebruikersnaam"
+    error_create: "Fout bij het wijzigen van de gebruikersnaam"
+    fake_comment_body: "Dit is een voorbeeld reactie. Lezers kunnen hun gedachten en meningen delen met de Newsrooms in de reactie-sectie."
+    fake_comment_date: "1 minuut geleden"
+    if_you_dont_change_your_name: "Wanneer je gebruikersnaam niet verandert, zal je Facebook gebruikersnaam verschijnen bij al je reacties."
+    required_field: "Verplicht veld"
+    save: Opslaan
+    special_characters: "Gebruikersnamen kunnen alleen cijfers, letters en _ bevatten."
+    username: Gebruikersnaam
+    write_your_username: "Wijzig je gebruikersnaam"
+    your_username: "Je gebruikersnaam verschijnt bij elke reactie die je plaatst."
+  done: Klaar
+  edit_comment:
+    body_input_label: "Wijzig deze reactie"
+    save_button: "Wijzigingen opslaan"
+    edit_window_expired: "Je kunt deze reactie niet meer wijzigen. De tijdsduur hiervoor is verstreken."
+    edit_window_expired_close: "Sluiten"
+    edit_window_timer_prefix: "Wijzig venster: "
+    second: "seconde"
+    seconds_plural: "secondes"
+    minute: "minuut"
+    minutes_plural: "minuten"
+  email:
+    suspended:
+      subject: "Je account is tijdelijk geschorst."
+    banned:
+      subject: "Je account is verbannen."
+      body: "In lijn met The Coral Project's community richtlijnen is je account verbannen. Je kunt niet langer reageren, rapporteren of interacteren met onze community."
+    confirm:
+      has_been_requested: "Een e-mail bevestiging is aangevraagd voor het volgend account:"
+      to_confirm: "Ga naar de volgende link om het account te bevestigen:"
+      confirm_email: "Bevestig e-mail"
+      if_you_did_not: "Wanneer jij dit niet hebt aangevraagd, kun je deze e-mail negeren."
+      subject: "Email bevestiging"
+    password_reset:
+      we_received_a_request: "We hebben een verzoek gekregen om je wachtwoord opnieuw in te stellen. Wanneer je dit niet zelf was, kun je deze mail negeren."
+      if_you_did: "Wanneer je dit zelf was,"
+      please_click: "klik dan hier om je wachtwoord te veranderen"
+  embedlink:
+    copy: "Kopieer naar klembord"
+  error:
+    COMMENT_PARENT_NOT_VISIBLE: "De reactie waarop je probeert te reageren bestaat niet of is inmiddels verwijderd."
+    EMAIL_VERIFICATION_TOKEN_INVALID: "Ongeldig e-mail verificatie token"
+    PASSWORD_RESET_TOKEN_INVALID: "Je wachtwoord-herstel token is ongeldig."
+    COMMENT_TOO_SHORT: "Reacties moeten meer dan één teken hebben. Herzie je reactie en probeer opnieuw."
+    NOT_AUTHORIZED: "Je bent niet geauthoriseerd om dit te doen."
+    NO_SPECIAL_CHARACTERS: "Gebruikersnamen kunnen alleen cijfers, letters en _ bevatten."
+    PASSWORD_LENGTH: "Wachtwoord is te kort"
+    PROFANITY_ERROR: "Gebruikersnamen mogen niet aanstootgevend zijn. Neem contact op met de administrator wanneer je denkt dat dit niet klopt."
+    RATE_LIMIT_EXCEEDED: "Gebruikslimiet overschreden"
+    USERNAME_IN_USE: "Gebruikersnaam al in gebruik"
+    USERNAME_REQUIRED: "Gebruikersnaam is vereist"
+    EMAIL_NOT_VERIFIED: "E-mailadres is niet geverifiëerd"
+    EDIT_WINDOW_ENDED: "Dit commentaar kan niet langer worden gewijzigd. Het tijdsbestek is verstreken."
+    EDIT_USERNAME_NOT_AUTHORIZED: "Je bent niet gemachtigd om je gebruikersnaam te wijzigen."
+    SAME_USERNAME_PROVIDED: "Je moet een andere gebruikersnaam invoeren."
+    EMAIL_IN_USE: "E-mailadres al in gebruik"
+    EMAIL_REQUIRED: "Een e-mailadres is vereist"
+    LOGIN_MAXIMUM_EXCEEDED: "Je hebt te veel mislukte inlogpogingen gedaan. Even geduld aub."
+    PASSWORD_REQUIRED: "Je moet een wachtwoord invoeren."
+    COMMENTING_CLOSED: "Reageren is al afgesloten."
+    NOT_FOUND: "Bron niet gevonden"
+    ALREADY_EXISTS: "Bron bestaat al"
+    INVALID_ASSET_URL: "Ongeldige URL"
+    CANNOT_IGNORE_STAFF: "Kan geen Staff-leden negeren."
+    email: "Geen geldig e-mailadres"
+    confirm_password: "Wachtwoorden komen niet overeen. Controleer opnieuw."
+    network_error: "Kon geen verbinding maken met server. Controleer je internetverbinding en probeer het opnieuw."
+    email_not_verified: "E-mailadres {0} is niet geverifiëerd"
+    email_password: "E-mail en/of wachtwoord combinatie onjuist"
+    organization_name: "Organisatienaam kan alleen cijfers en letters bevatten."
+    password: "Wachtwoord moet minimaal 8 karakters lang zijn"
+    username: "Gebruikersnamen kunnen alleen cijfers, letters en _ bevatten."
+    unexpected: "Onverwachte fout opgetreden. Sorry!"
+  flag_comment: "Rapporteer reactie"
+  flag_reason: "Reden voor rapporteren (optioneel)"
+  flag_username: "Rapporteer gebruikersnaam"
+  framework:
+    banned_account_header: "Je account is momenteel verbannen."
+    banned_account_body: "Dit betekent dat je niet kunt reageren, liken of rapporteren."
+    comment: reactie
+    comment_is_ignored: "Deze reactie is verborgen omdat je de gebruiker negeert."
+    comment_is_rejected: "Je hebt deze reactie afgewezen."
+    comment_is_hidden: "Deze reactie is niet beschikbaar."
+    comments: reacties
+    configure_stream: "Configureren"
+    content_not_available: "Deze inhoud is niet beschikbaar"
+    edit_name:
+      button: Versturen
+      error: "Gebruikersnamen kunnen alleen cijfers, letters en _ bevatten."
+      label: "Nieuwe gebruikersnaam"
+      msg: "Je account is momenteel geschorst omdat je gebruikersnaam ongepast is bevonden. Om je account te herstellen, moet je je gebruikersnaam herstellen. Neem contact met ons op wanneer je vragen hebt."
+    my_comments: "Mijn reacties"
+    my_profile: "Mijn profiel"
+    new_count: "Bekijk {0} meer {1}"
+    profile: Profiel
+    show_all_comments: "Toon alle reacties"
+    success_bio_update: "Je biografie is bijgewerkt."
+    success_name_update: "Je gebruikersnaam is bijgewerkt."
+    success_update_settings: "De conversatie is aangepast."
+    show_all_replies: Toon alle reacties
+    show_more_replies: Toon meer reacties
+    view_more_comments: "Bekijk meer reacties"
+    view_reply: "Bekijk reactie"
+  from_settings_page: "Vanuit de profielpagina kun je je reactiegeschiedenis bekijken."
+  like: Like
+  loading_results: "Resultaten worden geladen"
+  marketing: "Dit lijkt op een advertentie/marketing"
+  moderate_this_stream: "Modereer deze conversatie"
+  flags:
+    reasons:
+       user:
+         username_offensive: "Aanstootgevend"
+         username_nolike: "Niet leuk"
+         username_impersonating: "Impersonatie"
+         username_spam: "Spam"
+         username_other: "Anders"
+       comment:
+         comment_offensive: "Aanstootgevend"
+         comment_spam: "Spam"
+         comment_noagree: "Niet eens"
+         comment_other: "Anders"
+         suspect_word: "Verdacht woord"
+         banned_word: "Geblokeerd woord"
+         body_count: "Tekst is te lang"
+         trust: "Vertrouwen"
+         links: "Link"
+  modqueue:
+    account: "account meldingen"
+    actions: Acties
+    all: Alle
+    all_streams: "Alle conversaties"
+    notify_edited: '{0} wijzigde reactie "{1}"'
+    notify_accepted: '{0} accepteerde reactie "{1}"'
+    notify_rejected: '{0} heeft reactie "{1}" afgewezen'
+    notify_flagged: '{0} heeft reactie "{1}" gerapporteerd'
+    notify_reset: '{0} heeft de status van reactie "{1}" hersteld'
+    approve: "Goedkeuren"
+    approved: "Goedgekeurd"
+    ban_user: "Verban"
+    billion: "G"
+    close: Sluiten
+    empty_queue: "Geen reacties meer te beoordelen!"
+    flagged: gemeld
+    reported: gerapporteerd
+    less_detail: "Minder detail"
+    likes: likes
+    million: "M"
+    mod_faster: "Beoordeel sneller met sneltoetsen"
+    moderate: "Beoordeel →"
+    more_detail: "Meer detail"
+    new: Nieuw
+    newest_first: "Nieuwste eerst"
+    navigation: Navigatie
+    next_comment: "Ga naar de volgende reactie"
+    toggle_search: "Open zoekvenster"
+    next_queue: "Verander wachtrij"
+    oldest_first: "Oudste eerst"
+    premod: "Pre-moderatie"
+    prev_comment: "Ga naar de vorige reactie"
+    reject: "Wijs af"
+    rejected: "Afgewezen"
+    reply: "Beantwoord"
+    select_stream: "Selecteer conversatie"
+    shift_key: "⇧"
+    shortcuts: "Sneltoetsen"
+    sort: "Sorteer"
+    show_shortcuts: "Toon sneltoetsen"
+    singleview: "Schakel wijzigen enkele reactie aan of uit"
+    thismenu: "Open dit menu"
+    jump_to_queue: "Spring naar specifieke wachtrij"
+    thousand: k
+    try_these: "Probeer deze"
+    view_more_shortcuts: "Bekijk meer sneltoetsen"
+  my_comment_history: "Mijn reactie geschiedenis"
+  name: Naam
+  no_agree_comment: "Ik ben het niet eens met deze reactie"
+  no_like_bio: "Ik vind deze biografie niet leuk"
+  no_like_username: "Ik vind deze gebruikersnaam niet leuk"
+  other: Ander
+  permalink: Deel
+  personal_info: "Deze reactie onthult persoonlijk identificeerbare gegevens."
+  post: Plaats
+  profile: Profiel
+  profile_settings: "Profiel instellingen"
+  reply: Beantwoord
+  report: Rapporteer
+  report_notif: "Dank voor het rapporteren van deze reactie. Deze wordt zo snel mogelijk gemodereerd."
+  report_notif_remove: "Je melding is verwijderd."
+  reported: Gerapporteerd
+  settings:
+    from_settings_page: "Op je profielpagina kun je je reactie-geschiedenis zien."
+    my_comment_history: "Mijn reactie geschiedenis"
+    profile: Profiel
+    profile_settings: "Profiel instellingen"
+    sign_in: "Inloggen"
+    to_access: "om profiel te benaderen"
+    user_no_comment: "Je hebt nog niet eerder gereageerd."
+  stream:
+    all_comments: "Alle reacties"
+    temporarily_suspended: "In overeenstemming met de community richtlijnen van {0} is je account tijdelijk geschorst. Keer terug naar de conversaties {1}."
+    comment_not_found: "Reactie niet gevonden"
+    no_comments: "Er zijn nog geen reacties. Schrijf er zelf eentje!"
+    no_comments_and_closed: "Er waren geen reacties op dit artikel."
+  step_1_header: "Rapporteer een issue"
+  step_2_header: "Help ons begrijpen"
+  step_3_header: "Dankjewel voor je input"
+  streams:
+    all: Alle
+    article: Artikel
+    closed: Gesloten
+    empty_result: "Niets gevonden bij deze zoekopdracht. Misschien moet je je zoekopdracht proberen te verbreden?"
+    filter_streams: "Filter conversaties"
+    newest: Nieuwste
+    oldest: Oudste
+    open: Open
+    pubdate: "Publicatie datum"
+    search: Zoeken
+    sort_by: "Sorteer op"
+    status: "Conversatie status"
+    stream_status: "Conversatie status"
+  suspenduser:
+    title_suspend: "Schors gebruiker"
+    description_suspend: "Je schorst {0}. Deze reactie wordt afgewezen, en {0} zal niet meer kunnen liken, rapporteren of reageren totdat de schorsingsduur verstreken is."
+    select_duration: "Selecteer schorsingsduur"
+    one_hour: "1 uur"
+    hours: "{0} uur"
+    days: "{0} dagen"
+    cancel: "Annuleren"
+    suspend_user: "Schors gebruiker"
+    email_message_suspend: "Beste {0},\n\nIn overeenstemming met de community richtlijnen van {1} is je account tijdelijk geschorst. Tijdens deze schorsing kun je niet reageren, liken of interacteren met je collega-reageerders. Hervat het gesprek {2}."
+    title_notify: "Breng de gebruiker op de hoogte van de schorsing."
+    notify_suspend_until: "Gebruiker {0} is tijdelijk geschorst. Deze schorsing houdt automatisch op {1}."
+    description_notify: "Wanneer je de gebruiker schorst zal zijn/haar account tijdelijk worden uitgeschakeld."
+    write_message: "Schrijf een bericht"
+    send: Verstuur
+  reject_username:
+    username: gebruikersnaam
+    no_cancel: "Geen annuleringsmogelijkheid"
+    description_reject: "Wil je deze gebruiker tijdelijk schorsen om diens {0}? Dan wordt de gebruiker geschorst totdat deze diens {0} heeft herschreven."
+    title_notify: "Breng de gebruiker op de hoogte van de schorsing."
+    description_notify: "Door de schorsing zal deze tijdelijk diens account niet kunnen gebruiken."
+    title_reject: "We zagen dat je een gebruikersnaam hebt afgewezen"
+    suspend_user: "Schors gebruiker"
+    yes_suspend: "Ja, schors"
+    email_message_reject: "Iemand anders uit de community heeft je gebruikersnaam gemeld ter controle. Vanwege de inhoud van je gebruikersnaam is je account geschorst. Dit betekent dat je niet langer kunt reageen, liken of inhoud melden totdat je je gebruikersnaam hebt veranderd. Stuur ons een e-mail wanneer je vragen of zorgen hebt."
+    write_message: "Schrijf een bericht"
+    send: Verstuur
+  thank_you: "We waarderen je feedback. Een moderator zal je rapport bekijken."
+  user:
+    bio_flags: "Meldingen voor deze biografie"
+    user_bio: "Gebruikers biografie"
+    username_flags: "Meldingen voor deze gebruikersnaam"
+  user_impersonating: "Deze gebruiker imiteert"
+  user_no_comment: "Je hebt nog niet eerder gereageerd. Laat je mening horen!"
+  username_offensive: "Dit is een aanstootgevende gebruikersnaam."
+  view_conversation: "Bekijk conversatie"
+  install:
+    initial:
+      description: "Laten we je Talk-community opzetten met een paar simpele stappen."
+      submit: "Begin"
+    add_organization:
+      description: "Vertel ons de naam van je organisatie. Deze zal te zien zijn in e-mails wanneer je nieuwe teamleden uitnodigt."
+      label: "Organisatienaam"
+      save: "Opslaan"
+    create:
+      email: "E-mailadres"
+      username: "Gebruikersnaam"
+      password: "Wachtwoord"
+      confirm_password: "Bevestig wachtwoord"
+      save: "Opslaan"
+    permitted_domains:
+      title: "Toegestane domeinnamen"
+      description: "Voer de domeinen in die je wil toestaan voor Talk, bijvoorbeeld je staging en productie-omgevingen (bijv. localhost:3000 staging.domeinnaam.com domeinnaam.com)"
+      submit: "Installatie afronden"
+    final:
+      description: "Dank voor het installeren van Talk! We hebben een bericht gestuurd om je e-mailadres te valideren. Terwijl je je account verder opzet, kun je alvast de interactie aangaan met je gebruikers."
+      launch: "Start Talk"
+      close: "Installatie afsluiten"
