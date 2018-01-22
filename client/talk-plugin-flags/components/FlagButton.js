@@ -9,7 +9,7 @@ import cn from 'classnames';
 import styles from './styles.css';
 import * as REASONS from '../helpers/flagReasons';
 
-import { getErrorMessages } from 'coral-framework/utils';
+import { getErrorMessages, forEachError } from 'coral-framework/utils';
 
 const name = 'talk-plugin-flags';
 
@@ -20,7 +20,6 @@ export default class FlagButton extends Component {
     reason: '',
     message: '',
     step: 0,
-    posted: false,
     localPost: null,
   };
 
@@ -63,7 +62,20 @@ export default class FlagButton extends Component {
 
   onPopupContinue = () => {
     const { postFlag, postDontAgree, id, author_id } = this.props;
-    const { itemType, reason, step, posted, message } = this.state;
+    const { itemType, reason, step, message } = this.state;
+
+    switch (step) {
+      case 0:
+        if (!itemType) {
+          return;
+        }
+        break;
+      case 1:
+        if (!reason) {
+          return;
+        }
+        break;
+    }
 
     // Proceed to the next step or close the menu if we've reached the end
     if (step + 1 >= this.props.getPopupMenu.length) {
@@ -73,9 +85,7 @@ export default class FlagButton extends Component {
     }
 
     // If itemType and reason are both set, post the action
-    if (itemType && reason && !posted) {
-      this.setState({ posted: true });
-
+    if (step === 1) {
       let item_id;
       switch (itemType) {
         case 'COMMENTS':
@@ -113,9 +123,13 @@ export default class FlagButton extends Component {
               this.setState({ localPost: data.createFlag.flag.id });
             }
           })
-          .catch(err => {
-            this.props.notify('error', getErrorMessages(err));
-            console.error(err);
+          .catch(errors => {
+            forEachError(errors, ({ error, msg }) => {
+              if (error.translation_key === 'ALREADY_EXISTS') {
+                msg = t('already_flagged_username');
+              }
+              this.props.notify('error', msg);
+            });
           });
       }
     }
