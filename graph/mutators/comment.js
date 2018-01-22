@@ -1,13 +1,11 @@
 const errors = require('../../errors');
 const ActionModel = require('../../models/action');
-const AssetsService = require('../../services/assets');
 const ActionsService = require('../../services/actions');
 const TagsService = require('../../services/tags');
 const CommentsService = require('../../services/comments');
 const KarmaService = require('../../services/karma');
 const merge = require('lodash/merge');
-const linkify = require('linkify-it')().tlds(require('tlds'));
-const Wordlist = require('../../services/wordlist');
+
 const {
   CREATE_COMMENT,
   SET_COMMENT_STATUS,
@@ -15,10 +13,6 @@ const {
   EDIT_COMMENT,
 } = require('../../perms/constants');
 const debug = require('debug')('talk:graph:mutators:comment');
-const {
-  DISABLE_AUTOFLAG_SUSPECT_WORDS,
-  IGNORE_FLAGS_AGAINST_STAFF,
-} = require('../../config');
 
 const resolveTagsForComment = async (
   { user, loaders: { Tags } },
@@ -189,278 +183,26 @@ const createComment = async (
 };
 
 /**
- * Filters the comment object and outputs wordlist results.
- * @param  {Object} context graphql context
- * @param  {String} body        body of a comment
- * @param  {String} [asset_id]  id of asset comment is posted on
- * @return {Object}         resolves to the wordlist results
- */
-const filterNewComment = async (context, { body, asset_id }) => {
-  // Load the settings.
-  const [settings, asset] = await Promise.all([
-    context.loaders.Settings.load(),
-    context.loaders.Assets.getByID.load(asset_id),
-  ]);
-
-  // Create a new instance of the Wordlist.
-  const wl = new Wordlist();
-
-  // Load the wordlist.
-  wl.upsert(settings.wordlist);
-
-  // Load the wordlist and filter the comment content.
-  return [
-    // Scan the word.
-    wl.scan('body', body),
-
-    // Return the asset's settings.
-    await AssetsService.rectifySettings(asset, settings),
-  ];
-};
-
-/**
- * moderationPhases is an array of phases carried out in order until a status is
- * returned.
- */
-const moderationPhases = [
-  // This phase checks to see if the comment is long enough.
-  (context, comment) => {
-    // Check to see if the body is too short, if it is, then complain about it!
-    if (comment.body.length < 2) {
-      throw errors.ErrCommentTooShort;
-    }
-  },
-
-  // This phase checks to see if the asset being processed is closed or not.
-  (context, comment, { asset }) => {
-    // Check to see if the asset has closed commenting...
-    if (asset.isClosed) {
-      throw new errors.ErrAssetCommentingClosed(asset.closedMessage);
-    }
-  },
-
-  // This phase checks the comment against the wordlist.
-  (context, comment, { wordlist }) => {
-    // Decide the status based on whether or not the current asset/settings
-    // has pre-mod enabled or not. If the comment was rejected based on the
-    // wordlist, then reject it, otherwise if the moderation setting is
-    // premod, set it to `premod`.
-    if (wordlist.banned) {
-      // Add the flag related to Trust to the comment.
-      return {
-        status: 'REJECTED',
-        actions: [
-          {
-            action_type: 'FLAG',
-            user_id: null,
-            group_id: 'BANNED_WORD',
-            metadata: {},
-          },
-        ],
-      };
-    }
-
-    // If the comment has a suspect word or a link, we need to add a
-    // flag to it to indicate that it needs to be looked at.
-    // Otherwise just return the new comment.
-
-    // If the wordlist has matched the suspect word filter and we haven't disabled
-    // auto-flagging suspect words, then we should flag the comment!
-    if (wordlist.suspect && !DISABLE_AUTOFLAG_SUSPECT_WORDS) {
-      // TODO: this is kind of fragile, we should refactor this to resolve
-      // all these const's that we're using like 'COMMENTS', 'FLAG' to be
-      // defined in a checkable schema.
-      return {
-        actions: [
-          {
-            action_type: 'FLAG',
-            user_id: null,
-            group_id: 'SUSPECT_WORD',
-            metadata: {},
-          },
-        ],
-      };
-    }
-  },
-
-  // This phase checks to see if the comment's length exceeds maximum.
-  (context, comment, { assetSettings: { charCountEnable, charCount } }) => {
-    // Reject if the comment is too long
-    if (charCountEnable && comment.body.length > charCount) {
-      // Add the flag related to Trust to the comment.
-      return {
-        status: 'REJECTED',
-        actions: [
-          {
-            action_type: 'FLAG',
-            user_id: null,
-            group_id: 'BODY_COUNT',
-            metadata: {
-              count: comment.body.length,
-            },
-          },
-        ],
-      };
-    }
-  },
-
-  // If a given user is a staff member, always approve their comment.
-  context => {
-    if (IGNORE_FLAGS_AGAINST_STAFF && context.user && context.user.isStaff()) {
-      return {
-        status: 'ACCEPTED',
-      };
-    }
-  },
-
-  // This phase checks the comment if it has any links in it if the check is
-  // enabled.
-  (context, comment, { assetSettings: { premodLinksEnable } }) => {
-    if (premodLinksEnable && linkify.test(comment.body)) {
-      // Add the flag related to Trust to the comment.
-      return {
-        status: 'SYSTEM_WITHHELD',
-        actions: [
-          {
-            action_type: 'FLAG',
-            user_id: null,
-            group_id: 'LINKS',
-            metadata: {
-              links: comment.body,
-            },
-          },
-        ],
-      };
-    }
-  },
-
-  // This phase checks to see if the user making the comment is allowed to do so
-  // considering their reliability (Trust) status.
-  context => {
-    if (context.user && context.user.metadata) {
-      // If the user is not a reliable commenter (passed the unreliability
-      // threshold by having too many rejected comments) then we can change the
-      // status of the comment to `SYSTEM_WITHHELD`, therefore pushing the user's
-      // comments away from the public eye until a moderator can manage them. This of
-      // course can only be applied if the comment's current status is `NONE`,
-      // we don't want to interfere if the comment was rejected.
-      if (
-        KarmaService.isReliable('comment', context.user.metadata.trust) ===
-        false
-      ) {
-        // Add the flag related to Trust to the comment.
-        return {
-          status: 'SYSTEM_WITHHELD',
-          actions: [
-            {
-              action_type: 'FLAG',
-              user_id: null,
-              group_id: 'TRUST',
-              metadata: {
-                trust: context.user.metadata.trust,
-              },
-            },
-          ],
-        };
-      }
-    }
-  },
-
-  // This phase checks to see if the comment was already prescribed a status.
-  (context, comment) => {
-    // If the status was already defined, don't redefine it. It's only defined
-    // when specific external conditions exist, we don't want to override that.
-    if (comment.status && comment.status.length > 0) {
-      return {
-        status: comment.status,
-      };
-    }
-  },
-
-  // This phase checks to see if the settings have premod enabled, if they do,
-  // the comment is premod, otherwise, it's just none.
-  (context, comment, { assetSettings: { moderation } }) => {
-    // If the settings say that we're in premod mode, then the comment is in
-    // premod status.
-    if (moderation === 'PRE') {
-      return {
-        status: 'PREMOD',
-      };
-    }
-
-    return {
-      status: 'NONE',
-    };
-  },
-];
-
-/**
- * This resolves a given comment's status and actions.
- * @param  {Object} context graphql context
- * @param  {String} body          body of the comment
- * @param  {String} [asset_id]    asset for the comment
- * @param  {Object} [wordlist={}] the results of the wordlist scan
- * @return {Promise}              resolves to the comment's status and actions
- */
-const resolveCommentModeration = async (context, comment) => {
-  // First we filter the comment contents to ensure that we note any validation
-  // issues.
-  let [wordlist, settings] = await filterNewComment(context, comment);
-
-  // Get the asset from the loader.
-  const asset = await context.loaders.Assets.getByID.load(comment.asset_id);
-  if (!asset) {
-    // And leave now if this asset wasn't found.
-    throw errors.ErrNotFound;
-  }
-
-  // Combine the asset and the settings to get the asset settings.
-  const assetSettings = await AssetsService.rectifySettings(asset, settings);
-
-  let actions = comment.actions || [];
-
-  // Loop over all the moderation phases and see if we've resolved the status.
-  for (const phase of moderationPhases) {
-    const result = await phase(context, comment, {
-      asset,
-      assetSettings,
-      settings,
-      wordlist,
-    });
-
-    if (result) {
-      if (result.actions) {
-        actions.push(...result.actions);
-      }
-
-      // If this result contained a status, then we've finished resolving
-      // phases!
-      if (result.status) {
-        return { status: result.status, actions };
-      }
-    }
-  }
-};
-
-/**
  * createPublicComment is designed to create a comment from a public source. It
  * validates the comment, and performs some automated moderator actions based on
  * the settings.
- * @param  {Object} context      the graphql context
+ * @param  {Object} ctx      the graphql context
  * @param  {Object} commentInput the new comment to be created
  * @return {Promise}             resolves to a new comment
  */
-const createPublicComment = async (context, comment) => {
+const createPublicComment = async (ctx, comment) => {
+  const { connectors: { services: { Moderation } } } = ctx;
+
   // We then take the wordlist and the comment into consideration when
   // considering what status to assign the new comment, and resolve the new
   // status to set the comment to.
-  let { actions, status } = await resolveCommentModeration(context, comment);
+  let { actions, status } = await Moderation.process(ctx, comment);
 
   // Assign status to comment.
   comment.status = status;
 
   // Then we actually create the comment with the new status.
-  const result = await createComment(context, comment);
+  const result = await createComment(ctx, comment);
 
   // Create all the actions that were determined during the moderation check
   // phase.
@@ -522,18 +264,20 @@ const setStatus = async ({ user, loaders: { Comments } }, { id, status }) => {
  * @param {Object} edit       describes how to edit the comment
  * @param {String} edit.body  the new Comment body
  */
-const edit = async (context, { id, asset_id, edit: { body } }) => {
+const edit = async (ctx, { id, asset_id, edit: { body } }) => {
+  const { connectors: { services: { Moderation } } } = ctx;
+
   // Build up the new comment we're setting. We need to check this with
   // moderation now.
   let comment = { id, asset_id, body };
 
   // Determine the new status of the comment.
-  const { actions, status } = await resolveCommentModeration(context, comment);
+  const { actions, status } = await Moderation.process(ctx, comment);
 
   // Execute the edit.
   comment = await CommentsService.edit({
     id,
-    author_id: context.user.id,
+    author_id: ctx.user.id,
     body,
     status,
   });
@@ -543,7 +287,7 @@ const edit = async (context, { id, asset_id, edit: { body } }) => {
   await createActions(comment.id, actions);
 
   // Publish the edited comment via the subscription.
-  context.pubsub.publish('commentEdited', comment);
+  ctx.pubsub.publish('commentEdited', comment);
 
   return comment;
 };
