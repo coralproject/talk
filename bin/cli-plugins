@@ -15,9 +15,9 @@ const inquirer = require('inquirer');
 require('colors');
 const emoji = require('node-emoji');
 
-const dir = process.cwd();
 const fs = require('fs-extra');
 const path = require('path');
+const dir = path.resolve(__dirname, '..');
 const spawn = require('cross-spawn');
 const semver = require('semver');
 const resolve = require('resolve');
