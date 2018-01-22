@@ -23,7 +23,7 @@ const RootMutation = {
     { flag: { item_id, item_type, reason, message } },
     { mutators: { Action } }
   ) => ({
-    flag: Action.create({
+    flag: await Action.create({
       item_id,
       item_type,
       action_type: 'FLAG',

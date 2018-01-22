@@ -336,6 +336,7 @@ en:
   no_agree_comment: "I don't agree with this comment"
   no_like_bio: "I don't like this bio"
   no_like_username: "I don't like this username"
+  already_flagged_username: "You have already flagged this username."
   other: Other
   permalink: Share
   personal_info: "This comment reveals personally identifiable information"
