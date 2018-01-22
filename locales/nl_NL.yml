@@ -12,6 +12,11 @@ nl_NL:
     note_reject_comment: "Door deze gebruiker te verbannen verplaats je diens reactie ook naar de lijst met afgewezen reacties."
     note_ban_user: "Door deze gebruiker te verbannen kan deze geen reactie meer wijzigen of verwijderen."
     yes_ban_user: "Ja, verban gebruiker"
+    write_a_message: "Schrijf een bericht"
+    send: "Versturen"
+    notify_ban_headline: "Stel gebruiker op de hoogte van verbanning"
+    notify_ban_description: "Dit stelt de gebruiker via email op de hoogte verbannen te zijn van de community"
+    email_message_ban: "Beste {0},\n\nIemand met toegang tot je account heeft onze community richtlijnen overtreden. Om die reden is je account verbannen. Je kunt niet langer reageren, of reacties goedkeuren of rapporteren. Als je denkt dat dit berust op een vergissing, neem dan contact op met ons community team."
   bio_offensive: "Deze biografie is aanstootgevend."
   cancel: "Annuleren"
   confirm_email:
@@ -85,7 +90,7 @@ nl_NL:
     status: Status
     username_and_email: "Gebruikersnaam en e-mailadres"
     yes_ban_user: "Ja, verban gebruiker"
-    none: "Geen"
+    commenter: "Reageerder"
   configure:
     apply: Toepassen
     banned_word_text: "Reacties die deze woorden of zinnen bevatten (niet hoofdlettergevoelig) worden automatisch uit de conversatie verwijderd. Voer een woord in, en druk op enter of Tab om toe te passen. Je kunt ook een kommagescheiden lijst plakken."
@@ -193,6 +198,7 @@ nl_NL:
   embedlink:
     copy: "Kopieer naar klembord"
   error:
+    COMMENT_PARENT_NOT_VISIBLE: "De reactie waarop je probeert te reageren bestaat niet of is inmiddels verwijderd."
     EMAIL_VERIFICATION_TOKEN_INVALID: "Ongeldig e-mail verificatie token"
     PASSWORD_RESET_TOKEN_INVALID: "Je wachtwoord-herstel token is ongeldig."
     COMMENT_TOO_SHORT: "Reacties moeten meer dan één teken hebben. Herzie je reactie en probeer opnieuw."
@@ -260,6 +266,24 @@ nl_NL:
   loading_results: "Resultaten worden geladen"
   marketing: "Dit lijkt op een advertentie/marketing"
   moderate_this_stream: "Modereer deze conversatie"
+  flags:
+    reasons:
+       user:
+         username_offensive: "Aanstootgevend"
+         username_nolike: "Niet leuk"
+         username_impersonating: "Impersonatie"
+         username_spam: "Spam"
+         username_other: "Anders"
+       comment:
+         comment_offensive: "Aanstootgevend"
+         comment_spam: "Spam"
+         comment_noagree: "Niet eens"
+         comment_other: "Anders"
+         suspect_word: "Verdacht woord"
+         banned_word: "Geblokeerd woord"
+         body_count: "Tekst is te lang"
+         trust: "Vertrouwen"
+         links: "Link"
   modqueue:
     account: "account meldingen"
     actions: Acties
