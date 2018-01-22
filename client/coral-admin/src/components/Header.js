@@ -7,7 +7,8 @@ import styles from './Header.css';
 import t from 'coral-framework/services/i18n';
 import { Logo } from './Logo';
 import { can } from 'coral-framework/services/perms';
-import Indicator from './Indicator';
+import ModerationIndicator from '../routes/Moderation/containers/Indicator';
+import CommunityIndicator from '../routes/Community/containers/Indicator';
 
 const CoralHeader = ({
   handleLogout,
@@ -30,9 +31,7 @@ const CoralHeader = ({
                   activeClassName={styles.active}
                 >
                   {t('configure.moderate')}
-                  {(root.premodCount !== 0 || root.reportedCount !== 0) && (
-                    <Indicator />
-                  )}
+                  <ModerationIndicator root={root} />
                 </IndexLink>
               )}
               <Link
@@ -51,7 +50,7 @@ const CoralHeader = ({
                 activeClassName={styles.active}
               >
                 {t('configure.community')}
-                {root.flaggedUsernamesCount !== 0 && <Indicator />}
+                <CommunityIndicator root={root} />
               </Link>
 
               {can(auth.user, 'UPDATE_CONFIG') && (

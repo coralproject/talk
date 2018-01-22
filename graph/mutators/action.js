@@ -73,10 +73,20 @@ const createAction = async (
     metadata,
   });
 
-  if (action_type === 'FLAG' && item_type === 'COMMENTS') {
-    // The item is a comment, and this is a flag. Push that the comment was
-    // flagged, don't wait for it to finish.
-    pubsub.publish('commentFlagged', item);
+  if (action_type === 'FLAG') {
+    switch (item_type) {
+      case 'COMMENTS':
+        // The item is a comment, and this is a flag. Push that the comment was
+        // flagged, don't wait for it to finish.
+        pubsub.publish('commentFlagged', item);
+        break;
+      case 'USERS':
+        // The item is a user, and this is a flag. Push that the user was
+        // flagged, don't wait for it to finish.
+        pubsub.publish('usernameFlagged', item);
+        break;
+      default:
+    }
   }
 
   return action;
