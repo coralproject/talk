@@ -35,6 +35,7 @@ import { Spinner } from 'coral-ui';
 import Moderation from '../components/Moderation';
 import Comment from './Comment';
 import baseQueueConfig from '../queueConfig';
+import { notifyOnMutationError } from 'coral-framework/hocs';
 
 function prepareNotificationText(text) {
   return truncate(text, { length: 50 }).replace('\n', ' ');
@@ -213,6 +214,16 @@ class ModerationContainer extends Component {
     ) {
       this.resubscribe(nextProps.data.variables);
     }
+
+    // Notify on fetching errors.
+    if (
+      (!this.props.data.error && nextProps.data.error) ||
+      (this.props.data.error &&
+        nextProps.data.error &&
+        this.props.data.error.message !== nextProps.data.error.message)
+    ) {
+      return this.props.notify('error', nextProps.data.error.message);
+    }
   }
 
   cleanUpQueue = queue => {
@@ -268,10 +279,6 @@ class ModerationContainer extends Component {
   render() {
     const { root, root: { asset, settings }, data } = this.props;
     const assetId = getAssetId(this.props);
-
-    if (data.error) {
-      return <div>Error</div>;
-    }
 
     if (assetId) {
       if (asset === null) {
@@ -534,5 +541,6 @@ export default compose(
   withQueueConfig(baseQueueConfig),
   connect(mapStateToProps, mapDispatchToProps),
   withSetCommentStatus,
+  notifyOnMutationError(['setCommentStatus']),
   withModQueueQuery
 )(ModerationContainer);
