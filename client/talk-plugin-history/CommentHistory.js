@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Comment from './Comment';
 import LoadMore from './LoadMore';
-import { forEachError } from 'plugin-api/beta/client/utils';
 
 class CommentHistory extends React.Component {
   state = {
@@ -16,11 +15,8 @@ class CommentHistory extends React.Component {
       .then(() => {
         this.setState({ loadingState: 'success' });
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({ loadingState: 'error' });
-        forEachError(error, ({ msg }) => {
-          this.props.notify('error', msg);
-        });
       });
   };
 
@@ -55,7 +51,6 @@ class CommentHistory extends React.Component {
 CommentHistory.propTypes = {
   comments: PropTypes.object.isRequired,
   loadMore: PropTypes.func,
-  notify: PropTypes.func,
   link: PropTypes.func,
   data: PropTypes.object,
   root: PropTypes.object,
