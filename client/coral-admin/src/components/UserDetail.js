@@ -73,6 +73,16 @@ class UserDetail extends React.Component {
     );
   }
 
+  renderError() {
+    return (
+      <ClickOutside onClickOutside={this.props.hideUserDetail}>
+        <Drawer onClose={this.props.hideUserDetail}>
+          <div>{this.props.data.error.message}</div>
+        </Drawer>
+      </ClickOutside>
+    );
+  }
+
   getActionMenuLabel() {
     const { root: { user } } = this.props;
 
@@ -324,6 +334,10 @@ class UserDetail extends React.Component {
   }
 
   render() {
+    if (this.props.data.error) {
+      return this.renderError();
+    }
+
     if (this.props.loading) {
       return this.renderLoading();
     }

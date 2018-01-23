@@ -85,6 +85,10 @@ class PeopleContainer extends React.Component {
   };
 
   render() {
+    if (this.props.data.error) {
+      return <div>{this.props.data.error.message}</div>;
+    }
+
     if (this.props.data.loading) {
       return (
         <div>

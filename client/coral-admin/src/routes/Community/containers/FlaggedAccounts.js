@@ -159,7 +159,11 @@ class FlaggedAccountsContainer extends Component {
   };
 
   render() {
-    if (this.props.data.loading || this.props.data.error) {
+    if (this.props.data.error) {
+      return <div>{this.props.data.error.message}</div>;
+    }
+
+    if (this.props.data.loading) {
       return (
         <div>
           <Spinner />
@@ -308,7 +312,7 @@ export default compose(
                 username: [SET, CHANGED]
               }
             }
-            limit: 9
+            limit: 10
           }){
           hasNextPage
           endCursor

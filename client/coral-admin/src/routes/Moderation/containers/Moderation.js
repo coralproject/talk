@@ -277,6 +277,10 @@ class ModerationContainer extends Component {
       }
     }
 
+    if (data.error) {
+      return <div>{data.error.message}</div>;
+    }
+
     if (data.loading && data.networkStatus !== 3) {
       // loading.
       return <Spinner />;

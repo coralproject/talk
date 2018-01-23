@@ -130,6 +130,7 @@ class UserDetailContainer extends React.Component {
         acceptComment={this.acceptComment}
         rejectComment={this.rejectComment}
         loading={loading}
+        error={this.props.data && this.props.data.error}
         loadMore={this.loadMore}
         {...this.props}
       />
