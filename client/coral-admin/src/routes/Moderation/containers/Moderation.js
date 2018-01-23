@@ -35,7 +35,6 @@ import { Spinner } from 'coral-ui';
 import Moderation from '../components/Moderation';
 import Comment from './Comment';
 import baseQueueConfig from '../queueConfig';
-import { notifyOnMutationError, notifyOnDataError } from 'coral-framework/hocs';
 
 function prepareNotificationText(text) {
   return truncate(text, { length: 50 }).replace('\n', ' ');
@@ -535,7 +534,5 @@ export default compose(
   withQueueConfig(baseQueueConfig),
   connect(mapStateToProps, mapDispatchToProps),
   withSetCommentStatus,
-  notifyOnMutationError(['setCommentStatus']),
-  withModQueueQuery,
-  notifyOnDataError
+  withModQueueQuery
 )(ModerationContainer);

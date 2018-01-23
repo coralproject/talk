@@ -10,7 +10,6 @@ import {
 } from 'coral-framework/graphql/mutations';
 import { compose } from 'react-apollo';
 import t from 'coral-framework/services/i18n';
-import { getErrorMessages } from 'coral-framework/utils';
 import { notify } from 'coral-framework/actions/notification';
 
 class BanUserDialogContainer extends Component {
@@ -22,16 +21,11 @@ class BanUserDialogContainer extends Component {
       banUser,
       setCommentStatus,
       hideBanUserDialog,
-      notify,
     } = this.props;
-    try {
-      await banUser({ id: userId, message: '' });
-      hideBanUserDialog();
-      if (commentId && commentStatus && commentStatus !== 'REJECTED') {
-        await setCommentStatus({ commentId, status: 'REJECTED' });
-      }
-    } catch (err) {
-      notify('error', getErrorMessages(err));
+    await banUser({ id: userId, message: '' });
+    hideBanUserDialog();
+    if (commentId && commentStatus && commentStatus !== 'REJECTED') {
+      await setCommentStatus({ commentId, status: 'REJECTED' });
     }
   };
 
@@ -85,7 +79,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
   withBanUser,
-  withSetCommentStatus,
-  connect(mapStateToProps, mapDispatchToProps)
+  withSetCommentStatus
 )(BanUserDialogContainer);

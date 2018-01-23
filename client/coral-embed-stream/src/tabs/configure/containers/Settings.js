@@ -8,7 +8,7 @@ import { withUpdateAssetSettings } from 'coral-framework/graphql/mutations';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { clearPending, updatePending } from '../../../actions/configure';
-import { notifyOnMutationError } from 'coral-framework/hocs';
+import { notify } from 'coral-framework/actions/notification';
 
 const slots = ['streamSettings'];
 
@@ -129,15 +129,15 @@ const mapDispatchToProps = dispatch =>
     {
       clearPending,
       updatePending,
+      notify,
     },
     dispatch
   );
 
 const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
   withSettingsFragments,
   withUpdateAssetSettings,
-  notifyOnMutationError(['updateAssetSettings']),
-  connect(mapStateToProps, mapDispatchToProps),
   withMergedSettings('asset.settings', 'pending', 'mergedSettings')
 );
 

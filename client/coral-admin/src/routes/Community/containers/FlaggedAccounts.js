@@ -15,7 +15,6 @@ import { handleFlaggedUsernameChange } from '../graphql';
 import { notify } from 'coral-framework/actions/notification';
 import { isFlaggedUserDangling } from '../utils';
 import t from 'coral-framework/services/i18n';
-import { notifyOnMutationError, notifyOnDataError } from 'coral-framework/hocs';
 
 import FlaggedAccounts from '../components/FlaggedAccounts';
 import FlaggedUser from '../containers/FlaggedUser';
@@ -295,7 +294,6 @@ const mapDispatchToProps = dispatch =>
 export default compose(
   connect(null, mapDispatchToProps),
   withApproveUsername,
-  notifyOnMutationError(['approveUsername']),
   withQuery(
     gql`
       query TalkAdmin_Community_FlaggedAccounts {
@@ -334,6 +332,5 @@ export default compose(
         fetchPolicy: 'network-only',
       },
     }
-  ),
-  notifyOnDataError
+  )
 )(FlaggedAccountsContainer);

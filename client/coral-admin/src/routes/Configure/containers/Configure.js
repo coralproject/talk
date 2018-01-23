@@ -12,7 +12,7 @@ import TechSettings from './TechSettings';
 import ModerationSettings from './ModerationSettings';
 import { clearPending, setActiveSection } from '../../../actions/configure';
 import Configure from '../components/Configure';
-import { notifyOnMutationError, notifyOnDataError } from 'coral-framework/hocs';
+import { notify } from 'coral-framework/actions/notification';
 
 class ConfigureContainer extends Component {
   savePending = async () => {
@@ -83,16 +83,15 @@ const mapDispatchToProps = dispatch =>
     {
       clearPending,
       setActiveSection,
+      notify,
     },
     dispatch
   );
 
 export default compose(
-  withUpdateSettings,
-  notifyOnMutationError(['updateSettings']),
-  withConfigureQuery,
-  notifyOnDataError,
   connect(mapStateToProps, mapDispatchToProps),
+  withUpdateSettings,
+  withConfigureQuery,
   withMergedSettings('root.settings', 'pending', 'mergedSettings')
 )(ConfigureContainer);
 

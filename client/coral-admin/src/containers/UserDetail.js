@@ -26,7 +26,7 @@ import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
 import { showBanUserDialog } from 'actions/banUserDialog';
 import { showSuspendUserDialog } from 'actions/suspendUserDialog';
-import { notifyOnMutationError, notifyOnDataError } from 'coral-framework/hocs';
+import { notify } from 'coral-framework/actions/notification';
 
 const commentConnectionFragment = gql`
   fragment CoralAdmin_UserDetail_CommentConnection on CommentConnection {
@@ -272,6 +272,7 @@ const mapDispatchToProps = dispatch => ({
       viewUserDetail,
       hideUserDetail,
       toggleSelectAllCommentInUserDetail,
+      notify,
     },
     dispatch
   ),
@@ -282,7 +283,5 @@ export default compose(
   withUserDetailQuery,
   withSetCommentStatus,
   withUnbanUser,
-  withUnsuspendUser,
-  notifyOnMutationError(['unbanUser', 'unsuspendUser', 'setCommentStatus']),
-  notifyOnDataError
+  withUnsuspendUser
 )(UserDetailContainer);

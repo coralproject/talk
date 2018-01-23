@@ -4,7 +4,11 @@ import merge from 'lodash/merge';
 import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
 import isEmpty from 'lodash/isEmpty';
-import { getDefinitionName, getResponseErrors } from '../utils';
+import {
+  getDefinitionName,
+  getResponseErrors,
+  getErrorMessages,
+} from '../utils';
 import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
 import hoistStatics from 'recompose/hoistStatics';
@@ -27,11 +31,7 @@ class ResponseError {
   }
 }
 
-/**
- * Exports a HOC with the same signature as `graphql`, that will
- * apply mutation options registered in the graphRegistry.
- */
-export default (document, config = {}) =>
+const createHOC = (document, config, { notifyOnError = true }) =>
   hoistStatics(WrappedComponent => {
     config = {
       ...config,
@@ -46,8 +46,23 @@ export default (document, config = {}) =>
         graphql: PropTypes.object,
       };
 
+      static propTypes = {
+        notify: PropTypes.func,
+      };
+
       get graphqlRegistry() {
         return this.context.graphql.registry;
+      }
+
+      notifyErrors(messages) {
+        if (this.props.notify) {
+          this.props.notify('error', messages);
+        } else {
+          console.error(
+            '`notifyOnError` is set to `true` but missing `notify` property'
+          );
+          console.error(messages);
+        }
       }
 
       resolveDocument(documentOrCallback) {
@@ -165,6 +180,11 @@ export default (document, config = {}) =>
                 variables,
                 error,
               });
+
+              // Show errors as notifications.
+              if (notifyOnError) {
+                this.notifyErrors(getErrorMessages(error));
+              }
               throw error;
             });
         };
@@ -213,3 +233,14 @@ export default (document, config = {}) =>
       }
     };
   });
+
+/**
+ * Exports a HOC with the same signature as `graphql`, that will
+ * apply mutation options registered in the graphRegistry.
+ */
+export default (document, config = {}) => settingsOrComponent => {
+  if (typeof settingsOrComponent === 'function') {
+    return createHOC(document, config, {})(settingsOrComponent);
+  }
+  return createHOC(document, config, settingsOrComponent);
+};

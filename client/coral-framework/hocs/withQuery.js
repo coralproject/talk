@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import hoistStatics from 'recompose/hoistStatics';
 import { getOperationName } from 'apollo-client/queries/getFromAST';
 import throttle from 'lodash/throttle';
+import get from 'lodash/get';
 
 const withSkipOnErrors = reducer => (prev, action, ...rest) => {
   if (
@@ -36,21 +37,22 @@ function networkStatusToString(networkStatus) {
       return 'ready';
     case 8:
       return 'error';
+    default:
+      throw new Error(`Unknown network status ${networkStatus}`);
   }
-  throw new Error(`Unknown network status ${networkStatus}`);
 }
 
-/**
- * Exports a HOC with the same signature as `graphql`, that will
- * apply query options registered in the graphRegistry.
- */
-export default (document, config = {}) =>
+const createHOC = (document, config, { notifyOnError = true }) =>
   hoistStatics(WrappedComponent => {
     return class WithQuery extends React.Component {
       static contextTypes = {
         eventEmitter: PropTypes.object,
         graphql: PropTypes.object,
         client: PropTypes.object,
+      };
+
+      static propTypes = {
+        notify: PropTypes.func,
       };
 
       // Lazily resolve fragments from graphRegistry to support circular dependencies.
@@ -166,9 +168,30 @@ export default (document, config = {}) =>
         return () => this.client.networkInterface.unsubscribe(id);
       };
 
+      notifyErrors(messages) {
+        if (this.props.notify) {
+          this.props.notify('error', messages);
+        } else {
+          console.error(
+            '`notifyOnError` is set to `true` but missing `notify` property'
+          );
+          console.error(messages);
+        }
+      }
+
       nextData(data) {
         this.apolloData = data;
         this.emitWhenNeeded(data);
+
+        if (
+          get(data, 'error.message') &&
+          get(this, 'data.error.message') !== get(data, 'error.message')
+        ) {
+          // Show errors as notifications.
+          if (notifyOnError) {
+            this.notifyErrors(data.error.message);
+          }
+        }
 
         // If data was previously set, we update it in a immutable way.
         if (this.data) {
@@ -319,3 +342,14 @@ export default (document, config = {}) =>
       }
     };
   });
+
+/**
+ * Exports a HOC with the same signature as `graphql`, that will
+ * apply query options registered in the graphRegistry.
+ */
+export default (document, config = {}) => settingsOrComponent => {
+  if (typeof settingsOrComponent === 'function') {
+    return createHOC(document, config, {})(settingsOrComponent);
+  }
+  return createHOC(document, config, settingsOrComponent);
+};
