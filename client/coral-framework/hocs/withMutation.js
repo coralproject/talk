@@ -237,6 +237,10 @@ const createHOC = (document, config, { notifyOnError = true }) =>
 /**
  * Exports a HOC with the same signature as `graphql`, that will
  * apply mutation options registered in the graphRegistry.
+ *
+ * The returned HOC accepts a settings object with the following properties:
+ * notifyOnError: show a notification to the user when an error occured.
+ *                Defaults to true, requires the `notify` action to be mounted.
  */
 export default (document, config = {}) => settingsOrComponent => {
   if (typeof settingsOrComponent === 'function') {
