@@ -15,7 +15,7 @@ import { handleFlaggedUsernameChange } from '../graphql';
 import { notify } from 'coral-framework/actions/notification';
 import { isFlaggedUserDangling } from '../utils';
 import t from 'coral-framework/services/i18n';
-import { notifyOnMutationError } from 'coral-framework/hocs';
+import { notifyOnMutationError, notifyOnDataError } from 'coral-framework/hocs';
 
 import FlaggedAccounts from '../components/FlaggedAccounts';
 import FlaggedUser from '../containers/FlaggedUser';
@@ -159,11 +159,7 @@ class FlaggedAccountsContainer extends Component {
   };
 
   render() {
-    if (this.props.data.error) {
-      return <div>{this.props.data.error.message}</div>;
-    }
-
-    if (this.props.data.loading) {
+    if (this.props.data.loading || this.props.data.error) {
       return (
         <div>
           <Spinner />
@@ -312,7 +308,7 @@ export default compose(
                 username: [SET, CHANGED]
               }
             }
-            limit: 10
+            limit: 9
           }){
           hasNextPage
           endCursor
@@ -334,5 +330,6 @@ export default compose(
         fetchPolicy: 'network-only',
       },
     }
-  )
+  ),
+  notifyOnDataError
 )(FlaggedAccountsContainer);
