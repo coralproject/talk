@@ -3,16 +3,19 @@ import { bindActionCreators } from 'redux';
 import { compose } from 'react-apollo';
 import { notify } from 'coral-framework/actions/notification';
 import { forEachError } from 'coral-framework/utils';
-import { withProps } from 'recompose';
+import { withProps, branch } from 'recompose';
 
 const notifyOnMutationError = keys =>
   compose(
-    connect(null, dispatch =>
-      bindActionCreators(
-        {
-          notify,
-        },
-        dispatch
+    branch(
+      ({ notify }) => !notify,
+      connect(null, dispatch =>
+        bindActionCreators(
+          {
+            notify,
+          },
+          dispatch
+        )
       )
     ),
     withProps(ownProps =>

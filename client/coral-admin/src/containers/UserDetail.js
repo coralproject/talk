@@ -24,9 +24,9 @@ import {
 } from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
-import { notify } from 'coral-framework/actions/notification';
 import { showBanUserDialog } from 'actions/banUserDialog';
 import { showSuspendUserDialog } from 'actions/suspendUserDialog';
+import { notifyOnMutationError, notifyOnDataError } from 'coral-framework/hocs';
 
 const commentConnectionFragment = gql`
   fragment CoralAdmin_UserDetail_CommentConnection on CommentConnection {
@@ -271,7 +271,6 @@ const mapDispatchToProps = dispatch => ({
       viewUserDetail,
       hideUserDetail,
       toggleSelectAllCommentInUserDetail,
-      notify,
     },
     dispatch
   ),
@@ -282,5 +281,7 @@ export default compose(
   withUserDetailQuery,
   withSetCommentStatus,
   withUnbanUser,
-  withUnsuspendUser
+  withUnsuspendUser,
+  notifyOnMutationError(['unbanUser', 'unsuspendUser', 'setCommentStatus']),
+  notifyOnDataError
 )(UserDetailContainer);
