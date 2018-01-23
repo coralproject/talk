@@ -38,8 +38,3 @@ export const selectCommentId = id => ({
   type: actions.MODERATION_SELECT_COMMENT,
   id,
 });
-
-export const selectCommentId = (id) => ({
-  type: actions.MODERATION_SELECT_COMMENT,
-  id,
-});

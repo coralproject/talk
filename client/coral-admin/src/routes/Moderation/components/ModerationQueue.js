@@ -187,55 +187,6 @@ class ModerationQueue extends React.Component {
         }
         this.props.selectCommentId(nextSelectedCommentId);
       }
-
-      // Selected comment was removed, determine and set next selected comment.
-      if (
-        this.props.selectedCommentId &&
-        !hasComment(nextComments, this.props.selectedCommentId)
-      ) {
-        const view = this.state.view;
-        let nextSelectedCommentId = null;
-
-        // Determine a comment to select.
-        const prevIndex = view.findIndex((comment) => comment.id === this.props.selectedCommentId);
-        if (prevIndex !== view.length - 1) {
-          nextSelectedCommentId = view[prevIndex + 1].id;
-        } else if(prevIndex > 0) {
-          nextSelectedCommentId = view[prevIndex - 1].id;
-        }
-        this.props.selectCommentId(nextSelectedCommentId);
-      }
-    }
-
-    // Comments changed.
-    if (prevComments !== nextComments) {
-      const nextView = getVisibleComments(nextComments, idCursors[0]);
-      this.setState({idCursors, view: nextView});
-
-      // TODO: removing or adding a comment from the list seems to render incorrect, is this a bug?
-      // Find first changed comment and perform a reflow.
-      const index = this.state.view.findIndex((comment, i) => !nextView[i] || nextView[i].id !== comment.id);
-      this.reflowList(index);
-    }
-  }
-
-  componentDidUpdate (prev) {
-    const {commentCount, selectedCommentId} = this.props;
-
-    // If the user just moderated the last (visible) comment
-    // AND there are more comments available on the server,
-    // go ahead and load more comments
-    if (prev.comments.length > 0 && this.getCommentCountWithoutDagling() === 0 && commentCount > 0) {
-      this.props.loadMore();
-    }
-
-    // Scroll to selected comment.
-    if (prev.selectedCommentId !== selectedCommentId && this.listRef) {
-
-      const view = this.state.view;
-      const index = view.findIndex(({id}) => id === selectedCommentId);
-
-      this.listRef.scrollToRow(index);
     }
 
     // Comments changed.

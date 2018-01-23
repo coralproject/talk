@@ -70,33 +70,7 @@ function addCommentToQueue(root, queue, comment, sortOrder) {
     },
   };
 
-  const cursor = new Date(root[queue].startCursor);
-  const date = new Date(comment.created_at);
-
-  let append = sortOrder === 'ASC'
-    ? date >= cursor
-    : date <= cursor;
-
-  const nodes = append
-    ? root[queue].nodes.concat(comment)
-    : [comment].concat(...root[queue].nodes);
-
-  changes[queue] = {
-    nodes: {$set: nodes},
-  };
-
-  const next = update(root, changes);
-
-  if (!cleanup) {
-    return next;
-  }
-
-  return cleanUpQueue(next, queue, sortOrder);
-}
-
-function sortComments(nodes, sortOrder) {
-  const sortAlgo = sortOrder === 'ASC' ? ascending : descending;
-  return nodes.sort(sortAlgo);
+  return update(root, changes);
 }
 
 function sortComments(nodes, sortOrder) {

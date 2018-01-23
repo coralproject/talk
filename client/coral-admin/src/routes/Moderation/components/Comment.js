@@ -48,12 +48,6 @@ class Comment extends React.Component {
     }
   }
 
-  componentDidUpdate(prev) {
-    if (!prev.selected && this.props.selected) {
-      this.ref.focus();
-    }
-  }
-
   render() {
     const {
       comment,
