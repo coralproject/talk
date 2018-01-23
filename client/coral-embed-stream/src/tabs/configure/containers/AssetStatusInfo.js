@@ -7,6 +7,7 @@ import {
   withUpdateAssetStatus,
   withCloseAsset,
 } from 'coral-framework/graphql/mutations';
+import { notifyOnMutationError } from 'coral-framework/hocs';
 
 class AssetStatusInfoContainer extends React.Component {
   openAsset = () =>
@@ -45,7 +46,8 @@ const withAssetStatusInfoFragments = withFragments({
 const enhance = compose(
   withAssetStatusInfoFragments,
   withUpdateAssetStatus,
-  withCloseAsset
+  withCloseAsset,
+  notifyOnMutationError(['updateAssetStatus', 'closeAsset'])
 );
 
 export default enhance(AssetStatusInfoContainer);
