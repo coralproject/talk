@@ -1,0 +1,71 @@
+body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: #fff;
+}
+
+.container {
+  max-width: 300px;
+  margin: 50px auto;
+}
+
+#root form {
+  display: none;
+  padding: 15px;
+}
+
+.legend {
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  padding-right: 30px;
+}
+
+small {
+  color: #888;
+}
+
+input {
+  border-radius: 4px;
+  margin-top: 3px;
+  border: 1px solid lightgrey;
+  font-size: 16px;
+  width: 100%;
+  padding: 14px;
+  height: 100%;
+  display: inline-block;
+}
+
+button[type="submit"] {
+  border-radius: 4px;
+  border: none;
+  display: block;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.error-console {
+  display: none;
+  margin-top: 10px;
+  border-radius: 4px;
+  background-color: pink;
+  color: red;
+  border: 1px solid red;
+  padding: 10px;
+}
+
+.error-console.active {
+  display: block;
+}

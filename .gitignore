@@ -13,6 +13,7 @@ client/coral-framework/graphql/introspection.json
 .idea/
 *.swp
 *.DS_STORE
+.prettierrc.json
 
 coverage/
 test/e2e/reports/
@@ -53,3 +54,4 @@ plugins/*
 !plugins/nymag-auth
 
 **/node_modules/*
+yarn-error.log

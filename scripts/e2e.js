@@ -3,7 +3,7 @@
 process.env['NODE_ENV'] = 'test';
 
 const browserstack = require('browserstack-local');
-const {onshutdown, shutdown} = require('../bin/util');
+const { onshutdown, shutdown } = require('../bin/util');
 const program = require('commander');
 const Table = require('cli-table');
 const serve = require('../serve');
@@ -21,22 +21,23 @@ function startTunnel(key, localIdentifier) {
   console.log('Connecting local');
 
   return new Promise((resolve, reject) => {
-    bs_local.start({
-      key,
-      logFile: './test/e2e/bslocal.log',
-      verbose: 'true',
-      force: 'true',
-      onlyAutomate: 'true',
-      localIdentifier,
-    }, (error) => {
-      if (error) {
-        reject(error);
+    bs_local.start(
+      {
+        key,
+        logFile: './test/e2e/bslocal.log',
+        verbose: 'true',
+        force: 'true',
+        onlyAutomate: 'true',
+        localIdentifier,
+      },
+      error => {
+        if (error) {
+          reject(error);
+        }
+        resolve();
       }
-      resolve();
-    });
-    onshutdown([
-      () => bs_local.stop(function(){}),
-    ]);
+    );
+    onshutdown([() => bs_local.stop(function() {})]);
   });
 }
 
@@ -48,12 +49,12 @@ function seleniumInstall() {
         ['install'],
         {
           stdio: 'inherit',
-        });
-      nw.on('close', (code) => {
+        }
+      );
+      nw.on('close', code => {
         code === 0 ? resolve() : reject();
       });
-    }
-    catch (ex) {
+    } catch (ex) {
       reject(ex);
     }
   });
@@ -67,19 +68,19 @@ function nightwatch(env, config, reportsFolder, browserstack, timeout) {
         ['--config', config, '--env', env],
         {
           env: Object.assign({}, process.env, {
-            'BROWSERSTACK_LOCAL_IDENTIFIER': browserstack.localIdentifier,
-            'BROWSERSTACK_KEY': browserstack.key,
-            'BROWSERSTACK_USER': browserstack.user,
-            'REPORTS_FOLDER': `${reportsFolder}/${env}`,
-            'WAIT_FOR_TIMEOUT': timeout,
+            BROWSERSTACK_LOCAL_IDENTIFIER: browserstack.localIdentifier,
+            BROWSERSTACK_KEY: browserstack.key,
+            BROWSERSTACK_USER: browserstack.user,
+            REPORTS_FOLDER: `${reportsFolder}/${env}`,
+            WAIT_FOR_TIMEOUT: timeout,
           }),
           stdio: 'inherit',
-        });
-      nw.on('close', (code) => {
+        }
+      );
+      nw.on('close', code => {
         code === 0 ? resolve() : reject();
       });
-    }
-    catch (ex) {
+    } catch (ex) {
       reject(ex);
     }
   });
@@ -87,11 +88,7 @@ function nightwatch(env, config, reportsFolder, browserstack, timeout) {
 
 function printResults(browsers, succeeded, retries) {
   let table = new Table({
-    head: [
-      'Browser'.cyan,
-      'Status'.cyan,
-      'Retries'.cyan,
-    ]
+    head: ['Browser'.cyan, 'Status'.cyan, 'Retries'.cyan],
   });
 
   for (let browser of browsers) {
@@ -112,7 +109,14 @@ function printSection(txt) {
   console.log('*****************************'.magenta);
 }
 
-async function runBrowserTests(browsers, config, retries = 1, reportsFolder, browserstack, timeout) {
+async function runBrowserTests(
+  browsers,
+  config,
+  retries = 1,
+  reportsFolder,
+  browserstack,
+  timeout
+) {
   const succeeded = {};
   for (let browser of browsers) {
     for (let t = 0; t < retries + 1; t++) {
@@ -122,8 +126,7 @@ async function runBrowserTests(browsers, config, retries = 1, reportsFolder, bro
         succeeded[browser] = t;
         console.log(`\n==> Succeeded e2e for ${browser} #${t}\n`.green);
         break;
-      }
-      catch (ex) {
+      } catch (ex) {
         if (ex) {
           console.log('There was an error while starting the test runner:\n\n');
           process.stderr.write(`${ex.stack}\n`);
@@ -141,7 +144,8 @@ async function start(program) {
   let browsers = program.browsers.split(',');
   const retries = Number.parseInt(program.retries);
   const browserstack = {};
-  const date = new Date().toISOString()
+  const date = new Date()
+    .toISOString()
     .replace(/[T.]/g, '-')
     .replace(/:/g, '');
   const timeout = program.timeout;
@@ -163,11 +167,10 @@ async function start(program) {
       browserstack.key = program.bsKey;
       browserstack.user = program.bsUser;
     } else {
-
       // Install selenium standalone.
       await seleniumInstall();
       if (program.headless) {
-        browsers = browsers.map((b) => `${b}-headless`);
+        browsers = browsers.map(b => `${b}-headless`);
       }
     }
 
@@ -177,18 +180,16 @@ async function start(program) {
       retries,
       reportsFolder,
       browserstack,
-      timeout,
+      timeout
     );
     if (!succeeded) {
       exitCode = 1;
     }
-  }
-  catch (ex) {
+  } catch (ex) {
     console.log('There was an error:\n\n');
     process.stderr.write(`${ex.stack}\n`);
     process.exit(2);
-  }
-  finally {
+  } finally {
     console.log('Shutting down');
     shutdown();
   }
@@ -197,7 +198,9 @@ async function start(program) {
 
 program
   .version('0.1.0')
-  .description('Perform e2e testing locally or if browserstack credentials are provided on browserstack.')
+  .description(
+    'Perform e2e testing locally or if browserstack credentials are provided on browserstack.'
+  )
   .option('-u, --bs-user [user]', 'Browserstack user', 'coralproject2')
   .option('-k, --bs-key [key]', 'Browserstack api key')
   .option('--no-tunnel', 'Dont start browserstack-local')

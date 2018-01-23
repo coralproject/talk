@@ -4,3 +4,9 @@ en:
 es:
   talk-plugin-subscriber:
     subscriber: "Subscriptor"
+zh_CN:
+  talk-plugin-subscriber:
+    subscriber: "订阅用户"
+zh_TW:
+  talk-plugin-subscriber:
+    subscriber: "訂閱用戶"

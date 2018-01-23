@@ -6,13 +6,14 @@ const authz = require('../../../middleware/authorization');
 describe('middleware.authorization', () => {
   describe('#has', () => {
     it('allows if no roles are specified', () => {
-      expect(authz.has({roles: []})).to.be.true;
+      expect(authz.has({ role: 'COMMENTER' })).to.be.true;
     });
     it('allows if the correct roles are met', () => {
-      expect(authz.has({roles: ['ADMIN']}, 'ADMIN', 'MODERATOR')).to.be.true;
+      expect(authz.has({ role: 'ADMIN' }, 'ADMIN', 'MODERATOR')).to.be.true;
     });
     it('disallows if the role required is missing', () => {
-      expect(authz.has({roles: []}, 'ADMIN', 'MODERATOR')).to.be.false;
+      expect(authz.has({ role: 'COMMENTER' }, 'ADMIN', 'MODERATOR')).to.be
+        .false;
     });
   });
 
@@ -24,22 +25,22 @@ describe('middleware.authorization', () => {
     };
 
     it('allows if no roles are specified', () => {
-      needed()({user: {roles: []}}, {}, (err) => {
+      needed()({ user: { role: 'COMMENTER' } }, {}, err => {
         expect(err).to.be.undefined;
       });
     });
     it('allows if the correct roles are met', () => {
-      needed()({user: {roles: ['ADMIN']}}, {}, (err) => {
+      needed()({ user: { role: 'ADMIN' } }, {}, err => {
         expect(err).to.be.undefined;
       });
     });
     it('disallows if the role required is missing', () => {
-      needed('ADMIN', 'MODERATOR')({user: {roles: []}}, {}, (err) => {
+      needed('ADMIN', 'MODERATOR')({ user: { role: 'COMMENTER' } }, {}, err => {
         expect(err).to.not.be.undefined;
       });
     });
     it('disallows if there is no user on the request', () => {
-      needed('ADMIN', 'MODERATOR')({}, {}, (err) => {
+      needed('ADMIN', 'MODERATOR')({}, {}, err => {
         expect(err).to.not.be.undefined;
       });
     });

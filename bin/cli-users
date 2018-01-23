@@ -4,160 +4,87 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
+const util = require('./util');
+const program = require('commander');
 const inquirer = require('inquirer');
+const { graphql } = require('graphql');
+const { stripIndent } = require('common-tags');
+const Table = require('cli-table');
+
+// Make things colorful!
+require('colors');
+
+// Register the autocomplete plugin.
+inquirer.registerPrompt(
+  'autocomplete',
+  require('inquirer-autocomplete-prompt')
+);
+
+const schema = require('../graph/schema');
+const Context = require('../graph/context');
 const UsersService = require('../services/users');
 const UserModel = require('../models/user');
 const CommentModel = require('../models/comment');
 const ActionModel = require('../models/action');
 const USER_ROLES = require('../models/enum/user_roles');
 const mongoose = require('../services/mongoose');
-const util = require('./util');
-const Table = require('cli-table');
 const databaseVerifications = require('./verifications/database');
 
-const validateRequired = (msg = 'Field is required', len = 1) => (input) => {
-  if (input && input.length >= len) {
-    return true;
-  }
-
-  return msg;
-};
-
-// Regeister the shutdown criteria.
-util.onshutdown([
-  () => mongoose.disconnect()
-]);
-
-function getUserCreateAnswers(options) {
-  if (options.flag_mode) {
-
-    let user = {
-      email: options.email,
-      password: options.password,
-      confirmPassword: options.password,
-      username: options.name,
-      roles: []
-    };
-
-    if (options.role && USER_ROLES.indexOf(options.role) > -1) {
-      user.roles = [options.role];
-    }
-
-    return Promise.resolve(user);
-  }
-
-  return inquirer.prompt([
-    {
-      name: 'email',
-      message: 'Email',
-      format: 'email',
-      validate: validateRequired('Email is required')
-    },
-    {
-      name: 'password',
-      message: 'Password',
-      type: 'password',
-      filter: (password) => {
-        return UsersService
-          .isValidPassword(password)
-          .catch((err) => {
-            throw err.message;
-          });
-      }
-    },
-    {
-      name: 'confirmPassword',
-      message: 'Confirm Password',
-      type: 'password',
-      filter: (confirmPassword) => {
-        return UsersService
-          .isValidPassword(confirmPassword)
-          .catch((err) => {
-            throw err.message;
-          });
-      }
-    },
-    {
-      name: 'username',
-      message: 'Username',
-      filter: (username) => {
-        return UsersService
-          .isValidUsername(username)
-          .catch((err) => {
-            throw err.message;
-          });
-      }
-    },
-    {
-      name: 'roles',
-      message: 'User Role',
-      type: 'checkbox',
-      choices: USER_ROLES
-    }
-  ]);
-}
+// Register the shutdown criteria.
+util.onshutdown([() => mongoose.disconnect()]);
 
 /**
- * Prompts for input and registers a user based on those.
- */
-async function createUser(options) {
-  try {
-    const answers = await getUserCreateAnswers(options);
-    if (answers.password !== answers.confirmPassword) {
-      throw new Error('Passwords do not match');
-    }
-
-    const user = await UsersService.createLocalUser(answers.email.trim(), answers.password.trim(), answers.username.trim());
-    console.log(`Created user ${user.id}.`);
-
-    if (answers.roles.length > 0) {
-      return Promise.all(answers.roles.map((role) => {
-        return UsersService
-          .addRoleToUser(user.id, role)
-          .then(() => {
-            console.log(`Added the role ${role} to User ${user.id}.`);
-          });
-      }));
-    }
-
-    util.shutdown();
-
-  } catch (err) {
-    console.error(err);
-    util.shutdown(1);
-  }
-}
-
-/**
- * Deletes a user.
+ * Deletes a user and cleans up their associated verifications.
  */
 async function deleteUser(userID) {
-
   try {
-
     // Find the user we're removing.
-    const user = await UserModel.findOne({id: userID});
+    const user = await UserModel.findOne({ id: userID });
     if (!user) {
       throw new Error(`user with id ${userID} not found`);
     }
 
+    printUserAsTable(user);
+
+    console.warn(stripIndent`
+
+    This will delete the above user.
+
+    This might take a long time if there is a lot of data, please confirm that
+    you want to continue.
+    `);
+    const { confirm } = await inquirer.prompt({
+      type: 'confirm',
+      name: 'confirm',
+      message: 'Continue',
+      default: false,
+    });
+    if (!confirm) {
+      return util.shutdown();
+    }
+
+    console.warn("Removing user's actions");
+
     // Remove all the user's actions.
-    await ActionModel
-      .where({user_id: user.id})
-      .setOptions({multi: true})
+    await ActionModel.where({ user_id: user.id })
+      .setOptions({ multi: true })
       .remove();
 
+    console.warn("Removing user's comments");
+
     // Remove all the user's comments.
-    await CommentModel
-      .where({author_id: user.id})
-      .setOptions({multi: true})
+    await CommentModel.where({ author_id: user.id })
+      .setOptions({ multi: true })
       .remove();
+
+    console.warn('Updating the database indexes');
 
     // Update the counts that might have changed.
     for (const verification of databaseVerifications) {
-      await verification({fix: true, limit: Infinity, batch: 1000});
+      await verification({ fix: true, limit: Infinity, batch: 1000 });
     }
+
+    console.warn('Removing the user');
 
     // Remove the user.
     await user.remove();
@@ -169,146 +96,94 @@ async function deleteUser(userID) {
   }
 }
 
-/**
- * Changes the password for a user.
- */
-function passwd(userID) {
-  inquirer.prompt([
+function printUserAsTable(user) {
+  let table = new Table({});
+
+  table.push(
+    { ID: user.id.gray },
+    { Username: user.username },
+    { Emails: user.emails },
+    { Tags: user.tags ? user.tags.map(({ tag: { name } }) => name) : '' },
+    { Role: user.role },
+    { Verified: user.hasVerifiedEmail },
+    { Username: user.status.username.status },
+    { Banned: user.banned },
     {
-      name: 'password',
-      message: 'Password',
-      type: 'password',
-      validate: validateRequired('Password is required')
-    },
-    {
-      name: 'confirmPassword',
-      message: 'Confirm Password',
-      type: 'password',
-      validate: validateRequired('Confirm Password is required')
+      Suspension: user.suspended
+        ? `Until ${user.status.suspension.until}`
+        : false,
     }
-  ])
-    .then((answers) => {
-      if (answers.password !== answers.confirmPassword) {
-        throw new Error('Password mismatch');
-      }
+  );
 
-      return UsersService.changePassword(userID, answers.password);
-    })
-    .then(() => {
-      console.log('Password changed.');
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
+  console.log(table.toString());
 }
 
 /**
- * Updates the user from the options array.
+ * Searches for users based on their username and email address.
  */
-function updateUser(userID, options) {
-  const updates = [];
-
-  if (options.email && typeof options.email === 'string' && options.email.length > 0) {
-    let q = UserModel.update({
-      'id': userID,
-      'profiles.provider': 'local'
-    }, {
-      $set: {
-        'profiles.$.id': options.email
+async function searchUsers() {
+  const ctx = Context.forSystem();
+  const searchQuery = `
+    query SearchUsers($value: String) {
+      users(query: {value: $value}) {
+        nodes {
+          id
+          username
+          role
+          profiles {
+            id
+            provider
+          }
+        }
       }
-    });
+    }
+  `;
 
-    updates.push(q);
-  }
-
-  if (options.name && typeof options.name === 'string' && options.name.length > 0) {
-    let q = UserModel.update({
-      'id': userID
-    }, {
-      $set: {
-        username: options.name
-      }
-    });
-
-    updates.push(q);
-  }
-
-  Promise
-    .all(updates.map((q) => q.exec()))
-    .then(() => {
-      console.log(`User ${userID} updated.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
-
-/**
- * Lists all the users registered in the database.
- */
-function listUsers() {
-  UsersService
-    .all()
-    .then((users) => {
-      let table = new Table({
-        head: [
-          'ID',
-          'Username',
-          'Profiles',
-          'Roles',
-          'Status',
-          'State'
-        ]
-      });
-
-      users.forEach((user) => {
-        let state = user.disabled ? 'Disabled' : 'Enabled';
-        const profile = user.profiles.find(({provider}) => provider === 'local');
-        if (profile && profile.metadata && profile.metadata.confirmed_at) {
-          state += ', Verified';
-        } else {
-          state += ', Unverified';
+  try {
+    const answers = await inquirer.prompt({
+      type: 'autocomplete',
+      name: 'userID',
+      message: 'Search for a user',
+      source: async (answers, value) => {
+        if (value === null) {
+          value = '';
         }
 
-        table.push([
-          user.id,
-          user.username,
-          user.profiles.map((p) => p.provider).join(', '),
-          user.roles.join(', '),
-          user.status,
-          state
-        ]);
-      });
+        const { data, errors } = await graphql(schema, searchQuery, {}, ctx, {
+          value,
+        });
+        if (errors && errors.length > 0) {
+          throw errors[0];
+        }
 
-      console.log(table.toString());
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
+        if (data.users === null) {
+          return [];
+        }
 
-/**
- * Merges two users using the specified ID's.
- * @param  {String} dstUserID id of the user to which is the target of the merge
- * @param  {String} srcUserID id of the user to which is the source of the merge
- */
-function mergeUsers(dstUserID, srcUserID) {
-  UsersService
-    .mergeUsers(dstUserID, srcUserID)
-    .then(() => {
-      console.log(`User ${srcUserID} was merged into user ${dstUserID}.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
+        return data.users.nodes.map(user => {
+          const emails = user.profiles
+            .filter(({ provider }) => provider === 'local')
+            .map(({ id }) => id)
+            .join(', ');
+          return {
+            name: `${user.username} (${emails}) ${user.id.gray} - ${
+              user.role.gray
+            }`,
+            value: user.id,
+          };
+        });
+      },
     });
+
+    const { userID } = answers;
+    const user = await UserModel.findOne({ id: userID });
+
+    printUserAsTable(user);
+    util.shutdown(0);
+  } catch (err) {
+    console.error(err);
+    util.shutdown(1);
+  }
 }
 
 /**
@@ -316,127 +191,70 @@ function mergeUsers(dstUserID, srcUserID) {
  * @param  {String} userUD id of the user to add the role to
  * @param  {String} role   the role to add
  */
-function addRole(userID, role) {
+async function setUserRole(userID) {
+  try {
+    const { role } = await inquirer.prompt([
+      {
+        name: 'role',
+        message: 'User Role',
+        type: 'list',
+        choices: USER_ROLES,
+      },
+    ]);
 
-  if (USER_ROLES.indexOf(role) === -1) {
-    console.error(`Role '${role}' is not supported. Supported roles are ${USER_ROLES.join(', ')}.`);
+    await UsersService.setRole(userID, role);
+
+    console.log(`Set User ${userID} to the ${role} role.`);
+    util.shutdown();
+  } catch (err) {
+    console.error(err);
     util.shutdown(1);
-    return;
   }
-
-  UsersService
-    .addRoleToUser(userID, role)
-    .then(() => {
-      console.log(`Added the ${role} role to User ${userID}.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
-
-/**
- * Removes a role from a user
- * @param  {String} userUD id of the user to remove the role from
- * @param  {String} role   the role to remove
- */
-function removeRole(userID, role) {
-
-  if (USER_ROLES.indexOf(role) === -1) {
-    console.error(`Role '${role}' is not supported. Supported roles are ${USER_ROLES.join(', ')}.`);
-    util.shutdown(1);
-    return;
-  }
-
-  UsersService
-    .removeRoleFromUser(userID, role)
-    .then(() => {
-      console.log(`Removed the ${role} role from User ${userID}.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
-
-/**
- * Ban a user
- * @param  {String} userID id of the user to ban
- */
-function ban(userID) {
-  UsersService
-    .setStatus(userID, 'BANNED')
-    .then(() => {
-      console.log(`Banned the User ${userID}.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
-
-/**
- * Unban a user
- * @param  {String} userUD id of the user to remove the role from
- */
-function unban(userID) {
-  UsersService
-    .setStatus(userID, 'ACTIVE')
-    .then(() => {
-      console.log(`Unban the User ${userID}.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
-
-/**
- * Disable a given user.
- * @param  {String} userID the ID of a user to disable
- */
-function disableUser(userID) {
-  UsersService
-    .disableUser(userID)
-    .then(() => {
-      console.log(`User ${userID} was disabled.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
-}
-
-/**
- * Enabled a given user.
- * @param  {String} userID the ID of a user to enable
- */
-function enableUser(userID) {
-  UsersService
-    .enableUser(userID)
-    .then(() => {
-      console.log(`User ${userID} was enabled.`);
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
 }
 
 /**
  * Verifies an email address for a user.
  *
  * @param userID the user's id
- * @param email  the user's email address to be verified
+ * @param email  the user's email address to be verified, otherwise verifies the
+ *               first email if there is one, if there are multiple, you get a
+ *               prompt.
  */
-async function verify(userID, email) {
+async function verifyUserEmail(userID, email) {
   try {
+    // Get the user.
+    const user = await UserModel.findOne({ id: userID });
+    if (!user) {
+      throw new Error(`user with ID ${userID} cannot be found`);
+    }
+
+    // Get all the user's email addresses.
+    const emails = user.emails;
+    if (emails.length === 0) {
+      throw new Error('user did not have any email addresses');
+    }
+
+    if (!email && emails.length === 1) {
+      // The email wasn't passed, and there is only one option.
+      email = emails[0];
+    } else if (!emails.includes(email)) {
+      // The email passed doesn't belong to this user.
+      throw new Error(`user does not have the email ${email}`);
+    } else if (emails.length > 1) {
+      // The email wasn't passed, and there is more than one choice.
+      const answers = await inquirer.prompt([
+        {
+          name: 'email',
+          message: 'Select Email to Verify',
+          type: 'list',
+          choices: emails,
+        },
+      ]);
+
+      email = answers.email;
+    }
+
+    // Verify the email.
     await UsersService.confirmEmail(userID, email);
     console.log(`User ${userID} had their email ${email} verified.`);
     util.shutdown();
@@ -451,76 +269,24 @@ async function verify(userID, email) {
 //==============================================================================
 
 program
-  .command('create')
-  .option('--email [email]', 'Email to use')
-  .option('--password [password]', 'Password to use')
-  .option('--name [name]', 'Name to use')
-  .option('--role [role]', 'Role to add')
-  .option('-f, --flag_mode', 'Source from flags instead of prompting')
-  .description('create a new user')
-  .action(createUser);
-
-program
   .command('delete <userID>')
   .description('delete a user')
   .action(deleteUser);
 
 program
-  .command('passwd <userID>')
-  .description('change a password for a user')
-  .action(passwd);
-
-program
-  .command('update <userID>')
-  .option('--email [email]', 'Email to use')
-  .option('--name [name]', 'Name to use')
-  .description('update a user')
-  .action(updateUser);
-
-program
   .command('list')
-  .description('list all the users in the database')
-  .action(listUsers);
+  .description('searches for a user based on their stored username and email')
+  .action(searchUsers);
 
 program
-  .command('merge <dstUserID> <srcUserID>')
-  .description('merge srcUser into the dstUser')
-  .action(mergeUsers);
-
-program
-  .command('addrole <userID> <role>')
-  .description('adds a role to a given user')
-  .action(addRole);
-
-program
-  .command('removerole <userID> <role>')
-  .description('removes a role from a given user')
-  .action(removeRole);
-
-program
-  .command('ban <userID>')
-  .description('ban a given user')
-  .action(ban);
-
-program
-  .command('uban <userID>')
-  .description('unban a given user')
-  .action(unban);
-
-program
-  .command('disable <userID>')
-  .description('disable a given user from logging in')
-  .action(disableUser);
-
-program
-  .command('enable <userID>')
-  .description('enable a given user from logging in')
-  .action(enableUser);
+  .command('set-role <userID> <role>')
+  .description('sets the role on a user')
+  .action(setUserRole);
 
 program
   .command('verify <userID> <email>')
-  .description('verifies the given user\'s email address')
-  .action(verify);
+  .description("verifies the given user's email address")
+  .action(verifyUserEmail);
 
 program.parse(process.argv);
 

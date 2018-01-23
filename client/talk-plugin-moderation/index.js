@@ -1,1 +1,1 @@
-export {default as ModerationLink} from './ModerationLink';
+export { default as ModerationLink } from './ModerationLink';

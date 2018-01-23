@@ -1,6 +1,6 @@
 module.exports = {
-
-   before: (client) => {
+  before: client => {
+    client.setWindowPosition(0, 0);
     client.resizeWindow(1600, 1200);
   },
 
@@ -11,24 +11,22 @@ module.exports = {
     done();
   },
 
-  after: (client) => {
+  after: client => {
     client.end();
   },
 
-  'admin logs in': (client) => {
+  'admin logs in': client => {
     const adminPage = client.page.admin();
-    const {testData: {admin}} = client.globals;
+    const { testData: { admin } } = client.globals;
 
     adminPage.navigateAndLogin(admin);
   },
-  'navigate to the embed stream': (client) => {
+  'navigate to the embed stream': client => {
     const embedStream = client.page.embedStream();
 
-    embedStream
-      .navigate()
-      .ready();
+    embedStream.navigate().ready();
   },
-  'admin bans user': (client) => {
+  'admin bans user': client => {
     const embedStream = client.page.embedStream();
     const comments = embedStream.section.comments;
 
@@ -45,76 +43,65 @@ module.exports = {
       .click('@banDialogConfirmButton')
       .waitForElementNotVisible('@banDialog');
   },
-  'admin logs out': (client) => {
+  'admin logs out': client => {
     const comments = client.page.embedStream().section.comments;
 
-    comments
-      .logout();
+    comments.logout();
   },
-  'user logs in': (client) => {
-    const {testData: {user}} = client.globals;
+  'user logs in': client => {
+    const { testData: { user } } = client.globals;
     const comments = client.page.embedStream().section.comments;
 
-    comments
-      .openLoginPopup((popup) => popup.login(user));
+    comments.openLoginPopup(popup => popup.login(user));
   },
-  'user account is banned, should see restricted message box': (client) => {
+  'user account is banned, should see restricted message box': client => {
     const embedStream = client.page.embedStream();
     const comments = embedStream.section.comments;
 
-    comments
-      .waitForElementVisible('@restrictedMessageBox');
+    comments.waitForElementVisible('@restrictedMessageBox');
   },
-  'user logs out': (client) => {
+  'user logs out': client => {
     const embedStream = client.page.embedStream();
     const comments = embedStream.section.comments;
 
-    comments
-      .logout();
+    comments.logout();
   },
-  'admin logs in (2)': (client) => {
+  'admin logs in (2)': client => {
     const adminPage = client.page.admin();
-    const {testData: {admin}} = client.globals;
+    const { testData: { admin } } = client.globals;
 
     adminPage.navigateAndLogin(admin);
   },
-  'admin goes to community': (client) => {
+  'admin goes to community': client => {
     const adminPage = client.page.admin();
 
-    adminPage
-      .goToCommunity()
-        .goToPeople();
+    adminPage.goToCommunity().goToPeople();
   },
-  'admin removes ban from user': (client) => {
-    const people = client.page.admin()
-      .section.community
-      .section.people;
+  'admin removes ban from user': client => {
+    const people = client.page.admin().section.community.section.people;
 
     people
       .waitForElementVisible('@firstRow')
       .waitForElementVisible('@dropdownStatus')
       .click('@dropdownStatus')
       .waitForElementVisible('@dropdownStatusActive')
-      .click('@optionActive');
+      .click('@optionRemoveBan');
   },
-  'admin logs out 2': (client) => {
+  'admin logs out 2': client => {
     client.page.admin().logout();
   },
-  'navigate to the embed stream 2': (client) => {
+  'navigate to the embed stream 2': client => {
     const embedStream = client.page.embedStream();
 
-    embedStream
-      .navigate()
-      .ready();
+    embedStream.navigate().ready();
   },
-  'user logs in 2': (client) => {
-    const {testData: {user}} = client.globals;
+  'user logs in 2': client => {
+    const { testData: { user } } = client.globals;
     const comments = client.page.embedStream().section.comments;
 
-    comments
-      .openLoginPopup((popup) => popup.login(user));
+    comments.openLoginPopup(popup => popup.login(user));
   },
-  'user should be able to comment': (client) => {
+  'user should be able to comment': client => {
     const embedStream = client.page.embedStream();
     const comments = embedStream.section.comments;
 

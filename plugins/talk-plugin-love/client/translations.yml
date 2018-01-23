@@ -6,4 +6,11 @@ es:
   talk-plugin-love:
     love: Amo
     loved: Amé
-
+zh_CN:
+  talk-plugin-love:
+    love: " 比心"
+    loved: "已比心"
+zh_TW:
+  talk-plugin-love:
+    love: 比心
+    loved: 已比心

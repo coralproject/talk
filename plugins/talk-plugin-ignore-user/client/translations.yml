@@ -23,3 +23,25 @@ pt_Br:
     section_title: "Usuários ignorados"
     section_info: "Porque você ignorou os seguintes comentadores, seus comentários estão ocultos."
     stop_ignoring: "Pare de ignorar"
+zh_CN:
+  talk-plugin-ignore-user:
+    section_title: "被忽略用户"
+    section_info: "因为您忽略了下述评论者，他们的评论将会被隐藏。"
+    stop_ignoring: "停止忽略"
+    ignore_user: "忽略用户"
+    cancel: "取消"
+    confirmation: "当您忽略用户时，您将看不到该用户的所有评论。您可以在资料页面撤销此操作。"
+    notify_success: "您现在已忽略 {0}。您可以在资料页面撤销此操作。"
+    confirmation_title: "忽略 {0}？"
+zh_TW:
+  talk-plugin-ignore-user:
+    section_title: 屏蔽用戶
+    section_info: 因為您屏蔽了下列用戶，他們的評論已隱藏
+    stop_ignoring: 取消屏蔽
+    ignore_user: 屏蔽用戶
+    cancel: 取消
+    confirmation: |
+      當您屏蔽一個用戶，系統將對您隱藏所有他們在本站得評論。您稍後可以在個人檔案中撤銷這個操作。
+    notify_success: |
+      您將屏蔽 {0}。 您可以在個人檔案中撤銷該操作。
+    confirmation_title: 屏蔽 {0}?

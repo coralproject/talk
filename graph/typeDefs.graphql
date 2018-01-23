@@ -37,6 +37,12 @@ enum USER_ROLES {
 
   # a moderator of the site
   MODERATOR
+
+  # a staff of the site
+  STAFF
+
+  # a user without administrative roles.
+  COMMENTER
 }
 
 # Token is a personal access token associated with a given user.
@@ -64,8 +70,99 @@ type UserProfile {
   provider: String!
 }
 
-type SuspensionInfo {
+# USER_STATUS_USERNAME is the different states that a username can be in.
+enum USER_STATUS_USERNAME {
+  # UNSET is used when the username can be changed, and does not necessarily
+  # require moderator action to become active. This can be used when the user
+  # signs up with a social login and has the option of setting their own
+  # username.
+  UNSET
+
+  # SET is used when the username has been set for the first time, but cannot
+  # change without the username being rejected by a moderator and that moderator
+  # agreeing that the username should be allowed to change.
+  SET
+
+  # APPROVED is used when the username was changed, and subsequently approved by
+  # said moderator.
+  APPROVED
+
+  # REJECTED is used when the username was changed, and subsequently rejected by
+  # said moderator.
+  REJECTED
+
+  # CHANGED is used after a user has changed their username after it was
+  # rejected.
+  CHANGED
+}
+
+# UserStatusInput describes the queryable components of the UserStatus.
+input UserStatusInput {
+  # username will restrict the returned users to only those with the given
+  # username status's. If not provided, no filtering will be performed.
+  username: [USER_STATUS_USERNAME!]
+
+  # banned will restrict the returned users to only those that are, or are not
+  # banned. If not provided, no filtering will be performed.
+  banned: Boolean
+
+  # suspended will restrict the returned users to only those that are, or are not
+  # suspended. If not provided, no filtering will be performed.
+  suspended: Boolean
+}
+
+type UsernameStatusHistory {
+  status: USER_STATUS_USERNAME!
+  assigned_by: User
+  created_at: Date!
+}
+
+type UsernameStatus {
+  status: USER_STATUS_USERNAME!
+  history: [UsernameStatusHistory!]
+}
+
+type BannedStatusHistory {
+  status: Boolean!
+  assigned_by: User
+  created_at: Date!
+}
+
+type BannedStatus {
+  status: Boolean!
+  history: [BannedStatusHistory!]
+}
+
+type SuspensionStatusHistory {
   until: Date
+  assigned_by: User
+  created_at: Date!
+}
+
+type SuspensionStatus {
+  until: Date
+  history: [SuspensionStatusHistory!]
+}
+
+type UserStatus {
+  # username is the status of the username.
+  username: UsernameStatus!
+
+  # banned is the bool that determines if the user is banned or not.
+  banned: BannedStatus!
+
+  # suspension is the date that the user is suspended until.
+  suspension: SuspensionStatus!
+}
+
+input UserStateInput {
+  status: UserStatusInput
+}
+
+# UserState describes the different permission based details for a user.
+type UserState {
+  # status describes the statuses of different aspects of the user's details.
+  status: UserStatus
 }
 
 # Any person who can author comments, create actions, and view comments on a
@@ -88,16 +185,13 @@ type User {
   actions: [Action!]
 
   # the current roles of the user.
-  roles: [USER_ROLES!]
+  role: USER_ROLES
 
   # the current profiles of the user.
   profiles: [UserProfile]
 
   # the tags on the user
   tags: [TagLink!]
-
-  # determines whether the user can edit their username
-  canEditName: Boolean
 
   # ignored users.
   ignoredUsers: [User!]
@@ -114,11 +208,7 @@ type User {
   reliable: Reliability
 
   # returns user status
-  status: USER_STATUS
-
-  # returns suspension info. Only available to Admins and Moderators
-  # or on own logged in User.
-  suspension: SuspensionInfo
+  state: UserState
 }
 
 # UserConnection represents a paginable subset of a user list.
@@ -143,8 +233,11 @@ input UsersQuery {
   # Users returned will only be ones which have at least one action of this.
   action_type: ACTION_TYPE
 
-  # Current status of a user..
-  statuses: [USER_STATUS!]
+  # state will filter the users to a specific set of users that meet.
+  state: UserStateInput
+
+  # value is the search string to use to search for a pa
+  value: String = ""
 
   # Limit the number of results to be returned.
   limit: Int = 10
@@ -261,7 +354,7 @@ enum ACTION_TYPE {
 # CommentsQuery allows the ability to query comments by a specific methods.
 input CommentsQuery {
 
-  # Author of the commente
+  # Author of the comments.
   author_id: ID
 
   # Current status of a comment.
@@ -351,8 +444,8 @@ input UserCountQuery {
   # type.
   action_type: ACTION_TYPE
 
-  # Current status of a user.
-  statuses: [USER_STATUS]
+  # state queries for a specific subset of users with the given state query.
+  state: UserStateInput
 }
 
 type EditInfo {
@@ -518,6 +611,36 @@ type FlagAssetActionSummary implements AssetActionSummary {
   actionableItemCount: Int
 }
 
+enum FLAG_REASON {
+
+  # The current user thinks that the flagged username is offensive.
+  USERNAME_OFFENSIVE
+
+  # The current user does not like the flagged username.
+  USERNAME_NOLIKE
+
+  # The current user thinks that the flagged username is being used to
+  # impersonate another user.
+  USERNAME_IMPERSONATING
+
+  # The current user thinks that the flagged username is spam.
+  USERNAME_SPAM
+
+  # The current user thinks that the flagged username is wrong for another
+  # reason.
+  USERNAME_OTHER
+
+  # The current user thinks that the flagged comment is offensive.
+  COMMENT_OFFENSIVE
+
+  # The current user thinks that the flagged comment is spam.
+  COMMENT_SPAM
+
+  # The current user thinks that the flagged comment is wrong for another
+  # reason.
+  COMMENT_OTHER
+}
+
 # A FLAG action that contains flag metadata.
 type FlagAction implements Action {
 
@@ -545,9 +668,6 @@ type DontAgreeAction implements Action {
 
   # The ID of the DontAgree Action.
   id: ID!
-
-  # The reason for which the DontAgree Action was created.
-  reason: String
 
   # An optional message sent with the flagging action by the user.
   message: String
@@ -580,9 +700,6 @@ type DontAgreeActionSummary implements ActionSummary {
 
   # The total count of flags with this reason.
   count: Int!
-
-  # The reason for which the Flag Action was created.
-  reason: String
 
   # The don't agree action by the current user against the parent entity with this reason.
   current_user: DontAgreeAction
@@ -810,14 +927,6 @@ enum SORT_COMMENTS_BY {
   REPLIES
 }
 
-# All queries that can be executed.
-enum USER_STATUS {
-  ACTIVE
-  BANNED
-  PENDING
-  APPROVED
-}
-
 type RootQuery {
 
   # Site wide settings and defaults.
@@ -892,15 +1001,6 @@ enum ACTION_ITEM_TYPE {
   USERS
 }
 
-input CreateLikeInput {
-
-  # The item's id for which we are to create a like.
-  item_id: ID!
-
-  # The type of the item for which we are to create the like.
-  item_type: ACTION_ITEM_TYPE!
-}
-
 # CreateCommentInput is the input content used to create a new comment.
 input CreateCommentInput {
 
@@ -915,7 +1015,6 @@ input CreateCommentInput {
 
   # Tags
   tags: [String]
-
 }
 
 input CreateFlagInput {
@@ -927,7 +1026,7 @@ input CreateFlagInput {
   item_type: ACTION_ITEM_TYPE!
 
   # The reason for flagging the item.
-  reason: String!
+  reason: FLAG_REASON
 
   # An optional message sent with the flagging action by the user.
   message: String
@@ -966,34 +1065,8 @@ input CreateDontAgreeInput {
   # The type of the item for which we are to create the don't agree.
   item_type: ACTION_ITEM_TYPE!
 
-  # The reason for not agreeing with the item.
-  reason: String
-
   # An optional message sent with the don't agree action by the user.
   message: String
-}
-
-# Input for suspendUser mutation.
-input SuspendUserInput {
-
-  # id of target user.
-  id: ID!
-
-  # message to be sent to the user.
-  message: String!
-
-  # target user will be suspended until this date.
-  until: Date!
-}
-
-# Input for rejectUsername mutation.
-input RejectUsernameInput {
-
-  # id of target user.
-  id: ID!
-
-  # message to be sent to the user.
-  message: String!
 }
 
 # Configurable settings that can be overridden for the Asset. You must specify
@@ -1006,7 +1079,7 @@ input AssetSettingsInput {
   # moderation is the moderation mode for the asset.
   moderation: MODERATION_MODE
 
-  # questionBoxEnable will enable the Question Boxs' content to be visable above
+  # questionBoxEnable will enable the Question Boxs' content to be visible above
   # the comment box.
   questionBoxEnable: Boolean
 
@@ -1038,6 +1111,14 @@ type UpdateAssetStatusResponse implements Response {
   errors: [UserError!]
 }
 
+# CloseAssetResponse is the response returned with possibly some errors
+# relating to the update status attempt.
+type CloseAssetResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 # UpdateAssetSettingsResponse is the response returned with possibly some errors
 # relating to the update settings attempt.
 type UpdateAssetSettingsResponse implements Response {
@@ -1049,30 +1130,6 @@ type UpdateAssetSettingsResponse implements Response {
 # DeleteActionResponse is the response returned with possibly some errors
 # relating to the delete action attempt.
 type DeleteActionResponse implements Response {
-
-  # An array of errors relating to the mutation that occurred.
-  errors: [UserError!]
-}
-
-# SetUserStatusResponse is the response returned with possibly some errors
-# relating to the delete action attempt.
-type SetUserStatusResponse implements Response {
-
-  # An array of errors relating to the mutation that occurred.
-  errors: [UserError!]
-}
-
-# SuspendUserResponse is the response returned with possibly some errors
-# relating to the suspend action attempt.
-type SuspendUserResponse implements Response {
-
-  # An array of errors relating to the mutation that occurred.
-  errors: [UserError!]
-}
-
-# RejectUsernameResponse is the response returned with possibly some errors
-# relating to the reject username action attempt.
-type RejectUsernameResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
   errors: [UserError!]
@@ -1197,7 +1254,7 @@ input UpdateSettingsInput {
   # comment is posted that it can still be edited by the author.
   editCommentWindowLength: Int
 
-  # wordlist allows chaninging the available wordlists.
+  # wordlist allows changing the available wordlists.
   wordlist: UpdateWordlistInput
 
   # domains allows changing the available lists of domains.
@@ -1260,6 +1317,69 @@ type RevokeTokenResponse implements Response {
   errors: [UserError!]
 }
 
+input BanUserInput {
+  id: ID!
+  message: String!
+}
+
+input UnbanUserInput {
+  id: ID!
+}
+
+type BanUsersResponse implements Response {
+  errors: [UserError!]
+}
+
+type UnbanUserResponse implements Response {
+  errors: [UserError!]
+}
+
+input SuspendUserInput {
+  id: ID!
+  message: String!
+  until: Date!
+}
+
+type SuspendUserResponse implements Response {
+  errors: [UserError!]
+}
+
+input UnsuspendUserInput {
+  id: ID!
+}
+
+# UnsuspendUserResponse is the response returned with possibly some
+# errors relating to the suspend action attempt.
+type UnsuspendUserResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+type SetUsernameStatusResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+type ChangeUsernameResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+type SetUsernameResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+type SetUserRoleResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 # All mutations for the application are defined on this object.
 type RootMutation {
 
@@ -1278,17 +1398,38 @@ type RootMutation {
   # Edit a comment
   editComment(id: ID!, asset_id: ID!, edit: EditCommentInput): EditCommentResponse!
 
-  # Sets User status. Requires the `ADMIN` role.
-  # Mutation is restricted.
-  setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse
-
-  # Suspends a user. Requires the `ADMIN` role.
+  # Sets the suspension status on a given user. Requires the `MODERATOR` role.
   # Mutation is restricted.
   suspendUser(input: SuspendUserInput!): SuspendUserResponse
 
-  # Reject a username. Requires the `ADMIN` role.
+  # Sets the suspension status on a given user. Requires the `MODERATOR` role.
   # Mutation is restricted.
-  rejectUsername(input: RejectUsernameInput!): RejectUsernameResponse
+  unsuspendUser(input: UnsuspendUserInput!): UnsuspendUserResponse
+
+  # Sets the ban status on a given user. Requires the `MODERATOR` role.
+  # Mutation is restricted.
+  banUser(input: BanUserInput!): BanUsersResponse
+
+  # Sets the ban status on a given user. Requires the `MODERATOR` role.
+  # Mutation is restricted.
+  unbanUser(input: UnbanUserInput!): UnbanUserResponse
+
+  # Sets the username status on a given user to `APPROVED`. Requires the
+  # `MODERATOR` role. Mutation is restricted.
+  approveUsername(id: ID!): SetUsernameStatusResponse
+
+  # Sets the username status on a given user to `REJECTED`. Requires the
+  # `MODERATOR` role. Mutation is restricted.
+  rejectUsername(id: ID!): SetUsernameStatusResponse
+
+  # Changes the username to the desired username. Mutation is restricted to
+  # those users with permission do to so.
+  changeUsername(id: ID!, username: String!): ChangeUsernameResponse
+
+  # Sets the username to the desired username if the user has not had a chance
+  # to set their username. Mutation is restricted to those users with permission
+  # do to so that have not done so before.
+  setUsername(id: ID!, username: String!): SetUsernameResponse
 
   # Sets Comment status. Requires the `ADMIN` role.
   # Mutation is restricted.
@@ -1300,14 +1441,21 @@ type RootMutation {
   # Removes a tag.
   removeTag(tag: ModifyTagInput!): ModifyTagResponse
 
+  # Set's a given users role to the one provided. If `null` is passed, the user
+  # will not have any role.
+  setUserRole(id: ID!, role: USER_ROLES): SetUserRoleResponse
+
   # Updates settings on a given asset.
   # Mutation is restricted.
   updateAssetSettings(id: ID!, input: AssetSettingsInput!): UpdateAssetSettingsResponse
 
   # Updates the status of an asset allowing you to close/reopen an asset for
   # commenting.
-    # Mutation is restricted.
+  # Mutation is restricted.
   updateAssetStatus(id: ID!, input: UpdateAssetStatusInput!): UpdateAssetStatusResponse
+
+  # closeAsset will close the asset for commenting based on server time.
+  closeAsset(id: ID!): CloseAssetResponse
 
   # updateSettings will update the global settings.
   # Mutation is restricted.
@@ -1326,6 +1474,11 @@ type RootMutation {
 
   # Stop Ignoring comments by another user.
   stopIgnoringUser(id: ID!): StopIgnoringUserResponse
+}
+
+type UsernameChangedPayload {
+  previousUsername: String
+  user: User
 }
 
 ################################################################################
@@ -1369,10 +1522,23 @@ type Subscription {
   # users with the `ADMIN` or `MODERATOR` role.
   userBanned(user_id: ID): User
 
+  # Get an update whenever a username was flagged.
+  # `user_id` must match id of current user except for
+  # users with the `ADMIN` or `MODERATOR` role.
+  usernameFlagged(user_id: ID): User
+
   # Get an update whenever a username has been rejected.
   # `user_id` must match id of current user except for
   # users with the `ADMIN` or `MODERATOR` role.
   usernameRejected(user_id: ID): User
+
+  # Get an update whenever a username has been approved. `user_id` must match id
+  # of current user except for users with the `ADMIN` or `MODERATOR` role.
+  usernameApproved(user_id: ID): User
+
+  # Get an update whenever a username has been changed. `user_id` must match id
+  # of current user except for users with the `ADMIN` or `MODERATOR` role.
+  usernameChanged(user_id: ID): UsernameChangedPayload
 }
 
 ################################################################################

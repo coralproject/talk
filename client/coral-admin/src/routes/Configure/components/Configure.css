@@ -20,7 +20,7 @@
 
 .mainContent {
   width: calc(100% - 300px);
-  padding: 10px 14px 80px 14px;
+  padding: 10px 14px 120px 14px;
   box-sizing: border-box;
   max-width: 718px;
 }

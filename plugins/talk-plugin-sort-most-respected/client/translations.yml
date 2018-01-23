@@ -3,3 +3,9 @@ en:
     label: Most respected first
 es:
   talk-plugin-sort-most-respected:
+zh_CN:
+  talk-plugin-sort-most-respected:
+    label: "最多被赞在前"
+zh_TW:
+  talk-plugin-sort-most-respected:
+    label: 最多被讚在前

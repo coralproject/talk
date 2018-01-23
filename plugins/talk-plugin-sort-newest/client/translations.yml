@@ -3,3 +3,9 @@ en:
     label: Newest first
 es:
   talk-plugin-sort-newest:
+zh_CN:
+  talk-plugin-sort-newest:
+    label: "最新发表在前"
+zh_TW:
+  talk-plugin-sort-newest:
+    label: 最新發表在前

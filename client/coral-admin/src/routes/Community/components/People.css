@@ -1,0 +1,132 @@
+.container {
+  padding: 10px;
+  display: flex;
+  padding-bottom: 200px;
+}
+
+.leftColumn {
+  padding: 42px 56px;
+  width: 234px;
+}
+
+.searchBox {
+  width: 100%;
+  padding: 9px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  display: flex;
+  background: white;
+  box-sizing: border-box;
+  height: 40px;
+
+  i {
+    color: #A1A1A1
+  }
+
+  input {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    font-size: 16px;
+    padding: 0 2px 0 15px;
+    box-sizing: border-box;
+  }
+}
+
+.mainContent {
+  width: calc(100% - 300px);
+  padding: 34px 14px;
+  box-sizing: border-box;
+}
+
+.dataTable {
+  width: 100%;
+  border-left: none;
+  border-right: none;
+}
+
+th.header {
+  font-size: 1.1em;
+}
+
+th.header:nth-child(2), th.header:nth-child(3) {
+  width: 100px;
+}
+
+.button {
+  composes: buttonReset from 'coral-framework/styles/reset.css';
+  &:hover {
+    background-color: #D0D0D0;
+  }
+}
+
+.username, .email {
+  max-width: 215px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.email {
+  display: block;
+}
+
+.selectField {
+  position: relative;
+  width: 150px;
+  height: 36px;
+  background: #2c2c2c;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  color: white;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+
+  > div {
+    padding: 0;
+  }
+
+  i {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+  }
+
+  input {
+    padding: 0;
+    font-size: 13px;
+    letter-spacing: 0.7px;
+    font-weight: 400;
+  }
+
+  &:hover {
+    cursor: pointer;
+   }
+}
+
+.actionsMenu {
+  font-size: 1em;
+}
+
+.actionsMenu .actionsMenuButton {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  font-size: 0.98em;
+}
+
+.actionsMenuSuspended {
+  background-color: #F29336;
+  border-color: #F29336;
+  color: white;
+}
+
+.actionsMenuBanned {
+  background-color: #E45241;
+  border-color: #E45241;
+  color: white;
+}
+
+.loadMore {
+  margin-top: 24px;
+}

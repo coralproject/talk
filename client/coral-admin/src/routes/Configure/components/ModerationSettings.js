@@ -7,44 +7,55 @@ import ConfigurePage from './ConfigurePage';
 import ConfigureCard from 'coral-framework/components/ConfigureCard';
 
 class ModerationSettings extends React.Component {
-
   updateModeration = () => {
-    const updater = {moderation: {$set: this.props.settings.moderation === 'PRE' ? 'POST' : 'PRE'}};
-    this.props.updatePending({updater});
+    const updater = {
+      moderation: {
+        $set: this.props.settings.moderation === 'PRE' ? 'POST' : 'PRE',
+      },
+    };
+    this.props.updatePending({ updater });
   };
 
   updateEmailConfirmation = () => {
-    const updater = {requireEmailConfirmation: {$set: !this.props.settings.requireEmailConfirmation}};
-    this.props.updatePending({updater});
+    const updater = {
+      requireEmailConfirmation: {
+        $set: !this.props.settings.requireEmailConfirmation,
+      },
+    };
+    this.props.updatePending({ updater });
   };
 
   updatePremodLinksEnable = () => {
-    const updater = {premodLinksEnable: {$set: !this.props.settings.premodLinksEnable}};
-    this.props.updatePending({updater});
+    const updater = {
+      premodLinksEnable: { $set: !this.props.settings.premodLinksEnable },
+    };
+    this.props.updatePending({ updater });
   };
 
   updateWordlist = (listName, list) => {
-    this.props.updatePending({updater: {
-      wordlist: {$apply: (wordlist) => {
-        const changeSet = {[listName]: list};
-        if (!wordlist) {
-          return changeSet;
-        }
-        return {
-          ...wordlist,
-          ...changeSet,
-        };
-      }},
-    }});
+    this.props.updatePending({
+      updater: {
+        wordlist: {
+          $apply: wordlist => {
+            const changeSet = { [listName]: list };
+            if (!wordlist) {
+              return changeSet;
+            }
+            return {
+              ...wordlist,
+              ...changeSet,
+            };
+          },
+        },
+      },
+    });
   };
 
   render() {
-    const {settings, data, root, updatePending, errors} = this.props;
+    const { settings, data, root, updatePending, errors } = this.props;
 
     return (
-      <ConfigurePage
-        title={t('configure.moderation_settings')}
-      >
+      <ConfigurePage title={t('configure.moderation_settings')}>
         <ConfigureCard
           checked={settings.requireEmailConfirmation}
           onCheckbox={this.updateEmailConfirmation}
@@ -69,11 +80,12 @@ class ModerationSettings extends React.Component {
         <Wordlist
           bannedWords={settings.wordlist.banned}
           suspectWords={settings.wordlist.suspect}
-          onChangeWordlist={this.updateWordlist} />
+          onChangeWordlist={this.updateWordlist}
+        />
         <Slot
           fill="adminModerationSettings"
           data={data}
-          queryData={{root, settings}}
+          queryData={{ root, settings }}
           updatePending={updatePending}
           errors={errors}
         />

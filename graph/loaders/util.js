@@ -16,7 +16,7 @@ class SingletonResolver {
       return this._cache;
     }
 
-    let promise = this._resolver(arguments).then((result) => {
+    let promise = this._resolver(arguments).then(result => {
       return result;
     });
 
@@ -34,10 +34,10 @@ class SingletonResolver {
  * @param  {String} key key to group by
  * @return {Array}      array of results
  */
-const arrayJoinBy = (ids, key) => (items) => {
+const arrayJoinBy = (ids, key) => items => {
   const itemsByKey = _.groupBy(items, key);
 
-  return ids.map((id) => {
+  return ids.map(id => {
     if (id in itemsByKey) {
       return itemsByKey[id];
     }
@@ -53,9 +53,9 @@ const arrayJoinBy = (ids, key) => (items) => {
  * @param  {String} key key to group by
  * @return {Array}      array of results
  */
-const singleJoinBy = (ids, key) => (items) => {
+const singleJoinBy = (ids, key) => items => {
   const itemsByKey = _.groupBy(items, key);
-  return ids.map((id) => {
+  return ids.map(id => {
     if (id in itemsByKey) {
       return itemsByKey[id][0];
     }
@@ -70,7 +70,10 @@ const singleJoinBy = (ids, key) => (items) => {
  */
 class SharedCacheDataLoader extends DataLoader {
   constructor(prefix, expiry, batchLoadFn, options) {
-    super(SharedCacheDataLoader.batchLoadFn(prefix, expiry, batchLoadFn), options);
+    super(
+      SharedCacheDataLoader.batchLoadFn(prefix, expiry, batchLoadFn),
+      options
+    );
 
     // Expiry is provided as a number in ms, we're using commands optimized for
     // seconds, so convert this to seconds.
@@ -83,9 +86,7 @@ class SharedCacheDataLoader extends DataLoader {
    * clear the key from the shared cache and the request cache
    */
   clear(key) {
-    return cache
-      .invalidate(key, this._keyFunc)
-      .then(() => super.clear(key));
+    return cache.invalidate(key, this._keyFunc).then(() => super.clear(key));
   }
 
   /**
@@ -110,16 +111,22 @@ class SharedCacheDataLoader extends DataLoader {
    * wraps up the prefix needed for the redis backed shared cache driver
    */
   static keyFunc(prefix) {
-    return (key) => `cache.sbl[${prefix}][${key}]`;
+    return key => `cache.sbl[${prefix}][${key}]`;
   }
 
   /**
    * wraps the dataloader batchLoadFn with the shared cache's wrapper
    */
   static batchLoadFn(prefix, expiry, batchLoadFn) {
-    return (ids) => cache.wrapMany(ids, expiry, (workKeys) => {
-      return batchLoadFn(workKeys);
-    }, SharedCacheDataLoader.keyFunc(prefix));
+    return ids =>
+      cache.wrapMany(
+        ids,
+        expiry,
+        workKeys => {
+          return batchLoadFn(workKeys);
+        },
+        SharedCacheDataLoader.keyFunc(prefix)
+      );
   }
 }
 
@@ -128,7 +135,6 @@ class SharedCacheDataLoader extends DataLoader {
  * exception in that it is designed to work with numerical cached data.
  */
 class SharedCounterDataLoader extends SharedCacheDataLoader {
-
   /**
    * Increments the key in the cache if it already exists in the cache, if not
    * it does nothing.
@@ -151,8 +157,8 @@ class SharedCounterDataLoader extends SharedCacheDataLoader {
  * @param  {Array} paths paths on the object to be used to generate the cache
  *                       key
  */
-const objectCacheKeyFn = (...paths) => (obj) => {
-  return paths.map((path) => obj[path]).join(':');
+const objectCacheKeyFn = (...paths) => obj => {
+  return paths.map(path => obj[path]).join(':');
 };
 
 /**
@@ -160,7 +166,7 @@ const objectCacheKeyFn = (...paths) => (obj) => {
  * @param  {Array} paths paths on the object to be used to generate the cache
  *                       key
  */
-const arrayCacheKeyFn = (arr) => {
+const arrayCacheKeyFn = arr => {
   return arr.sort().join(':');
 };
 
@@ -171,5 +177,5 @@ module.exports = {
   arrayCacheKeyFn,
   SingletonResolver,
   SharedCacheDataLoader,
-  SharedCounterDataLoader
+  SharedCounterDataLoader,
 };

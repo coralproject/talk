@@ -1,8 +1,18 @@
 {
   "en": {
-    "off_topic": "Off Topic"
+    "off_topic": "Off Topic",
+    "hide_off_topic": "Hide Off-Topic Comments"
   },
   "es": {
-    "off_topic": "Fuera de Topico"
+    "off_topic": "Fuera de Tópico",
+    "hide_off_topic": "Hide Off-Topic Comments"
+  },
+  "zh_CN": {
+    "off_topic": "无关主题",
+    "hide_off_topic": "隐藏与主题无关评论"
+  },
+  "zh_TW": {
+    "off_topic": "無關主題",
+    "hide_off_topic": "隱藏與主題無關評論"
   }
 }

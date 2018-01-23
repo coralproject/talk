@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-import {appendNewNodes} from 'coral-framework/utils';
+import { appendNewNodes } from 'coral-framework/utils';
 
 function determineCommentDepth(comment) {
   let depth = 0;
@@ -15,9 +15,9 @@ function applyToCommentsOrigin(root, callback) {
   if (root.asset.comment) {
     let comment = root.asset.comment;
     for (let depth = 0; depth <= determineCommentDepth(comment); depth++) {
-      let changes = {$apply: (node) => node ? callback(node) : node};
+      let changes = { $apply: node => (node ? callback(node) : node) };
       for (let i = 0; i < depth; i++) {
-        changes = {parent: changes};
+        changes = { parent: changes };
       }
       comment = update(comment, changes);
     }
@@ -31,7 +31,7 @@ function applyToCommentsOrigin(root, callback) {
     };
   }
   return update(root, {
-    asset: {$apply: (asset) => callback(asset)},
+    asset: { $apply: asset => callback(asset) },
   });
 }
 
@@ -42,14 +42,14 @@ function findAndInsertComment(parent, comment) {
     : ['replies', 'replyCount', '$push'];
 
   if (
-    !comment.parent && isAsset                            // A top level comment in the asset.
-    || comment.parent && parent.id === comment.parent.id  // A reply at the correct parent.
+    (!comment.parent && isAsset) || // A top level comment in the asset.
+    (comment.parent && parent.id === comment.parent.id) // A reply at the correct parent.
   ) {
     return update(parent, {
       [connectionField]: {
-        nodes: {[action]: [comment]},
+        nodes: { [action]: [comment] },
       },
-      [countField]: {$apply: (c) => c + 1},
+      [countField]: { $apply: c => c + 1 },
     });
   }
   const connection = parent[connectionField];
@@ -59,45 +59,49 @@ function findAndInsertComment(parent, comment) {
   return update(parent, {
     [connectionField]: {
       nodes: {
-        $apply: (nodes) =>
-          nodes.map((node) => findAndInsertComment(node, comment))
+        $apply: nodes => nodes.map(node => findAndInsertComment(node, comment)),
       },
     },
   });
 }
 
 export function insertCommentIntoEmbedQuery(root, comment) {
-  return applyToCommentsOrigin(root, (origin) => findAndInsertComment(origin, comment));
+  return applyToCommentsOrigin(root, origin =>
+    findAndInsertComment(origin, comment)
+  );
 }
 
 function findAndRemoveComment(parent, id) {
-  const [connectionField, countField] = parent.__typename === 'Asset'
-    ? ['comments', 'totalCommentCount']
-    : ['replies', 'replyCount'];
+  const [connectionField, countField] =
+    parent.__typename === 'Asset'
+      ? ['comments', 'totalCommentCount']
+      : ['replies', 'replyCount'];
 
   const connection = parent[connectionField];
   if (!connection) {
     return parent;
   }
 
-  let next = connection.nodes.filter((node) => node.id !== id);
+  let next = connection.nodes.filter(node => node.id !== id);
   if (next.length === connection.nodes.length) {
-    next = next.map((node) => findAndRemoveComment(node, id));
+    next = next.map(node => findAndRemoveComment(node, id));
   }
   let changes = {
     [connectionField]: {
-      nodes: {$set: next},
+      nodes: { $set: next },
     },
   };
 
   if (parent[countField] && next.length !== connection.nodes.length) {
-    changes[countField] = {$set: parent[countField] - 1};
+    changes[countField] = { $set: parent[countField] - 1 };
   }
   return update(parent, changes);
 }
 
 export function removeCommentFromEmbedQuery(root, id) {
-  return applyToCommentsOrigin(root, (origin) => findAndRemoveComment(origin, id));
+  return applyToCommentsOrigin(root, origin =>
+    findAndRemoveComment(origin, id)
+  );
 }
 
 export function getTopLevelParent(comment) {
@@ -115,7 +119,7 @@ export function findComment(nodes, callback) {
     }
     if (node.replies) {
       const find = findComment(node.replies.nodes, callback);
-      if (find){
+      if (find) {
         return find;
       }
     }
@@ -124,7 +128,7 @@ export function findComment(nodes, callback) {
 }
 
 export function findCommentWithId(nodes, id) {
-  return findComment(nodes, (node) => node.id === id);
+  return findComment(nodes, node => node.id === id);
 }
 
 export function findCommentInEmbedQuery(root, callbackOrId) {
@@ -134,7 +138,7 @@ export function findCommentInEmbedQuery(root, callbackOrId) {
 export function findCommentInAsset(asset, callbackOrId) {
   let callback = callbackOrId;
   if (typeof callbackOrId === 'string') {
-    callback = (node) => node.id === callbackOrId;
+    callback = node => node.id === callbackOrId;
   }
   if (asset.comment) {
     return findComment([getTopLevelParent(asset.comment)], callback);
@@ -148,12 +152,15 @@ export function findCommentInAsset(asset, callbackOrId) {
 function findAndInsertFetchedComments(parent, comments, parent_id) {
   const isAsset = parent.__typename === 'Asset';
   const connectionField = isAsset ? 'comments' : 'replies';
-  if (!parent_id && connectionField === 'comments' || parent.id === parent_id) {
+  if (
+    (!parent_id && connectionField === 'comments') ||
+    parent.id === parent_id
+  ) {
     return update(parent, {
       [connectionField]: {
-        hasNextPage: {$set: comments.hasNextPage},
-        endCursor: {$set: comments.endCursor},
-        nodes: {$apply: (nodes) => appendNewNodes(nodes, comments.nodes)},
+        hasNextPage: { $set: comments.hasNextPage },
+        endCursor: { $set: comments.endCursor },
+        nodes: { $apply: nodes => appendNewNodes(nodes, comments.nodes) },
       },
     });
   }
@@ -165,15 +172,19 @@ function findAndInsertFetchedComments(parent, comments, parent_id) {
   return update(parent, {
     [connectionField]: {
       nodes: {
-        $apply: (nodes) =>
-          nodes.map((node) => findAndInsertFetchedComments(node, comments, parent_id))
+        $apply: nodes =>
+          nodes.map(node =>
+            findAndInsertFetchedComments(node, comments, parent_id)
+          ),
       },
     },
   });
 }
 
 export function insertFetchedCommentsIntoEmbedQuery(root, comments, parent_id) {
-  return applyToCommentsOrigin(root, (origin) => findAndInsertFetchedComments(origin, comments, parent_id));
+  return applyToCommentsOrigin(root, origin =>
+    findAndInsertFetchedComments(origin, comments, parent_id)
+  );
 }
 
 /**
@@ -185,18 +196,19 @@ export function attachCommentToParent(topLevelComment, comment) {
     return update(topLevelComment, {
       replies: {
         nodes: {
-          $apply: (nodes) => appendNewNodes(nodes, [comment]),
+          $apply: nodes => appendNewNodes(nodes, [comment]),
         },
       },
       replyCount: {
-        $set: (count) => count + 1,
-      }
+        $set: count => count + 1,
+      },
     });
   }
   return update(topLevelComment, {
     replies: {
       nodes: {
-        $apply: (nodes) => nodes.map((node) => attachCommentToParent(node, comment)),
+        $apply: nodes =>
+          nodes.map(node => attachCommentToParent(node, comment)),
       },
     },
   });

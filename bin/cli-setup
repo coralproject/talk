@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
+const util = require('./util');
+const program = require('commander');
 const inquirer = require('inquirer');
 const mongoose = require('../services/mongoose');
 const SettingModel = require('../models/setting');
@@ -12,13 +13,10 @@ const MODERATION_OPTIONS = require('../models/enum/moderation_options');
 const SettingsService = require('../services/settings');
 const SetupService = require('../services/setup');
 const UsersService = require('../services/users');
-const util = require('./util');
 const errors = require('../errors');
 
 // Register the shutdown criteria.
-util.onshutdown([
-  () => mongoose.disconnect()
-]);
+util.onshutdown([() => mongoose.disconnect()]);
 
 //==============================================================================
 // Setting up the program command line arguments.
@@ -34,19 +32,15 @@ program
 //==============================================================================
 
 const performSetup = async () => {
-
   // Get the current settings, we are expecing an error here.
   try {
-
     // Try to get the settings.
     await SettingsService.retrieve();
 
     // We should NOT have gotten a settings object, this means that the
     // application is already setup. Error out here.
     throw errors.ErrSettingsInit;
-
   } catch (e) {
-
     // If the error is `not init`, then we're good, otherwise, it's something
     // else.
     if (e !== errors.ErrSettingsNotInit) {
@@ -66,7 +60,9 @@ const performSetup = async () => {
   // Create the base settings model.
   let settings = new SettingModel();
 
-  console.log('\nWe\'ll ask you some questions in order to setup your installation of Talk.\n');
+  console.log(
+    "\nWe'll ask you some questions in order to setup your installation of Talk.\n"
+  );
 
   let answers = await inquirer.prompt([
     {
@@ -74,31 +70,31 @@ const performSetup = async () => {
       name: 'organizationName',
       message: 'Organization Name',
       default: settings.organizationName,
-      validate: (input) => {
+      validate: input => {
         if (input && input.length > 0) {
           return true;
         }
 
         return 'Organization Name is required.';
-      }
+      },
     },
     {
       type: 'list',
       choices: MODERATION_OPTIONS,
       name: 'moderation',
       default: settings.moderation,
-      message: 'Select a moderation mode'
+      message: 'Select a moderation mode',
     },
     {
       type: 'confirm',
       name: 'requireEmailConfirmation',
       default: settings.requireEmailConfirmation,
-      message: 'Should emails always be confirmed'
+      message: 'Should emails always be confirmed',
     },
   ]);
 
   // Update the settings that were changed.
-  Object.keys(answers).forEach((key) => {
+  Object.keys(answers).forEach(key => {
     if (answers[key] !== undefined) {
       settings[key] = answers[key];
     }
@@ -109,97 +105,93 @@ const performSetup = async () => {
       type: 'confirm',
       name: 'inputWhitelistedDomains',
       default: true,
-      message: 'Would you like to specify a whitelisted domain'
+      message: 'Would you like to specify a whitelisted domain',
     },
     {
       type: 'input',
       name: 'whitelistedDomain',
       message: 'Whitelisted Domain',
-      when: ({inputWhitelistedDomains}) => inputWhitelistedDomains,
-      validate: (input) => {
+      when: ({ inputWhitelistedDomains }) => inputWhitelistedDomains,
+      validate: input => {
         if (input && input.length > 0) {
           return true;
         }
 
         return 'Whitelisted Domain cannot be empty.';
-      }
-    }
+      },
+    },
   ]);
 
   if (answers.inputWhitelistedDomains) {
     settings.domains.whitelist = [answers.whitelistedDomain];
   }
 
-  console.log('\nWe\'ll ask you some questions about your first admin user.\n');
+  console.log("\nWe'll ask you some questions about your first admin user.\n");
 
   let user = await inquirer.prompt([
     {
       type: 'input',
       name: 'username',
       message: 'Username',
-      filter: (username) => {
-        return UsersService
-          .isValidUsername(username, false)
-          .catch((err) => {
-            throw err.message;
-          });
-      }
+      filter: username => {
+        return UsersService.isValidUsername(username, false).catch(err => {
+          throw err.message;
+        });
+      },
     },
     {
       name: 'email',
       message: 'Email',
       format: 'email',
-      validate: (value) => {
+      validate: value => {
         if (value && value.length >= 3) {
           return true;
         }
 
         return 'Email is required';
-      }
+      },
     },
     {
       name: 'password',
       message: 'Password',
       type: 'password',
-      filter: (password) => {
-        return UsersService
-          .isValidPassword(password)
-          .catch((err) => {
-            throw err.message;
-          });
-      }
+      filter: password => {
+        return UsersService.isValidPassword(password).catch(err => {
+          throw err.message;
+        });
+      },
     },
     {
       name: 'confirmPassword',
       message: 'Confirm Password',
       type: 'password',
-      filter: (confirmPassword, {password}) => {
+      filter: (confirmPassword, { password }) => {
         if (password !== confirmPassword) {
           return Promise.reject(new Error('Passwords do not match'));
         }
 
-        return UsersService
-          .isValidPassword(confirmPassword)
-          .catch((err) => {
-            throw err.message;
-          });
-      }
+        return UsersService.isValidPassword(confirmPassword).catch(err => {
+          throw err.message;
+        });
+      },
     },
   ]);
 
-  let {user: newUser} = await SetupService.setup({
+  let { user: newUser } = await SetupService.setup({
     settings: settings.toObject(),
     user: {
       email: user.email,
       username: user.username,
-      password: user.password
-    }
+      password: user.password,
+    },
   });
 
   console.log('Settings created.');
   console.log(`User ${newUser.id} created.`);
   console.log('\nTalk is now installed!');
-  console.log('\nWe recommend adding TALK_INSTALL_LOCK=TRUE to your environment to turn off the dynamic setup.');
+  console.log(
+    '\nWe recommend adding TALK_INSTALL_LOCK=TRUE to your environment to turn off the dynamic setup.'
+  );
 };
 
 // Start tthe setup process.
@@ -207,7 +199,7 @@ performSetup()
   .then(() => {
     util.shutdown();
   })
-  .catch((e) => {
+  .catch(e => {
     console.error(e);
     util.shutdown(1);
   });

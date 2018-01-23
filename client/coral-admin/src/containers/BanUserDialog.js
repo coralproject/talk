@@ -1,29 +1,39 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import BanUserDialog from '../components/BanUserDialog';
-import {hideBanUserDialog} from '../actions/banUserDialog';
-import {withSetUserStatus, withSetCommentStatus} from 'coral-framework/graphql/mutations';
-import {compose} from 'react-apollo';
+import { hideBanUserDialog } from '../actions/banUserDialog';
+import {
+  withBanUser,
+  withSetCommentStatus,
+} from 'coral-framework/graphql/mutations';
+import { compose } from 'react-apollo';
 import t from 'coral-framework/services/i18n';
-import {getErrorMessages} from 'coral-framework/utils';
-import {notify} from 'coral-framework/actions/notification';
+import { getErrorMessages } from 'coral-framework/utils';
+import { notify } from 'coral-framework/actions/notification';
 
 class BanUserDialogContainer extends Component {
-
   banUser = async () => {
-    const {userId, commentId, commentStatus, setUserStatus, setCommentStatus, hideBanUserDialog, notify} = this.props;
+    const {
+      userId,
+      commentId,
+      commentStatus,
+      banUser,
+      setCommentStatus,
+      hideBanUserDialog,
+      notify,
+    } = this.props;
     try {
-      await setUserStatus({userId, status: 'BANNED'});
+      await banUser({ id: userId, message: '' });
       hideBanUserDialog();
       if (commentId && commentStatus && commentStatus !== 'REJECTED') {
-        await setCommentStatus({commentId, status: 'REJECTED'});
+        await setCommentStatus({ commentId, status: 'REJECTED' });
       }
-    }
-    catch(err) {
+    } catch (err) {
       notify('error', getErrorMessages(err));
     }
-  }
+  };
 
   getInfo() {
     let note = t('bandialog.note_ban_user');
@@ -46,7 +56,17 @@ class BanUserDialogContainer extends Component {
   }
 }
 
-const mapStateToProps = ({banUserDialog: {open, userId, username, commentId, commentStatus}}) => ({
+BanUserDialogContainer.propTypes = {
+  banUser: PropTypes.func.isRequired,
+  hideBanUserDialog: PropTypes.func,
+  open: PropTypes.bool,
+  username: PropTypes.string,
+  commentStatus: PropTypes.string,
+};
+
+const mapStateToProps = ({
+  banUserDialog: { open, userId, username, commentId, commentStatus },
+}) => ({
   open,
   userId,
   username,
@@ -54,18 +74,18 @@ const mapStateToProps = ({banUserDialog: {open, userId, username, commentId, com
   commentStatus,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  ...bindActionCreators({
-    hideBanUserDialog,
-    notify,
-  }, dispatch),
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators(
+    {
+      hideBanUserDialog,
+      notify,
+    },
+    dispatch
+  ),
 });
 
 export default compose(
-  withSetUserStatus,
+  withBanUser,
   withSetCommentStatus,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(BanUserDialogContainer);

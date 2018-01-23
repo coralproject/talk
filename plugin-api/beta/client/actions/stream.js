@@ -1,1 +1,1 @@
-export {setSort} from 'coral-embed-stream/src/actions/stream';
+export { setSort } from 'coral-embed-stream/src/actions/stream';

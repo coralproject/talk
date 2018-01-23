@@ -4,35 +4,25 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
+const util = require('./util');
+const program = require('commander');
 const mongoose = require('../services/mongoose');
 const TokensService = require('../services/tokens');
-const util = require('./util');
 const Table = require('cli-table');
 
 // Register the shutdown criteria.
-util.onshutdown([
-  () => mongoose.disconnect()
-]);
+util.onshutdown([() => mongoose.disconnect()]);
 
 async function listTokens(userID) {
   try {
     let tokens = await TokensService.list(userID);
 
     let table = new Table({
-      head: [
-        'ID',
-        'Name',
-        'Status'
-      ]
+      head: ['ID', 'Name', 'Status'],
     });
 
-    tokens.forEach((token) => {
-      table.push([
-        token.id,
-        token.name,
-        token.active ? 'Active' : 'Revoked'
-      ]);
+    tokens.forEach(token => {
+      table.push([token.id, token.name, token.active ? 'Active' : 'Revoked']);
     });
 
     console.log(table.toString());
@@ -46,7 +36,6 @@ async function listTokens(userID) {
 
 async function revokeToken(tokenID) {
   try {
-
     await TokensService.revoke(null, tokenID);
 
     console.log(`Revoked Token[${tokenID}]`);
@@ -60,8 +49,7 @@ async function revokeToken(tokenID) {
 
 async function createToken(userID, tokenName) {
   try {
-
-    let {pat: {id}, jwt} = await TokensService.create(userID, tokenName);
+    let { pat: { id }, jwt } = await TokensService.create(userID, tokenName);
 
     console.log(`Created Token[${id}] for User[${userID}] = ${jwt}`);
 

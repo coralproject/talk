@@ -1,24 +1,30 @@
-import {createDefaultResponseFragments} from '../utils';
+import { createDefaultResponseFragments } from '../utils';
 
 // fragments defined here are automatically registered.
 export default {
   ...createDefaultResponseFragments(
-    'SetCommentStatusResponse',
-    'SuspendUserResponse',
-    'RejectUsernameResponse',
+    'BanUsersResponse',
+    'ChangeUsernameResponse',
+    'CloseAssetResponse',
     'CreateCommentResponse',
-    'SetUserStatusResponse',
-    'CreateFlagResponse',
-    'EditCommentResponse',
-    'PostFlagResponse',
     'CreateDontAgreeResponse',
+    'CreateFlagResponse',
     'DeleteActionResponse',
-    'ModifyTagResponse',
+    'EditCommentResponse',
     'IgnoreUserResponse',
+    'ModifyTagResponse',
+    'PostFlagResponse',
+    'SetCommentStatusResponse',
+    'SetUsernameResponse',
+    'SetUsernameStatusResponse',
+    'SetUserRoleResponse',
+    'SetUserSuspensionStatusResponse',
     'StopIgnoringUserResponse',
-    'UpdateSettingsResponse',
+    'SuspendUserResponse',
+    'UnbanUserResponse',
+    'UnsuspendUserResponse',
     'UpdateAssetSettingsResponse',
     'UpdateAssetStatusResponse',
-  )
+    'UpdateSettingsResponse'
+  ),
 };
-

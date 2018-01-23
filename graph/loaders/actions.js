@@ -9,9 +9,9 @@ const ActionModel = require('../../models/action');
  * Gets actions based on their item id's.
  */
 const genActionsByItemID = (_, item_ids) => {
-  return ActionsService
-    .findByItemIdArray(item_ids)
-    .then(util.arrayJoinBy(item_ids, 'item_id'));
+  return ActionsService.findByItemIdArray(item_ids).then(
+    util.arrayJoinBy(item_ids, 'item_id')
+  );
 };
 
 /**
@@ -20,10 +20,10 @@ const genActionsByItemID = (_, item_ids) => {
  * @param  {Array}  ids     array of id's to get
  * @return {Promise}        resolves to the promises of the requested actions
  */
-const genActionSummariessByItemID = ({user = {}}, item_ids) => {
-  return ActionsService
-    .getActionSummaries(item_ids, user.id)
-    .then(util.arrayJoinBy(item_ids, 'item_id'));
+const genActionSummariessByItemID = ({ user = {} }, item_ids) => {
+  return ActionsService.getActionSummaries(item_ids, user.id).then(
+    util.arrayJoinBy(item_ids, 'item_id')
+  );
 };
 
 /**
@@ -34,7 +34,7 @@ const genActionSummariessByItemID = ({user = {}}, item_ids) => {
  * @return {Promise}            resolves to distinct items actions
  */
 const getItemIdsByActionTypeAndItemType = (_, action_type, item_type) => {
-  return ActionModel.distinct('item_id', {action_type, item_type});
+  return ActionModel.distinct('item_id', { action_type, item_type });
 };
 
 /**
@@ -42,10 +42,13 @@ const getItemIdsByActionTypeAndItemType = (_, action_type, item_type) => {
  * @param  {Object} context the context of the GraphQL request
  * @return {Object}         object of loaders
  */
-module.exports = (context) => ({
+module.exports = context => ({
   Actions: {
-    getByID: new DataLoader((ids) => genActionsByItemID(context, ids)),
-    getSummariesByItemID: new DataLoader((ids) => genActionSummariessByItemID(context, ids)),
-    getByTypes: ({action_type, item_type}) => getItemIdsByActionTypeAndItemType(context, action_type, item_type)
-  }
+    getByID: new DataLoader(ids => genActionsByItemID(context, ids)),
+    getSummariesByItemID: new DataLoader(ids =>
+      genActionSummariessByItemID(context, ids)
+    ),
+    getByTypes: ({ action_type, item_type }) =>
+      getItemIdsByActionTypeAndItemType(context, action_type, item_type),
+  },
 });

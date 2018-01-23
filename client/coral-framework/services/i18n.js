@@ -3,40 +3,78 @@ import has from 'lodash/has';
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 
+import moment from 'moment';
+import 'moment/locale/da';
+import 'moment/locale/es';
+import 'moment/locale/fr';
+import 'moment/locale/pt-br';
+
+import { createStorage } from 'coral-framework/services/storage';
+
 import daTA from 'timeago.js/locales/da';
 import esTA from 'timeago.js/locales/es';
 import frTA from 'timeago.js/locales/fr';
 import pt_BRTA from 'timeago.js/locales/pt_BR';
+import zh_CNTA from 'timeago.js/locales/zh_CN';
+import zh_TWTA from 'timeago.js/locales/zh_TW';
+import nl from 'timeago.js/locales/nl';
 
 import en from '../../../locales/en.yml';
 import da from '../../../locales/da.yml';
 import es from '../../../locales/es.yml';
 import fr from '../../../locales/fr.yml';
 import pt_BR from '../../../locales/pt_BR.yml';
-
-// Translations are happening at https://translate.lingohub.com/the-coral-project/dashboard
+import zh_CN from '../../../locales/zh_CN.yml';
+import zh_TW from '../../../locales/zh_TW.yml';
+import nl_NL from '../../../locales/nl_NL.yml';
 
 const defaultLanguage = process.env.TALK_DEFAULT_LANG;
-const translations = {...en, ...da, ...es, ...fr, ...pt_BR};
+const translations = {
+  ...en,
+  ...da,
+  ...es,
+  ...fr,
+  ...nl_NL,
+  ...pt_BR,
+  ...zh_CN,
+  ...zh_TW,
+};
 
 let lang;
 let timeagoInstance;
 
-function setLocale(locale) {
+function setLocale(storage, locale) {
   try {
-    localStorage.setItem('locale', locale);
+    if (storage) {
+      storage.setItem('locale', locale);
+    }
   } catch (err) {
     console.error(err);
   }
 }
 
-function getLocale() {
-  return (localStorage.getItem('locale') || navigator.language || defaultLanguage).split('-')[0];
+function getLocale(storage) {
+  try {
+    return (
+      (storage && storage.getItem('locale')) ||
+      navigator.language ||
+      defaultLanguage
+    ).split('-')[0];
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
 }
 
-function init() {
-  const locale = getLocale();
-  setLocale(locale);
+export function setupTranslations() {
+  // Setup the translation framework with the storage.
+  const storage = createStorage();
+
+  const locale = getLocale(storage);
+  setLocale(storage, locale);
+
+  // Setting moment
+  moment.locale(locale);
 
   // Extract language key.
   lang = locale.split('-')[0];
@@ -50,6 +88,10 @@ function init() {
   ta.register('da', daTA);
   ta.register('fr', frTA);
   ta.register('pt_BR', pt_BRTA);
+  ta.register('zh_CN', zh_CNTA);
+  ta.register('zh_TW', zh_TWTA);
+  ta.register('nl_NL', nl);
+
   timeagoInstance = ta();
 }
 
@@ -88,4 +130,5 @@ export function t(key, ...replacements) {
 
 export default t;
 
-init();
+// Setup the translations globally as soon as this module runs.
+setupTranslations();

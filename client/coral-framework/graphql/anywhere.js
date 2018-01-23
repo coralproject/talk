@@ -1,5 +1,5 @@
 import graphql from '@coralproject/graphql-anywhere-optimized';
-import {createTypeGetter} from 'graphql-ast-tools';
+import { createTypeGetter } from 'graphql-ast-tools';
 import introspectionData from './introspection.json';
 
 // Use typeGetter to get more optimized documents.

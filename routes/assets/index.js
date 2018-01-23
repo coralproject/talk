@@ -4,7 +4,8 @@ const router = express.Router();
 const errors = require('../../errors');
 const Assets = require('../../services/assets');
 
-const body = 'Lorem ipsum dolor sponge amet, consectetur adipiscing clam. Ut lobortis sollicitudin pillar a ornare. Curabitur dignissim vestibulum cay non rhoncus. Cras laoreet ante vel nunc hendrerit, shelf imperdiet neque egestas. Suspendisse aliquet iaculis fermentum. Talk volutpat, tellus posuere laoreet consequat, mi lacus laoreet massa, sed vehicula mauris velit non lectus. Integer non trust nec neque congue faucibus porttitor sit amet elkhorn.';
+const body =
+  'Lorem ipsum dolor sponge amet, consectetur adipiscing clam. Ut lobortis sollicitudin pillar a ornare. Curabitur dignissim vestibulum cay non rhoncus. Cras laoreet ante vel nunc hendrerit, shelf imperdiet neque egestas. Suspendisse aliquet iaculis fermentum. Talk volutpat, tellus posuere laoreet consequat, mi lacus laoreet massa, sed vehicula mauris velit non lectus. Integer non trust nec neque congue faucibus porttitor sit amet elkhorn.';
 
 router.get('/id/:asset_id', async (req, res, next) => {
   try {
@@ -18,7 +19,7 @@ router.get('/id/:asset_id', async (req, res, next) => {
       asset_id: asset.id,
       asset_url: asset.url,
       body: '',
-      basePath: '/client/embed/stream'
+      basePath: '/client/embed/stream',
     });
   } catch (err) {
     return next(err);
@@ -31,7 +32,7 @@ router.get('/title/:asset_title', (req, res) => {
     asset_url: '',
     asset_id: null,
     body: body,
-    basePath: '/client/embed/stream'
+    basePath: '/client/embed/stream',
   });
 });
 
@@ -42,7 +43,7 @@ router.get('/', async (req, res, next) => {
   try {
     const assets = await Assets.all(skip, limit);
     res.render('articles', {
-      assets: assets
+      assets: assets,
     });
   } catch (err) {
     return next(err);

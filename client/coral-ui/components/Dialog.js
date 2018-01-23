@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import dialogPolyfill from 'dialog-polyfill';
 import 'dialog-polyfill/dialog-polyfill.css';
 import styles from './Dialog.css';
-import {Portal} from 'react-portal';
+import { Portal } from 'react-portal';
 
 export default class Dialog extends Component {
   static propTypes = {
@@ -16,11 +16,11 @@ export default class Dialog extends Component {
   };
 
   static defaultProps = {
-    onCancel: (e) => e.preventDefault(),
-    onClose: (e) => e.preventDefault(),
+    onCancel: e => e.preventDefault(),
+    onClose: e => e.preventDefault(),
   };
 
-  componentDidMount(){
+  componentDidMount() {
     const dialog = this.dialog;
     dialogPolyfill.registerDialog(dialog);
 
@@ -56,7 +56,9 @@ export default class Dialog extends Component {
     return (
       <Portal>
         <dialog
-          ref={(el) => { this.dialog = el; }}
+          ref={el => {
+            this.dialog = el;
+          }}
           className={`mdl-dialog ${className} ${styles.dialog}`}
           {...rest}
         >

@@ -1,9 +1,15 @@
-import ApolloClient, {IntrospectionFragmentMatcher, createNetworkInterface} from 'apollo-client';
-import {SubscriptionClient, addGraphQLSubscriptions} from 'subscriptions-transport-ws';
+import ApolloClient, {
+  IntrospectionFragmentMatcher,
+  createNetworkInterface,
+} from 'apollo-client';
+import {
+  SubscriptionClient,
+  addGraphQLSubscriptions,
+} from 'subscriptions-transport-ws';
 import MessageTypes from 'subscriptions-transport-ws/dist/message-types';
 
 // Redux middleware to report any errors to the console.
-export const apolloErrorReporter = () => (next) => (action) => {
+export const apolloErrorReporter = () => next => action => {
   if (action.type === 'APOLLO_QUERY_ERROR') {
     console.error(action.error);
   }
@@ -24,48 +30,55 @@ function resolveToken(token) {
  * @return {Object}          apollo client
  */
 export function createClient(options = {}) {
-  const {token, uri, liveUri, introspectionData} = options;
+  const { token, uri, liveUri, introspectionData } = options;
   const wsClient = new SubscriptionClient(liveUri, {
     reconnect: true,
     lazy: true,
     connectionParams: {
-      get token() { return resolveToken(token); },
-    }
+      get token() {
+        return resolveToken(token);
+      },
+    },
   });
 
   const networkInterface = createNetworkInterface({
     uri,
     opts: {
-      credentials: 'same-origin'
-    }
+      credentials: 'same-origin',
+    },
   });
 
-  networkInterface.use([{
-    applyMiddleware(req, next) {
-      if (!req.options.headers) {
-        req.options.headers = {};  // Create the header object if needed.
-      }
+  networkInterface.use([
+    {
+      applyMiddleware(req, next) {
+        if (!req.options.headers) {
+          req.options.headers = {}; // Create the header object if needed.
+        }
 
-      let authToken = resolveToken(token);
-      if (authToken) {
-        req.options.headers['authorization'] = `Bearer ${authToken}`;
-      }
+        let authToken = resolveToken(token);
+        if (authToken) {
+          req.options.headers['authorization'] = `Bearer ${authToken}`;
+        }
 
-      next();
-    }
-  }]);
+        next();
+      },
+    },
+  ]);
 
   const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
     networkInterface,
-    wsClient,
+    wsClient
   );
 
   const client = new ApolloClient({
     connectToDevTools: true,
     addTypename: true,
-    fragmentMatcher: new IntrospectionFragmentMatcher({introspectionQueryResultData: introspectionData}),
-    dataIdFromObject: (result) => {
-      if (result.id && result.__typename) { // eslint-disable-line no-underscore-dangle
+    fragmentMatcher: new IntrospectionFragmentMatcher({
+      introspectionQueryResultData: introspectionData,
+    }),
+    dataIdFromObject: result => {
+      if (result.id && result.__typename) {
+        // eslint-disable-line no-underscore-dangle
         return `${result.__typename}_${result.id}`; // eslint-disable-line no-underscore-dangle
       }
       return null;
@@ -74,7 +87,6 @@ export function createClient(options = {}) {
   });
 
   client.resetWebsocket = () => {
-
     // Close socket connection which will also unregister subscriptions on the server-side.
     wsClient.close();
 
@@ -83,8 +95,12 @@ export function createClient(options = {}) {
 
     // Reregister all subscriptions (uses non public api).
     // See: https://github.com/apollographql/subscriptions-transport-ws/issues/171
-    Object.keys(wsClient.operations).forEach((id) => {
-      wsClient.sendMessage(id, MessageTypes.GQL_START, wsClient.operations[id].options);
+    Object.keys(wsClient.operations).forEach(id => {
+      wsClient.sendMessage(
+        id,
+        MessageTypes.GQL_START,
+        wsClient.operations[id].options
+      );
     });
   };
 

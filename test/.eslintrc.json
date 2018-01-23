@@ -1,12 +1,12 @@
 {
-    "env": {
-      "mocha": true
-    },
-    "plugins": [
-      "mocha"
-    ],
-    "extends": "../.eslintrc.json",
-    "rules": {
-        "mocha/no-exclusive-tests": "warn"
-    }
+  "env": {
+    "mocha": true
+  },
+  "plugins": [
+    "mocha"
+  ],
+  "extends": "../.eslintrc.json",
+  "rules": {
+      "mocha/no-exclusive-tests": "error"
+  }
 }

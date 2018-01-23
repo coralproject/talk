@@ -7,24 +7,25 @@
 // Interface heavily inspired by the yarn package manager:
 // https://yarnpkg.com/
 
-const program = require('./commander');
+require('./util');
+const program = require('commander');
 const inquirer = require('inquirer');
 
 // Make things colorful!
 require('colors');
 const emoji = require('node-emoji');
 
-const dir = process.cwd();
 const fs = require('fs-extra');
 const path = require('path');
+const dir = path.resolve(__dirname, '..');
 const spawn = require('cross-spawn');
 const semver = require('semver');
 const resolve = require('resolve');
-const {plugins, itteratePlugins, isInternal} = require('../plugins');
+const { plugins, iteratePlugins, isInternal } = require('../plugins');
 
 function existsInNodeModules(name) {
   try {
-    resolve.sync(name, {basedir: dir});
+    resolve.sync(name, { basedir: dir });
 
     return true;
   } catch (e) {
@@ -38,13 +39,13 @@ function versionMatch(name, version) {
 
     resolve.sync(name, {
       basedir: dir,
-      packageFilter: (pkg) => {
+      packageFilter: pkg => {
         if (pkg && pkg.version && semver.satisfies(pkg.version, version)) {
           matched = true;
         }
 
         return pkg;
-      }
+      },
     });
 
     return matched;
@@ -55,7 +56,7 @@ function versionMatch(name, version) {
 
 const EXTERNAL = /^\w[a-z\-0-9.]+$/; // Match "react", "path", "fs", "lodash.random", etc.
 
-function reconcilePackages({quiet = false, upgradeRemote = false}) {
+function reconcilePackages({ quiet = false, upgradeRemote = false }) {
   const fetchable = [];
   const local = [];
   const upgradable = [];
@@ -70,13 +71,14 @@ function reconcilePackages({quiet = false, upgradeRemote = false}) {
   }
 
   for (let i in plugins) {
-    let section = itteratePlugins(plugins[i]);
+    let section = iteratePlugins(plugins[i]);
 
     for (let j in section) {
-      let {name, version} = section[j];
+      let { name, version } = section[j];
 
       let namespaced = name.charAt(0) === '@';
-      let dep = name.split('/')
+      let dep = name
+        .split('/')
         .slice(0, namespaced ? 2 : 1)
         .join('/');
 
@@ -90,7 +92,7 @@ function reconcilePackages({quiet = false, upgradeRemote = false}) {
           console.log(` l  ${name}`);
         }
 
-        local.push({name, version});
+        local.push({ name, version });
         continue;
       }
 
@@ -98,9 +100,8 @@ function reconcilePackages({quiet = false, upgradeRemote = false}) {
         if (!quiet) {
           console.log(` m  ${name}`);
         }
-        fetchable.push({name, version});
+        fetchable.push({ name, version });
       } else if (!versionMatch(dep, version)) {
-
         // A plugin was found, yet the current version does not match the
         // current version installed. We should warn if upgradeRemote is
         // not enabled that it is currently not supported.
@@ -114,14 +115,14 @@ function reconcilePackages({quiet = false, upgradeRemote = false}) {
 
         console.log(` oe ${name} (package upgrade may be required)`);
 
-        upgradable.push({name, version});
+        upgradable.push({ name, version });
       } else {
         if (!quiet) {
           console.log(` e  ${name}`);
         }
 
         if (upgradeRemote) {
-          upgradable.push({name, version});
+          upgradable.push({ name, version });
         }
       }
     }
@@ -131,33 +132,44 @@ function reconcilePackages({quiet = false, upgradeRemote = false}) {
     console.log();
   }
 
-  return {local, fetchable, upgradable};
+  return { local, fetchable, upgradable };
 }
 
-async function reconcileRemotePlugins({skipLocal, dryRun, upgradeRemote}) {
-  console.log(`\n[${skipLocal ? '1/2' : '2/3'}] ${emoji.get('mag')} Reconciling plugins...`.yellow);
-  const {fetchable, upgradable} = reconcilePackages({upgradeRemote});
+async function reconcileRemotePlugins({ skipLocal, dryRun, upgradeRemote }) {
+  console.log(
+    `\n[${skipLocal ? '1/2' : '2/3'}] ${emoji.get(
+      'mag'
+    )} Reconciling plugins...`.yellow
+  );
+  const { fetchable, upgradable } = reconcilePackages({ upgradeRemote });
 
-  console.log(`[${skipLocal ? '2/2' : '3/3'}] ${emoji.get('truck')} Fetching plugins...\n`.yellow);
+  console.log(
+    `[${skipLocal ? '2/2' : '3/3'}] ${emoji.get('truck')} Fetching plugins...\n`
+      .yellow
+  );
 
   if (fetchable.length > 0) {
-
-    console.log(`$ yarn add --ignore-scripts ${fetchable.map(({name, version}) => `${name}@${version}`.cyan)}`);
+    console.log(
+      `$ yarn add --ignore-scripts ${fetchable.map(
+        ({ name, version }) => `${name}@${version}`.cyan
+      )}`
+    );
 
     if (!dryRun) {
-
       let args = [
         'add',
         '--ignore-scripts',
-        ...fetchable.map(({name, version}) => `${name}@${version}`)
+        ...fetchable.map(({ name, version }) => `${name}@${version}`),
       ];
 
       let output = spawn.sync('yarn', args, {
-        stdio: ['ignore', 'pipe', 'inherit']
+        stdio: ['ignore', 'pipe', 'inherit'],
       });
 
       if (output.status) {
-        throw new Error('Could not install external plugins, errors occured during install');
+        throw new Error(
+          'Could not install external plugins, errors occured during install'
+        );
       }
 
       console.log(output.stdout.toString());
@@ -165,36 +177,45 @@ async function reconcileRemotePlugins({skipLocal, dryRun, upgradeRemote}) {
   }
 
   if (upgradable.length > 0) {
-    console.log(`$ yarn upgrade ${upgradable.map(({name, version}) => `${name}@${version}`.cyan)}`);
+    console.log(
+      `$ yarn upgrade ${upgradable.map(
+        ({ name, version }) => `${name}@${version}`.cyan
+      )}`
+    );
 
     if (!dryRun) {
-
       let args = [
         'upgrade',
-        ...upgradable.map(({name, version}) => `${name}@${version}`)
+        ...upgradable.map(({ name, version }) => `${name}@${version}`),
       ];
 
       let output = spawn.sync('yarn', args, {
-        stdio: ['ignore', 'pipe', 'inherit']
+        stdio: ['ignore', 'pipe', 'inherit'],
       });
 
       if (output.status) {
-        throw new Error('Could not install external plugins, errors occured during install');
+        throw new Error(
+          'Could not install external plugins, errors occured during install'
+        );
       }
 
       console.log(output.stdout.toString());
     }
   }
 
-  return {upgradable, fetchable};
+  return { upgradable, fetchable };
 }
 
-async function reconcileLocalPlugins({skipRemote, dryRun}) {
-  console.log(`\n[${skipRemote ? '1/1' : '1/3'}] ${emoji.get('pick')} Installing local plugin dependencies...\n`.yellow);
-  const {local} = reconcilePackages({quiet: true});
+async function reconcileLocalPlugins({ skipRemote, dryRun }) {
+  console.log(
+    `\n[${skipRemote ? '1/1' : '1/3'}] ${emoji.get(
+      'pick'
+    )} Installing local plugin dependencies...\n`.yellow
+  );
+  const { local } = reconcilePackages({ quiet: true });
 
   for (let i in local) {
-    let {name} = local[i];
+    let { name } = local[i];
 
     if (!fs.existsSync(path.join(dir, 'plugins', name, 'package.json'))) {
       continue;
@@ -209,11 +230,13 @@ async function reconcileLocalPlugins({skipRemote, dryRun}) {
 
       let output = spawn.sync('yarn', args, {
         stdio: ['ignore', 'pipe', 'inherit'],
-        cwd: wd
+        cwd: wd,
       });
 
       if (output.status) {
-        throw new Error('Could not install local plugin dependencies, errors occured during install');
+        throw new Error(
+          'Could not install local plugin dependencies, errors occured during install'
+        );
       }
 
       console.log(output.stdout.toString());
@@ -224,7 +247,12 @@ async function reconcileLocalPlugins({skipRemote, dryRun}) {
 // This traverses the local plugins and installs any dependencies listed there,
 // this only is really needed for plugins that are installed via docker because
 // core plugins will have their dependencies already included in core.
-async function reconcilePluginDeps({skipLocal, skipRemote, dryRun, upgradeRemote}) {
+async function reconcilePluginDeps({
+  skipLocal,
+  skipRemote,
+  dryRun,
+  upgradeRemote,
+}) {
   let startTime = new Date();
 
   // We don't need to do anything if we skip everything....
@@ -234,14 +262,19 @@ async function reconcilePluginDeps({skipLocal, skipRemote, dryRun, upgradeRemote
 
   // Traverse local plugins and install dependencies if enabled.
   if (!skipLocal) {
-    await reconcileLocalPlugins({skipRemote, dryRun});
+    await reconcileLocalPlugins({ skipRemote, dryRun });
   }
 
   // Locate any external plugins and install them.
   if (!skipRemote) {
     let results = [];
     try {
-      results = await reconcileRemotePlugins({skipLocal, skipRemote, dryRun, upgradeRemote});
+      results = await reconcileRemotePlugins({
+        skipLocal,
+        skipRemote,
+        dryRun,
+        upgradeRemote,
+      });
     } catch (e) {
       throw e;
     }
@@ -261,7 +294,9 @@ async function reconcilePluginDeps({skipLocal, skipRemote, dryRun, upgradeRemote
     } else if (results.fetchable.length === 0) {
       message = `Upgraded ${results.upgradable.length} new plugins.`;
     } else {
-      message = `Fetched ${results.fetchable.length} new plugins, upgraded ${results.upgradable.length} plugins.`;
+      message = `Fetched ${results.fetchable.length} new plugins, upgraded ${
+        results.upgradable.length
+      } plugins.`;
     }
 
     console.log(`\n${status} ${message}`);
@@ -278,8 +313,7 @@ async function createSeedPlugin() {
 
   function pluginNameExists(pluginName) {
     const pluginNames = fs.readdirSync(pluginsDir);
-    return !!pluginNames
-      .filter((pn) => pn === pluginName).length;
+    return !!pluginNames.filter(pn => pn === pluginName).length;
   }
 
   let answers = await inquirer.prompt([
@@ -287,8 +321,7 @@ async function createSeedPlugin() {
       type: 'input',
       name: 'pluginName',
       message: 'Plugin Name:',
-      validate: (input) => {
-
+      validate: input => {
         if (pluginNameExists(input)) {
           return 'Please, choose another name. That name already exists';
         }
@@ -298,23 +331,23 @@ async function createSeedPlugin() {
         }
 
         return 'Plugin Name is required.';
-      }
+      },
     },
     {
       type: 'confirm',
       name: 'server',
-      message: 'Is this plugin extending the server capabilities?'
+      message: 'Is this plugin extending the server capabilities?',
     },
     {
       type: 'confirm',
       name: 'client',
-      message: 'Is this plugin extending the client capabilities?'
+      message: 'Is this plugin extending the client capabilities?',
     },
     {
       type: 'confirm',
       name: 'addPluginsJson',
-      message: 'Should we add it to the plugins.json?'
-    }
+      message: 'Should we add it to the plugins.json?',
+    },
   ]);
 
   //==============================================================================
@@ -325,41 +358,41 @@ async function createSeedPlugin() {
   const newPluginPath = path.join(pluginsDir, answers.pluginName);
 
   if (fs.existsSync(seedPlugin)) {
-
     if (answers.server && answers.client) {
-
       // This is a server-side and client-side plugin!, let's copy the template
       fs.copySync(seedPlugin, newPluginPath);
-    } else  {
+    } else {
+      fs.copySync(seedPlugin, newPluginPath, {
+        filter: p => {
+          // Allowing plugin folder and files with no subfolders
+          const rootRx = /plugin$|plugin\/[^/]*(\.).{2,3}/gim;
+          if (
+            rootRx.test(p) &&
+            (fs.lstatSync(p).isDirectory() || fs.lstatSync(p).isFile())
+          ) {
+            return true;
+          }
 
-      fs.copySync(seedPlugin, newPluginPath, {filter: (p) => {
+          // If it's a client-side plugin, copying client folder
+          if (answers.client) {
+            return /client/.test(p);
+          }
 
-        // Allowing plugin folder and files with no subfolders
-        const rootRx = /plugin$|plugin\/[^/]*(\.).{2,3}/igm;
-        if (rootRx.test(p) && (fs.lstatSync(p).isDirectory() || fs.lstatSync(p).isFile())) {
-          return true;
-        }
-
-        // If it's a client-side plugin, copying client folder
-        if (answers.client) {
-          return /client/.test(p);
-        }
-
-        // If it's a server-side plugin, copying server folder
-        if (answers.server) {
-          return /server/.test(p);
-        }
-
-      }});
+          // If it's a server-side plugin, copying server folder
+          if (answers.server) {
+            return /server/.test(p);
+          }
+        },
+      });
     }
 
     // Let's add this to the plugins.json
     if (answers.addPluginsJson) {
       const pluginsJson = path.resolve(__dirname, '..', 'plugins.json');
 
-      fs.readJson(pluginsJson)
-        .then((j) => {
-
+      fs
+        .readJson(pluginsJson)
+        .then(j => {
           // This is a client-side plugin, let's push this.
           if (answers.client) {
             j.client.push(answers.pluginName);
@@ -376,14 +409,17 @@ async function createSeedPlugin() {
             fs.writeFileSync(pluginsJson, output);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.error(err);
         });
     }
 
-    console.log(`✨ Yay! Plugin created! Find your plugin: ${answers.pluginName} in the ./plugins folder`);
+    console.log(
+      `✨ Yay! Plugin created! Find your plugin: ${
+        answers.pluginName
+      } in the ./plugins folder`
+    );
   }
-
 }
 
 //==============================================================================
@@ -402,9 +438,14 @@ program
 
 program
   .command('reconcile')
-  .description('reconciles local plugin dependencies and downloads external plugins')
+  .description(
+    'reconciles local plugin dependencies and downloads external plugins'
+  )
   .option('-u, --upgrade-remote', 'upgrades remote dependencies')
-  .option('-d, --dry-run', 'does not actually change anything on the filesystem acts only as a simulation')
+  .option(
+    '-d, --dry-run',
+    'does not actually change anything on the filesystem acts only as a simulation'
+  )
   .option('--skip-local', 'skips the local dependancy reconciliation')
   .option('--skip-remote', 'skips the remote plugin reconciliation')
   .action(reconcilePluginDeps);

@@ -12,6 +12,11 @@ es:
     note_reject_comment: "Suspender a este usuario también va a colocar este comentario en la cola de Rechazados."
     note_ban_user: "Suspender a este usuario no le va a permitir (al usuario) borrar ni editar ni comentar."
     yes_ban_user: "Si, Suspender al usuario"
+    write_a_message: "Escribe un mensaje"
+    send: "Enviar"
+    notify_ban_headline: "Notificar al usuario de la suspensión"
+    notify_ban_description: "Esto notificará al usuario por email que fueron suspendidos de la comunidad"
+    email_message_ban: "Dear {0},\n\nSomeone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, like or report comments. if you think this has been done in error, please contact our community team."
   bio_offensive: "Esta biografia es ofensiva"
   cancel: Cancelar
   characters_remaining: "carácteres restantes"
@@ -74,7 +79,7 @@ es:
     status: Estado
     username_and_email: "Usuario y Correo"
     yes_ban_user: "Si, Suspendan el usuario"
-    none: "Ninguno"
+    commenter: "Comentarista"
   configure:
     apply: Aplicar
     banned_word_text: "Comentarios que contengan estas palabras o frases,  en mayusculas o minúsculas, serán automáticamente eliminados del hilo de comentario. Escribir una palabra y apretar Enter o Tabulador para agregarla. O pueden pegar una lista de palabras separadas por coma."
@@ -177,6 +182,7 @@ es:
   embedlink:
     copy: "Copiar al portapapeles"
   error:
+    COMMENT_PARENT_NOT_VISIBLE: "El comentario a la que estás contestando ha sido eliminado o no existe."
     COMMENT_TOO_SHORT: "Tu comentario debe tener algo escrito"
     COMMENTING_CLOSED: "Los comentarios ya estan cerrados"
     confirm_password: "Las contraseñas no coinciden. Inténtelo nuevamente"
@@ -238,6 +244,19 @@ es:
   loading_results: "Cargando Resultados"
   marketing: "Esto parece una propaganda"
   moderate_this_stream: "Moderar este hilo de comentarios"
+  flags:
+    reasons:
+       user:
+         username_offensive: "Es ofensivo"
+         username_nolike: "No le gusta"
+         username_impersonating: "Está suplantando identidad"
+         username_spam: "Contiene spam"
+         username_other: "Otra razón"
+       comment:
+         comment_offensive: "Es ofensivo"
+         comment_spam: "Contiene spam"
+         comment_noagree: "No está de acuerdo"
+         comment_other: "Otra razón"
   modqueue:
     account: "reportes de cuentas"
     actions: Acciones

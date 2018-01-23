@@ -3,3 +3,9 @@ en:
     label: Most liked first
 es:
   talk-plugin-sort-most-liked:
+zh_CN:
+  talk-plugin-sort-most-liked:
+    label: "最被喜欢在前"
+zh_TW:
+  talk-plugin-sort-most-liked:
+    label: 最被喜歡優先

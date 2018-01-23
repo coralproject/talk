@@ -1,51 +1,156 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {compose, gql} from 'react-apollo';
-import {withFragments} from 'plugin-api/beta/client/hocs';
-import {Spinner} from 'coral-ui';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { compose, gql } from 'react-apollo';
+import withQuery from 'coral-framework/hocs/withQuery';
+import { Spinner } from 'coral-ui';
 import PropTypes from 'prop-types';
-
-import {withSetUserStatus} from 'coral-framework/graphql/mutations';
-import {showBanUserDialog} from 'actions/banUserDialog';
-import {showSuspendUserDialog} from 'actions/suspendUserDialog';
-import {showRejectUsernameDialog} from '../../../actions/community';
-import {viewUserDetail} from '../../../actions/userDetail';
-import {getDefinitionName} from 'coral-framework/utils';
-import {appendNewNodes} from 'plugin-api/beta/client/utils';
+import { withApproveUsername } from 'coral-framework/graphql/mutations';
+import { showRejectUsernameDialog } from '../../../actions/community';
+import { viewUserDetail } from '../../../actions/userDetail';
+import { getDefinitionName } from 'coral-framework/utils';
+import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
+import { handleFlaggedUsernameChange } from '../graphql';
+import { notify } from 'coral-framework/actions/notification';
+import { isFlaggedUserDangling } from '../utils';
+import t from 'coral-framework/services/i18n';
+import { notifyOnMutationError } from 'coral-framework/hocs';
 
 import FlaggedAccounts from '../components/FlaggedAccounts';
 import FlaggedUser from '../containers/FlaggedUser';
 
+function whoChangedTheStatus(statusObject) {
+  return statusObject.history[statusObject.history.length - 1].assigned_by
+    .username;
+}
+
+function whoFlagged(user) {
+  return user.actions[user.actions.length - 1].user.username;
+}
+
 class FlaggedAccountsContainer extends Component {
+  subscriptions = [];
 
   constructor(props) {
     super(props);
   }
 
-  approveUser = ({userId}) => {
-    return this.props.setUserStatus({
-      userId,
-      status: 'APPROVED'
-    });
+  getCountWithoutDangling() {
+    return this.props.root.flaggedUsers.nodes.filter(
+      node => !isFlaggedUserDangling(node)
+    ).length;
   }
+
+  subscribeToUpdates() {
+    const parameters = [
+      {
+        document: USERNAME_FLAGGED_SUBSCRIPTION,
+        updateQuery: (
+          prev,
+          { subscriptionData: { data: { usernameFlagged: user } } }
+        ) => {
+          return handleFlaggedUsernameChange(prev, user, () => {
+            const msg = t(
+              'flagged_usernames.notify_flagged',
+              whoFlagged(user),
+              user.username
+            );
+            this.props.notify('info', msg);
+          });
+        },
+      },
+      {
+        document: USERNAME_APPROVED_SUBSCRIPTION,
+        updateQuery: (
+          prev,
+          { subscriptionData: { data: { usernameApproved: user } } }
+        ) => {
+          return handleFlaggedUsernameChange(prev, user, () => {
+            const msg = t(
+              'flagged_usernames.notify_approved',
+              whoChangedTheStatus(user.state.status.username),
+              user.username
+            );
+            this.props.notify('info', msg);
+          });
+        },
+      },
+      {
+        document: USERNAME_REJECTED_SUBSCRIPTION,
+        updateQuery: (
+          prev,
+          { subscriptionData: { data: { usernameRejected: user } } }
+        ) => {
+          return handleFlaggedUsernameChange(prev, user, () => {
+            const msg = t(
+              'flagged_usernames.notify_rejected',
+              whoChangedTheStatus(user.state.status.username),
+              user.username
+            );
+            this.props.notify('info', msg);
+          });
+        },
+      },
+      {
+        document: USERNAME_CHANGED_SUBSCRIPTION,
+        updateQuery: (
+          prev,
+          {
+            subscriptionData: {
+              data: { usernameChanged: { previousUsername, user } },
+            },
+          }
+        ) => {
+          return handleFlaggedUsernameChange(prev, user, () => {
+            const msg = t(
+              'flagged_usernames.notify_changed',
+              previousUsername,
+              user.username
+            );
+            this.props.notify('info', msg);
+          });
+        },
+      },
+    ];
+
+    this.subscriptions = parameters.map(param =>
+      this.props.data.subscribeToMore(param)
+    );
+  }
+
+  unsubscribe() {
+    this.subscriptions.forEach(unsubscribe => unsubscribe());
+    this.subscriptions = [];
+  }
+
+  componentWillMount() {
+    this.subscribeToUpdates();
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  approveUser = ({ userId: id }) => {
+    return this.props.approveUsername(id);
+  };
 
   loadMore = () => {
     return this.props.data.fetchMore({
       query: LOAD_MORE_QUERY,
       variables: {
         limit: 5,
-        cursor: this.props.root.users.endCursor,
+        cursor: this.props.root.flaggedUsers.endCursor,
       },
-      updateQuery: (previous, {fetchMoreResult:{users}}) => {
+      updateQuery: (previous, { fetchMoreResult: { flaggedUsers } }) => {
         const updated = update(previous, {
-          users: {
+          flaggedUsers: {
             nodes: {
-              $apply: (nodes) => appendNewNodes(nodes, users.nodes),
+              $apply: nodes => appendNewNodes(nodes, flaggedUsers.nodes),
             },
-            hasNextPage: {$set: users.hasNextPage},
-            endCursor: {$set: users.endCursor},
+            hasNextPage: { $set: flaggedUsers.hasNextPage },
+            endCursor: { $set: flaggedUsers.endCursor },
           },
         });
         return updated;
@@ -59,19 +164,25 @@ class FlaggedAccountsContainer extends Component {
     }
 
     if (this.props.data.loading) {
-      return <div><Spinner/></div>;
+      return (
+        <div>
+          <Spinner />
+        </div>
+      );
     }
+
     return (
       <FlaggedAccounts
-        showBanUserDialog={this.props.showBanUserDialog}
-        showSuspendUserDialog={this.props.showSuspendUserDialog}
         showRejectUsernameDialog={this.props.showRejectUsernameDialog}
         viewUserDetail={this.props.viewUserDetail}
         approveUser={this.approveUser}
         loadMore={this.loadMore}
         data={this.props.data}
         root={this.props.root}
-        users={this.props.root.users}
+        users={this.props.root.flaggedUsers}
+        hasMore={
+          this.getCountWithoutDangling() < this.props.root.flaggedUsernamesCount
+        }
         me={this.props.root.me}
       />
     );
@@ -79,18 +190,27 @@ class FlaggedAccountsContainer extends Component {
 }
 
 FlaggedAccountsContainer.propTypes = {
-  showBanUserDialog: PropTypes.func,
-  showSuspendUserDialog: PropTypes.func,
   showRejectUsernameDialog: PropTypes.func,
   viewUserDetail: PropTypes.func,
-  setUserStatus: PropTypes.func,
+  notify: PropTypes.func,
+  flaggedUsernamesCount: PropTypes.number,
+  approveUsername: PropTypes.func,
   data: PropTypes.object,
-  root: PropTypes.object
+  root: PropTypes.object,
 };
 
 const LOAD_MORE_QUERY = gql`
   query TalkAdmin_LoadMoreFlaggedAccounts($limit: Int, $cursor: Cursor) {
-    users(query:{action_type: FLAG, statuses: [PENDING], limit: $limit, cursor: $cursor}){
+    flaggedUsers: users(query:{
+        action_type: FLAG,
+        state: {
+          status: {
+            username: [SET, CHANGED]
+          }
+        },
+        limit: $limit,
+        cursor: $cursor
+      }){
       hasNextPage
       endCursor
       nodes {
@@ -102,21 +222,98 @@ const LOAD_MORE_QUERY = gql`
   ${FlaggedUser.fragments.user}
 `;
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({
-    showBanUserDialog,
-    showSuspendUserDialog,
-    showRejectUsernameDialog,
-    viewUserDetail,
-  }, dispatch);
+const historyFields = `
+  state {
+    status {
+      username {
+        history {
+          status
+          assigned_by {
+            id
+            username
+          }
+          created_at
+        }
+      }
+    }
+  }
+`;
+
+const USERNAME_FLAGGED_SUBSCRIPTION = gql`
+  subscription TalkAdmin_UsernameFlagged {
+    usernameFlagged {
+      ...${getDefinitionName(FlaggedUser.fragments.user)}
+      ${historyFields}
+    }
+  }
+  ${FlaggedUser.fragments.user}
+`;
+
+const USERNAME_APPROVED_SUBSCRIPTION = gql`
+  subscription TalkAdmin_UsernameApproved {
+    usernameApproved {
+      ...${getDefinitionName(FlaggedUser.fragments.user)}
+      ${historyFields}
+    }
+  }
+  ${FlaggedUser.fragments.user}
+`;
+
+const USERNAME_REJECTED_SUBSCRIPTION = gql`
+  subscription TalkAdmin_UsernameRejected {
+    usernameRejected {
+      ...${getDefinitionName(FlaggedUser.fragments.user)}
+      ${historyFields}
+    }
+  }
+  ${FlaggedUser.fragments.user}
+`;
+
+const USERNAME_CHANGED_SUBSCRIPTION = gql`
+  subscription TalkAdmin_UsernameChanged {
+    usernameChanged {
+      previousUsername
+      user {
+        ...${getDefinitionName(FlaggedUser.fragments.user)}
+        ${historyFields}
+      }
+    }
+  }
+  ${FlaggedUser.fragments.user}
+`;
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      showRejectUsernameDialog,
+      viewUserDetail,
+      notify,
+    },
+    dispatch
+  );
 
 export default compose(
   connect(null, mapDispatchToProps),
-  withSetUserStatus,
-  withFragments({
-    root: gql`
-      fragment TalkAdminCommunity_FlaggedAccounts_root on RootQuery {
-        users(query:{action_type: FLAG, statuses: [PENDING], limit: 10}){
+  withApproveUsername,
+  notifyOnMutationError(['approveUsername']),
+  withQuery(
+    gql`
+      query TalkAdmin_Community_FlaggedAccounts {
+        flaggedUsernamesCount: userCount(
+          query: {
+            action_type: FLAG
+            state: { status: { username: [SET, CHANGED] } }
+          }
+        )
+        flaggedUsers: users(query:{
+            action_type: FLAG,
+            state: {
+              status: {
+                username: [SET, CHANGED]
+              }
+            }
+            limit: 10
+          }){
           hasNextPage
           endCursor
           nodes {
@@ -126,9 +323,16 @@ export default compose(
         }
         me {
           id
+          ...${getDefinitionName(FlaggedUser.fragments.me)}
         }
       }
       ${FlaggedUser.fragments.user}
+      ${FlaggedUser.fragments.me}
     `,
-  }),
+    {
+      options: {
+        fetchPolicy: 'network-only',
+      },
+    }
+  )
 )(FlaggedAccountsContainer);

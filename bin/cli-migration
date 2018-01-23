@@ -4,20 +4,17 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
 const util = require('./util');
+const program = require('commander');
 const inquirer = require('inquirer');
 const mongoose = require('../services/mongoose');
 const MigrationService = require('../services/migration');
 
 // Register shutdown hooks.
-util.onshutdown([
-  () => mongoose.disconnect()
-]);
+util.onshutdown([() => mongoose.disconnect()]);
 
 async function createMigration(name) {
   try {
-
     // Create the migration.
     await MigrationService.create(name);
 
@@ -29,20 +26,20 @@ async function createMigration(name) {
 }
 
 async function runMigrations() {
-
   try {
-
-    let {backedUp} = await inquirer.prompt([
+    let { backedUp } = await inquirer.prompt([
       {
         type: 'confirm',
         name: 'backedUp',
         message: 'Did you perform a database backup',
-        default: false
-      }
+        default: false,
+      },
     ]);
 
     if (!backedUp) {
-      throw new Error('Please backup your databases prior to migrations occuring');
+      throw new Error(
+        'Please backup your databases prior to migrations occuring'
+      );
     }
 
     // Get the migrations to run.
@@ -50,21 +47,20 @@ async function runMigrations() {
 
     console.log('Now going to run the following migrations:\n');
 
-    for (let {filename} of migrations) {
+    for (let { filename } of migrations) {
       console.log(`\tmigrations/${filename}`);
     }
 
-    let {confirm} = await inquirer.prompt([
+    let { confirm } = await inquirer.prompt([
       {
         type: 'confirm',
         name: 'confirm',
         message: 'Proceed with migrations',
-        default: false
-      }
+        default: false,
+      },
     ]);
 
     if (confirm) {
-
       // Run the migrations.
       await MigrationService.run(migrations);
     } else {

@@ -1,35 +1,39 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import Layout from '../components/ui/Layout';
-import {fetchConfig} from '../actions/config';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Layout from '../components/Layout';
+import { fetchConfig } from '../actions/config';
 import AdminLogin from '../components/AdminLogin';
-import {FullLoading} from '../components/FullLoading';
+import { FullLoading } from '../components/FullLoading';
 import BanUserDialog from './BanUserDialog';
 import SuspendUserDialog from './SuspendUserDialog';
-import {toggleModal as toggleShortcutModal} from '../actions/moderation';
-import {checkLogin, handleLogin, requestPasswordReset, logout} from '../actions/auth';
-import {can} from 'coral-framework/services/perms';
+import { toggleModal as toggleShortcutModal } from '../actions/moderation';
+import {
+  checkLogin,
+  handleLogin,
+  requestPasswordReset,
+  logout,
+} from '../actions/auth';
+import { can } from 'coral-framework/services/perms';
 import UserDetail from 'coral-admin/src/containers/UserDetail';
 import PropTypes from 'prop-types';
 
 class LayoutContainer extends React.Component {
   componentWillMount() {
-    const {checkLogin, fetchConfig} = this.props;
+    const { checkLogin, fetchConfig } = this.props;
 
     checkLogin();
     fetchConfig();
   }
 
   render() {
-
     const {
       user,
       loggedIn,
       loadingUser,
       loginError,
       loginMaxExceeded,
-      passwordRequestSuccess
+      passwordRequestSuccess,
     } = this.props.auth;
 
     const {
@@ -61,7 +65,8 @@ class LayoutContainer extends React.Component {
         <Layout
           handleLogout={logout}
           toggleShortcutModal={toggleShortcutModal}
-          auth={this.props.auth} >
+          auth={this.props.auth}
+        >
           <BanUserDialog />
           <SuspendUserDialog />
           <UserDetail />
@@ -71,7 +76,10 @@ class LayoutContainer extends React.Component {
     } else if (loggedIn) {
       return (
         <Layout {...this.props}>
-          <p>This page is for team use only. Please contact an administrator if you want to join this team.</p>
+          <p>
+            This page is for team use only. Please contact an administrator if
+            you want to join this team.
+          </p>
         </Layout>
       );
     }
@@ -89,22 +97,25 @@ LayoutContainer.propTypes = {
   toggleShortcutModal: PropTypes.func,
   TALK_RECAPTCHA_PUBLIC: PropTypes.string,
   checkLogin: PropTypes.func,
-  fetchConfig: PropTypes.func
+  fetchConfig: PropTypes.func,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   auth: state.auth,
   TALK_RECAPTCHA_PUBLIC: state.config.data.TALK_RECAPTCHA_PUBLIC,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({
-    checkLogin,
-    fetchConfig,
-    handleLogin,
-    requestPasswordReset,
-    toggleShortcutModal,
-    logout
-  }, dispatch);
-  
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      checkLogin,
+      fetchConfig,
+      handleLogin,
+      requestPasswordReset,
+      toggleShortcutModal,
+      logout,
+    },
+    dispatch
+  );
+
 export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer);

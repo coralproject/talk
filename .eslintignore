@@ -28,5 +28,5 @@ plugins/*
 !plugins/talk-plugin-deep-reply-count
 !plugins/talk-plugin-subscriber
 !plugins/talk-plugin-flag-details
-
+public
 node_modules

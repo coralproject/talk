@@ -1,16 +1,16 @@
-import {gql} from 'react-apollo';
+import { gql } from 'react-apollo';
 import withMutation from '../hocs/withMutation';
 
 function convertItemType(item_type) {
   switch (item_type) {
-  case 'COMMENTS':
-    return 'Comment';
-  case 'USERS':
-    return 'User';
-  case 'ASSETS':
-    return 'Asset';
-  default:
-    throw new Error(`Unknown item_type ${item_type}`);
+    case 'COMMENTS':
+      return 'Comment';
+    case 'USERS':
+      return 'User';
+    case 'ASSETS':
+      return 'Asset';
+    default:
+      throw new Error(`Unknown item_type ${item_type}`);
   }
 }
 
@@ -28,14 +28,27 @@ function getTagFragment(item_type) {
 
 export const withAddTag = withMutation(
   gql`
-    mutation AddTag($id: ID!, $asset_id: ID!, $name: String!, $item_type: TAGGABLE_ITEM_TYPE!) {
-      addTag(tag: {name: $name, id: $id, item_type: $item_type, asset_id: $asset_id}) {
+    mutation AddTag(
+      $id: ID!
+      $asset_id: ID!
+      $name: String!
+      $item_type: TAGGABLE_ITEM_TYPE!
+    ) {
+      addTag(
+        tag: {
+          name: $name
+          id: $id
+          item_type: $item_type
+          asset_id: $asset_id
+        }
+      ) {
         ...ModifyTagResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      addTag: ({id, name, assetId, itemType}) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      addTag: ({ id, name, assetId, itemType }) => {
         return mutate({
           variables: {
             id,
@@ -47,40 +60,55 @@ export const withAddTag = withMutation(
             addTag: {
               __typename: 'ModifyTagResponse',
               errors: null,
-            }
+            },
           },
-          update: (proxy) => {
+          update: proxy => {
             const fragmentId = `${convertItemType(itemType)}_${id}`;
             const fragment = getTagFragment(itemType);
 
             // Read the data from our cache for this query.
-            const data = proxy.readFragment({fragment, id: fragmentId});
+            const data = proxy.readFragment({ fragment, id: fragmentId });
 
             data.tags.push({
               tag: {
                 __typename: 'Tag',
-                name
+                name,
               },
-              __typename: 'TagLink'
+              __typename: 'TagLink',
             });
 
             // Write our data back to the cache.
-            proxy.writeFragment({fragment, id: fragmentId, data});
+            proxy.writeFragment({ fragment, id: fragmentId, data });
           },
         });
-      }}),
-  });
+      },
+    }),
+  }
+);
 
 export const withRemoveTag = withMutation(
   gql`
-    mutation RemoveTag($id: ID!, $asset_id: ID!, $name: String!, $item_type: TAGGABLE_ITEM_TYPE!) {
-      removeTag(tag: {name: $name, id: $id, item_type: $item_type, asset_id: $asset_id}) {
+    mutation RemoveTag(
+      $id: ID!
+      $asset_id: ID!
+      $name: String!
+      $item_type: TAGGABLE_ITEM_TYPE!
+    ) {
+      removeTag(
+        tag: {
+          name: $name
+          id: $id
+          item_type: $item_type
+          asset_id: $asset_id
+        }
+      ) {
         ...ModifyTagResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      removeTag: ({id, name, assetId, itemType}) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      removeTag: ({ id, name, assetId, itemType }) => {
         return mutate({
           variables: {
             id,
@@ -92,36 +120,42 @@ export const withRemoveTag = withMutation(
             removeTag: {
               __typename: 'ModifyTagResponse',
               errors: null,
-            }
+            },
           },
-          update: (proxy) => {
+          update: proxy => {
             const fragmentId = `${convertItemType(itemType)}_${id}`;
             const fragment = getTagFragment(itemType);
 
             // Read the data from our cache for this query.
-            const data = proxy.readFragment({fragment, id: fragmentId});
+            const data = proxy.readFragment({ fragment, id: fragmentId });
 
-            const idx = data.tags.findIndex((i) => i.tag.name === name);
+            const idx = data.tags.findIndex(i => i.tag.name === name);
 
-            data.tags = [...data.tags.slice(0, idx), ...data.tags.slice(idx + 1)];
+            data.tags = [
+              ...data.tags.slice(0, idx),
+              ...data.tags.slice(idx + 1),
+            ];
 
             // Write our data back to the cache.
-            proxy.writeFragment({fragment, id: fragmentId, data});
-          }
+            proxy.writeFragment({ fragment, id: fragmentId, data });
+          },
         });
-      }}),
-  });
+      },
+    }),
+  }
+);
 
 export const withSetCommentStatus = withMutation(
   gql`
-    mutation SetCommentStatus($commentId: ID!, $status: COMMENT_STATUS!){
+    mutation SetCommentStatus($commentId: ID!, $status: COMMENT_STATUS!) {
       setCommentStatus(id: $commentId, status: $status) {
         ...SetCommentStatusResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      setCommentStatus: ({commentId, status}) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      setCommentStatus: ({ commentId, status }) => {
         return mutate({
           variables: {
             commentId,
@@ -131,32 +165,38 @@ export const withSetCommentStatus = withMutation(
             setCommentStatus: {
               __typename: 'SetCommentStatusResponse',
               errors: null,
-            }
+            },
           },
-          update: (proxy) => {
-
+          update: proxy => {
             const fragment = gql`
               fragment Talk_SetCommentStatus on Comment {
                 status
                 status_history {
                   type
                 }
-              }`;
+              }
+            `;
 
             const fragmentId = `Comment_${commentId}`;
 
-            const data = proxy.readFragment({fragment, id: fragmentId});
+            const data = proxy.readFragment({ fragment, id: fragmentId });
 
             data.status = status;
-            data.status_history = data.status_history ? data.status_history : [];
-            data.status_history.push({__typename: 'CommentStatusHistory', type: status});
+            data.status_history = data.status_history
+              ? data.status_history
+              : [];
+            data.status_history.push({
+              __typename: 'CommentStatusHistory',
+              type: status,
+            });
 
-            proxy.writeFragment({fragment, id: fragmentId, data});
-          }
+            proxy.writeFragment({ fragment, id: fragmentId, data });
+          },
         });
-      }
-    })
-  });
+      },
+    }),
+  }
+);
 
 export const withSuspendUser = withMutation(
   gql`
@@ -165,56 +205,220 @@ export const withSuspendUser = withMutation(
         ...SuspendUserResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      suspendUser: (input) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      suspendUser: input => {
         return mutate({
           variables: {
             input,
           },
         });
+      },
+    }),
+  }
+);
+
+export const withUnsuspendUser = withMutation(
+  gql`
+    mutation UnsuspendUser($input: UnsuspendUserInput!) {
+      unsuspendUser(input: $input) {
+        ...UnsuspendUserResponse
       }
-    })
-  });
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      unsuspendUser: input => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      },
+    }),
+  }
+);
+
+export const withApproveUsername = withMutation(
+  gql`
+    mutation ApproveUsername($id: ID!) {
+      approveUsername(id: $id) {
+        ...SetUsernameStatusResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      approveUsername: id => {
+        return mutate({
+          variables: {
+            id,
+          },
+        });
+      },
+    }),
+  }
+);
 
 export const withRejectUsername = withMutation(
   gql`
-    mutation RejectUsername($input: RejectUsernameInput!) {
-      rejectUsername(input: $input) {
-        ...RejectUsernameResponse
+    mutation RejectUsername($id: ID!) {
+      rejectUsername(id: $id) {
+        ...SetUsernameStatusResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      rejectUsername: (input) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      rejectUsername: id => {
+        return mutate({
+          variables: {
+            id,
+          },
+        });
+      },
+    }),
+  }
+);
+
+const SetUsernameFragment = gql`
+  fragment Talk_SetUsername on User {
+    username
+  }
+`;
+
+export const withChangeUsername = withMutation(
+  gql`
+    mutation ChangeUsername($id: ID!, $username: String!) {
+      changeUsername(id: $id, username: $username) {
+        ...ChangeUsernameResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      changeUsername: (id, username) => {
+        return mutate({
+          variables: {
+            id,
+            username,
+          },
+          update: proxy => {
+            const fragmentId = `User_${id}`;
+            const data = {
+              __typename: 'User',
+              username,
+            };
+            proxy.writeFragment({
+              fragment: SetUsernameFragment,
+              id: fragmentId,
+              data,
+            });
+          },
+        });
+      },
+    }),
+  }
+);
+
+export const withSetUsername = withMutation(
+  gql`
+    mutation SetUsername($id: ID!, $username: String!) {
+      setUsername(id: $id, username: $username) {
+        ...SetUsernameResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      setUsername: (id, username) => {
+        return mutate({
+          variables: {
+            id,
+            username,
+          },
+          update: proxy => {
+            const fragmentId = `User_${id}`;
+            const data = {
+              __typename: 'User',
+              username,
+            };
+            proxy.writeFragment({
+              fragment: SetUsernameFragment,
+              id: fragmentId,
+              data,
+            });
+          },
+        });
+      },
+    }),
+  }
+);
+
+export const withBanUser = withMutation(
+  gql`
+    mutation BanUser($input: BanUserInput!) {
+      banUser(input: $input) {
+        ...BanUsersResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      banUser: input => {
         return mutate({
           variables: {
             input,
           },
         });
-      }
-    })
-  });
+      },
+    }),
+  }
+);
 
-export const withSetUserStatus = withMutation(
+export const withUnbanUser = withMutation(
   gql`
-    mutation SetUserStatus($userId: ID!, $status: USER_STATUS!) {
-      setUserStatus(id: $userId, status: $status) {
-        ...SetUserStatusResponse
+    mutation UnbanUser($input: UnbanUserInput!) {
+      unbanUser(input: $input) {
+        ...UnbanUserResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      setUserStatus: ({userId, status}) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      unbanUser: input => {
         return mutate({
           variables: {
-            userId,
-            status
+            input,
           },
         });
-      }
+      },
     }),
-  });
+  }
+);
+
+export const withSetUserRole = withMutation(
+  gql`
+    mutation SetUserRole($id: ID!, $role: USER_ROLES!) {
+      setUserRole(id: $id, role: $role) {
+        ...SetUserRoleResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      setUserRole: (id, role) => {
+        return mutate({
+          variables: {
+            id,
+            role,
+          },
+        });
+      },
+    }),
+  }
+);
 
 export const withPostComment = withMutation(
   gql`
@@ -223,28 +427,31 @@ export const withPostComment = withMutation(
         ...CreateCommentResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      postComment: (input) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      postComment: input => {
         return mutate({
           variables: {
-            input
+            input,
           },
         });
-      }
+      },
     }),
-  });
+  }
+);
 
 export const withEditComment = withMutation(
   gql`
     mutation EditComment($id: ID!, $asset_id: ID!, $edit: EditCommentInput) {
-      editComment(id:$id, asset_id:$asset_id, edit:$edit) {
+      editComment(id: $id, asset_id: $asset_id, edit: $edit) {
         ...EditCommentResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      editComment: (id, asset_id, edit)  => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      editComment: (id, asset_id, edit) => {
         return mutate({
           variables: {
             id,
@@ -252,9 +459,10 @@ export const withEditComment = withMutation(
             edit,
           },
         });
-      }
+      },
     }),
-  });
+  }
+);
 
 export const withPostFlag = withMutation(
   gql`
@@ -263,16 +471,19 @@ export const withPostFlag = withMutation(
         ...CreateFlagResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      postFlag: (flag) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      postFlag: flag => {
         return mutate({
           variables: {
-            flag
-          }
+            flag,
+          },
         });
-      }}),
-  });
+      },
+    }),
+  }
+);
 
 export const withPostDontAgree = withMutation(
   gql`
@@ -281,70 +492,82 @@ export const withPostDontAgree = withMutation(
         ...CreateDontAgreeResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      postDontAgree: (dontagree) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      postDontAgree: dontagree => {
         return mutate({
           variables: {
-            dontagree
-          }
+            dontagree,
+          },
         });
-      }}),
-  });
+      },
+    }),
+  }
+);
 
 export const withDeleteAction = withMutation(
   gql`
     mutation DeleteAction($id: ID!) {
-      deleteAction(id:$id) {
+      deleteAction(id: $id) {
         ...DeleteActionResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      deleteAction: (id) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      deleteAction: id => {
         return mutate({
           variables: {
-            id
-          }
+            id,
+          },
         });
-      }}),
-  });
+      },
+    }),
+  }
+);
 
 export const withIgnoreUser = withMutation(
   gql`
     mutation IgnoreUser($id: ID!) {
-      ignoreUser(id:$id) {
+      ignoreUser(id: $id) {
         ...IgnoreUserResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      ignoreUser: (id) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      ignoreUser: id => {
         return mutate({
           variables: {
             id,
           },
         });
-      }}),
-  });
+      },
+    }),
+  }
+);
 
 export const withStopIgnoringUser = withMutation(
   gql`
     mutation StopIgnoringUser($id: ID!) {
-      stopIgnoringUser(id:$id) {
+      stopIgnoringUser(id: $id) {
         ...StopIgnoringUserResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      stopIgnoringUser: ({id}) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      stopIgnoringUser: ({ id }) => {
         return mutate({
           variables: {
             id,
           },
         });
-      }}),
-  });
+      },
+    }),
+  }
+);
 
 export const withUpdateSettings = withMutation(
   gql`
@@ -353,16 +576,19 @@ export const withUpdateSettings = withMutation(
         ...UpdateSettingsResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
-      updateSettings: (input) => {
+  `,
+  {
+    props: ({ mutate }) => ({
+      updateSettings: input => {
         return mutate({
           variables: {
             input,
           },
         });
-      }}),
-  });
+      },
+    }),
+  }
+);
 
 export const withUpdateAssetSettings = withMutation(
   gql`
@@ -371,8 +597,9 @@ export const withUpdateAssetSettings = withMutation(
         ...UpdateAssetSettingsResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
+  `,
+  {
+    props: ({ mutate }) => ({
       updateAssetSettings: (id, input) => {
         return mutate({
           variables: {
@@ -383,11 +610,13 @@ export const withUpdateAssetSettings = withMutation(
             updateAssetSettings: {
               __typename: 'UpdateAssetSettingsResponse',
               errors: null,
-            }
+            },
           },
         });
-      }}),
-  });
+      },
+    }),
+  }
+);
 
 export const withUpdateAssetStatus = withMutation(
   gql`
@@ -396,8 +625,9 @@ export const withUpdateAssetStatus = withMutation(
         ...UpdateAssetStatusResponse
       }
     }
-  `, {
-    props: ({mutate}) => ({
+  `,
+  {
+    props: ({ mutate }) => ({
       updateAssetStatus: (id, input) => {
         return mutate({
           variables: {
@@ -408,25 +638,73 @@ export const withUpdateAssetStatus = withMutation(
             updateAssetStatus: {
               __typename: 'UpdateAssetStatusResponse',
               errors: null,
-            }
+            },
           },
-          update: (proxy) => {
+          update: proxy => {
             if (input.closedAt !== undefined) {
               const fragment = gql`
                 fragment Talk_UpdateAssetStatusResponse on Asset {
                   closedAt
                   isClosed
-                }`;
+                }
+              `;
 
               const fragmentId = `Asset_${id}`;
               const data = {
                 __typename: 'Asset',
                 closedAt: input.closedAt,
-                isClosed: !!input.closedAt && new Date(input.closedAt).getTime() <= new Date().getTime(),
+                isClosed:
+                  !!input.closedAt &&
+                  new Date(input.closedAt).getTime() <= new Date().getTime(),
               };
-              proxy.writeFragment({fragment, id: fragmentId, data});
+              proxy.writeFragment({ fragment, id: fragmentId, data });
             }
-          }
+          },
         });
-      }}),
-  });
+      },
+    }),
+  }
+);
+
+export const withCloseAsset = withMutation(
+  gql`
+    mutation CloseAsset($id: ID!) {
+      closeAsset(id: $id) {
+        ...CloseAssetResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      closeAsset: id => {
+        return mutate({
+          variables: {
+            id,
+          },
+          optimisticResponse: {
+            closeAsset: {
+              __typename: 'CloseAssetResponse',
+              errors: null,
+            },
+          },
+          update: proxy => {
+            const fragment = gql`
+              fragment Talk_CloseAssetResponse on Asset {
+                closedAt
+                isClosed
+              }
+            `;
+
+            const fragmentId = `Asset_${id}`;
+            const data = {
+              __typename: 'Asset',
+              closedAt: new Date(),
+              isClosed: true,
+            };
+            proxy.writeFragment({ fragment, id: fragmentId, data });
+          },
+        });
+      },
+    }),
+  }
+);

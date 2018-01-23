@@ -12,7 +12,6 @@ const KEY_REGEX = /^(?:[A-Za-z][A-Za-z.]*[A-Za-z])?(?:[A-Za-z]*)$/;
  * @class MetadataService
  */
 class MetadataService {
-
   /**
    * Parses a key by ensuring that if it is either a string, or an array with
    * only characters defined in the `KEY_REGEX`
@@ -28,7 +27,7 @@ class MetadataService {
       key = key.join('.');
     }
 
-    if ((typeof key !== 'string') || !KEY_REGEX.test(key) || key.length === 0) {
+    if (typeof key !== 'string' || !KEY_REGEX.test(key) || key.length === 0) {
       throw new Error(`${key} is not valid, only a-zA-Z. allowed`);
     }
 
@@ -57,11 +56,14 @@ class MetadataService {
   static async set(model, id, key, value) {
     key = MetadataService.parseKey(key);
 
-    return model.update({id}, {
-      $set: {
-        [key]: value
+    return model.update(
+      { id },
+      {
+        $set: {
+          [key]: value,
+        },
       }
-    });
+    );
   }
 
   /**
@@ -85,9 +87,12 @@ class MetadataService {
   static async unset(model, id, key) {
     key = MetadataService.parseKey(key);
 
-    return model.update({id}, {
-      $unset: {[key]: ''}
-    });
+    return model.update(
+      { id },
+      {
+        $unset: { [key]: '' },
+      }
+    );
   }
 }
 

@@ -1,0 +1,403 @@
+zh_TW:
+  your_account_has_been_suspended: 您的賬戶已被暫停使用。
+  your_account_has_been_banned: 您的賬戶已被禁用。
+  your_username_has_been_rejected: 由於您使用了不恰當的用戶名，您的帳戶已被暫停使用。若需恢復帳戶，請輸入一個新的用戶名。
+  embed_comments_tab: 評論
+  bandialog:
+    are_you_sure: "你確定要封禁{0}嗎？"
+    ban_user: "確定封禁該用戶？"
+    banned_user: "已封禁的用戶"
+    cancel: "取消"
+    note: "注意：{0}"
+    note_reject_comment: "封禁該用戶將使這條評論被移入“被拒”列表。"
+    note_ban_user: "封禁該用戶將使其無法編輯或刪除評論。"
+    yes_ban_user: "是的，封禁該用戶"
+  bio_offensive: "該介紹包含具有攻擊性的內容。"
+  cancel: "取消"
+  characters_remaining: "剩餘字符數"
+  comment:
+    anon: "匿名用戶"
+    undo_reject: "撤銷"
+    ban_user: "封禁用戶"
+    comment: "發表評論"
+    edited: 編輯
+    flagged: "已標記"
+    view_context: "查看全文"
+  comment_box:
+    post: "發布"
+    cancel: "取消"
+    reply: "回覆"
+    comment: "發表評論"
+    name: "姓名"
+    comment_post_notif: "您的評論已發布"
+    comment_post_notif_premod: "感謝您發表評論。我們的審核團隊將盡快審核您的評論。"
+    comment_post_banned_word:  "由於您的評論包含至少一個禁用詞，評論發布失敗。如對此有疑問，請聯繫我們的審核團隊。"
+    characters_remaining: "剩余字符"
+  comment_offensive: "該評論包含侮辱性詞語"
+  comment_singular: 評論
+  comment_plural: 評論流
+  comment_post_banned_word: "由於您的評論包含至少一個禁用詞，評論發布失敗。如對此有疑問，請聯繫我們的審核團隊。"
+  comment_post_notif: "您的評論已發布"
+  comment_post_notif_premod: "感謝您發表評論。我們的審核團隊將盡快審核您的評論。"
+  common:
+    copy: '覆制'
+    error: '出錯了'
+    reply: '回覆'
+    replies: '回覆'
+    reaction: '回應'
+    reactions: '回應'
+    story: '故事'
+  community:
+    account_creation_date: "賬戶創建日期"
+    active: 激活
+    admin: 管理員
+    ads_marketing: "看上去像廣告/營銷"
+    are_you_sure: "您確定您要封禁{0}？"
+    ban_user: "確認封禁該用戶嗎？"
+    banned: 已封禁
+    banned_user: "被封禁的用戶"
+    cancel: 取消
+    dont_like_username: "踩用戶名"
+    flaggedaccounts: "被舉報的用戶名"
+    flags: 標記
+    impersonating: "冒充"
+    loading: "正在加載"
+    moderator: 版主
+    newsroom_role: "新聞編輯室身份"
+    no_flagged_accounts: "被舉報的用戶名列表為空"
+    no_results: "沒有發現使用該用戶名或郵箱的用戶。他們藏起來了！"
+    offensive: "違規"
+    other: 其他
+    people: 聯繫人
+    role: "選擇身份..."
+    select_status: "選擇狀態..."
+    spam_ads: "垃圾郵件/廣告"
+    staff: "管理員"
+    status: 狀態
+    username_and_email: "用戶名和郵箱地址"
+    yes_ban_user: "同意封禁該用戶"
+    none: "無"
+  configure:
+    apply: 應用
+    banned_word_text: "包含以下字或詞組（不區分大小寫）的評論將被自動從評論流中移除。 輸入一個詞，然後按Enter或Tab鍵添加新詞，也可粘貼以逗號分隔的列表至此。"
+    banned_words_title: "禁用詞列表"
+    close: "關閉"
+    close_after: "稍後關閉評論"
+    close_stream: "關閉評論"
+    close_stream_configuration: "評論流現已關閉。打開評論流可提交並顯示新的評論。"
+    closed_comments_desc: "當您的評論流關閉時，留言仍會顯示在評論流，但是其他人將無法評論"
+    closed_comments_label: "留言"
+    closed_stream_settings: "關閉私信"
+    comment_count_error: "請輸入一個有效數字"
+    comment_count_header: "限制評論長度"
+    comment_count_text_post: 字數
+    comment_count_text_pre: "評論將被限制在"
+    comment_settings: 設置
+    comment_stream: "評論"
+    comment_stream_will_close: "關閉評論"
+    community: 社區
+    configure: 配置
+    copy_and_paste: "將以下代碼覆制並粘貼到您的CMS中，可以將您的評論框加入到文章中"
+    custom_css_url: "自定義CSS地址"
+    custom_css_url_desc: "CSS風格的網址將覆蓋默認的評論流風格，包括內部和外部"
+    days: 日
+    description: "您作為管理員有權限自定義此故事評論流的設置："
+    domain_list_text: "輸入您允許Talk使用的域名，例如您的本地環境，模擬環境和生產環境（例如localhost：3000，staging.domain.com，domain.com）。"
+    domain_list_title: "允許的域名"
+    edit_comment_timeframe_heading: "編輯評論時間範圍"
+    edit_comment_timeframe_text_pre: "評論員將享受"
+    edit_comment_timeframe_text_post: "幾秒鐘編輯評論"
+    embed_comment_stream: "加入評論流"
+    enable_premod_links_text: "任何包含鏈接的評論必須經過版主審核後才能發布"
+    enable_pre_moderation: "啟用預審"
+    enable_pre_moderation_text: "任何評論必須經過版主審核後才能發布"
+    enable_premod_links: "預審包含鏈接的評論"
+    enable_premod: "啟用預審"
+    enable_premod_description: "任何評論必須經過版主審核後才能發布"
+    enable_premod_links_description: "任何包含鏈接的評論必須經過版主審核後才能發布"
+    enable_questionbox: "向讀者提問"
+    enable_questionbox_description: "該問題將會在評論流置頂。您可以詢問其他讀者有關文章中的具體時間或是提出討論等"
+    hours: 小時
+    include_comment_stream: "包含讀者的評論流描述"
+    include_comment_stream_desc: "留言將在您的評論流中置頂。發布一個社區規則等"
+    include_text: "在此插入您的文本"
+    include_question_here: "請在此處輸入問題："
+    moderate: 審核
+    moderation_settings: "審核設置"
+    open: "開啟"
+    open_stream: "打開評論流"
+    open_stream_configuration: "評論流現已打開。評論流關閉後其他用戶將無法提交新的評論，但先前的評論仍將顯示。"
+    require_email_verification: "需要驗證郵箱"
+    require_email_verification_text: "新用戶必須驗證郵箱後才能評論"
+    save_changes: "保存更改"
+    shortcuts: 快捷鍵
+    sign_out: "註銷"
+    stories: 故事
+    stream_settings: "評論流設定"
+    suspect_word_title: "敏感詞列表"
+    suspect_word_text: "包含以下詞或短語（不區分大小寫）的評論將在評論流中高亮顯示。輸入一個詞，然後按Enter或Tab鍵添加，可根據需要粘貼以逗號作為分隔符的列表。"
+    tech_settings: "技術設置"
+    title: "評論流設置"
+    weeks: 週
+    wordlist: "禁用詞"
+  continue: "繼續"
+  createdisplay:
+    check_the_form: "表單無效。請檢查輸入框"
+    continue: "使用與Facebook相同的用戶名"
+    error_create: "更改用戶名時出現錯誤"
+    fake_comment_body: "這是一個評論示例。讀者可以在評論區與編輯團隊分享想法和觀點。"
+    fake_comment_date: "1分鐘前"
+    if_you_dont_change_your_name: "如果您當前沒有更改您的用戶名，您的Facebook將在您的所有評論旁邊顯示該用戶名。"
+    required_field: "必填選項"
+    save: 保存
+    special_characters: "用戶名只能包含字母、數字和下劃線"
+    username: 用戶名
+    write_your_username: "編輯您的用戶名"
+    your_username: "您的每條評論均會帶上您的用戶名。"
+  done: 完成
+  edit_comment:
+    body_input_label: "編輯評論"
+    save_button: "保存更改"
+    edit_window_expired: "由於超過時間期限，您已無法編輯該評論。為什麼不發表一條新評論呢？"
+    edit_window_expired_close: "關閉"
+    edit_window_timer_prefix: "編輯窗口："
+    second: "秒"
+    seconds_plural: "秒"
+    minute: "分鐘"
+    minutes_plural: "分鐘"
+  email:
+    suspended:
+      subject: "您的賬戶已被暫停使用"
+    banned:
+      subject: "您的賬戶已被禁用"
+      body: "根據Coral項目使用準則, 您的賬戶已被禁用。您已不再可以評論, 標記或是參與社區活動。"
+    confirm:
+      has_been_requested: "以下賬戶要求接收確認郵件："
+      to_confirm: "為確認該賬戶，請點擊下方鏈接："
+      confirm_email: "確認郵箱"
+      if_you_did_not: "如果您並未發送該請求，請忽略此郵件"
+      subject: "確認郵箱"
+    password_reset:
+      we_received_a_request: "我們收到了重置密碼的請求。如果您並未請求更改密碼，請忽略該郵件。"
+      if_you_did: "如果您發送了重置請求，"
+      please_click: "請點擊此處重置密碼"
+  embedlink:
+    copy: "覆制到剪貼板"
+  error:
+    COMMENT_TOO_SHORT: "評論長度必須超過一個字符，請您修改評論後重試。"
+    NOT_AUTHORIZED: "您無權執行該操作。"
+    NO_SPECIAL_CHARACTERS: "用戶名只能包含字母、數字和下劃線"
+    PASSWORD_LENGTH: "密碼過短"
+    PROFANITY_ERROR: "用戶名不得包含侮辱性詞彙。如果您對此有疑問，請聯繫管理員。"
+    RATE_LIMIT_EXCEEDED: "評論數已超過上限"
+    USERNAME_IN_USE: "該用戶名已被佔用"
+    USERNAME_REQUIRED: "必須輸入用戶名"
+    EMAIL_NOT_VERIFIED: "郵箱地址未驗證"
+    EDIT_WINDOW_ENDED: "您無法編輯該評論，頁面已過期"
+    EDIT_USERNAME_NOT_AUTHORIZED: "您無權更新您的用戶名"
+    SAME_USERNAME_PROVIDED: "您必須提交一個未被使用過的用戶名。"
+    EMAIL_IN_USE: "電子郵件地址已被占用"
+    EMAIL_REQUIRED: "請輸入一個電子郵箱地址"
+    LOGIN_MAXIMUM_EXCEEDED: "您輸入了太多次不正確的密碼。請稍候再試。"
+    PASSWORD_REQUIRED: "必須輸入密碼"
+    COMMENTING_CLOSED: "評論已關閉"
+    NOT_FOUND: "未找到資源"
+    ALREADY_EXISTS: "資源已存在"
+    INVALID_ASSET_URL: "網址無效"
+    CANNOT_IGNORE_STAFF: "不能屏蔽員工。"
+    email: "電子郵箱地址無效"
+    confirm_password: "密碼不匹配。請檢查。"
+    network_error: "無法連接服務器。請檢查您的互聯網連接，然後重試。"
+    email_not_verified: "電子郵箱地址{0}未經驗證。"
+    email_password: "電子郵箱和/或密碼的組合不正確。"
+    organization_name: "組織名稱只能包含字母或數字。"
+    password: "密碼必須至少8個字符"
+    username: "用戶名只能包含字母、數字和下劃線。"
+    unexpected: "發生了意外錯誤。抱歉!"
+  flag_comment: "舉報評論"
+  flag_reason: "舉報原因（可選）"
+  flag_username: "舉報用戶名"
+  framework:
+    banned_account_header: "您的帳戶目前被禁用。"
+    banned_account_body: "這意味著您不能點贊，舉報或評論。"
+    comment: 評論
+    comment_is_ignored: "由於您屏蔽了該用戶，這條評論被隱藏。"
+    comment_is_rejected: "你已拒絕了該評論。"
+    comment_is_hidden: "此評論無效。"
+    comments: 評論
+    configure_stream: "配置"
+    content_not_available: "此內容不可用"
+    edit_name:
+      button: 提交
+      error: "用戶名只能包含字母、數字和下劃線。"
+      label: "新用戶名"
+      msg: "由於您的用戶名不當，您的帳號目前已被暫停使用。如要恢復您的帳戶，請輸入一個新的用戶名。如有任何疑問，請與我們聯繫。"
+    my_comments: "我的評論"
+    my_profile: "我的概況"
+    new_count: "查看{0}更多{1}"
+    profile: 概況
+    show_all_comments: "顯示全部評論"
+    success_bio_update: "您的個人簡介已更新"
+    success_name_update: "您的用戶名已更新"
+    success_update_settings: "您的更改已被應用於本文的評論流"
+    show_all_replies: 顯示全部回覆
+    show_more_replies: 顯示更多回覆
+    view_more_comments: "查看更多評論"
+    view_reply: "查看回覆"
+  from_settings_page: "您可以在概況頁面看到您的評論歷史記錄。"
+  like: 讚
+  loading_results: "加載結果"
+  marketing: "這看起來像是廣告/營銷"
+  moderate_this_stream: "審核這個流"
+  modqueue:
+    account: "帳戶標記"
+    actions: 操作
+    all: 所有
+    all_streams: "所有流"
+    notify_edited: '{0}編輯了評論“{1}”'
+    notify_accepted: '{0}接受了評論“{1}”'
+    notify_rejected: '{0}拒絕了評論“{1}”'
+    notify_flagged: '{0}標記了評論“{1}”'
+    notify_reset: '{0}重置了評論“{1}”的狀態'
+    approve: "批準"
+    approved: "已批準"
+    ban_user: "禁止"
+    billion: 十億
+    close: 關
+    empty_queue: "沒有更多評論需要審核了！您都完成了，來杯☕️吧！"
+    flagged: 被標記的
+    reported: 被舉報的
+    less_detail: "收起"
+    likes: 讚
+    million: 百萬
+    mod_faster: "使用鍵盤快捷鍵，加快審核速度"
+    moderate: "審核 →"
+    more_detail: "展開"
+    new: 新
+    newest_first: "最新評論優先"
+    navigation: 導航
+    next_comment: "轉到下一條評論"
+    toggle_search: "打開搜索"
+    next_queue: "切換隊列"
+    oldest_first: "最早評論優先"
+    premod: 預審核
+    prev_comment: "轉到之前的評論"
+    reject: "拒絕"
+    rejected: "已拒絕"
+    reply: "回覆"
+    select_stream: "選擇流"
+    shift_key: "⇧"
+    shortcuts: "快捷鍵"
+    sort: "排序"
+    show_shortcuts: "顯示快捷鍵"
+    singleview: "切換單個評論編輯視圖"
+    thismenu: "打開這個菜單"
+    jump_to_queue: "跳轉到特定隊列"
+    thousand: 千
+    try_these: "試試這些"
+    view_more_shortcuts: "查看更多快捷方式"
+  my_comment_history: "我的評論歷史"
+  name: 名字
+  no_agree_comment: "我不同意這個評論"
+  no_like_bio: "我不喜歡這個個人簡介"
+  no_like_username: "我不喜歡這個用戶名"
+  other: 其他
+  permalink: 分享
+  personal_info: "該評論洩露了個人身份資訊"
+  post: 帖子
+  profile: 概況
+  profile_settings: "概況設置"
+  reply: 回覆
+  report: 舉報
+  report_notif: "感謝您舉報此評論。我們的審核小組已經收到通知，並會很快進行審查。"
+  report_notif_remove: "您的舉報已被刪除。"
+  reported: 已舉報
+  settings:
+    from_settings_page: "您可以在概況頁面看到您的評論歷史記錄。"
+    my_comment_history: "我的評論歷史"
+    profile: 概況
+    profile_settings: "概況設置"
+    sign_in: "登陸"
+    to_access: "訪問概況"
+    user_no_comment: "您尚未發表過評論。加入對話吧！"
+  stream:
+    all_comments: "全部評論"
+    temporarily_suspended: "根據{0}的社區規定，您的帳戶已被暫時停用。請重新加入對話{1}。"
+    comment_not_found: "未發現評論"
+    no_comments: "暫時還沒有評論，何不寫條評論呢？"
+    no_comments_and_closed: "這篇文章沒有評論。"
+  step_1_header: "舉報問題"
+  step_2_header: "幫助我們了解情況"
+  step_3_header: "謝謝您的參與"
+  streams:
+    all: 全部
+    article: 故事
+    closed: 已關閉
+    empty_result: "沒有符合該搜索的內容。試試擴大您的搜索？"
+    filter_streams: "過濾流"
+    newest: 最新
+    oldest: 最早
+    open: 打開
+    pubdate: "發布日期"
+    search: 搜索
+    sort_by: "排序方式"
+    status: "流狀態"
+    stream_status: "流狀態"
+  suspenduser:
+    title_suspend: "暫停用戶"
+    description_suspend: "您正在暫停{0}。此評論將進入拒絕隊列。直到暫停時間結束，{0}該評論才將允許被點贊，舉報，回复或發布。"
+    select_duration: "選擇暫停期限"
+    one_hour: "1 小時"
+    hours: "{0} 小時"
+    days: "{0} 天"
+    cancel: "取消"
+    suspend_user: "暫時禁言用戶"
+    email_message_suspend: "尊敬的{0}，\ n \ n根據{1}的社區規定，您的帳戶已被暫時禁言。在禁言期間，您將無法評論，舉報或與其他評論者進行交流。請重新加入對話{2}。"
+    title_notify: "通知用戶他們的賬戶被禁言"
+    notify_suspend_until: "用戶{0}已被暫時禁言。禁言期將自動結束{1}。"
+    description_notify: "封禁用戶將令其帳戶將被暫時禁用。"
+    write_message: "寫消息"
+    send: 發送
+  reject_username:
+    username: 用戶名
+    no_cancel: "不取消"
+    description_reject: "您想針對他們的{0}暫時封禁此用戶嗎？這樣做會暫時凍結這個用戶的賬號，直到他們重寫{0}。"
+    title_notify: "通知用戶他們的賬號暫時被禁用。"
+    description_notify: "封禁此用戶，其帳號將被暫時禁用。"
+    title_reject: "我們注意到您拒絕了一個用戶名"
+    suspend_user: "暫時封禁用戶"
+    yes_suspend: "是，暫時封禁"
+    email_message_reject: "另一位社區成員最近標記了您的用戶名，要求管理員對其進行審核。由於您的用戶名內容不當，您無法繼續使用您的用戶名。這意味著除非您重新輸入用戶名，您將不能再評論、點贊或標記內容。如果您有任何疑問或顧慮，請發郵件給我們。"
+    write_message: "寫消息"
+    send: 發送
+  thank_you: "我們很重視您的安全和反饋。一位審核員將盡快審閱您的舉報內容。"
+  user:
+    bio_flags: "該簡介的標記"
+    user_bio: "用戶簡介"
+    username_flags: "該用戶名的標記"
+  user_impersonating: "此用戶正在冒充"
+  user_no_comment: "您尚未評論過。加入對話吧！"
+  username_offensive: "這個用戶名有冒犯性"
+  view_conversation: "查看對話"
+  install:
+    initial:
+      description: "讓我們通過幾個簡單的步驟設置您的Talk社區。"
+      submit: "立即開始"
+    add_organization:
+      description: "請告訴我們您的組織名稱。在邀請新團隊成員時，這一資訊將在郵件中顯示。"
+      label: "機構名稱"
+      save: "保存"
+    create:
+      email: "電子郵箱地址"
+      username: "用戶名"
+      password: "密碼"
+      confirm_password: "確認密碼"
+      save: "保存"
+    permitted_domains:
+      title: "允許的域名"
+      description: "輸入您允許Talk使用的域名，例如您的本地環境，測試環境和投入使用的環境（例如localhost：3000，staging.domain.com，domain.com）。 "
+      submit: "完成安裝"
+    final:
+      description: "感謝安裝Talk！我們給您發送了一封郵件以驗證您的電子郵箱地址。在完成帳戶設置後，您即可開始與您的讀者互動。"
+      launch: "啟動Talk"
+      close: "關閉安裝程序"

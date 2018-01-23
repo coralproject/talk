@@ -4,52 +4,58 @@ const debug = require('debug')('talk:services:comments');
 const ActionsService = require('./actions');
 const SettingsService = require('./settings');
 
-const sc = require('snake-case');
 const cloneDeep = require('lodash/cloneDeep');
 const errors = require('../errors');
 const events = require('./events');
-const {
-  ACTIONS_NEW,
-  ACTIONS_DELETE,
-  COMMENTS_NEW,
-  COMMENTS_EDIT,
-} = require('./events/constants');
+const merge = require('lodash/merge');
+const { COMMENTS_NEW, COMMENTS_EDIT } = require('./events/constants');
 
 module.exports = class CommentsService {
-
   /**
    * Creates a new Comment that came from a public source.
-   * @param  {Mixed} comment either a single comment or an array of comments.
+   * @param  {Object} input either a single comment or an array of comments.
    * @return {Promise}
    */
-  static async publicCreate(comment) {
+  static async publicCreate(input) {
+    // Extract the parent_id from the comment, if there is one.
+    const { status = 'NONE', parent_id = null } = input;
 
-    // Check to see if this is an array of comments, if so map it out.
-    if (Array.isArray(comment)) {
-      return Promise.all(comment.map(CommentsService.publicCreate));
+    // Check to see if we are replying to a comment, and if that comment is
+    // visible.
+    if (parent_id !== null) {
+      const parent = await CommentModel.findOne({ id: parent_id });
+      if (parent === null || !parent.visible) {
+        throw errors.ErrParentDoesNotVisible;
+      }
     }
 
-    const {
-      status = 'NONE',
-    } = comment;
-
-    const commentModel = new CommentModel(Object.assign({
-      status_history: status ? [{
-        type: status,
-        created_at: new Date()
-      }] : [],
-      body_history: [{
-        body: comment.body,
-        created_at: new Date()
-      }]
-    }, comment));
-
-    const savedCommentModel = await commentModel.save();
+    // Create the comment in the database.
+    const comment = await CommentModel.create(
+      merge(
+        {
+          status_history: status
+            ? [
+                {
+                  type: status,
+                  created_at: new Date(),
+                },
+              ]
+            : [],
+          body_history: [
+            {
+              body: input.body,
+              created_at: new Date(),
+            },
+          ],
+        },
+        input
+      )
+    );
 
     // Emit that the comment was created!
-    await events.emitAsync(COMMENTS_NEW, savedCommentModel);
+    await events.emitAsync(COMMENTS_NEW, comment);
 
-    return savedCommentModel;
+    return comment;
   }
 
   /**
@@ -58,13 +64,10 @@ module.exports = class CommentsService {
    * @param {Object} comment the comment to get the last status of
    */
   static lastUnmoderatedStatus(comment) {
-    const UNMODERATED_STATUSES = [
-      'NONE',
-      'PREMOD',
-    ];
+    const UNMODERATED_STATUSES = ['NONE', 'PREMOD'];
 
     for (let i = comment.status_history.length - 1; i >= 0; i--) {
-      const {type} = comment.status_history[i];
+      const { type } = comment.status_history[i];
 
       if (UNMODERATED_STATUSES.includes(type)) {
         return type;
@@ -80,7 +83,7 @@ module.exports = class CommentsService {
    * @param {String} body       the new Comment body
    * @param {String} status     the new Comment status
    */
-  static async edit({id, author_id, body, status}) {
+  static async edit({ id, author_id, body, status }) {
     const EDITABLE_STATUSES = ['NONE', 'PREMOD', 'ACCEPTED'];
 
     const query = {
@@ -93,7 +96,9 @@ module.exports = class CommentsService {
 
     // Establish the edit window (if it exists) and add the condition to the
     // original query.
-    const {editCommentWindowLength: editWindowMs} = await SettingsService.retrieve();
+    const {
+      editCommentWindowLength: editWindowMs,
+    } = await SettingsService.retrieve();
     const lastEditableCommentCreatedAt = new Date(Date.now() - editWindowMs);
     query.created_at = {
       $gt: lastEditableCommentCreatedAt,
@@ -112,12 +117,11 @@ module.exports = class CommentsService {
         status_history: {
           type: status,
           created_at: new Date(),
-        }
+        },
       },
     });
 
     if (originalComment == null) {
-
       // Try to get the comment.
       const comment = await CommentsService.findById(id);
       if (comment == null) {
@@ -127,13 +131,17 @@ module.exports = class CommentsService {
 
       // Check to see if the user was't allowed to edit it.
       if (comment.author_id !== author_id) {
-        debug('rejecting comment edit because author id does not match editing user');
+        debug(
+          'rejecting comment edit because author id does not match editing user'
+        );
         throw errors.ErrNotAuthorized;
       }
 
       // Check to see if the comment had a status that was editable.
       if (!EDITABLE_STATUSES.includes(comment.status)) {
-        debug('rejecting comment edit because original comment has a non-editable status');
+        debug(
+          'rejecting comment edit because original comment has a non-editable status'
+        );
         throw errors.ErrNotAuthorized;
       }
 
@@ -163,29 +171,32 @@ module.exports = class CommentsService {
     // previously, we should mark the comment as 'NONE' or 'PREMOD', which ever
     // was most recent if the new comment is destined to be `NONE` or `PREMOD`.
     if (originalComment.status === 'ACCEPTED' && status === 'NONE') {
-
-      const lastUnmoderatedStatus = CommentsService.lastUnmoderatedStatus(originalComment);
+      const lastUnmoderatedStatus = CommentsService.lastUnmoderatedStatus(
+        originalComment
+      );
 
       // If the last moderated status was found and the current comment doesn't
       // match this already.
       if (lastUnmoderatedStatus && status !== lastUnmoderatedStatus) {
-
         // Update the comment model (if at this point, the status is still
         // accepted) with the previously unmoderated status
-        await CommentModel.update({
-          id,
-          status,
-        }, {
-          $set: {
-            status: lastUnmoderatedStatus,
+        await CommentModel.update(
+          {
+            id,
+            status,
           },
-          $push: {
-            status_history: {
-              type: lastUnmoderatedStatus,
-              created_at: new Date(),
-            }
-          },
-        });
+          {
+            $set: {
+              status: lastUnmoderatedStatus,
+            },
+            $push: {
+              status_history: {
+                type: lastUnmoderatedStatus,
+                created_at: new Date(),
+              },
+            },
+          }
+        );
 
         // Update the returned comment.
         editedComment.status = lastUnmoderatedStatus;
@@ -207,7 +218,7 @@ module.exports = class CommentsService {
    * @return {Promise}
    */
   static findById(id) {
-    return CommentModel.findOne({id});
+    return CommentModel.findOne({ id });
   }
 
   /**
@@ -217,7 +228,7 @@ module.exports = class CommentsService {
    */
   static findByAssetId(asset_id) {
     return CommentModel.find({
-      asset_id
+      asset_id,
     });
   }
 
@@ -233,8 +244,8 @@ module.exports = class CommentsService {
     return CommentModel.find({
       asset_id,
       status: {
-        $in: statuses
-      }
+        $in: statuses,
+      },
     });
   }
 
@@ -244,13 +255,16 @@ module.exports = class CommentsService {
    * @return {Promise}
    */
   static findByActionType(action_type) {
-    return ActionsService
-      .findCommentsIdByActionType(action_type, 'COMMENTS')
-      .then((actions) => CommentModel.find({
+    return ActionsService.findCommentsIdByActionType(
+      action_type,
+      'COMMENTS'
+    ).then(actions =>
+      CommentModel.find({
         id: {
-          $in: actions.map((a) => a.item_id)
-        }
-      }));
+          $in: actions.map(a => a.item_id),
+        },
+      })
+    );
   }
 
   /**
@@ -259,9 +273,10 @@ module.exports = class CommentsService {
    * @return {Promise}
    */
   static findIdsByActionType(action_type) {
-    return ActionsService
-      .findCommentsIdByActionType(action_type, 'COMMENTS')
-      .then((actions) => actions.map((a) => a.item_id));
+    return ActionsService.findCommentsIdByActionType(
+      action_type,
+      'COMMENTS'
+    ).then(actions => actions.map(a => a.item_id));
   }
 
   /**
@@ -270,7 +285,7 @@ module.exports = class CommentsService {
    * @return {Promise} resovles to comment array
    */
   static findByStatus(status = 'NONE') {
-    return CommentModel.find({status});
+    return CommentModel.find({ status });
   }
 
   /**
@@ -283,16 +298,19 @@ module.exports = class CommentsService {
    */
   static async pushStatus(id, status, assigned_by = null) {
     const created_at = new Date();
-    const originalComment = await CommentModel.findOneAndUpdate({id}, {
-      $push: {
-        status_history: {
-          type: status,
-          created_at,
-          assigned_by,
-        }
-      },
-      $set: {status}
-    });
+    const originalComment = await CommentModel.findOneAndUpdate(
+      { id },
+      {
+        $push: {
+          status_history: {
+            type: status,
+            created_at,
+            assigned_by,
+          },
+        },
+        $set: { status },
+      }
+    );
 
     if (originalComment == null) {
       throw errors.ErrNotFound;
@@ -326,7 +344,7 @@ module.exports = class CommentsService {
       item_type: 'COMMENTS',
       user_id,
       action_type,
-      metadata
+      metadata,
     });
   }
 };
@@ -335,65 +353,26 @@ module.exports = class CommentsService {
 // Event Hooks
 //==============================================================================
 
-const incrActionCounts = async (action, value) => {
-  const ACTION_TYPE = sc(action.action_type.toLowerCase());
-
-  const update = {
-    [`action_counts.${ACTION_TYPE}`]: value,
-  };
-
-  if (action.group_id && action.group_id.length > 0) {
-    const GROUP_ID = sc(action.group_id.toLowerCase());
-
-    update[`action_counts.${ACTION_TYPE}_${GROUP_ID}`] = value;
-  }
-
-  try {
-    await CommentModel.update({
-      id: action.item_id,
-    }, {
-      $inc: update,
-    });
-  } catch (err) {
-    console.error(`Can't mutate the action_counts.${ACTION_TYPE}:`, err);
-  }
-};
-
-// When a new action is created, modify the comment.
-events.on(ACTIONS_NEW, async (action) => {
-  if (!action || action.item_type !== 'COMMENTS') {
-    return;
-  }
-
-  return incrActionCounts(action, 1);
-});
-
-// When an action is deleted, remove the action count on the comment.
-events.on(ACTIONS_DELETE, async (action) => {
-  if (!action || action.item_type !== 'COMMENTS') {
-    return;
-  }
-
-  return incrActionCounts(action, -1);
-});
-
 const incrReplyCount = async (comment, value) => {
   try {
-    await CommentModel.update({
-      id: comment.parent_id,
-    }, {
-      $inc: {
-        reply_count: value,
+    await CommentModel.update(
+      {
+        id: comment.parent_id,
       },
-    });
+      {
+        $inc: {
+          reply_count: value,
+        },
+      }
+    );
   } catch (err) {
-    console.error('Can\'t mutate the reply count:', err);
+    console.error("Can't mutate the reply count:", err);
   }
 };
 
 // When a comment is created, if it is a reply, increment the reply count on the
 // parent's document.
-events.on(COMMENTS_NEW, async (comment) => {
+events.on(COMMENTS_NEW, async comment => {
   if (
     !comment || // Check that the comment is defined.
     (!comment.parent_id || comment.parent_id.length === 0) || // Check that the comment has a parent (is a reply).

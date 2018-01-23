@@ -1,0 +1,13 @@
+.editNameInput {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 3px;
+  border: solid 1px #d8d8d8;
+  font-size: 0.9em;
+}
+
+.alert {
+  margin-top: 10px;
+  color: #B71C1C;
+}

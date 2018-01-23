@@ -1,5 +1,5 @@
-const {RedisPubSub} = require('graphql-redis-subscriptions');
-const {createClient} = require('./redis');
+const { RedisPubSub } = require('graphql-redis-subscriptions');
+const { createClient } = require('./redis');
 
 /**
  * getClient returns the pubsub singleton for this instance.

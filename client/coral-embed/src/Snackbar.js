@@ -17,7 +17,7 @@ const DEFAULT_STYLE = {
   transform: 'translate(-50%, 20px)',
   bottom: 0,
   boxSizing: 'border-box',
-  fontFamily: 'Helvetica, "Helvetica Neue", Verdana, sans-serif'
+  fontFamily: 'Helvetica, "Helvetica Neue", Verdana, sans-serif',
 };
 
 export default class Snackbar {
@@ -38,7 +38,7 @@ export default class Snackbar {
   }
 
   alert(message) {
-    const {type, text} = JSON.parse(message);
+    const { type, text } = JSON.parse(message);
     this.el.style.transform = 'translate(-50%, 20px)';
     this.el.style.opacity = 0;
     this.el.className = `coral-notif-${type}`;

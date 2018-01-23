@@ -1,6 +1,6 @@
-import {ADD_EXTERNAL_CONFIG} from '../constants/config';
+import { ADD_EXTERNAL_CONFIG } from '../constants/config';
 
-export const addExternalConfig = (config) => ({
+export const addExternalConfig = config => ({
   type: ADD_EXTERNAL_CONFIG,
-  config
+  config,
 });

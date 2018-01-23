@@ -1,7 +1,7 @@
-import {mergeExcludingArrays} from 'coral-framework/utils';
+import { mergeExcludingArrays } from 'coral-framework/utils';
 import assignWith from 'lodash/assignWith';
 import get from 'lodash/get';
-import {withPropsOnChange} from 'recompose';
+import { withPropsOnChange } from 'recompose';
 
 /**
  * Exports a HOC that applies props at `pending` to
@@ -17,8 +17,13 @@ const withMergedSettings = (settings, pending, result) =>
     (props, nextProps) =>
       get(props, settings) !== get(nextProps, settings) ||
       get(props, pending) !== get(nextProps, pending),
-    (props) => ({
-      [result]: assignWith({}, get(props, settings), get(props, pending), mergeExcludingArrays)
+    props => ({
+      [result]: assignWith(
+        {},
+        get(props, settings),
+        get(props, pending),
+        mergeExcludingArrays
+      ),
     })
   );
 

@@ -7,11 +7,16 @@ import EmptyCard from '../../../components/EmptyCard';
 import AutoLoadMore from './AutoLoadMore';
 import ViewMore from './ViewMore';
 import t from 'coral-framework/services/i18n';
-import {WindowScroller, CellMeasurer, CellMeasurerCache, List} from 'react-virtualized';
+import {
+  WindowScroller,
+  CellMeasurer,
+  CellMeasurerCache,
+  List,
+} from 'react-virtualized';
 import throttle from 'lodash/throttle';
 import key from 'keymaster';
 
-const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
+const hasComment = (nodes, id) => nodes.some(node => node.id === id);
 
 // resetCursors will return the id cursors of the first and second comment of
 // the current comment The spare cursor functions as a backup in case one
@@ -26,7 +31,7 @@ function resetCursors(state, props) {
     }
   }
   const view = getVisibleComments(props.comments, idCursors[0]);
-  return {idCursors, view};
+  return { idCursors, view };
 }
 
 // invalidateCursor is called whenever a comment is removed which is referenced
@@ -37,7 +42,7 @@ function invalidateCursor(invalidated, state, props) {
   const idCursors = [];
   if (state.idCursors[alt]) {
     idCursors.push(state.idCursors[alt]);
-    const index = props.comments.findIndex((node) => node.id === idCursors[0]);
+    const index = props.comments.findIndex(node => node.id === idCursors[0]);
     const nextInLine = props.comments[index + 1];
     if (nextInLine) {
       idCursors.push(nextInLine.id);
@@ -49,14 +54,13 @@ function invalidateCursor(invalidated, state, props) {
 // getVisibileComments returns a list containing comments
 // which comes after the `idCursor`.
 function getVisibleComments(comments, idCursor) {
-
   if (!comments) {
     return [];
   }
 
   const view = [];
   let pastCursor = false;
-  comments.forEach((comment) => {
+  comments.forEach(comment => {
     if (comment.id === idCursor) {
       pastCursor = true;
     }
@@ -76,7 +80,7 @@ let keyMapper = null;
 const cache = new CellMeasurerCache({
   fixedWidth: true,
   defaultHeight: 250,
-  keyMapper: (index) => keyMapper(index),
+  keyMapper: index => keyMapper(index),
 });
 
 class ModerationQueue extends React.Component {
@@ -93,12 +97,11 @@ class ModerationQueue extends React.Component {
     };
 
     // Set keyMapper to map to comment ids.
-    keyMapper = (index) => {
+    keyMapper = index => {
       const view = this.state.view;
       if (index < view.length) {
         return view[index].id;
-      }
-      else if (index === view.length) {
+      } else if (index === view.length) {
         return 'loadMore';
       }
       throw new Error(`unknown index ${index}`);
@@ -129,11 +132,14 @@ class ModerationQueue extends React.Component {
   }
 
   componentWillReceiveProps(next) {
-    const {comments: prevComments} = this.props;
-    const {comments: nextComments} = next;
+    const { comments: prevComments } = this.props;
+    const { comments: nextComments } = next;
 
     // New comments where added and our cursor list is incomplete.
-    if (this.state.idCursors.length < 2 && nextComments.length > this.state.idCursors.length) {
+    if (
+      this.state.idCursors.length < 2 &&
+      nextComments.length > this.state.idCursors.length
+    ) {
       this.setState(resetCursors(this.state, next));
       return;
     }
@@ -142,18 +148,44 @@ class ModerationQueue extends React.Component {
 
     // Comments have been removed.
     if (
-      prevComments && nextComments &&
+      prevComments &&
+      nextComments &&
       nextComments.length < prevComments.length
     ) {
-
       // Invalidate first cursor if referenced comment was removed.
-      if (this.state.idCursors[0] && !hasComment(nextComments, this.state.idCursors[0])) {
+      if (
+        this.state.idCursors[0] &&
+        !hasComment(nextComments, this.state.idCursors[0])
+      ) {
         idCursors = invalidateCursor(0, this.state, next);
       }
 
       // Invalidate second cursor if referenced comment was removed.
-      if (this.state.idCursors[1] && !hasComment(nextComments, this.state.idCursors[1])) {
+      if (
+        this.state.idCursors[1] &&
+        !hasComment(nextComments, this.state.idCursors[1])
+      ) {
         idCursors = invalidateCursor(1, this.state, next);
+      }
+
+      // Selected comment was removed, determine and set next selected comment.
+      if (
+        this.props.selectedCommentId &&
+        !hasComment(nextComments, this.props.selectedCommentId)
+      ) {
+        const view = this.state.view;
+        let nextSelectedCommentId = null;
+
+        // Determine a comment to select.
+        const prevIndex = view.findIndex(
+          comment => comment.id === this.props.selectedCommentId
+        );
+        if (prevIndex !== view.length - 1) {
+          nextSelectedCommentId = view[prevIndex + 1].id;
+        } else if (prevIndex > 0) {
+          nextSelectedCommentId = view[prevIndex - 1].id;
+        }
+        this.props.selectCommentId(nextSelectedCommentId);
       }
 
       // Selected comment was removed, determine and set next selected comment.
@@ -205,17 +237,62 @@ class ModerationQueue extends React.Component {
 
       this.listRef.scrollToRow(index);
     }
+
+    // Comments changed.
+    if (prevComments !== nextComments) {
+      const nextView = getVisibleComments(nextComments, idCursors[0]);
+      this.setState({ idCursors, view: nextView });
+
+      // TODO: removing or adding a comment from the list seems to render incorrect, is this a bug?
+      // Find first changed comment and perform a reflow.
+      const index = this.state.view.findIndex(
+        (comment, i) => !nextView[i] || nextView[i].id !== comment.id
+      );
+      this.reflowList(index);
+    }
+  }
+
+  componentDidUpdate(prev) {
+    const { commentCount, selectedCommentId } = this.props;
+
+    const switchedToMultiMode = prev.singleView && !this.props.singleView;
+    const switchedMode = prev.singleView !== this.props.singleView;
+    const selectedDifferentComment =
+      prev.selectedCommentId !== selectedCommentId && selectedCommentId;
+    const moderatedLastComment =
+      prev.comments.length > 0 && this.getCommentCountWithoutDagling() === 0;
+    const hasMoreComment = commentCount > 0;
+
+    if (switchedToMultiMode) {
+      // Reflow virtual list.
+      this.reflowList();
+    }
+
+    if (switchedMode || selectedDifferentComment) {
+      this.scrollToSelectedComment();
+    }
+
+    if (moderatedLastComment && hasMoreComment) {
+      this.props.loadMore();
+    }
   }
 
   // Returns comment counts without dangling comments.
   getCommentCountWithoutDagling(props = this.props) {
-    return props.comments.filter((comment) => props.commentBelongToQueue(props.activeTab, comment)).length;
+    return props.comments.filter(comment =>
+      props.commentBelongToQueue(props.activeTab, comment)
+    ).length;
   }
 
   async selectDown() {
     const view = this.state.view;
-    const index = view.findIndex(({id}) => id === this.props.selectedCommentId);
-    if (index === view.length - 1 && this.getCommentCountWithoutDagling() !== this.props.commentCount) {
+    const index = view.findIndex(
+      ({ id }) => id === this.props.selectedCommentId
+    );
+    if (
+      index === view.length - 1 &&
+      this.getCommentCountWithoutDagling() !== this.props.commentCount
+    ) {
       await this.props.loadMore();
       this.selectDown();
       return;
@@ -227,7 +304,9 @@ class ModerationQueue extends React.Component {
 
   selectUp() {
     const view = this.state.view;
-    const index = view.findIndex(({id}) => id === this.props.selectedCommentId);
+    const index = view.findIndex(
+      ({ id }) => id === this.props.selectedCommentId
+    );
 
     if (index === 0 && view.length < this.props.comments.length) {
       this.viewNewComments(() => this.selectUp());
@@ -238,32 +317,43 @@ class ModerationQueue extends React.Component {
     }
   }
 
-  handleListRef = (list) => {
+  handleListRef = list => {
     this.listRef = list;
   };
 
-  viewNewComments = (callback) => {
+  scrollToSelectedComment = (props = this.props, state = this.state) => {
+    if (props.singleMode) {
+      document
+        .querySelector(`#comment_${props.selectedCommentId}`)
+        .scrollIntoView();
+    } else if (this.listRef) {
+      const view = state.view;
+      const index = view.findIndex(({ id }) => id === props.selectedCommentId);
+      this.listRef.scrollToRow(index);
+    }
+  };
+
+  viewNewComments = callback => {
     this.setState(resetCursors, () => {
       this.reflowList();
       callback && callback();
     });
   };
 
-  reflowList = throttle((index) => {
+  reflowList = throttle(index => {
     if (index >= 0) {
       cache.clear(index);
       this.listRef && this.listRef.recomputeRowHeights(index);
-    }
-    else {
+    } else {
       cache.clearAll();
       this.listRef && this.listRef.recomputeRowHeights();
     }
   }, 500);
 
   rowRenderer = ({
-    index,       // Index of row within collection
+    index, // Index of row within collection
     parent,
-    style        // Style object to be applied to row (to position it)
+    style, // Style object to be applied to row (to position it)
   }) => {
     const view = this.state.view;
     const rowCount = view.length + 1;
@@ -276,43 +366,41 @@ class ModerationQueue extends React.Component {
     if (index === rowCount - 1) {
       key = 'end-of-comment-list';
       child = (
-        <div
-          style={style}
-          id={'end-of-comment-list'}
-        >
-          {this.props.hasNextPage && <AutoLoadMore
-            loadMore={this.props.loadMore}
-            loading={this.props.isLoadingMore}
-          />}
+        <div style={style} id={'end-of-comment-list'}>
+          {this.props.hasNextPage && (
+            <AutoLoadMore
+              loadMore={this.props.loadMore}
+              loading={this.props.isLoadingMore}
+            />
+          )}
         </div>
       );
-    }
-    else {
+    } else {
       const comment = view[index];
 
       // Use callback cache so not to change the identity of these arrow functions.
       // Otherwise shallow compare will fail to optimize.
       if (!this.callbackCaches.clearHeightCache[index]) {
-        this.callbackCaches.clearHeightCache[index] = () => this.reflowList(index);
+        this.callbackCaches.clearHeightCache[index] = () =>
+          this.reflowList(index);
       }
       if (!this.callbackCaches.selectCommentId[comment.id]) {
-        this.callbackCaches.selectCommentId[comment.id] = () => this.props.selectCommentId(comment.id);
+        this.callbackCaches.selectCommentId[comment.id] = () =>
+          this.props.selectCommentId(comment.id);
       }
 
       key = comment.id;
       child = (
-        <div
-          style={style}
-        >
+        <div style={style}>
           <Comment
             data={this.props.data}
             root={this.props.root}
             comment={comment}
-            dangling={!this.props.commentBelongToQueue(this.props.activeTab, comment)}
+            dangling={
+              !this.props.commentBelongToQueue(this.props.activeTab, comment)
+            }
             selected={comment.id === this.props.selectedCommentId}
             viewUserDetail={this.props.viewUserDetail}
-            showBanUserDialog={this.props.showBanUserDialog}
-            showSuspendUserDialog={this.props.showSuspendUserDialog}
             acceptComment={this.props.acceptComment}
             rejectComment={this.props.rejectComment}
             currentAsset={this.props.currentAsset}
@@ -337,7 +425,7 @@ class ModerationQueue extends React.Component {
     );
   };
 
-  render () {
+  render() {
     const {
       comments,
       selectedCommentId,
@@ -355,7 +443,9 @@ class ModerationQueue extends React.Component {
     }
 
     if (singleView) {
-      const index = comments.findIndex((comment) => comment.id === selectedCommentId);
+      const index = comments.findIndex(
+        comment => comment.id === selectedCommentId
+      );
       const comment = comments[index];
       return (
         <div className={styles.root}>
@@ -366,12 +456,13 @@ class ModerationQueue extends React.Component {
             comment={comment}
             selected={true}
             viewUserDetail={viewUserDetail}
-            showBanUserDialog={props.showBanUserDialog}
-            showSuspendUserDialog={props.showSuspendUserDialog}
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment}
             currentAsset={props.currentAsset}
             currentUserId={this.props.currentUserId}
+            dangling={
+              !this.props.commentBelongToQueue(this.props.activeTab, comment)
+            }
           />;
         </div>
       );
@@ -386,7 +477,7 @@ class ModerationQueue extends React.Component {
           count={comments.length - view.length}
         />
         <WindowScroller onResize={this.reflowList}>
-          {({height, isScrolling, onChildScroll, scrollTop}) => (
+          {({ height, isScrolling, onChildScroll, scrollTop }) => (
             <List
               ref={this.handleListRef}
               autoHeight
@@ -412,18 +503,16 @@ class ModerationQueue extends React.Component {
 }
 
 ModerationQueue.propTypes = {
+  selectCommentId: PropTypes.func.isRequired,
+  selectedCommentId: PropTypes.string,
   viewUserDetail: PropTypes.func.isRequired,
   currentAsset: PropTypes.object,
-  showBanUserDialog: PropTypes.func.isRequired,
-  selectCommentId: PropTypes.func.isRequired,
-  showSuspendUserDialog: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
   commentBelongToQueue: PropTypes.func.isRequired,
   cleanUpQueue: PropTypes.func.isRequired,
   commentCount: PropTypes.number.isRequired,
   loadMore: PropTypes.func.isRequired,
-  selectedCommentId: PropTypes.string,
   singleView: PropTypes.bool,
   isLoadingMore: PropTypes.bool,
   hasNextPage: PropTypes.bool,

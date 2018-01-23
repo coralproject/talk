@@ -1,4 +1,4 @@
-const {graphql} = require('graphql');
+const { graphql } = require('graphql');
 
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
@@ -6,10 +6,9 @@ const UserModel = require('../../../../models/user');
 const SettingsService = require('../../../../services/settings');
 const isEqual = require('lodash/isEqual');
 
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 describe('graph.mutations.updateSettings', () => {
-
   beforeEach(async () => {
     await SettingsService.init();
   });
@@ -21,24 +20,17 @@ describe('graph.mutations.updateSettings', () => {
         translation_key
       }
     }
-  }
-`;
+  }`;
 
   describe('context with different user roles', () => {
-
     [
-      {error: 'NOT_AUTHORIZED'},
-      {error: 'NOT_AUTHORIZED', roles: []},
-      {roles: ['ADMIN']},
-      {roles: ['ADMIN', 'MODERATOR']},
-      {roles: ['MODERATOR']},
-    ].forEach(({roles, error}) => {
-      it(roles ? roles.join(', ') : '<None>', async () => {
-        let user;
-        if (roles != null) {
-          user = new UserModel({roles});
-        }
-        const ctx = new Context({user});
+      { error: 'NOT_AUTHORIZED', role: 'COMMENTER' },
+      { error: 'NOT_AUTHORIZED', role: 'MODERATOR' },
+      { role: 'ADMIN' },
+    ].forEach(({ role, error }) => {
+      it(`role = ${role}`, async () => {
+        const user = new UserModel({ role });
+        const ctx = new Context({ user });
 
         const newSettings = {
           premodLinksEnable: false,
@@ -58,7 +50,10 @@ describe('graph.mutations.updateSettings', () => {
 
         if (error) {
           expect(res.data.updateSettings.errors).to.not.be.empty;
-          expect(res.data.updateSettings.errors[0]).to.have.property('translation_key', error);
+          expect(res.data.updateSettings.errors[0]).to.have.property(
+            'translation_key',
+            error
+          );
         } else {
           if (res.data.updateSettings && res.data.updateSettings.errors) {
             console.error(res.data.updateSettings.errors);
@@ -66,7 +61,7 @@ describe('graph.mutations.updateSettings', () => {
           expect(res.data.updateSettings).to.be.null;
 
           const retrievedSettings = await SettingsService.retrieve();
-          Object.keys(newSettings).forEach((key) => {
+          Object.keys(newSettings).forEach(key => {
             expect(retrievedSettings).to.have.property(key, newSettings[key]);
           });
         }
@@ -75,8 +70,8 @@ describe('graph.mutations.updateSettings', () => {
   });
 
   describe('nested objects', () => {
-    const user = new UserModel({roles: ['ADMIN']});
-    const ctx = new Context({user});
+    const user = new UserModel({ role: 'ADMIN' });
+    const ctx = new Context({ user });
 
     it('should handle nested objects', async () => {
       const initSettings = {
@@ -104,11 +99,16 @@ describe('graph.mutations.updateSettings', () => {
       expect(res.data.updateSettings).to.be.null;
 
       let retrievedSettings = await SettingsService.retrieve();
-      Object.keys(initSettings).forEach((key) => {
-        Object.keys(initSettings[key]).forEach((nestedKey) => {
+      Object.keys(initSettings).forEach(key => {
+        Object.keys(initSettings[key]).forEach(nestedKey => {
           expect(retrievedSettings).to.have.property(key);
           expect(retrievedSettings[key]).to.have.property(nestedKey);
-          expect(isEqual(retrievedSettings[key][nestedKey], initSettings[key][nestedKey])).to.be.true;
+          expect(
+            isEqual(
+              retrievedSettings[key][nestedKey],
+              initSettings[key][nestedKey]
+            )
+          ).to.be.true;
         });
       });
 
@@ -127,7 +127,7 @@ describe('graph.mutations.updateSettings', () => {
         },
         domains: {
           whitelist: change.domains.whitelist,
-        }
+        },
       });
 
       res = await graphql(schema, QUERY, {}, ctx, {
@@ -146,11 +146,16 @@ describe('graph.mutations.updateSettings', () => {
       expect(res.data.updateSettings).to.be.null;
 
       retrievedSettings = await SettingsService.retrieve();
-      Object.keys(changedSettings).forEach((key) => {
-        Object.keys(changedSettings[key]).forEach((nestedKey) => {
+      Object.keys(changedSettings).forEach(key => {
+        Object.keys(changedSettings[key]).forEach(nestedKey => {
           expect(retrievedSettings).to.have.property(key);
           expect(retrievedSettings[key]).to.have.property(nestedKey);
-          expect(isEqual(retrievedSettings[key][nestedKey], changedSettings[key][nestedKey])).to.be.true;
+          expect(
+            isEqual(
+              retrievedSettings[key][nestedKey],
+              changedSettings[key][nestedKey]
+            )
+          ).to.be.true;
         });
       });
     });

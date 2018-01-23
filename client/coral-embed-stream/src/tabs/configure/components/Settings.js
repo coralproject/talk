@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from 'coral-ui';
+import { Button } from 'coral-ui';
 import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
 import cn from 'classnames';
@@ -34,7 +34,10 @@ class Settings extends React.Component {
           <h3>{t('configure.title')}</h3>
           <Button
             type="submit"
-            className={cn(styles.apply, 'talk-embed-stream-configuration-submit-button')}
+            className={cn(
+              styles.apply,
+              'talk-embed-stream-configuration-submit-button'
+            )}
             checked={canSave}
             cStyle={canSave ? 'green' : 'darkGrey'}
             onClick={onApply}
@@ -63,23 +66,18 @@ class Settings extends React.Component {
             description={t('configure.enable_questionbox_description')}
             onCheckbox={onToggleQuestionBox}
           >
-            {
-              questionBoxEnable &&
-                <div className={styles.questionBoxContainer}>
-                  <QuestionBoxBuilder
-                    questionBoxIcon={questionBoxIcon}
-                    questionBoxContent={questionBoxContent}
-                    onIconChange={onQuestionBoxIconChange}
-                    onContentChange={onQuestionBoxContentChange}
-                  />
-                </div>
-            }
+            {questionBoxEnable && (
+              <div className={styles.questionBoxContainer}>
+                <QuestionBoxBuilder
+                  questionBoxIcon={questionBoxIcon}
+                  questionBoxContent={questionBoxContent}
+                  onIconChange={onQuestionBoxIconChange}
+                  onContentChange={onQuestionBoxContentChange}
+                />
+              </div>
+            )}
           </Configuration>
-          <Slot
-            fill="streamSettings"
-            queryData={queryData}
-            {...slotProps}
-          />
+          <Slot fill="streamSettings" queryData={queryData} {...slotProps} />
         </div>
       </div>
     );

@@ -3,3 +3,9 @@ en:
     label: Most replied first
 es:
   talk-plugin-sort-most-replied:
+zh_CN:
+  talk-plugin-sort-most-replied:
+    label: "最多回复在前"
+zh_TW:
+  talk-plugin-sort-most-replied:
+    label: 最多回復在前

@@ -9,6 +9,8 @@ machine:
   environment:
     PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     NODE_ENV: "test"
+    MOCHA_FILE: "${CIRCLE_TEST_REPORTS}/junit/test-results.xml"
+    MOCHA_REPORTER: "mocha-junit-reporter"
   pre:
     # TODO: use the following to add in support for MongoDB 3.4.
     # # Upgrade the database version to 3.4.
@@ -18,6 +20,13 @@ machine:
     # - sudo apt-get update
     # - sudo apt-get install -y mongodb-org
     # - sudo service mongod restart
+
+    # Force sync the time.
+    - date
+    - sudo service ntp stop
+    - sudo ntpdate -s time.nist.gov
+    - sudo service ntp start
+    - date
 
     # Install chromium for e2e and remove old google-chrome
     - sudo rm -rf /opt/google/chrome
@@ -49,27 +58,22 @@ database:
 test:
   override:
     # Run the tests using the junit reporter.
-    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml MOCHA_REPORTER=mocha-junit-reporter yarn test
+    - yarn test
+    # Run the end to end tests
+    - yarn e2e:ci
     # Check dependancies using nsp.
     - nsp check
-    # - yarn e2e-ci
 
 deployment:
-  prd:
-    tag: /v[0-9]+\.[0-9]+\.[0-9]+/
-    owner: nymag
-    codedeploy:
-      talk:
-        deployment_group: talk-prd
-  qa:
-    branch: master
-    owner: nymag
-    codedeploy:
-      talk:
-        deployment_group: talk-qa
-  stg:
-    branch: stg
-    owner: nymag
-    codedeploy:
-      talk:
-        deployment_group: talk-stg
+  release:
+    tag: /v[0-9]+(\.[0-9]+)*/
+    commands:
+      - bash ./scripts/docker.sh deploy
+
+  latest:
+    branch:
+      - master
+      - next
+    owner: coralproject
+    commands:
+      - bash ./scripts/docker.sh deploy
