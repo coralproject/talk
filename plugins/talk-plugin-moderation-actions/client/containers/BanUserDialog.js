@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'react-apollo';
 import { bindActionCreators } from 'redux';
 import { closeBanDialog, closeMenu } from '../actions';
-import { notify } from 'plugin-api/beta/client/actions/notification';
 import {
   connect,
   withSetCommentStatus,
@@ -64,7 +63,6 @@ const mapStateToProps = ({ talkPluginModerationActions: state }) => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      notify,
       closeBanDialog,
       closeMenu,
     },

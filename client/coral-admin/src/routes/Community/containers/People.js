@@ -16,7 +16,6 @@ import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
 import { Spinner } from 'coral-ui';
 import withQuery from 'coral-framework/hocs/withQuery';
-import { notify } from 'coral-framework/actions/notification';
 
 class PeopleContainer extends React.Component {
   timer = null;
@@ -132,7 +131,6 @@ const mapDispatchToProps = dispatch =>
       viewUserDetail,
       showSuspendUserDialog,
       showBanUserDialog,
-      notify,
     },
     dispatch
   );

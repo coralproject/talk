@@ -10,6 +10,7 @@ import hoistStatics from 'recompose/hoistStatics';
 import { getOperationName } from 'apollo-client/queries/getFromAST';
 import throttle from 'lodash/throttle';
 import get from 'lodash/get';
+import { notify } from 'coral-framework/actions/notification';
 
 const withSkipOnErrors = reducer => (prev, action, ...rest) => {
   if (
@@ -49,6 +50,7 @@ const createHOC = (document, config, { notifyOnError = true }) =>
         eventEmitter: PropTypes.object,
         graphql: PropTypes.object,
         client: PropTypes.object,
+        store: PropTypes.object,
       };
 
       static propTypes = {
@@ -169,14 +171,7 @@ const createHOC = (document, config, { notifyOnError = true }) =>
       };
 
       notifyErrors(messages) {
-        if (this.props.notify) {
-          this.props.notify('error', messages);
-        } else {
-          console.error(
-            '`notifyOnError` is set to `true` but missing `notify` property'
-          );
-          console.error(messages);
-        }
+        this.context.store.dispatch(notify('error', messages));
       }
 
       nextData(data) {
@@ -349,7 +344,7 @@ const createHOC = (document, config, { notifyOnError = true }) =>
  *
  * The returned HOC accepts a settings object with the following properties:
  * notifyOnError: show a notification to the user when an error occured.
- *                Defaults to true, requires the `notify` action to be mounted.
+ *                Defaults to true.
  */
 export default (document, config = {}) => settingsOrComponent => {
   if (typeof settingsOrComponent === 'function') {

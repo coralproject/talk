@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
 import hoistStatics from 'recompose/hoistStatics';
 import union from 'lodash/union';
+import { notify } from 'coral-framework/actions/notification';
 
 class ResponseErrors extends Error {
   constructor(errors) {
@@ -55,14 +56,7 @@ const createHOC = (document, config, { notifyOnError = true }) =>
       }
 
       notifyErrors(messages) {
-        if (this.props.notify) {
-          this.props.notify('error', messages);
-        } else {
-          console.error(
-            '`notifyOnError` is set to `true` but missing `notify` property'
-          );
-          console.error(messages);
-        }
+        this.context.store.dispatch(notify('error', messages));
       }
 
       resolveDocument(documentOrCallback) {
@@ -240,7 +234,7 @@ const createHOC = (document, config, { notifyOnError = true }) =>
  *
  * The returned HOC accepts a settings object with the following properties:
  * notifyOnError: show a notification to the user when an error occured.
- *                Defaults to true, requires the `notify` action to be mounted.
+ *                Defaults to true.
  */
 export default (document, config = {}) => settingsOrComponent => {
   if (typeof settingsOrComponent === 'function') {

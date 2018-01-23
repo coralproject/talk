@@ -26,7 +26,6 @@ import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
 import { showBanUserDialog } from 'actions/banUserDialog';
 import { showSuspendUserDialog } from 'actions/suspendUserDialog';
-import { notify } from 'coral-framework/actions/notification';
 
 const commentConnectionFragment = gql`
   fragment CoralAdmin_UserDetail_CommentConnection on CommentConnection {
@@ -272,7 +271,6 @@ const mapDispatchToProps = dispatch => ({
       viewUserDetail,
       hideUserDetail,
       toggleSelectAllCommentInUserDetail,
-      notify,
     },
     dispatch
   ),

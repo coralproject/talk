@@ -12,7 +12,6 @@ import TechSettings from './TechSettings';
 import ModerationSettings from './ModerationSettings';
 import { clearPending, setActiveSection } from '../../../actions/configure';
 import Configure from '../components/Configure';
-import { notify } from 'coral-framework/actions/notification';
 
 class ConfigureContainer extends Component {
   savePending = async () => {
@@ -83,7 +82,6 @@ const mapDispatchToProps = dispatch =>
     {
       clearPending,
       setActiveSection,
-      notify,
     },
     dispatch
   );

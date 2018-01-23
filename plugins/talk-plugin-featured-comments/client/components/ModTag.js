@@ -64,7 +64,6 @@ export default class ModTag extends React.Component {
 ModTag.propTypes = {
   alreadyTagged: PropTypes.bool,
   deleteTag: PropTypes.func,
-  notify: PropTypes.func,
   openFeaturedDialog: PropTypes.func,
   comment: PropTypes.object,
   asset: PropTypes.object,

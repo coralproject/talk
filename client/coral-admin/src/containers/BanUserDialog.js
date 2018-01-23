@@ -10,7 +10,6 @@ import {
 } from 'coral-framework/graphql/mutations';
 import { compose } from 'react-apollo';
 import t from 'coral-framework/services/i18n';
-import { notify } from 'coral-framework/actions/notification';
 
 class BanUserDialogContainer extends Component {
   banUser = async () => {
@@ -72,7 +71,6 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(
     {
       hideBanUserDialog,
-      notify,
     },
     dispatch
   ),

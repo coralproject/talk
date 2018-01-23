@@ -1,9 +1,7 @@
 import React from 'react';
 import { compose } from 'react-apollo';
-import { bindActionCreators } from 'redux';
-import { notify } from 'plugin-api/beta/client/actions/notification';
 import RejectCommentAction from '../components/RejectCommentAction';
-import { connect, withSetCommentStatus } from 'plugin-api/beta/client/hocs';
+import { withSetCommentStatus } from 'plugin-api/beta/client/hocs';
 
 class RejectCommentActionContainer extends React.Component {
   rejectComment = async () => {
@@ -22,17 +20,6 @@ class RejectCommentActionContainer extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      notify,
-    },
-    dispatch
-  );
-
-const enhance = compose(
-  connect(null, mapDispatchToProps),
-  withSetCommentStatus
-);
+const enhance = compose(withSetCommentStatus);
 
 export default enhance(RejectCommentActionContainer);

@@ -8,7 +8,6 @@ import { withUpdateAssetSettings } from 'coral-framework/graphql/mutations';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { clearPending, updatePending } from '../../../actions/configure';
-import { notify } from 'coral-framework/actions/notification';
 
 const slots = ['streamSettings'];
 
@@ -129,7 +128,6 @@ const mapDispatchToProps = dispatch =>
     {
       clearPending,
       updatePending,
-      notify,
     },
     dispatch
   );

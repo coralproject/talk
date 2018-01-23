@@ -7,9 +7,6 @@ import {
   withUpdateAssetStatus,
   withCloseAsset,
 } from 'coral-framework/graphql/mutations';
-import { notify } from 'coral-framework/actions/notification';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 class AssetStatusInfoContainer extends React.Component {
   openAsset = () =>
@@ -45,16 +42,7 @@ const withAssetStatusInfoFragments = withFragments({
   `,
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      notify,
-    },
-    dispatch
-  );
-
 const enhance = compose(
-  connect(null, mapDispatchToProps),
   withAssetStatusInfoFragments,
   withUpdateAssetStatus,
   withCloseAsset
