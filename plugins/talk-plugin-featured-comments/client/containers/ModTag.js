@@ -24,8 +24,8 @@ const fragments = {
   `,
 };
 const enhance = compose(
-  withTags('featured', { fragments }),
-  connect(null, mapDispatchToProps)
+  connect(null, mapDispatchToProps),
+  withTags('featured', { fragments })
 );
 
 export default enhance(ModTag);

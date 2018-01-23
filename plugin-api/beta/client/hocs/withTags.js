@@ -7,7 +7,7 @@ import { capitalize } from 'coral-framework/helpers/strings';
 import { withAddTag, withRemoveTag } from 'coral-framework/graphql/mutations';
 import withFragments from 'coral-framework/hocs/withFragments';
 import { notify } from 'coral-framework/actions/notification';
-import { getErrorMessages, isTagged } from 'coral-framework/utils';
+import { isTagged } from 'coral-framework/utils';
 import hoistStatics from 'recompose/hoistStatics';
 import { getDefinitionName } from '../utils';
 
@@ -38,7 +38,7 @@ export default (tag, options = {}) =>
       loading = false;
 
       postTag = () => {
-        const { comment, asset, notify } = this.props;
+        const { comment, asset } = this.props;
 
         if (this.loading) {
           return;
@@ -59,13 +59,12 @@ export default (tag, options = {}) =>
           })
           .catch(err => {
             this.loading = false;
-            notify('error', getErrorMessages(err));
             throw err;
           });
       };
 
       deleteTag = () => {
-        const { comment, asset, notify } = this.props;
+        const { comment, asset } = this.props;
 
         if (this.loading) {
           return;
@@ -84,7 +83,6 @@ export default (tag, options = {}) =>
           })
           .catch(err => {
             this.loading = false;
-            notify('error', getErrorMessages(err));
             throw err;
           });
       };
