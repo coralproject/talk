@@ -16,6 +16,7 @@ import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
 import { Spinner } from 'coral-ui';
 import withQuery from 'coral-framework/hocs/withQuery';
+import { notifyOnMutationError, notifyOnDataError } from 'coral-framework/hocs';
 
 class PeopleContainer extends React.Component {
   timer = null;
@@ -84,10 +85,6 @@ class PeopleContainer extends React.Component {
   };
 
   render() {
-    if (this.props.data.error) {
-      return <div>{this.props.data.error.message}</div>;
-    }
-
     if (this.props.data.loading) {
       return (
         <div>
@@ -204,6 +201,7 @@ export default compose(
   withSetUserRole,
   withUnsuspendUser,
   withUnbanUser,
+  notifyOnMutationError(['setUserRole', 'unsuspendUser', 'unbanUser']),
   withQuery(
     gql`
       query TalkAdmin_Community_People {
@@ -239,5 +237,6 @@ export default compose(
         fetchPolicy: 'network-only',
       },
     }
-  )
+  ),
+  notifyOnDataError
 )(PeopleContainer);
