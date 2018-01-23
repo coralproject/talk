@@ -4,34 +4,33 @@ import { bindActionCreators } from 'redux';
 import { compose, gql } from 'react-apollo';
 import { withQuery, withMergedSettings } from 'coral-framework/hocs';
 import { Spinner } from 'coral-ui';
-import { notify } from 'coral-framework/actions/notification';
 import PropTypes from 'prop-types';
 import { withUpdateSettings } from 'coral-framework/graphql/mutations';
-import { getErrorMessages, getDefinitionName } from 'coral-framework/utils';
+import { getDefinitionName } from 'coral-framework/utils';
 import StreamSettings from './StreamSettings';
 import TechSettings from './TechSettings';
 import ModerationSettings from './ModerationSettings';
 import { clearPending, setActiveSection } from '../../../actions/configure';
 import Configure from '../components/Configure';
+import { notifyOnMutationError, notifyOnDataError } from 'coral-framework/hocs';
 
 class ConfigureContainer extends Component {
   savePending = async () => {
-    try {
-      await this.props.updateSettings(this.props.pending);
-      this.props.clearPending();
-    } catch (err) {
-      this.props.notify('error', getErrorMessages(err));
-    }
+    await this.props.updateSettings(this.props.pending);
+    this.props.clearPending();
   };
 
   render() {
+    if (this.props.data.error) {
+      return <div>{this.props.data.error.message}</div>;
+    }
+
     if (this.props.data.loading) {
       return <Spinner />;
     }
 
     return (
       <Configure
-        notify={this.props.notify}
         auth={this.props.auth}
         data={this.props.data}
         root={this.props.root}
@@ -67,6 +66,7 @@ const withConfigureQuery = withQuery(
   {
     options: () => ({
       variables: {},
+      fetchPolicy: 'network-only',
     }),
   }
 );
@@ -81,7 +81,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      notify,
       clearPending,
       setActiveSection,
     },
@@ -90,7 +89,9 @@ const mapDispatchToProps = dispatch =>
 
 export default compose(
   withUpdateSettings,
+  notifyOnMutationError(['updateSettings']),
   withConfigureQuery,
+  notifyOnDataError,
   connect(mapStateToProps, mapDispatchToProps),
   withMergedSettings('root.settings', 'pending', 'mergedSettings')
 )(ConfigureContainer);
@@ -99,7 +100,6 @@ ConfigureContainer.propTypes = {
   updateSettings: PropTypes.func.isRequired,
   clearPending: PropTypes.func.isRequired,
   setActiveSection: PropTypes.func.isRequired,
-  notify: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
