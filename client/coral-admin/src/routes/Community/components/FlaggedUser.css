@@ -10,7 +10,7 @@
   margin: 0 auto;
   position: relative;
   transition: background 200ms, box-shadow 200ms, margin-bottom 200ms;
-  padding: 10px 0 0;
+  padding: 10px 0 10px;
   min-height: 220px;
 
   &:hover {
