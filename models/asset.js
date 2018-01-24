@@ -2,6 +2,7 @@ const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 const uuid = require('uuid');
 const TagLinkSchema = require('./schema/tag_link');
+const get = require('lodash/get');
 
 const AssetSchema = new Schema(
   {
@@ -45,8 +46,8 @@ const AssetSchema = new Schema(
     // the base settings from the base Settings object. This is to be accessed
     // always after running `rectifySettings` against it.
     settings: {
-      type: Schema.Types.Mixed,
       default: {},
+      type: Object,
     },
 
     // Tags are added by the self or by administrators.
@@ -85,9 +86,12 @@ AssetSchema.index(
  * Returns true if the asset is closed, false else.
  */
 AssetSchema.virtual('isClosed').get(function() {
-  return Boolean(
-    this.closedAt && this.closedAt.getTime() <= new Date().getTime()
-  );
+  const closedAt = get(this, 'closedAt', null);
+  if (closedAt === null) {
+    return false;
+  }
+
+  return closedAt.getTime() <= new Date().getTime();
 });
 
 const Asset = mongoose.model('Asset', AssetSchema);
