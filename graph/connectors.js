@@ -24,6 +24,7 @@ const Limit = require('../services/limit');
 const Mailer = require('../services/mailer');
 const Metadata = require('../services/metadata');
 const Migration = require('../services/migration');
+const Moderation = require('../services/moderation');
 const Mongoose = require('../services/mongoose');
 const Passport = require('../services/passport');
 const Plugins = require('../services/plugins');
@@ -62,6 +63,7 @@ const connectors = {
     Mailer,
     Metadata,
     Migration,
+    Moderation,
     Mongoose,
     Passport,
     Plugins,
