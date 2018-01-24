@@ -70,6 +70,7 @@ export const hideRejectUsernameDialog = () => ({
   type: HIDE_REJECT_USERNAME_DIALOG,
 });
 
+// Enable or disable the activity indicator subscriptions.
 export const setIndicatorTrack = track => ({
   type: SET_INDICATOR_TRACK,
   track,
