@@ -9,7 +9,19 @@ const getUserBatch = async () => {
   };
 
   // Find all the users that need migrating.
-  return UserModel.collection.find(query);
+  return UserModel.collection.find(query).batchSize(100);
+};
+
+const processUpdates = async updates => {
+  // Create a new batch operation.
+  let bulk = UserModel.collection.initializeUnorderedBulkOp();
+
+  for (const { query, update } of updates) {
+    bulk.find(query).updateOne(update);
+  }
+
+  // Execute the bulk update operation.
+  await bulk.execute();
 };
 
 module.exports = {
@@ -19,7 +31,7 @@ module.exports = {
     // Get the first batch of users.
     let cursor = await getUserBatch();
 
-    const updates = [];
+    let updates = [];
     while (await cursor.hasNext()) {
       const user = await cursor.next();
 
@@ -211,18 +223,23 @@ module.exports = {
       }
 
       updates.push({ query: { id }, update });
+
+      // Process every 1000 users.
+      if (updates.length > 1000) {
+        // Process the updates.
+        await processUpdates(updates);
+
+        // Clear the updates array.
+        updates = [];
+      }
     }
 
     if (updates.length > 0) {
-      // Create a new batch operation.
-      let bulk = UserModel.collection.initializeUnorderedBulkOp();
+      // Process the updates.
+      await processUpdates(updates);
 
-      for (const { query, update } of updates) {
-        bulk.find(query).updateOne(update);
-      }
-
-      // Execute the bulk update operation.
-      await bulk.execute();
+      // Clear the updates array.
+      updates = [];
     }
   },
 };

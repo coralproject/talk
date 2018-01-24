@@ -12,13 +12,27 @@ const findNewRole = roles => {
   return 'COMMENTER';
 };
 
+const processUpdates = async updates => {
+  // Create a new batch operation.
+  const bulk = UserModel.collection.initializeUnorderedBulkOp();
+
+  for (const { query, update } of updates) {
+    bulk.find(query).updateOne(update);
+  }
+
+  // Execute the bulk update operation.
+  await bulk.execute();
+};
+
 module.exports = {
   async up() {
-    const cursor = await UserModel.collection.find({
-      roles: {
-        $exists: true,
-      },
-    });
+    const cursor = await UserModel.collection
+      .find({
+        roles: {
+          $exists: true,
+        },
+      })
+      .batchSize(100);
 
     const updates = [];
     while (await cursor.hasNext()) {
@@ -39,18 +53,22 @@ module.exports = {
           },
         },
       });
+
+      if (updates.length > 1000) {
+        // Process the updates.
+        await processUpdates(updates);
+
+        // Clear the updates array.
+        updates = [];
+      }
     }
 
     if (updates.length > 0) {
-      // Create a new batch operation.
-      const bulk = UserModel.collection.initializeUnorderedBulkOp();
+      // Process the updates.
+      await processUpdates(updates);
 
-      for (const { query, update } of updates) {
-        bulk.find(query).updateOne(update);
-      }
-
-      // Execute the bulk update operation.
-      await bulk.execute();
+      // Clear the updates array.
+      updates = [];
     }
   },
 };
