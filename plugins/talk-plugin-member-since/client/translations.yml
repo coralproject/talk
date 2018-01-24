@@ -1,6 +1,9 @@
 en:
   talk-plugin-member-since:
     member_since: "Member Since"
+de:
+  talk-plugin-member-since:
+    member_since: "Mitglied seit"
 es:
   talk-plugin-member-since:
     member_since: "Miembro desde"

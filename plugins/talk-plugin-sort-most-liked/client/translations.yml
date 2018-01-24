@@ -1,6 +1,9 @@
 en:
   talk-plugin-sort-most-liked:
     label: Most liked first
+de:
+  talk-plugin-sort-most-liked:
+    label: Beliebteste zuerst
 es:
   talk-plugin-sort-most-liked:
 zh_CN:

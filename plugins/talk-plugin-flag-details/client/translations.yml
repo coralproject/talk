@@ -1,6 +1,9 @@
 en:
   talk-plugin-flag-details:
     flags: Reports
+de:
+  talk-plugin-flag-details:
+    flags: Markierungen
 es:
   talk-plugin-flag-details:
     flags: Reportes

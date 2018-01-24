@@ -1,6 +1,9 @@
 en:
   talk-plugin-sort-most-replied:
     label: Most replied first
+de:
+  talk-plugin-sort-most-replied:
+    label: Häufigste Antworten zuerst
 es:
   talk-plugin-sort-most-replied:
 zh_CN:
