@@ -50,6 +50,7 @@
   "homepage": "https://github.com/coralproject/talk#readme",
   "dependencies": {
     "@coralproject/graphql-anywhere-optimized": "^0.1.0",
+    "@nymdev/health-check": "^0.1.3",
     "accepts": "^1.3.4",
     "apollo-client": "^1.9.1",
     "apollo-engine": "^0.8.1",

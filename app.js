@@ -11,6 +11,7 @@ const { MOUNT_PATH } = require('./url');
 const routes = require('./routes');
 const debug = require('debug')('talk:app');
 const { ENABLE_TRACING, APOLLO_ENGINE_KEY, PORT } = require('./config');
+const healthCheck = require('@nymdev/health-check');
 
 const app = express();
 
@@ -89,20 +90,17 @@ app.set('view engine', 'ejs');
 debug(`mounting routes on the ${MOUNT_PATH} path`);
 
 // add health check
-app.use(healthCheck({
-  env: [
-    'TALK_MONGO_URL',
-    'TALK_REDIS_URL',
-    'TALK_ROOT_URL',
-    'TALK_PORT'
-  ],
-  required: [
-    'TALK_MONGO_URL',
-    'TALK_REDIS_URL',
-    'TALK_ROOT_URL',
-    'TALK_PORT'
-  ]
-}));
+app.use(
+  healthCheck({
+    env: ['TALK_MONGO_URL', 'TALK_REDIS_URL', 'TALK_ROOT_URL', 'TALK_PORT'],
+    required: [
+      'TALK_MONGO_URL',
+      'TALK_REDIS_URL',
+      'TALK_ROOT_URL',
+      'TALK_PORT',
+    ],
+  })
+);
 
 // Actually apply the routes.
 app.use(MOUNT_PATH, routes);
