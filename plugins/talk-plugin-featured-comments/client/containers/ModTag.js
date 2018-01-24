@@ -3,12 +3,10 @@ import { withTags, connect } from 'plugin-api/beta/client/hocs';
 import { gql, compose } from 'react-apollo';
 import { bindActionCreators } from 'redux';
 import { openFeaturedDialog } from '../actions';
-import { notify } from 'plugin-api/beta/client/actions/notification';
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      notify,
       openFeaturedDialog,
     },
     dispatch
@@ -24,8 +22,8 @@ const fragments = {
   `,
 };
 const enhance = compose(
-  withTags('featured', { fragments }),
-  connect(null, mapDispatchToProps)
+  connect(null, mapDispatchToProps),
+  withTags('featured', { fragments })
 );
 
 export default enhance(ModTag);

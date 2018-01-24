@@ -4,7 +4,6 @@ import { compose, gql } from 'react-apollo';
 import TabPane from '../components/TabPane';
 import { withFragments, connect } from 'plugin-api/beta/client/hocs';
 import Comment from '../containers/Comment';
-import { notify } from 'plugin-api/beta/client/actions/notification';
 import { viewComment } from 'coral-embed-stream/src/actions/stream';
 import {
   appendNewNodes,
@@ -81,7 +80,6 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       viewComment,
-      notify,
     },
     dispatch
   );

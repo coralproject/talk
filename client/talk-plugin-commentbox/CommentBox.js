@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import t from 'coral-framework/services/i18n';
 import { can } from 'coral-framework/services/perms';
-import { forEachError } from 'coral-framework/utils';
 
 import Slot from 'coral-framework/components/Slot';
 import { connect } from 'react-redux';
@@ -93,9 +92,8 @@ class CommentBox extends React.Component {
           commentPostedHandler();
         }
       })
-      .catch(err => {
+      .catch(() => {
         this.setState({ loadingState: 'error' });
-        forEachError(err, ({ msg }) => notify('error', msg));
       });
   };
 

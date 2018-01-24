@@ -2,7 +2,6 @@ import React from 'react';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import capitalize from 'lodash/capitalize';
-import { getErrorMessages } from 'coral-framework/utils';
 import styles from './UserDetail.css';
 import AccountHistory from './AccountHistory';
 import { Slot } from 'coral-framework/components';
@@ -29,43 +28,23 @@ import UserInfoTooltip from './UserInfoTooltip';
 
 class UserDetail extends React.Component {
   rejectThenReload = async info => {
-    try {
-      await this.props.rejectComment(info);
-      this.props.data.refetch();
-    } catch (err) {
-      console.error(err);
-      this.props.notify('error', getErrorMessages(err));
-    }
+    await this.props.rejectComment(info);
+    this.props.data.refetch();
   };
 
   acceptThenReload = async info => {
-    try {
-      await this.props.acceptComment(info);
-      this.props.data.refetch();
-    } catch (err) {
-      console.error(err);
-      this.props.notify('error', getErrorMessages(err));
-    }
+    await this.props.acceptComment(info);
+    this.props.data.refetch();
   };
 
   bulkAcceptThenReload = async () => {
-    try {
-      await this.props.bulkAccept();
-      this.props.data.refetch();
-    } catch (err) {
-      console.error(err);
-      this.props.notify('error', getErrorMessages(err));
-    }
+    await this.props.bulkAccept();
+    this.props.data.refetch();
   };
 
   bulkRejectThenReload = async () => {
-    try {
-      await this.props.bulkReject();
-      this.props.data.refetch();
-    } catch (err) {
-      console.error(err);
-      this.props.notify('error', getErrorMessages(err));
-    }
+    await this.props.bulkReject();
+    this.props.data.refetch();
   };
 
   changeTab = tab => {
@@ -89,6 +68,16 @@ class UserDetail extends React.Component {
       <ClickOutside onClickOutside={this.props.hideUserDetail}>
         <Drawer onClose={this.props.hideUserDetail}>
           <Spinner />
+        </Drawer>
+      </ClickOutside>
+    );
+  }
+
+  renderError() {
+    return (
+      <ClickOutside onClickOutside={this.props.hideUserDetail}>
+        <Drawer onClose={this.props.hideUserDetail}>
+          <div>{this.props.data.error.message}</div>
         </Drawer>
       </ClickOutside>
     );
@@ -345,6 +334,10 @@ class UserDetail extends React.Component {
   }
 
   render() {
+    if (this.props.data.error) {
+      return this.renderError();
+    }
+
     if (this.props.loading) {
       return this.renderLoading();
     }
@@ -371,7 +364,6 @@ UserDetail.propTypes = {
   selectedCommentIds: PropTypes.array.isRequired,
   viewUserDetail: PropTypes.any.isRequired,
   loadMore: PropTypes.any.isRequired,
-  notify: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,
   unbanUser: PropTypes.func.isRequired,

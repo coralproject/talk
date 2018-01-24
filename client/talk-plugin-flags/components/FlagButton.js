@@ -60,9 +60,10 @@ export default class FlagButton extends Component {
     });
   };
 
-  onPopupContinue = () => {
+  onPopupContinue = async () => {
     const { postFlag, postDontAgree, id, author_id } = this.props;
     const { itemType, reason, step, message } = this.state;
+    let failed = false;
 
     switch (step) {
       case 0:
@@ -75,13 +76,9 @@ export default class FlagButton extends Component {
           return;
         }
         break;
-    }
-
-    // Proceed to the next step or close the menu if we've reached the end
-    if (step + 1 >= this.props.getPopupMenu.length) {
-      this.closeMenu();
-    } else {
-      this.setState({ step: step + 1 });
+      case this.props.getPopupMenu.length:
+        this.closeMenu();
+        return;
     }
 
     // If itemType and reason are both set, post the action
@@ -96,42 +93,45 @@ export default class FlagButton extends Component {
           break;
       }
 
-      if (itemType === 'COMMENTS') {
-        this.setState({ localPost: 'temp' });
-      }
-
       let action = {
         item_id,
         item_type: itemType,
         message,
       };
+
       if (reason === REASONS.comment.noagree) {
-        postDontAgree(action)
-          .then(({ data }) => {
-            if (itemType === 'COMMENTS') {
-              this.setState({ localPost: data.createDontAgree.dontagree.id });
-            }
-          })
-          .catch(err => {
-            this.props.notify('error', getErrorMessages(err));
-            console.error(err);
-          });
-      } else {
-        postFlag({ ...action, reason })
-          .then(({ data }) => {
-            if (itemType === 'COMMENTS') {
-              this.setState({ localPost: data.createFlag.flag.id });
-            }
-          })
-          .catch(errors => {
-            forEachError(errors, ({ error, msg }) => {
-              if (error.translation_key === 'ALREADY_EXISTS') {
-                msg = t('already_flagged_username');
-              }
-              this.props.notify('error', msg);
+        const result = await postDontAgree(action);
+        try {
+          if (itemType === 'COMMENTS') {
+            this.setState({
+              localPost: result.data.createDontAgree.dontagree.id,
             });
+          }
+        } catch (err) {
+          this.props.notify('error', getErrorMessages(err));
+          console.error(err);
+          failed = true;
+        }
+      } else {
+        try {
+          const result = await postFlag({ ...action, reason });
+          if (itemType === 'COMMENTS') {
+            this.setState({ localPost: result.data.createFlag.flag.id });
+          }
+        } catch (errors) {
+          forEachError(errors, ({ error, msg }) => {
+            if (error.translation_key === 'ALREADY_EXISTS') {
+              msg = t('already_flagged_username');
+            }
+            this.props.notify('error', msg);
           });
+          failed = true;
+        }
       }
+    }
+
+    if (!failed) {
+      this.setState({ step: step + 1 });
     }
   };
 
