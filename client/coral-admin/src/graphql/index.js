@@ -173,13 +173,17 @@ export default {
       },
       updateQueries: {
         TalkAdmin_Community_FlaggedAccounts: (prev, { mutationResult }) => {
+          const decrement = {
+            flaggedUsernamesCount: { $apply: count => count - 1 },
+          };
+
           // Remove from list after the mutation was "really" completed.
           if (get(mutationResult, 'data.approveUsername.isOptimistic')) {
-            return prev;
+            return update(prev, decrement);
           }
 
           const updated = update(prev, {
-            flaggedUsernamesCount: { $apply: count => count - 1 },
+            ...decrement,
             flaggedUsers: {
               nodes: { $apply: nodes => nodes.filter(node => node.id !== id) },
             },
@@ -227,13 +231,17 @@ export default {
       },
       updateQueries: {
         TalkAdmin_Community_FlaggedAccounts: (prev, { mutationResult }) => {
+          const decrement = {
+            flaggedUsernamesCount: { $apply: count => count - 1 },
+          };
+
           // Remove from list after the mutation was "really" completed.
           if (get(mutationResult, 'data.rejectUsername.isOptimistic')) {
-            return prev;
+            return update(prev, decrement);
           }
 
           const updated = update(prev, {
-            flaggedUsernamesCount: { $apply: count => count - 1 },
+            ...decrement,
             flaggedUsers: {
               nodes: {
                 $apply: nodes => nodes.filter(node => node.id !== id),

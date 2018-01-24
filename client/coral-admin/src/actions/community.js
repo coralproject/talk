@@ -11,6 +11,7 @@ import {
   HIDE_BANUSER_DIALOG,
   SHOW_REJECT_USERNAME_DIALOG,
   HIDE_REJECT_USERNAME_DIALOG,
+  SET_INDICATOR_TRACK,
 } from '../constants/community';
 
 import t from 'coral-framework/services/i18n';
@@ -67,4 +68,9 @@ export const showRejectUsernameDialog = user => ({
 });
 export const hideRejectUsernameDialog = () => ({
   type: HIDE_REJECT_USERNAME_DIALOG,
+});
+
+export const setIndicatorTrack = track => ({
+  type: SET_INDICATOR_TRACK,
+  track,
 });

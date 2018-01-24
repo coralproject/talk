@@ -6,12 +6,15 @@ import withQuery from 'coral-framework/hocs/withQuery';
 import { Spinner } from 'coral-ui';
 import PropTypes from 'prop-types';
 import { withApproveUsername } from 'coral-framework/graphql/mutations';
-import { showRejectUsernameDialog } from '../../../actions/community';
+import {
+  showRejectUsernameDialog,
+  setIndicatorTrack,
+} from '../../../actions/community';
 import { viewUserDetail } from '../../../actions/userDetail';
 import { getDefinitionName } from 'coral-framework/utils';
 import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
-import { handleFlaggedUsernameChange } from '../graphql';
+import { handleFlaggedAccountsChange } from '../graphql';
 import { notify } from 'coral-framework/actions/notification';
 import { isFlaggedUserDangling } from '../utils';
 import t from 'coral-framework/services/i18n';
@@ -50,7 +53,7 @@ class FlaggedAccountsContainer extends Component {
           prev,
           { subscriptionData: { data: { usernameFlagged: user } } }
         ) => {
-          return handleFlaggedUsernameChange(prev, user, () => {
+          return handleFlaggedAccountsChange(prev, user, () => {
             const msg = t(
               'flagged_usernames.notify_flagged',
               whoFlagged(user),
@@ -66,7 +69,7 @@ class FlaggedAccountsContainer extends Component {
           prev,
           { subscriptionData: { data: { usernameApproved: user } } }
         ) => {
-          return handleFlaggedUsernameChange(prev, user, () => {
+          return handleFlaggedAccountsChange(prev, user, () => {
             const msg = t(
               'flagged_usernames.notify_approved',
               whoChangedTheStatus(user.state.status.username),
@@ -82,7 +85,7 @@ class FlaggedAccountsContainer extends Component {
           prev,
           { subscriptionData: { data: { usernameRejected: user } } }
         ) => {
-          return handleFlaggedUsernameChange(prev, user, () => {
+          return handleFlaggedAccountsChange(prev, user, () => {
             const msg = t(
               'flagged_usernames.notify_rejected',
               whoChangedTheStatus(user.state.status.username),
@@ -102,7 +105,7 @@ class FlaggedAccountsContainer extends Component {
             },
           }
         ) => {
-          return handleFlaggedUsernameChange(prev, user, () => {
+          return handleFlaggedAccountsChange(prev, user, () => {
             const msg = t(
               'flagged_usernames.notify_changed',
               previousUsername,
@@ -125,10 +128,14 @@ class FlaggedAccountsContainer extends Component {
   }
 
   componentWillMount() {
+    // Stop activity indicator tracking, as we'll handle it here.
+    this.props.setIndicatorTrack(false);
     this.subscribeToUpdates();
   }
 
   componentWillUnmount() {
+    // Restart activity indicator tracking.
+    this.props.setIndicatorTrack(true);
     this.unsubscribe();
   }
 
@@ -197,6 +204,7 @@ FlaggedAccountsContainer.propTypes = {
   approveUsername: PropTypes.func,
   data: PropTypes.object,
   root: PropTypes.object,
+  setIndicatorTrack: PropTypes.func,
 };
 
 const LOAD_MORE_QUERY = gql`
@@ -288,6 +296,7 @@ const mapDispatchToProps = dispatch =>
       showRejectUsernameDialog,
       viewUserDetail,
       notify,
+      setIndicatorTrack,
     },
     dispatch
   );

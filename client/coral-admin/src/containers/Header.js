@@ -13,10 +13,5 @@ export default withQuery(
     }
     ${ModerationIndicator.fragments.root}
     ${CommunityIndicator.fragments.root}
-  `,
-  {
-    options: {
-      pollInterval: 10000,
-    },
-  }
+  `
 )(Header);
