@@ -39,27 +39,28 @@ class ModIndicatorSubscription extends React.Component {
   }
 }
 
+const fields = `
+  status
+  actions {
+    __typename
+    created_at
+  }
+  status_history {
+    type
+    assigned_by {
+      id
+    }
+    created_at
+  }
+  updated_at
+  created_at
+`;
+
 const COMMENT_FEATURED_SUBSCRIPTION = gql`
   subscription TalkFeaturedComments_Indicator_CommentFeatured {
     commentFeatured {
       comment {
-        status
-        actions {
-          __typename
-          ... on FlagAction {
-            reason
-          }
-          user {
-            id
-            role
-          }
-        }
-        status_history {
-          type
-          assigned_by {
-            id
-          }
-        }
+        ${fields}
       }
     }
   }
@@ -69,23 +70,7 @@ const COMMENT_UNFEATURED_SUBSCRIPTION = gql`
   subscription TalkFeaturedComments_Indicator_CommentUnfeatured {
     commentUnfeatured {
       comment {
-        status
-        actions {
-          __typename
-          ... on FlagAction {
-            reason
-          }
-          user {
-            id
-            role
-          }
-        }
-        status_history {
-          type
-          assigned_by {
-            id
-          }
-        }
+        ${fields}
       }
     }
   }

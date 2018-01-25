@@ -74,19 +74,29 @@ class ModSubscription extends React.Component {
   }
 }
 
+const fields = `
+  status
+  actions {
+    __typename
+    created_at
+  }
+  status_history {
+    type
+    assigned_by {
+      id
+    }
+    created_at
+  }
+  updated_at
+  created_at
+`;
+
 const COMMENT_FEATURED_SUBSCRIPTION = gql`
   subscription CommentFeatured($assetId: ID){
     commentFeatured(asset_id: $assetId) {
       comment {
         ...${getDefinitionName(Comment.fragments.comment)}
-        status_history {
-          type
-          created_at
-          assigned_by {
-            id
-            username
-          }
-        }
+        ${fields}
       }
       user {
         id
@@ -102,6 +112,7 @@ const COMMENT_UNFEATURED_SUBSCRIPTION = gql`
     commentUnfeatured(asset_id: $assetId){
       comment {
         ...${getDefinitionName(Comment.fragments.comment)}
+        ${fields}
       }
       user {
         id

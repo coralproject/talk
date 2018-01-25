@@ -338,10 +338,30 @@ class ModerationContainer extends Component {
     );
   }
 }
+
+const subscriptionFields = `
+  status
+  actions {
+    __typename
+    created_at
+  }
+  status_history {
+    type
+    created_at
+    assigned_by {
+      id
+      username
+    }
+  }
+  created_at
+  updated_at
+`;
+
 const COMMENT_ADDED_SUBSCRIPTION = gql`
   subscription CommentAdded($asset_id: ID){
     commentAdded(asset_id: $asset_id, statuses: null){
       ...${getDefinitionName(Comment.fragments.comment)}
+      ${subscriptionFields}
     }
   }
   ${Comment.fragments.comment}
@@ -351,6 +371,7 @@ const COMMENT_EDITED_SUBSCRIPTION = gql`
   subscription CommentEdited($asset_id: ID){
     commentEdited(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
+      ${subscriptionFields}
     }
   }
   ${Comment.fragments.comment}
@@ -360,6 +381,7 @@ const COMMENT_FLAGGED_SUBSCRIPTION = gql`
   subscription CommentFlagged($asset_id: ID){
     commentFlagged(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
+      ${subscriptionFields}
     }
   }
   ${Comment.fragments.comment}
@@ -369,14 +391,7 @@ const COMMENT_ACCEPTED_SUBSCRIPTION = gql`
   subscription CommentAccepted($asset_id: ID){
     commentAccepted(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
-      status_history {
-        type
-        created_at
-        assigned_by {
-          id
-          username
-        }
-      }
+      ${subscriptionFields}
     }
   }
   ${Comment.fragments.comment}
@@ -386,14 +401,7 @@ const COMMENT_REJECTED_SUBSCRIPTION = gql`
   subscription CommentRejected($asset_id: ID){
     commentRejected(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
-      status_history {
-        type
-        created_at
-        assigned_by {
-          id
-          username
-        }
-      }
+      ${subscriptionFields}
     }
   }
   ${Comment.fragments.comment}
@@ -403,14 +411,7 @@ const COMMENT_RESET_SUBSCRIPTION = gql`
   subscription CommentReset($asset_id: ID){
     commentReset(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
-      status_history {
-        type
-        created_at
-        assigned_by {
-          id
-          username
-        }
-      }
+      ${subscriptionFields}
     }
   }
   ${Comment.fragments.comment}

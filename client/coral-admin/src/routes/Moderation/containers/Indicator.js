@@ -135,20 +135,17 @@ const fields = `
   status
   actions {
     __typename
-    ... on FlagAction {
-      reason
-    }
-    user {
-      id
-      role
-    }
+    created_at
   }
   status_history {
     type
     assigned_by {
       id
     }
+    created_at
   }
+  updated_at
+  created_at
 `;
 
 const COMMENT_ADDED_SUBSCRIPTION = gql`

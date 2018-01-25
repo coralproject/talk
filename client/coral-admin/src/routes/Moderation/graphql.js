@@ -91,20 +91,87 @@ function getCommentQueues(comment, queueConfig) {
   return queues;
 }
 
+function getOlderDate(a, b) {
+  if (a) {
+    a = new Date(a);
+  }
+  if (b) {
+    b = new Date(b);
+  }
+
+  if (!b) {
+    return a;
+  }
+
+  if (!a) {
+    return b;
+  }
+  return a < b ? b : a;
+}
+
+function determineLatestChange(comment) {
+  let lc = null;
+
+  // Skip it when comment itself was not updated.
+  // We'll get use the one from the status_history instead
+  // as they might diverge a little bit (status_history item is created
+  // before the comment itself)
+  if (comment.createdAt !== comment.updatedAt) {
+    lc = getOlderDate(lc, comment.createdAt);
+    lc = getOlderDate(lc, comment.updatedAt);
+  }
+
+  comment.status_history.forEach(item => {
+    lc = getOlderDate(lc, item.created_at);
+    lc = getOlderDate(lc, item.updated_at);
+  });
+
+  comment.actions.forEach(item => {
+    lc = getOlderDate(lc, item.created_at);
+    lc = getOlderDate(lc, item.updated_at);
+  });
+
+  return lc;
+}
+
+function reconstructPreviousCommentState(comment) {
+  const history = comment.status_history;
+  const actions = comment.actions;
+  const lastChangeDate = determineLatestChange(comment);
+  console.log(lastChangeDate);
+  const previousComment = {
+    ...comment,
+    status_history: history.filter(
+      item => new Date(item.created_at) < lastChangeDate
+    ),
+    actions: actions.filter(item => new Date(item.created_at) < lastChangeDate),
+  };
+
+  // Comment did not exist previously.
+  if (!previousComment.status_history.length) {
+    return null;
+  }
+
+  previousComment.status =
+    previousComment.status_history[
+      previousComment.status_history.length - 1
+    ].type;
+
+  return previousComment;
+}
+
 /**
  * getPreviousCommentQueues determines queues that this comment previously belonged to.
  */
 function getPreviousCommentQueues(comment, queueConfig) {
-  return comment.status_history.length <= 1
-    ? []
-    : getCommentQueues(
-        {
-          ...comment,
-          status:
-            comment.status_history[comment.status_history.length - 2].type,
-        },
-        queueConfig
-      );
+  const previousCommentState = reconstructPreviousCommentState(comment);
+
+  console.log(previousCommentState, comment);
+  if (!previousCommentState) {
+    return [];
+  }
+
+  return getCommentQueues(previousCommentState, queueConfig);
 }
 
 /**
@@ -224,6 +291,8 @@ export function handleCommentChange(
   // Queues that this comment needs to be placed.
   const nextQueues = getCommentQueues(comment, queueConfig);
 
+  console.log(prevQueues, nextQueues);
+
   let notificationShown = false;
   const showNotificationOnce = () => {
     if (notificationShown) {
@@ -318,13 +387,12 @@ export function handleIndicatorChange(root, comment, queueConfig) {
   for (const queue of indicatorQueues) {
     if (prevQueues.indexOf(queue) === -1 && nextQueues.indexOf(queue) >= 0) {
       next = increaseCommentCount(next, queue);
-    } else if (
-      prevQueues.indexOf(queue) >= 0 &&
-      nextQueues.indexOf(queue) === -1
-    ) {
+    }
+    if (prevQueues.indexOf(queue) >= 0 && nextQueues.indexOf(queue) === -1) {
       next = decreaseCommentCount(next, queue);
     }
   }
 
+  console.log(prevQueues, nextQueues, next);
   return next;
 }
