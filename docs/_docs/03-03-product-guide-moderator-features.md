@@ -144,7 +144,7 @@ to moderate quickly:
 | `d`      | Approve                    |
 | `f`      | Reject                     |
 
-Note: "Zen mode" allows a moderator to view and action only one comment at a time. Namaste!
+Note: "Zen mode" allows a moderator to view and action only one comment at a time. Enjoy the silence!
 
 ### Stories
 
