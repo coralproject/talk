@@ -199,24 +199,41 @@ class ModerationContainer extends Component {
   }
 
   componentWillMount() {
-    // Stop activity indicator tracking, as we'll handle it here.
-    this.props.setIndicatorTrack(false);
+    if (!this.props.data.variables.asset_id) {
+      // Stop activity indicator tracking, as we'll handle it here.
+      this.props.setIndicatorTrack(false);
+    }
     this.props.clearState();
     this.subscribeToUpdates();
   }
 
   componentWillUnmount() {
-    // Restart activity indicator tracking.
-    this.props.setIndicatorTrack(true);
+    if (!this.props.data.variables.asset_id) {
+      // Restart activity indicator tracking.
+      this.props.setIndicatorTrack(true);
+    }
     this.unsubscribe();
   }
 
   componentWillReceiveProps(nextProps) {
+    const currentAssetId = this.props.data.variables.asset_id;
+    const nextAssetId = nextProps.data.variables.asset_id;
+
     // Resubscribe when we change between assets.
-    if (
-      this.props.data.variables.asset_id !== nextProps.data.variables.asset_id
-    ) {
+    if (currentAssetId !== nextAssetId) {
       this.resubscribe(nextProps.data.variables);
+    }
+
+    // We are only subscribing to a specific asset_id, so activity indicator
+    // needs to do its own tracking.
+    if (!currentAssetId && nextAssetId) {
+      this.props.setIndicatorTrack(true);
+    }
+
+    // We are subscribing to all comment changes, and as such there is no
+    // need for the activity indicator to do the same.
+    if (currentAssetId && !nextAssetId) {
+      this.props.setIndicatorTrack(false);
     }
   }
 
