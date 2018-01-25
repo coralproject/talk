@@ -1,4 +1,5 @@
 const ActionModel = require('../models/action');
+const { processUpdates } = require('./utils');
 
 const mapping = {
   COMMENTS: {
@@ -44,15 +45,7 @@ module.exports = {
     }
 
     if (updates.length > 0) {
-      // Setup the batch operation.
-      const batch = ActionModel.collection.initializeUnorderedBulkOp();
-
-      for (const { query, update } of updates) {
-        batch.find(query).update(update);
-      }
-
-      // Execute the batch update operation.
-      await batch.execute();
+      await processUpdates(ActionModel, updates);
     }
   },
 };

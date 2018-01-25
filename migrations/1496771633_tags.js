@@ -1,34 +1,32 @@
 const CommentModel = require('../models/comment');
+const { processUpdates } = require('./utils');
 
 module.exports = {
-  async up() {
+  async up({ queryBatchSize, updateBatchSize }) {
     // Find all comments that have tags.
-    let comments = await CommentModel.aggregate([
-      {
-        $match: {
-          tags: {
-            $exists: true,
-            $ne: [],
+    const cursor = await CommentModel.collection
+      .aggregate([
+        {
+          $match: {
+            tags: {
+              $exists: true,
+              $ne: [],
+            },
           },
         },
-      },
-      {
-        $project: {
-          id: true,
-          tags: true,
+        {
+          $project: {
+            id: true,
+            tags: true,
+          },
         },
-      },
-    ]);
+      ])
+      .batchSize(queryBatchSize);
 
-    // If no comments were found, nothing needs to be done!
-    if (comments.length <= 0) {
-      return;
-    }
+    let updates = [];
+    while (await cursor.hasNext()) {
+      let { id, tags } = await cursor.next();
 
-    const updates = [];
-
-    // Loop over the comments retrieved, updating the tag structure.
-    for (let { id, tags } of comments) {
       // OLD
       //
       // [
@@ -75,19 +73,22 @@ module.exports = {
       }));
 
       updates.push({ query: { id }, update: { $set: { tags } } });
+
+      if (updates.length > updateBatchSize) {
+        // Process the updates.
+        await processUpdates(CommentModel, updates);
+
+        // Clear the updates array.
+        updates = [];
+      }
     }
 
     if (updates.length > 0) {
-      // Create a new batch operation.
-      let batch = CommentModel.collection.initializeUnorderedBulkOp();
+      // Process the updates.
+      await processUpdates(CommentModel, updates);
 
-      for (const { query, update } of updates) {
-        // Execute the batch operation.
-        batch.find(query).updateOne(update);
-      }
-
-      // Execute the batch update operation.
-      await batch.execute();
+      // Clear the updates array.
+      updates = [];
     }
   },
 };

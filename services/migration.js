@@ -1,17 +1,19 @@
 const MigrationModel = require('../models/migration');
 const fs = require('fs');
+const ms = require('ms');
 const path = require('path');
 const Joi = require('joi');
 const debug = require('debug')('talk:services:migration');
 const sc = require('snake-case');
+const { stripIndent } = require('common-tags');
 const { talk: { migration: { minVersion } } } = require('../package.json');
 
-const migrationTemplate = `module.exports = {
-  async up() {
-    
-  }
-};
+const migrationTemplate = stripIndent`
+  module.exports = {
+    async up({ queryBatchSize, updateBatchSize }) {
 
+    }
+  };
 `;
 
 class MigrationService {
@@ -61,6 +63,7 @@ class MigrationService {
 
     // Parse the migrations from the file listing.
     let migrations = migrationFiles
+      .filter(filename => versionRe.test(filename))
       .map(filename => {
         // Parse the version from the filename.
         let matches = filename.match(versionRe);
@@ -109,7 +112,10 @@ class MigrationService {
    *
    * @param {Array} migrations a list of migrations returned by `listPending`
    */
-  static async run(migrations) {
+  static async run(
+    migrations,
+    { queryBatchSize = 100, updateBatchSize = 1000 } = {}
+  ) {
     if (migrations.length === 0) {
       console.log('No migrations to run!');
       return;
@@ -117,9 +123,12 @@ class MigrationService {
 
     for (let { filename, version, migration } of migrations) {
       try {
+        const startTime = new Date();
         console.log(`Starting migration ${filename}`);
-        await migration.up();
-        console.log(`Finished migration ${filename}`);
+        await migration.up({ queryBatchSize, updateBatchSize });
+        const endTime = new Date();
+        const totalTime = endTime.getTime() - startTime.getTime();
+        console.log(`Finished migration ${filename} in ${ms(totalTime)}`);
       } catch (e) {
         console.error(`Migration ${filename} failed`);
         throw e;

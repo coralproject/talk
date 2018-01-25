@@ -1,35 +1,19 @@
 const UserModel = require('../models/user');
+const { processUpdates } = require('./utils');
 const merge = require('lodash/merge');
 
-const getUserBatch = async () => {
-  let query = {
-    status: {
-      $in: ['ACTIVE', 'BANNED', 'PENDING', 'APPROVED'],
-    },
-  };
-
-  // Find all the users that need migrating.
-  return UserModel.collection.find(query).batchSize(100);
-};
-
-const processUpdates = async updates => {
-  // Create a new batch operation.
-  let bulk = UserModel.collection.initializeUnorderedBulkOp();
-
-  for (const { query, update } of updates) {
-    bulk.find(query).updateOne(update);
-  }
-
-  // Execute the bulk update operation.
-  await bulk.execute();
-};
-
 module.exports = {
-  async up() {
+  async up({ queryBatchSize, updateBatchSize }) {
     const created_at = Date.now();
 
     // Get the first batch of users.
-    let cursor = await getUserBatch();
+    let cursor = await UserModel.collection
+      .find({
+        status: {
+          $in: ['ACTIVE', 'BANNED', 'PENDING', 'APPROVED'],
+        },
+      })
+      .batchSize(queryBatchSize);
 
     let updates = [];
     while (await cursor.hasNext()) {
@@ -225,9 +209,9 @@ module.exports = {
       updates.push({ query: { id }, update });
 
       // Process every 1000 users.
-      if (updates.length > 1000) {
+      if (updates.length > updateBatchSize) {
         // Process the updates.
-        await processUpdates(updates);
+        await processUpdates(UserModel, updates);
 
         // Clear the updates array.
         updates = [];
@@ -236,7 +220,7 @@ module.exports = {
 
     if (updates.length > 0) {
       // Process the updates.
-      await processUpdates(updates);
+      await processUpdates(UserModel, updates);
 
       // Clear the updates array.
       updates = [];

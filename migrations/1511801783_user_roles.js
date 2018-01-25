@@ -1,4 +1,5 @@
 const UserModel = require('../models/user');
+const { processUpdates } = require('./utils');
 
 const findNewRole = roles => {
   if (roles.includes('ADMIN')) {
@@ -12,27 +13,15 @@ const findNewRole = roles => {
   return 'COMMENTER';
 };
 
-const processUpdates = async updates => {
-  // Create a new batch operation.
-  const bulk = UserModel.collection.initializeUnorderedBulkOp();
-
-  for (const { query, update } of updates) {
-    bulk.find(query).updateOne(update);
-  }
-
-  // Execute the bulk update operation.
-  await bulk.execute();
-};
-
 module.exports = {
-  async up() {
+  async up({ queryBatchSize, updateBatchSize }) {
     const cursor = await UserModel.collection
       .find({
         roles: {
           $exists: true,
         },
       })
-      .batchSize(100);
+      .batchSize(queryBatchSize);
 
     let updates = [];
     while (await cursor.hasNext()) {
@@ -54,9 +43,9 @@ module.exports = {
         },
       });
 
-      if (updates.length > 1000) {
+      if (updates.length > updateBatchSize) {
         // Process the updates.
-        await processUpdates(updates);
+        await processUpdates(UserModel, updates);
 
         // Clear the updates array.
         updates = [];
@@ -65,7 +54,7 @@ module.exports = {
 
     if (updates.length > 0) {
       // Process the updates.
-      await processUpdates(updates);
+      await processUpdates(UserModel, updates);
 
       // Clear the updates array.
       updates = [];
