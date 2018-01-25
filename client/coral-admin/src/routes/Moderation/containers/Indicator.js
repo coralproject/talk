@@ -37,6 +37,15 @@ class IndicatorContainer extends Component {
         },
       },
       {
+        document: COMMENT_EDITED_SUBSCRIPTION,
+        updateQuery: (
+          prev,
+          { subscriptionData: { data: { commentEdited: comment } } }
+        ) => {
+          return this.handleCommentChange(prev, comment);
+        },
+      },
+      {
         document: COMMENT_ACCEPTED_SUBSCRIPTION,
         updateQuery: (
           prev,
@@ -144,7 +153,7 @@ const fields = `
 
 const COMMENT_ADDED_SUBSCRIPTION = gql`
   subscription TalkAdmin_ModerationIndicator_CommentAdded {
-    commentAdded {
+    commentAdded(statuses: null) {
       ${fields}
     }
   }
@@ -153,6 +162,14 @@ const COMMENT_ADDED_SUBSCRIPTION = gql`
 const COMMENT_FLAGGED_SUBSCRIPTION = gql`
   subscription TalkAdmin_ModerationIndicator_CommentFlagged {
     commentFlagged {
+      ${fields}
+    }
+  }
+`;
+
+const COMMENT_EDITED_SUBSCRIPTION = gql`
+  subscription TalkAdmin_ModerationIndicator_CommentEdited {
+    commentEdited {
       ${fields}
     }
   }
