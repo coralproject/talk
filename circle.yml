@@ -60,7 +60,7 @@ test:
     # Run the tests using the junit reporter.
     - yarn test
     # Run the end to end tests
-    - yarn e2e:ci
+    # - yarn e2e:ci
     # Check dependancies using nsp.
     - nsp check
 
