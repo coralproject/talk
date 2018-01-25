@@ -1,5 +1,4 @@
 const UserModel = require('../models/user');
-const { processUpdates } = require('./utils');
 
 const findNewRole = roles => {
   if (roles.includes('ADMIN')) {
@@ -14,20 +13,16 @@ const findNewRole = roles => {
 };
 
 module.exports = {
-  async up({ queryBatchSize, updateBatchSize }) {
-    const cursor = await UserModel.collection
-      .find({
-        roles: {
-          $exists: true,
-        },
-      })
-      .batchSize(queryBatchSize);
+  async up({ transformSingleWithCursor }) {
+    const cursor = UserModel.collection.find({
+      roles: {
+        $exists: true,
+      },
+    });
 
-    let updates = [];
-    while (await cursor.hasNext()) {
-      const user = await cursor.next();
-
-      updates.push({
+    await transformSingleWithCursor(
+      cursor,
+      user => ({
         query: {
           id: user.id,
         },
@@ -41,23 +36,8 @@ module.exports = {
             roles: '',
           },
         },
-      });
-
-      if (updates.length > updateBatchSize) {
-        // Process the updates.
-        await processUpdates(UserModel, updates);
-
-        // Clear the updates array.
-        updates = [];
-      }
-    }
-
-    if (updates.length > 0) {
-      // Process the updates.
-      await processUpdates(UserModel, updates);
-
-      // Clear the updates array.
-      updates = [];
-    }
+      }),
+      UserModel
+    );
   },
 };

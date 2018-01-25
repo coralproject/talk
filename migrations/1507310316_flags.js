@@ -1,5 +1,4 @@
 const ActionModel = require('../models/action');
-const { processUpdates } = require('./utils');
 
 const mapping = {
   COMMENTS: {
@@ -13,7 +12,7 @@ const mapping = {
 };
 
 module.exports = {
-  async up() {
+  async up({ processManyUpdates }) {
     const updates = [];
     for (const item_type in mapping) {
       const mappings = mapping[item_type];
@@ -45,7 +44,7 @@ module.exports = {
     }
 
     if (updates.length > 0) {
-      await processUpdates(ActionModel, updates);
+      await processManyUpdates(ActionModel, updates);
     }
   },
 };

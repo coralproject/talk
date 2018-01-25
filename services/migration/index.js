@@ -1,12 +1,13 @@
-const MigrationModel = require('../models/migration');
+const MigrationModel = require('../../models/migration');
 const fs = require('fs');
 const ms = require('ms');
 const path = require('path');
 const Joi = require('joi');
 const debug = require('debug')('talk:services:migration');
 const sc = require('snake-case');
+const helpers = require('./helpers');
 const { stripIndent } = require('common-tags');
-const { talk: { migration: { minVersion } } } = require('../package.json');
+const { talk: { migration: { minVersion } } } = require('../../package.json');
 
 const migrationTemplate = stripIndent`
   module.exports = {
@@ -46,7 +47,7 @@ class MigrationService {
   static async listPending() {
     // Get all the migration files.
     let migrationFiles = fs.readdirSync(
-      path.join(__dirname, '..', 'migrations')
+      path.join(__dirname, '..', '..', 'migrations')
     );
 
     // Ensure that all migrations follow this format.
@@ -78,7 +79,7 @@ class MigrationService {
         }
 
         // Read the migration from the filesystem.
-        let migration = require(`../migrations/${filename}`);
+        let migration = require(`../../migrations/${filename}`);
         Joi.assert(
           migration,
           migrationSchema,
@@ -121,11 +122,14 @@ class MigrationService {
       return;
     }
 
+    // Create the context helpers.
+    const ctx = helpers({ queryBatchSize, updateBatchSize });
+
     for (let { filename, version, migration } of migrations) {
       try {
         const startTime = new Date();
         console.log(`Starting migration ${filename}`);
-        await migration.up({ queryBatchSize, updateBatchSize });
+        await migration.up(ctx);
         const endTime = new Date();
         const totalTime = endTime.getTime() - startTime.getTime();
         console.log(`Finished migration ${filename} in ${ms(totalTime)}`);

@@ -1,63 +1,38 @@
 const CommentModel = require('../models/comment');
-const { processUpdates } = require('./utils');
 
-module.exports = {
-  async up({ queryBatchSize, updateBatchSize }) {
-    // Find all comments that have tags.
-    const cursor = await CommentModel.collection
-      .aggregate([
-        {
-          $match: {
-            tags: {
-              $exists: true,
-              $ne: [],
-            },
-          },
-        },
-        {
-          $project: {
-            id: true,
-            tags: true,
-          },
-        },
-      ])
-      .batchSize(queryBatchSize);
+// OLD
+//
+// [
+//   {
+//     name: 'OFF_TOPIC',
+//     assigned_by: '',
+//     created_at: new Date()
+//   }
+// ]
 
-    let updates = [];
-    while (await cursor.hasNext()) {
-      let { id, tags } = await cursor.next();
-
-      // OLD
-      //
-      // [
-      //   {
-      //     name: 'OFF_TOPIC',
-      //     assigned_by: '',
-      //     created_at: new Date()
-      //   }
-      // ]
-
-      // NEW
-      //
-      // [
-      //   {
-      //     tag: {
-      //       name: 'OFF_TOPIC',
-      //       permissions: {
-      //         public: true,
-      //         self: false,
-      //         roles: []
-      //       },
-      //       models: ['COMMENTS'],
-      //       created_at: new Date()
-      //     },
-      //     assigned_by: '',
-      //     created_at: new Date()
-      //   }
-      // ]
-
-      // Remap the tag structure.
-      tags = tags.map(({ name, assigned_by, created_at }) => ({
+// NEW
+//
+// [
+//   {
+//     tag: {
+//       name: 'OFF_TOPIC',
+//       permissions: {
+//         public: true,
+//         self: false,
+//         roles: []
+//       },
+//       models: ['COMMENTS'],
+//       created_at: new Date()
+//     },
+//     assigned_by: '',
+//     created_at: new Date()
+//   }
+// ]
+const transformTags = ({ id, tags }) => ({
+  query: { id },
+  update: {
+    $set: {
+      tags: tags.map(({ name, assigned_by, created_at }) => ({
         tag: {
           name,
           permissions: {
@@ -70,25 +45,31 @@ module.exports = {
         },
         assigned_by,
         created_at,
-      }));
+      })),
+    },
+  },
+});
 
-      updates.push({ query: { id }, update: { $set: { tags } } });
+module.exports = {
+  async up({ transformSingleWithCursor }) {
+    // Find all comments that have tags.
+    const cursor = CommentModel.collection.aggregate([
+      {
+        $match: {
+          tags: {
+            $exists: true,
+            $ne: [],
+          },
+        },
+      },
+      {
+        $project: {
+          id: true,
+          tags: true,
+        },
+      },
+    ]);
 
-      if (updates.length > updateBatchSize) {
-        // Process the updates.
-        await processUpdates(CommentModel, updates);
-
-        // Clear the updates array.
-        updates = [];
-      }
-    }
-
-    if (updates.length > 0) {
-      // Process the updates.
-      await processUpdates(CommentModel, updates);
-
-      // Clear the updates array.
-      updates = [];
-    }
+    await transformSingleWithCursor(cursor, transformTags, CommentModel);
   },
 };
