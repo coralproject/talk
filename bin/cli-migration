@@ -107,13 +107,13 @@ program
   .command('run')
   .option(
     '-q, --query-batch-size <n>',
-    'will answer yes to all questions',
+    'change the size of queried documents that are batched at a time',
     parse10,
     100
   )
   .option(
     '-u, --update-batch-size <n>',
-    'will answer yes to all questions',
+    'change the size of documents that are batched before the update is sent',
     parse10,
     1000
   )
