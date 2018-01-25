@@ -325,7 +325,7 @@ nl_NL:
     shortcuts: "Sneltoetsen"
     sort: "Sorteer"
     show_shortcuts: "Toon sneltoetsen"
-    singleview: "Schakel wijzigen enkele reactie aan of uit"
+    singleview: "Zen-modus"
     thismenu: "Open dit menu"
     jump_to_queue: "Spring naar specifieke wachtrij"
     thousand: k
