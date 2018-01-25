@@ -7,9 +7,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import withQueueConfig from '../hoc/withQueueConfig';
 import baseQueueConfig from '../queueConfig';
+import Slot from 'coral-framework/components/Slot';
 
 class IndicatorContainer extends Component {
   subscriptions = [];
+
+  handleCommentChange = (root, comment) => {
+    return handleIndicatorChange(root, comment, this.props.queueConfig);
+  };
 
   subscribeToUpdates() {
     const parameters = [
@@ -19,7 +24,7 @@ class IndicatorContainer extends Component {
           prev,
           { subscriptionData: { data: { commentAdded: comment } } }
         ) => {
-          return handleIndicatorChange(prev, comment, this.props.queueConfig);
+          return this.handleCommentChange(prev, comment);
         },
       },
       {
@@ -28,7 +33,7 @@ class IndicatorContainer extends Component {
           prev,
           { subscriptionData: { data: { commentFlagged: comment } } }
         ) => {
-          return handleIndicatorChange(prev, comment, this.props.queueConfig);
+          return this.handleCommentChange(prev, comment);
         },
       },
       {
@@ -37,25 +42,25 @@ class IndicatorContainer extends Component {
           prev,
           { subscriptionData: { data: { commentAccepted: comment } } }
         ) => {
-          return handleIndicatorChange(prev, comment, this.props.queueConfig);
+          return this.handleCommentChange(prev, comment);
         },
       },
       {
         document: COMMENT_REJECTED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentRejected: { comment } } } }
+          { subscriptionData: { data: { commentRejected: comment } } }
         ) => {
-          return handleIndicatorChange(prev, comment, this.props.queueConfig);
+          return this.handleCommentChange(prev, comment);
         },
       },
       {
         document: COMMENT_RESET_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentReset: { comment } } } }
+          { subscriptionData: { data: { commentReset: comment } } }
         ) => {
-          return handleIndicatorChange(prev, comment, this.props.queueConfig);
+          return this.handleCommentChange(prev, comment);
         },
       },
     ];
@@ -97,7 +102,16 @@ class IndicatorContainer extends Component {
       return null;
     }
 
-    return <Indicator />;
+    return (
+      <span>
+        <Indicator />
+        <Slot
+          data={this.props.data}
+          handleCommentChange={this.handleCommentChange}
+          fill="adminModerationIndicator"
+        />
+      </span>
+    );
   }
 }
 
@@ -146,7 +160,7 @@ const COMMENT_FLAGGED_SUBSCRIPTION = gql`
 
 const COMMENT_ACCEPTED_SUBSCRIPTION = gql`
   subscription TalkAdmin_ModerationIndicator_CommentAccepted {
-    commentAccepted{
+    commentAccepted {
       ${fields}
     }
   }
@@ -154,7 +168,7 @@ const COMMENT_ACCEPTED_SUBSCRIPTION = gql`
 
 const COMMENT_REJECTED_SUBSCRIPTION = gql`
   subscription TalkAdmin_ModerationIndicator_CommentRejected {
-    commentRejected{
+    commentRejected {
       ${fields}
     }
   }
