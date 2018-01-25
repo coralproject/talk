@@ -222,6 +222,10 @@
   },
   "pre-commit": {
     "silent": false,
-    "run": ["lint", "test:client", "test:server"]
+    "run": [
+      "lint",
+      "test:client",
+      "test:server"
+    ]
   }
 }

@@ -34,7 +34,7 @@ module.exports = {
       })
       .batchSize(100);
 
-    const updates = [];
+    let updates = [];
     while (await cursor.hasNext()) {
       const user = await cursor.next();
 
