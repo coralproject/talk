@@ -27,6 +27,7 @@ import {
   storySearchChange,
   clearState,
   selectCommentId,
+  setIndicatorTrack,
 } from 'actions/moderation';
 import withQueueConfig from '../hoc/withQueueConfig';
 import { notify } from 'coral-framework/actions/notification';
@@ -198,11 +199,15 @@ class ModerationContainer extends Component {
   }
 
   componentWillMount() {
+    // Stop activity indicator tracking, as we'll handle it here.
+    this.props.setIndicatorTrack(false);
     this.props.clearState();
     this.subscribeToUpdates();
   }
 
   componentWillUnmount() {
+    // Restart activity indicator tracking.
+    this.props.setIndicatorTrack(true);
     this.unsubscribe();
   }
 
@@ -525,6 +530,7 @@ const mapDispatchToProps = dispatch => ({
       clearState,
       notify,
       selectCommentId,
+      setIndicatorTrack,
     },
     dispatch
   ),

@@ -92,6 +92,22 @@ function getCommentQueues(comment, queueConfig) {
 }
 
 /**
+ * getPreviousCommentQueues determines queues that this comment previously belonged to.
+ */
+function getPreviousCommentQueues(comment, queueConfig) {
+  return comment.status_history.length <= 1
+    ? []
+    : getCommentQueues(
+        {
+          ...comment,
+          status:
+            comment.status_history[comment.status_history.length - 2].type,
+        },
+        queueConfig
+      );
+}
+
+/**
  * Return whether or not the comment belongs to the queue.
  */
 export function commentBelongToQueue(queue, comment, queueConfig) {
@@ -203,17 +219,7 @@ export function handleCommentChange(
   let next = root;
 
   // Queues that this comment previously belonged to.
-  const prevQueues =
-    comment.status_history.length <= 1
-      ? []
-      : getCommentQueues(
-          {
-            ...comment,
-            status:
-              comment.status_history[comment.status_history.length - 2].type,
-          },
-          queueConfig
-        );
+  const prevQueues = getPreviousCommentQueues(comment, queueConfig);
 
   // Queues that this comment needs to be placed.
   const nextQueues = getCommentQueues(comment, queueConfig);
@@ -289,5 +295,36 @@ export function handleCommentChange(
     // have done that for us.
     next = applyCommentChanges(next, comment, queueConfig);
   });
+  return next;
+}
+
+const indicatorQueues = ['premod', 'reported'];
+
+/**
+ * Track indicator status
+ * @param  {Object}   root     current state of the store
+ * @param  {Object}   comment  comment that was changed
+ * @return {Object}            next state of the store
+ */
+export function handleIndicatorChange(root, comment, queueConfig) {
+  let next = root;
+
+  // Queues that this comment previously belonged to.
+  const prevQueues = getPreviousCommentQueues(comment, queueConfig);
+
+  // Queues that this comment needs to be placed.
+  const nextQueues = getCommentQueues(comment, queueConfig);
+
+  for (const queue of indicatorQueues) {
+    if (prevQueues.indexOf(queue) === -1 && nextQueues.indexOf(queue) >= 0) {
+      next = increaseCommentCount(next, queue);
+    } else if (
+      prevQueues.indexOf(queue) >= 0 &&
+      nextQueues.indexOf(queue) === -1
+    ) {
+      next = decreaseCommentCount(next, queue);
+    }
+  }
+
   return next;
 }

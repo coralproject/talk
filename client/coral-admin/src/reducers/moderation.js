@@ -8,14 +8,19 @@ const initialState = {
   shortcutsNoteVisible: 'show',
   sortOrder: 'DESC',
   selectedCommentId: '',
+  // If true the activity indicator will turn on subscriptions
+  // in order to determine queue counts. Set this to false
+  // if the queue count is determined by other means.
+  indicatorTrack: true,
 };
 
 export default function moderation(state = initialState, action) {
   switch (action.type) {
-    case actions.MODERATION_CLEAR_STATE:
+    case actions.CLEAR_STATE:
       return {
         ...initialState,
         shortcutsNoteVisible: state.shortcutsNoteVisible,
+        indicatorTrack: state.indicatorTrack,
       };
     case actions.TOGGLE_MODAL:
       return {
@@ -52,10 +57,15 @@ export default function moderation(state = initialState, action) {
         ...state,
         sortOrder: action.order,
       };
-    case actions.MODERATION_SELECT_COMMENT:
+    case actions.SELECT_COMMENT:
       return {
         ...state,
         selectedCommentId: action.id,
+      };
+    case actions.SET_INDICATOR_TRACK:
+      return {
+        ...state,
+        indicatorTrack: action.track,
       };
     default:
       return state;

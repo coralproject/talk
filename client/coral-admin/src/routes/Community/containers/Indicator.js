@@ -153,9 +153,6 @@ const enhance = compose(
             state: { status: { username: [SET, CHANGED] } }
           }
         )
-        me {
-          id
-        }
       }
     `,
   })

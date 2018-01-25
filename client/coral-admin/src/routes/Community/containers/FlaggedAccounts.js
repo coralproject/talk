@@ -35,10 +35,6 @@ function whoFlagged(user) {
 class FlaggedAccountsContainer extends Component {
   subscriptions = [];
 
-  constructor(props) {
-    super(props);
-  }
-
   getCountWithoutDangling() {
     return this.props.root.flaggedUsers.nodes.filter(
       node => !isFlaggedUserDangling(node)
