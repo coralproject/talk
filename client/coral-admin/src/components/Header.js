@@ -15,6 +15,7 @@ const CoralHeader = ({
   showShortcuts = () => {},
   auth,
   root,
+  data,
 }) => {
   return (
     <div className={styles.headerWrapper}>
@@ -31,7 +32,7 @@ const CoralHeader = ({
                   activeClassName={styles.active}
                 >
                   {t('configure.moderate')}
-                  <ModerationIndicator root={root} />
+                  <ModerationIndicator root={root} data={data} />
                 </IndexLink>
               )}
               <Link
@@ -50,7 +51,7 @@ const CoralHeader = ({
                 activeClassName={styles.active}
               >
                 {t('configure.community')}
-                <CommunityIndicator root={root} />
+                <CommunityIndicator root={root} data={data} />
               </Link>
 
               {can(auth.user, 'UPDATE_CONFIG') && (
@@ -119,6 +120,7 @@ CoralHeader.propTypes = {
   showShortcuts: PropTypes.func,
   handleLogout: PropTypes.func.isRequired,
   root: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 export default CoralHeader;

@@ -49,13 +49,13 @@ function decrementFlaggedUserCount(root) {
 }
 
 /**
- * Assimilate flagged user changes into current store.
+ * Assimilate flagged acount changes into current store.
  * @param  {Object}   root             current state of the store
  * @param  {Object}   user             user that was changed
  * @param  {function} notify           callback to show notification
  * @return {Object}                    next state of the store
  */
-export function handleFlaggedUsernameChange(root, user, notify) {
+export function handleFlaggedAccountsChange(root, user, notify) {
   if (user.state.status.username.status !== 'SET') {
     // Check if change came from current user, if so ignore it.
     const lastChange =
@@ -87,7 +87,7 @@ export function handleFlaggedUsernameChange(root, user, notify) {
         break;
       case 'APPROVED':
       case 'REJECTED':
-        return root;
+        return decrementFlaggedUserCount(root);
       default:
     }
   }
@@ -103,5 +103,23 @@ export function handleFlaggedUsernameChange(root, user, notify) {
         return applyUserChanges(decrementFlaggedUserCount(root), user);
       default:
     }
+  }
+}
+
+/**
+ * Track indicator status
+ * @param  {Object}   root             current state of the store
+ * @param  {Object}   user             user that was changed
+ * @return {Object}                    next state of the store
+ */
+export function handleIndicatorChange(root, user) {
+  switch (user.state.status.username.status) {
+    case 'SET':
+    case 'CHANGED':
+      return incrementFlaggedUserCount(root);
+    case 'APPROVED':
+    case 'REJECTED':
+      return decrementFlaggedUserCount(root);
+    default:
   }
 }
