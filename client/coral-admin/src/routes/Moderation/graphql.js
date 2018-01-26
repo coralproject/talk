@@ -112,23 +112,12 @@ function getOlderDate(a, b) {
 function determineLatestChange(comment) {
   let lc = null;
 
-  // Skip it when comment itself was not updated.
-  // We'll use the one from the status_history instead
-  // as they might diverge a little bit (status_history item is created
-  // before the comment itself)
-  if (comment.createdAt !== comment.updatedAt) {
-    lc = getOlderDate(lc, comment.createdAt);
-    lc = getOlderDate(lc, comment.updatedAt);
-  }
-
   comment.status_history.forEach(item => {
     lc = getOlderDate(lc, item.created_at);
-    lc = getOlderDate(lc, item.updated_at);
   });
 
   comment.actions.forEach(item => {
     lc = getOlderDate(lc, item.created_at);
-    lc = getOlderDate(lc, item.updated_at);
   });
 
   return lc;

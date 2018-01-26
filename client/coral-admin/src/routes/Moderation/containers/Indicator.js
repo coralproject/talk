@@ -188,11 +188,14 @@ const enhance = compose(
   withFragments({
     root: gql`
       fragment TalkAdmin_Moderation_Indicator_root on RootQuery {
-        premodCount: commentCount(query: { statuses: [PREMOD] })
+        premodCount: commentCount(
+          query: { statuses: [PREMOD], asset_id: $nullID }
+        )
         reportedCount: commentCount(
           query: {
             statuses: [NONE, PREMOD, SYSTEM_WITHHELD]
             action_type: FLAG
+            asset_id: $nullID
           }
         )
       }
