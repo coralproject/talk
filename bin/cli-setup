@@ -13,6 +13,7 @@ const MODERATION_OPTIONS = require('../models/enum/moderation_options');
 const SettingsService = require('../services/settings');
 const SetupService = require('../services/setup');
 const UsersService = require('../services/users');
+const MigrationService = require('../services/migration');
 const errors = require('../errors');
 
 // Register the shutdown criteria.
@@ -50,6 +51,12 @@ const performSetup = async () => {
 
   if (program.defaults) {
     await SettingsService.init();
+
+    // Get the migrations to run.
+    let migrations = await MigrationService.listPending();
+
+    // Perform all migrations.
+    await MigrationService.run(migrations);
 
     console.log('Settings created.');
     console.log('\nTalk is now installed!');
@@ -194,7 +201,7 @@ const performSetup = async () => {
   );
 };
 
-// Start tthe setup process.
+// Start the setup process.
 performSetup()
   .then(() => {
     util.shutdown();
