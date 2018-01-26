@@ -13,18 +13,16 @@ const findNewRole = roles => {
 };
 
 module.exports = {
-  async up() {
-    const cursor = await UserModel.collection.find({
+  async up({ transformSingleWithCursor }) {
+    const cursor = UserModel.collection.find({
       roles: {
         $exists: true,
       },
     });
 
-    const updates = [];
-    while (await cursor.hasNext()) {
-      const user = await cursor.next();
-
-      updates.push({
+    await transformSingleWithCursor(
+      cursor,
+      user => ({
         query: {
           id: user.id,
         },
@@ -38,19 +36,8 @@ module.exports = {
             roles: '',
           },
         },
-      });
-    }
-
-    if (updates.length > 0) {
-      // Create a new batch operation.
-      const bulk = UserModel.collection.initializeUnorderedBulkOp();
-
-      for (const { query, update } of updates) {
-        bulk.find(query).updateOne(update);
-      }
-
-      // Execute the bulk update operation.
-      await bulk.execute();
-    }
+      }),
+      UserModel
+    );
   },
 };

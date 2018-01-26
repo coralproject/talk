@@ -29,7 +29,7 @@
   },
   "talk": {
     "migration": {
-      "minVersion": 1511801783
+      "minVersion": 1516920160
     }
   },
   "repository": {
@@ -222,6 +222,10 @@
   },
   "pre-commit": {
     "silent": false,
-    "run": ["lint", "test:client", "test:server"]
+    "run": [
+      "lint",
+      "test:client",
+      "test:server"
+    ]
   }
 }
