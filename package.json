@@ -211,7 +211,7 @@
     "mocha-junit-reporter": "^1.12.1",
     "nightwatch": "^0.9.16",
     "nodemon": "^1.11.0",
-    "pre-git": "^3.16.0",
+    "pre-commit": "^1.2.2",
     "selenium-standalone": "^6.11.0",
     "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
@@ -220,24 +220,8 @@
   "engines": {
     "node": "^8"
   },
-  "config": {
-    "pre-git": {
-      "pre-commit": [
-        "yarn lint",
-        "yarn test:client",
-        "yarn test:server"
-      ],
-      "pre-push": [
-        "yarn lint",
-        "yarn test:client",
-        "yarn test:server"
-      ],
-      "post-commit": [],
-      "post-checkout": [],
-      "post-merge": []
-    }
-  },
-  "release": {
-    "analyzeCommits": "simple-commit-message"
+  "pre-commit": {
+    "silent": false,
+    "run": ["lint", "test:client", "test:server"]
   }
 }

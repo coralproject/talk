@@ -6,7 +6,6 @@ import styles from './Comment.css';
 import { CountdownSeconds } from './CountdownSeconds';
 import { getEditableUntilDate } from './util';
 import { can } from 'coral-framework/services/perms';
-import { forEachError } from 'coral-framework/utils';
 
 import { Icon } from 'coral-ui';
 import t from 'coral-framework/services/i18n';
@@ -80,7 +79,7 @@ export class EditableCommentContent extends React.Component {
 
     this.setState({ loadingState: 'loading' });
 
-    const { editComment, notify, stopEditing } = this.props;
+    const { editComment, stopEditing } = this.props;
     if (typeof editComment !== 'function') {
       return;
     }
@@ -95,7 +94,6 @@ export class EditableCommentContent extends React.Component {
       }
     } catch (error) {
       this.setState({ loadingState: 'error' });
-      forEachError(error, ({ msg }) => notify('error', msg));
     }
   };
 

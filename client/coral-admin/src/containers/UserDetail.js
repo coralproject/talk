@@ -24,7 +24,6 @@ import {
 } from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
-import { notify } from 'coral-framework/actions/notification';
 import { showBanUserDialog } from 'actions/banUserDialog';
 import { showSuspendUserDialog } from 'actions/suspendUserDialog';
 
@@ -130,6 +129,7 @@ class UserDetailContainer extends React.Component {
         acceptComment={this.acceptComment}
         rejectComment={this.rejectComment}
         loading={loading}
+        error={this.props.data && this.props.data.error}
         loadMore={this.loadMore}
         {...this.props}
       />
@@ -271,7 +271,6 @@ const mapDispatchToProps = dispatch => ({
       viewUserDetail,
       hideUserDetail,
       toggleSelectAllCommentInUserDetail,
-      notify,
     },
     dispatch
   ),

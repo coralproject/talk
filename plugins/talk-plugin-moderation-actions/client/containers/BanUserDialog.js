@@ -3,19 +3,16 @@ import PropTypes from 'prop-types';
 import { compose } from 'react-apollo';
 import { bindActionCreators } from 'redux';
 import { closeBanDialog, closeMenu } from '../actions';
-import { notify } from 'plugin-api/beta/client/actions/notification';
 import {
   connect,
   withSetCommentStatus,
   withBanUser,
 } from 'plugin-api/beta/client/hocs';
-import { getErrorMessages } from 'plugin-api/beta/client/utils';
 import BanUserDialog from '../components/BanUserDialog';
 
 class BanUserDialogContainer extends React.Component {
   banUser = async () => {
     const {
-      notify,
       authorId,
       commentId,
       commentStatus,
@@ -25,23 +22,19 @@ class BanUserDialogContainer extends React.Component {
       banUser,
     } = this.props;
 
-    try {
-      await banUser({
-        id: authorId,
-        message: '',
+    await banUser({
+      id: authorId,
+      message: '',
+    });
+
+    closeMenu();
+    closeBanDialog();
+
+    if (commentStatus !== 'REJECTED') {
+      await setCommentStatus({
+        commentId: commentId,
+        status: 'REJECTED',
       });
-
-      closeMenu();
-      closeBanDialog();
-
-      if (commentStatus !== 'REJECTED') {
-        await setCommentStatus({
-          commentId: commentId,
-          status: 'REJECTED',
-        });
-      }
-    } catch (err) {
-      notify('error', getErrorMessages(err));
     }
   };
 
@@ -70,7 +63,6 @@ const mapStateToProps = ({ talkPluginModerationActions: state }) => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      notify,
       closeBanDialog,
       closeMenu,
     },
