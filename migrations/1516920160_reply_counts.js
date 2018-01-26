@@ -7,22 +7,25 @@ const transformComments = ({ _id: parent_id, reply_count }) => ({
 
 module.exports = {
   async up({ transformSingleWithCursor }) {
-    const cursor = CommentModel.collection.aggregate([
-      {
-        $match: {
-          parent_id: { $ne: null },
-          status: { $in: ['NONE', 'ACCEPTED'] },
-        },
-      },
-      {
-        $group: {
-          _id: '$parent_id',
-          reply_count: {
-            $sum: 1,
+    const cursor = CommentModel.collection.aggregate(
+      [
+        {
+          $match: {
+            parent_id: { $ne: null },
+            status: { $in: ['NONE', 'ACCEPTED'] },
           },
         },
-      },
-    ]);
+        {
+          $group: {
+            _id: '$parent_id',
+            reply_count: {
+              $sum: 1,
+            },
+          },
+        },
+      ],
+      { allowDiskUse: true }
+    );
 
     // Transform those documents.
     await transformSingleWithCursor(cursor, transformComments, CommentModel);

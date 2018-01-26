@@ -9,44 +9,47 @@ module.exports = {
       { Model: UserModel, item_type: 'USERS' },
     ];
     for (const { Model, item_type } of models) {
-      let cursor = ActionModel.collection.aggregate([
-        {
-          $match: {
-            group_id: { $ne: null },
-            item_type,
-          },
-        },
-        {
-          $group: {
-            // group unique documents by these properties, we are leveraging the
-            // fact that each uuid is completely unique.
-            _id: {
-              item_id: '$item_id',
-              action_type: '$action_type',
-              group_id: '$group_id',
-            },
-
-            // and sum up all actions matching the above grouping criteria
-            count: {
-              $sum: 1,
+      let cursor = ActionModel.collection.aggregate(
+        [
+          {
+            $match: {
+              group_id: { $ne: null },
+              item_type,
             },
           },
-        },
-        {
-          $project: {
-            // suppress the _id field
-            _id: false,
+          {
+            $group: {
+              // group unique documents by these properties, we are leveraging the
+              // fact that each uuid is completely unique.
+              _id: {
+                item_id: '$item_id',
+                action_type: '$action_type',
+                group_id: '$group_id',
+              },
 
-            // map the fields from the _id grouping down a level
-            item_id: '$_id.item_id',
-            action_type: { $toLower: '$_id.action_type' },
-            group_id: { $toLower: '$_id.group_id' },
-
-            // map the field directly
-            count: '$count',
+              // and sum up all actions matching the above grouping criteria
+              count: {
+                $sum: 1,
+              },
+            },
           },
-        },
-      ]);
+          {
+            $project: {
+              // suppress the _id field
+              _id: false,
+
+              // map the fields from the _id grouping down a level
+              item_id: '$_id.item_id',
+              action_type: { $toLower: '$_id.action_type' },
+              group_id: { $toLower: '$_id.group_id' },
+
+              // map the field directly
+              count: '$count',
+            },
+          },
+        ],
+        { allowDiskUse: true }
+      );
 
       // Transform those documents.
       await transformSingleWithCursor(
@@ -64,41 +67,44 @@ module.exports = {
 
       // Secondly, we'll collect the group group id's (all the actions for a
       // specific action type) to update counts of.
-      cursor = ActionModel.collection.aggregate([
-        {
-          $match: {
-            item_type,
-          },
-        },
-        {
-          $group: {
-            // group unique documents by these properties, we are leveraging the
-            // fact that each uuid is completely unique.
-            _id: {
-              item_id: '$item_id',
-              action_type: '$action_type',
-            },
-
-            // and sum up all actions matching the above grouping criteria
-            count: {
-              $sum: 1,
+      cursor = ActionModel.collection.aggregate(
+        [
+          {
+            $match: {
+              item_type,
             },
           },
-        },
-        {
-          $project: {
-            // suppress the _id field
-            _id: false,
+          {
+            $group: {
+              // group unique documents by these properties, we are leveraging the
+              // fact that each uuid is completely unique.
+              _id: {
+                item_id: '$item_id',
+                action_type: '$action_type',
+              },
 
-            // map the fields from the _id grouping down a level
-            item_id: '$_id.item_id',
-            action_type: { $toLower: '$_id.action_type' },
-
-            // map the field directly
-            count: '$count',
+              // and sum up all actions matching the above grouping criteria
+              count: {
+                $sum: 1,
+              },
+            },
           },
-        },
-      ]);
+          {
+            $project: {
+              // suppress the _id field
+              _id: false,
+
+              // map the fields from the _id grouping down a level
+              item_id: '$_id.item_id',
+              action_type: { $toLower: '$_id.action_type' },
+
+              // map the field directly
+              count: '$count',
+            },
+          },
+        ],
+        { allowDiskUse: true }
+      );
 
       // Transform those documents.
       await transformSingleWithCursor(

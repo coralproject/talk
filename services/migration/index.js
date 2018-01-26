@@ -115,7 +115,7 @@ class MigrationService {
    */
   static async run(
     migrations,
-    { queryBatchSize = 100, updateBatchSize = 1000 } = {}
+    { queryBatchSize = 10000, updateBatchSize = 20000 } = {}
   ) {
     if (migrations.length === 0) {
       console.log('No migrations to run!');
