@@ -38,6 +38,7 @@ import {
   insertFetchedCommentsIntoEmbedQuery,
   nest,
 } from '../../../graphql/utils';
+import StreamError from '../components/StreamError';
 
 const { showSignInDialog, editName } = authActions;
 const { notify } = notificationActions;
@@ -208,6 +209,10 @@ class StreamContainer extends React.Component {
   }
 
   render() {
+    if (this.props.data.error) {
+      return <StreamError>{this.props.data.error.message}</StreamError>;
+    }
+
     if (
       !this.props.asset ||
       (this.props.asset.comment === undefined && !this.props.asset.comments)
@@ -424,7 +429,8 @@ export default compose(
   withEmit,
   connect(mapStateToProps, mapDispatchToProps),
   withPostComment,
-  withPostFlag,
+  // `talk-plugin-flags` has a custom error handling logic.
+  withPostFlag({ notifyOnError: false }),
   withPostDontAgree,
   withDeleteAction,
   withEditComment

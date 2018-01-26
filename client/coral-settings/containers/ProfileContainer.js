@@ -65,6 +65,10 @@ class ProfileContainer extends Component {
     const { me } = this.props.root;
     const loading = this.props.data.loading;
 
+    if (this.props.data.error) {
+      return <div>{this.props.data.error.message}</div>;
+    }
+
     if (!auth.loggedIn) {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
     }

@@ -235,7 +235,7 @@ async function reconcileLocalPlugins({ skipRemote, dryRun }) {
 
       if (output.status) {
         throw new Error(
-          'Could not install local plugin dependencies, errors occured during install'
+          'Could not install local plugin dependencies, errors occurred during install'
         );
       }
 
@@ -253,59 +253,61 @@ async function reconcilePluginDeps({
   dryRun,
   upgradeRemote,
 }) {
-  let startTime = new Date();
+  try {
+    let startTime = new Date();
 
-  // We don't need to do anything if we skip everything....
-  if (skipLocal && skipRemote) {
-    return;
-  }
+    // We don't need to do anything if we skip everything....
+    if (skipLocal && skipRemote) {
+      return;
+    }
 
-  // Traverse local plugins and install dependencies if enabled.
-  if (!skipLocal) {
-    await reconcileLocalPlugins({ skipRemote, dryRun });
-  }
+    // Traverse local plugins and install dependencies if enabled.
+    if (!skipLocal) {
+      await reconcileLocalPlugins({ skipRemote, dryRun });
+    }
 
-  // Locate any external plugins and install them.
-  if (!skipRemote) {
-    let results = [];
-    try {
-      results = await reconcileRemotePlugins({
+    // Locate any external plugins and install them.
+    if (!skipRemote) {
+      const results = await reconcileRemotePlugins({
         skipLocal,
         skipRemote,
         dryRun,
         upgradeRemote,
       });
-    } catch (e) {
-      throw e;
+
+      let status;
+      if (dryRun) {
+        status = '[dry-run] success'.green;
+      } else {
+        status = 'success'.green;
+      }
+
+      let message;
+      if (results.upgradable.length === 0 && results.fetchable.length === 0) {
+        message = 'Already up-to-date.';
+      } else if (results.upgradable.length === 0) {
+        message = `Fetched ${results.fetchable.length} new plugins.`;
+      } else if (results.fetchable.length === 0) {
+        message = `Upgraded ${results.upgradable.length} new plugins.`;
+      } else {
+        message = `Fetched ${results.fetchable.length} new plugins, upgraded ${
+          results.upgradable.length
+        } plugins.`;
+      }
+
+      console.log(`\n${status} ${message}`);
     }
 
-    let status;
-    if (dryRun) {
-      status = '[dry-run] success'.green;
-    } else {
-      status = 'success'.green;
-    }
+    let endTime = new Date();
 
-    let message;
-    if (results.upgradable.length === 0 && results.fetchable.length === 0) {
-      message = 'Already up-to-date.';
-    } else if (results.upgradable.length === 0) {
-      message = `Fetched ${results.fetchable.length} new plugins.`;
-    } else if (results.fetchable.length === 0) {
-      message = `Upgraded ${results.upgradable.length} new plugins.`;
-    } else {
-      message = `Fetched ${results.fetchable.length} new plugins, upgraded ${
-        results.upgradable.length
-      } plugins.`;
-    }
-
-    console.log(`\n${status} ${message}`);
+    let totalTime = ((endTime.getTime() - startTime.getTime()) / 1000).toFixed(
+      2
+    );
+    console.log(`✨ Done in ${totalTime}s.`);
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
   }
-
-  let endTime = new Date();
-
-  let totalTime = ((endTime.getTime() - startTime.getTime()) / 1000).toFixed(2);
-  console.log(`✨ Done in ${totalTime}s.`);
 }
 
 async function createSeedPlugin() {

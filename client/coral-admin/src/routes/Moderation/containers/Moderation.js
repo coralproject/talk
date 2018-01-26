@@ -292,15 +292,15 @@ class ModerationContainer extends Component {
     const { root, root: { asset, settings }, data } = this.props;
     const assetId = getAssetId(this.props);
 
-    if (data.error) {
-      return <div>Error</div>;
-    }
-
     if (assetId) {
       if (asset === null) {
         // Not found.
         return <NotFoundAsset assetId={assetId} />;
       }
+    }
+
+    if (data.error) {
+      return <div>{data.error.message}</div>;
     }
 
     if (data.loading && data.networkStatus !== 3) {

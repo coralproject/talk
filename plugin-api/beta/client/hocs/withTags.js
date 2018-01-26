@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { compose, gql } from 'react-apollo';
 import { getDisplayName } from 'coral-framework/helpers/hoc';
 import { capitalize } from 'coral-framework/helpers/strings';
 import { withAddTag, withRemoveTag } from 'coral-framework/graphql/mutations';
 import withFragments from 'coral-framework/hocs/withFragments';
-import { notify } from 'coral-framework/actions/notification';
-import { getErrorMessages, isTagged } from 'coral-framework/utils';
+import { isTagged } from 'coral-framework/utils';
 import hoistStatics from 'recompose/hoistStatics';
 import { getDefinitionName } from '../utils';
 
@@ -38,7 +36,7 @@ export default (tag, options = {}) =>
       loading = false;
 
       postTag = () => {
-        const { comment, asset, notify } = this.props;
+        const { comment, asset } = this.props;
 
         if (this.loading) {
           return;
@@ -59,13 +57,12 @@ export default (tag, options = {}) =>
           })
           .catch(err => {
             this.loading = false;
-            notify('error', getErrorMessages(err));
             throw err;
           });
       };
 
       deleteTag = () => {
-        const { comment, asset, notify } = this.props;
+        const { comment, asset } = this.props;
 
         if (this.loading) {
           return;
@@ -84,7 +81,6 @@ export default (tag, options = {}) =>
           })
           .catch(err => {
             this.loading = false;
-            notify('error', getErrorMessages(err));
             throw err;
           });
       };
@@ -113,9 +109,6 @@ export default (tag, options = {}) =>
     const mapStateToProps = state => ({
       user: state.auth.user,
     });
-
-    const mapDispatchToProps = dispatch =>
-      bindActionCreators({ notify }, dispatch);
 
     const enhance = compose(
       withFragments({
@@ -146,7 +139,7 @@ export default (tag, options = {}) =>
       }),
       withAddTag,
       withRemoveTag,
-      connect(mapStateToProps, mapDispatchToProps)
+      connect(mapStateToProps, null)
     );
 
     WithTags.displayName = `WithTags(${getDisplayName(WrappedComponent)})`;

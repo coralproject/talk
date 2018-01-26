@@ -19,7 +19,11 @@ const targetPlugins = manager.section('targets').plugins;
 
 debug(`Using ${pluginsPath} as the plugin configuration path`);
 
-const buildTargets = ['coral-admin', 'coral-docs'];
+const buildTargets = [
+  'coral-admin',
+  'coral-docs',
+  { name: 'coral-auth-callback', disablePolyfill: true },
+];
 
 const buildEmbeds = ['stream'];
 
@@ -156,9 +160,14 @@ const config = {
     modules: [
       path.resolve(__dirname, 'plugins'),
       path.resolve(__dirname, 'client'),
-      ...buildTargets.map(target =>
-        path.join(__dirname, 'client', target, 'src')
-      ),
+      ...buildTargets.map(target => {
+        if (typeof target !== 'string') {
+          target = target.name;
+        }
+
+        return path.join(__dirname, 'client', target, 'src');
+      }),
+
       ...buildEmbeds.map(embed =>
         path.join(__dirname, 'client', `coral-embed-${embed}`, 'src')
       ),
@@ -276,10 +285,19 @@ module.exports = [
   // All framework targets/embeds/plugins.
   applyConfig([
     // Load in all the targets.
-    ...buildTargets.map(target => ({
-      name: `${target}/bundle`,
-      path: path.join(__dirname, 'client/', target, '/src/index'),
-    })),
+    ...buildTargets.map(target => {
+      let disablePolyfill = false;
+      if (typeof target !== 'string') {
+        disablePolyfill = target.disablePolyfill;
+        target = target.name;
+      }
+
+      return {
+        name: `${target}/bundle`,
+        path: path.join(__dirname, 'client/', target, '/src/index'),
+        disablePolyfill,
+      };
+    }),
 
     // Load in all the embeds.
     ...buildEmbeds.map(embed => ({

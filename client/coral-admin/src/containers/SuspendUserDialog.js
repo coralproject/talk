@@ -11,7 +11,6 @@ import {
 import { compose, gql } from 'react-apollo';
 import t, { timeago } from 'coral-framework/services/i18n';
 import withQuery from 'coral-framework/hocs/withQuery';
-import { getErrorMessages } from 'coral-framework/utils';
 import get from 'lodash/get';
 import { notify } from 'coral-framework/actions/notification';
 
@@ -28,17 +27,13 @@ class SuspendUserDialogContainer extends Component {
       notify,
     } = this.props;
     hideSuspendUserDialog();
-    try {
-      await suspendUser({ id: userId, message, until });
-      notify(
-        'success',
-        t('suspenduser.notify_suspend_until', username, timeago(until))
-      );
-      if (commentId && commentStatus && commentStatus !== 'REJECTED') {
-        await setCommentStatus({ commentId, status: 'REJECTED' });
-      }
-    } catch (err) {
-      notify('error', getErrorMessages(err));
+    await suspendUser({ id: userId, message, until });
+    notify(
+      'success',
+      t('suspenduser.notify_suspend_until', username, timeago(until))
+    );
+    if (commentId && commentStatus && commentStatus !== 'REJECTED') {
+      await setCommentStatus({ commentId, status: 'REJECTED' });
     }
   };
 
