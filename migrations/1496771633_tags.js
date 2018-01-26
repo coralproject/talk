@@ -53,22 +53,25 @@ const transformTags = ({ id, tags }) => ({
 module.exports = {
   async up({ transformSingleWithCursor }) {
     // Find all comments that have tags.
-    const cursor = CommentModel.collection.aggregate([
-      {
-        $match: {
-          tags: {
-            $exists: true,
-            $ne: [],
+    const cursor = CommentModel.collection.aggregate(
+      [
+        {
+          $match: {
+            tags: {
+              $exists: true,
+              $ne: [],
+            },
           },
         },
-      },
-      {
-        $project: {
-          id: true,
-          tags: true,
+        {
+          $project: {
+            id: true,
+            tags: true,
+          },
         },
-      },
-    ]);
+      ],
+      { allowDiskUse: true }
+    );
 
     await transformSingleWithCursor(cursor, transformTags, CommentModel);
   },

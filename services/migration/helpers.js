@@ -23,7 +23,7 @@ const debugProcessStatistics = (count, totalCount) => {
     debug(
       `processed ${(count / totalCount * 100).toFixed(
         2
-      )}% (${count}/${totalCount}) update`
+      )}% (${count}/${totalCount}) updates`
     );
   } else {
     debug(`processed ${count} updates`);
