@@ -15,6 +15,7 @@ import {
   handleCommentChange,
   commentBelongToQueue,
   cleanUpQueue,
+  subscriptionFields,
 } from '../graphql';
 
 import { viewUserDetail } from '../../../actions/userDetail';
@@ -338,24 +339,6 @@ class ModerationContainer extends Component {
     );
   }
 }
-
-const subscriptionFields = `
-  status
-  actions {
-    __typename
-    created_at
-  }
-  status_history {
-    type
-    created_at
-    assigned_by {
-      id
-      username
-    }
-  }
-  created_at
-  updated_at
-`;
 
 const COMMENT_ADDED_SUBSCRIPTION = gql`
   subscription CommentAdded($asset_id: ID){

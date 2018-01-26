@@ -5,6 +5,7 @@ import Comment from 'coral-admin/src/routes/Moderation/containers/Comment';
 import { getDefinitionName } from 'coral-framework/utils';
 import truncate from 'lodash/truncate';
 import t from 'coral-framework/services/i18n';
+import { subscriptionFields } from 'coral-admin/src/routes/Moderation/graphql';
 
 function prepareNotificationText(text) {
   return truncate(text, { length: 50 }).replace('\n', ' ');
@@ -74,29 +75,12 @@ class ModSubscription extends React.Component {
   }
 }
 
-const fields = `
-  status
-  actions {
-    __typename
-    created_at
-  }
-  status_history {
-    type
-    assigned_by {
-      id
-    }
-    created_at
-  }
-  updated_at
-  created_at
-`;
-
 const COMMENT_FEATURED_SUBSCRIPTION = gql`
   subscription CommentFeatured($assetId: ID){
     commentFeatured(asset_id: $assetId) {
       comment {
         ...${getDefinitionName(Comment.fragments.comment)}
-        ${fields}
+        ${subscriptionFields}
       }
       user {
         id
@@ -112,7 +96,7 @@ const COMMENT_UNFEATURED_SUBSCRIPTION = gql`
     commentUnfeatured(asset_id: $assetId){
       comment {
         ...${getDefinitionName(Comment.fragments.comment)}
-        ${fields}
+        ${subscriptionFields}
       }
       user {
         id

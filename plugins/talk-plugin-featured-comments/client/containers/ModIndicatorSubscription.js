@@ -1,5 +1,6 @@
 import React from 'react';
 import { gql } from 'react-apollo';
+import { subscriptionFields } from 'coral-admin/src/routes/Moderation/graphql';
 
 class ModIndicatorSubscription extends React.Component {
   subscriptions = null;
@@ -39,28 +40,11 @@ class ModIndicatorSubscription extends React.Component {
   }
 }
 
-const fields = `
-  status
-  actions {
-    __typename
-    created_at
-  }
-  status_history {
-    type
-    assigned_by {
-      id
-    }
-    created_at
-  }
-  updated_at
-  created_at
-`;
-
 const COMMENT_FEATURED_SUBSCRIPTION = gql`
   subscription TalkFeaturedComments_Indicator_CommentFeatured {
     commentFeatured {
       comment {
-        ${fields}
+        ${subscriptionFields}
       }
     }
   }
@@ -70,7 +54,7 @@ const COMMENT_UNFEATURED_SUBSCRIPTION = gql`
   subscription TalkFeaturedComments_Indicator_CommentUnfeatured {
     commentUnfeatured {
       comment {
-        ${fields}
+        ${subscriptionFields}
       }
     }
   }

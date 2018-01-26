@@ -113,7 +113,7 @@ function determineLatestChange(comment) {
   let lc = null;
 
   // Skip it when comment itself was not updated.
-  // We'll get use the one from the status_history instead
+  // We'll use the one from the status_history instead
   // as they might diverge a little bit (status_history item is created
   // before the comment itself)
   if (comment.createdAt !== comment.updatedAt) {
@@ -138,7 +138,6 @@ function reconstructPreviousCommentState(comment) {
   const history = comment.status_history;
   const actions = comment.actions;
   const lastChangeDate = determineLatestChange(comment);
-  console.log(lastChangeDate);
   const previousComment = {
     ...comment,
     status_history: history.filter(
@@ -166,7 +165,6 @@ function reconstructPreviousCommentState(comment) {
 function getPreviousCommentQueues(comment, queueConfig) {
   const previousCommentState = reconstructPreviousCommentState(comment);
 
-  console.log(previousCommentState, comment);
   if (!previousCommentState) {
     return [];
   }
@@ -291,8 +289,6 @@ export function handleCommentChange(
   // Queues that this comment needs to be placed.
   const nextQueues = getCommentQueues(comment, queueConfig);
 
-  console.log(prevQueues, nextQueues);
-
   let notificationShown = false;
   const showNotificationOnce = () => {
     if (notificationShown) {
@@ -393,6 +389,22 @@ export function handleIndicatorChange(root, comment, queueConfig) {
     }
   }
 
-  console.log(prevQueues, nextQueues, next);
   return next;
 }
+
+export const subscriptionFields = `
+  status
+  actions {
+    __typename
+    created_at
+  }
+  status_history {
+    type
+    assigned_by {
+      id
+    }
+    created_at
+  }
+  updated_at
+  created_at
+`;

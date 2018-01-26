@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose, gql } from 'react-apollo';
 import Indicator from '../../../components/Indicator';
 import { withFragments } from 'plugin-api/beta/client/hocs';
-import { handleIndicatorChange } from '../graphql';
+import { handleIndicatorChange, subscriptionFields } from '../graphql';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import withQueueConfig from '../hoc/withQueueConfig';
@@ -131,27 +131,10 @@ IndicatorContainer.propTypes = {
   queueConfig: PropTypes.object,
 };
 
-const fields = `
-  status
-  actions {
-    __typename
-    created_at
-  }
-  status_history {
-    type
-    assigned_by {
-      id
-    }
-    created_at
-  }
-  updated_at
-  created_at
-`;
-
 const COMMENT_ADDED_SUBSCRIPTION = gql`
   subscription TalkAdmin_ModerationIndicator_CommentAdded {
     commentAdded(statuses: null) {
-      ${fields}
+      ${subscriptionFields}
     }
   }
 `;
@@ -159,7 +142,7 @@ const COMMENT_ADDED_SUBSCRIPTION = gql`
 const COMMENT_FLAGGED_SUBSCRIPTION = gql`
   subscription TalkAdmin_ModerationIndicator_CommentFlagged {
     commentFlagged {
-      ${fields}
+      ${subscriptionFields}
     }
   }
 `;
@@ -167,7 +150,7 @@ const COMMENT_FLAGGED_SUBSCRIPTION = gql`
 const COMMENT_EDITED_SUBSCRIPTION = gql`
   subscription TalkAdmin_ModerationIndicator_CommentEdited {
     commentEdited {
-      ${fields}
+      ${subscriptionFields}
     }
   }
 `;
@@ -175,7 +158,7 @@ const COMMENT_EDITED_SUBSCRIPTION = gql`
 const COMMENT_ACCEPTED_SUBSCRIPTION = gql`
   subscription TalkAdmin_ModerationIndicator_CommentAccepted {
     commentAccepted {
-      ${fields}
+      ${subscriptionFields}
     }
   }
 `;
@@ -183,7 +166,7 @@ const COMMENT_ACCEPTED_SUBSCRIPTION = gql`
 const COMMENT_REJECTED_SUBSCRIPTION = gql`
   subscription TalkAdmin_ModerationIndicator_CommentRejected {
     commentRejected {
-      ${fields}
+      ${subscriptionFields}
     }
   }
 `;
@@ -191,7 +174,7 @@ const COMMENT_REJECTED_SUBSCRIPTION = gql`
 const COMMENT_RESET_SUBSCRIPTION = gql`
   subscription TalkAdmin_ModerationIndicator_CommentReset {
     commentReset {
-      ${fields}
+      ${subscriptionFields}
     }
   }
 `;
