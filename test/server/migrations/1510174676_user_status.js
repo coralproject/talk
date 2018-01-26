@@ -1,9 +1,13 @@
 const migration = require('../../../migrations/1510174676_user_status');
 const UserModel = require('../../../models/user');
+const helpers = require('../../../services/migration/helpers');
 
 const chai = require('chai');
 chai.use(require('chai-datetime'));
 const { expect } = chai;
+
+const performMigration = () =>
+  migration.up(helpers({ queryBatchSize: 100, updateBatchSize: 100 }));
 
 describe('migration.1510174676_user_status', () => {
   describe('active user', () => {
@@ -24,7 +28,7 @@ describe('migration.1510174676_user_status', () => {
       expect(user).to.have.property('canEditName', false);
 
       // Perform the migration.
-      await migration.up();
+      await performMigration();
 
       user = await UserModel.collection.findOne({ id: '123' });
 
@@ -54,7 +58,7 @@ describe('migration.1510174676_user_status', () => {
       expect(user).to.have.property('canEditName', true);
 
       // Perform the migration.
-      await migration.up();
+      await performMigration();
 
       user = await UserModel.collection.findOne({ id: '123' });
 
@@ -85,7 +89,7 @@ describe('migration.1510174676_user_status', () => {
       expect(user.canEditName).to.equal(true);
 
       // Perform the migration.
-      await migration.up();
+      await performMigration();
 
       user = await UserModel.collection.findOne({ id: '123' });
 
@@ -117,7 +121,7 @@ describe('migration.1510174676_user_status', () => {
       expect(user.canEditName).to.equal(false);
 
       // Perform the migration.
-      await migration.up();
+      await performMigration();
 
       user = await UserModel.collection.findOne({ id: '123' });
 
@@ -153,7 +157,7 @@ describe('migration.1510174676_user_status', () => {
       const until = user.suspension.until;
 
       // Perform the migration.
-      await migration.up();
+      await performMigration();
 
       user = await UserModel.collection.findOne({ id: '123' });
 
@@ -187,7 +191,7 @@ describe('migration.1510174676_user_status', () => {
       expect(user.status).to.equal('BANNED');
 
       // Perform the migration.
-      await migration.up();
+      await performMigration();
 
       user = await UserModel.collection.findOne({ id: '123' });
 

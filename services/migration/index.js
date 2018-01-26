@@ -1,17 +1,20 @@
-const MigrationModel = require('../models/migration');
+const MigrationModel = require('../../models/migration');
 const fs = require('fs');
+const ms = require('ms');
 const path = require('path');
 const Joi = require('joi');
 const debug = require('debug')('talk:services:migration');
 const sc = require('snake-case');
-const { talk: { migration: { minVersion } } } = require('../package.json');
+const helpers = require('./helpers');
+const { stripIndent } = require('common-tags');
+const { talk: { migration: { minVersion } } } = require('../../package.json');
 
-const migrationTemplate = `module.exports = {
-  async up() {
-    
-  }
-};
+const migrationTemplate = stripIndent`
+  module.exports = {
+    async up({ queryBatchSize, updateBatchSize }) {
 
+    }
+  };
 `;
 
 class MigrationService {
@@ -44,7 +47,7 @@ class MigrationService {
   static async listPending() {
     // Get all the migration files.
     let migrationFiles = fs.readdirSync(
-      path.join(__dirname, '..', 'migrations')
+      path.join(__dirname, '..', '..', 'migrations')
     );
 
     // Ensure that all migrations follow this format.
@@ -61,6 +64,7 @@ class MigrationService {
 
     // Parse the migrations from the file listing.
     let migrations = migrationFiles
+      .filter(filename => versionRe.test(filename))
       .map(filename => {
         // Parse the version from the filename.
         let matches = filename.match(versionRe);
@@ -75,7 +79,7 @@ class MigrationService {
         }
 
         // Read the migration from the filesystem.
-        let migration = require(`../migrations/${filename}`);
+        let migration = require(`../../migrations/${filename}`);
         Joi.assert(
           migration,
           migrationSchema,
@@ -109,17 +113,26 @@ class MigrationService {
    *
    * @param {Array} migrations a list of migrations returned by `listPending`
    */
-  static async run(migrations) {
+  static async run(
+    migrations,
+    { queryBatchSize = 10000, updateBatchSize = 20000 } = {}
+  ) {
     if (migrations.length === 0) {
       console.log('No migrations to run!');
       return;
     }
 
+    // Create the context helpers.
+    const ctx = helpers({ queryBatchSize, updateBatchSize });
+
     for (let { filename, version, migration } of migrations) {
       try {
+        const startTime = new Date();
         console.log(`Starting migration ${filename}`);
-        await migration.up();
-        console.log(`Finished migration ${filename}`);
+        await migration.up(ctx);
+        const endTime = new Date();
+        const totalTime = endTime.getTime() - startTime.getTime();
+        console.log(`Finished migration ${filename} in ${ms(totalTime)}`);
       } catch (e) {
         console.error(`Migration ${filename} failed`);
         throw e;
