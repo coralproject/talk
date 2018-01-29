@@ -36,7 +36,7 @@ module.exports = {
     commentFeatured: (options, args) => ({
       commentFeatured: {
         filter: ({ comment }, { user }) => {
-          if (args.asset_id === null) {
+          if (!args.asset_id) {
             return check(user, ['ADMIN', 'MODERATOR']);
           }
           return comment.asset_id === args.asset_id;
@@ -46,7 +46,7 @@ module.exports = {
     commentUnfeatured: (options, args) => ({
       commentUnfeatured: {
         filter: ({ comment }, { user }) => {
-          if (args.asset_id === null) {
+          if (!args.asset_id) {
             return check(user, ['ADMIN', 'MODERATOR']);
           }
           return comment.asset_id === args.asset_id;

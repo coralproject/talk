@@ -6,6 +6,7 @@ import update from 'immutability-helper';
 import ModTag from './containers/ModTag';
 import ModActionButton from './containers/ModActionButton';
 import ModSubscription from './containers/ModSubscription';
+import ModIndicatorSubscription from './containers/ModIndicatorSubscription';
 import FeaturedDialog from './containers/FeaturedDialog';
 import { gql } from 'react-apollo';
 import reducer from './reducer';
@@ -23,6 +24,7 @@ export default {
     moderationActions: [ModActionButton],
     adminModeration: [ModSubscription, FeaturedDialog],
     adminCommentInfoBar: [ModTag],
+    adminModerationIndicator: [ModIndicatorSubscription],
   },
   mutations: {
     IgnoreUser: ({ variables }) => ({
