@@ -13,8 +13,8 @@ const mapDispatchToProps = dispatch =>
   );
 
 const enhance = compose(
-  withTags('featured'),
-  connect(null, mapDispatchToProps)
+  connect(null, mapDispatchToProps),
+  withTags('featured')
 );
 
 export default enhance(ModActionButton);

@@ -12,7 +12,7 @@ const mapping = {
 };
 
 module.exports = {
-  async up() {
+  async up({ processManyUpdates }) {
     const updates = [];
     for (const item_type in mapping) {
       const mappings = mapping[item_type];
@@ -44,15 +44,7 @@ module.exports = {
     }
 
     if (updates.length > 0) {
-      // Setup the batch operation.
-      const batch = ActionModel.collection.initializeUnorderedBulkOp();
-
-      for (const { query, update } of updates) {
-        batch.find(query).update(update);
-      }
-
-      // Execute the batch update operation.
-      await batch.execute();
+      await processManyUpdates(ActionModel, updates);
     }
   },
 };

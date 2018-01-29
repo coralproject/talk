@@ -24,7 +24,6 @@ import { EditableCommentContent } from './EditableCommentContent';
 import {
   getActionSummary,
   iPerformedThisAction,
-  forEachError,
   isCommentActive,
   getShallowChanges,
 } from 'coral-framework/utils';
@@ -261,11 +260,8 @@ export default class Comment extends React.Component {
             loadingState: 'success',
           });
         })
-        .catch(error => {
+        .catch(() => {
           this.setState({ loadingState: 'error' });
-          forEachError(error, ({ msg }) => {
-            this.props.notify('error', msg);
-          });
         });
       emit('ui.Comment.showMoreReplies', { id });
       return;
