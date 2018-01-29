@@ -84,6 +84,7 @@ module.exports = class CommentsService {
    * @param {String} status     the new Comment status
    */
   static async edit({ id, author_id, body, status }) {
+    console.log(status);
     const EDITABLE_STATUSES = ['NONE', 'PREMOD', 'ACCEPTED'];
 
     const query = {
@@ -209,6 +210,7 @@ module.exports = class CommentsService {
 
     await events.emitAsync(COMMENTS_EDIT, originalComment, editedComment);
 
+    console.log(editedComment);
     return editedComment;
   }
 
