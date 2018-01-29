@@ -112,6 +112,10 @@ function getOlderDate(a, b) {
 function determineLatestChange(comment) {
   let lc = null;
 
+  comment.body_history.forEach(item => {
+    lc = getOlderDate(lc, item.created_at);
+  });
+
   comment.status_history.forEach(item => {
     lc = getOlderDate(lc, item.created_at);
   });
@@ -124,12 +128,16 @@ function determineLatestChange(comment) {
 }
 
 function reconstructPreviousCommentState(comment) {
-  const history = comment.status_history;
+  const statusHistory = comment.status_history;
+  const bodyHistory = comment.body_history;
   const actions = comment.actions;
   const lastChangeDate = determineLatestChange(comment);
   const previousComment = {
     ...comment,
-    status_history: history.filter(
+    body_history: bodyHistory.filter(
+      item => new Date(item.created_at) < lastChangeDate
+    ),
+    status_history: statusHistory.filter(
       item => new Date(item.created_at) < lastChangeDate
     ),
     actions: actions.filter(item => new Date(item.created_at) < lastChangeDate),
@@ -144,6 +152,9 @@ function reconstructPreviousCommentState(comment) {
     previousComment.status_history[
       previousComment.status_history.length - 1
     ].type;
+
+  previousComment.body =
+    previousComment.body_history[previousComment.body_history.length - 1].body;
 
   return previousComment;
 }
@@ -383,6 +394,11 @@ export function handleIndicatorChange(root, comment, queueConfig) {
 
 export const subscriptionFields = `
   status
+  body
+  body_history {
+    body
+    created_at
+  }
   actions {
     __typename
     created_at
