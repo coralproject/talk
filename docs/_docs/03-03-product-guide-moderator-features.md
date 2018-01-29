@@ -133,16 +133,18 @@ Talk also allows you to moderate a commenters recent comments from this view.
 Talk also supports a number of keyboard shortcuts that moderators can leverage
 to moderate quickly:
 
-| Shortcut | Action                          |
-| -------- | ------------------------------- |
-| `j`      | Go to the next comment          |
-| `k`      | Go to the previous comment      |
-| `ctrl+f` | Open search                     |
-| `t`      | Switch queues                   |
-| `s`      | Toggle single comment edit view |
-| `?`      | Open this menu                  |
-| `d`      | Approve                         |
-| `f`      | Reject                          |
+| Shortcut | Action                     |
+| -------- | -------------------------- |
+| `j`      | Go to the next comment     |
+| `k`      | Go to the previous comment |
+| `ctrl+f` | Open search                |
+| `t`      | Switch queues              |
+| `z`      | Zen mode                   |
+| `?`      | Open this menu             |
+| `d`      | Approve                    |
+| `f`      | Reject                     |
+
+Note: "Zen mode" allows a moderator to view and action only one comment at a time. Enjoy the silence!
 
 ### Stories
 
