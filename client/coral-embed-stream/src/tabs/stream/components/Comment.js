@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import TagLabel from 'talk-plugin-tag-label/TagLabel';
+import TagLabel from './TagLabel';
 import CommentTimestamp from 'coral-framework/components/CommentTimestamp';
 import { ReplyBox, ReplyButton } from 'talk-plugin-replies';
 import { FlagComment } from 'talk-plugin-flags';
