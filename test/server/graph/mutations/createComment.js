@@ -296,6 +296,11 @@ describe('graph.mutations.createComment', () => {
           if (error) {
             expect(data.createComment).to.have.property('errors').not.null;
             expect(data.createComment).to.have.property('comment').null;
+            expect(data.createComment.errors).to.have.length(1);
+            expect(data.createComment.errors[0]).to.have.property(
+              'translation_key',
+              'NOT_AUTHORIZED'
+            );
           } else {
             if (data.createComment.errors) {
               console.error(data.createComment.errors);
