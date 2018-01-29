@@ -3,8 +3,34 @@ const CommentModel = require('../models/comment');
 const UserModel = require('../models/user');
 const _ = require('lodash');
 const errors = require('../errors');
-const events = require('./events');
-const { ACTIONS_NEW, ACTIONS_DELETE } = require('./events/constants');
+
+const incrActionCounts = async (action, value) => {
+  const ACTION_TYPE = action.action_type.toLowerCase();
+
+  const query = { id: action.item_id };
+  const update = {
+    [`action_counts.${ACTION_TYPE}`]: value,
+  };
+
+  if (action.group_id && action.group_id.length > 0) {
+    const GROUP_ID = action.group_id.toLowerCase();
+
+    update[`action_counts.${ACTION_TYPE}_${GROUP_ID}`] = value;
+  }
+
+  switch (action.item_type) {
+    case 'USERS':
+      return UserModel.update(query, {
+        $inc: update,
+      });
+    case 'COMMENTS':
+      return CommentModel.update(query, {
+        $inc: update,
+      });
+    default:
+      return;
+  }
+};
 
 /**
  * findOnlyOneAndUpdate will perform a fondOneAndUpdate on the mongo collection
@@ -58,14 +84,12 @@ module.exports = class ActionsService {
   /**
    * Inserts an action.
    *
-   * @param {String} item_id  identifier of the item (uuid)
-   * @param {String} user_id  user id of the action (uuid)
    * @param {String} action   the new action to the item
    * @return {Promise}
    */
   static async create(action) {
-    // Actions are made unique by using a query that can be reproducable, i.e.,
-    // not containing user inputable values.
+    // Actions are made unique by using a query that can be reproducible, i.e.,
+    // not containing user modifiable values.
     let foundAction = await findOnlyOneAndUpdate(
       {
         action_type: action.action_type,
@@ -80,8 +104,7 @@ module.exports = class ActionsService {
       }
     );
 
-    // Emit that there was a new action created.
-    await events.emitAsync(ACTIONS_NEW, foundAction);
+    await incrActionCounts(action, 1);
 
     return foundAction;
   }
@@ -101,42 +124,6 @@ module.exports = class ActionsService {
     }
 
     return actions;
-  }
-
-  /**
-   * Fetches the action summaries for the given asset, and comments around the
-   * given user id.
-   *
-   * @param  {[type]} asset_id             [description]
-   * @param  {[type]} comments             [description]
-   * @param  {String} [current_user_id=''] [description]
-   * @return {[type]}                      [description]
-   */
-  static getActionSummariesFromComments(
-    asset_id = '',
-    comments,
-    current_user_id = ''
-  ) {
-    // Get the user id's from the author id's as a unique array that gets
-    // sorted.
-    let userIDs = _.uniq(comments.map(comment => comment.author_id)).sort();
-
-    // Fetch the actions for pretty much everything at this point.
-    return ActionsService.getActionSummaries(
-      _.uniq(
-        [
-          // Actions can be on assets...
-          asset_id,
-
-          // Comments...
-          ...comments.map(comment => comment.id),
-
-          // Or Authors...
-          ...userIDs,
-        ].filter(e => e)
-      ),
-      current_user_id
-    );
   }
 
   /**
@@ -211,19 +198,6 @@ module.exports = class ActionsService {
   }
 
   /**
-   * Finds all comments for a specific action.
-   *
-   * @param {String} action_type type of action
-   * @param {String} item_type type of item the action is on
-   */
-  static findByType(action_type, item_type) {
-    return ActionModel.find({
-      action_type: action_type,
-      item_type: item_type,
-    });
-  }
-
-  /**
    * delete will remove the record from the collection if it exists. Otherwise
    * it will do nothing. This will then return the deleted action.
    *
@@ -239,8 +213,7 @@ module.exports = class ActionsService {
       return;
     }
 
-    // Emit that the action was deleted.
-    await events.emitAsync(ACTIONS_DELETE, action);
+    await incrActionCounts(action, -1);
 
     return action;
   }
@@ -261,68 +234,3 @@ module.exports = class ActionsService {
     );
   }
 };
-
-const incrActionCounts = async (action, value) => {
-  const ACTION_TYPE = action.action_type.toLowerCase();
-
-  const update = {
-    [`action_counts.${ACTION_TYPE}`]: value,
-  };
-
-  if (action.group_id && action.group_id.length > 0) {
-    const GROUP_ID = action.group_id.toLowerCase();
-
-    update[`action_counts.${ACTION_TYPE}_${GROUP_ID}`] = value;
-  }
-
-  try {
-    switch (action.item_type) {
-      case 'USERS':
-        return UserModel.update(
-          {
-            id: action.item_id,
-          },
-          {
-            $inc: update,
-          }
-        );
-      case 'COMMENTS':
-        return CommentModel.update(
-          {
-            id: action.item_id,
-          },
-          {
-            $inc: update,
-          }
-        );
-      default:
-        throw new Error('Invalid item type for action summary monitoring');
-    }
-  } catch (err) {
-    console.error(`Can't mutate the action_counts.${ACTION_TYPE}:`, err);
-  }
-};
-
-// When a new action is created, modify the comment.
-events.on(ACTIONS_NEW, async action => {
-  if (
-    !action ||
-    (action.item_type !== 'COMMENTS' && action.item_type !== 'USERS')
-  ) {
-    return;
-  }
-
-  return incrActionCounts(action, 1);
-});
-
-// When an action is deleted, remove the action count on the comment.
-events.on(ACTIONS_DELETE, async action => {
-  if (
-    !action ||
-    (action.item_type !== 'COMMENTS' && action.item_type !== 'USERS')
-  ) {
-    return;
-  }
-
-  return incrActionCounts(action, -1);
-});

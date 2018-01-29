@@ -1,12 +1,13 @@
 const { graphql } = require('graphql');
 const timekeeper = require('timekeeper');
 
-const schema = require('../../../../graph/schema');
-const Context = require('../../../../graph/context');
-const UsersService = require('../../../../services/users');
 const AssetModel = require('../../../../models/asset');
-const SettingsService = require('../../../../services/settings');
+const CommentModel = require('../../../../models/comment');
 const CommentsService = require('../../../../services/comments');
+const Context = require('../../../../graph/context');
+const schema = require('../../../../graph/schema');
+const SettingsService = require('../../../../services/settings');
+const UsersService = require('../../../../services/users');
 
 const { expect } = require('chai');
 
@@ -70,7 +71,7 @@ describe('graph.mutations.editComment', () => {
     expect(response.data.editComment.errors).to.be.null;
 
     // assert body has changed
-    const commentAfterEdit = await CommentsService.findById(comment.id);
+    const commentAfterEdit = await CommentModel.findOne({ id: comment.id });
     expect(commentAfterEdit.body).to.equal(newBody);
     expect(commentAfterEdit.body_history).to.be.instanceOf(Array);
     expect(commentAfterEdit.body_history.length).to.equal(2);
@@ -110,7 +111,7 @@ describe('graph.mutations.editComment', () => {
     expect(response.data.editComment.errors[0].translation_key).to.equal(
       'EDIT_WINDOW_ENDED'
     );
-    const commentAfterEdit = await CommentsService.findById(comment.id);
+    const commentAfterEdit = await CommentModel.findOne({ id: comment.id });
 
     // it *hasn't* changed from the original
     expect(commentAfterEdit.body).to.equal(comment.body);
@@ -142,7 +143,7 @@ describe('graph.mutations.editComment', () => {
     expect(response.data.editComment.errors[0].translation_key).to.equal(
       'NOT_AUTHORIZED'
     );
-    const commentAfterEdit = await CommentsService.findById(comment.id);
+    const commentAfterEdit = await CommentModel.findOne({ id: comment.id });
 
     // it *hasn't* changed from the original
     expect(commentAfterEdit.body).to.equal(comment.body);
@@ -274,7 +275,7 @@ describe('graph.mutations.editComment', () => {
           console.error(response.data.editComment.errors);
         }
         expect(response.data.editComment.errors).to.be.null;
-        const commentAfterEdit = await CommentsService.findById(comment.id);
+        const commentAfterEdit = await CommentModel.findOne({ id: comment.id });
         expect(commentAfterEdit.body).to.equal(newBody);
         expect(commentAfterEdit.status).to.equal(afterEdit.status);
       }

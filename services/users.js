@@ -4,14 +4,6 @@ const errors = require('../errors');
 const some = require('lodash/some');
 const merge = require('lodash/merge');
 
-const {
-  USERS_NEW,
-  USERS_SUSPENSION_CHANGE,
-  USERS_BAN_CHANGE,
-  USERS_USERNAME_STATUS_CHANGE,
-} = require('./events/constants');
-const events = require('./events');
-
 const { ROOT_URL } = require('../config');
 
 const { jwt: JWT_SECRET } = require('../secrets');
@@ -125,12 +117,16 @@ class UsersService {
       );
     }
 
-    // Emit that the user username status was changed.
-    await events.emitAsync(USERS_SUSPENSION_CHANGE, user, {
-      until,
-      message,
-      assignedBy,
-    });
+    // Check to see if the user was suspended now and is currently suspended.
+    if (user.suspended && message && message.length > 0) {
+      await UsersService.sendEmail(user, {
+        template: 'plain',
+        locals: {
+          body: message,
+        },
+        subject: 'Your account has been suspended',
+      });
+    }
 
     return user;
   }
@@ -174,12 +170,16 @@ class UsersService {
       throw new Error('ban status change edit failed for an unknown reason');
     }
 
-    // Emit that the user ban status was changed.
-    await events.emitAsync(USERS_BAN_CHANGE, user, {
-      status,
-      assignedBy,
-      message,
-    });
+    // Check to see if the user was banned now and is currently banned.
+    if (user.banned && status && message && message.length > 0) {
+      await UsersService.sendEmail(user, {
+        template: 'plain',
+        locals: {
+          body: message,
+        },
+        subject: 'Your account has been banned',
+      });
+    }
 
     return user;
   }
@@ -222,12 +222,6 @@ class UsersService {
         'username status change edit failed for an unknown reason'
       );
     }
-
-    // Emit that the user username status was changed.
-    await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, {
-      status,
-      assignedBy,
-    });
 
     return user;
   }
@@ -285,9 +279,6 @@ class UsersService {
 
         throw new Error('edit username failed for an unexpected reason');
       }
-
-      // Emit that the user username status was changed.
-      await events.emitAsync(USERS_USERNAME_STATUS_CHANGE, user, toStatus);
 
       return user;
     } catch (err) {
@@ -403,9 +394,6 @@ class UsersService {
 
     // Save the user in the database.
     await user.save();
-
-    // Emit that the user was created.
-    await events.emitAsync(USERS_NEW, user);
 
     return user;
   }
@@ -577,9 +565,6 @@ class UsersService {
       }
       throw err;
     }
-
-    // Emit that the user was created.
-    await events.emitAsync(USERS_NEW, user);
 
     return user;
   }
@@ -951,38 +936,6 @@ class UsersService {
 }
 
 module.exports = UsersService;
-
-events.on(USERS_BAN_CHANGE, async (user, { status, message }) => {
-  // Check to see if the user was banned now and is currently banned.
-  if (user.banned && status && message && message.length > 0) {
-    await UsersService.sendEmail(user, {
-      template: 'plain',
-      locals: {
-        body: message,
-      },
-      subject: 'Your account has been banned',
-    });
-  }
-});
-
-events.on(USERS_SUSPENSION_CHANGE, async (user, { until, message }) => {
-  // Check to see if the user was suspended now and is currently suspended.
-  if (
-    user.suspended &&
-    until !== null &&
-    until > Date.now() &&
-    message &&
-    message.length > 0
-  ) {
-    await UsersService.sendEmail(user, {
-      template: 'plain',
-      locals: {
-        body: message,
-      },
-      subject: 'Your account has been suspended',
-    });
-  }
-});
 
 // Extract all the tokenUserNotFound plugins so we can integrate with other
 // providers.
