@@ -167,46 +167,6 @@ module.exports = class CommentsService {
       created_at: new Date(),
     });
 
-    // We should adjust the comment's status such that if it was approved
-    // previously, we should mark the comment as 'NONE' or 'PREMOD', which ever
-    // was most recent if the new comment is destined to be `NONE` or `PREMOD`.
-    if (originalComment.status === 'ACCEPTED' && status === 'NONE') {
-      const lastUnmoderatedStatus = CommentsService.lastUnmoderatedStatus(
-        originalComment
-      );
-
-      // If the last moderated status was found and the current comment doesn't
-      // match this already.
-      if (lastUnmoderatedStatus && status !== lastUnmoderatedStatus) {
-        // Update the comment model (if at this point, the status is still
-        // accepted) with the previously unmoderated status
-        await CommentModel.update(
-          {
-            id,
-            status,
-          },
-          {
-            $set: {
-              status: lastUnmoderatedStatus,
-            },
-            $push: {
-              status_history: {
-                type: lastUnmoderatedStatus,
-                created_at: new Date(),
-              },
-            },
-          }
-        );
-
-        // Update the returned comment.
-        editedComment.status = lastUnmoderatedStatus;
-        editedComment.status_history.push({
-          type: lastUnmoderatedStatus,
-          created_at: new Date(),
-        });
-      }
-    }
-
     await events.emitAsync(COMMENTS_EDIT, originalComment, editedComment);
 
     return editedComment;
