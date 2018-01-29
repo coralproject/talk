@@ -6,8 +6,9 @@ import { can } from 'coral-framework/services/perms';
 
 import Slot from 'coral-framework/components/Slot';
 import { connect } from 'react-redux';
-import { CommentForm } from './CommentForm';
+import { CommentForm } from '../components/CommentForm';
 
+// TODO: change this...
 export const name = 'talk-plugin-commentbox';
 
 const notifyReasons = ['LINKS', 'TRUST'];

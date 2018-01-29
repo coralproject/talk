@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import CommentBox from '../talk-plugin-commentbox/CommentBox';
+import CommentBox from '../containers/CommentBox';
 
+// TODO: remove this..
 const name = 'talk-plugin-replies';
 
 class ReplyBox extends Component {

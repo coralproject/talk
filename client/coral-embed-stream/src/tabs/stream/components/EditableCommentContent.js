@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { notifyForNewCommentStatus } from 'talk-plugin-commentbox/CommentBox';
-import { CommentForm } from 'talk-plugin-commentbox/CommentForm';
+
+// TODO: move this function.
+import { notifyForNewCommentStatus } from '../containers/CommentBox';
+import { CommentForm } from './CommentForm';
 import styles from './Comment.css';
 import { CountdownSeconds } from './CountdownSeconds';
 import { getEditableUntilDate } from './util';

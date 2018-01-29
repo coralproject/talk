@@ -10,7 +10,7 @@ import { can } from 'coral-framework/services/perms';
 import ModerationLink from './ModerationLink';
 import RestrictedMessageBox from 'coral-framework/components/RestrictedMessageBox';
 import t, { timeago } from 'coral-framework/services/i18n';
-import CommentBox from 'talk-plugin-commentbox/CommentBox';
+import CommentBox from '../containers/CommentBox';
 import QuestionBox from '../../../components/QuestionBox';
 import { isCommentActive } from 'coral-framework/utils';
 import { Tab, TabCount, TabPane } from 'coral-ui';

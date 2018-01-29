@@ -4,7 +4,7 @@ import embed from './embed';
 import config from './config';
 import configure from './configure';
 import stream from './stream';
-import { reducer as commentBox } from '../../../talk-plugin-commentbox';
+import commentBox from './commentBox';
 
 export default {
   auth,

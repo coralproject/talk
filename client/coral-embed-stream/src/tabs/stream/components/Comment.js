@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import TagLabel from './TagLabel';
 import CommentTimestamp from 'coral-framework/components/CommentTimestamp';
-import { ReplyBox, ReplyButton } from 'talk-plugin-replies';
+import { ReplyButton } from 'talk-plugin-replies';
+import ReplyBox from './ReplyBox';
 import { FlagComment } from 'talk-plugin-flags';
 import { can } from 'coral-framework/services/perms';
 import { TransitionGroup } from 'react-transition-group';

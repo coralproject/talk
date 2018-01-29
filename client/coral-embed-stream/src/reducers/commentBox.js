@@ -1,4 +1,4 @@
-import { ADD_TAG, REMOVE_TAG, CLEAR_TAGS } from './constants';
+import { ADD_TAG, REMOVE_TAG, CLEAR_TAGS } from '../constants/commentBox';
 
 const initialState = {
   tags: [],

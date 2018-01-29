@@ -1,4 +1,4 @@
-export { addTag, removeTag } from 'talk-plugin-commentbox/actions';
+export { addTag, removeTag } from 'coral-embed-stream/src/actions/commentBox';
 export {
   addCommentClassName,
   removeCommentClassName,

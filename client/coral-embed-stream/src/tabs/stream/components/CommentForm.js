@@ -4,8 +4,9 @@ import { Button } from 'coral-ui';
 import cn from 'classnames';
 import Slot from 'coral-framework/components/Slot';
 
-import { name } from './CommentBox';
-import styles from './styles.css';
+// TODO: need to change this.
+import { name } from '../containers/CommentBox';
+import styles from './CommentForm.css';
 
 import t from 'coral-framework/services/i18n';
 
