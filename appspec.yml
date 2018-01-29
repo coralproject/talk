@@ -10,6 +10,6 @@ hooks:
     - location: ./scripts/aws/AfterInstall.sh
   ApplicationStart:
     - location: ./scripts/aws/ApplicationStart.sh
-  ValidateService:
-    - location: ./scripts/aws/ValidateService.sh
-      timeout: 300
+#  ValidateService:
+#    - location: ./scripts/aws/ValidateService.sh
+#      timeout: 300
