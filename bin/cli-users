@@ -28,7 +28,6 @@ const CommentModel = require('../models/comment');
 const ActionModel = require('../models/action');
 const USER_ROLES = require('../models/enum/user_roles');
 const mongoose = require('../services/mongoose');
-const databaseVerifications = require('./verifications/database');
 
 // Register the shutdown criteria.
 util.onshutdown([() => mongoose.disconnect()]);
@@ -65,6 +64,8 @@ async function deleteUser(userID) {
 
     console.warn("Removing user's actions");
 
+    // FIXME: fix the counts.
+
     // Remove all the user's actions.
     await ActionModel.where({ user_id: user.id })
       .setOptions({ multi: true })
@@ -76,13 +77,6 @@ async function deleteUser(userID) {
     await CommentModel.where({ author_id: user.id })
       .setOptions({ multi: true })
       .remove();
-
-    console.warn('Updating the database indexes');
-
-    // Update the counts that might have changed.
-    for (const verification of databaseVerifications) {
-      await verification({ fix: true, limit: Infinity, batch: 1000 });
-    }
 
     console.warn('Removing the user');
 
