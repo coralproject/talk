@@ -19,6 +19,7 @@ module.exports = class CommentsService {
   static async publicCreate(input) {
     // Extract the parent_id from the comment, if there is one.
     const { status = 'NONE', parent_id = null } = input;
+    const created_at = new Date();
 
     // Check to see if we are replying to a comment, and if that comment is
     // visible.
@@ -37,14 +38,14 @@ module.exports = class CommentsService {
             ? [
                 {
                   type: status,
-                  created_at: new Date(),
+                  created_at,
                 },
               ]
             : [],
           body_history: [
             {
               body: input.body,
-              created_at: new Date(),
+              created_at,
             },
           ],
         },
@@ -85,6 +86,7 @@ module.exports = class CommentsService {
    */
   static async edit({ id, author_id, body, status }) {
     const EDITABLE_STATUSES = ['NONE', 'PREMOD', 'ACCEPTED'];
+    const created_at = new Date();
 
     const query = {
       id,
@@ -112,11 +114,11 @@ module.exports = class CommentsService {
       $push: {
         body_history: {
           body,
-          created_at: new Date(),
+          created_at,
         },
         status_history: {
           type: status,
-          created_at: new Date(),
+          created_at,
         },
       },
     });
@@ -160,11 +162,11 @@ module.exports = class CommentsService {
     editedComment.body = body;
     editedComment.body_history.push({
       body,
-      created_at: new Date(),
+      created_at,
     });
     editedComment.status_history.push({
       type: status,
-      created_at: new Date(),
+      created_at,
     });
 
     // We should adjust the comment's status such that if it was approved
@@ -192,7 +194,7 @@ module.exports = class CommentsService {
             $push: {
               status_history: {
                 type: lastUnmoderatedStatus,
-                created_at: new Date(),
+                created_at,
               },
             },
           }
@@ -202,7 +204,7 @@ module.exports = class CommentsService {
         editedComment.status = lastUnmoderatedStatus;
         editedComment.status_history.push({
           type: lastUnmoderatedStatus,
-          created_at: new Date(),
+          created_at,
         });
       }
     }
