@@ -15,6 +15,7 @@ import {
   handleCommentChange,
   commentBelongToQueue,
   cleanUpQueue,
+  subscriptionFields,
 } from '../graphql';
 
 import { viewUserDetail } from '../../../actions/userDetail';
@@ -27,6 +28,7 @@ import {
   storySearchChange,
   clearState,
   selectCommentId,
+  setIndicatorTrack,
 } from 'actions/moderation';
 import withQueueConfig from '../hoc/withQueueConfig';
 import { notify } from 'coral-framework/actions/notification';
@@ -198,20 +200,41 @@ class ModerationContainer extends Component {
   }
 
   componentWillMount() {
+    if (!this.props.data.variables.asset_id) {
+      // Stop activity indicator tracking, as we'll handle it here.
+      this.props.setIndicatorTrack(false);
+    }
     this.props.clearState();
     this.subscribeToUpdates();
   }
 
   componentWillUnmount() {
+    if (!this.props.data.variables.asset_id) {
+      // Restart activity indicator tracking.
+      this.props.setIndicatorTrack(true);
+    }
     this.unsubscribe();
   }
 
   componentWillReceiveProps(nextProps) {
+    const currentAssetId = this.props.data.variables.asset_id;
+    const nextAssetId = nextProps.data.variables.asset_id;
+
     // Resubscribe when we change between assets.
-    if (
-      this.props.data.variables.asset_id !== nextProps.data.variables.asset_id
-    ) {
+    if (currentAssetId !== nextAssetId) {
       this.resubscribe(nextProps.data.variables);
+    }
+
+    // We are only subscribing to a specific asset_id, so activity indicator
+    // needs to do its own tracking.
+    if (!currentAssetId && nextAssetId) {
+      this.props.setIndicatorTrack(true);
+    }
+
+    // We are subscribing to all comment changes, and as such there is no
+    // need for the activity indicator to do the same.
+    if (currentAssetId && !nextAssetId) {
+      this.props.setIndicatorTrack(false);
     }
   }
 
@@ -269,15 +292,15 @@ class ModerationContainer extends Component {
     const { root, root: { asset, settings }, data } = this.props;
     const assetId = getAssetId(this.props);
 
-    if (data.error) {
-      return <div>Error</div>;
-    }
-
     if (assetId) {
       if (asset === null) {
         // Not found.
         return <NotFoundAsset assetId={assetId} />;
       }
+    }
+
+    if (data.error) {
+      return <div>{data.error.message}</div>;
     }
 
     if (data.loading && data.networkStatus !== 3) {
@@ -316,10 +339,12 @@ class ModerationContainer extends Component {
     );
   }
 }
+
 const COMMENT_ADDED_SUBSCRIPTION = gql`
   subscription CommentAdded($asset_id: ID){
     commentAdded(asset_id: $asset_id, statuses: null){
       ...${getDefinitionName(Comment.fragments.comment)}
+      ${subscriptionFields}
     }
   }
   ${Comment.fragments.comment}
@@ -329,6 +354,7 @@ const COMMENT_EDITED_SUBSCRIPTION = gql`
   subscription CommentEdited($asset_id: ID){
     commentEdited(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
+      ${subscriptionFields}
     }
   }
   ${Comment.fragments.comment}
@@ -338,6 +364,7 @@ const COMMENT_FLAGGED_SUBSCRIPTION = gql`
   subscription CommentFlagged($asset_id: ID){
     commentFlagged(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
+      ${subscriptionFields}
     }
   }
   ${Comment.fragments.comment}
@@ -347,14 +374,7 @@ const COMMENT_ACCEPTED_SUBSCRIPTION = gql`
   subscription CommentAccepted($asset_id: ID){
     commentAccepted(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
-      status_history {
-        type
-        created_at
-        assigned_by {
-          id
-          username
-        }
-      }
+      ${subscriptionFields}
     }
   }
   ${Comment.fragments.comment}
@@ -364,14 +384,7 @@ const COMMENT_REJECTED_SUBSCRIPTION = gql`
   subscription CommentRejected($asset_id: ID){
     commentRejected(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
-      status_history {
-        type
-        created_at
-        assigned_by {
-          id
-          username
-        }
-      }
+      ${subscriptionFields}
     }
   }
   ${Comment.fragments.comment}
@@ -381,14 +394,7 @@ const COMMENT_RESET_SUBSCRIPTION = gql`
   subscription CommentReset($asset_id: ID){
     commentReset(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
-      status_history {
-        type
-        created_at
-        assigned_by {
-          id
-          username
-        }
-      }
+      ${subscriptionFields}
     }
   }
   ${Comment.fragments.comment}
@@ -525,6 +531,7 @@ const mapDispatchToProps = dispatch => ({
       clearState,
       notify,
       selectCommentId,
+      setIndicatorTrack,
     },
     dispatch
   ),

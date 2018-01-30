@@ -453,6 +453,11 @@ type EditInfo {
   editableUntil: Date
 }
 
+type CommentBodyHistory {
+  body: String!
+  created_at: Date!
+}
+
 type CommentStatusHistory {
   type: COMMENT_STATUS!
   created_at: Date!
@@ -470,6 +475,9 @@ type Comment {
 
   # The actual comment data.
   body: String!
+
+  # The body history of the comment.
+  body_history: [CommentBodyHistory!]!
 
   # the tags on the comment
   tags: [TagLink!]
@@ -501,6 +509,9 @@ type Comment {
 
   # The time when the comment was created
   created_at: Date!
+
+  # The time when the comment was updated.
+  updated_at: Date
 
   # describes how the comment can be edited
   editing: EditInfo

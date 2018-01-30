@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StreamError } from './StreamError';
+import StreamError from './StreamError';
 import Comment from '../containers/Comment';
 import BannedAccount from '../../../components/BannedAccount';
 import ChangeUsername from '../containers/ChangeUsername';

@@ -9,6 +9,10 @@ import { getDefinitionName } from 'coral-framework/utils';
 
 class ConfigureContainer extends React.Component {
   render() {
+    if (this.props.data.error) {
+      return <div>{this.props.data.error.message}</div>;
+    }
+
     return (
       <Configure
         data={this.props.data}

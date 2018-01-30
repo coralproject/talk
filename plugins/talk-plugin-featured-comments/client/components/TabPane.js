@@ -1,7 +1,6 @@
 import React from 'react';
 import Comment from '../containers/Comment';
 import LoadMore from './LoadMore';
-import { getErrorMessages } from 'plugin-api/beta/client/utils';
 
 class TabPane extends React.Component {
   state = {
@@ -15,9 +14,8 @@ class TabPane extends React.Component {
       .then(() => {
         this.setState({ loadingState: 'success' });
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({ loadingState: 'error' });
-        this.props.notify('error', getErrorMessages(error));
       });
   };
 

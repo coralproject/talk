@@ -6,4 +6,3 @@ export { default as withEmit } from './withEmit';
 export { default as excludeIf } from './excludeIf';
 export { default as connect } from './connect';
 export { default as withMergedSettings } from './withMergedSettings';
-export { default as notifyOnMutationError } from './notifyOnMutationError';

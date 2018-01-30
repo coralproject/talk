@@ -9,6 +9,7 @@ import {
   HIDE_BANUSER_DIALOG,
   SHOW_REJECT_USERNAME_DIALOG,
   HIDE_REJECT_USERNAME_DIALOG,
+  SET_INDICATOR_TRACK,
 } from '../constants/community';
 
 const initialState = {
@@ -24,6 +25,10 @@ const initialState = {
   user: {},
   banDialog: false,
   rejectUsernameDialog: false,
+  // If true the activity indicator will track flagged account changes
+  // in order to determine the current queue count. Set this to false
+  // if the queue count is determined by other means.
+  indicatorTrack: true,
 };
 
 export default function community(state = initialState, action) {
@@ -90,6 +95,11 @@ export default function community(state = initialState, action) {
       return {
         ...state,
         searchValue: action.value,
+      };
+    case SET_INDICATOR_TRACK:
+      return {
+        ...state,
+        indicatorTrack: action.track,
       };
     default:
       return state;

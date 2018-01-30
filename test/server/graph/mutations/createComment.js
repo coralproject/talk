@@ -49,6 +49,9 @@ describe('graph.mutations.createComment', () => {
 
             return graphql(schema, query, {}, context).then(
               ({ data, errors }) => {
+                if (errors) {
+                  console.error(errors);
+                }
                 expect(errors).to.be.undefined;
                 if (error) {
                   expect(data.createComment).to.have.property('comment').null;
@@ -98,7 +101,9 @@ describe('graph.mutations.createComment', () => {
           async () => {
             const context = new Context({ user });
             const { data, errors } = await graphql(schema, query, {}, context);
-
+            if (errors) {
+              console.error(errors);
+            }
             expect(errors).to.be.undefined;
             if (error) {
               expect(data.createComment).to.have.property('comment').null;

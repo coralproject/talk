@@ -31,10 +31,16 @@ export const storySearchChange = value => ({
 });
 
 export const clearState = () => ({
-  type: actions.MODERATION_CLEAR_STATE,
+  type: actions.CLEAR_STATE,
 });
 
 export const selectCommentId = id => ({
-  type: actions.MODERATION_SELECT_COMMENT,
+  type: actions.SELECT_COMMENT,
   id,
+});
+
+// Enable or disable the activity indicator subscriptions.
+export const setIndicatorTrack = track => ({
+  type: actions.SET_INDICATOR_TRACK,
+  track,
 });

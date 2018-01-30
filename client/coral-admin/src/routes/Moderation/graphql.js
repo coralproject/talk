@@ -91,6 +91,87 @@ function getCommentQueues(comment, queueConfig) {
   return queues;
 }
 
+function getOlderDate(a, b) {
+  if (a) {
+    a = new Date(a);
+  }
+  if (b) {
+    b = new Date(b);
+  }
+
+  if (!b) {
+    return a;
+  }
+
+  if (!a) {
+    return b;
+  }
+  return a < b ? b : a;
+}
+
+function determineLatestChange(comment) {
+  let lc = null;
+
+  comment.body_history.forEach(item => {
+    lc = getOlderDate(lc, item.created_at);
+  });
+
+  comment.status_history.forEach(item => {
+    lc = getOlderDate(lc, item.created_at);
+  });
+
+  comment.actions.forEach(item => {
+    lc = getOlderDate(lc, item.created_at);
+  });
+
+  return lc;
+}
+
+function reconstructPreviousCommentState(comment) {
+  const statusHistory = comment.status_history;
+  const bodyHistory = comment.body_history;
+  const actions = comment.actions;
+  const lastChangeDate = determineLatestChange(comment);
+  const previousComment = {
+    ...comment,
+    body_history: bodyHistory.filter(
+      item => new Date(item.created_at) < lastChangeDate
+    ),
+    status_history: statusHistory.filter(
+      item => new Date(item.created_at) < lastChangeDate
+    ),
+    actions: actions.filter(item => new Date(item.created_at) < lastChangeDate),
+  };
+
+  // Comment did not exist previously.
+  if (!previousComment.status_history.length) {
+    return null;
+  }
+
+  previousComment.status =
+    previousComment.status_history[
+      previousComment.status_history.length - 1
+    ].type;
+
+  previousComment.body =
+    previousComment.body_history[previousComment.body_history.length - 1].body;
+
+  return previousComment;
+}
+
+/**
+ * getPreviousCommentQueues determines queues that this comment previously belonged to.
+ */
+function getPreviousCommentQueues(comment, queueConfig) {
+  const previousCommentState = reconstructPreviousCommentState(comment);
+
+  if (!previousCommentState) {
+    return [];
+  }
+
+  return getCommentQueues(previousCommentState, queueConfig);
+}
+
 /**
  * Return whether or not the comment belongs to the queue.
  */
@@ -203,17 +284,7 @@ export function handleCommentChange(
   let next = root;
 
   // Queues that this comment previously belonged to.
-  const prevQueues =
-    comment.status_history.length <= 1
-      ? []
-      : getCommentQueues(
-          {
-            ...comment,
-            status:
-              comment.status_history[comment.status_history.length - 2].type,
-          },
-          queueConfig
-        );
+  const prevQueues = getPreviousCommentQueues(comment, queueConfig);
 
   // Queues that this comment needs to be placed.
   const nextQueues = getCommentQueues(comment, queueConfig);
@@ -291,3 +362,54 @@ export function handleCommentChange(
   });
   return next;
 }
+
+const indicatorQueues = ['premod', 'reported'];
+
+/**
+ * Track indicator status
+ * @param  {Object}   root     current state of the store
+ * @param  {Object}   comment  comment that was changed
+ * @return {Object}            next state of the store
+ */
+export function handleIndicatorChange(root, comment, queueConfig) {
+  let next = root;
+
+  // Queues that this comment previously belonged to.
+  const prevQueues = getPreviousCommentQueues(comment, queueConfig);
+
+  // Queues that this comment needs to be placed.
+  const nextQueues = getCommentQueues(comment, queueConfig);
+
+  for (const queue of indicatorQueues) {
+    if (prevQueues.indexOf(queue) === -1 && nextQueues.indexOf(queue) >= 0) {
+      next = increaseCommentCount(next, queue);
+    }
+    if (prevQueues.indexOf(queue) >= 0 && nextQueues.indexOf(queue) === -1) {
+      next = decreaseCommentCount(next, queue);
+    }
+  }
+
+  return next;
+}
+
+export const subscriptionFields = `
+  status
+  body
+  body_history {
+    body
+    created_at
+  }
+  actions {
+    __typename
+    created_at
+  }
+  status_history {
+    type
+    assigned_by {
+      id
+    }
+    created_at
+  }
+  updated_at
+  created_at
+`;

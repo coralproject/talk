@@ -25,6 +25,7 @@ export default withFragments({
           id
           role
         }
+        created_at
       }
       ${getSlotFragmentSpreads(slots, 'comment')}
     }

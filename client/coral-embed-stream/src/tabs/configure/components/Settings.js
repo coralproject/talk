@@ -57,7 +57,7 @@ class Settings extends React.Component {
           <Configuration
             checked={premodLinksEnable}
             title={t('configure.enable_premod_links')}
-            description={t('configure.enable_premod_description')}
+            description={t('configure.enable_premod_links_description')}
             onCheckbox={onTogglePremodLinks}
           />
           <Configuration
