@@ -71,7 +71,7 @@ class CommentBox extends React.Component {
       asset_id: assetId,
       parent_id: parentId,
       body: this.state.body,
-      ...this.props.commentBox,
+      tags: this.props.tags,
     };
 
     // Execute preSubmit Hooks
@@ -203,9 +203,11 @@ CommentBox.propTypes = {
   isReply: PropTypes.bool.isRequired,
   canPost: PropTypes.bool,
   notify: PropTypes.func.isRequired,
-  commentBox: PropTypes.object,
+  tags: PropTypes.array,
 };
 
-const mapStateToProps = ({ commentBox }) => ({ commentBox });
+const mapStateToProps = state => ({
+  tags: state.stream.commentBoxTags,
+});
 
 export default connect(mapStateToProps, null)(CommentBox);
