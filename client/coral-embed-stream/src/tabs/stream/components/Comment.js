@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import TagLabel from 'talk-plugin-tag-label/TagLabel';
+import TagLabel from './TagLabel';
 import CommentTimestamp from 'coral-framework/components/CommentTimestamp';
-import { ReplyBox, ReplyButton } from 'talk-plugin-replies';
-import { FlagComment } from 'talk-plugin-flags';
+import ReplyButton from './ReplyButton';
+import ReplyBox from './ReplyBox';
+import FlagComment from './FlagComment';
 import { can } from 'coral-framework/services/perms';
 import { TransitionGroup } from 'react-transition-group';
 import cn from 'classnames';
@@ -77,6 +78,11 @@ const ActionButton = ({ children }) => {
       {children}
     </span>
   );
+};
+
+ActionButton.propTypes = {
+  // id of currently opened ReplyBox. tracked in Stream.js
+  children: PropTypes.node,
 };
 
 // Determine whether the comment with id is in the part of the comments tree.
@@ -154,6 +160,7 @@ export default class Comment extends React.Component {
 
   static propTypes = {
     // id of currently opened ReplyBox. tracked in Stream.js
+    children: PropTypes.node,
     activeReplyBox: PropTypes.string.isRequired,
     disableReply: PropTypes.bool,
     setActiveReplyBox: PropTypes.func.isRequired,
@@ -172,6 +179,12 @@ export default class Comment extends React.Component {
     }),
     charCountEnable: PropTypes.bool.isRequired,
     maxCharCount: PropTypes.number,
+    data: PropTypes.object,
+    root: PropTypes.object,
+    loadMore: PropTypes.func,
+    postDontAgree: PropTypes.func,
+    animateEnter: PropTypes.bool,
+    commentClassNames: PropTypes.array,
     comment: PropTypes.shape({
       depth: PropTypes.number,
       action_summaries: PropTypes.array.isRequired,

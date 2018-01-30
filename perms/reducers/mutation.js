@@ -15,7 +15,9 @@ module.exports = (user, perm) => {
     case types.EDIT_COMMENT:
       // Anyone can do these things if they aren't suspended, banned, or blocked
       // as they're editing their username.
-      return !['UNSET', 'REJECTED'].includes(user.status.username.status);
+      return !['UNSET', 'REJECTED', 'CHANGED'].includes(
+        user.status.username.status
+      );
 
     case types.ADD_COMMENT_TAG:
     case types.REMOVE_COMMENT_TAG:

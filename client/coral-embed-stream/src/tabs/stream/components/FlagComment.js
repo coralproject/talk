@@ -2,7 +2,7 @@ import React from 'react';
 import FlagButton from './FlagButton';
 
 import t from 'coral-framework/services/i18n';
-import { username, comment } from '../helpers/flagReasons';
+import { username, comment } from 'coral-framework/graphql/flagReasons';
 
 const FlagComment = props => (
   <FlagButton {...props} getPopupMenu={getPopupMenu} />

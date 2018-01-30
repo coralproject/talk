@@ -3,7 +3,7 @@ import styles from './FlaggedUser.css';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
-import { username } from 'talk-plugin-flags/helpers/flagReasons';
+import { username } from 'coral-framework/graphql/flagReasons';
 import ApproveButton from 'coral-admin/src/components/ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
 import { isFlaggedUserDangling } from '../utils';

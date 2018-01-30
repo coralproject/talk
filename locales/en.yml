@@ -65,7 +65,7 @@ en:
     notify_approved: '{0} approved username {1}'
     notify_rejected: '{0} rejected username {1}'
     notify_flagged: '{0} reported username {1}'
-    notify_changed: 'user {0} changed his username to {1}'
+    notify_changed: 'user {0} changed their username to {1}'
   community:
     account_creation_date: "Account Creation Date"
     active: Active
@@ -254,6 +254,8 @@ en:
       error: "Usernames can contain letters numbers and _ only"
       label: "New Username"
       msg: "Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions."
+    changed_name:
+      msg: "Your username change is under review by our moderation team."
     my_comments: "My Comments"
     my_profile: "My profile"
     new_count: "View {0} more {1}"

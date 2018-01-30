@@ -9,7 +9,7 @@ import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
 
 import ExtendableTabPanel from '../containers/ExtendableTabPanel';
 import { Tab, TabPane } from 'coral-ui';
-import ProfileContainer from 'coral-settings/containers/ProfileContainer';
+import ProfileContainer from '../tabs/profile/containers/ProfileContainer';
 import Popup from 'coral-framework/components/Popup';
 import IfSlotIsNotEmpty from 'coral-framework/components/IfSlotIsNotEmpty';
 import cn from 'classnames';

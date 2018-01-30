@@ -5,12 +5,12 @@ import Comment from '../containers/Comment';
 import BannedAccount from '../../../components/BannedAccount';
 import ChangeUsername from '../containers/ChangeUsername';
 import Slot from 'coral-framework/components/Slot';
-import InfoBox from 'talk-plugin-infobox/InfoBox';
+import InfoBox from './InfoBox';
 import { can } from 'coral-framework/services/perms';
-import { ModerationLink } from 'talk-plugin-moderation';
+import ModerationLink from './ModerationLink';
 import RestrictedMessageBox from 'coral-framework/components/RestrictedMessageBox';
 import t, { timeago } from 'coral-framework/services/i18n';
-import CommentBox from 'talk-plugin-commentbox/CommentBox';
+import CommentBox from '../containers/CommentBox';
 import QuestionBox from '../../../components/QuestionBox';
 import { isCommentActive } from 'coral-framework/utils';
 import { Tab, TabCount, TabPane } from 'coral-ui';
@@ -25,6 +25,7 @@ import AllCommentsPane from './AllCommentsPane';
 import ExtendableTabPanel from '../../../containers/ExtendableTabPanel';
 
 import styles from './Stream.css';
+import ChangedUsername from './ChangedUsername';
 
 class Stream extends React.Component {
   constructor(props) {
@@ -237,6 +238,7 @@ class Stream extends React.Component {
     const banned = get(user, 'status.banned.status');
     const suspensionUntil = get(user, 'status.suspension.until');
     const rejectedUsername = get(user, 'status.username.status') === 'REJECTED';
+    const changedUsername = get(user, 'status.username.status') === 'CHANGED';
 
     const temporarilySuspended =
       user && suspensionUntil && new Date(suspensionUntil) > new Date();
@@ -246,6 +248,7 @@ class Stream extends React.Component {
       ((!banned &&
         !temporarilySuspended &&
         !rejectedUsername &&
+        !changedUsername &&
         !highlightedComment) ||
         keepCommentBox);
     const slotProps = { data };
@@ -285,6 +288,7 @@ class Stream extends React.Component {
                   )}
                 </RestrictedMessageBox>
               )}
+            {changedUsername && <ChangedUsername />}
             {!banned && rejectedUsername && <ChangeUsername user={user} />}
             {banned && <BannedAccount />}
             {showCommentBox && (

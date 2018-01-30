@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from '../coral-ui';
+import { Icon } from 'coral-ui';
 import styles from './Comment.css';
 import Slot from 'coral-framework/components/Slot';
 import CommentTimestamp from 'coral-framework/components/CommentTimestamp';

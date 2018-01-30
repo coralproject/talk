@@ -2,8 +2,8 @@ export const NEXT_STEP = 'NEXT_STEP';
 export const GO_TO_STEP = 'GO_TO_STEP';
 export const PREVIOUS_STEP = 'PREVIOUS_STEP';
 export const ADD_ERROR = 'ADD_ERROR';
-export const HAS_ERROR = 'HAS_ERROR';
-export const SHOW_ERRORS = 'SHOW_ERRORS';
+export const HAS_ERROR = 'HAS_ERROR';
+export const SHOW_ERRORS = 'SHOW_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const INSTALL_REQUEST = 'INSTALL_REQUEST';
 export const INSTALL_SUCCESS = 'INSTALL_SUCCESS';

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './styles.css';
+import styles from './ModerationLink.css';
 import cn from 'classnames';
 
 import t from 'coral-framework/services/i18n';
