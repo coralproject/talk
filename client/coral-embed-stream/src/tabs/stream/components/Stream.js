@@ -25,6 +25,7 @@ import AllCommentsPane from './AllCommentsPane';
 import ExtendableTabPanel from '../../../containers/ExtendableTabPanel';
 
 import styles from './Stream.css';
+import ChangedUsername from './ChangedUsername';
 
 class Stream extends React.Component {
   constructor(props) {
@@ -237,6 +238,7 @@ class Stream extends React.Component {
     const banned = get(user, 'status.banned.status');
     const suspensionUntil = get(user, 'status.suspension.until');
     const rejectedUsername = get(user, 'status.username.status') === 'REJECTED';
+    const changedUsername = get(user, 'status.username.status') === 'CHANGED';
 
     const temporarilySuspended =
       user && suspensionUntil && new Date(suspensionUntil) > new Date();
@@ -246,6 +248,7 @@ class Stream extends React.Component {
       ((!banned &&
         !temporarilySuspended &&
         !rejectedUsername &&
+        !changedUsername &&
         !highlightedComment) ||
         keepCommentBox);
     const slotProps = { data };
@@ -285,6 +288,7 @@ class Stream extends React.Component {
                   )}
                 </RestrictedMessageBox>
               )}
+            {changedUsername && <ChangedUsername />}
             {!banned && rejectedUsername && <ChangeUsername user={user} />}
             {banned && <BannedAccount />}
             {showCommentBox && (

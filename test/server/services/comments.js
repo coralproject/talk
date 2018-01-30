@@ -227,12 +227,12 @@ describe('services.CommentsService', () => {
         id: originalComment.id,
         author_id: '123',
         body: 'This is a body!',
-        status: 'NONE',
+        status: 'PREMOD',
       });
 
       expect(editedComment).to.have.property('status', 'PREMOD');
-      expect(editedComment.status_history).to.have.length(4);
-      expect(editedComment.status_history[3]).to.have.property(
+      expect(editedComment.status_history).to.have.length(3);
+      expect(editedComment.status_history[2]).to.have.property(
         'type',
         'PREMOD'
       );
@@ -240,8 +240,8 @@ describe('services.CommentsService', () => {
       retrivedComment = await CommentsService.findById(originalComment.id);
 
       expect(retrivedComment).to.have.property('status', 'PREMOD');
-      expect(retrivedComment.status_history).to.have.length(4);
-      expect(retrivedComment.status_history[3]).to.have.property(
+      expect(retrivedComment.status_history).to.have.length(3);
+      expect(retrivedComment.status_history[2]).to.have.property(
         'type',
         'PREMOD'
       );

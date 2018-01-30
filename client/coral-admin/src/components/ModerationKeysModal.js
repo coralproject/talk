@@ -23,7 +23,7 @@ export default class ModerationKeysModal extends React.Component {
           'ctrl+f': 'modqueue.toggle_search',
           t: 'modqueue.next_queue',
           [`1...${this.props.queueCount}`]: 'modqueue.jump_to_queue',
-          s: 'modqueue.singleview',
+          z: 'modqueue.singleview',
           '?': 'modqueue.thismenu',
         },
       },

@@ -19,7 +19,7 @@ class Moderation extends Component {
   componentWillMount() {
     const { toggleModal, singleView } = this.props;
 
-    key('s', () => singleView());
+    key('z', () => singleView());
     key('shift+/', () => toggleModal(true));
     key('esc', () => toggleModal(false));
     key('ctrl+f', () => this.openSearch());
@@ -113,7 +113,7 @@ class Moderation extends Component {
   };
 
   componentWillUnmount() {
-    key.unbind('s');
+    key.unbind('z');
     key.unbind('shift+/');
     key.unbind('esc');
     key.unbind('ctrl+f');

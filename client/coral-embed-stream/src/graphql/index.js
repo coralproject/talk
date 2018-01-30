@@ -195,7 +195,7 @@ export default {
           { mutationResult: { data: { createComment: { comment } } } }
         ) => {
           if (
-            (prev.me.role !== 'ADMIN' &&
+            (!['ADMIN', 'MODERATOR'].includes(prev.me.role) &&
               prev.asset.settings.moderation === 'PRE') ||
             comment.status === 'PREMOD' ||
             comment.status === 'REJECTED' ||
