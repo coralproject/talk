@@ -6,31 +6,11 @@ import { can } from 'coral-framework/services/perms';
 
 import Slot from 'coral-framework/components/Slot';
 import { connect } from 'react-redux';
-import { CommentForm } from './CommentForm';
+import { CommentForm } from '../components/CommentForm';
+import { notifyForNewCommentStatus } from '../helpers';
 
+// TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
 export const name = 'talk-plugin-commentbox';
-
-const notifyReasons = ['LINKS', 'TRUST'];
-
-function shouldNotify(actions = []) {
-  return actions.some(
-    ({ __typename, reason }) =>
-      __typename === 'FlagAction' && notifyReasons.includes(reason)
-  );
-}
-
-// Given a newly posted comment's status, show a notification to the user
-// if needed
-export const notifyForNewCommentStatus = (notify, comment, actions) => {
-  if (comment.status === 'REJECTED') {
-    notify('error', t('comment_box.comment_post_banned_word'));
-  } else if (
-    comment.status === 'PREMOD' ||
-    (comment.status === 'SYSTEM_WITHHELD' && shouldNotify(actions))
-  ) {
-    notify('success', t('comment_box.comment_post_notif_premod'));
-  }
-};
 
 /**
  * Container for posting a new Comment
@@ -70,7 +50,7 @@ class CommentBox extends React.Component {
       asset_id: assetId,
       parent_id: parentId,
       body: this.state.body,
-      ...this.props.commentBox,
+      tags: this.props.tags,
     };
 
     // Execute preSubmit Hooks
@@ -86,7 +66,7 @@ class CommentBox extends React.Component {
         // Execute postSubmit Hooks
         this.state.hooks.postSubmit.forEach(hook => hook(data));
 
-        notifyForNewCommentStatus(notify, postedComment, actions);
+        notifyForNewCommentStatus(notify, postedComment.status, actions);
 
         if (commentPostedHandler) {
           commentPostedHandler();
@@ -202,9 +182,11 @@ CommentBox.propTypes = {
   isReply: PropTypes.bool.isRequired,
   canPost: PropTypes.bool,
   notify: PropTypes.func.isRequired,
-  commentBox: PropTypes.object,
+  tags: PropTypes.array,
 };
 
-const mapStateToProps = ({ commentBox }) => ({ commentBox });
+const mapStateToProps = state => ({
+  tags: state.stream.commentBoxTags,
+});
 
 export default connect(mapStateToProps, null)(CommentBox);
