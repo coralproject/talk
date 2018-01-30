@@ -31,8 +31,9 @@ import {
 import t from 'coral-framework/services/i18n';
 import CommentContainer from '../containers/Comment';
 import { CommentAuthorName } from 'coral-framework/components';
+import { STAFF } from 'coral-framework/constants/roles';
 
-const isStaff = tags => !tags.every(t => t.tag.name !== 'STAFF');
+const isStaff = tags => !tags.every(t => t.tag.name !== STAFF);
 const hasTag = (tags, lookupTag) =>
   !!tags.filter(t => t.tag.name === lookupTag).length;
 const hasComment = (nodes, id) => nodes.some(node => node.id === id);
@@ -429,7 +430,7 @@ export default class Comment extends React.Component {
      * classnames is an array of objects with key as classnames and value as conditions
      * i.e:
      * {
-     *  'myClassName': { tags: ['STAFF']}
+     *  'myClassName': { tags: [STAFF]}
      * }
      *
      * This will add myClassName to comments tagged with STAFF TAG.

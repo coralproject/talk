@@ -1,4 +1,7 @@
 import get from 'lodash/get';
+import includes from 'lodash/includes';
+import { ADMIN, MODERATOR, STAFF } from '../constants/roles';
+import { UNSET, REJECTED, CHANGED } from '../constants/usernameStatus';
 
 // =========================================================================
 // BASIC PERMISSIONS
@@ -6,15 +9,18 @@ import get from 'lodash/get';
 
 const basicPerms = {
   INTERACT_WITH_COMMUNITY: user => {
+    const usernameChangeInProgress = includes(
+      [UNSET, REJECTED, CHANGED],
+      get(user, 'status.username.status')
+    );
     const banned = get(user, 'status.banned.status');
     const suspensionUntil = get(user, 'status.suspension.until');
     const suspended = suspensionUntil && new Date(suspensionUntil) > new Date();
 
-    return !banned && !suspended;
+    return !usernameChangeInProgress && !banned && !suspended;
   },
   EDIT_NAME: user => {
-    const usernameStatus = user.status.username.status;
-    return usernameStatus === 'UNSET' || usernameStatus === 'REJECTED';
+    return includes([UNSET, REJECTED], get(user, 'status.username.status'));
   },
 };
 
@@ -23,18 +29,18 @@ const basicPerms = {
 // =========================================================================
 
 const basicRoles = {
-  HAS_STAFF_TAG: ['ADMIN', 'MODERATOR', 'STAFF'],
+  HAS_STAFF_TAG: [ADMIN, MODERATOR, STAFF],
 };
 
 const queryRoles = {
-  UPDATE_CONFIG: ['ADMIN'],
-  ACCESS_ADMIN: ['ADMIN', 'MODERATOR'],
-  VIEW_USER_EMAILS: ['ADMIN'],
+  UPDATE_CONFIG: [ADMIN],
+  ACCESS_ADMIN: [ADMIN, MODERATOR],
+  VIEW_USER_EMAILS: [ADMIN],
 };
 
 const mutationRoles = {
-  CHANGE_ROLES: ['ADMIN'],
-  MODERATE_COMMENTS: ['ADMIN', 'MODERATOR'],
+  CHANGE_ROLES: [ADMIN],
+  MODERATE_COMMENTS: [ADMIN, MODERATOR],
 };
 
 const roles = { ...basicRoles, ...queryRoles, ...mutationRoles };
