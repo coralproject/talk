@@ -10,6 +10,12 @@ import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import { isSuspended, isBanned } from 'coral-framework/utils/user';
 import moment from 'moment';
+import {
+  ADMIN,
+  COMMENTER,
+  MODERATOR,
+  STAFF,
+} from 'coral-framework/constants/roles';
 
 const headers = [
   {
@@ -200,19 +206,19 @@ class People extends React.Component {
                             onChange={role => setUserRole(user.id, role)}
                           >
                             <Option
-                              value={'COMMENTER'}
+                              value={COMMENTER}
                               label={t('community.commenter')}
                             />
                             <Option
-                              value={'STAFF'}
+                              value={STAFF}
                               label={t('community.staff')}
                             />
                             <Option
-                              value={'MODERATOR'}
+                              value={MODERATOR}
                               label={t('community.moderator')}
                             />
                             <Option
-                              value={'ADMIN'}
+                              value={ADMIN}
                               label={t('community.admin')}
                             />
                           </Dropdown>
