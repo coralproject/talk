@@ -37,7 +37,7 @@ dependencies:
 
     # Install node dependencies.
     - yarn --version
-    - yarn global add node-gyp nsp --force
+    - yarn global add node-gyp --force
     - yarn
 
   post:
@@ -59,8 +59,6 @@ test:
     - yarn test
     # Run the end to end tests
     - yarn e2e:ci
-    # Check dependancies using nsp.
-    - nsp check
 
 deployment:
   release:

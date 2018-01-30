@@ -86,7 +86,6 @@ export default class Configure extends Component {
 }
 
 Configure.propTypes = {
-  notify: PropTypes.func.isRequired,
   savePending: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
