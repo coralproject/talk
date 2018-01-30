@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // TODO: move this function.
-import { notifyForNewCommentStatus } from '../containers/CommentBox';
+import { notifyForNewCommentStatus } from '../helpers';
 import { CommentForm } from './CommentForm';
 import styles from './Comment.css';
 import { CountdownSeconds } from './CountdownSeconds';
@@ -45,6 +45,8 @@ export class EditableCommentContent extends React.Component {
     stopEditing: PropTypes.func,
   };
 
+  unmounted = false;
+
   constructor(props) {
     super(props);
     this.editWindowExpiryTimeout = null;
@@ -64,6 +66,7 @@ export class EditableCommentContent extends React.Component {
     }
   }
   componentWillUnmount() {
+    this.unmounted = true;
     if (this.editWindowExpiryTimeout) {
       this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
     }
@@ -88,7 +91,9 @@ export class EditableCommentContent extends React.Component {
     let response;
     try {
       response = await editComment({ body: this.state.body });
-      this.setState({ loadingState: 'success' });
+      if (!this.unmounted) {
+        this.setState({ loadingState: 'success' });
+      }
       const status = response.data.editComment.comment.status;
       notifyForNewCommentStatus(this.props.notify, status);
       if (typeof stopEditing === 'function') {
