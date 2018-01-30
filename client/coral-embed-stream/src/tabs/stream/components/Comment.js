@@ -5,7 +5,7 @@ import TagLabel from './TagLabel';
 import CommentTimestamp from 'coral-framework/components/CommentTimestamp';
 import ReplyButton from './ReplyButton';
 import ReplyBox from './ReplyBox';
-import { FlagComment } from 'talk-plugin-flags';
+import FlagComment from './FlagComment';
 import { can } from 'coral-framework/services/perms';
 import { TransitionGroup } from 'react-transition-group';
 import cn from 'classnames';

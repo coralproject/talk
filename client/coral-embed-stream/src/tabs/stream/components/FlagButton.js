@@ -6,11 +6,12 @@ import { can } from 'coral-framework/services/perms';
 import { PopupMenu, Button } from 'coral-ui';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import cn from 'classnames';
-import styles from './styles.css';
-import * as REASONS from '../helpers/flagReasons';
+import styles from './FlagButton.css';
+import * as REASONS from 'coral-framework/graphql/flagReasons';
 
 import { getErrorMessages, forEachError } from 'coral-framework/utils';
 
+// TODO: remove this.
 const name = 'talk-plugin-flags';
 
 export default class FlagButton extends Component {
