@@ -82,7 +82,7 @@ Please visit our product roadmap here: https://www.pivotaltracker.com/n/projects
 
 ### Discussion Forum
 
-If you'd like to discuss what we're up to, please visit or [community](https://community.coralproject.net/) or [contact us](https://coralproject.net/contact).
+If you'd like to discuss what we're up to, please visit or [community](https://community.coralproject.net/) or [contact us](https://coralproject.net/contact.html).
 
 ### Integrations
 
