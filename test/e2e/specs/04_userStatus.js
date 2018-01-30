@@ -15,13 +15,13 @@ module.exports = {
     client.end();
   },
 
-  'admin logs in': client => {
+  'Admin logs in': client => {
     const adminPage = client.page.admin();
     const { testData: { admin } } = client.globals;
 
     adminPage.navigateAndLogin(admin);
   },
-  'admin flags users username as offensive': client => {
+  'Admin flags users username as offensive': client => {
     const embedStream = client.page.embedStream();
 
     const comments = embedStream.navigate().ready();
@@ -42,7 +42,7 @@ module.exports = {
       .waitForElementVisible('@popUpText')
       .click('@continueButton');
   },
-  'admin goes to Reported Usernames': client => {
+  'Admin goes to Reported Usernames': client => {
     const adminPage = client.page.admin();
 
     const community = adminPage
@@ -54,14 +54,14 @@ module.exports = {
       .waitForElementVisible('@flaggedAccountsContainer')
       .waitForElementVisible('@flaggedUser');
   },
-  'admin rejects the user flag': client => {
+  'Admin rejects the user flag': client => {
     const community = client.page.admin().section.community;
 
     community
       .waitForElementVisible('@flaggedUserRejectButton')
       .click('@flaggedUserRejectButton');
   },
-  'admin suspends the user': client => {
+  'Admin suspends the user': client => {
     const community = client.page.admin().section.community;
     const usernameDialog = client.page.admin().section.usernameDialog;
 
@@ -76,7 +76,7 @@ module.exports = {
 
     community.waitForElementNotPresent('@flaggedUser');
   },
-  'admin logs out': client => {
+  'Admin logs out': client => {
     client.page.admin().logout();
   },
   'user logs in': client => {
@@ -113,6 +113,48 @@ module.exports = {
       .waitForElementVisible('@changeUsernameSubmitButton')
       .click('@changeUsernameSubmitButton')
       .waitForElementNotPresent('@changeUsernameInput');
+  },
+  'user should not be able to comment still': client => {
+    const embedStream = client.page.embedStream();
+    const comments = embedStream.section.comments;
+
+    comments
+      .waitForElementNotPresent('@commentBoxTextarea')
+      .waitForElementNotPresent('@commentBoxPostButton');
+  },
+  'user logs out': client => {
+    const embedStream = client.page.embedStream();
+    const comments = embedStream.section.comments;
+
+    comments.logout();
+  },
+  'Admin accepts the user flag': client => {
+    const adminPage = client.page.admin();
+    const { testData: { admin } } = client.globals;
+
+    adminPage.navigateAndLogin(admin);
+
+    const community = adminPage
+      .navigate()
+      .ready()
+      .goToCommunity();
+
+    community
+      .waitForElementVisible('@flaggedAccountsContainer')
+      .waitForElementVisible('@flaggedUser')
+      .waitForElementVisible('@flaggedUserApproveButton')
+      .click('@flaggedUserApproveButton');
+
+    client.page.admin().logout();
+  },
+  'user logs in to check comment': client => {
+    const { testData: { user } } = client.globals;
+    const embedStream = client.page.embedStream();
+
+    embedStream
+      .navigate()
+      .ready()
+      .openLoginPopup(popup => popup.login(user));
   },
   'user should be able to comment': client => {
     const embedStream = client.page.embedStream();
