@@ -81,6 +81,8 @@
 }
 
 .sideActions {
+  /* IE 11 needs this... */
+  width: 105px;
 }
 
 .editedMarker {
