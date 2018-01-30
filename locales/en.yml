@@ -254,6 +254,8 @@ en:
       error: "Usernames can contain letters numbers and _ only"
       label: "New Username"
       msg: "Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions."
+    changed_name:
+      msg: "Your username change is under review by our moderation team."
     my_comments: "My Comments"
     my_profile: "My profile"
     new_count: "View {0} more {1}"
@@ -330,7 +332,7 @@ en:
     shortcuts: "Shortcuts"
     sort: "Sort"
     show_shortcuts: "Show Shortcuts"
-    singleview: "Toggle single comment edit view"
+    singleview: "Zen mode"
     thismenu: "Open this menu"
     jump_to_queue: "Jump to specific queue"
     thousand: k
