@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CommentBox from '../containers/CommentBox';
 
-// TODO: remove this..
+// TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
 const name = 'talk-plugin-replies';
 
 class ReplyBox extends Component {

@@ -11,7 +11,7 @@ import * as REASONS from 'coral-framework/graphql/flagReasons';
 
 import { getErrorMessages, forEachError } from 'coral-framework/utils';
 
-// TODO: remove this.
+// TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
 const name = 'talk-plugin-flags';
 
 export default class FlagButton extends Component {

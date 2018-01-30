@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// TODO: move this function.
 import { notifyForNewCommentStatus } from '../helpers';
 import { CommentForm } from './CommentForm';
 import styles from './Comment.css';

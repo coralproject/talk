@@ -6,7 +6,7 @@ import t from 'coral-framework/services/i18n';
 import cn from 'classnames';
 import styles from './ReplyButton.css';
 
-// @TODO: remove this.
+// TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
 const name = 'talk-plugin-replies';
 
 const ReplyButton = ({ onClick }) => {

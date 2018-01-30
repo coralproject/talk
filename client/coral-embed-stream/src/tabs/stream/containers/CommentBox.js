@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { CommentForm } from '../components/CommentForm';
 import { notifyForNewCommentStatus } from '../helpers';
 
-// TODO: change this...
+// TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
 export const name = 'talk-plugin-commentbox';
 
 /**

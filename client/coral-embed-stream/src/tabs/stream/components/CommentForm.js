@@ -4,7 +4,7 @@ import { Button } from 'coral-ui';
 import cn from 'classnames';
 import Slot from 'coral-framework/components/Slot';
 
-// TODO: need to change this.
+// TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
 import { name } from '../containers/CommentBox';
 import styles from './CommentForm.css';
 
