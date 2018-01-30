@@ -270,6 +270,49 @@ describe('graph.mutations.createComment', () => {
     });
   });
 
+  describe('user with different username statuses', () => {
+    beforeEach(() => AssetModel.create({ id: '123' }));
+
+    [
+      { status: 'UNSET', error: true },
+      { status: 'SET', error: false },
+      { status: 'APPROVED', error: false },
+      { status: 'REJECTED', error: true },
+      { status: 'CHANGED', error: true },
+    ].forEach(({ status, error }) => {
+      describe(`user.status.username.status=${status}`, () => {
+        it(`${error ? 'can not' : 'can'} create a comment`, async () => {
+          const context = new Context({
+            user: new UserModel({ status: { username: { status } } }),
+          });
+
+          const { data, errors } = await graphql(schema, query, {}, context);
+
+          if (errors) {
+            console.error(errors);
+          }
+          expect(errors).to.be.undefined;
+
+          if (error) {
+            expect(data.createComment).to.have.property('errors').not.null;
+            expect(data.createComment).to.have.property('comment').null;
+            expect(data.createComment.errors).to.have.length(1);
+            expect(data.createComment.errors[0]).to.have.property(
+              'translation_key',
+              'NOT_AUTHORIZED'
+            );
+          } else {
+            if (data.createComment.errors) {
+              console.error(data.createComment.errors);
+            }
+            expect(data.createComment).to.have.property('errors').null;
+            expect(data.createComment).to.have.property('comment').not.null;
+          }
+        });
+      });
+    });
+  });
+
   describe('users with different roles', () => {
     beforeEach(() => AssetModel.create({ id: '123' }));
 
