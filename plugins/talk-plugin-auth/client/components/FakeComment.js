@@ -1,6 +1,6 @@
 import React from 'react';
 import t from 'coral-framework/services/i18n';
-import { ReplyButton } from 'talk-plugin-replies';
+import ReplyButton from 'coral-embed-stream/src/tabs/stream/components/ReplyButton';
 import styles from './FakeComment.css';
 import { Icon } from 'plugin-api/beta/client/components/ui';
 import { CommentTimestamp } from 'plugin-api/beta/client/components';

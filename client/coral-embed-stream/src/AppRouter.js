@@ -3,7 +3,7 @@ import { Router, Route } from 'react-router';
 import PropTypes from 'prop-types';
 
 import Embed from './containers/Embed';
-import { LoginContainer } from 'coral-sign-in/containers/LoginContainer';
+import { LoginContainer } from './containers/LoginContainer';
 
 const routes = (
   <div>

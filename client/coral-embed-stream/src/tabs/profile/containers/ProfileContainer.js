@@ -8,7 +8,7 @@ import cn from 'classnames';
 import { link } from 'coral-framework/services/pym';
 import NotLoggedIn from '../components/NotLoggedIn';
 import { Spinner } from 'coral-ui';
-import CommentHistory from 'talk-plugin-history/CommentHistory';
+import CommentHistory from '../components/CommentHistory';
 
 // TODO: Auth logic needs refactoring.
 import {
