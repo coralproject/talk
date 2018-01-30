@@ -70,3 +70,17 @@ export const removeCommentClassName = idx => ({
 export const setActiveTab = tab => dispatch => {
   dispatch({ type: actions.SET_ACTIVE_TAB, tab });
 };
+
+export const addCommentBoxTag = tag => ({
+  type: actions.ADD_COMMENT_BOX_TAG,
+  tag,
+});
+
+export const removeCommentBoxTag = idx => ({
+  type: actions.REMOVE_COMMENT_BOX_TAG,
+  idx,
+});
+
+export const clearCommentBoxTags = () => ({
+  type: actions.CLEAR_COMMENT_BOX_TAGS,
+});

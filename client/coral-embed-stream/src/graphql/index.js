@@ -94,9 +94,6 @@ export default {
             name
             created_at
           }
-          assigned_by {
-            id
-          }
         }
         user {
           id
