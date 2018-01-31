@@ -27,6 +27,10 @@ const buildTargets = [
 
 const buildEmbeds = ['stream'];
 
+// TALK_PUBLIC_PATH is a public path url to use on build webpack
+// Useful when Talk is running not on root directory
+const publicPath = process.env.TALK_PUBLIC_PATH || '/static/';
+
 // In production, default turn off source maps. In development, default use
 // 'cheap-module-source-map'.
 const DEFAULT_WEBPACK_SOURCE_MAP =
@@ -54,7 +58,7 @@ const config = {
   target: 'web',
   output: {
     path: path.join(__dirname, 'dist'),
-    publicPath: '/static/',
+    publicPath: publicPath,
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
   },
