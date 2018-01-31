@@ -1,3 +1,4 @@
+import { LIVE_URI } from 'coral-framework/constants/config';
 import { createStore } from './store';
 import { createClient, apolloErrorReporter } from './client';
 import pym from './pym';
@@ -21,27 +22,6 @@ import {
 import { createHistory } from 'coral-framework/services/history';
 import { createIntrospection } from 'coral-framework/services/introspection';
 import introspectionData from 'coral-framework/graphql/introspection.json';
-
-/**
- * getStaticConfiguration will return a singleton of the static configuration
- * object provided via a JSON DOM element.
- */
-const getStaticConfiguration = (() => {
-  let staticConfiguration = null;
-  return () => {
-    if (staticConfiguration != null) {
-      return staticConfiguration;
-    }
-
-    const configElement = document.querySelector('#data');
-
-    staticConfiguration = JSON.parse(
-      configElement ? configElement.textContent : '{}'
-    );
-
-    return staticConfiguration;
-  };
-})();
 
 /**
  * getAuthToken returns the active auth token or null
@@ -103,10 +83,8 @@ export async function createContext({
     token,
   });
 
-  // Try to get an overrided liveUri from the static config, if none is found,
-  // build it.
-  let { LIVE_URI: liveUri } = getStaticConfiguration();
-  if (liveUri == null) {
+  let liveUri = null;
+  if (LIVE_URI == null) {
     // The protocol must match the origin protocol, secure/insecure.
     const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
 
