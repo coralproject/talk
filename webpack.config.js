@@ -54,7 +54,7 @@ const config = {
   target: 'web',
   output: {
     path: path.join(__dirname, 'dist'),
-    publicPath: '/static/',
+    publicPath: '',
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
   },
@@ -249,12 +249,18 @@ const applyConfig = (entries, root = {}) =>
     config,
     {
       entry: entries.reduce(
-        (entry, { name, path, disablePolyfill = false }) => {
+        (entry, { name, path: modulePath, disablePolyfill = false }) => {
+          const entries = [
+            path.join(__dirname, 'client/coral-framework/helpers/publicPath'),
+          ];
           if (disablePolyfill) {
-            entry[name] = path;
+            entries.push(modulePath);
           } else {
-            entry[name] = ['babel-polyfill', path];
+            entries.unshift('babel-polyfill');
+            entries.push(modulePath);
           }
+
+          entry[name] = entries;
 
           return entry;
         },
