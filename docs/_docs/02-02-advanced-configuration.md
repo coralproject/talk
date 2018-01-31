@@ -301,6 +301,11 @@ The keepalive timeout that should be used to send keep alive messages through
 the websocket to keep the socket alive, parsed by
 [ms](https://www.npmjs.com/package/ms){:target="_blank"}. (Default `30s`)
 
+## TALK_PUBLIC_PATH
+
+Used to set the public path where the static assets should be served from. This is used
+when you are running Talk not on root URL. (Default `/static/`)
+
 ## TALK_RECAPTCHA_PUBLIC
 
 Client secret used for enabling reCAPTCHA powered logins. If
