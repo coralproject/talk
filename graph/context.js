@@ -5,7 +5,7 @@ const merge = require('lodash/merge');
 const connectors = require('./connectors');
 
 const plugins = require('../services/plugins');
-const pubsub = require('../services/pubsub');
+const { getBroker } = require('./subscriptions/broker');
 const debug = require('debug')('talk:graph:context');
 
 /**
@@ -68,7 +68,7 @@ class Context {
     this.plugins = decorateContextPlugins(this, contextPlugins);
 
     // Bind the publish/subscribe to the context.
-    this.pubsub = pubsub.getClient();
+    this.pubsub = getBroker();
 
     // Bind the parent context.
     this.parent = parent;

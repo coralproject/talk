@@ -10,7 +10,6 @@ const i18n = require('../middleware/i18n');
 const path = require('path');
 const plugins = require('../services/plugins');
 const staticTemplate = require('../middleware/staticTemplate');
-const pubsub = require('../middleware/pubsub');
 const staticMiddleware = require('express-static-gzip');
 const { DISABLE_STATIC_SERVER } = require('../config');
 const { createGraphOptions } = require('../graph');
@@ -102,7 +101,7 @@ router.use(passport.initialize());
 
 // Attach the authentication middleware, this will be responsible for decoding
 // (if present) the JWT on the request.
-router.use('/api', authentication, pubsub);
+router.use('/api', authentication);
 
 //==============================================================================
 // GraphQL Router

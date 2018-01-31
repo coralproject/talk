@@ -11,11 +11,11 @@ const {
   SUBSCRIBE_ALL_USERNAME_APPROVED,
   SUBSCRIBE_ALL_USERNAME_FLAGGED,
   SUBSCRIBE_ALL_USERNAME_CHANGED,
-} = require('../perms/constants');
+} = require('../../perms/constants');
 
 const merge = require('lodash/merge');
 const debug = require('debug')('talk:graph:setupFunctions');
-const plugins = require('../services/plugins');
+const plugins = require('../../services/plugins');
 
 const setupFunctions = {
   commentAdded: (options, args, comment, context) => {

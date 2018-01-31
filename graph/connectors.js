@@ -28,7 +28,6 @@ const Moderation = require('../services/moderation');
 const Mongoose = require('../services/mongoose');
 const Passport = require('../services/passport');
 const Plugins = require('../services/plugins');
-const Pubsub = require('../services/pubsub');
 const Redis = require('../services/redis');
 const Regex = require('../services/regex');
 const Scraper = require('../services/scraper');
@@ -67,7 +66,6 @@ const connectors = {
     Mongoose,
     Passport,
     Plugins,
-    Pubsub,
     Redis,
     Regex,
     Scraper,
