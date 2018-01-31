@@ -1,4 +1,4 @@
-import { LIVE_URI } from 'coral-framework/constants/config';
+import { getStaticConfiguration } from 'coral-framework/services/staticConfiguration';
 import { createStore } from './store';
 import { createClient, apolloErrorReporter } from './client';
 import pym from './pym';
@@ -83,8 +83,8 @@ export async function createContext({
     token,
   });
 
-  let liveUri = null;
-  if (LIVE_URI == null) {
+  let { LIVE_URI: liveUri } = getStaticConfiguration();
+  if (liveUri == null) {
     // The protocol must match the origin protocol, secure/insecure.
     const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
 

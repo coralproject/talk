@@ -1,6 +1,9 @@
 /* global __webpack_public_path__ */ // eslint-disable-line no-unused-vars
 
-import { STATIC_URL } from 'coral-framework/constants/config';
+import { getStaticConfiguration } from 'coral-framework/services/staticConfiguration';
+
+// Load the static url from the static configuration.
+const { STATIC_URL } = getStaticConfiguration();
 
 // Update the static url for the imported public path so dynamically imported
 // chunks will use the correct path as defined by the process.env.STATIC_URL
