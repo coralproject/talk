@@ -33,6 +33,7 @@ const basicRoles = {
 };
 
 const queryRoles = {
+  UPDATE_ASSET_CONFIG: [ADMIN, MODERATOR],
   UPDATE_CONFIG: [ADMIN],
   ACCESS_ADMIN: [ADMIN, MODERATOR],
   VIEW_USER_EMAILS: [ADMIN],
