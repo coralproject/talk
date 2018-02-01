@@ -64,8 +64,8 @@ export async function createContext({
   init = noop,
 } = {}) {
   const eventEmitter = new EventEmitter({ wildcard: true });
-  const storage = createStorage();
-  const pymStorage = createPymStorage(pym);
+  const localStorage = createStorage('localStorage');
+  const pymLocalStorage = createPymStorage(pym, 'localStorage');
   const history = createHistory(BASE_PATH);
   const introspection = createIntrospection(introspectionData);
   let store = null;
@@ -75,7 +75,7 @@ export async function createContext({
 
     // NOTE: THIS IS ONLY EVER EVALUATED ONCE, IN ORDER TO SEND A DIFFERNT
     // TOKEN YOU MUST DISCONNECT AND RECONNECT THE WEBSOCKET CLIENT.
-    return getAuthToken(store, storage);
+    return getAuthToken(store, localStorage);
   };
 
   const rest = createRestClient({
@@ -116,10 +116,10 @@ export async function createContext({
     rest,
     graphql,
     notification,
-    storage,
+    localStorage,
     history,
     introspection,
-    pymStorage,
+    pymLocalStorage,
   };
 
   // Load framework fragments.

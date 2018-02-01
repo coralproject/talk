@@ -10,7 +10,7 @@ import jwtDecode from 'jwt-decode';
 export const handleLogin = (email, password, recaptchaResponse) => (
   dispatch,
   _,
-  { rest, client, storage }
+  { rest, client, localStorage }
 ) => {
   dispatch({ type: actions.LOGIN_REQUEST });
 
@@ -31,8 +31,8 @@ export const handleLogin = (email, password, recaptchaResponse) => (
   return rest('/auth/local', params)
     .then(({ user, token }) => {
       if (!user) {
-        if (!bowser.safari && !bowser.ios && storage) {
-          storage.removeItem('token');
+        if (!bowser.safari && !bowser.ios && localStorage) {
+          localStorage.removeItem('token');
         }
         return dispatch(checkLoginFailure('not logged in'));
       }
@@ -121,13 +121,17 @@ const checkLoginFailure = error => ({
   error,
 });
 
-export const checkLogin = () => (dispatch, _, { rest, client, storage }) => {
+export const checkLogin = () => (
+  dispatch,
+  _,
+  { rest, client, localStorage }
+) => {
   dispatch(checkLoginRequest());
   return rest('/auth')
     .then(({ user }) => {
       if (!user) {
-        if (!bowser.safari && !bowser.ios && storage) {
-          storage.removeItem('token');
+        if (!bowser.safari && !bowser.ios && localStorage) {
+          localStorage.removeItem('token');
         }
         return dispatch(checkLoginFailure('not logged in'));
       }
@@ -148,10 +152,10 @@ export const checkLogin = () => (dispatch, _, { rest, client, storage }) => {
 // LOGOUT
 //==============================================================================
 
-export const logout = () => (dispatch, _, { rest, client, storage }) => {
+export const logout = () => (dispatch, _, { rest, client, localStorage }) => {
   return rest('/auth', { method: 'DELETE' }).then(() => {
-    if (storage) {
-      storage.removeItem('token');
+    if (localStorage) {
+      localStorage.removeItem('token');
     }
 
     // Reset the websocket.
@@ -165,10 +169,10 @@ export const logout = () => (dispatch, _, { rest, client, storage }) => {
 // AUTH TOKEN
 //==============================================================================
 
-export const handleAuthToken = token => (dispatch, _, { storage }) => {
-  if (storage) {
-    storage.setItem('exp', jwtDecode(token).exp);
-    storage.setItem('token', token);
+export const handleAuthToken = token => (dispatch, _, { localStorage }) => {
+  if (localStorage) {
+    localStorage.setItem('exp', jwtDecode(token).exp);
+    localStorage.setItem('token', token);
   }
   dispatch({ type: 'HANDLE_AUTH_TOKEN' });
 };
