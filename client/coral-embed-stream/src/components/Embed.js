@@ -43,7 +43,7 @@ export default class Embed extends React.Component {
         {t('framework.my_profile')}
       </Tab>,
     ];
-    if (can(user, 'UPDATE_CONFIG')) {
+    if (can(user, 'UPDATE_ASSET_CONFIG')) {
       tabs.push(
         <Tab
           key="config"
