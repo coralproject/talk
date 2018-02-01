@@ -60,6 +60,7 @@ class SignInContainer extends React.Component {
     if (e.key === 'auth') {
       const { err, data } = JSON.parse(e.newValue);
       authCallback(err, data);
+      localStorage.removeItem('auth');
     }
   };
 
