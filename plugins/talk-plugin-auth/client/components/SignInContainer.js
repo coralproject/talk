@@ -38,8 +38,7 @@ class SignInContainer extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('storage', this.handleAuth);
-
+    this.listenToStorageChanges();
     const { formData } = this.state;
     const errors = Object.keys(formData).reduce((map, prop) => {
       map[prop] = t('sign_in.required_field');
@@ -49,6 +48,14 @@ class SignInContainer extends React.Component {
   }
 
   componentWillUnmount() {
+    this.unlisten();
+  }
+
+  listenToStorageChanges() {
+    window.addEventListener('storage', this.handleAuth);
+  }
+
+  unlisten() {
     window.removeEventListener('storage', this.handleAuth);
   }
 
@@ -60,6 +67,7 @@ class SignInContainer extends React.Component {
     if (e.key === 'auth') {
       const { err, data } = JSON.parse(e.newValue);
       authCallback(err, data);
+      this.unlisten();
       localStorage.removeItem('auth');
     }
   };
