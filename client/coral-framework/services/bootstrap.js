@@ -80,7 +80,7 @@ export async function createContext({
     : localStorage;
   const pymSessionStorage = inIframe
     ? createPymStorage(pym, 'sessionStorage')
-    : localStorage;
+    : sessionStorage;
   const history = createHistory(BASE_PATH);
   const introspection = createIntrospection(introspectionData);
   let store = null;

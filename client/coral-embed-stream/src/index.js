@@ -17,7 +17,7 @@ import pluginsConfig from 'pluginsConfig';
 // TODO: move init code into `bootstrap` service after auth has been refactored.
 function preInit({ store, pym, inIframe }) {
   // TODO: This is popup specific code and needs to be refactored.
-  if (!inIframe()) {
+  if (!inIframe) {
     store.dispatch(addExternalConfig({}));
     store.dispatch(checkLogin());
     return;
