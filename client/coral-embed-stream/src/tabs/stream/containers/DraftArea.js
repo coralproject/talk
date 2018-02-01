@@ -25,9 +25,18 @@ export default class DraftAreaContainer extends React.Component {
   };
 
   onChange = e => {
-    this.context.pymSessionStorage.setItem(this.getPath(), e.target.value);
     this.props.onChange && this.props.onChange(e.target.value);
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.value !== nextProps.value) {
+      if (nextProps.value) {
+        this.context.pymSessionStorage.setItem(this.getPath(), nextProps.value);
+      } else {
+        this.context.pymSessionStorage.removeItem(this.getPath());
+      }
+    }
+  }
 
   render() {
     return (
@@ -47,17 +56,19 @@ export default class DraftAreaContainer extends React.Component {
 }
 
 DraftAreaContainer.contextTypes = {
+  // We use pymSessionStorage instead to persist the data directly on the parent page,
+  // in order to mitigate strict cross domain security settings.
   pymSessionStorage: PropTypes.object,
 };
 
 DraftAreaContainer.propTypes = {
   charCountEnable: PropTypes.bool,
   maxCharCount: PropTypes.number,
-  id: PropTypes.string,
-  value: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   rows: PropTypes.number,
-  label: PropTypes.string,
+  label: PropTypes.string.isRequired,
 };
