@@ -14,16 +14,8 @@ import reducers from './reducers';
 import TalkProvider from 'coral-framework/components/TalkProvider';
 import pluginsConfig from 'pluginsConfig';
 
-function inIframe() {
-  try {
-    return window.self !== window.top;
-  } catch (e) {
-    return true;
-  }
-}
-
 // TODO: move init code into `bootstrap` service after auth has been refactored.
-function preInit({ store, pym }) {
+function preInit({ store, pym, inIframe }) {
   // TODO: This is popup specific code and needs to be refactored.
   if (!inIframe()) {
     store.dispatch(addExternalConfig({}));
