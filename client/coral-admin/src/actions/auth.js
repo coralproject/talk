@@ -156,7 +156,6 @@ export const checkLogin = () => (
 
 export const logout = () => (dispatch, _, { rest, client, localStorage }) => {
   return rest('/auth', { method: 'DELETE' }).then(() => {
-
     if (localStorage) {
       localStorage.removeItem('token');
       localStorage.removeItem('exp');
