@@ -266,6 +266,7 @@ export const logout = () => async (
 
   if (localStorage) {
     localStorage.removeItem('token');
+    localStorage.removeItem('exp');
   }
 
   // Reset the websocket.
@@ -304,6 +305,7 @@ export const checkLogin = () => (
       if (!result.user) {
         if (localStorage) {
           localStorage.removeItem('token');
+          localStorage.removeItem('exp');
         }
         throw ErrNotLoggedIn;
       }
@@ -329,6 +331,7 @@ export const checkLogin = () => (
       if (error.status && error.status === 401 && localStorage) {
         // Unauthorized.
         localStorage.removeItem('token');
+        localStorage.removeItem('exp');
       }
       const errorMessage = error.translation_key
         ? t(`error.${error.translation_key}`)

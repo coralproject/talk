@@ -33,6 +33,7 @@ export const handleLogin = (email, password, recaptchaResponse) => (
       if (!user) {
         if (!bowser.safari && !bowser.ios && localStorage) {
           localStorage.removeItem('token');
+          localStorage.removeItem('exp');
         }
         return dispatch(checkLoginFailure('not logged in'));
       }
@@ -132,6 +133,7 @@ export const checkLogin = () => (
       if (!user) {
         if (!bowser.safari && !bowser.ios && localStorage) {
           localStorage.removeItem('token');
+          localStorage.removeItem('exp');
         }
         return dispatch(checkLoginFailure('not logged in'));
       }
@@ -154,8 +156,10 @@ export const checkLogin = () => (
 
 export const logout = () => (dispatch, _, { rest, client, localStorage }) => {
   return rest('/auth', { method: 'DELETE' }).then(() => {
+
     if (localStorage) {
       localStorage.removeItem('token');
+      localStorage.removeItem('exp');
     }
 
     // Reset the websocket.
