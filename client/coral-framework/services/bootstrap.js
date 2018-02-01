@@ -65,7 +65,9 @@ export async function createContext({
 } = {}) {
   const eventEmitter = new EventEmitter({ wildcard: true });
   const localStorage = createStorage('localStorage');
+  const sessionStorage = createStorage('sessionStorage');
   const pymLocalStorage = createPymStorage(pym, 'localStorage');
+  const pymSessionStorage = createPymStorage(pym, 'sessionStorage');
   const history = createHistory(BASE_PATH);
   const introspection = createIntrospection(introspectionData);
   let store = null;
@@ -117,9 +119,11 @@ export async function createContext({
     graphql,
     notification,
     localStorage,
+    sessionStorage,
     history,
     introspection,
     pymLocalStorage,
+    pymSessionStorage,
   };
 
   // Load framework fragments.
