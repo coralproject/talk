@@ -78,6 +78,8 @@ export default class FlagButton extends Component {
           return;
         }
         break;
+      case 2:
+        return this.closeMenu();
       default:
         throw new Error(`Unexpected step ${step}`);
     }
@@ -134,10 +136,6 @@ export default class FlagButton extends Component {
     }
 
     if (!failed) {
-      if (step === this.props.getPopupMenu.length - 1) {
-        this.closeMenu();
-        return;
-      }
       this.setState({ step: step + 1 });
     }
   };
