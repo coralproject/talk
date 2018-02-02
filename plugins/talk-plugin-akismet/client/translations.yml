@@ -1,0 +1,15 @@
+en:
+  error:
+    COMMENT_IS_SPAM: |
+      Are you sure? The language in this comment matches looks like spam.
+      You can edit the comment or submit it for moderator review.
+  talk-plugin-akismet:
+    spam: "Spam"
+    spam_comment: "Detected Spam"
+    still_spam: |
+      This edited comment might still violate our community guidelines.
+      Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "Detected Spam"

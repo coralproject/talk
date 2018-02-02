@@ -8,7 +8,7 @@ module.exports = {
     // Schema is created already, so just include it.
     schema,
 
-    // Load in the new context here, this'll create the loaders + mutators for
+    // Load in the new context here, this will create the loaders + mutators for
     // the lifespan of this request.
     context: new Context(req),
 
