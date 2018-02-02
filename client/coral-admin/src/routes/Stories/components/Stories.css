@@ -56,6 +56,7 @@
   width: 100%;
   border-left: none;
   border-right: none;
+  white-space: pre-wrap;
 
   a {
     color: rgb(44, 44, 44);
