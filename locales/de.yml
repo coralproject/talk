@@ -184,7 +184,7 @@ de:
     seconds_plural: "Sekunden"
     minute: "Minute"
     minutes_plural: "Minuten"
-  E-Mail:
+  email:
     suspended:
       subject: "Ihr Benutzerkonto wurde vorübergehend gesperrt"
     banned:
@@ -227,7 +227,7 @@ de:
     ALREADY_EXISTS: "Ressource existiert bereits"
     INVALID_ASSET_URL: "Asset-URL ist ungültig"
     CANNOT_IGNORE_STAFF: "Mitarbeiter können nicht ignoriert werden."
-    E-Mail: "E-Mail-Adresse ungültig"
+    email: "E-Mail-Adresse ungültig"
     confirm_password: "Passwörter nicht identisch. Bitte erneut überprüfen"
     network_error: "Server-Verbindung fehlgeschlagen. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut."
     email_not_verified: "E-Mail-Adresse {0} nicht bestätigt."
@@ -429,7 +429,7 @@ de:
       label: "Name der Organisation"
       save: "Speichern"
     create:
-      E-Mail: "E-Mail-Adresse"
+      email: "E-Mail-Adresse"
       username: "Nutzername"
       password: "Passwort"
       confirm_password: "Passwort bestätigen"
