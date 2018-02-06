@@ -75,10 +75,7 @@ class LayoutContainer extends React.Component {
       );
     } else if (loggedIn) {
       return (
-        <Layout
-          handleLogout={logout}
-          {...this.props}
-        >
+        <Layout handleLogout={logout} {...this.props}>
           <p>
             This page is for team use only. Please contact an administrator if
             you want to join this team.
