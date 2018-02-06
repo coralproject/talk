@@ -112,6 +112,8 @@ Enables spam detection from [Akismet](https://akismet.com/). Comments will be pa
 is determined to be spam, it will prompt the user, indicating that the comment might be considered spam. If the user continues after this
 point with the still spam-like comment, the comment will be reported as containing spam, and sent for moderator approval.
 
+**Note: [Akismet](https://akismet.com/) is a premium service, charges may apply.**
+
 Configuration:
 
 - `TALK_AKISMET_API_KEY` (**required**) - The Akismet API key located on your account page
