@@ -9,6 +9,9 @@ const client = akismet.client({
 });
 
 let enabled = true;
+
+// TODO: when using a developer key, this is possible, the plus plan does not
+// allow us to check the key.
 // let enabled = false;
 // client.verifyKey((err, valid) => {
 //   if (err) {
