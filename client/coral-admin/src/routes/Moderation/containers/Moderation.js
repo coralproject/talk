@@ -515,7 +515,7 @@ const withModQueueQuery = withQuery(
 
 const mapStateToProps = state => ({
   moderation: state.moderation,
-  auth: state.auth,
+  auth: state.authCore,
 });
 
 const mapDispatchToProps = dispatch => ({

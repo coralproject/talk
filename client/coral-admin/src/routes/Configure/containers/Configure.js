@@ -71,7 +71,7 @@ const withConfigureQuery = withQuery(
 );
 
 const mapStateToProps = state => ({
-  auth: state.auth,
+  auth: state.authCore,
   pending: state.configure.pending,
   canSave: state.configure.canSave,
   activeSection: state.configure.activeSection,

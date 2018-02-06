@@ -22,6 +22,8 @@ import {
 import { createHistory } from 'coral-framework/services/history';
 import { createIntrospection } from 'coral-framework/services/introspection';
 import introspectionData from 'coral-framework/graphql/introspection.json';
+import auth from '../reducers/auth';
+import { checkLogin } from '../actions/auth';
 
 /**
  * getAuthToken returns the active auth token or null
@@ -143,6 +145,7 @@ export async function createContext({
 
   // Create our redux store.
   const finalReducers = {
+    authCore: auth,
     ...reducers,
     ...plugins.getReducers(),
   };
@@ -161,6 +164,8 @@ export async function createContext({
     },
     [client.middleware(), apolloErrorReporter, createReduxEmitter(eventEmitter)]
   );
+
+  store.dispatch(checkLogin());
 
   // Run pre initialization.
   if (preInit) {
