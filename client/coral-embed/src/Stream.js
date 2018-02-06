@@ -146,8 +146,19 @@ export default class Stream {
     // If the user clicks outside the embed, then tell the embed.
     document.addEventListener('click', this.handleClick.bind(this), true);
 
-    // Listens to storage requests on pym and relay it to local storage.
-    connectStorageToPym(createStorage(), this.pym);
+    // Listens to local storage requests on pym and relay it to local storage.
+    connectStorageToPym(
+      createStorage('localStorage'),
+      this.pym,
+      'localStorage'
+    );
+
+    // Listens to session storage requests on pym and relay it to session storage.
+    connectStorageToPym(
+      createStorage('sessionStorage'),
+      this.pym,
+      'sessionStorage'
+    );
   }
 
   login(token) {
