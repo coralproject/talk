@@ -7,6 +7,7 @@ const SpamLabel = () => (
   <CommentDetail
     icon={'add_box'}
     header={t('talk-plugin-akismet.spam_comment')}
+    info={t('talk-plugin-akismet.detected')}
   />
 );
 
