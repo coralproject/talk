@@ -218,7 +218,7 @@
     "yaml-lint": "^1.0.0"
   },
   "engines": {
-    "node": "^8"
+    "node": ">=8"
   },
   "pre-commit": {
     "silent": false,
