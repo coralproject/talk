@@ -21,7 +21,7 @@ const debug = require('debug')('talk:services:users');
 const UserModel = require('../models/user');
 
 const RECAPTCHA_WINDOW = '10m'; // 10 minutes.
-const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha will be required.
+const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 5 incorrect attempts, recaptcha will be required.
 
 const ActionsService = require('./actions');
 const mailer = require('./mailer');
