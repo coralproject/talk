@@ -20,7 +20,6 @@ class CommentBox extends React.Component {
     super(props);
 
     this.state = {
-      username: '',
       body: '',
       loadingState: '',
 
@@ -129,7 +128,7 @@ class CommentBox extends React.Component {
   };
 
   render() {
-    const { isReply, maxCharCount } = this.props;
+    const { isReply, maxCharCount, assetId, parentId } = this.props;
     let { onCancel } = this.props;
 
     if (isReply && typeof onCancel !== 'function') {
@@ -139,6 +138,11 @@ class CommentBox extends React.Component {
       onCancel = () => {};
     }
 
+    // Generate id for the DraftArea.
+    const id = parentId
+      ? `comment-draft_${parentId}`
+      : `comment-draft_${assetId}`;
+
     return (
       <div>
         <CommentForm
@@ -147,7 +151,7 @@ class CommentBox extends React.Component {
           maxCharCount={maxCharCount}
           charCountEnable={this.props.charCountEnable}
           bodyPlaceholder={t('comment.comment')}
-          bodyInputId={isReply ? 'replyText' : 'commentText'}
+          bodyInputId={id}
           body={this.state.body}
           buttonContainerStart={
             <Slot

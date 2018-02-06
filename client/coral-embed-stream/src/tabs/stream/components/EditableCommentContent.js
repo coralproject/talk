@@ -21,6 +21,7 @@ export class EditableCommentContent extends React.Component {
 
     // comment that is being edited
     comment: PropTypes.shape({
+      id: PropTypes.string,
       body: PropTypes.string,
       editing: PropTypes.shape({
         edited: PropTypes.bool,
@@ -120,10 +121,12 @@ export class EditableCommentContent extends React.Component {
   };
 
   render() {
+    const id = `edit-draft_${this.props.comment.id}`;
     return (
       <div className={styles.editCommentForm}>
         <CommentForm
           defaultValue={this.props.comment.body}
+          bodyInputId={id}
           charCountEnable={this.props.charCountEnable}
           maxCharCount={this.props.maxCharCount}
           submitEnabled={this.isSubmitEnabled}
