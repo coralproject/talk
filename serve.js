@@ -6,6 +6,7 @@ const scraper = require('./services/scraper');
 const mailer = require('./services/mailer');
 const MigrationService = require('./services/migration');
 const SetupService = require('./services/setup');
+const PluginsService = require('./services/plugins');
 const kue = require('./services/kue');
 const mongoose = require('./services/mongoose');
 const cache = require('./services/cache');
@@ -79,6 +80,9 @@ async function onListening() {
  * Start the app.
  */
 async function serve({ jobs = false, websockets = false } = {}) {
+  // Run the deffered plugins.
+  PluginsService.runDeferred();
+
   // Start the cache instance.
   await cache.init();
 

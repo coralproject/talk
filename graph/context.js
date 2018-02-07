@@ -87,4 +87,15 @@ class Context {
   }
 }
 
+// Attach the Context to the connectors.
+connectors.graph.Context = Context;
+
+// Connect the connect based plugings after the server has started.
+plugins.defer('server', 'connect', ({ plugin, connect }) => {
+  debug(`connecting plugin to connectors '${plugin.name}'`);
+
+  // Pass the connectors down to the connect plugin.
+  connect(connectors);
+});
+
 module.exports = Context;

@@ -73,6 +73,7 @@ const hookSchemas = {
     onConnect: Joi.func(),
     onDisconnect: Joi.func(),
   }),
+  connect: Joi.func().maxArity(1),
 };
 
 /**
@@ -293,14 +294,42 @@ class PluginManager {
         plugins[section]
       );
     }
+
+    this.deferredHooks = [];
+    this.ranDeferredHooks = false;
   }
 
   /**
    * Utility function which combines the Plugins.section and PluginSection.hook
    * calls.
    */
-  get(section, hook) {
-    return this.section(section).hook(hook);
+  get(sectionName, hookName) {
+    return this.section(sectionName).hook(hookName);
+  }
+
+  /**
+   * Utility function which combines the Plugins.section and PluginSection.hook
+   * calls and runs them when the `runDeferred` is called.
+   */
+  defer(sectionName, hookName, callback) {
+    const plugins = this.section(sectionName).hook(hookName);
+
+    // If we've already ran the callbacks, then we should run it immediately.
+    if (this.ranDeferredHooks) {
+      plugins.forEach(callback);
+    } else {
+      this.deferredHooks.push({ plugins, callback });
+    }
+  }
+
+  /**
+   * Calls all deferred hooks.
+   */
+  runDeferred() {
+    this.deferredHooks.forEach(({ plugins, callback }) =>
+      plugins.forEach(callback)
+    );
+    this.ranDeferredHooks = true;
   }
 
   /**

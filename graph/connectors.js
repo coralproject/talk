@@ -4,6 +4,12 @@ const merge = require('lodash/merge');
 // Errors.
 const errors = require('../errors');
 
+// Graph
+const subscriptions = require('./subscriptions');
+const resolvers = require('./resolvers');
+const mutators = require('./mutators');
+const loaders = require('./loaders');
+
 // Models.
 const Action = require('../models/action');
 const Asset = require('../models/asset');
@@ -39,8 +45,8 @@ const Tokens = require('../services/tokens');
 const Users = require('../services/users');
 const Wordlist = require('../services/wordlist');
 
-// Connector.
-const connectors = {
+// Connectors.
+const defaultConnectors = {
   errors,
   models: {
     Action,
@@ -77,14 +83,22 @@ const connectors = {
     Users,
     Wordlist,
   },
+  graph: {
+    subscriptions,
+    resolvers,
+    mutators,
+    loaders,
+  },
 };
 
-module.exports = Plugins.get('server', 'connectors').reduce(
+const connectors = Plugins.get('server', 'connectors').reduce(
   (defaultConnectors, { plugin, connectors: pluginConnectors }) => {
     debug(`adding plugin '${plugin.name}'`);
 
     // Merge in the plugin connectors.
     return merge(defaultConnectors, pluginConnectors);
   },
-  connectors
+  defaultConnectors
 );
+
+module.exports = connectors;
