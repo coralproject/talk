@@ -421,7 +421,7 @@ class ModerationQueue extends React.Component {
             dangling={
               !this.props.commentBelongToQueue(this.props.activeTab, comment)
             }
-          />;
+          />
         </div>
       );
     }

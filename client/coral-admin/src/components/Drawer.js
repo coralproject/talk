@@ -44,7 +44,7 @@ const CoralDrawer = ({ handleLogout, currentUser }) => (
               {t('configure.configure')}
             </Link>
           )}
-          <a onClick={handleLogout}>Sign Out</a>
+          <a onClick={handleLogout}>{t('configure.sign_out')}</a>
           <span>{`v${process.env.VERSION}`}</span>
         </Navigation>
       </div>

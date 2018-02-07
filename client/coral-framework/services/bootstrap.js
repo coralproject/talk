@@ -45,6 +45,14 @@ const getAuthToken = (store, storage) => {
   return null;
 };
 
+function areWeInIframe() {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+}
+
 /**
  * createContext setups and returns Talk dependencies that should be
  * passed to `TalkProvider`.
@@ -65,9 +73,16 @@ export async function createContext({
   preInit,
   init = noop,
 } = {}) {
+  const inIframe = areWeInIframe();
   const eventEmitter = new EventEmitter({ wildcard: true });
-  const storage = createStorage();
-  const pymStorage = createPymStorage(pym);
+  const localStorage = createStorage('localStorage');
+  const sessionStorage = createStorage('sessionStorage');
+  const pymLocalStorage = inIframe
+    ? createPymStorage(pym, 'localStorage')
+    : localStorage;
+  const pymSessionStorage = inIframe
+    ? createPymStorage(pym, 'sessionStorage')
+    : sessionStorage;
   const history = createHistory(BASE_PATH);
   const introspection = createIntrospection(introspectionData);
   let store = null;
@@ -77,7 +92,7 @@ export async function createContext({
 
     // NOTE: THIS IS ONLY EVER EVALUATED ONCE, IN ORDER TO SEND A DIFFERNT
     // TOKEN YOU MUST DISCONNECT AND RECONNECT THE WEBSOCKET CLIENT.
-    return getAuthToken(store, storage);
+    return getAuthToken(store, localStorage);
   };
 
   const rest = createRestClient({
@@ -118,10 +133,13 @@ export async function createContext({
     rest,
     graphql,
     notification,
-    storage,
+    localStorage,
+    sessionStorage,
     history,
     introspection,
-    pymStorage,
+    pymLocalStorage,
+    pymSessionStorage,
+    inIframe,
   };
 
   // Load framework fragments.

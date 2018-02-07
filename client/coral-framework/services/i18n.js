@@ -68,7 +68,7 @@ function getLocale(storage) {
 
 export function setupTranslations() {
   // Setup the translation framework with the storage.
-  const storage = createStorage();
+  const storage = createStorage('localStorage');
 
   const locale = getLocale(storage);
   setLocale(storage, locale);
