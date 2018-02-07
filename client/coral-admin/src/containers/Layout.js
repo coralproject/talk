@@ -68,8 +68,8 @@ LayoutContainer.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  currentUser: state.authCore.user,
-  checkedInitialLogin: state.authCore.checkedInitialLogin,
+  currentUser: state.auth.user,
+  checkedInitialLogin: state.auth.checkedInitialLogin,
 });
 
 const mapDispatchToProps = dispatch =>

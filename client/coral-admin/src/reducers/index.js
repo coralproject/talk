@@ -1,4 +1,3 @@
-import auth from './auth';
 import stories from './stories';
 import configure from './configure';
 import community from './community';
@@ -10,7 +9,6 @@ import userDetail from './userDetail';
 import ui from './ui';
 
 export default {
-  auth,
   banUserDialog,
   configure,
   suspendUserDialog,

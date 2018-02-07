@@ -165,8 +165,8 @@ export async function createContext({
 
   // Create our redux store.
   const finalReducers = {
+    ...coreReducers,
     authCore: coreReducers.auth,
-    static: coreReducers.static,
     ...reducers,
     ...plugins.getReducers(),
   };
