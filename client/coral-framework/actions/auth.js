@@ -1,9 +1,9 @@
 import * as actions from '../constants/auth';
 import jwtDecode from 'jwt-decode';
 
-function cleanAuthData(storage) {
-  storage.removeItem('token');
-  storage.removeItem('exp');
+function cleanAuthData(localStorage) {
+  localStorage.removeItem('token');
+  localStorage.removeItem('exp');
 }
 
 /**
@@ -12,14 +12,14 @@ function cleanAuthData(storage) {
 export const checkLogin = () => (
   dispatch,
   _,
-  { rest, client, pym, storage }
+  { rest, client, pym, localStorage }
 ) => {
   dispatch(checkLoginRequest());
   rest('/auth')
     .then(result => {
       if (!result.user) {
-        if (storage) {
-          cleanAuthData(storage);
+        if (localStorage) {
+          cleanAuthData(localStorage);
         }
         dispatch(checkLoginSuccess(null));
         return;
@@ -32,9 +32,9 @@ export const checkLogin = () => (
       pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
     })
     .catch(error => {
-      if (error.status && error.status === 401 && storage) {
+      if (error.status && error.status === 401 && localStorage) {
         // Unauthorized.
-        cleanAuthData(storage);
+        cleanAuthData(localStorage);
       } else {
         console.error(error);
       }
@@ -60,11 +60,11 @@ const checkLoginSuccess = user => ({
 export const handleSuccessfulLogin = (user, token) => (
   dispatch,
   _,
-  { client, storage }
+  { client, localStorage }
 ) => {
-  if (storage) {
-    storage.setItem('exp', jwtDecode(token).exp);
-    storage.setItem('token', token);
+  if (localStorage) {
+    localStorage.setItem('exp', jwtDecode(token).exp);
+    localStorage.setItem('token', token);
   }
 
   client.resetWebsocket();
@@ -81,12 +81,12 @@ export const handleSuccessfulLogin = (user, token) => (
 export const logout = () => async (
   dispatch,
   _,
-  { rest, client, pym, storage }
+  { rest, client, pym, localStorage }
 ) => {
   await rest('/auth', { method: 'DELETE' });
 
-  if (storage) {
-    cleanAuthData(storage);
+  if (localStorage) {
+    cleanAuthData(localStorage);
   }
 
   // Reset the websocket.

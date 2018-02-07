@@ -23,7 +23,8 @@ class ForgotPassword extends React.Component {
   renderSuccess() {
     return (
       <div className={styles.success} onClick={this.handleSignInLink}>
-        {this.props.success}{' '}
+        If you have a registered account, a password reset link was sent to that
+        email.{' '}
         <a
           className={styles.signInLink}
           href="#"

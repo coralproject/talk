@@ -97,12 +97,14 @@ const CoralHeader = ({
                         Report a bug or give feedback
                       </a>
                     </MenuItem>
-                    <MenuItem
-                      onClick={handleLogout}
-                      className="talk-admin-header-sign-out"
-                    >
-                      {t('configure.sign_out')}
-                    </MenuItem>
+                    {currentUser && (
+                      <MenuItem
+                        onClick={handleLogout}
+                        className="talk-admin-header-sign-out"
+                      >
+                        {t('configure.sign_out')}
+                      </MenuItem>
+                    )}
                   </Menu>
                 </div>
               </li>
