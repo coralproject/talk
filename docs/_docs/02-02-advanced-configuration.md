@@ -487,3 +487,9 @@ Used to set the key for use with
 tracing of GraphQL requests.
 
 **Note: Apollo Engine is a premium service, charges may apply.**
+
+## ALLOW_NO_LIMIT_QUERIES
+
+Setting this to `TRUE` will allow queries to execute without a limit (returns
+all documents). This introduces a significant performance regression, and should
+be used with caution. (Default `FALSE`)
