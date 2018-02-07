@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import kebabCase from 'lodash/kebabCase';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
+import get from 'lodash/get';
 import { getShallowChanges } from 'coral-framework/utils';
 
 const emptyConfig = {};
@@ -68,7 +69,7 @@ class Slot extends React.Component {
     } = this.props;
     const { plugins } = this.context;
     let children = this.getChildren();
-    const pluginConfig = reduxState.config.pluginConfig || emptyConfig;
+    const pluginConfig = get(reduxState, 'config.pluginConfig') || emptyConfig;
     if (children.length === 0 && DefaultComponent) {
       const props = plugins.getSlotComponentProps(
         DefaultComponent,

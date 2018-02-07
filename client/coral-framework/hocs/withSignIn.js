@@ -18,6 +18,7 @@ export default hoistStatics(WrappedComponent => {
     state = {
       error: null,
       loading: false,
+      requireRecaptcha: false,
     };
 
     signIn = (email, password, recaptchaResponse) => {
@@ -45,7 +46,12 @@ export default hoistStatics(WrappedComponent => {
           if (!error.status || error.status !== 401) {
             console.error(error);
           }
-          this.setState({ loading: false, error });
+          const changeSet = { loading: false, error };
+          if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
+            changeSet.requireRecaptcha = !!this.context.store.getState().static
+              .TALK_RECAPTCHA_PUBLIC;
+          }
+          this.setState(changeSet);
         });
     };
 
@@ -65,7 +71,7 @@ export default hoistStatics(WrappedComponent => {
           signIn={this.signIn}
           loading={this.state.loading}
           errorMessage={this.getErrorMessage()}
-          requireRecaptcha={false}
+          requireRecaptcha={this.state.requireRecaptcha}
         />
       );
     }

@@ -35,7 +35,7 @@ import { setStaticConfiguration } from '../actions/static';
 const getAuthToken = (store, storage) => {
   let state = store.getState();
 
-  if (state.config.auth_token) {
+  if (state.config && state.config.auth_token) {
     // if an auth_token exists in config, use it.
     return state.config.auth_token;
   } else if (!bowser.safari && !bowser.ios && storage) {

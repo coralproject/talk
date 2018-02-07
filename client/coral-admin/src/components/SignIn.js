@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './SignIn.css';
 import { Button, TextField, Alert } from 'coral-ui';
+import Recaptcha from 'coral-framework/components/Recaptcha';
 
 class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  recaptcha = null;
 
   handleForgotPasswordLink = e => {
     e.preventDefault();
@@ -18,10 +17,23 @@ class SignIn extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.onSubmit();
+
+    // Reset recaptcha because each response can only
+    // be used once.
+    if (this.recaptcha) {
+      this.recaptcha.reset();
+    }
+  };
+
+  handleRecaptchaRef = ref => {
+    this.recaptcha = ref;
+    setTimeout(() => {
+      console.log(ref);
+    }, 1000)
   };
 
   render() {
-    const { email, password, errorMessage } = this.props;
+    const { email, password, errorMessage, requireRecaptcha } = this.props;
     return (
       <form className="talk-admin-login-sign-in" onSubmit={this.handleSubmit}>
         {errorMessage && <Alert>{errorMessage}</Alert>}
@@ -57,6 +69,12 @@ class SignIn extends React.Component {
             Request a new one.
           </a>
         </p>
+        {requireRecaptcha && (
+          <Recaptcha
+            ref={this.handleRecaptchaRef}
+            onVerify={this.props.onRecaptchaVerify}
+          />
+        )}
       </form>
     );
   }
@@ -68,6 +86,7 @@ SignIn.propTypes = {
   onEmailChange: PropTypes.func.isRequired,
   onPasswordChange: PropTypes.func.isRequired,
   onForgotPasswordLink: PropTypes.func.isRequired,
+  onRecaptchaVerify: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   errorMessage: PropTypes.string.isRequired,
   requireRecaptcha: PropTypes.bool.isRequired,

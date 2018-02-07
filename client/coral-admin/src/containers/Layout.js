@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Layout from '../components/Layout';
-import { fetchConfig } from '../actions/config';
 import Login from '../containers/Login';
 import { FullLoading } from '../components/FullLoading';
 import BanUserDialog from './BanUserDialog';
@@ -14,12 +13,6 @@ import UserDetail from 'coral-admin/src/containers/UserDetail';
 import PropTypes from 'prop-types';
 
 class LayoutContainer extends React.Component {
-  componentWillMount() {
-    const { fetchConfig } = this.props;
-
-    fetchConfig();
-  }
-
   render() {
     const {
       currentUser,
@@ -72,8 +65,6 @@ LayoutContainer.propTypes = {
   checkedInitialLogin: PropTypes.bool,
   logout: PropTypes.func,
   toggleShortcutModal: PropTypes.func,
-  TALK_RECAPTCHA_PUBLIC: PropTypes.string,
-  fetchConfig: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -84,7 +75,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      fetchConfig,
       toggleShortcutModal,
       logout,
     },

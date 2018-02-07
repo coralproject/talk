@@ -8,10 +8,15 @@ class SignInContainer extends Component {
   state = {
     email: '',
     password: '',
+    recaptchaResponse: '',
   };
 
   handleSubmit = () => {
-    this.props.signIn(this.state.email, this.state.password);
+    this.props.signIn(
+      this.state.email,
+      this.state.password,
+      this.state.recaptchaResponse
+    );
   };
 
   handleEmailChange = email => {
@@ -20,6 +25,10 @@ class SignInContainer extends Component {
 
   handlePasswordChange = password => {
     this.setState({ password });
+  };
+
+  handleRecaptchaVerify = recaptchaResponse => {
+    this.setState({ recaptchaResponse });
   };
 
   render() {
@@ -32,6 +41,7 @@ class SignInContainer extends Component {
         password={this.state.password}
         errorMessage={this.props.errorMessage}
         onForgotPasswordLink={this.props.onForgotPasswordLink}
+        onRecaptchaVerify={this.handleRecaptchaVerify}
         requireRecaptcha={this.props.requireRecaptcha}
       />
     );
