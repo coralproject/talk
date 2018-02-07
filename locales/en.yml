@@ -424,7 +424,7 @@ en:
     remove_ban: "Remove Ban"
     ban: "Ban User"
     member_since: "Member Since"
-    identification: "Identification"
+    email: "Email"
     total_comments: "Total Comments"
     reject_rate: "Reject Rate"
     reports: "Reports"

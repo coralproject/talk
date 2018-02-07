@@ -197,11 +197,11 @@ class UserDetail extends React.Component {
                 {new Date(user.created_at).toLocaleString()}
               </li>
 
-              {user.profiles.map(({ id, provider }) => (
+              {user.profiles.map(({ id }) => (
                 <li key={id}>
-                  <Icon name="perm_identity" />
+                  <Icon name="email" />
                   <span className={styles.userDetailItem}>
-                    {t('user_detail.identification')} ({provider}):
+                    {t('user_detail.email')}:
                   </span>
                   {id}{' '}
                   <ButtonCopyToClipboard
