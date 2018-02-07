@@ -397,6 +397,13 @@ class ModerationQueue extends React.Component {
       const index = comments.findIndex(
         comment => comment.id === selectedCommentId
       );
+
+      // This can happen temporarily when we call redux to change the selected comment
+      // but it didn't fully take effect yet.
+      if (index === -1) {
+        return null;
+      }
+
       const comment = comments[index];
       return (
         <div className={styles.root}>
@@ -414,7 +421,7 @@ class ModerationQueue extends React.Component {
             dangling={
               !this.props.commentBelongToQueue(this.props.activeTab, comment)
             }
-          />;
+          />
         </div>
       );
     }

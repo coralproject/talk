@@ -8,6 +8,7 @@ import ClickOutside from 'coral-framework/components/ClickOutside';
 import cn from 'classnames';
 import styles from './FlagButton.css';
 import * as REASONS from 'coral-framework/graphql/flagReasons';
+import PropTypes from 'prop-types';
 
 import { getErrorMessages, forEachError } from 'coral-framework/utils';
 
@@ -77,9 +78,10 @@ export default class FlagButton extends Component {
           return;
         }
         break;
-      case this.props.getPopupMenu.length:
-        this.closeMenu();
-        return;
+      case 2:
+        return this.closeMenu();
+      default:
+        throw new Error(`Unexpected step ${step}`);
     }
 
     // If itemType and reason are both set, post the action
@@ -92,6 +94,8 @@ export default class FlagButton extends Component {
         case 'USERS':
           item_id = author_id;
           break;
+        default:
+          throw new Error(`Unexpected itemType ${itemType}`);
       }
 
       let action = {
@@ -272,3 +276,12 @@ export default class FlagButton extends Component {
     );
   }
 }
+
+FlagButton.propTypes = {
+  currentUser: PropTypes.object,
+  showSignInDialog: PropTypes.func,
+  notify: PropTypes.func,
+  getPopupMenu: PropTypes.array,
+  flaggedByCurrentUser: PropTypes.bool,
+  banned: PropTypes.bool,
+};
