@@ -22,8 +22,9 @@ import {
 import { createHistory } from 'coral-framework/services/history';
 import { createIntrospection } from 'coral-framework/services/introspection';
 import introspectionData from 'coral-framework/graphql/introspection.json';
-import auth from '../reducers/auth';
+import coreReducers from '../reducers';
 import { checkLogin } from '../actions/auth';
+import { setStaticConfiguration } from '../actions/static';
 
 /**
  * getAuthToken returns the active auth token or null
@@ -100,7 +101,8 @@ export async function createContext({
     token,
   });
 
-  let { LIVE_URI: liveUri } = getStaticConfiguration();
+  const staticConfig = getStaticConfiguration();
+  let { LIVE_URI: liveUri } = staticConfig;
   if (liveUri == null) {
     // The protocol must match the origin protocol, secure/insecure.
     const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
@@ -163,7 +165,8 @@ export async function createContext({
 
   // Create our redux store.
   const finalReducers = {
-    authCore: auth,
+    authCore: coreReducers.auth,
+    static: coreReducers.static,
     ...reducers,
     ...plugins.getReducers(),
   };
@@ -183,6 +186,7 @@ export async function createContext({
     [client.middleware(), apolloErrorReporter, createReduxEmitter(eventEmitter)]
   );
 
+  store.dispatch(setStaticConfiguration(staticConfig));
   store.dispatch(checkLogin());
 
   // Run pre initialization.
