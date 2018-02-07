@@ -1,44 +1,30 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withLogin } from 'coral-framework/hocs';
-import { compose } from 'recompose';
 import Login from '../components/Login';
 
 class LoginContainer extends Component {
   state = {
-    email: '',
-    password: '',
+    forgotPassword: false,
   };
 
-  handleSubmit = () => {
-    this.props.login(this.state.email, this.state.password);
+  switchToForgotPassword = () => {
+    this.setState({ forgotPassword: true });
   };
 
-  handleEmailChange = email => {
-    this.setState({ email });
-  };
-
-  handlePasswordChange = password => {
-    this.setState({ password });
+  switchToSignIn = () => {
+    this.setState({ forgotPassword: false });
   };
 
   render() {
     return (
       <Login
-        onSubmit={this.handleSubmit}
-        onEmailChange={this.handleEmailChange}
-        onPasswordChange={this.handlePasswordChange}
-        email={this.state.email}
-        password={this.state.password}
-        errorMessage={this.props.errorMessage}
+        forgotPassword={this.state.forgotPassword}
+        onForgotPasswordLink={this.switchToForgotPassword}
+        onSignInLink={this.switchToSignIn}
       />
     );
   }
 }
 
-LoginContainer.propTypes = {
-  login: PropTypes.func,
-  errorMessage: PropTypes.string,
-};
+LoginContainer.propTypes = {};
 
-export default compose(withLogin)(LoginContainer);
+export default LoginContainer;

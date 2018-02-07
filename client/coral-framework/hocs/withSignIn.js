@@ -6,10 +6,10 @@ import { translateError } from '../utils';
 import { t } from '../services/i18n';
 
 /**
- * WithLogin provides properties `login`, `loading` and `errorMessage`, `requireRecaptcha`.
+ * WithSignIn provides properties `signIn`, `loading` and `errorMessage`, `requireRecaptcha`.
  */
 export default hoistStatics(WrappedComponent => {
-  class WithLogin extends React.Component {
+  class WithSignIn extends React.Component {
     static contextTypes = {
       store: PropTypes.object,
       rest: PropTypes.func,
@@ -20,7 +20,7 @@ export default hoistStatics(WrappedComponent => {
       loading: false,
     };
 
-    login = (email, password, recaptchaResponse) => {
+    signIn = (email, password, recaptchaResponse) => {
       const { store, rest } = this.context;
       const params = {
         method: 'POST',
@@ -62,7 +62,7 @@ export default hoistStatics(WrappedComponent => {
       return (
         <WrappedComponent
           {...this.props}
-          login={this.login}
+          signIn={this.signIn}
           loading={this.state.loading}
           errorMessage={this.getErrorMessage()}
           requireRecaptcha={false}
@@ -71,5 +71,5 @@ export default hoistStatics(WrappedComponent => {
     }
   }
 
-  return WithLogin;
+  return WithSignIn;
 });

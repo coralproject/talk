@@ -1,0 +1,14 @@
+.forgotPasswordCTA {
+  text-align: center;
+  font-size: 16px;
+}
+
+.forgotPasswordLink:hover {
+  text-decoration: underline;
+}
+
+.forgotPasswordLink {
+  color: blue;
+  font-weight: normal;
+  text-decoration: none;
+}
