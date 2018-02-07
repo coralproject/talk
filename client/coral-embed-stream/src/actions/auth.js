@@ -90,10 +90,10 @@ const signInFailure = error => ({
 // AUTH TOKEN
 //==============================================================================
 
-export const handleAuthToken = token => (dispatch, _, { storage }) => {
-  if (storage) {
-    storage.setItem('exp', jwtDecode(token).exp);
-    storage.setItem('token', token);
+export const handleAuthToken = token => (dispatch, _, { localStorage }) => {
+  if (localStorage) {
+    localStorage.setItem('exp', jwtDecode(token).exp);
+    localStorage.setItem('token', token);
   }
 
   dispatch({ type: 'HANDLE_AUTH_TOKEN' });
@@ -260,13 +260,13 @@ export const fetchForgotPassword = email => (dispatch, getState, { rest }) => {
 export const logout = () => async (
   dispatch,
   _,
-  { rest, client, pym, storage }
+  { rest, client, pym, localStorage }
 ) => {
   await rest('/auth', { method: 'DELETE' });
 
-  if (storage) {
-    storage.removeItem('token');
-    storage.removeItem('exp');
+  if (localStorage) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('exp');
   }
 
   // Reset the websocket.
@@ -297,15 +297,15 @@ const ErrNotLoggedIn = new Error('Not logged in');
 export const checkLogin = () => (
   dispatch,
   _,
-  { rest, client, pym, storage }
+  { rest, client, pym, localStorage }
 ) => {
   dispatch(checkLoginRequest());
   rest('/auth')
     .then(result => {
       if (!result.user) {
-        if (storage) {
-          storage.removeItem('token');
-          storage.removeItem('exp');
+        if (localStorage) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('exp');
         }
         throw ErrNotLoggedIn;
       }
@@ -328,10 +328,10 @@ export const checkLogin = () => (
       if (error !== ErrNotLoggedIn) {
         console.error(error);
       }
-      if (error.status && error.status === 401 && storage) {
+      if (error.status && error.status === 401 && localStorage) {
         // Unauthorized.
-        storage.removeItem('token');
-        storage.removeItem('exp');
+        localStorage.removeItem('token');
+        localStorage.removeItem('exp');
       }
       const errorMessage = error.translation_key
         ? t(`error.${error.translation_key}`)
