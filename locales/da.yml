@@ -272,22 +272,22 @@ da:
   moderate_this_stream: "Moderer denne strøm"
   flags:
     reasons:
-       user:
-         username_offensive: "Offensive"
-         username_nolike: "Dislike"
-         username_impersonating: "Impersonation"
-         username_spam: "Spam"
-         username_other: "Other"
-       comment:
-         comment_offensive: "Offensive"
-         comment_spam: "Spam"
-         comment_noagree: "Disagree"
-         comment_other: "Other"
-         suspect_word: "Suspect Word"
-         banned_word: "Banned Word"
-         body_count: "Body exceeds max length"
-         trust: "Trust"
-         links: "Link"
+      user:
+        username_offensive: "Offensive"
+        username_nolike: "Dislike"
+        username_impersonating: "Impersonation"
+        username_spam: "Spam"
+        username_other: "Other"
+      comment:
+        comment_offensive: "Offensive"
+        comment_spam: "Spam"
+        comment_noagree: "Disagree"
+        comment_other: "Other"
+        suspect_word: "Suspect Word"
+        banned_word: "Banned Word"
+        body_count: "Body exceeds max length"
+        trust: "Trust"
+        links: "Link"
   modqueue:
     account: "konto flag"
     actions: "Handlinger"
@@ -307,7 +307,6 @@ da:
     flagged: "flagged"
     reported: "Rapporteret"
     jump_to_queue: "Jump to specific queue"
-    thousand: k
     less_detail: "Færre detajler"
     likes: "Syntes godt om"
     million: "M"
@@ -456,5 +455,5 @@ da:
       launch: "Lancere Talk"
       close: "Luk dette installations program"
   admin_sidebar:
-		view_options: "View Options"
+    view_options: "View Options"
     sort_comments: "Sort Comments"
