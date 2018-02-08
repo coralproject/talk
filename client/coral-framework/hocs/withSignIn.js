@@ -48,8 +48,8 @@ export default hoistStatics(WrappedComponent => {
           }
           const changeSet = { loading: false, error };
           if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
-            changeSet.requireRecaptcha = !!this.context.store.getState().static
-              .TALK_RECAPTCHA_PUBLIC;
+            changeSet.requireRecaptcha = !!this.context.store.getState().config
+              .static.TALK_RECAPTCHA_PUBLIC;
           }
           this.setState(changeSet);
         });

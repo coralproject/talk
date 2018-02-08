@@ -1,4 +1,4 @@
-import * as actions from '../constants/auth';
+import * as actions from '../constants/login';
 import pym from 'coral-framework/services/pym';
 import merge from 'lodash/merge';
 
@@ -28,7 +28,7 @@ const purge = user => {
   return userData;
 };
 
-export default function auth(state = initialState, action) {
+export default function login(state = initialState, action) {
   switch (action.type) {
     case actions.FOCUS_SIGNIN_DIALOG:
       return {

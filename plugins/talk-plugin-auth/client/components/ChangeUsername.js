@@ -17,7 +17,7 @@ import {
   invalidForm,
   validForm,
   updateUsername,
-} from 'coral-embed-stream/src/actions/auth';
+} from 'coral-embed-stream/src/actions/login';
 
 class ChangeUsernameContainer extends React.Component {
   constructor(props) {

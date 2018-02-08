@@ -1,10 +1,10 @@
-import * as actions from '../constants/static';
+import { MERGE_CONFIG } from '../constants/config';
 
 const initialState = {};
 
-export default function auth(state = initialState, action) {
+export default function config(state = initialState, action) {
   switch (action.type) {
-    case actions.SET_STATIC_CONFIGURATION:
+    case MERGE_CONFIG:
       return {
         ...state,
         ...action.config,

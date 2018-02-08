@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import bowser from 'bowser';
-import * as actions from '../constants/auth';
+import * as actions from '../constants/login';
 import { notify } from 'coral-framework/actions/notification';
 import t from 'coral-framework/services/i18n';
 import get from 'lodash/get';

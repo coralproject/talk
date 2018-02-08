@@ -16,17 +16,10 @@ import cn from 'classnames';
 
 export default class Embed extends React.Component {
   changeTab = tab => {
-    // TODO: move data fetching to appropiate containers.
-    switch (tab) {
-      case 'profile':
-        this.props.data.refetch();
-        break;
-    }
     this.props.setActiveTab(tab);
   };
 
   getTabs() {
-    const { user } = this.props.auth;
     const tabs = [
       <Tab
         key="stream"
@@ -43,7 +36,7 @@ export default class Embed extends React.Component {
         {t('framework.my_profile')}
       </Tab>,
     ];
-    if (can(user, 'UPDATE_ASSET_CONFIG')) {
+    if (can(this.props.currentUser, 'UPDATE_ASSET_CONFIG')) {
       tabs.push(
         <Tab
           key="config"
@@ -64,7 +57,8 @@ export default class Embed extends React.Component {
       root,
       root: { asset },
       data,
-      auth: { showSignInDialog, signInDialogFocus },
+      showSignInDialog,
+      signInDialogFocus,
       blurSignInDialog,
       focusSignInDialog,
       hideSignInDialog,
@@ -138,7 +132,9 @@ export default class Embed extends React.Component {
 
 Embed.propTypes = {
   setActiveTab: PropTypes.func,
-  auth: PropTypes.object,
+  currentUser: PropTypes.object,
+  showSignInDialog: PropTypes.bool,
+  signInDialogFocus: PropTypes.bool,
   blurSignInDialog: PropTypes.func,
   focusSignInDialog: PropTypes.func,
   hideSignInDialog: PropTypes.func,

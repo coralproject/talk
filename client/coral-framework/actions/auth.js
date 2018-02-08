@@ -6,9 +6,6 @@ function cleanAuthData(localStorage) {
   localStorage.removeItem('exp');
 }
 
-/**
- * Check Login
- */
 export const checkLogin = () => (
   dispatch,
   _,
@@ -54,9 +51,15 @@ const checkLoginSuccess = user => ({
   user,
 });
 
-/**
- * Login
- */
+export const setAuthToken = token => (dispatch, _, { localStorage }) => {
+  if (localStorage) {
+    localStorage.setItem('exp', jwtDecode(token).exp);
+    localStorage.setItem('token', token);
+  }
+
+  dispatch(checkLogin());
+};
+
 export const handleSuccessfulLogin = (user, token) => (
   dispatch,
   _,

@@ -23,8 +23,9 @@ import { createHistory } from 'coral-framework/services/history';
 import { createIntrospection } from 'coral-framework/services/introspection';
 import introspectionData from 'coral-framework/graphql/introspection.json';
 import coreReducers from '../reducers';
-import { checkLogin } from '../actions/auth';
-import { setStaticConfiguration } from '../actions/static';
+import { checkLogin as checkLoginAction } from '../actions/auth';
+import { mergeConfig } from '../actions/config';
+import { setAuthToken, logout } from '../actions/auth';
 
 /**
  * getAuthToken returns the active auth token or null
@@ -54,6 +55,19 @@ function areWeInIframe() {
   }
 }
 
+function initExternalConfig({ store, pym, inIframe }) {
+  if (!inIframe) {
+    return;
+  }
+  return new Promise(resolve => {
+    pym.sendMessage('getConfig');
+    pym.onMessage('config', config => {
+      store.dispatch(mergeConfig(JSON.parse(config)));
+      resolve();
+    });
+  });
+}
+
 /**
  * createContext setups and returns Talk dependencies that should be
  * passed to `TalkProvider`.
@@ -73,6 +87,8 @@ export async function createContext({
   notification,
   preInit,
   init = noop,
+  checkLogin = true,
+  addExternalConfig = true,
 } = {}) {
   const inIframe = areWeInIframe();
   const eventEmitter = new EventEmitter({ wildcard: true });
@@ -166,7 +182,6 @@ export async function createContext({
   // Create our redux store.
   const finalReducers = {
     ...coreReducers,
-    authCore: coreReducers.auth,
     ...reducers,
     ...plugins.getReducers(),
   };
@@ -186,12 +201,39 @@ export async function createContext({
     [client.middleware(), apolloErrorReporter, createReduxEmitter(eventEmitter)]
   );
 
-  store.dispatch(setStaticConfiguration(staticConfig));
-  store.dispatch(checkLogin());
+  if (inIframe) {
+    pym.onMessage('login', token => {
+      if (token) {
+        store.dispatch(setAuthToken(token));
+      }
+    });
+
+    pym.onMessage('logout', () => {
+      store.dispatch(logout());
+    });
+  }
+
+  const preInitList = [];
+
+  store.dispatch(
+    mergeConfig({
+      static: staticConfig,
+    })
+  );
+
+  if (preInit) {
+    preInitList.push(preInit(context));
+  }
+
+  if (addExternalConfig) {
+    preInitList.push(initExternalConfig(context));
+  }
 
   // Run pre initialization.
-  if (preInit) {
-    await preInit(context);
+  await Promise.all(preInitList);
+
+  if (checkLogin) {
+    store.dispatch(checkLoginAction());
   }
 
   // Run initialization.

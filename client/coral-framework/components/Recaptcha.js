@@ -19,7 +19,7 @@ class Recaptcha extends React.Component {
     // This should be fine because it's static and will never change.
     // Prefer this to connect HOC because wie expose the instance method
     // `reset`
-    return this.context.store.getState().static.TALK_RECAPTCHA_PUBLIC;
+    return this.context.store.getState().config.static.TALK_RECAPTCHA_PUBLIC;
   }
 
   render() {

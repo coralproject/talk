@@ -14,8 +14,8 @@ import {
   withEditComment,
 } from 'coral-framework/graphql/mutations';
 
-import * as authActions from 'coral-embed-stream/src/actions/auth';
-import * as notificationActions from 'coral-framework/actions/notification';
+import { showSignInDialog, editName }  from 'coral-embed-stream/src/actions/login';
+import { notify } from 'coral-framework/actions/notification';
 import {
   setActiveReplyBox,
   setActiveTab,
@@ -40,9 +40,6 @@ import {
 } from '../../../graphql/utils';
 import StreamError from '../components/StreamError';
 
-const { showSignInDialog, editName } = authActions;
-const { notify } = notificationActions;
-
 class StreamContainer extends React.Component {
   commentsAddedSubscription = null;
   commentsEditedSubscription = null;
@@ -60,8 +57,8 @@ class StreamContainer extends React.Component {
         // Ignore mutations from me.
         // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
         if (
-          this.props.auth.user &&
-          commentEdited.user.id === this.props.auth.user.id
+          this.props.currentUser &&
+          commentEdited.user.id === this.props.currentUser.id
         ) {
           return prev;
         }
@@ -92,8 +89,8 @@ class StreamContainer extends React.Component {
         // Ignore mutations from me.
         // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
         if (
-          this.props.auth.user &&
-          commentAdded.user.id === this.props.auth.user.id
+          this.props.currentUser &&
+          commentAdded.user.id === this.props.currentUser.id
         ) {
           return prev;
         }
@@ -204,8 +201,8 @@ class StreamContainer extends React.Component {
     }
   }
 
-  userIsDegraged({ auth: { user } } = this.props) {
-    return !can(user, 'INTERACT_WITH_COMMUNITY');
+  userIsDegraged({ currentUser } = this.props) {
+    return !can(currentUser, 'INTERACT_WITH_COMMUNITY');
   }
 
   render() {
@@ -396,7 +393,7 @@ const fragments = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
+  currentUser: state.auth.user,
   activeReplyBox: state.stream.activeReplyBox,
   commentId: state.stream.commentId,
   assetId: state.stream.assetId,

@@ -1,3 +1,0 @@
-const prefix = `TALK_FRAMEWORK`;
-
-export const SET_STATIC_CONFIGURATION = `${prefix}_SET_STATIC_CONFIGURATION`;

@@ -1,7 +1,8 @@
 import auth from './auth';
-import staticConfiguration from './static';
+import config from './config';
 
 export default {
   auth,
-  static: staticConfiguration,
+  login: auth,
+  config,
 };
