@@ -306,7 +306,7 @@ da:
   stream:
     all_comments: "Alle kommentarer"
     temporarily_suspended: "I overensstemmelse med {0}'s retningslinjer for fællesskabet er din konto midlertidigt suspenderet. Venligst tilslut dig samtalen {1}."
-    comment_not_found: "Kommentar blev ikke fundet"
+    comment_not_found: "Denne kommentar er blevet fjernet eller findes ikke."
   step_1_header: "Rapportér et problem"
   step_2_header: "Hjælp os med at forstå"
   step_3_header: "Tak for din indsats"

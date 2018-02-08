@@ -323,7 +323,7 @@ zh_CN:
   stream:
     all_comments: "所有评论"
     temporarily_suspended: "根据 {0} 的社群指引方针，您的帐号已被暂时停用。请稍后加入对话 {1}。"
-    comment_not_found: "未找到评论"
+    comment_not_found: "此评论已被删除或不存在。"
     no_comments: "还没有评论，不如你写个？"
     no_comments_and_closed: "该文章没有评论。"
   step_1_header: "报告问题"
