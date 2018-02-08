@@ -259,6 +259,7 @@ fr:
   stream:
     all_comments: "Tous les commentaires"
     temporarily_suspended: "Conformément à la charte d'utilisation des commentaires de {0}, votre compte a été temporairement suspendu. Merci de revenir dans la conversation {1}."
+    comment_not_found: "Ce commentaire a été supprimé ou n'existe pas."
   step_1_header: "Signaler un problème"
   step_2_header: "Aidez-nous à comprendre"
   step_3_header: "Merci pour votre participation"
