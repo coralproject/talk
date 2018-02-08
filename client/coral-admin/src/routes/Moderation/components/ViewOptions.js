@@ -19,12 +19,12 @@ class ViewOptions extends React.Component {
             'talk-admin-moderation-view-options-headline'
           )}
         >
-          View Options
+          {t('admin_sidebar.view_options')}
         </h2>
         <div className={styles.viewOptionsContent}>
           <ul className={styles.viewOptionsList}>
             <li className={styles.viewOptionsItem}>
-              Sort Comments
+              {t('admin_sidebar.sort_comments')}
               <Dropdown
                 containerClassName={styles.dropdownContainer}
                 toggleClassName={styles.dropdownToggle}
