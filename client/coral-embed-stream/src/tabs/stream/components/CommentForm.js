@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'coral-ui';
 import cn from 'classnames';
-import Slot from 'coral-framework/components/Slot';
 
 // TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
 import { name } from '../containers/CommentBox';
 import styles from './CommentForm.css';
 
 import t from 'coral-framework/services/i18n';
+import DraftArea from '../containers/DraftArea';
 
 /**
  * Common UI for Creating or Editing a Comment
@@ -61,10 +61,6 @@ export class CommentForm extends React.Component {
     };
   }
 
-  onBodyChange = e => {
-    this.props.onBodyChange(e.target.value);
-  };
-
   onClickSubmit = () => {
     this.props.onSubmit();
   };
@@ -107,37 +103,16 @@ export class CommentForm extends React.Component {
 
     return (
       <div>
-        <div className={`${name}-container`}>
-          <label
-            htmlFor={this.props.bodyInputId}
-            className="screen-reader-text"
-            aria-hidden={true}
-          >
-            {this.props.bodyLabel}
-          </label>
-          <textarea
-            className={`${name}-textarea`}
-            value={body}
-            placeholder={this.props.bodyPlaceholder}
-            id={this.props.bodyInputId}
-            onChange={this.onBodyChange}
-            rows={3}
-            disabled={disableTextArea}
-          />
-          <Slot fill="commentInputArea" />
-        </div>
-        {this.props.charCountEnable && (
-          <div
-            className={`${name}-char-count ${
-              length > maxCharCount ? `${name}-char-max` : ''
-            }`}
-          >
-            {maxCharCount &&
-              `${maxCharCount - length} ${t(
-                'comment_box.characters_remaining'
-              )}`}
-          </div>
-        )}
+        <DraftArea
+          id={this.props.bodyInputId}
+          label={this.props.bodyLabel}
+          value={body}
+          placeholder={this.props.bodyPlaceholder}
+          onChange={this.props.onBodyChange}
+          disabled={disableTextArea}
+          charCountEnable={this.props.charCountEnable}
+          maxCharCount={this.props.maxCharCount}
+        />
         <div className={`${name}-button-container`}>
           {this.props.buttonContainerStart}
           {typeof this.props.onCancel === 'function' && (

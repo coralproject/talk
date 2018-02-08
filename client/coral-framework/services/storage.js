@@ -34,8 +34,8 @@ function getStorage(type) {
  * createStorage returns a localStorage wrapper if available
  * @return {Object}  localStorage wrapper
  */
-export function createStorage() {
-  return getStorage('localStorage');
+export function createStorage(type = 'localStorage') {
+  return getStorage(type);
 }
 
 /**
@@ -44,7 +44,7 @@ export function createStorage() {
  * @param  {string} pym  pym
  * @return {Object} storage
  */
-export function createPymStorage(pym) {
+export function createPymStorage(pym, type = 'localStorage') {
   // A Map of requestID => {resolve, reject}
   const requests = {};
 
@@ -54,21 +54,21 @@ export function createPymStorage(pym) {
     return new Promise((resolve, reject) => {
       requests[id] = { resolve, reject };
       pym.sendMessage(
-        'pymStorage.request',
+        `pymStorage.${type}.request`,
         JSON.stringify({ id, method, parameters })
       );
     });
   };
 
   // Receive successful responses.
-  pym.onMessage('pymStorage.response', msg => {
+  pym.onMessage(`pymStorage.${type}.response`, msg => {
     const { id, result } = JSON.parse(msg);
     requests[id].resolve(result);
     delete requests[id];
   });
 
   // Receive error responses.
-  pym.onMessage('pymStorage.error', msg => {
+  pym.onMessage(`pymStorage.${type}.error`, msg => {
     const { id, error } = JSON.parse(msg);
     requests[id].reject(error);
     delete requests[id];
@@ -88,8 +88,13 @@ export function createPymStorage(pym) {
  * @param  {Object} pym      pym to listen to storage requests
  * @param  {string} prefix   namespace requests by prepending a prefix to the keys
  */
-export function connectStorageToPym(storage, pym, prefix = 'talkPymStorage:') {
-  pym.onMessage('pymStorage.request', msg => {
+export function connectStorageToPym(
+  storage,
+  pym,
+  type = 'localStorage',
+  prefix = 'talkPymStorage:'
+) {
+  pym.onMessage(`pymStorage.${type}.request`, msg => {
     const { id, method, parameters } = JSON.parse(msg);
     const { key, value } = parameters;
     const prefixedKey = `${prefix}${key}`;
@@ -99,7 +104,10 @@ export function connectStorageToPym(storage, pym, prefix = 'talkPymStorage:') {
 
     const sendError = error => {
       console.error(error);
-      pym.sendMessage('pymStorage.error', JSON.stringify({ id, error }));
+      pym.sendMessage(
+        `pymStorage.${type}.error`,
+        JSON.stringify({ id, error })
+      );
     };
 
     try {
@@ -122,6 +130,9 @@ export function connectStorageToPym(storage, pym, prefix = 'talkPymStorage:') {
       return;
     }
 
-    pym.sendMessage('pymStorage.response', JSON.stringify({ id, result }));
+    pym.sendMessage(
+      `pymStorage.${type}.response`,
+      JSON.stringify({ id, result })
+    );
   });
 }

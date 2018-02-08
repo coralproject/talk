@@ -7,7 +7,8 @@ const name = 'talk-plugin-replies';
 
 class ReplyBox extends Component {
   componentDidMount() {
-    document.getElementById('replyText').focus();
+    // TODO: (kiwi) This does not follow best practices, better to move this logic into the component.
+    document.getElementById(`comment-draft_${this.props.parentId}`).focus();
   }
 
   cancelReply = () => {
@@ -54,6 +55,8 @@ ReplyBox.propTypes = {
   notify: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
   assetId: PropTypes.string.isRequired,
+  currentUser: PropTypes.object,
+  styles: PropTypes.object,
 };
 
 export default ReplyBox;
