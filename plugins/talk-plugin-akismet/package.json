@@ -1,0 +1,12 @@
+{
+  "name": "@coralproject/talk-plugin-akismet",
+  "pluginName": "talk-plugin-akismet",
+  "version": "0.0.1",
+  "description": "Provides support for preventing spam with the Akismet API",
+  "main": "index.js",
+  "author": "The Coral Project Team <coral@mozillafoundation.org>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "akismet-api": "^4.0.1"
+  }
+}

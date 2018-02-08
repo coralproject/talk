@@ -309,6 +309,7 @@ pt_BR:
   stream:
     all_comments: "Todos os comentários"
     temporarily_suspended: "De acordo com as diretrizes da comunidade de {0}, sua conta foi temporariamente suspensa. Por favor, volte para a conversa {1}."
+    comment_not_found: "Este comentário foi removido ou não existe."
   step_1_header: "Relatar um problema"
   step_2_header: "Ajude-nos a entender"
   step_3_header: "Obrigdo por sua contribuição"

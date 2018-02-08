@@ -358,7 +358,7 @@ nl_NL:
   stream:
     all_comments: "Alle reacties"
     temporarily_suspended: "In overeenstemming met de community richtlijnen van {0} is je account tijdelijk geschorst. Keer terug naar de conversaties {1}."
-    comment_not_found: "Reactie niet gevonden"
+    comment_not_found: "Deze opmerking is verwijderd of bestaat niet."
     no_comments: "Er zijn nog geen reacties. Schrijf er zelf eentje!"
     no_comments_and_closed: "Er waren geen reacties op dit artikel."
   step_1_header: "Rapporteer een issue"
