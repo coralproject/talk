@@ -19,9 +19,19 @@ es:
     email_message_ban: "Dear {0},\n\nSomeone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, like or report comments. if you think this has been done in error, please contact our community team."
   bio_offensive: "Esta biografia es ofensiva"
   cancel: Cancelar
+  confirm_email:
+    click_to_confirm: "Click below to confirm your email address"
+    confirm: "Confirm"
+  password_reset:
+    set_new_password: "Change Your Password"
+    new_password: "New Password"
+    new_password_help: "Password must be at least 8 characters"
+    confirm_new_password: "Confirm New Password"
+    change_password: "Change Password" 
   characters_remaining: "carácteres restantes"
   comment:
     anon: Anónimo
+    undo_reject: "Undo"
     ban_user: "Usuario Suspendido"
     comment: "Publicar un comentario"
     edited: Editado
@@ -51,10 +61,16 @@ es:
     reaction: 'reacción'
     reactions: 'reacciones'
     story: 'Artículo'
+  flagged_usernames:
+    notify_approved: '{0} approved username {1}'
+    notify_rejected: '{0} rejected username {1}'
+    notify_flagged: '{0} reported username {1}'
+    notify_changed: 'user {0} changed their username to {1}'
   community:
     account_creation_date: "Fecha de creación de la cuenta"
     active: Activa
     admin: Administrator
+    ads_marketing: "This looks like an ad/marketing"
     are_you_sure: "¿Estas segura que quieres suspender a {0}?"
     ban_user: "¿Quieres suspender al Usuario?"
     banned: Suspendido
@@ -169,6 +185,11 @@ es:
     minute: "minuto"
     minutes_plural: "minutos"
   email:
+    suspended:
+      subject: "Your account has been suspended"
+    banned:
+      subject: "Your account has been banned"
+      body: "In accordance with The Coral Project’s community guidelines, your account has been banned. You are now longer allowed to comment, flag or engage with our community."
     confirm:
       has_been_requested: "Un correo de confirmación ha sido pedido para la siguiente cuenta:"
       to_confirm: "Para confirmar la cuenta, por favor visitar el siguiente enlace:"
@@ -183,32 +204,38 @@ es:
     copy: "Copiar al portapapeles"
   error:
     COMMENT_PARENT_NOT_VISIBLE: "El comentario a la que estás contestando ha sido eliminado o no existe."
+    EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
+    PASSWORD_RESET_TOKEN_INVALID: "Your password reset link is invalid."
     COMMENT_TOO_SHORT: "Tu comentario debe tener algo escrito"
-    COMMENTING_CLOSED: "Los comentarios ya estan cerrados"
-    confirm_password: "Las contraseñas no coinciden. Inténtelo nuevamente"
-    edit_window_ended: "No puedes editar este comentario. El tiempo de edición ha expirado."
-    edit_username_not_authorized: "No tiene permiso para editar el nombre de usuario."
-    email: "No es un correo válido"
-    email_in_use: "Este correo se encuentra en uso"
-    email_not_verified: "Correo {0} no confirmado."
-    email_password: "Correo y/o contraseña incorrecta."
-    email_required: "Se requiere un correo"
-    email_username_in_use: "Correo o nombre en uso."
-    INVALID_ASSET_URL: "La URL del articulo no es valida"
-    unexpected: "Lo siento. Ha habido un error no previsto."
-    login_maximum_exceeded: "Ha realizado demasiados intentos fallidos de usar la contraseña. Por favor espere."
-    network_error: "Error al conectar con el servidor. Compruebe su conexión a Internet y vuelva a intentarlo."
     NOT_AUTHORIZED: "Acción no autorizada."
-    NOT_FOUND: "Recurso no encontrado"
     NO_SPECIAL_CHARACTERS: "Los nombres pueden contener letras números y _"
-    organization_name: "El nombre de la organización debe contener letras y/o números."
-    password: "La contraseña debe tener por lo menos 8 caracteres"
     PASSWORD_LENGTH: "Contraseña es muy corta"
-    PASSWORD_REQUIRED: "Debe ingresar la contraseña"
     PROFANITY_ERROR: "Los nombres no pueden contener blasfemias. Por favor contacte al o la administradora si cree que esto es un error"
-    username: "Los nombres pueden contener letras números y _"
+    RATE_LIMIT_EXCEEDED: "Rate limit exceeded"
     USERNAME_IN_USE: "Este nombre ya está siendo usado."
     USERNAME_REQUIRED: "Debe ingresar un nombre"
+    EMAIL_NOT_VERIFIED: "E-mail address not verified"
+    EDIT_WINDOW_ENDED:: "No puedes editar este comentario. El tiempo de edición ha expirado."
+    EDIT_USERNAME_NOT_AUTHORIZED: "No tiene permiso para editar el nombre de usuario."
+    SAME_USERNAME_PROVIDED: "You must submit a different username."
+    EMAIL_IN_USE: "Este correo se encuentra en uso"
+    EMAIL_REQUIRED: "Se requiere un correo"
+    LOGIN_MAXIMUM_EXCEEDED: "Ha realizado demasiados intentos fallidos de usar la contraseña. Por favor espere."
+    PASSWORD_REQUIRED: "Debe ingresar la contraseña"
+    COMMENTING_CLOSED: "Los comentarios ya estan cerrados"
+    NOT_FOUND: "Recurso no encontrado"
+    ALREADY_EXISTS: "Resource already exists"
+    INVALID_ASSET_URL: "La URL del articulo no es valida"
+    CANNOT_IGNORE_STAFF: "Cannot ignore Staff members."
+    email: "No es un correo válido"
+    confirm_password: "Las contraseñas no coinciden. Inténtelo nuevamente"
+    network_error: "Error al conectar con el servidor. Compruebe su conexión a Internet y vuelva a intentarlo."
+    email_not_verified: "Correo {0} no confirmado."
+    email_password: "Correo y/o contraseña incorrecta."
+    organization_name: "El nombre de la organización debe contener letras y/o números."
+    password: "La contraseña debe tener por lo menos 8 caracteres"
+    username: "Los nombres pueden contener letras números y _"
+    unexpected: "Lo siento. Ha habido un error no previsto."
   flag_comment: "Reportar este comentario"
   flag_reason: "Razón por la que hacer este reporte (Opcional)"
   flag_username: "Reportar el nombre de usuario"
@@ -227,6 +254,8 @@ es:
       error: "Nombres de usuarios pueden solamente incluir letras, números y _"
       label: "Nuevo Nombre"
       msg: "Tu cuenta está suspendida porque tu nombre de usuario ha sido considerado no apropiado para el espacio. Para recuperar la cuenta, por favor ingresar un nuevo nombre de usuario. Contáctanos si tienes alguna pregunta."
+    changed_name:
+      msg: "Your username change is under review by our moderation team."
     my_comments: "Mis Comentarios"
     my_profile: "Mi perfil"
     new_count: "Ver {0} más {1} "
@@ -257,17 +286,29 @@ es:
          comment_spam: "Contiene spam"
          comment_noagree: "No está de acuerdo"
          comment_other: "Otra razón"
+         suspect_word: "Suspect Word"
+         banned_word: "Banned Word"
+         body_count: "Body exceeds max length"
+         trust: "Trust"
+         links: "Link"
   modqueue:
     account: "reportes de cuentas"
     actions: Acciones
     all: todos
     all_streams: "Todos los Hilos"
+    notify_edited: '{0} edited comment "{1}"'
+    notify_accepted: '{0} accepted comment "{1}"'
+    notify_rejected: '{0} rejected comment "{1}"'
+    notify_flagged: '{0} flagged comment "{1}"'
+    notify_reset: '{0} reset status of comment "{1}"'
     approve: "Aprobar"
     approved: "Aprobado"
+    ban_user: "Ban"
     billion: B
     close: Cerrar
     empty_queue: "¡No hay más comentarios para moderar! Tiempo para un ☕️"
-    flagged: Reportado
+    flagged: reportado
+    reported: reportado
     less_detail: "Menos detalles"
     likes: likes
     million: M
@@ -293,6 +334,7 @@ es:
     show_shortcuts: "Mostrar Atajos"
     singleview: "Modo zen"
     thismenu: "Abrir este menu"
+    jump_to_queue: "Jump to specific queue"
     thousand: k
     try_these: "Intentar estos"
     view_more_shortcuts: "Ver más atajos"
@@ -301,6 +343,7 @@ es:
   no_agree_comment: "No estoy de acuerdo con este comentario"
   no_like_bio: "No me gusta esta biografia"
   no_like_username: "No me gusta este nombre de usuario"
+  already_flagged_username: "You have already flagged this username."
   other: Otro
   permalink: Compartir
   personal_info: "Este comentario muestra información personal"
@@ -320,46 +363,15 @@ es:
     sign_in: "Entrar"
     to_access: "para acceder al perfil"
     user_no_comment: "No has dejado aún ningún comentario. ¡Únete a la conversación!"
-  sign_in:
-    email_verify_cta: "Por favor confirme su correo."
-    request_new_verify_email: "Enviar otro correo:"
-    verify_email: "¡Gracias por crear una cuenta! Le enviamos un correo a la dirección que dio para confirmar su cuenta."
-    verify_email2: "Debe confirmarla antes de poder involucrarse en la comunidad."
-    not_you: "¿No eres tu?"
-    logged_in_as: "Entraste como"
-    facebook_sign_in: "Entrar con Facebook"
-    facebook_sign_up: "Registrarse con Facebook"
-    logout: "Salir"
-    sign_in: "Entrar"
-    sign_in_to_join: "Entrar para unirte a la conversación"
-    or: "O"
-    email: "Dirección de Correo"
-    password: "Contraseña"
-    forgot_your_pass: "¿Has olvidado tu contraseña?"
-    need_an_account: "¿Necesitas una cuenta?"
-    register: "Registrar"
-    sign_up: "Registro"
-    confirm_password: "Confirmar Contraseña"
-    username: "Nombre"
-    already_have_an_account: "¿Ya tienes una cuenta?"
-    recover_password: "Recuperar la contraseña"
-    email_in_use: "Este correo se encuentra en uso"
-    email_or_username_in_use: "Este correo ó nombre de usuario se encuentran en uso"
-    required_field: "Este campo es requerido"
-    passwords_dont_match: "Las contraseñas no coinciden."
-    special_characters: "Los nombres pueden contener letras, números y _"
-    sign_in_to_comment: "Entrar para comentar"
-    temporarily_suspended: "De acuerdo con la guía de la comunidad de {0}, su cuenta ha sido temporalmente suspendida. Por favor unirse a la conversación {1}."
-    check_the_form: "Formulario Inválido. Por favor, completa los campos"
-  step_1_header: "Reportar un problema"
-  step_2_header: "Ayúdanos a comprender"
-  step_3_header: "Gracias por tu participación"
   stream:
     all_comments: "Todos los comentarios"
     temporarily_suspended: "De acuerdo con la guía de la comunidad de {0}, su cuenta ha sido temporalmente suspendida. Por favor unirse a la conversación {1}."
     comment_not_found: "Este comentario ha sido eliminado o no existe."
     no_comments: "Todavía no hay comentarios. ¿Por qué no escribes uno?"
     no_comments_and_closed: "No hubo comentarios en este artículo."
+  step_1_header: "Reportar un problema"
+  step_2_header: "Ayúdanos a comprender"
+  step_3_header: "Gracias por tu participación"
   streams:
     all: "Todos"
     article: "Artículo"
@@ -406,29 +418,45 @@ es:
     bio_flags: "reportes para este bio"
     user_bio: "Bio de Usuario"
     username_flags: "reportes para este nombre de usuario"
+  user_detail:
+    remove_suspension: "Remove Suspension"
+    suspend: "Suspend User"
+    remove_ban: "Remove Ban"
+    ban: "Ban User"
+    member_since: "Member Since"
+    email: "Email"
+    total_comments: "Total Comments"
+    reject_rate: "Reject Rate"
+    reports: "Reports"
+    all: "All"
+    rejected: "Rejected"
+    account_history: "Account History"
   user_impersonating: "Este usuario suplanta a alguien"
   user_no_comment: "No has dejado aún ningún comentario. ¡Únete a la conversación!"
   username_offensive: "Este nombre de usuario es ofensivo"
   view_conversation: "Ver Conversación"
   install:
-    INITIAL:
-      DESCRIPTION: "Vamos a crear su comunidad Talk en unos pocos pasos."
-      SUBMIT: "Empecemos"
-    ADD_ORGANIZATION:
-      DESCRIPTION: "Por favor díganos el nombre de su organización. Esta aparecerá en correos cuando se inviten a nuevos miembros del equipo."
-      LABEL: "Nombre de la Organización"
-      SAVE: "Guardar"
-    CREATE:
-      EMAIL: "Dirección de correo"
-      USERNAME: "Nombre de Usuario"
-      PASSWORD: "Contraseña"
-      CONFIRM_PASSWORD: "Confirmar Contraseña"
-      SAVE: "Guardar"
-    PERMITTED_DOMAINS:
-      TITLE: "Dominios permitidos"
-      DESCRIPTION: "Ingresar los dominios en donde estará Talk, por ejemplo sus ambientes locales, de staging y producción (ej. localhost:3000, staging.domain.com, domain.com)."
-      SUBMIT: "Terminar la Instalación"
-    FINAL:
-      DESCRIPTION: "¡Gracias por instalar Talk! Enviamos un correo para verificar su dirección de correo. Mientras esta terminando de configurar su cuenta, ya puede comenzar a involucrarse con sus lectores."
-      LAUNCH: "Iniciar Talk"
-      CLOSE: "Cerrar este instalador"
+    initial:
+      description: "Vamos a crear su comunidad Talk en unos pocos pasos."
+      submit: "Empecemos"
+    add_organization:
+      description: "Por favor díganos el nombre de su organización. Esta aparecerá en correos cuando se inviten a nuevos miembros del equipo."
+      label: "Nombre de la Organización"
+      save: "Guardar"
+    create:
+      email: "Dirección de correo"
+      username: "Nombre de Usuario"
+      password: "Contraseña"
+      confirm_password: "Confirmar Contraseña"
+      save: "Guardar"
+    permitted_domains:
+      title: "Dominios permitidos"
+      description: "Ingresar los dominios en donde estará Talk, por ejemplo sus ambientes locales, de staging y producción (ej. localhost:3000, staging.domain.com, domain.com)."
+      submit: "Terminar la Instalación"
+    final:
+      description: "¡Gracias por instalar Talk! Enviamos un correo para verificar su dirección de correo. Mientras esta terminando de configurar su cuenta, ya puede comenzar a involucrarse con sus lectores."
+      launch: "Iniciar Talk"
+      close: "Cerrar este instalador"
+  admin_sidebar:
+    view_options: "View Options"
+    sort_comments: "Sort Comments"
