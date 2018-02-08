@@ -350,7 +350,6 @@ Stream.propTypes = {
   sortOrder: PropTypes.string,
   sortBy: PropTypes.string,
   loading: PropTypes.bool,
-  editName: PropTypes.func,
   appendItemArray: PropTypes.func,
   updateItem: PropTypes.func,
   viewAllComments: PropTypes.func,

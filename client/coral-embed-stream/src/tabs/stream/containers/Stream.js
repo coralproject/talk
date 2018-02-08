@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { gql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -225,8 +226,28 @@ class StreamContainer extends React.Component {
 
     return (
       <Stream
-        {...this.props}
-        loadMore={this.loadMore}
+        asset={this.props.asset}
+        activeStreamTab={this.props.activeStreamTab}
+        data={this.props.data}
+        root={this.props.root}
+        activeReplyBox={this.props.activeReplyBox}
+        setActiveReplyBox={this.props.setActiveReplyBox}
+        commentClassNames={this.props.commentClassNames}
+        setActiveStreamTab={this.props.setActiveStreamTab}
+        postFlag={this.props.postFlag}
+        postDontAgree={this.props.postDontAgree}
+        deleteAction={this.props.deleteAction}
+        showSignInDialog={this.props.showSignInDialog}
+        currentUser={this.props.currentUser}
+        emit={this.props.emit}
+        sortOrder={this.props.sortOrder}
+        sortBy={this.props.sortBy}
+        appendItemArray={this.props.appendItemArray}
+        updateItem={this.props.updateItem}
+        viewAllComments={this.props.viewAllComments}
+        notify={this.props.notify}
+        postComment={this.props.postComment}
+        editComment={this.props.editComment}
         loadMoreComments={this.loadMoreComments}
         loadNewReplies={this.loadNewReplies}
         userIsDegraged={this.userIsDegraged()}
@@ -235,6 +256,33 @@ class StreamContainer extends React.Component {
     );
   }
 }
+
+StreamContainer.propTypes = {
+  asset: PropTypes.object,
+  activeStreamTab: PropTypes.string,
+  data: PropTypes.object,
+  root: PropTypes.object,
+  activeReplyBox: PropTypes.string,
+  setActiveReplyBox: PropTypes.func,
+  commentClassNames: PropTypes.array,
+  setActiveStreamTab: PropTypes.func,
+  postFlag: PropTypes.func,
+  postDontAgree: PropTypes.func,
+  deleteAction: PropTypes.func,
+  showSignInDialog: PropTypes.func,
+  currentUser: PropTypes.object,
+  emit: PropTypes.func,
+  sortOrder: PropTypes.string,
+  sortBy: PropTypes.string,
+  loading: PropTypes.bool,
+  appendItemArray: PropTypes.func,
+  updateItem: PropTypes.func,
+  viewAllComments: PropTypes.func,
+  notify: PropTypes.func.isRequired,
+  postComment: PropTypes.func.isRequired,
+  editComment: PropTypes.func,
+  previousTab: PropTypes.string,
+};
 
 const commentFragment = gql`
   fragment CoralEmbedStream_Stream_comment on Comment {
