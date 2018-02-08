@@ -62,7 +62,7 @@ export default class Embed extends React.Component {
       blurSignInDialog,
       focusSignInDialog,
       hideSignInDialog,
-      router: { location: { query: { parentUrl } } },
+      parentUrl,
     } = this.props;
     const hasHighlightedComment = !!commentId;
 
@@ -75,9 +75,7 @@ export default class Embed extends React.Component {
         <AutomaticAssetClosure asset={asset} />
         <IfSlotIsNotEmpty slot="login">
           <Popup
-            href={`embed/stream/login?parentUrl=${encodeURIComponent(
-              parentUrl
-            )}`}
+            href={`login?parentUrl=${encodeURIComponent(parentUrl)}`}
             title="Login"
             features="menubar=0,resizable=0,width=500,height=550,top=200,left=500"
             open={showSignInDialog}
@@ -138,7 +136,7 @@ Embed.propTypes = {
   blurSignInDialog: PropTypes.func,
   focusSignInDialog: PropTypes.func,
   hideSignInDialog: PropTypes.func,
-  router: PropTypes.object,
+  parentUrl: PropTypes.string,
   commentId: PropTypes.string,
   root: PropTypes.object,
   activeTab: PropTypes.string,

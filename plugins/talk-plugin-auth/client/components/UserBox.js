@@ -3,11 +3,11 @@ import styles from './styles.css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import t from 'coral-framework/services/i18n';
-import { logout } from 'coral-embed-stream/src/actions/login';
+import { logout } from 'coral-framework/actions/auth';
 
-const UserBox = ({ loggedIn, user, logout, onShowProfile }) => (
+const UserBox = ({ user, logout, onShowProfile }) => (
   <div>
-    {loggedIn ? (
+    {user ? (
       <div className={`${styles.userBox} talk-stream-auth-userbox`}>
         <span className={styles.userBoxLoggedIn}>
           {t('sign_in.logged_in_as')}
@@ -25,7 +25,6 @@ const UserBox = ({ loggedIn, user, logout, onShowProfile }) => (
 );
 
 const mapStateToProps = ({ auth }) => ({
-  loggedIn: auth.loggedIn,
   user: auth.user,
 });
 

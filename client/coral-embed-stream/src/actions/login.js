@@ -3,12 +3,7 @@ import bowser from 'bowser';
 import * as actions from '../constants/login';
 import { notify } from 'coral-framework/actions/notification';
 import t from 'coral-framework/services/i18n';
-import get from 'lodash/get';
-
-export const updateStatus = status => ({
-  type: actions.UPDATE_STATUS,
-  status,
-});
+import { checkLogin } from 'coral-framework/actions/auth';
 
 export const showSignInDialog = () => ({
   type: actions.SHOW_SIGNIN_DIALOG,
@@ -27,10 +22,6 @@ export const hideSignInDialog = () => dispatch => {
   dispatch({ type: actions.HIDE_SIGNIN_DIALOG });
 };
 
-export const resetSignInDialog = () => dispatch => {
-  dispatch({ type: actions.HIDE_SIGNIN_DIALOG });
-};
-
 export const focusSignInDialog = () => ({
   type: actions.FOCUS_SIGNIN_DIALOG,
 });
@@ -38,6 +29,17 @@ export const focusSignInDialog = () => ({
 export const blurSignInDialog = () => ({
   type: actions.BLUR_SIGNIN_DIALOG,
 });
+
+// TODO: remove the rest.
+
+export const updateStatus = status => ({
+  type: actions.UPDATE_STATUS,
+  status,
+});
+
+export const resetSignInDialog = () => dispatch => {
+  dispatch({ type: actions.HIDE_SIGNIN_DIALOG });
+};
 
 export const showCreateUsernameDialog = () => ({
   type: actions.SHOW_CREATEUSERNAME_DIALOG,
@@ -274,70 +276,6 @@ export const logout = () => async (
 
   dispatch({ type: actions.LOGOUT });
   pym.sendMessage('coral-auth-changed');
-};
-
-//==============================================================================
-// CHECK LOGIN
-//==============================================================================
-
-const checkLoginRequest = () => ({ type: actions.CHECK_LOGIN_REQUEST });
-const checkLoginFailure = error => ({
-  type: actions.CHECK_LOGIN_FAILURE,
-  error,
-});
-
-const checkLoginSuccess = (user, isAdmin) => ({
-  type: actions.CHECK_LOGIN_SUCCESS,
-  user,
-  isAdmin,
-});
-
-const ErrNotLoggedIn = new Error('Not logged in');
-
-export const checkLogin = () => (
-  dispatch,
-  _,
-  { rest, client, pym, localStorage }
-) => {
-  dispatch(checkLoginRequest());
-  rest('/auth')
-    .then(result => {
-      if (!result.user) {
-        if (localStorage) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('exp');
-        }
-        throw ErrNotLoggedIn;
-      }
-
-      // Reset the websocket.
-      client.resetWebsocket();
-
-      dispatch(checkLoginSuccess(result.user));
-      pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
-
-      // This is for login via social. Usernames should be set.
-      if (
-        get(result.user, 'status.username.status') === 'UNSET' &&
-        !get(result.user, 'status.banned.status')
-      ) {
-        dispatch(showCreateUsernameDialog());
-      }
-    })
-    .catch(error => {
-      if (error !== ErrNotLoggedIn) {
-        console.error(error);
-      }
-      if (error.status && error.status === 401 && localStorage) {
-        // Unauthorized.
-        localStorage.removeItem('token');
-        localStorage.removeItem('exp');
-      }
-      const errorMessage = error.translation_key
-        ? t(`error.${error.translation_key}`)
-        : error.toString();
-      dispatch(checkLoginFailure(errorMessage));
-    });
 };
 
 export const validForm = () => ({ type: actions.VALID_FORM });

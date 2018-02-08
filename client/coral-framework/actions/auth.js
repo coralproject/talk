@@ -98,3 +98,13 @@ export const logout = () => async (
   dispatch({ type: actions.LOGOUT });
   pym.sendMessage('coral-auth-changed');
 };
+
+export const updateStatus = status => ({
+  type: actions.UPDATE_STATUS,
+  status,
+});
+
+export const updateUsername = username => ({
+  type: actions.UPDATE_USERNAME,
+  username,
+});

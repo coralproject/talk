@@ -1,4 +1,5 @@
 import * as actions from '../constants/auth';
+import merge from 'lodash/merge';
 
 const initialState = {
   checkedInitialLogin: false,
@@ -35,6 +36,24 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         user: null,
+      };
+    case actions.UPDATE_STATUS: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          status: merge({}, state.user.status, action.status),
+        },
+      };
+    }
+    case actions.UPDATE_USERNAME:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          username: action.username,
+          lowercaseUsername: action.username.toLowerCase(),
+        },
       };
     default:
       return state;

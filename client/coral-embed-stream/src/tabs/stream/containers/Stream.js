@@ -14,7 +14,10 @@ import {
   withEditComment,
 } from 'coral-framework/graphql/mutations';
 
-import { showSignInDialog, editName }  from 'coral-embed-stream/src/actions/login';
+import {
+  showSignInDialog,
+  editName,
+} from 'coral-embed-stream/src/actions/login';
 import { notify } from 'coral-framework/actions/notification';
 import {
   setActiveReplyBox,

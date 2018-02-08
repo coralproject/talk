@@ -160,6 +160,10 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
+router.use('/login', staticTemplate, async (req, res, next) => {
+  return res.render('login');
+});
+
 // Inject server route plugins.
 plugins.get('server', 'router').forEach(plugin => {
   debug(`added plugin '${plugin.plugin.name}'`);

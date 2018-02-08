@@ -3,11 +3,14 @@ import pym from 'coral-framework/services/pym';
 import merge from 'lodash/merge';
 
 const initialState = {
+  parentUrl: pym.parentUrl || location.href,
+  showSignInDialog: false,
+  signInDialogFocus: false,
+
+  // TODO: remove the rest
   isLoading: false,
   loggedIn: false,
   user: null,
-  showSignInDialog: false,
-  signInDialogFocus: false,
   showCreateUsernameDialog: false,
   checkedInitialLogin: false,
   view: 'SIGNIN',
@@ -46,8 +49,16 @@ export default function login(state = initialState, action) {
         showSignInDialog: true,
         signInDialogFocus: true,
       };
-    case actions.RESET_SIGNIN_DIALOG:
+
     case actions.HIDE_SIGNIN_DIALOG:
+      return {
+        ...state,
+        showSignInDialog: false,
+        signInDialogFocus: false,
+      };
+
+    // TODO: remove the rest.
+    case actions.RESET_SIGNIN_DIALOG:
       return {
         ...state,
         isLoading: false,

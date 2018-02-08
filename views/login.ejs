@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <%_ if (locals.customCssUrl) { _%>
+    <link href="<%= customCssUrl %>" rel="stylesheet" type="text/css">
+    <%_ } _%>
+    <%_ if (data != null) { _%>
+    <script id="data" type="application/json"><%- JSON.stringify(data) %></script>
+    <%_ } _%>
+    <base href="<%= BASE_URL %>"/>
+  </head>
+  <body>
+    <div id="talk-login-container"></div>
+    <script src="<%= STATIC_URL %>static/coral-login/bundle.js"></script>
+  </body>
+</html>

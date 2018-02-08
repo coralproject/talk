@@ -9,13 +9,11 @@ import renderComponent from 'recompose/renderComponent';
 
 import { Spinner } from 'coral-ui';
 import {
-  logout,
-  checkLogin,
   focusSignInDialog,
   blurSignInDialog,
   hideSignInDialog,
-  updateStatus,
 } from '../actions/login';
+import { updateStatus } from 'coral-framework/actions/auth';
 import { fetchAssetSuccess } from '../actions/asset';
 import {
   getDefinitionName,
@@ -149,6 +147,7 @@ class EmbedContainer extends React.Component {
         data={this.props.data}
         showSignInDialog={this.props.showSignInDialog}
         signInDialogFocus={this.props.signInDialogFocus}
+        parentUrl={this.props.parentUrl}
       />
     );
   }
@@ -297,6 +296,7 @@ EmbedContainer.propTypes = {
   commentId: PropTypes.string,
   root: PropTypes.object,
   activeTab: PropTypes.string,
+  parentUrl: PropTypes.string,
   data: PropTypes.object,
   fetchAssetSuccess: PropTypes.func,
   showSignInDialog: PropTypes.bool,
@@ -315,13 +315,12 @@ const mapStateToProps = state => ({
   sortBy: state.stream.sortBy,
   showSignInDialog: state.login.showSignInDialog,
   signInDialogFocus: state.login.signInDialogFocus,
+  parentUrl: state.login.parentUrl,
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      logout,
-      checkLogin,
       setActiveTab,
       fetchAssetSuccess,
       notify,
