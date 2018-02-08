@@ -103,3 +103,18 @@ Source: [plugins/talk-plugin-subscriber](https://github.com/coralproject/talk/tr
 Enables a `Subscriber` badge to be added to comments where the author has the
 `SUBSCRIBER` tag. This must match with a custom auth integration that adds the
 tag to the users that are subscribed to the service.
+
+## talk-plugin-akismet
+
+Source: [plugins/talk-plugin-akismet](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-akismet){:target="_blank"}
+
+Enables spam detection from [Akismet](https://akismet.com/). Comments will be passed to the Akismet API for spam detection. If a comment
+is determined to be spam, it will prompt the user, indicating that the comment might be considered spam. If the user continues after this
+point with the still spam-like comment, the comment will be reported as containing spam, and sent for moderator approval.
+
+**Note: [Akismet](https://akismet.com/) is a premium service, charges may apply.**
+
+Configuration:
+
+- `TALK_AKISMET_API_KEY` (**required**) - The Akismet API key located on your account page
+- `TALK_AKISMET_SITE` (**required**) - The URL for your site that the comment are appearing on (not the root url, the url for the articles)
