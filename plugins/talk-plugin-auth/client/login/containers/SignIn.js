@@ -3,32 +3,34 @@ import PropTypes from 'prop-types';
 import { withSignIn } from 'coral-framework/hocs';
 import { compose } from 'recompose';
 import SignIn from '../components/SignIn';
+import { connect } from 'plugin-api/beta/client/hocs';
+import { bindActionCreators } from 'redux';
+import * as views from '../enums/views';
+import { setView, setEmail, setPassword } from '../actions';
 
 class SignInContainer extends Component {
   state = {
-    email: '',
-    password: '',
     recaptchaResponse: '',
   };
 
   handleSubmit = () => {
     this.props.signIn(
-      this.state.email,
-      this.state.password,
+      this.props.email,
+      this.props.password,
       this.state.recaptchaResponse
     );
   };
 
-  handleEmailChange = email => {
-    this.setState({ email });
-  };
-
-  handlePasswordChange = password => {
-    this.setState({ password });
-  };
-
   handleRecaptchaVerify = recaptchaResponse => {
     this.setState({ recaptchaResponse });
+  };
+
+  handleForgotPasswordLink = () => {
+    this.props.setView(views.FORGOT_PASSWORD);
+  };
+
+  handleSignUpLink = () => {
+    this.props.setView(views.SIGN_UP);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -41,8 +43,10 @@ class SignInContainer extends Component {
     return (
       <SignIn
         onSubmit={this.handleSubmit}
-        onEmailChange={this.handleEmailChange}
-        onPasswordChange={this.handlePasswordChange}
+        onEmailChange={this.props.setEmail}
+        onPasswordChange={this.props.setPassword}
+        onForgotPasswordLink={this.handleForgotPasswordLink}
+        onSignUpLink={this.handleSignUpLink}
         email={this.state.email}
         password={this.state.password}
         errorMessage={this.props.errorMessage}
@@ -60,6 +64,29 @@ SignInContainer.propTypes = {
   requireRecaptcha: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
+  setView: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  setEmail: PropTypes.func.isRequired,
+  setPassword: PropTypes.func.isRequired,
 };
 
-export default compose(withSignIn)(SignInContainer);
+const mapStateToProps = ({ talkPluginAuth: state }) => ({
+  email: state.email,
+  password: state.password,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      setView,
+      setEmail,
+      setPassword,
+    },
+    dispatch
+  );
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withSignIn
+)(SignInContainer);

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './ForgotPassword.css';
 import { Button, TextField, Alert, Success } from 'coral-ui';
+import t from 'coral-framework/services/i18n';
 
 class ForgotPassword extends React.Component {
   constructor(props) {
@@ -23,8 +24,7 @@ class ForgotPassword extends React.Component {
   renderSuccess() {
     return (
       <div className={styles.success} onClick={this.handleSignInLink}>
-        If you have a registered account, a password reset link was sent to that
-        email.{' '}
+        {t('password_reset.mail_sent')}{' '}
         <a
           className={styles.signInLink}
           href="#"

@@ -18,9 +18,9 @@ class SignIn extends React.Component {
     e.preventDefault();
     this.props.onForgotPasswordLink();
   };
-  handleRegisterLink = e => {
+  handleSignUpLink = e => {
     e.preventDefault();
-    this.props.onRegisterLink();
+    this.props.onSignUpLink();
   };
   handleEmailChange = e => this.props.onEmailChange(e.target.value);
   handlePasswordChange = e => this.props.onPasswordChange(e.target.value);
@@ -113,7 +113,7 @@ class SignIn extends React.Component {
           </span>
           <span>
             {t('sign_in.need_an_account')}
-            <a onClick={this.handleRegisterLink} id="coralRegister">
+            <a onClick={this.handleSignUpLink} id="coralRegister">
               {t('sign_in.register')}
             </a>
           </span>
@@ -130,7 +130,7 @@ SignIn.propTypes = {
   onEmailChange: PropTypes.func.isRequired,
   onPasswordChange: PropTypes.func.isRequired,
   onForgotPasswordLink: PropTypes.func.isRequired,
-  onRegisterLink: PropTypes.func.isRequired,
+  onSignUpLink: PropTypes.func.isRequired,
   onRecaptchaVerify: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   errorMessage: PropTypes.string.isRequired,

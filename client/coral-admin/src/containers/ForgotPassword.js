@@ -7,7 +7,6 @@ import ForgotPassword from '../components/ForgotPassword';
 class ForgotPasswordContainer extends Component {
   state = {
     email: '',
-    password: '',
   };
 
   handleSubmit = () => {

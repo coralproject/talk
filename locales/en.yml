@@ -23,6 +23,7 @@ en:
     click_to_confirm: "Click below to confirm your email address"
     confirm: "Confirm"
   password_reset:
+    mail_sent: 'If you have a registered account, a password reset link was sent to that email'
     set_new_password: "Change Your Password"
     new_password: "New Password"
     new_password_help: "Password must be at least 8 characters"
