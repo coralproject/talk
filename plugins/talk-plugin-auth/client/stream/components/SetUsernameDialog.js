@@ -10,7 +10,7 @@ import {
 import { FakeComment } from './FakeComment';
 import t from 'coral-framework/services/i18n';
 
-const CreateUsernameDialog = ({
+const SetUsernameDialog = ({
   open,
   handleClose,
   formData,
@@ -70,7 +70,7 @@ const CreateUsernameDialog = ({
   </Dialog>
 );
 
-CreateUsernameDialog.propTypes = {
+SetUsernameDialog.propTypes = {
   open: PropTypes.bool,
   handleClose: PropTypes.func,
   formData: PropTypes.object,
@@ -80,4 +80,4 @@ CreateUsernameDialog.propTypes = {
   errors: PropTypes.object,
 };
 
-export default CreateUsernameDialog;
+export default SetUsernameDialog;

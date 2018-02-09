@@ -31,6 +31,8 @@ class Recaptcha extends React.Component {
         theme={this.props.theme}
         onloadCallback={this.props.onLoad}
         verifyCallback={this.props.onVerify}
+        size={this.props.size}
+        className={this.props.className}
       />
     );
   }
@@ -38,7 +40,8 @@ class Recaptcha extends React.Component {
 
 Recaptcha.defaultProps = {
   render: 'explicit',
-  theme: 'dark',
+  theme: 'light',
+  size: 'normal',
 };
 
 Recaptcha.propTypes = {
@@ -46,7 +49,8 @@ Recaptcha.propTypes = {
   onVerify: PropTypes.func.isRequired,
   theme: PropTypes.string,
   render: PropTypes.string,
-  sitekey: PropTypes.string.isRequired,
+  size: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default Recaptcha;

@@ -19,7 +19,7 @@ import {
   updateUsername,
 } from 'coral-embed-stream/src/actions/login';
 
-class ChangeUsernameContainer extends React.Component {
+class SetUsernameDialog extends React.Component {
   constructor(props) {
     super(props);
 
@@ -152,7 +152,7 @@ class ChangeUsernameContainer extends React.Component {
   }
 }
 
-ChangeUsernameContainer.propTypes = {
+SetUsernameDialog.propTypes = {
   auth: PropTypes.object,
   hideCreateUsernameDialog: PropTypes.func,
   validForm: PropTypes.func,
@@ -180,4 +180,4 @@ const mapDispatchToProps = dispatch =>
 export default compose(
   withSetUsername,
   connect(mapStateToProps, mapDispatchToProps)
-)(ChangeUsernameContainer);
+)(SetUsernameDialog);

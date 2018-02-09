@@ -12,3 +12,12 @@
   font-weight: normal;
   text-decoration: none;
 }
+
+.recaptcha {
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+.signInButton {
+  margin-top: 10px;
+}

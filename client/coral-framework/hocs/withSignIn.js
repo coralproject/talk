@@ -6,7 +6,7 @@ import { translateError } from '../utils';
 import { t } from '../services/i18n';
 
 /**
- * WithSignIn provides properties `signIn`, `loading` and `errorMessage`, `requireRecaptcha`.
+ * WithSignIn provides properties `signIn`, `loading`, `errorMessage`, `requireRecaptcha`, 'success'.
  */
 export default hoistStatics(WrappedComponent => {
   class WithSignIn extends React.Component {
@@ -18,6 +18,7 @@ export default hoistStatics(WrappedComponent => {
     state = {
       error: null,
       loading: false,
+      success: false,
       requireRecaptcha: false,
     };
 
@@ -39,14 +40,14 @@ export default hoistStatics(WrappedComponent => {
 
       rest('/auth/local', params)
         .then(({ user, token }) => {
-          this.setState({ loading: false, error: null });
+          this.setState({ success: true, loading: false, error: null });
           store.dispatch(handleSuccessfulLogin(user, token));
         })
         .catch(error => {
           if (!error.status || error.status !== 401) {
             console.error(error);
           }
-          const changeSet = { loading: false, error };
+          const changeSet = { success: false, loading: false, error };
           if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
             changeSet.requireRecaptcha = !!this.context.store.getState().config
               .static.TALK_RECAPTCHA_PUBLIC;
@@ -72,6 +73,7 @@ export default hoistStatics(WrappedComponent => {
           loading={this.state.loading}
           errorMessage={this.getErrorMessage()}
           requireRecaptcha={this.state.requireRecaptcha}
+          success={this.state.success}
         />
       );
     }

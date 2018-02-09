@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './SignIn.css';
 import { Button, TextField, Alert } from 'coral-ui';
+import cn from 'classnames';
 import Recaptcha from 'coral-framework/components/Recaptcha';
 
 class SignIn extends React.Component {
@@ -27,9 +28,6 @@ class SignIn extends React.Component {
 
   handleRecaptchaRef = ref => {
     this.recaptcha = ref;
-    setTimeout(() => {
-      console.log(ref);
-    }, 1000)
   };
 
   render() {
@@ -50,9 +48,16 @@ class SignIn extends React.Component {
           onChange={this.handlePasswordChange}
           type="password"
         />
-        <div style={{ height: 10 }} />
+        {requireRecaptcha && (
+          <div className={styles.recaptcha}>
+            <Recaptcha
+              ref={this.handleRecaptchaRef}
+              onVerify={this.props.onRecaptchaVerify}
+            />
+          </div>
+        )}
         <Button
-          className="talk-admin-login-sign-in-button"
+          className={cn(styles.signInButton, 'talk-admin-login-sign-in-button')}
           type="submit"
           cStyle="black"
           full
@@ -69,12 +74,6 @@ class SignIn extends React.Component {
             Request a new one.
           </a>
         </p>
-        {requireRecaptcha && (
-          <Recaptcha
-            ref={this.handleRecaptchaRef}
-            onVerify={this.props.onRecaptchaVerify}
-          />
-        )}
       </form>
     );
   }

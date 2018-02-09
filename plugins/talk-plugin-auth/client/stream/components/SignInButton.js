@@ -1,8 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'plugin-api/beta/client/components/ui';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { showSignInDialog } from 'coral-embed-stream/src/actions/login';
 import t from 'coral-framework/services/i18n';
 
 const SignInButton = ({ currentUser, showSignInDialog }) => (
@@ -15,11 +13,9 @@ const SignInButton = ({ currentUser, showSignInDialog }) => (
   </div>
 );
 
-const mapStateToProps = ({ auth }) => ({
-  currentUser: auth.user,
-});
+SignInButton.propTypes = {
+  currentUser: PropTypes.object,
+  showSignInDialog: PropTypes.func,
+};
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ showSignInDialog }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignInButton);
+export default SignInButton;
