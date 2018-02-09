@@ -61,6 +61,11 @@ nl_NL:
     reaction: 'reactie'
     reactions: 'reacties'
     story: 'Verhaal'
+  flagged_usernames:
+    notify_approved: '{0} approved username {1}'
+    notify_rejected: '{0} rejected username {1}'
+    notify_flagged: '{0} reported username {1}'
+    notify_changed: 'user {0} changed their username to {1}' 
   community:
     account_creation_date: "Aanmaakdatum account"
     active: Actief
@@ -249,6 +254,8 @@ nl_NL:
       error: "Gebruikersnamen kunnen alleen cijfers, letters en _ bevatten."
       label: "Nieuwe gebruikersnaam"
       msg: "Je account is momenteel geschorst omdat je gebruikersnaam ongepast is bevonden. Om je account te herstellen, moet je je gebruikersnaam herstellen. Neem contact met ons op wanneer je vragen hebt."
+    changed_name:
+      msg: "Your username change is under review by our moderation team."
     my_comments: "Mijn reacties"
     my_profile: "Mijn profiel"
     new_count: "Bekijk {0} meer {1}"
@@ -336,6 +343,7 @@ nl_NL:
   no_agree_comment: "Ik ben het niet eens met deze reactie"
   no_like_bio: "Ik vind deze biografie niet leuk"
   no_like_username: "Ik vind deze gebruikersnaam niet leuk"
+  already_flagged_username: "You have already flagged this username."
   other: Ander
   permalink: Deel
   personal_info: "Deze reactie onthult persoonlijk identificeerbare gegevens."
@@ -410,6 +418,19 @@ nl_NL:
     bio_flags: "Meldingen voor deze biografie"
     user_bio: "Gebruikers biografie"
     username_flags: "Meldingen voor deze gebruikersnaam"
+  user_detail:
+    remove_suspension: "Remove Suspension"
+    suspend: "Suspend User"
+    remove_ban: "Remove Ban"
+    ban: "Ban User"
+    member_since: "Member Since"
+    email: "Email"
+    total_comments: "Total Comments"
+    reject_rate: "Reject Rate"
+    reports: "Reports"
+    all: "All"
+    rejected: "Rejected"
+    account_history: "Account History"
   user_impersonating: "Deze gebruiker imiteert"
   user_no_comment: "Je hebt nog niet eerder gereageerd. Laat je mening horen!"
   username_offensive: "Dit is een aanstootgevende gebruikersnaam."
@@ -436,3 +457,6 @@ nl_NL:
       description: "Dank voor het installeren van Talk! We hebben een bericht gestuurd om je e-mailadres te valideren. Terwijl je je account verder opzet, kun je alvast de interactie aangaan met je gebruikers."
       launch: "Start Talk"
       close: "Installatie afsluiten"
+  admin_sidebar:
+    view_options: "View Options"
+    sort_comments: "Sort Comments"
