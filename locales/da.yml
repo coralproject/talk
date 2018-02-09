@@ -214,6 +214,7 @@ da:
     RATE_LIMIT_EXCEEDED: "Rate limit exceeded"
     USERNAME_IN_USE: "Brugernavnet er allerede i brug"
     USERNAME_REQUIRED: "Du skal indtaste et brugernavn"
+    EMAIL_NOT_VERIFIED: "E-mail address not verified"
     EDIT_WINDOW_ENDED: "Du kan ikke længere redigere denne kommentar. Tidsvinduet for at gøre det er udløbet."
     EDIT_USERNAME_NOT_AUTHORIZED: "Du har ikke tilladelse til at opdatere dit brugernavn."
     SAME_USERNAME_PROVIDED: "Du skal indsende et andet brugernavn."
@@ -253,6 +254,8 @@ da:
       error: "Brugernavne kan kun indeholde bogstaver og _"
       label: "Nyt brugernavn"
       msg: "Din konto er midlertidigt suspenderet, fordi dit brugernavn er blevet anset for upassende. For at gendanne din konto skal du indtaste et nyt brugernavn. Kontakt os venligst, hvis du har spørgsmål."
+    changed_name:
+      msg: "Your username change is under review by our moderation team." 
     my_comments: "Mine kommentarer"
     my_profile: "Min profil"
     new_count: "Se {0} mere {1}"
