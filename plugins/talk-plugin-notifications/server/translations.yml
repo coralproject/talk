@@ -1,0 +1,6 @@
+en:
+  talk-plugin-notifications:
+    templates:
+      footer: "You received this notification because you are a commenter on {0} and you opted in to receive notifications."
+      links:
+        unsubscribe: "Unsubscribe from comment notifications"

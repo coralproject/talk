@@ -1,0 +1,7 @@
+type NotificationSettings {
+    onReply: Boolean!
+}
+
+type User {
+    notificationSettings: NotificationSettings
+}
