@@ -25,6 +25,7 @@ import {
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import UserInfoTooltip from './UserInfoTooltip';
+import t from 'coral-framework/services/i18n';
 
 class UserDetail extends React.Component {
   rejectThenReload = async info => {
@@ -152,27 +153,27 @@ class UserDetail extends React.Component {
             >
               {suspended ? (
                 <ActionsMenuItem onClick={() => unsuspendUser({ id: user.id })}>
-                  Remove Suspension
+                  {t('user_detail.remove_suspension')}
                 </ActionsMenuItem>
               ) : (
                 <ActionsMenuItem
                   disabled={me.id === user.id}
                   onClick={this.showSuspenUserDialog}
                 >
-                  Suspend User
+                  {t('user_detail.suspend')}
                 </ActionsMenuItem>
               )}
 
               {banned ? (
                 <ActionsMenuItem onClick={() => unbanUser({ id: user.id })}>
-                  Remove Ban
+                  {t('user_detail.remove_ban')}
                 </ActionsMenuItem>
               ) : (
                 <ActionsMenuItem
                   disabled={me.id === user.id}
                   onClick={this.showBanUserDialog}
                 >
-                  Ban User
+                  {t('user_detail.ban')}
                 </ActionsMenuItem>
               )}
             </ActionsMenu>
@@ -190,14 +191,18 @@ class UserDetail extends React.Component {
             <ul className={styles.userDetailList}>
               <li>
                 <Icon name="assignment_ind" />
-                <span className={styles.userDetailItem}>Member Since:</span>
+                <span className={styles.userDetailItem}>
+                  {t('user_detail.member_since')}:
+                </span>
                 {new Date(user.created_at).toLocaleString()}
               </li>
 
               {user.profiles.map(({ id }) => (
                 <li key={id}>
                   <Icon name="email" />
-                  <span className={styles.userDetailItem}>Email:</span>
+                  <span className={styles.userDetailItem}>
+                    {t('user_detail.email')}:
+                  </span>
                   {id}{' '}
                   <ButtonCopyToClipboard
                     className={styles.copyButton}
@@ -210,17 +215,23 @@ class UserDetail extends React.Component {
 
             <ul className={styles.stats}>
               <li className={styles.stat}>
-                <span className={styles.statItem}>Total Comments</span>
+                <span className={styles.statItem}>
+                  {t('user_detail.total_comments')}
+                </span>
                 <span className={styles.statResult}>{totalComments}</span>
               </li>
               <li className={styles.stat}>
-                <span className={styles.statItem}>Reject Rate</span>
+                <span className={styles.statItem}>
+                  {t('user_detail.reject_rate')}
+                </span>
                 <span className={styles.statResult}>
                   {rejectedPercent.toFixed(1)}%
                 </span>
               </li>
               <li className={styles.stat}>
-                <span className={styles.statItem}>Reports</span>
+                <span className={styles.statItem}>
+                  {t('user_detail.reports')}
+                </span>
                 <span
                   className={cn(
                     styles.statReportResult,
@@ -259,13 +270,13 @@ class UserDetail extends React.Component {
                 'talk-admin-user-detail-all-tab'
               )}
             >
-              All
+              {t('user_detail.all')}
             </Tab>
             <Tab
               tabId={'rejected'}
               className={cn(styles.tab, 'talk-admin-user-detail-rejected-tab')}
             >
-              Rejected
+              {t('user_detail.rejected')}
             </Tab>
             <Tab
               tabId={'history'}
@@ -275,7 +286,7 @@ class UserDetail extends React.Component {
                 'talk-admin-user-detail-history-tab'
               )}
             >
-              Account History
+              {t('user_detail.account_history')}
             </Tab>
           </TabBar>
 

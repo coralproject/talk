@@ -323,7 +323,7 @@ zh_TW:
   stream:
     all_comments: "全部評論"
     temporarily_suspended: "根據{0}的社區規定，您的帳戶已被暫時停用。請重新加入對話{1}。"
-    comment_not_found: "未發現評論"
+    comment_not_found: "此評論已被刪除或不存在。"
     no_comments: "暫時還沒有評論，何不寫條評論呢？"
     no_comments_and_closed: "這篇文章沒有評論。"
   step_1_header: "舉報問題"

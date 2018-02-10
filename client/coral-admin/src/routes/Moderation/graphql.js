@@ -407,6 +407,7 @@ export const subscriptionFields = `
     type
     assigned_by {
       id
+      username
     }
     created_at
   }

@@ -23,6 +23,7 @@ browserstack.err
 
 plugins.json
 plugins/*
+!plugins/talk-plugin-akismet
 !plugins/talk-plugin-facebook-auth
 !plugins/talk-plugin-auth
 !plugins/talk-plugin-respect
