@@ -9,6 +9,7 @@ const subscriptions = require('./subscriptions');
 const resolvers = require('./resolvers');
 const mutators = require('./mutators');
 const loaders = require('./loaders');
+const schema = require('./schema');
 
 // Models.
 const Action = require('../models/action');
@@ -88,6 +89,7 @@ const defaultConnectors = {
     resolvers,
     mutators,
     loaders,
+    schema,
   },
 };
 

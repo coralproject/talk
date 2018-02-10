@@ -2,6 +2,7 @@ const schema = require('./schema');
 const Context = require('./context');
 const { createSubscriptionManager } = require('./subscriptions');
 const { ENABLE_TRACING } = require('../config');
+const connectors = require('./connectors');
 
 module.exports = {
   createGraphOptions: req => ({
@@ -17,4 +18,5 @@ module.exports = {
     cacheControl: ENABLE_TRACING,
   }),
   createSubscriptionManager,
+  connectors,
 };

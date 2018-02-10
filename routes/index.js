@@ -2,7 +2,6 @@ const SetupService = require('../services/setup');
 const apollo = require('apollo-server-express');
 const authentication = require('../middleware/authentication');
 const cookieParser = require('cookie-parser');
-const debug = require('debug')('talk:routes');
 const enabled = require('debug').enabled;
 const errors = require('../errors');
 const express = require('express');
@@ -159,13 +158,8 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-// Inject server route plugins.
-plugins.get('server', 'router').forEach(plugin => {
-  debug(`added plugin '${plugin.plugin.name}'`);
-
-  // Pass the root router to the plugin to mount it's routes.
-  plugin.router(router);
-});
+// Mount the plugin routes.
+router.use(require('./plugins'));
 
 //==============================================================================
 // ERROR HANDLING
