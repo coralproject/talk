@@ -34,8 +34,8 @@ module.exports = connectors => {
   const manager = new NotificationManager(Context);
 
   // Get all the notification handlers. Additional plugins registered before
-  // this one can expose a `notifications` hook, that contains an array (or a
-  // single) notification handlers.
+  // this one can expose a `notifications` hook, that contains an array of
+  // notification handlers.
   //
   // A notification handler has the following form:
   //
@@ -50,7 +50,7 @@ module.exports = connectors => {
   // }
   //
   const notificationHandlers = Plugins.get('server', 'notifications').reduce(
-    (notificationHandlers, { plugin, notifications }) => {
+    (handlers, { plugin, notifications }) => {
       debug(
         `registered the ${
           plugin.name
@@ -58,8 +58,8 @@ module.exports = connectors => {
           ({ category }) => category
         )}`
       );
-      notificationHandlers.push(...notifications);
-      return notificationHandlers;
+      handlers.push(...notifications);
+      return handlers;
     },
     []
   );
