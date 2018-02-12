@@ -1,4 +1,4 @@
-const { decorateWithPermissionCheck, checkSelfField } = require('./util');
+const { decorateWithPermissionCheck } = require('./util');
 const {
   SEARCH_ASSETS,
   SEARCH_OTHERS_COMMENTS,

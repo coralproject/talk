@@ -65,7 +65,7 @@ class NotificationManager {
             // Send the notification.
             return this.send(ctx, userID, date, handler, context);
           } catch (err) {
-            // TODO: handle error.
+            ctx.log.error({ err }, 'could not handle the event');
             return;
           }
         })
@@ -114,14 +114,18 @@ class NotificationManager {
         'organizationName'
       );
       if (organizationName === null) {
-        // TODO: handle error
+        ctx.log.debug(
+          'could not send the notification, organization name not in settings'
+        );
         return;
       }
 
       // Get the User's email.
       const to = await this.getEmail(ctx, userID);
       if (!to) {
-        // TODO: handle error
+        ctx.log.debug(
+          'could not send the notification, destination email address not available'
+        );
         return;
       }
 
@@ -142,9 +146,12 @@ class NotificationManager {
         to,
       });
 
-      debug(`Sent the notification for Job.ID[${task.id}]`);
+      ctx.log.debug(`Sent the notification for Job.ID[${task.id}]`);
     } catch (err) {
-      // TODO: print out the error.
+      ctx.log.error(
+        { err },
+        'could not send the notification, an error occurred'
+      );
       return;
     }
   }

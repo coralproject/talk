@@ -118,3 +118,34 @@ Configuration:
 
 - `TALK_AKISMET_API_KEY` (**required**) - The Akismet API key located on your account page
 - `TALK_AKISMET_SITE` (**required**) - The URL for your site that the comment are appearing on (not the root url, the url for the articles)
+
+## talk-plugin-notifications
+
+Source: [plugins/talk-plugin-notifications](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-notifications){:target="_blank"}
+
+Enables the Notification system for sending out enabled email notifications to
+users when they interact with Talk. By itself, this plugin will not send
+anything. You need to enable one of the `talk-plugin-notifications-category-*` plugins.
+
+**Note that all `talk-plugin-notifications-*` plugins must be registered
+*before* this plugin in order to work. For example:**
+
+```js
+{
+  "server": [
+    // ...
+    "talk-plugin-notifications-category-reply",
+    "talk-plugin-notifications",
+    // ...
+  ]
+}
+```
+{:.no-copy}
+
+### talk-plugin-notifications-category-reply
+{:.param}
+
+Source: [plugins/talk-plugin-notifications-category-reply](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-notifications-category-reply){:target="_blank"}
+
+Replies made to each user will trigger an email to be sent with the notification
+details if enabled.

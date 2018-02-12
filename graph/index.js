@@ -11,7 +11,7 @@ module.exports = {
 
     // Load in the new context here, this will create the loaders + mutators for
     // the lifespan of this request.
-    context: new Context(req),
+    context: new Context(req.context),
 
     // Tracing request options, needed for Apollo Engine.
     tracing: ENABLE_TRACING,

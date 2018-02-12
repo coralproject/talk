@@ -1,12 +1,12 @@
 const loaders = require('./loaders');
 const mutators = require('./mutators');
-const uuid = require('uuid');
-const merge = require('lodash/merge');
+const uuid = require('uuid/v4');
 const connectors = require('./connectors');
-
+const { get, merge } = require('lodash');
 const plugins = require('../services/plugins');
 const { getBroker } = require('./subscriptions/broker');
 const debug = require('debug')('talk:graph:context');
+const { createLogger } = require('../services/logging');
 
 /**
  * Contains the array of plugins that provide context to the server, these top
@@ -50,10 +50,11 @@ class Context {
     // one.
     this.id = parent.id || uuid.v4();
 
+    // Attach a logger or create one.
+    this.log = parent.log || createLogger('context', this.id);
+
     // Load the current logged in user to `user`, otherwise this will be null.
-    if (parent.user) {
-      this.user = parent.user;
-    }
+    this.user = get(parent, 'user', null);
 
     // Attach the connectors.
     this.connectors = connectors;
@@ -75,7 +76,8 @@ class Context {
   }
 
   /**
-   *
+   * forSystem returns a system context object that can be used for internal
+   * operations.
    */
   static forSystem() {
     const { models: { User } } = connectors;

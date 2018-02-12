@@ -1,4 +1,3 @@
-const debug = require('debug')('talk-plugin-notifications-reply');
 const { graphql } = require('graphql');
 const { get } = require('lodash');
 const path = require('path');
@@ -9,7 +8,7 @@ const handle = async (ctx, comment) => {
   // Check to see if this is a reply to an existing comment.
   const parentID = get(comment, 'parent_id', null);
   if (parentID === null) {
-    debug('could not get parent comment id');
+    ctx.log.debug('could not get parent comment id');
     return;
   }
 
@@ -51,14 +50,14 @@ const handle = async (ctx, comment) => {
 
   const userID = get(reply, 'data.comment.user.id', null);
   if (!userID) {
-    debug('could not get parent comment user id');
+    ctx.log.debug('could not get parent comment user id');
     return;
   }
 
   // Check to see if this is yourself replying to yourself, if that's the case
   // don't send a notification.
   if (userID === get(comment, 'author_id')) {
-    debug('user id of parent comment is the same as the new comment');
+    ctx.log.debug('user id of parent comment is the same as the new comment');
     return;
   }
 

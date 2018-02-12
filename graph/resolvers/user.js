@@ -19,7 +19,7 @@ const User = {
   action_summaries({ id }, _, { loaders: { Actions } }) {
     return Actions.getSummariesByItemID.load(id);
   },
-  actions({ id }, _, { user, loaders: { Actions } }) {
+  actions({ id }, _, { loaders: { Actions } }) {
     return Actions.getByID.load(id);
   },
   comments({ id }, { query }, { loaders: { Comments } }) {
