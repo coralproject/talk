@@ -4,6 +4,9 @@ da:
 en:
   talk-plugin-sort-most-loved:
     label: Most loved first
+de:
+  talk-plugin-sort-most-loved:
+    label: Häufigste "Ich liebe es" zuerst
 es:
   talk-plugin-sort-most-loved:
     label: Most loved first

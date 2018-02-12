@@ -6,6 +6,10 @@ en:
   talk-plugin-respect:
     respect: Respect
     respected: Respected
+de:
+  talk-plugin-respect:
+    respect: Respekt
+    respected: Respektiert
 es:
   talk-plugin-respect:
     respect: Respetar

@@ -4,6 +4,9 @@ da:
 en:
   talk-plugin-sort-newest:
     label: Newest first
+de:
+  talk-plugin-sort-newest:
+    label: Neueste zuerst
 es:
   talk-plugin-sort-newest:
     label: Newest first

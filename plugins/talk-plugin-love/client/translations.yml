@@ -6,6 +6,10 @@ en:
   talk-plugin-love:
     love: Love
     loved: Loved
+de:
+  talk-plugin-love:
+    love: Ich liebe es
+    loved: Ich liebe es
 es:
   talk-plugin-love:
     love: Amo

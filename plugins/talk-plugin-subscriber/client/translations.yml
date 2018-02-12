@@ -4,6 +4,9 @@ da:
 en:
   talk-plugin-subscriber:
     subscriber: "Subscriber"
+de:
+  talk-plugin-subscriber:
+    subscriber: "Abonnent"
 es:
   talk-plugin-subscriber:
     subscriber: "Subscriptor"

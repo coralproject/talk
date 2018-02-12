@@ -28,6 +28,21 @@ en:
     are_you_sure: Are you sure you would like to feature this comment?
     cancel: Cancel
     yes_feature_comment: Yes, feature comment
+de:
+  talk-plugin-featured-comments:
+    un_feature: Empfehlung aufheben
+    feature: Empfehlen
+    featured: Empfohlen
+    featured_comments: Empfohlene Kommentare
+    go_to_conversation: Gehe zur Diskussion
+    tooltip_description: Von unserem Team als lesenswert ausgewählte Kommentare
+    notify_self_featured: 'Der Kommentar von {0} ist nun empfohlen und freigegeben'
+    notify_featured: '{0} hat Kommentar "{1}" empfohlen und freigegeben'
+    notify_unfeatured: '{0} hat die Empfehlung von "{1}" aufgehoben'
+    feature_comment: Kommentar empfehlen?
+    are_you_sure: Sind Sie sicher, dass Sie diesen Kommentar empfehlen möchten?
+    cancel: Abbrechen
+    yes_feature_comment: Ja, empfehlen
 es:
   talk-plugin-featured-comments:
     un_feature: Desmarcar

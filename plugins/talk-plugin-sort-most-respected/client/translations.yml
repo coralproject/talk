@@ -4,6 +4,9 @@ da:
 en:
   talk-plugin-sort-most-respected:
     label: Most respected first
+de:
+  talk-plugin-sort-most-respected:
+    label: Häufigste "Respektiert" zuerst
 es:
   talk-plugin-sort-most-respected:
     label: Most respected first

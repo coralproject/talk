@@ -6,6 +6,10 @@ en:
   talk-plugin-like:
     like: Like
     liked: Liked
+de:
+  talk-plugin-like:
+    like: Gefällt mir
+    liked: Gefällt mir
 es:
   talk-plugin-like:
     like: Me Gusta
