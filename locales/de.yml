@@ -254,6 +254,8 @@ de:
       error: "Nutzernamen dürfen nur Buchstaben, Zahlen und _ enthalten"
       label: "Neuer Nutzername"
       msg: "Ihr Konto ist vorübergehend gesperrt, da Ihr Nutzername als unangemessen eingestuft wurde. Um Ihr Konto wieder herzustellen, geben Sie bitte einen neuen Nutzernamen ein. Bei Fragen, kontaktieren Sie uns bitte."
+    changed_name:
+      msg: "Die Änderung Ihres Nutzernamens wird von unseren Moderatoren geprüft."
     my_comments: "Meine Kommentare"
     my_profile: "Mein Profil"
     new_count: "{0} {1} mehr anzeigen"
