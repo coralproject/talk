@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const debug = require('debug')('talk:services:i18n');
 const accepts = require('accepts');
-const { get, has } = require('lodash');
+const { get, has, merge } = require('lodash');
 const yaml = require('yamljs');
 const plugins = require('./plugins');
 const { DEFAULT_LANG } = require('../config');
@@ -27,7 +27,7 @@ let translations = fs
   .reduce((packs, contents) => {
     const pack = yaml.parse(contents);
 
-    return _.merge(packs, pack);
+    return merge(packs, pack);
   }, {});
 
 // Create a list of all supported translations.
@@ -55,7 +55,7 @@ const loadPluginTranslations = () => {
 
       const pack = yaml.parse(fs.readFileSync(filename, 'utf8'));
 
-      translations = _.merge(translations, pack);
+      translations = merge(translations, pack);
     });
 
   loadedPluginTranslations = true;
