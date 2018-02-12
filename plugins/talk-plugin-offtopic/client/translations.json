@@ -1,10 +1,26 @@
 {
+  "da": {
+    "off_topic": "Off Topic",
+    "hide_off_topic": "Hide Off-Topic Comments"
+  },
   "en": {
     "off_topic": "Off Topic",
     "hide_off_topic": "Hide Off-Topic Comments"
   },
   "es": {
     "off_topic": "Fuera de Tópico",
+    "hide_off_topic": "Hide Off-Topic Comments"
+  },
+  "fr": {
+    "off_topic": "Off Topic",
+    "hide_off_topic": "Hide Off-Topic Comments"
+  },
+  "nl_NL": {
+    "off_topic": "Off Topic",
+    "hide_off_topic": "Hide Off-Topic Comments"
+  },
+  "pt_BR": {
+    "off_topic": "Off Topic",
     "hide_off_topic": "Hide Off-Topic Comments"
   },
   "zh_CN": {
