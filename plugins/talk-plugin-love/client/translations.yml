@@ -1,3 +1,7 @@
+da:
+  talk-plugin-love:
+    love: Love
+    loved: Loved
 en:
   talk-plugin-love:
     love: Love
@@ -10,6 +14,18 @@ es:
   talk-plugin-love:
     love: Amo
     loved: Amé
+fr:
+  talk-plugin-love:
+    love: Love
+    loved: Loved
+nl_NL:
+  talk-plugin-love:
+    love: Love
+    loved: Loved
+pt_BR:
+  talk-plugin-love:
+    love: Love
+    loved: Loved
 zh_CN:
   talk-plugin-love:
     love: " 比心"

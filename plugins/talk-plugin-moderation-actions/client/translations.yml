@@ -1,4 +1,4 @@
-en:
+da:
   talk-plugin-moderation-actions:
     reject_comment: "Reject"
     approve_comment: "Approve"
@@ -22,6 +22,18 @@ de:
     ban_user_dialog_cancel: "Abbrechen"
     ban_user_dialog_yes: "Ja, Nutzer sperren"
     ban_user_dialog_headline: "Nutzer sperren?"
+en:
+  talk-plugin-moderation-actions:
+    reject_comment: "Reject"
+    approve_comment: "Approve"
+    approved_comment: "Approved"
+    moderation_actions: "Moderation Actions"
+    ban_user: "Ban User"
+    ban_user_dialog_sub: "Are you sure you would like to ban this user?"
+    ban_user_dialog_copy: "Note: Banning this user will also place this comment in the Rejected queue."
+    ban_user_dialog_cancel: "Cancel"
+    ban_user_dialog_yes: "Yes. Ban user"
+    ban_user_dialog_headline: "Ban User?"
 es:
   talk-plugin-moderation-actions:
     reject_comment: "Rechazar"
@@ -34,6 +46,42 @@ es:
     ban_user_dialog_cancel: "Cancelar"
     ban_user_dialog_yes: "Si. Banear usuario"
     ban_user_dialog_headline: "Banear Usuario?"
+fr:
+  talk-plugin-moderation-actions:
+    reject_comment: "Reject"
+    approve_comment: "Approve"
+    approved_comment: "Approved"
+    moderation_actions: "Moderation Actions"
+    ban_user: "Ban User"
+    ban_user_dialog_sub: "Are you sure you would like to ban this user?"
+    ban_user_dialog_copy: "Note: Banning this user will also place this comment in the Rejected queue."
+    ban_user_dialog_cancel: "Cancel"
+    ban_user_dialog_yes: "Yes. Ban user"
+    ban_user_dialog_headline: "Ban User?"
+nl_NL:
+  talk-plugin-moderation-actions:
+    reject_comment: "Reject"
+    approve_comment: "Approve"
+    approved_comment: "Approved"
+    moderation_actions: "Moderation Actions"
+    ban_user: "Ban User"
+    ban_user_dialog_sub: "Are you sure you would like to ban this user?"
+    ban_user_dialog_copy: "Note: Banning this user will also place this comment in the Rejected queue."
+    ban_user_dialog_cancel: "Cancel"
+    ban_user_dialog_yes: "Yes. Ban user"
+    ban_user_dialog_headline: "Ban User?"
+pt_BR:
+  talk-plugin-moderation-actions:
+    reject_comment: "Reject"
+    approve_comment: "Approve"
+    approved_comment: "Approved"
+    moderation_actions: "Moderation Actions"
+    ban_user: "Ban User"
+    ban_user_dialog_sub: "Are you sure you would like to ban this user?"
+    ban_user_dialog_copy: "Note: Banning this user will also place this comment in the Rejected queue."
+    ban_user_dialog_cancel: "Cancel"
+    ban_user_dialog_yes: "Yes. Ban user"
+    ban_user_dialog_headline: "Ban User?"
 zh_CN:
   talk-plugin-moderation-actions:
     reject_comment: "拒绝"

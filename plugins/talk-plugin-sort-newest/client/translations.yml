@@ -1,3 +1,6 @@
+da:
+  talk-plugin-sort-newest:
+    label: Newest first
 en:
   talk-plugin-sort-newest:
     label: Newest first
@@ -6,6 +9,16 @@ de:
     label: Neueste zuerst
 es:
   talk-plugin-sort-newest:
+    label: Newest first
+fr:
+  talk-plugin-sort-newest:
+    label: Newest first
+nl_NL:
+  talk-plugin-sort-newest:
+    label: Newest first
+pt_BR:
+  talk-plugin-sort-newest:
+    label: Newest first
 zh_CN:
   talk-plugin-sort-newest:
     label: "最新发表在前"

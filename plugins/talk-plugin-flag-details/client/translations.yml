@@ -1,3 +1,6 @@
+da:
+  talk-plugin-flag-details:
+    flags: Reports
 en:
   talk-plugin-flag-details:
     flags: Reports
@@ -7,6 +10,15 @@ de:
 es:
   talk-plugin-flag-details:
     flags: Reportes
+fr:
+  talk-plugin-flag-details:
+    flags: Reports
+nl_NL:
+  talk-plugin-flag-details:
+    flags: Reports
+pt_BR:
+  talk-plugin-flag-details:
+    flags: Reports
 zh_CN:
   talk-plugin-flag-details:
     flags: "报告"

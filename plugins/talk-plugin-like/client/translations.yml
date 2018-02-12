@@ -1,3 +1,7 @@
+da:
+  talk-plugin-like:
+    like: Like
+    liked: Liked
 en:
   talk-plugin-like:
     like: Like
@@ -10,6 +14,18 @@ es:
   talk-plugin-like:
     like: Me Gusta
     liked: Me Gustó
+fr:
+  talk-plugin-like:
+    like: Like
+    liked: Liked
+nl_NL:
+  talk-plugin-like:
+    like: Like
+    liked: Liked
+pt_BR:
+  talk-plugin-like:
+    like: Like
+    liked: Liked
 zh_CN:
   talk-plugin-like:
     like: "喜欢"
