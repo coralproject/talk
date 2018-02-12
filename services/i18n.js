@@ -61,29 +61,27 @@ const loadPluginTranslations = () => {
   loadedPluginTranslations = true;
 };
 
-const t = language => (key, ...replacements) => {
+const t = lang => (key, ...replacements) => {
   // Loads the translations into the translations array from plugins. This is
   // done lazily to ensure that we don't have an import cycle.
   loadPluginTranslations();
 
-  // Check if the translation exists on the object.
-  if (has(translations[language], key) || has(translations['en'], key)) {
-    // Get the translation value.
-    let translation = get(
-      translations[language],
-      key,
-      // Fallback to english if the desired key does not exist.
-      get(translations['en'], key)
-    );
+  let translation;
+  if (has(translations[lang], key)) {
+    translation = get(translations[lang], key);
+  } else if (has(translations['en'], key)) {
+    translation = get(translations['en'], key);
+    console.warn(`${lang}.${key} language key not set`);
+  }
 
-    // Replace any {n} with the arguments passed to this method.
-    replacements.forEach((str, n) => {
-      translation = translation.replace(new RegExp(`\\{${n}\\}`, 'g'), str);
+  if (translation) {
+    // replace any {n} with the arguments passed to this method
+    replacements.forEach((str, i) => {
+      translation = translation.replace(new RegExp(`\\{${i}\\}`, 'g'), str);
     });
-
     return translation;
   } else {
-    console.warn(`${key} language key not set`);
+    console.warn(`${lang}.${key} and en.${key} language key not set`);
     return key;
   }
 };
