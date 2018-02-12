@@ -302,7 +302,7 @@ de:
     notify_flagged: '{0} markierte Kommentar "{1}"'
     notify_reset: '{0} setzte Status von "{1}" zurück'
     approve: "Freigeben"
-    approved: "Akzeptiert"  # temporary. 'Freigegeben' is better, but does not fit the current layout. See PR #1322.
+    approved: "Freigegeben"
     ban_user: "Sperren"
     billion: Mrd
     close: Schließen
