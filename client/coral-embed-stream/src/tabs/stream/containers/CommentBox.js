@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import t from 'coral-framework/services/i18n';
+import t, { timeago } from 'coral-framework/services/i18n';
 import { can } from 'coral-framework/services/perms';
+import { isSuspended } from 'coral-framework/utils/user';
 
 import Slot from 'coral-framework/components/Slot';
 import { connect } from 'react-redux';
@@ -39,6 +40,17 @@ class CommentBox extends React.Component {
       notify,
       currentUser,
     } = this.props;
+
+    if (isSuspended(currentUser)) {
+      notify(
+        'error',
+        t(
+          'error.temporarily_suspended',
+          timeago(currentUser.status.suspension.until)
+        )
+      );
+      return;
+    }
 
     if (!can(currentUser, 'INTERACT_WITH_COMMUNITY')) {
       notify('error', t('error.NOT_AUTHORIZED'));
