@@ -444,3 +444,6 @@ de:
       description: "Danke, dass Sie Talk benutzen! Bitte bestätigen Sie Ihre E-Mail-Adresse über den Link, den wir an Sie versandt haben. Während Sie die Einrichtung Ihres Kontos abschließen, können Sie sich schon mit Ihren Lesern beschäftigen."
       launch: "Talk starten"
       close: "Schließen"
+  admin_sidebar:
+    view_options: "Ansichtsoptionen"
+    sort_comments: "Kommentare sortieren"
