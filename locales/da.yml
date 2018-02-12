@@ -236,6 +236,7 @@ da:
     password: "Adgangskoden skal være mindst 8 tegn"
     username: "Brugernavne kan kun indeholde bogstaver og _"
     unexpected: "Der opstod en uventet fejl. Undskyld!"
+    temporarily_suspended: "Your account is currently suspended. It will be reactivated {0}. Please contact us if you have any questions."
   flag_comment: "Rapportér kommentar"
   flag_reason: "Årsag til rapportering (Valgfrit)"
   flag_username: "Rapporter brugernavn"

@@ -236,6 +236,7 @@ zh_CN:
     password: "密码长度须至少为 8 字符"
     username: "用户名只能包含字母、数字跟下划线"
     unexpected: "发生了异常错误。对不起！"
+    temporarily_suspended: "Your account is currently suspended. It will be reactivated {0}. Please contact us if you have any questions."
   flag_comment: "举报评论"
   flag_reason: "举报理由（可选）"
   flag_username: "举报用户名"

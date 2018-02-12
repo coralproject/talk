@@ -236,6 +236,7 @@ nl_NL:
     password: "Wachtwoord moet minimaal 8 karakters lang zijn"
     username: "Gebruikersnamen kunnen alleen cijfers, letters en _ bevatten."
     unexpected: "Onverwachte fout opgetreden. Sorry!"
+    temporarily_suspended: "Your account is currently suspended. It will be reactivated {0}. Please contact us if you have any questions."
   flag_comment: "Rapporteer reactie"
   flag_reason: "Reden voor rapporteren (optioneel)"
   flag_username: "Rapporteer gebruikersnaam"
