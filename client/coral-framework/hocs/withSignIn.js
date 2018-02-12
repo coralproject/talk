@@ -6,7 +6,13 @@ import { translateError } from '../utils';
 import { t } from '../services/i18n';
 
 /**
- * WithSignIn provides properties `signIn`, `loading`, `errorMessage`, `requireRecaptcha`, 'success'.
+ * WithSignIn provides properties
+ * `signIn`
+ * `loading`
+ * `errorMessage`
+ * `requireRecaptcha`
+ * `requireEmailConfirmation`
+ * 'success'
  */
 export default hoistStatics(WrappedComponent => {
   class WithSignIn extends React.Component {
@@ -20,6 +26,7 @@ export default hoistStatics(WrappedComponent => {
       loading: false,
       success: false,
       requireRecaptcha: false,
+      requireEmailConfirmation: false,
     };
 
     signIn = (email, password, recaptchaResponse) => {
@@ -51,6 +58,8 @@ export default hoistStatics(WrappedComponent => {
           if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
             changeSet.requireRecaptcha = !!this.context.store.getState().config
               .static.TALK_RECAPTCHA_PUBLIC;
+          } else if (error.translation_key === 'EMAIL_NOT_VERIFIED') {
+            changeSet.requireEmailConfirmation = true;
           }
           this.setState(changeSet);
         });
@@ -73,6 +82,7 @@ export default hoistStatics(WrappedComponent => {
           loading={this.state.loading}
           errorMessage={this.getErrorMessage()}
           requireRecaptcha={this.state.requireRecaptcha}
+          requireEmailConfirmation={this.state.requireEmailConfirmation}
           success={this.state.success}
         />
       );

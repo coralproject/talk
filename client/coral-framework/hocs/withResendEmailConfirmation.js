@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { translateError } from '../utils';
 
 /**
- * WithForgotPassword provides properties `forgotPasssword`, `loading`, `errorMessage`, `success`.
+ * WithResendEmailConfirmaton provides properties `forgotPasssword`, `loading`, `errorMessage`, `success`.
  */
 export default hoistStatics(WrappedComponent => {
-  class WithForgotPassword extends React.Component {
+  class WithResendEmailConfirmaton extends React.Component {
     static contextTypes = {
       store: PropTypes.object,
       rest: PropTypes.func,
@@ -20,16 +20,17 @@ export default hoistStatics(WrappedComponent => {
       success: false,
     };
 
-    forgotPassword = (email, redirectUri) => {
+    resendEmailConfirmation = (email, redirectUri) => {
       if (!redirectUri) {
         redirectUri = this.context.pym.parentUrl || location.href;
       }
       const { rest } = this.context;
       this.setState({ loading: true, error: null, success: false });
 
-      rest('/account/password/reset', {
+      rest('/users/resend-verify', {
         method: 'POST',
-        body: { email, loc: redirectUri },
+        body: { email },
+        headers: { 'X-Pym-Url': redirectUri },
       })
         .then(() => {
           this.setState({ loading: false, error: null, success: true });
@@ -51,7 +52,7 @@ export default hoistStatics(WrappedComponent => {
       return (
         <WrappedComponent
           {...this.props}
-          forgotPassword={this.forgotPassword}
+          resendEmailConfirmation={this.resendEmailConfirmation}
           success={this.state.success}
           loading={this.state.loading}
           errorMessage={this.getErrorMessage()}
@@ -60,5 +61,5 @@ export default hoistStatics(WrappedComponent => {
     }
   }
 
-  return WithForgotPassword;
+  return WithResendEmailConfirmaton;
 });

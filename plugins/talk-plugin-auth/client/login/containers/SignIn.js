@@ -34,7 +34,9 @@ class SignInContainer extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.success) {
+    if (nextProps.requireEmailConfirmation) {
+      this.props.setView(views.RESEND_EMAIL_CONFIRMATION);
+    } else if (nextProps.success) {
       window.close();
     }
   }
@@ -47,8 +49,8 @@ class SignInContainer extends Component {
         onPasswordChange={this.props.setPassword}
         onForgotPasswordLink={this.handleForgotPasswordLink}
         onSignUpLink={this.handleSignUpLink}
-        email={this.state.email}
-        password={this.state.password}
+        email={this.props.email}
+        password={this.props.password}
         errorMessage={this.props.errorMessage}
         onRecaptchaVerify={this.handleRecaptchaVerify}
         requireRecaptcha={this.props.requireRecaptcha}
@@ -62,6 +64,7 @@ SignInContainer.propTypes = {
   signIn: PropTypes.func.isRequired,
   errorMessage: PropTypes.string.isRequired,
   requireRecaptcha: PropTypes.bool.isRequired,
+  requireEmailConfirmation: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
   setView: PropTypes.func.isRequired,

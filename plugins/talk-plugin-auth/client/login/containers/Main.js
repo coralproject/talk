@@ -11,6 +11,22 @@ class MainContainer extends React.Component {
     this.props.setView(views.SIGN_IN);
   };
 
+  resizeHeight() {
+    setTimeout(() => {
+      const height = document.getElementById('signInDialog').offsetHeight + 100;
+      window.resizeTo(500, height);
+    }, 20);
+  }
+
+  componentDidMount() {
+    this.resizeHeight();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.view !== this.props.view) {
+      this.resizeHeight();
+    }
+  }
   render() {
     return <Main onResetView={this.resetView} view={this.props.view} />;
   }

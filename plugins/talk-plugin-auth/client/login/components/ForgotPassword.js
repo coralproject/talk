@@ -5,8 +5,6 @@ import { Button, TextField } from 'plugin-api/beta/client/components/ui';
 import t from 'coral-framework/services/i18n';
 
 class ForgotPassword extends React.Component {
-  state = { value: '' };
-
   handleSignUpLink = e => {
     e.preventDefault();
     this.props.onSignUpLink();

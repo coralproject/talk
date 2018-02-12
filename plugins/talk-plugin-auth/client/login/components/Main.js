@@ -3,7 +3,9 @@ import { Dialog } from 'plugin-api/beta/client/components/ui';
 import styles from './Main.css';
 import PropTypes from 'prop-types';
 import SignIn from '../containers/SignIn';
+import SignUp from '../containers/SignUp';
 import ForgotPassword from '../containers/ForgotPassword';
+import ResendEmailConfirmation from '../containers/ResendEmailConfirmation';
 import * as views from '../enums/views';
 
 const Main = ({ view, onResetView }) => (
@@ -14,7 +16,9 @@ const Main = ({ view, onResetView }) => (
       </span>
     )}
     {view === views.SIGN_IN && <SignIn />}
+    {view === views.SIGN_UP && <SignUp />}
     {view === views.FORGOT_PASSWORD && <ForgotPassword />}
+    {view === views.RESEND_EMAIL_CONFIRMATION && <ResendEmailConfirmation />}
   </Dialog>
 );
 
