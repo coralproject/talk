@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const debug = require('debug')('talk:services:i18n');
 const accepts = require('accepts');
-const _ = require('lodash');
+const { get, has } = require('lodash');
 const yaml = require('yamljs');
 const plugins = require('./plugins');
 const { DEFAULT_LANG } = require('../config');
@@ -67,9 +67,14 @@ const t = language => (key, ...replacements) => {
   loadPluginTranslations();
 
   // Check if the translation exists on the object.
-  if (_.has(translations[language], key)) {
+  if (has(translations[language], key) || has(translations['en'], key)) {
     // Get the translation value.
-    let translation = _.get(translations[language], key);
+    let translation = get(
+      translations[language],
+      key,
+      // Fallback to english if the desired key does not exist.
+      get(translations['en'], key)
+    );
 
     // Replace any {n} with the arguments passed to this method.
     replacements.forEach((str, n) => {
