@@ -118,17 +118,22 @@ export function timeago(time) {
  * any extra parameters are optional and replace a variable marked by {0}, {1}, etc in the translation.
  */
 export function t(key, ...replacements) {
-  const fullKey = `${lang}.${key}`;
-  if (has(translations, fullKey)) {
-    let translation = get(translations, fullKey);
+  let translation;
+  if (has(translations[lang], key)) {
+    translation = get(translations[lang], key);
+  } else if (has(translations['en'], key)) {
+    translation = get(translations['en'], key);
+    console.warn(`${lang}.${key} language key not set`);
+  }
 
+  if (translation) {
     // replace any {n} with the arguments passed to this method
     replacements.forEach((str, i) => {
       translation = translation.replace(new RegExp(`\\{${i}\\}`, 'g'), str);
     });
     return translation;
   } else {
-    console.warn(`${fullKey} language key not set`);
+    console.warn(`${lang}.${key} and en.${key} language key not set`);
     return key;
   }
 }

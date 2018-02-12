@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const debug = require('debug')('talk:services:i18n');
 const accepts = require('accepts');
-const _ = require('lodash');
+const { get, has, merge } = require('lodash');
 const yaml = require('yamljs');
 const plugins = require('./plugins');
 const { DEFAULT_LANG } = require('../config');
@@ -27,7 +27,7 @@ let translations = fs
   .reduce((packs, contents) => {
     const pack = yaml.parse(contents);
 
-    return _.merge(packs, pack);
+    return merge(packs, pack);
   }, {});
 
 // Create a list of all supported translations.
@@ -55,30 +55,33 @@ const loadPluginTranslations = () => {
 
       const pack = yaml.parse(fs.readFileSync(filename, 'utf8'));
 
-      translations = _.merge(translations, pack);
+      translations = merge(translations, pack);
     });
 
   loadedPluginTranslations = true;
 };
 
-const t = language => (key, ...replacements) => {
+const t = lang => (key, ...replacements) => {
   // Loads the translations into the translations array from plugins. This is
   // done lazily to ensure that we don't have an import cycle.
   loadPluginTranslations();
 
-  // Check if the translation exists on the object.
-  if (_.has(translations[language], key)) {
-    // Get the translation value.
-    let translation = _.get(translations[language], key);
+  let translation;
+  if (has(translations[lang], key)) {
+    translation = get(translations[lang], key);
+  } else if (has(translations['en'], key)) {
+    translation = get(translations['en'], key);
+    console.warn(`${lang}.${key} language key not set`);
+  }
 
-    // Replace any {n} with the arguments passed to this method.
-    replacements.forEach((str, n) => {
-      translation = translation.replace(new RegExp(`\\{${n}\\}`, 'g'), str);
+  if (translation) {
+    // replace any {n} with the arguments passed to this method
+    replacements.forEach((str, i) => {
+      translation = translation.replace(new RegExp(`\\{${i}\\}`, 'g'), str);
     });
-
     return translation;
   } else {
-    console.warn(`${key} language key not set`);
+    console.warn(`${lang}.${key} and en.${key} language key not set`);
     return key;
   }
 };
