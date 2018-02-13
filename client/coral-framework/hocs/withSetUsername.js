@@ -38,7 +38,7 @@ const withSetUsername = hoistStatics(WrappedComponent => {
 
     validateUsername = value => {
       if (!value) {
-        return t('sign_in.required_field');
+        return t('error.required_field');
       }
       return validate.username(value) ? '' : errorMsg.username;
     };

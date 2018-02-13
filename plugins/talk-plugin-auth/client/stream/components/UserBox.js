@@ -9,14 +9,15 @@ const UserBox = ({ user, logout, onShowProfile }) => (
     {user ? (
       <div className={cn(styles.userBox, 'talk-stream-auth-userbox')}>
         <span className={styles.userBoxLoggedIn}>
-          {t('sign_in.logged_in_as')}
+          {t('talk-plugin-auth.login.logged_in_as')}
         </span>
-        <a onClick={onShowProfile}>{user.username}</a>. {t('sign_in.not_you')}
+        <a onClick={onShowProfile}>{user.username}</a>.{' '}
+        {t('talk-plugin-auth.login.not_you')}
         <a
           className={cn(styles.logout, 'talk-stream-userbox-logout')}
           onClick={() => logout()}
         >
-          {t('sign_in.logout')}
+          {t('talk-plugin-auth.login.logout')}
         </a>
       </div>
     ) : null}

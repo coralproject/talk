@@ -25,24 +25,28 @@ class SetUsernameDialog extends React.Component {
       <Dialog className={styles.dialogusername} id="createUsernameDialog" open>
         <div>
           <div className={styles.header}>
-            <h1>{t('createdisplay.write_your_username')}</h1>
+            <h1>
+              {t('talk-plugin-auth.set_username_dialog.write_your_username')}
+            </h1>
           </div>
           <div>
             <p className={styles.yourusername}>
-              {t('createdisplay.your_username')}
+              {t('talk-plugin-auth.set_username_dialog.your_username')}
             </p>
             <FakeComment
               className={styles.fakeComment}
               username={username}
               created_at={new Date().toISOString()}
-              body={t('createdisplay.fake_comment_body')}
+              body={t('talk-plugin-auth.set_username_dialog.fake_comment_body')}
             />
             {errorMessage && <Alert>{errorMessage}</Alert>}
             <form id="saveUsername" onSubmit={this.handleSubmit}>
               {usernameError && (
                 <span className={styles.hint}>
                   {' '}
-                  {t('createdisplay.special_characters')}{' '}
+                  {t(
+                    'talk-plugin-auth.set_username_dialog.special_characters'
+                  )}{' '}
                 </span>
               )}
               <div className={styles.saveusername}>
@@ -50,14 +54,14 @@ class SetUsernameDialog extends React.Component {
                   id="username"
                   style={{ fontSize: 16 }}
                   type="string"
-                  label={t('createdisplay.username')}
+                  label={t('talk-plugin-auth.set_username_dialog.username')}
                   value={username}
                   showErrors={!!usernameError}
                   errorMsg={usernameError}
                   onChange={this.handleUsernameChange}
                 />
                 <Button id="save" type="submit" className={styles.saveButton}>
-                  {t('createdisplay.save')}
+                  {t('talk-plugin-auth.set_username_dialog.save')}
                 </Button>
               </div>
             </form>

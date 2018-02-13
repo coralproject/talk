@@ -19,7 +19,9 @@ class ResendVerification extends React.Component {
     const { email, errorMessage, loading, success } = this.props;
     return (
       <div className="talk-resend-verification">
-        <h1 className={styles.header}>{t('sign_in.email_verify_cta')}</h1>
+        <h1 className={styles.header}>
+          {t('talk-plugin-auth.login.email_verify_cta')}
+        </h1>
 
         {errorMessage && <Alert>{errorMessage}</Alert>}
         <div className={styles.notVerified}>
@@ -34,7 +36,7 @@ class ResendVerification extends React.Component {
                 onClick={this.handleSubmit}
                 full
               >
-                {t('sign_in.request_new_verify_email')}
+                {t('talk-plugin-auth.login.request_new_verify_email')}
               </Button>
             )}
           {loading && <Spinner />}

@@ -49,7 +49,7 @@ const withSignUp = hoistStatics(WrappedComponent => {
       }
 
       if (requiredFields.includes(field) && !value) {
-        return t('sign_in.required_field');
+        return t('error.required_field');
       }
 
       if (field in validate) {

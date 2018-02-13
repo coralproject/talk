@@ -237,6 +237,7 @@ en:
     password: "Password must be at least 8 characters"
     username: "Usernames can contain letters numbers and _ only"
     unexpected: "Unexpected error occurred. Sorry!"
+    required_field: "This field is required"
   flag_comment: "Report comment"
   flag_reason: "Reason for reporting (Optional)"
   flag_username: "Report username"

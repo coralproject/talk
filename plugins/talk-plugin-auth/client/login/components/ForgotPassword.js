@@ -25,7 +25,7 @@ class ForgotPassword extends React.Component {
     return (
       <div>
         <div className={styles.header}>
-          <h1>{t('sign_in.recover_password')}</h1>
+          <h1>{t('talk-plugin-auth.login.recover_password')}</h1>
         </div>
         <form onSubmit={this.handleSubmit}>
           <div className={styles.textField}>
@@ -34,13 +34,13 @@ class ForgotPassword extends React.Component {
               style={{ fontSize: 16 }}
               id="email"
               name="email"
-              label={t('sign_in.email')}
+              label={t('talk-plugin-auth.login.email')}
               onChange={this.handleEmailChange}
               value={email}
             />
           </div>
           <Button type="submit" cStyle="black" className={styles.button} full>
-            {t('sign_in.recover_password')}
+            {t('talk-plugin-auth.login.recover_password')}
           </Button>
           {success ? (
             <p className={styles.success}>{t('password_reset.mail_sent')} </p>
@@ -51,12 +51,16 @@ class ForgotPassword extends React.Component {
         </form>
         <div className={styles.footer}>
           <span>
-            {t('sign_in.need_an_account')}{' '}
-            <a onClick={this.handleSignUpLink}>{t('sign_in.register')}</a>
+            {t('talk-plugin-auth.login.need_an_account')}{' '}
+            <a onClick={this.handleSignUpLink}>
+              {t('talk-plugin-auth.login.register')}
+            </a>
           </span>
           <span>
-            {t('sign_in.already_have_an_account')}{' '}
-            <a onClick={this.handleSignInLink}>{t('sign_in.sign_in')}</a>
+            {t('talk-plugin-auth.login.already_have_an_account')}{' '}
+            <a onClick={this.handleSignInLink}>
+              {t('talk-plugin-auth.login.sign_in')}
+            </a>
           </span>
         </div>
       </div>

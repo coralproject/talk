@@ -7,7 +7,7 @@ const SignInButton = ({ currentUser, showSignInDialog }) => (
   <div className="talk-stream-auth-sign-in-button">
     {!currentUser ? (
       <Button id="coralSignInButton" onClick={showSignInDialog} full>
-        {t('sign_in.sign_in_to_comment')}
+        {t('talk-plugin-auth.login.sign_in_to_comment')}
       </Button>
     ) : null}
   </div>

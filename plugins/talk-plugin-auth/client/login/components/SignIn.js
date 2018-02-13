@@ -52,7 +52,7 @@ class SignIn extends React.Component {
     return (
       <div className="coral-sign-in">
         <div className={cn(styles.header, 'header')}>
-          <h1>{t('sign_in.sign_in_to_join')}</h1>
+          <h1>{t('talk-plugin-auth.login.sign_in_to_join')}</h1>
         </div>
         {errorMessage && <Alert>{errorMessage}</Alert>}
         <div>
@@ -61,7 +61,7 @@ class SignIn extends React.Component {
             <TextField
               id="email"
               type="email"
-              label={t('sign_in.email')}
+              label={t('talk-plugin-auth.login.email')}
               value={email}
               style={{ fontSize: 16 }}
               onChange={this.handleEmailChange}
@@ -69,7 +69,7 @@ class SignIn extends React.Component {
             <TextField
               id="password"
               type="password"
-              label={t('sign_in.password')}
+              label={t('talk-plugin-auth.login.password')}
               value={password}
               style={{ fontSize: 16 }}
               onChange={this.handlePasswordChange}
@@ -93,7 +93,7 @@ class SignIn extends React.Component {
                   className={styles.signInButton}
                   full
                 >
-                  {t('sign_in.sign_in')}
+                  {t('talk-plugin-auth.login.sign_in')}
                 </Button>
               ) : (
                 <Spinner />
@@ -104,13 +104,13 @@ class SignIn extends React.Component {
         <div className={cn(styles.footer, 'footer')}>
           <span>
             <a onClick={this.handleForgotPasswordLink}>
-              {t('sign_in.forgot_your_pass')}
+              {t('talk-plugin-auth.login.forgot_your_pass')}
             </a>
           </span>
           <span>
-            {t('sign_in.need_an_account')}
+            {t('talk-plugin-auth.login.need_an_account')}
             <a onClick={this.handleSignUpLink} id="coralRegister">
-              {t('sign_in.register')}
+              {t('talk-plugin-auth.login.register')}
             </a>
           </span>
         </div>

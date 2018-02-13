@@ -47,7 +47,7 @@ class SignUp extends React.Component {
     return (
       <div>
         <div className={styles.header}>
-          <h1>{t('sign_in.sign_up')}</h1>
+          <h1>{t('talk-plugin-auth.login.sign_up')}</h1>
         </div>
 
         {errorMessage && <Alert>{errorMessage}</Alert>}
@@ -58,7 +58,7 @@ class SignUp extends React.Component {
               <TextField
                 id="email"
                 type="email"
-                label={t('sign_in.email')}
+                label={t('talk-plugin-auth.login.email')}
                 value={email}
                 style={{ fontSize: 16 }}
                 showErrors={!!emailError}
@@ -68,7 +68,7 @@ class SignUp extends React.Component {
               <TextField
                 id="username"
                 type="text"
-                label={t('sign_in.username')}
+                label={t('talk-plugin-auth.login.username')}
                 value={username}
                 style={{ fontSize: 16 }}
                 showErrors={!!usernameError}
@@ -78,7 +78,7 @@ class SignUp extends React.Component {
               <TextField
                 id="password"
                 type="password"
-                label={t('sign_in.password')}
+                label={t('talk-plugin-auth.login.password')}
                 value={password}
                 style={{ fontSize: 16 }}
                 showErrors={!!passwordError}
@@ -95,7 +95,7 @@ class SignUp extends React.Component {
               <TextField
                 id="confirmPassword"
                 type="password"
-                label={t('sign_in.confirm_password')}
+                label={t('talk-plugin-auth.login.confirm_password')}
                 value={passwordRepeat}
                 style={{ fontSize: 16 }}
                 showErrors={!!passwordRepeatError}
@@ -111,7 +111,7 @@ class SignUp extends React.Component {
                   className={styles.signInButton}
                   full
                 >
-                  {t('sign_in.sign_up')}
+                  {t('talk-plugin-auth.login.sign_up')}
                 </Button>
                 {loading && <Spinner />}
               </div>
@@ -123,18 +123,18 @@ class SignUp extends React.Component {
             <Success />
             {requireEmailConfirmation && (
               <p>
-                {t('sign_in.verify_email')}
+                {t('talk-plugin-auth.login.verify_email')}
                 <br />
                 <br />
-                {t('sign_in.verify_email2')}
+                {t('talk-plugin-auth.login.verify_email2')}
               </p>
             )}
           </div>
         )}
         <div className={styles.footer}>
-          {t('sign_in.already_have_an_account')}{' '}
+          {t('talk-plugin-auth.login.already_have_an_account')}{' '}
           <a id="coralSignInViewTrigger" onClick={this.handleSignInLink}>
-            {t('sign_in.sign_in')}
+            {t('talk-plugin-auth.login.sign_in')}
           </a>
         </div>
       </div>

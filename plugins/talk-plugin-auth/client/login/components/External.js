@@ -12,7 +12,7 @@ const External = ({ slot }) => (
         <Slot fill={slot} />
       </div>
       <div className={styles.separator}>
-        <h1>{t('sign_in.or')}</h1>
+        <h1>{t('talk-plugin-auth.login.or')}</h1>
       </div>
     </div>
   </IfSlotIsNotEmpty>
