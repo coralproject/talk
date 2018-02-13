@@ -19,7 +19,7 @@ import get from 'lodash/get';
  * `errorMessage`,
  * `requireEmailVerification`,
  * `success`,
- * `validate`.
+ * `validateUsername`.
  */
 const withSetUsername = hoistStatics(WrappedComponent => {
   class WithSetUsername extends React.Component {

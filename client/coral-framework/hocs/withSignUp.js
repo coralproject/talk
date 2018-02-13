@@ -23,7 +23,13 @@ const QUERY = gql`
 export const withSettingsQuery = withQuery(QUERY);
 
 /**
- * withSignUp provides properties `signUp`, `loading`, `errorMessage`, `requireEmailVerification`, 'success', 'validate'.
+ * withSignUp provides properties
+ * `signUp`,
+ * `loading`,
+ * `errorMessage`,
+ * `requireEmailVerification`,
+ * `success`,
+ * `validate`.
  */
 const withSignUp = hoistStatics(WrappedComponent => {
   class WithSignUp extends React.Component {

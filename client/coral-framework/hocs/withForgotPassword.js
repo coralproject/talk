@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import { translateError } from '../utils';
 
 /**
- * WithForgotPassword provides properties `forgotPasssword`, `loading`, `errorMessage`, `success`.
+ * WithForgotPassword provides properties
+ * `forgotPasssword`,
+ * `loading`,
+ * `errorMessage`,
+ * `success`.
  */
 export default hoistStatics(WrappedComponent => {
   class WithForgotPassword extends React.Component {

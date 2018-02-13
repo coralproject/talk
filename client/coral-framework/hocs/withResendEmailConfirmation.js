@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import { translateError } from '../utils';
 
 /**
- * WithResendEmailConfirmaton provides properties `forgotPasssword`, `loading`, `errorMessage`, `success`.
+ * WithResendEmailConfirmaton provides properties
+ * `resendEmailConfirmation`,
+ * `loading`,
+ * `errorMessage`,
+ * `success`.
  */
 export default hoistStatics(WrappedComponent => {
   class WithResendEmailConfirmaton extends React.Component {
