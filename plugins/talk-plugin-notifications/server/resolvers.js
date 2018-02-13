@@ -7,8 +7,13 @@ module.exports = {
         currentUser &&
         (currentUser.id === user.id || currentUser.can('VIEW_USER_STATUS'))
       ) {
-        return get(user, 'metadata.notifications.settings');
+        return get(user, 'metadata.notifications.settings', {});
       }
+    },
+  },
+  RootMutation: {
+    async updateNotificationSettings(obj, { input }, { mutators: { User } }) {
+      await User.updateNotificationSettings(input);
     },
   },
 };

@@ -33,20 +33,19 @@ const handle = async (ctx, comment) => {
     { comment_id: parentID }
   );
   if (reply.errors) {
-    console.error(reply.errors);
+    ctx.log.error({ err: reply.errors }, 'could not query for author metadata');
     return;
   }
 
-  // TODO: re-enable.
-  // // Check if the user has notifications enabled.
-  // const enabled = get(
-  //   reply,
-  //   'data.comment.user.notificationSettings.onReply',
-  //   false
-  // );
-  // if (!enabled) {
-  //   return;
-  // }
+  // Check if the user has notifications enabled.
+  const enabled = get(
+    reply,
+    'data.comment.user.notificationSettings.onReply',
+    false
+  );
+  if (!enabled) {
+    return;
+  }
 
   const userID = get(reply, 'data.comment.user.id', null);
   if (!userID) {
@@ -105,6 +104,21 @@ const hydrate = async (ctx, category, context) => {
 const handler = { handle, category: 'reply', event: 'commentAdded', hydrate };
 
 module.exports = {
+  typeDefs: `
+    type NotificationSettings {
+      onReply: Boolean!
+    }
+
+    input NotificationSettingsInput {
+      onReply: Boolean
+    }
+  `,
+  resolvers: {
+    NotificationSettings: {
+      // onReply returns false by default if not specified.
+      onReply: settings => get(settings, 'onReply', false),
+    },
+  },
   translations: path.join(__dirname, 'translations.yml'),
   notifications: [handler],
 };
