@@ -5,6 +5,7 @@ import merge from 'lodash/merge';
 
 import moment from 'moment';
 import 'moment/locale/da';
+import 'moment/locale/de';
 import 'moment/locale/es';
 import 'moment/locale/fr';
 import 'moment/locale/pt-br';
@@ -12,6 +13,7 @@ import 'moment/locale/pt-br';
 import { createStorage } from 'coral-framework/services/storage';
 
 import daTA from 'timeago.js/locales/da';
+import deTA from 'timeago.js/locales/de';
 import esTA from 'timeago.js/locales/es';
 import frTA from 'timeago.js/locales/fr';
 import pt_BRTA from 'timeago.js/locales/pt_BR';
@@ -21,6 +23,7 @@ import nl from 'timeago.js/locales/nl';
 
 import en from '../../../locales/en.yml';
 import da from '../../../locales/da.yml';
+import de from '../../../locales/de.yml';
 import es from '../../../locales/es.yml';
 import fr from '../../../locales/fr.yml';
 import pt_BR from '../../../locales/pt_BR.yml';
@@ -32,6 +35,7 @@ const defaultLanguage = process.env.TALK_DEFAULT_LANG;
 const translations = {
   ...en,
   ...da,
+  ...de,
   ...es,
   ...fr,
   ...nl_NL,
@@ -86,6 +90,7 @@ export function setupTranslations() {
 
   ta.register('es', esTA);
   ta.register('da', daTA);
+  ta.register('de', deTA);
   ta.register('fr', frTA);
   ta.register('pt_BR', pt_BRTA);
   ta.register('zh_CN', zh_CNTA);
@@ -113,17 +118,22 @@ export function timeago(time) {
  * any extra parameters are optional and replace a variable marked by {0}, {1}, etc in the translation.
  */
 export function t(key, ...replacements) {
-  const fullKey = `${lang}.${key}`;
-  if (has(translations, fullKey)) {
-    let translation = get(translations, fullKey);
+  let translation;
+  if (has(translations[lang], key)) {
+    translation = get(translations[lang], key);
+  } else if (has(translations['en'], key)) {
+    translation = get(translations['en'], key);
+    console.warn(`${lang}.${key} language key not set`);
+  }
 
+  if (translation) {
     // replace any {n} with the arguments passed to this method
     replacements.forEach((str, i) => {
       translation = translation.replace(new RegExp(`\\{${i}\\}`, 'g'), str);
     });
     return translation;
   } else {
-    console.warn(`${fullKey} language key not set`);
+    console.warn(`${lang}.${key} and en.${key} language key not set`);
     return key;
   }
 }
