@@ -59,11 +59,11 @@ class MainContainer extends React.Component {
           this.props.setAuthToken(data.token);
         }
         this.unlisten();
+        localStorage.removeItem('auth');
         window.close();
       } else {
         console.error('auth was set, but did not contain a token');
       }
-      localStorage.removeItem('auth');
     }
   };
 
