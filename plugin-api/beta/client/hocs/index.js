@@ -10,6 +10,7 @@ export {
   withSignIn,
   withSignUp,
   withResendEmailConfirmation,
+  withSetUsername,
 } from 'coral-framework/hocs';
 export {
   withIgnoreUser,

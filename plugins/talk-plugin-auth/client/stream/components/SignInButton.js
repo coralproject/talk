@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'plugin-api/beta/client/components/ui';
-import t from 'coral-framework/services/i18n';
+import { t } from 'plugin-api/beta/client/services';
 
 const SignInButton = ({ currentUser, showSignInDialog }) => (
   <div className="talk-stream-auth-sign-in-button">

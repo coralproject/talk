@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './UserBox.css';
-import t from 'coral-framework/services/i18n';
+import { t } from 'plugin-api/beta/client/services';
 import cn from 'classnames';
 
 const UserBox = ({ user, logout, onShowProfile }) => (

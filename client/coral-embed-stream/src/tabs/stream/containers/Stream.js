@@ -15,10 +15,7 @@ import {
   withEditComment,
 } from 'coral-framework/graphql/mutations';
 
-import {
-  showSignInDialog,
-  editName,
-} from 'coral-embed-stream/src/actions/login';
+import { showSignInDialog } from 'coral-embed-stream/src/actions/login';
 import { notify } from 'coral-framework/actions/notification';
 import {
   setActiveReplyBox,
@@ -465,7 +462,6 @@ const mapDispatchToProps = dispatch =>
       showSignInDialog,
       notify,
       setActiveReplyBox,
-      editName,
       viewAllComments,
       setActiveStreamTab: setActiveTab,
     },
