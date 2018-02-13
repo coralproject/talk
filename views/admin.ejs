@@ -34,13 +34,7 @@
         height: 100%;
       }
     </style>
-    <%_ if (locals.customCssUrl) { _%>
-    <link href="<%= customCssUrl %>" rel="stylesheet" type="text/css">
-    <%_ } _%>
-    <% if (data != null) { %>
-    <script id="data" type="application/json"><%- JSON.stringify(data) %></script>
-    <% } %>
-    <base href="<%= BASE_URL %>"/>
+    <%- include partials/head %>
   </head>
   <body class="admin-page">
     <div id="root"></div>

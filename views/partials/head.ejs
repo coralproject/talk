@@ -1,0 +1,7 @@
+<%_ if (locals.customCssUrl) { _%>
+<link href="<%= customCssUrl %>" rel="stylesheet" type="text/css">
+<%_ } _%>
+<%_ if (data != null) { _%>
+<script id="data" type="application/json"><%- JSON.stringify(data) %></script>
+<%_ } _%>
+<base href="<%= BASE_URL %>"/>

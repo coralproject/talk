@@ -75,7 +75,7 @@ export default class Embed extends React.Component {
         <AutomaticAssetClosure asset={asset} />
         <IfSlotIsNotEmpty slot="login">
           <Popup
-            href={`embed/login?parentUrl=${encodeURIComponent(parentUrl)}`}
+            href={`login?parentUrl=${encodeURIComponent(parentUrl)}`}
             title="Login"
             features="menubar=0,resizable=0,width=500,height=550,top=200,left=500"
             open={showSignInDialog}
