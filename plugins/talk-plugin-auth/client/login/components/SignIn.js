@@ -7,9 +7,9 @@ import {
   Alert,
 } from 'plugin-api/beta/client/components/ui';
 import styles from './SignIn.css';
-import t from 'coral-framework/services/i18n';
+import { t } from 'plugin-api/beta/client/services';
 import cn from 'classnames';
-import Recaptcha from 'coral-framework/components/Recaptcha';
+import { Recaptcha } from 'plugin-api/beta/client/components';
 import External from './External';
 
 class SignIn extends React.Component {

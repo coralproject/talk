@@ -5,9 +5,9 @@ import {
   Success,
   Alert,
 } from 'plugin-api/beta/client/components/ui';
+import { t } from 'plugin-api/beta/client/services';
 import PropTypes from 'prop-types';
 import styles from './ResendEmailConfirmation.css';
-import t from 'coral-framework/services/i18n';
 
 class ResendVerification extends React.Component {
   handleSubmit = e => {

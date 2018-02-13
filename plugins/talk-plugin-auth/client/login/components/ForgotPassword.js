@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './ForgotPassword.css';
 import { Button, TextField } from 'plugin-api/beta/client/components/ui';
-import t from 'coral-framework/services/i18n';
+import { t } from 'plugin-api/beta/client/services';
 
 class ForgotPassword extends React.Component {
   handleSignUpLink = e => {

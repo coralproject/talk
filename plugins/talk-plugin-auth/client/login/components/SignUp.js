@@ -7,7 +7,7 @@ import {
   Success,
   Alert,
 } from 'plugin-api/beta/client/components/ui';
-import t from 'coral-framework/services/i18n';
+import { t } from 'plugin-api/beta/client/services';
 import styles from './SignUp.css';
 import External from './External';
 
