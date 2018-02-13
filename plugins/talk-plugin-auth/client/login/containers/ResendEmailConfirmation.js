@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withResendEmailConfirmation } from 'coral-framework/hocs';
+import {
+  connect,
+  withResendEmailConfirmation,
+} from 'plugin-api/beta/client/hocs';
 import { compose } from 'recompose';
 import ResendEmailConfirmaton from '../components/ResendEmailConfirmation';
-import { connect } from 'plugin-api/beta/client/hocs';
 import { bindActionCreators } from 'redux';
 import * as views from '../enums/views';
 import { setView } from '../actions';

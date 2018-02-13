@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { logout } from 'coral-framework/actions/auth';
+import { logout } from 'plugin-api/beta/client/actions/auth';
 import UserBox from '../components/UserBox';
 
 const mapStateToProps = ({ auth }) => ({

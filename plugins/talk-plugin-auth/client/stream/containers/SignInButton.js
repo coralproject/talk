@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { showSignInDialog } from 'coral-embed-stream/src/actions/login';
-import SignInButton from '../components//SignInButton';
+import { showSignInDialog } from 'plugin-api/beta/client/actions/stream';
+import SignInButton from '../components/SignInButton';
 
 const mapStateToProps = ({ auth }) => ({
   currentUser: auth.user,

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withSignIn } from 'coral-framework/hocs';
+import { connect, withSignIn } from 'plugin-api/beta/client/hocs';
 import { compose } from 'recompose';
 import SignIn from '../components/SignIn';
-import { connect } from 'plugin-api/beta/client/hocs';
 import { bindActionCreators } from 'redux';
 import * as views from '../enums/views';
 import { setView, setEmail, setPassword } from '../actions';

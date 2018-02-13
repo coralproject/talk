@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withSignUp } from 'coral-framework/hocs';
+import { connect, withSignUp } from 'plugin-api/beta/client/hocs';
 import { compose } from 'recompose';
 import SignUp from '../components/SignUp';
-import { connect } from 'plugin-api/beta/client/hocs';
 import { bindActionCreators } from 'redux';
 import * as views from '../enums/views';
 import { setView, setEmail, setPassword } from '../actions';
-import t from 'coral-framework/services/i18n';
+import { t } from 'plugin-api/beta/client/services';
 
 class SignUpContainer extends Component {
   state = {
