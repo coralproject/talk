@@ -10,6 +10,7 @@ import styles from './SignIn.css';
 import t from 'coral-framework/services/i18n';
 import cn from 'classnames';
 import Recaptcha from 'coral-framework/components/Recaptcha';
+import External from './External';
 
 class SignIn extends React.Component {
   recaptcha = null;
@@ -55,12 +56,7 @@ class SignIn extends React.Component {
         </div>
         {errorMessage && <Alert>{errorMessage}</Alert>}
         <div>
-          <div className={cn(styles.socialConnections, 'social-connections')}>
-            Social
-          </div>
-          <div className={styles.separator}>
-            <h1>{t('sign_in.or')}</h1>
-          </div>
+          <External slot="authExternalSignIn" />
           <form onSubmit={this.handleSubmit}>
             <TextField
               id="email"

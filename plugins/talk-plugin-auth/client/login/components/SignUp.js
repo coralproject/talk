@@ -9,6 +9,7 @@ import {
 } from 'plugin-api/beta/client/components/ui';
 import t from 'coral-framework/services/i18n';
 import styles from './SignUp.css';
+import External from './External';
 
 class SignUp extends React.Component {
   handleSignInLink = e => {
@@ -52,10 +53,7 @@ class SignUp extends React.Component {
         {errorMessage && <Alert>{errorMessage}</Alert>}
         {!success && (
           <div>
-            <div className={styles.socialConnections}>Social</div>
-            <div className={styles.separator}>
-              <h1>{t('sign_in.or')}</h1>
-            </div>
+            <External slot="authExternalSignUp" />
             <form onSubmit={this.handleSubmit}>
               <TextField
                 id="email"
