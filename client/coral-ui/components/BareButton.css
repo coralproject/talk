@@ -1,0 +1,3 @@
+.bare {
+  composes: buttonReset from "coral-framework/styles/reset.css";
+}
