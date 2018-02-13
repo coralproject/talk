@@ -60,16 +60,16 @@ fr:
     ban_user_dialog_headline: "Ban User?"
 nl_NL:
   talk-plugin-moderation-actions:
-    reject_comment: "Reject"
-    approve_comment: "Approve"
-    approved_comment: "Approved"
-    moderation_actions: "Moderation Actions"
-    ban_user: "Ban User"
-    ban_user_dialog_sub: "Are you sure you would like to ban this user?"
-    ban_user_dialog_copy: "Note: Banning this user will also place this comment in the Rejected queue."
-    ban_user_dialog_cancel: "Cancel"
-    ban_user_dialog_yes: "Yes. Ban user"
-    ban_user_dialog_headline: "Ban User?"
+    reject_comment: "Afkeuren"
+    approve_comment: "Goedkeuren"
+    approved_comment: "Goedgekeurd"
+    moderation_actions: "Moderatie handelingen"
+    ban_user: "Verban gebruiker"
+    ban_user_dialog_sub: "Weet je zeker dat je deze gebruiker wil verbannen?"
+    ban_user_dialog_copy: "Let op: Wanneer je deze gebruiker verbant zal zijn/haar reactie ook in de Afgekeurde reacties plaatsen."
+    ban_user_dialog_cancel: "Annuleren"
+    ban_user_dialog_yes: "Ja, verban gebruiker"
+    ban_user_dialog_headline: "Gebruiker verbannen?"
 pt_BR:
   talk-plugin-moderation-actions:
     reject_comment: "Reject"

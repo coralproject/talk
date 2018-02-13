@@ -61,18 +61,18 @@ fr:
 nl_NL:
   error:
     COMMENT_IS_SPAM: |
-      The language in this comment looks like spam. You can
-      edit the comment or submit it anyway for moderator review.
+      Deze reactie ziet er uit als spam. Je kan je reactie 
+      wijzigen, of indienen zodat ons moderatieteam het kan beoordelen.
   talk-plugin-akismet:
     spam: "Spam"
     spam_comment: "Spam"
-    detected: "Detected by Akismet"
+    detected: "Gedetecteerd door Akismet"
     still_spam: |
-      Thank you. Our moderation team will review your comment shortly.
+    Dank je wel. Ons moderatieteam zal je reactie beoordelen.
   flags:
     reasons:
       comment:
-        spam_comment: "Detected Spam"
+        spam_comment: "Spam gedetecteerd"
 pt_BR:
   error:
     COMMENT_IS_SPAM: |

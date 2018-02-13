@@ -62,10 +62,10 @@ nl_NL:
     reactions: 'reacties'
     story: 'Verhaal'
   flagged_usernames:
-    notify_approved: '{0} approved username {1}'
-    notify_rejected: '{0} rejected username {1}'
-    notify_flagged: '{0} reported username {1}'
-    notify_changed: 'user {0} changed their username to {1}' 
+    notify_approved: '{0} heeft gebruikersnaam {1} goedgekeurd'
+    notify_rejected: '{0} heeft gebruikersnaam {1} afgekeurd'
+    notify_flagged: '{0} heeft gebruikersnaam {1} gerapporteerd'
+    notify_changed: 'gebruiker {0} heeft de gebruikersnaam veranderd naar {1}' 
   community:
     account_creation_date: "Aanmaakdatum account"
     active: Actief
@@ -256,7 +256,7 @@ nl_NL:
       label: "Nieuwe gebruikersnaam"
       msg: "Je account is momenteel geschorst omdat je gebruikersnaam ongepast is bevonden. Om je account te herstellen, moet je je gebruikersnaam herstellen. Neem contact met ons op wanneer je vragen hebt."
     changed_name:
-      msg: "Your username change is under review by our moderation team."
+      msg: "De verandering van je gebruikersnaam wordt door ons moderatieteam gecontroleerd."
     my_comments: "Mijn reacties"
     my_profile: "Mijn profiel"
     new_count: "Bekijk {0} meer {1}"
@@ -344,7 +344,7 @@ nl_NL:
   no_agree_comment: "Ik ben het niet eens met deze reactie"
   no_like_bio: "Ik vind deze biografie niet leuk"
   no_like_username: "Ik vind deze gebruikersnaam niet leuk"
-  already_flagged_username: "You have already flagged this username."
+  already_flagged_username: "Je hebt deze gebruikersnaam al gemeld."
   other: Ander
   permalink: Deel
   personal_info: "Deze reactie onthult persoonlijk identificeerbare gegevens."
@@ -420,18 +420,18 @@ nl_NL:
     user_bio: "Gebruikers biografie"
     username_flags: "Meldingen voor deze gebruikersnaam"
   user_detail:
-    remove_suspension: "Remove Suspension"
-    suspend: "Suspend User"
-    remove_ban: "Remove Ban"
-    ban: "Ban User"
-    member_since: "Member Since"
+    remove_suspension: "Schorsing opheffen"
+    suspend: "Gebruiker schorsen"
+    remove_ban: "Verbanning verwijderen"
+    ban: "Gebruiker verbannen"
+    member_since: "Lid sinds"
     email: "Email"
-    total_comments: "Total Comments"
-    reject_rate: "Reject Rate"
-    reports: "Reports"
-    all: "All"
-    rejected: "Rejected"
-    account_history: "Account History"
+    total_comments: "Totaal aantal reacties"
+    reject_rate: "Beoordeling verwijderen"
+    reports: "Rapportages"
+    all: "Alle"
+    rejected: "Afgewezen"
+    account_history: "Accountgeschiedenis"
   user_impersonating: "Deze gebruiker imiteert"
   user_no_comment: "Je hebt nog niet eerder gereageerd. Laat je mening horen!"
   username_offensive: "Dit is een aanstootgevende gebruikersnaam."
@@ -459,5 +459,5 @@ nl_NL:
       launch: "Start Talk"
       close: "Installatie afsluiten"
   admin_sidebar:
-    view_options: "View Options"
-    sort_comments: "Sort Comments"
+    view_options: "Bekijk opties"
+    sort_comments: "Sorteer reacties"
