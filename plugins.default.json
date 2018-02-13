@@ -8,6 +8,7 @@
   ],
   "client": [
     "talk-plugin-auth",
+    "talk-plugin-facebook-auth",
     "talk-plugin-author-menu",
     "talk-plugin-comment-content",
     "talk-plugin-featured-comments",
