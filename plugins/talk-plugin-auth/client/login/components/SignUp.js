@@ -108,7 +108,7 @@ class SignUp extends React.Component {
                   type="submit"
                   cStyle="black"
                   id="coralSignUpButton"
-                  className={styles.signInButton}
+                  className={styles.button}
                   full
                 >
                   {t('talk-plugin-auth.login.sign_up')}
