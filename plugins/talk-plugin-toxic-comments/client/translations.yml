@@ -91,21 +91,21 @@ fr:
 nl_NL:
   error:
     COMMENT_IS_TOXIC: |
-      Are you sure? The language in this comment might violate our community guidelines.
-      You can edit the comment or submit it for moderator review.
+      Weet je het zeker? Het taalgebruik in deze reactie kan de community richtlijnen schenden.
+      Je kan je reactie wijzigen of je reactie indienen zodat ons moderatieteam het kan beoordelen.
   talk-plugin-toxic-comments:
-    unlikely: "Unlikely"
-    highly_likely: "Highly Likely"
-    possibly: "Possibly"
-    likely: "Likely"
+    unlikely: "Onwaarschijnlijk"
+    highly_likely: "Heel waarschijnlijk"
+    possibly: "Mogelijk"
+    likely: "Waarschijnlijk"
     toxic_comment: "Toxic Comment"
     still_toxic: |
-      This edited comment might still violate our community guidelines.
-      Our moderation team will review your comment shortly.
+      Deze gewijzigde reactie kan nog steeds onze community richtlijnen schenden
+      Ons moderatieteam zal je reactie beoordelen.
   flags:
     reasons:
       comment:
-        toxic_comment: "Highly likely to be Toxic"
+        toxic_comment: "Zeer waarschijnlijk toxic"
 pt_BR:
   error:
     COMMENT_IS_TOXIC: |
