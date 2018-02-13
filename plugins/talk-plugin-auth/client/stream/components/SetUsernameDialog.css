@@ -9,13 +9,13 @@
   display: block;
 }
 
-.example {
-  display: block;
+.header {
+    margin-bottom: 20px;
 }
 
-.ifyoudont {
-  display: block;
-  margin-top: 15px;
+.header h1 {
+    text-align: center;
+    font-size: 1.2em;
 }
 
 .saveusername {
