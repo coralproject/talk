@@ -65,7 +65,7 @@ nl_NL:
     notify_approved: '{0} heeft gebruikersnaam {1} goedgekeurd'
     notify_rejected: '{0} heeft gebruikersnaam {1} afgekeurd'
     notify_flagged: '{0} heeft gebruikersnaam {1} gerapporteerd'
-    notify_changed: 'gebruiker {0} heeft de gebruikersnaam veranderd naar {1}' 
+    notify_changed: 'gebruiker {0} heeft zijn/haar gebruikersnaam veranderd naar {1}' 
   community:
     account_creation_date: "Aanmaakdatum account"
     active: Actief

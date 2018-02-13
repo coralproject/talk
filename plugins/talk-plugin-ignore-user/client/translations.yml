@@ -63,12 +63,12 @@ fr:
 nl_NL:
   talk-plugin-ignore-user:
     section_title: Genegeerde gebruikers
-    section_info: Daar je de volgende reageerders negeert, worden hun reacties verborgen.
+    section_info: Omdat je de volgende reageerders negeert, worden hun reacties verborgen.
     stop_ignoring: Stop met negeren
     ignore_user: Gebruiker negeren
     cancel: Annuleren
     confirmation: |
-      Wanneer je een gebruiker negeert, zullen al diens reacties voor jou worden verborgen. Je kunt 
+      Wanneer je een gebruiker negeert, zullen al zijn/haar reacties voor jou worden verborgen. Je kunt 
       dit later ongedaan maken vanuit Mijn profiel.
     notify_success: |
       Je negeert nu {0}. Je kunt dit ongedaan maken vanuit Mijn profiel.

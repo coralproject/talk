@@ -66,7 +66,7 @@ nl_NL:
     moderation_actions: "Moderatie handelingen"
     ban_user: "Verban gebruiker"
     ban_user_dialog_sub: "Weet je zeker dat je deze gebruiker wil verbannen?"
-    ban_user_dialog_copy: "Let op: Wanneer je deze gebruiker verbant zal zijn/haar reactie ook in de Afgekeurde reacties plaatsen."
+    ban_user_dialog_copy: "Let op: Wanneer je deze gebruiker verbant zal zijn/haar reactie ook in de Afgekeurde reacties worden geplaatst."
     ban_user_dialog_cancel: "Annuleren"
     ban_user_dialog_yes: "Ja, verban gebruiker"
     ban_user_dialog_headline: "Gebruiker verbannen?"
