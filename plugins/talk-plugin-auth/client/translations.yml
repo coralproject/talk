@@ -223,7 +223,7 @@ fr:
     your_username: "Votre nom d'utilisateur apparaît sur chaque commentaire que vous publiez."
 nl_NL:
   sign_in:
-    email_verify_cta: "Controleer je email-adres."
+    email_verify_cta: "Controleer je e-mailadres."
     request_new_verify_email: "Vraag nieuwe bevestigingsemail aan"
     verify_email: "Bedankt voor het aanmaken van een account! We hebben een email verstuurd naar het adres dat je hebt opgegeven om je account te verifiëren."
     verify_email2: "Je account moet worden geverifiëerd voordat je kunt deelnemen in de community."
