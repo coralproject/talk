@@ -4,9 +4,9 @@ import { Button } from 'plugin-api/beta/client/components/ui';
 import { t } from 'plugin-api/beta/client/services';
 import styles from './SignInButton.css';
 
-const SignInButton = ({ currentUser, showSignInDialog }) => (
+const SignInButton = ({ isLoggedIn, showSignInDialog }) => (
   <div className="talk-stream-auth-sign-in-button">
-    {!currentUser ? (
+    {!isLoggedIn ? (
       <Button
         id="coralSignInButton"
         className={styles.button}
@@ -20,7 +20,7 @@ const SignInButton = ({ currentUser, showSignInDialog }) => (
 );
 
 SignInButton.propTypes = {
-  currentUser: PropTypes.object,
+  isLoggedIn: PropTypes.bool,
   showSignInDialog: PropTypes.func,
 };
 

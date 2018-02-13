@@ -4,14 +4,14 @@ import styles from './UserBox.css';
 import { t } from 'plugin-api/beta/client/services';
 import cn from 'classnames';
 
-const UserBox = ({ user, logout, onShowProfile }) => (
+const UserBox = ({ username, logout, onShowProfile }) => (
   <div>
-    {user ? (
+    {username ? (
       <div className={cn(styles.userBox, 'talk-stream-auth-userbox')}>
         <span className={styles.userBoxLoggedIn}>
           {t('talk-plugin-auth.login.logged_in_as')}
         </span>
-        <a onClick={onShowProfile}>{user.username}</a>.{' '}
+        <a onClick={onShowProfile}>{username}</a>.{' '}
         {t('talk-plugin-auth.login.not_you')}
         <a
           className={cn(styles.logout, 'talk-stream-userbox-logout')}
@@ -25,7 +25,7 @@ const UserBox = ({ user, logout, onShowProfile }) => (
 );
 
 UserBox.propTypes = {
-  user: PropTypes.object,
+  username: PropTypes.string,
   logout: PropTypes.func,
   onShowProfile: PropTypes.func,
 };
