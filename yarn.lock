@@ -7507,9 +7507,9 @@ punycode@1.4.1, punycode@^1.2.4, punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
 
-pym.js@^1.1.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/pym.js/-/pym.js-1.3.1.tgz#140cfa9b4bda2e13613e89683e5551c4ce2ac9c4"
+pym.js@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/pym.js/-/pym.js-1.3.2.tgz#0ebd083c5a7ef7650214db872b4b29a10743305d"
 
 q@1.4.1:
   version "1.4.1"
