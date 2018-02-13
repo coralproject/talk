@@ -9,7 +9,7 @@ const External = ({ slot }) => (
   <IfSlotIsNotEmpty slot={slot}>
     <div>
       <div className={styles.external}>
-        <Slot fill={slot} />
+        <Slot fill={slot} className={styles.slot} />
       </div>
       <div className={styles.separator}>
         <h1>{t('talk-plugin-auth.login.or')}</h1>
