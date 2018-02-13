@@ -36,6 +36,7 @@ plugins/*
 !plugins/talk-plugin-permalink
 !plugins/talk-plugin-featured-comments
 !plugins/talk-plugin-toxic-comments
+!plugins/talk-plugin-social-share
 !plugins/talk-plugin-sort-newest
 !plugins/talk-plugin-sort-oldest
 !plugins/talk-plugin-sort-most-replied

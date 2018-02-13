@@ -1,0 +1,45 @@
+da:
+  talk-plugin-social-share:
+    share: "Share"
+    title: "Share this comment"    
+    share_title: "See this comment"
+en:
+  talk-plugin-social-share:
+    share: "Share"
+    title: "Share this comment"
+    share_title: "See this comment"
+de:
+  talk-plugin-social-share:
+    share: "Share"
+    title: "Share this comment"
+    share_title: "See this comment"
+es:
+  talk-plugin-social-share:
+    share: "Share"
+    title: "Share this comment"
+    share_title: "See this comment"
+fr:
+  talk-plugin-social-share:
+    share: "Share"
+    title: "Share this comment"
+    share_title: "See this comment"
+nl_NL:
+  talk-plugin-social-share:
+    share: "Share"
+    title: "Share this comment"
+    share_title: "See this comment"
+pt_BR:
+  talk-plugin-social-share:
+    share: "Share"
+    title: "Share this comment"
+    share_title: "See this comment"
+zh_CN:
+  talk-plugin-social-share:
+    share: "Share"
+    title: "Share this comment"
+    share_title: "See this comment"
+zh_TW:
+  talk-plugin-social-share:
+    share: "Share"
+    title: "Share this comment"
+    share_title: "See this comment"
