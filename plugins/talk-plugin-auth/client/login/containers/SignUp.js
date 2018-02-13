@@ -62,6 +62,15 @@ class SignUpContainer extends Component {
     this.props.setView(views.SIGN_IN);
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.success) {
+      setTimeout(() => {
+        // allow success UI to be shown for a second, and then close the modal
+        this.props.setView(views.SIGN_IN);
+      }, 2000);
+    }
+  }
+
   render() {
     return (
       <SignUp
