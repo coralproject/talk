@@ -1,13 +1,15 @@
 const DataLoader = require('dataloader');
 const util = require('./util');
-const ActionsService = require('../../services/actions');
 const { first, get, merge, remove, groupBy, reduce } = require('lodash');
 
 /**
  * Gets actions based on their item id's.
  */
-const genActionsByItemID = (_, item_ids) => {
-  return ActionsService.findByItemIdArray(item_ids).then(
+const genActionsByItemID = (
+  { connectors: { services: { Actions } } },
+  item_ids
+) => {
+  return Actions.findByItemIdArray(item_ids).then(
     util.arrayJoinBy(item_ids, 'item_id')
   );
 };
@@ -18,8 +20,11 @@ const genActionsByItemID = (_, item_ids) => {
  * @param {Object} ctx the graph context of the request
  * @param {Array<String>} itemIDs the items that we need to get the actions for
  */
-const genActionsAuthoredWithID = ({ user = {} }, itemIDs) =>
-  ActionsService.getUserActions(user.id, itemIDs).then(
+const genActionsAuthoredWithID = (
+  { user = {}, connectors: { services: { Actions } } },
+  itemIDs
+) =>
+  Actions.getUserActions(user.id, itemIDs).then(
     util.arrayJoinBy(itemIDs, 'item_id')
   );
 
