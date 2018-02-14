@@ -5,10 +5,7 @@ const mailer = require('../../../services/mailer');
 const authorization = require('../../../middleware/authorization');
 const errors = require('../../../errors');
 
-//==============================================================================
-// ROUTES
-//==============================================================================
-
+// Return the current logged in user.
 router.get('/', authorization.needed(), (req, res, next) => {
   res.json(req.user);
 });
@@ -45,9 +42,8 @@ const tokenCheck = (verifier, error) => async (req, res, next) => {
   next();
 };
 
-// POST /email/confirm takes the password confirmation token available as a
-// payload parameter and if it verifies, it updates the confirmed_at date on the
-// local profile.
+// Takes the password confirmation token available as a payload parameter and if
+// it verifies, it updates the confirmed_at date on the local profile.
 router.post(
   '/email/verify',
   tokenCheck(
@@ -67,6 +63,7 @@ router.post(
   }
 );
 
+// Sends the password reset email if the user exists.
 router.post('/password/reset', async (req, res, next) => {
   const { email, loc } = req.body;
 
@@ -93,6 +90,7 @@ router.post('/password/reset', async (req, res, next) => {
   }
 });
 
+// Executes the password reset.
 router.put(
   '/password/reset',
   tokenCheck(

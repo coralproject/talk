@@ -4,7 +4,6 @@ const {
   HandleGenerateCredentials,
   HandleLogout,
 } = require('../../../services/passport');
-
 const router = express.Router();
 
 /**
@@ -27,15 +26,14 @@ router.get('/', (req, res, next) => {
 /**
  * This blacklists the token used to authenticate.
  */
-
 router.delete('/', HandleLogout);
 
-// =============================================================================
+//==============================================================================
 // PASSPORT ROUTES
 //==============================================================================
 
 /**
- * Local auth endpoint, will recieve a email and password
+ * Local auth endpoint, will receive a email and password
  */
 router.post('/local', (req, res, next) => {
   // Perform the local authentication.

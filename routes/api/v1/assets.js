@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const authorization = require('../../../middleware/authorization');
-
 const errors = require('../../../errors');
 const AssetsService = require('../../../services/assets');
-
 const AssetModel = require('../../../models/asset');
 
 const FilterOpenAssets = (query, filter) => {
