@@ -84,23 +84,3 @@ TALK_JWT_SECRET=jX9y8G2ApcVLwyL{$6s3
 Be default, we sign our tokens with HMAC using a SHA-256 hash algorithm. If you
 want to change the signing algorithm, or use multiple signing/verifying keys,
 refer to our [Advanced Configuration]({{ "/advanced-configuration/" | relative_url }}) documentation.
-
-## TALK_FACEBOOK_APP_ID
-
-The Facebook App ID for your Facebook Login enabled app. You can learn more
-about getting a Facebook App ID at the
-[Facebook Developers Portal](https://developers.facebook.com){:target="_blank"}
-or by visiting the
-[Creating an App ID](https://developers.facebook.com/docs/apps/register){:target="_blank"}
-guide. This is only required while the `talk-plugin-facebook-auth` plugin is
-enabled.
-
-## TALK_FACEBOOK_APP_SECRET
-
-The Facebook App Secret for your Facebook Login enabled app. You can learn more
-about getting a Facebook App Secret at the
-[Facebook Developers Portal](https://developers.facebook.com){:target="_blank"}
-or by visiting the
-[Creating an App ID](https://developers.facebook.com/docs/apps/register){:target="_blank"}
-guide. This is only required while the `talk-plugin-facebook-auth` plugin is
-enabled.
