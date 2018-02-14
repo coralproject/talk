@@ -21,7 +21,7 @@ export const getReliability = reliabilityValue => {
  */
 
 export const isSuspended = user => {
-  const suspensionUntil = get(user, 'state.status.suspension.until');
+  const suspensionUntil = get(user, 'status.suspension.until');
   return user && suspensionUntil && new Date(suspensionUntil) > new Date();
 };
 

@@ -1,11 +1,31 @@
+da:
+  talk-plugin-respect:
+    respect: Respect
+    respected: Respected
 en:
   talk-plugin-respect:
     respect: Respect
     respected: Respected
+de:
+  talk-plugin-respect:
+    respect: Respekt
+    respected: Respektiert
 es:
   talk-plugin-respect:
     respect: Respetar
     respected: Respetado
+fr:
+  talk-plugin-respect:
+    respect: Respect
+    respected: Respected
+nl_NL:
+  talk-plugin-respect:
+    respect: Respect
+    respected: Gerespecteerd
+pt_BR:
+  talk-plugin-respect:
+    respect: Respect
+    respected: Respected
 zh_CN:
   talk-plugin-respect:
     respect: "赞"

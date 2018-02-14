@@ -92,7 +92,8 @@ async function serve({ jobs = false, websockets = false } = {}) {
   } catch (e) {
     // Check the error.
     switch (e) {
-      case (errors.ErrInstallLock, errors.ErrSettingsInit):
+      case errors.ErrInstallLock:
+      case errors.ErrSettingsInit:
         debug('setup is not currently available, migrations now being checked');
 
         // The error was expected, just continue.
