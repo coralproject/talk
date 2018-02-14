@@ -157,7 +157,7 @@ const genActionSummariesByItem = async (ctx, items) => {
   // don't need to hit the actions collection at all!
 
   // We will literate over all the items that we're comparing.
-  return items.map(resolveActionSummariesForItem);
+  return items.map(item => resolveActionSummariesForItem(ctx, item));
 };
 
 /**
