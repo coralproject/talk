@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
   ADDTL_COMMENTS_ON_LOAD_MORE,
+  ASSET_COMMENTS_LOAD_DEPTH,
   THREADING_LEVEL,
 } from '../../../constants/stream';
 import {
@@ -379,7 +380,7 @@ const fragments = {
         requireEmailConfirmation
       }
       totalCommentCount @skip(if: $hasComment)
-      comments(query: {limit: 10, excludeIgnored: $excludeIgnored, sortOrder: $sortOrder, sortBy: $sortBy}) @skip(if: $hasComment) {
+      comments(query: {limit: ${ASSET_COMMENTS_LOAD_DEPTH}, excludeIgnored: $excludeIgnored, sortOrder: $sortOrder, sortBy: $sortBy}) @skip(if: $hasComment) {
         nodes {
           ...CoralEmbedStream_Stream_comment
         }

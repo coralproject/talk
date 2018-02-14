@@ -4,7 +4,10 @@ import Comment from '../components/Comment';
 import { withFragments } from 'coral-framework/hocs';
 import { getSlotFragmentSpreads } from 'coral-framework/utils';
 import { withSetCommentStatus } from 'coral-framework/graphql/mutations';
-import { THREADING_LEVEL } from '../../../constants/stream';
+import {
+  THREADING_LEVEL,
+  REPLY_COMMENTS_LOAD_DEPTH,
+} from '../../../constants/stream';
 import hoistStatics from 'recompose/hoistStatics';
 import { nest } from '../../../graphql/utils';
 
@@ -118,7 +121,7 @@ const withCommentFragments = withFragments({
       ...CoralEmbedStream_Comment_SingleComment
       ${nest(
         `
-        replies(query: {limit: 3, excludeIgnored: $excludeIgnored}) {
+        replies(query: {limit: ${REPLY_COMMENTS_LOAD_DEPTH}, excludeIgnored: $excludeIgnored}) {
           nodes {
             ...CoralEmbedStream_Comment_SingleComment
             ...nest
