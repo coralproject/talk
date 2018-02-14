@@ -40,7 +40,7 @@ const withSetUsername = hoistStatics(WrappedComponent => {
       if (!value) {
         return t('error.required_field');
       }
-      return validate.username(value) ? '' : errorMsg.username;
+      return validate.username(value) ? null : errorMsg.username;
     };
 
     setUsername = async username => {
@@ -64,7 +64,7 @@ const withSetUsername = hoistStatics(WrappedComponent => {
 
     getErrorMessage() {
       if (!this.state.error) {
-        return '';
+        return null;
       }
       return getErrorMessages(this.state.error).join(', ');
     }

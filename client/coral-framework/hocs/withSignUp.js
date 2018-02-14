@@ -51,7 +51,7 @@ const withSignUp = hoistStatics(WrappedComponent => {
 
     validate = (field, value) => {
       if (!allFields.includes(field)) {
-        return '';
+        return null;
       }
 
       if (requiredFields.includes(field) && !value) {
@@ -59,10 +59,10 @@ const withSignUp = hoistStatics(WrappedComponent => {
       }
 
       if (field in validate) {
-        return validate[field](value) ? '' : errorMsg[field];
+        return validate[field](value) ? null : errorMsg[field];
       }
 
-      return '';
+      return null;
     };
 
     signUp = ({ username, email, password }, redirectUri) => {
@@ -96,7 +96,7 @@ const withSignUp = hoistStatics(WrappedComponent => {
 
     getErrorMessage() {
       if (!this.state.error) {
-        return '';
+        return null;
       }
       return translateError(this.state.error);
     }

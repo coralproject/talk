@@ -9,7 +9,7 @@ import { setView, setEmail, setPassword } from '../actions';
 
 class SignInContainer extends Component {
   state = {
-    recaptchaResponse: '',
+    recaptchaResponse: null,
   };
 
   handleSubmit = () => {

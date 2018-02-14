@@ -8,7 +8,7 @@ class SignInContainer extends Component {
   state = {
     email: '',
     password: '',
-    recaptchaResponse: '',
+    recaptchaResponse: null,
   };
 
   handleSubmit = () => {

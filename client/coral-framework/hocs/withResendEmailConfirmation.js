@@ -47,7 +47,7 @@ export default hoistStatics(WrappedComponent => {
 
     getErrorMessage() {
       if (!this.state.error) {
-        return '';
+        return null;
       }
       return translateError(this.state.error);
     }

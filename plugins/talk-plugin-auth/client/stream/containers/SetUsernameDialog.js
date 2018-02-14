@@ -11,7 +11,7 @@ import SetUsernameDialog from '../components/SetUsernameDialog';
 class SetUsernameDialogContainer extends Component {
   state = {
     username: this.props.username,
-    usernameError: '',
+    usernameError: null,
   };
 
   handleSubmit = () => {

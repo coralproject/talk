@@ -12,10 +12,10 @@ class SignUpContainer extends Component {
   state = {
     username: '',
     passwordRepeat: '',
-    usernameError: '',
-    emailError: '',
-    passwordError: '',
-    passwordRepeatError: '',
+    usernameError: null,
+    emailError: null,
+    passwordError: null,
+    passwordRepeatError: null,
   };
 
   validate = data => {
@@ -30,7 +30,9 @@ class SignUpContainer extends Component {
     });
 
     if (data.password !== data.passwordRepeat) {
-      changes['passwordRepeatError'] = t('sign_in.passwords_dont_match');
+      changes['passwordRepeatError'] = t(
+        'talk-plugin-auth.login.passwords_dont_match'
+      );
       valid = false;
     }
 
