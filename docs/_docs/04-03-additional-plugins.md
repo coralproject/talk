@@ -116,5 +116,5 @@ point with the still spam-like comment, the comment will be reported as containi
 
 Configuration:
 
-- `TALK_AKISMET_API_KEY` (**required**) - The Akismet API key located on your account page
-- `TALK_AKISMET_SITE` (**required**) - The URL for your site that the comment are appearing on (not the root url, the url for the articles)
+- `TALK_AKISMET_API_KEY` (**required**) - The Akismet API key located on your account page.
+- `TALK_AKISMET_SITE` (**required**) - The URL where you are embedding the comment stream on to provide context to Akismet. If you're hosting talk on https://talk.mynews.org/, and your news site is https://mynews.org/, then you should set this parameter to `https://mynews.org/`
