@@ -1,7 +1,5 @@
 const express = require('express');
-
 const SetupService = require('../../../services/setup');
-
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
