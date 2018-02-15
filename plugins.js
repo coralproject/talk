@@ -4,6 +4,7 @@ const resolve = require('resolve');
 const debug = require('debug')('talk:plugins');
 const Joi = require('joi');
 const amp = require('app-module-path');
+const hjson = require('hjson');
 const pkg = require('./package.json');
 
 const PLUGINS_JSON = process.env.TALK_PLUGINS_JSON;
@@ -33,7 +34,9 @@ try {
     pluginsPath = defaultPlugins;
   }
 
-  plugins = require(pluginsPath);
+  // Load/parse the plugin content using hjson.
+  const pluginContent = fs.readFileSync(pluginsPath, 'utf8');
+  plugins = hjson.parse(pluginContent);
 } catch (err) {
   if (err.code === 'ENOENT') {
     console.error(

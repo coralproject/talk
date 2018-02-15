@@ -4022,6 +4022,16 @@ history@^3.0.0:
     query-string "^4.2.2"
     warning "^3.0.0"
 
+hjson-loader@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/hjson-loader/-/hjson-loader-1.0.0.tgz#d6547d77eebbfc8ab9df45c1db90c6c061cc88fc"
+  dependencies:
+    loader-utils "^0.2.12"
+
+hjson@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/hjson/-/hjson-3.1.1.tgz#eaab95eebc6c0c749442219a817d9b4ff0070dd2"
+
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -5076,7 +5086,7 @@ jsmin@1.x:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/jsmin/-/jsmin-1.0.1.tgz#e7bd0dcd6496c3bf4863235bf461a3d98aa3b98c"
 
-json-loader@^0.5.4, json-loader@^0.5.7:
+json-loader@^0.5.4:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/json-loader/-/json-loader-0.5.7.tgz#dca14a70235ff82f0ac9a3abeb60d337a365185d"
 
@@ -5327,7 +5337,7 @@ loader-runner@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-2.3.0.tgz#f482aea82d543e07921700d5a46ef26fdac6b8a2"
 
-loader-utils@^0.2.15:
+loader-utils@^0.2.12, loader-utils@^0.2.15:
   version "0.2.17"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-0.2.17.tgz#f86e6374d43205a6e6c60e9196f17c0299bfb348"
   dependencies:
