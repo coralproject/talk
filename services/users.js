@@ -1,20 +1,13 @@
 const uuid = require('uuid');
 const bcrypt = require('bcryptjs');
 const errors = require('../errors');
-const some = require('lodash/some');
-const merge = require('lodash/merge');
-
+const { some, merge } = require('lodash');
 const { ROOT_URL } = require('../config');
-
 const { jwt: JWT_SECRET } = require('../secrets');
-
 const debug = require('debug')('talk:services:users');
-
 const UserModel = require('../models/user');
-
 const RECAPTCHA_WINDOW = '10m'; // 10 minutes.
 const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 5 incorrect attempts, recaptcha will be required.
-
 const ActionsService = require('./actions');
 const mailer = require('./mailer');
 const i18n = require('./i18n');
