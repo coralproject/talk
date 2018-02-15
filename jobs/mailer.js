@@ -1,6 +1,7 @@
 const mailer = require('../services/mailer');
 const debug = require('debug')('talk:jobs:mailer');
 const Context = require('../graph/context');
+const { get } = require('lodash');
 
 /**
  * Start the queue processor for the mailer job.
