@@ -40,12 +40,12 @@ const Comment = {
 
     return Actions.getByID.load(id);
   },
-  action_summaries({ id, action_summaries }, _, { loaders: { Actions } }) {
-    if (action_summaries) {
-      return action_summaries;
+  action_summaries(comment, _, { loaders: { Actions } }) {
+    if (comment.action_summaries) {
+      return comment.action_summaries;
     }
 
-    return Actions.getSummariesByItemID.load(id);
+    return Actions.getSummariesByItem.load(comment);
   },
   asset({ asset_id }, _, { loaders: { Assets } }) {
     return Assets.getByID.load(asset_id);
