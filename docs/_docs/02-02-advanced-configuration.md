@@ -509,3 +509,33 @@ Used to set the key for use with
 tracing of GraphQL requests.
 
 **Note: Apollo Engine is a premium service, charges may apply.**
+
+## ALLOW_NO_LIMIT_QUERIES
+
+Setting this to `TRUE` will allow queries to execute without a limit (returns
+all documents). This introduces a significant performance regression, and should
+be used with caution. (Default `FALSE`)
+
+## TALK_ADDTL_COMMENTS_ON_LOAD_MORE
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+image you can specify it with `--build-arg TALK_ADDTL_COMMENTS_ON_LOAD_MORE=10`.
+
+Specifies the number of additional comments to load when a user clicks `Load More`. (Default `10`)
+
+## TALK_ASSET_COMMENTS_LOAD_DEPTH
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+image you can specify it with `--build-arg TALK_ASSET_COMMENTS_LOAD_DEPTH=10`.
+
+Specifies the initial number of comments to load for an asset. (Default `10`)
+
+## TALK_REPLY_COMMENTS_LOAD_DEPTH
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+image you can specify it with `--build-arg TALK_REPLY_COMMENTS_LOAD_DEPTH=3`.
+
+Specifies the initial replies to load for a comment. (Default `3`)
