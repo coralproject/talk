@@ -1,0 +1,38 @@
+.header {
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.action {
+    margin-top: 0px;
+}
+
+.signInButton {
+    margin-top: 10px;
+    background-color: #2a2a2a;
+}
+
+.footer {
+    margin: 20px auto 10px;
+    text-align: center;
+}
+
+.footer span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.footer a {
+    color: #2c69b6;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.recaptcha {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}

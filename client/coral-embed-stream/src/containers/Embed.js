@@ -8,8 +8,13 @@ import branch from 'recompose/branch';
 import renderComponent from 'recompose/renderComponent';
 
 import { Spinner } from 'coral-ui';
-import * as authActions from '../actions/auth';
-import * as assetActions from '../actions/asset';
+import {
+  focusSignInDialog,
+  blurSignInDialog,
+  hideSignInDialog,
+} from '../actions/login';
+import { updateStatus } from 'coral-framework/actions/auth';
+import { fetchAssetSuccess } from '../actions/asset';
 import {
   getDefinitionName,
   getSlotFragmentSpreads,
@@ -24,16 +29,6 @@ import t from 'coral-framework/services/i18n';
 import PropTypes from 'prop-types';
 import { setActiveTab } from '../actions/embed';
 
-const {
-  logout,
-  checkLogin,
-  focusSignInDialog,
-  blurSignInDialog,
-  hideSignInDialog,
-  updateStatus,
-} = authActions;
-const { fetchAssetSuccess } = assetActions;
-
 class EmbedContainer extends React.Component {
   static contextTypes = {
     pym: PropTypes.object,
@@ -42,7 +37,7 @@ class EmbedContainer extends React.Component {
   subscriptions = [];
 
   subscribeToUpdates(props = this.props) {
-    if (props.auth.loggedIn) {
+    if (props.currentUser) {
       const newSubscriptions = [
         {
           document: USER_BANNED_SUBSCRIPTION,
@@ -80,7 +75,7 @@ class EmbedContainer extends React.Component {
         props.data.subscribeToMore({
           document: s.document,
           variables: {
-            user_id: props.auth.user.id,
+            user_id: props.currentUser.id,
           },
           updateQuery: s.updateQuery,
         })
@@ -107,7 +102,7 @@ class EmbedContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.auth.loggedIn !== nextProps.auth.loggedIn) {
+    if (this.props.currentUser !== nextProps.currentUser) {
       // Refetch after login/logout.
       this.props.data.refetch();
       this.resubscribe(nextProps);
@@ -138,7 +133,23 @@ class EmbedContainer extends React.Component {
     if (!this.props.root.asset) {
       return <Spinner />;
     }
-    return <Embed {...this.props} />;
+    return (
+      <Embed
+        setActiveTab={this.props.setActiveTab}
+        currentUser={this.props.currentUser}
+        blurSignInDialog={this.props.blurSignInDialog}
+        focusSignInDialog={this.props.focusSignInDialog}
+        hideSignInDialog={this.props.hideSignInDialog}
+        router={this.props.router}
+        commentId={this.props.commentId}
+        root={this.props.root}
+        activeTab={this.props.activeTab}
+        data={this.props.data}
+        showSignInDialog={this.props.showSignInDialog}
+        signInDialogFocus={this.props.signInDialogFocus}
+        parentUrl={this.props.parentUrl}
+      />
+    );
   }
 }
 
@@ -255,21 +266,46 @@ const EMBED_QUERY = gql`
 `;
 
 export const withEmbedQuery = withQuery(EMBED_QUERY, {
-  options: ({ auth, commentId, assetId, assetUrl, sortBy, sortOrder }) => ({
+  options: ({
+    currentUser,
+    commentId,
+    assetId,
+    assetUrl,
+    sortBy,
+    sortOrder,
+  }) => ({
     variables: {
       assetId,
       assetUrl,
       commentId,
       hasComment: commentId !== '',
-      excludeIgnored: Boolean(auth && auth.user && auth.user.id),
+      excludeIgnored: Boolean(currentUser && currentUser.id),
       sortBy,
       sortOrder,
     },
   }),
 });
 
+EmbedContainer.propTypes = {
+  setActiveTab: PropTypes.func,
+  currentUser: PropTypes.object,
+  blurSignInDialog: PropTypes.func,
+  focusSignInDialog: PropTypes.func,
+  hideSignInDialog: PropTypes.func,
+  router: PropTypes.object,
+  commentId: PropTypes.string,
+  root: PropTypes.object,
+  activeTab: PropTypes.string,
+  parentUrl: PropTypes.string,
+  data: PropTypes.object,
+  fetchAssetSuccess: PropTypes.func,
+  showSignInDialog: PropTypes.bool,
+  signInDialogFocus: PropTypes.bool,
+};
+
 const mapStateToProps = state => ({
-  auth: state.auth,
+  currentUser: state.auth.user,
+  checkedInitialLogin: state.auth.checkedInitialLogin,
   commentId: state.stream.commentId,
   assetId: state.stream.assetId,
   assetUrl: state.stream.assetUrl,
@@ -277,13 +313,14 @@ const mapStateToProps = state => ({
   config: state.config,
   sortOrder: state.stream.sortOrder,
   sortBy: state.stream.sortBy,
+  showSignInDialog: state.login.showSignInDialog,
+  signInDialogFocus: state.login.signInDialogFocus,
+  parentUrl: state.login.parentUrl,
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      logout,
-      checkLogin,
       setActiveTab,
       fetchAssetSuccess,
       notify,
@@ -297,6 +334,6 @@ const mapDispatchToProps = dispatch =>
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  branch(props => !props.auth.checkedInitialLogin, renderComponent(Spinner)),
+  branch(props => !props.checkedInitialLogin, renderComponent(Spinner)),
   withEmbedQuery
 )(EmbedContainer);

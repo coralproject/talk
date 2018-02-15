@@ -2,7 +2,7 @@ fr:
   your_account_has_been_suspended: Your account has been temporarily suspended.
   your_account_has_been_banned: Your account has been banned.
   your_username_has_been_rejected: Your account has been suspended because your username has been deemed inappropriate. To restore your account please enter a new username.
-  embed_comments_tab: Comments 
+  embed_comments_tab: Comments
   bandialog:
     are_you_sure: "Êtes-vous sûr de vouloir bannir {0}?"
     ban_user: "Bannir l'utilisateur ?"
@@ -235,6 +235,7 @@ fr:
     organization_name: "Le nom de l'organisation ne peut contenir que des lettres ou des chiffres."
     password: "Le mot de passe doit être d'au moins 8 caractères"
     username: "Les noms d'utilisateur ne peuvent contenir que des chiffres, des lettres et \"_\""
+    required_field: "Ce champ est obligatoire"
     unexpected: "Unexpected error occurred. Sorry!"
     temporarily_suspended: "Your account is currently suspended. It will be reactivated {0}. Please contact us if you have any questions."
   flag_comment: "Signaler un commentaire"

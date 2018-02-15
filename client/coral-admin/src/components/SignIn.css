@@ -1,0 +1,23 @@
+.forgotPasswordCTA {
+  text-align: center;
+  font-size: 16px;
+}
+
+.forgotPasswordLink:hover {
+  text-decoration: underline;
+}
+
+.forgotPasswordLink {
+  color: blue;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.recaptcha {
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+.signInButton {
+  margin-top: 10px;
+}

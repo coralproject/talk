@@ -252,3 +252,12 @@ export function mapLeaves(o, mapper) {
     return mapper(val);
   });
 }
+
+export function translateError(error) {
+  if (error.translation_key) {
+    return t(`error.${error.translation_key}`);
+  } else if (error.networkError) {
+    return t('error.network_error');
+  }
+  return error.toString();
+}
