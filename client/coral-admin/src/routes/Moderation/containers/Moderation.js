@@ -110,7 +110,7 @@ class ModerationContainer extends Component {
             comment.status_history[comment.status_history.length - 1]
               .assigned_by;
           const notifyText =
-            this.props.auth.user.id === user.id
+            this.props.currentUser.id === user.id
               ? ''
               : t(
                   'modqueue.notify_accepted',
@@ -131,7 +131,7 @@ class ModerationContainer extends Component {
             comment.status_history[comment.status_history.length - 1]
               .assigned_by;
           const notifyText =
-            this.props.auth.user.id === user.id
+            this.props.currentUser.id === user.id
               ? ''
               : t(
                   'modqueue.notify_rejected',
@@ -152,7 +152,7 @@ class ModerationContainer extends Component {
             comment.status_history[comment.status_history.length - 1]
               .assigned_by;
           const notifyText =
-            this.props.auth.user.id === user.id
+            this.props.currentUser.id === user.id
               ? ''
               : t(
                   'modqueue.notify_reset',
@@ -515,7 +515,7 @@ const withModQueueQuery = withQuery(
 
 const mapStateToProps = state => ({
   moderation: state.moderation,
-  auth: state.auth,
+  currentUser: state.auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({

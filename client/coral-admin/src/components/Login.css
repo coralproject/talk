@@ -1,0 +1,18 @@
+.layout {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.header, .cta {
+  text-align: center;
+  font-size: 16px;
+}
+
+.layout h1 {
+  font-size: 40px;
+}
+
+.header {
+  font-size: 30px;
+}
+

@@ -6,6 +6,7 @@ import flattenDeep from 'lodash/flattenDeep';
 import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
 import mapValues from 'lodash/mapValues';
+import get from 'lodash/get';
 import { getDisplayName } from 'coral-framework/helpers/hoc';
 import camelize from '../helpers/camelize';
 
@@ -83,7 +84,7 @@ class PluginsService {
    * query datas are only passed to the component if it is defined in `component.fragments`.
    */
   getSlotComponentProps(component, reduxState, props, queryData) {
-    const pluginConfig = reduxState.config.plugin_config || emptyConfig;
+    const pluginConfig = get(reduxState, 'config.plugin_config') || emptyConfig;
     return {
       ...props,
       config: pluginConfig,
@@ -97,7 +98,7 @@ class PluginsService {
    * Returns React Elements for given slot.
    */
   getSlotElements(slot, reduxState, props = {}, queryData = {}) {
-    const pluginConfig = reduxState.config.plugin_config || emptyConfig;
+    const pluginConfig = get(reduxState, 'config.plugin_config') || emptyConfig;
 
     const isDisabled = component => {
       if (

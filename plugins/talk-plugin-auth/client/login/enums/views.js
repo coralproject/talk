@@ -1,0 +1,4 @@
+export const SIGN_IN = 'SIGN_IN';
+export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
+export const SIGN_UP = 'SIGN_UP';
+export const RESEND_EMAIL_CONFIRMATION = 'RESEND_EMAIL_CONFIRMATION';

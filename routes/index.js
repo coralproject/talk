@@ -74,6 +74,7 @@ router.use(compression());
 //==============================================================================
 
 router.use('/admin', staticTemplate, require('./admin'));
+router.use('/login', staticTemplate, require('./login'));
 router.use('/embed', staticTemplate, require('./embed'));
 
 //==============================================================================

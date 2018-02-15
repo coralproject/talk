@@ -1,0 +1,21 @@
+.userBox {
+  margin: 10px 0 20px;
+  letter-spacing: 0.1px;
+}
+
+.userBoxLoggedIn {
+  font-weight: bold;
+}
+
+.userBox a {
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0px;
+    margin-left: 4px;
+    padding-bottom: 2px;
+}
+
+.userBox .logout {
+  border-bottom: solid 1px black;
+}

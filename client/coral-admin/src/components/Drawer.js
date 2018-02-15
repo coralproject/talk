@@ -7,12 +7,12 @@ import t from 'coral-framework/services/i18n';
 import { can } from 'coral-framework/services/perms';
 import cn from 'classnames';
 
-const CoralDrawer = ({ handleLogout, auth = {} }) => (
+const CoralDrawer = ({ handleLogout, currentUser }) => (
   <Drawer className={cn('talk-admin-drawer-nav', styles.drawer)}>
-    {auth && auth.user && can(auth.user, 'ACCESS_ADMIN') ? (
+    {currentUser && can(currentUser, 'ACCESS_ADMIN') ? (
       <div>
         <Navigation className={styles.nav}>
-          {can(auth.user, 'MODERATE_COMMENTS') && (
+          {can(currentUser, 'MODERATE_COMMENTS') && (
             <IndexLink
               className={cn('talk-admin-nav-moderate', styles.navLink)}
               to="/admin/moderate"
@@ -35,7 +35,7 @@ const CoralDrawer = ({ handleLogout, auth = {} }) => (
           >
             {t('configure.community')}
           </Link>
-          {can(auth.user, 'UPDATE_CONFIG') && (
+          {can(currentUser, 'UPDATE_CONFIG') && (
             <Link
               className={cn('talk-admin-nav-configure', styles.navLink)}
               to="/admin/configure"
@@ -55,7 +55,7 @@ const CoralDrawer = ({ handleLogout, auth = {} }) => (
 CoralDrawer.propTypes = {
   handleLogout: PropTypes.func.isRequired,
   restricted: PropTypes.bool, // hide app elements from a logged out user
-  auth: PropTypes.object,
+  currentUser: PropTypes.object,
 };
 
 export default CoralDrawer;

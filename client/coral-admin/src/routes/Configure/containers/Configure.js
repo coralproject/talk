@@ -30,7 +30,7 @@ class ConfigureContainer extends Component {
 
     return (
       <Configure
-        auth={this.props.auth}
+        currentUser={this.props.currentUser}
         data={this.props.data}
         root={this.props.root}
         settings={this.props.mergedSettings}
@@ -71,7 +71,7 @@ const withConfigureQuery = withQuery(
 );
 
 const mapStateToProps = state => ({
-  auth: state.auth,
+  currentUser: state.auth.user,
   pending: state.configure.pending,
   canSave: state.configure.canSave,
   activeSection: state.configure.activeSection,
@@ -97,7 +97,7 @@ ConfigureContainer.propTypes = {
   updateSettings: PropTypes.func.isRequired,
   clearPending: PropTypes.func.isRequired,
   setActiveSection: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   canSave: PropTypes.bool.isRequired,

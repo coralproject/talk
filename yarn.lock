@@ -7697,8 +7697,8 @@ react-portal@^4.1.2:
     prop-types "^15.5.8"
 
 react-recaptcha@^2.2.6:
-  version "2.3.5"
-  resolved "https://registry.yarnpkg.com/react-recaptcha/-/react-recaptcha-2.3.5.tgz#a5db337125bb00fb13c2fa2e4ebfbe8b0cd06bb7"
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/react-recaptcha/-/react-recaptcha-2.3.6.tgz#afe07b5552f3ea4d37ecd22d9881c2776719ec2b"
 
 react-redux@^4.4.5:
   version "4.4.8"

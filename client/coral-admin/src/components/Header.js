@@ -13,7 +13,7 @@ import CommunityIndicator from '../routes/Community/containers/Indicator';
 const CoralHeader = ({
   handleLogout,
   showShortcuts = () => {},
-  auth,
+  currentUser,
   root,
   data,
 }) => {
@@ -22,9 +22,9 @@ const CoralHeader = ({
       <Header className={styles.header}>
         <Logo className={styles.logo} />
         <div>
-          {auth && auth.user && can(auth.user, 'ACCESS_ADMIN') ? (
+          {currentUser && can(currentUser, 'ACCESS_ADMIN') ? (
             <Navigation className={styles.nav}>
-              {can(auth.user, 'MODERATE_COMMENTS') && (
+              {can(currentUser, 'MODERATE_COMMENTS') && (
                 <IndexLink
                   id="moderateNav"
                   className={cn('talk-admin-nav-moderate', styles.navLink)}
@@ -54,7 +54,7 @@ const CoralHeader = ({
                 <CommunityIndicator root={root} data={data} />
               </Link>
 
-              {can(auth.user, 'UPDATE_CONFIG') && (
+              {can(currentUser, 'UPDATE_CONFIG') && (
                 <Link
                   id="configureNav"
                   className={cn('talk-admin-nav-configure', styles.navLink)}
@@ -97,12 +97,14 @@ const CoralHeader = ({
                         Report a bug or give feedback
                       </a>
                     </MenuItem>
-                    <MenuItem
-                      onClick={handleLogout}
-                      className="talk-admin-header-sign-out"
-                    >
-                      {t('configure.sign_out')}
-                    </MenuItem>
+                    {currentUser && (
+                      <MenuItem
+                        onClick={handleLogout}
+                        className="talk-admin-header-sign-out"
+                      >
+                        {t('configure.sign_out')}
+                      </MenuItem>
+                    )}
                   </Menu>
                 </div>
               </li>
@@ -116,7 +118,7 @@ const CoralHeader = ({
 };
 
 CoralHeader.propTypes = {
-  auth: PropTypes.object,
+  currentUser: PropTypes.object,
   showShortcuts: PropTypes.func,
   handleLogout: PropTypes.func.isRequired,
   root: PropTypes.object.isRequired,

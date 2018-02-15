@@ -28,3 +28,4 @@ export { default as Label } from './components/Label';
 export { default as FlagLabel } from './components/FlagLabel';
 export { default as Dropdown } from './components/Dropdown';
 export { default as Option } from './components/Option';
+export { default as BareButton } from './components/BareButton';
