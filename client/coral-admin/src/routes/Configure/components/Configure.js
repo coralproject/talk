@@ -24,7 +24,7 @@ export default class Configure extends Component {
 
   render() {
     const {
-      auth: { user },
+      currentUser,
       canSave,
       savePending,
       setActiveSection,
@@ -32,7 +32,7 @@ export default class Configure extends Component {
     } = this.props;
     const SectionComponent = this.getSectionComponent(activeSection);
 
-    if (!can(user, 'UPDATE_CONFIG')) {
+    if (!can(currentUser, 'UPDATE_CONFIG')) {
       return (
         <p>
           You must be an administrator to access config settings. Please find
@@ -87,7 +87,7 @@ export default class Configure extends Component {
 
 Configure.propTypes = {
   savePending: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,

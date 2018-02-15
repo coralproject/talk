@@ -23,6 +23,7 @@ en:
     click_to_confirm: "Click below to confirm your email address"
     confirm: "Confirm"
   password_reset:
+    mail_sent: 'If you have a registered account, a password reset link was sent to that email'
     set_new_password: "Change Your Password"
     new_password: "New Password"
     new_password_help: "Password must be at least 8 characters"
@@ -236,6 +237,7 @@ en:
     password: "Password must be at least 8 characters"
     username: "Usernames can contain letters numbers and _ only"
     unexpected: "Unexpected error occurred. Sorry!"
+    required_field: "This field is required"
     temporarily_suspended: "Your account is currently suspended. It will be reactivated {0}. Please contact us if you have any questions."
   flag_comment: "Report comment"
   flag_reason: "Reason for reporting (Optional)"

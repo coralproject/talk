@@ -1,18 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="<%= STATIC_URL %>static/embed/stream/default.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <%_ if (locals.customCssUrl) { _%>
-    <link href="<%= customCssUrl %>" rel="stylesheet" type="text/css">
-    <%_ } _%>
-    <%_ if (data != null) { _%>
-    <script id="data" type="application/json"><%- JSON.stringify(data) %></script>
-    <%_ } _%>
-    <base href="<%= BASE_URL %>"/>
+    <%- include ../partials/head %>
   </head>
   <body class="embed-stream-page">
     <div id="talk-embed-stream-container"></div>

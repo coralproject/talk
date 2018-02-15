@@ -72,17 +72,6 @@ body {
   font-weight: bold;
 }
 
-/* Coral sign in button */
-
-#coralSignInButton {
-    background-color: #2a2a2a;
-    color: #FFF;
-}
-
-#coralSignInButton:hover {
-  background-color: #767676;
-}
-
 /* Info Box Styles */
 
 

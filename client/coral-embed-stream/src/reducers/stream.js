@@ -1,5 +1,5 @@
 import * as actions from '../constants/stream';
-import * as authActions from '../constants/auth';
+import * as authActions from 'coral-framework/constants/auth';
 
 function getQueryVariable(variable) {
   let query = window.location.search.substring(1);

@@ -27,7 +27,7 @@ es:
     new_password: "New Password"
     new_password_help: "Password must be at least 8 characters"
     confirm_new_password: "Confirm New Password"
-    change_password: "Change Password" 
+    change_password: "Change Password"
   characters_remaining: "carácteres restantes"
   comment:
     anon: Anónimo
@@ -235,6 +235,7 @@ es:
     organization_name: "El nombre de la organización debe contener letras y/o números."
     password: "La contraseña debe tener por lo menos 8 caracteres"
     username: "Los nombres pueden contener letras números y _"
+    required_field: "Este campo es requerido"
     unexpected: "Lo siento. Ha habido un error no previsto."
     temporarily_suspended: "Your account is currently suspended. It will be reactivated {0}. Please contact us if you have any questions."
   flag_comment: "Reportar este comentario"

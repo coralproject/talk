@@ -5,7 +5,6 @@ const uuid = require('uuid');
 const merge = require('lodash/merge');
 const helmet = require('helmet');
 const plugins = require('./services/plugins');
-const compression = require('compression');
 const { HELMET_CONFIGURATION } = require('./config');
 const { MOUNT_PATH } = require('./url');
 const routes = require('./routes');
@@ -71,9 +70,6 @@ app.use(
     })
   )
 );
-
-// Compress the responses if appropriate.
-app.use(compression());
 
 //==============================================================================
 // VIEW CONFIGURATION
