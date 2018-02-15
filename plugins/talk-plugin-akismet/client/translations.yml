@@ -68,7 +68,7 @@ nl_NL:
     spam_comment: "Spam"
     detected: "Gedetecteerd door Akismet"
     still_spam: |
-    Dank je wel. Ons moderatieteam zal je reactie beoordelen.
+      Dank je wel. Ons moderatieteam zal je reactie beoordelen.
   flags:
     reasons:
       comment:
