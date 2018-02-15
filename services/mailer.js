@@ -4,8 +4,9 @@ const kue = require('./kue');
 const i18n = require('./i18n');
 const path = require('path');
 const fs = require('fs-extra');
-const { get, set, merge, template } = require('lodash');
+const { get, set, merge, template, isObject } = require('lodash');
 const { TEMPLATE_LOCALS } = require('../middleware/staticTemplate');
+const Context = require('../graph/context');
 
 const {
   SMTP_HOST,
@@ -131,6 +132,14 @@ mailer.send = async options => {
     return;
   }
 
+  // Try to get the user id or the email address from the passed in options. If
+  // neither are provided, then error out.
+  const email = get(options, 'email');
+  const user = isObject(options.user) ? get(options.user, 'id') : options.user;
+  if (!user && !email) {
+    throw new Error('user not provided');
+  }
+
   // Create the new locals object and attach the static locals and the i18n
   // framework.
   const locals = merge({}, mailer.helpers, options.locals, TEMPLATE_LOCALS, {
@@ -147,9 +156,11 @@ mailer.send = async options => {
   // Create the job to send the email later.
   return mailer.task.create({
     title: 'Mail',
+    user,
+    email,
     message: {
-      to: options.to,
       subject: `${EMAIL_SUBJECT_PREFIX} ${options.subject}`,
+      from: SMTP_FROM_ADDRESS,
       text,
       html,
     },
@@ -162,14 +173,48 @@ mailer.send = async options => {
 mailer.process = () => {
   debug(`Now processing ${mailer.task.name} jobs`);
 
-  return mailer.task.process(({ id, data }, done) => {
+  return mailer.task.process(async ({ id, data }, done) => {
+    const { email, user, message } = data;
+
     debug(`Starting to send mail for Job[${id}]`);
 
-    // Set the `from` field.
-    data.message.from = SMTP_FROM_ADDRESS;
+    // If the message has a specific email already to sent it to, just assign
+    // that to the message. If the email does not have an email, and instead has
+    // a user id, then we should lookup the user with the graph and get their
+    // email.
+    if (email) {
+      message.to = email;
+    } else {
+      // Get the user to send the message to.
+      const ctx = Context.forSystem();
+
+      try {
+        const { data, errors } = await ctx.graphql(
+          `
+            query GetUserEmail($user: ID!) {
+              user(id: $user) {
+                email
+              }
+            }
+        `,
+          { user }
+        );
+        if (errors) {
+          return done(errors);
+        }
+        const email = get(data, 'user.email');
+        if (!email) {
+          return done(errors.ErrMissingEmail);
+        }
+
+        message.to = email;
+      } catch (err) {
+        return done(err);
+      }
+    }
 
     // Actually send the email.
-    mailer.transport.sendMail(data.message, err => {
+    mailer.transport.sendMail(message, err => {
       if (err) {
         debug(`Failed to send mail for Job[${id}]:`, err);
         return done(err);

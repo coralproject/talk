@@ -7,6 +7,7 @@ const plugins = require('../services/plugins');
 const { getBroker } = require('./subscriptions/broker');
 const debug = require('debug')('talk:graph:context');
 const { createLogger } = require('../services/logging');
+const { graphql } = require('graphql');
 
 /**
  * Contains the array of plugins that provide context to the server, these top
@@ -76,6 +77,39 @@ class Context {
   }
 
   /**
+   * graphql will execute a graph request for the current context.
+   *
+   * @param {String} requestString  A GraphQL language formatted string
+   *    representing the requested operation.
+   * @param {Object} variableValues  A mapping of variable name to runtime value
+   *    to use for all variables defined in the requestString.
+   * @param {Object} rootValue The value provided as the first argument to
+   *    resolver functions on the top level type (e.g. the query object type).
+   * @param {String} operationName The name of the operation to use if
+   *    requestString contains multiple possible operations. Can be omitted if
+   *    requestString contains only one operation.
+   * @returns {Promise}
+   */
+  async graphql(
+    requestString,
+    variableValues = {},
+    rootValue = {},
+    operationName = undefined
+  ) {
+    // Perform the graph request directly using the graphql client.
+    return graphql(
+      // Use the connected graph schema.
+      this.connectors.graph.schema,
+      requestString,
+      rootValue,
+      // Use this, the context as the context.
+      this,
+      variableValues,
+      operationName
+    );
+  }
+
+  /**
    * forSystem returns a system context object that can be used for internal
    * operations.
    */
@@ -92,7 +126,7 @@ class Context {
 // Attach the Context to the connectors.
 connectors.graph.Context = Context;
 
-// Connect the connect based plugings after the server has started.
+// Connect the connect based plugins after the server has started.
 plugins.defer('server', 'connect', ({ plugin, connect }) => {
   debug(`connecting plugin to connectors '${plugin.name}'`);
 

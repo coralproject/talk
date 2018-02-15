@@ -400,8 +400,9 @@ class UsersService {
 
   /**
    * sendEmailConfirmation sends a confirmation email to the user.
+   *
    * @param {String}     user  the user to send the email to
-   * @param {String}     email   the email for the user to send the email to
+   * @param {String}     email the email for the user to send the email to
    */
   static async sendEmailConfirmation(user, email, redirectURI = ROOT_URL) {
     let token = await UsersService.createEmailConfirmToken(
@@ -418,21 +419,14 @@ class UsersService {
         email,
       },
       subject: i18n.t('email.confirm.subject'),
-      to: email,
+      email,
     });
   }
 
   static async sendEmail(user, options) {
-    const email = user.firstEmail;
-    if (!email) {
-      // Rather than throwing an error here, we'll
-      console.warn(new Error('user does not have an email'));
-      return;
-    }
-
     return mailer.send(
       merge({}, options, {
-        to: email,
+        user: user.id,
       })
     );
   }
