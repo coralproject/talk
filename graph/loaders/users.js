@@ -4,7 +4,6 @@ const util = require('./util');
 
 const { SEARCH_OTHER_USERS } = require('../../perms/constants');
 
-const UsersService = require('../../services/users');
 const { escapeRegExp } = require('../../services/regex');
 const UserModel = require('../../models/user');
 
@@ -56,12 +55,9 @@ const genUserByIDs = async (context, ids) => {
     return [];
   }
 
-  if (ids.length === 1) {
-    const user = await UsersService.findById(ids[0]);
-    return [user];
-  }
-
-  return UsersService.findByIdArray(ids).then(util.singleJoinBy(ids, 'id'));
+  return UserModel.find({ id: { $in: ids } }).then(
+    util.singleJoinBy(ids, 'id')
+  );
 };
 
 /**

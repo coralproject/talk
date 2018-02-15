@@ -55,7 +55,7 @@ class Context {
     this.log = parent.log || createLogger('context', this.id);
 
     // Load the current logged in user to `user`, otherwise this will be null.
-    this.user = get(parent, 'user', null);
+    this.user = get(parent, 'user');
 
     // Attach the connectors.
     this.connectors = connectors;
