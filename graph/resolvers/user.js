@@ -16,8 +16,8 @@ const {
 const { property } = require('lodash');
 
 const User = {
-  action_summaries({ id }, _, { loaders: { Actions } }) {
-    return Actions.getSummariesByItemID.load(id);
+  action_summaries(user, _, { loaders: { Actions } }) {
+    return Actions.getSummariesByItem.load(user);
   },
   actions({ id }, _, { loaders: { Actions } }) {
     return Actions.getByID.load(id);

@@ -59,7 +59,7 @@ class Stream extends React.Component {
       deleteAction,
       showSignInDialog,
       loadNewReplies,
-      auth: { user },
+      currentUser,
       emit,
       viewAllComments,
     } = this.props;
@@ -111,7 +111,7 @@ class Stream extends React.Component {
           disableReply={!open}
           postComment={postComment}
           asset={asset}
-          currentUser={user}
+          currentUser={currentUser}
           highlighted={comment.id}
           postFlag={postFlag}
           postDontAgree={postDontAgree}
@@ -150,7 +150,7 @@ class Stream extends React.Component {
       setActiveStreamTab,
       loadNewReplies,
       loadMoreComments,
-      auth: { user },
+      currentUser,
       emit,
       sortOrder,
       sortBy,
@@ -200,7 +200,7 @@ class Stream extends React.Component {
                 notify={notify}
                 disableReply={asset.isClosed}
                 postComment={postComment}
-                currentUser={user}
+                currentUser={currentUser}
                 postFlag={postFlag}
                 postDontAgree={postDontAgree}
                 loadMore={loadMoreComments}
@@ -230,21 +230,23 @@ class Stream extends React.Component {
       postComment,
       notify,
       updateItem,
-      auth: { loggedIn, user },
+      currentUser,
     } = this.props;
     const { keepCommentBox } = this.state;
     const open = !asset.isClosed;
 
-    const banned = get(user, 'status.banned.status');
-    const suspensionUntil = get(user, 'status.suspension.until');
-    const rejectedUsername = get(user, 'status.username.status') === 'REJECTED';
-    const changedUsername = get(user, 'status.username.status') === 'CHANGED';
+    const banned = get(currentUser, 'status.banned.status');
+    const suspensionUntil = get(currentUser, 'status.suspension.until');
+    const rejectedUsername =
+      get(currentUser, 'status.username.status') === 'REJECTED';
+    const changedUsername =
+      get(currentUser, 'status.username.status') === 'CHANGED';
 
     const temporarilySuspended =
-      user && suspensionUntil && new Date(suspensionUntil) > new Date();
+      currentUser && suspensionUntil && new Date(suspensionUntil) > new Date();
 
     const showCommentBox =
-      loggedIn &&
+      currentUser &&
       ((!banned &&
         !temporarilySuspended &&
         !rejectedUsername &&
@@ -289,7 +291,8 @@ class Stream extends React.Component {
                 </RestrictedMessageBox>
               )}
             {changedUsername && <ChangedUsername />}
-            {!banned && rejectedUsername && <ChangeUsername user={user} />}
+            {!banned &&
+              rejectedUsername && <ChangeUsername user={currentUser} />}
             {banned && <BannedAccount />}
             {showCommentBox && (
               <CommentBox
@@ -300,7 +303,7 @@ class Stream extends React.Component {
                 assetId={asset.id}
                 premod={asset.settings.moderation}
                 isReply={false}
-                currentUser={user}
+                currentUser={currentUser}
                 charCountEnable={asset.settings.charCountEnable}
                 maxCharCount={asset.settings.charCount}
               />
@@ -312,10 +315,10 @@ class Stream extends React.Component {
 
         <Slot fill="stream" queryData={slotQueryData} {...slotProps} />
 
-        {loggedIn && (
+        {currentUser && (
           <ModerationLink
             assetId={asset.id}
-            isAdmin={can(user, 'MODERATE_COMMENTS')}
+            isAdmin={can(currentUser, 'MODERATE_COMMENTS')}
           />
         )}
 
@@ -342,12 +345,11 @@ Stream.propTypes = {
   deleteAction: PropTypes.func,
   showSignInDialog: PropTypes.func,
   loadNewReplies: PropTypes.func,
-  auth: PropTypes.object,
+  currentUser: PropTypes.object,
   emit: PropTypes.func,
   sortOrder: PropTypes.string,
   sortBy: PropTypes.string,
   loading: PropTypes.bool,
-  editName: PropTypes.func,
   appendItemArray: PropTypes.func,
   updateItem: PropTypes.func,
   viewAllComments: PropTypes.func,

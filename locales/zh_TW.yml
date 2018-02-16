@@ -236,6 +236,7 @@ zh_TW:
     password: "密碼必須至少8個字符"
     username: "用戶名只能包含字母、數字和下劃線。"
     unexpected: "發生了意外錯誤。抱歉!"
+    required_field: "該字段必填"
     temporarily_suspended: "Your account is currently suspended. It will be reactivated {0}. Please contact us if you have any questions."
   flag_comment: "舉報評論"
   flag_reason: "舉報原因（可選）"

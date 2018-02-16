@@ -27,7 +27,9 @@ module.exports = class TokenService {
       pat: true,
     };
 
-    set(payload, JWT_USER_ID_CLAIM, userID);
+    if (userID) {
+      set(payload, JWT_USER_ID_CLAIM, userID);
+    }
 
     // Sign the payload.
     const jwt = JWT_SECRET.sign(payload, {});

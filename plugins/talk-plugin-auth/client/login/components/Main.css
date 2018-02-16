@@ -1,0 +1,24 @@
+.dialog {
+  border: none;
+  box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+  width: 280px;
+  top: 10px;
+  font-family: Helvetica, 'Helvetica Neue', Verdana, sans-serif;
+  font-size: 14px;
+}
+
+.close {
+    font-size: 20px;
+    line-height: 14px;
+    top: 10px;
+    right: 10px;
+    position: absolute;
+    display: block;
+    font-weight: bold;
+    color: #363636;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #6b6b6b;
+}
