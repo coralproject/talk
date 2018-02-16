@@ -1,6 +1,10 @@
 node_modules
 
 dist
+docs/*.log
+docs/db.json
+docs/public/
+docs/.deploy*/
 
 npm-debug.log*
 dump.rdb
