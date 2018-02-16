@@ -75,7 +75,7 @@ ForgotPassword.propTypes = {
   email: PropTypes.string.isRequired,
   onEmailChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
   onSignInLink: PropTypes.func.isRequired,
 };
 

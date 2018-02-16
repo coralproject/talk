@@ -34,7 +34,7 @@ class ForgotPasswordContainer extends Component {
 ForgotPasswordContainer.propTypes = {
   success: PropTypes.bool.isRequired,
   forgotPassword: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
   onSignInLink: PropTypes.func.isRequired,
 };
 

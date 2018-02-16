@@ -109,7 +109,7 @@ SignUpContainer.propTypes = {
   setPassword: PropTypes.func.isRequired,
   signUp: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
   requireEmailConfirmation: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
   validate: PropTypes.func.isRequired,

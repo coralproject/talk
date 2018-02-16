@@ -61,7 +61,7 @@ class SignInContainer extends Component {
 
 SignInContainer.propTypes = {
   signIn: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
   requireRecaptcha: PropTypes.bool.isRequired,
   requireEmailConfirmation: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
