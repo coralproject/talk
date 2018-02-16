@@ -39,8 +39,7 @@ describe('graph.Context', () => {
     });
 
     it('creates a context without a user', done => {
-      expect(c).to.have.property('user');
-      expect(c.user).to.be.undefined;
+      expect(c.user).to.be.falsy;
 
       done();
     });
