@@ -5,7 +5,7 @@ import { isSpam } from '../utils';
 
 const enhance = compose(
   excludeIf(
-    ({ comment: { spam, actions } }) => spam === null || isSpam(actions)
+    ({ comment: { spam, actions } }) => spam === null || !isSpam(actions)
   )
 );
 
