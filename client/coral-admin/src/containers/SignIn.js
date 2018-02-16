@@ -50,7 +50,7 @@ class SignInContainer extends Component {
 
 SignInContainer.propTypes = {
   signIn: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
   onForgotPasswordLink: PropTypes.func.isRequired,
   requireRecaptcha: PropTypes.bool.isRequired,
 };

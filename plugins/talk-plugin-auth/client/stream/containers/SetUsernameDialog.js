@@ -47,7 +47,7 @@ SetUsernameDialogContainer.propTypes = {
   username: PropTypes.string,
   setUsername: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
   success: PropTypes.bool.isRequired,
   validateUsername: PropTypes.func.isRequired,
 };
