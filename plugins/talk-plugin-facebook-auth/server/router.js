@@ -4,9 +4,12 @@ module.exports = router => {
    * for authorization.
    */
   router.get('/api/v1/auth/facebook', (req, res, next) => {
-    const { connectors: { services: { Passport } } } = req.context;
+    const {
+      connectors: { services: { Passport: { passport } } },
+    } = req.context;
+    console.log(req.context.connectors.services);
 
-    return Passport.authenticate('facebook', {
+    return passport.authenticate('facebook', {
       display: 'popup',
       authType: 'rerequest',
       scope: ['public_profile'],
@@ -18,11 +21,14 @@ module.exports = router => {
    * send back the user credentials upon successful login.
    */
   router.get('/api/v1/auth/facebook/callback', (req, res, next) => {
-    const { connectors: { services: { Passport } } } = req.context;
-    const { HandleAuthPopupCallback } = Passport;
+    const {
+      connectors: {
+        services: { Passport: { passport, HandleAuthPopupCallback } },
+      },
+    } = req.context;
 
     // Perform the facebook login flow and pass the data back through the opener.
-    Passport.authenticate(
+    passport.authenticate(
       'facebook',
       { session: false },
       HandleAuthPopupCallback(req, res, next)

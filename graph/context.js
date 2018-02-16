@@ -46,16 +46,16 @@ const decorateContextPlugins = (context, contextPlugins) => {
  * Stores the request context.
  */
 class Context {
-  constructor(parent) {
+  constructor(ctx) {
     // Generate a new context id for the request if the parent doesn't provide
     // one.
-    this.id = parent.id || uuid.v4();
+    this.id = ctx.id || uuid.v4();
 
     // Attach a logger or create one.
-    this.log = parent.log || createLogger('context', this.id);
+    this.log = ctx.log || createLogger('context', this.id);
 
     // Load the current logged in user to `user`, otherwise this will be null.
-    this.user = get(parent, 'user');
+    this.user = get(ctx, 'user');
 
     // Attach the connectors.
     this.connectors = connectors;
@@ -73,7 +73,7 @@ class Context {
     this.pubsub = getBroker();
 
     // Bind the parent context.
-    this.parent = parent;
+    this.parent = ctx;
   }
 
   /**

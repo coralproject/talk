@@ -11,7 +11,6 @@ const plugins = require('../services/plugins');
 const staticTemplate = require('../middleware/staticTemplate');
 const staticMiddleware = require('express-static-gzip');
 const { DISABLE_STATIC_SERVER } = require('../config');
-const Context = require('../graph/context');
 const { passport } = require('../services/passport');
 const { MOUNT_PATH } = require('../url');
 
@@ -65,12 +64,6 @@ if (!DISABLE_STATIC_SERVER) {
 
 // Add the i18n middleware to all routes.
 router.use(i18n);
-
-// Bind a new context to the request.
-router.use((req, res, next) => {
-  req.context = new Context(req);
-  next();
-});
 
 // Compress all API responses if appropriate.
 router.use(compression());
