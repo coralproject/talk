@@ -2,7 +2,6 @@ import translations from './translations.yml';
 import CheckSpamHook from './containers/CheckSpamHook';
 import SpamLabel from './containers/SpamLabel';
 import SpamCommentDetail from './containers/SpamCommentDetail';
-import SpamCommentFlagDetail from './containers/SpamCommentFlagDetail';
 
 export default {
   translations,
@@ -10,6 +9,5 @@ export default {
     commentInputDetailArea: [CheckSpamHook],
     adminCommentLabels: [SpamLabel],
     adminCommentMoreDetails: [SpamCommentDetail],
-    adminCommentMoreFlagDetails: [SpamCommentFlagDetail],
   },
 };
