@@ -1,5 +1,4 @@
 const { passport } = require('../services/passport');
-const Context = require('../graph/context');
 const debug = require('debug')('talk:middleware:authentication');
 
 const authentication = (req, res, next) =>
@@ -22,9 +21,6 @@ const authentication = (req, res, next) =>
       } else {
         debug('user was not on request');
       }
-
-      // Attach a new context to the request.
-      req.context = new Context(req);
 
       next();
     }

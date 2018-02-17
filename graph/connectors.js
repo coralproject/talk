@@ -5,7 +5,8 @@ const merge = require('lodash/merge');
 const errors = require('../errors');
 
 // Graph
-const subscriptions = require('./subscriptions');
+const { getBroker } = require('./subscriptions/broker');
+const { getPubsub } = require('./subscriptions/pubsub');
 const resolvers = require('./resolvers');
 const mutators = require('./mutators');
 const loaders = require('./loaders');
@@ -85,7 +86,7 @@ const defaultConnectors = {
     Wordlist,
   },
   graph: {
-    subscriptions,
+    subscriptions: { getBroker, getPubsub },
     resolvers,
     mutators,
     loaders,

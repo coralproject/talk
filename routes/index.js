@@ -13,6 +13,7 @@ const staticMiddleware = require('express-static-gzip');
 const { DISABLE_STATIC_SERVER } = require('../config');
 const { passport } = require('../services/passport');
 const { MOUNT_PATH } = require('../url');
+const context = require('../middleware/context');
 
 const router = express.Router();
 
@@ -100,9 +101,12 @@ plugins.get('server', 'passport').forEach(plugin => {
 // Setup the PassportJS Middleware.
 router.use(passport.initialize());
 
+// Setup the Graph Context on the router.
+router.use(authentication, context);
+
 // Attach the authentication middleware, this will be responsible for decoding
 // (if present) the JWT on the request.
-router.use('/api', authentication, require('./api'));
+router.use('/api', require('./api'));
 
 //==============================================================================
 // DEVELOPMENT ROUTES

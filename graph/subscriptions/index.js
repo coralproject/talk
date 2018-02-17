@@ -2,7 +2,6 @@ const { SubscriptionManager } = require('graphql-subscriptions');
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 const debug = require('debug')('talk:graph:subscriptions');
 
-const { getBroker } = require('./broker');
 const { getPubsub } = require('./pubsub');
 const schema = require('../schema');
 const Context = require('../context');
@@ -116,6 +115,4 @@ const createSubscriptionManager = server =>
 
 module.exports = {
   createSubscriptionManager,
-  getBroker,
-  getPubsub,
 };
