@@ -1,5 +1,4 @@
 const SetupService = require('../services/setup');
-const apollo = require('apollo-server-express');
 const authentication = require('../middleware/authentication');
 const cookieParser = require('cookie-parser');
 const debug = require('debug')('talk:routes');
@@ -8,12 +7,11 @@ const errors = require('../errors');
 const express = require('express');
 const i18n = require('../middleware/i18n');
 const path = require('path');
+const compression = require('compression');
 const plugins = require('../services/plugins');
 const staticTemplate = require('../middleware/staticTemplate');
-const pubsub = require('../middleware/pubsub');
 const staticMiddleware = require('express-static-gzip');
 const { DISABLE_STATIC_SERVER } = require('../config');
-const { createGraphOptions } = require('../graph');
 const { passport } = require('../services/passport');
 const { MOUNT_PATH } = require('../url');
 
@@ -33,10 +31,9 @@ if (!DISABLE_STATIC_SERVER) {
   /**
    * Redirect old embed calls.
    */
+  const oldEmbed = path.resolve(MOUNT_PATH, 'embed.js');
+  const newEmbed = path.resolve(MOUNT_PATH, 'static/embed.js');
   router.get('/embed.js', (req, res) => {
-    const oldEmbed = path.resolve(MOUNT_PATH, 'embed.js');
-    const newEmbed = path.resolve(MOUNT_PATH, 'static/embed.js');
-
     console.warn(
       `deprecation warning: ${oldEmbed} will be phased out soon, please replace calls from ${oldEmbed} to ${newEmbed}`
     );
@@ -69,11 +66,15 @@ if (!DISABLE_STATIC_SERVER) {
 // Add the i18n middleware to all routes.
 router.use(i18n);
 
+// Compress all API responses if appropriate.
+router.use(compression());
+
 //==============================================================================
 // STATIC ROUTES
 //==============================================================================
 
 router.use('/admin', staticTemplate, require('./admin'));
+router.use('/login', staticTemplate, require('./login'));
 router.use('/embed', staticTemplate, require('./embed'));
 
 //==============================================================================
@@ -102,37 +103,12 @@ router.use(passport.initialize());
 
 // Attach the authentication middleware, this will be responsible for decoding
 // (if present) the JWT on the request.
-router.use('/api', authentication, pubsub);
+router.use('/api', authentication, require('./api'));
 
 //==============================================================================
-// GraphQL Router
+// DEVELOPMENT ROUTES
 //==============================================================================
 
-// GraphQL endpoint.
-router.use('/api/v1/graph/ql', apollo.graphqlExpress(createGraphOptions));
-
-// Only include the graphiql tool if we aren't in production mode.
-if (process.env.NODE_ENV !== 'production') {
-  // Interactive graphiql interface.
-  router.use('/api/v1/graph/iql', staticTemplate, (req, res) => {
-    res.render('graphiql', {
-      endpointURL: 'api/v1/graph/ql',
-    });
-  });
-
-  // GraphQL documentation.
-  router.get('/admin/docs', (req, res) => {
-    res.render('admin/docs');
-  });
-}
-
-router.use('/api/v1', require('./api'));
-
-//==============================================================================
-// ROUTES
-//==============================================================================
-
-// Development routes.
 if (process.env.NODE_ENV !== 'production') {
   router.use('/assets', staticTemplate, require('./assets'));
   router.get('/', staticTemplate, async (req, res) => {
@@ -160,6 +136,10 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
+//==============================================================================
+// PLUGIN ROUTES
+//==============================================================================
+
 // Inject server route plugins.
 plugins.get('server', 'router').forEach(plugin => {
   debug(`added plugin '${plugin.plugin.name}'`);
@@ -177,7 +157,7 @@ router.use((req, res, next) => {
   next(errors.ErrNotFound);
 });
 
-// General api error handler. Respond with the message and error if we have it
+// General API error handler. Respond with the message and error if we have it
 // while returning a status code that makes sense.
 router.use('/api', (err, req, res, next) => {
   if (err !== errors.ErrNotFound) {

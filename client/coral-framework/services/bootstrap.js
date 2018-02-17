@@ -22,6 +22,10 @@ import {
 import { createHistory } from 'coral-framework/services/history';
 import { createIntrospection } from 'coral-framework/services/introspection';
 import introspectionData from 'coral-framework/graphql/introspection.json';
+import coreReducers from '../reducers';
+import { checkLogin as checkLoginAction } from '../actions/auth';
+import { mergeConfig } from '../actions/config';
+import { setAuthToken, logout } from '../actions/auth';
 
 /**
  * getAuthToken returns the active auth token or null
@@ -32,7 +36,7 @@ import introspectionData from 'coral-framework/graphql/introspection.json';
 const getAuthToken = (store, storage) => {
   let state = store.getState();
 
-  if (state.config.auth_token) {
+  if (state.config && state.config.auth_token) {
     // if an auth_token exists in config, use it.
     return state.config.auth_token;
   } else if (!bowser.safari && !bowser.ios && storage) {
@@ -49,6 +53,19 @@ function areWeInIframe() {
   } catch (e) {
     return true;
   }
+}
+
+function initExternalConfig({ store, pym, inIframe }) {
+  if (!inIframe) {
+    return;
+  }
+  return new Promise(resolve => {
+    pym.sendMessage('getConfig');
+    pym.onMessage('config', config => {
+      store.dispatch(mergeConfig(JSON.parse(config)));
+      resolve();
+    });
+  });
 }
 
 /**
@@ -70,6 +87,8 @@ export async function createContext({
   notification,
   preInit,
   init = noop,
+  checkLogin = true,
+  addExternalConfig = true,
 } = {}) {
   const inIframe = areWeInIframe();
   const eventEmitter = new EventEmitter({ wildcard: true });
@@ -98,7 +117,8 @@ export async function createContext({
     token,
   });
 
-  let { LIVE_URI: liveUri } = getStaticConfiguration();
+  const staticConfig = getStaticConfiguration();
+  let { LIVE_URI: liveUri } = staticConfig;
   if (liveUri == null) {
     // The protocol must match the origin protocol, secure/insecure.
     const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
@@ -161,6 +181,7 @@ export async function createContext({
 
   // Create our redux store.
   const finalReducers = {
+    ...coreReducers,
     ...reducers,
     ...plugins.getReducers(),
   };
@@ -180,9 +201,39 @@ export async function createContext({
     [client.middleware(), apolloErrorReporter, createReduxEmitter(eventEmitter)]
   );
 
-  // Run pre initialization.
+  if (inIframe) {
+    pym.onMessage('login', token => {
+      if (token) {
+        store.dispatch(setAuthToken(token));
+      }
+    });
+
+    pym.onMessage('logout', () => {
+      store.dispatch(logout());
+    });
+  }
+
+  const preInitList = [];
+
+  store.dispatch(
+    mergeConfig({
+      static: staticConfig,
+    })
+  );
+
   if (preInit) {
-    await preInit(context);
+    preInitList.push(preInit(context));
+  }
+
+  if (addExternalConfig) {
+    preInitList.push(initExternalConfig(context));
+  }
+
+  // Run pre initialization.
+  await Promise.all(preInitList);
+
+  if (checkLogin) {
+    store.dispatch(checkLoginAction());
   }
 
   // Run initialization.

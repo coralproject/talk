@@ -10,12 +10,7 @@ import NotLoggedIn from '../components/NotLoggedIn';
 import { Spinner } from 'coral-ui';
 import CommentHistory from '../components/CommentHistory';
 
-// TODO: Auth logic needs refactoring.
-import {
-  showSignInDialog,
-  checkLogin,
-} from 'coral-embed-stream/src/actions/auth';
-
+import { showSignInDialog } from 'coral-embed-stream/src/actions/login';
 import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
 import { getSlotFragmentSpreads } from 'coral-framework/utils';
@@ -24,7 +19,7 @@ import t from 'coral-framework/services/i18n';
 
 class ProfileContainer extends Component {
   componentWillReceiveProps(nextProps) {
-    if (!this.props.auth.loggedIn && nextProps.auth.loggedIn) {
+    if (!this.props.currentUser && nextProps.currentUser) {
       // Refetch after login.
       this.props.data.refetch();
     }
@@ -55,13 +50,7 @@ class ProfileContainer extends Component {
   };
 
   render() {
-    const {
-      auth,
-      auth: { user: authUser },
-      showSignInDialog,
-      root,
-      data,
-    } = this.props;
+    const { currentUser, showSignInDialog, root, data } = this.props;
     const { me } = this.props.root;
     const loading = this.props.data.loading;
 
@@ -69,7 +58,7 @@ class ProfileContainer extends Component {
       return <div>{this.props.data.error.message}</div>;
     }
 
-    if (!auth.loggedIn) {
+    if (!currentUser) {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
     }
 
@@ -77,7 +66,7 @@ class ProfileContainer extends Component {
       return <Spinner />;
     }
 
-    const localProfile = authUser.profiles.find(p => p.provider === 'local');
+    const localProfile = currentUser.profiles.find(p => p.provider === 'local');
     const emailAddress = localProfile && localProfile.id;
 
     return (
@@ -168,15 +157,20 @@ const withProfileQuery = withQuery(
     ${getSlotFragmentSpreads(slots, 'root')}
   }
   ${CommentFragment}
-`
+`,
+  {
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }
 );
 
 const mapStateToProps = state => ({
-  auth: state.auth,
+  currentUser: state.auth.user,
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ showSignInDialog, checkLogin }, dispatch);
+  bindActionCreators({ showSignInDialog }, dispatch);
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

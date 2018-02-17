@@ -44,6 +44,10 @@ const CONFIG = {
   // fetching again.
   SETTINGS_CACHE_TIME: ms(process.env.TALK_SETTINGS_CACHE_TIME || '1hr'),
 
+  // ALLOW_NO_LIMIT_QUERIES enables some queries to specify a limit of -1 to
+  // request all of the records. Otherwise, minimum limits of 0 are enforced.
+  ALLOW_NO_LIMIT_QUERIES: process.env.TALK_ALLOW_NO_LIMIT_QUERIES === 'TRUE',
+
   //------------------------------------------------------------------------------
   // JWT based configuration
   //------------------------------------------------------------------------------

@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <title>Email Verification</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
     <link rel="stylesheet" href="<%= BASE_PATH %>public/css/admin.css">
-    <%_ if (locals.customCssUrl) { _%>
-    <link href="<%= customCssUrl %>" rel="stylesheet" type="text/css">
-    <%_ } _%>
+    <%- include ../partials/head %>
   </head>
   <body class="confirm-email-page">
     <div id="root">

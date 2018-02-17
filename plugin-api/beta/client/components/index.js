@@ -26,3 +26,4 @@ export {
 export {
   default as StreamConfiguration,
 } from 'coral-framework/components/StreamConfiguration';
+export { default as Recaptcha } from 'coral-framework/components/Recaptcha';

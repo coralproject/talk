@@ -15,8 +15,7 @@ import * as PropTypes from 'prop-types';
 import { getDefinitionName } from '../utils';
 import { t, can } from 'plugin-api/beta/client/services';
 
-// TODO: Auth logic needs refactoring.
-import { showSignInDialog } from 'coral-embed-stream/src/actions/auth';
+import { showSignInDialog } from 'coral-embed-stream/src/actions/login';
 
 /*
  * Disable false-positive warning below, as it doesn't work well with how we currently

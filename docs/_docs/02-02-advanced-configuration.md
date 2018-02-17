@@ -57,6 +57,26 @@ When `TRUE`, it will not mount the static asset serving routes on the router.
 This is used primarily in conjunction with [TALK_STATIC_URI](#talk_static_uri){: .param}
 when the static assets are being hosted on an external domain. (Default `FALSE`)
 
+## TALK_FACEBOOK_APP_ID
+
+The Facebook App ID for your Facebook Login enabled app. You can learn more
+about getting a Facebook App ID at the
+[Facebook Developers Portal](https://developers.facebook.com){:target="_blank"}
+or by visiting the
+[Creating an App ID](https://developers.facebook.com/docs/apps/register){:target="_blank"}
+guide. This is only required while the `talk-plugin-facebook-auth` plugin is
+enabled.
+
+## TALK_FACEBOOK_APP_SECRET
+
+The Facebook App Secret for your Facebook Login enabled app. You can learn more
+about getting a Facebook App Secret at the
+[Facebook Developers Portal](https://developers.facebook.com){:target="_blank"}
+or by visiting the
+[Creating an App ID](https://developers.facebook.com/docs/apps/register){:target="_blank"}
+guide. This is only required while the `talk-plugin-facebook-auth` plugin is
+enabled.
+
 ## TALK_HELMET_CONFIGURATION
 
 A JSON string representing the configuration passed to the
@@ -303,6 +323,8 @@ the websocket to keep the socket alive, parsed by
 
 ## TALK_RECAPTCHA_PUBLIC
 
+Setting a reCAPTCHA Public and Secret key will enable and require reCAPTCHA upon multiple failed login attempts.
+
 Client secret used for enabling reCAPTCHA powered logins. If
 [TALK_RECAPTCHA_SECRET](#talk_recaptcha_secret){: .param} and
 [TALK_RECAPTCHA_PUBLIC](#talk_recaptcha_public){: .param} are not provided it will instead
@@ -487,3 +509,33 @@ Used to set the key for use with
 tracing of GraphQL requests.
 
 **Note: Apollo Engine is a premium service, charges may apply.**
+
+## ALLOW_NO_LIMIT_QUERIES
+
+Setting this to `TRUE` will allow queries to execute without a limit (returns
+all documents). This introduces a significant performance regression, and should
+be used with caution. (Default `FALSE`)
+
+## TALK_ADDTL_COMMENTS_ON_LOAD_MORE
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+image you can specify it with `--build-arg TALK_ADDTL_COMMENTS_ON_LOAD_MORE=10`.
+
+Specifies the number of additional comments to load when a user clicks `Load More`. (Default `10`)
+
+## TALK_ASSET_COMMENTS_LOAD_DEPTH
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+image you can specify it with `--build-arg TALK_ASSET_COMMENTS_LOAD_DEPTH=10`.
+
+Specifies the initial number of comments to load for an asset. (Default `10`)
+
+## TALK_REPLY_COMMENTS_LOAD_DEPTH
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+image you can specify it with `--build-arg TALK_REPLY_COMMENTS_LOAD_DEPTH=3`.
+
+Specifies the initial replies to load for a comment. (Default `3`)

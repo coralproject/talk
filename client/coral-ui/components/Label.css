@@ -10,6 +10,7 @@
   line-height: 22px;
   min-width: 80px;
   text-align: center;
+  vertical-align: text-top;
 }
 
 .icon {

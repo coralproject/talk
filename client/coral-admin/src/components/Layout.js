@@ -10,22 +10,26 @@ const Layout = ({
   handleLogout = () => {},
   toggleShortcutModal = () => {},
   restricted = false,
-  auth,
+  currentUser,
 }) => (
   <LayoutMDL className={styles.layout} fixedDrawer>
     <Header
       handleLogout={handleLogout}
       showShortcuts={toggleShortcutModal}
-      auth={auth}
+      currentUser={currentUser}
     />
-    <Drawer handleLogout={handleLogout} restricted={restricted} auth={auth} />
+    <Drawer
+      handleLogout={handleLogout}
+      restricted={restricted}
+      currentUser={currentUser}
+    />
     <div className={styles.layout}>{children}</div>
   </LayoutMDL>
 );
 
 Layout.propTypes = {
   children: PropTypes.node,
-  auth: PropTypes.object,
+  currentUser: PropTypes.object,
   handleLogout: PropTypes.func,
   toggleShortcutModal: PropTypes.func,
   restricted: PropTypes.bool, // hide elements from a user that's logged out

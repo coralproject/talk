@@ -29,7 +29,7 @@ const getInfo = (toxicity, actions) => {
 
 const ToxicLabel = ({ comment: { actions, toxicity } }) => (
   <CommentDetail
-    icon={'add_box'}
+    icon={'error'}
     header={t('talk-plugin-toxic-comments.toxic_comment')}
     info={getInfo(toxicity, actions)}
   />

@@ -21,6 +21,7 @@ debug(`Using ${pluginsPath} as the plugin configuration path`);
 
 const buildTargets = [
   'coral-admin',
+  'coral-login',
   'coral-docs',
   { name: 'coral-auth-callback', disablePolyfill: true },
 ];
@@ -128,6 +129,9 @@ const config = {
     new webpack.EnvironmentPlugin({
       TALK_PLUGINS_JSON: '{}',
       TALK_THREADING_LEVEL: '3',
+      TALK_ADDTL_COMMENTS_ON_LOAD_MORE: '10',
+      TALK_ASSET_COMMENTS_LOAD_DEPTH: '10',
+      TALK_REPLY_COMMENTS_LOAD_DEPTH: '3',
       TALK_DEFAULT_STREAM_TAB: 'all',
       TALK_DEFAULT_LANG: 'en',
     }),
