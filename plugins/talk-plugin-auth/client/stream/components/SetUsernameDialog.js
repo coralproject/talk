@@ -75,10 +75,10 @@ class SetUsernameDialog extends React.Component {
 SetUsernameDialog.propTypes = {
   loading: PropTypes.bool.isRequired,
   username: PropTypes.string.isRequired,
-  usernameError: PropTypes.string.isRequired,
+  usernameError: PropTypes.string,
   onUsernameChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
 };
 
 export default SetUsernameDialog;

@@ -5,7 +5,7 @@ import { t } from 'plugin-api/beta/client/services';
 
 const SpamLabel = () => (
   <CommentDetail
-    icon={'add_box'}
+    icon={'bug_report'}
     header={t('talk-plugin-akismet.spam_comment')}
     info={t('talk-plugin-akismet.detected')}
   />

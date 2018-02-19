@@ -129,7 +129,7 @@ SignIn.propTypes = {
   onSignUpLink: PropTypes.func.isRequired,
   onRecaptchaVerify: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
   requireRecaptcha: PropTypes.bool.isRequired,
 };
 
