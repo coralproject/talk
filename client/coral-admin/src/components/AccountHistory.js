@@ -19,14 +19,30 @@ const buildUserHistory = (userState = {}) => {
   );
 };
 
-const buildActionResponse = (typename, until, status) => {
+/** readaebleDuration returns a readaeble duration of the suspension/ban in hours or days
+ * @param  {} startDate
+ * @param  {} endDate
+ */
+const readaebleDuration = (startDate, endDate) => {
+  const dur = moment.duration(moment(endDate).diff(moment(startDate)));
+  const durAsDays = dur.asDays().toFixed(0);
+  const durAsHours = dur.asHours().toFixed(0);
+
+  return durAsHours > 23
+    ? `${durAsDays} ${durAsDays > 1 ? 'days' : 'day'}`
+    : `${durAsHours} ${durAsHours > 1 ? 'hours' : 'hour'}`;
+};
+
+const buildActionResponse = (typename, created_at, until, status) => {
   switch (typename) {
     case 'UsernameStatusHistory':
       return `Username ${status}`;
     case 'BannedStatusHistory':
       return status ? 'User banned' : 'Ban removed';
     case 'SuspensionStatusHistory':
-      return until ? 'Account Suspended' : 'Suspension removed';
+      return until
+        ? `Suspended, ${readaebleDuration(created_at, until)}`
+        : 'Suspension removed';
     default:
       return '-';
   }
@@ -77,7 +93,7 @@ class AccountHistory extends React.Component {
                     'talk-admin-account-history-row-status'
                   )}
                 >
-                  {buildActionResponse(__typename, until, status)}
+                  {buildActionResponse(__typename, created_at, until, status)}
                 </div>
                 <div
                   className={cn(
