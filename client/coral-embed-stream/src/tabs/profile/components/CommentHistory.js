@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Comment from './Comment';
+import Comment from '../containers/Comment';
 import LoadMore from './LoadMore';
 
 class CommentHistory extends React.Component {
@@ -21,7 +21,7 @@ class CommentHistory extends React.Component {
   };
 
   render() {
-    const { link, comments, data, root } = this.props;
+    const { navigate, comments, data, root } = this.props;
     return (
       <div>
         <div className="commentHistory__list">
@@ -32,7 +32,7 @@ class CommentHistory extends React.Component {
                 data={data}
                 root={root}
                 comment={comment}
-                link={link}
+                navigate={navigate}
               />
             );
           })}
@@ -51,7 +51,7 @@ class CommentHistory extends React.Component {
 CommentHistory.propTypes = {
   comments: PropTypes.object.isRequired,
   loadMore: PropTypes.func,
-  link: PropTypes.func,
+  navigate: PropTypes.func,
   data: PropTypes.object,
   root: PropTypes.object,
 };
