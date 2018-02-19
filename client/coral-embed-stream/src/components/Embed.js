@@ -9,7 +9,7 @@ import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
 
 import ExtendableTabPanel from '../containers/ExtendableTabPanel';
 import { Tab, TabPane } from 'coral-ui';
-import ProfileContainer from '../tabs/profile/containers/ProfileContainer';
+import Profile from '../tabs/profile/containers/Profile';
 import Popup from 'coral-framework/components/Popup';
 import IfSlotIsNotEmpty from 'coral-framework/components/IfSlotIsNotEmpty';
 import cn from 'classnames';
@@ -112,7 +112,7 @@ export default class Embed extends React.Component {
               tabId="profile"
               className="talk-embed-stream-profile-tab-pane"
             >
-              <ProfileContainer />
+              <Profile />
             </TabPane>,
             <TabPane
               key="config"
