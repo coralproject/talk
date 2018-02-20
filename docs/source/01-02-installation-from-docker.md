@@ -3,8 +3,8 @@ title: Installation from Docker
 permalink: /installation-from-docker/
 ---
 
-[Docker](https://www.docker.com/community-edition#/download) {{ site.versions.docker }} and
-[Docker Compose](https://docs.docker.com/compose/install/) {{ site.versions.docker_compose }} are required
+[Docker](https://www.docker.com/community-edition#/download) 17.06.2+ and
+[Docker Compose](https://docs.docker.com/compose/install/) 1.14.0+ are required
 to perform installation via Docker. This is the recommended way to deploy the
 application when used in production.
 
@@ -37,6 +37,41 @@ provided docker image. The following is a `docker-compose.yml` file that can
 be used to setup Talk:
 
 ```yml
+# For details on the syntax of docker-compose.yml files, check out:
+# https://docs.docker.com/compose/compose-file/compose-file-v2/
+
+version: '2'
+services:
+  talk:
+    image: coralproject/talk:latest
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - NODE_ENV=development # remove this line in production
+      - TALK_MONGO_URL=mongodb://mongo/talk
+      - TALK_REDIS_URL=redis://redis
+      - TALK_ROOT_URL=http://127.0.0.1:3000
+      - TALK_PORT=3000
+      - TALK_JWT_SECRET=password
+  mongo:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo:/data/db
+  redis:
+    image: redis:latest
+    restart: always
+    volumes:
+      - redis:/data
+volumes:
+  mongo:
+    external: false
+  redis:
+    external: false
 ```
 
 This is the bare minimum needed to start Talk, for more configuration

@@ -17,21 +17,21 @@ dependencies managed by
 [Redis](https://redis.io/topics/quickstart) databases in order
 to persist data. The following versions are supported:
 
-- Node {{ config.versions.node }}
-- Yarn {{ config.versions.yarn }}
-- MongoDB {{ config.versions.mongodb }}
-- Redis {{ config.versions.redis }}
+- Node 8+
+- Yarn 1.3.2+
+- MongoDB 3.2+
+- Redis 3.2.5+
 
 An optional dependency for Talk is
 [Docker](https://www.docker.com/community-edition#/download).
 It is used during [development](#development) to set up the database and can be
 used to [install via Docker](#installation-from-docker).  We have tested Talk
-and this documentation with versions {{ config.versions.docker }}.
+and this documentation with versions 17.06.2+.
 
 Another optional dependency for Talk is
 [Docker Compose](https://docs.docker.com/compose/install/). It
 can be used to setup your environment easily for testing. We have tested Talk
-and this documentation with versions {{ config.versions.docker_compose }}.
+and this documentation with versions 1.14.0+.
 
 ## Installation
 
@@ -42,7 +42,41 @@ provided docker image. The following is a `docker-compose.yml` file that can
 be used to setup Talk:
 
 ```yml
+# For details on the syntax of docker-compose.yml files, check out:
+# https://docs.docker.com/compose/compose-file/compose-file-v2/
 
+version: '2'
+services:
+  talk:
+    image: coralproject/talk:latest
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - NODE_ENV=development # remove this line in production
+      - TALK_MONGO_URL=mongodb://mongo/talk
+      - TALK_REDIS_URL=redis://redis
+      - TALK_ROOT_URL=http://127.0.0.1:3000
+      - TALK_PORT=3000
+      - TALK_JWT_SECRET=password
+  mongo:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo:/data/db
+  redis:
+    image: redis:latest
+    restart: always
+    volumes:
+      - redis:/data
+volumes:
+  mongo:
+    external: false
+  redis:
+    external: false
 ```
 
 This is the bare minimum needed to run the demo, for more configuration
@@ -175,6 +209,20 @@ If you've followed the documentation above, you'll now have a running copy of
 Talk. To demonstrate what your own self-hosted copy of Talk can do, below
 you'll find a demo that can be used to test the copy that is running now on your
 machine.
+
+In order for the demo to work, you must add
+`https://coralproject.github.io/` to your
+permitted domains list. You can do this by visiting
+[http://127.0.0.1:3000/admin/configure](http://127.0.0.1:3000/admin/configure)
+now and selecting *Tech Settings* from the sidebar.
+
+Once you have added the domain of these docs, you can click the button below.
+
+<div class="demo">
+  <button id="talk-demo-embed-button" type="button" class="btn btn-block btn-coral">Start Demo</button>
+  <div class="alert" role="alert"></div>
+  <div class="mount"></div>
+</div>
 
 At this point you've successfully installed, configured, and ran your very own
 instance of Talk! Continue through this documentation on this site to learn more
