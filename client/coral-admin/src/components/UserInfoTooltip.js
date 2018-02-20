@@ -67,7 +67,7 @@ class UserInfoTooltip extends React.Component {
                           new Date(
                             this.getLastHistoryItem(user, 'banned').created_at
                           )
-                        ).format('MMMM Do YYYY, h:mm:ss a')}
+                        ).format('MMM Do YYYY, h:mm:ss a')}
                       </span>
                     </li>
                     <li
@@ -139,7 +139,7 @@ class UserInfoTooltip extends React.Component {
                               'suspension'
                             ).created_at
                           )
-                        ).format('MMMM Do YYYY, h:mm:ss a')}
+                        ).format('MMM Do YYYY, h:mm:ss a')}
                       </span>
                     </li>
                     <li
@@ -154,7 +154,7 @@ class UserInfoTooltip extends React.Component {
                           new Date(
                             this.getLastHistoryItem(user, 'suspension').until
                           )
-                        ).format('MMMM Do YYYY, h:mm:ss a')}
+                        ).format('MMM Do YYYY, h:mm:ss a')}
                       </span>
                     </li>
                   </ul>
