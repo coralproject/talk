@@ -1,6 +1,6 @@
 const DataLoader = require('dataloader');
 const util = require('./util');
-const { first, get, merge, remove, groupBy, reduce } = require('lodash');
+const { first, get, merge, remove, groupBy, reduce, isNil } = require('lodash');
 
 /**
  * Gets actions based on their item id's.
@@ -35,10 +35,12 @@ const genActionsAuthoredWithID = (
  * @param {Object} action_counts the action count object
  */
 const iterateActionCounts = action_counts =>
-  Object.keys(action_counts).map(action_type => ({
-    count: action_counts[action_type],
-    action_type: action_type.toUpperCase(),
-  }));
+  !isNil(action_counts)
+    ? Object.keys(action_counts).map(action_type => ({
+        count: action_counts[action_type],
+        action_type: action_type.toUpperCase(),
+      }))
+    : [];
 
 /**
  * getUserActions will get the actions made by the user for this specific
