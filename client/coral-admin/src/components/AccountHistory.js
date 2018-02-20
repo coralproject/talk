@@ -19,11 +19,11 @@ const buildUserHistory = (userState = {}) => {
   );
 };
 
-/** readaebleDuration returns a readaeble duration of the suspension/ban in hours or days
+/** readableDuration returns a readable duration of the suspension/ban in hours or days
  * @param  {} startDate
  * @param  {} endDate
  */
-const readaebleDuration = (startDate, endDate) => {
+const readableDuration = (startDate, endDate) => {
   const dur = moment.duration(moment(endDate).diff(moment(startDate)));
   const durAsDays = dur.asDays().toFixed(0);
   const durAsHours = dur.asHours().toFixed(0);
@@ -41,7 +41,7 @@ const buildActionResponse = (typename, created_at, until, status) => {
       return status ? 'User banned' : 'Ban removed';
     case 'SuspensionStatusHistory':
       return until
-        ? `Suspended, ${readaebleDuration(created_at, until)}`
+        ? `Suspended, ${readableDuration(created_at, until)}`
         : 'Suspension removed';
     default:
       return '-';
