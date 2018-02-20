@@ -13,6 +13,6 @@
   function gtag(){dataLayer.push(arguments)};
   gtag('js', new Date());
 
-  gtag('config', '{{ site.google_analytics }}');
+  gtag('config', '{{ config.google_analytics }}');
 </script>
 
