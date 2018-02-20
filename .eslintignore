@@ -23,6 +23,7 @@ public
 !plugins/talk-plugin-notifications-category-reply
 !plugins/talk-plugin-offtopic
 !plugins/talk-plugin-permalink
+!plugins/talk-plugin-profile-settings
 !plugins/talk-plugin-remember-sort
 !plugins/talk-plugin-respect
 !plugins/talk-plugin-sort-most-liked
@@ -34,6 +35,5 @@ public
 !plugins/talk-plugin-subscriber
 !plugins/talk-plugin-toxic-comments
 !plugins/talk-plugin-viewing-options
-
 public
 node_modules
