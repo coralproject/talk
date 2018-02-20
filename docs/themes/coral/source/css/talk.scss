@@ -15,6 +15,24 @@ body {
   }
 }
 
+
+#graphql-docs {
+  & > div > div {
+    max-width: 100%;
+  }
+
+  a {
+    @extend .coral-link;
+  }
+}
+
+.toc {
+  a {
+    border-bottom: none !important;
+    @extend .coral-link;
+  }
+}
+
 h1 {
   font-size: 2rem;
 }
@@ -261,12 +279,7 @@ pre {
   }
 }
 
-.toc {
-  a {
-    @extend .coral-link;
-    border-bottom: none;
-  }
-}
+
 
 .content {
   article {

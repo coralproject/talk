@@ -2,6 +2,7 @@
 title: Required Configuration
 permalink: /configuration/
 class: configuration
+toc: true
 ---
 
 Talk requires configuration in order to customize the installation. The default
@@ -10,8 +11,8 @@ behavior is to load it's configuration from the environment, following the
 In development, you can specify configuration in a file named `.env` and it will
 be loaded into the environment when you run `yarn watch:server`.
 
-The following variables do not have defaults, and are **required** to start your
-instance of Talk:
+The above variables do not have defaults, and are **required** to start your
+instance of Talk.
 
 If you've already configured your application with the required configuration,
 you can further customize it's behavior by applying

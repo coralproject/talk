@@ -1,9 +1,11 @@
 **/*.html
 dist
-docs
+
 node_modules
 plugins/*
 public
+
+**/*.min.js
 
 !plugins/talk-plugin-akismet
 !plugins/talk-plugin-auth

@@ -2,6 +2,7 @@
 title: Additional Plugins
 permalink: /additional-plugins/
 class: configuration
+toc: true
 ---
 
 Talk ships with several plugins that aren't enabled by default. These plugins

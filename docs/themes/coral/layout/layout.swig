@@ -10,7 +10,10 @@
         <main class="content" role="main">
           {{ partial('partial/header') }}
 
-          {{ body }}
+          {% block content %}
+            {{ body }}
+          {% endblock %}
+
         </main>
 
         {{ partial('partial/footer') }}

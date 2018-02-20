@@ -2,6 +2,7 @@
 title: Default Plugins
 permalink: /default-plugins/
 class: configuration
+toc: true
 ---
 
 The default Talk plugins can be found in the `plugins.default.json` file

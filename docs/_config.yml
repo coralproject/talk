@@ -120,6 +120,12 @@ sidebar:
           url: /additional-plugins/
         - title: Plugin Recipes
           url: /plugin-recipes/
+    - title: Reference
+      children:
+        - title: Server Plugin API
+          url: /reference/server/
+        - title: GraphQL API
+          url: /reference/graphql/
     - title: FAQ
       children:
         - title: FAQ

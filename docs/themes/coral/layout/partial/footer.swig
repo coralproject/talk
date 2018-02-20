@@ -7,7 +7,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha256-Daf8GuI2eLKHJlOWLRR/zRy9Clqcj4TUSumbxYH9kGI=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.4.1/docsearch.min.js" integrity="sha256-/cR58XeT7FS/4QEWCHJj/TdJ4b377Sf9p0DRto6I6cI=" crossorigin="anonymous"></script>
 {{ js(['js/highlight.min.js', 'js/main.js']) }}
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ config.google_analytics }}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments)};

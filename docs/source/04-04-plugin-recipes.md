@@ -2,6 +2,7 @@
 title: Plugin Recipes
 permalink: /plugin-recipes/
 class: configuration
+toc: true
 ---
 
 Plugin Recipes are plugin templates used to help bootstrap the development of a
