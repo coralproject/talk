@@ -7,7 +7,7 @@ const slots = ['commentContent', 'historyCommentTimestamp'];
 
 const withCommentFragments = withFragments({
   comment: gql`
-    fragment TalkEmbedStream_Comment_Fragment on Comment {
+    fragment TalkEmbedStream_ProfileComment_comment on Comment {
       id
       body
       replyCount

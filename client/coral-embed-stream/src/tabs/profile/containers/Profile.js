@@ -11,6 +11,7 @@ import CommentHistory from './CommentHistory';
 import { getDefinitionName } from 'coral-framework/utils';
 
 import { showSignInDialog } from 'coral-embed-stream/src/actions/login';
+import { setActiveTab } from '../../../actions/profile';
 import { getSlotFragmentSpreads } from 'coral-framework/utils';
 
 class ProfileContainer extends Component {
@@ -47,6 +48,8 @@ class ProfileContainer extends Component {
         emailAddress={emailAddress}
         data={data}
         root={root}
+        activeTab={this.props.activeTab}
+        setActiveTab={this.props.setActiveTab}
       />
     );
   }
@@ -57,9 +60,16 @@ ProfileContainer.propTypes = {
   root: PropTypes.object,
   currentUser: PropTypes.object,
   showSignInDialog: PropTypes.func,
+  activeTab: PropTypes.string.isRequired,
+  setActiveTab: PropTypes.func.isRequired,
 };
 
-const slots = ['profileSections'];
+const slots = [
+  'profileSections',
+  'profileTabs',
+  'profileTabsPrepend',
+  'profileTabPanes',
+];
 
 const withProfileQuery = withQuery(
   gql`
@@ -82,10 +92,11 @@ const withProfileQuery = withQuery(
 
 const mapStateToProps = state => ({
   currentUser: state.auth.user,
+  activeTab: state.profile.activeTab,
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ showSignInDialog }, dispatch);
+  bindActionCreators({ showSignInDialog, setActiveTab }, dispatch);
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
