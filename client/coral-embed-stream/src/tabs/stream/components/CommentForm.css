@@ -1,3 +1,18 @@
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button {
+  float: right;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background: rgb(105, 105, 105);
+  color: #FFF;
+  border: none;
+  border-radius: 2px;
+}
+
 /**
  * Example loading state animations on the button.
  */

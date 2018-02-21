@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
+import styles from './DraftAreaContent.css';
 
-const TextAreaComponent = ({
+const DraftAreaContent = ({
   value,
   placeholder,
   id,
@@ -10,7 +12,7 @@ const TextAreaComponent = ({
   disabled,
 }) => (
   <textarea
-    className={'talk-plugin-commentbox-textarea'}
+    className={cn(styles.content, 'talk-draftarea-content')}
     value={value}
     placeholder={placeholder}
     id={id}
@@ -20,11 +22,11 @@ const TextAreaComponent = ({
   />
 );
 
-TextAreaComponent.defaultProps = {
+DraftAreaContent.defaultProps = {
   rows: 3,
 };
 
-TextAreaComponent.propTypes = {
+DraftAreaContent.propTypes = {
   id: PropTypes.string,
   value: PropTypes.string,
   placeholder: PropTypes.string,
@@ -33,4 +35,4 @@ TextAreaComponent.propTypes = {
   rows: PropTypes.number,
 };
 
-export default TextAreaComponent;
+export default DraftAreaContent;

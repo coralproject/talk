@@ -113,7 +113,7 @@ export class CommentForm extends React.Component {
           charCountEnable={this.props.charCountEnable}
           maxCharCount={this.props.maxCharCount}
         />
-        <div className={`${name}-button-container`}>
+        <div className={cn(styles.buttonContainer, `${name}-button-container`)}>
           {this.props.buttonContainerStart}
           {typeof this.props.onCancel === 'function' && (
             <Button
@@ -130,6 +130,7 @@ export class CommentForm extends React.Component {
               disableSubmitButton ? 'lightGrey' : this.props.submitButtonCStyle
             }
             className={cn(
+              styles.button,
               `${name}-button`,
               submitButtonClassName,
               this.getButtonClassName()
