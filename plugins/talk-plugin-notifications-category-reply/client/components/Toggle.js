@@ -6,12 +6,12 @@ import styles from './Toggle.css';
 
 class Toggle extends React.Component {
   render() {
-    const { checked } = this.props;
+    const { checked, onChange } = this.props;
     return (
       <div className={styles.toggle}>
         <div className={styles.description}>
           {t('talk-plugin-notifications-category-reply.toggle_description')}
-          <Checkbox checked={checked} />
+          <Checkbox checked={checked} onChange={onChange} />
         </div>
       </div>
     );
@@ -20,6 +20,7 @@ class Toggle extends React.Component {
 
 Toggle.propTypes = {
   checked: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 export default Toggle;
