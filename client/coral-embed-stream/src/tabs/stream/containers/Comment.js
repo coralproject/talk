@@ -17,13 +17,12 @@ const slots = [
   'commentInputDetailArea',
   'commentInfoBar',
   'commentActions',
-  'commentContent',
   'commentReactions',
   'commentAvatar',
   'commentAuthorName',
   'commentAuthorTags',
   'commentTimestamp',
-  'textArea',
+  'commentContent',
 ];
 
 /**
