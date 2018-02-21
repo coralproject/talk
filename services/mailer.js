@@ -119,8 +119,72 @@ mailer.registerHelpers = helpers => {
   mailer.helpers = merge(mailer.helpers, helpers);
 };
 
+// createMessage creates a message payload to send a email to a user.
+const createMessage = async options => {
+  // Create the new locals object and attach the static locals and the i18n
+  // framework.
+  const locals = merge({}, mailer.helpers, options.locals, TEMPLATE_LOCALS, {
+    t: i18n.t,
+  });
+
+  // Render the templates.
+  const [html, text] = await Promise.all(
+    ['html', 'txt'].map(fmt => {
+      return mailer.templates.render(template, fmt, locals);
+    })
+  );
+
+  const subject = EMAIL_SUBJECT_PREFIX
+    ? `${EMAIL_SUBJECT_PREFIX} ${options.subject}`
+    : options.subject;
+
+  return {
+    html,
+    text,
+    subject,
+    from: SMTP_FROM_ADDRESS,
+  };
+};
+
+mailer.queue = async (message, recipient) => {
+  debug('Creating Job');
+
+  // Create the job to send the email later.
+  const job = await mailer.task.create(
+    merge(
+      {
+        title: 'Mail',
+        message,
+      },
+      recipient
+    )
+  );
+
+  debug(`Created Job[${job.id}]`);
+
+  return job;
+};
+
+// createRecipient will extract the recipient details from the options.
+const createRecipient = options => {
+  // Try to get the email if it was explicitly provided.
+  const email = get(options, 'email');
+  if (email) {
+    return { email };
+  }
+
+  // Try to get the user if the email wasn't explicitly provided.
+  const user = isObject(options.user) ? get(options.user, 'id') : options.user;
+  if (user) {
+    return { user };
+  }
+
+  // If we don't have a user or a email, we can't send an email.
+  throw new Error('user/email not provided');
+};
+
 /**
- * send will create a new message and send it.
+ * send will prepare the message and queue the message to be sent.
  */
 mailer.send = async options => {
   if (!mailer.enabled) {
@@ -131,45 +195,14 @@ mailer.send = async options => {
     return;
   }
 
-  // Try to get the user id or the email address from the passed in options. If
-  // neither are provided, then error out.
-  const email = get(options, 'email');
-  const user = isObject(options.user) ? get(options.user, 'id') : options.user;
-  if (!user && !email) {
-    throw new Error('user/email not provided');
-  }
+  // Create the recipient to sent the message to.
+  const recipient = createRecipient(options);
 
-  // Create the new locals object and attach the static locals and the i18n
-  // framework.
-  const locals = merge({}, mailer.helpers, options.locals, TEMPLATE_LOCALS, {
-    t: i18n.t,
-  });
+  // Create the message to send.
+  const message = await createMessage(options);
 
-  // Render the templates.
-  const [html, text] = await Promise.all(
-    ['html', 'txt'].map(fmt => {
-      return mailer.templates.render(options.template, fmt, locals);
-    })
-  );
-
-  debug('Creating job for mail');
-
-  // Create the job to send the email later.
-  const job = await mailer.task.create({
-    title: 'Mail',
-    user,
-    email,
-    message: {
-      subject: `${EMAIL_SUBJECT_PREFIX} ${options.subject}`,
-      from: SMTP_FROM_ADDRESS,
-      text,
-      html,
-    },
-  });
-
-  debug(`Created Job[${job.id}]`);
-
-  return job;
+  // Create the job to send the message.
+  return mailer.queue(message, recipient);
 };
 
 module.exports = mailer;
