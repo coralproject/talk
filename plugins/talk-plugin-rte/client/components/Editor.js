@@ -16,7 +16,11 @@ class Editor extends React.Component {
 
     init({
       element: this.ref,
-      onChange: html => onChange(html),
+      onChange: htmlBody => {
+        // We want to save the original comment body
+        const originalBody = this.ref.childNodes[1].innerText;
+        onChange(originalBody, { htmlBody });
+      },
       actions,
       classes: {
         actionbar: cn(

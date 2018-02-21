@@ -1,0 +1,7 @@
+input CreateCommentInput {
+  htmlBody: String
+}
+
+type Comment {
+  htmlBody: String
+}

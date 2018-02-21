@@ -23,7 +23,8 @@ class CommentBox extends React.Component {
     this.state = {
       body: '',
       loadingState: '',
-
+      // data: {@object} contains data that might be useful for plugins
+      data: {},
       hooks: {
         preSubmit: [],
         postSubmit: [],
@@ -62,6 +63,7 @@ class CommentBox extends React.Component {
       parent_id: parentId,
       body: this.state.body,
       tags: this.props.tags,
+      ...this.state.data,
     };
 
     // Execute preSubmit Hooks
@@ -88,8 +90,14 @@ class CommentBox extends React.Component {
       });
   };
 
-  handleBodyChange = body => {
-    this.setState({ body });
+  handleBodyChange = (body, ...data) => {
+    this.setState(state => ({
+      body,
+      data: {
+        ...state.data,
+        ...data[0],
+      },
+    }));
   };
 
   registerHook = (hookType = '', hook = () => {}) => {

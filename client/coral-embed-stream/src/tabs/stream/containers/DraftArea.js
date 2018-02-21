@@ -24,8 +24,8 @@ export default class DraftAreaContainer extends React.Component {
     return `${STORAGE_PATH}_${this.props.id}`;
   };
 
-  onChange = value => {
-    this.props.onChange && this.props.onChange(value);
+  onChange = (...args) => {
+    this.props.onChange && this.props.onChange(...args);
   };
 
   componentWillReceiveProps(nextProps) {

@@ -180,6 +180,7 @@
     "timeago.js": "^2.0.3",
     "timekeeper": "^1.0.0",
     "tlds": "^1.196.0",
+    "turndown": "^4.0.1",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "url-join": "^2.0.2",
     "url-loader": "^0.6.0",
