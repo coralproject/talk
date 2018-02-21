@@ -79,7 +79,7 @@ async function onListening() {
  * Start the app.
  */
 async function serve({ jobs: processJobs = false, websockets = false } = {}) {
-  // Run the deffered plugins.
+  // Run the deferred plugins.
   PluginsService.runDeferred();
 
   // Start the cache instance.

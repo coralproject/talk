@@ -7,7 +7,6 @@ module.exports = router => {
     const {
       connectors: { services: { Passport: { passport } } },
     } = req.context;
-    console.log(req.context.connectors.services);
 
     return passport.authenticate('facebook', {
       display: 'popup',
