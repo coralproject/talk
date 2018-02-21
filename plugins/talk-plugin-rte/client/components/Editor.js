@@ -52,8 +52,8 @@ class Editor extends React.Component {
 
 Editor.defaultProps = {
   defaultContent: '',
-  styleWithCSS: false,
-  actions: ['bold', 'italic', 'underline'],
+  styleWithCSS: true,
+  actions: ['bold', 'italic', 'quote'],
   classNames: {
     button: '',
     content: '',
