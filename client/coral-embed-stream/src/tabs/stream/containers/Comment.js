@@ -23,6 +23,7 @@ const slots = [
   'commentAuthorName',
   'commentAuthorTags',
   'commentTimestamp',
+  'textArea',
 ];
 
 /**
