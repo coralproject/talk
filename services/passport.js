@@ -441,8 +441,6 @@ passport.use(
 
       debug(`hasRecaptcha=${hasRecaptcha}, recaptchaPassed=${recaptchaPassed}`);
 
-      console.log(UsersService);
-
       // If the request didn't have a recaptcha, check to see if we did need one by
       // checking the rate limit against failed attempts on this email
       // address/login.
