@@ -1,7 +1,7 @@
-import RTEtextArea from './components/RTEtextArea';
+import Editor from './components/Editor';
 
 export default {
   slots: {
-    textArea: [RTEtextArea],
+    textArea: [Editor],
   },
 };

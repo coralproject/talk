@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { init } from 'pell';
-import styles from './RTEtextArea.css';
+import styles from './Editor.css';
 import cn from 'classnames';
 
 const pluginName = 'talk-plugin-rte';
@@ -35,8 +35,18 @@ class Editor extends React.Component {
   }
 
   render() {
-    const { id, containerClass } = this.props;
-    return <div id={id} ref={this.handleRef} className={containerClass} />;
+    const { id, classNames } = this.props;
+    return (
+      <div
+        id={id}
+        ref={this.handleRef}
+        className={cn(
+          styles.container,
+          classNames.container,
+          `${pluginName}-container`
+        )}
+      />
+    );
   }
 }
 
@@ -48,6 +58,7 @@ Editor.defaultProps = {
     button: '',
     content: '',
     actionbar: '',
+    container: '',
   },
 };
 
