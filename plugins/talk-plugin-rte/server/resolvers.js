@@ -1,7 +1,5 @@
-const marked = require('marked');
-
 module.exports = {
   Comment: {
-    body: comment => marked(comment.body),
+    htmlBody: comment => comment.metadata.htmlBody,
   },
 };
