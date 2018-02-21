@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
 import Slot from 'coral-framework/components/Slot';
+import TextAreaDefault from './TextAreaDefault';
 
 // TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
 
@@ -37,20 +38,25 @@ export default class DraftArea extends React.Component {
       onChange,
     } = this.props;
 
+    const tASettings = {
+      value,
+      placeholder,
+      id,
+      onChange,
+      rows,
+      disabled,
+    };
+
     return (
       <div>
         <div className={'talk-plugin-commentbox-container'}>
           <label htmlFor={id} className="screen-reader-text" aria-hidden={true}>
             {label}
           </label>
-          <textarea
-            className={'talk-plugin-commentbox-textarea'}
-            value={value}
-            placeholder={placeholder}
-            id={id}
-            onChange={onChange}
-            rows={rows}
-            disabled={disabled}
+          <Slot
+            fill="textArea"
+            defaultComponent={TextAreaDefault}
+            {...tASettings}
           />
           <Slot fill="commentInputArea" />
         </div>
