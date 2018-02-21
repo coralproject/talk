@@ -4,6 +4,7 @@ import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
 import Slot from 'coral-framework/components/Slot';
 import TextAreaDefault from './TextAreaDefault';
+import styles from './DraftArea.css';
 
 // TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
 
@@ -56,6 +57,7 @@ export default class DraftArea extends React.Component {
           <Slot
             fill="textArea"
             defaultComponent={TextAreaDefault}
+            className={styles.textArea}
             {...tASettings}
           />
           <Slot fill="commentInputArea" />

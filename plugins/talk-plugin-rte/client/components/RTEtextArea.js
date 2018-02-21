@@ -1,31 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import pell from 'pell';
+import { init } from 'pell';
+import styles from './RTEtextArea.css';
+import cn from 'classnames';
 
-class TextArea extends React.Component {
-  componentWillMount() {}
+const pluginName = 'talk-plugin-rte';
+
+class Editor extends React.Component {
+  ref = null;
+
+  handleRef = ref => (this.ref = ref);
+
+  componentDidMount() {
+    const { onChange, actions, classNames } = this.props;
+
+    init({
+      element: this.ref,
+      onChange: html => onChange(html),
+      actions,
+      classes: {
+        actionbar: cn(
+          styles.actionBar,
+          classNames.actionbar,
+          `${pluginName}-action-bar`
+        ),
+        content: cn(
+          styles.content,
+          classNames.content,
+          `${pluginName}-content`
+        ),
+        button: cn(styles.button, classNames.button, `${pluginName}-button`),
+      },
+    });
+  }
+
   render() {
-    const { value, placeholder, id, onChange, rows, disabled } = this.props;
-
-    return (
-      <textarea
-        className={'talk-plugin-commentbox-textarea'}
-        value={value}
-        placeholder={'RTE Text Area'}
-        id={id}
-        onChange={onChange}
-        rows={rows}
-        disabled={disabled}
-      />
-    );
+    const { id, containerClass } = this.props;
+    return <div id={id} ref={this.handleRef} className={containerClass} />;
   }
 }
 
-TextArea.defaultProps = {
-  rows: 3,
+Editor.defaultProps = {
+  defaultContent: '',
+  styleWithCSS: false,
+  actions: ['bold', 'italic', 'underline'],
+  classNames: {
+    button: '',
+    content: '',
+    actionbar: '',
+  },
 };
 
-TextArea.propTypes = {
+Editor.propTypes = {
   id: PropTypes.string,
   value: PropTypes.string,
   placeholder: PropTypes.string,
@@ -34,4 +60,4 @@ TextArea.propTypes = {
   rows: PropTypes.number,
 };
 
-export default TextAreaComponent;
+export default Editor;

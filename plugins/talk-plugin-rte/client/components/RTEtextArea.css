@@ -1,27 +1,35 @@
-.myPluginContainer {
-    padding: 10px;
-    background: #f0f0f0;
-    border: 1px solid #d6d6d6;
-    margin: 10px 0;
-    text-align: center;
-    border-radius: 3px;
+.content {
+  background: #fff;
+  border: solid 1px #bbb;
+  min-height: 120px;
 }
 
-.logo {
-  position: block;
-  animation: spin 2s infinite ease;
-  animation-delay: 1s;
+.button {
+  display: inline-block;
+  text-align: center;
+  color: #2c3e50!important;
+  height: 30px;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: 0;
+  margin-right: 2px;
+  font-size: 1em;
+  width: 25px;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.button:hover{
+  background: #fcfcfc;
+  border-color: #95a5a6;
 }
 
-.description {
-  color: #444444;
+.actionBar {
+  user-select: none;
+  padding: 5px 10px;
+  border-top: 1px solid #bbb;
+  border-left: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
