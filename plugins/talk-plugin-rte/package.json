@@ -1,0 +1,12 @@
+{
+  "name": "@coralproject/talk-plugin-rte",
+  "pluginName": "talk-plugin-rte",
+  "version": "0.0.1",
+  "description": "Rich Text Editor for Talk",
+  "main": "index.js",
+  "author": "The Coral Project Team <coral@mozillafoundation.org>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "pell": "^0.7.0"
+  }
+}
