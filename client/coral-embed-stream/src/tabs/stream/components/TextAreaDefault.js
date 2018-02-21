@@ -14,7 +14,7 @@ const TextAreaComponent = ({
     value={value}
     placeholder={placeholder}
     id={id}
-    onChange={onChange}
+    onChange={e => onChange(e.target.value)}
     rows={rows}
     disabled={disabled}
   />
