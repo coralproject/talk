@@ -1,3 +1,6 @@
-.innerSettings {
-  padding-left: 24px;
+.title {
+  display: inline-block;
+  width: 270px;
+  cursor: pointer;
+  user-select: none;
 }

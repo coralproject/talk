@@ -2,3 +2,4 @@ en:
   talk-plugin-notifications:
     settings_title: Notifications
     settings_subtitle: Receive notifications when
+    turn_off_all: I do not want to receive notifications

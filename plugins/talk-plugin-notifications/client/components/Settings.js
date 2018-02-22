@@ -27,22 +27,26 @@ class Settings extends React.Component {
 
     return (
       <IfSlotIsNotEmpty slot="notificationSettings" queryData={{ root }}>
-        <div>
+        <div className={styles.root}>
           <h3>{t('talk-plugin-notifications.settings_title')}</h3>
           <h4 className={styles.subtitle}>
             {t('talk-plugin-notifications.settings_subtitle')}
           </h4>
           <div className={styles.innerSettings}>
             <Slot
+              className={styles.notifcationSettingsSlot}
               fill="notificationSettings"
               queryData={{ root }}
               childFactory={this.childFactory}
               setTurnOffInputFragment={setTurnOffInputFragment}
               updateNotificationSettings={updateNotificationSettings}
             />
-            <BareButton onClick={turnOffAll} disabled={turnOffButtonDisabled}>
-              {' '}
-              Turn Off All{' '}
+            <BareButton
+              className={styles.turnOffButton}
+              onClick={turnOffAll}
+              disabled={turnOffButtonDisabled}
+            >
+              {t('talk-plugin-notifications.turn_off_all')}
             </BareButton>
           </div>
         </div>
