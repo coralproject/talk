@@ -32,6 +32,7 @@ plugins/*
 !plugins/talk-plugin-facebook-auth
 !plugins/talk-plugin-featured-comments
 !plugins/talk-plugin-flag-details
+!plugins/talk-plugin-google-auth
 !plugins/talk-plugin-ignore-user
 !plugins/talk-plugin-like
 !plugins/talk-plugin-love
@@ -53,7 +54,6 @@ plugins/*
 !plugins/talk-plugin-sort-newest
 !plugins/talk-plugin-sort-oldest
 !plugins/talk-plugin-subscriber
-!plugins/talk-plugin-toxic-comments
 !plugins/talk-plugin-toxic-comments
 !plugins/talk-plugin-viewing-options
 
