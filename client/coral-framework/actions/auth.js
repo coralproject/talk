@@ -1,5 +1,6 @@
 import * as actions from '../constants/auth';
 import jwtDecode from 'jwt-decode';
+import { sendMessage } from '../services/messages';
 
 function cleanAuthData(localStorage) {
   localStorage.removeItem('token');
@@ -65,9 +66,21 @@ export const handleSuccessfulLogin = (user, token) => (
   _,
   { client, localStorage }
 ) => {
+  const { exp } = jwtDecode(token);
+
   if (localStorage) {
-    localStorage.setItem('exp', jwtDecode(token).exp);
+    localStorage.setItem('exp', exp);
     localStorage.setItem('token', token);
+  }
+
+  // Send the message via the messages service to the window.opener if it
+  // exists.
+  if (window.opener) {
+    sendMessage(
+      actions.HANDLE_SUCCESSFUL_LOGIN,
+      { user, token },
+      window.opener
+    );
   }
 
   client.resetWebsocket();
