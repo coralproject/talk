@@ -10,7 +10,7 @@ const {
   SMTP_PORT,
   SMTP_PASSWORD,
   SMTP_FROM_ADDRESS,
-} = require('../../config');
+} = require('../config');
 
 // parseSMTPPort will return the port for SMTP.
 const parseSMTPPort = () => {
