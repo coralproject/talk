@@ -52,7 +52,7 @@ ResendVerification.propTypes = {
   loading: PropTypes.bool.isRequired,
   email: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
 };
 
 export default ResendVerification;

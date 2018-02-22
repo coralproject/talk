@@ -1,0 +1,13 @@
+.button {
+  background-color: #db3236;
+  border-color: #db3236;
+  color: rgb(255, 255, 255);
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 20px;
+}
+
+.button:hover {
+  background-color: #c71e22;
+  border-color: #c71e22;
+}

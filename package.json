@@ -1,11 +1,10 @@
 {
   "name": "talk",
-  "version": "4.2.0",
+  "version": "4.2.2",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
   "private": true,
   "scripts": {
-    "postinstall": "./bin/cli plugins reconcile --skip-remote",
     "generate-introspection": "WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js",
     "clean": "rm -rf dist client/coral-framework/graphql/introspection.json",
     "watch": "npm-run-all clean generate-introspection --parallel watch:*",
@@ -32,6 +31,9 @@
       "minVersion": 1516920160
     }
   },
+  "workspaces": [
+    "plugins/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/coralproject/talk.git"
@@ -117,9 +119,9 @@
     "inquirer": "^3.2.2",
     "inquirer-autocomplete-prompt": "^0.12.1",
     "ioredis": "3.1.4",
-    "joi": "^10.6.0",
+    "joi": "^13.0.0",
     "json-loader": "^0.5.7",
-    "jsonwebtoken": "^7.4.3",
+    "jsonwebtoken": "^8.0.0",
     "jwt-decode": "^2.2.0",
     "keymaster": "^1.6.2",
     "kue": "0.11.6",

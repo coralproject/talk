@@ -10,8 +10,8 @@ const {
 } = require('../../perms/constants');
 
 const User = {
-  action_summaries({ id }, _, { loaders: { Actions } }) {
-    return Actions.getSummariesByItemID.load(id);
+  action_summaries(user, _, { loaders: { Actions } }) {
+    return Actions.getSummariesByItem.load(user);
   },
   actions({ id }, _, { user, loaders: { Actions } }) {
     // Only return the actions if the user is not an admin.
