@@ -221,7 +221,7 @@ if (process.env.NODE_ENV === 'production') {
           evaluate: true,
           // Remove warnings + discard any console.* functions
           warnings: false,
-          drop_console: true
+          drop_console: true,
         },
         mangle: true,
       },
@@ -355,7 +355,7 @@ module.exports = [
       if (targets.length === 0) {
         throw new Error(
           `target plugin ${
-          plugin.name
+            plugin.name
           } has no targets in it's target folder ${folder}`
         );
       }
