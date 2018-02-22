@@ -53,6 +53,8 @@ export class EditableCommentContent extends React.Component {
     this.state = {
       body: props.comment.body,
       loadingState: '',
+      // data: {@object} contains data that might be useful for plugins, metadata, etc
+      data: {},
     };
   }
   componentDidMount() {
@@ -72,8 +74,14 @@ export class EditableCommentContent extends React.Component {
     }
   }
 
-  handleBodyChange = body => {
-    this.setState({ body });
+  handleBodyChange = (body, ...data) => {
+    this.setState(state => ({
+      body,
+      data: {
+        ...state.data,
+        ...data[0],
+      },
+    }));
   };
 
   handleSubmit = async () => {
@@ -88,9 +96,16 @@ export class EditableCommentContent extends React.Component {
     if (typeof editComment !== 'function') {
       return;
     }
+
+    let input = {
+      body: this.state.body,
+      ...this.state.data,
+    };
+
     let response;
+
     try {
-      response = await editComment({ body: this.state.body });
+      response = await editComment(input);
       if (!this.unmounted) {
         this.setState({ loadingState: 'success' });
       }

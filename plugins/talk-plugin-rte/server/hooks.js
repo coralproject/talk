@@ -12,5 +12,15 @@ module.exports = {
         );
       },
     },
+    editComment: {
+      async pre(_, { edit }, _context, _info) {
+        edit.metadata = merge(
+          {},
+          {
+            htmlBody: edit.htmlBody,
+          }
+        );
+      },
+    },
   },
 };

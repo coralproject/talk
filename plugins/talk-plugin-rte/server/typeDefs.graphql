@@ -2,6 +2,10 @@ input CreateCommentInput {
   htmlBody: String
 }
 
+input EditCommentInput {
+  htmlBody: String
+}
+
 type Comment {
   htmlBody: String
 }

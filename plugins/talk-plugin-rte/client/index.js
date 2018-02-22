@@ -15,6 +15,13 @@ export default {
         }
       }
     `,
+    EditCommentResponse: gql`
+      fragment TalkRTE_EditCommentResponse on EditCommentResponse {
+        comment {
+          htmlBody
+        }
+      }
+    `,
   },
   mutations: {
     PostComment: ({ variables: { input } }) => {
@@ -23,6 +30,17 @@ export default {
           createComment: {
             comment: {
               htmlBody: input.htmlBody,
+            },
+          },
+        },
+      };
+    },
+    EditComment: ({ variables: { edit } }) => {
+      return {
+        optimisticResponse: {
+          editComment: {
+            comment: {
+              htmlBody: edit.htmlBody,
             },
           },
         },
