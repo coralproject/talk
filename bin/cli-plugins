@@ -202,45 +202,37 @@ async function reconcileRemotePlugins({ dryRun, upgradeRemote }) {
 // This traverses the local plugins and installs any dependencies listed there,
 // this only is really needed for plugins that are installed via docker because
 // core plugins will have their dependencies already included in core.
-async function reconcilePluginDeps({ skipRemote, dryRun, upgradeRemote }) {
+async function reconcilePluginDeps({ dryRun, upgradeRemote }) {
   try {
     let startTime = new Date();
 
-    // We don't need to do anything if we skip everything....
-    if (skipRemote) {
-      return;
-    }
-
     // Locate any external plugins and install them.
-    if (!skipRemote) {
-      const results = await reconcileRemotePlugins({
-        skipRemote,
-        dryRun,
-        upgradeRemote,
-      });
+    const results = await reconcileRemotePlugins({
+      dryRun,
+      upgradeRemote,
+    });
 
-      let status;
-      if (dryRun) {
-        status = '[dry-run] success'.green;
-      } else {
-        status = 'success'.green;
-      }
-
-      let message;
-      if (results.upgradable.length === 0 && results.fetchable.length === 0) {
-        message = 'Already up-to-date.';
-      } else if (results.upgradable.length === 0) {
-        message = `Fetched ${results.fetchable.length} new plugins.`;
-      } else if (results.fetchable.length === 0) {
-        message = `Upgraded ${results.upgradable.length} new plugins.`;
-      } else {
-        message = `Fetched ${results.fetchable.length} new plugins, upgraded ${
-          results.upgradable.length
-        } plugins.`;
-      }
-
-      console.log(`\n${status} ${message}`);
+    let status;
+    if (dryRun) {
+      status = '[dry-run] success'.green;
+    } else {
+      status = 'success'.green;
     }
+
+    let message;
+    if (results.upgradable.length === 0 && results.fetchable.length === 0) {
+      message = 'Already up-to-date.';
+    } else if (results.upgradable.length === 0) {
+      message = `Fetched ${results.fetchable.length} new plugins.`;
+    } else if (results.fetchable.length === 0) {
+      message = `Upgraded ${results.upgradable.length} new plugins.`;
+    } else {
+      message = `Fetched ${results.fetchable.length} new plugins, upgraded ${
+        results.upgradable.length
+      } plugins.`;
+    }
+
+    console.log(`\n${status} ${message}`);
 
     let endTime = new Date();
 
@@ -390,7 +382,6 @@ program
     '-d, --dry-run',
     'does not actually change anything on the filesystem acts only as a simulation'
   )
-  .option('--skip-remote', 'skips the remote plugin reconciliation')
   .action(reconcilePluginDeps);
 
 program.parse(process.argv);
