@@ -12,7 +12,7 @@ export default {
         }
 
         const fragment = gql`
-          fragment TalkNotifications_User_Fragment on User {
+          fragment TalkNotificationsCategoryReply_User_Fragment on User {
             notificationSettings {
               onReply
             }
