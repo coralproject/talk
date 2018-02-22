@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'plugin-api/beta/client/services';
 import { Checkbox } from 'plugin-api/beta/client/components/ui';
 import styles from './Toggle.css';
 import uuid from 'uuid/v4';
@@ -9,11 +8,11 @@ class Toggle extends React.Component {
   id = uuid();
 
   render() {
-    const { checked, onChange } = this.props;
+    const { checked, onChange, children } = this.props;
     return (
       <div className={styles.toggle}>
         <label htmlFor={this.id} className={styles.title}>
-          {t('talk-plugin-notifications-category-reply.toggle_description')}
+          {children}
         </label>
         <Checkbox checked={checked} onChange={onChange} id={this.id} />
       </div>
@@ -24,6 +23,7 @@ class Toggle extends React.Component {
 Toggle.propTypes = {
   checked: PropTypes.bool,
   onChange: PropTypes.func,
+  children: PropTypes.node,
 };
 
 export default Toggle;

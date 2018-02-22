@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, gql } from 'react-apollo';
-import Toggle from '../components/Toggle';
+import Toggle from 'talk-plugin-notifications/client/components/Toggle';
+import { t } from 'plugin-api/beta/client/services';
 import { withFragments } from 'plugin-api/beta/client/hocs';
 
 class ToggleContainer extends React.Component {
@@ -34,7 +35,11 @@ class ToggleContainer extends React.Component {
   };
 
   render() {
-    return <Toggle checked={this.getOnReplySetting()} onChange={this.toggle} />;
+    return (
+      <Toggle checked={this.getOnReplySetting()} onChange={this.toggle}>
+        {t('talk-plugin-notifications-category-reply.toggle_description')}
+      </Toggle>
+    );
   }
 }
 
