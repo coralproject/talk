@@ -264,7 +264,7 @@ const setStatus = async ({ user, loaders: { Comments } }, { id, status }) => {
  * @param {Object} edit       describes how to edit the comment
  * @param {String} edit.body  the new Comment body
  */
-const edit = async (ctx, { id, asset_id, edit: { body } }) => {
+const edit = async (ctx, { id, asset_id, edit: { body, metadata = {} } }) => {
   const { connectors: { services: { Moderation } } } = ctx;
 
   // Build up the new comment we're setting. We need to check this with
@@ -280,6 +280,7 @@ const edit = async (ctx, { id, asset_id, edit: { body } }) => {
     author_id: ctx.user.id,
     body,
     status,
+    metadata,
   });
 
   // Create all the actions that were determined during the moderation check

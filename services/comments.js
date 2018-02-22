@@ -84,7 +84,7 @@ module.exports = class CommentsService {
    * @param {String} body       the new Comment body
    * @param {String} status     the new Comment status
    */
-  static async edit({ id, author_id, body, status }) {
+  static async edit({ id, author_id, body, status, metadata = {} }) {
     const EDITABLE_STATUSES = ['NONE', 'PREMOD', 'ACCEPTED'];
     const created_at = new Date();
 
@@ -110,6 +110,7 @@ module.exports = class CommentsService {
       $set: {
         body,
         status,
+        metadata,
       },
       $push: {
         body_history: {
@@ -164,10 +165,13 @@ module.exports = class CommentsService {
       body,
       created_at,
     });
+
     editedComment.status_history.push({
       type: status,
       created_at,
     });
+
+    editedComment.metadata = metadata;
 
     await events.emitAsync(COMMENTS_EDIT, originalComment, editedComment);
 

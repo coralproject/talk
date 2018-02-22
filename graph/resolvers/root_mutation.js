@@ -13,10 +13,10 @@ const RootMutation = {
   },
   editComment: async (
     _,
-    { id, asset_id, edit: { body } },
+    { id, asset_id, edit: { body, metadata } },
     { mutators: { Comment } }
   ) => ({
-    comment: await Comment.edit({ id, asset_id, edit: { body } }),
+    comment: await Comment.edit({ id, asset_id, edit: { body, metadata } }),
   }),
   createFlag: async (
     _,
