@@ -36,10 +36,16 @@ class Editor extends React.Component {
         button: cn(styles.button, classNames.button, `${pluginName}-button`),
       },
     });
+
+    // To edit comments and have the previous html comment
+    if (this.props.comment && this.props.comment.htmlBody) {
+      this.ref.content.innerHTML = this.props.comment.htmlBody;
+    }
   }
 
   render() {
     const { id, classNames } = this.props;
+    console.log(this.props);
     return (
       <div
         id={id}

@@ -38,6 +38,7 @@ export default class DraftArea extends React.Component {
       charCountEnable,
       maxCharCount,
       onChange,
+      comment,
     } = this.props;
 
     const tASettings = {
@@ -47,6 +48,7 @@ export default class DraftArea extends React.Component {
       onChange,
       rows,
       disabled,
+      comment,
     };
 
     return (

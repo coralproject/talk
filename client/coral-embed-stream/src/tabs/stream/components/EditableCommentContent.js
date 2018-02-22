@@ -140,6 +140,7 @@ export class EditableCommentContent extends React.Component {
     return (
       <div className={styles.editCommentForm}>
         <CommentForm
+          comment={this.props.comment}
           defaultValue={this.props.comment.body}
           bodyInputId={id}
           charCountEnable={this.props.charCountEnable}

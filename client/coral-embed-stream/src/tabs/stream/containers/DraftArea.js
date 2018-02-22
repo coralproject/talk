@@ -50,6 +50,7 @@ export default class DraftAreaContainer extends React.Component {
         charCountEnable={this.props.charCountEnable}
         maxCharCount={this.props.maxCharCount}
         label={this.props.label}
+        comment={this.props.comment}
       />
     );
   }

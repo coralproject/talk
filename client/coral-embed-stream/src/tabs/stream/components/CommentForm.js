@@ -112,6 +112,7 @@ export class CommentForm extends React.Component {
           disabled={disableTextArea}
           charCountEnable={this.props.charCountEnable}
           maxCharCount={this.props.maxCharCount}
+          comment={this.props.comment}
         />
         <div className={cn(styles.buttonContainer, `${name}-button-container`)}>
           {this.props.buttonContainerStart}
