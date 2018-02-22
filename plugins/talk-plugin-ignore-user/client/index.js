@@ -8,7 +8,7 @@ export default {
   slots: {
     authorMenuActions: [IgnoreUserAction],
     ignoreUserConfirmation: [IgnoreUserConfirmation],
-    profileSections: [IgnoredUserSection],
+    profileSettings: [IgnoredUserSection],
   },
   translations,
   mutations: {
