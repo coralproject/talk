@@ -29,6 +29,17 @@ import t from 'coral-framework/services/i18n';
 import PropTypes from 'prop-types';
 import { setActiveTab } from '../actions/embed';
 
+// TODO: refactor out to a HOC
+import { HANDLE_SUCCESSFUL_LOGIN } from 'coral-framework/constants/auth';
+import {
+  handleSuccessfulLogin,
+  checkLogin,
+} from 'coral-framework/actions/auth';
+import {
+  subscribeToMessages,
+  unsubscribeFromMessages,
+} from 'coral-framework/services/messages';
+
 class EmbedContainer extends React.Component {
   static contextTypes = {
     pym: PropTypes.object,
@@ -37,6 +48,8 @@ class EmbedContainer extends React.Component {
   subscriptions = [];
 
   subscribeToUpdates(props = this.props) {
+    subscribeToMessages(this.handleAuth);
+
     if (props.currentUser) {
       const newSubscriptions = [
         {
@@ -86,7 +99,22 @@ class EmbedContainer extends React.Component {
   unsubscribe() {
     this.subscriptions.forEach(unsubscribe => unsubscribe());
     this.subscriptions = [];
+    unsubscribeFromMessages(this.handleAuth);
   }
+
+  // TODO: refactor out to a HOC
+  handleAuth = ({ name, data }) => {
+    if (name !== HANDLE_SUCCESSFUL_LOGIN) {
+      return;
+    }
+
+    // data will contain the user and token.
+    const { user, token } = data;
+    const { handleSuccessfulLogin, checkLogin } = this.props;
+
+    handleSuccessfulLogin(user, token);
+    checkLogin();
+  };
 
   resubscribe(props) {
     this.unsubscribe();
@@ -301,6 +329,8 @@ EmbedContainer.propTypes = {
   fetchAssetSuccess: PropTypes.func,
   showSignInDialog: PropTypes.bool,
   signInDialogFocus: PropTypes.bool,
+  handleSuccessfulLogin: PropTypes.func.isRequired,
+  checkLogin: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -328,6 +358,8 @@ const mapDispatchToProps = dispatch =>
       blurSignInDialog,
       hideSignInDialog,
       updateStatus,
+      handleSuccessfulLogin,
+      checkLogin,
     },
     dispatch
   );
