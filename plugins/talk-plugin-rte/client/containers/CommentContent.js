@@ -5,6 +5,7 @@ import CommentContent from '../components/CommentContent';
 export default withFragments({
   comment: gql`
     fragment TalkPluginRTE_CommentContent_comment on Comment {
+      body
       htmlBody
     }
   `,

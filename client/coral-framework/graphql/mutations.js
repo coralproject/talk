@@ -1,5 +1,6 @@
 import { gql } from 'react-apollo';
 import withMutation from '../hocs/withMutation';
+import update from 'immutability-helper';
 
 function convertItemType(item_type) {
   switch (item_type) {
@@ -457,6 +458,33 @@ export const withEditComment = withMutation(
             id,
             asset_id,
             edit,
+          },
+          update: proxy => {
+            const editCommentFragment = gql`
+              fragment Talk_EditComment on Comment {
+                body
+                htmlBody
+              }
+            `;
+
+            const fragmentId = `Comment_${id}`;
+
+            const data = proxy.readFragment({
+              fragment: editCommentFragment,
+              id: fragmentId,
+            });
+
+            const updated = update(data, {
+              htmlBody: {
+                $set: edit.htmlBody,
+              },
+            });
+
+            proxy.writeFragment({
+              fragment: editCommentFragment,
+              id: fragmentId,
+              data: updated,
+            });
           },
         });
       },

@@ -45,7 +45,7 @@ class Editor extends React.Component {
 
   render() {
     const { id, classNames } = this.props;
-    console.log(this.props);
+
     return (
       <div
         id={id}
