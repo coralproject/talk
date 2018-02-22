@@ -13,6 +13,7 @@ public
 !plugins/talk-plugin-facebook-auth
 !plugins/talk-plugin-featured-comments
 !plugins/talk-plugin-flag-details
+!plugins/talk-plugin-google-auth
 !plugins/talk-plugin-ignore-user
 !plugins/talk-plugin-like
 !plugins/talk-plugin-love
@@ -21,6 +22,7 @@ public
 !plugins/talk-plugin-moderation-actions
 !plugins/talk-plugin-offtopic
 !plugins/talk-plugin-permalink
+!plugins/talk-plugin-profile-settings
 !plugins/talk-plugin-remember-sort
 !plugins/talk-plugin-respect
 !plugins/talk-plugin-sort-most-liked
@@ -32,4 +34,3 @@ public
 !plugins/talk-plugin-subscriber
 !plugins/talk-plugin-toxic-comments
 !plugins/talk-plugin-viewing-options
-!plugins/talk-plugin-profile-settings
