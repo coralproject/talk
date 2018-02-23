@@ -15,6 +15,10 @@
   }
 }
 
+.username {
+  word-break: break-all;
+}
+
 .headerRowItem {
   color: #595959;
   font-weight: bold;
@@ -24,7 +28,7 @@
   border-bottom: 1px solid #e0e0e0;
 }
 
-.action {
+.action, .system {
   color: black;
   font-weight: bold;
 }
