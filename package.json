@@ -32,6 +32,7 @@
     }
   },
   "workspaces": [
+    "docs",
     "plugins/*"
   ],
   "repository": {
