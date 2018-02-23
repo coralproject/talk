@@ -16,7 +16,7 @@ function parseAssetURL() {
     // Try to get the url from the canonical tag on the page.
     return document.querySelector('link[rel="canonical"]').href;
   } catch (e) {
-    console.warn(
+    window.console.warn(
       'This page does not include a canonical link tag. Talk has inferred this asset_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages.'
     );
 
