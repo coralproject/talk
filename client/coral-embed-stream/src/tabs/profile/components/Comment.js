@@ -11,8 +11,18 @@ import { getTotalReactionsCount } from 'coral-framework/utils';
 import t from 'coral-framework/services/i18n';
 
 class Comment extends React.Component {
+  goToStory = () => {
+    this.props.navigate(this.props.comment.asset.url);
+  };
+
+  goToConversation = () => {
+    this.props.navigate(
+      `${this.props.comment.asset.url}?commentId=${this.props.comment.id}`
+    );
+  };
+
   render() {
-    const { comment, link, data, root } = this.props;
+    const { comment, data, root } = this.props;
     const reactionCount = getTotalReactionsCount(comment.action_summaries);
     const queryData = { root, comment, asset: comment.asset };
 
@@ -67,7 +77,7 @@ class Comment extends React.Component {
             <a
               className={cn(styles.assetURL, 'my-comment-anchor')}
               href="#"
-              onClick={link(`${comment.asset.url}`)}
+              onClick={this.goToStory}
             >
               {t('common.story')}:{' '}
               {comment.asset.title ? comment.asset.title : comment.asset.url}
@@ -77,10 +87,7 @@ class Comment extends React.Component {
         <div className={styles.sidebar}>
           <ul>
             <li>
-              <a
-                onClick={link(`${comment.asset.url}?commentId=${comment.id}`)}
-                className={styles.viewLink}
-              >
+              <a onClick={this.goToConversation} className={styles.viewLink}>
                 <Icon name="open_in_new" className={styles.iconView} />
                 {t('view_conversation')}
               </a>
@@ -105,10 +112,10 @@ class Comment extends React.Component {
 }
 
 Comment.propTypes = {
-  comment: PropTypes.shape({
-    id: PropTypes.string,
-    body: PropTypes.string,
-  }).isRequired,
+  comment: PropTypes.object.isRequired,
+  navigate: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
 };
 
 export default Comment;

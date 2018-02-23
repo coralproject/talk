@@ -25,6 +25,7 @@ plugins.json
 plugins/*
 !plugins/talk-plugin-akismet
 !plugins/talk-plugin-facebook-auth
+!plugins/talk-plugin-google-auth
 !plugins/talk-plugin-auth
 !plugins/talk-plugin-respect
 !plugins/talk-plugin-offtopic
@@ -53,6 +54,7 @@ plugins/*
 !plugins/talk-plugin-subscriber
 !plugins/talk-plugin-flag-details
 !plugins/talk-plugin-slack-notifications
+!plugins/talk-plugin-profile-settings
 
 **/node_modules/*
 yarn-error.log
