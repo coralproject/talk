@@ -5,7 +5,10 @@ import styles from './AccountHistory.css';
 import cn from 'classnames';
 import flatten from 'lodash/flatten';
 import orderBy from 'lodash/orderBy';
+import has from 'lodash/has';
 import moment from 'moment';
+import t from 'coral-framework/services/i18n';
+import { Icon } from 'coral-ui';
 
 const buildUserHistory = (userState = {}) => {
   return orderBy(
@@ -29,31 +32,39 @@ const readableDuration = (startDate, endDate) => {
   const durAsHours = dur.asHours().toFixed(0);
 
   return durAsHours > 23
-    ? `${durAsDays} ${durAsDays > 1 ? 'days' : 'day'}`
-    : `${durAsHours} ${durAsHours > 1 ? 'hours' : 'hour'}`;
+    ? durAsDays > 1
+      ? t('suspenduser.days', durAsDays)
+      : t('suspenduser.day', durAsDays)
+    : durAsHours > 1
+      ? t('suspenduser.hours', durAsHours)
+      : t('suspenduser.hour', durAsHours);
 };
 
 const buildActionResponse = (typename, created_at, until, status) => {
   switch (typename) {
     case 'UsernameStatusHistory':
-      return `Username ${status}`;
+      return t('account_history.username_status', status);
     case 'BannedStatusHistory':
-      return status ? 'User banned' : 'Ban removed';
+      return status
+        ? t('account_history.user_banned')
+        : t('account_history.ban_removed');
     case 'SuspensionStatusHistory':
       return until
-        ? `Suspended, ${readableDuration(created_at, until)}`
-        : 'Suspension removed';
+        ? t('account_history.suspended', readableDuration(created_at, until))
+        : t('account_history.suspension_removed');
     default:
       return '-';
   }
 };
 
-const getModerationValue = (userId, assignedBy = {}) => {
-  if (assignedBy && userId !== assignedBy.id) {
-    return assignedBy.username;
-  }
-  return 'SYSTEM';
-};
+const getModerationValue = assignedBy =>
+  has(assignedBy, 'username') ? (
+    assignedBy.username
+  ) : (
+    <span>
+      <Icon name="computer" /> {t('account_history.system')}
+    </span>
+  );
 
 class AccountHistory extends React.Component {
   render() {
@@ -68,9 +79,15 @@ class AccountHistory extends React.Component {
               'talk-admin-account-history-header-row'
             )}
           >
-            <div className={styles.headerRowItem}>Date</div>
-            <div className={styles.headerRowItem}>Action</div>
-            <div className={styles.headerRowItem}>Moderation</div>
+            <div className={styles.headerRowItem}>
+              {t('account_history.date')}
+            </div>
+            <div className={styles.headerRowItem}>
+              {t('account_history.action')}
+            </div>
+            <div className={styles.headerRowItem}>
+              {t('account_history.taken_by')}
+            </div>
           </div>
           {userHistory.map(
             ({ __typename, created_at, assigned_by, until, status }) => (
@@ -98,10 +115,11 @@ class AccountHistory extends React.Component {
                 <div
                   className={cn(
                     styles.item,
+                    styles.username,
                     'talk-admin-account-history-row-assigned-by'
                   )}
                 >
-                  {getModerationValue(user.id, assigned_by)}
+                  {getModerationValue(assigned_by)}
                 </div>
               </div>
             )
