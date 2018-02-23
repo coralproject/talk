@@ -214,12 +214,14 @@ if (process.env.NODE_ENV === 'production') {
           toplevel: false,
           typeofs: false,
           unused: false,
-
           // Switch off all types of compression except those needed to convince
           // react-devtools that we're using a production build
           conditionals: true,
           dead_code: true,
           evaluate: true,
+          // Remove warnings + discard any console.* functions
+          warnings: false,
+          drop_console: true,
         },
         mangle: true,
       },
