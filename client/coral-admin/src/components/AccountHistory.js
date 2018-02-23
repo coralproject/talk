@@ -8,6 +8,7 @@ import orderBy from 'lodash/orderBy';
 import has from 'lodash/has';
 import moment from 'moment';
 import t from 'coral-framework/services/i18n';
+import { Icon } from 'coral-ui';
 
 const buildUserHistory = (userState = {}) => {
   return orderBy(
@@ -56,10 +57,14 @@ const buildActionResponse = (typename, created_at, until, status) => {
   }
 };
 
-const hasUsername = user => has(user, 'username');
-
 const getModerationValue = assignedBy =>
-  hasUsername(assignedBy) ? assignedBy.username : t('account_history.system');
+  has(assignedBy, 'username') ? (
+    assignedBy.username
+  ) : (
+    <span>
+      <Icon name="computer" /> {t('account_history.system')}
+    </span>
+  );
 
 class AccountHistory extends React.Component {
   render() {
@@ -81,7 +86,7 @@ class AccountHistory extends React.Component {
               {t('account_history.action')}
             </div>
             <div className={styles.headerRowItem}>
-              {t('account_history.actor')}
+              {t('account_history.taken_by')}
             </div>
           </div>
           {userHistory.map(
@@ -111,7 +116,6 @@ class AccountHistory extends React.Component {
                   className={cn(
                     styles.item,
                     styles.username,
-                    !hasUsername(assigned_by) && styles.system,
                     'talk-admin-account-history-row-assigned-by'
                   )}
                 >
