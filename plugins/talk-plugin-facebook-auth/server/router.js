@@ -2,7 +2,7 @@ module.exports = router => {
   const { passport, HandleAuthPopupCallback } = require('services/passport');
 
   /**
-   * Facebook auth endpoint, this will redirect the user immediatly to facebook
+   * Facebook auth endpoint, this will redirect the user immediately to facebook
    * for authorization.
    */
   router.get(
@@ -16,7 +16,7 @@ module.exports = router => {
 
   /**
    * Facebook callback endpoint, this will send the user a html page designed to
-   * send back the user credentials upon sucesfull login.
+   * send back the user credentials upon sucessful login.
    */
   router.get('/api/v1/auth/facebook/callback', (req, res, next) => {
     // Perform the facebook login flow and pass the data back through the opener.
