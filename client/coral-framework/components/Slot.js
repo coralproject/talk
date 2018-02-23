@@ -38,7 +38,7 @@ class Slot extends React.Component {
       'inline',
       'className',
       'reduxState',
-      'singleSlot',
+      'slotSize',
       'defaultComponent_',
       'queryData',
       'childFactory',
@@ -47,7 +47,7 @@ class Slot extends React.Component {
   }
 
   getChildren(props = this.props) {
-    const { singleSlot = false } = props;
+    const { slotSize = 0 } = props;
     const { plugins } = this.context;
 
     return plugins.getSlotElements(
@@ -55,7 +55,7 @@ class Slot extends React.Component {
       props.reduxState,
       this.getSlotProps(props),
       props.queryData,
-      { singleSlot }
+      { slotSize }
     );
   }
 
@@ -113,9 +113,9 @@ Slot.propTypes = {
   defaultComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 
   /**
-   * When true, only the first plugin will take the slot.
+   * Specifies the number of children that can fill the slot.
    */
-  singleSlot: PropTypes.bool,
+  slotSize: PropTypes.number,
 
   /**
    * You may specify the component to use as the root wrapper.

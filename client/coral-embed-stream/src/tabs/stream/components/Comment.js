@@ -604,7 +604,7 @@ export default class Comment extends React.Component {
                     defaultComponent={CommentContent}
                     {...slotProps}
                     queryData={queryData}
-                    singleSlot
+                    slotSize={1}
                   />
                 </div>
               )}
