@@ -1,0 +1,13 @@
+{
+  "linters": {
+    "*.js": [
+      "git-exec-and-restage eslint --fix --"
+    ],
+    "bin/cli*": [
+      "git-exec-and-restage eslint --fix --"
+    ],
+    "*.yml": [
+      "yamllint"
+    ]
+  }
+}
