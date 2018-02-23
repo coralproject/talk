@@ -1,0 +1,27 @@
+en:
+  talk-plugin-profile-settings:
+    tab: Settings
+de:
+  talk-plugin-profile-settings:
+    tab: Einstellungen
+es:
+  talk-plugin-profile-settings:
+    tab: Configuración
+fr:
+  talk-plugin-profile-settings:
+    tab: Paramètres
+nl_NL:
+  talk-plugin-profile-settings:
+    tab: Instellingen
+da:
+  talk-plugin-profile-settings:
+    tab: Indstillinger
+pt_PR:
+  talk-plugin-profile-settings:
+    tab: Configurações
+zh_TW:
+  talk-plugin-profile-settings:
+    tab: 設置
+zh_CN:
+  talk-plugin-profile-settings:
+    tab: 设置
