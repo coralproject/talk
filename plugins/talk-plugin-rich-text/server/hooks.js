@@ -1,11 +1,5 @@
-const createDOMPurify = require('dompurify');
-const { JSDOM } = require('jsdom');
 const { merge, get } = require('lodash');
-const config = require('./config');
-
-// Initializing JSDOM and DOMPurify
-const window = new JSDOM('', config.jsdom).window;
-const DOMPurify = createDOMPurify(window);
+const DOMPurify = require('./DOMPurify');
 
 module.exports = {
   RootMutation: {
@@ -14,7 +8,7 @@ module.exports = {
         // Let's sanitize the body
         const dirtyInput = input.htmlBody;
 
-        const cleanInput = DOMPurify.sanitize(dirtyInput, config.dompurify);
+        const cleanInput = DOMPurify.sanitize(dirtyInput);
 
         // Adding the clean body to the comment.metadata field
         input.metadata = merge(get(input, 'metadata'), {
@@ -27,7 +21,7 @@ module.exports = {
         // Let's sanitize the body
         const dirtyInput = edit.htmlBody;
 
-        const cleanInput = DOMPurify.sanitize(dirtyInput, config.dompurify);
+        const cleanInput = DOMPurify.sanitize(dirtyInput);
 
         // Adding the clean body to the comment.metadata field
         edit.metadata = merge(get(edit, 'metadata'), {
