@@ -14,8 +14,8 @@ import styles from './DraftArea.css';
 export default class DraftArea extends React.Component {
   renderCharCount() {
     const { value, maxCharCount } = this.props;
-    const className = cn(styles.charCount, 'talk-draftarea-char-count', {
-      [`${styles.charMax} talk-draftarea-char-max`]:
+    const className = cn(styles.charCount, 'talk-commentbox-char-count', {
+      [`${styles.charMax} talk-commentbox-char-max`]:
         value.length > maxCharCount,
     });
     const remaining = maxCharCount - value.length;
@@ -53,7 +53,7 @@ export default class DraftArea extends React.Component {
 
     return (
       <div>
-        <div className={cn(styles.container, 'talk-draftarea-container')}>
+        <div className={cn(styles.container, 'talk-commentbox-container')}>
           <label htmlFor={id} className="screen-reader-text" aria-hidden={true}>
             {label}
           </label>
