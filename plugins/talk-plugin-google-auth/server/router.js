@@ -2,7 +2,7 @@ module.exports = router => {
   const { passport, HandleAuthPopupCallback } = require('services/passport');
 
   /**
-   * Google auth endpoint, this will redirect the user immediatly to google
+   * Google auth endpoint, this will redirect the user immediately to google
    * for authorization.
    */
   router.get(
@@ -16,7 +16,7 @@ module.exports = router => {
 
   /**
    * Google callback endpoint, this will send the user a html page designed to
-   * send back the user credentials upon sucesfull login.
+   * send back the user credentials upon sucessful login.
    */
   router.get('/api/v1/auth/google/callback', (req, res, next) => {
     // Perform the google login flow and pass the data back through the opener.
