@@ -15,7 +15,7 @@
     "prebuild": "npm-run-all clean generate-introspection",
     "build": "NODE_ENV=production parallel-webpack --bail",
     "lint:yaml": "yamllint locales/*.yml",
-    "lint:js": "eslint bin/* .",
+    "lint:js": "eslint bin/cli* .",
     "lint": "npm-run-all lint:*",
     "plugins:reconcile": "./bin/cli plugins reconcile",
     "test": "npm-run-all test:client test:server",
@@ -24,7 +24,9 @@
     "test:client:watch": "TEST_MODE=unit NODE_ENV=test jest --watch",
     "e2e": "./scripts/e2e.js",
     "e2e:ci": "./scripts/e2e-ci.sh",
-    "heroku-postbuild": "npm-run-all plugins:reconcile build"
+    "heroku-postbuild": "npm-run-all plugins:reconcile build",
+    "precommit": "npm-run-all lint-staged",
+    "lint-staged": "lint-staged"
   },
   "talk": {
     "migration": {
@@ -194,6 +196,7 @@
   },
   "devDependencies": {
     "@coralproject/eslint-config-talk": "^0.1.0",
+    "@easyops/git-exec-and-restage": "^1.0.4",
     "babel-jest": "^21.2.0",
     "babel-plugin-dynamic-import-node": "^1.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
@@ -206,14 +209,15 @@
     "enzyme-adapter-react-15": "^1.0.0",
     "eslint": "^4.5.0",
     "eslint-plugin-mocha": "^4.11.0",
+    "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
     "ip": "^1.1.5",
     "jest": "^21.2.1",
+    "lint-staged": "^7.0.0",
     "mocha": "^3.1.2",
     "mocha-junit-reporter": "^1.12.1",
     "nightwatch": "^0.9.16",
     "nodemon": "^1.11.0",
-    "pre-commit": "^1.2.2",
     "selenium-standalone": "^6.11.0",
     "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
@@ -221,13 +225,5 @@
   },
   "engines": {
     "node": ">=8"
-  },
-  "pre-commit": {
-    "silent": false,
-    "run": [
-      "lint",
-      "test:client",
-      "test:server"
-    ]
   }
 }
