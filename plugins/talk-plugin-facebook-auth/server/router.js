@@ -1,6 +1,6 @@
 module.exports = router => {
   /**
-   * Facebook auth endpoint, this will redirect the user immediately to facebook
+   * Facebook auth endpoint, this will redirect the user immediately to Facebook
    * for authorization.
    */
   router.get('/api/v1/auth/facebook', (req, res, next) => {
@@ -16,7 +16,7 @@ module.exports = router => {
   });
 
   /**
-   * Facebook callback endpoint, this will send the user a html page designed to
+   * Facebook callback endpoint, this will send the user a HTML page designed to
    * send back the user credentials upon successful login.
    */
   router.get('/api/v1/auth/facebook/callback', (req, res, next) => {
