@@ -53,7 +53,8 @@ plugins/*
 !plugins/talk-plugin-subscriber
 !plugins/talk-plugin-flag-details
 !plugins/talk-plugin-slack-notifications
-!plugins/talk-plugin-rte
+!plugins/talk-plugin-rich-text
+!plugins/talk-plugin-rich-text-pell
 !plugins/talk-plugin-profile-settings
 
 **/node_modules/*

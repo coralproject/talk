@@ -1,13 +1,12 @@
 {
-  "name": "@coralproject/talk-plugin-rte",
-  "pluginName": "talk-plugin-rte",
+  "name": "@coralproject/talk-plugin-rich-text-pell",
+  "pluginName": "talk-plugin-rich-text-pell",
   "version": "0.0.1",
-  "description": "Rich Text Editor for Talk",
+  "description": "Pell's Rich Text Editor for Talk",
   "main": "index.js",
   "author": "The Coral Project Team <coral@mozillafoundation.org>",
   "license": "Apache-2.0",
   "dependencies": {
-    "dompurify": "^1.0.3",
     "pell": "^0.7.0"
   }
 }

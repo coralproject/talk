@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { name } from '../../package.json';
+import { pluginName } from '../../package.json';
 
 class CommentContent extends React.Component {
   render() {
     const { comment } = this.props;
     return comment.htmlBody ? (
       <div
-        className={`${name}-text`}
+        className={`${pluginName}-text`}
         dangerouslySetInnerHTML={{ __html: comment.htmlBody }}
       />
     ) : (
-      <div className={`${name}-text`}>{comment.body}</div>
+      <div className={`${pluginName}-text`}>{comment.body}</div>
     );
   }
 }

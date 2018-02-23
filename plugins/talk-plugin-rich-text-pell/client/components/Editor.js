@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { init } from 'pell';
 import styles from './Editor.css';
 import cn from 'classnames';
-
-const pluginName = 'talk-plugin-rte';
+import { pluginName } from '../../package.json';
 
 class Editor extends React.Component {
   ref = null;
@@ -62,7 +61,7 @@ class Editor extends React.Component {
 
 Editor.defaultProps = {
   defaultContent: '',
-  styleWithCSS: true,
+  styleWithCSS: false,
   actions: ['bold', 'italic', 'quote'],
   classNames: {
     button: '',
