@@ -58,7 +58,7 @@ export default class DraftArea extends React.Component {
             {label}
           </label>
           <Slot
-            fill="textArea"
+            fill="commentBox"
             defaultComponent={DraftAreaContent}
             className={styles.content}
             {...tASettings}
