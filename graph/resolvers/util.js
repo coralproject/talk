@@ -88,11 +88,7 @@ const wrapCheckPermissions = (
   wrapCheck(
     typeResolver,
     field,
-    (obj, args, ctx) => {
-      if (checkPermissions(ctx, permissions)) {
-        return false;
-      }
-    },
+    (obj, args, ctx) => !checkPermissions(ctx, permissions),
     skipFieldResolver
   );
 

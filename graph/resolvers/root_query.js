@@ -91,6 +91,9 @@ decorateWithPermissionCheck(
     if (user && user.id === id) {
       return true;
     }
+
+    // We don't return false because we want to fallthrough to the permission
+    // check if the custom check fails.
   }
 );
 
