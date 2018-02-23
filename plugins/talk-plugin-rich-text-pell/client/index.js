@@ -1,4 +1,5 @@
 import Editor from './components/Editor';
+import update from 'immutability-helper';
 import CommentContent from './containers/CommentContent';
 import { gql } from 'react-apollo';
 
@@ -11,14 +12,14 @@ export default {
     CreateCommentResponse: gql`
       fragment TalkRTE_CreateCommentResponse on CreateCommentResponse {
         comment {
-          htmlBody
+          richTextBody
         }
       }
     `,
     EditCommentResponse: gql`
       fragment TalkRTE_EditCommentResponse on EditCommentResponse {
         comment {
-          htmlBody
+          richTextBody
         }
       }
     `,
@@ -29,20 +30,47 @@ export default {
         optimisticResponse: {
           createComment: {
             comment: {
-              htmlBody: input.htmlBody,
+              richTextBody: input.richTextBody,
             },
           },
         },
       };
     },
-    EditComment: ({ variables: { edit } }) => {
+    EditComment: ({ variables: { id, edit } }) => {
       return {
         optimisticResponse: {
           editComment: {
             comment: {
-              htmlBody: edit.htmlBody,
+              richTextBody: edit.richTextBody,
             },
           },
+        },
+        update: proxy => {
+          const editCommentFragment = gql`
+            fragment Talk_EditComment on Comment {
+              body
+              richTextBody
+            }
+          `;
+
+          const fragmentId = `Comment_${id}`;
+
+          const data = proxy.readFragment({
+            fragment: editCommentFragment,
+            id: fragmentId,
+          });
+
+          const updated = update(data, {
+            richTextBody: {
+              $set: edit.richTextBody,
+            },
+          });
+
+          proxy.writeFragment({
+            fragment: editCommentFragment,
+            id: fragmentId,
+            data: updated,
+          });
         },
       };
     },

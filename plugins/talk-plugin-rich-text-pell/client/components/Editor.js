@@ -15,10 +15,10 @@ class Editor extends React.Component {
 
     init({
       element: this.ref,
-      onChange: htmlBody => {
+      onChange: richTextBody => {
         // We want to save the original comment body
         const originalBody = this.ref.childNodes[1].innerText;
-        onChange(originalBody, { htmlBody });
+        onChange(originalBody, { richTextBody });
       },
       actions,
       classes: {
@@ -37,8 +37,8 @@ class Editor extends React.Component {
     });
 
     // To edit comments and have the previous html comment
-    if (this.props.comment && this.props.comment.htmlBody) {
-      this.ref.content.innerHTML = this.props.comment.htmlBody;
+    if (this.props.comment && this.props.comment.richTextBody) {
+      this.ref.content.innerHTML = this.props.comment.richTextBody;
     }
   }
 

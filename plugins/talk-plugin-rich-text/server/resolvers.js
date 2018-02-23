@@ -1,5 +1,5 @@
 module.exports = {
   Comment: {
-    htmlBody: comment => comment.metadata.htmlBody,
+    richTextBody: comment => comment.metadata.richTextBody,
   },
 };

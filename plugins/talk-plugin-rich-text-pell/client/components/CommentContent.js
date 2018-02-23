@@ -5,10 +5,10 @@ import { pluginName } from '../../package.json';
 class CommentContent extends React.Component {
   render() {
     const { comment } = this.props;
-    return comment.htmlBody ? (
+    return comment.richTextBody ? (
       <div
         className={`${pluginName}-text`}
-        dangerouslySetInnerHTML={{ __html: comment.htmlBody }}
+        dangerouslySetInnerHTML={{ __html: comment.richTextBody }}
       />
     ) : (
       <div className={`${pluginName}-text`}>{comment.body}</div>

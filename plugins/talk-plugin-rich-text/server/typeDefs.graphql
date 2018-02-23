@@ -1,11 +1,11 @@
 input CreateCommentInput {
-  htmlBody: String
+  richTextBody: String
 }
 
 input EditCommentInput {
-  htmlBody: String
+  richTextBody: String
 }
 
 type Comment {
-  htmlBody: String
+  richTextBody: String
 }

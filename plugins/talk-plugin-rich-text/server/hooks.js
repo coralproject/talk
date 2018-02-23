@@ -3,14 +3,14 @@ const DOMPurify = require('./DOMPurify');
 const linkify = require('linkifyjs/html');
 const config = require('./config');
 
-const inputCleanup = ({ htmlBody }) => {
-  // htmlBody needs to be present in the request
-  if (!htmlBody) {
-    throw new Error('htmlBody not present in the request');
+const inputCleanup = ({ richTextBody }) => {
+  // richTextBody needs to be present in the request
+  if (!richTextBody) {
+    throw new Error('`richTextBody` field not present in the request');
   }
 
   // Let's sanitize the body
-  let cleanInput = DOMPurify.sanitize(htmlBody);
+  let cleanInput = DOMPurify.sanitize(richTextBody);
 
   // Highlighting links
   if (config.highlightLinks) {
@@ -26,7 +26,7 @@ module.exports = {
       async pre(_, { input }, _context, _info) {
         // Adding the clean body to the comment.metadata field
         input.metadata = merge(get(input, 'metadata'), {
-          htmlBody: inputCleanup(input),
+          richTextBody: inputCleanup(input),
         });
       },
     },
@@ -34,7 +34,7 @@ module.exports = {
       async pre(_, { edit }, _context, _info) {
         // Adding the clean body to the coment.metadata field
         edit.metadata = merge(get(edit, 'metadata'), {
-          htmlBody: inputCleanup(edit),
+          richTextBody: inputCleanup(edit),
         });
       },
     },
