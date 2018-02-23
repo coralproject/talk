@@ -94,19 +94,12 @@ class PluginsService {
     };
   }
 
-  getSlotElement(slot, reduxState, props = {}, queryData = {}, options = {}) {
-    return this.getSlotElements(slot, reduxState, props, queryData, {
-      ...options,
-      singleSlot: true,
-    });
-  }
-
   /**
    * Returns React Elements for given slot.
    */
   getSlotElements(slot, reduxState, props = {}, queryData = {}, options = {}) {
     const pluginConfig = get(reduxState, 'config.plugin_config') || emptyConfig;
-    const { singleSlot = false } = options;
+    const { slotSize = 0 } = options;
 
     const isDisabled = component => {
       if (
@@ -143,7 +136,7 @@ class PluginsService {
         .map(o => o.module.slots[slot])
     );
 
-    return (singleSlot ? slots.slice(0, 1) : slots)
+    return (slotSize > 0 ? slots.slice(0, slotSize) : slots)
       .map((component, i) => ({
         component,
         disabled: isDisabled(component),
