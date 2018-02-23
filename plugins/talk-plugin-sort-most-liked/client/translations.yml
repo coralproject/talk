@@ -1,16 +1,19 @@
 da:
   talk-plugin-sort-most-liked:
     label: Most liked first
-en:
-  talk-plugin-sort-most-liked:
-    label: Most liked first
 de:
   talk-plugin-sort-most-liked:
     label: Beliebteste zuerst
+en:
+  talk-plugin-sort-most-liked:
+    label: Most liked first
 es:
   talk-plugin-sort-most-liked:
     label: Most liked first
 fr:
+  talk-plugin-sort-most-liked:
+    label: Most liked first
+he:
   talk-plugin-sort-most-liked:
     label: Most liked first
 nl_NL:
