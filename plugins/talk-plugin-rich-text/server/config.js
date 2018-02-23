@@ -1,4 +1,16 @@
 const config = {
+  // Highlight Links
+  highlightLinks: true,
+
+  // Linkify Settings
+  linkify: {
+    className: 'talk-plugin-rich-text-link',
+    tagName: 'a',
+    target: {
+      url: '_blank',
+    },
+  },
+
   // Super strict rules to make sure users only submit the tags they are allowed
   dompurify: { ALLOWED_TAGS: ['b', 'i', 'blockquote'] },
 

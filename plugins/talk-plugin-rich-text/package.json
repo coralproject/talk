@@ -8,6 +8,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "dompurify": "^1.0.3",
-    "jsdom": "^11.6.2"
+    "jsdom": "^11.6.2",
+    "linkifyjs": "^2.1.5"
   }
 }
