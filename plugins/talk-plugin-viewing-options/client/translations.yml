@@ -3,22 +3,27 @@ da:
     viewing_options: "Viewing Options"
     sort: Sorting
     filter: Filtering
-en:
-  talk-plugin-viewing-options:
-    viewing_options: "Viewing Options"
-    sort: Sorting
-    filter: Filtering
 de:
   talk-plugin-viewing-options:
     viewing_options: "Ansichtsoptionen"
     sort: Sortieren
     filter: Filtern
+en:
+  talk-plugin-viewing-options:
+    viewing_options: "Viewing Options"
+    sort: Sorting
+    filter: Filtering
 es:
   talk-plugin-viewing-options:
     viewing_options: "Opciones de visualización"
     sort: Sorting
     filter: Filtering
 fr:
+  talk-plugin-viewing-options:
+    viewing_options: "Viewing Options"
+    sort: Sorting
+    filter: Filtering
+he:
   talk-plugin-viewing-options:
     viewing_options: "Viewing Options"
     sort: Sorting

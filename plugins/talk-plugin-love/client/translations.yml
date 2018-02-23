@@ -18,6 +18,10 @@ fr:
   talk-plugin-love:
     love: Love
     loved: Loved
+he:
+  talk-plugin-love:
+    love: אוהב
+    loved: אהבתי
 nl_NL:
   talk-plugin-love:
     love: Ik hou er van

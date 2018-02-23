@@ -2,19 +2,23 @@ da:
   talk-plugin-like:
     like: Like
     liked: Liked
-en:
-  talk-plugin-like:
-    like: Like
-    liked: Liked
 de:
   talk-plugin-like:
     like: Gefällt mir
     liked: Gefällt mir
+en:
+  talk-plugin-like:
+    like: Like
+    liked: Liked
 es:
   talk-plugin-like:
     like: Me Gusta
     liked: Me Gustó
 fr:
+  talk-plugin-like:
+    like: Like
+    liked: Liked
+he:
   talk-plugin-like:
     like: Like
     liked: Liked

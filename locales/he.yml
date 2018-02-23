@@ -2,7 +2,7 @@ en:
   your_account_has_been_suspended: Your account has been temporarily suspended.
   your_account_has_been_banned: Your account has been banned.
   your_username_has_been_rejected: Your account has been suspended because your username has been deemed inappropriate. To restore your account please enter a new username.
-  embed_comments_tab: Comments
+  embed_comments_tab: תגובות
   bandialog:
     are_you_sure: "Are you sure you would like to ban {0}?"
     ban_user: "Ban User?"
@@ -43,7 +43,7 @@ en:
     cancel: "Cancel"
     reply: "Reply"
     comment: "Post a comment"
-    name: "Name"
+    name: "שם"
     comment_post_notif: "Your comment has been posted."
     comment_post_notif_premod: "Thank you for posting. Our moderation team will review your comment shortly."
     comment_post_banned_word:  "Your comment contains one or more words that are not permitted, so it will not be published. If you think this message is incorrect, please contact our moderation team."
@@ -445,9 +445,9 @@ en:
     add_organization:
       description: "Please tell us the name of your organization. This will appear in emails when inviting new team members."
       label: "Organization Name"
-      save: "Save"
+      save: "שמור"
     create:
-      email: "Email address"
+      email: 'כתובת דוא"ל'
       username: "Username"
       password: "Password"
       confirm_password: "Confirm Password"
