@@ -4450,9 +4450,9 @@ hexo-renderer-sass@^0.3.2:
   dependencies:
     node-sass "^4.5.3"
 
-hexo-server@^0.2.0:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/hexo-server/-/hexo-server-0.2.2.tgz#592686b554b8bfe09a19bc86c0f003ac3e8c19b9"
+hexo-server@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/hexo-server/-/hexo-server-0.3.1.tgz#86956fe7ff6bb9407f99a113666c3f1278a47979"
   dependencies:
     bluebird "^3.0.6"
     chalk "^1.1.1"
