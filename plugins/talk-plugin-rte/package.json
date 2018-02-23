@@ -7,6 +7,7 @@
   "author": "The Coral Project Team <coral@mozillafoundation.org>",
   "license": "Apache-2.0",
   "dependencies": {
+    "dompurify": "^1.0.3",
     "pell": "^0.7.0"
   }
 }
