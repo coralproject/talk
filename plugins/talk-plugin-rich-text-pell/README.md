@@ -2,7 +2,7 @@
 Enables rich text support client-side by using [Pell](https://github.com/jaredreich/pell).
 
 ## Installation
-Add `talk-plugin-rich-text-pell` to the `plugins.json` in your Talk installation. Remember to add this in the `client` property since this plugin only covers the client side. To add server support, please use `talk-plugin-rich-text`.
+Add `talk-plugin-rich-text-pell` to the `plugins.json` in your Talk installation. Remember to add this in the `client` property since this plugin only covers the client side. To add server support, please use `talk-plugin-rich-text`. Ensure that you don't have any other plugins utilizing the `commentContent` slot, as it would result in duplicate comments.
 
 ## How does this work?
 This plugin contains 2 important components:
