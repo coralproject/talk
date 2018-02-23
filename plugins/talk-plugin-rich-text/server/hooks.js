@@ -1,6 +1,11 @@
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
 const { merge, get } = require('lodash');
-const DOMPurify = require('dompurify');
 const config = require('./config');
+
+// Initializing JSDOM and DOMPurify
+const window = new JSDOM('', config.jsdom).window;
+const DOMPurify = createDOMPurify(window);
 
 module.exports = {
   RootMutation: {
