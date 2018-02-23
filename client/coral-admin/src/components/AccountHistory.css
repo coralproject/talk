@@ -15,6 +15,10 @@
   }
 }
 
+.username {
+  word-break: break-all;
+}
+
 .headerRowItem {
   color: #595959;
   font-weight: bold;
