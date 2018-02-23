@@ -135,7 +135,7 @@ module.exports = () => {
   if (transport === null) {
     console.warn(
       new Error(
-        "sending email is not enabled because required configuration is not available so we can't create"
+        'sending email is not enabled because required configuration is not available'
       )
     );
     return;

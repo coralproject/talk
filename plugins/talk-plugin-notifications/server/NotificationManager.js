@@ -1,6 +1,5 @@
-const { get, groupBy, forEach } = require('lodash');
+const { groupBy, forEach } = require('lodash');
 const debug = require('debug')('talk-plugin-notifications');
-const { graphql } = require('graphql');
 
 class NotificationManager {
   constructor(context) {
@@ -72,35 +71,6 @@ class NotificationManager {
       );
   }
 
-  /**
-   *
-   * @param {Object} ctx graph context
-   * @param {String} userID the user id for the user being sent the email
-   */
-  async getEmail(ctx, userID) {
-    const { connectors: { graph: { schema } } } = ctx;
-
-    // Get the email for the user.
-    const reply = await graphql(
-      schema,
-      `
-        query GetUserEmail($userID: ID!) {
-          user(id: $userID) {
-            email
-          }
-        }
-      `,
-      {},
-      ctx,
-      { userID }
-    );
-    if (reply.errors) {
-      throw reply.errors;
-    }
-
-    return get(reply, 'data.user.email', null);
-  }
-
   async send(ctx, userID, date, handler, context) {
     const {
       connectors: { services: { Mailer, I18n: { t } } },
@@ -120,15 +90,6 @@ class NotificationManager {
         return;
       }
 
-      // Get the User's email.
-      const to = await this.getEmail(ctx, userID);
-      if (!to) {
-        ctx.log.debug(
-          'could not send the notification, destination email address not available'
-        );
-        return;
-      }
-
       // Compose the subject for the email.
       const subject = t(
         `talk-plugin-notifications.categories.${category}.subject`,
@@ -143,13 +104,13 @@ class NotificationManager {
         template: 'notification',
         locals: { body, organizationName },
         subject,
-        to,
+        user: userID,
       });
 
       ctx.log.debug(`Sent the notification for Job.ID[${task.id}]`);
     } catch (err) {
       ctx.log.error(
-        { err },
+        { err, message: err.message },
         'could not send the notification, an error occurred'
       );
       return;
