@@ -4,11 +4,6 @@ const linkify = require('linkifyjs/html');
 const config = require('./config');
 
 const inputCleanup = ({ richTextBody }) => {
-  // richTextBody needs to be present in the request
-  if (!richTextBody) {
-    throw new Error('`richTextBody` field not present in the request');
-  }
-
   // Let's sanitize the body
   let cleanInput = DOMPurify.sanitize(richTextBody);
 
@@ -23,17 +18,17 @@ const inputCleanup = ({ richTextBody }) => {
 module.exports = {
   RootMutation: {
     createComment: {
-      async pre(_, { input }, _context, _info) {
+      async pre(_, { input }) {
         // Adding the clean body to the comment.metadata field
-        input.metadata = merge(get(input, 'metadata'), {
+        input.metadata = merge(get(input, 'metadata', {}), {
           richTextBody: inputCleanup(input),
         });
       },
     },
     editComment: {
-      async pre(_, { edit }, _context, _info) {
-        // Adding the clean body to the coment.metadata field
-        edit.metadata = merge(get(edit, 'metadata'), {
+      async pre(_, { edit }) {
+        // Adding the clean body to the comment.metadata field
+        edit.metadata = merge(get(edit, 'metadata', {}), {
           richTextBody: inputCleanup(edit),
         });
       },

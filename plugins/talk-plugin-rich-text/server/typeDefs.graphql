@@ -1,9 +1,9 @@
 input CreateCommentInput {
-  richTextBody: String
+  richTextBody: String!
 }
 
 input EditCommentInput {
-  richTextBody: String
+  richTextBody: String!
 }
 
 type Comment {

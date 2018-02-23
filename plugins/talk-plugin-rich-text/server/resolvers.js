@@ -1,5 +1,8 @@
+const { get } = require('lodash');
+
 module.exports = {
   Comment: {
-    richTextBody: comment => comment.metadata.richTextBody,
+    // Get the richTextBody, or send null.
+    richTextBody: comment => get(comment, 'metadata.richTextBody', null),
   },
 };
