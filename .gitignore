@@ -25,6 +25,7 @@ plugins.json
 plugins/*
 !plugins/talk-plugin-akismet
 !plugins/talk-plugin-facebook-auth
+!plugins/talk-plugin-google-auth
 !plugins/talk-plugin-auth
 !plugins/talk-plugin-respect
 !plugins/talk-plugin-offtopic
