@@ -1,10 +1,16 @@
 const debug = require('debug')('talk:graph:connectors');
 const merge = require('lodash/merge');
 
+// Config.
+const config = require('../config');
+
+// Secrets.
+const secrets = require('../secrets');
+
 // Errors.
 const errors = require('../errors');
 
-// Graph
+// Graph.
 const { getBroker } = require('./subscriptions/broker');
 const { getPubsub } = require('./subscriptions/pubsub');
 const resolvers = require('./resolvers');
@@ -50,6 +56,8 @@ const Wordlist = require('../services/wordlist');
 // Connectors.
 const defaultConnectors = {
   errors,
+  config,
+  secrets,
   models: {
     Action,
     Asset,

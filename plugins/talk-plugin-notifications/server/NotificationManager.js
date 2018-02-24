@@ -1,5 +1,7 @@
 const { groupBy, forEach } = require('lodash');
 const debug = require('debug')('talk-plugin-notifications');
+const uuid = require('uuid/v4');
+const { UNSUBSCRIBE_SUBJECT } = require('./config');
 
 class NotificationManager {
   constructor(context) {
@@ -73,7 +75,11 @@ class NotificationManager {
 
   async send(ctx, userID, date, handler, context) {
     const {
-      connectors: { services: { Mailer, I18n: { t } } },
+      connectors: {
+        secrets: { jwt },
+        config: { JWT_ISSUER, JWT_AUDIENCE },
+        services: { Mailer, I18n: { t } },
+      },
       loaders: { Settings },
     } = ctx;
     const { category } = handler;
@@ -90,6 +96,16 @@ class NotificationManager {
         return;
       }
 
+      // unsubscribeToken is the token used to perform the one-click
+      // unsubscribe.
+      const unsubscribeToken = jwt.sign({
+        jti: uuid(),
+        iss: JWT_ISSUER,
+        aud: JWT_AUDIENCE,
+        sub: UNSUBSCRIBE_SUBJECT,
+        user: userID,
+      });
+
       // Compose the subject for the email.
       const subject = t(
         `talk-plugin-notifications.categories.${category}.subject`,
@@ -102,7 +118,7 @@ class NotificationManager {
       // Send the notification to the user.
       const task = await Mailer.send({
         template: 'notification',
-        locals: { body, organizationName },
+        locals: { body, organizationName, unsubscribeToken },
         subject,
         user: userID,
       });

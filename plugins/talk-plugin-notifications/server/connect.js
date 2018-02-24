@@ -13,12 +13,12 @@ module.exports = connectors => {
   // notification template by passing the same name + format for the template
   // registration.
   Mailer.templates.register(
-    path.join(__dirname, 'templates', 'notification.html.ejs'),
+    path.join(__dirname, 'emails', 'notification.html.ejs'),
     'notification',
     'html'
   );
   Mailer.templates.register(
-    path.join(__dirname, 'templates', 'notification.txt.ejs'),
+    path.join(__dirname, 'emails', 'notification.txt.ejs'),
     'notification',
     'txt'
   );
