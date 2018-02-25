@@ -1,12 +1,12 @@
 da:
   talk-plugin-sort-most-loved:
     label: Most loved first
-en:
-  talk-plugin-sort-most-loved:
-    label: Most loved first
 de:
   talk-plugin-sort-most-loved:
     label: Häufigste "Ich liebe es" zuerst
+en:
+  talk-plugin-sort-most-loved:
+    label: Most loved first
 es:
   talk-plugin-sort-most-loved:
     label: Most loved first
@@ -15,7 +15,7 @@ fr:
     label: Most loved first
 he:
   talk-plugin-sort-most-liked:
-    label: Most liked first
+    label: הכי אהבתי קודם
 nl_NL:
   talk-plugin-sort-most-loved:
     label: Meest geliefd eerst
