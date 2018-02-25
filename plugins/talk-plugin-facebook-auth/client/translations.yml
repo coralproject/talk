@@ -10,6 +10,10 @@ fr:
   talk-plugin-facebook-auth:
     sign_in: "Connectez-vous avec Facebook"
     sign_up: "Inscrivez-vous avec Facebook"
+he:
+  talk-plugin-facebook-auth:
+    sign_in: "התחבר עם פייסבוק"
+    sign_up: "הרשם עם פייסבוק"
 zh_CN:
   talk-plugin-facebook-auth:
     sign_in: "使用 Facebook 帐号"
