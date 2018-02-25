@@ -1,12 +1,12 @@
 da:
   talk-plugin-sort-most-replied:
     label: Most replied first
-en:
-  talk-plugin-sort-most-replied:
-    label: Most replied first
 de:
   talk-plugin-sort-most-replied:
     label: Häufigste Antworten zuerst
+en:
+  talk-plugin-sort-most-replied:
+    label: Most replied first
 es:
   talk-plugin-sort-most-replied:
     label: Most replied first
@@ -14,8 +14,8 @@ fr:
   talk-plugin-sort-most-replied:
     label: Most replied first
 he:
-  talk-plugin-sort-most-liked:
-    label: Most liked first
+  talk-plugin-sort-most-replied:
+    label: הכי השיב קודם
 nl_NL:
   talk-plugin-sort-most-replied:
     label: Meest beantwoord eerst
