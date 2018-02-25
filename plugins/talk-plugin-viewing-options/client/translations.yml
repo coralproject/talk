@@ -25,9 +25,9 @@ fr:
     filter: Filtering
 he:
   talk-plugin-viewing-options:
-    viewing_options: "Viewing Options"
-    sort: Sorting
-    filter: Filtering
+    viewing_options: "אפשרויות צפייה"
+    sort: מיון
+    filter: סינון
 nl_NL:
   talk-plugin-viewing-options:
     viewing_options: "Weergave opties"
