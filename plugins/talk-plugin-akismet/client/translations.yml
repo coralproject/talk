@@ -58,10 +58,25 @@ fr:
     reasons:
       comment:
         spam_comment: "Detected Spam"
+he:
+  error:
+    COMMENT_IS_SPAM: |
+      תגובה זו נראית כמו ספאם.
+      תוכל לערוך את התגובה או לשלוח אותה בכל מקרה לביקורת של מפקח.
+  talk-plugin-akismet:
+    spam: "ספאם"
+    spam_comment: "ספאם"
+    detected: "זוהה על ידי אקיזמט"
+    still_spam: |
+      תודה. צוות הפיקוח שלנו יבחן את התגובה שלך בקרוב.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "זוהה ספאם"
 nl_NL:
   error:
     COMMENT_IS_SPAM: |
-      Deze reactie ziet er uit als spam. Je kan je reactie 
+      Deze reactie ziet er uit als spam. Je kan je reactie
       wijzigen, of indienen zodat ons moderatieteam het kan beoordelen.
   talk-plugin-akismet:
     spam: "Spam"
