@@ -1,12 +1,12 @@
 da:
   talk-plugin-member-since:
     member_since: "Member Since"
-en:
-  talk-plugin-member-since:
-    member_since: "Member Since"
 de:
   talk-plugin-member-since:
     member_since: "Mitglied seit"
+en:
+  talk-plugin-member-since:
+    member_since: "Member Since"
 es:
   talk-plugin-member-since:
     member_since: "Miembro desde"
@@ -15,7 +15,7 @@ fr:
     member_since: "Member Since"
 he:
   talk-plugin-member-since:
-    member_since: "Member Since"
+    member_since: "חבר מאז"
 nl_NL:
   talk-plugin-member-since:
     member_since: "Gebruiker sinds"
