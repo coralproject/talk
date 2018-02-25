@@ -82,7 +82,7 @@ he:
     notify_featured: '"{0} המליץ ואושר תגובה {1}"'
     notify_unfeatured: '{0} הוסר את ההמלצה מתגובה "{1}"'
     feature_comment: ממליץ תגובה?
-    are_you_sure: האם אתה בטוח שברצונך להמליץ את ה תגובה הזו?
+    are_you_sure: האם אתה בטוח שברצונך להמליץ את התגובה הזו?
     cancel: בטל
     yes_feature_comment: כן, ממליץ תגובה
 nl_NL:
