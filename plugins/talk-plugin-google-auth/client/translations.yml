@@ -10,6 +10,10 @@ fr:
   talk-plugin-google-auth:
     google_sign_in: "Connectez-vous avec Google"
     google_sign_up: "Inscrivez-vous avec Google"
+en:
+  talk-plugin-google-auth:
+    sign_in: "התחבר עם גוגל"
+    sign_up: "הרשם עם גוגל"
 zh_CN:
   talk-plugin-google-auth:
     google_sign_in: "使用 Google 帐号"
