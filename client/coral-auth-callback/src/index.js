@@ -1,8 +1,13 @@
 import { HANDLE_SUCCESSFUL_LOGIN } from 'coral-framework/constants/auth';
-import sendMessage from 'coral-framework/services/messages/sendMessage';
+import { getStaticConfiguration } from 'coral-framework/services/staticConfiguration';
+import { createPostMessage } from 'coral-framework/services/postMessage';
 
 document.addEventListener('DOMContentLoaded', () => {
   try {
+    const staticConfig = getStaticConfiguration();
+    const { STATIC_ORIGIN: origin } = staticConfig;
+    const postMessage = createPostMessage(origin);
+
     // Get the auth element and parse it as JSON by decoding it.
     const auth = document.getElementById('auth');
     const doc = document.implementation.createHTMLDocument('');
@@ -18,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const { user, token } = data;
 
       // Send the state back.
-      sendMessage(HANDLE_SUCCESSFUL_LOGIN, { user, token });
+      postMessage.post(HANDLE_SUCCESSFUL_LOGIN, { user, token });
     }
   } finally {
     // Always close the window.
