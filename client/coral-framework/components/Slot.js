@@ -39,7 +39,7 @@ class Slot extends React.Component {
       'className',
       'reduxState',
       'slotSize',
-      'defaultComponent_',
+      'defaultComponent',
       'queryData',
       'childFactory',
       'component',
