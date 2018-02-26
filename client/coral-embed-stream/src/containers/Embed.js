@@ -13,7 +13,6 @@ import {
   hideSignInDialog,
 } from '../actions/login';
 import { updateStatus } from 'coral-framework/actions/auth';
-import { fetchAssetSuccess } from '../actions/asset';
 import {
   getDefinitionName,
   getSlotFragmentSpreads,
@@ -291,7 +290,6 @@ EmbedContainer.propTypes = {
   activeTab: PropTypes.string,
   parentUrl: PropTypes.string,
   data: PropTypes.object,
-  fetchAssetSuccess: PropTypes.func,
   showSignInDialog: PropTypes.bool,
   signInDialogFocus: PropTypes.bool,
 };
@@ -315,7 +313,6 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       setActiveTab,
-      fetchAssetSuccess,
       notify,
       focusSignInDialog,
       blurSignInDialog,
