@@ -135,9 +135,13 @@ class PluginsService {
         .filter(o => o.module.slots && o.module.slots[slot])
         .map(o => o.module.slots[slot])
     );
-      
+
     if (slotSize > 0 && slots.length > slotSize) {
-      console.warn(`Slot[${slot}] supports a maximum of ${slotSize} plugins providing slots, got ${slots.length}, will only use the first ${slotSize}`);
+      console.warn(
+        `Slot[${slot}] supports a maximum of ${slotSize} plugins providing slots, got ${
+          slots.length
+        }, will only use the first ${slotSize}`
+      );
     }
 
     return (slotSize > 0 ? slots.slice(0, slotSize) : slots)
