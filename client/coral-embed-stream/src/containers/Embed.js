@@ -2,7 +2,6 @@ import React from 'react';
 import { compose, gql } from 'react-apollo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import branch from 'recompose/branch';
 import renderComponent from 'recompose/renderComponent';
@@ -106,12 +105,6 @@ class EmbedContainer extends React.Component {
       // Refetch after login/logout.
       this.props.data.refetch();
       this.resubscribe(nextProps);
-    }
-
-    const { fetchAssetSuccess } = this.props;
-    if (!isEqual(nextProps.root.asset, this.props.root.asset)) {
-      // TODO: remove asset data from redux store.
-      fetchAssetSuccess(nextProps.root.asset);
     }
   }
 
