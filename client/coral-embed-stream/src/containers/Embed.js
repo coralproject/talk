@@ -33,7 +33,7 @@ import { setActiveTab } from '../actions/embed';
 import { HANDLE_SUCCESSFUL_LOGIN } from 'coral-framework/constants/auth';
 import {
   handleSuccessfulLogin,
-  checkLogin,
+  setAuthToken,
 } from 'coral-framework/actions/auth';
 import {
   subscribeToMessages,
@@ -110,10 +110,15 @@ class EmbedContainer extends React.Component {
 
     // data will contain the user and token.
     const { user, token } = data;
-    const { handleSuccessfulLogin, checkLogin } = this.props;
+    const { handleSuccessfulLogin, setAuthToken } = this.props;
 
-    handleSuccessfulLogin(user, token);
-    checkLogin();
+    if (user && token) {
+      handleSuccessfulLogin(user, token);
+    } else if (token) {
+      setAuthToken(token);
+    } else {
+      console.error('Invalid auth data supplied', data);
+    }
   };
 
   resubscribe(props) {
@@ -330,7 +335,7 @@ EmbedContainer.propTypes = {
   showSignInDialog: PropTypes.bool,
   signInDialogFocus: PropTypes.bool,
   handleSuccessfulLogin: PropTypes.func.isRequired,
-  checkLogin: PropTypes.func.isRequired,
+  setAuthToken: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -359,7 +364,7 @@ const mapDispatchToProps = dispatch =>
       hideSignInDialog,
       updateStatus,
       handleSuccessfulLogin,
-      checkLogin,
+      setAuthToken,
     },
     dispatch
   );
