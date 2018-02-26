@@ -6,7 +6,8 @@ import remove from 'lodash/remove';
 /**
  * createPostMessage returns a service that deals with cross
  * window communication using the postMessage API.
- * @param  {Object}  options
+ * @param  {string}  origin
+ * @param  {string}  scope
  * @return {Object}  messenger service
  */
 export function createPostMessage(origin, scope = 'client') {
