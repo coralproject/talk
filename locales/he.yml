@@ -1,46 +1,46 @@
 en:
-  your_account_has_been_suspended: Your account has been temporarily suspended.
-  your_account_has_been_banned: Your account has been banned.
-  your_username_has_been_rejected: Your account has been suspended because your username has been deemed inappropriate. To restore your account please enter a new username.
+  your_account_has_been_suspended: החשבון שלך הושעה באופן זמני.
+  your_account_has_been_banned: החשבון שלך הורחק.
+  your_username_has_been_rejected: החשבון שלך הושעה מפני ששם המשתמש שלך נחשב לא הולם. כדי לשחזר את החשבון שלך, הזן שם משתמש חדש.
   embed_comments_tab: תגובות
   bandialog:
     are_you_sure: "Are you sure you would like to ban {0}?"
-    ban_user: "Ban User?"
-    banned_user: "Banned User"
-    cancel: "Cancel"
+    ban_user: "חסום משתמש?"
+    banned_user: "משתמש מורשה"
+    cancel: "בטל"
     note: "Note: {0}"
     note_reject_comment: "Banning this user will also place this comment in the Rejected queue."
     note_ban_user: "Banning this user will not let them comment, react to, or report comments."
-    yes_ban_user: "Yes, Ban User"
+    yes_ban_user: "כן. חסום משתמש"
     write_a_message: "Write a message"
-    send: "Send"
+    send: "שלח"
     notify_ban_headline: "Notify the user of ban"
     notify_ban_description: "This will notify the user by email that they have been banned from the community"
     email_message_ban: "Dear {0},\n\nSomeone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, like or report comments. if you think this has been done in error, please contact our community team."
-  bio_offensive: "This bio is offensive"
-  cancel: "Cancel"
+  bio_offensive: "ביו זה פוגע"
+  cancel: "בטל"
   confirm_email:
-    click_to_confirm: "Click below to confirm your email address"
+    click_to_confirm: 'לחץ למטה כדי לאשר את כתובת הדוא"ל שלך'
     confirm: "Confirm"
   password_reset:
-    mail_sent: 'If you have a registered account, a password reset link was sent to that email'
-    set_new_password: "Change Your Password"
-    new_password: "New Password"
-    new_password_help: "Password must be at least 8 characters"
-    confirm_new_password: "Confirm New Password"
-    change_password: "Change Password"
-  characters_remaining: "characters remaining"
+    mail_sent: 'אם יש לך חשבון רשום, נשלח קישור לאיפוס סיסמה לאותו דוא"ל'
+    set_new_password: "שנה את סיסמתך"
+    new_password: "סיסמה חדשה"
+    new_password_help: "הסיסמה חייבת להיות לפחות 8 תווים"
+    confirm_new_password: "תאשר סיסמא חדשה"
+    change_password: "שנה סיסמא"
+  characters_remaining: "תווים נותרים"
   comment:
     anon: "Anonymous"
     undo_reject: "Undo"
-    ban_user: "Ban User"
-    comment: "Post a comment"
+    ban_user: "חסום משתמש"
+    comment: "פרסם תגובה"
     edited: Edited
-    flagged: "flagged"
-    view_context: "View context"
+    flagged: "מסומנת"
+    view_context: "הצג הקשר"
   comment_box:
     post: "Post"
-    cancel: "Cancel"
+    cancel: "בטל"
     reply: "Reply"
     comment: "Post a comment"
     name: "שם"
@@ -56,7 +56,7 @@ en:
   comment_post_notif_premod: "Thank you for posting. Our moderation team will review your comment shortly."
   common:
     copy: 'Copy'
-    error: 'An error has occurred.'
+    error: 'אירעה שגיאה.'
     reply: 'reply'
     replies: 'replies'
     reaction: 'reaction'
@@ -76,7 +76,7 @@ en:
     ban_user: "Ban User?"
     banned: Banned
     banned_user: "Banned User"
-    cancel: Cancel
+    cancel: בטל
     dont_like_username: "Dislike username"
     flaggedaccounts: "Reported Usernames"
     flags: Flags
@@ -95,7 +95,7 @@ en:
     staff: "Staff"
     status: Status
     username_and_email: "Username and Email"
-    yes_ban_user: "Yes Ban User"
+    yes_ban_user: "כן. חסום משתמש"
     commenter: "Commenter"
   configure:
     apply: Apply
@@ -171,7 +171,7 @@ en:
     required_field: "Required field"
     save: Save
     special_characters: "Usernames can contain letters numbers and _ only"
-    username: Username
+    username: שם משתמש
     write_your_username: "Edit your username"
     your_username: "Your username appears on every comment you post."
   done: Done
@@ -381,8 +381,8 @@ en:
     closed: Closed
     empty_result: "No assets match this search. Maybe try widening your search?"
     filter_streams: "Filter Streams"
-    newest: Newest
-    oldest: Oldest
+    newest: החדש ביותר
+    oldest: הוותיק ביותר
     open: Open
     pubdate: "Publication Date"
     search: Search
@@ -396,17 +396,17 @@ en:
     one_hour: "1 hour"
     hours: "{0} hours"
     days: "{0} days"
-    cancel: "Cancel"
+    cancel: "בטל"
     suspend_user: "Suspend User"
     email_message_suspend: "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}."
     title_notify: "Notify the user of their temporary suspension"
     notify_suspend_until: "User {0} has been temporarily suspended. This suspension will automatically end {1}."
     description_notify: "Suspending this user will temporarily disable their account."
     write_message: "Write a message"
-    send: Send
+    send: שלח
   reject_username:
-    username: username
-    no_cancel: "No cancel"
+    username: שם משתמש
+    no_cancel: "אין ביטול"
     description_reject: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily suspend this user until they rewrite their {0}."
     title_notify: "Notify the user of their temporary suspension"
     description_notify: "Suspending this user will temporarily disable their account."
@@ -415,7 +415,7 @@ en:
     yes_suspend: "Yes suspend"
     email_message_reject: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
     write_message: "Write a message"
-    send: Send
+    send: שלח
   thank_you: "We value your safety and feedback. A moderator will review your report."
   user:
     bio_flags: "flags for this bio"
@@ -448,10 +448,10 @@ en:
       save: "שמור"
     create:
       email: 'כתובת דוא"ל'
-      username: "Username"
-      password: "Password"
-      confirm_password: "Confirm Password"
-      save: "Save"
+      username: "שם משתמש"
+      password: "סיסמה"
+      confirm_password: "אשר סיסמה"
+      save: "שמור"
     permitted_domains:
       title: "Permitted domains"
       description: "Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com)."
@@ -459,7 +459,7 @@ en:
     final:
       description: "Thanks for installing Talk! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now."
       launch: "Launch Talk"
-      close: "Close this Installer"
+      close: "סגור את המתקין"
   admin_sidebar:
-    view_options: "View Options"
-    sort_comments: "Sort Comments"
+    view_options: "הצג אפשרויות"
+    sort_comments: "מיין תגובות"
