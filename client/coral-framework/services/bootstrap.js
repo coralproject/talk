@@ -14,6 +14,7 @@ import { createPluginsService } from './plugins';
 import { createNotificationService } from './notification';
 import { createGraphQLRegistry } from './graphqlRegistry';
 import { createGraphQLService } from './graphql';
+import { createPostMessage } from './postMessage';
 import globalFragments from 'coral-framework/graphql/fragments';
 import {
   createStorage,
@@ -118,7 +119,7 @@ export async function createContext({
   });
 
   const staticConfig = getStaticConfiguration();
-  let { LIVE_URI: liveUri } = staticConfig;
+  let { LIVE_URI: liveUri, STATIC_ORIGIN: origin } = staticConfig;
   if (liveUri == null) {
     // The protocol must match the origin protocol, secure/insecure.
     const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
@@ -127,6 +128,8 @@ export async function createContext({
     // with the live path appended to it.
     liveUri = `${protocol}://${location.host}${BASE_PATH}api/v1/live`;
   }
+
+  const postMessage = createPostMessage(origin);
 
   const client = createClient({
     uri: `${BASE_PATH}api/v1/graph/ql`,
@@ -158,6 +161,7 @@ export async function createContext({
     pymLocalStorage,
     pymSessionStorage,
     inIframe,
+    postMessage,
   };
 
   // Load framework fragments.

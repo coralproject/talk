@@ -1,6 +1,5 @@
 import * as actions from '../constants/auth';
 import jwtDecode from 'jwt-decode';
-import { sendMessage } from '../services/messages';
 
 function cleanAuthData(localStorage) {
   localStorage.removeItem('token');
@@ -64,7 +63,7 @@ export const setAuthToken = token => (dispatch, _, { localStorage }) => {
 export const handleSuccessfulLogin = (user, token) => (
   dispatch,
   _,
-  { client, localStorage }
+  { client, localStorage, postMessage }
 ) => {
   const { exp } = jwtDecode(token);
 
@@ -76,7 +75,7 @@ export const handleSuccessfulLogin = (user, token) => (
   // Send the message via the messages service to the window.opener if it
   // exists.
   if (window.opener) {
-    sendMessage(
+    postMessage.post(
       actions.HANDLE_SUCCESSFUL_LOGIN,
       { user, token },
       window.opener
