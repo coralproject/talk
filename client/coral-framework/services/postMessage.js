@@ -8,7 +8,7 @@ import remove from 'lodash/remove';
  * window communication using the postMessage API.
  * @param  {string}  origin
  * @param  {string}  scope
- * @return {Object}  messenger service
+ * @return {Object}  postMessage service
  */
 export function createPostMessage(origin, scope = 'client') {
   // Store a reference to each listener added.
