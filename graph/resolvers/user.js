@@ -1,4 +1,8 @@
-const { decorateWithTags } = require('./util');
+const {
+  decorateWithTags,
+  decorateWithPermissionCheck,
+  checkSelfField,
+} = require('./util');
 const KarmaService = require('../../services/karma');
 const {
   SEARCH_ACTIONS,
@@ -7,86 +11,65 @@ const {
   VIEW_USER_ROLE,
   LIST_OWN_TOKENS,
   VIEW_USER_STATUS,
+  VIEW_USER_EMAIL,
 } = require('../../perms/constants');
+const { property } = require('lodash');
 
 const User = {
   action_summaries(user, _, { loaders: { Actions } }) {
     return Actions.getSummariesByItem.load(user);
   },
-  actions({ id }, _, { user, loaders: { Actions } }) {
-    // Only return the actions if the user is not an admin.
-    if (user && user.can(SEARCH_ACTIONS)) {
-      return Actions.getByID.load(id);
-    }
+  actions({ id }, _, { loaders: { Actions } }) {
+    return Actions.getByID.load(id);
   },
-  comments({ id }, { query }, { loaders: { Comments }, user }) {
-    // If there is no user, or there is a user, but they are requesting someone
-    // else's comments, and they aren't allowed, don't return then anything!
-    if (!user || (user.id !== id && !user.can(SEARCH_OTHERS_COMMENTS))) {
-      return null;
-    }
-
+  comments({ id }, { query }, { loaders: { Comments } }) {
     // Set the author id on the query.
     query.author_id = id;
 
     return Comments.getByQuery(query);
   },
-  profiles({ profiles }, _, { user }) {
-    // if the user is not an admin, do not return the profiles
-    if (user && user.can(SEARCH_OTHER_USERS)) {
-      return profiles;
-    }
 
-    return null;
-  },
-  tokens({ id, tokens }, args, { user }) {
-    if (!user || (user.id !== id && !user.can(LIST_OWN_TOKENS))) {
-      return null;
-    }
-
-    return tokens;
-  },
-  ignoredUsers({ id }, args, { user, loaders: { Users } }) {
-    // Only allow a logged in user that is either the current user or is a staff
-    // member to access the ignoredUsers of a given user.
-    if (!user || (user.id !== id && !user.can(SEARCH_OTHER_USERS))) {
-      return null;
-    }
-
+  ignoredUsers({ ignoresUsers }, args, { user, loaders: { Users } }) {
     // Return nothing if there is nothing to query for.
     if (!user.ignoresUsers || user.ignoresUsers.length <= 0) {
       return [];
     }
 
-    return Users.getByID.loadMany(user.ignoresUsers);
-  },
-  role({ id, role }, _, { user }) {
-    // If the user is not an admin, only return the current user's roles.
-    if (user && (user.can(VIEW_USER_ROLE) || user.id === id)) {
-      return role;
-    }
-
-    return null;
+    return Users.getByID.loadMany(ignoresUsers);
   },
 
   // Extract the reliability from the user metadata if they have permission.
-  reliable(user, _, { user: requestingUser }) {
-    if (requestingUser && requestingUser.can(SEARCH_ACTIONS)) {
-      return KarmaService.model(user);
-    }
-  },
+  reliable: user => KarmaService.model(user),
 
-  state(user, args, ctx) {
-    if (
-      ctx.user &&
-      (ctx.user.id === user.id || ctx.user.can(VIEW_USER_STATUS))
-    ) {
-      return user;
-    }
-  },
+  // The state requires the whole user object to make decisions.
+  state: user => user,
+
+  // Get the first email on the user.
+  email: property('firstEmail'),
 };
 
 // Decorate the User type resolver with a tags field.
 decorateWithTags(User);
+
+// decorate the fields on the User resolver with a permission check where the
+// current user can also get their own properties.
+decorateWithPermissionCheck(
+  User,
+  {
+    actions: [SEARCH_ACTIONS],
+    email: [VIEW_USER_EMAIL],
+    state: [VIEW_USER_STATUS],
+    role: [VIEW_USER_ROLE],
+    ignoredUsers: [SEARCH_OTHER_USERS],
+    tokens: [LIST_OWN_TOKENS],
+    profiles: [SEARCH_OTHER_USERS],
+    comments: [SEARCH_OTHERS_COMMENTS],
+  },
+  checkSelfField('id')
+);
+
+// Decorate the fields on the User resolver where the current user has no impact
+// on the resolvability of a field.
+decorateWithPermissionCheck(User, { reliable: [SEARCH_ACTIONS] });
 
 module.exports = User;

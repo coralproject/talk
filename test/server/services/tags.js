@@ -1,4 +1,3 @@
-const CommentsService = require('../../../services/comments');
 const TagsService = require('../../../services/tags');
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
@@ -40,7 +39,7 @@ describe('services.TagsService', () => {
         assigned_by,
       });
 
-      const { tags } = await CommentsService.findById(id);
+      const { tags } = await CommentModel.findOne({ id });
       expect(tags.length).to.equal(1);
       expect(tags[0].tag.name).to.equal(name);
       expect(tags[0].assigned_by).to.equal(assigned_by);
@@ -59,7 +58,7 @@ describe('services.TagsService', () => {
       });
 
       {
-        let { tags } = await CommentsService.findById(id);
+        let { tags } = await CommentModel.findOne({ id });
         expect(tags.length).to.equal(1);
       }
 
@@ -71,7 +70,7 @@ describe('services.TagsService', () => {
       });
 
       {
-        let { tags } = await CommentsService.findById(id);
+        let { tags } = await CommentModel.findOne({ id });
         expect(tags.length).to.equal(1);
       }
     });
@@ -91,7 +90,7 @@ describe('services.TagsService', () => {
       });
 
       {
-        const { tags } = await CommentsService.findById(id);
+        const { tags } = await CommentModel.findOne({ id });
         expect(tags.length).to.equal(1);
       }
 
@@ -104,7 +103,7 @@ describe('services.TagsService', () => {
       });
 
       {
-        const { tags } = await CommentsService.findById(id);
+        const { tags } = await CommentModel.findOne({ id });
         expect(tags.length).to.equal(0);
       }
     });
@@ -128,7 +127,7 @@ describe('services.TagsService', () => {
       });
 
       {
-        const { tags } = await CommentsService.findById(id);
+        const { tags } = await CommentModel.findOne({ id });
         expect(tags.length).to.equal(2);
       }
 
@@ -141,7 +140,7 @@ describe('services.TagsService', () => {
       });
 
       {
-        const { tags } = await CommentsService.findById(id);
+        const { tags } = await CommentModel.findOne({ id });
         expect(tags.length).to.equal(1);
         expect(tags[0].tag.name).to.equal('ANOTHER');
       }

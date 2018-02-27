@@ -1,0 +1,6 @@
+.title {
+  display: inline-block;
+  width: 270px;
+  cursor: pointer;
+  user-select: none;
+}

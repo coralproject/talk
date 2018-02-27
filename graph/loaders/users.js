@@ -1,12 +1,7 @@
 const DataLoader = require('dataloader');
-
 const util = require('./util');
-
 const { SEARCH_OTHER_USERS } = require('../../perms/constants');
-
-const UsersService = require('../../services/users');
 const { escapeRegExp } = require('../../services/regex');
-const UserModel = require('../../models/user');
 
 const mergeState = (query, state) => {
   const { status } = state;
@@ -51,17 +46,14 @@ const mergeState = (query, state) => {
   }
 };
 
-const genUserByIDs = async (context, ids) => {
+const genUserByIDs = async (ctx, ids) => {
   if (!ids || ids.length === 0) {
     return [];
   }
 
-  if (ids.length === 1) {
-    const user = await UsersService.findById(ids[0]);
-    return [user];
-  }
+  const { connectors: { models: { User } } } = ctx;
 
-  return UsersService.findByIdArray(ids).then(util.singleJoinBy(ids, 'id'));
+  return User.find({ id: { $in: ids } }).then(util.singleJoinBy(ids, 'id'));
 };
 
 /**
@@ -71,10 +63,10 @@ const genUserByIDs = async (context, ids) => {
  * @param  {Object} query     query terms to apply to the users query
  */
 const getUsersByQuery = async (
-  { user },
+  { user, connectors: { models: { User } } },
   { limit, cursor, value = '', state, action_type, sortOrder }
 ) => {
-  let query = UserModel.find();
+  let query = User.find();
 
   if (action_type || state || value.length > 0) {
     if (!user || !user.can(SEARCH_OTHER_USERS)) {
@@ -182,8 +174,11 @@ const getUsersByQuery = async (
  * @return {Promise}          resolves to the counts of the users from the
  *                            query
  */
-const getCountByQuery = async ({ user }, { action_type, state }) => {
-  let query = UserModel.find();
+const getCountByQuery = async (
+  { user, connectors: { models: { User } } },
+  { action_type, state }
+) => {
+  const query = User.find();
 
   if (action_type || state) {
     if (!user || !user.can(SEARCH_OTHER_USERS)) {
@@ -203,7 +198,7 @@ const getCountByQuery = async ({ user }, { action_type, state }) => {
     }
   }
 
-  return UserModel.find(query).count();
+  return query.count();
 };
 
 /**
