@@ -7,7 +7,7 @@ const STORAGE_PATH = 'DraftArea';
 /**
  * An enhanced textarea to make comment drafts.
  */
-export default class DraftAreaContainer extends React.Component {
+class DraftAreaContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.initValue();
@@ -24,8 +24,8 @@ export default class DraftAreaContainer extends React.Component {
     return `${STORAGE_PATH}_${this.props.id}`;
   };
 
-  onChange = (...args) => {
-    this.props.onChange && this.props.onChange(...args);
+  onChange = (body, data) => {
+    this.props.onChange && this.props.onChange(body, data);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -50,7 +50,6 @@ export default class DraftAreaContainer extends React.Component {
         charCountEnable={this.props.charCountEnable}
         maxCharCount={this.props.maxCharCount}
         label={this.props.label}
-        comment={this.props.comment}
       />
     );
   }
@@ -73,3 +72,5 @@ DraftAreaContainer.propTypes = {
   rows: PropTypes.number,
   label: PropTypes.string.isRequired,
 };
+
+export default DraftAreaContainer;

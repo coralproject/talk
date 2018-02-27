@@ -90,12 +90,12 @@ class CommentBox extends React.Component {
       });
   };
 
-  handleBodyChange = (body, ...data) => {
+  handleBodyChange = (body, data) => {
     this.setState(state => ({
       body,
       data: {
         ...state.data,
-        ...data[0],
+        ...data,
       },
     }));
   };
