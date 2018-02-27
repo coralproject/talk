@@ -8,16 +8,16 @@ import { withFragments } from 'plugin-api/beta/client/hocs';
 class ToggleContainer extends React.Component {
   constructor(props) {
     super(props);
-    props.setTurnOffInputFragment({ onReply: false });
+    props.setTurnOffInputFragment({ onFeatured: false });
 
-    if (this.getOnReplySetting()) {
+    if (this.getOnFeaturedSetting()) {
       props.indicateOn();
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const prevSetting = this.getOnReplySetting(this.props);
-    const nextSetting = this.getOnReplySetting(nextProps);
+    const prevSetting = this.getOnFeaturedSetting(this.props);
+    const nextSetting = this.getOnFeaturedSetting(nextProps);
     if (prevSetting && !nextSetting) {
       nextProps.indicateOff();
     } else if (!prevSetting && nextSetting) {
@@ -25,19 +25,19 @@ class ToggleContainer extends React.Component {
     }
   }
 
-  getOnReplySetting = (props = this.props) =>
-    props.root.me.notificationSettings.onReply;
+  getOnFeaturedSetting = (props = this.props) =>
+    props.root.me.notificationSettings.onFeatured;
 
   toggle = () => {
     this.props.updateNotificationSettings({
-      onReply: !this.getOnReplySetting(),
+      onFeatured: !this.getOnFeaturedSetting(),
     });
   };
 
   render() {
     return (
-      <Toggle checked={this.getOnReplySetting()} onChange={this.toggle}>
-        {t('talk-plugin-notifications-category-featured.toggle_description')}
+      <Toggle checked={this.getOnFeaturedSetting()} onChange={this.toggle}>
+        {t('talk-plugin-notifications-category-reply.toggle_description')}
       </Toggle>
     );
   }
@@ -55,10 +55,10 @@ ToggleContainer.propTypes = {
 const enhance = compose(
   withFragments({
     root: gql`
-      fragment TalkNotificationsCategoryReply_Toggle_root on RootQuery {
+      fragment TalkNotificationsCategoryFeatured_Toggle_root on RootQuery {
         me {
           notificationSettings {
-            onReply
+            onFeatured
           }
         }
       }

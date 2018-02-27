@@ -149,3 +149,11 @@ Source: [plugins/talk-plugin-notifications-category-reply](https://github.com/co
 
 Replies made to each user will trigger an email to be sent with the notification
 details if enabled.
+
+### talk-plugin-notifications-category-featured
+{:.param}
+
+Source: [plugins/talk-plugin-notifications-category-featured](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-notifications-category-featured){:target="_blank"}
+
+When a comment is featured (via the `talk-plugin-featured-comments` plugin), the
+user will receive a notification email.
