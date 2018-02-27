@@ -1,4 +1,4 @@
-import Editor from './components/Editor';
+import Editor from './containers/Editor';
 import update from 'immutability-helper';
 import CommentContent from './containers/CommentContent';
 import { gql } from 'react-apollo';

@@ -38,7 +38,7 @@ export default class DraftArea extends React.Component {
       charCountEnable,
       maxCharCount,
       onChange,
-      comment,
+      queryData,
     } = this.props;
 
     const tASettings = {
@@ -48,7 +48,6 @@ export default class DraftArea extends React.Component {
       onChange,
       rows,
       disabled,
-      comment,
     };
 
     return (
@@ -61,6 +60,7 @@ export default class DraftArea extends React.Component {
             fill="commentBox"
             defaultComponent={DraftAreaContent}
             className={styles.content}
+            queryData={queryData}
             {...tASettings}
           />
           <Slot fill="commentInputArea" />
@@ -85,4 +85,5 @@ DraftArea.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   rows: PropTypes.number,
+  queryData: PropTypes.object.isRequired,
 };

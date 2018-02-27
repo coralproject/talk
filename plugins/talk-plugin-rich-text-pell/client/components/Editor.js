@@ -78,6 +78,9 @@ Editor.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   rows: PropTypes.number,
+  comment: PropTypes.object,
+  classNames: PropTypes.object,
+  actions: PropTypes.array,
 };
 
 export default Editor;

@@ -1,6 +1,9 @@
 import React from 'react';
+import { gql } from 'react-apollo';
+import { getSlotFragmentSpreads } from 'coral-framework/utils';
 import PropTypes from 'prop-types';
 import DraftArea from '../components/DraftArea';
+import withFragments from 'coral-framework/hocs/withFragments';
 
 const STORAGE_PATH = 'DraftArea';
 
@@ -39,8 +42,11 @@ class DraftAreaContainer extends React.Component {
   }
 
   render() {
+    const queryData = { comment: this.props.comment };
+
     return (
       <DraftArea
+        queryData={queryData}
         value={this.props.value}
         placeholder={this.props.placeholder}
         id={this.props.id}
@@ -71,6 +77,16 @@ DraftAreaContainer.propTypes = {
   disabled: PropTypes.bool,
   rows: PropTypes.number,
   label: PropTypes.string.isRequired,
+  comment: PropTypes.object,
 };
 
-export default DraftAreaContainer;
+const slots = ['commentBox'];
+
+export default withFragments({
+  comment: gql`
+  fragment CoralAdmin_CommentDetails_comment on Comment {
+    __typename
+    ${getSlotFragmentSpreads(slots, 'comment')}
+  }
+`,
+})(DraftAreaContainer);
