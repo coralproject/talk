@@ -18,9 +18,12 @@ const MOUNT_PATH = ROOT_URL_MOUNT_PATH ? BASE_PATH : '/';
 // The STATIC_URL is the url where static assets should be loaded from.
 const STATIC_URL = trailingSlash(STATIC_URI);
 
+const STATIC_ORIGIN = new URL(STATIC_URI).origin;
+
 module.exports = {
   BASE_URL,
   BASE_PATH,
   MOUNT_PATH,
   STATIC_URL,
+  STATIC_ORIGIN,
 };
