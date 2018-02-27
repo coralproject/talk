@@ -1,6 +1,12 @@
 const SettingsService = require('../services/settings');
 
-const { BASE_URL, BASE_PATH, MOUNT_PATH, STATIC_URL } = require('../url');
+const {
+  BASE_URL,
+  BASE_PATH,
+  MOUNT_PATH,
+  STATIC_URL,
+  STATIC_ORIGIN,
+} = require('../url');
 
 const { RECAPTCHA_PUBLIC, WEBSOCKET_LIVE_URI } = require('../config');
 
@@ -15,6 +21,7 @@ const TEMPLATE_LOCALS = {
     TALK_RECAPTCHA_PUBLIC: RECAPTCHA_PUBLIC,
     LIVE_URI: WEBSOCKET_LIVE_URI,
     STATIC_URL,
+    STATIC_ORIGIN,
   },
 };
 

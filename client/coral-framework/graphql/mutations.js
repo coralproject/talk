@@ -698,7 +698,7 @@ export const withCloseAsset = withMutation(
             const fragmentId = `Asset_${id}`;
             const data = {
               __typename: 'Asset',
-              closedAt: new Date(),
+              closedAt: new Date().toISOString(),
               isClosed: true,
             };
             proxy.writeFragment({ fragment, id: fragmentId, data });
