@@ -3,7 +3,5 @@ import GoogleButton from '../containers/GoogleButton';
 import { t } from 'plugin-api/beta/client/services';
 
 export default () => {
-  return (
-    <GoogleButton>{t('talk-plugin-google-auth.sign_in')}</GoogleButton>
-  );
+  return <GoogleButton>{t('talk-plugin-google-auth.sign_in')}</GoogleButton>;
 };

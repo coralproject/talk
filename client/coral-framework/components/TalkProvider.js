@@ -17,6 +17,7 @@ class TalkProvider extends React.Component {
       store: this.props.store,
       pymLocalStorage: this.props.pymLocalStorage,
       pymSessionStorage: this.props.pymSessionStorage,
+      postMessage: this.props.postMessage,
     };
   }
 
@@ -39,6 +40,7 @@ TalkProvider.childContextTypes = {
   pymSessionStorage: PropTypes.object,
   history: PropTypes.object,
   store: PropTypes.object,
+  postMessage: PropTypes.object,
 };
 
 TalkProvider.propTypes = TalkProvider.childContextTypes;
