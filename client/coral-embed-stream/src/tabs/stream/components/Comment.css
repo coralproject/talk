@@ -41,8 +41,8 @@
 }
 
 .highlightedComment {
-  padding-left: 15px;
-  border-left: 3px solid rgb(35,118,216);
+  padding: 1px 15px 8px 15px;
+  background-color: #E3F2FD;
 }
 
 .bylineSecondary {
