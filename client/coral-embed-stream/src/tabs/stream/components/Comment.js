@@ -169,7 +169,7 @@ export default class Comment extends React.Component {
     postFlag: PropTypes.func.isRequired,
     deleteAction: PropTypes.func.isRequired,
     parentId: PropTypes.string,
-    highlighted: PropTypes.string,
+    highlighted: PropTypes.object,
     notify: PropTypes.func.isRequired,
     postComment: PropTypes.func.isRequired,
     depth: PropTypes.number.isRequired,
@@ -186,28 +186,7 @@ export default class Comment extends React.Component {
     postDontAgree: PropTypes.func,
     animateEnter: PropTypes.bool,
     commentClassNames: PropTypes.array,
-    comment: PropTypes.shape({
-      depth: PropTypes.number,
-      action_summaries: PropTypes.array.isRequired,
-      body: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      tags: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string,
-        })
-      ),
-      replies: PropTypes.object,
-      user: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        username: PropTypes.string.isRequired,
-      }).isRequired,
-      editing: PropTypes.shape({
-        edited: PropTypes.bool,
-
-        // ISO8601
-        editableUntil: PropTypes.string,
-      }),
-    }).isRequired,
+    comment: PropTypes.object.isRequired,
     setCommentStatus: PropTypes.func.isRequired,
 
     // edit a comment, passed (id, asset_id, { body })
@@ -301,6 +280,14 @@ export default class Comment extends React.Component {
     this.props.setActiveReplyBox('');
   };
 
+  undoStatus = () =>
+    this.props.setCommentStatus({
+      commentId: this.props.comment.id,
+      status: this.props.comment.status_history[
+        this.props.comment.status_history.length - 2
+      ].type,
+    });
+
   // getVisibileReplies returns a list containing comments
   // which were authored by current user or comes before the `idCursor`.
   getVisibileReplies() {
@@ -329,6 +316,27 @@ export default class Comment extends React.Component {
     return view;
   }
 
+  /**
+   * getConditionalClassNames
+   * conditionalClassNames adds classNames based on condition
+   * classnames is an array of objects with key as classnames and value as conditions
+   * i.e:
+   * {
+   *  'myClassName': { tags: [STAFF]}
+   * }
+   *
+   * This will add myClassName to comments tagged with STAFF TAG.
+   **/
+  getConditionalClassNames() {
+    const { commentClassNames = [] } = this.props;
+    return mapValues(merge({}, ...commentClassNames), condition => {
+      if (condition.tags) {
+        return condition.tags.some(tag => hasTag(this.props.comment.tags, tag));
+      }
+      return false;
+    });
+  }
+
   componentDidMount() {
     this._isMounted = true;
     if (this.editWindowExpiryTimeout) {
@@ -343,25 +351,51 @@ export default class Comment extends React.Component {
       }, Math.max(msLeftToEdit, 0));
     }
   }
+
   componentWillUnmount() {
     if (this.editWindowExpiryTimeout) {
       this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
     }
     this._isMounted = false;
   }
-  render() {
+
+  renderReplyBox() {
     const {
       asset,
-      data,
-      root,
+      depth,
+      comment,
+      parentId,
+      postComment,
+      currentUser,
+      setActiveReplyBox,
+      maxCharCount,
+      notify,
+      charCountEnable,
+    } = this.props;
+    return (
+      <ReplyBox
+        commentPostedHandler={this.commentPostedHandler}
+        charCountEnable={charCountEnable}
+        maxCharCount={maxCharCount}
+        setActiveReplyBox={setActiveReplyBox}
+        parentId={depth < THREADING_LEVEL ? comment.id : parentId}
+        notify={notify}
+        postComment={postComment}
+        currentUser={currentUser}
+        assetId={asset.id}
+      />
+    );
+  }
+
+  renderReplies(view) {
+    const {
+      asset,
       depth,
       comment,
       postFlag,
-      parentId,
       highlighted,
       postComment,
       currentUser,
-      postDontAgree,
       setActiveReplyBox,
       activeReplyBox,
       loadMore,
@@ -372,39 +406,47 @@ export default class Comment extends React.Component {
       charCountEnable,
       showSignInDialog,
       liveUpdates,
-      animateEnter,
       emit,
-      commentClassNames = [],
     } = this.props;
+    return (
+      <TransitionGroup key="transitionGroup">
+        {view.map(reply => {
+          return (
+            <CommentContainer
+              data={this.props.data}
+              root={this.props.root}
+              setActiveReplyBox={setActiveReplyBox}
+              disableReply={disableReply}
+              activeReplyBox={activeReplyBox}
+              notify={notify}
+              parentId={comment.id}
+              postComment={postComment}
+              editComment={this.props.editComment}
+              depth={depth + 1}
+              asset={asset}
+              highlighted={highlighted}
+              currentUser={currentUser}
+              postFlag={postFlag}
+              deleteAction={deleteAction}
+              loadMore={loadMore}
+              charCountEnable={charCountEnable}
+              maxCharCount={maxCharCount}
+              showSignInDialog={showSignInDialog}
+              liveUpdates={liveUpdates}
+              reactKey={reply.id}
+              key={reply.id}
+              comment={reply}
+              emit={emit}
+            />
+          );
+        })}
+      </TransitionGroup>
+    );
+  }
 
-    if (!highlighted && this.commentIsRejected(comment)) {
-      return (
-        <CommentTombstone
-          action="reject"
-          onUndo={() => {
-            this.props.setCommentStatus({
-              commentId: comment.id,
-              status:
-                comment.status_history[comment.status_history.length - 2].type,
-            });
-          }}
-        />
-      );
-    }
-
-    if (this.commentIsIgnored(comment)) {
-      return <CommentTombstone action="ignore" />;
-    }
-
-    const view = this.getVisibileReplies();
-
-    // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
-    const isActive = isCommentActive(comment.status);
-
+  renderLoadMoreReplies(view) {
+    const { comment } = this.props;
     const { loadingState } = this.state;
-    const isPending = comment.id.indexOf('pending') >= 0;
-    const isHighlighted = highlighted === comment.id;
-
     const hasMoreComments =
       comment.replies &&
       (comment.replies.hasNextPage ||
@@ -412,6 +454,57 @@ export default class Comment extends React.Component {
     const moreRepliesCount = this.hasIgnoredReplies()
       ? -1
       : comment.replyCount - view.length;
+    return (
+      <div className="talk-load-more-replies" key="loadMoreReplies">
+        <LoadMore
+          topLevel={false}
+          replyCount={moreRepliesCount}
+          moreComments={hasMoreComments}
+          loadMore={this.loadNewReplies}
+          loadingState={loadingState}
+        />
+      </div>
+    );
+  }
+
+  renderRepliesContainer() {
+    const { highlighted, comment } = this.props;
+
+    // Only render highlighted reply when we are the parent of it.
+    if (highlighted && highlighted.parent.id === comment.id) {
+      return this.renderReplies([highlighted]);
+    }
+
+    // Otherwise render replies in current view and a load more button if needed.
+    const view = this.getVisibileReplies();
+    return [this.renderReplies(view), this.renderLoadMoreReplies(view)];
+  }
+
+  renderComment() {
+    const {
+      asset,
+      data,
+      root,
+      depth,
+      comment,
+      postFlag,
+      parentId,
+      highlighted,
+      currentUser,
+      postDontAgree,
+      deleteAction,
+      disableReply,
+      maxCharCount,
+      notify,
+      charCountEnable,
+      showSignInDialog,
+    } = this.props;
+
+    // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
+    const isActive = isCommentActive(comment.status);
+
+    const isPending = comment.id.indexOf('pending') >= 0;
+    const isHighlighted = highlighted && highlighted.id === comment.id;
     const flagSummary = getActionSummary('FlagActionSummary', comment);
     const dontAgreeSummary = getActionSummary(
       'DontAgreeActionSummary',
@@ -423,38 +516,6 @@ export default class Comment extends React.Component {
     } else if (iPerformedThisAction('DontAgreeActionSummary', comment)) {
       myFlag = dontAgreeSummary.find(s => s.current_user);
     }
-
-    /**
-     * conditionClassNames
-     * adds classNames based on condition
-     * classnames is an array of objects with key as classnames and value as conditions
-     * i.e:
-     * {
-     *  'myClassName': { tags: [STAFF]}
-     * }
-     *
-     * This will add myClassName to comments tagged with STAFF TAG.
-     * **/
-    const conditionalClassNames = mapValues(
-      merge({}, ...commentClassNames),
-      condition => {
-        if (condition.tags) {
-          return condition.tags.some(tag => hasTag(comment.tags, tag));
-        }
-        return false;
-      }
-    );
-
-    const rootClassName = cn(
-      'talk-stream-comment-wrapper',
-      `talk-stream-comment-wrapper-level-${depth}`,
-      styles.root,
-      styles[`rootLevel${depth}`],
-      {
-        ...conditionalClassNames,
-        [styles.enter]: animateEnter,
-      }
-    );
 
     const commentClassName = cn(
       'talk-stream-comment',
@@ -482,238 +543,217 @@ export default class Comment extends React.Component {
     };
 
     return (
-      <div className={rootClassName} id={`c_${comment.id}`}>
-        <div className={commentClassName}>
-          <Slot
-            className={`${styles.commentAvatar} talk-stream-comment-avatar`}
-            fill="commentAvatar"
-            {...slotProps}
-            queryData={queryData}
-            inline
-          />
+      <div className={commentClassName}>
+        <Slot
+          className={cn(styles.commentAvatar, 'talk-stream-comment-avatar')}
+          fill="commentAvatar"
+          {...slotProps}
+          queryData={queryData}
+          inline
+        />
 
-          <div
-            className={cn(
-              styles.commentContainer,
-              'talk-stream-comment-container'
-            )}
-          >
-            <div className={cn(styles.header, 'talk-stream-comment-header')}>
+        <div
+          className={cn(
+            styles.commentContainer,
+            'talk-stream-comment-container'
+          )}
+        >
+          <div className={cn(styles.header, 'talk-stream-comment-header')}>
+            <div
+              className={cn(
+                styles.headerContainer,
+                'talk-stream-comment-header-container'
+              )}
+            >
+              <Slot
+                className={cn(styles.username, 'talk-stream-comment-user-name')}
+                fill="commentAuthorName"
+                defaultComponent={CommentAuthorName}
+                queryData={queryData}
+                {...slotProps}
+              />
+
               <div
                 className={cn(
-                  styles.headerContainer,
-                  'talk-stream-comment-header-container'
+                  styles.tagsContainer,
+                  'talk-stream-comment-header-tags-container'
+                )}
+              >
+                {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
+
+                <Slot
+                  className={cn(
+                    styles.commentAuthorTagsSlot,
+                    'talk-stream-comment-author-tags'
+                  )}
+                  fill="commentAuthorTags"
+                  queryData={queryData}
+                  {...slotProps}
+                  inline
+                />
+              </div>
+
+              <span
+                className={cn(
+                  styles.bylineSecondary,
+                  'talk-stream-comment-user-byline'
                 )}
               >
                 <Slot
-                  className={cn(
-                    styles.username,
-                    'talk-stream-comment-user-name'
-                  )}
-                  fill="commentAuthorName"
-                  defaultComponent={CommentAuthorName}
+                  fill="commentTimestamp"
+                  defaultComponent={CommentTimestamp}
+                  className={'talk-stream-comment-published-date'}
+                  created_at={comment.created_at}
                   queryData={queryData}
                   {...slotProps}
                 />
-
-                <div
-                  className={cn(
-                    styles.tagsContainer,
-                    'talk-stream-comment-header-tags-container'
-                  )}
-                >
-                  {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
-
-                  <Slot
-                    className={cn(
-                      styles.commentAuthorTagsSlot,
-                      'talk-stream-comment-author-tags'
-                    )}
-                    fill="commentAuthorTags"
-                    queryData={queryData}
-                    {...slotProps}
-                    inline
-                  />
-                </div>
-
-                <span
-                  className={`${
-                    styles.bylineSecondary
-                  } talk-stream-comment-user-byline`}
-                >
-                  <Slot
-                    fill="commentTimestamp"
-                    defaultComponent={CommentTimestamp}
-                    className={'talk-stream-comment-published-date'}
-                    created_at={comment.created_at}
-                    queryData={queryData}
-                    {...slotProps}
-                  />
-                  {comment.editing && comment.editing.edited ? (
-                    <span>
-                      &nbsp;<span className={styles.editedMarker}>
-                        ({t('comment.edited')})
-                      </span>
+                {comment.editing && comment.editing.edited ? (
+                  <span>
+                    &nbsp;<span className={styles.editedMarker}>
+                      ({t('comment.edited')})
                     </span>
-                  ) : null}
-                </span>
-              </div>
-
-              <Slot
-                className={styles.commentInfoBar}
-                fill="commentInfoBar"
-                {...slotProps}
-                queryData={queryData}
-              />
-
-              {isActive &&
-                (currentUser && comment.user.id === currentUser.id) && (
-                  /* User can edit/delete their own comment for a short window after posting */
-                  <span className={cn(styles.topRight)}>
-                    {this.state.isEditable && (
-                      <a
-                        className={cn(styles.link, {
-                          [styles.active]: this.state.isEditing,
-                        })}
-                        onClick={this.onClickEdit}
-                      >
-                        Edit
-                      </a>
-                    )}
                   </span>
-                )}
-              {!isActive && <InactiveCommentLabel status={comment.status} />}
+                ) : null}
+              </span>
             </div>
-            <div className={styles.content}>
-              {this.state.isEditing ? (
-                <EditableCommentContent
-                  editComment={this.editComment}
-                  notify={notify}
-                  comment={comment}
-                  currentUser={currentUser}
-                  charCountEnable={charCountEnable}
-                  maxCharCount={maxCharCount}
-                  parentId={parentId}
-                  stopEditing={this.stopEditing}
-                />
-              ) : (
-                <div>
-                  <Slot
-                    fill="commentContent"
-                    className="talk-stream-comment-content"
-                    defaultComponent={CommentContent}
-                    {...slotProps}
-                    queryData={queryData}
-                    slotSize={1}
-                  />
-                </div>
-              )}
-            </div>
-            <div className={cn(styles.footer, 'talk-stream-comment-footer')}>
-              {isActive && (
-                <div className={'talk-stream-comment-actions-container'}>
-                  <div className="talk-embed-stream-comment-actions-container-left commentActionsLeft comment__action-container">
-                    <Slot
-                      fill="commentReactions"
-                      {...slotProps}
-                      queryData={queryData}
-                      inline
-                    />
 
-                    {!disableReply && (
-                      <ActionButton>
-                        <ReplyButton
-                          onClick={this.showReplyBox}
-                          parentCommentId={parentId || comment.id}
-                          currentUserId={currentUser && currentUser.id}
-                        />
-                      </ActionButton>
-                    )}
-                  </div>
-                  <div className="talk-embed-stream-comment-actions-container-right commentActionsRight comment__action-container">
-                    <Slot
-                      fill="commentActions"
-                      wrapperComponent={ActionButton}
-                      {...slotProps}
-                      queryData={queryData}
-                      inline
-                    />
-                    <ActionButton>
-                      <FlagComment
-                        flaggedByCurrentUser={!!myFlag}
-                        flag={myFlag}
-                        id={comment.id}
-                        author_id={comment.user.id}
-                        postFlag={postFlag}
-                        notify={notify}
-                        postDontAgree={postDontAgree}
-                        deleteAction={deleteAction}
-                        showSignInDialog={showSignInDialog}
-                        currentUser={currentUser}
-                      />
-                    </ActionButton>
-                  </div>
-                </div>
+            <Slot
+              className={styles.commentInfoBar}
+              fill="commentInfoBar"
+              {...slotProps}
+              queryData={queryData}
+            />
+
+            {isActive &&
+              (currentUser && comment.user.id === currentUser.id) && (
+                /* User can edit/delete their own comment for a short window after posting */
+                <span className={cn(styles.topRight)}>
+                  {this.state.isEditable && (
+                    <a
+                      className={cn(styles.link, {
+                        [styles.active]: this.state.isEditing,
+                      })}
+                      onClick={this.onClickEdit}
+                    >
+                      Edit
+                    </a>
+                  )}
+                </span>
               )}
-            </div>
+            {!isActive && <InactiveCommentLabel status={comment.status} />}
           </div>
-        </div>
-
-        {activeReplyBox === comment.id ? (
-          <ReplyBox
-            commentPostedHandler={this.commentPostedHandler}
-            charCountEnable={charCountEnable}
-            maxCharCount={maxCharCount}
-            setActiveReplyBox={setActiveReplyBox}
-            parentId={depth < THREADING_LEVEL ? comment.id : parentId}
-            notify={notify}
-            postComment={postComment}
-            currentUser={currentUser}
-            assetId={asset.id}
-          />
-        ) : null}
-
-        <TransitionGroup>
-          {view.map(reply => {
-            return (
-              <CommentContainer
-                data={this.props.data}
-                root={this.props.root}
-                setActiveReplyBox={setActiveReplyBox}
-                disableReply={disableReply}
-                activeReplyBox={activeReplyBox}
+          <div className={styles.content}>
+            {this.state.isEditing ? (
+              <EditableCommentContent
+                editComment={this.editComment}
                 notify={notify}
-                parentId={comment.id}
-                postComment={postComment}
-                editComment={this.props.editComment}
-                depth={depth + 1}
-                asset={asset}
-                highlighted={highlighted}
+                comment={comment}
                 currentUser={currentUser}
-                postFlag={postFlag}
-                deleteAction={deleteAction}
-                loadMore={loadMore}
                 charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}
-                showSignInDialog={showSignInDialog}
-                liveUpdates={liveUpdates}
-                reactKey={reply.id}
-                key={reply.id}
-                comment={reply}
-                emit={emit}
+                parentId={parentId}
+                stopEditing={this.stopEditing}
               />
-            );
-          })}
-        </TransitionGroup>
-        <div className="talk-load-more-replies">
-          <LoadMore
-            topLevel={false}
-            replyCount={moreRepliesCount}
-            moreComments={hasMoreComments}
-            loadMore={this.loadNewReplies}
-            loadingState={loadingState}
-          />
+            ) : (
+              <div>
+                <Slot
+                  fill="commentContent"
+                  className="talk-stream-comment-content"
+                  defaultComponent={CommentContent}
+                  {...slotProps}
+                  queryData={queryData}
+                  slotSize={1}
+                />
+              </div>
+            )}
+          </div>
+          <div className={cn(styles.footer, 'talk-stream-comment-footer')}>
+            {isActive && (
+              <div className={'talk-stream-comment-actions-container'}>
+                <div className="talk-embed-stream-comment-actions-container-left commentActionsLeft comment__action-container">
+                  <Slot
+                    fill="commentReactions"
+                    {...slotProps}
+                    queryData={queryData}
+                    inline
+                  />
+
+                  {!disableReply && (
+                    <ActionButton>
+                      <ReplyButton
+                        onClick={this.showReplyBox}
+                        parentCommentId={parentId || comment.id}
+                        currentUserId={currentUser && currentUser.id}
+                      />
+                    </ActionButton>
+                  )}
+                </div>
+                <div className="talk-embed-stream-comment-actions-container-right commentActionsRight comment__action-container">
+                  <Slot
+                    fill="commentActions"
+                    wrapperComponent={ActionButton}
+                    {...slotProps}
+                    queryData={queryData}
+                    inline
+                  />
+                  <ActionButton>
+                    <FlagComment
+                      flaggedByCurrentUser={!!myFlag}
+                      flag={myFlag}
+                      id={comment.id}
+                      author_id={comment.user.id}
+                      postFlag={postFlag}
+                      notify={notify}
+                      postDontAgree={postDontAgree}
+                      deleteAction={deleteAction}
+                      showSignInDialog={showSignInDialog}
+                      currentUser={currentUser}
+                    />
+                  </ActionButton>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
+      </div>
+    );
+  }
+
+  render() {
+    const {
+      depth,
+      comment,
+      activeReplyBox,
+      highlighted,
+      animateEnter,
+    } = this.props;
+
+    if (!highlighted && this.commentIsRejected(comment)) {
+      return <CommentTombstone action="reject" onUndo={this.undoStatus} />;
+    }
+
+    if (this.commentIsIgnored(comment)) {
+      return <CommentTombstone action="ignore" />;
+    }
+
+    const rootClassName = cn(
+      'talk-stream-comment-wrapper',
+      `talk-stream-comment-wrapper-level-${depth}`,
+      styles.root,
+      styles[`rootLevel${depth}`],
+      {
+        ...this.getConditionalClassNames(),
+        [styles.enter]: animateEnter,
+      }
+    );
+
+    const id = `c_${comment.id}`;
+
+    return (
+      <div className={rootClassName} id={id}>
+        {this.renderComment()}
+        {activeReplyBox === comment.id && this.renderReplyBox()}
+        {this.renderRepliesContainer()}
       </div>
     );
   }

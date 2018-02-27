@@ -112,7 +112,7 @@ class Stream extends React.Component {
           postComment={postComment}
           asset={asset}
           currentUser={currentUser}
-          highlighted={comment.id}
+          highlighted={comment}
           postFlag={postFlag}
           postDontAgree={postDontAgree}
           loadMore={loadNewReplies}
