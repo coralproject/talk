@@ -1,5 +1,4 @@
 import Editor from './containers/Editor';
-import update from 'immutability-helper';
 import CommentContent from './containers/CommentContent';
 import { gql } from 'react-apollo';
 
@@ -55,21 +54,12 @@ export default {
 
           const fragmentId = `Comment_${id}`;
 
-          const data = proxy.readFragment({
-            fragment: editCommentFragment,
-            id: fragmentId,
-          });
-
-          const updated = update(data, {
-            richTextBody: {
-              $set: edit.richTextBody,
-            },
-          });
-
           proxy.writeFragment({
             fragment: editCommentFragment,
             id: fragmentId,
-            data: updated,
+            data: {
+              richTextBody: edit.richTextBody,
+            },
           });
         },
       };
