@@ -101,9 +101,12 @@ class Secret {
     jwt.verify(
       token,
       this.verifiyingKey,
-      Object.assign({}, options, {
-        algorithms: [this.algorithm],
-      }),
+      omitBy(
+        merge({}, options, {
+          algorithms: [this.algorithm],
+        }),
+        isUndefined
+      ),
       callback
     );
   }

@@ -3,12 +3,12 @@ const { graphql } = require('graphql');
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
 
-const UserModel = require('../../../../models/user');
-const AssetModel = require('../../../../models/asset');
 const ActionModel = require('../../../../models/action');
+const AssetModel = require('../../../../models/asset');
+const CommentModel = require('../../../../models/comment');
+const UserModel = require('../../../../models/user');
 
 const SettingsService = require('../../../../services/settings');
-const CommentsService = require('../../../../services/comments');
 
 const { expect } = require('chai');
 
@@ -336,9 +336,9 @@ describe('graph.mutations.createComment', () => {
           expect(data.createComment).to.have.property('comment').not.null;
           expect(data.createComment).to.have.property('errors').null;
 
-          const { tags } = await CommentsService.findById(
-            data.createComment.comment.id
-          );
+          const { tags } = await CommentModel.findOne({
+            id: data.createComment.comment.id,
+          });
           if (tag) {
             expect(tags).to.have.length(1);
             expect(tags[0].tag.name).to.have.equal(tag);

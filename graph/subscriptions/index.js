@@ -2,18 +2,18 @@ const { SubscriptionManager } = require('graphql-subscriptions');
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 const debug = require('debug')('talk:graph:subscriptions');
 
-const pubsub = require('../services/pubsub');
-const schema = require('./schema');
-const Context = require('./context');
-const plugins = require('../services/plugins');
+const { getPubsub } = require('./pubsub');
+const schema = require('../schema');
+const Context = require('../context');
+const plugins = require('../../services/plugins');
 
-const { deserializeUser } = require('../services/subscriptions');
+const { deserializeUser } = require('../../services/subscriptions');
 const setupFunctions = require('./setupFunctions');
 
 const ms = require('ms');
-const { KEEP_ALIVE } = require('../config');
+const { KEEP_ALIVE } = require('../../config');
 
-const { BASE_PATH } = require('../url');
+const { BASE_PATH } = require('../../url');
 
 // Collect all the plugin hooks that should be executed onConnect and
 // onDisconnect.
@@ -99,7 +99,7 @@ const createSubscriptionManager = server =>
     {
       subscriptionManager: new SubscriptionManager({
         schema,
-        pubsub: pubsub.getClient(),
+        pubsub: getPubsub(),
         setupFunctions,
       }),
       onConnect,

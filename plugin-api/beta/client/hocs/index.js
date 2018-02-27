@@ -6,6 +6,7 @@ export {
   withEmit,
   excludeIf,
   withFragments,
+  withMutation,
   withForgotPassword,
   withSignIn,
   withSignUp,
