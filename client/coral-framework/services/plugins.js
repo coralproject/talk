@@ -97,8 +97,9 @@ class PluginsService {
   /**
    * Returns React Elements for given slot.
    */
-  getSlotElements(slot, reduxState, props = {}, queryData = {}) {
+  getSlotElements(slot, reduxState, props = {}, queryData = {}, options = {}) {
     const pluginConfig = get(reduxState, 'config.plugin_config') || emptyConfig;
+    const { slotSize = 0 } = options;
 
     const isDisabled = component => {
       if (
@@ -129,11 +130,21 @@ class PluginsService {
       return false;
     };
 
-    return flatten(
+    const slots = flatten(
       this.plugins
         .filter(o => o.module.slots && o.module.slots[slot])
         .map(o => o.module.slots[slot])
-    )
+    );
+
+    if (slotSize > 0 && slots.length > slotSize) {
+      console.warn(
+        `Slot[${slot}] supports a maximum of ${slotSize} plugins providing slots, got ${
+          slots.length
+        }, will only use the first ${slotSize}`
+      );
+    }
+
+    return (slotSize > 0 ? slots.slice(0, slotSize) : slots)
       .map((component, i) => ({
         component,
         disabled: isDisabled(component),
