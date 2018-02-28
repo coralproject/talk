@@ -1,10 +1,15 @@
-version: 2
+# The following stanza defines a map named defaults with a variable that may be inserted using the YAML merge (<<: *) key 
+# later in the file to save some typing. See http://yaml.org/type/merge.html for details.
 
+defaults: &defaults
+  working_directory: ~/coralproject/talk
+  docker:
+    - image: circleci/node:8
+
+version: 2
 jobs:
   npm_dependencies:
-    working_directory: ~/coralproject/talk
-    docker:
-      - image: circleci/node:8
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
@@ -24,9 +29,7 @@ jobs:
           root: .
           paths: node_modules
   lint:
-    working_directory: ~/coralproject/talk
-    docker:
-      - image: circleci/node:8
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
@@ -35,9 +38,7 @@ jobs:
           name: Perform linting
           command: yarn lint
   build_assets:
-    working_directory: ~/coralproject/talk
-    docker:
-      - image: circleci/node:8
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
@@ -49,7 +50,7 @@ jobs:
           root: .
           paths: dist
   test_unit:
-    working_directory: ~/coralproject/talk
+    <<: *defaults
     docker:
       - image: circleci/node:8
       - image: circleci/mongo:3
@@ -71,7 +72,7 @@ jobs:
       - store_test_results:
           path: /tmp/circleci-test-results
   test_integration:
-    working_directory: ~/coralproject/talk
+    <<: *defaults
     docker:
       - image: circleci/node:8-browsers
       - image: circleci/mongo:3
@@ -89,19 +90,17 @@ jobs:
           name: Run the integration tests
           command: yarn e2e:ci
   deploy:
-    working_directory: ~/coralproject/talk
-    docker:
-      - image: circleci/node:8
+    <<: *defaults
     steps:
       - checkout
       - setup_remote_docker
       - run:
           name: Deploy the code
-          command: bash ./scripts/docker.sh
+          command: bash ./scripts/docker.sh deploy
 
 workflows:
   version: 2
-  build-and-deploy:
+  build-test-and-deploy:
     jobs:
       - npm_dependencies
       - lint:
@@ -116,9 +115,23 @@ workflows:
       - test_integration:
           requires:
             - build_assets
-      # TODO: move to own workflow
       - deploy:
+          context: coralproject
           requires:
             - lint
             - test_unit
             - test_integration
+          filters:
+            branches:
+              only:
+                - master
+                - next
+  deploy-tagged:
+    jobs:
+      - deploy:
+          context: coralproject
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
