@@ -108,7 +108,18 @@ jobs:
   # chrome headless.
   test_integration_chrome_local:
     <<: *integration_job
+    environment:
+      <<: *integration_environment
+      E2E_BROWSERS: chrome
   
+  # test_integration_firefox_local will run the integration tests locally with
+  # firefox headless.
+  test_integration_firefox_local:
+    <<: *integration_job
+    environment:
+      <<: *integration_environment
+      E2E_BROWSERS: firefox
+
   # test_integration_chrome will run the integration tests with chrome in
   # browserstack.
   test_integration_chrome:
@@ -169,6 +180,9 @@ workflows:
           requires:
             - npm_dependencies
       - test_integration_chrome_local:
+          requires:
+            - build_assets
+      - test_integration_firefox_local:
           requires:
             - build_assets
   deploy-tagged:
