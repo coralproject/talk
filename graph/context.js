@@ -1,12 +1,13 @@
 const loaders = require('./loaders');
 const mutators = require('./mutators');
-const uuid = require('uuid');
-const merge = require('lodash/merge');
+const uuid = require('uuid/v4');
 const connectors = require('./connectors');
-
+const { get, merge } = require('lodash');
 const plugins = require('../services/plugins');
-const pubsub = require('../services/pubsub');
+const { getBroker } = require('./subscriptions/broker');
 const debug = require('debug')('talk:graph:context');
+const { createLogger } = require('../services/logging');
+const { graphql } = require('graphql');
 
 /**
  * Contains the array of plugins that provide context to the server, these top
@@ -45,15 +46,16 @@ const decorateContextPlugins = (context, contextPlugins) => {
  * Stores the request context.
  */
 class Context {
-  constructor(parent) {
+  constructor(ctx) {
     // Generate a new context id for the request if the parent doesn't provide
     // one.
-    this.id = parent.id || uuid.v4();
+    this.id = ctx.id || uuid.v4();
+
+    // Attach a logger or create one.
+    this.log = ctx.log || createLogger('context', this.id);
 
     // Load the current logged in user to `user`, otherwise this will be null.
-    if (parent.user) {
-      this.user = parent.user;
-    }
+    this.user = get(ctx, 'user');
 
     // Attach the connectors.
     this.connectors = connectors;
@@ -68,14 +70,48 @@ class Context {
     this.plugins = decorateContextPlugins(this, contextPlugins);
 
     // Bind the publish/subscribe to the context.
-    this.pubsub = pubsub.getClient();
+    this.pubsub = getBroker();
 
     // Bind the parent context.
-    this.parent = parent;
+    this.parent = ctx;
   }
 
   /**
+   * graphql will execute a graph request for the current context.
    *
+   * @param {String} requestString  A GraphQL language formatted string
+   *    representing the requested operation.
+   * @param {Object} variableValues  A mapping of variable name to runtime value
+   *    to use for all variables defined in the requestString.
+   * @param {Object} rootValue The value provided as the first argument to
+   *    resolver functions on the top level type (e.g. the query object type).
+   * @param {String} operationName The name of the operation to use if
+   *    requestString contains multiple possible operations. Can be omitted if
+   *    requestString contains only one operation.
+   * @returns {Promise}
+   */
+  async graphql(
+    requestString,
+    variableValues = {},
+    rootValue = {},
+    operationName = undefined
+  ) {
+    // Perform the graph request directly using the graphql client.
+    return graphql(
+      // Use the connected graph schema.
+      this.connectors.graph.schema,
+      requestString,
+      rootValue,
+      // Use this, the context as the context.
+      this,
+      variableValues,
+      operationName
+    );
+  }
+
+  /**
+   * forSystem returns a system context object that can be used for internal
+   * operations.
    */
   static forSystem() {
     const { models: { User } } = connectors;
@@ -86,5 +122,16 @@ class Context {
     return new Context({ user });
   }
 }
+
+// Attach the Context to the connectors.
+connectors.graph.Context = Context;
+
+// Connect the connect based plugins after the server has started.
+plugins.defer('server', 'connect', ({ plugin, connect }) => {
+  debug(`connecting plugin to connectors '${plugin.name}'`);
+
+  // Pass the connectors down to the connect plugin.
+  connect(connectors);
+});
 
 module.exports = Context;

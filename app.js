@@ -1,7 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
-const uuid = require('uuid');
 const merge = require('lodash/merge');
 const helmet = require('helmet');
 const plugins = require('./services/plugins');
@@ -12,13 +11,6 @@ const debug = require('debug')('talk:app');
 const { ENABLE_TRACING, APOLLO_ENGINE_KEY, PORT } = require('./config');
 
 const app = express();
-
-// Request Identity Middleware
-app.use((req, res, next) => {
-  req.id = uuid.v4();
-
-  next();
-});
 
 //==============================================================================
 // PLUGIN PRE APPLICATION MIDDLEWARE

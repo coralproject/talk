@@ -75,7 +75,7 @@ const config = {
         },
       },
       {
-        loader: 'json-loader',
+        loader: 'hjson-loader',
         test: /\.(json|yml)$/,
         exclude: /node_modules/,
       },

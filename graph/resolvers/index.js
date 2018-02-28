@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const { merge } = require('lodash');
 const debug = require('debug')('talk:graph:resolvers');
 
 const Action = require('./action');
@@ -70,7 +70,7 @@ resolvers = plugins
   .reduce((acc, { plugin, resolvers }) => {
     debug(`added plugin '${plugin.name}'`);
 
-    return _.merge(acc, resolvers);
+    return merge(acc, resolvers);
   }, resolvers);
 
 module.exports = resolvers;

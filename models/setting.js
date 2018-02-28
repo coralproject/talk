@@ -99,6 +99,12 @@ const SettingSchema = new Schema(
       default: 30 * 1000,
     },
     tags: [TagSchema],
+
+    // Additional metadata to let plugins write settings.
+    metadata: {
+      default: {},
+      type: Object,
+    },
   },
   {
     timestamps: {
