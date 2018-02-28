@@ -79,12 +79,27 @@ jobs:
     environment:
       NODE_ENV: test
     steps:
+      - checkout
+      - attach_workspace:
+          at: ~/coralproject/talk
       - run:
           name: Setup the database with defaults
           command: ./bin/cli setup --defaults
       - run:
           name: Run the integration tests
           command: yarn e2e:ci
+  deploy:
+    working_directory: ~/coralproject/talk
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/coralproject/talk
+      # TODO: implement
+      - run:
+          name: Deploy the code
+          command: echo "Deployed!"
 
 workflows:
   version: 2
@@ -103,3 +118,9 @@ workflows:
       - test_integration:
           requires:
             - build_assets
+      # TODO: move to own workflow
+      - deploy:
+          requires:
+            - lint
+            - test_unit
+            - test_integration
