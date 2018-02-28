@@ -25,5 +25,5 @@ if [[ "$BROWSERSTACK" == "true" && -n "$BROWSERSTACK_KEY" ]]; then
 else
   # When browserstack is not available test locally using chrome headless.
   echo Testing locally
-  node scripts/e2e.js --reports-folder "$REPORTS_FOLDER" --retries "$E2E_MAX_RETRIES" --timeout "$E2E_WAIT_FOR_TIMEOUT" --browsers "$E2E_BROWSERS" --headless
+  node scripts/e2e.js --reports-folder "$REPORTS_FOLDER" --retries "$E2E_MAX_RETRIES" --timeout "$E2E_WAIT_FOR_TIMEOUT" --browsers "$E2E_BROWSERS"
 fi
