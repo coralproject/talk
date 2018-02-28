@@ -49,5 +49,12 @@ module.exports = {
         },
       },
     },
+    'firefox-headless': {
+      desiredCapabilities: {
+        chromeOptions: {
+          args: ['--headless', '--disable-gpu', 'window-size=1600,1200'],
+        },
+      },
+    },
   },
 };
