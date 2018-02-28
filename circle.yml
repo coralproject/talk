@@ -6,6 +6,23 @@ defaults: &defaults
   docker:
     - image: circleci/node:8
 
+integration: &integration
+  <<: *defaults
+  docker:
+    - image: circleci/node:8-browsers
+    - image: circleci/mongo:3
+    - image: circleci/redis:4-alpine
+  steps:
+    - checkout
+    - attach_workspace:
+        at: ~/coralproject/talk
+    - run:
+        name: Setup the database with defaults
+        command: ./bin/cli setup --defaults
+    - run:
+        name: Run the integration tests
+        command: yarn e2e:ci
+
 version: 2
 jobs:
   npm_dependencies:
@@ -71,24 +88,21 @@ jobs:
           command: yarn test
       - store_test_results:
           path: /tmp/circleci-test-results
-  test_integration:
-    <<: *defaults
-    docker:
-      - image: circleci/node:8-browsers
-      - image: circleci/mongo:3
-      - image: circleci/redis:4-alpine
+  test_integration_chrome:
+    <<: *integration
     environment:
       NODE_ENV: test
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/coralproject/talk
-      - run:
-          name: Setup the database with defaults
-          command: ./bin/cli setup --defaults
-      - run:
-          name: Run the integration tests
-          command: yarn e2e:ci
+      E2E_BROWSERS: chrome
+  test_integration_firefox:
+    <<: *integration
+    environment:
+      NODE_ENV: test
+      E2E_BROWSERS: firefox
+  test_integration_edge:
+    <<: *integration
+    environment:
+      NODE_ENV: test
+      E2E_BROWSERS: edge
   deploy:
     <<: *defaults
     steps:
@@ -96,7 +110,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Deploy the code
-          command: bash ./scripts/docker.sh deploy
+          command: bash ./scripts/docker.sh
 
 workflows:
   version: 2
@@ -112,7 +126,13 @@ workflows:
       - build_assets:
           requires:
             - npm_dependencies
-      - test_integration:
+      - test_integration_chrome:
+          requires:
+            - build_assets
+      - test_integration_firefox:
+          requires:
+            - build_assets
+      - test_integration_edge:
           requires:
             - build_assets
       - deploy:
@@ -120,18 +140,41 @@ workflows:
           requires:
             - lint
             - test_unit
-            - test_integration
-          filters:
-            branches:
-              only:
-                - master
-                - next
+            - test_integration_chrome
+            - test_integration_firefox
+            - test_integration_edge
   deploy-tagged:
+    triggers:
+      - filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /v[0-9]+(\.[0-9]+)*/
     jobs:
+      - npm_dependencies
+      - lint:
+          requires:
+            - npm_dependencies
+      - test_unit:
+          requires:
+            - npm_dependencies
+      - build_assets:
+          requires:
+            - npm_dependencies
+      - test_integration_chrome:
+          requires:
+            - build_assets
+      - test_integration_firefox:
+          requires:
+            - build_assets
+      - test_integration_edge:
+          requires:
+            - build_assets
       - deploy:
           context: coralproject
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /v[0-9]+(\.[0-9]+)*/
+          requires:
+            - lint
+            - test_unit
+            - test_integration_chrome
+            - test_integration_firefox
+            - test_integration_edge
