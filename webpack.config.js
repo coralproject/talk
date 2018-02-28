@@ -8,6 +8,7 @@ const _ = require('lodash');
 const Copy = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const debug = require('debug')('talk:webpack');
 
 // Possibly load the config from the .env file (if there is one).
@@ -74,7 +75,7 @@ const config = {
         },
       },
       {
-        loader: 'json-loader',
+        loader: 'hjson-loader',
         test: /\.(json|yml)$/,
         exclude: /node_modules/,
       },
@@ -135,6 +136,7 @@ const config = {
       TALK_DEFAULT_LANG: 'en',
     }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new HardSourceWebpackPlugin(),
   ],
   resolveLoader: {
     modules: [
@@ -213,12 +215,14 @@ if (process.env.NODE_ENV === 'production') {
           toplevel: false,
           typeofs: false,
           unused: false,
-
           // Switch off all types of compression except those needed to convince
           // react-devtools that we're using a production build
           conditionals: true,
           dead_code: true,
           evaluate: true,
+          // Remove warnings + discard any console.* functions
+          warnings: false,
+          drop_console: true,
         },
         mangle: true,
       },

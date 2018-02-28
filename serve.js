@@ -2,10 +2,10 @@ const app = require('./app');
 const debug = require('debug')('talk:cli:serve');
 const errors = require('./errors');
 const { createServer } = require('http');
-const scraper = require('./services/scraper');
-const mailer = require('./services/mailer');
+const jobs = require('./jobs');
 const MigrationService = require('./services/migration');
 const SetupService = require('./services/setup');
+const PluginsService = require('./services/plugins');
 const kue = require('./services/kue');
 const mongoose = require('./services/mongoose');
 const cache = require('./services/cache');
@@ -78,7 +78,10 @@ async function onListening() {
 /**
  * Start the app.
  */
-async function serve({ jobs = false, websockets = false } = {}) {
+async function serve({ jobs: processJobs = false, websockets = false } = {}) {
+  // Run the deferred plugins.
+  PluginsService.runDeferred();
+
   // Start the cache instance.
   await cache.init();
 
@@ -132,19 +135,16 @@ async function serve({ jobs = false, websockets = false } = {}) {
   });
 
   // Enable job processing on the thread if enabled.
-  if (jobs) {
-    // Start the scraper processor.
-    scraper.process();
-
+  if (processJobs) {
     // Start the mail processor.
-    mailer.process();
+    jobs.process();
   }
 
   // Define a safe shutdown function to call in the event we need to shutdown
   // because the node hooks are below which will interrupt the shutdown process.
   // Shutdown the mongoose connection, the app server, and the scraper.
   util.onshutdown([
-    () => (jobs ? kue.Task.shutdown() : null),
+    () => (processJobs ? kue.Task.shutdown() : null),
     () => mongoose.disconnect(),
     () => server.close(),
   ]);

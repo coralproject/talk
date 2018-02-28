@@ -6,14 +6,6 @@ const chai = require('chai');
 chai.use(require('chai-as-promised'));
 const expect = chai.expect;
 
-const events = require('../../../services/events');
-const {
-  ACTIONS_NEW,
-  ACTIONS_DELETE,
-} = require('../../../services/events/constants');
-
-const sinon = require('sinon');
-
 describe('services.ActionsService', () => {
   let mockActions = [];
   let comment;
@@ -78,30 +70,6 @@ describe('services.ActionsService', () => {
       expect(retrievedAction).has.property('id', createdAction.id);
       expect(retrievedAction).has.property('item_id', comment.id);
     });
-
-    it('fires the callback successfully', async () => {
-      const srcAction = {
-        action_type: 'LIKE',
-        item_type: 'COMMENTS',
-        item_id: comment.id,
-      };
-
-      const spy = sinon.spy();
-      events.once(ACTIONS_NEW, spy);
-
-      const createdAction = await ActionsService.create(srcAction);
-
-      expect(createdAction).is.not.null;
-      expect(createdAction).has.property('id');
-      expect(createdAction).has.property('item_id', comment.id);
-
-      expect(spy).to.have.been.calledWith(createdAction);
-
-      const retrievedComment = await CommentModel.findOne({ id: comment.id });
-
-      expect(retrievedComment).to.have.property('action_counts');
-      expect(retrievedComment.action_counts).to.have.property('like', 1);
-    });
   });
 
   describe('#delete', () => {
@@ -115,21 +83,6 @@ describe('services.ActionsService', () => {
       });
 
       expect(retrievedAction).is.null;
-    });
-
-    it('fires the callback successfully', async () => {
-      const spy = sinon.spy();
-      events.once(ACTIONS_DELETE, spy);
-
-      const deletedAction = await ActionsService.delete(mockActions[0]);
-
-      expect(deletedAction).has.property('id', mockActions[0].id);
-      expect(spy).to.have.been.calledWith(deletedAction);
-
-      const retrievedComment = await CommentModel.findOne({ id: comment.id });
-
-      expect(retrievedComment).to.have.property('action_counts');
-      expect(retrievedComment.action_counts).to.have.property('flag', -1);
     });
   });
 

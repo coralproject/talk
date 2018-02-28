@@ -279,7 +279,12 @@ pre {
   }
 }
 
-
+.toc {
+  a {
+    @extend .coral-link;
+    border-bottom: none !important;
+  }
+}
 
 .content {
   article {

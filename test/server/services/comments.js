@@ -1,8 +1,6 @@
 const CommentModel = require('../../../models/comment');
 const ActionModel = require('../../../models/action');
 
-const events = require('../../../services/events');
-const { COMMENTS_EDIT } = require('../../../services/events/constants');
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
 const CommentsService = require('../../../services/comments');
@@ -16,8 +14,6 @@ const settings = {
 const chai = require('chai');
 chai.use(require('sinon-chai'));
 const expect = chai.expect;
-
-const sinon = require('sinon');
 
 describe('services.CommentsService', () => {
   const comments = [
@@ -214,7 +210,9 @@ describe('services.CommentsService', () => {
 
       await CommentsService.pushStatus(originalComment.id, 'ACCEPTED');
 
-      let retrivedComment = await CommentsService.findById(originalComment.id);
+      let retrivedComment = await CommentModel.findOne({
+        id: originalComment.id,
+      });
 
       expect(retrivedComment).to.have.property('status', 'ACCEPTED');
       expect(retrivedComment.status_history).to.have.length(2);
@@ -237,7 +235,7 @@ describe('services.CommentsService', () => {
         'PREMOD'
       );
 
-      retrivedComment = await CommentsService.findById(originalComment.id);
+      retrivedComment = await CommentModel.findOne({ id: originalComment.id });
 
       expect(retrivedComment).to.have.property('status', 'PREMOD');
       expect(retrivedComment.status_history).to.have.length(3);
@@ -248,40 +246,12 @@ describe('services.CommentsService', () => {
     });
   });
 
-  describe('#findById()', () => {
-    it('should find a comment by id', async () => {
-      const comment = await CommentsService.findById('1');
-      expect(comment).to.not.be.null;
-      expect(comment).to.have.property('body', 'comment 10');
-    });
-  });
-
-  describe('#findByAssetId()', () => {
-    it('should find an array of all comments by asset id', async () => {
-      const comments = await CommentsService.findByAssetId('123');
-      expect(comments).to.have.length(3);
-      comments.sort((a, b) => {
-        if (a.body < b.body) {
-          return -1;
-        } else {
-          return 1;
-        }
-      });
-      expect(comments[0]).to.have.property('body', 'comment 10');
-      expect(comments[1]).to.have.property('body', 'comment 20');
-      expect(comments[2]).to.have.property('body', 'comment 40');
-    });
-  });
-
   describe('#changeStatus', () => {
     it('should change the status of a comment from no status', async () => {
       let comment_id = comments[0].id;
 
-      let c = await CommentsService.findById(comment_id);
+      let c = await CommentModel.findOne({ id: comment_id });
       expect(c.status).to.be.equal('NONE');
-
-      const spy = sinon.spy();
-      events.once(COMMENTS_EDIT, spy);
 
       let c2 = await CommentsService.pushStatus(comment_id, 'REJECTED', '123');
       expect(c2).to.have.property('status');
@@ -290,9 +260,7 @@ describe('services.CommentsService', () => {
       expect(c2.status_history[0]).to.have.property('type', 'REJECTED');
       expect(c2.status_history[0]).to.have.property('assigned_by', '123');
 
-      expect(spy).to.have.been.called;
-
-      let c3 = await CommentsService.findById(comment_id);
+      let c3 = await CommentModel.findOne({ id: comment_id });
       expect(c3).to.have.property('status');
       expect(c3.status).to.equal('REJECTED');
       expect(c3.status_history).to.have.length(1);
@@ -302,7 +270,7 @@ describe('services.CommentsService', () => {
 
     it('should change the status of a comment from accepted', async () => {
       await CommentsService.pushStatus(comments[1].id, 'REJECTED', '123');
-      const c = await CommentsService.findById(comments[1].id);
+      const c = await CommentModel.findOne({ id: comments[1].id });
       expect(c).to.have.property('status_history');
       expect(c).to.have.property('status');
       expect(c.status).to.equal('REJECTED');
