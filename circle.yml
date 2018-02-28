@@ -119,6 +119,11 @@ filter_tags: &filter_tags
     tags:
       only: /v[0-9]+(\.[0-9]+)*/
 
+integration_workflow: &integration_workflow
+  context: coralproject
+  requires:
+    - build_assets
+
 workflows:
   version: 2
   build-test-and-deploy:
@@ -134,14 +139,11 @@ workflows:
           requires:
             - npm_dependencies
       - test_integration_chrome:
-          requires:
-            - build_assets
+          <<: *integration_workflow
       - test_integration_firefox:
-          requires:
-            - build_assets
+          <<: *integration_workflow
       - test_integration_edge:
-          requires:
-            - build_assets
+          <<: *integration_workflow
       - deploy:
           context: coralproject
           requires:
@@ -168,16 +170,13 @@ workflows:
             - npm_dependencies
       - test_integration_chrome:
           <<: *filter_tags
-          requires:
-            - build_assets
+          <<: *integration_workflow
       - test_integration_firefox:
           <<: *filter_tags
-          requires:
-            - build_assets
+          <<: *integration_workflow
       - test_integration_edge:
           <<: *filter_tags
-          requires:
-            - build_assets
+          <<: *integration_workflow
       - deploy:
           <<: *filter_tags
           context: coralproject
