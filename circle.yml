@@ -21,7 +21,7 @@ integration: &integration
         command: ./bin/cli setup --defaults
     - run:
         name: Run the integration tests
-        command: yarn e2e:ci
+        command: yarn e2e --reports-folder "./test/e2e/reports" --bs-key "$BROWSERSTACK_KEY" --retries "1" --timeout "10000" --browsers "$E2E_BROWSERS"
 
 version: 2
 jobs:
