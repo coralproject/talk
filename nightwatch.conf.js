@@ -49,5 +49,12 @@ module.exports = {
         },
       },
     },
+    'firefox-headless': {
+      desiredCapabilities: {
+        'moz:firefoxOptions': {
+          args: ['-headless'],
+        },
+      },
+    },
   },
 };
