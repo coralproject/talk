@@ -4,6 +4,8 @@ import Comment from '../components/Comment';
 import { withFragments } from 'coral-framework/hocs';
 import { getSlotFragmentSpreads } from 'coral-framework/utils';
 import { withSetCommentStatus } from 'coral-framework/graphql/mutations';
+import { getDefinitionName } from 'coral-framework/utils';
+import CommentBox from './CommentBox';
 import {
   THREADING_LEVEL,
   REPLY_COMMENTS_LOAD_DEPTH,
@@ -23,6 +25,7 @@ const slots = [
   'commentAuthorTags',
   'commentTimestamp',
   'commentContent',
+  'commentBox',
 ];
 
 /**
@@ -94,7 +97,8 @@ const singleCommentFragment = gql`
       edited
       editableUntil
     }
-    ${getSlotFragmentSpreads(slots, 'comment')}
+    ${getSlotFragmentSpreads(slots, 'comment')}.
+    ...${getDefinitionName(CommentBox.fragments.comment)}
   }
 `;
 
