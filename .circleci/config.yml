@@ -177,24 +177,40 @@ filter_deploy: &filter_deploy
     tags:
       only: /v[0-9]+(\.[0-9]+)*/
 
+# filter_develop will add the filters for a development related commit.
+filter_develop: &filter_develop
+  filters:
+    branches:
+      ignore:
+        - master
+        - next
+
 workflows:
   version: 2
+
+  # All PR's will hit this workflow.
   build-and-test:
     jobs:
-      - npm_dependencies
+      - npm_dependencies:
+          <<: *filter_develop
       - lint:
+          <<: *filter_develop
           requires:
             - npm_dependencies
       - test_unit:
+          <<: *filter_develop
           requires:
             - npm_dependencies
       - build_assets:
+          <<: *filter_develop
           requires:
             - npm_dependencies
       - test_integration_chrome_local:
+          <<: *filter_develop        
           requires:
             - build_assets
       - test_integration_firefox_local:
+          <<: *filter_develop
           requires:
             - build_assets
   deploy-tagged:
