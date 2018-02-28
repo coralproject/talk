@@ -156,6 +156,15 @@ jobs:
       BROWSERSTACK: true
       E2E_BROWSERS: edge
   
+  # test_integration_safari will run the integration tests with safari in
+  # browserstack.
+  test_integration_safari:
+    <<: *integration_job
+    environment:
+      <<: *integration_environment
+      BROWSERSTACK: true
+      E2E_BROWSERS: safari
+  
   # deploy will deploy the application as a docker image.
   deploy:
     <<: *job_defaults
@@ -241,11 +250,16 @@ workflows:
           <<: *filter_deploy
           requires:
             - build_assets
+      - test_integration_safari:
+          <<: *filter_deploy
+          requires:
+            - build_assets
       - deploy:
           <<: *filter_deploy
           requires:
             - lint
             - test_unit
+            - test_integration_safari
             - test_integration_chrome
             - test_integration_firefox
             - test_integration_edge
