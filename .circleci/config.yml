@@ -105,9 +105,10 @@ jobs:
           command: mkdir -p /tmp/circleci-test-results
       - run:
           name: Run the client unit tests
-          command: yarn test:client --ci --testResultsProcessor="./node_modules/jest-junit-reporter
+          command: yarn test:client --ci
           environment:
-            TEST_REPORT_PATH: /tmp/circleci-test-results/jest/test-results.xml
+            JEST_JUNIT_OUTPUT: /tmp/circleci-test-results/jest/test-results.xml
+            JEST_REPORTER: jest-junit
       - run:
           name: Run the server unit tests
           command: yarn test:server

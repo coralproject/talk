@@ -5399,10 +5399,12 @@ jest-jasmine2@^22.4.2:
     jest-util "^22.4.1"
     source-map-support "^0.5.0"
 
-jest-junit-reporter@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/jest-junit-reporter/-/jest-junit-reporter-1.1.0.tgz#88d6006ec13f82df40c47882c8640989cdcb1434"
+jest-junit@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/jest-junit/-/jest-junit-3.6.0.tgz#f4c4358e5286364a4324dc14abddd526aadfbd38"
   dependencies:
+    mkdirp "^0.5.1"
+    strip-ansi "^4.0.0"
     xml "^1.0.1"
 
 jest-matcher-utils@^21.2.1:
