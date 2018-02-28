@@ -3,6 +3,7 @@ const { graphql } = require('graphql');
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
 const AssetModel = require('../../../../models/asset');
+const CommentModel = require('../../../../models/comment');
 const UserModel = require('../../../../models/user');
 const SettingsService = require('../../../../services/settings');
 const CommentsService = require('../../../../services/comments');
@@ -50,7 +51,7 @@ describe('graph.mutations.addTag', () => {
 
     expect(res.errors).to.be.empty;
 
-    let { tags } = await CommentsService.findById(comment.id);
+    let { tags } = await CommentModel.findOne({ id: comment.id });
     expect(tags).to.have.length(1);
   });
 

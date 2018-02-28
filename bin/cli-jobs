@@ -6,8 +6,7 @@
 
 const util = require('./util');
 const program = require('commander');
-const scraper = require('../services/scraper');
-const mailer = require('../services/mailer');
+const jobs = require('../jobs');
 const mongoose = require('../services/mongoose');
 const kue = require('../services/kue');
 
@@ -21,11 +20,8 @@ function processJobs() {
   // started.
   util.onshutdown([() => kue.Task.shutdown()]);
 
-  // Start the scraper processor.
-  scraper.process();
-
-  // Start the mail processor.
-  mailer.process();
+  // Start the jobs processor.
+  jobs.process();
 }
 
 /**

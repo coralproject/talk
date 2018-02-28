@@ -1,3 +1,4 @@
+const { decorateWithPermissionCheck } = require('./util');
 const {
   SEARCH_ASSETS,
   SEARCH_OTHERS_COMMENTS,
@@ -5,11 +6,7 @@ const {
 } = require('../../perms/constants');
 
 const RootQuery = {
-  assets(_, { query }, { loaders: { Assets }, user }) {
-    if (user == null || !user.can(SEARCH_ASSETS)) {
-      return null;
-    }
-
+  assets(_, { query }, { loaders: { Assets } }) {
     return Assets.getByQuery(query);
   },
   asset(_, query, { loaders: { Assets } }) {
@@ -33,11 +30,7 @@ const RootQuery = {
     return Comments.get.load(id);
   },
 
-  async commentCount(_, { query }, { user, loaders: { Comments, Assets } }) {
-    if (user == null || !user.can(SEARCH_OTHERS_COMMENTS)) {
-      return null;
-    }
-
+  async commentCount(_, { query }, { loaders: { Comments, Assets } }) {
     const { asset_url, asset_id } = query;
     if (
       (!asset_id || asset_id.length === 0) &&
@@ -53,11 +46,7 @@ const RootQuery = {
     return Comments.getCountByQuery(query);
   },
 
-  async userCount(_, { query }, { user, loaders: { Users } }) {
-    if (user == null || !user.can(SEARCH_OTHER_USERS)) {
-      return null;
-    }
-
+  async userCount(_, { query }, { loaders: { Users } }) {
     return Users.getCountByQuery(query);
   },
 
@@ -72,23 +61,40 @@ const RootQuery = {
   },
 
   // this returns an arbitrary user
-  user(_, { id }, { user, loaders: { Users } }) {
-    if (user == null || !user.can(SEARCH_OTHER_USERS)) {
-      return null;
-    }
-
+  user(_, { id }, { loaders: { Users } }) {
     return Users.getByID.load(id);
   },
 
   // This endpoint is used for loading the user moderation queues (users whose username has been flagged),
   // so hide it in the event that we aren't an admin.
-  users(_, { query }, { user, loaders: { Users } }) {
-    if (user == null || !user.can(SEARCH_OTHER_USERS)) {
-      return null;
-    }
-
+  users(_, { query }, { loaders: { Users } }) {
     return Users.getByQuery(query);
   },
 };
+
+// Protect some query fields that are privileged.
+decorateWithPermissionCheck(RootQuery, {
+  assets: [SEARCH_ASSETS],
+  users: [SEARCH_OTHER_USERS],
+  userCount: [SEARCH_OTHER_USERS],
+  commentCount: [SEARCH_OTHERS_COMMENTS],
+});
+
+// Protect the user field so only users who have permission to look up another
+// user may do so as well as a user looking up themselves.
+decorateWithPermissionCheck(
+  RootQuery,
+  {
+    user: [SEARCH_OTHER_USERS],
+  },
+  (obj, { id }, { user }) => {
+    if (user && user.id === id) {
+      return true;
+    }
+
+    // We don't return false because we want to fallthrough to the permission
+    // check if the custom check fails.
+  }
+);
 
 module.exports = RootQuery;

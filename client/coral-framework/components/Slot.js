@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import { getShallowChanges } from 'coral-framework/utils';
+import omit from 'lodash/omit';
 
 const emptyConfig = {};
 
@@ -32,27 +33,29 @@ class Slot extends React.Component {
   }
 
   getSlotProps(props = this.props) {
-    const {
-      fill: _a,
-      inline: _b,
-      className: _c,
-      reduxState: _d,
-      defaultComponent_: _e,
-      queryData: _f,
-      childFactory: _g,
-      component: _h,
-      ...rest
-    } = props;
-    return rest;
+    return omit(props, [
+      'fill',
+      'inline',
+      'className',
+      'reduxState',
+      'slotSize',
+      'defaultComponent',
+      'queryData',
+      'childFactory',
+      'component',
+    ]);
   }
 
   getChildren(props = this.props) {
+    const { slotSize = 0 } = props;
     const { plugins } = this.context;
+
     return plugins.getSlotElements(
       props.fill,
       props.reduxState,
       this.getSlotProps(props),
-      props.queryData
+      props.queryData,
+      { slotSize }
     );
   }
 
@@ -109,6 +112,11 @@ Slot.propTypes = {
   className: PropTypes.string,
   reduxState: PropTypes.object,
   defaultComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+
+  /**
+   * Specifies the number of children that can fill the slot.
+   */
+  slotSize: PropTypes.number,
 
   /**
    * You may specify the component to use as the root wrapper.

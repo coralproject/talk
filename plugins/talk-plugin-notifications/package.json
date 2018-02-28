@@ -1,0 +1,11 @@
+{
+  "name": "@coralproject/talk-plugin-notifications",
+  "version": "1.0.0",
+  "description": "Adds notification support for Talk",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "private": false,
+  "dependencies": {
+    "linkifyjs": "^2.1.5"
+  }
+}

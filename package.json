@@ -5,7 +5,6 @@
   "main": "app.js",
   "private": true,
   "scripts": {
-    "postinstall": "./bin/cli plugins reconcile --skip-remote",
     "generate-introspection": "WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js",
     "clean": "rm -rf dist client/coral-framework/graphql/introspection.json",
     "watch": "npm-run-all clean generate-introspection --parallel watch:*",
@@ -16,7 +15,7 @@
     "prebuild": "npm-run-all clean generate-introspection",
     "build": "NODE_ENV=production parallel-webpack --bail",
     "lint:yaml": "yamllint locales/*.yml",
-    "lint:js": "eslint bin/* .",
+    "lint:js": "eslint bin/cli* .",
     "lint": "npm-run-all lint:*",
     "plugins:reconcile": "./bin/cli plugins reconcile",
     "test": "npm-run-all test:client test:server",
@@ -25,13 +24,18 @@
     "test:client:watch": "TEST_MODE=unit NODE_ENV=test jest --watch",
     "e2e": "./scripts/e2e.js",
     "e2e:ci": "./scripts/e2e-ci.sh",
-    "heroku-postbuild": "npm-run-all plugins:reconcile build"
+    "heroku-postbuild": "npm-run-all plugins:reconcile build",
+    "precommit": "npm-run-all lint-staged",
+    "lint-staged": "lint-staged"
   },
   "talk": {
     "migration": {
       "minVersion": 1516920160
     }
   },
+  "workspaces": [
+    "plugins/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/coralproject/talk.git"
@@ -74,6 +78,7 @@
     "bcryptjs": "^2.4.3",
     "bowser": "^1.7.2",
     "brotli-webpack-plugin": "^0.5.0",
+    "bunyan": "^1.8.12",
     "cli-table": "^0.3.1",
     "clipboard": "^1.7.1",
     "colors": "^1.1.2",
@@ -112,13 +117,14 @@
     "hammerjs": "^2.0.8",
     "helmet": "3.8.2",
     "history": "^3.0.0",
+    "hjson": "^3.1.1",
+    "hjson-loader": "^1.0.0",
     "immutability-helper": "^2.2.0",
     "imports-loader": "^0.7.1",
     "inquirer": "^3.2.2",
     "inquirer-autocomplete-prompt": "^0.12.1",
     "ioredis": "3.1.4",
     "joi": "^13.0.0",
-    "json-loader": "^0.5.7",
     "jsonwebtoken": "^8.0.0",
     "jwt-decode": "^2.2.0",
     "keymaster": "^1.6.2",
@@ -132,7 +138,7 @@
     "minimist": "^1.2.0",
     "moment": "^2.18.1",
     "mongoose": "^4.12.3",
-    "morgan": "1.9.0",
+    "morgan": "^1.9.0",
     "ms": "^2.0.0",
     "murmurhash-js": "^1.0.0",
     "node-emoji": "^1.8.1",
@@ -192,6 +198,7 @@
   },
   "devDependencies": {
     "@coralproject/eslint-config-talk": "^0.1.0",
+    "@easyops/git-exec-and-restage": "^1.0.4",
     "babel-jest": "^21.2.0",
     "babel-plugin-dynamic-import-node": "^1.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
@@ -204,14 +211,15 @@
     "enzyme-adapter-react-15": "^1.0.0",
     "eslint": "^4.5.0",
     "eslint-plugin-mocha": "^4.11.0",
+    "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
     "ip": "^1.1.5",
     "jest": "^21.2.1",
+    "lint-staged": "^7.0.0",
     "mocha": "^3.1.2",
     "mocha-junit-reporter": "^1.12.1",
     "nightwatch": "^0.9.16",
     "nodemon": "^1.11.0",
-    "pre-commit": "^1.2.2",
     "selenium-standalone": "^6.11.0",
     "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
@@ -219,13 +227,5 @@
   },
   "engines": {
     "node": ">=8"
-  },
-  "pre-commit": {
-    "silent": false,
-    "run": [
-      "lint",
-      "test:client",
-      "test:server"
-    ]
   }
 }

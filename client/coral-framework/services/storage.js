@@ -1,9 +1,10 @@
 import uuid from 'uuid/v4';
 
 function getStorage(type) {
-  let storage = window[type],
-    x = '__storage_test__';
+  let storage;
   try {
+    storage = window[type];
+    const x = '__storage_test__';
     storage.setItem(x, x);
     storage.removeItem(x);
   } catch (e) {
@@ -11,6 +12,8 @@ function getStorage(type) {
       e instanceof DOMException &&
       // everything except Firefox
       (e.code === 22 ||
+        // SecurityError related to having 3rd party cookies disabled.
+        e.code === 18 ||
         // Firefox
 
         e.code === 1014 ||
@@ -19,14 +22,18 @@ function getStorage(type) {
         // everything except Firefox
         e.name === 'QuotaExceededError' ||
         // Firefox
-        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-      // acknowledge QuotaExceededError only if there's something already stored
-      storage.length !== 0;
+        e.name === 'NS_ERROR_DOM_QUOTA_REACHED');
     if (!ignore) {
-      console.warning(e); // eslint-disable-line
-      return null;
+      console.warn(e);
+    }
+
+    // When third party cookies are disabled, session storage is readable/
+    // writable, but localStorage is not. Try to get the sessionStorage to use.
+    if (type !== 'sessionStorage') {
+      return getStorage('sessionStorage');
     }
   }
+
   return storage;
 }
 
