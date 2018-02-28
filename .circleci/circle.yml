@@ -1,13 +1,19 @@
-# The following stanza defines a map named defaults with a variable that may be inserted using the YAML merge (<<: *) key 
-# later in the file to save some typing. See http://yaml.org/type/merge.html for details.
-
-defaults: &defaults
+# job_defaults applies all the defaults for each job.
+job_defaults: &job_defaults
   working_directory: ~/coralproject/talk
   docker:
     - image: circleci/node:8
 
-integration: &integration
-  <<: *defaults
+# integration_environment is the environment that configures the tests.
+integration_environment: &integration_environment
+  NODE_ENV: test
+  CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+
+# integration_job runs the integration tests and saves the test results.
+integration_job: &integration_job
+  <<: *job_defaults
+  environment:
+    <<: *integration_environment
   docker:
     - image: circleci/node:8-browsers
     - image: circleci/mongo:3
@@ -21,12 +27,15 @@ integration: &integration
         command: ./bin/cli setup --defaults
     - run:
         name: Run the integration tests
-        command: yarn e2e --reports-folder "./test/e2e/reports" --bs-key "$BROWSERSTACK_KEY" --retries "1" --timeout "10000" --browsers "$E2E_BROWSERS"
+        command: bash .circleci/e2e.sh
+    - store_test_results:
+        path: /tmp/circleci-test-results
 
 version: 2
 jobs:
+  # npm_dependencies will install the dependancies used by all other steps.
   npm_dependencies:
-    <<: *defaults
+    <<: *job_defaults
     steps:
       - checkout
       - attach_workspace:
@@ -45,8 +54,10 @@ jobs:
       - persist_to_workspace:
           root: .
           paths: node_modules
+  
+  # lint will perform file linting.
   lint:
-    <<: *defaults
+    <<: *job_defaults
     steps:
       - checkout
       - attach_workspace:
@@ -54,8 +65,10 @@ jobs:
       - run:
           name: Perform linting
           command: yarn lint
+  
+  # build_assets will build the static assets.
   build_assets:
-    <<: *defaults
+    <<: *job_defaults
     steps:
       - checkout
       - attach_workspace:
@@ -66,16 +79,14 @@ jobs:
       - persist_to_workspace:
           root: .
           paths: dist
+  
+  # test_unit will run the unit tests.
   test_unit:
-    <<: *defaults
+    <<: *job_defaults
     docker:
       - image: circleci/node:8
       - image: circleci/mongo:3
       - image: circleci/redis:4-alpine
-    environment:
-      NODE_ENV: test
-      MOCHA_FILE: /tmp/circleci-test-results/junit/test-results.xml
-      MOCHA_REPORTER: mocha-junit-reporter
     steps:
       - checkout
       - attach_workspace:
@@ -86,25 +97,45 @@ jobs:
       - run:
           name: Run the unit tests
           command: yarn test
+          environment:
+            MOCHA_FILE: /tmp/circleci-test-results/junit/test-results.xml
+            MOCHA_REPORTER: mocha-junit-reporter
+            NODE_ENV: test
       - store_test_results:
           path: /tmp/circleci-test-results
+  
+  # test_integration_chrome_local will run the integration tests locally with
+  # chrome headless.
+  test_integration_chrome_local:
+    <<: *integration_job
+  
+  # test_integration_chrome will run the integration tests with chrome in
+  # browserstack.
   test_integration_chrome:
-    <<: *integration
+    <<: *integration_job
     environment:
-      NODE_ENV: test
+      <<: *integration_environment
       E2E_BROWSERS: chrome
+  
+  # test_integration_firefox will run the integration tests with firefox in
+  # browserstack.
   test_integration_firefox:
-    <<: *integration
+    <<: *integration_job
     environment:
-      NODE_ENV: test
+      <<: *integration_environment
       E2E_BROWSERS: firefox
+  
+  # test_integration_edge will run the integration tests with edge in
+  # browserstack.
   test_integration_edge:
-    <<: *integration
+    <<: *integration_job
     environment:
-      NODE_ENV: test
+      <<: *integration_environment
       E2E_BROWSERS: edge
+  
+  # deploy will deploy the application as a docker image.
   deploy:
-    <<: *defaults
+    <<: *job_defaults
     steps:
       - checkout
       - setup_remote_docker
@@ -112,21 +143,20 @@ jobs:
           name: Deploy the code
           command: bash ./scripts/docker.sh
 
-filter_tags: &filter_tags
+# filter_deploy will add the filters for a deploy job in a workflow to make it
+# only execute on a deploy related job.
+filter_deploy: &filter_deploy
   filters:
     branches:
-      ignore: /.*/
+      only:
+        - master
+        - next
     tags:
       only: /v[0-9]+(\.[0-9]+)*/
 
-integration_workflow: &integration_workflow
-  context: coralproject
-  requires:
-    - build_assets
-
 workflows:
   version: 2
-  build-test-and-deploy:
+  build-and-test:
     jobs:
       - npm_dependencies
       - lint:
@@ -138,48 +168,39 @@ workflows:
       - build_assets:
           requires:
             - npm_dependencies
-      - test_integration_chrome:
-          <<: *integration_workflow
-      - test_integration_firefox:
-          <<: *integration_workflow
-      - test_integration_edge:
-          <<: *integration_workflow
-      - deploy:
-          context: coralproject
+      - test_integration_chrome_local:
           requires:
-            - lint
-            - test_unit
-            - test_integration_chrome
-            - test_integration_firefox
-            - test_integration_edge
+            - build_assets
   deploy-tagged:
     jobs:
       - npm_dependencies:
-          <<: *filter_tags
+          <<: *filter_deploy
       - lint:
-          <<: *filter_tags
+          <<: *filter_deploy
           requires:
             - npm_dependencies
       - test_unit:
-          <<: *filter_tags
+          <<: *filter_deploy
           requires:
             - npm_dependencies
       - build_assets:
-          <<: *filter_tags
+          <<: *filter_deploy
           requires:
             - npm_dependencies
       - test_integration_chrome:
-          <<: *filter_tags
-          <<: *integration_workflow
+          <<: *filter_deploy
+          requires:
+            - build_assets
       - test_integration_firefox:
-          <<: *filter_tags
-          <<: *integration_workflow
+          <<: *filter_deploy
+          requires:
+            - build_assets
       - test_integration_edge:
-          <<: *filter_tags
-          <<: *integration_workflow
+          <<: *filter_deploy
+          requires:
+            - build_assets
       - deploy:
-          <<: *filter_tags
-          context: coralproject
+          <<: *filter_deploy
           requires:
             - lint
             - test_unit

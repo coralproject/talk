@@ -19,7 +19,7 @@ if [[ "${E2E_DISABLE}" == "true" ]]; then
   exit
 fi
 
-if [[ "${CIRCLE_BRANCH}" == "master" && -n "$BROWSERSTACK_KEY" ]]; then
+if [[ -n "$BROWSERSTACK_KEY" ]]; then
   echo Testing on browserstack
   yarn e2e --reports-folder "$REPORTS_FOLDER" --bs-key "$BROWSERSTACK_KEY" --retries "$E2E_MAX_RETRIES" --timeout "$E2E_WAIT_FOR_TIMEOUT" --browsers "$E2E_BROWSERS"
 else
