@@ -74,12 +74,15 @@ jobs:
       - attach_workspace:
           at: ~/coralproject/talk
       - restore_cache:
-          key: build-cache
+          keys:
+            - build-cache-{{ .Branch }}-{{ .Revision }}
+            - build-cache-{{ .Branch }}-
+            - build-cache-
       - run:
           name: Build static assets
           command: yarn build
       - save_cache:
-          key: build-cache
+          key: build-cache-{{ .Branch }}-{{ .Revision }}
           paths:
             - ./node_modules/.cache/hard-source
       - persist_to_workspace:
