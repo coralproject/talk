@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.5.0"
+    "version": "3.6.0"
   },
   "scripts": {
     "start": "hexo serve",
@@ -14,7 +14,7 @@
     "cheerio": "^1.0.0-rc.2",
     "common-tags": "^1.7.2",
     "graphql-docs": "^0.2.0",
-    "hexo": "^3.2.0",
+    "hexo": "^3.6.0",
     "hexo-generator-index": "^0.2.0",
     "hexo-renderer-marked": "^0.3.0",
     "hexo-renderer-sass": "^0.3.2",
