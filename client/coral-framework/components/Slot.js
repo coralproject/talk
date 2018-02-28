@@ -69,7 +69,8 @@ class Slot extends React.Component {
     } = this.props;
     const { plugins } = this.context;
     let children = this.getChildren();
-    const pluginConfig = get(reduxState, 'config.pluginConfig') || emptyConfig;
+    const pluginConfig =
+      get(reduxState, 'config.plugins_config') || emptyConfig;
     if (children.length === 0 && DefaultComponent) {
       const props = plugins.getSlotComponentProps(
         DefaultComponent,
