@@ -37,7 +37,7 @@ class ToggleContainer extends React.Component {
   render() {
     return (
       <Toggle checked={this.getOnFeaturedSetting()} onChange={this.toggle}>
-        {t('talk-plugin-notifications-category-reply.toggle_description')}
+        {t('talk-plugin-notifications-category-featured.toggle_description')}
       </Toggle>
     );
   }
