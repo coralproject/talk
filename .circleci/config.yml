@@ -104,13 +104,18 @@ jobs:
           name: Setup the test results directory
           command: mkdir -p /tmp/circleci-test-results
       - run:
-          name: Run the unit tests
-          command: yarn test
+          name: Run the client unit tests
+          command: yarn test:client --ci --testResultsProcessor="./node_modules/jest-junit-reporter
           environment:
-            MOCHA_FILE: /tmp/circleci-test-results/junit/test-results.xml
+            TEST_REPORT_PATH: /tmp/circleci-test-results/jest/test-results.xml
+      - run:
+          name: Run the server unit tests
+          command: yarn test:server
+          environment:
+            MOCHA_FILE: /tmp/circleci-test-results/mocha/test-results.xml
             MOCHA_REPORTER: mocha-junit-reporter
-            NODE_ENV: test
       - store_test_results:
+          when: always
           path: /tmp/circleci-test-results
   
   # test_integration_chrome_local will run the integration tests locally with
