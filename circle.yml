@@ -145,11 +145,11 @@ workflows:
             - test_integration_edge
   deploy-tagged:
     triggers:
-      - filters:
-          branches:
-            ignore: /.*/
-          tags:
-            only: /v[0-9]+(\.[0-9]+)*/
+      filters:
+        branches:
+          ignore: /.*/
+        tags:
+          only: /v[0-9]+(\.[0-9]+)*/
     jobs:
       - npm_dependencies
       - lint:
