@@ -19,7 +19,7 @@ if [[ "${E2E_DISABLE}" == "true" ]]; then
   exit
 fi
 
-if [[ -n "$BROWSERSTACK_KEY" ]]; then
+if [[ "$BROWSERSTACK" == "true" && -n "$BROWSERSTACK_KEY" ]]; then
   echo Testing on browserstack
   node scripts/e2e.js --reports-folder "$REPORTS_FOLDER" --retries "$E2E_MAX_RETRIES" --timeout "$E2E_WAIT_FOR_TIMEOUT" --browsers "$E2E_BROWSERS" --browserstack
 else
