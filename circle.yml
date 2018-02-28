@@ -94,12 +94,10 @@ jobs:
       - image: circleci/node:8
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/coralproject/talk
-      # TODO: implement
+      - setup_remote_docker
       - run:
           name: Deploy the code
-          command: echo "Deployed!"
+          command: bash ./scripts/docker.sh
 
 workflows:
   version: 2
