@@ -8,6 +8,7 @@ const cloneDeep = require('lodash/cloneDeep');
 const errors = require('../errors');
 const events = require('./events');
 const merge = require('lodash/merge');
+const { dotize } = require('./utils');
 const { COMMENTS_NEW, COMMENTS_EDIT } = require('./events/constants');
 
 module.exports = class CommentsService {
@@ -110,7 +111,7 @@ module.exports = class CommentsService {
       $set: {
         body,
         status,
-        metadata,
+        metadata: dotize(metadata),
       },
       $push: {
         body_history: {

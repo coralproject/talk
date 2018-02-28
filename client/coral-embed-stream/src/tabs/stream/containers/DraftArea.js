@@ -84,7 +84,7 @@ const slots = ['commentBox'];
 
 export default withFragments({
   comment: gql`
-  fragment CoralAdmin_CommentDetails_comment on Comment {
+  fragment TalkEmbedStream_DraftArea_comment on Comment {
     __typename
     ${getSlotFragmentSpreads(slots, 'comment')}
   }

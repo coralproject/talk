@@ -47,7 +47,6 @@ export default {
         update: proxy => {
           const editCommentFragment = gql`
             fragment Talk_EditComment on Comment {
-              body
               richTextBody
             }
           `;
