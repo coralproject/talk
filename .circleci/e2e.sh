@@ -21,9 +21,9 @@ fi
 
 if [[ -n "$BROWSERSTACK_KEY" ]]; then
   echo Testing on browserstack
-  yarn e2e --reports-folder "$REPORTS_FOLDER" --bs-key "$BROWSERSTACK_KEY" --retries "$E2E_MAX_RETRIES" --timeout "$E2E_WAIT_FOR_TIMEOUT" --browsers "$E2E_BROWSERS"
+  node scripts/e2e.js --reports-folder "$REPORTS_FOLDER" --retries "$E2E_MAX_RETRIES" --timeout "$E2E_WAIT_FOR_TIMEOUT" --browsers "$E2E_BROWSERS" --browserstack
 else
   # When browserstack is not available test locally using chrome headless.
   echo Testing locally
-  yarn e2e --reports-folder "$REPORTS_FOLDER" --retries "$E2E_MAX_RETRIES" --headless
+  node scripts/e2e.js --reports-folder "$REPORTS_FOLDER" --retries "$E2E_MAX_RETRIES" --timeout "$E2E_WAIT_FOR_TIMEOUT" --browsers "$E2E_BROWSERS" --headless
 fi

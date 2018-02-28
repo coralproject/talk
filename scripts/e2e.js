@@ -139,61 +139,81 @@ async function runBrowserTests(
   return Object.keys(succeeded).length === browsers.length;
 }
 
-async function start(program) {
-  const localIdentifier = uuid();
-  let browsers = program.browsers.split(',');
-  const retries = Number.parseInt(program.retries);
-  const browserstack = {};
-  const date = new Date()
-    .toISOString()
-    .replace(/[T.]/g, '-')
-    .replace(/:/g, '');
-  const timeout = program.timeout;
-  const reportsFolder = `${program.reportsFolder}/${date}`;
-  let exitCode = 0;
-  let config = 'nightwatch.conf.js';
-  try {
-    if (program.tunnel && program.bsKey) {
-      await startTunnel(program.bsKey, localIdentifier);
+class E2E {
+  constructor(opts) {
+    this.browserstackEnabled = Boolean(opts.bsKey && opts.browserstack);
+    if (this.browserstackEnabled && opts.headless) {
+      console.error('--browserstack and --headless cannot be combined');
+      process.exit(1);
     }
 
-    console.log('Dropping test database');
-    await mongoose.connection.dropDatabase();
-    await serve();
-
-    if (program.bsKey) {
-      config = 'nightwatch-browserstack.conf.js';
-      browserstack.localIdentifier = localIdentifier;
-      browserstack.key = program.bsKey;
-      browserstack.user = program.bsUser;
-    } else {
-      // Install selenium standalone.
-      await seleniumInstall();
-      if (program.headless) {
-        browsers = browsers.map(b => `${b}-headless`);
+    this.localIdentifier = uuid();
+    this.retries = Number.parseInt(opts.retries);
+    this.browserstack = {};
+    this.date = new Date()
+      .toISOString()
+      .replace(/[T.]/g, '-')
+      .replace(/:/g, '');
+    this.browsers = opts.browsers.split(',').map(browser => {
+      if (opts.headless) {
+        return `${browser}-headless`;
       }
-    }
 
-    const succeeded = await runBrowserTests(
-      browsers,
-      config,
-      retries,
-      reportsFolder,
-      browserstack,
-      timeout
-    );
-    if (!succeeded) {
-      exitCode = 1;
-    }
-  } catch (ex) {
-    console.log('There was an error:\n\n');
-    process.stderr.write(`${ex.stack}\n`);
-    process.exit(2);
-  } finally {
-    console.log('Shutting down');
-    shutdown();
+      return browser;
+    });
+    this.timeout = opts.timeout;
+    this.reportsFolder = `${opts.reportsFolder}/${this.date}`;
+    this.config = this.browserstackEnabled
+      ? 'nightwatch-browserstack.conf.js'
+      : 'nightwatch.conf.js';
+    this.tunnel = opts.tunnel;
+    this.bsKey = opts.bsKey;
+    this.bsUser = opts.bsUser;
   }
-  process.exit(exitCode);
+
+  async start() {
+    let exitCode = 0;
+    try {
+      if (this.tunnel && this.bsKey) {
+        await startTunnel(this.bsKey, this.localIdentifier);
+      }
+
+      console.log('Dropping test database');
+      await mongoose.connection.dropDatabase();
+      console.log('Starting the server');
+      await serve();
+
+      if (this.browserstackEnabled) {
+        browserstack.localIdentifier = this.localIdentifier;
+        browserstack.key = this.bsKey;
+        browserstack.user = this.bsUser;
+      } else {
+        // Install selenium standalone.
+        await seleniumInstall();
+      }
+
+      // Run the tests.
+      const succeeded = await runBrowserTests(
+        this.browsers,
+        this.config,
+        this.retries,
+        this.reportsFolder,
+        browserstack,
+        this.timeout
+      );
+      if (!succeeded) {
+        exitCode = 1;
+      }
+    } catch (err) {
+      console.log('There was an error:\n\n');
+      process.stderr.write(`${err.stack}\n`);
+      process.exit(2);
+    } finally {
+      console.log('Shutting down');
+      shutdown();
+      process.exit(exitCode);
+    }
+  }
 }
 
 program
@@ -202,7 +222,12 @@ program
     'Perform e2e testing locally or if browserstack credentials are provided on browserstack.'
   )
   .option('-u, --bs-user [user]', 'Browserstack user', 'coralproject2')
-  .option('-k, --bs-key [key]', 'Browserstack api key')
+  .option(
+    '-k, --bs-key [key]',
+    'Browserstack api key',
+    process.env.BROWSERSTACK_KEY
+  )
+  .option('--browserstack', 'Enables Browserstack testing')
   .option('--no-tunnel', 'Dont start browserstack-local')
   .option('-b, --browsers [list of browsers]', 'Browsers to test', 'chrome')
   .option('-r, --retries [number]', 'Number of retries before failing', '1')
@@ -211,4 +236,5 @@ program
   .option('--timeout [number]', 'Timeout for WaitForConditions', '10000')
   .parse(process.argv);
 
-start(program);
+const e2e = new E2E(program);
+e2e.start();
