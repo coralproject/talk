@@ -112,6 +112,13 @@ jobs:
           name: Deploy the code
           command: bash ./scripts/docker.sh
 
+filter_tags: &filter_tags
+  filters:
+    branches:
+      ignore: /.*/
+    tags:
+      only: /v[0-9]+(\.[0-9]+)*/
+
 workflows:
   version: 2
   build-test-and-deploy:
@@ -144,33 +151,35 @@ workflows:
             - test_integration_firefox
             - test_integration_edge
   deploy-tagged:
-    triggers:
-      filters:
-        branches:
-          ignore: /.*/
-        tags:
-          only: /v[0-9]+(\.[0-9]+)*/
     jobs:
-      - npm_dependencies
+      - npm_dependencies:
+          <<: *filter_tags
       - lint:
+          <<: *filter_tags
           requires:
             - npm_dependencies
       - test_unit:
+          <<: *filter_tags
           requires:
             - npm_dependencies
       - build_assets:
+          <<: *filter_tags
           requires:
             - npm_dependencies
       - test_integration_chrome:
+          <<: *filter_tags
           requires:
             - build_assets
       - test_integration_firefox:
+          <<: *filter_tags
           requires:
             - build_assets
       - test_integration_edge:
+          <<: *filter_tags
           requires:
             - build_assets
       - deploy:
+          <<: *filter_tags
           context: coralproject
           requires:
             - lint
