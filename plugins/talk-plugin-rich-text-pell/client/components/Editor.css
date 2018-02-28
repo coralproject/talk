@@ -10,24 +10,22 @@
   font-style: unset;
 }
 
+.button > i {
+  vertical-align: middle;
+}
+
 .button {
-  top: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  border-radius: 4px;
-  padding: 0;
-  font-size: 14px;
-  margin-top: -2px;
   background-color: transparent;
-  border: solid 1px transparent;
-  cursor: pointer;
-  height: 30px;
-  outline: 0;
-  width: 30px;
+  padding: 3px;
+  border: none;
+  color: #4e4e4e;
+  margin-right: 3px;
 }
 
 .button:hover{
-  background: #fcfcfc;
+  cursor: pointer;
+  border-radius: 3px;
+  background-color: #eae8e8;
 }
 
 .actionBar {
@@ -36,8 +34,6 @@
   border-top: 1px solid #bbb;
   border-left: 1px solid #bbb;
   border-right: 1px solid #bbb;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
 }
 
 .container {

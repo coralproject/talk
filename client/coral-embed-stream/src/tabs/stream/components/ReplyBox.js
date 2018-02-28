@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
+import cn from 'classnames';
 import PropTypes from 'prop-types';
 import CommentBox from '../containers/CommentBox';
+import styles from './ReplyBox.css';
 
 // TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
 const name = 'talk-plugin-replies';
 
-class ReplyBox extends Component {
+class ReplyBox extends React.Component {
   componentDidMount() {
     // TODO: (kiwi) This does not follow best practices, better to move this logic into the component.
     document.getElementById(`comment-draft_${this.props.parentId}`).focus();
@@ -17,7 +19,6 @@ class ReplyBox extends Component {
 
   render() {
     const {
-      styles,
       postComment,
       assetId,
       currentUser,
@@ -28,7 +29,7 @@ class ReplyBox extends Component {
       charCountEnable,
     } = this.props;
     return (
-      <div className={`${name}-textarea`} style={styles && styles.container}>
+      <div className={cn(styles.container, `${name}-textarea`)}>
         <CommentBox
           maxCharCount={maxCharCount}
           charCountEnable={charCountEnable}

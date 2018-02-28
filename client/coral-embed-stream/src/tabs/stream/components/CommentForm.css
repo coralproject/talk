@@ -1,11 +1,11 @@
 .buttonContainer {
   display: flex;
   justify-content: flex-end;
+  margin-top: 10px;
 }
 
 .button {
   float: right;
-  margin-top: 10px;
   padding: 5px 10px;
   background: rgb(105, 105, 105);
   color: #FFF;
