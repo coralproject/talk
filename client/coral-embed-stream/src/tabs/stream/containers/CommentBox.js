@@ -65,7 +65,9 @@ class CommentBox extends React.Component {
     };
 
     // Execute preSubmit Hooks
-    this.state.hooks.preSubmit.forEach(hook => hook(input));
+    this.state.hooks.preSubmit.forEach(hook =>
+      hook(input, this.handleBodyChange)
+    );
     this.setState({ loadingState: 'loading' });
 
     postComment(input, 'comments')
@@ -75,7 +77,9 @@ class CommentBox extends React.Component {
         const actions = data.createComment.actions;
 
         // Execute postSubmit Hooks
-        this.state.hooks.postSubmit.forEach(hook => hook(data));
+        this.state.hooks.postSubmit.forEach(hook =>
+          hook(data, this.handleBodyChange)
+        );
 
         notifyForNewCommentStatus(notify, postedComment.status, actions);
 
@@ -172,6 +176,9 @@ class CommentBox extends React.Component {
           bodyPlaceholder={t('comment.comment')}
           bodyInputId={id}
           body={this.state.body}
+          registerHook={this.registerHook}
+          unregisterHook={this.unregisterHook}
+          isReply={isReply}
           buttonContainerStart={
             <Slot
               fill="commentInputDetailArea"

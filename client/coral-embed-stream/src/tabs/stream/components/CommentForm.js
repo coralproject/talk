@@ -51,6 +51,9 @@ class CommentForm extends React.Component {
     state: PropTypes.string,
     loadingState: PropTypes.oneOf(['', 'loading', 'success', 'error']),
     comment: PropTypes.object,
+    registerHook: PropTypes.func,
+    unregisterHook: PropTypes.func,
+    isReply: PropTypes.bool,
   };
   static get defaultProps() {
     return {
@@ -115,6 +118,9 @@ class CommentForm extends React.Component {
           disabled={disableTextArea}
           charCountEnable={this.props.charCountEnable}
           maxCharCount={this.props.maxCharCount}
+          registerHook={this.props.registerHook}
+          unregisterHook={this.props.unregisterHook}
+          isReply={this.props.isReply}
         />
         <div className={cn(styles.buttonContainer, `${name}-button-container`)}>
           {this.props.buttonContainerStart}

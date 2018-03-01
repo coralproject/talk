@@ -56,6 +56,9 @@ class DraftAreaContainer extends React.Component {
         charCountEnable={this.props.charCountEnable}
         maxCharCount={this.props.maxCharCount}
         label={this.props.label}
+        registerHook={this.props.registerHook}
+        unregisterHook={this.props.unregisterHook}
+        isReply={this.props.isReply}
       />
     );
   }
@@ -78,6 +81,9 @@ DraftAreaContainer.propTypes = {
   rows: PropTypes.number,
   label: PropTypes.string.isRequired,
   comment: PropTypes.object,
+  registerHook: PropTypes.func,
+  unregisterHook: PropTypes.func,
+  isReply: PropTypes.bool,
 };
 
 const slots = ['draftArea'];

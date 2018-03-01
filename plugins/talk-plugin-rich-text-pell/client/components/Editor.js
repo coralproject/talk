@@ -40,6 +40,18 @@ class Editor extends React.Component {
     if (this.props.comment && this.props.comment.richTextBody) {
       this.ref.content.innerHTML = this.props.comment.richTextBody;
     }
+
+    this.clearInputHook = this.props.registerHook(
+      'postSubmit',
+      (res, handleBodyChange) => {
+        this.ref.content.innerHTML = '';
+        handleBodyChange('', { richTextBody: '' });
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.props.unregisterHook(this.clearInputHook);
   }
 
   render() {
@@ -85,6 +97,8 @@ Editor.propTypes = {
   comment: PropTypes.object,
   classNames: PropTypes.object,
   actions: PropTypes.array,
+  registerHook: PropTypes.func,
+  unregisterHook: PropTypes.func,
 };
 
 export default Editor;
