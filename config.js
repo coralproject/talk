@@ -48,6 +48,14 @@ const CONFIG = {
   // request all of the records. Otherwise, minimum limits of 0 are enforced.
   ALLOW_NO_LIMIT_QUERIES: process.env.TALK_ALLOW_NO_LIMIT_QUERIES === 'TRUE',
 
+  // TODO: document this config.
+  // LOGGING_LEVEL specifies the logging level used by the bunyan logger.
+  LOGGING_LEVEL: ['fatal', 'error', 'warn', 'info', 'debug', 'trace'].includes(
+    process.env.TALK_LOGGING_LEVEL
+  )
+    ? process.env.TALK_LOGGING_LEVEL
+    : 'info',
+
   //------------------------------------------------------------------------------
   // JWT based configuration
   //------------------------------------------------------------------------------
