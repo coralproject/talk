@@ -2,5 +2,5 @@ en:
   talk-plugin-notifications:
     categories:
       reply:
-        subject: "Some has replied to your comment on [{0}]"
+        subject: "Someone has replied to your comment on [{0}]"
         body: "{0}\n{1} replied to your comment: {2}"

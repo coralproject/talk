@@ -27,6 +27,8 @@ module.exports = {
     '\\.ya?ml$': '<rootDir>/test/client/yamlTransformer.js',
   },
 
+  testResultsProcessor: process.env.JEST_REPORTER,
+
   moduleNameMapper: {
     '^plugin-api\\/(.*)$': '<rootDir>/plugin-api/$1',
     '^plugins\\/(.*)$': '<rootDir>/plugins/$1',
