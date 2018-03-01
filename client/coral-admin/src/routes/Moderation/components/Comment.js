@@ -64,6 +64,12 @@ class Comment extends React.Component {
     const selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
     const queryData = { root, comment, asset: comment.asset };
 
+    const formatterSettings = {
+      suspectWords: settings.wordlist.suspect,
+      bannedWords: settings.wordlist.banned,
+      body: comment.body,
+    };
+
     return (
       <li
         tabIndex={0}
@@ -126,11 +132,15 @@ class Comment extends React.Component {
           <CommentAnimatedEdit body={comment.body}>
             <div className={styles.itemBody}>
               <div className={styles.body}>
-                <CommentFormatter
-                  suspectWords={settings.wordlist.suspect}
-                  bannedWords={settings.wordlist.banned}
-                  className="talk-admin-comment"
-                  body={comment.body}
+                <Slot
+                  fill="adminCommentContent"
+                  data={data}
+                  className={cn(styles.commentContent, 'talk-admin-comment')}
+                  clearHeightCache={clearHeightCache}
+                  queryData={queryData}
+                  slotSize={1}
+                  defaultComponent={CommentFormatter}
+                  {...formatterSettings}
                 />
                 <a
                   className={styles.external}
@@ -140,13 +150,7 @@ class Comment extends React.Component {
                   <Icon name="open_in_new" /> {t('comment.view_context')}
                 </a>
               </div>
-              <Slot
-                fill="adminCommentContent"
-                data={data}
-                clearHeightCache={clearHeightCache}
-                queryData={queryData}
-                slotSize={1}
-              />
+
               <div className={styles.sideActions}>
                 <IfHasLink text={comment.body}>
                   <span className={styles.hasLinks}>
