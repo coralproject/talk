@@ -97,11 +97,16 @@ const singleCommentFragment = gql`
       edited
       editableUntil
     }
+    ${getSlotFragmentSpreads(slots, 'root')}
     ${getSlotFragmentSpreads(slots, 'comment')}
+    ...${getDefinitionName(CommentBox.fragments.root)}
     ...${getDefinitionName(CommentBox.fragments.comment)}
+    ...${getDefinitionName(ReplyBox.fragments.root)}
     ...${getDefinitionName(ReplyBox.fragments.comment)}
   }
+  ${CommentBox.fragments.root}
   ${CommentBox.fragments.comment}
+  ${ReplyBox.fragments.root}
   ${ReplyBox.fragments.comment}
 `;
 
