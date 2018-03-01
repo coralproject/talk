@@ -13,6 +13,7 @@ import styles from './Comment.css';
 import { THREADING_LEVEL } from '../../../constants/stream';
 import merge from 'lodash/merge';
 import mapValues from 'lodash/mapValues';
+import get from 'lodash/get';
 
 import LoadMore from './LoadMore';
 import { getEditableUntilDate } from './util';
@@ -471,7 +472,7 @@ export default class Comment extends React.Component {
     const { highlighted, comment } = this.props;
 
     // Only render highlighted reply when we are the parent of it.
-    if (highlighted && highlighted.parent.id === comment.id) {
+    if (get(highlighted, 'parent.id') === comment.id) {
       return this.renderReplies([highlighted]);
     }
 

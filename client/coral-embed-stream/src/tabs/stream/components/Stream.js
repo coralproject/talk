@@ -12,15 +12,11 @@ import RestrictedMessageBox from 'coral-framework/components/RestrictedMessageBo
 import t, { timeago } from 'coral-framework/services/i18n';
 import CommentBox from '../containers/CommentBox';
 import QuestionBox from '../../../components/QuestionBox';
-import { isCommentActive } from 'coral-framework/utils';
 import { Tab, TabCount, TabPane } from 'coral-ui';
 import cn from 'classnames';
 import get from 'lodash/get';
 
-import {
-  getTopLevelParent,
-  attachCommentToParent,
-} from '../../../graphql/utils';
+import { reverseCommentParentTree } from '../../../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
 import ExtendableTabPanel from '../../../containers/ExtendableTabPanel';
 
@@ -64,16 +60,10 @@ class Stream extends React.Component {
       viewAllComments,
     } = this.props;
 
-    // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
-    let topLevelComment = getTopLevelParent(comment);
-    if (topLevelComment) {
-      // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
-      const isInactive = !isCommentActive(comment.status);
-      if (comment.parent && isInactive) {
-        // the highlighted comment is not active and as such not in the replies, so we
-        // attach it to the right parent.
-        topLevelComment = attachCommentToParent(topLevelComment, comment);
-      }
+    let topLevelComment = null;
+    if (comment) {
+      // Reverse the comment tree that we get from bottom-top (comment -> parent) to top-bottom (parent -> comment)
+      topLevelComment = reverseCommentParentTree(comment);
     }
 
     return (
