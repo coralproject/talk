@@ -29,6 +29,7 @@ integration_job: &integration_job
         name: Run the integration tests
         command: bash .circleci/e2e.sh
     - store_test_results:
+        when: always
         path: /tmp/circleci-test-results
 
 version: 2
