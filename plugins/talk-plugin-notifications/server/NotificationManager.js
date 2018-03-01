@@ -55,58 +55,67 @@ const filterSuperseded = (
       )
   );
 
+const USER_CONFIRMATION_QUERY = `
+  query CheckUserConfirmation($userID: ID!) {
+    user(id: $userID) {
+      profiles {
+        provider
+        ... on LocalUserProfile {
+          confirmedAt
+        }
+      }
+    }
+  }
+`;
+
+// filterVerifiedNotification checks to see if a user has a verified email
+// address, and if they do, returns the notification payload again, otherwise,
+// returns undefined.
+const filterVerifiedNotification = ctx => async notification => {
+  // Grab the user that we're supposed to be sending the notification to.
+  const { notification: { userID } } = notification;
+
+  // Check their confirmed status. This should have already been hit by the
+  // loaders, so we shouldn't make any more database requests.
+  const { errors, data } = await ctx.graphql(USER_CONFIRMATION_QUERY, {
+    userID,
+  });
+  if (errors) {
+    ctx.log.error(
+      { err: errors },
+      'could not query for user confirmation status'
+    );
+    return;
+  }
+
+  // Get the first local profile from the user.
+  const profile = find(get(data, 'user.profiles', []), ['provider', 'local']);
+  if (!profile) {
+    ctx.log.warn({ user_id: userID }, 'user did not have a local profile');
+    return;
+  }
+
+  // Pull out the confirmed status from the profile.
+  const confirmed = get(profile, 'confirmedAt', null) !== null;
+  if (!confirmed) {
+    ctx.log.info(
+      { user_id: userID },
+      'user did not have their local profile confirmed, but had settings enabled, not mailing'
+    );
+    return;
+  }
+
+  return notification;
+};
+
+// filterVerified performs filtering in a complicated way because we can't use
+// Promise.all on a Array.prototype.filter call.
 const filterVerified = async (ctx, notifications) => {
   notifications = await Promise.all(
-    notifications.map(async notification => {
-      // Grab the user that we're supposed to be sending the notification to.
-      const { notification: { userID } } = notification;
-
-      // Check their confirmed status.
-      const { errors, data } = await ctx.graphql(
-        `
-        query CheckUserConfirmation($userID: ID!) {
-          user(id: $userID) {
-            profiles {
-              provider
-              ... on LocalUserProfile {
-                confirmedAt
-              }
-            }
-          }
-        }
-      `,
-        { userID }
-      );
-      if (errors) {
-        ctx.log.error(
-          { err: errors },
-          'could not query for user confirmation status'
-        );
-        return;
-      }
-
-      const profile = find(get(data, 'user.profiles', []), [
-        'provider',
-        'local',
-      ]);
-      if (!profile) {
-        ctx.log.warn({ user_id: userID }, 'user did not have a local profile');
-        return;
-      }
-
-      const confirmed = get(profile, 'confirmedAt', null) !== null;
-      if (!confirmed) {
-        ctx.log.info(
-          { user_id: userID },
-          'user did not have their local profile confirmed, but had settings enabled, not mailing'
-        );
-        return;
-      }
-
-      return notification;
-    })
+    notifications.map(filterVerifiedNotification(ctx))
   );
 
+  // This acts as a poor-mans identity filter to remove all falsy values.
   return notifications.filter(property('notification'));
 };
 
