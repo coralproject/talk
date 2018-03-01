@@ -97,8 +97,8 @@ module.exports = {
       elements: {
         logoutButton: '.talk-stream-userbox-logout',
         signInButton: '#coralSignInButton',
-        commentBoxTextarea: '.talk-commentbox-textarea',
-        commentBoxPostButton: '.talk-commentbox-button',
+        commentBoxTextarea: '.talk-plugin-commentbox-textarea',
+        commentBoxPostButton: '.talk-plugin-commentbox-button',
         firstComment: '.talk-stream-comment.talk-stream-comment-level-0',
         firstCommentContent:
           '.talk-stream-comment.talk-stream-comment-level-0 .talk-stream-comment-content',

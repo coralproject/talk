@@ -9,7 +9,7 @@ import CommentForm from '../containers/CommentForm';
 import { notifyForNewCommentStatus } from '../helpers';
 
 // TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
-export const name = 'talk-commentbox';
+export const name = 'talk-plugin-commentbox';
 
 /**
  * Container for posting a new Comment

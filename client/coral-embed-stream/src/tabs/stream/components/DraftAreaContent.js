@@ -12,7 +12,7 @@ const DraftAreaContent = ({
   disabled,
 }) => (
   <textarea
-    className={cn(styles.content, 'talk-commentbox-textarea')}
+    className={cn(styles.content, 'talk-plugin-commentbox-textarea')}
     value={value}
     placeholder={placeholder}
     id={id}
