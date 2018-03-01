@@ -1,7 +1,42 @@
-const { groupBy, forEach } = require('lodash');
+const { groupBy, forEach, property } = require('lodash');
 const debug = require('debug')('talk-plugin-notifications');
 const uuid = require('uuid/v4');
 const { UNSUBSCRIBE_SUBJECT } = require('./config');
+
+// handleHandlers will call the handle method on each handler to determine if a
+// notification should be sent for it.
+const handleHandlers = (ctx, handlers, ...args) =>
+  Promise.all(
+    handlers.map(async handler => {
+      // Grab the handler reference.
+      const { handle, category, event } = handler;
+
+      try {
+        // Attempt to create a notification out of it.
+        const notification = await handle(ctx, ...args);
+        if (!notification) {
+          ctx.log.debug('no notification deemed by event handler');
+          return;
+        }
+
+        // Send the notification back.
+        ctx.log.debug({ category, event }, 'notification detected for event');
+        return { handler, notification };
+      } catch (err) {
+        ctx.log.error({ err }, 'could not handle the event');
+        return;
+      }
+    })
+  );
+
+// filterSuperseded will filter all the possible notifications and only send
+// those notifications that are not superseded by another type of notification.
+const filterSuperseded = ({ handler: { category } }, index, notifications) =>
+  !notifications.some(({ handler: { supersedesCategories = [] } }) =>
+    supersedesCategories.some(
+      supersededCategory => supersededCategory === category
+    )
+  );
 
 class NotificationManager {
   constructor(context) {
@@ -44,33 +79,28 @@ class NotificationManager {
    * @param {Object} handler a notification handler
    */
   handle(handlers) {
-    return async (...args) =>
-      Promise.all(
-        handlers.map(async handler => {
-          // Grab the handler reference.
-          const { handle } = handler;
+    return async (...args) => {
+      // Create a system context to send down.
+      const ctx = this.context.forSystem();
 
-          // Create a system context to send down.
-          const ctx = this.context.forSystem();
+      // Get all the notifications to load.
+      let notifications = await handleHandlers(ctx, handlers, ...args);
 
-          try {
-            // Attempt to create a notification out of it.
-            const notification = await handle(ctx, ...args);
-            if (!notification) {
-              return;
-            }
+      // Only let handlers past that have a notification to send.
+      notifications = notifications.filter(property('notification'));
 
-            // Extract the notification details.
-            const { userID, date, context } = notification;
+      // Check to see if some of the other notifications that are queued
+      // had this notification superseded.
+      notifications = notifications.filter(filterSuperseded);
 
-            // Send the notification.
-            return this.send(ctx, userID, date, handler, context);
-          } catch (err) {
-            ctx.log.error({ err }, 'could not handle the event');
-            return;
-          }
-        })
+      // Send the remaining notifications.
+      return Promise.all(
+        notifications.map(
+          ({ handler, notification: { userID, date, context } }) =>
+            this.send(ctx, userID, date, handler, context)
+        )
       );
+    };
   }
 
   async send(ctx, userID, date, handler, context) {

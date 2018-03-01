@@ -42,6 +42,7 @@ plugins/*
 !plugins/talk-plugin-notifications
 !plugins/talk-plugin-notifications-category-featured
 !plugins/talk-plugin-notifications-category-reply
+!plugins/talk-plugin-notifications-category-staff
 !plugins/talk-plugin-offtopic
 !plugins/talk-plugin-permalink
 !plugins/talk-plugin-profile-settings
