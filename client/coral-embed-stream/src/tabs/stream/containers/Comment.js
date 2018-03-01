@@ -98,8 +98,8 @@ const singleCommentFragment = gql`
     }
     ${getSlotFragmentSpreads(slots, 'comment')}
     ...${getDefinitionName(CommentBox.fragments.comment)}
-    ${CommentBox.fragments.comment}
   }
+  ${CommentBox.fragments.comment}
 `;
 
 const withCommentFragments = withFragments({
