@@ -50,6 +50,7 @@ class CommentForm extends React.Component {
     onCancel: PropTypes.func,
     state: PropTypes.string,
     loadingState: PropTypes.oneOf(['', 'loading', 'success', 'error']),
+    comment: PropTypes.object,
   };
   static get defaultProps() {
     return {
@@ -87,6 +88,7 @@ class CommentForm extends React.Component {
       charCountEnable,
       body,
       loadingState,
+      comment,
     } = this.props;
 
     const length = body.length;
@@ -104,6 +106,7 @@ class CommentForm extends React.Component {
     return (
       <div>
         <DraftArea
+          comment={comment}
           id={this.props.bodyInputId}
           label={this.props.bodyLabel}
           value={body}

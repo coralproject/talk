@@ -661,6 +661,7 @@ export default class Comment extends React.Component {
 
         {activeReplyBox === comment.id ? (
           <ReplyBox
+            comment={comment}
             commentPostedHandler={this.commentPostedHandler}
             charCountEnable={charCountEnable}
             maxCharCount={maxCharCount}
