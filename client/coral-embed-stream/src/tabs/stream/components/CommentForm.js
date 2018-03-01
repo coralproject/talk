@@ -13,7 +13,7 @@ import DraftArea from '../containers/DraftArea';
 /**
  * Common UI for Creating or Editing a Comment
  */
-export class CommentForm extends React.Component {
+class CommentForm extends React.Component {
   static propTypes = {
     charCountEnable: PropTypes.bool.isRequired,
     maxCharCount: PropTypes.number,
@@ -145,3 +145,5 @@ export class CommentForm extends React.Component {
     );
   }
 }
+
+export default CommentForm;

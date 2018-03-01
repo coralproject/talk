@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { notifyForNewCommentStatus } from '../helpers';
-import { CommentForm } from './CommentForm';
+import CommentForm from '../containers/CommentForm';
 import styles from './Comment.css';
 import { CountdownSeconds } from './CountdownSeconds';
 import { getEditableUntilDate } from './util';
@@ -14,7 +14,7 @@ import t from 'coral-framework/services/i18n';
 /**
  * Renders a Comment's body in such a way that the end-user can edit it and save changes
  */
-export class EditableCommentContent extends React.Component {
+class EditableCommentContent extends React.Component {
   static propTypes = {
     // show notification to the user (e.g. for errors)
     notify: PropTypes.func.isRequired,
@@ -196,3 +196,5 @@ export class EditableCommentContent extends React.Component {
     );
   }
 }
+
+export default EditableCommentContent;

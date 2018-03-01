@@ -57,7 +57,7 @@ export default class DraftArea extends React.Component {
             {label}
           </label>
           <Slot
-            fill="commentBox"
+            fill="draftArea"
             defaultComponent={DraftAreaContent}
             className={styles.content}
             queryData={queryData}

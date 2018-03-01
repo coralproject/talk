@@ -4,7 +4,7 @@ import { gql } from 'react-apollo';
 
 export default {
   slots: {
-    commentBox: [Editor],
+    draftArea: [Editor],
     commentContent: [CommentContent],
   },
   fragments: {

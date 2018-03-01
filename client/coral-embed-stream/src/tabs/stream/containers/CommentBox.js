@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { gql } from 'react-apollo';
-import { getSlotFragmentSpreads } from 'coral-framework/utils';
 import withFragments from 'coral-framework/hocs/withFragments';
 import { getDefinitionName } from 'coral-framework/utils';
 import t, { timeago } from 'coral-framework/services/i18n';
@@ -10,7 +9,7 @@ import { isSuspended } from 'coral-framework/utils/user';
 import DraftArea from './DraftArea';
 import Slot from 'coral-framework/components/Slot';
 import { connect } from 'react-redux';
-import { CommentForm } from '../components/CommentForm';
+import CommentForm from '../containers/CommentForm';
 import { notifyForNewCommentStatus } from '../helpers';
 import { compose } from 'react-apollo';
 
@@ -213,8 +212,6 @@ CommentBox.propTypes = {
   tags: PropTypes.array,
 };
 
-const slots = ['commentBox'];
-
 const mapStateToProps = state => ({
   tags: state.stream.commentBoxTags,
 });
@@ -225,9 +222,9 @@ export default compose(
     comment: gql`
     fragment TalkEmbedStream_CommentBox_comment on Comment {
       __typename
-      ${getSlotFragmentSpreads(slots, 'comment')}
       ...${getDefinitionName(DraftArea.fragments.comment)}
     }
+    ${DraftArea.fragments.comment}
 `,
   })
 )(CommentBox);

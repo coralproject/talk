@@ -21,7 +21,7 @@ import CommentContent from 'coral-framework/components/CommentContent';
 import Slot from 'coral-framework/components/Slot';
 import CommentTombstone from './CommentTombstone';
 import InactiveCommentLabel from './InactiveCommentLabel';
-import { EditableCommentContent } from './EditableCommentContent';
+import EditableCommentContent from '../containers/EditableCommentContent';
 import {
   getActionSummary,
   iPerformedThisAction,

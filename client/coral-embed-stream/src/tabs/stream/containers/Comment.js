@@ -25,7 +25,6 @@ const slots = [
   'commentAuthorTags',
   'commentTimestamp',
   'commentContent',
-  'commentBox',
 ];
 
 /**
@@ -99,6 +98,7 @@ const singleCommentFragment = gql`
     }
     ${getSlotFragmentSpreads(slots, 'comment')}.
     ...${getDefinitionName(CommentBox.fragments.comment)}
+    ${CommentBox.fragments.comment}
   }
 `;
 
