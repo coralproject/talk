@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TagLabel from './TagLabel';
 import CommentTimestamp from 'coral-framework/components/CommentTimestamp';
 import ReplyButton from './ReplyButton';
-import ReplyBox from './ReplyBox';
+import ReplyBox from '../containers/ReplyBox';
 import FlagComment from './FlagComment';
 import { can } from 'coral-framework/services/perms';
 import { TransitionGroup } from 'react-transition-group';

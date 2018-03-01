@@ -6,6 +6,7 @@ export default {
   slots: {
     draftArea: [Editor],
     commentContent: [CommentContent],
+    adminCommentContent: [CommentContent],
   },
   fragments: {
     CreateCommentResponse: gql`
@@ -57,6 +58,7 @@ export default {
             fragment: editCommentFragment,
             id: fragmentId,
             data: {
+              __typename: 'Comment',
               richTextBody: edit.richTextBody,
             },
           });

@@ -82,11 +82,19 @@ DraftAreaContainer.propTypes = {
 
 const slots = ['draftArea'];
 
+console.log('spreaded fragment', getSlotFragmentSpreads(slots, 'comment'));
+
 export default withFragments({
+  root: gql`
+    fragment TalkEmbedStream_DraftArea_root on RootQuery {
+      __typename
+      ${getSlotFragmentSpreads(slots, 'root')}
+    }
+  `,
   comment: gql`
-  fragment TalkEmbedStream_DraftArea_comment on Comment {
-    __typename
-    ${getSlotFragmentSpreads(slots, 'comment')}
-  }
-`,
+    fragment TalkEmbedStream_DraftArea_comment on Comment {
+      __typename
+      ${getSlotFragmentSpreads(slots, 'comment')}
+    }
+  `,
 })(DraftAreaContainer);

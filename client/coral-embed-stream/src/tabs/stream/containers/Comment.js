@@ -6,6 +6,7 @@ import { getSlotFragmentSpreads } from 'coral-framework/utils';
 import { withSetCommentStatus } from 'coral-framework/graphql/mutations';
 import { getDefinitionName } from 'coral-framework/utils';
 import CommentBox from './CommentBox';
+import ReplyBox from './ReplyBox';
 import {
   THREADING_LEVEL,
   REPLY_COMMENTS_LOAD_DEPTH,
@@ -98,8 +99,10 @@ const singleCommentFragment = gql`
     }
     ${getSlotFragmentSpreads(slots, 'comment')}
     ...${getDefinitionName(CommentBox.fragments.comment)}
+    ...${getDefinitionName(ReplyBox.fragments.comment)}
   }
   ${CommentBox.fragments.comment}
+  ${ReplyBox.fragments.comment}
 `;
 
 const withCommentFragments = withFragments({

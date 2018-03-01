@@ -145,6 +145,7 @@ class Comment extends React.Component {
                 data={data}
                 clearHeightCache={clearHeightCache}
                 queryData={queryData}
+                slotSize={1}
               />
               <div className={styles.sideActions}>
                 <IfHasLink text={comment.body}>

@@ -1,8 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { gql } from 'react-apollo';
-import withFragments from 'coral-framework/hocs/withFragments';
-import { getDefinitionName } from 'coral-framework/utils';
 import t, { timeago } from 'coral-framework/services/i18n';
 import { can } from 'coral-framework/services/perms';
 import { isSuspended } from 'coral-framework/utils/user';
@@ -10,7 +7,6 @@ import Slot from 'coral-framework/components/Slot';
 import { connect } from 'react-redux';
 import CommentForm from '../containers/CommentForm';
 import { notifyForNewCommentStatus } from '../helpers';
-import { compose } from 'react-apollo';
 
 // TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
 export const name = 'talk-commentbox';
@@ -211,19 +207,10 @@ CommentBox.propTypes = {
   tags: PropTypes.array,
 };
 
+CommentBox.fragments = CommentForm.fragments;
+
 const mapStateToProps = state => ({
   tags: state.stream.commentBoxTags,
 });
 
-export default compose(
-  connect(mapStateToProps, null),
-  withFragments({
-    comment: gql`
-    fragment TalkEmbedStream_CommentBox_comment on Comment {
-      __typename
-      ...${getDefinitionName(CommentForm.fragments.comment)}
-    }
-    ${CommentForm.fragments.comment}
-`,
-  })
-)(CommentBox);
+export default connect(mapStateToProps, null)(CommentBox);
