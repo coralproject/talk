@@ -108,11 +108,11 @@ module.exports = class CommentsService {
     };
 
     const originalComment = await CommentModel.findOneAndUpdate(query, {
-      $set: {
+      $set: dotize({
         body,
         status,
-        metadata: dotize(metadata),
-      },
+        metadata,
+      }),
       $push: {
         body_history: {
           body,

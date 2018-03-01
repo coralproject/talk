@@ -6,7 +6,6 @@ import { getDefinitionName } from 'coral-framework/utils';
 import t, { timeago } from 'coral-framework/services/i18n';
 import { can } from 'coral-framework/services/perms';
 import { isSuspended } from 'coral-framework/utils/user';
-import DraftArea from './DraftArea';
 import Slot from 'coral-framework/components/Slot';
 import { connect } from 'react-redux';
 import CommentForm from '../containers/CommentForm';
@@ -222,9 +221,9 @@ export default compose(
     comment: gql`
     fragment TalkEmbedStream_CommentBox_comment on Comment {
       __typename
-      ...${getDefinitionName(DraftArea.fragments.comment)}
+      ...${getDefinitionName(CommentForm.fragments.comment)}
     }
-    ${DraftArea.fragments.comment}
+    ${CommentForm.fragments.comment}
 `,
   })
 )(CommentBox);
