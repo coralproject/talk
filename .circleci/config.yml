@@ -8,6 +8,7 @@ job_defaults: &job_defaults
 integration_environment: &integration_environment
   NODE_ENV: test
   CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+  E2E_MAX_RETRIES: 3
 
 # integration_job runs the integration tests and saves the test results.
 integration_job: &integration_job
@@ -171,6 +172,8 @@ jobs:
       <<: *integration_environment
       BROWSERSTACK: true
       E2E_BROWSERS: ie
+      # TODO: remove when more reliable
+      E2E_MAX_RETRIES: 1
   
   # test_integration_safari will run the integration tests with safari in
   # browserstack.
@@ -180,6 +183,8 @@ jobs:
       <<: *integration_environment
       BROWSERSTACK: true
       E2E_BROWSERS: safari
+      # TODO: remove when more reliable
+      E2E_MAX_RETRIES: 1
   
   # deploy will deploy the application as a docker image.
   deploy:
@@ -282,3 +287,6 @@ workflows:
             - test_integration_chrome
             - test_integration_firefox
             - test_integration_edge
+            # TODO: uncomment when more reliable
+            # - test_integration_ie
+            # - test_integration_safari
