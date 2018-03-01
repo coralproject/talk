@@ -23,9 +23,9 @@ class SettingsContainer extends React.Component {
       hasNotifications: this.state.hasNotifications.filter(i => i !== plugin),
     });
   setTurnOffInputFragment = fragment =>
-    this.setState({
-      turnOffInput: { ...this.state.turnOffInput, ...fragment },
-    });
+    this.setState(state => ({
+      turnOffInput: { ...state.turnOffInput, ...fragment },
+    }));
 
   turnOffAll = () => {
     this.props.updateNotificationSettings(this.state.turnOffInput);

@@ -40,6 +40,7 @@ plugins/*
 !plugins/talk-plugin-mod
 !plugins/talk-plugin-moderation-actions
 !plugins/talk-plugin-notifications
+!plugins/talk-plugin-notifications-category-featured
 !plugins/talk-plugin-notifications-category-reply
 !plugins/talk-plugin-notifications-category-staff
 !plugins/talk-plugin-offtopic
