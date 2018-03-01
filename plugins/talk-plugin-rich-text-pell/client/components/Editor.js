@@ -11,7 +11,7 @@ class Editor extends React.Component {
   handleRef = ref => (this.ref = ref);
 
   componentDidMount() {
-    const { onChange, actions, classNames } = this.props;
+    const { onChange, actions, classNames, isReply } = this.props;
 
     init({
       element: this.ref,
@@ -37,17 +37,19 @@ class Editor extends React.Component {
     });
 
     // To edit comments and have the previous html comment
-    if (this.props.comment && this.props.comment.richTextBody) {
+    if (this.props.comment && this.props.comment.richTextBody && !isReply) {
       this.ref.content.innerHTML = this.props.comment.richTextBody;
     }
 
-    this.clearInputHook = this.props.registerHook(
-      'postSubmit',
-      (res, handleBodyChange) => {
-        this.ref.content.innerHTML = '';
-        handleBodyChange('', { richTextBody: '' });
-      }
-    );
+    if (this.props.registerHook) {
+      this.clearInputHook = this.props.registerHook(
+        'postSubmit',
+        (res, handleBodyChange) => {
+          this.ref.content.innerHTML = '';
+          handleBodyChange('', { richTextBody: '' });
+        }
+      );
+    }
   }
 
   componentWillUnmount() {
