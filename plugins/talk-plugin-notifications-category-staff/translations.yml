@@ -1,0 +1,6 @@
+en:
+  talk-plugin-notifications:
+    categories:
+      staff:
+        subject: "Someone at {0} has replied to your comment"
+        body: "{0}\n{1} works for {2} and has replied to your comment: {3}"
