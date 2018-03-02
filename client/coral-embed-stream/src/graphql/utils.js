@@ -141,7 +141,7 @@ export function findCommentInAsset(asset, callbackOrId) {
     callback = node => node.id === callbackOrId;
   }
   if (asset.comment) {
-    return findComment([getTopLevelParent(asset.comment)], callback);
+    return findComment([reverseCommentParentTree(asset.comment)], callback);
   }
   if (!asset.comments) {
     return false;
@@ -187,11 +187,12 @@ export function insertFetchedCommentsIntoEmbedQuery(root, comments, parent_id) {
   );
 }
 
-/**
- * attachCommentToParent recurses through the comment tree starting at `topLevelComment`
- * to find the parent of `comment` and attach it to the replies.
- */
-export function attachCommentToParent(topLevelComment, comment) {
+function attachComment(topLevelComment, comment) {
+  if (!topLevelComment.replies) {
+    topLevelComment = update(topLevelComment, {
+      replies: { $set: { nodes: [] } },
+    });
+  }
   if (topLevelComment.id === comment.parent.id) {
     return update(topLevelComment, {
       replies: {
@@ -204,14 +205,38 @@ export function attachCommentToParent(topLevelComment, comment) {
       },
     });
   }
+  if (!topLevelComment.replies.nodes.length) {
+    return topLevelComment;
+  }
   return update(topLevelComment, {
     replies: {
       nodes: {
-        $apply: nodes =>
-          nodes.map(node => attachCommentToParent(node, comment)),
+        $apply: nodes => nodes.map(node => attachComment(node, comment)),
       },
     },
   });
+}
+
+/**
+ * attachCommentToParent recurses through the comment tree starting at `topLevelComment`
+ * to find the ancestor of `comment` and attach it to the replies.
+ */
+export function attachCommentToParent(topLevelComment, comment) {
+  let result = topLevelComment;
+  if (comment.parent.parent) {
+    result = attachCommentToParent(result, comment.parent);
+  }
+  return attachComment(result, comment);
+}
+
+/**
+ * reverseCommentParentTree reverses a comment parent relationship tree
+ * like `comment -> parent -> parent` into `parent -> parent -> comment -> replies`.
+ */
+export function reverseCommentParentTree(comment) {
+  return comment.parent
+    ? attachCommentToParent(getTopLevelParent(comment), comment)
+    : comment;
 }
 
 /**
