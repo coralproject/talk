@@ -67,7 +67,7 @@ const withAnimateEnter = hoistStatics(BaseComponent => {
   return WithAnimateEnter;
 });
 
-const singleCommentFragment = gql`
+export const singleCommentFragment = gql`
   fragment CoralEmbedStream_Comment_SingleComment on Comment {
     id
     body

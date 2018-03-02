@@ -61,11 +61,11 @@ docker build -t coralproject/talk:latest-onbuild -f Dockerfile.onbuild .
 if [ "$1" = "deploy" ]
 then
 
-  if [[ -n "$DOCKER_EMAIL" && -n "$DOCKER_USER" && -n "$DOCKER_PASS" ]]
+  if [[ -n "$DOCKER_USER" && -n "$DOCKER_PASS" ]]
   then
 
     # Log the Docker Daemon in
-    docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+    docker login -u $DOCKER_USER -p $DOCKER_PASS
   fi
 
   # deploy based on the env

@@ -63,7 +63,7 @@ type Token {
 }
 
 type UserProfile {
-  # the id is an identifier for the user profile (email, facebook id, etc)
+  # The id is an identifier for the user profile (email, facebook id, etc)
   id: String!
 
   # name of the provider attached to the authentication mode
@@ -184,13 +184,17 @@ type User {
   # Actions completed on the parent.
   actions: [Action!]
 
-  # the current roles of the user.
+  # The current roles of the user.
   role: USER_ROLES
 
-  # the current profiles of the user.
+  # The current profiles of the user.
   profiles: [UserProfile]
 
-  # the tags on the user
+  # The primary email address of the user. Only accessible to Administrators or
+  # the current user.
+  email: String
+
+  # The tags on the user.
   tags: [TagLink!]
 
   # ignored users.
@@ -421,7 +425,7 @@ input CommentCountQuery {
   # The URL that the asset is located on.
   asset_url: String
 
-  # the parent of the comment that we want to retrieve.
+  # The parent of the comment that we want to retrieve.
   parent_id: ID
 
   # comments returned will only be ones which have at least one action of this
@@ -479,13 +483,13 @@ type Comment {
   # The body history of the comment.
   body_history: [CommentBodyHistory!]!
 
-  # the tags on the comment
+  # The tags on the comment
   tags: [TagLink!]
 
-  # the user who authored the comment.
+  # The user who authored the comment.
   user: User
 
-  # the replies that were made to the comment.
+  # The replies that were made to the comment.
   replies(query: RepliesQuery = {}): CommentConnection!
 
   # replyCount is the number of replies with a depth of 1. Only direct replies
@@ -765,7 +769,7 @@ type Settings {
   infoBoxContent: String
 
   # questionBoxEnable will enable the Question Box's content to be visible above
-  # the comment box.
+  # The comment box.
   questionBoxEnable: Boolean
 
   # questionBoxContent is the content of the Question Box.
@@ -858,7 +862,7 @@ type Asset {
   # The date that the asset was created.
   created_at: Date
 
-  # the tags on the asset
+  # The tags on the asset
   tags: [TagLink!]
 
   # The author(s) of the asset.
@@ -1091,7 +1095,7 @@ input AssetSettingsInput {
   moderation: MODERATION_MODE
 
   # questionBoxEnable will enable the Question Boxs' content to be visible above
-  # the comment box.
+  # The comment box.
   questionBoxEnable: Boolean
 
   # questionBoxContent is the content of the Question Box.
@@ -1167,7 +1171,7 @@ input ModifyTagInput {
   item_type: TAGGABLE_ITEM_TYPE!
 
   # asset_id is used when the item_type is `COMMENTS`, the is needed to rectify
-  # the settings to get the asset specific tags/settings.
+  # The settings to get the asset specific tags/settings.
   asset_id: ID
 }
 
@@ -1225,7 +1229,7 @@ input UpdateSettingsInput {
   infoBoxContent: String
 
   # questionBoxEnable will enable the Question Box's content to be visible above
-  # the comment box.
+  # The comment box.
   questionBoxEnable: Boolean
 
   # questionBoxContent is the content of the Question Box.

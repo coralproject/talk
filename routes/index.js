@@ -1,7 +1,6 @@
 const SetupService = require('../services/setup');
 const authentication = require('../middleware/authentication');
 const cookieParser = require('cookie-parser');
-const debug = require('debug')('talk:routes');
 const enabled = require('debug').enabled;
 const errors = require('../errors');
 const express = require('express');
@@ -14,6 +13,7 @@ const staticMiddleware = require('express-static-gzip');
 const { DISABLE_STATIC_SERVER } = require('../config');
 const { passport } = require('../services/passport');
 const { MOUNT_PATH } = require('../url');
+const context = require('../middleware/context');
 
 const router = express.Router();
 
@@ -101,9 +101,12 @@ plugins.get('server', 'passport').forEach(plugin => {
 // Setup the PassportJS Middleware.
 router.use(passport.initialize());
 
+// Setup the Graph Context on the router.
+router.use(authentication, context);
+
 // Attach the authentication middleware, this will be responsible for decoding
 // (if present) the JWT on the request.
-router.use('/api', authentication, require('./api'));
+router.use('/api', require('./api'));
 
 //==============================================================================
 // DEVELOPMENT ROUTES
@@ -136,17 +139,8 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-//==============================================================================
-// PLUGIN ROUTES
-//==============================================================================
-
-// Inject server route plugins.
-plugins.get('server', 'router').forEach(plugin => {
-  debug(`added plugin '${plugin.plugin.name}'`);
-
-  // Pass the root router to the plugin to mount it's routes.
-  plugin.router(router);
-});
+// Mount the plugin routes.
+router.use(require('./plugins'));
 
 //==============================================================================
 // ERROR HANDLING

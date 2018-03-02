@@ -8,6 +8,7 @@ const _ = require('lodash');
 const Copy = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const debug = require('debug')('talk:webpack');
 
 // Possibly load the config from the .env file (if there is one).
@@ -75,7 +76,7 @@ const config = {
         },
       },
       {
-        loader: 'json-loader',
+        loader: 'hjson-loader',
         test: /\.(json|yml)$/,
         exclude: /node_modules/,
       },
@@ -136,6 +137,7 @@ const config = {
       TALK_DEFAULT_LANG: 'en',
     }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new HardSourceWebpackPlugin(),
   ],
   resolveLoader: {
     modules: [

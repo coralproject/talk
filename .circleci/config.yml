@@ -1,0 +1,292 @@
+# job_defaults applies all the defaults for each job.
+job_defaults: &job_defaults
+  working_directory: ~/coralproject/talk
+  docker:
+    - image: circleci/node:8
+
+# integration_environment is the environment that configures the tests.
+integration_environment: &integration_environment
+  NODE_ENV: test
+  CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+  E2E_MAX_RETRIES: 3
+
+# integration_job runs the integration tests and saves the test results.
+integration_job: &integration_job
+  <<: *job_defaults
+  environment:
+    <<: *integration_environment
+  docker:
+    - image: circleci/node:8-browsers
+    - image: circleci/mongo:3
+    - image: circleci/redis:4-alpine
+  steps:
+    - checkout
+    - attach_workspace:
+        at: ~/coralproject/talk
+    - run:
+        name: Setup the database with defaults
+        command: ./bin/cli setup --defaults
+    - run:
+        name: Run the integration tests
+        command: bash .circleci/e2e.sh
+    - store_test_results:
+        when: always
+        path: /tmp/circleci-test-results
+
+version: 2
+jobs:
+  # npm_dependencies will install the dependencies used by all other steps. 
+  npm_dependencies:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/coralproject/talk
+      - restore_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install dependencies
+          command: |
+            yarn global add node-gyp &&
+            yarn install --frozen-lockfile
+      - save_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+      - persist_to_workspace:
+          root: .
+          paths: node_modules
+  
+  # lint will perform file linting.
+  lint:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/coralproject/talk
+      - run:
+          name: Perform linting
+          command: yarn lint
+  
+  # build_assets will build the static assets.
+  build_assets:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/coralproject/talk
+      - restore_cache:
+          keys:
+            - build-cache-{{ .Branch }}-{{ .Revision }}
+            - build-cache-{{ .Branch }}-
+            - build-cache-
+      - run:
+          name: Build static assets
+          command: yarn build
+      - save_cache:
+          key: build-cache-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ./node_modules/.cache/hard-source
+      - persist_to_workspace:
+          root: .
+          paths: dist
+  
+  # test_unit will run the unit tests.
+  test_unit:
+    <<: *job_defaults
+    docker:
+      - image: circleci/node:8
+      - image: circleci/mongo:3
+      - image: circleci/redis:4-alpine
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/coralproject/talk
+      - run: 
+          name: Setup the test results directory
+          command: mkdir -p /tmp/circleci-test-results
+      - run:
+          name: Run the client unit tests
+          command: yarn test:client --ci
+          environment:
+            JEST_JUNIT_OUTPUT: /tmp/circleci-test-results/jest/test-results.xml
+            JEST_REPORTER: jest-junit
+      - run:
+          name: Run the server unit tests
+          command: yarn test:server
+          environment:
+            MOCHA_FILE: /tmp/circleci-test-results/mocha/test-results.xml
+            MOCHA_REPORTER: mocha-junit-reporter
+      - store_test_results:
+          when: always
+          path: /tmp/circleci-test-results
+  
+  # test_integration_chrome_local will run the integration tests locally with
+  # chrome headless.
+  test_integration_chrome_local:
+    <<: *integration_job
+    environment:
+      <<: *integration_environment
+      E2E_BROWSERS: chrome
+  
+  # test_integration_firefox_local will run the integration tests locally with
+  # firefox headless.
+  test_integration_firefox_local:
+    <<: *integration_job
+    environment:
+      <<: *integration_environment
+      E2E_BROWSERS: firefox
+
+  # test_integration_chrome will run the integration tests with chrome in
+  # browserstack.
+  test_integration_chrome:
+    <<: *integration_job
+    environment:
+      <<: *integration_environment
+      BROWSERSTACK: true
+      E2E_BROWSERS: chrome
+  
+  # test_integration_firefox will run the integration tests with firefox in
+  # browserstack.
+  test_integration_firefox:
+    <<: *integration_job
+    environment:
+      <<: *integration_environment
+      BROWSERSTACK: true
+      E2E_BROWSERS: firefox
+  
+  # test_integration_edge will run the integration tests with edge in
+  # browserstack.
+  test_integration_edge:
+    <<: *integration_job
+    environment:
+      <<: *integration_environment
+      BROWSERSTACK: true
+      E2E_BROWSERS: edge
+  
+  # test_integration_ie will run the integration tests with ie in
+  # browserstack.
+  test_integration_ie:
+    <<: *integration_job
+    environment:
+      <<: *integration_environment
+      BROWSERSTACK: true
+      E2E_BROWSERS: ie
+      # TODO: remove when more reliable
+      E2E_MAX_RETRIES: 1
+  
+  # test_integration_safari will run the integration tests with safari in
+  # browserstack.
+  test_integration_safari:
+    <<: *integration_job
+    environment:
+      <<: *integration_environment
+      BROWSERSTACK: true
+      E2E_BROWSERS: safari
+      # TODO: remove when more reliable
+      E2E_MAX_RETRIES: 1
+  
+  # deploy will deploy the application as a docker image.
+  deploy:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Deploy the code
+          command: bash ./scripts/docker.sh deploy
+
+# filter_deploy will add the filters for a deploy job in a workflow to make it
+# only execute on a deploy related job.
+filter_deploy: &filter_deploy
+  filters:
+    branches:
+      only:
+        - master
+        - next
+    tags:
+      only: /v[0-9]+(\.[0-9]+)*/
+
+# filter_develop will add the filters for a development related commit.
+filter_develop: &filter_develop
+  filters:
+    branches:
+      ignore:
+        - master
+        - next
+
+workflows:
+  version: 2
+
+  # All PR's will hit this workflow.
+  build-and-test:
+    jobs:
+      - npm_dependencies:
+          <<: *filter_develop
+      - lint:
+          <<: *filter_develop
+          requires:
+            - npm_dependencies
+      - test_unit:
+          <<: *filter_develop
+          requires:
+            - npm_dependencies
+      - build_assets:
+          <<: *filter_develop
+          requires:
+            - npm_dependencies
+      - test_integration_chrome_local:
+          <<: *filter_develop        
+          requires:
+            - build_assets
+      - test_integration_firefox_local:
+          <<: *filter_develop
+          requires:
+            - build_assets
+  deploy-tagged:
+    jobs:
+      - npm_dependencies:
+          <<: *filter_deploy
+      - lint:
+          <<: *filter_deploy
+          requires:
+            - npm_dependencies
+      - test_unit:
+          <<: *filter_deploy
+          requires:
+            - npm_dependencies
+      - build_assets:
+          <<: *filter_deploy
+          requires:
+            - npm_dependencies
+      - test_integration_chrome:
+          <<: *filter_deploy
+          requires:
+            - build_assets
+      - test_integration_firefox:
+          <<: *filter_deploy
+          requires:
+            - build_assets
+      - test_integration_edge:
+          <<: *filter_deploy
+          requires:
+            - build_assets
+      - test_integration_ie:
+          <<: *filter_deploy
+          requires:
+            - build_assets
+      - test_integration_safari:
+          <<: *filter_deploy
+          requires:
+            - build_assets
+      - deploy:
+          <<: *filter_deploy
+          requires:
+            - lint
+            - test_unit
+            - test_integration_chrome
+            - test_integration_firefox
+            - test_integration_edge
+            # TODO: uncomment when more reliable
+            # - test_integration_ie
+            # - test_integration_safari
