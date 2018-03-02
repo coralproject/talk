@@ -7,7 +7,7 @@ type User {
 
 type Settings {
     # notificationsRequireConfirmation when true indicates that User's must have
-    # their email address confirmed/verified before they can recieve
+    # their email address confirmed/verified before they can receive
     # notifications.
     notificationsRequireConfirmation: Boolean
 }
