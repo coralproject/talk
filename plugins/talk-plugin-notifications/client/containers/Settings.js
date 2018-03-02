@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, gql } from 'react-apollo';
 import Settings from '../components/Settings';
-import { withFragments } from 'plugin-api/beta/client/hocs';
+import { withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
 import { getSlotFragmentSpreads } from 'plugin-api/beta/client/utils';
 import { withUpdateNotificationSettings } from '../mutations';
 
@@ -59,9 +59,21 @@ const enhance = compose(
       fragment TalkNotifications_Settings_root on RootQuery {
         __typename
         ${getSlotFragmentSpreads(slots, 'root')}
+        me {
+          profiles {
+            provider
+            ... on LocalUserProfile {
+              confirmedAt
+            }
+          }
+        }
       }
     `,
   }),
+  excludeIf(
+    props =>
+      !props.root.me.profiles.some(profile => profile.provider === 'local')
+  ),
   withUpdateNotificationSettings
 );
 
