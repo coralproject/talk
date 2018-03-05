@@ -133,6 +133,9 @@ const RootMutation = {
   revokeToken: async (_, { input }, { mutators: { Token } }) => {
     await Token.revoke(input);
   },
+  forceScrapeAsset: async (_, { id }, { mutators: { Asset } }) => {
+    await Asset.scrape(id);
+  },
 };
 
 module.exports = RootMutation;
