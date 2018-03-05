@@ -1,20 +1,16 @@
-const { graphql } = require('graphql');
 const { get } = require('lodash');
 const path = require('path');
 
 const handle = async (ctx, { comment }) => {
-  const { connectors: { graph: { schema } } } = ctx;
-
   // Check to see if this is a reply to an existing comment.
   const commentID = get(comment, 'id', null);
   if (commentID === null) {
-    ctx.log.debug('could not get comment id');
+    ctx.log.info('could not get comment id');
     return;
   }
 
   // Execute the graph request.
-  const reply = await graphql(
-    schema,
+  const reply = await ctx.graphql(
     `
       query GetAuthorUserMetadata($comment_id: ID!) {
         comment(id: $comment_id) {
@@ -28,8 +24,6 @@ const handle = async (ctx, { comment }) => {
         }
       }
     `,
-    {},
-    ctx,
     { comment_id: commentID }
   );
   if (reply.errors) {
@@ -49,7 +43,7 @@ const handle = async (ctx, { comment }) => {
 
   const userID = get(reply, 'data.comment.user.id', null);
   if (!userID) {
-    ctx.log.debug('could not get comment user id');
+    ctx.log.info('could not get comment user id');
     return;
   }
 
@@ -59,10 +53,7 @@ const handle = async (ctx, { comment }) => {
 };
 
 const hydrate = async (ctx, category, context) => {
-  const { connectors: { graph: { schema } } } = ctx;
-
-  const reply = await graphql(
-    schema,
+  const reply = await ctx.graphql(
     `
       query GetNotificationData($context: ID!) {
         comment(id: $context) {
@@ -74,8 +65,6 @@ const hydrate = async (ctx, category, context) => {
         }
       }
     `,
-    {},
-    ctx,
     { context }
   );
   if (reply.errors) {

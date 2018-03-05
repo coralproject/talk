@@ -1,5 +1,6 @@
 .root {
   margin-bottom: 20px;
+  width: 380px;
 }
 
 .innerSettings {
@@ -24,4 +25,8 @@
 
 .notifcationSettingsSlot {
   margin-bottom: 3px;
+}
+
+.disabled {
+  color: #e5e5e5;
 }

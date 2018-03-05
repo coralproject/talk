@@ -5,6 +5,8 @@ import { Slot } from 'plugin-api/beta/client/components';
 import { t } from 'plugin-api/beta/client/services';
 import styles from './Settings.css';
 import { BareButton } from 'plugin-api/beta/client/components/ui';
+import EmailVerificationBanner from '../containers/EmailVerificationBanner';
+import cn from 'classnames';
 
 class Settings extends React.Component {
   childFactory = el => {
@@ -23,13 +25,20 @@ class Settings extends React.Component {
       updateNotificationSettings,
       turnOffAll,
       turnOffButtonDisabled,
+      needEmailVerification,
+      email,
     } = this.props;
 
     return (
       <IfSlotIsNotEmpty slot="notificationSettings" queryData={{ root }}>
         <div className={styles.root}>
           <h3>{t('talk-plugin-notifications.settings_title')}</h3>
-          <h4 className={styles.subtitle}>
+          {needEmailVerification && <EmailVerificationBanner email={email} />}
+          <h4
+            className={cn(styles.subtitle, {
+              [styles.disabled]: needEmailVerification,
+            })}
+          >
             {t('talk-plugin-notifications.settings_subtitle')}
           </h4>
           <div className={styles.innerSettings}>
@@ -40,6 +49,7 @@ class Settings extends React.Component {
               childFactory={this.childFactory}
               setTurnOffInputFragment={setTurnOffInputFragment}
               updateNotificationSettings={updateNotificationSettings}
+              disabled={needEmailVerification}
             />
             <BareButton
               className={styles.turnOffButton}
@@ -63,6 +73,8 @@ Settings.propTypes = {
   updateNotificationSettings: PropTypes.func.isRequired,
   turnOffAll: PropTypes.func.isRequired,
   turnOffButtonDisabled: PropTypes.bool.isRequired,
+  needEmailVerification: PropTypes.bool.isRequired,
+  email: PropTypes.string,
 };
 
 export default Settings;
