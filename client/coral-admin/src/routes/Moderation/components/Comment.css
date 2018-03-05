@@ -72,9 +72,9 @@
   flex: 1;
   color: black;
   max-width: 500px;
-  word-wrap: break-word;
   font-weight: 300;
   font-size: 16px;
+  word-break: break-all;
 }
 
 .created {
@@ -185,8 +185,6 @@
 }
 
 .commentContent {
-  height: 100%;
-  flex: 1;
   display: flex;
 
   blockquote {
@@ -194,4 +192,8 @@
     line-height: inherit;
     letter-spacing: inherit;
   }
+}
+
+.commentContentFooter {
+  flex: 1;
 }

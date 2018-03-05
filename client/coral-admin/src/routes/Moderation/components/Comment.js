@@ -142,13 +142,15 @@ class Comment extends React.Component {
                   defaultComponent={CommentFormatter}
                   {...formatterSettings}
                 />
-                <a
-                  className={styles.external}
-                  href={`${comment.asset.url}?commentId=${comment.id}`}
-                  target="_blank"
-                >
-                  <Icon name="open_in_new" /> {t('comment.view_context')}
-                </a>
+                <div className={styles.commentContentFooter}>
+                  <a
+                    className={styles.external}
+                    href={`${comment.asset.url}?commentId=${comment.id}`}
+                    target="_blank"
+                  >
+                    <Icon name="open_in_new" /> {t('comment.view_context')}
+                  </a>
+                </div>
               </div>
 
               <div className={styles.sideActions}>
