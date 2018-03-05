@@ -50,10 +50,11 @@ class CommentForm extends React.Component {
     onCancel: PropTypes.func,
     state: PropTypes.string,
     loadingState: PropTypes.oneOf(['', 'loading', 'success', 'error']),
-    comment: PropTypes.object,
     registerHook: PropTypes.func,
     unregisterHook: PropTypes.func,
     isReply: PropTypes.bool,
+    root: PropTypes.object.isRequired,
+    comment: PropTypes.object,
   };
   static get defaultProps() {
     return {
@@ -92,6 +93,7 @@ class CommentForm extends React.Component {
       body,
       loadingState,
       comment,
+      root,
     } = this.props;
 
     const length = body.length;
@@ -109,6 +111,7 @@ class CommentForm extends React.Component {
     return (
       <div>
         <DraftArea
+          root={root}
           comment={comment}
           id={this.props.bodyInputId}
           label={this.props.bodyLabel}

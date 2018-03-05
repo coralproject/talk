@@ -150,7 +150,14 @@ class CommentBox extends React.Component {
   };
 
   render() {
-    const { isReply, maxCharCount, assetId, parentId, comment } = this.props;
+    const {
+      isReply,
+      maxCharCount,
+      assetId,
+      parentId,
+      comment,
+      root,
+    } = this.props;
     let { onCancel } = this.props;
 
     if (isReply && typeof onCancel !== 'function') {
@@ -168,6 +175,7 @@ class CommentBox extends React.Component {
     return (
       <div>
         <CommentForm
+          root={root}
           comment={comment}
           defaultValue={this.props.defaultValue}
           bodyLabel={isReply ? t('comment_box.reply') : t('comment.comment')}
@@ -213,6 +221,7 @@ CommentBox.propTypes = {
   canPost: PropTypes.bool,
   notify: PropTypes.func.isRequired,
   tags: PropTypes.array,
+  root: PropTypes.object.isRequired,
   comment: PropTypes.object,
 };
 

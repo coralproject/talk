@@ -286,6 +286,7 @@ class Stream extends React.Component {
             {banned && <BannedAccount />}
             {showCommentBox && (
               <CommentBox
+                root={root}
                 notify={notify}
                 postComment={postComment}
                 appendItemArray={appendItemArray}

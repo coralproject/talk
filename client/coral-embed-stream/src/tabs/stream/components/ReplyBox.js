@@ -28,10 +28,12 @@ class ReplyBox extends React.Component {
       maxCharCount,
       charCountEnable,
       comment,
+      root,
     } = this.props;
     return (
       <div className={cn(styles.container, `${name}-textarea`)}>
         <CommentBox
+          root={root}
           comment={comment}
           maxCharCount={maxCharCount}
           charCountEnable={charCountEnable}
@@ -50,7 +52,6 @@ class ReplyBox extends React.Component {
 }
 
 ReplyBox.propTypes = {
-  comment: PropTypes.object,
   charCountEnable: PropTypes.bool.isRequired,
   maxCharCount: PropTypes.number,
   setActiveReplyBox: PropTypes.func.isRequired,
@@ -61,6 +62,8 @@ ReplyBox.propTypes = {
   assetId: PropTypes.string.isRequired,
   currentUser: PropTypes.object,
   styles: PropTypes.object,
+  root: PropTypes.object.isRequired,
+  comment: PropTypes.object,
 };
 
 export default ReplyBox;

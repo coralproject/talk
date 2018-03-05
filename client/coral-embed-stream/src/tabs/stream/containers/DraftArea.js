@@ -42,7 +42,7 @@ class DraftAreaContainer extends React.Component {
   }
 
   render() {
-    const queryData = { comment: this.props.comment };
+    const queryData = { comment: this.props.comment, root: this.props.root };
 
     return (
       <DraftArea
@@ -80,10 +80,11 @@ DraftAreaContainer.propTypes = {
   disabled: PropTypes.bool,
   rows: PropTypes.number,
   label: PropTypes.string.isRequired,
-  comment: PropTypes.object,
   registerHook: PropTypes.func,
   unregisterHook: PropTypes.func,
   isReply: PropTypes.bool,
+  root: PropTypes.object.isRequired,
+  comment: PropTypes.object,
 };
 
 const slots = ['draftArea'];
