@@ -168,7 +168,7 @@ module.exports = {
       created_at,
     });
 
-    editedComment.metadata = metadata;
+    editedComment.metadata = merge(editedComment.metadata, metadata);
 
     return editedComment;
   },
