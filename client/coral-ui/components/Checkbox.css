@@ -50,6 +50,11 @@
   color: #00a291;
 }
 
+.input:disabled + .checkbox:before {
+  color: #e5e5e5;
+  cursor: default;
+}
+
 .input:focus + .checkbox:before {
   color: #00a291;
 }

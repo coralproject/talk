@@ -31,6 +31,12 @@ class SettingsContainer extends React.Component {
     this.props.updateNotificationSettings(this.state.turnOffInput);
   };
 
+  getNeedEmailVerification() {
+    return !this.props.root.me.profiles.some(
+      profile => profile.provider === 'local' && profile.confirmedAt
+    );
+  }
+
   render() {
     return (
       <Settings
@@ -42,6 +48,8 @@ class SettingsContainer extends React.Component {
         updateNotificationSettings={this.props.updateNotificationSettings}
         turnOffAll={this.turnOffAll}
         turnOffButtonDisabled={this.state.hasNotifications.length === 0}
+        needEmailVerification={this.getNeedEmailVerification()}
+        email={this.props.root.me.email}
       />
     );
   }
@@ -60,6 +68,7 @@ const enhance = compose(
         __typename
         ${getSlotFragmentSpreads(slots, 'root')}
         me {
+          email
           profiles {
             provider
             ... on LocalUserProfile {

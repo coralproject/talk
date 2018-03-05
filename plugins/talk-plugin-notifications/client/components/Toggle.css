@@ -3,4 +3,19 @@
   width: 270px;
   cursor: pointer;
   user-select: none;
+
+  &.disabled {
+    color: #e5e5e5;
+    cursor: default;
+  }
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+}
+
+.checkBox {
+  width: 100%;
+  text-align: right;
 }
