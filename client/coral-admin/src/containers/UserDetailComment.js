@@ -17,6 +17,7 @@ export default withFragments({
           suspect
         }
       }
+      ${getSlotFragmentSpreads(slots, 'root')}
       ...${getDefinitionName(CommentLabels.fragments.root)}
       ...${getDefinitionName(CommentDetails.fragments.root)}
     }
