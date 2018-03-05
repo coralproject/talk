@@ -1,0 +1,42 @@
+.root {
+  display: flex;
+  border: 1px solid #a8afb3;
+  border-radius: 2px;
+  margin: 16px 0;
+
+  p:first-of-type {
+    margin-top: 0;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+.leftColumn {
+  width: 32px;
+  background-color: #787d80;
+  text-align: center;
+  padding-top: 6px;
+  font-size: 18px;
+  flex-shrink: 0;
+
+  &.error {
+    background-color: #fa6265;
+  }
+  &.success {
+    background-color: #00cd7e;
+  }
+}
+.icon {
+  color: white;
+}
+.rightColumn {
+  padding: 8px 12px 10px 12px;
+  font-size: 14px;
+}
+.title {
+  font-size: 14px;
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+

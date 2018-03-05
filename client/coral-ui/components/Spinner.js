@@ -1,8 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './Spinner.css';
+import cn from 'classnames';
 
-const Spinner = () => (
-  <div className={styles.container}>
+const Spinner = ({ className }) => (
+  <div className={cn(styles.container, className)}>
     <svg
       className={styles.spinner}
       width="40px"
@@ -22,5 +24,9 @@ const Spinner = () => (
     </svg>
   </div>
 );
+
+Spinner.propTypes = {
+  className: PropTypes.string,
+};
 
 export default Spinner;

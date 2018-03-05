@@ -563,3 +563,14 @@ This is a **Build Variable** and must be consumed during build. If using the
 image you can specify it with `--build-arg TALK_REPLY_COMMENTS_LOAD_DEPTH=3`.
 
 Specifies the initial replies to load for a comment. (Default `3`)
+
+## TALK_LOGGING_LEVEL
+
+Sets the logging level for the context logger (from [Bunyan](https://github.com/trentm/node-bunyan)) that will be phased in to replace most existing `debug()` calls. Supports the following values:
+
+- `fatal`
+- `error`
+- `warn`
+- `info`
+- `debug`
+- `trace`
