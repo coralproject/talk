@@ -6,7 +6,7 @@ import CommentLabels from './CommentLabels';
 import CommentDetails from './CommentDetails';
 import { getSlotFragmentSpreads } from 'coral-framework/utils';
 
-const slots = ['draftArea'];
+const slots = ['userDetailCommentContent'];
 
 export default withFragments({
   root: gql`
