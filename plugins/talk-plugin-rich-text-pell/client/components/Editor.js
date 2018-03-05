@@ -4,6 +4,7 @@ import { init } from 'pell';
 import styles from './Editor.css';
 import cn from 'classnames';
 import { pluginName } from '../../package.json';
+import { htmlNormalizer } from '../utils';
 
 class Editor extends React.Component {
   ref = null;
@@ -18,7 +19,7 @@ class Editor extends React.Component {
       onChange: richTextBody => {
         // We want to save the original comment body
         const originalBody = this.ref.childNodes[1].innerText;
-        onChange(originalBody, { richTextBody });
+        onChange(originalBody, { richTextBody: htmlNormalizer(richTextBody) });
       },
       actions,
       classes: {
@@ -101,6 +102,7 @@ Editor.propTypes = {
   actions: PropTypes.array,
   registerHook: PropTypes.func,
   unregisterHook: PropTypes.func,
+  isReply: PropTypes.bool,
 };
 
 export default Editor;
