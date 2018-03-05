@@ -188,4 +188,10 @@
   height: 100%;
   flex: 1;
   display: flex;
+
+  blockquote {
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+  }
 }
