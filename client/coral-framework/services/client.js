@@ -7,7 +7,6 @@ import {
   addGraphQLSubscriptions,
 } from 'subscriptions-transport-ws';
 import MessageTypes from 'subscriptions-transport-ws/dist/message-types';
-import { print } from 'graphql/language/printer';
 
 // Redux middleware to report any errors to the console.
 export const apolloErrorReporter = () => next => action => {
