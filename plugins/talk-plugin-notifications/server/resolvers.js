@@ -1,4 +1,5 @@
 const { get } = require('lodash');
+const { DISABLE_REQUIRE_EMAIL_VERIFICATIONS } = require('./config');
 
 module.exports = {
   User: {
@@ -15,5 +16,9 @@ module.exports = {
     async updateNotificationSettings(obj, { input }, { mutators: { User } }) {
       await User.updateNotificationSettings(input);
     },
+  },
+  Settings: {
+    notificationsRequireConfirmation: () =>
+      Boolean(!DISABLE_REQUIRE_EMAIL_VERIFICATIONS),
   },
 };

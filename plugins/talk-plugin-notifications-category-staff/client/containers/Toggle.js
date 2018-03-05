@@ -36,7 +36,11 @@ class ToggleContainer extends React.Component {
 
   render() {
     return (
-      <Toggle checked={this.getOnReplySetting()} onChange={this.toggle}>
+      <Toggle
+        checked={this.getOnReplySetting()}
+        onChange={this.toggle}
+        disabled={this.props.disabled}
+      >
         {t('talk-plugin-notifications-category-staff.toggle_description')}
       </Toggle>
     );
@@ -50,6 +54,7 @@ ToggleContainer.propTypes = {
   indicateOff: PropTypes.func.isRequired,
   setTurnOffInputFragment: PropTypes.func.isRequired,
   updateNotificationSettings: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 const enhance = compose(

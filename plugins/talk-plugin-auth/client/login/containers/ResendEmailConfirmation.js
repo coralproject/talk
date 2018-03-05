@@ -41,7 +41,7 @@ ResendEmailConfirmatonContainer.propTypes = {
   success: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   resendEmailConfirmation: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
   setView: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
 };
