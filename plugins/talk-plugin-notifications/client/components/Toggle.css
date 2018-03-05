@@ -1,6 +1,6 @@
 .title {
   display: inline-block;
-  width: 270px;
+  width: 100%;
   cursor: pointer;
   user-select: none;
 
@@ -16,6 +16,5 @@
 }
 
 .checkBox {
-  width: 100%;
   text-align: right;
 }
