@@ -12,4 +12,4 @@ en:
       text: An email has been sent to {0} containing a verification link.
     banner_error:
       title: Error
-      text: There have been an error sending your verification email. Please try again later.
+      text: There has been an error sending your verification email. Please try again later.
