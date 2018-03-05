@@ -7,6 +7,7 @@ export default {
     draftArea: [Editor],
     commentContent: [CommentContent],
     adminCommentContent: [CommentContent],
+    userDetailCommentContent: [CommentContent],
   },
   fragments: {
     CreateCommentResponse: gql`
