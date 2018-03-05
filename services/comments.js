@@ -1,16 +1,11 @@
 const CommentModel = require('../models/comment');
-
+const { dotize } = require('./utils');
 const debug = require('debug')('talk:services:comments');
 const SettingsService = require('./settings');
 
 const cloneDeep = require('lodash/cloneDeep');
 const errors = require('../errors');
 const merge = require('lodash/merge');
-<<<<<<< HEAD
-const { dotize } = require('./utils');
-const { COMMENTS_NEW, COMMENTS_EDIT } = require('./events/constants');
-=======
->>>>>>> 8d147dbf47104cdcfb8c3bc2ebb02b6c73c7b8ab
 
 const incrReplyCount = async (comment, value) => {
   try {
@@ -86,11 +81,7 @@ module.exports = {
    * @param {String} body       the new Comment body
    * @param {String} status     the new Comment status
    */
-<<<<<<< HEAD
-  static async edit({ id, author_id, body, status, metadata = {} }) {
-=======
-  edit: async ({ id, author_id, body, status }) => {
->>>>>>> 8d147dbf47104cdcfb8c3bc2ebb02b6c73c7b8ab
+  edit: async ({ id, author_id, body, status, metadata = {} }) => {
     const EDITABLE_STATUSES = ['NONE', 'PREMOD', 'ACCEPTED'];
     const created_at = new Date();
 
@@ -177,13 +168,8 @@ module.exports = {
       created_at,
     });
 
-<<<<<<< HEAD
     editedComment.metadata = metadata;
 
-    await events.emitAsync(COMMENTS_EDIT, originalComment, editedComment);
-
-=======
->>>>>>> 8d147dbf47104cdcfb8c3bc2ebb02b6c73c7b8ab
     return editedComment;
   },
 

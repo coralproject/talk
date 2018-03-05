@@ -18,7 +18,7 @@ class EditableCommentContent extends React.Component {
   static propTypes = {
     // show notification to the user (e.g. for errors)
     notify: PropTypes.func.isRequired,
-
+    root: PropTypes.object.isRequired,
     // comment that is being edited
     comment: PropTypes.shape({
       id: PropTypes.string,
@@ -140,6 +140,7 @@ class EditableCommentContent extends React.Component {
     return (
       <div className={styles.editCommentForm}>
         <CommentForm
+          root={this.props.root}
           comment={this.props.comment}
           defaultValue={this.props.comment.body}
           bodyInputId={id}

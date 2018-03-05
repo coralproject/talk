@@ -372,9 +372,12 @@ export default class Comment extends React.Component {
       maxCharCount,
       notify,
       charCountEnable,
+      root,
     } = this.props;
     return (
       <ReplyBox
+        root={root}
+        comment={comment}
         commentPostedHandler={this.commentPostedHandler}
         charCountEnable={charCountEnable}
         maxCharCount={maxCharCount}
@@ -648,6 +651,7 @@ export default class Comment extends React.Component {
               <EditableCommentContent
                 editComment={this.editComment}
                 notify={notify}
+                root={root}
                 comment={comment}
                 currentUser={currentUser}
                 charCountEnable={charCountEnable}
@@ -720,64 +724,6 @@ export default class Comment extends React.Component {
     );
   }
 
-<<<<<<< HEAD
-        {activeReplyBox === comment.id ? (
-          <ReplyBox
-            comment={comment}
-            commentPostedHandler={this.commentPostedHandler}
-            charCountEnable={charCountEnable}
-            maxCharCount={maxCharCount}
-            setActiveReplyBox={setActiveReplyBox}
-            parentId={depth < THREADING_LEVEL ? comment.id : parentId}
-            notify={notify}
-            postComment={postComment}
-            currentUser={currentUser}
-            assetId={asset.id}
-          />
-        ) : null}
-
-        <TransitionGroup>
-          {view.map(reply => {
-            return (
-              <CommentContainer
-                data={this.props.data}
-                root={this.props.root}
-                setActiveReplyBox={setActiveReplyBox}
-                disableReply={disableReply}
-                activeReplyBox={activeReplyBox}
-                notify={notify}
-                parentId={comment.id}
-                postComment={postComment}
-                editComment={this.props.editComment}
-                depth={depth + 1}
-                asset={asset}
-                highlighted={highlighted}
-                currentUser={currentUser}
-                postFlag={postFlag}
-                deleteAction={deleteAction}
-                loadMore={loadMore}
-                charCountEnable={charCountEnable}
-                maxCharCount={maxCharCount}
-                showSignInDialog={showSignInDialog}
-                liveUpdates={liveUpdates}
-                reactKey={reply.id}
-                key={reply.id}
-                comment={reply}
-                emit={emit}
-              />
-            );
-          })}
-        </TransitionGroup>
-        <div className="talk-load-more-replies">
-          <LoadMore
-            topLevel={false}
-            replyCount={moreRepliesCount}
-            moreComments={hasMoreComments}
-            loadMore={this.loadNewReplies}
-            loadingState={loadingState}
-          />
-        </div>
-=======
   render() {
     const {
       depth,
@@ -813,7 +759,6 @@ export default class Comment extends React.Component {
         {this.renderComment()}
         {activeReplyBox === comment.id && this.renderReplyBox()}
         {this.renderRepliesContainer()}
->>>>>>> 8d147dbf47104cdcfb8c3bc2ebb02b6c73c7b8ab
       </div>
     );
   }
