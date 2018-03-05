@@ -142,6 +142,10 @@ anything. You need to enable one of the `talk-plugin-notifications-category-*` p
 ```
 {:.no-copy}
 
+Configuration:
+
+- `DISABLE_REQUIRE_EMAIL_VERIFICATIONS` - When `TRUE`, it will disable the verification email check before sending notifications for those emails. **Note that organizations implementing a custom authentication system _must_ disable this feature, as they don't use our integrated auth**. (Default `FALSE`).
+
 ### talk-plugin-notifications-category-reply
 {:.param}
 
@@ -157,3 +161,11 @@ Source: [plugins/talk-plugin-notifications-category-featured](https://github.com
 
 When a comment is featured (via the `talk-plugin-featured-comments` plugin), the
 user will receive a notification email.
+
+### talk-plugin-notifications-category-staff
+{:.param}
+
+Source: [plugins/talk-plugin-notifications-category-staff](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-notifications-category-staff){:target="_blank"}
+
+Replies made to each user by a staff member will trigger an email to be sent
+with the notification details if enabled.
