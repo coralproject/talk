@@ -1,5 +1,13 @@
+enum DIGEST_FREQUENCY {
+    # NONE will have the notifications send immediatly rather than bundling
+    # for digesting.
+    NONE
+}
+
 # NotificationSettings stores all the preferences related to notifications.
-type NotificationSettings { }
+type NotificationSettings {
+    digestFrequency: DIGEST_FREQUENCY
+}
 
 type User {
     notificationSettings: NotificationSettings
@@ -18,7 +26,8 @@ type UpdateNotificationSettingsResponse implements Response {
 }
 
 input NotificationSettingsInput {
-
+    # digestFrequency is the frequency to send notifications.
+    digestFrequency: DIGEST_FREQUENCY
 }
 
 type RootMutation {

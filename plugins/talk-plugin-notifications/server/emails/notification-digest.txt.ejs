@@ -1,0 +1,9 @@
+<% body.forEach((message) => { %>
+<%= message %>
+
+<% }) %>
+<%= t('talk-plugin-notifications.templates.footer', organizationName) %>
+
+<%= t('talk-plugin-notifications.templates.links.unsubscribe') %>
+
+    <%= BASE_URL %>account/unsubscribe-notifications#<%= unsubscribeToken %>

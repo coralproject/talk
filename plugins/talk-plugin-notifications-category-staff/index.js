@@ -117,6 +117,7 @@ const handler = {
   event: 'commentAdded',
   hydrate,
   supersedesCategories: ['reply'],
+  digestOrder: 20,
 };
 
 module.exports = {

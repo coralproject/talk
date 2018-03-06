@@ -1,0 +1,6 @@
+<% body.forEach((message) => { %>
+<p><%= linkify(message, {nl2br: true}) %></p>
+<% }) %>
+<br/>
+<p><%= t('talk-plugin-notifications.templates.footer', organizationName) %></p>
+<p><a href="<%= BASE_URL %>account/unsubscribe-notifications#<%= unsubscribeToken %>" target="_blank"><%= t('talk-plugin-notifications.templates.links.unsubscribe') %></a></p>

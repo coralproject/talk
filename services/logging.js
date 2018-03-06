@@ -11,7 +11,7 @@ function createLogger(name, id = uuid()) {
     id,
     version,
     level: LOGGING_LEVEL,
-    serializers: { req: Logger.stdSerializers.req },
+    serializers: Logger.stdSerializers,
   });
 }
 
