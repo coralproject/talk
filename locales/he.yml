@@ -9,13 +9,13 @@ en:
     banned_user: "משתמש מורשה"
     cancel: "בטל"
     note: "Note: {0}"
-    note_reject_comment: "Banning this user will also place this comment in the Rejected queue."
-    note_ban_user: "Banning this user will not let them comment, react to, or report comments."
+    note_reject_comment: "חסימת משתמש זה תציב גם תגובה זו בתור נדחה."
+    note_ban_user: "חסימת משתמש זה לא תאפשר לו להגיב על תגובות או לדווח עליהן."
     yes_ban_user: "כן. חסום משתמש"
-    write_a_message: "Write a message"
+    write_a_message: "כתוב הודעה"
     send: "שלח"
-    notify_ban_headline: "Notify the user of ban"
-    notify_ban_description: "This will notify the user by email that they have been banned from the community"
+    notify_ban_headline: "הודע למשתמש על האיסור"
+    notify_ban_description: "פעולה זו תודיע למשתמש בדוא"ל שהם נאסרו מהקהילה"
     email_message_ban: "Dear {0},\n\nSomeone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, like or report comments. if you think this has been done in error, please contact our community team."
   bio_offensive: "ביו זה פוגע"
   cancel: "בטל"
@@ -32,46 +32,46 @@ en:
   characters_remaining: "תווים נותרים"
   comment:
     anon: "Anonymous"
-    undo_reject: "Undo"
+    undo_reject: "בטל"
     ban_user: "חסום משתמש"
     comment: "פרסם תגובה"
-    edited: Edited
+    edited: ערוך
     flagged: "מסומנת"
     view_context: "הצג הקשר"
   comment_box:
     post: "Post"
     cancel: "בטל"
     reply: "Reply"
-    comment: "Post a comment"
+    comment: "פרסם תגובה"
     name: "שם"
-    comment_post_notif: "Your comment has been posted."
-    comment_post_notif_premod: "Thank you for posting. Our moderation team will review your comment shortly."
-    comment_post_banned_word:  "Your comment contains one or more words that are not permitted, so it will not be published. If you think this message is incorrect, please contact our moderation team."
-    characters_remaining: "characters remaining"
-  comment_offensive: "This comment is offensive"
-  comment_singular: Comment
-  comment_plural: Comments
-  comment_post_banned_word: "Your comment contains one or more words that are not permitted, so it will not be published. If you think this message is incorrect, please contact our moderation team."
-  comment_post_notif: "Your comment has been posted."
-  comment_post_notif_premod: "Thank you for posting. Our moderation team will review your comment shortly."
+    comment_post_notif: "התגובה שלך פורסמה."
+    comment_post_notif_premod: "תודה על הפרסום. צוות הפיקוח שלנו יבחן את התגובה שלך בקרוב."
+    comment_post_banned_word:  "התגובה שלך מכילה מילה אחת או יותר שאינן מותרות, לכן היא לא תפורסם. אם אתה סבור שהודעה זו שגויה, צור קשר עם צוות הניהול שלנו."
+    characters_remaining: "תווים נותרים"
+  comment_offensive: "תגובה זו פוגעת"
+  comment_singular: תגובה
+  comment_plural: תגובות
+  comment_post_banned_word: "התגובה שלך מכילה מילה אחת או יותר שאינן מותרות, לכן היא לא תפורסם. אם אתה סבור שהודעה זו שגויה, צור קשר עם צוות הניהול שלנו."
+  comment_post_notif: "התגובה שלך כבר פורסמה."
+  comment_post_notif_premod: "תודה על הפרסום. צוות הפיקוח שלנו יבחן את התגובה שלך בקרוב."
   common:
-    copy: 'Copy'
+    copy: 'עותק'
     error: 'אירעה שגיאה.'
     reply: 'reply'
     replies: 'replies'
     reaction: 'reaction'
     reactions: 'reactions'
-    story: 'Story'
+    story: 'כתבה'
   flagged_usernames:
     notify_approved: '{0} approved username {1}'
     notify_rejected: '{0} rejected username {1}'
     notify_flagged: '{0} reported username {1}'
     notify_changed: 'user {0} changed their username to {1}'
   community:
-    account_creation_date: "Account Creation Date"
-    active: Active
-    admin: Administrator
-    ads_marketing: "This looks like an ad/marketing"
+    account_creation_date: "תאריך היצירה של החשבון"
+    active: פעיל
+    admin: מנהל
+    ads_marketing: "זה נראה כמו מודעה / שיווק"
     are_you_sure: "Are you sure you would like to ban {0}?"
     ban_user: "Ban User?"
     banned: Banned
@@ -81,7 +81,7 @@ en:
     flaggedaccounts: "Reported Usernames"
     flags: Flags
     impersonating: "Impersonation"
-    loading: "Loading results"
+    loading: "טוען תוצאות"
     moderator: Moderator
     newsroom_role: "Newsroom Role"
     no_flagged_accounts: "The Reported Usernames queue is currently empty."
@@ -119,7 +119,7 @@ en:
     configure: Configure
     copy_and_paste: "Copy and paste code below into your CMS to embed your comment box in your articles"
     custom_css_url: "Custom CSS URL"
-    custom_css_url_desc: "URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external."
+    custom_css_url_desc: "כתובת אתר של גיליון סגנונות CSS שתבטל את ברירת המחדל של סגנונות 'הזרמת זרם'. יכול להיות פנימי או חיצוני."
     days: Days
     description: "As an admin, you can customize the settings for the comment stream for this story:"
     domain_list_text: "Enter the domains you would like to permit for Talk e.g. your local staging and production environments (ex. localhost:3000 staging.domain.com domain.com)."
@@ -202,7 +202,7 @@ en:
       if_you_did: "If you did,"
       please_click: "please click here to reset password"
   embedlink:
-    copy: "Copy to Clipboard"
+    copy: "העתק ללוח"
   error:
     COMMENT_PARENT_NOT_VISIBLE: "The comment that you're replying to has been removed or doesn't exist."
     EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
