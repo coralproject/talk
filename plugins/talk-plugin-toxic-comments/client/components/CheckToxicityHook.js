@@ -49,6 +49,6 @@ export default class CheckToxicityHook extends React.Component {
 
 CheckToxicityHook.propTypes = {
   notify: PropTypes.func.isRequired,
-  registerHook: PropTypes.func.isRequired,
-  unregisterHook: PropTypes.func.isRequired,
+  registerHook: PropTypes.func,
+  unregisterHook: PropTypes.func,
 };

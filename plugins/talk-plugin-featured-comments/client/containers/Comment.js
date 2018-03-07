@@ -3,7 +3,12 @@ import Comment from '../components/Comment';
 import { withFragments } from 'plugin-api/beta/client/hocs';
 import { getSlotFragmentSpreads } from 'plugin-api/beta/client/utils';
 
-const slots = ['commentReactions', 'commentAuthorName', 'commentTimestamp'];
+const slots = [
+  'commentReactions',
+  'commentAuthorName',
+  'commentTimestamp',
+  'commentContent',
+];
 
 export default withFragments({
   root: gql`

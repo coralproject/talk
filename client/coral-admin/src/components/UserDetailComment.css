@@ -78,6 +78,12 @@
   font-weight: 300;
   font-size: 16px;
   max-width: 360px;
+
+  blockquote {
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+  }
 }
 
 .sideActions {

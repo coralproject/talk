@@ -1,0 +1,12 @@
+.textArea {
+  width: 100%;
+}
+
+.charCount {
+  color: #ccc;
+  text-align: right;
+}
+
+.charMax {
+  color: #d50000;
+}

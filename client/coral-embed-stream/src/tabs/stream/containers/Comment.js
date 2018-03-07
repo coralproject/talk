@@ -4,6 +4,9 @@ import Comment from '../components/Comment';
 import { withFragments } from 'coral-framework/hocs';
 import { getSlotFragmentSpreads } from 'coral-framework/utils';
 import { withSetCommentStatus } from 'coral-framework/graphql/mutations';
+import { getDefinitionName } from 'coral-framework/utils';
+import CommentBox from './CommentBox';
+import ReplyBox from './ReplyBox';
 import {
   THREADING_LEVEL,
   REPLY_COMMENTS_LOAD_DEPTH,
@@ -17,12 +20,12 @@ const slots = [
   'commentInputDetailArea',
   'commentInfoBar',
   'commentActions',
-  'commentContent',
   'commentReactions',
   'commentAvatar',
   'commentAuthorName',
   'commentAuthorTags',
   'commentTimestamp',
+  'commentContent',
 ];
 
 /**
@@ -95,7 +98,11 @@ export const singleCommentFragment = gql`
       editableUntil
     }
     ${getSlotFragmentSpreads(slots, 'comment')}
+    ...${getDefinitionName(CommentBox.fragments.comment)}
+    ...${getDefinitionName(ReplyBox.fragments.comment)}
   }
+  ${CommentBox.fragments.comment}
+  ${ReplyBox.fragments.comment}
 `;
 
 const withCommentFragments = withFragments({
@@ -107,7 +114,11 @@ const withCommentFragments = withFragments({
         }
       }
       ${getSlotFragmentSpreads(slots, 'root')}
+      ...${getDefinitionName(CommentBox.fragments.root)}
+      ...${getDefinitionName(ReplyBox.fragments.root)}
     }
+    ${CommentBox.fragments.root}
+    ${ReplyBox.fragments.root}
     `,
   asset: gql`
     fragment CoralEmbedStream_Comment_asset on Asset {

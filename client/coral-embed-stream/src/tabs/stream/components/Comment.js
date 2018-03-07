@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TagLabel from './TagLabel';
 import CommentTimestamp from 'coral-framework/components/CommentTimestamp';
 import ReplyButton from './ReplyButton';
-import ReplyBox from './ReplyBox';
+import ReplyBox from '../containers/ReplyBox';
 import FlagComment from './FlagComment';
 import { can } from 'coral-framework/services/perms';
 import { TransitionGroup } from 'react-transition-group';
@@ -22,7 +22,7 @@ import CommentContent from 'coral-framework/components/CommentContent';
 import Slot from 'coral-framework/components/Slot';
 import CommentTombstone from './CommentTombstone';
 import InactiveCommentLabel from './InactiveCommentLabel';
-import { EditableCommentContent } from './EditableCommentContent';
+import EditableCommentContent from '../containers/EditableCommentContent';
 import {
   getActionSummary,
   iPerformedThisAction,
@@ -372,9 +372,12 @@ export default class Comment extends React.Component {
       maxCharCount,
       notify,
       charCountEnable,
+      root,
     } = this.props;
     return (
       <ReplyBox
+        root={root}
+        comment={comment}
         commentPostedHandler={this.commentPostedHandler}
         charCountEnable={charCountEnable}
         maxCharCount={maxCharCount}
@@ -648,6 +651,7 @@ export default class Comment extends React.Component {
               <EditableCommentContent
                 editComment={this.editComment}
                 notify={notify}
+                root={root}
                 comment={comment}
                 currentUser={currentUser}
                 charCountEnable={charCountEnable}

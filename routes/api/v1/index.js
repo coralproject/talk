@@ -1,10 +1,11 @@
 const express = require('express');
-const pkg = require('../../../package.json');
+const { version } = require('../../../package.json');
+const { REVISION_HASH } = require('../../../config');
 const router = express.Router();
 
 // Return the current version.
 router.get('/', (req, res) => {
-  res.json({ version: pkg.version });
+  res.json({ version, revision: REVISION_HASH });
 });
 
 router.use('/account', require('./account'));
