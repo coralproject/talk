@@ -1,8 +1,6 @@
 ---
 title: Configuring the Talk Admin
 permalink: /configuring-admin/
-class: configuration
-toc: true
 ---
 
 Using plugins and configuration variables, you can modify the way the Admin looks and how moderation works.

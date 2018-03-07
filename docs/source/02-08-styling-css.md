@@ -1,8 +1,6 @@
 ---
 title: Styling Talk with CSS
 permalink: /styling-css/
-class: configuration
-toc: true
 ---
 
 You can add your own stylesheet in Admin > Configure > Tech Settings.

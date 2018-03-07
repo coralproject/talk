@@ -1,8 +1,6 @@
 ---
 title: Notifications
 permalink: /notifications/
-class: configuration
-toc: true
 ---
 
 Talk currently supports 3 types of email notifications.

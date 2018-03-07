@@ -1,8 +1,6 @@
 ---
 title: Authenticating with Talk
 permalink: /authentication/
-class: configuration
-toc: true
 ---
 
 You can integrate Talk with any authentication service to enable single sign-on for users. The steps to do that are:
