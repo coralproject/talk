@@ -90,6 +90,8 @@ sidebar:
           url: /installation-from-docker/
         - title: Installation from Source
           url: /installation-from-source/
+        - title: Planning your Talk Architecture
+          url: /planning-architecture/
     - title: Configuration
       children:
         - title: Required Configuration
