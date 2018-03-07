@@ -1,4 +1,4 @@
-const jobs = [require('./mailer')];
+const jobs = [require('./mailer'), require('./scraper')];
 
 const process = () => jobs.forEach(job => job());
 

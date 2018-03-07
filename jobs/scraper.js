@@ -1,7 +1,8 @@
 const Asset = require('../models/asset');
 const scraper = require('../services/scraper');
 const Assets = require('../services/assets');
-const debug = require('debug')('talk:jobs:scraper');
+const { createLogger } = require('../services/logging');
+const logger = createLogger('jobs:scraper');
 const metascraper = require('metascraper');
 
 /**
@@ -39,38 +40,34 @@ function update(id, meta) {
 }
 
 module.exports = () => {
-  debug(`Now processing ${scraper.task.name} jobs`);
+  logger.info({ taskName: scraper.task.name }, 'Now processing jobs');
 
   scraper.task.process(async (job, done) => {
-    debug(`Starting on Job[${job.id}] for Asset[${job.data.asset_id}]`);
+    const { id, asset_id } = job.data;
+
+    const log = logger.child({ traceID: id, jobID: job.id, assetID: asset_id });
+    log.info('Starting scrape');
 
     try {
       // Find the asset, or complain that it doesn't exist.
       const asset = await Assets.findById(job.data.asset_id);
       if (!asset) {
-        return done(new Error('asset not found'));
+        throw new Error('asset not found');
       }
 
       // Scrape the metadata from the asset.
       const meta = await scrape(asset);
 
-      debug(
-        `Scraped ${JSON.stringify(meta)} on Job[${job.id}] for Asset[${
-          job.data.asset_id
-        }]`
-      );
+      log.info('Finished scraping');
 
       // Assign the metadata retrieved for the asset to the db.
       await update(job.data.asset_id, meta);
     } catch (err) {
-      debug(
-        `Failed to scrape on Job[${job.id}] for Asset[${job.data.asset_id}]:`,
-        err
-      );
+      log.error({ err }, 'Failed to scrape');
       return done(err);
     }
 
-    debug(`Finished on Job[${job.id}] for Asset[${job.data.asset_id}]`);
+    log.info('Finished updating');
     done();
   });
 };
