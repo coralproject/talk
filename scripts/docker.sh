@@ -54,9 +54,16 @@ deploy_branch() {
   docker push coralproject/talk:$CIRCLE_BRANCH-onbuild
 }
 
+ARGS=""
+
+if [[ -n "$CIRCLE_SHA1" ]]
+then
+  ARGS="--build-arg REVISION_HASH=${CIRCLE_SHA1}"
+fi
+
 # build the repo, including the onbuild tagged versions.
-docker build -t coralproject/talk:latest -f Dockerfile .
-docker build -t coralproject/talk:latest-onbuild -f Dockerfile.onbuild .
+docker build -t coralproject/talk:latest ${ARGS} -f Dockerfile .
+docker build -t coralproject/talk:latest-onbuild ${ARGS} -f Dockerfile.onbuild .
 
 if [ "$1" = "deploy" ]
 then
