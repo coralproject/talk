@@ -1,6 +1,6 @@
 ---
 title: Styling Talk with CSS
-permalink: /styling-talk/
+permalink: /styling-css/
 class: configuration
 toc: true
 ---
