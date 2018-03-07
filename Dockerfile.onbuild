@@ -18,5 +18,6 @@ ONBUILD COPY . /usr/src/app
 # clear out the development dependencies again. After this we of course need to
 # clear out the yarn cache, this saves quite a lot of size.
 ONBUILD RUN cli plugins reconcile && \
+            yarn && \
             yarn build && \
             yarn cache clean
