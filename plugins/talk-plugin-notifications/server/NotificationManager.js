@@ -1,7 +1,123 @@
-const { groupBy, forEach } = require('lodash');
+const { get, find, groupBy, forEach, property } = require('lodash');
 const debug = require('debug')('talk-plugin-notifications');
 const uuid = require('uuid/v4');
-const { UNSUBSCRIBE_SUBJECT } = require('./config');
+const {
+  UNSUBSCRIBE_SUBJECT,
+  DISABLE_REQUIRE_EMAIL_VERIFICATIONS,
+} = require('./config');
+
+// handleHandlers will call the handle method on each handler to determine if a
+// notification should be sent for it.
+const handleHandlers = (ctx, handlers, ...args) =>
+  Promise.all(
+    handlers.map(async handler => {
+      // Grab the handler reference.
+      const { handle, category, event } = handler;
+
+      try {
+        // Attempt to create a notification out of it.
+        const notification = await handle(ctx, ...args);
+        if (!notification) {
+          ctx.log.info('no notification deemed by event handler');
+          return;
+        }
+
+        // Send the notification back.
+        ctx.log.info({ category, event }, 'notification detected for event');
+        return { handler, notification };
+      } catch (err) {
+        ctx.log.error({ err }, 'could not handle the event');
+        return;
+      }
+    })
+  );
+
+// filterSuperseded will filter all the possible notifications and only send
+// those notifications that are not superseded by another type of notification.
+const filterSuperseded = (
+  { handler: { category }, notification: { userID: destinationUserID } },
+  index,
+  notifications
+) =>
+  !notifications.some(
+    ({
+      handler: { supersedesCategories = [] },
+      notification: { userID: notificationUserID },
+    }) =>
+      // Only allow notifications to supersede another notification if that
+      // notification is also destined for the same user.
+      notificationUserID === destinationUserID &&
+      // If another notification that is destined for the same user also exists
+      // and declares that it supersedes this one, return true so we can filter
+      // this one from the list.
+      supersedesCategories.some(
+        supersededCategory => supersededCategory === category
+      )
+  );
+
+const USER_CONFIRMATION_QUERY = `
+  query CheckUserConfirmation($userID: ID!) {
+    user(id: $userID) {
+      profiles {
+        provider
+        ... on LocalUserProfile {
+          confirmedAt
+        }
+      }
+    }
+  }
+`;
+
+// filterVerifiedNotification checks to see if a user has a verified email
+// address, and if they do, returns the notification payload again, otherwise,
+// returns undefined.
+const filterVerifiedNotification = ctx => async notification => {
+  // Grab the user that we're supposed to be sending the notification to.
+  const { notification: { userID } } = notification;
+
+  // Check their confirmed status. This should have already been hit by the
+  // loaders, so we shouldn't make any more database requests.
+  const { errors, data } = await ctx.graphql(USER_CONFIRMATION_QUERY, {
+    userID,
+  });
+  if (errors) {
+    ctx.log.error(
+      { err: errors },
+      'could not query for user confirmation status'
+    );
+    return;
+  }
+
+  // Get the first local profile from the user.
+  const profile = find(get(data, 'user.profiles', []), ['provider', 'local']);
+  if (!profile) {
+    ctx.log.warn({ user_id: userID }, 'user did not have a local profile');
+    return;
+  }
+
+  // Pull out the confirmed status from the profile.
+  const confirmed = get(profile, 'confirmedAt', null) !== null;
+  if (!confirmed) {
+    ctx.log.info(
+      { user_id: userID },
+      'user did not have their local profile confirmed, but had settings enabled, not mailing'
+    );
+    return;
+  }
+
+  return notification;
+};
+
+// filterVerified performs filtering in a complicated way because we can't use
+// Promise.all on a Array.prototype.filter call.
+const filterVerified = async (ctx, notifications) => {
+  notifications = await Promise.all(
+    notifications.map(filterVerifiedNotification(ctx))
+  );
+
+  // This acts as a poor-mans identity filter to remove all falsy values.
+  return notifications.filter(property('notification'));
+};
 
 class NotificationManager {
   constructor(context) {
@@ -44,33 +160,34 @@ class NotificationManager {
    * @param {Object} handler a notification handler
    */
   handle(handlers) {
-    return async (...args) =>
-      Promise.all(
-        handlers.map(async handler => {
-          // Grab the handler reference.
-          const { handle } = handler;
+    return async (...args) => {
+      // Create a system context to send down.
+      const ctx = this.context.forSystem();
 
-          // Create a system context to send down.
-          const ctx = this.context.forSystem();
+      // Get all the notifications to load.
+      let notifications = await handleHandlers(ctx, handlers, ...args);
 
-          try {
-            // Attempt to create a notification out of it.
-            const notification = await handle(ctx, ...args);
-            if (!notification) {
-              return;
-            }
+      // Only let handlers past that have a notification to send.
+      notifications = notifications.filter(property('notification'));
 
-            // Extract the notification details.
-            const { userID, date, context } = notification;
+      // Check to see if some of the other notifications that are queued
+      // had this notification superseded.
+      notifications = notifications.filter(filterSuperseded);
 
-            // Send the notification.
-            return this.send(ctx, userID, date, handler, context);
-          } catch (err) {
-            ctx.log.error({ err }, 'could not handle the event');
-            return;
-          }
-        })
+      // Only let notifications through for users who have their email addresses
+      // verified if we are configured to do so.
+      if (!DISABLE_REQUIRE_EMAIL_VERIFICATIONS) {
+        notifications = await filterVerified(ctx, notifications);
+      }
+
+      // Send the remaining notifications.
+      return Promise.all(
+        notifications.map(
+          ({ handler, notification: { userID, date, context } }) =>
+            this.send(ctx, userID, date, handler, context)
+        )
       );
+    };
   }
 
   async send(ctx, userID, date, handler, context) {
@@ -90,7 +207,7 @@ class NotificationManager {
         'organizationName'
       );
       if (organizationName === null) {
-        ctx.log.debug(
+        ctx.log.error(
           'could not send the notification, organization name not in settings'
         );
         return;
@@ -123,7 +240,7 @@ class NotificationManager {
         user: userID,
       });
 
-      ctx.log.debug(`Sent the notification for Job.ID[${task.id}]`);
+      ctx.log.info(`Sent the notification for Job.ID[${task.id}]`);
     } catch (err) {
       ctx.log.error(
         { err, message: err.message },
@@ -142,10 +259,10 @@ class NotificationManager {
    */
   async getBody(ctx, handler, context) {
     const { connectors: { services: { I18n: { t } } } } = ctx;
-    const { category } = handler;
+    const { category, hydrate = () => [] } = handler;
 
     // Get the body replacement variables for the translation key.
-    const replacements = await handler.hydrate(ctx, category, context);
+    const replacements = await hydrate(ctx, category, context);
 
     // Generate the body.
     return t(

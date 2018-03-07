@@ -62,12 +62,37 @@ type Token {
   jwt: String
 }
 
-type UserProfile {
+interface UserProfile {
   # The id is an identifier for the user profile (email, facebook id, etc)
   id: String!
 
   # name of the provider attached to the authentication mode
   provider: String!
+}
+
+# DefaultUserProfile is a fallback if the type of UserProfile can't be
+# determined (like if it was from a plugin that was removed).
+type DefaultUserProfile implements UserProfile {
+  # The id is an identifier for the user profile (email, facebook id, etc)
+  id: String!
+
+  # name of the provider attached to the authentication mode
+  provider: String!
+}
+
+# LocalUserProfile is for a User who has an authentication profile linked to
+# their email address.
+type LocalUserProfile implements UserProfile {
+  # id is the User's email address.
+  id: String!
+
+  # name of the provider attached to the authentication mode, in this case,
+  # 'local'.
+  provider: String!
+
+  # confirmedAt is the Date that the user had their email address confirmed,
+  # which is null if it has not been verified.
+  confirmedAt: Date
 }
 
 # USER_STATUS_USERNAME is the different states that a username can be in.
@@ -1395,6 +1420,12 @@ type SetUserRoleResponse implements Response {
   errors: [UserError!]
 }
 
+type ForceScrapeAssetResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 # All mutations for the application are defined on this object.
 type RootMutation {
 
@@ -1489,6 +1520,9 @@ type RootMutation {
 
   # Stop Ignoring comments by another user.
   stopIgnoringUser(id: ID!): StopIgnoringUserResponse
+
+  # forceScrapeAsset will force scrape the Asset with the given ID.
+  forceScrapeAsset(id: ID!): ForceScrapeAssetResponse
 }
 
 type UsernameChangedPayload {

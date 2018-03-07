@@ -44,7 +44,9 @@ plugins/*
 !plugins/talk-plugin-mod
 !plugins/talk-plugin-moderation-actions
 !plugins/talk-plugin-notifications
+!plugins/talk-plugin-notifications-category-featured
 !plugins/talk-plugin-notifications-category-reply
+!plugins/talk-plugin-notifications-category-staff
 !plugins/talk-plugin-offtopic
 !plugins/talk-plugin-permalink
 !plugins/talk-plugin-profile-settings
@@ -60,6 +62,8 @@ plugins/*
 !plugins/talk-plugin-subscriber
 !plugins/talk-plugin-toxic-comments
 !plugins/talk-plugin-viewing-options
+!plugins/talk-plugin-rich-text
+!plugins/talk-plugin-rich-text-pell
 
 **/node_modules/*
 yarn-error.log

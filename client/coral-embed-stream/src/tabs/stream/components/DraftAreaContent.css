@@ -1,0 +1,12 @@
+.content {
+  color: #262626;
+  flex: 1;
+  padding: 1em;
+  min-height: 100px;
+  margin-top: 10px;
+  font-size: 16px;
+  border: 1px solid #9E9E9E;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Slot from 'coral-framework/components/Slot';
 import { Link } from 'react-router';
-
 import { Icon } from 'coral-ui';
 import CommentDetails from './CommentDetails';
 import styles from './UserDetailComment.css';
@@ -33,8 +33,16 @@ class UserDetailComment extends React.Component {
       toggleSelect,
       className,
       data,
-      root: { settings: { wordlist: { banned, suspect } } },
+      root: { settings },
     } = this.props;
+
+    const queryData = { root, comment };
+
+    const formatterSettings = {
+      suspectWords: settings.wordlist.suspect,
+      bannedWords: settings.wordlist.banned,
+      body: comment.body,
+    };
 
     return (
       <li
@@ -78,11 +86,17 @@ class UserDetailComment extends React.Component {
           <CommentAnimatedEdit body={comment.body}>
             <div className={styles.bodyContainer}>
               <div className={styles.body}>
-                <CommentFormatter
-                  suspectWords={suspect}
-                  bannedWords={banned}
-                  body={comment.body}
-                  className="talk-admin-user-detail-comment"
+                <Slot
+                  fill="userDetailCommentContent"
+                  data={data}
+                  className={cn(
+                    styles.commentContent,
+                    'talk-admin-user-detail-comment'
+                  )}
+                  queryData={queryData}
+                  slotSize={1}
+                  defaultComponent={CommentFormatter}
+                  {...formatterSettings}
                 />
                 <a
                   className={styles.external}

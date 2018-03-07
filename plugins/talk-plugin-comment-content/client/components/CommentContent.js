@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Linkify from 'react-linkify';
 
 const name = 'talk-plugin-comment-content';
@@ -19,6 +20,10 @@ const CommentContent = ({ comment }) => {
       })}
     </span>
   );
+};
+
+CommentContent.propTypes = {
+  comment: PropTypes.object.isRequired,
 };
 
 export default CommentContent;
