@@ -4,6 +4,9 @@ import withFragments from 'coral-framework/hocs/withFragments';
 import { getDefinitionName } from 'coral-framework/utils';
 import CommentLabels from './CommentLabels';
 import CommentDetails from './CommentDetails';
+import { getSlotFragmentSpreads } from 'coral-framework/utils';
+
+const slots = ['userDetailCommentContent'];
 
 export default withFragments({
   root: gql`
@@ -14,6 +17,7 @@ export default withFragments({
           suspect
         }
       }
+      ${getSlotFragmentSpreads(slots, 'root')}
       ...${getDefinitionName(CommentLabels.fragments.root)}
       ...${getDefinitionName(CommentDetails.fragments.root)}
     }
@@ -38,6 +42,7 @@ export default withFragments({
       status_history {
         type
       }
+      ${getSlotFragmentSpreads(slots, 'comment')}
       ...${getDefinitionName(CommentLabels.fragments.comment)}
       ...${getDefinitionName(CommentDetails.fragments.comment)}
     }

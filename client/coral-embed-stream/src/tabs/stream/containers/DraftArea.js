@@ -1,13 +1,16 @@
 import React from 'react';
+import { gql } from 'react-apollo';
+import { getSlotFragmentSpreads } from 'coral-framework/utils';
 import PropTypes from 'prop-types';
 import DraftArea from '../components/DraftArea';
+import withFragments from 'coral-framework/hocs/withFragments';
 
 const STORAGE_PATH = 'DraftArea';
 
 /**
  * An enhanced textarea to make comment drafts.
  */
-export default class DraftAreaContainer extends React.Component {
+class DraftAreaContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.initValue();
@@ -24,8 +27,8 @@ export default class DraftAreaContainer extends React.Component {
     return `${STORAGE_PATH}_${this.props.id}`;
   };
 
-  onChange = e => {
-    this.props.onChange && this.props.onChange(e.target.value);
+  onChange = (body, data) => {
+    this.props.onChange && this.props.onChange(body, data);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -39,8 +42,11 @@ export default class DraftAreaContainer extends React.Component {
   }
 
   render() {
+    const queryData = { comment: this.props.comment, root: this.props.root };
+
     return (
       <DraftArea
+        queryData={queryData}
         value={this.props.value}
         placeholder={this.props.placeholder}
         id={this.props.id}
@@ -50,6 +56,9 @@ export default class DraftAreaContainer extends React.Component {
         charCountEnable={this.props.charCountEnable}
         maxCharCount={this.props.maxCharCount}
         label={this.props.label}
+        registerHook={this.props.registerHook}
+        unregisterHook={this.props.unregisterHook}
+        isReply={this.props.isReply}
       />
     );
   }
@@ -71,4 +80,26 @@ DraftAreaContainer.propTypes = {
   disabled: PropTypes.bool,
   rows: PropTypes.number,
   label: PropTypes.string.isRequired,
+  registerHook: PropTypes.func,
+  unregisterHook: PropTypes.func,
+  isReply: PropTypes.bool,
+  root: PropTypes.object.isRequired,
+  comment: PropTypes.object,
 };
+
+const slots = ['draftArea'];
+
+export default withFragments({
+  root: gql`
+    fragment TalkEmbedStream_DraftArea_root on RootQuery {
+      __typename
+      ${getSlotFragmentSpreads(slots, 'root')}
+    }
+  `,
+  comment: gql`
+    fragment TalkEmbedStream_DraftArea_comment on Comment {
+      __typename
+      ${getSlotFragmentSpreads(slots, 'comment')}
+    }
+  `,
+})(DraftAreaContainer);

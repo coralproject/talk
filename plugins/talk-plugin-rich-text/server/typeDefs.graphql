@@ -1,0 +1,11 @@
+input CreateCommentInput {
+  richTextBody: String!
+}
+
+input EditCommentInput {
+  richTextBody: String!
+}
+
+type Comment {
+  richTextBody: String
+}

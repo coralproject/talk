@@ -1,5 +1,5 @@
 const CommentModel = require('../models/comment');
-
+const { dotize } = require('./utils');
 const debug = require('debug')('talk:services:comments');
 const SettingsService = require('./settings');
 
@@ -81,7 +81,7 @@ module.exports = {
    * @param {String} body       the new Comment body
    * @param {String} status     the new Comment status
    */
-  edit: async ({ id, author_id, body, status }) => {
+  edit: async ({ id, author_id, body, status, metadata = {} }) => {
     const EDITABLE_STATUSES = ['NONE', 'PREMOD', 'ACCEPTED'];
     const created_at = new Date();
 
@@ -104,10 +104,11 @@ module.exports = {
     };
 
     const originalComment = await CommentModel.findOneAndUpdate(query, {
-      $set: {
+      $set: dotize({
         body,
         status,
-      },
+        metadata,
+      }),
       $push: {
         body_history: {
           body,
@@ -161,10 +162,13 @@ module.exports = {
       body,
       created_at,
     });
+
     editedComment.status_history.push({
       type: status,
       created_at,
     });
+
+    editedComment.metadata = merge(editedComment.metadata, metadata);
 
     return editedComment;
   },
