@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, gql } from 'react-apollo';
 import Settings from '../components/Settings';
-import { withFragments, excludeIf, withEnumValues } from 'plugin-api/beta/client/hocs';
+import {
+  withFragments,
+  excludeIf,
+  withEnumValues,
+} from 'plugin-api/beta/client/hocs';
 import { getSlotFragmentSpreads } from 'plugin-api/beta/client/utils';
 import { withUpdateNotificationSettings } from '../mutations';
 
@@ -33,8 +37,8 @@ class SettingsContainer extends React.Component {
     this.props.updateNotificationSettings(this.state.turnOffInput);
   };
 
-  setDigestFrequency = (digestFrequency) => {
-    this.props.updateNotificationSettings({digestFrequency});
+  setDigestFrequency = digestFrequency => {
+    this.props.updateNotificationSettings({ digestFrequency });
   };
 
   getNeedEmailVerification() {
@@ -56,7 +60,9 @@ class SettingsContainer extends React.Component {
         needEmailVerification={this.getNeedEmailVerification()}
         email={this.props.root.me.email}
         digestFrequencyValues={this.props.digestFrequencyValues}
-        digestFrequency={this.props.root.me.notificationSettings.digestFrequency}
+        digestFrequency={
+          this.props.root.me.notificationSettings.digestFrequency
+        }
         disableDigest={this.state.hasNotifications.length === 0}
         disableTurnoffButton={this.state.hasNotifications.length === 0}
         onChangeDigestFrequency={this.setDigestFrequency}
@@ -98,7 +104,7 @@ const enhance = compose(
       !props.root.me.profiles.some(profile => profile.provider === 'local')
   ),
   withUpdateNotificationSettings,
-  withEnumValues('DIGEST_FREQUENCY', 'digestFrequencyValues'),
+  withEnumValues('DIGEST_FREQUENCY', 'digestFrequencyValues')
 );
 
 export default enhance(SettingsContainer);
