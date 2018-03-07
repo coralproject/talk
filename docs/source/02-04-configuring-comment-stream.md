@@ -1,3 +1,9 @@
+---
+title: Configuring the Talk Comment Stream
+permalink: /configuring-comment-stream/
+class: configuration
+toc: true
+---
 
 Using plugins and configuration variables, you can modify the way the Talk comment stream behaves. Here are some common configuration options:
 

@@ -1,6 +1,6 @@
 ---
 title: Tracking Talk Events and Metrics
-permalink: /talk-metrics/
+permalink: /event-tracking-metrics/
 class: configuration
 toc: true
 ---

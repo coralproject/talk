@@ -1,6 +1,6 @@
 ---
 title: Notifications
-permalink: /notifications//
+permalink: /notifications/
 class: configuration
 toc: true
 ---

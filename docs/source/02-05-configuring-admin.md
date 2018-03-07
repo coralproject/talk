@@ -1,6 +1,6 @@
 ---
 title: Configuring the Talk Admin
-permalink: /configuring-the-admin/
+permalink: /configuring-admin/
 class: configuration
 toc: true
 ---

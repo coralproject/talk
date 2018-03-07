@@ -96,6 +96,20 @@ sidebar:
           url: /configuration/
         - title: Advanced Configuration
           url: /advanced-configuration/
+        - title: Authentication
+          url: /authentication/
+        - title: Configuring the Comment Stream
+          url: /configuring-comment-stream/
+        - title: Configuring the Admin
+          url: /configuring-admin/
+        - title: Notifications
+          url: /notifications/
+        - title: Event Tracking and Metrics
+          url: /event-tracking-metrics/
+        - title: Styling and CSS
+          url: /styling-css/
+        - title: Translations and i18n
+          url: /translations-i18n/
     - title: Product Guide
       children:
         - title: How Talk Works

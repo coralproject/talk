@@ -1,6 +1,6 @@
 ---
 title: Authenticating with Talk
-permalink: /authenticating-with-talk/
+permalink: /authentication/
 class: configuration
 toc: true
 ---
