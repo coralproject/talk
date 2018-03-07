@@ -2,6 +2,7 @@
   padding: 10px;
   text-transform: capitalize;
   outline: none;
+  white-space: nowrap;
 
   &:focus, &:hover {
     background-color: #ccc;

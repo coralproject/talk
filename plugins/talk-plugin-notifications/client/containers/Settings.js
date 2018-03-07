@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, gql } from 'react-apollo';
 import Settings from '../components/Settings';
-import { withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
+import {
+  withFragments,
+  excludeIf,
+  withEnumValues,
+} from 'plugin-api/beta/client/hocs';
 import { getSlotFragmentSpreads } from 'plugin-api/beta/client/utils';
 import { withUpdateNotificationSettings } from '../mutations';
 
@@ -39,6 +43,11 @@ class SettingsContainer extends React.Component {
     );
   }
 
+  setDigestFrequency(val) {
+    // TODO: implement mutation.
+    console.log(val);
+  }
+
   render() {
     return (
       <Settings
@@ -49,9 +58,15 @@ class SettingsContainer extends React.Component {
         setTurnOffInputFragment={this.setTurnOffInputFragment}
         updateNotificationSettings={this.props.updateNotificationSettings}
         turnOffAll={this.turnOffAll}
-        turnOffButtonDisabled={this.state.hasNotifications.length === 0}
         needEmailVerification={this.getNeedEmailVerification()}
         email={this.props.root.me.email}
+        digestFrequencyValues={this.props.digestFrequencyValues}
+        digestFrequency={
+          this.props.root.me.notificationSettings.digestFrequency
+        }
+        disableDigest={this.state.hasNotifications.length === 0}
+        disableTurnoffButton={this.state.hasNotifications.length === 0}
+        onChangeDigestFrequency={this.setDigestFrequency}
       />
     );
   }
@@ -61,6 +76,7 @@ SettingsContainer.propTypes = {
   data: PropTypes.object,
   root: PropTypes.object,
   updateNotificationSettings: PropTypes.func.isRequired,
+  digestFrequencyValues: PropTypes.array.isRequired,
 };
 
 const enhance = compose(
@@ -70,6 +86,9 @@ const enhance = compose(
         __typename
         ${getSlotFragmentSpreads(slots, 'root')}
         me {
+          notificationSettings {
+            digestFrequency
+          }
           email
           profiles {
             provider
@@ -85,7 +104,8 @@ const enhance = compose(
     props =>
       !props.root.me.profiles.some(profile => profile.provider === 'local')
   ),
-  withUpdateNotificationSettings
+  withUpdateNotificationSettings,
+  withEnumValues('DIGEST_FREQUENCY', 'digestFrequencyValues')
 );
 
 export default enhance(SettingsContainer);

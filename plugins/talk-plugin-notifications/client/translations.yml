@@ -13,3 +13,6 @@ en:
     banner_error:
       title: Error
       text: There has been an error sending your verification email. Please try again later.
+    digest_option: I want to receive notifications
+    digest_enum:
+      NONE: Immediately

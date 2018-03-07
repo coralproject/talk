@@ -30,3 +30,16 @@
 .disabled {
   color: #e5e5e5;
 }
+
+.digest {
+  display: flex;
+  align-items: center;
+}
+
+.titleDigest {
+  width: 100%;
+}
+
+.digestDropDown {
+  flex-shrink: 0;
+}
