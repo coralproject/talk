@@ -84,6 +84,7 @@ const handler = {
   category: 'featured',
   event: 'commentFeatured',
   hydrate,
+  digestOrder: 10,
 };
 
 module.exports = {
