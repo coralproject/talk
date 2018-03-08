@@ -13,6 +13,7 @@ da:
     confirmation_title: Ignore {0}?
 en:
   talk-plugin-ignore-user:
+    blank_info: You are currently not ignoring any users
     section_title: Ignored users
     section_info: Because you ignored the following commenters, their comments are hidden.
     stop_ignoring: Stop ignoring
@@ -68,7 +69,7 @@ nl_NL:
     ignore_user: Gebruiker negeren
     cancel: Annuleren
     confirmation: |
-      Wanneer je een gebruiker negeert, zullen al zijn/haar reacties voor jou worden verborgen. Je kunt 
+      Wanneer je een gebruiker negeert, zullen al zijn/haar reacties voor jou worden verborgen. Je kunt
       dit later ongedaan maken vanuit Mijn profiel.
     notify_success: |
       Je negeert nu {0}. Je kunt dit ongedaan maken vanuit Mijn profiel.
