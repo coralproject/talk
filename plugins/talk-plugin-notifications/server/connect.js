@@ -2,6 +2,7 @@ const debug = require('debug')('talk-plugin-notifications');
 const path = require('path');
 const linkify = require('linkifyjs/html');
 const NotificationManager = require('./NotificationManager');
+const { map, reduce } = require('lodash');
 
 module.exports = connectors => {
   const {
@@ -12,17 +13,15 @@ module.exports = connectors => {
   // Setup the mailer. Other plugins registered before this one can replace the
   // notification template by passing the same name + format for the template
   // registration.
-  Mailer.templates.register(
-    path.join(__dirname, 'emails', 'notification.html.ejs'),
-    'notification',
-    'html'
-  );
-  Mailer.templates.register(
-    path.join(__dirname, 'emails', 'notification.txt.ejs'),
-    'notification',
-    'txt'
-  );
-
+  ['notification', 'notification-digest'].forEach(name => {
+    ['txt', 'html'].forEach(format => {
+      Mailer.templates.register(
+        path.join(__dirname, 'emails', `${name}.${format}.ejs`),
+        name,
+        format
+      );
+    });
+  });
   // Register the mail helpers. You can register your own helpers by calling
   // this function in another plugin.
   Mailer.registerHelpers({ linkify });
@@ -67,6 +66,47 @@ module.exports = connectors => {
   // Attach all the notification handlers.
   manager.register(...notificationHandlers);
 
+  // Digest handlers should export the following to the `notificationDigests`
+  // plugin hook:
+  //
+  // {DAILY: { cronTime: '0 0 * * *', timeZone: 'America/New_York' }}
+  //
+  // Where `DAILY` is the key referenced in the typeDefs as a new type of
+  // `DIGEST_FREQUENCY`, and the value of that key is the one provided to the
+  // constructor for the Cron object:
+  //
+  // https://github.com/kelektiv/node-cron
+  //
+  // Which is used to trigger the digest operation for those uses setup with
+  // that type of digesting.
+  const digestHandlers = Plugins.get('server', 'notificationDigests').reduce(
+    (handlers, { plugin, notificationDigests }) => {
+      debug(
+        `registered the ${plugin.name} plugin for digest notifications ${map(
+          notificationDigests,
+          (config, frequency) => frequency
+        )}`
+      );
+
+      return reduce(
+        notificationDigests,
+        (handlers, config, frequency) => {
+          handlers.push({ config, frequency });
+
+          return handlers;
+        },
+        handlers
+      );
+    },
+    []
+  );
+
+  // Attach all the notification digest handlers.
+  manager.registerDigests(...digestHandlers);
+
   // Attach the broker to the manager so it can listen for the events.
   manager.attach(broker);
+
+  // Start processing digests.
+  manager.startDigesting();
 };
