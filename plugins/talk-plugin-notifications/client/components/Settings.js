@@ -37,8 +37,15 @@ class Settings extends React.Component {
       onChangeDigestFrequency,
     } = this.props;
 
+    const slotProps = {
+      queryData: { root },
+      setTurnOffInputFragment: setTurnOffInputFragment,
+      updateNotificationSettings: updateNotificationSettings,
+      disabled: needEmailVerification,
+    };
+
     return (
-      <IfSlotIsNotEmpty slot="notificationSettings" queryData={{ root }}>
+      <IfSlotIsNotEmpty slot="notificationSettings" {...slotProps}>
         <div className={styles.root}>
           <h3>{t('talk-plugin-notifications.settings_title')}</h3>
           <div className={styles.bannerContainer}>
@@ -55,36 +62,35 @@ class Settings extends React.Component {
             <Slot
               className={styles.notifcationSettingsSlot}
               fill="notificationSettings"
-              queryData={{ root }}
               childFactory={this.childFactory}
-              setTurnOffInputFragment={setTurnOffInputFragment}
-              updateNotificationSettings={updateNotificationSettings}
-              disabled={needEmailVerification}
+              {...slotProps}
             />
           </div>
-          <div className={styles.digest}>
-            <h4
-              className={cn(styles.titleDigest, {
-                [styles.disabled]: disableDigest,
-              })}
-            >
-              {t('talk-plugin-notifications.digest_option')}
-            </h4>
-            <Dropdown
-              className={styles.digestDropDown}
-              value={digestFrequency}
-              onChange={onChangeDigestFrequency}
-              disabled={disableDigest}
-            >
-              {digestFrequencyValues.map(v => (
-                <Option
-                  value={v}
-                  key={v}
-                  label={t(`talk-plugin-notifications.digest_enum.${v}`)}
-                />
-              ))}
-            </Dropdown>
-          </div>
+          {digestFrequencyValues.length > 1 && (
+            <div className={styles.digest}>
+              <h4
+                className={cn(styles.titleDigest, {
+                  [styles.disabled]: disableDigest,
+                })}
+              >
+                {t('talk-plugin-notifications.digest_option')}
+              </h4>
+              <Dropdown
+                className={styles.digestDropDown}
+                value={digestFrequency}
+                onChange={onChangeDigestFrequency}
+                disabled={disableDigest}
+              >
+                {digestFrequencyValues.map(v => (
+                  <Option
+                    value={v}
+                    key={v}
+                    label={t(`talk-plugin-notifications.digest_enum.${v}`)}
+                  />
+                ))}
+              </Dropdown>
+            </div>
+          )}
           <BareButton
             className={styles.turnOffButton}
             onClick={turnOffAll}
