@@ -119,7 +119,7 @@ const findOrCreateAssetByURL = async (ctx, url) => {
   // If this is a new asset, then we need to scrape it!
   if (!asset.scraped) {
     // Create the Scraper job.
-    await Scraper.create(asset);
+    await Scraper.create(ctx, asset.id);
   }
 
   return asset;
