@@ -1,10 +1,6 @@
 node_modules
 
 dist
-docs/*.log
-docs/db.json
-docs/public/
-docs/.deploy*/
 
 npm-debug.log*
 dump.rdb
@@ -26,8 +22,8 @@ test/e2e/selenium-debug.log
 browserstack.err
 
 plugins.json
-plugins/*
 
+plugins/*
 !plugins/talk-plugin-akismet
 !plugins/talk-plugin-auth
 !plugins/talk-plugin-author-menu
