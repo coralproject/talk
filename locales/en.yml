@@ -358,6 +358,9 @@ en:
   report_notif: "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly."
   report_notif_remove: "Your report has been removed."
   reported: Reported
+  comment_history_blank:
+    title: You have not written any comments
+    info: A history of your comments will appear here
   settings:
     from_settings_page: "From the Profile Page you can see your comment history."
     my_comment_history: "My comment History"

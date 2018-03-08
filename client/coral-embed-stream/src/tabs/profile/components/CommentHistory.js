@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Comment from '../containers/Comment';
 import LoadMore from './LoadMore';
+import BlankCommentHistory from './BlankCommentHistory';
 
 class CommentHistory extends React.Component {
   state = {
@@ -22,6 +23,9 @@ class CommentHistory extends React.Component {
 
   render() {
     const { navigate, comments, data, root } = this.props;
+    if (!comments.nodes.length) {
+      return <BlankCommentHistory />;
+    }
     return (
       <div className="talk-my-profile-comment-history">
         <div className="commentHistory__list">
