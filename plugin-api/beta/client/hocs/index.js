@@ -12,6 +12,7 @@ export {
   withSignUp,
   withResendEmailConfirmation,
   withSetUsername,
+  withEnumValues,
 } from 'coral-framework/hocs';
 export {
   withIgnoreUser,

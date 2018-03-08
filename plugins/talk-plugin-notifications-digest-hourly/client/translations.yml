@@ -1,0 +1,4 @@
+en:
+  talk-plugin-notifications:
+    digest_enum:
+      HOURLY: In an hourly digest
