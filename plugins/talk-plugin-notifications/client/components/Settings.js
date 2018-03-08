@@ -41,7 +41,9 @@ class Settings extends React.Component {
       <IfSlotIsNotEmpty slot="notificationSettings" queryData={{ root }}>
         <div className={styles.root}>
           <h3>{t('talk-plugin-notifications.settings_title')}</h3>
-          {needEmailVerification && <EmailVerificationBanner email={email} />}
+          <div className={styles.bannerContainer}>
+            {needEmailVerification && <EmailVerificationBanner email={email} />}
+          </div>
           <h4
             className={cn(styles.subtitle, {
               [styles.disabled]: needEmailVerification,
