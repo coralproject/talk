@@ -1,4 +1,4 @@
-public
+public/*
 !public/_redirects
 .deploy*/
 db.json
