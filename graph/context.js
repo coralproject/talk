@@ -52,7 +52,7 @@ class Context {
     this.id = ctx.id || uuid.v4();
 
     // Attach a logger or create one.
-    this.log = ctx.log || createLogger('context', this.id);
+    this.log = ctx.log || createLogger('graph:context', this.id);
 
     // Load the current logged in user to `user`, otherwise this will be null.
     this.user = get(ctx, 'user');
