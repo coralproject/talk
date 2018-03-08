@@ -1,11 +1,8 @@
-const {
-  ROOT_URL,
-  ROOT_URL_MOUNT_PATH,
-  STATIC_URI,
-} = require('./config');
-const {URL} = require('url');
+const { ROOT_URL, ROOT_URL_MOUNT_PATH, STATIC_URI } = require('./config');
+const { URL } = require('url');
 
-const trailingSlash = (url) => url && url.length > 0 && url[url.length - 1] === '/' ? url : `${url}/`;
+const trailingSlash = url =>
+  url && url.length > 0 && url[url.length - 1] === '/' ? url : `${url}/`;
 
 // Set the BASE_URL as the ROOT_URL, here we derive the root url by ensuring
 // that it ends in a `/`.
@@ -21,9 +18,12 @@ const MOUNT_PATH = ROOT_URL_MOUNT_PATH ? BASE_PATH : '/';
 // The STATIC_URL is the url where static assets should be loaded from.
 const STATIC_URL = trailingSlash(STATIC_URI);
 
+const STATIC_ORIGIN = new URL(STATIC_URI).origin;
+
 module.exports = {
   BASE_URL,
   BASE_PATH,
   MOUNT_PATH,
   STATIC_URL,
+  STATIC_ORIGIN,
 };

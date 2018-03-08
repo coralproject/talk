@@ -264,7 +264,7 @@ pre {
 .toc {
   a {
     @extend .coral-link;
-    border-bottom: none;
+    border-bottom: none !important;
   }
 }
 

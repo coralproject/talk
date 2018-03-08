@@ -78,9 +78,17 @@
   font-weight: 300;
   font-size: 16px;
   max-width: 360px;
+
+  blockquote {
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+  }
 }
 
 .sideActions {
+  /* IE 11 needs this... */
+  width: 105px;
 }
 
 .editedMarker {

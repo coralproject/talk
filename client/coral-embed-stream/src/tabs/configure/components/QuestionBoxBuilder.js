@@ -1,25 +1,20 @@
 import React from 'react';
 import QuestionBox from '../../../components/QuestionBox';
-import {Icon, Spinner} from 'coral-ui';
+import { Icon, Spinner } from 'coral-ui';
 import DefaultQuestionBoxIcon from '../../../components/DefaultQuestionBoxIcon';
 import cn from 'classnames';
 import styles from './QuestionBoxBuilder.css';
 
 const DefaultIcon = <DefaultQuestionBoxIcon className={styles.defaultIcon} />;
 
-const icons = [
-  {'default': DefaultIcon},
-  'forum',
-  'build',
-  'format_quote',
-];
+const icons = [{ default: DefaultIcon }, 'forum', 'build', 'format_quote'];
 
 class QuestionBoxBuilder extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      loading: true
+      loading: true,
     };
   }
 
@@ -28,20 +23,27 @@ class QuestionBoxBuilder extends React.Component {
   }
 
   async loadEditor() {
-    const {default: MarkdownEditor} = await import('coral-framework/components/MarkdownEditor');
+    const {
+      default: MarkdownEditor,
+    } = await import('coral-framework/components/MarkdownEditor');
 
     return this.setState({
-      loading : false,
-      MarkdownEditor
+      loading: false,
+      MarkdownEditor,
     });
   }
 
   render() {
-    const {questionBoxIcon, questionBoxContent, onContentChange, onIconChange} = this.props;
-    const {loading, MarkdownEditor} = this.state;
+    const {
+      questionBoxIcon,
+      questionBoxContent,
+      onContentChange,
+      onIconChange,
+    } = this.props;
+    const { loading, MarkdownEditor } = this.state;
 
     if (loading) {
-      return <Spinner/>;
+      return <Spinner />;
     }
 
     return (
@@ -49,25 +51,18 @@ class QuestionBoxBuilder extends React.Component {
         <h4>Include an Icon</h4>
 
         <ul className={styles.iconList}>
-          {icons.map((item) => {
+          {icons.map(item => {
             const name = typeof item === 'object' ? Object.keys(item)[0] : item;
             const icon = typeof item === 'object' ? item[name] : item;
             return (
-              <li
-                className={styles.item}
-                key={name}
-              >
+              <li className={styles.item} key={name}>
                 <button
-                  className={cn(
-                    styles.button,
-                    {[styles.buttonActive]: questionBoxIcon === name},
-                  )}
+                  className={cn(styles.button, {
+                    [styles.buttonActive]: questionBoxIcon === name,
+                  })}
                   onClick={() => onIconChange(name)}
                 >
-                  {typeof icon === 'string'
-                    ? <Icon name={icon} />
-                    : icon
-                  }
+                  {typeof icon === 'string' ? <Icon name={icon} /> : icon}
                 </button>
               </li>
             );
@@ -80,11 +75,7 @@ class QuestionBoxBuilder extends React.Component {
           content={questionBoxContent}
         />
 
-        <MarkdownEditor
-          value={questionBoxContent}
-          onChange={onContentChange}
-        />
-
+        <MarkdownEditor value={questionBoxContent} onChange={onContentChange} />
       </div>
     );
   }

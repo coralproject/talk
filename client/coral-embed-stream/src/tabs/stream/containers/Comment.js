@@ -1,12 +1,18 @@
-import {gql, compose} from 'react-apollo';
+import { gql, compose } from 'react-apollo';
 import React from 'react';
 import Comment from '../components/Comment';
-import {withFragments} from 'coral-framework/hocs';
-import {getSlotFragmentSpreads} from 'coral-framework/utils';
-import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
-import {THREADING_LEVEL} from '../../../constants/stream';
+import { withFragments } from 'coral-framework/hocs';
+import { getSlotFragmentSpreads } from 'coral-framework/utils';
+import { withSetCommentStatus } from 'coral-framework/graphql/mutations';
+import { getDefinitionName } from 'coral-framework/utils';
+import CommentBox from './CommentBox';
+import ReplyBox from './ReplyBox';
+import {
+  THREADING_LEVEL,
+  REPLY_COMMENTS_LOAD_DEPTH,
+} from '../../../constants/stream';
 import hoistStatics from 'recompose/hoistStatics';
-import {nest} from '../../../graphql/utils';
+import { nest } from '../../../graphql/utils';
 
 const slots = [
   'streamQuestionArea',
@@ -14,12 +20,12 @@ const slots = [
   'commentInputDetailArea',
   'commentInfoBar',
   'commentActions',
-  'commentContent',
   'commentReactions',
   'commentAvatar',
   'commentAuthorName',
   'commentAuthorTags',
   'commentTimestamp',
+  'commentContent',
 ];
 
 /**
@@ -28,7 +34,7 @@ const slots = [
  * from https://github.com/reactjs/react-transition-group and as such must
  * be the uppermost HOC applied to the BaseComponent.
  */
-const withAnimateEnter = hoistStatics((BaseComponent) => {
+const withAnimateEnter = hoistStatics(BaseComponent => {
   class WithAnimateEnter extends React.Component {
     state = {
       animateEnter: false,
@@ -41,26 +47,27 @@ const withAnimateEnter = hoistStatics((BaseComponent) => {
         return;
       }
       if (userId && this.props.comment.user.id === userId) {
-
         // This comment was just added by currentUser.
-        if (Date.now() - Number(new Date(this.props.comment.created_at)) < 30 * 1000) {
+        if (
+          Date.now() - Number(new Date(this.props.comment.created_at)) <
+          30 * 1000
+        ) {
           return;
         }
       }
-      this.setState({animateEnter: true});
+      this.setState({ animateEnter: true });
     }
 
     render() {
-      return <BaseComponent
-        {...this.props}
-        animateEnter={this.state.animateEnter}
-      />;
+      return (
+        <BaseComponent {...this.props} animateEnter={this.state.animateEnter} />
+      );
     }
   }
   return WithAnimateEnter;
 });
 
-const singleCommentFragment = gql`
+export const singleCommentFragment = gql`
   fragment CoralEmbedStream_Comment_SingleComment on Comment {
     id
     body
@@ -91,7 +98,11 @@ const singleCommentFragment = gql`
       editableUntil
     }
     ${getSlotFragmentSpreads(slots, 'comment')}
+    ...${getDefinitionName(CommentBox.fragments.comment)}
+    ...${getDefinitionName(ReplyBox.fragments.comment)}
   }
+  ${CommentBox.fragments.comment}
+  ${ReplyBox.fragments.comment}
 `;
 
 const withCommentFragments = withFragments({
@@ -103,7 +114,11 @@ const withCommentFragments = withFragments({
         }
       }
       ${getSlotFragmentSpreads(slots, 'root')}
+      ...${getDefinitionName(CommentBox.fragments.root)}
+      ...${getDefinitionName(ReplyBox.fragments.root)}
     }
+    ${CommentBox.fragments.root}
+    ${ReplyBox.fragments.root}
     `,
   asset: gql`
     fragment CoralEmbedStream_Comment_asset on Asset {
@@ -115,8 +130,9 @@ const withCommentFragments = withFragments({
   comment: gql`
     fragment CoralEmbedStream_Comment_comment on Comment {
       ...CoralEmbedStream_Comment_SingleComment
-      ${nest(`
-        replies(query: {limit: 3, excludeIgnored: $excludeIgnored}) {
+      ${nest(
+        `
+        replies(query: {limit: ${REPLY_COMMENTS_LOAD_DEPTH}, excludeIgnored: $excludeIgnored}) {
           nodes {
             ...CoralEmbedStream_Comment_SingleComment
             ...nest
@@ -125,16 +141,18 @@ const withCommentFragments = withFragments({
           startCursor
           endCursor
         }
-      `, THREADING_LEVEL)}
+      `,
+        THREADING_LEVEL
+      )}
     }
     ${singleCommentFragment}
-  `
+  `,
 });
 
 const enhance = compose(
   withAnimateEnter,
   withCommentFragments,
-  withSetCommentStatus,
+  withSetCommentStatus
 );
 
 export default enhance(Comment);

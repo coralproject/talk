@@ -10,10 +10,25 @@ en:
     cancel: "Cancel"
     note: "Note: {0}"
     note_reject_comment: "Banning this user will also place this comment in the Rejected queue."
-    note_ban_user: "Banning this user will not let them edit comment or remove anything."
+    note_ban_user: "Banning this user will not let them comment, react to, or report comments."
     yes_ban_user: "Yes, Ban User"
+    write_a_message: "Write a message"
+    send: "Send"
+    notify_ban_headline: "Notify the user of ban"
+    notify_ban_description: "This will notify the user by email that they have been banned from the community"
+    email_message_ban: "Dear {0},\n\nSomeone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, like or report comments. if you think this has been done in error, please contact our community team."
   bio_offensive: "This bio is offensive"
   cancel: "Cancel"
+  confirm_email:
+    click_to_confirm: "Click below to confirm your email address"
+    confirm: "Confirm"
+  password_reset:
+    mail_sent: 'If you have a registered account, a password reset link was sent to that email'
+    set_new_password: "Change Your Password"
+    new_password: "New Password"
+    new_password_help: "Password must be at least 8 characters"
+    confirm_new_password: "Confirm New Password"
+    change_password: "Change Password"
   characters_remaining: "characters remaining"
   comment:
     anon: "Anonymous"
@@ -47,6 +62,11 @@ en:
     reaction: 'reaction'
     reactions: 'reactions'
     story: 'Story'
+  flagged_usernames:
+    notify_approved: '{0} approved username {1}'
+    notify_rejected: '{0} rejected username {1}'
+    notify_flagged: '{0} reported username {1}'
+    notify_changed: 'user {0} changed their username to {1}'
   community:
     account_creation_date: "Account Creation Date"
     active: Active
@@ -76,7 +96,7 @@ en:
     status: Status
     username_and_email: "Username and Email"
     yes_ban_user: "Yes Ban User"
-    none: "None"
+    commenter: "Commenter"
   configure:
     apply: Apply
     banned_word_text: "Comments which contain these words or phrases (not case-sensitive) will be automatically removed from the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
@@ -184,6 +204,9 @@ en:
   embedlink:
     copy: "Copy to Clipboard"
   error:
+    COMMENT_PARENT_NOT_VISIBLE: "The comment that you're replying to has been removed or doesn't exist."
+    EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
+    PASSWORD_RESET_TOKEN_INVALID: "Your password reset link is invalid."
     COMMENT_TOO_SHORT: "Comments should be more than one character, please revise your comment and try again."
     NOT_AUTHORIZED: "You are not authorized to perform this action."
     NO_SPECIAL_CHARACTERS: "Usernames can contain letters numbers and _ only"
@@ -214,6 +237,8 @@ en:
     password: "Password must be at least 8 characters"
     username: "Usernames can contain letters numbers and _ only"
     unexpected: "Unexpected error occurred. Sorry!"
+    required_field: "This field is required"
+    temporarily_suspended: "Your account is currently suspended. It will be reactivated {0}. Please contact us if you have any questions."
   flag_comment: "Report comment"
   flag_reason: "Reason for reporting (Optional)"
   flag_username: "Report username"
@@ -232,6 +257,8 @@ en:
       error: "Usernames can contain letters numbers and _ only"
       label: "New Username"
       msg: "Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions."
+    changed_name:
+      msg: "Your username change is under review by our moderation team."
     my_comments: "My Comments"
     my_profile: "My profile"
     new_count: "View {0} more {1}"
@@ -249,6 +276,24 @@ en:
   loading_results: "Loading Results"
   marketing: "This looks like an ad/marketing"
   moderate_this_stream: "Moderate this stream"
+  flags:
+    reasons:
+       user:
+         username_offensive: "Offensive"
+         username_nolike: "Dislike"
+         username_impersonating: "Impersonation"
+         username_spam: "Spam"
+         username_other: "Other"
+       comment:
+         comment_offensive: "Offensive"
+         comment_spam: "Spam"
+         comment_noagree: "Disagree"
+         comment_other: "Other"
+         suspect_word: "Suspect Word"
+         banned_word: "Banned Word"
+         body_count: "Body exceeds max length"
+         trust: "Trust"
+         links: "Link"
   modqueue:
     account: "account flags"
     actions: Actions
@@ -290,7 +335,7 @@ en:
     shortcuts: "Shortcuts"
     sort: "Sort"
     show_shortcuts: "Show Shortcuts"
-    singleview: "Toggle single comment edit view"
+    singleview: "Zen mode"
     thismenu: "Open this menu"
     jump_to_queue: "Jump to specific queue"
     thousand: k
@@ -301,6 +346,7 @@ en:
   no_agree_comment: "I don't agree with this comment"
   no_like_bio: "I don't like this bio"
   no_like_username: "I don't like this username"
+  already_flagged_username: "You have already flagged this username."
   other: Other
   permalink: Share
   personal_info: "This comment reveals personally identifiable information"
@@ -323,7 +369,7 @@ en:
   stream:
     all_comments: "All Comments"
     temporarily_suspended: "In accordance with {0}'s community guidelines, your account has been temporarily suspended. Please rejoin the conversation {1}."
-    comment_not_found: "Comment was not found"
+    comment_not_found: "This comment has been removed or does not exist."
     no_comments: "There are no comments yet, why don’t you write one?"
     no_comments_and_closed: "There were no comments on this article."
   step_1_header: "Report an issue"
@@ -350,6 +396,8 @@ en:
     one_hour: "1 hour"
     hours: "{0} hours"
     days: "{0} days"
+    hour: "{0} hours"
+    day: "{0} days"
     cancel: "Cancel"
     suspend_user: "Suspend User"
     email_message_suspend: "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}."
@@ -375,6 +423,29 @@ en:
     bio_flags: "flags for this bio"
     user_bio: "User Bio"
     username_flags: "flags for this username"
+  user_detail:
+    remove_suspension: "Remove Suspension"
+    suspend: "Suspend User"
+    remove_ban: "Remove Ban"
+    ban: "Ban User"
+    member_since: "Member Since"
+    email: "Email"
+    total_comments: "Total Comments"
+    reject_rate: "Reject Rate"
+    reports: "Reports"
+    all: "All"
+    rejected: "Rejected"
+    account_history: "Account History"
+  account_history:
+    user_banned: "User banned"
+    ban_removed: "Ban removed"
+    username_status: "Username {0}"
+    suspended: "Suspended, {0}"
+    suspension_removed: "Suspension removed"
+    system: "System"
+    date: "Date"
+    action: "Action"
+    taken_by: "Taken By"
   user_impersonating: "This user is impersonating"
   user_no_comment: "You've never left a comment. Join the conversation!"
   username_offensive: "This username is offensive"
@@ -401,3 +472,6 @@ en:
       description: "Thanks for installing Talk! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now."
       launch: "Launch Talk"
       close: "Close this Installer"
+  admin_sidebar:
+    view_options: "View Options"
+    sort_comments: "Sort Comments"

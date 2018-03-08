@@ -1,0 +1,472 @@
+de:
+  your_account_has_been_suspended: Ihr Zugang wurde vorübergehend gesperrt.
+  your_account_has_been_banned: Ihr Zugang wurde gesperrt.
+  your_username_has_been_rejected: Ihr Zugang wurde vorübergehend gesperrt, da Ihr Nutzername als unangemessen eingestuft wurde. Um Ihren Zugang wieder herzustellen, geben Sie bitte einen neuen Nutzernamen ein.
+  embed_comments_tab: Kommentare
+  bandialog:
+    are_you_sure: "Sind Sie sich sicher, dass Sie {0} sperren möchten?"
+    ban_user: "Nutzer sperren?"
+    banned_user: "Gesperrter Nutzer"
+    cancel: "Beenden"
+    note: "Notiz: {0}"
+    note_reject_comment: "Das Sperren dieses Nutzers wird auch diesen Kommentar in die Abgelehnt-Liste verschieben."
+    note_ban_user: "Nach dem Sperren wird dieser Nutzer weder Kommentare schreiben, noch anderweitig mit der Community interagieren können."
+    yes_ban_user: "Ja, Nutzer sperren"
+    write_a_message: "Nachricht schreiben"
+    send: "Senden"
+    notify_ban_headline: "Nutzer über Sperrung benachrichtigen"
+    notify_ban_description: "Dies wird den Nutzer per E-Mail über den Ausschluss aus der Community informieren"
+    email_message_ban: "Sehr geehrte/r {0},\n\nJemand mit Zugriff auf Ihr Konto hat gegen unsere Community-Richtlinien verstoßen. Daraufhin wurde Ihr Konto gesperrt. Sie können nun weder kommentieren noch anderweitig mit der Community interagieren. Falls Sie denken, dass es sich hierbei um einen Fehler handelt, nehmen Sie bitte Kontakt mit unseren Moderatoren auf."
+  bio_offensive: "Diese Biographie ist unangemessen"
+  cancel: "Abbrechen"
+  confirm_email:
+    click_to_confirm: "Unten klicken, um E-Mail-Adresse zu bestätigen"
+    confirm: "Bestätigen"
+  password_reset:
+    set_new_password: "Passwort ändern"
+    new_password: "Neues Passwort"
+    new_password_help: "Das Passwort benötigt mindestens 8 Zeichen"
+    confirm_new_password: "Neues Passwort bestätigen"
+    change_password: "Passwort ändern"
+  characters_remaining: "verbleibende Zeichen"
+  comment:
+    anon: "Anonym"
+    undo_reject: "Rückgängig machen"
+    ban_user: "Nutzer sperren"
+    comment: "Kommentar verfassen…"
+    edited: Bearbeitet
+    flagged: "markiert"
+    view_context: "Kontext ansehen"
+  comment_box:
+    post: "Senden"
+    cancel: "Abbrechen"
+    reply: "Antworten"
+    comment: "Kommentar verfassen"
+    name: "Name"
+    comment_post_notif: "Ihr Kommentar wurde versandt."
+    comment_post_notif_premod: "Vielen Dank für Ihren Kommentar. Unsere Moderatoren werden ihn in Kürze bearbeiten."
+    comment_post_banned_word:  "Ihr Kommentar enthält ein oder mehrere Wörter, die unzulässig sind, daher wird er nicht veröffentlicht. Falls Sie dies als ungerechtfertigt ansehen, nehmen Sie bitte Kontakt zu unseren Moderatoren auf."
+    characters_remaining: "verbleibende Zeichen"
+  comment_offensive: "Dieser Kommentar ist unangemessen"
+  comment_singular: Kommentar
+  comment_plural: Kommentare
+  comment_post_banned_word: "Ihr Kommentar enthält ein oder mehrere Wörter, die unzulässig sind, daher wird er nicht veröffentlicht. Falls Sie dies als ungerechtfertigt ansehen, nehmen Sie bitte Kontakt zu unseren Moderatoren auf."
+  comment_post_notif: "Ihr Kommentar wurde veröffentlicht."
+  comment_post_notif_premod: "Vielen Dank für Ihren Kommentar. Unsere Moderatoren werden ihn in Kürze bearbeiten."
+  common:
+    copy: 'Kopieren'
+    error: 'Ein Problem ist aufgetreten.'
+    reply: 'antworten'
+    replies: 'Antworten'
+    reaction: 'Reaktion'
+    reactions: 'Reaktionen'
+    story: 'Artikel'
+  flagged_usernames:
+    notify_approved: '{0} hat Nutzername {1} freigegeben'
+    notify_rejected: '{0} hat Nutzername {1} abgelehnt'
+    notify_flagged: '{0} hat Nutzername {1} markiert'
+    notify_changed: 'Nutzer {0} hat Nutzernamen nach {1} geändert'
+  community:
+    account_creation_date: "Datum der Kontoerstellung"
+    active: Aktiv
+    admin: Administrator
+    ads_marketing: "Dies scheint Werbung zu sein"
+    are_you_sure: "Sind Sie sich sicher, dass Sie {0} sperren möchten?"
+    ban_user: "Nutzer sperren?"
+    banned: Gesperrt
+    banned_user: "Gesperrter Nutzer"
+    cancel: Abbrechen
+    dont_like_username: "Unsympathischer Nutzername"
+    flaggedaccounts: "Gemeldete Nutzernamen"
+    flags: Markierungen
+    impersonating: "Identität unklar"
+    loading: "Lädt Ergebnisse"
+    moderator: Moderator
+    newsroom_role: "Redaktionsrolle"
+    no_flagged_accounts: "Die Liste der gemeldeten Nutzer ist aktuell leer."
+    no_results: "Keine Nutzer mit entsprechendem Namen oder E-Mail-Adresse gefunden."
+    offensive: "Unangemessen"
+    other: Etwas anderes
+    people: Nutzer
+    role: "Rolle auswählen..."
+    select_status: "Status wählen..."
+    spam_ads: "Spam/Werbung"
+    staff: "Mitarbeiter"
+    status: Status
+    username_and_email: "Nutzername und E-Mail"
+    yes_ban_user: "Ja, Nutzer sperren"
+    commenter: "Kommentator"
+  configure:
+    apply: Anwenden
+    banned_word_text: "Kommentare, die diese Wörter oder Phrasen enthalten (unabhängig von Groß-/Kleinschreibung), werden automatisch aus dem Kommentarbereich entfernt. Geben Sie ein Wort ein und bestätigen Sie mit Eingabetaste oder Tab. Es ist auch möglich, einen komma-separierten Text einzufügen."
+    banned_words_title: "Liste der unzulässigen Wörter"
+    close: "Schließen"
+    close_after: "Kommentarbereich schließen nach"
+    close_stream: "Kommentarbereich schließen"
+    close_stream_configuration: "Dieser Kommentarbereich ist momentan geschlossen. Durch das Öffnen dieses Kommentarbereichs können neue Kommentare abgegeben und veröffentlicht werden."
+    closed_comments_desc: "Wird angezeigt, wenn der Kommentarbereich für den Artikel geschlossen ist."
+    closed_comments_label: "Nachricht verfassen..."
+    closed_stream_settings: "Mitteilung über Schließung"
+    comment_count_error: "Geben Sie eine gültige Zahl an."
+    comment_count_header: "Zeichenlimit für Kommentare festlegen"
+    comment_count_text_post: Zeichen
+    comment_count_text_pre: "Kommentar wird begrenzt auf"
+    comment_settings: Einstellungen
+    comment_stream: "Kommentarbereich"
+    comment_stream_will_close: "Der Kommentarbereich wird geschlossen"
+    community: Community
+    configure: Einstellungen
+    copy_and_paste: "Kopieren Sie diesen Code in Ihr CMS, um die Kommentarfunktion an entsprechender Stelle anzuzeigen."
+    custom_css_url: "Benutzerdefinierte CSS-URL"
+    custom_css_url_desc: "URL eines CSS-Stylesheets zum Überschreiben des Standard-Designs"
+    days: Tage
+    description: "Als Administrator können Sie die Einstellungen für den Kommentarbereich dieses Artikels anpassen:"
+    domain_list_text: "Geben Sie Domains an, für die diese Talk-Instanz freigegeben werden soll, z.B. für lokale Test- oder Produktionsumgebungen (Bsp.: localhost:3000 staging.domain.com domain.com)."
+    domain_list_title: "Zugelassene Domains"
+    edit_comment_timeframe_heading: "Zeitlimit zur Bearbeitung von Kommentaren"
+    edit_comment_timeframe_text_pre: "Kommentatoren haben"
+    edit_comment_timeframe_text_post: "Sekunden Zeit, um ihre Kommentare zu bearbeiten."
+    embed_comment_stream: "Kommentarbereich einbinden"
+    enable_premod_links_text: "Moderatoren müssen jeden Kommentar, der einen Link enthält, freigeben, bevor er veröffentlicht wird."
+    enable_pre_moderation: "Vormoderation aktivieren"
+    enable_pre_moderation_text: "Moderatoren müssen jeden Kommentar freigeben, bevor er veröffentlicht wird."
+    enable_premod_links: "Vormoderation für Kommentare mit Links aktivieren"
+    enable_premod: "Vormoderation aktivieren"
+    enable_premod_description: "Moderatoren müssen jeden Kommentar freigeben, bevor er veröffentlicht wird."
+    enable_premod_links_description: "Moderatoren müssen jeden Kommentar, der einen Link enthält, freigeben, bevor er veröffentlicht wird."
+    enable_questionbox: "Stellen Sie den Lesern eine Frage"
+    enable_questionbox_description: "Diese Frage erscheint am Anfang des Kommentarbereichs. Regen Sie eine Diskussion an."
+    hours: Stunden
+    include_comment_stream: "Einleitung zum Kommentarbereich"
+    include_comment_stream_desc: "Verfassen Sie eine Einleitung, die über jedem Kommentarbereich erscheint. Nützlich z.B. für Community-Richtlinien."
+    include_text: "Fügen Sie Ihren Text hier ein."
+    include_question_here: "Stellen Sie Ihre Frage hier:"
+    moderate: Moderieren
+    moderation_settings: "Moderations-Einstellungen"
+    open: "Öffnen"
+    open_stream: "Kommentarbereich öffnen"
+    open_stream_configuration: "Dieser Kommentarbereich ist momentan geöffnet. Nach dem Schließen dieses Kommentarbereich wird es nicht mehr möglich sein, zu kommentieren. Bestehende Kommentare bleiben sichtbar."
+    require_email_verification: "E-Mail-Bestätigung erforderlich"
+    require_email_verification_text: "Neue Nutzer müssen ihre E-Mail-Adresse bestätigen."
+    save_changes: "Änderungen speichern"
+    shortcuts: Tastaturkürzel
+    sign_out: "Abmelden"
+    stories: Artikel
+    stream_settings: "Einstellungen Kommentarbereich"
+    suspect_word_title: "Liste verdächtiger Wörter"
+    suspect_word_text: "Kommentare, die diese Wörter oder Phrasen enthalten (unabhängig von Groß-/Kleinschreibung), werden im Kommentarbereich markiert. Geben Sie ein Wort ein und bestätigen Sie mit Eingabetaste oder Tab. Es ist auch möglich, einen komma-separierten Text einzufügen."
+    tech_settings: "Technische Einstellungen"
+    title: "Kommentarbereich konfigurieren"
+    weeks: Wochen
+    wordlist: "Gesperrte Wörter"
+  continue: "Fortfahren"
+  createdisplay:
+    check_the_form: "Ungültige Eingabe. Bitte prüfen Sie die Felder."
+    continue: "Mit diesem Facebook-Nutzernamen fortfahren"
+    error_create: "Fehler beim Ändern des Nutzernamens"
+    fake_comment_body: "Dies ist ein Beispiel-Kommentar. Leser können im Kommentarbereich Meinungen und Gedanken mit der Redaktion austauschen."
+    fake_comment_date: "Vor einer Minute"
+    if_you_dont_change_your_name: "Wenn Sie Ihren Nutzernamen an diesem Punkt nicht ändern, wird Ihr Facebook-Name mit Ihren Kommentaren angezeigt."
+    required_field: "Pflichtfeld"
+    save: Speichern
+    special_characters: "Nutzernamen dürfen nur Buchstaben, Zahlen und _ enthalten"
+    username: Nutzername
+    write_your_username: "Nutzername bearbeiten"
+    your_username: "Ihr Nutzername erscheint an jedem Ihrer veröffentlichten Kommentare."
+  done: Fertig
+  edit_comment:
+    body_input_label: "Kommentar bearbeiten"
+    save_button: "Änderungen speichern"
+    edit_window_expired: "Sie können diesen Kommentar nicht mehr bearbeiten. Das Zeitfenster hierfür ist abgelaufen. Bitte schreiben Sie einen neuen Kommentar."
+    edit_window_expired_close: "Schließen"
+    edit_window_timer_prefix: "Verbleibende Zeit: "
+    second: "Sekunde"
+    seconds_plural: "Sekunden"
+    minute: "Minute"
+    minutes_plural: "Minuten"
+  email:
+    suspended:
+      subject: "Ihr Benutzerkonto wurde vorübergehend gesperrt"
+    banned:
+      subject: "Ihr Benutzerkonto wurde gesperrt"
+      body: "Entsprechend der Community-Richtlinien des Coral Project, wurde Ihr Benutzerkonto gesperrt. Sie dürfen ab sofort weder kommentieren noch an der Community teilnehmen."
+    confirm:
+      has_been_requested: "Für folgendes Nutzerkonto wurde eine E-Mail-Bestätigung angefordert:"
+      to_confirm: "Um Ihr Nutzerkonto zu bestätigen, öffnen Sie bitte folgenden Link:"
+      confirm_email: "E-Mail-Adresse bestätigen"
+      if_you_did_not: "Sollten Sie diese E-Mail nicht angefordert haben, können Sie diese Nachricht ignorieren."
+      subject: "Bestätigung der E-Mail-Adresse"
+    password_reset:
+      we_received_a_request: "Wir haben eine Anfrage erhalten, Ihr Passwort zurückzusetzen. Sollten Sie dies nicht angefordert haben, können Sie diese Nachricht ignorieren."
+      if_you_did: "Falls doch,"
+      please_click: "klicken Sie bitte hier zum Zurücksetzen"
+  embedlink:
+    copy: "In die Zwischenablage kopieren"
+  error:
+    COMMENT_PARENT_NOT_VISIBLE: "Der Kommentar, auf den Sie antworten möchten, wurde entfernt oder existiert nicht."
+    EMAIL_VERIFICATION_TOKEN_INVALID: "Code zur E-Mail-Bestätigung ist ungültig."
+    PASSWORD_RESET_TOKEN_INVALID: "Ihr Link zum Passwort zurücksetzen ist ungültig."
+    COMMENT_TOO_SHORT: "Kommentare sollten mehr als ein Zeichen enthalten, bitte überprüfen Sie Ihren Kommentar und probieren Sie es erneut."
+    NOT_AUTHORIZED: "Sie sind nicht berechtigt, diese Aktion auszuführen."
+    NO_SPECIAL_CHARACTERS: "Benutzernamen dürfen nur Buchstaben, Zahlen und _ enthalten"
+    PASSWORD_LENGTH: "Passwort ist zu kurz"
+    PROFANITY_ERROR: "Nutzernamen dürfen nicht anstößig sein. Bei Fragen, wenden Sie sich an einen Administrator."
+    RATE_LIMIT_EXCEEDED: "Ratelimit überschritten"
+    USERNAME_IN_USE: "Nutzername bereits vergeben"
+    USERNAME_REQUIRED: "Nutzername muss angegeben werden"
+    EMAIL_NOT_VERIFIED: "E-Mail-Adresse nicht bestätigt"
+    EDIT_WINDOW_ENDED: "Sie können diesen Kommentar nicht mehr bearbeiten. Das Zeitfenster ist abgelaufen."
+    EDIT_USERNAME_NOT_AUTHORIZED: "Sie haben keine Berechtigung, Ihren Nutzernamen zu ändern."
+    SAME_USERNAME_PROVIDED: "Sie müssen einen anderen Nutzernamen wählen."
+    EMAIL_IN_USE: "E-Mail-Adresse bereits vergeben"
+    EMAIL_REQUIRED: "Eine E-Mail-Adresse ist erforderlich"
+    LOGIN_MAXIMUM_EXCEEDED: "Sie haben zu häufig erfolglos versucht, sich anzumelden. Bitte warten Sie."
+    PASSWORD_REQUIRED: "Passwort ist erforderlich"
+    COMMENTING_CLOSED: "Kommentarbereich ist bereits geschlossen"
+    NOT_FOUND: "Ressource nicht gefunden"
+    ALREADY_EXISTS: "Ressource existiert bereits"
+    INVALID_ASSET_URL: "Asset-URL ist ungültig"
+    CANNOT_IGNORE_STAFF: "Mitarbeiter können nicht ignoriert werden."
+    email: "E-Mail-Adresse ungültig"
+    confirm_password: "Passwörter nicht identisch. Bitte erneut überprüfen"
+    network_error: "Server-Verbindung fehlgeschlagen. Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut."
+    email_not_verified: "E-Mail-Adresse {0} nicht bestätigt."
+    email_password: "E-Mail und/oder Passwort inkorrekt."
+    organization_name: "Namen von Organisationen dürfen nur Buchstaben und Zahlen enthalten."
+    password: "Passwort muss mindestens 8 Zeichen enthalten"
+    username: "Nutzernamen dürfen nur Buchstaben, Zahlen und _ enthalten"
+    unexpected: "Unerwarteter Fehler aufgetreten. Es tut uns leid!"
+  flag_comment: "Kommentar melden"
+  flag_reason: "Grund der Meldung (optional)"
+  flag_username: "Nutzername melden"
+  framework:
+    banned_account_header: "Ihr Konto ist aktuell gesperrt."
+    banned_account_body: "Dies bedeutet, dass Sie weder Kommentare schreiben, noch auf andere Weise mit der Community interagieren können."
+    comment: Kommentar
+    comment_is_ignored: "Dieser Kommentar ist nicht sichtbar, da Sie den Nutzer ignorieren."
+    comment_is_rejected: "Sie haben diesen Kommentar abgelehnt."
+    comment_is_hidden: "Dieser Kommentar ist nicht verfügbar."
+    comments: Kommentare
+    configure_stream: "Konfigurieren"
+    content_not_available: "Dieser Inhalt ist nicht verfügbar"
+    edit_name:
+      button: Senden
+      error: "Nutzernamen dürfen nur Buchstaben, Zahlen und _ enthalten"
+      label: "Neuer Nutzername"
+      msg: "Ihr Konto ist vorübergehend gesperrt, da Ihr Nutzername als unangemessen eingestuft wurde. Um Ihr Konto wieder herzustellen, geben Sie bitte einen neuen Nutzernamen ein. Bei Fragen, kontaktieren Sie uns bitte."
+    changed_name:
+      msg: "Die Änderung Ihres Nutzernamens wird von unseren Moderatoren geprüft."
+    my_comments: "Meine Kommentare"
+    my_profile: "Mein Profil"
+    new_count: "{0} {1} mehr anzeigen"
+    profile: Profil
+    show_all_comments: "Alle Kommentare anzeigen"
+    success_bio_update: "Ihre Biographie wurde aktualisiert"
+    success_name_update: "Ihr Nutzername wurde aktualisiert"
+    success_update_settings: "Ihre Änderungen wurden für den Kommentarbereich dieses Artikels angewandt"
+    show_all_replies: Alle Antworten anzeigen
+    show_more_replies: Weitere Antworten anzeigen
+    view_more_comments: "Weitere Kommentare anzeigen"
+    view_reply: "Antwort anzeigen"
+  from_settings_page: "Sie können Ihren Kommentarverlauf auf Ihrer Profilseite sehen."
+  like: Gefällt mir
+  loading_results: "Lädt Ergebnisse"
+  marketing: "Dies scheint Werbung zu sein"
+  moderate_this_stream: "Diesen Kommentarbereich moderieren"
+  flags:
+    reasons:
+       user:
+         username_offensive: "Unangemessen"
+         username_nolike: "Unerwünscht"
+         username_impersonating: "Identität unklar"
+         username_spam: "Spam"
+         username_other: "Anderes"
+       comment:
+         comment_offensive: "Unangemessen"
+         comment_spam: "Spam"
+         comment_noagree: "Andere Meinung"
+         comment_other: "Anderes"
+         suspect_word: "Verdächtiges Wort"
+         banned_word: "Unzulässiges Wort"
+         body_count: "Text überschreitet Zeichenlimit"
+         trust: "Vertrauen"
+         links: "Link"
+  modqueue:
+    account: "Konto-Markierungen"
+    actions: Aktionen
+    all: Alle
+    all_streams: "Alle Kommentarbereiche"
+    notify_edited: '{0} bearbeitete Kommentar "{1}"'
+    notify_accepted: '{0} genehmigte Kommentar "{1}"'
+    notify_rejected: '{0} lehnte Kommentar "{1}" ab'
+    notify_flagged: '{0} markierte Kommentar "{1}"'
+    notify_reset: '{0} setzte Status von "{1}" zurück'
+    approve: "Freigeben"
+    approved: "Freigegeben"
+    ban_user: "Sperren"
+    billion: Mrd
+    close: Schließen
+    empty_queue: "Keine weiteren Kommentare zu moderieren! Arbeite nicht zu viel, gönn’ dir eine Pause!"
+    flagged: markiert
+    reported: gemeldet
+    less_detail: "Weniger Details"
+    likes: Gefällt mir
+    million: Mio
+    mod_faster: "Schneller moderieren mit Tastaturkürzeln"
+    moderate: "Moderieren →"
+    more_detail: "Mehr Details"
+    new: Neu
+    newest_first: "Neueste zuerst"
+    navigation: Navigation
+    next_comment: "Gehe zum nächsten Kommentar"
+    toggle_search: "Suche öffnen"
+    next_queue: "Nächste Liste"
+    oldest_first: "Älteste zuerst"
+    premod: Unmoderiert
+    prev_comment: " Gehe zum vorherigen Kommentar"
+    reject: "Ablehnen"
+    rejected: "Abgelehnt"
+    reply: "Antworten"
+    select_stream: "Kommentarbereich wählen"
+    shift_key: "⇧"
+    shortcuts: "Tastaturkürzel"
+    sort: "Sortieren"
+    show_shortcuts: "Tastaturkürzel anzeigen"
+    singleview: "Zen-Modus"
+    thismenu: "Dieses Menü öffnen"
+    jump_to_queue: "Zu bestimmter Liste springen"
+    thousand: T
+    try_these: "Versuch’ diese"
+    view_more_shortcuts: "Weitere Tastaturkürzel anzeigen"
+  my_comment_history: "Mein Kommentarverlauf"
+  name: Name
+  no_agree_comment: "Ich bin mit diesem Kommentar nicht einverstanden"
+  no_like_bio: "Ich mag diese Biographie nicht"
+  no_like_username: "Ich mag diesen Nutzernamen nicht"
+  already_flagged_username: "Sie haben diesen Nutzernamen schon markiert."
+  other: Sonstiges
+  permalink: Teilen
+  personal_info: "Dieser Kommentar enthält zu viel personenbezogene Daten"
+  post: Post  # Kontext?
+  profile: Profil
+  profile_settings: "Profil-Einstellungen"
+  reply: Antworten
+  report: Melden
+  report_notif: "Vielen Dank für Ihre Meldung. Unsere Moderatoren wurden informiert und werden sich in Kürze darum kümmern."
+  report_notif_remove: "Ihre Meldung wurde entfernt."
+  reported: Gemeldet
+  settings:
+    from_settings_page: "Sie können auf Ihrer Profilseite Ihren Kommentarverlauf einsehen."
+    my_comment_history: "Mein Kommentarverlauf"
+    profile: Profil
+    profile_settings: "Profil-Einstellungen"
+    sign_in: "Anmelden"
+    to_access: "um auf Profil zuzugreifen"
+    user_no_comment: "Keine Kommentare vorhanden. Nehmen Sie an der Diskussion teil!"
+  stream:
+    all_comments: "Alle Kommentare"
+    temporarily_suspended: "Entsprechend der Community-Regeln von {0} wurde Ihr Konto vorübergehend gesperrt. Nehmen Sie {1} wieder an der Diskussion teil."
+    comment_not_found: "Kommentar nicht gefunden"
+    no_comments: "Es gibt noch keine Kommentare. Schreiben Sie doch einen..."
+    no_comments_and_closed: "Es gab zu diesem Artikel keine Kommentare."
+  step_1_header: "Ein Problem melden"
+  step_2_header: "Begründung"
+  step_3_header: "Danke für Ihren Hinweis"
+  streams:
+    all: Alle
+    article: Artikel
+    closed: Geschlossen
+    empty_result: "Ihre Suche war ohne Ergebnisse. Versuchen Sie, Ihre Anfrage weiter zu fassen."
+    filter_streams: "Kommentarbereiche filtern"
+    newest: Neueste
+    oldest: Älteste
+    open: Offen
+    pubdate: "Veröffentlichungsdatum"
+    search: Suchen
+    sort_by: "Sortieren nach"
+    status: "Status"
+    stream_status: "Status"
+  suspenduser:
+    title_suspend: "Nutzer vorübergehend sperren"
+    description_suspend: "Sie sperren vorübergehend {0}. Dieser Kommentar wird auf die Abgelehnt-Liste verschoben und der Nutzer wird keine Aktionen ausführen können, bis die Sperrung abgelaufen ist."
+    select_duration: "Sperrdauer festlegen"
+    one_hour: "1 Stunde"
+    hours: "{0} Stunden"
+    days: "{0} Tage"
+    cancel: "Abbrechen"
+    suspend_user: "Nutzer vorübergehend sperren"
+    email_message_suspend: "Sehr geehrte/r {0}, entsprechend der Community-Richtlinien von {1} wurde Ihr Konto vorübergehend gesperrt. Während der Sperrung können Sie weder kommentieren noch andere Aktionen ausführen. Nehmen Sie {2} wieder an der Diskussion teil."
+    title_notify: "Den Nutzer über die vorübergehende Kontosperrung informieren"
+    notify_suspend_until: "Nutzer {0} wurde vorübergehend gesperrt. Diese Sperrung endet automatisch {1}." 
+    description_notify: "Während der Sperrung hat der Nutzer keinen Zugriff auf das Konto."
+    write_message: "Nachricht verfassen"
+    send: Senden
+  reject_username:
+    username: Nutzername
+    no_cancel: "Nein, abbrechen"
+    description_reject: "Möchten Sie diesen Nutzer vorübergehend sperren (Grund: {0})? Der Nutzer kann das Konto erst wieder nach Änderung des {0} nutzen."
+    title_notify: "Nutzer über die vorübergehende Sperrung benachrichtigen"
+    description_notify: "Die Sperrung wird das Nutzerkonto vorübergehend deaktivieren."
+    title_reject: "Uns ist aufgefallen, dass Sie einen Nutzernamen abgelehnt haben"
+    suspend_user: "Nutzer vorübergehend sperren"
+    yes_suspend: "Ja, vorübergehend sperren"
+    email_message_reject: "Ein Community-Mitglied hat Ihren Nutzernamen zur Überprüfung gemeldet. Er wurde als unangemessen eingestuft und abgelehnt. Sie können Ihr Konto erst wieder voll nutzen, wenn Sie Ihren Namen ändern. Setzen Sie sich bei weiteren Fragen mit uns in Verbindung."
+    write_message: "Nachricht schreiben"
+    send: Senden
+  thank_you: "Vielen Dank für Ihre Nachricht. Wir nehmen Ihre Meldung ernst und ein Moderator wird sie umgehend prüfen."
+  user:
+    bio_flags: "Markierungen für diese Biographie"
+    user_bio: "Nutzer-Biographie"
+    username_flags: "Markierungen für diesen Nutzernamen"
+  user_detail:
+    remove_suspension: "Vorübergehende Sperrung aufheben"
+    suspend: "Nutzer vorübergehend sperren"
+    remove_ban: "Sperre aufheben"
+    ban: "Nutzer sperren"
+    member_since: "Mitglied seit"
+    email: "E-Mail"
+    total_comments: "Anzahl Kommentare"
+    reject_rate: "Ablehn-Rate"
+    reports: "Meldungen"
+    all: "Alle"
+    rejected: "Abgelehnte"
+    account_history: "Konto-Verlauf"
+  account_history:
+    user_banned: "User banned"
+    ban_removed: "Ban removed"
+    username_status: "Username {0}"
+    suspended: "Suspended, {0}"
+    suspension_removed: "Suspension removed"
+    system: "System"
+    date: "Date"
+    action: "Action"
+    taken_by: "Taken By"
+  user_impersonating: "Gibt sich für jemand anderen aus"
+  user_no_comment: "Sie haben noch keinen Kommentar abgegeben. Teilen Sie Ihre Meinung mit uns!"
+  username_offensive: "Dieser Nutzername ist unangemessen"
+  view_conversation: "Diskussion ansehen"
+  install:
+    initial:
+      description: "Erstellen Sie in wenigen Schritten Ihre Talk-Community."
+      submit: "Los geht’s!"
+    add_organization:
+      description: "Geben Sie den Namen Ihrer Organisation ein. Dieser erscheint in E-Mails, wenn Sie neue Mitglieder einladen."
+      label: "Name der Organisation"
+      save: "Speichern"
+    create:
+      email: "E-Mail-Adresse"
+      username: "Nutzername"
+      password: "Passwort"
+      confirm_password: "Passwort bestätigen"
+      save: "Speichern"
+    permitted_domains:
+      title: "Zugelassene Domains"
+      description: "Geben Sie Domains an, für die diese Talk-Instanz freigegeben werden soll. Beispiel: localhost:3000 staging.domain.com domain.com."
+      submit: "Installation abschließen"
+    final:
+      description: "Danke, dass Sie Talk benutzen! Bitte bestätigen Sie Ihre E-Mail-Adresse über den Link, den wir an Sie versandt haben. Während Sie die Einrichtung Ihres Kontos abschließen, können Sie sich schon mit Ihren Lesern beschäftigen."
+      launch: "Talk starten"
+      close: "Schließen"
+  admin_sidebar:
+    view_options: "Ansichtsoptionen"
+    sort_comments: "Kommentare sortieren"

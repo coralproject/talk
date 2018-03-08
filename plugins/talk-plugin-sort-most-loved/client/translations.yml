@@ -1,5 +1,27 @@
+da:
+  talk-plugin-sort-most-loved:
+    label: Most loved first
 en:
   talk-plugin-sort-most-loved:
     label: Most loved first
+de:
+  talk-plugin-sort-most-loved:
+    label: Häufigste "Ich liebe es" zuerst
 es:
   talk-plugin-sort-most-loved:
+    label: Most loved first
+fr:
+  talk-plugin-sort-most-loved:
+    label: Most loved first
+nl_NL:
+  talk-plugin-sort-most-loved:
+    label: Meest geliefd eerst
+pt_BR:
+  talk-plugin-sort-most-loved:
+    label: Most loved first
+zh_CN:
+  talk-plugin-sort-most-loved:
+    label: "最多被比心在前"
+zh_TW:
+  talk-plugin-sort-most-loved:
+    label: 最多被比心在前

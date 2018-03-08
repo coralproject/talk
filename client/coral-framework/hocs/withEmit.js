@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
  * WithEmit provides a property `emit: (eventName, value)`
  * to the wrapped component.
  */
-export default hoistStatics((WrappedComponent) => {
+export default hoistStatics(WrappedComponent => {
   class WithEmit extends React.Component {
     static contextTypes = {
       eventEmitter: PropTypes.object,
@@ -17,10 +17,7 @@ export default hoistStatics((WrappedComponent) => {
     };
 
     render() {
-      return <WrappedComponent
-        {...this.props}
-        emit={this.emit}
-      />;
+      return <WrappedComponent {...this.props} emit={this.emit} />;
     }
   }
 

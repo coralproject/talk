@@ -6,12 +6,13 @@ import update from 'immutability-helper';
 import ModTag from './containers/ModTag';
 import ModActionButton from './containers/ModActionButton';
 import ModSubscription from './containers/ModSubscription';
+import ModIndicatorSubscription from './containers/ModIndicatorSubscription';
 import FeaturedDialog from './containers/FeaturedDialog';
-import {gql} from 'react-apollo';
+import { gql } from 'react-apollo';
 import reducer from './reducer';
 
-import {findCommentInEmbedQuery} from 'coral-embed-stream/src/graphql/utils';
-import {prependNewNodes} from 'plugin-api/beta/client/utils';
+import { findCommentInEmbedQuery } from 'coral-embed-stream/src/graphql/utils';
+import { prependNewNodes } from 'plugin-api/beta/client/utils';
 
 export default {
   translations,
@@ -23,34 +24,38 @@ export default {
     moderationActions: [ModActionButton],
     adminModeration: [ModSubscription, FeaturedDialog],
     adminCommentInfoBar: [ModTag],
+    adminModerationIndicator: [ModIndicatorSubscription],
   },
   mutations: {
-    IgnoreUser: ({variables}) => ({
+    IgnoreUser: ({ variables }) => ({
       updateQueries: {
-        CoralEmbedStream_Embed: (previous) => {
+        CoralEmbedStream_Embed: previous => {
           if (!previous.asset.featuredComments) {
             return previous;
           }
           const ignoredUserId = variables.id;
-          const newNodes = previous.asset.featuredComments.nodes.filter((n) => n.user.id !== ignoredUserId);
-          const removedCount =  previous.asset.featuredComments.nodes.length - newNodes.length;
+          const newNodes = previous.asset.featuredComments.nodes.filter(
+            n => n.user.id !== ignoredUserId
+          );
+          const removedCount =
+            previous.asset.featuredComments.nodes.length - newNodes.length;
           const updated = update(previous, {
             asset: {
               featuredComments: {
-                nodes: {$set: newNodes}
+                nodes: { $set: newNodes },
               },
               featuredCommentsCount: {
-                $apply: (value) => value - removedCount,
-              }
-            }
+                $apply: value => value - removedCount,
+              },
+            },
           });
           return updated;
-        }
-      }
+        },
+      },
     }),
-    AddTag: ({variables}) => ({
+    AddTag: ({ variables }) => ({
       updateQueries: {
-        CoralEmbedStream_Embed: (previous) => {
+        CoralEmbedStream_Embed: previous => {
           let updated = previous;
 
           if (variables.name !== 'FEATURED') {
@@ -64,21 +69,20 @@ export default {
               asset: {
                 featuredComments: {
                   nodes: {
-                    $apply: (nodes) => prependNewNodes(nodes, [comment]),
-                  }
+                    $apply: nodes => prependNewNodes(nodes, [comment]),
+                  },
                 },
                 featuredCommentsCount: {
-                  $apply: (value) => value + 1
+                  $apply: value => value + 1,
                 },
-              }
+              },
             });
           }
 
           return updated;
-        }
+        },
       },
-      update: (proxy) => {
-
+      update: proxy => {
         if (variables.name !== 'FEATURED') {
           return;
         }
@@ -91,16 +95,16 @@ export default {
           }
         `;
 
-        const data = proxy.readFragment({fragment, id: fragmentId});
+        const data = proxy.readFragment({ fragment, id: fragmentId });
 
         data.status = 'ACCEPTED';
 
-        proxy.writeFragment({fragment, id: fragmentId, data});
+        proxy.writeFragment({ fragment, id: fragmentId, data });
       },
     }),
-    RemoveTag: ({variables}) => ({
+    RemoveTag: ({ variables }) => ({
       updateQueries: {
-        CoralEmbedStream_Embed: (previous) => {
+        CoralEmbedStream_Embed: previous => {
           let updated = previous;
 
           if (variables.name !== 'FEATURED') {
@@ -112,20 +116,19 @@ export default {
               asset: {
                 featuredComments: {
                   nodes: {
-                    $apply: (nodes) =>
-                      nodes.filter((n) => n.id !== variables.id)
-                  }
+                    $apply: nodes => nodes.filter(n => n.id !== variables.id),
+                  },
                 },
                 featuredCommentsCount: {
-                  $apply: (value) => value - 1
-                }
-              }
+                  $apply: value => value - 1,
+                },
+              },
             });
           }
 
           return updated;
         },
-      }
-    })
+      },
+    }),
   },
 };

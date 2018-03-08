@@ -1,0 +1,56 @@
+.commentList {
+  clear: both;
+}
+
+.loadMore > button {
+  background-color: #696969;
+  &:hover {
+    background-color: #404040;
+    color: white;
+  }
+}
+
+.bulkActionHeader {
+  display: flex;
+  justify-content: space-between;
+  height: 52px;
+  justify-content: flex-end;
+
+  &.selected {
+    background-color: #efefef;
+  }
+}
+
+.bulkActionGroup {
+  height: 52px;
+  background-color: #efefef;
+  padding: 0 0 0 10px;
+  display: flex;
+  flex: 1;
+
+  i {
+    margin-right: 0;
+  }
+
+  .bulkAction {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    transform: scale(.7);
+    min-width: 0;
+  }
+  .bulkAction:last-child {
+    margin-left: -10px;
+  }
+}
+
+.selectedCommentsInfo {
+  align-self: center;
+  font-weight: 500;
+  margin-left: 15px;
+}
+
+.toggleAll {
+  padding-right: 14px;
+  align-self: center;
+}

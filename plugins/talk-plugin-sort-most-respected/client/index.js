@@ -1,10 +1,10 @@
 import translations from './translations.yml';
-import {createSortOption} from 'plugin-api/beta/client/factories';
-import {t} from 'plugin-api/beta/client/services';
+import { createSortOption } from 'plugin-api/beta/client/factories';
+import { t } from 'plugin-api/beta/client/services';
 
 const SortOption = createSortOption(
   () => t('talk-plugin-sort-most-respected.label'),
-  {sortBy: 'RESPECTS', sortOrder: 'DESC'},
+  { sortBy: 'RESPECTS', sortOrder: 'DESC' }
 );
 
 /**
@@ -14,6 +14,6 @@ const SortOption = createSortOption(
 export default {
   translations,
   slots: {
-    viewingOptionsSort: [SortOption]
-  }
+    viewingOptionsSort: [SortOption],
+  },
 };

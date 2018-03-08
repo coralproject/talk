@@ -4,20 +4,18 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
 const util = require('./util');
+const _ = require('lodash');
+const program = require('commander');
 const inquirer = require('inquirer');
 const mongoose = require('../services/mongoose');
 const MigrationService = require('../services/migration');
 
 // Register shutdown hooks.
-util.onshutdown([
-  () => mongoose.disconnect()
-]);
+util.onshutdown([() => mongoose.disconnect()]);
 
 async function createMigration(name) {
   try {
-
     // Create the migration.
     await MigrationService.create(name);
 
@@ -28,47 +26,60 @@ async function createMigration(name) {
   }
 }
 
-async function runMigrations() {
-
+async function runMigrations(options) {
+  const { yes, queryBatchSize, updateBatchSize } = options;
   try {
+    if (!yes) {
+      const { backedUp } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'backedUp',
+          message: 'Did you perform a database backup',
+          default: false,
+        },
+      ]);
 
-    let {backedUp} = await inquirer.prompt([
-      {
-        type: 'confirm',
-        name: 'backedUp',
-        message: 'Did you perform a database backup',
-        default: false
+      if (!backedUp) {
+        throw new Error(
+          'Please backup your databases prior to migrations occuring'
+        );
       }
-    ]);
-
-    if (!backedUp) {
-      throw new Error('Please backup your databases prior to migrations occuring');
     }
 
     // Get the migrations to run.
-    let migrations = await MigrationService.listPending();
+    const migrations = await MigrationService.listPending();
 
     console.log('Now going to run the following migrations:\n');
 
-    for (let {filename} of migrations) {
+    for (const { filename } of migrations) {
       console.log(`\tmigrations/${filename}`);
     }
 
-    let {confirm} = await inquirer.prompt([
-      {
-        type: 'confirm',
-        name: 'confirm',
-        message: 'Proceed with migrations',
-        default: false
+    if (!yes) {
+      const { confirm } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'confirm',
+          message: 'Proceed with migrations',
+          default: false,
+        },
+      ]);
+
+      if (confirm) {
+        // Run the migrations.
+        await MigrationService.run(migrations, {
+          queryBatchSize,
+          updateBatchSize,
+        });
+      } else {
+        console.warn('Skipping migrations');
       }
-    ]);
-
-    if (confirm) {
-
-      // Run the migrations.
-      await MigrationService.run(migrations);
     } else {
-      console.warn('Skipping migrations');
+      // Run the migrations.
+      await MigrationService.run(migrations, {
+        queryBatchSize,
+        updateBatchSize,
+      });
     }
 
     util.shutdown();
@@ -87,8 +98,25 @@ program
   .description('creates a new migration')
   .action(createMigration);
 
+// Bypasses issue that defaults + coercion doesn't work well together.
+// Ref: https://github.com/tj/commander.js/issues/400#issuecomment-310860869
+const parse10 = _.ary(_.partialRight(parseInt, 10), 1);
+
 program
   .command('run')
+  .option(
+    '-q, --query-batch-size <n>',
+    'change the size of queried documents that are batched at a time',
+    parse10,
+    10000
+  )
+  .option(
+    '-u, --update-batch-size <n>',
+    'change the size of documents that are batched before the update is sent',
+    parse10,
+    20000
+  )
+  .option('-y, --yes', 'will answer yes to all questions')
   .description('runs all pending migrations')
   .action(runMigrations);
 

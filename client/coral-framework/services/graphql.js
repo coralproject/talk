@@ -1,4 +1,4 @@
-import {addTypenameToDocument} from 'apollo-client/queries/queryTransform';
+import { addTypenameToDocument } from 'apollo-client/queries/queryTransform';
 
 /**
  * createGraphQLService
@@ -9,9 +9,10 @@ export function createGraphQLService(registry) {
   return {
     registry,
     resolveDocument(documentOrCallback, props, context) {
-      let document = typeof documentOrCallback === 'function'
-        ? documentOrCallback(props, context)
-        : documentOrCallback;
+      let document =
+        typeof documentOrCallback === 'function'
+          ? documentOrCallback(props, context)
+          : documentOrCallback;
       document = registry.resolveFragments(document);
 
       // We also add typenames to the document which apollo would usually do,

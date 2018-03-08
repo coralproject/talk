@@ -1,9 +1,5 @@
 import Pym from 'pym.js';
 
-const pym = new Pym.Child({polling: 100});
-export default pym;
+const pym = new Pym.Child({ polling: 100 });
 
-export const link = (url) => (e) => {
-  e.preventDefault();
-  pym.sendMessage('navigate', url);
-};
+export default pym;

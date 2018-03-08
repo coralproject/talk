@@ -1,42 +1,25 @@
 import React from 'react';
-import {compose} from 'react-apollo';
-import {bindActionCreators} from 'redux';
-import {getErrorMessages} from 'plugin-api/beta/client/utils';
-import {notify} from 'plugin-api/beta/client/actions/notification';
+import { compose } from 'react-apollo';
 import RejectCommentAction from '../components/RejectCommentAction';
-import {connect, withSetCommentStatus} from 'plugin-api/beta/client/hocs';
+import { withSetCommentStatus } from 'plugin-api/beta/client/hocs';
 
 class RejectCommentActionContainer extends React.Component {
-
   rejectComment = async () => {
-    const {setCommentStatus, comment, hideMenu, notify} = this.props;
+    const { setCommentStatus, comment, hideMenu } = this.props;
 
-    try {
-      await setCommentStatus({
-        commentId: comment.id,
-        status: 'REJECTED'
-      });
-    }
-    catch(err) {
-      notify('error', getErrorMessages(err));
-    }
+    await setCommentStatus({
+      commentId: comment.id,
+      status: 'REJECTED',
+    });
 
     hideMenu();
-  }
+  };
 
   render() {
-    return <RejectCommentAction rejectComment={this.rejectComment}/>;
+    return <RejectCommentAction rejectComment={this.rejectComment} />;
   }
 }
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({
-    notify
-  }, dispatch);
-
-const enhance = compose(
-  connect(null, mapDispatchToProps),
-  withSetCommentStatus
-);
+const enhance = compose(withSetCommentStatus);
 
 export default enhance(RejectCommentActionContainer);

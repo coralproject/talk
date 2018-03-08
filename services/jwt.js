@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const uniq = require('lodash/uniq');
+const { merge, uniq, omitBy, isUndefined } = require('lodash');
 
 /**
  * MultiSecret will take many secrets and provide a unified interface for
@@ -7,10 +7,12 @@ const uniq = require('lodash/uniq');
  */
 class MultiSecret {
   constructor(secrets) {
-    this.kids = secrets.map(({kid}) => kid);
+    this.kids = secrets.map(({ kid }) => kid);
 
     if (uniq(this.kids).length !== secrets.length) {
-      throw new Error('Duplicate kid\'s cannot be used to construct a MultiSecret');
+      throw new Error(
+        "Duplicate kid's cannot be used to construct a MultiSecret"
+      );
     }
 
     this.secrets = secrets;
@@ -20,7 +22,10 @@ class MultiSecret {
    * Sign will sign with the first secret.
    */
   sign(payload, options) {
-    return this.secrets[0].sign(payload, options);
+    return this.secrets[0].sign(
+      omitBy(payload, isUndefined),
+      omitBy(options, isUndefined)
+    );
   }
 
   /**
@@ -31,16 +36,18 @@ class MultiSecret {
     let header = null;
     try {
       header = JSON.parse(Buffer(token.split('.')[0], 'base64').toString());
-    } catch(err) {
+    } catch (err) {
       return callback(err);
     }
 
     if (!('kid' in header)) {
-      return callback(new Error('expected kid to exist in the token header, it did not.'));
+      return callback(
+        new Error('expected kid to exist in the token header, it did not.')
+      );
     }
 
     let kid = header.kid;
-    let verifier = this.secrets.find((secret) => secret.kid === kid);
+    let verifier = this.secrets.find(secret => secret.kid === kid);
     if (!verifier) {
       return callback(new Error(`expected kid ${kid} was not available.`));
     }
@@ -53,7 +60,7 @@ class MultiSecret {
  * Secret wraps the capabilities expected of a Secret, signing and verifying.
  */
 class Secret {
-  constructor({kid, signingKey, verifiyingKey, algorithm}) {
+  constructor({ kid, signingKey, verifiyingKey, algorithm }) {
     this.kid = kid;
     this.signingKey = signingKey;
     this.verifiyingKey = verifiyingKey;
@@ -71,10 +78,17 @@ class Secret {
       throw new Error('no signing key on secret, cannot sign');
     }
 
-    return jwt.sign(payload, this.signingKey, Object.assign({}, options, {
-      keyid: this.kid,
-      algorithm: this.algorithm
-    }));
+    return jwt.sign(
+      payload,
+      this.signingKey,
+      omitBy(
+        merge({}, options, {
+          keyid: this.kid,
+          algorithm: this.algorithm,
+        }),
+        isUndefined
+      )
+    );
   }
 
   /**
@@ -84,16 +98,24 @@ class Secret {
    * @param {Function} callback the function to call with the verification results
    */
   verify(token, options, callback) {
-    jwt.verify(token, this.verifiyingKey, Object.assign({}, options, {
-      algorithms: [this.algorithm]
-    }), callback);
+    jwt.verify(
+      token,
+      this.verifiyingKey,
+      omitBy(
+        merge({}, options, {
+          algorithms: [this.algorithm],
+        }),
+        isUndefined
+      ),
+      callback
+    );
   }
 }
 
 /**
  * SharedSecret is the HMAC based secret that's used for signing/verifying.
  */
-function SharedSecret({kid = undefined, secret = null}, algorithm) {
+function SharedSecret({ kid = undefined, secret = null }, algorithm) {
   if (secret === null || secret.length === 0) {
     throw new Error('Secret cannot have a zero length');
   }
@@ -102,7 +124,7 @@ function SharedSecret({kid = undefined, secret = null}, algorithm) {
     kid,
     signingKey: secret,
     verifiyingKey: secret,
-    algorithm
+    algorithm,
   });
 }
 
@@ -110,20 +132,26 @@ function SharedSecret({kid = undefined, secret = null}, algorithm) {
  * AsymmetricSecret is the Asymmetric based key, where a private key is optional
  * and the public key is required.
  */
-function AsymmetricSecret({kid = undefined, private: privateKey, public: publicKey}, algorithm) {
+function AsymmetricSecret(
+  { kid = undefined, private: privateKey, public: publicKey },
+  algorithm
+) {
   publicKey = Buffer.from(publicKey.replace(/\\n/g, '\n'));
-  privateKey = privateKey && privateKey.length > 0 ? Buffer.from(privateKey.replace(/\\n/g, '\n')) : null;
+  privateKey =
+    privateKey && privateKey.length > 0
+      ? Buffer.from(privateKey.replace(/\\n/g, '\n'))
+      : null;
 
   return new Secret({
     kid,
     signingKey: privateKey,
     verifiyingKey: publicKey,
-    algorithm
+    algorithm,
   });
 }
 
 module.exports = {
   AsymmetricSecret,
   SharedSecret,
-  MultiSecret
+  MultiSecret,
 };

@@ -1,0 +1,120 @@
+da:
+  error:
+    COMMENT_IS_SPAM: |
+      The language in this comment looks like spam. You can
+      edit the comment or submit it anyway for moderator review.
+  talk-plugin-akismet:
+    spam: "Spam"
+    spam_comment: "Spam"
+    detected: "Detected by Akismet"
+    still_spam: |
+      Thank you. Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "Detected Spam"
+en:
+  error:
+    COMMENT_IS_SPAM: |
+      The language in this comment looks like spam. You can
+      edit the comment or submit it anyway for moderator review.
+  talk-plugin-akismet:
+    spam: "Spam"
+    spam_comment: "Spam"
+    detected: "Detected by Akismet"
+    still_spam: |
+      Thank you. Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "Detected Spam"
+es:
+  error:
+    COMMENT_IS_SPAM: |
+      The language in this comment looks like spam. You can
+      edit the comment or submit it anyway for moderator review.
+  talk-plugin-akismet:
+    spam: "Spam"
+    spam_comment: "Spam"
+    detected: "Detected by Akismet"
+    still_spam: |
+      Thank you. Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "Detected Spam"
+fr:
+  error:
+    COMMENT_IS_SPAM: |
+      The language in this comment looks like spam. You can
+      edit the comment or submit it anyway for moderator review.
+  talk-plugin-akismet:
+    spam: "Spam"
+    spam_comment: "Spam"
+    detected: "Detected by Akismet"
+    still_spam: |
+      Thank you. Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "Detected Spam"
+nl_NL:
+  error:
+    COMMENT_IS_SPAM: |
+      Deze reactie ziet er uit als spam. Je kan je reactie 
+      wijzigen, of indienen zodat ons moderatieteam het kan beoordelen.
+  talk-plugin-akismet:
+    spam: "Spam"
+    spam_comment: "Spam"
+    detected: "Gedetecteerd door Akismet"
+    still_spam: |
+      Dank je wel. Ons moderatieteam zal je reactie beoordelen.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "Spam gedetecteerd"
+pt_BR:
+  error:
+    COMMENT_IS_SPAM: |
+      The language in this comment looks like spam. You can
+      edit the comment or submit it anyway for moderator review.
+  talk-plugin-akismet:
+    spam: "Spam"
+    spam_comment: "Spam"
+    detected: "Detected by Akismet"
+    still_spam: |
+      Thank you. Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "Detected Spam"
+zh_CN:
+  error:
+    COMMENT_IS_SPAM: |
+      The language in this comment looks like spam. You can
+      edit the comment or submit it anyway for moderator review.
+  talk-plugin-akismet:
+    spam: "Spam"
+    spam_comment: "Spam"
+    detected: "Detected by Akismet"
+    still_spam: |
+      Thank you. Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "Detected Spam"
+zh_TW:
+  error:
+    COMMENT_IS_SPAM: |
+      The language in this comment looks like spam. You can
+      edit the comment or submit it anyway for moderator review.
+  talk-plugin-akismet:
+    spam: "Spam"
+    spam_comment: "Spam"
+    detected: "Detected by Akismet"
+    still_spam: |
+      Thank you. Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "Detected Spam"

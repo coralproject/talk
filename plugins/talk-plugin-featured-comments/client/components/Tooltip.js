@@ -1,10 +1,10 @@
 import React from 'react';
 import cn from 'classnames';
 import styles from './Tooltip.css';
-import {t} from 'plugin-api/beta/client/services';
-import {Icon} from 'plugin-api/beta/client/components/ui';
+import { t } from 'plugin-api/beta/client/services';
+import { Icon } from 'plugin-api/beta/client/components/ui';
 
-export default ({className = ''}) => (
+export default ({ className = '' }) => (
   <div className={cn(styles.tooltip, className)}>
     <Icon name="info_outline" className={styles.icon} />
     <h3 className={styles.headline}>

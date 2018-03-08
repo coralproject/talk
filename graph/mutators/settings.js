@@ -1,18 +1,16 @@
 const errors = require('../../errors');
 
-const {
-  UPDATE_SETTINGS,
-} = require('../../perms/constants');
+const { UPDATE_SETTINGS } = require('../../perms/constants');
 
 const SettingsService = require('../../services/settings');
 
 const update = async (ctx, settings) => SettingsService.update(settings);
 
-module.exports = (ctx) => {
+module.exports = ctx => {
   let mutators = {
     Settings: {
       update: () => Promise.reject(errors.ErrNotAuthorized),
-    }
+    },
   };
 
   if (ctx.user) {

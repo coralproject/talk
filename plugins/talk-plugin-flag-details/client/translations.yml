@@ -1,6 +1,27 @@
+da:
+  talk-plugin-flag-details:
+    flags: Reports
 en:
   talk-plugin-flag-details:
-    flags: Flags
+    flags: Reports
+de:
+  talk-plugin-flag-details:
+    flags: Markierungen
 es:
   talk-plugin-flag-details:
     flags: Reportes
+fr:
+  talk-plugin-flag-details:
+    flags: Reports
+nl_NL:
+  talk-plugin-flag-details:
+    flags: Meldingen
+pt_BR:
+  talk-plugin-flag-details:
+    flags: Reports
+zh_CN:
+  talk-plugin-flag-details:
+    flags: "报告"
+zh_TW:
+  talk-plugin-flag-details:
+    flags: 標記

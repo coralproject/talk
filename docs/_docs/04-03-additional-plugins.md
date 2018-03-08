@@ -94,6 +94,7 @@ Configuration:
 - `TALK_PERSPECTIVE_TIMEOUT` - The timeout for sending a comment to
   be processed before it will skip the toxicity analysis, parsed by
   [ms](https://www.npmjs.com/package/ms){:target="_blank"}. (Default `300ms`)
+- `TALK_PERSPECTIVE_DO_NOT_STORE` - Whether the API is permitted to store comment and context from this request. Stored comments will be used for future research and community model building purposes to improve the API over time. (Default `true`) [Perspective API - Analize Comment Request](https://github.com/conversationai/perspectiveapi/blob/master/api_reference.md#analyzecomment-request){:target="_blank"}
 
 ## talk-plugin-subscriber
 
@@ -102,3 +103,69 @@ Source: [plugins/talk-plugin-subscriber](https://github.com/coralproject/talk/tr
 Enables a `Subscriber` badge to be added to comments where the author has the
 `SUBSCRIBER` tag. This must match with a custom auth integration that adds the
 tag to the users that are subscribed to the service.
+
+## talk-plugin-akismet
+
+Source: [plugins/talk-plugin-akismet](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-akismet){:target="_blank"}
+
+Enables spam detection from [Akismet](https://akismet.com/). Comments will be passed to the Akismet API for spam detection. If a comment
+is determined to be spam, it will prompt the user, indicating that the comment might be considered spam. If the user continues after this
+point with the still spam-like comment, the comment will be reported as containing spam, and sent for moderator approval.
+
+**Note: [Akismet](https://akismet.com/) is a premium service, charges may apply.**
+
+Configuration:
+
+- `TALK_AKISMET_API_KEY` (**required**) - The Akismet API key located on your account page.
+- `TALK_AKISMET_SITE` (**required**) - The URL where you are embedding the comment stream on to provide context to Akismet. If you're hosting talk on https://talk.mynews.org/, and your news site is https://mynews.org/, then you should set this parameter to `https://mynews.org/`
+
+## talk-plugin-notifications
+
+Source: [plugins/talk-plugin-notifications](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-notifications){:target="_blank"}
+
+Enables the Notification system for sending out enabled email notifications to
+users when they interact with Talk. By itself, this plugin will not send
+anything. You need to enable one of the `talk-plugin-notifications-category-*` plugins.
+
+**Note that all `talk-plugin-notifications-*` plugins must be registered
+*before* this plugin in order to work. For example:**
+
+```js
+{
+  "server": [
+    // ...
+    "talk-plugin-notifications-category-reply",
+    "talk-plugin-notifications",
+    // ...
+  ]
+}
+```
+{:.no-copy}
+
+Configuration:
+
+- `DISABLE_REQUIRE_EMAIL_VERIFICATIONS` - When `TRUE`, it will disable the verification email check before sending notifications for those emails. **Note that organizations implementing a custom authentication system _must_ disable this feature, as they don't use our integrated auth**. (Default `FALSE`).
+
+### talk-plugin-notifications-category-reply
+{:.param}
+
+Source: [plugins/talk-plugin-notifications-category-reply](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-notifications-category-reply){:target="_blank"}
+
+Replies made to each user will trigger an email to be sent with the notification
+details if enabled.
+
+### talk-plugin-notifications-category-featured
+{:.param}
+
+Source: [plugins/talk-plugin-notifications-category-featured](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-notifications-category-featured){:target="_blank"}
+
+When a comment is featured (via the `talk-plugin-featured-comments` plugin), the
+user will receive a notification email.
+
+### talk-plugin-notifications-category-staff
+{:.param}
+
+Source: [plugins/talk-plugin-notifications-category-staff](https://github.com/coralproject/talk/tree/master/plugins/talk-plugin-notifications-category-staff){:target="_blank"}
+
+Replies made to each user by a staff member will trigger an email to be sent
+with the notification details if enabled.

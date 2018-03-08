@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router';
-
-import {Icon} from 'coral-ui';
+import Slot from 'coral-framework/components/Slot';
+import { Link } from 'react-router';
+import { Icon } from 'coral-ui';
 import CommentDetails from './CommentDetails';
 import styles from './UserDetailComment.css';
-import CommentBodyHighlighter from 'coral-admin/src/components/CommentBodyHighlighter';
+import CommentFormatter from 'coral-admin/src/components/CommentFormatter';
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
 import CommentAnimatedEdit from './CommentAnimatedEdit';
@@ -13,19 +13,18 @@ import CommentLabels from '../containers/CommentLabels';
 import ApproveButton from './ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
 
-import t, {timeago} from 'coral-framework/services/i18n';
+import t, { timeago } from 'coral-framework/services/i18n';
 
 class UserDetailComment extends React.Component {
+  approve = () =>
+    this.props.comment.status === 'ACCEPTED'
+      ? null
+      : this.props.acceptComment({ commentId: this.props.comment.id });
 
-  approve = () => (this.props.comment.status === 'ACCEPTED'
-    ? null
-    : this.props.acceptComment({commentId: this.props.comment.id})
-  );
-
-  reject = () => (this.props.comment.status === 'REJECTED'
-    ? null
-    : this.props.rejectComment({commentId: this.props.comment.id})
-  );
+  reject = () =>
+    this.props.comment.status === 'REJECTED'
+      ? null
+      : this.props.rejectComment({ commentId: this.props.comment.id });
 
   render() {
     const {
@@ -34,30 +33,43 @@ class UserDetailComment extends React.Component {
       toggleSelect,
       className,
       data,
-      root: {settings: {wordlist: {banned, suspect}}},
+      root: { settings },
     } = this.props;
+
+    const queryData = { root, comment };
+
+    const formatterSettings = {
+      suspectWords: settings.wordlist.suspect,
+      bannedWords: settings.wordlist.banned,
+      body: comment.body,
+    };
 
     return (
       <li
         tabIndex={0}
-        className={cn(className, styles.root, {[styles.rootSelected]: selected})}
+        className={cn(className, styles.root, {
+          [styles.rootSelected]: selected,
+        })}
       >
         <div className={styles.container}>
           <div className={styles.header}>
             <input
               className={styles.bulkSelectInput}
-              type='checkbox'
+              type="checkbox"
               value={comment.id}
               checked={selected}
-              onChange={(e) => toggleSelect(e.target.value, e.target.checked)} />
+              onChange={e => toggleSelect(e.target.value, e.target.checked)}
+            />
             <span className={styles.created}>
               {timeago(comment.created_at)}
             </span>
-            {
-              (comment.editing && comment.editing.edited)
-                ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
-                : null
-            }
+            {comment.editing && comment.editing.edited ? (
+              <span>
+                &nbsp;<span className={styles.editedMarker}>
+                  ({t('comment.edited')})
+                </span>
+              </span>
+            ) : null}
 
             <div className={styles.labels}>
               <CommentLabels comment={comment} />
@@ -65,17 +77,27 @@ class UserDetailComment extends React.Component {
           </div>
           <div className={styles.story}>
             Story: {comment.asset.title}
-            {<Link to={`/admin/moderate/${comment.asset.id}`}>{t('modqueue.moderate')}</Link>}
+            {
+              <Link to={`/admin/moderate/${comment.asset.id}`}>
+                {t('modqueue.moderate')}
+              </Link>
+            }
           </div>
           <CommentAnimatedEdit body={comment.body}>
             <div className={styles.bodyContainer}>
               <div className={styles.body}>
-                <CommentBodyHighlighter
-                  suspectWords={suspect}
-                  bannedWords={banned}
-                  body={comment.body}
+                <Slot
+                  fill="userDetailCommentContent"
+                  data={data}
+                  className={cn(
+                    styles.commentContent,
+                    'talk-admin-user-detail-comment'
+                  )}
+                  queryData={queryData}
+                  slotSize={1}
+                  defaultComponent={CommentFormatter}
+                  {...formatterSettings}
                 />
-                {' '}
                 <a
                   className={styles.external}
                   href={`${comment.asset.url}?commentId=${comment.id}`}
@@ -106,17 +128,15 @@ class UserDetailComment extends React.Component {
             </div>
           </CommentAnimatedEdit>
         </div>
-        <CommentDetails
-          data={data}
-          root={root}
-          comment={comment}
-        />
+        <CommentDetails data={data} root={root} comment={comment} />
       </li>
     );
   }
 }
 
 UserDetailComment.propTypes = {
+  selected: PropTypes.bool,
+  data: PropTypes.object,
   user: PropTypes.object.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
@@ -140,7 +160,7 @@ UserDetailComment.propTypes = {
     asset: PropTypes.shape({
       title: PropTypes.string,
       url: PropTypes.string,
-      id: PropTypes.string
+      id: PropTypes.string,
     }),
   }),
 };

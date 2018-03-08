@@ -4,14 +4,14 @@ import TagsInput from 'coral-admin/src/components/TagsInput';
 import t from 'coral-framework/services/i18n';
 import ConfigureCard from 'coral-framework/components/ConfigureCard';
 
-const Domainlist = ({domains, onChangeDomainlist}) => {
+const Domainlist = ({ domains, onChangeDomainlist }) => {
   return (
     <ConfigureCard title={t('configure.domain_list_title')}>
       <p>{t('configure.domain_list_text')}</p>
       <TagsInput
         value={domains}
-        inputProps={{placeholder: 'URL'}}
-        onChange={(tags) => onChangeDomainlist('whitelist', tags)}
+        inputProps={{ placeholder: 'URL' }}
+        onChange={tags => onChangeDomainlist('whitelist', tags)}
       />
     </ConfigureCard>
   );

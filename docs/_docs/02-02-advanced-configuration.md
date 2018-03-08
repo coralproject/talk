@@ -5,10 +5,10 @@ class: configuration
 ---
 
 Talk requires configuration in order to customize the installation. The default
-behavior is to load it's configuration from the environment, following the
+behavior is to load its configuration from the environment, following the
 [12 Factor App Manifesto](https://12factor.net/){:target="_blank"}.
 In development, you can specify configuration in a file named `.env` and it will
-be loaded into the environment when you run `yarn dev-start`.
+be loaded into the environment when you run `yarn watch:server`.
 
 The following variables have defaults, and are _optional_ to start your
 instance of Talk:
@@ -57,6 +57,50 @@ When `TRUE`, it will not mount the static asset serving routes on the router.
 This is used primarily in conjunction with [TALK_STATIC_URI](#talk_static_uri){: .param}
 when the static assets are being hosted on an external domain. (Default `FALSE`)
 
+## TALK_FACEBOOK_APP_ID
+
+The Facebook App ID for your Facebook Login enabled app. You can learn more
+about getting a Facebook App ID at the
+[Facebook Developers Portal](https://developers.facebook.com){:target="_blank"}
+or by visiting the
+[Creating an App ID](https://developers.facebook.com/docs/apps/register){:target="_blank"}
+guide. This is only required while the `talk-plugin-facebook-auth` plugin is
+enabled.
+
+## TALK_FACEBOOK_APP_SECRET
+
+The Facebook App Secret for your Facebook Login enabled app. You can learn more
+about getting a Facebook App Secret at the
+[Facebook Developers Portal](https://developers.facebook.com){:target="_blank"}
+or by visiting the
+[Creating an App ID](https://developers.facebook.com/docs/apps/register){:target="_blank"}
+guide. This is only required while the `talk-plugin-facebook-auth` plugin is
+enabled.
+
+## TALK_GOOGLE_CLIENT_ID
+
+The Google OAuth2 client ID for your Google login web app. You can learn more
+about getting a Google Client ID at the
+[Google API Console](https://console.developers.google.com/apis/){:target="_blank"}.
+
+You will need to enable the Google+ API in the dashboard and create credentials
+for a new OAuth client ID web application. The authorized JavaScript origin
+should be set to the Talk domain, and the authorized redirect URI should be set
+to http://<example.com>/api/v1/auth/google/callback. This is only required while
+the `talk-plugin-google-auth` plugin is enabled.
+
+## TALK_GOOGLE_CLIENT_SECRET
+
+The Google OAuth2 client ID for your Google login web app. You can learn more
+about getting a Google Client ID at the
+[Google API Console](https://console.developers.google.com/apis/){:target="_blank"}.
+
+You will need to enable the Google+ API in the dashboard and create credentials
+for a new OAuth client ID web application. The authorized JavaScript origin
+should be set to the Talk domain, and the authorized redirect URI should be set
+to http://<example.com>/api/v1/auth/google/callback. This is only required while
+the `talk-plugin-google-auth` plugin is enabled.
+
 ## TALK_HELMET_CONFIGURATION
 
 A JSON string representing the configuration passed to the
@@ -84,7 +128,7 @@ set to `TRUE` after you've deployed Talk. (Default `FALSE`)
 
 ## TALK_JWT_ALG
 
-The algorithm used to sign/verify JWT’s used for session management. Read up
+The algorithm used to sign/verify JWTs used for session management. Read up
 about alternative algorithms on the
 [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken#algorithms-supported){:target="_blank"}
 package. (Default `HS256`)
@@ -303,6 +347,8 @@ the websocket to keep the socket alive, parsed by
 
 ## TALK_RECAPTCHA_PUBLIC
 
+Setting a reCAPTCHA Public and Secret key will enable and require reCAPTCHA upon multiple failed login attempts.
+
 Client secret used for enabling reCAPTCHA powered logins. If
 [TALK_RECAPTCHA_SECRET](#talk_recaptcha_secret){: .param} and
 [TALK_RECAPTCHA_PUBLIC](#talk_recaptcha_public){: .param} are not provided it will instead
@@ -319,7 +365,7 @@ default to providing only a time based lockout. Refer to
 [reCAPTCHA](https://www.google.com/recaptcha/intro/index.html) for information
 on getting an account setup.
 
-## TALK_REDIS_CLIENT_CONFIG
+## TALK_REDIS_CLIENT_CONFIGURATION
 
 Configuration overrides for the redis client configuration in a JSON encoded
 string. Configuration is overridden as the second parameter to the redis client
@@ -467,3 +513,64 @@ same as any other user in the system. (Default `FALSE`)
 The prefix for the subject of emails sent. An email with the specified subject
 of `Email Confirmation` would then be sent as `[Talk] Email Confirmation`.
 (Default `[Talk]`)
+
+## DISABLE_CREATE_MONGO_INDEXES
+
+When `TRUE`, Talk will not attempt to create any indices. This is recommended
+for production systems that have ran Talk at least once during setup while unset
+or set to `FALSE`.
+
+## TALK_SETTINGS_CACHE_TIME
+
+The duration of time that the settings object will be kept in the Redis cache,
+parsed by [ms](https://www.npmjs.com/package/ms){:target="_blank"}. (Default
+`1hr`)
+
+## APOLLO_ENGINE_KEY
+
+Used to set the key for use with
+[Apollo Engine](https://www.apollographql.com/engine/){:target="_blank"} for
+tracing of GraphQL requests.
+
+**Note: Apollo Engine is a premium service, charges may apply.**
+
+## ALLOW_NO_LIMIT_QUERIES
+
+Setting this to `TRUE` will allow queries to execute without a limit (returns
+all documents). This introduces a significant performance regression, and should
+be used with caution. (Default `FALSE`)
+
+## TALK_ADDTL_COMMENTS_ON_LOAD_MORE
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+image you can specify it with `--build-arg TALK_ADDTL_COMMENTS_ON_LOAD_MORE=10`.
+
+Specifies the number of additional comments to load when a user clicks `Load More`. (Default `10`)
+
+## TALK_ASSET_COMMENTS_LOAD_DEPTH
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+image you can specify it with `--build-arg TALK_ASSET_COMMENTS_LOAD_DEPTH=10`.
+
+Specifies the initial number of comments to load for an asset. (Default `10`)
+
+## TALK_REPLY_COMMENTS_LOAD_DEPTH
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+image you can specify it with `--build-arg TALK_REPLY_COMMENTS_LOAD_DEPTH=3`.
+
+Specifies the initial replies to load for a comment. (Default `3`)
+
+## TALK_LOGGING_LEVEL
+
+Sets the logging level for the context logger (from [Bunyan](https://github.com/trentm/node-bunyan)) that will be phased in to replace most existing `debug()` calls. Supports the following values:
+
+- `fatal`
+- `error`
+- `warn`
+- `info`
+- `debug`
+- `trace`

@@ -1,10 +1,14 @@
 import React from 'react';
 import styles from './Category.css';
-import {Slot} from 'plugin-api/beta/client/components';
+import { Slot } from 'plugin-api/beta/client/components';
 
-const childFactory = (child) => <li className={styles.listItem} key={child.key}>{child}</li>;
+const childFactory = child => (
+  <li className={styles.listItem} key={child.key}>
+    {child}
+  </li>
+);
 
-const ViewingOptions = ({slot, title, data, asset, root}) => {
+const ViewingOptions = ({ slot, title, data, asset, root }) => {
   return (
     <div className={styles.root}>
       <div className={styles.title}>{title}</div>
@@ -14,7 +18,7 @@ const ViewingOptions = ({slot, title, data, asset, root}) => {
         className={styles.list}
         component={'ul'}
         data={data}
-        queryData={{asset, root}}
+        queryData={{ asset, root }}
       />
     </div>
   );

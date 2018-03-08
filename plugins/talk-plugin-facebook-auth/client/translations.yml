@@ -1,0 +1,24 @@
+en:
+  talk-plugin-facebook-auth:
+    sign_in: "Sign in with Facebook"
+    sign_up: "Sign up with Facebook"
+es:
+  talk-plugin-facebook-auth:
+    sign_in: "Entrar con Facebook"
+    sign_up: "Registrarse con Facebook"
+fr:
+  talk-plugin-facebook-auth:
+    sign_in: "Connectez-vous avec Facebook"
+    sign_up: "Inscrivez-vous avec Facebook"
+zh_CN:
+  talk-plugin-facebook-auth:
+    sign_in: "使用 Facebook 帐号"
+    sign_up: "使用 Facebook 帐号"
+zh_TW:
+  talk-plugin-facebook-auth:
+    sign_in: "使用 Facebook 帳號"
+    sign_up: "使用 Facebook 帳號"
+de:
+  talk-plugin-facebook-auth:
+    sign_in: "Mit Facebook anmelden"
+    sign_up: "Mit Facebook registrieren"

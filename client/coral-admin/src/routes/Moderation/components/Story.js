@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Story.css';
 
-const formatDate = (date) => {
+const formatDate = date => {
   const d = new Date(date);
   return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
 };
 
-const Story = ({author, title, createdAt, open, id, goToStory}) => {
+const Story = ({ author, title, createdAt, open, id, goToStory }) => {
   return (
     <li className={styles.story} onClick={() => goToStory(id)}>
       <span className={styles.title}>{title}</span>

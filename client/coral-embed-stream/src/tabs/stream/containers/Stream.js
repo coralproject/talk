@@ -1,22 +1,37 @@
 import React from 'react';
-import {gql, compose} from 'react-apollo';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {ADDTL_COMMENTS_ON_LOAD_MORE, THREADING_LEVEL} from '../../../constants/stream';
+import PropTypes from 'prop-types';
+import { gql, compose } from 'react-apollo';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
-  withPostComment, withPostFlag, withPostDontAgree,
-  withDeleteAction, withEditComment
+  ADDTL_COMMENTS_ON_LOAD_MORE,
+  ASSET_COMMENTS_LOAD_DEPTH,
+  THREADING_LEVEL,
+} from '../../../constants/stream';
+import {
+  withPostComment,
+  withPostFlag,
+  withPostDontAgree,
+  withDeleteAction,
+  withEditComment,
 } from 'coral-framework/graphql/mutations';
 
-import * as authActions from 'coral-embed-stream/src/actions/auth';
-import * as notificationActions from 'coral-framework/actions/notification';
-import {setActiveReplyBox, setActiveTab, viewAllComments} from '../../../actions/stream';
+import { showSignInDialog } from 'coral-embed-stream/src/actions/login';
+import { notify } from 'coral-framework/actions/notification';
+import {
+  setActiveReplyBox,
+  setActiveTab,
+  viewAllComments,
+} from '../../../actions/stream';
 import Stream from '../components/Stream';
-import Comment from './Comment';
-import {withFragments, withEmit} from 'coral-framework/hocs';
-import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
-import {Spinner} from 'coral-ui';
-import {can} from 'coral-framework/services/perms';
+import { default as Comment, singleCommentFragment } from './Comment';
+import { withFragments, withEmit } from 'coral-framework/hocs';
+import {
+  getDefinitionName,
+  getSlotFragmentSpreads,
+} from 'coral-framework/utils';
+import { Spinner } from 'coral-ui';
+import { can } from 'coral-framework/services/perms';
 import {
   findCommentInEmbedQuery,
   findCommentInAsset,
@@ -25,9 +40,7 @@ import {
   insertFetchedCommentsIntoEmbedQuery,
   nest,
 } from '../../../graphql/utils';
-
-const {showSignInDialog, editName} = authActions;
-const {notify} = notificationActions;
+import StreamError from '../components/StreamError';
 
 class StreamContainer extends React.Component {
   commentsAddedSubscription = null;
@@ -39,11 +52,16 @@ class StreamContainer extends React.Component {
       variables: {
         assetId: this.props.asset.id,
       },
-      updateQuery: (prev, {subscriptionData: {data: {commentEdited}}}) => {
-
+      updateQuery: (
+        prev,
+        { subscriptionData: { data: { commentEdited } } }
+      ) => {
         // Ignore mutations from me.
         // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
-        if (this.props.auth.user && commentEdited.user.id === this.props.auth.user.id) {
+        if (
+          this.props.currentUser &&
+          commentEdited.user.id === this.props.currentUser.id
+        ) {
           return prev;
         }
 
@@ -52,7 +70,11 @@ class StreamContainer extends React.Component {
           return prev;
         }
 
-        if (['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(commentEdited.status)) {
+        if (
+          ['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(
+            commentEdited.status
+          )
+        ) {
           return removeCommentFromEmbedQuery(prev, commentEdited.id);
         }
       },
@@ -65,18 +87,23 @@ class StreamContainer extends React.Component {
       variables: {
         assetId: this.props.asset.id,
       },
-      updateQuery: (prev, {subscriptionData: {data: {commentAdded}}}) => {
-
+      updateQuery: (prev, { subscriptionData: { data: { commentAdded } } }) => {
         // Ignore mutations from me.
         // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
-        if (this.props.auth.user && commentAdded.user.id === this.props.auth.user.id) {
+        if (
+          this.props.currentUser &&
+          commentAdded.user.id === this.props.currentUser.id
+        ) {
           return prev;
         }
 
         // Exit if author is ignored.
         if (
           this.props.root.me &&
-          this.props.root.me.ignoredUsers.some(({id}) => id === commentAdded.user.id)) {
+          this.props.root.me.ignoredUsers.some(
+            ({ id }) => id === commentAdded.user.id
+          )
+        ) {
           return prev;
         }
 
@@ -108,7 +135,7 @@ class StreamContainer extends React.Component {
     }
   }
 
-  loadNewReplies = (parent_id) => {
+  loadNewReplies = parent_id => {
     const comment = findCommentInAsset(this.props.asset, parent_id);
 
     return this.props.data.fetchMore({
@@ -121,11 +148,11 @@ class StreamContainer extends React.Component {
         sortOrder: 'ASC',
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
-      updateQuery: (prev, {fetchMoreResult:{comments}}) => {
+      updateQuery: (prev, { fetchMoreResult: { comments } }) => {
         return insertFetchedCommentsIntoEmbedQuery(prev, comments, parent_id);
       },
     });
-  }
+  };
 
   loadMoreComments = () => {
     return this.props.data.fetchMore({
@@ -139,13 +166,13 @@ class StreamContainer extends React.Component {
         sortBy: this.props.data.variables.sortBy,
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
-      updateQuery: (prev, {fetchMoreResult:{comments}}) => {
+      updateQuery: (prev, { fetchMoreResult: { comments } }) => {
         return insertFetchedCommentsIntoEmbedQuery(prev, comments);
       },
     });
   };
 
-  isSortedByNewestFirst({sortBy, sortOrder} = this.props) {
+  isSortedByNewestFirst({ sortBy, sortOrder } = this.props) {
     return sortBy === 'CREATED_AT' && sortOrder === 'DESC';
   }
 
@@ -168,37 +195,94 @@ class StreamContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.sortOrder !== nextProps.sortOrder || this.props.sortBy !== nextProps.sortBy) {
+    if (
+      this.props.sortOrder !== nextProps.sortOrder ||
+      this.props.sortBy !== nextProps.sortBy
+    ) {
       nextProps.data.refetch();
     }
   }
 
-  userIsDegraged({auth: {user}} = this.props) {
-    return !can(user, 'INTERACT_WITH_COMMUNITY');
+  userIsDegraged({ currentUser } = this.props) {
+    return !can(currentUser, 'INTERACT_WITH_COMMUNITY');
   }
 
   render() {
-    if (!this.props.asset
-      || this.props.asset.comment === undefined
-      && !this.props.asset.comments
+    if (this.props.data.error) {
+      return <StreamError>{this.props.data.error.message}</StreamError>;
+    }
+
+    if (
+      !this.props.asset ||
+      (this.props.asset.comment === undefined && !this.props.asset.comments)
     ) {
       return <Spinner />;
     }
 
-    const streamLoading = this.props.refetching || this.props.data.loading;
+    // @TODO: Detect refetch when we have apollo 2.0.
+    const streamLoading = this.props.data.loading;
 
-    return <Stream
-      {...this.props}
-      loadMore={this.loadMore}
-      loadMoreComments={this.loadMoreComments}
-      loadNewReplies={this.loadNewReplies}
-      userIsDegraged={this.userIsDegraged()}
-      loading={streamLoading}
-    />;
+    return (
+      <Stream
+        asset={this.props.asset}
+        activeStreamTab={this.props.activeStreamTab}
+        data={this.props.data}
+        root={this.props.root}
+        activeReplyBox={this.props.activeReplyBox}
+        setActiveReplyBox={this.props.setActiveReplyBox}
+        commentClassNames={this.props.commentClassNames}
+        setActiveStreamTab={this.props.setActiveStreamTab}
+        postFlag={this.props.postFlag}
+        postDontAgree={this.props.postDontAgree}
+        deleteAction={this.props.deleteAction}
+        showSignInDialog={this.props.showSignInDialog}
+        currentUser={this.props.currentUser}
+        emit={this.props.emit}
+        sortOrder={this.props.sortOrder}
+        sortBy={this.props.sortBy}
+        appendItemArray={this.props.appendItemArray}
+        updateItem={this.props.updateItem}
+        viewAllComments={this.props.viewAllComments}
+        notify={this.props.notify}
+        postComment={this.props.postComment}
+        editComment={this.props.editComment}
+        loadMoreComments={this.loadMoreComments}
+        loadNewReplies={this.loadNewReplies}
+        userIsDegraged={this.userIsDegraged()}
+        loading={streamLoading}
+      />
+    );
   }
 }
 
-const commentFragment = gql`
+StreamContainer.propTypes = {
+  asset: PropTypes.object,
+  activeStreamTab: PropTypes.string,
+  data: PropTypes.object,
+  root: PropTypes.object,
+  activeReplyBox: PropTypes.string,
+  setActiveReplyBox: PropTypes.func,
+  commentClassNames: PropTypes.array,
+  setActiveStreamTab: PropTypes.func,
+  postFlag: PropTypes.func,
+  postDontAgree: PropTypes.func,
+  deleteAction: PropTypes.func,
+  showSignInDialog: PropTypes.func,
+  currentUser: PropTypes.object,
+  emit: PropTypes.func,
+  sortOrder: PropTypes.string,
+  sortBy: PropTypes.string,
+  loading: PropTypes.bool,
+  appendItemArray: PropTypes.func,
+  updateItem: PropTypes.func,
+  viewAllComments: PropTypes.func,
+  notify: PropTypes.func.isRequired,
+  postComment: PropTypes.func.isRequired,
+  editComment: PropTypes.func,
+  previousTab: PropTypes.string,
+};
+
+const streamCommentFragment = gql`
   fragment CoralEmbedStream_Stream_comment on Comment {
     id
     status
@@ -210,21 +294,33 @@ const commentFragment = gql`
   ${Comment.fragments.comment}
 `;
 
+const streamSingleCommentFragment = gql`
+  fragment CoralEmbedStream_Stream_singleComment on Comment {
+    id
+    status
+    user {
+      id
+    }
+    ...${getDefinitionName(singleCommentFragment)}
+  }
+  ${singleCommentFragment}
+`;
+
 const COMMENTS_ADDED_SUBSCRIPTION = gql`
-  subscription CommentAdded($assetId: ID!, $excludeIgnored: Boolean){
-    commentAdded(asset_id: $assetId){
+  subscription CommentAdded($assetId: ID!, $excludeIgnored: Boolean) {
+    commentAdded(asset_id: $assetId) {
       parent {
         id
       }
       ...CoralEmbedStream_Stream_comment
     }
   }
-  ${commentFragment}
+  ${streamCommentFragment}
 `;
 
 const COMMENTS_EDITED_SUBSCRIPTION = gql`
-  subscription CommentEdited($assetId: ID!){
-    commentEdited(asset_id: $assetId){
+  subscription CommentEdited($assetId: ID!) {
+    commentEdited(asset_id: $assetId) {
       id
       body
       status
@@ -267,7 +363,7 @@ const LOAD_MORE_QUERY = gql`
       endCursor
     }
   }
-  ${commentFragment}
+  ${streamCommentFragment}
 `;
 
 const slots = [
@@ -281,11 +377,23 @@ const fragments = {
   root: gql`
     fragment CoralEmbedStream_Stream_root on RootQuery {
       me {
-        status
+        state {
+          status {
+            username {
+              status
+            }
+            banned {
+              status
+            }
+            suspension {
+              until
+            }
+          }
+        }
         ignoredUsers {
           id
         }
-        roles
+        role
       }
       settings {
         organizationName
@@ -299,12 +407,15 @@ const fragments = {
     fragment CoralEmbedStream_Stream_asset on Asset {
       comment(id: $commentId) @include(if: $hasComment) {
         ...CoralEmbedStream_Stream_comment
-        ${nest(`
+        ${nest(
+          `
           parent {
-            ...CoralEmbedStream_Stream_comment
+            ...CoralEmbedStream_Stream_singleComment
             ...nest
           }
-        `, THREADING_LEVEL)}
+        `,
+          THREADING_LEVEL
+        )}
       }
       id
       title
@@ -326,7 +437,7 @@ const fragments = {
         requireEmailConfirmation
       }
       totalCommentCount @skip(if: $hasComment)
-      comments(query: {limit: 10, excludeIgnored: $excludeIgnored, sortOrder: $sortOrder, sortBy: $sortBy}) @skip(if: $hasComment) {
+      comments(query: {limit: ${ASSET_COMMENTS_LOAD_DEPTH}, excludeIgnored: $excludeIgnored, sortOrder: $sortOrder, sortBy: $sortBy}) @skip(if: $hasComment) {
         nodes {
           ...CoralEmbedStream_Stream_comment
         }
@@ -338,13 +449,13 @@ const fragments = {
       ...${getDefinitionName(Comment.fragments.asset)}
     }
     ${Comment.fragments.asset}
-    ${commentFragment}
+    ${streamCommentFragment}
+    ${streamSingleCommentFragment}
   `,
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  refetching: state.embed.refetching,
+const mapStateToProps = state => ({
+  currentUser: state.auth.user,
   activeReplyBox: state.stream.activeReplyBox,
   commentId: state.stream.commentId,
   assetId: state.stream.assetId,
@@ -359,23 +470,26 @@ const mapStateToProps = (state) => ({
   sortBy: state.stream.sortBy,
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({
-    showSignInDialog,
-    notify,
-    setActiveReplyBox,
-    editName,
-    viewAllComments,
-    setActiveStreamTab: setActiveTab,
-  }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      showSignInDialog,
+      notify,
+      setActiveReplyBox,
+      viewAllComments,
+      setActiveStreamTab: setActiveTab,
+    },
+    dispatch
+  );
 
 export default compose(
   withFragments(fragments),
   withEmit,
   connect(mapStateToProps, mapDispatchToProps),
   withPostComment,
-  withPostFlag,
+  // `talk-plugin-flags` has a custom error handling logic.
+  withPostFlag({ notifyOnError: false }),
   withPostDontAgree,
   withDeleteAction,
-  withEditComment,
+  withEditComment
 )(StreamContainer);

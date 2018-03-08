@@ -1,4 +1,4 @@
-const {APIError} = require('errors');
+const { APIError } = require('errors');
 
 // ErrToxic is sent during a `CreateComment` mutation where
 // `input.checkToxicity` is set to true and the comment contains

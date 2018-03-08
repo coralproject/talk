@@ -8,36 +8,50 @@ export default {
   slots: {
     authorMenuActions: [IgnoreUserAction],
     ignoreUserConfirmation: [IgnoreUserConfirmation],
-    profileSections: [IgnoredUserSection],
+    profileSettings: [IgnoredUserSection],
   },
   translations,
   mutations: {
-    IgnoreUser: ({variables}) => ({
+    IgnoreUser: ({ variables }) => ({
       updateQueries: {
-        CoralEmbedStream_Embed: (previousData) => {
+        CoralEmbedStream_Embed: previousData => {
           const ignoredUserId = variables.id;
-          const updated = update(previousData, {me: {ignoredUsers: {$push: [{
-            id: ignoredUserId,
-            __typename: 'User',
-          }]}}});
+          const updated = update(previousData, {
+            me: {
+              ignoredUsers: {
+                $push: [
+                  {
+                    id: ignoredUserId,
+                    __typename: 'User',
+                  },
+                ],
+              },
+            },
+          });
           return updated;
-        }
-      }
+        },
+      },
     }),
-    StopIgnoringUser: ({variables}) => ({
+    StopIgnoringUser: ({ variables }) => ({
       updateQueries: {
-        CoralEmbedStream_Profile: (previousData) => {
+        CoralEmbedStream_Profile: previousData => {
           const noLongerIgnoredUserId = variables.id;
 
           // remove noLongerIgnoredUserId from ignoredUsers
-          const updated = update(previousData, {me: {ignoredUsers: {
-            $apply: (ignoredUsers) => {
-              return ignoredUsers.filter((u) => u.id !== noLongerIgnoredUserId);
-            }
-          }}});
+          const updated = update(previousData, {
+            me: {
+              ignoredUsers: {
+                $apply: ignoredUsers => {
+                  return ignoredUsers.filter(
+                    u => u.id !== noLongerIgnoredUserId
+                  );
+                },
+              },
+            },
+          });
           return updated;
-        }
-      }
+        },
+      },
     }),
   },
 };

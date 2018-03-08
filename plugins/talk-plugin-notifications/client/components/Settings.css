@@ -1,0 +1,32 @@
+.root {
+  margin-bottom: 20px;
+  width: 380px;
+}
+
+.innerSettings {
+  padding-left: 12px;
+}
+
+.subtitle {
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+.turnOffButton {
+  padding: 2px 0;
+  color: #2099d6;
+  border-bottom: 1px solid #2099d6;
+
+  &:disabled {
+    color: #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+  }
+}
+
+.notifcationSettingsSlot {
+  margin-bottom: 3px;
+}
+
+.disabled {
+  color: #e5e5e5;
+}

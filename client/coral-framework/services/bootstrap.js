@@ -1,42 +1,32 @@
-import {createStore} from './store';
-import {createClient, apolloErrorReporter} from './client';
+import { getStaticConfiguration } from 'coral-framework/services/staticConfiguration';
+import { createStore } from './store';
+import { createClient, apolloErrorReporter } from './client';
 import pym from './pym';
 import EventEmitter from 'eventemitter2';
-import {createReduxEmitter} from './events';
-import {createRestClient} from './rest';
+import { createReduxEmitter } from './events';
+import { createRestClient } from './rest';
 import thunk from 'redux-thunk';
-import {loadTranslations} from './i18n';
+import { loadTranslations } from './i18n';
 import bowser from 'bowser';
 import noop from 'lodash/noop';
-import {BASE_PATH} from 'coral-framework/constants/url';
-import {createPluginsService} from './plugins';
-import {createNotificationService} from './notification';
-import {createGraphQLRegistry} from './graphqlRegistry';
-import {createGraphQLService} from './graphql';
+import { BASE_PATH } from 'coral-framework/constants/url';
+import { createPluginsService } from './plugins';
+import { createNotificationService } from './notification';
+import { createGraphQLRegistry } from './graphqlRegistry';
+import { createGraphQLService } from './graphql';
+import { createPostMessage } from './postMessage';
 import globalFragments from 'coral-framework/graphql/fragments';
-import {createStorage, createPymStorage} from 'coral-framework/services/storage';
-import {createHistory} from 'coral-framework/services/history';
-import {createIntrospection} from 'coral-framework/services/introspection';
+import {
+  createStorage,
+  createPymStorage,
+} from 'coral-framework/services/storage';
+import { createHistory } from 'coral-framework/services/history';
+import { createIntrospection } from 'coral-framework/services/introspection';
 import introspectionData from 'coral-framework/graphql/introspection.json';
-
-/**
- * getStaticConfiguration will return a singleton of the static configuration
- * object provided via a JSON DOM element.
- */
-const getStaticConfiguration = (() => {
-  let staticConfiguration = null;
-  return () => {
-    if (staticConfiguration != null) {
-      return staticConfiguration;
-    }
-
-    const configElement = document.querySelector('#data');
-
-    staticConfiguration = JSON.parse(configElement ? configElement.textContent : '{}');
-
-    return staticConfiguration;
-  };
-})();
+import coreReducers from '../reducers';
+import { checkLogin as checkLoginAction } from '../actions/auth';
+import { mergeConfig } from '../actions/config';
+import { setAuthToken, logout } from '../actions/auth';
 
 /**
  * getAuthToken returns the active auth token or null
@@ -47,19 +37,37 @@ const getStaticConfiguration = (() => {
 const getAuthToken = (store, storage) => {
   let state = store.getState();
 
-  if (state.config.auth_token) {
-
+  if (state.config && state.config.auth_token) {
     // if an auth_token exists in config, use it.
     return state.config.auth_token;
-
   } else if (!bowser.safari && !bowser.ios && storage) {
-
     // Use local storage auth tokens where there's a stable api.
     return storage.getItem('token');
   }
 
   return null;
 };
+
+function areWeInIframe() {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+}
+
+function initExternalConfig({ store, pym, inIframe }) {
+  if (!inIframe) {
+    return;
+  }
+  return new Promise(resolve => {
+    pym.sendMessage('getConfig');
+    pym.onMessage('config', config => {
+      store.dispatch(mergeConfig(JSON.parse(config)));
+      resolve();
+    });
+  });
+}
 
 /**
  * createContext setups and returns Talk dependencies that should be
@@ -80,21 +88,29 @@ export async function createContext({
   notification,
   preInit,
   init = noop,
+  checkLogin = true,
+  addExternalConfig = true,
 } = {}) {
-  const eventEmitter = new EventEmitter({wildcard: true});
-  const storage = createStorage();
-  const pymStorage = createPymStorage(pym);
+  const inIframe = areWeInIframe();
+  const eventEmitter = new EventEmitter({ wildcard: true });
+  const localStorage = createStorage('localStorage');
+  const sessionStorage = createStorage('sessionStorage');
+  const pymLocalStorage = inIframe
+    ? createPymStorage(pym, 'localStorage')
+    : localStorage;
+  const pymSessionStorage = inIframe
+    ? createPymStorage(pym, 'sessionStorage')
+    : sessionStorage;
   const history = createHistory(BASE_PATH);
   const introspection = createIntrospection(introspectionData);
   let store = null;
   const token = () => {
-
     // Try to get the token from localStorage. If it isn't here, it may
     // be passed as a cookie.
 
     // NOTE: THIS IS ONLY EVER EVALUATED ONCE, IN ORDER TO SEND A DIFFERNT
     // TOKEN YOU MUST DISCONNECT AND RECONNECT THE WEBSOCKET CLIENT.
-    return getAuthToken(store, storage);
+    return getAuthToken(store, localStorage);
   };
 
   const rest = createRestClient({
@@ -102,11 +118,9 @@ export async function createContext({
     token,
   });
 
-  // Try to get an overrided liveUri from the static config, if none is found,
-  // build it.
-  let {LIVE_URI: liveUri} = getStaticConfiguration();
+  const staticConfig = getStaticConfiguration();
+  let { LIVE_URI: liveUri, STATIC_ORIGIN: origin } = staticConfig;
   if (liveUri == null) {
-
     // The protocol must match the origin protocol, secure/insecure.
     const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
 
@@ -114,6 +128,8 @@ export async function createContext({
     // with the live path appended to it.
     liveUri = `${protocol}://${location.host}${BASE_PATH}api/v1/live`;
   }
+
+  const postMessage = createPostMessage(origin);
 
   const client = createClient({
     uri: `${BASE_PATH}api/v1/graph/ql`,
@@ -123,10 +139,9 @@ export async function createContext({
   });
   const plugins = createPluginsService(pluginsConfig);
   const graphql = createGraphQLService(
-    createGraphQLRegistry(plugins.getSlotFragments.bind(plugins)),
+    createGraphQLRegistry(plugins.getSlotFragments.bind(plugins))
   );
   if (!notification) {
-
     // Use default notification service (pym based)
     notification = createNotificationService(pym);
   }
@@ -139,31 +154,38 @@ export async function createContext({
     rest,
     graphql,
     notification,
-    storage,
+    localStorage,
+    sessionStorage,
     history,
     introspection,
-    pymStorage,
+    pymLocalStorage,
+    pymSessionStorage,
+    inIframe,
+    postMessage,
   };
 
   // Load framework fragments.
-  Object.keys(globalFragments).forEach((key) => graphql.registry.addFragment(key, globalFragments[key]));
+  Object.keys(globalFragments).forEach(key =>
+    graphql.registry.addFragment(key, globalFragments[key])
+  );
 
   // Register graphql extension
   graphql.registry.add(graphqlExtension);
 
   // Register plugin graphql extensions.
-  plugins.getGraphQLExtensions().forEach((ext) => graphql.registry.add(ext));
+  plugins.getGraphQLExtensions().forEach(ext => graphql.registry.add(ext));
 
   // Load plugin translations.
-  plugins.getTranslations().forEach((t) => loadTranslations(t));
+  plugins.getTranslations().forEach(t => loadTranslations(t));
 
   // Pass any events through our parent.
   eventEmitter.onAny((eventName, value) => {
-    pym.sendMessage('event', JSON.stringify({eventName, value}));
+    pym.sendMessage('event', JSON.stringify({ eventName, value }));
   });
 
   // Create our redux store.
   const finalReducers = {
+    ...coreReducers,
     ...reducers,
     ...plugins.getReducers(),
   };
@@ -176,17 +198,46 @@ export async function createContext({
   context.store = store;
 
   // Create apollo redux store.
-  context.apolloStore = createStore({
-    apollo: client.reducer(),
-  }, [
-    client.middleware(),
-    apolloErrorReporter,
-    createReduxEmitter(eventEmitter),
-  ]);
+  context.apolloStore = createStore(
+    {
+      apollo: client.reducer(),
+    },
+    [client.middleware(), apolloErrorReporter, createReduxEmitter(eventEmitter)]
+  );
+
+  if (inIframe) {
+    pym.onMessage('login', token => {
+      if (token) {
+        store.dispatch(setAuthToken(token));
+      }
+    });
+
+    pym.onMessage('logout', () => {
+      store.dispatch(logout());
+    });
+  }
+
+  const preInitList = [];
+
+  store.dispatch(
+    mergeConfig({
+      static: staticConfig,
+    })
+  );
+
+  if (preInit) {
+    preInitList.push(preInit(context));
+  }
+
+  if (addExternalConfig) {
+    preInitList.push(initExternalConfig(context));
+  }
 
   // Run pre initialization.
-  if (preInit) {
-    await preInit(context);
+  await Promise.all(preInitList);
+
+  if (checkLogin) {
+    store.dispatch(checkLoginAction());
   }
 
   // Run initialization.

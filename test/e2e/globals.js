@@ -1,13 +1,13 @@
 const mongoose = require('../../services/mongoose');
-const {shutdown} = require('../../bin/util');
+const { shutdown } = require('../../bin/util');
 
 module.exports = {
-  before: async (done) => {
+  before: async done => {
     console.log('Dropping test database');
     await mongoose.connection.dropDatabase();
     done();
   },
-  after: (done) => {
+  after: done => {
     shutdown();
     done();
   },
@@ -24,8 +24,8 @@ module.exports = {
       password: 'testtest',
     },
     comment: {
-      body: 'This is a test comment'
+      body: 'This is a test comment',
     },
     organizationName: 'Coral',
-  }
+  },
 };

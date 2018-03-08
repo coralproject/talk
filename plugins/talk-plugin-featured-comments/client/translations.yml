@@ -1,3 +1,18 @@
+da:
+  talk-plugin-featured-comments:
+    un_feature: Un-Feature
+    feature: Feature
+    featured: Featured
+    featured_comments: Featured Comments
+    go_to_conversation: Go to conversation
+    tooltip_description: Comments selected by our team as worth reading
+    notify_self_featured: 'The comment from {0} is now featured and approved'
+    notify_featured: '{0} featured and approved comment "{1}"'
+    notify_unfeatured: '{0} unfeatured comment "{1}"'
+    feature_comment: Feature comment?
+    are_you_sure: Are you sure you would like to feature this comment?
+    cancel: Cancel
+    yes_feature_comment: Yes, feature comment
 en:
   talk-plugin-featured-comments:
     un_feature: Un-Feature
@@ -13,6 +28,21 @@ en:
     are_you_sure: Are you sure you would like to feature this comment?
     cancel: Cancel
     yes_feature_comment: Yes, feature comment
+de:
+  talk-plugin-featured-comments:
+    un_feature: Empfehlung aufheben
+    feature: Empfehlen
+    featured: Empfohlen
+    featured_comments: Empfohlene Kommentare
+    go_to_conversation: Gehe zur Diskussion
+    tooltip_description: Von unserem Team als lesenswert ausgewählte Kommentare
+    notify_self_featured: 'Der Kommentar von {0} ist nun empfohlen und freigegeben'
+    notify_featured: '{0} hat Kommentar "{1}" empfohlen und freigegeben'
+    notify_unfeatured: '{0} hat die Empfehlung von "{1}" aufgehoben'
+    feature_comment: Kommentar empfehlen?
+    are_you_sure: Sind Sie sicher, dass Sie diesen Kommentar empfehlen möchten?
+    cancel: Abbrechen
+    yes_feature_comment: Ja, empfehlen
 es:
   talk-plugin-featured-comments:
     un_feature: Desmarcar
@@ -25,3 +55,78 @@ es:
     are_you_sure: Está seguro que desea destacar este comentario?
     cancel: Cancelar
     yes_feature_comment: Si, destacar comentario
+fr:
+  talk-plugin-featured-comments:
+    un_feature: Un-Feature
+    feature: Feature
+    featured: Featured
+    featured_comments: Featured Comments
+    go_to_conversation: Go to conversation
+    tooltip_description: Comments selected by our team as worth reading
+    notify_self_featured: 'The comment from {0} is now featured and approved'
+    notify_featured: '{0} featured and approved comment "{1}"'
+    notify_unfeatured: '{0} unfeatured comment "{1}"'
+    feature_comment: Feature comment?
+    are_you_sure: Are you sure you would like to feature this comment?
+    cancel: Cancel
+    yes_feature_comment: Yes, feature comment
+nl_NL:
+  talk-plugin-featured-comments:
+    un_feature: Uitlichting opheffen.
+    feature: Uitlichten
+    featured: Uitgelicht
+    featured_comments: Uitgelichte reacties
+    go_to_conversation: Ga naar conversatie
+    tooltip_description: Reacties die ons team de moeite waard vind om te lezen.
+    notify_self_featured: 'De reactie van {0} is nu uitgelicht en goedgekeurd'
+    notify_featured: '{0} heeft de volgende reactie uitgelicht en goedgekeurd: "{1}"'
+    notify_unfeatured: '{0} hief de uitlichting op van reactie "{1}"'
+    feature_comment: Reactie uitlichten?
+    are_you_sure: Weet je zeker dat je deze reactie wil uitlichten?
+    cancel: Annuleren
+    yes_feature_comment: Ja, reactie uitlichten.
+pt_BR:
+  talk-plugin-featured-comments:
+    un_feature: Un-Feature
+    feature: Feature
+    featured: Featured
+    featured_comments: Featured Comments
+    go_to_conversation: Go to conversation
+    tooltip_description: Comments selected by our team as worth reading
+    notify_self_featured: 'The comment from {0} is now featured and approved'
+    notify_featured: '{0} featured and approved comment "{1}"'
+    notify_unfeatured: '{0} unfeatured comment "{1}"'
+    feature_comment: Feature comment?
+    are_you_sure: Are you sure you would like to feature this comment?
+    cancel: Cancel
+    yes_feature_comment: Yes, feature comment
+zh_CN:
+  talk-plugin-featured-comments:
+    un_feature: "取消精选"
+    feature: "精选"
+    featured: "精选评论"
+    featured_comments: "精选评论"
+    go_to_conversation: "跳转至对话"
+    tooltip_description: "我们团队认为值得一看的评论"
+    notify_self_featured: '已接受 {0} 的评论，并设为精选评论'
+    notify_featured: '{0} 接受了评论 "{1}"，并将其设为精选评论'
+    notify_unfeatured: '{0} 将 "{1}" 从精选评论中撤下'
+    feature_comment: "设置为精选评论？"
+    are_you_sure: "您确定要将这个评论设置为精选评论？"
+    cancel: "取消"
+    yes_feature_comment: "确认精选"
+zh_TW:
+  talk-plugin-featured-comments:
+    un_feature: "取消精選"
+    feature: "精選"
+    featured: "精選評論"
+    featured_comments: "精選評論"
+    go_to_conversation: "跳轉至對話"
+    tooltip_description: "我們團隊認為值得一看的評論"
+    notify_self_featured: '已接受 {0} 的評論，並設為精選評論'
+    notify_featured: '{0} 接受了評論 "{1}"，並將其設為精選評論'
+    notify_unfeatured: '{0} 將 "{1}" 從精選評論中撤下'
+    feature_comment: "設置為精選評論？"
+    are_you_sure: "您確定要將這個評論設置為精選評論？"
+    cancel: "取消"
+    yes_feature_comment: "確認精選"

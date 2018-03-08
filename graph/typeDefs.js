@@ -4,7 +4,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const {mergeStrings} = require('gql-merge');
+const { mergeStrings } = require('gql-merge');
 const debug = require('debug')('talk:graph:typeDefs');
 const plugins = require('../services/plugins');
 
@@ -14,16 +14,15 @@ const plugins = require('../services/plugins');
  * available graph.
  */
 const typeDefs = mergeStrings([
-
   // Load the core graph definitions from the filesystem.
   fs.readFileSync(path.join(__dirname, 'typeDefs.graphql'), 'utf8'),
 
   // Load the plugin definitions from the manager.
-  ...plugins.get('server', 'typeDefs').map(({plugin, typeDefs}) => {
+  ...plugins.get('server', 'typeDefs').map(({ plugin, typeDefs }) => {
     debug(`added plugin '${plugin.name}'`);
 
     return typeDefs;
-  })
+  }),
 ]);
 
 module.exports = typeDefs;

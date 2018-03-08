@@ -1,5 +1,27 @@
+da:
+  talk-plugin-sort-most-liked:
+    label: Most liked first
 en:
   talk-plugin-sort-most-liked:
     label: Most liked first
+de:
+  talk-plugin-sort-most-liked:
+    label: Beliebteste zuerst
 es:
   talk-plugin-sort-most-liked:
+    label: Most liked first
+fr:
+  talk-plugin-sort-most-liked:
+    label: Most liked first
+nl_NL:
+  talk-plugin-sort-most-liked:
+    label: Meest geliked eerst
+pt_BR:
+  talk-plugin-sort-most-liked:
+    label: Most liked first
+zh_CN:
+  talk-plugin-sort-most-liked:
+    label: "最被喜欢在前"
+zh_TW:
+  talk-plugin-sort-most-liked:
+    label: 最被喜歡優先

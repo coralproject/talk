@@ -9,5 +9,5 @@ export default {
     commentInfoBar: [ModerationActions],
   },
   reducer,
-  translations
+  translations,
 };

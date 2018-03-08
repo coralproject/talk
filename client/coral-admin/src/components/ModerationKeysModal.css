@@ -28,7 +28,7 @@
   padding: 15px;
   box-sizing: border-box;
   box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
-  z-index: 10;
+  z-index: 4;
 
   .ctaHeader {
     font-size: 16px;

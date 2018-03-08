@@ -1,28 +1,59 @@
 const DataLoader = require('dataloader');
-
 const util = require('./util');
-const union = require('lodash/union');
+const { SEARCH_OTHER_USERS } = require('../../perms/constants');
+const { escapeRegExp } = require('../../services/regex');
 
-const {
-  SEARCH_OTHER_USERS,
-} = require('../../perms/constants');
+const mergeState = (query, state) => {
+  const { status } = state;
 
-const UsersService = require('../../services/users');
-const UserModel = require('../../models/user');
+  if (status) {
+    const { username, banned, suspended } = status;
 
-const genUserByIDs = async (context, ids) => {
+    if (typeof username !== 'undefined' && username && username.length > 0) {
+      query.merge({
+        'status.username.status': {
+          $in: username,
+        },
+      });
+    }
+
+    if (typeof banned !== 'undefined' && banned !== null) {
+      query.merge({
+        'status.banned.status': banned,
+      });
+    }
+
+    if (typeof suspended !== 'undefined' && suspended !== null) {
+      if (suspended) {
+        query.merge({
+          'status.suspension.until': {
+            $gte: Date.now(),
+          },
+        });
+      } else {
+        query.merge({
+          $or: [
+            { 'status.suspension.until': null },
+            {
+              'status.suspension.until': {
+                $lt: Date.now(),
+              },
+            },
+          ],
+        });
+      }
+    }
+  }
+};
+
+const genUserByIDs = async (ctx, ids) => {
   if (!ids || ids.length === 0) {
     return [];
   }
 
-  if (ids.length === 1) {
-    const user = await UsersService.findById(ids[0]);
-    return [user];
-  }
+  const { connectors: { models: { User } } } = ctx;
 
-  return UsersService
-    .findByIdArray(ids)
-    .then(util.singleJoinBy(ids, 'id'));
+  return User.find({ id: { $in: ids } }).then(util.singleJoinBy(ids, 'id'));
 };
 
 /**
@@ -31,46 +62,74 @@ const genUserByIDs = async (context, ids) => {
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the users query
  */
-const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, statuses, action_type, sortOrder}) => {
-  let query = UserModel.find();
+const getUsersByQuery = async (
+  { user, connectors: { models: { User } } },
+  { limit, cursor, value = '', state, action_type, sortOrder }
+) => {
+  let query = User.find();
 
-  if (action_type || statuses) {
+  if (action_type || state || value.length > 0) {
     if (!user || !user.can(SEARCH_OTHER_USERS)) {
       return null;
     }
 
-    if (statuses) {
-      query = query.where({
-        status: {
-          $in: statuses
-        }
-      });
-    } else {
-      const userIds = await Actions.getByTypes({action_type, item_type: 'USERS'});
-      ids = ids ? union(ids, userIds) : userIds;
-    }
-  }
+    if (value.length > 0) {
+      // Lowercase the search term and escape any regex characters.
+      value = escapeRegExp(value).toLowerCase();
 
-  if (ids) {
-    query = query.find({
-      id: {
-        $in: ids
-      }
-    });
+      // Compile the prefix search regex.
+      const $regex = new RegExp(`^${value}`);
+
+      // Merge in the regex params.
+      query.merge({
+        $or: [
+          // Search by a prefix match on the username.
+          {
+            lowercaseUsername: {
+              $regex,
+            },
+          },
+
+          // Search by a prefix match on the email address.
+          {
+            profiles: {
+              $elemMatch: {
+                id: {
+                  $regex,
+                },
+                provider: 'local',
+              },
+            },
+          },
+        ],
+      });
+    }
+
+    if (state) {
+      mergeState(query, state);
+    }
+
+    if (action_type) {
+      query.merge({
+        [`action_counts.${action_type.toLowerCase()}`]: {
+          $gt: 0,
+        },
+      });
+    }
   }
 
   if (cursor) {
     if (sortOrder === 'DESC') {
       query = query.where({
         created_at: {
-          $lt: cursor
-        }
+          $lt: cursor,
+        },
       });
     } else {
       query = query.where({
         created_at: {
-          $gt: cursor
-        }
+          $gt: cursor,
+        },
       });
     }
   }
@@ -81,15 +140,15 @@ const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, 
   }
 
   // Sort by created_at.
-  query.sort({created_at: sortOrder === 'DESC' ? -1 : 1});
+  query.sort({ created_at: sortOrder === 'DESC' ? -1 : 1 });
 
+  // Execute the query.
   const nodes = await query.exec();
 
   // The hasNextPage is always handled the same (ask for one more than we need,
   // if there is one more, than there is more).
   let hasNextPage = false;
   if (limit && nodes.length > limit) {
-
     // There was one more than we expected! Set hasNextPage = true and remove
     // the last item from the array that we requested.
     hasNextPage = true;
@@ -115,30 +174,31 @@ const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, 
  * @return {Promise}          resolves to the counts of the users from the
  *                            query
  */
-const getCountByQuery = async ({loaders: {Actions}}, {action_type, statuses}) => {
-  let query = UserModel.find();
+const getCountByQuery = async (
+  { user, connectors: { models: { User } } },
+  { action_type, state }
+) => {
+  const query = User.find();
 
-  if (action_type) {
-    const userIds = await Actions.getByTypes({action_type, item_type: 'USERS'});
+  if (action_type || state) {
+    if (!user || !user.can(SEARCH_OTHER_USERS)) {
+      return null;
+    }
 
-    query = query.find({
-      id: {
-        $in: userIds
-      }
-    });
+    if (state) {
+      mergeState(query, state);
+    }
+
+    if (action_type) {
+      query.merge({
+        [`action_counts.${action_type.toLowerCase()}`]: {
+          $gt: 0,
+        },
+      });
+    }
   }
 
-  if (statuses) {
-    query = query.where({
-      status: {
-        $in: statuses
-      }
-    });
-  }
-
-  return UserModel
-    .find(query)
-    .count();
+  return query.count();
 };
 
 /**
@@ -146,10 +206,10 @@ const getCountByQuery = async ({loaders: {Actions}}, {action_type, statuses}) =>
  * @param  {Object} context the context of the GraphQL request
  * @return {Object}         object of loaders
  */
-module.exports = (context) => ({
+module.exports = context => ({
   Users: {
-    getByQuery: (query) => getUsersByQuery(context, query),
-    getByID: new DataLoader((ids) => genUserByIDs(context, ids)),
-    getCountByQuery: (query) => getCountByQuery(context, query)
-  }
+    getByQuery: query => getUsersByQuery(context, query),
+    getByID: new DataLoader(ids => genUserByIDs(context, ids)),
+    getCountByQuery: query => getCountByQuery(context, query),
+  },
 });

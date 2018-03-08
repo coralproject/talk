@@ -1,20 +1,19 @@
 const CommentModel = require('../models/comment');
 const AssetModel = require('../models/asset');
 const SettingsService = require('./settings');
-const domainlist = require('./domainlist');
+const DomainList = require('./domain_list');
 const errors = require('../errors');
 const merge = require('lodash/merge');
 const isEmpty = require('lodash/isEmpty');
-const {dotize} = require('./utils');
+const { dotize } = require('./utils');
 
 module.exports = class AssetsService {
-
   /**
    * Finds an asset by its id.
    * @param {String} id  identifier of the asset (uuid).
    */
   static findById(id) {
-    return AssetModel.findOne({id});
+    return AssetModel.findOne({ id });
   }
 
   /**
@@ -22,7 +21,7 @@ module.exports = class AssetsService {
    * @param {String} url  identifier of the asset (uuid).
    */
   static findByUrl(url) {
-    return AssetModel.findOne({url});
+    return AssetModel.findOne({ url });
   }
 
   /**
@@ -32,10 +31,7 @@ module.exports = class AssetsService {
    * @return {Promise}
    */
   static async rectifySettings(assetQuery, settings = null) {
-    const [
-      globalSettings,
-      asset,
-    ] = await Promise.all([
+    const [globalSettings, asset] = await Promise.all([
       settings !== null ? settings : SettingsService.retrieve(),
       assetQuery,
     ]);
@@ -63,24 +59,23 @@ module.exports = class AssetsService {
    * @return {Promise}
    */
   static findOrCreateByUrl(url) {
-
     // Check the URL to confirm that is in the domain whitelist
     return Promise.all([
-      domainlist.urlCheck(url),
-      SettingsService.retrieve()
+      DomainList.urlCheck(url),
+      SettingsService.retrieve(),
     ]).then(([whitelisted, settings]) => {
-
-      const update = {$setOnInsert: {url}};
+      const update = { $setOnInsert: { url } };
 
       if (settings.autoCloseStream) {
-        update.$setOnInsert.closedAt = new Date(Date.now() + settings.closedTimeout * 1000);
+        update.$setOnInsert.closedAt = new Date(
+          Date.now() + settings.closedTimeout * 1000
+        );
       }
 
       if (!whitelisted) {
         return Promise.reject(errors.ErrInvalidAssetURL);
       } else {
-        return AssetModel.findOneAndUpdate({url}, update, {
-
+        return AssetModel.findOneAndUpdate({ url }, update, {
           // Ensure that if it's new, we return the new object created.
           new: true,
 
@@ -88,7 +83,7 @@ module.exports = class AssetsService {
           upsert: true,
 
           // Set the default values if not provided based on the mongoose models.
-          setDefaultsOnInsert: true
+          setDefaultsOnInsert: true,
         });
       }
     });
@@ -102,27 +97,32 @@ module.exports = class AssetsService {
    */
   static async overrideSettings(id, settings) {
     try {
-      const result =  await AssetModel.findOneAndUpdate({id}, {
-
-        // The effect of dotize is that only the provided setting values are overwritten
-        // and does not replace the whole object.
-        $set: dotize({settings})
-      }, {
-        new: true
-      });
+      const result = await AssetModel.findOneAndUpdate(
+        { id },
+        {
+          // The effect of dotize is that only the provided setting values are overwritten
+          // and does not replace the whole object.
+          $set: dotize({ settings }),
+        },
+        {
+          new: true,
+        }
+      );
       return result;
     } catch (e) {
-
       // Legacy data models contains `settings=null` as a default which cannot be traversed.
       // New data models uses `settings={}`.
       if (e.code === 16837) {
-
         // Overwrite it fully in this case.
-        const result =  await AssetModel.findOneAndUpdate({id}, {
-          $set: {settings}
-        }, {
-          new: true
-        });
+        const result = await AssetModel.findOneAndUpdate(
+          { id },
+          {
+            $set: { settings },
+          },
+          {
+            new: true,
+          }
+        );
         return result;
       } else {
         throw e;
@@ -135,14 +135,14 @@ module.exports = class AssetsService {
    * @param  {String} value string to search by.
    * @return {Promise}
    */
-  static search({value, limit, open, sortOrder, cursor} = {}) {
+  static search({ value, limit, open, sortOrder, cursor } = {}) {
     let assets = AssetModel.find({});
 
     if (value && value.length > 0) {
       assets.merge({
         $text: {
-          $search: value
-        }
+          $search: value,
+        },
       });
     }
 
@@ -151,20 +151,20 @@ module.exports = class AssetsService {
         assets.merge({
           $or: [
             {
-              closedAt: null
+              closedAt: null,
             },
             {
               closedAt: {
-                $gt: Date.now()
-              }
-            }
-          ]
+                $gt: Date.now(),
+              },
+            },
+          ],
         });
       } else {
         assets.merge({
           closedAt: {
-            $lt: Date.now()
-          }
+            $lt: Date.now(),
+          },
         });
       }
     }
@@ -185,7 +185,9 @@ module.exports = class AssetsService {
       }
     }
 
-    return assets.sort({created_at: sortOrder === 'DESC' ? -1 : 1}).limit(limit);
+    return assets
+      .sort({ created_at: sortOrder === 'DESC' ? -1 : 1 })
+      .limit(limit);
   }
 
   /**
@@ -194,20 +196,18 @@ module.exports = class AssetsService {
    * @return {Promise}     resolves to list of Assets
    */
   static async findByIDs(ids) {
-
     // Find the assets.
     let assets = await AssetModel.find({
       id: {
-        $in: ids
-      }
+        $in: ids,
+      },
     });
 
     // Return them in the right order.
-    return ids.map((id) => assets.find((asset) => asset.id === id));
+    return ids.map(id => assets.find(asset => asset.id === id));
   }
 
   static async updateURL(id, url) {
-
     // Try to see if an asset already exists with the given url.
     let asset = await AssetsService.findByUrl(url);
     if (asset !== null) {
@@ -217,13 +217,15 @@ module.exports = class AssetsService {
     // Seems that there was no other asset with the same url, try and perform
     // the rename operation! An error may be thrown from this if the operation
     // fails. This is ok.
-    await AssetModel.update({id}, {$set: {url}});
+    await AssetModel.update({ id }, { $set: { url } });
   }
 
   static async merge(srcAssetID, dstAssetID) {
-
     // Fetch both assets.
-    let [srcAsset, dstAsset] = await AssetsService.findByIDs([srcAssetID, dstAssetID]);
+    let [srcAsset, dstAsset] = await AssetsService.findByIDs([
+      srcAssetID,
+      dstAssetID,
+    ]);
     if (!srcAsset || !dstAsset) {
       throw errors.ErrNotFound;
     }
@@ -232,27 +234,29 @@ module.exports = class AssetsService {
     // to the src asset to the dst asset, and then removing the src asset.
 
     // First, update all the old comments to the new asset.
-    await CommentModel.update({
-      asset_id: srcAssetID
-    }, {
-      $set: {
-        asset_id: dstAssetID
+    await CommentModel.update(
+      {
+        asset_id: srcAssetID,
+      },
+      {
+        $set: {
+          asset_id: dstAssetID,
+        },
+      },
+      {
+        multi: true,
       }
-    }, {
-      multi: true
-    });
+    );
 
     // Second remove the old asset.
     await AssetModel.remove({
-      id: srcAssetID
+      id: srcAssetID,
     });
 
     // That's it!
   }
 
   static all(limit = undefined) {
-    return AssetModel
-      .find({})
-      .limit(limit);
+    return AssetModel.find({}).limit(limit);
   }
 };

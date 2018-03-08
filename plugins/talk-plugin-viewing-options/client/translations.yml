@@ -1,8 +1,45 @@
+da:
+  talk-plugin-viewing-options:
+    viewing_options: "Viewing Options"
+    sort: Sorting
+    filter: Filtering
 en:
   talk-plugin-viewing-options:
     viewing_options: "Viewing Options"
     sort: Sorting
     filter: Filtering
+de:
+  talk-plugin-viewing-options:
+    viewing_options: "Ansichtsoptionen"
+    sort: Sortieren
+    filter: Filtern
 es:
   talk-plugin-viewing-options:
     viewing_options: "Opciones de visualización"
+    sort: Sorting
+    filter: Filtering
+fr:
+  talk-plugin-viewing-options:
+    viewing_options: "Viewing Options"
+    sort: Sorting
+    filter: Filtering
+nl_NL:
+  talk-plugin-viewing-options:
+    viewing_options: "Weergave opties"
+    sort: Sortering
+    filter: Filtering
+pt_BR:
+  talk-plugin-viewing-options:
+    viewing_options: "Viewing Options"
+    sort: Sorting
+    filter: Filtering
+zh_CN:
+  talk-plugin-viewing-options:
+    viewing_options: "查看选项"
+    sort: "排序"
+    filter: "过滤"
+zh_TW:
+  talk-plugin-viewing-options:
+    viewing_options: "查看選項"
+    sort: 排序
+    filter: 過濾

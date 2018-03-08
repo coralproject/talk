@@ -1,7 +1,7 @@
 import React from 'react';
-import {matchLinks} from '../utils';
+import { matchLinks } from '../utils';
 
-export default ({text, children}) => {
+export default ({ text, children }) => {
   const hasLinks = !!matchLinks(text);
 
   if (!hasLinks) {

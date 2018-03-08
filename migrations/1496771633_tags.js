@@ -1,83 +1,78 @@
 const CommentModel = require('../models/comment');
 
-module.exports = {
-  async up() {
+// OLD
+//
+// [
+//   {
+//     name: 'OFF_TOPIC',
+//     assigned_by: '',
+//     created_at: new Date()
+//   }
+// ]
 
-    // Find all comments that have tags.
-    let comments = await CommentModel.aggregate([
-      {$match: {
-        tags: {
-          $exists: true,
-          $ne: []
-        }
-      }},
-      {$project: {
-        id: true,
-        tags: true
-      }}
-    ]);
-
-    // If no comments were found, nothing needes to be done!
-    if (comments.length <= 0) {
-      return;
-    }
-
-    // Create a new batch operation.
-    let batch = CommentModel.collection.initializeUnorderedBulkOp();
-
-    // Loop over the comments retrieved, updating the tag structure.
-    for (let {id, tags} of comments) {
-
-      // OLD
-      //
-      // [
-      //   {
-      //     name: 'OFF_TOPIC',
-      //     assigned_by: '',
-      //     created_at: new Date()
-      //   }
-      // ]
-
-      // NEW
-      //
-      // [
-      //   {
-      //     tag: {
-      //       name: 'OFF_TOPIC',
-      //       permissions: {
-      //         public: true,
-      //         self: false,
-      //         roles: []
-      //       },
-      //       models: ['COMMENTS'],
-      //       created_at: new Date()
-      //     },
-      //     assigned_by: '',
-      //     created_at: new Date()
-      //   }
-      // ]
-
-      // Remap the tag structure.
-      tags = tags.map(({name, assigned_by, created_at}) => ({
+// NEW
+//
+// [
+//   {
+//     tag: {
+//       name: 'OFF_TOPIC',
+//       permissions: {
+//         public: true,
+//         self: false,
+//         roles: []
+//       },
+//       models: ['COMMENTS'],
+//       created_at: new Date()
+//     },
+//     assigned_by: '',
+//     created_at: new Date()
+//   }
+// ]
+const transformTags = ({ id, tags }) => ({
+  query: { id },
+  update: {
+    $set: {
+      tags: tags.map(({ name, assigned_by, created_at }) => ({
         tag: {
           name,
           permissions: {
             public: true,
             self: name === 'OFF_TOPIC', // at the time of migration, only off topic tags were self assigning
-            roles: []
+            roles: [],
           },
           models: ['COMMENTS'],
-          created_at
+          created_at,
         },
         assigned_by,
-        created_at
-      }));
+        created_at,
+      })),
+    },
+  },
+});
 
-      // Execute the batch operation.
-      batch.find({id}).updateOne({$set: {tags}});
-    }
+module.exports = {
+  async up({ transformSingleWithCursor }) {
+    // Find all comments that have tags.
+    const cursor = CommentModel.collection.aggregate(
+      [
+        {
+          $match: {
+            tags: {
+              $exists: true,
+              $ne: [],
+            },
+          },
+        },
+        {
+          $project: {
+            id: true,
+            tags: true,
+          },
+        },
+      ],
+      { allowDiskUse: true }
+    );
 
-    // Execute the batch update operation.
-    await batch.execute();
-  }
+    await transformSingleWithCursor(cursor, transformTags, CommentModel);
+  },
 };

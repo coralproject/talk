@@ -20,16 +20,15 @@ module.exports = new GraphQLScalarType({
   },
   parseLiteral(ast) {
     switch (ast.kind) {
-    case Kind.STRING:
+      case Kind.STRING:
+        // This handles an empty string.
+        if (ast.value && ast.value.length === 0) {
+          return null;
+        }
 
-      // This handles an empty string.
-      if (ast.value && ast.value.length === 0) {
-        return null;
-      }
-
-      return new Date(ast.value);
-    default:
-      return ast.value;
+        return new Date(ast.value);
+      default:
+        return ast.value;
     }
-  }
+  },
 });

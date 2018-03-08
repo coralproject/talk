@@ -1,6 +1,27 @@
+da:
+  talk-plugin-subscriber:
+    subscriber: "Subscriber"
 en:
   talk-plugin-subscriber:
     subscriber: "Subscriber"
+de:
+  talk-plugin-subscriber:
+    subscriber: "Abonnent"
 es:
   talk-plugin-subscriber:
     subscriber: "Subscriptor"
+fr:
+  talk-plugin-subscriber:
+    subscriber: "Subscriber"
+nl_NL:
+  talk-plugin-subscriber:
+    subscriber: "Abonnee"
+pt_BR:
+  talk-plugin-subscriber:
+    subscriber: "Subscriber"
+zh_CN:
+  talk-plugin-subscriber:
+    subscriber: "订阅用户"
+zh_TW:
+  talk-plugin-subscriber:
+    subscriber: "訂閱用戶"

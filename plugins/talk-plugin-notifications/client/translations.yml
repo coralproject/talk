@@ -1,0 +1,15 @@
+en:
+  talk-plugin-notifications:
+    settings_title: Notifications
+    settings_subtitle: Receive notifications when
+    turn_off_all: I do not want to receive notifications
+    banner_info:
+      title: Email Verification Required
+      text: To receive email notifications you must have a verified email address.
+      verify_now: Verify your email now
+    banner_success:
+      title: Email Verification Sent
+      text: An email has been sent to {0} containing a verification link.
+    banner_error:
+      title: Error
+      text: There has been an error sending your verification email. Please try again later.

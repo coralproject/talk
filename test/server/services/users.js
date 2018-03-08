@@ -1,6 +1,6 @@
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
-const MailerService = require('../../../services/mailer');
+const mailer = require('../../../services/mailer');
 
 const chai = require('chai');
 chai.use(require('chai-as-promised'));
@@ -9,31 +9,38 @@ chai.use(require('sinon-chai'));
 const expect = chai.expect;
 
 describe('services.UsersService', () => {
-
   let mockUsers;
   beforeEach(async () => {
-    const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
+    const settings = {
+      id: '1',
+      moderation: 'PRE',
+      wordlist: { banned: ['bad words'], suspect: ['suspect words'] },
+    };
 
     await SettingsService.init(settings);
-    mockUsers = await UsersService.createLocalUsers([{
-      email: 'stampi@gmail.com',
-      username: 'Stampi',
-      password: '1Coral!-',
-    }, {
-      email: 'sockmonster@gmail.com',
-      username: 'Sockmonster',
-      password: '2Coral!2'
-    }, {
-      email: 'marvel@gmail.com',
-      username: 'Marvel',
-      password: '3Coral!3'
-    }]);
+    mockUsers = await UsersService.createLocalUsers([
+      {
+        email: 'stampi@gmail.com',
+        username: 'Stampi',
+        password: '1Coral!-',
+      },
+      {
+        email: 'sockmonster@gmail.com',
+        username: 'Sockmonster',
+        password: '2Coral!2',
+      },
+      {
+        email: 'marvel@gmail.com',
+        username: 'Marvel',
+        password: '3Coral!3',
+      },
+    ]);
 
-    sinon.spy(MailerService, 'sendSimple');
+    sinon.spy(mailer, 'send');
   });
 
   afterEach(() => {
-    MailerService.sendSimple.restore();
+    mailer.send.restore();
   });
 
   describe('#findById()', () => {
@@ -45,7 +52,7 @@ describe('services.UsersService', () => {
 
   describe('#findByIdArray()', () => {
     it('should find an array of users from an array of ids', async () => {
-      const ids = mockUsers.map((user) => user.id);
+      const ids = mockUsers.map(user => user.id);
       const users = await UsersService.findByIdArray(ids);
       expect(users).to.have.length(3);
     });
@@ -53,13 +60,17 @@ describe('services.UsersService', () => {
 
   describe('#findPublicByIdArray()', () => {
     it('should find an array of users from an array of ids', async () => {
-      const ids = mockUsers.map((user) => user.id);
+      const ids = mockUsers.map(user => user.id);
       const users = await UsersService.findPublicByIdArray(ids);
       expect(users).to.have.length(3);
 
-      const sorted = users.sort((a, b) =>     {
-        if(a.username < b.username) {return -1;}
-        if(a.username > b.username) {return 1;}
+      const sorted = users.sort((a, b) => {
+        if (a.username < b.username) {
+          return -1;
+        }
+        if (a.username > b.username) {
+          return 1;
+        }
         return 0;
       });
       expect(sorted[0]).to.have.property('username', 'Marvel');
@@ -67,74 +78,83 @@ describe('services.UsersService', () => {
   });
 
   describe('#findLocalUser', () => {
-
     it('should find a user', () => {
-      return UsersService
-        .findLocalUser(mockUsers[0].profiles[0].id)
-        .then((user) => {
+      return UsersService.findLocalUser(mockUsers[0].profiles[0].id).then(
+        user => {
           expect(user).to.have.property('username', mockUsers[0].username);
-        });
+        }
+      );
     });
-
   });
 
   describe('#createLocalUser', () => {
     it('should not create a user with duplicate username', () => {
-      return UsersService.createLocalUsers([{
-        email: 'otrostampi@gmail.com',
-        username: 'StampiTheSecond',
-        password: '1Coralito!'
-      }])
-        .then((user) => {
+      return UsersService.createLocalUsers([
+        {
+          email: 'otrostampi@gmail.com',
+          username: 'StampiTheSecond',
+          password: '1Coralito!',
+        },
+      ])
+        .then(user => {
           expect(user).to.be.null;
         })
-        .catch((error) => {
+        .catch(error => {
           expect(error).to.not.be.null;
         });
     });
   });
 
   describe('#createEmailConfirmToken', () => {
-
     it('should create a token for a valid user', async () => {
-      const token = await UsersService.createEmailConfirmToken(mockUsers[0], mockUsers[0].profiles[0].id);
+      const token = await UsersService.createEmailConfirmToken(
+        mockUsers[0],
+        mockUsers[0].profiles[0].id
+      );
       expect(token).to.not.be.null;
     });
 
     it('should not create a token for a user already verified', async () => {
-      const token = await UsersService.createEmailConfirmToken(mockUsers[0], mockUsers[0].profiles[0].id);
+      const token = await UsersService.createEmailConfirmToken(
+        mockUsers[0],
+        mockUsers[0].profiles[0].id
+      );
       expect(token).to.not.be.null;
 
       await UsersService.verifyEmailConfirmation(token);
 
       const user = await UsersService.findById(mockUsers[0].id);
 
-      return expect(UsersService.createEmailConfirmToken(user, mockUsers[0].profiles[0].id)).to.eventually.be.rejected;
+      return expect(
+        UsersService.createEmailConfirmToken(user, mockUsers[0].profiles[0].id)
+      ).to.eventually.be.rejected;
     });
-
   });
 
   describe('#verifyEmailConfirmation', () => {
-
     it('should correctly validate a valid token', async () => {
-      const token = await UsersService.createEmailConfirmToken(mockUsers[0], mockUsers[0].profiles[0].id);
+      const token = await UsersService.createEmailConfirmToken(
+        mockUsers[0],
+        mockUsers[0].profiles[0].id
+      );
       expect(token).to.not.be.null;
 
-      return expect(UsersService.verifyEmailConfirmation(token)).to.eventually.not.be.rejected;
+      return expect(UsersService.verifyEmailConfirmation(token)).to.eventually
+        .not.be.rejected;
     });
 
     it('should correctly reject an invalid token', async () => {
-      return UsersService
-        .verifyEmailConfirmation('cats')
-        .catch((err) => {
-          expect(err).to.not.be.null;
-        });
+      return UsersService.verifyEmailConfirmation('cats').catch(err => {
+        expect(err).to.not.be.null;
+      });
     });
 
     it('should update the user model when verification is complete', () => {
-      return UsersService
-        .createEmailConfirmToken(mockUsers[0], mockUsers[0].profiles[0].id)
-        .then((token) => {
+      return UsersService.createEmailConfirmToken(
+        mockUsers[0],
+        mockUsers[0].profiles[0].id
+      )
+        .then(token => {
           expect(token).to.not.be.null;
 
           return UsersService.verifyEmailConfirmation(token);
@@ -142,27 +162,11 @@ describe('services.UsersService', () => {
         .then(() => {
           return UsersService.findById(mockUsers[0].id);
         })
-        .then((user) => {
+        .then(user => {
           expect(user.profiles[0]).to.have.property('metadata');
           expect(user.profiles[0].metadata).to.have.property('confirmed_at');
           expect(user.profiles[0].metadata.confirmed_at).to.not.be.null;
         });
-    });
-
-  });
-
-  describe('#setStatus', () => {
-    it('should set the status to active', () => {
-      return UsersService
-        .setStatus(mockUsers[0].id, 'ACTIVE')
-        .then(() => UsersService.findById(mockUsers[0].id))
-        .then((user) => {
-          expect(user).to.have.property('status', 'ACTIVE');
-        })
-        .then(() => {
-          expect(MailerService.sendSimple).to.not.have.been.called;
-        });
-
     });
   });
 
@@ -170,12 +174,15 @@ describe('services.UsersService', () => {
     it('should add user id to ignoredUsers set', async () => {
       const user = mockUsers[0];
       const usersToIgnore = [mockUsers[1], mockUsers[2]];
-      await UsersService.ignoreUsers(user.id, usersToIgnore.map((u) => u.id));
+      await UsersService.ignoreUsers(user.id, usersToIgnore.map(u => u.id));
       const userAfterIgnoring = await UsersService.findById(user.id);
       expect(userAfterIgnoring.ignoresUsers.length).to.equal(2);
 
       // ignore same user another time, make sure it's not added to the list.
-      await UsersService.ignoreUsers(user.id, usersToIgnore.slice(0, 1).map((u) => u.id));
+      await UsersService.ignoreUsers(
+        user.id,
+        usersToIgnore.slice(0, 1).map(u => u.id)
+      );
       const userAfterIgnoring2 = await UsersService.findById(user.id);
       expect(userAfterIgnoring2.ignoresUsers.length).to.equal(2);
     });
@@ -183,10 +190,10 @@ describe('services.UsersService', () => {
     it('should not ignore a staff member', async () => {
       const user = mockUsers[0];
       const usersToIgnore = [mockUsers[1]];
-      await UsersService.addRoleToUser(usersToIgnore[0].id, 'STAFF');
+      await UsersService.setRole(usersToIgnore[0].id, 'STAFF');
 
       try {
-        await UsersService.ignoreUsers(user.id, usersToIgnore.map((u) => u.id));
+        await UsersService.ignoreUsers(user.id, usersToIgnore.map(u => u.id));
       } catch (err) {
         expect(err.status).to.equal(400);
         expect(err.translation_key).to.equal('CANNOT_IGNORE_STAFF');
@@ -194,155 +201,103 @@ describe('services.UsersService', () => {
     });
   });
 
-  describe('#ban', () => {
-    it('should set the status to banned', () => {
-      return UsersService
-        .setStatus(mockUsers[0].id, 'BANNED')
-        .then(() => UsersService.findById(mockUsers[0].id))
-        .then((user) => {
-          expect(user).to.have.property('status', 'BANNED');
-        })
-        .then(() => {
-          expect(MailerService.sendSimple).to.have.been.calledWithMatch({
-            template: 'banned',
-            to: mockUsers[0].profiles[0].id
-          });
+  [
+    {
+      func: 'changeUsername',
+      okStatus: 'REJECTED',
+      notOKStatus: 'UNSET',
+      newStatus: 'CHANGED',
+    },
+    {
+      func: 'setUsername',
+      okStatus: 'UNSET',
+      notOKStatus: 'REJECTED',
+      newStatus: 'SET',
+    },
+  ].forEach(({ func, okStatus, notOKStatus, newStatus }) => {
+    describe(`#${func}`, () => {
+      [
+        { status: okStatus },
+        { error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: notOKStatus },
+        { error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: 'SET' },
+        { error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: 'APPROVED' },
+        { error: 'EDIT_USERNAME_NOT_AUTHORIZED', status: 'CHANGED' },
+      ].forEach(({ status, error }) => {
+        it(`${
+          error ? 'should not' : 'should'
+        } let them change the username if they have the status of ${status}`, async () => {
+          const user = mockUsers[0];
+
+          // Set the user to the desired status.
+          await UsersService.setUsernameStatus(user.id, status);
+
+          try {
+            await UsersService[func](user.id, 'spock');
+          } catch (err) {
+            if (error) {
+              expect(err).have.property('translation_key', error);
+            } else {
+              throw err;
+            }
+          }
         });
-    });
+      });
 
-    it('should still disable and ban the user if there is no comment', () => {
-      return UsersService
-        .setStatus(mockUsers[0].id, 'BANNED')
-        .then(() => UsersService.findById(mockUsers[0].id))
-        .then((user) => {
-          expect(user).to.have.property('status', 'BANNED');
-        });
-    });
-  });
+      it(`should change the status to ${newStatus} when changed`, async () => {
+        const user = mockUsers[0];
 
-  describe('#unban', () => {
-    it('should set the status to active', () => {
-      return UsersService
-        .setStatus(mockUsers[0].id, 'ACTIVE')
-        .then(() => UsersService.findById(mockUsers[0].id))
-        .then((user) => {
-          expect(user).to.have.property('status', 'ACTIVE');
-        });
-    });
-  });
+        // Set the user to the desired status.
+        await UsersService.setUsernameStatus(user.id, okStatus);
 
-  describe('#toggleNameEdit', () => {
-    it('should toggle the canEditName field', () => {
-      return UsersService
-        .toggleNameEdit(mockUsers[0].id, true)
-        .then(() => UsersService.findById(mockUsers[0].id))
-        .then((user) => {
-          expect(user).to.have.property('canEditName', true);
-        });
-    });
-  });
+        const editedUser = await UsersService[func](user.id, 'spock');
 
-  describe('#search', () => {
-    it('should return all the results without a value', async () => {
-      expect(await UsersService.search()).to.have.length(3);
-    });
+        expect(editedUser.status.username.status).to.equal(newStatus);
 
-    it('should match the search terms', async () => {
-      const tests = [
-        {
-          search: 'monster',
-          results: 1,
-          id: mockUsers[1].id,
-        },
-        {
-          search: 'Stamp',
-          results: 1,
-          id: mockUsers[0].id,
-        },
-        {
-          search: 'sockmonster@gmail.com',
-          results: 1,
-          id: mockUsers[1].id,
-        },
-        {
-          search: 'marvel',
-          results: 1,
-          id: mockUsers[2].id,
-        },
-        {
-          search: 'gmail.com',
-          results: 3
+        try {
+          await UsersService[func](user.id, 'spock');
+          throw new Error('edit was processed successfully');
+        } catch (err) {
+          expect(err).have.property(
+            'translation_key',
+            'EDIT_USERNAME_NOT_AUTHORIZED'
+          );
         }
-      ];
+      });
 
-      for (const test of tests) {
-        const users = await UsersService.search(test.search);
+      it(`${
+        func === 'changeUsername' ? 'should' : 'should not'
+      } refuse changing the username to the same username`, async () => {
+        const user = mockUsers[0];
 
-        expect(users).to.have.length(test.results);
-        if (test.results === 1) {
-          expect(users[0]).to.have.property('id', test.id);
+        // Set the user to the desired status.
+        await UsersService.setUsernameStatus(user.id, okStatus);
+
+        if (func === 'changeUsername') {
+          try {
+            await UsersService[func](user.id, user.username);
+            throw new Error('edit was processed successfully');
+          } catch (err) {
+            expect(err).have.property(
+              'translation_key',
+              'SAME_USERNAME_PROVIDED'
+            );
+          }
+        } else {
+          await UsersService[func](user.id, user.username);
         }
-      }
+      });
     });
   });
 
-  describe('#editName', () => {
-    it('should let the user edit their username if the proper toggle is set', () => {
-      return UsersService
-        .toggleNameEdit(mockUsers[0].id, true)
-        .then(() => UsersService.editName(mockUsers[0].id, 'Jojo'))
-        .then(() => UsersService.findById(mockUsers[0].id))
-        .then((user) => {
-          expect(user).to.have.property('username', 'Jojo');
-          expect(user).to.have.property('canEditName', false);
-        });
-    });
-
-    it('should let the user submit the same username if user is not banned (create username)', () => {
-      return UsersService
-        .toggleNameEdit(mockUsers[0].id, true)
-        .then(() => UsersService.editName(mockUsers[0].id, mockUsers[0].username))
-        .then(() => UsersService.findById(mockUsers[0].id))
-        .then((user) => {
-          expect(user).to.have.property('username', mockUsers[0].username);
-          expect(user).to.have.property('canEditName', false);
-        });
-    });
-
-    it('should return error when a banned user submits the same username (rejected username)', () => {
-      return UsersService
-        .toggleNameEdit(mockUsers[0].id, true)
-        .then(() => UsersService.setStatus(mockUsers[0].id, 'BANNED'))
-        .then(() => UsersService.editName(mockUsers[0].id, mockUsers[0].username))
-        .then(() => UsersService.findById(mockUsers[0].id))
-        .then(() => {
-          throw new Error('Error expected');
-        })
-        .catch((err) => {
-          expect(err.status).to.equal(400);
-          expect(err.translation_key).to.equal('SAME_USERNAME_PROVIDED');
-        });
-    });
-
-    it('should return an error if canEditName is false', async () => {
-      return expect(UsersService.editName(mockUsers[0].id, 'Jojo')).to.eventually.be.rejected;
-    });
-
-    it('should return an error if the username is already taken', async () => {
-      await UsersService.toggleNameEdit(mockUsers[0].id, true);
-      return expect(UsersService.editName(mockUsers[0].id, 'Marvel')).to.eventually.be.rejected;
-    });
-
+  describe('#isValidUsername', () => {
     it('should not allow non-alphanumeric characters in usernames', () => {
-      return UsersService
-        .isValidUsername('hi🖕')
+      return UsersService.isValidUsername('hi🖕')
         .then(() => {
           expect(false).to.be.true;
         })
-        .catch((err) => {
+        .catch(err => {
           expect(err).to.be.ok;
         });
     });
   });
-
 });

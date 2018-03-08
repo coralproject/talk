@@ -1,3 +1,16 @@
+da:
+  talk-plugin-ignore-user:
+    section_title: Ignored users
+    section_info: Because you ignored the following commenters, their comments are hidden.
+    stop_ignoring: Stop ignoring
+    ignore_user: Ignore User
+    cancel: Cancel
+    confirmation: |
+      When you ignore a user, all comments they wrote on the site will be hidden from you. You can
+      undo this later from My Profile.
+    notify_success: |
+      You are now ignoring {0}. You can undo this action from My Profile.
+    confirmation_title: Ignore {0}?
 en:
   talk-plugin-ignore-user:
     section_title: Ignored users
@@ -11,15 +24,87 @@ en:
     notify_success: |
       You are now ignoring {0}. You can undo this action from My Profile.
     confirmation_title: Ignore {0}?
+de:
+  talk-plugin-ignore-user:
+    section_title: Ignorierte Nutzer
+    section_info: Weil Sie die folgenden Nutzer ignorieren, sind deren Kommentare versteckt.
+    stop_ignoring: Ignorieren beenden
+    ignore_user: Nutzer ignorieren
+    cancel: Abbrechen
+    confirmation: Wenn Sie Nutzer ignorieren, werden deren Kommentare auf der Seite für Sie unsichtbar. Diese Einstellung können Sie unter Mein Profil ändern.
+    notify_success: Sie ignorieren jetzt {0}. Sie können diese Einstellung unter Mein Profil wieder aufheben.
+    confirmation_title: "{0} ignorieren?"
 es:
   talk-plugin-ignore-user:
     section_title: "Usuarios ignorados"
+    section_info: Because you ignored the following commenters, their comments are hidden.
     stop_ignoring: "No ignorar más"
+    ignore_user: Ignore User
+    cancel: Cancel
+    confirmation: |
+      When you ignore a user, all comments they wrote on the site will be hidden from you. You can
+      undo this later from My Profile.
+    notify_success: |
+      You are now ignoring {0}. You can undo this action from My Profile.
+    confirmation_title: Ignore {0}?
 fr:
   talk-plugin-ignore-user:
     section_title: "Utilisateurs ignorés"
-pt_Br:
+    section_info: Because you ignored the following commenters, their comments are hidden.
+    stop_ignoring: Stop ignoring
+    ignore_user: Ignore User
+    cancel: Cancel
+    confirmation: |
+      When you ignore a user, all comments they wrote on the site will be hidden from you. You can
+      undo this later from My Profile.
+    notify_success: |
+      You are now ignoring {0}. You can undo this action from My Profile.
+    confirmation_title: Ignore {0}?
+nl_NL:
+  talk-plugin-ignore-user:
+    section_title: Genegeerde gebruikers
+    section_info: Omdat je de volgende reageerders negeert, worden hun reacties verborgen.
+    stop_ignoring: Stop met negeren
+    ignore_user: Gebruiker negeren
+    cancel: Annuleren
+    confirmation: |
+      Wanneer je een gebruiker negeert, zullen al zijn/haar reacties voor jou worden verborgen. Je kunt 
+      dit later ongedaan maken vanuit Mijn profiel.
+    notify_success: |
+      Je negeert nu {0}. Je kunt dit ongedaan maken vanuit Mijn profiel.
+    confirmation_title: Negeer {0}?
+pt_BR:
   talk-plugin-ignore-user:
     section_title: "Usuários ignorados"
     section_info: "Porque você ignorou os seguintes comentadores, seus comentários estão ocultos."
     stop_ignoring: "Pare de ignorar"
+    ignore_user: Ignore User
+    cancel: Cancel
+    confirmation: |
+      When you ignore a user, all comments they wrote on the site will be hidden from you. You can
+      undo this later from My Profile.
+    notify_success: |
+      You are now ignoring {0}. You can undo this action from My Profile.
+    confirmation_title: Ignore {0}?
+zh_CN:
+  talk-plugin-ignore-user:
+    section_title: "被忽略用户"
+    section_info: "因为您忽略了下述评论者，他们的评论将会被隐藏。"
+    stop_ignoring: "停止忽略"
+    ignore_user: "忽略用户"
+    cancel: "取消"
+    confirmation: "当您忽略用户时，您将看不到该用户的所有评论。您可以在资料页面撤销此操作。"
+    notify_success: "您现在已忽略 {0}。您可以在资料页面撤销此操作。"
+    confirmation_title: "忽略 {0}？"
+zh_TW:
+  talk-plugin-ignore-user:
+    section_title: 屏蔽用戶
+    section_info: 因為您屏蔽了下列用戶，他們的評論已隱藏
+    stop_ignoring: 取消屏蔽
+    ignore_user: 屏蔽用戶
+    cancel: 取消
+    confirmation: |
+      當您屏蔽一個用戶，系統將對您隱藏所有他們在本站得評論。您稍後可以在個人檔案中撤銷這個操作。
+    notify_success: |
+      您將屏蔽 {0}。 您可以在個人檔案中撤銷該操作。
+    confirmation_title: 屏蔽 {0}?

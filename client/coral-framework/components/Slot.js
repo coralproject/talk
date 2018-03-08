@@ -1,11 +1,13 @@
 import React from 'react';
 import cn from 'classnames';
 import styles from './Slot.css';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import kebabCase from 'lodash/kebabCase';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
-import {getShallowChanges} from 'coral-framework/utils';
+import get from 'lodash/get';
+import { getShallowChanges } from 'coral-framework/utils';
+import omit from 'lodash/omit';
 
 const emptyConfig = {};
 
@@ -15,13 +17,14 @@ class Slot extends React.Component {
   };
 
   shouldComponentUpdate(next) {
-
     // Prevent Slot from rerendering when only reduxState has changed and
     // it does not result in a change of slot children.
     const changes = getShallowChanges(this.props, next);
     if (changes.length === 1 && changes[0] === 'reduxState') {
-      const prevChildrenKeys = this.getChildren(this.props).map((child) => child.key);
-      const nextChildrenKeys = this.getChildren(next).map((child) => child.key);
+      const prevChildrenKeys = this.getChildren(this.props).map(
+        child => child.key
+      );
+      const nextChildrenKeys = this.getChildren(next).map(child => child.key);
       return !isEqual(prevChildrenKeys, nextChildrenKeys);
     }
 
@@ -30,23 +33,30 @@ class Slot extends React.Component {
   }
 
   getSlotProps(props = this.props) {
-    const {
-      fill: _a,
-      inline: _b,
-      className: _c,
-      reduxState: _d,
-      defaultComponent_: _e,
-      queryData: _f,
-      childFactory: _g,
-      component: _h,
-      ...rest
-    } = props;
-    return rest;
+    return omit(props, [
+      'fill',
+      'inline',
+      'className',
+      'reduxState',
+      'slotSize',
+      'defaultComponent',
+      'queryData',
+      'childFactory',
+      'component',
+    ]);
   }
 
   getChildren(props = this.props) {
-    const {plugins} = this.context;
-    return plugins.getSlotElements(props.fill, props.reduxState, this.getSlotProps(props), props.queryData);
+    const { slotSize = 0 } = props;
+    const { plugins } = this.context;
+
+    return plugins.getSlotElements(
+      props.fill,
+      props.reduxState,
+      this.getSlotProps(props),
+      props.queryData,
+      { slotSize }
+    );
   }
 
   render() {
@@ -60,11 +70,17 @@ class Slot extends React.Component {
       queryData,
       fill,
     } = this.props;
-    const {plugins} = this.context;
+    const { plugins } = this.context;
     let children = this.getChildren();
-    const pluginConfig = reduxState.config.pluginConfig || emptyConfig;
+    const pluginConfig =
+      get(reduxState, 'config.plugins_config') || emptyConfig;
     if (children.length === 0 && DefaultComponent) {
-      const props = plugins.getSlotComponentProps(DefaultComponent, reduxState, this.getSlotProps(this.props), queryData);
+      const props = plugins.getSlotComponentProps(
+        DefaultComponent,
+        reduxState,
+        this.getSlotProps(this.props),
+        queryData
+      );
       children = <DefaultComponent {...props} />;
     }
 
@@ -73,7 +89,13 @@ class Slot extends React.Component {
     }
 
     return (
-      <Component className={cn({[styles.inline]: inline, [styles.debug]: pluginConfig.debug}, className, `talk-slot-${kebabCase(fill)}`)}>
+      <Component
+        className={cn(
+          { [styles.inline]: inline, [styles.debug]: pluginConfig.debug },
+          className,
+          `talk-slot-${kebabCase(fill)}`
+        )}
+      >
         {children}
       </Component>
     );
@@ -89,19 +111,18 @@ Slot.propTypes = {
   inline: PropTypes.bool,
   className: PropTypes.string,
   reduxState: PropTypes.object,
-  defaultComponent: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.string,
-  ]),
+  defaultComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+
+  /**
+   * Specifies the number of children that can fill the slot.
+   */
+  slotSize: PropTypes.number,
 
   /**
    * You may specify the component to use as the root wrapper.
    * Defaults to 'div'.
    */
-  component: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.string,
-  ]),
+  component: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 
   // props coming from graphql must be passed through this property.
   queryData: PropTypes.object,
@@ -119,9 +140,8 @@ Slot.propTypes = {
   childFactory: PropTypes.func,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   reduxState: state,
 });
 
 export default connect(mapStateToProps, null)(Slot);
-

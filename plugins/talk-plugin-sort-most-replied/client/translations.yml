@@ -1,5 +1,27 @@
+da:
+  talk-plugin-sort-most-replied:
+    label: Most replied first
 en:
   talk-plugin-sort-most-replied:
     label: Most replied first
+de:
+  talk-plugin-sort-most-replied:
+    label: Häufigste Antworten zuerst
 es:
   talk-plugin-sort-most-replied:
+    label: Most replied first
+fr:
+  talk-plugin-sort-most-replied:
+    label: Most replied first
+nl_NL:
+  talk-plugin-sort-most-replied:
+    label: Meest beantwoord eerst
+pt_BR:
+  talk-plugin-sort-most-replied:
+    label: Most replied first
+zh_CN:
+  talk-plugin-sort-most-replied:
+    label: "最多回复在前"
+zh_TW:
+  talk-plugin-sort-most-replied:
+    label: 最多回復在前

@@ -1,9 +1,36 @@
+da:
+  talk-plugin-love:
+    love: Love
+    loved: Loved
 en:
   talk-plugin-love:
     love: Love
     loved: Loved
+de:
+  talk-plugin-love:
+    love: Ich liebe es
+    loved: Ich liebe es
 es:
   talk-plugin-love:
     love: Amo
     loved: Amé
-
+fr:
+  talk-plugin-love:
+    love: Love
+    loved: Loved
+nl_NL:
+  talk-plugin-love:
+    love: Ik hou er van
+    loved: Geliefd
+pt_BR:
+  talk-plugin-love:
+    love: Love
+    loved: Loved
+zh_CN:
+  talk-plugin-love:
+    love: " 比心"
+    loved: "已比心"
+zh_TW:
+  talk-plugin-love:
+    love: 比心
+    loved: 已比心

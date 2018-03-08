@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 
-const program = require('./commander');
+const util = require('./util');
+const program = require('commander');
 const parseDuration = require('ms');
 const Table = require('cli-table');
 const AssetModel = require('../models/asset');
@@ -12,34 +13,28 @@ const CommentModel = require('../models/comment');
 const AssetsService = require('../services/assets');
 const mongoose = require('../services/mongoose');
 const scraper = require('../services/scraper');
-const util = require('./util');
 const inquirer = require('inquirer');
+const { URL } = require('url');
 
 // Register the shutdown criteria.
-util.onshutdown([
-  () => mongoose.disconnect()
-]);
+util.onshutdown([() => mongoose.disconnect()]);
 
 /**
  * Lists all the assets registered in the database.
  */
 async function listAssets() {
   try {
-    let assets = await AssetModel.find({}).sort({'created_at': 1});
+    let assets = await AssetModel.find({}).sort({ created_at: 1 });
 
     let table = new Table({
-      head: [
-        'ID',
-        'Title',
-        'URL'
-      ]
+      head: ['ID', 'Title', 'URL'],
     });
 
-    assets.forEach((asset) => {
+    assets.forEach(asset => {
       table.push([
         asset.id,
         asset.title ? asset.title : '',
-        asset.url ? asset.url : ''
+        asset.url ? asset.url : '',
       ]);
     });
 
@@ -61,13 +56,13 @@ async function refreshAssets(ageString) {
       $or: [
         {
           scraped: {
-            $lte: age
-          }
+            $lte: age,
+          },
         },
         {
-          scraped: null
-        }
-      ]
+          scraped: null,
+        },
+      ],
     });
 
     // Queue all the assets for scraping.
@@ -95,7 +90,6 @@ async function updateURL(assetID, assetURL) {
 
 async function merge(srcID, dstID) {
   try {
-
     // Grab the assets...
     let [srcAsset, dstAsset] = await AssetsService.findByIDs([srcID, dstID]);
     if (!srcAsset || !dstAsset) {
@@ -103,21 +97,22 @@ async function merge(srcID, dstID) {
     }
 
     // Count the affected resources...
-    let srcCommentCount = await CommentModel.find({asset_id: srcID}).count();
+    let srcCommentCount = await CommentModel.find({ asset_id: srcID }).count();
 
-    console.log(`Now going to update ${srcCommentCount} comments and delete the source Asset[${srcID}].`);
+    console.log(
+      `Now going to update ${srcCommentCount} comments and delete the source Asset[${srcID}].`
+    );
 
-    let {confirm} = await inquirer.prompt([
+    let { confirm } = await inquirer.prompt([
       {
         type: 'confirm',
         name: 'confirm',
         message: 'Proceed with merge',
-        default: false
-      }
+        default: false,
+      },
     ]);
 
     if (confirm) {
-
       // Perform the merge!
       await AssetsService.merge(srcID, dstID);
     } else {
@@ -127,6 +122,70 @@ async function merge(srcID, dstID) {
     util.shutdown(0);
   } catch (e) {
     console.error(e);
+    util.shutdown(1);
+  }
+}
+
+async function rewrite(search, replace, options) {
+  try {
+    search = new RegExp(search);
+
+    const assets = await AssetModel.find({
+      url: { $regex: search },
+    });
+    if (assets.length === 0) {
+      console.log(`No assets found with the pattern: ${search}`);
+      return util.shutdown(0);
+    }
+
+    let opts = [];
+    assets.forEach(({ id, url: oldURL }) => {
+      // Replace the url.
+      const newURL = oldURL.replace(search, replace);
+
+      // Try to validate that the new url is valid.
+      try {
+        new URL(newURL);
+      } catch (err) {
+        throw new Error(
+          `Rewrite would have replaced the valid URL ${oldURL} with an invalid one ${newURL}`
+        );
+      }
+
+      opts.push({
+        find: { id },
+        updateOne: { $set: { url: newURL } },
+        id,
+        oldURL,
+        newURL,
+      });
+    });
+
+    if (opts.length > 0) {
+      if (options.dryRun) {
+        const table = new Table({ head: ['ID', 'Old URL', 'New URL'] });
+
+        opts.forEach(({ id, oldURL, newURL }) => {
+          table.push([id, oldURL, newURL]);
+        });
+
+        console.log(table.toString());
+      } else {
+        const bulk = AssetModel.collection.initializeUnorderedBulkOp();
+        opts.forEach(({ find, updateOne, oldURL, newURL }) => {
+          // If the url was updated with the operation, then queue up the update op.
+          if (newURL !== oldURL) {
+            bulk.find(find).updateOne(updateOne);
+          }
+        });
+        await bulk.execute();
+        console.log(`${opts.length} assets had their url's updated`);
+      }
+    }
+
+    util.shutdown(0);
+  } catch (err) {
+    console.error(err);
     util.shutdown(1);
   }
 }
@@ -152,8 +211,18 @@ program
 
 program
   .command('merge <srcID> <dstID>')
-  .description('merges two assets together by moving comments from src to dst and deleting the src asset')
+  .description(
+    'merges two assets together by moving comments from src to dst and deleting the src asset'
+  )
   .action(merge);
+
+program
+  .command('rewrite <search> <replace>')
+  .option('-d, --dry-run', 'enables dry run of the replacement')
+  .description(
+    "rewrites asset url's using the provided regex replacement pattern"
+  )
+  .action(rewrite);
 
 program.parse(process.argv);
 

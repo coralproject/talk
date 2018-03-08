@@ -1,7 +1,7 @@
+const { property } = require('lodash');
+
 const FlagActionSummary = {
-  reason({group_id}) {
-    return group_id;
-  }
+  reason: property('group_id'),
 };
 
 module.exports = FlagActionSummary;
