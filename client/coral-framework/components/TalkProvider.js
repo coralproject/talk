@@ -10,6 +10,7 @@ class TalkProvider extends React.Component {
       plugins: this.props.plugins,
       rest: this.props.rest,
       graphql: this.props.graphql,
+      introspection: this.props.introspection,
       notification: this.props.notification,
       localStorage: this.props.localStorage,
       sessionStorage: this.props.sessionStorage,
@@ -29,6 +30,7 @@ class TalkProvider extends React.Component {
 
 TalkProvider.childContextTypes = {
   pym: PropTypes.object,
+  introspection: PropTypes.object,
   eventEmitter: PropTypes.object,
   plugins: PropTypes.object,
   rest: PropTypes.func,
