@@ -1,5 +1,4 @@
 const kue = require('./kue');
-const debug = require('debug')('talk:services:scraper');
 
 /**
  * Exposes a service object to allow operations to execute against the scraper.
@@ -16,15 +15,16 @@ const scraper = {
   /**
    * Creates a new scraper job and scrapes the url when it gets processed.
    */
-  async create(asset) {
-    debug(`Creating job for Asset[${asset.id}]`);
+  async create(ctx, id) {
+    ctx.log.info({ assetID: id }, 'Creating job');
 
     const job = await scraper.task.create({
-      title: `Scrape for asset ${asset.id}`,
-      asset_id: asset.id,
+      title: `Scrape for asset ${id}`,
+      id: ctx.id,
+      asset_id: id,
     });
 
-    debug(`Created Job[${job.id}] for Asset[${asset.id}]`);
+    ctx.log.info({ jobID: job.id, assetID: id }, 'Created job');
 
     return job;
   },
