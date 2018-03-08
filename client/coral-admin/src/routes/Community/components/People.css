@@ -130,3 +130,12 @@ th.header:nth-child(2), th.header:nth-child(3) {
 .loadMore {
   margin-top: 24px;
 }
+
+.roleDropdown {
+  width: 150px;
+}
+
+.roleOption {
+  min-width: 100px;
+}
+

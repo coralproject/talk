@@ -13,6 +13,12 @@ class Dropdown extends React.Component {
     isOpen: false,
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (this.state.isOpen && nextProps.disabled) {
+      this.toggle();
+    }
+  }
+
   componentDidUpdate(_, prevState) {
     if (!this.state.isOpen && prevState.isOpen) {
       // Refocus on the toggle element when menu closes.
@@ -69,6 +75,10 @@ class Dropdown extends React.Component {
   };
 
   toggle = () => {
+    if (this.props.disabled) {
+      return false;
+    }
+
     this.setState({
       isOpen: !this.state.isOpen,
     });
@@ -135,11 +145,21 @@ class Dropdown extends React.Component {
       containerClassName,
       toggleClassName,
       toggleOpenClassName,
+      disabled,
+      className,
     } = this.props;
     return (
       <ClickOutside onClickOutside={this.hideMenu}>
         <div
-          className={cn(styles.dropdown, containerClassName, 'dd dd-container')}
+          className={cn(
+            styles.dropdown,
+            className,
+            containerClassName,
+            'dd dd-container',
+            {
+              [styles.disabled]: disabled,
+            }
+          )}
         >
           <div
             className={cn(styles.toggle, toggleClassName, {
@@ -150,7 +170,7 @@ class Dropdown extends React.Component {
             role="button"
             aria-pressed={this.state.isOpen}
             aria-haspopup="true"
-            tabIndex="0"
+            tabIndex={disabled ? '-1' : '0'}
             ref={this.handleToggleRef}
           >
             {this.props.icon && (
@@ -206,6 +226,7 @@ class Dropdown extends React.Component {
 }
 
 Dropdown.propTypes = {
+  className: PropTypes.string,
   containerClassName: PropTypes.string,
   toggleClassName: PropTypes.string,
   toggleOpenClassName: PropTypes.string,
@@ -213,6 +234,7 @@ Dropdown.propTypes = {
   icon: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
+  disabled: PropTypes.bool,
   value: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,

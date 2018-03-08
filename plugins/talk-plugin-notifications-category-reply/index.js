@@ -90,7 +90,13 @@ const hydrate = async (ctx, category, context) => {
   return [headline, replier, permalink];
 };
 
-const handler = { handle, category: 'reply', event: 'commentAdded', hydrate };
+const handler = {
+  handle,
+  category: 'reply',
+  event: 'commentAdded',
+  hydrate,
+  digestOrder: 30,
+};
 
 module.exports = {
   typeDefs: `

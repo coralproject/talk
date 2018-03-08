@@ -12,6 +12,9 @@ module.exports = {
       }
     },
   },
+  NotificationSettings: {
+    digestFrequency: settings => get(settings, 'digestFrequency', 'NONE'),
+  },
   RootMutation: {
     async updateNotificationSettings(obj, { input }, { mutators: { User } }) {
       await User.updateNotificationSettings(input);
