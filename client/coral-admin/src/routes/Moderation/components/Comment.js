@@ -138,7 +138,7 @@ class Comment extends React.Component {
                   className={cn(styles.commentContent, 'talk-admin-comment')}
                   clearHeightCache={clearHeightCache}
                   queryData={queryData}
-                  slotSize={1}
+                  size={1}
                   defaultComponent={CommentFormatter}
                   {...formatterSettings}
                 />

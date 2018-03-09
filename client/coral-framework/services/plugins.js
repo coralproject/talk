@@ -99,7 +99,7 @@ class PluginsService {
    */
   getSlotElements(slot, reduxState, props = {}, queryData = {}, options = {}) {
     const pluginConfig = get(reduxState, 'config.plugin_config') || emptyConfig;
-    const { slotSize = 0 } = options;
+    const { size = 0 } = options;
 
     const isDisabled = component => {
       if (
@@ -136,15 +136,15 @@ class PluginsService {
         .map(o => o.module.slots[slot])
     );
 
-    if (slotSize > 0 && slots.length > slotSize) {
+    if (size > 0 && slots.length > size) {
       console.warn(
-        `Slot[${slot}] supports a maximum of ${slotSize} plugins providing slots, got ${
+        `Slot[${slot}] supports a maximum of ${size} plugins providing slots, got ${
           slots.length
-        }, will only use the first ${slotSize}`
+        }, will only use the first ${size}`
       );
     }
 
-    return (slotSize > 0 ? slots.slice(0, slotSize) : slots)
+    return (size > 0 ? slots.slice(0, size) : slots)
       .map((component, i) => ({
         component,
         disabled: isDisabled(component),

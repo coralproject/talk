@@ -24,7 +24,7 @@ export default {
         createComment: {
           comment: {
             user: {
-              created_at: new Date(),
+              created_at: new Date().toISOString(),
               __typename: 'User',
             },
             __typename: 'Comment',

@@ -94,7 +94,7 @@ class UserDetailComment extends React.Component {
                     'talk-admin-user-detail-comment'
                   )}
                   queryData={queryData}
-                  slotSize={1}
+                  size={1}
                   defaultComponent={CommentFormatter}
                   {...formatterSettings}
                 />
