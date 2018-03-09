@@ -136,11 +136,11 @@ sidebar:
           url: /plugins-directory/
         - title: Plugin Recipes
           url: /plugin-recipes/
-    - title: Reference
+    - title: API
       children:
-        - title: Server Plugin API
+        - title: Server Plugins
           url: /reference/server/
-        - title: GraphQL API
+        - title: GraphQL
           url: /reference/graphql/
     - title: FAQ
       children:

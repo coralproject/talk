@@ -153,4 +153,6 @@ $(document).ready(function() {
     // loadEmbed handler when the script is loaded.
     $('.demo button').on('click', demoCycle);
   }
+
+  $('table').addClass('table table-striped');
 });

@@ -18,22 +18,69 @@ choice.
 You would choose the **Passport Middleware** route when you are OK using an auth
 that is triggered from inside Talk that is not connected to an external auth
 state (you don't use the auth anywhere else now). A great example of this is our
-Facebook plugin.
+[talk-plugin-facebook-auth](/talk/plugin/talk-plugin-facebook-auth/) plugin.
 
 ## Custom Token Integration 
 
-You can integrate Talk with any authentication service to enable single sign-on for users. The steps to do that are:
+You can integrate Talk with any authentication service to enable single sign-on
+for users. The steps to do that are:
 
-## Create auth middleware
+1. Create a service that generates [JWT tokens](https://jwt.io).
+2. Push the token into the embed.
+3. Implement the `tokenUserNotFound` hook to process the token.
 
-Create a middleware service that generates a JWT, which is passed as an option to the Talk embed code (see https://github.com/coralproject/talk/blob/master/client/coral-embed/src/index.js#L36) OR embed bridge (see https://github.com/coralproject/talk/blob/master/client/coral-embed/src/index.js#L44).
+### Create JWT Token
 
-## Generate a key to sign the JWT
+You should create an external service that is responsible for generating a JWT
+for use with Talk. The token can be generated as easy as checking out the
+following node app: https://github.com/coralproject/talk-token-example
 
-Use https://github.com/coralproject/coralcert to generate a key with which to sign the JWTs and specify the secret as an environment variable (see https://coralproject.github.io/talk/advanced-configuration/#talk_jwt_secret). 
+Using that demo application, you'll see how you can:
 
-You may also provide configuration for other optional JWT components (see https://coralproject.github.io/talk/advanced-configuration/#).
+1. Create a node application that can issue JWT's that are compatible with Talk.
+2. Provide a validation endpoint that can be used by Talk to validate the token
+   and get the user via the `tokenUserNotFound` hook.
 
-## Create server plugin to handle auth
+### Push token into embed
 
-Provide an implementation for the tokenUserNotFound hook within a server side plugin (see https://github.com/coralproject/talk/blob/ef49d9a3d2acc4d2fc03b00e0c872dfbc57f005a/docs/_docs/04-04-plugins-server.md#field-tokenusernotfound) 
+We're assuming that your CMS is capable of authenticating a user account, or 
+at least having the user's details available to send off to the token creation
+service we created/used in the previous step.
+
+Using the token that was created for the user, you simply have to ammend the template where Talk is rendering to read as the following:
+
+```js
+Coral.Talk.render(document.getElementById('coralStreamEmbed'), {
+    // ...
+    auth_token: '<your generated JWT token issued for this user>',
+});
+```
+
+Which will pass down the token to Talk and will fire the next steps
+`tokenUserNotFound` hook to complete the auth flow.
+
+### Implement `tokenUserNotFound`
+
+This is the only piece of code you'll have to write that lives inside Talk. 
+The role of this code is to live as a plugin and provide Talk with a way of
+taking the token that you gave it, and turning into a user.
+
+Using the example application we were working with in the JWT issuing step
+above, we'll need to ensure that the configuration is consistent in-between both
+Talk and the JWT issuer. Namely, the following environment variables from our
+example issuer and Talk must match:
+
+| Talk | Token Issuer Example |
+|------|----------------------|
+|`JWT_ISSUER`|`JWT_ISSUER`|
+|`JWT_AUDIENCE`|`JWT_AUDIENCE`|
+|`JWT_AUDIENCE`|`JWT_AUDIENCE`|
+|`SECRET`|`JWT_SECRET`*|
+
+\* Note that secrets is a pretty complex topic, refer to the
+[TALK-JWT-SECRET](/talk/advanced-configuration/#TALK-JWT-SECRET) configuration
+reference, the basic takeaway is that the secret used to sign the tokens issued
+by the issuer must be able to be verified by Talk.
+
+For an example of implementing the plugin, refer to [`tokenUserNotFound`](/talk/reference/server/#tokenUserNotFound)
+reference.
