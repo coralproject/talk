@@ -19,7 +19,7 @@ class Comment extends React.Component {
 
   render() {
     const { comment, asset, root, data } = this.props;
-    const queryData = { comment, asset, root };
+    const slotPassthrough = { data, comment, asset, root };
     return (
       <div className={cn(styles.root, `${pluginName}-comment`)}>
         <Slot
@@ -27,8 +27,7 @@ class Comment extends React.Component {
           className={cn(styles.quote, `${pluginName}-comment-body`)}
           fill="commentContent"
           defaultComponent={CommentContent}
-          data={data}
-          queryData={queryData}
+          passthrough={slotPassthrough}
         />
 
         <div className={cn(`${pluginName}-comment-username-box`)}>
@@ -36,8 +35,7 @@ class Comment extends React.Component {
             className={cn(styles.username, `${pluginName}-comment-username`)}
             fill="commentAuthorName"
             defaultComponent={CommentAuthorName}
-            queryData={queryData}
-            data={data}
+            passthrough={slotPassthrough}
             inline
           />
 
@@ -45,9 +43,7 @@ class Comment extends React.Component {
             fill="commentTimestamp"
             defaultComponent={CommentTimestamp}
             className={cn(styles.timestamp, `${pluginName}-comment-timestamp`)}
-            created_at={comment.created_at}
-            data={data}
-            queryData={queryData}
+            passthrough={{ created_at: comment.created_at, ...slotPassthrough }}
             inline
           />
         </div>
@@ -62,10 +58,7 @@ class Comment extends React.Component {
           >
             <Slot
               fill="commentReactions"
-              root={root}
-              data={data}
-              comment={comment}
-              asset={asset}
+              passthrough={slotPassthrough}
               inline
             />
 

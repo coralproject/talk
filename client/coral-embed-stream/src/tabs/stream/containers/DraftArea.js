@@ -42,11 +42,10 @@ class DraftAreaContainer extends React.Component {
   }
 
   render() {
-    const queryData = { comment: this.props.comment, root: this.props.root };
-
     return (
       <DraftArea
-        queryData={queryData}
+        root={this.props.root}
+        comment={this.props.comment}
         value={this.props.value}
         placeholder={this.props.placeholder}
         id={this.props.id}

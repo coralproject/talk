@@ -26,7 +26,8 @@ class FlagDetails extends Component {
     }, {});
 
     const reasons = Object.keys(summaries);
-    const queryData = {
+    const slotPassthrough = {
+      data,
       root,
       comment,
     };
@@ -52,12 +53,11 @@ class FlagDetails extends Component {
         {more && (
           <IfSlotIsNotEmpty
             slot="adminCommentMoreFlagDetails"
-            queryData={queryData}
+            passthrough={slotPassthrough}
           >
             <Slot
               fill="adminCommentMoreFlagDetails"
-              data={data}
-              queryData={queryData}
+              passthrough={slotPassthrough}
             />
           </IfSlotIsNotEmpty>
         )}

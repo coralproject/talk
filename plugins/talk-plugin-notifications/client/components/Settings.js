@@ -29,8 +29,15 @@ class Settings extends React.Component {
       email,
     } = this.props;
 
+    const slotPassthrough = {
+      root,
+      setTurnOffInputFragment,
+      updateNotificationSettings,
+      disabled: needEmailVerification,
+    };
+
     return (
-      <IfSlotIsNotEmpty slot="notificationSettings" queryData={{ root }}>
+      <IfSlotIsNotEmpty slot="notificationSettings" passthrough={slotPassthrough}>
         <div className={styles.root}>
           <h3>{t('talk-plugin-notifications.settings_title')}</h3>
           {needEmailVerification && <EmailVerificationBanner email={email} />}
@@ -45,11 +52,8 @@ class Settings extends React.Component {
             <Slot
               className={styles.notifcationSettingsSlot}
               fill="notificationSettings"
-              queryData={{ root }}
               childFactory={this.childFactory}
-              setTurnOffInputFragment={setTurnOffInputFragment}
-              updateNotificationSettings={updateNotificationSettings}
-              disabled={needEmailVerification}
+              passthrough={slotPassthrough}
             />
             <BareButton
               className={styles.turnOffButton}

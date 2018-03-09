@@ -53,8 +53,7 @@ class ExtendableTabPanelContainer extends React.Component {
     return plugins.getSlotElements(
       slot,
       props.reduxState,
-      props.slotProps,
-      props.queryData
+      props.slotPassthrough
     );
   }
 
@@ -132,8 +131,7 @@ ExtendableTabPanelContainer.propTypes = {
   tabSlot: PropTypes.string.isRequired,
   tabSlotPrepend: PropTypes.string.isRequired,
   tabPaneSlot: PropTypes.string.isRequired,
-  slotProps: PropTypes.object.isRequired,
-  queryData: PropTypes.object,
+  slotPassthrough: PropTypes.object,
   className: PropTypes.string,
   sub: PropTypes.bool,
   loading: PropTypes.bool,

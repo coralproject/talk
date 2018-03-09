@@ -4,6 +4,7 @@ import ViewingOptions from '../components/ViewingOptions';
 import { openMenu, closeMenu } from '../actions';
 import { compose, gql } from 'react-apollo';
 import { getSlotFragmentSpreads } from 'plugin-api/beta/client/utils';
+import { mapProps } from 'recompose';
 
 const slots = ['viewingOptionsSort', 'viewingOptionsFilter'];
 
@@ -29,7 +30,17 @@ const withViewingOptionsFragments = withFragments({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withViewingOptionsFragments
+  withViewingOptionsFragments,
+  mapProps(({ root, asset, data, open, openMenu, closeMenu }) => ({
+    slotPassthrough: {
+      data,
+      root,
+      asset,
+    },
+    open,
+    openMenu,
+    closeMenu,
+  }))
 );
 
 export default enhance(ViewingOptions);

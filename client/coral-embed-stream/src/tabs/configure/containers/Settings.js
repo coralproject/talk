@@ -63,11 +63,20 @@ class SettingsContainer extends React.Component {
       errors,
       updatePending,
     } = this.props;
+
+    const slotPassthrough = {
+      root,
+      asset,
+      settings: mergedSettings,
+      data,
+      updatePending,
+      errors,
+    };
+
     return (
       <Settings
         settings={mergedSettings}
-        queryData={{ root, asset, settings: mergedSettings }}
-        slotProps={{ data, updatePending, errors }}
+        slotPassthrough={slotPassthrough}
         savePending={this.savePending}
         onToggleModeration={this.toggleModeration}
         onTogglePremodLinks={this.togglePremodLinks}

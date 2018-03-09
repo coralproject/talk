@@ -535,12 +535,9 @@ export default class Comment extends React.Component {
     );
 
     // props that are passed down the slots.
-    const slotProps = {
+    const slotPassthrough = {
       data,
       depth,
-    };
-
-    const queryData = {
       root,
       asset,
       comment,
@@ -551,8 +548,7 @@ export default class Comment extends React.Component {
         <Slot
           className={cn(styles.commentAvatar, 'talk-stream-comment-avatar')}
           fill="commentAvatar"
-          {...slotProps}
-          queryData={queryData}
+          passthrough={slotPassthrough}
           inline
         />
 
@@ -573,8 +569,7 @@ export default class Comment extends React.Component {
                 className={cn(styles.username, 'talk-stream-comment-user-name')}
                 fill="commentAuthorName"
                 defaultComponent={CommentAuthorName}
-                queryData={queryData}
-                {...slotProps}
+                passthrough={slotPassthrough}
               />
 
               <div
@@ -591,8 +586,7 @@ export default class Comment extends React.Component {
                     'talk-stream-comment-author-tags'
                   )}
                   fill="commentAuthorTags"
-                  queryData={queryData}
-                  {...slotProps}
+                  passthrough={slotPassthrough}
                   inline
                 />
               </div>
@@ -607,9 +601,10 @@ export default class Comment extends React.Component {
                   fill="commentTimestamp"
                   defaultComponent={CommentTimestamp}
                   className={'talk-stream-comment-published-date'}
-                  created_at={comment.created_at}
-                  queryData={queryData}
-                  {...slotProps}
+                  passthrough={{
+                    created_at: comment.created_at,
+                    ...slotPassthrough,
+                  }}
                 />
                 {comment.editing && comment.editing.edited ? (
                   <span>
@@ -624,8 +619,7 @@ export default class Comment extends React.Component {
             <Slot
               className={styles.commentInfoBar}
               fill="commentInfoBar"
-              {...slotProps}
-              queryData={queryData}
+              passthrough={slotPassthrough}
             />
 
             {isActive &&
@@ -665,9 +659,8 @@ export default class Comment extends React.Component {
                   fill="commentContent"
                   className="talk-stream-comment-content"
                   defaultComponent={CommentContent}
-                  {...slotProps}
-                  queryData={queryData}
                   size={1}
+                  passthrough={slotPassthrough}
                 />
               </div>
             )}
@@ -678,8 +671,7 @@ export default class Comment extends React.Component {
                 <div className="talk-embed-stream-comment-actions-container-left commentActionsLeft comment__action-container">
                   <Slot
                     fill="commentReactions"
-                    {...slotProps}
-                    queryData={queryData}
+                    passthrough={slotPassthrough}
                     inline
                   />
 
@@ -696,9 +688,7 @@ export default class Comment extends React.Component {
                 <div className="talk-embed-stream-comment-actions-container-right commentActionsRight comment__action-container">
                   <Slot
                     fill="commentActions"
-                    wrapperComponent={ActionButton}
-                    {...slotProps}
-                    queryData={queryData}
+                    passthrough={slotPassthrough}
                     inline
                   />
                   <ActionButton>

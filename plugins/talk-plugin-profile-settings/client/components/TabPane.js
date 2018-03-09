@@ -5,9 +5,10 @@ import { Slot } from 'plugin-api/beta/client/components';
 class TabPane extends React.Component {
   render() {
     const { data, root } = this.props;
+    const slotPassthrough = { data, root };
     return (
       <div>
-        <Slot fill="profileSettings" data={data} queryData={{ root }} />
+        <Slot fill="profileSettings" passthrough={slotPassthrough} />
       </div>
     );
   }

@@ -14,36 +14,41 @@ const Profile = ({
   root,
   activeTab,
   setActiveTab,
-}) => (
-  <div className="talk-my-profile talk-profile-container">
-    <div className={styles.userInfo}>
-      <h2 className={styles.username}>{username}</h2>
-      {emailAddress ? <p className={styles.email}>{emailAddress}</p> : null}
+}) => {
+  const slotPassthrough = {
+    data,
+    root,
+  };
+  return (
+    <div className="talk-my-profile talk-profile-container">
+      <div className={styles.userInfo}>
+        <h2 className={styles.username}>{username}</h2>
+        {emailAddress ? <p className={styles.email}>{emailAddress}</p> : null}
+      </div>
+      <Slot fill="profileSections" passthrough={slotPassthrough} />
+      <ExtendableTabPanel
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        fallbackTab="comments"
+        tabSlot="profileTabs"
+        tabSlotPrepend="profileTabsPrepend"
+        tabPaneSlot="profileTabPanes"
+        slotPassthrough={slotPassthrough}
+        tabs={[
+          <Tab key="comments" tabId="comments">
+            {t('framework.my_comments')}
+          </Tab>,
+        ]}
+        tabPanes={[
+          <TabPane key="comments" tabId="comments">
+            <CommentHistory data={data} root={root} />
+          </TabPane>,
+        ]}
+        sub
+      />
     </div>
-    <Slot fill="profileSections" data={data} queryData={{ root }} />
-    <ExtendableTabPanel
-      activeTab={activeTab}
-      setActiveTab={setActiveTab}
-      fallbackTab="comments"
-      tabSlot="profileTabs"
-      tabSlotPrepend="profileTabsPrepend"
-      tabPaneSlot="profileTabPanes"
-      slotProps={{ data }}
-      queryData={{ root }}
-      tabs={[
-        <Tab key="comments" tabId="comments">
-          {t('framework.my_comments')}
-        </Tab>,
-      ]}
-      tabPanes={[
-        <TabPane key="comments" tabId="comments">
-          <CommentHistory data={data} root={root} />
-        </TabPane>,
-      ]}
-      sub
-    />
-  </div>
-);
+  );
+};
 
 Profile.propTypes = {
   username: PropTypes.string,

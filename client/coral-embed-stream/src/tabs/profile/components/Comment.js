@@ -24,7 +24,7 @@ class Comment extends React.Component {
   render() {
     const { comment, data, root } = this.props;
     const reactionCount = getTotalReactionsCount(comment.action_summaries);
-    const queryData = { root, comment, asset: comment.asset };
+    const slotPassthrough = { data, root, comment, asset: comment.asset };
 
     return (
       <div className={styles.myComment}>
@@ -33,8 +33,7 @@ class Comment extends React.Component {
             fill="commentContent"
             defaultComponent={CommentContent}
             className={cn(styles.commentBody, 'my-comment-body')}
-            data={data}
-            queryData={queryData}
+            passthrough={slotPassthrough}
           />
           <div className={cn(styles.commentSummary, 'comment-summary')}>
             <span
@@ -98,9 +97,10 @@ class Comment extends React.Component {
                 fill="historyCommentTimestamp"
                 defaultComponent={CommentTimestamp}
                 className={'talk-history-comment-published-date'}
-                created_at={comment.created_at}
-                data={data}
-                queryData={queryData}
+                passthrough={{
+                  created_at: comment.created_at,
+                  ...slotPassthrough,
+                }}
                 inline
               />
             </li>
