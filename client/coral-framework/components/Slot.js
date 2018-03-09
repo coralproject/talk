@@ -20,6 +20,20 @@ class Slot extends React.Component {
     // Prevent Slot from rerendering when only reduxState has changed and
     // it does not result in a change of slot children.
     const changes = getShallowChanges(this.props, next);
+
+    // Handle special `passthrough` props.
+    const passthroughIndex = changes.indexOf('passthrough');
+    if (passthroughIndex !== -1) {
+      if (!this.props.passthrough || next.passthrough) {
+        return true;
+      }
+      if (
+        getShallowChanges(this.props.passthrough, next.passthrough).lenght === 0
+      ) {
+        changes.splice(passthroughIndex, 1);
+      }
+    }
+
     if (changes.length === 1 && changes[0] === 'reduxState') {
       const prevChildrenKeys = this.getChildren(this.props).map(
         child => child.key
@@ -32,8 +46,8 @@ class Slot extends React.Component {
     return changes.length !== 0;
   }
 
-  getSlotProps(props = this.props) {
-    return omit(props, [
+  getPassthrough(props = this.props) {
+    const slotProps = omit(props, [
       'fill',
       'inline',
       'className',
@@ -43,7 +57,45 @@ class Slot extends React.Component {
       'queryData',
       'childFactory',
       'component',
+      'passthrough',
+      'dispatch',
     ]);
+
+    // @Deprecated
+    if (process.env.NODE_ENV !== 'production') {
+      if (Object.keys(slotProps).length) {
+        /* eslint-disable no-console */
+        console.warn(
+          `Slot '${
+            props.fill
+          }' passing through unknown props is deprecated, please use 'passthrough' instead`,
+          slotProps
+        );
+        /* eslint-enable no-console */
+      }
+    }
+
+    if (props.passthrough) {
+      return props.passthrough;
+    }
+
+    if (props.queryData) {
+      if (process.env.NODE_ENV !== 'production') {
+        /* eslint-disable no-console */
+        console.warn(
+          `Slot '${
+            props.fill
+          }' property 'queryData' is deprecated, please use 'passthrough' instead`
+        );
+        /* eslint-enable no-console */
+      }
+      return {
+        ...props.queryData,
+        ...slotProps,
+      };
+    }
+
+    return slotProps;
   }
 
   getChildren(props = this.props) {
@@ -53,8 +105,7 @@ class Slot extends React.Component {
     return plugins.getSlotElements(
       props.fill,
       props.reduxState,
-      this.getSlotProps(props),
-      props.queryData,
+      this.getPassthrough(props),
       { size }
     );
   }
@@ -67,7 +118,6 @@ class Slot extends React.Component {
       component: Component,
       childFactory,
       defaultComponent: DefaultComponent,
-      queryData,
       fill,
     } = this.props;
     const { plugins } = this.context;
@@ -78,8 +128,7 @@ class Slot extends React.Component {
       const props = plugins.getSlotComponentProps(
         DefaultComponent,
         reduxState,
-        this.getSlotProps(this.props),
-        queryData
+        this.getPassthrough()
       );
       children = <DefaultComponent {...props} />;
     }
@@ -125,7 +174,11 @@ Slot.propTypes = {
   component: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 
   // props coming from graphql must be passed through this property.
+  // @Deprecated
   queryData: PropTypes.object,
+
+  // props that are passed to all Slot Components
+  passthrough: PropTypes.object,
 
   /**
    * You may need to apply reactive updates to a child as it is exiting.

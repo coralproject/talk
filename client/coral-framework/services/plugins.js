@@ -67,39 +67,64 @@ function addMetaDataToSlotComponents(plugins) {
   });
 }
 
+/**
+ * getSlotComponentProps calculate the props we would pass to the slot component.
+ * query datas are only passed to the component if it is defined in `component.fragments`.
+ */
+function getSlotComponentProps(component, reduxState, props, queryData) {
+  const pluginConfig = get(reduxState, 'config.plugin_config') || emptyConfig;
+  return {
+    ...props,
+    config: pluginConfig,
+    ...(component.fragments
+      ? pick(queryData, Object.keys(component.fragments))
+      : withWarnings(component, queryData)),
+  };
+}
+
+/**
+ *  splitProps detects props coming from the query and
+ *  returns `queryData` and `rest`.
+ */
+function splitProps(props) {
+  const rest = { ...props };
+  const queryData = {};
+  if (props.passthrough) {
+    Object.keys(props).forEach(k => {
+      if (props[k].__unsafeFromQuery) {
+        queryData[k] = props[k];
+        delete rest[k];
+      }
+    });
+  }
+  return { queryData, rest };
+}
+
 class PluginsService {
   constructor(plugins) {
     this.plugins = plugins;
     addMetaDataToSlotComponents(plugins);
   }
 
-  isSlotEmpty(slot, reduxState, props = {}, queryData = {}) {
-    return (
-      this.getSlotElements(slot, reduxState, props, queryData).length === 0
-    );
+  isSlotEmpty(slot, reduxState, props = {}) {
+    return this.getSlotElements(slot, reduxState, props).length === 0;
   }
 
   /**
-   * getSlotComponentProps calculate the props we would pass to the slot component.
-   * query datas are only passed to the component if it is defined in `component.fragments`.
+   * Returns props that would pass to the given slot component.
    */
-  getSlotComponentProps(component, reduxState, props, queryData) {
-    const pluginConfig = get(reduxState, 'config.plugin_config') || emptyConfig;
-    return {
-      ...props,
-      config: pluginConfig,
-      ...(component.fragments
-        ? pick(queryData, Object.keys(component.fragments))
-        : withWarnings(component, queryData)),
-    };
+  getSlotComponentProps(component, reduxState, props) {
+    const { queryData, rest } = splitProps(props);
+    return getSlotComponentProps(component, reduxState, rest, queryData);
   }
 
   /**
    * Returns React Elements for given slot.
    */
-  getSlotElements(slot, reduxState, props = {}, queryData = {}, options = {}) {
+  getSlotElements(slot, reduxState, props = {}, options = {}) {
     const pluginConfig = get(reduxState, 'config.plugin_config') || emptyConfig;
     const { size = 0 } = options;
+    const { queryData, rest } = splitProps(props);
 
     const isDisabled = component => {
       if (
@@ -112,10 +137,10 @@ class PluginsService {
 
       // Check if component is excluded.
       if (component.isExcluded) {
-        let resolvedProps = this.getSlotComponentProps(
+        let resolvedProps = getSlotComponentProps(
           component,
           reduxState,
-          props,
+          rest,
           queryData
         );
         if (component.mapStateToProps) {
@@ -154,12 +179,7 @@ class PluginsService {
       .map(({ component, key }) =>
         React.createElement(component, {
           key,
-          ...this.getSlotComponentProps(
-            component,
-            reduxState,
-            props,
-            queryData
-          ),
+          ...getSlotComponentProps(component, reduxState, rest, queryData),
         })
       );
   }
