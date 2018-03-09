@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './SortOption.css';
 import PropTypes from 'prop-types';
-import {PLUGIN_NAME} from '../../constants';
+import { PLUGIN_NAME } from '../../constants';
 
 export default class SortOption extends React.Component {
   render() {
@@ -12,9 +12,7 @@ export default class SortOption extends React.Component {
       { [`${PLUGIN_NAME}-sort-option-active`]: this.props.active },
     ]);
     return (
-      <label
-        className={className}
-      >
+      <label className={className}>
         <input
           type="radio"
           onChange={this.props.setSort}
