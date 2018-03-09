@@ -5,7 +5,7 @@
       {% for item in config.sidebar.top %}
       <a target="_blank" rel="nofollow noreferer" alt="{{ item.title }}" href="{{ item.url }}">{{ item.title }}</a>
       {% endfor %}
-      <a href="#" alt="Toggle Sidebar" id="sidebar-toggle">{{ image_tag('images/hamburger.svg') }}</a>
+      <a href="#" alt="Toggle Sidebar" id="sidebar-toggle"><i class="material-icons">menu</i></a>
     </nav>
   </form>
 </header>
