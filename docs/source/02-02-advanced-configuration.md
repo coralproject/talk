@@ -56,50 +56,6 @@ When `TRUE`, it will not mount the static asset serving routes on the router.
 This is used primarily in conjunction with [TALK_STATIC_URI](#talk_static_uri)
 when the static assets are being hosted on an external domain. (Default `FALSE`)
 
-## TALK_FACEBOOK_APP_ID
-
-The Facebook App ID for your Facebook Login enabled app. You can learn more
-about getting a Facebook App ID at the
-[Facebook Developers Portal](https://developers.facebook.com)
-or by visiting the
-[Creating an App ID](https://developers.facebook.com/docs/apps/register)
-guide. This is only required while the `talk-plugin-facebook-auth` plugin is
-enabled.
-
-## TALK_FACEBOOK_APP_SECRET
-
-The Facebook App Secret for your Facebook Login enabled app. You can learn more
-about getting a Facebook App Secret at the
-[Facebook Developers Portal](https://developers.facebook.com)
-or by visiting the
-[Creating an App ID](https://developers.facebook.com/docs/apps/register)
-guide. This is only required while the `talk-plugin-facebook-auth` plugin is
-enabled.
-
-## TALK_GOOGLE_CLIENT_ID
-
-The Google OAuth2 client ID for your Google login web app. You can learn more
-about getting a Google Client ID at the
-[Google API Console](https://console.developers.google.com/apis/){:target="_blank"}.
-
-You will need to enable the Google+ API in the dashboard and create credentials
-for a new OAuth client ID web application. The authorized JavaScript origin
-should be set to the Talk domain, and the authorized redirect URI should be set
-to http://<example.com>/api/v1/auth/google/callback. This is only required while
-the `talk-plugin-google-auth` plugin is enabled.
-
-## TALK_GOOGLE_CLIENT_SECRET
-
-The Google OAuth2 client ID for your Google login web app. You can learn more
-about getting a Google Client ID at the
-[Google API Console](https://console.developers.google.com/apis/){:target="_blank"}.
-
-You will need to enable the Google+ API in the dashboard and create credentials
-for a new OAuth client ID web application. The authorized JavaScript origin
-should be set to the Talk domain, and the authorized redirect URI should be set
-to http://<example.com>/api/v1/auth/google/callback. This is only required while
-the `talk-plugin-google-auth` plugin is enabled.
-
 ## TALK_HELMET_CONFIGURATION
 
 A JSON string representing the configuration passed to the

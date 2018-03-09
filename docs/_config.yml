@@ -98,20 +98,22 @@ sidebar:
           url: /configuration/
         - title: Advanced Configuration
           url: /advanced-configuration/
+    - title: Integrating
+      children:
         - title: Authentication
-          url: /authentication/
+          url: /integrating/authentication/
         - title: Configuring the Comment Stream
-          url: /configuring-comment-stream/
+          url: /integrating/configuring-comment-stream/
         - title: Configuring the Admin
-          url: /configuring-admin/
+          url: /integrating/configuring-admin/
         - title: Notifications
-          url: /notifications/
+          url: /integrating/notifications/
         - title: Event Tracking and Metrics
-          url: /event-tracking-metrics/
+          url: /integrating/event-tracking-metrics/
         - title: Styling and CSS
-          url: /styling-css/
+          url: /integrating/styling-css/
         - title: Translations and i18n
-          url: /translations-i18n/
+          url: /integrating/translations-i18n/
     - title: Product Guide
       children:
         - title: How Talk Works
@@ -130,10 +132,8 @@ sidebar:
       children:
         - title: Plugins Overview
           url: /plugins/
-        - title: Default Plugins
-          url: /default-plugins/
-        - title: Additional Plugins
-          url: /additional-plugins/
+        - title: Plugin Directory
+          url: /plugins-directory/
         - title: Plugin Recipes
           url: /plugin-recipes/
     - title: Reference

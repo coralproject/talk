@@ -1,6 +1,6 @@
 ---
 title: Notifications
-permalink: /notifications/
+permalink: /integrating/notifications/
 ---
 
 Talk currently supports 3 types of email notifications.

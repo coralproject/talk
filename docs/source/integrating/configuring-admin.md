@@ -1,6 +1,6 @@
 ---
 title: Configuring the Talk Admin
-permalink: /configuring-admin/
+permalink: /integrating/configuring-admin/
 ---
 
 Using plugins and configuration variables, you can modify the way the Admin looks and how moderation works.

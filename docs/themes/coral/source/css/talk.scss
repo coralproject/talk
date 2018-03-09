@@ -292,7 +292,8 @@ pre {
       @extend .coral-link;
     }
     ul:not(.toc__menu) li a,
-    ol li a {
+    ol li a,
+    dd > a {
       @extend .coral-link;
     }
   }
@@ -439,4 +440,8 @@ a.brand {
       }
     }
   }
+}
+
+.plugin {
+  display: none;
 }

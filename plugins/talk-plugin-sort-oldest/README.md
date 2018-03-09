@@ -1,0 +1,14 @@
+---
+title: talk-plugin-sort-oldest
+permalink: /plugin/talk-plugin-sort-oldest/
+layout: plugin
+plugin:
+    name: talk-plugin-sort-oldest
+    depends:
+        - name: talk-plugin-viewing-options
+    provides:
+        - Server
+        - Client
+---
+
+Provides a sort for the oldest comments first.

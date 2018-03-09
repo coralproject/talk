@@ -1,6 +1,7 @@
 ---
 title: Plugins Overview
 permalink: /plugins/
+toc: true
 ---
 
 Plugins are the integration point between the Talk core code and custom

@@ -1,6 +1,6 @@
 ---
 title: Tracking Talk Events and Metrics
-permalink: /event-tracking-metrics/
+permalink: /integrating/event-tracking-metrics/
 ---
 
 Talk supports event emitting via Redux, Apollo and GraphQL. This means that common actions taken within Talk, such as successfully posting a comment, posting a reaction, or changing a setting, are automatically emitted from Talk. To send these events to your analytics tool of choice, however, will require some integration on your part.

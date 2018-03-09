@@ -1,6 +1,6 @@
 ---
 title: Translations and i18n
-permalink: /translations-i18n/
+permalink: /integrating/translations-i18n/
 ---
 
 We’re so proud to have received submissions from a lot of 3rd party contributors translating Talk into their own languages.

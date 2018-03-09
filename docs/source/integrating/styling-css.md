@@ -1,6 +1,6 @@
 ---
 title: Styling Talk with CSS
-permalink: /styling-css/
+permalink: /integrating/styling-css/
 ---
 
 You can add your own stylesheet in Admin > Configure > Tech Settings.
