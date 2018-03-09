@@ -1,0 +1,11 @@
+.spinner {
+  display: inline-block;
+}
+
+.link {
+  display: inline-block;
+  cursor: pointer;
+  margin: 2px;
+  color: #2099d6;
+  border-bottom: 1px solid #2099d6;
+}

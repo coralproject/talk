@@ -6,8 +6,9 @@ const UserModel = require('../../../../models/user');
 const SettingModel = require('../../../../models/setting');
 
 const AssetModel = require('../../../../models/asset');
-const SettingsService = require('../../../../services/settings');
+const CommentModel = require('../../../../models/comment');
 const CommentsService = require('../../../../services/comments');
+const SettingsService = require('../../../../services/settings');
 const TagsService = require('../../../../services/tags');
 
 const { expect } = require('chai');
@@ -59,7 +60,7 @@ describe('graph.mutations.removeTag', () => {
     expect(response.errors).to.be.empty;
     expect(response.data.removeTag).to.be.null;
 
-    let retrievedComment = await CommentsService.findById(comment.id);
+    let retrievedComment = await CommentModel.findOne({ id: comment.id });
 
     expect(retrievedComment.tags).to.have.length(0);
   });

@@ -10,6 +10,8 @@ export { default as withSignIn } from './withSignIn';
 export { default as withSignUp } from './withSignUp';
 export { default as withForgotPassword } from './withForgotPassword';
 export { default as withSetUsername } from './withSetUsername';
+export { default as withPopupAuthHandler } from './withPopupAuthHandler';
+export { default as withEnumValues } from './withEnumValues';
 export {
   default as withResendEmailConfirmation,
 } from './withResendEmailConfirmation';

@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const { merge } = require('lodash');
 const debug = require('debug')('talk:graph:resolvers');
 
 const Action = require('./action');
@@ -15,6 +15,7 @@ const DontAgreeActionSummary = require('./dont_agree_action_summary');
 const FlagAction = require('./flag_action');
 const FlagActionSummary = require('./flag_action_summary');
 const GenericUserError = require('./generic_user_error');
+const LocalUserProfile = require('./local_user_profile');
 const RootMutation = require('./root_mutation');
 const RootQuery = require('./root_query');
 const Settings = require('./settings');
@@ -24,8 +25,9 @@ const Tag = require('./tag');
 const TagLink = require('./tag_link');
 const User = require('./user');
 const UserError = require('./user_error');
-const UserState = require('./user_state');
 const UsernameStatusHistory = require('./username_status_history');
+const UserProfile = require('./user_profile');
+const UserState = require('./user_state');
 const ValidationUserError = require('./validation_user_error');
 
 const plugins = require('../../services/plugins');
@@ -46,6 +48,7 @@ let resolvers = {
   FlagAction,
   FlagActionSummary,
   GenericUserError,
+  LocalUserProfile,
   RootMutation,
   RootQuery,
   Settings,
@@ -55,8 +58,9 @@ let resolvers = {
   TagLink,
   User,
   UserError,
-  UserState,
   UsernameStatusHistory,
+  UserProfile,
+  UserState,
   ValidationUserError,
 };
 
@@ -70,7 +74,7 @@ resolvers = plugins
   .reduce((acc, { plugin, resolvers }) => {
     debug(`added plugin '${plugin.name}'`);
 
-    return _.merge(acc, resolvers);
+    return merge(acc, resolvers);
   }, resolvers);
 
 module.exports = resolvers;

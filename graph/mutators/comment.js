@@ -12,12 +12,9 @@ const {
   ADD_COMMENT_TAG,
   EDIT_COMMENT,
 } = require('../../perms/constants');
-const debug = require('debug')('talk:graph:mutators:comment');
 
-const resolveTagsForComment = async (
-  { user, loaders: { Tags } },
-  { asset_id, tags = [] }
-) => {
+const resolveTagsForComment = async (ctx, { asset_id, tags = [] }) => {
+  const { user, loaders: { Tags } } = ctx;
   const item_type = 'COMMENTS';
 
   // Handle Tags
@@ -46,6 +43,7 @@ const resolveTagsForComment = async (
 
   // Add the staff tag for comments created as a staff member.
   if (user.can(ADD_COMMENT_TAG)) {
+    ctx.log.info({ author_id: user.id }, 'Added staff tag to comment');
     tags.push(
       TagsService.newTagLink(user, {
         name: 'STAFF',
@@ -61,7 +59,7 @@ const resolveTagsForComment = async (
  * adjustKarma will adjust the affected user's karma depending on the moderators
  * action.
  */
-const adjustKarma = (Comments, id, status) => async () => {
+const adjustKarma = (ctx, Comments, id, status) => async () => {
   try {
     // Use the dataloader to get the comment that was just moderated and
     // get the flag user's id's so we can adjust their karma too.
@@ -86,17 +84,27 @@ const adjustKarma = (Comments, id, status) => async () => {
       }),
     ]);
 
-    debug(`Comment[${id}] by User[${comment.author_id}] was Status[${status}]`);
+    ctx.log.info(
+      {
+        state: {
+          comment_id: id,
+          author_id: comment.author_id,
+          status: status,
+        },
+      },
+      'Processing karma modification'
+    );
 
     switch (status) {
       case 'REJECTED':
         // Reduce the user's karma.
-        debug(`CommentUser[${comment.author_id}] had their karma reduced`);
+        ctx.log.info('Comment author had their karma reduced');
 
         // Decrease the flag user's karma, the moderator disagreed with this
         // action.
-        debug(
-          `FlaggingUser[${flagUserIDs.join(', ')}] had their karma increased`
+        ctx.log.info(
+          { flagUserIDs },
+          'Flagging users had their karma increased'
         );
         await Promise.all([
           KarmaService.modifyUser(comment.author_id, -1, 'comment'),
@@ -107,13 +115,11 @@ const adjustKarma = (Comments, id, status) => async () => {
 
       case 'ACCEPTED':
         // Increase the user's karma.
-        debug(`CommentUser[${comment.author_id}] had their karma increased`);
+        ctx.log.info('Comment author had their karma increased');
 
         // Increase the flag user's karma, the moderator agreed with this
         // action.
-        debug(
-          `FlaggingUser[${flagUserIDs.join(', ')}] had their karma reduced`
-        );
+        ctx.log.info({ flagUserIDs }, `Flagging users had their karma reduced`);
         await Promise.all([
           KarmaService.modifyUser(comment.author_id, 1, 'comment'),
           KarmaService.modifyUser(flagUserIDs, -1, 'flag', true),
@@ -140,7 +146,7 @@ const adjustKarma = (Comments, id, status) => async () => {
  * @return {Promise}              resolves to the created comment
  */
 const createComment = async (
-  context,
+  ctx,
   {
     tags = [],
     body,
@@ -150,10 +156,10 @@ const createComment = async (
     metadata = {},
   }
 ) => {
-  const { user, loaders: { Comments }, pubsub } = context;
+  const { user, loaders: { Comments }, pubsub } = ctx;
 
   // Resolve the tags for the comment.
-  tags = await resolveTagsForComment(context, { asset_id, tags });
+  tags = await resolveTagsForComment(ctx, { asset_id, tags });
 
   let comment = await CommentsService.publicCreate({
     body,
@@ -164,6 +170,11 @@ const createComment = async (
     author_id: user.id,
     metadata,
   });
+
+  ctx.log.info(
+    { comment_id: comment.id, comment_status: status },
+    'Created comment'
+  );
 
   // If the loaders are present, clear the caches for these values because we
   // just added a new comment, hence the counts should be updated. We should
@@ -228,12 +239,14 @@ const createActions = async (item_id, actions = []) =>
 
 /**
  * Sets the status of a comment
- * @param  {Object} context graphql context
+ * @param  {Object} ctx graphql context
  * @param {String} comment     comment in graphql context
  * @param {String} id          identifier of the comment  (uuid)
  * @param {String} status      the new status of the comment
  */
-const setStatus = async ({ user, loaders: { Comments } }, { id, status }) => {
+const setStatus = async (ctx, { id, status }) => {
+  const { user, loaders: { Comments } } = ctx;
+
   let comment = await CommentsService.pushStatus(
     id,
     status,
@@ -253,7 +266,7 @@ const setStatus = async ({ user, loaders: { Comments } }, { id, status }) => {
 
   // postSetCommentStatus will use the arguments from the mutation and
   // adjust the affected user's karma in the next tick.
-  process.nextTick(adjustKarma(Comments, id, status));
+  process.nextTick(adjustKarma(ctx, Comments, id, status));
 
   return comment;
 };
@@ -264,7 +277,10 @@ const setStatus = async ({ user, loaders: { Comments } }, { id, status }) => {
  * @param {Object} edit       describes how to edit the comment
  * @param {String} edit.body  the new Comment body
  */
-const edit = async (ctx, { id, asset_id, edit: { body } }) => {
+const editComment = async (
+  ctx,
+  { id, asset_id, edit: { body, metadata = {} } }
+) => {
   const { connectors: { services: { Moderation } } } = ctx;
 
   // Build up the new comment we're setting. We need to check this with
@@ -280,6 +296,7 @@ const edit = async (ctx, { id, asset_id, edit: { body } }) => {
     author_id: ctx.user.id,
     body,
     status,
+    metadata,
   });
 
   // Create all the actions that were determined during the moderation check
@@ -292,7 +309,7 @@ const edit = async (ctx, { id, asset_id, edit: { body } }) => {
   return comment;
 };
 
-module.exports = context => {
+module.exports = ctx => {
   let mutators = {
     Comment: {
       create: () => Promise.reject(errors.ErrNotAuthorized),
@@ -301,16 +318,16 @@ module.exports = context => {
     },
   };
 
-  if (context.user && context.user.can(CREATE_COMMENT)) {
-    mutators.Comment.create = comment => createPublicComment(context, comment);
+  if (ctx.user && ctx.user.can(CREATE_COMMENT)) {
+    mutators.Comment.create = comment => createPublicComment(ctx, comment);
   }
 
-  if (context.user && context.user.can(SET_COMMENT_STATUS)) {
-    mutators.Comment.setStatus = action => setStatus(context, action);
+  if (ctx.user && ctx.user.can(SET_COMMENT_STATUS)) {
+    mutators.Comment.setStatus = action => setStatus(ctx, action);
   }
 
-  if (context.user && context.user.can(EDIT_COMMENT)) {
-    mutators.Comment.edit = action => edit(context, action);
+  if (ctx.user && ctx.user.can(EDIT_COMMENT)) {
+    mutators.Comment.edit = action => editComment(ctx, action);
   }
 
   return mutators;

@@ -54,12 +54,12 @@ We are looking for _documentarians_ to:
 * take the lead in making sections, or the over all structure better.
 
 Our documentation is stored in markdown files in the [docs](docs) directory. We
-use Jekyll to provide our docs. To preview:
+use [Hexo](https://hexo.io/) to provide our docs. To preview:
 
 ```shell
 cd docs
-bundle install
-bundle exec jekyll serve
+yarn
+yarn start
 ```
 
 Then visit http://127.0.0.1:4000/talk/.

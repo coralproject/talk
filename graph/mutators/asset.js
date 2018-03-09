@@ -56,12 +56,25 @@ const closeNow = async (ctx, id) =>
     }
   );
 
+/**
+ * scrapeAsset will force scrape an asset.
+ *
+ * @param {Object} ctx graphql context
+ * @param {String} id the asset's id to scrape
+ */
+const scrapeAsset = async (ctx, id) => {
+  const { connectors: { services: { Scraper } } } = ctx;
+
+  return Scraper.create(ctx, id);
+};
+
 module.exports = ctx => {
   let mutators = {
     Asset: {
       updateSettings: () => Promise.reject(errors.ErrNotAuthorized),
       updateStatus: () => Promise.reject(errors.ErrNotAuthorized),
       closeNow: () => Promise.reject(errors.ErrNotAuthorized),
+      scrape: () => Promise.reject(errors.ErrNotAuthorized),
     },
   };
 
@@ -75,6 +88,7 @@ module.exports = ctx => {
       mutators.Asset.updateStatus = (id, status) =>
         updateStatus(ctx, id, status);
       mutators.Asset.closeNow = id => closeNow(ctx, id);
+      mutators.Asset.scrape = id => scrapeAsset(ctx, id);
     }
   }
 

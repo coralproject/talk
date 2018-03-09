@@ -1,3 +1,5 @@
-_site
-.sass-cache
-.jekyll-metadata
+public/*
+!public/_redirects
+.deploy*/
+db.json
+*.log

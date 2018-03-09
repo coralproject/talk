@@ -5,7 +5,6 @@
 
 * {
   font-family: inherit;
-  font-style: inherit;
 }
 
 html, body {
@@ -111,53 +110,6 @@ body {
 
 .talk-stream-comments-container {
   position: relative;
-}
-
-/* Comment Box Styles */
-.talk-plugin-commentbox-container {
-  display: flex;
-  width: 100%;
-}
-
-.talk-plugin-commentbox-textarea {
-  color: #262626;
-  flex: 1;
-  padding: 1em;
-  min-height: 100px;
-  margin-top: 10px;
-  font-size: 16px;
-  border: 1px solid #9E9E9E;
-}
-
-.talk-plugin-commentbox-button-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-}
-
-.talk-plugin-commentbox-button {
-  float: right;
-  margin-top: 10px;
-  padding: 5px 10px;
-  background: rgb(105, 105, 105);
-  color: #FFF;
-  border: none;
-  border-radius: 2px;
-}
-
-.talk-plugin-commentbox-username {
-  width: 50%;
-  padding-left: 5px;
-  margin-bottom: 5px;
-}
-
-.talk-plugin-commentbox-char-count {
-  color: #ccc;
-  text-align: right;
-}
-
-.talk-plugin-commentbox-char-max {
-  color: #d50000;
 }
 
 /* Comment styles */

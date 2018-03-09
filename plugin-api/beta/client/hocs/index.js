@@ -6,11 +6,13 @@ export {
   withEmit,
   excludeIf,
   withFragments,
+  withMutation,
   withForgotPassword,
   withSignIn,
   withSignUp,
   withResendEmailConfirmation,
   withSetUsername,
+  withEnumValues,
 } from 'coral-framework/hocs';
 export {
   withIgnoreUser,

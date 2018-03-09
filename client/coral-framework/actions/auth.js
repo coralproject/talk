@@ -63,11 +63,23 @@ export const setAuthToken = token => (dispatch, _, { localStorage }) => {
 export const handleSuccessfulLogin = (user, token) => (
   dispatch,
   _,
-  { client, localStorage }
+  { client, localStorage, postMessage }
 ) => {
+  const { exp } = jwtDecode(token);
+
   if (localStorage) {
-    localStorage.setItem('exp', jwtDecode(token).exp);
+    localStorage.setItem('exp', exp);
     localStorage.setItem('token', token);
+  }
+
+  // Send the message via the messages service to the window.opener if it
+  // exists.
+  if (window.opener) {
+    postMessage.post(
+      actions.HANDLE_SUCCESSFUL_LOGIN,
+      { user, token },
+      window.opener
+    );
   }
 
   client.resetWebsocket();

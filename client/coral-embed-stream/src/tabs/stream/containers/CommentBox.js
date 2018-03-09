@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import t, { timeago } from 'coral-framework/services/i18n';
 import { can } from 'coral-framework/services/perms';
 import { isSuspended } from 'coral-framework/utils/user';
-
 import Slot from 'coral-framework/components/Slot';
 import { connect } from 'react-redux';
-import { CommentForm } from '../components/CommentForm';
+import CommentForm from '../containers/CommentForm';
 import { notifyForNewCommentStatus } from '../helpers';
 
 // TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
@@ -23,7 +21,8 @@ class CommentBox extends React.Component {
     this.state = {
       body: '',
       loadingState: '',
-
+      // data: {@object} contains data that might be useful for plugins
+      data: {},
       hooks: {
         preSubmit: [],
         postSubmit: [],
@@ -62,10 +61,13 @@ class CommentBox extends React.Component {
       parent_id: parentId,
       body: this.state.body,
       tags: this.props.tags,
+      ...this.state.data,
     };
 
     // Execute preSubmit Hooks
-    this.state.hooks.preSubmit.forEach(hook => hook(input));
+    this.state.hooks.preSubmit.forEach(hook =>
+      hook(input, this.handleBodyChange)
+    );
     this.setState({ loadingState: 'loading' });
 
     postComment(input, 'comments')
@@ -75,7 +77,9 @@ class CommentBox extends React.Component {
         const actions = data.createComment.actions;
 
         // Execute postSubmit Hooks
-        this.state.hooks.postSubmit.forEach(hook => hook(data));
+        this.state.hooks.postSubmit.forEach(hook =>
+          hook(data, this.handleBodyChange)
+        );
 
         notifyForNewCommentStatus(notify, postedComment.status, actions);
 
@@ -88,8 +92,14 @@ class CommentBox extends React.Component {
       });
   };
 
-  handleBodyChange = body => {
-    this.setState({ body });
+  handleBodyChange = (body, data) => {
+    this.setState(state => ({
+      body,
+      data: {
+        ...state.data,
+        ...data,
+      },
+    }));
   };
 
   registerHook = (hookType = '', hook = () => {}) => {
@@ -140,7 +150,14 @@ class CommentBox extends React.Component {
   };
 
   render() {
-    const { isReply, maxCharCount, assetId, parentId } = this.props;
+    const {
+      isReply,
+      maxCharCount,
+      assetId,
+      parentId,
+      comment,
+      root,
+    } = this.props;
     let { onCancel } = this.props;
 
     if (isReply && typeof onCancel !== 'function') {
@@ -158,6 +175,8 @@ class CommentBox extends React.Component {
     return (
       <div>
         <CommentForm
+          root={root}
+          comment={comment}
           defaultValue={this.props.defaultValue}
           bodyLabel={isReply ? t('comment_box.reply') : t('comment.comment')}
           maxCharCount={maxCharCount}
@@ -165,6 +184,9 @@ class CommentBox extends React.Component {
           bodyPlaceholder={t('comment.comment')}
           bodyInputId={id}
           body={this.state.body}
+          registerHook={this.registerHook}
+          unregisterHook={this.unregisterHook}
+          isReply={isReply}
           buttonContainerStart={
             <Slot
               fill="commentInputDetailArea"
@@ -199,7 +221,11 @@ CommentBox.propTypes = {
   canPost: PropTypes.bool,
   notify: PropTypes.func.isRequired,
   tags: PropTypes.array,
+  root: PropTypes.object.isRequired,
+  comment: PropTypes.object,
 };
+
+CommentBox.fragments = CommentForm.fragments;
 
 const mapStateToProps = state => ({
   tags: state.stream.commentBoxTags,

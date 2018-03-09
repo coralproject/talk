@@ -13,7 +13,7 @@ import DraftArea from '../containers/DraftArea';
 /**
  * Common UI for Creating or Editing a Comment
  */
-export class CommentForm extends React.Component {
+class CommentForm extends React.Component {
   static propTypes = {
     charCountEnable: PropTypes.bool.isRequired,
     maxCharCount: PropTypes.number,
@@ -50,6 +50,11 @@ export class CommentForm extends React.Component {
     onCancel: PropTypes.func,
     state: PropTypes.string,
     loadingState: PropTypes.oneOf(['', 'loading', 'success', 'error']),
+    registerHook: PropTypes.func,
+    unregisterHook: PropTypes.func,
+    isReply: PropTypes.bool,
+    root: PropTypes.object.isRequired,
+    comment: PropTypes.object,
   };
   static get defaultProps() {
     return {
@@ -87,6 +92,8 @@ export class CommentForm extends React.Component {
       charCountEnable,
       body,
       loadingState,
+      comment,
+      root,
     } = this.props;
 
     const length = body.length;
@@ -104,6 +111,8 @@ export class CommentForm extends React.Component {
     return (
       <div>
         <DraftArea
+          root={root}
+          comment={comment}
           id={this.props.bodyInputId}
           label={this.props.bodyLabel}
           value={body}
@@ -112,8 +121,11 @@ export class CommentForm extends React.Component {
           disabled={disableTextArea}
           charCountEnable={this.props.charCountEnable}
           maxCharCount={this.props.maxCharCount}
+          registerHook={this.props.registerHook}
+          unregisterHook={this.props.unregisterHook}
+          isReply={this.props.isReply}
         />
-        <div className={`${name}-button-container`}>
+        <div className={cn(styles.buttonContainer, `${name}-button-container`)}>
           {this.props.buttonContainerStart}
           {typeof this.props.onCancel === 'function' && (
             <Button
@@ -130,6 +142,7 @@ export class CommentForm extends React.Component {
               disableSubmitButton ? 'lightGrey' : this.props.submitButtonCStyle
             }
             className={cn(
+              styles.button,
               `${name}-button`,
               submitButtonClassName,
               this.getButtonClassName()
@@ -144,3 +157,5 @@ export class CommentForm extends React.Component {
     );
   }
 }
+
+export default CommentForm;

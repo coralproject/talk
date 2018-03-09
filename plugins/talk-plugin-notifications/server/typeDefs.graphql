@@ -1,0 +1,37 @@
+enum DIGEST_FREQUENCY {
+    # NONE will have the notifications send immediatly rather than bundling
+    # for digesting.
+    NONE
+}
+
+# NotificationSettings stores all the preferences related to notifications.
+type NotificationSettings {
+    digestFrequency: DIGEST_FREQUENCY
+}
+
+type User {
+    notificationSettings: NotificationSettings
+}
+
+type Settings {
+    # notificationsRequireConfirmation when true indicates that User's must have
+    # their email address confirmed/verified before they can receive
+    # notifications.
+    notificationsRequireConfirmation: Boolean
+}
+
+type UpdateNotificationSettingsResponse implements Response {
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+input NotificationSettingsInput {
+    # digestFrequency is the frequency to send notifications.
+    digestFrequency: DIGEST_FREQUENCY
+}
+
+type RootMutation {
+    # updateNotificationSettings will update the current user's notification
+    # settings.
+    updateNotificationSettings(input: NotificationSettingsInput!): UpdateNotificationSettingsResponse
+}

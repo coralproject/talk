@@ -59,7 +59,8 @@ export function createClient(options = {}) {
         if (authToken) {
           req.options.headers['authorization'] = `Bearer ${authToken}`;
         }
-
+        // To debug queries add print(req.request.query) and import it from graphql/language/printer
+        // console.log(print(req.request.query));
         next();
       },
     },

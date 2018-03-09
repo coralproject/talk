@@ -19,6 +19,16 @@ class Introspection {
   isValidEnumValue(name, value) {
     return this._enums[name] && this._enums[name].indexOf(value) >= 0;
   }
+
+  /**
+   * getEnumValues returns array of possible values.
+   * @param  {string}  name
+   * @param  {string}  value
+   * @return {array}
+   */
+  getEnumValues(name) {
+    return this._enums[name];
+  }
 }
 
 /**
