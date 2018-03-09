@@ -22,6 +22,34 @@ const withSkipOnErrors = reducer => (prev, action, ...rest) => {
   return reducer(prev, action, ...rest);
 };
 
+/**
+ *  attachFromQueryMarkers will add a `__unsafeFromQuery` to objects
+ *  inside data, to allow other parts of the framework to easily detect
+ *  that the data came from a query.
+ */
+function attachFromQueryMarkers(data) {
+  if (typeof data === 'object') {
+    if (data === null) {
+      return data;
+    }
+    if (Array.isArray(data)) {
+      const result = [...data];
+      result.forEach((v, k) => {
+        result[k] = attachFromQueryMarkers(v);
+      });
+      return result;
+    } else {
+      const result = { ...data };
+      result.__unsafeFromQuery = true;
+      Object.keys(result).forEach(key => {
+        result[key] = attachFromQueryMarkers(result[key]);
+      });
+      return result;
+    }
+  }
+  return data;
+}
+
 function networkStatusToString(networkStatus) {
   switch (networkStatus) {
     case 1:
@@ -283,6 +311,12 @@ const createHOC = (document, config, { notifyOnError = true }) =>
         props: args => {
           const nextData = this.nextData(args.data);
           const { root } = separateDataAndRoot(args.data);
+
+          // We attach query markes `__fromQuery` to each node in
+          // the returned `root` result, so the framework can
+          // easily detect props coming from the query.
+          const rootWithQueryMarkers = attachFromQueryMarkers(root);
+
           if (config.props) {
             // Custom props, in this case we just pass the wrapped args to it.
             return config.props({
@@ -292,7 +326,7 @@ const createHOC = (document, config, { notifyOnError = true }) =>
           }
 
           // Return our wrapped data with a separated root.
-          return { ...args, data: nextData, root };
+          return { ...args, data: nextData, root: rootWithQueryMarkers };
         },
       };
 
