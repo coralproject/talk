@@ -31,15 +31,13 @@ const withViewingOptionsFragments = withFragments({
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withViewingOptionsFragments,
-  mapProps(({ root, asset, data, open, openMenu, closeMenu }) => ({
+  mapProps(({ root, asset, data, ...rest }) => ({
     slotPassthrough: {
       data,
       root,
       asset,
     },
-    open,
-    openMenu,
-    closeMenu,
+    ...rest,
   }))
 );
 

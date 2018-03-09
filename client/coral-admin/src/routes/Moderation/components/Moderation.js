@@ -148,6 +148,14 @@ class Moderation extends Component {
       count: root[`${queue}Count`],
     }));
 
+    const slotPassthrough = {
+      data,
+      root,
+      asset,
+      activeTab,
+      handleCommentChange,
+    };
+
     return (
       <div>
         <ModerationHeader
@@ -204,13 +212,7 @@ class Moderation extends Component {
           closeSearch={this.closeSearch}
           storySearchChange={this.props.storySearchChange}
         />
-        <Slot
-          data={data}
-          queryData={{ root, asset }}
-          activeTab={activeTab}
-          handleCommentChange={handleCommentChange}
-          fill="adminModeration"
-        />
+        <Slot fill="adminModeration" passthrough={slotPassthrough} />
       </div>
     );
   }

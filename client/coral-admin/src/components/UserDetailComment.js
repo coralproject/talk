@@ -36,9 +36,10 @@ class UserDetailComment extends React.Component {
       root: { settings },
     } = this.props;
 
-    const queryData = { root, comment };
-
-    const formatterSettings = {
+    const slotPassthrough = {
+      data,
+      root,
+      comment,
       suspectWords: settings.wordlist.suspect,
       bannedWords: settings.wordlist.banned,
       body: comment.body,
@@ -88,15 +89,13 @@ class UserDetailComment extends React.Component {
               <div className={styles.body}>
                 <Slot
                   fill="userDetailCommentContent"
-                  data={data}
                   className={cn(
                     styles.commentContent,
                     'talk-admin-user-detail-comment'
                   )}
-                  queryData={queryData}
                   size={1}
                   defaultComponent={CommentFormatter}
-                  {...formatterSettings}
+                  passthrough={slotPassthrough}
                 />
                 <a
                   className={styles.external}

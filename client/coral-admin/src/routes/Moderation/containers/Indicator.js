@@ -111,14 +111,15 @@ class IndicatorContainer extends Component {
       return null;
     }
 
+    const slotPassthrough = {
+      data: this.props.data,
+      handleCommentChange: this.handleCommentChange,
+    };
+
     return (
       <span>
         <Indicator />
-        <Slot
-          data={this.props.data}
-          handleCommentChange={this.handleCommentChange}
-          fill="adminModerationIndicator"
-        />
+        <Slot fill="adminModerationIndicator" passthrough={slotPassthrough} />
       </span>
     );
   }

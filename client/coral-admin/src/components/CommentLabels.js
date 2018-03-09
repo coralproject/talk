@@ -43,6 +43,9 @@ const CommentLabels = ({
   comment,
   comment: { className, status, actions, hasParent },
 }) => {
+  const slotPassthrough = {
+    comment,
+  };
   return (
     <div className={cn(className, styles.root)}>
       <div className={styles.coreLabels}>
@@ -69,7 +72,7 @@ const CommentLabels = ({
       <Slot
         className={styles.slot}
         fill="adminCommentLabels"
-        queryData={{ comment }}
+        passthrough={slotPassthrough}
       />
     </div>
   );
