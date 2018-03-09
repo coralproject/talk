@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-sort-most-replied/
 layout: plugin
 plugin:
     name: talk-plugin-sort-most-replied
+    default: true
     depends:
         - name: talk-plugin-viewing-options
     provides:

@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-author-menu/
 layout: plugin
 plugin:
     name: talk-plugin-author-menu
+    default: true
     provides:
         - Client
 ---

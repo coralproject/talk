@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-viewing-options/
 layout: plugin
 plugin:
     name: talk-plugin-viewing-options
+    default: true
     provides:
         - Client
 ---

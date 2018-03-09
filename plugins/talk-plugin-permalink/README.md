@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-permalink/
 layout: plugin
 plugin:
     name: talk-plugin-permalink
+    default: true
     provides:
         - Client
 ---

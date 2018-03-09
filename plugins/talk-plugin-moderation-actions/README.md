@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-moderator-actions/
 layout: plugin
 plugin:
     name: talk-plugin-moderator-actions
+    default: true
     provides:
         - Client
 ---

@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-auth/
 layout: plugin
 plugin:
     name: talk-plugin-auth
+    default: true
     provides:
         - Client
 ---

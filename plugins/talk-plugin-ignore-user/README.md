@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-ignore-user/
 layout: plugin
 plugin:
     name: talk-plugin-ignore-user
+    default: true
     provides:
         - Client
 ---

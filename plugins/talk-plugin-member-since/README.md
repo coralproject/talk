@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-member-since/
 layout: plugin
 plugin:
     name: talk-plugin-member-since
+    default: true
     depends:
         - name: talk-plugin-author-menu
     provides:

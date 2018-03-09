@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-featured-comments/
 layout: plugin
 plugin:
     name: talk-plugin-featured-comments
+    default: true
     provides:
         - Server
         - Client

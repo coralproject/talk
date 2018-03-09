@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-offtopic/
 layout: plugin
 plugin:
     name: talk-plugin-offtopic
+    default: true
     provides:
         - Server
         - Client

@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-flag-details/
 layout: plugin
 plugin:
     name: talk-plugin-flag-details
+    default: true
     provides:
         - Client
 ---
