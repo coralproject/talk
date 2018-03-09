@@ -4,7 +4,11 @@ import { IfSlotIsNotEmpty } from 'plugin-api/beta/client/components';
 import { Slot } from 'plugin-api/beta/client/components';
 import { t } from 'plugin-api/beta/client/services';
 import styles from './Settings.css';
-import { BareButton } from 'plugin-api/beta/client/components/ui';
+import {
+  BareButton,
+  Dropdown,
+  Option,
+} from 'plugin-api/beta/client/components/ui';
 import EmailVerificationBanner from '../containers/EmailVerificationBanner';
 import cn from 'classnames';
 
@@ -24,9 +28,13 @@ class Settings extends React.Component {
       setTurnOffInputFragment,
       updateNotificationSettings,
       turnOffAll,
-      turnOffButtonDisabled,
       needEmailVerification,
       email,
+      digestFrequencyValues,
+      digestFrequency,
+      disableDigest,
+      disableTurnoffButton,
+      onChangeDigestFrequency,
     } = this.props;
 
     const slotPassthrough = {
@@ -37,10 +45,15 @@ class Settings extends React.Component {
     };
 
     return (
-      <IfSlotIsNotEmpty slot="notificationSettings" passthrough={slotPassthrough}>
+      <IfSlotIsNotEmpty
+        slot="notificationSettings"
+        passthrough={slotPassthrough}
+      >
         <div className={styles.root}>
           <h3>{t('talk-plugin-notifications.settings_title')}</h3>
-          {needEmailVerification && <EmailVerificationBanner email={email} />}
+          <div className={styles.bannerContainer}>
+            {needEmailVerification && <EmailVerificationBanner email={email} />}
+          </div>
           <h4
             className={cn(styles.subtitle, {
               [styles.disabled]: needEmailVerification,
@@ -55,14 +68,39 @@ class Settings extends React.Component {
               childFactory={this.childFactory}
               passthrough={slotPassthrough}
             />
-            <BareButton
-              className={styles.turnOffButton}
-              onClick={turnOffAll}
-              disabled={turnOffButtonDisabled}
-            >
-              {t('talk-plugin-notifications.turn_off_all')}
-            </BareButton>
           </div>
+          {digestFrequencyValues.length > 1 && (
+            <div className={styles.digest}>
+              <h4
+                className={cn(styles.titleDigest, {
+                  [styles.disabled]: disableDigest,
+                })}
+              >
+                {t('talk-plugin-notifications.digest_option')}
+              </h4>
+              <Dropdown
+                className={styles.digestDropDown}
+                value={digestFrequency}
+                onChange={onChangeDigestFrequency}
+                disabled={disableDigest}
+              >
+                {digestFrequencyValues.map(v => (
+                  <Option
+                    value={v}
+                    key={v}
+                    label={t(`talk-plugin-notifications.digest_enum.${v}`)}
+                  />
+                ))}
+              </Dropdown>
+            </div>
+          )}
+          <BareButton
+            className={styles.turnOffButton}
+            onClick={turnOffAll}
+            disabled={disableTurnoffButton}
+          >
+            {t('talk-plugin-notifications.turn_off_all')}
+          </BareButton>
         </div>
       </IfSlotIsNotEmpty>
     );
@@ -76,9 +114,13 @@ Settings.propTypes = {
   setTurnOffInputFragment: PropTypes.func.isRequired,
   updateNotificationSettings: PropTypes.func.isRequired,
   turnOffAll: PropTypes.func.isRequired,
-  turnOffButtonDisabled: PropTypes.bool.isRequired,
+  disableTurnoffButton: PropTypes.bool.isRequired,
+  disableDigest: PropTypes.bool.isRequired,
   needEmailVerification: PropTypes.bool.isRequired,
   email: PropTypes.string,
+  digestFrequencyValues: PropTypes.array.isRequired,
+  digestFrequency: PropTypes.string.isRequired,
+  onChangeDigestFrequency: PropTypes.func.isRequired,
 };
 
 export default Settings;

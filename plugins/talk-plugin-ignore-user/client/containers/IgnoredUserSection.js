@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import IgnoredUserSection from '../components/IgnoredUserSection';
 import { compose, gql } from 'react-apollo';
 import {
   withFragments,
-  excludeIf,
   withStopIgnoringUser,
 } from 'plugin-api/beta/client/hocs';
 
@@ -17,6 +17,11 @@ class IgnoredUserSectionContainer extends React.Component {
     );
   }
 }
+
+IgnoredUserSectionContainer.propTypes = {
+  stopIgnoringUser: PropTypes.func.isRequired,
+  root: PropTypes.object.isRequired,
+};
 
 const withIgnoredUserSectionFragments = withFragments({
   root: gql`
@@ -32,10 +37,6 @@ const withIgnoredUserSectionFragments = withFragments({
   `,
 });
 
-const enhance = compose(
-  withIgnoredUserSectionFragments,
-  withStopIgnoringUser,
-  excludeIf(({ root: { me } }) => me.ignoredUsers.length === 0)
-);
+const enhance = compose(withIgnoredUserSectionFragments, withStopIgnoringUser);
 
 export default enhance(IgnoredUserSectionContainer);
