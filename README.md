@@ -12,11 +12,11 @@ You're just one click away from trying Talk - all you need is a Heroku account a
 
 ## Technical Documentation
 
-From getting up and running, to advanced configuration, to how to scale Talk, our [Talk Technical Docs](https://coralproject.github.io/talk/) have everything you need to know.
+From getting up and running, to advanced configuration, to how to scale Talk, our [Talk Technical Docs](https://docs.coralproject.net/talk/) have everything you need to know.
 
 ## Product Guide
 
-Learn more about Talk, including a deep dive into features for commenters and moderators, and FAQs in our [Talk Product Guide](https://coralproject.github.io/talk/how-talk-works).
+Learn more about Talk, including a deep dive into features for commenters and moderators, and FAQs in our [Talk Product Guide](https:/docs.coralproject.net/talk/how-talk-works).
 
 ## Relevant Links
 

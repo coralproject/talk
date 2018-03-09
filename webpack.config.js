@@ -23,7 +23,6 @@ debug(`Using ${pluginsPath} as the plugin configuration path`);
 const buildTargets = [
   'coral-admin',
   'coral-login',
-  'coral-docs',
   { name: 'coral-auth-callback', disablePolyfill: true },
 ];
 
