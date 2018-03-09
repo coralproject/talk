@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './SortOption.css';
 import PropTypes from 'prop-types';
-import {PLUGIN_NAME} from '../constants';
+import {PLUGIN_NAME} from '../../constants';
 
 export default class SortOption extends React.Component {
   render() {
