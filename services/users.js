@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const bcrypt = require('bcryptjs');
 const errors = require('../errors');
-const { some, merge } = require('lodash');
+const { some, merge, random } = require('lodash');
 const { ROOT_URL } = require('../config');
 const { jwt: JWT_SECRET } = require('../secrets');
 const debug = require('debug')('talk:services:users');
@@ -347,6 +347,35 @@ class UsersService {
   }
 
   /**
+   * Creates the initial username for an external account. Searches to make
+   * sure username not already used. Adds a random number if username already
+   * in use.
+   */
+  static async getInitialUsername(username) {
+    let MAX_ATTEMPTS = 10;
+    let END_NUMBER_MAX = 99999;
+
+    let castedName = UsersService.castUsername(username);
+    let testName = castedName;
+    let existingUserWithName;
+
+    for (let i = 0; i < MAX_ATTEMPTS; i++) {
+      existingUserWithName = await UserModel.findOne({
+        lowercaseUsername: testName.toLowerCase(),
+      });
+
+      if (!existingUserWithName) {
+        return testName;
+      }
+
+      let endNumber = random(0, END_NUMBER_MAX);
+      testName = castedName + '_' + endNumber;
+    }
+
+    throw new Error('cannot find free name after ' + MAX_ATTEMPTS);
+  }
+
+  /**
    * Finds a user given a social profile and if the user does not exist, creates
    * them.
    * @param  {Object}   profile - User social/external profile
@@ -368,7 +397,7 @@ class UsersService {
     // User does not exist and need to be created.
 
     // Create an initial username for the user.
-    let username = UsersService.castUsername(displayName);
+    let username = await UsersService.getInitialUsername(displayName);
 
     // The user was not found, lets create them!
     user = new UserModel({
