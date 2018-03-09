@@ -22,6 +22,13 @@
                     <div class="card-body">
                         <h5 class="card-title"><a class="coral-link" href="{% if !plugin.link %}/talk/plugin/{{ plugin.name }}{% else %}{{ plugin.link }}{% endif %}">{{ plugin.name }}</a></h5>
                         <p class="card-text">{{ plugin.description }}</p>
+                        {% if plugin.tags %}
+                            <p class="card-text">
+                                {% for tag in plugin.tags %}
+                                    <span class="badge badge-{% if tag == "default" %}success{% else %}light{% endif %}">{{ tag }}</span>
+                                {% endfor %}
+                            </p>
+                        {% endif %}
                     </div>
                 </div>
             </div>

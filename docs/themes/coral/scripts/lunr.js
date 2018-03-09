@@ -8,6 +8,7 @@ hexo.extend.helper.register('lunr_index', data => {
   const index = lunr(function() {
     this.field('name', { boost: 10 });
     this.field('description');
+    this.field('tags', { boost: 50 });
     this.ref('id');
 
     sortBy(data, 'name').forEach((item, i) => {
