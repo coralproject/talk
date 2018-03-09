@@ -2,18 +2,18 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './SortOption.css';
 import PropTypes from 'prop-types';
-
-const pluginName = 'talk-slot-viewing-options-sort-option';
+import {PLUGIN_NAME} from '../constants';
 
 export default class SortOption extends React.Component {
   render() {
+    const className = cn([
+      styles.label,
+      `${PLUGIN_NAME}-sort-option`,
+      { [`${PLUGIN_NAME}-sort-option-active`]: this.props.active },
+    ]);
     return (
       <label
-        className={cn([
-          styles.label,
-          pluginName,
-          { [`${pluginName}-active`]: this.props.active },
-        ])}
+        className={className}
       >
         <input
           type="radio"
