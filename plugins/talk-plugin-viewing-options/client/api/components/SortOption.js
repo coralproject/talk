@@ -1,11 +1,18 @@
 import React from 'react';
+import cn from 'classnames';
 import styles from './SortOption.css';
 import PropTypes from 'prop-types';
+import { PLUGIN_NAME } from '../../constants';
 
 export default class SortOption extends React.Component {
   render() {
+    const className = cn([
+      styles.label,
+      `${PLUGIN_NAME}-sort-option`,
+      { [`${PLUGIN_NAME}-sort-option-active`]: this.props.active },
+    ]);
     return (
-      <label className={styles.label}>
+      <label className={className}>
         <input
           type="radio"
           onChange={this.props.setSort}

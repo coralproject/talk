@@ -1,4 +1,4 @@
-import withSortOption from '../hocs/withSortOption';
+import withSortOption from 'plugin-api/beta/client/hocs/withSortOption';
 import SortOption from '../components/SortOption';
 
 /**
