@@ -30,7 +30,7 @@ Please note this tutorial assumes you have already [installed and configured Tal
 
 ![Using the Plugin CLI](/talk/images/pride_reaction_tutorial_1.png)
 
-You will see 3 options: `create`, `list` y `reconcile`
+You will see 3 options: `create`, `list` and `reconcile`
 
 * `create`: This is what we use to create new plugins. It will display a wizard and ask us a couple of questions in order to understand how we want to build our plugin.
 * `list`: Shows a list of all plugins.
