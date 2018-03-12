@@ -13,21 +13,26 @@
 }
 
 .debug::before {
-  content: "•slot: " attr(data-slot-name) "\A" "•classname: " attr(data-slot-classname);
+  content: attr(data-slot-name);
   display: inline-block;
   position: absolute;
-  bottom: 50%;
+
   background: #000;
   color: #FFF;
   padding: 5px;
   border-radius: 5px;
-  opacity:0; transition:0.3s; overflow:hidden;
+  opacity: 0;
+  transition: 0.3s;
+  overflow: hidden;
   pointer-events: none;
   z-index: 999!important;
   white-space: pre-wrap;
+  min-height: 16px;
+  top: 50%;
+  left: 0;
 }
 
 .debug:hover::before {
-  opacity:1;
-  bottom: 100%;
+  opacity: 1;
+  top: 100%;
 }
