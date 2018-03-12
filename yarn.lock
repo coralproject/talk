@@ -7748,9 +7748,9 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-pell@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/pell/-/pell-0.7.0.tgz#46b3fcdfa8dd7e5999f73c550a337ecc80193dcc"
+pell@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/pell/-/pell-1.0.1.tgz#8f1e97165001024e5f371e0ce0b329457c847b5d"
 
 pend@~1.2.0:
   version "1.2.0"
