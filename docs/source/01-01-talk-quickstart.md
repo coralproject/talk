@@ -211,7 +211,7 @@ you'll find a demo that can be used to test the copy that is running now on your
 machine.
 
 In order for the demo to work, you must add
-`https://coralproject.github.io/` to your
+`https://docs.coralproject.net/` to your
 permitted domains list. You can do this by visiting
 [http://127.0.0.1:3000/admin/configure](http://127.0.0.1:3000/admin/configure)
 now and selecting *Tech Settings* from the sidebar.
