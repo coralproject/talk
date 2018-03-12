@@ -182,7 +182,7 @@ We are going to import our SVG icons just as we did with our components, the onl
 
 ```js
 import ColoredRainbowIcon from '../assets/ColoredRainbowIcon.svg';
-import GrayscaleRainbowIcon from '../assets/GrayscaleRainbowIcon.svg’;
+import GrayscaleRainbowIcon from '../assets/GrayscaleRainbowIcon.svg';
 ```
 
 Since Webpack will give us the new url of the resource, we can us it like this:
