@@ -28,17 +28,17 @@ try {
     pluginsPath = envPlugins;
     plugins = require(pluginsPath);
   } else {
-      if (fs.existsSync(customPlugins)) {
-        debug(`Now using ${customPlugins} for plugins`);
-        pluginsPath = customPlugins;
-      } else {
-        debug(`Now using ${defaultPlugins} for plugins`);
-        pluginsPath = defaultPlugins;
-      }
+    if (fs.existsSync(customPlugins)) {
+      debug(`Now using ${customPlugins} for plugins`);
+      pluginsPath = customPlugins;
+    } else {
+      debug(`Now using ${defaultPlugins} for plugins`);
+      pluginsPath = defaultPlugins;
+    }
 
-      // Load/parse the plugin content using hjson.
-      const pluginContent = fs.readFileSync(pluginsPath, 'utf8');
-      plugins = hjson.parse(pluginContent);
+    // Load/parse the plugin content using hjson.
+    const pluginContent = fs.readFileSync(pluginsPath, 'utf8');
+    plugins = hjson.parse(pluginContent);
   }
 } catch (err) {
   if (err.code === 'ENOENT') {
