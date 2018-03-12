@@ -13,7 +13,7 @@
   };
   ```
 
-  To read more info on how to build client plugins. Please, go to: https://coralproject.github.io/talk/plugins-client.html
+  To read more info on how to build client plugins. Please, go to: https://docs.coralproject.net/talk/plugins-client
  */
 
 import MyPluginComponent from './components/MyPluginComponent';
