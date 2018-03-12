@@ -1588,6 +1588,10 @@ type Subscription {
   # Get an update whenever a username has been changed. `user_id` must match id
   # of current user except for users with the `ADMIN` or `MODERATOR` role.
   usernameChanged(user_id: ID): UsernameChangedPayload
+
+  # Get an update whenever a user is created. Only accessible to users with the
+  # `ADMIN` or `MODERATOR` roles.
+  userCreated: User
 }
 
 ################################################################################
