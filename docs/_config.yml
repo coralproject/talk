@@ -140,6 +140,8 @@ sidebar:
       children:
         - title: Creating a Basic Plugin
           url: /building-basic-plugin/
+        - title: Customizing Plugins with Coral UI
+          url: /customizing-plugins-coral-ui/
     - title: API
       children:
         - title: Server Plugins
