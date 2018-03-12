@@ -91,7 +91,6 @@ class Slot extends React.Component {
     const debugProps = pluginsConfig.debug
       ? {
           'data-slot-name': fill,
-          'data-slot-classname': `talk-slot-${kebabCase(fill)}`,
         }
       : {};
 
