@@ -10,7 +10,7 @@ import get from 'lodash/get';
 import { getDisplayName } from 'coral-framework/helpers/hoc';
 import camelize from '../helpers/camelize';
 
-// This is returned for pluginConfig when it is empty.
+// This is returned for pluginsConfig when it is empty.
 const emptyConfig = {};
 
 // Memoize the warnings so we only show them once.
@@ -84,11 +84,11 @@ class PluginsService {
    * query datas are only passed to the component if it is defined in `component.fragments`.
    */
   getSlotComponentProps(component, reduxState, props, queryData) {
-    const pluginConfig =
+    const pluginsConfig =
       get(reduxState, 'config.plugins_config') || emptyConfig;
     return {
       ...props,
-      config: pluginConfig,
+      config: pluginsConfig,
       ...(component.fragments
         ? pick(queryData, Object.keys(component.fragments))
         : withWarnings(component, queryData)),
@@ -99,15 +99,15 @@ class PluginsService {
    * Returns React Elements for given slot.
    */
   getSlotElements(slot, reduxState, props = {}, queryData = {}, options = {}) {
-    const pluginConfig =
+    const pluginsConfig =
       get(reduxState, 'config.plugins_config') || emptyConfig;
     const { slotSize = 0 } = options;
 
     const isDisabled = component => {
       if (
-        pluginConfig &&
-        pluginConfig[component.talkPluginName] &&
-        pluginConfig[component.talkPluginName].disable_components
+        pluginsConfig &&
+        pluginsConfig[component.talkPluginName] &&
+        pluginsConfig[component.talkPluginName].disable_components
       ) {
         return true;
       }

@@ -72,7 +72,7 @@ class Slot extends React.Component {
     } = this.props;
     const { plugins } = this.context;
     let children = this.getChildren();
-    const pluginConfig =
+    const pluginsConfig =
       get(reduxState, 'config.plugins_config') || emptyConfig;
     if (children.length === 0 && DefaultComponent) {
       const props = plugins.getSlotComponentProps(
@@ -88,13 +88,24 @@ class Slot extends React.Component {
       children = children.map(childFactory);
     }
 
+    const debugProps = pluginsConfig.debug
+      ? {
+          'data-slot-name': fill,
+          'data-slot-classname': `talk-slot-${kebabCase(fill)}`,
+        }
+      : {};
+
     return (
       <Component
         className={cn(
-          { [styles.inline]: inline, [styles.debug]: pluginConfig.debug },
+          {
+            [styles.inline]: inline,
+            [styles.debug]: pluginsConfig.debug,
+          },
           className,
           `talk-slot-${kebabCase(fill)}`
         )}
+        {...debugProps}
       >
         {children}
       </Component>
