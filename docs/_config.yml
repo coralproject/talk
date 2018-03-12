@@ -136,12 +136,20 @@ sidebar:
           url: /plugins-directory/
         - title: Plugin Recipes
           url: /plugin-recipes/
+    - title: Tutorials
+      children:
+        - title: Creating a Basic Plugin
+          url: /building-basic-plugin/
     - title: API
       children:
         - title: Server Plugins
           url: /reference/server/
         - title: GraphQL
           url: /reference/graphql/
+    - title: Migrating
+      children:
+        - title: Migrating to v4.0.0
+          url: /migration/4/
     - title: FAQ
       children:
         - title: FAQ
