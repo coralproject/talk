@@ -4,7 +4,7 @@ const DataLoader = require('dataloader');
 const CommentModel = require('../../models/comment');
 
 console.warn(
-  'Enabling the talk-plugin-deep-reply-count plugin introduces a signifigant performance impact on larger sites, use with care.'
+  'Enabling the talk-plugin-deep-reply-count plugin introduces a significant performance impact on larger sites, use with care.'
 );
 
 // genDeepCommentCount will return the deep comment count for a given parent id.
@@ -72,7 +72,7 @@ module.exports = {
   typeDefs: `
     type Comment {
 
-      # deepReplyCount is the count of all decendant replies.
+      # deepReplyCount is the count of all descendant replies.
       deepReplyCount: Int
     }
   `,
