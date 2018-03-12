@@ -1,0 +1,1 @@
+../../../plugins/talk-plugin-flag-details/README.md
