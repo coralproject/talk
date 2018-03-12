@@ -19,7 +19,7 @@ In Talk, there are currently three ways commenters can react to comments: Like, 
 
 We can create a new plugin from scratch or we can use the Talk CLI to generate a plugin template for us to use. CLI stands for Command Line Interface, meaning can access utilities via the command line that make it easy to interact and integrate with Talk.
 
-Please note this tutorial assumes you have already [installed and configured Talk locally](https://docs.coralproject.net).
+Please note this tutorial assumes you have already [installed and configured Talk locally](/talk/).
 
 ## Creating a new plugin using the Talk CLI
 
