@@ -12,7 +12,7 @@ class MyPluginComponent extends React.Component {
 
           <small>
             To read more about plugins check{' '}
-            <a href="https://coralproject.github.io/talk/plugins-client.html">
+            <a href="https://docs.coralproject.net/talk/plugins-client">
               our docs and guides!
             </a>
           </small>
