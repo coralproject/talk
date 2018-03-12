@@ -7,16 +7,22 @@
   </a>
   <ul class="sidebar__list">
   {% for item in config.sidebar.side %}
-    <li class="sidebar__section{% for item in item.children %}{% if is_current(item.url) %} active toggled{% endif %}{% endfor %}">
-      <a href="#" class="sidebar__header">{{ item.title }}</a>
-      <ul class="sidebar__links">
-        {% for item in item.children %}
-          <li class="{% if is_current(item.url) %}active{% endif %}">
-            <a href="{% if !is_current(item.url) %}{{ url_for(item.url) }}{% else %}#{% endif %}">{{ item.title }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-    </li>
+      {% if item.url %}
+        <li class="sidebar__section{% if is_current(item.url) %} active toggled{% endif %}">
+            <a href="{{ url_for(item.url) }}" class="sidebar__header sidebar__header__link">{{ item.title }}</a>
+        </li>
+      {% else %}
+        <li class="sidebar__section{% for item in item.children %}{% if is_current(item.url) %} active toggled{% endif %}{% endfor %}">
+            <a href="#" class="sidebar__header">{{ item.title }}</a>
+            <ul class="sidebar__links">
+              {% for item in item.children %}
+                <li class="{% if is_current(item.url) %}active{% endif %}">
+                  <a href="{% if !is_current(item.url) %}{{ url_for(item.url) }}{% else %}#{% endif %}">{{ item.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+        </li>
+      {% endif %}
     {% endfor %}
   </ul>
 
