@@ -26,17 +26,20 @@ try {
   if (PLUGINS_JSON && PLUGINS_JSON.length > 0) {
     debug('Now using TALK_PLUGINS_JSON environment variable for plugins');
     pluginsPath = envPlugins;
-  } else if (fs.existsSync(customPlugins)) {
-    debug(`Now using ${customPlugins} for plugins`);
-    pluginsPath = customPlugins;
+    plugins = require(pluginsPath);
   } else {
-    debug(`Now using ${defaultPlugins} for plugins`);
-    pluginsPath = defaultPlugins;
-  }
+      if (fs.existsSync(customPlugins)) {
+        debug(`Now using ${customPlugins} for plugins`);
+        pluginsPath = customPlugins;
+      } else {
+        debug(`Now using ${defaultPlugins} for plugins`);
+        pluginsPath = defaultPlugins;
+      }
 
-  // Load/parse the plugin content using hjson.
-  const pluginContent = fs.readFileSync(pluginsPath, 'utf8');
-  plugins = hjson.parse(pluginContent);
+      // Load/parse the plugin content using hjson.
+      const pluginContent = fs.readFileSync(pluginsPath, 'utf8');
+      plugins = hjson.parse(pluginContent);
+  }
 } catch (err) {
   if (err.code === 'ENOENT') {
     console.error(
