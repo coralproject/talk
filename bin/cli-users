@@ -257,9 +257,58 @@ async function verifyUserEmail(userID, email) {
   }
 }
 
+/**
+ * createUser will prompt the user for the user information when creating a
+ * local user.
+ */
+async function createUser() {
+  try {
+    const answers = await inquirer.prompt([
+      {
+        name: 'email',
+        message: 'Email',
+      },
+      {
+        name: 'username',
+        message: 'Username',
+      },
+      {
+        name: 'password',
+        message: 'Password',
+        type: 'password',
+      },
+      {
+        name: 'role',
+        message: 'Role',
+        type: 'list',
+        choices: USER_ROLES,
+      },
+    ]);
+
+    const { email, username, password, role } = answers;
+
+    // Create the user.
+    const user = await UsersService.createLocalUser(email, password, username);
+
+    // Set the role.
+    await UsersService.setRole(user.id, role);
+
+    console.log(`Created User[${user.id}]`);
+    util.shutdown(0);
+  } catch (err) {
+    console.error(err);
+    util.shutdown(1);
+  }
+}
+
 //==============================================================================
 // Setting up the program command line arguments.
 //==============================================================================
+
+program
+  .command('create')
+  .description('creates a local user')
+  .action(createUser);
 
 program
   .command('delete <userID>')
