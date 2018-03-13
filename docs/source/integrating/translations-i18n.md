@@ -23,6 +23,6 @@ That would set the language to French.
 
 To add a new Talk translation, simply translate the `en.yml` file (https://github.com/coralproject/talk/blob/master/locales/en.yml) into a new yml file with the language code of your choice. You can find supported language codes here: http://www.localeplanet.com/icu/iso639.html
 
-If you are a developer contributing a new language, you'll need to add the required i18n support in the i18n files (or you can leave that to us if you like). If you're a non-developer, you can submit the translation via Github if you feel comfortable doing that, or feel free to email it to us via our Support: support@coralproject.net
+If you are a developer contributing a new language, you'll need to add the required i18n support in the i18n files (or you can leave that to us if you like). If you're a non-developer, you can submit the translation via GitHub if you feel comfortable doing that, or feel free to email it to us via our Support: support@coralproject.net
 
-If you want to suggest a new language or put a placeholder for a translation you’re working on, feel free to create a Github issue: https://github.com/coralproject/talk/issues/new
+If you want to suggest a new language or put a placeholder for a translation you’re working on, feel free to create a GitHub issue: https://github.com/coralproject/talk/issues/new
