@@ -245,10 +245,11 @@ workflows:
           <<: *filter_develop
           requires:
             - build_assets
-      - test_integration_firefox_local:
-          <<: *filter_develop
-          requires:
-            - build_assets
+      # TODO: uncomment when more reliable
+      # - test_integration_firefox_local:
+      #     <<: *filter_develop
+      #     requires:
+      #       - build_assets
   deploy-tagged:
     jobs:
       - npm_dependencies:
