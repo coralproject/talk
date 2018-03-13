@@ -7,11 +7,10 @@ import { withQuery } from 'coral-framework/hocs';
 import NotLoggedIn from '../components/NotLoggedIn';
 import { Spinner } from 'coral-ui';
 import Profile from '../components/Profile';
-import CommentHistory from './CommentHistory';
+import TabPanel from './TabPanel';
 import { getDefinitionName } from 'coral-framework/utils';
 
 import { showSignInDialog } from 'coral-embed-stream/src/actions/login';
-import { setActiveTab } from '../../../actions/profile';
 import { getSlotFragmentSpreads } from 'coral-framework/utils';
 
 class ProfileContainer extends Component {
@@ -41,6 +40,7 @@ class ProfileContainer extends Component {
 
     const localProfile = currentUser.profiles.find(p => p.provider === 'local');
     const emailAddress = localProfile && localProfile.id;
+    const slotPassthrough = { data, root };
 
     return (
       <Profile
@@ -48,8 +48,7 @@ class ProfileContainer extends Component {
         emailAddress={emailAddress}
         data={data}
         root={root}
-        activeTab={this.props.activeTab}
-        setActiveTab={this.props.setActiveTab}
+        slotPassthrough={slotPassthrough}
       />
     );
   }
@@ -60,16 +59,9 @@ ProfileContainer.propTypes = {
   root: PropTypes.object,
   currentUser: PropTypes.object,
   showSignInDialog: PropTypes.func,
-  activeTab: PropTypes.string.isRequired,
-  setActiveTab: PropTypes.func.isRequired,
 };
 
-const slots = [
-  'profileSections',
-  'profileTabs',
-  'profileTabsPrepend',
-  'profileTabPanes',
-];
+const slots = ['profileSections'];
 
 const withProfileQuery = withQuery(
   gql`
@@ -78,10 +70,10 @@ const withProfileQuery = withQuery(
       id
       username
     }
-    ...${getDefinitionName(CommentHistory.fragments.root)}
+    ...${getDefinitionName(TabPanel.fragments.root)}
     ${getSlotFragmentSpreads(slots, 'root')}
   }
-  ${CommentHistory.fragments.root}
+  ${TabPanel.fragments.root}
 `,
   {
     options: {
@@ -92,11 +84,10 @@ const withProfileQuery = withQuery(
 
 const mapStateToProps = state => ({
   currentUser: state.auth.user,
-  activeTab: state.profile.activeTab,
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ showSignInDialog, setActiveTab }, dispatch);
+  bindActionCreators({ showSignInDialog }, dispatch);
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

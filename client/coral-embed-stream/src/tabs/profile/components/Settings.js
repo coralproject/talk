@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Slot } from 'plugin-api/beta/client/components';
+import { Slot } from 'coral-framework/components';
 
-class TabPane extends React.Component {
+class Settings extends React.Component {
   render() {
     const { data, root } = this.props;
     const slotPassthrough = { data, root };
@@ -14,9 +14,9 @@ class TabPane extends React.Component {
   }
 }
 
-TabPane.propTypes = {
+Settings.propTypes = {
   data: PropTypes.object,
   root: PropTypes.object,
 };
 
-export default TabPane;
+export default Settings;

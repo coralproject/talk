@@ -65,7 +65,7 @@ nl_NL:
     notify_approved: '{0} heeft gebruikersnaam {1} goedgekeurd'
     notify_rejected: '{0} heeft gebruikersnaam {1} afgekeurd'
     notify_flagged: '{0} heeft gebruikersnaam {1} gerapporteerd'
-    notify_changed: 'gebruiker {0} heeft zijn/haar gebruikersnaam veranderd naar {1}' 
+    notify_changed: 'gebruiker {0} heeft zijn/haar gebruikersnaam veranderd naar {1}'
   community:
     account_creation_date: "Aanmaakdatum account"
     active: Actief
@@ -350,7 +350,7 @@ nl_NL:
   personal_info: "Deze reactie onthult persoonlijk identificeerbare gegevens."
   post: Plaats
   profile: Profiel
-  profile_settings: "Profiel instellingen"
+  profile_settings: "Instellingen"
   reply: Beantwoord
   report: Rapporteer
   report_notif: "Dank voor het rapporteren van deze reactie. Deze wordt zo snel mogelijk gemodereerd."

@@ -19,6 +19,7 @@ const createHOC = ({
   defaultComponent = null,
   passthroughPropName = 'passthrough',
   size = null,
+  propName = 'slotElements',
 }) =>
   hoistStatics(WrappedComponent => {
     return class withSlotElements extends React.Component {
@@ -140,7 +141,7 @@ const createHOC = ({
         const { reduxState: _a, ...rest } = this.props;
         const slotElements = this.getSlotElements();
         const props = {
-          slotElements,
+          [propName]: slotElements,
           ...rest,
         };
         return <WrappedComponent {...props} />;
@@ -159,9 +160,11 @@ const mapStateToProps = state => ({
  * @param  {element|array}  [options.defaultComponent]     Default Components or Array of such
  * @param  {number|array}   [options.size]                 Slot size or an Array of slot size
  * @param  {string}         [options.passthroughPropName]  The property to find the passthrough prop
+ * @param  {string}         [options.propName]             New property name, defaults to `slotElements`
  *
- * @return {func}           Returns a HOC that provides the property `slotElements` with an Array of
- *                          Slot Elements or in case of multiple slots, an Array of Slot Element Arrays.
+ * @return {func}           Returns a HOC that per default provides the property `slotElements` with an
+ *                          Array of Slot Elements or in case of multiple slots, an Array of Slot Element
+ *                          Arrays.
  *
  * Example:
  * withSlotElements({
