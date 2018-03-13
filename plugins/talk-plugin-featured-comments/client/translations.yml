@@ -1,3 +1,18 @@
+ar:
+  talk-plugin-featured-comments:
+    un_feature: إلغاء التميّز
+    feature: ميّز
+    featured: متميز
+    featured_comments: التعليقات المميزة
+    go_to_conversation: انتقل إلى المحادثة
+    tooltip_description: تعليقات مختارة من قبل فريقنا تستحق القراءة
+    notify_self_featured: 'التعليق من {0} هو الآن مميّز و موافق عليه'
+    notify_featured: '{0} ميّز و وافق على التعليق "{1}"'
+    notify_unfeatured: '{0} ألغي تميّز التعليق "{1}"'
+    feature_comment: ميّز التعليق؟
+    are_you_sure: هل أنت متأكد أنك تريد تميّز هذا التعليق؟
+    cancel: إلغاء
+    yes_feature_comment: نعم، ميّز التعليق؟
 da:
   talk-plugin-featured-comments:
     un_feature: Un-Feature
