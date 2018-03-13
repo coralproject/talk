@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
 import mapValues from 'lodash/mapValues';
 import get from 'lodash/get';
+import values from 'lodash/values';
 import { getDisplayName } from 'coral-framework/helpers/hoc';
 import camelize from '../helpers/camelize';
 
@@ -205,9 +206,16 @@ class PluginsService {
   }
 
   getGraphQLExtensions() {
-    return this.plugins
-      .map(o => pick(o.module, ['mutations', 'queries', 'fragments']))
-      .filter(o => !isEmpty(o));
+    return flatten(
+      this.plugins.map(o => {
+        const extension = pick(o.module, ['mutations', 'queries', 'fragments']);
+        // Include extension defined in Slot Components.
+        const slotComponentExtensions = !o.module.slots
+          ? []
+          : flatten(values(o.module.slots)).map(cmp => cmp.graphqlExtension);
+        return [extension, ...slotComponentExtensions];
+      })
+    ).filter(o => !isEmpty(o));
   }
 
   getModQueueConfigs() {

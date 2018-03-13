@@ -18,6 +18,7 @@ export { default as withVariables } from './withVariables';
 export { default as WithRefetch } from './withRefetch';
 export { default as withFetchMore } from './withFetchMore';
 export { default as withSubscribeToMore } from './withSubscribeToMore';
+export { default as withGraphQLExtension } from './withGraphQLExtension';
 export {
   default as withResendEmailConfirmation,
 } from './withResendEmailConfirmation';

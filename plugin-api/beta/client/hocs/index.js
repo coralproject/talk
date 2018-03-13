@@ -17,6 +17,7 @@ export {
   withFetchMore,
   withSubscribeToMore,
   withRefetch,
+  withGraphQLExtension,
 } from 'coral-framework/hocs';
 export {
   withIgnoreUser,
