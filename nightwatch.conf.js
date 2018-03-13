@@ -26,7 +26,6 @@ module.exports = {
       selenium_host: 'localhost',
       silent: true,
       desiredCapabilities: {
-        browserName: 'chrome',
         javascriptEnabled: true,
         acceptSslCerts: true,
         webStorageEnabled: true,
@@ -41,16 +40,27 @@ module.exports = {
         path: process.env.REPORTS_FOLDER || './test/e2e/reports',
       },
     },
-    chrome: {},
+    chrome: {
+      desiredCapabilities: {
+        browserName: 'chrome',
+      },
+    },
     'chrome-headless': {
       desiredCapabilities: {
+        browserName: 'chrome',
         chromeOptions: {
           args: ['--headless', '--disable-gpu', 'window-size=1600,1200'],
         },
       },
     },
+    firefox: {
+      desiredCapabilities: {
+        browserName: 'firefox',
+      },
+    },
     'firefox-headless': {
       desiredCapabilities: {
+        browserName: 'firefox',
         'moz:firefoxOptions': {
           args: ['-headless'],
         },
