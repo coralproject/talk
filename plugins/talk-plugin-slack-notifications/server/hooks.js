@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'test') {
 module.exports = {
   RootMutation: {
     createComment: {
-      async post(_, _, context, info, result) {
+      async post(root, args, context, info, result) {
         debug(`Posting notification to Slack webhook: ${SLACK_WEBHOOK_URL}`);
         const { comment: { body: text, created_at: createdAt } } = result;
         const username = context.user.username;
