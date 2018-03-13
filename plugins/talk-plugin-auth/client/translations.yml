@@ -1,3 +1,48 @@
+ar:
+  talk-plugin-auth:
+    login:
+      email_verify_cta: "يرجى التحقق من عنوان البريد الإلكتروني الخاص بك."
+      request_new_verify_email: "طلب بريد إلكتروني آخر"
+      verify_email: "شكرا لك على إنشاء حساب جديد! لقد أرسلنا رسالة إلكترونية إلى البريد الإلكتروني الذي قدمته للتحقق من حسابك."
+      verify_email2: "يجب إثبات ملكية حسابك قبل التفاعل مع المجموعة."
+      not_you: "ليس انت؟"
+      logged_in_as: "تسجيل الدخول ك"
+      facebook_sign_in: "تسجيل الدخول باستخدام الفيسبوك"
+      facebook_sign_up: "اشترك عبر حساب فايسبوك"
+      logout: "خروج"
+      sign_in: "تسجيل الدخول"
+      sign_in_to_join: "سجل الدخول للانضمام إلى المحادثة"
+      or: "أو"
+      email: "البريد الإلكتروني"
+      password: "كلمة المرور"
+      forgot_your_pass: "نسيت كلمة المرور؟"
+      need_an_account: "تحتاج الى حساب؟"
+      register: "تسجيل"
+      sign_up: "سجل"
+      confirm_password: "تأكيد كلمة المرور"
+      username: "اسم المستخدم"
+      already_have_an_account: "هل لديك حساب؟"
+      recover_password: "إستعادة كلمة المرور"
+      email_in_use: "البريد الالكتروني قيد الاستخدام"
+      email_or_username_in_use: "البريد الإلكتروني أو اسم المستخدم قيد الاستخدام"
+      required_field: "هذه الخانة مطلوبه"
+      passwords_dont_match: "كلمات المرور غير متطابقة."
+      special_characters: "يمكن أن تحتوي أسماء المستخدمين على أحرف وأرقام و _ فقط"
+      sign_in_to_comment: "تسجيل الدخول للتعليق"
+      check_the_form: "استمارة غير صالحة. يرجى التحقق من الحقول"
+    set_username_dialog:
+      check_the_form: "استمارة غير صالحة. يرجى التحقق من الحقول"
+      continue: "تابع بنفس اسم المستخدم الخاص بفيسبوك"
+      error_create: "حدث خطأ أثناء تغيير اسم المستخدم"
+      fake_comment_body: "هذا مثال للتعليق. يمكن للقراء تبادل الأفكار والآراء مع غرف الأخبار في قسم التعليقات."
+      fake_comment_date: "منذ دقيقة"
+      if_you_dont_change_your_name: "إذا لم تقم بتغيير اسم المستخدم الخاص بك في هذه الخطوة سوف يظهر اسم المستخدم الخاص بفيسبوك جنبا إلى جنب مع كل تعليقاتك."
+      required_field: "حقل مطلوب"
+      save: حفظ
+      special_characters: "يمكن أن تحتوي أسماء المستخدمين على أحرف, أرقام و _ فقط"
+      username: اسم المستخدم
+      write_your_username: "عدل اسم المستخدم"
+      your_username: "يظهر اسم المستخدم في كل تعليق تنشره."
 da:
   talk-plugin-auth:
     login:
