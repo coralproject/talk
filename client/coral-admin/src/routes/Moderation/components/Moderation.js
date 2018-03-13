@@ -126,7 +126,6 @@ class Moderation extends Component {
   render() {
     const {
       root,
-      data,
       moderation,
       viewUserDetail,
       activeTab,
@@ -149,7 +148,6 @@ class Moderation extends Component {
     }));
 
     const slotPassthrough = {
-      data,
       root,
       asset,
       activeTab,
@@ -179,7 +177,6 @@ class Moderation extends Component {
           />
           <ModerationQueue
             key={`${activeTab}_${this.props.moderation.sortOrder}`}
-            data={this.props.data}
             root={this.props.root}
             currentAsset={asset}
             comments={comments.nodes}

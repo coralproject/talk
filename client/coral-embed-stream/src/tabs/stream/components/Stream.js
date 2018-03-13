@@ -40,7 +40,6 @@ class Stream extends React.Component {
 
   renderHighlightedComment() {
     const {
-      data,
       root,
       activeReplyBox,
       setActiveReplyBox,
@@ -91,7 +90,6 @@ class Stream extends React.Component {
         </div>
 
         <Comment
-          data={data}
           root={root}
           commentClassNames={commentClassNames}
           setActiveReplyBox={setActiveReplyBox}
@@ -122,7 +120,6 @@ class Stream extends React.Component {
 
   renderExtendableTabPanel() {
     const {
-      data,
       root,
       activeReplyBox,
       setActiveReplyBox,
@@ -147,7 +144,7 @@ class Stream extends React.Component {
       loading,
     } = this.props;
 
-    const slotPassthrough = { data, root, asset };
+    const slotPassthrough = { root, asset };
 
     // `key` of `ExtendableTabPanel` depends on sorting so that we always reset
     // the state when changing sorting.
@@ -178,7 +175,6 @@ class Stream extends React.Component {
           tabPanes={
             <TabPane tabId="all" key="all">
               <AllCommentsPane
-                data={data}
                 root={root}
                 asset={asset}
                 comments={comments}
@@ -210,7 +206,6 @@ class Stream extends React.Component {
 
   render() {
     const {
-      data,
       root,
       appendItemArray,
       asset,
@@ -246,7 +241,7 @@ class Stream extends React.Component {
       return <StreamError>{t('stream.comment_not_found')}</StreamError>;
     }
 
-    const slotPassthrough = { data, root, asset };
+    const slotPassthrough = { root, asset };
 
     return (
       <div id="stream" className={styles.root}>
@@ -318,7 +313,6 @@ class Stream extends React.Component {
 Stream.propTypes = {
   asset: PropTypes.object,
   activeStreamTab: PropTypes.string,
-  data: PropTypes.object,
   root: PropTypes.object,
   activeReplyBox: PropTypes.string,
   setActiveReplyBox: PropTypes.func,

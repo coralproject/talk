@@ -53,7 +53,6 @@ class Comment extends React.Component {
       comment,
       selected,
       className,
-      data,
       root,
       root: { settings },
       currentAsset,
@@ -70,7 +69,6 @@ class Comment extends React.Component {
     };
 
     const slotPassthrough = {
-      data,
       clearHeightCache,
       root,
       comment,
@@ -177,7 +175,6 @@ class Comment extends React.Component {
           </CommentAnimatedEdit>
         </div>
         <CommentDetails
-          data={data}
           root={root}
           comment={comment}
           clearHeightCache={clearHeightCache}
@@ -215,7 +212,6 @@ Comment.propTypes = {
       id: PropTypes.string,
     }),
   }),
-  data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   selected: PropTypes.bool,
 };

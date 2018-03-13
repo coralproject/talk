@@ -7,7 +7,6 @@ import t from 'coral-framework/services/i18n';
 import Settings from '../containers/Settings';
 
 const TabPanel = ({
-  data,
   root,
   activeTab,
   setActiveTab,
@@ -40,10 +39,10 @@ const TabPanel = ({
       tabs={tabs}
       tabPanes={[
         <TabPane key="comments" tabId="comments">
-          <CommentHistory data={data} root={root} />
+          <CommentHistory root={root} />
         </TabPane>,
         <TabPane key="settings" tabId="settings">
-          <Settings data={data} root={root} />
+          <Settings root={root} />
         </TabPane>,
       ]}
       sub
@@ -52,7 +51,6 @@ const TabPanel = ({
 };
 
 TabPanel.propTypes = {
-  data: PropTypes.object,
   root: PropTypes.object,
   slotPassthrough: PropTypes.object,
   activeTab: PropTypes.string.isRequired,

@@ -4,7 +4,7 @@ import Slot from 'coral-framework/components/Slot';
 import styles from './Profile.css';
 import TabPanel from '../containers/TabPanel';
 
-const Profile = ({ username, emailAddress, data, root, slotPassthrough }) => {
+const Profile = ({ username, emailAddress, root, slotPassthrough }) => {
   return (
     <div className="talk-my-profile talk-profile-container">
       <div className={styles.userInfo}>
@@ -12,7 +12,7 @@ const Profile = ({ username, emailAddress, data, root, slotPassthrough }) => {
         {emailAddress ? <p className={styles.email}>{emailAddress}</p> : null}
       </div>
       <Slot fill="profileSections" passthrough={slotPassthrough} />
-      <TabPanel data={data} root={root} slotPassthrough={slotPassthrough} />
+      <TabPanel root={root} slotPassthrough={slotPassthrough} />
     </div>
   );
 };
@@ -20,7 +20,6 @@ const Profile = ({ username, emailAddress, data, root, slotPassthrough }) => {
 Profile.propTypes = {
   username: PropTypes.string,
   emailAddress: PropTypes.string,
-  data: PropTypes.object,
   root: PropTypes.object,
   slotPassthrough: PropTypes.object,
 };

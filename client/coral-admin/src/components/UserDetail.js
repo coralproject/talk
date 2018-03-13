@@ -98,7 +98,6 @@ class UserDetail extends React.Component {
 
   renderLoaded() {
     const {
-      data,
       root,
       root: { me, user, totalComments, rejectedComments },
       activeTab,
@@ -124,7 +123,6 @@ class UserDetail extends React.Component {
     const suspended = isSuspended(user);
 
     const slotPassthrough = {
-      data,
       root,
       user,
     };
@@ -303,7 +301,6 @@ class UserDetail extends React.Component {
               <UserDetailCommentList
                 user={user}
                 root={root}
-                data={data}
                 loadMore={loadMore}
                 toggleSelect={toggleSelect}
                 viewUserDetail={viewUserDetail}
@@ -322,7 +319,6 @@ class UserDetail extends React.Component {
               <UserDetailCommentList
                 user={user}
                 root={root}
-                data={data}
                 loadMore={loadMore}
                 toggleSelect={toggleSelect}
                 viewUserDetail={viewUserDetail}

@@ -181,7 +181,6 @@ export default class Comment extends React.Component {
     }),
     charCountEnable: PropTypes.bool.isRequired,
     maxCharCount: PropTypes.number,
-    data: PropTypes.object,
     root: PropTypes.object,
     loadMore: PropTypes.func,
     postDontAgree: PropTypes.func,
@@ -417,7 +416,6 @@ export default class Comment extends React.Component {
         {view.map(reply => {
           return (
             <CommentContainer
-              data={this.props.data}
               root={this.props.root}
               setActiveReplyBox={setActiveReplyBox}
               disableReply={disableReply}
@@ -487,7 +485,6 @@ export default class Comment extends React.Component {
   renderComment() {
     const {
       asset,
-      data,
       root,
       depth,
       comment,
@@ -536,7 +533,6 @@ export default class Comment extends React.Component {
 
     // props that are passed down the slots.
     const slotPassthrough = {
-      data,
       depth,
       root,
       asset,

@@ -26,7 +26,7 @@ class Menu extends React.Component {
             <Category
               slot={`viewingOptions${capitalize(category)}`}
               title={this.categories[category]}
-              passthrough={slotPassthrough}
+              slotPassthrough={slotPassthrough}
             />
           </IfSlotIsNotEmpty>
         ))}

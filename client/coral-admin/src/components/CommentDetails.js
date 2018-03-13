@@ -25,11 +25,10 @@ class CommentDetails extends Component {
   };
 
   render() {
-    const { data, root, comment, clearHeightCache } = this.props;
+    const { root, comment, clearHeightCache } = this.props;
     const { showDetail } = this.state;
 
     const slotPassthrough = {
-      data,
       clearHeightCache,
       root,
       comment,
@@ -56,7 +55,6 @@ class CommentDetails extends Component {
 }
 
 CommentDetails.propTypes = {
-  data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   comment: PropTypes.object.isRequired,
   clearHeightCache: PropTypes.func,

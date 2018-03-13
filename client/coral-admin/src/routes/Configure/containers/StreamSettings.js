@@ -44,9 +44,8 @@ export default compose(
     `,
   }),
   connect(mapStateToProps, mapDispatchToProps),
-  mapProps(({ root, settings, data, updatePending, errors, ...rest }) => ({
+  mapProps(({ root, settings, updatePending, errors, ...rest }) => ({
     slotPassthrough: {
-      data,
       root,
       settings,
       updatePending,

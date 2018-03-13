@@ -32,12 +32,10 @@ class UserDetailComment extends React.Component {
       selected,
       toggleSelect,
       className,
-      data,
       root: { settings },
     } = this.props;
 
     const slotPassthrough = {
-      data,
       root,
       comment,
       suspectWords: settings.wordlist.suspect,
@@ -127,7 +125,7 @@ class UserDetailComment extends React.Component {
             </div>
           </CommentAnimatedEdit>
         </div>
-        <CommentDetails data={data} root={root} comment={comment} />
+        <CommentDetails root={root} comment={comment} />
       </li>
     );
   }
@@ -135,7 +133,6 @@ class UserDetailComment extends React.Component {
 
 UserDetailComment.propTypes = {
   selected: PropTypes.bool,
-  data: PropTypes.object,
   user: PropTypes.object.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,

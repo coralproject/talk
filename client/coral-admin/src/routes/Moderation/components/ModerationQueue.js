@@ -344,7 +344,6 @@ class ModerationQueue extends React.Component {
       child = (
         <div style={style}>
           <Comment
-            data={this.props.data}
             root={this.props.root}
             comment={comment}
             dangling={
@@ -408,7 +407,6 @@ class ModerationQueue extends React.Component {
       return (
         <div className={styles.root}>
           <Comment
-            data={this.props.data}
             root={this.props.root}
             key={comment.id}
             comment={comment}
@@ -476,7 +474,6 @@ ModerationQueue.propTypes = {
   hasNextPage: PropTypes.bool,
   comments: PropTypes.array,
   activeTab: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   currentUserId: PropTypes.string.isRequired,
 };

@@ -22,7 +22,7 @@ class CommentHistory extends React.Component {
   };
 
   render() {
-    const { navigate, comments, data, root } = this.props;
+    const { navigate, comments, root } = this.props;
     if (!comments.nodes.length) {
       return <BlankCommentHistory />;
     }
@@ -33,7 +33,6 @@ class CommentHistory extends React.Component {
             return (
               <Comment
                 key={i}
-                data={data}
                 root={root}
                 comment={comment}
                 navigate={navigate}
@@ -56,7 +55,6 @@ CommentHistory.propTypes = {
   comments: PropTypes.object.isRequired,
   loadMore: PropTypes.func,
   navigate: PropTypes.func,
-  data: PropTypes.object,
   root: PropTypes.object,
 };
 

@@ -4,8 +4,8 @@ import { Slot } from 'coral-framework/components';
 
 class Settings extends React.Component {
   render() {
-    const { data, root } = this.props;
-    const slotPassthrough = { data, root };
+    const { root } = this.props;
+    const slotPassthrough = { root };
     return (
       <div>
         <Slot fill="profileSettings" passthrough={slotPassthrough} />
@@ -15,7 +15,6 @@ class Settings extends React.Component {
 }
 
 Settings.propTypes = {
-  data: PropTypes.object,
   root: PropTypes.object,
 };
 

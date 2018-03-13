@@ -22,7 +22,7 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const { currentUser, showSignInDialog, root, data } = this.props;
+    const { currentUser, showSignInDialog, root } = this.props;
     const { me } = this.props.root;
     const loading = this.props.data.loading;
 
@@ -40,13 +40,12 @@ class ProfileContainer extends Component {
 
     const localProfile = currentUser.profiles.find(p => p.provider === 'local');
     const emailAddress = localProfile && localProfile.id;
-    const slotPassthrough = { data, root };
+    const slotPassthrough = { root };
 
     return (
       <Profile
         username={me.username}
         emailAddress={emailAddress}
-        data={data}
         root={root}
         slotPassthrough={slotPassthrough}
       />

@@ -57,7 +57,6 @@ class SettingsContainer extends React.Component {
     const {
       mergedSettings,
       canSave,
-      data,
       root,
       asset,
       errors,
@@ -68,7 +67,6 @@ class SettingsContainer extends React.Component {
       root,
       asset,
       settings: mergedSettings,
-      data,
       updatePending,
       errors,
     };
@@ -91,7 +89,6 @@ class SettingsContainer extends React.Component {
 }
 
 SettingsContainer.propTypes = {
-  data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   asset: PropTypes.object.isRequired,
   pending: PropTypes.object.isRequired,

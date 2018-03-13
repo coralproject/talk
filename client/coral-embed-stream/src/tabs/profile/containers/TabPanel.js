@@ -15,7 +15,6 @@ class TabPanelContainer extends Component {
   render() {
     return (
       <TabPanel
-        data={this.props.data}
         root={this.props.root}
         slotPassthrough={this.props.slotPassthrough}
         activeTab={this.props.activeTab}
@@ -27,7 +26,6 @@ class TabPanelContainer extends Component {
 }
 
 TabPanelContainer.propTypes = {
-  data: PropTypes.object,
   root: PropTypes.object,
   slotPassthrough: PropTypes.object,
   activeTab: PropTypes.string.isRequired,

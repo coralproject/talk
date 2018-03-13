@@ -63,7 +63,7 @@ export default class Embed extends React.Component {
     } = this.props;
     const hasHighlightedComment = !!commentId;
     const popupUrl = `login?parentUrl=${encodeURIComponent(parentUrl)}`;
-    const slotPassthrough = { data, root };
+    const slotPassthrough = { root };
 
     return (
       <div
@@ -138,9 +138,5 @@ Embed.propTypes = {
   commentId: PropTypes.string,
   root: PropTypes.object,
   activeTab: PropTypes.string,
-  data: PropTypes.shape({
-    loading: PropTypes.bool,
-    error: PropTypes.object,
-    refetch: PropTypes.func,
-  }).isRequired,
+  data: PropTypes.object.isRequired,
 };

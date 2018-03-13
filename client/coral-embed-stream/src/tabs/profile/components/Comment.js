@@ -22,9 +22,9 @@ class Comment extends React.Component {
   };
 
   render() {
-    const { comment, data, root } = this.props;
+    const { comment, root } = this.props;
     const reactionCount = getTotalReactionsCount(comment.action_summaries);
-    const slotPassthrough = { data, root, comment, asset: comment.asset };
+    const slotPassthrough = { root, comment, asset: comment.asset };
 
     return (
       <div className={styles.myComment}>
@@ -114,7 +114,6 @@ class Comment extends React.Component {
 Comment.propTypes = {
   comment: PropTypes.object.isRequired,
   navigate: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
 };
 

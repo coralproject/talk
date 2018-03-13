@@ -112,7 +112,6 @@ class IndicatorContainer extends Component {
     }
 
     const slotPassthrough = {
-      data: this.props.data,
       handleCommentChange: this.handleCommentChange,
     };
 
