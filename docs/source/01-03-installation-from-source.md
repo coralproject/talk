@@ -6,7 +6,7 @@ permalink: /installation-from-source/
 To install Talk from Source, ensure that you have Node version 8+.
 Installing via source is the recommended method when developing as it give you
 the best tooling. We release versions using semantic versioning, and do so to
-our [Github Releases](https://github.com/coralproject/talk/releases) page.
+our [GitHub Releases](https://github.com/coralproject/talk/releases) page.
 There you can download archives of older versions or the latest release. The
 examples following will download the latest code on our master branch.
 
