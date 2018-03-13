@@ -84,20 +84,22 @@ function getSlotComponentProps(component, reduxState, props, queryData) {
 }
 
 /**
- *  splitProps detects props coming from the query and
- *  returns `queryData` and `rest`.
+ *  splitProps detects objects coming from the query and
+ *  returns `queryData` and `rest`. We use `__typename`
+ *  in order to detect objects from the query.
  */
 function splitProps(props) {
   const rest = { ...props };
   const queryData = {};
-  if (props.passthrough) {
-    Object.keys(props).forEach(k => {
-      if (props[k].__unsafeFromQuery) {
-        queryData[k] = props[k];
-        delete rest[k];
-      }
-    });
-  }
+  Object.keys(props).forEach(k => {
+    if (
+      get(props[k], `__typename`) ||
+      get(props[k], `0.__typename`) // Arrays
+    ) {
+      queryData[k] = props[k];
+      delete rest[k];
+    }
+  });
   return { queryData, rest };
 }
 
