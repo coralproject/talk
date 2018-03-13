@@ -16,7 +16,9 @@ integration_job: &integration_job
   environment:
     <<: *integration_environment
   docker:
-    - image: circleci/node:8-browsers
+    # TODO: replace with node:8-browsers when build issues are resolved.
+    # - image: circleci/node:8-browsers
+    - image: coralproject/ci
     - image: circleci/mongo:3
     - image: circleci/redis:4-alpine
   steps:
@@ -32,6 +34,10 @@ integration_job: &integration_job
     - store_test_results:
         when: always
         path: /tmp/circleci-test-results
+    - store_artifacts:
+        when: always
+        path: /tmp/circleci-test-results
+
 
 version: 2
 jobs:
@@ -239,10 +245,11 @@ workflows:
           <<: *filter_develop
           requires:
             - build_assets
-      - test_integration_firefox_local:
-          <<: *filter_develop
-          requires:
-            - build_assets
+      # TODO: uncomment when more reliable
+      # - test_integration_firefox_local:
+      #     <<: *filter_develop
+      #     requires:
+      #       - build_assets
   deploy-tagged:
     jobs:
       - npm_dependencies:
