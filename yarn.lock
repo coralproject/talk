@@ -8677,6 +8677,13 @@ react-apollo@^1.4.12:
     object-assign "^4.0.1"
     prop-types "^15.5.8"
 
+react-broadcast@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/react-broadcast/-/react-broadcast-0.6.2.tgz#9555c73b80ca5b2673830872e54f6bb3092cf8a9"
+  dependencies:
+    invariant "^2.2.1"
+    prop-types "^15.6.0"
+
 react-dom@>=0.14.0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"

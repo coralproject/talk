@@ -49,7 +49,6 @@ class AuthorNameContainer extends React.Component {
 
   render() {
     const {
-      data,
       root,
       asset,
       comment,
@@ -57,7 +56,7 @@ class AuthorNameContainer extends React.Component {
       showMenuForComment,
     } = this.props;
 
-    const slotPassthrough = { data, root, asset, comment };
+    const slotPassthrough = { root, asset, comment };
 
     return (
       <AuthorName
@@ -73,7 +72,6 @@ class AuthorNameContainer extends React.Component {
 }
 
 AuthorNameContainer.propTypes = {
-  data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   asset: PropTypes.object.isRequired,
   comment: PropTypes.object.isRequired,

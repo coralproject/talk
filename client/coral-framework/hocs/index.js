@@ -14,6 +14,10 @@ export { default as withPopupAuthHandler } from './withPopupAuthHandler';
 export { default as withEnumValues } from './withEnumValues';
 export { default as withCombatPassthrough } from './withCombatPassthrough';
 export { default as withSlotElements } from './withSlotElements';
+export { default as withVariables } from './withVariables';
+export { default as WithRefetch } from './withRefetch';
+export { default as withFetchMore } from './withFetchMore';
+export { default as withSubscribeToMore } from './withSubscribeToMore';
 export {
   default as withResendEmailConfirmation,
 } from './withResendEmailConfirmation';

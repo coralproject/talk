@@ -18,8 +18,8 @@ class Comment extends React.Component {
   };
 
   render() {
-    const { comment, asset, root, data } = this.props;
-    const slotPassthrough = { data, comment, asset, root };
+    const { comment, asset, root } = this.props;
+    const slotPassthrough = { comment, asset, root };
     return (
       <div className={cn(styles.root, `${pluginName}-comment`)}>
         <Slot
@@ -62,12 +62,7 @@ class Comment extends React.Component {
               inline
             />
 
-            <FeaturedButton
-              root={root}
-              data={data}
-              comment={comment}
-              asset={asset}
-            />
+            <FeaturedButton root={root} comment={comment} asset={asset} />
           </div>
           <div
             className={cn(

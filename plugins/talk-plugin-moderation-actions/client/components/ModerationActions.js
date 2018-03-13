@@ -16,7 +16,6 @@ export default class ModerationActions extends React.Component {
       comment,
       root,
       asset,
-      data,
       menuVisible,
       toogleMenu,
       hideMenu,
@@ -25,7 +24,6 @@ export default class ModerationActions extends React.Component {
     const slotPassthrough = {
       comment,
       asset,
-      data,
     };
 
     return (
@@ -72,7 +70,6 @@ ModerationActions.propTypes = {
   comment: PropTypes.object,
   root: PropTypes.object,
   asset: PropTypes.object,
-  data: PropTypes.object,
   menuVisible: PropTypes.bool,
   toogleMenu: PropTypes.func,
   hideMenu: PropTypes.func,

@@ -10,7 +10,7 @@ import {
 
 class FlagDetails extends Component {
   render() {
-    const { comment: { actions }, more, data, root, comment } = this.props;
+    const { comment: { actions }, more, root, comment } = this.props;
 
     const flagActions =
       actions && actions.filter(a => a.__typename === 'FlagAction');
@@ -27,7 +27,6 @@ class FlagDetails extends Component {
 
     const reasons = Object.keys(summaries);
     const slotPassthrough = {
-      data,
       root,
       comment,
     };
@@ -68,7 +67,6 @@ class FlagDetails extends Component {
 
 FlagDetails.propTypes = {
   more: PropTypes.bool,
-  data: PropTypes.object,
   root: PropTypes.object,
   comment: PropTypes.shape({
     actions: PropTypes.arrayOf(

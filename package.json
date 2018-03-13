@@ -159,6 +159,7 @@
     "query-string": "^5.0.0",
     "react": "^15.4.2",
     "react-apollo": "^1.4.12",
+    "react-broadcast": "^0.6.2",
     "react-dom": "^15.4.2",
     "react-input-autosize": "^1.1.4",
     "react-mdl": "^1.11.0",
