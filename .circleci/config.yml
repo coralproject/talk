@@ -34,6 +34,10 @@ integration_job: &integration_job
     - store_test_results:
         when: always
         path: /tmp/circleci-test-results
+    - store_artifacts:
+        when: always
+        path: /tmp/circleci-test-results
+
 
 version: 2
 jobs:
