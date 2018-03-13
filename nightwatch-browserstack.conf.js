@@ -1,8 +1,10 @@
 const { ROOT_URL } = require('./config');
 
+const REPORTS_FOLDER = process.env.REPORTS_FOLDER || './test/e2e/reports';
+
 const nightwatch_config = {
   src_folders: './test/e2e/specs/',
-  output_folder: process.env.REPORTS_FOLDER || './test/e2e/reports',
+  output_folder: REPORTS_FOLDER,
   page_objects_path: './test/e2e/page_objects',
   globals_path: './test/e2e/globals',
 
@@ -34,7 +36,7 @@ const nightwatch_config = {
         enabled: true,
         on_failure: true,
         on_error: true,
-        path: process.env.REPORTS_FOLDER || './test/e2e/reports',
+        path: REPORTS_FOLDER,
       },
     },
     chrome: {
