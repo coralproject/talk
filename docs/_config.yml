@@ -73,14 +73,12 @@ deploy:
 
 sidebar:
   top:
-    - title: Github
+    - title: GitHub
       url: https://github.com/coralproject/
     - title: Docker
       url: https://hub.docker.com/r/coralproject/
     - title: Roadmap
       url: https://www.pivotaltracker.com/n/projects/1863625
-    - title: Google Group
-      url: https://groups.google.com/forum/#!forum/coral-talk-users
   side:
     - title: Installation
       children:
@@ -142,10 +140,8 @@ sidebar:
           url: /reference/server/
         - title: GraphQL
           url: /reference/graphql/
-    - title: FAQ
-      children:
-        - title: FAQ
-          url: /faq/
+    - title: Contact
+      url: /contact/
     - title: Migrating
       children:
         - title: Migrating to v4.0.0

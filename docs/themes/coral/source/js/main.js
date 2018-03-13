@@ -28,7 +28,7 @@ $(document).ready(function() {
   });
 
   // Setup the menu controls.
-  $('a.sidebar__header').on('click', function(e) {
+  $('a.sidebar__header:not(.sidebar__header__link)').on('click', function(e) {
     e.preventDefault();
     $('.sidebar__section.toggled').removeClass('toggled');
     $(this)
