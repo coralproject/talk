@@ -12,6 +12,8 @@ export { default as withForgotPassword } from './withForgotPassword';
 export { default as withSetUsername } from './withSetUsername';
 export { default as withPopupAuthHandler } from './withPopupAuthHandler';
 export { default as withEnumValues } from './withEnumValues';
+export { default as withCombatPassthrough } from './withCombatPassthrough';
+export { default as withSlotElements } from './withSlotElements';
 export {
   default as withResendEmailConfirmation,
 } from './withResendEmailConfirmation';
