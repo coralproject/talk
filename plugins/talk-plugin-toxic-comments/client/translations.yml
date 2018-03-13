@@ -1,3 +1,19 @@
+ar:
+  error:
+    COMMENT_IS_TOXIC: |
+      هل أنت واثق؟ قد تنتهك اللغة الواردة في هذا التعليق إرشادات المجموعة. يمكنك تعديل التعليق أو إرساله لمراجعته.
+  talk-plugin-toxic-comments:
+    unlikely: "من غير المرجح"
+    highly_likely: "من المرجح جدا"
+    possibly: "ربما"
+    likely: "مرجح"
+    toxic_comment: "تعليق سام"
+    still_toxic: |
+      قد يظل هذا التعليق المعدل منتهكاً لإرشادات المجموعة. سيراجع فريق الإشراف لدينا تعليقك قريبا.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "من المرجح جدا أن يكون ساماً"
 da:
   error:
     COMMENT_IS_TOXIC: |
