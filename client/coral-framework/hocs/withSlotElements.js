@@ -106,6 +106,21 @@ const createHOC = ({
         const slots = this.getSlots(props);
         const sizes = this.getSizes(props, slots.length);
         const defaultComponents = this.getSizes(props, slots.length);
+        const slotPassthrough = this.getPassthrough(props);
+
+        if (process.env.NODE_ENV !== 'production') {
+          if (slotPassthrough.data && slotPassthrough.data.refetch) {
+            /* eslint-disable no-console */
+            console.warn(
+              'Slots no longer need `data` property.',
+              'Plugins can use the new HOCs `withRefetch`,',
+              '`withFetchMore`, `withSubscribeToMore` and `withVariables` instead.',
+              'Affected slots: ',
+              slots
+            );
+            /* eslint-enable no-console */
+          }
+        }
 
         const elements = [];
         slots.forEach((s, i) => {
@@ -114,7 +129,7 @@ const createHOC = ({
           const slotElements = plugins.getSlotElements(
             s,
             props.reduxState,
-            this.getPassthrough(props),
+            slotPassthrough,
             { size }
           );
 
@@ -122,7 +137,7 @@ const createHOC = ({
             const p = plugins.getSlotComponentProps(
               DefaultComponent,
               props.reduxState,
-              this.getPassthrough(props)
+              slotPassthrough
             );
             slotElements.push(<DefaultComponent key="default" {...p} />);
           }
