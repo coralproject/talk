@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import merge from 'lodash/merge';
 
 import moment from 'moment';
+import 'moment/locale/ar';
 import 'moment/locale/da';
 import 'moment/locale/de';
 import 'moment/locale/es';
@@ -12,6 +13,7 @@ import 'moment/locale/pt-br';
 
 import { createStorage } from 'coral-framework/services/storage';
 
+import arTA from 'timeago.js/locales/ar';
 import daTA from 'timeago.js/locales/da';
 import deTA from 'timeago.js/locales/de';
 import esTA from 'timeago.js/locales/es';
@@ -21,6 +23,7 @@ import zh_CNTA from 'timeago.js/locales/zh_CN';
 import zh_TWTA from 'timeago.js/locales/zh_TW';
 import nl from 'timeago.js/locales/nl';
 
+import ar from '../../../locales/ar.yml';
 import en from '../../../locales/en.yml';
 import da from '../../../locales/da.yml';
 import de from '../../../locales/de.yml';
@@ -33,6 +36,7 @@ import nl_NL from '../../../locales/nl_NL.yml';
 
 const defaultLanguage = process.env.TALK_DEFAULT_LANG;
 const translations = {
+  ...ar,
   ...en,
   ...da,
   ...de,
@@ -88,6 +92,7 @@ export function setupTranslations() {
     lang = defaultLanguage;
   }
 
+  ta.register('ar', arTA);
   ta.register('es', esTA);
   ta.register('da', daTA);
   ta.register('de', deTA);

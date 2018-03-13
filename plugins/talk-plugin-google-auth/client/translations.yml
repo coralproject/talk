@@ -1,3 +1,7 @@
+ar:
+  talk-plugin-google-auth:
+    sign_in: "تسجيل الدخول عبر حساب جوجل"
+    sign_up: "اشترك عبر حساب جوجل"
 en:
   talk-plugin-google-auth:
     sign_in: "Sign in with Google"
