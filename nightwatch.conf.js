@@ -1,15 +1,17 @@
 const { ROOT_URL } = require('./config');
 
+const REPORTS_FOLDER = process.env.REPORTS_FOLDER || './test/e2e/reports';
+
 module.exports = {
   src_folders: './test/e2e/specs/',
-  output_folder: process.env.REPORTS_FOLDER || './test/e2e/reports',
+  output_folder: REPORTS_FOLDER,
   page_objects_path: './test/e2e/page_objects',
   globals_path: './test/e2e/globals',
   selenium: {
     start_process: true,
     server_path:
       'node_modules/selenium-standalone/.selenium/selenium-server/3.7.1-server.jar',
-    log_path: './test/e2e/',
+    log_path: REPORTS_FOLDER,
     host: '127.0.0.1',
     port: 6666,
     cli_args: {
@@ -26,7 +28,6 @@ module.exports = {
       selenium_host: 'localhost',
       silent: true,
       desiredCapabilities: {
-        browserName: 'chrome',
         javascriptEnabled: true,
         acceptSslCerts: true,
         webStorageEnabled: true,
@@ -38,19 +39,30 @@ module.exports = {
         enabled: true,
         on_failure: true,
         on_error: true,
-        path: process.env.REPORTS_FOLDER || './test/e2e/reports',
+        path: REPORTS_FOLDER,
       },
     },
-    chrome: {},
+    chrome: {
+      desiredCapabilities: {
+        browserName: 'chrome',
+      },
+    },
     'chrome-headless': {
       desiredCapabilities: {
+        browserName: 'chrome',
         chromeOptions: {
           args: ['--headless', '--disable-gpu', 'window-size=1600,1200'],
         },
       },
     },
+    firefox: {
+      desiredCapabilities: {
+        browserName: 'firefox',
+      },
+    },
     'firefox-headless': {
       desiredCapabilities: {
+        browserName: 'firefox',
         'moz:firefoxOptions': {
           args: ['-headless'],
         },
