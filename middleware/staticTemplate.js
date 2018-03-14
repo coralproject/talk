@@ -81,6 +81,8 @@ module.exports = async (req, res, next) => {
   // Always attach the locals.
   attachStaticLocals(res.locals);
 
+  // Resolve will help resolving paths to static files
+  // using the manifest.
   res.locals.resolve = resolve;
 
   // Forward the request.
