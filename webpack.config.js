@@ -10,6 +10,7 @@ const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const debug = require('debug')('talk:webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // Possibly load the config from the .env file (if there is one).
 require('dotenv').config();
@@ -85,11 +86,13 @@ const config = {
         test: /\.yml$/,
       },
       {
-        loaders: [
-          'style-loader',
-          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-          'postcss-loader',
-        ],
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+            'postcss-loader',
+          ],
+        }),
         test: /.css$/,
       },
       {
@@ -108,6 +111,9 @@ const config = {
     ],
   },
   plugins: [
+    new ExtractTextPlugin({
+      filename: getPath => getPath('[name].css'),
+    }),
     new Copy([
       ...buildEmbeds.map(embed => ({
         from: path.join(__dirname, 'client', `coral-embed-${embed}`, 'style'),

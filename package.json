@@ -213,6 +213,7 @@
     "enzyme-adapter-react-15": "^1.0.0",
     "eslint": "^4.5.0",
     "eslint-plugin-mocha": "^4.11.0",
+    "extract-text-webpack-plugin": "^3.0.2",
     "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
     "ip": "^1.1.5",
