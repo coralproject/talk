@@ -8,9 +8,13 @@ const _ = require('lodash');
 const Copy = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const debug = require('debug')('talk:webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+
+// Needed to enforce stable asset hashes.
+// https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31
+const NameAllModulesPlugin = require('name-all-modules-plugin');
 
 // Possibly load the config from the .env file (if there is one).
 require('dotenv').config();
@@ -57,8 +61,8 @@ const config = {
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '',
-    filename: '[name].js',
-    chunkFilename: '[name].chunk.js',
+    filename: '[name].[chunkhash].js',
+    chunkFilename: '[name].[chunkhash].chunk.js',
   },
   module: {
     rules: [
@@ -112,12 +116,14 @@ const config = {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: getPath => getPath('[name].css'),
+      // Use contenthash instead of chunk hash see
+      // https://survivejs.com/webpack/optimizing/adding-hashes-to-filenames/#setting-up-hashing
+      filename: getPath => getPath('[name].[contenthash].css'),
     }),
     new Copy([
       ...buildEmbeds.map(embed => ({
         from: path.join(__dirname, 'client', `coral-embed-${embed}`, 'style'),
-        to: path.join(__dirname, 'dist', 'embed', embed),
+        to: path.join(__dirname, 'dist', 'embed', embed, '[name].[hash].[ext]'),
       })),
     ]),
     autoprefixer,
@@ -142,7 +148,12 @@ const config = {
       TALK_DEFAULT_LANG: 'en',
     }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new HardSourceWebpackPlugin(),
+
+    // We follow this article for stable hashes.
+    // https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31
+    new webpack.NamedModulesPlugin(),
+    new webpack.NamedChunksPlugin(),
+    new NameAllModulesPlugin(),
   ],
   resolveLoader: {
     modules: [
@@ -255,9 +266,15 @@ if (process.env.NODE_ENV === 'production') {
 // Entries
 //==============================================================================
 
+function customizeConcatArrays(objValue, srcValue) {
+  if (_.isArray(objValue)) {
+    return objValue.concat(srcValue);
+  }
+}
+
 // Applies the base configuration to the following entries.
 const applyConfig = (entries, root = {}) =>
-  _.merge(
+  _.mergeWith(
     {},
     config,
     {
@@ -280,8 +297,16 @@ const applyConfig = (entries, root = {}) =>
         {}
       ),
     },
-    root
+    root,
+    customizeConcatArrays
   );
+
+// Hack until this issue is resolved https://github.com/webpack-contrib/copy-webpack-plugin/issues/104
+const copyWebpackPluginManifestHack = file => {
+  // Remove hash in manifest key
+  file.name = file.name.replace(/(\.[a-f0-9]{32})(\..*)$/, '$2');
+  return file;
+};
 
 module.exports = [
   // Coral Embed
@@ -297,82 +322,100 @@ module.exports = [
     {
       output: {
         library: 'Coral',
+        // don't hash the embed.
+        filename: '[name].js',
       },
+      plugins: [
+        new ManifestPlugin({
+          fileName: 'manifest.embed.json',
+          map: copyWebpackPluginManifestHack,
+        }),
+      ],
     }
   ),
 
   // All framework targets/embeds/plugins.
-  applyConfig([
-    // Load in all the targets.
-    ...buildTargets.map(target => {
-      let disablePolyfill = false;
-      if (typeof target !== 'string') {
-        disablePolyfill = target.disablePolyfill;
-        target = target.name;
-      }
+  applyConfig(
+    [
+      // Load in all the targets.
+      ...buildTargets.map(target => {
+        let disablePolyfill = false;
+        if (typeof target !== 'string') {
+          disablePolyfill = target.disablePolyfill;
+          target = target.name;
+        }
 
-      return {
-        name: `${target}/bundle`,
-        path: path.join(__dirname, 'client/', target, '/src/index'),
-        disablePolyfill,
-      };
-    }),
+        return {
+          name: `${target}/bundle`,
+          path: path.join(__dirname, 'client/', target, '/src/index'),
+          disablePolyfill,
+        };
+      }),
 
-    // Load in all the embeds.
-    ...buildEmbeds.map(embed => ({
-      name: `embed/${embed}/bundle`,
-      path: path.join(
-        __dirname,
-        'client/',
-        `coral-embed-${embed}`,
-        '/src/index'
-      ),
-    })),
+      // Load in all the embeds.
+      ...buildEmbeds.map(embed => ({
+        name: `embed/${embed}/bundle`,
+        path: path.join(
+          __dirname,
+          'client/',
+          `coral-embed-${embed}`,
+          '/src/index'
+        ),
+      })),
 
-    // Load in all the plugin entries.
-    ...targetPlugins.reduce((entries, plugin) => {
-      // Introspect the path to find a targets folder.
-      let folder = path.dirname(plugin.path);
-      let files = fs.readdirSync(folder);
+      // Load in all the plugin entries.
+      ...targetPlugins.reduce((entries, plugin) => {
+        // Introspect the path to find a targets folder.
+        let folder = path.dirname(plugin.path);
+        let files = fs.readdirSync(folder);
 
-      // While the folder does not contain the targets folder...
-      while (!files.includes('targets')) {
-        // Try to go up a folder.
-        folder = path.normalize(path.join(folder, '..'));
+        // While the folder does not contain the targets folder...
+        while (!files.includes('targets')) {
+          // Try to go up a folder.
+          folder = path.normalize(path.join(folder, '..'));
 
-        // And as long as we haven't gone too high
-        if (
-          !(
-            folder.includes(path.join(__dirname, 'node_modules')) ||
-            !folder.includes(path.join(__dirname, 'plugins'))
-          )
-        ) {
+          // And as long as we haven't gone too high
+          if (
+            !(
+              folder.includes(path.join(__dirname, 'node_modules')) ||
+              !folder.includes(path.join(__dirname, 'plugins'))
+            )
+          ) {
+            throw new Error(
+              `target plugin ${plugin.name} does not have a 'targets' folder`
+            );
+          }
+
+          files = fs.readdirSync(folder);
+        }
+
+        // List all targets available in that folder.
+        folder = path.join(folder, 'targets');
+
+        let targets = fs.readdirSync(folder);
+        if (targets.length === 0) {
           throw new Error(
-            `target plugin ${plugin.name} does not have a 'targets' folder`
+            `target plugin ${
+              plugin.name
+            } has no targets in it's target folder ${folder}`
           );
         }
 
-        files = fs.readdirSync(folder);
-      }
-
-      // List all targets available in that folder.
-      folder = path.join(folder, 'targets');
-
-      let targets = fs.readdirSync(folder);
-      if (targets.length === 0) {
-        throw new Error(
-          `target plugin ${
-            plugin.name
-          } has no targets in it's target folder ${folder}`
+        return entries.concat(
+          targets.map(target => ({
+            name: `plugin/${plugin.name}/${target}/bundle`,
+            path: path.join(folder, target, 'index'),
+          }))
         );
-      }
-
-      return entries.concat(
-        targets.map(target => ({
-          name: `plugin/${plugin.name}/${target}/bundle`,
-          path: path.join(folder, target, 'index'),
-        }))
-      );
-    }, []),
-  ]),
+      }, []),
+    ],
+    {
+      plugins: [
+        new ManifestPlugin({
+          fileName: 'manifest.json',
+          map: copyWebpackPluginManifestHack,
+        }),
+      ],
+    }
+  ),
 ];

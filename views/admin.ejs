@@ -5,7 +5,7 @@
     <title>Talk - Coral Admin</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.min.css">
-    <link rel="stylesheet" type="text/css" href="<%= STATIC_URL %>static/coral-admin/bundle.css">
+    <link rel="stylesheet" type="text/css" href="<%= resolve('coral-admin/bundle.css') %>">
     <style media="screen">
       body, #root {
         width: 100%;
@@ -24,6 +24,6 @@
   <body class="admin-page">
     <div id="root"></div>
     <script src='https://www.google.com/recaptcha/api.js?render=explicit' async defer></script>
-    <script src="<%= STATIC_URL %>static/coral-admin/bundle.js" charset="utf-8"></script>
+    <script src="<%= resolve('coral-admin/bundle.js') %>" charset="utf-8"></script>
   </body>
 </html>

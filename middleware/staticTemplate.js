@@ -1,4 +1,8 @@
 const SettingsService = require('../services/settings');
+const fs = require('fs');
+const path = require('path');
+const merge = require('lodash/merge');
+const memoize = require('lodash/memoize');
 
 const {
   BASE_URL,
@@ -34,6 +38,37 @@ const attachStaticLocals = locals => {
   }
 };
 
+function getManifest() {
+  return merge(
+    {},
+    ...['../dist/manifest.json', '../dist/manifest.embed.json']
+      .map(f => fs.readFileSync(path.resolve(__dirname, f), 'utf8'))
+      .map(JSON.parse)
+  );
+}
+
+const getManifestMemoized = memoize(getManifest);
+
+if (process.env.NODE_ENV === 'production') {
+  // Crash early if file does not exists.
+  getManifestMemoized();
+}
+
+function resolve(key) {
+  if (process.env.NODE_ENV === 'production') {
+    return `${STATIC_URL}static/${getManifestMemoized()[key]}`;
+  } else {
+    // In dev mode, we are more forgiving and we always load the
+    // newest version of the manifest.
+    try {
+      return `${STATIC_URL}static/${getManifest()[key]}`;
+    } catch (err) {
+      console.warn(err);
+      return '';
+    }
+  }
+}
+
 module.exports = async (req, res, next) => {
   try {
     // Attach the custom css url.
@@ -45,6 +80,8 @@ module.exports = async (req, res, next) => {
 
   // Always attach the locals.
   attachStaticLocals(res.locals);
+
+  res.locals.resolve = resolve;
 
   // Forward the request.
   next();
