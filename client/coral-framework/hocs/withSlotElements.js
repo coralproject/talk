@@ -105,7 +105,10 @@ const createHOC = ({
         const { plugins } = this.context;
         const slots = this.getSlots(props);
         const sizes = this.getSizes(props, slots.length);
-        const defaultComponents = this.getSizes(props, slots.length);
+        const defaultComponents = this.getDefaultComponents(
+          props,
+          slots.length
+        );
         const slotPassthrough = this.getPassthrough(props);
 
         if (process.env.NODE_ENV !== 'production') {
