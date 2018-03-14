@@ -15,6 +15,9 @@ body {
   }
 }
 
+img {
+  max-width: 800px;
+}
 
 #graphql-docs {
   & > div > div {
