@@ -7,6 +7,6 @@
   "author": "The Coral Project Team <coral@mozillafoundation.org>",
   "license": "Apache-2.0",
   "dependencies": {
-    "pell": "^0.7.0"
+    "pell": "^1.0.1"
   }
 }
