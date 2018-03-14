@@ -64,6 +64,19 @@ describe('services.UsersService', () => {
     });
   });
 
+  describe('#getInitialUsername', () => {
+    it('should find the first result when there is no conflict', async () => {
+      const username = await UsersService.getInitialUsername(
+        'TheGreatSockmonster'
+      );
+      expect(username).to.equal('TheGreatSockmonster');
+    });
+    it('should find a first result when there is a conflict', async () => {
+      const username = await UsersService.getInitialUsername('Sockmonster');
+      expect(username).to.match(/Sockmonster_[0-9]+/);
+    });
+  });
+
   describe('#findPublicByIdArray()', () => {
     it('should find an array of users from an array of ids', async () => {
       const ids = mockUsers.map(user => user.id);
