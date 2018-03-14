@@ -122,7 +122,7 @@ class Comment extends React.Component {
           </div>
 
           <div className={styles.moderateArticle}>
-            Story:{' '} 
+            Story:{' '}
             {comment.asset.title ? comment.asset.title : comment.asset.url}
             {!currentAsset && (
               <Link to={`/admin/moderate/${comment.asset.id}`}>
