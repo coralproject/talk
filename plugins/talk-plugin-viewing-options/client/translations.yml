@@ -1,3 +1,8 @@
+ar:
+  talk-plugin-viewing-options:
+    viewing_options: "خيارات العرض"
+    sort: فرز
+    filter: تصفية
 da:
   talk-plugin-viewing-options:
     viewing_options: "Viewing Options"

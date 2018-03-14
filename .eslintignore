@@ -1,6 +1,5 @@
 **/*.html
 dist
-docs
 node_modules
 public
-
+**/*.min.js

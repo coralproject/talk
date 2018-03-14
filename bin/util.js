@@ -2,6 +2,7 @@
 require('../services/env');
 
 const debug = require('debug')('talk:util');
+const { uniq } = require('lodash');
 
 const util = (module.exports = {});
 
@@ -23,11 +24,7 @@ util.shutdown = (defaultCode = 0, signal = null) => {
 
   debug(`${util.toshutdown.length} jobs now being called`);
 
-  Promise.all(
-    util.toshutdown
-      .map(func => (func ? func(signal) : null))
-      .filter(func => func)
-  )
+  Promise.all(util.toshutdown.map(func => (func ? func(signal) : null)))
     .then(() => {
       debug('Shutdown complete, now exiting');
       process.exit(defaultCode);
@@ -49,14 +46,14 @@ util.onshutdown = jobs => {
   debug(`${jobs.length} jobs registered to be called during shutdown`);
 
   // Add the new jobs to shutdown to the object reference.
-  util.toshutdown = util.toshutdown.concat(jobs);
+  util.toshutdown = uniq(util.toshutdown.concat(jobs));
 };
 
 // Attach to the SIGTERM + SIGINT handles to ensure a clean shutdown in the
 // event that we have an external event. SIGUSR2 is called when the app is asked
 // to be 'killed', same procedure here.
-process.on('SIGTERM', () => util.shutdown(0, 'SIGTERM'));
-process.on('SIGINT', () => util.shutdown(0, 'SIGINT'));
+process.once('SIGTERM', () => util.shutdown(0, 'SIGTERM'));
+process.once('SIGINT', () => util.shutdown(0, 'SIGINT'));
 process.once('SIGUSR2', () => util.shutdown(0, 'SIGUSR2'));
 
 // Makes the script crash on unhandled rejections instead of silently

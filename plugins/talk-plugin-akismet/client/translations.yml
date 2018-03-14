@@ -1,3 +1,17 @@
+ar:
+  error:
+    COMMENT_IS_SPAM: |
+      تبدو اللغة في هذا التعليق مثل الرسائل غير المرغوب فيها. تستطيع تعديل التعليق أو تقديمه على أي حال لمراجعة مشرف.
+  talk-plugin-akismet:
+    spam: "بريد غير مرغوب فيه"
+    spam_comment: "بريد غير مرغوب فيه"
+    detected: "الكشف عنها من قبل Akismet"
+    still_spam: |
+      شكرا لكم. سيراجع فريق الإشراف لدينا تعليقك قريبا.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "تم اكتشاف الرسائل غير المرغوب فيها"
 da:
   error:
     COMMENT_IS_SPAM: |
@@ -61,7 +75,7 @@ fr:
 nl_NL:
   error:
     COMMENT_IS_SPAM: |
-      Deze reactie ziet er uit als spam. Je kan je reactie 
+      Deze reactie ziet er uit als spam. Je kan je reactie
       wijzigen, of indienen zodat ons moderatieteam het kan beoordelen.
   talk-plugin-akismet:
     spam: "Spam"
