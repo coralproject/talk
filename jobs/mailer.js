@@ -1,6 +1,7 @@
 const { task } = require('../services/mailer');
 const nodemailer = require('nodemailer');
-const debug = require('debug')('talk:jobs:mailer');
+const { createLogger } = require('../services/logging');
+const logger = createLogger('jobs:mailer');
 const Context = require('../graph/context');
 const { get } = require('lodash');
 
@@ -112,16 +113,17 @@ const processJob = transport => async ({ id, data }, done) => {
   // Get the email address from the job data.
   message.to = await getEmailAddress(data);
 
-  debug(`Starting to send mail for Job[${id}]`);
+  const log = logger.child({ jobID: id });
+  log.info('Starting to send mail');
 
   // Actually send the email.
   transport.sendMail(message, err => {
     if (err) {
-      debug(`Failed to send mail for Job[${id}]:`, err);
+      logger.error({ err }, 'Failed to send mail');
       return done(err);
     }
 
-    debug(`Finished sending mail for Job[${id}]`);
+    logger.info('Finished sending mail');
     return done();
   });
 };
@@ -133,15 +135,13 @@ module.exports = () => {
   // Get a transport.
   const transport = getTransport();
   if (transport === null) {
-    console.warn(
-      new Error(
-        'sending email is not enabled because required configuration is not available'
-      )
+    logger.warn(
+      'Sending email is not enabled because required configuration is not available'
     );
     return;
   }
 
-  debug(`Now processing ${task.name} jobs`);
+  logger.info({ taskName: task.name }, 'Now processing jobs');
 
   return task.process(processJob(transport));
 };

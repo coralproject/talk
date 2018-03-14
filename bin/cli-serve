@@ -11,13 +11,19 @@ const serve = require('../serve');
 program
   .option('-j, --jobs', 'enable job processing on this thread')
   .option(
+    '--disabled-jobs <jobs>',
+    'disable jobs specified if the -j option is passed, specified as a comma separated list',
+    val => val.split(','),
+    []
+  )
+  .option(
     '-w, --websockets',
     'enable the websocket (subscriptions) handler on this thread'
   )
   .parse(process.argv);
 
 // Start serving.
-serve({ jobs: program.jobs, websockets: program.websockets }).catch(err => {
+serve(program).catch(err => {
   console.error(err);
   util.shutdown(1);
 });
