@@ -14,6 +14,7 @@ client/coral-framework/graphql/introspection.json
 *.swp
 *.DS_STORE
 .prettierrc.json
+.vscode
 
 coverage/
 test/e2e/reports/
