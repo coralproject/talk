@@ -151,6 +151,10 @@ const config = {
 
     // We follow this article for stable hashes.
     // https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31
+    //
+    // Chunks without names do not seem to work, so
+    // we have to make sure they are always named.
+    // https://github.com/webpack/webpack/tree/master/examples/code-splitting-specify-chunk-name
     new webpack.NamedModulesPlugin(),
     new webpack.NamedChunksPlugin(),
     new NameAllModulesPlugin(),
