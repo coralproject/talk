@@ -122,7 +122,8 @@ class Comment extends React.Component {
           </div>
 
           <div className={styles.moderateArticle}>
-            Story: {comment.asset.title}
+            {t('common.story')}:{' '}
+            {comment.asset.title ? comment.asset.title : comment.asset.url}
             {!currentAsset && (
               <Link to={`/admin/moderate/${comment.asset.id}`}>
                 {t('modqueue.moderate')}
@@ -156,6 +157,7 @@ class Comment extends React.Component {
               <div className={styles.sideActions}>
                 <IfHasLink text={comment.body}>
                   <span className={styles.hasLinks}>
+                    {/* TODO: translate string */}
                     <Icon name="error_outline" /> Contains Link
                   </span>
                 </IfHasLink>
