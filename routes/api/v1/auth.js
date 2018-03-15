@@ -4,6 +4,7 @@ const {
   HandleGenerateCredentials,
   HandleLogout,
 } = require('../../../services/passport');
+const authz = require('../../../middleware/authorization');
 const router = express.Router();
 
 /**
@@ -26,7 +27,7 @@ router.get('/', (req, res, next) => {
 /**
  * This blacklists the token used to authenticate.
  */
-router.delete('/', HandleLogout);
+router.delete('/', authz.needed(), HandleLogout);
 
 //==============================================================================
 // PASSPORT ROUTES
