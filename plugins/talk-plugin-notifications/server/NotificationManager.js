@@ -165,7 +165,6 @@ class NotificationManager {
           );
 
           const flattenedDigestCategories = this.flattenDigests(ctx, digests);
-          console.log(JSON.stringify(flattenedDigestCategories));
 
           // Get all the notifications together.
           const allMessages = await renderDigestMessage(
