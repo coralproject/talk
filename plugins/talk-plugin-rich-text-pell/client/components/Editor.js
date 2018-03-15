@@ -77,9 +77,18 @@ Editor.defaultProps = {
   defaultContent: '',
   styleWithCSS: false,
   actions: [
-    { name: 'bold', icon: '<i class="material-icons">format_bold</i>' },
-    { name: 'italic', icon: '<i class="material-icons">format_italic</i>' },
-    { name: 'quote', icon: '<i class="material-icons">format_quote</i>' },
+    {
+      name: 'bold',
+      icon: '<i class="material-icons">format_bold</i>',
+    },
+    {
+      name: 'italic',
+      icon: '<i class="material-icons">format_italic</i>',
+    },
+    {
+      name: 'quote',
+      icon: '<i class="material-icons">format_quote</i>',
+    },
   ],
   classNames: {
     button: '',
