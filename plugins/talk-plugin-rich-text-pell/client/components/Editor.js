@@ -38,7 +38,7 @@ class Editor extends React.Component {
 
     // To edit comments and have the previous html comment
     if (this.props.comment && this.props.comment.richTextBody && !isReply) {
-      this.ref.childNodes[1].innerText = this.props.comment.richTextBody;
+      this.ref.childNodes[1].innerHTML = this.props.comment.richTextBody;
     }
 
     if (this.props.registerHook) {
