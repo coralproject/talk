@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import kebabCase from 'lodash/kebabCase';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { withSlotElements, withCombatPassthrough } from '../hocs';
+import { withSlotElements, withCompatPassthrough } from '../hocs';
 import { compose } from 'recompose';
 
 class Slot extends React.Component {
@@ -96,7 +96,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withCombatPassthrough(omitProps),
+  withCompatPassthrough(omitProps),
   withSlotElements({
     slot: props => props.fill,
     size: props => props.size,

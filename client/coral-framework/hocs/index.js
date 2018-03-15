@@ -12,7 +12,7 @@ export { default as withForgotPassword } from './withForgotPassword';
 export { default as withSetUsername } from './withSetUsername';
 export { default as withPopupAuthHandler } from './withPopupAuthHandler';
 export { default as withEnumValues } from './withEnumValues';
-export { default as withCombatPassthrough } from './withCombatPassthrough';
+export { default as withCompatPassthrough } from './withCompatPassthrough';
 export { default as withSlotElements } from './withSlotElements';
 export { default as withVariables } from './withVariables';
 export { default as WithRefetch } from './withRefetch';

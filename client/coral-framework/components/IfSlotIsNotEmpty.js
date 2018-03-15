@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 import PropTypes from 'prop-types';
-import { withSlotElements, withCombatPassthrough } from '../hocs';
+import { withSlotElements, withCompatPassthrough } from '../hocs';
 import { compose } from 'recompose';
 
 class IfSlotIsNotEmpty extends React.Component {
@@ -26,7 +26,7 @@ IfSlotIsNotEmpty.propTypes = {
 const omitProps = ['slot', 'children'];
 
 export default compose(
-  withCombatPassthrough(omitProps),
+  withCompatPassthrough(omitProps),
   withSlotElements({
     slot: props => props.slot,
   })

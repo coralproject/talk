@@ -43,7 +43,7 @@ function getPassthrough(props, omitProps) {
 
 /**
  * @Deprecated
- * withCombatPassthrough is a compatibility HOC that supports our old
+ * withCompatPassthrough is a compatibility HOC that supports our old
  * API which puts unknown props and `queryData` to `passhtrough` to be
  * used with HOC `withSlotElements`.
  */
