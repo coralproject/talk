@@ -1,8 +1,8 @@
 const TagsService = require('../../../services/tags');
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
-
 const CommentModel = require('../../../models/comment');
+const Context = require('../../../graph/context');
 
 const chai = require('chai');
 const expect = chai.expect;
@@ -11,7 +11,9 @@ describe('services.TagsService', () => {
   let comment, user;
   beforeEach(async () => {
     await SettingsService.init();
+    const ctx = Context.forSystem();
     user = await UsersService.createLocalUser(
+      ctx,
       'stampi@gmail.com',
       '1Coral!!',
       'Stampi'

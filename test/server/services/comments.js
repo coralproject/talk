@@ -1,9 +1,9 @@
-const CommentModel = require('../../../models/comment');
 const ActionModel = require('../../../models/action');
-
-const UsersService = require('../../../services/users');
-const SettingsService = require('../../../services/settings');
+const CommentModel = require('../../../models/comment');
 const CommentsService = require('../../../services/comments');
+const Context = require('../../../graph/context');
+const SettingsService = require('../../../services/settings');
+const UsersService = require('../../../services/users');
 
 const settings = {
   id: '1',
@@ -119,9 +119,14 @@ describe('services.CommentsService', () => {
   beforeEach(async () => {
     await SettingsService.init(settings);
 
+    const ctx = Context.forSystem();
     await Promise.all([
       CommentModel.create(comments),
-      UsersService.createLocalUsers(users),
+      Promise.all(
+        users.map(({ email, password, username }) =>
+          UsersService.createLocalUser(ctx, email, password, username)
+        )
+      ),
       ActionModel.create(actions),
     ]);
   });

@@ -11,7 +11,13 @@ router.post('/', async (req, res, next) => {
   const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
   try {
-    let user = await UsersService.createLocalUser(email, password, username);
+    // Adjusted the user creation endpoint.
+    let user = await UsersService.createLocalUser(
+      req.context,
+      email,
+      password,
+      username
+    );
 
     // Send an email confirmation. The Front end will know about the
     // requireEmailConfirmation as it's included in the settings get endpoint.
