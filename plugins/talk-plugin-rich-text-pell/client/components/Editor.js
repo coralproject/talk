@@ -17,7 +17,7 @@ class Editor extends React.Component {
       element: this.ref,
       onChange: richTextBody => {
         // We want to save the original comment body
-        const originalBody = this.ref.childNodes[1].innerText;
+        const originalBody = this.ref.content.innerText;
         onChange(originalBody, { richTextBody: htmlNormalizer(richTextBody) });
       },
       actions,
@@ -38,14 +38,14 @@ class Editor extends React.Component {
 
     // To edit comments and have the previous html comment
     if (this.props.comment && this.props.comment.richTextBody && !isReply) {
-      this.ref.childNodes[1].innerHTML = this.props.comment.richTextBody;
+      this.ref.content.innerHTML = this.props.comment.richTextBody;
     }
 
     if (this.props.registerHook) {
       this.clearInputHook = this.props.registerHook(
         'postSubmit',
         (res, handleBodyChange) => {
-          this.ref.childNodes[1].innerText = '';
+          this.ref.content.innerText = '';
           handleBodyChange('', { richTextBody: '' });
         }
       );
