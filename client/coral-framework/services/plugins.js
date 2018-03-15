@@ -83,11 +83,17 @@ class PluginsService {
    * getSlotComponentProps calculate the props we would pass to the slot component.
    * query datas are only passed to the component if it is defined in `component.fragments`.
    */
+  showPluginsConfigWarning = true;
+
   getSlotComponentProps(component, reduxState, props, queryData) {
-    if (!!get(reduxState, 'config.plugin_config')) {
+    if (
+      !!get(reduxState, 'config.plugin_config') &&
+      this.showPluginsConfigWarning
+    ) {
       console.warn(
         `deprecation warning: config.plugin_config will be phased out soon, please replace calls from config.plugin_config to config.plugins_config`
       );
+      this.showPluginsConfigWarning = false;
     }
 
     const pluginsConfig =
