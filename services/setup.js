@@ -61,7 +61,7 @@ module.exports = class SetupService {
   /**
    * This will perform the setup.
    */
-  static async setup({ settings, user: { email, password, username } }) {
+  static async setup(ctx, { settings, user: { email, password, username } }) {
     // Validate the settings first.
     await SetupService.validate({
       settings,
@@ -79,7 +79,12 @@ module.exports = class SetupService {
     // Settings are created! Create the user.
 
     // Create the user.
-    let user = await UsersService.createLocalUser(email, password, username);
+    let user = await UsersService.createLocalUser(
+      ctx,
+      email,
+      password,
+      username
+    );
 
     // Grant them administrative privileges and confirm the email account.
     await Promise.all([

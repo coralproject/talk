@@ -1,11 +1,11 @@
 const app = require('../../../../../app');
+const Context = require('../../../../../graph/context');
+const UsersService = require('../../../../../services/users');
 
 const chai = require('chai');
 chai.should();
 chai.use(require('chai-http'));
 const expect = chai.expect;
-
-const UsersService = require('../../../../../services/users');
 
 describe('/api/v1/auth', () => {
   describe('#get', () => {
@@ -32,7 +32,9 @@ describe('/api/v1/auth/local', () => {
     };
     await SettingsService.init(settings);
 
+    const ctx = Context.forSystem();
     mockUser = await UsersService.createLocalUser(
+      ctx,
       'maria@gmail.com',
       'password!',
       'Maria'

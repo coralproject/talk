@@ -17,23 +17,28 @@ describe('graph.queries.asset', () => {
       { id: '1', url: 'https://example.com/?id=1' },
       { id: '2', url: 'https://example.com/?id=2' },
     ]);
-    users = await UsersService.createLocalUsers([
-      {
-        email: 'usernameA@example.com',
-        password: 'password',
-        username: 'usernameA',
-      },
-      {
-        email: 'usernameB@example.com',
-        password: 'password',
-        username: 'usernameB',
-      },
-      {
-        email: 'usernameC@example.com',
-        password: 'password',
-        username: 'usernameC',
-      },
-    ]);
+    const ctx = Context.forSystem();
+    users = await Promise.all(
+      [
+        {
+          email: 'usernameA@example.com',
+          password: 'password',
+          username: 'usernameA',
+        },
+        {
+          email: 'usernameB@example.com',
+          password: 'password',
+          username: 'usernameB',
+        },
+        {
+          email: 'usernameC@example.com',
+          password: 'password',
+          username: 'usernameC',
+        },
+      ].map(({ email, username, password }) =>
+        UsersService.createLocalUser(ctx, email, password, username)
+      )
+    );
     comments = await Promise.all(
       [0, 0, 1, 1].map(idx =>
         CommentsService.publicCreate({
