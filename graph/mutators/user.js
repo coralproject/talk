@@ -1,5 +1,6 @@
 const errors = require('../../errors');
 const UsersService = require('../../services/users');
+const migrationHelpers = require('../../services/migration/helpers');
 const {
   CHANGE_USERNAME,
   SET_USERNAME,
@@ -7,6 +8,7 @@ const {
   SET_USER_BAN_STATUS,
   SET_USER_SUSPENSION_STATUS,
   UPDATE_USER_ROLES,
+  DELETE_USER,
 } = require('../../perms/constants');
 
 const setUserUsernameStatus = async (ctx, id, status) => {
@@ -70,6 +72,87 @@ const setRole = (ctx, id, role) => {
   return UsersService.setRole(id, role);
 };
 
+/**
+ * transforms a specific action to a removal action on the target model.
+ */
+const actionDecrTransformer = ({ item_id, action_type, group_id }) => ({
+  query: { id: item_id },
+  update: {
+    $inc: {
+      [`action_counts.${action_type.toLowerCase()}`]: -1,
+      [`action_counts.${action_type.toLowerCase()}_${group_id.toLowerCase()}`]: -1,
+    },
+  },
+});
+
+// delUser will delete a given user with the specified id.
+const delUser = async (ctx, id) => {
+  const { connectors: { models: { User, Action, Comment } } } = ctx;
+
+  // Find the user we're removing.
+  const user = await User.findOne({ id });
+  if (!user) {
+    throw errors.ErrNotFound;
+  }
+
+  // Get the query transformer we'll use to help batch process the user
+  // deletion.
+  const { transformSingleWithCursor } = migrationHelpers({
+    queryBatchSize: 10000,
+    updateBatchSize: 10000,
+  });
+
+  // Remove all actions against comments.
+  await transformSingleWithCursor(
+    Action.collection.find({ user_id: user.id, item_type: 'COMMENTS' }),
+    actionDecrTransformer,
+    Comment
+  );
+
+  // Remove all actions against users.
+  await transformSingleWithCursor(
+    Action.collection.find({ user_id: user.id, item_type: 'USERS' }),
+    actionDecrTransformer,
+    User
+  );
+
+  // Remove all the user's actions.
+  await Action.where({ user_id: user.id })
+    .setOptions({ multi: true })
+    .remove();
+
+  // Removes all the user's reply counts on each of the comments that they
+  // have commented on.
+  await transformSingleWithCursor(
+    Comment.collection.aggregate([
+      { $match: { author_id: user.id } },
+      {
+        $group: {
+          _id: '$parent_id',
+          count: { $sum: 1 },
+        },
+      },
+    ]),
+    ({ _id: parent_id, count }) => ({
+      query: { id: parent_id },
+      update: {
+        $inc: {
+          reply_count: -1 * count,
+        },
+      },
+    }),
+    Comment
+  );
+
+  // Remove all the user's comments.
+  await Comment.where({ author_id: user.id })
+    .setOptions({ multi: true })
+    .remove();
+
+  // Remove the user.
+  await user.remove();
+};
+
 module.exports = ctx => {
   let mutators = {
     User: {
@@ -81,6 +164,7 @@ module.exports = ctx => {
       setUserUsernameStatus: () => Promise.reject(errors.ErrNotAuthorized),
       setUsername: () => Promise.reject(errors.ErrNotAuthorized),
       stopIgnoringUser: () => Promise.reject(errors.ErrNotAuthorized),
+      del: () => Promise.reject(errors.ErrNotAuthorized),
     },
   };
 
@@ -115,6 +199,10 @@ module.exports = ctx => {
     if (ctx.user.can(SET_USER_SUSPENSION_STATUS)) {
       mutators.User.setUserSuspensionStatus = (id, until, message) =>
         setUserSuspensionStatus(ctx, id, until, message);
+    }
+
+    if (ctx.user.can(DELETE_USER)) {
+      mutators.User.del = id => delUser(ctx, id);
     }
   }
 

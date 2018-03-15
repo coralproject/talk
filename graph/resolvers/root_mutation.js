@@ -136,6 +136,9 @@ const RootMutation = {
   forceScrapeAsset: async (_, { id }, { mutators: { Asset } }) => {
     await Asset.scrape(id);
   },
+  delUser: async (_, { id }, { mutators: { User } }) => {
+    await User.del(id);
+  },
 };
 
 module.exports = RootMutation;
