@@ -72,8 +72,18 @@ class Slot extends React.Component {
     } = this.props;
     const { plugins } = this.context;
     let children = this.getChildren();
+
+    if (!!get(reduxState, 'config.plugin_config')) {
+      console.warn(
+        `deprecation warning: config.plugin_config will be phased out soon, please replace calls from config.plugin_config to config.plugins_config`
+      );
+    }
+
     const pluginsConfig =
-      get(reduxState, 'config.plugins_config') || emptyConfig;
+      get(reduxState, 'config.plugins_config') ||
+      get(reduxState, 'config.plugin_config') ||
+      emptyConfig;
+
     if (children.length === 0 && DefaultComponent) {
       const props = plugins.getSlotComponentProps(
         DefaultComponent,
