@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const bcrypt = require('bcryptjs');
 const errors = require('../errors');
-const { some, merge } = require('lodash');
+const { difference, sample, some, merge, random } = require('lodash');
 const { ROOT_URL } = require('../config');
 const { jwt: JWT_SECRET } = require('../secrets');
 const debug = require('debug')('talk:services:users');
@@ -347,6 +347,70 @@ class UsersService {
   }
 
   /**
+   * Creates the initial username for an external account. Searches to make
+   * sure username not already used. Adds a random number if username already
+   * in use.
+   */
+  static async getInitialUsername(username) {
+    const MAX_ATTEMPTS = 10;
+    const END_NUMBER_MAX = 99999;
+    const GROUP_ATTEMPTS = 50;
+
+    // Cast the original username.
+    const castedName = UsersService.castUsername(username);
+    const lowercaseUsername = castedName.toLowerCase();
+
+    // Try to see if our first guess has been taken.
+    const existingUserWithName = await UserModel.findOne({
+      lowercaseUsername,
+    });
+    if (!existingUserWithName) {
+      return castedName;
+    }
+
+    // Our first username was taken, lets try to find a non-taken name.
+    for (let i = 0; i < MAX_ATTEMPTS; i++) {
+      // Generate `GROUP_ATTEMPTS` guesses for the username.
+      const usernameGuesses = Array.from(Array(GROUP_ATTEMPTS)).map(
+        () => `${castedName}_${random(0, END_NUMBER_MAX)}`
+      );
+
+      // Map them all to lowercase.
+      const lowercaseUsernameGuesses = usernameGuesses.map(guess =>
+        guess.toLowerCase()
+      );
+
+      // See if any of these users aren't taken already.
+      const existingUsernames = (await UserModel.find(
+        {
+          lowercaseUsername: { $in: lowercaseUsernameGuesses },
+        },
+        { lowercaseUsername: 1 }
+      )).map(({ lowercaseUsername }) => lowercaseUsername);
+      if (existingUsernames.length === lowercaseUsernameGuesses.length) {
+        // The number of found users is the same as the number of username
+        // guesses, aka, all the usernames are taken.
+        continue;
+      }
+
+      // At least one of the usernames wasn't taken! Let's filter this to only
+      // include unused usernames and grab one random entry from the list.
+      const foundLowercaseUsernameIndex = lowercaseUsernameGuesses.indexOf(
+        sample(difference(lowercaseUsernameGuesses, existingUsernames))
+      );
+
+      // Now we get the uppercase version of that string.
+      return usernameGuesses[foundLowercaseUsernameIndex];
+    }
+
+    throw new Error(
+      'cannot find free name after ' +
+        (MAX_ATTEMPTS * GROUP_ATTEMPTS + 1) +
+        ' tries'
+    );
+  }
+
+  /**
    * Finds a user given a social profile and if the user does not exist, creates
    * them.
    * @param  {Object}   profile - User social/external profile
@@ -368,7 +432,7 @@ class UsersService {
     // User does not exist and need to be created.
 
     // Create an initial username for the user.
-    let username = UsersService.castUsername(displayName);
+    let username = await UsersService.getInitialUsername(displayName);
 
     // The user was not found, lets create them!
     user = new UserModel({
