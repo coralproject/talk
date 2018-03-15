@@ -1426,6 +1426,12 @@ type ForceScrapeAssetResponse implements Response {
   errors: [UserError!]
 }
 
+type DelUserResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 # All mutations for the application are defined on this object.
 type RootMutation {
 
@@ -1523,6 +1529,9 @@ type RootMutation {
 
   # forceScrapeAsset will force scrape the Asset with the given ID.
   forceScrapeAsset(id: ID!): ForceScrapeAssetResponse
+
+  # delUser will delete the user with the specified id.
+  delUser(id: ID!): DelUserResponse
 }
 
 type UsernameChangedPayload {
