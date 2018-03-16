@@ -3,6 +3,10 @@ export default class StreamInterface {
     this._stream = stream;
   }
 
+  dispatch(action) {
+    return this._stream.dispatch(action);
+  }
+
   on(eventName, callback) {
     return this._stream.emitter.on(eventName, callback);
   }

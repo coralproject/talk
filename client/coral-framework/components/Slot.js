@@ -69,6 +69,7 @@ class Slot extends React.Component {
       defaultComponent: DefaultComponent,
       queryData,
       fill,
+      debugPlugins,
     } = this.props;
     const { plugins } = this.context;
     let children = this.getChildren();
@@ -103,7 +104,7 @@ class Slot extends React.Component {
         className={cn(
           {
             [styles.inline]: inline,
-            [styles.debug]: pluginsConfig.debug,
+            [styles.debug]: debugPlugins || pluginsConfig.debug,
           },
           className,
           `talk-slot-${kebabCase(fill)}`
@@ -156,6 +157,7 @@ Slot.propTypes = {
 
 const mapStateToProps = state => ({
   reduxState: state,
+  debugPlugins: state.debug.plugins,
 });
 
 export default connect(mapStateToProps, null)(Slot);

@@ -161,6 +161,10 @@ export default class Stream {
     );
   }
 
+  dispatch(action) {
+    this.pym.sendMessage('dispatch', action);
+  }
+
   login(token) {
     this.pym.sendMessage('login', token);
   }

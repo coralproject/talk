@@ -215,6 +215,12 @@ export async function createContext({
     pym.onMessage('logout', () => {
       store.dispatch(logout());
     });
+
+    pym.onMessage('dispatch', action => {
+      store.dispatch({
+        type: action,
+      });
+    });
   }
 
   const preInitList = [];
