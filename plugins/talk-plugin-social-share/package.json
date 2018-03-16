@@ -1,0 +1,13 @@
+{
+    "name": "@coralproject/talk-plugin-social-share",
+    "pluginName": "talk-plugin-social-share",
+    "version": "0.0.1",
+    "description": "Share comment on social media",
+    "main": "index.js",
+    "author": "Ferret Go GmbH <vasco@ferret-go.com>",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "react-share": "^2.0.0"
+    }
+}
+  

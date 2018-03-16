@@ -30,49 +30,9 @@
   z-index: 1;
 }
 
-.input {
-  display: inline-block;
-  width: calc(100% - 78px);
-  padding: 8px;
-  border-radius: 3px;
-  border: solid 1px #e0e0e0;
-  height: 32px;
-  box-sizing: border-box;
-  font-size: 1em;
-}
-
 .button {
   composes: buttonReset from "coral-framework/styles/reset.css";
   margin: 5px 0px 5px 10px;
-}
-
-.copyButton {
-  display: inline-block;
-  margin: 5px 10px 5px 0px;
-  float: right;
-  box-sizing: border-box;
-  margin: 0;
-  background-color: #e0e0e0;
-  font-size: 1em;
-  width: auto;
-  height: auto;
-  padding: 2px;
-  transition: background-color 0.4s ease;
-  cursor: pointer;
-}
-
-.copyButton:hover{
-  color: black;
-}
-
-.copyButton.success {
-  background-color: #00897B;
-  color: white;
-}
-
-.copyButton.failure {
-  background-color: #FF5252;
-  color: white;
 }
 
 .container {
@@ -88,4 +48,14 @@
   padding: 0 2px;
   font-size: 12px;
   vertical-align: middle;
+}
+
+.title {
+  margin-top: 0;
+}
+
+.item {
+  cursor: pointer;
+  margin: 0 3px;
+  display: inline-block;
 }

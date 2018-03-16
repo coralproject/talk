@@ -51,7 +51,10 @@ plugins/*
 !plugins/talk-plugin-profile-settings
 !plugins/talk-plugin-remember-sort
 !plugins/talk-plugin-respect
+!plugins/talk-plugin-rich-text
+!plugins/talk-plugin-rich-text-pell
 !plugins/talk-plugin-slack-notifications
+!plugins/talk-plugin-social-share
 !plugins/talk-plugin-sort-most-liked
 !plugins/talk-plugin-sort-most-loved
 !plugins/talk-plugin-sort-most-replied
@@ -61,8 +64,6 @@ plugins/*
 !plugins/talk-plugin-subscriber
 !plugins/talk-plugin-toxic-comments
 !plugins/talk-plugin-viewing-options
-!plugins/talk-plugin-rich-text
-!plugins/talk-plugin-rich-text-pell
 
 **/node_modules/*
 yarn-error.log
