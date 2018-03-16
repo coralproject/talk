@@ -416,7 +416,7 @@ class UsersService {
    * @param  {Object}   profile - User social/external profile
    * @param  {Function} done    [description]
    */
-  static async findOrCreateExternalUser({ id, provider, displayName }) {
+  static async findOrCreateExternalUser(ctx, id, provider, displayName) {
     let user = await UserModel.findOne({
       profiles: {
         $elemMatch: {
@@ -451,6 +451,9 @@ class UsersService {
 
     // Save the user in the database.
     await user.save();
+
+    // Emit that the user was created.
+    ctx.pubsub.publish('userCreated', user);
 
     return user;
   }
@@ -503,23 +506,6 @@ class UsersService {
   }
 
   /**
-   * Creates local users.
-   * @param  {Array} users Users to create
-   * @return {Promise}     Resolves with the users that were created
-   */
-  static createLocalUsers(users) {
-    return Promise.all(
-      users.map(user => {
-        return UsersService.createLocalUser(
-          user.email,
-          user.password,
-          user.username
-        );
-      })
-    );
-  }
-
-  /**
    * Check the requested username for blocked words and special chars
    * @param  {String}   username              word to be checked for profanity
    * @param  {Boolean}  checkAgainstWordlist  enables cheching against the wordlist
@@ -553,24 +539,24 @@ class UsersService {
    */
   static isValidPassword(password) {
     if (!password) {
-      return Promise.reject(errors.ErrMissingPassword);
+      throw errors.ErrMissingPassword;
     }
 
     if (password.length < 8) {
-      return Promise.reject(errors.ErrPasswordTooShort);
+      throw errors.ErrPasswordTooShort;
     }
 
-    return Promise.resolve(password);
+    return password;
   }
 
   /**
    * Creates the local user with a given email, password, and name.
+   * @param  {Object}   ctx         application context for the request
    * @param  {String}   email       email of the new user
    * @param  {String}   password    plaintext password of the new user
-   * @param  {String}   username name of the display user
-   * @param  {Function} done        callback
+   * @param  {String}   username    name of the display user
    */
-  static async createLocalUser(email, password, username) {
+  static async createLocalUser(ctx, email, password, username) {
     if (!email) {
       throw errors.ErrMissingEmail;
     }
@@ -616,6 +602,9 @@ class UsersService {
       }
       throw err;
     }
+
+    // Emit that the user was created.
+    ctx.pubsub.publish('userCreated', user);
 
     return user;
   }
