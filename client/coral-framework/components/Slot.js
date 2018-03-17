@@ -93,11 +93,12 @@ class Slot extends React.Component {
       children = children.map(childFactory);
     }
 
-    const debugProps = pluginsConfig.debug
-      ? {
-          'data-slot-name': fill,
-        }
-      : {};
+    const debugProps =
+      debugPlugins || pluginsConfig.debug
+        ? {
+            'data-slot-name': fill,
+          }
+        : {};
 
     return (
       <Component
@@ -122,6 +123,7 @@ Slot.defaultProps = {
 };
 
 Slot.propTypes = {
+  debugPlugins: PropTypes.bool,
   fill: PropTypes.string.isRequired,
   inline: PropTypes.bool,
   className: PropTypes.string,
