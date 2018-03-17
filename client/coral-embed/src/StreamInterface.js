@@ -11,6 +11,10 @@ export default class StreamInterface {
     return this._stream.emitter.on(eventName, callback);
   }
 
+  off(eventName, callback) {
+    return this._stream.emitter.off(eventName, callback);
+  }
+
   login(token) {
     return this._stream.login(token);
   }
