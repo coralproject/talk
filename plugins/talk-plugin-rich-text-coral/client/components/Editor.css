@@ -1,0 +1,12 @@
+.contentEditable {
+  background: #fff;
+  border: solid 1px #bbb;
+  min-height: 120px;
+  box-sizing: border-box;
+  outline: 0;
+  overflow-y: auto;
+  width: 100%;
+  padding: 10px;
+  font-style: unset;
+}
+
