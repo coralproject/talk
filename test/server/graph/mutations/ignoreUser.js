@@ -34,12 +34,15 @@ describe('graph.mutations.ignoreUser', () => {
   });
 
   it('users can ignoreUser', async () => {
+    const ctx = Context.forSystem();
     let currentUser = await UsersService.createLocalUser(
+      ctx,
       'usernameA@example.com',
       'password',
       'usernameA'
     );
     const userToIgnore = await UsersService.createLocalUser(
+      ctx,
       'usernameB@example.com',
       'password',
       'usernameB'
@@ -83,7 +86,9 @@ describe('graph.mutations.ignoreUser', () => {
   });
 
   it('users cannot ignore themselves', async () => {
+    const ctx = Context.forSystem();
     const user = await UsersService.createLocalUser(
+      ctx,
       'usernameA@example.com',
       'password',
       'usernameA'
@@ -124,18 +129,22 @@ describe('graph.mutations.stopIgnoringUser', () => {
     // We're going to ignore 2 users,
     // then stopIgnoring 1 of them
     // then assert myIgnoredUsers only lists the one remaining
+    const ctx = Context.forSystem();
     let currentUser = await UsersService.createLocalUser(
+      ctx,
       'usernameA@example.com',
       'password',
       'usernameA'
     );
     const usersToIgnore = await Promise.all([
       UsersService.createLocalUser(
+        ctx,
         'usernameB@example.com',
         'password',
         'usernameB'
       ),
       UsersService.createLocalUser(
+        ctx,
         'usernameC@example.com',
         'password',
         'usernameC'
