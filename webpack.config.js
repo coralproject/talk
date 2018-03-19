@@ -93,7 +93,15 @@ const config = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: true,
+                modules: true,
+                importLoaders: 1,
+                localIdentName: '[name]__[local]___[hash:base64:5]',
+              },
+            },
             'postcss-loader',
           ],
         }),
@@ -104,7 +112,8 @@ const config = {
         test: /\.(jpg|png|gif|svg)$/,
       },
       {
-        loader: 'url-loader?limit=100000',
+        loader: 'url-loader',
+        options: { limit: 100000 },
         test: /\.woff$/,
       },
       {

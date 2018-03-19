@@ -1,8 +1,7 @@
 const SettingsService = require('../services/settings');
 const fs = require('fs');
 const path = require('path');
-const merge = require('lodash/merge');
-const memoize = require('lodash/memoize');
+const { merge } = require('lodash');
 
 const {
   BASE_URL,
@@ -38,36 +37,44 @@ const attachStaticLocals = locals => {
   }
 };
 
+// MANIFESTS are all the manifests accessible by Talk.
+const MANIFESTS = ['../dist/manifest.json', '../dist/manifest.embed.json'];
+
+// getManifest will retrieve the manifest files and parse the JSON.
 function getManifest() {
   return merge(
     {},
-    ...['../dist/manifest.json', '../dist/manifest.embed.json']
-      .map(f => fs.readFileSync(path.resolve(__dirname, f), 'utf8'))
-      .map(JSON.parse)
+    ...MANIFESTS.map(f =>
+      fs.readFileSync(path.resolve(__dirname, f), 'utf8')
+    ).map(JSON.parse)
   );
 }
 
-const getManifestMemoized = memoize(getManifest);
-
-if (process.env.NODE_ENV === 'production') {
-  // Crash early if file does not exists.
-  getManifestMemoized();
-}
-
-function resolve(key) {
+/**
+ * resolve is a function that can be used in templates to resolve an asset from
+ * the manifest. In production, the manifest is cached.
+ */
+const resolve = (() => {
   if (process.env.NODE_ENV === 'production') {
-    return `${STATIC_URL}static/${getManifestMemoized()[key]}`;
-  } else {
-    // In dev mode, we are more forgiving and we always load the
-    // newest version of the manifest.
+    // In production, we should attempt to load the manifest early.
+    const manifest = getManifest();
+
+    return key => `${STATIC_URL}static/${manifest[key]}`;
+  }
+
+  // In dev mode, we are more forgiving and we always load the
+  // newest version of the manifest.
+  return key => {
     try {
-      return `${STATIC_URL}static/${getManifest()[key]}`;
+      const manifest = getManifest();
+
+      return `${STATIC_URL}static/${manifest[key]}`;
     } catch (err) {
       console.warn(err);
       return '';
     }
-  }
-}
+  };
+})();
 
 module.exports = async (req, res, next) => {
   try {
