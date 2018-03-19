@@ -87,6 +87,7 @@ class PluginsService {
 
   getSlotComponentProps(component, reduxState, props, queryData) {
     if (
+      process.env.NODE_ENV !== 'production' &&
       !!get(reduxState, 'config.plugin_config') &&
       this.showPluginsConfigWarning
     ) {

@@ -465,6 +465,8 @@ const mapStateToProps = state => ({
   activeStreamTab: state.stream.activeTab,
   previousStreamTab: state.stream.previousTab,
   commentClassNames: state.stream.commentClassNames,
+
+  // @Deprecated plugin_config
   pluginsConfig: state.config.plugins_config || state.config.plugin_config,
   sortOrder: state.stream.sortOrder,
   sortBy: state.stream.sortBy,
