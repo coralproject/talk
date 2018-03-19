@@ -97,6 +97,7 @@ class PluginsService {
       this.showPluginsConfigWarning = false;
     }
 
+    // @Deprecated plugin_config
     const pluginsConfig =
       get(reduxState, 'config.plugins_config') ||
       get(reduxState, 'config.plugin_config') ||
