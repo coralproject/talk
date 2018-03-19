@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const bcrypt = require('bcryptjs');
 const errors = require('../errors');
-const { some, merge } = require('lodash');
+const { difference, sample, some, merge, random } = require('lodash');
 const { ROOT_URL } = require('../config');
 const { jwt: JWT_SECRET } = require('../secrets');
 const debug = require('debug')('talk:services:users');
@@ -347,12 +347,76 @@ class UsersService {
   }
 
   /**
+   * Creates the initial username for an external account. Searches to make
+   * sure username not already used. Adds a random number if username already
+   * in use.
+   */
+  static async getInitialUsername(username) {
+    const MAX_ATTEMPTS = 10;
+    const END_NUMBER_MAX = 99999;
+    const GROUP_ATTEMPTS = 50;
+
+    // Cast the original username.
+    const castedName = UsersService.castUsername(username);
+    const lowercaseUsername = castedName.toLowerCase();
+
+    // Try to see if our first guess has been taken.
+    const existingUserWithName = await UserModel.findOne({
+      lowercaseUsername,
+    });
+    if (!existingUserWithName) {
+      return castedName;
+    }
+
+    // Our first username was taken, lets try to find a non-taken name.
+    for (let i = 0; i < MAX_ATTEMPTS; i++) {
+      // Generate `GROUP_ATTEMPTS` guesses for the username.
+      const usernameGuesses = Array.from(Array(GROUP_ATTEMPTS)).map(
+        () => `${castedName}_${random(0, END_NUMBER_MAX)}`
+      );
+
+      // Map them all to lowercase.
+      const lowercaseUsernameGuesses = usernameGuesses.map(guess =>
+        guess.toLowerCase()
+      );
+
+      // See if any of these users aren't taken already.
+      const existingUsernames = (await UserModel.find(
+        {
+          lowercaseUsername: { $in: lowercaseUsernameGuesses },
+        },
+        { lowercaseUsername: 1 }
+      )).map(({ lowercaseUsername }) => lowercaseUsername);
+      if (existingUsernames.length === lowercaseUsernameGuesses.length) {
+        // The number of found users is the same as the number of username
+        // guesses, aka, all the usernames are taken.
+        continue;
+      }
+
+      // At least one of the usernames wasn't taken! Let's filter this to only
+      // include unused usernames and grab one random entry from the list.
+      const foundLowercaseUsernameIndex = lowercaseUsernameGuesses.indexOf(
+        sample(difference(lowercaseUsernameGuesses, existingUsernames))
+      );
+
+      // Now we get the uppercase version of that string.
+      return usernameGuesses[foundLowercaseUsernameIndex];
+    }
+
+    throw new Error(
+      'cannot find free name after ' +
+        (MAX_ATTEMPTS * GROUP_ATTEMPTS + 1) +
+        ' tries'
+    );
+  }
+
+  /**
    * Finds a user given a social profile and if the user does not exist, creates
    * them.
    * @param  {Object}   profile - User social/external profile
    * @param  {Function} done    [description]
    */
-  static async findOrCreateExternalUser({ id, provider, displayName }) {
+  static async findOrCreateExternalUser(ctx, id, provider, displayName) {
     let user = await UserModel.findOne({
       profiles: {
         $elemMatch: {
@@ -368,7 +432,7 @@ class UsersService {
     // User does not exist and need to be created.
 
     // Create an initial username for the user.
-    let username = UsersService.castUsername(displayName);
+    let username = await UsersService.getInitialUsername(displayName);
 
     // The user was not found, lets create them!
     user = new UserModel({
@@ -387,6 +451,9 @@ class UsersService {
 
     // Save the user in the database.
     await user.save();
+
+    // Emit that the user was created.
+    ctx.pubsub.publish('userCreated', user);
 
     return user;
   }
@@ -439,23 +506,6 @@ class UsersService {
   }
 
   /**
-   * Creates local users.
-   * @param  {Array} users Users to create
-   * @return {Promise}     Resolves with the users that were created
-   */
-  static createLocalUsers(users) {
-    return Promise.all(
-      users.map(user => {
-        return UsersService.createLocalUser(
-          user.email,
-          user.password,
-          user.username
-        );
-      })
-    );
-  }
-
-  /**
    * Check the requested username for blocked words and special chars
    * @param  {String}   username              word to be checked for profanity
    * @param  {Boolean}  checkAgainstWordlist  enables cheching against the wordlist
@@ -489,24 +539,24 @@ class UsersService {
    */
   static isValidPassword(password) {
     if (!password) {
-      return Promise.reject(errors.ErrMissingPassword);
+      throw errors.ErrMissingPassword;
     }
 
     if (password.length < 8) {
-      return Promise.reject(errors.ErrPasswordTooShort);
+      throw errors.ErrPasswordTooShort;
     }
 
-    return Promise.resolve(password);
+    return password;
   }
 
   /**
    * Creates the local user with a given email, password, and name.
+   * @param  {Object}   ctx         application context for the request
    * @param  {String}   email       email of the new user
    * @param  {String}   password    plaintext password of the new user
-   * @param  {String}   username name of the display user
-   * @param  {Function} done        callback
+   * @param  {String}   username    name of the display user
    */
-  static async createLocalUser(email, password, username) {
+  static async createLocalUser(ctx, email, password, username) {
     if (!email) {
       throw errors.ErrMissingEmail;
     }
@@ -552,6 +602,9 @@ class UsersService {
       }
       throw err;
     }
+
+    // Emit that the user was created.
+    ctx.pubsub.publish('userCreated', user);
 
     return user;
   }

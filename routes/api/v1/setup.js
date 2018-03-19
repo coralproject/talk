@@ -21,7 +21,10 @@ router.post('/', async (req, res, next) => {
   const { settings, user: { email, password, username } } = req.body;
 
   try {
-    await SetupService.setup({ settings, user: { email, password, username } });
+    await SetupService.setup(req.context, {
+      settings,
+      user: { email, password, username },
+    });
     res.status(204).end();
   } catch (err) {
     return next(err);
