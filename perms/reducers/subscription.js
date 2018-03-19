@@ -15,6 +15,7 @@ module.exports = (user, perm) => {
     case types.SUBSCRIBE_ALL_USERNAME_APPROVED:
     case types.SUBSCRIBE_ALL_USERNAME_FLAGGED:
     case types.SUBSCRIBE_ALL_USERNAME_CHANGED:
+    case types.SUBSCRIBE_ALL_USER_CREATED:
       return check(user, ['ADMIN', 'MODERATOR']);
     default:
       break;

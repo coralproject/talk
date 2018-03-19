@@ -3,6 +3,7 @@ const passport = require('../../../passport');
 const app = require('../../../../../app');
 const mailer = require('../../../../../services/mailer');
 
+const Context = require('../../../../../graph/context');
 const SettingsService = require('../../../../../services/settings');
 const settings = {
   id: '1',
@@ -20,19 +21,16 @@ const UsersService = require('../../../../../services/users');
 describe('/api/v1/users/:user_id/email/confirm', () => {
   let mockUser;
 
-  beforeEach(() =>
-    SettingsService.init(settings)
-      .then(() => {
-        return UsersService.createLocalUser(
-          'ana@gmail.com',
-          '123321123',
-          'Ana'
-        );
-      })
-      .then(user => {
-        mockUser = user;
-      })
-  );
+  beforeEach(async () => {
+    await SettingsService.init(settings);
+    const ctx = Context.forSystem();
+    mockUser = await UsersService.createLocalUser(
+      ctx,
+      'ana@gmail.com',
+      '123321123',
+      'Ana'
+    );
+  });
 
   describe('#post', () => {
     it('should send an email when we hit the endpoint', () => {
