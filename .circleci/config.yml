@@ -92,7 +92,7 @@ jobs:
       - save_cache:
           key: build-cache-{{ .Branch }}-{{ .Revision }}
           paths:
-            - ./node_modules/.cache/hard-source
+            - ./node_modules/.cache/babel-loader
       - persist_to_workspace:
           root: .
           paths: dist
