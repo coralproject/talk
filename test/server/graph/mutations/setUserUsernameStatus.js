@@ -19,7 +19,9 @@ const { expect } = chai;
     beforeEach(async () => {
       await SettingsService.init();
 
+      const ctx = Context.forSystem();
       user = await UsersService.createLocalUser(
+        ctx,
         'usernameA@example.com',
         'password',
         'usernameA'
