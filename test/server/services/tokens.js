@@ -1,6 +1,7 @@
 const TokensService = require('../../../services/tokens');
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
+const Context = require('../../../graph/context');
 
 const chai = require('chai');
 chai.use(require('chai-as-promised'));
@@ -10,7 +11,9 @@ describe('services.TokensService', () => {
   let user;
   beforeEach(async () => {
     await SettingsService.init();
+    const ctx = Context.forSystem();
     user = await UsersService.createLocalUser(
+      ctx,
       'sockmonster@gmail.com',
       '2Coral!!',
       'Sockmonster'
