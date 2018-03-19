@@ -13,12 +13,11 @@ class Editor extends React.Component {
 
   componentDidMount() {
     const { onChange, actions, classNames, isReply } = this.props;
-
     init({
       element: this.ref,
       onChange: richTextBody => {
         // We want to save the original comment body
-        const originalBody = this.ref.childNodes[1].innerText;
+        const originalBody = this.ref.content.innerText;
         onChange(originalBody, { richTextBody: htmlNormalizer(richTextBody) });
       },
       actions,
@@ -46,7 +45,7 @@ class Editor extends React.Component {
       this.clearInputHook = this.props.registerHook(
         'postSubmit',
         (res, handleBodyChange) => {
-          this.ref.content.innerHTML = '';
+          this.ref.content.innerText = '';
           handleBodyChange('', { richTextBody: '' });
         }
       );
@@ -78,9 +77,18 @@ Editor.defaultProps = {
   defaultContent: '',
   styleWithCSS: false,
   actions: [
-    { name: 'bold', icon: '<i class="material-icons">format_bold</i>' },
-    { name: 'italic', icon: '<i class="material-icons">format_italic</i>' },
-    { name: 'quote', icon: '<i class="material-icons">format_quote</i>' },
+    {
+      name: 'bold',
+      icon: '<i class="material-icons">format_bold</i>',
+    },
+    {
+      name: 'italic',
+      icon: '<i class="material-icons">format_italic</i>',
+    },
+    {
+      name: 'quote',
+      icon: '<i class="material-icons">format_quote</i>',
+    },
   ],
   classNames: {
     button: '',
