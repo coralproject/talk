@@ -69,9 +69,12 @@ function initExternalConfig({ store, pym, inIframe }) {
     pym.onMessage('config', rawConfig => {
       const config = JSON.parse(rawConfig);
       if (config.plugin_config) {
-        console.warn(
-          'Deprecation Warning: `config.plugin_config` will be phased out soon, please replace `config.plugin_config  with `config.plugins_config`'
-        );
+        // @Deprecated
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn(
+            'Deprecation Warning: `config.plugin_config` will be phased out soon, please replace `config.plugin_config  with `config.plugins_config`'
+          );
+        }
         config.plugins_config = config.plugin_config;
         delete config.plugin_config;
       }
