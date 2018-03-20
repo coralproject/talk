@@ -161,6 +161,14 @@ export default class Stream {
     );
   }
 
+  enablePluginsDebug() {
+    this.pym.sendMessage('enablePluginsDebug');
+  }
+
+  disablePluginsDebug() {
+    this.pym.sendMessage('disablePluginsDebug');
+  }
+
   login(token) {
     this.pym.sendMessage('login', token);
   }
