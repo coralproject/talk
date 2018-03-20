@@ -8,6 +8,7 @@ import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import { getShallowChanges } from 'coral-framework/utils';
 import omit from 'lodash/omit';
+import merge from 'lodash/merge';
 
 const emptyConfig = {};
 
@@ -75,9 +76,10 @@ class Slot extends React.Component {
 
     // @Deprecated plugin_config
     const pluginsConfig =
-      get(reduxState, 'config.plugins_config') ||
-      get(reduxState, 'config.plugin_config') ||
-      emptyConfig;
+      merge(
+        get(reduxState, 'config.plugins_config'),
+        get(reduxState, 'config.plugin_config')
+      ) || emptyConfig;
 
     if (children.length === 0 && DefaultComponent) {
       const props = plugins.getSlotComponentProps(
@@ -93,11 +95,7 @@ class Slot extends React.Component {
       children = children.map(childFactory);
     }
 
-    const debugProps = pluginsConfig.debug
-      ? {
-          'data-slot-name': fill,
-        }
-      : {};
+    // console.log('pluginsConfig', pluginsConfig);
 
     return (
       <Component
@@ -109,7 +107,6 @@ class Slot extends React.Component {
           className,
           `talk-slot-${kebabCase(fill)}`
         )}
-        {...debugProps}
       >
         {children}
       </Component>
