@@ -1,17 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './Menu.css';
 import { Slot } from 'plugin-api/beta/client/components';
 import cn from 'classnames';
 
-export default ({ data, root, asset, comment, contentSlot }) => {
+const Menu = ({ slotPassthrough, contentSlot }) => {
   if (contentSlot) {
     return (
       <div className={cn(styles.menu, 'talk-plugin-author-menu-popup')}>
-        <Slot
-          fill={contentSlot}
-          data={data}
-          queryData={{ asset, root, comment }}
-        />
+        <Slot fill={contentSlot} passthrough={slotPassthrough} />
       </div>
     );
   }
@@ -21,15 +18,20 @@ export default ({ data, root, asset, comment, contentSlot }) => {
       <Slot
         className={cn('talk-plugin-author-menu-infos')}
         fill={'authorMenuInfos'}
-        data={data}
-        queryData={{ asset, root, comment }}
+        passthrough={slotPassthrough}
       />
       <Slot
         className={cn(styles.actions, 'talk-plugin-author-menu-actions')}
         fill={'authorMenuActions'}
-        data={data}
-        queryData={{ asset, root, comment }}
+        passthrough={slotPassthrough}
       />
     </div>
   );
 };
+
+Menu.propTypes = {
+  slotPassthrough: PropTypes.object.isRequired,
+  contentSlot: PropTypes.string,
+};
+
+export default Menu;

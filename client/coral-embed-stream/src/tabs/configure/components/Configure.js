@@ -7,11 +7,7 @@ class Configure extends React.Component {
   render() {
     return (
       <div className="talk-embed-stream-configuration-container">
-        <Settings
-          data={this.props.data}
-          root={this.props.root}
-          asset={this.props.asset}
-        />
+        <Settings root={this.props.root} asset={this.props.asset} />
         <hr />
         <AssetStatusInfo asset={this.props.asset} />
       </div>
@@ -20,7 +16,6 @@ class Configure extends React.Component {
 }
 
 Configure.propTypes = {
-  data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   asset: PropTypes.object.isRequired,
 };

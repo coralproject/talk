@@ -31,7 +31,6 @@ class ConfigureContainer extends Component {
     return (
       <Configure
         currentUser={this.props.currentUser}
-        data={this.props.data}
         root={this.props.root}
         settings={this.props.mergedSettings}
         canSave={this.props.canSave}

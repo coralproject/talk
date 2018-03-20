@@ -53,7 +53,6 @@ class Comment extends React.Component {
       comment,
       selected,
       className,
-      data,
       root,
       root: { settings },
       currentAsset,
@@ -62,12 +61,18 @@ class Comment extends React.Component {
     } = this.props;
 
     const selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
-    const queryData = { root, comment, asset: comment.asset };
 
     const formatterSettings = {
       suspectWords: settings.wordlist.suspect,
       bannedWords: settings.wordlist.banned,
       body: comment.body,
+    };
+
+    const slotPassthrough = {
+      clearHeightCache,
+      root,
+      comment,
+      asset: comment.asset,
     };
 
     return (
@@ -113,9 +118,7 @@ class Comment extends React.Component {
                 <CommentLabels comment={comment} />
                 <Slot
                   fill="adminCommentInfoBar"
-                  data={data}
-                  clearHeightCache={clearHeightCache}
-                  queryData={queryData}
+                  passthrough={slotPassthrough}
                 />
               </div>
             </div>
@@ -135,13 +138,10 @@ class Comment extends React.Component {
               <div className={styles.body}>
                 <Slot
                   fill="adminCommentContent"
-                  data={data}
                   className={cn(styles.commentContent, 'talk-admin-comment')}
-                  clearHeightCache={clearHeightCache}
-                  queryData={queryData}
-                  slotSize={1}
+                  size={1}
                   defaultComponent={CommentFormatter}
-                  {...formatterSettings}
+                  passthrough={{ ...slotPassthrough, ...formatterSettings }}
                 />
                 <div className={styles.commentContentFooter}>
                   <a
@@ -171,18 +171,12 @@ class Comment extends React.Component {
                     onClick={this.reject}
                   />
                 </div>
-                <Slot
-                  fill="adminSideActions"
-                  data={data}
-                  clearHeightCache={clearHeightCache}
-                  queryData={queryData}
-                />
+                <Slot fill="adminSideActions" passthrough={slotPassthrough} />
               </div>
             </div>
           </CommentAnimatedEdit>
         </div>
         <CommentDetails
-          data={data}
           root={root}
           comment={comment}
           clearHeightCache={clearHeightCache}
@@ -220,7 +214,6 @@ Comment.propTypes = {
       id: PropTypes.string,
     }),
   }),
-  data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   selected: PropTypes.bool,
 };
