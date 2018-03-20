@@ -9,10 +9,10 @@ export const mergeConfig = config => ({
   config,
 });
 
-export const enablePlugins = () => ({
+export const enablePluginsDebug = () => ({
   type: ENABLE_PLUGINS_DEBUG,
 });
 
-export const disablePlugins = () => ({
+export const disablePluginsDebug = () => ({
   type: DISABLE_PLUGINS_DEBUG,
 });

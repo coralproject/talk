@@ -23,11 +23,11 @@ export default class StreamInterface {
     return this._stream.remove();
   }
 
-  enableDebug() {
-    return this._stream.enableDebug();
+  enablePluginsDebug() {
+    return this._stream.enablePluginsDebug();
   }
 
-  disableDebug() {
-    return this._stream.disableDebug();
+  disablePluginsDebug() {
+    return this._stream.disablePluginsDebug();
   }
 }

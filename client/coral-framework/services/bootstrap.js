@@ -25,7 +25,11 @@ import { createIntrospection } from 'coral-framework/services/introspection';
 import introspectionData from 'coral-framework/graphql/introspection.json';
 import coreReducers from '../reducers';
 import { checkLogin as checkLoginAction } from '../actions/auth';
-import { mergeConfig, enableDebug, disableDebug } from '../actions/config';
+import {
+  mergeConfig,
+  enablePluginsDebug,
+  disablePluginsDebug,
+} from '../actions/config';
 import { setAuthToken, logout } from '../actions/auth';
 
 /**
@@ -216,12 +220,12 @@ export async function createContext({
       store.dispatch(logout());
     });
 
-    pym.onMessage('enableDebug', () => {
-      store.dispatch(enableDebug());
+    pym.onMessage('enablePluginsDebug', () => {
+      store.dispatch(enablePluginsDebug());
     });
 
-    pym.onMessage('disableDebug', () => {
-      store.dispatch(disableDebug());
+    pym.onMessage('disablePluginsDebug', () => {
+      store.dispatch(disablePluginsDebug());
     });
   }
 

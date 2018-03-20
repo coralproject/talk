@@ -161,12 +161,12 @@ export default class Stream {
     );
   }
 
-  enableDebug() {
-    this.pym.sendMessage('enableDebug');
+  enablePluginsDebug() {
+    this.pym.sendMessage('enablePluginsDebug');
   }
 
-  disableDebug() {
-    this.pym.sendMessage('disableDebug');
+  disablePluginsDebug() {
+    this.pym.sendMessage('disablePluginsDebug');
   }
 
   login(token) {
