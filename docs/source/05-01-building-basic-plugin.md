@@ -251,6 +251,6 @@ export default withReaction('pride')(PrideButton);
 ````
 
 
-And that's it! You've created your first reaction button! :rainbow:
+And that's it! You've created your first reaction button! 🌈
 
-If you would like to continue to the next part of our Plugin Tutorial, see Part 2 in the sidebar.
+If you would like to continue to the next part of our Plugin Tutorial, see Customizing Plugins with Coral UI in the left sidebar.
