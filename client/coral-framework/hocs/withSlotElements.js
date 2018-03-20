@@ -83,6 +83,11 @@ const createHOC = ({
         }
 
         if (changes.length === 1 && changes[0] === 'reduxState') {
+          // If pluginsConfig changed, we'll have to rerender everything.
+          if (this.props.reduxState.pluginsConfig !== next.reduxState.pluginsConfig) {
+            return true;
+          }
+
           const prevChildrenKeys = this.getSlotElements(this.props).map(
             child => child.key
           );
