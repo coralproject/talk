@@ -5,6 +5,7 @@ import ModerationSettings from '../components/ModerationSettings';
 import withFragments from 'coral-framework/hocs/withFragments';
 import { getSlotFragmentSpreads } from 'coral-framework/utils';
 import { updatePending } from '../../../actions/configure';
+import { mapProps } from 'recompose';
 
 const slots = ['adminModerationSettings'];
 
@@ -41,5 +42,17 @@ export default compose(
       }
     `,
   }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  mapProps(({ root, settings, updatePending, errors, ...rest }) => ({
+    slotPassthrough: {
+      root,
+      settings,
+      updatePending,
+      errors,
+    },
+    updatePending,
+    settings,
+    errors,
+    ...rest,
+  }))
 )(ModerationSettings);

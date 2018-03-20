@@ -52,7 +52,7 @@ class ModerationSettings extends React.Component {
   };
 
   render() {
-    const { settings, data, root, updatePending, errors } = this.props;
+    const { settings, slotPassthrough } = this.props;
 
     return (
       <ConfigurePage title={t('configure.moderation_settings')}>
@@ -82,13 +82,7 @@ class ModerationSettings extends React.Component {
           suspectWords={settings.wordlist.suspect}
           onChangeWordlist={this.updateWordlist}
         />
-        <Slot
-          fill="adminModerationSettings"
-          data={data}
-          queryData={{ root, settings }}
-          updatePending={updatePending}
-          errors={errors}
-        />
+        <Slot fill="adminModerationSettings" passthrough={slotPassthrough} />
       </ConfigurePage>
     );
   }
@@ -97,9 +91,8 @@ class ModerationSettings extends React.Component {
 ModerationSettings.propTypes = {
   updatePending: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
-  root: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
+  slotPassthrough: PropTypes.object.isRequired,
 };
 
 export default ModerationSettings;

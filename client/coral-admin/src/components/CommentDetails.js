@@ -25,37 +25,29 @@ class CommentDetails extends Component {
   };
 
   render() {
-    const { data, root, comment, clearHeightCache } = this.props;
+    const { root, comment, clearHeightCache } = this.props;
     const { showDetail } = this.state;
-    const queryData = {
+
+    const slotPassthrough = {
+      clearHeightCache,
       root,
       comment,
+      more: showDetail,
     };
 
     return (
       <div className={styles.root}>
         <IfSlotIsNotEmpty
-          queryData={queryData}
           slot={['adminCommentMoreDetails', 'adminCommentMoreFlagDetails']}
+          passthrough={slotPassthrough}
         >
           <a onClick={this.toggleDetail} className={styles.moreDetail}>
             {showDetail ? t('modqueue.less_detail') : t('modqueue.more_detail')}
           </a>
         </IfSlotIsNotEmpty>
-        <Slot
-          fill="adminCommentDetailArea"
-          data={data}
-          clearHeightCache={clearHeightCache}
-          queryData={queryData}
-          more={showDetail}
-        />
+        <Slot fill="adminCommentDetailArea" passthrough={slotPassthrough} />
         {showDetail && (
-          <Slot
-            fill="adminCommentMoreDetails"
-            data={data}
-            clearHeightCache={clearHeightCache}
-            queryData={queryData}
-          />
+          <Slot fill="adminCommentMoreDetails" passthrough={slotPassthrough} />
         )}
       </div>
     );
@@ -63,7 +55,6 @@ class CommentDetails extends Component {
 }
 
 CommentDetails.propTypes = {
-  data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   comment: PropTypes.object.isRequired,
   clearHeightCache: PropTypes.func,

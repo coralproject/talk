@@ -50,7 +50,6 @@ class SettingsContainer extends React.Component {
   render() {
     return (
       <Settings
-        data={this.props.data}
         root={this.props.root}
         indicateOn={this.indicateOn}
         indicateOff={this.indicateOff}
@@ -72,7 +71,6 @@ class SettingsContainer extends React.Component {
 }
 
 SettingsContainer.propTypes = {
-  data: PropTypes.object,
   root: PropTypes.object,
   updateNotificationSettings: PropTypes.func.isRequired,
   digestFrequencyValues: PropTypes.array.isRequired,

@@ -1,14 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Menu from './Menu';
 import styles from './AuthorName.css';
 import { ClickOutside } from 'plugin-api/beta/client/components';
 import cn from 'classnames';
 
-export default ({
-  data,
-  root,
-  asset,
-  comment,
+const AuthorName = ({
+  slotPassthrough,
+  username,
   contentSlot,
   menuVisible,
   toggleMenu,
@@ -21,18 +20,23 @@ export default ({
           className={cn(styles.button, 'talk-plugin-author-menu-button')}
           onClick={toggleMenu}
         >
-          <span className={styles.name}>{comment.user.username}</span>
+          <span className={styles.name}>{username}</span>
         </button>
         {menuVisible && (
-          <Menu
-            data={data}
-            root={root}
-            asset={asset}
-            comment={comment}
-            contentSlot={contentSlot}
-          />
+          <Menu slotPassthrough={slotPassthrough} contentSlot={contentSlot} />
         )}
       </div>
     </ClickOutside>
   );
 };
+
+AuthorName.propTypes = {
+  slotPassthrough: PropTypes.object.isRequired,
+  username: PropTypes.string.isRequired,
+  menuVisible: PropTypes.bool.isRequired,
+  toggleMenu: PropTypes.func.isRequired,
+  hideMenu: PropTypes.func.isRequired,
+  contentSlot: PropTypes.string,
+};
+
+export default AuthorName;

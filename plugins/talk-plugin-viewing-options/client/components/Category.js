@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './Category.css';
 import { Slot } from 'plugin-api/beta/client/components';
 
@@ -8,7 +9,7 @@ const childFactory = child => (
   </li>
 );
 
-const ViewingOptions = ({ slot, title, data, asset, root }) => {
+const Category = ({ slot, title, slotPassthrough }) => {
   return (
     <div className={styles.root}>
       <div className={styles.title}>{title}</div>
@@ -17,11 +18,16 @@ const ViewingOptions = ({ slot, title, data, asset, root }) => {
         childFactory={childFactory}
         className={styles.list}
         component={'ul'}
-        data={data}
-        queryData={{ asset, root }}
+        passthrough={slotPassthrough}
       />
     </div>
   );
 };
 
-export default ViewingOptions;
+Category.propTypes = {
+  slot: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  slotPassthrough: PropTypes.object.isRequired,
+};
+
+export default Category;

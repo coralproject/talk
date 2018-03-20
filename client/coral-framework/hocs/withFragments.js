@@ -6,27 +6,21 @@ import { getShallowChanges } from 'coral-framework/utils';
 import PropTypes from 'prop-types';
 import union from 'lodash/union';
 
-// TODO: Should not depend on `props.data`
-// Currently necessary because of this https://github.com/apollographql/graphql-anywhere/issues/38
-function filter(doc, data, variables) {
+function filter(doc, data) {
   const resolver = (fieldName, root, args, context, info) => {
     return root[info.resultKey];
   };
 
-  return graphql(resolver, doc, data, null, variables);
+  return graphql(resolver, doc, data, null, null, { includeAll: true });
 }
 
-// filterProps returns only the property as defined in the fragments.
-// TODO: Should not depend on `props.data`
 function filterProps(props, fragments) {
   const filtered = {};
   Object.keys(fragments).forEach(key => {
-    if (!(key in props)) {
+    if (!(key in props) || props[key] === undefined) {
       return;
     }
-    filtered[key] = props.data
-      ? filter(fragments[key], props[key], props.data.variables)
-      : props[key];
+    filtered[key] = filter(fragments[key], props[key]);
   });
   return filtered;
 }

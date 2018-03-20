@@ -40,7 +40,6 @@ class Stream extends React.Component {
 
   renderHighlightedComment() {
     const {
-      data,
       root,
       activeReplyBox,
       setActiveReplyBox,
@@ -91,7 +90,6 @@ class Stream extends React.Component {
         </div>
 
         <Comment
-          data={data}
           root={root}
           commentClassNames={commentClassNames}
           setActiveReplyBox={setActiveReplyBox}
@@ -122,7 +120,6 @@ class Stream extends React.Component {
 
   renderExtendableTabPanel() {
     const {
-      data,
       root,
       activeReplyBox,
       setActiveReplyBox,
@@ -147,15 +144,14 @@ class Stream extends React.Component {
       loading,
     } = this.props;
 
-    const slotProps = { data };
-    const slotQueryData = { root, asset };
+    const slotPassthrough = { root, asset };
 
     // `key` of `ExtendableTabPanel` depends on sorting so that we always reset
     // the state when changing sorting.
     return (
       <div className={cn('talk-stream-tab-container', styles.tabContainer)}>
         <div className={cn('talk-stream-filter-wrapper', styles.filterWrapper)}>
-          <Slot fill="streamFilter" queryData={slotQueryData} {...slotProps} />
+          <Slot fill="streamFilter" passthrough={slotPassthrough} />
         </div>
 
         <ExtendableTabPanel
@@ -166,8 +162,7 @@ class Stream extends React.Component {
           tabSlot="streamTabs"
           tabSlotPrepend="streamTabsPrepend"
           tabPaneSlot="streamTabPanes"
-          slotProps={slotProps}
-          queryData={slotQueryData}
+          slotPassthrough={slotPassthrough}
           loading={loading}
           tabs={
             <Tab tabId={'all'} key="all">
@@ -180,7 +175,6 @@ class Stream extends React.Component {
           tabPanes={
             <TabPane tabId="all" key="all">
               <AllCommentsPane
-                data={data}
                 root={root}
                 asset={asset}
                 comments={comments}
@@ -212,7 +206,6 @@ class Stream extends React.Component {
 
   render() {
     const {
-      data,
       root,
       appendItemArray,
       asset,
@@ -243,12 +236,12 @@ class Stream extends React.Component {
         !changedUsername &&
         !highlightedComment) ||
         keepCommentBox);
-    const slotProps = { data };
-    const slotQueryData = { root, asset };
 
     if (highlightedComment === null) {
       return <StreamError>{t('stream.comment_not_found')}</StreamError>;
     }
+
+    const slotPassthrough = { root, asset };
 
     return (
       <div id="stream" className={styles.root}>
@@ -263,11 +256,7 @@ class Stream extends React.Component {
                 content={asset.settings.questionBoxContent}
                 icon={asset.settings.questionBoxIcon}
               >
-                <Slot
-                  fill="streamQuestionArea"
-                  queryData={slotQueryData}
-                  {...slotProps}
-                />
+                <Slot fill="streamQuestionArea" passthrough={slotPassthrough} />
               </QuestionBox>
             )}
             {!banned &&
@@ -304,7 +293,7 @@ class Stream extends React.Component {
           <p>{asset.settings.closedMessage}</p>
         )}
 
-        <Slot fill="stream" queryData={slotQueryData} {...slotProps} />
+        <Slot fill="stream" passthrough={slotPassthrough} />
 
         {currentUser && (
           <ModerationLink
@@ -324,7 +313,6 @@ class Stream extends React.Component {
 Stream.propTypes = {
   asset: PropTypes.object,
   activeStreamTab: PropTypes.string,
-  data: PropTypes.object,
   root: PropTypes.object,
   activeReplyBox: PropTypes.string,
   setActiveReplyBox: PropTypes.func,
