@@ -30,6 +30,7 @@ class Slot extends React.Component {
           className,
           `talk-slot-${kebabCase(fill)}`
         )}
+        data-slot-name={fill}
       >
         {children}
       </Component>

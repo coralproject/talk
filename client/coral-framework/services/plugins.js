@@ -68,47 +68,14 @@ function addMetaDataToSlotComponents(plugins) {
   });
 }
 
-// @Deprecated
-const showPluginConfigDeprecationWarningOnce = (() => {
-  let shown = false;
-  return () => {
-    if (!shown) {
-      shown = true;
-      console.warn(
-        `deprecation warning: config.plugin_config will be phased out soon, please replace calls from config.plugin_config to config.plugins_config`
-      );
-    }
-  };
-})();
-
 /**
  * getSlotComponentProps calculate the props we would pass to the slot component.
  * query datas are only passed to the component if it is defined in `component.fragments`.
  */
 function getSlotComponentProps(component, reduxState, props, queryData) {
-  // @Deprecated
-  const pluginsConfig =
-    get(reduxState, 'config.plugins_config') ||
-    get(reduxState, 'config.plugin_config') ||
-    emptyConfig;
-
-  if (
-    process.env.NODE_ENV !== 'production' &&
-    !!get(reduxState, 'config.plugin_config')
-  ) {
-    showPluginConfigDeprecationWarningOnce();
-  }
-
-  console.log('slot plugins_config', get(reduxState, 'config.plugins_config'));
-
-  const debugProps = pluginsConfig.debug
-    ? {
-        'data-slot-name': props.fill,
-      }
-    : {};
+  const pluginsConfig = get(reduxState, 'config.plugins_config') || emptyConfig;
   return {
     ...props,
-    ...debugProps,
     config: pluginsConfig,
     ...(component.fragments
       ? pick(queryData, Object.keys(component.fragments))
@@ -159,9 +126,7 @@ class PluginsService {
    */
   getSlotElements(slot, reduxState, props = {}, options = {}) {
     const pluginsConfig =
-      get(reduxState, 'config.plugins_config') ||
-      get(reduxState, 'config.plugin_config') ||
-      emptyConfig;
+      get(reduxState, 'config.plugins_config') || emptyConfig;
     const { size = 0 } = options;
     const { queryData, rest } = splitProps(props);
 

@@ -66,8 +66,16 @@ function initExternalConfig({ store, pym, inIframe }) {
   }
   return new Promise(resolve => {
     pym.sendMessage('getConfig');
-    pym.onMessage('config', config => {
-      store.dispatch(mergeConfig(JSON.parse(config)));
+    pym.onMessage('config', rawConfig => {
+      const config = JSON.parse(rawConfig);
+      if (config.plugin_config) {
+        console.warn(
+          'Deprecation Warning: `config.plugin_config` will be phased out soon, please replace `config.plugin_config  with `config.plugins_config`'
+        );
+        config.plugins_config = config.plugin_config;
+        delete config.plugin_config;
+      }
+      store.dispatch(mergeConfig(config));
       resolve();
     });
   });
