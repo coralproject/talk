@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
 import mapValues from 'lodash/mapValues';
 import get from 'lodash/get';
+import values from 'lodash/values';
 import { getDisplayName } from 'coral-framework/helpers/hoc';
 import camelize from '../helpers/camelize';
 
@@ -67,71 +68,102 @@ function addMetaDataToSlotComponents(plugins) {
   });
 }
 
+// @Deprecated
+const showPluginConfigDeprecationWarningOnce = (() => {
+  let shown = false;
+  return () => {
+    if (!shown) {
+      shown = true;
+      console.warn(
+        `deprecation warning: config.plugin_config will be phased out soon, please replace calls from config.plugin_config to config.plugins_config`
+      );
+    }
+  };
+})();
+
+/**
+ * getSlotComponentProps calculate the props we would pass to the slot component.
+ * query datas are only passed to the component if it is defined in `component.fragments`.
+ */
+function getSlotComponentProps(component, reduxState, props, queryData) {
+  // @Deprecated
+  const pluginsConfig =
+    get(reduxState, 'config.plugins_config') ||
+    get(reduxState, 'config.plugin_config') ||
+    emptyConfig;
+
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    !!get(reduxState, 'config.plugin_config')
+  ) {
+    showPluginConfigDeprecationWarningOnce();
+  }
+
+  console.log('slot plugins_config', get(reduxState, 'config.plugins_config'));
+
+  const debugProps = pluginsConfig.debug
+    ? {
+        'data-slot-name': props.fill,
+      }
+    : {};
+  return {
+    ...props,
+    ...debugProps,
+    config: pluginsConfig,
+    ...(component.fragments
+      ? pick(queryData, Object.keys(component.fragments))
+      : withWarnings(component, queryData)),
+  };
+}
+
+/**
+ *  splitProps detects objects coming from the query and
+ *  returns `queryData` and `rest`. We use `__typename`
+ *  in order to detect objects from the query.
+ */
+function splitProps(props) {
+  const rest = { ...props };
+  const queryData = {};
+  Object.keys(props).forEach(k => {
+    if (
+      get(props[k], `__typename`) ||
+      get(props[k], `0.__typename`) // Arrays
+    ) {
+      queryData[k] = props[k];
+      delete rest[k];
+    }
+  });
+  return { queryData, rest };
+}
+
 class PluginsService {
   constructor(plugins) {
     this.plugins = plugins;
     addMetaDataToSlotComponents(plugins);
   }
 
-  isSlotEmpty(slot, reduxState, props = {}, queryData = {}) {
-    return (
-      this.getSlotElements(slot, reduxState, props, queryData).length === 0
-    );
+  isSlotEmpty(slot, reduxState, props = {}) {
+    return this.getSlotElements(slot, reduxState, props).length === 0;
   }
 
   /**
-   * getSlotComponentProps calculate the props we would pass to the slot component.
-   * query datas are only passed to the component if it is defined in `component.fragments`.
+   * Returns props that would pass to the given slot component.
    */
-  showPluginsConfigWarning = true;
-
-  getSlotComponentProps(component, reduxState, props, queryData) {
-    if (
-      process.env.NODE_ENV !== 'production' &&
-      !!get(reduxState, 'config.plugin_config') &&
-      this.showPluginsConfigWarning
-    ) {
-      console.warn(
-        `deprecation warning: config.plugin_config will be phased out soon, please replace calls from config.plugin_config to config.plugins_config`
-      );
-      this.showPluginsConfigWarning = false;
-    }
-
-    console.log(
-      'slot plugins_config',
-      get(reduxState, 'config.plugins_config')
-    );
-
-    // @Deprecated plugin_config
-    const pluginsConfig =
-      merge(
-        get(reduxState, 'config.plugins_config'),
-        get(reduxState, 'config.plugin_config')
-      ) || emptyConfig;
-
-    const debugProps = pluginsConfig.debug
-      ? {
-          'data-slot-name': props.fill,
-        }
-      : {};
-
-    return {
-      ...props,
-      ...debugProps,
-      config: pluginsConfig,
-      ...(component.fragments
-        ? pick(queryData, Object.keys(component.fragments))
-        : withWarnings(component, queryData)),
-    };
+  getSlotComponentProps(component, reduxState, props) {
+    const { queryData, rest } = splitProps(props);
+    return getSlotComponentProps(component, reduxState, rest, queryData);
   }
 
   /**
    * Returns React Elements for given slot.
    */
-  getSlotElements(slot, reduxState, props = {}, queryData = {}, options = {}) {
+  getSlotElements(slot, reduxState, props = {}, options = {}) {
     const pluginsConfig =
-      get(reduxState, 'config.plugins_config') || emptyConfig;
-    const { slotSize = 0 } = options;
+      get(reduxState, 'config.plugins_config') ||
+      get(reduxState, 'config.plugin_config') ||
+      emptyConfig;
+    const { size = 0 } = options;
+    const { queryData, rest } = splitProps(props);
 
     const isDisabled = component => {
       if (
@@ -144,10 +176,10 @@ class PluginsService {
 
       // Check if component is excluded.
       if (component.isExcluded) {
-        let resolvedProps = this.getSlotComponentProps(
+        let resolvedProps = getSlotComponentProps(
           component,
           reduxState,
-          props,
+          rest,
           queryData
         );
         if (component.mapStateToProps) {
@@ -168,15 +200,15 @@ class PluginsService {
         .map(o => o.module.slots[slot])
     );
 
-    if (slotSize > 0 && slots.length > slotSize) {
+    if (size > 0 && slots.length > size) {
       console.warn(
-        `Slot[${slot}] supports a maximum of ${slotSize} plugins providing slots, got ${
+        `Slot[${slot}] supports a maximum of ${size} plugins providing slots, got ${
           slots.length
-        }, will only use the first ${slotSize}`
+        }, will only use the first ${size}`
       );
     }
 
-    return (slotSize > 0 ? slots.slice(0, slotSize) : slots)
+    return (size > 0 ? slots.slice(0, size) : slots)
       .map((component, i) => ({
         component,
         disabled: isDisabled(component),
@@ -186,12 +218,7 @@ class PluginsService {
       .map(({ component, key }) =>
         React.createElement(component, {
           key,
-          ...this.getSlotComponentProps(
-            component,
-            reduxState,
-            props,
-            queryData
-          ),
+          ...getSlotComponentProps(component, reduxState, rest, queryData),
         })
       );
   }
@@ -217,9 +244,16 @@ class PluginsService {
   }
 
   getGraphQLExtensions() {
-    return this.plugins
-      .map(o => pick(o.module, ['mutations', 'queries', 'fragments']))
-      .filter(o => !isEmpty(o));
+    return flatten(
+      this.plugins.map(o => {
+        const extension = pick(o.module, ['mutations', 'queries', 'fragments']);
+        // Include extension defined in Slot Components.
+        const slotComponentExtensions = !o.module.slots
+          ? []
+          : flatten(values(o.module.slots)).map(cmp => cmp.graphqlExtension);
+        return [extension, ...slotComponentExtensions];
+      })
+    ).filter(o => !isEmpty(o));
   }
 
   getModQueueConfigs() {

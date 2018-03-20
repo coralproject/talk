@@ -13,6 +13,11 @@ export {
   withResendEmailConfirmation,
   withSetUsername,
   withEnumValues,
+  withVariables,
+  withFetchMore,
+  withSubscribeToMore,
+  withRefetch,
+  withGraphQLExtension,
 } from 'coral-framework/hocs';
 export {
   withIgnoreUser,
@@ -21,3 +26,4 @@ export {
   withStopIgnoringUser,
   withSetCommentStatus,
 } from 'coral-framework/graphql/mutations';
+export { compose } from 'recompose';

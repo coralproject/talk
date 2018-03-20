@@ -22,7 +22,6 @@ class TabPane extends React.Component {
   render() {
     const {
       root,
-      data,
       asset: { featuredComments, ...asset },
       viewComment,
     } = this.props;
@@ -32,7 +31,6 @@ class TabPane extends React.Component {
           <Comment
             key={comment.id}
             root={root}
-            data={data}
             comment={comment}
             asset={asset}
             viewComment={viewComment}

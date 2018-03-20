@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect, withFragments } from 'plugin-api/beta/client/hocs';
 import { bindActionCreators } from 'redux';
 import AuthorName from '../components/AuthorName';
@@ -47,20 +48,38 @@ class AuthorNameContainer extends React.Component {
   };
 
   render() {
+    const {
+      root,
+      asset,
+      comment,
+      contentSlot,
+      showMenuForComment,
+    } = this.props;
+
+    const slotPassthrough = { root, asset, comment };
+
     return (
       <AuthorName
-        data={this.props.data}
-        root={this.props.root}
-        asset={this.props.asset}
-        comment={this.props.comment}
-        contentSlot={this.props.contentSlot}
-        menuVisible={this.props.showMenuForComment === this.props.comment.id}
+        username={comment.user.username}
+        contentSlot={contentSlot}
+        menuVisible={showMenuForComment === comment.id}
         toggleMenu={this.toggleMenu}
         hideMenu={this.hideMenu}
+        slotPassthrough={slotPassthrough}
       />
     );
   }
 }
+
+AuthorNameContainer.propTypes = {
+  root: PropTypes.object.isRequired,
+  asset: PropTypes.object.isRequired,
+  comment: PropTypes.object.isRequired,
+  contentSlot: PropTypes.string,
+  showMenuForComment: PropTypes.string,
+  openMenu: PropTypes.func.isRequired,
+  closeMenu: PropTypes.func.isRequired,
+};
 
 const slots = ['authorMenuInfos', 'authorMenuActions'];
 

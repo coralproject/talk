@@ -75,7 +75,6 @@ export default class Configure extends Component {
         </div>
         <div className={styles.mainContent}>
           <SectionComponent
-            data={this.props.data}
             root={this.props.root}
             settings={this.props.settings}
           />
@@ -88,7 +87,6 @@ export default class Configure extends Component {
 Configure.propTypes = {
   savePending: PropTypes.func.isRequired,
   currentUser: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   canSave: PropTypes.bool.isRequired,

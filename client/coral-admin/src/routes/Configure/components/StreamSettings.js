@@ -107,7 +107,7 @@ class StreamSettings extends React.Component {
   };
 
   render() {
-    const { settings, data, root, errors, updatePending } = this.props;
+    const { settings, slotPassthrough, errors } = this.props;
 
     return (
       <ConfigurePage title={t('configure.stream_settings')}>
@@ -220,13 +220,7 @@ class StreamSettings extends React.Component {
           </div>
         </ConfigureCard>
         {/* the above card should be the last one if at all possible because of z-index issues with the selects */}
-        <Slot
-          fill="adminStreamSettings"
-          data={data}
-          queryData={{ root, settings }}
-          updatePending={updatePending}
-          errors={errors}
-        />
+        <Slot fill="adminStreamSettings" passthrough={slotPassthrough} />
       </ConfigurePage>
     );
   }
@@ -235,9 +229,8 @@ class StreamSettings extends React.Component {
 StreamSettings.propTypes = {
   updatePending: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
-  root: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
+  slotPassthrough: PropTypes.object.isRequired,
 };
 
 export default StreamSettings;
