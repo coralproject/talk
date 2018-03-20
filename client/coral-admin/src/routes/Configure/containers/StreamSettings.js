@@ -5,6 +5,7 @@ import StreamSettings from '../components/StreamSettings';
 import withFragments from 'coral-framework/hocs/withFragments';
 import { getSlotFragmentSpreads } from 'coral-framework/utils';
 import { updatePending } from '../../../actions/configure';
+import { mapProps } from 'recompose';
 
 const slots = ['adminStreamSettings'];
 
@@ -42,5 +43,17 @@ export default compose(
       }
     `,
   }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  mapProps(({ root, settings, updatePending, errors, ...rest }) => ({
+    slotPassthrough: {
+      root,
+      settings,
+      updatePending,
+      errors,
+    },
+    updatePending,
+    settings,
+    errors,
+    ...rest,
+  }))
 )(StreamSettings);

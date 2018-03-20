@@ -11,6 +11,8 @@ import { getOperationName } from 'apollo-client/queries/getFromAST';
 import throttle from 'lodash/throttle';
 import get from 'lodash/get';
 import { notify } from 'coral-framework/actions/notification';
+import { Broadcast } from 'react-broadcast';
+import { compose } from 'recompose';
 
 const withSkipOnErrors = reducer => (prev, action, ...rest) => {
   if (
@@ -42,6 +44,15 @@ function networkStatusToString(networkStatus) {
       throw new Error(`Unknown network status ${networkStatus}`);
   }
 }
+
+// When wrapped broadcast all data changes to channel "queryData".
+const withBroadcaster = WrappedComponent => props => (
+  /* eslint-disable react/prop-types */
+  <Broadcast channel="queryData" value={props.data}>
+    <WrappedComponent {...props} />
+  </Broadcast>
+  /* eslint-enable react/prop-types */
+);
 
 const createHOC = (document, config, { notifyOnError = true }) =>
   hoistStatics(WrappedComponent => {
@@ -283,6 +294,7 @@ const createHOC = (document, config, { notifyOnError = true }) =>
         props: args => {
           const nextData = this.nextData(args.data);
           const { root } = separateDataAndRoot(args.data);
+
           if (config.props) {
             // Custom props, in this case we just pass the wrapped args to it.
             return config.props({
@@ -323,10 +335,13 @@ const createHOC = (document, config, { notifyOnError = true }) =>
         if (!this.memoized) {
           this.resolvedDocument = this.resolveDocument(document);
           this.name = getDefinitionName(this.resolvedDocument);
-          this.memoized = graphql(this.resolvedDocument, {
-            ...this.wrappedConfig,
-            options: this.wrappedOptions,
-          })(WrappedComponent);
+          this.memoized = compose(
+            graphql(this.resolvedDocument, {
+              ...this.wrappedConfig,
+              options: this.wrappedOptions,
+            }),
+            withBroadcaster
+          )(WrappedComponent);
         }
         return this.memoized;
       };
