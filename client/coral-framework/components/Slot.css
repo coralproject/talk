@@ -3,5 +3,36 @@
 }
 
 .debug {
-  background-color: coral;
+  background-color: #e2e2e2;
+  border-style: dotted solid;
+  border-width: 2px;
+  border: dotted 2px coral;
+  padding: 2px;
+  margin: 1px;
+  position: relative; 
+}
+
+.debug::before {
+  content: attr(data-slot-name);
+  display: inline-block;
+  position: absolute;
+
+  background: #000;
+  color: #FFF;
+  padding: 5px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.3s;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 999!important;
+  white-space: pre-wrap;
+  min-height: 16px;
+  top: 50%;
+  left: 0;
+}
+
+.debug:hover::before {
+  opacity: 1;
+  top: 100%;
 }

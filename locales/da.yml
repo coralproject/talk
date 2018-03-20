@@ -16,7 +16,7 @@ da:
     send: "Send"
     notify_ban_headline: "Underret brugeren om bannet"
     notify_ban_description: "Dette meddeler brugeren via e-mail, at der er blevet bandlyst fra fællesskabet"
-    email_message_ban: "Kære {0},\n\nEn person med adgang til din konto har overtrådt vores retningslinjer for fællesskabet. Som følge heraf er din konto blevet forbudt. Du vil ikke længere kunne kommentere, like eller rapportere kommentarer. Hvis du mener at dette er sket ved en fejl, bedes du kontakte vores fællesskabsteam." 
+    email_message_ban: "Kære {0},\n\nEn person med adgang til din konto har overtrådt vores retningslinjer for fællesskabet. Som følge heraf er din konto blevet forbudt. Du vil ikke længere kunne kommentere, like eller rapportere kommentarer. Hvis du mener at dette er sket ved en fejl, bedes du kontakte vores fællesskabsteam."
   bio_offensive: "Denne biografi er stødende"
   cancel: "Afbryd"
   confirm_email:
@@ -256,7 +256,7 @@ da:
       label: "Nyt brugernavn"
       msg: "Din konto er midlertidigt suspenderet, fordi dit brugernavn er blevet anset for upassende. For at gendanne din konto skal du indtaste et nyt brugernavn. Kontakt os venligst, hvis du har spørgsmål."
     changed_name:
-      msg: "Dit brugernavn ændring er nuværende under gennemgang af vores modereringsteam." 
+      msg: "Dit brugernavn ændring er nuværende under gennemgang af vores modereringsteam."
     my_comments: "Mine kommentarer"
     my_profile: "Min profil"
     new_count: "Se {0} mere {1}"
@@ -350,7 +350,7 @@ da:
   personal_info: "Denne kommentar afslører personligt identificerbare oplysninger"
   post: "Post"
   profile: "Profil"
-  profile_settings: "Profilindstillinger"
+  profile_settings: "Indstillinger"
   reply: "Svar"
   report: "Rapporter"
   report_notif: "Tak fordi du rapporterede denne kommentar. Vores modereringsteam har fået besked, og vil gennemgå det inden for kort tid."

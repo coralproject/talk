@@ -37,15 +37,18 @@ class Settings extends React.Component {
       onChangeDigestFrequency,
     } = this.props;
 
-    const slotProps = {
-      queryData: { root },
-      setTurnOffInputFragment: setTurnOffInputFragment,
-      updateNotificationSettings: updateNotificationSettings,
+    const slotPassthrough = {
+      root,
+      setTurnOffInputFragment,
+      updateNotificationSettings,
       disabled: needEmailVerification,
     };
 
     return (
-      <IfSlotIsNotEmpty slot="notificationSettings" {...slotProps}>
+      <IfSlotIsNotEmpty
+        slot="notificationSettings"
+        passthrough={slotPassthrough}
+      >
         <div className={styles.root}>
           <h3>{t('talk-plugin-notifications.settings_title')}</h3>
           <div className={styles.bannerContainer}>
@@ -63,7 +66,7 @@ class Settings extends React.Component {
               className={styles.notifcationSettingsSlot}
               fill="notificationSettings"
               childFactory={this.childFactory}
-              {...slotProps}
+              passthrough={slotPassthrough}
             />
           </div>
           {digestFrequencyValues.length > 1 && (

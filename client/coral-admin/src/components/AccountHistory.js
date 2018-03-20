@@ -14,7 +14,7 @@ const buildUserHistory = (userState = {}) => {
   return orderBy(
     flatten(
       Object.keys(userState.status)
-        .filter(k => k !== '__typename')
+        .filter(k => !k.startsWith('__'))
         .map(k => userState.status[k].history)
     ),
     'created_at',

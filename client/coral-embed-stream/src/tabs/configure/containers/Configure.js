@@ -13,13 +13,7 @@ class ConfigureContainer extends React.Component {
       return <div>{this.props.data.error.message}</div>;
     }
 
-    return (
-      <Configure
-        data={this.props.data}
-        root={this.props.root}
-        asset={this.props.asset}
-      />
-    );
+    return <Configure root={this.props.root} asset={this.props.asset} />;
   }
 }
 
