@@ -1,0 +1,20 @@
+.title {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+
+  &.disabled {
+    color: #e5e5e5;
+    cursor: default;
+  }
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+}
+
+.checkBox {
+  text-align: right;
+}

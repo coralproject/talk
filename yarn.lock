@@ -81,8 +81,8 @@
     prettier "^1.10.2"
 
 "@coralproject/graphql-anywhere-optimized@^0.1.0":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@coralproject/graphql-anywhere-optimized/-/graphql-anywhere-optimized-0.1.5.tgz#67c862bf908ea717d9521ea76266b5bc9f109c65"
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@coralproject/graphql-anywhere-optimized/-/graphql-anywhere-optimized-0.1.6.tgz#073b33764c04788b0290788da9ebf0ed21af6437"
   dependencies:
     graphql-ast-tools "^0.2.2"
 
@@ -9186,6 +9186,13 @@ react-apollo@^1.4.12:
     lodash.pick "^4.4.0"
     object-assign "^4.0.1"
     prop-types "^15.5.8"
+
+react-broadcast@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/react-broadcast/-/react-broadcast-0.6.2.tgz#9555c73b80ca5b2673830872e54f6bb3092cf8a9"
+  dependencies:
+    invariant "^2.2.1"
+    prop-types "^15.6.0"
 
 react-dom@>=0.14.0:
   version "16.2.0"

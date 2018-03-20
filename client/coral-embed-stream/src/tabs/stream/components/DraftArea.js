@@ -43,19 +43,12 @@ export default class DraftArea extends React.Component {
       charCountEnable,
       maxCharCount,
       onChange,
-      queryData,
       isReply,
+      registerHook,
+      unregisterHook,
+      root,
+      comment,
     } = this.props;
-
-    const tASettings = {
-      value,
-      placeholder,
-      id,
-      onChange,
-      rows,
-      disabled,
-      isReply,
-    };
 
     return (
       <div>
@@ -69,10 +62,19 @@ export default class DraftArea extends React.Component {
             fill="draftArea"
             defaultComponent={DraftAreaContent}
             className={styles.content}
-            queryData={queryData}
-            registerHook={this.props.registerHook}
-            unregisterHook={this.props.unregisterHook}
-            {...tASettings}
+            passthrough={{
+              root,
+              comment,
+              registerHook,
+              unregisterHook,
+              value,
+              placeholder,
+              id,
+              onChange,
+              rows,
+              disabled,
+              isReply,
+            }}
           />
           <Slot fill="commentInputArea" />
         </div>
@@ -96,7 +98,8 @@ DraftArea.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   rows: PropTypes.number,
-  queryData: PropTypes.object.isRequired,
+  root: PropTypes.object.isRequired,
+  comment: PropTypes.object,
   registerHook: PropTypes.func,
   unregisterHook: PropTypes.func,
   isReply: PropTypes.bool,
