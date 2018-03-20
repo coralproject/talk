@@ -93,12 +93,6 @@ class Slot extends React.Component {
       children = children.map(childFactory);
     }
 
-    const debugProps = pluginsConfig.debug
-      ? {
-          'data-slot-name': fill,
-        }
-      : {};
-
     return (
       <Component
         className={cn(
@@ -109,7 +103,6 @@ class Slot extends React.Component {
           className,
           `talk-slot-${kebabCase(fill)}`
         )}
-        {...debugProps}
       >
         {children}
       </Component>

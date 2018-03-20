@@ -102,8 +102,16 @@ class PluginsService {
       get(reduxState, 'config.plugins_config') ||
       get(reduxState, 'config.plugin_config') ||
       emptyConfig;
+
+    const debugProps = pluginsConfig.debug
+      ? {
+          'data-slot-name': props.fill,
+        }
+      : {};
+
     return {
       ...props,
+      ...debugProps,
       config: pluginsConfig,
       ...(component.fragments
         ? pick(queryData, Object.keys(component.fragments))
