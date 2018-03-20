@@ -83,6 +83,13 @@ const createHOC = ({
         }
 
         if (changes.length === 1 && changes[0] === 'reduxState') {
+          // If config changed, we'll have to rerender everything.
+          // Should only happen during development as this is
+          // usually static.
+          if (this.props.reduxState.config !== next.reduxState.config) {
+            return true;
+          }
+
           const prevChildrenKeys = this.getSlotElements(this.props).map(
             child => child.key
           );
