@@ -97,11 +97,17 @@ class PluginsService {
       this.showPluginsConfigWarning = false;
     }
 
+    console.log(
+      'slot plugins_config',
+      get(reduxState, 'config.plugins_config')
+    );
+
     // @Deprecated plugin_config
     const pluginsConfig =
-      get(reduxState, 'config.plugins_config') ||
-      get(reduxState, 'config.plugin_config') ||
-      emptyConfig;
+      merge(
+        get(reduxState, 'config.plugins_config'),
+        get(reduxState, 'config.plugin_config')
+      ) || emptyConfig;
 
     const debugProps = pluginsConfig.debug
       ? {
