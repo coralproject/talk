@@ -120,7 +120,7 @@ The slots that are able to add functionality to comments start with `comment`, l
 
 Typically, you will manage plugins via your `plugins.json` file. If you want to remove a plugin, you would simply delete it there. However, we can also do this directly with the `plugins_config`.
 
-Let's look at our example article, `views/article.ejs`. Here we see can we have the Talk embed, and within the embed, we can also send a configuration object. To disable a plugin visually, we can pass `true` to the property `disable_components`. Like so:
+Let's look at our example article, `views/article.ejs`. Here we see we have the Talk embed, and within the embed, we can also send a configuration object. To disable a plugin visually, we can pass `true` to the property `disable_components`. Like so:
 
 
 ```js 
