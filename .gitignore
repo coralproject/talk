@@ -54,6 +54,7 @@ plugins/*
 !plugins/talk-plugin-respect
 !plugins/talk-plugin-slack-notifications
 !plugins/talk-plugin-sort-most-downvoted
+!plugins/talk-plugin-sort-most-liked
 !plugins/talk-plugin-sort-most-loved
 !plugins/talk-plugin-sort-most-replied
 !plugins/talk-plugin-sort-most-respected
