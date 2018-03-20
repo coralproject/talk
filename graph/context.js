@@ -51,7 +51,7 @@ const decorateContextPlugins = (context, contextPlugins) => {
  * @param {Object} ctx the graph proxy
  * @param {Function} loader the loadable component that should be proxied
  */
-const proxyContextLoader = (ctx, loader) =>
+const createLazyContextLoader = (ctx, loader) =>
   new Proxy(
     { loaded: false, data: null },
     {
@@ -87,18 +87,18 @@ class Context {
     this.connectors = connectors;
 
     // Create the loaders.
-    this.loaders = proxyContextLoader(this, loaders);
+    this.loaders = createLazyContextLoader(this, loaders);
 
     // Create the mutators.
-    this.mutators = proxyContextLoader(this, mutators);
+    this.mutators = createLazyContextLoader(this, mutators);
 
     // Decorate the plugin context.
-    this.plugins = proxyContextLoader(this, () =>
+    this.plugins = createLazyContextLoader(this, () =>
       decorateContextPlugins(this, contextPlugins)
     );
 
     // Bind the publish/subscribe to the context.
-    this.pubsub = proxyContextLoader(this, () => getBroker());
+    this.pubsub = createLazyContextLoader(this, () => getBroker());
 
     // Bind the parent context.
     this.parent = ctx;
