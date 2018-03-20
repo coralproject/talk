@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './ViewingOptions.css';
 import { t } from 'plugin-api/beta/client/services';
@@ -24,7 +25,7 @@ class ViewingOptions extends React.Component {
   };
 
   render() {
-    const { open, data, root, asset } = this.props;
+    const { open, slotPassthrough } = this.props;
     return (
       <ClickOutside onClickOutside={this.handleClickOutside}>
         <div className={cn([styles.root, 'talk-plugin-viewing-options'])}>
@@ -41,11 +42,18 @@ class ViewingOptions extends React.Component {
               )}
             </button>
           </div>
-          {open && <Menu data={data} root={root} asset={asset} />}
+          {open && <Menu slotPassthrough={slotPassthrough} />}
         </div>
       </ClickOutside>
     );
   }
 }
+
+ViewingOptions.propTypes = {
+  slotPassthrough: PropTypes.object.isRequired,
+  open: PropTypes.bool.isRequired,
+  openMenu: PropTypes.func.isRequired,
+  closeMenu: PropTypes.func.isRequired,
+};
 
 export default ViewingOptions;

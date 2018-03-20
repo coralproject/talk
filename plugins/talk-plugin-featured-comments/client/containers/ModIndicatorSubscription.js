@@ -1,6 +1,7 @@
 import React from 'react';
 import { gql } from 'react-apollo';
 import { subscriptionFields } from 'coral-admin/src/routes/Moderation/graphql';
+import { compose, withSubscribeToMore } from 'plugin-api/beta/client/hocs';
 
 class ModIndicatorSubscription extends React.Component {
   subscriptions = null;
@@ -27,7 +28,7 @@ class ModIndicatorSubscription extends React.Component {
       },
     ];
     this.subscriptions = configs.map(config =>
-      this.props.data.subscribeToMore(config)
+      this.props.subscribeToMore(config)
     );
   }
 
@@ -60,4 +61,4 @@ const COMMENT_UNFEATURED_SUBSCRIPTION = gql`
   }
 `;
 
-export default ModIndicatorSubscription;
+export default compose(withSubscribeToMore)(ModIndicatorSubscription);

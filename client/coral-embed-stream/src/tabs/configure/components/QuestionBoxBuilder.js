@@ -25,7 +25,8 @@ class QuestionBoxBuilder extends React.Component {
   async loadEditor() {
     const {
       default: MarkdownEditor,
-    } = await import('coral-framework/components/MarkdownEditor');
+    } = await import(/* webpackChunkName: "markdownEditor" */
+    'coral-framework/components/MarkdownEditor');
 
     return this.setState({
       loading: false,

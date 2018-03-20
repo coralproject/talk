@@ -98,7 +98,6 @@ class UserDetail extends React.Component {
 
   renderLoaded() {
     const {
-      data,
       root,
       root: { me, user, totalComments, rejectedComments },
       activeTab,
@@ -122,6 +121,11 @@ class UserDetail extends React.Component {
 
     const banned = isBanned(user);
     const suspended = isSuspended(user);
+
+    const slotPassthrough = {
+      root,
+      user,
+    };
 
     return (
       <ClickOutside onClickOutside={modal ? null : hideUserDetail}>
@@ -244,11 +248,7 @@ class UserDetail extends React.Component {
             </ul>
           </div>
 
-          <Slot
-            fill="userProfile"
-            data={this.props.data}
-            queryData={{ root, user }}
-          />
+          <Slot fill="userProfile" passthrough={slotPassthrough} />
 
           <hr />
 
@@ -301,7 +301,6 @@ class UserDetail extends React.Component {
               <UserDetailCommentList
                 user={user}
                 root={root}
-                data={data}
                 loadMore={loadMore}
                 toggleSelect={toggleSelect}
                 viewUserDetail={viewUserDetail}
@@ -320,7 +319,6 @@ class UserDetail extends React.Component {
               <UserDetailCommentList
                 user={user}
                 root={root}
-                data={data}
                 loadMore={loadMore}
                 toggleSelect={toggleSelect}
                 viewUserDetail={viewUserDetail}
@@ -368,9 +366,7 @@ UserDetail.propTypes = {
   bulkReject: PropTypes.func.isRequired,
   toggleSelectAll: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  data: PropTypes.shape({
-    refetch: PropTypes.func.isRequired,
-  }),
+  data: PropTypes.object,
   activeTab: PropTypes.string.isRequired,
   selectedCommentIds: PropTypes.array.isRequired,
   viewUserDetail: PropTypes.any.isRequired,

@@ -1,11 +1,14 @@
-import Toggle from './containers/Toggle';
 import translations from './translations.yml';
-import graphql from './graphql';
+import { t } from 'plugin-api/beta/client/services';
+import { createSettingsToggle } from 'talk-plugin-notifications/client/api/factories';
+
+const SettingsToggle = createSettingsToggle('onFeatured', () =>
+  t('talk-plugin-notifications-category-featured.toggle_description')
+);
 
 export default {
   slots: {
-    notificationSettings: [Toggle],
+    notificationSettings: [SettingsToggle],
   },
   translations,
-  ...graphql,
 };
