@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './Menu.css';
 import { capitalize } from 'plugin-api/beta/client/utils';
@@ -13,16 +14,19 @@ class Menu extends React.Component {
   };
 
   render() {
+    const { slotPassthrough } = this.props;
     return (
       <div className={cn([styles.menu, 'talk-plugin-viewing-options-menu'])}>
         {Object.keys(this.categories).map(category => (
           <IfSlotIsNotEmpty
             slot={`viewingOptions${capitalize(category)}`}
             key={category}
+            passthrough={slotPassthrough}
           >
             <Category
               slot={`viewingOptions${capitalize(category)}`}
               title={this.categories[category]}
+              slotPassthrough={slotPassthrough}
             />
           </IfSlotIsNotEmpty>
         ))}
@@ -30,5 +34,9 @@ class Menu extends React.Component {
     );
   }
 }
+
+Menu.propTypes = {
+  slotPassthrough: PropTypes.object.isRequired,
+};
 
 export default Menu;

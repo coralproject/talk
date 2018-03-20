@@ -349,7 +349,7 @@ de:
   personal_info: "Dieser Kommentar enthält zu viel personenbezogene Daten"
   post: Post  # Kontext?
   profile: Profil
-  profile_settings: "Profil-Einstellungen"
+  profile_settings: "Einstellungen"
   reply: Antworten
   report: Melden
   report_notif: "Vielen Dank für Ihre Meldung. Unsere Moderatoren wurden informiert und werden sich in Kürze darum kümmern."
@@ -397,7 +397,7 @@ de:
     suspend_user: "Nutzer vorübergehend sperren"
     email_message_suspend: "Sehr geehrte/r {0}, entsprechend der Community-Richtlinien von {1} wurde Ihr Konto vorübergehend gesperrt. Während der Sperrung können Sie weder kommentieren noch andere Aktionen ausführen. Nehmen Sie {2} wieder an der Diskussion teil."
     title_notify: "Den Nutzer über die vorübergehende Kontosperrung informieren"
-    notify_suspend_until: "Nutzer {0} wurde vorübergehend gesperrt. Diese Sperrung endet automatisch {1}." 
+    notify_suspend_until: "Nutzer {0} wurde vorübergehend gesperrt. Diese Sperrung endet automatisch {1}."
     description_notify: "Während der Sperrung hat der Nutzer keinen Zugriff auf das Konto."
     write_message: "Nachricht verfassen"
     send: Senden

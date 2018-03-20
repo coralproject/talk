@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { compose, gql } from 'react-apollo';
 import CommentHistory from '../components/CommentHistory';
 import Comment from './Comment';
-import { withFragments } from 'coral-framework/hocs';
+import { withFragments, withFetchMore } from 'coral-framework/hocs';
 
 import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
@@ -16,7 +16,7 @@ class CommentHistoryContainer extends Component {
   };
 
   loadMore = () => {
-    return this.props.data.fetchMore({
+    return this.props.fetchMore({
       query: LOAD_MORE_QUERY,
       variables: {
         limit: 5,
@@ -43,7 +43,6 @@ class CommentHistoryContainer extends Component {
     return (
       <CommentHistory
         comments={this.props.root.me.comments}
-        data={this.props.data}
         root={this.props.root}
         loadMore={this.loadMore}
         navigate={this.navigate}
@@ -57,8 +56,8 @@ CommentHistoryContainer.contextTypes = {
 };
 
 CommentHistoryContainer.propTypes = {
-  data: PropTypes.object,
   root: PropTypes.object,
+  fetchMore: PropTypes.func.isRequired,
 };
 
 const LOAD_MORE_QUERY = gql`
@@ -99,5 +98,6 @@ const mapStateToProps = state => ({
 
 export default compose(
   connect(mapStateToProps, null),
-  withCommentHistoryFragments
+  withCommentHistoryFragments,
+  withFetchMore
 )(CommentHistoryContainer);

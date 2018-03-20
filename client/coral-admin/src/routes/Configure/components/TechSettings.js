@@ -34,7 +34,7 @@ class TechSettings extends React.Component {
   };
 
   render() {
-    const { settings, data, root, errors, updatePending } = this.props;
+    const { settings, slotPassthrough } = this.props;
     return (
       <ConfigurePage title={t('configure.tech_settings')}>
         <Domainlist
@@ -50,13 +50,7 @@ class TechSettings extends React.Component {
             onChange={this.updateCustomCssUrl}
           />
         </ConfigureCard>
-        <Slot
-          fill="adminTechSettings"
-          data={data}
-          queryData={{ root, settings }}
-          updatePending={updatePending}
-          errors={errors}
-        />
+        <Slot fill="adminTechSettings" passthrough={slotPassthrough} />
       </ConfigurePage>
     );
   }
@@ -64,10 +58,9 @@ class TechSettings extends React.Component {
 
 TechSettings.propTypes = {
   updatePending: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
-  root: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
+  slotPassthrough: PropTypes.object.isRequired,
+  errors: PropTypes.object,
 };
 
 export default TechSettings;

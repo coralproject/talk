@@ -190,9 +190,11 @@ class CommentBox extends React.Component {
           buttonContainerStart={
             <Slot
               fill="commentInputDetailArea"
-              registerHook={this.registerHook}
-              unregisterHook={this.unregisterHook}
-              isReply={isReply}
+              passthrough={{
+                registerHook: this.registerHook,
+                unregisterHook: this.unregisterHook,
+                isReply,
+              }}
               inline
             />
           }
