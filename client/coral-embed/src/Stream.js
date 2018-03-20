@@ -161,8 +161,12 @@ export default class Stream {
     );
   }
 
-  dispatch(action) {
-    this.pym.sendMessage('dispatch', action);
+  enableDebug() {
+    this.pym.sendMessage('enableDebug');
+  }
+
+  disableDebug() {
+    this.pym.sendMessage('disableDebug');
   }
 
   login(token) {

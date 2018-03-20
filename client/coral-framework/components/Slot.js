@@ -74,7 +74,6 @@ class Slot extends React.Component {
     let children = this.getChildren();
 
     // @Deprecated plugin_config
-
     const pluginsConfig =
       get(reduxState, 'config.plugins_config') ||
       get(reduxState, 'config.plugin_config') ||

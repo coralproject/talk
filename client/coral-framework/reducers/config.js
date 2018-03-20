@@ -11,11 +11,19 @@ export default function config(state = initialState, action) {
   switch (action.type) {
     case ENABLE_PLUGINS_DEBUG:
       return {
-        plugins: true,
+        ...state,
+        plugins_config: {
+          ...state.plugins_config,
+          debug: true,
+        },
       };
     case DISABLE_PLUGINS_DEBUG:
       return {
-        plugins: false,
+        ...state,
+        plugins_config: {
+          ...state.plugins_config,
+          debug: false,
+        },
       };
     case LOGOUT:
       return {
