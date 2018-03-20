@@ -16,7 +16,7 @@ From getting up and running, to advanced configuration, to how to scale Talk, ou
 
 ## Product Guide
 
-Learn more about Talk, including a deep dive into features for commenters and moderators, and FAQs in our [Talk Product Guide](https:/docs.coralproject.net/talk/how-talk-works).
+Learn more about Talk, including a deep dive into features for commenters and moderators, and FAQs in our [Talk Product Guide](https://docs.coralproject.net/talk/how-talk-works).
 
 ## Pre-Launch Guide
 
