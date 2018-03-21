@@ -17,15 +17,5 @@ export function htmlNormalizer(htmlInput) {
   str = str
     .replace(/<em>/g, '<i>') // IE
     .replace(/<\/em>/g, '</i>'); // IE
-
-  // Remove first opening tag, otherwise
-  // with the following transformation below
-  // we might add an unintended first empty line.
-  if (str.startsWith('<div>')) {
-    str = str.replace('<div>', '');
-  }
-
-  // Normalize <div>s to <br>.
-  // return str.replace(/<div>/g, '<br>').replace(/<\/div>/g, '');
   return str;
 }
