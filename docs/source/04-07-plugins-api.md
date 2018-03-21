@@ -1,4 +1,8 @@
-# Plugins API
+---
+title: Plugins API
+permalink: /plugins-api/
+---
+
 This is a set of utilities that we expose to create or add functionality to the Plugins. Feel free to check all the utilities here at `talk/plugin-api`.
 
 ## Actions

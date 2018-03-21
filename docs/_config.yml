@@ -138,6 +138,8 @@ sidebar:
           url: /plugin-recipes/
         - title: Slots and Plugins
           url: /slots-and-plugins/
+        - title: Plugins API
+          url: /plugins-api/
     - title: Tutorials
       children:
         - title: Creating a Basic Plugin
