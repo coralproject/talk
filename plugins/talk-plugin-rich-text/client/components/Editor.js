@@ -12,42 +12,38 @@ import bowser from 'bowser';
 class Editor extends React.Component {
   ref = null;
   handleRef = ref => (this.ref = ref);
-  state = {
-    html:
-      !this.props.isReply && this.props.comment
-        ? this.props.comment.richTextBody || this.props.comment.body || ''
-        : '',
-  };
 
   handleChange = evt => {
-    const html = evt.target.value;
-    this.setState({ html });
-    this.props.onChange(this.ref.htmlEl.innerText, {
-      richTextBody: htmlNormalizer(html),
+    this.props.onInputChange({
+      body: this.ref.htmlEl.innerText,
+      richTextBody: evt.target.value,
     });
   };
 
-  componentDidMount() {
-    if (this.props.registerHook) {
-      this.clearInputHook = this.props.registerHook(
-        'postSubmit',
-        (res, handleBodyChange) => {
-          this.setState({ html: '' });
-          handleBodyChange('', { richTextBody: '' });
-        }
-      );
+  getHTML(props = this.props) {
+    if (props.input.richTextBody) {
+      return props.input.richTextBody;
     }
+    return (
+      (props.isEdit && (props.comment.richTextBody || props.comment.body)) || ''
+    );
   }
 
-  shouldComponentUpdate(nextProps) {
-    if (this.props.value !== nextProps.value) {
-      return false;
+  componentDidMount() {
+    if (this.props.registerHook) {
+      this.normalizeHook = this.props.registerHook('preSubmit', input => {
+        if (input.richTextBody) {
+          return {
+            ...input,
+            richTextBody: htmlNormalizer(input.richTextBody),
+          };
+        }
+      });
     }
-    return true;
   }
 
   componentWillUnmount() {
-    this.props.unregisterHook(this.clearInputHook);
+    this.props.unregisterHook(this.normalizeHook);
   }
 
   getCurrentTagName() {
@@ -90,7 +86,6 @@ class Editor extends React.Component {
   };
 
   render() {
-    const { id } = this.props;
     return (
       <div className={cn(styles.root, `${PLUGIN_NAME}-container`)}>
         <Toolbar>
@@ -109,9 +104,8 @@ class Editor extends React.Component {
         <ContentEditable
           onKeyPress={this.outdentOnEnter}
           className={styles.contentEditable}
-          id={id}
           ref={this.handleRef}
-          html={this.state.html}
+          html={this.getHTML()}
           disabled={false}
           onChange={this.handleChange}
         />
@@ -121,17 +115,16 @@ class Editor extends React.Component {
 }
 
 Editor.propTypes = {
-  rows: PropTypes.number, // TODO: should not be passed.
-  id: PropTypes.string, // TODO: should not be passed.
-  value: PropTypes.string,
+  input: PropTypes.object,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func,
+  onInputChange: PropTypes.func,
   disabled: PropTypes.bool,
   comment: PropTypes.object,
   classNames: PropTypes.object,
   registerHook: PropTypes.func,
   unregisterHook: PropTypes.func,
   isReply: PropTypes.bool,
+  isEdit: PropTypes.bool,
 };
 
 export default Editor;

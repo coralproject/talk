@@ -17,9 +17,17 @@ class DraftAreaContainer extends React.Component {
   }
 
   async initValue() {
-    const value = await this.context.pymSessionStorage.getItem(this.getPath());
-    if (value && this.props.onChange) {
-      this.props.onChange(value);
+    const input = await this.context.pymSessionStorage.getItem(this.getPath());
+    if (input && this.props.onInputChange) {
+      let parsed = '';
+
+      // Older version saved a normal string, catch those and ignore them.
+      try {
+        parsed = JSON.parse(input);
+      } catch (_e) {}
+      if (typeof parsed === 'object') {
+        this.props.onInputChange(parsed);
+      }
     }
   }
 
@@ -27,14 +35,13 @@ class DraftAreaContainer extends React.Component {
     return `${STORAGE_PATH}_${this.props.id}`;
   };
 
-  onChange = (body, data) => {
-    this.props.onChange && this.props.onChange(body, data);
-  };
-
   componentWillReceiveProps(nextProps) {
-    if (this.props.value !== nextProps.value) {
-      if (nextProps.value) {
-        this.context.pymSessionStorage.setItem(this.getPath(), nextProps.value);
+    if (this.props.input !== nextProps.input) {
+      if (nextProps.input) {
+        this.context.pymSessionStorage.setItem(
+          this.getPath(),
+          JSON.stringify(nextProps.input)
+        );
       } else {
         this.context.pymSessionStorage.removeItem(this.getPath());
       }
@@ -46,10 +53,10 @@ class DraftAreaContainer extends React.Component {
       <DraftArea
         root={this.props.root}
         comment={this.props.comment}
-        value={this.props.value}
+        input={this.props.input}
         placeholder={this.props.placeholder}
         id={this.props.id}
-        onChange={this.onChange}
+        onInputChange={this.props.onInputChange}
         rows={this.props.rows}
         disabled={this.props.disabled}
         charCountEnable={this.props.charCountEnable}
@@ -58,6 +65,7 @@ class DraftAreaContainer extends React.Component {
         registerHook={this.props.registerHook}
         unregisterHook={this.props.unregisterHook}
         isReply={this.props.isReply}
+        isEdit={this.props.isEdit}
       />
     );
   }
@@ -73,15 +81,16 @@ DraftAreaContainer.propTypes = {
   charCountEnable: PropTypes.bool,
   maxCharCount: PropTypes.number,
   id: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  input: PropTypes.object.isRequired,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onInputChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   rows: PropTypes.number,
   label: PropTypes.string.isRequired,
   registerHook: PropTypes.func,
   unregisterHook: PropTypes.func,
   isReply: PropTypes.bool,
+  isEdit: PropTypes.bool,
   root: PropTypes.object.isRequired,
   comment: PropTypes.object,
 };

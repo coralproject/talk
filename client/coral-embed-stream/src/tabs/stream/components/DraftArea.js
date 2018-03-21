@@ -13,17 +13,17 @@ import styles from './DraftArea.css';
  */
 export default class DraftArea extends React.Component {
   renderCharCount() {
-    const { value, maxCharCount } = this.props;
+    const { input, maxCharCount } = this.props;
 
     const className = cn(
       styles.charCount,
       'talk-plugin-commentbox-char-count',
       {
         [`${styles.charMax} talk-plugin-commentbox-char-max`]:
-          value.length > maxCharCount,
+          input.body.length > maxCharCount,
       }
     );
-    const remaining = maxCharCount - value.length;
+    const remaining = maxCharCount - input.body.length;
 
     return (
       <div className={className}>
@@ -34,7 +34,7 @@ export default class DraftArea extends React.Component {
 
   render() {
     const {
-      value,
+      input,
       placeholder,
       id,
       disabled,
@@ -42,8 +42,9 @@ export default class DraftArea extends React.Component {
       label,
       charCountEnable,
       maxCharCount,
-      onChange,
+      onInputChange,
       isReply,
+      isEdit,
       registerHook,
       unregisterHook,
       root,
@@ -51,7 +52,7 @@ export default class DraftArea extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <div id={id}>
         <div
           className={cn(styles.container, 'talk-plugin-commentbox-container')}
         >
@@ -67,13 +68,14 @@ export default class DraftArea extends React.Component {
               comment,
               registerHook,
               unregisterHook,
-              value,
+              input,
               placeholder,
               id,
-              onChange,
+              onInputChange,
               rows,
               disabled,
               isReply,
+              isEdit,
             }}
           />
           <Slot fill="commentInputArea" />
@@ -92,10 +94,10 @@ DraftArea.propTypes = {
   charCountEnable: PropTypes.bool,
   maxCharCount: PropTypes.number,
   id: PropTypes.string,
-  value: PropTypes.string,
+  input: PropTypes.object,
   placeholder: PropTypes.string,
   label: PropTypes.string,
-  onChange: PropTypes.func,
+  onInputChange: PropTypes.func,
   disabled: PropTypes.bool,
   rows: PropTypes.number,
   root: PropTypes.object.isRequired,
@@ -103,4 +105,5 @@ DraftArea.propTypes = {
   registerHook: PropTypes.func,
   unregisterHook: PropTypes.func,
   isReply: PropTypes.bool,
+  isEdit: PropTypes.bool,
 };

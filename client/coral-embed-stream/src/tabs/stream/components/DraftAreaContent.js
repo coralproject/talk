@@ -4,19 +4,19 @@ import cn from 'classnames';
 import styles from './DraftAreaContent.css';
 
 const DraftAreaContent = ({
-  value,
+  input,
   placeholder,
   id,
-  onChange,
+  onInputChange,
   rows,
   disabled,
 }) => (
   <textarea
     className={cn(styles.content, 'talk-plugin-commentbox-textarea')}
-    value={value}
+    value={input.body}
     placeholder={placeholder}
     id={id}
-    onChange={e => onChange(e.target.value)}
+    onChange={e => onInputChange({ body: e.target.value })}
     rows={rows}
     disabled={disabled}
   />
@@ -28,9 +28,9 @@ DraftAreaContent.defaultProps = {
 
 DraftAreaContent.propTypes = {
   id: PropTypes.string,
-  value: PropTypes.string,
+  input: PropTypes.object,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func,
+  onInputChange: PropTypes.func,
   disabled: PropTypes.bool,
   rows: PropTypes.number,
 };
