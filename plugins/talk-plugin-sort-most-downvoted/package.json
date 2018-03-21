@@ -1,0 +1,9 @@
+{
+  "name": "@coralproject/talk-plugin-sort-most-downvoted",
+  "pluginName": "talk-plugin-sort-most-downvoted",
+  "version": "0.0.1",
+  "description": "Sort by most downvotes",
+  "main": "index.js",
+  "author": "The Coral Project Team <coral@mozillafoundation.org>",
+  "license": "Apache-2.0"
+}

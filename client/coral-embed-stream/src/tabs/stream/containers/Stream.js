@@ -367,6 +367,7 @@ const LOAD_MORE_QUERY = gql`
 `;
 
 const slots = [
+  'commentInputDetailArea',
   'streamTabs',
   'streamTabsPrepend',
   'streamTabPanes',

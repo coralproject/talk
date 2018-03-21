@@ -15,8 +15,11 @@ export default class CheckToxicityHook extends React.Component {
       // If we haven't check the toxicity yet, make sure to include `checkToxicity=true` in the mutation.
       // Otherwise post comment without checking the toxicity.
       if (!this.checked) {
-        input.checkToxicity = true;
         this.checked = true;
+        return {
+          ...input,
+          checkToxicity: true,
+        };
       }
     });
 
