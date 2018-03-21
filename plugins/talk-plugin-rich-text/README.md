@@ -58,7 +58,7 @@ This plugin contains 2 important components:
 - The Editor (`./components/Editor.js`)
 - The Comment Content Renderer (`./components/CommentContent.js`)
 
-The editor component utilizes the [contentEditable](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content) and commandExec API. 
+The editor component utilizes the [contentEditable](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content) and execCommand API. 
 
 If you check our `index.js` you will notice that we inject this editor in the
 `commentBox` slot. We do this to replace the core comment box with this one. 
