@@ -18,14 +18,8 @@ class CommentForm extends React.Component {
     charCountEnable: PropTypes.bool.isRequired,
     maxCharCount: PropTypes.number,
 
-    // DOM ID for form input that edits comment body
-    bodyInputId: PropTypes.string,
-
-    // screen reader label for input that edits comment body
-    bodyLabel: PropTypes.string,
-
-    // Placeholder for input that edits comment body
-    bodyPlaceholder: PropTypes.string,
+    // Unique identifier for this form
+    id: PropTypes.string,
 
     // render at start of button container (useful for extra buttons)
     buttonContainerStart: PropTypes.node,
@@ -59,8 +53,6 @@ class CommentForm extends React.Component {
   };
   static get defaultProps() {
     return {
-      bodyLabel: t('comment_box.comment'),
-      bodyPlaceholder: t('comment_box.comment'),
       submitText: t('comment_box.post'),
       submitButtonCStyle: 'darkGrey',
       submitEnabled: () => true,
@@ -114,10 +106,8 @@ class CommentForm extends React.Component {
         <DraftArea
           root={root}
           comment={comment}
-          id={this.props.bodyInputId}
-          label={this.props.bodyLabel}
+          id={this.props.id}
           input={input}
-          placeholder={this.props.bodyPlaceholder}
           onInputChange={this.props.onInputChange}
           disabled={disableTextArea}
           charCountEnable={this.props.charCountEnable}

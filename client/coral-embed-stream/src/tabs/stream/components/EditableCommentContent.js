@@ -67,7 +67,7 @@ class EditableCommentContent extends React.Component {
           bodyPlaceholder=""
           submitText={<span>{t('edit_comment.save_button')}</span>}
           submitButtonCStyle="green"
-          bodyInputId={id}
+          id={id}
         />
       </div>
     );

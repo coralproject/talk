@@ -35,10 +35,8 @@ export default class DraftArea extends React.Component {
   render() {
     const {
       input,
-      placeholder,
       id,
       disabled,
-      label,
       charCountEnable,
       maxCharCount,
       onInputChange,
@@ -55,21 +53,17 @@ export default class DraftArea extends React.Component {
         <div
           className={cn(styles.container, 'talk-plugin-commentbox-container')}
         >
-          <label htmlFor={id} className="screen-reader-text" aria-hidden={true}>
-            {label}
-          </label>
           <Slot
             fill="draftArea"
             defaultComponent={DraftAreaContent}
             className={styles.content}
             passthrough={{
+              id,
               root,
               comment,
               registerHook,
               unregisterHook,
               input,
-              placeholder,
-              id,
               onInputChange,
               disabled,
               isReply,
@@ -89,8 +83,6 @@ DraftArea.propTypes = {
   maxCharCount: PropTypes.number,
   id: PropTypes.string,
   input: PropTypes.object,
-  placeholder: PropTypes.string,
-  label: PropTypes.string,
   onInputChange: PropTypes.func,
   disabled: PropTypes.bool,
   root: PropTypes.object.isRequired,

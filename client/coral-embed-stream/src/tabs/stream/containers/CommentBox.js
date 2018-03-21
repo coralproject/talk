@@ -147,11 +147,9 @@ class CommentBox extends React.Component {
           root={root}
           comment={comment}
           defaultValue={this.props.defaultValue}
-          bodyLabel={isReply ? t('comment_box.reply') : t('comment.comment')}
           maxCharCount={maxCharCount}
           charCountEnable={this.props.charCountEnable}
-          bodyPlaceholder={t('comment.comment')}
-          bodyInputId={id}
+          id={id}
           input={this.state.input}
           registerHook={registerHook}
           unregisterHook={unregisterHook}
