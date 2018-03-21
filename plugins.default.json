@@ -2,21 +2,20 @@
   "server": [
     "talk-plugin-auth",
     "talk-plugin-featured-comments",
-    "talk-plugin-offtopic",
-    "talk-plugin-respect"
+    "talk-plugin-respect",
+    "talk-plugin-rich-text"
   ],
   "client": [
     "talk-plugin-auth",
     "talk-plugin-author-menu",
-    "talk-plugin-comment-content",
     "talk-plugin-featured-comments",
     "talk-plugin-flag-details",
     "talk-plugin-ignore-user",
     "talk-plugin-member-since",
     "talk-plugin-moderation-actions",
-    "talk-plugin-offtopic",
     "talk-plugin-permalink",
     "talk-plugin-respect",
+    "talk-plugin-rich-text",
     "talk-plugin-sort-most-replied",
     "talk-plugin-sort-most-respected",
     "talk-plugin-sort-newest",
