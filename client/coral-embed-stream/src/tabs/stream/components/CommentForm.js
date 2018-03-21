@@ -18,14 +18,8 @@ class CommentForm extends React.Component {
     charCountEnable: PropTypes.bool.isRequired,
     maxCharCount: PropTypes.number,
 
-    // DOM ID for form input that edits comment body
-    bodyInputId: PropTypes.string,
-
-    // screen reader label for input that edits comment body
-    bodyLabel: PropTypes.string,
-
-    // Placeholder for input that edits comment body
-    bodyPlaceholder: PropTypes.string,
+    // Unique identifier for this form
+    id: PropTypes.string,
 
     // render at start of button container (useful for extra buttons)
     buttonContainerStart: PropTypes.node,
@@ -37,15 +31,15 @@ class CommentForm extends React.Component {
     submitButtonCStyle: PropTypes.string,
 
     // return whether the submit button should be enabled for the provided
-    // comment ({ body }) (for reasons other than charCount)
+    // input (for reasons other than charCount)
     submitEnabled: PropTypes.func,
 
     // className to add to buttons
     submitButtonClassName: PropTypes.string,
     cancelButtonClassName: PropTypes.string,
 
-    body: PropTypes.string.isRequired,
-    onBodyChange: PropTypes.func.isRequired,
+    input: PropTypes.object.isRequired,
+    onInputChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func,
     state: PropTypes.string,
@@ -53,13 +47,12 @@ class CommentForm extends React.Component {
     registerHook: PropTypes.func,
     unregisterHook: PropTypes.func,
     isReply: PropTypes.bool,
+    isEdit: PropTypes.bool,
     root: PropTypes.object.isRequired,
     comment: PropTypes.object,
   };
   static get defaultProps() {
     return {
-      bodyLabel: t('comment_box.comment'),
-      bodyPlaceholder: t('comment_box.comment'),
       submitText: t('comment_box.post'),
       submitButtonCStyle: 'darkGrey',
       submitEnabled: () => true,
@@ -90,20 +83,20 @@ class CommentForm extends React.Component {
       cancelButtonClassName,
       submitButtonClassName,
       charCountEnable,
-      body,
+      input,
       loadingState,
       comment,
       root,
     } = this.props;
 
-    const length = body.length;
+    const length = input.body.length;
     const isRespectingMaxCount = length =>
       charCountEnable && maxCharCount && length > maxCharCount;
     const disableSubmitButton =
       !length ||
-      body.trim().length === 0 ||
+      input.body.trim().length === 0 ||
       isRespectingMaxCount(length) ||
-      !submitEnabled({ body }) ||
+      !submitEnabled(input) ||
       loadingState === 'loading';
     const disableCancelButton = loadingState === 'loading';
     const disableTextArea = loadingState === 'loading';
@@ -113,17 +106,16 @@ class CommentForm extends React.Component {
         <DraftArea
           root={root}
           comment={comment}
-          id={this.props.bodyInputId}
-          label={this.props.bodyLabel}
-          value={body}
-          placeholder={this.props.bodyPlaceholder}
-          onChange={this.props.onBodyChange}
+          id={this.props.id}
+          input={input}
+          onInputChange={this.props.onInputChange}
           disabled={disableTextArea}
           charCountEnable={this.props.charCountEnable}
           maxCharCount={this.props.maxCharCount}
           registerHook={this.props.registerHook}
           unregisterHook={this.props.unregisterHook}
           isReply={this.props.isReply}
+          isEdit={this.props.isEdit}
         />
         <div className={cn(styles.buttonContainer, `${name}-button-container`)}>
           {this.props.buttonContainerStart}

@@ -15,8 +15,11 @@ export default class CheckSpamHook extends React.Component {
       // If we haven't check the spam yet, make sure to include `checkSpam=true` in the mutation.
       // Otherwise post comment without checking the spam.
       if (!this.checked) {
-        input.checkSpam = true;
         this.checked = true;
+        return {
+          ...input,
+          checkSpam: true,
+        };
       }
     });
 

@@ -1,0 +1,17 @@
+.contentEditable {
+  background: #fff;
+  border: solid 1px #bbb;
+  min-height: 120px;
+  box-sizing: border-box;
+  outline: 0;
+  overflow-y: auto;
+  width: 100%;
+  padding: 10px;
+  font-style: unset;
+}
+
+.placeholder {
+  position: absolute;
+  margin: 12px 0 0 12px;
+  color: #bbb;
+}
