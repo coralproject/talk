@@ -43,6 +43,32 @@ const decorateContextPlugins = (context, contextPlugins) => {
 };
 
 /**
+ * Some pieces of the Context are quite complex to setup, using multiple merges
+ * and other lodash functions. This proxies that access such that it is only
+ * loaded if it is used. Helpful for a query that only uses a loader, and not a
+ * mutator.
+ *
+ * @param {Object} ctx the graph proxy
+ * @param {Function} loader the loadable component that should be proxied
+ */
+const createLazyContextLoader = (ctx, loader) =>
+  new Proxy(
+    { loaded: false, data: null },
+    {
+      get: (obj, prop) => {
+        if (obj.loaded) {
+          return obj.data[prop];
+        }
+
+        obj.data = loader(ctx);
+        obj.loaded = true;
+
+        return obj.data[prop];
+      },
+    }
+  );
+
+/**
  * Stores the request context.
  */
 class Context {
@@ -61,16 +87,18 @@ class Context {
     this.connectors = connectors;
 
     // Create the loaders.
-    this.loaders = loaders(this);
+    this.loaders = createLazyContextLoader(this, loaders);
 
     // Create the mutators.
-    this.mutators = mutators(this);
+    this.mutators = createLazyContextLoader(this, mutators);
 
     // Decorate the plugin context.
-    this.plugins = decorateContextPlugins(this, contextPlugins);
+    this.plugins = createLazyContextLoader(this, () =>
+      decorateContextPlugins(this, contextPlugins)
+    );
 
     // Bind the publish/subscribe to the context.
-    this.pubsub = getBroker();
+    this.pubsub = createLazyContextLoader(this, () => getBroker());
 
     // Bind the parent context.
     this.parent = ctx;
