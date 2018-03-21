@@ -13,6 +13,25 @@ const {
 
 const { RECAPTCHA_PUBLIC, WEBSOCKET_LIVE_URI } = require('../config');
 
+// Grab TALK_CLIENT_* environment variables.
+const TALK_CLIENT = /^TALK_CLIENT_/i;
+
+// TALK_CLIENT_ENV is all the environment keys that are loaded at runtime.
+const TALK_CLIENT_ENV = Object.keys(process.env)
+  .filter(key => TALK_CLIENT.test(key))
+  .reduce(
+    (env, key) => {
+      env[key] = process.env[key];
+      return env;
+    },
+    {
+      TALK_RECAPTCHA_PUBLIC: RECAPTCHA_PUBLIC,
+      LIVE_URI: WEBSOCKET_LIVE_URI,
+      STATIC_URL,
+      STATIC_ORIGIN,
+    }
+  );
+
 // TEMPLATE_LOCALS stores the static data that is provided as a `text/json` on
 // to the client from the template.
 const TEMPLATE_LOCALS = {
@@ -20,12 +39,8 @@ const TEMPLATE_LOCALS = {
   BASE_PATH,
   MOUNT_PATH,
   STATIC_URL,
-  data: {
-    TALK_RECAPTCHA_PUBLIC: RECAPTCHA_PUBLIC,
-    LIVE_URI: WEBSOCKET_LIVE_URI,
-    STATIC_URL,
-    STATIC_ORIGIN,
-  },
+  TALK_CLIENT_ENV,
+  data: TALK_CLIENT_ENV,
 };
 
 // attachStaticLocals will attach the locals to the response only.

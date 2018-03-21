@@ -9,6 +9,8 @@ import {
 } from 'plugin-api/beta/client/hocs';
 import { getSlotFragmentSpreads } from 'plugin-api/beta/client/utils';
 import { withUpdateNotificationSettings } from '../mutations';
+import { connect } from 'plugin-api/beta/client/hocs';
+import { staticConfigSelector } from 'plugin-api/beta/client/selectors';
 
 const slots = ['notificationSettings'];
 
@@ -42,8 +44,11 @@ class SettingsContainer extends React.Component {
   };
 
   getNeedEmailVerification() {
-    return !this.props.root.me.profiles.some(
-      profile => profile.provider === 'local' && profile.confirmedAt
+    return (
+      this.props.root.settings.notificationsRequireConfirmation &&
+      !this.props.root.me.profiles.some(
+        profile => profile.provider === 'local' && profile.confirmedAt
+      )
     );
   }
 
@@ -94,11 +99,22 @@ const enhance = compose(
             }
           }
         }
+        settings {
+          notificationsRequireConfirmation
+        }
       }
     `,
   }),
+  // Grab the static configuration from the redux store.
+  connect(state => ({
+    static: staticConfigSelector(state),
+  })),
   excludeIf(
     props =>
+      // If the environment variable for TALK_CLIENT_FORCE_NOTIFICATION_SETTINGS
+      // is `TRUE`, then always show it.
+      props.static.TALK_CLIENT_FORCE_NOTIFICATION_SETTINGS !== 'TRUE' &&
+      // Only show the settings pane if we have a local profile otherwise.
       !props.root.me.profiles.some(profile => profile.provider === 'local')
   ),
   withUpdateNotificationSettings,
