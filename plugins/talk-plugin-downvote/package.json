@@ -1,0 +1,9 @@
+{
+  "name": "@coralproject/talk-plugin-downvote",
+  "pluginName": "talk-plugin-downvote",
+  "version": "0.0.1",
+  "description": "Downvote comments",
+  "main": "index.js",
+  "author": "The Coral Project Team <coral@mozillafoundation.org>",
+  "license": "Apache-2.0"
+}
