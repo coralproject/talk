@@ -89,7 +89,7 @@ DraftAreaContainer.propTypes = {
   comment: PropTypes.object,
 };
 
-const slots = ['draftArea'];
+const slots = ['draftArea', 'commentInputArea'];
 
 export default withFragments({
   root: gql`

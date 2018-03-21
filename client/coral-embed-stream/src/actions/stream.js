@@ -1,6 +1,7 @@
 import * as actions from '../constants/stream';
 import { buildUrl } from 'coral-framework/utils/url';
 import queryString from 'query-string';
+import once from 'lodash/once';
 
 export const setActiveReplyBox = id => ({
   type: actions.SET_ACTIVE_REPLY_BOX,
@@ -71,16 +72,32 @@ export const setActiveTab = tab => dispatch => {
   dispatch({ type: actions.SET_ACTIVE_TAB, tab });
 };
 
-export const addCommentBoxTag = tag => ({
-  type: actions.ADD_COMMENT_BOX_TAG,
-  tag,
+// @Deprecated
+const showOldTagsWarningOnce = once(() => {
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn(
+      '`addCommentBoxTag`, `removeCommentBoxTag`, `clearCommentBoxTags` are deprecated. Please switch to `onInputChange`, `input.tags` instead'
+    );
+  }
 });
 
-export const removeCommentBoxTag = idx => ({
-  type: actions.REMOVE_COMMENT_BOX_TAG,
-  idx,
-});
-
-export const clearCommentBoxTags = () => ({
-  type: actions.CLEAR_COMMENT_BOX_TAGS,
-});
+export const addCommentBoxTag = tag => {
+  showOldTagsWarningOnce();
+  return {
+    type: actions.ADD_COMMENT_BOX_TAG,
+    tag,
+  };
+};
+export const removeCommentBoxTag = idx => {
+  showOldTagsWarningOnce();
+  return {
+    type: actions.REMOVE_COMMENT_BOX_TAG,
+    idx,
+  };
+};
+export const clearCommentBoxTags = () => {
+  showOldTagsWarningOnce();
+  return {
+    type: actions.CLEAR_COMMENT_BOX_TAGS,
+  };
+};

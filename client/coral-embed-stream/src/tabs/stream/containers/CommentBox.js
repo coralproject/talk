@@ -9,9 +9,21 @@ import CommentForm from '../containers/CommentForm';
 import { notifyForNewCommentStatus } from '../helpers';
 import withHooks from '../hocs/withHooks';
 import { compose } from 'recompose';
+import once from 'lodash/once';
 
 // TODO: (kiwi) Need to adapt CSS classes post refactor to match the rest.
 export const name = 'talk-plugin-commentbox';
+
+// @Deprecated
+const showOldTagsWarningOnce = once(() => {
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn(
+      'Using `addTags` and `removeTags` is deprecated. Please switch to `onInputChange` and `input` instead'
+    );
+  }
+});
+
+const initialInput = { body: '', tags: [] };
 
 /**
  * Container for posting a new Comment
@@ -22,9 +34,7 @@ class CommentBox extends React.Component {
 
     this.state = {
       loadingState: '',
-      input: {
-        body: '',
-      },
+      input: initialInput,
     };
   }
 
@@ -54,11 +64,18 @@ class CommentBox extends React.Component {
       return;
     }
 
+    // @Deprecated
+    const deprecatedTags = this.props.tags || [];
+    if (deprecatedTags.length) {
+      showOldTagsWarningOnce();
+    }
+    const tags = this.state.input.tags || [];
+
     let input = {
       asset_id: assetId,
       parent_id: parentId,
-      tags: this.props.tags,
       ...this.state.input,
+      tags: [...deprecatedTags, ...tags],
     };
 
     // Execute preSubmit Hooks
@@ -72,7 +89,7 @@ class CommentBox extends React.Component {
 
     postComment(input, 'comments')
       .then(({ data }) => {
-        this.setState({ loadingState: 'success', input: { body: '' } });
+        this.setState({ loadingState: 'success', input: initialInput });
         const postedComment = data.createComment.comment;
         const actions = data.createComment.actions;
 
@@ -102,14 +119,17 @@ class CommentBox extends React.Component {
   };
 
   renderButtonContainerStart() {
-    const { isReply, registerHook, unregisterHook } = this.props;
+    const { root, isReply, registerHook, unregisterHook } = this.props;
     return (
       <Slot
         fill="commentInputDetailArea"
         passthrough={{
+          root,
           registerHook: registerHook,
           unregisterHook: unregisterHook,
           isReply,
+          input: this.state.input,
+          onInputChange: this.handleInputChange,
         }}
         inline
       />

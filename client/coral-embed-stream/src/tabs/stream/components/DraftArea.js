@@ -70,6 +70,7 @@ export default class DraftArea extends React.Component {
               isEdit,
             }}
           />
+          {/* Is this slot here legitimate? (kiwi) */}
           <Slot fill="commentInputArea" />
         </div>
         {charCountEnable && maxCharCount > 0 && this.renderCharCount()}
