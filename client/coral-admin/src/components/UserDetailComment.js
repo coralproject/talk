@@ -32,13 +32,12 @@ class UserDetailComment extends React.Component {
       selected,
       toggleSelect,
       className,
-      data,
       root: { settings },
     } = this.props;
 
-    const queryData = { root, comment };
-
-    const formatterSettings = {
+    const slotPassthrough = {
+      root,
+      comment,
       suspectWords: settings.wordlist.suspect,
       bannedWords: settings.wordlist.banned,
       body: comment.body,
@@ -89,15 +88,13 @@ class UserDetailComment extends React.Component {
               <div className={styles.body}>
                 <Slot
                   fill="userDetailCommentContent"
-                  data={data}
                   className={cn(
                     styles.commentContent,
                     'talk-admin-user-detail-comment'
                   )}
-                  queryData={queryData}
-                  slotSize={1}
+                  size={1}
                   defaultComponent={CommentFormatter}
-                  {...formatterSettings}
+                  passthrough={slotPassthrough}
                 />
                 <a
                   className={styles.external}
@@ -130,7 +127,7 @@ class UserDetailComment extends React.Component {
             </div>
           </CommentAnimatedEdit>
         </div>
-        <CommentDetails data={data} root={root} comment={comment} />
+        <CommentDetails root={root} comment={comment} />
       </li>
     );
   }
@@ -138,7 +135,6 @@ class UserDetailComment extends React.Component {
 
 UserDetailComment.propTypes = {
   selected: PropTypes.bool,
-  data: PropTypes.object,
   user: PropTypes.object.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,

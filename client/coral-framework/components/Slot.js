@@ -4,86 +4,21 @@ import styles from './Slot.css';
 import { connect } from 'react-redux';
 import kebabCase from 'lodash/kebabCase';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
-import { getShallowChanges } from 'coral-framework/utils';
-import omit from 'lodash/omit';
-
-const emptyConfig = {};
+import { withSlotElements, withCompatPassthrough } from '../hocs';
+import { compose } from 'recompose';
 
 class Slot extends React.Component {
-  static contextTypes = {
-    plugins: PropTypes.object,
-  };
-
-  shouldComponentUpdate(next) {
-    // Prevent Slot from rerendering when only reduxState has changed and
-    // it does not result in a change of slot children.
-    const changes = getShallowChanges(this.props, next);
-    if (changes.length === 1 && changes[0] === 'reduxState') {
-      const prevChildrenKeys = this.getChildren(this.props).map(
-        child => child.key
-      );
-      const nextChildrenKeys = this.getChildren(next).map(child => child.key);
-      return !isEqual(prevChildrenKeys, nextChildrenKeys);
-    }
-
-    // Prevent Slot from rerendering when no props has shallowly changed.
-    return changes.length !== 0;
-  }
-
-  getSlotProps(props = this.props) {
-    return omit(props, [
-      'fill',
-      'inline',
-      'className',
-      'reduxState',
-      'slotSize',
-      'defaultComponent',
-      'queryData',
-      'childFactory',
-      'component',
-    ]);
-  }
-
-  getChildren(props = this.props) {
-    const { slotSize = 0 } = props;
-    const { plugins } = this.context;
-
-    return plugins.getSlotElements(
-      props.fill,
-      props.reduxState,
-      this.getSlotProps(props),
-      props.queryData,
-      { slotSize }
-    );
-  }
-
   render() {
     const {
       inline = false,
       className,
-      reduxState,
+      debug,
       component: Component,
       childFactory,
-      defaultComponent: DefaultComponent,
-      queryData,
       fill,
     } = this.props;
-    const { plugins } = this.context;
-    let children = this.getChildren();
-    const pluginConfig =
-      get(reduxState, 'config.plugins_config') || emptyConfig;
-    if (children.length === 0 && DefaultComponent) {
-      const props = plugins.getSlotComponentProps(
-        DefaultComponent,
-        reduxState,
-        this.getSlotProps(this.props),
-        queryData
-      );
-      children = <DefaultComponent {...props} />;
-    }
-
+    let children = this.props.slotElements;
     if (childFactory) {
       children = children.map(childFactory);
     }
@@ -91,10 +26,11 @@ class Slot extends React.Component {
     return (
       <Component
         className={cn(
-          { [styles.inline]: inline, [styles.debug]: pluginConfig.debug },
+          { [styles.inline]: inline, [styles.debug]: debug },
           className,
           `talk-slot-${kebabCase(fill)}`
         )}
+        data-slot-name={fill}
       >
         {children}
       </Component>
@@ -110,13 +46,14 @@ Slot.propTypes = {
   fill: PropTypes.string.isRequired,
   inline: PropTypes.bool,
   className: PropTypes.string,
-  reduxState: PropTypes.object,
+  debug: PropTypes.bool,
+  slotElements: PropTypes.arrayOf(PropTypes.element).isRequired,
   defaultComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 
   /**
    * Specifies the number of children that can fill the slot.
    */
-  slotSize: PropTypes.number,
+  size: PropTypes.number,
 
   /**
    * You may specify the component to use as the root wrapper.
@@ -125,7 +62,11 @@ Slot.propTypes = {
   component: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 
   // props coming from graphql must be passed through this property.
+  // @Deprecated
   queryData: PropTypes.object,
+
+  // props that are passed to all Slot Components
+  passthrough: PropTypes.object,
 
   /**
    * You may need to apply reactive updates to a child as it is exiting.
@@ -140,8 +81,27 @@ Slot.propTypes = {
   childFactory: PropTypes.func,
 };
 
+const omitProps = [
+  'fill',
+  'inline',
+  'className',
+  'size',
+  'defaultComponent',
+  'queryData',
+  'childFactory',
+  'component',
+];
+
 const mapStateToProps = state => ({
-  reduxState: state,
+  debug: get(state, 'config.plugins_config.debug'),
 });
 
-export default connect(mapStateToProps, null)(Slot);
+export default compose(
+  withCompatPassthrough(omitProps),
+  withSlotElements({
+    slot: props => props.fill,
+    size: props => props.size,
+    defaultComponent: props => props.defaultComponent,
+  }),
+  connect(mapStateToProps, null)
+)(Slot);
