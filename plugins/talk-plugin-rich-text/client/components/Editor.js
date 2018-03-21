@@ -81,7 +81,9 @@ class Editor extends React.Component {
 
   outdentOnEnter = e => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      setTimeout(() => document.execCommand('outdent'));
+      setTimeout(() => {
+        document.execCommand('outdent');
+      });
     }
   };
 
