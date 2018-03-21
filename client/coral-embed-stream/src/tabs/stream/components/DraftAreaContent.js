@@ -3,36 +3,49 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './DraftAreaContent.css';
 
-const DraftAreaContent = ({
-  value,
-  placeholder,
-  id,
-  onChange,
-  rows,
-  disabled,
-}) => (
-  <textarea
-    className={cn(styles.content, 'talk-plugin-commentbox-textarea')}
-    value={value}
-    placeholder={placeholder}
-    id={id}
-    onChange={e => onChange(e.target.value)}
-    rows={rows}
-    disabled={disabled}
-  />
-);
-
-DraftAreaContent.defaultProps = {
-  rows: 3,
-};
+class DraftAreaContent extends React.Component {
+  render() {
+    const {
+      input,
+      id,
+      onInputChange,
+      disabled,
+      label,
+      placeholder,
+    } = this.props;
+    const inputId = `${id}-textarea`;
+    return (
+      <div>
+        <label
+          htmlFor={inputId}
+          className="screen-reader-text"
+          aria-hidden={true}
+        >
+          {label}
+        </label>
+        <textarea
+          id={inputId}
+          className={cn(styles.content, 'talk-plugin-commentbox-textarea')}
+          value={input.body}
+          placeholder={placeholder}
+          onChange={e => onInputChange({ body: e.target.value })}
+          rows={3}
+          disabled={disabled}
+        />
+      </div>
+    );
+  }
+}
 
 DraftAreaContent.propTypes = {
   id: PropTypes.string,
-  value: PropTypes.string,
+  input: PropTypes.object,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func,
+  label: PropTypes.string,
+  onInputChange: PropTypes.func,
   disabled: PropTypes.bool,
-  rows: PropTypes.number,
+  isEdit: PropTypes.bool,
+  isReply: PropTypes.bool,
 };
 
 export default DraftAreaContent;

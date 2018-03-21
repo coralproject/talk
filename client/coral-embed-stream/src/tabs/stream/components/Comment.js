@@ -16,7 +16,7 @@ import mapValues from 'lodash/mapValues';
 import get from 'lodash/get';
 
 import LoadMore from './LoadMore';
-import { getEditableUntilDate } from './util';
+import { getEditableUntilDate } from '../util';
 import { findCommentWithId } from '../../../graphql/utils';
 import CommentContent from 'coral-framework/components/CommentContent';
 import Slot from 'coral-framework/components/Slot';
