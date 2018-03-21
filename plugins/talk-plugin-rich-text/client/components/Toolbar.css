@@ -1,0 +1,7 @@
+.toolbar {
+  user-select: none;
+  padding: 5px 10px;
+  border-top: 1px solid #bbb;
+  border-left: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+}

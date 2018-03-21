@@ -148,10 +148,12 @@ sidebar:
           url: /customizing-plugins-coral-ui/
     - title: API
       children:
-        - title: Server Plugins
-          url: /reference/server/
-        - title: GraphQL
-          url: /reference/graphql/
+        - title: GraphQL Overview
+          url: /api/overview/
+        - title: GraphQL Reference
+          url: /api/graphql/
+        - title: Server Plugin API
+          url: /api/server/
     - title: Migrating
       children:
         - title: Migrating to v4.0.0
