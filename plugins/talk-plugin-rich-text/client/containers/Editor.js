@@ -4,7 +4,7 @@ import Editor from '../components/Editor';
 
 export default withFragments({
   comment: gql`
-    fragment TalkPluginRichTextCoral_Editor_comment on Comment {
+    fragment TalkPluginRichText_Editor_comment on Comment {
       body
       richTextBody
     }

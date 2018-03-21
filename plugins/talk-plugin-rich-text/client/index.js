@@ -11,14 +11,14 @@ export default {
   },
   fragments: {
     CreateCommentResponse: gql`
-      fragment TalkRichTextCoral_CreateCommentResponse on CreateCommentResponse {
+      fragment TalkRichText_CreateCommentResponse on CreateCommentResponse {
         comment {
           richTextBody
         }
       }
     `,
     EditCommentResponse: gql`
-      fragment TalkRichTextCoral_EditCommentResponse on EditCommentResponse {
+      fragment TalkRichText_EditCommentResponse on EditCommentResponse {
         comment {
           richTextBody
         }
@@ -48,7 +48,7 @@ export default {
         },
         update: proxy => {
           const editCommentFragment = gql`
-            fragment TalkRichTextCoral_EditComment on Comment {
+            fragment TalkRichText_EditComment on Comment {
               richTextBody
             }
           `;
