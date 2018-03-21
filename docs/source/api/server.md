@@ -1,6 +1,6 @@
 ---
 title: Server Plugin API
-permalink: /reference/server/
+permalink: /api/server/
 toc: true
 class: configuration
 ---
