@@ -22,7 +22,7 @@ templates.register = (filename, name, format) => {
 };
 
 // load the templates per request during development
-templates.render = async (name, format = 'txt', context) => {
+templates.render = (name, format = 'txt', context) => {
   // Check to see if the template is a registered template (provided by a plugin
   // ) and prefer that first.
   let view = get(templates.registered, [name, format], null);
@@ -44,7 +44,7 @@ templates.render = async (name, format = 'txt', context) => {
     'templates',
     [name, format, 'ejs'].join('.')
   );
-  const file = await fs.readFile(filename, 'utf8');
+  const file = fs.readFileSync(filename, 'utf8');
   view = template(file);
 
   if (process.env.NODE_ENV === 'production') {
