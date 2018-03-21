@@ -8,7 +8,6 @@ const DraftAreaContent = ({
   placeholder,
   id,
   onInputChange,
-  rows,
   disabled,
 }) => (
   <textarea
@@ -17,14 +16,10 @@ const DraftAreaContent = ({
     placeholder={placeholder}
     id={id}
     onChange={e => onInputChange({ body: e.target.value })}
-    rows={rows}
+    rows={3}
     disabled={disabled}
   />
 );
-
-DraftAreaContent.defaultProps = {
-  rows: 3,
-};
 
 DraftAreaContent.propTypes = {
   id: PropTypes.string,
@@ -32,7 +27,6 @@ DraftAreaContent.propTypes = {
   placeholder: PropTypes.string,
   onInputChange: PropTypes.func,
   disabled: PropTypes.bool,
-  rows: PropTypes.number,
 };
 
 export default DraftAreaContent;

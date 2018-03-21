@@ -57,7 +57,6 @@ class DraftAreaContainer extends React.Component {
         placeholder={this.props.placeholder}
         id={this.props.id}
         onInputChange={this.props.onInputChange}
-        rows={this.props.rows}
         disabled={this.props.disabled}
         charCountEnable={this.props.charCountEnable}
         maxCharCount={this.props.maxCharCount}
@@ -85,7 +84,6 @@ DraftAreaContainer.propTypes = {
   placeholder: PropTypes.string,
   onInputChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  rows: PropTypes.number,
   label: PropTypes.string.isRequired,
   registerHook: PropTypes.func,
   unregisterHook: PropTypes.func,

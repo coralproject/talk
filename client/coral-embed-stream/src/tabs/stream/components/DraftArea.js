@@ -38,7 +38,6 @@ export default class DraftArea extends React.Component {
       placeholder,
       id,
       disabled,
-      rows,
       label,
       charCountEnable,
       maxCharCount,
@@ -72,7 +71,6 @@ export default class DraftArea extends React.Component {
               placeholder,
               id,
               onInputChange,
-              rows,
               disabled,
               isReply,
               isEdit,
@@ -86,10 +84,6 @@ export default class DraftArea extends React.Component {
   }
 }
 
-DraftArea.defaultProps = {
-  rows: 3,
-};
-
 DraftArea.propTypes = {
   charCountEnable: PropTypes.bool,
   maxCharCount: PropTypes.number,
@@ -99,7 +93,6 @@ DraftArea.propTypes = {
   label: PropTypes.string,
   onInputChange: PropTypes.func,
   disabled: PropTypes.bool,
-  rows: PropTypes.number,
   root: PropTypes.object.isRequired,
   comment: PropTypes.object,
   registerHook: PropTypes.func,
