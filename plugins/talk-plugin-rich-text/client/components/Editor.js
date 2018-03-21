@@ -86,8 +86,16 @@ class Editor extends React.Component {
   };
 
   render() {
+    const inputId = `${this.props.id}-rte`;
     return (
       <div className={cn(styles.root, `${PLUGIN_NAME}-container`)}>
+        <label
+          htmlFor={inputId}
+          className="screen-reader-text"
+          aria-hidden={true}
+        >
+          {this.props.label}
+        </label>
         <Toolbar>
           <Button icon="format_bold" title="bold" onClick={this.formatBold} />
           <Button
@@ -101,7 +109,11 @@ class Editor extends React.Component {
             onClick={this.formatBlockquote}
           />
         </Toolbar>
+        {!this.props.input.body && (
+          <div className={styles.placeholder}>{this.props.placeholder}</div>
+        )}
         <ContentEditable
+          id={inputId}
           onKeyPress={this.outdentOnEnter}
           className={styles.contentEditable}
           ref={this.handleRef}
