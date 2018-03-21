@@ -1,5 +1,5 @@
 const path = require('path');
-const fs = require('fs-extra');
+const fs = require('fs');
 const { get, set, template } = require('lodash');
 
 // load all the templates as strings
@@ -9,13 +9,13 @@ const templates = {
 };
 
 // Registers a template with the given filename and format.
-templates.register = async (filename, name, format) => {
+templates.register = (filename, name, format) => {
   // Check to see if this template was already registered.
   if (get(templates.registered, [name, format], null) !== null) {
     return;
   }
 
-  const file = await fs.readFile(filename, 'utf8');
+  const file = fs.readFileSync(filename, 'utf8');
   const view = template(file);
 
   set(templates.registered, [name, format], view);
