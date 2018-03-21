@@ -1,14 +1,34 @@
-import { bindActionCreators } from 'redux';
-import { addTag, removeTag } from 'plugin-api/alpha/client/actions';
-import { commentBoxTagsSelector } from 'plugin-api/alpha/client/selectors';
-import { connect } from 'plugin-api/beta/client/hocs';
+import React from 'react';
+import PropTypes from 'prop-types';
 import OffTopicCheckbox from '../components/OffTopicCheckbox';
+import { excludeIf } from 'plugin-api/beta/client/hocs';
 
-const mapStateToProps = state => ({
-  tags: commentBoxTagsSelector(state),
-});
+const OFF_TOPIC_TAG = 'OFF_TOPIC';
+class OffTopicCheckboxContainer extends React.Component {
+  handleChange = e => {
+    const { input, onInputChange } = this.props;
+    if (e.target.checked && !input.tags.includes(OFF_TOPIC_TAG)) {
+      onInputChange({ tags: [...input.tags, OFF_TOPIC_TAG] });
+    } else {
+      const idx = input.tags.indexOf(OFF_TOPIC_TAG);
+      if (idx !== -1) {
+        onInputChange({
+          tags: [...input.tags.slice(0, idx), ...input.tags.slice(0, idx)],
+        });
+      }
+    }
+  };
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ addTag, removeTag }, dispatch);
+  render() {
+    const checked = this.props.input.tags.includes(OFF_TOPIC_TAG);
+    return <OffTopicCheckbox checked={checked} onChange={this.handleChange} />;
+  }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(OffTopicCheckbox);
+OffTopicCheckboxContainer.propTypes = {
+  input: PropTypes.object.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  isReply: PropTypes.bool,
+};
+
+export default excludeIf(props => props.isReply)(OffTopicCheckboxContainer);

@@ -30,6 +30,7 @@ plugins/*
 !plugins/talk-plugin-author-menu
 !plugins/talk-plugin-comment-content
 !plugins/talk-plugin-deep-reply-count
+!plugins/talk-plugin-downvote
 !plugins/talk-plugin-facebook-auth
 !plugins/talk-plugin-featured-comments
 !plugins/talk-plugin-flag-details
@@ -52,14 +53,17 @@ plugins/*
 !plugins/talk-plugin-remember-sort
 !plugins/talk-plugin-respect
 !plugins/talk-plugin-slack-notifications
+!plugins/talk-plugin-sort-most-downvoted
 !plugins/talk-plugin-sort-most-liked
 !plugins/talk-plugin-sort-most-loved
 !plugins/talk-plugin-sort-most-replied
 !plugins/talk-plugin-sort-most-respected
+!plugins/talk-plugin-sort-most-upvoted
 !plugins/talk-plugin-sort-newest
 !plugins/talk-plugin-sort-oldest
 !plugins/talk-plugin-subscriber
 !plugins/talk-plugin-toxic-comments
+!plugins/talk-plugin-upvote
 !plugins/talk-plugin-viewing-options
 !plugins/talk-plugin-rich-text
 

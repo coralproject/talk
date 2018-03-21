@@ -1,0 +1,9 @@
+{
+  "name": "@coralproject/talk-plugin-sort-most-upvoted",
+  "pluginName": "talk-plugin-sort-most-upvoted",
+  "version": "0.0.1",
+  "description": "Sort by most upvotes",
+  "main": "index.js",
+  "author": "The Coral Project Team <coral@mozillafoundation.org>",
+  "license": "Apache-2.0"
+}
