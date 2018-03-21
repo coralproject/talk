@@ -65,9 +65,12 @@ class CommentBox extends React.Component {
     };
 
     // Execute preSubmit Hooks
-    this.state.hooks.preSubmit.forEach(hook =>
-      hook(input, this.handleBodyChange)
-    );
+    this.state.hooks.preSubmit.forEach(hook => {
+      const result = hook(input);
+      if (result) {
+        input = result;
+      }
+    });
     this.setState({ loadingState: 'loading' });
 
     postComment(input, 'comments')
