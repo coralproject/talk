@@ -80,7 +80,7 @@ router.post('/password/reset', async (req, res, next) => {
           token,
         },
         subject: 'Password Reset',
-        to: email,
+        email,
       });
     }
 
