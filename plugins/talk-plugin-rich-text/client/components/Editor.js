@@ -125,6 +125,9 @@ Editor.propTypes = {
   unregisterHook: PropTypes.func,
   isReply: PropTypes.bool,
   isEdit: PropTypes.bool,
+  id: PropTypes.string,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 export default Editor;

@@ -32,6 +32,20 @@ export default class DraftArea extends React.Component {
     );
   }
 
+  getLabel() {
+    if (this.props.isEdit) {
+      return t('edit_comment.body_input_label');
+    }
+    return this.props.isReply ? t('comment_box.reply') : t('comment.comment');
+  }
+
+  getPlaceholder() {
+    if (this.props.isEdit) {
+      return '';
+    }
+    return this.getLabel();
+  }
+
   render() {
     const {
       input,
@@ -68,6 +82,8 @@ export default class DraftArea extends React.Component {
               disabled,
               isReply,
               isEdit,
+              placeholder: this.getPlaceholder(),
+              label: this.getLabel(),
             }}
           />
           {/* Is this slot here legitimate? (kiwi) */}
