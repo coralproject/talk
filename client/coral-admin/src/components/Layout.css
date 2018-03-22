@@ -1,4 +1,6 @@
 .layout {
   margin: 0 auto;
   background-color: #FAFAFA;
+  height: inherit;
+  min-height: 100vh;
 }
