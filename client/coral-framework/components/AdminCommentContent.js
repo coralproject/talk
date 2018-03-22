@@ -172,9 +172,16 @@ const AdminCommentContentHTML = ({
   suspectWords,
   bannedWords,
 }) => {
+  // We create a Shadow DOM Tree with the HTML body content and
+  // use it as a parser.
   const node = document.createElement('div');
   node.innerHTML = body;
+
+  // Then we traverse it recursively and manipulate it to highlight suspect words
+  // and banned words.
   markHTMLNode(node, suspectWords, bannedWords);
+
+  // Finally we render the content of the Shadow DOM Tree
   return (
     <div
       className={cn(className, styles.content)}
