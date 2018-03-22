@@ -16,7 +16,6 @@ import { nest } from '../../../graphql/utils';
 
 const slots = [
   'streamQuestionArea',
-  'commentInputArea',
   'commentInputDetailArea',
   'commentInfoBar',
   'commentActions',

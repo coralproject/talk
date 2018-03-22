@@ -7,6 +7,10 @@ export default class StreamInterface {
     return this._stream.emitter.on(eventName, callback);
   }
 
+  off(eventName, callback) {
+    return this._stream.emitter.off(eventName, callback);
+  }
+
   login(token) {
     return this._stream.login(token);
   }
@@ -17,5 +21,13 @@ export default class StreamInterface {
 
   remove() {
     return this._stream.remove();
+  }
+
+  enablePluginsDebug() {
+    return this._stream.enablePluginsDebug();
+  }
+
+  disablePluginsDebug() {
+    return this._stream.disablePluginsDebug();
   }
 }

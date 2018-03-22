@@ -13,6 +13,7 @@ const staticMiddleware = require('express-static-gzip');
 const { DISABLE_STATIC_SERVER } = require('../config');
 const { passport } = require('../services/passport');
 const { MOUNT_PATH } = require('../url');
+const url = require('url');
 const context = require('../middleware/context');
 
 const router = express.Router();
@@ -31,8 +32,8 @@ if (!DISABLE_STATIC_SERVER) {
   /**
    * Redirect old embed calls.
    */
-  const oldEmbed = path.resolve(MOUNT_PATH, 'embed.js');
-  const newEmbed = path.resolve(MOUNT_PATH, 'static/embed.js');
+  const oldEmbed = url.resolve(MOUNT_PATH, 'embed.js');
+  const newEmbed = url.resolve(MOUNT_PATH, 'static/embed.js');
   router.get('/embed.js', (req, res) => {
     console.warn(
       `deprecation warning: ${oldEmbed} will be phased out soon, please replace calls from ${oldEmbed} to ${newEmbed}`
@@ -132,9 +133,9 @@ if (process.env.NODE_ENV !== 'production') {
   router.get('/', async (req, res, next) => {
     try {
       await SetupService.isAvailable();
-      return res.redirect('/admin/install');
+      return res.redirect(url.resolve(MOUNT_PATH, 'admin/install'));
     } catch (e) {
-      return res.redirect('/admin');
+      return res.redirect(url.resolve(MOUNT_PATH, 'admin'));
     }
   });
 }

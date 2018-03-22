@@ -8,7 +8,7 @@ const initialState = {
   errors: {},
 };
 
-export default function config(state = initialState, action) {
+export default function configure(state = initialState, action) {
   switch (action.type) {
     case actions.UPDATE_PENDING: {
       let next = state;

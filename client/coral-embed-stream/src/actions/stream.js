@@ -71,16 +71,19 @@ export const setActiveTab = tab => dispatch => {
   dispatch({ type: actions.SET_ACTIVE_TAB, tab });
 };
 
+// @Deprecated
 export const addCommentBoxTag = tag => ({
   type: actions.ADD_COMMENT_BOX_TAG,
   tag,
 });
 
+// @Deprecated
 export const removeCommentBoxTag = idx => ({
   type: actions.REMOVE_COMMENT_BOX_TAG,
   idx,
 });
 
+// @Deprecated
 export const clearCommentBoxTags = () => ({
   type: actions.CLEAR_COMMENT_BOX_TAGS,
 });
