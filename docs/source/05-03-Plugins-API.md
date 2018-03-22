@@ -1,7 +1,10 @@
 # Plugins API
-This is a set of utilities that we expose to create or add functionality to the Plugins. Feel free to check all the utilities here at `talk/plugin-api`.
+We created a set of utilities to make it easier to create and add functionality to plugins.
+
+Feel free to check all the utilities here:  `talk/plugin-api`.
 
 ## Actions
+
 ### Import 
 ```
 import {notify} 'plugin-api/beta/actions';
@@ -59,7 +62,26 @@ const slotPassthrough = {
 ```
 
 * `IfSlotIsNotEmpty`
+
 * `ClickOutside`
+This utility handle click events outside the component. 
+
+### Props
+* `onClickOutside` :  Takes handler function
+
+#### Import
+```js
+import { ClickOutside } from 'plugin-api/beta/client/components';
+```
+
+#### Usage
+```js
+<ClickOutside onClickOutside={this.handleClickOutside}>
+	// Your component
+</ClickOutside>
+```
+
+
 * `CommentAuthorName`
 * `CommentTimestamp`
 * `CommentDetail`
