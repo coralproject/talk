@@ -9,4 +9,8 @@
   mark {
     background-color: #f4ff81;
   }
+
+  b, strong {
+    font-weight: 600;
+  }
 }
