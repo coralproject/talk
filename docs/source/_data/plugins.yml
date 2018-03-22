@@ -13,8 +13,6 @@
     - default
 - name: talk-plugin-comment-content
   description: Linkifies comment content that contains links.
-  tags:
-    - default
 - name: talk-plugin-deep-reply-count
   description: Enables deep reply count graph edge including all decendant replies.
 - name: talk-plugin-facebook-auth
@@ -79,8 +77,6 @@
     - notifications
 - name: talk-plugin-offtopic
   description: Allows users to mark a comment as off-topic when they create it.
-  tags:
-    - default
 - name: talk-plugin-permalink
   description: Shows a Link button on comments for direct-linking to a comment.
   tags:
