@@ -97,6 +97,16 @@ const ErrEmailVerificationToken = new APIError('token is required', {
   status: 400,
 });
 
+// ErrEmailAlreadyVerified is returned when the user tries to verify an email
+// address that has already been verified.
+const ErrEmailAlreadyVerified = new APIError(
+  'email address is already verified',
+  {
+    translation_key: 'EMAIL_ALREADY_VERIFIED',
+    status: 409,
+  }
+);
+
 // ErrPasswordResetToken is returned in the event that the password reset is requested
 // without a token.
 const ErrPasswordResetToken = new APIError('token is required', {
@@ -284,6 +294,7 @@ module.exports = {
   ErrCommentTooShort,
   ErrContainsProfanity,
   ErrEditWindowHasEnded,
+  ErrEmailAlreadyVerified,
   ErrEmailTaken,
   ErrEmailVerificationToken,
   ErrInstallLock,
