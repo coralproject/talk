@@ -206,6 +206,7 @@ en:
   error:
     COMMENT_PARENT_NOT_VISIBLE: "The comment that you're replying to has been removed or doesn't exist."
     EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
+    EMAIL_ALREADY_VERIFIED: "Email address already verified."
     PASSWORD_RESET_TOKEN_INVALID: "Your password reset link is invalid."
     COMMENT_TOO_SHORT: "Comments should be more than one character, please revise your comment and try again."
     NOT_AUTHORIZED: "You are not authorized to perform this action."
