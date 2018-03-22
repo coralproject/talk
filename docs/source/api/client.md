@@ -1,7 +1,10 @@
 ---
-title: Plugins API
-permalink: /plugins-api/
+title: Client Plugin API
+permalink: /api/client/
+toc: true
+class: configuration
 ---
+
 We created a set of utilities to make it easier to create and add functionality to plugins.
 Feel free to check all the utilities here:  `talk/plugin-api`.
 
