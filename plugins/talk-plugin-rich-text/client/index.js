@@ -1,13 +1,15 @@
 import Editor from './containers/Editor';
 import CommentContent from './containers/CommentContent';
+import AdminCommentContent from './containers/AdminCommentContent';
+
 import { gql } from 'react-apollo';
 
 export default {
   slots: {
     draftArea: [Editor],
     commentContent: [CommentContent],
-    adminCommentContent: [CommentContent],
-    userDetailCommentContent: [CommentContent],
+    adminCommentContent: [AdminCommentContent],
+    userDetailCommentContent: [AdminCommentContent],
   },
   fragments: {
     CreateCommentResponse: gql`

@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { matchLinks } from '../utils';
+import { matchLinks } from './index';
 import memoize from 'lodash/memoize';
 
 function escapeRegExp(string) {
@@ -35,6 +34,17 @@ function getPhrasesRegexp(suspectWords, bannedWords) {
 // Memoized version as arguments rarely change.
 const getPhrasesRegexpMemoized = memoize(getPhrasesRegexp);
 
+function nl2br(body, keyPrefix) {
+  const tokens = body.split('\n').reduce((tokens, t, i) => {
+    if (i !== 0) {
+      tokens.push(<br key={`${keyPrefix}_${i}`} />);
+    }
+    tokens.push(t);
+    return tokens;
+  }, []);
+  return tokens;
+}
+
 // markPhrases looks for `supsectWords` and `bannedWords` inside `body` and highlights them by returning
 // an array of React Elements.
 function markPhrases(body, suspectWords, bannedWords, keyPrefix) {
@@ -48,14 +58,20 @@ function markPhrases(body, suspectWords, bannedWords, keyPrefix) {
 
 // markLinks looks for links inside `body` and highlights them by returning
 // an array of React Elements.
-function markLinks(body) {
+function markLinks(body, keyPrefix) {
   const matches = matchLinks(body);
   const content = [];
   let index = 0;
   if (matches) {
     matches.forEach((match, i) => {
       content.push(body.substring(index, match.index));
-      content.push(<mark key={i}>{match.text}</mark>);
+      content.push(
+        <mark key={`${keyPrefix}_${i}`}>
+          <a href={match.url} target="_blank">
+            {match.text}
+          </a>
+        </mark>
+      );
       index = match.lastIndex;
     });
   }
@@ -63,47 +79,20 @@ function markLinks(body) {
   return content;
 }
 
-const CommentFormatter = ({
-  body,
-  suspectWords,
-  bannedWords,
-  className = 'comment',
-  ...rest
-}) => {
-  // Breaking the body by line break
-  const textbreaks = body.split('\n');
+export function renderText(body, suspectWords, bannedWords) {
+  return nl2br(body).map((element, index) => {
+    // Skip br tags.
+    if (typeof element !== 'string') {
+      return element;
+    }
+    return markLinks(element, index).map((element, index) => {
+      // Keep highlighted links.
+      if (typeof element !== 'string') {
+        return element;
+      }
 
-  return (
-    <span className={`${className}-text`} {...rest}>
-      {textbreaks.map((line, i) => {
-        const content = markLinks(line).map((element, index) => {
-          // Keep highlighted links.
-          if (typeof element !== 'string') {
-            return element;
-          }
-
-          // Highlight suspect and banned phrase inside this part of text.
-          return markPhrases(element, suspectWords, bannedWords, index);
-        });
-
-        return (
-          <span key={i} className={`${className}-line`}>
-            {content}
-            {i !== textbreaks.length - 1 && (
-              <br className={`${className}-linebreak`} />
-            )}
-          </span>
-        );
-      })}
-    </span>
-  );
-};
-
-CommentFormatter.propTypes = {
-  className: PropTypes.string,
-  bannedWords: PropTypes.array,
-  suspectWords: PropTypes.array,
-  body: PropTypes.string,
-};
-
-export default CommentFormatter;
+      // Highlight suspect and banned phrase inside this part of text.
+      return markPhrases(element, suspectWords, bannedWords, index);
+    });
+  });
+}
