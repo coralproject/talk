@@ -373,6 +373,9 @@ export default class Comment extends React.Component {
       charCountEnable,
       root,
     } = this.props;
+
+    const reachedMaxThreadingLevel = depth >= THREADING_LEVEL;
+
     return (
       <ReplyBox
         root={root}
@@ -381,7 +384,10 @@ export default class Comment extends React.Component {
         charCountEnable={charCountEnable}
         maxCharCount={maxCharCount}
         setActiveReplyBox={setActiveReplyBox}
-        parentId={depth < THREADING_LEVEL ? comment.id : parentId}
+        parentId={reachedMaxThreadingLevel ? parentId : comment.id}
+        parentAuthorName={
+          reachedMaxThreadingLevel ? comment.user.username : undefined
+        }
         notify={notify}
         postComment={postComment}
         currentUser={currentUser}

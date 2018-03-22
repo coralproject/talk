@@ -23,7 +23,7 @@ const showOldTagsWarningOnce = once(() => {
   }
 });
 
-const initialInput = { body: '', tags: [] };
+const initialInput = { tags: [] };
 
 /**
  * Container for posting a new Comment
@@ -32,9 +32,13 @@ class CommentBox extends React.Component {
   constructor(props) {
     super(props);
 
+    const body = this.props.parentAuthorName
+      ? '@' + this.props.parentAuthorName + '\n'
+      : '';
+
     this.state = {
       loadingState: '',
-      input: initialInput,
+      input: Object.assign(initialInput, { body: body }),
     };
   }
 
