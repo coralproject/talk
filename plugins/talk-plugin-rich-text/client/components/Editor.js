@@ -46,13 +46,17 @@ class Editor extends React.Component {
     this.props.unregisterHook(this.normalizeHook);
   }
 
-  getCurrentTagName() {
+  hasAncestor(tag) {
     const sel = window.getSelection();
     const range = sel.getRangeAt(0);
-    if (range.startContainer.nodeName !== '#text') {
-      return range.startContainer.nodeName;
-    }
-    return range.startContainer.parentNode.tagName;
+    let cur = range.startContainer;
+    do {
+      if (cur.nodeName === tag) {
+        return true;
+      }
+      cur = cur.parentNode;
+    } while (cur);
+    return false;
   }
 
   formatBold = () => {
@@ -66,8 +70,7 @@ class Editor extends React.Component {
   };
 
   formatBlockquote = () => {
-    const currentTag = this.getCurrentTagName();
-    if (currentTag === 'BLOCKQUOTE') {
+    if (this.hasAncestor('BLOCKQUOTE')) {
       document.execCommand('outdent');
     } else {
       if (bowser.msie) {
