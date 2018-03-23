@@ -144,6 +144,8 @@ sidebar:
           url: /building-basic-plugin/
         - title: Customizing Plugins with Coral UI
           url: /customizing-plugins-coral-ui/
+        - title: When You've Installed Talk
+          url: /when-youve-installed-talk/
     - title: API
       children:
         - title: GraphQL Overview
