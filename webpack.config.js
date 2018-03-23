@@ -335,7 +335,8 @@ module.exports = [
     {
       output: {
         library: 'Coral',
-        // don't hash the embed.
+        // don't hash the embed, cache-busting must be completed by the requester
+        // as this lives in a static template on the embed site.
         filename: '[name].js',
       },
       plugins: [
