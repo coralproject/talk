@@ -20,3 +20,12 @@ Configuration:
 
 You can enable other notification options by adding more
 `talk-plugin-notification-*` plugins!
+
+## Email Subjects
+
+While it seems in your notification category plugin you can set the subject
+line by adjusting the translation, Talk's default behavior is to add a prefix
+before the subject of each email sent. This is always set to the
+[TALK-EMAIL-SUBJECT-PREFIX](/talk/advanced-configuration/#TALK-EMAIL-SUBJECT-PREFIX)
+configuration variable. You should change this parameter if you want to affect
+how the subject is rendered.
