@@ -7,6 +7,7 @@ import { htmlNormalizer } from '../utils';
 import RTE from './rte/RTE';
 import { Icon } from 'plugin-api/beta/client/components/ui';
 import { Bold, Italic, Blockquote } from './rte/buttons';
+import { t } from 'plugin-api/beta/client/services';
 
 class Editor extends React.Component {
   ref = null;
@@ -66,14 +67,20 @@ class Editor extends React.Component {
           disabled={disabled}
           placeholder={placeholder}
           buttons={[
-            <Bold key="bold" title="bold">
-              <Icon className={styles.icon} name={'format_bold'} />
+            <Bold key="bold" title={t('talk-plugin-rich-text.format_bold')}>
+              <Icon className={styles.icon} name="format_bold" />
             </Bold>,
-            <Italic key="italic" title="italic">
-              <Icon className={styles.icon} name={'format_italic'} />
+            <Italic
+              key="italic"
+              title={t('talk-plugin-rich-text.format_italic')}
+            >
+              <Icon className={styles.icon} name="format_italic" />
             </Italic>,
-            <Blockquote key="blockquote" title="blockquote">
-              <Icon className={styles.icon} name={'format_quote'} />
+            <Blockquote
+              key="blockquote"
+              title={t('talk-plugin-rich-text.format_blockquote')}
+            >
+              <Icon className={styles.icon} name="format_quote" />
             </Blockquote>,
           ]}
         />
