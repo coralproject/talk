@@ -1,24 +1,58 @@
 import createToggle from '../factories/createToggle';
-import { hasAncestor } from '../utils';
-import bowser from 'bowser';
+import {
+  findIntersectingTag,
+  insertNewLineAfterNode,
+  replaceSelection,
+  insertNodes,
+  getSelectedNodesExpanded,
+  outdentNode,
+} from '../lib/dom';
 
-const execCommand = () => {
-  if (hasAncestor('BLOCKQUOTE')) {
-    document.execCommand('outdent');
+// TODO: select end of node.
+function selectNode(node) {
+  const range = document.createRange();
+  const container = node.childNodes.length ? node.childNodes[0] : node;
+  range.setStart(container, 0);
+  range.setEnd(container, 0);
+  replaceSelection(range);
+}
+
+function execCommand() {
+  const bq = findIntersectingTag('BLOCKQUOTE');
+  if (bq) {
+    outdentNode(bq, true);
   } else {
-    if (bowser.msie) {
-      document.execCommand('indent');
+    const node = document.createElement('blockquote');
+    const selectedNodes = getSelectedNodesExpanded();
+    if (selectedNodes.length) {
+      const firstNode = selectedNodes[0];
+      firstNode.parentNode.insertBefore(node, firstNode);
+      selectedNodes.forEach(n => {
+        node.appendChild(n);
+      });
+      selectNode(node);
     } else {
-      document.execCommand('formatBlock', false, 'blockquote');
+      node.appendChild(document.createElement('br'));
+      insertNodes(node);
+      selectNode(node);
     }
+    this.broadcastChange();
   }
+}
+
+function syncState() {
+  return !!findIntersectingTag('BLOCKQUOTE');
+}
+
+const onEnter = node => {
+  if (node.tagName !== 'BLOCKQUOTE') {
+    return;
+  }
+  insertNewLineAfterNode(node, true);
+  return true;
 };
 
-const syncState = () => {
-  return hasAncestor('BLOCKQUOTE');
-};
-
-const Blockquote = createToggle(execCommand, syncState);
+const Blockquote = createToggle(execCommand, syncState, { onEnter });
 
 Blockquote.defaultProps = {
   children: 'Blockquote',

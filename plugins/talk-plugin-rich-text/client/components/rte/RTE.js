@@ -3,16 +3,14 @@ import PropTypes from 'prop-types';
 import styles from './RTE.css';
 import cn from 'classnames';
 import ContentEditable from 'react-contenteditable';
-import Toolbar from './Toolbar';
+import Toolbar from './components/Toolbar';
+import { insertNewLine } from './lib/dom';
+import API from './lib/api';
 
-class Editor extends React.Component {
+class RTE extends React.Component {
   ref = null;
-  handleRef = ref => (this.ref = ref);
+  api = null;
   buttonsRef = {};
-
-  get contentEditable() {
-    return this.ref.htmlEl;
-  }
 
   createButtonRefHandler(key) {
     return ref => {
@@ -24,38 +22,46 @@ class Editor extends React.Component {
     };
   }
 
-  hasAncestor(tag) {
-    const sel = window.getSelection();
-    const range = sel.getRangeAt(0);
-    let cur = range.startContainer;
-    do {
-      if (cur.nodeName === tag) {
-        return true;
-      }
-      cur = cur.parentNode;
-    } while (cur);
-    return false;
-  }
-
   forEachButton(callback) {
     Object.keys(this.buttonsRef).map(k => callback(this.buttonsRef[k]));
   }
 
-  handleChange = evt => {
+  handleChange = () => {
     this.props.onChange({
       text: this.ref.htmlEl.innerText,
-      html: evt.target.value,
+      html: this.ref.htmlEl.innerHTML,
     });
   };
 
+  handleRef = ref => (
+    (this.ref = ref), (this.api = new API(this.ref.htmlEl, this.handleChange))
+  );
+
   handleSelectionChange = () => {
+    //  console.log(window.getSelection().getRangeAt(0));
     this.forEachButton(b => {
       b.onSelectionChange && b.onSelectionChange();
     });
   };
 
+  handleSpecialEnter = () => {
+    let handled = false;
+    const sel = window.getSelection();
+    const range = sel.getRangeAt(0);
+    let container = range.startContainer;
+    while (!handled && container && container !== this.ref.htmlEl) {
+      this.forEachButton(b => {
+        if (!handled) {
+          handled = !!(b.onEnter && b.onEnter(container));
+        }
+      });
+      container = container.parentNode;
+    }
+    return handled;
+  };
+
   handleClick = () => {
-    this.handleSelectionChange();
+    setTimeout(() => this.handleSelectionChange());
   };
 
   handleKeyDown = () => {
@@ -68,17 +74,25 @@ class Editor extends React.Component {
 
   handleKeyPress = e => {
     this.handleSelectionChange();
-    if (e.key === 'Enter' && !e.shiftKey) {
-      setTimeout(() => {
-        document.execCommand('outdent');
-      });
+    if (e.key === 'Enter') {
+      if (!e.shiftKey && this.handleSpecialEnter()) {
+        this.handleChange();
+        e.preventDefault();
+        return false;
+      }
+
+      insertNewLine(true);
+
+      this.handleChange();
+      e.preventDefault();
+      return false;
     }
   };
 
   renderButtons() {
     return this.props.buttons.map(b => {
       return React.cloneElement(b, {
-        rte: this,
+        api: this.api,
         ref: this.createButtonRefHandler(b.key),
       });
     });
@@ -115,11 +129,11 @@ class Editor extends React.Component {
   }
 }
 
-Editor.defaultProps = {
+RTE.defaultProps = {
   buttons: [],
 };
 
-Editor.propTypes = {
+RTE.propTypes = {
   buttons: PropTypes.array,
   inputId: PropTypes.string,
   input: PropTypes.object,
@@ -132,4 +146,4 @@ Editor.propTypes = {
   value: PropTypes.string,
 };
 
-export default Editor;
+export default RTE;

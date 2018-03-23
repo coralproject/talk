@@ -1,25 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '../Button';
+import Button from '../components/Button';
 
-const createToggle = (execCommand, getCurrentState) => {
+const createToggle = (execCommand, getCurrentState, { onEnter } = {}) => {
   class Toggle extends React.Component {
     state = {
       active: false,
     };
 
+    execCommand = () => execCommand.apply(this.props.api);
+    getCurrentState = () => getCurrentState.apply(this.props.api);
+    onEnter = (...args) => onEnter && onEnter.apply(this.props.api, args);
+
     formatToggle = () => {
-      execCommand();
-      this.props.rte.contentEditable.focus();
+      this.execCommand();
     };
 
     handleClick = () => {
+      this.props.api.focus();
       this.formatToggle();
-      this.syncState();
+      this.props.api.focus();
     };
 
     syncState = () => {
-      if (this.state.active !== getCurrentState()) {
+      if (this.state.active !== this.getCurrentState()) {
         this.setState(state => ({
           active: !state.active,
         }));
@@ -46,7 +50,7 @@ const createToggle = (execCommand, getCurrentState) => {
   }
 
   Toggle.propTypes = {
-    rte: PropTypes.object,
+    api: PropTypes.object,
     className: PropTypes.string,
     title: PropTypes.string,
     children: PropTypes.node,
