@@ -377,7 +377,11 @@ en:
 
 Which overrides the copy for the `embedlink.copy` template. You can
 also provide other languages as well by using the correct language
-prefix.
+prefix. 
+
+When creating a plugin using this `translations` hook to override copy 
+from another plugin, be sure to list it after the plugin it's overriding
+in the `plugins.json` file. 
 
 ### websockets
 

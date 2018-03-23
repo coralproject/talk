@@ -1,6 +1,6 @@
 {
   "exec": "npm-run-all --parallel generate-introspection start:development",
-  "ignore": ["test/*", "client/*", "dist/*", "plugins/*/client"],
+  "ignore": ["test/*", "client/*", "dist/*", "plugins/*/client", "docs/*"],
   "ext": "js,json,graphql,yml",
   "watch": [
     ".",

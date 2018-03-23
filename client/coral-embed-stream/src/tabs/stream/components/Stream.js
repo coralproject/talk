@@ -15,14 +15,13 @@ import QuestionBox from '../../../components/QuestionBox';
 import { Tab, TabCount, TabPane } from 'coral-ui';
 import cn from 'classnames';
 import get from 'lodash/get';
-
 import { reverseCommentParentTree } from '../../../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
 import ExtendableTabPanel from '../../../containers/ExtendableTabPanel';
+import ChangedUsername from './ChangedUsername';
+import CommentNotFound from '../containers/CommentNotFound';
 
 import styles from './Stream.css';
-import ChangedUsername from './ChangedUsername';
-
 class Stream extends React.Component {
   constructor(props) {
     super(props);
@@ -238,7 +237,11 @@ class Stream extends React.Component {
         keepCommentBox);
 
     if (highlightedComment === null) {
-      return <StreamError>{t('stream.comment_not_found')}</StreamError>;
+      return (
+        <StreamError>
+          <CommentNotFound />
+        </StreamError>
+      );
     }
 
     const slotPassthrough = { root, asset };
