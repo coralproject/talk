@@ -1,6 +1,8 @@
 ---
-title: Slots and Plugins
-permalink: /slots-and-plugins/
+title: Plugin Slots API
+permalink: /api/slots/
+toc: true
+class: configuration
 ---
 
 Plugins make use of **"slots"** in order to change Talk's interface.
