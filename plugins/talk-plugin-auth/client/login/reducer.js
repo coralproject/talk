@@ -5,20 +5,20 @@ const initialState = {
   view: views.SIGN_IN,
   email: '',
   password: '',
-  enableSubmit: true,
+  submitSignUpForm: true,
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case actions.ENABLE_SUBMIT:
+    case actions.ENABLE_SUBMIT_SIGNUP_FORM:
       return {
         ...state,
-        enableSubmit: true,
+        submitSignUpForm: true,
       };
-    case actions.DISABLE_SUBMIT:
+    case actions.DISABLE_SUBMIT_SIGNUP_FORM:
       return {
         ...state,
-        enableSubmit: false,
+        submitSignUpForm: false,
       };
     case actions.SET_VIEW:
       return {

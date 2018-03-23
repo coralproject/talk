@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Slot } from 'plugin-api/beta/client/components';
 import {
   Button,
   TextField,
@@ -42,7 +43,14 @@ class SignUp extends React.Component {
       errorMessage,
       requireEmailConfirmation,
       success,
+      enableSubmitSignUpForm,
+      disableSubmitSignUpForm,
     } = this.props;
+
+    const slotPassthrough = {
+      enableSubmitSignUpForm,
+      disableSubmitSignUpForm,
+    };
 
     return (
       <div>
@@ -103,6 +111,10 @@ class SignUp extends React.Component {
                 onChange={this.handlePasswordRepeatChange}
                 minLength="8"
               />
+              <Slot
+                fill="talkPluginAuth-formField"
+                passthrough={slotPassthrough}
+              />
               <div className={styles.action}>
                 <Button
                   type="submit"
@@ -161,6 +173,8 @@ SignUp.propTypes = {
   errorMessage: PropTypes.string,
   requireEmailConfirmation: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
+  enableSubmitSignUpForm: PropTypes.func.isRequired,
+  disableSubmitSignUpForm: PropTypes.func.isRequired,
 };
 
 export default SignUp;
