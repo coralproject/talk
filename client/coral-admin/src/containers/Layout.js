@@ -11,6 +11,7 @@ import { logout } from 'coral-framework/actions/auth';
 import { can } from 'coral-framework/services/perms';
 import UserDetail from 'coral-admin/src/containers/UserDetail';
 import PropTypes from 'prop-types';
+import Forbidden from '../components/Forbidden';
 
 class LayoutContainer extends React.Component {
   render() {
@@ -47,10 +48,7 @@ class LayoutContainer extends React.Component {
       } else {
         return (
           <Layout {...this.props} handleLogout={logout}>
-            <p>
-              This page is for team use only. Please contact an administrator if
-              you want to join this team.
-            </p>
+            <Forbidden />
           </Layout>
         );
       }
