@@ -66,28 +66,29 @@ function getManifest() {
 }
 
 /**
- * resolve is a function that can be used in templates to resolve an asset from
- * the manifest. In production, the manifest is cached.
+ * resolveFactory is a function that can be used in templates to resolve an
+ * asset from the manifest. In production, the manifest is cached.
  */
-const resolve = (() => {
+const createResolveFactory = (() => {
   if (process.env.NODE_ENV === 'production') {
     // In production, we should attempt to load the manifest early.
     const manifest = getManifest();
 
-    return key => `${STATIC_URL}static/${manifest[key]}`;
+    return () => key => `${STATIC_URL}static/${manifest[key]}`;
   }
 
   // In dev mode, we are more forgiving and we always load the
   // newest version of the manifest.
-  return key => {
+  return () => {
+    let manifest = {};
     try {
-      const manifest = getManifest();
-
-      return `${STATIC_URL}static/${manifest[key]}`;
+      manifest = getManifest();
     } catch (err) {
       console.warn(err);
-      return '';
     }
+
+    return key =>
+      key in manifest ? `${STATIC_URL}static/${manifest[key]}` : '';
   };
 })();
 
@@ -105,7 +106,7 @@ module.exports = async (req, res, next) => {
 
   // Resolve will help resolving paths to static files
   // using the manifest.
-  res.locals.resolve = resolve;
+  res.locals.resolve = createResolveFactory();
 
   // Forward the request.
   next();

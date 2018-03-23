@@ -3,3 +3,4 @@ public/*
 .deploy*/
 db.json
 *.log
+source/_data/introspection.json
