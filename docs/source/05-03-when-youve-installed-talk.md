@@ -40,7 +40,9 @@ Your plans might include:
 
 ![[IMAGE] A screenshot of the Configure menu from the comments view](http://blog.coralproject.net/wp-content/uploads/2018/03/ask2.png)  
 
-* Setting the comments on these articles to pre-moderation, then writing a note in the Ask a Question box stating that all comments have to be approved before publication; The Washington Post does this in some breaking news situations. You can set the comments on a single story to pre-moderation via the Configure tab on the article's comments. ![[IMAGE] A screenshot of the pre-moderate option in the Configure tab](http://blog.coralproject.net/wp-content/uploads/2018/03/premod.png)
+* Setting the comments on these articles to pre-moderation, then writing a note in the Ask a Question box stating that all comments have to be approved before publication; The Washington Post does this in some breaking news situations. You can set the comments on a single story to pre-moderation via the Configure tab on the article's comments. 
+
+![[IMAGE] A screenshot of the pre-moderate option in the Configure tab](http://blog.coralproject.net/wp-content/uploads/2018/03/premod.png)
 
 * Not allowing comments on these topics at all. Following a series of racist responses, for instance, the CBC in Canada chose not to open comments at all on articles about indigenous Canadians. That's a perfectly valid response if you don't have the resources to ensure a civil discussion – if people really want to talk about it, they can go elsewhere.In this situation, we recommend publishing a note at the bottom of all articles where this applies, explaining your decision and directing people to where they can send letters to the editor or continue the discussion off site, so that your community members understand what is happening.
 
