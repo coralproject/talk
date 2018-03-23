@@ -12,4 +12,4 @@ interact with Talk's GraphQL endpoint.
 
 # GraphQL Schema
 
-{% graphqldocs ../../client/coral-framework/graphql/introspection.json %}
+{% graphqldocs _data/introspection.json %}

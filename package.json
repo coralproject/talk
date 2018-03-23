@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "generate-introspection": "WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js",
-    "clean": "rm -rf dist client/coral-framework/graphql/introspection.json",
+    "clean": "rm -rf dist client/coral-framework/graphql/introspection.json docs/source/_data/introspection.json",
     "watch": "npm-run-all clean generate-introspection --parallel watch:*",
     "watch:client": "NODE_ENV=development webpack --progress --watch",
     "watch:server": "nodemon --config .nodemon.json",
@@ -165,6 +165,7 @@
     "react-broadcast": "^0.6.2",
     "react-dom": "^15.4.2",
     "react-input-autosize": "^1.1.4",
+    "react-loadable": "^5.3.1",
     "react-mdl": "^1.11.0",
     "react-mdl-selectfield": "^0.2.0",
     "react-paginate": "^5.0.0",
