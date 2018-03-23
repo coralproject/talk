@@ -140,5 +140,3 @@ For the first month or so, we recommend including a link to the launch article m
 A regular space for conversation about the conversation is always welcome in any successful community, and is a great source of ideas for improvement.   
 
 **_We hope you enjoy using Talk, and that it helps your communities to thrive. If you have any questions or suggestions for this piece, or would like to try Talk on your site, please [contact us.](https://coralproject.net/contact.html)_**   
-
-[_Red button image by włodi_](https://www.flickr.com/photos/wlodi/3085157011/)_, CC-BY-SA 2.0_
