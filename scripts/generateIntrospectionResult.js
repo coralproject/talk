@@ -103,16 +103,25 @@ function getIntrospectionQuery(options = {}) {
   `;
 }
 
-const generateIntrospectionResult = (resultLocation, options = {}) =>
-  graphql(schema, getIntrospectionQuery(options)).then(({ data }) => {
-    // Serialize the introspection result as JSON.
-    const introspectionResult = JSON.stringify(data, null, 2);
+const generateIntrospectionResult = async (resultLocation, options = {}) => {
+  const dir = path.dirname(resultLocation);
+  try {
+    fs.accessSync(dir);
+  } catch (err) {
+    console.log(`Cannot write to ${dir}, not generating introspection.json`);
+    return;
+  }
 
-    // Write the introspection result to the filesystem.
-    fs.writeFileSync(resultLocation, introspectionResult, 'utf8');
+  const { data } = await graphql(schema, getIntrospectionQuery(options));
 
-    console.log(`Outputted result of introspectionQuery to ${resultLocation}`);
-  });
+  // Serialize the introspection result as JSON.
+  const introspectionResult = JSON.stringify(data, null, 2);
+
+  // Write the introspection result to the filesystem.
+  fs.writeFileSync(resultLocation, introspectionResult, 'utf8');
+
+  console.log(`Outputted result of introspectionQuery to ${resultLocation}`);
+};
 
 const graphIntrospectionFilename = path.resolve(
   __dirname,
