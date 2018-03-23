@@ -9217,6 +9217,12 @@ react-linkify@^0.2.1:
     prop-types "^15.5.8"
     tlds "^1.57.0"
 
+react-loadable@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/react-loadable/-/react-loadable-5.3.1.tgz#9699e9a08fed49bacd69caaa282034b62a76bcdd"
+  dependencies:
+    prop-types "^15.5.0"
+
 react-mdl-selectfield@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/react-mdl-selectfield/-/react-mdl-selectfield-0.2.0.tgz#36e1a97233036c057ab2bdb31ec09ad8d9988411"
