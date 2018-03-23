@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './SetUsernameDialog.css';
-import { Alert, TextField, Button } from 'plugin-api/beta/client/components/ui';
+import {
+  Dialog,
+  Alert,
+  TextField,
+  Button,
+} from 'plugin-api/beta/client/components/ui';
 import { FakeComment } from './FakeComment';
 import { t } from 'plugin-api/beta/client/services';
 
@@ -17,50 +22,52 @@ class SetUsernameDialog extends React.Component {
     const { username, usernameError, errorMessage } = this.props;
 
     return (
-      <div>
-        <div className={styles.header}>
-          <h1>
-            {t('talk-plugin-auth.set_username_dialog.write_your_username')}
-          </h1>
-        </div>
+      <Dialog className={styles.dialogusername} id="createUsernameDialog" open>
         <div>
-          <p className={styles.yourusername}>
-            {t('talk-plugin-auth.set_username_dialog.your_username')}
-          </p>
-          <FakeComment
-            className={styles.fakeComment}
-            username={username}
-            created_at={new Date().toISOString()}
-            body={t('talk-plugin-auth.set_username_dialog.fake_comment_body')}
-          />
-          {errorMessage && <Alert>{errorMessage}</Alert>}
-          <form id="saveUsername" onSubmit={this.handleSubmit}>
-            {usernameError && (
-              <span className={styles.hint}>
-                {' '}
-                {t(
-                  'talk-plugin-auth.set_username_dialog.special_characters'
-                )}{' '}
-              </span>
-            )}
-            <div className={styles.saveusername}>
-              <TextField
-                id="username"
-                style={{ fontSize: 16 }}
-                type="string"
-                label={t('talk-plugin-auth.set_username_dialog.username')}
-                value={username}
-                showErrors={!!usernameError}
-                errorMsg={usernameError}
-                onChange={this.handleUsernameChange}
-              />
-              <Button id="save" type="submit" className={styles.saveButton}>
-                {t('talk-plugin-auth.set_username_dialog.save')}
-              </Button>
-            </div>
-          </form>
+          <div className={styles.header}>
+            <h1>
+              {t('talk-plugin-auth.set_username_dialog.write_your_username')}
+            </h1>
+          </div>
+          <div>
+            <p className={styles.yourusername}>
+              {t('talk-plugin-auth.set_username_dialog.your_username')}
+            </p>
+            <FakeComment
+              className={styles.fakeComment}
+              username={username}
+              created_at={new Date().toISOString()}
+              body={t('talk-plugin-auth.set_username_dialog.fake_comment_body')}
+            />
+            {errorMessage && <Alert>{errorMessage}</Alert>}
+            <form id="saveUsername" onSubmit={this.handleSubmit}>
+              {usernameError && (
+                <span className={styles.hint}>
+                  {' '}
+                  {t(
+                    'talk-plugin-auth.set_username_dialog.special_characters'
+                  )}{' '}
+                </span>
+              )}
+              <div className={styles.saveusername}>
+                <TextField
+                  id="username"
+                  style={{ fontSize: 16 }}
+                  type="string"
+                  label={t('talk-plugin-auth.set_username_dialog.username')}
+                  value={username}
+                  showErrors={!!usernameError}
+                  errorMsg={usernameError}
+                  onChange={this.handleUsernameChange}
+                />
+                <Button id="save" type="submit" className={styles.saveButton}>
+                  {t('talk-plugin-auth.set_username_dialog.save')}
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+      </Dialog>
     );
   }
 }
