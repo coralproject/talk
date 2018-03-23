@@ -62,7 +62,9 @@ The most important predictors of the success of an online community are:
 
 #### Quickly:
 
-* Create Banned/Suspect word lists specific to your needs, to prevent the worst words being posted, and to auto-report comments you should keep an eye on.![](http://blog.coralproject.net/wp-content/uploads/2018/03/banned-suspect.jpg)**We have a starter list of more than 1700 words/phrases that most sites choose to ban.** Email support@coralproject.net to request it.
+* Create Banned/Suspect word lists specific to your needs, to prevent the worst words being posted, and to auto-report comments you should keep an eye on.![](http://blog.coralproject.net/wp-content/uploads/2018/03/banned-suspect.jpg)
+
+**We have a starter list of more than 1700 words/phrases that most sites choose to ban.** Email support@coralproject.net to request it.
 
 * If you don't have a very high comment volume and use Slack in your newsroom, you could integrate Slack moderation to keep tabs on new/reported comments. [Read more about our free Slack moderation plugin.](https://blog.coralproject.net/slacking-on/)
 
@@ -73,9 +75,13 @@ The most important predictors of the success of an online community are:
 * Use keyboard shortcuts in the moderation queue to moderate quickly (type '?' in the moderation view to see the list of shortcuts), and if there is a sudden deluge of comments, ask for someone in your newsroom to help you moderate. Talk will notify you in the moderation interface if someone else moderates a comment that's already on your screen.
 *   Click on a community member's name in the moderation interface to review all their comments, and see if there is a clear pattern of abuse among their Rejected comments. You can also select all their recent comments and delete them in bulk.![A screenshot of the moderation interface with the user drawer on display. Pink arrows indicate the user name, which can be clicked to open the drawer, and the drawer itself.](http://blog.coralproject.net/wp-content/uploads/2018/03/userdrawer.jpg)
 
-* Give people who need to step away from the conversation a 'time out' by suspending their account via the User drawer (click on the user's name anywhere in the moderation interface), and write a personalized note to them to explain why you took this action. Ban any users whose behavior is clearly offensive and/or abusive to an extreme degree.![A close up of the User Drawer with a large pink arrow indicating the Actions menu where users can be suspended or banned](http://blog.coralproject.net/wp-content/uploads/2018/03/suspend-ban.jpg)
+* Give people who need to step away from the conversation a 'time out' by suspending their account via the User drawer (click on the user's name anywhere in the moderation interface), and write a personalized note to them to explain why you took this action. Ban any users whose behavior is clearly offensive and/or abusive to an extreme degree.
 
-* Reject the worst comments on the article page itself by using the small caret in the corner of each comment.![A screenshot of the comments stream with a moderation menu popped out and a large pink arrow pointing to the caret where moderators can unfold the moderation menu](http://blog.coralproject.net/wp-content/uploads/2018/03/caret-mod.jpg)
+![A close up of the User Drawer with a large pink arrow indicating the Actions menu where users can be suspended or banned](http://blog.coralproject.net/wp-content/uploads/2018/03/suspend-ban.jpg)
+
+* Reject the worst comments on the article page itself by using the small caret in the corner of each comment.
+
+![A screenshot of the comments stream with a moderation menu popped out and a large pink arrow pointing to the caret where moderators can unfold the moderation menu](http://blog.coralproject.net/wp-content/uploads/2018/03/caret-mod.jpg)
 
 * If you find new commenters are causing a lot of trouble with their first comments, consider changing [the User Karma threshold](https://coralproject.github.io/talk/trust/) from negative one to zero, forcing every new commenter's first comment into pre-moderation.
 
@@ -84,7 +90,11 @@ The most important predictors of the success of an online community are:
 * If you're using the Toxic Comments plugin, make sure that its threshold is set at the level that catches most comments with fewest false positives (default is 80%). You can see the Likely to be Toxic level of every comment by clicking "More Details" on the comment card in the moderation view.
 
 * Publicly discourage behavior in the comments that doesn't cross the line but suggests that the tone or focus could shift quickly in a direction you don't want. Point to relevant sections of your community guidelines. [Read more about defining and discouraging this kind of behavior here.](https://guides.coralproject.net/manage-a-successful-community/)
-* If people are sharing links to conspiracy sites or other unreliable sources, consider setting either the article (via the Configure tab on the article page) or the whole site (via Configure in the Admin view) to Pre-moderate Links, and delete any comments that link to sites that exceed your guidelines.![An image showing the Pre-moderate Links option in the moderation console](http://blog.coralproject.net/wp-content/uploads/2018/03/premodlinks-site.jpg) ---------------------- ![A screenshot of the Configure tab in the comments stream with the Pre-Moderate Links option circled in pink](http://blog.coralproject.net/wp-content/uploads/2018/03/premodllinks-article.jpg)
+* If people are sharing links to conspiracy sites or other unreliable sources, consider setting either the article (via the Configure tab on the article page) or the whole site (via Configure in the Admin view) to Pre-moderate Links, and delete any comments that link to sites that exceed your guidelines.
+
+![An image showing the Pre-moderate Links option in the moderation console](http://blog.coralproject.net/wp-content/uploads/2018/03/premodlinks-site.jpg) 
+
+![A screenshot of the Configure tab in the comments stream with the Pre-Moderate Links option circled in pink](http://blog.coralproject.net/wp-content/uploads/2018/03/premodllinks-article.jpg)
 
 * If the conversation is getting out of hand, set the article to Pre-moderation (via the Configure tab on the comments, see above) and tell your community members you've done it, via Ask a Question (see above). If the conversation doesn't improve, or you feel that it is beyond redemption, consider closing the article to comments altogether via the Configure tab or the Stories tab in the moderation view, and telling the community why you have done so.
 
@@ -109,7 +119,13 @@ If your goal is to bring community closer to your journalism, you need to change
 
 **For the journalism:** [there is real potential value in the comments](https://guides.coralproject.net/why-community-work-is-important/), in helping journalists find tips and sources, in finding important clarifications and corrections, in building a loyal audience, and in involving your community in your mission. These are some of your most dedicated readers. They deserve your attention. That said, journalists need to be prepared for how to engage effectively. 
 
-[As this guide on engaging in the comments](http://niemanreports.org/articles/getting-the-most-out-of-comments-a-guide-for-journalists/) states, the main principles for how to act in the comments should be **Thank**, **Engage** (through Featured comments, replying to the commenter), **Share** (via social media and, where appropriate, in follow-up articles.) 
+[As this guide on engaging in the comments](http://niemanreports.org/articles/getting-the-most-out-of-comments-a-guide-for-journalists/) states, the main principles for how to act in the comments should be 
+
+* **Thank**
+
+* **Engage** (through Featured comments, replying to the commenter)
+
+* **Share** (via social media and, where appropriate, in follow-up articles)
 
 If you are going to ask journalists moderate comments, we recommend that they don't moderate their own but instead pair with someone else to moderate each other's, before the author of the piece goes into the comments to engage. In that way, the worst abuse and criticism can be removed by someone who is less likely to take it personally. You should also instruct journalists on how to escalate potentially credible threats to a senior editor, and make it clear that it's ok to step away if the task starts to affect them personally. [There are more tips on supporting the emotional health of people who moderate comments here.](https://guides.coralproject.net/supporting-emotional-labor-in-moderation/)
 
