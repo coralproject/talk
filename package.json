@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "generate-introspection": "WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js",
-    "clean": "rm -rf dist client/coral-framework/graphql/introspection.json",
+    "clean": "rm -rf dist client/coral-framework/graphql/introspection.json docs/source/_data/introspection.json",
     "watch": "npm-run-all clean generate-introspection --parallel watch:*",
     "watch:client": "NODE_ENV=development webpack --progress --watch",
     "watch:server": "nodemon --config .nodemon.json",
