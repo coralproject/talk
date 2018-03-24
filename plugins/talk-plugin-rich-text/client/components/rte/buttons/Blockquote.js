@@ -2,20 +2,11 @@ import createToggle from '../factories/createToggle';
 import {
   findIntersectingTag,
   insertNewLineAfterNode,
-  replaceSelection,
   insertNodes,
   getSelectedNodesExpanded,
   outdentNode,
+  selectEndOfNode,
 } from '../lib/dom';
-
-// TODO: select end of node.
-function selectNode(node) {
-  const range = document.createRange();
-  const container = node.childNodes.length ? node.childNodes[0] : node;
-  range.setStart(container, 0);
-  range.setEnd(container, 0);
-  replaceSelection(range);
-}
 
 function execCommand() {
   const bq = findIntersectingTag('BLOCKQUOTE');
@@ -23,6 +14,8 @@ function execCommand() {
     outdentNode(bq, true);
   } else {
     const node = document.createElement('blockquote');
+
+    // Expanded selection means we always select whole lines.
     const selectedNodes = getSelectedNodesExpanded();
     if (selectedNodes.length) {
       const firstNode = selectedNodes[0];
@@ -30,11 +23,11 @@ function execCommand() {
       selectedNodes.forEach(n => {
         node.appendChild(n);
       });
-      selectNode(node);
+      selectEndOfNode(node);
     } else {
       node.appendChild(document.createElement('br'));
       insertNodes(node);
-      selectNode(node);
+      selectEndOfNode(node);
     }
   }
   this.broadcastChange();

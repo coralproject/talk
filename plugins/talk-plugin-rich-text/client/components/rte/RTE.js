@@ -11,6 +11,7 @@ import {
   replaceSelection,
   cloneNodeAndRange,
   replaceNodeChildren,
+  selectEndOfNode,
 } from './lib/dom';
 import API from './lib/api';
 import Undo from './lib/undo';
@@ -18,11 +19,21 @@ import bowser from 'bowser';
 import throttle from 'lodash/throttle';
 
 class RTE extends React.Component {
+  /// Ref to react-contenteditable
   ref = null;
+
+  // Our "plugins" api.
   api = null;
+
+  // Instance of undo stack.
   undo = new Undo();
+
+  // Refs to the buttons.
   buttonsRef = {};
 
+  // Should be called on every change to feed
+  // our Undo stack. We save the innerHTML and if available
+  // a copy of the contentEditable node and a copy of the range.
   saveCheckpoint = throttle((html, node, range) => {
     const args = [html];
     if (node && range) {
@@ -31,6 +42,12 @@ class RTE extends React.Component {
     this.undo.save(...args);
   }, 1000);
 
+  constructor(props) {
+    super(props);
+    this.saveCheckpoint(props.value);
+  }
+
+  // Returns a handler that fills our `buttonsRef`.
   createButtonRefHandler(key) {
     return ref => {
       if (ref) {
@@ -41,16 +58,25 @@ class RTE extends React.Component {
     };
   }
 
+  // Ref to react-contenteditable.
+  handleRef = ref => (
+    (this.ref = ref),
+    (this.api = new API(
+      this.ref.htmlEl,
+      this.handleChange,
+      () => this.undo.canUndo(),
+      () => this.undo.canRedo(),
+      this.handleUndo,
+      this.handleRedo
+    ))
+  );
+
   forEachButton(callback) {
     Object.keys(this.buttonsRef).map(k => callback(this.buttonsRef[k]));
   }
 
-  constructor(props) {
-    super(props);
-    this.saveCheckpoint(props.value);
-  }
-
   componentWillReceiveProps(props) {
+    // Clear undo stack if content was set to sth different.
     if (props.value !== this.ref.htmlEl.innerHTML) {
       this.undo.clear();
       this.saveCheckpoint(props.value);
@@ -71,16 +97,17 @@ class RTE extends React.Component {
     );
   };
 
-  handleRef = ref => (
-    (this.ref = ref), (this.api = new API(this.ref.htmlEl, this.handleChange))
-  );
-
   handleSelectionChange = () => {
+    // Let buttons know selection has changeed, so they
+    // can update.
     this.forEachButton(b => {
       b.onSelectionChange && b.onSelectionChange();
     });
   };
 
+  // Called when Enter was pressed without shift.
+  // Traverses from bottom to top and calling
+  // button handlers and stops when one has handled this event.
   handleSpecialEnter = () => {
     let handled = false;
     const sel = window.getSelection();
@@ -104,6 +131,8 @@ class RTE extends React.Component {
     }
   };
 
+  // We intercept pasting, so that we
+  // force text/plain content.
   handlePaste = e => {
     // Get text representation of clipboard
     // This works cross browser.
@@ -199,6 +228,7 @@ class RTE extends React.Component {
       replaceSelection(finalRange);
     } else {
       this.ref.htmlEl.innerHTML = html;
+      selectEndOfNode(this.ref.htmlEl);
     }
     this.handleChange();
   }

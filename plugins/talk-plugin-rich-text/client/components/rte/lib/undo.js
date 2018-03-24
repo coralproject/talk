@@ -1,4 +1,12 @@
+/**
+ * Simple size limited Undo stack.
+ */
 export default class Undo {
+  /**
+   * undoStack contains all known values.
+   * The last value of this stack represent
+   * the most recent change.
+   */
   undoStack = [];
   redoStack = [];
   size;

@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../components/Button';
 
+/**
+ *  createToggle creates a button that can be active, inactive or disabled
+ *  and reacts on clicks. All callbacks are bound to the API instance.
+ */
 const createToggle = (
   execCommand,
   { onEnter, isActive = () => false, isDisabled = () => false } = {}

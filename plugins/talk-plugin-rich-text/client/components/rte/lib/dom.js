@@ -384,3 +384,36 @@ export function replaceNodeChildren(node, node2) {
     node.appendChild(node2.firstChild);
   }
 }
+
+export function selectEndOfNode(node) {
+  for (let i = node.childNodes.length - 1; i >= 0; i--) {
+    let child = node.childNodes[i];
+    const s = selectEndOfNode(child);
+    if (s) {
+      return true;
+    }
+    if (child.tagName === 'BR') {
+      if (
+        child.previousSibling &&
+        child.previousSibling.childName === '#text'
+      ) {
+        child = child.previousSibling;
+      } else {
+        const offset = indexOfChildNode(node, child);
+        const range = document.createRange();
+        range.setStart(node, offset);
+        range.setEnd(node, offset);
+        replaceSelection(range);
+        return true;
+      }
+    }
+    if (child.nodeName === '#text') {
+      const range = document.createRange();
+      range.setStart(child, child.textContent.length);
+      range.setEnd(child, child.textContent.length);
+      replaceSelection(range);
+      return true;
+    }
+  }
+  return false;
+}
