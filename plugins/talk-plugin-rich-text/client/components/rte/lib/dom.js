@@ -337,8 +337,8 @@ export function getSelectedChildren(ancestor) {
 export function outdentNode(node, changeSelection) {
   const parentNode = node.parentNode;
   const offset = indexOfChildNode(parentNode, node);
-  while (node.childNodes.length) {
-    parentNode.insertBefore(node.childNodes[0], node);
+  while (node.firstChild) {
+    parentNode.insertBefore(node.firstChild, node);
   }
   parentNode.removeChild(node);
 
@@ -347,5 +347,40 @@ export function outdentNode(node, changeSelection) {
     range.setStart(parentNode, offset);
     range.setEnd(parentNode, offset);
     replaceSelection(range);
+  }
+}
+
+function cloneNodeAndRangeHelper(node, range, rangeCloned) {
+  const nodeCloned = node.cloneNode(false);
+  node.childNodes.forEach(n =>
+    nodeCloned.appendChild(cloneNodeAndRangeHelper(n, range, rangeCloned))
+  );
+  if (range.startContainer === node) {
+    rangeCloned.setStart(nodeCloned, range.startOffset);
+  }
+  if (range.endContainer === node) {
+    rangeCloned.setEnd(nodeCloned, range.endOffset);
+  }
+  return nodeCloned;
+}
+
+export function cloneNodeAndRange(node, range) {
+  const rangeCloned = range.cloneRange();
+  const nodeCloned = cloneNodeAndRangeHelper(node, range, rangeCloned);
+  if (
+    rangeCloned.startContainer === range.startContainer ||
+    rangeCloned.endContainer === range.endContainer
+  ) {
+    throw new Error('Range not inside node');
+  }
+  return [nodeCloned, rangeCloned];
+}
+
+export function replaceNodeChildren(node, node2) {
+  while (node.firstChild) {
+    node.removeChild(node.firstChild);
+  }
+  while (node2.firstChild) {
+    node.appendChild(node2.firstChild);
   }
 }
