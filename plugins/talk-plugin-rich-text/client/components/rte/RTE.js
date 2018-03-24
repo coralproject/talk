@@ -4,8 +4,9 @@ import styles from './RTE.css';
 import cn from 'classnames';
 import ContentEditable from 'react-contenteditable';
 import Toolbar from './components/Toolbar';
-import { insertNewLine } from './lib/dom';
+import { insertNewLine, insertText } from './lib/dom';
 import API from './lib/api';
+import bowser from 'bowser';
 
 class RTE extends React.Component {
   ref = null;
@@ -61,12 +62,53 @@ class RTE extends React.Component {
     return handled;
   };
 
+  handleCut = () => {
+    // IE has issues not firing the onChange event.
+    if (bowser.msie) {
+      setTimeout(this.handleChange);
+    }
+  };
+
+  handlePaste = e => {
+    // Get text representation of clipboard
+    // This works cross browser.
+    const text = (
+      (e.originalEvent || e).clipboardData || window.clipboardData
+    ).getData('Text');
+
+    // insert text manually
+    insertText(text);
+    this.handleChange();
+
+    e.preventDefault();
+    return false;
+  };
+
   handleMouseUp = () => {
     setTimeout(() => this.handleSelectionChange());
   };
 
+  handleKeyDown = () => {
+    // IE has issues not firing the onChange event.
+    if (bowser.msie) {
+      setTimeout(this.handleChange);
+    }
+  };
+
+  handleKeyUp = () => {
+    // IE has issues not firing the onChange event.
+    if (bowser.msie) {
+      setTimeout(this.handleChange);
+    }
+    this.handleSelectionChange();
+  };
+
   handleKeyPress = e => {
     this.handleSelectionChange();
+    // IE has issues not firing the onChange event.
+    if (bowser.msie) {
+      setTimeout(this.handleChange);
+    }
     if (e.key === 'Enter') {
       if (!e.shiftKey && this.handleSpecialEnter()) {
         this.handleChange();
@@ -124,8 +166,11 @@ class RTE extends React.Component {
         <ContentEditable
           id={inputId}
           onMouseUp={this.handleMouseUp}
-          onKeyUp={this.handleSelectionChange}
           onKeyPress={this.handleKeyPress}
+          onKeyDown={this.handleKeyDown}
+          onKeyUp={this.handleKeyUp}
+          onPaste={this.handlePaste}
+          onCut={this.handleCut}
           className={classNames.content}
           ref={this.handleRef}
           html={value}

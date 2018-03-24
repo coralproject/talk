@@ -61,6 +61,8 @@ export function insertText(text) {
   } else {
     const textNode = document.createTextNode(text);
     container.insertBefore(textNode, container.childNodes[offset]);
+    range.setStart(textNode, text.length);
+    range.setEnd(textNode, text.length);
   }
 }
 

@@ -25,6 +25,7 @@ const createToggle = (
       this.props.api.focus();
       this.formatToggle();
       this.props.api.focus();
+      this.syncState();
     };
 
     syncState = () => {
