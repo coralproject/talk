@@ -2,14 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../components/Button';
 
-const createToggle = (execCommand, getCurrentState, { onEnter } = {}) => {
+const createToggle = (
+  execCommand,
+  { onEnter, isActive = () => false, isDisabled = () => false } = {}
+) => {
   class Toggle extends React.Component {
     state = {
       active: false,
+      disabled: false,
     };
 
     execCommand = () => execCommand.apply(this.props.api);
-    getCurrentState = () => getCurrentState.apply(this.props.api);
+    isActive = () => isActive.apply(this.props.api);
+    isDisabled = () => isDisabled.apply(this.props.api);
     onEnter = (...args) => onEnter && onEnter.apply(this.props.api, args);
 
     formatToggle = () => {
@@ -23,9 +28,14 @@ const createToggle = (execCommand, getCurrentState, { onEnter } = {}) => {
     };
 
     syncState = () => {
-      if (this.state.active !== this.getCurrentState()) {
+      if (this.state.active !== this.isActive()) {
         this.setState(state => ({
           active: !state.active,
+        }));
+      }
+      if (this.state.disabled !== this.isDisabled()) {
+        this.setState(state => ({
+          disabled: !state.disabled,
         }));
       }
     };
@@ -35,13 +45,14 @@ const createToggle = (execCommand, getCurrentState, { onEnter } = {}) => {
     }
 
     render() {
-      const { className, title, children } = this.props;
+      const { className, title, children, disabled } = this.props;
       return (
         <Button
           className={className}
           title={title}
           onClick={this.handleClick}
           active={this.state.active}
+          disabled={disabled || this.state.disabled}
         >
           {children}
         </Button>
@@ -54,6 +65,7 @@ const createToggle = (execCommand, getCurrentState, { onEnter } = {}) => {
     className: PropTypes.string,
     title: PropTypes.string,
     children: PropTypes.node,
+    disabled: PropTypes.bool,
   };
   return Toggle;
 };

@@ -27,6 +27,7 @@ class RTE extends React.Component {
   }
 
   handleChange = () => {
+    this.handleSelectionChange();
     this.props.onChange({
       text: this.ref.htmlEl.innerText,
       html: this.ref.htmlEl.innerHTML,
@@ -60,16 +61,8 @@ class RTE extends React.Component {
     return handled;
   };
 
-  handleClick = () => {
+  handleMouseUp = () => {
     setTimeout(() => this.handleSelectionChange());
-  };
-
-  handleKeyDown = () => {
-    this.handleSelectionChange();
-  };
-
-  handleKeyUp = () => {
-    this.handleSelectionChange();
   };
 
   handleKeyPress = e => {
@@ -92,36 +85,51 @@ class RTE extends React.Component {
   renderButtons() {
     return this.props.buttons.map(b => {
       return React.cloneElement(b, {
+        disabled: this.props.disabled,
         api: this.api,
         ref: this.createButtonRefHandler(b.key),
       });
     });
   }
 
+  getClassNames() {
+    const { disabled } = this.props;
+    return {
+      toolbar: cn(this.props.toolbarClassName, {
+        [this.props.toolbarClassNameDisabled]: disabled,
+        [styles.toolbarDisabled]: disabled,
+      }),
+      content: cn(styles.contentEditable, this.props.contentClassName, {
+        [this.props.contentClassNameDisabled]: disabled,
+        [styles.contentEditableDisabled]: disabled,
+      }),
+      root: cn(this.props.className, {
+        [this.props.classNameDisabled]: disabled,
+      }),
+      placeholder: cn(styles.placeholder, this.props.placeholderClassName, {
+        [this.props.placeholderClassNameDisabled]: disabled,
+      }),
+    };
+  }
+
   render() {
-    const {
-      className,
-      contentClassName,
-      toolbarClassName,
-      value,
-      placeholder,
-      inputId,
-    } = this.props;
+    const { value, placeholder, inputId, disabled } = this.props;
+
+    const classNames = this.getClassNames();
 
     return (
-      <div className={cn(styles.root, className)}>
-        <Toolbar className={toolbarClassName}>{this.renderButtons()}</Toolbar>
-        {!value && <div className={styles.placeholder}>{placeholder}</div>}
+      <div className={classNames.root}>
+        <Toolbar className={classNames.toolbar}>{this.renderButtons()}</Toolbar>
+        {!value && <div className={classNames.placeholder}>{placeholder}</div>}
         <ContentEditable
           id={inputId}
-          onClick={this.handleClick}
+          onMouseUp={this.handleMouseUp}
+          onKeyUp={this.handleSelectionChange}
           onKeyPress={this.handleKeyPress}
-          onKeyDown={this.handleKeyDown}
-          onKeyUp={this.handleKeyDown}
-          className={cn(contentClassName, styles.contentEditable)}
+          className={classNames.content}
           ref={this.handleRef}
           html={value}
-          disabled={false}
+          disabled={disabled}
           onChange={this.handleChange}
         />
       </div>
@@ -140,8 +148,13 @@ RTE.propTypes = {
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   className: PropTypes.string,
+  classNameDisabled: PropTypes.string,
   contentClassName: PropTypes.string,
+  contentClassNameDisabled: PropTypes.string,
   toolbarClassName: PropTypes.string,
+  toolbarClassNameDisabled: PropTypes.string,
+  placeholderClassName: PropTypes.string,
+  placeholderClassNameDisabled: PropTypes.string,
   placeholder: PropTypes.string,
   value: PropTypes.string,
 };

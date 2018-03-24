@@ -36,11 +36,11 @@ function execCommand() {
       insertNodes(node);
       selectNode(node);
     }
-    this.broadcastChange();
   }
+  this.broadcastChange();
 }
 
-function syncState() {
+function isActive() {
   return !!findIntersectingTag('BLOCKQUOTE');
 }
 
@@ -52,7 +52,7 @@ const onEnter = node => {
   return true;
 };
 
-const Blockquote = createToggle(execCommand, syncState, { onEnter });
+const Blockquote = createToggle(execCommand, { onEnter, isActive });
 
 Blockquote.defaultProps = {
   children: 'Blockquote',

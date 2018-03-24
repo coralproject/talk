@@ -16,3 +16,14 @@
   margin: 12px 0 0 12px;
   color: #bbb;
 }
+
+.toolbarDisabled {
+  background: #f8f8f8;
+  cursor: default;
+}
+
+.contentEditableDisabled {
+  background: #fafafa;
+  color: #888;
+  cursor: default;
+}

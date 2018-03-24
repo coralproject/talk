@@ -118,11 +118,24 @@ function ensureEndMarker(node) {
   }
 }
 
+export function nodeContains(node, lookFor) {
+  if (node.isSameNode(lookFor)) {
+    return true;
+  }
+  for (let i = 0; i < node.childNodes.length; i++) {
+    if (nodeContains(node.childNodes[i], lookFor)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function selectionIsInside(node) {
   const range = getSelectionRange();
   return (
     range &&
-    (node.contains(range.startContainer) || node.contains(range.endContainer))
+    (nodeContains(node, range.startContainer) ||
+      nodeContains(node, range.endContainer))
   );
 }
 
@@ -251,6 +264,9 @@ export function getWholeLine(node) {
     return [node];
   }
   const child = lastParentBeforeBlock(node);
+  if (child.tagName === 'BR') {
+    return [...getLeftOfNode(child), child];
+  }
   return [...getLeftOfNode(child), child, ...getRightOfNode(child)];
 }
 
@@ -302,13 +318,13 @@ export function getSelectedChildren(ancestor) {
   for (let i = 0; i < ancestor.childNodes.length; i++) {
     const node = ancestor.childNodes[i];
     if (!foundStart) {
-      if (node.contains(start)) {
+      if (nodeContains(node, start)) {
         foundStart = true;
       }
     }
     if (foundStart) {
       result.push(node);
-      if (node.contains(end)) {
+      if (nodeContains(node, end)) {
         break;
       }
     }

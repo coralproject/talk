@@ -1,9 +1,9 @@
 import createToggle from '../factories/createToggle';
 
 const execCommand = () => document.execCommand('italic');
-const syncState = () => document.queryCommandState('italic');
+const isActive = () => document.queryCommandState('italic');
 
-const Italic = createToggle(execCommand, syncState);
+const Italic = createToggle(execCommand, { isActive });
 
 Italic.defaultProps = {
   children: 'Italic',
