@@ -1,12 +1,7 @@
 export function htmlNormalizer(htmlInput) {
   let str = htmlInput;
-  // We are normalizing the input from contenteditable of each browser, also removing unnecesary html tags
-  // https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content#Differences_in_markup_generation
-
-  // Old browsers uses `p` normalize to `div` instead.
-  str = str
-    .replace(/<p>/g, '<div>') // IE and old browsers outputs <p> instead of <div>s
-    .replace(/<\/p>/g, '</div>'); // IE and old browsers outputs <p> instead of <div>s
+  // Some tags have not been normalized across browsers in `Coral RTE` yet.
+  // So we'll do this manual step here for now.
 
   // Harmonize all to <b> tag.
   str = str
