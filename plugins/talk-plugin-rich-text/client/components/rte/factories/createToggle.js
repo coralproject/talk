@@ -20,6 +20,11 @@ const createToggle = (
     isActive = () => isActive.apply(this.props.api);
     isDisabled = () => isDisabled.apply(this.props.api);
     onEnter = (...args) => onEnter && onEnter.apply(this.props.api, args);
+    unmounted = false;
+
+    componentWillUnmount() {
+      this.unmounted = true;
+    }
 
     formatToggle = () => {
       this.execCommand();
@@ -29,7 +34,7 @@ const createToggle = (
       this.props.api.focus();
       this.formatToggle();
       this.props.api.focus();
-      setTimeout(this.syncState);
+      setTimeout(() => !this.unmounted && this.syncState());
     };
 
     syncState = () => {

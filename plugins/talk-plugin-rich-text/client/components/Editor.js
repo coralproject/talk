@@ -40,6 +40,9 @@ class Editor extends React.Component {
         }
       });
     }
+    if (this.props.isReply) {
+      this.ref.focus();
+    }
   }
 
   componentWillUnmount() {
@@ -66,6 +69,7 @@ class Editor extends React.Component {
           value={this.getHTML()}
           disabled={disabled}
           placeholder={placeholder}
+          ref={this.handleRef}
           buttons={[
             <Bold key="bold" title={t('talk-plugin-rich-text.format_bold')}>
               <Icon className={styles.icon} name="format_bold" />

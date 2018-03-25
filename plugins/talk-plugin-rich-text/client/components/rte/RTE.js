@@ -12,6 +12,7 @@ import {
   cloneNodeAndRange,
   replaceNodeChildren,
   selectEndOfNode,
+  isSelectionInside,
 } from './lib/dom';
 import API from './lib/api';
 import Undo from './lib/undo';
@@ -30,6 +31,11 @@ class RTE extends React.Component {
 
   // Refs to the buttons.
   buttonsRef = {};
+
+  // Export this for parent components.
+  focus = () => this.ref.htmlEl.focus();
+
+  unmounted = false;
 
   // Should be called on every change to feed
   // our Undo stack. We save the innerHTML and if available
@@ -61,14 +67,16 @@ class RTE extends React.Component {
   // Ref to react-contenteditable.
   handleRef = ref => (
     (this.ref = ref),
-    (this.api = new API(
-      this.ref.htmlEl,
-      this.handleChange,
-      () => this.undo.canUndo(),
-      () => this.undo.canRedo(),
-      this.handleUndo,
-      this.handleRedo
-    ))
+    (this.api =
+      ref &&
+      new API(
+        this.ref.htmlEl,
+        this.handleChange,
+        () => this.undo.canUndo(),
+        () => this.undo.canRedo(),
+        this.handleUndo,
+        this.handleRedo
+      ))
   );
 
   forEachButton(callback) {
@@ -80,7 +88,16 @@ class RTE extends React.Component {
     if (props.value !== this.ref.htmlEl.innerHTML) {
       this.undo.clear();
       this.saveCheckpoint(props.value);
+      if (isSelectionInside(this.ref.htmlEl)) {
+        setTimeout(() => !this.unmounted && selectEndOfNode(this.ref.htmlEl));
+      }
     }
+  }
+
+  componentWillUnmount() {
+    // Cancel pending stuff.
+    this.saveCheckpoint.cancel();
+    this.unmounted = true;
   }
 
   handleChange = () => {
@@ -127,7 +144,7 @@ class RTE extends React.Component {
   handleCut = () => {
     // IE has issues not firing the onChange event.
     if (bowser.msie) {
-      setTimeout(this.handleChange);
+      setTimeout(() => !this.unmounted && this.handleChange());
     }
   };
 
@@ -149,13 +166,13 @@ class RTE extends React.Component {
   };
 
   handleMouseUp = () => {
-    setTimeout(() => this.handleSelectionChange());
+    setTimeout(() => !this.unmounted && this.handleSelectionChange());
   };
 
   handleKeyDown = e => {
     // IE has issues not firing the onChange event.
     if (bowser.msie) {
-      setTimeout(this.handleChange);
+      setTimeout(() => !this.unmounted && this.handleChange);
     }
 
     // Undo Redo
@@ -188,7 +205,7 @@ class RTE extends React.Component {
   handleKeyUp = () => {
     // IE has issues not firing the onChange event.
     if (bowser.msie) {
-      setTimeout(this.handleChange);
+      setTimeout(() => !this.unmounted && this.handleChange);
     }
     this.handleSelectionChange();
   };
