@@ -6,7 +6,7 @@ import { PLUGIN_NAME } from '../constants';
 import { htmlNormalizer } from '../utils';
 import RTE from './rte/RTE';
 import { Icon } from 'plugin-api/beta/client/components/ui';
-import { Bold, Italic, Blockquote } from './rte/buttons';
+import { Bold, Italic, Blockquote } from './rte/features';
 import { t } from 'plugin-api/beta/client/services';
 
 class Editor extends React.Component {
@@ -75,25 +75,25 @@ class Editor extends React.Component {
           disabled={disabled}
           placeholder={placeholder}
           ref={this.handleRef}
-          buttons={[
+          features={[
             <Bold
               key="bold"
               title={t('talk-plugin-rich-text.format_bold')}
-              className={`${PLUGIN_NAME}-button-bold`}
+              className={`${PLUGIN_NAME}-feature-bold`}
             >
               <Icon className={styles.icon} name="format_bold" />
             </Bold>,
             <Italic
               key="italic"
               title={t('talk-plugin-rich-text.format_italic')}
-              className={`${PLUGIN_NAME}-button-italic`}
+              className={`${PLUGIN_NAME}-feature-italic`}
             >
               <Icon className={styles.icon} name="format_italic" />
             </Italic>,
             <Blockquote
               key="blockquote"
               title={t('talk-plugin-rich-text.format_blockquote')}
-              className={`${PLUGIN_NAME}-button-blockquote`}
+              className={`${PLUGIN_NAME}-feature-blockquote`}
             >
               <Icon className={styles.icon} name="format_quote" />
             </Blockquote>,

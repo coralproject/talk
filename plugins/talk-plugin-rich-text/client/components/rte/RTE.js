@@ -38,8 +38,8 @@ class RTE extends React.Component {
   // Instance of undo stack.
   undo = new Undo();
 
-  // Refs to the buttons.
-  buttonsRef = {};
+  // Refs to the features.
+  featuresRef = {};
 
   // Export this for parent components.
   focus = () => this.ref.htmlEl.focus();
@@ -63,13 +63,13 @@ class RTE extends React.Component {
     this.saveCheckpoint(props.value);
   }
 
-  // Returns a handler that fills our `buttonsRef`.
-  createButtonRefHandler(key) {
+  // Returns a handler that fills our `featuresRef`.
+  createFeatureRefHandler(key) {
     return ref => {
       if (ref) {
-        this.buttonsRef[key] = ref;
+        this.featuresRef[key] = ref;
       } else {
-        delete this.buttonsRef[key];
+        delete this.featuresRef[key];
       }
     };
   }
@@ -77,8 +77,8 @@ class RTE extends React.Component {
   // Ref to react-contenteditable.
   handleRef = ref => (this.ref = ref);
 
-  forEachButton(callback) {
-    Object.keys(this.buttonsRef).map(k => callback(this.buttonsRef[k]));
+  forEachFeature(callback) {
+    Object.keys(this.featuresRef).map(k => callback(this.featuresRef[k]));
   }
 
   componentWillReceiveProps(props) {
@@ -119,17 +119,17 @@ class RTE extends React.Component {
   };
 
   handleSelectionChange = () => {
-    // Let buttons know selection has changeed, so they
+    // Let features know selection has changeed, so they
     // can update.
-    this.forEachButton(b => {
+    this.forEachFeature(b => {
       b.onSelectionChange && b.onSelectionChange();
     });
   };
 
-  // Allow buttons to handle shortcuts.
+  // Allow features to handle shortcuts.
   handleShortcut = e => {
     let handled = false;
-    this.forEachButton(b => {
+    this.forEachFeature(b => {
       if (!handled) {
         handled = !!(b.onShortcut && b.onShortcut(e));
       }
@@ -139,14 +139,14 @@ class RTE extends React.Component {
 
   // Called when Enter was pressed without shift.
   // Traverses from bottom to top and calling
-  // button handlers and stops when one has handled this event.
+  // feature handlers and stops when one has handled this event.
   handleSpecialEnter = () => {
     let handled = false;
     const sel = window.getSelection();
     const range = sel.getRangeAt(0);
     let container = range.startContainer;
     while (!handled && container && container !== this.ref.htmlEl) {
-      this.forEachButton(b => {
+      this.forEachFeature(b => {
         if (!handled) {
           handled = !!(b.onEnter && b.onEnter(container));
         }
@@ -309,12 +309,12 @@ class RTE extends React.Component {
     }
   }
 
-  renderButtons() {
-    return this.props.buttons.map(b => {
+  renderFeatures() {
+    return this.props.features.map(b => {
       return React.cloneElement(b, {
         disabled: this.props.disabled,
         api: this.api,
-        ref: this.createButtonRefHandler(b.key),
+        ref: this.createFeatureRefHandler(b.key),
       });
     });
   }
@@ -346,7 +346,9 @@ class RTE extends React.Component {
 
     return (
       <div className={classNames.root}>
-        <Toolbar className={classNames.toolbar}>{this.renderButtons()}</Toolbar>
+        <Toolbar className={classNames.toolbar}>
+          {this.renderFeatures()}
+        </Toolbar>
         {!value && <div className={classNames.placeholder}>{placeholder}</div>}
         <ContentEditable
           id={inputId}
@@ -371,11 +373,11 @@ class RTE extends React.Component {
 }
 
 RTE.defaultProps = {
-  buttons: [],
+  features: [],
 };
 
 RTE.propTypes = {
-  buttons: PropTypes.array,
+  features: PropTypes.array,
   inputId: PropTypes.string,
   input: PropTypes.object,
   onChange: PropTypes.func,
