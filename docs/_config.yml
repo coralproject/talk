@@ -136,14 +136,6 @@ sidebar:
           url: /plugins-directory/
         - title: Plugin Recipes
           url: /plugin-recipes/
-        - title: Slots and Plugins
-          url: /slots-and-plugins/
-    - title: Tutorials
-      children:
-        - title: Creating a Basic Plugin
-          url: /building-basic-plugin/
-        - title: Customizing Plugins with Coral UI
-          url: /customizing-plugins-coral-ui/
     - title: API
       children:
         - title: GraphQL Overview
@@ -152,6 +144,16 @@ sidebar:
           url: /api/graphql/
         - title: Server Plugin API
           url: /api/server/
+        - title: Client Plugin API
+          url: /api/client/
+        - title: Plugin Slots API
+          url: /api/slots/
+    - title: Tutorials
+      children:
+        - title: Creating a Basic Plugin
+          url: /building-basic-plugin/
+        - title: Customizing Plugins with Coral UI
+          url: /customizing-plugins-coral-ui/
     - title: Migrating
       children:
         - title: Migrating to v4.0.0
