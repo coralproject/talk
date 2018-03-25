@@ -17,8 +17,7 @@ function execCommand() {
     // Expanded selection means we always select whole lines.
     const selectedNodes = getSelectedNodesExpanded();
     if (selectedNodes.length) {
-      const node = indentNodes(selectedNodes, 'blockquote');
-      selectEndOfNode(node);
+      indentNodes(selectedNodes, 'blockquote', true);
     } else {
       const node = document.createElement('blockquote');
       node.appendChild(document.createElement('br'));

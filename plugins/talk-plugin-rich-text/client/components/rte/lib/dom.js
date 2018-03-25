@@ -264,15 +264,26 @@ export function addBogusBR(node) {
 
 /**
  * Returns true if selection is completely inside
- * given node.
+ * given nodes.
  */
-export function isSelectionInside(node) {
+export function isSelectionInside(...nodes) {
+  let foundStart = false;
   const range = getSelectionRange();
-  return (
-    range &&
-    (nodeContains(node, range.startContainer) ||
-      nodeContains(node, range.endContainer))
-  );
+  if (!range) {
+    return false;
+  }
+  for (let i = 0; i < nodes.length; i++) {
+    if (!foundStart) {
+      foundStart = nodeContains(nodes[i], range.startContainer);
+    }
+    if (foundStart) {
+      const foundEnd = nodeContains(nodes[i], range.endContainer);
+      if (foundEnd) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 /**
@@ -502,25 +513,43 @@ export function getSelectedChildren(ancestor) {
  * Removes node and assimilate its children with the parent.
  */
 export function outdentNode(node, changeSelection) {
-  /// Remove bogus br
+  // Save previous range.
+  const selectionWasInside = isSelectionInside(node);
+  const {
+    startContainer,
+    startOffset,
+    endContainer,
+    endOffset,
+  } = getSelectionRange();
+
+  // Remove bogus br
   if (node.lastChild && node.lastChild.tagName === 'BR') {
     node.removeChild(node.lastChild);
   }
 
-  // A new line to substitute the missing block element.
-  const needExtraLine =
+  // A new lines to substitute the missing block element.
+  const needLineAfter =
     node.nextSibling &&
     !isBlockElement(node.nextSibling) &&
     !isBlockElement(node.lastChild);
+  const needLineBefore =
+    node.previousSibling &&
+    !isBlockElement(node.previousSibling) &&
+    node.previousSibling.tageName !== 'BR';
 
   const parentNode = node.parentNode;
-  const offset = indexOfChildNode(parentNode, node);
+
+  if (needLineBefore) {
+    parentNode.insertBefore(document.createElement('BR'), node);
+  }
+
+  const previousOffset = indexOfChildNode(parentNode, node);
 
   while (node.firstChild) {
     parentNode.insertBefore(node.firstChild, node);
   }
 
-  if (needExtraLine) {
+  if (needLineAfter) {
     parentNode.insertBefore(document.createElement('BR'), node);
   }
 
@@ -528,8 +557,22 @@ export function outdentNode(node, changeSelection) {
 
   if (changeSelection) {
     const range = document.createRange();
-    range.setStart(parentNode, offset);
-    range.setEnd(parentNode, offset);
+
+    if (selectionWasInside) {
+      if (startContainer === node) {
+        range.setStart(parentNode, startOffset + previousOffset);
+      } else {
+        range.setStart(startContainer, startOffset);
+      }
+      if (endContainer === node) {
+        range.setEnd(parentNode, endOffset + previousOffset);
+      } else {
+        range.setEnd(endContainer, endOffset);
+      }
+    } else {
+      range.setStart(parentNode, previousOffset);
+      range.setEnd(parentNode, previousOffset);
+    }
     replaceSelection(range);
   }
 }
@@ -537,30 +580,36 @@ export function outdentNode(node, changeSelection) {
 /**
  * Indent children.
  */
-export function indentNodes(nodes, tagName) {
+export function indentNodes(nodes, tagName, changeSelection) {
+  const parentNode = nodes[0].parentNode;
   const node = document.createElement(tagName);
 
   // Remove bogus BR if the blockquote is the last element.
   // Otherwise there will be an unwanted empty line.
   const lastNode = nodes[nodes.length - 1];
   if (
-    lastNode.nextSibling === lastNode.parentNode.lastChild &&
-    isBogusBR(lastNode.parentNode.lastChild)
+    lastNode.nextSibling === parentNode.lastChild &&
+    isBogusBR(parentNode.lastChild)
   ) {
-    lastNode.parentNode.removeChild(lastNode.parentNode.lastChild);
+    parentNode.removeChild(parentNode.lastChild);
   }
 
   const firstNode = nodes[0];
   // Remove previous br as it is not needed
   if (firstNode.previousSibling && firstNode.previousSibling.tagName === 'BR') {
-    firstNode.parentNode.removeChild(firstNode.previousSibling);
+    parentNode.removeChild(firstNode.previousSibling);
   }
 
   // Finally indent.
-  firstNode.parentNode.insertBefore(node, firstNode);
+  parentNode.insertBefore(node, firstNode);
   nodes.forEach(n => {
     node.appendChild(n);
   });
+
+  if (changeSelection) {
+    selectEndOfNode(node);
+  }
+
   return node;
 }
 
