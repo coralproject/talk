@@ -64,25 +64,36 @@ class Editor extends React.Component {
         </label>
         <RTE
           inputId={inputId}
-          contentClassName={styles.commentContent}
+          className={`${PLUGIN_NAME}-editor`}
+          classNameDisabled={`${PLUGIN_NAME}-editor-disabled`}
+          contentClassName={cn(`${PLUGIN_NAME}-content`, styles.commentContent)}
+          contentClassNameDisabled={`${PLUGIN_NAME}-content-disabled`}
+          toolbarClassName={`${PLUGIN_NAME}-toolbar`}
+          toolbarClassNameDisabled={`${PLUGIN_NAME}-toolbar-disabled`}
           onChange={this.handleChange}
           value={this.getHTML()}
           disabled={disabled}
           placeholder={placeholder}
           ref={this.handleRef}
           buttons={[
-            <Bold key="bold" title={t('talk-plugin-rich-text.format_bold')}>
+            <Bold
+              key="bold"
+              title={t('talk-plugin-rich-text.format_bold')}
+              className={`${PLUGIN_NAME}-button-bold`}
+            >
               <Icon className={styles.icon} name="format_bold" />
             </Bold>,
             <Italic
               key="italic"
               title={t('talk-plugin-rich-text.format_italic')}
+              className={`${PLUGIN_NAME}-button-italic`}
             >
               <Icon className={styles.icon} name="format_italic" />
             </Italic>,
             <Blockquote
               key="blockquote"
               title={t('talk-plugin-rich-text.format_blockquote')}
+              className={`${PLUGIN_NAME}-button-blockquote`}
             >
               <Icon className={styles.icon} name="format_quote" />
             </Blockquote>,
