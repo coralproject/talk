@@ -1,37 +1,121 @@
-export function findAncestorWithTag(node, tag) {
-  do {
-    if (node.nodeName === tag) {
+/**
+ * Find ancestor with given tag or whith callback returning true.
+ */
+export function findAncestor(node, tagOrCallback) {
+  const callback =
+    typeof tagOrCallback === 'function'
+      ? tagOrCallback
+      : n => n.tagName === tagOrCallback;
+  while (node.parentNode) {
+    node = node.parentNode;
+    if (callback(node)) {
       return node;
     }
-    node = node.parentNode;
-  } while (node);
-  return false;
+  }
+  return null;
 }
 
-export function findIntersectingTag(tag) {
+/**
+ * Find child with given tag or when callback return true.
+ */
+export function findChild(node, tagOrCallback) {
+  const callback =
+    typeof tagOrCallback === 'function'
+      ? tagOrCallback
+      : n => n.tagName === tagOrCallback;
+  for (let i = 0; i < node.childNodes.length; i++) {
+    const child = node.childNodes[i];
+    if (callback(child)) {
+      return child;
+    }
+    const found = findChild(child, tagOrCallback);
+    if (found) {
+      return found;
+    }
+  }
+  return null;
+}
+
+/**
+ * Find an node intersecting with the selection with given tag or
+ * with callback returning true.
+ */
+export function findIntersecting(tagOrCallback) {
+  const callback =
+    typeof tagOrCallback === 'function'
+      ? tagOrCallback
+      : n => n.tagName === tagOrCallback;
+
   const range = getSelectionRange();
   if (!range) {
     return null;
   }
 
-  const ancestor = findAncestorWithTag(range.startContainer, tag);
+  if (callback(range.startContainer)) {
+    return range.startContainer;
+  }
+
+  const ancestor = findAncestor(range.startContainer, callback);
   if (ancestor) {
     return ancestor;
   }
 
   const nodes = getSelectedChildren(range.commonAncestorContainer);
   for (let i = 0; i < nodes.length; i++) {
-    if (nodes[i].tagName === tag) {
+    if (callback(nodes[i])) {
       return nodes[i];
     }
-    const query = nodes[i].querySelector && nodes[i].querySelector(tag);
-    if (query) {
-      return query;
+    const found = findChild(nodes[i], callback);
+    if (found) {
+      return found;
     }
   }
   return null;
 }
 
+/**
+ * Same as node.contains but works in IE.
+ * In addition lookFor can also be a callback.
+ */
+export function nodeContains(node, lookFor) {
+  const callback =
+    typeof lookFor === 'function' ? lookFor : n => n.isSameNode(lookFor);
+  if (callback(node)) {
+    return true;
+  }
+  return !!findChild(node, callback);
+}
+
+/**
+ * Returns true if node is not `inline` nor `inline-block`.
+ */
+export function isBlockElement(node) {
+  if (node.nodeName === '#text') {
+    return false;
+  }
+  return !window
+    .getComputedStyle(node)
+    .getPropertyValue('display')
+    .startsWith('inline');
+}
+
+/**
+ * Find parent that is a block element.
+ */
+export function findParentBlock(node) {
+  return findAncestor(node, isBlockElement);
+}
+
+/**
+ * Find last parent before a block element.
+ */
+export function lastParentBeforeBlock(node) {
+  return findAncestor(node, n => !n.parentNode || isBlockElement(n.parentNode));
+}
+
+/**
+ * Like `Array.indexOf` but works on `childNodes`.
+ */
 export function indexOfChildNode(parent, child) {
   for (let i = 0; i < parent.childNodes.length; i++) {
     if (parent.childNodes[i] === child) {
@@ -41,6 +125,10 @@ export function indexOfChildNode(parent, child) {
   return -1;
 }
 
+/**
+ * Same as `document.execCommand('insertText', false, text)` but also
+ * works for IE. Changes Selection.
+ */
 export function insertText(text) {
   const selection = window.getSelection();
   if (!selection.isCollapsed) {
@@ -66,6 +154,10 @@ export function insertText(text) {
   }
 }
 
+/**
+ * Insert nodes to current selection,
+ * does not change selection.
+ */
 export function insertNodes(...nodes) {
   const selection = window.getSelection();
   if (!selection.isCollapsed) {
@@ -93,21 +185,31 @@ export function insertNodes(...nodes) {
   }
 }
 
+/**
+ * Helper to replace current selection with range.
+ */
 export function replaceSelection(range) {
   const selection = window.getSelection();
   selection.removeAllRanges();
   selection.addRange(range);
 }
 
+/**
+ * Helper to to know if selection is collapsed.
+ */
 export function isSelectionCollapsed() {
   return window.getSelection().isCollapsed;
 }
 
+/**
+ * Helper to get current selection range.
+ */
 export function getSelectionRange() {
   const selection = window.getSelection();
   return selection.rangeCount ? selection.getRangeAt(0) : null;
 }
 
+// Adds a 'br' marker at the end of the node.
 function ensureEndMarker(node) {
   if (
     !node.lastChild ||
@@ -120,18 +222,10 @@ function ensureEndMarker(node) {
   }
 }
 
-export function nodeContains(node, lookFor) {
-  if (node.isSameNode(lookFor)) {
-    return true;
-  }
-  for (let i = 0; i < node.childNodes.length; i++) {
-    if (nodeContains(node.childNodes[i], lookFor)) {
-      return true;
-    }
-  }
-  return false;
-}
-
+/**
+ * Returns true if selection is completely inside
+ * given node.
+ */
 export function selectionIsInside(node) {
   const range = getSelectionRange();
   return (
@@ -141,6 +235,9 @@ export function selectionIsInside(node) {
   );
 }
 
+/**
+ * Append a newline to the node.
+ */
 export function appendNewLine(node, changeSelection) {
   const el = document.createElement('br');
   node.appendChild(el);
@@ -154,6 +251,11 @@ export function appendNewLine(node, changeSelection) {
   }
 }
 
+/**
+ * Insert new line. This is what happens
+ * when adding new lines through pressing Enter.
+ * Deals with browers quirks.
+ */
 export function insertNewLine(changeSelection) {
   // Insert <br> node.
   const el = document.createElement('br');
@@ -180,6 +282,9 @@ export function insertNewLine(changeSelection) {
   }
 }
 
+/**
+ * Inserts a new line after given node.
+ */
 export function insertNewLineAfterNode(node, changeSelection) {
   if (node.parentNode.lastChild === node) {
     appendNewLine(node.parentNode, changeSelection);
@@ -195,41 +300,20 @@ export function insertNewLineAfterNode(node, changeSelection) {
   }
 }
 
-export function getSelectedNode(container, offset) {
+/**
+ * Given a container and a offset, return the selected
+ * node. Usually to resolve the start or end of a range.
+ */
+export function getRangeNode(container, offset) {
   if (container.nodeName === '#text') {
     return container;
   }
   return container.childNodes[offset];
 }
 
-export function isBlockElement(node) {
-  if (node.nodeName === '#text') {
-    return false;
-  }
-  return !window
-    .getComputedStyle(node)
-    .getPropertyValue('display')
-    .startsWith('inline');
-}
-
-export function findParentBlock(node) {
-  if (!node.parentNode) {
-    return null;
-  }
-  if (isBlockElement(node.parentNode)) {
-    return node.parentNode;
-  }
-  return findParentBlock(node.parentNode);
-}
-
-export function lastParentBeforeBlock(node) {
-  let child = node;
-  while (!isBlockElement(child.parentNode)) {
-    child = node.parentNode;
-  }
-  return child;
-}
-
+/**
+ * Returns an array of all nodes before `node`.
+ */
 export function getLeftOfNode(node) {
   let result = [];
   let leftMost = node;
@@ -244,6 +328,9 @@ export function getLeftOfNode(node) {
   return result;
 }
 
+/**
+ * Returns an array of all nodes after `node`.
+ */
 export function getRightOfNode(node) {
   let result = [];
   let cur = node;
@@ -261,26 +348,40 @@ export function getRightOfNode(node) {
   return result;
 }
 
+/**
+ * Given `node` find the line it belongs too
+ * and return the whole line as an array.
+ */
 export function getWholeLine(node) {
   if (isBlockElement(node)) {
     return [node];
   }
-  const child = lastParentBeforeBlock(node);
+  const child = isBlockElement(node.parentNode)
+    ? node
+    : lastParentBeforeBlock(node);
   if (child.tagName === 'BR') {
     return [...getLeftOfNode(child), child];
   }
   return [...getLeftOfNode(child), child, ...getRightOfNode(child)];
 }
 
+/**
+ * Get selected line at the start of the selection.
+ * Returns an array of nodes.
+ */
 export function getSelectedLine() {
   const range = getSelectionRange();
   if (!range) {
     return [];
   }
-  const start = getSelectedNode(range.startContainer, range.startOffset);
+  const start = getRangeNode(range.startContainer, range.startOffset);
   return start ? getWholeLine(start) : [];
 }
 
+/**
+ * Finds a commen block ancestor in the selection
+ * and return "whole" lines as an array of nodes.
+ */
 export function getSelectedNodesExpanded() {
   const range = getSelectionRange();
   if (!range) {
@@ -304,6 +405,10 @@ export function getSelectedNodesExpanded() {
   ];
 }
 
+/**
+ * Returns array of children that intersects with
+ * the selection.
+ */
 export function getSelectedChildren(ancestor) {
   const result = [];
   const range = getSelectionRange();
@@ -314,8 +419,8 @@ export function getSelectedChildren(ancestor) {
     return result;
   }
 
-  const start = getSelectedNode(range.startContainer, range.startOffset);
-  const end = getSelectedNode(range.endContainer, range.endOffset);
+  const start = getRangeNode(range.startContainer, range.startOffset);
+  const end = getRangeNode(range.endContainer, range.endOffset);
   let foundStart = false;
   for (let i = 0; i < ancestor.childNodes.length; i++) {
     const node = ancestor.childNodes[i];
@@ -334,6 +439,9 @@ export function getSelectedChildren(ancestor) {
   return result;
 }
 
+/**
+ * Removes node and assimilate its children with the parent.
+ */
 export function outdentNode(node, changeSelection) {
   const parentNode = node.parentNode;
   const offset = indexOfChildNode(parentNode, node);
@@ -364,6 +472,9 @@ function cloneNodeAndRangeHelper(node, range, rangeCloned) {
   return nodeCloned;
 }
 
+/**
+ * Clones node and returns both the cloned node and an equivalent Range.
+ */
 export function cloneNodeAndRange(node, range) {
   const rangeCloned = range.cloneRange();
   const nodeCloned = cloneNodeAndRangeHelper(node, range, rangeCloned);
@@ -376,6 +487,9 @@ export function cloneNodeAndRange(node, range) {
   return [nodeCloned, rangeCloned];
 }
 
+/**
+ * Take children of the second node and replace children of first node.
+ */
 export function replaceNodeChildren(node, node2) {
   while (node.firstChild) {
     node.removeChild(node.firstChild);
@@ -385,6 +499,11 @@ export function replaceNodeChildren(node, node2) {
   }
 }
 
+/**
+ * Tries to select the end of node.
+ * Currently looks for <br> and text nodes to find a suitable
+ * candidate for a selection.
+ */
 export function selectEndOfNode(node) {
   for (let i = node.childNodes.length - 1; i >= 0; i--) {
     let child = node.childNodes[i];

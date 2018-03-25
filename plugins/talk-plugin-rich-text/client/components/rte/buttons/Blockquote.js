@@ -1,6 +1,6 @@
 import createToggle from '../factories/createToggle';
 import {
-  findIntersectingTag,
+  findIntersecting,
   insertNewLineAfterNode,
   insertNodes,
   getSelectedNodesExpanded,
@@ -9,7 +9,7 @@ import {
 } from '../lib/dom';
 
 function execCommand() {
-  const bq = findIntersectingTag('BLOCKQUOTE');
+  const bq = findIntersecting('BLOCKQUOTE');
   if (bq) {
     outdentNode(bq, true);
   } else {
@@ -34,7 +34,7 @@ function execCommand() {
 }
 
 function isActive() {
-  return !!findIntersectingTag('BLOCKQUOTE');
+  return !!findIntersecting('BLOCKQUOTE');
 }
 
 const onEnter = node => {
