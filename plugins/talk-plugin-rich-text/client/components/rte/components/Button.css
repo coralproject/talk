@@ -39,5 +39,5 @@
 .button:disabled{
   color: #bbb;
   cursor: default;
-  background-color: inherit;
+  background: none;
 }

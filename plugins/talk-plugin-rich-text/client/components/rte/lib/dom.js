@@ -7,6 +7,9 @@ export function findAncestor(node, tagOrCallback, limitTo) {
     typeof tagOrCallback === 'function'
       ? tagOrCallback
       : n => n.tagName === tagOrCallback;
+  if (node.isSameNode(limitTo)) {
+    return null;
+  }
   while (node.parentNode) {
     node = node.parentNode;
     if (callback(node)) {
@@ -216,6 +219,9 @@ export function getSelectionRange() {
 
 // Adds a 'br' marker at the end of the node.
 function ensureEndMarker(node) {
+  if (!isBlockElement(node)) {
+    return;
+  }
   if (
     !node.lastChild ||
     node.lastChild.tagName !== 'BR' ||
@@ -465,9 +471,10 @@ export function outdentNode(node, changeSelection) {
 
 function cloneNodeAndRangeHelper(node, range, rangeCloned) {
   const nodeCloned = node.cloneNode(false);
-  node.childNodes.forEach(n =>
-    nodeCloned.appendChild(cloneNodeAndRangeHelper(n, range, rangeCloned))
-  );
+  for (let i = 0; i < node.childNodes.length; i++) {
+    const n = node.childNodes[i];
+    nodeCloned.appendChild(cloneNodeAndRangeHelper(n, range, rangeCloned));
+  }
   if (range.startContainer === node) {
     rangeCloned.setStart(nodeCloned, range.startOffset);
   }

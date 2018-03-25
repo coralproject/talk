@@ -14,7 +14,7 @@ import {
   selectEndOfNode,
   isSelectionInside,
 } from './lib/dom';
-import API from './lib/api';
+import createAPI from './lib/api';
 import Undo from './lib/undo';
 import bowser from 'bowser';
 import throttle from 'lodash/throttle';
@@ -24,7 +24,15 @@ class RTE extends React.Component {
   ref = null;
 
   // Our "plugins" api.
-  api = null;
+  api = createAPI(
+    () => this.ref.htmlEl,
+    () => this.handleChange(),
+    () => this.undo.canUndo(),
+    () => this.undo.canRedo(),
+    () => this.handleUndo(),
+    () => this.handleRedo(),
+    () => this.focused
+  );
 
   // Instance of undo stack.
   undo = new Undo();
@@ -36,6 +44,7 @@ class RTE extends React.Component {
   focus = () => this.ref.htmlEl.focus();
 
   unmounted = false;
+  focused = false;
 
   // Should be called on every change to feed
   // our Undo stack. We save the innerHTML and if available
@@ -65,19 +74,7 @@ class RTE extends React.Component {
   }
 
   // Ref to react-contenteditable.
-  handleRef = ref => (
-    (this.ref = ref),
-    (this.api =
-      ref &&
-      new API(
-        this.ref.htmlEl,
-        this.handleChange,
-        () => this.undo.canUndo(),
-        () => this.undo.canRedo(),
-        this.handleUndo,
-        this.handleRedo
-      ))
-  );
+  handleRef = ref => (this.ref = ref);
 
   forEachButton(callback) {
     Object.keys(this.buttonsRef).map(k => callback(this.buttonsRef[k]));
@@ -101,7 +98,6 @@ class RTE extends React.Component {
   }
 
   handleChange = () => {
-    this.handleSelectionChange();
     this.props.onChange({
       text: this.ref.htmlEl.innerText,
       html: this.ref.htmlEl.innerHTML,
@@ -148,6 +144,16 @@ class RTE extends React.Component {
     }
   };
 
+  handleFocus = () => {
+    this.focused = true;
+  };
+
+  handleBlur = () => {
+    this.focused = false;
+    // Sometimes the onselect event doesn't fire on blur.
+    this.handleSelectionChange();
+  };
+
   // We intercept pasting, so that we
   // force text/plain content.
   handlePaste = e => {
@@ -165,18 +171,14 @@ class RTE extends React.Component {
     return false;
   };
 
-  handleMouseUp = () => {
-    setTimeout(() => !this.unmounted && this.handleSelectionChange());
-  };
-
   handleKeyDown = e => {
     // IE has issues not firing the onChange event.
     if (bowser.msie) {
-      setTimeout(() => !this.unmounted && this.handleChange);
+      setTimeout(() => !this.unmounted && this.handleChange());
     }
 
-    // Undo Redo
-    if (e.key === 'z' && e.metaKey) {
+    // Undo Redo 'Z'
+    if (e.key === 'z' && (e.metaKey || e.ctrlKey)) {
       if (e.shiftKey) {
         this.handleRedo();
       } else {
@@ -200,14 +202,6 @@ class RTE extends React.Component {
       e.preventDefault();
       return false;
     }
-  };
-
-  handleKeyUp = () => {
-    // IE has issues not firing the onChange event.
-    if (bowser.msie) {
-      setTimeout(() => !this.unmounted && this.handleChange);
-    }
-    this.handleSelectionChange();
   };
 
   restoreCheckpoint(html, node, range) {
@@ -312,6 +306,9 @@ class RTE extends React.Component {
           onKeyUp={this.handleKeyUp}
           onPaste={this.handlePaste}
           onCut={this.handleCut}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          onSelect={this.handleSelectionChange}
           className={classNames.content}
           ref={this.handleRef}
           html={value}

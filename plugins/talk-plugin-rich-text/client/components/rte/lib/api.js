@@ -1,17 +1,37 @@
+import { isSelectionInside } from './dom';
+
 /**
  * An instance of API is passed to all the buttons to
  * interact with RTE, which servers as a clean abstraction.
  */
-export default class API {
-  constructor(container, onChange, canUndo, canRedo, undo, redo) {
-    this.container = container;
-    this.broadcastChange = onChange;
-    this.canUndo = canUndo;
-    this.canRedo = canRedo;
-    this.undo = undo;
-    this.redo = redo;
-  }
-  focus() {
-    this.container.focus();
-  }
+function createAPI(
+  getContainer,
+  broadcastChange,
+  canUndo,
+  canRedo,
+  undo,
+  redo,
+  getFocused
+) {
+  return {
+    broadcastChange,
+    canUndo,
+    canRedo,
+    undo,
+    redo,
+    get focused() {
+      return getFocused();
+    },
+    get container() {
+      return getContainer();
+    },
+    focus() {
+      this.container.focus();
+    },
+    isSelectionInside() {
+      return isSelectionInside(getContainer());
+    },
+  };
 }
+
+export default createAPI;

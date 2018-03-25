@@ -9,7 +9,7 @@ import {
 } from '../lib/dom';
 
 function execCommand() {
-  const bq = findIntersecting('BLOCKQUOTE');
+  const bq = findIntersecting('BLOCKQUOTE', this.container);
   if (bq) {
     outdentNode(bq, true);
   } else {
@@ -34,16 +34,16 @@ function execCommand() {
 }
 
 function isActive() {
-  return !!findIntersecting('BLOCKQUOTE');
+  return this.focused && !!findIntersecting('BLOCKQUOTE', this.container);
 }
 
-const onEnter = node => {
+function onEnter(node) {
   if (node.tagName !== 'BLOCKQUOTE') {
     return;
   }
   insertNewLineAfterNode(node, true);
   return true;
-};
+}
 
 const Blockquote = createToggle(execCommand, { onEnter, isActive });
 
