@@ -78,7 +78,12 @@ class RTE extends React.Component {
   handleRef = ref => (this.ref = ref);
 
   forEachFeature(callback) {
-    Object.keys(this.featuresRef).map(k => callback(this.featuresRef[k]));
+    Object.keys(this.featuresRef).map(k => {
+      const instance = this.featureRef[k].getFeatureInstance
+        ? this.featureRef[k].getFeatureInstance()
+        : this.featureRef[k];
+      callback(instance);
+    });
   }
 
   componentWillReceiveProps(props) {
