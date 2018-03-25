@@ -6,6 +6,7 @@ import {
   getSelectedNodesExpanded,
   outdentNode,
   selectEndOfNode,
+  endWithNewLine,
 } from '../lib/dom';
 
 function execCommand() {
@@ -23,6 +24,7 @@ function execCommand() {
       selectedNodes.forEach(n => {
         node.appendChild(n);
       });
+      endWithNewLine(node);
       selectEndOfNode(node);
     } else {
       node.appendChild(document.createElement('br'));

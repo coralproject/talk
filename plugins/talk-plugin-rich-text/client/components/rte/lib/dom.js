@@ -221,7 +221,7 @@ export function getSelectionRange() {
 }
 
 // Adds a 'br' marker at the end of the node.
-function ensureEndMarker(node) {
+export function endWithNewLine(node) {
   if (!isBlockElement(node)) {
     return;
   }
@@ -284,7 +284,7 @@ export function insertNewLine(changeSelection) {
   } else {
     // We need to add a <br> marker at the end, because we can't
     // select the last <br>.
-    ensureEndMarker(el.parentNode);
+    endWithNewLine(el.parentNode);
 
     const offset = el.parentNode.childNodes.length - 1;
     range.setStart(el.parentNode, offset);
