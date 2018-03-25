@@ -1,7 +1,8 @@
 /**
  * Find ancestor with given tag or whith callback returning true.
+ * If `limitTo` is passed, the search is limited to this container.
  */
-export function findAncestor(node, tagOrCallback) {
+export function findAncestor(node, tagOrCallback, limitTo) {
   const callback =
     typeof tagOrCallback === 'function'
       ? tagOrCallback
@@ -10,6 +11,9 @@ export function findAncestor(node, tagOrCallback) {
     node = node.parentNode;
     if (callback(node)) {
       return node;
+    }
+    if (limitTo && node.isSameNode(limitTo)) {
+      return null;
     }
   }
   return null;
@@ -38,9 +42,10 @@ export function findChild(node, tagOrCallback) {
 
 /**
  * Find an node intersecting with the selection with given tag or
- * with callback returning true.
+ * with callback returning true. If `limitTo` is passed, the search
+ * is limited to this container.
  */
-export function findIntersecting(tagOrCallback) {
+export function findIntersecting(tagOrCallback, limitTo) {
   const callback =
     typeof tagOrCallback === 'function'
       ? tagOrCallback
@@ -55,7 +60,7 @@ export function findIntersecting(tagOrCallback) {
     return range.startContainer;
   }
 
-  const ancestor = findAncestor(range.startContainer, callback);
+  const ancestor = findAncestor(range.startContainer, callback, limitTo);
   if (ancestor) {
     return ancestor;
   }
@@ -226,7 +231,7 @@ function ensureEndMarker(node) {
  * Returns true if selection is completely inside
  * given node.
  */
-export function selectionIsInside(node) {
+export function isSelectionInside(node) {
   const range = getSelectionRange();
   return (
     range &&
