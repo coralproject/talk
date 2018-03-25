@@ -79,9 +79,9 @@ class RTE extends React.Component {
 
   forEachFeature(callback) {
     Object.keys(this.featuresRef).map(k => {
-      const instance = this.featureRef[k].getFeatureInstance
-        ? this.featureRef[k].getFeatureInstance()
-        : this.featureRef[k];
+      const instance = this.featuresRef[k].getFeatureInstance
+        ? this.featuresRef[k].getFeatureInstance()
+        : this.featuresRef[k];
       callback(instance);
     });
   }
@@ -242,16 +242,6 @@ class RTE extends React.Component {
 
       insertNewLine(true);
 
-      this.handleChange();
-      e.preventDefault();
-      return false;
-    }
-  };
-
-  handleKeyPress = e => {
-    const character = String.fromCharCode(e.charCode);
-    if (character) {
-      insertText(character);
       this.handleChange();
       e.preventDefault();
       return false;
