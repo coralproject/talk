@@ -498,7 +498,7 @@ export function getSelectedChildren(ancestor) {
 /**
  * Removes node and assimilate its children with the parent.
  */
-export function outdentNode(node, changeSelection) {
+export function outdentBlock(node, changeSelection) {
   // Save previous range.
   const selectionWasInside = isSelectionInside(node);
   const {
@@ -517,6 +517,7 @@ export function outdentNode(node, changeSelection) {
   const needLineAfter =
     node.nextSibling &&
     !isBlockElement(node.nextSibling) &&
+    node.lastChild &&
     !isBlockElement(node.lastChild);
   const needLineBefore =
     node.previousSibling &&

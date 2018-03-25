@@ -4,7 +4,7 @@ import {
   insertNewLineAfterNode,
   insertNodes,
   getSelectedNodesExpanded,
-  outdentNode,
+  outdentBlock,
   selectEndOfNode,
   indentNodes,
 } from '../lib/dom';
@@ -12,7 +12,7 @@ import {
 function execCommand() {
   const bq = findIntersecting('BLOCKQUOTE', this.container);
   if (bq) {
-    outdentNode(bq, true);
+    outdentBlock(bq, true);
   } else {
     // Expanded selection means we always select whole lines.
     const selectedNodes = getSelectedNodesExpanded();

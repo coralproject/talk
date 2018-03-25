@@ -8,7 +8,7 @@ import Button from '../components/Button';
  */
 const createToggle = (
   execCommand,
-  { onEnter, isActive = () => false, isDisabled = () => false } = {}
+  { onEnter, onShortcut, isActive = () => false, isDisabled = () => false } = {}
 ) => {
   class Toggle extends React.Component {
     state = {
@@ -20,6 +20,8 @@ const createToggle = (
     isActive = () => isActive.apply(this.props.api);
     isDisabled = () => isDisabled.apply(this.props.api);
     onEnter = (...args) => onEnter && onEnter.apply(this.props.api, args);
+    onShortcut = (...args) =>
+      onShortcut && onShortcut.apply(this.props.api, args);
     unmounted = false;
 
     componentWillUnmount() {

@@ -23,8 +23,16 @@ function isDisabled() {
     this.container
   );
 }
+function onShortcut(e) {
+  if (e.key === 'i') {
+    if (!isDisabled.apply(this)) {
+      execCommand.apply(this);
+    }
+    return true;
+  }
+}
 
-const Italic = createToggle(execCommand, { isActive, isDisabled });
+const Italic = createToggle(execCommand, { isActive, isDisabled, onShortcut });
 
 Italic.defaultProps = {
   children: 'Italic',

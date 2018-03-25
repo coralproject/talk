@@ -126,6 +126,17 @@ class RTE extends React.Component {
     });
   };
 
+  // Allow buttons to handle shortcuts.
+  handleShortcut = e => {
+    let handled = false;
+    this.forEachButton(b => {
+      if (!handled) {
+        handled = !!(b.onShortcut && b.onShortcut(e));
+      }
+    });
+    return handled;
+  };
+
   // Called when Enter was pressed without shift.
   // Traverses from bottom to top and calling
   // button handlers and stops when one has handled this event.
@@ -207,6 +218,13 @@ class RTE extends React.Component {
       }
       e.preventDefault();
       return false;
+    }
+
+    if (e.metaKey || e.ctrlKey) {
+      if (this.handleShortcut(e)) {
+        e.preventDefault();
+        return false;
+      }
     }
 
     // Newlines Or Special Enter Behaviors.

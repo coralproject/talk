@@ -25,8 +25,16 @@ function isDisabled() {
     this.container
   );
 }
+function onShortcut(e) {
+  if (e.key === 'b') {
+    if (!isDisabled.apply(this)) {
+      execCommand.apply(this);
+    }
+    return true;
+  }
+}
 
-const Bold = createToggle(execCommand, { isActive, isDisabled });
+const Bold = createToggle(execCommand, { isActive, isDisabled, onShortcut });
 
 Bold.defaultProps = {
   children: 'Bold',
