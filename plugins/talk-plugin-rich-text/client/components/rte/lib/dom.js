@@ -139,10 +139,11 @@ export function indexOfChildNode(parent, child) {
  */
 export function insertText(text) {
   const selection = window.getSelection();
-  if (!selection.isCollapsed) {
-    document.execCommand('delete');
-  }
   const range = selection.getRangeAt(0);
+  if (!range.collapsed) {
+    range.deleteContents();
+  }
+  const newRange = document.createRange();
   const offset = range.startOffset;
   const container = range.startContainer;
 
@@ -152,14 +153,16 @@ export function insertText(text) {
       text +
       container.textContent.slice(offset);
     const nextOffset = offset + text.length;
-    range.setStart(container, nextOffset);
-    range.setEnd(container, nextOffset);
+
+    newRange.setStart(container, nextOffset);
+    newRange.setEnd(container, nextOffset);
   } else {
     const textNode = document.createTextNode(text);
     container.insertBefore(textNode, container.childNodes[offset]);
-    range.setStart(textNode, text.length);
-    range.setEnd(textNode, text.length);
+    newRange.setStart(textNode, text.length);
+    newRange.setEnd(textNode, text.length);
   }
+  replaceSelection(newRange);
 }
 
 /**
@@ -168,10 +171,10 @@ export function insertText(text) {
  */
 export function insertNodes(...nodes) {
   const selection = window.getSelection();
-  if (!selection.isCollapsed) {
-    document.execCommand('delete');
-  }
   const range = selection.getRangeAt(0);
+  if (!range.collapsed) {
+    range.deleteContents();
+  }
   const offset = range.startOffset;
   const container = range.startContainer;
   if (container.nodeName === '#text') {

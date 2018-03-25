@@ -116,6 +116,7 @@ class RTE extends React.Component {
     this.forEachButton(b => {
       b.onSelectionChange && b.onSelectionChange();
     });
+    console.log('sel', getSelectionRange());
   };
 
   // Called when Enter was pressed without shift.
@@ -163,9 +164,22 @@ class RTE extends React.Component {
       (e.originalEvent || e).clipboardData || window.clipboardData
     ).getData('Text');
 
-    // insert text manually
-    insertText(text);
-    this.handleChange();
+    // IE does this funny thing to change the selection after the paste
+    // event, remember the range for now.
+    const range = getSelectionRange().cloneRange();
+
+    // Run outside of event loop to fix
+    // selection issues with IE.
+    setTimeout(() => {
+      // Manually delete range, cope with IE.
+      if (!range.collapsed) {
+        range.deleteContents();
+      }
+
+      // insert text manually
+      insertText(text);
+      this.handleChange();
+    });
 
     e.preventDefault();
     return false;
