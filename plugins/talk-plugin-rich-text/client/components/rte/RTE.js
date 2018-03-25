@@ -13,6 +13,7 @@ import {
   replaceNodeChildren,
   selectEndOfNode,
   isSelectionInside,
+  traverse,
 } from './lib/dom';
 import createAPI from './lib/api';
 import Undo from './lib/undo';
@@ -98,6 +99,13 @@ class RTE extends React.Component {
   }
 
   handleChange = () => {
+    // TODO: don't rely on this hack.
+    // It removes all `style` attr that
+    // remaining execCommand still add.
+    traverse(this.ref.htmlEl, n => {
+      n.removeAttribute && n.removeAttribute('style');
+    });
+
     this.props.onChange({
       text: this.ref.htmlEl.innerText,
       html: this.ref.htmlEl.innerHTML,
@@ -116,7 +124,6 @@ class RTE extends React.Component {
     this.forEachButton(b => {
       b.onSelectionChange && b.onSelectionChange();
     });
-    console.log('sel', getSelectionRange());
   };
 
   // Called when Enter was pressed without shift.
@@ -212,6 +219,16 @@ class RTE extends React.Component {
 
       insertNewLine(true);
 
+      this.handleChange();
+      e.preventDefault();
+      return false;
+    }
+  };
+
+  handleKeyPress = e => {
+    const character = String.fromCharCode(e.charCode);
+    if (character) {
+      insertText(character);
       this.handleChange();
       e.preventDefault();
       return false;
@@ -317,6 +334,7 @@ class RTE extends React.Component {
           id={inputId}
           onMouseUp={this.handleMouseUp}
           onKeyDown={this.handleKeyDown}
+          onKeyPress={this.handleKeyPress}
           onKeyUp={this.handleKeyUp}
           onPaste={this.handlePaste}
           onCut={this.handleCut}

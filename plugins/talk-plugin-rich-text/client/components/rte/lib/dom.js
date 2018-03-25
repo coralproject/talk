@@ -1,4 +1,42 @@
 /**
+ * Traverse DOM tree until callback returns anything.
+ */
+export function traverse(node, callback) {
+  let result;
+  for (let i = 0; i < node.childNodes.length; i++) {
+    const child = node.childNodes[i];
+    result = callback(child);
+    if (result === undefined) {
+      result = traverse(child, callback);
+    }
+    if (result !== undefined) {
+      return result;
+    }
+  }
+}
+
+/**
+ * Traverse DOM tree backwards until callback returns anything.
+ * If hits limitTo returns null.
+ */
+export function traverseUp(node, callback, limitTo) {
+  let result;
+  if (node.isSameNode(limitTo)) {
+    return null;
+  }
+  while (node.parentNode) {
+    node = node.parentNode;
+    result = callback(node);
+    if (result !== undefined) {
+      return result;
+    }
+    if (limitTo && node.isSameNode(limitTo)) {
+      return null;
+    }
+  }
+}
+
+/**
  * Find ancestor with given tag or whith callback returning true.
  * If `limitTo` is passed, the search is limited to this container.
  */
@@ -7,19 +45,17 @@ export function findAncestor(node, tagOrCallback, limitTo) {
     typeof tagOrCallback === 'function'
       ? tagOrCallback
       : n => n.tagName === tagOrCallback;
-  if (node.isSameNode(limitTo)) {
-    return null;
-  }
-  while (node.parentNode) {
-    node = node.parentNode;
-    if (callback(node)) {
-      return node;
-    }
-    if (limitTo && node.isSameNode(limitTo)) {
-      return null;
-    }
-  }
-  return null;
+  return (
+    traverseUp(
+      node,
+      n => {
+        if (callback(n)) {
+          return n;
+        }
+      },
+      limitTo
+    ) || null
+  );
 }
 
 /**
@@ -30,17 +66,13 @@ export function findChild(node, tagOrCallback) {
     typeof tagOrCallback === 'function'
       ? tagOrCallback
       : n => n.tagName === tagOrCallback;
-  for (let i = 0; i < node.childNodes.length; i++) {
-    const child = node.childNodes[i];
-    if (callback(child)) {
-      return child;
-    }
-    const found = findChild(child, tagOrCallback);
-    if (found) {
-      return found;
-    }
-  }
-  return null;
+  return (
+    traverse(node, n => {
+      if (callback(n)) {
+        return n;
+      }
+    }) || null
+  );
 }
 
 /**
@@ -220,19 +252,13 @@ export function getSelectionRange() {
   return selection.rangeCount ? selection.getRangeAt(0) : null;
 }
 
-// Adds a 'br' marker at the end of the node.
-export function endWithNewLine(node) {
+// Adds a bogus 'br' at the end of the node if not existant.
+export function addBogusBR(node) {
   if (!isBlockElement(node)) {
     return;
   }
-  if (
-    !node.lastChild ||
-    node.lastChild.tagName !== 'BR' ||
-    node.lastChild.className !== 'coral-rte-end-marker'
-  ) {
-    const br = document.createElement('br');
-    br.className = 'coral-rte-end-marker';
-    node.appendChild(br);
+  if (!node.lastChild || !isBogusBR(node.lastChild)) {
+    node.appendChild(document.createElement('br'));
   }
 }
 
@@ -275,6 +301,17 @@ export function insertNewLine(changeSelection) {
   const el = document.createElement('br');
   insertNodes(el);
 
+  // If we are adding to the end of the node, we also need
+  // to add a bogus br.
+  if (!el.nextSibling) {
+    el.parentNode.appendChild(document.createElement('br'));
+  }
+
+  // Adding directly before a block element needs also a bogus br.
+  if (el.nextSibling && isBlockElement(el.nextSibling)) {
+    el.parentNode.insertBefore(document.createElement('br'), el.nextSibling);
+  }
+
   // Calculate next selection.
   const range = document.createRange();
   if (el.nextSibling) {
@@ -282,10 +319,6 @@ export function insertNewLine(changeSelection) {
     range.setStart(el.parentNode, offset);
     range.setEnd(el.parentNode, offset);
   } else {
-    // We need to add a <br> marker at the end, because we can't
-    // select the last <br>.
-    endWithNewLine(el.parentNode);
-
     const offset = el.parentNode.childNodes.length - 1;
     range.setStart(el.parentNode, offset);
     range.setEnd(el.parentNode, offset);
@@ -342,6 +375,14 @@ export function getLeftOfNode(node) {
   return result;
 }
 
+export function isBogusBR(node) {
+  return (
+    (!node.previousSibling || !isBlockElement(node.previousSibling)) &&
+    node.tagName === 'BR' &&
+    (!node.nextSibling || isBlockElement(node.previousSibling))
+  );
+}
+
 /**
  * Returns an array of all nodes after `node`.
  */
@@ -356,7 +397,11 @@ export function getRightOfNode(node) {
     cur = cur.nextSibling;
     result.push(cur);
   }
-  if (cur.nextSibling && cur.nextSibling.tagName === 'BR') {
+  if (
+    cur.nextSibling &&
+    cur.nextSibling.tagName === 'BR' &&
+    !isBogusBR(cur.nextSibling)
+  ) {
     result.push(cur.nextSibling);
   }
   return result;
@@ -457,11 +502,28 @@ export function getSelectedChildren(ancestor) {
  * Removes node and assimilate its children with the parent.
  */
 export function outdentNode(node, changeSelection) {
+  /// Remove bogus br
+  if (node.lastChild && node.lastChild.tagName === 'BR') {
+    node.removeChild(node.lastChild);
+  }
+
+  // A new line to substitute the missing block element.
+  const needExtraLine =
+    node.nextSibling &&
+    !isBlockElement(node.nextSibling) &&
+    !isBlockElement(node.lastChild);
+
   const parentNode = node.parentNode;
   const offset = indexOfChildNode(parentNode, node);
+
   while (node.firstChild) {
     parentNode.insertBefore(node.firstChild, node);
   }
+
+  if (needExtraLine) {
+    parentNode.insertBefore(document.createElement('BR'), node);
+  }
+
   parentNode.removeChild(node);
 
   if (changeSelection) {
@@ -470,6 +532,36 @@ export function outdentNode(node, changeSelection) {
     range.setEnd(parentNode, offset);
     replaceSelection(range);
   }
+}
+
+/**
+ * Indent children.
+ */
+export function indentNodes(nodes, tagName) {
+  const node = document.createElement(tagName);
+
+  // Remove bogus BR if the blockquote is the last element.
+  // Otherwise there will be an unwanted empty line.
+  const lastNode = nodes[nodes.length - 1];
+  if (
+    lastNode.nextSibling === lastNode.parentNode.lastChild &&
+    isBogusBR(lastNode.parentNode.lastChild)
+  ) {
+    lastNode.parentNode.removeChild(lastNode.parentNode.lastChild);
+  }
+
+  const firstNode = nodes[0];
+  // Remove previous br as it is not needed
+  if (firstNode.previousSibling && firstNode.previousSibling.tagName === 'BR') {
+    firstNode.parentNode.removeChild(firstNode.previousSibling);
+  }
+
+  // Finally indent.
+  firstNode.parentNode.insertBefore(node, firstNode);
+  nodes.forEach(n => {
+    node.appendChild(n);
+  });
+  return node;
 }
 
 function cloneNodeAndRangeHelper(node, range, rangeCloned) {

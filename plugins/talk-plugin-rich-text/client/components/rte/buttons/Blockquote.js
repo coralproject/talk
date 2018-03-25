@@ -6,7 +6,7 @@ import {
   getSelectedNodesExpanded,
   outdentNode,
   selectEndOfNode,
-  endWithNewLine,
+  indentNodes,
 } from '../lib/dom';
 
 function execCommand() {
@@ -14,19 +14,13 @@ function execCommand() {
   if (bq) {
     outdentNode(bq, true);
   } else {
-    const node = document.createElement('blockquote');
-
     // Expanded selection means we always select whole lines.
     const selectedNodes = getSelectedNodesExpanded();
     if (selectedNodes.length) {
-      const firstNode = selectedNodes[0];
-      firstNode.parentNode.insertBefore(node, firstNode);
-      selectedNodes.forEach(n => {
-        node.appendChild(n);
-      });
-      endWithNewLine(node);
+      const node = indentNodes(selectedNodes, 'blockquote');
       selectEndOfNode(node);
     } else {
+      const node = document.createElement('blockquote');
       node.appendChild(document.createElement('br'));
       insertNodes(node);
       selectEndOfNode(node);
