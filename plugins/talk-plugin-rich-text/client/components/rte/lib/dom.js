@@ -287,22 +287,6 @@ export function isSelectionInside(...nodes) {
 }
 
 /**
- * Append a newline to the node.
- */
-export function appendNewLine(node, changeSelection) {
-  const el = document.createElement('br');
-  node.appendChild(el);
-
-  if (changeSelection) {
-    const offset = indexOfChildNode(node, el);
-    const range = document.createRange();
-    range.setStart(node, offset);
-    range.setEnd(node, offset);
-    replaceSelection(range);
-  }
-}
-
-/**
  * Insert new line. This is what happens
  * when adding new lines through pressing Enter.
  * Deals with browers quirks.
@@ -344,17 +328,19 @@ export function insertNewLine(changeSelection) {
  * Inserts a new line after given node.
  */
 export function insertNewLineAfterNode(node, changeSelection) {
-  if (node.parentNode.lastChild === node) {
-    appendNewLine(node.parentNode, changeSelection);
+  const el = document.createElement('br');
+  if (node.nextSibling) {
+    node.parentNode.insertBefore(el, node.nextSibling);
   } else {
-    if (changeSelection) {
-      const offset = indexOfChildNode(node.parentNode, node) + 1;
-      const range = document.createRange();
-      range.setStart(node.parentNode, offset);
-      range.setEnd(node.parentNode, offset);
-      replaceSelection(range);
-    }
-    insertNewLine();
+    node.parentNode.appendChild(el);
+  }
+
+  if (changeSelection) {
+    const offset = indexOfChildNode(node.parentNode, el);
+    const range = document.createRange();
+    range.setStart(node.parentNode, offset);
+    range.setEnd(node.parentNode, offset);
+    replaceSelection(range);
   }
 }
 
