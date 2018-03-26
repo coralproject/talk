@@ -62,7 +62,7 @@ TALK_FACEBOOK_APP_SECRET=A-Facebook-App-Secret
 ```
 
 This is the bare minimum needed to start Talk, for more configuration
-variables, check out the [Configuration](./configuration/)
+variables, check out the [Configuration](/talk/configuration/)
 section. Facebook login above will definitely not work unless you change those
 values as well.
 
@@ -73,5 +73,5 @@ You can now start the application by running:
 yarn watch:server
 ```
 
-At this stage, you should refer to the [configuration](./configuration/) for
+At this stage, you should refer to the [configuration](/talk/configuration/) for
 configuration variables that are specific to your installation.

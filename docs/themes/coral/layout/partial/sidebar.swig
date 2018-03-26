@@ -17,7 +17,7 @@
             <ul class="sidebar__links">
               {% for item in item.children %}
                 <li class="{% if is_current(item.url) %}active{% endif %}">
-                  <a href="{% if !is_current(item.url) %}{{ url_for(item.url) }}{% else %}#{% endif %}">{{ item.title }}</a>
+                  <a href="{{ url_for(item.url) }}">{{ item.title }}</a>
                 </li>
               {% endfor %}
             </ul>
