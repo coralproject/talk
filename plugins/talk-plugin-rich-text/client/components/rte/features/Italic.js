@@ -1,5 +1,5 @@
 import createToggle from '../factories/createToggle';
-import { findIntersecting } from '../lib/dom';
+import { findIntersecting, findAncestor } from '../lib/dom';
 
 const italicTags = ['I', 'EM'];
 
@@ -19,7 +19,8 @@ function isDisabled() {
     n =>
       n.nodeName !== '#text' &&
       window.getComputedStyle(n).getPropertyValue('font-style') === 'italic' &&
-      !italicTags.includes(n.tagName),
+      !italicTags.includes(n.tagName) &&
+      !findAncestor(n, n => italicTags.includes(n.tagName), this.container),
     this.container
   );
 }
