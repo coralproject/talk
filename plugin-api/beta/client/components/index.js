@@ -21,6 +21,9 @@ export {
   default as CommentContent,
 } from 'coral-framework/components/CommentContent';
 export {
+  default as AdminCommentContent,
+} from 'coral-framework/components/AdminCommentContent';
+export {
   default as ConfigureCard,
 } from 'coral-framework/components/ConfigureCard';
 export {

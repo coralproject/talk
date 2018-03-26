@@ -4,19 +4,19 @@ import styles from './Editor.css';
 import cn from 'classnames';
 import { PLUGIN_NAME } from '../constants';
 import { htmlNormalizer } from '../utils';
-import ContentEditable from 'react-contenteditable';
-import Toolbar from './Toolbar';
-import Button from './Button';
-import bowser from 'bowser';
+import RTE from './rte/RTE';
+import { Icon } from 'plugin-api/beta/client/components/ui';
+import { Bold, Italic, Blockquote } from './rte/features';
+import { t } from 'plugin-api/beta/client/services';
 
 class Editor extends React.Component {
   ref = null;
   handleRef = ref => (this.ref = ref);
 
-  handleChange = evt => {
+  handleChange = c => {
     this.props.onInputChange({
-      body: this.ref.htmlEl.innerText,
-      richTextBody: evt.target.value,
+      body: c.text,
+      richTextBody: c.html,
     });
   };
 
@@ -40,55 +40,19 @@ class Editor extends React.Component {
         }
       });
     }
+    if (this.props.isReply) {
+      this.ref.focus();
+    }
   }
 
   componentWillUnmount() {
     this.props.unregisterHook(this.normalizeHook);
   }
 
-  getCurrentTagName() {
-    const sel = window.getSelection();
-    const range = sel.getRangeAt(0);
-    if (range.startContainer.nodeName !== '#text') {
-      return range.startContainer.nodeName;
-    }
-    return range.startContainer.parentNode.tagName;
-  }
-
-  formatBold = () => {
-    document.execCommand('bold');
-    this.ref.htmlEl.focus();
-  };
-
-  formatItalic = () => {
-    document.execCommand('italic');
-    this.ref.htmlEl.focus();
-  };
-
-  formatBlockquote = () => {
-    const currentTag = this.getCurrentTagName();
-    if (currentTag === 'BLOCKQUOTE') {
-      document.execCommand('outdent');
-    } else {
-      if (bowser.msie) {
-        document.execCommand('indent');
-      } else {
-        document.execCommand('formatBlock', false, 'blockquote');
-      }
-    }
-    this.ref.htmlEl.focus();
-  };
-
-  outdentOnEnter = e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      setTimeout(() => {
-        document.execCommand('outdent');
-      });
-    }
-  };
-
   render() {
-    const inputId = `${this.props.id}-rte`;
+    const { id, placeholder, label, disabled } = this.props;
+
+    const inputId = `${id}-rte`;
     return (
       <div className={cn(styles.root, `${PLUGIN_NAME}-container`)}>
         <label
@@ -96,32 +60,44 @@ class Editor extends React.Component {
           className="screen-reader-text"
           aria-hidden={true}
         >
-          {this.props.label}
+          {label}
         </label>
-        <Toolbar>
-          <Button icon="format_bold" title="bold" onClick={this.formatBold} />
-          <Button
-            icon="format_italic"
-            title="italic"
-            onClick={this.formatItalic}
-          />
-          <Button
-            icon="format_quote"
-            title="quote"
-            onClick={this.formatBlockquote}
-          />
-        </Toolbar>
-        {!this.props.input.body && (
-          <div className={styles.placeholder}>{this.props.placeholder}</div>
-        )}
-        <ContentEditable
-          id={inputId}
-          onKeyPress={this.outdentOnEnter}
-          className={styles.contentEditable}
-          ref={this.handleRef}
-          html={this.getHTML()}
-          disabled={false}
+        <RTE
+          inputId={inputId}
+          className={`${PLUGIN_NAME}-editor`}
+          classNameDisabled={`${PLUGIN_NAME}-editor-disabled`}
+          contentClassName={cn(`${PLUGIN_NAME}-content`, styles.commentContent)}
+          contentClassNameDisabled={`${PLUGIN_NAME}-content-disabled`}
+          toolbarClassName={`${PLUGIN_NAME}-toolbar`}
+          toolbarClassNameDisabled={`${PLUGIN_NAME}-toolbar-disabled`}
           onChange={this.handleChange}
+          value={this.getHTML()}
+          disabled={disabled}
+          placeholder={placeholder}
+          ref={this.handleRef}
+          features={[
+            <Bold
+              key="bold"
+              title={t('talk-plugin-rich-text.format_bold')}
+              className={`${PLUGIN_NAME}-feature-bold`}
+            >
+              <Icon className={styles.icon} name="format_bold" />
+            </Bold>,
+            <Italic
+              key="italic"
+              title={t('talk-plugin-rich-text.format_italic')}
+              className={`${PLUGIN_NAME}-feature-italic`}
+            >
+              <Icon className={styles.icon} name="format_italic" />
+            </Italic>,
+            <Blockquote
+              key="blockquote"
+              title={t('talk-plugin-rich-text.format_blockquote')}
+              className={`${PLUGIN_NAME}-feature-blockquote`}
+            >
+              <Icon className={styles.icon} name="format_quote" />
+            </Blockquote>,
+          ]}
         />
       </div>
     );
@@ -134,7 +110,6 @@ Editor.propTypes = {
   onInputChange: PropTypes.func,
   disabled: PropTypes.bool,
   comment: PropTypes.object,
-  classNames: PropTypes.object,
   registerHook: PropTypes.func,
   unregisterHook: PropTypes.func,
   isReply: PropTypes.bool,

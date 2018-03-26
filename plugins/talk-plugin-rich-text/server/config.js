@@ -14,7 +14,7 @@ const config = {
   // TODO: move to admin eventually
   // Super strict rules to make sure users only submit the tags they are allowed
   dompurify: {
-    ALLOWED_TAGS: ['b', 'i', 'blockquote', 'br', 'div'],
+    ALLOWED_TAGS: ['b', 'i', 'blockquote', 'br', 'div', 'span'],
     ALLOWED_ATTR: [],
   },
 
