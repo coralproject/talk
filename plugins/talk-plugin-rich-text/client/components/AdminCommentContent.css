@@ -1,0 +1,4 @@
+.content {
+  composes: content from "./CommentContent.css";
+}
+

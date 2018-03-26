@@ -8,7 +8,7 @@ import styles from './Comment.css';
 import CommentLabels from 'coral-admin/src/components/CommentLabels';
 import CommentAnimatedEdit from 'coral-admin/src/components/CommentAnimatedEdit';
 import Slot from 'coral-framework/components/Slot';
-import CommentFormatter from 'coral-admin/src/components/CommentFormatter';
+import AdminCommentContent from 'coral-framework/components/AdminCommentContent';
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
 import ApproveButton from 'coral-admin/src/components/ApproveButton';
@@ -140,7 +140,7 @@ class Comment extends React.Component {
                   fill="adminCommentContent"
                   className={cn(styles.commentContent, 'talk-admin-comment')}
                   size={1}
-                  defaultComponent={CommentFormatter}
+                  defaultComponent={AdminCommentContent}
                   passthrough={{ ...slotPassthrough, ...formatterSettings }}
                 />
                 <div className={styles.commentContentFooter}>
