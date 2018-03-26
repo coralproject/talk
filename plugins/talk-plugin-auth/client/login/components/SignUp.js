@@ -122,6 +122,7 @@ class SignUp extends React.Component {
                   id="coralSignUpButton"
                   className={styles.button}
                   full
+                  disabled={!this.props.submitSignUpForm}
                 >
                   {t('talk-plugin-auth.login.sign_up')}
                 </Button>
@@ -175,6 +176,7 @@ SignUp.propTypes = {
   success: PropTypes.bool.isRequired,
   enableSubmitSignUpForm: PropTypes.func.isRequired,
   disableSubmitSignUpForm: PropTypes.func.isRequired,
+  submitSignUpForm: PropTypes.bool.isRequired,
 };
 
 export default SignUp;
