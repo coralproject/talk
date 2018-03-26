@@ -16,7 +16,7 @@ instance of Talk.
 
 If you've already configured your application with the required configuration,
 you can further customize it's behavior by applying
-[Advanced Configuration](./advanced-configuration/).
+[Advanced Configuration](/talk/advanced-configuration/).
 
 ## TALK_MONGO_URL
 
@@ -81,4 +81,4 @@ TALK_JWT_SECRET=jX9y8G2ApcVLwyL{$6s3
 
 Be default, we sign our tokens with HMAC using a SHA-256 hash algorithm. If you
 want to change the signing algorithm, or use multiple signing/verifying keys,
-refer to our [Advanced Configuration](./advanced-configuration/) documentation.
+refer to our [Advanced Configuration](/talk/advanced-configuration/) documentation.
