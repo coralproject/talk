@@ -23,16 +23,15 @@
   border: none;
   color: #4e4e4e;
   margin-right: 3px;
+  border-radius: 3px;
 }
 
-.button:hover{
+.button:hover {
   cursor: pointer;
-  border-radius: 3px;
   background-color: #eae8e8;
 }
 
-.active {
-  border-radius: 3px;
+.button.active {
   background-color: #ddd;
 }
 
@@ -40,4 +39,13 @@
   color: #bbb;
   cursor: default;
   background: none;
+}
+
+@media (-moz-touch-enabled: 1), (pointer:coarse) {
+  .button:hover{
+    background-color: transparent;
+  }
+  .button.active {
+    background-color: #ddd;
+  }
 }
