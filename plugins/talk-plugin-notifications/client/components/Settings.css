@@ -1,6 +1,6 @@
 .root {
   margin-bottom: 20px;
-  width: 350px;
+  max-width: 350px;
 }
 
 .innerSettings {
