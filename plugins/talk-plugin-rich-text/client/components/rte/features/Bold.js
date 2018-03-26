@@ -1,5 +1,5 @@
 import createToggle from '../factories/createToggle';
-import { findIntersecting } from '../lib/dom';
+import { findIntersecting, findAncestor } from '../lib/dom';
 
 const boldTags = ['B', 'STRONG'];
 
@@ -21,7 +21,8 @@ function isDisabled() {
     n =>
       n.nodeName !== '#text' &&
       window.getComputedStyle(n).getPropertyValue('font-weight') === 'bold' &&
-      !boldTags.includes(n.tagName),
+      !boldTags.includes(n.tagName) &&
+      !findAncestor(n, n => boldTags.includes(n.tagName), this.container),
     this.container
   );
 }
