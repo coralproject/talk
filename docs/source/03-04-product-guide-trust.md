@@ -28,7 +28,7 @@ Here are the default thresholds:
 +3 and higher: Reliable
 ```
 
-You can configure your own Trust thresholds by using [TRUST_THRESHOLD](./advanced-configuration/#trust_thresholds) in your
+You can configure your own Trust thresholds by using [TRUST_THRESHOLD](/talk/advanced-configuration/#trust-thresholds) in your
 configuration.
 
 

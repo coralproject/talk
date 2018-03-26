@@ -171,7 +171,7 @@ marked:
   breaks: false
   smartLists: true
   smartypants: true
-  modifyAnchors: ''
+  modifyAnchors: 1
   autolink: true
 
 node_sass:

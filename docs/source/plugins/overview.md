@@ -116,4 +116,4 @@ configuration and will ensure that the image is ready to use by building all
 assets inside the image as well.
 
 For more information on the onbuild image, refer to the
-[Installation from Docker](./installation-from-docker/) documentation.
+[Installation from Docker](/talk/installation-from-docker/) documentation.

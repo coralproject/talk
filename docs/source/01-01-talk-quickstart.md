@@ -24,7 +24,7 @@ to persist data. The following versions are supported:
 
 An optional dependency for Talk is
 [Docker](https://www.docker.com/community-edition#/download).
-It is used during [development](#development) to set up the database and can be
+It is used during development to set up the database and can be
 used to [install via Docker](#installation-from-docker).  We have tested Talk
 and this documentation with versions 17.06.2+.
 
@@ -80,7 +80,7 @@ volumes:
 ```
 
 This is the bare minimum needed to run the demo, for more configuration
-variables, check out the [Configuration](./configuration/) section.
+variables, check out the [Configuration](/talk/configuration/) section.
 
 
 And you can then start it with:
@@ -172,7 +172,7 @@ TALK_FACEBOOK_APP_SECRET=A-Facebook-App-Secret
 ```
 
 This is only the bare minimum needed to run the demo, for more configuration
-variables, check out the [Configuration](./configuration/) section. Facebook login above
+variables, check out the [Configuration](/talk/configuration/) section. Facebook login above
 will definitely not work unless you change those values as well.
 
 
