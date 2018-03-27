@@ -90,8 +90,6 @@
     - reaction
 - name: talk-plugin-rich-text
   description: Enables rich text plugins that save data as HTML.
-- name: talk-plugin-rich-text-pell
-  description: Enables the pell rich text editor.
 - name: talk-plugin-slack-notifications
   description: Sends all comments as notifications to a slack channel
 - name: talk-plugin-sort-most-liked
