@@ -9,15 +9,21 @@ const MODERATION_OPTIONS = require('./enum/moderation_options');
  */
 const SettingSchema = new Schema(
   {
+    // id is always '1', as we store all the application settings site wide in a
+    // collection called `settings`, with a single document.
     id: {
       type: String,
       default: '1',
     },
+
+    // moderation gives the ability to affect site-wide moderation defaults. It
+    // can either be POST/PRE to support pre-moderation.
     moderation: {
       type: String,
       enum: MODERATION_OPTIONS,
       default: 'POST',
     },
+
     infoBoxEnable: {
       type: Boolean,
       default: false,
@@ -47,6 +53,9 @@ const SettingSchema = new Schema(
       default: false,
     },
     organizationName: {
+      type: String,
+    },
+    organizationEmail: {
       type: String,
     },
     autoCloseStream: {

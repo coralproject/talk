@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
 import cn from 'classnames';
 
-const AddOrganizationName = props => {
+const ConfigureOrganization = props => {
   const { handleSettingsChange, handleSettingsSubmit, install } = props;
   return (
     <div className={cn(styles.step, 'talk-install-step-2')}>
@@ -16,7 +16,16 @@ const AddOrganizationName = props => {
             className={styles.TextField}
             id="organizationName"
             type="text"
-            label={t('install.add_organization.label')}
+            label={t('install.add_organization.name.label')}
+            onChange={handleSettingsChange}
+            showErrors={install.showErrors}
+            errorMsg={install.errors.organizationName}
+          />
+          <TextField
+            className={styles.TextField}
+            id="organizationEmail"
+            type="email"
+            label={t('install.add_organization.email.label')}
             onChange={handleSettingsChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.organizationName}
@@ -35,10 +44,10 @@ const AddOrganizationName = props => {
   );
 };
 
-AddOrganizationName.propTypes = {
+ConfigureOrganization.propTypes = {
   handleSettingsChange: PropTypes.func,
   handleSettingsSubmit: PropTypes.func,
   install: PropTypes.object,
 };
 
-export default AddOrganizationName;
+export default ConfigureOrganization;

@@ -30,7 +30,7 @@ const initialState = {
   step: 0,
   navItems: [
     {
-      text: '1. Add Organization Name',
+      text: '1. Configure Organization',
       step: 1,
     },
     {

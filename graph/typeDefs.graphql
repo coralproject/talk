@@ -834,6 +834,9 @@ type Settings {
   # organizationName is the name of the organization.
   organizationName: String
 
+  # organizationEmail is the contact email address for the organization.
+  organizationEmail: String
+
   # wordlist will return a given list of words.
   wordlist: Wordlist
 
