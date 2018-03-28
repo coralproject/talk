@@ -52,16 +52,6 @@ const InitialStep = props => {
             errorMsg={install.errors.confirmPassword}
           />
 
-          <TextField
-            className={styles.textField}
-            id="organizationContactEmail"
-            type="email"
-            label={t('install.create.organization_contact_email')}
-            onChange={handleUserChange}
-            showErrors={install.showErrors}
-            errorMsg={install.errors.organizationEmailContact}
-          />
-
           {!props.install.isLoading ? (
             <Button
               className="talk-install-step-3-save-button"

@@ -28,6 +28,7 @@ class InstallContainer extends React.Component {
   render() {
     return (
       <Install
+        install={this.props.install}
         goToStep={this.props.goToStep}
         nextStep={this.props.nextStep}
         submitUser={this.props.submitUser}
@@ -48,6 +49,7 @@ InstallContainer.contextTypes = {
 };
 
 InstallContainer.propTypes = {
+  install: PropTypes.object.isRequired,
   goToStep: PropTypes.func.isRequired,
   nextStep: PropTypes.func.isRequired,
   submitUser: PropTypes.func.isRequired,

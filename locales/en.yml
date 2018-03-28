@@ -235,6 +235,7 @@ en:
     email_not_verified: "E-mail address {0} not verified."
     email_password: "E-mail and/or password combination incorrect."
     organization_name: "Organization name must only contain letters or numbers."
+    organization_contact_email: "Organization email is not valid."
     password: "Password must be at least 8 characters"
     username: "Usernames can contain letters numbers and _ only"
     unexpected: "Unexpected error occurred. Sorry!"

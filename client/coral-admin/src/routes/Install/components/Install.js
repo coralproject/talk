@@ -5,7 +5,7 @@ import Layout from 'coral-admin/src/components/Layout';
 import PropTypes from 'prop-types';
 
 import InitialStep from './Steps/InitialStep';
-import AddOrganizationName from './Steps/AddOrganizationName';
+import OrganizationDetails from './Steps/OrganizationDetails';
 import CreateYourAccount from './Steps/CreateYourAccount';
 import PermittedDomainsStep from './Steps/PermittedDomainsStep';
 import FinalStep from './Steps/FinalStep';
@@ -56,7 +56,7 @@ class Install extends React.Component {
                 goToStep={this.props.goToStep}
               >
                 <InitialStep />
-                <AddOrganizationName
+                <OrganizationDetails
                   install={install}
                   handleSettingsChange={this.handleSettingsChange}
                   handleSettingsSubmit={this.handleSettingsSubmit}

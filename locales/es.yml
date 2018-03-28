@@ -233,6 +233,7 @@ es:
     email_not_verified: "Correo {0} no confirmado."
     email_password: "Correo y/o contraseña incorrecta."
     organization_name: "El nombre de la organización debe contener letras y/o números."
+    organization_contact_email: "El email de la organización no es válido."
     password: "La contraseña debe tener por lo menos 8 caracteres"
     username: "Los nombres pueden contener letras números y _"
     required_field: "Este campo es requerido"
