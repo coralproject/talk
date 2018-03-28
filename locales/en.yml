@@ -459,8 +459,11 @@ en:
       description: "Let's set up your Talk community in just a few short steps."
       submit: "Get Started"
     add_organization:
-      description: "Please tell us the name of your organization. This will appear in emails when inviting new team members."
-      label: "Organization Name"
+      description: "Please tell us the name and email address of your organization. This will appear in emails when inviting new team members."
+      name:
+        label: "Organization Name"
+      email:
+        label: "Organization Email"
       save: "Save"
     create:
       email: "Email address"
