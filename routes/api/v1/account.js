@@ -4,6 +4,10 @@ const UsersService = require('../../../services/users');
 const mailer = require('../../../services/mailer');
 const authorization = require('../../../middleware/authorization');
 const errors = require('../../../errors');
+const archiver = require('archiver');
+const stringify = require('csv-stringify');
+const moment = require('moment');
+const { pick, get, kebabCase } = require('lodash');
 
 // Return the current logged in user.
 router.get('/', authorization.needed(), (req, res, next) => {
@@ -127,11 +131,6 @@ router.put(
   }
 );
 
-const archiver = require('archiver');
-const stringify = require('csv-stringify');
-const moment = require('moment');
-const { pick, get, kebabCase } = require('lodash');
-
 // loadCommentsBatch will load a batch of the comments and write them to the
 // stream.
 async function loadCommentsBatch(ctx, csv, variables = {}) {
@@ -179,7 +178,13 @@ async function loadCommentsBatch(ctx, csv, variables = {}) {
 
 // loadComments will load batches of the comments and write them to the csv
 // stream. Once the comments have finished writing, it will close the stream.
-async function loadComments(ctx, csv) {
+async function loadComments(ctx, archive) {
+  // Create all the csv writers that'll write the data to the archive.
+  const csv = stringify();
+
+  // Add all the streams as files to the archive.
+  archive.append(csv, { name: 'my_comments.csv' });
+
   csv.write(['ID', 'Timestamp', 'Article', 'Link', 'Body']);
 
   // Load the first batch's comments.
@@ -222,19 +227,13 @@ router.get('/download', authorization.needed(), async (req, res, next) => {
     // Pipe this to the response writer directly.
     archive.pipe(res);
 
-    // Create all the csv writers that'll write the data to the archive.
-    const myCommentsCSV = stringify();
-
-    // Add all the streams as files to the archive.
-    archive.append(myCommentsCSV, { name: 'my_comments.csv' });
+    // Load the comments csv up with the user's comments.
+    await loadComments(req.context, archive);
 
     // Mark the end of adding files, no more files can be added after this. Once
     // all the stream readers have finished writing, and have closed, the
     // archiver will close which will finish the HTTP request.
     archive.finalize();
-
-    // Load the comments csv up with the user's comments.
-    await loadComments(req.context, myCommentsCSV);
   } catch (err) {
     return next(err);
   }
