@@ -156,6 +156,10 @@ es:
     suspect_word_title: "Lista de palabras sospechosas"
     suspect_word_text: "Comentarios que contengan estas palabras o frases, considerando mayusculas y minúsculas, serán automáticamente  destacadas en los comentarios publicados. Escribir una palabra y apretar Enter o Tabulador para agregarla. O pegar una lista de palabras separadas por coma."
     tech_settings: "Configuración Técnica"
+    organization_settings: "Configuración de la Organización"
+    organization_details: "Detalles de la Organización"
+    organization_name: "Nombre de la Organización"
+    organization_contact_email: "Email de la Organización"
     title: "Configurar los comentarios"
     weeks: Semanas
     wordlist: "Palabras Suspendidas"

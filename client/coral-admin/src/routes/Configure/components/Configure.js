@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-
-import { Button, List, Item } from 'coral-ui';
-import styles from './Configure.css';
-import StreamSettings from '../containers/StreamSettings';
-import ModerationSettings from '../containers/ModerationSettings';
-import TechSettings from '../containers/TechSettings';
+import React from 'react';
 import t from 'coral-framework/services/i18n';
 import { can } from 'coral-framework/services/perms';
 import PropTypes from 'prop-types';
+import { Button, List, Item } from 'coral-ui';
+import StreamSettings from '../containers/StreamSettings';
+import ModerationSettings from '../containers/ModerationSettings';
+import TechSettings from '../containers/TechSettings';
+import OrganizationSettings from '../containers/OrganizationSettings';
+import styles from './Configure.css';
 
-export default class Configure extends Component {
+class Configure extends React.Component {
   getSectionComponent(section) {
     switch (section) {
       case 'stream':
@@ -18,8 +18,11 @@ export default class Configure extends Component {
         return ModerationSettings;
       case 'tech':
         return TechSettings;
+      case 'organization':
+        return OrganizationSettings;
+      default:
+        return StreamSettings;
     }
-    throw new Error(`Unknown section ${section}`);
   }
 
   render() {
@@ -53,6 +56,9 @@ export default class Configure extends Component {
             </Item>
             <Item itemId="tech" icon="code">
               {t('configure.tech_settings')}
+            </Item>
+            <Item itemId="organization" icon="people">
+              {t('configure.organization_settings')}
             </Item>
           </List>
           <div className={styles.saveBox}>
@@ -93,3 +99,5 @@ Configure.propTypes = {
   setActiveSection: PropTypes.func.isRequired,
   activeSection: PropTypes.string.isRequired,
 };
+
+export default Configure;

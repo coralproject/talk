@@ -12,6 +12,7 @@ import TechSettings from './TechSettings';
 import ModerationSettings from './ModerationSettings';
 import { clearPending, setActiveSection } from '../../../actions/configure';
 import Configure from '../components/Configure';
+import OrganizationSettings from './OrganizationSettings';
 
 class ConfigureContainer extends Component {
   savePending = async () => {
@@ -49,10 +50,12 @@ const withConfigureQuery = withQuery(
       ...${getDefinitionName(StreamSettings.fragments.settings)}
       ...${getDefinitionName(TechSettings.fragments.settings)}
       ...${getDefinitionName(ModerationSettings.fragments.settings)}
+      ...${getDefinitionName(OrganizationSettings.fragments.settings)}
     }
     ...${getDefinitionName(StreamSettings.fragments.root)}
     ...${getDefinitionName(TechSettings.fragments.root)}
     ...${getDefinitionName(ModerationSettings.fragments.root)}
+    ...${getDefinitionName(OrganizationSettings.fragments.root)}
   }
   ${StreamSettings.fragments.root}
   ${StreamSettings.fragments.settings}
@@ -60,6 +63,8 @@ const withConfigureQuery = withQuery(
   ${TechSettings.fragments.settings}
   ${ModerationSettings.fragments.root}
   ${ModerationSettings.fragments.settings}
+  ${OrganizationSettings.fragments.root}
+  ${OrganizationSettings.fragments.settings}
   `,
   {
     options: () => ({

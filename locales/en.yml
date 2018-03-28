@@ -157,6 +157,10 @@ en:
     suspect_word_title: "Suspect words list"
     suspect_word_text: "Comments which contain these words or phrases (not case-sensitive) will be highlighted in the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
     tech_settings: "Tech Settings"
+    organization_settings: "Organization Settings"
+    organization_details: "Organization Details"
+    organization_name: "Organization Name"
+    organization_contact_email: "Organization Contact Email"
     title: "Configure Comment Stream"
     weeks: Weeks
     wordlist: "Banned Words"
