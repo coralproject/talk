@@ -460,6 +460,7 @@ fr:
       username: "Nom d'utilisateur"
       password: "Mot de passe"
       confirm_password: "Confirmez Le mot de passe"
+      organization_contact_email: "Organization Contact Email"
       save: "Sauvegarder"
     permitted_domains:
       title: "Domaines autorisés"

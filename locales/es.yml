@@ -460,6 +460,7 @@ es:
       username: "Nombre de Usuario"
       password: "Contraseña"
       confirm_password: "Confirmar Contraseña"
+      organization_contact_email: "Organización: Email de contacto"
       save: "Guardar"
     permitted_domains:
       title: "Dominios permitidos"
