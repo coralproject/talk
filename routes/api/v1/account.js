@@ -127,4 +127,117 @@ router.put(
   }
 );
 
+const archiver = require('archiver');
+const stringify = require('csv-stringify');
+const moment = require('moment');
+const { pick, get, kebabCase } = require('lodash');
+
+// loadCommentsBatch will load a batch of the comments and write them to the
+// stream.
+async function loadCommentsBatch(ctx, csv, variables = {}) {
+  let result = await ctx.graphql(
+    `
+    query GetMyComments($cursor: Cursor) {
+      me {
+        comments(query: {
+          limit: 100,
+          cursor: $cursor
+        }) {
+          hasNextPage
+          endCursor
+          nodes {
+            id
+            created_at
+            asset {
+              url
+            }
+            body
+            url
+          }
+        }
+      }
+    }
+  `,
+    variables
+  );
+  if (result.errors) {
+    throw result.errors;
+  }
+
+  for (const comment of get(result, 'data.me.comments.nodes', [])) {
+    csv.write([
+      comment.id,
+      moment(comment.created_at).format('YYYY-MM-DD HH:mm:ss'),
+      comment.asset.url,
+      comment.url,
+      comment.body,
+    ]);
+  }
+
+  return pick(result.data.me.comments, ['hasNextPage', 'endCursor']);
+}
+
+// loadComments will load batches of the comments and write them to the csv
+// stream. Once the comments have finished writing, it will close the stream.
+async function loadComments(ctx, csv) {
+  csv.write(['ID', 'Timestamp', 'Article', 'Link', 'Body']);
+
+  // Load the first batch's comments.
+  let connection = await loadCommentsBatch(ctx, csv);
+
+  // As long as there's more comments, keep paginating.
+  while (connection.hasNextPage) {
+    connection = await loadCommentsBatch(ctx, csv, {
+      cursor: connection.endCursor,
+    });
+  }
+
+  csv.end();
+}
+
+// /download will send back a zipped archive of the users account.
+router.get('/download', authorization.needed(), async (req, res, next) => {
+  try {
+    const result = await req.context.graphql('{ me { username } }');
+    if (result.errors) {
+      throw result.errors;
+    }
+    const username = get(result, 'data.me.username');
+
+    // Generate the filename of the file that the user will download.
+    const filename = `talk-${kebabCase(username)}-${kebabCase(
+      moment().format('YYYY-MM-DD HH:mm:ss')
+    )}.zip`;
+
+    res.writeHead(200, {
+      'Content-Type': 'application/octet-stream',
+      'Content-Disposition': `attachment; filename=${filename}`,
+    });
+
+    // Create the zip archive we'll use to write all the exported files to.
+    const archive = archiver('zip', {
+      zlib: { level: 9 },
+    });
+
+    // Pipe this to the response writer directly.
+    archive.pipe(res);
+
+    // Create all the csv writers that'll write the data to the archive.
+    const myCommentsCSV = stringify();
+
+    // Add all the streams as files to the archive.
+    archive.append(myCommentsCSV, { name: 'my_comments.csv' });
+
+    // Mark the end of adding files, no more files can be added after this. Once
+    // all the stream readers have finished writing, and have closed, the
+    // archiver will close which will finish the HTTP request.
+    archive.finalize();
+
+    // Load the comments csv up with the user's comments.
+    await loadComments(req.context, myCommentsCSV);
+  } catch (err) {
+    return next(err);
+  }
+});
+
 module.exports = router;

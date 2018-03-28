@@ -547,6 +547,9 @@ type Comment {
 
   # Indicates if it has a parent
   hasParent: Boolean
+
+  # url is the permalink to this particular Comment on the Asset.
+  url: String
 }
 
 # CommentConnection represents a paginable subset of a comment list.
