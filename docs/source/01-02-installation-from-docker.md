@@ -75,7 +75,7 @@ volumes:
 ```
 
 This is the bare minimum needed to start Talk, for more configuration
-variables, check out the [Configuration](./configuration/) section.
+variables, check out the [Configuration](/talk/configuration/) section.
 
 
 And you can then start it with:
@@ -111,7 +111,7 @@ talk_1    yarn start                       Up      0.0.0.0:3000->3000/tcp
 ```
 
 
-At this stage, you should refer to the [configuration](./configuration/) for
+At this stage, you should refer to the [configuration](/talk/configuration/) for
 configuration variables that are specific to your installation.
 
 ## Onbuild
@@ -142,7 +142,7 @@ This accomplishes a lot:
 2. Installs any new dependencies that were required by any new plugins.
 3. Builds the new static bundles so that they are ready to serve when the image
    is running.
-4. Specifies a build time variable [TALK_DEFAULT_LANG](./advanced-configuration/#talk_default_lang). Refer
+4. Specifies a build time variable [TALK_DEFAULT_LANG](/talk/advanced-configuration/#talk-default-lang). Refer
 to [Dockerfile.onbuild](https://github.com/coralproject/talk/blob/master/Dockerfile.onbuild) for the
 available build variables.
 

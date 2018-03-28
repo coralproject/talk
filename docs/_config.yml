@@ -154,6 +154,8 @@ sidebar:
           url: /building-basic-plugin/
         - title: Customizing Plugins with Coral UI
           url: /customizing-plugins-coral-ui/
+        - title: When You've Installed Talk
+          url: /when-youve-installed-talk/
     - title: Migrating
       children:
         - title: Migrating to v4.0.0
@@ -171,7 +173,7 @@ marked:
   breaks: false
   smartLists: true
   smartypants: true
-  modifyAnchors: ''
+  modifyAnchors: 1
   autolink: true
 
 node_sass:

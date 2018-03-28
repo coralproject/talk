@@ -15,7 +15,7 @@ The variables above have defaults, and are _optional_ to start your
 instance of Talk.
 
 If this is your first time configuring Talk, ensure you've also added the
-[Required Configuration](./configuration) as well,
+[Required Configuration](/talk/configuration) as well,
 otherwise the application will fail to start.
 
 ## TALK_CACHE_EXPIRY_COMMENT_COUNT
@@ -26,7 +26,7 @@ Configure the duration for which comment counts are cached for, parsed by
 ## TALK_DEFAULT_LANG
 
 This is a **Build Variable** and must be consumed during build. If using the
-[Docker-onbuild](./installation-from-docker/#onbuild)
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
 image you can specify it with `--build-arg TALK_DEFAULT_LANG=en`.
 
 Specify the default translation language. (Default `en`)
@@ -34,7 +34,7 @@ Specify the default translation language. (Default `en`)
 ## TALK_DEFAULT_STREAM_TAB
 
 This is a **Build Variable** and must be consumed during build. If using the
-[Docker-onbuild](./installation-from-docker/#onbuild)
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
 image you can specify it with `--build-arg TALK_DEFAULT_STREAM_TAB=all`.
 
 Specify the default stream tab in the admin. (Default `all`)
@@ -53,7 +53,7 @@ in the embed.js target that is loaded on the page that loads the embed. (Default
 ## TALK_DISABLE_STATIC_SERVER
 
 When `TRUE`, it will not mount the static asset serving routes on the router.
-This is used primarily in conjunction with [TALK_STATIC_URI](#talk_static_uri)
+This is used primarily in conjunction with [TALK_STATIC_URI](#talk-static-uri)
 when the static assets are being hosted on an external domain. (Default `FALSE`)
 
 ## TALK_HELMET_CONFIGURATION
@@ -149,7 +149,7 @@ claim for login JWT tokens. (Default `talk`)
 ## TALK_JWT_CLEAR_COOKIE_LOGOUT
 
 When `FALSE`, Talk will not clear the cookie with name
-[TALK_JWT_SIGNING_COOKIE_NAME](#talk_jwt_signing_cookie_name) when logging out
+[TALK_JWT_SIGNING_COOKIE_NAME](#talk-jwt-signing-cookie-name) when logging out
 but will still blacklist the token. (Default `TRUE`)
 
 ## TALK_JWT_COOKIE_NAME
@@ -160,8 +160,8 @@ user. (Default `authorization`)
 ## TALK_JWT_COOKIE_NAMES
 
 The different cookie names to check for a JWT token in, separated by a `,`. By
-default, we always use the value of [TALK_JWT_COOKIE_NAME](#talk_jwt_cookie_name)
-and [TALK_JWT_SIGNING_COOKIE_NAME](#talk_jwt_signing_cookie_name) for this
+default, we always use the value of [TALK_JWT_COOKIE_NAME](#talk-jwt-cookie-name)
+and [TALK_JWT_SIGNING_COOKIE_NAME](#talk-jwt-signing-cookie-name) for this
 value. Any additional cookie names specified here will be appended to the list
 of cookie names to inspect.
 
@@ -183,13 +183,13 @@ Would mean we would check the following cookies (in order) for a valid token:
 
 When `TRUE`, Talk will not verify or sign JWT’s with an audience
 [aud](https://tools.ietf.org/html/rfc7519#section-4.1.3)
-claim, even if [TALK_JWT_AUDIENCE](#talk_jwt_audience) is set. (Default `FALSE`)
+claim, even if [TALK_JWT_AUDIENCE](#talk-jwt-audience) is set. (Default `FALSE`)
 
 ## TALK_JWT_DISABLE_ISSUER
 
 When `TRUE`, Talk will not verify or sign JWT’s with an issuer
 [iss](https://tools.ietf.org/html/rfc7519#section-4.1.1)
-claim, even if [TALK_JWT_ISSUER](#talk_jwt_issuer) is set. (Default `FALSE`)
+claim, even if [TALK_JWT_ISSUER](#talk-jwt-issuer) is set. (Default `FALSE`)
 
 ## TALK_JWT_EXPIRY
 
@@ -205,7 +205,7 @@ reason to create reasonable expiry lengths as to minimize the storage overhead.
 ## TALK_JWT_ISSUER
 
 The issuer [iss](https://tools.ietf.org/html/rfc7519#section-4.1.1)
-claim for login JWT tokens. (Defaults to value of [TALK_ROOT_URL](./configuration/#talk_root_url))
+claim for login JWT tokens. (Defaults to value of [TALK_ROOT_URL](/talk/configuration/#talk-root-url))
 
 ## TALK_JWT_SECRET
 
@@ -223,22 +223,25 @@ You can also express this secret in the JSON syntax:
 TALK_JWT_SECRET={"secret": "jX9y8G2ApcVLwyL{$6s3"}
 ```
 
-Refer to the documentation for [TALK_JWT_ALG](#talk_jwt_alg) for other signing
+Refer to the documentation for [TALK_JWT_ALG](#talk-jwt-alg) for other signing
 methods and other forms of the `TALK_JWT_SECRET`. If you are interested in using
-multiple keys, then refer to [TALK_JWT_SECRETS](#talk_jwt_secrets).
+multiple keys, then refer to [TALK_JWT_SECRETS](#talk-jwt-secrets).
 
 ## TALK_JWT_SECRETS
 
 Used when specifying multiple secrets used for key rotations. This is a JSON
 encoded array, where each element matches the JWT Secret pattern. When this is
-used, you do not need to specify a [TALK_JWT_SECRET](#talk_jwt_secret) as this
+used, you do not need to specify a [TALK_JWT_SECRET](#talk-jwt-secret) as this
 will take precedence. **The first secret in `TALK_JWT_SECRETS` will be used for
 signing, and must contain a private key if used with an asymmetric algorithm.**
 
 All secrets should specify a `kid` field which uniquely identifies a given key
-and will sign all tokens with that `kid` for later identification.
+and will sign all tokens with that `kid` for later identification. _If a token
+is not signed with the `kid` field in the header, and multiple secrets are used,
+the token will fail to be verified. This field must match what's provided to
+Talk in the form of the `kid` field in the secret._
 
-When the value of [TALK_JWT_ALG](#talk_jwt_alg) is a `HS*` value, then the value
+When the value of [TALK_JWT_ALG](#talk-jwt-alg) is a `HS*` value, then the value
 of the `TALK_JWT_SECRETS` should take the form:
 
 ```plain
@@ -247,24 +250,24 @@ TALK_JWT_SECRETS=[{"kid": "1", "secret": "my-super-secret"}, {"kid": "2", "secre
 
 Note that the secret is stored in a JSON object, keyed by `secret`. This is only
 needed when specifying in the multiple secrets for `TALK_JWT_SECRETS`, but may
-be used to specify the single [TALK_JWT_SECRET](#talk_jwt_secret).
+be used to specify the single [TALK_JWT_SECRET](#talk-jwt-secret).
 
 
-When the value of [TALK_JWT_ALG](#talk_jwt_alg) is **not** a `HS*` value, then
+When the value of [TALK_JWT_ALG](#talk-jwt-alg) is **not** a `HS*` value, then
 the value of the `TALK_JWT_SECRETS` should take the form:
 
 ```plain
 TALK_JWT_SECRETS=[{"kid": "1", "private": "<my private key>", "public": "<my public key>"}, ...]
 ```
 
-Refer to the documentation on the [TALK_JWT_ALG](#talk_jwt_alg) for more
+Refer to the documentation on the [TALK_JWT_ALG](#talk-jwt-alg) for more
 information on what to store in these parameters.
 
 
 ## TALK_JWT_SIGNING_COOKIE_NAME
 
 The default cookie name that is use to set a cookie containing a JWT that was
-issued by Talk. (Defaults to value of [TALK_JWT_COOKIE_NAME](#talk_jwt_cookie_name))
+issued by Talk. (Defaults to value of [TALK_JWT_COOKIE_NAME](#talk-jwt-cookie-name))
 
 ## TALK_JWT_USER_ID_CLAIM
 
@@ -298,8 +301,8 @@ the websocket to keep the socket alive, parsed by
 Setting a reCAPTCHA Public and Secret key will enable and require reCAPTCHA upon multiple failed login attempts.
 
 Client secret used for enabling reCAPTCHA powered logins. If
-[TALK_RECAPTCHA_SECRET](#talk_recaptcha_secret) and
-[TALK_RECAPTCHA_PUBLIC](#talk_recaptcha_public) are not provided it will instead
+[TALK_RECAPTCHA_SECRET](#talk-recaptcha-secret) and
+[TALK_RECAPTCHA_PUBLIC](#talk-recaptcha-public) are not provided it will instead
 default to providing only a time based lockout. Refer to
 [reCAPTCHA](https://www.google.com/recaptcha/intro/index.html) for information
 on getting an account setup.
@@ -307,8 +310,8 @@ on getting an account setup.
 ## TALK_RECAPTCHA_SECRET
 
 Server secret used for enabling reCAPTCHA powered logins. If
-[TALK_RECAPTCHA_SECRET](#talk_recaptcha_secret) and
-[TALK_RECAPTCHA_PUBLIC](#talk_recaptcha_public) are not provided it will instead
+[TALK_RECAPTCHA_SECRET](#talk-recaptcha-secret) and
+[TALK_RECAPTCHA_PUBLIC](#talk-recaptcha-public) are not provided it will instead
 default to providing only a time based lockout. Refer to
 [reCAPTCHA](https://www.google.com/recaptcha/intro/index.html) for information
 on getting an account setup.
@@ -347,7 +350,7 @@ by [ms](https://www.npmjs.com/package/ms). (Default `1 sec`)
 ## TALK_ROOT_URL_MOUNT_PATH
 
 When set to `TRUE`, the routes will be mounted onto the `<PATHNAME>` component
-of the [TALK_ROOT_URL](./configuration/#talk_root_url).
+of the [TALK_ROOT_URL](/talk/configuration/#talk-root-url).
 You would use this when your upstream proxy cannot strip the prefix from the
 url. (Default `FALSE`)
 
@@ -395,12 +398,12 @@ Used to set the uri where the static assets should be served from. This is used
 when you want to upload the static assets through your build process to a
 service like Google Cloud Storage or Amazon S3 and you would then specify the
 CDN/Storage url. (Defaults to value of
-[TALK_ROOT_URL](./configuration/#talk_root_url))
+[TALK_ROOT_URL](/talk/configuration/#talk-root-url))
 
 ## TALK_THREADING_LEVEL
 
 This is a **Build Variable** and must be consumed during build. If using the
-[Docker-onbuild](./installation-from-docker/#onbuild)
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
 image you can specify it with `--build-arg TALK_THREADING_LEVEL=3`.
 
 Specify the maximum depth of the comment thread. (Default `3`)
@@ -414,13 +417,13 @@ Used to override the location to connect to the websocket endpoint to
 potentially another host. This should be used when you need to route websocket
 requests out of your CDN in order to serve traffic more efficiently.
 
-If the value of [TALK_ROOT_URL](./configuration/#talk_root_url)
+If the value of [TALK_ROOT_URL](/talk/configuration/#talk-root-url)
 is a https url, then this defaults to `wss://${location.host}${MOUNT_PATH}api/v1/live`.
 Otherwise, it defaults to `ws://${location.host}${MOUNT_PATH}api/v1/live`.
 
-Where `MOUNT_PATH` is either `/` if [TALK_ROOT_URL_MOUNT_PATH](#talk_root_url_mount_path)
+Where `MOUNT_PATH` is either `/` if [TALK_ROOT_URL_MOUNT_PATH](#talk-root-url-mount-path)
 is `FALSE`, or the path component of
-[TALK_ROOT_URL](./configuration/#talk_root_url) if it's `TRUE`.
+[TALK_ROOT_URL](/talk/configuration/#talk-root-url) if it's `TRUE`.
 
 **Warning: if used without managing the auth state manually, auth
 cannot be persisted due to browser restrictions.**
@@ -491,7 +494,7 @@ be used with caution. (Default `FALSE`)
 ## TALK_ADDTL_COMMENTS_ON_LOAD_MORE
 
 This is a **Build Variable** and must be consumed during build. If using the
-[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
 image you can specify it with `--build-arg TALK_ADDTL_COMMENTS_ON_LOAD_MORE=10`.
 
 Specifies the number of additional comments to load when a user clicks `Load More`. (Default `10`)
@@ -499,7 +502,7 @@ Specifies the number of additional comments to load when a user clicks `Load Mor
 ## TALK_ASSET_COMMENTS_LOAD_DEPTH
 
 This is a **Build Variable** and must be consumed during build. If using the
-[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
 image you can specify it with `--build-arg TALK_ASSET_COMMENTS_LOAD_DEPTH=10`.
 
 Specifies the initial number of comments to load for an asset. (Default `10`)
@@ -507,7 +510,7 @@ Specifies the initial number of comments to load for an asset. (Default `10`)
 ## TALK_REPLY_COMMENTS_LOAD_DEPTH
 
 This is a **Build Variable** and must be consumed during build. If using the
-[Docker-onbuild]({{ "/installation-from-docker/#onbuild" | relative_url }})
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
 image you can specify it with `--build-arg TALK_REPLY_COMMENTS_LOAD_DEPTH=3`.
 
 Specifies the initial replies to load for a comment. (Default `3`)

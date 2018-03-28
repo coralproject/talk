@@ -56,8 +56,8 @@ history.
 **Toxic**
 
 The Toxic badge signifies comments that are above the set Toxicity Probability
-Threshold. Note you must have [talk-plugin-toxic-comments](./additional-plugins/#talk-plugin-toxic-comments) enabled.
-[Read more about Toxic Comments here](./toxic-comments/).
+Threshold. Note you must have [talk-plugin-toxic-comments](/talk/additional-plugins/#talk-plugin-toxic-comments) enabled.
+[Read more about Toxic Comments here](/talk/toxic-comments/).
 
 **Suspect**
 
@@ -122,7 +122,7 @@ automatically.
 **Reports**
 
 This shows if a commenter is a reliable flagger, an unreliable flagger, or a
-neutral flagger. [Read more about reliable and unreliable flaggers here](./trust/#reliable-and-unreliable-flaggers).
+neutral flagger. [Read more about reliable and unreliable flaggers here](/talk/trust/#reliable-and-unreliable-flaggers).
 
 **Moderating from this View**
 
@@ -173,7 +173,7 @@ manage your team members’ roles (Admins, Moderators, Staff), as well as search
 for commenters and take action on them (e.g. Ban/Un-ban, Suspend, etc.). ###
 Configure
 
-See [Configuring Talk](./configuring-talk/).
+See [Configuring Talk](/talk/configuring-talk/).
 
 ## Moderating via the Comment Stream
 

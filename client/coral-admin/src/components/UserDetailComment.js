@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { Icon } from 'coral-ui';
 import CommentDetails from './CommentDetails';
 import styles from './UserDetailComment.css';
-import CommentFormatter from 'coral-admin/src/components/CommentFormatter';
+import AdminCommentContent from 'coral-framework/components/AdminCommentContent';
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
 import CommentAnimatedEdit from './CommentAnimatedEdit';
@@ -93,7 +93,7 @@ class UserDetailComment extends React.Component {
                     'talk-admin-user-detail-comment'
                   )}
                   size={1}
-                  defaultComponent={CommentFormatter}
+                  defaultComponent={AdminCommentContent}
                   passthrough={slotPassthrough}
                 />
                 <a
