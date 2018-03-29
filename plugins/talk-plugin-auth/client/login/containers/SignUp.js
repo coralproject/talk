@@ -16,17 +16,17 @@ class SignUpContainer extends Component {
     emailError: null,
     passwordError: null,
     passwordRepeatError: null,
-    hasBlockers: [],
+    blockers: [],
   };
 
-  indicateBlockerOn = plugin =>
+  indicateBlocker = key =>
     this.setState(state => ({
-      hasBlockers: state.hasBlockers.concat(plugin),
+      blockers: state.blockers.concat(key),
     }));
 
-  indicateBlockerOff = plugin =>
+  indicateBlockerResolved = key =>
     this.setState(state => ({
-      hasBlockers: state.hasBlockers.filter(i => i !== plugin),
+      blockers: state.blockers.filter(i => i !== key),
     }));
 
   validate = data => {
@@ -87,9 +87,9 @@ class SignUpContainer extends Component {
   render() {
     return (
       <SignUp
-        indicateBlockerOn={this.indicateBlockerOn}
-        indicateBlockerOff={this.indicateBlockerOff}
-        hasBlockers={this.state.hasBlockers}
+        indicateBlocker={this.indicateBlocker}
+        indicateBlockerResolved={this.indicateBlockerResolved}
+        blocked={!!this.state.blockers.length}
         onSubmit={this.handleSubmit}
         onUsernameChange={this.setUsername}
         onEmailChange={this.props.setEmail}

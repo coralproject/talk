@@ -4,8 +4,6 @@ import { t } from 'plugin-api/beta/client/services';
 import styles from './TermsAndConditionsField.css';
 import cn from 'classnames';
 
-const pluginName = 'talk-plugin-auth-checkbox';
-
 const TermsLink = () => (
   <a
     className={styles.link}
@@ -31,16 +29,15 @@ class TermsAndConditionsField extends React.Component {
   id = 'terms-and-conditions';
 
   componentWillMount() {
-    this.props.indicateBlockerOn(pluginName);
+    this.props.indicateBlocker();
   }
 
   onChange = ({ target: { checked } }) => {
+    this.setState({ checked });
     if (checked) {
-      this.setState(() => ({ checked }));
-      this.props.indicateBlockerOff(pluginName);
+      this.props.indicateBlockerResolved();
     } else {
-      this.setState(() => ({ checked }));
-      this.props.indicateBlockerOn(pluginName);
+      this.props.indicateBlocker();
     }
   };
 
