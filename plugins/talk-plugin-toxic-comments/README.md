@@ -12,7 +12,7 @@ plugin:
 Using the [Perspective API](http://perspectiveapi.com/), this
 plugin will warn users and reject comments that exceed the predefined toxicity
 threshold. For more information on what Toxic Comments are, check out the
-[Toxic Comments](./toxic-comments/) documentation.
+[Toxic Comments](/talk/toxic-comments/) documentation.
 
 Configuration:
 

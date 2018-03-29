@@ -2,6 +2,11 @@ const { get } = require('lodash');
 const path = require('path');
 
 const handle = async (ctx, comment) => {
+  if (!comment.visible) {
+    ctx.log.info('comment was not visible, not sending notification');
+    return;
+  }
+
   // Check to see if this is a reply to an existing comment.
   const parentID = get(comment, 'parent_id', null);
   if (parentID === null) {
@@ -111,13 +116,31 @@ const hydrate = async (ctx, category, context) => {
   return [headline, replier, organizationName, permalink];
 };
 
-const handler = {
-  handle,
-  category: 'staff',
-  event: 'commentAdded',
-  hydrate,
-  supersedesCategories: ['reply'],
-  digestOrder: 20,
+// commentAcceptedHandleAdapter will check to see if we need to send a
+// notification for this comment if the comment has been recently approved but
+// has not been approved before.
+const commentAcceptedHandleAdapter = (ctx, comment) => {
+  // Don't send a notification for a non-visible comment.
+  if (!comment.visible) {
+    ctx.log.info('comment was not visible, not sending notification');
+    return;
+  }
+
+  // Don't send a notification if the comment was previously visible.
+  if (
+    // TODO: (wyattjoh) this check is quite brittle, replace with a more concrete check.
+    comment.status_history
+      .slice(0, comment.status_history.length - 1)
+      .some(({ type }) => ['ACCEPTED', 'NONE'].includes(type))
+  ) {
+    ctx.log.info(
+      'comment was previously already visible, not sending another notification'
+    );
+    return;
+  }
+
+  // Delegate to the handle function.
+  return handle(ctx, comment);
 };
 
 module.exports = {
@@ -137,5 +160,22 @@ module.exports = {
     },
   },
   translations: path.join(__dirname, 'translations.yml'),
-  notifications: [handler],
+  notifications: [
+    {
+      handle,
+      category: 'staff',
+      event: 'commentAdded',
+      hydrate,
+      supersedesCategories: ['reply'],
+      digestOrder: 20,
+    },
+    {
+      handle: commentAcceptedHandleAdapter,
+      category: 'staff',
+      event: 'commentAccepted',
+      hydrate,
+      supersedesCategories: ['reply'],
+      digestOrder: 20,
+    },
+  ],
 };

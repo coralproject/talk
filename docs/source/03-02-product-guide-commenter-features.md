@@ -31,7 +31,7 @@ https://<your asset url>?commentId=<the comment id>
 Talk supports by default 3 levels of threading, meaning each top-level comment
 has a depth of 3 replies; replies beyond that are not nested below the 3rd
 level. You can adjust this using the
-[TALK_THREADING_LEVEL](./advanced-configuration/#talk_threading_level)
+[TALK_THREADING_LEVEL](/talk/advanced-configuration/#talk-threading-level)
 configuration variable. We don’t recommend deep threading because it can cause
 issues with styling, especially on mobile.
 
@@ -162,7 +162,7 @@ Staff role.
 The Featured comment badge shows when a comment has been featured.
 
 Another optional badge is the Subscriber badge (which is available as a
-[Recipe](./plugin-recipes/#recipe-subscriber).
+[Recipe](/talk/plugin-recipes/#recipe-subscriber).
 
 Badges are another easy part of Talk to customize by creating a new `tag`, then
 setting some rules for when it should show, and how the badge should be styled.

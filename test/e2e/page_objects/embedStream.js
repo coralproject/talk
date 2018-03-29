@@ -129,7 +129,7 @@ module.exports = {
           selector: '.talk-plugin-moderation-actions',
           elements: {
             arrow: '.talk-plugin-moderation-actions-arrow',
-            menu: '.talk-plugin-modetarion-actions-menu',
+            menu: '.talk-plugin-moderation-actions-menu',
             banButton: '.talk-plugin-moderation-actions-ban',
           },
         },

@@ -1,5 +1,6 @@
 const {
   makeExecutableSchema,
+  addResolveFunctionsToSchema,
   addSchemaLevelResolveFunction,
 } = require('graphql-tools');
 const debug = require('debug')('talk:graph:schema');
@@ -10,7 +11,10 @@ const plugins = require('../services/plugins');
 const resolvers = require('./resolvers');
 const typeDefs = require('./typeDefs');
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+const schema = makeExecutableSchema({ typeDefs });
+
+// Add the resolvers to the schema
+addResolveFunctionsToSchema(schema, resolvers);
 
 // Plugin to the schema level resolvers to provide an before/after hook.
 decorateWithHooks(schema, plugins.get('server', 'hooks'));

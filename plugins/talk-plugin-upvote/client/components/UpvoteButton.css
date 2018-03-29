@@ -1,0 +1,39 @@
+.container {
+  display: inline-block;
+}
+
+.button {
+  color: #2a2a2a;
+  margin: 5px 10px 5px 0px;
+  background: none;
+  padding: 0px;
+  border: none;
+  font-size: inherit;
+  vertical-align: middle;
+
+  &:hover {
+    color: #767676;
+    cursor: pointer;
+  }
+
+  &.upvoted {
+    color: #008000;
+
+    &:hover {
+      color: #66b266;
+      cursor: pointer;
+    }
+  }
+}
+
+.icon {
+  font-size: 12px;
+  padding: 0 3px;
+}
+
+@media (max-width: 425px) {
+  .label {
+    display: none;
+  }
+}
+

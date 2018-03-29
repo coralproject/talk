@@ -837,7 +837,7 @@ class UsersService {
 
     // Ensure that the user email hasn't already been verified.
     if (profile && profile.metadata && profile.metadata.confirmed_at) {
-      throw new Error('email address already confirmed');
+      throw errors.ErrEmailAlreadyVerified;
     }
 
     return JWT_SECRET.sign(
@@ -884,7 +884,7 @@ class UsersService {
     }
 
     if (profile.metadata && profile.metadata.confirmed_at !== null) {
-      throw errors.ErrEmailVerificationToken;
+      throw errors.ErrEmailAlreadyVerified;
     }
 
     return decoded;
