@@ -178,17 +178,20 @@ async function loadCommentsBatch(ctx, csv, variables = {}) {
 
 // loadComments will load batches of the comments and write them to the csv
 // stream. Once the comments have finished writing, it will close the stream.
-async function loadComments(ctx, archive) {
+async function loadComments(ctx, archive, latestContentDate) {
   // Create all the csv writers that'll write the data to the archive.
   const csv = stringify();
 
   // Add all the streams as files to the archive.
-  archive.append(csv, { name: 'my_comments.csv' });
+  archive.append(csv, { name: 'talk-export/my_comments.csv' });
 
   csv.write(['ID', 'Timestamp', 'Article', 'Link', 'Body']);
 
-  // Load the first batch's comments.
-  let connection = await loadCommentsBatch(ctx, csv);
+  // Load the first batch's comments from the latest date that we were provided
+  // from the token.
+  let connection = await loadCommentsBatch(ctx, csv, {
+    cursor: latestContentDate,
+  });
 
   // As long as there's more comments, keep paginating.
   while (connection.hasNextPage) {
@@ -201,42 +204,67 @@ async function loadComments(ctx, archive) {
 }
 
 // /download will send back a zipped archive of the users account.
-router.get('/download', authorization.needed(), async (req, res, next) => {
-  try {
-    const result = await req.context.graphql('{ me { username } }');
-    if (result.errors) {
-      throw result.errors;
+router.post(
+  '/download',
+  express.urlencoded({ extended: false }),
+  tokenCheck(UsersService.verifyDownloadToken, new Error('invalid token')),
+  async (req, res, next) => {
+    try {
+      const { token } = req.body;
+
+      // Pull the userID and the date that the token was issued out of the
+      // provided token.
+      const { user: userID, iat } = await UsersService.verifyDownloadToken(
+        token
+      );
+
+      // Unpack the date that the token was issued, and use it as a source for the
+      // earliest comment we should include in the download.
+      const latestContentDate = new Date(iat * 1000);
+
+      // Grab the user that we're generating the export from. We'll use it to
+      // create a new context.
+      const user = await UsersService.findById(userID);
+
+      // Base a new context off of the new user.
+      const ctx = req.context.masqueradeAs(user);
+
+      // Get the current user's username. We need it for the generated filenames.
+      const result = await ctx.graphql('{ me { username } }');
+      if (result.errors) {
+        throw result.errors;
+      }
+      const username = get(result, 'data.me.username');
+
+      // Generate the filename of the file that the user will download.
+      const filename = `talk-${kebabCase(username)}-${kebabCase(
+        moment(latestContentDate).format('YYYY-MM-DD HH:mm:ss')
+      )}.zip`;
+
+      res.writeHead(200, {
+        'Content-Type': 'application/octet-stream',
+        'Content-Disposition': `attachment; filename=${filename}`,
+      });
+
+      // Create the zip archive we'll use to write all the exported files to.
+      const archive = archiver('zip', {
+        zlib: { level: 9 },
+      });
+
+      // Pipe this to the response writer directly.
+      archive.pipe(res);
+
+      // Load the comments csv up with the user's comments.
+      await loadComments(ctx, archive, latestContentDate);
+
+      // Mark the end of adding files, no more files can be added after this. Once
+      // all the stream readers have finished writing, and have closed, the
+      // archiver will close which will finish the HTTP request.
+      archive.finalize();
+    } catch (err) {
+      return next(err);
     }
-    const username = get(result, 'data.me.username');
-
-    // Generate the filename of the file that the user will download.
-    const filename = `talk-${kebabCase(username)}-${kebabCase(
-      moment().format('YYYY-MM-DD HH:mm:ss')
-    )}.zip`;
-
-    res.writeHead(200, {
-      'Content-Type': 'application/octet-stream',
-      'Content-Disposition': `attachment; filename=${filename}`,
-    });
-
-    // Create the zip archive we'll use to write all the exported files to.
-    const archive = archiver('zip', {
-      zlib: { level: 9 },
-    });
-
-    // Pipe this to the response writer directly.
-    archive.pipe(res);
-
-    // Load the comments csv up with the user's comments.
-    await loadComments(req.context, archive);
-
-    // Mark the end of adding files, no more files can be added after this. Once
-    // all the stream readers have finished writing, and have closed, the
-    // archiver will close which will finish the HTTP request.
-    archive.finalize();
-  } catch (err) {
-    return next(err);
   }
-});
+);
 
 module.exports = router;

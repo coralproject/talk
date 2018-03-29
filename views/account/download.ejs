@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title><%= t('download_landing.download_your_account') %></title>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="<%= BASE_PATH %>public/css/admin.css">
+    <%- include ../partials/head %>
+  </head>
+  <body class="confirm-email-page">
+    <div id="root">
+      <div class="error-console container"></div>
+      <form id="download-form" class="container" method="post" action="<%= BASE_PATH %>api/v1/account/download">
+        <legend class="legend"><%= t('download_landing.click_to_download') %></legend>
+        <button type="submit"><%= t('download_landing.confirm') %></button>
+      </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        function showError(error) {
+          try {
+            let err = JSON.parse(error);
+            $('.error-console').text(err.message).addClass('active');
+          } catch (err) {
+            $('.error-console').text(error).addClass('active');
+          }
+        }
+
+        var token = location.hash.replace('#', '');
+
+        $.ajax({
+          url: '<%= BASE_PATH %>api/v1/account/download',
+          contentType: 'application/json',
+          method: 'POST',
+          data: JSON.stringify({token: token, check: true})
+        })
+        .then(function () {
+          $('#download-form').append('<input name="token" type="hidden" value="' + token + '"/>').fadeIn();
+        })
+        .catch(function (error) {
+          showError(error.responseText);
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -75,6 +75,7 @@ router.use(compression());
 //==============================================================================
 
 router.use('/admin', staticTemplate, require('./admin'));
+router.use('/account', staticTemplate, require('./account'));
 router.use('/login', staticTemplate, require('./login'));
 router.use('/embed', staticTemplate, require('./embed'));
 
@@ -114,22 +115,14 @@ router.use('/api', require('./api'));
 //==============================================================================
 
 if (process.env.NODE_ENV !== 'production') {
-  router.use('/assets', staticTemplate, require('./assets'));
-  router.get('/', staticTemplate, async (req, res) => {
-    try {
-      await SetupService.isAvailable();
-      return res.redirect('/admin/install');
-    } catch (e) {
-      return res.render('article', {
-        title: 'Coral Talk',
-        asset_url: '',
-        asset_id: '',
-        body: '',
-        basePath: '/static/embed/stream',
-      });
-    }
+  // In development, mount the /dev routes, as well as redirect the root url to
+  // the development route.
+  router.use('/dev', require('./dev'));
+  router.get('/', (req, res) => {
+    res.redirect(url.resolve(MOUNT_PATH, 'dev'), 302);
   });
 } else {
+  // In production, optionally redirect to the install if not ran, or the admin.
   router.get('/', async (req, res, next) => {
     try {
       await SetupService.isAvailable();

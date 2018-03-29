@@ -139,6 +139,9 @@ const RootMutation = {
   delUser: async (_, { id }, { mutators: { User } }) => {
     await User.del(id);
   },
+  requestDownloadLink: async (_, args, { mutators: { User } }) => {
+    await User.requestDownloadLink();
+  },
 };
 
 module.exports = RootMutation;
