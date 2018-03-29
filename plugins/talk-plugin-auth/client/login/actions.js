@@ -14,11 +14,3 @@ export const setPassword = password => ({
   type: actions.SET_PASSWORD,
   password,
 });
-
-export const enableSubmitSignUpForm = () => ({
-  type: actions.ENABLE_SUBMIT_SIGNUP_FORM,
-});
-
-export const disableSubmitSignUpForm = () => ({
-  type: actions.DISABLE_SUBMIT_SIGNUP_FORM,
-});

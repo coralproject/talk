@@ -22,7 +22,18 @@ class SignUpContainer extends Component {
     emailError: null,
     passwordError: null,
     passwordRepeatError: null,
+    hasBlockers: [],
   };
+
+  indicateBlockerOn = plugin =>
+    this.setState(state => ({
+      hasBlockers: state.hasBlockers.concat(plugin),
+    }));
+
+  indicateBlockerOff = plugin =>
+    this.setState(state => ({
+      hasNotifications: state.hasNotifications.filter(i => i !== plugin),
+    }));
 
   validate = data => {
     let valid = true;
@@ -54,7 +65,7 @@ class SignUpContainer extends Component {
       passwordRepeat: this.state.passwordRepeat,
     };
 
-    if (this.validate(data)) {
+    if (this.validate(data) && !this.state.hasBlockers.length) {
       this.props.signUp(data);
     }
   };
