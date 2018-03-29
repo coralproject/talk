@@ -58,13 +58,19 @@ class TermsAndConditionsField extends React.Component {
           onChange={this.onChange}
           id={this.id}
         />
-        <label id={this.id} className="talk-plugin-health-report-label">
+        <div
+          id={this.id}
+          className={cn(
+            styles.textLabel,
+            'talk-plugin-health-report-text-label'
+          )}
+        >
           {t('talk-plugin-health-report.copy')}
           <TermsLink />
           {t('talk-plugin-health-report.and')}
           <PrivacyLink />
           {t('talk-plugin-health-report.from')}
-        </label>
+        </div>
       </div>
     );
   }

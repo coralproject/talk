@@ -9,5 +9,10 @@
 }
 
 .fieldContainer {
-  padding: 5px 0;
+  padding: 10px 0;
+  display: flex;
+}
+
+.textLabel {
+ padding-left: 10px;
 }
