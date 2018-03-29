@@ -1,0 +1,36 @@
+en:
+  talk-plugin-health-report:
+    copy: I agree to the Mozilla
+    and: and
+    terms: Terms of Service
+    privacy-policy: Privacy Policy
+    from: .
+    terms-link: https://www.mozilla.org/en-US/about/legal/terms/mozilla/
+    privacy-policy-link: https://www.mozilla.org/en-US/privacy/websites/
+es:
+  talk-plugin-health-report:
+    copy: Estoy de acuerdo con
+    and: y
+    terms: los Terminos y Condiciones
+    privacy-policy: la Política de Privacidad
+    from: de Mozilla.
+    terms-link: https://www.mozilla.org/es-ES/about/legal/terms/mozilla/
+    privacy-policy-link: https://www.mozilla.org/es-ES/privacy/websites/
+fr:
+  talk-plugin-health-report:
+    copy: J'accepte 
+    and: et
+    terms: les conditions d'utilisation 
+    privacy-policy: la politique de confidentialité
+    from: de Mozilla.
+    terms-link: https://www.mozilla.org/fr/about/legal/terms/mozilla/
+    privacy-policy-link: https://www.mozilla.org/fr/privacy/websites/
+de:
+  talk-plugin-health-report:
+    copy: Ich stimme
+    and: und
+    terms: den Allgemeinen Geschäftsbedingungen 
+    privacy-policy: der Datenschutzrichtlinie
+    from: von Mozilla zu.
+    terms-link: https://www.mozilla.org/de/about/legal/terms/mozilla/
+    privacy-policy-link: https://www.mozilla.org/de/privacy/websites/
