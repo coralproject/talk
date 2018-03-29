@@ -59,7 +59,7 @@ class SignUpContainer extends Component {
       passwordRepeat: this.state.passwordRepeat,
     };
 
-    if (this.validate(data) && !this.state.hasBlockers.length) {
+    if (this.validate(data) && !this.state.blockers.length) {
       this.props.signUp(data);
     }
   };
