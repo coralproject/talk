@@ -43,13 +43,15 @@ class SignUp extends React.Component {
       errorMessage,
       requireEmailConfirmation,
       success,
-      enableSubmitSignUpForm,
-      disableSubmitSignUpForm,
+      indicateBlockerOn,
+      indicateBlockerOff,
+      hasBlockers,
     } = this.props;
 
     const slotPassthrough = {
-      enableSubmitSignUpForm,
-      disableSubmitSignUpForm,
+      indicateBlockerOn,
+      indicateBlockerOff,
+      hasBlockers,
     };
 
     return (
@@ -122,7 +124,7 @@ class SignUp extends React.Component {
                   id="coralSignUpButton"
                   className={styles.button}
                   full
-                  disabled={!this.props.submitSignUpForm}
+                  disabled={hasBlockers.length}
                 >
                   {t('talk-plugin-auth.login.sign_up')}
                 </Button>
@@ -174,9 +176,9 @@ SignUp.propTypes = {
   errorMessage: PropTypes.string,
   requireEmailConfirmation: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
-  enableSubmitSignUpForm: PropTypes.func.isRequired,
-  disableSubmitSignUpForm: PropTypes.func.isRequired,
-  submitSignUpForm: PropTypes.bool.isRequired,
+  hasBlockers: PropTypes.array.isRequired,
+  indicateBlockerOn: PropTypes.func.isRequired,
+  indicateBlockerOff: PropTypes.func.isRequired,
 };
 
 export default SignUp;

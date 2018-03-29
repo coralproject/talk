@@ -5,13 +5,7 @@ import { compose } from 'recompose';
 import SignUp from '../components/SignUp';
 import { bindActionCreators } from 'redux';
 import * as views from '../enums/views';
-import {
-  setView,
-  setEmail,
-  setPassword,
-  enableSubmitSignUpForm,
-  disableSubmitSignUpForm,
-} from '../actions';
+import { setView, setEmail, setPassword } from '../actions';
 import { t } from 'plugin-api/beta/client/services';
 
 class SignUpContainer extends Component {
@@ -32,7 +26,7 @@ class SignUpContainer extends Component {
 
   indicateBlockerOff = plugin =>
     this.setState(state => ({
-      hasNotifications: state.hasNotifications.filter(i => i !== plugin),
+      hasBlockers: state.hasBlockers.filter(i => i !== plugin),
     }));
 
   validate = data => {
@@ -93,9 +87,9 @@ class SignUpContainer extends Component {
   render() {
     return (
       <SignUp
-        enableSubmitSignUpForm={this.props.enableSubmitSignUpForm}
-        disableSubmitSignUpForm={this.props.disableSubmitSignUpForm}
-        submitSignUpForm={this.props.submitSignUpForm}
+        indicateBlockerOn={this.indicateBlockerOn}
+        indicateBlockerOff={this.indicateBlockerOff}
+        hasBlockers={this.state.hasBlockers}
         onSubmit={this.handleSubmit}
         onUsernameChange={this.setUsername}
         onEmailChange={this.props.setEmail}
@@ -133,15 +127,11 @@ SignUpContainer.propTypes = {
   requireEmailConfirmation: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
   validate: PropTypes.func.isRequired,
-  submitSignUpForm: PropTypes.bool.isRequired,
-  enableSubmitSignUpForm: PropTypes.func.isRequired,
-  disableSubmitSignUpForm: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ talkPluginAuth: state }) => ({
   email: state.email,
   password: state.password,
-  submitSignUpForm: state.submitSignUpForm,
 });
 
 const mapDispatchToProps = dispatch =>
@@ -150,8 +140,6 @@ const mapDispatchToProps = dispatch =>
       setView,
       setEmail,
       setPassword,
-      enableSubmitSignUpForm,
-      disableSubmitSignUpForm,
     },
     dispatch
   );
