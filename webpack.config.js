@@ -74,7 +74,7 @@ const config = {
       {
         loader: 'babel-loader',
         exclude: /node_modules/,
-        test: /\.js$/,
+        test: /\.jsx?$/,
         query: {
           cacheDirectory: true,
         },

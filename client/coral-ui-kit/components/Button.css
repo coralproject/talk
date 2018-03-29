@@ -1,0 +1,84 @@
+.root {
+  padding: 5px 20px;
+  border-radius: 2px;
+  background-color: $grey-color-3;
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  color: #fff;
+  letter-spacing: 0;
+
+  &:hover {
+    background-color: $grey-color-4;
+  }
+
+  &:active {
+    background-color: $grey-color-5;
+  }
+}
+
+.fullWidth {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.invert {
+  background-color: transparent;
+  border: 1px solid $grey-color-3;
+  color: $grey-color-3;
+
+  &:hover {
+    background-color: transparent;
+    border-color: $grey-color-4;
+    color: $grey-color-4;
+  }
+
+  &:active {
+    background-color: transparent;
+    border-color: $grey-color-5;
+    color: $grey-color-5;
+  }
+}
+
+.primary {
+  background-color: $primary-color-3;
+
+  &:hover {
+    background-color: $primary-color-4;
+  }
+
+  &:active {
+    background-color: $primary-color-5;
+  }
+
+  &.invert {
+    background-color: transparent;
+    border-color: $primary-color-3;
+    color: $primary-color-3;
+
+    &:hover {
+      border-color: $primary-color-4;
+      color: $primary-color-4;
+    }
+
+    &:active {
+      border-color: $primary-color-5;
+      color: $primary-color-5;
+    }
+  }
+}
+
+@media (-moz-touch-enabled: 1), (pointer:coarse) {
+  .root {
+    &:hover {
+      background-color: $grey-color-3;
+    }
+  }
+
+ .invert {
+    &:hover {
+      border-color: $grey-color-3;
+      color: $grey-color-3;
+    }
+  }
+}
