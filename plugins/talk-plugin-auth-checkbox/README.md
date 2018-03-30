@@ -1,1 +1,0 @@
-# talk-plugin-auth-checkbox
