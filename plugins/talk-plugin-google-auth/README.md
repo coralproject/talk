@@ -11,7 +11,7 @@ plugin:
         - Client
 ---
 
-Enables sign-in via Facebook via the server side passport middleware.
+Enables sign-in via Google+ via the server side passport middleware.
 
 You will need to enable the Google+ API in the dashboard and create credentials
 for a new OAuth client ID web application. The authorized JavaScript origin

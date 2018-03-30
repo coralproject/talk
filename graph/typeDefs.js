@@ -1,10 +1,6 @@
-// TODO: Adjust `RootQuery.asset(id: ID, url: String)` to instead be
-// `RootQuery.asset(id: ID, url: String!)` because we'll always need the url, if
-// this change is done now everything will likely break on the front end.
-
 const fs = require('fs');
 const path = require('path');
-const { mergeStrings } = require('gql-merge');
+const { mergeStrings } = require('@coralproject/gql-merge');
 const debug = require('debug')('talk:graph:typeDefs');
 const plugins = require('../services/plugins');
 

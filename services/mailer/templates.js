@@ -1,5 +1,5 @@
 const path = require('path');
-const fs = require('fs-extra');
+const fs = require('fs');
 const { get, set, template } = require('lodash');
 
 // load all the templates as strings
@@ -9,20 +9,20 @@ const templates = {
 };
 
 // Registers a template with the given filename and format.
-templates.register = async (filename, name, format) => {
+templates.register = (filename, name, format) => {
   // Check to see if this template was already registered.
   if (get(templates.registered, [name, format], null) !== null) {
     return;
   }
 
-  const file = await fs.readFile(filename, 'utf8');
+  const file = fs.readFileSync(filename, 'utf8');
   const view = template(file);
 
   set(templates.registered, [name, format], view);
 };
 
 // load the templates per request during development
-templates.render = async (name, format = 'txt', context) => {
+templates.render = (name, format = 'txt', context) => {
   // Check to see if the template is a registered template (provided by a plugin
   // ) and prefer that first.
   let view = get(templates.registered, [name, format], null);
@@ -44,7 +44,7 @@ templates.render = async (name, format = 'txt', context) => {
     'templates',
     [name, format, 'ejs'].join('.')
   );
-  const file = await fs.readFile(filename, 'utf8');
+  const file = fs.readFileSync(filename, 'utf8');
   view = template(file);
 
   if (process.env.NODE_ENV === 'production') {

@@ -29,6 +29,15 @@ class SignUp extends React.Component {
     this.props.onSubmit();
   };
 
+  childFactory = el => {
+    const key = el.key;
+    const props = {
+      indicateBlocker: () => this.props.indicateBlocker(key),
+      indicateBlockerResolved: () => this.props.indicateBlockerResolved(key),
+    };
+    return React.cloneElement(el, props);
+  };
+
   render() {
     const {
       username,
@@ -43,16 +52,8 @@ class SignUp extends React.Component {
       errorMessage,
       requireEmailConfirmation,
       success,
-      indicateBlockerOn,
-      indicateBlockerOff,
-      hasBlockers,
+      blocked,
     } = this.props;
-
-    const slotPassthrough = {
-      indicateBlockerOn,
-      indicateBlockerOff,
-      hasBlockers,
-    };
 
     return (
       <div>
@@ -115,7 +116,7 @@ class SignUp extends React.Component {
               />
               <Slot
                 fill="talkPluginAuth-formField"
-                passthrough={slotPassthrough}
+                childFactory={this.childFactory}
               />
               <div className={styles.action}>
                 <Button
@@ -124,7 +125,7 @@ class SignUp extends React.Component {
                   id="coralSignUpButton"
                   className={styles.button}
                   full
-                  disabled={hasBlockers.length}
+                  disabled={blocked}
                 >
                   {t('talk-plugin-auth.login.sign_up')}
                 </Button>
@@ -176,9 +177,9 @@ SignUp.propTypes = {
   errorMessage: PropTypes.string,
   requireEmailConfirmation: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
-  hasBlockers: PropTypes.array.isRequired,
-  indicateBlockerOn: PropTypes.func.isRequired,
-  indicateBlockerOff: PropTypes.func.isRequired,
+  blocked: PropTypes.bool.isRequired,
+  indicateBlocker: PropTypes.func.isRequired,
+  indicateBlockerResolved: PropTypes.func.isRequired,
 };
 
 export default SignUp;

@@ -17,7 +17,11 @@ router.get('/', authorization.needed(), (req, res, next) => {
  * @param {Function} verifier the function used to verify the token, will throw on error
  * @param {Object} error the error object to send back in the event an error is found
  */
-const tokenCheck = (verifier, error) => async (req, res, next) => {
+const tokenCheck = (verifier, error, ...whitelistedErrors) => async (
+  req,
+  res,
+  next
+) => {
   const { token = null, check = false } = req.body;
 
   if (check) {
@@ -26,6 +30,10 @@ const tokenCheck = (verifier, error) => async (req, res, next) => {
       // Verify the token.
       await verifier(token);
     } catch (err) {
+      if (whitelistedErrors.includes(err)) {
+        return next(err);
+      }
+
       // Log out the error, slurp it and send out the predefined error to the
       // error handler.
       console.error(err);
@@ -48,7 +56,8 @@ router.post(
   '/email/verify',
   tokenCheck(
     UsersService.verifyEmailConfirmationToken,
-    errors.ErrEmailVerificationToken
+    errors.ErrEmailVerificationToken,
+    errors.ErrEmailAlreadyVerified
   ),
   async (req, res, next) => {
     const { token } = req.body;
@@ -80,7 +89,7 @@ router.post('/password/reset', async (req, res, next) => {
           token,
         },
         subject: 'Password Reset',
-        to: email,
+        email,
       });
     }
 

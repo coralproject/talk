@@ -13,7 +13,10 @@ const config = {
 
   // TODO: move to admin eventually
   // Super strict rules to make sure users only submit the tags they are allowed
-  dompurify: { ALLOWED_TAGS: ['b', 'i', 'blockquote', 'br'] },
+  dompurify: {
+    ALLOWED_TAGS: ['b', 'i', 'blockquote', 'br', 'div', 'span'],
+    ALLOWED_ATTR: [],
+  },
 
   // Secure config for jsdom even when DOMPurify creates a document without a browsing context
   jsdom: {

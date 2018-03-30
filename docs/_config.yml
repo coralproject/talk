@@ -136,18 +136,26 @@ sidebar:
           url: /plugins-directory/
         - title: Plugin Recipes
           url: /plugin-recipes/
+    - title: API
+      children:
+        - title: GraphQL Overview
+          url: /api/overview/
+        - title: GraphQL Reference
+          url: /api/graphql/
+        - title: Server Plugin API
+          url: /api/server/
+        - title: Client Plugin API
+          url: /api/client/
+        - title: Plugin Slots API
+          url: /api/slots/
     - title: Tutorials
       children:
         - title: Creating a Basic Plugin
           url: /building-basic-plugin/
         - title: Customizing Plugins with Coral UI
           url: /customizing-plugins-coral-ui/
-    - title: API
-      children:
-        - title: Server Plugins
-          url: /reference/server/
-        - title: GraphQL
-          url: /reference/graphql/
+        - title: When You've Installed Talk
+          url: /when-youve-installed-talk/
     - title: Migrating
       children:
         - title: Migrating to v4.0.0
@@ -165,7 +173,7 @@ marked:
   breaks: false
   smartLists: true
   smartypants: true
-  modifyAnchors: ''
+  modifyAnchors: 1
   autolink: true
 
 node_sass:

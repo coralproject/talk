@@ -63,8 +63,6 @@ const sendNotificationsBatch = async (ctx, notifications) => {
     return;
   }
 
-  console.log(notifications);
-
   return Promise.all(
     map(
       notifications,

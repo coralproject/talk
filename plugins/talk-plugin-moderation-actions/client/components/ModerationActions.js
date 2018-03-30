@@ -45,9 +45,9 @@ export default class ModerationActions extends React.Component {
             )}
           </span>
           {menuVisible && (
-            <Menu className="talk-plugin-modetarion-actions-menu">
+            <Menu className="talk-plugin-moderation-actions-menu">
               <Slot
-                className="talk-plugin-modetarion-actions-slot"
+                className="talk-plugin-moderation-actions-slot"
                 fill="moderationActions"
                 passthrough={slotPassthrough}
               />
