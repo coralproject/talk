@@ -15,6 +15,7 @@ class Button extends React.Component {
       fullWidth,
       invert,
       primary,
+      secondary,
       ...rest
     } = this.props;
 
@@ -22,6 +23,7 @@ class Button extends React.Component {
       [classes.invert]: invert,
       [classes.fullWidth]: fullWidth,
       [classes.primary]: primary,
+      [classes.secondary]: secondary,
     });
 
     return (
@@ -40,6 +42,7 @@ Button.propTypes = {
   fullWidth: PropTypes.bool,
   invert: PropTypes.bool,
   primary: PropTypes.bool,
+  secondary: PropTypes.bool,
 };
 
 const enhance = compose(withStyles(styles));

@@ -6,7 +6,8 @@ import { withKeyboardFocus, withStyles } from '../hocs';
 import { compose } from 'recompose';
 
 /**
- * A button whose styling is stripped off to a minimum.
+ * A button whose styling is stripped off to a minimum and supports
+ * keyboard focus. It is the base for the our other buttons.
  */
 const BaseButton = ({ anchor, className, classes, keyboardFocus, ...rest }) => {
   let Element = 'button';
@@ -25,6 +26,7 @@ BaseButton.propTypes = {
   className: PropTypes.string,
   /** If set renders an anchor tag instead */
   anchor: PropTypes.bool,
+  /** Extend existing styles by adding your custom classnames */
   classes: PropTypes.object,
   keyboardFocus: PropTypes.bool,
 };
