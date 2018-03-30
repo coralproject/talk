@@ -9,20 +9,20 @@ const pluginName = 'talk-plugin-auth-checkbox';
 const TermsLink = () => (
   <a
     className={styles.link}
-    href={t('talk-plugin-health-report.terms-link')}
+    href={t('talk-plugin-auth-checkbox.terms-link')}
     target="_blank"
   >
-    {t('talk-plugin-health-report.terms')}
+    {t('talk-plugin-auth-checkbox.terms')}
   </a>
 );
 
 const PrivacyLink = () => (
   <a
     className={styles.link}
-    href={t('talk-plugin-health-report.privacy-policy-link')}
+    href={t('talk-plugin-auth-checkbox.privacy-policy-link')}
     target="_blank"
   >
-    {t('talk-plugin-health-report.privacy-policy')}
+    {t('talk-plugin-auth-checkbox.privacy-policy')}
   </a>
 );
 
@@ -49,12 +49,12 @@ class TermsAndConditionsField extends React.Component {
       <div
         className={cn(
           styles.fieldContainer,
-          'talk-plugin-health-report-field-container'
+          'talk-plugin-auth-checkbox-field-container'
         )}
       >
         <Checkbox
           checked={this.state.checked}
-          className="talk-plugin-health-report-checkbox"
+          className="talk-plugin-auth-checkbox-checkbox"
           onChange={this.onChange}
           id={this.id}
         />
@@ -62,14 +62,14 @@ class TermsAndConditionsField extends React.Component {
           id={this.id}
           className={cn(
             styles.textLabel,
-            'talk-plugin-health-report-text-label'
+            'talk-plugin-auth-checkbox-text-label'
           )}
         >
-          {t('talk-plugin-health-report.copy')}
+          {t('talk-plugin-auth-checkbox.copy')}
           <TermsLink />
-          {t('talk-plugin-health-report.and')}
+          {t('talk-plugin-auth-checkbox.and')}
           <PrivacyLink />
-          {t('talk-plugin-health-report.from')}
+          {t('talk-plugin-auth-checkbox.from')}
         </div>
       </div>
     );
