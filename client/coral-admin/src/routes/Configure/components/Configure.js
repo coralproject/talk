@@ -2,26 +2,11 @@ import React, { Component } from 'react';
 
 import { Button, List, Item } from 'coral-ui';
 import styles from './Configure.css';
-import StreamSettings from '../containers/StreamSettings';
-import ModerationSettings from '../containers/ModerationSettings';
-import TechSettings from '../containers/TechSettings';
 import t from 'coral-framework/services/i18n';
 import { can } from 'coral-framework/services/perms';
 import PropTypes from 'prop-types';
 
 export default class Configure extends Component {
-  getSectionComponent(section) {
-    switch (section) {
-      case 'stream':
-        return StreamSettings;
-      case 'moderation':
-        return ModerationSettings;
-      case 'tech':
-        return TechSettings;
-    }
-    throw new Error(`Unknown section ${section}`);
-  }
-
   render() {
     const {
       currentUser,
@@ -30,7 +15,6 @@ export default class Configure extends Component {
       setActiveSection,
       activeSection,
     } = this.props;
-    const SectionComponent = this.getSectionComponent(activeSection);
 
     if (!can(currentUser, 'UPDATE_CONFIG')) {
       return (
@@ -73,12 +57,7 @@ export default class Configure extends Component {
             )}
           </div>
         </div>
-        <div className={styles.mainContent}>
-          <SectionComponent
-            root={this.props.root}
-            settings={this.props.settings}
-          />
-        </div>
+        <div className={styles.mainContent}>{this.props.children}</div>
       </div>
     );
   }
@@ -92,4 +71,5 @@ Configure.propTypes = {
   canSave: PropTypes.bool.isRequired,
   setActiveSection: PropTypes.func.isRequired,
   activeSection: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
