@@ -26,7 +26,9 @@
     "e2e:ci": "./scripts/e2e-ci.sh",
     "heroku-postbuild": "npm-run-all plugins:reconcile build",
     "precommit": "npm-run-all lint-staged",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build"
   },
   "talk": {
     "migration": {
@@ -227,6 +229,8 @@
     "mocha-junit-reporter": "^1.12.1",
     "nightwatch": "^0.9.16",
     "nodemon": "^1.11.0",
+    "postcss-font-magician": "^2.1.0",
+    "react-styleguidist": "^6.5.3",
     "selenium-standalone": "^6.11.0",
     "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
