@@ -25,6 +25,7 @@ const routes = (
         <Route path="stream" component={StreamSettings} />
         <Route path="moderation" component={ModerationSettings} />
         <Route path="tech" component={TechSettings} />
+        <IndexRedirect to="stream" />
       </Route>
 
       <Route path="stories" component={Stories} />

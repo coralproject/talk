@@ -1,20 +1,14 @@
-import React, { Component } from 'react';
-
-import { Button, List, Item } from 'coral-ui';
-import styles from './Configure.css';
-import t from 'coral-framework/services/i18n';
-import { can } from 'coral-framework/services/perms';
+import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
+import t from 'coral-framework/services/i18n';
+import { Button, List, Item, Dialog } from 'coral-ui';
+import { can } from 'coral-framework/services/perms';
+import styles from './Configure.css';
 
-export default class Configure extends Component {
+class Configure extends React.Component {
   render() {
-    const {
-      currentUser,
-      canSave,
-      savePending,
-      setActiveSection,
-      activeSection,
-    } = this.props;
+    const { canSave, currentUser, root, savePending, settings } = this.props;
 
     if (!can(currentUser, 'UPDATE_CONFIG')) {
       return (
@@ -25,10 +19,27 @@ export default class Configure extends Component {
       );
     }
 
+    const passProps = {
+      root,
+      settings,
+    };
+
     return (
       <div className={styles.container}>
+        <Dialog
+          className={cn(styles.dialog, 'talk-ban-user-dialog')}
+          id="banUserDialog"
+          open={this.props.saveDialog}
+          onCancel={this.props.hideSaveDialog}
+          title={t('bandialog.ban_user')}
+        >
+          Are you sure?
+        </Dialog>
         <div className={styles.leftColumn}>
-          <List onChange={setActiveSection} activeItem={activeSection}>
+          <List
+            onChange={this.props.setActiveSection}
+            activeItem={this.props.activeSection}
+          >
             <Item itemId="stream" icon="speaker_notes">
               {t('configure.stream_settings')}
             </Item>
@@ -57,7 +68,9 @@ export default class Configure extends Component {
             )}
           </div>
         </div>
-        <div className={styles.mainContent}>{this.props.children}</div>
+        <div className={styles.mainContent}>
+          {React.cloneElement(this.props.children, passProps)}
+        </div>
       </div>
     );
   }
@@ -72,4 +85,8 @@ Configure.propTypes = {
   setActiveSection: PropTypes.func.isRequired,
   activeSection: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  saveDialog: PropTypes.bool,
+  hideSaveDialog: PropTypes.func.isRequired,
 };
+
+export default Configure;
