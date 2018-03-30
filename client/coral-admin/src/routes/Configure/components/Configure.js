@@ -33,7 +33,9 @@ class Configure extends React.Component {
           onCancel={this.props.hideSaveDialog}
           title={t('bandialog.ban_user')}
         >
-          Are you sure?
+          There are unsaved changes, Are you sure you want to continue?
+          <Button onClick={this.props.saveChanges}>Save Settings</Button>
+          <Button onClick={this.props.discardChanges}>Discard changes</Button>
         </Dialog>
         <div className={styles.leftColumn}>
           <List
@@ -78,6 +80,8 @@ class Configure extends React.Component {
 
 Configure.propTypes = {
   savePending: PropTypes.func.isRequired,
+  saveChanges: PropTypes.func.isRequired,
+  discardChanges: PropTypes.func.isRequired,
   currentUser: PropTypes.object.isRequired,
   root: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,

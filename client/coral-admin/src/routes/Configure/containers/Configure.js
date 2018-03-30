@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { compose, gql } from 'react-apollo';
 import { withQuery, withMergedSettings } from 'coral-framework/hocs';
+import ClickOutside from 'coral-framework/components/ClickOutside';
 import { Spinner } from 'coral-ui';
 import PropTypes from 'prop-types';
 import { withUpdateSettings } from 'coral-framework/graphql/mutations';
@@ -25,11 +26,33 @@ class ConfigureContainer extends React.Component {
     this.props.clearPending();
   };
 
+  saveChanges = async () => {
+    await this.savePending();
+    this.props.hideSaveDialog();
+  };
+
+  discardChanges = () => {
+    this.props.clearPending();
+    this.props.hideSaveDialog();
+  };
+
   setActiveSection = section => {
-    // Check if pending
-    console.log('pending', this.props.pending);
-    this.props.setActiveSection(section);
-    this.props.router.push(`/admin/configure/${section}`);
+    if (this.shouldShowSaveDialog()) {
+      this.props.showSaveDialog();
+    } else {
+      this.props.setActiveSection(section);
+      this.props.router.push(`/admin/configure/${section}`);
+    }
+  };
+
+  shouldShowSaveDialog = () => {
+    return !!Object.keys(this.props.pending).length;
+  };
+
+  onClickOutside = () => {
+    if (this.shouldShowSaveDialog()) {
+      this.props.showSaveDialog();
+    }
   };
 
   render() {
@@ -42,19 +65,23 @@ class ConfigureContainer extends React.Component {
     }
 
     return (
-      <Configure
-        saveDialog={this.props.saveDialog}
-        activeSection={this.props.activeSection}
-        hideSaveDialog={this.props.hideSaveDialog}
-        canSave={this.props.canSave}
-        currentUser={this.props.currentUser}
-        root={this.props.root}
-        settings={this.props.mergedSettings}
-        setActiveSection={this.setActiveSection}
-        savePending={this.savePending}
-      >
-        {this.props.children}
-      </Configure>
+      <ClickOutside onClickOutside={this.onClickOutside}>
+        <Configure
+          saveChanges={this.saveChanges}
+          discardChanges={this.discardChanges}
+          saveDialog={this.props.saveDialog}
+          activeSection={this.props.activeSection}
+          hideSaveDialog={this.props.hideSaveDialog}
+          canSave={this.props.canSave}
+          currentUser={this.props.currentUser}
+          root={this.props.root}
+          settings={this.props.mergedSettings}
+          setActiveSection={this.setActiveSection}
+          savePending={this.savePending}
+        >
+          {this.props.children}
+        </Configure>
+      </ClickOutside>
     );
   }
 }
