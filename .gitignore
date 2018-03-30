@@ -67,7 +67,6 @@ plugins/*
 !plugins/talk-plugin-upvote
 !plugins/talk-plugin-viewing-options
 !plugins/talk-plugin-rich-text
-!plugins/talk-plugin-auth-checkbox
 
 **/node_modules/*
 yarn-error.log
