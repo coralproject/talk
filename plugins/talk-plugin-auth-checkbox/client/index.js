@@ -3,7 +3,7 @@ import translations from './translations.yml';
 
 export default {
   slots: {
-    'talkPluginAuth-formField': [TermsAndConditionsField],
+    'talkPluginAuth.formField': [TermsAndConditionsField],
   },
   translations,
 };

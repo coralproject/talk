@@ -115,7 +115,7 @@ class SignUp extends React.Component {
                 minLength="8"
               />
               <Slot
-                fill="talkPluginAuth-formField"
+                fill="talkPluginAuth.formField"
                 childFactory={this.childFactory}
               />
               <div className={styles.action}>
