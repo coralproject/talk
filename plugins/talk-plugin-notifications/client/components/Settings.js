@@ -14,10 +14,10 @@ import cn from 'classnames';
 
 class Settings extends React.Component {
   childFactory = el => {
-    const pluginName = el.type.talkPluginName;
+    const key = el.key;
     const props = {
-      indicateOn: () => this.props.indicateOn(pluginName),
-      indicateOff: () => this.props.indicateOff(pluginName),
+      indicateOn: () => this.props.indicateOn(key),
+      indicateOff: () => this.props.indicateOff(key),
     };
     return React.cloneElement(el, props);
   };
