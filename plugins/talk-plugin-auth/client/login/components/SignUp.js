@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Slot } from 'plugin-api/beta/client/components';
 import {
   Button,
   TextField,
@@ -28,6 +29,15 @@ class SignUp extends React.Component {
     this.props.onSubmit();
   };
 
+  childFactory = el => {
+    const key = el.key;
+    const props = {
+      indicateBlocker: () => this.props.indicateBlocker(key),
+      indicateBlockerResolved: () => this.props.indicateBlockerResolved(key),
+    };
+    return React.cloneElement(el, props);
+  };
+
   render() {
     const {
       username,
@@ -42,6 +52,7 @@ class SignUp extends React.Component {
       errorMessage,
       requireEmailConfirmation,
       success,
+      blocked,
     } = this.props;
 
     return (
@@ -103,6 +114,10 @@ class SignUp extends React.Component {
                 onChange={this.handlePasswordRepeatChange}
                 minLength="8"
               />
+              <Slot
+                fill="talkPluginAuth.formField"
+                childFactory={this.childFactory}
+              />
               <div className={styles.action}>
                 <Button
                   type="submit"
@@ -110,6 +125,7 @@ class SignUp extends React.Component {
                   id="coralSignUpButton"
                   className={styles.button}
                   full
+                  disabled={blocked}
                 >
                   {t('talk-plugin-auth.login.sign_up')}
                 </Button>
@@ -161,6 +177,9 @@ SignUp.propTypes = {
   errorMessage: PropTypes.string,
   requireEmailConfirmation: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
+  blocked: PropTypes.bool.isRequired,
+  indicateBlocker: PropTypes.func.isRequired,
+  indicateBlockerResolved: PropTypes.func.isRequired,
 };
 
 export default SignUp;
