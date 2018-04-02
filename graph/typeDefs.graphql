@@ -238,6 +238,10 @@ type User {
 
   # returns user status
   state: UserState
+
+  # lastAccountDownload is the date that the user last requested a comment
+  # download.
+  lastAccountDownload: Date
 }
 
 # UserConnection represents a paginable subset of a user list.

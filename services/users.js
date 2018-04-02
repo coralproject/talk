@@ -14,6 +14,7 @@ const i18n = require('./i18n');
 const Wordlist = require('./wordlist');
 const DomainList = require('./domain_list');
 const Limit = require('./limit');
+const moment = require('moment');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
 const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
@@ -479,6 +480,16 @@ class Users {
       throw errors.ErrMaxRateLimit;
     }
 
+    // Check if the lastAccountDownload time is within 24 hours.
+    if (
+      user.lastAccountDownload &&
+      moment(user.lastAccountDownload)
+        .add(24, 'hours')
+        .isAfter(moment())
+    ) {
+      throw errors.ErrMaxRateLimit;
+    }
+
     // The account currently does not have a download link, let's record the
     // download. This will throw an error if a race ocurred and we should stop
     // now.
@@ -498,6 +509,12 @@ class Users {
       },
       subject: i18n.t('email.download.subject'),
     });
+
+    // Amend the lastAccountDownload on the user.
+    await User.update(
+      { id: user.id },
+      { $set: { lastAccountDownload: new Date() } }
+    );
   }
 
   static async verifyDownloadToken(token) {

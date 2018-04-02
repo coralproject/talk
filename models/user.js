@@ -191,6 +191,13 @@ const UserSchema = new Schema(
     // Tags are added by the self or by administrators.
     tags: [TagLinkSchema],
 
+    // lastAccountDownload is the date that the user last downloaded their
+    // account details.
+    lastAccountDownload: {
+      type: Date,
+      default: null,
+    },
+
     // Additional metadata stored on the field.
     metadata: {
       default: {},

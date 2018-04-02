@@ -483,6 +483,17 @@ en:
   admin_sidebar:
     view_options: "View Options"
     sort_comments: "Sort Comments"
+  download_request:
+    section_title: "Download My Comment History"
+    you_will_get_a_copy: "You will recieve an email with a link to download your comment history. You can make"
+    download_rate: "one download request every 24 hours"
+    most_recent_request: "Your most recent request"
+    request: "Request Comment History"
+    rate_limit: "You can submit another Comment History request in {0}"
+    hours: "{0} hours"
+    days: "{0} days"
+    hour: "{0} hour"
+    day: "{0} day"
   download_landing:
     download_your_account: "Download Your Account"
     click_to_download: "Click below to download your account"
