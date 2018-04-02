@@ -154,6 +154,10 @@ en:
     sign_out: "Sign Out"
     stories: Stories
     stream_settings: "Stream Settings"
+    save_dialog_copy: "There are unsaved changes, Are you sure you want to continue?"
+    save_settings: "Save Settings"
+    discard_changes: "Discard changes"
+    access_message: "You must be an administrator to access config settings. Please find the nearest Admin and ask them to level you up!"
     suspect_word_title: "Suspect words list"
     suspect_word_text: "Comments which contain these words or phrases (not case-sensitive) will be highlighted in the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
     tech_settings: "Tech Settings"

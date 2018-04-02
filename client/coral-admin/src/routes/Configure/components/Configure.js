@@ -11,12 +11,7 @@ class Configure extends React.Component {
     const { canSave, currentUser, root, savePending, settings } = this.props;
 
     if (!can(currentUser, 'UPDATE_CONFIG')) {
-      return (
-        <p>
-          You must be an administrator to access config settings. Please find
-          the nearest Admin and ask them to level you up!
-        </p>
-      );
+      return <p>{t('configure.access_message')}</p>;
     }
 
     const passProps = {
@@ -27,15 +22,19 @@ class Configure extends React.Component {
     return (
       <div className={styles.container}>
         <Dialog
-          className={cn(styles.dialog, 'talk-ban-user-dialog')}
-          id="banUserDialog"
+          className={cn(styles.dialog, 'talk-admin-configure-save-dialog')}
+          id="saveDialog"
           open={this.props.saveDialog}
           onCancel={this.props.hideSaveDialog}
-          title={t('bandialog.ban_user')}
+          title={t('configure.unsaved_changes')}
         >
-          There are unsaved changes, Are you sure you want to continue?
-          <Button onClick={this.props.saveChanges}>Save Settings</Button>
-          <Button onClick={this.props.discardChanges}>Discard changes</Button>
+          {t('configure.save_dialog_copy')}
+          <Button onClick={this.props.saveChanges}>
+            {t('configure.save_settings')}
+          </Button>
+          <Button onClick={this.props.discardChanges}>
+            {t('configure.discard_changes')}
+          </Button>
         </Dialog>
         <div className={styles.leftColumn}>
           <List
