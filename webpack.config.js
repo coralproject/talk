@@ -22,6 +22,7 @@ require('dotenv').config();
 const { plugins, pluginsPath, PluginManager } = require('./plugins');
 const manager = new PluginManager(plugins);
 const targetPlugins = manager.section('targets').plugins;
+const clientPlugins = manager.section('client').plugins;
 
 debug(`Using ${pluginsPath} as the plugin configuration path`);
 
@@ -51,6 +52,19 @@ const TALK_WEBPACK_SOURCE_MAP = _.get(
 const devtool =
   TALK_WEBPACK_SOURCE_MAP === 'none' ? false : TALK_WEBPACK_SOURCE_MAP;
 
+// Exclude everything from node_modules except for those that may be in a
+// plugin folder inside the node_modules folder.
+const exclude = {
+  and: [
+    // Exclude everything inside node_modules..
+    /node_modules/,
+    // But not those that contain plugins.
+    {
+      not: clientPlugins.map(({ name }) => new RegExp(`node_modules\/${name}`)),
+    },
+  ],
+};
+
 //==============================================================================
 // Base Webpack Config
 //==============================================================================
@@ -73,7 +87,7 @@ const config = {
       },
       {
         loader: 'babel-loader',
-        exclude: /node_modules/,
+        exclude,
         test: /\.js$/,
         query: {
           cacheDirectory: true,
@@ -82,11 +96,11 @@ const config = {
       {
         loader: 'hjson-loader',
         test: /\.(json|yml)$/,
-        exclude: /node_modules/,
+        exclude,
       },
       {
         loader: 'yaml-loader',
-        exclude: /node_modules/,
+        exclude,
         test: /\.yml$/,
       },
       {
@@ -118,7 +132,7 @@ const config = {
       },
       {
         test: /\.(graphql|gql)$/,
-        exclude: /node_modules/,
+        exclude,
         loader: 'graphql-tag/loader',
       },
     ],
