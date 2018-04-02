@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { compose, gql } from 'react-apollo';
 import { withQuery, withMergedSettings } from 'coral-framework/hocs';
-import ClickOutside from 'coral-framework/components/ClickOutside';
 import { Spinner } from 'coral-ui';
 import PropTypes from 'prop-types';
 import { withUpdateSettings } from 'coral-framework/graphql/mutations';
@@ -49,11 +48,16 @@ class ConfigureContainer extends React.Component {
     return !!Object.keys(this.props.pending).length;
   };
 
-  onClickOutside = () => {
+  routeLeave = () => {
     if (this.shouldShowSaveDialog()) {
       this.props.showSaveDialog();
+      return false;
     }
   };
+
+  componentDidMount() {
+    this.props.router.setRouteLeaveHook(this.props.route, this.routeLeave);
+  }
 
   render() {
     if (this.props.data.error) {
@@ -65,23 +69,21 @@ class ConfigureContainer extends React.Component {
     }
 
     return (
-      <ClickOutside onClickOutside={this.onClickOutside}>
-        <Configure
-          saveChanges={this.saveChanges}
-          discardChanges={this.discardChanges}
-          saveDialog={this.props.saveDialog}
-          activeSection={this.props.activeSection}
-          hideSaveDialog={this.props.hideSaveDialog}
-          canSave={this.props.canSave}
-          currentUser={this.props.currentUser}
-          root={this.props.root}
-          settings={this.props.mergedSettings}
-          setActiveSection={this.setActiveSection}
-          savePending={this.savePending}
-        >
-          {this.props.children}
-        </Configure>
-      </ClickOutside>
+      <Configure
+        saveChanges={this.saveChanges}
+        discardChanges={this.discardChanges}
+        saveDialog={this.props.saveDialog}
+        activeSection={this.props.activeSection}
+        hideSaveDialog={this.props.hideSaveDialog}
+        canSave={this.props.canSave}
+        currentUser={this.props.currentUser}
+        root={this.props.root}
+        settings={this.props.mergedSettings}
+        setActiveSection={this.setActiveSection}
+        savePending={this.savePending}
+      >
+        {this.props.children}
+      </Configure>
     );
   }
 }
@@ -156,4 +158,5 @@ ConfigureContainer.propTypes = {
   mergedSettings: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
   router: PropTypes.object,
+  route: PropTypes.object,
 };
