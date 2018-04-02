@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
-import { Button, List, Item, Dialog } from 'coral-ui';
+import { Button, List, Item } from 'coral-ui';
 import { can } from 'coral-framework/services/perms';
 import styles from './Configure.css';
+import SaveChangesDialog from './SaveChangesDialog';
 
 class Configure extends React.Component {
   render() {
@@ -21,21 +21,12 @@ class Configure extends React.Component {
 
     return (
       <div className={styles.container}>
-        <Dialog
-          className={cn(styles.dialog, 'talk-admin-configure-save-dialog')}
-          id="saveDialog"
-          open={this.props.saveDialog}
-          onCancel={this.props.hideSaveDialog}
-          title={t('configure.unsaved_changes')}
-        >
-          {t('configure.save_dialog_copy')}
-          <Button onClick={this.props.saveChanges}>
-            {t('configure.save_settings')}
-          </Button>
-          <Button onClick={this.props.discardChanges}>
-            {t('configure.discard_changes')}
-          </Button>
-        </Dialog>
+        <SaveChangesDialog
+          saveDialog={this.props.saveDialog}
+          hideSaveDialog={this.props.hideSaveDialog}
+          saveChanges={this.props.saveChanges}
+          discardChanges={this.props.discardChanges}
+        />
         <div className={styles.leftColumn}>
           <List
             onChange={this.props.setActiveSection}
