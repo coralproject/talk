@@ -10,12 +10,14 @@ const InitialStep = () => {
   return (
     <div className={cn(styles.step, styles.finalStep, 'talk-install-step-5')}>
       <p>{t('install.final.description')}</p>
-      <Button raised>
-        <Link to="/admin">{t('install.final.launch')}</Link>
-      </Button>
-      <Button cStyle="black" raised>
-        <a href="http://coralproject.net">{t('install.final.close')}</a>
-      </Button>
+      <Link to="/admin">
+        <Button raised>{t('install.final.launch')}</Button>
+      </Link>
+      <a href="http://coralproject.net">
+        <Button cStyle="black" raised>
+          {t('install.final.close')}
+        </Button>
+      </a>
     </div>
   );
 };
