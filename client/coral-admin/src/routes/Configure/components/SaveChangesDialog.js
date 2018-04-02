@@ -16,22 +16,29 @@ const SaveChangesDialog = ({
     id="saveDialog"
     open={saveDialog}
     onCancel={hideSaveDialog}
-    title={t('configure.unsaved_changes')}
   >
     <span className={styles.close} onClick={hideSaveDialog}>
       ×
     </span>
-    {t('configure.save_dialog_copy')}
+    <div className={styles.title}>
+      {t('configure.save_changes_dialog.unsaved_changes')}
+    </div>
+    {t('configure.save_changes_dialog.copy')}
     <div
       className={cn(
         styles.buttonActions,
         'talk-admin-configure-save-dialog-button-actions'
       )}
     >
-      <Button onClick={saveChanges} cStyle="green">
-        {t('configure.save_settings')}
+      <a className={styles.cancel} onClick={hideSaveDialog}>
+        Cancel
+      </a>
+      <Button onClick={discardChanges} className={styles.button}>
+        {t('configure.save_changes_dialog.discard')}
       </Button>
-      <Button onClick={discardChanges}>{t('configure.discard_changes')}</Button>
+      <Button onClick={saveChanges} cStyle="green" className={styles.button}>
+        {t('configure.save_changes_dialog.save_settings')}
+      </Button>
     </div>
   </Dialog>
 );
