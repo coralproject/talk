@@ -173,11 +173,30 @@ class PluginsService {
       );
     }
 
+    /**
+     * This adds a consistent keying for the slot elements.
+     * It uses the plugin name as the key. If the same plugin inserts
+     * multiple elements it will append `.${noOfOccurence}` to the
+     * key starting with the second element.
+     */
+    const getKey = (() => {
+      const map = {};
+      return component => {
+        if (map[component.talkPluginName] === undefined) {
+          map[component.talkPluginName] = 0;
+        } else {
+          map[component.talkPluginName]++;
+        }
+        const i = map[component.talkPluginName];
+        return `${component.talkPluginName}${i > 0 ? `.${i}` : ''}`;
+      };
+    })();
+
     return (size > 0 ? slots.slice(0, size) : slots)
-      .map((component, i) => ({
+      .map(component => ({
         component,
         disabled: isDisabled(component),
-        key: i,
+        key: getKey(component),
       }))
       .filter(o => !o.disabled)
       .map(({ component, key }) =>

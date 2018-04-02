@@ -20,14 +20,14 @@ class SettingsContainer extends React.Component {
     turnOffInput: {},
   };
 
-  indicateOn = plugin =>
+  indicateOn = key =>
     this.setState(state => ({
-      hasNotifications: state.hasNotifications.concat(plugin),
+      hasNotifications: state.hasNotifications.concat(key),
     }));
 
-  indicateOff = plugin =>
+  indicateOff = key =>
     this.setState(state => ({
-      hasNotifications: state.hasNotifications.filter(i => i !== plugin),
+      hasNotifications: state.hasNotifications.filter(i => i !== key),
     }));
 
   setTurnOffInputFragment = fragment =>

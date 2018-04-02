@@ -136,6 +136,7 @@ export function t(key, ...replacements) {
     replacements.forEach((str, i) => {
       translation = translation.replace(new RegExp(`\\{${i}\\}`, 'g'), str);
     });
+
     return translation;
   } else {
     console.warn(`${lang}.${key} and en.${key} language key not set`);
