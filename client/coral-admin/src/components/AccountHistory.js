@@ -43,15 +43,15 @@ const readableDuration = (startDate, endDate) => {
 const buildActionResponse = (typename, created_at, until, status) => {
   switch (typename) {
     case 'UsernameStatusHistory':
-      return t('account_history.username_status', status);
+      return t('user_history.username_status', status);
     case 'BannedStatusHistory':
       return status
-        ? t('account_history.user_banned')
-        : t('account_history.ban_removed');
+        ? t('user_history.user_banned')
+        : t('user_history.ban_removed');
     case 'SuspensionStatusHistory':
       return until
-        ? t('account_history.suspended', readableDuration(created_at, until))
-        : t('account_history.suspension_removed');
+        ? t('user_history.suspended', readableDuration(created_at, until))
+        : t('user_history.suspension_removed');
     default:
       return '-';
   }
@@ -62,7 +62,7 @@ const getModerationValue = assignedBy =>
     assignedBy.username
   ) : (
     <span>
-      <Icon name="computer" /> {t('account_history.system')}
+      <Icon name="computer" /> {t('user_history.system')}
     </span>
   );
 
@@ -79,14 +79,12 @@ class AccountHistory extends React.Component {
               'talk-admin-account-history-header-row'
             )}
           >
+            <div className={styles.headerRowItem}>{t('user_history.date')}</div>
             <div className={styles.headerRowItem}>
-              {t('account_history.date')}
+              {t('user_history.action')}
             </div>
             <div className={styles.headerRowItem}>
-              {t('account_history.action')}
-            </div>
-            <div className={styles.headerRowItem}>
-              {t('account_history.taken_by')}
+              {t('user_history.taken_by')}
             </div>
           </div>
           {userHistory.map(

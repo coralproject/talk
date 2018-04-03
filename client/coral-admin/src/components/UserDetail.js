@@ -286,7 +286,7 @@ class UserDetail extends React.Component {
                 'talk-admin-user-detail-history-tab'
               )}
             >
-              {t('user_detail.account_history')}
+              {t('user_detail.user_history')}
             </Tab>
           </TabBar>
 
