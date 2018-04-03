@@ -2,7 +2,7 @@ const DataLoader = require('dataloader');
 const { URL } = require('url');
 const { singleJoinBy, SingletonResolver } = require('./util');
 
-const genAssetsByID = ({ connectors: { models: { Asset } } }, ids) =>
+const getAssetsByID = ({ connectors: { models: { Asset } } }, ids) =>
   Asset.find({
     id: {
       $in: ids,
@@ -146,7 +146,7 @@ module.exports = ctx => ({
     getByURL: url => findOrCreateAssetByURL(ctx, url),
     findByUrl: url => findByUrl(ctx, url),
     getByQuery: query => getAssetsByQuery(ctx, query),
-    getByID: new DataLoader(ids => genAssetsByID(ctx, ids)),
+    getByID: new DataLoader(ids => getAssetsByID(ctx, ids)),
     getAll: new SingletonResolver(() => ctx.connectors.models.Asset.find({})),
   },
 });
