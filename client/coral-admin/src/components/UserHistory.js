@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { murmur3 } from 'murmurhash-js';
-import styles from './AccountHistory.css';
+import styles from './UserHistory.css';
 import cn from 'classnames';
 import flatten from 'lodash/flatten';
 import orderBy from 'lodash/orderBy';
@@ -66,17 +66,17 @@ const getModerationValue = assignedBy =>
     </span>
   );
 
-class AccountHistory extends React.Component {
+class UserHistory extends React.Component {
   render() {
     const { user } = this.props;
     const userHistory = buildUserHistory(user.state);
     return (
       <div>
-        <div className={cn(styles.table, 'talk-admin-account-history')}>
+        <div className={cn(styles.table, 'talk-admin-user-history')}>
           <div
             className={cn(
               styles.headerRow,
-              'talk-admin-account-history-header-row'
+              'talk-admin-user-history-header-row'
             )}
           >
             <div className={styles.headerRowItem}>{t('user_history.date')}</div>
@@ -90,13 +90,13 @@ class AccountHistory extends React.Component {
           {userHistory.map(
             ({ __typename, created_at, assigned_by, until, status }) => (
               <div
-                className={cn(styles.row, 'talk-admin-account-history-row')}
+                className={cn(styles.row, 'talk-admin-user-history-row')}
                 key={`${__typename}_${murmur3(created_at)}`}
               >
                 <div
                   className={cn(
                     styles.item,
-                    'talk-admin-account-history-row-date'
+                    'talk-admin-user-history-row-date'
                   )}
                 >
                   {moment(new Date(created_at)).format('MMM DD, YYYY')}
@@ -105,7 +105,7 @@ class AccountHistory extends React.Component {
                   className={cn(
                     styles.item,
                     styles.action,
-                    'talk-admin-account-history-row-status'
+                    'talk-admin-user-history-row-status'
                   )}
                 >
                   {buildActionResponse(__typename, created_at, until, status)}
@@ -114,7 +114,7 @@ class AccountHistory extends React.Component {
                   className={cn(
                     styles.item,
                     styles.username,
-                    'talk-admin-account-history-row-assigned-by'
+                    'talk-admin-user-history-row-assigned-by'
                   )}
                 >
                   {getModerationValue(assigned_by)}
@@ -128,8 +128,8 @@ class AccountHistory extends React.Component {
   }
 }
 
-AccountHistory.propTypes = {
+UserHistory.propTypes = {
   user: PropTypes.object.isRequired,
 };
 
-export default AccountHistory;
+export default UserHistory;
