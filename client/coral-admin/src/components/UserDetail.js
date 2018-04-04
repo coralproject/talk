@@ -28,16 +28,6 @@ import UserInfoTooltip from './UserInfoTooltip';
 import t from 'coral-framework/services/i18n';
 
 class UserDetail extends React.Component {
-  bulkAcceptThenReload = async () => {
-    await this.props.bulkAccept();
-    this.props.data.refetch();
-  };
-
-  bulkRejectThenReload = async () => {
-    await this.props.bulkReject();
-    this.props.data.refetch();
-  };
-
   changeTab = tab => {
     this.props.changeTab(tab);
   };
@@ -102,6 +92,8 @@ class UserDetail extends React.Component {
       modal,
       acceptComment,
       rejectComment,
+      bulkAccept,
+      bulkReject,
     } = this.props;
 
     // if totalComments is 0, you're dividing by zero
@@ -300,8 +292,8 @@ class UserDetail extends React.Component {
                 rejectComment={rejectComment}
                 selectedCommentIds={selectedCommentIds}
                 toggleSelectAll={toggleSelectAll}
-                bulkAcceptThenReload={this.bulkAcceptThenReload}
-                bulkRejectThenReload={this.bulkRejectThenReload}
+                bulkAcceptThenReload={bulkAccept}
+                bulkRejectThenReload={bulkReject}
               />
             </TabPane>
             <TabPane
@@ -318,8 +310,8 @@ class UserDetail extends React.Component {
                 rejectComment={rejectComment}
                 selectedCommentIds={selectedCommentIds}
                 toggleSelectAll={toggleSelectAll}
-                bulkAcceptThenReload={this.bulkAcceptThenReload}
-                bulkRejectThenReload={this.bulkRejectThenReload}
+                bulkAcceptThenReload={bulkAccept}
+                bulkRejectThenReload={bulkReject}
               />
             </TabPane>
             <TabPane
