@@ -28,16 +28,6 @@ import UserInfoTooltip from './UserInfoTooltip';
 import t from 'coral-framework/services/i18n';
 
 class UserDetail extends React.Component {
-  rejectThenReload = async info => {
-    await this.props.rejectComment(info);
-    this.props.data.refetch();
-  };
-
-  acceptThenReload = async info => {
-    await this.props.acceptComment(info);
-    this.props.data.refetch();
-  };
-
   bulkAcceptThenReload = async () => {
     await this.props.bulkAccept();
     this.props.data.refetch();
@@ -110,6 +100,8 @@ class UserDetail extends React.Component {
       unbanUser,
       unsuspendUser,
       modal,
+      acceptComment,
+      rejectComment,
     } = this.props;
 
     // if totalComments is 0, you're dividing by zero
@@ -304,8 +296,8 @@ class UserDetail extends React.Component {
                 loadMore={loadMore}
                 toggleSelect={toggleSelect}
                 viewUserDetail={viewUserDetail}
-                acceptComment={this.acceptThenReload}
-                rejectComment={this.rejectThenReload}
+                acceptComment={acceptComment}
+                rejectComment={rejectComment}
                 selectedCommentIds={selectedCommentIds}
                 toggleSelectAll={toggleSelectAll}
                 bulkAcceptThenReload={this.bulkAcceptThenReload}
@@ -322,8 +314,8 @@ class UserDetail extends React.Component {
                 loadMore={loadMore}
                 toggleSelect={toggleSelect}
                 viewUserDetail={viewUserDetail}
-                acceptComment={this.acceptThenReload}
-                rejectComment={this.rejectThenReload}
+                acceptComment={acceptComment}
+                rejectComment={rejectComment}
                 selectedCommentIds={selectedCommentIds}
                 toggleSelectAll={toggleSelectAll}
                 bulkAcceptThenReload={this.bulkAcceptThenReload}

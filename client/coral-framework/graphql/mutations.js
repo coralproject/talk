@@ -180,7 +180,7 @@ export const withSetCommentStatus = withMutation(
             const fragmentId = `Comment_${commentId}`;
 
             const data = proxy.readFragment({ fragment, id: fragmentId });
-
+            console.log('data', data);
             data.status = status;
             data.status_history = data.status_history
               ? data.status_history
