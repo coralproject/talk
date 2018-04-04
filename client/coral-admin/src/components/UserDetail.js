@@ -110,6 +110,7 @@ class UserDetail extends React.Component {
       unbanUser,
       unsuspendUser,
       modal,
+      rejectUsername,
     } = this.props;
 
     // if totalComments is 0, you're dividing by zero
@@ -121,6 +122,8 @@ class UserDetail extends React.Component {
 
     const banned = isBanned(user);
     const suspended = isSuspended(user);
+
+    console.log(user);
 
     const slotPassthrough = {
       root,
@@ -155,6 +158,10 @@ class UserDetail extends React.Component {
               )}
               label={this.getActionMenuLabel()}
             >
+              <ActionsMenuItem onClick={() => rejectUsername({ id: user.id })}>
+                Reject Username
+              </ActionsMenuItem>
+
               {suspended ? (
                 <ActionsMenuItem onClick={() => unsuspendUser({ id: user.id })}>
                   {t('user_detail.remove_suspension')}
@@ -167,7 +174,6 @@ class UserDetail extends React.Component {
                   {t('user_detail.suspend')}
                 </ActionsMenuItem>
               )}
-
               {banned ? (
                 <ActionsMenuItem onClick={() => unbanUser({ id: user.id })}>
                   {t('user_detail.remove_ban')}
@@ -376,6 +382,7 @@ UserDetail.propTypes = {
   unbanUser: PropTypes.func.isRequired,
   unsuspendUser: PropTypes.func.isRequired,
   modal: PropTypes.bool,
+  rejectUsername: PropTypes.func.isRequired,
 };
 
 export default UserDetail;

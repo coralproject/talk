@@ -33,3 +33,12 @@ export const isSuspended = user => {
 export const isBanned = user => {
   return get(user, 'state.status.banned.status');
 };
+
+/**
+ * isUsernameRejected
+ * retrieves boolean based on the username status
+ */
+
+export const isUsernameRejected = user => {
+  return get(user, 'state.status.username.status');
+};

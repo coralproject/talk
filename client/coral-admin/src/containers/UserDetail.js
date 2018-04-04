@@ -26,6 +26,7 @@ import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
 import { showBanUserDialog } from 'actions/banUserDialog';
 import { showSuspendUserDialog } from 'actions/suspendUserDialog';
+import { withRejectUsername } from '../../../coral-framework/graphql/mutations';
 
 const commentConnectionFragment = gql`
   fragment CoralAdmin_UserDetail_CommentConnection on CommentConnection {
@@ -131,6 +132,7 @@ class UserDetailContainer extends React.Component {
         loading={loading}
         error={this.props.data && this.props.data.error}
         loadMore={this.loadMore}
+        rejectUsername={this.props.rejectUsername}
         {...this.props}
       />
     );
@@ -148,6 +150,7 @@ UserDetailContainer.propTypes = {
   selectedCommentIds: PropTypes.array,
   unbanUser: PropTypes.func.isRequired,
   unsuspendUser: PropTypes.func.isRequired,
+  rejectUsername: PropTypes.func.isRequired,
 };
 
 const LOAD_MORE_QUERY = gql`
@@ -281,5 +284,6 @@ export default compose(
   withUserDetailQuery,
   withSetCommentStatus,
   withUnbanUser,
-  withUnsuspendUser
+  withUnsuspendUser,
+  withRejectUsername
 )(UserDetailContainer);
