@@ -109,7 +109,6 @@ class UserDetailContainer extends React.Component {
   componentWillReceiveProps(next) {
     if (this.props.userId === null && next.userId) {
       next.data.refetch();
-      console.log('fetching');
     }
   }
 
