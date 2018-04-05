@@ -525,3 +525,10 @@ Sets the logging level for the context logger (from [Bunyan](https://github.com/
 - `info`
 - `debug`
 - `trace`
+
+## TALK_SCRAPER_HEADERS
+
+A JSON string representing the configuration passed to the
+[fetch](https://www.npmjs.com/package/node-fetch) call for the scraper. It
+can be used to set an authorization header, or change the user agent. (Default
+`{}`)
