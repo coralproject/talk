@@ -12,7 +12,6 @@ import TechSettings from './TechSettings';
 import ModerationSettings from './ModerationSettings';
 import {
   clearPending,
-  setActiveSection,
   showSaveDialog,
   hideSaveDialog,
 } from '../../../actions/configure';
@@ -20,6 +19,8 @@ import Configure from '../components/Configure';
 import { withRouter } from 'react-router';
 
 class ConfigureContainer extends React.Component {
+  state = { nextRoute: '' };
+
   savePending = async () => {
     await this.props.updateSettings(this.props.pending);
     this.props.clearPending();
@@ -28,19 +29,32 @@ class ConfigureContainer extends React.Component {
   saveChanges = async () => {
     await this.savePending();
     this.props.hideSaveDialog();
+    this.gotoNextRoute();
   };
 
-  discardChanges = () => {
-    this.props.clearPending();
+  discardChanges = async () => {
+    await this.props.clearPending();
     this.props.hideSaveDialog();
+    this.gotoNextRoute();
   };
 
-  setActiveSection = section => {
+  gotoNextRoute = () => {
+    const { nextRoute } = this.state;
+    if (nextRoute) {
+      this.props.router.push(nextRoute);
+      this.setState({ nextRoute: '' });
+    }
+  };
+
+  handleSectionChange = async section => {
+    const nextRoute = `/admin/configure/${section}`;
+
     if (this.shouldShowSaveDialog()) {
+      await this.setState({ nextRoute });
       this.props.showSaveDialog();
     } else {
-      this.props.setActiveSection(section);
-      this.props.router.push(`/admin/configure/${section}`);
+      // Just go to the section
+      this.props.router.push(nextRoute);
     }
   };
 
@@ -48,8 +62,9 @@ class ConfigureContainer extends React.Component {
     return !!Object.keys(this.props.pending).length;
   };
 
-  routeLeave = () => {
+  routeLeave = ({ pathname }) => {
     if (this.shouldShowSaveDialog()) {
+      this.setState({ nextRoute: pathname });
       this.props.showSaveDialog();
       return false;
     }
@@ -73,13 +88,13 @@ class ConfigureContainer extends React.Component {
         saveChanges={this.saveChanges}
         discardChanges={this.discardChanges}
         saveDialog={this.props.saveDialog}
-        activeSection={this.props.activeSection}
+        activeSection={this.props.routes[3].path}
         hideSaveDialog={this.props.hideSaveDialog}
         canSave={this.props.canSave}
         currentUser={this.props.currentUser}
         root={this.props.root}
         settings={this.props.mergedSettings}
-        setActiveSection={this.setActiveSection}
+        handleSectionChange={this.handleSectionChange}
         savePending={this.savePending}
       >
         {this.props.children}
@@ -127,7 +142,6 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       clearPending,
-      setActiveSection,
       showSaveDialog,
       hideSaveDialog,
     },
@@ -146,7 +160,6 @@ ConfigureContainer.propTypes = {
   activeSection: PropTypes.string,
   updateSettings: PropTypes.func.isRequired,
   clearPending: PropTypes.func.isRequired,
-  setActiveSection: PropTypes.func.isRequired,
   showSaveDialog: PropTypes.func.isRequired,
   hideSaveDialog: PropTypes.func.isRequired,
   saveDialog: PropTypes.bool.isRequired,
@@ -159,4 +172,5 @@ ConfigureContainer.propTypes = {
   children: PropTypes.node.isRequired,
   router: PropTypes.object,
   route: PropTypes.object,
+  routes: PropTypes.object,
 };

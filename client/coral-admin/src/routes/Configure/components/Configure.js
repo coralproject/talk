@@ -29,7 +29,7 @@ class Configure extends React.Component {
         />
         <div className={styles.leftColumn}>
           <List
-            onChange={this.props.setActiveSection}
+            onChange={this.props.handleSectionChange}
             activeItem={this.props.activeSection}
           >
             <Item itemId="stream" icon="speaker_notes">
@@ -76,7 +76,7 @@ Configure.propTypes = {
   root: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   canSave: PropTypes.bool.isRequired,
-  setActiveSection: PropTypes.func.isRequired,
+  handleSectionChange: PropTypes.func.isRequired,
   activeSection: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   saveDialog: PropTypes.bool,

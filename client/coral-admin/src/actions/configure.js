@@ -8,10 +8,6 @@ export const clearPending = () => {
   return { type: actions.CLEAR_PENDING };
 };
 
-export const setActiveSection = section => {
-  return { type: actions.SET_ACTIVE_SECTION, section };
-};
-
 export const showSaveDialog = () => {
   return { type: actions.SHOW_SAVE_DIALOG };
 };
