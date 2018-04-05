@@ -172,5 +172,5 @@ ConfigureContainer.propTypes = {
   children: PropTypes.node.isRequired,
   router: PropTypes.object,
   route: PropTypes.object,
-  routes: PropTypes.object,
+  routes: PropTypes.array,
 };
