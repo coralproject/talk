@@ -35,12 +35,9 @@ class ExtendableTabPanelContainer extends React.Component {
 
   createPluginTabFactory = (props = this.props) => el => {
     return (
-      <ExtendableTab
-        tabId={el.type.talkPluginName}
-        key={el.type.talkPluginName}
-      >
+      <ExtendableTab tabId={el.key} key={el.key}>
         {React.cloneElement(el, {
-          active: props.activeTab === el.type.talkPluginName,
+          active: props.activeTab === el.key,
         })}
       </ExtendableTab>
     );
@@ -59,7 +56,7 @@ class ExtendableTabPanelContainer extends React.Component {
 
   createPluginTabPane(el) {
     return (
-      <TabPane tabId={el.type.talkPluginName} key={el.type.talkPluginName}>
+      <TabPane tabId={el.key} key={el.key}>
         {el}
       </TabPane>
     );

@@ -34,6 +34,7 @@ class Comment extends React.Component {
             defaultComponent={CommentContent}
             className={cn(styles.commentBody, 'my-comment-body')}
             passthrough={slotPassthrough}
+            size={1}
           />
           <div className={cn(styles.commentSummary, 'comment-summary')}>
             <span
