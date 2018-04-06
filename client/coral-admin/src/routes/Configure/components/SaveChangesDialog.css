@@ -1,0 +1,40 @@
+.buttonActions {
+  padding-top: 15px;
+  text-align: right;
+}
+
+.dialog {
+  padding: 25px;
+  min-width: 400px;
+}
+
+.close {
+  font-size: 20px;
+  line-height: 14px;
+  top: 10px;
+  right: 10px;
+  position: absolute;
+  display: block;
+  font-weight: bold;
+  color: #363636;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.cancel {
+  color: #363636;
+  margin-right: 15px;
+  display: inline-block;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.button {
+  margin-left: 5px;
+}
