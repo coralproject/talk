@@ -57,6 +57,10 @@ export const setAuthToken = token => (dispatch, _, { localStorage }) => {
     localStorage.setItem('token', token);
   }
 
+  // Dispatch the set auth token action. For some browsers and situations, we
+  // may not be able to persist the auth token any other way. Keep it in redux!
+  dispatch({ type: actions.SET_AUTH_TOKEN, token });
+
   dispatch(checkLogin());
 };
 
@@ -87,6 +91,7 @@ export const handleSuccessfulLogin = (user, token) => (
   dispatch({
     type: actions.HANDLE_SUCCESSFUL_LOGIN,
     user,
+    token,
   });
 };
 
