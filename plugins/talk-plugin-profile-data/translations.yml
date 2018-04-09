@@ -1,0 +1,10 @@
+en:
+  download_landing:
+    download_your_account: "Download Your Account"
+    click_to_download: "Click below to download your account"
+    confirm: "Download"
+  email:
+    download:
+      subject: "Your download link is ready" # TODO: replace
+      download_link_ready: "Your download link is now ready, visit the following to download an archive of your account:" # TODO: replace
+      download_archive: "Download Archive" # TODO: replace
