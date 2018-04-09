@@ -16,7 +16,18 @@ class SignUpContainer extends Component {
     emailError: null,
     passwordError: null,
     passwordRepeatError: null,
+    blockers: [],
   };
+
+  indicateBlocker = key =>
+    this.setState(state => ({
+      blockers: state.blockers.concat(key),
+    }));
+
+  indicateBlockerResolved = key =>
+    this.setState(state => ({
+      blockers: state.blockers.filter(i => i !== key),
+    }));
 
   validate = data => {
     let valid = true;
@@ -48,7 +59,7 @@ class SignUpContainer extends Component {
       passwordRepeat: this.state.passwordRepeat,
     };
 
-    if (this.validate(data)) {
+    if (this.validate(data) && !this.state.blockers.length) {
       this.props.signUp(data);
     }
   };
@@ -76,6 +87,9 @@ class SignUpContainer extends Component {
   render() {
     return (
       <SignUp
+        indicateBlocker={this.indicateBlocker}
+        indicateBlockerResolved={this.indicateBlockerResolved}
+        blocked={!!this.state.blockers.length}
         onSubmit={this.handleSubmit}
         onUsernameChange={this.setUsername}
         onEmailChange={this.props.setEmail}

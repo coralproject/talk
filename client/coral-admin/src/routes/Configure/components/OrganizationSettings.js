@@ -17,7 +17,9 @@ class OrganizationSettings extends React.Component {
     const { settings, slotPassthrough } = this.props;
 
     return (
-      <ConfigurePage title={t('configure.organization_settings')}>
+      <ConfigurePage title={t('configure.organization_information')}>
+        <p>{t('configure.organization_info_copy')}</p>
+        <p>{t('configure.organization_info_copy2')}</p>
         <ConfigureCard title={t('configure.organization_details')}>
           <ul>
             <li>

@@ -1,21 +1,56 @@
-const Asset = require('../models/asset');
-const scraper = require('../services/scraper');
-const Assets = require('../services/assets');
-const { createLogger } = require('../services/logging');
+const Asset = require('../../models/asset');
+const scraper = require('../../services/scraper');
+const Assets = require('../../services/assets');
+const { createLogger } = require('../../services/logging');
 const logger = createLogger('jobs:scraper');
-const metascraper = require('metascraper');
+const fetch = require('node-fetch');
+const { merge } = require('lodash');
+const { version } = require('../../package.json');
+const { SCRAPER_HEADERS } = require('../../config');
+
+// Load the scraper with the rules.
+const metascraper = require('metascraper').load([
+  require('metascraper-title')(),
+  require('metascraper-description')(),
+  require('metascraper-image')(),
+  require('metascraper-author')(),
+  require('metascraper-date')(),
+  require('./rules/modified')(),
+  require('./rules/section')(),
+]);
+
+let customHeaders = {};
+try {
+  customHeaders = JSON.parse(SCRAPER_HEADERS);
+} catch (err) {
+  console.error('Cannot parse TALK_SCRAPER_HEADERS');
+  throw err;
+}
+
+// Parse the headers to be added to the scraper.
+const headers = merge(
+  {
+    'User-Agent': `Coral-Talk/${version}`,
+  },
+  customHeaders
+);
 
 /**
  * Scrapes the given asset for metadata.
  */
-async function scrape(asset) {
-  return metascraper.scrapeUrl(
-    asset.url,
-    Object.assign({}, metascraper.RULES, {
-      section: $ => $('meta[property="article:section"]').attr('content'),
-      modified: $ => $('meta[property="article:modified"]').attr('content'),
-    })
-  );
+async function scrape({ url }) {
+  const res = await fetch(url, {
+    headers,
+  });
+  const html = await res.text();
+
+  // Get the metadata from the scraped html.
+  const metadata = await metascraper({
+    html,
+    url,
+  });
+
+  return metadata;
 }
 
 /**
