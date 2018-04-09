@@ -6,11 +6,23 @@ const initialState = {
   canSave: false,
   pending: {},
   errors: {},
-  activeSection: 'stream',
+  saveDialog: false,
 };
 
 export default function configure(state = initialState, action) {
   switch (action.type) {
+    case actions.SHOW_SAVE_DIALOG: {
+      return {
+        ...state,
+        saveDialog: true,
+      };
+    }
+    case actions.HIDE_SAVE_DIALOG: {
+      return {
+        ...state,
+        saveDialog: false,
+      };
+    }
     case actions.UPDATE_PENDING: {
       let next = state;
       if (action.updater) {
@@ -40,11 +52,8 @@ export default function configure(state = initialState, action) {
         pending: {},
         canSave: false,
       };
-    case actions.SET_ACTIVE_SECTION:
-      return {
-        ...state,
-        activeSection: action.section,
-      };
+    default:
+      return state;
   }
   return state;
 }

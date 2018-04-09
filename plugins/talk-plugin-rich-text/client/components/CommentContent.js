@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { PLUGIN_NAME } from '../constants';
 import cn from 'classnames';
 import styles from './CommentContent.css';
+import Linkify from 'react-linkify';
 
 class CommentContent extends React.Component {
   render() {
@@ -14,7 +15,9 @@ class CommentContent extends React.Component {
         dangerouslySetInnerHTML={{ __html: comment.richTextBody }}
       />
     ) : (
-      <div className={className}>{comment.body}</div>
+      <Linkify properties={{ target: '_blank' }}>
+        <div className={className}>{comment.body}</div>
+      </Linkify>
     );
   }
 }

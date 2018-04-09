@@ -5,6 +5,7 @@ const initialState = {
   checkedInitialLogin: false,
   initialLoginError: null,
   user: null,
+  token: null,
 };
 
 const purge = user => {
@@ -14,12 +15,18 @@ const purge = user => {
 
 export default function auth(state = initialState, action) {
   switch (action.type) {
+    case actions.SET_AUTH_TOKEN:
+      return {
+        ...state,
+        token: action.token || null,
+      };
     case actions.CHECK_LOGIN_FAILURE:
       return {
         ...state,
         initialLoginError: action.error,
         checkedInitialLogin: true,
         user: null,
+        token: null,
       };
     case actions.CHECK_LOGIN_SUCCESS:
       return {
@@ -31,11 +38,13 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         user: action.user ? purge(action.user) : null,
+        token: action.token || null,
       };
     case actions.LOGOUT:
       return {
         ...state,
         user: null,
+        token: null,
       };
     case actions.UPDATE_STATUS: {
       return {

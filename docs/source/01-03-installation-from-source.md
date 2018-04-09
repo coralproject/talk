@@ -57,14 +57,11 @@ TALK_REDIS_URL=redis://127.0.0.1:6379
 TALK_ROOT_URL=http://127.0.0.1:3000
 TALK_PORT=3000
 TALK_JWT_SECRET=password
-TALK_FACEBOOK_APP_ID=A-Facebook-App-ID
-TALK_FACEBOOK_APP_SECRET=A-Facebook-App-Secret
 ```
 
 This is the bare minimum needed to start Talk, for more configuration
 variables, check out the [Configuration](/talk/configuration/)
-section. Facebook login above will definitely not work unless you change those
-values as well.
+section.
 
 
 You can now start the application by running:
