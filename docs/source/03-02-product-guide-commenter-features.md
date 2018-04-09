@@ -24,7 +24,7 @@ All levels of comments and replies are able to be linked to via permalink. Perma
 ```text
 https://<your asset url>?commentId=<the comment id>
 ```
-{:.no-copy}
+
 
 ### Threading
 
@@ -44,7 +44,7 @@ talk-stream-comment-level-${depth}
 talk-stream-highlighted-comment
 talk-stream-pending-comment
 ```
-{:.no-copy}
+
 
 ### Automatic Updates
 
