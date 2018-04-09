@@ -18,6 +18,7 @@ const log = (req, res, next) => {
     // Log this out.
     logger.info(
       {
+        traceID: req.id,
         url: req.originalUrl || req.url,
         method: req.method,
         statusCode: res.statusCode,

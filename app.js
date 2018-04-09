@@ -1,4 +1,5 @@
 const express = require('express');
+const trace = require('./middleware/trace');
 const logging = require('./middleware/logging');
 const path = require('path');
 const merge = require('lodash/merge');
@@ -11,6 +12,10 @@ const debug = require('debug')('talk:app');
 const { ENABLE_TRACING, APOLLO_ENGINE_KEY, PORT } = require('./config');
 
 const app = express();
+
+// Add the trace middleware first, it will create a request ID for each request
+// downstream.
+app.use(trace);
 
 //==============================================================================
 // PLUGIN PRE APPLICATION MIDDLEWARE
