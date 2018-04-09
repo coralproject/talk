@@ -1,8 +1,10 @@
 ---
 title: talk-plugin-profile-data
 layout: plugin
+permalink: /plugin/talk-plugin-profile-data/
 plugin:
     name: talk-plugin-profile-data
+    default: true
     provides:
         - Client
         - Server
