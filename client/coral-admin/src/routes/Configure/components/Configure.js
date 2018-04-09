@@ -42,7 +42,7 @@ class Configure extends React.Component {
               {t('configure.tech_settings')}
             </Item>
             <Item itemId="organization" icon="people">
-              {t('configure.organization_settings')}
+              {t('configure.organization_information')}
             </Item>
           </List>
           <div className={styles.saveBox}>

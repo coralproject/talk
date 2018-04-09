@@ -1,3 +1,51 @@
 .label {
   display: block;
 }
+
+.detailList {
+  padding: 0;
+  margin: 0;
+}
+
+.detailLabel {
+  color: #000;
+  font-size: 1.1em;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px; 
+}
+
+.detailValue {
+  padding: 6px 10px;
+  border: solid 1px transparent;
+  display: block;
+  font-size: 1em;
+  border-radius: 2px;
+}
+
+.editable {
+  border-color: grey;
+}
+
+.detailItem {
+  margin-bottom: 16px;
+  list-style: none;
+}
+
+.editButton {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.actionBox {
+  position: absolute;
+  right: 10px;
+  top: 10px; 
+  text-align: center;
+}
+
+.cancelButton {
+  padding: 10px;
+  display: block;
+}
