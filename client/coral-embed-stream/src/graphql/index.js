@@ -247,17 +247,5 @@ export default {
         },
       },
     }),
-    DownloadCommentHistory: () => ({
-      updateQueries: {
-        CoralEmbedStream_Profile: previousData =>
-          update(previousData, {
-            me: {
-              lastAccountDownload: {
-                $set: new Date().toISOString(),
-              },
-            },
-          }),
-      },
-    }),
   },
 };

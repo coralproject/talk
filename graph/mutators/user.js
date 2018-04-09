@@ -9,7 +9,6 @@ const {
   SET_USER_SUSPENSION_STATUS,
   UPDATE_USER_ROLES,
   DELETE_USER,
-  REQUEST_DOWNLOAD_LINK,
 } = require('../../perms/constants');
 
 const setUserUsernameStatus = async (ctx, id, status) => {
@@ -144,10 +143,6 @@ const delUser = async (ctx, id) => {
   await user.remove();
 };
 
-// requestDownloadLink will request the current user's account be available via
-// a download link sent to their email address.
-const requestDownloadLink = async ({ user }) => Users.sendDownloadLink(user);
-
 module.exports = ctx => {
   let mutators = {
     User: {
@@ -160,7 +155,6 @@ module.exports = ctx => {
       setUsername: () => Promise.reject(errors.ErrNotAuthorized),
       stopIgnoringUser: () => Promise.reject(errors.ErrNotAuthorized),
       del: () => Promise.reject(errors.ErrNotAuthorized),
-      requestDownloadLink: () => Promise.reject(errors.ErrNotAuthorized),
     },
   };
 
@@ -199,10 +193,6 @@ module.exports = ctx => {
 
     if (ctx.user.can(DELETE_USER)) {
       mutators.User.del = id => delUser(ctx, id);
-    }
-
-    if (ctx.user.can(REQUEST_DOWNLOAD_LINK)) {
-      mutators.User.requestDownloadLink = () => requestDownloadLink(ctx);
     }
   }
 

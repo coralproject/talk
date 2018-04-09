@@ -13,7 +13,6 @@ module.exports = (user, perm) => {
     case types.VIEW_PROTECTED_SETTINGS:
     case types.VIEW_USER_ROLE:
     case types.VIEW_USER_EMAIL:
-    case types.VIEW_LAST_DOWNLOADED_DATE:
       return check(user, ['ADMIN', 'MODERATOR']);
     case types.LIST_OWN_TOKENS:
       return check(user, ['ADMIN']);

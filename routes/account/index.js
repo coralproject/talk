@@ -9,8 +9,4 @@ router.get('/password/reset', (req, res) => {
   res.render('account/password/reset');
 });
 
-router.get('/download', (req, res) => {
-  res.render('account/download');
-});
-
 module.exports = router;

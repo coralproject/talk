@@ -12,7 +12,6 @@ const {
   LIST_OWN_TOKENS,
   VIEW_USER_STATUS,
   VIEW_USER_EMAIL,
-  VIEW_LAST_DOWNLOADED_DATE,
 } = require('../../perms/constants');
 const { property } = require('lodash');
 
@@ -65,7 +64,6 @@ decorateWithPermissionCheck(
     tokens: [LIST_OWN_TOKENS],
     profiles: [SEARCH_OTHER_USERS],
     comments: [SEARCH_OTHERS_COMMENTS],
-    lastAccountDownload: [VIEW_LAST_DOWNLOADED_DATE],
   },
   checkSelfField('id')
 );

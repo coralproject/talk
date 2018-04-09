@@ -13,7 +13,6 @@ module.exports = (user, perm) => {
     case types.CREATE_ACTION:
     case types.DELETE_ACTION:
     case types.EDIT_COMMENT:
-    case types.REQUEST_DOWNLOAD_LINK:
       // Anyone can do these things if they aren't suspended, banned, or blocked
       // as they're editing their username.
       return !['UNSET', 'REJECTED', 'CHANGED'].includes(

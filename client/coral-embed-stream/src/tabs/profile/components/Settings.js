@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Slot } from 'coral-framework/components';
-import DownloadCommentHistorySection from './DownloadCommentHistorySection';
 
 class Settings extends React.Component {
   render() {
@@ -10,7 +9,6 @@ class Settings extends React.Component {
     return (
       <div>
         <Slot fill="profileSettings" passthrough={slotPassthrough} />
-        <DownloadCommentHistorySection root={root} />
       </div>
     );
   }

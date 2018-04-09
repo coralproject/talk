@@ -14,11 +14,9 @@ const i18n = require('./i18n');
 const Wordlist = require('./wordlist');
 const DomainList = require('./domain_list');
 const Limit = require('./limit');
-const moment = require('moment');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
 const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
-const DOWNLOAD_LINK_SUBJECT = 'download_link';
 
 // SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
 // through during the salting process.
@@ -30,10 +28,6 @@ const loginRateLimiter = new Limit(
   RECAPTCHA_INCORRECT_TRIGGER,
   RECAPTCHA_WINDOW
 );
-
-// downloadLinkLimiter can be used to limit downloads for the user's data to
-// once every 24 hours.
-const downloadLinkLimiter = new Limit('downloadLinkLimiter', 1, '1d');
 
 // Users is the interface for the application to interact with the
 // User through.
@@ -470,59 +464,6 @@ class Users {
       subject: i18n.t('email.confirm.subject'),
       email,
     });
-  }
-
-  static async sendDownloadLink(user) {
-    // Check that the user has not already requested a download within the last
-    // 24 hours.
-    const attempts = await downloadLinkLimiter.get(user.id);
-    if (attempts && attempts >= 1) {
-      throw errors.ErrMaxRateLimit;
-    }
-
-    // Check if the lastAccountDownload time is within 24 hours.
-    if (
-      user.lastAccountDownload &&
-      moment(user.lastAccountDownload)
-        .add(24, 'hours')
-        .isAfter(moment())
-    ) {
-      throw errors.ErrMaxRateLimit;
-    }
-
-    // The account currently does not have a download link, let's record the
-    // download. This will throw an error if a race ocurred and we should stop
-    // now.
-    await downloadLinkLimiter.test(user.id);
-
-    // Generate a token for the download link.
-    const token = await JWT_SECRET.sign(
-      { user: user.id },
-      { jwtid: uuid.v4(), expiresIn: '1d', subject: DOWNLOAD_LINK_SUBJECT }
-    );
-
-    // Send the download link via the user's attached email account.
-    await Users.sendEmail(user, {
-      template: 'download',
-      locals: {
-        token,
-      },
-      subject: i18n.t('email.download.subject'),
-    });
-
-    // Amend the lastAccountDownload on the user.
-    await User.update(
-      { id: user.id },
-      { $set: { lastAccountDownload: new Date() } }
-    );
-  }
-
-  static async verifyDownloadToken(token) {
-    const jwt = await Users.verifyToken(token, {
-      subject: DOWNLOAD_LINK_SUBJECT,
-    });
-
-    return jwt;
   }
 
   static async sendEmail(user, options) {
