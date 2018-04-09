@@ -1,5 +1,5 @@
 const express = require('express');
-const morgan = require('morgan');
+const logging = require('./middleware/logging');
 const path = require('path');
 const merge = require('lodash/merge');
 const helmet = require('helmet');
@@ -30,7 +30,7 @@ plugins.get('server', 'app').forEach(({ plugin, app: callback }) => {
 
 // Add the logging middleware only if we aren't testing.
 if (process.env.NODE_ENV !== 'test') {
-  app.use(morgan('dev'));
+  app.use(logging.log);
 }
 
 if (ENABLE_TRACING && APOLLO_ENGINE_KEY) {
