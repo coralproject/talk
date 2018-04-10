@@ -16,7 +16,7 @@
 }
 
 .detailValue {
-  padding: 6px 10px;
+  padding: 6px 0;
   border: solid 1px transparent;
   display: block;
   font-size: 1em;
@@ -24,6 +24,8 @@
 }
 
 .editable {
+  padding-left: 10px;
+  padding-right: 10px;
   border-color: grey;
 }
 
@@ -32,20 +34,31 @@
   list-style: none;
 }
 
-.editButton {
-  position: absolute;
-  right: 10px;
-  top: 10px;
+.button, .button:disabled {
+  background: white;
+  border: solid 1px grey;
 }
 
 .actionBox {
   position: absolute;
-  right: 10px;
-  top: 10px; 
+  right: 20px;
+  top: 20px;
   text-align: center;
+  width: 100px;
 }
 
 .cancelButton {
   padding: 10px;
   display: block;
+  color: #4f5c67;
+  font-weight: 500;
+  
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.changedSave {
+  background-color: #00796B;
+  color: white;
 }

@@ -123,6 +123,7 @@ es:
     description: "Como Administrador/a puedes modificar la configuración de los comentarios en este artículo"
     domain_list_text: "Agrega dominios permitidos a Talk, por ejemplo tu localhost, staging y ambientes de producción (ej. localhost:3000, staging.domain.com, domain.com)."
     domain_list_title: "Dominios Permitidos"
+    edit_info: "Editar Información"
     edit_comment_timeframe_heading: "Periodo de Tiempo para Edición del Comentario"
     edit_comment_timeframe_text_pre: "Los comentaristas tendrán"
     edit_comment_timeframe_text_post: "segundos para editar sus comentarios."
@@ -148,6 +149,7 @@ es:
     open_stream_configuration: "Este hilo de comentarios está abierto. Al cerrarlo no se podrán publicar nuevos comentarios pero todos los comentarios anteriores aún serán mostrados."
     require_email_verification: "Necesita confirmación su correo"
     require_email_verification_text: "Nuevos usuarios deben confirmar sus correos antes de comentar"
+    save: Guardar
     save_changes: "Guardar Cambios"
     shortcuts: Atajos
     sign_out: "Desconectar"

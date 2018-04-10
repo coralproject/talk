@@ -124,6 +124,7 @@ en:
     description: "As an admin, you can customize the settings for the comment stream for this story:"
     domain_list_text: "Enter the domains you would like to permit for Talk e.g. your local staging and production environments (ex. localhost:3000 staging.domain.com domain.com)."
     domain_list_title: "Permitted Domains"
+    edit_info: "Edit Info"
     edit_comment_timeframe_heading: "Edit Comment Timeframe"
     edit_comment_timeframe_text_pre: "Commenters will have"
     edit_comment_timeframe_text_post: "seconds to edit their comments."
@@ -149,6 +150,7 @@ en:
     open_stream_configuration: "This comment stream is currently open. By closing this comment stream no new comments may be submitted and all previous comments will still be displayed."
     require_email_verification: "Require Email Verification"
     require_email_verification_text: "New Users must verify their email before commenting"
+    save: Save
     save_changes: "Save Changes"
     shortcuts: Shortcuts
     sign_out: "Sign Out"

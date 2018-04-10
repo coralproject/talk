@@ -84,18 +84,21 @@ class ConfigureContainer extends React.Component {
       return <Spinner />;
     }
 
+    const activeSection = this.props.routes[3].path;
+
     return (
       <Configure
         saveChanges={this.saveChanges}
         discardChanges={this.discardChanges}
         saveDialog={this.props.saveDialog}
-        activeSection={this.props.routes[3].path}
+        activeSection={activeSection}
         hideSaveDialog={this.props.hideSaveDialog}
         canSave={this.props.canSave}
         currentUser={this.props.currentUser}
         root={this.props.root}
         settings={this.props.mergedSettings}
         handleSectionChange={this.handleSectionChange}
+        clearPending={this.props.clearPending}
         savePending={this.savePending}
       >
         {this.props.children}

@@ -17,6 +17,12 @@ class OrganizationSettings extends React.Component {
     }));
   };
 
+  disableEditing = () => {
+    this.setState(() => ({
+      editing: false,
+    }));
+  };
+
   updateName = event => {
     const updater = { organizationName: { $set: event.target.value } };
     this.props.updatePending({ updater });
@@ -27,32 +33,56 @@ class OrganizationSettings extends React.Component {
     this.props.updatePending({ updater });
   };
 
+  cancelEditing = () => {
+    this.disableEditing();
+    this.props.clearPending();
+  };
+
+  save = async () => {
+    await this.props.savePending();
+    this.disableEditing();
+  };
+
   render() {
-    const { settings, slotPassthrough } = this.props;
+    const { settings, slotPassthrough, canSave } = this.props;
     return (
       <ConfigurePage title={t('configure.organization_information')}>
         <p>{t('configure.organization_info_copy')}</p>
         <p>{t('configure.organization_info_copy_2')}</p>
         <ConfigureCard>
           {!this.state.editing ? (
-            <Button
-              className={styles.editButton}
-              icon="settings"
-              onClick={this.toggleEditing}
-            >
-              Edit Info
-            </Button>
+            <div className={styles.actionBox}>
+              <Button
+                className={styles.button}
+                icon="settings"
+                onClick={this.toggleEditing}
+                full
+              >
+                {t('configure.edit_info')}
+              </Button>
+            </div>
           ) : (
             <div className={styles.actionBox}>
-              <Button icon="done" onClick={this.toggleEditing}>
-                Save
-              </Button>
-              <a className={styles.cancelButton}>Cancel</a>
+              {canSave ? (
+                <Button
+                  raised
+                  onClick={this.save}
+                  className={styles.changedSave}
+                  icon="check"
+                  full
+                >
+                  {t('configure.save')}
+                </Button>
+              ) : (
+                <Button className={styles.button} disabled icon="check" full>
+                  {t('configure.save')}
+                </Button>
+              )}
+              <a className={styles.cancelButton} onClick={this.cancelEditing}>
+                {t('cancel')}
+              </a>
             </div>
           )}
-
-          {console.log(this.props.slotPassthrough)}
-
           <ul className={styles.detailList}>
             <li className={styles.detailItem}>
               <label
@@ -99,10 +129,13 @@ class OrganizationSettings extends React.Component {
 }
 
 OrganizationSettings.propTypes = {
+  savePending: PropTypes.func.isRequired,
+  clearPending: PropTypes.func.isRequired,
   updatePending: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
   slotPassthrough: PropTypes.object.isRequired,
+  canSave: PropTypes.bool.isRequired,
 };
 
 export default OrganizationSettings;
