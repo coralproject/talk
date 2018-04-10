@@ -1,7 +1,7 @@
 const path = require('path');
 const { pluginsPath } = require('./plugins');
 
-const buildTargets = ['coral-admin', 'coral-docs'];
+const buildTargets = ['coral-admin'];
 
 const buildEmbeds = ['stream'];
 
