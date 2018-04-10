@@ -12,7 +12,7 @@
   font-size: 1.1em;
   font-weight: bold;
   display: block;
-  margin-bottom: 6px; 
+  margin-bottom: 4px;
 }
 
 .detailValue {
@@ -22,6 +22,7 @@
   font-size: 1.1em;
   border-radius: 2px;
   color: #424242;
+  box-sizing: border-box;
 }
 
 .editable {
