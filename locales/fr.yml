@@ -16,7 +16,7 @@ fr:
     send: "Envoyer"
     notify_ban_headline: "Aviser l’utilisateur du bannissement"
     notify_ban_description: "Ceci avisera l’utilisateur par courrier électronique de son bannissement de la communauté"
-    email_message_ban: "Cher {0},\n\nUne personne ayant accès à votre compte a transgressée nos directives communautaires. En conséquences, votre compte a été banni. Vous ne pourrez plus écrire, aimer ou signaler des commentaires. Si vous pensez qu’il s’agit d’une erreur, veuillez contacter notre équipe communautaire."
+    email_message_ban: "Cher {0},\n\nUne personne ayant accès à votre compte a transgressé nos directives communautaires. En conséquence, votre compte a été banni. Vous ne pourrez plus écrire, aimer ou signaler des commentaires. Si vous pensez qu’il s’agit d’une erreur, veuillez contacter notre équipe communautaire."
   bio_offensive: "Cette biographie est offensante"
   cancel: "Annuler"
   confirm_email:
@@ -66,7 +66,7 @@ fr:
     notify_approved: "{0} a approuvé le nom d’utilisateur {1}"
     notify_rejected: "{0} a rejeté le nom d’utilisateur {1}"
     notify_flagged: "{0} a signalé le nom d’utilisateur {1}"
-    notify_changed: "l’utilisateur {0} a modifié son nom d’utilisateur à {1}"
+    notify_changed: "l’utilisateur {0} a modifié son nom d’utilisateur en {1}"
   community:
     account_creation_date: "Date de création du compte"
     active: Actif
@@ -80,7 +80,7 @@ fr:
     dont_like_username: "Ne pas aimer le nom d’utilisateur"
     flaggedaccounts: "Noms d'utilisateurs signalés"
     flags: Signalements
-    impersonating: "Impersonation"
+    impersonating: "Usurpation d’identité"
     loading: "Chargement des résultats"
     moderator: Modérateur
     newsroom_role: "Rôle de la salle de presse"
@@ -154,7 +154,7 @@ fr:
     sign_out: "Se Déconnecter"
     stories: Histoires
     stream_settings: "Paramètres du fil"
-    access_message: "Vous devez être un administrateur pour accéder au paramètres de configuration. Veuillez trouver l'administrateur le plus proche et demandez-lui d'augmenter votre niveau d’accès !"
+    access_message: "Vous devez être un administrateur pour accéder aux paramètres de configuration. Veuillez trouver l'administrateur le plus proche et demandez-lui d'augmenter votre niveau d’accès !"
     suspect_word_title: "Liste des mots suspects"
     suspect_word_text: "Les commentaires contenant ces mots ou expressions (non sensibles à la casse) seront mis en évidence dans le flux de commentaires. Tapez un mot et appuyez sur Entrée ou Tabulation pour ajouter. En option, entrez une liste séparée par des virgules."
     tech_settings: "Paramètres techniques"
@@ -163,7 +163,7 @@ fr:
     wordlist: "Mots interdits"
     save_changes_dialog:
       unsaved_changes: "Modifications non enregistrées"
-      copy: "Vous avez fait une ou plusieures modifications sans enregistrer. Souhaitez vous sauvegarder ou abandonner vos modifications ?"
+      copy: "Vous avez fait une ou plusieurs modifications sans enregistrer. Souhaitez-vous sauvegarder ou abandonner vos modifications ?"
       save_settings: "Enregistrer la configuration"
       discard: "Abandonner"
       cancel: "Annuler"
@@ -174,7 +174,7 @@ fr:
     error_create: "Une erreur lors du changement de nom d’utilisateur"
     fake_comment_body: "Ceci est un exemple de commentaire. Les lecteurs peuvent livrer leurs réflexions et avis avec les salles de presse dans la section des commentaires."
     fake_comment_date: "il y a 1 minute"
-    if_you_dont_change_your_name: "Si vous ne modifier pas votre nom d’utilisateur à cette étape, votre nom d’affichage Facefook apparaîtra avec tous vos commentaires."
+    if_you_dont_change_your_name: "Si vous ne modifiez pas votre nom d’utilisateur à cette étape, votre nom d’affichage Facefook apparaîtra avec tous vos commentaires."
     required_field: "Champ obligatoire"
     save: Sauvegarder
     special_characters: "Les noms d'utilisateur ne peuvent contenir que des lettres, des chiffres et \"_\""
@@ -202,17 +202,17 @@ fr:
       has_been_requested: "Une confirmation de l’adresse électronique a été demandée pour le compte suivant :"
       to_confirm: "Pour confirmer le compte, veuillez suivre le lien suivant :"
       confirm_email: "Confirmer l’adresse électronique"
-      if_you_did_not: "Si vous n'avez pas fait cette requête, vous pouvez ignorer ce courriel en toute sécurité."
+      if_you_did_not: "Si vous n’êtes pas à l’origine de cette requête, vous pouvez ignorer ce courriel en toute sécurité."
       subject: "Confirmation adresse électronique"
     password_reset:
       we_received_a_request: "Nous avons reçu une demande de réinitialisation de votre mot de passe. Si vous n'avez pas demandé cette modification, vous pouvez ignorer ce courriel."
-      if_you_did: "Si vous avez fait cette requête,"
+      if_you_did: "Si vous êtes à l’origine de cette requête,"
       please_click: "veuillez cliquez ici pour réinitialiser le mot de passe"
   embedlink:
     copy: "Copier dans le presse-papier"
   error:
     COMMENT_PARENT_NOT_VISIBLE: "Le commentaire auquel vous répondez a été supprimé ou n’existe plus."
-    EMAIL_VERIFICATION_TOKEN_INVALID: "Le code de vérification de l'adresse électronique Email n'est pas valide."
+    EMAIL_VERIFICATION_TOKEN_INVALID: "Le code de vérification de l'adresse électronique n'est pas valide."
     EMAIL_ALREADY_VERIFIED: "Adresse électronique déjà vérifiée."
     PASSWORD_RESET_TOKEN_INVALID: "Votre lien de réinitialisation de mot de passe n'est pas valide."
     COMMENT_TOO_SHORT: "Votre commentaire doit contenir quelque chose"
@@ -289,7 +289,7 @@ fr:
        user:
          username_offensive: "Offensive"
          username_nolike: "Dislike"
-         username_impersonating: "Impersonation"
+         username_impersonating: "Usurpation d’identité"
          username_spam: "Spam"
          username_other: "Autre"
        comment:
@@ -299,7 +299,7 @@ fr:
          comment_other: "Autre"
          suspect_word: "Mot suspect"
          banned_word: "Mot banni"
-         body_count: "Le texte dépasse la longueure maximale"
+         body_count: "Le texte dépasse la longueur maximale"
          trust: "Trust"
          links: "Lien"
   modqueue:
@@ -311,7 +311,7 @@ fr:
     notify_accepted: '{0} a accepté le commentaire "{1}"'
     notify_rejected: '{0} a rejeté le commentaire "{1}"'
     notify_flagged: '{0} a signalé le commentaire "{1}"'
-    notify_reset: '{0} a réinitialisé le status du commentaire "{1}"'
+    notify_reset: '{0} a réinitialisé le statut du commentaire "{1}"'
     approve: "Approuver"
     approved: "Approuvé"
     ban_user: "Bannir"
@@ -438,7 +438,7 @@ fr:
     remove_suspension: "Lever la suspension"
     suspend: "Suspendre l’utilisateur"
     remove_ban: "Lever le bannissement"
-    ban: "Banir l’utilisateur"
+    ban: "Bannir l’utilisateur"
     member_since: "Membre depuis"
     email: "adresse électronique"
     total_comments: "Nombre total de commentaires"
