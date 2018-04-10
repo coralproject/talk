@@ -23,6 +23,7 @@ fr:
     click_to_confirm: "Click below to confirm your email address"
     confirm: "Confirm"
   password_reset:
+    mail_sent: 'If you have a registered account, a password reset link was sent to that email'
     set_new_password: "Change Your Password"
     new_password: "New Password"
     new_password_help: "Password must be at least 8 characters"
@@ -153,12 +154,19 @@ fr:
     sign_out: "Se Déconnecter"
     stories: Histoires
     stream_settings: "Paramètres du fil"
+    access_message: "You must be an administrator to access config settings. Please find the nearest Admin and ask them to level you up!"
     suspect_word_title: "Liste des mots suspects"
     suspect_word_text: "Les commentaires contenant ces mots ou expressions (non sensibles à la casse) seront mis en évidence dans le flux de commentaires. Tapez un mot et appuyez sur Entrée ou Tabulation pour ajouter. En option, entrez une liste séparée par des virgules."
     tech_settings: "Paramètres techniques"
     title: "Configurer le fil de commentaires"
     weeks: Semaines
     wordlist: "Mots interdits"
+    save_changes_dialog:
+      unsaved_changes: "Unsaved changes"
+      copy: "You have made one or more changes without saving. Would you like to save or discard your changes?"
+      save_settings: "Save Settings"
+      discard: "Discard"
+      cancel: "Cancel"
   continue: Continuer
   createdisplay:
     check_the_form: "Invalid Form. Please check the fields"
@@ -205,6 +213,7 @@ fr:
   error:
     COMMENT_PARENT_NOT_VISIBLE: "The comment that you're replying to has been removed or doesn't exist."
     EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
+    EMAIL_ALREADY_VERIFIED: "Email address already verified."
     PASSWORD_RESET_TOKEN_INVALID: "Your password reset link is invalid."
     COMMENT_TOO_SHORT: "Votre commentaire doit contenir quelque chose"
     NOT_AUTHORIZED: "Vous n'êtes pas autorisé à effectuer cette action."
@@ -357,6 +366,9 @@ fr:
   report_notif: "Merci de signaler ce commentaire. Notre équipe de modération a é té informée."
   report_notif_remove: "Votre signalement a été supprimé."
   reported: Signalé
+  comment_history_blank:
+    title: You have not written any comments
+    info: A history of your comments will appear here
   settings:
     from_settings_page: "Dans la page Profil, vous pouvez voir l'historique de vos commentaires."
     my_comment_history: "Mon historique de commentaires"
@@ -395,6 +407,8 @@ fr:
     one_hour: "1 heure"
     hours: "{0} heures"
     days: "{0} jours"
+    hour: "{0} hours"
+    day: "{0} days"
     cancel: "Annuler"
     suspend_user: "Suspendre l'utilisateur"
     email_message_suspend: "Cher {0},\n\nConformément à la charte des commentaires de {1}, votre compte a été temporairement suspendu. Pendant cette période, vous ne pourrez pas commenter, signaler ou participer à d'autres commentaires. \n\nMerci de revenir dans la conversation {2}."
