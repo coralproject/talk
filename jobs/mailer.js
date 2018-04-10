@@ -4,7 +4,6 @@ const { createLogger } = require('../services/logging');
 const logger = createLogger('jobs:mailer');
 const Context = require('../graph/context');
 const { get } = require('lodash');
-
 const {
   SMTP_HOST,
   SMTP_USERNAME,
@@ -12,6 +11,7 @@ const {
   SMTP_PASSWORD,
   SMTP_FROM_ADDRESS,
 } = require('../config');
+const { ErrMissingEmail } = require('../errors');
 
 // parseSMTPPort will return the port for SMTP.
 const parseSMTPPort = () => {
@@ -99,7 +99,7 @@ const getEmailAddress = async ({ email, user }) => {
 
     const email = get(data, 'user.email');
     if (!email) {
-      throw errors.ErrMissingEmail;
+      throw new ErrMissingEmail();
     }
 
     return email;

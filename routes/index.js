@@ -2,7 +2,7 @@ const SetupService = require('../services/setup');
 const authentication = require('../middleware/authentication');
 const cookieParser = require('cookie-parser');
 const enabled = require('debug').enabled;
-const errors = require('../errors');
+const { TalkError, ErrNotFound } = require('../errors');
 const express = require('express');
 const i18n = require('../middleware/i18n');
 const path = require('path');
@@ -149,19 +149,19 @@ router.use(require('./plugins'));
 
 // Catch 404 and forward to error handler.
 router.use((req, res, next) => {
-  next(errors.ErrNotFound);
+  next(new ErrNotFound());
 });
 
 // General API error handler. Respond with the message and error if we have it
 // while returning a status code that makes sense.
 router.use('/api', (err, req, res, next) => {
-  if (err !== errors.ErrNotFound) {
+  if (!(err instanceof ErrNotFound)) {
     if (process.env.NODE_ENV !== 'test' || enabled('talk:errors')) {
       console.error(err);
     }
   }
 
-  if (err instanceof errors.APIError) {
+  if (err instanceof TalkError) {
     res.status(err.status).json({
       message: res.locals.t(`error.${err.translation_key}`),
       error: err,
@@ -172,11 +172,11 @@ router.use('/api', (err, req, res, next) => {
 });
 
 router.use('/', (err, req, res, next) => {
-  if (err !== errors.ErrNotFound) {
+  if (!(err instanceof ErrNotFound)) {
     console.error(err);
   }
 
-  if (err instanceof errors.APIError) {
+  if (err instanceof TalkError) {
     res.status(err.status);
     res.render('error', {
       message: res.locals.t(`error.${err.translation_key}`),
