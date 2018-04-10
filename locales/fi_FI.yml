@@ -146,7 +146,7 @@ fi_FI:
     moderation_settings: "Moderointiasetukset"
     open: "Avaa"
     open_stream: "Avaa kommentointi"
-    open_stream_configuration: "Tämän artikkelin kommentointi on tällä hetkellä auki. Jos se suljetaan, ei kommentointi ole enää mahdollista, mutta vanhat kommentit jäävät näkyviin.
+    open_stream_configuration: "Tämän artikkelin kommentointi on tällä hetkellä auki. Jos se suljetaan, ei kommentointi ole enää mahdollista, mutta vanhat kommentit jäävät näkyviin."
     require_email_verification: "Vaadi sähköpostin vahvistus"
     require_email_verification_text: "Uusien käyttäjien täytyy vahvistaa sähköpostiosoitteensa ennen kommentoinnin aloittamista"
     save_changes: "Tallenna muutokset"
@@ -180,7 +180,7 @@ fi_FI:
     save_button: "Tallenna muutokset"
     edit_window_expired: "Et voi enää muokata tätä kommenttia, koska muokkauksen aikaikkuna on umpeutunut. Jätä sen sijaan uusi kommentti?"
     edit_window_expired_close: "Sulje"
-    edit_window_timer_prefix: "Muokkaa aikaikkunaa: "
+    edit_window_timer_prefix: "Muokkauksen aikaikkunaa jäljellä: "
     second: "sekunti"
     seconds_plural: "sekuntia"
     minute: "minuutti"
@@ -216,7 +216,7 @@ fi_FI:
     USERNAME_IN_USE: "Käyttäjänimi jo käytössä"
     USERNAME_REQUIRED: "Syötä käyttäjänimi"
     EMAIL_NOT_VERIFIED: "Sähköpostiosoitetta ei ole vahvistettu"
-    EDIT_WINDOW_ENDED: ""Et voi enää muokata tätä kommenttia, koska muokkauksen aikaikkuna on umpeutunut."
+    EDIT_WINDOW_ENDED: "Et voi enää muokata tätä kommenttia, koska muokkauksen aikaikkuna on umpeutunut."
     EDIT_USERNAME_NOT_AUTHORIZED: "Sinulla ei ole oikeutta päivittää tai muokata käyttäjänimeä."
     SAME_USERNAME_PROVIDED: "Anna eri käyttäjänimi."
     EMAIL_IN_USE: "Sähköpostiosoite on jo käytössä"
@@ -241,13 +241,13 @@ fi_FI:
     temporarily_suspended: "Tilisi on suljettu väliaikaisesti. Se aktivoituu uudelleen {0}. Ota yhteyttä, jos on sinulla on aiheesta kysyttävää."
   flag_comment: "Ilmianna kommentti"
   flag_reason: "Ilmiannon syy (ei pakollinen)"
-  flag_username: "Ilmianna käyttäjänimi"
+  flag_username: "Ilmianna käyttäjä"
   framework:
     banned_account_header: "Tilisi on kirjoituskiellossa"
     banned_account_body: "Et pysty kirjoittamaan tai ilmiantamaan kommentteja."
     comment: kommentti
     comment_is_ignored: "Tämä kommentti on piilossa, koska olet päättänyt jättää kommentin kirjoittajan huomiotta."
-    comment_is_rejected: "Olet hylännyt tämän kommentin."
+    comment_is_rejected: "Olet piilottanut tämän kommentin."
     comment_is_hidden: "Tämä kommentti ei ole saatavilla."
     comments: kommentit
     configure_stream: "Muokkaa asetuksia"
@@ -311,7 +311,7 @@ fi_FI:
     close: Sulje
     empty_queue: "Moderointijono on tyhjä."
     flagged: liputettu
-    reported: raportoitu
+    reported: ilmiannettu
     less_detail: "Vähemmän yksityiskohtia"
     likes: tykkäyksiä
     million: milj.
@@ -373,8 +373,8 @@ fi_FI:
     no_comments: "Ei vielä kommentteja."
     no_comments_and_closed: "Tässä artikkelissa ei vielä ollut kommentteja."
   step_1_header: "Ilmianna ongelma"
-  step_2_header: "Auta meitä ymmärtämään"
-  step_3_header: "Kiitos panostuksestasi"
+  step_2_header: "Kerro ilmiannon syy"
+  step_3_header: "Kiitos panoksestasi"
   streams:
     all: Kaikki
     article: Artikkeli
@@ -462,4 +462,4 @@ fi_FI:
       close: "Sulje asennusnäkymä"
   admin_sidebar:
     view_options: "Näytä asetukset"
-    sort_comments: "Järjestä kommentit"
+sort_comments: "Järjestä kommentit"
