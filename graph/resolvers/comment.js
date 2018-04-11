@@ -1,6 +1,14 @@
 const { property } = require('lodash');
-const { SEARCH_ACTIONS } = require('../../perms/constants');
-const { decorateWithTags, decorateWithPermissionCheck } = require('./util');
+const {
+  SEARCH_ACTIONS,
+  SEARCH_COMMENT_STATUS_HISTORY,
+  VIEW_BODY_HISTORY,
+} = require('../../perms/constants');
+const {
+  decorateWithTags,
+  decorateWithPermissionCheck,
+  checkSelfField,
+} = require('./util');
 
 const Comment = {
   hasParent({ parent_id }) {
@@ -64,5 +72,15 @@ decorateWithTags(Comment);
 decorateWithPermissionCheck(Comment, {
   actions: [SEARCH_ACTIONS],
 });
+
+// Protect privileged fields.
+decorateWithPermissionCheck(
+  Comment,
+  {
+    status_history: [SEARCH_COMMENT_STATUS_HISTORY],
+    body_history: [VIEW_BODY_HISTORY],
+  },
+  checkSelfField('author_id')
+);
 
 module.exports = Comment;
