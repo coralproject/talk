@@ -1,5 +1,5 @@
 const ms = require('ms');
-const errors = require('../errors');
+const { ErrMaxRateLimit } = require('../errors');
 const { createClientFactory } = require('./redis');
 const client = createClientFactory();
 
@@ -60,7 +60,7 @@ class Limit {
     }
 
     if (tries > this.max) {
-      throw errors.ErrMaxRateLimit;
+      throw new ErrMaxRateLimit(this.max, tries);
     }
 
     return tries;

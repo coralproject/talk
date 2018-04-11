@@ -1,7 +1,5 @@
 const Redis = require('ioredis');
 const merge = require('lodash/merge');
-const debug = require('debug')('talk:services:redis');
-const enabled = require('debug').enabled('talk:services:redis');
 const {
   REDIS_URL,
   REDIS_RECONNECTION_BACKOFF_FACTOR,
@@ -9,29 +7,32 @@ const {
   REDIS_CLIENT_CONFIG,
   REDIS_CLUSTER_MODE,
   REDIS_CLUSTER_CONFIGURATION,
+  LOGGING_LEVEL,
 } = require('../config');
+const { createLogger } = require('./logging');
+const logger = createLogger('redis');
 
 const attachMonitors = client => {
-  debug('client created');
+  logger.debug('client created');
 
   // Debug events.
-  if (enabled) {
-    client.on('connect', () => debug('client connected'));
-    client.on('ready', () => debug('client ready'));
-    client.on('close', () => debug('client closed the connection'));
+  if (['debug', 'trace'].includes(LOGGING_LEVEL)) {
+    client.on('connect', () => logger.info('client connected'));
+    client.on('ready', () => logger.debug('client ready'));
+    client.on('close', () => logger.debug('client closed the connection'));
     client.on('reconnecting', () =>
-      debug('client connection lost, attempting to reconnect')
+      logger.debug('client connection lost, attempting to reconnect')
     );
-    client.on('end', () => debug('client ended'));
+    client.on('end', () => logger.debug('client ended'));
   }
 
   // Error events.
   client.on('error', err => {
     if (err) {
-      console.error('Error connecting to redis:', err);
+      logger.error({ err }, 'cannot connect to redis');
     }
   });
-  client.on('node error', err => debug('node error', err));
+  client.on('node error', err => logger.error({ err }, 'node error'));
 };
 
 function retryStrategy(times) {
@@ -40,7 +41,7 @@ function retryStrategy(times) {
     REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME
   );
 
-  debug(`retry strategy: try to reconnect ${delay} ms from now`);
+  logger.debug(`retry strategy: try to reconnect ${delay} ms from now`);
 
   return delay;
 }

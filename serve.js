@@ -1,5 +1,5 @@
 const app = require('./app');
-const errors = require('./errors');
+const { ErrSettingsInit, ErrInstallLock } = require('./errors');
 const { createServer } = require('http');
 const jobs = require('./jobs');
 const MigrationService = require('./services/migration');
@@ -95,20 +95,16 @@ async function serve({
     await SetupService.isAvailable();
 
     logger.info('Setup is currently available, migrations not being checked');
-  } catch (e) {
+  } catch (err) {
     // Check the error.
-    switch (e) {
-      case errors.ErrInstallLock:
-      case errors.ErrSettingsInit:
-        logger.info(
-          'Setup is not currently available, migrations now being checked'
-        );
-
-        // The error was expected, just continue.
-        break;
-      default:
-        // The error was not expected, throw the error!
-        throw e;
+    if (err instanceof ErrInstallLock || err instanceof ErrSettingsInit) {
+      // The error was expected, just continue.
+      logger.info(
+        'Setup is not currently available, migrations now being checked'
+      );
+    } else {
+      // The error was not expected, throw the error!
+      throw err;
     }
 
     // Now try and check the migration status.
