@@ -25,7 +25,11 @@ import { createIntrospection } from 'coral-framework/services/introspection';
 import introspectionData from 'coral-framework/graphql/introspection.json';
 import coreReducers from '../reducers';
 import { checkLogin as checkLoginAction } from '../actions/auth';
-import { mergeConfig } from '../actions/config';
+import {
+  mergeConfig,
+  enablePluginsDebug,
+  disablePluginsDebug,
+} from '../actions/config';
 import { setAuthToken, logout } from '../actions/auth';
 
 /**
@@ -43,6 +47,12 @@ const getAuthToken = (store, storage) => {
   } else if (!bowser.safari && !bowser.ios && storage) {
     // Use local storage auth tokens where there's a stable api.
     return storage.getItem('token');
+  } else if (state.auth && state.auth.token) {
+    // Use the redux token state if the remaining methods fall out. If the embed
+    // is called with `embed.login(token)`, and the browser is not capable of
+    // storing the token in localStorage, then we would have persisted it to the
+    // redux state.
+    return state.auth.token;
   }
 
   return null;
@@ -62,8 +72,19 @@ function initExternalConfig({ store, pym, inIframe }) {
   }
   return new Promise(resolve => {
     pym.sendMessage('getConfig');
-    pym.onMessage('config', config => {
-      store.dispatch(mergeConfig(JSON.parse(config)));
+    pym.onMessage('config', rawConfig => {
+      const config = JSON.parse(rawConfig);
+      if (config.plugin_config) {
+        // @Deprecated
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn(
+            'Deprecation Warning: `config.plugin_config` will be phased out soon, please replace `config.plugin_config  with `config.plugins_config`'
+          );
+        }
+        config.plugins_config = config.plugin_config;
+        delete config.plugin_config;
+      }
+      store.dispatch(mergeConfig(config));
       resolve();
     });
   });
@@ -108,7 +129,7 @@ export async function createContext({
     // Try to get the token from localStorage. If it isn't here, it may
     // be passed as a cookie.
 
-    // NOTE: THIS IS ONLY EVER EVALUATED ONCE, IN ORDER TO SEND A DIFFERNT
+    // NOTE: THIS IS ONLY EVER EVALUATED ONCE, IN ORDER TO SEND A DIFFERENT
     // TOKEN YOU MUST DISCONNECT AND RECONNECT THE WEBSOCKET CLIENT.
     return getAuthToken(store, localStorage);
   };
@@ -214,6 +235,14 @@ export async function createContext({
 
     pym.onMessage('logout', () => {
       store.dispatch(logout());
+    });
+
+    pym.onMessage('enablePluginsDebug', () => {
+      store.dispatch(enablePluginsDebug());
+    });
+
+    pym.onMessage('disablePluginsDebug', () => {
+      store.dispatch(disablePluginsDebug());
     });
   }
 

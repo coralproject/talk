@@ -1,3 +1,15 @@
+ar:
+  talk-plugin-moderation-actions:
+    reject_comment: "رفض"
+    approve_comment: "موافقة"
+    approved_comment: "موافق عليه"
+    moderation_actions: "إجراءات الإشراف"
+    ban_user: "حجب المستخدم"
+    ban_user_dialog_sub: "هل أنت متأكد أنك تريد حجب هذا المستخدم؟"
+    ban_user_dialog_copy: "ملاحظة: سيؤدي حجب هذا المستخدم أيضا إلى وضع هذا التعليق في قائمة الرفض."
+    ban_user_dialog_cancel: "إلغاء"
+    ban_user_dialog_yes: "نعم، احجب المستخدم"
+    ban_user_dialog_headline: "احجب المستخدم؟"
 da:
   talk-plugin-moderation-actions:
     reject_comment: "Reject"

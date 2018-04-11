@@ -1,0 +1,14 @@
+.content {
+  blockquote {
+    background-color: #F6F6F6;
+    padding: 10px;
+    margin: 20px 0px 20px 10px;
+    border-radius: 2px;
+    &::after {
+      content: none;
+    }
+    &::before {
+      content: none;
+    }
+  }
+}

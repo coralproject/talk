@@ -63,6 +63,7 @@ export default class Embed extends React.Component {
     } = this.props;
     const hasHighlightedComment = !!commentId;
     const popupUrl = `login?parentUrl=${encodeURIComponent(parentUrl)}`;
+    const slotPassthrough = { root };
 
     return (
       <div
@@ -84,7 +85,7 @@ export default class Embed extends React.Component {
           />
         </IfSlotIsNotEmpty>
 
-        <Slot data={data} queryData={{ root }} fill="embed" />
+        <Slot passthrough={slotPassthrough} fill="embed" />
 
         <ExtendableTabPanel
           className="talk-embed-stream-tab-bar"
@@ -94,8 +95,7 @@ export default class Embed extends React.Component {
           tabSlot="embedStreamTabs"
           tabSlotPrepend="embedStreamTabsPrepend"
           tabPaneSlot="embedStreamTabPanes"
-          slotProps={{ data }}
-          queryData={{ root }}
+          slotPassthrough={slotPassthrough}
           tabs={this.getTabs()}
           tabPanes={[
             <TabPane
@@ -138,9 +138,5 @@ Embed.propTypes = {
   commentId: PropTypes.string,
   root: PropTypes.object,
   activeTab: PropTypes.string,
-  data: PropTypes.shape({
-    loading: PropTypes.bool,
-    error: PropTypes.object,
-    refetch: PropTypes.func,
-  }).isRequired,
+  data: PropTypes.object.isRequired,
 };

@@ -12,19 +12,23 @@ You're just one click away from trying Talk - all you need is a Heroku account a
 
 ## Technical Documentation
 
-From getting up and running, to advanced configuration, to how to scale Talk, our [Talk Technical Docs](https://coralproject.github.io/talk/) have everything you need to know.
+From getting up and running, to advanced configuration, to how to scale Talk, our [Talk Technical Docs](https://docs.coralproject.net/talk/) have everything you need to know.
 
 ## Product Guide
 
-Learn more about Talk, including a deep dive into features for commenters and moderators, and FAQs in our [Talk Product Guide](https://coralproject.github.io/talk/how-talk-works).
+Learn more about Talk, including a deep dive into features for commenters and moderators, and FAQs in our [Talk Product Guide](https://docs.coralproject.net/talk/how-talk-works).
 
-## Relevant Links
+## Pre-Launch Guide
 
+You’ve installed Talk on your server, and you’re preparing to launch it on your site. The real community work starts now, before you go live. You have a unique opportunity pre-launch to set your community up for success. Read our [Talk Community Guide](https://blog.coralproject.net/youve-installed-talk-now-what/).
+
+## More Resources
+
+- [Talk Product Roadmap](https://www.pivotaltracker.com/n/projects/1863625)
 - [Our Blog](https://blog.coralproject.net/)
 - [Community Forums](https://community.coralproject.net/)
 - [Community Guides for Journalism](https://guides.coralproject.net/)
 - [More About Us](https://coralproject.net/)
-- [Talk Roadmap](https://www.pivotaltracker.com/n/projects/1863625)
 
 ## End-to-End Testing
 

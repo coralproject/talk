@@ -16,8 +16,10 @@ describe('graph.mutations.editComment', () => {
   beforeEach(async () => {
     timekeeper.reset();
     await SettingsService.init();
+    const ctx = Context.forSystem();
     asset = await AssetModel.create({});
     user = await UsersService.createLocalUser(
+      ctx,
       'usernameA@example.com',
       'password',
       'usernameA'
@@ -124,7 +126,9 @@ describe('graph.mutations.editComment', () => {
       body: `hello there! ${String(Math.random()).slice(2)}`,
     });
 
+    const ctx = Context.forSystem();
     const userB = await UsersService.createLocalUser(
+      ctx,
       'usernameB@example.com',
       'password',
       'usernameB'

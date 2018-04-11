@@ -1,41 +1,18 @@
 import React from 'react';
 import ExtendableTabPanel from '../components/ExtendableTabPanel';
-import { connect } from 'react-redux';
 import { TabPane } from 'coral-ui';
 import ExtendableTab from '../components/ExtendableTab';
-import { getShallowChanges } from 'coral-framework/utils';
-import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
+import { withSlotElements } from 'coral-framework/hocs';
+import { compose } from 'recompose';
 
 class ExtendableTabPanelContainer extends React.Component {
-  static contextTypes = {
-    plugins: PropTypes.object,
-  };
-
   componentDidMount() {
     this.handleFallback();
   }
 
   componentWillReceiveProps(next) {
     this.handleFallback(next);
-  }
-
-  shouldComponentUpdate(next) {
-    // Prevent Slot from rerendering when only reduxState has changed and
-    // it does not result in a change of slot children.
-    const changes = getShallowChanges(this.props, next);
-    if (changes.length === 1 && changes[0] === 'reduxState') {
-      const prevKeys = this.getSlotElements(this.props.tabSlot, this.props).map(
-        el => el.key
-      );
-      const nextKeys = this.getSlotElements(next.tabSlot, next).map(
-        el => el.key
-      );
-      return !isEqual(prevKeys, nextKeys);
-    }
-
-    // Prevent Slot from rerendering when no props has shallowly changed.
-    return changes.length !== 0;
   }
 
   handleFallback(props = this.props) {
@@ -48,38 +25,23 @@ class ExtendableTabPanelContainer extends React.Component {
     return this.getTabElements(props).map(el => el.props.tabId);
   }
 
-  getSlotElements(slot, props = this.props) {
-    const { plugins } = this.context;
-    return plugins.getSlotElements(
-      slot,
-      props.reduxState,
-      props.slotProps,
-      props.queryData
-    );
-  }
-
   getPluginTabElements(props = this.props) {
-    return this.getSlotTabElements(props.tabSlot);
+    return props.slotElements[0].map(this.createPluginTabFactory(props));
   }
 
   getPluginTabElementsPrepend(props = this.props) {
-    return this.getSlotTabElements(props.tabSlotPrepend);
+    return props.slotElements[1].map(this.createPluginTabFactory(props));
   }
 
-  getSlotTabElements(slot) {
-    return this.getSlotElements(slot).map(el => {
-      return (
-        <ExtendableTab
-          tabId={el.type.talkPluginName}
-          key={el.type.talkPluginName}
-        >
-          {React.cloneElement(el, {
-            active: this.props.activeTab === el.type.talkPluginName,
-          })}
-        </ExtendableTab>
-      );
-    });
-  }
+  createPluginTabFactory = (props = this.props) => el => {
+    return (
+      <ExtendableTab tabId={el.key} key={el.key}>
+        {React.cloneElement(el, {
+          active: props.activeTab === el.key,
+        })}
+      </ExtendableTab>
+    );
+  };
 
   getTabElements(props = this.props) {
     const elements = [...this.getPluginTabElementsPrepend(props)];
@@ -92,14 +54,16 @@ class ExtendableTabPanelContainer extends React.Component {
     return elements;
   }
 
+  createPluginTabPane(el) {
+    return (
+      <TabPane tabId={el.key} key={el.key}>
+        {el}
+      </TabPane>
+    );
+  }
+
   getPluginTabPaneElements(props = this.props) {
-    return this.getSlotElements(props.tabPaneSlot).map(el => {
-      return (
-        <TabPane tabId={el.type.talkPluginName} key={el.type.talkPluginName}>
-          {el}
-        </TabPane>
-      );
-    });
+    return props.slotElements[2].map(this.createPluginTabPane);
   }
 
   render() {
@@ -132,15 +96,15 @@ ExtendableTabPanelContainer.propTypes = {
   tabSlot: PropTypes.string.isRequired,
   tabSlotPrepend: PropTypes.string.isRequired,
   tabPaneSlot: PropTypes.string.isRequired,
-  slotProps: PropTypes.object.isRequired,
-  queryData: PropTypes.object,
+  slotPassthrough: PropTypes.object,
   className: PropTypes.string,
   sub: PropTypes.bool,
   loading: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  reduxState: state,
-});
-
-export default connect(mapStateToProps, null)(ExtendableTabPanelContainer);
+export default compose(
+  withSlotElements({
+    slot: props => [props.tabSlot, props.tabSlotPrepend, props.tabPaneSlot],
+    passthroughPropName: 'slotPassthrough',
+  })
+)(ExtendableTabPanelContainer);

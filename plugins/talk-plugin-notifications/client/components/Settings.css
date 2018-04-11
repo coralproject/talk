@@ -1,6 +1,6 @@
 .root {
   margin-bottom: 20px;
-  width: 380px;
+  max-width: 350px;
 }
 
 .innerSettings {
@@ -29,4 +29,17 @@
 
 .disabled {
   color: #e5e5e5;
+}
+
+.digest {
+  display: flex;
+  align-items: center;
+}
+
+.titleDigest {
+  width: 100%;
+}
+
+.digestDropDown {
+  flex-shrink: 0;
 }

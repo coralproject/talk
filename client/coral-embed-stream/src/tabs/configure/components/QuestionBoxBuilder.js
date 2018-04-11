@@ -1,38 +1,15 @@
 import React from 'react';
 import QuestionBox from '../../../components/QuestionBox';
-import { Icon, Spinner } from 'coral-ui';
 import DefaultQuestionBoxIcon from '../../../components/DefaultQuestionBoxIcon';
 import cn from 'classnames';
 import styles from './QuestionBoxBuilder.css';
+import { Icon } from 'coral-ui';
+import MarkdownEditor from 'coral-framework/components/MarkdownEditor';
 
 const DefaultIcon = <DefaultQuestionBoxIcon className={styles.defaultIcon} />;
-
 const icons = [{ default: DefaultIcon }, 'forum', 'build', 'format_quote'];
 
 class QuestionBoxBuilder extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      loading: true,
-    };
-  }
-
-  componentWillMount() {
-    this.loadEditor();
-  }
-
-  async loadEditor() {
-    const {
-      default: MarkdownEditor,
-    } = await import('coral-framework/components/MarkdownEditor');
-
-    return this.setState({
-      loading: false,
-      MarkdownEditor,
-    });
-  }
-
   render() {
     const {
       questionBoxIcon,
@@ -40,11 +17,6 @@ class QuestionBoxBuilder extends React.Component {
       onContentChange,
       onIconChange,
     } = this.props;
-    const { loading, MarkdownEditor } = this.state;
-
-    if (loading) {
-      return <Spinner />;
-    }
 
     return (
       <div className={styles.root}>

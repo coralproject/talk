@@ -1,3 +1,15 @@
+ar:
+  talk-plugin-ignore-user:
+    section_title: المستخدمون الذين تم تجاهلهم
+    section_info: لأنك تجاهلت المعلقين التاليين، يتم إخفاء تعليقاتهم.
+    stop_ignoring: إيقاف التجاهل
+    ignore_user: تجاهل المستخدم
+    cancel: إلغاء
+    confirmation: |
+      عند تجاهل المستخدم، سيتم إخفاء جميع التعليقات التي كتبها على الموقع منك. يمكنك التراجع عن هذا لاحقا من ملفي الشخصي.
+    notify_success: |
+      أنت الآن تتجاهل {0}. يمكنك التراجع عن هذا الإجراء من ملفي الشخصي.
+    confirmation_title: تجاهل {0}؟
 da:
   talk-plugin-ignore-user:
     section_title: Ignored users

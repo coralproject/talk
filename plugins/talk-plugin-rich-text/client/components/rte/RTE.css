@@ -1,0 +1,29 @@
+.contentEditable {
+  background: #fff;
+  border: solid 1px #bbb;
+  min-height: 120px;
+  box-sizing: border-box;
+  outline: 0;
+  overflow-y: auto;
+  width: 100%;
+  padding: 10px;
+  font-style: unset;
+  margin-bottom: 3px;
+}
+
+.placeholder {
+  position: absolute;
+  margin: 12px 0 0 12px;
+  color: #bbb;
+}
+
+.toolbarDisabled {
+  background: #f8f8f8;
+  cursor: default;
+}
+
+.contentEditableDisabled {
+  background: #fafafa;
+  color: #888;
+  cursor: default;
+}

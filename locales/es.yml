@@ -153,12 +153,19 @@ es:
     sign_out: "Desconectar"
     stories: Artículos
     stream_settings: "Configuración de Comentarios"
+    access_message: "Usted debe ser un administrador para acceder a esta página. Encuentre a otro admin y actualice los permisos de su cuenta!"
     suspect_word_title: "Lista de palabras sospechosas"
     suspect_word_text: "Comentarios que contengan estas palabras o frases, considerando mayusculas y minúsculas, serán automáticamente  destacadas en los comentarios publicados. Escribir una palabra y apretar Enter o Tabulador para agregarla. O pegar una lista de palabras separadas por coma."
     tech_settings: "Configuración Técnica"
     title: "Configurar los comentarios"
     weeks: Semanas
     wordlist: "Palabras Suspendidas"
+    save_changes_dialog:
+      unsaved_changes: "Cambios no guardados"
+      copy: Has hecho uno o más cambios sin guardar. Deseas guardar o descartar tus cambios?"
+      save_settings: "Guardar configuración"
+      discard: "Descartar"
+      cancel: "Cancelar"
   continue: "Continuar"
   createdisplay:
     check_the_form: "Formulario Inválido. Por favor verifica los campos"
@@ -351,7 +358,7 @@ es:
   personal_info: "Este comentario muestra información personal"
   post: Publicar
   profile: Perfil
-  profile_settings: "Configuración del Perfil"
+  profile_settings: "Configuración"
   reply: Responder
   report: Reportar
   report_notif: "Gracias por reportar este comentario. Nuestro equipo de moderación ha sido notificado y muy pronto lo va a revisar."

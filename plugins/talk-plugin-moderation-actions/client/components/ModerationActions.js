@@ -16,11 +16,15 @@ export default class ModerationActions extends React.Component {
       comment,
       root,
       asset,
-      data,
       menuVisible,
       toogleMenu,
       hideMenu,
     } = this.props;
+
+    const slotPassthrough = {
+      comment,
+      asset,
+    };
 
     return (
       <ClickOutside onClickOutside={hideMenu}>
@@ -41,12 +45,11 @@ export default class ModerationActions extends React.Component {
             )}
           </span>
           {menuVisible && (
-            <Menu className="talk-plugin-modetarion-actions-menu">
+            <Menu className="talk-plugin-moderation-actions-menu">
               <Slot
-                className="talk-plugin-modetarion-actions-slot"
+                className="talk-plugin-moderation-actions-slot"
                 fill="moderationActions"
-                queryData={{ comment, asset }}
-                data={data}
+                passthrough={slotPassthrough}
               />
               <ApproveCommentAction comment={comment} hideMenu={hideMenu} />
               <RejectCommentAction comment={comment} hideMenu={hideMenu} />
@@ -67,7 +70,6 @@ ModerationActions.propTypes = {
   comment: PropTypes.object,
   root: PropTypes.object,
   asset: PropTypes.object,
-  data: PropTypes.object,
   menuVisible: PropTypes.bool,
   toogleMenu: PropTypes.func,
   hideMenu: PropTypes.func,

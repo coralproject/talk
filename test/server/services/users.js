@@ -1,6 +1,7 @@
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
 const mailer = require('../../../services/mailer');
+const Context = require('../../../graph/context');
 
 const chai = require('chai');
 chai.use(require('chai-as-promised'));
@@ -18,23 +19,28 @@ describe('services.UsersService', () => {
     };
 
     await SettingsService.init(settings);
-    mockUsers = await UsersService.createLocalUsers([
-      {
-        email: 'stampi@gmail.com',
-        username: 'Stampi',
-        password: '1Coral!-',
-      },
-      {
-        email: 'sockmonster@gmail.com',
-        username: 'Sockmonster',
-        password: '2Coral!2',
-      },
-      {
-        email: 'marvel@gmail.com',
-        username: 'Marvel',
-        password: '3Coral!3',
-      },
-    ]);
+    const ctx = Context.forSystem();
+    mockUsers = await Promise.all(
+      [
+        {
+          email: 'stampi@gmail.com',
+          username: 'Stampi',
+          password: '1Coral!-',
+        },
+        {
+          email: 'sockmonster@gmail.com',
+          username: 'Sockmonster',
+          password: '2Coral!2',
+        },
+        {
+          email: 'marvel@gmail.com',
+          username: 'Marvel',
+          password: '3Coral!3',
+        },
+      ].map(({ email, username, password }) =>
+        UsersService.createLocalUser(ctx, email, password, username)
+      )
+    );
 
     sinon.spy(mailer, 'send');
   });
@@ -55,6 +61,19 @@ describe('services.UsersService', () => {
       const ids = mockUsers.map(user => user.id);
       const users = await UsersService.findByIdArray(ids);
       expect(users).to.have.length(3);
+    });
+  });
+
+  describe('#getInitialUsername', () => {
+    it('should find the first result when there is no conflict', async () => {
+      const username = await UsersService.getInitialUsername(
+        'TheGreatSockmonster'
+      );
+      expect(username).to.equal('TheGreatSockmonster');
+    });
+    it('should find a first result when there is a conflict', async () => {
+      const username = await UsersService.getInitialUsername('Sockmonster');
+      expect(username).to.match(/Sockmonster_[0-9]+/);
     });
   });
 
@@ -89,19 +108,16 @@ describe('services.UsersService', () => {
 
   describe('#createLocalUser', () => {
     it('should not create a user with duplicate username', () => {
-      return UsersService.createLocalUsers([
-        {
-          email: 'otrostampi@gmail.com',
-          username: 'StampiTheSecond',
-          password: '1Coralito!',
-        },
-      ])
-        .then(user => {
-          expect(user).to.be.null;
-        })
-        .catch(error => {
-          expect(error).to.not.be.null;
-        });
+      const ctx = Context.forSystem();
+
+      return expect(
+        UsersService.createLocalUser(
+          ctx,
+          'otrostampi@gmail.com',
+          '1Coralito!',
+          'Stampi'
+        )
+      ).be.rejected;
     });
   });
 

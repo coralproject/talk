@@ -1,16 +1,17 @@
 const {
-  SUBSCRIBE_COMMENT_ACCEPTED,
-  SUBSCRIBE_COMMENT_REJECTED,
-  SUBSCRIBE_COMMENT_FLAGGED,
-  SUBSCRIBE_COMMENT_RESET,
-  SUBSCRIBE_ALL_COMMENT_EDITED,
   SUBSCRIBE_ALL_COMMENT_ADDED,
-  SUBSCRIBE_ALL_USER_SUSPENDED,
+  SUBSCRIBE_ALL_COMMENT_EDITED,
   SUBSCRIBE_ALL_USER_BANNED,
-  SUBSCRIBE_ALL_USERNAME_REJECTED,
+  SUBSCRIBE_ALL_USER_CREATED,
+  SUBSCRIBE_ALL_USER_SUSPENDED,
   SUBSCRIBE_ALL_USERNAME_APPROVED,
-  SUBSCRIBE_ALL_USERNAME_FLAGGED,
   SUBSCRIBE_ALL_USERNAME_CHANGED,
+  SUBSCRIBE_ALL_USERNAME_FLAGGED,
+  SUBSCRIBE_ALL_USERNAME_REJECTED,
+  SUBSCRIBE_COMMENT_ACCEPTED,
+  SUBSCRIBE_COMMENT_FLAGGED,
+  SUBSCRIBE_COMMENT_REJECTED,
+  SUBSCRIBE_COMMENT_RESET,
 } = require('../../perms/constants');
 
 const merge = require('lodash/merge');
@@ -139,6 +140,8 @@ const setupFunctions = {
     }
     return !args.user_id || user.id === args.user_id;
   },
+  userCreated: (options, args, user, ctx) =>
+    ctx.user && ctx.user.can(SUBSCRIBE_ALL_USER_CREATED),
 };
 
 /**
@@ -153,19 +156,17 @@ module.exports = plugins.get('server', 'setupFunctions').reduce(
 
     return merge(acc, setupFunctions);
   },
-  Object.keys(setupFunctions)
-    .map(key => {
-      const filter = setupFunctions[key];
-
-      return {
-        [key]: (options, args) => ({
-          [key]: {
-            filter: (user, ctx) => filter(options, args, user, ctx),
-          },
-        }),
-      };
-    })
-    .reduce((setupFunction, setupFunctions) => {
-      return merge(setupFunctions, setupFunction);
-    }, {})
+  // Process the default setupFunctions.
+  Object.entries(setupFunctions)
+    .map(([key, filter]) => ({
+      [key]: (options, args) => ({
+        [key]: {
+          filter: (user, ctx) => filter(options, args, user, ctx),
+        },
+      }),
+    }))
+    .reduce(
+      (setupFunction, setupFunctions) => merge(setupFunctions, setupFunction),
+      {}
+    )
 );

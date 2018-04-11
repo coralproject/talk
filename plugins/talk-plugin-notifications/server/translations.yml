@@ -1,6 +1,8 @@
 en:
   talk-plugin-notifications:
     templates:
+      digest:
+        subject: "Your latest comment activity at {0}"
       footer: "You received this notification because you are a commenter on {0} and you opted in to receive notifications."
       links:
         unsubscribe: "Unsubscribe from comment notifications"

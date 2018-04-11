@@ -126,7 +126,6 @@ class Moderation extends Component {
   render() {
     const {
       root,
-      data,
       moderation,
       viewUserDetail,
       activeTab,
@@ -147,6 +146,13 @@ class Moderation extends Component {
       icon: queueConfig[queue].icon,
       count: root[`${queue}Count`],
     }));
+
+    const slotPassthrough = {
+      root,
+      asset,
+      activeTab,
+      handleCommentChange,
+    };
 
     return (
       <div>
@@ -171,7 +177,6 @@ class Moderation extends Component {
           />
           <ModerationQueue
             key={`${activeTab}_${this.props.moderation.sortOrder}`}
-            data={this.props.data}
             root={this.props.root}
             currentAsset={asset}
             comments={comments.nodes}
@@ -204,13 +209,7 @@ class Moderation extends Component {
           closeSearch={this.closeSearch}
           storySearchChange={this.props.storySearchChange}
         />
-        <Slot
-          data={data}
-          queryData={{ root, asset }}
-          activeTab={activeTab}
-          handleCommentChange={handleCommentChange}
-          fill="adminModeration"
-        />
+        <Slot fill="adminModeration" passthrough={slotPassthrough} />
       </div>
     );
   }

@@ -1,6 +1,6 @@
 /**
  * ExtendableError provides a base Error class to source off of that does not
- * break the inheritence chain.
+ * break the inheritance chain.
  */
 class ExtendableError {
   constructor(message = null) {
@@ -97,6 +97,16 @@ const ErrEmailVerificationToken = new APIError('token is required', {
   status: 400,
 });
 
+// ErrEmailAlreadyVerified is returned when the user tries to verify an email
+// address that has already been verified.
+const ErrEmailAlreadyVerified = new APIError(
+  'email address is already verified',
+  {
+    translation_key: 'EMAIL_ALREADY_VERIFIED',
+    status: 409,
+  }
+);
+
 // ErrPasswordResetToken is returned in the event that the password reset is requested
 // without a token.
 const ErrPasswordResetToken = new APIError('token is required', {
@@ -129,7 +139,7 @@ class ErrAssetCommentingClosed extends APIError {
 class ErrAuthentication extends APIError {
   constructor(message = null) {
     super(
-      'authentication error occured',
+      'authentication error occurred',
       {
         status: 401,
         translation_key: 'AUTHENTICATION',
@@ -160,7 +170,7 @@ class ErrAlreadyExists extends APIError {
 }
 
 // ErrContainsProfanity is returned in the event that the middleware detects
-// profanity/wordlisted words in the payload.
+// profanity/banned/suspect words in the payload.
 const ErrContainsProfanity = new APIError(
   'This username contains elements which are not permitted in our community. If you think this is in error, please contact us or try again.',
   {
@@ -189,7 +199,7 @@ const ErrNotAuthorized = new APIError('not authorized', {
 // ErrSettingsNotInit is returned when the settings are required but not
 // initialized.
 const ErrSettingsNotInit = new Error(
-  'Talk is currently not setup. Please proceed to our webinstaller at $ROOT_URL/admin/install or run ./bin/cli-setup. Visit https://coralproject.github.io/talk/ for more information on installation and configuration instructions'
+  'Talk is currently not setup. Please proceed to our web installer at $ROOT_URL/admin/install or run ./bin/cli-setup. Visit https://docs.coralproject.net/talk/ for more information on installation and configuration instructions'
 );
 
 // ErrSettingsInit is returned when the setup endpoint is hit and we are already
@@ -254,7 +264,7 @@ const ErrNotVerified = new APIError(
   }
 );
 
-const ErrMaxRateLimit = new APIError('Rate limit exeeded', {
+const ErrMaxRateLimit = new APIError('Rate limit exceeded', {
   translation_key: 'RATE_LIMIT_EXCEEDED',
   status: 429,
 });
@@ -284,6 +294,7 @@ module.exports = {
   ErrCommentTooShort,
   ErrContainsProfanity,
   ErrEditWindowHasEnded,
+  ErrEmailAlreadyVerified,
   ErrEmailTaken,
   ErrEmailVerificationToken,
   ErrInstallLock,

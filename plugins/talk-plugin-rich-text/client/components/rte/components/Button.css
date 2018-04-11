@@ -1,0 +1,51 @@
+.buttonReset {
+  user-select: none;
+  outline: invert none medium;
+  border: none;
+  touch-action: manipulation;
+  padding: 0;
+  overflow: hidden;
+
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  &::-moz-focus-inner: {
+    border: 0;
+  }
+}
+
+.button > i {
+  vertical-align: middle;
+}
+
+.button {
+  composes: buttonReset;
+  background-color: transparent;
+  padding: 3px;
+  border: none;
+  color: #4e4e4e;
+  margin-right: 3px;
+  border-radius: 3px;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: #eae8e8;
+}
+
+.button.active {
+  background-color: #ddd;
+}
+
+.button:disabled{
+  color: #bbb;
+  cursor: default;
+  background: none;
+}
+
+@media (-moz-touch-enabled: 1), (pointer:coarse) {
+  .button:hover{
+    background-color: transparent;
+  }
+  .button.active {
+    background-color: #ddd;
+  }
+}

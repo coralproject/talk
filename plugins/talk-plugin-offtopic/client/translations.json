@@ -1,4 +1,8 @@
 {
+  "ar": {
+    "off_topic": "خارج الموضوع",
+    "hide_off_topic": "إخفاء التعليقات التي خارجة عن الموضوع"
+  },
   "da": {
     "off_topic": "Off Topic",
     "hide_off_topic": "Hide Off-Topic Comments"

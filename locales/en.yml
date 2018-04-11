@@ -154,12 +154,19 @@ en:
     sign_out: "Sign Out"
     stories: Stories
     stream_settings: "Stream Settings"
+    access_message: "You must be an administrator to access config settings. Please find the nearest Admin and ask them to level you up!"
     suspect_word_title: "Suspect words list"
     suspect_word_text: "Comments which contain these words or phrases (not case-sensitive) will be highlighted in the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
     tech_settings: "Tech Settings"
     title: "Configure Comment Stream"
     weeks: Weeks
     wordlist: "Banned Words"
+    save_changes_dialog:
+      unsaved_changes: "Unsaved changes"
+      copy: "You have made one or more changes without saving. Would you like to save or discard your changes?"
+      save_settings: "Save Settings"
+      discard: "Discard"
+      cancel: "Cancel"
   continue: "Continue"
   createdisplay:
     check_the_form: "Invalid Form. Please check the fields"
@@ -206,6 +213,7 @@ en:
   error:
     COMMENT_PARENT_NOT_VISIBLE: "The comment that you're replying to has been removed or doesn't exist."
     EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
+    EMAIL_ALREADY_VERIFIED: "Email address already verified."
     PASSWORD_RESET_TOKEN_INVALID: "Your password reset link is invalid."
     COMMENT_TOO_SHORT: "Comments should be more than one character, please revise your comment and try again."
     NOT_AUTHORIZED: "You are not authorized to perform this action."
@@ -352,12 +360,15 @@ en:
   personal_info: "This comment reveals personally identifiable information"
   post: Post
   profile: Profile
-  profile_settings: "Profile Settings"
+  profile_settings: "Settings"
   reply: Reply
   report: Report
   report_notif: "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly."
   report_notif_remove: "Your report has been removed."
   reported: Reported
+  comment_history_blank:
+    title: You have not written any comments
+    info: A history of your comments will appear here
   settings:
     from_settings_page: "From the Profile Page you can see your comment history."
     my_comment_history: "My comment History"

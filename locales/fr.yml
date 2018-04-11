@@ -1,41 +1,42 @@
 fr:
-  your_account_has_been_suspended: Your account has been temporarily suspended.
-  your_account_has_been_banned: Your account has been banned.
-  your_username_has_been_rejected: Your account has been suspended because your username has been deemed inappropriate. To restore your account please enter a new username.
-  embed_comments_tab: Comments
+  your_account_has_been_suspended: Votre compte a été temporairement suspendu.
+  your_account_has_been_banned: Votre compte a été banni.
+  your_username_has_been_rejected: Votre compte a été suspendu en raison de votre nom d’utilisateur jugé inapproprié. Veuillez saisir un nouveau nom d’utilisateur pour restaurer votre compte.
+  embed_comments_tab: Commentaires
   bandialog:
     are_you_sure: "Êtes-vous sûr de vouloir bannir {0}?"
     ban_user: "Bannir l'utilisateur ?"
     banned_user: "Utilisateur banni"
     cancel: Annuler
-    note: "Remarque: bannir cet utilisateur rejettera également ce commentaire."
-    note_reject_comment: "Banning this user will also place this comment in the Rejected queue."
-    note_ban_user: "Banning this user will not let them comment, react to, or report comments."
+    note: "Remarque : bannir cet utilisateur rejettera également ce commentaire."
+    note_reject_comment: "Bannir cet utilisateur placera ce commentaire dans la liste des commentaires rejetées."
+    note_ban_user: "Bannir cet utilisateur empêchera cet utilisateur d’écrire, de réagir à ou de signaler des commentaires."
     yes_ban_user: "Oui, bannir cet utilisateur"
-    write_a_message: "Write a message"
-    send: "Send"
-    notify_ban_headline: "Notify the user of ban"
-    notify_ban_description: "This will notify the user by email that they have been banned from the community"
-    email_message_ban: "Dear {0},\n\nSomeone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, like or report comments. if you think this has been done in error, please contact our community team."
+    write_a_message: "Écrire un message"
+    send: "Envoyer"
+    notify_ban_headline: "Aviser l’utilisateur du bannissement"
+    notify_ban_description: "Ceci avisera l’utilisateur par courrier électronique de son bannissement de la communauté"
+    email_message_ban: "Cher {0},\n\nUne personne ayant accès à votre compte a transgressé nos directives communautaires. En conséquence, votre compte a été banni. Vous ne pourrez plus écrire, aimer ou signaler des commentaires. Si vous pensez qu’il s’agit d’une erreur, veuillez contacter notre équipe communautaire."
   bio_offensive: "Cette biographie est offensante"
-  cancel: Annuler
+  cancel: "Annuler"
   confirm_email:
-    click_to_confirm: "Click below to confirm your email address"
-    confirm: "Confirm"
+    click_to_confirm: "Cliquez ci-dessous pour confirmer votre adresse électronique"
+    confirm: "Confirmer"
   password_reset:
-    set_new_password: "Change Your Password"
-    new_password: "New Password"
-    new_password_help: "Password must be at least 8 characters"
-    confirm_new_password: "Confirm New Password"
-    change_password: "Change Password"
+    mail_sent: 'Si vous avez un compte enregistré, un lien de réinitialisation de mot de passe a été envoyé à cette adresse électronique'
+    set_new_password: "Changer votre mot de passe"
+    new_password: "Nouveau mot de passe"
+    new_password_help: "Le mot de passe doit comporter au moins 8 caractères"
+    confirm_new_password: "Confirmer le nouveau mot de passe"
+    change_password: "Changer le mot de passe"
   characters_remaining: "caractères restants"
   comment:
-    anon: Anonyme
+    anon: "Anonyme"
     ban_user: "Bannir utilisateur"
-    undo_reject: "Undo"
+    undo_reject: "Annuler"
     comment: "Publier un commentaire"
-    flagged: signalé
-    edited: Edited
+    flagged: "signalé"
+    edited: Modifié
     view_context: "Afficher le contexte"
   comment_box:
     post: "Publier"
@@ -54,18 +55,18 @@ fr:
   comment_post_notif: "Votre commentaire a été publié."
   comment_post_notif_premod: "Merci d'avoir envoyé un commentaire. Notre équipe de modération passera en revue votre commentaire sous peu."
   common:
-    copy: 'Copy'
-    error: 'An error has occurred.'
-    reply: 'reply'
-    replies: 'replies'
-    reaction: 'reaction'
-    reactions: 'reactions'
-    story: 'Story'
+    copy: 'Copier'
+    error: 'Une erreur est survenue.'
+    reply: 'répondre'
+    replies: 'réponses'
+    reaction: 'réaction'
+    reactions: 'réactions'
+    story: 'Histoire'
   flagged_usernames:
-    notify_approved: '{0} approved username {1}'
-    notify_rejected: '{0} rejected username {1}'
-    notify_flagged: '{0} reported username {1}'
-    notify_changed: 'user {0} changed their username to {1}'
+    notify_approved: "{0} a approuvé le nom d’utilisateur {1}"
+    notify_rejected: "{0} a rejeté le nom d’utilisateur {1}"
+    notify_flagged: "{0} a signalé le nom d’utilisateur {1}"
+    notify_changed: "l’utilisateur {0} a modifié son nom d’utilisateur en {1}"
   community:
     account_creation_date: "Date de création du compte"
     active: Actif
@@ -75,18 +76,18 @@ fr:
     ban_user: "Bannir l'utilisateur ?"
     banned: Banni
     banned_user: "Utilisateur banni"
-    cancel: Signalé
-    dont_like_username: "Dislike username"
+    cancel: Annuler
+    dont_like_username: "Ne pas aimer le nom d’utilisateur"
     flaggedaccounts: "Noms d'utilisateurs signalés"
     flags: Signalements
-    impersonating: Impersonation"
+    impersonating: "Usurpation d’identité"
     loading: "Chargement des résultats"
     moderator: Modérateur
     newsroom_role: "Rôle de la salle de presse"
     no_flagged_accounts: "La liste des comptes signalés est vide."
     no_results: "Aucun utilisateur n'a été trouvé avec ce nom d'utilisateur ou cette adresse de messagerie. Ils se cachent !"
     offensive: "Offensive"
-    other: "Other"
+    other: "Autre"
     people: Gens
     role: "Sélectionnez le rôle ..."
     select_status: "Sélectionnez l'état ..."
@@ -153,26 +154,33 @@ fr:
     sign_out: "Se Déconnecter"
     stories: Histoires
     stream_settings: "Paramètres du fil"
+    access_message: "Vous devez être un administrateur pour accéder aux paramètres de configuration. Veuillez trouver l'administrateur le plus proche et demandez-lui d'augmenter votre niveau d’accès !"
     suspect_word_title: "Liste des mots suspects"
     suspect_word_text: "Les commentaires contenant ces mots ou expressions (non sensibles à la casse) seront mis en évidence dans le flux de commentaires. Tapez un mot et appuyez sur Entrée ou Tabulation pour ajouter. En option, entrez une liste séparée par des virgules."
     tech_settings: "Paramètres techniques"
     title: "Configurer le fil de commentaires"
     weeks: Semaines
     wordlist: "Mots interdits"
+    save_changes_dialog:
+      unsaved_changes: "Modifications non enregistrées"
+      copy: "Vous avez fait une ou plusieurs modifications sans enregistrer. Souhaitez-vous sauvegarder ou abandonner vos modifications ?"
+      save_settings: "Enregistrer la configuration"
+      discard: "Abandonner"
+      cancel: "Annuler"
   continue: Continuer
   createdisplay:
-    check_the_form: "Invalid Form. Please check the fields"
-    continue: "Continue with the same Facebook username"
-    error_create: "Error when changing username"
-    fake_comment_body: "This is an example comment. Readers can share their thoughts and opinions with newsrooms in the comments section."
-    fake_comment_date: "1 minute ago"
-    if_you_dont_change_your_name: "If you don't change your username at this step your Facebook display name will appear alongside of all your comments."
-    required_field: "Required field"
-    save: Save
-    special_characters: "Usernames can contain letters numbers and _ only"
-    username: Username
-    write_your_username: "Edit your username"
-    your_username: "Your username appears on every comment you post."
+    check_the_form: "Formulaire invalide. Veuillez vérifier les champs"
+    continue: "Continuer avec le même nom d’utilisateur Facebook"
+    error_create: "Une erreur lors du changement de nom d’utilisateur"
+    fake_comment_body: "Ceci est un exemple de commentaire. Les lecteurs peuvent livrer leurs réflexions et avis avec les salles de presse dans la section des commentaires."
+    fake_comment_date: "il y a 1 minute"
+    if_you_dont_change_your_name: "Si vous ne modifiez pas votre nom d’utilisateur à cette étape, votre nom d’affichage Facefook apparaîtra avec tous vos commentaires."
+    required_field: "Champ obligatoire"
+    save: Sauvegarder
+    special_characters: "Les noms d'utilisateur ne peuvent contenir que des lettres, des chiffres et \"_\""
+    username: Nom d’utilisateur
+    write_your_username: "Modifier votre nom d’utilisateur"
+    your_username: "Votre nom d’utilisateur apparait sur chaque commentaire publié."
   done: Terminé
   edit_comment:
     body_input_label: "Modifier ce commentaire"
@@ -186,47 +194,48 @@ fr:
     minutes_plural: "minutes"
     email:
     suspended:
-      subject: "Your account has been suspended"
+      subject: "Votre compte a été suspendu"
     banned:
-      subject: "Your account has been banned"
-      body: "In accordance with The Coral Project’s community guidelines, your account has been banned. You are now longer allowed to comment, flag or engage with our community."
+      subject: "Votre compte a été banni"
+      body: "Conformément aux directives communautaires du projet Coral, votre compte a été banni. Vous ne pouvez désormais plus commenter, signaler ou collaborer avec notre communauté."
     confirm:
-      has_been_requested: "A email confirmation has been requested for the following account:"
-      to_confirm: "To confirm the account, please visit the following link:"
-      confirm_email: "Confirm Email"
-      if_you_did_not: "If you did not request this, you can safely ignore this email."
-      subject: "Email Confirmation"
+      has_been_requested: "Une confirmation de l’adresse électronique a été demandée pour le compte suivant :"
+      to_confirm: "Pour confirmer le compte, veuillez suivre le lien suivant :"
+      confirm_email: "Confirmer l’adresse électronique"
+      if_you_did_not: "Si vous n’êtes pas à l’origine de cette requête, vous pouvez ignorer ce courriel en toute sécurité."
+      subject: "Confirmation adresse électronique"
     password_reset:
-      we_received_a_request: "We received a request to reset your password. If you did not request this change, you can ignore this email."
-      if_you_did: "If you did,"
-      please_click: "please click here to reset password"
+      we_received_a_request: "Nous avons reçu une demande de réinitialisation de votre mot de passe. Si vous n'avez pas demandé cette modification, vous pouvez ignorer ce courriel."
+      if_you_did: "Si vous êtes à l’origine de cette requête,"
+      please_click: "veuillez cliquez ici pour réinitialiser le mot de passe"
   embedlink:
     copy: "Copier dans le presse-papier"
   error:
-    COMMENT_PARENT_NOT_VISIBLE: "The comment that you're replying to has been removed or doesn't exist."
-    EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
-    PASSWORD_RESET_TOKEN_INVALID: "Your password reset link is invalid."
+    COMMENT_PARENT_NOT_VISIBLE: "Le commentaire auquel vous répondez a été supprimé ou n’existe plus."
+    EMAIL_VERIFICATION_TOKEN_INVALID: "Le code de vérification de l'adresse électronique n'est pas valide."
+    EMAIL_ALREADY_VERIFIED: "Adresse électronique déjà vérifiée."
+    PASSWORD_RESET_TOKEN_INVALID: "Votre lien de réinitialisation de mot de passe n'est pas valide."
     COMMENT_TOO_SHORT: "Votre commentaire doit contenir quelque chose"
     NOT_AUTHORIZED: "Vous n'êtes pas autorisé à effectuer cette action."
     NO_SPECIAL_CHARACTERS: "Les noms d'utilisateur ne peuvent contenir que des lettres, des chiffres et \"_\" seulement"
     PASSWORD_LENGTH: "Le mot de passe est trop court"
     PROFANITY_ERROR: "Les noms d'utilisateur ne doivent pas contenir de mots offensants. Veuillez contacter l'administrateur si vous pensez qu'il y a une erreur."
-    RATE_LIMIT_EXCEEDED: "Rate limit exceeded"
+    RATE_LIMIT_EXCEEDED: "Nombre d’utilisations dépassé"
     USERNAME_IN_USE: "Ce nom d'utilisateur est déjà pris"
     USERNAME_REQUIRED: "Doit entrer un nom d'utilisateur"
-    EMAIL_NOT_VERIFIED: "E-mail address not verified"
+    EMAIL_NOT_VERIFIED: "Adresse électronique non vérifiée"
     EDIT_WINDOW_ENDED: "Vous ne pouvez plus modifier ce commentaire. La fenêtre de temps pour le faire a expiré."
     EDIT_USERNAME_NOT_AUTHORIZED: "Vous n'avez pas la permission de mettre à jour votre nom d'utilisateur."
-    SAME_USERNAME_PROVIDED: "You must submit a different username."
-    EMAIL_IN_USE: "Adresse e-mail déjà utilisée"
-    EMAIL_REQUIRED: "Une adresse email est requise"
+    SAME_USERNAME_PROVIDED: "Vous devez soumettre un nom d’utilisateur différent."
+    EMAIL_IN_USE: "Adresse électronique déjà utilisée"
+    EMAIL_REQUIRED: "Une adresse électronique est requise"
     LOGIN_MAXIMUM_EXCEEDED: "Vous avez effectué trop de tentatives infructueuses pour entrer votre mot de passe. S'il vous plaît, attendez."
     PASSWORD_REQUIRED: "Doit entrer un mot de passe"
     COMMENTING_CLOSED: "Les commentaires sont déjà fermés"
     NOT_FOUND: "Ressource introuvable"
-    ALREADY_EXISTS: "Resource already exists"
+    ALREADY_EXISTS: "Ressource déjà existante"
     INVALID_ASSET_URL: "L'URL est invalide"
-    CANNOT_IGNORE_STAFF: "Cannot ignore Staff members."
+    CANNOT_IGNORE_STAFF: "Ne peut pas ignorer les membres de l'équipe."
     email: "Pas une adresse e-mail valide"
     confirm_password: "Les mots de passe ne correspondent pas. Vérifiez à nouveau"
     network_error: "Échec de connexion au serveur. Vérifiez votre connexion Internet et réessayez."
@@ -236,20 +245,20 @@ fr:
     password: "Le mot de passe doit être d'au moins 8 caractères"
     username: "Les noms d'utilisateur ne peuvent contenir que des chiffres, des lettres et \"_\""
     required_field: "Ce champ est obligatoire"
-    unexpected: "Unexpected error occurred. Sorry!"
-    temporarily_suspended: "Your account is currently suspended. It will be reactivated {0}. Please contact us if you have any questions."
+    unexpected: "Désolé, une erreur inattendue s'est produite."
+    temporarily_suspended: "Votre compte est actuellement suspendu. Il sera réactivé {0}. Veuillez nous contacter si vous avez des questions."
   flag_comment: "Signaler un commentaire"
   flag_reason: "Motif du signalement (facultatif)"
   flag_username: "Signaler un nom d'utilisateur"
   framework:
-    banned_account_header: "Your account is currently banned."
-    banned_account_body: "This means that you cannot Like, Report, or write comments."
+    banned_account_header: "Votre compte est actuellement banni."
+    banned_account_body: "Cela signifie que vous ne pouvez pas aimer, signaler ou écrire des commentaires."
     comment: commentaire
-    comment_is_rejected: "You have rejected this comment."
-    comment_is_hidden: "This comment is not available."
+    comment_is_rejected: "Vous avez rejeté ce commentaire."
+    comment_is_hidden: "Ce commentaire n’est pas disponible."
     comment_is_ignored: "Ce commentaire est caché car vous avez ignoré cet utilisateur."
     comments: commentaires
-    configure_stream: "Configure le fil"
+    configure_stream: "Configurer le fil"
     content_not_available: "Ce contenu n'est pas disponible"
     edit_name:
       button: Soumettre
@@ -257,7 +266,7 @@ fr:
       label: "Nouveau nom d'utilisateur"
       msg: "Votre compte est actuellement suspendu car votre nom d'utilisateur a été jugé inapproprié. Pour restaurer votre compte, entrez un nouveau nom d'utilisateur. Contactez-nous si vous avez des questions."
     changed_name:
-      msg: "Your username change is under review by our moderation team."
+      msg: "Votre modification de nom d’utilisateur est sous révision par notre équipe de modération."
     my_comments: "Mes commentaires"
     my_profile: "Mon profil"
     new_count: "Voir {0} plus {1}"
@@ -280,29 +289,29 @@ fr:
        user:
          username_offensive: "Offensive"
          username_nolike: "Dislike"
-         username_impersonating: "Impersonation"
+         username_impersonating: "Usurpation d’identité"
          username_spam: "Spam"
-         username_other: "Other"
+         username_other: "Autre"
        comment:
          comment_offensive: "Offensive"
          comment_spam: "Spam"
-         comment_noagree: "Disagree"
-         comment_other: "Other"
-         suspect_word: "Suspect Word"
-         banned_word: "Banned Word"
-         body_count: "Body exceeds max length"
+         comment_noagree: "Pas d’accord"
+         comment_other: "Autre"
+         suspect_word: "Mot suspect"
+         banned_word: "Mot banni"
+         body_count: "Le texte dépasse la longueur maximale"
          trust: "Trust"
-         links: "Link"
+         links: "Lien"
   modqueue:
     account: "Signalements du compte"
     actions: Actions
     all: tous
     all_streams: "Tous les fils"
-    notify_edited: '{0} edited comment "{1}"'
-    notify_accepted: '{0} accepted comment "{1}"'
-    notify_rejected: '{0} rejected comment "{1}"'
-    notify_flagged: '{0} flagged comment "{1}"'
-    notify_reset: '{0} reset status of comment "{1}"'
+    notify_edited: '{0} a modifié le commentaire "{1}"'
+    notify_accepted: '{0} a accepté le commentaire "{1}"'
+    notify_rejected: '{0} a rejeté le commentaire "{1}"'
+    notify_flagged: '{0} a signalé le commentaire "{1}"'
+    notify_reset: '{0} a réinitialisé le statut du commentaire "{1}"'
     approve: "Approuver"
     approved: "Approuvé"
     ban_user: "Bannir"
@@ -317,26 +326,26 @@ fr:
     mod_faster: "Modérer plus rapidement avec les raccourcis clavier"
     moderate: "Modérer →"
     more_detail: "Plus de détails"
-    new: New
+    new: Nouveau
     newest_first: "Le plus récent d'abord"
     navigation: Navigation
     next_comment: "Aller au prochain commentaire"
-    toggle_search: "Open search"
-    next_queue: "Switch queues"
+    toggle_search: "Ouvrir la recherche"
+    next_queue: "Changer de file"
     oldest_first: "Le plus ancien d'abord"
     premod: Pre-modérer
     prev_comment: "Aller au commentaire précédent"
     reject: "Rejeter"
     rejected: "Rejeté"
-    reply: "Reply"
+    reply: "Répondre"
     select_stream: "Sélectionnez le fil"
     shift_key: ⇧
     shortcuts: Raccourcis
-    sort: "Sort"
+    sort: "Trier"
     show_shortcuts: "Afficher les raccourcis"
     singleview: "Mode zen"
     thismenu: "Ouvrir ce menu"
-    jump_to_queue: "Jump to specific queue"
+    jump_to_queue: "Aller dans une file d'attente spécifique"
     thousand: k
     try_these: "Essayez ces"
     view_more_shortcuts: "Afficher plus de raccourcis"
@@ -345,18 +354,21 @@ fr:
   no_agree_comment: "Je ne suis pas d'accord avec ce commentaire"
   no_like_bio: "Je n'aime pas cette biographie"
   no_like_username: "Je n'aime pas ce nom d'utilisateur"
-  already_flagged_username: "You have already flagged this username."
+  already_flagged_username: "Vous avez déjà signalé ce nom d’utilisateur."
   other: Autre
   permalink: Partager
   personal_info: "Ce commentaire révèle des informations personnelles identifiables"
   post: Publier
   profile: Profil
-  profile_settings: "Paramètres du profil"
+  profile_settings: "Paramètres"
   reply: Répondre
   report: Signaler
-  report_notif: "Merci de signaler ce commentaire. Notre équipe de modération a é té informée."
+  report_notif: "Merci de signaler ce commentaire. Notre équipe de modération a été informée."
   report_notif_remove: "Votre signalement a été supprimé."
   reported: Signalé
+  comment_history_blank:
+    title: Vous n’avez écrit aucun commentaire
+    info: Un historique de vos commentaires apparaîtra ici
   settings:
     from_settings_page: "Dans la page Profil, vous pouvez voir l'historique de vos commentaires."
     my_comment_history: "Mon historique de commentaires"
@@ -369,8 +381,8 @@ fr:
     all_comments: "Tous les commentaires"
     temporarily_suspended: "Conformément à la charte d'utilisation des commentaires de {0}, votre compte a été temporairement suspendu. Merci de revenir dans la conversation {1}."
     comment_not_found: "Ce commentaire a été supprimé ou n'existe pas."
-    no_comments: "There are no comments yet, why don’t you write one?"
-    no_comments_and_closed: "There were no comments on this article."
+    no_comments: "Il n’y a aucun commentaire pour le moment. Soyez le premier à commenter !"
+    no_comments_and_closed: "Il n'y avait aucun commentaire sur cet article."
   step_1_header: "Signaler un problème"
   step_2_header: "Aidez-nous à comprendre"
   step_3_header: "Merci pour votre participation"
@@ -395,6 +407,8 @@ fr:
     one_hour: "1 heure"
     hours: "{0} heures"
     days: "{0} jours"
+    hour: "{0} heures"
+    day: "{0} jours"
     cancel: "Annuler"
     suspend_user: "Suspendre l'utilisateur"
     email_message_suspend: "Cher {0},\n\nConformément à la charte des commentaires de {1}, votre compte a été temporairement suspendu. Pendant cette période, vous ne pourrez pas commenter, signaler ou participer à d'autres commentaires. \n\nMerci de revenir dans la conversation {2}."
@@ -421,28 +435,28 @@ fr:
     user_bio: "Bio de l'utilisateur"
     username_flags: "Signaler pour ce nom d'utilisateur"
   user_detail:
-    remove_suspension: "Remove Suspension"
-    suspend: "Suspend User"
-    remove_ban: "Remove Ban"
-    ban: "Ban User"
-    member_since: "Member Since"
-    email: "Email"
-    total_comments: "Total Comments"
-    reject_rate: "Reject Rate"
-    reports: "Reports"
-    all: "All"
-    rejected: "Rejected"
-    account_history: "Account History"
+    remove_suspension: "Lever la suspension"
+    suspend: "Suspendre l’utilisateur"
+    remove_ban: "Lever le bannissement"
+    ban: "Bannir l’utilisateur"
+    member_since: "Membre depuis"
+    email: "adresse électronique"
+    total_comments: "Nombre total de commentaires"
+    reject_rate: "Fréquence de rejet"
+    reports: "Signalements"
+    all: "Tous"
+    rejected: "Rejeté"
+    account_history: "Historique de compte"
   account_history:
-    user_banned: "User banned"
-    ban_removed: "Ban removed"
-    username_status: "Username {0}"
-    suspended: "Suspended, {0}"
-    suspension_removed: "Suspension removed"
-    system: "System"
+    user_banned: "Utilisateur banni"
+    ban_removed: "Bannissement levé"
+    username_status: "Nom d’utilisateur {0}"
+    suspended: "Suspendu, {0}"
+    suspension_removed: "Suspension levée"
+    system: "Système"
     date: "Date"
     action: "Action"
-    taken_by: "Taken By"
+    taken_by: "Prise par"
   user_impersonating: "Cet utilisateur se fait passer pour quelqu'un d'autre"
   user_no_comment: "Vous n'avez jamais laissé de commentaire. Rejoignez la conversation !"
   username_offensive: "Ce nom d'utilisateur est offensant"
@@ -470,5 +484,5 @@ fr:
       launch: "Lancer Talk"
       close: "Fermez cet installateur"
   admin_sidebar:
-    view_options: "View Options"
-    sort_comments: "Sort Comments"
+    view_options: "Afficher les options"
+    sort_comments: "Trier les commentaires"

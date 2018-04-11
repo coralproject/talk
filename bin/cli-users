@@ -7,8 +7,6 @@
 const util = require('./util');
 const program = require('commander');
 const inquirer = require('inquirer');
-const { graphql } = require('graphql');
-const helpers = require('../services/migration/helpers');
 const { stripIndent } = require('common-tags');
 const Table = require('cli-table');
 
@@ -21,30 +19,14 @@ inquirer.registerPrompt(
   require('inquirer-autocomplete-prompt')
 );
 
-const schema = require('../graph/schema');
 const Context = require('../graph/context');
 const UsersService = require('../services/users');
 const UserModel = require('../models/user');
-const CommentModel = require('../models/comment');
-const ActionModel = require('../models/action');
 const USER_ROLES = require('../models/enum/user_roles');
 const mongoose = require('../services/mongoose');
 
 // Register the shutdown criteria.
 util.onshutdown([() => mongoose.disconnect()]);
-
-/**
- * transforms a specific action to a removal action on the target model.
- */
-const actionDecrTransformer = ({ item_id, action_type, group_id }) => ({
-  query: { id: item_id },
-  update: {
-    $inc: {
-      [`action_counts.${action_type.toLowerCase()}`]: -1,
-      [`action_counts.${action_type.toLowerCase()}_${group_id.toLowerCase()}`]: -1,
-    },
-  },
-});
 
 /**
  * Deletes a user and cleans up their associated verifications.
@@ -76,66 +58,29 @@ async function deleteUser(userID) {
       return util.shutdown();
     }
 
-    const { transformSingleWithCursor } = helpers({
-      queryBatchSize: 10000,
-      updateBatchSize: 10000,
-    });
+    const ctx = Context.forSystem();
 
-    console.warn("Removing user's actions");
-
-    // Remove all actions against comments.
-    await transformSingleWithCursor(
-      ActionModel.collection.find({ user_id: user.id, item_type: 'COMMENTS' }),
-      actionDecrTransformer,
-      CommentModel
+    const { data, errors } = await ctx.graphql(
+      `
+      mutation DeleteUser($user_id: ID!) {
+        delUser(id: $user_id) {
+          errors {
+            translation_key
+          }
+        }
+      }
+    `,
+      { user_id: user.id }
     );
+    if (errors) {
+      throw errors;
+    }
 
-    // Remove all actions against users.
-    await transformSingleWithCursor(
-      ActionModel.collection.find({ user_id: user.id, item_type: 'USERS' }),
-      actionDecrTransformer,
-      UserModel
-    );
+    if (data.errors) {
+      throw data.errors;
+    }
 
-    // Remove all the user's actions.
-    await ActionModel.where({ user_id: user.id })
-      .setOptions({ multi: true })
-      .remove();
-
-    console.warn("Removing user's comments");
-
-    // Removes all the user's reply counts on each of the comments that they
-    // have commented on.
-    await transformSingleWithCursor(
-      CommentModel.collection.aggregate([
-        { $match: { author_id: user.id } },
-        {
-          $group: {
-            _id: '$parent_id',
-            count: { $sum: 1 },
-          },
-        },
-      ]),
-      ({ _id: parent_id, count }) => ({
-        query: { id: parent_id },
-        update: {
-          $inc: {
-            reply_count: -1 * count,
-          },
-        },
-      }),
-      CommentModel
-    );
-
-    // Remove all the user's comments.
-    await CommentModel.where({ author_id: user.id })
-      .setOptions({ multi: true })
-      .remove();
-
-    console.warn('Removing the user');
-
-    // Remove the user.
-    await user.remove();
+    console.log('User was deleted.');
 
     util.shutdown();
   } catch (err) {
@@ -197,7 +142,7 @@ async function searchUsers() {
           value = '';
         }
 
-        const { data, errors } = await graphql(schema, searchQuery, {}, ctx, {
+        const { data, errors } = await ctx.graphql(searchQuery, {
           value,
         });
         if (errors && errors.length > 0) {
@@ -312,9 +257,58 @@ async function verifyUserEmail(userID, email) {
   }
 }
 
+/**
+ * createUser will prompt the user for the user information when creating a
+ * local user.
+ */
+async function createUser() {
+  try {
+    const answers = await inquirer.prompt([
+      {
+        name: 'email',
+        message: 'Email',
+      },
+      {
+        name: 'username',
+        message: 'Username',
+      },
+      {
+        name: 'password',
+        message: 'Password',
+        type: 'password',
+      },
+      {
+        name: 'role',
+        message: 'Role',
+        type: 'list',
+        choices: USER_ROLES,
+      },
+    ]);
+
+    const { email, username, password, role } = answers;
+
+    // Create the user.
+    const user = await UsersService.createLocalUser(email, password, username);
+
+    // Set the role.
+    await UsersService.setRole(user.id, role);
+
+    console.log(`Created User[${user.id}]`);
+    util.shutdown(0);
+  } catch (err) {
+    console.error(err);
+    util.shutdown(1);
+  }
+}
+
 //==============================================================================
 // Setting up the program command line arguments.
 //==============================================================================
+
+program
+  .command('create')
+  .description('creates a local user')
+  .action(createUser);
 
 program
   .command('delete <userID>')

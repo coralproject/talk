@@ -15,6 +15,7 @@ const SetupService = require('../services/setup');
 const UsersService = require('../services/users');
 const MigrationService = require('../services/migration');
 const errors = require('../errors');
+const Context = require('../graph/context');
 
 // Register the shutdown criteria.
 util.onshutdown([() => mongoose.disconnect()]);
@@ -184,7 +185,8 @@ const performSetup = async () => {
     },
   ]);
 
-  let { user: newUser } = await SetupService.setup({
+  const ctx = Context.forSystem();
+  let { user: newUser } = await SetupService.setup(ctx, {
     settings: settings.toObject(),
     user: {
       email: user.email,

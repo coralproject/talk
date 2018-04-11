@@ -53,11 +53,15 @@ const CONFIG = {
     process.env.TALK_LOGGING_LEVEL
   )
     ? process.env.TALK_LOGGING_LEVEL
-    : 'info',
+    : process.env.NODE_ENV === 'test' ? 'fatal' : 'info',
 
   // REVISION_HASH when using the docker build will contain the build hash that
   // it was built at.
   REVISION_HASH: process.env.REVISION_HASH,
+
+  // SCRAPER_HEADERS is a JSON string that will be used to override the headers
+  // on the scraper when it makes requests.
+  SCRAPER_HEADERS: process.env.TALK_SCRAPER_HEADERS || '{}',
 
   //------------------------------------------------------------------------------
   // JWT based configuration

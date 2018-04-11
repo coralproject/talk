@@ -1,0 +1,136 @@
+- name: talk-plugin-akismet
+  description: Enables auto-moderation from Akismet.
+  tags:
+    - moderation
+- name: talk-plugin-auth
+  description: Enables internal authentication from Coral.
+  tags:
+    - default
+    - auth
+- name: talk-plugin-author-menu
+  description: Enables the comment author name plugin area.
+  tags:
+    - default
+- name: talk-plugin-comment-content
+  description: Linkifies comment content that contains links.
+- name: talk-plugin-deep-reply-count
+  description: Enables deep reply count graph edge including all decendant replies.
+- name: talk-plugin-facebook-auth
+  description: Enables a Facebook login strategy so users can login with their Facebook account.
+  tags:
+    - auth
+- name: talk-plugin-featured-comments
+  description: Allows comments to be featured for other users.
+  tags:
+    - default
+- name: talk-plugin-flag-details
+  description: Show flag details in the admin panel.
+  tags:
+    - default
+- name: talk-plugin-google-auth
+  description: Enables a Google login strategy so users can login with their Google account.
+  tags:
+    - auth
+- name: talk-plugin-ignore-user
+  description: Allows other users to ignore one another to hide their comments from view.
+  tags:
+    - default
+- name: talk-plugin-like
+  description: Allows the like reaction for comments
+  tags:
+    - reaction
+- name: talk-plugin-love
+  description: Allows the love reaction for comments
+  tags:
+    - reaction
+- name: talk-plugin-member-since
+  description: Shows the users created at time as their member since date.
+  tags:
+    - default
+- name: talk-plugin-moderation-actions
+  description: Allows moderators to take actions on comments from the comment stream.
+  tags:
+    - default
+- name: talk-plugin-notifications
+  description: The base notification plugin which enables notifications to be sent.
+  tags:
+    - notifications
+- name: talk-plugin-notifications-category-featured
+  description: Enables the on-featured notification.
+  tags:
+    - notifications
+- name: talk-plugin-notifications-category-reply
+  description: Enables the on-reply notification.
+  tags:
+    - notifications
+- name: talk-plugin-notifications-category-staff
+  description: Enables the on-staff-reply notification.
+  tags:
+    - notifications
+- name: talk-plugin-notifications-digest-daily
+  description: Enables daily digesting of comment notifications as an option.
+  tags:
+    - notifications
+- name: talk-plugin-notifications-digest-hourly
+  description: Enables hourly digesting of comment notifications as an option.
+  tags:
+    - notifications
+- name: talk-plugin-offtopic
+  description: Allows users to mark a comment as off-topic when they create it.
+- name: talk-plugin-permalink
+  description: Shows a Link button on comments for direct-linking to a comment.
+  tags:
+    - default
+- name: talk-plugin-remember-sort
+  description: Remembers the sort selection made by a user.
+- name: talk-plugin-respect
+  description: Enables the respect reaction for comments.
+  tags:
+    - default
+    - reaction
+- name: talk-plugin-rich-text
+  description: Enables rich text plugins that save data as HTML.
+- name: talk-plugin-slack-notifications
+  description: Sends all comments as notifications to a slack channel
+- name: talk-plugin-sort-most-liked
+  description: Enables sorting by most liked.
+  tags:
+    - reaction
+    - sorting
+- name: talk-plugin-sort-most-loved
+  description: Enables sorting by most loved.
+  tags:
+    - reaction
+    - sorting
+- name: talk-plugin-sort-most-replied
+  description: Enables sorting by most replied.
+  tags:
+    - default
+    - sorting
+- name: talk-plugin-sort-most-respected
+  description: Enables sorting by most respected.
+  tags:
+    - default
+    - reaction
+    - sorting
+- name: talk-plugin-sort-newest
+  description: Enables sorting by newest.
+  tags:
+    - default
+    - sorting
+- name: talk-plugin-sort-oldest
+  description: Enables sorting by oldest.
+  tags:
+    - default
+    - sorting
+- name: talk-plugin-subscriber
+  description: Shows a subscriber tag on users that have the tag in the database.
+- name: talk-plugin-toxic-comments
+  description: Enables auto-moderation from Google's Perspective API.
+  tags:
+    - moderation
+- name: talk-plugin-viewing-options
+  description: Enables the dropdown used to display sorting options on the embed stream.
+  tags:
+    - default
+    - sorting

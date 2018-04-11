@@ -6,6 +6,7 @@ npm-debug.log*
 dump.rdb
 
 client/coral-framework/graphql/introspection.json
+docs/source/_data/introspection.json
 
 .env
 *.cfg
@@ -14,6 +15,7 @@ client/coral-framework/graphql/introspection.json
 *.swp
 *.DS_STORE
 .prettierrc.json
+.vscode
 
 coverage/
 test/e2e/reports/
@@ -22,13 +24,14 @@ test/e2e/selenium-debug.log
 browserstack.err
 
 plugins.json
-plugins/*
 
+plugins/*
 !plugins/talk-plugin-akismet
 !plugins/talk-plugin-auth
 !plugins/talk-plugin-author-menu
 !plugins/talk-plugin-comment-content
 !plugins/talk-plugin-deep-reply-count
+!plugins/talk-plugin-downvote
 !plugins/talk-plugin-facebook-auth
 !plugins/talk-plugin-featured-comments
 !plugins/talk-plugin-flag-details
@@ -43,23 +46,27 @@ plugins/*
 !plugins/talk-plugin-notifications-category-featured
 !plugins/talk-plugin-notifications-category-reply
 !plugins/talk-plugin-notifications-category-staff
+!plugins/talk-plugin-notifications-digest-daily
+!plugins/talk-plugin-notifications-digest-hourly
 !plugins/talk-plugin-offtopic
 !plugins/talk-plugin-permalink
 !plugins/talk-plugin-profile-settings
 !plugins/talk-plugin-remember-sort
 !plugins/talk-plugin-respect
 !plugins/talk-plugin-slack-notifications
+!plugins/talk-plugin-sort-most-downvoted
 !plugins/talk-plugin-sort-most-liked
 !plugins/talk-plugin-sort-most-loved
 !plugins/talk-plugin-sort-most-replied
 !plugins/talk-plugin-sort-most-respected
+!plugins/talk-plugin-sort-most-upvoted
 !plugins/talk-plugin-sort-newest
 !plugins/talk-plugin-sort-oldest
 !plugins/talk-plugin-subscriber
 !plugins/talk-plugin-toxic-comments
+!plugins/talk-plugin-upvote
 !plugins/talk-plugin-viewing-options
 !plugins/talk-plugin-rich-text
-!plugins/talk-plugin-rich-text-pell
 
 **/node_modules/*
 yarn-error.log

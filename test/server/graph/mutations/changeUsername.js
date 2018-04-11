@@ -11,7 +11,9 @@ describe('graph.mutations.changeUsername', () => {
   let user;
   beforeEach(async () => {
     await SettingsService.init();
+    const ctx = Context.forSystem();
     user = await UsersService.createLocalUser(
+      ctx,
       'test@test.com',
       'testpassword1!',
       'kirk'

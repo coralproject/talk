@@ -1,18 +1,18 @@
 const { version } = require('../package.json');
 const Logger = require('bunyan');
-const uuid = require('uuid/v1');
-const { LOGGING_LEVEL } = require('../config');
+const { LOGGING_LEVEL, REVISION_HASH } = require('../config');
+const logger = new Logger({
+  src: true,
+  name: 'talk',
+  version,
+  revision: REVISION_HASH,
+  level: LOGGING_LEVEL,
+  serializers: Logger.stdSerializers,
+});
 
 // Create the logging instance that all logger's are branched from.
-function createLogger(name, id = uuid()) {
-  return new Logger({
-    src: true,
-    name,
-    id,
-    version,
-    level: LOGGING_LEVEL,
-    serializers: { req: Logger.stdSerializers.req },
-  });
+function createLogger(name, traceID) {
+  return logger.child({ origin: name, traceID });
 }
 
-module.exports = { createLogger };
+module.exports = { logger, createLogger };

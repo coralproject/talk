@@ -1,0 +1,20 @@
+.root {
+  text-align: center;
+  padding-top: 24px;
+}
+
+.icon {
+  font-size: 64px;
+  color: #3a4a52;
+}
+
+.title {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.info {
+  margin-top: 0px;
+  font-size: 14px;
+  color: #7d8285;
+}

@@ -1,10 +1,24 @@
-const { get, find, groupBy, forEach, property } = require('lodash');
-const debug = require('debug')('talk-plugin-notifications');
-const uuid = require('uuid/v4');
 const {
-  UNSUBSCRIBE_SUBJECT,
-  DISABLE_REQUIRE_EMAIL_VERIFICATIONS,
-} = require('./config');
+  merge,
+  map,
+  get,
+  find,
+  groupBy,
+  forEach,
+  flatten,
+  property,
+} = require('lodash');
+const debug = require('debug')('talk-plugin-notifications');
+const { DISABLE_REQUIRE_EMAIL_VERIFICATIONS } = require('./config');
+const { CronJob } = require('cron');
+const { getOrganizationName } = require('./util');
+const {
+  processNewNotifications,
+  filterSuperseded,
+  filterVerified,
+  sendNotification,
+} = require('./messages');
+const { renderDigestMessage } = require('./digests');
 
 // handleHandlers will call the handle method on each handler to determine if a
 // notification should be sent for it.
@@ -32,97 +46,11 @@ const handleHandlers = (ctx, handlers, ...args) =>
     })
   );
 
-// filterSuperseded will filter all the possible notifications and only send
-// those notifications that are not superseded by another type of notification.
-const filterSuperseded = (
-  { handler: { category }, notification: { userID: destinationUserID } },
-  index,
-  notifications
-) =>
-  !notifications.some(
-    ({
-      handler: { supersedesCategories = [] },
-      notification: { userID: notificationUserID },
-    }) =>
-      // Only allow notifications to supersede another notification if that
-      // notification is also destined for the same user.
-      notificationUserID === destinationUserID &&
-      // If another notification that is destined for the same user also exists
-      // and declares that it supersedes this one, return true so we can filter
-      // this one from the list.
-      supersedesCategories.some(
-        supersededCategory => supersededCategory === category
-      )
-  );
-
-const USER_CONFIRMATION_QUERY = `
-  query CheckUserConfirmation($userID: ID!) {
-    user(id: $userID) {
-      profiles {
-        provider
-        ... on LocalUserProfile {
-          confirmedAt
-        }
-      }
-    }
-  }
-`;
-
-// filterVerifiedNotification checks to see if a user has a verified email
-// address, and if they do, returns the notification payload again, otherwise,
-// returns undefined.
-const filterVerifiedNotification = ctx => async notification => {
-  // Grab the user that we're supposed to be sending the notification to.
-  const { notification: { userID } } = notification;
-
-  // Check their confirmed status. This should have already been hit by the
-  // loaders, so we shouldn't make any more database requests.
-  const { errors, data } = await ctx.graphql(USER_CONFIRMATION_QUERY, {
-    userID,
-  });
-  if (errors) {
-    ctx.log.error(
-      { err: errors },
-      'could not query for user confirmation status'
-    );
-    return;
-  }
-
-  // Get the first local profile from the user.
-  const profile = find(get(data, 'user.profiles', []), ['provider', 'local']);
-  if (!profile) {
-    ctx.log.warn({ user_id: userID }, 'user did not have a local profile');
-    return;
-  }
-
-  // Pull out the confirmed status from the profile.
-  const confirmed = get(profile, 'confirmedAt', null) !== null;
-  if (!confirmed) {
-    ctx.log.info(
-      { user_id: userID },
-      'user did not have their local profile confirmed, but had settings enabled, not mailing'
-    );
-    return;
-  }
-
-  return notification;
-};
-
-// filterVerified performs filtering in a complicated way because we can't use
-// Promise.all on a Array.prototype.filter call.
-const filterVerified = async (ctx, notifications) => {
-  notifications = await Promise.all(
-    notifications.map(filterVerifiedNotification(ctx))
-  );
-
-  // This acts as a poor-mans identity filter to remove all falsy values.
-  return notifications.filter(property('notification'));
-};
-
 class NotificationManager {
   constructor(context) {
     this.context = context;
     this.registry = [];
+    this.digests = [];
   }
 
   /**
@@ -149,17 +77,169 @@ class NotificationManager {
           .map(({ category }) => category)
           .join(', ')}] handlers when the '${event}' event is emitted`
       );
-      broker.on(event, this.handle(handlers));
+      broker.on(event, this.handleUserEvent(handlers));
     });
   }
 
   /**
-   * handle will wrap a notification handler and attach it to the notification
-   * stream system.
+   * registerDigests will register the digest handlers.
+   *
+   * @param {Array<Object>} handlers digest handlers for options related to digesting
+   */
+  registerDigests(...handlers) {
+    this.digests.push(...handlers);
+  }
+
+  /**
+   * startDigesting will register all the digests to run and setup the cron
+   * jobs.
+   */
+  startDigesting() {
+    this.digests.forEach(({ frequency, config }) => {
+      new CronJob(
+        merge(config, {
+          start: true,
+          onTick: this.handleDigestEvent(frequency),
+        })
+      );
+    });
+  }
+
+  handleDigestEvent(frequency) {
+    return async () => {
+      // Create a system context to send down.
+      const ctx = this.context.forSystem();
+
+      try {
+        // Pull out some useful tools.
+        const {
+          connectors: { models: { User }, services: { I18n: { t } } },
+        } = ctx;
+
+        const organizationName = await getOrganizationName(ctx);
+        if (!organizationName) {
+          ctx.log.error(
+            'could not send the notification, organization name not in settings'
+          );
+          return;
+        }
+
+        const subject = t(
+          'talk-plugin-notifications.templates.digest.subject',
+          organizationName
+        );
+
+        // Continue to pull from the Users digest until the queue is empty.
+        while (true) {
+          // Pull notifications from a user that have notifications enabled for
+          // `frequency` and currently have notifications.
+          const user = await User.findOneAndUpdate(
+            {
+              'metadata.notifications.settings.digestFrequency': frequency,
+              'metadata.notifications.digests': { $exists: true, $ne: [] },
+            },
+            { $set: { 'metadata.notifications.digests': [] } }
+          );
+          if (!user) {
+            // There are no more users that meet the search criteria! We're
+            // done!
+            ctx.log.info('no notifications from database');
+            break;
+          }
+
+          // Begin rendering the user's digest.
+          const digests = get(user, 'metadata.notifications.digests');
+          if (!digests) {
+            // We couldn't get the digest from the user (even after Mongo said
+            // we would get it?).
+            ctx.log.info(
+              { userID: user.id },
+              'no notifications from user in database'
+            );
+            continue;
+          }
+
+          ctx.log.info(
+            { userID: user.id, notifications: digests.length },
+            'generating notification digest email'
+          );
+
+          const flattenedDigestCategories = this.flattenDigests(ctx, digests);
+
+          // Get all the notifications together.
+          const allMessages = await renderDigestMessage(
+            ctx,
+            flattenedDigestCategories
+          );
+
+          // Send the email with the digested body.
+          await sendNotification(
+            ctx,
+            user.id,
+            subject,
+            flatten(allMessages),
+            'notification-digest'
+          );
+        }
+      } catch (err) {
+        ctx.log.error({ err }, 'could not handle digests');
+      }
+    };
+  }
+
+  flattenDigests(ctx, digests) {
+    // Digests are store in the database like:
+    //
+    // [{ notification: { userID, date, context }, category }, ...]
+    //
+    // So lets group our notifications by category, creating the
+    // following:
+    //
+    // {[category]: [{notification: { userID, date, context }}, ...], ...}
+    //
+    const groupedDigests = groupBy(digests, 'category');
+
+    // Lets attach the handler reference onto each of these, so we
+    // transform it again to the following:
+    //
+    // [{ handler, notifications: [{ userID, date, context }]}]
+    //
+    return Object.keys(groupedDigests)
+      .map(category => {
+        // Get the handler.
+        const handler = find(this.registry, ['category', category]);
+        if (!handler) {
+          ctx.log.info({ category }, 'notification category not found');
+          return;
+        }
+        // Get the notifications.
+        const notifications = map(get(groupedDigests, category), digests =>
+          get(digests, 'notification')
+        );
+
+        return { notifications, handler };
+      })
+      .filter(digest => digest)
+      .sort((a, b) => {
+        const aDigestOrder = get(a, 'handler.digestOrder', 0);
+        const bDigestOrder = get(b, 'handler.digestOrder', 0);
+        if (aDigestOrder < bDigestOrder) {
+          return -1;
+        }
+        if (aDigestOrder > bDigestOrder) {
+          return 1;
+        }
+        return 0;
+      });
+  }
+
+  /**
+   * handleUserEvent will wrap a notification handler and attach it to the
+   * notification stream system.
    *
    * @param {Object} handler a notification handler
    */
-  handle(handlers) {
+  handleUserEvent(handlers) {
     return async (...args) => {
       // Create a system context to send down.
       const ctx = this.context.forSystem();
@@ -181,94 +261,8 @@ class NotificationManager {
       }
 
       // Send the remaining notifications.
-      return Promise.all(
-        notifications.map(
-          ({ handler, notification: { userID, date, context } }) =>
-            this.send(ctx, userID, date, handler, context)
-        )
-      );
+      return processNewNotifications(ctx, notifications);
     };
-  }
-
-  async send(ctx, userID, date, handler, context) {
-    const {
-      connectors: {
-        secrets: { jwt },
-        config: { JWT_ISSUER, JWT_AUDIENCE },
-        services: { Mailer, I18n: { t } },
-      },
-      loaders: { Settings },
-    } = ctx;
-    const { category } = handler;
-
-    try {
-      // Get the settings.
-      const { organizationName = null } = await Settings.load(
-        'organizationName'
-      );
-      if (organizationName === null) {
-        ctx.log.error(
-          'could not send the notification, organization name not in settings'
-        );
-        return;
-      }
-
-      // unsubscribeToken is the token used to perform the one-click
-      // unsubscribe.
-      const unsubscribeToken = jwt.sign({
-        jti: uuid(),
-        iss: JWT_ISSUER,
-        aud: JWT_AUDIENCE,
-        sub: UNSUBSCRIBE_SUBJECT,
-        user: userID,
-      });
-
-      // Compose the subject for the email.
-      const subject = t(
-        `talk-plugin-notifications.categories.${category}.subject`,
-        organizationName
-      );
-
-      // Load the content into the comment.
-      const body = await this.getBody(ctx, handler, context);
-
-      // Send the notification to the user.
-      const task = await Mailer.send({
-        template: 'notification',
-        locals: { body, organizationName, unsubscribeToken },
-        subject,
-        user: userID,
-      });
-
-      ctx.log.info(`Sent the notification for Job.ID[${task.id}]`);
-    } catch (err) {
-      ctx.log.error(
-        { err, message: err.message },
-        'could not send the notification, an error occurred'
-      );
-      return;
-    }
-  }
-
-  /**
-   * getBody will return the body for the notification payload.
-   *
-   * @param {Object} ctx the graph context
-   * @param {Object} handler the notification handler
-   * @param {Mixed} context the notification context
-   */
-  async getBody(ctx, handler, context) {
-    const { connectors: { services: { I18n: { t } } } } = ctx;
-    const { category, hydrate = () => [] } = handler;
-
-    // Get the body replacement variables for the translation key.
-    const replacements = await hydrate(ctx, category, context);
-
-    // Generate the body.
-    return t(
-      `talk-plugin-notifications.categories.${category}.body`,
-      ...replacements
-    );
   }
 }
 

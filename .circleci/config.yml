@@ -16,7 +16,9 @@ integration_job: &integration_job
   environment:
     <<: *integration_environment
   docker:
-    - image: circleci/node:8-browsers
+    # TODO: replace with node:8-browsers when build issues are resolved.
+    # - image: circleci/node:8-browsers
+    - image: coralproject/ci
     - image: circleci/mongo:3
     - image: circleci/redis:4-alpine
   steps:
@@ -32,10 +34,14 @@ integration_job: &integration_job
     - store_test_results:
         when: always
         path: /tmp/circleci-test-results
+    - store_artifacts:
+        when: always
+        path: /tmp/circleci-test-results
+
 
 version: 2
 jobs:
-  # npm_dependencies will install the dependencies used by all other steps. 
+  # npm_dependencies will install the dependencies used by all other steps.
   npm_dependencies:
     <<: *job_defaults
     steps:
@@ -56,7 +62,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths: node_modules
-  
+
   # lint will perform file linting.
   lint:
     <<: *job_defaults
@@ -67,7 +73,7 @@ jobs:
       - run:
           name: Perform linting
           command: yarn lint
-  
+
   # build_assets will build the static assets.
   build_assets:
     <<: *job_defaults
@@ -86,11 +92,11 @@ jobs:
       - save_cache:
           key: build-cache-{{ .Branch }}-{{ .Revision }}
           paths:
-            - ./node_modules/.cache/hard-source
+            - ./node_modules/.cache/babel-loader
       - persist_to_workspace:
           root: .
           paths: dist
-  
+
   # test_unit will run the unit tests.
   test_unit:
     <<: *job_defaults
@@ -102,7 +108,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/coralproject/talk
-      - run: 
+      - run:
           name: Setup the test results directory
           command: mkdir -p /tmp/circleci-test-results
       - run:
@@ -120,7 +126,7 @@ jobs:
       - store_test_results:
           when: always
           path: /tmp/circleci-test-results
-  
+
   # test_integration_chrome_local will run the integration tests locally with
   # chrome headless.
   test_integration_chrome_local:
@@ -128,7 +134,7 @@ jobs:
     environment:
       <<: *integration_environment
       E2E_BROWSERS: chrome
-  
+
   # test_integration_firefox_local will run the integration tests locally with
   # firefox headless.
   test_integration_firefox_local:
@@ -145,7 +151,7 @@ jobs:
       <<: *integration_environment
       BROWSERSTACK: true
       E2E_BROWSERS: chrome
-  
+
   # test_integration_firefox will run the integration tests with firefox in
   # browserstack.
   test_integration_firefox:
@@ -154,7 +160,7 @@ jobs:
       <<: *integration_environment
       BROWSERSTACK: true
       E2E_BROWSERS: firefox
-  
+
   # test_integration_edge will run the integration tests with edge in
   # browserstack.
   test_integration_edge:
@@ -163,7 +169,7 @@ jobs:
       <<: *integration_environment
       BROWSERSTACK: true
       E2E_BROWSERS: edge
-  
+
   # test_integration_ie will run the integration tests with ie in
   # browserstack.
   test_integration_ie:
@@ -174,7 +180,7 @@ jobs:
       E2E_BROWSERS: ie
       # TODO: remove when more reliable
       E2E_MAX_RETRIES: 1
-  
+
   # test_integration_safari will run the integration tests with safari in
   # browserstack.
   test_integration_safari:
@@ -185,7 +191,7 @@ jobs:
       E2E_BROWSERS: safari
       # TODO: remove when more reliable
       E2E_MAX_RETRIES: 1
-  
+
   # deploy will deploy the application as a docker image.
   deploy:
     <<: *job_defaults
@@ -236,13 +242,14 @@ workflows:
           requires:
             - npm_dependencies
       - test_integration_chrome_local:
-          <<: *filter_develop        
-          requires:
-            - build_assets
-      - test_integration_firefox_local:
           <<: *filter_develop
           requires:
             - build_assets
+      # TODO: uncomment when more reliable
+      # - test_integration_firefox_local:
+      #     <<: *filter_develop
+      #     requires:
+      #       - build_assets
   deploy-tagged:
     jobs:
       - npm_dependencies:
@@ -271,14 +278,15 @@ workflows:
           <<: *filter_deploy
           requires:
             - build_assets
-      - test_integration_ie:
-          <<: *filter_deploy
-          requires:
-            - build_assets
-      - test_integration_safari:
-          <<: *filter_deploy
-          requires:
-            - build_assets
+      # TODO: uncomment when more reliable
+      # - test_integration_ie:
+      #    <<: *filter_deploy
+      #    requires:
+      #      - build_assets
+      # - test_integration_safari:
+      #    <<: *filter_deploy
+      #    requires:
+      #      - build_assets
       - deploy:
           <<: *filter_deploy
           requires:

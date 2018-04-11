@@ -1,6 +1,7 @@
 const TokensService = require('../../../services/tokens');
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
+const Context = require('../../../graph/context');
 
 const chai = require('chai');
 chai.use(require('chai-as-promised'));
@@ -10,7 +11,9 @@ describe('services.TokensService', () => {
   let user;
   beforeEach(async () => {
     await SettingsService.init();
+    const ctx = Context.forSystem();
     user = await UsersService.createLocalUser(
+      ctx,
       'sockmonster@gmail.com',
       '2Coral!!',
       'Sockmonster'
@@ -19,7 +22,7 @@ describe('services.TokensService', () => {
 
   describe('#create', () => {
     it('can create the token without error', async () => {
-      let token = await TokensService.create(user.id, 'Github Token');
+      let token = await TokensService.create(user.id, 'GitHub Token');
       expect(token).to.be.an.object;
       expect(token.jwt).to.be.a.string;
       expect(token.pat).to.be.an.object;
@@ -35,7 +38,7 @@ describe('services.TokensService', () => {
 
   describe('#revoke', () => {
     it('can revoke a token', async () => {
-      let { pat: { id } } = await TokensService.create(user.id, 'Github Token');
+      let { pat: { id } } = await TokensService.create(user.id, 'GitHub Token');
 
       let tokens = await TokensService.list(user.id);
       expect(tokens).to.have.length(1);
@@ -54,7 +57,7 @@ describe('services.TokensService', () => {
   describe('#validate', () => {
     it('will allow a valid token', async () => {
       // Create a token.
-      let { pat: { id } } = await TokensService.create(user.id, 'Github Token');
+      let { pat: { id } } = await TokensService.create(user.id, 'GitHub Token');
 
       // Validate it.
       await TokensService.validate(user.id, id);
@@ -62,7 +65,7 @@ describe('services.TokensService', () => {
 
     it('will not allow an invalid token', async () => {
       // Create a token.
-      let { pat: { id } } = await TokensService.create(user.id, 'Github Token');
+      let { pat: { id } } = await TokensService.create(user.id, 'GitHub Token');
 
       // Revoke it.
       await TokensService.revoke(user.id, id);
@@ -78,7 +81,7 @@ describe('services.TokensService', () => {
       expect(tokens).to.have.length(0);
 
       // Create a token.
-      let { pat: { id } } = await TokensService.create(user.id, 'Github Token');
+      let { pat: { id } } = await TokensService.create(user.id, 'GitHub Token');
 
       tokens = await TokensService.list(user.id);
       expect(tokens).to.have.length(1);

@@ -2,9 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, gql } from 'react-apollo';
 import Settings from '../components/Settings';
-import { withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
+import {
+  withFragments,
+  excludeIf,
+  withEnumValues,
+} from 'plugin-api/beta/client/hocs';
 import { getSlotFragmentSpreads } from 'plugin-api/beta/client/utils';
 import { withUpdateNotificationSettings } from '../mutations';
+import { connect } from 'plugin-api/beta/client/hocs';
+import { staticConfigSelector } from 'plugin-api/beta/client/selectors';
 
 const slots = ['notificationSettings'];
 
@@ -14,14 +20,14 @@ class SettingsContainer extends React.Component {
     turnOffInput: {},
   };
 
-  indicateOn = plugin =>
+  indicateOn = key =>
     this.setState(state => ({
-      hasNotifications: state.hasNotifications.concat(plugin),
+      hasNotifications: state.hasNotifications.concat(key),
     }));
 
-  indicateOff = plugin =>
+  indicateOff = key =>
     this.setState(state => ({
-      hasNotifications: state.hasNotifications.filter(i => i !== plugin),
+      hasNotifications: state.hasNotifications.filter(i => i !== key),
     }));
 
   setTurnOffInputFragment = fragment =>
@@ -33,34 +39,46 @@ class SettingsContainer extends React.Component {
     this.props.updateNotificationSettings(this.state.turnOffInput);
   };
 
+  setDigestFrequency = digestFrequency => {
+    this.props.updateNotificationSettings({ digestFrequency });
+  };
+
   getNeedEmailVerification() {
-    return !this.props.root.me.profiles.some(
-      profile => profile.provider === 'local' && profile.confirmedAt
+    return (
+      this.props.root.settings.notificationsRequireConfirmation &&
+      !this.props.root.me.profiles.some(
+        profile => profile.provider === 'local' && profile.confirmedAt
+      )
     );
   }
 
   render() {
     return (
       <Settings
-        data={this.props.data}
         root={this.props.root}
         indicateOn={this.indicateOn}
         indicateOff={this.indicateOff}
         setTurnOffInputFragment={this.setTurnOffInputFragment}
         updateNotificationSettings={this.props.updateNotificationSettings}
         turnOffAll={this.turnOffAll}
-        turnOffButtonDisabled={this.state.hasNotifications.length === 0}
         needEmailVerification={this.getNeedEmailVerification()}
         email={this.props.root.me.email}
+        digestFrequencyValues={this.props.digestFrequencyValues}
+        digestFrequency={
+          this.props.root.me.notificationSettings.digestFrequency
+        }
+        disableDigest={this.state.hasNotifications.length === 0}
+        disableTurnoffButton={this.state.hasNotifications.length === 0}
+        onChangeDigestFrequency={this.setDigestFrequency}
       />
     );
   }
 }
 
 SettingsContainer.propTypes = {
-  data: PropTypes.object,
   root: PropTypes.object,
   updateNotificationSettings: PropTypes.func.isRequired,
+  digestFrequencyValues: PropTypes.array.isRequired,
 };
 
 const enhance = compose(
@@ -70,6 +88,9 @@ const enhance = compose(
         __typename
         ${getSlotFragmentSpreads(slots, 'root')}
         me {
+          notificationSettings {
+            digestFrequency
+          }
           email
           profiles {
             provider
@@ -78,14 +99,26 @@ const enhance = compose(
             }
           }
         }
+        settings {
+          notificationsRequireConfirmation
+        }
       }
     `,
   }),
+  // Grab the static configuration from the redux store.
+  connect(state => ({
+    static: staticConfigSelector(state),
+  })),
   excludeIf(
     props =>
+      // If the environment variable for TALK_CLIENT_FORCE_NOTIFICATION_SETTINGS
+      // is `TRUE`, then always show it.
+      props.static.TALK_CLIENT_FORCE_NOTIFICATION_SETTINGS !== 'TRUE' &&
+      // Only show the settings pane if we have a local profile otherwise.
       !props.root.me.profiles.some(profile => profile.provider === 'local')
   ),
-  withUpdateNotificationSettings
+  withUpdateNotificationSettings,
+  withEnumValues('DIGEST_FREQUENCY', 'digestFrequencyValues')
 );
 
 export default enhance(SettingsContainer);
