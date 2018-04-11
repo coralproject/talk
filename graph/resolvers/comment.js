@@ -68,16 +68,16 @@ const Comment = {
 // Decorate the Comment type resolver with a tags field.
 decorateWithTags(Comment);
 
-// Protect direct action access.
+// Protect direct action and status history access.
 decorateWithPermissionCheck(Comment, {
   actions: [SEARCH_ACTIONS],
+  status_history: [SEARCH_COMMENT_STATUS_HISTORY],
 });
 
 // Protect privileged fields.
 decorateWithPermissionCheck(
   Comment,
   {
-    status_history: [SEARCH_COMMENT_STATUS_HISTORY],
     body_history: [VIEW_BODY_HISTORY],
   },
   checkSelfField('author_id')
