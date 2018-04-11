@@ -100,7 +100,7 @@ module.exports = {
 
           if (spam) {
             if (input.checkSpam) {
-              throw ErrSpam;
+              throw new ErrSpam();
             }
 
             // Attach reason information for the flag being added.
