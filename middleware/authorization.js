@@ -7,7 +7,7 @@ const authorization = (module.exports = {
 });
 
 const debug = require('debug')('talk:middleware:authorization');
-const ErrNotAuthorized = require('../errors').ErrNotAuthorized;
+const { ErrNotAuthorized } = require('../errors');
 
 /**
  * has returns true if the user has at least one of the roles specified,
