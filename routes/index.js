@@ -1,7 +1,7 @@
 const SetupService = require('../services/setup');
 const authentication = require('../middleware/authentication');
+const logging = require('../middleware/logging');
 const cookieParser = require('cookie-parser');
-const enabled = require('debug').enabled;
 const { TalkError, ErrNotFound } = require('../errors');
 const express = require('express');
 const i18n = require('../middleware/i18n');
@@ -152,15 +152,12 @@ router.use((req, res, next) => {
   next(new ErrNotFound());
 });
 
+// Add logging for errors.
+router.use(logging.error);
+
 // General API error handler. Respond with the message and error if we have it
 // while returning a status code that makes sense.
 router.use('/api', (err, req, res, next) => {
-  if (!(err instanceof ErrNotFound)) {
-    if (process.env.NODE_ENV !== 'test' || enabled('talk:errors')) {
-      console.error(err);
-    }
-  }
-
   if (err instanceof TalkError) {
     res.status(err.status).json({
       message: res.locals.t(`error.${err.translation_key}`),
@@ -172,10 +169,6 @@ router.use('/api', (err, req, res, next) => {
 });
 
 router.use('/', (err, req, res, next) => {
-  if (!(err instanceof ErrNotFound)) {
-    console.error(err);
-  }
-
   if (err instanceof TalkError) {
     res.status(err.status);
     res.render('error', {
