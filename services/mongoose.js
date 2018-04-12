@@ -42,10 +42,6 @@ if (WEBPACK) {
     logger.debug('mongodb disconnected')
   );
 
-  setTimeout(() => {
-    mongoose.disconnect();
-  }, 5000);
-
   // Connect to the Mongo instance.
   mongoose
     .connect(MONGO_URL, {
