@@ -76,7 +76,7 @@ ActionsMenu.propTypes = {
   icon: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   buttonClassNames: PropTypes.string,
 };
 

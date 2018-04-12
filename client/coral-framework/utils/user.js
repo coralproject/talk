@@ -1,4 +1,6 @@
 import get from 'lodash/get';
+import mapValues from 'lodash/mapValues';
+import toPairs from 'lodash/toPairs';
 
 /**
  * getReliability
@@ -40,5 +42,31 @@ export const isBanned = user => {
  */
 
 export const isUsernameRejected = user => {
-  return get(user, 'state.status.username.status');
+  return get(user, 'state.status.username.status') === 'REJECTED';
+};
+
+/**
+ * isUsernameChanged
+ * retrieves boolean based on the username status
+ */
+
+export const isUsernameChanged = user => {
+  return get(user, 'state.status.username.status') === 'CHANGED';
+};
+
+/**
+ * getActiveStatuses
+ * returns an array of active status(es)
+ * i.e if suspension is active, it returns suspension
+ */
+
+export const getActiveStatuses = user => {
+  const statusMap = {
+    suspended: isSuspended,
+    banned: isBanned,
+    usernameRejected: isUsernameRejected,
+    usernameChanged: isUsernameChanged,
+  };
+
+  return toPairs(mapValues(statusMap, fn => fn(user))).filter(x => x[1]);
 };

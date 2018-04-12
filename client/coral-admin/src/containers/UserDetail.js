@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import UserDetail from '../components/UserDetail';
 import withQuery from 'coral-framework/hocs/withQuery';
+import { withRouter } from 'react-router';
 import {
   getDefinitionName,
   getSlotFragmentSpreads,
@@ -21,12 +22,12 @@ import {
   withSetCommentStatus,
   withUnbanUser,
   withUnsuspendUser,
+  withRejectUsername,
 } from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
 import { showBanUserDialog } from 'actions/banUserDialog';
 import { showSuspendUserDialog } from 'actions/suspendUserDialog';
-import { withRejectUsername } from '../../../coral-framework/graphql/mutations';
 
 const commentConnectionFragment = gql`
   fragment CoralAdmin_UserDetail_CommentConnection on CommentConnection {
@@ -285,5 +286,6 @@ export default compose(
   withSetCommentStatus,
   withUnbanUser,
   withUnsuspendUser,
-  withRejectUsername
+  withRejectUsername,
+  withRouter
 )(UserDetailContainer);
