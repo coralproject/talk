@@ -63,6 +63,23 @@ class InMemoryStorage {
 
   removeItem(key) {
     delete this.storage[key];
+
+    try {
+      // Test sessionStorage. We could have been given access recently.
+      const canSetGet = testStorage(sessionStorage);
+
+      if (canSetGet) {
+        sessionStorage.removeItem(key);
+        console.log(
+          'Attempt to persist InMemoryStorage delete to sessionStorage succeeded'
+        );
+      }
+    } catch (err) {
+      console.warn(
+        'Attempt to persist InMemoryStorage delete to sessionStorage failed',
+        err
+      );
+    }
   }
 }
 
