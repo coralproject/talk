@@ -1,40 +1,112 @@
 import uuid from 'uuid/v4';
 
-function getStorage(type) {
-  let storage;
-  try {
-    storage = window[type];
-    const x = '__storage_test__';
-    storage.setItem(x, x);
-    storage.removeItem(x);
-  } catch (e) {
-    const ignore =
-      e instanceof DOMException &&
-      // everything except Firefox
-      (e.code === 22 ||
-        // SecurityError related to having 3rd party cookies disabled.
-        e.code === 18 ||
-        // Firefox
+function testStorage(storage) {
+  const key = '__storage_test__';
 
-        e.code === 1014 ||
-        // test name field too, because code might not be present
+  // Create a unique test value.
+  const expectedValue = String(Date.now());
 
-        // everything except Firefox
-        e.name === 'QuotaExceededError' ||
-        // Firefox
-        e.name === 'NS_ERROR_DOM_QUOTA_REACHED');
-    if (!ignore) {
-      console.warn(e);
+  // Try to set, get, and remove that item.
+  storage.setItem(key, expectedValue);
+  const canSetGet = expectedValue === storage.getItem(key);
+  storage.removeItem(key);
+
+  return canSetGet;
+}
+
+// InMemoryStorage is a dumb implementation of the Storage interface that will
+// not persist the data at all. It implements the Storage interface found:
+//
+// https://developer.mozilla.org/en-US/docs/Web/API/Storage
+//
+class InMemoryStorage {
+  constructor() {
+    this.storage = {};
+  }
+
+  get length() {
+    return Object.keys(this.storage).length;
+  }
+
+  key(n) {
+    if (this.length <= n) {
+      return undefined;
     }
 
-    // When third party cookies are disabled, session storage is readable/
-    // writable, but localStorage is not. Try to get the sessionStorage to use.
-    if (type !== 'sessionStorage') {
-      return getStorage('sessionStorage');
+    return this.storage[Object.keys(this.storage)[n]];
+  }
+
+  getItem(key) {
+    return this.storage[key];
+  }
+
+  setItem(key, value) {
+    this.storage[key] = value;
+
+    try {
+      // Test sessionStorage. We could have been given access recently.
+      const canSetGet = testStorage(sessionStorage);
+
+      if (canSetGet) {
+        sessionStorage.setItem(key, value);
+        console.log(
+          'Attempt to persist InMemoryStorage value to sessionStorage succeeded'
+        );
+      }
+    } catch (err) {
+      console.warn(
+        'Attempt to persist InMemoryStorage value to sessionStorage failed',
+        err
+      );
     }
   }
 
-  return storage;
+  removeItem(key) {
+    delete this.storage[key];
+  }
+}
+
+// getStorage will test to see if the requested storage type is available, if it
+// is not, it will try sessionStorage, and if that is also not available, it
+// will fallback to InMemoryStorage.
+function getStorage(type) {
+  let storage;
+  try {
+    // Get the desired storage from the window.
+    storage = window[type];
+
+    // Test the storage.
+    const canSetGet = testStorage(storage);
+
+    // If we can set/get then use that storage.
+    if (canSetGet) {
+      console.log('Access to', type, 'is available');
+      return storage;
+    } else {
+      console.warn(
+        'Failed to set/get on',
+        type,
+        'falling back to InMemoryStorage'
+      );
+    }
+  } catch (err) {
+    // When third party cookies are disabled, session storage is readable/
+    // writable, but localStorage is not. Try to get the sessionStorage to use.
+    if (type !== 'sessionStorage') {
+      console.warn('Could not access', type, 'trying sessionStorage', err);
+      return getStorage('sessionStorage');
+    }
+
+    console.warn(
+      'Could not access',
+      type,
+      'falling back to InMemoryStorage',
+      err
+    );
+  }
+
+  // No acceptable storage could be found, returning the InMemoryStorage.
+  return new InMemoryStorage();
 }
 
 /**
