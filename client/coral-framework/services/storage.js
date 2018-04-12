@@ -1,6 +1,6 @@
 import uuid from 'uuid/v4';
 
-function testStorage(storage) {
+function testStorageAccess(storage) {
   const key = '__storage_test__';
 
   // Create a unique test value.
@@ -11,7 +11,10 @@ function testStorage(storage) {
   const canSetGet = expectedValue === storage.getItem(key);
   storage.removeItem(key);
 
-  return canSetGet;
+  if (!canSetGet) {
+    // We can't access the desired storage!
+    throw new Error('Storage access test failed');
+  }
 }
 
 // InMemoryStorage is a dumb implementation of the Storage interface that will
@@ -45,14 +48,13 @@ class InMemoryStorage {
 
     try {
       // Test sessionStorage. We could have been given access recently.
-      const canSetGet = testStorage(sessionStorage);
+      testStorageAccess(sessionStorage);
 
-      if (canSetGet) {
-        sessionStorage.setItem(key, value);
-        console.log(
-          'Attempt to persist InMemoryStorage value to sessionStorage succeeded'
-        );
-      }
+      // Test passed! Set the item in sessionStorage.
+      sessionStorage.setItem(key, value);
+      console.log(
+        'Attempt to persist InMemoryStorage value to sessionStorage succeeded'
+      );
     } catch (err) {
       console.warn(
         'Attempt to persist InMemoryStorage value to sessionStorage failed',
@@ -66,14 +68,13 @@ class InMemoryStorage {
 
     try {
       // Test sessionStorage. We could have been given access recently.
-      const canSetGet = testStorage(sessionStorage);
+      testStorageAccess(sessionStorage);
 
-      if (canSetGet) {
-        sessionStorage.removeItem(key);
-        console.log(
-          'Attempt to persist InMemoryStorage delete to sessionStorage succeeded'
-        );
-      }
+      // Test passed! Remove the item from sessionStorage.
+      sessionStorage.removeItem(key);
+      console.log(
+        'Attempt to persist InMemoryStorage delete to sessionStorage succeeded'
+      );
     } catch (err) {
       console.warn(
         'Attempt to persist InMemoryStorage delete to sessionStorage failed',
@@ -87,25 +88,13 @@ class InMemoryStorage {
 // is not, it will try sessionStorage, and if that is also not available, it
 // will fallback to InMemoryStorage.
 function getStorage(type) {
-  let storage;
   try {
-    // Get the desired storage from the window.
-    storage = window[type];
+    // Get the desired storage from the window and test it out.
+    const storage = window[type];
+    testStorageAccess(storage);
 
-    // Test the storage.
-    const canSetGet = testStorage(storage);
-
-    // If we can set/get then use that storage.
-    if (canSetGet) {
-      console.log('Access to', type, 'is available');
-      return storage;
-    } else {
-      console.warn(
-        'Failed to set/get on',
-        type,
-        'falling back to InMemoryStorage'
-      );
-    }
+    // Storage test was successful! Return it.
+    return storage;
   } catch (err) {
     // When third party cookies are disabled, session storage is readable/
     // writable, but localStorage is not. Try to get the sessionStorage to use.
@@ -115,9 +104,7 @@ function getStorage(type) {
     }
 
     console.warn(
-      'Could not access',
-      type,
-      'falling back to InMemoryStorage',
+      'Could not access sessionStorage falling back to InMemoryStorage',
       err
     );
   }
