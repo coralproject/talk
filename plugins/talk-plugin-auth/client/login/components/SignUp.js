@@ -75,6 +75,7 @@ class SignUp extends React.Component {
                 showErrors={!!emailError}
                 errorMsg={emailError}
                 onChange={this.handleEmailChange}
+                autocomplete="off"
               />
               <TextField
                 id="username"
@@ -85,6 +86,8 @@ class SignUp extends React.Component {
                 showErrors={!!usernameError}
                 errorMsg={usernameError}
                 onChange={this.handleUsernameChange}
+                autocomplete="off"
+                autocapitalize="none"
               />
               <TextField
                 id="password"
@@ -96,6 +99,7 @@ class SignUp extends React.Component {
                 errorMsg={passwordError}
                 onChange={this.handlePasswordChange}
                 minLength="8"
+                autocomplete="off"
               />
               {passwordError && (
                 <span className={styles.hint}>
@@ -113,6 +117,7 @@ class SignUp extends React.Component {
                 errorMsg={passwordRepeatError}
                 onChange={this.handlePasswordRepeatChange}
                 minLength="8"
+                autocomplete="off"
               />
               <Slot
                 fill="talkPluginAuth.formField"
