@@ -1,6 +1,7 @@
 
 # job_environment will setup the environment for any job being executed.
 job_environment: &job_environment
+  NODE_ENV: test
   DISABLE_CREATE_MONGO_INDEXES: TRUE
 
 # job_defaults applies all the defaults for each job.
@@ -21,7 +22,6 @@ create_indexes: &create_indexes
 # integration_environment is the environment that configures the tests.
 integration_environment: &integration_environment
   <<: *job_environment
-  NODE_ENV: test
   CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
   E2E_MAX_RETRIES: 3
 
