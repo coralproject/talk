@@ -2,7 +2,12 @@ const UsersService = require('./users');
 const SettingsService = require('./settings');
 const MigrationService = require('./migration');
 const SettingsModel = require('../models/setting');
-const errors = require('../errors');
+const {
+  ErrMissingEmail,
+  ErrInstallLock,
+  ErrSettingsInit,
+  ErrSettingsNotInit,
+} = require('../errors');
 const { INSTALL_LOCK } = require('../config');
 
 /**
@@ -16,25 +21,25 @@ module.exports = class SetupService {
   static async isAvailable() {
     // Check if we have an install lock present.
     if (INSTALL_LOCK) {
-      throw errors.ErrInstallLock;
+      throw new ErrInstallLock();
     }
 
     try {
-      // Get the current settings, we are expecing an error here.
+      // Get the current settings, we are expecting an error here.
       await SettingsService.retrieve();
 
       // We should NOT have gotten a settings object, this means that the
       // application is already setup. Error out here.
-      throw errors.ErrSettingsInit;
-    } catch (e) {
-      // If the error is `not init`, then we're good, otherwise, it's something
-      // else.
-      if (e !== errors.ErrSettingsNotInit) {
-        throw e;
+      throw new ErrSettingsInit();
+    } catch (err) {
+      // Allow the request to keep going here.
+      if (err instanceof ErrSettingsNotInit) {
+        return;
       }
 
-      // Allow the request to keep going here.
-      return;
+      // If the error is `not init`, then we're good, otherwise, it's something
+      // else.
+      throw err;
     }
   }
 
@@ -44,7 +49,7 @@ module.exports = class SetupService {
   static validate({ settings, user: { email, username, password } }) {
     // Verify the email address of the user.
     if (!email) {
-      return Promise.reject(errors.ErrMissingEmail);
+      throw new ErrMissingEmail();
     }
 
     // Create a settings model to use for validation.

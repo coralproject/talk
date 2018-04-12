@@ -1,4 +1,4 @@
-const Errors = require('../../../errors');
+const { ErrContainsProfanity } = require('../../../errors');
 const Wordlist = require('../../../services/wordlist');
 const SettingsService = require('../../../services/settings');
 
@@ -103,7 +103,8 @@ describe('services.Wordlist', () => {
         'content'
       );
 
-      expect(errors).to.have.property('banned', Errors.ErrContainsProfanity);
+      expect(errors).to.have.property('banned');
+      expect(errors.banned).to.be.an.instanceof(ErrContainsProfanity);
     });
 
     it('does not match on bodies not containing bad words', () => {

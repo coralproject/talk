@@ -1,5 +1,5 @@
 const { SEARCH_OTHER_USERS } = require('../../../perms/constants');
-const errors = require('../../../errors');
+const { ErrNotFound, ErrAlreadyExists } = require('../../../errors');
 const pluralize = require('pluralize');
 const sc = require('snake-case');
 const CommentModel = require('../../../models/comment');
@@ -192,7 +192,7 @@ function getReactionConfig(reaction) {
         ) => {
           const comment = await Comments.get.load(item_id);
           if (!comment) {
-            throw errors.ErrNotFound;
+            throw new ErrNotFound();
           }
 
           try {
@@ -211,7 +211,7 @@ function getReactionConfig(reaction) {
               [reaction]: action,
             };
           } catch (err) {
-            if (err instanceof errors.ErrAlreadyExists) {
+            if (err instanceof ErrAlreadyExists) {
               return err.metadata.existing;
             }
 
