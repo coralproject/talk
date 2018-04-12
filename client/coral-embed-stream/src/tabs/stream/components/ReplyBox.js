@@ -24,6 +24,7 @@ class ReplyBox extends React.Component {
       currentUser,
       notify,
       parentId,
+      parentAuthorName,
       commentPostedHandler,
       maxCharCount,
       charCountEnable,
@@ -39,6 +40,7 @@ class ReplyBox extends React.Component {
           charCountEnable={charCountEnable}
           commentPostedHandler={commentPostedHandler}
           parentId={parentId}
+          parentAuthorName={parentAuthorName}
           onCancel={this.cancelReply}
           notify={notify}
           currentUser={currentUser}
