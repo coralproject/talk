@@ -428,6 +428,12 @@ en:
     user_bio: "User Bio"
     username_flags: "flags for this username"
   user_detail:
+    suspended: 'Suspended'
+    banned: 'Banned'
+    username: 'Username'
+    username_needs_approval: 'Username needs approval'
+    username_rejected: 'Username rejected'
+    reject_username: 'Reject Username'
     remove_suspension: "Remove Suspension"
     suspend: "Suspend User"
     remove_ban: "Remove Ban"

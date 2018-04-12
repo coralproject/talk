@@ -99,19 +99,23 @@ class UserDetail extends React.Component {
 
       switch (activeStatus) {
         case 'suspended':
-          return <span>Suspended</span>;
+          return t('user_detail.suspended');
         case 'banned':
-          return <span>Banned</span>;
+          return t('user_detail.banned');
         case 'usernameRejected':
           return (
             <span>
-              Username <Icon name="cancel" />
+              {t('user_detail.username')}
+              {` `}
+              <Icon name="cancel" />
             </span>
           );
         case 'usernameChanged':
           return (
             <span>
-              Username <Icon name="access_time" />
+              {t('user_detail.username')}
+              {` `}
+              <Icon name="access_time" />
             </span>
           );
         default:
@@ -215,19 +219,19 @@ class UserDetail extends React.Component {
 
               {usernameChanged && (
                 <ActionsMenuItem onClick={this.goToReportedUsernames}>
-                  Username needs approval
+                  {t('user_detail.username_needs_approval')}
                 </ActionsMenuItem>
               )}
 
               {usernameRejected && !usernameChanged ? (
                 <ActionsMenuItem disabled={me.id === user.id}>
-                  Username Rejected
+                  {t('user_detail.username_rejected')}
                 </ActionsMenuItem>
               ) : (
                 <ActionsMenuItem
                   onClick={() => rejectUsername({ id: user.id })}
                 >
-                  Reject Username
+                  {t('user_detail.reject_username')}
                 </ActionsMenuItem>
               )}
             </ActionsMenu>
