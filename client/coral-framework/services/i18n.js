@@ -52,11 +52,7 @@ let lang;
 let timeagoInstance;
 
 function setLocale(storage, locale) {
-  try {
-    storage.setItem('locale', locale);
-  } catch (err) {
-    console.warn('Error while trying to persist the language detection', err);
-  }
+  storage.setItem('locale', locale);
 }
 
 // detectLanguage will try to get the locale from storage if available,
