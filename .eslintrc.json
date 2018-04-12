@@ -1,3 +1,6 @@
 {
+  "env": {
+    "jest": true
+  },
   "extends": "@coralproject/eslint-config-talk"
 }

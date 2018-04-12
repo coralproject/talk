@@ -239,26 +239,14 @@ function getReactionConfig(reaction) {
     hooks: {
       Action: {
         __resolveType: {
-          post({ action_type }) {
-            switch (action_type) {
-              case REACTION:
-                return `${Reaction}Action`;
-              default:
-                return undefined;
-            }
-          },
+          post: ({ action_type }) =>
+            action_type === REACTION ? `${Reaction}Action` : undefined,
         },
       },
       ActionSummary: {
         __resolveType: {
-          post({ action_type }) {
-            switch (action_type) {
-              case REACTION:
-                return `${Reaction}ActionSummary`;
-              default:
-                return undefined;
-            }
-          },
+          post: ({ action_type = '' } = {}) =>
+            action_type === REACTION ? `${Reaction}ActionSummary` : undefined,
         },
       },
     },
