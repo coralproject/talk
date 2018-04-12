@@ -16,6 +16,8 @@ import cn from 'classnames';
 
 export default class Embed extends React.Component {
   getTabs() {
+    if (!this.props.currentUser) return false;
+
     const tabs = [
       <Tab
         key="stream"
