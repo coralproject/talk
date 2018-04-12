@@ -14,7 +14,7 @@ const SettingsService = require('../services/settings');
 const SetupService = require('../services/setup');
 const UsersService = require('../services/users');
 const MigrationService = require('../services/migration');
-const errors = require('../errors');
+const { ErrSettingsInit, ErrSettingsNotInit } = require('../errors');
 const Context = require('../graph/context');
 
 // Register the shutdown criteria.
@@ -41,13 +41,15 @@ const performSetup = async () => {
 
     // We should NOT have gotten a settings object, this means that the
     // application is already setup. Error out here.
-    throw errors.ErrSettingsInit;
-  } catch (e) {
+    throw new ErrSettingsInit();
+  } catch (err) {
     // If the error is `not init`, then we're good, otherwise, it's something
     // else.
-    if (e !== errors.ErrSettingsNotInit) {
-      throw e;
+    if (err instanceof ErrSettingsNotInit) {
+      return;
     }
+
+    throw err;
   }
 
   if (program.defaults) {

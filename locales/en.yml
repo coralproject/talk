@@ -154,12 +154,19 @@ en:
     sign_out: "Sign Out"
     stories: Stories
     stream_settings: "Stream Settings"
+    access_message: "You must be an administrator to access config settings. Please find the nearest Admin and ask them to level you up!"
     suspect_word_title: "Suspect words list"
     suspect_word_text: "Comments which contain these words or phrases (not case-sensitive) will be highlighted in the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
     tech_settings: "Tech Settings"
     title: "Configure Comment Stream"
     weeks: Weeks
     wordlist: "Banned Words"
+    save_changes_dialog:
+      unsaved_changes: "Unsaved changes"
+      copy: "You have made one or more changes without saving. Would you like to save or discard your changes?"
+      save_settings: "Save Settings"
+      discard: "Discard"
+      cancel: "Cancel"
   continue: "Continue"
   createdisplay:
     check_the_form: "Invalid Form. Please check the fields"

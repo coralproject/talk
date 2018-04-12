@@ -1,4 +1,4 @@
-const errors = require('../../errors');
+const { ErrNotAuthorized } = require('../../errors');
 const {
   UPDATE_ASSET_SETTINGS,
   UPDATE_ASSET_STATUS,
@@ -71,10 +71,10 @@ const scrapeAsset = async (ctx, id) => {
 module.exports = ctx => {
   let mutators = {
     Asset: {
-      updateSettings: () => Promise.reject(errors.ErrNotAuthorized),
-      updateStatus: () => Promise.reject(errors.ErrNotAuthorized),
-      closeNow: () => Promise.reject(errors.ErrNotAuthorized),
-      scrape: () => Promise.reject(errors.ErrNotAuthorized),
+      updateSettings: () => Promise.reject(new ErrNotAuthorized()),
+      updateStatus: () => Promise.reject(new ErrNotAuthorized()),
+      closeNow: () => Promise.reject(new ErrNotAuthorized()),
+      scrape: () => Promise.reject(new ErrNotAuthorized()),
     },
   };
 

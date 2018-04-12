@@ -27,7 +27,7 @@ module.exports = {
 
         if (isToxic(scores)) {
           if (input.checkToxicity) {
-            throw ErrToxic;
+            throw new ErrToxic();
           }
 
           input.status = 'SYSTEM_WITHHELD';

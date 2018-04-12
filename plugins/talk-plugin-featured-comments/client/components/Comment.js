@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './Comment.css';
 import { t } from 'plugin-api/beta/client/services';
@@ -28,6 +29,7 @@ class Comment extends React.Component {
           fill="commentContent"
           defaultComponent={CommentContent}
           passthrough={slotPassthrough}
+          size={1}
         />
 
         <div className={cn(`${pluginName}-comment-username-box`)}>
@@ -86,5 +88,12 @@ class Comment extends React.Component {
     );
   }
 }
+
+Comment.propTypes = {
+  viewComment: PropTypes.func,
+  comment: PropTypes.object,
+  asset: PropTypes.object,
+  root: PropTypes.object,
+};
 
 export default Comment;
