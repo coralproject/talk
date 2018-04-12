@@ -87,6 +87,7 @@ class SignUp extends React.Component {
                 errorMsg={usernameError}
                 onChange={this.handleUsernameChange}
                 autocomplete="off"
+                autocapitalize="none"
               />
               <TextField
                 id="password"
