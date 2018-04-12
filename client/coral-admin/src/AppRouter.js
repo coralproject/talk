@@ -2,10 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Router, Route, IndexRedirect, IndexRoute } from 'react-router';
 
-import Configure from 'routes/Configure';
 import Install from 'routes/Install';
 import Stories from 'routes/Stories';
 import Community from 'routes/Community';
+
+import Configure from 'routes/Configure';
+import StreamSettings from './routes/Configure/containers/StreamSettings';
+import ModerationSettings from './routes/Configure/containers/ModerationSettings';
+import TechSettings from './routes/Configure/containers/TechSettings';
+
 import { ModerationLayout, Moderation } from 'routes/Moderation';
 
 import Layout from 'containers/Layout';
@@ -15,7 +20,14 @@ const routes = (
     <Route exact path="/admin/install" component={Install} />
     <Route path="/admin" component={Layout}>
       <IndexRedirect to="/admin/moderate" />
-      <Route path="configure" component={Configure} />
+
+      <Route path="configure" component={Configure}>
+        <Route path="stream" component={StreamSettings} />
+        <Route path="moderation" component={ModerationSettings} />
+        <Route path="tech" component={TechSettings} />
+        <IndexRedirect to="stream" />
+      </Route>
+
       <Route path="stories" component={Stories} />
 
       {/* Community Routes */}
