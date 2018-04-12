@@ -505,8 +505,9 @@ type Comment {
   # The actual comment data.
   body: String!
 
-  # The body history of the comment.
-  body_history: [CommentBodyHistory!]!
+  # The body history of the comment. Requires the `ADMIN` or `MODERATOR` role or
+  # the author.
+  body_history: [CommentBodyHistory!]
 
   # The tags on the comment
   tags: [TagLink!]

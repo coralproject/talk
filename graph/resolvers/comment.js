@@ -1,7 +1,15 @@
 const { URL } = require('url');
 const { property } = require('lodash');
-const { SEARCH_ACTIONS } = require('../../perms/constants');
-const { decorateWithTags, decorateWithPermissionCheck } = require('./util');
+const {
+  SEARCH_ACTIONS,
+  SEARCH_COMMENT_STATUS_HISTORY,
+  VIEW_BODY_HISTORY,
+} = require('../../perms/constants');
+const {
+  decorateWithTags,
+  decorateWithPermissionCheck,
+  checkSelfField,
+} = require('./util');
 
 const Comment = {
   hasParent({ parent_id }) {
@@ -71,9 +79,19 @@ const Comment = {
 // Decorate the Comment type resolver with a tags field.
 decorateWithTags(Comment);
 
-// Protect direct action access.
+// Protect direct action and status history access.
 decorateWithPermissionCheck(Comment, {
   actions: [SEARCH_ACTIONS],
+  status_history: [SEARCH_COMMENT_STATUS_HISTORY],
 });
+
+// Protect privileged fields.
+decorateWithPermissionCheck(
+  Comment,
+  {
+    body_history: [VIEW_BODY_HISTORY],
+  },
+  checkSelfField('author_id')
+);
 
 module.exports = Comment;
