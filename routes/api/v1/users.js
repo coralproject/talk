@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const UsersService = require('../../../services/users');
-const errors = require('../../../errors');
+const { ErrMissingEmail, ErrNotFound } = require('../../../errors');
 const authorization = require('../../../middleware/authorization');
 const Limit = require('../../../services/limit');
 
@@ -40,17 +40,12 @@ router.post('/resend-verify', async (req, res, next) => {
   // Clean up and validate the email.
   email = email.toLowerCase().trim();
   if (email.length < 5) {
-    return next(errors.ErrMissingEmail);
+    return next(new ErrMissingEmail());
   }
 
   // Check if we're past the rate limit, if we are, stop now. Otherwise, record
   // this as an attempt to send a verification email.
   try {
-    const tries = await resendRateLimiter.get(email);
-    if (tries > 0) {
-      throw errors.ErrMaxRateLimit;
-    }
-
     await resendRateLimiter.test(email);
   } catch (err) {
     return next(err);
@@ -59,7 +54,7 @@ router.post('/resend-verify', async (req, res, next) => {
   try {
     const user = await UsersService.findLocalUser(email);
     if (!user) {
-      throw errors.ErrNotFound;
+      throw new ErrNotFound();
     }
 
     await UsersService.sendEmailConfirmation(user, email, redirectUri);
@@ -81,13 +76,13 @@ router.post(
     try {
       let user = await UsersService.findById(user_id);
       if (!user) {
-        return next(errors.ErrNotFound);
+        return next(new ErrNotFound());
       }
 
       // Find the first local profile.
       const email = user.firstEmail;
       if (!email) {
-        return next(errors.ErrMissingEmail);
+        return next(new ErrMissingEmail());
       }
 
       // Send the email to the first local profile that was found.

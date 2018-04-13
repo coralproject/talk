@@ -1,12 +1,10 @@
 const CommentModel = require('../models/comment');
 const AssetModel = require('../models/asset');
 const UserModel = require('../models/user');
-
 const AssetsService = require('./assets');
 const SettingsService = require('./settings');
 const { ADD_COMMENT_TAG } = require('../perms/constants');
-
-const errors = require('../errors');
+const { ErrNotAuthorized } = require('../errors');
 
 const updateModel = async (item_type, query, update) => {
   // Get the model to update with.
@@ -120,13 +118,13 @@ class TagsService {
         return { tagLink, ownership: true };
       }
 
-      throw errors.ErrNotAuthorized;
+      throw new ErrNotAuthorized();
     }
 
     // Only admin/moderators can modify unique tags, these are tags that are not
     // in the global list.
     if (!user.can(ADD_COMMENT_TAG)) {
-      throw errors.ErrNotAuthorized;
+      throw new ErrNotAuthorized();
     }
 
     // Generate the tag in the event now that we have to create the tag for this

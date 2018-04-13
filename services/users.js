@@ -1,6 +1,21 @@
 const uuid = require('uuid');
 const bcrypt = require('bcryptjs');
-const errors = require('../errors');
+const {
+  ErrMaxRateLimit,
+  ErrLoginAttemptMaximumExceeded,
+  ErrNotFound,
+  ErrPermissionUpdateUsername,
+  ErrSameUsernameProvided,
+  ErrUsernameTaken,
+  ErrMissingUsername,
+  ErrSpecialChars,
+  ErrMissingPassword,
+  ErrPasswordTooShort,
+  ErrMissingEmail,
+  ErrEmailTaken,
+  ErrEmailAlreadyVerified,
+  ErrCannotIgnoreStaff,
+} = require('../errors');
 const { difference, sample, some, merge, random } = require('lodash');
 const { ROOT_URL } = require('../config');
 const { jwt: JWT_SECRET } = require('../secrets');
@@ -59,8 +74,8 @@ class UsersService {
     try {
       await loginRateLimiter.test(email.toLowerCase().trim());
     } catch (err) {
-      if (err === errors.ErrMaxRateLimit) {
-        throw errors.ErrLoginAttemptMaximumExceeded;
+      if (err instanceof ErrMaxRateLimit) {
+        throw new ErrLoginAttemptMaximumExceeded();
       }
 
       throw err;
@@ -91,7 +106,7 @@ class UsersService {
     if (user === null) {
       user = await UserModel.findOne({ id });
       if (user === null) {
-        throw errors.ErrNotFound;
+        throw new ErrNotFound();
       }
 
       // Date comparisons are difficult when using MongoDB. Javascript will
@@ -150,10 +165,10 @@ class UsersService {
         runValidators: true,
       }
     );
-    if (user === null) {
+    if (!user) {
       user = await UserModel.findOne({ id });
-      if (user === null) {
-        throw errors.ErrNotFound;
+      if (!user) {
+        throw new ErrNotFound();
       }
 
       if (user.status.banned.status === status) {
@@ -204,7 +219,7 @@ class UsersService {
     if (user === null) {
       user = await UserModel.findOne({ id });
       if (user === null) {
-        throw errors.ErrNotFound;
+        throw new ErrNotFound();
       }
 
       if (user.status.username.status === status) {
@@ -259,15 +274,15 @@ class UsersService {
       if (!user) {
         user = await UsersService.findById(id);
         if (user === null) {
-          throw errors.ErrNotFound;
+          throw new ErrNotFound();
         }
 
         if (user.status.username.status !== fromStatus) {
-          throw errors.ErrPermissionUpdateUsername;
+          throw new ErrPermissionUpdateUsername();
         }
 
         if (!resetAllowed && user.username === username) {
-          throw errors.ErrSameUsernameProvided;
+          throw new ErrSameUsernameProvided();
         }
 
         throw new Error('edit username failed for an unexpected reason');
@@ -276,7 +291,7 @@ class UsersService {
       return user;
     } catch (err) {
       if (err.code === 11000) {
-        throw errors.ErrUsernameTaken;
+        throw new ErrUsernameTaken();
       }
 
       throw err;
@@ -317,7 +332,7 @@ class UsersService {
     }
 
     if (attempts >= RECAPTCHA_INCORRECT_TRIGGER) {
-      throw errors.ErrLoginAttemptMaximumExceeded;
+      throw new ErrLoginAttemptMaximumExceeded();
     }
   }
 
@@ -515,11 +530,11 @@ class UsersService {
     const onlyLettersNumbersUnderscore = /^[A-Za-z0-9_]+$/;
 
     if (!username) {
-      throw errors.ErrMissingUsername;
+      throw new ErrMissingUsername();
     }
 
     if (!onlyLettersNumbersUnderscore.test(username)) {
-      throw errors.ErrSpecialChars;
+      throw new ErrSpecialChars();
     }
 
     if (checkAgainstWordlist) {
@@ -539,11 +554,11 @@ class UsersService {
    */
   static isValidPassword(password) {
     if (!password) {
-      throw errors.ErrMissingPassword;
+      throw new ErrMissingPassword();
     }
 
     if (password.length < 8) {
-      throw errors.ErrPasswordTooShort;
+      throw new ErrPasswordTooShort();
     }
 
     return password;
@@ -558,7 +573,7 @@ class UsersService {
    */
   static async createLocalUser(ctx, email, password, username) {
     if (!email) {
-      throw errors.ErrMissingEmail;
+      throw new ErrMissingEmail();
     }
 
     email = email.toLowerCase().trim();
@@ -596,9 +611,9 @@ class UsersService {
     } catch (err) {
       if (err.code === 11000) {
         if (err.message.match('Username')) {
-          throw errors.ErrUsernameTaken;
+          throw new ErrUsernameTaken();
         }
-        throw errors.ErrEmailTaken;
+        throw new ErrEmailTaken();
       }
       throw err;
     }
@@ -678,9 +693,7 @@ class UsersService {
    */
   static async createPasswordResetToken(email, loc) {
     if (!email || typeof email !== 'string') {
-      throw new Error(
-        'email is required when creating a JWT for resetting passord'
-      );
+      throw new ErrMissingEmail();
     }
 
     email = email.toLowerCase();
@@ -837,7 +850,7 @@ class UsersService {
 
     // Ensure that the user email hasn't already been verified.
     if (profile && profile.metadata && profile.metadata.confirmed_at) {
-      throw errors.ErrEmailAlreadyVerified;
+      throw new ErrEmailAlreadyVerified();
     }
 
     return JWT_SECRET.sign(
@@ -875,16 +888,16 @@ class UsersService {
       },
     });
     if (!user) {
-      throw errors.ErrNotFound;
+      throw new ErrNotFound();
     }
 
     const profile = user.profiles.find(({ id }) => id === decoded.email);
     if (!profile) {
-      throw errors.ErrNotFound;
+      throw new ErrNotFound();
     }
 
     if (profile.metadata && profile.metadata.confirmed_at !== null) {
-      throw errors.ErrEmailAlreadyVerified;
+      throw new ErrEmailAlreadyVerified();
     }
 
     return decoded;
@@ -943,7 +956,7 @@ class UsersService {
 
     const users = await UsersService.findByIdArray(usersToIgnore);
     if (some(users, user => user.isStaff())) {
-      throw errors.ErrCannotIgnoreStaff;
+      throw new ErrCannotIgnoreStaff();
     }
 
     return UserModel.update(
