@@ -20,11 +20,13 @@ en:
   bio_offensive: "This bio is offensive"
   cancel: "Cancel"
   confirm_email:
-    click_to_confirm: "Click below to confirm your email address"
+    email_confirmation: "Email Confirmation"
+    click_to_confirm: "Click below to confirm your email address."
     confirm: "Confirm"
   password_reset:
     mail_sent: 'If you have a registered account, a password reset link was sent to that email'
     set_new_password: "Change Your Password"
+    change_password_help: "Please enter a new password to use to login. Make it secure!"
     new_password: "New Password"
     new_password_help: "Password must be at least 8 characters"
     confirm_new_password: "Confirm New Password"

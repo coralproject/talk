@@ -4,6 +4,7 @@ const { DOWNLOAD_LINK_SUBJECT } = require('./constants');
 
 async function sendDownloadLink({
   user,
+  loaders: { Settings },
   connectors: {
     errors,
     secrets,
@@ -43,19 +44,25 @@ async function sendDownloadLink({
     { jwtid: uuid.v4(), expiresIn: '1d', subject: DOWNLOAD_LINK_SUBJECT }
   );
 
+  const now = new Date();
+
+  const { organizationName } = await Settings.load('organizationName');
+
   // Send the download link via the user's attached email account.
   await Users.sendEmail(user, {
     template: 'download',
     locals: {
       token,
+      organizationName,
+      now,
     },
-    subject: I18n.t('email.download.subject'),
+    subject: I18n.t('email.download.subject', organizationName),
   });
 
   // Amend the lastAccountDownload on the user.
   await User.update(
     { id: user.id },
-    { $set: { 'metadata.lastAccountDownload': new Date() } }
+    { $set: { 'metadata.lastAccountDownload': now } }
   );
 }
 

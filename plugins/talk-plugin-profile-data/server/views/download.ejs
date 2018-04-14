@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <title><%= t('download_landing.download_your_account') %></title>
-    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
-    <link rel="stylesheet" href="<%= BASE_PATH %>public/css/admin.css">
-    <%- include(root + '/partials/head') %>
+    <%- include(root + '/partials/account') %>
   </head>
-  <body class="confirm-email-page">
+  <body>
     <div id="root">
-      <div class="error-console container"></div>
-      <form id="download-form" class="container" method="post" action="<%= BASE_PATH %>api/v1/account/download">
-        <legend class="legend"><%= t('download_landing.click_to_download') %></legend>
-        <button type="submit"><%= t('download_landing.confirm') %></button>
-      </form>
+      <section class="container">
+        <h1><%= t('download_landing.download_your_account') %></h1>
+        <p><%= t('download_landing.download_details') %></p>
+        <p><%= t('download_landing.all_information_included') %></p>
+        <ul class="check_list">
+          <li><%= t('download_landing.information_included.date') %></li>
+          <li><%= t('download_landing.information_included.url') %></li>
+          <li><%= t('download_landing.information_included.body') %></li>
+          <li><%= t('download_landing.information_included.asset_url') %></li>
+        </ul>
+        <div class="error-console"></div>
+        <form id="download-form" method="post" action="<%= BASE_PATH %>api/v1/account/download">
+          <button type="submit"><%= t('download_landing.confirm') %></button>
+        </form>
+      </section>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript">
@@ -21,9 +28,9 @@
         function showError(error) {
           try {
             let err = JSON.parse(error);
-            $('.error-console').text(err.message).addClass('active');
+            $('.error-console').text(err.message).fadeIn();
           } catch (err) {
-            $('.error-console').text(error).addClass('active');
+            $('.error-console').text(error).fadeIn();
           }
         }
 

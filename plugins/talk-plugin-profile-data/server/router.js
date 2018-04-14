@@ -5,6 +5,7 @@ const { get, pick, kebabCase } = require('lodash');
 const moment = require('moment');
 const archiver = require('archiver');
 const stringify = require('csv-stringify');
+const { ErrDownloadToken } = require('./errors');
 
 async function verifyDownloadToken(
   { connectors: { services: { Users } } },
@@ -109,10 +110,7 @@ module.exports = router => {
           // Verify the token
           await verifyDownloadToken(req.context, token);
         } catch (err) {
-          // Log out the error, slurp it and send out the predefined error to the
-          // error handler.
-          console.error(err);
-          return next(new Error('invalid token'));
+          return next(new ErrDownloadToken(err));
         }
 
         res.status(204).end();
