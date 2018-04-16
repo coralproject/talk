@@ -9,7 +9,7 @@
       <section class="container">
         <h1><%= t('confirm_email.email_confirmation') %></h1>
         <p><%= t('confirm_email.click_to_confirm') %></p>
-        <div class="error-console"></div>
+        <div class="error-console"><span></span></div>
         <form id="verify-email-form">
           <button type="submit"><%= t('confirm_email.confirm') %></button>
         </form>
@@ -21,9 +21,11 @@
         function showError(error) {
           try {
             let err = JSON.parse(error);
-            $('.error-console').text(err.message).fadeIn();
+            $('.error-console span').text(err.message);
+            $('.error-console').fadeIn();
           } catch (err) {
-            $('.error-console').text(error).fadeIn();
+            $('.error-console span').text(error);
+            $('.error-console').fadeIn();
           }
         }
 

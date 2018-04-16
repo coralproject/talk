@@ -16,7 +16,7 @@
           <li><%= t('download_landing.information_included.body') %></li>
           <li><%= t('download_landing.information_included.asset_url') %></li>
         </ul>
-        <div class="error-console"></div>
+        <div class="error-console"><span></span></div>
         <form id="download-form" method="post" action="<%= BASE_PATH %>api/v1/account/download">
           <button type="submit"><%= t('download_landing.confirm') %></button>
         </form>
@@ -28,9 +28,11 @@
         function showError(error) {
           try {
             let err = JSON.parse(error);
-            $('.error-console').text(err.message).fadeIn();
+            $('.error-console span').text(err.message);
+            $('.error-console').fadeIn();
           } catch (err) {
-            $('.error-console').text(error).fadeIn();
+            $('.error-console span').text(error);
+            $('.error-console').fadeIn();
           }
         }
 

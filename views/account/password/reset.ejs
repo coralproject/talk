@@ -9,12 +9,12 @@
       <section class="container">
         <h1><%= t('password_reset.set_new_password') %></h1>
         <p><%= t('password_reset.change_password_help') %></p>
-        <div class="error-console"></div>
+        <div class="error-console"><span></span></div>
         <form id="reset-password-form">
           <label for="password">
             <%= t('password_reset.new_password') %>
             <input type="password" name="password" placeholder="<%= t('password_reset.new_password') %>" />
-            <p><small><%= t('password_reset.new_password_help') %></small></p>
+            <small><%= t('password_reset.new_password_help') %></small>
           </label>
           <label for="confirm-password">
             <%= t('password_reset.confirm_new_password') %>
@@ -30,9 +30,11 @@
         function showError(error) {
           try {
             let err = JSON.parse(error);
-            $('.error-console').text(err.message).fadeIn();
+            $('.error-console span').text(err.message);
+            $('.error-console').fadeIn();
           } catch (err) {
-            $('.error-console').text(error).fadeIn();
+            $('.error-console span').text(error);
+            $('.error-console').fadeIn();
           }
         }
 

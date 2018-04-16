@@ -3,6 +3,7 @@ body, #root {
   height: 100%;
   margin: 0;
   background: #fff;
+  color: #3B4A53;
 }
 
 .container {
@@ -83,11 +84,18 @@ button[type="submit"] {
   display: none;
   margin-top: 10px;
   border-radius: 2px;
-  background-color: pink;
-  color: red;
-  border: 1px solid red;
+  background-color: rgba(242, 101, 99, 0.1);
+  border: 1px solid #F26563;
   padding: 10px;
-  font-size: 24px;
+}
+
+.error-console span:before {
+  font-family: 'Material Icons';
+  content: '\E000';
+  color: #000;
+  display: inline-block;
+  vertical-align: sub;
+	width: 1.4em;
 }
 
 ul.check_list {
