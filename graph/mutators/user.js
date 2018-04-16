@@ -161,18 +161,18 @@ const changeUserPassword = async (ctx, oldPassword, newPassword) => {
   await Users.changePassword(user.id, newPassword);
 
   // Get some context for the email to be sent.
-  const { organizationName, organizationContactEmail } = await Settings.load(
+  const { organizationName, organizationContactEmail } = await Settings.load([
     'organizationName',
-    'organizationContactEmail'
-  );
+    'organizationContactEmail',
+  ]);
 
   // Send the password change email.
   await Users.sendEmail(user, {
     template: 'plain',
     locals: {
-      body: I18n.t('email.password_change.body', organizationName),
+      body: I18n.t('email.password_change.body', organizationContactEmail),
     },
-    subject: I18n.t('email.password_change.subject', organizationContactEmail),
+    subject: I18n.t('email.password_change.subject', organizationName),
   });
 };
 
@@ -188,6 +188,7 @@ module.exports = ctx => {
       setUsername: () => Promise.reject(new ErrNotAuthorized()),
       stopIgnoringUser: () => Promise.reject(new ErrNotAuthorized()),
       del: () => Promise.reject(new ErrNotAuthorized()),
+      changePassword: () => Promise.reject(new ErrNotAuthorized()),
     },
   };
 

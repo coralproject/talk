@@ -220,7 +220,7 @@ en:
       please_click: "please click here to reset password"
     password_change:
       subject: "{0} password change"
-      body: "Password was changed on your account.\n\nIf you did not request this change, please contact us at {0}."
+      body: "The password on your account has been changed.\n\nIf you did not request this change, please contact us at {0}."
   embedlink:
     copy: "Copy to Clipboard"
   error:
