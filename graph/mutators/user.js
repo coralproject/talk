@@ -9,6 +9,7 @@ const {
   SET_USER_SUSPENSION_STATUS,
   UPDATE_USER_ROLES,
   DELETE_USER,
+  CHANGE_PASSWORD,
 } = require('../../perms/constants');
 
 const setUserUsernameStatus = async (ctx, id, status) => {
@@ -143,6 +144,38 @@ const delUser = async (ctx, id) => {
   await user.remove();
 };
 
+const changeUserPassword = async (ctx, oldPassword, newPassword) => {
+  const {
+    user,
+    loaders: { Settings },
+    connectors: { services: { I18n } },
+  } = ctx;
+
+  // Verify the old password.
+  const validPassword = await user.verifyPassword(oldPassword);
+  if (!validPassword) {
+    throw new ErrNotAuthorized();
+  }
+
+  // Change the users password now.
+  await Users.changePassword(user.id, newPassword);
+
+  // Get some context for the email to be sent.
+  const { organizationName, organizationContactEmail } = await Settings.load(
+    'organizationName',
+    'organizationContactEmail'
+  );
+
+  // Send the password change email.
+  await Users.sendEmail(user, {
+    template: 'plain',
+    locals: {
+      body: I18n.t('email.password_change.body', organizationName),
+    },
+    subject: I18n.t('email.password_change.subject', organizationContactEmail),
+  });
+};
+
 module.exports = ctx => {
   let mutators = {
     User: {
@@ -193,6 +226,11 @@ module.exports = ctx => {
 
     if (ctx.user.can(DELETE_USER)) {
       mutators.User.del = id => delUser(ctx, id);
+    }
+
+    if (ctx.user.can(CHANGE_PASSWORD)) {
+      mutators.User.changePassword = ({ oldPassword, newPassword }) =>
+        changeUserPassword(ctx, oldPassword, newPassword);
     }
   }
 
