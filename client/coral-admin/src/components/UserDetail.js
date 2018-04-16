@@ -220,16 +220,19 @@ class UserDetail extends React.Component {
               {usernameChanged && (
                 <ActionsMenuItem onClick={this.goToReportedUsernames}>
                   {t('user_detail.username_needs_approval')}
+                  {` `}
+                  <Icon name="launch" />
                 </ActionsMenuItem>
               )}
 
               {usernameRejected && !usernameChanged ? (
-                <ActionsMenuItem disabled={me.id === user.id}>
+                <ActionsMenuItem disabled>
                   {t('user_detail.username_rejected')}
                 </ActionsMenuItem>
               ) : (
                 <ActionsMenuItem
                   onClick={() => rejectUsername({ id: user.id })}
+                  disabled={me.id === user.id}
                 >
                   {t('user_detail.reject_username')}
                 </ActionsMenuItem>
