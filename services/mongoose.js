@@ -37,6 +37,11 @@ if (WEBPACK) {
   // here just ensures that the application can quit correctly.
   mongoose.disconnect();
 } else {
+  mongoose.connection.on('connected', () => logger.debug('mongodb connected'));
+  mongoose.connection.on('disconnected', () =>
+    logger.debug('mongodb disconnected')
+  );
+
   // Connect to the Mongo instance.
   mongoose
     .connect(MONGO_URL, {
@@ -44,9 +49,6 @@ if (WEBPACK) {
       config: {
         autoIndex: CREATE_MONGO_INDEXES,
       },
-    })
-    .then(() => {
-      logger.debug('mongodb connection established');
     })
     .catch(err => {
       console.error(err);
