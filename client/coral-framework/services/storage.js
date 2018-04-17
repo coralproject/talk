@@ -1,40 +1,116 @@
 import uuid from 'uuid/v4';
 
-function getStorage(type) {
-  let storage;
-  try {
-    storage = window[type];
-    const x = '__storage_test__';
-    storage.setItem(x, x);
-    storage.removeItem(x);
-  } catch (e) {
-    const ignore =
-      e instanceof DOMException &&
-      // everything except Firefox
-      (e.code === 22 ||
-        // SecurityError related to having 3rd party cookies disabled.
-        e.code === 18 ||
-        // Firefox
+function testStorageAccess(storage) {
+  const key = '__storage_test__';
 
-        e.code === 1014 ||
-        // test name field too, because code might not be present
+  // Create a unique test value.
+  const expectedValue = String(Date.now());
 
-        // everything except Firefox
-        e.name === 'QuotaExceededError' ||
-        // Firefox
-        e.name === 'NS_ERROR_DOM_QUOTA_REACHED');
-    if (!ignore) {
-      console.warn(e);
+  // Try to set, get, and remove that item.
+  storage.setItem(key, expectedValue);
+  const canSetGet = expectedValue === storage.getItem(key);
+  storage.removeItem(key);
+
+  if (!canSetGet) {
+    // We can't access the desired storage!
+    throw new Error('Storage access test failed');
+  }
+}
+
+// InMemoryStorage is a dumb implementation of the Storage interface that will
+// not persist the data at all. It implements the Storage interface found:
+//
+// https://developer.mozilla.org/en-US/docs/Web/API/Storage
+//
+class InMemoryStorage {
+  constructor() {
+    this.storage = {};
+  }
+
+  get length() {
+    return Object.keys(this.storage).length;
+  }
+
+  key(n) {
+    if (this.length <= n) {
+      return undefined;
     }
 
-    // When third party cookies are disabled, session storage is readable/
-    // writable, but localStorage is not. Try to get the sessionStorage to use.
-    if (type !== 'sessionStorage') {
-      return getStorage('sessionStorage');
+    return this.storage[Object.keys(this.storage)[n]];
+  }
+
+  getItem(key) {
+    return this.storage[key];
+  }
+
+  setItem(key, value) {
+    this.storage[key] = value;
+
+    try {
+      // Test sessionStorage. We could have been given access recently.
+      testStorageAccess(sessionStorage);
+
+      // Test passed! Set the item in sessionStorage.
+      sessionStorage.setItem(key, value);
+      console.log(
+        'Attempt to persist InMemoryStorage value to sessionStorage succeeded'
+      );
+    } catch (err) {
+      console.warn(
+        'Attempt to persist InMemoryStorage value to sessionStorage failed',
+        err
+      );
     }
   }
 
-  return storage;
+  removeItem(key) {
+    delete this.storage[key];
+
+    try {
+      // Test sessionStorage. We could have been given access recently.
+      testStorageAccess(sessionStorage);
+
+      // Test passed! Remove the item from sessionStorage.
+      sessionStorage.removeItem(key);
+      console.log(
+        'Attempt to persist InMemoryStorage delete to sessionStorage succeeded'
+      );
+    } catch (err) {
+      console.warn(
+        'Attempt to persist InMemoryStorage delete to sessionStorage failed',
+        err
+      );
+    }
+  }
+}
+
+// getStorage will test to see if the requested storage type is available, if it
+// is not, it will try sessionStorage, and if that is also not available, it
+// will fallback to InMemoryStorage.
+function getStorage(type) {
+  try {
+    // Get the desired storage from the window and test it out.
+    const storage = window[type];
+    testStorageAccess(storage);
+
+    // Storage test was successful! Return it.
+    return storage;
+  } catch (err) {
+    // When third party cookies are disabled, session storage is readable/
+    // writable, but localStorage is not. Try to get the sessionStorage to use.
+    if (type !== 'sessionStorage') {
+      console.warn('Could not access', type, 'trying sessionStorage', err);
+      return getStorage('sessionStorage');
+    }
+
+    console.warn(
+      'Could not access sessionStorage falling back to InMemoryStorage',
+      err
+    );
+  }
+
+  // No acceptable storage could be found, returning the InMemoryStorage.
+  return new InMemoryStorage();
 }
 
 /**

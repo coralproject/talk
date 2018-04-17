@@ -52,26 +52,41 @@ let lang;
 let timeagoInstance;
 
 function setLocale(storage, locale) {
-  try {
-    if (storage) {
-      storage.setItem('locale', locale);
-    }
-  } catch (err) {
-    console.error(err);
-  }
+  storage.setItem('locale', locale);
 }
 
-function getLocale(storage) {
+// detectLanguage will try to get the locale from storage if available,
+// otherwise will try to get it from the navigator, otherwise, it will fallback
+// to the default language.
+function detectLanguage(storage) {
   try {
-    return (
-      (storage && storage.getItem('locale')) ||
-      navigator.language ||
-      defaultLanguage
-    ).split('-')[0];
+    const lang = storage.getItem('locale') || navigator.language;
+    if (lang) {
+      return lang;
+    }
   } catch (err) {
-    console.error(err);
-    return null;
+    console.warn(
+      'Error while trying to detect language, will fallback to',
+      err
+    );
   }
+
+  console.warn('Could not detect language, will fallback to', defaultLanguage);
+  return defaultLanguage;
+}
+
+// getLocale will get the users locale from the local detector and parse it to a
+// format we can work with.
+function getLocale(storage) {
+  // Get the language from the local detector.
+  const lang = detectLanguage(storage);
+
+  // Some language strings come with additional subtags as defined in:
+  //
+  // https://www.ietf.org/rfc/bcp/bcp47.txt
+  //
+  // So we should strip that off if we find it.
+  return lang.split('-')[0];
 }
 
 export function setupTranslations() {
