@@ -1,4 +1,4 @@
-const { get } = require('lodash');
+const { get, map } = require('lodash');
 const path = require('path');
 
 const handle = async (ctx, comment) => {
@@ -23,6 +23,9 @@ const handle = async (ctx, comment) => {
           id
           user {
             id
+            ignoredUsers {
+              id
+            }
             notificationSettings {
               onReply
             }
@@ -53,10 +56,20 @@ const handle = async (ctx, comment) => {
     return;
   }
 
+  // Pull out the author of the new comment.
+  const authorID = get(comment, 'author_id');
+
   // Check to see if this is yourself replying to yourself, if that's the case
   // don't send a notification.
-  if (userID === get(comment, 'author_id')) {
+  if (userID === authorID) {
     ctx.log.info('user id of parent comment is the same as the new comment');
+    return;
+  }
+
+  // Check to see if this user is ignoring the user who replied to their
+  // comment.
+  if (map(get(comment, 'user.ignoredUsers', []), 'id').indexOf(authorID)) {
+    ctx.log.info('parent user has ignored the author of the new comment');
     return;
   }
 
