@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+const util = require('./util');
+const program = require('commander');
+const config = require('../config');
+
+async function createIndexes() {
+  try {
+    // Ensure we enable the index creation.
+    config.CREATE_MONGO_INDEXES = true;
+
+    // TODO: handle the plugin index creation?
+
+    // Let's register the shutdown hooks.
+    util.onshutdown([() => require('../services/mongoose').disconnect()]);
+
+    // Lets create all the database indexes for the application and wait for all
+    // them to finish their indexing.
+    const models = [
+      require('../models/action'),
+      require('../models/asset'),
+      require('../models/comment'),
+      require('../models/setting'),
+      require('../models/user'),
+      require('../models/migration'),
+    ];
+
+    // Call the `.init()` method to setup all the indexes on each model.
+    // `init()` returns a promise that resolves when the indexes have finished
+    // building successfully. The `init()` function is idempotent, so we don't
+    // have to worry about triggering an index rebuild.
+    await Promise.all(models.map(Model => Model.init()));
+
+    console.log('Indexes created');
+    util.shutdown(0);
+  } catch (err) {
+    console.error(err);
+    util.shutdown(1);
+  }
+}
+
+program
+  .command('createIndexes')
+  .description('creates the database indexes and waits until they are created')
+  .action(createIndexes);
+
+program.parse(process.argv);
+
+// If there is no command listed, output help.
+if (process.argv.length <= 2) {
+  program.outputHelp();
+  util.shutdown();
+}
