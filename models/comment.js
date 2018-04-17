@@ -163,6 +163,17 @@ CommentSchema.index(
   }
 );
 
+// Add an index that is optimized for finding a user's comments.
+CommentSchema.index(
+  {
+    author_id: 1,
+    created_at: -1,
+  },
+  {
+    background: true,
+  }
+);
+
 // Add an index that is optimized for finding flagged comments.
 CommentSchema.index(
   {
