@@ -96,12 +96,6 @@ module.exports = {
 
     comments.logout();
   },
-  'not logged in user clicks my profile tab': client => {
-    const embedStream = client.page.embedStream();
-    const profile = embedStream.goToProfileSection();
-
-    profile.assert.visible('@notLoggedIn');
-  },
   'admin logs in': client => {
     const { testData: { admin } } = client.globals;
     const embedStream = client.page.embedStream();
