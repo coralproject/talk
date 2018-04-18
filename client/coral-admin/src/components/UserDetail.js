@@ -3,7 +3,7 @@ import cn from 'classnames';
 import PropTypes from 'prop-types';
 import capitalize from 'lodash/capitalize';
 import styles from './UserDetail.css';
-import AccountHistory from './AccountHistory';
+import UserHistory from './UserHistory';
 import { Slot } from 'coral-framework/components';
 import UserDetailCommentList from '../components/UserDetailCommentList';
 import {
@@ -272,7 +272,7 @@ class UserDetail extends React.Component {
                 'talk-admin-user-detail-history-tab'
               )}
             >
-              {t('user_detail.account_history')}
+              {t('user_detail.user_history')}
             </Tab>
           </TabBar>
 
@@ -320,7 +320,7 @@ class UserDetail extends React.Component {
               tabId={'history'}
               className={'talk-admin-user-detail-history-tab-pane'}
             >
-              <AccountHistory user={user} />
+              <UserHistory user={user} />
             </TabPane>
           </TabContent>
         </Drawer>
