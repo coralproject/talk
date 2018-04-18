@@ -8,7 +8,7 @@ const {
   SET_USER_BAN_STATUS,
   SET_USER_SUSPENSION_STATUS,
   UPDATE_USER_ROLES,
-  DELETE_USER,
+  DELETE_OTHER_USER,
 } = require('../../perms/constants');
 
 const setUserUsernameStatus = async (ctx, id, status) => {
@@ -155,6 +155,7 @@ module.exports = ctx => {
       setUsername: () => Promise.reject(new ErrNotAuthorized()),
       stopIgnoringUser: () => Promise.reject(new ErrNotAuthorized()),
       del: () => Promise.reject(new ErrNotAuthorized()),
+      delSelf: () => Promise.reject(new ErrNotAuthorized()),
     },
   };
 
@@ -191,7 +192,7 @@ module.exports = ctx => {
         setUserSuspensionStatus(ctx, id, until, message);
     }
 
-    if (ctx.user.can(DELETE_USER)) {
+    if (ctx.user.can(DELETE_OTHER_USER)) {
       mutators.User.del = id => delUser(ctx, id);
     }
   }
