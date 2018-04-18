@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { murmur3 } from 'murmurhash-js';
-import styles from './AccountHistory.css';
+import styles from './UserHistory.css';
 import cn from 'classnames';
 import flatten from 'lodash/flatten';
 import orderBy from 'lodash/orderBy';
@@ -43,15 +43,15 @@ const readableDuration = (startDate, endDate) => {
 const buildActionResponse = (typename, created_at, until, status) => {
   switch (typename) {
     case 'UsernameStatusHistory':
-      return t('account_history.username_status', status);
+      return t('user_history.username_status', status);
     case 'BannedStatusHistory':
       return status
-        ? t('account_history.user_banned')
-        : t('account_history.ban_removed');
+        ? t('user_history.user_banned')
+        : t('user_history.ban_removed');
     case 'SuspensionStatusHistory':
       return until
-        ? t('account_history.suspended', readableDuration(created_at, until))
-        : t('account_history.suspension_removed');
+        ? t('user_history.suspended', readableDuration(created_at, until))
+        : t('user_history.suspension_removed');
     default:
       return '-';
   }
@@ -62,43 +62,41 @@ const getModerationValue = assignedBy =>
     assignedBy.username
   ) : (
     <span>
-      <Icon name="computer" /> {t('account_history.system')}
+      <Icon name="computer" /> {t('user_history.system')}
     </span>
   );
 
-class AccountHistory extends React.Component {
+class UserHistory extends React.Component {
   render() {
     const { user } = this.props;
     const userHistory = buildUserHistory(user.state);
     return (
       <div>
-        <div className={cn(styles.table, 'talk-admin-account-history')}>
+        <div className={cn(styles.table, 'talk-admin-user-history')}>
           <div
             className={cn(
               styles.headerRow,
-              'talk-admin-account-history-header-row'
+              'talk-admin-user-history-header-row'
             )}
           >
+            <div className={styles.headerRowItem}>{t('user_history.date')}</div>
             <div className={styles.headerRowItem}>
-              {t('account_history.date')}
+              {t('user_history.action')}
             </div>
             <div className={styles.headerRowItem}>
-              {t('account_history.action')}
-            </div>
-            <div className={styles.headerRowItem}>
-              {t('account_history.taken_by')}
+              {t('user_history.taken_by')}
             </div>
           </div>
           {userHistory.map(
             ({ __typename, created_at, assigned_by, until, status }) => (
               <div
-                className={cn(styles.row, 'talk-admin-account-history-row')}
+                className={cn(styles.row, 'talk-admin-user-history-row')}
                 key={`${__typename}_${murmur3(created_at)}`}
               >
                 <div
                   className={cn(
                     styles.item,
-                    'talk-admin-account-history-row-date'
+                    'talk-admin-user-history-row-date'
                   )}
                 >
                   {moment(new Date(created_at)).format('MMM DD, YYYY')}
@@ -107,7 +105,7 @@ class AccountHistory extends React.Component {
                   className={cn(
                     styles.item,
                     styles.action,
-                    'talk-admin-account-history-row-status'
+                    'talk-admin-user-history-row-status'
                   )}
                 >
                   {buildActionResponse(__typename, created_at, until, status)}
@@ -116,7 +114,7 @@ class AccountHistory extends React.Component {
                   className={cn(
                     styles.item,
                     styles.username,
-                    'talk-admin-account-history-row-assigned-by'
+                    'talk-admin-user-history-row-assigned-by'
                   )}
                 >
                   {getModerationValue(assigned_by)}
@@ -130,8 +128,8 @@ class AccountHistory extends React.Component {
   }
 }
 
-AccountHistory.propTypes = {
+UserHistory.propTypes = {
   user: PropTypes.object.isRequired,
 };
 
-export default AccountHistory;
+export default UserHistory;
