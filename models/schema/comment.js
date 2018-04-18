@@ -58,8 +58,6 @@ const Comment = new Schema(
     },
     body: {
       type: String,
-      required: [true, 'The body is required.'],
-      minlength: 2,
     },
     body_history: [BodyHistoryItemSchema],
     asset_id: String,
@@ -88,6 +86,12 @@ const Comment = new Schema(
 
     // Tags are added by the self or by administrators.
     tags: [TagLinkSchema],
+
+    // deleted_at stores the date that the given comment was deleted.
+    deleted_at: {
+      type: Date,
+      default: null,
+    },
 
     // Additional metadata stored on the field.
     metadata: {

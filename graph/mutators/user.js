@@ -92,7 +92,7 @@ const delUser = async (ctx, id) => {
     updateBatchSize: 10000,
   });
 
-  // Remove all actions against comments.
+  // Remove all actions against this users comments.
   await transformSingleWithCursor(
     Action.collection.find({ user_id: user.id, item_type: 'COMMENTS' }),
     actionDecrTransformer,
@@ -111,33 +111,40 @@ const delUser = async (ctx, id) => {
     .setOptions({ multi: true })
     .remove();
 
-  // Removes all the user's reply counts on each of the comments that they
-  // have commented on.
+  // For each comment that the user has authored, purge the comment data from it
+  // and unset their id from those comments.
   await transformSingleWithCursor(
-    Comment.collection.aggregate([
-      { $match: { author_id: user.id } },
-      {
-        $group: {
-          _id: '$parent_id',
-          count: { $sum: 1 },
-        },
-      },
-    ]),
-    ({ _id: parent_id, count }) => ({
-      query: { id: parent_id },
-      update: {
-        $inc: {
-          reply_count: -1 * count,
-        },
+    Comment.collection.find({ author_id: user.id }),
+    ({
+      id,
+      asset_id,
+      status,
+      parent_id,
+      reply_count,
+      created_at,
+      updated_at,
+    }) => ({
+      query: { id },
+      replace: {
+        id,
+        body: null,
+        body_history: [],
+        asset_id,
+        author_id: null,
+        status_history: [],
+        status,
+        parent_id,
+        reply_count,
+        action_counts: {},
+        tags: [],
+        metadata: {},
+        deleted_at: new Date(),
+        created_at,
+        updated_at,
       },
     }),
     Comment
   );
-
-  // Remove all the user's comments.
-  await Comment.where({ author_id: user.id })
-    .setOptions({ multi: true })
-    .remove();
 
   // Remove the user.
   await user.remove();

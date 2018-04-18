@@ -14,6 +14,7 @@ module.exports = (user, perm) => {
     case types.VIEW_USER_ROLE:
     case types.VIEW_USER_EMAIL:
     case types.VIEW_BODY_HISTORY:
+    case types.VIEW_COMMENT_DELETED_AT:
       return check(user, ['ADMIN', 'MODERATOR']);
     case types.LIST_OWN_TOKENS:
       return check(user, ['ADMIN']);
