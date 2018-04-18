@@ -344,6 +344,7 @@ en:
     sort: "Sort"
     show_shortcuts: "Show Shortcuts"
     singleview: "Zen mode"
+    system_withheld: "System Withheld"
     thismenu: "Open this menu"
     jump_to_queue: "Jump to specific queue"
     thousand: k
