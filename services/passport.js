@@ -6,7 +6,12 @@ const TokensService = require('./tokens');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 const LocalStrategy = require('passport-local').Strategy;
-const errors = require('../errors');
+const {
+  ErrLoginAttemptMaximumExceeded,
+  ErrNotAuthorized,
+  ErrAuthentication,
+  ErrNotVerified,
+} = require('../errors');
 const uuid = require('uuid');
 const debug = require('debug')('talk:services:passport');
 const bowser = require('bowser');
@@ -75,7 +80,7 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
   }
 
   if (!user) {
-    return next(errors.ErrNotAuthorized);
+    return next(new ErrNotAuthorized());
   }
 
   // Generate the token to re-issue to the frontend.
@@ -117,7 +122,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
 
   if (!user) {
     return res.render('auth-callback', {
-      auth: { err: errors.ErrNotAuthorized, data: null },
+      auth: { err: new ErrNotAuthorized(), data: null },
     });
   }
 
@@ -143,7 +148,7 @@ async function ValidateUserLogin(loginProfile, user, done) {
   }
 
   if (user.disabled) {
-    return done(new errors.ErrAuthentication('Account disabled'));
+    return done(new ErrAuthentication('Account disabled'));
   }
 
   // If the user isn't a local user (i.e., a social user).
@@ -169,7 +174,7 @@ async function ValidateUserLogin(loginProfile, user, done) {
     // If the profile doesn't have a metadata field, or it does not have a
     // confirmed_at field, or that field is null, then send them back.
     if (_.get(profile, 'metadata.confirmed_at', null) === null) {
-      return done(errors.ErrNotVerified);
+      return done(new ErrNotVerified());
     }
   }
 
@@ -209,7 +214,7 @@ const checkGeneralTokenBlacklist = jwt =>
     .get(`jtir[${jwt.jti}]`)
     .then(expiry => {
       if (expiry != null) {
-        throw new errors.ErrAuthentication('token was revoked');
+        throw new ErrAuthentication('token was revoked');
       }
     });
 
@@ -392,7 +397,7 @@ const HandleFailedAttempt = async (email, userNeedsRecaptcha) => {
     await UsersService.recordLoginAttempt(email);
   } catch (err) {
     if (
-      err === errors.ErrLoginAttemptMaximumExceeded &&
+      err instanceof ErrLoginAttemptMaximumExceeded &&
       !userNeedsRecaptcha &&
       RECAPTCHA_ENABLED
     ) {
@@ -448,7 +453,7 @@ passport.use(
         try {
           await UsersService.checkLoginAttempts(email);
         } catch (err) {
-          if (err === errors.ErrLoginAttemptMaximumExceeded) {
+          if (err instanceof ErrLoginAttemptMaximumExceeded) {
             // This says, we didn't have a recaptcha, yet we needed one.. Reject
             // here.
 

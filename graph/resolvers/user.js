@@ -29,9 +29,9 @@ const User = {
     return Comments.getByQuery(query);
   },
 
-  ignoredUsers({ ignoresUsers }, args, { user, loaders: { Users } }) {
+  ignoredUsers({ ignoresUsers }, args, { loaders: { Users } }) {
     // Return nothing if there is nothing to query for.
-    if (!user.ignoresUsers || user.ignoresUsers.length <= 0) {
+    if (!ignoresUsers || ignoresUsers.length <= 0) {
       return [];
     }
 

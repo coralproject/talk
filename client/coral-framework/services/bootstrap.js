@@ -47,6 +47,12 @@ const getAuthToken = (store, storage) => {
   } else if (!bowser.safari && !bowser.ios && storage) {
     // Use local storage auth tokens where there's a stable api.
     return storage.getItem('token');
+  } else if (state.auth && state.auth.token) {
+    // Use the redux token state if the remaining methods fall out. If the embed
+    // is called with `embed.login(token)`, and the browser is not capable of
+    // storing the token in localStorage, then we would have persisted it to the
+    // redux state.
+    return state.auth.token;
   }
 
   return null;
@@ -123,7 +129,7 @@ export async function createContext({
     // Try to get the token from localStorage. If it isn't here, it may
     // be passed as a cookie.
 
-    // NOTE: THIS IS ONLY EVER EVALUATED ONCE, IN ORDER TO SEND A DIFFERNT
+    // NOTE: THIS IS ONLY EVER EVALUATED ONCE, IN ORDER TO SEND A DIFFERENT
     // TOKEN YOU MUST DISCONNECT AND RECONNECT THE WEBSOCKET CLIENT.
     return getAuthToken(store, localStorage);
   };
