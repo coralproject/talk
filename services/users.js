@@ -237,7 +237,9 @@ class Users {
 
   static async setUsername(id, username, assignedBy) {
     try {
-      const oldestEditTime = moment().subtract(14, 'days');
+      const oldestEditTime = moment()
+        .subtract(14, 'days')
+        .toDate();
 
       // A username can be set if:
       //
@@ -252,9 +254,7 @@ class Users {
           {
             'status.username.status': { $in: ['APPROVED', 'SET'] },
             'status.username.history.created_at': {
-              $not: {
-                $gte: oldestEditTime,
-              },
+              $lte: oldestEditTime,
             },
           },
         ],
