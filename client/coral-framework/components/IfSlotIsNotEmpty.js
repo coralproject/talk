@@ -7,7 +7,7 @@ class IfSlotIsNotEmpty extends React.Component {
   isSlotEmpty(props = this.props) {
     const { slotElements } = props;
     return slotElements.length === 0
-      ? false
+      ? true
       : slotElements.every(elements => elements.length === 0);
   }
 
@@ -19,6 +19,7 @@ class IfSlotIsNotEmpty extends React.Component {
 
 IfSlotIsNotEmpty.propTypes = {
   slot: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  slotElements: PropTypes.array.isRequired,
   children: PropTypes.node.isRequired,
   passthrough: PropTypes.object.isRequired,
 };

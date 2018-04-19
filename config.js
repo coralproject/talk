@@ -59,6 +59,10 @@ const CONFIG = {
   // it was built at.
   REVISION_HASH: process.env.REVISION_HASH,
 
+  // SCRAPER_HEADERS is a JSON string that will be used to override the headers
+  // on the scraper when it makes requests.
+  SCRAPER_HEADERS: process.env.TALK_SCRAPER_HEADERS || '{}',
+
   //------------------------------------------------------------------------------
   // JWT based configuration
   //------------------------------------------------------------------------------

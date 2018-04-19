@@ -13,6 +13,7 @@ const CommentModel = require('../models/comment');
 const AssetsService = require('../services/assets');
 const mongoose = require('../services/mongoose');
 const scraper = require('../services/scraper');
+const Context = require('../graph/context');
 const inquirer = require('inquirer');
 const { URL } = require('url');
 
@@ -52,22 +53,27 @@ async function refreshAssets(ageString) {
     const ageMs = parseDuration(ageString);
     const age = new Date(now - ageMs);
 
-    let assets = await AssetModel.find({
-      $or: [
-        {
-          scraped: {
-            $lte: age,
+    let assets = await AssetModel.find(
+      {
+        $or: [
+          {
+            scraped: {
+              $lte: age,
+            },
           },
-        },
-        {
-          scraped: null,
-        },
-      ],
-    });
+          {
+            scraped: null,
+          },
+        ],
+      },
+      { id: 1 }
+    );
+
+    // Create a graph context.
+    const ctx = Context.forSystem();
 
     // Queue all the assets for scraping.
-    await Promise.all(assets.map(scraper.create));
-
+    await Promise.all(assets.map(({ id }) => scraper.create(ctx, id)));
     console.log('Assets were queued to be scraped');
     util.shutdown();
   } catch (e) {

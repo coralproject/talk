@@ -122,6 +122,8 @@ sidebar:
           url: /commenter-features/
         - title: Moderator Features
           url: /moderator-features/
+        - title: User Roles in Talk
+          url: /roles/
         - title: Trust
           url: /trust/
         - title: Toxic Comments
@@ -154,6 +156,8 @@ sidebar:
           url: /building-basic-plugin/
         - title: Customizing Plugins with Coral UI
           url: /customizing-plugins-coral-ui/
+        - title: When You've Installed Talk
+          url: /when-youve-installed-talk/
     - title: Migrating
       children:
         - title: Migrating to v4.0.0

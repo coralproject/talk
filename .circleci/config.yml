@@ -1,12 +1,27 @@
+
+# job_environment will setup the environment for any job being executed.
+job_environment: &job_environment
+  NODE_ENV: test
+  DISABLE_CREATE_MONGO_INDEXES: TRUE
+
 # job_defaults applies all the defaults for each job.
 job_defaults: &job_defaults
   working_directory: ~/coralproject/talk
   docker:
     - image: circleci/node:8
+  environment:
+    <<: *job_environment
+
+# create_indexes will create the mongo indexes and wait until they have been
+# built.
+create_indexes: &create_indexes
+  run:
+    name: Create the database indexes and wait until they are built
+    command: ./bin/cli db createIndexes
 
 # integration_environment is the environment that configures the tests.
 integration_environment: &integration_environment
-  NODE_ENV: test
+  <<: *job_environment
   CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
   E2E_MAX_RETRIES: 3
 
@@ -25,6 +40,7 @@ integration_job: &integration_job
     - checkout
     - attach_workspace:
         at: ~/coralproject/talk
+    - <<: *create_indexes
     - run:
         name: Setup the database with defaults
         command: ./bin/cli setup --defaults
@@ -117,6 +133,7 @@ jobs:
           environment:
             JEST_JUNIT_OUTPUT: /tmp/circleci-test-results/jest/test-results.xml
             JEST_REPORTER: jest-junit
+      - <<: *create_indexes
       - run:
           name: Run the server unit tests
           command: yarn test:server
