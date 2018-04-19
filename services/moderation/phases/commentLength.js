@@ -8,7 +8,7 @@ module.exports = (
 ) => {
   // Check to see if the body is too short, if it is, then complain about it!
   if (comment.body.length < 2) {
-    throw ErrCommentTooShort;
+    throw new ErrCommentTooShort(comment.body.length);
   }
 
   // Reject if the comment is too long

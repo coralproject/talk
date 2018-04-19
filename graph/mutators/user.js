@@ -1,4 +1,4 @@
-const errors = require('../../errors');
+const { ErrNotFound, ErrNotAuthorized } = require('../../errors');
 const UsersService = require('../../services/users');
 const migrationHelpers = require('../../services/migration/helpers');
 const {
@@ -92,7 +92,7 @@ const delUser = async (ctx, id) => {
   // Find the user we're removing.
   const user = await User.findOne({ id });
   if (!user) {
-    throw errors.ErrNotFound;
+    throw new ErrNotFound();
   }
 
   // Get the query transformer we'll use to help batch process the user
@@ -156,15 +156,15 @@ const delUser = async (ctx, id) => {
 module.exports = ctx => {
   let mutators = {
     User: {
-      changeUsername: () => Promise.reject(errors.ErrNotAuthorized),
-      ignoreUser: () => Promise.reject(errors.ErrNotAuthorized),
-      setRole: () => Promise.reject(errors.ErrNotAuthorized),
-      setUserBanStatus: () => Promise.reject(errors.ErrNotAuthorized),
-      setUserSuspensionStatus: () => Promise.reject(errors.ErrNotAuthorized),
-      setUserUsernameStatus: () => Promise.reject(errors.ErrNotAuthorized),
-      setUsername: () => Promise.reject(errors.ErrNotAuthorized),
-      stopIgnoringUser: () => Promise.reject(errors.ErrNotAuthorized),
-      del: () => Promise.reject(errors.ErrNotAuthorized),
+      changeUsername: () => Promise.reject(new ErrNotAuthorized()),
+      ignoreUser: () => Promise.reject(new ErrNotAuthorized()),
+      setRole: () => Promise.reject(new ErrNotAuthorized()),
+      setUserBanStatus: () => Promise.reject(new ErrNotAuthorized()),
+      setUserSuspensionStatus: () => Promise.reject(new ErrNotAuthorized()),
+      setUserUsernameStatus: () => Promise.reject(new ErrNotAuthorized()),
+      setUsername: () => Promise.reject(new ErrNotAuthorized()),
+      stopIgnoringUser: () => Promise.reject(new ErrNotAuthorized()),
+      del: () => Promise.reject(new ErrNotAuthorized()),
     },
   };
 

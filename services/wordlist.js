@@ -1,7 +1,7 @@
 const debug = require('debug')('talk:services:wordlist');
 const _ = require('lodash');
 const SettingsService = require('./settings');
-const Errors = require('../errors');
+const { ErrContainsProfanity } = require('../errors');
 const memoize = require('lodash/memoize');
 const { escapeRegExp } = require('./regex');
 
@@ -96,7 +96,7 @@ class Wordlist {
         `the field "${fieldName}" contained a phrase "${phrase}" which contained a banned word/phrase`
       );
 
-      errors.banned = Errors.ErrContainsProfanity;
+      errors.banned = new ErrContainsProfanity(phrase);
 
       // Stop looping through the fields now, we discovered the worst possible
       // situation (a banned word).
@@ -109,7 +109,7 @@ class Wordlist {
         `the field "${fieldName}" contained a phrase "${phrase}" which contained a suspected word/phrase`
       );
 
-      errors.suspect = Errors.ErrContainsProfanity;
+      errors.suspect = new ErrContainsProfanity(phrase);
 
       // Continue looping through the fields now, we discovered a possible bad
       // word (suspect).
@@ -167,7 +167,7 @@ class Wordlist {
 
     return wl.load().then(() => {
       if (wl.regexp.banned.test(username)) {
-        return Errors.ErrContainsProfanity;
+        throw new ErrContainsProfanity(username);
       }
     });
   }

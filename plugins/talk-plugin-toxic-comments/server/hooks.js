@@ -1,11 +1,6 @@
 const { getScores, isToxic } = require('./perspective');
 const { ErrToxic } = require('./errors');
 
-// We don't add the hooks during _test_ as the perspective API is not available.
-if (process.env.NODE_ENV === 'test') {
-  return null;
-}
-
 module.exports = {
   RootMutation: {
     createComment: {
@@ -16,7 +11,7 @@ module.exports = {
           scores = await getScores(input.body);
         } catch (err) {
           // Warn and let mutation pass.
-          console.trace(err);
+          console.trace(err); // TODO: log/handle this differently?
           return;
         }
 
@@ -27,7 +22,7 @@ module.exports = {
 
         if (isToxic(scores)) {
           if (input.checkToxicity) {
-            throw ErrToxic;
+            throw new ErrToxic();
           }
 
           input.status = 'SYSTEM_WITHHELD';
