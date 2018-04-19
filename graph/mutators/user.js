@@ -111,6 +111,15 @@ const delUser = async (ctx, id) => {
     .setOptions({ multi: true })
     .remove();
 
+  // Remove the user from all other user's ignore lists.
+  await User.update(
+    { ignoresUsers: user.id },
+    {
+      $pull: { ignoresUsers: user.id },
+    },
+    { multi: true }
+  );
+
   // For each comment that the user has authored, purge the comment data from it
   // and unset their id from those comments.
   await transformSingleWithCursor(
