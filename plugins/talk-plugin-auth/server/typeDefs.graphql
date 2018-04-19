@@ -1,0 +1,47 @@
+# UpdateEmailAddressInput provides input for changing a users email address
+# associated with their account.
+input UpdateEmailAddressInput {
+
+  # email is the Users email address that they want to update to.
+  email: String!
+
+  # confirmPassword is the Users current password.
+  confirmPassword: String!
+}
+
+# UpdateEmailAddressResponse is returned when you try to update a users email
+# address.
+type UpdateEmailAddressResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+# AttachLocalAuthInput provides the input for attaching a new local
+# authentication profile.
+input AttachLocalAuthInput {
+
+  # email is the Users email address that they want to add.
+  email: String!
+
+  # password is the Users password that they want to add.
+  password: String!
+}
+
+# AttachLocalAuthResponse returns any errors for when the user attempts to
+# attach a new local authentication profile.
+type AttachLocalAuthResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+type RootMutation {
+
+  # updateEmailAddress changes the email address of the current logged in user.
+  updateEmailAddress(input: UpdateEmailAddressInput!): UpdateEmailAddressResponse
+
+  # attachLocalAuth will attach a new local authentication profile to an
+  # account.
+  attachLocalAuth(input: AttachLocalAuthInput!): AttachLocalAuthResponse
+}

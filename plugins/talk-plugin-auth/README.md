@@ -7,6 +7,7 @@ plugin:
     default: true
     provides:
         - Client
+        - Server
 ---
 
 This provides the base plugin that is the basis for all auth based plugins that
