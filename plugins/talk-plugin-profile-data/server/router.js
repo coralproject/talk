@@ -101,11 +101,21 @@ module.exports = router => {
 
   // /api/v1/account/download will send back a zipped archive of the users
   // account.
-  router.post(
+  router.all(
     '/api/v1/account/download',
     express.urlencoded({ extended: false }),
     async (req, res, next) => {
-      const { token = null, check = false } = req.body;
+      let { token = null, check = false } = req.body;
+
+      if (!token) {
+        // If the token wasn't found in the body, then we should check the query
+        // to see if it was passed that way.
+        token = req.query.token;
+      }
+
+      if (!token) {
+        return res.status(400).end();
+      }
 
       if (check) {
         // This request is checking to see if the token is valid.
