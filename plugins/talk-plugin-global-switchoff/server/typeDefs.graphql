@@ -1,0 +1,10 @@
+
+type Settings {
+    globalSwitchoffEnable: Boolean
+    globalSwitchoffMessage: String
+}
+
+input UpdateSettingsInput {
+    globalSwitchoffEnable: Boolean
+    globalSwitchoffMessage: String
+}

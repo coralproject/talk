@@ -35,6 +35,7 @@ plugins/*
 !plugins/talk-plugin-facebook-auth
 !plugins/talk-plugin-featured-comments
 !plugins/talk-plugin-flag-details
+!plugins/talk-plugin-global-switchoff
 !plugins/talk-plugin-google-auth
 !plugins/talk-plugin-ignore-user
 !plugins/talk-plugin-like
