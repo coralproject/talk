@@ -2,13 +2,13 @@ const { version } = require('../package.json');
 const path = require('path');
 const { createLogger: createBunyanLogger, stdSerializers } = require('bunyan');
 const { LOGGING_LEVEL, REVISION_HASH } = require('../config');
+const debug = require('bunyan-debug-stream');
 
 // Streams enables the ability for development logs to be readable to a human,
 // but will send JSON logs in production that's parsable by a system like ELK.
 const streams = (() => {
   // In development, use the debug stream printer.
   if (process.env.NODE_ENV !== 'production') {
-    const debug = require('bunyan-debug-stream');
     return [
       {
         level: LOGGING_LEVEL,
