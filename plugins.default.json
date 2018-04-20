@@ -1,9 +1,9 @@
 {
   "server": [
-    "talk-plugin-auth",
     "talk-plugin-featured-comments",
-    "talk-plugin-respect",
-    "talk-plugin-profile-data"
+    "talk-plugin-local-auth",
+    "talk-plugin-profile-data",
+    "talk-plugin-respect"
   ],
   "client": [
     "talk-plugin-auth",
@@ -11,15 +11,16 @@
     "talk-plugin-featured-comments",
     "talk-plugin-flag-details",
     "talk-plugin-ignore-user",
+    "talk-plugin-local-auth",
     "talk-plugin-member-since",
     "talk-plugin-moderation-actions",
     "talk-plugin-permalink",
+    "talk-plugin-profile-data",
     "talk-plugin-respect",
     "talk-plugin-sort-most-replied",
     "talk-plugin-sort-most-respected",
     "talk-plugin-sort-newest",
     "talk-plugin-sort-oldest",
-    "talk-plugin-viewing-options",
-    "talk-plugin-profile-data"
+    "talk-plugin-viewing-options"
   ]
 }
