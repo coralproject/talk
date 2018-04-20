@@ -3,7 +3,12 @@
   tags:
     - moderation
 - name: talk-plugin-auth
-  description: Enables internal authentication from Coral.
+  description: Enables internal sign-in authentication.
+  tags:
+    - default
+    - auth
+- name: talk-plugin-local-auth
+  description: Enables email and password based authentication.
   tags:
     - default
     - auth
