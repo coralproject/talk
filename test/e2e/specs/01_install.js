@@ -38,7 +38,12 @@ module.exports = {
 
     step2
       .waitForElementVisible('@organizationNameInput')
+      .waitForElementVisible('@organizationContactEmailInput', 5000)
       .setValue('@organizationNameInput', testData.organizationName)
+      .setValue(
+        '@organizationContactEmailInput',
+        testData.organizationContactEmail
+      )
       .waitForElementVisible('@saveButton')
       .click('@saveButton');
   },
