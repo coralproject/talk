@@ -1,18 +1,12 @@
-const {
-  ErrNotAuthorized,
-  ErrPasswordTooShort,
-  ErrNotFound,
-  ErrEmailTaken,
-} = require('errors');
+const { ErrNotAuthorized, ErrNotFound, ErrEmailTaken } = require('errors');
 const { ErrNoLocalProfile, ErrLocalProfile } = require('./errors');
 const { get } = require('lodash');
 const bcrypt = require('bcryptjs');
 
-function hasLocalProfile(user) {
-  return Boolean(
-    get(user, 'profiles', []).find(({ provider }) => provider === 'local')
-  );
-}
+// hasLocalProfile checks a user's profiles to see if they already have a local
+// profile associated with their account.
+const hasLocalProfile = user =>
+  get(user, 'profiles', []).some(({ provider }) => provider === 'local');
 
 // updateUserEmailAddress will verify that the user has sent the correct
 // password followed by executing the email change and notifying the emails
@@ -60,7 +54,7 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
     locals: {
       body: I18n.t(
         'email.email_change_original.body',
-        user.email,
+        user.firstEmail,
         email,
         organizationContactEmail
       ),
@@ -87,9 +81,7 @@ async function attachUserLocalAuth(ctx, email, password) {
   email = email.toLowerCase().trim();
 
   // Validate the password.
-  if (!password || password.length < 8) {
-    throw new ErrPasswordTooShort();
-  }
+  await Users.isValidPassword(password);
 
   // Hash the new password.
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -116,10 +108,11 @@ async function attachUserLocalAuth(ctx, email, password) {
     );
     if (!updatedUser) {
       const foundUser = await User.findOne({ id: user.id });
-      if (foundUser === null) {
+      if (!foundUser) {
         throw new ErrNotFound();
       }
 
+      // Check to see if this was the result of a race.
       if (hasLocalProfile(foundUser)) {
         throw new ErrLocalProfile();
       }
