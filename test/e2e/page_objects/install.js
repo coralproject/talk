@@ -20,6 +20,8 @@ module.exports = {
       selector: '.talk-install-step-2',
       elements: {
         organizationNameInput: '.talk-install-step-2 #organizationName',
+        organizationContactEmailInput:
+          '.talk-install-step-2 #organizationContactEmail',
         saveButton: '.talk-install-step-2-save-button',
       },
     },

@@ -43,11 +43,7 @@
 }
 
 .actionBox {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  text-align: center;
-  width: 100px;
+  flex-grow: 0;
 }
 
 .cancelButton {
@@ -64,4 +60,28 @@
 .changedSave {
   background-color: #00796B;
   color: white;
+}
+
+.errorList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.errorItem {
+  padding: 5px 10px;
+  margin-bottom: 20px;
+  color: #b71c1c;
+  border-radius: 2px;
+  display: inline-block;
+  background: #F9D3CE;
+}
+
+.container {
+  display: flex;
+}
+
+.content {
+  flex-grow: 1;
+  padding-right: 40px;
 }
