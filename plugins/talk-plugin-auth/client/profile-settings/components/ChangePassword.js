@@ -10,12 +10,8 @@ class ChangePassword extends React.Component {
   state = {
     editing: false,
     showErrors: true,
-    errors: [],
-    formData: {
-      oldPassword: '',
-      newPassword: '',
-      confirmNewPassword: '',
-    },
+    errors: {},
+    formData: {},
   };
 
   onChange = e => {
@@ -37,52 +33,62 @@ class ChangePassword extends React.Component {
   equalityValidation = (field, field2) => {
     const cond = this.state.formData[field] === this.state.formData[field2];
     if (!cond) {
-      this.addError('matchPasswords');
+      this.addError({ [field2]: 'Passwords don`t match' });
     } else {
-      this.removeError('matchPasswords');
+      this.removeError(field2);
     }
     return cond;
   };
 
   fieldValidation = (value, type, name) => {
     if (!validate[type](value)) {
-      this.addError(name);
+      this.addError({ [name]: errorMsj[type] });
     } else {
       this.removeError(name);
     }
   };
 
-  formValidation = () => {
-    // const { formData } = this.state;
-    // const validKeys = Object.keys(formData);
-    // // Required Validation
-    // const empty = validKeys.filter(name => {
-    //   const cond = !formData[name].length;
-    //   if (cond) {
-    //     this.addError('empty');
-    //   } else {
-    //     this.removeError()
-    //   }
-    //   return cond;
-    // });
-  };
+  onSave = () => {
+    console.log(this.state.errors);
+    const { formData } = this.state;
+    const validKeys = Object.keys(formData);
 
-  hasError = err => {
-    return this.state.errors.indexOf(err) !== -1;
-  };
+    // Required Validation
+    const validation = validKeys.filter(name => {
+      const cond = !formData[name].length;
+      if (cond) {
+        this.addError({
+          [name]: 'This Field is required',
+        });
+      } else {
+        this.removeError(name);
+      }
+      return cond;
+    });
 
-  addError = err => {
-    if (this.state.errors.indexOf(err) === -1) {
-      this.setState(({ errors }) => ({
-        errors: errors.concat(err),
-      }));
+    if (validation.length) {
+      //error
+      return;
     }
   };
 
-  removeError = err => {
+  hasError = err => {
+    return Object.keys(this.state.errors).indexOf(err) !== -1;
+  };
+
+  addError = err => {
     this.setState(({ errors }) => ({
-      errors: errors.filter(i => i !== err),
+      errors: { ...errors, ...err },
     }));
+  };
+
+  removeError = errKey => {
+    this.setState(state => {
+      const { [errKey]: _, ...errors } = state.errors;
+      return {
+        errors,
+      };
+    });
   };
 
   toggleEditing = () => {
@@ -98,7 +104,7 @@ class ChangePassword extends React.Component {
   };
 
   render() {
-    const { formData, showErrors, editing } = this.state;
+    const { formData, showErrors, editing, errors } = this.state;
 
     return (
       <section
@@ -127,7 +133,7 @@ class ChangePassword extends React.Component {
                   ) : null}
                   {showErrors &&
                     this.hasError('oldPassword') && (
-                      <ErrorMessage>{errorMsj['password']}</ErrorMessage>
+                      <ErrorMessage>{errors['oldPassword']}</ErrorMessage>
                     )}
                 </div>
               </div>
@@ -154,11 +160,7 @@ class ChangePassword extends React.Component {
                   ) : null}
                   {showErrors &&
                     this.hasError('newPassword') && (
-                      <ErrorMessage>{errorMsj['password']}</ErrorMessage>
-                    )}
-                  {showErrors &&
-                    this.hasError('matchPasswords') && (
-                      <ErrorMessage>Passwords don`t match amigo</ErrorMessage>
+                      <ErrorMessage>{errors['newPassword']}</ErrorMessage>
                     )}
                 </div>
               </div>
@@ -178,17 +180,15 @@ class ChangePassword extends React.Component {
                 </div>
                 <div className={styles.detailItemMessage}>
                   {!this.hasError('confirmNewPassword') &&
-                  !this.hasError('matchPasswords') &&
+                  !this.hasError('confirmNewPassword') &&
                   formData.confirmNewPassword.length ? (
                     <Icon className={styles.checkIcon} name="check_circle" />
                   ) : null}
                   {showErrors &&
                     this.hasError('confirmNewPassword') && (
-                      <ErrorMessage>{errorMsj['password']}</ErrorMessage>
-                    )}
-                  {showErrors &&
-                    this.hasError('matchPasswords') && (
-                      <ErrorMessage>Passwords don`t match amigo</ErrorMessage>
+                      <ErrorMessage>
+                        {errors['confirmNewPassword']}
+                      </ErrorMessage>
                     )}
                 </div>
               </div>
@@ -200,8 +200,11 @@ class ChangePassword extends React.Component {
             <Button
               className={cn(styles.button, styles.saveButton)}
               icon="save"
-              onClick={this.toggleEditing}
-              disabled={this.state.errors.length}
+              onClick={this.onSave}
+              disabled={
+                Object.keys(this.state.formData).length &&
+                Object.keys(this.state.errors).length
+              }
             >
               Save
             </Button>
