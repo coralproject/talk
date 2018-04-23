@@ -3,8 +3,8 @@ const { get } = require('lodash');
 module.exports = {
   Settings: {
     globalSwitchoffEnable: settings =>
-      get(settings, 'globalSwitchoffEnable', false),
+      get(settings, 'metadata.globalSwitchoffEnable', false),
     globalSwitchoffMessage: settings =>
-      get(settings, 'globalSwitchoffMessage', ''),
+      get(settings, 'metadata.globalSwitchoffMessage', ''),
   },
 };
