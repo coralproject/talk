@@ -19,7 +19,7 @@ import daTA from 'timeago.js/locales/da';
 import deTA from 'timeago.js/locales/de';
 import esTA from 'timeago.js/locales/es';
 import frTA from 'timeago.js/locales/fr';
-import nl from 'timeago.js/locales/nl';
+import nlTA from 'timeago.js/locales/nl';
 import pt_BRTA from 'timeago.js/locales/pt_BR';
 import zh_CNTA from 'timeago.js/locales/zh_CN';
 import zh_TWTA from 'timeago.js/locales/zh_TW';
@@ -113,10 +113,10 @@ export function setupTranslations() {
   ta.register('da', daTA);
   ta.register('de', deTA);
   ta.register('fr', frTA);
+  ta.register('nl_NL', nlTA);
   ta.register('pt_BR', pt_BRTA);
   ta.register('zh_CN', zh_CNTA);
   ta.register('zh_TW', zh_TWTA);
-  ta.register('nl_NL', nl);
 
   timeagoInstance = ta();
 }
