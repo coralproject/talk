@@ -466,6 +466,7 @@ ar:
       username: "Username"
       password: "Password"
       confirm_password: "Confirm Password"
+      organization_contact_email: "Organization Contact Email"
       save: "Save"
     permitted_domains:
       title: "Permitted domains"
