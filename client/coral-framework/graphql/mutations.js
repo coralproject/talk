@@ -623,6 +623,27 @@ export const withUpdateSettings = withMutation(
   }
 );
 
+export const withChangePassword = withMutation(
+  gql`
+    mutation ChangePassword($input: ChangePasswordInput!) {
+      changePassword(input: $input) {
+        ...ChangePasswordResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      changePassword: input => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      },
+    }),
+  }
+);
+
 export const withUpdateAssetSettings = withMutation(
   gql`
     mutation UpdateAssetSettings($id: ID!, $input: AssetSettingsInput!) {
