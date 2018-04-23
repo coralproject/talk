@@ -37,7 +37,7 @@ const tokenCheck = (verifier, error, ...whitelistedErrors) => async (
       // Log out the error, slurp it and send out the predefined error to the
       // error handler.
       console.error(err);
-      return next(error);
+      return next(new error());
     }
 
     res.status(204).end();

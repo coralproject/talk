@@ -1,5 +1,5 @@
 const { ErrNotFound, ErrNotAuthorized } = require('../../errors');
-const UsersService = require('../../services/users');
+const Users = require('../../services/users');
 const migrationHelpers = require('../../services/migration/helpers');
 const {
   CHANGE_USERNAME,
@@ -12,7 +12,7 @@ const {
 } = require('../../perms/constants');
 
 const setUserUsernameStatus = async (ctx, id, status) => {
-  const user = await UsersService.setUsernameStatus(id, status, ctx.user.id);
+  const user = await Users.setUsernameStatus(id, status, ctx.user.id);
   if (status === 'REJECTED') {
     ctx.pubsub.publish('usernameRejected', user);
   } else if (status === 'APPROVED') {
@@ -21,12 +21,7 @@ const setUserUsernameStatus = async (ctx, id, status) => {
 };
 
 const setUserBanStatus = async (ctx, id, status = false, message = null) => {
-  const user = await UsersService.setBanStatus(
-    id,
-    status,
-    ctx.user.id,
-    message
-  );
+  const user = await Users.setBanStatus(id, status, ctx.user.id, message);
   if (user.banned) {
     ctx.pubsub.publish('userBanned', user);
   }
@@ -38,38 +33,33 @@ const setUserSuspensionStatus = async (
   until = null,
   message = null
 ) => {
-  const user = await UsersService.setSuspensionStatus(
-    id,
-    until,
-    ctx.user.id,
-    message
-  );
+  const user = await Users.setSuspensionStatus(id, until, ctx.user.id, message);
   if (user.suspended) {
     ctx.pubsub.publish('userSuspended', user);
   }
 };
 
 const ignoreUser = ({ user }, userToIgnore) => {
-  return UsersService.ignoreUsers(user.id, [userToIgnore.id]);
+  return Users.ignoreUsers(user.id, [userToIgnore.id]);
 };
 
 const stopIgnoringUser = ({ user }, userToStopIgnoring) => {
-  return UsersService.stopIgnoringUsers(user.id, [userToStopIgnoring.id]);
+  return Users.stopIgnoringUsers(user.id, [userToStopIgnoring.id]);
 };
 
 const changeUsername = async (ctx, id, username) => {
-  const user = await UsersService.changeUsername(id, username, ctx.user.id);
+  const user = await Users.changeUsername(id, username, ctx.user.id);
   const previousUsername = ctx.user.username;
   ctx.pubsub.publish('usernameChanged', { previousUsername, user });
   return user;
 };
 
 const setUsername = async (ctx, id, username) => {
-  return UsersService.setUsername(id, username, ctx.user.id);
+  return Users.setUsername(id, username, ctx.user.id);
 };
 
 const setRole = (ctx, id, role) => {
-  return UsersService.setRole(id, role);
+  return Users.setRole(id, role);
 };
 
 /**
