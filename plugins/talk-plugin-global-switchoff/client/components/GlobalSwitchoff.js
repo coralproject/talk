@@ -1,9 +1,7 @@
 import React from 'react';
-import { gql } from 'react-apollo';
 import ConfigureCard from 'coral-framework/components/ConfigureCard';
 import MarkdownEditor from 'coral-framework/components/MarkdownEditor';
 import t from 'coral-framework/services/i18n';
-import { withFragments } from 'plugin-api/beta/client/hocs';
 import cn from 'classnames';
 import styles from './styles.css';
 
@@ -47,13 +45,4 @@ class GlobalSwitchoff extends React.Component {
   }
 }
 
-// export default GlobalSwitchoff;
-
-export default withFragments({
-  settings: gql`
-    fragment TalkPlugin_GlobalSwitchoff_settings on Settings {
-      globalSwitchoffEnable
-      globalSwitchoffMessage
-    }
-  `,
-})(GlobalSwitchoff);
+export default GlobalSwitchoff;
