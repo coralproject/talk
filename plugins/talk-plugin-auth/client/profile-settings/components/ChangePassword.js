@@ -1,10 +1,75 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './ChangePassword.css';
 import { Button, Icon } from 'plugin-api/beta/client/components/ui';
+import validate from 'coral-framework/helpers/validate';
+import errorMsj from 'coral-framework/helpers/error';
 
 class ChangePassword extends React.Component {
-  state = { editing: false, errors: [], oldPassword: '' };
+  state = {
+    editing: false,
+    showErrors: true,
+    errors: [],
+    formData: {
+      oldPassword: '',
+      newPassword: '',
+      confirmNewPassword: '',
+    },
+  };
+
+  onChange = e => {
+    const { name, value, type } = e.target;
+    this.setState(
+      state => ({
+        formData: {
+          ...state.formData,
+          [name]: value,
+        },
+      }),
+      () => {
+        this.fieldValidation(value, type, name);
+        this.equalityValidation('newPassword', 'confirmNewPassword');
+      }
+    );
+  };
+
+  equalityValidation = (field, field2) => {
+    const cond = this.state.formData[field] === this.state.formData[field2];
+    if (!cond) {
+      this.addError('matchPasswords');
+    } else {
+      this.removeError('matchPasswords');
+    }
+    return cond;
+  };
+
+  fieldValidation = (value, type, name) => {
+    if (!validate[type](value)) {
+      this.addError(name);
+    } else {
+      this.removeError(name);
+    }
+  };
+
+  formValidation = () => {
+    // const { formData } = this.state;
+    // const validKeys = Object.keys(formData);
+    // // Required Validation
+    // const empty = validKeys.filter(name => {
+    //   const cond = !formData[name].length;
+    //   if (cond) {
+    //     this.addError('empty');
+    //   } else {
+    //     this.removeError()
+    //   }
+    //   return cond;
+    // });
+  };
+
+  hasError = err => {
+    return this.state.errors.indexOf(err) !== -1;
+  };
 
   addError = err => {
     if (this.state.errors.indexOf(err) === -1) {
@@ -33,24 +98,37 @@ class ChangePassword extends React.Component {
   };
 
   render() {
+    const { formData, showErrors, editing } = this.state;
+
     return (
-      <div
-        className={cn(styles.container, {
-          [styles.editable]: this.state.editing,
+      <section
+        className={cn('talk-plugin-auth--change-password', styles.container, {
+          [styles.editing]: editing,
         })}
       >
         <h3 className={styles.title}>Change Password</h3>
-        {this.state.editing && (
+        {editing && (
           <ul className={styles.detailList}>
             <li className={styles.detailItem}>
               <div className={styles.detailItemContainer}>
                 <div className={styles.detailItemContent}>
                   <label className={styles.detailLabel}>Old Password</label>
-                  <input type="text" className={styles.detailValue} />
+                  <input
+                    name="oldPassword"
+                    type="password"
+                    className={styles.detailValue}
+                    onChange={this.onChange}
+                  />
                 </div>
                 <div className={styles.detailItemMessage}>
-                  <Icon className={styles.checkIcon} name="check_circle" />
-                  {/* <ErrorMessage>Incorrect password. Please try again</ErrorMessage> */}
+                  {!this.hasError('oldPassword') &&
+                  formData.oldPassword.length ? (
+                    <Icon className={styles.checkIcon} name="check_circle" />
+                  ) : null}
+                  {showErrors &&
+                    this.hasError('oldPassword') && (
+                      <ErrorMessage>{errorMsj['password']}</ErrorMessage>
+                    )}
                 </div>
               </div>
               <span className={styles.detailBottomBox}>
@@ -61,10 +139,27 @@ class ChangePassword extends React.Component {
               <div className={styles.detailItemContainer}>
                 <div className={styles.detailItemContent}>
                   <label className={styles.detailLabel}>New Password</label>
-                  <input type="text" className={styles.detailValue} />
+                  <input
+                    type="password"
+                    name="newPassword"
+                    className={styles.detailValue}
+                    onChange={this.onChange}
+                  />
                 </div>
                 <div className={styles.detailItemMessage}>
-                  <ErrorMessage>Passwords don’t match</ErrorMessage>
+                  {!this.hasError('newPassword') &&
+                  !this.hasError('matchPasswords') &&
+                  formData.newPassword.length ? (
+                    <Icon className={styles.checkIcon} name="check_circle" />
+                  ) : null}
+                  {showErrors &&
+                    this.hasError('newPassword') && (
+                      <ErrorMessage>{errorMsj['password']}</ErrorMessage>
+                    )}
+                  {showErrors &&
+                    this.hasError('matchPasswords') && (
+                      <ErrorMessage>Passwords don`t match amigo</ErrorMessage>
+                    )}
                 </div>
               </div>
             </li>
@@ -74,21 +169,39 @@ class ChangePassword extends React.Component {
                   <label className={styles.detailLabel}>
                     Confirm New Password
                   </label>
-                  <input type="text" className={styles.detailValue} />
+                  <input
+                    type="password"
+                    name="confirmNewPassword"
+                    className={styles.detailValue}
+                    onChange={this.onChange}
+                  />
                 </div>
                 <div className={styles.detailItemMessage}>
-                  <ErrorMessage>Passwords don’t match</ErrorMessage>
+                  {!this.hasError('confirmNewPassword') &&
+                  !this.hasError('matchPasswords') &&
+                  formData.confirmNewPassword.length ? (
+                    <Icon className={styles.checkIcon} name="check_circle" />
+                  ) : null}
+                  {showErrors &&
+                    this.hasError('confirmNewPassword') && (
+                      <ErrorMessage>{errorMsj['password']}</ErrorMessage>
+                    )}
+                  {showErrors &&
+                    this.hasError('matchPasswords') && (
+                      <ErrorMessage>Passwords don`t match amigo</ErrorMessage>
+                    )}
                 </div>
               </div>
             </li>
           </ul>
         )}
-        {this.state.editing ? (
+        {editing ? (
           <div className={styles.actions}>
             <Button
               className={cn(styles.button, styles.saveButton)}
               icon="save"
               onClick={this.toggleEditing}
+              disabled={this.state.errors.length}
             >
               Save
             </Button>
@@ -103,16 +216,24 @@ class ChangePassword extends React.Component {
             </Button>
           </div>
         )}
-      </div>
+      </section>
     );
   }
 }
 
+ChangePassword.propTypes = {
+  changePassword: PropTypes.func,
+};
+
 const ErrorMessage = ({ children }) => (
-  <div>
+  <div className={styles.errorMsg}>
     <Icon className={styles.warningIcon} name="warning" />
-    <span className={styles.errorMsg}>{children}</span>
+    <span>{children}</span>
   </div>
 );
+
+ErrorMessage.propTypes = {
+  children: PropTypes.node,
+};
 
 export default ChangePassword;
