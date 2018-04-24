@@ -1,5 +1,6 @@
 import { gql } from 'react-apollo';
 import withMutation from '../hocs/withMutation';
+import update from 'immutability-helper';
 
 function convertItemType(item_type) {
   switch (item_type) {
@@ -167,9 +168,39 @@ export const withSetCommentStatus = withMutation(
               errors: null,
             },
           },
+          updateQueries: {
+            CoralAdmin_UserDetail: prev => {
+              const increment = {
+                rejectedComments: {
+                  $apply: count =>
+                    count < prev.totalComments ? count + 1 : count,
+                },
+              };
+
+              const decrement = {
+                rejectedComments: {
+                  $apply: count => (count > 0 ? count - 1 : 0),
+                },
+              };
+
+              // If rejected then increment rejectedComments by one
+              if (status === 'REJECTED') {
+                const updated = update(prev, increment);
+                return updated;
+              }
+
+              // If approved then decrement rejectedComments by one
+              if (status === 'ACCEPTED') {
+                const updated = update(prev, decrement);
+                return updated;
+              }
+
+              return prev;
+            },
+          },
           update: proxy => {
             const fragment = gql`
-              fragment Talk_SetCommentStatus on Comment {
+              fragment Talk_SetCommentStatus_Comment on Comment {
                 status
                 status_history {
                   type
@@ -182,9 +213,11 @@ export const withSetCommentStatus = withMutation(
             const data = proxy.readFragment({ fragment, id: fragmentId });
 
             data.status = status;
+
             data.status_history = data.status_history
               ? data.status_history
               : [];
+
             data.status_history.push({
               __typename: 'CommentStatusHistory',
               type: status,
@@ -580,6 +613,27 @@ export const withUpdateSettings = withMutation(
   {
     props: ({ mutate }) => ({
       updateSettings: input => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      },
+    }),
+  }
+);
+
+export const withChangePassword = withMutation(
+  gql`
+    mutation ChangePassword($input: ChangePasswordInput!) {
+      changePassword(input: $input) {
+        ...ChangePasswordResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      changePassword: input => {
         return mutate({
           variables: {
             input,

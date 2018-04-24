@@ -13,8 +13,14 @@
 <link rel="icon" type="image/png" sizes="16x16" href="<%= STATIC_URL %>public/img/favicon-16x16.png">
 <link rel="manifest" href="<%= STATIC_URL %>public/manifest.json">
 <meta name="msapplication-TileColor" content="#ffffff">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+
 <%_ if (locals.customCssUrl) { _%>
 <link href="<%= customCssUrl %>" rel="stylesheet" type="text/css">
 <%_ } _%>
 <%- include data %>
+
 <base href="<%= BASE_URL %>"/>

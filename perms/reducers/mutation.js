@@ -1,8 +1,17 @@
+const { isString } = require('lodash');
 const { check } = require('../utils');
 const types = require('../constants');
 
 module.exports = (user, perm) => {
   switch (perm) {
+    case types.CHANGE_PASSWORD:
+      // Only users with a local account where they have a password set can
+      // actually change their password.
+      return (
+        user.profiles.some(({ provider }) => provider === 'local') &&
+        isString(user.password) &&
+        user.password.length > 0
+      );
     case types.CHANGE_USERNAME:
       return user.status.username.status === 'REJECTED';
 

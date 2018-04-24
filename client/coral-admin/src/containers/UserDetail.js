@@ -152,6 +152,7 @@ UserDetailContainer.propTypes = {
   unbanUser: PropTypes.func.isRequired,
   unsuspendUser: PropTypes.func.isRequired,
   rejectUsername: PropTypes.func.isRequired,
+  userId: PropTypes.string,
 };
 
 const LOAD_MORE_QUERY = gql`
@@ -249,7 +250,6 @@ export const withUserDetailQuery = withQuery(
     options: ({ userId, statuses }) => {
       return {
         variables: { author_id: userId, statuses },
-        fetchPolicy: 'network-only',
       };
     },
     skip: ownProps => !ownProps.userId,

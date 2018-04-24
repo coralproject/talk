@@ -1,3 +1,4 @@
+const { URL } = require('url');
 const { property } = require('lodash');
 const {
   SEARCH_ACTIONS,
@@ -62,6 +63,16 @@ const Comment = {
       edited: comment.edited,
       editableUntil: editableUntil,
     };
+  },
+  async url(comment, args, { loaders: { Assets } }) {
+    const asset = await Assets.getByID.load(comment.asset_id);
+    if (!asset) {
+      return null;
+    }
+
+    const assetURL = new URL(asset.url);
+    assetURL.searchParams.set('commentId', comment.id);
+    return assetURL.href;
   },
 };
 

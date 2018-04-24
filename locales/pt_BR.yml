@@ -430,8 +430,8 @@ pt_BR:
     reports: "Reports"
     all: "All"
     rejected: "Rejected"
-    account_history: "Account History"
-  account_history:
+    user_history: "User History"
+  user_history:
     user_banned: "User banned"
     ban_removed: "Ban removed"
     username_status: "Username {0}"
@@ -458,6 +458,7 @@ pt_BR:
       username: "Nome de usuário"
       password: "Senha"
       confirm_password: "Confirme a senha"
+      organization_contact_email: "Organization Contact Email"
       save: "Salvar"
     permitted_domains:
       title: "Domínios permitidos"

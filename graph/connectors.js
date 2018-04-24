@@ -10,6 +10,9 @@ const secrets = require('../secrets');
 // Errors.
 const errors = require('../errors');
 
+// URLs.
+const url = require('../url');
+
 // Graph.
 const { getBroker } = require('./subscriptions/broker');
 const { getPubsub } = require('./subscriptions/pubsub');
@@ -58,6 +61,7 @@ const defaultConnectors = {
   errors,
   config,
   secrets,
+  url,
   models: {
     Action,
     Asset,
