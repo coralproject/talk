@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './ChangePassword.css';
-import { Button, Icon } from 'plugin-api/beta/client/components/ui';
+import { Button } from 'plugin-api/beta/client/components/ui';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 import isEqual from 'lodash/isEqual';
 import { t } from 'plugin-api/beta/client/services';
+import Form from './Form';
+import InputField from './InputField';
 
 const initialState = {
   editing: false,
@@ -97,9 +99,9 @@ class ChangePassword extends React.Component {
     return formHasErrors || formIncomplete;
   };
 
-  clearForm() {
+  clearForm = () => {
     this.setState(initialState);
-  }
+  };
 
   onSave = async () => {
     const { oldPassword, newPassword } = this.state.formData;
@@ -119,10 +121,10 @@ class ChangePassword extends React.Component {
     });
   };
 
-  cancel() {
+  cancel = () => {
     this.clearForm();
     this.disableEditing();
-  }
+  };
 
   render() {
     const { editing, errors } = this.state;
@@ -137,7 +139,7 @@ class ChangePassword extends React.Component {
           {t('talk-plugin-auth.change_password.change_password')}
         </h3>
         {editing && (
-          <ul className={styles.detailList}>
+          <Form className="talk-plugin-auth--change-password-form">
             <InputField
               id="oldPassword"
               label="Old Password"
@@ -177,7 +179,7 @@ class ChangePassword extends React.Component {
               errorMsg={errors['confirmNewPassword']}
               showErrors
             />
-          </ul>
+          </Form>
         )}
         {editing ? (
           <div className={styles.actions}>
@@ -207,69 +209,6 @@ class ChangePassword extends React.Component {
 
 ChangePassword.propTypes = {
   changePassword: PropTypes.func,
-};
-
-const InputField = ({
-  id = '',
-  label = '',
-  type = 'text',
-  name = '',
-  onChange = () => {},
-  value = '',
-  showError = true,
-  hasError = false,
-  errorMsg = '',
-  children,
-}) => {
-  return (
-    <li className={styles.detailItem}>
-      <div className={styles.detailItemContainer}>
-        <div className={styles.detailItemContent}>
-          <label className={styles.detailLabel} id={id}>
-            {label}
-          </label>
-          <input
-            id={id}
-            type={type}
-            name={name}
-            className={styles.detailValue}
-            onChange={onChange}
-            value={value}
-          />
-        </div>
-        <div className={styles.detailItemMessage}>
-          {!hasError &&
-            value && <Icon className={styles.checkIcon} name="check_circle" />}
-          {hasError && showError && <ErrorMessage>{errorMsg}</ErrorMessage>}
-        </div>
-      </div>
-      {children}
-    </li>
-  );
-};
-
-InputField.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  onChange: PropTypes.func,
-  value: PropTypes.string,
-  showError: PropTypes.bool,
-  hasError: PropTypes.bool,
-  errorMsg: PropTypes.string,
-  children: PropTypes.node,
-};
-
-const ErrorMessage = ({ children }) => (
-  <div className={styles.errorMsg}>
-    <Icon className={styles.warningIcon} name="warning" />
-    <span>{children}</span>
-  </div>
-);
-
-ErrorMessage.propTypes = {
-  children: PropTypes.node,
 };
 
 export default ChangePassword;
