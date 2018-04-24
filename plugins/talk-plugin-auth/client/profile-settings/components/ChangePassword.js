@@ -25,7 +25,11 @@ class ChangePassword extends React.Component {
       }),
       () => {
         this.fieldValidation(value, type, name);
-        this.equalityValidation('newPassword', 'confirmNewPassword');
+
+        // Perform equality validation if password fields have changed
+        if (name === 'newPassword' || name === 'confirmNewPassword') {
+          this.equalityValidation('newPassword', 'confirmNewPassword');
+        }
       }
     );
   };
@@ -49,7 +53,8 @@ class ChangePassword extends React.Component {
   };
 
   onSave = () => {
-    console.log(this.state.errors);
+    // errors is empty
+
     const { formData } = this.state;
     const validKeys = Object.keys(formData);
 
@@ -104,8 +109,11 @@ class ChangePassword extends React.Component {
   };
 
   render() {
-    const { formData, showErrors, editing, errors } = this.state;
-
+    const { editing, errors } = this.state;
+    console.log(
+      Object.keys(this.state.formData).length,
+      Object.keys(this.state.errors).length
+    );
     return (
       <section
         className={cn('talk-plugin-auth--change-password', styles.container, {
@@ -115,84 +123,43 @@ class ChangePassword extends React.Component {
         <h3 className={styles.title}>Change Password</h3>
         {editing && (
           <ul className={styles.detailList}>
-            <li className={styles.detailItem}>
-              <div className={styles.detailItemContainer}>
-                <div className={styles.detailItemContent}>
-                  <label className={styles.detailLabel}>Old Password</label>
-                  <input
-                    name="oldPassword"
-                    type="password"
-                    className={styles.detailValue}
-                    onChange={this.onChange}
-                  />
-                </div>
-                <div className={styles.detailItemMessage}>
-                  {!this.hasError('oldPassword') &&
-                  formData.oldPassword.length ? (
-                    <Icon className={styles.checkIcon} name="check_circle" />
-                  ) : null}
-                  {showErrors &&
-                    this.hasError('oldPassword') && (
-                      <ErrorMessage>{errors['oldPassword']}</ErrorMessage>
-                    )}
-                </div>
-              </div>
+            <InputField
+              id="oldPassword"
+              label="Old Password"
+              name="oldPassword"
+              type="password"
+              onChange={this.onChange}
+              value={this.state.formData.oldPassword}
+              hasError={this.hasError('oldPassword')}
+              errorMsg={errors['oldPassword']}
+              showErrors
+            >
               <span className={styles.detailBottomBox}>
                 <a className={styles.detailLink}>Forgot your password?</a>
               </span>
-            </li>
-            <li className={styles.detailItem}>
-              <div className={styles.detailItemContainer}>
-                <div className={styles.detailItemContent}>
-                  <label className={styles.detailLabel}>New Password</label>
-                  <input
-                    type="password"
-                    name="newPassword"
-                    className={styles.detailValue}
-                    onChange={this.onChange}
-                  />
-                </div>
-                <div className={styles.detailItemMessage}>
-                  {!this.hasError('newPassword') &&
-                  !this.hasError('matchPasswords') &&
-                  formData.newPassword.length ? (
-                    <Icon className={styles.checkIcon} name="check_circle" />
-                  ) : null}
-                  {showErrors &&
-                    this.hasError('newPassword') && (
-                      <ErrorMessage>{errors['newPassword']}</ErrorMessage>
-                    )}
-                </div>
-              </div>
-            </li>
-            <li className={styles.detailItem}>
-              <div className={styles.detailItemContainer}>
-                <div className={styles.detailItemContent}>
-                  <label className={styles.detailLabel}>
-                    Confirm New Password
-                  </label>
-                  <input
-                    type="password"
-                    name="confirmNewPassword"
-                    className={styles.detailValue}
-                    onChange={this.onChange}
-                  />
-                </div>
-                <div className={styles.detailItemMessage}>
-                  {!this.hasError('confirmNewPassword') &&
-                  !this.hasError('confirmNewPassword') &&
-                  formData.confirmNewPassword.length ? (
-                    <Icon className={styles.checkIcon} name="check_circle" />
-                  ) : null}
-                  {showErrors &&
-                    this.hasError('confirmNewPassword') && (
-                      <ErrorMessage>
-                        {errors['confirmNewPassword']}
-                      </ErrorMessage>
-                    )}
-                </div>
-              </div>
-            </li>
+            </InputField>
+            <InputField
+              id="newPassword"
+              label="New Password"
+              name="newPassword"
+              type="password"
+              onChange={this.onChange}
+              value={this.state.formData.newPassword}
+              hasError={this.hasError('newPassword')}
+              errorMsg={errors['newPassword']}
+              showErrors
+            />
+            <InputField
+              id="confirmNewPassword"
+              label="Confirm New Password"
+              name="confirmNewPassword"
+              type="password"
+              onChange={this.onChange}
+              value={this.state.formData.confirmNewPassword}
+              hasError={this.hasError('confirmNewPassword')}
+              errorMsg={errors['confirmNewPassword']}
+              showErrors
+            />
           </ul>
         )}
         {editing ? (
@@ -201,10 +168,6 @@ class ChangePassword extends React.Component {
               className={cn(styles.button, styles.saveButton)}
               icon="save"
               onClick={this.onSave}
-              disabled={
-                Object.keys(this.state.formData).length &&
-                Object.keys(this.state.errors).length
-              }
             >
               Save
             </Button>
@@ -226,6 +189,45 @@ class ChangePassword extends React.Component {
 
 ChangePassword.propTypes = {
   changePassword: PropTypes.func,
+};
+
+const InputField = ({
+  id = '',
+  label = '',
+  type = 'text',
+  name = '',
+  onChange = () => {},
+  value = '',
+  showError = true,
+  hasError = false,
+  errorMsg = '',
+  children,
+}) => {
+  return (
+    <li className={styles.detailItem}>
+      <div className={styles.detailItemContainer}>
+        <div className={styles.detailItemContent}>
+          <label className={styles.detailLabel} id={id}>
+            {label}
+          </label>
+          <input
+            id={id}
+            type={type}
+            name={name}
+            className={styles.detailValue}
+            onChange={onChange}
+            value={value}
+          />
+        </div>
+        <div className={styles.detailItemMessage}>
+          {!hasError &&
+            value && <Icon className={styles.checkIcon} name="check_circle" />}
+          {hasError && showError && <ErrorMessage>{errorMsg}</ErrorMessage>}
+        </div>
+      </div>
+      {children}
+    </li>
+  );
 };
 
 const ErrorMessage = ({ children }) => (
