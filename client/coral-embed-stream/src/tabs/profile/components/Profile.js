@@ -4,13 +4,31 @@ import Slot from 'coral-framework/components/Slot';
 import styles from './Profile.css';
 import TabPanel from '../containers/TabPanel';
 
+const DefaultProfileHeader = ({ username, emailAddress }) => (
+  <div className={styles.userInfo}>
+    <h2 className={styles.username}>{username}</h2>
+    {emailAddress ? <p className={styles.email}>{emailAddress}</p> : null}
+  </div>
+);
+
+DefaultProfileHeader.propTypes = {
+  username: PropTypes.string,
+  emailAddress: PropTypes.string,
+};
+
 const Profile = ({ username, emailAddress, root, slotPassthrough }) => {
   return (
     <div className="talk-my-profile talk-profile-container">
-      <div className={styles.userInfo}>
-        <h2 className={styles.username}>{username}</h2>
-        {emailAddress ? <p className={styles.email}>{emailAddress}</p> : null}
-      </div>
+      <Slot
+        fill="profileHeader"
+        size={1}
+        defaultComponent={DefaultProfileHeader}
+        passthrough={{
+          ...slotPassthrough,
+          username,
+          emailAddress,
+        }}
+      />
       <Slot fill="profileSections" passthrough={slotPassthrough} />
       <TabPanel root={root} slotPassthrough={slotPassthrough} />
     </div>
