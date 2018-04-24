@@ -132,7 +132,7 @@ class Users {
         locals: {
           body: message,
         },
-        subject: 'Your account has been suspended',
+        subject: 'Your account has been suspended', // TODO: replace with translation
       });
     }
 
@@ -490,6 +490,10 @@ class Users {
   }
 
   static async changePassword(id, password) {
+    if (!password || password.length < 8) {
+      throw new ErrPasswordTooShort();
+    }
+
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
     return User.update(
@@ -725,18 +729,13 @@ class Users {
     });
   }
 
-  /**
-   * Verifies a jwt and returns the associated user. Throws an error when the
-   * token isn't valid.
-   *
-   * @param {String} token the JSON Web Token to verify
-   */
+  // TODO: update doc
   static async verifyPasswordResetToken(token) {
     if (!token) {
       throw new Error('cannot verify an empty token');
     }
 
-    const { userId, loc, version } = await Users.verifyToken(token, {
+    const { userId, loc: redirect, version } = await Users.verifyToken(token, {
       subject: PASSWORD_RESET_JWT_SUBJECT,
     });
 
@@ -746,7 +745,33 @@ class Users {
       throw new Error('password reset token has expired');
     }
 
-    return [user, loc];
+    return { user, redirect, version };
+  }
+
+  // TODO: update doc
+  static async resetPassword(token, password) {
+    const { user, redirect, version } = await this.verifyPasswordResetToken(
+      token
+    );
+
+    if (!password || password.length < 8) {
+      throw new ErrPasswordTooShort();
+    }
+
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
+    // Update the user's password.
+    await User.update(
+      { id: user.id, __v: version },
+      {
+        $inc: { __v: 1 },
+        $set: {
+          password: hashedPassword,
+        },
+      }
+    );
+
+    return { user, redirect };
   }
 
   /**

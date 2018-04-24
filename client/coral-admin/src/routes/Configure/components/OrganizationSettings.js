@@ -71,7 +71,6 @@ class OrganizationSettings extends React.Component {
     await this.props.savePending();
     this.disableEditing();
   };
-
   displayErrors = (errors = []) => (
     <ul className={styles.errorList}>
       {errors.map((errKey, i) => (

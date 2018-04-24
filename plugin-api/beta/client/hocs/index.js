@@ -25,5 +25,6 @@ export {
   withUnbanUser,
   withStopIgnoringUser,
   withSetCommentStatus,
+  withChangePassword,
 } from 'coral-framework/graphql/mutations';
 export { compose } from 'recompose';
