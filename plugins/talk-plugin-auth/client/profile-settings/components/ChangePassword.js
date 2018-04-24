@@ -5,6 +5,7 @@ import styles from './ChangePassword.css';
 import { Button, Icon } from 'plugin-api/beta/client/components/ui';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
+import isEqual from 'lodash/isEqual';
 
 class ChangePassword extends React.Component {
   state = {
@@ -13,6 +14,8 @@ class ChangePassword extends React.Component {
     errors: {},
     formData: {},
   };
+
+  validKeys = ['oldPassword', 'newPassword', 'confirmNewPassword'];
 
   onChange = e => {
     const { name, value, type } = e.target;
@@ -45,35 +48,12 @@ class ChangePassword extends React.Component {
   };
 
   fieldValidation = (value, type, name) => {
-    if (!validate[type](value)) {
+    if (!value.length) {
+      this.addError({ [name]: 'This field is required' });
+    } else if (!validate[type](value)) {
       this.addError({ [name]: errorMsj[type] });
     } else {
       this.removeError(name);
-    }
-  };
-
-  onSave = () => {
-    // errors is empty
-
-    const { formData } = this.state;
-    const validKeys = Object.keys(formData);
-
-    // Required Validation
-    const validation = validKeys.filter(name => {
-      const cond = !formData[name].length;
-      if (cond) {
-        this.addError({
-          [name]: 'This Field is required',
-        });
-      } else {
-        this.removeError(name);
-      }
-      return cond;
-    });
-
-    if (validation.length) {
-      //error
-      return;
     }
   };
 
@@ -102,18 +82,20 @@ class ChangePassword extends React.Component {
     }));
   };
 
-  disableEditing = () => {
-    this.setState(() => ({
-      editing: false,
-    }));
+  isSubmitBlocked = () => {
+    const formHasErrors = !!Object.keys(this.state.errors).length;
+    const formIncomplete = !isEqual(
+      Object.keys(this.state.formData),
+      this.validKeys
+    );
+    return formHasErrors || formIncomplete;
   };
+
+  onSave = () => {};
 
   render() {
     const { editing, errors } = this.state;
-    console.log(
-      Object.keys(this.state.formData).length,
-      Object.keys(this.state.errors).length
-    );
+
     return (
       <section
         className={cn('talk-plugin-auth--change-password', styles.container, {
@@ -168,6 +150,7 @@ class ChangePassword extends React.Component {
               className={cn(styles.button, styles.saveButton)}
               icon="save"
               onClick={this.onSave}
+              disabled={this.isSubmitBlocked()}
             >
               Save
             </Button>
