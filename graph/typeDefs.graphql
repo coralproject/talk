@@ -548,6 +548,9 @@ type Comment {
 
   # Indicates if it has a parent
   hasParent: Boolean
+
+  # url is the permalink to this particular Comment on the Asset.
+  url: String
 }
 
 # CommentConnection represents a paginable subset of a comment list.
@@ -834,6 +837,9 @@ type Settings {
 
   # organizationName is the name of the organization.
   organizationName: String
+
+  # organizationContactEmail is the email of the organization.
+  organizationContactEmail: String
 
   # wordlist will return a given list of words.
   wordlist: Wordlist
@@ -1290,6 +1296,9 @@ input UpdateSettingsInput {
 
   # organizationName is the name of the organization.
   organizationName: String
+
+  # organizationContactEmail is the email of the organization.
+  organizationContactEmail: String
 
   # editCommentWindowLength is the length of time (in milliseconds) after a
   # comment is posted that it can still be edited by the author.
