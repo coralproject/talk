@@ -9,6 +9,7 @@ import isEqual from 'lodash/isEqual';
 import { t } from 'plugin-api/beta/client/services';
 import Form from './Form';
 import InputField from './InputField';
+import { getErrorMessages } from 'coral-framework/utils';
 
 const initialState = {
   editing: false,
@@ -106,10 +107,18 @@ class ChangePassword extends React.Component {
   onSave = async () => {
     const { oldPassword, newPassword } = this.state.formData;
 
-    await this.props.changePassword({
-      oldPassword,
-      newPassword,
-    });
+    try {
+      await this.props.changePassword({
+        oldPassword,
+        newPassword,
+      });
+      this.props.notify(
+        'success',
+        t('talk-plugin-auth.change_password.changed_password_msg')
+      );
+    } catch (err) {
+      this.props.notify('error', getErrorMessages(err));
+    }
 
     this.clearForm();
     this.disableEditing();
@@ -208,7 +217,8 @@ class ChangePassword extends React.Component {
 }
 
 ChangePassword.propTypes = {
-  changePassword: PropTypes.func,
+  changePassword: PropTypes.func.isRequired,
+  notify: PropTypes.func.isRequired,
 };
 
 export default ChangePassword;

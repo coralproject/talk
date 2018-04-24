@@ -139,6 +139,7 @@ en:
       save: "Save"
       cancel: "Cancel"
       edit: "Edit"
+      changed_password_msg: "Changed Password - Your password has been successfully changed"
 de:
   talk-plugin-auth:
     login:
@@ -238,6 +239,7 @@ es:
       save: "Guardar"
       cancel: "Cancelar"
       edit: "Editar"
+      changed_password_msg: "Contraseña Actualizada - Tu contraseña ha sido exitosamente actualizada"
 fr:
   talk-plugin-auth:
     login:
