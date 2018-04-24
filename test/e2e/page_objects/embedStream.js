@@ -28,7 +28,7 @@ module.exports = {
         return this.section.comments;
       },
       navigateToAsset: function(asset) {
-        this.api.url(`${this.api.launchUrl}/assets/title/${asset}`);
+        this.api.url(`${this.api.launchUrl}/dev/assets/title/${asset}`);
         return this;
       },
       switchToIframe: function() {
@@ -44,7 +44,7 @@ module.exports = {
     },
   ],
   url: function() {
-    return this.api.launchUrl;
+    return this.api.launchUrl + '/dev/';
   },
   elements: {
     iframe: `#${iframeId}`,

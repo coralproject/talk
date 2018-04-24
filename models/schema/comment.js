@@ -187,6 +187,17 @@ Comment.index(
   }
 );
 
+// Add an index that is optimized for finding a user's comments.
+Comment.index(
+  {
+    author_id: 1,
+    created_at: -1,
+  },
+  {
+    background: true,
+  }
+);
+
 // Optimize for tag searches/counts.
 Comment.index(
   {

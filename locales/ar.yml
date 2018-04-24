@@ -438,8 +438,8 @@ ar:
     reports: "Reports"
     all: "All"
     rejected: "Rejected"
-    account_history: "Account History"
-  account_history:
+    user_history: "User History"
+  user_history:
     user_banned: "User banned"
     ban_removed: "Ban removed"
     username_status: "Username {0}"
@@ -466,6 +466,7 @@ ar:
       username: "Username"
       password: "Password"
       confirm_password: "Confirm Password"
+      organization_contact_email: "Organization Contact Email"
       save: "Save"
     permitted_domains:
       title: "Permitted domains"
