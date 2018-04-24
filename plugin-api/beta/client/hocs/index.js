@@ -26,5 +26,6 @@ export {
   withStopIgnoringUser,
   withSetCommentStatus,
   withChangePassword,
+  withChangeUsername,
 } from 'coral-framework/graphql/mutations';
 export { compose } from 'recompose';
