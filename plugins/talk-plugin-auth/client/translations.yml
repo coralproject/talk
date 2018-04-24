@@ -131,6 +131,14 @@ en:
       username: Username
       write_your_username: "Edit your username"
       your_username: "Your username appears on every comment you post."
+    change_password:
+      change_password: "Change Password"
+      passwords_dont_match: "Passwords don`t match"
+      required_field: "This field is required"
+      forgot_password: "Forgot your password?"
+      save: "Save"
+      cancel: "Cancel"
+      edit: "Edit"
 de:
   talk-plugin-auth:
     login:
@@ -222,6 +230,14 @@ es:
       username: Nombre
       write_your_username: "Edita tu nombre"
       your_username: "Tu nombre aparece en cada comentario que publiques."
+    change_password:
+      change_password: "Cambiar Contraseña"
+      passwords_dont_match: "Las contraseñas no coinciden"
+      required_field: "Este campo es requerido"
+      forgot_password: "Olvidaste tu contraseña?"
+      save: "Guardar"
+      cancel: "Cancelar"
+      edit: "Editar"
 fr:
   talk-plugin-auth:
     login:

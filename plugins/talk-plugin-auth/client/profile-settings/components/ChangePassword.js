@@ -6,15 +6,17 @@ import { Button, Icon } from 'plugin-api/beta/client/components/ui';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 import isEqual from 'lodash/isEqual';
+import { t } from 'plugin-api/beta/client/services';
+
+const initialState = {
+  editing: false,
+  showErrors: true,
+  errors: {},
+  formData: {},
+};
 
 class ChangePassword extends React.Component {
-  state = {
-    editing: false,
-    showErrors: true,
-    errors: {},
-    formData: {},
-  };
-
+  state = initialState;
   validKeys = ['oldPassword', 'newPassword', 'confirmNewPassword'];
 
   onChange = e => {
@@ -40,7 +42,9 @@ class ChangePassword extends React.Component {
   equalityValidation = (field, field2) => {
     const cond = this.state.formData[field] === this.state.formData[field2];
     if (!cond) {
-      this.addError({ [field2]: 'Passwords don`t match' });
+      this.addError({
+        [field2]: t('talk-plugin-auth.change_password.passwords_dont_match'),
+      });
     } else {
       this.removeError(field2);
     }
@@ -49,7 +53,9 @@ class ChangePassword extends React.Component {
 
   fieldValidation = (value, type, name) => {
     if (!value.length) {
-      this.addError({ [name]: 'This field is required' });
+      this.addError({
+        [name]: t('talk-plugin-auth.change_password.required_field'),
+      });
     } else if (!validate[type](value)) {
       this.addError({ [name]: errorMsj[type] });
     } else {
@@ -76,10 +82,10 @@ class ChangePassword extends React.Component {
     });
   };
 
-  toggleEditing = () => {
-    this.setState(({ editing }) => ({
-      editing: !editing,
-    }));
+  enableEditing = () => {
+    this.setState({
+      editing: true,
+    });
   };
 
   isSubmitBlocked = () => {
@@ -91,7 +97,32 @@ class ChangePassword extends React.Component {
     return formHasErrors || formIncomplete;
   };
 
-  onSave = () => {};
+  clearForm() {
+    this.setState(initialState);
+  }
+
+  onSave = async () => {
+    const { oldPassword, newPassword } = this.state.formData;
+
+    await this.props.changePassword({
+      oldPassword,
+      newPassword,
+    });
+
+    this.clearForm();
+    this.disableEditing();
+  };
+
+  disableEditing = () => {
+    this.setState({
+      editing: false,
+    });
+  };
+
+  cancel() {
+    this.clearForm();
+    this.disableEditing();
+  }
 
   render() {
     const { editing, errors } = this.state;
@@ -102,7 +133,9 @@ class ChangePassword extends React.Component {
           [styles.editing]: editing,
         })}
       >
-        <h3 className={styles.title}>Change Password</h3>
+        <h3 className={styles.title}>
+          {t('talk-plugin-auth.change_password.change_password')}
+        </h3>
         {editing && (
           <ul className={styles.detailList}>
             <InputField
@@ -117,7 +150,9 @@ class ChangePassword extends React.Component {
               showErrors
             >
               <span className={styles.detailBottomBox}>
-                <a className={styles.detailLink}>Forgot your password?</a>
+                <a className={styles.detailLink}>
+                  {t('talk-plugin-auth.change_password.forgot_password')}
+                </a>
               </span>
             </InputField>
             <InputField
@@ -152,16 +187,16 @@ class ChangePassword extends React.Component {
               onClick={this.onSave}
               disabled={this.isSubmitBlocked()}
             >
-              Save
+              {t('talk-plugin-auth.change_password.save')}
             </Button>
-            <a className={styles.cancelButton} onClick={this.toggleEditing}>
-              Cancel
+            <a className={styles.cancelButton} onClick={this.cancel}>
+              {t('talk-plugin-auth.change_password.cancel')}
             </a>
           </div>
         ) : (
           <div className={styles.actions}>
-            <Button className={styles.button} onClick={this.toggleEditing}>
-              Edit
+            <Button className={styles.button} onClick={this.enableEditing}>
+              {t('talk-plugin-auth.change_password.edit')}
             </Button>
           </div>
         )}
@@ -211,6 +246,19 @@ const InputField = ({
       {children}
     </li>
   );
+};
+
+InputField.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
+  showError: PropTypes.bool,
+  hasError: PropTypes.bool,
+  errorMsg: PropTypes.string,
+  children: PropTypes.node,
 };
 
 const ErrorMessage = ({ children }) => (
