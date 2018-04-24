@@ -5,6 +5,9 @@ module.exports = {
     requestDownloadLink: async (_, args, { mutators: { User } }) => {
       await User.requestDownloadLink();
     },
+    downloadUser: async (_, { id }, { mutators: { User } }) => ({
+      archiveURL: await User.download(id),
+    }),
   },
   User: {
     lastAccountDownload: (user, args, { user: currentUser }) => {

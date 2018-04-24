@@ -20,14 +20,15 @@ async function verifyDownloadToken(
 
 // loadCommentsBatch will load a batch of the comments and write them to the
 // stream.
-async function loadCommentsBatch(ctx, csv, variables = {}) {
+async function loadCommentsBatch(ctx, csv, variables) {
   let result = await ctx.graphql(
     `
-    query GetMyComments($cursor: Cursor) {
-      me {
+    query GetMyComments($userID: ID!, $cursor: Cursor) {
+      user(id: $userID) {
         comments(query: {
           limit: 100,
-          cursor: $cursor
+          cursor: $cursor,
+          statuses: null
         }) {
           hasNextPage
           endCursor
@@ -50,7 +51,7 @@ async function loadCommentsBatch(ctx, csv, variables = {}) {
     throw result.errors;
   }
 
-  for (const comment of get(result, 'data.me.comments.nodes', [])) {
+  for (const comment of get(result, 'data.user.comments.nodes', [])) {
     csv.write([
       comment.id,
       moment(comment.created_at).format('YYYY-MM-DD HH:mm:ss'),
@@ -60,12 +61,12 @@ async function loadCommentsBatch(ctx, csv, variables = {}) {
     ]);
   }
 
-  return pick(result.data.me.comments, ['hasNextPage', 'endCursor']);
+  return pick(get(result, 'data.user.comments'), ['hasNextPage', 'endCursor']);
 }
 
 // loadComments will load batches of the comments and write them to the csv
 // stream. Once the comments have finished writing, it will close the stream.
-async function loadComments(ctx, archive, latestContentDate) {
+async function loadComments(ctx, userID, archive, latestContentDate) {
   // Create all the csv writers that'll write the data to the archive.
   const csv = stringify();
 
@@ -78,12 +79,14 @@ async function loadComments(ctx, archive, latestContentDate) {
   // from the token.
   let connection = await loadCommentsBatch(ctx, csv, {
     cursor: latestContentDate,
+    userID,
   });
 
   // As long as there's more comments, keep paginating.
   while (connection.hasNextPage) {
     connection = await loadCommentsBatch(ctx, csv, {
       cursor: connection.endCursor,
+      userID,
     });
   }
 
@@ -98,11 +101,21 @@ module.exports = router => {
 
   // /api/v1/account/download will send back a zipped archive of the users
   // account.
-  router.post(
+  router.all(
     '/api/v1/account/download',
     express.urlencoded({ extended: false }),
     async (req, res, next) => {
-      const { token = null, check = false } = req.body;
+      let { token = null, check = false } = req.body;
+
+      if (!token) {
+        // If the token wasn't found in the body, then we should check the query
+        // to see if it was passed that way.
+        token = req.query.token;
+      }
+
+      if (!token) {
+        return res.status(400).end();
+      }
 
       if (check) {
         // This request is checking to see if the token is valid.
@@ -120,7 +133,7 @@ module.exports = router => {
         return;
       }
 
-      const { connectors: { services: { Users } } } = req.context;
+      const { connectors: { graph: { Context }, errors } } = req.context;
 
       try {
         // Pull the userID and the date that the token was issued out of the
@@ -130,25 +143,31 @@ module.exports = router => {
           token
         );
 
+        // Create a system context used to get all comments for that user.
+        const ctx = Context.forSystem();
+
+        // Get the current user's username. We need it for the generated filenames.
+        const result = await ctx.graphql(
+          `query GetUser($userID: ID!) {
+            user(id: $userID) { username }
+          }`,
+          { userID }
+        );
+        if (result.errors) {
+          throw result.errors;
+        }
+
+        const user = get(result, 'data.user');
+        if (!user) {
+          throw new errors.ErrNotFound();
+        }
+
         // Unpack the date that the token was issued, and use it as a source for the
         // earliest comment we should include in the download.
         const latestContentDate = new Date(iat * 1000);
 
-        // Grab the user that we're generating the export from. We'll use it to
-        // create a new context.
-        const user = await Users.findById(userID);
-
-        // Base a new context off of the new user.
-        const ctx = req.context.masqueradeAs(user);
-
-        // Get the current user's username. We need it for the generated filenames.
-        const result = await ctx.graphql('{ me { username } }');
-        if (result.errors) {
-          throw result.errors;
-        }
-        const username = get(result, 'data.me.username');
-
         // Generate the filename of the file that the user will download.
+        const username = get(user, 'username');
         const filename = `talk-${kebabCase(username)}-${kebabCase(
           moment(latestContentDate).format('YYYY-MM-DD HH:mm:ss')
         )}.zip`;
@@ -167,7 +186,7 @@ module.exports = router => {
         archive.pipe(res);
 
         // Load the comments csv up with the user's comments.
-        await loadComments(ctx, archive, latestContentDate);
+        await loadComments(ctx, userID, archive, latestContentDate);
 
         // Mark the end of adding files, no more files can be added after this. Once
         // all the stream readers have finished writing, and have closed, the
