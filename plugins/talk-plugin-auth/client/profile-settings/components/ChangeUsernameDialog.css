@@ -46,6 +46,8 @@
 .bottomNote {
   font-size: 0.9em;
   line-height: 20px;
+  padding-top: 10px;
+  display: block;
 }
 
 .bottomActions {

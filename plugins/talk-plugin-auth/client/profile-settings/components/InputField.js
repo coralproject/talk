@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 import styles from './InputField.css';
 import ErrorMessage from './ErrorMessage';
 import { Icon } from 'plugin-api/beta/client/components/ui';
@@ -15,10 +16,16 @@ const InputField = ({
   hasError = false,
   errorMsg = '',
   children,
+  columnDisplay = false,
+  showSuccess = true,
 }) => {
   return (
     <li className={styles.detailItem}>
-      <div className={styles.detailItemContainer}>
+      <div
+        className={cn(styles.detailItemContainer, {
+          [styles.columnDisplay]: columnDisplay,
+        })}
+      >
         <div className={styles.detailItemContent}>
           <label className={styles.detailLabel} id={id}>
             {label}
@@ -27,7 +34,7 @@ const InputField = ({
             id={id}
             type={type}
             name={name}
-            className={styles.detailValue}
+            className={cn(styles.detailValue, styles.error)}
             onChange={onChange}
             value={value}
             autoComplete="off"
@@ -35,6 +42,7 @@ const InputField = ({
         </div>
         <div className={styles.detailItemMessage}>
           {!hasError &&
+            showSuccess &&
             value && <Icon className={styles.checkIcon} name="check_circle" />}
           {hasError && showError && <ErrorMessage>{errorMsg}</ErrorMessage>}
         </div>
@@ -55,6 +63,8 @@ InputField.propTypes = {
   hasError: PropTypes.bool,
   errorMsg: PropTypes.string,
   children: PropTypes.node,
+  columnDisplay: PropTypes.bool,
+  showSuccess: PropTypes.bool,
 };
 
 export default InputField;

@@ -109,7 +109,6 @@
 .bottomText {
   color: #474747;
   font-size: 0.9em;
-  display: block;
 }
 
 .detailList {
@@ -119,5 +118,5 @@
 } 
 
 .detailItem {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }

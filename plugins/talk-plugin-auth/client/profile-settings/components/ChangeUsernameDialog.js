@@ -6,6 +6,28 @@ import Form from './Form';
 import { Button, Dialog } from 'plugin-api/beta/client/components/ui';
 
 class ChangeUsernameDialog extends React.Component {
+  state = {
+    showErrors: false,
+  };
+
+  showErrors = () => {
+    this.setState({
+      showErrors: true,
+    });
+  };
+
+  confirmChanges = async () => {
+    if (this.formHasError()) {
+      this.showErrors();
+    } else {
+      // await this.props.saveChanges
+      this.props.closeDialog();
+    }
+  };
+
+  formHasError = () =>
+    this.props.formData.confirmNewUsername !== this.props.formData.newUsername;
+
   render() {
     return (
       <Dialog
@@ -37,6 +59,11 @@ class ChangeUsernameDialog extends React.Component {
               type="text"
               onChange={this.props.onChange}
               value={this.props.formData.confirmNewUsername}
+              hasError={this.formHasError() && this.state.showErrors}
+              errorMsg={'Username does not match'}
+              showErrors={this.state.showErrors}
+              columnDisplay
+              showSuccess={false}
             >
               <span className={styles.bottomNote}>
                 Note: You will not be able to change your username again for 14
@@ -46,7 +73,12 @@ class ChangeUsernameDialog extends React.Component {
           </Form>
           <div className={styles.bottomActions}>
             <Button className={styles.cancel}>Cancel</Button>
-            <Button className={styles.confirmChanges}>Confirm Changes</Button>
+            <Button
+              className={styles.confirmChanges}
+              onClick={this.confirmChanges}
+            >
+              Confirm Changes
+            </Button>
           </div>
         </div>
       </Dialog>

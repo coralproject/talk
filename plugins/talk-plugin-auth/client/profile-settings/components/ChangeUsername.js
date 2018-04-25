@@ -43,8 +43,10 @@ class ChangeUsername extends React.Component {
 
   onSave = async () => {
     this.showDialog();
-    // this.clearForm();
-    // this.disableEditing();
+  };
+
+  saveChanges = async () => {
+    // savechanges
   };
 
   onChange = e => {
@@ -78,8 +80,6 @@ class ChangeUsername extends React.Component {
     const { username, emailAddress } = this.props;
     const { editing } = this.state;
 
-    console.log('loading xxxx');
-
     return (
       <section
         className={cn('talk-plugin-auth--edit-profile', styles.container, {
@@ -101,7 +101,7 @@ class ChangeUsername extends React.Component {
                 <label className={cn(styles.detailLabel)}>
                   <Icon name="person" className={styles.detailLabelIcon} />
                   <input
-                    name="username"
+                    name="newUsername"
                     type="text"
                     className={styles.detailValue}
                     onChange={this.onChange}
@@ -141,6 +141,7 @@ class ChangeUsername extends React.Component {
               className={cn(styles.button, styles.saveButton)}
               icon="save"
               onClick={this.onSave}
+              disabled={!this.state.formData.newUsername}
             >
               Save
             </Button>

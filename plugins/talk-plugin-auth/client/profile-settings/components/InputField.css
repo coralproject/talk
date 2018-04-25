@@ -7,6 +7,14 @@
   display: flex;
 }
 
+.columnDisplay {
+  flex-direction: column;
+
+  .detailItemMessage {
+    padding: 4px 0 0;
+  }
+}
+
 .detailItemContent {
   min-width: 280px;
 }
@@ -28,13 +36,17 @@
   color: #979797;
   box-sizing: border-box;
   width: 100%;
+
+  &.error {
+    border-color: #FA4643;
+  }
 }
 
 .detailItemMessage {
   flex-grow: 1;
   display: flex;
   align-items: center;
-  padding-left: 2px;
+  padding-left: 6px;
   padding-top: 16px;
 
   .warningIcon, .checkIcon {
