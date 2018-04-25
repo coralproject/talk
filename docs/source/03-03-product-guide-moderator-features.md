@@ -170,8 +170,9 @@ moderators.
 
 All your team and commenters show in the People sub-tab. From here, you can
 manage your team members’ roles (Admins, Moderators, Staff), as well as search
-for commenters and take action on them (e.g. Ban/Un-ban, Suspend, etc.). ###
-Configure
+for commenters and take action on them (e.g. Ban/Un-ban, Suspend, etc.). 
+
+### Configure
 
 See [Configuring Talk](/talk/configuring-talk/).
 
