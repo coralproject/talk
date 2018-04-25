@@ -4,11 +4,15 @@ import PropTypes from 'prop-types';
 import styles from './ChangeUsername.css';
 import { Icon, Button } from 'plugin-api/beta/client/components/ui';
 import ChangeUsernameDialog from './ChangeUsernameDialog';
+import validate from 'coral-framework/helpers/validate';
+import errorMsj from 'coral-framework/helpers/error';
+import { t } from 'plugin-api/beta/client/services';
 
 const initialState = {
   editing: false,
-  formData: {},
   showDialog: false,
+  errors: {},
+  formData: {},
 };
 
 class ChangeUsername extends React.Component {
@@ -49,8 +53,50 @@ class ChangeUsername extends React.Component {
     // savechanges
   };
 
+  fieldValidation = (value, type, name) => {
+    if (!value.length) {
+      this.addError({
+        [name]: t('talk-plugin-auth.change_password.required_field'),
+      });
+    } else if (!validate[type](value)) {
+      this.addError({ [name]: errorMsj[type] });
+    } else {
+      this.removeError(name);
+    }
+  };
+
+  hasError = err => {
+    return Object.keys(this.state.errors).indexOf(err) !== -1;
+  };
+
+  addError = err => {
+    this.setState(
+      ({ errors }) => ({
+        errors: { ...errors, ...err },
+      }),
+      () => {
+        console.log(this.state);
+      }
+    );
+  };
+
+  removeError = errKey => {
+    this.setState(
+      state => {
+        const { [errKey]: _, ...errors } = state.errors;
+        return {
+          errors,
+        };
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
+  };
+
   onChange = e => {
-    const { name, value } = e.target;
+    const { name, value, type, dataset: { validationType } } = e.target;
+
     this.setState(
       state => ({
         formData: {
@@ -59,13 +105,9 @@ class ChangeUsername extends React.Component {
         },
       }),
       () => {
-        console.log(this.state.formData);
-        // Validation
-        // this.fieldValidation(value, type, name);
-        // // Perform equality validation if password fields have changed
-        // if (name === 'newPassword' || name === 'confirmNewPassword') {
-        //   this.equalityValidation('newPassword', 'confirmNewPassword');
-        // }
+        const fieldType = !validationType ? type : validationType;
+        this.fieldValidation(value, fieldType, name);
+        // the username cannot be the  same
       }
     );
   };
@@ -103,6 +145,7 @@ class ChangeUsername extends React.Component {
                   <input
                     name="newUsername"
                     type="text"
+                    data-validation-type="username"
                     className={styles.detailValue}
                     onChange={this.onChange}
                     defaultValue={username}

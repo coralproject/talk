@@ -18,6 +18,7 @@ const InputField = ({
   children,
   columnDisplay = false,
   showSuccess = true,
+  validationType = '',
 }) => {
   return (
     <li className={styles.detailItem}>
@@ -34,10 +35,11 @@ const InputField = ({
             id={id}
             type={type}
             name={name}
-            className={cn(styles.detailValue, styles.error)}
+            className={cn(styles.detailValue, { [styles.error]: hasError })}
             onChange={onChange}
             value={value}
             autoComplete="off"
+            data-validation-type={validationType}
           />
         </div>
         <div className={styles.detailItemMessage}>
@@ -65,6 +67,7 @@ InputField.propTypes = {
   children: PropTypes.node,
   columnDisplay: PropTypes.bool,
   showSuccess: PropTypes.bool,
+  validationType: PropTypes.string,
 };
 
 export default InputField;

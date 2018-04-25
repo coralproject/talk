@@ -64,6 +64,7 @@ class ChangeUsernameDialog extends React.Component {
               showErrors={this.state.showErrors}
               columnDisplay
               showSuccess={false}
+              validationType="username"
             >
               <span className={styles.bottomNote}>
                 Note: You will not be able to change your username again for 14
