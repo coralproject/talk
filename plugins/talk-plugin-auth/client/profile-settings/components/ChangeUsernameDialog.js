@@ -7,18 +7,18 @@ import { Button, Dialog } from 'plugin-api/beta/client/components/ui';
 
 class ChangeUsernameDialog extends React.Component {
   state = {
-    showErrors: false,
+    showError: false,
   };
 
-  showErrors = () => {
+  showError = () => {
     this.setState({
-      showErrors: true,
+      showError: true,
     });
   };
 
   confirmChanges = async () => {
     if (this.formHasError()) {
-      this.showErrors();
+      this.showError();
     } else {
       // await this.props.saveChanges
       this.props.closeDialog();
@@ -59,9 +59,9 @@ class ChangeUsernameDialog extends React.Component {
               type="text"
               onChange={this.props.onChange}
               value={this.props.formData.confirmNewUsername}
-              hasError={this.formHasError() && this.state.showErrors}
+              hasError={this.formHasError() && this.state.showError}
               errorMsg={'Username does not match'}
-              showErrors={this.state.showErrors}
+              showError={this.state.showError}
               columnDisplay
               showSuccess={false}
               validationType="username"

@@ -7,6 +7,7 @@ import ChangeUsernameDialog from './ChangeUsernameDialog';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 import { t } from 'plugin-api/beta/client/services';
+import InputField from './InputField';
 
 const initialState = {
   editing: false,
@@ -139,34 +140,27 @@ class ChangeUsername extends React.Component {
         {editing ? (
           <div className={styles.content}>
             <ul className={styles.detailList}>
-              <li className={styles.detailItem}>
-                <label className={cn(styles.detailLabel)}>
-                  <Icon name="person" className={styles.detailLabelIcon} />
-                  <input
-                    name="newUsername"
-                    type="text"
-                    data-validation-type="username"
-                    className={styles.detailValue}
-                    onChange={this.onChange}
-                    defaultValue={username}
-                  />
-                </label>
+              <InputField
+                icon="person"
+                id="newUsername"
+                name="newUsername"
+                onChange={this.onChange}
+                defaultValue={username}
+                columnDisplay
+                validationType="username"
+              >
                 <span className={styles.bottomText}>
                   Usernames can be changed every 14 days
                 </span>
-              </li>
-              <li className={styles.detailItem}>
-                <label className={cn(styles.detailLabel, styles.disabled)}>
-                  <Icon name="email" className={styles.detailLabelIcon} />
-                  <input
-                    name="email"
-                    type="email"
-                    className={styles.detailValue}
-                    defaultValue={emailAddress}
-                    disabled={true}
-                  />
-                </label>
-              </li>
+              </InputField>
+              <InputField
+                icon="email"
+                id="email"
+                name="email"
+                value={emailAddress}
+                validationType="username"
+                disabled
+              />
             </ul>
           </div>
         ) : (

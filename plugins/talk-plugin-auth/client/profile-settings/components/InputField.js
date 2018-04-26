@@ -11,35 +11,53 @@ const InputField = ({
   type = 'text',
   name = '',
   onChange = () => {},
-  value = '',
   showError = true,
   hasError = false,
   errorMsg = '',
   children,
   columnDisplay = false,
-  showSuccess = true,
+  showSuccess = false,
   validationType = '',
+  icon = '',
+  value = '',
+  defaultValue = '',
+  disabled = false,
 }) => {
+  const inputValue = {
+    ...(value ? { value } : {}),
+    ...(defaultValue ? { defaultValue } : {}),
+  };
+
   return (
-    <li className={styles.detailItem}>
+    <div className={styles.detailItem}>
       <div
         className={cn(styles.detailItemContainer, {
           [styles.columnDisplay]: columnDisplay,
         })}
       >
-        <div className={styles.detailItemContent}>
+        {label && (
           <label className={styles.detailLabel} id={id}>
             {label}
           </label>
+        )}
+        <div
+          className={cn(
+            styles.detailItemContent,
+            { [styles.error]: hasError },
+            { [styles.disabled]: disabled }
+          )}
+        >
+          {icon && <Icon name={icon} className={styles.detailIcon} />}
           <input
             id={id}
             type={type}
             name={name}
-            className={cn(styles.detailValue, { [styles.error]: hasError })}
+            className={styles.detailValue}
             onChange={onChange}
-            value={value}
             autoComplete="off"
             data-validation-type={validationType}
+            disabled={disabled}
+            {...inputValue}
           />
         </div>
         <div className={styles.detailItemMessage}>
@@ -50,17 +68,20 @@ const InputField = ({
         </div>
       </div>
       {children}
-    </li>
+    </div>
   );
 };
 
 InputField.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  disabled: PropTypes.boolean,
+  label: PropTypes.string,
+  type: PropTypes.string,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   value: PropTypes.string,
+  defaultValue: PropTypes.string,
+  icon: PropTypes.string,
   showError: PropTypes.bool,
   hasError: PropTypes.bool,
   errorMsg: PropTypes.string,
