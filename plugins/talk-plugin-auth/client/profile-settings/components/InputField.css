@@ -31,6 +31,10 @@
     line-height: 30px; 
   }
 
+  &.error {
+    border: solid 2px #FA4643;
+  }
+
   &.disabled {
     background-color: #E0E0E0;
   }

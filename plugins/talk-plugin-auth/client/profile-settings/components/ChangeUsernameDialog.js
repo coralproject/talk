@@ -92,7 +92,7 @@ class ChangeUsernameDialog extends React.Component {
 
 ChangeUsernameDialog.propTypes = {
   closeDialog: PropTypes.func,
-  showDialog: PropTypes.func,
+  showDialog: PropTypes.bool,
   onChange: PropTypes.func,
   username: PropTypes.string,
   formData: PropTypes.object,

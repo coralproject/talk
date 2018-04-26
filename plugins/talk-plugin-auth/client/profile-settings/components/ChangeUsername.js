@@ -127,7 +127,10 @@ class ChangeUsername extends React.Component {
               className={cn(styles.button, styles.saveButton)}
               icon="save"
               onClick={this.onSave}
-              disabled={!this.state.formData.newUsername}
+              disabled={
+                !this.state.formData.newUsername &&
+                this.state.formData.newUsername !== username
+              }
             >
               {t('talk-plugin-auth.change_username.save')}
             </Button>

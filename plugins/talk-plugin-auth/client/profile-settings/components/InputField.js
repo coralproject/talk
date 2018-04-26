@@ -74,7 +74,7 @@ const InputField = ({
 
 InputField.propTypes = {
   id: PropTypes.string,
-  disabled: PropTypes.boolean,
+  disabled: PropTypes.bool,
   label: PropTypes.string,
   type: PropTypes.string,
   name: PropTypes.string.isRequired,
