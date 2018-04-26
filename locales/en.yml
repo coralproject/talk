@@ -140,6 +140,8 @@ en:
     enable_premod_links_description: "Moderators must approve any comment containing a link before it is published."
     enable_questionbox: "Ask Readers a Question"
     enable_questionbox_description: "This question will appear at the top of this comment stream. Ask readers about a certain issue in the article or pose discussion questions etc."
+    global_switchoff_title: "Deactivate commenting site-wide"
+    global_switchoff_desc: "Write a message that will be displayed while commenting is deactivated."
     hours: Hours
     include_comment_stream: "Include Comment Stream Description for Readers"
     include_comment_stream_desc: "Write a message to be added to the top of your comment stream. Pose a topic include community guidelines etc."
@@ -247,6 +249,7 @@ en:
     LOGIN_MAXIMUM_EXCEEDED: "You have made too many unsuccessful password attempts. Please wait."
     PASSWORD_REQUIRED: "Must input a password"
     COMMENTING_CLOSED: "Commenting is already closed"
+    COMMENTING_DISABLED: "Commenting is currently disabled on this site"
     NOT_FOUND: "Resource not found"
     ALREADY_EXISTS: "Resource already exists"
     INVALID_ASSET_URL: "Assert URL is invalid"

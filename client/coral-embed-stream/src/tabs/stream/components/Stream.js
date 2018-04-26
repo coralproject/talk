@@ -4,6 +4,7 @@ import StreamError from './StreamError';
 import Comment from '../containers/Comment';
 import BannedAccount from '../../../components/BannedAccount';
 import ChangeUsername from '../containers/ChangeUsername';
+import Markdown from 'coral-framework/components/Markdown';
 import Slot from 'coral-framework/components/Slot';
 import InfoBox from './InfoBox';
 import { can } from 'coral-framework/services/perms';
@@ -215,7 +216,7 @@ class Stream extends React.Component {
       currentUser,
     } = this.props;
     const { keepCommentBox } = this.state;
-    const open = !asset.isClosed;
+    const open = !(asset.isClosed || asset.settings.globalSwitchoffEnable);
 
     const banned = get(currentUser, 'status.banned.status');
     const suspensionUntil = get(currentUser, 'status.suspension.until');
@@ -293,7 +294,13 @@ class Stream extends React.Component {
             )}
           </div>
         ) : (
-          <p>{asset.settings.closedMessage}</p>
+          <div>
+            {asset.isClosed ? (
+              <p>{asset.settings.closedMessage}</p>
+            ) : (
+              <Markdown content={asset.settings.globalSwitchoffMessage} />
+            )}
+          </div>
         )}
 
         <Slot fill="stream" passthrough={slotPassthrough} />

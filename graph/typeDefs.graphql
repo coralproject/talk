@@ -837,6 +837,13 @@ type Settings {
   # closed.
   closedMessage: String
 
+  # globalSwitchoffEnable will disable commenting site-wide.
+  globalSwitchoffEnable: Boolean
+
+  # globalSwitchoffMessage will be shown above the comment stream while
+  # commenting is disabled site-wide.
+  globalSwitchoffMessage: String
+
   # editCommentWindowLength is the length of time (in milliseconds) after a
   # comment is posted that it can still be edited by the author.
   editCommentWindowLength: Int
@@ -1299,6 +1306,13 @@ input UpdateSettingsInput {
   # closedMessage is the message shown to the user when the given Asset is
   # closed.
   closedMessage: String
+
+  # globalSwitchoffEnable will disable commenting site-wide.
+  globalSwitchoffEnable: Boolean
+
+  # globalSwitchoffMessage will be shown above the comment stream while
+  # commenting is disabled site-wide.
+  globalSwitchoffMessage: String
 
   # charCountEnable is true when the character count restriction is enabled.
   charCountEnable: Boolean

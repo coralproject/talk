@@ -82,6 +82,20 @@ class StreamSettings extends React.Component {
     this.props.updatePending({ updater });
   };
 
+  updateGlobalSwitchoffEnable = () => {
+    const updater = {
+      globalSwitchoffEnable: {
+        $set: !this.props.settings.globalSwitchoffEnable,
+      },
+    };
+    this.props.updatePending({ updater });
+  };
+
+  updateGlobalSwitchoffMessage = value => {
+    const updater = { globalSwitchoffMessage: { $set: value } };
+    this.props.updatePending({ updater });
+  };
+
   updateAutoClose = () => {
     const updater = {
       autoCloseStream: { $set: !this.props.settings.autoCloseStream },
@@ -191,6 +205,25 @@ class StreamSettings extends React.Component {
           />
           &nbsp;
           {t('configure.edit_comment_timeframe_text_post')}
+        </ConfigureCard>
+        <ConfigureCard
+          checked={settings.globalSwitchoffEnable}
+          onCheckbox={this.updateGlobalSwitchoffEnable}
+          title={t('configure.global_switchoff_title')}
+        >
+          <p>{t('configure.global_switchoff_desc')}</p>
+          <div
+            className={cn(
+              styles.configSettingGlobalSwitchoff,
+              settings.globalSwitchoffEnable ? null : styles.hidden
+            )}
+          >
+            <MarkdownEditor
+              className={styles.descriptionBox}
+              onChange={this.updateGlobalSwitchoffMessage}
+              value={settings.globalSwitchoffMessage}
+            />
+          </div>
         </ConfigureCard>
         <ConfigureCard
           checked={settings.autoCloseStream}

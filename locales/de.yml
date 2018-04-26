@@ -136,6 +136,8 @@ de:
     enable_premod_links_description: "Moderatoren müssen jeden Kommentar, der einen Link enthält, freigeben, bevor er veröffentlicht wird."
     enable_questionbox: "Stellen Sie den Lesern eine Frage"
     enable_questionbox_description: "Diese Frage erscheint am Anfang des Kommentarbereichs. Regen Sie eine Diskussion an."
+    global_switchoff_title: "Kommentieren global deaktivieren"
+    global_switchoff_desc: "Verfassen Sie eine Nachricht, die angezeigt wird, solange das Kommentieren deaktiviert ist."
     hours: Stunden
     include_comment_stream: "Einleitung zum Kommentarbereich"
     include_comment_stream_desc: "Verfassen Sie eine Einleitung, die über jedem Kommentarbereich erscheint. Nützlich z.B. für Community-Richtlinien."
@@ -223,6 +225,7 @@ de:
     LOGIN_MAXIMUM_EXCEEDED: "Sie haben zu häufig erfolglos versucht, sich anzumelden. Bitte warten Sie."
     PASSWORD_REQUIRED: "Passwort ist erforderlich"
     COMMENTING_CLOSED: "Kommentarbereich ist bereits geschlossen"
+    COMMENTING_DISABLED: "Die Kommentarfunktion ist derzeit abgeschaltet"
     NOT_FOUND: "Ressource nicht gefunden"
     ALREADY_EXISTS: "Ressource existiert bereits"
     INVALID_ASSET_URL: "Asset-URL ist ungültig"

@@ -1,8 +1,0 @@
-en:
-  talk-plugin-global-switchoff:
-    setting_title: 'Deactivate commenting globally'
-    setting_desc: 'Write a message that will be displayed while commenting is deactivated.'
-de:
-  talk-plugin-global-switchoff:
-    setting_title: 'Kommentieren global deaktivieren'
-    setting_desc: 'Verfassen Sie eine Nachricht, die angezeigt wird, solange das Kommentieren deaktiviert ist.'

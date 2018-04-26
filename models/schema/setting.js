@@ -66,6 +66,14 @@ const Setting = new Schema(
       type: String,
       default: 'Expired',
     },
+    globalSwitchoffEnable: {
+      type: Boolean,
+      default: false,
+    },
+    globalSwitchoffMessage: {
+      type: String,
+      default: '',
+    },
     wordlist: {
       banned: {
         type: Array,
