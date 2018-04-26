@@ -23,6 +23,7 @@
   display: inline-block;
   width: 230px;
   display: flex;  
+  box-sizing: border-box;
 
   > .detailIcon {
     font-size: 1.2em;
