@@ -253,7 +253,17 @@ es:
       edit: "Editar"
       changed_password_msg: "Contraseña Actualizada - Tu contraseña ha sido exitosamente actualizada"
     change_username: 
-      change_username_note: "Usernames can be changed every 14 days"
+      change_username_note: "El usuario puede ser cambiado cada 14 días"
+      save: "Guardar"
+      edit_profile: "Editar Perfil"
+      cancel: "Cancelar"
+      confirm_username_change: "Confirmar Cambio de Usuario"
+      description: "Estás intentando cambiar tu usuario. Tu nuevo usuario aparecerá en todos tus pasados y futuros comentarios."
+      old_username: "Usuario viejo"
+      new_username: "Usuario nuevo"
+      bottom_note: "Nota: No podrás cambiar tu usuario por 14 días"
+      confirm_changes: "Confirmar Cambios"
+      username_does_not_match: "El usuario no coincide"
 fr:
   talk-plugin-auth:
     login:
