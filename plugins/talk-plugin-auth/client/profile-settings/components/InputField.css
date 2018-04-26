@@ -53,9 +53,10 @@
   border: none;
   font-size: 1em;
   color: #000;
-  height: 30px;
   outline: none;
   flex: 1;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .detailItemMessage {

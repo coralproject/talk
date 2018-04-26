@@ -64,7 +64,9 @@ class ChangeUsernameDialog extends React.Component {
               onChange={this.props.onChange}
               value={this.props.formData.confirmNewUsername}
               hasError={this.formHasError() && this.state.showError}
-              errorMsg={'Username does not match'}
+              errorMsg={t(
+                'talk-plugin-auth.change_username.username_does_not_match'
+              )}
               showError={this.state.showError}
               columnDisplay
               showSuccess={false}
@@ -76,7 +78,9 @@ class ChangeUsernameDialog extends React.Component {
             </InputField>
           </form>
           <div className={styles.bottomActions}>
-            <Button className={styles.cancel}>Cancel</Button>
+            <Button className={styles.cancel}>
+              {t('talk-plugin-auth.change_username.cancel')}
+            </Button>
             <Button
               className={styles.confirmChanges}
               onClick={this.confirmChanges}

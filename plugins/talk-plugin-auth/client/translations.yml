@@ -151,6 +151,7 @@ en:
       new_username: "New Username"
       bottom_note: "Note: You will not be able to change your username again for 14 days"
       confirm_changes: "Confirm Changes"
+      username_does_not_match: "Username does not match"
 de:
   talk-plugin-auth:
     login:
