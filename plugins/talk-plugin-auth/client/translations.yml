@@ -145,6 +145,12 @@ en:
       save: "Save"
       edit_profile: "Edit Profile"
       cancel: "Cancel"
+      confirm_username_change: "Confirm Username Change"
+      description: "You are attempting to change your username. Your new username will appear on all of your past and future comments."
+      old_username: "Old Username"
+      new_username: "New Username"
+      bottom_note: "Note: You will not be able to change your username again for 14 days"
+      confirm_changes: "Confirm Changes"
 de:
   talk-plugin-auth:
     login:

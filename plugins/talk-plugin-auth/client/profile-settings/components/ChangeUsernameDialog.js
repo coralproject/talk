@@ -4,6 +4,7 @@ import cn from 'classnames';
 import styles from './ChangeUsernameDialog.css';
 import InputField from './InputField';
 import { Button, Dialog } from 'plugin-api/beta/client/components/ui';
+import { t } from 'plugin-api/beta/client/services';
 
 class ChangeUsernameDialog extends React.Component {
   state = {
@@ -37,18 +38,21 @@ class ChangeUsernameDialog extends React.Component {
         <span className={styles.close} onClick={this.props.closeDialog}>
           ×
         </span>
-        <h1 className={styles.title}>Confirm Username Change</h1>
+        <h1 className={styles.title}>
+          {t('talk-plugin-auth.change_username.confirm_username_change')}
+        </h1>
         <div className={styles.content}>
           <p className={styles.description}>
-            You are attempting to change your username. Your new username will
-            appear on all of your past and future comments.
+            {t('talk-plugin-auth.change_username.description')}
           </p>
           <div className={styles.usernamesChange}>
             <span className={styles.item}>
-              Old Username: {this.props.username}
+              {t('talk-plugin-auth.change_username.old_username')}:{' '}
+              {this.props.username}
             </span>
             <span className={styles.item}>
-              New Username: {this.props.formData.newUsername}
+              {t('talk-plugin-auth.change_username.new_username')}:{' '}
+              {this.props.formData.newUsername}
             </span>
           </div>
           <form>
@@ -67,8 +71,7 @@ class ChangeUsernameDialog extends React.Component {
               validationType="username"
             >
               <span className={styles.bottomNote}>
-                Note: You will not be able to change your username again for 14
-                days
+                {t('talk-plugin-auth.change_username.bottom_note')}
               </span>
             </InputField>
           </form>
@@ -78,7 +81,7 @@ class ChangeUsernameDialog extends React.Component {
               className={styles.confirmChanges}
               onClick={this.confirmChanges}
             >
-              Confirm Changes
+              {t('talk-plugin-auth.change_username.confirm_changes')}
             </Button>
           </div>
         </div>
