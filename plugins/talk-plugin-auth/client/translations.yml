@@ -140,6 +140,11 @@ en:
       cancel: "Cancel"
       edit: "Edit"
       changed_password_msg: "Changed Password - Your password has been successfully changed"
+    change_username: 
+      change_username_note: "Usernames can be changed every 14 days"
+      save: "Save"
+      edit_profile: "Edit Profile"
+      cancel: "Cancel"
 de:
   talk-plugin-auth:
     login:
@@ -240,6 +245,8 @@ es:
       cancel: "Cancelar"
       edit: "Editar"
       changed_password_msg: "Contraseña Actualizada - Tu contraseña ha sido exitosamente actualizada"
+    change_username: 
+      change_username_note: "Usernames can be changed every 14 days"
 fr:
   talk-plugin-auth:
     login:

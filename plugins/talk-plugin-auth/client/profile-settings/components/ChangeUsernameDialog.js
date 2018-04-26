@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './ChangeUsernameDialog.css';
 import InputField from './InputField';
-import Form from './Form';
 import { Button, Dialog } from 'plugin-api/beta/client/components/ui';
 
 class ChangeUsernameDialog extends React.Component {
@@ -51,7 +51,7 @@ class ChangeUsernameDialog extends React.Component {
               New Username: {this.props.formData.newUsername}
             </span>
           </div>
-          <Form>
+          <form>
             <InputField
               id="confirmNewUsername"
               label="Re-enter new username"
@@ -71,7 +71,7 @@ class ChangeUsernameDialog extends React.Component {
                 days
               </span>
             </InputField>
-          </Form>
+          </form>
           <div className={styles.bottomActions}>
             <Button className={styles.cancel}>Cancel</Button>
             <Button
@@ -86,5 +86,13 @@ class ChangeUsernameDialog extends React.Component {
     );
   }
 }
+
+ChangeUsernameDialog.propTypes = {
+  closeDialog: PropTypes.func,
+  showDialog: PropTypes.func,
+  onChange: PropTypes.func,
+  username: PropTypes.string,
+  formData: PropTypes.object,
+};
 
 export default ChangeUsernameDialog;

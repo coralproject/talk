@@ -7,7 +7,6 @@ import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 import isEqual from 'lodash/isEqual';
 import { t } from 'plugin-api/beta/client/services';
-import Form from './Form';
 import InputField from './InputField';
 import { getErrorMessages } from 'coral-framework/utils';
 
@@ -148,7 +147,7 @@ class ChangePassword extends React.Component {
           {t('talk-plugin-auth.change_password.change_password')}
         </h3>
         {editing && (
-          <Form className="talk-plugin-auth--change-password-form">
+          <form className="talk-plugin-auth--change-password-form">
             <InputField
               id="oldPassword"
               label="Old Password"
@@ -188,7 +187,7 @@ class ChangePassword extends React.Component {
               errorMsg={errors['confirmNewPassword']}
               showErrors
             />
-          </Form>
+          </form>
         )}
         {editing ? (
           <div className={styles.actions}>
