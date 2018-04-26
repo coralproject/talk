@@ -138,6 +138,13 @@ class Context {
   }
 
   /**
+   * masqueradeAs will allow a given context to be copied to a new user.
+   */
+  masqueradeAs(user) {
+    return new Context(merge({}, this, { user }));
+  }
+
+  /**
    * forSystem returns a system context object that can be used for internal
    * operations.
    */

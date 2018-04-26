@@ -2,16 +2,16 @@ const { version } = require('../package.json');
 const path = require('path');
 const { createLogger: createBunyanLogger, stdSerializers } = require('bunyan');
 const { LOGGING_LEVEL, REVISION_HASH } = require('../config');
+const debug = require('bunyan-debug-stream');
 
 // Streams enables the ability for development logs to be readable to a human,
 // but will send JSON logs in production that's parsable by a system like ELK.
 const streams = (() => {
   // In development, use the debug stream printer.
-  if (process.env.NODE_ENV === 'development') {
-    const debug = require('bunyan-debug-stream');
+  if (process.env.NODE_ENV !== 'production') {
     return [
       {
-        level: 'debug',
+        level: LOGGING_LEVEL,
         type: 'raw',
         stream: debug({
           basepath: path.resolve(__dirname, '..'),
@@ -22,7 +22,7 @@ const streams = (() => {
   }
 
   // In production, emit JSON.
-  return [{ stream: process.stdout, level: 'info' }];
+  return [{ stream: process.stdout, level: LOGGING_LEVEL }];
 })();
 
 // logger is the base logger used by all logging systems in Talk.
@@ -31,7 +31,6 @@ const logger = createBunyanLogger({
   name: 'talk',
   version,
   revision: REVISION_HASH,
-  level: LOGGING_LEVEL,
   streams,
   serializers: stdSerializers,
 });
