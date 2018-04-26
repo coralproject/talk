@@ -6,6 +6,7 @@ import { Button } from 'plugin-api/beta/client/components/ui';
 import ChangeUsernameDialog from './ChangeUsernameDialog';
 import { t } from 'plugin-api/beta/client/services';
 import InputField from './InputField';
+import { getErrorMessages } from 'coral-framework/utils';
 
 const initialState = {
   editing: false,
@@ -48,7 +49,24 @@ class ChangeUsername extends React.Component {
   };
 
   saveChanges = async () => {
-    // savechanges
+    const { newUsername } = this.state.formData;
+    const { id } = this.props;
+
+    try {
+      await this.props.changeUsername({
+        id,
+        username: newUsername,
+      });
+      this.props.notify(
+        'success',
+        t('talk-plugin-auth.change_username.changed_username_success_msg')
+      );
+    } catch (err) {
+      this.props.notify('error', getErrorMessages(err));
+    }
+
+    this.clearForm();
+    this.disableEditing();
   };
 
   onChange = e => {
@@ -84,6 +102,7 @@ class ChangeUsername extends React.Component {
           formData={this.state.formData}
           username={username}
           closeDialog={this.closeDialog}
+          saveChanges={this.saveChanges}
         />
 
         {editing ? (
@@ -155,6 +174,7 @@ class ChangeUsername extends React.Component {
 
 ChangeUsername.propTypes = {
   changeUsername: PropTypes.func.isRequired,
+  notify: PropTypes.func.isRequired,
   username: PropTypes.string,
   emailAddress: PropTypes.string,
 };

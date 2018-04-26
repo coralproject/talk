@@ -30,6 +30,7 @@ class ProfileContainer extends Component {
 
     return (
       <Profile
+        id={me.id}
         username={me.username}
         emailAddress={emailAddress}
         root={root}

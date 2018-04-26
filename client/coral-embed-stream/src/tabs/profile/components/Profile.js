@@ -16,7 +16,7 @@ DefaultProfileHeader.propTypes = {
   emailAddress: PropTypes.string,
 };
 
-const Profile = ({ username, emailAddress, root, slotPassthrough }) => {
+const Profile = ({ id, username, emailAddress, root, slotPassthrough }) => {
   return (
     <div className="talk-my-profile talk-profile-container">
       <Slot
@@ -25,6 +25,7 @@ const Profile = ({ username, emailAddress, root, slotPassthrough }) => {
         defaultComponent={DefaultProfileHeader}
         passthrough={{
           ...slotPassthrough,
+          id,
           username,
           emailAddress,
         }}
@@ -36,6 +37,7 @@ const Profile = ({ username, emailAddress, root, slotPassthrough }) => {
 };
 
 Profile.propTypes = {
+  id: PropTypes.string,
   username: PropTypes.string,
   emailAddress: PropTypes.string,
   root: PropTypes.object,

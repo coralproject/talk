@@ -264,6 +264,7 @@ es:
       bottom_note: "Nota: No podrás cambiar tu usuario por 14 días"
       confirm_changes: "Confirmar Cambios"
       username_does_not_match: "El usuario no coincide"
+      changed_username_success_msg: "Username Changed - Your username has been successfully changed. You will not be able to change your user name for 14 days."
 fr:
   talk-plugin-auth:
     login:
