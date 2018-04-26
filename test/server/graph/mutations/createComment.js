@@ -179,6 +179,54 @@ describe('graph.mutations.createComment', () => {
     });
   });
 
+  describe('assets while commenting is disabled', () => {
+    [
+      {
+        disabled: false,
+        error: null,
+      },
+      {
+        disabled: true,
+        error: 'COMMENTING_DISABLED',
+      },
+    ].forEach(({ disabled, error }) => {
+      describe(`commentingDisabled=${disabled}`, () => {
+        beforeEach(() =>
+          AssetModel.create({
+            id: '123',
+            settings: { globalSwitchoffEnable: disabled },
+          })
+        );
+
+        it(
+          error ? 'does not create the comment' : 'creates the comment',
+          () => {
+            const context = new Context({ user: new UserModel({}) });
+
+            return graphql(schema, query, {}, context).then(
+              ({ data, errors }) => {
+                expect(errors).to.be.undefined;
+                if (error) {
+                  expect(data.createComment).to.have.property('comment').null;
+                  expect(data.createComment).to.have.property('errors').not
+                    .null;
+                  expect(data.createComment.errors[0]).to.have.property(
+                    'translation_key',
+                    error
+                  );
+                } else {
+                  expect(data.createComment).to.have.property('comment').not
+                    .null;
+                  expect(data.createComment).to.have.property('errors').null;
+                }
+              }
+            );
+          }
+        );
+      });
+    });
+  });
+
   describe('comments made with different asset moderation settings', () => {
     [
       { moderation: 'PRE', status: 'PREMOD' },
