@@ -110,7 +110,7 @@ class SignUp extends React.Component {
               <TextField
                 id="confirmPassword"
                 type="password"
-                label={t('talk-plugin-auth.login.confirm_password')}
+                label={t('talk-plugin-auth.login.password_error')}
                 value={passwordRepeat}
                 style={{ fontSize: 16 }}
                 showErrors={!!passwordRepeatError}
