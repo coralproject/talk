@@ -103,14 +103,13 @@ class SignUp extends React.Component {
               />
               {passwordError && (
                 <span className={styles.hint}>
-                  {' '}
-                  Password must be at least 8 characters.{' '}
+                  {t('talk-plugin-auth.login.password_error')}
                 </span>
               )}
               <TextField
                 id="confirmPassword"
                 type="password"
-                label={t('talk-plugin-auth.login.password_error')}
+                label={t('talk-plugin-auth.login.confirm_password')}
                 value={passwordRepeat}
                 style={{ fontSize: 16 }}
                 showErrors={!!passwordRepeatError}
