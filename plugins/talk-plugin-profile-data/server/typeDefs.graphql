@@ -11,9 +11,23 @@ type RequestDownloadLinkResponse implements Response {
   errors: [UserError!]
 }
 
+type DownloadUserResponse implements Response {
+
+  # archiveURL is the link that can be used within the next 1 hour to download a
+  # users archive.
+  archiveURL: String
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 type RootMutation {
 
   # requestDownloadLink will request a download link be sent to the primary
   # users email address.
   requestDownloadLink: RequestDownloadLinkResponse
+
+  # downloadUser will provide an account download for the indicated User. This
+  # mutation requires the ADMIN role.
+  downloadUser(id: ID!): DownloadUserResponse
 }
