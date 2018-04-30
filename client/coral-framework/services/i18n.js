@@ -61,7 +61,7 @@ function setLocale(storage, locale) {
 // to the default language.
 function detectLanguage(storage) {
   try {
-    const lang = storage.getItem('locale') || navigator.language;
+    const lang = defaultLanguage || storage.getItem('locale') || navigator.language;
     if (lang) {
       return lang;
     }
@@ -72,8 +72,8 @@ function detectLanguage(storage) {
     );
   }
 
-  console.warn('Could not detect language, will fallback to', defaultLanguage);
-  return defaultLanguage;
+  console.warn('Could not detect language, will fallback to English');
+  return 'en';
 }
 
 // getLocale will get the users locale from the local detector and parse it to a
