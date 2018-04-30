@@ -9,6 +9,8 @@ import { getErrorMessages } from 'coral-framework/utils';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 import ConfirmChangesDialog from './ConfirmChangesDialog';
+import ChangeUsernameContentDialog from './ChangeUsernameContentDialog';
+import ChangeEmailContentDialog from './ChangeEmailContentDialog';
 
 const initialState = {
   editing: false,
@@ -88,7 +90,6 @@ class Profile extends React.Component {
   };
 
   fieldValidation = (value, type, name) => {
-    console.log(value, type, name);
     if (!value.length) {
       this.addError({
         [name]: t('talk-plugin-auth.change_password.required_field'),
@@ -128,20 +129,12 @@ class Profile extends React.Component {
   };
 
   isSaveEnabled = () => {
+    const { formData } = this.state;
+    const { emailAddress, username } = this.props;
     const formHasErrors = !!Object.keys(this.state.errors).length;
     const validUsername =
-      this.state.formData.newUsername &&
-      this.state.formData.newUsername !== this.props.username;
-    const validEmail =
-      this.state.formData.newEmail &&
-      this.state.formData.newEmail !== this.props.emailAddress;
-
-    // const res = !formHasErrors && (!!validUsername || !!validEmail);
-    // console.log('formHasErrors:', formHasErrors);
-    // console.log('validUsername:', validUsername);
-    // console.log('validEmail:', validEmail);
-    // console.log('res:', res);
-    // console.log(this.state.errors);
+      formData.newUsername && formData.newUsername !== username;
+    const validEmail = formData.newEmail && formData.newEmail !== emailAddress;
 
     return !formHasErrors && (validUsername || validEmail);
   };
@@ -164,7 +157,10 @@ class Profile extends React.Component {
           emailAddress={emailAddress}
           closeDialog={this.closeDialog}
           saveChanges={this.saveChanges}
-        />
+        >
+          <ChangeEmailContentDialog />
+          <ChangeUsernameContentDialog />
+        </ConfirmChangesDialog>
 
         {editing ? (
           <div className={styles.content}>

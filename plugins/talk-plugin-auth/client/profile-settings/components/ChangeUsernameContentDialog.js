@@ -21,7 +21,6 @@ class ChangeUsernameContentDialog extends React.Component {
       this.showError();
     } else {
       await this.props.saveChanges();
-      this.props.closeDialog();
     }
   };
 
@@ -31,7 +30,7 @@ class ChangeUsernameContentDialog extends React.Component {
   render() {
     return (
       <div>
-        <span className={styles.close} onClick={this.props.closeDialog}>
+        <span className={styles.close} onClick={this.props.cancel}>
           ×
         </span>
         <h1 className={styles.title}>
@@ -74,7 +73,7 @@ class ChangeUsernameContentDialog extends React.Component {
             </InputField>
           </form>
           <div className={styles.bottomActions}>
-            <Button className={styles.cancel}>
+            <Button className={styles.cancel} onClick={this.props.cancel}>
               {t('talk-plugin-auth.change_username.cancel')}
             </Button>
             <Button
@@ -92,11 +91,10 @@ class ChangeUsernameContentDialog extends React.Component {
 
 ChangeUsernameContentDialog.propTypes = {
   saveChanges: PropTypes.func,
-  closeDialog: PropTypes.func,
-  showDialog: PropTypes.bool,
+  cancel: PropTypes.func,
   onChange: PropTypes.func,
-  username: PropTypes.string,
   formData: PropTypes.object,
+  username: PropTypes.string,
 };
 
 export default ChangeUsernameContentDialog;

@@ -8,9 +8,7 @@ import { t } from 'plugin-api/beta/client/services';
 class ChangeEmailContentDialog extends React.Component {
   state = {
     showError: false,
-    errors: {
-      passowrd: '',
-    },
+    errors: {},
   };
 
   showError = () => {
@@ -20,18 +18,13 @@ class ChangeEmailContentDialog extends React.Component {
   };
 
   confirmChanges = async () => {
-    if (this.formHasError()) {
-      this.showError();
-    } else {
-      await this.props.saveChanges();
-      this.props.closeDialog();
-    }
+    await this.props.saveChanges();
   };
 
   render() {
     return (
       <div>
-        <span className={styles.close} onClick={this.props.closeDialog}>
+        <span className={styles.close} onClick={this.props.cancel}>
           ×
         </span>
         <h1 className={styles.title}>
@@ -43,7 +36,8 @@ class ChangeEmailContentDialog extends React.Component {
           </p>
           <div className={styles.emailChange}>
             <span className={styles.item}>
-              {t('talk-plugin-auth.change_email.old_email')}: {this.props.email}
+              {t('talk-plugin-auth.change_email.old_email')}:{' '}
+              {this.props.emailAddress}
             </span>
             <span className={styles.item}>
               {t('talk-plugin-auth.change_email.new_email')}:{' '}
@@ -66,7 +60,7 @@ class ChangeEmailContentDialog extends React.Component {
             />
           </form>
           <div className={styles.bottomActions}>
-            <Button className={styles.cancel}>
+            <Button className={styles.cancel} onClick={this.props.cancel}>
               {t('talk-plugin-auth.change_email.cancel')}
             </Button>
             <Button
@@ -84,11 +78,10 @@ class ChangeEmailContentDialog extends React.Component {
 
 ChangeEmailContentDialog.propTypes = {
   saveChanges: PropTypes.func,
-  closeDialog: PropTypes.func,
-  showDialog: PropTypes.bool,
+  cancel: PropTypes.func,
   onChange: PropTypes.func,
-  email: PropTypes.string,
   formData: PropTypes.object,
+  emailAddress: PropTypes.string,
 };
 
 export default ChangeEmailContentDialog;
