@@ -215,6 +215,7 @@ es:
       we_received_a_request: "Recibimos un pedido para resetear su contraseña. Si no ha pedido ese cambio, por favor ignorar el correo. "
       if_you_did: "Si lo hizo,"
       please_click: "por favor cliquea aqui para resetear la contraseña."
+      subject: "Recuperar contraseña"
   embedlink:
     copy: "Copiar al portapapeles"
   error:
