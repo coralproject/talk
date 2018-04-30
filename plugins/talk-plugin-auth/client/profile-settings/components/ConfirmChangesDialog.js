@@ -31,6 +31,7 @@ class ConfirmChangesDialog extends React.Component {
   finish = () => {
     this.clear();
     this.props.closeDialog();
+    this.props.finish();
   };
 
   render() {
@@ -43,7 +44,6 @@ class ConfirmChangesDialog extends React.Component {
           const totalSteps = React.Children.count(this.props.children);
           if (i !== this.state.step) return;
           return React.cloneElement(child, {
-            onChange: this.props.onChange,
             goToNextStep: this.goToNextStep,
             clear: this.clear,
             cancel: this.cancel,
@@ -58,13 +58,9 @@ class ConfirmChangesDialog extends React.Component {
 
 ConfirmChangesDialog.propTypes = {
   children: PropTypes.node,
-  saveChanges: PropTypes.func,
   closeDialog: PropTypes.func,
   showDialog: PropTypes.bool,
-  onChange: PropTypes.func,
-  emailAddress: PropTypes.string,
-  username: PropTypes.string,
-  formData: PropTypes.object,
+  finish: PropTypes.func,
 };
 
 export default ConfirmChangesDialog;

@@ -137,17 +137,16 @@ class Profile extends React.Component {
   };
 
   saveEmail = async () => {
-    const { newUsername } = this.state.formData;
-    const { id } = this.props;
+    const { newEmail, confirmPassword } = this.state.formData;
 
     try {
-      await this.props.changeUsername({
-        id,
-        username: newUsername,
+      await this.props.updateEmailAddress({
+        email: newEmail,
+        confirmPassword,
       });
       this.props.notify(
         'success',
-        t('talk-plugin-auth.change_username.changed_username_success_msg')
+        t('talk-plugin-auth.change_email.change_email_msg')
       );
     } catch (err) {
       this.props.notify('error', getErrorMessages(err));
@@ -161,7 +160,7 @@ class Profile extends React.Component {
 
   render() {
     const { username, emailAddress } = this.props;
-    const { editing } = this.state;
+    const { editing, formData } = this.state;
 
     return (
       <section
@@ -172,19 +171,25 @@ class Profile extends React.Component {
         <ConfirmChangesDialog
           showDialog={this.state.showDialog}
           closeDialog={this.closeDialog}
+          finish={this.finish}
         >
-          <ChangeEmailContentDialog
-            save={this.saveEmail}
-            onChange={this.onChange}
-            formData={this.state.formData}
-            emailAddress={emailAddress}
-          />
-          <ChangeUsernameContentDialog
-            save={this.saveUsername}
-            onChange={this.onChange}
-            formData={this.state.formData}
-            username={username}
-          />
+          {username !== formData.newUsername && (
+            <ChangeUsernameContentDialog
+              save={this.saveUsername}
+              onChange={this.onChange}
+              formData={this.state.formData}
+              username={username}
+            />
+          )}
+
+          {emailAddress !== formData.newEmail && (
+            <ChangeEmailContentDialog
+              save={this.saveEmail}
+              onChange={this.onChange}
+              formData={this.state.formData}
+              emailAddress={emailAddress}
+            />
+          )}
         </ConfirmChangesDialog>
 
         {editing ? (
@@ -253,6 +258,7 @@ class Profile extends React.Component {
 }
 
 Profile.propTypes = {
+  updateEmailAddress: PropTypes.func.isRequired,
   changeUsername: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
   username: PropTypes.string,

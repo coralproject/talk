@@ -331,7 +331,7 @@ export const withUpdateEmailAddress = withMutation(
   `,
   {
     props: ({ mutate }) => ({
-      updateEmailAdress: input => {
+      updateEmailAddress: input => {
         return mutate({
           variables: {
             input,

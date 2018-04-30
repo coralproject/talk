@@ -8,7 +8,6 @@ import { t } from 'plugin-api/beta/client/services';
 class ChangeEmailContentDialog extends React.Component {
   state = {
     showError: false,
-    errors: {},
   };
 
   showError = () => {
@@ -53,7 +52,9 @@ class ChangeEmailContentDialog extends React.Component {
               type="password"
               onChange={this.props.onChange}
               defaultValue=""
-              hasError={this.state.errors.password && this.state.showError}
+              hasError={
+                !this.props.formData.confirmPassword && this.state.showError
+              }
               errorMsg={t('talk-plugin-auth.change_email.incorrect_password')}
               showError={this.state.showError}
               columnDisplay
