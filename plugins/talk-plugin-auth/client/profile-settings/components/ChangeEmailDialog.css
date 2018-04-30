@@ -1,0 +1,77 @@
+.dialog {
+  border: none;
+  box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+  width: 320px;
+  top: 10px;
+  font-family: Helvetica, 'Helvetica Neue', Verdana, sans-serif;
+  font-size: 14px;
+  border-radius: 4px;
+  padding: 12px 20px;
+}
+
+.close {
+  font-size: 20px;
+  line-height: 14px;
+  top: 10px;
+  right: 10px;
+  position: absolute;
+  display: block;
+  font-weight: bold;
+  color: #363636;
+  cursor: pointer;
+
+  &:hover {
+    color: #6b6b6b;
+  }
+}
+
+.title {
+  font-size: 1.3em;
+  margin-bottom: 8px;
+}
+
+.description {
+  font-size: 1em;
+  line-height: 20px;
+  margin: 0;
+}
+
+.item {
+  display: block;
+  color: #4C4C4D;
+  font-size: 1em;
+  margin-bottom: 2px;
+}
+
+.bottomActions {
+  text-align: right;
+}
+
+.emailChange {
+  margin: 18px 0;
+}
+
+.cancel {
+  border: 1px solid #787d80;
+  background-color: transparent;
+  height: 30px;
+  font-size: 0.9em;
+  line-height: normal;
+
+  &:hover {
+    background-color: #eaeaea;
+  }
+}
+
+.confirmChanges {
+  background-color: #3498DB;
+  border-color: #3498DB;
+  color: white;
+  height: 30px;
+  font-size: 0.9em;
+  
+  &:hover {
+    background-color: #3ba3ec;
+    color: white;
+  }
+}

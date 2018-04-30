@@ -4,14 +4,18 @@ import PropTypes from 'prop-types';
 import styles from './ChangeUsername.css';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import ChangeUsernameDialog from './ChangeUsernameDialog';
+import ChangeEmailDialog from './ChangeEmailDialog';
 import { t } from 'plugin-api/beta/client/services';
 import InputField from './InputField';
 import { getErrorMessages } from 'coral-framework/utils';
+import validate from 'coral-framework/helpers/validate';
+import errorMsj from 'coral-framework/helpers/error';
 
 const initialState = {
   editing: false,
   showDialog: false,
   formData: {},
+  errors: {},
 };
 
 class ChangeUsername extends React.Component {
@@ -69,21 +73,70 @@ class ChangeUsername extends React.Component {
     this.disableEditing();
   };
 
-  onChange = e => {
-    const { name, value } = e.target;
-
-    this.setState(state => ({
-      formData: {
-        ...state.formData,
-        [name]: value,
-      },
+  addError = err => {
+    this.setState(({ errors }) => ({
+      errors: { ...errors, ...err },
     }));
+  };
+
+  removeError = errKey => {
+    this.setState(state => {
+      const { [errKey]: _, ...errors } = state.errors;
+      return {
+        errors,
+      };
+    });
+  };
+
+  fieldValidation = (value, type, name) => {
+    if (!value.length) {
+      this.addError({
+        [name]: t('talk-plugin-auth.change_password.required_field'),
+      });
+    } else if (!validate[type](value)) {
+      this.addError({ [name]: errorMsj[type] });
+    } else {
+      this.removeError(name);
+    }
+  };
+
+  onChange = e => {
+    const { name, value, type, dataset } = e.target;
+    const validationType = dataset.validationType || type;
+
+    this.setState(
+      state => ({
+        formData: {
+          ...state.formData,
+          [name]: value,
+        },
+      }),
+      () => {
+        this.fieldValidation(value, validationType, name);
+      }
+    );
   };
 
   closeDialog = () => {
     this.setState({
       showDialog: false,
     });
+  };
+
+  hasError = err => {
+    return Object.keys(this.state.errors).indexOf(err) !== -1;
+  };
+
+  isSaveEnabled = () => {
+    const formHasErrors = !!Object.keys(this.state.errors).length;
+    const validUsername =
+      this.state.formData.newUsername &&
+      this.state.formData.newUsername !== this.props.username;
+    const validEmail =
+      this.state.formData.newEmail &&
+      this.state.formData.newEmail !== this.props.emailAddress;
+
+    return !formHasErrors && (validUsername || validEmail);
   };
 
   render() {
@@ -105,6 +158,15 @@ class ChangeUsername extends React.Component {
           saveChanges={this.saveChanges}
         />
 
+        <ChangeEmailDialog
+          showDialog={this.state.showDialog}
+          onChange={this.onChange}
+          formData={this.state.formData}
+          username={username}
+          closeDialog={this.closeDialog}
+          saveChanges={this.saveChanges}
+        />
+
         {editing ? (
           <div className={styles.content}>
             <div className={styles.detailList}>
@@ -114,8 +176,8 @@ class ChangeUsername extends React.Component {
                 name="newUsername"
                 onChange={this.onChange}
                 defaultValue={username}
-                columnDisplay
                 validationType="username"
+                columnDisplay
               >
                 <span className={styles.bottomText}>
                   {t('talk-plugin-auth.change_username.change_username_note')}
@@ -123,11 +185,12 @@ class ChangeUsername extends React.Component {
               </InputField>
               <InputField
                 icon="email"
-                id="email"
-                name="email"
-                value={emailAddress}
-                validationType="username"
-                disabled
+                id="newEmail"
+                name="newEmail"
+                onChange={this.onChange}
+                defaultValue={emailAddress}
+                validationType="email"
+                columnDisplay
               />
             </div>
           </div>
@@ -145,10 +208,7 @@ class ChangeUsername extends React.Component {
               className={cn(styles.button, styles.saveButton)}
               icon="save"
               onClick={this.onSave}
-              disabled={
-                !this.state.formData.newUsername ||
-                this.state.formData.newUsername === username
-              }
+              disabled={!this.isSaveEnabled()}
             >
               {t('talk-plugin-auth.change_username.save')}
             </Button>
