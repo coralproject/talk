@@ -16,6 +16,7 @@ import {
   hideSaveDialog,
 } from '../../../actions/configure';
 import Configure from '../components/Configure';
+import OrganizationSettings from './OrganizationSettings';
 import { withRouter } from 'react-router';
 
 class ConfigureContainer extends React.Component {
@@ -83,18 +84,21 @@ class ConfigureContainer extends React.Component {
       return <Spinner />;
     }
 
+    const activeSection = this.props.routes[3].path;
+
     return (
       <Configure
         saveChanges={this.saveChanges}
         discardChanges={this.discardChanges}
         saveDialog={this.props.saveDialog}
-        activeSection={this.props.routes[3].path}
+        activeSection={activeSection}
         hideSaveDialog={this.props.hideSaveDialog}
         canSave={this.props.canSave}
         currentUser={this.props.currentUser}
         root={this.props.root}
         settings={this.props.mergedSettings}
         handleSectionChange={this.handleSectionChange}
+        clearPending={this.props.clearPending}
         savePending={this.savePending}
       >
         {this.props.children}
@@ -110,10 +114,12 @@ const withConfigureQuery = withQuery(
       ...${getDefinitionName(StreamSettings.fragments.settings)}
       ...${getDefinitionName(TechSettings.fragments.settings)}
       ...${getDefinitionName(ModerationSettings.fragments.settings)}
+      ...${getDefinitionName(OrganizationSettings.fragments.settings)}
     }
     ...${getDefinitionName(StreamSettings.fragments.root)}
     ...${getDefinitionName(TechSettings.fragments.root)}
     ...${getDefinitionName(ModerationSettings.fragments.root)}
+    ...${getDefinitionName(OrganizationSettings.fragments.root)}
   }
   ${StreamSettings.fragments.root}
   ${StreamSettings.fragments.settings}
@@ -121,6 +127,8 @@ const withConfigureQuery = withQuery(
   ${TechSettings.fragments.settings}
   ${ModerationSettings.fragments.root}
   ${ModerationSettings.fragments.settings}
+  ${OrganizationSettings.fragments.root}
+  ${OrganizationSettings.fragments.settings}
   `,
   {
     options: () => ({
