@@ -26,7 +26,7 @@ class ChangeUsernameDialog extends React.Component {
     if (!this.props.canUsernameBeUpdated) {
       this.props.notify(
         'error',
-        "Username can't be updated. Usernames can be changed every 14 days"
+        t('talk-plugin-auth.change_username.change_username_attempt')
       );
       return;
     }
