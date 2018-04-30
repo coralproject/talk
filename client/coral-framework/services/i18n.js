@@ -35,6 +35,7 @@ import pt_BR from '../../../locales/pt_BR.yml';
 import zh_CN from '../../../locales/zh_CN.yml';
 import zh_TW from '../../../locales/zh_TW.yml';
 
+const English = 'en';
 const defaultLanguage = process.env.TALK_DEFAULT_LANG;
 const translations = {
   ...ar,
@@ -61,7 +62,9 @@ function setLocale(storage, locale) {
 // to the default language.
 function detectLanguage(storage) {
   try {
-    const lang = storage.getItem('locale') || navigator.language;
+    const lang =
+      defaultLanguage || storage.getItem('locale') || navigator.language;
+
     if (lang) {
       return lang;
     }
@@ -72,8 +75,8 @@ function detectLanguage(storage) {
     );
   }
 
-  console.warn('Could not detect language, will fallback to', defaultLanguage);
-  return defaultLanguage;
+  console.warn('Could not detect language, will fallback to English');
+  return English;
 }
 
 // getLocale will get the users locale from the local detector and parse it to a
