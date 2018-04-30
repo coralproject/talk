@@ -296,7 +296,7 @@ class Users {
 
         if (
           !['UNSET', 'APPROVED', 'SET'].includes(user.status.username.status) ||
-          !user.status.username.history.some(({ created_at }) =>
+          user.status.username.history.some(({ created_at }) =>
             moment(created_at).isAfter(oldestEditTime)
           )
         ) {
