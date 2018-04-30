@@ -15,24 +15,22 @@ class ConfirmChangesDialog extends React.Component {
     }));
   };
 
-  saveAndContinue = async () => {
-    await this.props.saveChanges();
-    this.goToNextStep();
-  };
-
-  saveAndFinish = async () => {
-    await this.props.saveChanges();
-    this.clear();
-    this.closeDialog();
-  };
-
   clear = () => {
     this.setState(initialState);
   };
 
-  cancel = async () => {
+  cancel = () => {
     this.clear();
-    this.closeDialog();
+    this.props.closeDialog();
+  };
+
+  continue = () => {
+    this.goToNextStep();
+  };
+
+  finish = () => {
+    this.clear();
+    this.props.closeDialog();
   };
 
   render() {
@@ -45,10 +43,12 @@ class ConfirmChangesDialog extends React.Component {
           const totalSteps = React.Children.count(this.props.children);
           if (i !== this.state.step) return;
           return React.cloneElement(child, {
-            ...this.props,
+            onChange: this.props.onChange,
+            goToNextStep: this.goToNextStep,
+            clear: this.clear,
             cancel: this.cancel,
-            saveChanges:
-              i === totalSteps - 1 ? this.saveAndFinish : this.saveAndContinue,
+            next:
+              this.state.step === totalSteps - 1 ? this.finish : this.continue,
           });
         })}
       </Dialog>

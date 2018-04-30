@@ -18,7 +18,8 @@ class ChangeEmailContentDialog extends React.Component {
   };
 
   confirmChanges = async () => {
-    await this.props.saveChanges();
+    await this.props.save();
+    this.props.next();
   };
 
   render() {
@@ -77,7 +78,8 @@ class ChangeEmailContentDialog extends React.Component {
 }
 
 ChangeEmailContentDialog.propTypes = {
-  saveChanges: PropTypes.func,
+  save: PropTypes.func,
+  next: PropTypes.func,
   cancel: PropTypes.func,
   onChange: PropTypes.func,
   formData: PropTypes.object,

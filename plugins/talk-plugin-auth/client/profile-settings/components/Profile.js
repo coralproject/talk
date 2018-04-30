@@ -53,27 +53,6 @@ class Profile extends React.Component {
     this.showDialog();
   };
 
-  saveChanges = async () => {
-    const { newUsername } = this.state.formData;
-    const { id } = this.props;
-
-    try {
-      await this.props.changeUsername({
-        id,
-        username: newUsername,
-      });
-      this.props.notify(
-        'success',
-        t('talk-plugin-auth.change_username.changed_username_success_msg')
-      );
-    } catch (err) {
-      this.props.notify('error', getErrorMessages(err));
-    }
-
-    this.clearForm();
-    this.disableEditing();
-  };
-
   addError = err => {
     this.setState(({ errors }) => ({
       errors: { ...errors, ...err },
@@ -139,6 +118,47 @@ class Profile extends React.Component {
     return !formHasErrors && (validUsername || validEmail);
   };
 
+  saveUsername = async () => {
+    const { newUsername } = this.state.formData;
+    const { id } = this.props;
+
+    try {
+      await this.props.changeUsername({
+        id,
+        username: newUsername,
+      });
+      this.props.notify(
+        'success',
+        t('talk-plugin-auth.change_username.changed_username_success_msg')
+      );
+    } catch (err) {
+      this.props.notify('error', getErrorMessages(err));
+    }
+  };
+
+  saveEmail = async () => {
+    const { newUsername } = this.state.formData;
+    const { id } = this.props;
+
+    try {
+      await this.props.changeUsername({
+        id,
+        username: newUsername,
+      });
+      this.props.notify(
+        'success',
+        t('talk-plugin-auth.change_username.changed_username_success_msg')
+      );
+    } catch (err) {
+      this.props.notify('error', getErrorMessages(err));
+    }
+  };
+
+  finish = () => {
+    this.clearForm();
+    this.disableEditing();
+  };
+
   render() {
     const { username, emailAddress } = this.props;
     const { editing } = this.state;
@@ -151,15 +171,20 @@ class Profile extends React.Component {
       >
         <ConfirmChangesDialog
           showDialog={this.state.showDialog}
-          onChange={this.onChange}
-          formData={this.state.formData}
-          username={username}
-          emailAddress={emailAddress}
           closeDialog={this.closeDialog}
-          saveChanges={this.saveChanges}
         >
-          <ChangeEmailContentDialog />
-          <ChangeUsernameContentDialog />
+          <ChangeEmailContentDialog
+            save={this.saveEmail}
+            onChange={this.onChange}
+            formData={this.state.formData}
+            emailAddress={emailAddress}
+          />
+          <ChangeUsernameContentDialog
+            save={this.saveUsername}
+            onChange={this.onChange}
+            formData={this.state.formData}
+            username={username}
+          />
         </ConfirmChangesDialog>
 
         {editing ? (

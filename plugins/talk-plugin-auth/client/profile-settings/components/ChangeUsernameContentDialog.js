@@ -20,7 +20,8 @@ class ChangeUsernameContentDialog extends React.Component {
     if (this.formHasError()) {
       this.showError();
     } else {
-      await this.props.saveChanges();
+      await this.props.save();
+      this.props.next();
     }
   };
 
@@ -90,7 +91,8 @@ class ChangeUsernameContentDialog extends React.Component {
 }
 
 ChangeUsernameContentDialog.propTypes = {
-  saveChanges: PropTypes.func,
+  save: PropTypes.func,
+  next: PropTypes.func,
   cancel: PropTypes.func,
   onChange: PropTypes.func,
   formData: PropTypes.object,
