@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
-import styles from './ChangeUsernameDialog.css';
+import styles from './ChangeUsernameContentDialog.css';
 import InputField from './InputField';
-import { Button, Dialog } from 'plugin-api/beta/client/components/ui';
+import { Button } from 'plugin-api/beta/client/components/ui';
 import { t } from 'plugin-api/beta/client/services';
 
-class ChangeUsernameDialog extends React.Component {
+class ChangeUsernameContentDialog extends React.Component {
   state = {
     showError: false,
   };
@@ -31,10 +30,7 @@ class ChangeUsernameDialog extends React.Component {
 
   render() {
     return (
-      <Dialog
-        open={this.props.showDialog}
-        className={cn(styles.dialog, 'talk-plugin-auth--edit-profile-dialog')}
-      >
+      <div>
         <span className={styles.close} onClick={this.props.closeDialog}>
           ×
         </span>
@@ -89,12 +85,12 @@ class ChangeUsernameDialog extends React.Component {
             </Button>
           </div>
         </div>
-      </Dialog>
+      </div>
     );
   }
 }
 
-ChangeUsernameDialog.propTypes = {
+ChangeUsernameContentDialog.propTypes = {
   saveChanges: PropTypes.func,
   closeDialog: PropTypes.func,
   showDialog: PropTypes.bool,
@@ -103,4 +99,4 @@ ChangeUsernameDialog.propTypes = {
   formData: PropTypes.object,
 };
 
-export default ChangeUsernameDialog;
+export default ChangeUsernameContentDialog;

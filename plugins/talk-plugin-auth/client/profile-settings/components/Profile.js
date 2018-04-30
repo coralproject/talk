@@ -1,15 +1,14 @@
 import React from 'react';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
-import styles from './ChangeUsername.css';
+import styles from './Profile.css';
 import { Button } from 'plugin-api/beta/client/components/ui';
-import ChangeUsernameDialog from './ChangeUsernameDialog';
-import ChangeEmailDialog from './ChangeEmailDialog';
 import { t } from 'plugin-api/beta/client/services';
 import InputField from './InputField';
 import { getErrorMessages } from 'coral-framework/utils';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
+import ConfirmChangesDialog from './ConfirmChangesDialog';
 
 const initialState = {
   editing: false,
@@ -18,7 +17,7 @@ const initialState = {
   errors: {},
 };
 
-class ChangeUsername extends React.Component {
+class Profile extends React.Component {
   state = initialState;
 
   clearForm = () => {
@@ -89,6 +88,7 @@ class ChangeUsername extends React.Component {
   };
 
   fieldValidation = (value, type, name) => {
+    console.log(value, type, name);
     if (!value.length) {
       this.addError({
         [name]: t('talk-plugin-auth.change_password.required_field'),
@@ -136,6 +136,13 @@ class ChangeUsername extends React.Component {
       this.state.formData.newEmail &&
       this.state.formData.newEmail !== this.props.emailAddress;
 
+    // const res = !formHasErrors && (!!validUsername || !!validEmail);
+    // console.log('formHasErrors:', formHasErrors);
+    // console.log('validUsername:', validUsername);
+    // console.log('validEmail:', validEmail);
+    // console.log('res:', res);
+    // console.log(this.state.errors);
+
     return !formHasErrors && (validUsername || validEmail);
   };
 
@@ -149,20 +156,12 @@ class ChangeUsername extends React.Component {
           [styles.editing]: editing,
         })}
       >
-        <ChangeUsernameDialog
+        <ConfirmChangesDialog
           showDialog={this.state.showDialog}
           onChange={this.onChange}
           formData={this.state.formData}
           username={username}
-          closeDialog={this.closeDialog}
-          saveChanges={this.saveChanges}
-        />
-
-        <ChangeEmailDialog
-          showDialog={this.state.showDialog}
-          onChange={this.onChange}
-          formData={this.state.formData}
-          username={username}
+          emailAddress={emailAddress}
           closeDialog={this.closeDialog}
           saveChanges={this.saveChanges}
         />
@@ -232,11 +231,11 @@ class ChangeUsername extends React.Component {
   }
 }
 
-ChangeUsername.propTypes = {
+Profile.propTypes = {
   changeUsername: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
   username: PropTypes.string,
   emailAddress: PropTypes.string,
 };
 
-export default ChangeUsername;
+export default Profile;

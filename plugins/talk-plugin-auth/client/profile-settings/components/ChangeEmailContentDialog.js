@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
-import styles from './ChangeUsernameDialog.css';
+import styles from './ChangeEmailContentDialog.css';
 import InputField from './InputField';
-import { Button, Dialog } from 'plugin-api/beta/client/components/ui';
+import { Button } from 'plugin-api/beta/client/components/ui';
 import { t } from 'plugin-api/beta/client/services';
 
-class ChangeEmailDialog extends React.Component {
+class ChangeEmailContentDialog extends React.Component {
   state = {
     showError: false,
     errors: {
@@ -31,10 +30,7 @@ class ChangeEmailDialog extends React.Component {
 
   render() {
     return (
-      <Dialog
-        open={this.props.showDialog}
-        className={cn(styles.dialog, 'talk-plugin-auth--edit-profile-dialog')}
-      >
+      <div>
         <span className={styles.close} onClick={this.props.closeDialog}>
           ×
         </span>
@@ -56,9 +52,9 @@ class ChangeEmailDialog extends React.Component {
           </div>
           <form>
             <InputField
-              id="password"
+              id="confirmPassword"
               label={t('talk-plugin-auth.change_email.enter_password')}
-              name="password"
+              name="confirmPassword"
               type="password"
               onChange={this.props.onChange}
               defaultValue=""
@@ -81,12 +77,12 @@ class ChangeEmailDialog extends React.Component {
             </Button>
           </div>
         </div>
-      </Dialog>
+      </div>
     );
   }
 }
 
-ChangeEmailDialog.propTypes = {
+ChangeEmailContentDialog.propTypes = {
   saveChanges: PropTypes.func,
   closeDialog: PropTypes.func,
   showDialog: PropTypes.bool,
@@ -95,4 +91,4 @@ ChangeEmailDialog.propTypes = {
   formData: PropTypes.object,
 };
 
-export default ChangeEmailDialog;
+export default ChangeEmailContentDialog;
