@@ -20,10 +20,19 @@ class ChangeUsernameDialog extends React.Component {
   confirmChanges = async () => {
     if (this.formHasError()) {
       this.showError();
-    } else {
-      await this.props.saveChanges();
-      this.props.closeDialog();
+      return;
     }
+
+    if (!this.props.canUsernameBeUpdated) {
+      this.props.notify(
+        'error',
+        "Username can't be updated. Usernames can be changed every 14 days"
+      );
+      return;
+    }
+
+    await this.props.saveChanges();
+    this.props.closeDialog();
   };
 
   formHasError = () =>
@@ -101,6 +110,8 @@ ChangeUsernameDialog.propTypes = {
   onChange: PropTypes.func,
   username: PropTypes.string,
   formData: PropTypes.object,
+  canUsernameBeUpdated: PropTypes.bool.isRequired,
+  notify: PropTypes.func.isRequired,
 };
 
 export default ChangeUsernameDialog;

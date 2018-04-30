@@ -7,6 +7,7 @@ import ChangeUsernameDialog from './ChangeUsernameDialog';
 import { t } from 'plugin-api/beta/client/services';
 import InputField from './InputField';
 import { getErrorMessages } from 'coral-framework/utils';
+import { canUsernameBeUpdated } from 'coral-framework/utils/user';
 
 const initialState = {
   editing: false,
@@ -84,8 +85,13 @@ class ChangeUsername extends React.Component {
   };
 
   render() {
-    const { username, emailAddress } = this.props;
-    const { editing } = this.state;
+    const {
+      username,
+      emailAddress,
+      root: { me: { state: { status } } },
+      notify,
+    } = this.props;
+    const { editing, formData, showDialog } = this.state;
 
     return (
       <section
@@ -94,12 +100,14 @@ class ChangeUsername extends React.Component {
         })}
       >
         <ChangeUsernameDialog
-          showDialog={this.state.showDialog}
+          canUsernameBeUpdated={canUsernameBeUpdated(status)}
+          showDialog={showDialog}
           onChange={this.onChange}
-          formData={this.state.formData}
+          formData={formData}
           username={username}
           closeDialog={this.closeDialog}
           saveChanges={this.saveChanges}
+          notify={notify}
         />
 
         {editing ? (
@@ -170,6 +178,7 @@ class ChangeUsername extends React.Component {
 }
 
 ChangeUsername.propTypes = {
+  root: PropTypes.object.isRequired,
   setUsername: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
   username: PropTypes.string,
