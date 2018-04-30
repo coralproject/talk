@@ -37,7 +37,7 @@ const tokenCheck = (verifier, error, ...whitelistedErrors) => async (
       // Log out the error, slurp it and send out the predefined error to the
       // error handler.
       console.error(err);
-      return next(error);
+      return next(new error());
     }
 
     res.status(204).end();
@@ -88,7 +88,7 @@ router.post('/password/reset', async (req, res, next) => {
         locals: {
           token,
         },
-        subject: 'Password Reset',
+        subject: res.locals.t('email.password_reset.subject'),
         email,
       });
     }
@@ -109,20 +109,11 @@ router.put(
   async (req, res, next) => {
     const { token, password } = req.body;
 
-    if (!password || password.length < 8) {
-      return next(errors.ErrPasswordTooShort);
-    }
-
     try {
-      let [user, redirect] = await UsersService.verifyPasswordResetToken(token);
-
-      // Change the users' password.
-      await UsersService.changePassword(user.id, password);
-
+      const { redirect } = await UsersService.resetPassword(token, password);
       res.json({ redirect });
-    } catch (e) {
-      console.error(e);
-      return next(errors.ErrNotAuthorized);
+    } catch (err) {
+      return next(err);
     }
   }
 );

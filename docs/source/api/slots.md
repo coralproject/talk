@@ -81,6 +81,7 @@ You won't have to use this to build plugins, but it's helpful to find where to e
 * `adminCommentMoreDetails`
 * `adminCommentLabels`
 * `adminModerationSettings`
+* `adminOrganizationSettings`
 * `adminStreamSettings`
 * `adminTechSettings`
 * `adminCommentInfoBar`

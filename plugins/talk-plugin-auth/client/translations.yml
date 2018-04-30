@@ -58,7 +58,7 @@ da:
       sign_in: "Sign in"
       sign_in_to_join: "Sign in to join the conversation"
       or: "Or"
-      email: "E-mail Address"
+      email: "Email Address"
       password: "Password"
       password_error: "Password must be at least 8 characters."
       forgot_your_pass: "Forgot your password?"
@@ -102,7 +102,7 @@ en:
       sign_in: "Sign in"
       sign_in_to_join: "Sign in to join the conversation"
       or: "Or"
-      email: "E-mail Address"
+      email: "Email Address"
       password: "Password"
       password_error: "Password must be at least 8 characters."
       forgot_your_pass: "Forgot your password?"
@@ -133,6 +133,15 @@ en:
       username: Username
       write_your_username: "Edit your username"
       your_username: "Your username appears on every comment you post."
+    change_password:
+      change_password: "Change Password"
+      passwords_dont_match: "Passwords don`t match"
+      required_field: "This field is required"
+      forgot_password: "Forgot your password?"
+      save: "Save"
+      cancel: "Cancel"
+      edit: "Edit"
+      changed_password_msg: "Changed Password - Your password has been successfully changed"
 de:
   talk-plugin-auth:
     login:
@@ -225,6 +234,15 @@ es:
       username: Nombre
       write_your_username: "Edita tu nombre"
       your_username: "Tu nombre aparece en cada comentario que publiques."
+    change_password:
+      change_password: "Cambiar Contraseña"
+      passwords_dont_match: "Las contraseñas no coinciden"
+      required_field: "Este campo es requerido"
+      forgot_password: "Olvidaste tu contraseña?"
+      save: "Guardar"
+      cancel: "Cancelar"
+      edit: "Editar"
+      changed_password_msg: "Contraseña Actualizada - Tu contraseña ha sido exitosamente actualizada"
 fr:
   talk-plugin-auth:
     login:
@@ -327,7 +345,7 @@ pt_BR:
       sign_in: "Sign in"
       sign_in_to_join: "Sign in to join the conversation"
       or: "Or"
-      email: "E-mail Address"
+      email: "Email Address"
       password: "Password"
       forgot_your_pass: "Forgot your password?"
       need_an_account: "Need an account?"
