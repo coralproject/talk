@@ -321,6 +321,27 @@ const SetUsernameFragment = gql`
   }
 `;
 
+export const withUpdateEmailAddress = withMutation(
+  gql`
+    mutation UpdateEmailAddress($input: UpdateEmailAddressInput!) {
+      updateEmailAddress(input: $input) {
+        ...UpdateEmailAddressResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      updateEmailAdress: input => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      },
+    }),
+  }
+);
+
 export const withChangeUsername = withMutation(
   gql`
     mutation ChangeUsername($id: ID!, $username: String!) {

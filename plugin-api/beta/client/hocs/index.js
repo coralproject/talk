@@ -27,5 +27,6 @@ export {
   withSetCommentStatus,
   withChangePassword,
   withChangeUsername,
+  withUpdateEmailAddress,
 } from 'coral-framework/graphql/mutations';
 export { compose } from 'recompose';
