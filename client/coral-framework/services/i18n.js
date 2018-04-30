@@ -62,7 +62,8 @@ function setLocale(storage, locale) {
 // to the default language.
 function detectLanguage(storage) {
   try {
-    const lang = defaultLanguage || storage.getItem('locale') || navigator.language;
+    const lang =
+      defaultLanguage || storage.getItem('locale') || navigator.language;
 
     if (lang) {
       return lang;
