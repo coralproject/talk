@@ -50,13 +50,10 @@ class ChangeUsername extends React.Component {
 
   saveChanges = async () => {
     const { newUsername } = this.state.formData;
-    const { id } = this.props;
+    const { setUsername } = this.props;
 
     try {
-      await this.props.changeUsername({
-        id,
-        username: newUsername,
-      });
+      await setUsername(newUsername);
       this.props.notify(
         'success',
         t('talk-plugin-auth.change_username.changed_username_success_msg')
@@ -173,7 +170,7 @@ class ChangeUsername extends React.Component {
 }
 
 ChangeUsername.propTypes = {
-  changeUsername: PropTypes.func.isRequired,
+  setUsername: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
   username: PropTypes.string,
   emailAddress: PropTypes.string,

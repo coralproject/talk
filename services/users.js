@@ -253,9 +253,19 @@ class Users {
           },
           {
             'status.username.status': { $in: ['APPROVED', 'SET'] },
-            'status.username.history.created_at': {
-              $lte: oldestEditTime,
-            },
+            $or: [
+              {
+                'status.username.history.created_at': {
+                  $lte: oldestEditTime,
+                },
+              },
+              {
+                'status.username.history': [],
+              },
+              {
+                'status.username.history': { $exists: false },
+              },
+            ],
           },
         ],
       };
@@ -286,8 +296,8 @@ class Users {
 
         if (
           !['UNSET', 'APPROVED', 'SET'].includes(user.status.username.status) ||
-          !user.status.username.history.every(({ created_at }) =>
-            oldestEditTime.isAfter(created_at)
+          !user.status.username.history.some(({ created_at }) =>
+            moment(created_at).isAfter(oldestEditTime)
           )
         ) {
           throw new ErrPermissionUpdateUsername();

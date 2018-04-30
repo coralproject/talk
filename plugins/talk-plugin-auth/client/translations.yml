@@ -142,8 +142,9 @@ en:
       cancel: "Cancel"
       edit: "Edit"
       changed_password_msg: "Changed Password - Your password has been successfully changed"
-    change_username: 
+    change_username:
       change_username_note: "Usernames can be changed every 14 days"
+      changed_username_success_msg: "Username has been updated"
       save: "Save"
       edit_profile: "Edit Profile"
       cancel: "Cancel"
@@ -255,7 +256,7 @@ es:
       cancel: "Cancelar"
       edit: "Editar"
       changed_password_msg: "Contraseña Actualizada - Tu contraseña ha sido exitosamente actualizada"
-    change_username: 
+    change_username:
       change_username_note: "El usuario puede ser cambiado cada 14 días"
       save: "Guardar"
       edit_profile: "Editar Perfil"
