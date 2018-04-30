@@ -11,6 +11,7 @@ import errorMsj from 'coral-framework/helpers/error';
 import ConfirmChangesDialog from './ConfirmChangesDialog';
 import ChangeUsernameContentDialog from './ChangeUsernameContentDialog';
 import ChangeEmailContentDialog from './ChangeEmailContentDialog';
+import { canUsernameBeUpdated } from 'coral-framework/utils/user';
 
 const initialState = {
   editing: false,
@@ -120,13 +121,10 @@ class Profile extends React.Component {
 
   saveUsername = async () => {
     const { newUsername } = this.state.formData;
-    const { id } = this.props;
+    const { setUsername } = this.props;
 
     try {
-      await this.props.changeUsername({
-        id,
-        username: newUsername,
-      });
+      await setUsername(newUsername);
       this.props.notify(
         'success',
         t('talk-plugin-auth.change_username.changed_username_success_msg')
@@ -159,8 +157,13 @@ class Profile extends React.Component {
   };
 
   render() {
-    const { username, emailAddress } = this.props;
-    const { editing, formData } = this.state;
+    const {
+      username,
+      emailAddress,
+      root: { me: { state: { status } } },
+      notify,
+    } = this.props;
+    const { editing, formData, showDialog } = this.state;
 
     return (
       <section
@@ -169,12 +172,14 @@ class Profile extends React.Component {
         })}
       >
         <ConfirmChangesDialog
-          showDialog={this.state.showDialog}
+          showDialog={showDialog}
           closeDialog={this.closeDialog}
           finish={this.finish}
         >
           {username !== formData.newUsername && (
             <ChangeUsernameContentDialog
+              notify={notify}
+              canUsernameBeUpdated={canUsernameBeUpdated(status)}
               save={this.saveUsername}
               onChange={this.onChange}
               formData={this.state.formData}
@@ -260,6 +265,8 @@ class Profile extends React.Component {
 Profile.propTypes = {
   updateEmailAddress: PropTypes.func.isRequired,
   changeUsername: PropTypes.func.isRequired,
+  root: PropTypes.object.isRequired,
+  setUsername: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
   username: PropTypes.string,
   emailAddress: PropTypes.string,

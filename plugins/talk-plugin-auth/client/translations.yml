@@ -142,7 +142,7 @@ en:
       cancel: "Cancel"
       edit: "Edit"
       changed_password_msg: "Changed Password - Your password has been successfully changed"
-    change_username: 
+    change_username:
       change_username_note: "Usernames can be changed every 14 days"
       save: "Save"
       edit_profile: "Edit Profile"
@@ -165,6 +165,8 @@ en:
       confirm_change: "Confirm Change"
       cancel: "Cancel"
       change_email_msg: "Email Address Changed - Your email address has been successfully changed. This email address will now be used for signing in and email notifications"
+      changed_username_success_msg: "Username Changed - Your username has been successfully changed. You will not be able to change your user name for 14 days."
+      change_username_attempt: "Username can't be updated. Usernames can be changed every 14 days"
 de:
   talk-plugin-auth:
     login:
@@ -266,7 +268,7 @@ es:
       cancel: "Cancelar"
       edit: "Editar"
       changed_password_msg: "Contraseña Actualizada - Tu contraseña ha sido exitosamente actualizada"
-    change_username: 
+    change_username:
       change_username_note: "El usuario puede ser cambiado cada 14 días"
       save: "Guardar"
       edit_profile: "Editar Perfil"
@@ -278,7 +280,8 @@ es:
       bottom_note: "Nota: No podrás cambiar tu usuario por 14 días"
       confirm_changes: "Confirmar Cambios"
       username_does_not_match: "El usuario no coincide"
-      changed_username_success_msg: "Username Changed - Your username has been successfully changed. You will not be able to change your user name for 14 days."
+      changed_username_success_msg: "Usuario Actualizado - Tu usuario ha sido exitosamente actualizado. No podrás cambiar el usuario por 14 días."
+      change_username_attempt: "El usuario no puede ser actualizado. Los usuarios pueden ser cambiados cada 14 días."
 fr:
   talk-plugin-auth:
     login:

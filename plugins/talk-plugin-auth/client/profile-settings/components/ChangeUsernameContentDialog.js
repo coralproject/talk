@@ -19,10 +19,20 @@ class ChangeUsernameContentDialog extends React.Component {
   confirmChanges = async () => {
     if (this.formHasError()) {
       this.showError();
-    } else {
-      await this.props.save();
-      this.props.next();
+      return;
     }
+
+    if (!this.props.canUsernameBeUpdated) {
+      this.props.notify(
+        'error',
+        t('talk-plugin-auth.change_username.change_username_attempt')
+      );
+      return;
+    }
+
+    await this.props.save();
+    this.props.next();
+    this.props.closeDialog();
   };
 
   formHasError = () =>
@@ -97,6 +107,8 @@ ChangeUsernameContentDialog.propTypes = {
   onChange: PropTypes.func,
   formData: PropTypes.object,
   username: PropTypes.string,
+  canUsernameBeUpdated: PropTypes.bool.isRequired,
+  notify: PropTypes.func.isRequired,
 };
 
 export default ChangeUsernameContentDialog;

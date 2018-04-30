@@ -14,24 +14,20 @@ module.exports = (user, perm) => {
         user.password.length > 0
       );
 
-    case types.CHANGE_USERNAME: {
+    case types.CHANGE_USERNAME:
+      return user.status.username.status === 'REJECTED';
+
+    case types.SET_USERNAME: {
       // Only users who have their usernames rejected or those users who
       // not changed their usernames within 14 days can change their usernames.
-      const now = moment();
+      const deadline = moment().subtract(14, 'days');
       return (
-        user.status.username.status === 'REJECTED' ||
-        get(user, 'status.username.history', [])
-          .filter(({ status }) => status === 'CHANGED')
-          .every(({ created_at }) =>
-            moment(created_at)
-              .add(14, 'days')
-              .isAfter(now)
-          )
+        user.status.username.status === 'UNSET' ||
+        get(user, 'status.username.history', []).every(({ created_at }) =>
+          moment(created_at).isBefore(deadline)
+        )
       );
     }
-
-    case types.SET_USERNAME:
-      return user.status.username.status === 'UNSET';
 
     case types.CREATE_COMMENT:
     case types.CREATE_ACTION:
