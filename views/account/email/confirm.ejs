@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <title>Email Verification</title>
-    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
-    <link rel="stylesheet" href="<%= BASE_PATH %>public/css/admin.css">
-    <%- include ../partials/head %>
+    <title><%= t('confirm_email.email_confirmation') %></title>
+    <%- include ../../partials/account %>
   </head>
   <body class="confirm-email-page">
     <div id="root">
-      <div class="error-console container"></div>
-      <form id="verify-email-form" class="container">
-        <legend class="legend"><%= t('confirm_email.click_to_confirm') %></legend>
-        <button type="submit"><%= t('confirm_email.confirm') %></button>
-      </form>
+      <section class="container">
+        <h1><%= t('confirm_email.email_confirmation') %></h1>
+        <p><%= t('confirm_email.click_to_confirm') %></p>
+        <div class="error-console"><span></span></div>
+        <form id="verify-email-form">
+          <button type="submit"><%= t('confirm_email.confirm') %></button>
+        </form>
+      </section>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript">
@@ -21,9 +21,11 @@
         function showError(error) {
           try {
             let err = JSON.parse(error);
-            $('.error-console').text(err.message).addClass('active');
+            $('.error-console span').text(err.message);
+            $('.error-console').fadeIn();
           } catch (err) {
-            $('.error-console').text(error).addClass('active');
+            $('.error-console span').text(error);
+            $('.error-console').fadeIn();
           }
         }
 

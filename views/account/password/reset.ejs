@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <title>Password Reset</title>
-    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
-    <link rel="stylesheet" href="<%= BASE_PATH %>public/css/admin.css">
-    <%- include ../partials/head %>
+    <title><%= t('password_reset.set_new_password') %></title>
+    <%- include ../../partials/account %>
   </head>
-  <body class="password-reset-page">
+  <body>
     <div id="root">
-      <div class="error-console container"></div>
-      <form id="reset-password-form" class="container">
-        <legend class="legend"><%= t('password_reset.set_new_password') %></legend>
-        <label for="password">
-          <%= t('password_reset.new_password') %>
-          <input type="password" name="password" placeholder="<%= t('password_reset.new_password') %>" />
-          <p><small><%= t('password_reset.new_password_help') %></small></p>
-        </label>
-
-        <label for="confirm-password">
-          <%= t('password_reset.confirm_new_password') %>
-          <input type="password" name="confirm-password" placeholder="<%= t('password_reset.confirm_new_password') %>" />
-        </label>
-        <button type="submit"><%= t('password_reset.change_password') %></button>
-      </form>
+      <section class="container">
+        <h1><%= t('password_reset.set_new_password') %></h1>
+        <p><%= t('password_reset.change_password_help') %></p>
+        <div class="error-console"><span></span></div>
+        <form id="reset-password-form">
+          <label for="password">
+            <%= t('password_reset.new_password') %>
+            <input type="password" name="password" placeholder="<%= t('password_reset.new_password') %>" />
+            <small><%= t('password_reset.new_password_help') %></small>
+          </label>
+          <label for="confirm-password">
+            <%= t('password_reset.confirm_new_password') %>
+            <input type="password" name="confirm-password" placeholder="<%= t('password_reset.confirm_new_password') %>" />
+          </label>
+          <button type="submit"><%= t('password_reset.change_password') %></button>
+        </form>
+      </section>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
@@ -31,9 +30,11 @@
         function showError(error) {
           try {
             let err = JSON.parse(error);
-            $('.error-console').text(err.message).addClass('active');
+            $('.error-console span').text(err.message);
+            $('.error-console').fadeIn();
           } catch (err) {
-            $('.error-console').text(error).addClass('active');
+            $('.error-console span').text(error);
+            $('.error-console').fadeIn();
           }
         }
 

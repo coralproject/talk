@@ -458,6 +458,7 @@ de:
       username: "Nutzername"
       password: "Passwort"
       confirm_password: "Passwort bestätigen"
+      organization_contact_email: "Organization Contact Email"
       save: "Speichern"
     permitted_domains:
       title: "Zugelassene Domains"

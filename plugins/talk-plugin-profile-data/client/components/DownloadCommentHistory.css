@@ -1,0 +1,12 @@
+.button {
+  margin: 0;
+
+  i {
+    font-size: inherit;
+    vertical-align: sub;
+  }
+}
+
+.most_recent {
+  color: #808080;
+}
