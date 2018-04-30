@@ -304,63 +304,63 @@ describe('services.UsersService', () => {
           await UsersService[func](user.id, user.username);
         }
       });
-    });
 
-    if (func === 'setUsername') {
-      it('should let a user set their username from UNSET', async () => {
-        const user = mockUsers[0];
+      if (func === 'setUsername') {
+        it('should let a user set their username from UNSET', async () => {
+          const user = mockUsers[0];
 
-        // Set the user to the desired status.
-        await UsersService.setUsernameStatus(user.id, 'UNSET');
-        await UsersService.setUsername(user.id, 'new_username', null);
-      });
-
-      describe('time based', () => {
-        afterEach(() => {
-          timekeeper.reset();
+          // Set the user to the desired status.
+          await UsersService.setUsernameStatus(user.id, 'UNSET');
+          await UsersService.setUsername(user.id, 'new_username', null);
         });
 
-        ['SET', 'APPROVED'].forEach(status => {
-          it(`should not allow users to change their username if it was changed within 14 of today from ${status}`, async () => {
-            const user = mockUsers[0];
+        describe('time based', () => {
+          afterEach(() => {
+            timekeeper.reset();
+          });
 
-            // Set the user to the desired status.
-            await UsersService.setUsernameStatus(user.id, status);
+          ['SET', 'APPROVED'].forEach(status => {
+            it(`should not allow users to change their username if it was changed within 14 of today from ${status}`, async () => {
+              const user = mockUsers[0];
 
-            timekeeper.travel(
-              moment()
-                .add(5, 'days')
-                .toDate()
-            );
+              // Set the user to the desired status.
+              await UsersService.setUsernameStatus(user.id, status);
 
-            try {
-              await UsersService.setUsername(user.id, 'new_username', null);
-              throw new Error('edit was processed successfully');
-            } catch (err) {
-              expect(err).have.property(
-                'translation_key',
-                'EDIT_USERNAME_NOT_AUTHORIZED'
+              timekeeper.travel(
+                moment()
+                  .add(5, 'days')
+                  .toDate()
               );
-            }
-          });
 
-          it(`allows users to change their username if it was changed 14 days before today from ${status}`, async () => {
-            const user = mockUsers[0];
+              try {
+                await UsersService.setUsername(user.id, 'new_username', null);
+                throw new Error('edit was processed successfully');
+              } catch (err) {
+                expect(err).have.property(
+                  'translation_key',
+                  'EDIT_USERNAME_NOT_AUTHORIZED'
+                );
+              }
+            });
 
-            // Set the user to the desired status.
-            await UsersService.setUsernameStatus(user.id, status);
+            it(`allows users to change their username if it was changed 14 days before today from ${status}`, async () => {
+              const user = mockUsers[0];
 
-            timekeeper.travel(
-              moment()
-                .add(15, 'days')
-                .toDate()
-            );
+              // Set the user to the desired status.
+              await UsersService.setUsernameStatus(user.id, status);
 
-            await UsersService.setUsername(user.id, 'new_username', null);
+              timekeeper.travel(
+                moment()
+                  .add(15, 'days')
+                  .toDate()
+              );
+
+              await UsersService.setUsername(user.id, 'new_username', null);
+            });
           });
         });
-      });
-    }
+      }
+    });
   });
 
   describe('#isValidUsername', () => {

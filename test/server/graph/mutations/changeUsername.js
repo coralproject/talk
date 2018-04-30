@@ -89,7 +89,7 @@ describe('graph.mutations.changeUsername', () => {
       expect(res.data.changeUsername.errors).to.have.length(1);
       expect(res.data.changeUsername.errors[0]).to.have.property(
         'translation_key',
-        'EDIT_USERNAME_NOT_AUTHORIZED'
+        'NOT_AUTHORIZED'
       );
 
       // Set the user to the desired status.
