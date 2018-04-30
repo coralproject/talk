@@ -65,10 +65,6 @@ First, you'll enable `talk-plugin-author-menu`, as this houses the Ignore button
 
 And then we will enable the Ignore User plugin: `talk-plugin-ignore-user`. 
 
-And finally, we will need to enable Profile Settings; this is the tab on My Profile > Settings where commenters can manage their Ignored Users list.
-
-`talk-plugin-profile-settings`
-
 ### Featured Comments
 
 To enable the featuring of comments, you'll need to activate `talk-plugin-featured-comments`. If you would like the Featured Comments tab to be the default tab you land on for the stream, you will need to set the default tab ENV variable:
