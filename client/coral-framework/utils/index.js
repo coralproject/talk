@@ -237,7 +237,11 @@ export function getTotalReactionsCount(actionSummaries) {
 
 // Like lodash merge but does not recurse into arrays.
 export function mergeExcludingArrays(objValue, srcValue) {
-  if (typeof srcValue === 'object' && !Array.isArray(srcValue)) {
+  if (
+    typeof srcValue === 'object' &&
+    !Array.isArray(srcValue) &&
+    srcValue !== null
+  ) {
     return assignWith({}, objValue, srcValue, mergeExcludingArrays);
   }
   return srcValue;

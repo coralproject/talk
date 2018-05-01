@@ -250,7 +250,7 @@ en:
     ALREADY_EXISTS: "Resource already exists"
     INVALID_ASSET_URL: "Assert URL is invalid"
     CANNOT_IGNORE_STAFF: "Cannot ignore Staff members."
-    email: "Not a valid E-Mail"
+    email: "Please enter a valid email."
     confirm_password: "Passwords don't match. Please check again"
     network_error: "Failed to connect to server. Check your internet connection and try again."
     email_not_verified: "Email address {0} not verified."
