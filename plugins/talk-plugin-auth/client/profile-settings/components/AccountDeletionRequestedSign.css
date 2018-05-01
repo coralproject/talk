@@ -1,0 +1,23 @@
+.container {
+  border : solid 1px #F26563;
+  border-radius: 2px;
+  color: #3B4A53; 
+}
+
+.button {
+  color: #787D80;
+  border-radius: 2px;
+  background-color: transparent;
+  height: 30px;
+  font-size: 0.9em;
+  line-height: normal;
+
+  &:hover {
+    background-color: #eaeaea;
+  }
+
+  &.secondary {
+    background-color: #787D80;
+    color: white;
+  }
+}

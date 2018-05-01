@@ -106,3 +106,10 @@
 .step {
   padding-top: 20px;
 }
+
+.scheduledDeletion {
+  i.timeIcon {
+    font-size: 1.2em;
+    padding: 4px;
+  }
+}

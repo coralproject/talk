@@ -11,12 +11,12 @@ const DeleteMyAccountFinalStep = props => (
       email address associated with your account.
     </p>
 
-    <div className={styles.box}>
+    <div className={cn(styles.box, styles.scheduledDeletion)}>
       <strong className={styles.block}>
         Your account is scheduled to be deleted at:
       </strong>
       <strong className={styles.block}>
-        <Icon name="access_time" />
+        <Icon name="access_time" className={styles.timeIcon} />
         <span>Account Deletion Date and Time</span>
       </strong>
     </div>

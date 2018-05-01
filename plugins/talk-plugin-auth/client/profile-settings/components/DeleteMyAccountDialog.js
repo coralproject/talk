@@ -60,6 +60,7 @@ class DeleteMyAccountDialog extends React.Component {
           <DeleteMyAccountStep3
             goToNextStep={this.goToNextStep}
             cancel={this.cancel}
+            requestAccountDeletion={this.props.requestAccountDeletion}
           />
         )}
         {step === 4 && <DeleteMyAccountFinalStep finish={this.cancel} />}
@@ -70,6 +71,7 @@ class DeleteMyAccountDialog extends React.Component {
 
 DeleteMyAccountDialog.propTypes = {
   closeDialog: PropTypes.func.isRequired,
+  requestAccountDeletion: PropTypes.func.isRequired,
 };
 
 export default DeleteMyAccountDialog;
