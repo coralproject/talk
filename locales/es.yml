@@ -120,7 +120,7 @@ es:
     custom_css_url: "URL CSS a medida"
     custom_css_url_desc: "URL de una hoja de estilo que va a sobrescribir los estilos por defecto del hilo de comentarios. Puede ser interna o externa."
     days: Días
-    description: "Como Administrador/a puedes modificar la configuración de los comentarios en este artículo"
+    description: "Modificar la configuración de los comentarios en este artículo."
     domain_list_text: "Agrega dominios permitidos a Talk, por ejemplo tu localhost, staging y ambientes de producción (ej. localhost:3000, staging.domain.com, domain.com)."
     domain_list_title: "Dominios Permitidos"
     edit_info: "Editar Información"
