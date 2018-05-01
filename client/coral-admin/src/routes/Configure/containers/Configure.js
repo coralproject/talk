@@ -20,7 +20,7 @@ import OrganizationSettings from './OrganizationSettings';
 import { withRouter } from 'react-router';
 
 class ConfigureContainer extends React.Component {
-  state = { nextRoute: '' };
+  nextRoute = '';
 
   savePending = async () => {
     await this.props.updateSettings(this.props.pending);
@@ -40,10 +40,9 @@ class ConfigureContainer extends React.Component {
   };
 
   gotoNextRoute = () => {
-    const { nextRoute } = this.state;
-    if (nextRoute) {
-      this.props.router.push(nextRoute);
-      this.setState({ nextRoute: '' });
+    if (this.nextRoute) {
+      this.props.router.push(this.nextRoute);
+      this.nextRoute = '';
     }
   };
 
@@ -51,7 +50,7 @@ class ConfigureContainer extends React.Component {
     const nextRoute = `/admin/configure/${section}`;
 
     if (this.shouldShowSaveDialog()) {
-      await this.setState({ nextRoute });
+      this.nextRoute = nextRoute;
       this.props.showSaveDialog();
     } else {
       // Just go to the section
@@ -65,7 +64,7 @@ class ConfigureContainer extends React.Component {
 
   routeLeave = ({ pathname }) => {
     if (this.shouldShowSaveDialog()) {
-      this.setState({ nextRoute: pathname });
+      this.nextRoute = pathname;
       this.props.showSaveDialog();
       return false;
     }
