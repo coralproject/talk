@@ -30,6 +30,7 @@ class ProfileContainer extends Component {
 
     return (
       <Profile
+        id={me.id}
         username={me.username}
         emailAddress={emailAddress}
         root={root}
@@ -53,6 +54,15 @@ const withProfileQuery = withQuery(
     me {
       id
       username
+      state {
+        status {
+          username {
+            history {
+              created_at
+            }
+          }
+        }
+      }
     }
     ...${getDefinitionName(TabPanel.fragments.root)}
     ${getSlotFragmentSpreads(slots, 'root')}

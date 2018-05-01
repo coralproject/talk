@@ -1,4 +1,5 @@
-const { isString } = require('lodash');
+const { get, isString } = require('lodash');
+const moment = require('moment');
 const { check } = require('../utils');
 const types = require('../constants');
 
@@ -12,11 +13,21 @@ module.exports = (user, perm) => {
         isString(user.password) &&
         user.password.length > 0
       );
+
     case types.CHANGE_USERNAME:
       return user.status.username.status === 'REJECTED';
 
-    case types.SET_USERNAME:
-      return user.status.username.status === 'UNSET';
+    case types.SET_USERNAME: {
+      // Only users who have their usernames rejected or those users who
+      // not changed their usernames within 14 days can change their usernames.
+      const deadline = moment().subtract(14, 'days');
+      return (
+        user.status.username.status === 'UNSET' ||
+        get(user, 'status.username.history', []).every(({ created_at }) =>
+          moment(created_at).isBefore(deadline)
+        )
+      );
+    }
 
     case types.CREATE_COMMENT:
     case types.CREATE_ACTION:

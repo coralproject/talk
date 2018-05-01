@@ -7,8 +7,38 @@
   display: flex;
 }
 
+.columnDisplay {
+  flex-direction: column;
+
+  .detailItemMessage {
+    padding: 4px 0 0;
+  }
+}
+
 .detailItemContent {
-  min-width: 280px;
+  border: solid 1px #787D80;
+  border-radius: 2px;
+  background-color: white;
+  height: 30px;
+  display: inline-block;
+  width: 230px;
+  display: flex;  
+  box-sizing: border-box;
+
+  > .detailIcon {
+    font-size: 1.2em;
+    padding: 0 5px;
+    color: #787D80;
+    line-height: 30px; 
+  }
+
+  &.error {
+    border: solid 2px #FA4643;
+  }
+
+  &.disabled {
+    background-color: #E0E0E0;
+  }
 }
 
 .detailLabel {
@@ -19,22 +49,21 @@
 }
 
 .detailValue {
-  padding: 6px 2px;
-  border: solid 1px #979797;
-  display: block;
-  font-size: 1.1em;
-  border-radius: 2px;
-  background-color: #ffffff;
-  color: #979797;
+  background: transparent;
+  border: none;
+  font-size: 1em;
+  color: #000;
+  outline: none;
+  flex: 1;
+  height: 100%;
   box-sizing: border-box;
-  width: 100%;
 }
 
 .detailItemMessage {
   flex-grow: 1;
   display: flex;
   align-items: center;
-  padding-left: 2px;
+  padding-left: 6px;
   padding-top: 16px;
 
   .warningIcon, .checkIcon {

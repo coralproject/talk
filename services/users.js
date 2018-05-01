@@ -1,4 +1,5 @@
 const uuid = require('uuid');
+const moment = require('moment');
 const bcrypt = require('bcryptjs');
 const {
   ErrMaxRateLimit,
@@ -234,55 +235,72 @@ class Users {
     return user;
   }
 
-  static async _setUsername(
-    id,
-    username,
-    fromStatus,
-    toStatus,
-    assignedBy,
-    resetAllowed = false
-  ) {
+  static async setUsername(id, username, assignedBy) {
     try {
+      const oldestEditTime = moment()
+        .subtract(14, 'days')
+        .toDate();
+
+      // A username can be set if:
+      //
+      // - The previous status was 'UNSET'
+      // - The username has not been changed within the last 14 days.
       const query = {
         id,
-        'status.username.status': fromStatus,
-      };
-      if (!resetAllowed) {
-        query.username = { $ne: username };
-      }
-
-      let user = await User.findOneAndUpdate(
-        query,
-        {
-          $set: {
-            username,
-            lowercaseUsername: username.toLowerCase(),
-            'status.username.status': toStatus,
+        $or: [
+          {
+            'status.username.status': 'UNSET',
           },
-          $push: {
-            'status.username.history': {
-              status: toStatus,
-              assigned_by: assignedBy,
-              created_at: Date.now(),
-            },
+          {
+            'status.username.status': { $in: ['APPROVED', 'SET'] },
+            $or: [
+              {
+                'status.username.history.created_at': {
+                  $lte: oldestEditTime,
+                },
+              },
+              {
+                'status.username.history': [],
+              },
+              {
+                'status.username.history': { $exists: false },
+              },
+            ],
+          },
+        ],
+      };
+
+      const update = {
+        $set: {
+          username,
+          lowercaseUsername: username.toLowerCase(),
+          'status.username.status': 'SET',
+        },
+        $push: {
+          'status.username.history': {
+            status: 'SET',
+            assigned_by: assignedBy,
+            created_at: Date.now(),
           },
         },
-        {
-          new: true,
-        }
-      );
+      };
+
+      let user = await User.findOneAndUpdate(query, update, {
+        new: true,
+      });
       if (!user) {
         user = await Users.findById(id);
         if (user === null) {
           throw new ErrNotFound();
         }
 
-        if (user.status.username.status !== fromStatus) {
+        if (
+          !['UNSET', 'APPROVED', 'SET'].includes(user.status.username.status) ||
+          user.status.username.history.some(({ created_at }) =>
+            moment(created_at).isAfter(oldestEditTime)
+          )
+        ) {
           throw new ErrPermissionUpdateUsername();
-        }
-
-        if (!resetAllowed && user.username === username) {
-          throw new ErrSameUsernameProvided();
         }
 
         throw new Error('edit username failed for an unexpected reason');
@@ -298,12 +316,57 @@ class Users {
     }
   }
 
-  static async setUsername(id, username, assignedBy) {
-    return Users._setUsername(id, username, 'UNSET', 'SET', assignedBy, true);
-  }
-
   static async changeUsername(id, username, assignedBy) {
-    return Users._setUsername(id, username, 'REJECTED', 'CHANGED', assignedBy);
+    try {
+      const query = {
+        id,
+        username: { $ne: username },
+        'status.username.status': 'REJECTED',
+      };
+
+      const update = {
+        $set: {
+          username,
+          lowercaseUsername: username.toLowerCase(),
+          'status.username.status': 'CHANGED',
+        },
+        $push: {
+          'status.username.history': {
+            status: 'CHANGED',
+            assigned_by: assignedBy,
+            created_at: Date.now(),
+          },
+        },
+      };
+
+      let user = await User.findOneAndUpdate(query, update, {
+        new: true,
+      });
+      if (!user) {
+        user = await Users.findById(id);
+        if (user === null) {
+          throw new ErrNotFound();
+        }
+
+        if (user.status.username.status !== 'REJECTED') {
+          throw new ErrPermissionUpdateUsername();
+        }
+
+        if (user.username === username) {
+          throw new ErrSameUsernameProvided();
+        }
+
+        throw new Error('edit username failed for an unexpected reason');
+      }
+
+      return user;
+    } catch (err) {
+      if (err.code === 11000) {
+        throw new ErrUsernameTaken();
+      }
+
+      throw err;
+    }
   }
 
   /**
