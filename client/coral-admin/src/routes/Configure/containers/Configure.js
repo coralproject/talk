@@ -20,7 +20,8 @@ import OrganizationSettings from './OrganizationSettings';
 import { withRouter } from 'react-router';
 
 class ConfigureContainer extends React.Component {
-  state = { nextRoute: '' };
+  nextRoute = '';
+  unregisterLeaveHook = null;
 
   savePending = async () => {
     await this.props.updateSettings(this.props.pending);
@@ -40,18 +41,16 @@ class ConfigureContainer extends React.Component {
   };
 
   gotoNextRoute = () => {
-    const { nextRoute } = this.state;
-    if (nextRoute) {
-      this.props.router.push(nextRoute);
-      this.setState({ nextRoute: '' });
+    if (this.nextRoute) {
+      this.props.router.push(this.nextRoute);
+      this.nextRoute = '';
     }
   };
 
   handleSectionChange = async section => {
     const nextRoute = `/admin/configure/${section}`;
-
-    if (this.shouldShowSaveDialog()) {
-      await this.setState({ nextRoute });
+    if (this.hasPendingData()) {
+      this.nextRoute = nextRoute;
       this.props.showSaveDialog();
     } else {
       // Just go to the section
@@ -59,20 +58,37 @@ class ConfigureContainer extends React.Component {
     }
   };
 
-  shouldShowSaveDialog = () => {
+  navigationPrompt = e => {
+    if (this.hasPendingData()) {
+      const confirmationMessage = 'Changes that you made may not be saved.';
+      e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
+      return confirmationMessage; // Gecko, WebKit, Chrome <34
+    }
+  };
+
+  hasPendingData = () => {
     return !!Object.keys(this.props.pending).length;
   };
 
   routeLeave = ({ pathname }) => {
-    if (this.shouldShowSaveDialog()) {
-      this.setState({ nextRoute: pathname });
+    if (this.hasPendingData()) {
+      this.nextRoute = pathname;
       this.props.showSaveDialog();
       return false;
     }
   };
 
   componentDidMount() {
-    this.props.router.setRouteLeaveHook(this.props.route, this.routeLeave);
+    this.unregisterLeaveHook = this.props.router.setRouteLeaveHook(
+      this.props.route,
+      this.routeLeave
+    );
+    window.addEventListener('beforeunload', this.navigationPrompt);
+  }
+
+  componentWillUnmount() {
+    this.unregisterLeaveHook();
+    window.removeEventListener('beforeunload', this.navigationPrompt);
   }
 
   render() {
