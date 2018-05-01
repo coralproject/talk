@@ -1,0 +1,61 @@
+.list {
+  padding: 0;
+  margin: 20px 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  margin-bottom: 20px;
+
+  .itemIcon {
+    flex-grow: 0;
+  }
+
+  .text {
+    flex-grow: 1;
+    padding-left: 10px;
+  }
+
+  > i.itemIcon {
+    font-size: 1.3em;
+  }
+}
+
+.button {
+  color: #787D80;
+  border-radius: 2px;
+  background-color: transparent;
+  height: 30px;
+  font-size: 0.9em;
+  line-height: normal;
+
+  &:hover {
+    background-color: #eaeaea;
+  }
+
+  &.cancel {
+    background-color: transparent;
+    color: #787D80;
+  }
+
+  &.proceed {
+    background-color: #3498DB;
+    color: white;
+  }
+}
+
+.actions {
+  text-align: right;
+}
+
+.title {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+
+.description {
+  font-size: 1em;
+  line-height: 20px;
+  margin: 0;
+}

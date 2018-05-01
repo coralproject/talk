@@ -1,4 +1,9 @@
 .step {
+  color: #BBBEBF;
+  background-color: white;
+  padding: 6px;
+  z-index: 10;
+
   &.current {
     color: rgba(0, 205, 115, 0.3);
   }
@@ -6,4 +11,22 @@
   &.completed {
     color: #00CD73;
   }
+}
+
+.line {
+  position: absolute;
+  border: solid 2px #BBBEBF;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  margin: 0 20px;
 }
