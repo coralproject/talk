@@ -49,7 +49,13 @@ class ConfigureContainer extends React.Component {
 
   handleSectionChange = async section => {
     const nextRoute = `/admin/configure/${section}`;
-    this.props.router.push(nextRoute);
+    if (this.hasPendingData()) {
+      this.nextRoute = nextRoute;
+      this.props.showSaveDialog();
+    } else {
+      // Just go to the section
+      this.props.router.push(nextRoute);
+    }
   };
 
   navigationPrompt = e => {
