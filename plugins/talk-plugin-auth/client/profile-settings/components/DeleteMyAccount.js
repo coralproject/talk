@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './DeleteMyAccount.css';
 import { Button } from 'plugin-api/beta/client/components/ui';
@@ -24,7 +25,11 @@ class DeleteMyAccount extends React.Component {
   render() {
     return (
       <div className="talk-plugin-auth--delete-my-account">
-        <DeleteMyAccountDialog closeDialog={this.closeDialog} />
+        <DeleteMyAccountDialog
+          requestAccountDeletion={this.props.requestAccountDeletion}
+          cancelAccountDeletion={this.props.cancelAccountDeletion}
+          closeDialog={this.closeDialog}
+        />
         <h3
           className={cn(
             styles.title,
@@ -53,5 +58,11 @@ class DeleteMyAccount extends React.Component {
     );
   }
 }
+
+DeleteMyAccount.propTypes = {
+  requestAccountDeletion: PropTypes.func.isRequired,
+  cancelAccountDeletion: PropTypes.func.isRequired,
+  notify: PropTypes.func.isRequired,
+};
 
 export default DeleteMyAccount;

@@ -4,7 +4,7 @@ import SetUsernameDialog from './stream/containers/SetUsernameDialog';
 import translations from './translations.yml';
 import Login from './login/containers/Main';
 import reducer from './login/reducer';
-import DeleteMyAccount from './profile-settings/components/DeleteMyAccount';
+import DeleteMyAccount from './profile-settings/containers/DeleteMyAccount';
 
 export default {
   reducer,
