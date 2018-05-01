@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import moment from 'moment';
 
 /**
  * getReliability
@@ -32,4 +33,19 @@ export const isSuspended = user => {
 
 export const isBanned = user => {
   return get(user, 'state.status.banned.status');
+};
+
+/**
+ * canUsernameBeUpdated
+ * retrieves boolean whether a username can be updated or not
+ */
+
+export const canUsernameBeUpdated = status => {
+  const oldestEditTime = moment()
+    .subtract(14, 'days')
+    .toDate();
+
+  return !status.username.history.some(({ created_at }) =>
+    moment(created_at).isAfter(oldestEditTime)
+  );
 };
