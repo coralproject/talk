@@ -3,12 +3,40 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
+import InputField from '../../components/InputField';
+
+const initialState = {
+  showError: false,
+};
 
 class DeleteMyAccountStep3 extends React.Component {
-  deleteAndContinue = () => {
-    this.props.requestAccountDeletion();
+  state = initialState;
+  phrase = 'delete';
+
+  showError = () => {
+    this.setState({
+      showError: true,
+    });
+  };
+
+  clear = () => {
+    this.setState(initialState);
+  };
+
+  deleteAndContinue = async () => {
+    if (this.formHasError()) {
+      this.showError();
+      return;
+    }
+
+    await this.props.requestAccountDeletion();
+    this.clear();
     this.props.goToNextStep();
   };
+
+  formHasError = () =>
+    !this.props.formData.confirmPhrase ||
+    this.props.formData.confirmPhrase !== this.phrase;
 
   render() {
     return (
@@ -24,7 +52,19 @@ class DeleteMyAccountStep3 extends React.Component {
           className={styles.textBox}
           disabled={true}
           readOnly={true}
-          value="delete"
+          value={this.phrase}
+        />
+        <InputField
+          id="confirmPhrase"
+          label={'Type phrase bellow to confirm'}
+          name="confirmPhrase"
+          type="text"
+          onChange={this.props.onChange}
+          defaultValue=""
+          hasError={this.formHasError()}
+          errorMsg={'The input is not correct'}
+          showError={this.state.showError}
+          columnDisplay
         />
         <div className={cn(styles.actions)}>
           <Button
@@ -49,6 +89,8 @@ DeleteMyAccountStep3.propTypes = {
   goToNextStep: PropTypes.func.isRequired,
   requestAccountDeletion: PropTypes.func.isRequired,
   cancel: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  formData: PropTypes.object.isRequired,
 };
 
 export default DeleteMyAccountStep3;

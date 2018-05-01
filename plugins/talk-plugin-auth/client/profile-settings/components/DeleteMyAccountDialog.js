@@ -9,7 +9,7 @@ import DeleteMyAccountStep2 from './DeleteMyAccountStep2';
 import DeleteMyAccountStep3 from './DeleteMyAccountStep3';
 import DeleteMyAccountFinalStep from './DeleteMyAccountFinalStep';
 
-const initialState = { step: 0 };
+const initialState = { step: 0, formData: {} };
 
 class DeleteMyAccountDialog extends React.Component {
   state = initialState;
@@ -27,6 +27,17 @@ class DeleteMyAccountDialog extends React.Component {
   cancel = () => {
     this.clear();
     this.props.closeDialog();
+  };
+
+  onChange = e => {
+    const { name, value } = e.target;
+
+    this.setState(state => ({
+      formData: {
+        ...state.formData,
+        [name]: value,
+      },
+    }));
   };
 
   render() {
@@ -58,9 +69,11 @@ class DeleteMyAccountDialog extends React.Component {
         )}
         {step === 3 && (
           <DeleteMyAccountStep3
+            formData={this.state.formData}
             goToNextStep={this.goToNextStep}
             cancel={this.cancel}
             requestAccountDeletion={this.props.requestAccountDeletion}
+            onChange={this.onChange}
           />
         )}
         {step === 4 && <DeleteMyAccountFinalStep finish={this.cancel} />}
