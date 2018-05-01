@@ -4,6 +4,7 @@ import cn from 'classnames';
 import styles from './DeleteMyAccount.css';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import DeleteMyAccountDialog from './DeleteMyAccountDialog';
+import { getErrorMessages } from 'coral-framework/utils';
 
 const initialState = { showDialog: false };
 
@@ -22,12 +23,35 @@ class DeleteMyAccount extends React.Component {
     });
   };
 
+  cancelAccountDeletion = async () => {
+    const { cancelAccountDeletion, notify } = this.props;
+    try {
+      await cancelAccountDeletion();
+      notify(
+        'success',
+        'Account Deletion Request Cancelled - Your request to delete your account has been cancelled. You may now write comments, reply to comments, and select reactions.'
+      );
+    } catch (err) {
+      notify('error', getErrorMessages(err));
+    }
+  };
+
+  requestAccountDeletion = async () => {
+    const { requestAccountDeletion, notify } = this.props;
+    try {
+      await requestAccountDeletion();
+      notify('success', 'Account Deletion Requested');
+    } catch (err) {
+      notify('error', getErrorMessages(err));
+    }
+  };
+
   render() {
+    const { me: { scheduledDeletionDate } } = this.props.root;
     return (
       <div className="talk-plugin-auth--delete-my-account">
         <DeleteMyAccountDialog
-          requestAccountDeletion={this.props.requestAccountDeletion}
-          cancelAccountDeletion={this.props.cancelAccountDeletion}
+          requestAccountDeletion={this.requestAccountDeletion}
           closeDialog={this.closeDialog}
         />
         <h3
@@ -44,16 +68,27 @@ class DeleteMyAccount extends React.Component {
             'talk-plugin-auth--delete-my-account-description'
           )}
         >
-          Deleting your account will permanently erase your profile and remove
-          all your comments from this site.
+          {scheduledDeletionDate &&
+            `You have already submitted a request to delete your account.
+          Your account will be deleted on ${scheduledDeletionDate}. You may
+          cancel the request until that time`}
         </p>
-        <Button
-          className={cn(styles.button)}
-          icon="delete"
-          onClick={this.onSave}
-        >
-          Delete My Account
-        </Button>
+        {scheduledDeletionDate ? (
+          <Button
+            className={cn(styles.button)}
+            onClick={this.cancelAccountDeletion}
+          >
+            Cancel Account Deletion Request
+          </Button>
+        ) : (
+          <Button
+            className={cn(styles.button)}
+            icon="delete"
+            onClick={this.showDialog}
+          >
+            Delete My Account
+          </Button>
+        )}
       </div>
     );
   }
@@ -63,6 +98,7 @@ DeleteMyAccount.propTypes = {
   requestAccountDeletion: PropTypes.func.isRequired,
   cancelAccountDeletion: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
+  root: PropTypes.object.isRequired,
 };
 
 export default DeleteMyAccount;

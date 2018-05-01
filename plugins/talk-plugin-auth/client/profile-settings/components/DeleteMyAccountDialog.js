@@ -24,28 +24,45 @@ class DeleteMyAccountDialog extends React.Component {
     this.setState(initialState);
   };
 
+  cancel = () => {
+    this.clear();
+    this.closeDialog();
+  };
+
   render() {
     const { step } = this.state;
     return (
       <Dialog open={true} className={styles.dialog}>
-        <span className={styles.close} onClick={this.props.closeDialog}>
+        <span className={styles.close} onClick={this.cancel}>
           ×
         </span>
         <h3 className={styles.title}>Delete My Account</h3>
         <StepProgress currentStep={this.state.step} totalSteps={4} />
         {step === 0 && (
-          <DeleteMyAccountStep0 goToNextStep={this.goToNextStep} />
+          <DeleteMyAccountStep0
+            goToNextStep={this.goToNextStep}
+            cancel={this.cancel}
+          />
         )}
         {step === 1 && (
-          <DeleteMyAccountStep1 goToNextStep={this.goToNextStep} />
+          <DeleteMyAccountStep1
+            goToNextStep={this.goToNextStep}
+            cancel={this.cancel}
+          />
         )}
         {step === 2 && (
-          <DeleteMyAccountStep2 goToNextStep={this.goToNextStep} />
+          <DeleteMyAccountStep2
+            goToNextStep={this.goToNextStep}
+            cancel={this.cancel}
+          />
         )}
         {step === 3 && (
-          <DeleteMyAccountStep3 goToNextStep={this.goToNextStep} />
+          <DeleteMyAccountStep3
+            goToNextStep={this.goToNextStep}
+            cancel={this.cancel}
+          />
         )}
-        {step === 4 && <DeleteMyAccountFinalStep />}
+        {step === 4 && <DeleteMyAccountFinalStep finish={this.cancel} />}
       </Dialog>
     );
   }

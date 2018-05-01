@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { Button, Icon } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
@@ -29,7 +30,12 @@ const DeleteMyAccountStep0 = props => (
       </li>
     </ul>
     <div className={cn(styles.actions)}>
-      <Button className={cn(styles.button, styles.cancel)}>Cancel</Button>
+      <Button
+        className={cn(styles.button, styles.cancel)}
+        onClick={props.cancel}
+      >
+        Cancel
+      </Button>
       <Button
         className={cn(styles.button, styles.proceed)}
         onClick={props.goToNextStep}
@@ -39,5 +45,10 @@ const DeleteMyAccountStep0 = props => (
     </div>
   </div>
 );
+
+DeleteMyAccountStep0.propTypes = {
+  goToNextStep: PropTypes.func.isRequired,
+  cancel: PropTypes.func.isRequired,
+};
 
 export default DeleteMyAccountStep0;

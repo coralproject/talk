@@ -12,7 +12,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({ notify }, dispatch);
 
 const withData = withFragments({
   root: gql`
-    fragment TalkIgnoreUser_IgnoredUserSection_root on RootQuery {
+    fragment Talk_DeleteMyAccount_root on RootQuery {
       me {
         scheduledDeletionDate
       }

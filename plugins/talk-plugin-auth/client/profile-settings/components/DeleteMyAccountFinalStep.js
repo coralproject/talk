@@ -1,9 +1,10 @@
 import React from 'react';
 import cn from 'classnames';
+import PropTypes from 'prop-types';
 import { Button, Icon } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
 
-const DeleteMyAccountFinalStep = () => (
+const DeleteMyAccountFinalStep = props => (
   <div className={styles.step}>
     <p className={styles.description}>
       Your request has been submitted and confirmation has been sent to the
@@ -35,7 +36,7 @@ const DeleteMyAccountFinalStep = () => (
     <div className={cn(styles.actions, styles.columnView)}>
       <Button
         className={cn(styles.button, styles.proceed)}
-        onClick={this.closeDialog}
+        onClick={props.finish}
         full
       >
         Done
@@ -46,5 +47,9 @@ const DeleteMyAccountFinalStep = () => (
     </div>
   </div>
 );
+
+DeleteMyAccountFinalStep.propTypes = {
+  finish: PropTypes.func.isRequired,
+};
 
 export default DeleteMyAccountFinalStep;
