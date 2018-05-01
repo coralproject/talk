@@ -34,27 +34,28 @@ class ConfirmChangesDialog extends React.Component {
     this.props.finish();
   };
 
+  renderSteps = () => {
+    const steps = React.Children.toArray(this.props.children)
+      .filter(child => child.props.enable)
+      .filter((_, i) => i === this.state.step);
+
+    return steps.map(child => {
+      return React.cloneElement(child, {
+        goToNextStep: this.goToNextStep,
+        clear: this.clear,
+        cancel: this.cancel,
+        next: this.state.step === steps.length ? this.finish : this.continue,
+      });
+    });
+  };
+
   render() {
-    const totalSteps = React.Children.count(this.props.children);
-
-    if (!totalSteps) return null;
-
     return (
       <Dialog
         open={this.props.showDialog}
         className={cn(styles.dialog, 'talk-plugin-auth--edit-profile-dialog')}
       >
-        {React.Children.map(this.props.children, (child, i) => {
-          const totalSteps = React.Children.count(this.props.children);
-          if (i !== this.state.step) return;
-          return React.cloneElement(child, {
-            goToNextStep: this.goToNextStep,
-            clear: this.clear,
-            cancel: this.cancel,
-            next:
-              this.state.step === totalSteps - 1 ? this.finish : this.continue,
-          });
-        })}
+        {this.renderSteps()}
       </Dialog>
     );
   }

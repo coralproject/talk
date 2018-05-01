@@ -32,7 +32,6 @@ class ChangeUsernameContentDialog extends React.Component {
 
     await this.props.save();
     this.props.next();
-    this.props.closeDialog();
   };
 
   formHasError = () =>

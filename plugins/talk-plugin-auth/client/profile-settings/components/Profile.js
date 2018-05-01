@@ -176,25 +176,22 @@ class Profile extends React.Component {
           closeDialog={this.closeDialog}
           finish={this.finish}
         >
-          {username !== formData.newUsername && (
-            <ChangeUsernameContentDialog
-              notify={notify}
-              canUsernameBeUpdated={canUsernameBeUpdated(status)}
-              save={this.saveUsername}
-              onChange={this.onChange}
-              formData={this.state.formData}
-              username={username}
-            />
-          )}
-
-          {emailAddress !== formData.newEmail && (
-            <ChangeEmailContentDialog
-              save={this.saveEmail}
-              onChange={this.onChange}
-              formData={this.state.formData}
-              emailAddress={emailAddress}
-            />
-          )}
+          <ChangeUsernameContentDialog
+            notify={notify}
+            canUsernameBeUpdated={canUsernameBeUpdated(status)}
+            save={this.saveUsername}
+            onChange={this.onChange}
+            formData={this.state.formData}
+            username={username}
+            enable={formData.newUsername && username !== formData.newUsername}
+          />
+          <ChangeEmailContentDialog
+            save={this.saveEmail}
+            onChange={this.onChange}
+            formData={this.state.formData}
+            emailAddress={emailAddress}
+            enable={formData.newEmail && emailAddress !== formData.newEmail}
+          />
         </ConfirmChangesDialog>
 
         {editing ? (
