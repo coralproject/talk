@@ -35,6 +35,10 @@ class ConfirmChangesDialog extends React.Component {
   };
 
   render() {
+    const totalSteps = React.Children.count(this.props.children);
+
+    if (!totalSteps) return null;
+
     return (
       <Dialog
         open={this.props.showDialog}

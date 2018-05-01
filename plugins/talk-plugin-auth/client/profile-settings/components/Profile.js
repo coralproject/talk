@@ -121,10 +121,10 @@ class Profile extends React.Component {
 
   saveUsername = async () => {
     const { newUsername } = this.state.formData;
-    const { setUsername } = this.props;
+    const { changeUsername } = this.props;
 
     try {
-      await setUsername(newUsername);
+      await changeUsername(newUsername);
       this.props.notify(
         'success',
         t('talk-plugin-auth.change_username.changed_username_success_msg')
@@ -266,7 +266,7 @@ Profile.propTypes = {
   updateEmailAddress: PropTypes.func.isRequired,
   changeUsername: PropTypes.func.isRequired,
   root: PropTypes.object.isRequired,
-  setUsername: PropTypes.func.isRequired,
+  changeUsername: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
   username: PropTypes.string,
   emailAddress: PropTypes.string,
