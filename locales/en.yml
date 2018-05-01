@@ -123,7 +123,7 @@ en:
     custom_css_url: "Custom CSS URL"
     custom_css_url_desc: "URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external."
     days: Days
-    description: "As an admin, you can customize the settings for the comment stream for this story:"
+    description: "Change the comment settings on this story."
     domain_list_text: "Enter the domains you would like to permit for Talk e.g. your local staging and production environments (ex. localhost:3000 staging.domain.com domain.com)."
     domain_list_title: "Permitted Domains"
     edit_info: "Edit Info"
