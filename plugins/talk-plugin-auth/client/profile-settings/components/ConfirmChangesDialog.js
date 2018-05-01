@@ -44,7 +44,8 @@ class ConfirmChangesDialog extends React.Component {
         goToNextStep: this.goToNextStep,
         clear: this.clear,
         cancel: this.cancel,
-        next: this.state.step === steps.length ? this.finish : this.continue,
+        next:
+          this.state.step === steps.length - 1 ? this.finish : this.continue,
       });
     });
   };
