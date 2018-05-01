@@ -128,7 +128,7 @@ function getReactionConfig(reaction) {
   return {
     typeDefs,
     indexes: ({ Comment }) => {
-      Comment.index(
+      Comment.ensureIndex(
         {
           created_at: 1,
           [`action_counts.${sc(reaction)}`]: 1,

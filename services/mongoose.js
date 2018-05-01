@@ -63,10 +63,6 @@ module.exports = mongoose;
 // here. No point also in importing this if we're not actually doing any
 // indexing now.
 if (CREATE_MONGO_INDEXES) {
-  require('../models/action');
-  require('../models/asset');
-  require('../models/comment');
-  require('../models/setting');
-  require('../models/user');
+  require('../models');
   require('./migration');
 }
