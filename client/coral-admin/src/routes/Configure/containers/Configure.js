@@ -52,12 +52,20 @@ class ConfigureContainer extends React.Component {
     this.props.router.push(nextRoute);
   };
 
-  shouldShowSaveDialog = () => {
+  navigationPrompt = e => {
+    if (this.hasPendingData()) {
+      const confirmationMessage = 'Changes that you made may not be saved.';
+      e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
+      return confirmationMessage; // Gecko, WebKit, Chrome <34
+    }
+  };
+
+  hasPendingData = () => {
     return !!Object.keys(this.props.pending).length;
   };
 
   routeLeave = ({ pathname }) => {
-    if (this.shouldShowSaveDialog()) {
+    if (this.hasPendingData()) {
       this.nextRoute = pathname;
       this.props.showSaveDialog();
       return false;
@@ -69,10 +77,12 @@ class ConfigureContainer extends React.Component {
       this.props.route,
       this.routeLeave
     );
+    window.addEventListener('beforeunload', this.navigationPrompt);
   }
 
   componentWillUnmount() {
     this.unregisterLeaveHook();
+    window.removeEventListener('beforeunload', this.navigationPrompt);
   }
 
   render() {
