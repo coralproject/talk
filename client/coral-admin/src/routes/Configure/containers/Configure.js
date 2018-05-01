@@ -21,6 +21,7 @@ import { withRouter } from 'react-router';
 
 class ConfigureContainer extends React.Component {
   nextRoute = '';
+  unregisterLeaveHook = null;
 
   savePending = async () => {
     await this.props.updateSettings(this.props.pending);
@@ -71,7 +72,14 @@ class ConfigureContainer extends React.Component {
   };
 
   componentDidMount() {
-    this.props.router.setRouteLeaveHook(this.props.route, this.routeLeave);
+    this.unregisterLeaveHook = this.props.router.setRouteLeaveHook(
+      this.props.route,
+      this.routeLeave
+    );
+  }
+
+  componentWillUnmount() {
+    this.unregisterLeaveHook();
   }
 
   render() {
