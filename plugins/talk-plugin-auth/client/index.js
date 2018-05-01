@@ -5,12 +5,18 @@ import translations from './translations.yml';
 import Login from './login/containers/Main';
 import reducer from './login/reducer';
 import DeleteMyAccount from './profile-settings/containers/DeleteMyAccount';
+import AccountDeletionRequestedSign from './stream/containers/AccountDeletionRequestedSign';
 
 export default {
   reducer,
   translations,
   slots: {
-    stream: [UserBox, SignInButton, SetUsernameDialog],
+    stream: [
+      AccountDeletionRequestedSign,
+      UserBox,
+      SignInButton,
+      SetUsernameDialog,
+    ],
     login: [Login],
     profileSettings: [DeleteMyAccount],
   },

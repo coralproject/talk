@@ -10,4 +10,14 @@
   &:hover {
     background-color: #eaeaea;
   }
+
+  &.secondary {
+    background-color: #787D80;
+    color: white;
+  }
+
+  > i { 
+    font-size: 1.2em;
+    vertical-align: middle;
+  }
 }

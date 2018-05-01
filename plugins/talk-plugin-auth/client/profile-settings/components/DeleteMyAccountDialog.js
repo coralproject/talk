@@ -26,13 +26,13 @@ class DeleteMyAccountDialog extends React.Component {
 
   cancel = () => {
     this.clear();
-    this.closeDialog();
+    this.props.closeDialog();
   };
 
   render() {
     const { step } = this.state;
     return (
-      <Dialog open={true} className={styles.dialog}>
+      <Dialog open={this.props.showDialog} className={styles.dialog}>
         <span className={styles.close} onClick={this.cancel}>
           ×
         </span>
@@ -70,6 +70,7 @@ class DeleteMyAccountDialog extends React.Component {
 }
 
 DeleteMyAccountDialog.propTypes = {
+  showDialog: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
   requestAccountDeletion: PropTypes.func.isRequired,
 };

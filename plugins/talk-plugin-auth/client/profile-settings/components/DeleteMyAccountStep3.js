@@ -35,7 +35,7 @@ class DeleteMyAccountStep3 extends React.Component {
           </Button>
           <Button
             className={cn(styles.button, styles.danger)}
-            onClicsk={this.deleteAndContinue}
+            onClick={this.deleteAndContinue}
           >
             Delete My Account
           </Button>

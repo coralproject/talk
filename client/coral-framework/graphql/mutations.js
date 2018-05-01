@@ -634,7 +634,32 @@ export const withRequestAccountDeletion = withMutation(
   {
     props: ({ mutate }) => ({
       requestAccountDeletion: () => {
-        return mutate();
+        return mutate({
+          variables: {},
+          update: proxy => {
+            const CancelAccountDeletionQuery = gql`
+              query Talk_CancelAccountDeletion {
+                me {
+                  id
+                  scheduledDeletionDate
+                }
+              }
+            `;
+
+            const prev = proxy.readQuery({ query: CancelAccountDeletionQuery });
+
+            const data = update(prev, {
+              me: {
+                scheduledDeletionDate: { $set: new Date() },
+              },
+            });
+
+            proxy.writeQuery({
+              query: CancelAccountDeletionQuery,
+              data,
+            });
+          },
+        });
       },
     }),
   }
@@ -651,7 +676,9 @@ export const withRequestDownloadLink = withMutation(
   {
     props: ({ mutate }) => ({
       requestDownloadLink: () => {
-        return mutate();
+        return mutate({
+          variables: {},
+        });
       },
     }),
   }
@@ -668,7 +695,32 @@ export const withCancelAccountDeletion = withMutation(
   {
     props: ({ mutate }) => ({
       cancelAccountDeletion: () => {
-        return mutate();
+        return mutate({
+          variables: {},
+          update: proxy => {
+            const CancelAccountDeletionQuery = gql`
+              query Talk_CancelAccountDeletion {
+                me {
+                  id
+                  scheduledDeletionDate
+                }
+              }
+            `;
+
+            const prev = proxy.readQuery({ query: CancelAccountDeletionQuery });
+
+            const data = update(prev, {
+              me: {
+                scheduledDeletionDate: { $set: null },
+              },
+            });
+
+            proxy.writeQuery({
+              query: CancelAccountDeletionQuery,
+              data,
+            });
+          },
+        });
       },
     }),
   }
