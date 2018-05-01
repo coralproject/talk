@@ -4,6 +4,7 @@ import SetUsernameDialog from './stream/containers/SetUsernameDialog';
 import translations from './translations.yml';
 import Login from './login/containers/Main';
 import reducer from './login/reducer';
+import DeleteMyAccount from './profile-settings/components/DeleteMyAccount';
 
 export default {
   reducer,
@@ -11,5 +12,6 @@ export default {
   slots: {
     stream: [UserBox, SignInButton, SetUsernameDialog],
     login: [Login],
+    profileSettings: [DeleteMyAccount],
   },
 };
