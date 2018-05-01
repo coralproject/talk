@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
 
-const DeleteMyAccountStep1 = () => (
+const DeleteMyAccountStep1 = props => (
   <div className={styles.step}>
     <h4>When will my account be deleted?</h4>
     <p className={styles.description}>
@@ -19,7 +19,7 @@ const DeleteMyAccountStep1 = () => (
       <Button className={cn(styles.button, styles.cancel)}>Cancel</Button>
       <Button
         className={cn(styles.button, styles.proceed)}
-        onClick={this.goToNextStep}
+        onClick={props.goToNextStep}
       >
         Proceed
       </Button>

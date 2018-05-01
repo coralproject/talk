@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { Button, Icon } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
 
-const DeleteMyAccountStep0 = () => (
+const DeleteMyAccountStep0 = props => (
   <div className={styles.step}>
     <p className={styles.description}>
       You are attempting to delete your account. This means:
@@ -32,7 +32,7 @@ const DeleteMyAccountStep0 = () => (
       <Button className={cn(styles.button, styles.cancel)}>Cancel</Button>
       <Button
         className={cn(styles.button, styles.proceed)}
-        onClick={this.goToNextStep}
+        onClick={props.goToNextStep}
       >
         Proceed
       </Button>
