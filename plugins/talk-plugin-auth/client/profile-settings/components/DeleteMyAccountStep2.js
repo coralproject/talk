@@ -10,8 +10,12 @@ const DeleteMyAccountStep1 = props => (
       history for your records. After your account is deleted, you will be
       unable to request your comment history.
     </p>
-    <p>To download your comment history go to:</p>
-    <strong>My Profile Download My Comment History</strong>
+    <p className={styles.description}>
+      To download your comment history go to:
+      <strong className={styles.block}>
+        My Profile {`>`} Download My Comment History
+      </strong>
+    </p>
     <div className={cn(styles.actions)}>
       <Button className={cn(styles.button, styles.cancel)}>Cancel</Button>
       <Button

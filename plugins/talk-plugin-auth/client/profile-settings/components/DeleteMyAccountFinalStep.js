@@ -9,30 +9,40 @@ const DeleteMyAccountFinalStep = () => (
       Your request has been submitted and confirmation has been sent to the
       email address associated with your account.
     </p>
-    <strong> Your account is scheduled to be deleted at:</strong>
-    <strong>
-      <Icon name="clock" />Account Deletion Date and Time
-    </strong>
+
+    <div className={styles.box}>
+      <strong className={styles.block}>
+        Your account is scheduled to be deleted at:
+      </strong>
+      <strong className={styles.block}>
+        <Icon name="access_time" />
+        <span>Account Deletion Date and Time</span>
+      </strong>
+    </div>
+
     <p className={styles.description}>
       <strong>Changed your mind?</strong> Simply sign in to your account again
       before this time and click “<strong>
         Cancel Account Deletion Request.
       </strong>”
     </p>
+
     <p className={styles.description}>
       <strong>Tell us why.</strong> Wed like to know why you chose to delete
       your account. Send us feedback on our comment system by emailing.
     </p>
-    <div className={cn(styles.actions)}>
+
+    <div className={cn(styles.actions, styles.columnView)}>
       <Button
         className={cn(styles.button, styles.proceed)}
         onClick={this.closeDialog}
+        full
       >
         Done
       </Button>
-      <small className={styles.note}>
+      <span className={styles.note}>
         Note: You will be immediately signed out of your account.
-      </small>
+      </span>
     </div>
   </div>
 );

@@ -623,6 +623,57 @@ export const withUpdateSettings = withMutation(
   }
 );
 
+export const withRequestAccountDeletion = withMutation(
+  gql`
+    mutation RequestAccountDeletion {
+      requestAccountDeletion {
+        ...RequestAccountDeletionResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      requestAccountDeletion: () => {
+        return mutate();
+      },
+    }),
+  }
+);
+
+export const withRequestDownloadLink = withMutation(
+  gql`
+    mutation RequestDownloadLink {
+      requestDownloadLink {
+        ...RequestDownloadLinkResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      requestDownloadLink: () => {
+        return mutate();
+      },
+    }),
+  }
+);
+
+export const withCancelAccountDeletion = withMutation(
+  gql`
+    mutation RequestDownloadLink {
+      cancelAccountDeletion {
+        ...CancelAccountDeletionResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      cancelAccountDeletion: () => {
+        return mutate();
+      },
+    }),
+  }
+);
+
 export const withUpdateAssetSettings = withMutation(
   gql`
     mutation UpdateAssetSettings($id: ID!, $input: AssetSettingsInput!) {

@@ -25,6 +25,9 @@ export default {
     'UnsuspendUserResponse',
     'UpdateAssetSettingsResponse',
     'UpdateAssetStatusResponse',
-    'UpdateSettingsResponse'
+    'UpdateSettingsResponse',
+    'RequestAccountDeletionResponse',
+    'RequestDownloadLinkResponse',
+    'CancelAccountDeletionResponse'
   ),
 };
