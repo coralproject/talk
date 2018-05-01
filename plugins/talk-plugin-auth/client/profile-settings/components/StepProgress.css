@@ -1,0 +1,9 @@
+.step {
+  &.current {
+    color: rgba(0, 205, 115, 0.3);
+  }
+
+  &.completed {
+    color: #00CD73;
+  }
+}

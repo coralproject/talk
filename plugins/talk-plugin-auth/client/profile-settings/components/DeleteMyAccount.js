@@ -24,7 +24,7 @@ class DeleteMyAccount extends React.Component {
   render() {
     return (
       <div className="talk-plugin-auth--delete-my-account">
-        <DeleteMyAccountDialog />
+        <DeleteMyAccountDialog closeDialog={this.closeDialog} />
         <h3
           className={cn(
             styles.title,
