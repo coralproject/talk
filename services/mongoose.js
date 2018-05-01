@@ -66,6 +66,7 @@ if (CREATE_MONGO_INDEXES) {
   require('../models/action');
   require('../models/asset');
   require('../models/comment');
+  require('../models/migration');
   require('../models/setting');
   require('../models/user');
   require('./migration');
