@@ -5,6 +5,7 @@ const program = require('commander');
 const inquirer = require('inquirer');
 const mongoose = require('../services/mongoose');
 const SettingsService = require('../services/settings');
+const cache = require('../services/cache');
 
 // Register the shutdown criteria.
 util.onshutdown([() => mongoose.disconnect()]);
@@ -13,6 +14,13 @@ util.onshutdown([() => mongoose.disconnect()]);
  * Change the organization name
  */
 async function changeOrgName() {
+  try {
+    await cache.init();
+  } catch (err) {
+    console.error(err);
+    util.shutdown(1);
+  }
+
   try {
     let settings = await SettingsService.retrieve();
 

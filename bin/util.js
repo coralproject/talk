@@ -4,7 +4,8 @@ require('../services/env');
 const debug = require('debug')('talk:util');
 const { uniq } = require('lodash');
 
-const util = (module.exports = {});
+// Setup the utilities.
+const util = {};
 
 /**
  * Stores an array of functions that should be executed in the event that the
@@ -15,7 +16,7 @@ util.toshutdown = [];
 
 /**
  * Calls all the shutdown functions and then ends the process.
- * @param  {Number} [defaultCode=0] default return code upon sucesfull shutdown.
+ * @param  {Number} [defaultCode=0] default return code upon successful shutdown.
  */
 util.shutdown = (defaultCode = 0, signal = null) => {
   if (signal) {
