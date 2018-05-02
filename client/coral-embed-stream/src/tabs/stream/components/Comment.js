@@ -574,7 +574,9 @@ export default class Comment extends React.Component {
                   'talk-stream-comment-header-tags-container'
                 )}
               >
-                {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
+                {isStaff(comment.tags) ? (
+                  <TagLabel>{t('community.staff')}</TagLabel>
+                ) : null}
 
                 <Slot
                   className={cn(

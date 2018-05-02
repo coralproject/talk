@@ -24,14 +24,20 @@ export default class Embed extends React.Component {
       >
         {t('embed_comments_tab')}
       </Tab>,
-      <Tab
-        key="profile"
-        tabId="profile"
-        className="talk-embed-stream-profile-tab"
-      >
-        {t('framework.my_profile')}
-      </Tab>,
     ];
+
+    if (this.props.currentUser) {
+      tabs.push(
+        <Tab
+          key="profile"
+          tabId="profile"
+          className="talk-embed-stream-profile-tab"
+        >
+          {t('framework.my_profile')}
+        </Tab>
+      );
+    }
+
     if (can(this.props.currentUser, 'UPDATE_ASSET_CONFIG')) {
       tabs.push(
         <Tab
@@ -43,6 +49,7 @@ export default class Embed extends React.Component {
         </Tab>
       );
     }
+
     return tabs;
   }
 

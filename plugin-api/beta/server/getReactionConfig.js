@@ -1,16 +1,16 @@
 const { SEARCH_OTHER_USERS } = require('../../../perms/constants');
-const errors = require('../../../errors');
+const { ErrNotFound, ErrAlreadyExists } = require('../../../errors');
 const pluralize = require('pluralize');
 const sc = require('snake-case');
-const CommentModel = require('../../../models/comment');
 const { CREATE_MONGO_INDEXES } = require('../../../config');
+const Comment = require('models/comment');
 
 function getReactionConfig(reaction) {
   reaction = reaction.toLowerCase();
 
   if (CREATE_MONGO_INDEXES) {
     // Create the index on the comment model based on the reaction config.
-    CommentModel.collection.createIndex(
+    Comment.collection.createIndex(
       {
         created_at: 1,
         [`action_counts.${sc(reaction)}`]: 1,
@@ -128,17 +128,6 @@ function getReactionConfig(reaction) {
 
   return {
     typeDefs,
-    schemas: ({ CommentSchema }) => {
-      CommentSchema.index(
-        {
-          created_at: 1,
-          [`action_counts.${sc(reaction)}`]: 1,
-        },
-        {
-          background: true,
-        }
-      );
-    },
     context: {
       Sort: () => ({
         Comments: {
@@ -192,7 +181,7 @@ function getReactionConfig(reaction) {
         ) => {
           const comment = await Comments.get.load(item_id);
           if (!comment) {
-            throw errors.ErrNotFound;
+            throw new ErrNotFound();
           }
 
           try {
@@ -211,7 +200,7 @@ function getReactionConfig(reaction) {
               [reaction]: action,
             };
           } catch (err) {
-            if (err instanceof errors.ErrAlreadyExists) {
+            if (err instanceof ErrAlreadyExists) {
               return err.metadata.existing;
             }
 
@@ -239,26 +228,14 @@ function getReactionConfig(reaction) {
     hooks: {
       Action: {
         __resolveType: {
-          post({ action_type }) {
-            switch (action_type) {
-              case REACTION:
-                return `${Reaction}Action`;
-              default:
-                return undefined;
-            }
-          },
+          post: ({ action_type }) =>
+            action_type === REACTION ? `${Reaction}Action` : undefined,
         },
       },
       ActionSummary: {
         __resolveType: {
-          post({ action_type }) {
-            switch (action_type) {
-              case REACTION:
-                return `${Reaction}ActionSummary`;
-              default:
-                return undefined;
-            }
-          },
+          post: ({ action_type = '' } = {}) =>
+            action_type === REACTION ? `${Reaction}ActionSummary` : undefined,
         },
       },
     },

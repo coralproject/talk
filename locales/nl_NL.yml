@@ -431,8 +431,8 @@ nl_NL:
     reports: "Rapportages"
     all: "Alle"
     rejected: "Afgewezen"
-    account_history: "Accountgeschiedenis"
-  account_history:
+    user_history: "Accountgeschiedenis"
+  user_history:
     user_banned: "User banned"
     ban_removed: "Ban removed"
     username_status: "Username {0}"

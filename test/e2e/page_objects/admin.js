@@ -128,8 +128,8 @@ module.exports = {
         rejectedTab: '.talk-admin-user-detail-rejected-tab',
         historyTab: '.talk-admin-user-detail-history-tab',
         historyPane: '.talk-admin-user-detail-history-tab-pane',
-        accountHistory: '.talk-admin-account-history',
-        accountHistoryRowStatus: '.talk-admin-account-history-row-status',
+        UserHistory: '.talk-admin-user-history',
+        UserHistoryRowStatus: '.talk-admin-user-history-row-status',
         actionsMenu: '.talk-admin-user-detail-actions-button',
         actionItemSuspendUser: '.action-menu-item#suspendUser',
         actionMenuButton:

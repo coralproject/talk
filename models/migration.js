@@ -1,10 +1,4 @@
 const mongoose = require('../services/mongoose');
-const Schema = mongoose.Schema;
+const { Migration } = require('./schema');
 
-const MigrationSchema = new Schema({
-  version: Number,
-});
-
-const Migration = mongoose.model('Migration', MigrationSchema);
-
-module.exports = Migration;
+module.exports = mongoose.model('Migration', Migration);

@@ -120,7 +120,7 @@ pt_BR:
     custom_css_url: "URL para CSS customizado"
     custom_css_url_desc: "URL de uma folha de estilo CSS para substituir os estilos padrão dos comentários embutidos. Pode ser interno ou externo."
     days: Dias
-    description: "Como administrador, você pode personalizar as configurações da lista de comentários para esta história:"
+    description: "Personalizar as configurações da lista de comentários para esta história."
     domain_list_text: "Insira os domínios que você gostaria de permitir para o Talk, como seus ambientes de desenvolvimento, teste ou produção (ej. localhost:3000 staging.domain.com domain.com)."
     domain_list_title: "Domínios permitidos"
     edit_comment_timeframe_heading: "Período de tempo para editar comentários"
@@ -430,8 +430,8 @@ pt_BR:
     reports: "Reports"
     all: "All"
     rejected: "Rejected"
-    account_history: "Account History"
-  account_history:
+    user_history: "User History"
+  user_history:
     user_banned: "User banned"
     ban_removed: "Ban removed"
     username_status: "Username {0}"
@@ -458,6 +458,7 @@ pt_BR:
       username: "Nome de usuário"
       password: "Senha"
       confirm_password: "Confirme a senha"
+      organization_contact_email: "Organization Contact Email"
       save: "Salvar"
     permitted_domains:
       title: "Domínios permitidos"

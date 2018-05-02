@@ -27,11 +27,14 @@ const TextField = ({
 );
 
 TextField.propTypes = {
+  id: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
   errorMsg: PropTypes.string,
   type: PropTypes.string,
+  className: PropTypes.string,
+  showErrors: PropTypes.bool,
 };
 
 export default TextField;

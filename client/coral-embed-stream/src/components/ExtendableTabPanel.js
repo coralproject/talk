@@ -16,9 +16,11 @@ class ExtendableTabPanel extends React.Component {
     } = this.props;
     return (
       <div {...rest}>
-        <TabBar activeTab={activeTab} onTabClick={setActiveTab} sub={sub}>
-          {tabs}
-        </TabBar>
+        {tabs && (
+          <TabBar activeTab={activeTab} onTabClick={setActiveTab} sub={sub}>
+            {tabs}
+          </TabBar>
+        )}
         {loading ? (
           <div className={styles.spinnerContainer}>
             <Spinner />

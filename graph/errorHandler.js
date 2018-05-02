@@ -1,6 +1,6 @@
 const { forEachField } = require('./utils');
 const { maskErrors } = require('graphql-errors');
-const errors = require('../errors');
+const { TalkError } = require('../errors');
 const { Error: { ValidationError } } = require('mongoose');
 
 // If an APIError happens in a mutation, then respond with `{errors: Array}`
@@ -11,7 +11,7 @@ const decorateWithMutationErrorHandler = field => {
     try {
       return await fieldResolver(obj, args, ctx, info);
     } catch (err) {
-      if (err instanceof errors.APIError) {
+      if (err instanceof TalkError) {
         return {
           errors: [err],
         };

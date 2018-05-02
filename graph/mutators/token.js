@@ -1,4 +1,4 @@
-const errors = require('../../errors');
+const { ErrNotAuthorized } = require('../../errors');
 const TokensService = require('../../services/tokens');
 const { CREATE_TOKEN, REVOKE_TOKEN } = require('../../perms/constants');
 
@@ -21,8 +21,8 @@ const revokeToken = async ({ user }, { id }) => {
 module.exports = context => {
   let mutators = {
     Token: {
-      create: () => Promise.reject(errors.ErrNotAuthorized),
-      revoke: () => Promise.reject(errors.ErrNotAuthorized),
+      create: () => Promise.reject(new ErrNotAuthorized()),
+      revoke: () => Promise.reject(new ErrNotAuthorized()),
     },
   };
 

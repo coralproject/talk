@@ -18,6 +18,10 @@ const InactiveCommentLabel = ({ status, className, ...rest }) => {
       label = t('modqueue.rejected');
       icon = 'close';
       break;
+    case 'SYSTEM_WITHHELD':
+      label = t('modqueue.system_withheld');
+      icon = 'flag';
+      break;
     default:
       throw new Error(`Unknown inactive status ${status}`);
   }

@@ -10,6 +10,7 @@ import Configure from 'routes/Configure';
 import StreamSettings from './routes/Configure/containers/StreamSettings';
 import ModerationSettings from './routes/Configure/containers/ModerationSettings';
 import TechSettings from './routes/Configure/containers/TechSettings';
+import OrganizationSettings from './routes/Configure/containers/OrganizationSettings';
 
 import { ModerationLayout, Moderation } from 'routes/Moderation';
 
@@ -25,6 +26,7 @@ const routes = (
         <Route path="stream" component={StreamSettings} />
         <Route path="moderation" component={ModerationSettings} />
         <Route path="tech" component={TechSettings} />
+        <Route path="organization" component={OrganizationSettings} />
         <IndexRedirect to="stream" />
       </Route>
 

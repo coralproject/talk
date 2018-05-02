@@ -33,8 +33,7 @@ By default, Talk has various plugins provided by default. We can see this in `pl
     "talk-plugin-sort-most-respected",
     "talk-plugin-sort-newest",
     "talk-plugin-sort-oldest",
-    "talk-plugin-viewing-options",
-    "talk-plugin-profile-settings"
+    "talk-plugin-viewing-options"
   ]
 }
 ```
@@ -81,6 +80,7 @@ You won't have to use this to build plugins, but it's helpful to find where to e
 * `adminCommentMoreDetails`
 * `adminCommentLabels`
 * `adminModerationSettings`
+* `adminOrganizationSettings`
 * `adminStreamSettings`
 * `adminTechSettings`
 * `adminCommentInfoBar`

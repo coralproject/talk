@@ -1,6 +1,6 @@
 const User = require('../../../models/user');
 const Context = require('../../../graph/context');
-const errors = require('../../../errors');
+const { ErrNotAuthorized } = require('../../../errors');
 const SettingsService = require('../../../services/settings');
 
 const { expect } = require('chai');
@@ -54,7 +54,7 @@ describe('graph.Context', () => {
           throw new Error('should not reach this point');
         })
         .catch(err => {
-          expect(err).to.be.equal(errors.ErrNotAuthorized);
+          expect(err).to.be.an.instanceof(ErrNotAuthorized);
         });
     });
   });

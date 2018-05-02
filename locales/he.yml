@@ -4,11 +4,11 @@ en:
   your_username_has_been_rejected: החשבון שלך הושעה מפני ששם המשתמש שלך נחשב לא הולם. כדי לשחזר את החשבון שלך, הזן שם משתמש חדש.
   embed_comments_tab: תגובות
   bandialog:
-    are_you_sure: "Are you sure you would like to ban {0}?"
+    are_you_sure: "האם אתה בטוח שאתה רוצה לאסור {0}?"
     ban_user: "חסום משתמש?"
     banned_user: "משתמש מורשה"
     cancel: "בטל"
-    note: "Note: {0}"
+    note: "הערה: {0}"
     note_reject_comment: "חסימת משתמש זה תציב גם תגובה זו בתור נדחה."
     note_ban_user: "חסימת משתמש זה לא תאפשר לו להגיב על תגובות או לדווח עליהן."
     yes_ban_user: "כן. חסום משתמש"
@@ -21,7 +21,7 @@ en:
   cancel: "בטל"
   confirm_email:
     click_to_confirm: 'לחץ למטה כדי לאשר את כתובת הדוא"ל שלך'
-    confirm: "Confirm"
+    confirm: "אשר"
   password_reset:
     mail_sent: 'אם יש לך חשבון רשום, נשלח קישור לאיפוס סיסמה לאותו דוא"ל'
     set_new_password: "שנה את סיסמתך"
@@ -31,7 +31,7 @@ en:
     change_password: "שנה סיסמא"
   characters_remaining: "תווים נותרים"
   comment:
-    anon: "Anonymous"
+    anon: "אנונימי"
     undo_reject: "בטל"
     ban_user: "חסום משתמש"
     comment: "פרסם תגובה"
@@ -73,9 +73,9 @@ en:
     admin: מנהל
     ads_marketing: "זה נראה כמו מודעה / שיווק"
     are_you_sure: "Are you sure you would like to ban {0}?"
-    ban_user: "Ban User?"
-    banned: Banned
-    banned_user: "Banned User"
+    ban_user: "חסום משתמש?"
+    banned: אסור
+    banned_user: "משתמש מורשה"
     cancel: בטל
     dont_like_username: "Dislike username"
     flaggedaccounts: "Reported Usernames"

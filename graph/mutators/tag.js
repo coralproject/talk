@@ -1,5 +1,5 @@
 const TagsService = require('../../services/tags');
-const errors = require('../../errors');
+const { ErrNotAuthorized } = require('../../errors');
 const {
   ADD_COMMENT_TAG,
   REMOVE_COMMENT_TAG,
@@ -31,8 +31,8 @@ const modify = async (
 module.exports = context => {
   let mutators = {
     Tag: {
-      add: () => Promise.reject(errors.ErrNotAuthorized),
-      remove: () => Promise.reject(errors.ErrNotAuthorized),
+      add: () => Promise.reject(new ErrNotAuthorized()),
+      remove: () => Promise.reject(new ErrNotAuthorized()),
     },
   };
 

@@ -11,6 +11,7 @@ const Matcher = require('did-you-mean');
 
 program
   .command('serve', 'serve the application')
+  .command('db', 'run database commands')
   .command('settings', 'interact with the application settings')
   .command('assets', 'interact with assets')
   .command('setup', 'setup the application')

@@ -1,4 +1,4 @@
-const errors = require('../../errors');
+const { ErrNotAuthorized } = require('../../errors');
 
 const { UPDATE_SETTINGS } = require('../../perms/constants');
 
@@ -9,7 +9,7 @@ const update = async (ctx, settings) => SettingsService.update(settings);
 module.exports = ctx => {
   let mutators = {
     Settings: {
-      update: () => Promise.reject(errors.ErrNotAuthorized),
+      update: () => Promise.reject(new ErrNotAuthorized()),
     },
   };
 

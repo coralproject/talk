@@ -1,4 +1,4 @@
-const errors = require('../../errors');
+const { ErrNotFound, ErrNotAuthorized } = require('../../errors');
 const { CREATE_ACTION, DELETE_ACTION } = require('../../perms/constants');
 const { IGNORE_FLAGS_AGAINST_STAFF } = require('../../config');
 
@@ -40,7 +40,7 @@ const createAction = async (
   // Gets the item referenced by the action.
   const item = await getActionItem(ctx, { item_id, item_type });
   if (!item || item === null) {
-    throw errors.ErrNotFound;
+    throw new ErrNotFound();
   }
 
   // If we are ignoring flags against staff, ensure that the target isn't a
@@ -59,7 +59,7 @@ const createAction = async (
     // The item is a user, and this is a flag. Check to see if they are staff,
     // if they are, don't permit the flag.
     if (item.isStaff()) {
-      throw errors.ErrNotAuthorized;
+      throw new ErrNotAuthorized();
     }
   }
 
@@ -108,8 +108,8 @@ const deleteAction = (ctx, { id }) => {
 module.exports = ctx => {
   let mutators = {
     Action: {
-      create: () => Promise.reject(errors.ErrNotAuthorized),
-      delete: () => Promise.reject(errors.ErrNotAuthorized),
+      create: () => Promise.reject(new ErrNotAuthorized()),
+      delete: () => Promise.reject(new ErrNotAuthorized()),
     },
   };
 

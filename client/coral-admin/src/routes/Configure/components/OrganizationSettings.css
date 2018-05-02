@@ -1,0 +1,87 @@
+.label {
+  display: block;
+}
+
+.detailList {
+  padding: 0;
+  margin: 0;
+}
+
+.detailLabel {
+  color: #000;
+  font-size: 1.1em;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.detailValue {
+  padding: 6px 0;
+  border: solid 1px transparent;
+  display: block;
+  font-size: 1.1em;
+  border-radius: 2px;
+  color: #424242;
+  box-sizing: border-box;
+  min-width: 300px;
+}
+
+.editable {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-color: grey;
+}
+
+.detailItem {
+  margin-bottom: 16px;
+  list-style: none;
+}
+
+.button, .button:disabled {
+  background: white;
+  border: solid 1px grey;
+}
+
+.actionBox {
+  flex-grow: 0;
+}
+
+.cancelButton {
+  padding: 10px;
+  display: block;
+  color: #4f5c67;
+  font-weight: 500;
+  
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.changedSave {
+  background-color: #00796B;
+  color: white;
+}
+
+.errorList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.errorItem {
+  padding: 5px 10px;
+  margin-bottom: 20px;
+  color: #b71c1c;
+  border-radius: 2px;
+  display: inline-block;
+  background: #F9D3CE;
+}
+
+.container {
+  display: flex;
+}
+
+.content {
+  flex-grow: 1;
+  padding-right: 40px;
+}

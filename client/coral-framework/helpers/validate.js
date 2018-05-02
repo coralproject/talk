@@ -4,4 +4,5 @@ export default {
   confirmPassword: () => true,
   username: username => /^[a-zA-Z0-9_]+$/.test(username),
   organizationName: org => /^[a-zA-Z0-9_ ]+$/.test(org),
+  organizationContactEmail: email => /^.+@.+\..+$/.test(email),
 };

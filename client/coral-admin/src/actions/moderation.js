@@ -5,14 +5,7 @@ export const singleView = () => ({ type: actions.SINGLE_VIEW });
 
 // hide shortcuts note
 export const hideShortcutsNote = () => (dispatch, _, { localStorage }) => {
-  try {
-    if (localStorage) {
-      localStorage.setItem('coral:shortcutsNote', 'hide');
-    }
-  } catch (e) {
-    // above will fail in Safari private mode
-  }
-
+  localStorage.setItem('coral:shortcutsNote', 'hide');
   dispatch({ type: actions.HIDE_SHORTCUTS_NOTE });
 };
 

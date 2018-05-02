@@ -29,10 +29,11 @@ async function updateNotificationSettings(ctx, settings) {
 }
 
 module.exports = ctx => {
+  const { connectors: { errors: ErrNotAuthorized } } = ctx;
+
   let mutators = {
     User: {
-      updateNotificationSettings: () =>
-        Promise.reject(ctx.connectors.errors.ErrNotAuthorized),
+      updateNotificationSettings: () => Promise.reject(new ErrNotAuthorized()),
     },
   };
 

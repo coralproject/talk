@@ -1,0 +1,10 @@
+input CreateCommentInput {
+
+  # If true, the mutation will fail when the
+  # body contains detected spam.
+  checkSpam: Boolean
+}
+
+type Comment {
+  spam: Boolean
+}

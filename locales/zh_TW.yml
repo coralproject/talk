@@ -432,8 +432,8 @@ zh_TW:
     reports: "Reports"
     all: "All"
     rejected: "Rejected"
-    account_history: "Account History"
-  account_history:
+    user_history: "User History"
+  user_history:
     user_banned: "User banned"
     ban_removed: "Ban removed"
     username_status: "Username {0}"

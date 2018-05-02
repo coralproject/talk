@@ -50,7 +50,7 @@ plugins/*
 !plugins/talk-plugin-notifications-digest-hourly
 !plugins/talk-plugin-offtopic
 !plugins/talk-plugin-permalink
-!plugins/talk-plugin-profile-settings
+!plugins/talk-plugin-profile-data
 !plugins/talk-plugin-remember-sort
 !plugins/talk-plugin-respect
 !plugins/talk-plugin-slack-notifications

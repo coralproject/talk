@@ -1,8 +1,8 @@
 const SetupService = require('../services/setup');
 const authentication = require('../middleware/authentication');
+const logging = require('../middleware/logging');
 const cookieParser = require('cookie-parser');
-const enabled = require('debug').enabled;
-const errors = require('../errors');
+const { TalkError, ErrNotFound } = require('../errors');
 const express = require('express');
 const i18n = require('../middleware/i18n');
 const path = require('path');
@@ -75,6 +75,7 @@ router.use(compression());
 //==============================================================================
 
 router.use('/admin', staticTemplate, require('./admin'));
+router.use('/account', staticTemplate, require('./account'));
 router.use('/login', staticTemplate, require('./login'));
 router.use('/embed', staticTemplate, require('./embed'));
 
@@ -114,22 +115,14 @@ router.use('/api', require('./api'));
 //==============================================================================
 
 if (process.env.NODE_ENV !== 'production') {
-  router.use('/assets', staticTemplate, require('./assets'));
-  router.get('/', staticTemplate, async (req, res) => {
-    try {
-      await SetupService.isAvailable();
-      return res.redirect('/admin/install');
-    } catch (e) {
-      return res.render('article', {
-        title: 'Coral Talk',
-        asset_url: '',
-        asset_id: '',
-        body: '',
-        basePath: '/static/embed/stream',
-      });
-    }
+  // In development, mount the /dev routes, as well as redirect the root url to
+  // the development route.
+  router.use('/dev', require('./dev'));
+  router.get('/', (req, res) => {
+    res.redirect(url.resolve(MOUNT_PATH, 'dev'), 302);
   });
 } else {
+  // In production, optionally redirect to the install if not ran, or the admin.
   router.get('/', async (req, res, next) => {
     try {
       await SetupService.isAvailable();
@@ -149,19 +142,16 @@ router.use(require('./plugins'));
 
 // Catch 404 and forward to error handler.
 router.use((req, res, next) => {
-  next(errors.ErrNotFound);
+  next(new ErrNotFound());
 });
+
+// Add logging for errors.
+router.use(logging.error);
 
 // General API error handler. Respond with the message and error if we have it
 // while returning a status code that makes sense.
 router.use('/api', (err, req, res, next) => {
-  if (err !== errors.ErrNotFound) {
-    if (process.env.NODE_ENV !== 'test' || enabled('talk:errors')) {
-      console.error(err);
-    }
-  }
-
-  if (err instanceof errors.APIError) {
+  if (err instanceof TalkError) {
     res.status(err.status).json({
       message: res.locals.t(`error.${err.translation_key}`),
       error: err,
@@ -172,11 +162,7 @@ router.use('/api', (err, req, res, next) => {
 });
 
 router.use('/', (err, req, res, next) => {
-  if (err !== errors.ErrNotFound) {
-    console.error(err);
-  }
-
-  if (err instanceof errors.APIError) {
+  if (err instanceof TalkError) {
     res.status(err.status);
     res.render('error', {
       message: res.locals.t(`error.${err.translation_key}`),

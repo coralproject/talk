@@ -125,7 +125,7 @@ module.exports = {
       .waitForElementVisible('@historyTab')
       .click('@historyTab')
       .waitForElementVisible('@historyPane')
-      .waitForElementVisible('@accountHistory')
+      .waitForElementVisible('@UserHistory')
       .click('@closeButton');
   },
   'admin logs out': client => {

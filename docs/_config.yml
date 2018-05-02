@@ -122,6 +122,8 @@ sidebar:
           url: /commenter-features/
         - title: Moderator Features
           url: /moderator-features/
+        - title: User Roles in Talk
+          url: /roles/
         - title: Trust
           url: /trust/
         - title: Toxic Comments

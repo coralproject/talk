@@ -1,4 +1,4 @@
-const errors = require('../../errors');
+const { ErrNotAuthorized } = require('../../errors');
 const ActionModel = require('../../models/action');
 const ActionsService = require('../../services/actions');
 const TagsService = require('../../services/tags');
@@ -312,9 +312,9 @@ const editComment = async (
 module.exports = ctx => {
   let mutators = {
     Comment: {
-      create: () => Promise.reject(errors.ErrNotAuthorized),
-      setStatus: () => Promise.reject(errors.ErrNotAuthorized),
-      edit: () => Promise.reject(errors.ErrNotAuthorized),
+      create: () => Promise.reject(new ErrNotAuthorized()),
+      setStatus: () => Promise.reject(new ErrNotAuthorized()),
+      edit: () => Promise.reject(new ErrNotAuthorized()),
     },
   };
 

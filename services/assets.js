@@ -2,9 +2,12 @@ const CommentModel = require('../models/comment');
 const AssetModel = require('../models/asset');
 const SettingsService = require('./settings');
 const DomainList = require('./domain_list');
-const errors = require('../errors');
-const merge = require('lodash/merge');
-const isEmpty = require('lodash/isEmpty');
+const {
+  ErrAssetURLAlreadyExists,
+  ErrNotFound,
+  ErrInvalidAssetURL,
+} = require('../errors');
+const { merge, isEmpty } = require('lodash');
 const { dotize } = require('./utils');
 
 module.exports = class AssetsService {
@@ -73,7 +76,7 @@ module.exports = class AssetsService {
       }
 
       if (!whitelisted) {
-        return Promise.reject(errors.ErrInvalidAssetURL);
+        throw new ErrInvalidAssetURL(url);
       } else {
         return AssetModel.findOneAndUpdate({ url }, update, {
           // Ensure that if it's new, we return the new object created.
@@ -211,7 +214,7 @@ module.exports = class AssetsService {
     // Try to see if an asset already exists with the given url.
     let asset = await AssetsService.findByUrl(url);
     if (asset !== null) {
-      throw errors.ErrAssetURLAlreadyExists;
+      throw new ErrAssetURLAlreadyExists();
     }
 
     // Seems that there was no other asset with the same url, try and perform
@@ -227,7 +230,7 @@ module.exports = class AssetsService {
       dstAssetID,
     ]);
     if (!srcAsset || !dstAsset) {
-      throw errors.ErrNotFound;
+      throw new ErrNotFound();
     }
 
     // Resolve the merge operation, this invloves moving all resources attached

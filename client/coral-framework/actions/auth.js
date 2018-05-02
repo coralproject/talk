@@ -15,9 +15,7 @@ export const checkLogin = () => (
   rest('/auth')
     .then(result => {
       if (!result.user) {
-        if (localStorage) {
-          cleanAuthData(localStorage);
-        }
+        cleanAuthData(localStorage);
         dispatch(checkLoginSuccess(null));
         return;
       }
@@ -52,10 +50,8 @@ const checkLoginSuccess = user => ({
 });
 
 export const setAuthToken = token => (dispatch, _, { localStorage }) => {
-  if (localStorage) {
-    localStorage.setItem('exp', jwtDecode(token).exp);
-    localStorage.setItem('token', token);
-  }
+  localStorage.setItem('exp', jwtDecode(token).exp);
+  localStorage.setItem('token', token);
 
   // Dispatch the set auth token action. For some browsers and situations, we
   // may not be able to persist the auth token any other way. Keep it in redux!
@@ -70,11 +66,8 @@ export const handleSuccessfulLogin = (user, token) => (
   { client, localStorage, postMessage }
 ) => {
   const { exp } = jwtDecode(token);
-
-  if (localStorage) {
-    localStorage.setItem('exp', exp);
-    localStorage.setItem('token', token);
-  }
+  localStorage.setItem('exp', exp);
+  localStorage.setItem('token', token);
 
   // Send the message via the messages service to the window.opener if it
   // exists.
@@ -105,9 +98,8 @@ export const logout = () => async (
 ) => {
   await rest('/auth', { method: 'DELETE' });
 
-  if (localStorage) {
-    cleanAuthData(localStorage);
-  }
+  // Clear the auth data persisted to localStorage.
+  cleanAuthData(localStorage);
 
   // Reset the websocket.
   client.resetWebsocket();

@@ -1,6 +1,6 @@
 const SettingModel = require('../models/setting');
 const cache = require('./cache');
-const errors = require('../errors');
+const { ErrSettingsNotInit } = require('../errors');
 const { dotize } = require('./utils');
 const { SETTINGS_CACHE_TIME } = require('../config');
 
@@ -17,7 +17,7 @@ const retrieve = async fields => {
     settings = await SettingModel.findOne(selector);
   }
   if (!settings) {
-    throw errors.ErrSettingsNotInit;
+    throw new ErrSettingsNotInit();
   }
 
   return settings;

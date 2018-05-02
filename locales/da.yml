@@ -431,8 +431,8 @@ da:
     reports: "Rapporter"
     all: "Alle"
     rejected: "Afvist"
-    account_history: "Konto historik"
-  account_history:
+    user_history: "Konto historik"
+  user_history:
     user_banned: "Bruger bannet"
     ban_removed: "Ban fjernet"
     username_status: "Brugernavn {0}"
@@ -459,6 +459,7 @@ da:
       username: "Brugernavn"
       password: "Kodeord"
       confirm_password: "Bekræft kodeord"
+      organization_contact_email: "Organization Contact Email"
       save: "Gem"
     permitted_domains:
       title: "Tilladte domæner"

@@ -10,7 +10,7 @@ router.use('/ql', apollo.graphqlExpress(createGraphOptions));
 if (process.env.NODE_ENV !== 'production') {
   // Interactive graphiql interface.
   router.use('/iql', staticTemplate, (req, res) => {
-    res.render('graphiql', {
+    res.render('api/graphiql', {
       endpointURL: 'api/v1/graph/ql',
     });
   });

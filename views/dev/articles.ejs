@@ -1,0 +1,14 @@
+<html>
+<body>
+<h1>
+  Asset list
+</h1>
+<% assets.forEach(function (asset) { %>
+  <a href="<%= BASE_PATH %>dev/assets/id/<%= asset.id %>"><%= asset.url %></a><br />
+<% }) %>
+<p>
+  (For dev use only. FYI, you can: ?skip=100&limit=25)
+</p>
+
+</body>
+</html>

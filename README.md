@@ -32,7 +32,7 @@ You’ve installed Talk on your server, and you’re preparing to launch it on y
 
 ## End-to-End Testing
 
-Talk uses [Nightwatch](https://nightwatchjs.org/) as our e2e testing framework. The testing infrastructure that allows us to run our tests in real browsers is provided with love by our friends at [Browserstack](https://browserstack.com).
+Talk uses [Nightwatch](http://nightwatchjs.org/) as our e2e testing framework. The testing infrastructure that allows us to run our tests in real browsers is provided with love by our friends at [Browserstack](https://browserstack.com).
 
 [![Browserstack](/public/img/browserstack_logo.png)](https://browserstack.com)
 

@@ -1,4 +1,4 @@
-const errors = require('../../errors');
+const { ErrNotFound } = require('../../errors');
 const get = require('lodash/get');
 
 // Load in the phases to use.
@@ -92,14 +92,14 @@ const fetchOptions = async (ctx, comment) => {
   const assetID = get(comment, 'asset_id', null);
   if (assetID === null) {
     // And leave now if this asset wasn't found.
-    throw errors.ErrNotFound;
+    throw new ErrNotFound();
   }
 
   // Load the asset.
   const asset = await Assets.getByID.load(assetID);
   if (!asset) {
     // And leave now if this asset wasn't found.
-    throw errors.ErrNotFound;
+    throw new ErrNotFound();
   }
 
   // Combine the asset and the settings to get the asset settings.

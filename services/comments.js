@@ -2,10 +2,13 @@ const CommentModel = require('../models/comment');
 const { dotize } = require('./utils');
 const debug = require('debug')('talk:services:comments');
 const SettingsService = require('./settings');
-
-const cloneDeep = require('lodash/cloneDeep');
-const errors = require('../errors');
-const merge = require('lodash/merge');
+const { merge, cloneDeep } = require('lodash');
+const {
+  ErrParentDoesNotVisible,
+  ErrNotFound,
+  ErrNotAuthorized,
+  ErrEditWindowHasEnded,
+} = require('../errors');
 
 const incrReplyCount = async (comment, value) => {
   try {
@@ -40,7 +43,7 @@ module.exports = {
     if (parent_id !== null) {
       const parent = await CommentModel.findOne({ id: parent_id });
       if (parent === null || !parent.visible) {
-        throw errors.ErrParentDoesNotVisible;
+        throw new ErrParentDoesNotVisible();
       }
     }
 
@@ -126,7 +129,7 @@ module.exports = {
       const comment = await CommentModel.findOne({ id });
       if (comment == null) {
         debug('rejecting comment edit because comment was not found');
-        throw errors.ErrNotFound;
+        throw new ErrNotFound();
       }
 
       // Check to see if the user was't allowed to edit it.
@@ -134,7 +137,7 @@ module.exports = {
         debug(
           'rejecting comment edit because author id does not match editing user'
         );
-        throw errors.ErrNotAuthorized;
+        throw new ErrNotAuthorized();
       }
 
       // Check to see if the comment had a status that was editable.
@@ -142,13 +145,13 @@ module.exports = {
         debug(
           'rejecting comment edit because original comment has a non-editable status'
         );
-        throw errors.ErrNotAuthorized;
+        throw new ErrNotAuthorized();
       }
 
       // Check to see if the edit window expired.
       if (comment.created_at <= lastEditableCommentCreatedAt) {
         debug('rejecting comment edit because outside edit time window');
-        throw errors.ErrEditWindowHasEnded;
+        throw new ErrEditWindowHasEnded();
       }
 
       throw new Error('comment edit failed for an unexpected reason');
@@ -198,7 +201,7 @@ module.exports = {
     );
 
     if (originalComment == null) {
-      throw errors.ErrNotFound;
+      throw new ErrNotFound();
     }
 
     const editedComment = new CommentModel(originalComment.toObject());

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import PropTypes from 'prop-types';
 import capitalize from 'lodash/capitalize';
 import styles from './UserDetail.css';
-import AccountHistory from './AccountHistory';
+import UserHistory from './UserHistory';
 import { Slot } from 'coral-framework/components';
 import UserDetailCommentList from '../components/UserDetailCommentList';
 import {
@@ -28,26 +28,6 @@ import UserInfoTooltip from './UserInfoTooltip';
 import t from 'coral-framework/services/i18n';
 
 class UserDetail extends React.Component {
-  rejectThenReload = async info => {
-    await this.props.rejectComment(info);
-    this.props.data.refetch();
-  };
-
-  acceptThenReload = async info => {
-    await this.props.acceptComment(info);
-    this.props.data.refetch();
-  };
-
-  bulkAcceptThenReload = async () => {
-    await this.props.bulkAccept();
-    this.props.data.refetch();
-  };
-
-  bulkRejectThenReload = async () => {
-    await this.props.bulkReject();
-    this.props.data.refetch();
-  };
-
   changeTab = tab => {
     this.props.changeTab(tab);
   };
@@ -110,7 +90,13 @@ class UserDetail extends React.Component {
       unbanUser,
       unsuspendUser,
       modal,
+      acceptComment,
+      rejectComment,
+      bulkAccept,
+      bulkReject,
     } = this.props;
+
+    console.log(rejectedComments, totalComments);
 
     // if totalComments is 0, you're dividing by zero
     let rejectedPercent = rejectedComments / totalComments * 100;
@@ -286,7 +272,7 @@ class UserDetail extends React.Component {
                 'talk-admin-user-detail-history-tab'
               )}
             >
-              {t('user_detail.account_history')}
+              {t('user_detail.user_history')}
             </Tab>
           </TabBar>
 
@@ -304,12 +290,12 @@ class UserDetail extends React.Component {
                 loadMore={loadMore}
                 toggleSelect={toggleSelect}
                 viewUserDetail={viewUserDetail}
-                acceptComment={this.acceptThenReload}
-                rejectComment={this.rejectThenReload}
+                acceptComment={acceptComment}
+                rejectComment={rejectComment}
                 selectedCommentIds={selectedCommentIds}
                 toggleSelectAll={toggleSelectAll}
-                bulkAcceptThenReload={this.bulkAcceptThenReload}
-                bulkRejectThenReload={this.bulkRejectThenReload}
+                bulkAcceptThenReload={bulkAccept}
+                bulkRejectThenReload={bulkReject}
               />
             </TabPane>
             <TabPane
@@ -322,19 +308,19 @@ class UserDetail extends React.Component {
                 loadMore={loadMore}
                 toggleSelect={toggleSelect}
                 viewUserDetail={viewUserDetail}
-                acceptComment={this.acceptThenReload}
-                rejectComment={this.rejectThenReload}
+                acceptComment={acceptComment}
+                rejectComment={rejectComment}
                 selectedCommentIds={selectedCommentIds}
                 toggleSelectAll={toggleSelectAll}
-                bulkAcceptThenReload={this.bulkAcceptThenReload}
-                bulkRejectThenReload={this.bulkRejectThenReload}
+                bulkAcceptThenReload={bulkAccept}
+                bulkRejectThenReload={bulkReject}
               />
             </TabPane>
             <TabPane
               tabId={'history'}
               className={'talk-admin-user-detail-history-tab-pane'}
             >
-              <AccountHistory user={user} />
+              <UserHistory user={user} />
             </TabPane>
           </TabContent>
         </Drawer>
