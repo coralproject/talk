@@ -93,7 +93,7 @@ const t = lang => (key, ...replacements) => {
   is in different format with CN locales in TALK.
   Do the mapping to get right CN locales for TALK to use.
 */
-const mappingLocaleCode = (lang) => {
+const mappingLocaleCode = lang => {
   switch (lang) {
     case 'zh-TW':
     case 'zh-HK':
