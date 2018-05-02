@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
-import InputField from '../../components/InputField';
+import InputField from './InputField';
 
 const initialState = {
   showError: false,

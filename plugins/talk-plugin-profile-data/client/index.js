@@ -1,6 +1,6 @@
 import DownloadCommentHistory from './containers/DownloadCommentHistory';
 import DeleteMyAccount from './containers/DeleteMyAccount';
-import AccountDeletionRequestedSign from './AccountDeletionRequestedSign';
+import AccountDeletionRequestedSign from './containers/AccountDeletionRequestedSign';
 import translations from './translations.yml';
 import graphql from './graphql';
 
