@@ -134,8 +134,91 @@ class ChangePassword extends React.Component {
     this.disableEditing();
   };
 
+  renderEditingContent() {
+    const { errors } = this.state;
+
+    return (
+      <div>
+        <h3 className={styles.title}>
+          {t('talk-plugin-auth.change_password.change_password')}
+        </h3>
+        <form
+          className={cn(styles.form, 'talk-plugin-auth--change-password-form')}
+        >
+          <InputField
+            id="oldPassword"
+            label="Old Password"
+            name="oldPassword"
+            type="password"
+            onChange={this.onChange}
+            value={this.state.formData.oldPassword}
+            hasError={this.hasError('oldPassword')}
+            errorMsg={errors['oldPassword']}
+            showErrors
+          >
+            <span className={styles.detailBottomBox}>
+              <a className={styles.detailLink}>
+                {t('talk-plugin-auth.change_password.forgot_password')}
+              </a>
+            </span>
+          </InputField>
+          <InputField
+            id="newPassword"
+            label="New Password"
+            name="newPassword"
+            type="password"
+            onChange={this.onChange}
+            value={this.state.formData.newPassword}
+            hasError={this.hasError('newPassword')}
+            errorMsg={errors['newPassword']}
+            showErrors
+          />
+          <InputField
+            id="confirmNewPassword"
+            label="Confirm New Password"
+            name="confirmNewPassword"
+            type="password"
+            onChange={this.onChange}
+            value={this.state.formData.confirmNewPassword}
+            hasError={this.hasError('confirmNewPassword')}
+            errorMsg={errors['confirmNewPassword']}
+            showErrors
+          />
+        </form>
+        <div className={styles.actions}>
+          <Button
+            className={cn(styles.button, styles.saveButton)}
+            icon="save"
+            onClick={this.onSave}
+            disabled={this.isSubmitBlocked()}
+          >
+            {t('talk-plugin-auth.change_password.save')}
+          </Button>
+          <a className={styles.cancelButton} onClick={this.cancel}>
+            {t('talk-plugin-auth.change_password.cancel')}
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  renderCollapsedContent() {
+    return (
+      <div>
+        <h3 className={styles.title}>
+          {t('talk-plugin-auth.change_password.change_password')}
+        </h3>
+        <div className={styles.edit}>
+          <Button className={styles.button} onClick={this.enableEditing}>
+            {t('talk-plugin-auth.change_password.edit')}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   render() {
-    const { editing, errors } = this.state;
+    const { editing } = this.state;
 
     return (
       <section
@@ -143,73 +226,7 @@ class ChangePassword extends React.Component {
           [styles.editing]: editing,
         })}
       >
-        <h3 className={styles.title}>
-          {t('talk-plugin-auth.change_password.change_password')}
-        </h3>
-        {editing && (
-          <form className="talk-plugin-auth--change-password-form">
-            <InputField
-              id="oldPassword"
-              label="Old Password"
-              name="oldPassword"
-              type="password"
-              onChange={this.onChange}
-              value={this.state.formData.oldPassword}
-              hasError={this.hasError('oldPassword')}
-              errorMsg={errors['oldPassword']}
-              showErrors
-            >
-              <span className={styles.detailBottomBox}>
-                <a className={styles.detailLink}>
-                  {t('talk-plugin-auth.change_password.forgot_password')}
-                </a>
-              </span>
-            </InputField>
-            <InputField
-              id="newPassword"
-              label="New Password"
-              name="newPassword"
-              type="password"
-              onChange={this.onChange}
-              value={this.state.formData.newPassword}
-              hasError={this.hasError('newPassword')}
-              errorMsg={errors['newPassword']}
-              showErrors
-            />
-            <InputField
-              id="confirmNewPassword"
-              label="Confirm New Password"
-              name="confirmNewPassword"
-              type="password"
-              onChange={this.onChange}
-              value={this.state.formData.confirmNewPassword}
-              hasError={this.hasError('confirmNewPassword')}
-              errorMsg={errors['confirmNewPassword']}
-              showErrors
-            />
-          </form>
-        )}
-        {editing ? (
-          <div className={styles.actions}>
-            <Button
-              className={cn(styles.button, styles.saveButton)}
-              icon="save"
-              onClick={this.onSave}
-              disabled={this.isSubmitBlocked()}
-            >
-              {t('talk-plugin-auth.change_password.save')}
-            </Button>
-            <a className={styles.cancelButton} onClick={this.cancel}>
-              {t('talk-plugin-auth.change_password.cancel')}
-            </a>
-          </div>
-        ) : (
-          <div className={styles.actions}>
-            <Button className={styles.button} onClick={this.enableEditing}>
-              {t('talk-plugin-auth.change_password.edit')}
-            </Button>
-          </div>
-        )}
+        {editing ? this.renderEditingContent() : this.renderCollapsedContent()}
       </section>
     );
   }
