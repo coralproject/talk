@@ -52,7 +52,6 @@ plugins/*
 !plugins/talk-plugin-offtopic
 !plugins/talk-plugin-permalink
 !plugins/talk-plugin-profile-data
-!plugins/talk-plugin-profile-settings
 !plugins/talk-plugin-remember-sort
 !plugins/talk-plugin-respect
 !plugins/talk-plugin-rich-text
