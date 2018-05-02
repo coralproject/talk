@@ -88,7 +88,7 @@ router.post('/password/reset', async (req, res, next) => {
         locals: {
           token,
         },
-        subject: 'Password Reset',
+        subject: res.locals.t('email.password_reset.subject'),
         email,
       });
     }
