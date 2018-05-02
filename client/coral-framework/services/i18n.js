@@ -56,6 +56,25 @@ function setLocale(storage, locale) {
   storage.setItem('locale', locale);
 }
 
+/*
+  Map browser language codes to right locale codes in TALK
+
+  As listed in http://4umi.com/web/html/languagecodes.php, browser language code for CN
+  is in different format with CN locales in TALK.
+  Do the mapping to get right CN locales for TALK to use.
+*/
+function mappingLocaleCode(lang) {
+  switch (lang) {
+    case 'zh-TW':
+    case 'zh-HK':
+      return 'zh_TW';
+    case 'zh-CN':
+      return 'zh_CN';
+    default:
+      return lang;
+  }
+}
+
 // detectLanguage will try to get the locale from storage if available,
 // otherwise will try to get it from the navigator, otherwise, it will fallback
 // to the default language.
@@ -63,7 +82,7 @@ function detectLanguage(storage) {
   try {
     const lang = storage.getItem('locale') || navigator.language;
     if (lang) {
-      return lang;
+      return mappingLocaleCode(lang);
     }
   } catch (err) {
     console.warn(

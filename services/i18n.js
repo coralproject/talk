@@ -86,6 +86,25 @@ const t = lang => (key, ...replacements) => {
   }
 };
 
+/*
+  Map browser language codes to right locale codes in TALK
+
+  As listed in http://4umi.com/web/html/languagecodes.php, browser language code for CN
+  is in different format with CN locales in TALK.
+  Do the mapping to get right CN locales for TALK to use.
+*/
+const mappingLocaleCode = (lang) => {
+  switch (lang) {
+    case 'zh-TW':
+    case 'zh-HK':
+      return 'zh_TW';
+    case 'zh-CN':
+      return 'zh_CN';
+    default:
+      return lang;
+  }
+};
+
 /**
  * Exposes a service object to allow translations.
  * @type {Object}
@@ -93,7 +112,7 @@ const t = lang => (key, ...replacements) => {
 const i18n = {
   request(req) {
     debug(`possible languages given request '${accepts(req).languages()}'`);
-    const lang = accepts(req).language(languages);
+    const lang = mappingLocaleCode(accepts(req).language(languages));
     debug(`parsed request language as '${lang}'`);
     const language = lang ? lang : DEFAULT_LANG;
     debug(`decided language as '${language}'`);
