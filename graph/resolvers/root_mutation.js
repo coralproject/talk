@@ -139,6 +139,9 @@ const RootMutation = {
   delUser: async (_, { id }, { mutators: { User } }) => {
     await User.del(id);
   },
+  changePassword: async (_, { input }, { mutators: { User } }) => {
+    await User.changePassword(input);
+  },
 };
 
 module.exports = RootMutation;

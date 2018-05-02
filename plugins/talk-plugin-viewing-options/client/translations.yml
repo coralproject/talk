@@ -21,8 +21,8 @@ de:
 es:
   talk-plugin-viewing-options:
     viewing_options: "Opciones de visualización"
-    sort: Sorting
-    filter: Filtering
+    sort: Ordenado por
+    filter: Filtrado por
 fr:
   talk-plugin-viewing-options:
     viewing_options: "Viewing Options"

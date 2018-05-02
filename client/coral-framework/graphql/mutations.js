@@ -623,6 +623,27 @@ export const withUpdateSettings = withMutation(
   }
 );
 
+export const withChangePassword = withMutation(
+  gql`
+    mutation ChangePassword($input: ChangePasswordInput!) {
+      changePassword(input: $input) {
+        ...ChangePasswordResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      changePassword: input => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      },
+    }),
+  }
+);
+
 export const withRequestAccountDeletion = withMutation(
   gql`
     mutation RequestAccountDeletion {

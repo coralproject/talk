@@ -6,18 +6,41 @@ const {
   ErrDeletionAlreadyScheduled,
   ErrDeletionNotScheduled,
 } = require('./errors');
-const { ErrNotAuthorized } = require('errors');
+const { ErrNotAuthorized, ErrMaxRateLimit } = require('errors');
+const { URL } = require('url');
 
-async function sendDownloadLink({
-  user,
-  loaders: { Settings },
-  connectors: {
-    errors,
-    secrets,
-    services: { Users, I18n, Limit },
-    models: { User },
-  },
-}) {
+// generateDownloadLinks will generate a signed set of links for a given user to
+// download an archive of their data.
+async function generateDownloadLinks(ctx, userID) {
+  const { connectors: { url: { BASE_URL }, secrets } } = ctx;
+
+  // Generate a token for the download link.
+  const token = await secrets.jwt.sign(
+    { user: userID },
+    { jwtid: uuid.v4(), expiresIn: '1d', subject: DOWNLOAD_LINK_SUBJECT }
+  );
+
+  // Generate the url that a user can land on.
+  const downloadLandingURL = new URL('account/download', BASE_URL);
+  downloadLandingURL.hash = token;
+
+  // Generate the url that the API calls to download the actual zip.
+  const downloadFileURL = new URL('api/v1/account/download', BASE_URL);
+  downloadFileURL.searchParams.set('token', token);
+
+  return {
+    downloadLandingURL: downloadLandingURL.href,
+    downloadFileURL: downloadFileURL.href,
+  };
+}
+
+async function sendDownloadLink(ctx) {
+  const {
+    user,
+    loaders: { Settings },
+    connectors: { services: { Users, I18n, Limit }, models: { User } },
+  } = ctx;
+
   // downloadLinkLimiter can be used to limit downloads for the user's data to
   // once every 7 days.
   const downloadLinkLimiter = new Limit('profileDataDownloadLimiter', 1, '7d');
@@ -26,7 +49,7 @@ async function sendDownloadLink({
   // 7 days.
   const attempts = await downloadLinkLimiter.get(user.id);
   if (attempts && attempts >= 1) {
-    throw errors.ErrMaxRateLimit;
+    throw new ErrMaxRateLimit();
   }
 
   // Check if the lastAccountDownload time is within 7 days.
@@ -36,7 +59,7 @@ async function sendDownloadLink({
       .add(7, 'days')
       .isAfter(moment())
   ) {
-    throw errors.ErrMaxRateLimit;
+    throw new ErrMaxRateLimit();
   }
 
   // The account currently does not have a download link, let's record the
@@ -44,13 +67,10 @@ async function sendDownloadLink({
   // now.
   await downloadLinkLimiter.test(user.id);
 
-  // Generate a token for the download link.
-  const token = await secrets.jwt.sign(
-    { user: user.id },
-    { jwtid: uuid.v4(), expiresIn: '1d', subject: DOWNLOAD_LINK_SUBJECT }
-  );
-
   const now = new Date();
+
+  // Generate the download links.
+  const { downloadLandingURL } = await generateDownloadLinks(ctx, user.id);
 
   const { organizationName } = await Settings.load('organizationName');
 
@@ -58,7 +78,7 @@ async function sendDownloadLink({
   await Users.sendEmail(user, {
     template: 'download',
     locals: {
-      token,
+      downloadLandingURL,
       organizationName,
       now,
     },
@@ -125,3 +145,20 @@ module.exports = ctx =>
           cancelDeletion: () => Promise.reject(new ErrNotAuthorized()),
         },
       };
+// downloadUser will return the download file url that can be used to directly
+// download the archive.
+async function downloadUser(ctx, userID) {
+  const { downloadFileURL } = await generateDownloadLinks(ctx, userID);
+  return downloadFileURL;
+}
+
+module.exports = ctx => ({
+  User: {
+    requestDownloadLink: () => sendDownloadLink(ctx),
+    download:
+      // Only ADMIN users can execute an account download.
+      ctx.user && ctx.user.role === 'ADMIN'
+        ? userID => downloadUser(ctx, userID)
+        : () => Promise.reject(new ErrNotAuthorized()),
+  },
+});

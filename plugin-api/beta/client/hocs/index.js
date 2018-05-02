@@ -28,5 +28,7 @@ export {
   withRequestAccountDeletion,
   withRequestDownloadLink,
   withCancelAccountDeletion,
+  withChangePassword,
+  withChangeUsername,
 } from 'coral-framework/graphql/mutations';
 export { compose } from 'recompose';

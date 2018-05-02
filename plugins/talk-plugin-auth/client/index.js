@@ -6,6 +6,8 @@ import Login from './login/containers/Main';
 import reducer from './login/reducer';
 import DeleteMyAccount from './profile-settings/containers/DeleteMyAccount';
 import AccountDeletionRequestedSign from './stream/containers/AccountDeletionRequestedSign';
+import ChangePassword from './profile-settings/containers/ChangePassword';
+import ChangeUsername from './profile-settings/containers/ChangeUsername';
 
 export default {
   reducer,
@@ -18,6 +20,7 @@ export default {
       SetUsernameDialog,
     ],
     login: [Login],
-    profileSettings: [DeleteMyAccount],
+    profileHeader: [ChangeUsername],
+    profileSettings: [ChangePassword, DeleteMyAccount],
   },
 };

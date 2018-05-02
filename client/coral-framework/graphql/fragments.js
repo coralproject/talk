@@ -28,6 +28,7 @@ export default {
     'UpdateSettingsResponse',
     'RequestAccountDeletionResponse',
     'RequestDownloadLinkResponse',
-    'CancelAccountDeletionResponse'
+    'CancelAccountDeletionResponse',
+    'ChangePasswordResponse'
   ),
 };

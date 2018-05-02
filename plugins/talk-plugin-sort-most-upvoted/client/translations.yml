@@ -1,3 +1,6 @@
 en:
   talk-plugin-sort-most-upvoted:
     label: Most upvoted first
+es:
+  talk-plugin-sort-oldest:
+    label: Más votadas primero

@@ -71,7 +71,6 @@ class OrganizationSettings extends React.Component {
     await this.props.savePending();
     this.disableEditing();
   };
-
   displayErrors = (errors = []) => (
     <ul className={styles.errorList}>
       {errors.map((errKey, i) => (
@@ -85,7 +84,6 @@ class OrganizationSettings extends React.Component {
   render() {
     const { settings, slotPassthrough, canSave } = this.props;
     const hasErrors = this.state.errors.length;
-
     return (
       <ConfigurePage title={t('configure.organization_information')}>
         <p>{t('configure.organization_info_copy')}</p>
@@ -126,7 +124,7 @@ class OrganizationSettings extends React.Component {
                       [styles.editable]: this.state.editing,
                     })}
                     onChange={this.updateEmail}
-                    value={settings.organizationContactEmail}
+                    value={settings.organizationContactEmail || ''}
                     id={t('configure.organization_contact_email')}
                     readOnly={!this.state.editing}
                   />

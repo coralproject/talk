@@ -11,6 +11,9 @@ module.exports = {
     cancelAccountDeletion: async (_, args, { mutators: { User } }) => {
       await User.cancelDeletion();
     },
+    downloadUser: async (_, { id }, { mutators: { User } }) => ({
+      archiveURL: await User.download(id),
+    }),
   },
   User: {
     lastAccountDownload: (user, args, { user: currentUser }) => {

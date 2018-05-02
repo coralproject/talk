@@ -41,6 +41,18 @@ type CancelAccountDeletionResponse implements Response {
   errors: [UserError!]
 }
 
+# DownloadUserResponse contaisn the account download archiveURL that can be used
+# to directly download a zip file containing the user data.
+type DownloadUserResponse implements Response {
+
+  # archiveURL is the link that can be used within the next 1 hour to download a
+  # users archive.
+  archiveURL: String
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 type RootMutation {
 
   # requestDownloadLink will request a download link be sent to the primary
@@ -54,4 +66,8 @@ type RootMutation {
   # cancelAccountDeletion will cancel a pending account deletion that was
   # previously scheduled.
   cancelAccountDeletion: CancelAccountDeletionResponse
+
+  # downloadUser will provide an account download for the indicated User. This
+  # mutation requires the ADMIN role.
+  downloadUser(id: ID!): DownloadUserResponse
 }
