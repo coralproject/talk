@@ -6,7 +6,6 @@ import Login from './login/containers/Main';
 import reducer from './login/reducer';
 import ChangePassword from './profile-settings/containers/ChangePassword';
 import Profile from './profile-settings/containers/Profile';
-import ChangeUsername from './profile-settings/containers/ChangeUsername';
 
 export default {
   reducer,
@@ -15,7 +14,6 @@ export default {
     stream: [UserBox, SignInButton, SetUsernameDialog],
     login: [Login],
     profileHeader: [Profile],
-    profileHeader: [ChangeUsername],
     profileSettings: [ChangePassword],
   },
 };
