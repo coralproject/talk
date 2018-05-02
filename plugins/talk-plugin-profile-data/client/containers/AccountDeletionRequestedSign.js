@@ -21,5 +21,5 @@ export default compose(
   connect(null, mapDispatchToProps),
   withCancelAccountDeletion,
   withData,
-  excludeIf(props => !props.root.me.scheduledDeletionDate)
+  excludeIf(({ root: { me } }) => !me || !me.scheduledDeletionDate)
 )(AccountDeletionRequestedSign);
