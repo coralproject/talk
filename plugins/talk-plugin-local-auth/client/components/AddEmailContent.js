@@ -42,7 +42,7 @@ const AddEmailContent = ({ formData, errors, showErrors, confirmChanges }) => (
         onChange={this.onChange}
         defaultValue=""
         hasError={!formData.emailAddress || errors.emailAddress}
-        errorMsg={errors.emailAddress}
+        errorMsg={'Invalid email address'}
         showError={showErrors}
         columnDisplay
         showSuccess={false}
