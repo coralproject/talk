@@ -28,26 +28,26 @@ class ChangeEmailContentDialog extends React.Component {
           ×
         </span>
         <h1 className={styles.title}>
-          {t('talk-plugin-auth.change_email.confirm_email_change')}
+          {t('talk-plugin-local-auth.change_email.confirm_email_change')}
         </h1>
         <div className={styles.content}>
           <p className={styles.description}>
-            {t('talk-plugin-auth.change_email.description')}
+            {t('talk-plugin-local-auth.change_email.description')}
           </p>
           <div className={styles.emailChange}>
             <span className={styles.item}>
-              {t('talk-plugin-auth.change_email.old_email')}:{' '}
+              {t('talk-plugin-local-auth.change_email.old_email')}:{' '}
               {this.props.emailAddress}
             </span>
             <span className={styles.item}>
-              {t('talk-plugin-auth.change_email.new_email')}:{' '}
+              {t('talk-plugin-local-auth.change_email.new_email')}:{' '}
               {this.props.formData.newEmail}
             </span>
           </div>
           <form>
             <InputField
               id="confirmPassword"
-              label={t('talk-plugin-auth.change_email.enter_password')}
+              label={t('talk-plugin-local-auth.change_email.enter_password')}
               name="confirmPassword"
               type="password"
               onChange={this.props.onChange}
@@ -55,7 +55,9 @@ class ChangeEmailContentDialog extends React.Component {
               hasError={
                 !this.props.formData.confirmPassword && this.state.showError
               }
-              errorMsg={t('talk-plugin-auth.change_email.incorrect_password')}
+              errorMsg={t(
+                'talk-plugin-local-auth.change_email.incorrect_password'
+              )}
               showError={this.state.showError}
               columnDisplay
               showSuccess={false}
@@ -63,13 +65,13 @@ class ChangeEmailContentDialog extends React.Component {
           </form>
           <div className={styles.bottomActions}>
             <Button className={styles.cancel} onClick={this.props.cancel}>
-              {t('talk-plugin-auth.change_email.cancel')}
+              {t('talk-plugin-local-auth.change_email.cancel')}
             </Button>
             <Button
               className={styles.confirmChanges}
               onClick={this.confirmChanges}
             >
-              {t('talk-plugin-auth.change_email.confirm_change')}
+              {t('talk-plugin-local-auth.change_email.confirm_change')}
             </Button>
           </div>
         </div>

@@ -72,7 +72,7 @@ class Profile extends React.Component {
   fieldValidation = (value, type, name) => {
     if (!value.length) {
       this.addError({
-        [name]: t('talk-plugin-auth.change_password.required_field'),
+        [name]: t('talk-plugin-local-auth.change_password.required_field'),
       });
     } else if (!validate[type](value)) {
       this.addError({ [name]: errorMsj[type] });
@@ -127,7 +127,7 @@ class Profile extends React.Component {
       await changeUsername(this.props.root.me.id, newUsername);
       this.props.notify(
         'success',
-        t('talk-plugin-auth.change_username.changed_username_success_msg')
+        t('talk-plugin-local-auth.change_username.changed_username_success_msg')
       );
     } catch (err) {
       this.props.notify('error', getErrorMessages(err));
@@ -144,7 +144,7 @@ class Profile extends React.Component {
       });
       this.props.notify(
         'success',
-        t('talk-plugin-auth.change_email.change_email_msg')
+        t('talk-plugin-local-auth.change_email.change_email_msg')
       );
     } catch (err) {
       this.props.notify('error', getErrorMessages(err));
@@ -167,9 +167,13 @@ class Profile extends React.Component {
 
     return (
       <section
-        className={cn('talk-plugin-auth--edit-profile', styles.container, {
-          [styles.editing]: editing,
-        })}
+        className={cn(
+          'talk-plugin-local-auth--edit-profile',
+          styles.container,
+          {
+            [styles.editing]: editing,
+          }
+        )}
       >
         <ConfirmChangesDialog
           showDialog={showDialog}
@@ -207,7 +211,9 @@ class Profile extends React.Component {
                 columnDisplay
               >
                 <span className={styles.bottomText}>
-                  {t('talk-plugin-auth.change_username.change_username_note')}
+                  {t(
+                    'talk-plugin-local-auth.change_username.change_username_note'
+                  )}
                 </span>
               </InputField>
               <InputField
@@ -237,10 +243,10 @@ class Profile extends React.Component {
               onClick={this.onSave}
               disabled={!this.isSaveEnabled()}
             >
-              {t('talk-plugin-auth.change_username.save')}
+              {t('talk-plugin-local-auth.change_username.save')}
             </Button>
             <a className={styles.cancelButton} onClick={this.cancel}>
-              {t('talk-plugin-auth.change_username.cancel')}
+              {t('talk-plugin-local-auth.change_username.cancel')}
             </a>
           </div>
         ) : (
@@ -250,7 +256,7 @@ class Profile extends React.Component {
               icon="settings"
               onClick={this.enableEditing}
             >
-              {t('talk-plugin-auth.change_username.edit_profile')}
+              {t('talk-plugin-local-auth.change_username.edit_profile')}
             </Button>
           </div>
         )}

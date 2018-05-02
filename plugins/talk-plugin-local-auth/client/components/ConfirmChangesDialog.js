@@ -54,7 +54,10 @@ class ConfirmChangesDialog extends React.Component {
     return (
       <Dialog
         open={this.props.showDialog}
-        className={cn(styles.dialog, 'talk-plugin-auth--edit-profile-dialog')}
+        className={cn(
+          styles.dialog,
+          'talk-plugin-local-auth--edit-profile-dialog'
+        )}
       >
         {this.renderSteps()}
       </Dialog>

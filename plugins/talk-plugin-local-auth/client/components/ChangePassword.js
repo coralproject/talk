@@ -45,7 +45,9 @@ class ChangePassword extends React.Component {
     const cond = this.state.formData[field] === this.state.formData[field2];
     if (!cond) {
       this.addError({
-        [field2]: t('talk-plugin-auth.change_password.passwords_dont_match'),
+        [field2]: t(
+          'talk-plugin-local-auth.change_password.passwords_dont_match'
+        ),
       });
     } else {
       this.removeError(field2);
@@ -56,7 +58,7 @@ class ChangePassword extends React.Component {
   fieldValidation = (value, type, name) => {
     if (!value.length) {
       this.addError({
-        [name]: t('talk-plugin-auth.change_password.required_field'),
+        [name]: t('talk-plugin-local-auth.change_password.required_field'),
       });
     } else if (!validate[type](value)) {
       this.addError({ [name]: errorMsj[type] });
@@ -113,7 +115,7 @@ class ChangePassword extends React.Component {
       });
       this.props.notify(
         'success',
-        t('talk-plugin-auth.change_password.changed_password_msg')
+        t('talk-plugin-local-auth.change_password.changed_password_msg')
       );
     } catch (err) {
       this.props.notify('error', getErrorMessages(err));
@@ -139,15 +141,19 @@ class ChangePassword extends React.Component {
 
     return (
       <section
-        className={cn('talk-plugin-auth--change-password', styles.container, {
-          [styles.editing]: editing,
-        })}
+        className={cn(
+          'talk-plugin-local-auth--change-password',
+          styles.container,
+          {
+            [styles.editing]: editing,
+          }
+        )}
       >
         <h3 className={styles.title}>
-          {t('talk-plugin-auth.change_password.change_password')}
+          {t('talk-plugin-local-auth.change_password.change_password')}
         </h3>
         {editing && (
-          <form className="talk-plugin-auth--change-password-form">
+          <form className="talk-plugin-local-auth--change-password-form">
             <InputField
               id="oldPassword"
               label="Old Password"
@@ -161,7 +167,7 @@ class ChangePassword extends React.Component {
             >
               <span className={styles.detailBottomBox}>
                 <a className={styles.detailLink}>
-                  {t('talk-plugin-auth.change_password.forgot_password')}
+                  {t('talk-plugin-local-auth.change_password.forgot_password')}
                 </a>
               </span>
             </InputField>
@@ -197,16 +203,16 @@ class ChangePassword extends React.Component {
               onClick={this.onSave}
               disabled={this.isSubmitBlocked()}
             >
-              {t('talk-plugin-auth.change_password.save')}
+              {t('talk-plugin-local-auth.change_password.save')}
             </Button>
             <a className={styles.cancelButton} onClick={this.cancel}>
-              {t('talk-plugin-auth.change_password.cancel')}
+              {t('talk-plugin-local-auth.change_password.cancel')}
             </a>
           </div>
         ) : (
           <div className={styles.actions}>
             <Button className={styles.button} onClick={this.enableEditing}>
-              {t('talk-plugin-auth.change_password.edit')}
+              {t('talk-plugin-local-auth.change_password.edit')}
             </Button>
           </div>
         )}
