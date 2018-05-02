@@ -1,6 +1,5 @@
-  
+
 .detailItem {
-  margin-bottom: 12px;
 }
 
 .detailItemContainer {
@@ -22,14 +21,14 @@
   height: 30px;
   display: inline-block;
   width: 230px;
-  display: flex;  
+  display: flex;
   box-sizing: border-box;
 
   > .detailIcon {
     font-size: 1.2em;
     padding: 0 5px;
     color: #787D80;
-    line-height: 30px; 
+    line-height: 30px;
   }
 
   &.error {

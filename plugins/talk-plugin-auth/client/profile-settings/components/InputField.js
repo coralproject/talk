@@ -22,6 +22,7 @@ const InputField = ({
   value = '',
   defaultValue = '',
   disabled = false,
+  className,
 }) => {
   const inputValue = {
     ...(value ? { value } : {}),
@@ -29,7 +30,7 @@ const InputField = ({
   };
 
   return (
-    <div className={styles.detailItem}>
+    <div className={cn(styles.detailItem, className)}>
       <div
         className={cn(styles.detailItemContainer, {
           [styles.columnDisplay]: columnDisplay,
@@ -82,6 +83,7 @@ InputField.propTypes = {
   value: PropTypes.string,
   defaultValue: PropTypes.string,
   icon: PropTypes.string,
+  className: PropTypes.string,
   showError: PropTypes.bool,
   hasError: PropTypes.bool,
   errorMsg: PropTypes.string,

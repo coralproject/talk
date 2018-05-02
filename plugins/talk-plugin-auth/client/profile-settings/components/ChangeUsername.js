@@ -84,21 +84,94 @@ class ChangeUsername extends React.Component {
     });
   };
 
+  renderEditingContent() {
+    const { username, emailAddress } = this.props;
+    return (
+      <section
+        className={cn(
+          'talk-plugin-auth--edit-profile',
+          styles.container,
+          styles.editing
+        )}
+      >
+        <div className={styles.content}>
+          <div className={styles.form}>
+            <InputField
+              icon="person"
+              id="newUsername"
+              name="newUsername"
+              onChange={this.onChange}
+              defaultValue={username}
+              columnDisplay
+              validationType="username"
+            >
+              <span className={styles.bottomText}>
+                {t('talk-plugin-auth.change_username.change_username_note')}
+              </span>
+            </InputField>
+            <InputField
+              icon="email"
+              id="email"
+              name="email"
+              value={emailAddress}
+              validationType="username"
+              disabled
+            />
+          </div>
+        </div>
+        <div className={styles.actions}>
+          <Button
+            className={cn(styles.button, styles.saveButton)}
+            icon="save"
+            onClick={this.onSave}
+            disabled={
+              !this.state.formData.newUsername ||
+              this.state.formData.newUsername === username
+            }
+          >
+            {t('talk-plugin-auth.change_username.save')}
+          </Button>
+          <a className={styles.cancelButton} onClick={this.cancel}>
+            {t('talk-plugin-auth.change_username.cancel')}
+          </a>
+        </div>
+      </section>
+    );
+  }
+
+  renderCollapsedContent() {
+    const { username, emailAddress } = this.props;
+    return (
+      <section
+        className={cn('talk-plugin-auth--edit-profile', styles.container)}
+      >
+        <div className={styles.content}>
+          <h2 className={styles.username}>{username}</h2>
+          {emailAddress ? <p className={styles.email}>{emailAddress}</p> : null}
+        </div>
+        <div className={styles.actions}>
+          <Button
+            className={styles.button}
+            icon="settings"
+            onClick={this.enableEditing}
+          >
+            {t('talk-plugin-auth.change_username.edit_profile')}
+          </Button>
+        </div>
+      </section>
+    );
+  }
+
   render() {
     const {
       username,
-      emailAddress,
       root: { me: { state: { status } } },
       notify,
     } = this.props;
     const { editing, formData, showDialog } = this.state;
 
     return (
-      <section
-        className={cn('talk-plugin-auth--edit-profile', styles.container, {
-          [styles.editing]: editing,
-        })}
-      >
+      <div>
         <ChangeUsernameDialog
           canUsernameBeUpdated={canUsernameBeUpdated(status)}
           showDialog={showDialog}
@@ -109,70 +182,8 @@ class ChangeUsername extends React.Component {
           saveChanges={this.saveChanges}
           notify={notify}
         />
-
-        {editing ? (
-          <div className={styles.content}>
-            <div className={styles.detailList}>
-              <InputField
-                icon="person"
-                id="newUsername"
-                name="newUsername"
-                onChange={this.onChange}
-                defaultValue={username}
-                columnDisplay
-                validationType="username"
-              >
-                <span className={styles.bottomText}>
-                  {t('talk-plugin-auth.change_username.change_username_note')}
-                </span>
-              </InputField>
-              <InputField
-                icon="email"
-                id="email"
-                name="email"
-                value={emailAddress}
-                validationType="username"
-                disabled
-              />
-            </div>
-          </div>
-        ) : (
-          <div className={styles.content}>
-            <h2 className={styles.username}>{username}</h2>
-            {emailAddress ? (
-              <p className={styles.email}>{emailAddress}</p>
-            ) : null}
-          </div>
-        )}
-        {editing ? (
-          <div className={styles.actions}>
-            <Button
-              className={cn(styles.button, styles.saveButton)}
-              icon="save"
-              onClick={this.onSave}
-              disabled={
-                !this.state.formData.newUsername ||
-                this.state.formData.newUsername === username
-              }
-            >
-              {t('talk-plugin-auth.change_username.save')}
-            </Button>
-            <a className={styles.cancelButton} onClick={this.cancel}>
-              {t('talk-plugin-auth.change_username.cancel')}
-            </a>
-          </div>
-        ) : (
-          <div className={styles.actions}>
-            <Button
-              className={styles.button}
-              icon="settings"
-              onClick={this.enableEditing}
-            >
-              {t('talk-plugin-auth.change_username.edit_profile')}
-            </Button>
-          </div>
-        )}
-      </section>
+        {editing ? this.renderEditingContent() : this.renderCollapsedContent()}
+      </div>
     );
   }
 }
