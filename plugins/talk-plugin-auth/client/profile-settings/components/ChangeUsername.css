@@ -78,37 +78,6 @@
   }
 }
 
-.detailLabel {
-  border: solid 1px #787D80;
-  border-radius: 2px;
-  background-color: white;
-  height: 30px;
-  display: inline-block;
-  width: 230px;
-  display: flex;
-
-  > .detailLabelIcon {
-    font-size: 1.2em;
-    padding: 0 5px;
-    color: #787D80;
-    line-height: 30px;
-  }
-
-  &.disabled {
-    background-color: #E0E0E0;
-  }
-}
-
-.detailValue {
-  background: transparent;
-  border: none;
-  font-size: 1em;
-  color: #000;
-  height: 30px;
-  outline: none;
-  flex: 1;
-}
-
 .bottomText {
   color: #474747;
   font-size: 0.9em;
