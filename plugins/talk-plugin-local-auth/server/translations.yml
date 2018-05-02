@@ -6,3 +6,4 @@ en:
   error:
     NO_LOCAL_PROFILE: No existing email address is associated with this account.
     LOCAL_PROFILE: An email address is already associated with this account.
+    INCORRECT_PASSWORD: Provided password was incorrect.

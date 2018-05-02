@@ -1,5 +1,9 @@
 const { ErrNotAuthorized, ErrNotFound, ErrEmailTaken } = require('errors');
-const { ErrNoLocalProfile, ErrLocalProfile } = require('./errors');
+const {
+  ErrNoLocalProfile,
+  ErrLocalProfile,
+  ErrIncorrectPassword,
+} = require('./errors');
 const { get } = require('lodash');
 const bcrypt = require('bcryptjs');
 
@@ -25,7 +29,7 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
 
   // Ensure that the password provided matches what we have on file.
   if (!await user.verifyPassword(confirmPassword)) {
-    throw new ErrNotAuthorized();
+    throw new ErrIncorrectPassword();
   }
 
   // Cleanup the email address.

@@ -22,4 +22,14 @@ class ErrLocalProfile extends TalkError {
   }
 }
 
-module.exports = { ErrLocalProfile, ErrNoLocalProfile };
+// ErrIncorrectPassword is returned when the password passed was incorrect.
+class ErrIncorrectPassword extends TalkError {
+  constructor() {
+    super('Password was incorrect', {
+      translation_key: 'INCORRECT_PASSWORD',
+      status: 400,
+    });
+  }
+}
+
+module.exports = { ErrLocalProfile, ErrNoLocalProfile, ErrIncorrectPassword };
