@@ -46,7 +46,7 @@ Settings for highlighting links. These will only apply if `higlightLinks` is set
 
 #### `dompurify`
 
-Rules to sanitize html input.  We use [DOMPurify] (https://github.com/cure53/DOMPurify) to prevent web attacks and XSS. Here is the complete list of [settings] (https://github.com/cure53/DOMPurify)
+Rules to sanitize html input.  We use [DOMPurify](https://github.com/cure53/DOMPurify) to prevent web attacks and XSS. Here is the complete list of [settings](https://github.com/cure53/DOMPurify)
 
 #### `jsdom`
 
