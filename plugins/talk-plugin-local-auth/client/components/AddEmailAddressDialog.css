@@ -52,9 +52,15 @@
   height: 30px;
   font-size: 0.9em;
   line-height: normal;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  line-height: 30px;
+  font-size: 1em;
 
   &:hover {
     background-color: #eaeaea;
+    cursor: pointer;
   }
 
   &.cancel {

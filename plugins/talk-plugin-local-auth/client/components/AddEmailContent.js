@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './AddEmailAddressDialog.css';
-import { Button, Icon } from 'plugin-api/beta/client/components/ui';
+import { Icon } from 'plugin-api/beta/client/components/ui';
 import cn from 'classnames';
 import InputField from './InputField';
 
@@ -76,13 +76,9 @@ const AddEmailContent = ({ formData, errors, showErrors, confirmChanges }) => (
         columnDisplay
         showSuccess={false}
       />
-      <Button
-        className={cn(styles.button, styles.proceed)}
-        full
-        onClick={confirmChanges}
-      >
+      <a className={cn(styles.button, styles.proceed)} onClick={confirmChanges}>
         Add Email Address
-      </Button>
+      </a>
     </form>
   </div>
 );
