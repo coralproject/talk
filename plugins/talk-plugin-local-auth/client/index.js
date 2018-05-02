@@ -1,4 +1,5 @@
 import ChangePassword from './containers/ChangePassword';
+import AddEmailAddressDialog from './containers/AddEmailAddressDialog';
 import Profile from './containers/Profile';
 import translations from './translations.yml';
 
@@ -7,5 +8,6 @@ export default {
   slots: {
     profileHeader: [Profile],
     profileSettings: [ChangePassword],
+    stream: [AddEmailAddressDialog],
   },
 };

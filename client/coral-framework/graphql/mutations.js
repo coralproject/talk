@@ -321,6 +321,50 @@ const SetUsernameFragment = gql`
   }
 `;
 
+export const withAttachLocalAuth = withMutation(
+  gql`
+    mutation AttachLocalAuth($input: AttachLocalAuthInput!) {
+      attachLocalAuth(input: $input) {
+        ...AttachLocalAuthResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      attachLocalAuth: input => {
+        return mutate({
+          variables: {
+            input,
+          },
+          update: proxy => {
+            const AttachLocalAuthQuery = gql`
+              query Talk_AttachLocalAuth {
+                me {
+                  id
+                  email
+                }
+              }
+            `;
+
+            const prev = proxy.readQuery({ query: AttachLocalAuthQuery });
+
+            const data = update(prev, {
+              me: {
+                email: { $set: input.email },
+              },
+            });
+
+            proxy.writeQuery({
+              query: AttachLocalAuthQuery,
+              data,
+            });
+          },
+        });
+      },
+    }),
+  }
+);
+
 export const withUpdateEmailAddress = withMutation(
   gql`
     mutation UpdateEmailAddress($input: UpdateEmailAddressInput!) {

@@ -28,5 +28,6 @@ export {
   withChangePassword,
   withChangeUsername,
   withUpdateEmailAddress,
+  withAttachLocalAuth,
 } from 'coral-framework/graphql/mutations';
 export { compose } from 'recompose';

@@ -1,0 +1,74 @@
+.dialog {
+  border: none;
+  box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 20px;
+  border-radius: 4px;
+  font-family: Helvetica,Helvetica Neue,Verdana,sans-serif;
+}
+
+.title {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+
+.description {
+  font-size: 1em;
+  line-height: 20px;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.list {
+  padding: 0;
+  margin: 20px 0;
+  list-style: none;
+}
+  
+.item {
+  display: flex;
+  margin-bottom: 20px;
+
+  .itemIcon {
+    flex-grow: 0;
+  }
+
+  .text {
+    flex-grow: 1;
+    padding-left: 10px;
+  }
+
+  > i.itemIcon {
+    font-size: 1.3em;
+  }
+}
+  
+.button {
+  color: #787D80;
+  border-radius: 2px;
+  background-color: transparent;
+  height: 30px;
+  font-size: 0.9em;
+  line-height: normal;
+
+  &:hover {
+    background-color: #eaeaea;
+  }
+
+  &.cancel {
+    background-color: transparent;
+    color: #787D80;
+  }
+
+  &.proceed {
+    background-color: #3498DB;
+    color: white;
+  }
+
+  &.danger {
+    background-color: #FA4643;
+    color: white;
+  }
+}
