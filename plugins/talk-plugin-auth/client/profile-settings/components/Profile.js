@@ -124,7 +124,7 @@ class Profile extends React.Component {
     const { changeUsername } = this.props;
 
     try {
-      await changeUsername(newUsername);
+      await changeUsername(this.props.root.me.id, newUsername);
       this.props.notify(
         'success',
         t('talk-plugin-auth.change_username.changed_username_success_msg')
