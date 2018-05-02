@@ -1,15 +1,18 @@
 import React from 'react';
 import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
-import styles from './AddEmailAddressDialog.css';
-import { Button, Dialog, Icon } from 'plugin-api/beta/client/components/ui';
+import { Dialog } from 'plugin-api/beta/client/components/ui';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
-import InputField from './InputField';
 import { getErrorMessages } from 'coral-framework/utils';
+import styles from './AddEmailAddressDialog.css';
+
+import AddEmailContent from './AddEmailContent';
+import VerifyEmailAddress from './VerifyEmailAddress';
+import EmailAddressAdded from './EmailAddressAdded';
 
 const initialState = {
+  step: 0,
   showErrors: false,
   errors: {},
   formData: {},
@@ -17,7 +20,7 @@ const initialState = {
 
 class AddEmailAddressDialog extends React.Component {
   state = initialState;
-  validKeys = ['emailAddress', 'confirmEmailAddress'];
+  validKeys = ['emailAddress', 'confirmEmailAddress', 'confirmPassword'];
 
   onChange = e => {
     const { name, value, type } = e.target;
@@ -74,96 +77,56 @@ class AddEmailAddressDialog extends React.Component {
     return formHasErrors || formIncomplete;
   };
 
-  showError = () => {
+  showErrors = () => {
     this.setState({
-      showError: true,
+      showErrors: true,
     });
   };
 
   confirmChanges = async () => {
     if (this.formHasError()) {
-      this.showError();
+      this.showErrors();
       return;
     }
 
-    const { emailAddress } = this.state.formData;
+    const { emailAddress, confirmPassword } = this.state.formData;
     const { attachLocalAuth } = this.props;
 
     try {
       await attachLocalAuth({
         email: emailAddress,
+        password: confirmPassword,
       });
       this.props.notify('success', 'Email Added!');
+      this.goToNextStep();
     } catch (err) {
       this.props.notify('error', getErrorMessages(err));
     }
   };
 
+  goToNextStep = () => {
+    this.setState(({ step }) => ({
+      step: step + 1,
+    }));
+  };
+
   render() {
-    const { errors, formData, showErrors } = this.state;
+    const { errors, formData, showErrors, step } = this.state;
+    const { root: { settings } } = this.props;
     return (
       <Dialog className={styles.dialog} open={true}>
-        <h4 className={styles.title}>Add an Email Address</h4>
-        <p className={styles.description}>
-          For your added security, we require users to add an email address to
-          their accounts. Your email address will be used to:
-        </p>
-        <ul className={styles.list}>
-          <li className={styles.item}>
-            <Icon name="done" className={styles.itemIcon} />
-            <span className={styles.text}>
-              Receive updates regarding any changes to your account (email
-              address, username, password, etc.)
-            </span>
-          </li>
-          <li className={styles.item}>
-            <Icon name="done" className={styles.itemIcon} />
-            <span className={styles.text}>
-              Allow you to download your comments.
-            </span>
-          </li>
-          <li className={styles.item}>
-            <Icon name="done" className={styles.itemIcon} />
-            <span className={styles.text}>
-              Send comment notifications that you have chosen to receive.
-            </span>
-          </li>
-        </ul>
-        <InputField
-          id="emailAddress"
-          label="Enter Email Address:"
-          name="emailAddress"
-          type="email"
-          onChange={this.onChange}
-          defaultValue=""
-          hasError={
-            (!formData.emailAddress || errors.emailAddress) && showErrors
-          }
-          errorMsg={errors.emailAddress}
-          showError={this.state.showError}
-          columnDisplay
-          showSuccess={false}
-        />
-        <InputField
-          id="confirmEmailAddress"
-          label="Confirm Email Address:"
-          name="confirmEmailAddress"
-          type="email"
-          onChange={this.onChange}
-          defaultValue=""
-          hasError={
-            (!formData.emailAddress ||
-              formData.emailAddress !== formData.confirmEmailAddress) &&
-            showErrors
-          }
-          errorMsg={'Email address does not match'}
-          showError={this.state.showError}
-          columnDisplay
-          showSuccess={false}
-        />
-        <Button className={cn(styles.button, styles.proceed)} full>
-          Add Email Address
-        </Button>
+        {step === 0 && (
+          <AddEmailContent
+            formData={formData}
+            errors={errors}
+            showErrors={showErrors}
+          />
+        )}
+        {step === 1 && !settings.requireEmailConfirmation ? (
+          <EmailAddressAdded />
+        ) : (
+          <VerifyEmailAddress emailAddress={formData.emailAddress} />
+        )}
       </Dialog>
     );
   }
@@ -172,6 +135,7 @@ class AddEmailAddressDialog extends React.Component {
 AddEmailAddressDialog.propTypes = {
   attachLocalAuth: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
+  root: PropTypes.func.isRequired,
 };
 
 export default AddEmailAddressDialog;

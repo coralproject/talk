@@ -15,6 +15,9 @@ const withData = withFragments({
         id
         email
       }
+      settings {
+        requireEmailConfirmation
+      }
     }
   `,
 });
