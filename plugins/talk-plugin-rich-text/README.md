@@ -16,6 +16,9 @@ Enables secure rich text support server-side.
 Add `"talk-plugin-rich-text"` to the `plugins.json` in your Talk installation.
 This plugin provides a server and a client side implementation.
 
+###### Note: Possible plugin conflict
+The plugin `talk-plugin-comment-content` will prevent this plugin from rendering comments with rich text styling and is not needed if this plugin is enabled.
+
 ## Server implementation
 
 ### How does this work?
@@ -47,7 +50,7 @@ Rules to sanitize html input.  We use [DOMPurify] (https://github.com/cure53/DOM
 
 #### `jsdom`
 
-In order to run html in the server we need [jsdom](https://github.com/jsdom/jsdom). Usually you wouldn’t need to modify this settings. 
+In order to run html in the server we need [jsdom](https://github.com/jsdom/jsdom). Usually you wouldn’t need to modify this settings.
 
 ## Client implementation
 
@@ -58,10 +61,10 @@ This plugin contains 2 important components:
 - The Editor (`./components/Editor.js`)
 - The Comment Content Renderer (`./components/CommentContent.js`)
 
-The editor component utilizes the [contentEditable](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content) and execCommand API. 
+The editor component utilizes the [contentEditable](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content) and execCommand API.
 
 If you check our `index.js` you will notice that we inject this editor in the
-`commentBox` slot. We do this to replace the core comment box with this one. 
+`commentBox` slot. We do this to replace the core comment box with this one.
 
 Now, in order to render the new styled comments we need a comment renderer. For
 this task we will have to replace our core comment renderer by using the
