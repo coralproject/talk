@@ -28,3 +28,9 @@ Configuration:
   [Creating an App ID](https://developers.facebook.com/docs/apps/register)
   guide. This is only required while the `talk-plugin-facebook-auth` plugin is
   enabled.
+
+## GDPR Compliance
+
+In order to facilitate compliance with the
+[EU General Data Protection Regulation (GDPR)](https://www.eugdpr.org/), you
+should review our [GDPR Compliance](/talk/integrating/gdpr/) guidelines.

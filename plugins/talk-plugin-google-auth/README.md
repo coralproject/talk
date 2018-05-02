@@ -27,3 +27,9 @@ Configuration:
 - `TALK_GOOGLE_CLIENT_SECRET` (**required**) - The Google OAuth2 client ID for
   your Google login web app. You can learn more about getting a Google Client
   ID at the [Google API Console](https://console.developers.google.com/apis/).
+
+## GDPR Compliance
+
+In order to facilitate compliance with the
+[EU General Data Protection Regulation (GDPR)](https://www.eugdpr.org/), you
+should review our [GDPR Compliance](/talk/integrating/gdpr/) guidelines.

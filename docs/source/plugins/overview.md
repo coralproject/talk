@@ -9,11 +9,16 @@ functionality. We provide methods to inject behavior into the server side and
 the client side application to affect different parts of the application
 life cycle.
 
-## Recipes
+## Server and Client Plugins
 
-Recipes are plugin templates provided by the Coral Core team. Developers can use
-these recipes to build their own plugins. You can find all the Talk recipes
-here: [github.com/coralproject/talk-recipes](https://github.com/coralproject/talk-recipes/).
+When you're adding a plugin to Talk, you can specify it in the `client` and/or
+the `server` section. If you only want to enable the server side component of a
+plugin, you simply only specify the plugin in the `server` section. If you only
+want the client side plugin, the `client` section.
+
+Plugins listed in the [Plugins Directory](/talk/plugins-directory/) will
+indicate if they have/support a client/server plugin, and should be activated
+accordingly.
 
 ## Plugin Registration
 
@@ -117,3 +122,9 @@ assets inside the image as well.
 
 For more information on the onbuild image, refer to the
 [Installation from Docker](/talk/installation-from-docker/) documentation.
+
+## Recipes
+
+Recipes are plugin templates provided by the Coral Core team. Developers can use
+these recipes to build their own plugins. You can find all the Talk recipes
+here: [github.com/coralproject/talk-recipes](https://github.com/coralproject/talk-recipes/).
