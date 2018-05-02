@@ -115,10 +115,10 @@ class AddEmailAddressDialog extends React.Component {
 
   render() {
     const { errors, formData, showErrors, step } = this.state;
-    const { root: { settings } } = this.props;
+    const { root: { settings }, showAddEmailDialog } = this.props;
 
     return (
-      <Dialog className={styles.dialog} open={true}>
+      <Dialog className={styles.dialog} open={showAddEmailDialog}>
         {step === 0 && (
           <AddEmailContent
             formData={formData}
@@ -129,10 +129,15 @@ class AddEmailAddressDialog extends React.Component {
           />
         )}
         {step === 1 &&
-          !settings.requireEmailConfirmation && <EmailAddressAdded />}
+          !settings.requireEmailConfirmation && (
+            <EmailAddressAdded done={() => {}} />
+          )}
         {step === 1 &&
           settings.requireEmailConfirmation && (
-            <VerifyEmailAddress emailAddress={formData.emailAddress} />
+            <VerifyEmailAddress
+              emailAddress={formData.emailAddress}
+              done={() => {}}
+            />
           )}
       </Dialog>
     );
@@ -143,6 +148,7 @@ AddEmailAddressDialog.propTypes = {
   attachLocalAuth: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
   root: PropTypes.object.isRequired,
+  showAddEmailDialog: PropTypes.bool.isRequired,
 };
 
 export default AddEmailAddressDialog;

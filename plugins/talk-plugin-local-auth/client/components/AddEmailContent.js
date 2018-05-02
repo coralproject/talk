@@ -72,7 +72,7 @@ const AddEmailContent = ({
       />
       <InputField
         id="confirmPassword"
-        label="Insert Password"
+        label="Insert Password:"
         name="confirmPassword"
         type="password"
         onChange={onChange}
@@ -83,9 +83,14 @@ const AddEmailContent = ({
         columnDisplay
         showSuccess={false}
       />
-      <a className={cn(styles.button, styles.proceed)} onClick={confirmChanges}>
-        Add Email Address
-      </a>
+      <div className={styles.actions}>
+        <a
+          className={cn(styles.button, styles.proceed)}
+          onClick={confirmChanges}
+        >
+          Add Email Address
+        </a>
+      </div>
     </form>
   </div>
 );

@@ -22,8 +22,12 @@ const withData = withFragments({
   `,
 });
 
+const mapStateToProps = ({ talkPluginLocalAuth: state }) => ({
+  showAddEmailDialog: state.showAddEmailDialog,
+});
+
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withAttachLocalAuth,
   withData
 )(AddEmailAddressDialog);
