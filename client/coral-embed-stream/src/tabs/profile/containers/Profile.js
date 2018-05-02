@@ -46,7 +46,7 @@ ProfileContainer.propTypes = {
   currentUser: PropTypes.object,
 };
 
-const slots = ['profileSections'];
+const slots = ['profileSections', 'profileSettings', 'profileHeader'];
 
 const withProfileQuery = withQuery(
   gql`

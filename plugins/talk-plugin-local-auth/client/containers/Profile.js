@@ -15,6 +15,8 @@ const withData = withFragments({
     fragment TalkPluginLocalAuth_Profile_root on RootQuery {
       me {
         id
+        email
+        username
         state {
           status {
             username {

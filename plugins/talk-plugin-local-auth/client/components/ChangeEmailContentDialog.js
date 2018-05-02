@@ -37,7 +37,7 @@ class ChangeEmailContentDialog extends React.Component {
           <div className={styles.emailChange}>
             <span className={styles.item}>
               {t('talk-plugin-local-auth.change_email.old_email')}:{' '}
-              {this.props.emailAddress}
+              {this.props.email}
             </span>
             <span className={styles.item}>
               {t('talk-plugin-local-auth.change_email.new_email')}:{' '}
@@ -86,7 +86,7 @@ ChangeEmailContentDialog.propTypes = {
   cancel: PropTypes.func,
   onChange: PropTypes.func,
   formData: PropTypes.object,
-  emailAddress: PropTypes.string,
+  email: PropTypes.string,
 };
 
 export default ChangeEmailContentDialog;

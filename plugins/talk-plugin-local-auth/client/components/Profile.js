@@ -158,9 +158,7 @@ class Profile extends React.Component {
 
   render() {
     const {
-      username,
-      emailAddress,
-      root: { me: { state: { status } } },
+      root: { me: { username, email, state: { status } } },
       notify,
     } = this.props;
     const { editing, formData, showDialog } = this.state;
@@ -193,8 +191,8 @@ class Profile extends React.Component {
             save={this.saveEmail}
             onChange={this.onChange}
             formData={this.state.formData}
-            emailAddress={emailAddress}
-            enable={formData.newEmail && emailAddress !== formData.newEmail}
+            email={email}
+            enable={formData.newEmail && email !== formData.newEmail}
           />
         </ConfirmChangesDialog>
 
@@ -221,7 +219,7 @@ class Profile extends React.Component {
                 id="newEmail"
                 name="newEmail"
                 onChange={this.onChange}
-                defaultValue={emailAddress}
+                defaultValue={email}
                 validationType="email"
                 columnDisplay
               />
@@ -230,9 +228,7 @@ class Profile extends React.Component {
         ) : (
           <div className={styles.content}>
             <h2 className={styles.username}>{username}</h2>
-            {emailAddress ? (
-              <p className={styles.email}>{emailAddress}</p>
-            ) : null}
+            {email ? <p className={styles.email}>{email}</p> : null}
           </div>
         )}
         {editing ? (

@@ -336,6 +336,29 @@ export const withUpdateEmailAddress = withMutation(
           variables: {
             input,
           },
+          update: proxy => {
+            const UpdateEmailAddressQuery = gql`
+              query Talk_UpdateEmailAddress {
+                me {
+                  id
+                  email
+                }
+              }
+            `;
+
+            const prev = proxy.readQuery({ query: UpdateEmailAddressQuery });
+
+            const data = update(prev, {
+              me: {
+                email: { $set: input.email },
+              },
+            });
+
+            proxy.writeQuery({
+              query: UpdateEmailAddressQuery,
+              data,
+            });
+          },
         });
       },
     }),
