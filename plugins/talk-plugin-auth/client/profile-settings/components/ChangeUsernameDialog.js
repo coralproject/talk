@@ -87,7 +87,7 @@ class ChangeUsernameDialog extends React.Component {
             </InputField>
           </form>
           <div className={styles.bottomActions}>
-            <Button className={styles.cancel}>
+            <Button className={styles.cancel} onClick={this.props.closeDialog}>
               {t('talk-plugin-auth.change_username.cancel')}
             </Button>
             <Button
