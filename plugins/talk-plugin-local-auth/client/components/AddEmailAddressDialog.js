@@ -1,5 +1,6 @@
 import React from 'react';
-import isEqual from 'lodash/isEqual';
+import isMatch from 'lodash/isEqual';
+import isEqualWith from 'lodash/isEqual';
 import PropTypes from 'prop-types';
 import { Dialog } from 'plugin-api/beta/client/components/ui';
 import validate from 'coral-framework/helpers/validate';
@@ -20,7 +21,7 @@ const initialState = {
 
 class AddEmailAddressDialog extends React.Component {
   state = initialState;
-  validKeys = ['emailAddress', 'confirmEmailAddress', 'confirmPassword'];
+  validKeys = ['emailAddress', 'confirmPassword', 'confirmEmailAddress'];
 
   onChange = e => {
     const { name, value, type } = e.target;
@@ -70,10 +71,12 @@ class AddEmailAddressDialog extends React.Component {
 
   formHasError = () => {
     const formHasErrors = !!Object.keys(this.state.errors).length;
-    const formIncomplete = !isEqual(
+    const formIncomplete = !isEqualWith(
       Object.keys(this.state.formData),
-      this.validKeys
+      this.validKeys,
+      isMatch
     );
+
     return formHasErrors || formIncomplete;
   };
 
@@ -113,6 +116,7 @@ class AddEmailAddressDialog extends React.Component {
   render() {
     const { errors, formData, showErrors, step } = this.state;
     const { root: { settings } } = this.props;
+
     return (
       <Dialog className={styles.dialog} open={true}>
         {step === 0 && (
@@ -121,6 +125,7 @@ class AddEmailAddressDialog extends React.Component {
             errors={errors}
             showErrors={showErrors}
             confirmChanges={this.confirmChanges}
+            onChange={this.onChange}
           />
         )}
         {step === 1 &&

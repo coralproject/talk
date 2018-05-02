@@ -5,7 +5,13 @@ import { Icon } from 'plugin-api/beta/client/components/ui';
 import cn from 'classnames';
 import InputField from './InputField';
 
-const AddEmailContent = ({ formData, errors, showErrors, confirmChanges }) => (
+const AddEmailContent = ({
+  formData,
+  errors,
+  showErrors,
+  confirmChanges,
+  onChange,
+}) => (
   <div>
     <h4 className={styles.title}>Add an Email Address</h4>
     <p className={styles.description}>
@@ -33,13 +39,14 @@ const AddEmailContent = ({ formData, errors, showErrors, confirmChanges }) => (
         </span>
       </li>
     </ul>
-    <form>
+
+    <form autoComplete="off">
       <InputField
         id="emailAddress"
         label="Enter Email Address:"
         name="emailAddress"
         type="email"
-        onChange={this.onChange}
+        onChange={onChange}
         defaultValue=""
         hasError={!formData.emailAddress || errors.emailAddress}
         errorMsg={'Invalid email address'}
@@ -52,7 +59,7 @@ const AddEmailContent = ({ formData, errors, showErrors, confirmChanges }) => (
         label="Confirm Email Address:"
         name="confirmEmailAddress"
         type="email"
-        onChange={this.onChange}
+        onChange={onChange}
         defaultValue=""
         hasError={
           !formData.emailAddress ||
@@ -68,7 +75,7 @@ const AddEmailContent = ({ formData, errors, showErrors, confirmChanges }) => (
         label="Insert Password"
         name="confirmPassword"
         type="password"
-        onChange={this.onChange}
+        onChange={onChange}
         defaultValue=""
         hasError={!formData.confirmPassword}
         errorMsg={'Confirm Password'}
@@ -88,6 +95,7 @@ AddEmailContent.propTypes = {
   errors: PropTypes.object.isRequired,
   showErrors: PropTypes.bool.isRequired,
   confirmChanges: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default AddEmailContent;
