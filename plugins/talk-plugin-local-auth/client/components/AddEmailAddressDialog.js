@@ -120,13 +120,15 @@ class AddEmailAddressDialog extends React.Component {
             formData={formData}
             errors={errors}
             showErrors={showErrors}
+            confirmChanges={this.confirmChanges}
           />
         )}
-        {step === 1 && !settings.requireEmailConfirmation ? (
-          <EmailAddressAdded />
-        ) : (
-          <VerifyEmailAddress emailAddress={formData.emailAddress} />
-        )}
+        {step === 1 &&
+          !settings.requireEmailConfirmation && <EmailAddressAdded />}
+        {step === 1 &&
+          settings.requireEmailConfirmation && (
+            <VerifyEmailAddress emailAddress={formData.emailAddress} />
+          )}
       </Dialog>
     );
   }
@@ -135,7 +137,7 @@ class AddEmailAddressDialog extends React.Component {
 AddEmailAddressDialog.propTypes = {
   attachLocalAuth: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
-  root: PropTypes.func.isRequired,
+  root: PropTypes.object.isRequired,
 };
 
 export default AddEmailAddressDialog;

@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './AddEmailAddressDialog.css';
 import { Button, Icon } from 'plugin-api/beta/client/components/ui';
 import cn from 'classnames';
 import InputField from './InputField';
 
-const AddEmailContent = ({ formData, errors, showErrors }) => (
+const AddEmailContent = ({ formData, errors, showErrors, confirmChanges }) => (
   <div>
     <h4 className={styles.title}>Add an Email Address</h4>
     <p className={styles.description}>
@@ -32,53 +33,65 @@ const AddEmailContent = ({ formData, errors, showErrors }) => (
         </span>
       </li>
     </ul>
-    <InputField
-      id="emailAddress"
-      label="Enter Email Address:"
-      name="emailAddress"
-      type="email"
-      onChange={this.onChange}
-      defaultValue=""
-      hasError={(!formData.emailAddress || errors.emailAddress) && showErrors}
-      errorMsg={errors.emailAddress}
-      showError={this.state.showError}
-      columnDisplay
-      showSuccess={false}
-    />
-    <InputField
-      id="confirmEmailAddress"
-      label="Confirm Email Address:"
-      name="confirmEmailAddress"
-      type="email"
-      onChange={this.onChange}
-      defaultValue=""
-      hasError={
-        (!formData.emailAddress ||
-          formData.emailAddress !== formData.confirmEmailAddress) &&
-        showErrors
-      }
-      errorMsg={'Email address does not match'}
-      showError={this.state.showError}
-      columnDisplay
-      showSuccess={false}
-    />
-    <InputField
-      id="confirmPassword"
-      label="Insert Password"
-      name="confirmPassword"
-      type="password"
-      onChange={this.onChange}
-      defaultValue=""
-      hasError={!formData.confirmPassword && showErrors}
-      errorMsg={'Confirm Password'}
-      showError={this.state.showError}
-      columnDisplay
-      showSuccess={false}
-    />
-    <Button className={cn(styles.button, styles.proceed)} full>
-      Add Email Address
-    </Button>
+    <form>
+      <InputField
+        id="emailAddress"
+        label="Enter Email Address:"
+        name="emailAddress"
+        type="email"
+        onChange={this.onChange}
+        defaultValue=""
+        hasError={!formData.emailAddress || errors.emailAddress}
+        errorMsg={errors.emailAddress}
+        showError={showErrors}
+        columnDisplay
+        showSuccess={false}
+      />
+      <InputField
+        id="confirmEmailAddress"
+        label="Confirm Email Address:"
+        name="confirmEmailAddress"
+        type="email"
+        onChange={this.onChange}
+        defaultValue=""
+        hasError={
+          !formData.emailAddress ||
+          formData.emailAddress !== formData.confirmEmailAddress
+        }
+        errorMsg={'Email address does not match'}
+        showError={showErrors}
+        columnDisplay
+        showSuccess={false}
+      />
+      <InputField
+        id="confirmPassword"
+        label="Insert Password"
+        name="confirmPassword"
+        type="password"
+        onChange={this.onChange}
+        defaultValue=""
+        hasError={!formData.confirmPassword}
+        errorMsg={'Confirm Password'}
+        showError={showErrors}
+        columnDisplay
+        showSuccess={false}
+      />
+      <Button
+        className={cn(styles.button, styles.proceed)}
+        full
+        onClick={confirmChanges}
+      >
+        Add Email Address
+      </Button>
+    </form>
   </div>
 );
+
+AddEmailContent.propTypes = {
+  formData: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  showErrors: PropTypes.bool.isRequired,
+  confirmChanges: PropTypes.func.isRequired,
+};
 
 export default AddEmailContent;
