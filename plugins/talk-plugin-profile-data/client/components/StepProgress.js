@@ -11,7 +11,7 @@ const CheckItem = ({ current = false, completed = false }) => (
       [styles.completed]: completed,
     })}
   >
-    <Icon name="check_circle" />
+    <Icon name="check_circle" className={styles.icon} />
   </span>
 );
 

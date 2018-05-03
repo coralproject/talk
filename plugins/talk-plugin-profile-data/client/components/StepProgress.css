@@ -4,6 +4,10 @@
   padding: 6px;
   z-index: 10;
 
+  > .icon {
+    font-size: 25px;
+  }
+
   &.current {
     color: rgba(0, 205, 115, 0.3);
   }
