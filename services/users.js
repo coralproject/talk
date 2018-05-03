@@ -18,12 +18,14 @@ const {
   ErrCannotIgnoreStaff,
 } = require('../errors');
 const { difference, sample, some, merge, random } = require('lodash');
-const { ROOT_URL } = require('../config');
+const {
+  ROOT_URL,
+  RECAPTCHA_WINDOW,
+  RECAPTCHA_INCORRECT_TRIGGER,
+} = require('../config');
 const { jwt: JWT_SECRET } = require('../secrets');
 const debug = require('debug')('talk:services:users');
 const User = require('../models/user');
-const RECAPTCHA_WINDOW = '10m'; // 10 minutes.
-const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 5 incorrect attempts, recaptcha will be required.
 const Actions = require('./actions');
 const mailer = require('./mailer');
 const i18n = require('./i18n');

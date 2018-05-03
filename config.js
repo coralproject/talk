@@ -212,6 +212,13 @@ const CONFIG = {
   RECAPTCHA_PUBLIC: process.env.TALK_RECAPTCHA_PUBLIC,
   RECAPTCHA_SECRET: process.env.TALK_RECAPTCHA_SECRET,
 
+  // RECAPTCHA_WINDOW is the rate limit's time interval
+  RECAPTCHA_WINDOW: process.env.TALK_RECAPTCHA_WINDOW || '10m',
+
+  // After RECAPTCHA_INCORRECT_TRIGGER incorrect attempts, recaptcha will be required.
+  RECAPTCHA_INCORRECT_TRIGGER:
+    process.env.TALK_RECAPTCHA_INCORRECT_TRIGGER || 5,
+
   // WEBSOCKET_LIVE_URI is the absolute url to the live endpoint.
   WEBSOCKET_LIVE_URI: process.env.TALK_WEBSOCKET_LIVE_URI || null,
 
