@@ -4,7 +4,7 @@ import { connect, withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
 import AddEmailAddressDialog from '../components/AddEmailAddressDialog';
 import { notify } from 'coral-framework/actions/notification';
 
-import { withAttachLocalAuth } from 'plugin-api/beta/client/hocs';
+import { withAttachLocalAuth } from '../hocs';
 
 const mapDispatchToProps = dispatch => bindActionCreators({ notify }, dispatch);
 
