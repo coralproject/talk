@@ -32,6 +32,7 @@ export const withRequestAccountDeletion = withMutation(
         return mutate({
           variables: {},
           update: proxy => {
+            debugger;
             const RequestAccountDeletionQuery = gql`
               query Talk_CancelAccountDeletion {
                 me {
@@ -46,7 +47,7 @@ export const withRequestAccountDeletion = withMutation(
             });
 
             const scheduledDeletionDate = moment()
-              .add(12, 'hours')
+              .add(24, 'hours')
               .toDate();
 
             const data = update(prev, {

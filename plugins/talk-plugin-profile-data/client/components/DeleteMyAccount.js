@@ -55,6 +55,7 @@ class DeleteMyAccount extends React.Component {
           requestAccountDeletion={this.requestAccountDeletion}
           showDialog={this.state.showDialog}
           closeDialog={this.closeDialog}
+          scheduledDeletionDate={scheduledDeletionDate}
         />
         <h3
           className={cn(

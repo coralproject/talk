@@ -3,6 +3,7 @@ import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { Button, Icon } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
+import moment from 'moment';
 
 const DeleteMyAccountFinalStep = props => (
   <div className={styles.step}>
@@ -17,7 +18,9 @@ const DeleteMyAccountFinalStep = props => (
       </strong>
       <strong className={styles.block}>
         <Icon name="access_time" className={styles.timeIcon} />
-        <span>Account Deletion Date and Time</span>
+        <span>
+          {moment(props.scheduledDeletionDate).format('MMM Do YYYY, h:mm:ss a')}
+        </span>
       </strong>
     </div>
 
@@ -45,6 +48,7 @@ const DeleteMyAccountFinalStep = props => (
 
 DeleteMyAccountFinalStep.propTypes = {
   finish: PropTypes.func.isRequired,
+  scheduledDeletionDate: PropTypes.string.isRequired,
 };
 
 export default DeleteMyAccountFinalStep;
