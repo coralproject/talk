@@ -32,7 +32,6 @@ export const withRequestAccountDeletion = withMutation(
         return mutate({
           variables: {},
           update: proxy => {
-            debugger;
             const RequestAccountDeletionQuery = gql`
               query Talk_CancelAccountDeletion {
                 me {

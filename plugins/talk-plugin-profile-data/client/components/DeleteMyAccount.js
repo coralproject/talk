@@ -48,7 +48,10 @@ class DeleteMyAccount extends React.Component {
   };
 
   render() {
-    const { me: { scheduledDeletionDate } } = this.props.root;
+    const {
+      me: { scheduledDeletionDate },
+      settings: { organizationContactEmail },
+    } = this.props.root;
     return (
       <div className="talk-plugin-auth--delete-my-account">
         <DeleteMyAccountDialog
@@ -56,6 +59,7 @@ class DeleteMyAccount extends React.Component {
           showDialog={this.state.showDialog}
           closeDialog={this.closeDialog}
           scheduledDeletionDate={scheduledDeletionDate}
+          organizationContactEmail={organizationContactEmail}
         />
         <h3
           className={cn(

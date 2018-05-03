@@ -31,7 +31,10 @@ const DeleteMyAccountFinalStep = props => (
 
     <p className={styles.description}>
       <strong>Tell us why.</strong> We would like to know why you chose to
-      delete your account. Send us feedback on our comment system by emailing.
+      delete your account. Send us feedback on our comment system by emailing{' '}
+      <a href={`mailto:${props.organizationContactEmail}`}>
+        {props.organizationContactEmail}
+      </a>.
     </p>
 
     <div className={cn(styles.actions, styles.columnView)}>
@@ -49,6 +52,7 @@ const DeleteMyAccountFinalStep = props => (
 DeleteMyAccountFinalStep.propTypes = {
   finish: PropTypes.func.isRequired,
   scheduledDeletionDate: PropTypes.string.isRequired,
+  organizationContactEmail: PropTypes.string.isRequired,
 };
 
 export default DeleteMyAccountFinalStep;

@@ -42,7 +42,7 @@ class DeleteMyAccountDialog extends React.Component {
 
   render() {
     const { step } = this.state;
-    const { scheduledDeletionDate } = this.props;
+    const { scheduledDeletionDate, organizationContactEmail } = this.props;
 
     return (
       <Dialog open={this.props.showDialog} className={styles.dialog}>
@@ -81,6 +81,7 @@ class DeleteMyAccountDialog extends React.Component {
         {step === 4 && (
           <DeleteMyAccountFinalStep
             scheduledDeletionDate={scheduledDeletionDate}
+            organizationContactEmail={organizationContactEmail}
             finish={this.cancel}
           />
         )}
@@ -94,6 +95,7 @@ DeleteMyAccountDialog.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   requestAccountDeletion: PropTypes.func.isRequired,
   scheduledDeletionDate: PropTypes.string,
+  organizationContactEmail: PropTypes.string.isRequired,
 };
 
 export default DeleteMyAccountDialog;
