@@ -2,7 +2,7 @@ en:
   download_request:
     section_title: "Download My Comment History"
     you_will_get_a_copy: "You will recieve an email with a link to download your comment history. You can make"
-    download_rate: "one download request every 7 days"
+    download_rate: "one download request every {0} days"
     most_recent_request: "Your most recent request"
     request: "Request Comment History"
     rate_limit: "You can submit another Comment History request in {0}"
@@ -12,10 +12,10 @@ en:
     day: "{0} day"
     download_preparing: "Account Download Preparing - Check your email shortly for a download link"
   delete_request:
-    account_deletion_cancelled: 'Account Deletion Request Cancelled - Your request to delete your account has been cancelled. You may now write comments, reply to comments, and select reactions.'
+    account_deletion_cancelled: 'Account Deletion Request Cancelled - Your request to delete your account has been cancelled.'
     account_deletion_requested: 'Account Deletion Requested'
     received_on: "A request to delete your account was received on "
-    cancel_request_description: "If you would like to continue leaving comments, replies or reactions, you may cancel your request to delete your account below"
+    cancel_request_description: "If you would like to reactivate your account, you may cancel your request to delete your account below"
     before: "before"
     cancel_account_deletion_request: "Cancel Account Deletion Request"
     delete_my_account: "Delete My Account"
@@ -38,9 +38,9 @@ en:
       item_3: "Your username and email address are removed from our system"
     step_1:
       subtitle: "When will my account be deleted?"
-      description: "Your account will be deleted 24 hours after your request has been submitted."
+      description: "Your account will be deleted {0} hours after your request has been submitted."
       subtitle_2: "Can I still write comments until my account is deleted?"
-      description_2: "No. Once you have requested account deletion, you can no longer write comments, reply to comments, or select reactions."
+      description_2: "Yes, you can still comment, reply, and react to comments until the {0} hours expires."
     step_2:
       description: "Before your account is deleted, we recommend you download your comment history for your records. After your account is deleted, you will be unable to request your comment history."
       to_download: "To download your comment history go to:"

@@ -4,16 +4,17 @@ import cn from 'classnames';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
 import { t } from 'plugin-api/beta/client/services';
+import { scheduledDeletionDelayHours } from '../../config';
 
 const DeleteMyAccountStep1 = props => (
   <div className={styles.step}>
     <h4 className={styles.subTitle}>{t('delete_request.step_1.subtitle')}</h4>
     <p className={styles.description}>
-      {t('delete_request.step_1.description')}
+      {t('delete_request.step_1.description', scheduledDeletionDelayHours)}
     </p>
     <h4 className={styles.subTitle}>{t('delete_request.step_1.subtitle_2')}</h4>
     <p className={styles.description}>
-      {t('delete_request.step_1.description_2')}
+      {t('delete_request.step_1.description_2', scheduledDeletionDelayHours)}
     </p>
     <div className={cn(styles.actions)}>
       <Button

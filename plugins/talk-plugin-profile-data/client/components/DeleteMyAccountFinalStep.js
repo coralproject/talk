@@ -33,7 +33,7 @@ const DeleteMyAccountFinalStep = props => (
 
     <p className={styles.description}>
       <strong>{t('delete_request.tell_us_why')}.</strong>{' '}
-      {t('delete_request.feedback_copy')}
+      {t('delete_request.feedback_copy')}{' '}
       <a href={`mailto:${props.organizationContactEmail}`}>
         {props.organizationContactEmail}
       </a>.

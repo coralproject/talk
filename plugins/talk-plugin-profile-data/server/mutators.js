@@ -8,6 +8,10 @@ const {
 } = require('./errors');
 const { ErrNotAuthorized, ErrMaxRateLimit } = require('errors');
 const { URL } = require('url');
+const {
+  scheduledDeletionDelayHours,
+  downloadRateLimitDays,
+} = require('../config');
 
 // generateDownloadLinks will generate a signed set of links for a given user to
 // download an archive of their data.
@@ -42,21 +46,26 @@ async function sendDownloadLink(ctx) {
   } = ctx;
 
   // downloadLinkLimiter can be used to limit downloads for the user's data to
-  // once every 7 days.
-  const downloadLinkLimiter = new Limit('profileDataDownloadLimiter', 1, '7d');
+  // once every ${downloadRateLimitDays} days.
+  const downloadLinkLimiter = new Limit(
+    'profileDataDownloadLimiter',
+    1,
+    `${downloadRateLimitDays}d`
+  );
 
   // Check that the user has not already requested a download within the last
-  // 7 days.
+  // ${downloadRateLimitDays} days.
   const attempts = await downloadLinkLimiter.get(user.id);
   if (attempts && attempts >= 1) {
     throw new ErrMaxRateLimit();
   }
 
-  // Check if the lastAccountDownload time is within 7 days.
+  // Check if the lastAccountDownload time is within ${downloadRateLimitDays}
+  // days.
   if (
     user.lastAccountDownload &&
     moment(user.lastAccountDownload)
-      .add(7, 'days')
+      .add(downloadRateLimitDays, 'days')
       .isAfter(moment())
   ) {
     throw new ErrMaxRateLimit();
@@ -93,16 +102,17 @@ async function sendDownloadLink(ctx) {
 }
 
 // requestDeletion will schedule the current user to have their account deleted
-// by setting the `scheduledDeletionDate` on the user 24 hours from now.
+// by setting the `scheduledDeletionDate` on the user
+// ${scheduledDeletionDelayHours} hours from now.
 async function requestDeletion({ user, connectors: { models: { User } } }) {
   // Ensure the user doesn't already have a deletion scheduled.
   if (get(user, 'metadata.scheduledDeletionDate')) {
     throw new ErrDeletionAlreadyScheduled();
   }
 
-  // Get the date in the future 24 hours from now.
+  // Get the date in the future ${scheduledDeletionDelayHours} hours from now.
   const scheduledDeletionDate = moment()
-    .add(24, 'hours')
+    .add(scheduledDeletionDelayHours, 'hours')
     .toDate();
 
   // Amend the scheduledDeletionDate on the user.
