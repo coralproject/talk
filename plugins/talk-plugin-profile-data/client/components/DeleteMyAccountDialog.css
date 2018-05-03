@@ -6,7 +6,7 @@
   font-family: Helvetica, 'Helvetica Neue', Verdana, sans-serif;
   font-size: 14px;
   border-radius: 4px;
-  padding: 12px 20px;
+  padding: 20px;
 }
 
 .close {
@@ -27,6 +27,7 @@
 
 .title {
   font-size: 1.2em;
+  margin-top: 0;
   margin-bottom: 8px;
 }
 
