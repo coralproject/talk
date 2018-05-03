@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+import { t } from 'plugin-api/beta/client/services';
 import moment from 'moment';
 import { Button, Icon } from 'plugin-api/beta/client/components/ui';
 import styles from './AccountDeletionRequestedSign.css';
@@ -13,7 +14,7 @@ class AccountDeletionRequestedSign extends React.Component {
       await cancelAccountDeletion();
       notify(
         'success',
-        'Account Deletion Request Cancelled - Your request to delete your account has been cancelled. You may now write comments, reply to comments, and select reactions.'
+        t('talk-plugin-profile-data.delete_request.account_deletion_cancelled')
       );
     } catch (err) {
       notify('error', getErrorMessages(err));
@@ -33,24 +34,33 @@ class AccountDeletionRequestedSign extends React.Component {
     return (
       <div className={styles.container}>
         <h4 className={styles.title}>
-          <Icon name="warning" className={styles.icon} />Account Deletion
-          Requested
+          <Icon name="warning" className={styles.icon} />{' '}
+          {t(
+            'talk-plugin-profile-data.delete_request.account_deletion_requested'
+          )}
         </h4>
         <p className={styles.description}>
-          A request to delete your account was received on{' '}
+          {t('talk-plugin-profile-data.delete_request.received_on')}
           {deletionScheduledFor}.
         </p>
         <p className={styles.description}>
-          If you would like to continue leaving comments, replies or reactions,
-          you may cancel your request to delete your account below{' '}
-          <b>before {deletionScheduledOn}</b>.
+          {t(
+            'talk-plugin-profile-data.delete_request.cancel_request_description'
+          )}
+          <b>
+            {' '}
+            {t('talk-plugin-profile-data.delete_request.before')}{' '}
+            {deletionScheduledOn}
+          </b>.
         </p>
         <div className={styles.actions}>
           <Button
             className={cn(styles.button, styles.secondary)}
             onClick={this.cancelAccountDeletion}
           >
-            Cancel Account Deletion Request
+            {t(
+              'talk-plugin-profile-data.delete_request.cancel_account_deletion_request'
+            )}
           </Button>
         </div>
       </div>

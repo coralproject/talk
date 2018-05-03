@@ -10,3 +10,13 @@ en:
     days: "{0} days"
     hour: "{0} hour"
     day: "{0} day"
+  delete_request:
+    account_deletion_cancelled: 'Account Deletion Request Cancelled - Your request to delete your account has been cancelled. You may now write comments, reply to comments, and select reactions.'
+    account_deletion_requested: 'Account Deletion Requested'
+    received_on: "A request to delete your account was received on "
+    cancel_request_description: "If you would like to continue leaving comments, replies or reactions, you may cancel your request to delete your account below"
+    before: "before"
+    cancel_account_deletion_request: "Cancel Account Deletion Request"
+    delete_my_account: "Delete My Account"
+    delete_my_account_description: "Deleting your account will permanently erase your profile and remove all your comments from this site."
+    already_submitted_request_description: "You have already submitted a request to delete your account. Your account will be deleted on {0}. You may cancel the request until that time"
