@@ -3,10 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect, withFragments } from 'plugin-api/beta/client/hocs';
 import DeleteMyAccount from '../components/DeleteMyAccount';
 import { notify } from 'coral-framework/actions/notification';
-import {
-  withRequestAccountDeletion,
-  withCancelAccountDeletion,
-} from '../mutations';
+import { withRequestAccountDeletion, withCancelAccountDeletion } from '../hocs';
 
 const mapDispatchToProps = dispatch => bindActionCreators({ notify }, dispatch);
 

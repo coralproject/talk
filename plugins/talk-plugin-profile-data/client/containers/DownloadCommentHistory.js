@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { compose, gql } from 'react-apollo';
 import DownloadCommentHistory from '../components/DownloadCommentHistory';
 import { connect, withFragments } from 'plugin-api/beta/client/hocs';
-import { withRequestDownloadLink } from '../mutations';
+import { withRequestDownloadLink } from '../hocs';
 import { notify } from 'coral-framework/actions/notification';
 
 class DownloadCommentHistoryContainer extends Component {
