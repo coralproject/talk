@@ -4,7 +4,7 @@ import { t } from 'plugin-api/beta/client/services';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import styles from './DownloadCommentHistory.css';
 import { getErrorMessages } from 'coral-framework/utils';
-import { downloadRateLimitDays } from '../../config.json';
+import { downloadRateLimitDays } from '../../config';
 
 export const readableDuration = durAsHours => {
   const durAsDays = Math.ceil(durAsHours / 24);

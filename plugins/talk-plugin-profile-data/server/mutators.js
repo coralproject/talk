@@ -11,7 +11,7 @@ const { URL } = require('url');
 const {
   scheduledDeletionDelayHours,
   downloadRateLimitDays,
-} = require('../config.json');
+} = require('../config');
 
 // generateDownloadLinks will generate a signed set of links for a given user to
 // download an archive of their data.

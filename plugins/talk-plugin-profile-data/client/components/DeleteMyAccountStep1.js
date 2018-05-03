@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
 import { t } from 'plugin-api/beta/client/services';
-import { scheduledDeletionDelayHours } from '../../config.json';
+import { scheduledDeletionDelayHours } from '../../config';
 
 const DeleteMyAccountStep1 = props => (
   <div className={styles.step}>
