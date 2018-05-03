@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose, gql } from 'react-apollo';
 import DownloadCommentHistory from '../components/DownloadCommentHistory';
 import { withFragments } from 'plugin-api/beta/client/hocs';
-import { withRequestDownloadLink } from '../mutations';
+import { withRequestDownloadLink } from '../hocs';
 
 class DownloadCommentHistoryContainer extends Component {
   static propTypes = {
