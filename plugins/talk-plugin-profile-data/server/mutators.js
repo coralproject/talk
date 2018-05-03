@@ -129,6 +129,17 @@ async function cancelDeletion({ user, connectors: { models: { User } } }) {
   );
 }
 
+// downloadUser will return the download file url that can be used to directly
+// download the archive.
+async function downloadUser(ctx, userID) {
+  if (ctx.user.role !== 'ADMIN') {
+    throw new ErrNotAuthorized();
+  }
+
+  const { downloadFileURL } = await generateDownloadLinks(ctx, userID);
+  return downloadFileURL;
+}
+
 module.exports = ctx =>
   ctx.user
     ? {
@@ -136,6 +147,7 @@ module.exports = ctx =>
           requestDownloadLink: () => sendDownloadLink(ctx),
           requestDeletion: () => requestDeletion(ctx),
           cancelDeletion: () => cancelDeletion(ctx),
+          download: userID => downloadUser(ctx, userID),
         },
       }
     : {
@@ -143,22 +155,6 @@ module.exports = ctx =>
           requestDownloadLink: () => Promise.reject(new ErrNotAuthorized()),
           requestDeletion: () => Promise.reject(new ErrNotAuthorized()),
           cancelDeletion: () => Promise.reject(new ErrNotAuthorized()),
+          download: () => Promise.reject(new ErrNotAuthorized()),
         },
       };
-// downloadUser will return the download file url that can be used to directly
-// download the archive.
-async function downloadUser(ctx, userID) {
-  const { downloadFileURL } = await generateDownloadLinks(ctx, userID);
-  return downloadFileURL;
-}
-
-module.exports = ctx => ({
-  User: {
-    requestDownloadLink: () => sendDownloadLink(ctx),
-    download:
-      // Only ADMIN users can execute an account download.
-      ctx.user && ctx.user.role === 'ADMIN'
-        ? userID => downloadUser(ctx, userID)
-        : () => Promise.reject(new ErrNotAuthorized()),
-  },
-});
