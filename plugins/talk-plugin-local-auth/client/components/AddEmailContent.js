@@ -4,6 +4,7 @@ import styles from './AddEmailAddressDialog.css';
 import { Icon } from 'plugin-api/beta/client/components/ui';
 import cn from 'classnames';
 import InputField from './InputField';
+import { t } from 'plugin-api/beta/client/services';
 
 const AddEmailContent = ({
   formData,
@@ -13,29 +14,29 @@ const AddEmailContent = ({
   onChange,
 }) => (
   <div>
-    <h4 className={styles.title}>Add an Email Address</h4>
+    <h4 className={styles.title}>
+      {t('talk-plugin-local-auth.add_email.content.title')}
+    </h4>
     <p className={styles.description}>
-      For your added security, we require users to add an email address to their
-      accounts. Your email address will be used to:
+      {t('talk-plugin-local-auth.add_email.content.description')}
     </p>
     <ul className={styles.list}>
       <li className={styles.item}>
         <Icon name="done" className={styles.itemIcon} />
         <span className={styles.text}>
-          Receive updates regarding any changes to your account (email address,
-          username, password, etc.)
+          {t('talk-plugin-local-auth.add_email.content.item_1')}
         </span>
       </li>
       <li className={styles.item}>
         <Icon name="done" className={styles.itemIcon} />
         <span className={styles.text}>
-          Allow you to download your comments.
+          {t('talk-plugin-local-auth.add_email.content.item_2')}
         </span>
       </li>
       <li className={styles.item}>
         <Icon name="done" className={styles.itemIcon} />
         <span className={styles.text}>
-          Send comment notifications that you have chosen to receive.
+          {t('talk-plugin-local-auth.add_email.content.item_3')}
         </span>
       </li>
     </ul>
@@ -43,20 +44,20 @@ const AddEmailContent = ({
     <form autoComplete="off">
       <InputField
         id="emailAddress"
-        label="Enter Email Address:"
+        label={t('talk-plugin-local-auth.add_email.enter_email_address')}
         name="emailAddress"
         type="email"
         onChange={onChange}
         defaultValue=""
         hasError={!formData.emailAddress || errors.emailAddress}
-        errorMsg={'Invalid email address'}
+        errorMsg={t('talk-plugin-local-auth.add_email.invalid_email_address')}
         showError={showErrors}
         columnDisplay
         showSuccess={false}
       />
       <InputField
         id="confirmEmailAddress"
-        label="Confirm Email Address:"
+        label={t('talk-plugin-local-auth.add_email.confirm_email_address')}
         name="confirmEmailAddress"
         type="email"
         onChange={onChange}
@@ -65,20 +66,19 @@ const AddEmailContent = ({
           !formData.emailAddress ||
           formData.emailAddress !== formData.confirmEmailAddress
         }
-        errorMsg={'Email address does not match'}
+        errorMsg={t('talk-plugin-local-auth.add_email.email_does_not_match')}
         showError={showErrors}
         columnDisplay
         showSuccess={false}
       />
       <InputField
         id="confirmPassword"
-        label="Insert Password:"
+        label={t('talk-plugin-local-auth.add_email.insert_password')}
         name="confirmPassword"
         type="password"
         onChange={onChange}
         defaultValue=""
         hasError={!formData.confirmPassword}
-        errorMsg={'Confirm Password'}
         showError={showErrors}
         columnDisplay
         showSuccess={false}
@@ -88,7 +88,7 @@ const AddEmailContent = ({
           className={cn(styles.button, styles.proceed)}
           onClick={confirmChanges}
         >
-          Add Email Address
+          {t('talk-plugin-local-auth.add_email.add_email_address')}
         </a>
       </div>
     </form>

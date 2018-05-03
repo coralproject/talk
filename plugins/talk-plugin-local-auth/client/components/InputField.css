@@ -42,11 +42,10 @@
 }
 
 .detailLabel {
-  color: #4c4c4d;
+  color: #4C4C4D;
   font-size: 1em;
   display: block;
   margin-bottom: 4px;
-  font-weight: bold;
 }
 
 .detailValue {

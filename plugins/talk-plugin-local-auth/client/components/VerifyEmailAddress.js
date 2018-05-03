@@ -2,18 +2,19 @@ import React from 'react';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import styles from './AddEmailAddressDialog.css';
+import { t } from 'plugin-api/beta/client/services';
 
 const VerifyEmailAddress = ({ emailAddress, done }) => (
   <div>
-    <h4 className={styles.title}>Verify Your Email Address</h4>
+    <h4 className={styles.title}>
+      {t('talk-plugin-local-auth.add_email.verify.title')}
+    </h4>
     <p className={styles.description}>
-      We’ve sent an email to {emailAddress} to verify your account. You must
-      verify your email address so that it can be used for account change
-      confirmations and notifications.
+      {t('talk-plugin-local-auth.add_email.verify.description', emailAddress)}
     </p>
     <div className={styles.actions}>
       <a className={cn(styles.button, styles.proceed)} onClick={done}>
-        Done
+        {t('talk-plugin-local-auth.add_email.done')}
       </a>
     </div>
   </div>
