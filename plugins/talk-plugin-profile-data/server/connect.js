@@ -30,20 +30,23 @@ module.exports = connectors => {
       // Create the context we'll use to perform user deletions.
       const ctx = Context.forSystem();
 
-      // Grab some settings.
-      const { loaders: { Settings } } = ctx;
-      const {
-        organizationName,
-        organizationContactEmail,
-      } = await Settings.load(['organizationName', 'organizationContactEmail']);
-
-      // rescheduledDeletionDate is the date in the future that we'll set the
-      // user's account to be deleted on if this delete fails.
-      const rescheduledDeletionDate = moment()
-        .add(1, 'hours')
-        .toDate();
-
       try {
+        // Grab some settings.
+        const { loaders: { Settings } } = ctx;
+        const {
+          organizationName,
+          organizationContactEmail,
+        } = await Settings.load([
+          'organizationName',
+          'organizationContactEmail',
+        ]);
+
+        // rescheduledDeletionDate is the date in the future that we'll set the
+        // user's account to be deleted on if this delete fails.
+        const rescheduledDeletionDate = moment()
+          .add(1, 'hours')
+          .toDate();
+
         // Keep running for each user we can pull.
         while (true) {
           // We'll find any user that has an account deletion date before now
