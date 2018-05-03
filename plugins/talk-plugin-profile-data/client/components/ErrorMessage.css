@@ -1,6 +1,10 @@
 .errorMsg {
   color: #FA4643;
   font-size: 0.9em;
+
+  i.warningIcon {
+    font-size: 17px;
+  }
 }
 
 .warningIcon {
