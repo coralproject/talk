@@ -131,7 +131,7 @@ module.exports = connectors => {
                 organizationContactEmail
               ),
             },
-            subject: I18n.t('email.deleted.subject'),
+            subject: I18n.t('email.deleted.subject', organizationName),
             email,
           });
         }

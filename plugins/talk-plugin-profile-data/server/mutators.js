@@ -142,7 +142,7 @@ async function requestDeletion({
         scheduledDeletionDate.format('MMM Do YYYY, h:mm:ss a')
       ),
     },
-    subject: I18n.t('email.delete.subject'),
+    subject: I18n.t('email.delete.subject', organizationName),
   });
 
   return scheduledDeletionDate.toDate();
@@ -183,7 +183,7 @@ async function cancelDeletion({
         moment(scheduledDeletionDate).format('MMM Do YYYY, h:mm:ss a')
       ),
     },
-    subject: I18n.t('email.cancelDelete.subject'),
+    subject: I18n.t('email.cancelDelete.subject', organizationName),
   });
 }
 

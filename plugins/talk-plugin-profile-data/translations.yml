@@ -17,16 +17,19 @@ en:
     delete:
       subject: "Your account for {0} is scheduled to be deleted"
       body: |
-        A request to delete your account was received on {0} and your account is scheduled to be deleted on {1}.
+        A request to delete your account was received. Your account is scheduled for deletion on {1}. 
+
         After that time all of your comments will be removed from the site, all of your comments will be removed from our database, and your username and email address are removed from our system.
+
         To cancel this request, sign into your account and cancel the request before your scheduled account deletion time.
-        If you didn't request this change contact {2}
     deleted:
       subject: "Your account for {0} has been deleted"
       body: |
-        Your commenter account for {0} is now deleted. We’re sorry to see you go!
-        If you’d like to re-join the discussion in the future, you can sign up for a new account.
-        If you’d like to give us feedback on why you left and what we can do to make the commenting experience better, please email us at {1}.
+        Your commenter account for {0} is now deleted. We're sorry to see you go!
+
+        If you'd like to re-join the discussion in the future, you can sign up for a new account.
+
+        If you'd like to give us feedback on why you left and what we can do to make the commenting experience better, please email us at {1}.
     cancelDelete:
       subject: "Your account deletion request for {0} has been cancelled"
       body: "You have cancelled your account deletion request for {0}. Your account is now reactivated."
