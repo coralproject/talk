@@ -2,7 +2,7 @@ en:
   download_request:
     section_title: "Download My Comment History"
     you_will_get_a_copy: "You will recieve an email with a link to download your comment history. You can make"
-    download_rate: "one download request every 7 days"
+    download_rate: "one download request every {0} days"
     most_recent_request: "Your most recent request"
     request: "Request Comment History"
     rate_limit: "You can submit another Comment History request in {0}"
@@ -38,9 +38,9 @@ en:
       item_3: "Your username and email address are removed from our system"
     step_1:
       subtitle: "When will my account be deleted?"
-      description: "Your account will be deleted 24 hours after your request has been submitted."
+      description: "Your account will be deleted {0} hours after your request has been submitted."
       subtitle_2: "Can I still write comments until my account is deleted?"
-      description_2: "Yes, you can still comment, reply, and react to comments until the 24 hours expires."
+      description_2: "Yes, you can still comment, reply, and react to comments until the {0} hours expires."
     step_2:
       description: "Before your account is deleted, we recommend you download your comment history for your records. After your account is deleted, you will be unable to request your comment history."
       to_download: "To download your comment history go to:"

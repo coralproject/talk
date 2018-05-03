@@ -6,6 +6,7 @@ import moment from 'moment';
 import { Button, Icon } from 'plugin-api/beta/client/components/ui';
 import styles from './AccountDeletionRequestedSign.css';
 import { getErrorMessages } from 'coral-framework/utils';
+import { scheduledDeletionDelayHours } from '../../config.json';
 
 class AccountDeletionRequestedSign extends React.Component {
   cancelAccountDeletion = async () => {
@@ -25,7 +26,7 @@ class AccountDeletionRequestedSign extends React.Component {
       'MMM Do YYYY, h:mm a'
     );
     const deletionScheduledOn = moment(scheduledDeletionDate)
-      .subtract(24, 'hours')
+      .subtract(scheduledDeletionDelayHours, 'hours')
       .format('MMM Do YYYY, h:mm a');
 
     return (
