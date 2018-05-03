@@ -44,7 +44,7 @@ const InputField = ({
           <div
             className={cn(
               styles.detailInput,
-              { [styles.error]: hasError },
+              { [styles.error]: hasError && showError },
               { [styles.disabled]: disabled }
             )}
           >
