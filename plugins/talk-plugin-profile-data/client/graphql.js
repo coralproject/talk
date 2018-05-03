@@ -10,7 +10,7 @@ export default {
     ),
   },
   mutations: {
-    RequestDownloadLink: () => ({
+    DownloadCommentHistory: () => ({
       updateQueries: {
         CoralEmbedStream_Profile: previousData =>
           update(previousData, {
