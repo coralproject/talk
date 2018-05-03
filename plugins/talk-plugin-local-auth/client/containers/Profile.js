@@ -3,10 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect, withFragments } from 'plugin-api/beta/client/hocs';
 import Profile from '../components/Profile';
 import { notify } from 'coral-framework/actions/notification';
-import {
-  withChangeUsername,
-  withUpdateEmailAddress,
-} from 'plugin-api/beta/client/hocs';
+import { withChangeUsername } from 'plugin-api/beta/client/hocs';
+import { withUpdateEmailAddress } from './hocs';
 
 const mapDispatchToProps = dispatch => bindActionCreators({ notify }, dispatch);
 
