@@ -30,8 +30,8 @@ const DeleteMyAccountFinalStep = props => (
     </p>
 
     <p className={styles.description}>
-      <strong>Tell us why.</strong> Wed like to know why you chose to delete
-      your account. Send us feedback on our comment system by emailing.
+      <strong>Tell us why.</strong> We would like to know why you chose to
+      delete your account. Send us feedback on our comment system by emailing.
     </p>
 
     <div className={cn(styles.actions, styles.columnView)}>
