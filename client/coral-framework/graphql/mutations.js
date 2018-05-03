@@ -1,6 +1,7 @@
 import { gql } from 'react-apollo';
 import withMutation from '../hocs/withMutation';
 import update from 'immutability-helper';
+import moment from 'moment';
 
 function convertItemType(item_type) {
   switch (item_type) {
@@ -658,7 +659,7 @@ export const withRequestAccountDeletion = withMutation(
         return mutate({
           variables: {},
           update: proxy => {
-            const CancelAccountDeletionQuery = gql`
+            const RequestAccountDeletionQuery = gql`
               query Talk_CancelAccountDeletion {
                 me {
                   id
@@ -667,16 +668,22 @@ export const withRequestAccountDeletion = withMutation(
               }
             `;
 
-            const prev = proxy.readQuery({ query: CancelAccountDeletionQuery });
+            const prev = proxy.readQuery({
+              query: RequestAccountDeletionQuery,
+            });
+
+            const scheduledDeletionDate = moment()
+              .add(12, 'hours')
+              .toDate();
 
             const data = update(prev, {
               me: {
-                scheduledDeletionDate: { $set: new Date() },
+                scheduledDeletionDate: { $set: scheduledDeletionDate },
               },
             });
 
             proxy.writeQuery({
-              query: CancelAccountDeletionQuery,
+              query: RequestAccountDeletionQuery,
               data,
             });
           },
