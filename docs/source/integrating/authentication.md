@@ -74,7 +74,6 @@ example issuer and Talk must match:
 |------|----------------------|
 |`JWT_ISSUER`|`JWT_ISSUER`|
 |`JWT_AUDIENCE`|`JWT_AUDIENCE`|
-|`JWT_AUDIENCE`|`JWT_AUDIENCE`|
 |`SECRET`|`JWT_SECRET`*|
 
 \* Note that secrets is a pretty complex topic, refer to the
