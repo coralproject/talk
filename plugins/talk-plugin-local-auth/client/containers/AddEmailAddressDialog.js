@@ -1,6 +1,6 @@
 import { compose, gql } from 'react-apollo';
 import { bindActionCreators } from 'redux';
-import { connect, withFragments } from 'plugin-api/beta/client/hocs';
+import { connect, withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
 import AddEmailAddressDialog from '../components/AddEmailAddressDialog';
 import { notify } from 'coral-framework/actions/notification';
 
@@ -22,12 +22,9 @@ const withData = withFragments({
   `,
 });
 
-const mapStateToProps = ({ talkPluginLocalAuth: state }) => ({
-  showAddEmailDialog: state.showAddEmailDialog,
-});
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(null, mapDispatchToProps),
   withAttachLocalAuth,
-  withData
+  withData,
+  excludeIf(({ root: { me } }) => !me || me.email)
 )(AddEmailAddressDialog);
