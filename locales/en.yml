@@ -252,6 +252,7 @@ en:
     CANNOT_IGNORE_STAFF: "Cannot ignore Staff members."
     INCORRECT_PASSWORD: "Incorrect Password"
     email: "Please enter a valid email."
+    DELETION_NOT_SCHEDULED: "Deletion was not scheduled"
     confirm_password: "Passwords don't match. Please check again"
     network_error: "Failed to connect to server. Check your internet connection and try again."
     email_not_verified: "Email address {0} not verified."
@@ -272,6 +273,7 @@ en:
     comment: comment
     comment_is_ignored: "This comment is hidden because you ignored this user."
     comment_is_rejected: "You have rejected this comment."
+    comment_is_deleted: "This comment was deleted."
     comment_is_hidden: "This comment is not available."
     comments: comments
     configure_stream: "Configure"

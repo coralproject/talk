@@ -503,7 +503,7 @@ type Comment {
   id: ID!
 
   # The actual comment data.
-  body: String!
+  body: String
 
   # The body history of the comment. Requires the `ADMIN` or `MODERATOR` role or
   # the author.
@@ -536,6 +536,9 @@ type Comment {
 
   # The status history of the comment. Requires the `ADMIN` or `MODERATOR` role.
   status_history: [CommentStatusHistory!]
+
+  # The date that the comment was deleted at if it was.
+  deleted_at: Date
 
   # The time when the comment was created
   created_at: Date!
