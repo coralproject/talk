@@ -1,5 +1,6 @@
 import update from 'immutability-helper';
 import get from 'lodash/get';
+import findIndex from 'lodash/findIndex';
 
 export default {
   mutations: {
@@ -7,9 +8,9 @@ export default {
       updateQueries: {
         CoralEmbedStream_Profile: previousData => {
           // Find the local profile (if they have one).
-          const localIndex = get(previousData, 'me.profiles', []).indexOf(
-            ({ provider }) => provider === 'local'
-          );
+          const localIndex = findIndex(get(previousData, 'me.profiles', []), {
+            provider: 'local',
+          });
           if (localIndex < 0) {
             return previousData;
           }
