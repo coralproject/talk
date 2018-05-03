@@ -57,7 +57,7 @@ class OrganizationSettings extends React.Component {
     }
 
     const updater = { organizationContactEmail: { $set: email } };
-    const errorUpdater = { organizationEmail: { $set: error } };
+    const errorUpdater = { organizationContactEmail: { $set: error } };
 
     this.props.updatePending({ updater, errorUpdater });
   };

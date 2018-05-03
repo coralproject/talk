@@ -18,7 +18,7 @@
     "lint:js": "eslint bin/cli* .",
     "lint": "npm-run-all lint:*",
     "plugins:reconcile": "./bin/cli plugins reconcile",
-    "test": "npm-run-all test:jest test:mocha",
+    "test": "npm-run-all test:jest test:server:mocha",
     "test:jest": "NODE_ENV=test jest --runInBand",
     "test:client": "NODE_ENV=test jest --projects client",
     "test:server": "npm-run-all test:server:jest test:server:mocha",

@@ -372,6 +372,7 @@ const slots = [
   'streamTabsPrepend',
   'streamTabPanes',
   'streamFilter',
+  'stream',
 ];
 
 const fragments = {

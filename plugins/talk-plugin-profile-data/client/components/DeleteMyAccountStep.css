@@ -1,0 +1,116 @@
+.list {
+  padding: 0;
+  margin: 20px 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  margin-bottom: 20px;
+
+  .itemIcon {
+    flex-grow: 0;
+  }
+
+  .text {
+    flex-grow: 1;
+    padding-left: 10px;
+  }
+
+  > i.itemIcon {
+    font-size: 1.3em;
+  }
+}
+
+.button {
+  color: #787D80;
+  border-radius: 2px;
+  background-color: transparent;
+  height: 30px;
+  font-size: 0.9em;
+  line-height: normal;
+
+  &:hover {
+    background-color: #eaeaea;
+  }
+
+  &.cancel {
+    background-color: transparent;
+    color: #787D80;
+  }
+
+  &.proceed {
+    background-color: #3498DB;
+    color: white;
+  }
+
+  &.danger {
+    background-color: #FA4643;
+    color: white;
+  }
+}
+
+.actions {
+  text-align: right;
+  padding-top: 20px;
+
+  &.columnView {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  } 
+}
+
+.title {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+
+.description {
+  font-size: 1em;
+  line-height: 20px;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.note {
+  margin: 10px 0;
+}
+
+.subTitle {
+  font-size: 1em;
+  margin-bottom: 8px;
+}
+
+.textBox {
+  background-color: #F1F2F2;
+  border: none;
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  color: #3B4A53;
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+
+.block {
+  display: block;
+  margin-top: 2px;
+}
+
+.step {
+  padding-top: 20px;
+}
+
+.scheduledDeletion {
+  i.timeIcon {
+    font-size: 1.2em;
+    padding: 4px;
+  }
+}
