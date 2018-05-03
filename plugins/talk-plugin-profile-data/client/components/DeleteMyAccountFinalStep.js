@@ -19,7 +19,7 @@ const DeleteMyAccountFinalStep = props => (
       <strong className={styles.block}>
         <Icon name="access_time" className={styles.timeIcon} />
         <span>
-          {moment(props.scheduledDeletionDate).format('MMM Do YYYY, h:mm:ss a')}
+          {moment(props.scheduledDeletionDate).format('MMM Do YYYY, h:mm a')}
         </span>
       </strong>
     </div>

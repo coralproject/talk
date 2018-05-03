@@ -78,19 +78,19 @@ class DeleteMyAccount extends React.Component {
           Deleting your account will permanently erase your profile and remove
           all your comments from this site.
         </p>
-        <p
-          className={cn(
-            styles.description,
-            'talk-plugin-auth--delete-my-account-description'
-          )}
-        >
-          {scheduledDeletionDate &&
-            `You have already submitted a request to delete your account.
-          Your account will be deleted on ${moment(
-            scheduledDeletionDate
-          ).format('MMM Do YYYY, h:mm:ss a')}. You may
-          cancel the request until that time`}
-        </p>
+        {scheduledDeletionDate && (
+          <p
+            className={cn(
+              styles.description,
+              'talk-plugin-auth--delete-my-account-description'
+            )}
+          >
+            You have already submitted a request to delete your account. Your
+            account will be deleted on{' '}
+            {moment(scheduledDeletionDate).format('MMM Do YYYY, h:mm a')}. You
+            may cancel the request until that time.
+          </p>
+        )}
         {scheduledDeletionDate ? (
           <Button
             className={cn(styles.button, styles.secondary)}

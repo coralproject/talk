@@ -24,11 +24,11 @@ class AccountDeletionRequestedSign extends React.Component {
     const { me: { scheduledDeletionDate } } = this.props.root;
 
     const deletionScheduledFor = moment(scheduledDeletionDate).format(
-      'MMM Do YYYY, h:mm:ss a'
+      'MMM Do YYYY, h:mm a'
     );
     const deletionScheduledOn = moment(scheduledDeletionDate)
       .subtract(24, 'hours')
-      .format('MMM Do YYYY, h:mm:ss a');
+      .format('MMM Do YYYY, h:mm a');
 
     return (
       <div className={styles.container}>
