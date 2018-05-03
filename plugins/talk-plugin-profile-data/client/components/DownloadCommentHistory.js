@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { t } from 'plugin-api/beta/client/services';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import styles from './DownloadCommentHistory.css';
+import { getErrorMessages } from 'coral-framework/utils';
 
 export const readableDuration = durAsHours => {
   const durAsDays = Math.ceil(durAsHours / 24);
@@ -19,14 +20,25 @@ export const readableDuration = durAsHours => {
 class DownloadCommentHistory extends Component {
   static propTypes = {
     requestDownloadLink: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     root: PropTypes.object.isRequired,
   };
 
+  requestDownloadLink = async () => {
+    const { requestDownloadLink, notify } = this.props;
+    try {
+      await requestDownloadLink();
+      notify(
+        'success',
+        'Account Download Preparing - Check your email shortly for a download link'
+      );
+    } catch (err) {
+      notify('error', getErrorMessages(err));
+    }
+  };
+
   render() {
-    const {
-      root: { me: { lastAccountDownload } },
-      requestDownloadLink,
-    } = this.props;
+    const { root: { me: { lastAccountDownload } } } = this.props;
 
     const now = new Date();
     const lastAccountDownloadDate =
@@ -52,7 +64,7 @@ class DownloadCommentHistory extends Component {
           </p>
         )}
         {canRequestDownload ? (
-          <Button className={styles.button} onClick={requestDownloadLink}>
+          <Button className={styles.button} onClick={this.requestDownloadLink}>
             <i className="material-icons" aria-hidden={true}>
               file_download
             </i>{' '}

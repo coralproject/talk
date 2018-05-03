@@ -13,11 +13,7 @@ export const withRequestDownloadLink = withMutation(
   `,
   {
     props: ({ mutate }) => ({
-      requestDownloadLink: () => {
-        return mutate({
-          variables: {},
-        });
-      },
+      requestDownloadLink: () => mutate({}),
     }),
   }
 );

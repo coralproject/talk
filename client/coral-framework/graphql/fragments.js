@@ -26,9 +26,6 @@ export default {
     'UpdateAssetSettingsResponse',
     'UpdateAssetStatusResponse',
     'UpdateSettingsResponse',
-    'RequestAccountDeletionResponse',
-    'RequestDownloadLinkResponse',
-    'CancelAccountDeletionResponse',
     'ChangePasswordResponse'
   ),
 };
