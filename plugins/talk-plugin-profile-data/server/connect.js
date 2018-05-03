@@ -1,10 +1,12 @@
 const path = require('path');
 const moment = require('moment');
 const { CronJob } = require('cron');
+const { get } = require('lodash');
+const { ErrMissingEmail } = require('errors');
 
 module.exports = connectors => {
   const {
-    services: { Mailer },
+    services: { Mailer, I18n },
     models: { User },
     graph: { Context },
   } = connectors;
@@ -27,6 +29,13 @@ module.exports = connectors => {
     onTick: async () => {
       // Create the context we'll use to perform user deletions.
       const ctx = Context.forSystem();
+
+      // Grab some settings.
+      const { loaders: { Settings } } = ctx;
+      const {
+        organizationName,
+        organizationContactEmail,
+      } = await Settings.load(['organizationName', 'organizationContactEmail']);
 
       // rescheduledDeletionDate is the date in the future that we'll set the
       // user's account to be deleted on if this delete fails.
@@ -61,6 +70,26 @@ module.exports = connectors => {
             break;
           }
 
+          // Get the user's email address.
+          const reply = await ctx.graphql(
+            `
+            query GetUserEmailAddress($user_id: ID!) {
+              user(id: $user_id) {
+                email
+              }
+            }
+            `,
+            { user_id: user.id }
+          );
+          if (reply.errors) {
+            throw reply.errors;
+          }
+
+          const email = get(reply, 'data.user.email');
+          if (!email) {
+            throw new ErrMissingEmail();
+          }
+
           ctx.log.info(
             {
               userID: user.id,
@@ -91,6 +120,20 @@ module.exports = connectors => {
           }
 
           ctx.log.info({ userID: user.id }, 'user was deleted successfully');
+
+          // Send the download link via the user's attached email account.
+          await Mailer.send({
+            template: 'plain',
+            locals: {
+              body: I18n.t(
+                'email.deleted.body',
+                organizationName,
+                organizationContactEmail
+              ),
+            },
+            subject: I18n.t('email.deleted.subject'),
+            email,
+          });
         }
       } catch (err) {
         ctx.log.error({ err }, 'could not handle user deletions');

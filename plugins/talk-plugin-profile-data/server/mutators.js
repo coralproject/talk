@@ -104,31 +104,64 @@ async function sendDownloadLink(ctx) {
 // requestDeletion will schedule the current user to have their account deleted
 // by setting the `scheduledDeletionDate` on the user
 // ${scheduledDeletionDelayHours} hours from now.
-async function requestDeletion({ user, connectors: { models: { User } } }) {
+async function requestDeletion({
+  user,
+  loaders: { Settings },
+  connectors: { models: { User }, services: { Users, I18n } },
+}) {
   // Ensure the user doesn't already have a deletion scheduled.
   if (get(user, 'metadata.scheduledDeletionDate')) {
     throw new ErrDeletionAlreadyScheduled();
   }
 
   // Get the date in the future ${scheduledDeletionDelayHours} hours from now.
-  const scheduledDeletionDate = moment()
-    .add(scheduledDeletionDelayHours, 'hours')
-    .toDate();
+  const scheduledDeletionDate = moment().add(
+    scheduledDeletionDelayHours,
+    'hours'
+  );
 
   // Amend the scheduledDeletionDate on the user.
   await User.update(
     { id: user.id },
-    { $set: { 'metadata.scheduledDeletionDate': scheduledDeletionDate } }
+    {
+      $set: {
+        'metadata.scheduledDeletionDate': scheduledDeletionDate.toDate(),
+      },
+    }
   );
 
-  return scheduledDeletionDate;
+  const { organizationName } = await Settings.load('organizationName');
+
+  // Send the download link via the user's attached email account.
+  await Users.sendEmail(user, {
+    template: 'plain',
+    locals: {
+      body: I18n.t(
+        'email.delete.body',
+        organizationName,
+        scheduledDeletionDate.format('MMM Do YYYY, h:mm:ss a')
+      ),
+    },
+    subject: I18n.t('email.delete.subject'),
+  });
+
+  return scheduledDeletionDate.toDate();
 }
 
 // cancelDeletion will unset the scheduled deletion date on the user account
 // that is used to indicate that the user was scheduled for deletion.
-async function cancelDeletion({ user, connectors: { models: { User } } }) {
+async function cancelDeletion({
+  user,
+  loaders: { Settings },
+  connectors: { models: { User }, services: { I18n, Users } },
+}) {
   // Ensure the user has a deletion scheduled.
-  if (!get(user, 'metadata.scheduledDeletionDate', null)) {
+  const scheduledDeletionDate = get(
+    user,
+    'metadata.scheduledDeletionDate',
+    null
+  );
+  if (!scheduledDeletionDate) {
     throw new ErrDeletionNotScheduled();
   }
 
@@ -137,6 +170,21 @@ async function cancelDeletion({ user, connectors: { models: { User } } }) {
     { id: user.id },
     { $unset: { 'metadata.scheduledDeletionDate': 1 } }
   );
+
+  const { organizationName } = await Settings.load('organizationName');
+
+  // Send the download link via the user's attached email account.
+  await Users.sendEmail(user, {
+    template: 'plain',
+    locals: {
+      body: I18n.t(
+        'email.cancelDelete.body',
+        organizationName,
+        moment(scheduledDeletionDate).format('MMM Do YYYY, h:mm:ss a')
+      ),
+    },
+    subject: I18n.t('email.cancelDelete.subject'),
+  });
 }
 
 // downloadUser will return the download file url that can be used to directly
