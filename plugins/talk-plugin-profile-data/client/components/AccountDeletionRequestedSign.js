@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+import moment from 'moment';
 import { Button, Icon } from 'plugin-api/beta/client/components/ui';
 import styles from './AccountDeletionRequestedSign.css';
 import { getErrorMessages } from 'coral-framework/utils';
@@ -20,6 +21,15 @@ class AccountDeletionRequestedSign extends React.Component {
   };
 
   render() {
+    const { me: { scheduledDeletionDate } } = this.props.root;
+
+    const deletionScheduledFor = moment(scheduledDeletionDate).format(
+      'MMM Do YYYY, h:mm:ss a'
+    );
+    const deletionScheduledOn = moment(scheduledDeletionDate)
+      .subtract(12, 'hours')
+      .format('MMM Do YYYY, h:mm:ss a');
+
     return (
       <div className={styles.container}>
         <h4 className={styles.title}>
@@ -27,11 +37,13 @@ class AccountDeletionRequestedSign extends React.Component {
           Requested
         </h4>
         <p className={styles.description}>
-          A request to delete your account was received on.
+          A request to delete your account was received on{' '}
+          {deletionScheduledFor}.
         </p>
         <p className={styles.description}>
           If you would like to continue leaving comments, replies or reactions,
-          you may cancel your request to delete your account below before
+          you may cancel your request to delete your account{' '}
+          <b>below before {deletionScheduledOn}</b>.
         </p>
         <div className={styles.actions}>
           <Button
