@@ -14,5 +14,17 @@ en:
       subject: "Your comments are ready for download from {0}"
       download_link_ready: "Click here to download your comments from {0} as of {1}:"
       download_archive: "Download Archive"
+    delete:
+      subject: "Commenter Account Deletion Request"
+      body: "You have submitted a request to delete your commenter account on {0}. Your account will be deleted on {1}. If you change your mind, you can reactivate your account by logging in and cancelling the request."
+    deleted:
+      subject: "Commenter Account Deleted"
+      body: |
+        Your commenter account for {0} is now deleted. We’re sorry to see you go!
+        If you’d like to re-join the discussion in the future, you can sign up for a new account.
+        If you’d like to give us feedback on why you left and what we can do to make the commenting experience better, please email us at {1}.
+    cancelDelete:
+      subject: "Commenter Account Reactivated"
+      body: "You have cancelled your account deletion request for {0}. Your account is now reactivated."
   error:
     DOWNLOAD_TOKEN_INVALID: "Your download link is not valid."
