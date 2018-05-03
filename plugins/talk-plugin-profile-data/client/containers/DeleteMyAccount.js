@@ -6,7 +6,7 @@ import { notify } from 'coral-framework/actions/notification';
 import {
   withRequestAccountDeletion,
   withCancelAccountDeletion,
-} from 'plugin-api/beta/client/hocs';
+} from '../mutations';
 
 const mapDispatchToProps = dispatch => bindActionCreators({ notify }, dispatch);
 

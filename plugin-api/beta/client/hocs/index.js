@@ -25,9 +25,6 @@ export {
   withUnbanUser,
   withStopIgnoringUser,
   withSetCommentStatus,
-  withRequestAccountDeletion,
-  withRequestDownloadLink,
-  withCancelAccountDeletion,
   withChangePassword,
   withChangeUsername,
 } from 'coral-framework/graphql/mutations';

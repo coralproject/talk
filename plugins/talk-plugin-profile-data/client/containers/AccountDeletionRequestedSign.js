@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect, withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
 import AccountDeletionRequestedSign from '../components/AccountDeletionRequestedSign';
 import { notify } from 'coral-framework/actions/notification';
-import { withCancelAccountDeletion } from 'plugin-api/beta/client/hocs';
+import { withCancelAccountDeletion } from '../mutations';
 
 const mapDispatchToProps = dispatch => bindActionCreators({ notify }, dispatch);
 
