@@ -42,8 +42,8 @@ class AccountDeletionRequestedSign extends React.Component {
         </p>
         <p className={styles.description}>
           If you would like to continue leaving comments, replies or reactions,
-          you may cancel your request to delete your account{' '}
-          <b>below before {deletionScheduledOn}</b>.
+          you may cancel your request to delete your account below{' '}
+          <b>before {deletionScheduledOn}</b>.
         </p>
         <div className={styles.actions}>
           <Button
