@@ -43,10 +43,10 @@ class DeleteMyAccountStep3 extends React.Component {
     return (
       <div className={styles.step}>
         <h4 className={styles.subTitle}>
-          {t('talk-plugin-profile-data.delete_request.step3.subtitle')}
+          {t('delete_request.step_3.subtitle')}
         </h4>
         <p className={styles.description}>
-          {t('talk-plugin-profile-data.delete_request.step3.description')}
+          {t('delete_request.step_3.description')}
         </p>
         <input
           className={styles.textBox}
@@ -56,17 +56,13 @@ class DeleteMyAccountStep3 extends React.Component {
         />
         <InputField
           id="confirmPhrase"
-          label={t(
-            'talk-plugin-profile-data.delete_request.step3.type_to_confirm'
-          )}
+          label={t('delete_request.step_3.type_to_confirm')}
           name="confirmPhrase"
           type="text"
           onChange={this.props.onChange}
           defaultValue=""
           hasError={this.formHasError()}
-          errorMsg={t(
-            'talk-plugin-profile-data.delete_request.input_is_not_correct'
-          )}
+          errorMsg={t('delete_request.input_is_not_correct')}
           showError={this.state.showError}
           columnDisplay
         />
@@ -75,13 +71,13 @@ class DeleteMyAccountStep3 extends React.Component {
             className={cn(styles.button, styles.cancel)}
             onClick={this.props.cancel}
           >
-            {t('talk-plugin-profile-data.delete_request.cancel')}
+            {t('delete_request.cancel')}
           </Button>
           <Button
             className={cn(styles.button, styles.danger)}
             onClick={this.deleteAndContinue}
           >
-            {t('talk-plugin-profile-data.delete_request.delete_my_account')}
+            {t('delete_request.delete_my_account')}
           </Button>
         </div>
       </div>

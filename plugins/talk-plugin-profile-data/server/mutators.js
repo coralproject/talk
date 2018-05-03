@@ -93,16 +93,16 @@ async function sendDownloadLink(ctx) {
 }
 
 // requestDeletion will schedule the current user to have their account deleted
-// by setting the `scheduledDeletionDate` on the user 12 hours from now.
+// by setting the `scheduledDeletionDate` on the user 24 hours from now.
 async function requestDeletion({ user, connectors: { models: { User } } }) {
   // Ensure the user doesn't already have a deletion scheduled.
   if (get(user, 'metadata.scheduledDeletionDate')) {
     throw new ErrDeletionAlreadyScheduled();
   }
 
-  // Get the date in the future 12 hours from now.
+  // Get the date in the future 24 hours from now.
   const scheduledDeletionDate = moment()
-    .add(12, 'hours')
+    .add(24, 'hours')
     .toDate();
 
   // Amend the scheduledDeletionDate on the user.

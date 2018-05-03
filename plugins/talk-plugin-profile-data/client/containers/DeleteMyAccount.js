@@ -16,6 +16,9 @@ const withData = withFragments({
       me {
         scheduledDeletionDate
       }
+      settings {
+        organizationContactEmail
+      }
     }
   `,
 });

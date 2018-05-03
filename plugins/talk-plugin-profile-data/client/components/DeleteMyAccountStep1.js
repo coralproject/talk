@@ -7,30 +7,26 @@ import { t } from 'plugin-api/beta/client/services';
 
 const DeleteMyAccountStep1 = props => (
   <div className={styles.step}>
-    <h4 className={styles.subTitle}>
-      {t('talk-plugin-profile-data.delete_request.step1.subtitle')}
-    </h4>
+    <h4 className={styles.subTitle}>{t('delete_request.step_1.subtitle')}</h4>
     <p className={styles.description}>
-      {t('talk-plugin-profile-data.delete_request.step1.description')}
+      {t('delete_request.step_1.description')}
     </p>
-    <h4 className={styles.subTitle}>
-      {t('talk-plugin-profile-data.delete_request.step1.subtitle_2')}
-    </h4>
+    <h4 className={styles.subTitle}>{t('delete_request.step_1.subtitle_2')}</h4>
     <p className={styles.description}>
-      {t('talk-plugin-profile-data.delete_request.step1.description_2')}
+      {t('delete_request.step_1.description_2')}
     </p>
     <div className={cn(styles.actions)}>
       <Button
         className={cn(styles.button, styles.cancel)}
         onClick={props.cancel}
       >
-        {t('talk-plugin-profile-data.delete_request.cancel')}
+        {t('delete_request.cancel')}
       </Button>
       <Button
         className={cn(styles.button, styles.proceed)}
         onClick={props.goToNextStep}
       >
-        {t('talk-plugin-profile-data.delete_request.proceed')}
+        {t('delete_request.proceed')}
       </Button>
     </div>
   </div>

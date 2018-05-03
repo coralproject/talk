@@ -12,10 +12,7 @@ class AccountDeletionRequestedSign extends React.Component {
     const { cancelAccountDeletion, notify } = this.props;
     try {
       await cancelAccountDeletion();
-      notify(
-        'success',
-        t('talk-plugin-profile-data.delete_request.account_deletion_cancelled')
-      );
+      notify('success', t('delete_request.account_deletion_cancelled'));
     } catch (err) {
       notify('error', getErrorMessages(err));
     }
@@ -25,32 +22,27 @@ class AccountDeletionRequestedSign extends React.Component {
     const { me: { scheduledDeletionDate } } = this.props.root;
 
     const deletionScheduledFor = moment(scheduledDeletionDate).format(
-      'MMM Do YYYY, h:mm:ss a'
+      'MMM Do YYYY, h:mm a'
     );
     const deletionScheduledOn = moment(scheduledDeletionDate)
-      .subtract(12, 'hours')
-      .format('MMM Do YYYY, h:mm:ss a');
+      .subtract(24, 'hours')
+      .format('MMM Do YYYY, h:mm a');
 
     return (
       <div className={styles.container}>
         <h4 className={styles.title}>
           <Icon name="warning" className={styles.icon} />{' '}
-          {t(
-            'talk-plugin-profile-data.delete_request.account_deletion_requested'
-          )}
+          {t('delete_request.account_deletion_requested')}
         </h4>
         <p className={styles.description}>
-          {t('talk-plugin-profile-data.delete_request.received_on')}
+          {t('delete_request.received_on')}
           {deletionScheduledFor}.
         </p>
         <p className={styles.description}>
-          {t(
-            'talk-plugin-profile-data.delete_request.cancel_request_description'
-          )}
+          {t('delete_request.cancel_request_description')}
           <b>
             {' '}
-            {t('talk-plugin-profile-data.delete_request.before')}{' '}
-            {deletionScheduledOn}
+            {t('delete_request.before')} {deletionScheduledOn}
           </b>.
         </p>
         <div className={styles.actions}>
@@ -58,9 +50,7 @@ class AccountDeletionRequestedSign extends React.Component {
             className={cn(styles.button, styles.secondary)}
             onClick={this.cancelAccountDeletion}
           >
-            {t(
-              'talk-plugin-profile-data.delete_request.cancel_account_deletion_request'
-            )}
+            {t('delete_request.cancel_account_deletion_request')}
           </Button>
         </div>
       </div>

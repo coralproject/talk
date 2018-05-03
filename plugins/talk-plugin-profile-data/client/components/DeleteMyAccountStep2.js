@@ -8,12 +8,12 @@ import { t } from 'plugin-api/beta/client/services';
 const DeleteMyAccountStep2 = props => (
   <div className={styles.step}>
     <p className={styles.description}>
-      {t('talk-plugin-profile-data.delete_request.step2.description')}
+      {t('delete_request.step_2.description')}
     </p>
     <p className={styles.description}>
-      {t('talk-plugin-profile-data.delete_request.step2.to_download')}
+      {t('delete_request.step_2.to_download')}
       <strong className={styles.block}>
-        {t('talk-plugin-profile-data.delete_request.step2.path')}
+        {t('delete_request.step_2.path')}
       </strong>
     </p>
     <div className={cn(styles.actions)}>
@@ -21,13 +21,13 @@ const DeleteMyAccountStep2 = props => (
         className={cn(styles.button, styles.cancel)}
         onClick={props.cancel}
       >
-        {t('talk-plugin-profile-data.delete_request.step2.cancel')}
+        {t('delete_request.cancel')}
       </Button>
       <Button
         className={cn(styles.button, styles.proceed)}
         onClick={props.goToNextStep}
       >
-        {t('talk-plugin-profile-data.delete_request.step2.proceed')}
+        {t('delete_request.proceed')}
       </Button>
     </div>
   </div>

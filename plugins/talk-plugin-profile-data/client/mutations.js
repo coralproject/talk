@@ -46,7 +46,7 @@ export const withRequestAccountDeletion = withMutation(
             });
 
             const scheduledDeletionDate = moment()
-              .add(12, 'hours')
+              .add(24, 'hours')
               .toDate();
 
             const data = update(prev, {

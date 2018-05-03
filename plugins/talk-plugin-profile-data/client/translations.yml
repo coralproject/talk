@@ -26,25 +26,26 @@ en:
     changed_your_mind: "Changed your mind?"
     simply_go_to: "Simply go to your account again before this time and click"
     tell_us_why: "Tell us why"
-    feedback_copy: "We'd like to know why you chose to delete your account. Send us feedback on our comment system by emailing."
+    feedback_copy: "We would like to know why you chose to delete your account. Send us feedback on our comment system by emailing"
     done: "Done"
     cancel: "Cancel"
     proceed: "Proceed"
     input_is_not_correct: "The input is not correct"
-    you_are_attempting: "You are attempting to delete your account. This means:"
-    item_1: "All of your comments are removed from this site"
-    item_2: "All of your comments are deleted from our database"
-    item_3: "Your username and email address are removed from our system"
-    step1:
+    step_0:
+      you_are_attempting: "You are attempting to delete your account. This means:"
+      item_1: "All of your comments are removed from this site"
+      item_2: "All of your comments are deleted from our database"
+      item_3: "Your username and email address are removed from our system"
+    step_1:
       subtitle: "When will my account be deleted?"
       description: "Your account will be deleted 24 hours after your request has been submitted."
       subtitle_2: "Can I still write comments until my account is deleted?"
       description_2: "No. Once you have requested account deletion, you can no longer write comments, reply to comments, or select reactions."
-    step2:
+    step_2:
       description: "Before your account is deleted, we recommend you download your comment history for your records. After your account is deleted, you will be unable to request your comment history."
       to_download: "To download your comment history go to:"
       path: "My Profile > Download My Comment History"
-    step3:
+    step_3:
       subtitle: "Are you sure you want to delete your account?"
       description: "To confirm you would like to delete your account please type in the following phrase into the text box below:"
       type_to_confirm: "Type phrase below to confirm"

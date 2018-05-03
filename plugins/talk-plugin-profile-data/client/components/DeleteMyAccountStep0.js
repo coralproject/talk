@@ -8,26 +8,20 @@ import { t } from 'plugin-api/beta/client/services';
 const DeleteMyAccountStep0 = props => (
   <div className={styles.step}>
     <p className={styles.description}>
-      {t('talk-plugin-profile-data.delete_request.you_are_attempting')}
+      {t('delete_request.step_0.you_are_attempting')}
     </p>
     <ul className={styles.list}>
       <li className={styles.item}>
         <Icon name="done" className={styles.itemIcon} />
-        <span className={styles.text}>
-          {t('talk-plugin-profile-data.delete_request.item_1')}
-        </span>
+        <span className={styles.text}>{t('delete_request.step_0.item_1')}</span>
       </li>
       <li className={styles.item}>
         <Icon name="done" className={styles.itemIcon} />
-        <span className={styles.text}>
-          {t('talk-plugin-profile-data.delete_request.item_2')}
-        </span>
+        <span className={styles.text}>{t('delete_request.step_0.item_2')}</span>
       </li>
       <li className={styles.item}>
         <Icon name="done" className={styles.itemIcon} />
-        <span className={styles.text}>
-          {t('talk-plugin-profile-data.delete_request.item_3')}
-        </span>
+        <span className={styles.text}>{t('delete_request.step_0.item_3')}</span>
       </li>
     </ul>
     <div className={cn(styles.actions)}>
@@ -35,13 +29,13 @@ const DeleteMyAccountStep0 = props => (
         className={cn(styles.button, styles.cancel)}
         onClick={props.cancel}
       >
-        {t('talk-plugin-profile-data.delete_request.cancel')}
+        {t('delete_request.cancel')}
       </Button>
       <Button
         className={cn(styles.button, styles.proceed)}
         onClick={props.goToNextStep}
       >
-        {t('talk-plugin-profile-data.delete_request.proceed')}
+        {t('delete_request.proceed')}
       </Button>
     </div>
   </div>
