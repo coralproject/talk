@@ -3,18 +3,17 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
+import { t } from 'plugin-api/beta/client/services';
 
 const DeleteMyAccountStep2 = props => (
   <div className={styles.step}>
     <p className={styles.description}>
-      Before your account is deleted, we recommend you download your comment
-      history for your records. After your account is deleted, you will be
-      unable to request your comment history.
+      {t('talk-plugin-profile-data.delete_request.step2.description')}
     </p>
     <p className={styles.description}>
-      To download your comment history go to:
+      {t('talk-plugin-profile-data.delete_request.step2.to_download')}
       <strong className={styles.block}>
-        My Profile {`>`} Download My Comment History
+        {t('talk-plugin-profile-data.delete_request.step2.path')}
       </strong>
     </p>
     <div className={cn(styles.actions)}>
@@ -22,13 +21,13 @@ const DeleteMyAccountStep2 = props => (
         className={cn(styles.button, styles.cancel)}
         onClick={props.cancel}
       >
-        Cancel
+        {t('talk-plugin-profile-data.delete_request.step2.cancel')}
       </Button>
       <Button
         className={cn(styles.button, styles.proceed)}
         onClick={props.goToNextStep}
       >
-        Proceed
+        {t('talk-plugin-profile-data.delete_request.step2.proceed')}
       </Button>
     </div>
   </div>

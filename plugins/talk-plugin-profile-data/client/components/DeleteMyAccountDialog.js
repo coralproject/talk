@@ -8,6 +8,7 @@ import DeleteMyAccountStep1 from './DeleteMyAccountStep1';
 import DeleteMyAccountStep2 from './DeleteMyAccountStep2';
 import DeleteMyAccountStep3 from './DeleteMyAccountStep3';
 import DeleteMyAccountFinalStep from './DeleteMyAccountFinalStep';
+import { t } from 'plugin-api/beta/client/services';
 
 const initialState = { step: 0, formData: {} };
 
@@ -47,7 +48,9 @@ class DeleteMyAccountDialog extends React.Component {
         <span className={styles.close} onClick={this.cancel}>
           ×
         </span>
-        <h3 className={styles.title}>Delete My Account</h3>
+        <h3 className={styles.title}>
+          {t('talk-plugin-profile-data.delete_request.delete_my_account')}
+        </h3>
         <StepProgress currentStep={this.state.step} totalSteps={4} />
         {step === 0 && (
           <DeleteMyAccountStep0

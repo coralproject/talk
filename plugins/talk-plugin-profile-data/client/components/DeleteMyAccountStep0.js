@@ -3,29 +3,30 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { Button, Icon } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
+import { t } from 'plugin-api/beta/client/services';
 
 const DeleteMyAccountStep0 = props => (
   <div className={styles.step}>
     <p className={styles.description}>
-      You are attempting to delete your account. This means:
+      {t('talk-plugin-profile-data.delete_request.you_are_attempting')}
     </p>
     <ul className={styles.list}>
       <li className={styles.item}>
         <Icon name="done" className={styles.itemIcon} />
         <span className={styles.text}>
-          All of your comments are removed from this site
+          {t('talk-plugin-profile-data.delete_request.item_1')}
         </span>
       </li>
       <li className={styles.item}>
         <Icon name="done" className={styles.itemIcon} />
         <span className={styles.text}>
-          All of your comments are deleted from our database
+          {t('talk-plugin-profile-data.delete_request.item_2')}
         </span>
       </li>
       <li className={styles.item}>
         <Icon name="done" className={styles.itemIcon} />
         <span className={styles.text}>
-          Your username and email address are removed from our system
+          {t('talk-plugin-profile-data.delete_request.item_3')}
         </span>
       </li>
     </ul>
@@ -34,13 +35,13 @@ const DeleteMyAccountStep0 = props => (
         className={cn(styles.button, styles.cancel)}
         onClick={props.cancel}
       >
-        Cancel
+        {t('talk-plugin-profile-data.delete_request.cancel')}
       </Button>
       <Button
         className={cn(styles.button, styles.proceed)}
         onClick={props.goToNextStep}
       >
-        Proceed
+        {t('talk-plugin-profile-data.delete_request.proceed')}
       </Button>
     </div>
   </div>

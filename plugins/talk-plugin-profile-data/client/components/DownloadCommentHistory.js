@@ -28,10 +28,7 @@ class DownloadCommentHistory extends Component {
     const { requestDownloadLink, notify } = this.props;
     try {
       await requestDownloadLink();
-      notify(
-        'success',
-        'Account Download Preparing - Check your email shortly for a download link'
-      );
+      notify('success', t('download_request.download_preparing'));
     } catch (err) {
       notify('error', getErrorMessages(err));
     }

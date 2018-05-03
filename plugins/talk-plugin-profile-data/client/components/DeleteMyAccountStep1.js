@@ -3,33 +3,34 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
+import { t } from 'plugin-api/beta/client/services';
 
 const DeleteMyAccountStep1 = props => (
   <div className={styles.step}>
-    <h4 className={styles.subTitle}>When will my account be deleted?</h4>
-    <p className={styles.description}>
-      Your account will be deleted 24 hours after your request has been
-      submitted.
-    </p>
     <h4 className={styles.subTitle}>
-      Can I still write comments until my account is deleted?{' '}
+      {t('talk-plugin-profile-data.delete_request.step1.subtitle')}
     </h4>
     <p className={styles.description}>
-      No. Once you have requested account deletion, you can no longer write
-      comments, reply to comments, or select reactions.
+      {t('talk-plugin-profile-data.delete_request.step1.description')}
+    </p>
+    <h4 className={styles.subTitle}>
+      {t('talk-plugin-profile-data.delete_request.step1.subtitle_2')}
+    </h4>
+    <p className={styles.description}>
+      {t('talk-plugin-profile-data.delete_request.step1.description_2')}
     </p>
     <div className={cn(styles.actions)}>
       <Button
         className={cn(styles.button, styles.cancel)}
         onClick={props.cancel}
       >
-        Cancel
+        {t('talk-plugin-profile-data.delete_request.cancel')}
       </Button>
       <Button
         className={cn(styles.button, styles.proceed)}
         onClick={props.goToNextStep}
       >
-        Proceed
+        {t('talk-plugin-profile-data.delete_request.proceed')}
       </Button>
     </div>
   </div>

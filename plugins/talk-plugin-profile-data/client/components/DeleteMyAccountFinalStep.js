@@ -3,32 +3,45 @@ import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { Button, Icon } from 'plugin-api/beta/client/components/ui';
 import styles from './DeleteMyAccountStep.css';
+import { t } from 'plugin-api/beta/client/services';
 
 const DeleteMyAccountFinalStep = props => (
   <div className={styles.step}>
     <p className={styles.description}>
-      Your request has been submitted and confirmation has been sent to the
-      email address associated with your account.
+      {t(
+        'talk-plugin-profile-data.delete_request.your_request_submitted_description'
+      )}
     </p>
 
     <div className={cn(styles.box, styles.scheduledDeletion)}>
       <strong className={styles.block}>
-        Your account is scheduled to be deleted at:
+        {t(
+          'talk-plugin-profile-data.delete_request.your_account_deletion_scheduled'
+        )}
       </strong>
       <strong className={styles.block}>
         <Icon name="access_time" className={styles.timeIcon} />
-        <span>Account Deletion Date and Time</span>
+        <span>{0}</span>
       </strong>
     </div>
 
     <p className={styles.description}>
-      <strong>Changed your mind?</strong> Simply go to your account again before
-      this time and click “<strong>Cancel Account Deletion Request.</strong>”
+      <strong>
+        {' '}
+        {t('talk-plugin-profile-data.delete_request.changed_your_mind')}
+      </strong>{' '}
+      {t('talk-plugin-profile-data.delete_request.simply_go_to')} “<strong>
+        {t(
+          'talk-plugin-profile-data.delete_request.cancel_account_deletion_request'
+        )}.
+      </strong>”
     </p>
 
     <p className={styles.description}>
-      <strong>Tell us why.</strong> Wed like to know why you chose to delete
-      your account. Send us feedback on our comment system by emailing.
+      <strong>
+        {t('talk-plugin-profile-data.delete_request.tell_us_why')}.
+      </strong>{' '}
+      {t('talk-plugin-profile-data.delete_request.feedback_copy')}
     </p>
 
     <div className={cn(styles.actions, styles.columnView)}>
@@ -37,7 +50,7 @@ const DeleteMyAccountFinalStep = props => (
         onClick={props.finish}
         full
       >
-        Done
+        {t('talk-plugin-profile-data.delete_request.done')}
       </Button>
     </div>
   </div>
