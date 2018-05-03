@@ -12,7 +12,7 @@ en:
     day: "{0} day"
     download_preparing: "Account Download Preparing - Check your email shortly for a download link"
   delete_request:
-    account_deletion_cancelled: 'Account Deletion Request Cancelled - Your request to delete your account has been cancelled."'
+    account_deletion_cancelled: 'Account Deletion Request Cancelled - Your request to delete your account has been cancelled.'
     account_deletion_requested: 'Account Deletion Requested'
     received_on: "A request to delete your account was received on "
     cancel_request_description: "If you would like to reactivate your account, you may cancel your request to delete your account below"
