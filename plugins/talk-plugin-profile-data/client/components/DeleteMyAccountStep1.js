@@ -15,7 +15,7 @@ const DeleteMyAccountStep1 = props => (
       Can I still write comments until my account is deleted?{' '}
     </h4>
     <p className={styles.description}>
-      No. Once youve requested account deletion, you can no longer write
+      No. Once you have requested account deletion, you can no longer write
       comments, reply to comments, or select reactions.
     </p>
     <div className={cn(styles.actions)}>

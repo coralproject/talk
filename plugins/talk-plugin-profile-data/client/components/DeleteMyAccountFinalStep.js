@@ -22,10 +22,8 @@ const DeleteMyAccountFinalStep = props => (
     </div>
 
     <p className={styles.description}>
-      <strong>Changed your mind?</strong> Simply sign in to your account again
-      before this time and click “<strong>
-        Cancel Account Deletion Request.
-      </strong>”
+      <strong>Changed your mind?</strong> Simply go to your account again before
+      this time and click “<strong>Cancel Account Deletion Request.</strong>”
     </p>
 
     <p className={styles.description}>
@@ -41,9 +39,6 @@ const DeleteMyAccountFinalStep = props => (
       >
         Done
       </Button>
-      <span className={styles.note}>
-        Note: You will be immediately signed out of your account.
-      </span>
     </div>
   </div>
 );

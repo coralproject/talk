@@ -56,7 +56,7 @@ class DeleteMyAccountStep3 extends React.Component {
         />
         <InputField
           id="confirmPhrase"
-          label={'Type phrase bellow to confirm'}
+          label={'Type phrase below to confirm'}
           name="confirmPhrase"
           type="text"
           onChange={this.props.onChange}
