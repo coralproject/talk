@@ -43,6 +43,7 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
     },
     {
       $set: { 'profiles.$.id': email },
+      $unset: { 'profiles.$.metadata.confirmed_at': 1 },
     }
   );
 

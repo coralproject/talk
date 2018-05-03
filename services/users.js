@@ -32,6 +32,7 @@ const i18n = require('./i18n');
 const Wordlist = require('./wordlist');
 const DomainList = require('./domain_list');
 const Limit = require('./limit');
+const { get } = require('lodash');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
 const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
@@ -965,7 +966,9 @@ class Users {
       throw new ErrNotFound();
     }
 
-    if (profile.metadata && profile.metadata.confirmed_at !== null) {
+    // Check to see if the profile has already been confirmed.
+    const confirmedAt = get(profile, 'metadata.confirmed_at', null);
+    if (confirmedAt && confirmedAt < Date.now()) {
       throw new ErrEmailAlreadyVerified();
     }
 
