@@ -4,7 +4,7 @@ const util = require('./util');
 const program = require('commander');
 const inquirer = require('inquirer');
 const mongoose = require('../services/mongoose');
-const SettingsService = require('../services/settings');
+const Settings = require('../services/settings');
 const cache = require('../services/cache');
 
 // Register the shutdown criteria.
@@ -16,15 +16,11 @@ util.onshutdown([() => mongoose.disconnect()]);
 async function changeOrgName() {
   try {
     await cache.init();
-  } catch (err) {
-    console.error(err);
-    util.shutdown(1);
-  }
 
-  try {
-    let settings = await SettingsService.retrieve();
+    // Get the original settings.
+    const settings = await Settings.retrieve('organizationName');
 
-    let { organizationName } = await inquirer.prompt([
+    const { organizationName } = await inquirer.prompt([
       {
         name: 'organizationName',
         message: 'Organization Name',
@@ -33,9 +29,8 @@ async function changeOrgName() {
     ]);
 
     if (settings.organizationName !== organizationName) {
-      settings.organizationName = organizationName;
-
-      await SettingsService.update(settings);
+      // Set the organization name if there was a mutation to it.
+      await Settings.update({ organizationName });
 
       console.log('Settings were updated.');
     } else {
@@ -44,9 +39,9 @@ async function changeOrgName() {
   } catch (err) {
     console.error(err);
     util.shutdown(1);
+  } finally {
+    util.shutdown();
   }
-
-  util.shutdown();
 }
 
 //==============================================================================
