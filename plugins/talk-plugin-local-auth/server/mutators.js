@@ -5,7 +5,6 @@ const {
   ErrIncorrectPassword,
 } = require('./errors');
 const { get } = require('lodash');
-const bcrypt = require('bcryptjs');
 
 // hasLocalProfile checks a user's profiles to see if they already have a local
 // profile associated with their account.
@@ -88,7 +87,7 @@ async function attachUserLocalAuth(ctx, email, password) {
   await Users.isValidPassword(password);
 
   // Hash the new password.
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await Users.hashPassword(password);
 
   try {
     // Associate the account with the user.
