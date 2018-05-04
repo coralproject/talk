@@ -125,6 +125,23 @@ class ChangePassword extends React.Component {
     this.disableEditing();
   };
 
+  onForgotPassword = async () => {
+    const { root: { me: { email } } } = this.props;
+
+    try {
+      await this.props.forgotPassword(email);
+      this.props.notify(
+        'success',
+        t('talk-plugin-local-auth.change_password.forgot_password_sent')
+      );
+    } catch (err) {
+      this.props.notify('error', getErrorMessages(err));
+    }
+
+    this.clearForm();
+    this.disableEditing();
+  };
+
   disableEditing = () => {
     this.setState({
       editing: false,
@@ -166,7 +183,10 @@ class ChangePassword extends React.Component {
               showErrors
             >
               <span className={styles.detailBottomBox}>
-                <a className={styles.detailLink}>
+                <a
+                  className={styles.detailLink}
+                  onClick={this.onForgotPassword}
+                >
                   {t('talk-plugin-local-auth.change_password.forgot_password')}
                 </a>
               </span>
@@ -223,6 +243,7 @@ class ChangePassword extends React.Component {
 
 ChangePassword.propTypes = {
   changePassword: PropTypes.func.isRequired,
+  forgotPassword: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
 };
 

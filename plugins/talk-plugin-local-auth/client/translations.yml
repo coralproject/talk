@@ -9,6 +9,7 @@ en:
       cancel: "Cancel"
       edit: "Edit"
       changed_password_msg: "Changed Password - Your password has been successfully changed"
+      forgot_password_sent: "Forgot Password - We sent you an email to recover your password"
     change_username:
       change_username_note: "Usernames can be changed every 14 days"
       save: "Save"
@@ -46,6 +47,7 @@ es:
       cancel: "Cancelar"
       edit: "Editar"
       changed_password_msg: "Contraseña Actualizada - Tu contraseña ha sido exitosamente actualizada"
+      forgot_password_sent: "Contraseña Olvidada - Te enviamos un email para recuperar tu contraseña"
     change_username:
       change_username_note: "El usuario puede ser cambiado cada 14 días"
       save: "Guardar"
