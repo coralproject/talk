@@ -1,14 +1,16 @@
 .container {
-  margin-bottom: 20px;
+  margin-top: 6px;
+  margin-bottom: 12px;
   display: flex;
   position: relative;
   color: #202020;
-  padding: 10px;
+  padding: 5px;
   border-radius: 2px;
   box-sizing: border-box;
   justify-content: space-between;
 
   &.editing {
+    padding: 10px;
     background-color: #EDEDED;
   }
 }
@@ -37,6 +39,7 @@
 }
 
 .username {
+  margin-top: 0;
   margin-bottom: 4px;
 }
 
