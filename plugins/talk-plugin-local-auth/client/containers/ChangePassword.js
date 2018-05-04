@@ -14,7 +14,6 @@ const withData = withFragments({
   root: gql`
     fragment TalkPluginLocalAuth_ChangePassword_root on RootQuery {
       me {
-        id
         email
       }
     }
