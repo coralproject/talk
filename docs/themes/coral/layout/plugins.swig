@@ -4,9 +4,9 @@
         <h1>{{ page.title }}</h1>
         <hr/>
     {% endif %}
-    
+
     {{ page.content }}
-    
+
     <div class="form-group mt-5">
         <div class="clearfix">
             <label for="exampleInputEmail1">Plugin Search</label>
@@ -15,6 +15,7 @@
         <input type="text" class="form-control" id="plugin-search-input" aria-describedby="pluginSearchHelp">
         <small id="pluginSearchHelp" class="form-text text-muted">Enter a few keywords about the plugin to filter the list</small>
     </div>
+
     <div class="row plugins">
         {% for plugin in _.sortBy(site.data[page.data], 'name') %}
             <div class="col-sm-6 plugin d-block">
@@ -25,7 +26,7 @@
                         {% if plugin.tags %}
                             <p class="card-text">
                                 {% for tag in plugin.tags %}
-                                    <span class="badge badge-{% if tag == "default" %}success{% else %}light{% endif %}">{{ tag }}</span>
+                                    <a class="plain-link" title="Search for plugins with the {{ tag }} tag" href="?q={{ tag }}"><span class="badge badge-light badge-tag badge-tag-{{ _.kebabCase(tag) }}">{{ tag }}</span></a>
                                 {% endfor %}
                             </p>
                         {% endif %}

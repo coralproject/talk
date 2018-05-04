@@ -26,6 +26,7 @@ export default {
     'UpdateAssetSettingsResponse',
     'UpdateAssetStatusResponse',
     'UpdateSettingsResponse',
-    'ChangePasswordResponse'
+    'ChangePasswordResponse',
+    'UpdateEmailAddressResponse'
   ),
 };

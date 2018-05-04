@@ -1,6 +1,17 @@
 /* global lunr */
 /* eslint-env browser */
 
+// Sourced from https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
 // Sourced from https://github.com/hexojs/site/blob/8e8ed4901769abbf76263125f82832df76ced58b/themes/navy/source/js/plugins.js.
 (function() {
   'use strict';
@@ -58,6 +69,12 @@
     }
 
     updateCount(elements.length);
+  }
+
+  var searchParam = getParameterByName('q');
+  if (searchParam && searchParam.length > 0) {
+    $input.value = searchParam;
+    search(searchParam);
   }
 
   $input.addEventListener('input', function() {

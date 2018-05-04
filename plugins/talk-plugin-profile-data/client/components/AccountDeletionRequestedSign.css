@@ -1,0 +1,44 @@
+.container {
+  border: 1px solid #f26563;
+  border-radius: 2px;
+  color: #3b4a53;
+  padding: 20px 10px;
+  background-color: rgba(242, 101, 99, 0.1);
+  margin: 20px 0;
+}
+
+.button {
+  color: #787D80;
+  border-radius: 2px;
+  background-color: transparent;
+  height: 30px;
+  font-size: 0.9em;
+  line-height: normal;
+
+  &:hover {
+    background-color: #eaeaea;
+  }
+
+  &.secondary {
+    background-color: #787D80;
+    color: white;
+  }
+}
+
+.title {
+  margin: 0;
+  i.icon {
+    font-size: 1em;
+    padding: 4px;
+  }
+}
+
+.description {
+  margin: 0;
+  padding-left: 22px;
+  padding-bottom: 15px;
+}
+
+.actions {
+  text-align: center;
+}
