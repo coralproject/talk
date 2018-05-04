@@ -11,7 +11,7 @@ en:
       changed_password_msg: "Changed Password - Your password has been successfully changed"
       forgot_password_sent: "Forgot Password - We sent you an email to recover your password"
     change_username:
-      change_username_note: "Usernames can be changed every 14 days"
+      change_username_note: "Usernames can only be changed once every 14 days. Your username is not currently eligible to be updated."
       save: "Save"
       edit_profile: "Edit Profile"
       cancel: "Cancel"
