@@ -5,6 +5,12 @@ module.exports = {
     requestDownloadLink: async (_, args, { mutators: { User } }) => {
       await User.requestDownloadLink();
     },
+    requestAccountDeletion: async (_, args, { mutators: { User } }) => ({
+      scheduledDeletionDate: await User.requestDeletion(),
+    }),
+    cancelAccountDeletion: async (_, args, { mutators: { User } }) => {
+      await User.cancelDeletion();
+    },
     downloadUser: async (_, { id }, { mutators: { User } }) => ({
       archiveURL: await User.download(id),
     }),
@@ -18,6 +24,18 @@ module.exports = {
       }
 
       return get(user, 'metadata.lastAccountDownload', null);
+    },
+    scheduledDeletionDate: (user, args, { user: currentUser }) => {
+      // If the current user is not the requesting user, and the user is not
+      // an admin or a moderator, return nothing.
+      if (
+        user.id !== currentUser.id &&
+        !['ADMIN', 'MODERATOR'].includes(user.role)
+      ) {
+        return null;
+      }
+
+      return get(user, 'metadata.scheduledDeletionDate', null);
     },
   },
 };
