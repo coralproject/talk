@@ -105,7 +105,13 @@ class ChangePassword extends React.Component {
     this.setState(initialState);
   };
 
-  onSave = async () => {
+  onSave = async e => {
+    e.preventDefault();
+
+    if (this.isSubmitBlocked()) {
+      return;
+    }
+
     const { oldPassword, newPassword } = this.state.formData;
 
     try {
@@ -169,8 +175,11 @@ class ChangePassword extends React.Component {
         <h3 className={styles.title}>
           {t('talk-plugin-local-auth.change_password.change_password')}
         </h3>
-        {editing && (
-          <form className="talk-plugin-local-auth--change-password-form">
+        {editing ? (
+          <form
+            className="talk-plugin-local-auth--change-password-form"
+            onSubmit={this.onSave}
+          >
             <InputField
               id="oldPassword"
               label="Old Password"
@@ -213,22 +222,20 @@ class ChangePassword extends React.Component {
               errorMsg={errors['confirmNewPassword']}
               showErrors
             />
+            <div className={styles.actions}>
+              <Button
+                className={cn(styles.button, styles.saveButton)}
+                icon="save"
+                type="submit"
+                disabled={this.isSubmitBlocked()}
+              >
+                {t('talk-plugin-local-auth.change_password.save')}
+              </Button>
+              <a className={styles.cancelButton} onClick={this.cancel}>
+                {t('talk-plugin-local-auth.change_password.cancel')}
+              </a>
+            </div>
           </form>
-        )}
-        {editing ? (
-          <div className={styles.actions}>
-            <Button
-              className={cn(styles.button, styles.saveButton)}
-              icon="save"
-              onClick={this.onSave}
-              disabled={this.isSubmitBlocked()}
-            >
-              {t('talk-plugin-local-auth.change_password.save')}
-            </Button>
-            <a className={styles.cancelButton} onClick={this.cancel}>
-              {t('talk-plugin-local-auth.change_password.cancel')}
-            </a>
-          </div>
         ) : (
           <div className={styles.actions}>
             <Button className={styles.button} onClick={this.enableEditing}>
