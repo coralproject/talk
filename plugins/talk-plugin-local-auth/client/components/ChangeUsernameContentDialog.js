@@ -16,7 +16,9 @@ class ChangeUsernameContentDialog extends React.Component {
     });
   };
 
-  confirmChanges = async () => {
+  confirmChanges = async e => {
+    e.preventDefault();
+
     if (this.formHasError()) {
       this.showError();
       return;
@@ -60,7 +62,7 @@ class ChangeUsernameContentDialog extends React.Component {
               {this.props.formData.newUsername}
             </span>
           </div>
-          <form>
+          <form onSubmit={this.confirmChanges}>
             <InputField
               id="confirmNewUsername"
               label="Re-enter new username"
@@ -81,18 +83,15 @@ class ChangeUsernameContentDialog extends React.Component {
                 {t('talk-plugin-local-auth.change_username.bottom_note')}
               </span>
             </InputField>
+            <div className={styles.bottomActions}>
+              <Button className={styles.cancel} onClick={this.props.cancel}>
+                {t('talk-plugin-local-auth.change_username.cancel')}
+              </Button>
+              <Button className={styles.confirmChanges} type="submit">
+                {t('talk-plugin-local-auth.change_username.confirm_changes')}
+              </Button>
+            </div>
           </form>
-          <div className={styles.bottomActions}>
-            <Button className={styles.cancel} onClick={this.props.cancel}>
-              {t('talk-plugin-local-auth.change_username.cancel')}
-            </Button>
-            <Button
-              className={styles.confirmChanges}
-              onClick={this.confirmChanges}
-            >
-              {t('talk-plugin-local-auth.change_username.confirm_changes')}
-            </Button>
-          </div>
         </div>
       </div>
     );

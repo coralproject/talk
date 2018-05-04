@@ -15,6 +15,14 @@
   }
 }
 
+.wrapper {
+  display: flex;
+  position: relative;
+  box-sizing: inherit;
+  justify-content: inherit;
+  flex-grow: 1;
+}
+
 .content {
   flex-grow: 1;
 }
