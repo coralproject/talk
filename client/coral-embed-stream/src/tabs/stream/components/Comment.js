@@ -27,6 +27,7 @@ import {
   getActionSummary,
   iPerformedThisAction,
   isCommentActive,
+  isCommentDeleted,
   getShallowChanges,
 } from 'coral-framework/utils';
 import t from 'coral-framework/services/i18n';
@@ -744,8 +745,14 @@ export default class Comment extends React.Component {
 
     return (
       <div className={rootClassName} id={id}>
-        {this.renderComment()}
-        {activeReplyBox === comment.id && this.renderReplyBox()}
+        {isCommentDeleted(comment) ? (
+          <CommentTombstone action="deleted" />
+        ) : (
+          <div>
+            {this.renderComment()}
+            {activeReplyBox === comment.id && this.renderReplyBox()}
+          </div>
+        )}
         {this.renderRepliesContainer()}
       </div>
     );

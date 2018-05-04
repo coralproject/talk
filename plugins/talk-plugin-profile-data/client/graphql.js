@@ -1,6 +1,14 @@
 import update from 'immutability-helper';
+import { createDefaultResponseFragments } from 'coral-framework/utils';
 
 export default {
+  fragments: {
+    ...createDefaultResponseFragments(
+      'RequestAccountDeletionResponse',
+      'RequestDownloadLinkResponse',
+      'CancelAccountDeletionResponse'
+    ),
+  },
   mutations: {
     DownloadCommentHistory: () => ({
       updateQueries: {

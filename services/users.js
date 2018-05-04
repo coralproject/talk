@@ -18,18 +18,21 @@ const {
   ErrCannotIgnoreStaff,
 } = require('../errors');
 const { difference, sample, some, merge, random } = require('lodash');
-const { ROOT_URL } = require('../config');
+const {
+  ROOT_URL,
+  RECAPTCHA_WINDOW,
+  RECAPTCHA_INCORRECT_TRIGGER,
+} = require('../config');
 const { jwt: JWT_SECRET } = require('../secrets');
 const debug = require('debug')('talk:services:users');
 const User = require('../models/user');
-const RECAPTCHA_WINDOW = '10m'; // 10 minutes.
-const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 5 incorrect attempts, recaptcha will be required.
 const Actions = require('./actions');
 const mailer = require('./mailer');
 const i18n = require('./i18n');
 const Wordlist = require('./wordlist');
 const DomainList = require('./domain_list');
 const Limit = require('./limit');
+const { get } = require('lodash');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
 const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
@@ -963,7 +966,9 @@ class Users {
       throw new ErrNotFound();
     }
 
-    if (profile.metadata && profile.metadata.confirmed_at !== null) {
+    // Check to see if the profile has already been confirmed.
+    const confirmedAt = get(profile, 'metadata.confirmed_at', null);
+    if (confirmedAt && confirmedAt < Date.now()) {
       throw new ErrEmailAlreadyVerified();
     }
 

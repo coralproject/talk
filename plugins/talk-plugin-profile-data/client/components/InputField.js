@@ -30,41 +30,45 @@ const InputField = ({
 
   return (
     <div className={styles.detailItem}>
-      <div
-        className={cn(styles.detailItemContainer, {
-          [styles.columnDisplay]: columnDisplay,
-        })}
-      >
+      <div className={cn(styles.detailItemContainer)}>
         {label && (
           <label className={styles.detailLabel} id={id}>
             {label}
           </label>
         )}
         <div
-          className={cn(
-            styles.detailItemContent,
-            { [styles.error]: hasError },
-            { [styles.disabled]: disabled }
-          )}
+          className={cn(styles.detailItemContent, {
+            [styles.columnDisplay]: columnDisplay,
+          })}
         >
-          {icon && <Icon name={icon} className={styles.detailIcon} />}
-          <input
-            id={id}
-            type={type}
-            name={name}
-            className={styles.detailValue}
-            onChange={onChange}
-            autoComplete="off"
-            data-validation-type={validationType}
-            disabled={disabled}
-            {...inputValue}
-          />
-        </div>
-        <div className={styles.detailItemMessage}>
-          {!hasError &&
-            showSuccess &&
-            value && <Icon className={styles.checkIcon} name="check_circle" />}
-          {hasError && showError && <ErrorMessage>{errorMsg}</ErrorMessage>}
+          <div
+            className={cn(
+              styles.detailInput,
+              { [styles.error]: hasError && showError },
+              { [styles.disabled]: disabled }
+            )}
+          >
+            {icon && <Icon name={icon} className={styles.detailIcon} />}
+            <input
+              id={id}
+              type={type}
+              name={name}
+              className={styles.detailValue}
+              onChange={onChange}
+              autoComplete="off"
+              data-validation-type={validationType}
+              disabled={disabled}
+              {...inputValue}
+            />
+          </div>
+          <div className={styles.detailItemMessage}>
+            {!hasError &&
+              showSuccess &&
+              value && (
+                <Icon className={styles.checkIcon} name="check_circle" />
+              )}
+            {hasError && showError && <ErrorMessage>{errorMsg}</ErrorMessage>}
+          </div>
         </div>
       </div>
       {children}
