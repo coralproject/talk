@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 import moment from 'moment';
-import styles from './DeleteMyAccount.css';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import DeleteMyAccountDialog from './DeleteMyAccountDialog';
 import { getErrorMessages } from 'coral-framework/utils';
@@ -59,28 +57,13 @@ class DeleteMyAccount extends React.Component {
           scheduledDeletionDate={scheduledDeletionDate}
           organizationContactEmail={organizationContactEmail}
         />
-        <h3
-          className={cn(
-            styles.title,
-            'talk-plugin-auth--delete-my-account-description'
-          )}
-        >
+        <h3 className="talk-plugin-auth--delete-my-account-description">
           {t('delete_request.delete_my_account')}
         </h3>
-        <p
-          className={cn(
-            styles.description,
-            'talk-plugin-auth--delete-my-account-description'
-          )}
-        >
+        <p className="talk-plugin-auth--delete-my-account-description">
           {t('delete_request.delete_my_account_description')}
         </p>
-        <p
-          className={cn(
-            styles.description,
-            'talk-plugin-auth--delete-my-account-description'
-          )}
-        >
+        <p className="talk-plugin-auth--delete-my-account-description">
           {scheduledDeletionDate &&
             t(
               'delete_request.already_submitted_request_description',
@@ -88,18 +71,11 @@ class DeleteMyAccount extends React.Component {
             )}
         </p>
         {scheduledDeletionDate ? (
-          <Button
-            className={cn(styles.button, styles.secondary)}
-            onClick={this.cancelAccountDeletion}
-          >
+          <Button onClick={this.cancelAccountDeletion}>
             {t('delete_request.cancel_account_deletion_request')}
           </Button>
         ) : (
-          <Button
-            className={cn(styles.button)}
-            icon="delete"
-            onClick={this.showDialog}
-          >
+          <Button icon="delete" onClick={this.showDialog}>
             {t('delete_request.delete_my_account')}
           </Button>
         )}

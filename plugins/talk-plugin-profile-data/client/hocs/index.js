@@ -1,19 +1,21 @@
 import { withMutation } from 'plugin-api/beta/client/hocs';
 import { gql } from 'react-apollo';
-import update from 'immutability-helper';
 import moment from 'moment';
+import update from 'immutability-helper';
 
 export const withRequestDownloadLink = withMutation(
   gql`
-    mutation RequestDownloadLink {
+    mutation DownloadCommentHistory {
       requestDownloadLink {
-        ...RequestDownloadLinkResponse
+        errors {
+          translation_key
+        }
       }
     }
   `,
   {
     props: ({ mutate }) => ({
-      requestDownloadLink: () => mutate({}),
+      requestDownloadLink: () => mutate({ variables: {} }),
     }),
   }
 );
