@@ -96,8 +96,6 @@ class UserDetail extends React.Component {
       bulkReject,
     } = this.props;
 
-    console.log(rejectedComments, totalComments);
-
     // if totalComments is 0, you're dividing by zero
     let rejectedPercent = rejectedComments / totalComments * 100;
 
