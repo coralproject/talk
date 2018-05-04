@@ -112,7 +112,7 @@ const mappingLocaleCode = lang => {
 const i18n = {
   request(req) {
     debug(`possible languages given request '${accepts(req).languages()}'`);
-    const lang = mappingLocaleCode(accepts(req).language(languages));
+    const lang = accepts(req).language(languages);
     debug(`parsed request language as '${lang}'`);
     const language = lang ? lang : DEFAULT_LANG;
     debug(`decided language as '${language}'`);

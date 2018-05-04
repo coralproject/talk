@@ -82,7 +82,7 @@ function detectLanguage(storage) {
   try {
     const lang = storage.getItem('locale') || navigator.language;
     if (lang) {
-      return mappingLocaleCode(lang);
+      return lang;
     }
   } catch (err) {
     console.warn(
