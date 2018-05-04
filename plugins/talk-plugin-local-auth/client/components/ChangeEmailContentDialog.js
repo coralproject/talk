@@ -16,7 +16,8 @@ class ChangeEmailContentDialog extends React.Component {
     });
   };
 
-  confirmChanges = async () => {
+  confirmChanges = async e => {
+    e.preventDefault();
     await this.props.save();
     this.props.next();
   };
@@ -44,7 +45,7 @@ class ChangeEmailContentDialog extends React.Component {
               {this.props.formData.newEmail}
             </span>
           </div>
-          <form>
+          <form onSubmit={this.confirmChanges}>
             <InputField
               id="confirmPassword"
               label={t('talk-plugin-local-auth.change_email.enter_password')}
@@ -67,10 +68,7 @@ class ChangeEmailContentDialog extends React.Component {
             <Button className={styles.cancel} onClick={this.props.cancel}>
               {t('talk-plugin-local-auth.change_email.cancel')}
             </Button>
-            <Button
-              className={styles.confirmChanges}
-              onClick={this.confirmChanges}
-            >
+            <Button className={styles.confirmChanges} type="submit">
               {t('talk-plugin-local-auth.change_email.confirm_change')}
             </Button>
           </div>

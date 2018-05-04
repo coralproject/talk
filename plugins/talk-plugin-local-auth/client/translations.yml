@@ -22,19 +22,18 @@ en:
       confirm_changes: "Confirm Changes"
       username_does_not_match: "Username does not match"
       cant_be_equal: "Your new {0} must be different to your current one"
-      change_username_attempt: "Username can't be updated. Usernames can be changed every 14 days"
+      changed_username_success_msg: "Username Changed - Your username has been successfully changed. You will not be able to change your user name for 14 days."
+      change_username_attempt: "Username can't be updated. Usernames can only be changed every 14 days."
     change_email:
       confirm_email_change: "Confirm Email Address Change"
       description: "You are attempting to change your email address. Your new email address will be used for your login and to receive account notifications."
-      old_email: "Old Email Address" 
+      old_email: "Old Email Address"
       new_email: "New Email Address"
       enter_password: "Enter Password"
       incorrect_password: "Incorrect Password"
       confirm_change: "Confirm Change"
       cancel: "Cancel"
       change_email_msg: "Email Address Changed - Your email address has been successfully changed. This email address will now be used for signing in and email notifications."
-      changed_username_success_msg: "Username Changed - Your username has been successfully changed. You will not be able to change your user name for 14 days."
-      change_username_attempt: "Username can't be updated. Usernames can only be changed every 14 days."
     add_email:
       add_email_address: "Add Email Address"
       enter_email_address: "Enter Email Address:"
@@ -52,7 +51,7 @@ en:
       verify:
         title: "Verify Your Email Address"
         description:  "We’ve sent an email to {0} to verify your account. You must verify your email address so that it can be used for account change confirmations and notifications."
-      added: 
+      added:
         title: "Email Address Added"
         description: "Your email address has been added to your account."
         subtitle: "Need to change your email address?"
