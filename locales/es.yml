@@ -63,10 +63,10 @@ es:
     reactions: 'reacciones'
     story: 'Artículo'
   flagged_usernames:
-    notify_approved: '{0} nombre de usuario aprobado {1}'
-    notify_rejected: '{0} nombre de usuario rechazado {1}'
-    notify_flagged: '{0} nombre de usuario reportado {1}'
-    notify_changed: 'El usuario {0} cambio su nombre de usuario por {1}'
+    notify_approved: '{0} ha aprobado el nombre de usuario {1}'
+    notify_rejected: '{0} ha rechazado el nombre de usuario {1}'
+    notify_flagged: '{0} ha reportado el nombre de usuario {1}'
+    notify_changed: 'El usuario {0} ha modificado su nombre de usuario por {1}'
   community:
     account_creation_date: "Fecha de creación de la cuenta"
     active: Activa
@@ -194,9 +194,9 @@ es:
     minutes_plural: "minutos"
   email:
     suspended:
-      subject: "Su cuenta fue suspendida"
+      subject: "Su cuenta ha sido suspendida"
     banned:
-      subject: "Su cuenta fue bloqueada"
+      subject: "Su cuenta ha sido bloqueada"
       body: "De acuerdo con las guías de comunidad de The Coral Project, su cuenta a sido bloqueada. No podrá hacer comentarios, reportar o entrar en contacto con nuestra comunidad."
     confirm:
       has_been_requested: "Un correo de confirmación ha sido pedido para la siguiente cuenta:"
@@ -306,11 +306,11 @@ es:
     actions: Acciones
     all: todos
     all_streams: "Todos los Hilos"
-    notify_edited: '{0} comentarios editados "{1}"'
-    notify_accepted: '{0} comentarios aceptados "{1}"'
-    notify_rejected: '{0} comentarios rechazados "{1}"'
-    notify_flagged: '{0} comentarios reportados "{1}"'
-    notify_reset: '{0} resetear el status de comentarios "{1}"'
+    notify_edited: '{0} ha editado el comentario "{1}"'
+    notify_accepted: '{0} ha aceptado el comentario "{1}"'
+    notify_rejected: '{0} ha rechazado el comentario "{1}"'
+    notify_flagged: '{0} ha reportado el comentario "{1}"'
+    notify_reset: '{0} ha reseteado el status del comentario "{1}"'
     approve: "Aprobar"
     approved: "Aprobado"
     ban_user: "Bloquear"
