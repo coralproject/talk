@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styles from './Install.css';
 import { Wizard, WizardNav } from 'coral-ui';
 import Layout from 'coral-admin/src/components/Layout';
+import PropTypes from 'prop-types';
 
 import InitialStep from './Steps/InitialStep';
-import AddOrganizationName from './Steps/AddOrganizationName';
+import OrganizationDetails from './Steps/OrganizationDetails';
 import CreateYourAccount from './Steps/CreateYourAccount';
 import PermittedDomainsStep from './Steps/PermittedDomainsStep';
 import FinalStep from './Steps/FinalStep';
 
-export default class Install extends Component {
+class Install extends React.Component {
   handleDomainsChange = value => {
     this.props.updatePermittedDomains(value);
   };
@@ -55,7 +56,7 @@ export default class Install extends Component {
                 goToStep={this.props.goToStep}
               >
                 <InitialStep />
-                <AddOrganizationName
+                <OrganizationDetails
                   install={install}
                   handleSettingsChange={this.handleSettingsChange}
                   handleSettingsSubmit={this.handleSettingsSubmit}
@@ -81,3 +82,18 @@ export default class Install extends Component {
     );
   }
 }
+
+Install.propTypes = {
+  updatePermittedDomains: PropTypes.func.isRequired,
+  updateSettingsFormData: PropTypes.func.isRequired,
+  updateUserFormData: PropTypes.func.isRequired,
+  submitSettings: PropTypes.func.isRequired,
+  submitUser: PropTypes.func.isRequired,
+  install: PropTypes.object.isRequired,
+  nextStep: PropTypes.func.isRequired,
+  previousStep: PropTypes.func.isRequired,
+  goToStep: PropTypes.func.isRequired,
+  finishInstall: PropTypes.func.isRequired,
+};
+
+export default Install;

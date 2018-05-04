@@ -316,6 +316,18 @@ default to providing only a time based lockout. Refer to
 [reCAPTCHA](https://www.google.com/recaptcha/intro/index.html) for information
 on getting an account setup.
 
+## TALK_RECAPTCHA_WINDOW
+
+The rate limit time interval that there can be [TALK_RECAPTCHA_INCORRECT_TRIGGER](#talk_recaptcha_incorrect_trigger) incorrect attempts until the reCAPTCHA is
+marked as required, parsed by
+[ms](https://www.npmjs.com/package/ms). (Default `10m`)
+
+## TALK_RECAPTCHA_INCORRECT_TRIGGER
+
+The number of times that an incorrect login can be entered before within a time
+perioud indicated by [TALK_RECAPTCHA_WINDOW](#talk_recaptcha_window) until the
+reCAPTCHA is marked as required. (Default `5`)
+
 ## TALK_REDIS_CLIENT_CONFIGURATION
 
 Configuration overrides for the redis client configuration in a JSON encoded

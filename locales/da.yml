@@ -459,6 +459,7 @@ da:
       username: "Brugernavn"
       password: "Kodeord"
       confirm_password: "Bekræft kodeord"
+      organization_contact_email: "Organization Contact Email"
       save: "Gem"
     permitted_domains:
       title: "Tilladte domæner"

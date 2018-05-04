@@ -1,5 +1,5 @@
 const { ErrNotFound, ErrNotAuthorized } = require('../../errors');
-const UsersService = require('../../services/users');
+const Users = require('../../services/users');
 const migrationHelpers = require('../../services/migration/helpers');
 const {
   CHANGE_USERNAME,
@@ -8,11 +8,12 @@ const {
   SET_USER_BAN_STATUS,
   SET_USER_SUSPENSION_STATUS,
   UPDATE_USER_ROLES,
-  DELETE_USER,
+  DELETE_OTHER_USER,
+  CHANGE_PASSWORD,
 } = require('../../perms/constants');
 
 const setUserUsernameStatus = async (ctx, id, status) => {
-  const user = await UsersService.setUsernameStatus(id, status, ctx.user.id);
+  const user = await Users.setUsernameStatus(id, status, ctx.user.id);
   if (status === 'REJECTED') {
     ctx.pubsub.publish('usernameRejected', user);
   } else if (status === 'APPROVED') {
@@ -21,12 +22,7 @@ const setUserUsernameStatus = async (ctx, id, status) => {
 };
 
 const setUserBanStatus = async (ctx, id, status = false, message = null) => {
-  const user = await UsersService.setBanStatus(
-    id,
-    status,
-    ctx.user.id,
-    message
-  );
+  const user = await Users.setBanStatus(id, status, ctx.user.id, message);
   if (user.banned) {
     ctx.pubsub.publish('userBanned', user);
   }
@@ -38,38 +34,33 @@ const setUserSuspensionStatus = async (
   until = null,
   message = null
 ) => {
-  const user = await UsersService.setSuspensionStatus(
-    id,
-    until,
-    ctx.user.id,
-    message
-  );
+  const user = await Users.setSuspensionStatus(id, until, ctx.user.id, message);
   if (user.suspended) {
     ctx.pubsub.publish('userSuspended', user);
   }
 };
 
 const ignoreUser = ({ user }, userToIgnore) => {
-  return UsersService.ignoreUsers(user.id, [userToIgnore.id]);
+  return Users.ignoreUsers(user.id, [userToIgnore.id]);
 };
 
 const stopIgnoringUser = ({ user }, userToStopIgnoring) => {
-  return UsersService.stopIgnoringUsers(user.id, [userToStopIgnoring.id]);
+  return Users.stopIgnoringUsers(user.id, [userToStopIgnoring.id]);
 };
 
 const changeUsername = async (ctx, id, username) => {
-  const user = await UsersService.changeUsername(id, username, ctx.user.id);
+  const user = await Users.changeUsername(id, username, ctx.user.id);
   const previousUsername = ctx.user.username;
   ctx.pubsub.publish('usernameChanged', { previousUsername, user });
   return user;
 };
 
 const setUsername = async (ctx, id, username) => {
-  return UsersService.setUsername(id, username, ctx.user.id);
+  return Users.setUsername(id, username, ctx.user.id);
 };
 
 const setRole = (ctx, id, role) => {
-  return UsersService.setRole(id, role);
+  return Users.setRole(id, role);
 };
 
 /**
@@ -102,7 +93,7 @@ const delUser = async (ctx, id) => {
     updateBatchSize: 10000,
   });
 
-  // Remove all actions against comments.
+  // Remove all actions against this users comments.
   await transformSingleWithCursor(
     Action.collection.find({ user_id: user.id, item_type: 'COMMENTS' }),
     actionDecrTransformer,
@@ -121,36 +112,84 @@ const delUser = async (ctx, id) => {
     .setOptions({ multi: true })
     .remove();
 
-  // Removes all the user's reply counts on each of the comments that they
-  // have commented on.
+  // Remove the user from all other user's ignore lists.
+  await User.update(
+    { ignoresUsers: user.id },
+    {
+      $pull: { ignoresUsers: user.id },
+    },
+    { multi: true }
+  );
+
+  // For each comment that the user has authored, purge the comment data from it
+  // and unset their id from those comments.
   await transformSingleWithCursor(
-    Comment.collection.aggregate([
-      { $match: { author_id: user.id } },
-      {
-        $group: {
-          _id: '$parent_id',
-          count: { $sum: 1 },
-        },
-      },
-    ]),
-    ({ _id: parent_id, count }) => ({
-      query: { id: parent_id },
-      update: {
-        $inc: {
-          reply_count: -1 * count,
-        },
+    Comment.collection.find({ author_id: user.id }),
+    ({
+      id,
+      asset_id,
+      status,
+      parent_id,
+      reply_count,
+      created_at,
+      updated_at,
+    }) => ({
+      query: { id },
+      replace: {
+        id,
+        body: null,
+        body_history: [],
+        asset_id,
+        author_id: null,
+        status_history: [],
+        status,
+        parent_id,
+        reply_count,
+        action_counts: {},
+        tags: [],
+        metadata: {},
+        deleted_at: new Date(),
+        created_at,
+        updated_at,
       },
     }),
     Comment
   );
 
-  // Remove all the user's comments.
-  await Comment.where({ author_id: user.id })
-    .setOptions({ multi: true })
-    .remove();
-
   // Remove the user.
   await user.remove();
+};
+
+const changeUserPassword = async (ctx, oldPassword, newPassword) => {
+  const {
+    user,
+    loaders: { Settings },
+    connectors: { services: { I18n } },
+  } = ctx;
+
+  // Verify the old password.
+  const validPassword = await user.verifyPassword(oldPassword);
+  if (!validPassword) {
+    throw new ErrNotAuthorized();
+  }
+
+  // Change the users password now.
+  await Users.changePassword(user.id, newPassword);
+
+  // Get some context for the email to be sent.
+  const { organizationName, organizationContactEmail } = await Settings.load([
+    'organizationName',
+    'organizationContactEmail',
+  ]);
+
+  // Send the password change email.
+  await Users.sendEmail(user, {
+    template: 'plain',
+    locals: {
+      body: I18n.t('email.password_change.body', organizationContactEmail),
+    },
+    subject: I18n.t('email.password_change.subject', organizationName),
+  });
 };
 
 module.exports = ctx => {
@@ -165,6 +204,7 @@ module.exports = ctx => {
       setUsername: () => Promise.reject(new ErrNotAuthorized()),
       stopIgnoringUser: () => Promise.reject(new ErrNotAuthorized()),
       del: () => Promise.reject(new ErrNotAuthorized()),
+      changePassword: () => Promise.reject(new ErrNotAuthorized()),
     },
   };
 
@@ -201,8 +241,13 @@ module.exports = ctx => {
         setUserSuspensionStatus(ctx, id, until, message);
     }
 
-    if (ctx.user.can(DELETE_USER)) {
+    if (ctx.user.can(DELETE_OTHER_USER)) {
       mutators.User.del = id => delUser(ctx, id);
+    }
+
+    if (ctx.user.can(CHANGE_PASSWORD)) {
+      mutators.User.changePassword = ({ oldPassword, newPassword }) =>
+        changeUserPassword(ctx, oldPassword, newPassword);
     }
   }
 

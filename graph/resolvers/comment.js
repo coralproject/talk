@@ -1,8 +1,10 @@
+const { URL } = require('url');
 const { property } = require('lodash');
 const {
   SEARCH_ACTIONS,
   SEARCH_COMMENT_STATUS_HISTORY,
   VIEW_BODY_HISTORY,
+  VIEW_COMMENT_DELETED_AT,
 } = require('../../perms/constants');
 const {
   decorateWithTags,
@@ -22,7 +24,9 @@ const Comment = {
     return Comments.get.load(parent_id);
   },
   user({ author_id }, _, { loaders: { Users } }) {
-    return Users.getByID.load(author_id);
+    if (author_id) {
+      return Users.getByID.load(author_id);
+    }
   },
   replies({ id, asset_id, reply_count }, { query }, { loaders: { Comments } }) {
     // Don't bother looking up replies if there aren't any there!
@@ -63,6 +67,16 @@ const Comment = {
       editableUntil: editableUntil,
     };
   },
+  async url(comment, args, { loaders: { Assets } }) {
+    const asset = await Assets.getByID.load(comment.asset_id);
+    if (!asset) {
+      return null;
+    }
+
+    const assetURL = new URL(asset.url);
+    assetURL.searchParams.set('commentId', comment.id);
+    return assetURL.href;
+  },
 };
 
 // Decorate the Comment type resolver with a tags field.
@@ -72,6 +86,7 @@ decorateWithTags(Comment);
 decorateWithPermissionCheck(Comment, {
   actions: [SEARCH_ACTIONS],
   status_history: [SEARCH_COMMENT_STATUS_HISTORY],
+  deleted_at: [VIEW_COMMENT_DELETED_AT],
 });
 
 // Protect privileged fields.

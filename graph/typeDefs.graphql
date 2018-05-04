@@ -503,7 +503,7 @@ type Comment {
   id: ID!
 
   # The actual comment data.
-  body: String!
+  body: String
 
   # The body history of the comment. Requires the `ADMIN` or `MODERATOR` role or
   # the author.
@@ -537,6 +537,9 @@ type Comment {
   # The status history of the comment. Requires the `ADMIN` or `MODERATOR` role.
   status_history: [CommentStatusHistory!]
 
+  # The date that the comment was deleted at if it was.
+  deleted_at: Date
+
   # The time when the comment was created
   created_at: Date!
 
@@ -548,6 +551,9 @@ type Comment {
 
   # Indicates if it has a parent
   hasParent: Boolean
+
+  # url is the permalink to this particular Comment on the Asset.
+  url: String
 }
 
 # CommentConnection represents a paginable subset of a comment list.
@@ -834,6 +840,9 @@ type Settings {
 
   # organizationName is the name of the organization.
   organizationName: String
+
+  # organizationContactEmail is the email of the organization.
+  organizationContactEmail: String
 
   # wordlist will return a given list of words.
   wordlist: Wordlist
@@ -1291,6 +1300,9 @@ input UpdateSettingsInput {
   # organizationName is the name of the organization.
   organizationName: String
 
+  # organizationContactEmail is the email of the organization.
+  organizationContactEmail: String
+
   # editCommentWindowLength is the length of time (in milliseconds) after a
   # comment is posted that it can still be edited by the author.
   editCommentWindowLength: Int
@@ -1433,6 +1445,21 @@ type DelUserResponse implements Response {
   errors: [UserError!]
 }
 
+input ChangePasswordInput {
+  # oldPassword is the previous password set on the account. An incorrect
+  # password here will result in an unauthorized error being thrown.
+  oldPassword: String!
+
+  # newPassword is the password we're changing it to.
+  newPassword: String!
+}
+
+type ChangePasswordResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 # All mutations for the application are defined on this object.
 type RootMutation {
 
@@ -1533,6 +1560,10 @@ type RootMutation {
 
   # delUser will delete the user with the specified id.
   delUser(id: ID!): DelUserResponse
+
+  # changePassword allows the current user to change their password that have an
+  # associated local user account.
+  changePassword(input: ChangePasswordInput!): ChangePasswordResponse
 }
 
 type UsernameChangedPayload {

@@ -49,6 +49,9 @@ const Setting = new Schema(
     organizationName: {
       type: String,
     },
+    organizationContactEmail: {
+      type: String,
+    },
     autoCloseStream: {
       type: Boolean,
       default: false,

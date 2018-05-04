@@ -21,6 +21,17 @@ const AddOrganizationName = props => {
             showErrors={install.showErrors}
             errorMsg={install.errors.organizationName}
           />
+
+          <TextField
+            className={styles.TextField}
+            id="organizationContactEmail"
+            type="email"
+            label={t('install.create.organization_contact_email')}
+            onChange={handleSettingsChange}
+            showErrors={install.showErrors}
+            errorMsg={install.errors.organizationContactEmail}
+          />
+
           <Button
             className="talk-install-step-2-save-button"
             type="submit"

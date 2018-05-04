@@ -1,0 +1,13 @@
+{
+  "name": "@coralproject/talk-plugin-profile-data",
+  "version": "1.0.0",
+  "description": "Adds profile data management for Talk",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "private": false,
+  "dependencies": {
+    "archiver": "^2.1.1",
+    "cron": "^1.3.0",
+    "csv-stringify": "^3.0.0"
+  }
+}

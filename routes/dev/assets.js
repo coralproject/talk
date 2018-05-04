@@ -14,7 +14,7 @@ router.get('/id/:asset_id', async (req, res, next) => {
       return next(errors.ErrNotFound);
     }
 
-    res.render('article', {
+    res.render('dev/article', {
       title: asset.title,
       asset_id: asset.id,
       asset_url: asset.url,
@@ -27,7 +27,7 @@ router.get('/id/:asset_id', async (req, res, next) => {
 });
 
 router.get('/title/:asset_title', (req, res) => {
-  return res.render('article', {
+  return res.render('dev/article', {
     title: req.params.asset_title.split('-').join(' '),
     asset_url: '',
     asset_id: null,
@@ -42,7 +42,7 @@ router.get('/', async (req, res, next) => {
 
   try {
     const assets = await Assets.all(skip, limit);
-    res.render('articles', {
+    res.render('dev/articles', {
       assets: assets,
     });
   } catch (err) {

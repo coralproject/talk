@@ -8,7 +8,14 @@ import SaveChangesDialog from './SaveChangesDialog';
 
 class Configure extends React.Component {
   render() {
-    const { canSave, currentUser, root, savePending, settings } = this.props;
+    const {
+      canSave,
+      currentUser,
+      root,
+      savePending,
+      settings,
+      clearPending,
+    } = this.props;
 
     if (!can(currentUser, 'UPDATE_CONFIG')) {
       return <p>{t('configure.access_message')}</p>;
@@ -17,6 +24,9 @@ class Configure extends React.Component {
     const passProps = {
       root,
       settings,
+      savePending,
+      clearPending,
+      canSave,
     };
 
     return (
@@ -40,6 +50,9 @@ class Configure extends React.Component {
             </Item>
             <Item itemId="tech" icon="code">
               {t('configure.tech_settings')}
+            </Item>
+            <Item itemId="organization" icon="people">
+              {t('configure.organization_information')}
             </Item>
           </List>
           <div className={styles.saveBox}>
@@ -81,6 +94,7 @@ Configure.propTypes = {
   children: PropTypes.node.isRequired,
   saveDialog: PropTypes.bool,
   hideSaveDialog: PropTypes.func.isRequired,
+  clearPending: PropTypes.func.isRequired,
 };
 
 export default Configure;

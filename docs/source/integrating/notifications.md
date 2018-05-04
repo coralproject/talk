@@ -36,10 +36,6 @@ Adding the `talk-plugin-notifications` plugin will also enable the `notification
 
 See https://github.com/coralproject/talk/blob/8b669a31c551a042f0f079d8cfc16825673eb8f0/plugins/talk-plugin-notifications-reply/index.js for an example.
 
-### Commenter Notification Settings
-
-Note that notifications REQUIRE the `talk-plugin-profile-settings` plugin; this is where on My Profile commenters will enable and manage their notification settings.
-
 ### Notification Categories
 
 Talk currently supports the following Notifications options out of the box:

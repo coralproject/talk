@@ -3,10 +3,17 @@
   tags:
     - moderation
 - name: talk-plugin-auth
-  description: Enables internal authentication from Coral.
+  description: Enables internal sign-in authentication.
   tags:
     - default
     - auth
+    - gdpr
+- name: talk-plugin-local-auth
+  description: Enables email and password based authentication.
+  tags:
+    - default
+    - auth
+    - gdpr
 - name: talk-plugin-author-menu
   description: Enables the comment author name plugin area.
   tags:
@@ -81,6 +88,11 @@
   description: Shows a Link button on comments for direct-linking to a comment.
   tags:
     - default
+- name: talk-plugin-profile-data
+  description: Enables users to manage their own data within Talk.
+  tags:
+    - default
+    - gdpr
 - name: talk-plugin-remember-sort
   description: Remembers the sort selection made by a user.
 - name: talk-plugin-respect

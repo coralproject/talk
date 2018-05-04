@@ -43,7 +43,7 @@ const ConfigureCard = ({
 );
 
 ConfigureCard.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   className: PropTypes.string,
   onCheckbox: PropTypes.func,
   checked: PropTypes.bool,

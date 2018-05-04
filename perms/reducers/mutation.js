@@ -1,13 +1,33 @@
+const { get, isString } = require('lodash');
+const moment = require('moment');
 const { check } = require('../utils');
 const types = require('../constants');
 
 module.exports = (user, perm) => {
   switch (perm) {
+    case types.CHANGE_PASSWORD:
+      // Only users with a local account where they have a password set can
+      // actually change their password.
+      return (
+        user.profiles.some(({ provider }) => provider === 'local') &&
+        isString(user.password) &&
+        user.password.length > 0
+      );
+
     case types.CHANGE_USERNAME:
       return user.status.username.status === 'REJECTED';
 
-    case types.SET_USERNAME:
-      return user.status.username.status === 'UNSET';
+    case types.SET_USERNAME: {
+      // Only users who have their usernames rejected or those users who
+      // not changed their usernames within 14 days can change their usernames.
+      const deadline = moment().subtract(14, 'days');
+      return (
+        user.status.username.status === 'UNSET' ||
+        get(user, 'status.username.history', []).every(({ created_at }) =>
+          moment(created_at).isBefore(deadline)
+        )
+      );
+    }
 
     case types.CREATE_COMMENT:
     case types.CREATE_ACTION:
@@ -36,6 +56,7 @@ module.exports = (user, perm) => {
     case types.UPDATE_USER_ROLES:
     case types.CREATE_TOKEN:
     case types.REVOKE_TOKEN:
+    case types.DELETE_OTHER_USER:
       return check(user, ['ADMIN']);
 
     default:

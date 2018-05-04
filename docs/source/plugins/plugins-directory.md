@@ -3,6 +3,7 @@ title: Plugins Directory
 permalink: /plugins-directory/
 layout: plugins
 data: plugins
+class: plugins
 ---
 
 Talk provides a growing ecosystem of plugins that interact with our extensive

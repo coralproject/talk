@@ -9,6 +9,7 @@ import 'moment/locale/da';
 import 'moment/locale/de';
 import 'moment/locale/es';
 import 'moment/locale/fr';
+import 'moment/locale/nl';
 import 'moment/locale/pt-br';
 
 import { createStorage } from 'coral-framework/services/storage';
@@ -18,10 +19,10 @@ import daTA from 'timeago.js/locales/da';
 import deTA from 'timeago.js/locales/de';
 import esTA from 'timeago.js/locales/es';
 import frTA from 'timeago.js/locales/fr';
+import nlTA from 'timeago.js/locales/nl';
 import pt_BRTA from 'timeago.js/locales/pt_BR';
 import zh_CNTA from 'timeago.js/locales/zh_CN';
 import zh_TWTA from 'timeago.js/locales/zh_TW';
-import nl from 'timeago.js/locales/nl';
 
 import ar from '../../../locales/ar.yml';
 import en from '../../../locales/en.yml';
@@ -29,10 +30,10 @@ import da from '../../../locales/da.yml';
 import de from '../../../locales/de.yml';
 import es from '../../../locales/es.yml';
 import fr from '../../../locales/fr.yml';
+import nl_NL from '../../../locales/nl_NL.yml';
 import pt_BR from '../../../locales/pt_BR.yml';
 import zh_CN from '../../../locales/zh_CN.yml';
 import zh_TW from '../../../locales/zh_TW.yml';
-import nl_NL from '../../../locales/nl_NL.yml';
 
 const defaultLanguage = process.env.TALK_DEFAULT_LANG;
 const translations = {
@@ -112,10 +113,10 @@ export function setupTranslations() {
   ta.register('da', daTA);
   ta.register('de', deTA);
   ta.register('fr', frTA);
+  ta.register('nl_NL', nlTA);
   ta.register('pt_BR', pt_BRTA);
   ta.register('zh_CN', zh_CNTA);
   ta.register('zh_TW', zh_TWTA);
-  ta.register('nl_NL', nl);
 
   timeagoInstance = ta();
 }

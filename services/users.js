@@ -1,4 +1,5 @@
 const uuid = require('uuid');
+const moment = require('moment');
 const bcrypt = require('bcryptjs');
 const {
   ErrMaxRateLimit,
@@ -17,17 +18,21 @@ const {
   ErrCannotIgnoreStaff,
 } = require('../errors');
 const { difference, sample, some, merge, random } = require('lodash');
-const { ROOT_URL } = require('../config');
+const {
+  ROOT_URL,
+  RECAPTCHA_WINDOW,
+  RECAPTCHA_INCORRECT_TRIGGER,
+} = require('../config');
 const { jwt: JWT_SECRET } = require('../secrets');
 const debug = require('debug')('talk:services:users');
-const UserModel = require('../models/user');
-const RECAPTCHA_WINDOW = '10m'; // 10 minutes.
-const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 5 incorrect attempts, recaptcha will be required.
-const ActionsService = require('./actions');
+const User = require('../models/user');
+const Actions = require('./actions');
 const mailer = require('./mailer');
 const i18n = require('./i18n');
 const Wordlist = require('./wordlist');
 const DomainList = require('./domain_list');
+const Limit = require('./limit');
+const { get } = require('lodash');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
 const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
@@ -37,21 +42,20 @@ const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
 const SALT_ROUNDS = 10;
 
 // Create a redis client to use for authentication.
-const Limit = require('./limit');
 const loginRateLimiter = new Limit(
   'loginAttempts',
   RECAPTCHA_INCORRECT_TRIGGER,
   RECAPTCHA_WINDOW
 );
 
-// UsersService is the interface for the application to interact with the
-// UserModel through.
-class UsersService {
+// Users is the interface for the application to interact with the
+// User through.
+class Users {
   /**
    * Returns a user (if found) for the given email address.
    */
   static findLocalUser(email) {
-    return UserModel.findOne({
+    return User.findOne({
       profiles: {
         $elemMatch: {
           id: email.toLowerCase(),
@@ -83,7 +87,7 @@ class UsersService {
   }
 
   static async setSuspensionStatus(id, until, assignedBy = null, message) {
-    let user = await UserModel.findOneAndUpdate(
+    let user = await User.findOneAndUpdate(
       { id },
       {
         $set: {
@@ -104,7 +108,7 @@ class UsersService {
       }
     );
     if (user === null) {
-      user = await UserModel.findOne({ id });
+      user = await User.findOne({ id });
       if (user === null) {
         throw new ErrNotFound();
       }
@@ -127,12 +131,12 @@ class UsersService {
 
     // Check to see if the user was suspended now and is currently suspended.
     if (user.suspended && message && message.length > 0) {
-      await UsersService.sendEmail(user, {
+      await Users.sendEmail(user, {
         template: 'plain',
         locals: {
           body: message,
         },
-        subject: 'Your account has been suspended',
+        subject: 'Your account has been suspended', // TODO: replace with translation
       });
     }
 
@@ -140,7 +144,7 @@ class UsersService {
   }
 
   static async setBanStatus(id, status, assignedBy = null, message) {
-    let user = await UserModel.findOneAndUpdate(
+    let user = await User.findOneAndUpdate(
       {
         id,
         'status.banned.status': {
@@ -166,7 +170,7 @@ class UsersService {
       }
     );
     if (!user) {
-      user = await UserModel.findOne({ id });
+      user = await User.findOne({ id });
       if (!user) {
         throw new ErrNotFound();
       }
@@ -180,7 +184,7 @@ class UsersService {
 
     // Check to see if the user was banned now and is currently banned.
     if (user.banned && status && message && message.length > 0) {
-      await UsersService.sendEmail(user, {
+      await Users.sendEmail(user, {
         template: 'plain',
         locals: {
           body: message,
@@ -193,7 +197,7 @@ class UsersService {
   }
 
   static async setUsernameStatus(id, status, assignedBy = null) {
-    let user = await UserModel.findOneAndUpdate(
+    let user = await User.findOneAndUpdate(
       {
         id,
         'status.username.status': {
@@ -217,7 +221,7 @@ class UsersService {
       }
     );
     if (user === null) {
-      user = await UserModel.findOne({ id });
+      user = await User.findOne({ id });
       if (user === null) {
         throw new ErrNotFound();
       }
@@ -234,55 +238,72 @@ class UsersService {
     return user;
   }
 
-  static async _setUsername(
-    id,
-    username,
-    fromStatus,
-    toStatus,
-    assignedBy,
-    resetAllowed = false
-  ) {
+  static async setUsername(id, username, assignedBy) {
     try {
+      const oldestEditTime = moment()
+        .subtract(14, 'days')
+        .toDate();
+
+      // A username can be set if:
+      //
+      // - The previous status was 'UNSET'
+      // - The username has not been changed within the last 14 days.
       const query = {
         id,
-        'status.username.status': fromStatus,
-      };
-      if (!resetAllowed) {
-        query.username = { $ne: username };
-      }
-
-      let user = await UserModel.findOneAndUpdate(
-        query,
-        {
-          $set: {
-            username,
-            lowercaseUsername: username.toLowerCase(),
-            'status.username.status': toStatus,
+        $or: [
+          {
+            'status.username.status': 'UNSET',
           },
-          $push: {
-            'status.username.history': {
-              status: toStatus,
-              assigned_by: assignedBy,
-              created_at: Date.now(),
-            },
+          {
+            'status.username.status': { $in: ['APPROVED', 'SET'] },
+            $or: [
+              {
+                'status.username.history.created_at': {
+                  $lte: oldestEditTime,
+                },
+              },
+              {
+                'status.username.history': [],
+              },
+              {
+                'status.username.history': { $exists: false },
+              },
+            ],
+          },
+        ],
+      };
+
+      const update = {
+        $set: {
+          username,
+          lowercaseUsername: username.toLowerCase(),
+          'status.username.status': 'SET',
+        },
+        $push: {
+          'status.username.history': {
+            status: 'SET',
+            assigned_by: assignedBy,
+            created_at: Date.now(),
           },
         },
-        {
-          new: true,
-        }
-      );
+      };
+
+      let user = await User.findOneAndUpdate(query, update, {
+        new: true,
+      });
       if (!user) {
-        user = await UsersService.findById(id);
+        user = await Users.findById(id);
         if (user === null) {
           throw new ErrNotFound();
         }
 
-        if (user.status.username.status !== fromStatus) {
+        if (
+          !['UNSET', 'APPROVED', 'SET'].includes(user.status.username.status) ||
+          user.status.username.history.some(({ created_at }) =>
+            moment(created_at).isAfter(oldestEditTime)
+          )
+        ) {
           throw new ErrPermissionUpdateUsername();
-        }
-
-        if (!resetAllowed && user.username === username) {
-          throw new ErrSameUsernameProvided();
         }
 
         throw new Error('edit username failed for an unexpected reason');
@@ -298,25 +319,57 @@ class UsersService {
     }
   }
 
-  static async setUsername(id, username, assignedBy) {
-    return UsersService._setUsername(
-      id,
-      username,
-      'UNSET',
-      'SET',
-      assignedBy,
-      true
-    );
-  }
-
   static async changeUsername(id, username, assignedBy) {
-    return UsersService._setUsername(
-      id,
-      username,
-      'REJECTED',
-      'CHANGED',
-      assignedBy
-    );
+    try {
+      const query = {
+        id,
+        username: { $ne: username },
+        'status.username.status': 'REJECTED',
+      };
+
+      const update = {
+        $set: {
+          username,
+          lowercaseUsername: username.toLowerCase(),
+          'status.username.status': 'CHANGED',
+        },
+        $push: {
+          'status.username.history': {
+            status: 'CHANGED',
+            assigned_by: assignedBy,
+            created_at: Date.now(),
+          },
+        },
+      };
+
+      let user = await User.findOneAndUpdate(query, update, {
+        new: true,
+      });
+      if (!user) {
+        user = await Users.findById(id);
+        if (user === null) {
+          throw new ErrNotFound();
+        }
+
+        if (user.status.username.status !== 'REJECTED') {
+          throw new ErrPermissionUpdateUsername();
+        }
+
+        if (user.username === username) {
+          throw new ErrSameUsernameProvided();
+        }
+
+        throw new Error('edit username failed for an unexpected reason');
+      }
+
+      return user;
+    } catch (err) {
+      if (err.code === 11000) {
+        throw new ErrUsernameTaken();
+      }
+
+      throw err;
+    }
   }
 
   /**
@@ -340,7 +393,7 @@ class UsersService {
    * Sets or removes the recaptcha_required flag on a user's local profile.
    */
   static flagForRecaptchaRequirement(email, required) {
-    return UserModel.update(
+    return User.update(
       {
         profiles: {
           $elemMatch: {
@@ -372,11 +425,11 @@ class UsersService {
     const GROUP_ATTEMPTS = 50;
 
     // Cast the original username.
-    const castedName = UsersService.castUsername(username);
+    const castedName = Users.castUsername(username);
     const lowercaseUsername = castedName.toLowerCase();
 
     // Try to see if our first guess has been taken.
-    const existingUserWithName = await UserModel.findOne({
+    const existingUserWithName = await User.findOne({
       lowercaseUsername,
     });
     if (!existingUserWithName) {
@@ -396,7 +449,7 @@ class UsersService {
       );
 
       // See if any of these users aren't taken already.
-      const existingUsernames = (await UserModel.find(
+      const existingUsernames = (await User.find(
         {
           lowercaseUsername: { $in: lowercaseUsernameGuesses },
         },
@@ -432,7 +485,7 @@ class UsersService {
    * @param  {Function} done    [description]
    */
   static async findOrCreateExternalUser(ctx, id, provider, displayName) {
-    let user = await UserModel.findOne({
+    let user = await User.findOne({
       profiles: {
         $elemMatch: {
           id,
@@ -447,10 +500,10 @@ class UsersService {
     // User does not exist and need to be created.
 
     // Create an initial username for the user.
-    let username = await UsersService.getInitialUsername(displayName);
+    let username = await Users.getInitialUsername(displayName);
 
     // The user was not found, lets create them!
-    user = new UserModel({
+    user = new User({
       username,
       lowercaseUsername: username.toLowerCase(),
       profiles: [{ id, provider }],
@@ -480,11 +533,7 @@ class UsersService {
    * @param {String}     email the email for the user to send the email to
    */
   static async sendEmailConfirmation(user, email, redirectURI = ROOT_URL) {
-    let token = await UsersService.createEmailConfirmToken(
-      user,
-      email,
-      redirectURI
-    );
+    let token = await Users.createEmailConfirmToken(user, email, redirectURI);
 
     return mailer.send({
       template: 'email-confirm',
@@ -507,9 +556,13 @@ class UsersService {
   }
 
   static async changePassword(id, password) {
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    if (!password || password.length < 8) {
+      throw new ErrPasswordTooShort();
+    }
 
-    return UserModel.update(
+    const hashedPassword = await Users.hashPassword(password);
+
+    return User.update(
       { id },
       {
         $inc: { __v: 1 },
@@ -580,13 +633,13 @@ class UsersService {
     username = username.trim();
 
     await Promise.all([
-      UsersService.isValidUsername(username),
-      UsersService.isValidPassword(password),
+      Users.isValidUsername(username),
+      Users.isValidPassword(password),
     ]);
 
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashedPassword = await Users.hashPassword(password);
 
-    let user = new UserModel({
+    let user = new User({
       username,
       lowercaseUsername: username.toLowerCase(),
       password: hashedPassword,
@@ -630,11 +683,7 @@ class UsersService {
    * @param  {String}   role role to add
    */
   static setRole(id, role) {
-    return UserModel.update(
-      { id },
-      { $set: { role } },
-      { runValidators: true }
-    );
+    return User.update({ id }, { $set: { role } }, { runValidators: true });
   }
 
   /**
@@ -642,7 +691,7 @@ class UsersService {
    * @param {String} id  user id (uuid)
    */
   static findById(id) {
-    return UserModel.findOne({ id });
+    return User.findOne({ id });
   }
 
   /**
@@ -652,7 +701,7 @@ class UsersService {
    */
   static async findOrCreateByIDToken(id, token) {
     // Try to get the user.
-    let user = await UserModel.findOne({ id });
+    let user = await User.findOne({ id });
 
     // If the user was not found, try to look it up.
     if (user === null) {
@@ -669,7 +718,7 @@ class UsersService {
    * @param {Array} ids  array of user identifiers (uuid)
    */
   static findByIdArray(ids) {
-    return UserModel.find({
+    return User.find({
       id: { $in: ids },
     });
   }
@@ -679,7 +728,7 @@ class UsersService {
    * @param {Array} ids  array of user identifiers (uuid)
    */
   static findPublicByIdArray(ids) {
-    return UserModel.find(
+    return User.find(
       {
         id: { $in: ids },
       },
@@ -699,7 +748,7 @@ class UsersService {
     email = email.toLowerCase();
 
     const [user, domainValidated] = await Promise.all([
-      UserModel.findOne({ profiles: { $elemMatch: { id: email } } }),
+      User.findOne({ profiles: { $elemMatch: { id: email } } }),
       DomainList.urlCheck(loc),
     ]);
     if (!user) {
@@ -746,28 +795,53 @@ class UsersService {
     });
   }
 
-  /**
-   * Verifies a jwt and returns the associated user. Throws an error when the
-   * token isn't valid.
-   *
-   * @param {String} token the JSON Web Token to verify
-   */
+  // TODO: update doc
   static async verifyPasswordResetToken(token) {
     if (!token) {
       throw new Error('cannot verify an empty token');
     }
 
-    const { userId, loc, version } = await UsersService.verifyToken(token, {
+    const { userId, loc: redirect, version } = await Users.verifyToken(token, {
       subject: PASSWORD_RESET_JWT_SUBJECT,
     });
 
-    const user = await UsersService.findById(userId);
+    const user = await Users.findById(userId);
 
     if (version !== user.__v) {
       throw new Error('password reset token has expired');
     }
 
-    return [user, loc];
+    return { user, redirect, version };
+  }
+
+  static async hashPassword(password) {
+    return bcrypt.hash(password, SALT_ROUNDS);
+  }
+
+  // TODO: update doc
+  static async resetPassword(token, password) {
+    const { user, redirect, version } = await this.verifyPasswordResetToken(
+      token
+    );
+
+    if (!password || password.length < 8) {
+      throw new ErrPasswordTooShort();
+    }
+
+    const hashedPassword = await Users.hashPassword(password);
+
+    // Update the user's password.
+    await User.update(
+      { id: user.id, __v: version },
+      {
+        $inc: { __v: 1 },
+        $set: {
+          password: hashedPassword,
+        },
+      }
+    );
+
+    return { user, redirect };
   }
 
   /**
@@ -775,7 +849,7 @@ class UsersService {
    * @return {Promise}
    */
   static count(query = {}) {
-    return UserModel.count(query);
+    return User.count(query);
   }
 
   /**
@@ -783,7 +857,7 @@ class UsersService {
    * @return {Promise}
    */
   static all() {
-    return UserModel.find();
+    return User.find();
   }
 
   /**
@@ -791,7 +865,7 @@ class UsersService {
    * @return {Promise}
    */
   static updateSettings(id, settings) {
-    return UserModel.update(
+    return User.update(
       {
         id,
       },
@@ -811,7 +885,7 @@ class UsersService {
    * @return {Promise}
    */
   static addAction(item_id, user_id, action_type, metadata) {
-    return ActionsService.create({
+    return Actions.create({
       item_id,
       item_type: 'users',
       user_id,
@@ -874,11 +948,11 @@ class UsersService {
       throw new Error('cannot verify an empty token');
     }
 
-    const decoded = await UsersService.verifyToken(token, {
+    const decoded = await Users.verifyToken(token, {
       subject: EMAIL_CONFIRM_JWT_SUBJECT,
     });
 
-    const user = await UserModel.findOne({
+    const user = await User.findOne({
       id: decoded.userID,
       profiles: {
         $elemMatch: {
@@ -896,7 +970,9 @@ class UsersService {
       throw new ErrNotFound();
     }
 
-    if (profile.metadata && profile.metadata.confirmed_at !== null) {
+    // Check to see if the profile has already been confirmed.
+    const confirmedAt = get(profile, 'metadata.confirmed_at', null);
+    if (confirmedAt && confirmedAt < Date.now()) {
       throw new ErrEmailAlreadyVerified();
     }
 
@@ -911,13 +987,11 @@ class UsersService {
    * @return {Promise}
    */
   static async verifyEmailConfirmation(token) {
-    let {
-      userID,
-      email,
-      referer,
-    } = await UsersService.verifyEmailConfirmationToken(token);
+    let { userID, email, referer } = await Users.verifyEmailConfirmationToken(
+      token
+    );
 
-    await UsersService.confirmEmail(userID, email);
+    await Users.confirmEmail(userID, email);
 
     return { userID, email, referer };
   }
@@ -926,7 +1000,7 @@ class UsersService {
    * Marks the email on the user as confirmed.
    */
   static confirmEmail(id, email) {
-    return UserModel.update(
+    return User.update(
       {
         id,
         profiles: {
@@ -954,12 +1028,12 @@ class UsersService {
       throw new Error('Users cannot ignore themselves');
     }
 
-    const users = await UsersService.findByIdArray(usersToIgnore);
+    const users = await Users.findByIdArray(usersToIgnore);
     if (some(users, user => user.isStaff())) {
       throw new ErrCannotIgnoreStaff();
     }
 
-    return UserModel.update(
+    return User.update(
       { id },
       {
         $addToSet: {
@@ -977,7 +1051,7 @@ class UsersService {
    * @param  {Array<String>} usersToStopIgnoring Array of user IDs to stop ignoring
    */
   static async stopIgnoringUsers(id, usersToStopIgnoring) {
-    await UserModel.update(
+    await User.update(
       { id },
       {
         $pullAll: {
@@ -988,7 +1062,7 @@ class UsersService {
   }
 }
 
-module.exports = UsersService;
+module.exports = Users;
 
 // Extract all the tokenUserNotFound plugins so we can integrate with other
 // providers.

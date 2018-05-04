@@ -121,7 +121,7 @@ fr:
     custom_css_url: "URL CSS personnalisée"
     custom_css_url_desc: "URL d'une feuille de style CSS qui remplacera les styles par défaut d'intégration des commentaires. Peut être interne ou externe."
     days: Journées
-    description: "En tant qu'administrateur, vous pouvez personnaliser les paramètres du fil de commentaires pour cet élément."
+    description: "Personnaliser les paramètres du fil de commentaires pour cet élément."
     domain_list_text: "Entrez les domaines que vous souhaitez autoriser pour Talk, par exemple vos environnements locaux de production et de production (ex : localhost: 3000 staging.domain.com domain.com)."
     domain_list_title: "Domaines autorisés"
     edit_comment_timeframe_heading: "Modifier l'horodatage des commentaires"
@@ -474,6 +474,7 @@ fr:
       username: "Nom d'utilisateur"
       password: "Mot de passe"
       confirm_password: "Confirmez Le mot de passe"
+      organization_contact_email: "Organization Contact Email"
       save: "Sauvegarder"
     permitted_domains:
       title: "Domaines autorisés"

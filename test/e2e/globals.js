@@ -27,5 +27,6 @@ module.exports = {
       body: 'This is a test comment',
     },
     organizationName: 'Coral',
+    organizationContactEmail: 'coral@coralproject.net',
   },
 };

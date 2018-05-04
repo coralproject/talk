@@ -1,0 +1,73 @@
+type User {
+
+  # lastAccountDownload is the date that the user last requested a comment
+  # download.
+  lastAccountDownload: Date
+
+  # scheduledDeletionDate is the data for which the user account will be deleted
+  # after. The account may be deleted up to half an hour after this date because
+  # the job responsible for deleting the scheduled account will only run once
+  # every half hour.
+  scheduledDeletionDate: Date
+}
+
+# RequestDownloadLinkResponse contains the account download errors relating to
+# the request for an account download.
+type RequestDownloadLinkResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+# RequestAccountDeletionResponse contains the account deletion schedule errors
+# relating to schedulding an account for deletion.
+type RequestAccountDeletionResponse implements Response {
+
+  # scheduledDeletionDate is the data for which the user account will be deleted
+  # after. The account may be deleted up to half an hour after this date because
+  # the job responsible for deleting the scheduled account will only run once
+  # every half hour.
+  scheduledDeletionDate: Date
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+# CancelAccountDeletionResponse contains the account deletion errors relating to
+# canceling an account deletion that was scheduled.
+type CancelAccountDeletionResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+# DownloadUserResponse contaisn the account download archiveURL that can be used
+# to directly download a zip file containing the user data.
+type DownloadUserResponse implements Response {
+
+  # archiveURL is the link that can be used within the next 1 hour to download a
+  # users archive.
+  archiveURL: String
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+type RootMutation {
+
+  # requestDownloadLink will request a download link be sent to the primary
+  # users email address.
+  requestDownloadLink: RequestDownloadLinkResponse
+
+  # requestAccountDeletion requests that the current account get deleted. The
+  # mutation will return the date that the account is scheduled to be deleted.
+  requestAccountDeletion: RequestAccountDeletionResponse
+
+  # cancelAccountDeletion will cancel a pending account deletion that was
+  # previously scheduled.
+  cancelAccountDeletion: CancelAccountDeletionResponse
+
+  # downloadUser will provide an account download for the indicated User. This
+  # mutation requires the ADMIN role.
+  downloadUser(id: ID!): DownloadUserResponse
+}

@@ -5,6 +5,7 @@ const initialState = {
   isLoading: false,
   data: {
     settings: {
+      organizationContactEmail: '',
       organizationName: '',
       domains: {
         whitelist: [],
@@ -19,6 +20,7 @@ const initialState = {
   },
   errors: {
     organizationName: '',
+    organizationContactEmail: '',
     username: '',
     email: '',
     password: '',

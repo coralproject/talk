@@ -287,8 +287,15 @@ async function createUser() {
 
     const { email, username, password, role } = answers;
 
+    const ctx = Context.forSystem();
+
     // Create the user.
-    const user = await UsersService.createLocalUser(email, password, username);
+    const user = await UsersService.createLocalUser(
+      ctx,
+      email,
+      password,
+      username
+    );
 
     // Set the role.
     await UsersService.setRole(user.id, role);
