@@ -36,6 +36,29 @@ en:
       change_email_msg: "Email Address Changed - Your email address has been successfully changed. This email address will now be used for signing in and email notifications."
       changed_username_success_msg: "Username Changed - Your username has been successfully changed. You will not be able to change your user name for 14 days."
       change_username_attempt: "Username can't be updated. Usernames can only be changed every 14 days."
+    add_email:
+      add_email_address: "Add Email Address"
+      enter_email_address: "Enter Email Address:"
+      invalid_email_address: "Invalid Email address"
+      confirm_email_address: "Confirm Email Address:"
+      email_does_not_match: "Email Address does not match"
+      insert_password: "Insert Password:"
+      done: "done"
+      content:
+        title: "Add an Email Address"
+        description: "For your added security, we require users to add an email address to their accounts. Your email address will be used to:"
+        item_1: "Receive updates regarding any changes to your account (email address, username, password, etc.)"
+        item_2: "Allow you to download your comments."
+        item_3: "Send comment notifications that you have chosen to receive."
+      verify:
+        title: "Verify Your Email Address"
+        description:  "We’ve sent an email to {0} to verify your account. You must verify your email address so that it can be used for account change confirmations and notifications."
+      added: 
+        title: "Email Address Added"
+        description: "Your email address has been added to your account."
+        subtitle: "Need to change your email address?"
+        description_2: "You can change your account settings by visiting"
+        path: "My Profile > Settings"
 es:
   talk-plugin-local-auth:
     change_password:

@@ -5,7 +5,6 @@
 
 .detailItemContainer {
   display: flex;
-  flex-direction: column;
 }
 
 .columnDisplay {
@@ -17,10 +16,6 @@
 }
 
 .detailItemContent {
-  display: flex;
-}
-
-.detailInput {
   border: solid 1px #787D80;
   border-radius: 2px;
   background-color: white;
@@ -62,7 +57,6 @@
   flex: 1;
   height: 100%;
   box-sizing: border-box;
-  padding: 0 6px;
 }
 
 .detailItemMessage {
@@ -70,6 +64,7 @@
   display: flex;
   align-items: center;
   padding-left: 6px;
+  padding-top: 16px;
 
   .warningIcon, .checkIcon {
     font-size: 17px;
