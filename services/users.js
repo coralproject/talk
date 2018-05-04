@@ -560,7 +560,7 @@ class Users {
       throw new ErrPasswordTooShort();
     }
 
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashedPassword = await Users.hashPassword(password);
 
     return User.update(
       { id },
@@ -637,7 +637,7 @@ class Users {
       Users.isValidPassword(password),
     ]);
 
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashedPassword = await Users.hashPassword(password);
 
     let user = new User({
       username,
@@ -814,6 +814,10 @@ class Users {
     return { user, redirect, version };
   }
 
+  static async hashPassword(password) {
+    return bcrypt.hash(password, SALT_ROUNDS);
+  }
+
   // TODO: update doc
   static async resetPassword(token, password) {
     const { user, redirect, version } = await this.verifyPasswordResetToken(
@@ -824,7 +828,7 @@ class Users {
       throw new ErrPasswordTooShort();
     }
 
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashedPassword = await Users.hashPassword(password);
 
     // Update the user's password.
     await User.update(
