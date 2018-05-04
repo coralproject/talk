@@ -243,6 +243,7 @@ es:
     ALREADY_EXISTS: "Resource already exists"
     INVALID_ASSET_URL: "La URL del articulo no es valida"
     CANNOT_IGNORE_STAFF: "Cannot ignore Staff members."
+    INCORRECT_PASSWORD: "Contraseña Incorrecta"
     email: "No es un correo válido"
     confirm_password: "Las contraseñas no coinciden. Inténtelo nuevamente"
     network_error: "Error al conectar con el servidor. Compruebe su conexión a Internet y vuelva a intentarlo."

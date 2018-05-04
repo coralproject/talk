@@ -97,7 +97,7 @@ DeleteMyAccountDialog.propTypes = {
   showDialog: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
   requestAccountDeletion: PropTypes.func.isRequired,
-  scheduledDeletionDate: PropTypes.any.isRequired,
+  scheduledDeletionDate: PropTypes.any,
   organizationContactEmail: PropTypes.string.isRequired,
 };
 

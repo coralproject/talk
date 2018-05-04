@@ -1,0 +1,229 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import cn from 'classnames';
+import styles from './ChangePassword.css';
+import { Button } from 'plugin-api/beta/client/components/ui';
+import validate from 'coral-framework/helpers/validate';
+import errorMsj from 'coral-framework/helpers/error';
+import isEqual from 'lodash/isEqual';
+import { t } from 'plugin-api/beta/client/services';
+import InputField from './InputField';
+import { getErrorMessages } from 'coral-framework/utils';
+
+const initialState = {
+  editing: false,
+  showErrors: true,
+  errors: {},
+  formData: {},
+};
+
+class ChangePassword extends React.Component {
+  state = initialState;
+  validKeys = ['oldPassword', 'newPassword', 'confirmNewPassword'];
+
+  onChange = e => {
+    const { name, value, type } = e.target;
+    this.setState(
+      state => ({
+        formData: {
+          ...state.formData,
+          [name]: value,
+        },
+      }),
+      () => {
+        this.fieldValidation(value, type, name);
+
+        // Perform equality validation if password fields have changed
+        if (name === 'newPassword' || name === 'confirmNewPassword') {
+          this.equalityValidation('newPassword', 'confirmNewPassword');
+        }
+      }
+    );
+  };
+
+  equalityValidation = (field, field2) => {
+    const cond = this.state.formData[field] === this.state.formData[field2];
+    if (!cond) {
+      this.addError({
+        [field2]: t(
+          'talk-plugin-local-auth.change_password.passwords_dont_match'
+        ),
+      });
+    } else {
+      this.removeError(field2);
+    }
+    return cond;
+  };
+
+  fieldValidation = (value, type, name) => {
+    if (!value.length) {
+      this.addError({
+        [name]: t('talk-plugin-local-auth.change_password.required_field'),
+      });
+    } else if (!validate[type](value)) {
+      this.addError({ [name]: errorMsj[type] });
+    } else {
+      this.removeError(name);
+    }
+  };
+
+  hasError = err => {
+    return Object.keys(this.state.errors).indexOf(err) !== -1;
+  };
+
+  addError = err => {
+    this.setState(({ errors }) => ({
+      errors: { ...errors, ...err },
+    }));
+  };
+
+  removeError = errKey => {
+    this.setState(state => {
+      const { [errKey]: _, ...errors } = state.errors;
+      return {
+        errors,
+      };
+    });
+  };
+
+  enableEditing = () => {
+    this.setState({
+      editing: true,
+    });
+  };
+
+  isSubmitBlocked = () => {
+    const formHasErrors = !!Object.keys(this.state.errors).length;
+    const formIncomplete = !isEqual(
+      Object.keys(this.state.formData),
+      this.validKeys
+    );
+    return formHasErrors || formIncomplete;
+  };
+
+  clearForm = () => {
+    this.setState(initialState);
+  };
+
+  onSave = async () => {
+    const { oldPassword, newPassword } = this.state.formData;
+
+    try {
+      await this.props.changePassword({
+        oldPassword,
+        newPassword,
+      });
+      this.props.notify(
+        'success',
+        t('talk-plugin-local-auth.change_password.changed_password_msg')
+      );
+    } catch (err) {
+      this.props.notify('error', getErrorMessages(err));
+    }
+
+    this.clearForm();
+    this.disableEditing();
+  };
+
+  disableEditing = () => {
+    this.setState({
+      editing: false,
+    });
+  };
+
+  cancel = () => {
+    this.clearForm();
+    this.disableEditing();
+  };
+
+  render() {
+    const { editing, errors } = this.state;
+
+    return (
+      <section
+        className={cn(
+          'talk-plugin-local-auth--change-password',
+          styles.container,
+          {
+            [styles.editing]: editing,
+          }
+        )}
+      >
+        <h3 className={styles.title}>
+          {t('talk-plugin-local-auth.change_password.change_password')}
+        </h3>
+        {editing && (
+          <form className="talk-plugin-local-auth--change-password-form">
+            <InputField
+              id="oldPassword"
+              label="Old Password"
+              name="oldPassword"
+              type="password"
+              onChange={this.onChange}
+              value={this.state.formData.oldPassword}
+              hasError={this.hasError('oldPassword')}
+              errorMsg={errors['oldPassword']}
+              showErrors
+            >
+              <span className={styles.detailBottomBox}>
+                <a className={styles.detailLink}>
+                  {t('talk-plugin-local-auth.change_password.forgot_password')}
+                </a>
+              </span>
+            </InputField>
+            <InputField
+              id="newPassword"
+              label="New Password"
+              name="newPassword"
+              type="password"
+              onChange={this.onChange}
+              value={this.state.formData.newPassword}
+              hasError={this.hasError('newPassword')}
+              errorMsg={errors['newPassword']}
+              showErrors
+            />
+            <InputField
+              id="confirmNewPassword"
+              label="Confirm New Password"
+              name="confirmNewPassword"
+              type="password"
+              onChange={this.onChange}
+              value={this.state.formData.confirmNewPassword}
+              hasError={this.hasError('confirmNewPassword')}
+              errorMsg={errors['confirmNewPassword']}
+              showErrors
+            />
+          </form>
+        )}
+        {editing ? (
+          <div className={styles.actions}>
+            <Button
+              className={cn(styles.button, styles.saveButton)}
+              icon="save"
+              onClick={this.onSave}
+              disabled={this.isSubmitBlocked()}
+            >
+              {t('talk-plugin-local-auth.change_password.save')}
+            </Button>
+            <a className={styles.cancelButton} onClick={this.cancel}>
+              {t('talk-plugin-local-auth.change_password.cancel')}
+            </a>
+          </div>
+        ) : (
+          <div className={styles.actions}>
+            <Button className={styles.button} onClick={this.enableEditing}>
+              {t('talk-plugin-local-auth.change_password.edit')}
+            </Button>
+          </div>
+        )}
+      </section>
+    );
+  }
+}
+
+ChangePassword.propTypes = {
+  changePassword: PropTypes.func.isRequired,
+  notify: PropTypes.func.isRequired,
+};
+
+export default ChangePassword;
