@@ -71,9 +71,15 @@ async function loadComments(ctx, userID, archive, latestContentDate) {
   const csv = stringify();
 
   // Add all the streams as files to the archive.
-  archive.append(csv, { name: 'talk-export/my_comments.csv' });
+  archive.append(csv, { name: 'comments-export/my_comments.csv' });
 
-  csv.write(['ID', 'Timestamp', 'Article', 'Link', 'Body']);
+  csv.write([
+    'Comment ID',
+    'Published Timestamp',
+    'Article URL',
+    'Comment Link',
+    'Comment Text',
+  ]);
 
   // Load the first batch's comments from the latest date that we were provided
   // from the token.
