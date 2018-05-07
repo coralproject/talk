@@ -164,7 +164,7 @@ class ChangePassword extends React.Component {
   };
 
   render() {
-    const { editing, errors } = this.state;
+    const { editing, errors, showErrors } = this.state;
 
     return (
       <section
@@ -193,7 +193,7 @@ class ChangePassword extends React.Component {
               value={this.state.formData.oldPassword}
               hasError={this.hasError('oldPassword')}
               errorMsg={errors['oldPassword']}
-              showErrors
+              showError={showErrors}
             >
               <span className={styles.detailBottomBox}>
                 <a
@@ -213,7 +213,7 @@ class ChangePassword extends React.Component {
               value={this.state.formData.newPassword}
               hasError={this.hasError('newPassword')}
               errorMsg={errors['newPassword']}
-              showErrors
+              showError={showErrors}
             />
             <InputField
               id="confirmNewPassword"
@@ -224,7 +224,7 @@ class ChangePassword extends React.Component {
               value={this.state.formData.confirmNewPassword}
               hasError={this.hasError('confirmNewPassword')}
               errorMsg={errors['confirmNewPassword']}
-              showErrors
+              showError={showErrors}
             />
             <div className={styles.actions}>
               <Button
