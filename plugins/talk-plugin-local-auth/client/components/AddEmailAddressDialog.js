@@ -1,12 +1,10 @@
 import React from 'react';
-import isMatch from 'lodash/isEqual';
-import isEqualWith from 'lodash/isEqual';
 import PropTypes from 'prop-types';
 import { Dialog } from 'plugin-api/beta/client/components/ui';
 import validate from 'coral-framework/helpers/validate';
-import errorMsj from 'coral-framework/helpers/error';
 import { getErrorMessages } from 'coral-framework/utils';
 import styles from './AddEmailAddressDialog.css';
+import { t } from 'plugin-api/beta/client/services';
 
 import AddEmailContent from './AddEmailContent';
 import VerifyEmailAddress from './VerifyEmailAddress';
@@ -16,15 +14,39 @@ const initialState = {
   step: 0,
   showErrors: false,
   errors: {},
-  formData: {},
+  formData: {
+    emailAddress: '',
+    confirmPassword: '',
+    confirmEmailAddress: '',
+  },
 };
+
+const validateRequired = v =>
+  v ? '' : t('talk-plugin-local-auth.add_email.required_field');
+
+const validateRepeat = (key, msg) => (v, data) => (v !== data[key] ? msg : '');
+
+const validateEmail = v =>
+  validateRequired(v) || !validate.email(v)
+    ? t('talk-plugin-local-auth.add_email.invalid_email_address')
+    : '';
+
+const validatePassword = v => validateRequired(v);
 
 class AddEmailAddressDialog extends React.Component {
   state = initialState;
-  validKeys = ['emailAddress', 'confirmPassword', 'confirmEmailAddress'];
+
+  fields = {
+    emailAddress: validateEmail,
+    confirmPassword: validatePassword,
+    confirmEmailAddress: validateRepeat(
+      'emailAddress',
+      t('talk-plugin-local-auth.add_email.confirm_email_address')
+    ),
+  };
 
   onChange = e => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
     this.setState(
       state => ({
         formData: {
@@ -33,21 +55,19 @@ class AddEmailAddressDialog extends React.Component {
         },
       }),
       () => {
-        this.fieldValidation(value, type, name);
+        this.validate();
       }
     );
   };
 
-  fieldValidation = (value, type, name) => {
-    if (!value.length) {
-      this.addError({
-        [name]: 'Field is required',
-      });
-    } else if (!validate[type](value)) {
-      this.addError({ [name]: errorMsj[type] });
-    } else {
-      this.removeError(name);
+  validateField = (value, name) => {
+    const error = this.fields[name](value, this.state.formData);
+    if (error) {
+      this.addError({ [name]: error });
+      return false;
     }
+    this.removeError(name);
+    return true;
   };
 
   addError = err => {
@@ -55,6 +75,14 @@ class AddEmailAddressDialog extends React.Component {
       errors: { ...errors, ...err },
     }));
   };
+
+  validate() {
+    let hasErrors = false;
+    Object.keys(this.state.formData).forEach(k => {
+      hasErrors = !this.validateField(this.state.formData[k], k) || hasErrors;
+    });
+    return !hasErrors;
+  }
 
   removeError = errKey => {
     this.setState(state => {
@@ -65,21 +93,6 @@ class AddEmailAddressDialog extends React.Component {
     });
   };
 
-  hasError = err => {
-    return Object.keys(this.state.errors).indexOf(err) !== -1;
-  };
-
-  formHasError = () => {
-    const formHasErrors = !!Object.keys(this.state.errors).length;
-    const formIncomplete = !isEqualWith(
-      Object.keys(this.state.formData),
-      this.validKeys,
-      isMatch
-    );
-
-    return formHasErrors || formIncomplete;
-  };
-
   showErrors = () => {
     this.setState({
       showErrors: true,
@@ -87,7 +100,7 @@ class AddEmailAddressDialog extends React.Component {
   };
 
   confirmChanges = async () => {
-    if (this.formHasError()) {
+    if (!this.validate()) {
       this.showErrors();
       return;
     }
