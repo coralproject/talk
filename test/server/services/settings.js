@@ -2,8 +2,13 @@ const Settings = require('../../../services/settings');
 const chai = require('chai');
 const expect = chai.expect;
 
-describe('services.SettingsService', () => {
-  beforeEach(() => Settings.init({ moderation: 'PRE', wordlist: ['donut'] }));
+describe('services.Settings', () => {
+  beforeEach(() =>
+    Settings.init({
+      moderation: 'PRE',
+      wordlist: { banned: ['bannedWord'], suspect: [] },
+    })
+  );
 
   describe('#retrieve()', () => {
     it('should have a moderation field defined', () => {
@@ -33,6 +38,14 @@ describe('services.SettingsService', () => {
           .to.have.property('moderation')
           .and.to.equal('PRE');
         expect(settings).to.not.have.property('wordlist');
+      });
+    });
+    it('should have a wordlist field defined and not moderation', () => {
+      return Settings.select('wordlist').then(settings => {
+        expect(settings).to.not.have.property('moderation');
+        expect(settings).to.have.property('wordlist');
+        expect(settings.wordlist).to.have.property('banned');
+        expect(settings.wordlist.banned).to.contain('bannedWord');
       });
     });
   });
@@ -65,7 +78,7 @@ describe('services.SettingsService', () => {
       const settings = await Settings.retrieve();
       settings.charCount = 500;
 
-      await Settings.update(settings.toObject());
+      await Settings.update(settings);
     });
   });
 

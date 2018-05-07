@@ -1,4 +1,3 @@
-const Setting = require('../../models/setting');
 const Settings = require('../../services/settings');
 const DataLoader = require('dataloader');
 const { zipObject } = require('lodash');
@@ -15,12 +14,9 @@ class SettingsLoader {
   async _batchLoadFn(fields) {
     // Load a settings object with all the requested fields, unless we have the
     // entire object cached, in which case we'll return the whole cache.
-    const model = this._cache
+    const obj = this._cache
       ? await this._cache
-      : await Settings.retrieve(...fields);
-
-    // Convert the model into an object for easier manipulation.
-    const obj = model.toObject();
+      : await Settings.select(...fields);
 
     // Return the specific fields for each of the fields that were loaded.
     return fields.map(field => obj[field]);
@@ -55,11 +51,9 @@ class SettingsLoader {
     // Load all the values for the specific fields.
     const values = await this._loader.loadMany(fields);
 
-    // Zip up the fields and values to create an object to return.
-    const obj = zipObject(fields, values);
-
-    // Return the assembled Settings object.
-    return new Setting(obj);
+    // Zip up the fields and values to create an object to return and return the
+    // assembled Settings object.
+    return zipObject(fields, values);
   }
 }
 

@@ -12,16 +12,13 @@ async function loadFn(fields = []) {
     throw new ErrSettingsNotInit();
   }
 
-  return model;
+  return model.toObject();
 }
 
 // batchLoadFn will load a settings object with all the requested fields.
 async function batchLoadFn(fields) {
   // Load a settings object with all the requested fields.
-  const model = await loadFn(fields);
-
-  // Convert the model into an object for easier manipulation.
-  const obj = model.toObject();
+  const obj = await loadFn(fields);
 
   // Return the specific fields for each of the fields that were loaded.
   return fields.map(field => obj[field]);
@@ -47,11 +44,9 @@ class Settings {
     // Load all the values for the specific fields.
     const values = await batchedSettingsLoader.loadMany(fields);
 
-    // Zip up the fields and values to create an object to return.
-    const obj = zipObject(fields, values);
-
-    // Return the assembled Settings object.
-    return new Setting(obj);
+    // Zip up the fields and values to create an object to return and return the
+    // assembled Settings object.
+    return zipObject(fields, values);
   }
 
   static async update(settings) {
