@@ -225,6 +225,7 @@ en:
   embedlink:
     copy: "Copy to Clipboard"
   error:
+    PASSWORD_INCORRECT: "Your current password was entered incorrectly"
     COMMENT_PARENT_NOT_VISIBLE: "The comment that you're replying to has been removed or doesn't exist."
     EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
     EMAIL_ALREADY_VERIFIED: "Email address already verified."
