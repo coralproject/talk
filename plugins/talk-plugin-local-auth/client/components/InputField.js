@@ -19,13 +19,13 @@ const InputField = ({
   showSuccess = false,
   validationType = '',
   icon = '',
-  value = '',
-  defaultValue = '',
+  value,
+  defaultValue,
   disabled = false,
 }) => {
   const inputValue = {
-    ...(value ? { value } : {}),
-    ...(defaultValue ? { defaultValue } : {}),
+    ...(value !== undefined ? { value } : {}),
+    ...(defaultValue !== undefined ? { defaultValue } : {}),
   };
 
   return (
