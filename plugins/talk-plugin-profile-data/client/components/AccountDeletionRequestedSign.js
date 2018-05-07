@@ -37,13 +37,13 @@ class AccountDeletionRequestedSign extends React.Component {
         </h4>
         <p className={styles.description}>
           {t('delete_request.received_on')}
-          {deletionScheduledFor}.
+          {deletionScheduledOn}.
         </p>
         <p className={styles.description}>
           {t('delete_request.cancel_request_description')}
           <b>
             {' '}
-            {t('delete_request.before')} {deletionScheduledOn}
+            {t('delete_request.before')} {deletionScheduledFor}
           </b>.
         </p>
         <div className={styles.actions}>

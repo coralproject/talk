@@ -1,36 +1,47 @@
 .container {
-  margin-bottom: 20px;
+  margin-top: 6px;
+  margin-bottom: 12px;
   display: flex;
   position: relative;
   color: #202020;
-  padding: 10px;
+  padding: 5px;
   border-radius: 2px;
   box-sizing: border-box;
   justify-content: space-between;
-  
-  &.editing { 
+
+  &.editing {
+    padding: 10px;
     background-color: #EDEDED;
   }
 }
 
+.wrapper {
+  display: flex;
+  position: relative;
+  box-sizing: inherit;
+  justify-content: inherit;
+  flex-grow: 1;
+}
+
 .content {
   flex-grow: 1;
-} 
+}
 
 .actions {
   flex-grow: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-}                                                                       
+}
 
 .email {
   margin: 0;
 }
 
-.username {   
+.username {
+  margin-top: 0;
   margin-bottom: 4px;
-}         
+}
 
 .button {
   border: 1px solid #787d80;
@@ -48,7 +59,7 @@
   > i {
     font-size: 17px;
   }
-    
+
   &:hover {
     background-color: #399ee2;
     color: white;
@@ -82,13 +93,13 @@
   height: 30px;
   display: inline-block;
   width: 230px;
-  display: flex;  
+  display: flex;
 
   > .detailLabelIcon {
     font-size: 1.2em;
     padding: 0 5px;
     color: #787D80;
-    line-height: 30px; 
+    line-height: 30px;
   }
 
   &.disabled {
@@ -115,7 +126,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-} 
+}
 
 .detailItem {
   margin-bottom: 12px;

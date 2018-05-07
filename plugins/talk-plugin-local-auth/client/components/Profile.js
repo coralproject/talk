@@ -50,8 +50,12 @@ class Profile extends React.Component {
     });
   };
 
-  onSave = async () => {
-    this.showDialog();
+  onSave = async e => {
+    e.preventDefault();
+
+    if (this.isSaveEnabled()) {
+      this.showDialog();
+    }
   };
 
   addError = err => {
@@ -121,10 +125,10 @@ class Profile extends React.Component {
 
   saveUsername = async () => {
     const { newUsername } = this.state.formData;
-    const { changeUsername } = this.props;
+    const { setUsername } = this.props;
 
     try {
-      await changeUsername(this.props.root.me.id, newUsername);
+      await setUsername(newUsername);
       this.props.notify(
         'success',
         t('talk-plugin-local-auth.change_username.changed_username_success_msg')
@@ -163,6 +167,8 @@ class Profile extends React.Component {
     } = this.props;
     const { editing, formData, showDialog } = this.state;
 
+    const usernameCanBeUpdated = canUsernameBeUpdated(status);
+
     return (
       <section
         className={cn(
@@ -178,15 +184,17 @@ class Profile extends React.Component {
           closeDialog={this.closeDialog}
           finish={this.finish}
         >
-          <ChangeUsernameContentDialog
-            notify={notify}
-            canUsernameBeUpdated={canUsernameBeUpdated(status)}
-            save={this.saveUsername}
-            onChange={this.onChange}
-            formData={this.state.formData}
-            username={username}
-            enable={formData.newUsername && username !== formData.newUsername}
-          />
+          {usernameCanBeUpdated && (
+            <ChangeUsernameContentDialog
+              notify={notify}
+              canUsernameBeUpdated={usernameCanBeUpdated}
+              save={this.saveUsername}
+              onChange={this.onChange}
+              formData={this.state.formData}
+              username={username}
+              enable={formData.newUsername && username !== formData.newUsername}
+            />
+          )}
           <ChangeEmailContentDialog
             save={this.saveEmail}
             onChange={this.onChange}
@@ -197,63 +205,65 @@ class Profile extends React.Component {
         </ConfirmChangesDialog>
 
         {editing ? (
-          <div className={styles.content}>
-            <div className={styles.detailList}>
-              <InputField
-                icon="person"
-                id="newUsername"
-                name="newUsername"
-                onChange={this.onChange}
-                defaultValue={username}
-                validationType="username"
-                columnDisplay
-              >
-                <span className={styles.bottomText}>
-                  {t(
-                    'talk-plugin-local-auth.change_username.change_username_note'
-                  )}
-                </span>
-              </InputField>
-              <InputField
-                icon="email"
-                id="newEmail"
-                name="newEmail"
-                onChange={this.onChange}
-                defaultValue={email}
-                validationType="email"
-                columnDisplay
-              />
+          <form className={styles.wrapper} onSubmit={this.onSave}>
+            <div className={styles.content}>
+              <div className={styles.detailList}>
+                <InputField
+                  icon="person"
+                  id="newUsername"
+                  name="newUsername"
+                  onChange={this.onChange}
+                  defaultValue={username}
+                  validationType="username"
+                  disabled={!usernameCanBeUpdated}
+                  columnDisplay
+                >
+                  <span className={styles.bottomText}>
+                    {t(
+                      'talk-plugin-local-auth.change_username.change_username_note'
+                    )}
+                  </span>
+                </InputField>
+                <InputField
+                  icon="email"
+                  id="newEmail"
+                  name="newEmail"
+                  onChange={this.onChange}
+                  defaultValue={email}
+                  validationType="email"
+                  columnDisplay
+                />
+              </div>
             </div>
-          </div>
+            <div className={styles.actions}>
+              <Button
+                className={cn(styles.button, styles.saveButton)}
+                icon="save"
+                type="submit"
+                disabled={!this.isSaveEnabled()}
+              >
+                {t('talk-plugin-local-auth.change_username.save')}
+              </Button>
+              <a className={styles.cancelButton} onClick={this.cancel}>
+                {t('talk-plugin-local-auth.change_username.cancel')}
+              </a>
+            </div>
+          </form>
         ) : (
-          <div className={styles.content}>
-            <h2 className={styles.username}>{username}</h2>
-            {email ? <p className={styles.email}>{email}</p> : null}
-          </div>
-        )}
-        {editing ? (
-          <div className={styles.actions}>
-            <Button
-              className={cn(styles.button, styles.saveButton)}
-              icon="save"
-              onClick={this.onSave}
-              disabled={!this.isSaveEnabled()}
-            >
-              {t('talk-plugin-local-auth.change_username.save')}
-            </Button>
-            <a className={styles.cancelButton} onClick={this.cancel}>
-              {t('talk-plugin-local-auth.change_username.cancel')}
-            </a>
-          </div>
-        ) : (
-          <div className={styles.actions}>
-            <Button
-              className={styles.button}
-              icon="settings"
-              onClick={this.enableEditing}
-            >
-              {t('talk-plugin-local-auth.change_username.edit_profile')}
-            </Button>
+          <div className={styles.wrapper}>
+            <div className={styles.content}>
+              <h2 className={styles.username}>{username}</h2>
+              {email ? <p className={styles.email}>{email}</p> : null}
+            </div>
+            <div className={styles.actions}>
+              <Button
+                className={styles.button}
+                icon="settings"
+                onClick={this.enableEditing}
+              >
+                {t('talk-plugin-local-auth.change_username.edit_profile')}
+              </Button>
+            </div>
           </div>
         )}
       </section>
@@ -263,9 +273,8 @@ class Profile extends React.Component {
 
 Profile.propTypes = {
   updateEmailAddress: PropTypes.func.isRequired,
-  changeUsername: PropTypes.func.isRequired,
+  setUsername: PropTypes.func.isRequired,
   root: PropTypes.object.isRequired,
-  changeUsername: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
   username: PropTypes.string,
   emailAddress: PropTypes.string,
