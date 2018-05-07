@@ -155,6 +155,10 @@ class Profile extends React.Component {
     }
   };
 
+  getError = errorKey => {
+    return this.state.errors[errorKey];
+  };
+
   finish = () => {
     this.clearForm();
     this.disableEditing();
@@ -193,6 +197,7 @@ class Profile extends React.Component {
               formData={this.state.formData}
               username={username}
               enable={formData.newUsername && username !== formData.newUsername}
+              hasError={this.hasError}
             />
           )}
           <ChangeEmailContentDialog
@@ -201,6 +206,8 @@ class Profile extends React.Component {
             formData={this.state.formData}
             email={email}
             enable={formData.newEmail && email !== formData.newEmail}
+            hasError={this.hasError}
+            getError={this.getError}
           />
         </ConfirmChangesDialog>
 
