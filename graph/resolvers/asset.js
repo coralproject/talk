@@ -72,9 +72,9 @@ const Asset = {
     // if we have some.
     let globalSettings = await Settings.select(...fields);
     if (settings !== null) {
-      settings = Object.assign({}, globalSettings.toObject(), settings);
+      settings = Object.assign({}, globalSettings, settings);
     } else {
-      settings = globalSettings.toObject();
+      settings = globalSettings;
     }
 
     return settings;
