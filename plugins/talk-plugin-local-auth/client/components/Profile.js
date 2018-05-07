@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import styles from './Profile.css';
-import { Button } from 'plugin-api/beta/client/components/ui';
+import { Button, BareButton } from 'plugin-api/beta/client/components/ui';
 import { t } from 'plugin-api/beta/client/services';
 import InputField from './InputField';
 import { getErrorMessages } from 'coral-framework/utils';
@@ -155,6 +155,10 @@ class Profile extends React.Component {
     }
   };
 
+  getError = errorKey => {
+    return this.state.errors[errorKey];
+  };
+
   finish = () => {
     this.clearForm();
     this.disableEditing();
@@ -193,6 +197,7 @@ class Profile extends React.Component {
               formData={this.state.formData}
               username={username}
               enable={formData.newUsername && username !== formData.newUsername}
+              hasError={this.hasError}
             />
           )}
           <ChangeEmailContentDialog
@@ -201,6 +206,8 @@ class Profile extends React.Component {
             formData={this.state.formData}
             email={email}
             enable={formData.newEmail && email !== formData.newEmail}
+            hasError={this.hasError}
+            getError={this.getError}
           />
         </ConfirmChangesDialog>
 
@@ -244,9 +251,13 @@ class Profile extends React.Component {
               >
                 {t('talk-plugin-local-auth.change_username.save')}
               </Button>
-              <a className={styles.cancelButton} onClick={this.cancel}>
+              <BareButton
+                className={styles.cancelButton}
+                onClick={this.cancel}
+                type="button"
+              >
                 {t('talk-plugin-local-auth.change_username.cancel')}
-              </a>
+              </BareButton>
             </div>
           </form>
         ) : (
