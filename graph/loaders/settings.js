@@ -1,23 +1,66 @@
-const SettingsService = require('../../services/settings');
+const Setting = require('../../models/setting');
+const Settings = require('../../services/settings');
 const DataLoader = require('dataloader');
+const { zipObject } = require('lodash');
 
 /**
- * Creates a set of loaders based on a GraphQL context.
- * @param  {Object} context the context of the GraphQL request
- * @return {Object}         object of loaders
+ * SettingsLoader manages loading specific fields only of the Settings object.
  */
-module.exports = () => {
-  const loader = new DataLoader(selections =>
-    Promise.all(
-      selections.map(fields => {
-        return SettingsService.retrieve(fields);
-      })
-    )
-  );
+class SettingsLoader {
+  constructor() {
+    this._loader = new DataLoader(this._batchLoadFn.bind(this));
+    this._cache = null;
+  }
 
-  return {
-    Settings: {
-      load: (fields = false) => loader.load(fields),
-    },
-  };
-};
+  async _batchLoadFn(fields) {
+    // Load a settings object with all the requested fields, unless we have the
+    // entire object cached, in which case we'll return the whole cache.
+    const model = this._cache
+      ? await this._cache
+      : await Settings.retrieve(...fields);
+
+    // Convert the model into an object for easier manipulation.
+    const obj = model.toObject();
+
+    // Return the specific fields for each of the fields that were loaded.
+    return fields.map(field => obj[field]);
+  }
+
+  /**
+   * load will return the entire Settings object with all fields.
+   */
+  load() {
+    if (this._cache) {
+      // Return the cached settings promise.
+      return this._cache;
+    }
+
+    // Create a promise that will return the settings object.
+    const promise = Settings.retrieve();
+
+    // Set this as the cached value.
+    this._cache = promise;
+
+    // Return the promised settings.
+    return promise;
+  }
+
+  /**
+   * select will return a promise which resolves to the Settings object that
+   * contains the requested fields only.
+   *
+   * @param {Array<String>} fields the fields from Settings we want to load.
+   */
+  async select(...fields) {
+    // Load all the values for the specific fields.
+    const values = await this._loader.loadMany(fields);
+
+    // Zip up the fields and values to create an object to return.
+    const obj = zipObject(fields, values);
+
+    // Return the assembled Settings object.
+    return new Setting(obj);
+  }
+}
+
+module.exports = () => ({ Settings: new SettingsLoader() });

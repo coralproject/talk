@@ -1,4 +1,4 @@
-const { decorateWithTags } = require('./util');
+const { decorateWithTags, getRequestedFields } = require('./util');
 
 const Asset = {
   async comment({ id }, { id: commentId }, { loaders: { Comments } }) {
@@ -64,10 +64,13 @@ const Asset = {
 
     return Comments.countByAssetID.load(id);
   },
-  async settings({ settings = null }, _, { loaders: { Settings } }) {
+  async settings({ settings = null }, _, { loaders: { Settings } }, info) {
+    // Get the fields we want from the settings.
+    const fields = getRequestedFields(info);
+
     // Load the global settings, and merge them into the asset specific settings
     // if we have some.
-    let globalSettings = await Settings.load();
+    let globalSettings = await Settings.select(...fields);
     if (settings !== null) {
       settings = Object.assign({}, globalSettings.toObject(), settings);
     } else {

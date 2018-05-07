@@ -47,9 +47,9 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
   );
 
   // Get some context for the email to be sent.
-  const { organizationContactEmail } = await Settings.load([
-    'organizationContactEmail',
-  ]);
+  const { organizationContactEmail } = await Settings.select(
+    'organizationContactEmail'
+  );
 
   // Send off the email to the old email address that we have changed it.
   await Mailer.send({
