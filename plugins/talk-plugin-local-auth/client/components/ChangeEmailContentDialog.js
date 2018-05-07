@@ -67,7 +67,11 @@ class ChangeEmailContentDialog extends React.Component {
               columnDisplay
             />
             <div className={styles.bottomActions}>
-              <Button className={styles.cancel} onClick={this.props.cancel}>
+              <Button
+                className={styles.cancel}
+                onClick={this.props.cancel}
+                type="button"
+              >
                 {t('talk-plugin-local-auth.change_email.cancel')}
               </Button>
               <Button className={styles.confirmChanges} type="submit">
