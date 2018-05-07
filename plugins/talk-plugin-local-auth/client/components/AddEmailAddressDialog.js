@@ -93,14 +93,6 @@ class AddEmailAddressDialog extends React.Component {
     });
   };
 
-  hasError = err => {
-    return Object.keys(this.state.errors).indexOf(err) !== -1;
-  };
-
-  formHasError = () => {
-    return !!Object.keys(this.state.errors).length;
-  };
-
   showErrors = () => {
     this.setState({
       showErrors: true,
