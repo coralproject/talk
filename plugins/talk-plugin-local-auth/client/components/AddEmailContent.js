@@ -48,9 +48,9 @@ const AddEmailContent = ({
         name="emailAddress"
         type="email"
         onChange={onChange}
-        defaultValue=""
-        hasError={!formData.emailAddress || errors.emailAddress}
-        errorMsg={t('talk-plugin-local-auth.add_email.invalid_email_address')}
+        value={formData.emailAddress}
+        hasError={!!errors.emailAddress}
+        errorMsg={errors.emailAddress}
         showError={showErrors}
         columnDisplay
         showSuccess={false}
@@ -61,12 +61,9 @@ const AddEmailContent = ({
         name="confirmEmailAddress"
         type="email"
         onChange={onChange}
-        defaultValue=""
-        hasError={
-          !formData.emailAddress ||
-          formData.emailAddress !== formData.confirmEmailAddress
-        }
-        errorMsg={t('talk-plugin-local-auth.add_email.email_does_not_match')}
+        value={formData.confirmEmailAddress}
+        hasError={!!errors.confirmEmailAddress}
+        errorMsg={errors.confirmEmailAddress}
         showError={showErrors}
         columnDisplay
         showSuccess={false}
@@ -77,8 +74,9 @@ const AddEmailContent = ({
         name="confirmPassword"
         type="password"
         onChange={onChange}
-        defaultValue=""
-        hasError={!formData.confirmPassword}
+        value={formData.confirmPassword}
+        hasError={!!errors.confirmPassword}
+        errorMsg={errors.confirmPassword}
         showError={showErrors}
         columnDisplay
         showSuccess={false}
