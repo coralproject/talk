@@ -14,7 +14,11 @@ const initialState = {
   editing: false,
   showErrors: true,
   errors: {},
-  formData: {},
+  formData: {
+    oldPassword: '',
+    newPassword: '',
+    confirmNewPassword: '',
+  },
 };
 
 class ChangePassword extends React.Component {
