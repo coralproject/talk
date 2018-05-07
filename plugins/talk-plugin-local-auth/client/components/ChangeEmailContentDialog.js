@@ -18,9 +18,17 @@ class ChangeEmailContentDialog extends React.Component {
 
   confirmChanges = async e => {
     e.preventDefault();
+
+    if (this.formHasError()) {
+      this.showError();
+      return;
+    }
+
     await this.props.save();
     this.props.next();
   };
+
+  formHasError = () => this.props.hasError('confirmPassword');
 
   render() {
     return (
@@ -53,15 +61,10 @@ class ChangeEmailContentDialog extends React.Component {
               type="password"
               onChange={this.props.onChange}
               defaultValue=""
-              hasError={
-                !this.props.formData.confirmPassword && this.state.showError
-              }
-              errorMsg={t(
-                'talk-plugin-local-auth.change_email.incorrect_password'
-              )}
+              hasError={this.props.hasError('confirmPassword')}
+              errorMsg={this.props.getError('confirmPassword')}
               showError={this.state.showError}
               columnDisplay
-              showSuccess={false}
             />
             <div className={styles.bottomActions}>
               <Button className={styles.cancel} onClick={this.props.cancel}>
@@ -85,6 +88,8 @@ ChangeEmailContentDialog.propTypes = {
   onChange: PropTypes.func,
   formData: PropTypes.object,
   email: PropTypes.string,
+  hasError: PropTypes.func,
+  getError: PropTypes.func,
 };
 
 export default ChangeEmailContentDialog;
