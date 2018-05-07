@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import styles from './Profile.css';
-import { Button } from 'plugin-api/beta/client/components/ui';
+import { Button, BareButton } from 'plugin-api/beta/client/components/ui';
 import { t } from 'plugin-api/beta/client/services';
 import InputField from './InputField';
 import { getErrorMessages } from 'coral-framework/utils';
@@ -244,9 +244,13 @@ class Profile extends React.Component {
               >
                 {t('talk-plugin-local-auth.change_username.save')}
               </Button>
-              <a className={styles.cancelButton} onClick={this.cancel}>
+              <BareButton
+                className={styles.cancelButton}
+                onClick={this.cancel}
+                type="button"
+              >
                 {t('talk-plugin-local-auth.change_username.cancel')}
-              </a>
+              </BareButton>
             </div>
           </form>
         ) : (

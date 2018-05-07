@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './ChangePassword.css';
-import { Button } from 'plugin-api/beta/client/components/ui';
+import { Button, BareButton } from 'plugin-api/beta/client/components/ui';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 import isEqual from 'lodash/isEqual';
@@ -235,9 +235,13 @@ class ChangePassword extends React.Component {
               >
                 {t('talk-plugin-local-auth.change_password.save')}
               </Button>
-              <a className={styles.cancelButton} onClick={this.cancel}>
+              <BareButton
+                type="button"
+                className={styles.cancelButton}
+                onClick={this.cancel}
+              >
                 {t('talk-plugin-local-auth.change_password.cancel')}
-              </a>
+              </BareButton>
             </div>
           </form>
         ) : (
