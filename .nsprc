@@ -2,6 +2,11 @@
   "exceptions": [
     "https://nodesecurity.io/advisories/531",
     "https://nodesecurity.io/advisories/532",
-    "https://nodesecurity.io/advisories/566"
+    "https://nodesecurity.io/advisories/566",
+    "https://nodesecurity.io/advisories/577",
+    "https://nodesecurity.io/advisories/594",
+    "https://nodesecurity.io/advisories/603",
+    "https://nodesecurity.io/advisories/611",
+    "https://nodesecurity.io/advisories/612"
   ]
 }
