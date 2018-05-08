@@ -50,7 +50,7 @@ trying to improve a broken part of the internet.
 
 ## How do I add the Toxic Comments plugin?
 To enable this behavior, visit the
-[talk-plugin-toxic-comments](/talk/additional-plugins/#talk-plugin-toxic-comments)
+[talk-plugin-toxic-comments](/talk/plugin/talk-plugin-toxic-comments)
 plugin documentation.
 
 
