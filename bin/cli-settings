@@ -18,7 +18,7 @@ async function changeOrgName() {
     await cache.init();
 
     // Get the original settings.
-    const settings = await Settings.retrieve('organizationName');
+    const settings = await Settings.select('organizationName');
 
     const { organizationName } = await inquirer.prompt([
       {

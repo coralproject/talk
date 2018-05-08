@@ -81,7 +81,7 @@ async function sendDownloadLink(ctx) {
   // Generate the download links.
   const { downloadLandingURL } = await generateDownloadLinks(ctx, user.id);
 
-  const { organizationName } = await Settings.load('organizationName');
+  const { organizationName } = await Settings.select('organizationName');
 
   // Send the download link via the user's attached email account.
   await Users.sendEmail(user, {
@@ -130,7 +130,7 @@ async function requestDeletion({
     }
   );
 
-  const { organizationName } = await Settings.load('organizationName');
+  const { organizationName } = await Settings.select('organizationName');
 
   // Send the download link via the user's attached email account.
   await Users.sendEmail(user, {
@@ -171,7 +171,7 @@ async function cancelDeletion({
     { $unset: { 'metadata.scheduledDeletionDate': 1 } }
   );
 
-  const { organizationName } = await Settings.load('organizationName');
+  const { organizationName } = await Settings.select('organizationName');
 
   // Send the download link via the user's attached email account.
   await Users.sendEmail(user, {

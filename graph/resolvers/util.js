@@ -2,7 +2,8 @@ const {
   ADD_COMMENT_TAG,
   SEARCH_OTHER_USERS,
 } = require('../../perms/constants');
-const { property, isBoolean } = require('lodash');
+const { property, isBoolean, pull } = require('lodash');
+const graphqlFields = require('graphql-fields');
 
 /**
  * getResolver will get the resolver from the typeResolver or apply the default
@@ -207,7 +208,11 @@ const decorateWithTags = (
   };
 };
 
+const getRequestedFields = info =>
+  pull(Object.keys(graphqlFields(info)), '__typename');
+
 module.exports = {
+  getRequestedFields,
   decorateUserField,
   decorateWithTags,
   decorateWithPermissionCheck,
