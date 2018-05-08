@@ -70,7 +70,7 @@ The most important predictors of the success of an online community are:
 
 * Utilize [our Toxic Comments plugin](https://blog.coralproject.net/toxic-avenging/), developed with Google Jigsaw, to improve commenter behavior and use AI to help identify and prevent the most abusive comments from appearing on your site.
 
-* Enable our [Akismet plugin](https://coralproject.github.io/talk/additional-plugins/#talk-plugin-akismet) to keep spam from appearing in your comments.
+* Enable our [Akismet plugin](/talk/plugin/talk-plugin-akismet) to keep spam from appearing in your comments.
 
 * Use keyboard shortcuts in the moderation queue to moderate quickly (type '?' in the moderation view to see the list of shortcuts), and if there is a sudden deluge of comments, ask for someone in your newsroom to help you moderate. Talk will notify you in the moderation interface if someone else moderates a comment that's already on your screen.
 *   Click on a community member's name in the moderation interface to review all their comments, and see if there is a clear pattern of abuse among their Rejected comments. You can also select all their recent comments and delete them in bulk.![A screenshot of the moderation interface with the user drawer on display. Pink arrows indicate the user name, which can be clicked to open the drawer, and the drawer itself.](http://blog.coralproject.net/wp-content/uploads/2018/03/userdrawer.jpg)
@@ -83,7 +83,7 @@ The most important predictors of the success of an online community are:
 
 ![A screenshot of the comments stream with a moderation menu popped out and a large pink arrow pointing to the caret where moderators can unfold the moderation menu](http://blog.coralproject.net/wp-content/uploads/2018/03/caret-mod.jpg)
 
-* If you find new commenters are causing a lot of trouble with their first comments, consider changing [the User Karma threshold](https://coralproject.github.io/talk/trust/) from negative one to zero, forcing every new commenter's first comment into pre-moderation.
+* If you find new commenters are causing a lot of trouble with their first comments, consider changing [the User Karma threshold](/talk/trust/) from negative one to zero, forcing every new commenter's first comment into pre-moderation.
 
 #### Effectively
 
