@@ -371,6 +371,14 @@ class ErrParentDoesNotVisible extends TalkError {
   }
 }
 
+class ErrPasswordIncorrect extends TalkError {
+  constructor() {
+    super('Your current password was entered incorrectly', {
+      translation_key: 'PASSWORD_INCORRECT',
+    });
+  }
+}
+
 module.exports = {
   TalkError,
   ErrAlreadyExists,
@@ -395,6 +403,7 @@ module.exports = {
   ErrNotFound,
   ErrNotVerified,
   ErrParentDoesNotVisible,
+  ErrPasswordIncorrect,
   ErrPasswordResetToken,
   ErrPasswordTooShort,
   ErrPermissionUpdateUsername,

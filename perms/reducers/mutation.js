@@ -56,6 +56,7 @@ module.exports = (user, perm) => {
     case types.UPDATE_USER_ROLES:
     case types.CREATE_TOKEN:
     case types.REVOKE_TOKEN:
+    case types.DELETE_OTHER_USER:
       return check(user, ['ADMIN']);
 
     default:

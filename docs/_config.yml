@@ -41,7 +41,7 @@ relative_link: false
 future: true
 highlight:
   enable: false
-  
+
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
@@ -114,6 +114,8 @@ sidebar:
           url: /integrating/styling-css/
         - title: Translations and i18n
           url: /integrating/translations-i18n/
+        - title: GDPR Compliance
+          url: /integrating/gdpr/
     - title: Product Guide
       children:
         - title: How Talk Works

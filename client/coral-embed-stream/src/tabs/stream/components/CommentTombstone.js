@@ -13,6 +13,8 @@ class CommentTombstone extends React.Component {
         return t('framework.comment_is_ignored');
       case 'reject':
         return t('framework.comment_is_rejected');
+      case 'deleted':
+        return t('framework.comment_is_deleted');
       default:
         return t('framework.comment_is_hidden');
     }

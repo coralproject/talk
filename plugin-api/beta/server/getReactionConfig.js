@@ -6,6 +6,7 @@ const { CREATE_MONGO_INDEXES } = require('../../../config');
 const Comment = require('models/comment');
 
 function getReactionConfig(reaction) {
+  // Ensure that the reaction is a lowercase string.
   reaction = reaction.toLowerCase();
 
   if (CREATE_MONGO_INDEXES) {

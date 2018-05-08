@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
-import styles from './ChangeUsernameDialog.css';
+import styles from './ChangeUsernameContentDialog.css';
 import InputField from './InputField';
-import { Button, Dialog } from 'plugin-api/beta/client/components/ui';
+import { Button } from 'plugin-api/beta/client/components/ui';
 import { t } from 'plugin-api/beta/client/services';
 
-class ChangeUsernameDialog extends React.Component {
+class ChangeUsernameContentDialog extends React.Component {
   state = {
     showError: false,
   };
@@ -17,7 +16,9 @@ class ChangeUsernameDialog extends React.Component {
     });
   };
 
-  confirmChanges = async () => {
+  confirmChanges = async e => {
+    e.preventDefault();
+
     if (this.formHasError()) {
       this.showError();
       return;
@@ -26,13 +27,13 @@ class ChangeUsernameDialog extends React.Component {
     if (!this.props.canUsernameBeUpdated) {
       this.props.notify(
         'error',
-        t('talk-plugin-auth.change_username.change_username_attempt')
+        t('talk-plugin-local-auth.change_username.change_username_attempt')
       );
       return;
     }
 
-    await this.props.saveChanges();
-    this.props.closeDialog();
+    await this.props.save();
+    this.props.next();
   };
 
   formHasError = () =>
@@ -40,31 +41,28 @@ class ChangeUsernameDialog extends React.Component {
 
   render() {
     return (
-      <Dialog
-        open={this.props.showDialog}
-        className={cn(styles.dialog, 'talk-plugin-auth--edit-profile-dialog')}
-      >
-        <span className={styles.close} onClick={this.props.closeDialog}>
+      <div>
+        <span className={styles.close} onClick={this.props.cancel}>
           ×
         </span>
         <h1 className={styles.title}>
-          {t('talk-plugin-auth.change_username.confirm_username_change')}
+          {t('talk-plugin-local-auth.change_username.confirm_username_change')}
         </h1>
         <div className={styles.content}>
           <p className={styles.description}>
-            {t('talk-plugin-auth.change_username.description')}
+            {t('talk-plugin-local-auth.change_username.description')}
           </p>
           <div className={styles.usernamesChange}>
             <span className={styles.item}>
-              {t('talk-plugin-auth.change_username.old_username')}:{' '}
+              {t('talk-plugin-local-auth.change_username.old_username')}:{' '}
               {this.props.username}
             </span>
             <span className={styles.item}>
-              {t('talk-plugin-auth.change_username.new_username')}:{' '}
+              {t('talk-plugin-local-auth.change_username.new_username')}:{' '}
               {this.props.formData.newUsername}
             </span>
           </div>
-          <form>
+          <form onSubmit={this.confirmChanges}>
             <InputField
               id="confirmNewUsername"
               label="Re-enter new username"
@@ -74,7 +72,7 @@ class ChangeUsernameDialog extends React.Component {
               defaultValue=""
               hasError={this.formHasError() && this.state.showError}
               errorMsg={t(
-                'talk-plugin-auth.change_username.username_does_not_match'
+                'talk-plugin-local-auth.change_username.username_does_not_match'
               )}
               showError={this.state.showError}
               columnDisplay
@@ -82,36 +80,37 @@ class ChangeUsernameDialog extends React.Component {
               validationType="username"
             >
               <span className={styles.bottomNote}>
-                {t('talk-plugin-auth.change_username.bottom_note')}
+                {t('talk-plugin-local-auth.change_username.bottom_note')}
               </span>
             </InputField>
+            <div className={styles.bottomActions}>
+              <Button
+                className={styles.cancel}
+                onClick={this.props.cancel}
+                type="button"
+              >
+                {t('talk-plugin-local-auth.change_username.cancel')}
+              </Button>
+              <Button className={styles.confirmChanges} type="submit">
+                {t('talk-plugin-local-auth.change_username.confirm_changes')}
+              </Button>
+            </div>
           </form>
-          <div className={styles.bottomActions}>
-            <Button className={styles.cancel}>
-              {t('talk-plugin-auth.change_username.cancel')}
-            </Button>
-            <Button
-              className={styles.confirmChanges}
-              onClick={this.confirmChanges}
-            >
-              {t('talk-plugin-auth.change_username.confirm_changes')}
-            </Button>
-          </div>
         </div>
-      </Dialog>
+      </div>
     );
   }
 }
 
-ChangeUsernameDialog.propTypes = {
-  saveChanges: PropTypes.func,
-  closeDialog: PropTypes.func,
-  showDialog: PropTypes.bool,
+ChangeUsernameContentDialog.propTypes = {
+  save: PropTypes.func,
+  next: PropTypes.func,
+  cancel: PropTypes.func,
   onChange: PropTypes.func,
-  username: PropTypes.string,
   formData: PropTypes.object,
+  username: PropTypes.string,
   canUsernameBeUpdated: PropTypes.bool.isRequired,
   notify: PropTypes.func.isRequired,
 };
 
-export default ChangeUsernameDialog;
+export default ChangeUsernameContentDialog;

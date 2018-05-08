@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { t } from 'plugin-api/beta/client/services';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import styles from './DownloadCommentHistory.css';
+import { getErrorMessages } from 'coral-framework/utils';
+import { downloadRateLimitDays } from '../../config';
 
 export const readableDuration = durAsHours => {
   const durAsDays = Math.ceil(durAsHours / 24);
@@ -19,21 +21,30 @@ export const readableDuration = durAsHours => {
 class DownloadCommentHistory extends Component {
   static propTypes = {
     requestDownloadLink: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     root: PropTypes.object.isRequired,
   };
 
+  requestDownloadLink = async () => {
+    const { requestDownloadLink, notify } = this.props;
+    try {
+      await requestDownloadLink();
+      notify('success', t('download_request.download_preparing'));
+    } catch (err) {
+      notify('error', getErrorMessages(err));
+    }
+  };
+
   render() {
-    const {
-      root: { me: { lastAccountDownload } },
-      requestDownloadLink,
-    } = this.props;
+    const { root: { me: { lastAccountDownload } } } = this.props;
 
     const now = new Date();
     const lastAccountDownloadDate =
       lastAccountDownload && new Date(lastAccountDownload);
     const hoursLeft = lastAccountDownloadDate
       ? Math.ceil(
-          7 * 24 - (now.getTime() - lastAccountDownloadDate.getTime()) / 3.6e6
+          downloadRateLimitDays * 24 -
+            (now.getTime() - lastAccountDownloadDate.getTime()) / 3.6e6
         )
       : 0;
     const canRequestDownload = !lastAccountDownloadDate || hoursLeft <= 0;
@@ -43,7 +54,7 @@ class DownloadCommentHistory extends Component {
         <h3>{t('download_request.section_title')}</h3>
         <p>
           {t('download_request.you_will_get_a_copy')}{' '}
-          <b>{t('download_request.download_rate')}</b>.
+          <b>{t('download_request.download_rate', downloadRateLimitDays)}</b>.
         </p>
         {lastAccountDownloadDate && (
           <p className={styles.most_recent}>
@@ -52,7 +63,7 @@ class DownloadCommentHistory extends Component {
           </p>
         )}
         {canRequestDownload ? (
-          <Button className={styles.button} onClick={requestDownloadLink}>
+          <Button className={styles.button} onClick={this.requestDownloadLink}>
             <i className="material-icons" aria-hidden={true}>
               file_download
             </i>{' '}

@@ -2,7 +2,7 @@ en:
   download_request:
     section_title: "Download My Comment History"
     you_will_get_a_copy: "You will recieve an email with a link to download your comment history. You can make"
-    download_rate: "one download request every 7 days"
+    download_rate: "one download request every {0} days"
     most_recent_request: "Your most recent request"
     request: "Request Comment History"
     rate_limit: "You can submit another Comment History request in {0}"
@@ -10,3 +10,42 @@ en:
     days: "{0} days"
     hour: "{0} hour"
     day: "{0} day"
+    download_preparing: "Account Download Preparing - Check your email shortly for a download link"
+  delete_request:
+    account_deletion_cancelled: 'Account Deletion Request Cancelled - Your request to delete your account has been cancelled.'
+    account_deletion_requested: 'Account Deletion Requested'
+    received_on: "A request to delete your account was received on "
+    cancel_request_description: "If you would like to reactivate your account, you may cancel your request to delete your account below"
+    before: "before"
+    cancel_account_deletion_request: "Cancel Account Deletion Request"
+    delete_my_account: "Delete My Account"
+    delete_my_account_description: "Deleting your account will permanently erase your profile and remove all your comments from this site."
+    already_submitted_request_description: "You have already submitted a request to delete your account. Your account will be deleted after {0}. You may cancel the request until that time"
+    your_request_submitted_description: "Your request has been submitted and confirmation has been sent to the email address associated with your account."
+    your_account_deletion_scheduled: "Your account is scheduled to be deleted after:"
+    changed_your_mind: "Changed your mind?"
+    simply_go_to: "Simply go to your account again before this time and click"
+    tell_us_why: "Tell us why"
+    feedback_copy: "We would like to know why you chose to delete your account. Send us feedback on our comment system by emailing"
+    done: "Done"
+    cancel: "Cancel"
+    proceed: "Proceed"
+    input_is_not_correct: "The input is not correct"
+    step_0:
+      you_are_attempting: "You are attempting to delete your account. This means:"
+      item_1: "All of your comments are removed from this site"
+      item_2: "All of your comments are deleted from our database"
+      item_3: "Your username and email address are removed from our system"
+    step_1:
+      subtitle: "When will my account be deleted?"
+      description: "Your account will be deleted {0} hours after your request has been submitted."
+      subtitle_2: "Can I still write comments until my account is deleted?"
+      description_2: "Yes, you can still comment, reply, and react to comments until the {0} hours expires."
+    step_2:
+      description: "Before your account is deleted, we recommend you download your comment history for your records. After your account is deleted, you will be unable to request your comment history."
+      to_download: "To download your comment history go to:"
+      path: "My Profile > Download My Comment History"
+    step_3:
+      subtitle: "Are you sure you want to delete your account?"
+      description: "To confirm you would like to delete your account please type in the following phrase into the text box below:"
+      type_to_confirm: "Type phrase below to confirm"

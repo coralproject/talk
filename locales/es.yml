@@ -16,26 +16,27 @@ es:
     send: "Enviar"
     notify_ban_headline: "Notificar al usuario de la suspensión"
     notify_ban_description: "Esto notificará al usuario por email que fueron suspendidos de la comunidad"
-    email_message_ban: "Dear {0},\n\nSomeone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, like or report comments. if you think this has been done in error, please contact our community team."
+    email_message_ban: "Estimado/a {0},\n\nUsted o alguien con acceso a su cuenta a violado los lineamientos de nuestra comunidad. Como consecuencia de esto, su cuenta fue bloqueada. No podrá realizar ni reportar más comentarios. Si usted piensa que esto ha sido un error, por favor contáctese con nosotros."
   bio_offensive: "Esta biografia es ofensiva"
   cancel: Cancelar
   confirm_email:
-    click_to_confirm: "Click below to confirm your email address"
-    confirm: "Confirm"
+    click_to_confirm: "Haga click debajo para confirmar su dirección de email"
+    confirm: "Confirmar"
   password_reset:
-    set_new_password: "Change Your Password"
-    new_password: "New Password"
-    new_password_help: "Password must be at least 8 characters"
-    confirm_new_password: "Confirm New Password"
-    change_password: "Change Password"
-  characters_remaining: "carácteres restantes"
+    mail_sent: 'Si tiene una cuenta registrada, un enlace para resetear su clave ha sido enviado a esa dirección de correo.'
+    set_new_password: "Cambie su contraseña"
+    new_password: "Nueva contraseña"
+    new_password_help: "La contraseña debe tener al menos 8 caracteres"
+    confirm_new_password: "Confirme su nueva contraseña"
+    change_password: "Cambio de contraseña"
+  characters_remaining: "caracteres restantes"
   comment:
     anon: Anónimo
-    undo_reject: "Undo"
+    undo_reject: "Deshacer"
     ban_user: "Usuario Suspendido"
     comment: "Publicar un comentario"
     edited: Editado
-    flagged: reportado
+    flagged: Reportado
     view_context: "Ver contexto"
   comment_box:
     post: "Publicar"
@@ -62,16 +63,16 @@ es:
     reactions: 'reacciones'
     story: 'Artículo'
   flagged_usernames:
-    notify_approved: '{0} approved username {1}'
-    notify_rejected: '{0} rejected username {1}'
-    notify_flagged: '{0} reported username {1}'
-    notify_changed: 'user {0} changed their username to {1}'
+    notify_approved: '{0} ha aprobado el nombre de usuario {1}'
+    notify_rejected: '{0} ha rechazado el nombre de usuario {1}'
+    notify_flagged: '{0} ha reportado el nombre de usuario {1}'
+    notify_changed: 'El usuario {0} ha modificado su nombre de usuario por {1}'
   community:
     account_creation_date: "Fecha de creación de la cuenta"
     active: Activa
     admin: Administrator
-    ads_marketing: "This looks like an ad/marketing"
-    are_you_sure: "¿Estas segura que quieres suspender a {0}?"
+    ads_marketing: "Esto parece ser un ad/marketing"
+    are_you_sure: "¿Estás segura que quieres suspender a {0}?"
     ban_user: "¿Quieres suspender al Usuario?"
     banned: Suspendido
     banned_user: "Usuario Suspendido"
@@ -201,10 +202,10 @@ es:
     minutes_plural: "minutos"
   email:
     suspended:
-      subject: "Your account has been suspended"
+      subject: "Su cuenta ha sido suspendida"
     banned:
-      subject: "Your account has been banned"
-      body: "In accordance with The Coral Project’s community guidelines, your account has been banned. You are now longer allowed to comment, flag or engage with our community."
+      subject: "Su cuenta ha sido bloqueada"
+      body: "De acuerdo con las guías de comunidad de The Coral Project, su cuenta a sido bloqueada. No podrá hacer comentarios, reportar o entrar en contacto con nuestra comunidad."
     confirm:
       has_been_requested: "Un correo de confirmación ha sido pedido para la siguiente cuenta:"
       to_confirm: "Para confirmar la cuenta, por favor visitar el siguiente enlace:"
@@ -220,8 +221,8 @@ es:
     copy: "Copiar al portapapeles"
   error:
     COMMENT_PARENT_NOT_VISIBLE: "El comentario a la que estás contestando ha sido eliminado o no existe."
-    EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
-    PASSWORD_RESET_TOKEN_INVALID: "Your password reset link is invalid."
+    EMAIL_VERIFICATION_TOKEN_INVALID: "El token de verificación de su cuenta de correo es inválido."
+    PASSWORD_RESET_TOKEN_INVALID: "El enlace para resetear su clave es inválido."
     COMMENT_TOO_SHORT: "Tu comentario debe tener algo escrito"
     NOT_AUTHORIZED: "Acción no autorizada."
     NO_SPECIAL_CHARACTERS: "Los nombres pueden contener letras números y _"
@@ -230,19 +231,20 @@ es:
     RATE_LIMIT_EXCEEDED: "Rate limit exceeded"
     USERNAME_IN_USE: "Este nombre ya está siendo usado."
     USERNAME_REQUIRED: "Debe ingresar un nombre"
-    EMAIL_NOT_VERIFIED: "E-mail address not verified"
-    EDIT_WINDOW_ENDED:: "No puedes editar este comentario. El tiempo de edición ha expirado."
+    EMAIL_NOT_VERIFIED: "La cuenta de email no ha sido verificada."
+    EDIT_WINDOW_ENDED: "No puedes editar este comentario. El tiempo de edición ha expirado."
     EDIT_USERNAME_NOT_AUTHORIZED: "No tiene permiso para editar el nombre de usuario."
-    SAME_USERNAME_PROVIDED: "You must submit a different username."
+    SAME_USERNAME_PROVIDED: "Debe proporcinar un nombre de usuario diferente."
     EMAIL_IN_USE: "Este correo se encuentra en uso"
     EMAIL_REQUIRED: "Se requiere un correo"
     LOGIN_MAXIMUM_EXCEEDED: "Ha realizado demasiados intentos fallidos de usar la contraseña. Por favor espere."
     PASSWORD_REQUIRED: "Debe ingresar la contraseña"
     COMMENTING_CLOSED: "Los comentarios ya estan cerrados"
     NOT_FOUND: "Recurso no encontrado"
-    ALREADY_EXISTS: "Resource already exists"
+    ALREADY_EXISTS: "El recurso ya existe"
     INVALID_ASSET_URL: "La URL del articulo no es valida"
-    CANNOT_IGNORE_STAFF: "Cannot ignore Staff members."
+    CANNOT_IGNORE_STAFF: "No puede ignorar a miembros del Staff."
+    INCORRECT_PASSWORD: "Contraseña Incorrecta"
     email: "No es un correo válido"
     confirm_password: "Las contraseñas no coinciden. Inténtelo nuevamente"
     network_error: "Error al conectar con el servidor. Compruebe su conexión a Internet y vuelva a intentarlo."
@@ -253,8 +255,8 @@ es:
     password: "La contraseña debe tener por lo menos 8 caracteres"
     username: "Los nombres pueden contener letras números y _"
     required_field: "Este campo es requerido"
-    unexpected: "Lo siento. Ha habido un error no previsto."
-    temporarily_suspended: "Your account is currently suspended. It will be reactivated {0}. Please contact us if you have any questions."
+    unexpected: "Lo siento. Ha ocurrido un error no previsto."
+    temporarily_suspended: "Su cuenta fue suspendida. Será reactivada {0}. Si tiene preguntas, por favor contáctese con nosotros."
   flag_comment: "Reportar este comentario"
   flag_reason: "Razón por la que hacer este reporte (Opcional)"
   flag_username: "Reportar el nombre de usuario"
@@ -274,7 +276,7 @@ es:
       label: "Nuevo Nombre"
       msg: "Tu cuenta está suspendida porque tu nombre de usuario ha sido considerado no apropiado para el espacio. Para recuperar la cuenta, por favor ingresar un nuevo nombre de usuario. Contáctanos si tienes alguna pregunta."
     changed_name:
-      msg: "Your username change is under review by our moderation team."
+      msg: "El cambio en su nombre de usuario está siendo revisado por nuestro equipo de moderación."
     my_comments: "Mis Comentarios"
     my_profile: "Mi perfil"
     new_count: "Ver {0} más {1} "
@@ -305,9 +307,9 @@ es:
          comment_spam: "Contiene spam"
          comment_noagree: "No está de acuerdo"
          comment_other: "Otra razón"
-         suspect_word: "Suspect Word"
-         banned_word: "Banned Word"
-         body_count: "Body exceeds max length"
+         suspect_word: "Palabra sospechosa"
+         banned_word: "Palabra prohibida"
+         body_count: "El texto exede el límite permitido"
          trust: "Trust"
          links: "Link"
   modqueue:
@@ -315,14 +317,14 @@ es:
     actions: Acciones
     all: todos
     all_streams: "Todos los Hilos"
-    notify_edited: '{0} edited comment "{1}"'
-    notify_accepted: '{0} accepted comment "{1}"'
-    notify_rejected: '{0} rejected comment "{1}"'
-    notify_flagged: '{0} flagged comment "{1}"'
-    notify_reset: '{0} reset status of comment "{1}"'
+    notify_edited: '{0} ha editado el comentario "{1}"'
+    notify_accepted: '{0} ha aceptado el comentario "{1}"'
+    notify_rejected: '{0} ha rechazado el comentario "{1}"'
+    notify_flagged: '{0} ha reportado el comentario "{1}"'
+    notify_reset: '{0} ha reseteado el status del comentario "{1}"'
     approve: "Aprobar"
     approved: "Aprobado"
-    ban_user: "Ban"
+    ban_user: "Bloquear"
     billion: B
     close: Cerrar
     empty_queue: "¡No hay más comentarios para moderar! Tiempo para un ☕️"
@@ -362,7 +364,7 @@ es:
   no_agree_comment: "No estoy de acuerdo con este comentario"
   no_like_bio: "No me gusta esta biografia"
   no_like_username: "No me gusta este nombre de usuario"
-  already_flagged_username: "You have already flagged this username."
+  already_flagged_username: "Usted ya reportó a este usuario."
   other: Otro
   permalink: Compartir
   personal_info: "Este comentario muestra información personal"
@@ -438,28 +440,28 @@ es:
     user_bio: "Bio de Usuario"
     username_flags: "reportes para este nombre de usuario"
   user_detail:
-    remove_suspension: "Remove Suspension"
-    suspend: "Suspend User"
-    remove_ban: "Remove Ban"
-    ban: "Ban User"
-    member_since: "Member Since"
+    remove_suspension: "Cancelar suspensión"
+    suspend: "Suspender usuario"
+    remove_ban: "Cancelar bloqueo"
+    ban: "Bloquear usuario"
+    member_since: "Miembro desde"
     email: "Email"
-    total_comments: "Total Comments"
+    total_comments: "Comentarios totales"
     reject_rate: "Reject Rate"
-    reports: "Reports"
-    all: "All"
-    rejected: "Rejected"
-    user_history: "User History"
+    reports: "Reportes"
+    all: "Todo"
+    rejected: "Rechazar"
+    user_history: "Historial del usuario"
   user_history:
-    user_banned: "User banned"
-    ban_removed: "Ban removed"
-    username_status: "Username {0}"
-    suspended: "Suspended, {0}"
-    suspension_removed: "Suspension removed"
-    system: "System"
-    date: "Date"
-    action: "Action"
-    taken_by: "Taken By"
+    user_banned: "Usuario bloqueado"
+    ban_removed: "Bloqueo cancelado"
+    username_status: "Nombre de usuario {0}"
+    suspended: "Suspendido, {0}"
+    suspension_removed: "Suspensión cancelada"
+    system: "Sistema"
+    date: "Fecha"
+    action: "Acción"
+    taken_by: "Está en uso"
   user_impersonating: "Este usuario suplanta a alguien"
   user_no_comment: "No has dejado aún ningún comentario. ¡Únete a la conversación!"
   username_offensive: "Este nombre de usuario es ofensivo"
@@ -488,5 +490,5 @@ es:
       launch: "Iniciar Talk"
       close: "Cerrar este instalador"
   admin_sidebar:
-    view_options: "View Options"
-    sort_comments: "Sort Comments"
+    view_options: "Ver opciones"
+    sort_comments: "Ordenar comentarios"
