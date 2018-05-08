@@ -214,7 +214,7 @@ AllCommentsPane.propTypes = {
   asset: PropTypes.object,
   currentUser: PropTypes.object,
   postFlag: PropTypes.func,
-  postDontAgree: PropTypes.func,
+  postDontAgree: PropTypes.func.isRequired,
   loadNewReplies: PropTypes.func,
   deleteAction: PropTypes.func,
   showSignInDialog: PropTypes.func,

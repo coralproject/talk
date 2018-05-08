@@ -184,7 +184,7 @@ export default class Comment extends React.Component {
     maxCharCount: PropTypes.number,
     root: PropTypes.object,
     loadMore: PropTypes.func,
-    postDontAgree: PropTypes.func,
+    postDontAgree: PropTypes.func.isRequired,
     animateEnter: PropTypes.bool,
     commentClassNames: PropTypes.array,
     comment: PropTypes.object.isRequired,
@@ -410,6 +410,7 @@ export default class Comment extends React.Component {
       charCountEnable,
       showSignInDialog,
       liveUpdates,
+      postDontAgree,
       emit,
     } = this.props;
     return (
@@ -440,6 +441,7 @@ export default class Comment extends React.Component {
               key={reply.id}
               comment={reply}
               emit={emit}
+              postDontAgree={postDontAgree}
             />
           );
         })}
