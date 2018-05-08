@@ -1,4 +1,8 @@
-const { ErrNotFound, ErrNotAuthorized } = require('../../errors');
+const {
+  ErrNotFound,
+  ErrNotAuthorized,
+  ErrPasswordIncorrect,
+} = require('../../errors');
 const Users = require('../../services/users');
 const migrationHelpers = require('../../services/migration/helpers');
 const {
@@ -170,7 +174,7 @@ const changeUserPassword = async (ctx, oldPassword, newPassword) => {
   // Verify the old password.
   const validPassword = await user.verifyPassword(oldPassword);
   if (!validPassword) {
-    throw new ErrNotAuthorized();
+    throw new ErrPasswordIncorrect();
   }
 
   // Change the users password now.

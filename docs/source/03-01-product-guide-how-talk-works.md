@@ -28,8 +28,7 @@ Plugins are additional functionality which are optional to use with Talk. You
 can turn these on or off, depending on your specific needs. Plugins are either
 part of our core plugins, which ship with Talk, or they are developed by 3rd
 parties and either used privately and internally, or are open sourced for use
-across the greater community. You can explore the plugins we offer by visiting our [Default Plugins](/talk/default-plugins/)
-and [Additional Plugins](/talk/additional-plugins/) pages.
+across the greater community. You can explore the plugins we offer by visiting our [Plugin Directory](/talk/plugins-directory/).
 
 ## Recipes
 
