@@ -13,6 +13,10 @@ const updateModel = async (item_type, query, update) => {
   switch (item_type) {
     case 'COMMENTS':
       Model = Comment;
+
+      // Don't allow adding tags to deleted comments.
+      query.deleted_at = null;
+
       break;
     case 'ASSETS':
       Model = Asset;
@@ -162,11 +166,6 @@ class TagsService {
         $ne: link.tag.name,
       },
     };
-
-    if (item_type === 'COMMENT') {
-      // Don't allow adding tags to deleted comments.
-      query.deleted_at = null;
-    }
 
     // If ownership verification is required, ensure that the person that is
     // assigning the tag is the same person that owns the comment.
