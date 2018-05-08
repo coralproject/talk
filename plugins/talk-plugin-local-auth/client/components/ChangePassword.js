@@ -127,12 +127,11 @@ class ChangePassword extends React.Component {
         'success',
         t('talk-plugin-local-auth.change_password.changed_password_msg')
       );
+      this.clearForm();
+      this.disableEditing();
     } catch (err) {
       this.props.notify('error', getErrorMessages(err));
     }
-
-    this.clearForm();
-    this.disableEditing();
   };
 
   onForgotPassword = async () => {
