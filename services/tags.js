@@ -163,6 +163,11 @@ class TagsService {
       },
     };
 
+    if (item_type === 'COMMENT') {
+      // Don't allow adding tags to deleted comments.
+      query.deleted_at = null;
+    }
+
     // If ownership verification is required, ensure that the person that is
     // assigning the tag is the same person that owns the comment.
     if (ownershipCheck) {
