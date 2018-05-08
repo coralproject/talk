@@ -1,59 +1,56 @@
-const SettingModel = require('../models/setting');
-const cache = require('./cache');
+const Setting = require('../models/setting');
 const { ErrSettingsNotInit } = require('../errors');
 const { dotize } = require('./utils');
-const { SETTINGS_CACHE_TIME } = require('../config');
+const { isEmpty, zipObject, uniq } = require('lodash');
+const DataLoader = require('dataloader');
 
-/**
- * The selector used to uniquely identify the settings document.
- */
 const selector = { id: '1' };
 
-const retrieve = async fields => {
-  let settings;
-  if (fields) {
-    settings = await SettingModel.findOne(selector).select(fields);
-  } else {
-    settings = await SettingModel.findOne(selector);
-  }
-  if (!settings) {
+async function loadFn(fields = []) {
+  const model = await Setting.findOne(selector).select(uniq(fields));
+  if (!model) {
     throw new ErrSettingsNotInit();
   }
 
-  return settings;
-};
+  return model.toObject();
+}
 
-/**
- * The Setting Service object exposing the Setting model.
- */
-module.exports = class SettingsService {
-  /**
-   * Gets the entire settings record and sends it back
-   * @return {Promise} settings the whole settings record
-   */
-  static async retrieve(fields) {
-    if (process.env.NODE_ENV === 'production') {
-      // When in production, wrap the settings retrieval with a cache.
-      const settings = await cache.h.wrap(
-        'settings',
-        fields,
-        SETTINGS_CACHE_TIME / 1000,
-        () => retrieve(fields)
-      );
+// batchLoadFn will load a settings object with all the requested fields.
+async function batchLoadFn(fields) {
+  // Load a settings object with all the requested fields.
+  const obj = await loadFn(fields);
 
-      return new SettingModel(settings);
+  // Return the specific fields for each of the fields that were loaded.
+  return fields.map(field => obj[field]);
+}
+
+// batchedSettingsLoader will load setting fields for each request. This isn't a
+// cached loader, so this is really just for optimizing the requests made to the
+// database by batching.
+const batchedSettingsLoader = new DataLoader(batchLoadFn, { cache: false });
+
+class Settings {
+  static async retrieve(...fields) {
+    if (!isEmpty(fields)) {
+      // Included for backwards compatibility.
+      return Settings.select(...fields);
     }
 
-    return retrieve(fields);
+    // Call the loadFn directly if we need to load all the fields.
+    return loadFn(fields);
   }
 
-  /**
-   * This will update the settings object with whatever you pass in
-   * @param  {object} setting a hash of whatever settings you want to update
-   * @return {Promise} settings Promise that resolves to the entire (updated) settings object.
-   */
+  static async select(...fields) {
+    // Load all the values for the specific fields.
+    const values = await batchedSettingsLoader.loadMany(fields);
+
+    // Zip up the fields and values to create an object to return and return the
+    // assembled Settings object.
+    return zipObject(fields, values);
+  }
+
   static async update(settings) {
-    const updatedSettings = await SettingModel.findOneAndUpdate(
+    const updatedSettings = await Setting.findOneAndUpdate(
       selector,
       {
         $set: dotize(settings),
@@ -65,21 +62,16 @@ module.exports = class SettingsService {
       }
     );
 
-    if (process.env.NODE_ENV === 'production') {
-      await cache.h.invalidate('settings');
-    }
-
     return updatedSettings;
   }
 
-  /**
-   * This is run once when the app starts to ensure settings are populated.
-   */
   static init(defaults = {}) {
-    return SettingsService.retrieve().catch(() => {
-      let settings = new SettingModel(defaults);
+    return Settings.retrieve().catch(() => {
+      const settings = new Setting(defaults);
 
       return settings.save();
     });
   }
-};
+}
+
+module.exports = Settings;

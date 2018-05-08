@@ -26,7 +26,7 @@ module.exports = class SetupService {
 
     try {
       // Get the current settings, we are expecting an error here.
-      await SettingsService.retrieve();
+      await SettingsService.select('id');
 
       // We should NOT have gotten a settings object, this means that the
       // application is already setup. Error out here.

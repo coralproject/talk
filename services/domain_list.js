@@ -1,6 +1,6 @@
 const debug = require('debug')('talk:services:domain_list');
 const _ = require('lodash');
-const SettingsService = require('./settings');
+const Settings = require('./settings');
 
 const { ROOT_URL } = require('../config');
 
@@ -19,7 +19,7 @@ class DomainList {
    * Loads domains white list in from the database
    */
   async load() {
-    const { domains } = await SettingsService.retrieve();
+    const { domains } = await Settings.select('domains');
     this.upsert(domains);
   }
 

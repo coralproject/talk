@@ -1,4 +1,4 @@
-const { decorateWithPermissionCheck } = require('./util');
+const { decorateWithPermissionCheck, getRequestedFields } = require('./util');
 const {
   SEARCH_ASSETS,
   SEARCH_OTHERS_COMMENTS,
@@ -16,8 +16,12 @@ const RootQuery = {
 
     return Assets.getByURL(query.url);
   },
-  settings(_, args, { loaders: { Settings } }) {
-    return Settings.load();
+  settings(_, args, { loaders: { Settings } }, info) {
+    // Get the fields we want from the settings.
+    const fields = getRequestedFields(info);
+
+    // Load only the requested fields.
+    return Settings.select(...fields);
   },
 
   // This endpoint is used for loading moderation queues, so hide it in the
