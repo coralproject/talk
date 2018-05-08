@@ -1,7 +1,7 @@
 en:
   download_request:
     section_title: "Download My Comment History"
-    you_will_get_a_copy: "You will recieve an email with a link to download your comment history. You can make"
+    you_will_get_a_copy: "You will receive an email with a link to download your comment history. You can make"
     download_rate: "one download request every {0} days"
     most_recent_request: "Your most recent request"
     request: "Request Comment History"
