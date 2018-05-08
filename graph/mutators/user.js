@@ -181,10 +181,10 @@ const changeUserPassword = async (ctx, oldPassword, newPassword) => {
   await Users.changePassword(user.id, newPassword);
 
   // Get some context for the email to be sent.
-  const { organizationName, organizationContactEmail } = await Settings.load([
+  const { organizationName, organizationContactEmail } = await Settings.select(
     'organizationName',
-    'organizationContactEmail',
-  ]);
+    'organizationContactEmail'
+  );
 
   // Send the password change email.
   await Users.sendEmail(user, {

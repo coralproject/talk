@@ -418,6 +418,9 @@ input CommentsQuery {
 
   # Exclude comments ignored by the requesting user
   excludeIgnored: Boolean
+
+  # excludeDeleted when true will exclude deleted comments from the response.
+  excludeDeleted: Boolean = false
 }
 
 input RepliesQuery {
@@ -434,6 +437,9 @@ input RepliesQuery {
 
   # Exclude comments ignored by the requesting user
   excludeIgnored: Boolean
+
+  # excludeDeleted when true will exclude deleted comments from the response.
+  excludeDeleted: Boolean = false
 }
 
 # CommentCountQuery allows the ability to query comment counts by specific
@@ -463,6 +469,9 @@ input CommentCountQuery {
 
   # Filter by a specific tag name.
   tags: [String!]
+
+  # excludeDeleted when true will exclude deleted comments from the count.
+  excludeDeleted: Boolean = false
 }
 
 # UserCountQuery allows the ability to query user counts by specific
@@ -519,7 +528,7 @@ type Comment {
   replies(query: RepliesQuery = {}): CommentConnection!
 
   # replyCount is the number of replies with a depth of 1. Only direct replies
-  # to this comment are counted.
+  # to this comment are counted. Deleted comments are included in this count.
   replyCount: Int
 
   # Actions completed on the parent. Requires the `ADMIN` role.

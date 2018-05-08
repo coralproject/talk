@@ -39,9 +39,12 @@ module.exports = {
     const created_at = new Date();
 
     // Check to see if we are replying to a comment, and if that comment is
-    // visible.
+    // visible and that it's not deleted.
     if (parent_id !== null) {
-      const parent = await CommentModel.findOne({ id: parent_id });
+      const parent = await CommentModel.findOne({
+        id: parent_id,
+        deleted_at: null,
+      });
       if (parent === null || !parent.visible) {
         throw new ErrParentDoesNotVisible();
       }
@@ -94,13 +97,14 @@ module.exports = {
       status: {
         $in: EDITABLE_STATUSES,
       },
+      deleted_at: null,
     };
 
     // Establish the edit window (if it exists) and add the condition to the
     // original query.
     const {
       editCommentWindowLength: editWindowMs,
-    } = await SettingsService.retrieve();
+    } = await SettingsService.select('editCommentWindowLength');
     const lastEditableCommentCreatedAt = new Date(Date.now() - editWindowMs);
     query.created_at = {
       $gt: lastEditableCommentCreatedAt,
@@ -186,8 +190,10 @@ module.exports = {
    */
   pushStatus: async (id, status, assigned_by = null) => {
     const created_at = new Date();
+
+    // Update the comment unless the comment was deleted.
     const originalComment = await CommentModel.findOneAndUpdate(
-      { id },
+      { id, deleted_at: null },
       {
         $push: {
           status_history: {

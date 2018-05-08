@@ -71,7 +71,7 @@ const findOrCreateAssetByURL = async (ctx, url) => {
   // Check for whitelisting + get the settings at the same time.
   const [whitelisted, settings] = await Promise.all([
     DomainList.urlCheck(url),
-    Settings.load('autoCloseStream closedTimeout'),
+    Settings.select('autoCloseStream', 'closedTimeout'),
   ]);
 
   // If the domain wasn't whitelisted, then we shouldn't create this asset!
