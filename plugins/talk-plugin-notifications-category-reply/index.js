@@ -1,17 +1,23 @@
 const { get, map } = require('lodash');
 const path = require('path');
 
-const handle = async (ctx, comment) => {
+const commentAddedHandler = async (ctx, comment) => {
   // Check to see if this reply is visible.
   if (!comment.visible) {
-    ctx.log.info('comment was not visible, not sending notification');
+    ctx.log.info(
+      { commentID: comment.id },
+      'comment was not visible, not sending notification'
+    );
     return;
   }
 
   // Check to see if this is a reply to an existing comment.
   const parentID = get(comment, 'parent_id', null);
-  if (parentID === null) {
-    ctx.log.info('could not get parent comment id');
+  if (!parentID) {
+    ctx.log.info(
+      { commentID: comment.id },
+      'could not get parent comment id, comment must be a top level comment'
+    );
     return;
   }
 
@@ -40,42 +46,60 @@ const handle = async (ctx, comment) => {
     return;
   }
 
+  const parentComment = get(reply, 'data.comment');
+  if (!parentComment) {
+    ctx.log.info({ parentID }, 'could not get parent comment');
+    return;
+  }
+
   // Check if the user has notifications enabled.
   const enabled = get(
-    reply,
-    'data.comment.user.notificationSettings.onReply',
+    parentComment,
+    'user.notificationSettings.onReply',
     false
   );
   if (!enabled) {
+    ctx.log.error(
+      'parent comment author does not have notification category enabled'
+    );
     return;
   }
 
-  const userID = get(reply, 'data.comment.user.id', null);
-  if (!userID) {
-    ctx.log.info('could not get parent comment user id');
+  const parentAuthor = get(parentComment, 'user', null);
+  if (!parentAuthor) {
+    ctx.log.info('could not get parent author');
     return;
   }
 
-  // Pull out the author of the new comment.
+  // Pull out the author of the new comment. This was outputted from Mongo, so
+  // we have to pull it out of the `author_id` field.
   const authorID = get(comment, 'author_id');
 
   // Check to see if this is yourself replying to yourself, if that's the case
   // don't send a notification.
-  if (userID === authorID) {
+  if (parentAuthor.id === authorID) {
     ctx.log.info('user id of parent comment is the same as the new comment');
     return;
   }
 
   // Check to see if this user is ignoring the user who replied to their
   // comment.
-  if (map(get(comment, 'user.ignoredUsers', []), 'id').indexOf(authorID)) {
-    ctx.log.info('parent user has ignored the author of the new comment');
+  const ignoredUsers = map(get(parentAuthor, 'ignoredUsers', []), 'id');
+  if (ignoredUsers.includes(authorID)) {
+    ctx.log.info(
+      { parentAuthorID: parentAuthor.id, authorID },
+      'parent user has ignored the author of the new comment'
+    );
     return;
   }
 
   // The user does have notifications for replied comments enabled, queue the
   // notification to be sent.
-  return { userID, date: comment.created_at, context: comment.id };
+  return {
+    userID: parentAuthor.id,
+    date: comment.created_at,
+    context: comment.id,
+  };
 };
 
 const hydrate = async (ctx, category, context) => {
@@ -133,7 +157,7 @@ const commentAcceptedHandleAdapter = (ctx, comment) => {
   }
 
   // Delegate to the handle function.
-  return handle(ctx, comment);
+  return commentAddedHandler(ctx, comment);
 };
 
 module.exports = {
@@ -155,7 +179,7 @@ module.exports = {
   translations: path.join(__dirname, 'translations.yml'),
   notifications: [
     {
-      handle,
+      handle: commentAddedHandler,
       category: 'reply',
       event: 'commentAdded',
       hydrate,
