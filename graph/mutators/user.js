@@ -70,15 +70,25 @@ const setRole = (ctx, id, role) => {
 /**
  * transforms a specific action to a removal action on the target model.
  */
-const actionDecrTransformer = ({ item_id, action_type, group_id }) => ({
-  query: { id: item_id },
-  update: {
+const actionDecrTransformer = ({ item_id, action_type, group_id }) => {
+  const update = {
     $inc: {
       [`action_counts.${action_type.toLowerCase()}`]: -1,
-      [`action_counts.${action_type.toLowerCase()}_${group_id.toLowerCase()}`]: -1,
     },
-  },
-});
+  };
+
+  if (group_id) {
+    // If the action had a groupID, also decrement that key.
+    update.$inc[
+      `action_counts.${action_type.toLowerCase()}_${group_id.toLowerCase()}`
+    ] = -1;
+  }
+
+  return {
+    query: { id: item_id },
+    update,
+  };
+};
 
 // delUser will delete a given user with the specified id.
 const delUser = async (ctx, id) => {
