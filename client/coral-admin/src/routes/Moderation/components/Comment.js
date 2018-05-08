@@ -76,6 +76,27 @@ class Comment extends React.Component {
       asset: comment.asset,
     };
 
+    if (!comment.body) {
+      return (
+        <li
+          tabIndex={0}
+          className={cn(
+            className,
+            'mdl-card',
+            selectionStateCSS,
+            styles.root,
+            { [styles.selected]: selected, [styles.dangling]: dangling },
+            'talk-admin-moderate-comment',
+            styles.deleted
+          )}
+          id={`comment_${comment.id}`}
+          ref={this.handleRef}
+        >
+          <CommentDeletedTombstone />
+        </li>
+      );
+    }
+
     return (
       <li
         tabIndex={0}
@@ -134,52 +155,48 @@ class Comment extends React.Component {
               </Link>
             )}
           </div>
-          {comment.body ? (
-            <CommentAnimatedEdit body={comment.body}>
-              <div className={styles.itemBody}>
-                <div className={styles.body}>
-                  <Slot
-                    fill="adminCommentContent"
-                    className={cn(styles.commentContent, 'talk-admin-comment')}
-                    size={1}
-                    defaultComponent={AdminCommentContent}
-                    passthrough={{ ...slotPassthrough, ...formatterSettings }}
-                  />
-                  <div className={styles.commentContentFooter}>
-                    <a
-                      className={styles.external}
-                      href={`${comment.asset.url}?commentId=${comment.id}`}
-                      target="_blank"
-                    >
-                      <Icon name="open_in_new" /> {t('comment.view_context')}
-                    </a>
-                  </div>
-                </div>
-
-                <div className={styles.sideActions}>
-                  <IfHasLink text={comment.body}>
-                    <span className={styles.hasLinks}>
-                      {/* TODO: translate string */}
-                      <Icon name="error_outline" /> Contains Link
-                    </span>
-                  </IfHasLink>
-                  <div className={`actions ${styles.actions}`}>
-                    <ApproveButton
-                      active={comment.status === 'ACCEPTED'}
-                      onClick={this.approve}
-                    />
-                    <RejectButton
-                      active={comment.status === 'REJECTED'}
-                      onClick={this.reject}
-                    />
-                  </div>
-                  <Slot fill="adminSideActions" passthrough={slotPassthrough} />
+          <CommentAnimatedEdit body={comment.body}>
+            <div className={styles.itemBody}>
+              <div className={styles.body}>
+                <Slot
+                  fill="adminCommentContent"
+                  className={cn(styles.commentContent, 'talk-admin-comment')}
+                  size={1}
+                  defaultComponent={AdminCommentContent}
+                  passthrough={{ ...slotPassthrough, ...formatterSettings }}
+                />
+                <div className={styles.commentContentFooter}>
+                  <a
+                    className={styles.external}
+                    href={`${comment.asset.url}?commentId=${comment.id}`}
+                    target="_blank"
+                  >
+                    <Icon name="open_in_new" /> {t('comment.view_context')}
+                  </a>
                 </div>
               </div>
-            </CommentAnimatedEdit>
-          ) : (
-            <CommentDeletedTombstone />
-          )}
+
+              <div className={styles.sideActions}>
+                <IfHasLink text={comment.body}>
+                  <span className={styles.hasLinks}>
+                    {/* TODO: translate string */}
+                    <Icon name="error_outline" /> Contains Link
+                  </span>
+                </IfHasLink>
+                <div className={`actions ${styles.actions}`}>
+                  <ApproveButton
+                    active={comment.status === 'ACCEPTED'}
+                    onClick={this.approve}
+                  />
+                  <RejectButton
+                    active={comment.status === 'REJECTED'}
+                    onClick={this.reject}
+                  />
+                </div>
+                <Slot fill="adminSideActions" passthrough={slotPassthrough} />
+              </div>
+            </div>
+          </CommentAnimatedEdit>
         </div>
         <CommentDetails
           root={root}

@@ -44,6 +44,19 @@ class UserDetailComment extends React.Component {
       body: comment.body,
     };
 
+    if (!comment.body) {
+      return (
+        <li
+          tabIndex={0}
+          className={cn(className, styles.root, {
+            [styles.rootSelected]: selected,
+          })}
+        >
+          <CommentDeletedTombstone />
+        </li>
+      );
+    }
+
     return (
       <li
         tabIndex={0}
@@ -84,53 +97,49 @@ class UserDetailComment extends React.Component {
               </Link>
             }
           </div>
-          {comment.body ? (
-            <CommentAnimatedEdit body={comment.body}>
-              <div className={styles.bodyContainer}>
-                <div className={styles.body}>
-                  <Slot
-                    fill="userDetailCommentContent"
-                    className={cn(
-                      styles.commentContent,
-                      'talk-admin-user-detail-comment'
-                    )}
-                    size={1}
-                    defaultComponent={AdminCommentContent}
-                    passthrough={slotPassthrough}
+          <CommentAnimatedEdit body={comment.body}>
+            <div className={styles.bodyContainer}>
+              <div className={styles.body}>
+                <Slot
+                  fill="userDetailCommentContent"
+                  className={cn(
+                    styles.commentContent,
+                    'talk-admin-user-detail-comment'
+                  )}
+                  size={1}
+                  defaultComponent={AdminCommentContent}
+                  passthrough={slotPassthrough}
+                />
+                <a
+                  className={styles.external}
+                  href={`${comment.asset.url}?commentId=${comment.id}`}
+                  target="_blank"
+                >
+                  <Icon name="open_in_new" /> {t('comment.view_context')}
+                </a>
+              </div>
+              <div className={styles.sideActions}>
+                <IfHasLink text={comment.body}>
+                  <span className={styles.hasLinks}>
+                    {/* TODO: translate string */}
+                    <Icon name="error_outline" /> Contains Link
+                  </span>
+                </IfHasLink>
+                <div className={styles.actions}>
+                  <ApproveButton
+                    active={comment.status === 'ACCEPTED'}
+                    onClick={this.approve}
+                    minimal
                   />
-                  <a
-                    className={styles.external}
-                    href={`${comment.asset.url}?commentId=${comment.id}`}
-                    target="_blank"
-                  >
-                    <Icon name="open_in_new" /> {t('comment.view_context')}
-                  </a>
-                </div>
-                <div className={styles.sideActions}>
-                  <IfHasLink text={comment.body}>
-                    <span className={styles.hasLinks}>
-                      {/* TODO: translate string */}
-                      <Icon name="error_outline" /> Contains Link
-                    </span>
-                  </IfHasLink>
-                  <div className={styles.actions}>
-                    <ApproveButton
-                      active={comment.status === 'ACCEPTED'}
-                      onClick={this.approve}
-                      minimal
-                    />
-                    <RejectButton
-                      active={comment.status === 'REJECTED'}
-                      onClick={this.reject}
-                      minimal
-                    />
-                  </div>
+                  <RejectButton
+                    active={comment.status === 'REJECTED'}
+                    onClick={this.reject}
+                    minimal
+                  />
                 </div>
               </div>
-            </CommentAnimatedEdit>
-          ) : (
-            <CommentDeletedTombstone />
-          )}
+            </div>
+          </CommentAnimatedEdit>
         </div>
         <CommentDetails root={root} comment={comment} />
       </li>
