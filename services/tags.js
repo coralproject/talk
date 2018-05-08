@@ -13,6 +13,10 @@ const updateModel = async (item_type, query, update) => {
   switch (item_type) {
     case 'COMMENTS':
       Model = Comment;
+
+      // Don't allow adding tags to deleted comments.
+      query.deleted_at = null;
+
       break;
     case 'ASSETS':
       Model = Asset;
