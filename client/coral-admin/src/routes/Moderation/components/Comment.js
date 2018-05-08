@@ -13,6 +13,7 @@ import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
 import ApproveButton from 'coral-admin/src/components/ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
+import CommentDeletedTombstone from '../../../components/CommentDeletedTombstone';
 
 import t, { timeago } from 'coral-framework/services/i18n';
 
@@ -133,48 +134,52 @@ class Comment extends React.Component {
               </Link>
             )}
           </div>
-          <CommentAnimatedEdit body={comment.body}>
-            <div className={styles.itemBody}>
-              <div className={styles.body}>
-                <Slot
-                  fill="adminCommentContent"
-                  className={cn(styles.commentContent, 'talk-admin-comment')}
-                  size={1}
-                  defaultComponent={AdminCommentContent}
-                  passthrough={{ ...slotPassthrough, ...formatterSettings }}
-                />
-                <div className={styles.commentContentFooter}>
-                  <a
-                    className={styles.external}
-                    href={`${comment.asset.url}?commentId=${comment.id}`}
-                    target="_blank"
-                  >
-                    <Icon name="open_in_new" /> {t('comment.view_context')}
-                  </a>
+          {comment.body ? (
+            <CommentAnimatedEdit body={comment.body}>
+              <div className={styles.itemBody}>
+                <div className={styles.body}>
+                  <Slot
+                    fill="adminCommentContent"
+                    className={cn(styles.commentContent, 'talk-admin-comment')}
+                    size={1}
+                    defaultComponent={AdminCommentContent}
+                    passthrough={{ ...slotPassthrough, ...formatterSettings }}
+                  />
+                  <div className={styles.commentContentFooter}>
+                    <a
+                      className={styles.external}
+                      href={`${comment.asset.url}?commentId=${comment.id}`}
+                      target="_blank"
+                    >
+                      <Icon name="open_in_new" /> {t('comment.view_context')}
+                    </a>
+                  </div>
                 </div>
-              </div>
 
-              <div className={styles.sideActions}>
-                <IfHasLink text={comment.body}>
-                  <span className={styles.hasLinks}>
-                    {/* TODO: translate string */}
-                    <Icon name="error_outline" /> Contains Link
-                  </span>
-                </IfHasLink>
-                <div className={`actions ${styles.actions}`}>
-                  <ApproveButton
-                    active={comment.status === 'ACCEPTED'}
-                    onClick={this.approve}
-                  />
-                  <RejectButton
-                    active={comment.status === 'REJECTED'}
-                    onClick={this.reject}
-                  />
+                <div className={styles.sideActions}>
+                  <IfHasLink text={comment.body}>
+                    <span className={styles.hasLinks}>
+                      {/* TODO: translate string */}
+                      <Icon name="error_outline" /> Contains Link
+                    </span>
+                  </IfHasLink>
+                  <div className={`actions ${styles.actions}`}>
+                    <ApproveButton
+                      active={comment.status === 'ACCEPTED'}
+                      onClick={this.approve}
+                    />
+                    <RejectButton
+                      active={comment.status === 'REJECTED'}
+                      onClick={this.reject}
+                    />
+                  </div>
+                  <Slot fill="adminSideActions" passthrough={slotPassthrough} />
                 </div>
-                <Slot fill="adminSideActions" passthrough={slotPassthrough} />
               </div>
-            </div>
-          </CommentAnimatedEdit>
+            </CommentAnimatedEdit>
+          ) : (
+            <CommentDeletedTombstone />
+          )}
         </div>
         <CommentDetails
           root={root}
@@ -200,7 +205,7 @@ Comment.propTypes = {
   comment: PropTypes.shape({
     id: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
+    body: PropTypes.string,
     action_summaries: PropTypes.array,
     actions: PropTypes.array,
     created_at: PropTypes.string.isRequired,

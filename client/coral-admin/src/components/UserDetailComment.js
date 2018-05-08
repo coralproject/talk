@@ -12,6 +12,7 @@ import CommentAnimatedEdit from './CommentAnimatedEdit';
 import CommentLabels from '../containers/CommentLabels';
 import ApproveButton from './ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
+import CommentDeletedTombstone from './CommentDeletedTombstone';
 
 import t, { timeago } from 'coral-framework/services/i18n';
 
@@ -83,49 +84,53 @@ class UserDetailComment extends React.Component {
               </Link>
             }
           </div>
-          <CommentAnimatedEdit body={comment.body}>
-            <div className={styles.bodyContainer}>
-              <div className={styles.body}>
-                <Slot
-                  fill="userDetailCommentContent"
-                  className={cn(
-                    styles.commentContent,
-                    'talk-admin-user-detail-comment'
-                  )}
-                  size={1}
-                  defaultComponent={AdminCommentContent}
-                  passthrough={slotPassthrough}
-                />
-                <a
-                  className={styles.external}
-                  href={`${comment.asset.url}?commentId=${comment.id}`}
-                  target="_blank"
-                >
-                  <Icon name="open_in_new" /> {t('comment.view_context')}
-                </a>
-              </div>
-              <div className={styles.sideActions}>
-                <IfHasLink text={comment.body}>
-                  <span className={styles.hasLinks}>
-                    {/* TODO: translate string */}
-                    <Icon name="error_outline" /> Contains Link
-                  </span>
-                </IfHasLink>
-                <div className={styles.actions}>
-                  <ApproveButton
-                    active={comment.status === 'ACCEPTED'}
-                    onClick={this.approve}
-                    minimal
+          {comment.body ? (
+            <CommentAnimatedEdit body={comment.body}>
+              <div className={styles.bodyContainer}>
+                <div className={styles.body}>
+                  <Slot
+                    fill="userDetailCommentContent"
+                    className={cn(
+                      styles.commentContent,
+                      'talk-admin-user-detail-comment'
+                    )}
+                    size={1}
+                    defaultComponent={AdminCommentContent}
+                    passthrough={slotPassthrough}
                   />
-                  <RejectButton
-                    active={comment.status === 'REJECTED'}
-                    onClick={this.reject}
-                    minimal
-                  />
+                  <a
+                    className={styles.external}
+                    href={`${comment.asset.url}?commentId=${comment.id}`}
+                    target="_blank"
+                  >
+                    <Icon name="open_in_new" /> {t('comment.view_context')}
+                  </a>
+                </div>
+                <div className={styles.sideActions}>
+                  <IfHasLink text={comment.body}>
+                    <span className={styles.hasLinks}>
+                      {/* TODO: translate string */}
+                      <Icon name="error_outline" /> Contains Link
+                    </span>
+                  </IfHasLink>
+                  <div className={styles.actions}>
+                    <ApproveButton
+                      active={comment.status === 'ACCEPTED'}
+                      onClick={this.approve}
+                      minimal
+                    />
+                    <RejectButton
+                      active={comment.status === 'REJECTED'}
+                      onClick={this.reject}
+                      minimal
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </CommentAnimatedEdit>
+            </CommentAnimatedEdit>
+          ) : (
+            <CommentDeletedTombstone />
+          )}
         </div>
         <CommentDetails root={root} comment={comment} />
       </li>
@@ -152,7 +157,7 @@ UserDetailComment.propTypes = {
   comment: PropTypes.shape({
     id: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
+    body: PropTypes.string,
     actions: PropTypes.array,
     created_at: PropTypes.string.isRequired,
     asset: PropTypes.shape({
