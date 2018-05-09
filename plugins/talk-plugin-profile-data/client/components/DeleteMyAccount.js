@@ -27,7 +27,7 @@ class DeleteMyAccount extends React.Component {
     const { cancelAccountDeletion, notify } = this.props;
     try {
       await cancelAccountDeletion();
-      notify('success', t('delete_request.account_deletion_requested'));
+      notify('success', t('delete_request.account_deletion_cancelled'));
     } catch (err) {
       notify('error', getErrorMessages(err));
     }

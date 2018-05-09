@@ -85,6 +85,10 @@
   font-weight: 300;
 }
 
+.deleted {
+  background-color: #f0f0f0;
+}
+
 .moderateArticle {
   font-size: 14px;
   margin: 10px 0;

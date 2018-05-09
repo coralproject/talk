@@ -36,10 +36,10 @@ module.exports = connectors => {
         const {
           organizationName,
           organizationContactEmail,
-        } = await Settings.load([
+        } = await Settings.select(
           'organizationName',
-          'organizationContactEmail',
-        ]);
+          'organizationContactEmail'
+        );
 
         // rescheduledDeletionDate is the date in the future that we'll set the
         // user's account to be deleted on if this delete fails.

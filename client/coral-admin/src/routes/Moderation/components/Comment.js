@@ -13,6 +13,7 @@ import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
 import ApproveButton from 'coral-admin/src/components/ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
+import CommentDeletedTombstone from '../../../components/CommentDeletedTombstone';
 
 import t, { timeago } from 'coral-framework/services/i18n';
 
@@ -74,6 +75,27 @@ class Comment extends React.Component {
       comment,
       asset: comment.asset,
     };
+
+    if (!comment.body) {
+      return (
+        <li
+          tabIndex={0}
+          className={cn(
+            className,
+            'mdl-card',
+            selectionStateCSS,
+            styles.root,
+            { [styles.selected]: selected, [styles.dangling]: dangling },
+            'talk-admin-moderate-comment',
+            styles.deleted
+          )}
+          id={`comment_${comment.id}`}
+          ref={this.handleRef}
+        >
+          <CommentDeletedTombstone />
+        </li>
+      );
+    }
 
     return (
       <li
@@ -200,7 +222,7 @@ Comment.propTypes = {
   comment: PropTypes.shape({
     id: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
+    body: PropTypes.string,
     action_summaries: PropTypes.array,
     actions: PropTypes.array,
     created_at: PropTypes.string.isRequired,

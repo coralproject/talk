@@ -3,7 +3,7 @@ const getOrganizationName = async ctx => {
   const { loaders: { Settings } } = ctx;
 
   // Get the settings.
-  const { organizationName = null } = await Settings.load('organizationName');
+  const { organizationName = null } = await Settings.select('organizationName');
 
   return organizationName;
 };

@@ -125,21 +125,4 @@ const Setting = new Schema(
   }
 );
 
-/**
- * Merges two settings objects.
- */
-Setting.method('merge', function(src) {
-  Setting.eachPath(path => {
-    // Exclude internal fields...
-    if (['id', '_id', '__v', 'created_at', 'updated_at'].includes(path)) {
-      return;
-    }
-
-    // If the source object contains the path, shallow copy it.
-    if (path in src) {
-      this[path] = src[path];
-    }
-  });
-});
-
 module.exports = Setting;
