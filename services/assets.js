@@ -232,11 +232,5 @@ module.exports = class AssetsService {
     await AssetModel.remove({
       id: srcAssetID,
     });
-
-    // That's it!
-  }
-
-  static all(limit = undefined) {
-    return AssetModel.find({}).limit(limit);
   }
 };
