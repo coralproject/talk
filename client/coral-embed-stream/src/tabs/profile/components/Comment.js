@@ -76,7 +76,6 @@ class Comment extends React.Component {
           <div className="my-comment-asset">
             <a
               className={cn(styles.assetURL, 'my-comment-anchor')}
-              href="#"
               onClick={this.goToStory}
             >
               {t('common.story')}:{' '}
