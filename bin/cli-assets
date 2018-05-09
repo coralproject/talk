@@ -23,23 +23,33 @@ util.onshutdown([() => mongoose.disconnect()]);
 /**
  * Lists all the assets registered in the database.
  */
-async function listAssets() {
+async function listAssets(opts) {
   try {
     let assets = await AssetModel.find({}).sort({ created_at: 1 });
 
-    let table = new Table({
-      head: ['ID', 'Title', 'URL'],
-    });
+    switch (opts.format) {
+      case 'json': {
+        console.log(JSON.stringify(assets, null, 2));
+        break;
+      }
+      default: {
+        let table = new Table({
+          head: ['ID', 'Title', 'URL'],
+        });
 
-    assets.forEach(asset => {
-      table.push([
-        asset.id,
-        asset.title ? asset.title : '',
-        asset.url ? asset.url : '',
-      ]);
-    });
+        assets.forEach(asset => {
+          table.push([
+            asset.id,
+            asset.title ? asset.title : '',
+            asset.url ? asset.url : '',
+          ]);
+        });
 
-    console.log(table.toString());
+        console.log(table.toString());
+        break;
+      }
+    }
+
     util.shutdown();
   } catch (e) {
     console.error(e);
@@ -202,6 +212,12 @@ async function rewrite(search, replace, options) {
 
 program
   .command('list')
+  .option(
+    '--format <type>',
+    'Specify the output format [table]',
+    /^(table|json)$/i,
+    'table'
+  )
   .description('list all the assets in the database')
   .action(listAssets);
 
