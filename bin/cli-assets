@@ -59,12 +59,13 @@ async function listAssets(opts) {
 
 async function refreshAssets(ageString) {
   try {
-    const now = new Date().getTime();
-    const ageMs = parseDuration(ageString);
-    const age = new Date(now - ageMs);
+    const query = AssetModel.find({}, { id: 1 });
+    if (ageString) {
+      // An age was specified, so filter only those assets.
+      const ageMs = parseDuration(ageString);
+      const age = new Date(Date.now() - ageMs);
 
-    let assets = await AssetModel.find(
-      {
+      query.merge({
         $or: [
           {
             scraped: {
@@ -75,16 +76,28 @@ async function refreshAssets(ageString) {
             scraped: null,
           },
         ],
-      },
-      { id: 1 }
-    );
+      });
+    }
 
     // Create a graph context.
     const ctx = Context.forSystem();
 
+    // Load the assets.
+    const cursor = query.cursor();
+
     // Queue all the assets for scraping.
-    await Promise.all(assets.map(({ id }) => scraper.create(ctx, id)));
-    console.log('Assets were queued to be scraped');
+    const promises = [];
+
+    let asset = await cursor.next();
+    while (asset) {
+      promises.push(scraper.create(ctx, asset.id));
+      asset = await cursor.next();
+    }
+
+    await Promise.all(promises);
+
+    console.log(`${promises.length} Assets were queued to be scraped.`);
+
     util.shutdown();
   } catch (e) {
     console.error(e);
@@ -222,7 +235,7 @@ program
   .action(listAssets);
 
 program
-  .command('refresh <age>')
+  .command('refresh [age]')
   .description('queues the assets that exceed the age requested')
   .action(refreshAssets);
 
