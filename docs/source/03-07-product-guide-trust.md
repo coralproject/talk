@@ -16,7 +16,7 @@ Here are the default thresholds:
 ```text
 -1 and lower: Unreliable
 0 to +1: Neutral
-+1 and higher: Reliable (we don't do anything with this label right now)
++2 and higher: Reliable (we don't do anything with this label right now)
 ```
 
 So in this case, when a new commenter has their first comment rejected, their user karma score becomes `-1`, which triggers the Unreliable threshhold, and they must then have a comment approved by a moderator in order to post freely again. Until that occurs, all of their comments will be held back temporarily in the Reported queue, marked with a `History` tag. 
