@@ -1,4 +1,12 @@
 en:
+  email:
+    email_change_original:
+      subject: Email change
+      body: Your email address has been changed from {0} to {1}. If you did not initiate this change, please contact {2}. # TODO: update translation
+  error:
+    NO_LOCAL_PROFILE: No existing email address is associated with this account.
+    LOCAL_PROFILE: An email address is already associated with this account.
+    INCORRECT_PASSWORD: Provided password was incorrect.
   talk-plugin-local-auth:
     change_password:
       change_password: "Change Password"
@@ -43,7 +51,7 @@ en:
       email_does_not_match: "Email Address does not match"
       insert_password: "Insert Password:"
       required_field: "This field is required"
-      done: "done"
+      done: "Done"
       content:
         title: "Add an Email Address"
         description: "For your added security, we require users to add an email address to their accounts. Your email address will be used to:"

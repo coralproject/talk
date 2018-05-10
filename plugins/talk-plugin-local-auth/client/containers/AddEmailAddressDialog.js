@@ -3,10 +3,15 @@ import { bindActionCreators } from 'redux';
 import { connect, withFragments, excludeIf } from 'plugin-api/beta/client/hocs';
 import AddEmailAddressDialog from '../components/AddEmailAddressDialog';
 import { notify } from 'coral-framework/actions/notification';
-
 import { withAttachLocalAuth } from '../hocs';
+import { startAttach, finishAttach } from '../actions';
 
-const mapDispatchToProps = dispatch => bindActionCreators({ notify }, dispatch);
+const mapStateToProps = ({ talkPluginLocalAuth: state }) => ({
+  inProgress: state.inProgress,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ notify, startAttach, finishAttach }, dispatch);
 
 const withData = withFragments({
   root: gql`
@@ -23,8 +28,11 @@ const withData = withFragments({
 });
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withAttachLocalAuth,
   withData,
-  excludeIf(({ root: { me } }) => !me || me.email)
+  excludeIf(
+    ({ root: { me }, inProgress }) =>
+      !((me && !me.email) || (me && me.email && inProgress))
+  )
 )(AddEmailAddressDialog);
