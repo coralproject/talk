@@ -114,11 +114,11 @@ class Profile extends React.Component {
 
   isSaveEnabled = () => {
     const { formData } = this.state;
-    const { emailAddress, username } = this.props;
+    const { root: { me: { username, email } } } = this.props;
     const formHasErrors = !!Object.keys(this.state.errors).length;
     const validUsername =
       formData.newUsername && formData.newUsername !== username;
-    const validEmail = formData.newEmail && formData.newEmail !== emailAddress;
+    const validEmail = formData.newEmail && formData.newEmail !== email;
 
     return !formHasErrors && (validUsername || validEmail);
   };

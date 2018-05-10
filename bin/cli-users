@@ -328,7 +328,7 @@ program
   .action(searchUsers);
 
 program
-  .command('set-role <userID> <role>')
+  .command('set-role <userID>')
   .description('sets the role on a user')
   .action(setUserRole);
 
