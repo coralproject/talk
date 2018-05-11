@@ -182,7 +182,9 @@ class Stream extends React.Component {
                 setActiveReplyBox={setActiveReplyBox}
                 activeReplyBox={activeReplyBox}
                 notify={notify}
-                disableReply={asset.isClosed}
+                disableReply={
+                  asset.isClosed || asset.settings.disableCommenting
+                }
                 postComment={postComment}
                 currentUser={currentUser}
                 postFlag={postFlag}
