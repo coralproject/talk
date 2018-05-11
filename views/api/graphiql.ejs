@@ -5,12 +5,16 @@
   <meta charset="utf-8" />
   <title>GraphiQL</title>
   <meta name="robots" content="noindex" />
+  <%- include ../partials/dev %>
   <style>
-    html, body {
+    html, body, #graphiql {
       height: 100%;
       margin: 0;
       overflow: hidden;
       width: 100%;
+    }
+    *, ::after, ::before {
+      box-sizing: inherit;
     }
   </style>
   <link href="//cdn.jsdelivr.net/graphiql/0.9.1/graphiql.css" rel="stylesheet" />
@@ -20,6 +24,8 @@
   <script src="//cdn.jsdelivr.net/graphiql/0.9.1/graphiql.min.js"></script>
 </head>
 <body>
+  <%- include ../partials/dev-nav %>
+  <main id="graphiql"></main>
   <script>
     // Collect the URL parameters
     var parameters = {};
@@ -112,7 +118,7 @@
         variables: null,
         operationName: null,
       }),
-      document.body
+      document.querySelector("#graphiql")
     );
   </script>
 </body>
