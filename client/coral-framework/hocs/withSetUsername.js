@@ -48,8 +48,9 @@ const withSetUsername = hoistStatics(WrappedComponent => {
         throw new Error('User not logged in');
       }
 
+      await this.props.setUsername(this.props.currentUserId, username);
+
       try {
-        await this.props.setUsername(this.props.currentUserId, username);
         this.props.updateUsername(username);
         this.props.updateStatus({ username: { status: 'SET' } });
         this.setState({ success: true, loading: false, error: null });
