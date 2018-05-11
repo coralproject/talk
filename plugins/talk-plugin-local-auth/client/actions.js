@@ -1,7 +1,7 @@
 import * as actions from './constants';
 
 export const startAttach = () => ({
-  type: actions.STARTED_ATTACH,
+  type: actions.START_ATTACH,
 });
 
 export const finishAttach = () => ({

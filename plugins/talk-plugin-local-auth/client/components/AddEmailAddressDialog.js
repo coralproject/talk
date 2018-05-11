@@ -124,8 +124,10 @@ class AddEmailAddressDialog extends React.Component {
         password: confirmPassword,
       });
 
-      // TODO: translate
-      this.props.notify('success', 'Email Added!');
+      this.props.notify(
+        'success',
+        t('talk-plugin-local-auth.add_email.added.alert')
+      );
       this.goToNextStep();
     } catch (err) {
       this.props.notify('error', getErrorMessages(err));

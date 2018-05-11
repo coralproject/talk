@@ -6,7 +6,7 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case actions.STARTED_ATTACH:
+    case actions.START_ATTACH:
       return {
         inProgress: true,
       };

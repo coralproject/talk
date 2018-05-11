@@ -67,6 +67,7 @@ en:
         subtitle: "Need to change your email address?"
         description_2: "You can change your account settings by visiting"
         path: "My Profile > Settings"
+        alert: "Email Added!"
 es:
   talk-plugin-local-auth:
     change_password:
