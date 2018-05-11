@@ -5,6 +5,7 @@ import AddEmailAddressDialog from '../components/AddEmailAddressDialog';
 import { notify } from 'coral-framework/actions/notification';
 import { withAttachLocalAuth } from '../hocs';
 import { startAttach, finishAttach } from '../actions';
+import get from 'lodash/get';
 
 const mapStateToProps = ({ talkPluginLocalAuth: state }) => ({
   inProgress: state.inProgress,
@@ -41,7 +42,7 @@ export default compose(
   excludeIf(
     ({ root: { me }, inProgress }) =>
       !me ||
-      me.state.status.username.status === 'UNSET' ||
+      get(me, 'state.status.username.status') === 'UNSET' ||
       (me.email && !inProgress)
   )
 )(AddEmailAddressDialog);
