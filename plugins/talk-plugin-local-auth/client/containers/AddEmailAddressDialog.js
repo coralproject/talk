@@ -19,6 +19,13 @@ const withData = withFragments({
       me {
         id
         email
+        state {
+          status {
+            username {
+              status
+            }
+          }
+        }
       }
       settings {
         requireEmailConfirmation
@@ -33,6 +40,7 @@ export default compose(
   withData,
   excludeIf(
     ({ root: { me }, inProgress }) =>
+      me.state.status.username.status === 'UNSET' ||
       !((me && !me.email) || (me && me.email && inProgress))
   )
 )(AddEmailAddressDialog);
