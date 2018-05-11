@@ -41,7 +41,7 @@ const AddEmailContent = ({
       </li>
     </ul>
 
-    <form autoComplete="off">
+    <form autoComplete="off" onSubmit={confirmChanges}>
       <InputField
         id="emailAddress"
         label={t('talk-plugin-local-auth.add_email.enter_email_address')}
@@ -82,12 +82,9 @@ const AddEmailContent = ({
         showSuccess={false}
       />
       <div className={styles.actions}>
-        <a
-          className={cn(styles.button, styles.proceed)}
-          onClick={confirmChanges}
-        >
+        <button className={cn(styles.button, styles.proceed)}>
           {t('talk-plugin-local-auth.add_email.add_email_address')}
-        </a>
+        </button>
       </div>
     </form>
   </div>
