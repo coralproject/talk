@@ -67,6 +67,7 @@ class Comment extends React.Component {
             <a
               className={cn(styles.assetURL, 'my-comment-anchor')}
               href={this.props.comment.asset.url}
+              target="_parent"
             >
               {t('common.story')}:{' '}
               {comment.asset.title ? comment.asset.title : comment.asset.url}
@@ -76,7 +77,13 @@ class Comment extends React.Component {
         <div className={styles.sidebar}>
           <ul>
             <li>
-              <a className={styles.viewLink} href={`${this.props.comment.asset.url}?commentId=${this.props.comment.id}`}>
+              <a
+                className={styles.viewLink}
+                href={`${this.props.comment.asset.url}?commentId=${
+                  this.props.comment.id
+                }`}
+                target="_parent"
+              >
                 <Icon name="open_in_new" className={styles.iconView} />
                 {t('view_conversation')}
               </a>
