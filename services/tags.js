@@ -1,23 +1,28 @@
-const CommentModel = require('../models/comment');
-const AssetModel = require('../models/asset');
-const UserModel = require('../models/user');
-const AssetsService = require('./assets');
-const SettingsService = require('./settings');
+const Comment = require('../models/comment');
+const Asset = require('../models/asset');
+const User = require('../models/user');
+const Assets = require('./assets');
+const Settings = require('./settings');
 const { ADD_COMMENT_TAG } = require('../perms/constants');
 const { ErrNotAuthorized } = require('../errors');
+const { get, has } = require('lodash');
 
 const updateModel = async (item_type, query, update) => {
   // Get the model to update with.
   let Model;
   switch (item_type) {
     case 'COMMENTS':
-      Model = CommentModel;
+      Model = Comment;
+
+      // Don't allow adding tags to deleted comments.
+      query.deleted_at = null;
+
       break;
     case 'ASSETS':
-      Model = AssetModel;
+      Model = Asset;
       break;
     case 'USERS':
-      Model = UserModel;
+      Model = User;
       break;
     default:
       throw new Error(
@@ -44,32 +49,23 @@ const ownershipQuery = async (item_type, link, query) => {
 
 class TagsService {
   /**
-   * Retrives a global tag from the settings based on the input_type.
+   * Retrieves a global tag from the settings based on the input_type.
    */
   static async getAll({ id, item_type, asset_id = null }) {
-    // Extract the settings from the database.
-    let settings;
-    switch (item_type) {
-      case 'COMMENTS':
-        settings = await AssetsService.rectifySettings(
-          AssetsService.findById(asset_id)
-        );
-        break;
-      case 'ASSETS':
-        settings = await AssetsService.rectifySettings(
-          AssetsService.findById(id)
-        );
-        break;
-      case 'USERS':
-        settings = await SettingsService.retrieve();
-        break;
-      default:
-        settings = await SettingsService.retrieve();
-        break;
+    // Optionally get an asset.
+    let asset;
+    if (item_type === 'COMMENTS') {
+      asset = await Assets.findById(asset_id);
+    } else if (item_type === 'ASSETS') {
+      asset = await Assets.findById(id);
+    }
+
+    if (asset && has(asset, 'settings.tags')) {
+      return get(asset, 'settings.tags');
     }
 
     // Extract the tags from the settings object.
-    let { tags = [] } = settings;
+    const { tags = [] } = await Settings.select('tags');
 
     // Return the first tag that matches the requested form.
     return tags;

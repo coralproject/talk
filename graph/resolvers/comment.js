@@ -4,6 +4,7 @@ const {
   SEARCH_ACTIONS,
   SEARCH_COMMENT_STATUS_HISTORY,
   VIEW_BODY_HISTORY,
+  VIEW_COMMENT_DELETED_AT,
 } = require('../../perms/constants');
 const {
   decorateWithTags,
@@ -23,7 +24,9 @@ const Comment = {
     return Comments.get.load(parent_id);
   },
   user({ author_id }, _, { loaders: { Users } }) {
-    return Users.getByID.load(author_id);
+    if (author_id) {
+      return Users.getByID.load(author_id);
+    }
   },
   replies({ id, asset_id, reply_count }, { query }, { loaders: { Comments } }) {
     // Don't bother looking up replies if there aren't any there!
@@ -55,10 +58,14 @@ const Comment = {
     return Assets.getByID.load(asset_id);
   },
   async editing(comment, _, { loaders: { Settings } }) {
-    const settings = await Settings.load();
-    const editableUntil = new Date(
-      Number(new Date(comment.created_at)) + settings.editCommentWindowLength
+    const { editCommentWindowLength } = await Settings.select(
+      'editCommentWindowLength'
     );
+
+    const editableUntil = new Date(
+      Number(new Date(comment.created_at)) + editCommentWindowLength
+    );
+
     return {
       edited: comment.edited,
       editableUntil: editableUntil,
@@ -83,6 +90,7 @@ decorateWithTags(Comment);
 decorateWithPermissionCheck(Comment, {
   actions: [SEARCH_ACTIONS],
   status_history: [SEARCH_COMMENT_STATUS_HISTORY],
+  deleted_at: [VIEW_COMMENT_DELETED_AT],
 });
 
 // Protect privileged fields.

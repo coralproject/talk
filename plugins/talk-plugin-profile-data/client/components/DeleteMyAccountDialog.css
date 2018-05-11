@@ -1,0 +1,45 @@
+@custom-media --small-viewport (min-width: 425px);
+
+.dialog {
+  width: calc(100% - 50px);
+  border: none;
+  box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+
+  top: 10px;
+  font-family: Helvetica, 'Helvetica Neue', Verdana, sans-serif;
+  font-size: 14px;
+  border-radius: 4px;
+  padding: 20px;
+
+  @media (--small-viewport) {
+    width: 380px;
+  }
+}
+
+.close {
+  font-size: 20px;
+  line-height: 14px;
+  top: 10px;
+  right: 10px;
+  position: absolute;
+  display: block;
+  font-weight: bold;
+  color: #363636;
+  cursor: pointer;
+
+  &:hover {
+    color: #6b6b6b;
+  }
+}
+
+.title {
+  font-size: 1.2em;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.description {
+  font-size: 1em;
+  line-height: 20px;
+  margin: 0;
+}

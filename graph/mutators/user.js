@@ -1,4 +1,8 @@
-const { ErrNotFound, ErrNotAuthorized } = require('../../errors');
+const {
+  ErrNotFound,
+  ErrNotAuthorized,
+  ErrPasswordIncorrect,
+} = require('../../errors');
 const Users = require('../../services/users');
 const migrationHelpers = require('../../services/migration/helpers');
 const {
@@ -8,7 +12,7 @@ const {
   SET_USER_BAN_STATUS,
   SET_USER_SUSPENSION_STATUS,
   UPDATE_USER_ROLES,
-  DELETE_USER,
+  DELETE_OTHER_USER,
   CHANGE_PASSWORD,
 } = require('../../perms/constants');
 
@@ -66,15 +70,25 @@ const setRole = (ctx, id, role) => {
 /**
  * transforms a specific action to a removal action on the target model.
  */
-const actionDecrTransformer = ({ item_id, action_type, group_id }) => ({
-  query: { id: item_id },
-  update: {
+const actionDecrTransformer = ({ item_id, action_type, group_id }) => {
+  const update = {
     $inc: {
       [`action_counts.${action_type.toLowerCase()}`]: -1,
-      [`action_counts.${action_type.toLowerCase()}_${group_id.toLowerCase()}`]: -1,
     },
-  },
-});
+  };
+
+  if (group_id) {
+    // If the action had a groupID, also decrement that key.
+    update.$inc[
+      `action_counts.${action_type.toLowerCase()}_${group_id.toLowerCase()}`
+    ] = -1;
+  }
+
+  return {
+    query: { id: item_id },
+    update,
+  };
+};
 
 // delUser will delete a given user with the specified id.
 const delUser = async (ctx, id) => {
@@ -93,7 +107,7 @@ const delUser = async (ctx, id) => {
     updateBatchSize: 10000,
   });
 
-  // Remove all actions against comments.
+  // Remove all actions against this users comments.
   await transformSingleWithCursor(
     Action.collection.find({ user_id: user.id, item_type: 'COMMENTS' }),
     actionDecrTransformer,
@@ -112,33 +126,49 @@ const delUser = async (ctx, id) => {
     .setOptions({ multi: true })
     .remove();
 
-  // Removes all the user's reply counts on each of the comments that they
-  // have commented on.
+  // Remove the user from all other user's ignore lists.
+  await User.update(
+    { ignoresUsers: user.id },
+    {
+      $pull: { ignoresUsers: user.id },
+    },
+    { multi: true }
+  );
+
+  // For each comment that the user has authored, purge the comment data from it
+  // and unset their id from those comments.
   await transformSingleWithCursor(
-    Comment.collection.aggregate([
-      { $match: { author_id: user.id } },
-      {
-        $group: {
-          _id: '$parent_id',
-          count: { $sum: 1 },
-        },
-      },
-    ]),
-    ({ _id: parent_id, count }) => ({
-      query: { id: parent_id },
-      update: {
-        $inc: {
-          reply_count: -1 * count,
-        },
+    Comment.collection.find({ author_id: user.id }),
+    ({
+      id,
+      asset_id,
+      status,
+      parent_id,
+      reply_count,
+      created_at,
+      updated_at,
+    }) => ({
+      query: { id },
+      replace: {
+        id,
+        body: null,
+        body_history: [],
+        asset_id,
+        author_id: null,
+        status_history: [],
+        status,
+        parent_id,
+        reply_count,
+        action_counts: {},
+        tags: [],
+        metadata: {},
+        deleted_at: new Date(),
+        created_at,
+        updated_at,
       },
     }),
     Comment
   );
-
-  // Remove all the user's comments.
-  await Comment.where({ author_id: user.id })
-    .setOptions({ multi: true })
-    .remove();
 
   // Remove the user.
   await user.remove();
@@ -154,17 +184,17 @@ const changeUserPassword = async (ctx, oldPassword, newPassword) => {
   // Verify the old password.
   const validPassword = await user.verifyPassword(oldPassword);
   if (!validPassword) {
-    throw new ErrNotAuthorized();
+    throw new ErrPasswordIncorrect();
   }
 
   // Change the users password now.
   await Users.changePassword(user.id, newPassword);
 
   // Get some context for the email to be sent.
-  const { organizationName, organizationContactEmail } = await Settings.load([
+  const { organizationName, organizationContactEmail } = await Settings.select(
     'organizationName',
-    'organizationContactEmail',
-  ]);
+    'organizationContactEmail'
+  );
 
   // Send the password change email.
   await Users.sendEmail(user, {
@@ -225,7 +255,7 @@ module.exports = ctx => {
         setUserSuspensionStatus(ctx, id, until, message);
     }
 
-    if (ctx.user.can(DELETE_USER)) {
+    if (ctx.user.can(DELETE_OTHER_USER)) {
       mutators.User.del = id => delUser(ctx, id);
     }
 

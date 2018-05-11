@@ -14,8 +14,15 @@ const getActionItem = async (ctx, { item_id, item_type }) => {
   const { loaders: { Comments, Users } } = ctx;
 
   switch (item_type) {
-    case 'COMMENTS':
-      return Comments.get.load(item_id);
+    case 'COMMENTS': {
+      // Get a comment by ID, unless the comment is deleted, then return null.
+      const comment = await Comments.get.load(item_id);
+      if (comment.deleted_at) {
+        return null;
+      }
+
+      return comment;
+    }
     case 'USERS':
       return Users.getByID.load(item_id);
     default:

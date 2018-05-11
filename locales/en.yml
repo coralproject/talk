@@ -225,6 +225,7 @@ en:
   embedlink:
     copy: "Copy to Clipboard"
   error:
+    PASSWORD_INCORRECT: "Your current password was entered incorrectly"
     COMMENT_PARENT_NOT_VISIBLE: "The comment that you're replying to has been removed or doesn't exist."
     EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
     EMAIL_ALREADY_VERIFIED: "Email address already verified."
@@ -250,7 +251,9 @@ en:
     ALREADY_EXISTS: "Resource already exists"
     INVALID_ASSET_URL: "Assert URL is invalid"
     CANNOT_IGNORE_STAFF: "Cannot ignore Staff members."
+    INCORRECT_PASSWORD: "Incorrect Password"
     email: "Please enter a valid email."
+    DELETION_NOT_SCHEDULED: "Deletion was not scheduled"
     confirm_password: "Passwords don't match. Please check again"
     network_error: "Failed to connect to server. Check your internet connection and try again."
     email_not_verified: "Email address {0} not verified."
@@ -271,6 +274,7 @@ en:
     comment: comment
     comment_is_ignored: "This comment is hidden because you ignored this user."
     comment_is_rejected: "You have rejected this comment."
+    comment_is_deleted: "This commenter has deleted their account."
     comment_is_hidden: "This comment is not available."
     comments: comments
     configure_stream: "Configure"

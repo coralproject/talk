@@ -32,7 +32,10 @@ const handleHandlers = (ctx, handlers, ...args) =>
         // Attempt to create a notification out of it.
         const notification = await handle(ctx, ...args);
         if (!notification) {
-          ctx.log.info('no notification deemed by event handler');
+          ctx.log.info(
+            { category, event },
+            'no notification deemed by event handler'
+          );
           return;
         }
 

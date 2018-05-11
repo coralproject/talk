@@ -1,15 +1,18 @@
-const SettingsService = require('../../../services/settings');
+const Settings = require('../../../services/settings');
 const chai = require('chai');
 const expect = chai.expect;
 
-describe('services.SettingsService', () => {
+describe('services.Settings', () => {
   beforeEach(() =>
-    SettingsService.init({ moderation: 'PRE', wordlist: ['donut'] })
+    Settings.init({
+      moderation: 'PRE',
+      wordlist: { banned: ['bannedWord'], suspect: [] },
+    })
   );
 
   describe('#retrieve()', () => {
     it('should have a moderation field defined', () => {
-      return SettingsService.retrieve().then(settings => {
+      return Settings.retrieve().then(settings => {
         expect(settings)
           .to.have.property('moderation')
           .and.to.equal('PRE');
@@ -17,13 +20,32 @@ describe('services.SettingsService', () => {
     });
 
     it('should have two infoBox fields defined', () => {
-      return SettingsService.retrieve().then(settings => {
+      return Settings.retrieve().then(settings => {
         expect(settings)
           .to.have.property('infoBoxEnable')
           .and.to.equal(false);
         expect(settings)
           .to.have.property('infoBoxContent')
           .and.to.equal('');
+      });
+    });
+  });
+
+  describe('#select()', () => {
+    it('should have a moderation field defined and not wordlist', () => {
+      return Settings.select('moderation').then(settings => {
+        expect(settings)
+          .to.have.property('moderation')
+          .and.to.equal('PRE');
+        expect(settings).to.not.have.property('wordlist');
+      });
+    });
+    it('should have a wordlist field defined and not moderation', () => {
+      return Settings.select('wordlist').then(settings => {
+        expect(settings).to.not.have.property('moderation');
+        expect(settings).to.have.property('wordlist');
+        expect(settings.wordlist).to.have.property('banned');
+        expect(settings.wordlist.banned).to.contain('bannedWord');
       });
     });
   });
@@ -35,7 +57,7 @@ describe('services.SettingsService', () => {
         infoBoxEnable: true,
         infoBoxContent: 'yeah',
       };
-      return SettingsService.update(mockSettings).then(updatedSettings => {
+      return Settings.update(mockSettings).then(updatedSettings => {
         expect(updatedSettings).to.be.an('object');
         expect(updatedSettings)
           .to.have.property('moderation')
@@ -51,31 +73,19 @@ describe('services.SettingsService', () => {
         infoBoxEnable: true,
         infoBoxContent: 'yeah',
       };
-      await SettingsService.update(mockSettings);
+      await Settings.update(mockSettings);
 
-      const settings = await SettingsService.retrieve();
+      const settings = await Settings.retrieve();
       settings.charCount = 500;
 
-      await SettingsService.update(settings.toObject());
+      await Settings.update(settings);
     });
   });
 
   describe('#get', () => {
     it('should return the moderation settings', () => {
-      return SettingsService.retrieve().then(({ moderation }) => {
+      return Settings.retrieve().then(({ moderation }) => {
         expect(moderation).not.to.be.null;
-      });
-    });
-  });
-
-  describe('#merge', () => {
-    it('should merge a settings object and its overrides', () => {
-      return SettingsService.retrieve().then(settings => {
-        let ovrSett = { moderation: 'POST' };
-
-        settings.merge(ovrSett);
-
-        expect(settings).to.have.property('moderation', 'POST');
       });
     });
   });
