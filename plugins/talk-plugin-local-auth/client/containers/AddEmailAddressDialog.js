@@ -40,7 +40,8 @@ export default compose(
   withData,
   excludeIf(
     ({ root: { me }, inProgress }) =>
+      !me ||
       me.state.status.username.status === 'UNSET' ||
-      !((me && !me.email) || (me && me.email && inProgress))
+      (me.email && !inProgress)
   )
 )(AddEmailAddressDialog);
