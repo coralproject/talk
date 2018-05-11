@@ -35,7 +35,7 @@ class SignIn extends React.Component {
     const { email, password, errorMessage, requireRecaptcha } = this.props;
     return (
       <div className="talk-admin-login-sign-in">
-        <External slot="authExternalSignIn" />
+        <External slot="authExternalAdminSignIn" />
         <form onSubmit={this.handleSubmit}>
           {errorMessage && <Alert>{errorMessage}</Alert>}
           <TextField
