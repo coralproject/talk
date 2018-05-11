@@ -1,5 +1,6 @@
 import React from 'react';
 import ToastContainer from './ToastContainer';
+import './App.css';
 import 'material-design-lite';
 
 import AppRouter from '../AppRouter';

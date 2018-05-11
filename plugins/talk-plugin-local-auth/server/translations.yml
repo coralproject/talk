@@ -1,9 +1,0 @@
-en:
-  email:
-    email_change_original:
-      subject: Email change
-      body: Your email address has been changed from {0} to {1}. If you did not initiate this change, please contact {2}. # TODO: update translation
-  error:
-    NO_LOCAL_PROFILE: No existing email address is associated with this account.
-    LOCAL_PROFILE: An email address is already associated with this account.
-    INCORRECT_PASSWORD: Provided password was incorrect.
