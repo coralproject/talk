@@ -121,6 +121,8 @@ de:
     custom_css_url_desc: "URL eines CSS-Stylesheets zum Überschreiben des Standard-Designs"
     days: Tage
     description: "Als Administrator können Sie die Einstellungen für den Kommentarbereich dieses Artikels anpassen:"
+    disable_commenting_title: "Kommentieren global deaktivieren"
+    disable_commenting_desc: "Verfassen Sie eine Nachricht, die angezeigt wird, solange das Kommentieren deaktiviert ist."
     domain_list_text: "Geben Sie Domains an, für die diese Talk-Instanz freigegeben werden soll, z.B. für lokale Test- oder Produktionsumgebungen (Bsp.: localhost:3000 staging.domain.com domain.com)."
     domain_list_title: "Zugelassene Domains"
     edit_comment_timeframe_heading: "Zeitlimit zur Bearbeitung von Kommentaren"
@@ -136,8 +138,6 @@ de:
     enable_premod_links_description: "Moderatoren müssen jeden Kommentar, der einen Link enthält, freigeben, bevor er veröffentlicht wird."
     enable_questionbox: "Stellen Sie den Lesern eine Frage"
     enable_questionbox_description: "Diese Frage erscheint am Anfang des Kommentarbereichs. Regen Sie eine Diskussion an."
-    global_switchoff_title: "Kommentieren global deaktivieren"
-    global_switchoff_desc: "Verfassen Sie eine Nachricht, die angezeigt wird, solange das Kommentieren deaktiviert ist."
     hours: Stunden
     include_comment_stream: "Einleitung zum Kommentarbereich"
     include_comment_stream_desc: "Verfassen Sie eine Einleitung, die über jedem Kommentarbereich erscheint. Nützlich z.B. für Community-Richtlinien."

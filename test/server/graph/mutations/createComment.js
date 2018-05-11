@@ -194,7 +194,7 @@ describe('graph.mutations.createComment', () => {
         beforeEach(() =>
           AssetModel.create({
             id: '123',
-            settings: { globalSwitchoffEnable: disabled },
+            settings: { disableCommenting: disabled },
           })
         );
 

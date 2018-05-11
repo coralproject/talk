@@ -39,8 +39,8 @@ export default compose(
         autoCloseStream
         closedTimeout
         closedMessage
-        globalSwitchoffEnable
-        globalSwitchoffMessage
+        disableCommenting
+        disableCommentingMessage
         ${getSlotFragmentSpreads(slots, 'settings')}
       }
     `,

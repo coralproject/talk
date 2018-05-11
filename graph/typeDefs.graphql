@@ -837,12 +837,12 @@ type Settings {
   # closed.
   closedMessage: String
 
-  # globalSwitchoffEnable will disable commenting site-wide.
-  globalSwitchoffEnable: Boolean
+  # disableCommenting will disable commenting site-wide.
+  disableCommenting: Boolean
 
-  # globalSwitchoffMessage will be shown above the comment stream while
+  # disableCommentingMessage will be shown above the comment stream while
   # commenting is disabled site-wide.
-  globalSwitchoffMessage: String
+  disableCommentingMessage: String
 
   # editCommentWindowLength is the length of time (in milliseconds) after a
   # comment is posted that it can still be edited by the author.
@@ -1307,12 +1307,12 @@ input UpdateSettingsInput {
   # closed.
   closedMessage: String
 
-  # globalSwitchoffEnable will disable commenting site-wide.
-  globalSwitchoffEnable: Boolean
+  # disableCommenting will disable commenting site-wide.
+  disableCommenting: Boolean
 
-  # globalSwitchoffMessage will be shown above the comment stream while
+  # disableCommentingMessage will be shown above the comment stream while
   # commenting is disabled site-wide.
-  globalSwitchoffMessage: String
+  disableCommentingMessage: String
 
   # charCountEnable is true when the character count restriction is enabled.
   charCountEnable: Boolean

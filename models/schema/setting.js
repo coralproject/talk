@@ -66,11 +66,11 @@ const Setting = new Schema(
       type: String,
       default: 'Expired',
     },
-    globalSwitchoffEnable: {
+    disableCommenting: {
       type: Boolean,
       default: false,
     },
-    globalSwitchoffMessage: {
+    disableCommentingMessage: {
       type: String,
       default: '',
     },

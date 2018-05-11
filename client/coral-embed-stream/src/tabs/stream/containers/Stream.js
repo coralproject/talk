@@ -434,8 +434,8 @@ const fragments = {
         questionBoxIcon
         closedTimeout
         closedMessage
-        globalSwitchoffEnable
-        globalSwitchoffMessage
+        disableCommenting
+        disableCommentingMessage
         charCountEnable
         charCount
         requireEmailConfirmation

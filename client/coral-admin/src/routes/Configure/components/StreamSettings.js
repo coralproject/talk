@@ -82,17 +82,17 @@ class StreamSettings extends React.Component {
     this.props.updatePending({ updater });
   };
 
-  updateGlobalSwitchoffEnable = () => {
+  updateDisableCommenting = () => {
     const updater = {
-      globalSwitchoffEnable: {
-        $set: !this.props.settings.globalSwitchoffEnable,
+      disableCommenting: {
+        $set: !this.props.settings.disableCommenting,
       },
     };
     this.props.updatePending({ updater });
   };
 
-  updateGlobalSwitchoffMessage = value => {
-    const updater = { globalSwitchoffMessage: { $set: value } };
+  updateDisableCommentingMessage = value => {
+    const updater = { disableCommentingMessage: { $set: value } };
     this.props.updatePending({ updater });
   };
 
@@ -207,21 +207,21 @@ class StreamSettings extends React.Component {
           {t('configure.edit_comment_timeframe_text_post')}
         </ConfigureCard>
         <ConfigureCard
-          checked={settings.globalSwitchoffEnable}
-          onCheckbox={this.updateGlobalSwitchoffEnable}
-          title={t('configure.global_switchoff_title')}
+          checked={settings.disableCommenting}
+          onCheckbox={this.updateDisableCommenting}
+          title={t('configure.disable_commenting_title')}
         >
-          <p>{t('configure.global_switchoff_desc')}</p>
+          <p>{t('configure.disable_commenting_desc')}</p>
           <div
             className={cn(
-              styles.configSettingGlobalSwitchoff,
-              settings.globalSwitchoffEnable ? null : styles.hidden
+              styles.configSettingDisableCommenting,
+              settings.disableCommenting ? null : styles.hidden
             )}
           >
             <MarkdownEditor
               className={styles.descriptionBox}
-              onChange={this.updateGlobalSwitchoffMessage}
-              value={settings.globalSwitchoffMessage}
+              onChange={this.updateDisableCommentingMessage}
+              value={settings.disableCommentingMessage}
             />
           </div>
         </ConfigureCard>

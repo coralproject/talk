@@ -216,7 +216,7 @@ class Stream extends React.Component {
       currentUser,
     } = this.props;
     const { keepCommentBox } = this.state;
-    const open = !(asset.isClosed || asset.settings.globalSwitchoffEnable);
+    const open = !(asset.isClosed || asset.settings.disableCommenting);
 
     const banned = get(currentUser, 'status.banned.status');
     const suspensionUntil = get(currentUser, 'status.suspension.until');
@@ -298,7 +298,7 @@ class Stream extends React.Component {
             {asset.isClosed ? (
               <p>{asset.settings.closedMessage}</p>
             ) : (
-              <Markdown content={asset.settings.globalSwitchoffMessage} />
+              <Markdown content={asset.settings.disableCommentingMessage} />
             )}
           </div>
         )}
