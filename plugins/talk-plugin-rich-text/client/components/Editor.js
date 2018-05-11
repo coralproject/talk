@@ -41,6 +41,8 @@ class Editor extends React.Component {
         }
       });
     }
+
+    // Skip IOS due to a bug, see https://www.pivotaltracker.com/story/show/157434928
     if (this.props.isReply && !bowser.ios) {
       this.ref.focus();
     }
