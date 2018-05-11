@@ -35,24 +35,22 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
   email = email.toLowerCase().trim();
 
   // Update the Users email address.
-  try {
-    await User.update(
-      {
-        id: user.id,
-        profiles: { $elemMatch: { provider: 'local' } },
-      },
-      {
-        $set: { 'profiles.$.id': email },
-        $unset: { 'profiles.$.metadata.confirmed_at': 1 },
-      }
-    );
-  } catch (err) {
+  await User.update(
+    {
+      id: user.id,
+      profiles: { $elemMatch: { provider: 'local' } },
+    },
+    {
+      $set: { 'profiles.$.id': email },
+      $unset: { 'profiles.$.metadata.confirmed_at': 1 },
+    }
+  ).catch(err => {
     if (err.code === 11000) {
       throw new ErrEmailTaken();
     }
 
     throw err;
-  }
+  });
 
   // Get some context for the email to be sent.
   const { organizationContactEmail } = await Settings.select(
