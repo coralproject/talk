@@ -8,53 +8,45 @@
     <meta property="article:published" itemprop="datePublished" content="2016-11-16T11:46:06-05:00" />
     <meta property="article:modified" itemprop="dateModified" content="2016-11-16T12:09:44-05:00" />
     <meta property="article:section" itemprop="articleSection" content="The Section!" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-      main {
-        margin-left:auto;
-        margin-right:auto;
-        max-width:500px;
-        display: block;
-      }
-    </style>
     <title><%= title %></title>
+    <%- include ../partials/dev %>
   </head>
   <body>
-  <main>
-    <h1><%= title %></h1>
-    <p><%= body %></p>
-    <p><a href="<%= BASE_PATH %>admin">Admin</a> - <a href="<%= BASE_PATH %>dev/assets">All Assets</a></p>
-    <div id='coralStreamEmbed'></div>
-    <script src="<%= resolve('embed.js') %>" async onload="
-      window.TalkEmbed = Coral.Talk.render(document.getElementById('coralStreamEmbed'), {
-        talk: '<%= BASE_URL %>',
-        asset_url: '<%= asset_url ? asset_url : '' %>',
-        asset_id: '<%= asset_id ? asset_id : '' %>',
-        auth_token: '',
-        /**
-         *  You can listen to events using the example below.
-         *  The argument passed is the event emitter from
-         *  https://github.com/asyncly/EventEmitter2
-         *
-         *  events: function(events) {
-         *    events.onAny(function(eventName, data) {
-         *      console.log(eventName, data);
-         *    });
-         *  },
-         */
-        plugins_config: {
+    <%- include ../partials/dev-nav %>
+    <div class="container">
+      <h1 class="mt-3"><%= title %></h1>
+      <div id='coralStreamEmbed'></div>
+      <script src="<%= resolve('embed.js') %>"></script>
+      <script>
+        window.TalkEmbed = Coral.Talk.render(document.getElementById('coralStreamEmbed'), {
+          talk: '<%= BASE_URL %>',
+          asset_url: '<%= asset_url ? asset_url : '' %>',
+          asset_id: '<%= asset_id ? asset_id : '' %>',
+          auth_token: '',
           /**
-           *  You can disable rendering slot components of a plugin by doing:
-           *
-           *  'talk-plugin-love': {
-           *    disable_components: true,
-           *  },
-           */
-          test: 'data',
-          debug: false
-        }
-      })
-    "></script>
-  </main>
+          *  You can listen to events using the example below.
+          *  The argument passed is the event emitter from
+          *  https://github.com/asyncly/EventEmitter2
+          *
+          *  events: function(events) {
+          *    events.onAny(function(eventName, data) {
+          *      console.log(eventName, data);
+          *    });
+          *  },
+          */
+          plugins_config: {
+            /**
+            *  You can disable rendering slot components of a plugin by doing:
+            *
+            *  'talk-plugin-love': {
+            *    disable_components: true,
+            *  },
+            */
+            test: 'data',
+            debug: false
+          }
+        })
+      </script>
+    </div>
   </body>
 </html>
