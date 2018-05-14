@@ -8,7 +8,7 @@ import { getDefinitionName } from 'coral-framework/utils';
 
 export default withQuery(
   gql`
-    query TalkAdmin_Header($nullID: ID) {
+    query TalkAdmin_Header {
       ...${getDefinitionName(CommunityIndicator.fragments.root)}
     }
     ${CommunityIndicator.fragments.root}
