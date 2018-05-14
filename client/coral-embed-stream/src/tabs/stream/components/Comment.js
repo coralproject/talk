@@ -745,10 +745,22 @@ export default class Comment extends React.Component {
 
     const id = `c_${comment.id}`;
 
+    // props that are passed down the slots.
+    const slotPassthrough = {
+      action: 'deleted',
+      comment,
+    };
+
     return (
       <div className={rootClassName} id={id}>
         {isCommentDeleted(comment) ? (
-          <CommentTombstone action="deleted" />
+          <Slot
+            fill="commentTombstone"
+            className="talk-stream-comment-tombstone"
+            defaultComponent={CommentTombstone}
+            size={1}
+            passthrough={slotPassthrough}
+          />
         ) : (
           <div>
             {this.renderComment()}
