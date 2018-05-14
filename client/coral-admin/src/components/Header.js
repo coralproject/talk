@@ -7,7 +7,6 @@ import styles from './Header.css';
 import t from 'coral-framework/services/i18n';
 import { Logo } from './Logo';
 import { can } from 'coral-framework/services/perms';
-import ModerationIndicator from '../routes/Moderation/containers/Indicator';
 import CommunityIndicator from '../routes/Community/containers/Indicator';
 
 const CoralHeader = ({
@@ -32,7 +31,6 @@ const CoralHeader = ({
                   activeClassName={styles.active}
                 >
                   {t('configure.moderate')}
-                  <ModerationIndicator root={root} data={data} />
                 </IndexLink>
               )}
               <Link
