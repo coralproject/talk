@@ -432,6 +432,7 @@ const withModQueueQuery = withQuery(
     ${Object.keys(queueConfig).map(
       queue => `
       ${queue}: comments(query: {
+        excludeDeleted: true,
         statuses: ${
           queueConfig[queue].statuses
             ? `[${queueConfig[queue].statuses.join(', ')}],`
@@ -458,7 +459,6 @@ const withModQueueQuery = withQuery(
     ${Object.keys(queueConfig).map(
       queue => `
       ${queue}Count: commentCount(query: {
-        excludeDeleted: true,
         statuses: ${
           queueConfig[queue].statuses
             ? `[${queueConfig[queue].statuses.join(', ')}],`
