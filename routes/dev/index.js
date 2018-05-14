@@ -16,8 +16,6 @@ router.get('/', staticTemplate, async (req, res) => {
       title: 'Coral Talk',
       asset_url: '',
       asset_id: '',
-      body: '',
-      basePath: '/static/embed/stream',
     });
   }
 });

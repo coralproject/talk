@@ -37,7 +37,8 @@ export default class Popup extends Component {
       this.onBlur();
     };
 
-    // Use `onunload` instead of `onbeforeunload` which is not supported in IOS Safari.
+    // Use `onunload` instead of `onbeforeunload` which is not supported in iOS
+    // Safari.
     this.ref.onunload = () => {
       this.onUnload();
 
@@ -46,10 +47,15 @@ export default class Popup extends Component {
       }
 
       this.resetCallbackInterval = setInterval(() => {
-        if (this.ref && this.ref.onload === null) {
-          clearInterval(this.resetCallbackInterval);
-          this.resetCallbackInterval = null;
-          this.setCallbacks();
+        try {
+          if (this.ref && this.ref.onload === null) {
+            clearInterval(this.resetCallbackInterval);
+            this.resetCallbackInterval = null;
+            this.setCallbacks();
+          }
+        } catch (err) {
+          // We could be getting a security exception here if the login page
+          // gets redirected to another domain to authenticate.
         }
       }, 50);
 
