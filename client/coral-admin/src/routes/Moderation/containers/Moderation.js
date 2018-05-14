@@ -314,11 +314,11 @@ class ModerationContainer extends Component {
 
     const currentQueueConfig = Object.assign({}, this.props.queueConfig);
 
-    if (premodEnabled && root.newCount === 0) {
+    if (premodEnabled && root.new.nodes.length === 0) {
       delete currentQueueConfig.new;
     }
 
-    if (!premodEnabled && root.premodCount === 0) {
+    if (!premodEnabled && root.premod.nodes.length === 0) {
       delete currentQueueConfig.premod;
     }
 
@@ -456,7 +456,11 @@ const withModQueueQuery = withQuery(
       }
     `
     )}
-    ${Object.keys(queueConfig).map(
+    ${
+      ''
+      /*
+     TODO: eventually we'll reintroduce counting..
+     Object.keys(queueConfig).map(
       queue => `
       ${queue}Count: commentCount(query: {
         excludeDeleted: true,
@@ -478,7 +482,8 @@ const withModQueueQuery = withQuery(
         asset_id: $asset_id,
       })
     `
-    )}
+    )*/
+    }
     asset(id: $asset_id) @skip(if: $allAssets) {
       id
       title
