@@ -2,6 +2,8 @@ import { gql } from 'react-apollo';
 import withQuery from 'coral-framework/hocs/withQuery';
 import Header from '../components/Header';
 import CommunityIndicator from '../routes/Community/containers/Indicator';
+// TODO: eventually we will readd modqueue counts
+// import ModerationIndicator from '../routes/Moderation/containers/Indicator';
 import { getDefinitionName } from 'coral-framework/utils';
 
 export default withQuery(
@@ -13,7 +15,7 @@ export default withQuery(
   `,
   {
     options: {
-      variables: { nullID: null },
+      // variables: { nullID: null },
     },
   }
 )(Header);
