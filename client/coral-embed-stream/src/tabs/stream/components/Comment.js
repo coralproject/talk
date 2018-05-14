@@ -756,7 +756,6 @@ export default class Comment extends React.Component {
         {isCommentDeleted(comment) ? (
           <Slot
             fill="commentTombstone"
-            className="talk-stream-comment-tombstone"
             defaultComponent={CommentTombstone}
             size={1}
             passthrough={slotPassthrough}
