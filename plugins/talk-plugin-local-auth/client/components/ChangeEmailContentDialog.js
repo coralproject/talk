@@ -4,10 +4,77 @@ import styles from './ChangeEmailContentDialog.css';
 import InputField from './InputField';
 import { Button } from 'plugin-api/beta/client/components/ui';
 import { t } from 'plugin-api/beta/client/services';
+import validate from 'coral-framework/helpers/validate';
+import errorMsj from 'coral-framework/helpers/error';
+
+const initialState = {
+  showError: false,
+  formData: {},
+  errors: {},
+};
 
 class ChangeEmailContentDialog extends React.Component {
-  state = {
-    showError: false,
+  state = initialState;
+
+  clearForm = () => {
+    this.setState(initialState);
+  };
+
+  addError = err => {
+    this.setState(({ errors }) => ({
+      errors: { ...errors, ...err },
+    }));
+  };
+
+  removeError = errKey => {
+    this.setState(state => {
+      const { [errKey]: _, ...errors } = state.errors;
+      return {
+        errors,
+      };
+    });
+  };
+
+  fieldValidation = (value, type, name) => {
+    if (!value.length) {
+      this.addError({
+        [name]: t('talk-plugin-local-auth.change_password.required_field'),
+      });
+    } else if (!validate[type](value)) {
+      this.addError({ [name]: errorMsj[type] });
+    } else {
+      this.removeError(name);
+    }
+  };
+
+  onChange = e => {
+    const { name, value, type, dataset } = e.target;
+    const validationType = dataset.validationType || type;
+
+    this.setState(
+      state => ({
+        formData: {
+          ...state.formData,
+          [name]: value,
+        },
+      }),
+      () => {
+        this.fieldValidation(value, validationType, name);
+      }
+    );
+  };
+
+  hasError = err => {
+    return Object.keys(this.state.errors).indexOf(err) !== -1;
+  };
+
+  isSaveEnabled = () => {
+    const formHasErrors = !!Object.keys(this.state.errors).length;
+    return !formHasErrors;
+  };
+
+  getError = errorKey => {
+    return this.state.errors[errorKey];
   };
 
   showError = () => {
@@ -16,24 +83,31 @@ class ChangeEmailContentDialog extends React.Component {
     });
   };
 
+  cancel = () => {
+    this.clearForm();
+    this.disableEditing();
+  };
+
   confirmChanges = async e => {
     e.preventDefault();
+
+    const { confirmPassword = '' } = this.state.formData;
 
     if (this.formHasError()) {
       this.showError();
       return;
     }
 
-    await this.props.save();
+    await this.props.save(confirmPassword);
     this.props.next();
   };
 
-  formHasError = () => this.props.hasError('confirmPassword');
+  formHasError = () => this.hasError('confirmPassword');
 
   render() {
     return (
       <div>
-        <span className={styles.close} onClick={this.props.cancel}>
+        <span className={styles.close} onClick={this.cancel}>
           ×
         </span>
         <h1 className={styles.title}>
@@ -59,17 +133,17 @@ class ChangeEmailContentDialog extends React.Component {
               label={t('talk-plugin-local-auth.change_email.enter_password')}
               name="confirmPassword"
               type="password"
-              onChange={this.props.onChange}
+              onChange={this.onChange}
               defaultValue=""
-              hasError={this.props.hasError('confirmPassword')}
-              errorMsg={this.props.getError('confirmPassword')}
+              hasError={this.hasError('confirmPassword')}
+              errorMsg={this.getError('confirmPassword')}
               showError={this.state.showError}
               columnDisplay
             />
             <div className={styles.bottomActions}>
               <Button
                 className={styles.cancel}
-                onClick={this.props.cancel}
+                onClick={this.cancel}
                 type="button"
               >
                 {t('talk-plugin-local-auth.change_email.cancel')}
