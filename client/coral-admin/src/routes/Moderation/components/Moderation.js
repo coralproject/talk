@@ -140,8 +140,7 @@ class Moderation extends Component {
       name: queueConfig[queue].name,
       icon: queueConfig[queue].icon,
       indicator:
-        ['new', 'premod', 'reported'].includes(queue) &&
-        root[queue].nodes.length > 0,
+        ['premod', 'reported'].includes(queue) && root[queue].nodes.length > 0,
       // TODO: Eventually we'll reintroduce counting
       // count: root[`${props.queue}Count`]
     }));
