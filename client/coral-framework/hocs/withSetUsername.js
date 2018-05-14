@@ -59,6 +59,7 @@ const withSetUsername = hoistStatics(WrappedComponent => {
         }
         const changeSet = { success: false, loading: false, error };
         this.setState(changeSet);
+        throw error;
       }
     };
 
