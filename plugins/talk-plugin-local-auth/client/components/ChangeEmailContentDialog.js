@@ -85,7 +85,6 @@ class ChangeEmailContentDialog extends React.Component {
 
   cancel = () => {
     this.clearForm();
-    this.disableEditing();
   };
 
   confirmChanges = async e => {
