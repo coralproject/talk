@@ -223,11 +223,21 @@ class Profile extends React.Component {
                   disabled={!usernameCanBeUpdated}
                   columnDisplay
                 >
-                  <span className={styles.bottomText}>
-                    {t(
-                      'talk-plugin-local-auth.change_username.change_username_note'
+                  <div className={styles.bottomText}>
+                    <span>
+                      {t(
+                        'talk-plugin-local-auth.change_username.change_username_note'
+                      )}
+                    </span>
+                    {!usernameCanBeUpdated && (
+                      <b>
+                        {' '}
+                        {t(
+                          'talk-plugin-local-auth.change_username.is_not_eligible'
+                        )}
+                      </b>
                     )}
-                  </span>
+                  </div>
                 </InputField>
                 <InputField
                   icon="email"
