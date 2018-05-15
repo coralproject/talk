@@ -9,7 +9,9 @@ import errorMsj from 'coral-framework/helpers/error';
 
 const initialState = {
   showError: false,
-  formData: {},
+  formData: {
+    confirmPassword: '',
+  },
   errors: {},
 };
 
@@ -68,11 +70,6 @@ class ChangeEmailContentDialog extends React.Component {
     return Object.keys(this.state.errors).indexOf(err) !== -1;
   };
 
-  isSaveEnabled = () => {
-    const formHasErrors = !!Object.keys(this.state.errors).length;
-    return !formHasErrors;
-  };
-
   getError = errorKey => {
     return this.state.errors[errorKey];
   };
@@ -85,6 +82,7 @@ class ChangeEmailContentDialog extends React.Component {
 
   cancel = () => {
     this.clearForm();
+    this.props.closeDialog();
   };
 
   confirmChanges = async e => {
@@ -133,7 +131,7 @@ class ChangeEmailContentDialog extends React.Component {
               name="confirmPassword"
               type="password"
               onChange={this.onChange}
-              defaultValue=""
+              value={this.state.formData.confirmPassword}
               hasError={this.hasError('confirmPassword')}
               errorMsg={this.getError('confirmPassword')}
               showError={this.state.showError}
@@ -159,14 +157,11 @@ class ChangeEmailContentDialog extends React.Component {
 }
 
 ChangeEmailContentDialog.propTypes = {
-  save: PropTypes.func,
   next: PropTypes.func,
-  cancel: PropTypes.func,
-  onChange: PropTypes.func,
+  save: PropTypes.func,
   formData: PropTypes.object,
   email: PropTypes.string,
-  hasError: PropTypes.func,
-  getError: PropTypes.func,
+  closeDialog: PropTypes.func,
 };
 
 export default ChangeEmailContentDialog;

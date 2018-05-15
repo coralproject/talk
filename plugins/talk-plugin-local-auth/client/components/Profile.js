@@ -205,6 +205,7 @@ class Profile extends React.Component {
             formData={this.state.formData}
             email={email}
             enable={formData.newEmail && email !== formData.newEmail}
+            closeDialog={this.closeDialog}
           />
         </ConfirmChangesDialog>
 
