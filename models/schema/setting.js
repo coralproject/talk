@@ -12,6 +12,8 @@ const Setting = new Schema(
     id: {
       type: String,
       default: '1',
+      unique: 1,
+      index: true,
     },
     moderation: {
       type: String,

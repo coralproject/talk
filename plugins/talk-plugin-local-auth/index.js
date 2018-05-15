@@ -4,7 +4,7 @@ const mutators = require('./server/mutators');
 const path = require('path');
 
 module.exports = {
-  translations: path.join(__dirname, 'server', 'translations.yml'),
+  translations: path.join(__dirname, 'translations.yml'),
   typeDefs,
   mutators,
   resolvers,

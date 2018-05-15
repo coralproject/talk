@@ -45,6 +45,10 @@ class AddEmailAddressDialog extends React.Component {
     ),
   };
 
+  componentDidMount() {
+    this.props.startAttach();
+  }
+
   onChange = e => {
     const { name, value } = e.target;
     this.setState(
@@ -99,7 +103,13 @@ class AddEmailAddressDialog extends React.Component {
     });
   };
 
-  confirmChanges = async () => {
+  finish = () => {
+    this.props.finishAttach();
+  };
+
+  confirmChanges = async e => {
+    e.preventDefault();
+
     if (!this.validate()) {
       this.showErrors();
       return;
@@ -113,7 +123,11 @@ class AddEmailAddressDialog extends React.Component {
         email: emailAddress,
         password: confirmPassword,
       });
-      this.props.notify('success', 'Email Added!');
+
+      this.props.notify(
+        'success',
+        t('talk-plugin-local-auth.add_email.added.alert')
+      );
       this.goToNextStep();
     } catch (err) {
       this.props.notify('error', getErrorMessages(err));
@@ -143,13 +157,13 @@ class AddEmailAddressDialog extends React.Component {
         )}
         {step === 1 &&
           !settings.requireEmailConfirmation && (
-            <EmailAddressAdded done={() => {}} />
+            <EmailAddressAdded done={this.finish} />
           )}
         {step === 1 &&
           settings.requireEmailConfirmation && (
             <VerifyEmailAddress
               emailAddress={formData.emailAddress}
-              done={() => {}}
+              done={this.finish}
             />
           )}
       </Dialog>
@@ -161,6 +175,8 @@ AddEmailAddressDialog.propTypes = {
   attachLocalAuth: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
   root: PropTypes.object.isRequired,
+  startAttach: PropTypes.func.isRequired,
+  finishAttach: PropTypes.func.isRequired,
 };
 
 export default AddEmailAddressDialog;

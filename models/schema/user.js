@@ -58,6 +58,7 @@ const User = new Schema(
       default: uuid.v4,
       unique: true,
       required: true,
+      index: true,
     },
 
     // This is sourced from the social provider or set manually during user setup
@@ -107,6 +108,7 @@ const User = new Schema(
         status: {
           type: String,
           enum: USER_STATUS_USERNAME,
+          index: true,
         },
 
         // History stores the history of username status changes.
@@ -135,6 +137,7 @@ const User = new Schema(
           type: Boolean,
           required: true,
           default: false,
+          index: true,
         },
         history: [
           {
@@ -226,41 +229,26 @@ User.index(
   }
 );
 
-User.index(
-  {
-    lowercaseUsername: 1,
-    'profiles.id': 1,
-    created_at: -1,
-  },
-  {
-    background: true,
-  }
-);
+User.index({
+  lowercaseUsername: 1,
+  'profiles.id': 1,
+  created_at: -1,
+});
 
 // This query is executed often, to count the number of flagged accounts with
 // usernames.
-User.index(
-  {
-    'action_counts.flag': 1,
-    'status.username.status': 1,
-  },
-  {
-    background: true,
-  }
-);
+User.index({
+  'action_counts.flag': 1,
+  'status.username.status': 1,
+});
 
 // Sorting users by created at is the default people search.
-User.index(
-  {
-    created_at: -1,
-  },
-  {
-    background: true,
-  }
-);
+User.index({
+  created_at: -1,
+});
 
 /**
- * returns true if a commenter is staff
+ * returns true if a commenter is staff.
  */
 User.method('isStaff', function() {
   return this.role !== 'COMMENTER';
@@ -330,6 +318,9 @@ User.virtual('hasVerifiedEmail').get(function() {
     });
 });
 
+/**
+ * system returns true when the user is a system user.
+ */
 User.virtual('system')
   .get(function() {
     return this._system;
