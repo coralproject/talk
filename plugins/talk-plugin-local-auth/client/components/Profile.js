@@ -138,8 +138,8 @@ class Profile extends React.Component {
     }
   };
 
-  saveEmail = async () => {
-    const { newEmail, confirmPassword } = this.state.formData;
+  saveEmail = async confirmPassword => {
+    const { newEmail } = this.state.formData;
 
     try {
       await this.props.updateEmailAddress({
@@ -202,12 +202,10 @@ class Profile extends React.Component {
           )}
           <ChangeEmailContentDialog
             save={this.saveEmail}
-            onChange={this.onChange}
             formData={this.state.formData}
             email={email}
             enable={formData.newEmail && email !== formData.newEmail}
-            hasError={this.hasError}
-            getError={this.getError}
+            closeDialog={this.closeDialog}
           />
         </ConfirmChangesDialog>
 

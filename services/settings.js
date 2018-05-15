@@ -1,13 +1,17 @@
 const Setting = require('../models/setting');
 const { ErrSettingsNotInit } = require('../errors');
 const { dotize } = require('./utils');
-const { isEmpty, zipObject, uniq } = require('lodash');
+const { isEmpty, zipObject } = require('lodash');
 const DataLoader = require('dataloader');
 
 const selector = { id: '1' };
 
-async function loadFn(fields = []) {
-  const model = await Setting.findOne(selector).select(uniq(fields));
+async function loadFn(/* fields = [] */) {
+  // Originally, we used the projection operation, turns out this isn't that
+  // fast. We should utilize the redis cache instead here.
+  // const model = await Setting.findOne(selector).select(uniq(fields));
+
+  const model = await Setting.findOne(selector);
   if (!model) {
     throw new ErrSettingsNotInit();
   }
