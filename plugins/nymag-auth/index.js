@@ -7,7 +7,8 @@
  * its "usn" claim. See the coral-talk Clay component
  * for JWT claim generation.
 **/
-const UserModel = require('../../models/user');
+const UserModel = require('../../models/user'),
+  blockEmailRegex = new RegExp(process.env.BLOCK_EMAIL_REGEX);
 
 module.exports.tokenUserNotFound = ({jwt}) => {
   const id = jwt.sub,
@@ -15,6 +16,11 @@ module.exports.tokenUserNotFound = ({jwt}) => {
     email = jwt.eml;
 
   if (!username || !id || !email) {
+    return;
+  }
+
+  if (blockEmailRegex && email.match(blockEmailRegex)) {
+    console.log('The email ' + email + ' is blocked');
     return;
   }
 
