@@ -68,6 +68,14 @@ const Setting = new Schema(
       type: String,
       default: 'Expired',
     },
+    disableCommenting: {
+      type: Boolean,
+      default: false,
+    },
+    disableCommentingMessage: {
+      type: String,
+      default: '',
+    },
     wordlist: {
       banned: {
         type: Array,

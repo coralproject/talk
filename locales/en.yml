@@ -124,6 +124,8 @@ en:
     custom_css_url_desc: "URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external."
     days: Days
     description: "Change the comment settings on this story."
+    disable_commenting_title: "Deactivate commenting site-wide"
+    disable_commenting_desc: "Write a message that will be displayed while commenting is deactivated."
     domain_list_text: "Enter the domains you would like to permit for Talk e.g. your local staging and production environments (ex. localhost:3000 staging.domain.com domain.com)."
     domain_list_title: "Permitted Domains"
     edit_info: "Edit Info"
@@ -247,6 +249,7 @@ en:
     LOGIN_MAXIMUM_EXCEEDED: "You have made too many unsuccessful password attempts. Please wait."
     PASSWORD_REQUIRED: "Must input a password"
     COMMENTING_CLOSED: "Commenting is already closed"
+    COMMENTING_DISABLED: "Commenting is currently disabled on this site"
     NOT_FOUND: "Resource not found"
     ALREADY_EXISTS: "Resource already exists"
     INVALID_ASSET_URL: "Assert URL is invalid"
