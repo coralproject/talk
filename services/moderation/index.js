@@ -6,6 +6,7 @@ const {
   wordlist,
   commentLength,
   assetClosed,
+  commentingDisabled,
   karma,
   staff,
   links,
@@ -36,6 +37,7 @@ const applyStatus = status => () => ({ status });
 const phases = [
   commentLength,
   assetClosed,
+  commentingDisabled,
   wordlist,
   staff,
   links,
