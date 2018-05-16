@@ -448,3 +448,17 @@ a.brand {
 .plugin {
   display: none;
 }
+
+.badge-tag {
+  font-family: monospace;
+}
+
+.badge-tag-default {
+  background: #28a745;
+  color: #fff;
+}
+
+.badge-tag-gdpr {
+  background: rgb(0, 102, 176);
+  color: #fff;
+}

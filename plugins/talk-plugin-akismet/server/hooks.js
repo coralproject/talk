@@ -71,7 +71,7 @@ module.exports = {
             permalink: asset.url,
             comment_type: 'comment',
             comment_content: input.body,
-            is_test: true,
+            is_test: false,
           });
 
           debug(`comment analyzed as ${spam ? 'being' : 'not being'} spam`);

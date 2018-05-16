@@ -12,6 +12,8 @@ const Setting = new Schema(
     id: {
       type: String,
       default: '1',
+      unique: 1,
+      index: true,
     },
     moderation: {
       type: String,
@@ -65,6 +67,14 @@ const Setting = new Schema(
     closedMessage: {
       type: String,
       default: 'Expired',
+    },
+    disableCommenting: {
+      type: Boolean,
+      default: false,
+    },
+    disableCommentingMessage: {
+      type: String,
+      default: '',
     },
     wordlist: {
       banned: {
@@ -124,22 +134,5 @@ const Setting = new Schema(
     },
   }
 );
-
-/**
- * Merges two settings objects.
- */
-Setting.method('merge', function(src) {
-  Setting.eachPath(path => {
-    // Exclude internal fields...
-    if (['id', '_id', '__v', 'created_at', 'updated_at'].includes(path)) {
-      return;
-    }
-
-    // If the source object contains the path, shallow copy it.
-    if (path in src) {
-      this[path] = src[path];
-    }
-  });
-});
 
 module.exports = Setting;

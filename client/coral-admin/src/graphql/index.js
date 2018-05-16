@@ -291,5 +291,36 @@ export default {
         },
       },
     }),
+    SetCommentStatus: ({ variables: { status } }) => ({
+      updateQueries: {
+        CoralAdmin_UserDetail: prev => {
+          const increment = {
+            rejectedComments: {
+              $apply: count => (count < prev.totalComments ? count + 1 : count),
+            },
+          };
+
+          const decrement = {
+            rejectedComments: {
+              $apply: count => (count > 0 ? count - 1 : 0),
+            },
+          };
+
+          // If rejected then increment rejectedComments by one
+          if (status === 'REJECTED') {
+            const updated = update(prev, increment);
+            return updated;
+          }
+
+          // If approved then decrement rejectedComments by one
+          if (status === 'ACCEPTED') {
+            const updated = update(prev, decrement);
+            return updated;
+          }
+
+          return prev;
+        },
+      },
+    }),
   },
 };

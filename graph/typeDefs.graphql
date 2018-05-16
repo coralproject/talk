@@ -418,6 +418,9 @@ input CommentsQuery {
 
   # Exclude comments ignored by the requesting user
   excludeIgnored: Boolean
+
+  # excludeDeleted when true will exclude deleted comments from the response.
+  excludeDeleted: Boolean = false
 }
 
 input RepliesQuery {
@@ -434,6 +437,9 @@ input RepliesQuery {
 
   # Exclude comments ignored by the requesting user
   excludeIgnored: Boolean
+
+  # excludeDeleted when true will exclude deleted comments from the response.
+  excludeDeleted: Boolean = false
 }
 
 # CommentCountQuery allows the ability to query comment counts by specific
@@ -463,6 +469,9 @@ input CommentCountQuery {
 
   # Filter by a specific tag name.
   tags: [String!]
+
+  # excludeDeleted when true will exclude deleted comments from the count.
+  excludeDeleted: Boolean = false
 }
 
 # UserCountQuery allows the ability to query user counts by specific
@@ -503,7 +512,7 @@ type Comment {
   id: ID!
 
   # The actual comment data.
-  body: String!
+  body: String
 
   # The body history of the comment. Requires the `ADMIN` or `MODERATOR` role or
   # the author.
@@ -519,7 +528,7 @@ type Comment {
   replies(query: RepliesQuery = {}): CommentConnection!
 
   # replyCount is the number of replies with a depth of 1. Only direct replies
-  # to this comment are counted.
+  # to this comment are counted. Deleted comments are included in this count.
   replyCount: Int
 
   # Actions completed on the parent. Requires the `ADMIN` role.
@@ -536,6 +545,9 @@ type Comment {
 
   # The status history of the comment. Requires the `ADMIN` or `MODERATOR` role.
   status_history: [CommentStatusHistory!]
+
+  # The date that the comment was deleted at if it was.
+  deleted_at: Date
 
   # The time when the comment was created
   created_at: Date!
@@ -824,6 +836,13 @@ type Settings {
   # closedMessage is the message shown to the user when the given Asset is
   # closed.
   closedMessage: String
+
+  # disableCommenting will disable commenting site-wide.
+  disableCommenting: Boolean
+
+  # disableCommentingMessage will be shown above the comment stream while
+  # commenting is disabled site-wide.
+  disableCommentingMessage: String
 
   # editCommentWindowLength is the length of time (in milliseconds) after a
   # comment is posted that it can still be edited by the author.
@@ -1287,6 +1306,13 @@ input UpdateSettingsInput {
   # closedMessage is the message shown to the user when the given Asset is
   # closed.
   closedMessage: String
+
+  # disableCommenting will disable commenting site-wide.
+  disableCommenting: Boolean
+
+  # disableCommentingMessage will be shown above the comment stream while
+  # commenting is disabled site-wide.
+  disableCommentingMessage: String
 
   # charCountEnable is true when the character count restriction is enabled.
   charCountEnable: Boolean

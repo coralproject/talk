@@ -1,11 +1,12 @@
 const { ErrNotFound } = require('../../errors');
-const get = require('lodash/get');
+const { get, merge, isEmpty } = require('lodash');
 
 // Load in the phases to use.
 const {
   wordlist,
   commentLength,
   assetClosed,
+  commentingDisabled,
   karma,
   staff,
   links,
@@ -36,6 +37,7 @@ const applyStatus = status => () => ({ status });
 const phases = [
   commentLength,
   assetClosed,
+  commentingDisabled,
   wordlist,
   staff,
   links,
@@ -80,10 +82,7 @@ const compose = phases => async (ctx, comment, options) => {
  * @param {Object} comment comment object to use
  */
 const fetchOptions = async (ctx, comment) => {
-  const {
-    connectors: { services: { Assets: AssetsService } },
-    loaders: { Settings, Assets },
-  } = ctx;
+  const { loaders: { Settings, Assets } } = ctx;
 
   // Load the settings.
   const settings = await Settings.load();
@@ -102,8 +101,12 @@ const fetchOptions = async (ctx, comment) => {
     throw new ErrNotFound();
   }
 
-  // Combine the asset and the settings to get the asset settings.
-  asset.settings = await AssetsService.rectifySettings(asset, settings);
+  // If the asset exists and has settings then return the merged object.
+  if (asset && asset.settings && !isEmpty(asset.settings)) {
+    asset.settings = merge({}, settings, asset.settings);
+  } else {
+    asset.settings = settings;
+  }
 
   // Create the options that will be consumed by the phases.
   return {

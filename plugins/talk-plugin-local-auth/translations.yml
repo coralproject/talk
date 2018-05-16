@@ -1,0 +1,98 @@
+en:
+  email:
+    email_change_original:
+      subject: Email change
+      body: Your email address has been changed from {0} to {1}. If you did not request this change, please contact {2}.
+  error:
+    NO_LOCAL_PROFILE: No existing email address is associated with this account.
+    LOCAL_PROFILE: An email address is already associated with this account.
+    INCORRECT_PASSWORD: Provided password was incorrect.
+  talk-plugin-local-auth:
+    change_password:
+      change_password: "Change Password"
+      passwords_dont_match: "Passwords don`t match"
+      required_field: "This field is required"
+      forgot_password: "Forgot your password?"
+      save: "Save"
+      cancel: "Cancel"
+      edit: "Edit"
+      changed_password_msg: "Changed Password - Your password has been successfully changed"
+      forgot_password_sent: "Forgot Password - We sent you an email to recover your password"
+    change_username:
+      change_username_note: "Usernames can only be changed once every 14 days."
+      is_not_eligible: "You cannot currently change your username."
+      save: "Save"
+      edit_profile: "Edit Profile"
+      cancel: "Cancel"
+      confirm_username_change: "Confirm Username Change"
+      description: "You are attempting to change your username. Your new username will appear on all of your past and future comments."
+      old_username: "Old Username"
+      new_username: "New Username"
+      bottom_note: "Note: You will not be able to change your username again for 14 days"
+      confirm_changes: "Confirm Changes"
+      username_does_not_match: "Username does not match"
+      cant_be_equal: "Your new {0} must be different to your current one"
+      changed_username_success_msg: "Username Changed - Your username has been successfully changed. You will not be able to change your user name for 14 days."
+      change_username_attempt: "Username can't be updated. Usernames can only be changed every 14 days."
+    change_email:
+      confirm_email_change: "Confirm Email Address Change"
+      description: "You are attempting to change your email address. Your new email address will be used for your login and to receive account notifications."
+      old_email: "Old Email Address"
+      new_email: "New Email Address"
+      enter_password: "Enter Password"
+      incorrect_password: "Incorrect Password"
+      confirm_change: "Confirm Change"
+      cancel: "Cancel"
+      change_email_msg: "Email Address Changed - Your email address has been successfully changed. This email address will now be used for signing in and email notifications."
+    add_email:
+      add_email_address: "Add Email Address"
+      enter_email_address: "Enter Email Address:"
+      invalid_email_address: "Invalid Email address"
+      confirm_email_address: "Confirm Email Address:"
+      email_does_not_match: "Email Address does not match"
+      insert_password: "Insert Password:"
+      required_field: "This field is required"
+      done: "Done"
+      content:
+        title: "Add an Email Address"
+        description: "For your added security, we require users to add an email address to their accounts. Your email address will be used to:"
+        item_1: "Receive updates regarding any changes to your account (email address, username, password, etc.)"
+        item_2: "Allow you to download your comments."
+        item_3: "Send comment notifications that you have chosen to receive."
+      verify:
+        title: "Verify Your Email Address"
+        description:  "We’ve sent an email to {0} to verify your account. You must verify your email address so that it can be used for account change confirmations and notifications."
+      added:
+        title: "Email Address Added"
+        description: "Your email address has been added to your account."
+        subtitle: "Need to change your email address?"
+        description_2: "You can change your account settings by visiting"
+        path: "My Profile > Settings"
+        alert: "Email Added!"
+es:
+  talk-plugin-local-auth:
+    change_password:
+      change_password: "Cambiar Contraseña"
+      passwords_dont_match: "Las contraseñas no coinciden"
+      required_field: "Este campo es requerido"
+      forgot_password: "Olvidaste tu contraseña?"
+      save: "Guardar"
+      cancel: "Cancelar"
+      edit: "Editar"
+      changed_password_msg: "Contraseña Actualizada - Tu contraseña ha sido exitosamente actualizada"
+      forgot_password_sent: "Contraseña Olvidada - Te enviamos un email para recuperar tu contraseña"
+    change_username:
+      change_username_note: "El usuario puede ser cambiado cada 14 días."
+      is_not_eligible: "Ahora mismo no se puede cambiar su nombre de usuario."
+      save: "Guardar"
+      edit_profile: "Editar Perfil"
+      cancel: "Cancelar"
+      confirm_username_change: "Confirmar Cambio de Usuario"
+      description: "Estás intentando cambiar tu usuario. Tu nuevo usuario aparecerá en todos tus pasados y futuros comentarios."
+      old_username: "Usuario viejo"
+      new_username: "Usuario nuevo"
+      bottom_note: "Nota: No podrás cambiar tu usuario por 14 días"
+      confirm_changes: "Confirmar Cambios"
+      username_does_not_match: "El usuario no coincide"
+      changed_username_success_msg: "Usuario Actualizado - Tu usuario ha sido exitosamente actualizado. No podrás cambiar el usuario por 14 días."
+      change_username_attempt: "El usuario no puede ser actualizado. Los usuarios pueden ser cambiados cada 14 días."

@@ -177,8 +177,8 @@ button.comment__action-button[disabled],
 }
 
 .talk-plugin-flags-popup-header {
-  font-weight: bolder;
-  font-size: 1.33rem;
+  font-weight: bold;
+  font-size: 1rem;
   margin-bottom: 10px;
 }
 

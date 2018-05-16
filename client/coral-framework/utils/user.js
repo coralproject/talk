@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import mapValues from 'lodash/mapValues';
 import toPairs from 'lodash/toPairs';
+import moment from 'moment';
 
 /**
  * getReliability
@@ -69,4 +70,19 @@ export const getActiveStatuses = user => {
   };
 
   return toPairs(mapValues(statusMap, fn => fn(user))).filter(x => x[1]);
+};
+
+/**
+ * canUsernameBeUpdated
+ * retrieves boolean whether a username can be updated or not
+ */
+
+export const canUsernameBeUpdated = status => {
+  const oldestEditTime = moment()
+    .subtract(14, 'days')
+    .toDate();
+
+  return !status.username.history.some(({ created_at }) =>
+    moment(created_at).isAfter(oldestEditTime)
+  );
 };

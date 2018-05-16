@@ -43,8 +43,7 @@ const Asset = new Schema(
     modified_date: Date,
 
     // This object is used exclusively for storing settings that are to override
-    // the base settings from the base Settings object. This is to be accessed
-    // always after running `rectifySettings` against it.
+    // the base settings from the base Settings object.
     settings: {
       default: {},
       type: Object,

@@ -1,4 +1,5 @@
 const uuid = require('uuid');
+const moment = require('moment');
 const bcrypt = require('bcryptjs');
 const {
   ErrMaxRateLimit,
@@ -17,18 +18,21 @@ const {
   ErrCannotIgnoreStaff,
 } = require('../errors');
 const { difference, sample, some, merge, random } = require('lodash');
-const { ROOT_URL } = require('../config');
+const {
+  ROOT_URL,
+  RECAPTCHA_WINDOW,
+  RECAPTCHA_INCORRECT_TRIGGER,
+} = require('../config');
 const { jwt: JWT_SECRET } = require('../secrets');
 const debug = require('debug')('talk:services:users');
 const User = require('../models/user');
-const RECAPTCHA_WINDOW = '10m'; // 10 minutes.
-const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 5 incorrect attempts, recaptcha will be required.
 const Actions = require('./actions');
 const mailer = require('./mailer');
 const i18n = require('./i18n');
 const Wordlist = require('./wordlist');
 const DomainList = require('./domain_list');
 const Limit = require('./limit');
+const { get } = require('lodash');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
 const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
@@ -234,55 +238,72 @@ class Users {
     return user;
   }
 
-  static async _setUsername(
-    id,
-    username,
-    fromStatus,
-    toStatus,
-    assignedBy,
-    resetAllowed = false
-  ) {
+  static async setUsername(id, username, assignedBy) {
     try {
+      const oldestEditTime = moment()
+        .subtract(14, 'days')
+        .toDate();
+
+      // A username can be set if:
+      //
+      // - The previous status was 'UNSET'
+      // - The username has not been changed within the last 14 days.
       const query = {
         id,
-        'status.username.status': fromStatus,
-      };
-      if (!resetAllowed) {
-        query.username = { $ne: username };
-      }
-
-      let user = await User.findOneAndUpdate(
-        query,
-        {
-          $set: {
-            username,
-            lowercaseUsername: username.toLowerCase(),
-            'status.username.status': toStatus,
+        $or: [
+          {
+            'status.username.status': 'UNSET',
           },
-          $push: {
-            'status.username.history': {
-              status: toStatus,
-              assigned_by: assignedBy,
-              created_at: Date.now(),
-            },
+          {
+            'status.username.status': { $in: ['APPROVED', 'SET'] },
+            $or: [
+              {
+                'status.username.history.created_at': {
+                  $lte: oldestEditTime,
+                },
+              },
+              {
+                'status.username.history': [],
+              },
+              {
+                'status.username.history': { $exists: false },
+              },
+            ],
+          },
+        ],
+      };
+
+      const update = {
+        $set: {
+          username,
+          lowercaseUsername: username.toLowerCase(),
+          'status.username.status': 'SET',
+        },
+        $push: {
+          'status.username.history': {
+            status: 'SET',
+            assigned_by: assignedBy,
+            created_at: Date.now(),
           },
         },
-        {
-          new: true,
-        }
-      );
+      };
+
+      let user = await User.findOneAndUpdate(query, update, {
+        new: true,
+      });
       if (!user) {
         user = await Users.findById(id);
         if (user === null) {
           throw new ErrNotFound();
         }
 
-        if (user.status.username.status !== fromStatus) {
+        if (
+          !['UNSET', 'APPROVED', 'SET'].includes(user.status.username.status) ||
+          user.status.username.history.some(({ created_at }) =>
+            moment(created_at).isAfter(oldestEditTime)
+          )
+        ) {
           throw new ErrPermissionUpdateUsername();
-        }
-
-        if (!resetAllowed && user.username === username) {
-          throw new ErrSameUsernameProvided();
         }
 
         throw new Error('edit username failed for an unexpected reason');
@@ -298,12 +319,57 @@ class Users {
     }
   }
 
-  static async setUsername(id, username, assignedBy) {
-    return Users._setUsername(id, username, 'UNSET', 'SET', assignedBy, true);
-  }
-
   static async changeUsername(id, username, assignedBy) {
-    return Users._setUsername(id, username, 'REJECTED', 'CHANGED', assignedBy);
+    try {
+      const query = {
+        id,
+        username: { $ne: username },
+        'status.username.status': 'REJECTED',
+      };
+
+      const update = {
+        $set: {
+          username,
+          lowercaseUsername: username.toLowerCase(),
+          'status.username.status': 'CHANGED',
+        },
+        $push: {
+          'status.username.history': {
+            status: 'CHANGED',
+            assigned_by: assignedBy,
+            created_at: Date.now(),
+          },
+        },
+      };
+
+      let user = await User.findOneAndUpdate(query, update, {
+        new: true,
+      });
+      if (!user) {
+        user = await Users.findById(id);
+        if (user === null) {
+          throw new ErrNotFound();
+        }
+
+        if (user.status.username.status !== 'REJECTED') {
+          throw new ErrPermissionUpdateUsername();
+        }
+
+        if (user.username === username) {
+          throw new ErrSameUsernameProvided();
+        }
+
+        throw new Error('edit username failed for an unexpected reason');
+      }
+
+      return user;
+    } catch (err) {
+      if (err.code === 11000) {
+        throw new ErrUsernameTaken();
+      }
+
+      throw err;
+    }
   }
 
   /**
@@ -494,7 +560,7 @@ class Users {
       throw new ErrPasswordTooShort();
     }
 
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashedPassword = await Users.hashPassword(password);
 
     return User.update(
       { id },
@@ -571,7 +637,7 @@ class Users {
       Users.isValidPassword(password),
     ]);
 
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashedPassword = await Users.hashPassword(password);
 
     let user = new User({
       username,
@@ -748,6 +814,10 @@ class Users {
     return { user, redirect, version };
   }
 
+  static async hashPassword(password) {
+    return bcrypt.hash(password, SALT_ROUNDS);
+  }
+
   // TODO: update doc
   static async resetPassword(token, password) {
     const { user, redirect, version } = await this.verifyPasswordResetToken(
@@ -758,7 +828,7 @@ class Users {
       throw new ErrPasswordTooShort();
     }
 
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashedPassword = await Users.hashPassword(password);
 
     // Update the user's password.
     await User.update(
@@ -900,7 +970,9 @@ class Users {
       throw new ErrNotFound();
     }
 
-    if (profile.metadata && profile.metadata.confirmed_at !== null) {
+    // Check to see if the profile has already been confirmed.
+    const confirmedAt = get(profile, 'metadata.confirmed_at', null);
+    if (confirmedAt && confirmedAt < Date.now()) {
       throw new ErrEmailAlreadyVerified();
     }
 

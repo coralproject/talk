@@ -12,6 +12,7 @@ import CommentAnimatedEdit from './CommentAnimatedEdit';
 import CommentLabels from '../containers/CommentLabels';
 import ApproveButton from './ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
+import CommentDeletedTombstone from './CommentDeletedTombstone';
 
 import t, { timeago } from 'coral-framework/services/i18n';
 
@@ -42,6 +43,19 @@ class UserDetailComment extends React.Component {
       bannedWords: settings.wordlist.banned,
       body: comment.body,
     };
+
+    if (!comment.body) {
+      return (
+        <li
+          tabIndex={0}
+          className={cn(className, styles.root, {
+            [styles.rootSelected]: selected,
+          })}
+        >
+          <CommentDeletedTombstone />
+        </li>
+      );
+    }
 
     return (
       <li
@@ -152,7 +166,7 @@ UserDetailComment.propTypes = {
   comment: PropTypes.shape({
     id: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
+    body: PropTypes.string,
     actions: PropTypes.array,
     created_at: PropTypes.string.isRequired,
     asset: PropTypes.shape({

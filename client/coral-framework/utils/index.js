@@ -1,6 +1,7 @@
 import { gql } from 'react-apollo';
 import t from 'coral-framework/services/i18n';
 import union from 'lodash/union';
+import get from 'lodash/get';
 import { capitalize } from 'coral-framework/helpers/strings';
 import assignWith from 'lodash/assignWith';
 import mapValues from 'lodash/mapValues';
@@ -221,6 +222,13 @@ export function isCommentActive(commentStatus) {
   return ['NONE', 'ACCEPTED'].indexOf(commentStatus) >= 0;
 }
 
+export function isCommentDeleted(comment) {
+  return (
+    get(comment, 'body', null) === null ||
+    get(comment, 'deleted_at', null) !== null
+  );
+}
+
 export function getShallowChanges(a, b) {
   return union(Object.keys(a), Object.keys(b)).filter(key => a[key] !== b[key]);
 }
@@ -237,7 +245,11 @@ export function getTotalReactionsCount(actionSummaries) {
 
 // Like lodash merge but does not recurse into arrays.
 export function mergeExcludingArrays(objValue, srcValue) {
-  if (typeof srcValue === 'object' && !Array.isArray(srcValue)) {
+  if (
+    typeof srcValue === 'object' &&
+    !Array.isArray(srcValue) &&
+    srcValue !== null
+  ) {
     return assignWith({}, objValue, srcValue, mergeExcludingArrays);
   }
   return srcValue;

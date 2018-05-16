@@ -38,6 +38,7 @@ plugins/*
 !plugins/talk-plugin-google-auth
 !plugins/talk-plugin-ignore-user
 !plugins/talk-plugin-like
+!plugins/talk-plugin-local-auth
 !plugins/talk-plugin-love
 !plugins/talk-plugin-member-since
 !plugins/talk-plugin-mod
@@ -50,10 +51,10 @@ plugins/*
 !plugins/talk-plugin-notifications-digest-hourly
 !plugins/talk-plugin-offtopic
 !plugins/talk-plugin-permalink
-!plugins/talk-plugin-profile-settings
 !plugins/talk-plugin-profile-data
 !plugins/talk-plugin-remember-sort
 !plugins/talk-plugin-respect
+!plugins/talk-plugin-rich-text
 !plugins/talk-plugin-slack-notifications
 !plugins/talk-plugin-sort-most-downvoted
 !plugins/talk-plugin-sort-most-liked
@@ -67,7 +68,6 @@ plugins/*
 !plugins/talk-plugin-toxic-comments
 !plugins/talk-plugin-upvote
 !plugins/talk-plugin-viewing-options
-!plugins/talk-plugin-rich-text
 
 **/node_modules/*
 yarn-error.log

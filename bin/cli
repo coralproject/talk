@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
-require('./util');
 const program = require('commander');
-const { head, map } = require('lodash');
-const Matcher = require('did-you-mean');
 
+// We're requiring this here so it'll setup some promise rejection hooks to log
+// out.
+require('./util');
+
+// Setup the program.
 program
   .command('serve', 'serve the application')
   .command('db', 'run database commands')
@@ -24,20 +22,3 @@ program
     'provides utilities for interacting with the plugin system'
   )
   .parse(process.argv);
-
-// If the command wasn't found, output help.
-const commands = map(program.commands, '_name');
-const command = head(program.args);
-if (!commands.includes(command)) {
-  const m = new Matcher(commands);
-  const similarCommands = m.list(command);
-
-  console.error(
-    `cli '${command}' is not a talk cli command. See 'cli --help'.`
-  );
-  if (similarCommands.length > 0) {
-    const sc = similarCommands.map(({ value }) => `\t${value}\n`).join('');
-    console.error(`\nThe most similar commands are\n${sc}`);
-  }
-  process.exit(1);
-}
