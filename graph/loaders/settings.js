@@ -55,6 +55,18 @@ class SettingsLoader {
     // assembled Settings object.
     return zipObject(fields, values);
   }
+
+  /**
+   * get, like select, will retrieve the settings, but get will only return a
+   * single setting.
+   *
+   * @param {String} field the field to get
+   */
+  async get(field) {
+    const value = await this._loader.load(field);
+
+    return value;
+  }
 }
 
 module.exports = () => ({ Settings: new SettingsLoader() });

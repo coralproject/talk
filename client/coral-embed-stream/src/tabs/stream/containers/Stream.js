@@ -434,6 +434,8 @@ const fragments = {
         questionBoxIcon
         closedTimeout
         closedMessage
+        disableCommenting
+        disableCommentingMessage
         charCountEnable
         charCount
         requireEmailConfirmation
