@@ -130,7 +130,14 @@ class People extends React.Component {
                             {user.username}
                           </button>
                           <span className={styles.email}>
-                            {user.profiles.map(({ id }) => id)}
+                            {user.email
+                              ? user.email
+                              : user.profiles.map(({ id }, i) => {
+                                  if (i === user.profiles.length - 1) {
+                                    return id;
+                                  }
+                                  return `${id}, `;
+                                })}
                           </span>
                         </td>
                         <td className="mdl-data-table__cell--non-numeric">
