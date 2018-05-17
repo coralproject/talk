@@ -55,10 +55,10 @@ export const canUsernameBeUpdated = status => {
  * retrieves karma value as string
  */
 
-export const getKarma = score => {
-  if (score === 0) {
+export const getKarma = reliability => {
+  if (reliability === null) {
     return 'neutral';
-  } else if (score) {
+  } else if (reliability) {
     return 'good';
   } else {
     return 'bad';

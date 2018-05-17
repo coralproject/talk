@@ -245,9 +245,12 @@ class UserDetail extends React.Component {
                   <KarmaTooltip />
                 </div>
                 <span
-                  className={cn(styles.statKarmaResult, styles[getKarma(100)])}
+                  className={cn(
+                    styles.statKarmaResult,
+                    styles[getKarma(user.reliable.commenter)]
+                  )}
                 >
-                  {100}
+                  {user.reliable.commenterScore}
                 </span>
               </li>
             </ul>

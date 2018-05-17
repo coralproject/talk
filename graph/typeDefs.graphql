@@ -20,9 +20,17 @@ type Reliability {
   # `null` if the reliability cannot be determined.
   flagger: Boolean
 
+  # flaggerScore will contains the number of agreed flags vs disagred flag
+  # count.
+  flaggerScore: Int!
+
   # Commenter will be `true` when the commenter is reliable, `false` if not, or
   # `null` if the reliability cannot be determined.
   commenter: Boolean
+
+  # commenterScore the number of approved comments (not untouched) subtracted by
+  # the number of rejected comments.
+  commenterScore: Int!
 }
 
 ################################################################################

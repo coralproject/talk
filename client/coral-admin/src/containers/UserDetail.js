@@ -185,6 +185,8 @@ export const withUserDetailQuery = withQuery(
       }
       reliable {
         flagger
+        commenter
+        commenterScore
       }
       state {
         status {

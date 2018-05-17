@@ -1,6 +1,7 @@
 const debug = require('debug')('talk:services:karma');
 const UserModel = require('../models/user');
 const { TRUST_THRESHOLDS } = require('../config');
+const { get } = require('lodash');
 
 /**
  * This will create an object with the property name of the action type as the
@@ -83,8 +84,16 @@ class KarmaModel {
     return KarmaService.isReliable('flag', this.model);
   }
 
+  get flaggerScore() {
+    return get(this.model, 'flag.karma', 0);
+  }
+
   get commenter() {
     return KarmaService.isReliable('comment', this.model);
+  }
+
+  get commenterScore() {
+    return get(this.model, 'comment.karma', 0);
   }
 }
 
