@@ -8,8 +8,8 @@
  * for JWT claim generation.
 **/
 const UserModel = require('../../models/user'),
-  blockEmailRegex = process.env.BLOCK_EMAIL_REGEX &&
-    new RegExp(process.env.BLOCK_EMAIL_REGEX);
+  blockEmailRegex = process.env.TALK_BLOCK_EMAIL_REGEX &&
+    new RegExp(process.env.TALK_BLOCK_EMAIL_REGEX);
 
 module.exports.tokenUserNotFound = ({jwt}) => {
   const id = jwt.sub,
