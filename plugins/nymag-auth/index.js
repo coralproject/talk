@@ -21,7 +21,6 @@ module.exports.tokenUserNotFound = ({jwt}) => {
   }
 
   if (blockEmailRegex && email.match(blockEmailRegex)) {
-    console.log('The email ' + email + ' is blocked');
     return;
   }
 
