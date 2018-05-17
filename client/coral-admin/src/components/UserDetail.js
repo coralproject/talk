@@ -10,6 +10,7 @@ import {
   getReliability,
   isSuspended,
   isBanned,
+  getKarma,
 } from 'coral-framework/utils/user';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import ClickOutside from 'coral-framework/components/ClickOutside';
@@ -25,6 +26,7 @@ import {
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import UserInfoTooltip from './UserInfoTooltip';
+import KarmaTooltip from './KarmaTooltip';
 import t from 'coral-framework/services/i18n';
 
 class UserDetail extends React.Component {
@@ -203,23 +205,29 @@ class UserDetail extends React.Component {
 
             <ul className={styles.stats}>
               <li className={styles.stat}>
-                <span className={styles.statItem}>
-                  {t('user_detail.total_comments')}
-                </span>
+                <div>
+                  <span className={styles.statItem}>
+                    {t('user_detail.total_comments')}
+                  </span>
+                </div>
                 <span className={styles.statResult}>{totalComments}</span>
               </li>
               <li className={styles.stat}>
-                <span className={styles.statItem}>
-                  {t('user_detail.reject_rate')}
-                </span>
+                <div>
+                  <span className={styles.statItem}>
+                    {t('user_detail.reject_rate')}
+                  </span>
+                </div>
                 <span className={styles.statResult}>
                   {rejectedPercent.toFixed(1)}%
                 </span>
               </li>
               <li className={styles.stat}>
-                <span className={styles.statItem}>
-                  {t('user_detail.reports')}
-                </span>
+                <div>
+                  <span className={styles.statItem}>
+                    {t('user_detail.reports')}
+                  </span>
+                </div>
                 <span
                   className={cn(
                     styles.statReportResult,
@@ -227,6 +235,19 @@ class UserDetail extends React.Component {
                   )}
                 >
                   {capitalize(getReliability(user.reliable.flagger))}
+                </span>
+              </li>
+              <li className={styles.stat}>
+                <div>
+                  <span className={styles.statItem}>
+                    {t('user_detail.karma')}
+                  </span>
+                  <KarmaTooltip />
+                </div>
+                <span
+                  className={cn(styles.statKarmaResult, styles[getKarma(100)])}
+                >
+                  {100}
                 </span>
               </li>
             </ul>

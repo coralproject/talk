@@ -470,6 +470,10 @@ en:
     all: "All"
     rejected: "Rejected"
     user_history: "User History"
+    karma: "Karma"
+    learn_more: "Learn More"
+    user_karma_score: "User Karma Score"
+    karma_docs_link: "https://docs.coralproject.net/talk/trust/#user-karma-score"
   user_history:
     user_banned: "User banned"
     ban_removed: "Ban removed"

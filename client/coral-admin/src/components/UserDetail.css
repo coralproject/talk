@@ -39,17 +39,16 @@
   margin-right: 0px;
 }
 
-.statItem,
-.statReportResult {
+.statItem, .statReportResult, .statKarmaResult {
   padding: 3px 5px;
   background-color: #D8D8D8;
   border-radius: 3px;
   font-weight: 500;
-  display: block;
   font-size: 0.9em;
   line-height: normal;
   letter-spacing: 0.4px;
-  min-width: 60px;
+  min-width: 35px;
+  display: inline-block;
 }
 
 .statResult {
@@ -58,21 +57,21 @@
   display: inline-block;
 }
 
-.statReportResult {
+.statReportResult, .statKarmaResult {
   color: white;
   margin: 5px 0;
   font-weight: 400;
 }
 
-.statReportResult.reliable {
-  background-color: #749C48;
+.statReportResult.reliable, .statKarmaResult.good {
+  background-color: #03AB61;
 }
 
-.statReportResult.neutral {
+.statReportResult.neutral, .statKarmaResult.neutral {
   background-color: #616161;
 }
 
-.statReportResult.unreliable {
+.statReportResult.unreliable, .statKarmaResult.bad {
   background-color: #F44336;
 }
 
