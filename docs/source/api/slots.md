@@ -99,6 +99,7 @@ You won't have to use this to build plugins, but it's helpful to find where to e
 * `commentReactions`
 * `commentActions`
 * `commentInputArea`
+* `commentTombstone`
 
 * `draftArea`
 * `streamSettings`
