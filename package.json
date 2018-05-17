@@ -91,6 +91,7 @@
     "common-tags": "^1.4.0",
     "compression": "1.7.1",
     "compression-webpack-plugin": "^1.0.0",
+    "consolidate": "0.14.0",
     "cookie-parser": "^1.4.3",
     "copy-webpack-plugin": "^4.0.0",
     "cross-spawn": "^5.1.0",
