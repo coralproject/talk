@@ -39,6 +39,7 @@ class CommentTombstone extends React.Component {
 
 CommentTombstone.propTypes = {
   action: PropTypes.string,
+  comment: PropTypes.object,
   onUndo: PropTypes.func,
 };
 
