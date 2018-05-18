@@ -1,6 +1,9 @@
 .button {
   margin: 0;
-
+  &:disabled {
+    overflow: visible;
+    height: auto;
+  }
   i {
     font-size: inherit;
     vertical-align: sub;
