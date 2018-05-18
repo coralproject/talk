@@ -3,11 +3,15 @@ const { WEBSOCKET_LIVE_URI, ENABLE_STRICT_CSP } = require('../config');
 const { BASE_PATH, BASE_URL, STATIC_URL } = require('../url');
 const { URL } = require('url');
 
-// websocketSrc represents the host where we can connect for websocket requests.
-const websocketSrc = new URL(WEBSOCKET_LIVE_URI || BASE_URL).host;
+// websocketUri represents the host where we can connect for websocket requests.
+const websocketUri = new URL(WEBSOCKET_LIVE_URI || BASE_URL);
+websocketUri.protocol = websocketUri.protocol.startsWith('https')
+  ? 'wss'
+  : 'ws';
+const { origin: websocketSrc } = websocketUri;
 
 // staticSrc represents any static asset hosted on the static host.
-const staticSrc = new URL(STATIC_URL).host;
+const { host: staticSrc } = new URL(STATIC_URL);
 
 // nonceSrc represents the nonce source that is used to indicate a safe resource
 // to load.
