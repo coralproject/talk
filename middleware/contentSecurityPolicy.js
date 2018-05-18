@@ -1,5 +1,5 @@
 const helmet = require('helmet');
-const { WEBSOCKET_LIVE_URI } = require('../config');
+const { WEBSOCKET_LIVE_URI, ONLY_REPORT_CSP_VIOLATIONS } = require('../config');
 const { BASE_PATH, BASE_URL, STATIC_URL } = require('../url');
 const { URL } = require('url');
 
@@ -46,4 +46,6 @@ module.exports = helmet.contentSecurityPolicy({
     ],
   },
   browserSniff: false,
+  // Allow the configuration to disable strict enforcement of CSP.
+  reportOnly: ONLY_REPORT_CSP_VIOLATIONS,
 });

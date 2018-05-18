@@ -48,6 +48,11 @@ const CONFIG = {
   // request all of the records. Otherwise, minimum limits of 0 are enforced.
   ALLOW_NO_LIMIT_QUERIES: process.env.TALK_ALLOW_NO_LIMIT_QUERIES === 'TRUE',
 
+  // ONLY_REPORT_CSP_VIOLATIONS disables strict CSP enforcement, and only
+  // reports CSP violations instead of blocking them.
+  ONLY_REPORT_CSP_VIOLATIONS:
+    process.env.TALK_ONLY_REPORT_CSP_VIOLATIONS === 'TRUE',
+
   // LOGGING_LEVEL specifies the logging level used by the bunyan logger.
   LOGGING_LEVEL: ['fatal', 'error', 'warn', 'info', 'debug', 'trace'].includes(
     process.env.TALK_LOGGING_LEVEL

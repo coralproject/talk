@@ -497,6 +497,13 @@ tracing of GraphQL requests.
 
 **Note: Apollo Engine is a premium service, charges may apply.**
 
+## TALK_ONLY_REPORT_CSP_VIOLATIONS
+
+Setting this to `TRUE` will enable the [report only](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Testing_your_policy)
+mode of the Content Security Policy. The policy is not enforced, but any
+violations are reported to a provided URI. If you are encountering issues with
+resources not loading, try experimenting with this parameter. (Default `FALSE`)
+
 ## ALLOW_NO_LIMIT_QUERIES
 
 Setting this to `TRUE` will allow queries to execute without a limit (returns
