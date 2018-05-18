@@ -1,3 +1,5 @@
+import { handlePopupAuth } from 'plugin-api/beta/client/utils';
+
 export const loginWithFacebook = () => (dispatch, _, { rest }) => {
-  window.location = `${rest.uri}/auth/facebook`;
+  handlePopupAuth(`${rest.uri}/auth/facebook`);
 };
