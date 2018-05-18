@@ -24,6 +24,16 @@ const userRoleFragment = gql`
   }
 `;
 
+const toBoolean = value => {
+  if (value === 0) {
+    return null;
+  } else if (value > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export default {
   mutations: {
     SetUserRole: ({ variables: { id, role } }) => ({
@@ -156,7 +166,9 @@ export default {
           }
           const updated = update(prev, {
             users: {
-              nodes: { $apply: nodes => nodes.filter(node => node.id !== id) },
+              nodes: {
+                $apply: nodes => nodes.filter(node => node.id !== id),
+              },
             },
           });
           return updated;
@@ -185,7 +197,9 @@ export default {
           const updated = update(prev, {
             ...decrement,
             flaggedUsers: {
-              nodes: { $apply: nodes => nodes.filter(node => node.id !== id) },
+              nodes: {
+                $apply: nodes => nodes.filter(node => node.id !== id),
+              },
             },
           });
           return updated;
@@ -295,12 +309,32 @@ export default {
       updateQueries: {
         CoralAdmin_UserDetail: prev => {
           const increment = {
+            user: {
+              reliable: {
+                commenter: {
+                  $set: toBoolean(prev.user.reliable.commenterScore - 1),
+                },
+                commenterScore: {
+                  $apply: count => count - 1,
+                },
+              },
+            },
             rejectedComments: {
               $apply: count => (count < prev.totalComments ? count + 1 : count),
             },
           };
 
           const decrement = {
+            user: {
+              reliable: {
+                commenter: {
+                  $set: toBoolean(prev.user.reliable.commenterScore + 1),
+                },
+                commenterScore: {
+                  $apply: count => count + 1,
+                },
+              },
+            },
             rejectedComments: {
               $apply: count => (count > 0 ? count - 1 : 0),
             },
