@@ -1,3 +1,5 @@
+import { handlePopupAuth } from 'plugin-api/beta/client/utils';
+
 export const loginWithGoogle = () => (dispatch, _, { rest }) => {
-  window.location = `${rest.uri}/auth/google`;
+  handlePopupAuth(`${rest.uri}/auth/google`);
 };

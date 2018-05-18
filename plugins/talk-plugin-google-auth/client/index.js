@@ -5,6 +5,7 @@ import translations from './translations.yml';
 export default {
   translations,
   slots: {
+    authExternalAdminSignIn: [SignIn],
     authExternalSignIn: [SignIn],
     authExternalSignUp: [SignUp],
   },
