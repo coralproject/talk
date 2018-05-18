@@ -57,8 +57,8 @@ const Comment = {
   asset({ asset_id }, _, { loaders: { Assets } }) {
     return Assets.getByID.load(asset_id);
   },
-  async editing(comment, _, { loaders: { Settings } }) {
-    const { editCommentWindowLength } = await Settings.select(
+  editing: async (comment, _, { loaders: { Settings } }) => {
+    const editCommentWindowLength = await Settings.get(
       'editCommentWindowLength'
     );
 

@@ -12,6 +12,8 @@ const Setting = new Schema(
     id: {
       type: String,
       default: '1',
+      unique: 1,
+      index: true,
     },
     moderation: {
       type: String,
@@ -65,6 +67,14 @@ const Setting = new Schema(
     closedMessage: {
       type: String,
       default: 'Expired',
+    },
+    disableCommenting: {
+      type: Boolean,
+      default: false,
+    },
+    disableCommentingMessage: {
+      type: String,
+      default: '',
     },
     wordlist: {
       banned: {

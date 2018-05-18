@@ -56,10 +56,10 @@ export function createPostMessage(origin, scope = 'client') {
       // Send the message.
       target.postMessage(msg, origin);
     },
-    subscribe: (handler, target = window) => {
+    subscribe(handler, target = window) {
       // If this handler is already attached to the target, detach it.
       if (has(listeners, [target, handler])) {
-        this.unsubscribeFromMessages(handler, target);
+        this.unsubscribe(handler, target);
       }
 
       // Wrap the listener with a origin check.
@@ -71,7 +71,7 @@ export function createPostMessage(origin, scope = 'client') {
       // Attach the listener to the target.
       target.addEventListener('message', listener);
     },
-    unsubscribe: (handler, target = window) => {
+    unsubscribe(handler, target = window) {
       if (!has(listeners, [target, handler])) {
         return;
       }
