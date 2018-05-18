@@ -500,7 +500,7 @@ tracing of GraphQL requests.
 ## TALK_ENABLE_STRICT_CSP
 
 Setting this to `TRUE` will enforce the [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
-(or CSP) policy. By default, this configuration is set to
+(or CSP). By default, this configuration is set to
 [report only](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Testing_your_policy)
 where the policy is not enforced, but any violations are reported to a provided
 URI. (Default `FALSE`)
