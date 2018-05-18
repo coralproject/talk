@@ -116,7 +116,7 @@ export const withRemoveTag = withMutation(
             asset_id: assetId,
             item_type: itemType,
           },
-          o3timisticResponse: {
+          optimisticResponse: {
             removeTag: {
               __typename: 'ModifyTagResponse',
               errors: null,
