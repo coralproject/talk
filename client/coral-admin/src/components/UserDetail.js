@@ -205,29 +205,23 @@ class UserDetail extends React.Component {
 
             <ul className={styles.stats}>
               <li className={styles.stat}>
-                <div>
-                  <span className={styles.statItem}>
-                    {t('user_detail.total_comments')}
-                  </span>
-                </div>
+                <span className={styles.statItem}>
+                  {t('user_detail.total_comments')}
+                </span>
                 <span className={styles.statResult}>{totalComments}</span>
               </li>
               <li className={styles.stat}>
-                <div>
-                  <span className={styles.statItem}>
-                    {t('user_detail.reject_rate')}
-                  </span>
-                </div>
+                <span className={styles.statItem}>
+                  {t('user_detail.reject_rate')}
+                </span>
                 <span className={styles.statResult}>
                   {rejectedPercent.toFixed(1)}%
                 </span>
               </li>
               <li className={styles.stat}>
-                <div>
-                  <span className={styles.statItem}>
-                    {t('user_detail.reports')}
-                  </span>
-                </div>
+                <span className={styles.statItem}>
+                  {t('user_detail.reports')}
+                </span>
                 <span
                   className={cn(
                     styles.statReportResult,
@@ -237,21 +231,21 @@ class UserDetail extends React.Component {
                   {capitalize(getReliability(user.reliable.flagger))}
                 </span>
               </li>
-              <li className={styles.stat}>
+              <li className={cn(styles.stat, styles.karmaStat)}>
                 <div>
                   <span className={styles.statItem}>
                     {t('user_detail.karma')}
                   </span>
-                  <KarmaTooltip />
+                  <span
+                    className={cn(
+                      styles.statKarmaResult,
+                      styles[getKarma(user.reliable.commenter)]
+                    )}
+                  >
+                    {user.reliable.commenterScore}
+                  </span>
                 </div>
-                <span
-                  className={cn(
-                    styles.statKarmaResult,
-                    styles[getKarma(user.reliable.commenter)]
-                  )}
-                >
-                  {user.reliable.commenterScore}
-                </span>
+                <KarmaTooltip />
               </li>
             </ul>
           </div>

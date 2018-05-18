@@ -35,6 +35,10 @@
   margin-right: 20px;
 }
 
+.karmaStat {
+  display: flex;
+}
+
 .stat:last-child {
   margin-right: 0px;
 }
@@ -47,20 +51,22 @@
   font-size: 0.9em;
   line-height: normal;
   letter-spacing: 0.4px;
-  min-width: 35px;
-  display: inline-block;
+  min-width: 25px;
+  display: block;
 }
 
 .statResult {
   font-size: 1.5em;
   padding: 5px 0;
   display: inline-block;
+  text-align: center; 
 }
 
 .statReportResult, .statKarmaResult {
   color: white;
   margin: 5px 0;
   font-weight: 400;
+  text-align: center;
 }
 
 .statReportResult.reliable, .statKarmaResult.good {
