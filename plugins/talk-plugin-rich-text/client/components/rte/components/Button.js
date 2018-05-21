@@ -7,21 +7,17 @@ class Button extends React.Component {
   render() {
     const {
       className,
-      title,
-      onClick,
       children,
       active,
       activeClassName,
-      disabled,
+      ...rest
     } = this.props;
     return (
       <button
         className={cn(className, styles.button, {
           [cn(styles.active, activeClassName)]: active,
         })}
-        title={title}
-        onClick={onClick}
-        disabled={disabled}
+        {...rest}
       >
         {children}
       </button>
@@ -32,11 +28,8 @@ class Button extends React.Component {
 Button.propTypes = {
   className: PropTypes.string,
   activeClassName: PropTypes.string,
-  title: PropTypes.string,
-  onClick: PropTypes.func,
   children: PropTypes.node,
   active: PropTypes.bool,
-  disabled: PropTypes.bool,
 };
 
 export default Button;
