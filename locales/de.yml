@@ -124,6 +124,8 @@ de:
     custom_css_url_desc: "URL eines CSS-Stylesheets zum Überschreiben des Standard-Designs"
     days: Tage
     description: "Ändern Sie die Einstellungen für den Kommentarbereich dieses Artikels."
+    disable_commenting_title: "Kommentieren global deaktivieren"
+    disable_commenting_desc: "Verfassen Sie eine Nachricht, die angezeigt wird, solange das Kommentieren deaktiviert ist."
     domain_list_text: "Geben Sie Domains an, für die diese Talk-Instanz freigegeben werden soll, z.B. für lokale Test- oder Produktionsumgebungen (Bsp.: localhost:3000 staging.domain.com domain.com)."
     domain_list_title: "Zugelassene Domains"
     edit_info: "Information bearbeiten"
@@ -247,6 +249,7 @@ de:
     LOGIN_MAXIMUM_EXCEEDED: "Sie haben zu häufig erfolglos versucht, sich anzumelden. Bitte warten Sie."
     PASSWORD_REQUIRED: "Passwort ist erforderlich"
     COMMENTING_CLOSED: "Kommentarbereich ist bereits geschlossen"
+    COMMENTING_DISABLED: "Die Kommentarfunktion ist derzeit abgeschaltet"
     NOT_FOUND: "Ressource nicht gefunden"
     ALREADY_EXISTS: "Ressource existiert bereits"
     INVALID_ASSET_URL: "Asset-URL ist ungültig"

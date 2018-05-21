@@ -19,7 +19,8 @@ en:
       changed_password_msg: "Changed Password - Your password has been successfully changed"
       forgot_password_sent: "Forgot Password - We sent you an email to recover your password"
     change_username:
-      change_username_note: "Usernames can only be changed once every 14 days. Your username is not currently eligible to be updated."
+      change_username_note: "Usernames can only be changed once every 14 days."
+      is_not_eligible: "You cannot currently change your username."
       save: "Save"
       edit_profile: "Edit Profile"
       cancel: "Cancel"
@@ -151,7 +152,8 @@ es:
       changed_password_msg: "Contraseña Actualizada - Tu contraseña ha sido exitosamente actualizada"
       forgot_password_sent: "Contraseña Olvidada - Te enviamos un email para recuperar tu contraseña"
     change_username:
-      change_username_note: "El usuario puede ser cambiado cada 14 días"
+      change_username_note: "El usuario puede ser cambiado cada 14 días."
+      is_not_eligible: "Ahora mismo no se puede cambiar su nombre de usuario."
       save: "Guardar"
       edit_profile: "Editar Perfil"
       cancel: "Cancelar"

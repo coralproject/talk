@@ -63,17 +63,18 @@ class DeleteMyAccount extends React.Component {
         <p className="talk-plugin-auth--delete-my-account-description">
           {t('delete_request.delete_my_account_description')}
         </p>
-        <p className="talk-plugin-auth--delete-my-account-description">
-          {scheduledDeletionDate &&
-            t(
-              'delete_request.already_submitted_request_description',
-              moment(scheduledDeletionDate).format('MMM Do YYYY, h:mm:ss a')
-            )}
-        </p>
         {scheduledDeletionDate ? (
-          <Button onClick={this.cancelAccountDeletion}>
-            {t('delete_request.cancel_account_deletion_request')}
-          </Button>
+          <div>
+            <p className="talk-plugin-auth--delete-my-account-description">
+              {t(
+                'delete_request.already_submitted_request_description',
+                moment(scheduledDeletionDate).format('MMM Do YYYY, h:mm:ss a')
+              )}
+            </p>
+            <Button onClick={this.cancelAccountDeletion}>
+              {t('delete_request.cancel_account_deletion_request')}
+            </Button>
+          </div>
         ) : (
           <Button icon="delete" onClick={this.showDialog}>
             {t('delete_request.delete_my_account')}
