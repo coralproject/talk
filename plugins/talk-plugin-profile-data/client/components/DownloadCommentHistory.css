@@ -1,7 +1,7 @@
 .button {
   margin: 0;
   &:disabled {
-    overflow: visible;
+    /* TODO: better optimize for mobile so this styling is not necessary */
     height: auto;
   }
   i {
