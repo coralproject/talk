@@ -2,7 +2,7 @@ const ActionModel = require('../models/action');
 const CommentModel = require('../models/comment');
 const UserModel = require('../models/user');
 const _ = require('lodash');
-const errors = require('../errors');
+const { ErrAlreadyExists } = require('../errors');
 
 const incrActionCounts = async (action, value) => {
   const ACTION_TYPE = action.action_type.toLowerCase();
@@ -41,35 +41,30 @@ const incrActionCounts = async (action, value) => {
  * @param {object} update the update operation for the mongo findOneAndUpdate op
  * @param {object} options the options operation for the mongo findOneAndUpdate op
  */
-const findOnlyOneAndUpdate = async (query, update, options = {}) =>
-  new Promise((resolve, reject) => {
-    ActionModel.findOneAndUpdate(
-      query,
-      update,
-      Object.assign({}, options, {
-        // Use raw result to get `updatedExisting`.
-        passRawResult: true,
+const findOnlyOneAndUpdate = async (query, update, options = {}) => {
+  const raw = await ActionModel.findOneAndUpdate(
+    query,
+    update,
+    Object.assign({}, options, {
+      // Use raw result to get `updatedExisting`.
+      rawResult: true,
 
-        // Ensure that if it's new, we return the new object created.
-        new: true,
+      // Ensure that if it's new, we return the new object created.
+      new: true,
 
-        // Perform an upsert in the event that this doesn't exist.
-        upsert: true,
+      // Perform an upsert in the event that this doesn't exist.
+      upsert: true,
 
-        // Set the default values if not provided based on the mongoose models.
-        setDefaultsOnInsert: true,
-      }),
-      (err, doc, raw) => {
-        if (err) {
-          return reject(err);
-        }
-        if (raw.lastErrorObject.updatedExisting) {
-          return reject(new errors.ErrAlreadyExists(raw.value));
-        }
-        return resolve(raw.value);
-      }
-    );
-  });
+      // Set the default values if not provided based on the mongoose models.
+      setDefaultsOnInsert: true,
+    })
+  );
+  if (raw.lastErrorObject.updatedExisting) {
+    throw new ErrAlreadyExists(raw.value);
+  }
+
+  return raw.value;
+};
 
 module.exports = class ActionsService {
   /**

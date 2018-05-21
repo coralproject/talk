@@ -381,9 +381,13 @@ export function isBogusBR(node) {
 }
 
 /**
- * Returns an array of all nodes after `node`.
+ * Returns an array of all nodes after `node` in a _line_.
  */
 export function getRightOfNode(node) {
+  if (node.tagName === 'BR') {
+    return [];
+  }
+
   let result = [];
   let cur = node;
   while (
@@ -515,10 +519,10 @@ export function outdentBlock(node, changeSelection) {
 
   // A new lines to substitute the missing block element.
   const needLineAfter =
-    node.nextSibling &&
-    !isBlockElement(node.nextSibling) &&
-    node.lastChild &&
-    !isBlockElement(node.lastChild);
+    !node.lastChild ||
+    (node.nextSibling &&
+      !isBlockElement(node.nextSibling) &&
+      !isBlockElement(node.lastChild));
   const needLineBefore =
     node.previousSibling &&
     !isBlockElement(node.previousSibling) &&
