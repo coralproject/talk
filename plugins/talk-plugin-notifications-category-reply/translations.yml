@@ -4,3 +4,9 @@ en:
       reply:
         subject: "Someone has replied to your comment on {0}"
         body: "{0}\n{1} replied to your comment: {2}"
+de:
+  talk-plugin-notifications:
+    categories:
+      reply:
+        subject: "Jemand hat bei {0} auf Ihren Kommentar geantwortet"
+        body: "{0}\n{1} antwortete auf Ihren Kommentar: {2}"
