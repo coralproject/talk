@@ -40,7 +40,7 @@ module.exports = {
 
         let spam = false;
         try {
-          const user_ip = get(req.connection, 'remoteAddress', false);
+          const user_ip = get(req, 'ip', false);
           if (!user_ip) {
             debug('no ip on request');
             return;
