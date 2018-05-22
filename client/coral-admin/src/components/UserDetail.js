@@ -179,7 +179,7 @@ class UserDetail extends React.Component {
 
           <div>
             <ul className={styles.userDetailList}>
-              <li>
+              <li className={styles.userDetailItem}>
                 <Icon name="assignment_ind" />
                 <span className={styles.userDetailItem}>
                   {t('user_detail.member_since')}:
@@ -187,11 +187,24 @@ class UserDetail extends React.Component {
                 {new Date(user.created_at).toLocaleString()}
               </li>
 
-              {user.profiles.map(({ id }) => (
-                <li key={id}>
-                  <Icon name="email" />
+              <li className={styles.userDetailItem}>
+                <Icon name="email" />
+                <span className={styles.userDetailItem}>
+                  {t('user_detail.email')}:
+                </span>
+                {user.email}{' '}
+                <ButtonCopyToClipboard
+                  className={styles.copyButton}
+                  icon="content_copy"
+                  copyText={user.email}
+                />
+              </li>
+
+              {user.profiles.map(({ provider, id }) => (
+                <li key={id} className={styles.userDetailItem}>
+                  <Icon name="device_hub" />
                   <span className={styles.userDetailItem}>
-                    {t('user_detail.email')}:
+                    {capitalize(provider)} {t('user_detail.id')}:
                   </span>
                   {id}{' '}
                   <ButtonCopyToClipboard

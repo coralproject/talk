@@ -474,6 +474,7 @@ en:
     learn_more: "Learn More"
     user_karma_score: "User Karma Score"
     karma_docs_link: "https://docs.coralproject.net/talk/trust/#user-karma-score"
+    id: "ID"
   user_history:
     user_banned: "User banned"
     ban_removed: "Ban removed"
