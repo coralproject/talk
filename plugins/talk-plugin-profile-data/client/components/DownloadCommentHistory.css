@@ -1,6 +1,9 @@
 .button {
   margin: 0;
-
+  &:disabled {
+    /* TODO: better optimize for mobile so this styling is not necessary */
+    height: auto;
+  }
   i {
     font-size: inherit;
     vertical-align: sub;

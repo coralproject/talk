@@ -9,4 +9,5 @@ export {
   getDefinitionName,
   getShallowChanges,
   createDefaultResponseFragments,
+  handlePopupAuth,
 } from 'coral-framework/utils';
