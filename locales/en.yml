@@ -510,3 +510,11 @@ en:
   admin_sidebar:
     view_options: "View Options"
     sort_comments: "Sort Comments"
+  validators:
+    required: "Please fill out this field."
+    verify_email: "Please enter a valid email."
+    confirm_email: "Emails don't match. Please check again."
+    verify_password: "Password must be at least 8 characters"
+    confirm_password: "Passwords don't match. Please check again."
+    verify_username: "Usernames can contain letters numbers and _ only"
+    verify_organization_name: "Organization name must only contain letters or numbers."

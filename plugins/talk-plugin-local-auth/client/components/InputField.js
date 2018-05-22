@@ -4,6 +4,7 @@ import cn from 'classnames';
 import styles from './InputField.css';
 import ErrorMessage from './ErrorMessage';
 import { Icon } from 'plugin-api/beta/client/components/ui';
+import uuid from 'uuid/v4';
 
 const InputField = ({
   id = '',
@@ -12,7 +13,6 @@ const InputField = ({
   name = '',
   onChange = () => {},
   showError = true,
-  hasError = false,
   errorMsg = '',
   children,
   columnDisplay = false,
@@ -27,12 +27,13 @@ const InputField = ({
     ...(value !== undefined ? { value } : {}),
     ...(defaultValue !== undefined ? { defaultValue } : {}),
   };
+  const computedId = id || (label && uuid());
 
   return (
     <div className={styles.detailItem}>
       <div className={cn(styles.detailItemContainer)}>
         {label && (
-          <label className={styles.detailLabel} id={id}>
+          <label className={styles.detailLabel} id={computedId}>
             {label}
           </label>
         )}
@@ -44,13 +45,13 @@ const InputField = ({
           <div
             className={cn(
               styles.detailInput,
-              { [styles.error]: hasError && showError },
+              { [styles.error]: errorMsg && showError },
               { [styles.disabled]: disabled }
             )}
           >
             {icon && <Icon name={icon} className={styles.detailIcon} />}
             <input
-              id={id}
+              id={computedId}
               type={type}
               name={name}
               className={styles.detailValue}
@@ -62,12 +63,12 @@ const InputField = ({
             />
           </div>
           <div className={styles.detailItemMessage}>
-            {!hasError &&
+            {!errorMsg &&
               showSuccess &&
               value && (
                 <Icon className={styles.checkIcon} name="check_circle" />
               )}
-            {hasError && showError && <ErrorMessage>{errorMsg}</ErrorMessage>}
+            {errorMsg && showError && <ErrorMessage>{errorMsg}</ErrorMessage>}
           </div>
         </div>
       </div>
@@ -87,7 +88,6 @@ InputField.propTypes = {
   defaultValue: PropTypes.string,
   icon: PropTypes.string,
   showError: PropTypes.bool,
-  hasError: PropTypes.bool,
   errorMsg: PropTypes.string,
   children: PropTypes.node,
   columnDisplay: PropTypes.bool,

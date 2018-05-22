@@ -51,6 +51,7 @@ en:
       confirm_email_address: "Confirm Email Address:"
       email_does_not_match: "Email Address does not match"
       insert_password: "Insert Password:"
+      confirm_password: "Confirm Password:"
       required_field: "This field is required"
       done: "Done"
       content:

@@ -3909,6 +3909,10 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
+final-form@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.6.1.tgz#e3f3058524c2eb8b950be452087ffe124e39554d"
+
 finalhandler@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/finalhandler/-/finalhandler-1.0.6.tgz#007aea33d1a4d3e42017f624848ad58d212f814f"
@@ -9473,6 +9477,10 @@ react-dom@^15.3.1, react-dom@^15.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.10"
+
+react-final-form@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.4.2.tgz#4fd3fe958c481c98c4d4970ee7679bc1ac4185dc"
 
 react-input-autosize@^1.1.4:
   version "1.2.0"

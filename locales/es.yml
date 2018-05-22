@@ -492,3 +492,11 @@ es:
   admin_sidebar:
     view_options: "Ver opciones"
     sort_comments: "Ordenar comentarios"
+  validators:
+    required: "Campo requerido."
+    verify_email: "No es un correo válido"
+    confirm_email: "Los correos no coinciden. Inténtelo nuevamente"
+    verify_password: "La contraseña debe tener por lo menos 8 caracteres"
+    confirm_password: "Las contraseñas no coinciden. Inténtelo nuevamente"
+    verify_username: "Los nombres pueden contener letras números y _"
+    verify_organization_name: "El nombre de la organización debe contener letras y/o números."

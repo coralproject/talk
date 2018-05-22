@@ -1,0 +1,29 @@
+.title {
+  font-size: 1.3em;
+  margin: 15px 0;
+  text-align: center;
+}
+
+.description {
+  font-size: 1em;
+  line-height: 20px;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.button {
+  color: #787D80;
+  border-radius: 2px;
+  height: 30px;
+  font-size: 0.9em;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  font-size: 1em;
+  background-color: #3498DB;
+  color: white;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
