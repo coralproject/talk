@@ -143,3 +143,7 @@
   border-color: #E45241;
   color: white;
 }
+
+.userDetailItem {
+  padding: 2px 0;
+}
