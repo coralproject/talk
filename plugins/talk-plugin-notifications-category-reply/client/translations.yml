@@ -1,3 +1,6 @@
 en:
   talk-plugin-notifications-category-reply:
     toggle_description: My comment receives a reply
+de:
+  talk-plugin-notifications-category-reply:
+    toggle_description: Jemand antwortet auf meinen Kommentar
