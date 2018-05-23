@@ -255,7 +255,7 @@ class UserDetail extends React.Component {
                       styles[getKarma(user.reliable.commenter)]
                     )}
                   >
-                    {user.reliable.commenterScore}
+                    {user.reliable.commenterKarma}
                   </span>
                 </div>
                 <KarmaTooltip />

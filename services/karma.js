@@ -84,7 +84,7 @@ class KarmaModel {
     return KarmaService.isReliable('flag', this.model);
   }
 
-  get flaggerScore() {
+  get flaggerKarma() {
     return get(this.model, 'flag.karma', 0);
   }
 
@@ -92,7 +92,7 @@ class KarmaModel {
     return KarmaService.isReliable('comment', this.model);
   }
 
-  get commenterScore() {
+  get commenterKarma() {
     return get(this.model, 'comment.karma', 0);
   }
 }

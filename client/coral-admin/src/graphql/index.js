@@ -322,11 +322,11 @@ export default {
               reliable: {
                 commenter: {
                   $set: calculateReliability(
-                    prev.user.reliable.commenterScore - 1,
+                    prev.user.reliable.commenterKarma - 1,
                     prev.settings.karma.comment
                   ),
                 },
-                commenterScore: {
+                commenterKarma: {
                   $apply: count => count - 1,
                 },
               },
@@ -341,11 +341,11 @@ export default {
               reliable: {
                 commenter: {
                   $set: calculateReliability(
-                    prev.user.reliable.commenterScore + 1,
+                    prev.user.reliable.commenterKarma + 1,
                     prev.settings.karma.comment
                   ),
                 },
-                commenterScore: {
+                commenterKarma: {
                   $apply: count => count + 1,
                 },
               },
