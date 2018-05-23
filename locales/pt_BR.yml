@@ -61,11 +61,6 @@ pt_BR:
     reaction: 'Reação'
     reactions: 'Reações'
     story: 'Conversas'
-  flagged_usernames:
-    notify_approved: '{0} approved username {1}'
-    notify_rejected: '{0} rejected username {1}'
-    notify_flagged: '{0} reported username {1}'
-    notify_changed: 'user {0} changed their username to {1}'
   community:
     account_creation_date: "Data de criação da conta"
     active: Ativo
@@ -273,24 +268,6 @@ pt_BR:
   loading_results: "Carregando resultados"
   marketing: "Isso parece um anúncio/marketing"
   moderate_this_stream: "Moderar comentários"
-  flags:
-    reasons:
-      user:
-        username_offensive: "Offensive"
-        username_nolike: "Dislike"
-        username_impersonating: "Impersonation"
-        username_spam: "Spam"
-        username_other: "Other"
-      comment:
-        comment_offensive: "Offensive"
-        comment_spam: "Spam"
-        comment_noagree: "Disagree"
-        comment_other: "Other"
-        suspect_word: "Suspect Word"
-        banned_word: "Banned Word"
-        body_count: "Body exceeds max length"
-        trust: "Trust"
-        links: "Link"
   modqueue:
     account: "contas marcadas"
     actions: Ações
@@ -418,29 +395,6 @@ pt_BR:
     bio_flags: "Marcadas para este perfil"
     user_bio: "Perfil do usuário"
     username_flags: "Marcadas para este usuário"
-  user_detail:
-    remove_suspension: "Remove Suspension"
-    suspend: "Suspend User"
-    remove_ban: "Remove Ban"
-    ban: "Ban User"
-    member_since: "Member Since"
-    email: "Email"
-    total_comments: "Total Comments"
-    reject_rate: "Reject Rate"
-    reports: "Reports"
-    all: "All"
-    rejected: "Rejected"
-    user_history: "User History"
-  user_history:
-    user_banned: "User banned"
-    ban_removed: "Ban removed"
-    username_status: "Username {0}"
-    suspended: "Suspended, {0}"
-    suspension_removed: "Suspension removed"
-    system: "System"
-    date: "Date"
-    action: "Action"
-    taken_by: "Taken By"
   user_impersonating: "Este usuário está representando"
   user_no_comment: "Você nunca deixou um comentário. Participe da conversa!"
   username_offensive: "Esse nome de usuário é ofensivo"
@@ -468,6 +422,3 @@ pt_BR:
       description: "Obrigado por instalar o Talk! Enviamos um e-mail para verificar seu endereço de e-mail. Enquanto você terminar de configurar a conta, você pode começar a se envolver com seus leitores agora."
       launch: "Iniciar Talk"
       close: "Feche este instalador"
-  admin_sidebar:
-    view_options: "View Options"
-    sort_comments: "Sort Comments"

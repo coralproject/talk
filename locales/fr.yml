@@ -300,7 +300,6 @@ fr:
          suspect_word: "Mot suspect"
          banned_word: "Mot banni"
          body_count: "Le texte dépasse la longueur maximale"
-         trust: "Trust"
          links: "Lien"
   modqueue:
     account: "Signalements du compte"

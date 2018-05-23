@@ -322,7 +322,7 @@ en:
          suspect_word: "Suspect Word"
          banned_word: "Banned Word"
          body_count: "Body exceeds max length"
-         trust: "Trust"
+         trust: "Karma"
          links: "Link"
   modqueue:
     account: "account flags"
