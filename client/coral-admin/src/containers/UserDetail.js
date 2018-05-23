@@ -185,7 +185,6 @@ export const withUserDetailQuery = withQuery(
         provider
       }
       reliable {
-        flagger
         commenter
         commenterKarma
       }

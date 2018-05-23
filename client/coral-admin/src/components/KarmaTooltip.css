@@ -59,6 +59,34 @@
   transform: rotate(180deg);
 }
 
+.menu ul {
+  list-style: none;
+  padding: 0;
+  
+  li {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+  }
+}
+
+.label {
+  padding: 4px 5px;
+  border-radius: 3px;
+  color: #fff;
+  font-weight: 400;
+  text-align: center;
+  font-size: .9em;
+  line-height: normal;
+  letter-spacing: .4px;
+  min-width: 25px;
+  display: block;
+
+  /* &.reliable { background-color: #03AB61; } */
+  /* &.neutral { background-color: #616161; } */
+  &.unreliable { background-color: #F44336; }
+}
+
 .descriptionList {
   padding: 0;
   margin: 0;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { Icon } from 'coral-ui';
 import styles from './KarmaTooltip.css';
@@ -8,6 +9,13 @@ import t from 'coral-framework/services/i18n';
 const initialState = { menuVisible: false };
 
 class KarmaTooltip extends React.Component {
+  static propTypes = {
+    settings: PropTypes.shape({
+      reliable: PropTypes.number.isRequired,
+      unreliable: PropTypes.number.isRequired,
+    }).isRequired,
+  };
+
   state = initialState;
 
   toogleMenu = () => {
@@ -19,6 +27,7 @@ class KarmaTooltip extends React.Component {
   };
 
   render() {
+    const { settings: { unreliable } } = this.props;
     const { menuVisible } = this.state;
 
     return (
@@ -34,6 +43,26 @@ class KarmaTooltip extends React.Component {
           {menuVisible && (
             <div className={cn(styles.menu, 'talk-admin-karma-tooltip-menu')}>
               <strong>{t('user_detail.user_karma_score')}</strong>
+              <ul>
+                {/* <li>
+                  <span>Reliable</span>{' '}
+                  <span className={cn(styles.label, styles.reliable)}>
+                    &ge; {reliable}
+                  </span>
+                </li>
+                <li>
+                  <span>Neutral</span>{' '}
+                  <span className={cn(styles.label, styles.neutral)}>
+                    &lt; {reliable}, &gt; {unreliable}
+                  </span>
+                </li> */}
+                <li>
+                  <span>{t('user_detail.unreliable')}</span>{' '}
+                  <span className={cn(styles.label, styles.unreliable)}>
+                    &le; {unreliable}
+                  </span>
+                </li>
+              </ul>
               <a
                 className={styles.link}
                 href={t('user_detail.karma_docs_link')}

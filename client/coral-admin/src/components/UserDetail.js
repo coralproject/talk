@@ -6,12 +6,7 @@ import styles from './UserDetail.css';
 import UserHistory from './UserHistory';
 import { Slot } from 'coral-framework/components';
 import UserDetailCommentList from '../components/UserDetailCommentList';
-import {
-  getReliability,
-  isSuspended,
-  isBanned,
-  getKarma,
-} from 'coral-framework/utils/user';
+import { isSuspended, isBanned, getKarma } from 'coral-framework/utils/user';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import {
@@ -81,7 +76,7 @@ class UserDetail extends React.Component {
   renderLoaded() {
     const {
       root,
-      root: { me, user, totalComments, rejectedComments },
+      root: { me, user, totalComments, rejectedComments, settings: { karma } },
       activeTab,
       selectedCommentIds,
       toggleSelect,
@@ -231,19 +226,6 @@ class UserDetail extends React.Component {
                   {rejectedPercent.toFixed(1)}%
                 </span>
               </li>
-              <li className={styles.stat}>
-                <span className={styles.statItem}>
-                  {t('user_detail.reports')}
-                </span>
-                <span
-                  className={cn(
-                    styles.statReportResult,
-                    styles[getReliability(user.reliable.flagger)]
-                  )}
-                >
-                  {capitalize(getReliability(user.reliable.flagger))}
-                </span>
-              </li>
               <li className={cn(styles.stat, styles.karmaStat)}>
                 <div>
                   <span className={styles.statItem}>
@@ -258,7 +240,7 @@ class UserDetail extends React.Component {
                     {user.reliable.commenterKarma}
                   </span>
                 </div>
-                <KarmaTooltip />
+                <KarmaTooltip settings={karma.comment} />
               </li>
             </ul>
           </div>
