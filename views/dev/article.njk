@@ -1,0 +1,55 @@
+{% extends "templates/development.njk" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block meta %}
+<meta property="og:title" content="{{ title }}" />
+<meta property="og:description" content="A description of this article." />
+<meta property="article:author" content="A. J. Ournalist" />
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://coralproject.net/images/splash-md.jpg">
+<meta property="article:published" itemprop="datePublished" content="2016-11-16T11:46:06-05:00" />
+<meta property="article:modified" itemprop="dateModified" content="2016-11-16T12:09:44-05:00" />
+<meta property="article:section" itemprop="articleSection" content="The Section!" />
+{% endblock %}
+
+{% block html %}
+<div class="container">
+  <h1 class="mt-3">{{ title }}</h1>
+  <div id='coralStreamEmbed'></div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{{ resolve('embed.js') }}"></script>
+<script>
+  window.TalkEmbed = Coral.Talk.render(document.getElementById('coralStreamEmbed'), {
+    talk: '{{ BASE_URL }}',
+    asset_url: '{{ asset_url }}',
+    asset_id: '{{ asset_id }}',
+    auth_token: '',
+    /**
+    *  You can listen to events using the example below.
+    *  The argument passed is the event emitter from
+    *  https://github.com/asyncly/EventEmitter2
+    *
+    *  events: function(events) {
+    *    events.onAny(function(eventName, data) {
+    *      console.log(eventName, data);
+    *    });
+    *  },
+    */
+    plugins_config: {
+      /**
+      *  You can disable rendering slot components of a plugin by doing:
+      *
+      *  'talk-plugin-love': {
+      *    disable_components: true,
+      *  },
+      */
+      test: 'data',
+      debug: false
+    }
+  })
+</script>
+{% endblock %}

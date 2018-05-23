@@ -1,0 +1,68 @@
+{% extends "templates/account.njk" %}
+
+{% block title %}{{ t('talk-plugin-notifications.unsubscribe_page.unsubscribe') }}{% endblock %}
+
+{% block css %}
+{{ super() }}
+<style nonce="{{ nonce }}" type="text/css">
+#success { display:none; }
+</style>
+{% endblock %}
+
+{% block html %}
+<div id="root">
+  <div class="error-console container">{{ t('talk-plugin-notifications.unsubscribe_page.token_invalid') }}</div>
+  <div id="success" class="legend container">{{ t('talk-plugin-notifications.unsubscribe_page.are_unsubscribed') }}</div>
+  <form id="unsubscribe-form" class="container">
+    <legend class="legend">{{ t('talk-plugin-notifications.unsubscribe_page.click_to_confirm') }}</legend>
+    <button type="submit">{{ t('talk-plugin-notifications.unsubscribe_page.confirm') }}</button>
+  </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script nonce="{{ nonce }}" type="text/javascript">
+  $(function() {
+    var submitting = false;
+    var payload = JSON.stringify({token: location.hash.replace('#', '')});
+    function handleSubmit(e) {
+      e.preventDefault();
+
+      if (submitting) {
+          return;
+      }
+
+      submitting = true;
+      $('.error-console').removeClass('active');
+
+      $.ajax({
+        url: '{{ BASE_PATH }}api/v1/account/unsubscribe-notifications',
+        contentType: 'application/json',
+        method: 'POST',
+        data: payload,
+      }).then(function (success) {
+        $('#unsubscribe-form').fadeOut(function () {
+            $('#success').fadeIn();
+        });
+      }).catch(function () {
+        submitting = false;
+        $('.error-console').addClass('active');
+      });
+    }
+
+    $.ajax({
+      url: '{{ BASE_PATH }}api/v1/account/unsubscribe-notifications/verify',
+      contentType: 'application/json',
+      method: 'POST',
+      data: payload,
+    })
+    .then(function () {
+      $('#unsubscribe-form').fadeIn().on('submit', handleSubmit);
+    })
+    .catch(function () {
+      $('.error-console').addClass('active');
+    });
+  });
+</script>
+{% endblock %}

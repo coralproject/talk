@@ -81,5 +81,5 @@ example issuer and Talk must match:
 reference, the basic takeaway is that the secret used to sign the tokens issued
 by the issuer must be able to be verified by Talk.
 
-For an example of implementing the plugin, refer to [`tokenUserNotFound`](/talk/reference/server/#tokenUserNotFound)
+For an example of implementing the plugin, refer to [`tokenUserNotFound`](/talk/api/server/#tokenusernotfound)
 reference.
