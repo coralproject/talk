@@ -115,18 +115,14 @@ class KarmaService {
   /**
    * Inspects the reliability of a property and returns it if known.
    * @param {String} name - name of the property
-   * @param {Object} trust - object possibly containing the propertys
+   * @param {Object} trust - object possibly containing the properties
    */
   static isReliable(name, trust) {
-    if (trust && trust[name]) {
-      if (trust[name].karma > THRESHOLDS[name].RELIABLE) {
-        return true;
-      } else if (trust[name].karma <= THRESHOLDS[name].UNRELIABLE) {
-        return false;
-      }
-    } else if (THRESHOLDS[name].RELIABLE < 0) {
+    const karma = get(trust, [name, 'karma'], 0);
+
+    if (karma >= THRESHOLDS[name].RELIABLE) {
       return true;
-    } else if (THRESHOLDS[name].UNRELIABLE > 0) {
+    } else if (karma <= THRESHOLDS[name].UNRELIABLE) {
       return false;
     }
 
@@ -171,3 +167,4 @@ class KarmaService {
 }
 
 module.exports = KarmaService;
+module.exports.THRESHOLDS = THRESHOLDS;

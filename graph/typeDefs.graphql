@@ -801,6 +801,29 @@ type Domains {
   whitelist: [String!]!
 }
 
+# KarmaThreshold defines the bounds for which a User will become unreliable or
+# reliable based on their karma score. If the score is equal or less than the
+# unreliable value, they are unreliable. If the score is equal or more than the
+# reliable value, they are reliable. If they are neither reliable or unreliable
+# then they are neutral.
+type KarmaThreshold {
+  reliable: Int!
+  unreliable: Int!
+}
+
+# KarmaThresholds contains the currently set thresholds for triggering Trust
+# beheviour.
+type KarmaThresholds {
+
+  # flag represents karma settings in relation to how well a User's flagging
+  # ability aligns with the moderation decicions made by moderators.
+  flag: KarmaThreshold!
+
+  # comment represents the karma setting in relation to how well a User's
+  # comments are moderated.
+  comment: KarmaThreshold!
+}
+
 # Settings stores the global settings for a given installation.
 type Settings {
 
@@ -873,6 +896,9 @@ type Settings {
 
   # domains will return a given list of domains.
   domains: Domains
+
+  # karma contains the currently set thresholds for triggering Trust beheviour.
+  karma: KarmaThresholds
 }
 
 ################################################################################

@@ -24,14 +24,23 @@ const userRoleFragment = gql`
   }
 `;
 
-const toBoolean = value => {
-  if (value === 0) {
-    return null;
-  } else if (value > 0) {
+/**
+ * calculateReliability will determine the reliability of a karma score based on
+ * the settings for the karma type.
+ *
+ * @param {Number} karma - the current karma value/score for the given user
+ * @param {Object} thresholds - the karma thresholds to base the karma computation on
+ */
+const calculateReliability = (karma, { reliable, unreliable }) => {
+  if (karma >= reliable) {
     return true;
-  } else {
+  }
+
+  if (karma <= unreliable) {
     return false;
   }
+
+  return null;
 };
 
 export default {
@@ -312,7 +321,10 @@ export default {
             user: {
               reliable: {
                 commenter: {
-                  $set: toBoolean(prev.user.reliable.commenterScore - 1),
+                  $set: calculateReliability(
+                    prev.user.reliable.commenterScore - 1,
+                    prev.settings.karma.comment
+                  ),
                 },
                 commenterScore: {
                   $apply: count => count - 1,
@@ -328,7 +340,10 @@ export default {
             user: {
               reliable: {
                 commenter: {
-                  $set: toBoolean(prev.user.reliable.commenterScore + 1),
+                  $set: calculateReliability(
+                    prev.user.reliable.commenterScore + 1,
+                    prev.settings.karma.comment
+                  ),
                 },
                 commenterScore: {
                   $apply: count => count + 1,
