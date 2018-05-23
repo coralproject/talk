@@ -121,7 +121,7 @@ class KarmaService {
     if (trust && trust[name]) {
       if (trust[name].karma > THRESHOLDS[name].RELIABLE) {
         return true;
-      } else if (trust[name].karma < THRESHOLDS[name].UNRELIABLE) {
+      } else if (trust[name].karma <= THRESHOLDS[name].UNRELIABLE) {
         return false;
       }
     } else if (THRESHOLDS[name].RELIABLE < 0) {
