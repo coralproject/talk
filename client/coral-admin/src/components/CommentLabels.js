@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Label from 'coral-ui/components/Label';
 import Slot from 'coral-framework/components/Slot';
+import { t } from 'coral-framework/services/i18n';
 import FlagLabel from 'coral-ui/components/FlagLabel';
 import cn from 'classnames';
 import styles from './CommentLabels.css';
@@ -63,10 +64,14 @@ const CommentLabels = ({
           <FlagLabel iconName="person">{getUserFlaggedType(actions)}</FlagLabel>
         )}
         {hasSuspectedWords(actions) && (
-          <FlagLabel iconName="sms_failed">Suspect</FlagLabel>
+          <FlagLabel iconName="sms_failed">
+            {t('flags.reasons.comment.suspect_word')}
+          </FlagLabel>
         )}
         {hasHistoryFlag(actions) && (
-          <FlagLabel iconName="sentiment_very_dissatisfied">History</FlagLabel>
+          <FlagLabel iconName="sentiment_very_dissatisfied">
+            {t('flags.reasons.comment.trust')}
+          </FlagLabel>
         )}
       </div>
       <Slot
