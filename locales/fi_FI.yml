@@ -413,7 +413,7 @@ fi_FI:
     title_reject: "Huomasimme sinun hylänneen käyttäjänimen"
     suspend_user: "Aseta väliaikainen käyttökielto"
     yes_suspend: "Kyllä, sulje väliaikaisesti"
-    email_message_reject: "Toinen yhteisön jäsen on ilmiantanut käyttäjänimesi ja sen perusteella nimi on hylätty. Et voi enää osallistua keskusteluun. Ole ystävällisesti yhteydessä meihin, jos sinulla on asiasta kysyttävää." 
+    email_message_reject: "Toinen yhteisön jäsen on ilmiantanut käyttäjänimesi ja sen perusteella nimi on hylätty. Et voi enää osallistua keskusteluun. Ole ystävällisesti yhteydessä meihin, jos sinulla on asiasta kysyttävää."
     write_message: "Kirjoita viesti"
     send: Lähetä
   thank_you: "Arvostamme palautettasi. Moderaattorimme käy läpi tekemäsi ilmiannon."
@@ -462,4 +462,4 @@ fi_FI:
       close: "Sulje asennusnäkymä"
   admin_sidebar:
     view_options: "Näytä asetukset"
-sort_comments: "Järjestä kommentit"
+    sort_comments: "Järjestä kommentit"
