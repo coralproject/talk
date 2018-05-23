@@ -1,0 +1,63 @@
+{% extends "templates/account.njk" %}
+
+{% block title %}{{ t('confirm_email.email_confirmation') }}{% endblock %}
+
+{% block html %}
+<div id="root">
+  <section class="container">
+    <h1>{{ t('confirm_email.email_confirmation') }}</h1>
+    <p>{{ t('confirm_email.click_to_confirm') }}</p>
+    <div class="error-console"><span></span></div>
+    <form id="verify-email-form">
+      <button type="submit">{{ t('confirm_email.confirm') }}</button>
+    </form>
+  </section>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script nonce="{{ nonce }}" type="text/javascript">
+  $(function() {
+    function showError(error) {
+      try {
+        let err = JSON.parse(error);
+        $('.error-console span').text(err.message);
+        $('.error-console').fadeIn();
+      } catch (err) {
+        $('.error-console span').text(error);
+        $('.error-console').fadeIn();
+      }
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      $('.error-console').removeClass('active');
+
+      $.ajax({
+        url: '{{ BASE_PATH }}api/v1/account/email/verify',
+        contentType: 'application/json',
+        method: 'POST',
+        data: JSON.stringify({token: location.hash.replace('#', '')})
+      }).then(function (success) {
+        location.href = success.redirectUri;
+      }).catch(function (error) {
+        showError(error.responseText);
+      });
+    }
+
+    $.ajax({
+      url: '{{ BASE_PATH }}api/v1/account/email/verify',
+      contentType: 'application/json',
+      method: 'POST',
+      data: JSON.stringify({token: location.hash.replace('#', ''), check: true})
+    })
+    .then(function () {
+      $('#verify-email-form').fadeIn().on('submit', handleSubmit);
+    })
+    .catch(function (error) {
+      showError(error.responseText);
+    });
+  });
+</script>
+{% endblock %}

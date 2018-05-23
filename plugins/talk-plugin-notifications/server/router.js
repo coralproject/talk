@@ -4,7 +4,7 @@ const { get, isEmpty, reduce } = require('lodash');
 
 module.exports = router => {
   router.get('/account/unsubscribe-notifications', (req, res) => {
-    res.render(path.join(__dirname, 'views/unsubscribe-notifications'));
+    res.render(path.join(__dirname, 'views/unsubscribe-notifications.njk'));
   });
 
   /**

@@ -1,0 +1,16 @@
+{% extends "templates/base.njk" %}
+
+{% block title %}Talk{% endblock %}
+
+{% block css %}
+<link href="{{ resolve('embed/stream/default.css')}}" rel="stylesheet">
+<link href="{{ resolve('embed/stream/bundle.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block html %}
+<div id="talk-embed-stream-container"></div>
+{% endblock %}
+
+{% block js %}
+<script src="{{ resolve('embed/stream/bundle.js')}}"></script>
+{% endblock %}
