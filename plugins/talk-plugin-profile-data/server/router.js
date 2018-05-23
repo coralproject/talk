@@ -102,7 +102,7 @@ async function loadComments(ctx, userID, archive, latestContentDate) {
 module.exports = router => {
   // /account/download will render the download page.
   router.get('/account/download', (req, res) => {
-    res.render(path.join(__dirname, 'views', 'download'));
+    res.render(path.join(__dirname, 'views', 'download.njk'));
   });
 
   // /api/v1/account/download will send back a zipped archive of the users

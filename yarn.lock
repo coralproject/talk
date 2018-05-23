@@ -2392,6 +2392,12 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
 
+consolidate@0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/consolidate/-/consolidate-0.14.0.tgz#b03acd566a2565ca96e99f44fd1417486b4df88d"
+  dependencies:
+    bluebird "^3.1.1"
+
 constantinople@^3.0.1:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/constantinople/-/constantinople-3.1.0.tgz#7569caa8aa3f8d5935d62e1fa96f9f702cd81c79"
