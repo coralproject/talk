@@ -2,15 +2,13 @@ const express = require('express');
 const debug = require('debug')('talk:routes:plugins');
 const plugins = require('../services/plugins');
 const staticTemplate = require('../middleware/staticTemplate');
+const contentSecurityPolicy = require('../middleware/contentSecurityPolicy');
+const nonce = require('../middleware/nonce');
 
 const router = express.Router();
 
-// Routes mounted from plugins won't have access to our internal partials
-// directory, so we should make that available.
-router.use(staticTemplate, (req, res, next) => {
-  res.locals.root = res.app.get('views');
-  next();
-});
+// Apply the middleware.
+router.use(staticTemplate, nonce, contentSecurityPolicy);
 
 // Inject server route plugins.
 plugins.get('server', 'router').forEach(plugin => {
