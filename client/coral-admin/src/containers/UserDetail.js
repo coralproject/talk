@@ -179,14 +179,14 @@ export const withUserDetailQuery = withQuery(
       id
       username
       created_at
+      email
       profiles {
         id
         provider
       }
       reliable {
-        flagger
         commenter
-        commenterScore
+        commenterKarma
       }
       state {
         status {
@@ -226,6 +226,14 @@ export const withUserDetailQuery = withQuery(
         }
       }
       ${getSlotFragmentSpreads(slots, 'user')}
+    }
+    settings {
+      karma {
+        comment {
+          reliable
+          unreliable
+        }
+      }
     }
     me {
       id

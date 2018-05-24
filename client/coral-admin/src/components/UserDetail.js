@@ -6,12 +6,7 @@ import styles from './UserDetail.css';
 import UserHistory from './UserHistory';
 import { Slot } from 'coral-framework/components';
 import UserDetailCommentList from '../components/UserDetailCommentList';
-import {
-  getReliability,
-  isSuspended,
-  isBanned,
-  getKarma,
-} from 'coral-framework/utils/user';
+import { isSuspended, isBanned, getKarma } from 'coral-framework/utils/user';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import {
@@ -81,7 +76,7 @@ class UserDetail extends React.Component {
   renderLoaded() {
     const {
       root,
-      root: { me, user, totalComments, rejectedComments },
+      root: { me, user, totalComments, rejectedComments, settings: { karma } },
       activeTab,
       selectedCommentIds,
       toggleSelect,
@@ -179,7 +174,7 @@ class UserDetail extends React.Component {
 
           <div>
             <ul className={styles.userDetailList}>
-              <li>
+              <li className={styles.userDetailItem}>
                 <Icon name="assignment_ind" />
                 <span className={styles.userDetailItem}>
                   {t('user_detail.member_since')}:
@@ -187,11 +182,24 @@ class UserDetail extends React.Component {
                 {new Date(user.created_at).toLocaleString()}
               </li>
 
-              {user.profiles.map(({ id }) => (
-                <li key={id}>
-                  <Icon name="email" />
+              <li className={styles.userDetailItem}>
+                <Icon name="email" />
+                <span className={styles.userDetailItem}>
+                  {t('user_detail.email')}:
+                </span>
+                {user.email}{' '}
+                <ButtonCopyToClipboard
+                  className={styles.copyButton}
+                  icon="content_copy"
+                  copyText={user.email}
+                />
+              </li>
+
+              {user.profiles.map(({ provider, id }) => (
+                <li key={id} className={styles.userDetailItem}>
+                  <Icon name="device_hub" />
                   <span className={styles.userDetailItem}>
-                    {t('user_detail.email')}:
+                    {capitalize(provider)} {t('user_detail.id')}:
                   </span>
                   {id}{' '}
                   <ButtonCopyToClipboard
@@ -218,19 +226,6 @@ class UserDetail extends React.Component {
                   {rejectedPercent.toFixed(1)}%
                 </span>
               </li>
-              <li className={styles.stat}>
-                <span className={styles.statItem}>
-                  {t('user_detail.reports')}
-                </span>
-                <span
-                  className={cn(
-                    styles.statReportResult,
-                    styles[getReliability(user.reliable.flagger)]
-                  )}
-                >
-                  {capitalize(getReliability(user.reliable.flagger))}
-                </span>
-              </li>
               <li className={cn(styles.stat, styles.karmaStat)}>
                 <div>
                   <span className={styles.statItem}>
@@ -242,10 +237,10 @@ class UserDetail extends React.Component {
                       styles[getKarma(user.reliable.commenter)]
                     )}
                   >
-                    {user.reliable.commenterScore}
+                    {user.reliable.commenterKarma}
                   </span>
                 </div>
-                <KarmaTooltip />
+                <KarmaTooltip settings={karma.comment} />
               </li>
             </ul>
           </div>

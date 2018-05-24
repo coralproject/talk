@@ -1,0 +1,14 @@
+{% extends "templates/base.njk" %}
+
+{% block title %}Talk Admin{% endblock %}
+
+{% block css %}
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+<link href="https://code.getmdl.io/1.2.1/material.min.css" rel="stylesheet">
+<link href="{{ resolve('coral-admin/bundle.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+<script nonce="{{ nonce }}" src='https://www.google.com/recaptcha/api.js?render=explicit' async defer></script>
+<script src="{{ resolve('coral-admin/bundle.js') }}"></script>
+{% endblock %}
