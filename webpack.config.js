@@ -74,7 +74,7 @@ const config = {
   target: 'web',
   output: {
     path: path.join(__dirname, 'dist'),
-    webpackGlobals: '',
+    publicPath: '',
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
   },
