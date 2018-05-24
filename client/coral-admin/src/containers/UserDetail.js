@@ -183,6 +183,7 @@ export const withUserDetailQuery = withQuery(
       id
       username
       created_at
+      email
       profiles {
         id
         provider

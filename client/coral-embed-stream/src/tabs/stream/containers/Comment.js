@@ -24,6 +24,7 @@ const slots = [
   'commentAuthorName',
   'commentAuthorTags',
   'commentTimestamp',
+  'commentTombstone',
   'commentContent',
 ];
 

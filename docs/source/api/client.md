@@ -264,7 +264,7 @@ Coral UI is a set of components to help you build your UI. This powers our core.
 
 ### Import 
 ```js
-import {Button} 'plugin-api/beta/components/ui';
+import {Button} from 'plugin-api/beta/components/ui';
 ```
 
 ### Components

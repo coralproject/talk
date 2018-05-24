@@ -16,3 +16,21 @@ en:
     digest_option: Send notifications
     digest_enum:
       NONE: Immediately
+de:
+  talk-plugin-notifications:
+    settings_title: Benachrichtigungen
+    settings_subtitle: Benachrichtige mich wenn
+    turn_off_all: Ich möchte keine Benachrichtigungen erhalten
+    banner_info:
+      title: Bestätigte E-Mail-Adresse benötigt
+      text: Um E-Mail-Benachrichtigungen zu erhalten, müssen Sie eine bestätigte E-Mail-Adresse haben.
+      verify_now: E-Mail-Adresse jetzt bestätigen
+    banner_success:
+      title: E-Mail-Bestätigungsanfrage verschickt
+      text: Eine E-Mail mit einem Bestätigungslink wurde an {0} geschickt.
+    banner_error:
+      title: Fehler
+      text: Beim Versand der Bestätigungsmail gab es einen Fehler. Bitte versuchen Sie es später erneut.
+    digest_option: Benachrichtigungen senden
+    digest_enum:
+      NONE: Sofort
