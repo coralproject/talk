@@ -59,14 +59,14 @@ export const supportedLocales = Object.keys(translations);
 let LOCALE;
 let TIMEAGO_INSTANCE;
 
-const preferedLanguage = process.env.TALK_FORCE_LANG ? process.env.TALK_FORCE_LANG : navigator.languages;
+const preferredLanguage = process.env.TALK_FORCE_LANG ? [process.env.TALK_FORCE_LANG] : navigator.languages;
 
 // detectLanguage will try to get the locale from storage if available,
 // otherwise will try to get it from the navigator, otherwise, it will fallback
 // to the default language.
 const detectLanguage = () =>
   first(
-    negotiateLanguages(preferedLanguage, supportedLocales, {
+    negotiateLanguages(preferredLanguage, supportedLocales, {
       defaultLocale,
       strategy: 'lookup',
     })
