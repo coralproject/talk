@@ -240,7 +240,7 @@ class UserDetail extends React.Component {
                     {user.reliable.commenterKarma}
                   </span>
                 </div>
-                <KarmaTooltip settings={karma.comment} />
+                <KarmaTooltip thresholds={karma.comment} />
               </li>
             </ul>
           </div>

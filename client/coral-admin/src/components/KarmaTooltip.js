@@ -10,7 +10,7 @@ const initialState = { menuVisible: false };
 
 class KarmaTooltip extends React.Component {
   static propTypes = {
-    settings: PropTypes.shape({
+    thresholds: PropTypes.shape({
       reliable: PropTypes.number.isRequired,
       unreliable: PropTypes.number.isRequired,
     }).isRequired,
@@ -27,7 +27,7 @@ class KarmaTooltip extends React.Component {
   };
 
   render() {
-    const { settings: { unreliable } } = this.props;
+    const { thresholds: { unreliable } } = this.props;
     const { menuVisible } = this.state;
 
     return (
