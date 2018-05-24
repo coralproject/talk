@@ -6,8 +6,8 @@ const Karma = require('../../../services/karma');
 const thresholdsBackup = {};
 const thresholdsOverride = {
   comment: {
-    RELIABLE: 1,
-    UNRELIABLE: -1,
+    RELIABLE: 2,
+    UNRELIABLE: 0,
   },
   flag: {
     RELIABLE: 1,
@@ -35,19 +35,21 @@ describe('services.Karma', () => {
 
   describe('#isReliable', () => {
     it('neutral', () => {
-      expect(Karma.isReliable('comment', {})).to.be.null;
-      expect(Karma.isReliable('comment', { comment: {} })).to.be.null;
-      expect(Karma.isReliable('comment', { comment: { karma: 0 } })).to.be.null;
+      expect(Karma.isReliable('comment', { comment: { karma: 1 } })).to.be.null;
+      expect(Karma.isReliable('comment', { comment: { karma: 0 } })).to.not.be
+        .null;
+      expect(Karma.isReliable('comment', { comment: { karma: -1 } })).to.not.be
+        .null;
     });
     it('unreliable', () => {
-      expect(Karma.isReliable('comment', { comment: { karma: -1 } })).to.be
-        .false;
-      expect(Karma.isReliable('comment', { comment: { karma: -2 } })).to.be
+      expect(Karma.isReliable('comment', {})).to.be.false;
+      expect(Karma.isReliable('comment', { comment: {} })).to.be.false;
+      expect(Karma.isReliable('comment', { comment: { karma: 0 } })).to.be
         .false;
     });
     it('reliable', () => {
-      expect(Karma.isReliable('comment', { comment: { karma: 1 } })).to.be.true;
       expect(Karma.isReliable('comment', { comment: { karma: 2 } })).to.be.true;
+      expect(Karma.isReliable('comment', { comment: { karma: 3 } })).to.be.true;
     });
   });
 });
