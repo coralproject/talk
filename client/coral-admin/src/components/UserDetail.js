@@ -76,7 +76,13 @@ class UserDetail extends React.Component {
   renderLoaded() {
     const {
       root,
-      root: { me, user, totalComments, rejectedComments, settings: { karma } },
+      root: {
+        me,
+        user,
+        totalComments,
+        rejectedComments,
+        settings: { karmaThresholds },
+      },
       activeTab,
       selectedCommentIds,
       toggleSelect,
@@ -240,7 +246,7 @@ class UserDetail extends React.Component {
                     {user.reliable.commenterKarma}
                   </span>
                 </div>
-                <KarmaTooltip thresholds={karma.comment} />
+                <KarmaTooltip thresholds={karmaThresholds.comment} />
               </li>
             </ul>
           </div>

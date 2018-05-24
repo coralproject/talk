@@ -897,8 +897,9 @@ type Settings {
   # domains will return a given list of domains.
   domains: Domains
 
-  # karma contains the currently set thresholds for triggering Trust beheviour.
-  karma: KarmaThresholds
+  # karmaThresholds contains the currently set thresholds for triggering Trust
+  # beheviour.
+  karmaThresholds: KarmaThresholds
 }
 
 ################################################################################

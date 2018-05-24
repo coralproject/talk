@@ -323,7 +323,7 @@ export default {
                 commenter: {
                   $set: calculateReliability(
                     prev.user.reliable.commenterKarma - 1,
-                    prev.settings.karma.comment
+                    prev.settings.karmaThresholds.comment
                   ),
                 },
                 commenterKarma: {
@@ -342,7 +342,7 @@ export default {
                 commenter: {
                   $set: calculateReliability(
                     prev.user.reliable.commenterKarma + 1,
-                    prev.settings.karma.comment
+                    prev.settings.karmaThresholds.comment
                   ),
                 },
                 commenterKarma: {

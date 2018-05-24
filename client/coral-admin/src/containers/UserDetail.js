@@ -228,7 +228,7 @@ export const withUserDetailQuery = withQuery(
       ${getSlotFragmentSpreads(slots, 'user')}
     }
     settings {
-      karma {
+      karmaThresholds {
         comment {
           reliable
           unreliable
