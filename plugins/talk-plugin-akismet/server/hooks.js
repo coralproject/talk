@@ -28,8 +28,11 @@ let enabled = true;
 module.exports = {
   RootMutation: {
     createComment: {
-      async pre(_, { input }, { loaders, parent: req }) {
-        // If the key validation failed, then we can't run with the client.
+      async pre(_, { input }, ctx) {
+        const req = ctx.parent.parent;
+        const loaders = ctx.loaders;
+
+        //If the key validation failed, then we can't run with the client.
         if (!enabled) {
           debug('not enabled, passing');
           return;

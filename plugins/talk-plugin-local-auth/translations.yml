@@ -69,6 +69,76 @@ en:
         description_2: "You can change your account settings by visiting"
         path: "My Profile > Settings"
         alert: "Email Added!"
+de:
+  email:
+    email_change_original:
+      subject: Änderung Ihrer E-Mail-Adresse
+      body: Ihre E-Mail-Adresse wurde von {0} zu {1} geändert. Falls Sie diese Änderung nicht selbst vorgenommen haben, kontaktieren Sie bitte zur Sicherheit {2}.
+  error:
+    NO_LOCAL_PROFILE: Mit diesem Benutzerkonto ist keine E-Mail-Adresse verbunden.
+    LOCAL_PROFILE: Es ist bereits eine bestätigte E-Mail-Adresse mit diesem Benutzerkonto verbunden.
+    INCORRECT_PASSWORD: Das Passwort war nicht korrekt.
+  talk-plugin-local-auth:
+    change_password:
+      change_password: "Passwort ändern"
+      passwords_dont_match: "Die Passwörter stimmen nicht überein"
+      required_field: "Diese Angabe ist erforderlich"
+      forgot_password: "Passwort vergessen?"
+      save: "Speichern"
+      cancel: "Abbrechen"
+      edit: "Ändern"
+      changed_password_msg: "Passwort geändert - Ihr Passwort wurde erfolgreich geändert"
+      forgot_password_sent: "Passwort vergessen - Wir haben Ihnen eine E-Mail zum Zurücksetzen des Passwortes geschickt"
+    change_username:
+      change_username_note: "Nutzernamen können nur alle 14 Tage geändert werden. Ihr Nutzername ist zur Zeit nicht editierbar."
+      save: "Speichern"
+      edit_profile: "Profil ändern"
+      cancel: "Abbrechen"
+      confirm_username_change: "Änderung des Nutzernamens bestätigen"
+      description: "Sie möchten Ihren Nutzernamen ändern: der neue Nutzername wird an allen alten und neuen Kommentaren erscheinen."
+      old_username: "Alter Nutzername"
+      new_username: "Neuer Nutzername"
+      bottom_note: "Achtung: die nächste Änderung des Nutzernamens ist erst nach 14 Tagen möglich"
+      confirm_changes: "Änderung bestätigen"
+      username_does_not_match: "Die Nutzernamen stimmen nicht überein"
+      cant_be_equal: "Der neue Nutzername {0} muss sich vom alten unterscheiden."
+      changed_username_success_msg: "Nutzername geändert - Ihr Nutzername wurde erfolgreich aktualisiert. Die nächste Änderung des Nutzernamens ist erst nach 14 Tagen möglich."
+      change_username_attempt: "Der Nutzername kann zur Zeit nicht aktualisiert werden. Änderungen sind nur nach jeweils 14 Tagen möglich."
+    change_email:
+      confirm_email_change: "Änderung der E-Mail-Adresse bestätigen"
+      description: "Sie versuchen, Ihre E-Mail-Adresse ändern: die neue E-Mail-Adresse wird zum Login sowie für Benachrichtigungen bzgl. Ihres Benutzerkontos verwendet."
+      old_email: "Alte E-Mail-Adresse"
+      new_email: "Neue E-Mail-Adresse"
+      enter_password: "Passwort"
+      incorrect_password: "Passwort nicht korrekt"
+      confirm_change: "Änderung bestätigen"
+      cancel: "Abbrechen"
+      change_email_msg: "E-Mail-Adresse erfolgreich aktualisiert - die neue E-Mail-Adresse ab sofort zum Anmelden und für Benachrichtigungen verwendet."
+    add_email:
+      add_email_address: "E-Mail-Adresse hinzufügen"
+      enter_email_address: "E-Mail-Adresse:"
+      invalid_email_address: "Ungültige E-Mail-Adresse"
+      confirm_email_address: "Bestätigung der E-Mail-Adresse:"
+      email_does_not_match: "Die E-Mail-Adressen stimmen nicht überein"
+      insert_password: "Passwort auswählen:"
+      required_field: "Dieses Feld ist erforderlich"
+      done: "Fertig"
+      content:
+        title: "E-Mail-Adresse hinzufügen"
+        description: "Aus Sicherheitsgründen benötigen wir eine E-Mail-Adresse zu jedem Benutzerkonto. Ihre E-Mail-Adresse wird für folgendes verwendet:"
+        item_1: "Benachrichtigungen über Änderungen am Benutzerkonto (Nutzername, E-Mail-Adresse, Passwort)"
+        item_2: "Ermöglicht den Download des eigenen Kommentar-Archivs"
+        item_3: "Kommentar-Benachrichtigungen erhalten, die Sie explizit angefordert haben"
+      verify:
+        title: "E-Mail-Adresse bestätigen"
+        description:  "Wir haben einen E-Mail an {0} geschickt. Bitte bestätigen Sie Ihre E-Mail-Adresse, um damit Benachrichtigungen über Änderungen am Benutzerkonto zu erhalten."
+      added:
+        title: "E-Mail-Adresse hinzugefügt"
+        description: "Ihre E-Mail-Adresse wurde dem Benutzerkonto hinzugefügt."
+        subtitle: "Sie möchten Ihre E-Mail-Adresse ändern?"
+        description_2: "Sie können Ihre Konto-Einstellugen ändern unter"
+        path: "Mein Profil > Profil-Einstellungen"
+        alert: "E-Mail-Adresse hinzugefügt!"
 es:
   talk-plugin-local-auth:
     change_password:

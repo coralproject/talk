@@ -11,7 +11,7 @@ router.get('/id/:asset_id', async (req, res, next) => {
       throw new ErrNotFound();
     }
 
-    res.render('dev/article', {
+    res.render('dev/article.njk', {
       title: asset.title,
       asset_id: asset.id,
       asset_url: asset.url,
@@ -28,7 +28,7 @@ router.get('/random', (req, res) => {
 });
 
 router.get('/title/:asset_title', (req, res) => {
-  res.render('dev/article', {
+  res.render('dev/article.njk', {
     title: req.params.asset_title.split('-').join(' '),
     asset_url: '',
     asset_id: null,
@@ -48,7 +48,7 @@ router.get('/', async (req, res, next) => {
       Asset.count(),
     ]);
 
-    res.render('dev/articles', {
+    res.render('dev/articles.njk', {
       skip,
       limit,
       count,

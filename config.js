@@ -36,6 +36,13 @@ const CONFIG = {
   // rendered text.
   DEFAULT_LANG: process.env.TALK_DEFAULT_LANG || 'en',
 
+  // WHITELISTED_LANGUAGES is a comma separated list of language/locales that
+  // should be supported. If the default language is not included in the
+  // whitelist list, the first entry will be used as the default.
+  WHITELISTED_LANGUAGES:
+    process.env.TALK_WHITELISTED_LANGUAGES &&
+    process.env.TALK_WHITELISTED_LANGUAGES.split(',').map(l => l.trim()),
+
   // When TRUE, it ensures that database indexes created in core will not add
   // indexes.
   CREATE_MONGO_INDEXES: process.env.DISABLE_CREATE_MONGO_INDEXES !== 'TRUE',
@@ -47,6 +54,10 @@ const CONFIG = {
   // ALLOW_NO_LIMIT_QUERIES enables some queries to specify a limit of -1 to
   // request all of the records. Otherwise, minimum limits of 0 are enforced.
   ALLOW_NO_LIMIT_QUERIES: process.env.TALK_ALLOW_NO_LIMIT_QUERIES === 'TRUE',
+
+  // ENABLE_STRICT_CSP enables strict CSP enforcement, and will enforce as well
+  // as report CSP violations.
+  ENABLE_STRICT_CSP: process.env.TALK_ENABLE_STRICT_CSP === 'TRUE',
 
   // LOGGING_LEVEL specifies the logging level used by the bunyan logger.
   LOGGING_LEVEL: ['fatal', 'error', 'warn', 'info', 'debug', 'trace'].includes(
@@ -312,6 +323,17 @@ CONFIG.JWT_COOKIE_NAMES = uniq(
     CONFIG.JWT_SIGNING_COOKIE_NAME,
   ])
 );
+
+//------------------------------------------------------------------------------
+// Locale validation
+//------------------------------------------------------------------------------
+
+if (
+  CONFIG.WHITELISTED_LANGUAGES &&
+  !CONFIG.WHITELISTED_LANGUAGES.includes(CONFIG.DEFAULT_LANG)
+) {
+  CONFIG.DEFAULT_LANG = CONFIG.WHITELISTED_LANGUAGES[0];
+}
 
 //------------------------------------------------------------------------------
 // External database url's

@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
 });
 
 router.use('/account', require('./account'));
+router.use('/csp', require('./csp'));
 router.use('/assets', require('./assets'));
 router.use('/auth', require('./auth'));
 router.use('/graph', require('./graph'));

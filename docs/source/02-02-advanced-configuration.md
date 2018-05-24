@@ -31,6 +31,21 @@ image you can specify it with `--build-arg TALK_DEFAULT_LANG=en`.
 
 Specify the default translation language. (Default `en`)
 
+## TALK_WHITELISTED_LANGUAGES
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
+image you can specify it with `--build-arg TALK_WHITELISTED_LANGUAGES=en`.
+
+Specify the comma separated whitelisted languages that you want the Talk
+application to serve. This will override the available set of languages that
+Talk will allow to be served.
+
+If the [TALK_DEFAULT_LANG](#talk-default-lang) is not included in this list of
+whitelisted languages, then the first whitelisted language will become the
+default language. If this parameter is empty, then all languages supported by
+Talk will be whitelisted. (Default '')
+
 ## TALK_DEFAULT_STREAM_TAB
 
 This is a **Build Variable** and must be consumed during build. If using the
@@ -496,6 +511,14 @@ Used to set the key for use with
 tracing of GraphQL requests.
 
 **Note: Apollo Engine is a premium service, charges may apply.**
+
+## TALK_ENABLE_STRICT_CSP
+
+Setting this to `TRUE` will enforce the [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+(or CSP). By default, this configuration is set to
+[report only](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Testing_your_policy)
+where the policy is not enforced, but any violations are reported to a provided
+URI. (Default `FALSE`)
 
 ## ALLOW_NO_LIMIT_QUERIES
 

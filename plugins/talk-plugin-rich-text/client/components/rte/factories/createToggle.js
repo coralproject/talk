@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../components/Button';
+import bowser from 'bowser';
 
 /**
  *  createToggle creates a button that can be active, inactive or disabled
@@ -32,7 +33,17 @@ const createToggle = (
       this.execCommand();
     };
 
+    // Detect whether there was focus on the RTE before the click.
+    hadFocusBeforeClick = false;
+    handleMouseDown = () => (this.hadFocusBeforeClick = this.props.api.focused);
+
     handleClick = () => {
+      // Skip IOS when the focus was not there before.
+      // IOS fails to focus to the RTE correctly and scrolls to nirvana.
+      // See https://www.pivotaltracker.com/story/show/157607216
+      if (!this.hadFocusBeforeClick && bowser.ios) {
+        return;
+      }
       this.props.api.focus();
       this.formatToggle();
       this.props.api.focus();
@@ -62,6 +73,7 @@ const createToggle = (
         <Button
           className={className}
           title={title}
+          onMouseDown={this.handleMouseDown}
           onClick={this.handleClick}
           active={this.state.active}
           disabled={disabled || this.state.disabled}
