@@ -169,6 +169,7 @@ const config = {
       TALK_REPLY_COMMENTS_LOAD_DEPTH: '3',
       TALK_DEFAULT_STREAM_TAB: 'all',
       TALK_DEFAULT_LANG: 'en',
+      TALK_FORCE_LANG: process.env.TALK_FORCE_LANG || '',
     }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
