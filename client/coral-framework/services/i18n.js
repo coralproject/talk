@@ -39,7 +39,20 @@ import pt_BR from '../../../locales/pt_BR.yml';
 import zh_CN from '../../../locales/zh_CN.yml';
 import zh_TW from '../../../locales/zh_TW.yml';
 
-export const defaultLocale = process.env.TALK_DEFAULT_LANG.replace(/-/g, '_');
+// the list of languages that are whitelisted. If false, all languages that are
+// supported by Talk will be enabled.
+const whitelistedLanguages =
+  process.env.TALK_WHITELISTED_LANGUAGES &&
+  process.env.TALK_WHITELISTED_LANGUAGES.split(',').map(l => l.trim());
+
+// The default language. If the whitelisted languages is specified and the
+// default language is not in that list, then the first language in the
+// whitelisted list will be used as the default.
+export const defaultLocale = whitelistedLanguages
+  ? !whitelistedLanguages.includes(process.env.TALK_DEFAULT_LANG)
+    ? whitelistedLanguages[0]
+    : process.env.TALK_DEFAULT_LANG
+  : process.env.TALK_DEFAULT_LANG;
 
 export const translations = {
   ...ar,
@@ -64,10 +77,14 @@ let TIMEAGO_INSTANCE;
 // to the default language.
 const detectLanguage = () =>
   first(
-    negotiateLanguages(navigator.languages, supportedLocales, {
-      defaultLocale,
-      strategy: 'lookup',
-    })
+    negotiateLanguages(
+      navigator.languages,
+      whitelistedLanguages || supportedLocales,
+      {
+        defaultLocale,
+        strategy: 'lookup',
+      }
+    )
   );
 
 export function setupTranslations() {
