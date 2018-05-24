@@ -44,7 +44,7 @@ Talk will allow to be served.
 If the [TALK_DEFAULT_LANG](#talk-default-lang) is not included in this list of
 whitelisted languages, then the first whitelisted language will become the
 default language. If this parameter is empty, then all languages supported by
-Talk will be whitelisted. (Default ``)
+Talk will be whitelisted. (Default '')
 
 ## TALK_DEFAULT_STREAM_TAB
 
