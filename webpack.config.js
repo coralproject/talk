@@ -74,7 +74,7 @@ const config = {
   target: 'web',
   output: {
     path: path.join(__dirname, 'dist'),
-    publicPath: '',
+    webpackGlobals: '',
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
   },
@@ -309,7 +309,10 @@ const applyConfig = (entries, root = {}) =>
       entry: entries.reduce(
         (entry, { name, path: modulePath, disablePolyfill = false }) => {
           const entries = [
-            path.join(__dirname, 'client/coral-framework/helpers/publicPath'),
+            path.join(
+              __dirname,
+              'client/coral-framework/helpers/webpackGlobals'
+            ),
           ];
           if (disablePolyfill) {
             entries.push(modulePath);
