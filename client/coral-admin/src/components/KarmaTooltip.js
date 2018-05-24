@@ -44,6 +44,7 @@ class KarmaTooltip extends React.Component {
             <div className={cn(styles.menu, 'talk-admin-karma-tooltip-menu')}>
               <strong>{t('user_detail.user_karma_score')}</strong>
               <ul>
+                {/* NOTE: we may display this data in the future, keeping around for that eventuality */}
                 {/* <li>
                   <span>Reliable</span>{' '}
                   <span className={cn(styles.label, styles.reliable)}>
