@@ -8,7 +8,7 @@ const {
 const { first, get, has, merge, isUndefined } = require('lodash');
 const yaml = require('yamljs');
 const plugins = require('./plugins');
-const { DEFAULT_LANG } = require('../config');
+const { DEFAULT_LANG, WHITELISTED_LANGUAGES } = require('../config');
 
 const resolve = (...paths) =>
   path.resolve(path.join(__dirname, '..', 'locales', ...paths));
@@ -105,10 +105,14 @@ const i18n = {
 
     // negotiate the language.
     const lang = first(
-      negotiateLanguages(acceptsLanguages, supportedLocales, {
-        defaultLocale: DEFAULT_LANG,
-        strategy: 'lookup',
-      })
+      negotiateLanguages(
+        acceptsLanguages,
+        WHITELISTED_LANGUAGES || supportedLocales,
+        {
+          defaultLocale: DEFAULT_LANG,
+          strategy: 'lookup',
+        }
+      )
     );
     debug(`decided language as '${lang}'`);
 

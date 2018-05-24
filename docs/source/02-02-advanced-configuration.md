@@ -31,6 +31,21 @@ image you can specify it with `--build-arg TALK_DEFAULT_LANG=en`.
 
 Specify the default translation language. (Default `en`)
 
+## TALK_WHITELIST_LANGUAGES
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
+image you can specify it with `--build-arg TALK_WHITELIST_LANGUAGES=en`.
+
+Specify the comma separated whitelisted languages that you want the Talk
+application to serve. This will override the available set of languages that
+Talk will allow to be served.
+
+If the [TALK_DEFAULT_LANG](#talk-default-lang) is not included in this list of
+whitelisted languages, then the first whitelisted language will become the
+default language. If this parameter is empty, then all languages supported by
+Talk will be whitelisted. (Default ``)
+
 ## TALK_DEFAULT_STREAM_TAB
 
 This is a **Build Variable** and must be consumed during build. If using the
