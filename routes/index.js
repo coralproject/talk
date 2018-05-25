@@ -9,7 +9,6 @@ const path = require('path');
 const compression = require('compression');
 const plugins = require('../services/plugins');
 const staticTemplate = require('../middleware/staticTemplate');
-const contentSecurityPolicy = require('../middleware/contentSecurityPolicy');
 const nonce = require('../middleware/nonce');
 const staticServer = require('express-static-gzip');
 const { DISABLE_STATIC_SERVER } = require('../config');
@@ -76,7 +75,8 @@ router.use(compression());
 // STATIC ROUTES
 //==============================================================================
 
-const staticMiddleware = [staticTemplate, nonce, contentSecurityPolicy];
+// TODO: re-add CSP once we've resolved issues with dynamic webpack loading.
+const staticMiddleware = [staticTemplate, nonce];
 
 router.use('/admin', ...staticMiddleware, require('./admin'));
 router.use('/account', ...staticMiddleware, require('./account'));
