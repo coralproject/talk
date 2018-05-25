@@ -291,11 +291,10 @@ pre {
 
 .content {
   article {
-    p a:not(.plain-link) {
-      @extend .coral-link;
-    }
+    p a:not(.plain-link),
     ul:not(.toc__menu) li a,
     ol li a,
+    td a,
     dd > a {
       @extend .coral-link;
     }
