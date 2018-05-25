@@ -15,6 +15,7 @@ import {
 } from 'react-virtualized';
 import throttle from 'lodash/throttle';
 import key from 'keymaster';
+import cn from 'classnames';
 
 const hasComment = (nodes, id) => nodes.some(node => node.id === id);
 
@@ -380,6 +381,11 @@ class ModerationQueue extends React.Component {
       ...props
     } = this.props;
 
+    const rootClassName = cn(
+      styles.root,
+      `talk-admin-moderate-queue-${this.props.activeTab}`
+    );
+
     if (comments.length === 0) {
       return (
         <div className={styles.root}>
@@ -401,7 +407,7 @@ class ModerationQueue extends React.Component {
 
       const comment = comments[index];
       return (
-        <div className={styles.root}>
+        <div className={rootClassName}>
           <Comment
             root={this.props.root}
             key={comment.id}
@@ -423,7 +429,7 @@ class ModerationQueue extends React.Component {
     const view = this.state.view;
 
     return (
-      <div className={styles.root}>
+      <div className={rootClassName}>
         <ViewMore
           viewMore={() => this.viewNewComments()}
           count={comments.length - view.length}
