@@ -1,5 +1,5 @@
 .contentEditable {
-  background: #fff;
+  background: transparent;
   border: solid 1px #bbb;
   min-height: 120px;
   box-sizing: border-box;
@@ -15,6 +15,7 @@
   position: absolute;
   margin: 12px 0 0 12px;
   color: #bbb;
+  z-index: -1;
 }
 
 .toolbarDisabled {
