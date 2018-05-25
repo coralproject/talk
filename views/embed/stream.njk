@@ -11,8 +11,8 @@
 <div id="talk-embed-stream-container"></div>
 
 {#
-  Resolves touch handling issues encountered on IOS Safari under certain circumstances
-  https://www.pivotaltracker.com/n/projects/1863625
+  Resolves touch handling issues encountered on IOS Safari under certain circumstances:
+    https://stackoverflow.com/questions/12363742/touchstart-event-is-not-firing-inside-iframe-ios-6
 #}
 <script nonce="{{ nonce }}">document.body.addEventListener('touchstart', function() {});</script>
 
