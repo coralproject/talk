@@ -97,8 +97,8 @@ de:
       changed_password_msg: "Passwort geändert - Ihr Passwort wurde erfolgreich geändert"
       forgot_password_sent: "Passwort vergessen - Wir haben Ihnen eine E-Mail zum Zurücksetzen des Passwortes geschickt"
     change_username:
-      change_username_note: "Nutzernamen können nur alle 14 Tage geändert werden. Ihr Nutzername ist zur Zeit nicht editierbar."
-      is_not_eligible: "Sie können Ihren Benutzernamen derzeit nicht ändern."
+      change_username_note: "Nutzernamen können nur alle 14 Tage geändert werden."
+      is_not_eligible: "Sie können Ihren Nutzernamen derzeit nicht ändern."
       save: "Speichern"
       edit_profile: "Profil ändern"
       cancel: "Abbrechen"
