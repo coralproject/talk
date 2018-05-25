@@ -1,17 +1,20 @@
 const fs = require('fs');
 const path = require('path');
 const debug = require('debug')('talk:services:i18n');
-const accepts = require('accepts');
-const { get, has, merge } = require('lodash');
+const {
+  acceptedLanguages,
+  negotiateLanguages,
+} = require('fluent-langneg/compat');
+const { first, get, has, merge, isUndefined } = require('lodash');
 const yaml = require('yamljs');
 const plugins = require('./plugins');
-const { DEFAULT_LANG } = require('../config');
+const { DEFAULT_LANG, WHITELISTED_LANGUAGES } = require('../config');
 
 const resolve = (...paths) =>
   path.resolve(path.join(__dirname, '..', 'locales', ...paths));
 
 // Load all the translations.
-let translations = fs
+const translations = fs
   .readdirSync(resolve())
 
   // Resolve all the filenames relative the the locales directory.
@@ -23,26 +26,22 @@ let translations = fs
   // Load the translation files from disk.
   .map(filename => fs.readFileSync(filename, 'utf8'))
 
-  // Load the translation files.
-  .reduce((packs, contents) => {
-    const pack = yaml.parse(contents);
-
-    return merge(packs, pack);
-  }, {});
+  // Load the translation files and merge the yaml into the existing packs.
+  .reduce((packs, contents) => merge(packs, yaml.parse(contents)), {});
 
 // Create a list of all supported translations.
-const languages = Object.keys(translations);
+const supportedLocales = Object.keys(translations);
 
 // Move the default language to the front.
-if (languages.includes(DEFAULT_LANG)) {
-  const from = languages.indexOf(DEFAULT_LANG);
-  languages.splice(from, 1);
-  languages.splice(0, 0, DEFAULT_LANG);
+if (supportedLocales.includes(DEFAULT_LANG)) {
+  const from = supportedLocales.indexOf(DEFAULT_LANG);
+  supportedLocales.splice(from, 1);
+  supportedLocales.splice(0, 0, DEFAULT_LANG);
 }
-debug(`loaded language sets for ${languages}`);
+debug(`loaded language sets for ${supportedLocales}`);
 
 let loadedPluginTranslations = false;
-const loadPluginTranslations = () => {
+const lazyLoadPluginTranslations = () => {
   if (loadedPluginTranslations) {
     return;
   }
@@ -55,7 +54,15 @@ const loadPluginTranslations = () => {
 
       const pack = yaml.parse(fs.readFileSync(filename, 'utf8'));
 
-      translations = merge(translations, pack);
+      // Merge the translations into the system translations.
+      merge(translations, pack);
+
+      // Push new languages into the supportedLocales array.
+      Object.keys(pack).forEach(language => {
+        if (!supportedLocales.includes(language)) {
+          supportedLocales.push(language);
+        }
+      });
     });
 
   loadedPluginTranslations = true;
@@ -64,7 +71,7 @@ const loadPluginTranslations = () => {
 const t = lang => (key, ...replacements) => {
   // Loads the translations into the translations array from plugins. This is
   // done lazily to ensure that we don't have an import cycle.
-  loadPluginTranslations();
+  lazyLoadPluginTranslations();
 
   let translation;
   if (has(translations[lang], key)) {
@@ -74,16 +81,17 @@ const t = lang => (key, ...replacements) => {
     console.warn(`${lang}.${key} language key not set`);
   }
 
-  if (translation) {
-    // replace any {n} with the arguments passed to this method
-    replacements.forEach((str, i) => {
-      translation = translation.replace(new RegExp(`\\{${i}\\}`, 'g'), str);
-    });
-    return translation;
-  } else {
+  if (!translation) {
     console.warn(`${lang}.${key} and en.${key} language key not set`);
     return key;
   }
+
+  // Handle replacements in the translation string.
+  return translation.replace(
+    /{(\d+)}/g,
+    (match, number) =>
+      !isUndefined(replacements[number]) ? replacements[number] : match
+  );
 };
 
 /**
@@ -92,13 +100,23 @@ const t = lang => (key, ...replacements) => {
  */
 const i18n = {
   request(req) {
-    debug(`possible languages given request '${accepts(req).languages()}'`);
-    const lang = accepts(req).language(languages);
-    debug(`parsed request language as '${lang}'`);
-    const language = lang ? lang : DEFAULT_LANG;
-    debug(`decided language as '${language}'`);
+    const acceptsLanguages = acceptedLanguages(req.headers['accept-language']);
+    debug(`possible languages given request '${acceptsLanguages}'`);
 
-    return t(language);
+    // negotiate the language.
+    const lang = first(
+      negotiateLanguages(
+        acceptsLanguages,
+        WHITELISTED_LANGUAGES || supportedLocales,
+        {
+          defaultLocale: DEFAULT_LANG,
+          strategy: 'lookup',
+        }
+      )
+    );
+    debug(`decided language as '${lang}'`);
+
+    return t(lang);
   },
   t: t(DEFAULT_LANG),
 };

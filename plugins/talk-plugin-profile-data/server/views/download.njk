@@ -1,0 +1,56 @@
+{% extends "templates/account.njk" %}
+
+{% block title %}{{ t('download_landing.download_your_account') }}{% endblock %}
+
+{% block html %}
+<div id="root">
+  <section class="container">
+    <h1>{{ t('download_landing.download_your_account') }}</h1>
+    <p>{{ t('download_landing.download_details') }}</p>
+    <p>{{ t('download_landing.all_information_included') }}</p>
+    <ul class="check_list">
+      <li>{{ t('download_landing.information_included.date') }}</li>
+      <li>{{ t('download_landing.information_included.url') }}</li>
+      <li>{{ t('download_landing.information_included.body') }}</li>
+      <li>{{ t('download_landing.information_included.asset_url') }}</li>
+    </ul>
+    <div class="error-console"><span></span></div>
+    <form id="download-form" method="post" action="{{ BASE_PATH }}api/v1/account/download">
+      <button type="submit">{{ t('download_landing.confirm') }}</button>
+    </form>
+  </section>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script nonce="{{ nonce }}" type="text/javascript">
+  $(function() {
+    function showError(error) {
+      try {
+        let err = JSON.parse(error);
+        $('.error-console span').text(err.message);
+        $('.error-console').fadeIn();
+      } catch (err) {
+        $('.error-console span').text(error);
+        $('.error-console').fadeIn();
+      }
+    }
+
+    var token = location.hash.replace('#', '');
+
+    $.ajax({
+      url: '{{ BASE_PATH }}api/v1/account/download',
+      contentType: 'application/json',
+      method: 'POST',
+      data: JSON.stringify({token: token, check: true})
+    })
+    .then(function () {
+      $('#download-form').append('<input name="token" type="hidden" value="' + token + '"/>').fadeIn();
+    })
+    .catch(function (error) {
+      showError(error.responseText);
+    });
+  });
+</script>
+{% endblock %}
