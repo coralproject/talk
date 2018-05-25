@@ -491,7 +491,7 @@ es:
   validators:
     confirm_email: 'Los correos no coinciden. Inténtelo nuevamente'
     confirm_password: 'Las contraseñas no coinciden. Inténtelo nuevamente'
-    required: 'Campo requerido.'
+    required: 'Este campo es requerido'
     verify_email: 'No es un correo válido'
     verify_organization_name: 'El nombre de la organización debe contener letras y/o números.'
     verify_password: 'La contraseña debe tener por lo menos 8 caracteres'

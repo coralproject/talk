@@ -467,6 +467,12 @@ nl_NL:
   user_impersonating: 'Deze gebruiker imiteert'
   user_no_comment: 'Je hebt nog niet eerder gereageerd. Laat je mening horen!'
   username_offensive: 'Dit is een aanstootgevende gebruikersnaam.'
+  validators:
+    confirm_password: 'Wachtwoorden komen niet overeen. Controleer opnieuw.'
+    verify_email: 'Geen geldig e-mailadres'
+    verify_organization_name: 'Organisatienaam kan alleen cijfers en letters bevatten.'
+    verify_password: 'Wachtwoord moet minimaal 8 karakters lang zijn'
+    verify_username: 'Gebruikersnamen kunnen alleen cijfers, letters en _ bevatten.'
   view_conversation: 'Bekijk conversatie'
   your_account_has_been_banned: 'Je account is verbannen.'
   your_account_has_been_suspended: 'Je account is tijdelijk geschorst.'

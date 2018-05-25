@@ -459,6 +459,13 @@ fi_FI:
   user_impersonating: 'Käyttäjä on tekeytynyt toiseksi'
   user_no_comment: 'Et ole jättänyt yhtään kommenttia. Liity mukaan keskusteluun!'
   username_offensive: 'Käyttäjänimi on loukkaava'
+  validators:
+    confirm_password: 'Salasanat eivät täsmää. Tarkista, ole hyvä.'
+    required: 'Tämä on vaadittu kenttä'
+    verify_email: 'Tarkista sähköpostiosoite'
+    verify_organization_name: 'Organisaation nimessä voi käyttää vain kirjaimia ja numeroita.'
+    verify_password: 'Salasanan tulee olla vähintään 8 merkkiä pitkä'
+    verify_username: 'Käyttäjänimissä sallittuja merkkejä ovat ainoastaan kirjaimet, numerot, sekä alaviiva'
   view_conversation: 'Näytä keskustelu'
   your_account_has_been_banned: 'Tilillesi on asetettu kirjoituskielto.'
   your_account_has_been_suspended: 'Tilisi on väliaikasesti suljettu.'

@@ -509,8 +509,8 @@ en:
   username_offensive: 'This username is offensive'
   validators:
     confirm_email: 'Emails don''t match. Please check again.'
-    confirm_password: 'Passwords don''t match. Please check again.'
-    required: 'Please fill out this field.'
+    confirm_password: 'Passwords don''t match. Please check again'
+    required: 'This field is required'
     verify_email: 'Please enter a valid email.'
     verify_organization_name: 'Organization name must only contain letters or numbers.'
     verify_password: 'Password must be at least 8 characters'

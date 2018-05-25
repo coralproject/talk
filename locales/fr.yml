@@ -483,6 +483,13 @@ fr:
   user_impersonating: 'Cet utilisateur se fait passer pour quelqu''un d''autre'
   user_no_comment: 'Vous n''avez jamais laissé de commentaire. Rejoignez la conversation !'
   username_offensive: 'Ce nom d''utilisateur est offensant'
+  validators:
+    confirm_password: 'Les mots de passe ne correspondent pas. Vérifiez à nouveau'
+    required: 'Ce champ est obligatoire'
+    verify_email: 'Pas une adresse e-mail valide'
+    verify_organization_name: 'Le nom de l''organisation ne peut contenir que des lettres ou des chiffres.'
+    verify_password: 'Le mot de passe doit être d''au moins 8 caractères'
+    verify_username: 'Les noms d''utilisateur ne peuvent contenir que des chiffres, des lettres et "_"'
   view_conversation: 'Afficher la conversation'
   your_account_has_been_banned: 'Votre compte a été banni.'
   your_account_has_been_suspended: 'Votre compte a été temporairement suspendu.'

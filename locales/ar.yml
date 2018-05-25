@@ -475,6 +475,13 @@ ar:
   user_impersonating: 'هذا المستخدم ينتحل شخصية'
   user_no_comment: 'لم تترك تعليقا مطلقا. إنضم إلى المحادثة!'
   username_offensive: 'اسم المستخدم هذا مسيء'
+  validators:
+    confirm_password: 'كلمات المرور غير متطابقة. يرجى التحقق مرة أخرى'
+    required: 'هذه الخانة مطلوبه'
+    verify_email: 'ليس بريدا إلكترونيا صالحا'
+    verify_organization_name: 'يجب أن يحتوي اسم المؤسسة على أحرف أو أرقام فقط.'
+    verify_password: 'يجب أن تكون كلمة المرور 8 أحرف على الأقل'
+    verify_username: 'يمكن أن تحتوي أسماء المستخدمين على أرقام, أحرف و _ فقط'
   view_conversation: 'عرض المحادثة'
   your_account_has_been_banned: 'تم حظر حسابك.'
   your_account_has_been_suspended: 'تم تعليق حسابك مؤقتا.'
