@@ -24,6 +24,25 @@ const userRoleFragment = gql`
   }
 `;
 
+/**
+ * calculateReliability will determine the reliability of a karma score based on
+ * the settings for the karma type.
+ *
+ * @param {Number} karma - the current karma value/score for the given user
+ * @param {Object} thresholds - the karma thresholds to base the karma computation on
+ */
+const calculateReliability = (karma, { reliable, unreliable }) => {
+  if (karma >= reliable) {
+    return true;
+  }
+
+  if (karma <= unreliable) {
+    return false;
+  }
+
+  return null;
+};
+
 export default {
   mutations: {
     SetUserRole: ({ variables: { id, role } }) => ({
@@ -156,7 +175,9 @@ export default {
           }
           const updated = update(prev, {
             users: {
-              nodes: { $apply: nodes => nodes.filter(node => node.id !== id) },
+              nodes: {
+                $apply: nodes => nodes.filter(node => node.id !== id),
+              },
             },
           });
           return updated;
@@ -185,7 +206,9 @@ export default {
           const updated = update(prev, {
             ...decrement,
             flaggedUsers: {
-              nodes: { $apply: nodes => nodes.filter(node => node.id !== id) },
+              nodes: {
+                $apply: nodes => nodes.filter(node => node.id !== id),
+              },
             },
           });
           return updated;
@@ -295,12 +318,38 @@ export default {
       updateQueries: {
         CoralAdmin_UserDetail: prev => {
           const increment = {
+            user: {
+              reliable: {
+                commenter: {
+                  $set: calculateReliability(
+                    prev.user.reliable.commenterKarma - 1,
+                    prev.settings.karmaThresholds.comment
+                  ),
+                },
+                commenterKarma: {
+                  $apply: count => count - 1,
+                },
+              },
+            },
             rejectedComments: {
               $apply: count => (count < prev.totalComments ? count + 1 : count),
             },
           };
 
           const decrement = {
+            user: {
+              reliable: {
+                commenter: {
+                  $set: calculateReliability(
+                    prev.user.reliable.commenterKarma + 1,
+                    prev.settings.karmaThresholds.comment
+                  ),
+                },
+                commenterKarma: {
+                  $apply: count => count + 1,
+                },
+              },
+            },
             rejectedComments: {
               $apply: count => (count > 0 ? count - 1 : 0),
             },

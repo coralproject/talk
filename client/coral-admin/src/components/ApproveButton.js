@@ -14,7 +14,8 @@ const ApproveButton = ({ active, minimal, onClick, className, disabled }) => {
       className={cn(
         styles.root,
         { [styles.minimal]: minimal, [styles.active]: active },
-        className
+        className,
+        'talk-admin-approve-button'
       )}
       onClick={onClick}
       disabled={disabled || active}

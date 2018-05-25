@@ -1,3 +1,5 @@
+const commentBody = 'Suspend User Test';
+
 module.exports = {
   before: client => {
     client.setWindowPosition(0, 0);
@@ -25,16 +27,15 @@ module.exports = {
   },
   'user posts comment': client => {
     const comments = client.page.embedStream().section.comments;
-    const { testData: { comment } } = client.globals;
 
     comments
       .waitForElementVisible('@commentBoxTextarea')
-      .setValue('@commentBoxTextarea', comment.body)
+      .setValue('@commentBoxTextarea', commentBody)
       .waitForElementVisible('@commentBoxPostButton')
       .click('@commentBoxPostButton')
       .waitForElementVisible('@firstCommentContent')
       .getText('@firstCommentContent', result => {
-        comments.assert.equal(result.value, comment.body);
+        comments.assert.equal(result.value, commentBody);
       });
   },
   'user logs out': client => {
@@ -84,9 +85,9 @@ module.exports = {
       .goToModerate();
 
     moderate
-      .waitForElementVisible('@comment')
-      .waitForElementVisible('@commentUsername')
-      .click('@commentUsername');
+      .waitForElementVisible('@firstComment')
+      .waitForElementVisible('@firstCommentUsername')
+      .click('@firstCommentUsername');
 
     userDetailDrawer
       .waitForElementVisible('@actionsMenu')
@@ -112,9 +113,9 @@ module.exports = {
     const { moderate, userDetailDrawer } = adminPage.section;
 
     moderate
-      .waitForElementVisible('@comment')
-      .waitForElementVisible('@commentUsername')
-      .click('@commentUsername');
+      .waitForElementVisible('@firstComment')
+      .waitForElementVisible('@firstCommentUsername')
+      .click('@firstCommentUsername');
 
     userDetailDrawer
       .waitForElementVisible('@tabBar')

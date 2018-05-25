@@ -211,7 +211,6 @@ da:
     NO_SPECIAL_CHARACTERS: "Brugernavne kan kun indeholder bogstaver og _"
     PASSWORD_LENGTH: "Adgangskoden er for kort"
     PROFANITY_ERROR: "Brugernavne må ikke inholde stødende indhold. Kontakt venligst administratoren, hvis du mener at dette er en fejl."
-    RATE_LIMIT_EXCEEDED: "Rate limit exceeded"
     USERNAME_IN_USE: "Brugernavnet er allerede i brug"
     USERNAME_REQUIRED: "Du skal indtaste et brugernavn"
     EMAIL_NOT_VERIFIED: "E-mail address not verified"
@@ -287,10 +286,8 @@ da:
         comment_spam: "Spam"
         comment_noagree: "Uenig"
         comment_other: "Andre"
-        suspect_word: "Suspect Word"
         banned_word: "Forbudt ord"
         body_count: "Body overstiger max længde"
-        trust: "Stol"
         links: "Link"
   modqueue:
     account: "konto flag"

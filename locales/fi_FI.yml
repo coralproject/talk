@@ -292,7 +292,6 @@ fi_FI:
          suspect_word: "Epäilyttävä sana"
          banned_word: "Kielletty sana"
          body_count: "Liian pitkä viesti"
-         trust: "Luotettava"
          links: "Linkki"
   modqueue:
     account: "Liputuksia"
