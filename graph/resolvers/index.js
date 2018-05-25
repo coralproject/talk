@@ -15,6 +15,7 @@ const DontAgreeActionSummary = require('./dont_agree_action_summary');
 const FlagAction = require('./flag_action');
 const FlagActionSummary = require('./flag_action_summary');
 const GenericUserError = require('./generic_user_error');
+const KarmaThreshold = require('./karma_threshold');
 const LocalUserProfile = require('./local_user_profile');
 const RootMutation = require('./root_mutation');
 const RootQuery = require('./root_query');
@@ -48,6 +49,7 @@ let resolvers = {
   FlagAction,
   FlagActionSummary,
   GenericUserError,
+  KarmaThreshold,
   LocalUserProfile,
   RootMutation,
   RootQuery,

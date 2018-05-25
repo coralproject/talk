@@ -322,7 +322,6 @@ de:
          suspect_word: "Verdächtiges Wort"
          banned_word: "Unzulässiges Wort"
          body_count: "Text überschreitet Zeichenlimit"
-         trust: "Vertrauen"
          links: "Link"
   modqueue:
     account: "Konto-Markierungen"

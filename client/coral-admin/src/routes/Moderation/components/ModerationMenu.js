@@ -24,6 +24,7 @@ const ModerationMenu = ({ asset = {}, items, getModPath, activeTab }) => {
         >
           {items.map(queue => (
             <Link
+              id={`talk-admin-moderate-tab-${queue.key}`}
               key={queue.key}
               to={getModPath(queue.key, asset.id)}
               className={cn('mdl-tabs__tab', styles.tab, {
