@@ -86,7 +86,7 @@ module.exports = {
       .waitForElementVisible('@firstRow')
       .waitForElementVisible('@dropdownStatus')
       .click('@dropdownStatus')
-      .waitForElementVisible('@dropdownStatusActive')
+      .waitForElementVisible('@optionRemoveBan')
       .click('@optionRemoveBan');
   },
   'admin logs out 2': client => {
@@ -154,8 +154,7 @@ module.exports = {
     const moderate = client.page.admin().section.moderate;
 
     moderate.click('@firstCommentApprove');
-
-    // TODO: check why this fails.
-    //  .waitForElementNotPresent('@firstComment');
+    client.pause(1000000);
+    moderate.waitForElementNotPresent('@firstComment');
   },
 };

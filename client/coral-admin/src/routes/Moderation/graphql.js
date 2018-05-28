@@ -298,6 +298,11 @@ export function handleCommentChange(
     notificationShown = true;
   };
 
+  console.log('root.me', root.me);
+  console.log('comment.status_history', comment.status_history);
+
+  debugger;
+
   Object.keys(queueConfig).forEach(queue => {
     // Comment should be placed in queue.
     if (nextQueues.indexOf(queue) >= 0) {
