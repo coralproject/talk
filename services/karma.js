@@ -1,6 +1,7 @@
 const debug = require('debug')('talk:services:karma');
 const UserModel = require('../models/user');
 const { TRUST_THRESHOLDS } = require('../config');
+const { get } = require('lodash');
 
 /**
  * This will create an object with the property name of the action type as the
@@ -83,8 +84,16 @@ class KarmaModel {
     return KarmaService.isReliable('flag', this.model);
   }
 
+  get flaggerKarma() {
+    return get(this.model, 'flag.karma', 0);
+  }
+
   get commenter() {
     return KarmaService.isReliable('comment', this.model);
+  }
+
+  get commenterKarma() {
+    return get(this.model, 'comment.karma', 0);
   }
 }
 
@@ -106,18 +115,14 @@ class KarmaService {
   /**
    * Inspects the reliability of a property and returns it if known.
    * @param {String} name - name of the property
-   * @param {Object} trust - object possibly containing the propertys
+   * @param {Object} trust - object possibly containing the properties
    */
   static isReliable(name, trust) {
-    if (trust && trust[name]) {
-      if (trust[name].karma > THRESHOLDS[name].RELIABLE) {
-        return true;
-      } else if (trust[name].karma < THRESHOLDS[name].UNRELIABLE) {
-        return false;
-      }
-    } else if (THRESHOLDS[name].RELIABLE < 0) {
+    const karma = get(trust, [name, 'karma'], 0);
+
+    if (karma >= THRESHOLDS[name].RELIABLE) {
       return true;
-    } else if (THRESHOLDS[name].UNRELIABLE > 0) {
+    } else if (karma <= THRESHOLDS[name].UNRELIABLE) {
       return false;
     }
 
@@ -162,3 +167,4 @@ class KarmaService {
 }
 
 module.exports = KarmaService;
+module.exports.THRESHOLDS = THRESHOLDS;

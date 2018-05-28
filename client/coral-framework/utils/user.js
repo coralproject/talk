@@ -86,3 +86,18 @@ export const canUsernameBeUpdated = status => {
     moment(created_at).isAfter(oldestEditTime)
   );
 };
+
+/**
+ * getKarma
+ * retrieves karma value as string
+ */
+
+export const getKarma = reliability => {
+  if (reliability === null) {
+    return 'neutral';
+  } else if (reliability) {
+    return 'good';
+  } else {
+    return 'bad';
+  }
+};

@@ -290,7 +290,6 @@ nl_NL:
          suspect_word: "Verdacht woord"
          banned_word: "Geblokeerd woord"
          body_count: "Tekst is te lang"
-         trust: "Vertrouwen"
          links: "Link"
   modqueue:
     account: "account meldingen"

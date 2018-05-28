@@ -310,7 +310,6 @@ es:
          suspect_word: "Palabra sospechosa"
          banned_word: "Palabra prohibida"
          body_count: "El texto exede el límite permitido"
-         trust: "Trust"
          links: "Link"
   modqueue:
     account: "reportes de cuentas"

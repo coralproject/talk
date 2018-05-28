@@ -227,6 +227,7 @@ en:
   embedlink:
     copy: "Copy to Clipboard"
   error:
+    AUTHENTICATION: "An error occurred trying to authenticate your account."
     PASSWORD_INCORRECT: "Your current password was entered incorrectly"
     COMMENT_PARENT_NOT_VISIBLE: "The comment that you're replying to has been removed or doesn't exist."
     EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
@@ -322,7 +323,7 @@ en:
          suspect_word: "Suspect Word"
          banned_word: "Banned Word"
          body_count: "Body exceeds max length"
-         trust: "Trust"
+         trust: "Karma"
          links: "Link"
   modqueue:
     account: "account flags"
@@ -472,10 +473,14 @@ en:
     email: "Email"
     total_comments: "Total Comments"
     reject_rate: "Reject Rate"
-    reports: "Reports"
     all: "All"
     rejected: "Rejected"
     user_history: "User History"
+    unreliable: "Unreliable"
+    karma: "Karma"
+    learn_more: "Learn More"
+    user_karma_score: "User Karma Score"
+    karma_docs_link: "https://docs.coralproject.net/talk/trust/#user-karma-score"
     id: "ID"
   user_history:
     user_banned: "User banned"

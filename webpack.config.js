@@ -309,7 +309,10 @@ const applyConfig = (entries, root = {}) =>
       entry: entries.reduce(
         (entry, { name, path: modulePath, disablePolyfill = false }) => {
           const entries = [
-            path.join(__dirname, 'client/coral-framework/helpers/publicPath'),
+            path.join(
+              __dirname,
+              'client/coral-framework/helpers/webpackGlobals'
+            ),
           ];
           if (disablePolyfill) {
             entries.push(modulePath);

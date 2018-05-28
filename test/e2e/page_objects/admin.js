@@ -70,9 +70,28 @@ module.exports = {
     },
     moderate: {
       selector: '.talk-admin-moderation-container',
+      commands: [
+        {
+          url: function() {
+            return `${this.api.launchUrl}/admin/moderate`;
+          },
+          ready() {
+            return this.waitForElementVisible('body');
+          },
+          goToQueue(queue) {
+            this.click(`#talk-admin-moderate-tab-${queue}`).expect.section(
+              `.talk-admin-moderate-queue-${queue}`
+            ).to.be.visible;
+            return this;
+          },
+        },
+      ],
       elements: {
-        comment: '.talk-admin-moderate-comment',
-        commentUsername: '.talk-admin-moderate-comment-username',
+        firstComment: '.talk-admin-moderate-comment',
+        firstCommentUsername: '.talk-admin-moderate-comment-username',
+        firstCommentContent: '.talk-admin-comment',
+        firstCommentApprove: '.talk-admin-approve-button',
+        firstCommentReject: '.talk-admin-reject-button',
       },
     },
     stories: {

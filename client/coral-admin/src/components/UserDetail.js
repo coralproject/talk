@@ -6,6 +6,7 @@ import styles from './UserDetail.css';
 import UserHistory from './UserHistory';
 import { Slot } from 'coral-framework/components';
 import UserDetailCommentList from '../components/UserDetailCommentList';
+
 import {
   getReliability,
   isSuspended,
@@ -13,7 +14,9 @@ import {
   isUsernameRejected,
   isUsernameChanged,
   getActiveStatuses,
+  isSuspended, isBanned, getKarma
 } from 'coral-framework/utils/user';
+
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import {
@@ -28,6 +31,7 @@ import {
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import UserInfoTooltip from './UserInfoTooltip';
+import KarmaTooltip from './KarmaTooltip';
 import t from 'coral-framework/services/i18n';
 import flatten from 'lodash/flatten';
 
@@ -112,7 +116,13 @@ class UserDetail extends React.Component {
   renderLoaded() {
     const {
       root,
-      root: { me, user, totalComments, rejectedComments },
+      root: {
+        me,
+        user,
+        totalComments,
+        rejectedComments,
+        settings: { karmaThresholds },
+      },
       activeTab,
       selectedCommentIds,
       toggleSelect,
@@ -286,18 +296,21 @@ class UserDetail extends React.Component {
                   {rejectedPercent.toFixed(1)}%
                 </span>
               </li>
-              <li className={styles.stat}>
-                <span className={styles.statItem}>
-                  {t('user_detail.reports')}
-                </span>
-                <span
-                  className={cn(
-                    styles.statReportResult,
-                    styles[getReliability(user.reliable.flagger)]
-                  )}
-                >
-                  {capitalize(getReliability(user.reliable.flagger))}
-                </span>
+              <li className={cn(styles.stat, styles.karmaStat)}>
+                <div>
+                  <span className={styles.statItem}>
+                    {t('user_detail.karma')}
+                  </span>
+                  <span
+                    className={cn(
+                      styles.statKarmaResult,
+                      styles[getKarma(user.reliable.commenter)]
+                    )}
+                  >
+                    {user.reliable.commenterKarma}
+                  </span>
+                </div>
+                <KarmaTooltip thresholds={karmaThresholds.comment} />
               </li>
             </ul>
           </div>

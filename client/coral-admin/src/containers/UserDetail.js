@@ -189,7 +189,8 @@ export const withUserDetailQuery = withQuery(
         provider
       }
       reliable {
-        flagger
+        commenter
+        commenterKarma
       }
       state {
         status {
@@ -229,6 +230,14 @@ export const withUserDetailQuery = withQuery(
         }
       }
       ${getSlotFragmentSpreads(slots, 'user')}
+    }
+    settings {
+      karmaThresholds {
+        comment {
+          reliable
+          unreliable
+        }
+      }
     }
     me {
       id
