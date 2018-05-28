@@ -1,13 +1,15 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import styles from './Option.css';
 import cn from 'classnames';
+import { BareButton } from 'coral-ui';
 
 class Option extends React.Component {
   ref = null;
 
   handleRef = ref => {
-    this.ref = ref;
+    this.ref = findDOMNode(ref);
   };
 
   focus = () => {
@@ -19,16 +21,17 @@ class Option extends React.Component {
     const { className, label = '', onClick, onKeyDown } = this.props;
     const id = this.props.id ? this.props.id : this.props.value;
     return (
-      <li
-        className={cn(styles.option, className, 'dd-option')}
-        onClick={onClick}
-        onKeyDown={onKeyDown}
-        role="option"
-        tabIndex="0"
-        ref={this.handleRef}
-        id={id}
-      >
-        {label}
+      <li>
+        <BareButton
+          className={cn(styles.option, className, 'dd-option')}
+          onClick={onClick}
+          onKeyDown={onKeyDown}
+          role="option"
+          ref={this.handleRef}
+          id={id}
+        >
+          {label}
+        </BareButton>
       </li>
     );
   }
