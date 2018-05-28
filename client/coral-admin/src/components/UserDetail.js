@@ -8,13 +8,12 @@ import { Slot } from 'coral-framework/components';
 import UserDetailCommentList from '../components/UserDetailCommentList';
 
 import {
-  getReliability,
   isSuspended,
-  isBanned,
   isUsernameRejected,
   isUsernameChanged,
   getActiveStatuses,
-  isSuspended, isBanned, getKarma
+  isBanned,
+  getKarma,
 } from 'coral-framework/utils/user';
 
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
@@ -113,6 +112,13 @@ class UserDetail extends React.Component {
     router.push('/admin/community/flagged');
   };
 
+  rejectUsername = data => {
+    // trigger modal or tooltip
+    // flag user and then
+    // perform rejection
+    this.props.rejectUsername(data);
+  };
+
   renderLoaded() {
     const {
       root,
@@ -133,7 +139,6 @@ class UserDetail extends React.Component {
       unbanUser,
       unsuspendUser,
       modal,
-      rejectUsername,
       acceptComment,
       rejectComment,
       bulkAccept,
@@ -225,7 +230,7 @@ class UserDetail extends React.Component {
                 </ActionsMenuItem>
               ) : (
                 <ActionsMenuItem
-                  onClick={() => rejectUsername({ id: user.id })}
+                  onClick={() => this.rejectUsername({ id: user.id })}
                   disabled={me.id === user.id}
                 >
                   {t('user_detail.reject_username')}
