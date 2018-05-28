@@ -23,11 +23,13 @@ import {
   withUnbanUser,
   withUnsuspendUser,
   withRejectUsername,
+  withPostFlag,
 } from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
 import { showBanUserDialog } from 'actions/banUserDialog';
 import { showSuspendUserDialog } from 'actions/suspendUserDialog';
+import { showRejectUsernameDialog } from 'actions/rejectUsernameDialog';
 
 const commentConnectionFragment = gql`
   fragment CoralAdmin_UserDetail_CommentConnection on CommentConnection {
@@ -279,6 +281,7 @@ const mapDispatchToProps = dispatch => ({
     {
       showBanUserDialog,
       showSuspendUserDialog,
+      showRejectUsernameDialog,
       changeTab,
       clearUserDetailSelections,
       toggleSelectCommentInUserDetail,
@@ -297,5 +300,6 @@ export default compose(
   withUnbanUser,
   withUnsuspendUser,
   withRejectUsername,
+  withPostFlag,
   withRouter
 )(UserDetailContainer);

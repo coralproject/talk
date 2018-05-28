@@ -51,6 +51,12 @@ class UserDetail extends React.Component {
       username: this.props.root.user.username,
     });
 
+  showRejectUsername = () =>
+    this.props.showBanUserDialog({
+      userId: this.props.root.user.id,
+      username: this.props.root.user.username,
+    });
+
   renderLoading() {
     return (
       <ClickOutside onClickOutside={this.props.hideUserDetail}>
@@ -230,7 +236,7 @@ class UserDetail extends React.Component {
                 </ActionsMenuItem>
               ) : (
                 <ActionsMenuItem
-                  onClick={() => this.rejectUsername({ id: user.id })}
+                  onClick={this.showRejectUsername}
                   disabled={me.id === user.id}
                 >
                   {t('user_detail.reject_username')}
