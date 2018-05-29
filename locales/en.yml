@@ -11,11 +11,12 @@ en:
     cancel: "Cancel"
     reject_username: "Reject Username" 
   flag_reasons:
-    offensive: "This username is offensive"
-    nolike: "I dont likes this username"
-    impersonating: "This username is offensive"
-    spam: "This username is offensive"
-    other: "Other"
+    username: 
+      offensive: "This username is offensive"
+      nolike: "I dont likes this username"
+      impersonating: "This username is offensive"
+      spam: "This username is offensive"
+      other: "Other"
   bandialog:
     are_you_sure: "Are you sure you would like to ban {0}?"
     ban_user: "Ban User?"

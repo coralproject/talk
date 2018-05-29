@@ -72,16 +72,20 @@ class RejectUsernameDialog extends React.Component {
               className={styles.radioGroup}
             >
               <Radio value={flagReason.offensive}>
-                {t('flag_reasons.offensive')}
+                {t('flag_reasons.username.offensive')}
               </Radio>
               <Radio value={flagReason.nolike}>
-                {t('flag_reasons.nolike')}
+                {t('flag_reasons.username.nolike')}
               </Radio>
               <Radio value={flagReason.impersonating}>
-                {t('flag_reasons.impersonating')}
+                {t('flag_reasons.username.impersonating')}
               </Radio>
-              <Radio value={flagReason.spam}>{t('flag_reasons.spam')}</Radio>
-              <Radio value={flagReason.other}>{t('flag_reasons.other')}</Radio>
+              <Radio value={flagReason.spam}>
+                {t('flag_reasons.username.spam')}
+              </Radio>
+              <Radio value={flagReason.other}>
+                {t('flag_reasons.username.other')}
+              </Radio>
             </RadioGroup>
             {reason === flagReason.other && (
               <fieldset>
