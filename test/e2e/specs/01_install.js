@@ -1,3 +1,5 @@
+const printBrowserLog = require('../helpers/printBrowserLog');
+
 module.exports = {
   '@tags': ['install'],
 
@@ -6,7 +8,8 @@ module.exports = {
     client.resizeWindow(1600, 1200);
   },
 
-  afterEach: (client, done) => {
+  afterEach: async (client, done) => {
+    await printBrowserLog(client);
     if (client.currentTest.results.failed) {
       throw new Error('Test Case failed, skipping all the rest');
     }

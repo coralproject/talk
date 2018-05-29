@@ -10,15 +10,15 @@ module.exports = {
   selenium: {
     start_process: true,
     server_path:
-      'node_modules/selenium-standalone/.selenium/selenium-server/3.7.1-server.jar',
+      'node_modules/selenium-standalone/.selenium/selenium-server/3.8.1-server.jar',
     log_path: REPORTS_FOLDER,
     host: '127.0.0.1',
     port: 6666,
     cli_args: {
       'webdriver.chrome.driver':
-        'node_modules/selenium-standalone/.selenium/chromedriver/2.33-x64-chromedriver',
+        'node_modules/selenium-standalone/.selenium/chromedriver/2.37-x64-chromedriver',
       'webdriver.gecko.driver':
-        'node_modules/selenium-standalone/.selenium/geckodriver/0.19.1-x64-geckodriver',
+        'node_modules/selenium-standalone/.selenium/geckodriver/0.20.1-x64-geckodriver',
     },
   },
   test_settings: {

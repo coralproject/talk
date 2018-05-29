@@ -1,3 +1,4 @@
+const printBrowserLog = require('../helpers/printBrowserLog');
 const commentBody = 'Ban User Test';
 
 module.exports = {
@@ -6,7 +7,8 @@ module.exports = {
     client.resizeWindow(1600, 1200);
   },
 
-  afterEach: (client, done) => {
+  afterEach: async (client, done) => {
+    await printBrowserLog(client);
     if (client.currentTest.results.failed) {
       throw new Error('Test Case failed, skipping all the rest');
     }
@@ -86,7 +88,7 @@ module.exports = {
       .waitForElementVisible('@firstRow')
       .waitForElementVisible('@dropdownStatus')
       .click('@dropdownStatus')
-      .waitForElementVisible('@dropdownStatusActive')
+      .waitForElementVisible('@optionRemoveBan')
       .click('@optionRemoveBan');
   },
   'admin logs out 2': client => {
@@ -153,9 +155,8 @@ module.exports = {
   'approve comment to restore karma': client => {
     const moderate = client.page.admin().section.moderate;
 
-    moderate.click('@firstCommentApprove');
-
-    // TODO: check why this fails.
-    //  .waitForElementNotPresent('@firstComment');
+    moderate
+      .click('@firstCommentApprove')
+      .waitForElementNotPresent('@firstComment');
   },
 };
