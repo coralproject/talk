@@ -3,7 +3,7 @@ require('colors');
 
 const Table = require('cli-table2');
 
-function getLevelColoried(level) {
+function getLevelColorized(level) {
   switch (level) {
     case 'WARNING':
       return level.yellow;
@@ -25,7 +25,7 @@ function printBrowserLog(client) {
         });
 
         for (let entry of entries) {
-          table.push([getLevelColoried(entry.level), entry.message]);
+          table.push([getLevelColorized(entry.level), entry.message]);
         }
         console.log(table.toString());
       }
