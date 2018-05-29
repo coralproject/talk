@@ -5,7 +5,7 @@ process.env['NODE_ENV'] = 'test';
 const browserstack = require('browserstack-local');
 const { onshutdown, shutdown } = require('../bin/util');
 const program = require('commander');
-const Table = require('cli-table');
+const Table = require('cli-table2');
 const serve = require('../serve');
 const childProcess = require('child_process');
 const uuid = require('uuid').v4;
@@ -181,7 +181,7 @@ class E2E {
       console.log('Dropping test database');
       await mongoose.connection.dropDatabase();
       console.log('Starting the server');
-      await serve();
+      await serve({ websockets: true });
 
       if (this.browserstackEnabled) {
         browserstack.localIdentifier = this.localIdentifier;
