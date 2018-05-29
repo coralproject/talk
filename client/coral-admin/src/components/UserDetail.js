@@ -51,8 +51,8 @@ class UserDetail extends React.Component {
       username: this.props.root.user.username,
     });
 
-  showRejectUsername = () =>
-    this.props.showBanUserDialog({
+  showRejectUsernameDialog = () =>
+    this.props.showRejectUsernameDialog({
       userId: this.props.root.user.id,
       username: this.props.root.user.username,
     });
@@ -116,13 +116,6 @@ class UserDetail extends React.Component {
   goToReportedUsernames = () => {
     const { router } = this.props;
     router.push('/admin/community/flagged');
-  };
-
-  rejectUsername = data => {
-    // trigger modal or tooltip
-    // flag user and then
-    // perform rejection
-    this.props.rejectUsername(data);
   };
 
   renderLoaded() {
@@ -236,7 +229,7 @@ class UserDetail extends React.Component {
                 </ActionsMenuItem>
               ) : (
                 <ActionsMenuItem
-                  onClick={this.showRejectUsername}
+                  onClick={this.showRejectUsernameDialog}
                   disabled={me.id === user.id}
                 >
                   {t('user_detail.reject_username')}
@@ -450,6 +443,7 @@ UserDetail.propTypes = {
   selectedCommentIds: PropTypes.array.isRequired,
   viewUserDetail: PropTypes.any.isRequired,
   loadMore: PropTypes.any.isRequired,
+  showRejectUsernameDialog: PropTypes.func,
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,
   unbanUser: PropTypes.func.isRequired,

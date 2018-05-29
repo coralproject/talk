@@ -1,23 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Dialog } from 'coral-ui';
-import { RadioGroup, Radio } from 'react-mdl';
 import styles from './SuspendUserDialog.css';
 import cn from 'classnames';
-
+import { RadioGroup, Radio } from 'react-mdl';
 import Button from 'coral-ui/components/Button';
+import { username as flagReason } from 'coral-framework/graphql/flagReasons';
 
-import t, { timeago } from 'coral-framework/services/i18n';
-import { dateAdd } from 'coral-framework/utils';
+const initialState = { reason: flagReason.offensive, message: '' };
 
-const initialState = { step: 0, duration: '3' };
-
-function durationsToDate(hours) {
-  // Add 1 minute more to help `timeago.js` to display the correct duration.
-  return dateAdd(new Date(), 'minute', hours * 60 + 1);
-}
-
-class SuspendUserDialog extends React.Component {
+class RejectUsernameDialog extends React.Component {
   state = initialState;
 
   componentWillReceiveProps(next) {
@@ -26,138 +18,28 @@ class SuspendUserDialog extends React.Component {
     }
   }
 
-  handleDurationChange = event => {
-    this.setState({ duration: event.target.value });
+  handleReasonChange = event => {
+    this.setState({ reason: event.target.value });
   };
 
   handleMessageChange = event => {
     this.setState({ message: event.target.value });
   };
 
-  goToStep1 = () => {
-    this.setState({
-      step: 1,
-      message: t(
-        'suspenduser.email_message_suspend',
-        this.props.username,
-        this.props.organizationName,
-        timeago(durationsToDate(this.state.duration))
-      ),
-    });
-  };
-
   handlePerform = () => {
     this.props.onPerform({
+      reason: this.state.reason,
       message: this.state.message,
-
-      // Add 1 minute more to help `timeago.js` to display the correct duration.
-      until: durationsToDate(this.state.duration),
     });
   };
-
-  renderStep0() {
-    const { onCancel, username } = this.props;
-    const { duration } = this.state;
-    return (
-      <section className="talk-admin-suspend-user-dialog-step-0">
-        <h1 className={styles.header}>{t('suspenduser.title_suspend')}</h1>
-        <p className={styles.description}>
-          {t('suspenduser.description_suspend', username)}
-        </p>
-        <fieldset>
-          <legend className={styles.legend}>
-            {t('suspenduser.select_duration')}
-          </legend>
-          <RadioGroup
-            name="status filter"
-            value={duration}
-            childContainer="div"
-            onChange={this.handleDurationChange}
-            className={styles.radioGroup}
-          >
-            <Radio value="1">{t('suspenduser.one_hour')}</Radio>
-            <Radio value="3">{t('suspenduser.hours', 3)}</Radio>
-            <Radio value="24">{t('suspenduser.hours', 24)}</Radio>
-            <Radio value="168">{t('suspenduser.days', 7)}</Radio>
-          </RadioGroup>
-        </fieldset>
-        <div className={styles.buttons}>
-          <Button
-            cStyle="white"
-            className={styles.cancel}
-            onClick={onCancel}
-            raised
-          >
-            {t('suspenduser.cancel')}
-          </Button>
-          <Button
-            cStyle="black"
-            className={cn(
-              styles.perform,
-              'talk-admin-suspend-user-dialog-confirm'
-            )}
-            onClick={this.goToStep1}
-            raised
-          >
-            {t('suspenduser.suspend_user')}
-          </Button>
-        </div>
-      </section>
-    );
-  }
-
-  renderStep1() {
-    const { message } = this.state;
-    const { onCancel, username } = this.props;
-    return (
-      <section className="talk-admin-suspend-user-dialog-step-1">
-        <h1 className={styles.header}>{t('suspenduser.title_notify')}</h1>
-        <p className={styles.description}>
-          {t('suspenduser.description_notify', username)}
-        </p>
-        <fieldset>
-          <legend className={styles.legend}>
-            {t('suspenduser.write_message')}
-          </legend>
-          <textarea
-            rows={5}
-            className={styles.messageInput}
-            value={message}
-            onChange={this.handleMessageChange}
-          />
-        </fieldset>
-        <div className={styles.buttons}>
-          <Button
-            cStyle="white"
-            className={styles.cancel}
-            onClick={onCancel}
-            raised
-          >
-            {t('suspenduser.cancel')}
-          </Button>
-          <Button
-            cStyle="black"
-            className={cn(
-              styles.perform,
-              'talk-admin-suspend-user-dialog-send'
-            )}
-            onClick={this.handlePerform}
-            disabled={this.state.message.length === 0}
-            raised
-          >
-            {t('suspenduser.send')}
-          </Button>
-        </div>
-      </section>
-    );
-  }
 
   render() {
     const { open, onCancel } = this.props;
-    const { step } = this.state;
+    const { reason, message } = this.state;
     return (
       <Dialog
-        className={cn(styles.dialog, 'talk-admin-suspend-user-dialog')}
+        className={cn(styles.dialog, 'talk-admin-reject-username-dialog')}
+        id="rejectUsernameDialog"
         onCancel={onCancel}
         open={open}
       >
@@ -170,19 +52,78 @@ class SuspendUserDialog extends React.Component {
             ×
           </button>
         </div>
-        {step === 0 && this.renderStep0()}
-        {step === 1 && this.renderStep1()}
+        <section className="talk-admin-reject-username-dialog-section">
+          <h1 className={styles.header}>
+            Reject Username: {this.props.username}
+          </h1>
+          <p className={styles.description}>Help us understand</p>
+          <fieldset>
+            <legend className={styles.legend}>Reason</legend>
+            <RadioGroup
+              name="reason"
+              value={reason}
+              childContainer="div"
+              onChange={this.handleReasonChange}
+              className={styles.radioGroup}
+            >
+              <Radio value={flagReason.offensive}>
+                This username is offensive
+              </Radio>
+              <Radio value={flagReason.nolike}>I dont like this username</Radio>
+              <Radio value={flagReason.impersonating}>
+                This user is impersonating
+              </Radio>
+              <Radio value={flagReason.spam}>
+                This looks like an ad/marketing
+              </Radio>
+              <Radio value={flagReason.other}>Other</Radio>
+            </RadioGroup>
+            {reason === flagReason.other && (
+              <fieldset>
+                <legend className={styles.legend}>
+                  Reason for reporting (Optional)
+                </legend>
+                <textarea
+                  rows={5}
+                  className={styles.messageInput}
+                  value={message}
+                  onChange={this.handleMessageChange}
+                />
+              </fieldset>
+            )}
+          </fieldset>
+          <div className={styles.buttons}>
+            <Button
+              cStyle="white"
+              className={styles.cancel}
+              onClick={onCancel}
+              raised
+            >
+              Cancel
+            </Button>
+            <Button
+              cStyle="black"
+              className={cn(
+                styles.perform,
+                'talk-admin-reject-username-dialog-continue'
+              )}
+              onClick={this.handlePerform}
+              raised
+            >
+              Reject Username
+            </Button>
+          </div>
+        </section>
       </Dialog>
     );
   }
 }
 
-SuspendUserDialog.propTypes = {
+RejectUsernameDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onPerform: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  organizationName: PropTypes.string,
   username: PropTypes.string,
 };
 
-export default SuspendUserDialog;
+export default RejectUsernameDialog;
