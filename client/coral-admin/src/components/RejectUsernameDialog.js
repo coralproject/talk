@@ -6,6 +6,7 @@ import cn from 'classnames';
 import { RadioGroup, Radio } from 'react-mdl';
 import Button from 'coral-ui/components/Button';
 import { username as flagReason } from 'coral-framework/graphql/flagReasons';
+import t from 'coral-framework/services/i18n';
 
 const initialState = { reason: flagReason.offensive, message: '' };
 
@@ -54,11 +55,15 @@ class RejectUsernameDialog extends React.Component {
         </div>
         <section className="talk-admin-reject-username-dialog-section">
           <h1 className={styles.header}>
-            Reject Username: {this.props.username}
+            {t('reject_username_dialog.title')}: {this.props.username}
           </h1>
-          <p className={styles.description}>Help us understand</p>
+          <p className={styles.description}>
+            {t('reject_username_dialog.description')}
+          </p>
           <fieldset>
-            <legend className={styles.legend}>Reason</legend>
+            <legend className={styles.legend}>
+              {t('reject_username_dialog.reason')}
+            </legend>
             <RadioGroup
               name="reason"
               value={reason}
@@ -67,21 +72,21 @@ class RejectUsernameDialog extends React.Component {
               className={styles.radioGroup}
             >
               <Radio value={flagReason.offensive}>
-                This username is offensive
+                {t('flag_reasons.offensive')}
               </Radio>
-              <Radio value={flagReason.nolike}>I dont like this username</Radio>
+              <Radio value={flagReason.nolike}>
+                {t('flag_reasons.nolike')}
+              </Radio>
               <Radio value={flagReason.impersonating}>
-                This user is impersonating
+                {t('flag_reasons.impersonating')}
               </Radio>
-              <Radio value={flagReason.spam}>
-                This looks like an ad/marketing
-              </Radio>
-              <Radio value={flagReason.other}>Other</Radio>
+              <Radio value={flagReason.spam}>{t('flag_reasons.spam')}</Radio>
+              <Radio value={flagReason.other}>{t('flag_reasons.other')}</Radio>
             </RadioGroup>
             {reason === flagReason.other && (
               <fieldset>
                 <legend className={styles.legend}>
-                  Reason for reporting (Optional)
+                  {t('reject_username_dialog.message')}
                 </legend>
                 <textarea
                   rows={5}
@@ -99,7 +104,7 @@ class RejectUsernameDialog extends React.Component {
               onClick={onCancel}
               raised
             >
-              Cancel
+              {t('reject_username_dialog.cancel')}
             </Button>
             <Button
               cStyle="black"
@@ -110,7 +115,7 @@ class RejectUsernameDialog extends React.Component {
               onClick={this.handlePerform}
               raised
             >
-              Reject Username
+              {t('reject_username_dialog.reject_username')}
             </Button>
           </div>
         </section>
