@@ -8,7 +8,7 @@ const util = require('./util');
 const program = require('commander');
 const mongoose = require('../services/mongoose');
 const TokensService = require('../services/tokens');
-const Table = require('cli-table');
+const Table = require('cli-table2');
 
 // Register the shutdown criteria.
 util.onshutdown([() => mongoose.disconnect()]);

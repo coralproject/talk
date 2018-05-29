@@ -1,7 +1,9 @@
 .option {
+  width: 100%;
   padding: 10px;
   outline: none;
   white-space: nowrap;
+  text-align: left;
 
   &:focus, &:hover {
     background-color: #ccc;
