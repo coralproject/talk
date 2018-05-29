@@ -230,7 +230,7 @@ class UserDetail extends React.Component {
               ) : (
                 <ActionsMenuItem
                   onClick={this.showRejectUsernameDialog}
-                  disabled={me.id === user.id}
+                  disabled={me.id === user.id || usernameChanged}
                 >
                   {t('user_detail.reject_username')}
                 </ActionsMenuItem>
