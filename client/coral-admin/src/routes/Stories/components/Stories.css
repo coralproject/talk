@@ -92,9 +92,6 @@
 
 .statusDropdown {
   width: 150px;
-}
-
-.statusDropdownOption {
-  min-width: 100px;
+  text-align: left;
 }
 
