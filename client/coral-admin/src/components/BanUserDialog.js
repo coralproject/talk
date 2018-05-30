@@ -19,7 +19,7 @@ class BanUserDialog extends React.Component {
   }
 
   handleMessageChange = e => {
-    const { value: message } = e;
+    const { target: { value: message } } = e;
     this.setState({ message });
   };
 
