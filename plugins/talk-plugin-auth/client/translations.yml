@@ -142,32 +142,6 @@ en:
       cancel: "Cancel"
       edit: "Edit"
       changed_password_msg: "Changed Password - Your password has been successfully changed"
-    change_username:
-      change_username_note: "Usernames can be changed every 14 days"
-      save: "Save"
-      edit_profile: "Edit Profile"
-      cancel: "Cancel"
-      confirm_username_change: "Confirm Username Change"
-      description: "You are attempting to change your username. Your new username will appear on all of your past and future comments."
-      old_username: "Old Username"
-      new_username: "New Username"
-      bottom_note: "Note: You will not be able to change your username again for 14 days"
-      confirm_changes: "Confirm Changes"
-      username_does_not_match: "Username does not match"
-      cant_be_equal: "Your new {0} must be different to your current one"
-      change_username_attempt: "Username can't be updated. Usernames can be changed every 14 days"
-    change_email:
-      confirm_email_change: "Confirm Email Address Change"
-      description: "You are attempting to change your email address. Your new email address will be used for your login and to receive account notifications."
-      old_email: "Old Email Address" 
-      new_email: "New Email Address"
-      enter_password: "Enter Password"
-      incorrect_password: "Incorrect Password"
-      confirm_change: "Confirm Change"
-      cancel: "Cancel"
-      change_email_msg: "Email Address Changed - Your email address has been successfully changed. This email address will now be used for signing in and email notifications."
-      changed_username_success_msg: "Username Changed - Your username has been successfully changed. You will not be able to change your user name for 14 days."
-      change_username_attempt: "Username can't be updated. Usernames can only be changed every 14 days."
 de:
   talk-plugin-auth:
     login:
@@ -269,20 +243,6 @@ es:
       cancel: "Cancelar"
       edit: "Editar"
       changed_password_msg: "Contraseña Actualizada - Tu contraseña ha sido exitosamente actualizada"
-    change_username:
-      change_username_note: "El usuario puede ser cambiado cada 14 días"
-      save: "Guardar"
-      edit_profile: "Editar Perfil"
-      cancel: "Cancelar"
-      confirm_username_change: "Confirmar Cambio de Usuario"
-      description: "Estás intentando cambiar tu usuario. Tu nuevo usuario aparecerá en todos tus pasados y futuros comentarios."
-      old_username: "Usuario viejo"
-      new_username: "Usuario nuevo"
-      bottom_note: "Nota: No podrás cambiar tu usuario por 14 días"
-      confirm_changes: "Confirmar Cambios"
-      username_does_not_match: "El usuario no coincide"
-      changed_username_success_msg: "Usuario Actualizado - Tu usuario ha sido exitosamente actualizado. No podrás cambiar el usuario por 14 días."
-      change_username_attempt: "El usuario no puede ser actualizado. Los usuarios pueden ser cambiados cada 14 días."
 fr:
   talk-plugin-auth:
     login:
