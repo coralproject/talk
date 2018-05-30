@@ -30,6 +30,12 @@ class BanUserDialog extends React.Component {
     });
   };
 
+  handlePerform = () => {
+    this.props.onPerform({
+      message: this.state.message,
+    });
+  };
+
   renderStep0() {
     const { onCancel, username, info } = this.props;
 
@@ -63,7 +69,7 @@ class BanUserDialog extends React.Component {
   }
 
   renderStep1() {
-    const { onCancel, onPerform } = this.props;
+    const { onCancel } = this.props;
     const { message } = this.state;
 
     return (
@@ -95,7 +101,7 @@ class BanUserDialog extends React.Component {
           <Button
             className={cn('talk-ban-user-dialog-button-confirm')}
             cStyle="black"
-            onClick={onPerform}
+            onClick={this.handlePerform}
             raised
           >
             {t('bandialog.send')}
