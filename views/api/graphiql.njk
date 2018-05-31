@@ -5,18 +5,25 @@
 {% block css %}
 {# Include the base development pieces #}
 {{ super() }}
+<link href="//cdn.jsdelivr.net/graphiql/0.9.1/graphiql.css" rel="stylesheet" />
 <style type="text/css">
-  html, body, #graphiql {
+  html, body {
     height: 100%;
     margin: 0;
     overflow: hidden;
     width: 100%;
   }
+  #graphiql {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 56px;
+  }
   *, ::after, ::before {
     box-sizing: inherit;
   }
 </style>
-<link href="//cdn.jsdelivr.net/graphiql/0.9.1/graphiql.css" rel="stylesheet" />
 {% endblock %}
 
 {% block js %}
