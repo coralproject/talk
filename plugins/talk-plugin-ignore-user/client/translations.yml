@@ -39,6 +39,7 @@ en:
     confirmation_title: Ignore {0}?
 de:
   talk-plugin-ignore-user:
+    blank_info: Sie ignorieren derzeit keine Nutzer
     section_title: Ignorierte Nutzer
     section_info: Weil Sie die folgenden Nutzer ignorieren, sind deren Kommentare versteckt.
     stop_ignoring: Ignorieren beenden

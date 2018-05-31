@@ -1,0 +1,19 @@
+{% extends "templates/base.njk" %}
+
+{% block title %}Talk - Login{% endblock %}
+
+{% block css %}
+<link href="{{ resolve('coral-login/bundle.css')}}" rel="stylesheet">
+
+{# Custom CSS is included after the CSS block so that its overrides will apply #}
+{% include "partials/custom-css.njk" %}
+{% endblock %}
+
+{% block html %}
+<div id="talk-login-container"></div>
+{% endblock %}
+
+{% block js %}
+<script nonce="{{ nonce }}" src='https://www.google.com/recaptcha/api.js?render=explicit' async defer></script>
+<script src="{{ resolve('coral-login/bundle.js')}}"></script>
+{% endblock %}

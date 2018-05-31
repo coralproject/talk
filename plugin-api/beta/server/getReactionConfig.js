@@ -11,10 +11,22 @@ function getReactionConfig(reaction) {
 
   if (CREATE_MONGO_INDEXES) {
     // Create the index on the comment model based on the reaction config.
-    Comment.collection.createIndex(
+    Comment.collection.ensureIndex(
       {
-        created_at: 1,
-        [`action_counts.${sc(reaction)}`]: 1,
+        asset_id: 1,
+        [`action_counts.${sc(reaction)}`]: -1,
+        created_at: -1,
+      },
+      {
+        background: true,
+      }
+    );
+
+    Comment.collection.ensureIndex(
+      {
+        asset_id: 1,
+        [`action_counts.${sc(reaction)}`]: -1,
+        created_at: -1,
       },
       {
         background: true,

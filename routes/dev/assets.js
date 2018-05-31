@@ -1,49 +1,58 @@
 const express = require('express');
 const router = express.Router();
-
-const errors = require('../../errors');
-const Assets = require('../../services/assets');
-
-const body =
-  'Lorem ipsum dolor sponge amet, consectetur adipiscing clam. Ut lobortis sollicitudin pillar a ornare. Curabitur dignissim vestibulum cay non rhoncus. Cras laoreet ante vel nunc hendrerit, shelf imperdiet neque egestas. Suspendisse aliquet iaculis fermentum. Talk volutpat, tellus posuere laoreet consequat, mi lacus laoreet massa, sed vehicula mauris velit non lectus. Integer non trust nec neque congue faucibus porttitor sit amet elkhorn.';
+const casual = require('casual');
+const { ErrNotFound } = require('../../errors');
+const Asset = require('../../models/asset');
 
 router.get('/id/:asset_id', async (req, res, next) => {
   try {
-    const asset = await Assets.findById(req.params.asset_id);
+    const asset = await Asset.findOne({ id: req.params.asset_id });
     if (asset === null) {
-      return next(errors.ErrNotFound);
+      throw new ErrNotFound();
     }
 
-    res.render('dev/article', {
+    res.render('dev/article.njk', {
       title: asset.title,
       asset_id: asset.id,
       asset_url: asset.url,
-      body: '',
-      basePath: '/client/embed/stream',
     });
   } catch (err) {
     return next(err);
   }
 });
 
+router.get('/random', (req, res) => {
+  const title = casual.title;
+
+  res.redirect(`./title/${title.replace(/ /g, '-')}`);
+});
+
 router.get('/title/:asset_title', (req, res) => {
-  return res.render('dev/article', {
+  res.render('dev/article.njk', {
     title: req.params.asset_title.split('-').join(' '),
     asset_url: '',
     asset_id: null,
-    body: body,
-    basePath: '/client/embed/stream',
   });
 });
 
 router.get('/', async (req, res, next) => {
-  let skip = req.query.skip ? parseInt(req.query.skip) : 0;
-  let limit = req.query.limit ? parseInt(req.query.limit) : 25;
-
   try {
-    const assets = await Assets.all(skip, limit);
-    res.render('dev/articles', {
-      assets: assets,
+    const skip = req.query.skip ? parseInt(req.query.skip) : 0;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 6;
+
+    const [assets, count] = await Promise.all([
+      Asset.find({})
+        .sort({ created_at: 1 })
+        .limit(limit)
+        .skip(skip),
+      Asset.count(),
+    ]);
+
+    res.render('dev/articles.njk', {
+      skip,
+      limit,
+      count,
+      assets,
     });
   } catch (err) {
     return next(err);

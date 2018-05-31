@@ -314,11 +314,11 @@ class ModerationContainer extends Component {
 
     const currentQueueConfig = Object.assign({}, this.props.queueConfig);
 
-    if (premodEnabled && root.newCount === 0) {
+    if (premodEnabled && root.new.nodes.length === 0) {
       delete currentQueueConfig.new;
     }
 
-    if (!premodEnabled && root.premodCount === 0) {
+    if (!premodEnabled && root.premod.nodes.length === 0) {
       delete currentQueueConfig.premod;
     }
 
@@ -402,7 +402,7 @@ const COMMENT_RESET_SUBSCRIPTION = gql`
 
 const LOAD_MORE_QUERY = gql`
   query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Cursor, $sortOrder: SORT_ORDER, $asset_id: ID, $tags:[String!], $statuses:[COMMENT_STATUS!], $action_type: ACTION_TYPE) {
-    comments(query: {limit: $limit, cursor: $cursor, asset_id: $asset_id, statuses: $statuses, sortOrder: $sortOrder, action_type: $action_type, tags: $tags}) {
+    comments(query: {limit: $limit, cursor: $cursor, asset_id: $asset_id, statuses: $statuses, sortOrder: $sortOrder, action_type: $action_type, tags: $tags, excludeDeleted: true}) {
       nodes {
         ...${getDefinitionName(Comment.fragments.comment)}
       }
@@ -432,6 +432,7 @@ const withModQueueQuery = withQuery(
     ${Object.keys(queueConfig).map(
       queue => `
       ${queue}: comments(query: {
+        excludeDeleted: true,
         statuses: ${
           queueConfig[queue].statuses
             ? `[${queueConfig[queue].statuses.join(', ')}],`
@@ -455,9 +456,14 @@ const withModQueueQuery = withQuery(
       }
     `
     )}
-    ${Object.keys(queueConfig).map(
+    ${
+      ''
+      /*
+     TODO: eventually we'll reintroduce counting..
+     Object.keys(queueConfig).map(
       queue => `
       ${queue}Count: commentCount(query: {
+        excludeDeleted: true,
         statuses: ${
           queueConfig[queue].statuses
             ? `[${queueConfig[queue].statuses.join(', ')}],`
@@ -476,7 +482,8 @@ const withModQueueQuery = withQuery(
         asset_id: $asset_id,
       })
     `
-    )}
+    )*/
+    }
     asset(id: $asset_id) @skip(if: $allAssets) {
       id
       title

@@ -1,0 +1,11 @@
+:global {
+  html, body, #root, #root > div {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: #FAFAFA;
+    font-family: 'Roboto', sans-serif;
+  }
+}

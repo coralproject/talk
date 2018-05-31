@@ -184,7 +184,7 @@ export default class Comment extends React.Component {
     maxCharCount: PropTypes.number,
     root: PropTypes.object,
     loadMore: PropTypes.func,
-    postDontAgree: PropTypes.func,
+    postDontAgree: PropTypes.func.isRequired,
     animateEnter: PropTypes.bool,
     commentClassNames: PropTypes.array,
     comment: PropTypes.object.isRequired,
@@ -410,6 +410,7 @@ export default class Comment extends React.Component {
       charCountEnable,
       showSignInDialog,
       liveUpdates,
+      postDontAgree,
       emit,
     } = this.props;
     return (
@@ -440,6 +441,7 @@ export default class Comment extends React.Component {
               key={reply.id}
               comment={reply}
               emit={emit}
+              postDontAgree={postDontAgree}
             />
           );
         })}
@@ -743,10 +745,21 @@ export default class Comment extends React.Component {
 
     const id = `c_${comment.id}`;
 
+    // props that are passed down the slots.
+    const slotPassthrough = {
+      action: 'deleted',
+      comment,
+    };
+
     return (
       <div className={rootClassName} id={id}>
         {isCommentDeleted(comment) ? (
-          <CommentTombstone action="deleted" />
+          <Slot
+            fill="commentTombstone"
+            defaultComponent={CommentTombstone}
+            size={1}
+            passthrough={slotPassthrough}
+          />
         ) : (
           <div>
             {this.renderComment()}

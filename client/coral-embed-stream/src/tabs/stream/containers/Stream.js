@@ -265,7 +265,7 @@ StreamContainer.propTypes = {
   commentClassNames: PropTypes.array,
   setActiveStreamTab: PropTypes.func,
   postFlag: PropTypes.func,
-  postDontAgree: PropTypes.func,
+  postDontAgree: PropTypes.func.isRequired,
   deleteAction: PropTypes.func,
   showSignInDialog: PropTypes.func,
   currentUser: PropTypes.object,
@@ -434,6 +434,8 @@ const fragments = {
         questionBoxIcon
         closedTimeout
         closedMessage
+        disableCommenting
+        disableCommentingMessage
         charCountEnable
         charCount
         requireEmailConfirmation

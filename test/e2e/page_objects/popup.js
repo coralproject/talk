@@ -5,7 +5,9 @@ module.exports = {
         return this.waitForElementVisible('body');
       },
       login(user) {
-        return this.setValue('@emailInput', user.email)
+        return this.waitForElementVisible('@emailInput')
+          .setValue('@emailInput', user.email)
+          .waitForElementVisible('@passwordInput')
           .setValue('@passwordInput', user.password)
           .waitForElementVisible('@signIn')
           .waitForElementVisible('@loginButton')

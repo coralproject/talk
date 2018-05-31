@@ -1,0 +1,177 @@
+en:
+  email:
+    email_change_original:
+      subject: Email change
+      body: Your email address has been changed from {0} to {1}. If you did not request this change, please contact {2}.
+  error:
+    NO_LOCAL_PROFILE: No existing email address is associated with this account.
+    LOCAL_PROFILE: An email address is already associated with this account.
+    INCORRECT_PASSWORD: Provided password was incorrect.
+  talk-plugin-local-auth:
+    change_password:
+      change_password: "Change Password"
+      passwords_dont_match: "Passwords don`t match"
+      required_field: "This field is required"
+      forgot_password: "Forgot your password?"
+      old_password: "Old Password"
+      new_password: "New Password"
+      confirm_new_password: "Confirm New Password"
+      save: "Save"
+      cancel: "Cancel"
+      edit: "Edit"
+      changed_password_msg: "Changed Password - Your password has been successfully changed"
+      forgot_password_sent: "Forgot Password - We sent you an email to recover your password"
+    change_username:
+      change_username_note: "Usernames can only be changed once every 14 days."
+      is_not_eligible: "You cannot currently change your username."
+      save: "Save"
+      edit_profile: "Edit Profile"
+      cancel: "Cancel"
+      confirm_username_change: "Confirm Username Change"
+      description: "You are attempting to change your username. Your new username will appear on all of your past and future comments."
+      old_username: "Old Username"
+      new_username: "New Username"
+      re_enter: "Re-enter new username"
+      bottom_note: "Note: You will not be able to change your username again for 14 days"
+      confirm_changes: "Confirm Changes"
+      username_does_not_match: "Username does not match"
+      cant_be_equal: "Your new {0} must be different to your current one"
+      changed_username_success_msg: "Username Changed - Your username has been successfully changed. You will not be able to change your user name for 14 days."
+      change_username_attempt: "Username can't be updated. Usernames can only be changed every 14 days."
+    change_email:
+      confirm_email_change: "Confirm Email Address Change"
+      description: "You are attempting to change your email address. Your new email address will be used for your login and to receive account notifications."
+      old_email: "Old Email Address"
+      new_email: "New Email Address"
+      enter_password: "Enter Password"
+      incorrect_password: "Incorrect Password"
+      confirm_change: "Confirm Change"
+      cancel: "Cancel"
+      change_email_msg: "Email Address Changed. This email address will now be used for signing in and email notifications."
+    add_email:
+      add_email_address: "Add Email Address"
+      enter_email_address: "Enter Email Address:"
+      invalid_email_address: "Invalid Email address"
+      confirm_email_address: "Confirm Email Address:"
+      email_does_not_match: "Email Address does not match"
+      insert_password: "Insert Password:"
+      required_field: "This field is required"
+      done: "Done"
+      content:
+        title: "Add an Email Address"
+        description: "For your added security, we require users to add an email address to their accounts. Your email address will be used to:"
+        item_1: "Receive updates regarding any changes to your account (email address, username, password, etc.)"
+        item_2: "Allow you to download your comments."
+        item_3: "Send comment notifications that you have chosen to receive."
+      verify:
+        title: "Verify Your Email Address"
+        description:  "We’ve sent an email to {0} to verify your account. You must verify your email address so that it can be used for account change confirmations and notifications."
+      added:
+        title: "Email Address Added"
+        description: "Your email address has been added to your account."
+        subtitle: "Need to change your email address?"
+        description_2: "You can change your account settings by visiting"
+        path: "My Profile > Settings"
+        alert: "Email Added!"
+de:
+  email:
+    email_change_original:
+      subject: Änderung Ihrer E-Mail-Adresse
+      body: Ihre E-Mail-Adresse wurde von {0} zu {1} geändert. Falls Sie diese Änderung nicht selbst vorgenommen haben, kontaktieren Sie bitte zur Sicherheit {2}.
+  error:
+    NO_LOCAL_PROFILE: Mit diesem Benutzerkonto ist keine E-Mail-Adresse verbunden.
+    LOCAL_PROFILE: Es ist bereits eine bestätigte E-Mail-Adresse mit diesem Benutzerkonto verbunden.
+    INCORRECT_PASSWORD: Das Passwort war nicht korrekt.
+  talk-plugin-local-auth:
+    change_password:
+      change_password: "Passwort ändern"
+      passwords_dont_match: "Die Passwörter stimmen nicht überein"
+      required_field: "Diese Angabe ist erforderlich"
+      forgot_password: "Passwort vergessen?"
+      old_password: "Altes Passwort"
+      new_password: "Neues Passwort"
+      confirm_new_password: "Neues Passwort bestätigen"
+      save: "Speichern"
+      cancel: "Abbrechen"
+      edit: "Ändern"
+      changed_password_msg: "Passwort geändert - Ihr Passwort wurde erfolgreich geändert"
+      forgot_password_sent: "Passwort vergessen - Wir haben Ihnen eine E-Mail zum Zurücksetzen des Passwortes geschickt"
+    change_username:
+      change_username_note: "Nutzernamen können nur alle 14 Tage geändert werden."
+      is_not_eligible: "Sie können Ihren Nutzernamen derzeit nicht ändern."
+      save: "Speichern"
+      edit_profile: "Profil ändern"
+      cancel: "Abbrechen"
+      confirm_username_change: "Änderung des Nutzernamens bestätigen"
+      description: "Sie möchten Ihren Nutzernamen ändern: der neue Nutzername wird an allen alten und neuen Kommentaren erscheinen."
+      old_username: "Alter Nutzername"
+      new_username: "Neuer Nutzername"
+      re_enter: "Neuen Nutzernamen bestätigen"
+      bottom_note: "Achtung: die nächste Änderung des Nutzernamens ist erst nach 14 Tagen möglich"
+      confirm_changes: "Änderung bestätigen"
+      username_does_not_match: "Die Nutzernamen stimmen nicht überein"
+      cant_be_equal: "Der neue Nutzername {0} muss sich vom alten unterscheiden."
+      changed_username_success_msg: "Nutzername geändert - Ihr Nutzername wurde erfolgreich aktualisiert. Die nächste Änderung des Nutzernamens ist erst nach 14 Tagen möglich."
+      change_username_attempt: "Der Nutzername kann zur Zeit nicht aktualisiert werden. Änderungen sind nur nach jeweils 14 Tagen möglich."
+    change_email:
+      confirm_email_change: "Änderung der E-Mail-Adresse bestätigen"
+      description: "Sie versuchen, Ihre E-Mail-Adresse ändern: die neue E-Mail-Adresse wird zum Login sowie für Benachrichtigungen bzgl. Ihres Benutzerkontos verwendet."
+      old_email: "Alte E-Mail-Adresse"
+      new_email: "Neue E-Mail-Adresse"
+      enter_password: "Passwort"
+      incorrect_password: "Passwort nicht korrekt"
+      confirm_change: "Änderung bestätigen"
+      cancel: "Abbrechen"
+      change_email_msg: "E-Mail-Adresse erfolgreich aktualisiert - die neue E-Mail-Adresse ab sofort zum Anmelden und für Benachrichtigungen verwendet."
+    add_email:
+      add_email_address: "E-Mail-Adresse hinzufügen"
+      enter_email_address: "E-Mail-Adresse:"
+      invalid_email_address: "Ungültige E-Mail-Adresse"
+      confirm_email_address: "Bestätigung der E-Mail-Adresse:"
+      email_does_not_match: "Die E-Mail-Adressen stimmen nicht überein"
+      insert_password: "Passwort auswählen:"
+      required_field: "Dieses Feld ist erforderlich"
+      done: "Fertig"
+      content:
+        title: "E-Mail-Adresse hinzufügen"
+        description: "Aus Sicherheitsgründen benötigen wir eine E-Mail-Adresse zu jedem Benutzerkonto. Ihre E-Mail-Adresse wird für folgendes verwendet:"
+        item_1: "Benachrichtigungen über Änderungen am Benutzerkonto (Nutzername, E-Mail-Adresse, Passwort)"
+        item_2: "Ermöglicht den Download des eigenen Kommentar-Archivs"
+        item_3: "Kommentar-Benachrichtigungen erhalten, die Sie explizit angefordert haben"
+      verify:
+        title: "E-Mail-Adresse bestätigen"
+        description:  "Wir haben einen E-Mail an {0} geschickt. Bitte bestätigen Sie Ihre E-Mail-Adresse, um damit Benachrichtigungen über Änderungen am Benutzerkonto zu erhalten."
+      added:
+        title: "E-Mail-Adresse hinzugefügt"
+        description: "Ihre E-Mail-Adresse wurde dem Benutzerkonto hinzugefügt."
+        subtitle: "Sie möchten Ihre E-Mail-Adresse ändern?"
+        description_2: "Sie können Ihre Konto-Einstellugen ändern unter"
+        path: "Mein Profil > Profil-Einstellungen"
+        alert: "E-Mail-Adresse hinzugefügt!"
+es:
+  talk-plugin-local-auth:
+    change_password:
+      change_password: "Cambiar Contraseña"
+      passwords_dont_match: "Las contraseñas no coinciden"
+      required_field: "Este campo es requerido"
+      forgot_password: "Olvidaste tu contraseña?"
+      save: "Guardar"
+      cancel: "Cancelar"
+      edit: "Editar"
+      changed_password_msg: "Contraseña Actualizada - Tu contraseña ha sido exitosamente actualizada"
+      forgot_password_sent: "Contraseña Olvidada - Te enviamos un email para recuperar tu contraseña"
+    change_username:
+      change_username_note: "El usuario puede ser cambiado cada 14 días."
+      is_not_eligible: "Ahora mismo no se puede cambiar su nombre de usuario."
+      save: "Guardar"
+      edit_profile: "Editar Perfil"
+      cancel: "Cancelar"
+      confirm_username_change: "Confirmar Cambio de Usuario"
+      description: "Estás intentando cambiar tu usuario. Tu nuevo usuario aparecerá en todos tus pasados y futuros comentarios."
+      old_username: "Usuario viejo"
+      new_username: "Usuario nuevo"
+      bottom_note: "Nota: No podrás cambiar tu usuario por 14 días"
+      confirm_changes: "Confirmar Cambios"
+      username_does_not_match: "El usuario no coincide"
+      changed_username_success_msg: "Usuario Actualizado - Tu usuario ha sido exitosamente actualizado. No podrás cambiar el usuario por 14 días."
+      change_username_attempt: "El usuario no puede ser actualizado. Los usuarios pueden ser cambiados cada 14 días."

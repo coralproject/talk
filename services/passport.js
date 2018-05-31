@@ -1,7 +1,7 @@
 const passport = require('passport');
 const { set, get } = require('lodash');
 const UsersService = require('./users');
-const SettingsService = require('./settings');
+const Settings = require('./settings');
 const TokensService = require('./tokens');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
@@ -115,13 +115,13 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
   res.locals.encodeJSONForHTML = encodeJSONForHTML;
 
   if (err) {
-    return res.render('auth-callback', {
+    return res.render('auth-callback.njk', {
       auth: { err, data: null },
     });
   }
 
   if (!user) {
-    return res.render('auth-callback', {
+    return res.render('auth-callback.njk', {
       auth: { err: new ErrNotAuthorized(), data: null },
     });
   }
@@ -132,7 +132,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
   SetTokenForSafari(req, res, token);
 
   // We logged in the user! Let's send back the user data.
-  res.render('auth-callback', {
+  res.render('auth-callback.njk', {
     auth: { err: null, data: { user, token } },
   });
 };
@@ -157,7 +157,9 @@ async function ValidateUserLogin(loginProfile, user, done) {
   }
 
   // The user is a local user, check if we need email confirmation.
-  const { requireEmailConfirmation = false } = await SettingsService.retrieve();
+  const { requireEmailConfirmation = false } = await Settings.select(
+    'requireEmailConfirmation'
+  );
 
   // If we have the requirement of checking that emails for users are
   // verified, then we need to check the email address to ensure that it has

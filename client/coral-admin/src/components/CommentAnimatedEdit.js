@@ -29,7 +29,7 @@ const CommentAnimatedEdit = ({ children, body }) => {
 
 CommentAnimatedEdit.propTypes = {
   children: PropTypes.node,
-  body: PropTypes.string,
+  body: PropTypes.string.isRequired,
 };
 
 export default CommentAnimatedEdit;

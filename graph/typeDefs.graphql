@@ -20,9 +20,17 @@ type Reliability {
   # `null` if the reliability cannot be determined.
   flagger: Boolean
 
+  # flaggerKarma will contains the number of agreed flags vs disagred flag
+  # count.
+  flaggerKarma: Int!
+
   # Commenter will be `true` when the commenter is reliable, `false` if not, or
   # `null` if the reliability cannot be determined.
   commenter: Boolean
+
+  # commenterKarma the number of approved comments (not untouched) subtracted by
+  # the number of rejected comments.
+  commenterKarma: Int!
 }
 
 ################################################################################
@@ -418,6 +426,9 @@ input CommentsQuery {
 
   # Exclude comments ignored by the requesting user
   excludeIgnored: Boolean
+
+  # excludeDeleted when true will exclude deleted comments from the response.
+  excludeDeleted: Boolean = false
 }
 
 input RepliesQuery {
@@ -434,6 +445,9 @@ input RepliesQuery {
 
   # Exclude comments ignored by the requesting user
   excludeIgnored: Boolean
+
+  # excludeDeleted when true will exclude deleted comments from the response.
+  excludeDeleted: Boolean = false
 }
 
 # CommentCountQuery allows the ability to query comment counts by specific
@@ -463,6 +477,9 @@ input CommentCountQuery {
 
   # Filter by a specific tag name.
   tags: [String!]
+
+  # excludeDeleted when true will exclude deleted comments from the count.
+  excludeDeleted: Boolean = false
 }
 
 # UserCountQuery allows the ability to query user counts by specific
@@ -519,7 +536,7 @@ type Comment {
   replies(query: RepliesQuery = {}): CommentConnection!
 
   # replyCount is the number of replies with a depth of 1. Only direct replies
-  # to this comment are counted.
+  # to this comment are counted. Deleted comments are included in this count.
   replyCount: Int
 
   # Actions completed on the parent. Requires the `ADMIN` role.
@@ -784,6 +801,29 @@ type Domains {
   whitelist: [String!]!
 }
 
+# KarmaThreshold defines the bounds for which a User will become unreliable or
+# reliable based on their karma score. If the score is equal or less than the
+# unreliable value, they are unreliable. If the score is equal or more than the
+# reliable value, they are reliable. If they are neither reliable or unreliable
+# then they are neutral.
+type KarmaThreshold {
+  reliable: Int!
+  unreliable: Int!
+}
+
+# KarmaThresholds contains the currently set thresholds for triggering Trust
+# beheviour.
+type KarmaThresholds {
+
+  # flag represents karma settings in relation to how well a User's flagging
+  # ability aligns with the moderation decicions made by moderators.
+  flag: KarmaThreshold!
+
+  # comment represents the karma setting in relation to how well a User's
+  # comments are moderated.
+  comment: KarmaThreshold!
+}
+
 # Settings stores the global settings for a given installation.
 type Settings {
 
@@ -828,6 +868,13 @@ type Settings {
   # closed.
   closedMessage: String
 
+  # disableCommenting will disable commenting site-wide.
+  disableCommenting: Boolean
+
+  # disableCommentingMessage will be shown above the comment stream while
+  # commenting is disabled site-wide.
+  disableCommentingMessage: String
+
   # editCommentWindowLength is the length of time (in milliseconds) after a
   # comment is posted that it can still be edited by the author.
   editCommentWindowLength: Int
@@ -849,6 +896,10 @@ type Settings {
 
   # domains will return a given list of domains.
   domains: Domains
+
+  # karmaThresholds contains the currently set thresholds for triggering Trust
+  # beheviour.
+  karmaThresholds: KarmaThresholds
 }
 
 ################################################################################
@@ -1290,6 +1341,13 @@ input UpdateSettingsInput {
   # closedMessage is the message shown to the user when the given Asset is
   # closed.
   closedMessage: String
+
+  # disableCommenting will disable commenting site-wide.
+  disableCommenting: Boolean
+
+  # disableCommentingMessage will be shown above the comment stream while
+  # commenting is disabled site-wide.
+  disableCommentingMessage: String
 
   # charCountEnable is true when the character count restriction is enabled.
   charCountEnable: Boolean

@@ -1,5 +1,4 @@
 @custom-media --big-viewport (min-width: 780px);
-
 .root {
   border-bottom: 1px solid #e0e0e0;
   font-size: 18px;
@@ -13,7 +12,6 @@
   margin-top: 13px;
   min-height: 0;
   outline: 0;
-
   /*
    Fix rendering issues in Safari by promoting this
    into its own layer.
@@ -21,7 +19,6 @@
    https://www.pivotaltracker.com/story/show/151142211
   */
   transform: translateZ(0);
-
   &:last-child {
     border-bottom: none;
   }
@@ -39,7 +36,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
 }
 
 .author {
@@ -74,7 +70,7 @@
   max-width: 500px;
   font-weight: 300;
   font-size: 16px;
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .created {
@@ -85,13 +81,16 @@
   font-weight: 300;
 }
 
+.deleted {
+  background-color: #f0f0f0;
+}
+
 .moderateArticle {
   font-size: 14px;
   margin: 10px 0;
   font-weight: 500;
   line-height: 1.2;
   max-width: 500px;
-
   a {
     display: inline-block;
     color: #063b9a;
@@ -99,17 +98,15 @@
     font-weight: 500;
     letter-spacing: .5px;
     margin-left: 10px;
-
     font-size: 13px;
     margin-left: 5px;
     padding-bottom: 0px;
     border-bottom: solid 1px;
     line-height: 16px;
-
     &:hover {
       opacity: .9;
       cursor: pointer;
-     }
+    }
   }
 }
 
@@ -134,12 +131,10 @@
   cursor: pointer;
   font-weight: normal;
   white-space: nowrap;
-
   &:hover {
     text-decoration: underline;
     opacity: .9;
   }
-
   i {
     font-size: 12px;
     position: relative;
@@ -168,7 +163,6 @@
   align-items: center;
   justify-content: flex-end;
   margin-right: 14px;
-
   i {
     margin-right: 5px;
   }
@@ -177,7 +171,6 @@
 @media (--big-viewport) {
   .root {
     margin-bottom: 30px;
-
     &:last-child {
       border-bottom: 1px solid #e0e0e0;
     }
@@ -186,7 +179,6 @@
 
 .commentContent {
   display: flex;
-
   blockquote {
     font-size: inherit;
     line-height: inherit;

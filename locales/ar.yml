@@ -292,55 +292,7 @@ ar:
          suspect_word: "كلمة مشتبهة"
          banned_word: "كلمة محظورة"
          body_count: "يتجاوز النص الحد الأقصى للطول المسموح"
-         trust: "ثقة"
          links: "رابط"
-  modqueue:
-    account: "account flags"
-    actions: Actions
-    all: all
-    all_streams: "All Streams"
-    notify_edited: '{0} edited comment "{1}"'
-    notify_accepted: '{0} accepted comment "{1}"'
-    notify_rejected: '{0} rejected comment "{1}"'
-    notify_flagged: '{0} flagged comment "{1}"'
-    notify_reset: '{0} reset status of comment "{1}"'
-    approve: "Approve"
-    approved: "Approved"
-    ban_user: "Ban"
-    billion: B
-    close: Close
-    empty_queue: "No more comments to moderate! You're all caught up. Go have some ☕️"
-    flagged: flagged
-    reported: reported
-    less_detail: "Less detail"
-    likes: likes
-    million: M
-    mod_faster: "Moderate faster with keyboard shortcuts"
-    moderate: "Moderate →"
-    more_detail: "More detail"
-    new: New
-    newest_first: "Newest First"
-    navigation: Navigation
-    next_comment: "Go to the next comment"
-    toggle_search: "Open search"
-    next_queue: "Switch queues"
-    oldest_first: "Oldest First"
-    premod: pre-mod
-    prev_comment: "Go to the previous comment"
-    reject: "Reject"
-    rejected: "Rejected"
-    reply: "Reply"
-    select_stream: "Select Stream"
-    shift_key: "⇧"
-    shortcuts: "Shortcuts"
-    sort: "Sort"
-    show_shortcuts: "Show Shortcuts"
-    singleview: "Zen mode"
-    thismenu: "Open this menu"
-    jump_to_queue: "Jump to specific queue"
-    thousand: k
-    try_these: "Try these"
-    view_more_shortcuts: "View more shortcuts"
   my_comment_history: "سجل التعليقات"
   name: اسم
   no_agree_comment: "لا أوافق على هذا التعليق"
@@ -358,9 +310,6 @@ ar:
   report_notif: "شكرا على الإبلاغ عن هذا التعليق. تم إبلاغ فريق الإشراف لدينا وسيراجعه قريبًا."
   report_notif_remove: "لقد تمت إزالة بلاغك."
   reported: بلغ عنه
-  comment_history_blank:
-    title: You have not written any comments
-    info: A history of your comments will appear here
   settings:
     from_settings_page: "من صفحة الملف الشخصي يمكنك مشاهدة سجل التعليقات."
     my_comment_history: "سجل التعليقات"
@@ -378,104 +327,8 @@ ar:
   step_1_header: "بلغ عن مشكلة"
   step_2_header: "ساعدنا على الفهم"
   step_3_header: "شكرا لك على المساهمة الخاصة بك"
-  streams:
-    all: All
-    article: Story
-    closed: Closed
-    empty_result: "No assets match this search. Maybe try widening your search?"
-    filter_streams: "Filter Streams"
-    newest: Newest
-    oldest: Oldest
-    open: Open
-    pubdate: "Publication Date"
-    search: Search
-    sort_by: "Sort By"
-    status: "Stream Status"
-    stream_status: "Stream Status"
-  suspenduser:
-    title_suspend: "Suspend User"
-    description_suspend: "You are suspending {0}. This comment will go to the Rejected queue, and {0} will not be allowed to like, report, reply or post until the suspension time is complete."
-    select_duration: "Select suspension duration"
-    one_hour: "1 hour"
-    hours: "{0} hours"
-    days: "{0} days"
-    hour: "{0} hours"
-    day: "{0} days"
-    cancel: "Cancel"
-    suspend_user: "Suspend User"
-    email_message_suspend: "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}."
-    title_notify: "Notify the user of their temporary suspension"
-    notify_suspend_until: "User {0} has been temporarily suspended. This suspension will automatically end {1}."
-    description_notify: "Suspending this user will temporarily disable their account."
-    write_message: "Write a message"
-    send: Send
-  reject_username:
-    username: username
-    no_cancel: "No cancel"
-    description_reject: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily suspend this user until they rewrite their {0}."
-    title_notify: "Notify the user of their temporary suspension"
-    description_notify: "Suspending this user will temporarily disable their account."
-    title_reject: "We noticed you rejected a username"
-    suspend_user: "Suspend User"
-    yes_suspend: "Yes suspend"
-    email_message_reject: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
-    write_message: "Write a message"
-    send: Send
   thank_you: "نحن نقدر سلامتك وردود الفعل. سيراجع المشرف التقرير الخاص بك"
-  user:
-    bio_flags: "flags for this bio"
-    user_bio: "User Bio"
-    username_flags: "flags for this username"
-  user_detail:
-    remove_suspension: "Remove Suspension"
-    suspend: "Suspend User"
-    remove_ban: "Remove Ban"
-    ban: "Ban User"
-    member_since: "Member Since"
-    email: "Email"
-    total_comments: "Total Comments"
-    reject_rate: "Reject Rate"
-    reports: "Reports"
-    all: "All"
-    rejected: "Rejected"
-    user_history: "User History"
-  user_history:
-    user_banned: "User banned"
-    ban_removed: "Ban removed"
-    username_status: "Username {0}"
-    suspended: "Suspended, {0}"
-    suspension_removed: "Suspension removed"
-    system: "System"
-    date: "Date"
-    action: "Action"
-    taken_by: "Taken By"
   user_impersonating: "هذا المستخدم ينتحل شخصية"
   user_no_comment: "لم تترك تعليقا مطلقا. إنضم إلى المحادثة!"
   username_offensive: "اسم المستخدم هذا مسيء"
   view_conversation: "عرض المحادثة"
-  install:
-    initial:
-      description: "Let's set up your Talk community in just a few short steps."
-      submit: "Get Started"
-    add_organization:
-      description: "Please tell us the name of your organization. This will appear in emails when inviting new team members."
-      label: "Organization Name"
-      save: "Save"
-    create:
-      email: "Email address"
-      username: "Username"
-      password: "Password"
-      confirm_password: "Confirm Password"
-      organization_contact_email: "Organization Contact Email"
-      save: "Save"
-    permitted_domains:
-      title: "Permitted domains"
-      description: "Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com)."
-      submit: "Finish install"
-    final:
-      description: "Thanks for installing Talk! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now."
-      launch: "Launch Talk"
-      close: "Close this Installer"
-  admin_sidebar:
-    view_options: "View Options"
-    sort_comments: "Sort Comments"

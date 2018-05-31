@@ -7,7 +7,7 @@
 const util = require('./util');
 const program = require('commander');
 const parseDuration = require('ms');
-const Table = require('cli-table');
+const Table = require('cli-table2');
 const AssetModel = require('../models/asset');
 const CommentModel = require('../models/comment');
 const AssetsService = require('../services/assets');
@@ -23,23 +23,33 @@ util.onshutdown([() => mongoose.disconnect()]);
 /**
  * Lists all the assets registered in the database.
  */
-async function listAssets() {
+async function listAssets(opts) {
   try {
     let assets = await AssetModel.find({}).sort({ created_at: 1 });
 
-    let table = new Table({
-      head: ['ID', 'Title', 'URL'],
-    });
+    switch (opts.format) {
+      case 'json': {
+        console.log(JSON.stringify(assets, null, 2));
+        break;
+      }
+      default: {
+        let table = new Table({
+          head: ['ID', 'Title', 'URL'],
+        });
 
-    assets.forEach(asset => {
-      table.push([
-        asset.id,
-        asset.title ? asset.title : '',
-        asset.url ? asset.url : '',
-      ]);
-    });
+        assets.forEach(asset => {
+          table.push([
+            asset.id,
+            asset.title ? asset.title : '',
+            asset.url ? asset.url : '',
+          ]);
+        });
 
-    console.log(table.toString());
+        console.log(table.toString());
+        break;
+      }
+    }
+
     util.shutdown();
   } catch (e) {
     console.error(e);
@@ -49,12 +59,13 @@ async function listAssets() {
 
 async function refreshAssets(ageString) {
   try {
-    const now = new Date().getTime();
-    const ageMs = parseDuration(ageString);
-    const age = new Date(now - ageMs);
+    const query = AssetModel.find({}, { id: 1 });
+    if (ageString) {
+      // An age was specified, so filter only those assets.
+      const ageMs = parseDuration(ageString);
+      const age = new Date(Date.now() - ageMs);
 
-    let assets = await AssetModel.find(
-      {
+      query.merge({
         $or: [
           {
             scraped: {
@@ -65,16 +76,28 @@ async function refreshAssets(ageString) {
             scraped: null,
           },
         ],
-      },
-      { id: 1 }
-    );
+      });
+    }
 
     // Create a graph context.
     const ctx = Context.forSystem();
 
+    // Load the assets.
+    const cursor = query.cursor();
+
     // Queue all the assets for scraping.
-    await Promise.all(assets.map(({ id }) => scraper.create(ctx, id)));
-    console.log('Assets were queued to be scraped');
+    const promises = [];
+
+    let asset = await cursor.next();
+    while (asset) {
+      promises.push(scraper.create(ctx, asset.id));
+      asset = await cursor.next();
+    }
+
+    await Promise.all(promises);
+
+    console.log(`${promises.length} Assets were queued to be scraped.`);
+
     util.shutdown();
   } catch (e) {
     console.error(e);
@@ -202,11 +225,17 @@ async function rewrite(search, replace, options) {
 
 program
   .command('list')
+  .option(
+    '--format <type>',
+    'Specify the output format [table]',
+    /^(table|json)$/i,
+    'table'
+  )
   .description('list all the assets in the database')
   .action(listAssets);
 
 program
-  .command('refresh <age>')
+  .command('refresh [age]')
   .description('queues the assets that exceed the age requested')
   .action(refreshAssets);
 

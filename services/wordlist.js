@@ -1,12 +1,12 @@
 const debug = require('debug')('talk:services:wordlist');
 const _ = require('lodash');
-const SettingsService = require('./settings');
+const Settings = require('./settings');
 const { ErrContainsProfanity } = require('../errors');
 const memoize = require('lodash/memoize');
 const { escapeRegExp } = require('./regex');
 
 /**
- * Generate a regulare expression that catches the `phrases`.
+ * Generate a regular expression that catches the `phrases`.
  */
 function generateRegExp(phrases) {
   const inner = phrases
@@ -49,7 +49,7 @@ class Wordlist {
    * Loads wordlists in from the database
    */
   load() {
-    return SettingsService.retrieve().then(settings => {
+    return Settings.select('wordlist').then(settings => {
       // Insert the settings wordlist.
       this.upsert(settings.wordlist);
     });

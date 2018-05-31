@@ -130,7 +130,9 @@ class People extends React.Component {
                             {user.username}
                           </button>
                           <span className={styles.email}>
-                            {user.profiles.map(({ id }) => id)}
+                            {user.email
+                              ? user.email
+                              : user.profiles.map(p => p.id).join(', ')}
                           </span>
                         </td>
                         <td className="mdl-data-table__cell--non-numeric">
@@ -200,7 +202,7 @@ class People extends React.Component {
                         </td>
                         <td className="mdl-data-table__cell--non-numeric">
                           <Dropdown
-                            className={cn(
+                            toggleClassName={cn(
                               'talk-admin-community-people-dd-role',
                               styles.roleDropdown
                             )}

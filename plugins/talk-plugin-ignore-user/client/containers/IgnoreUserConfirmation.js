@@ -10,16 +10,22 @@ import { bindActionCreators } from 'redux';
 import { closeMenu } from 'plugins/talk-plugin-author-menu/client/actions';
 import { notify } from 'plugin-api/beta/client/actions/notification';
 import { t } from 'plugin-api/beta/client/services';
+import { getErrorMessages } from 'coral-framework/utils';
 
 class IgnoreUserConfirmationContainer extends React.Component {
-  ignoreUser = () => {
+  ignoreUser = async () => {
     const { ignoreUser, notify, comment, closeMenu } = this.props;
-    ignoreUser(comment.user.id).then(() => {
+
+    try {
+      await ignoreUser(comment.user.id);
       notify(
         'success',
         t('talk-plugin-ignore-user.notify_success', comment.user.username)
       );
-    });
+    } catch (err) {
+      notify('error', getErrorMessages(err));
+    }
+
     closeMenu();
   };
 

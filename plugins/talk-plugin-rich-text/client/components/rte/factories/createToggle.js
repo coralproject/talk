@@ -62,6 +62,7 @@ const createToggle = (
         <Button
           className={className}
           title={title}
+          onMouseDown={this.handleMouseDown}
           onClick={this.handleClick}
           active={this.state.active}
           disabled={disabled || this.state.disabled}

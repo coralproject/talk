@@ -12,12 +12,10 @@ router.get('/', staticTemplate, async (req, res) => {
     await SetupService.isAvailable();
     return res.redirect(url.resolve(MOUNT_PATH, 'admin/install'));
   } catch (e) {
-    return res.render('dev/article', {
+    return res.render('dev/article.njk', {
       title: 'Coral Talk',
       asset_url: '',
       asset_id: '',
-      body: '',
-      basePath: '/static/embed/stream',
     });
   }
 });

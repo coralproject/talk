@@ -114,11 +114,11 @@ class Profile extends React.Component {
 
   isSaveEnabled = () => {
     const { formData } = this.state;
-    const { emailAddress, username } = this.props;
+    const { root: { me: { username, email } } } = this.props;
     const formHasErrors = !!Object.keys(this.state.errors).length;
     const validUsername =
       formData.newUsername && formData.newUsername !== username;
-    const validEmail = formData.newEmail && formData.newEmail !== emailAddress;
+    const validEmail = formData.newEmail && formData.newEmail !== email;
 
     return !formHasErrors && (validUsername || validEmail);
   };
@@ -138,8 +138,8 @@ class Profile extends React.Component {
     }
   };
 
-  saveEmail = async () => {
-    const { newEmail, confirmPassword } = this.state.formData;
+  saveEmail = async confirmPassword => {
+    const { newEmail } = this.state.formData;
 
     try {
       await this.props.updateEmailAddress({
@@ -202,12 +202,10 @@ class Profile extends React.Component {
           )}
           <ChangeEmailContentDialog
             save={this.saveEmail}
-            onChange={this.onChange}
             formData={this.state.formData}
             email={email}
             enable={formData.newEmail && email !== formData.newEmail}
-            hasError={this.hasError}
-            getError={this.getError}
+            closeDialog={this.closeDialog}
           />
         </ConfirmChangesDialog>
 
@@ -225,11 +223,21 @@ class Profile extends React.Component {
                   disabled={!usernameCanBeUpdated}
                   columnDisplay
                 >
-                  <span className={styles.bottomText}>
-                    {t(
-                      'talk-plugin-local-auth.change_username.change_username_note'
+                  <div className={styles.bottomText}>
+                    <span>
+                      {t(
+                        'talk-plugin-local-auth.change_username.change_username_note'
+                      )}
+                    </span>
+                    {!usernameCanBeUpdated && (
+                      <b>
+                        {' '}
+                        {t(
+                          'talk-plugin-local-auth.change_username.is_not_eligible'
+                        )}
+                      </b>
                     )}
-                  </span>
+                  </div>
                 </InputField>
                 <InputField
                   icon="email"

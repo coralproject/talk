@@ -169,6 +169,7 @@ const config = {
       TALK_REPLY_COMMENTS_LOAD_DEPTH: '3',
       TALK_DEFAULT_STREAM_TAB: 'all',
       TALK_DEFAULT_LANG: 'en',
+      TALK_WHITELISTED_LANGUAGES: '',
     }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
@@ -308,7 +309,10 @@ const applyConfig = (entries, root = {}) =>
       entry: entries.reduce(
         (entry, { name, path: modulePath, disablePolyfill = false }) => {
           const entries = [
-            path.join(__dirname, 'client/coral-framework/helpers/publicPath'),
+            path.join(
+              __dirname,
+              'client/coral-framework/helpers/webpackGlobals'
+            ),
           ];
           if (disablePolyfill) {
             entries.push(modulePath);

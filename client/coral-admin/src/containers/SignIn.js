@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withSignIn } from 'coral-framework/hocs';
+import { withSignIn, withPopupAuthHandler } from 'coral-framework/hocs';
 import { compose } from 'recompose';
 import SignIn from '../components/SignIn';
 
@@ -55,4 +55,4 @@ SignInContainer.propTypes = {
   requireRecaptcha: PropTypes.bool.isRequired,
 };
 
-export default compose(withSignIn)(SignInContainer);
+export default compose(withSignIn, withPopupAuthHandler)(SignInContainer);

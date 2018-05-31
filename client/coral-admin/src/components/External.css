@@ -1,0 +1,16 @@
+.external {
+  margin-bottom: 20px;
+}
+
+.separator h5 {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.slot > * {
+margin-bottom: 8px;
+
+&:last-child {
+  margin-bottom: 0px;
+}
+}

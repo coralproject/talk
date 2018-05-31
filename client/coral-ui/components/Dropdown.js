@@ -4,6 +4,7 @@ import styles from './Dropdown.css';
 import Icon from './Icon';
 import cn from 'classnames';
 import ClickOutside from 'coral-framework/components/ClickOutside';
+import { BareButton } from 'coral-ui';
 
 class Dropdown extends React.Component {
   toggleRef = null;
@@ -88,16 +89,6 @@ class Dropdown extends React.Component {
     this.toggle();
   };
 
-  handleKeyDown = e => {
-    const code = e.which;
-
-    // 13 = Return, 32 = Space
-    if (code === 13 || code === 32) {
-      e.preventDefault();
-      this.toggle();
-    }
-  };
-
   hideMenu = () => {
     this.setState({
       isOpen: false,
@@ -155,23 +146,18 @@ class Dropdown extends React.Component {
             styles.dropdown,
             className,
             containerClassName,
-            'dd dd-container',
-            {
-              [styles.disabled]: disabled,
-            }
+            'dd dd-container'
           )}
         >
-          <div
+          <BareButton
             className={cn(styles.toggle, toggleClassName, {
               [cn(this.state.isOpen, toggleOpenClassName)]: this.state.isOpen,
             })}
             onClick={this.handleClick}
-            onKeyDown={this.handleKeyDown}
-            role="button"
             aria-pressed={this.state.isOpen}
             aria-haspopup="true"
-            tabIndex={disabled ? '-1' : '0'}
             ref={this.handleToggleRef}
+            disabled={disabled}
           >
             {this.props.icon && (
               <Icon
@@ -194,7 +180,7 @@ class Dropdown extends React.Component {
                 aria-hidden="true"
               />
             )}
-          </div>
+          </BareButton>
           {this.state.isOpen && (
             <div>
               <div tabIndex="0" onFocus={this.trapFocusBegin} />
