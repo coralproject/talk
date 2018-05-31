@@ -135,13 +135,13 @@ en:
       your_username: "Your username appears on every comment you post."
     change_password:
       change_password: "Change Password"
-      passwords_dont_match: "Passwords don`t match"
+      passwords_dont_match: "Passwords don't match"
       required_field: "This field is required"
       forgot_password: "Forgot your password?"
       save: "Save"
       cancel: "Cancel"
       edit: "Edit"
-      changed_password_msg: "Changed Password - Your password has been successfully changed"
+      changed_password_msg: "Your password has been successfully changed"
 de:
   talk-plugin-auth:
     login:
