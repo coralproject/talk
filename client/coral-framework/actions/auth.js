@@ -96,12 +96,13 @@ export const logout = () => async (
   _,
   { rest, client, pym, localStorage }
 ) => {
-  // Stop if the token doen't exist
-  if (!localStorage.getItem('token')) {
-    return;
+  try {
+    await rest('/auth', { method: 'DELETE' });
+  } catch (err) {
+    // We ignore any REST related errors from the delete action, which may/may
+    // not have had a cookie/token attached to it. The logout action was still
+    // called, so we still want to cleanup.
   }
-
-  await rest('/auth', { method: 'DELETE' });
 
   // Clear the auth data persisted to localStorage.
   cleanAuthData(localStorage);
