@@ -40,15 +40,15 @@ authorization.has = (user, ...roles) => {
  * @return {Callback}    connect middleware
  */
 authorization.needed = (...roles) => [
-  // Insert the pre-needed middlware.
+  // Insert the pre-needed middleware.
   ...authorization.middleware,
 
   // Insert the actual middleware to check for the required role.
   (req, res, next) => {
-    // All routes that are wrapepd with this middleware actually require a role.
+    // All routes that are wrapped with this middleware actually require a role.
     if (!req.user) {
-      debug(`No user on request, returning with ${ErrNotAuthorized}`);
-      return next(ErrNotAuthorized);
+      debug(`No user on request, returning with ErrNotAuthorized`);
+      return next(new ErrNotAuthorized());
     }
 
     // Check to see if the current user has all the roles requested for the given
@@ -56,7 +56,7 @@ authorization.needed = (...roles) => [
     // evaluate to true.
     if (!authorization.has(req.user, ...roles)) {
       debug('User does not have all the required roles to access this page');
-      return next(ErrNotAuthorized);
+      return next(new ErrNotAuthorized());
     }
 
     // Looks like they're allowed!
