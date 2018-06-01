@@ -23,18 +23,8 @@
 }
 
 .closeButton {
-  userSelect: none;
-  outline: none;
-  border: none;
-  touchAction: manipulation;
-  &::-moz-focus-inner: {
-    border: 0;
-  }
-  background: 0;
-  padding: 0;
   font-size: 24px;
   line-height: 14px;
-  cursor: pointer;
   color: #363636;
   &:hover {
     color: #6b6b6b;

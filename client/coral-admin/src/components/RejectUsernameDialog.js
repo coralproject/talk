@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dialog } from 'coral-ui';
-import styles from './SuspendUserDialog.css';
+import { Dialog, BareButton } from 'coral-ui';
+import styles from './RejectUsernameDialog.css';
 import cn from 'classnames';
 import { RadioGroup, Radio } from 'react-mdl';
 import Button from 'coral-ui/components/Button';
@@ -45,13 +45,13 @@ class RejectUsernameDialog extends React.Component {
         open={open}
       >
         <div className={styles.close}>
-          <button
+          <BareButton
             aria-label="Close"
             onClick={onCancel}
             className={styles.closeButton}
           >
             ×
-          </button>
+          </BareButton>
         </div>
         <section className="talk-admin-reject-username-dialog-section">
           <h1 className={styles.header}>
