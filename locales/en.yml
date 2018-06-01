@@ -13,9 +13,9 @@ en:
   flag_reasons:
     username: 
       offensive: "This username is offensive"
-      nolike: "I dont likes this username"
-      impersonating: "This username is offensive"
-      spam: "This username is offensive"
+      nolike: "I don't like this username"
+      impersonating: "This user is impersonating"
+      spam: "This looks like an ad/marketing"
       other: "Other"
   bandialog:
     are_you_sure: "Are you sure you would like to ban {0}?"

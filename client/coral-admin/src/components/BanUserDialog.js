@@ -19,7 +19,7 @@ class BanUserDialog extends React.Component {
   }
 
   handleMessageChange = e => {
-    const { value: message } = e;
+    const { target: { value: message } } = e;
     this.setState({ message });
   };
 
@@ -27,6 +27,12 @@ class BanUserDialog extends React.Component {
     this.setState({
       step: 1,
       message: t('bandialog.email_message_ban', this.props.username),
+    });
+  };
+
+  handlePerform = () => {
+    this.props.onPerform({
+      message: this.state.message,
     });
   };
 
@@ -63,7 +69,7 @@ class BanUserDialog extends React.Component {
   }
 
   renderStep1() {
-    const { onCancel, onPerform } = this.props;
+    const { onCancel } = this.props;
     const { message } = this.state;
 
     return (
@@ -95,7 +101,7 @@ class BanUserDialog extends React.Component {
           <Button
             className={cn('talk-ban-user-dialog-button-confirm')}
             cStyle="black"
-            onClick={onPerform}
+            onClick={this.handlePerform}
             raised
           >
             {t('bandialog.send')}
