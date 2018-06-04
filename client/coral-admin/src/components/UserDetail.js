@@ -11,7 +11,6 @@ import {
   isSuspended,
   isUsernameRejected,
   isUsernameChanged,
-  getActiveStatuses,
   isBanned,
   getKarma,
 } from 'coral-framework/utils/user';
@@ -32,7 +31,6 @@ import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import UserInfoTooltip from './UserInfoTooltip';
 import KarmaTooltip from './KarmaTooltip';
 import t from 'coral-framework/services/i18n';
-import flatten from 'lodash/flatten';
 
 class UserDetail extends React.Component {
   changeTab = tab => {
@@ -78,14 +76,29 @@ class UserDetail extends React.Component {
   }
 
   getActionMenuLabel(user) {
-    const activeStatuses = getActiveStatuses(user);
-    const count = activeStatuses.length;
+    /**
+     * getUserStatusArray
+     * returns an array of active status(es)
+     * i.e if suspension is active, it returns suspension
+     */
+
+    const getUserStatusArray = user => {
+      const statusMap = {
+        suspended: isSuspended,
+        banned: isBanned,
+        usernameRejected: isUsernameRejected,
+        usernameChanged: isUsernameChanged,
+      };
+      return Object.keys(statusMap).filter(k => statusMap[k](user));
+    };
+
+    const userStatusArr = getUserStatusArray(user);
+    const count = userStatusArr.length;
 
     if (count > 1) {
-      return `Status(${count})`;
+      return `Status (${count})`;
     } else {
-      const activeStatus = flatten(activeStatuses)[0];
-
+      const activeStatus = userStatusArr[0];
       switch (activeStatus) {
         case 'suspended':
           return t('user_detail.suspended');
