@@ -1,6 +1,4 @@
 import get from 'lodash/get';
-import mapValues from 'lodash/mapValues';
-import toPairs from 'lodash/toPairs';
 import moment from 'moment';
 
 /**
@@ -53,23 +51,6 @@ export const isUsernameRejected = user => {
 
 export const isUsernameChanged = user => {
   return get(user, 'state.status.username.status') === 'CHANGED';
-};
-
-/**
- * getActiveStatuses
- * returns an array of active status(es)
- * i.e if suspension is active, it returns suspension
- */
-
-export const getActiveStatuses = user => {
-  const statusMap = {
-    suspended: isSuspended,
-    banned: isBanned,
-    usernameRejected: isUsernameRejected,
-    usernameChanged: isUsernameChanged,
-  };
-
-  return toPairs(mapValues(statusMap, fn => fn(user))).filter(x => x[1]);
 };
 
 /**
