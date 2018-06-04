@@ -6,7 +6,8 @@ const logger = createLogger('jobs:scraper');
 const fetch = require('node-fetch');
 const { merge } = require('lodash');
 const { version } = require('../../package.json');
-const { SCRAPER_HEADERS } = require('../../config');
+const { SCRAPER_HEADERS, SCRAPER_PROXY_URL } = require('../../config');
+const HttpsProxyAgent = require('https-proxy-agent');
 
 // Load the scraper with the rules.
 const metascraper = require('metascraper').load([
@@ -35,12 +36,16 @@ const headers = merge(
   customHeaders
 );
 
+// Add proxy configuration if exists.
+const agent = SCRAPER_PROXY_URL ? new HttpsProxyAgent(SCRAPER_PROXY_URL) : null;
+
 /**
  * Scrapes the given asset for metadata.
  */
 async function scrape({ url }) {
   const res = await fetch(url, {
     headers,
+    agent,
   });
   const html = await res.text();
 
@@ -49,7 +54,6 @@ async function scrape({ url }) {
     html,
     url,
   });
-
   return metadata;
 }
 
