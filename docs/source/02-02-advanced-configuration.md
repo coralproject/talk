@@ -568,3 +568,7 @@ A JSON string representing the configuration passed to the
 [fetch](https://www.npmjs.com/package/node-fetch) call for the scraper. It
 can be used to set an authorization header, or change the user agent. (Default
 `{}`)
+
+## TALK_SCRAPER_PROXY_URL
+
+Used when necessary to use proxy in the scraper requests. (Default null)
