@@ -242,6 +242,16 @@ export const withUnsuspendUser = withMutation(
   }
 );
 
+const SetUsernameStatusFragment = gql`
+  fragment Talk_SetUsernameStatus on User {
+    state {
+      status {
+        username
+      }
+    }
+  }
+`;
+
 export const withApproveUsername = withMutation(
   gql`
     mutation ApproveUsername($id: ID!) {
@@ -256,6 +266,27 @@ export const withApproveUsername = withMutation(
         return mutate({
           variables: {
             id,
+          },
+          update: proxy => {
+            const fragmentId = `User_${id}`;
+            const data = {
+              __typename: 'User',
+              state: {
+                __typename: 'UserState',
+                status: {
+                  __typename: 'UserStatus',
+                  username: {
+                    __typename: 'UsernameStatus',
+                    status: 'APPROVED',
+                  },
+                },
+              },
+            };
+            proxy.writeFragment({
+              fragment: SetUsernameStatusFragment,
+              id: fragmentId,
+              data,
+            });
           },
         });
       },
@@ -277,6 +308,27 @@ export const withRejectUsername = withMutation(
         return mutate({
           variables: {
             id,
+          },
+          update: proxy => {
+            const fragmentId = `User_${id}`;
+            const data = {
+              __typename: 'User',
+              state: {
+                __typename: 'UserState',
+                status: {
+                  __typename: 'UserStatus',
+                  username: {
+                    __typename: 'UsernameStatus',
+                    status: 'REJECTED',
+                  },
+                },
+              },
+            };
+            proxy.writeFragment({
+              fragment: SetUsernameStatusFragment,
+              id: fragmentId,
+              data,
+            });
           },
         });
       },

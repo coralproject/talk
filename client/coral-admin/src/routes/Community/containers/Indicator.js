@@ -98,8 +98,14 @@ const fields = `
     status {
       username {
         status
+        history {
+          status
+        }
       }
     }
+  }
+  action_summaries {
+    count
   }
 `;
 

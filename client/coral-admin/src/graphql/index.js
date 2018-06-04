@@ -194,6 +194,12 @@ export default {
       },
       updateQueries: {
         TalkAdmin_Community_FlaggedAccounts: (prev, { mutationResult }) => {
+          // No need to update, when user was not in the flagged users queue.
+          // TODO: this should be more generic, e.g. looking at the history.
+          if (!prev.flaggedUsers.nodes.find(node => node.id === id)) {
+            return prev;
+          }
+
           const decrement = {
             flaggedUsernamesCount: { $apply: count => count - 1 },
           };
@@ -214,35 +220,6 @@ export default {
           return updated;
         },
       },
-      update: proxy => {
-        proxy.writeFragment({
-          fragment: gql`
-            fragment Talk_ApproveUsername on User {
-              state {
-                status {
-                  username {
-                    status
-                  }
-                }
-              }
-            }
-          `,
-          id: `User_${id}`,
-          data: {
-            __typename: 'User',
-            state: {
-              __typename: 'UserState',
-              status: {
-                __typename: 'UserStatus',
-                username: {
-                  __typename: 'UsernameStatus',
-                  status: 'APPROVED',
-                },
-              },
-            },
-          },
-        });
-      },
     }),
     RejectUsername: ({ variables: { id } }) => ({
       optimisticResponse: {
@@ -254,6 +231,12 @@ export default {
       },
       updateQueries: {
         TalkAdmin_Community_FlaggedAccounts: (prev, { mutationResult }) => {
+          // No need to update, when user was not in the flagged users queue.
+          // TODO: this should be more generic, e.g. looking at the history.
+          if (!prev.flaggedUsers.nodes.find(node => node.id === id)) {
+            return prev;
+          }
+
           const decrement = {
             flaggedUsernamesCount: { $apply: count => count - 1 },
           };
@@ -273,35 +256,6 @@ export default {
           });
           return updated;
         },
-      },
-      update: proxy => {
-        proxy.writeFragment({
-          fragment: gql`
-            fragment Talk_RejectUsername on User {
-              state {
-                status {
-                  username {
-                    status
-                  }
-                }
-              }
-            }
-          `,
-          id: `User_${id}`,
-          data: {
-            __typename: 'User',
-            state: {
-              __typename: 'UserState',
-              status: {
-                __typename: 'UserStatus',
-                username: {
-                  __typename: 'UsernameStatus',
-                  status: 'REJECTED',
-                },
-              },
-            },
-          },
-        });
       },
     }),
     UpdateSettings: ({ variables: { input } }) => ({

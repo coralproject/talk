@@ -106,6 +106,23 @@ export function handleFlaggedAccountsChange(root, user, notify) {
   }
 }
 
+export const wasUsernameReported = user => {
+  const previousStatus =
+    user.state.status.username.history[
+      user.state.status.username.history.length - 2
+    ];
+
+  // Check for correct previous status
+  if (!['SET', 'CHANGES'].includes(previousStatus)) {
+    return false;
+  }
+  // Check for flags
+  if (user.action_summaries.every(as => as.count === 0)) {
+    return false;
+  }
+  return true;
+};
+
 /**
  * Track indicator status
  * @param  {Object}   root             current state of the store
@@ -119,7 +136,9 @@ export function handleIndicatorChange(root, user) {
       return incrementFlaggedUserCount(root);
     case 'APPROVED':
     case 'REJECTED':
-      return decrementFlaggedUserCount(root);
+      if (wasUsernameReported(user)) {
+        return decrementFlaggedUserCount(root);
+      }
     default:
   }
 }
