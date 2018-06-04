@@ -246,7 +246,9 @@ const SetUsernameStatusFragment = gql`
   fragment Talk_SetUsernameStatus on User {
     state {
       status {
-        username
+        username {
+          status
+        }
       }
     }
   }
