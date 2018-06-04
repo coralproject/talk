@@ -571,4 +571,4 @@ can be used to set an authorization header, or change the user agent. (Default
 
 ## TALK_SCRAPER_PROXY_URL
 
-Used when necessary to use proxy in the scraper requests. (Default null)
+Sets a specific HTTP/S proxy to be used on scrapper requests. (Default null)
