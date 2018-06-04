@@ -40,7 +40,7 @@ class RejectUsernameDialogContainer extends Component {
       }
     }
 
-    await rejectUsername({ id: userId });
+    await rejectUsername(userId);
     hideRejectUsernameDialog();
   };
 

@@ -273,7 +273,7 @@ export const withRejectUsername = withMutation(
   `,
   {
     props: ({ mutate }) => ({
-      rejectUsername: ({ id }) => {
+      rejectUsername: id => {
         return mutate({
           variables: {
             id,
