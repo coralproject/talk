@@ -8,7 +8,9 @@ import {
   withRejectUsername,
   withPostFlag,
 } from 'coral-framework/graphql/mutations';
+import { notify } from 'coral-framework/actions/notification';
 import { compose } from 'react-apollo';
+import { getErrorMessages } from 'coral-framework/utils';
 
 class RejectUsernameDialogContainer extends Component {
   rejectUsername = async ({ reason, message }) => {
@@ -19,12 +21,24 @@ class RejectUsernameDialogContainer extends Component {
       userId,
     } = this.props;
 
-    await postFlag({
-      item_id: userId,
-      item_type: 'USERS',
-      reason,
-      message,
-    });
+    // First flag the user.
+    try {
+      await postFlag({
+        item_id: userId,
+        item_type: 'USERS',
+        reason,
+        message,
+      });
+    } catch (error) {
+      // Ignore already exists error, otherwise show error.
+      if (
+        error.errors &&
+        (error.errors.length !== 1 ||
+          error.errors[0].translation_key !== 'ALREADY_EXISTS')
+      ) {
+        notify('error', getErrorMessages(error));
+      }
+    }
 
     await rejectUsername({ id: userId });
     hideRejectUsernameDialog();
@@ -62,6 +76,7 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(
     {
       hideRejectUsernameDialog,
+      notify,
     },
     dispatch
   ),
@@ -70,5 +85,5 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withRejectUsername,
-  withPostFlag
+  withPostFlag({ notifyOnError: false })
 )(RejectUsernameDialogContainer);
