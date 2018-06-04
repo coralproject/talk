@@ -32,6 +32,22 @@ import UserInfoTooltip from './UserInfoTooltip';
 import KarmaTooltip from './KarmaTooltip';
 import t from 'coral-framework/services/i18n';
 
+/**
+ * getUserStatusArray
+ * returns an array of active status(es)
+ * i.e if suspension is active, it returns suspension
+ */
+
+function getUserStatusArray(user) {
+  const statusMap = {
+    suspended: isSuspended,
+    banned: isBanned,
+    usernameRejected: isUsernameRejected,
+    usernameChanged: isUsernameChanged,
+  };
+  return Object.keys(statusMap).filter(k => statusMap[k](user));
+}
+
 class UserDetail extends React.Component {
   changeTab = tab => {
     this.props.changeTab(tab);
@@ -76,22 +92,6 @@ class UserDetail extends React.Component {
   }
 
   getActionMenuLabel(user) {
-    /**
-     * getUserStatusArray
-     * returns an array of active status(es)
-     * i.e if suspension is active, it returns suspension
-     */
-
-    const getUserStatusArray = user => {
-      const statusMap = {
-        suspended: isSuspended,
-        banned: isBanned,
-        usernameRejected: isUsernameRejected,
-        usernameChanged: isUsernameChanged,
-      };
-      return Object.keys(statusMap).filter(k => statusMap[k](user));
-    };
-
     const userStatusArr = getUserStatusArray(user);
     const count = userStatusArr.length;
 
