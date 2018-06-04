@@ -3,7 +3,7 @@ import { SelectField, Option } from 'react-mdl-selectfield';
 import t from 'coral-framework/services/i18n';
 import styles from './StreamSettings.css';
 import { Textfield } from 'react-mdl';
-import { Icon, TextArea } from 'coral-ui';
+import { Icon } from 'coral-ui';
 import PropTypes from 'prop-types';
 import Slot from 'coral-framework/components/Slot';
 import MarkdownEditor from 'coral-framework/components/MarkdownEditor';
@@ -66,8 +66,8 @@ class StreamSettings extends React.Component {
     this.props.updatePending({ updater });
   };
 
-  updateClosedMessage = event => {
-    const updater = { closedMessage: { $set: event.target.value } };
+  updateClosedMessage = value => {
+    const updater = { closedMessage: { $set: value } };
     this.props.updatePending({ updater });
   };
 
@@ -178,7 +178,7 @@ class StreamSettings extends React.Component {
         >
           <p>{t('configure.closed_comments_desc')}</p>
           <div>
-            <TextArea
+            <MarkdownEditor
               className={styles.descriptionBox}
               onChange={this.updateClosedMessage}
               value={settings.closedMessage}
