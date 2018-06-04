@@ -31,6 +31,7 @@ import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import UserInfoTooltip from './UserInfoTooltip';
 import KarmaTooltip from './KarmaTooltip';
 import t from 'coral-framework/services/i18n';
+import { humanizeNumber } from 'coral-framework/helpers/numbers';
 
 /**
  * getUserStatusArray
@@ -324,7 +325,7 @@ class UserDetail extends React.Component {
                       styles[getKarma(user.reliable.commenter)]
                     )}
                   >
-                    {user.reliable.commenterKarma}
+                    {humanizeNumber(user.reliable.commenterKarma)}
                   </span>
                 </div>
                 <KarmaTooltip thresholds={karmaThresholds.comment} />
