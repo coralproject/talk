@@ -1,334 +1,334 @@
 ar:
-  your_account_has_been_suspended: تم تعليق حسابك مؤقتا.
-  your_account_has_been_banned: تم حظر حسابك.
-  your_username_has_been_rejected: تم تعليق حسابك لعدم صلاحية اسم المستخدم الخاصة بك. لاستعادة حسابك رجاء أدخل اسم مستخدم جديدة.
-  embed_comments_tab: تعليقات
+  already_flagged_username: 'لقد سبق لك وضع علامة باسم المستخدم هذا.'
   bandialog:
-    are_you_sure: "أنت متأكد أنك تريد حظر {0}؟"
-    ban_user: "حظر المستخدم؟"
-    banned_user: "مستخدم محظور"
-    cancel: "إلغاء"
-    note: "ملاحظة: {0}"
-    note_reject_comment: "حظر هذا المستخدم سيضع هذا التعليق في قائمة الرفض."
-    note_ban_user: "حظر هذا المستخدم لن يسمح له بالتعليق أو التفاعل أو الإبلاغ عن تعليقات."
-    yes_ban_user: "نعم، احظر المستخدم"
-    write_a_message: "أكتب رسالة"
-    send: "أرسل"
-    notify_ban_headline: "أبلغ المستخدم بالحظر"
-    notify_ban_description: "سيتم إبلاغ المستخدم عن طريق البريد الإلكتروني بأنه قد تم حظره من المجموعة"
+    are_you_sure: 'أنت متأكد أنك تريد حظر {0}؟'
+    ban_user: 'حظر المستخدم؟'
+    banned_user: 'مستخدم محظور'
+    cancel: إلغاء
     email_message_ban: "العزيز {0},\n\nتم الدخول باستخدام حسابك وانتهاك قواعد المجموعة، لذا لقد تم حظر حسابك. لن تستطيع التعليق مجددا، أو الإعجاب أو الإبلاغ عن تعليقات. إذا كنت ترى أن ذلك تم بالخطأ، رجاء إبلاغ أحد أعضاء الفريق الخاص بالمجموعة."
-  bio_offensive: "السيرة الذاتية مسيئة"
-  cancel: "إلغاء"
-  confirm_email:
-    click_to_confirm: "إضغط في الأسفل لتأكيد البريد الألكتروني"
-    confirm: "تأكيد"
-  password_reset:
-    mail_sent: 'إذا كان لديك حساب مسجل، فقد تم إرسال رابط إعادة تعيين كلمة المرور إلى هذا البريد الإلكتروني'
-    set_new_password: "تغيير كلمة السر الخاصة بك"
-    new_password: "كلمة السر الجديدة"
-    new_password_help: "كلمة السر يجب أن تكون 8 أحرف على الأقل"
-    confirm_new_password: "تأكيد كلمة السر الجديدة"
-    change_password: "تغيير كلمة السر"
-  characters_remaining: "هناك أحرف متبقية"
+    note: 'ملاحظة: {0}'
+    note_ban_user: 'حظر هذا المستخدم لن يسمح له بالتعليق أو التفاعل أو الإبلاغ عن تعليقات.'
+    note_reject_comment: 'حظر هذا المستخدم سيضع هذا التعليق في قائمة الرفض.'
+    notify_ban_description: 'سيتم إبلاغ المستخدم عن طريق البريد الإلكتروني بأنه قد تم حظره من المجموعة'
+    notify_ban_headline: 'أبلغ المستخدم بالحظر'
+    send: أرسل
+    write_a_message: 'أكتب رسالة'
+    yes_ban_user: 'نعم، احظر المستخدم'
+  bio_offensive: 'السيرة الذاتية مسيئة'
+  cancel: إلغاء
+  characters_remaining: 'هناك أحرف متبقية'
   comment:
-    anon: "غير معلوم"
-    undo_reject: "ابطال العملية"
-    ban_user: "حظر المستخدم"
-    comment: "نشر تعليق"
+    anon: 'غير معلوم'
+    ban_user: 'حظر المستخدم'
+    comment: 'نشر تعليق'
     edited: محرر
-    flagged: "إشارة"
-    view_context: "عرض السياق"
+    flagged: إشارة
+    undo_reject: 'ابطال العملية'
+    view_context: 'عرض السياق'
   comment_box:
-    post: "نشر"
-    cancel: "إلغاء"
-    reply: "رد"
-    comment: "نشر تعليق"
-    name: "الاسم"
-    comment_post_notif: "تم نشر تعليقك."
-    comment_post_notif_premod: "شكرا لك على النشر. سيراجع فريق الإشراف لدينا تعليقك قريبا."
-    comment_post_banned_word:  "تعليقك يحتوي على كلمة أو أكثر غير مسموح بها، لذا لن يتم نشره. إذا كنت تعتقد أن هذه الرسالة خطأ، رجاء الاتصال بفريق الإشراف لدينا."
-    characters_remaining: "أحرف متبقية"
-  comment_offensive: "هذا التعليق مسيء"
-  comment_singular: تعليق
+    cancel: إلغاء
+    characters_remaining: 'أحرف متبقية'
+    comment: 'نشر تعليق'
+    comment_post_banned_word: 'تعليقك يحتوي على كلمة أو أكثر غير مسموح بها، لذا لن يتم نشره. إذا كنت تعتقد أن هذه الرسالة خطأ، رجاء الاتصال بفريق الإشراف لدينا.'
+    comment_post_notif: 'تم نشر تعليقك.'
+    comment_post_notif_premod: 'شكرا لك على النشر. سيراجع فريق الإشراف لدينا تعليقك قريبا.'
+    name: الاسم
+    post: نشر
+    reply: رد
+  comment_offensive: 'هذا التعليق مسيء'
   comment_plural: تعليقات
-  comment_post_banned_word: "تعليقك يحتوي على كلمة أو أكثر غير مسموح بها، لذا لن يتم نشره. إذا كنت تعتقد أن هذه الرسالة خطأ، رجاء الاتصال بفريق الإشراف لدينا."
-  comment_post_notif: "تم نشر تعليقك."
-  comment_post_notif_premod: "شكرا لك على النشر. سيراجع فريق الإشراف لدينا تعليقك قريبا."
+  comment_post_banned_word: 'تعليقك يحتوي على كلمة أو أكثر غير مسموح بها، لذا لن يتم نشره. إذا كنت تعتقد أن هذه الرسالة خطأ، رجاء الاتصال بفريق الإشراف لدينا.'
+  comment_post_notif: 'تم نشر تعليقك.'
+  comment_post_notif_premod: 'شكرا لك على النشر. سيراجع فريق الإشراف لدينا تعليقك قريبا.'
+  comment_singular: تعليق
   common:
-    copy: 'نسخ'
+    copy: نسخ
     error: 'حدث خطأ.'
-    reply: 'رد'
-    replies: 'ردود'
     reaction: 'رد فعل'
     reactions: 'ردود أفعال'
-    story: 'قصة'
-  flagged_usernames:
-    notify_approved: '{0} وافق على اسم المستخدم {1}'
-    notify_rejected: '{0} رفض اسم المستخدم {1}'
-    notify_flagged: '{0} بلغ عن اسم المستخدم {1}'
-    notify_changed: 'المستخدم {0} غير اسم المستخدم الخاص به إلى {1}'
+    replies: ردود
+    reply: رد
+    story: قصة
   community:
-    account_creation_date: "تاريخ إنشاء الحساب"
+    account_creation_date: 'تاريخ إنشاء الحساب'
     active: فعال
     admin: إداري
-    ads_marketing: "هذا يبدو وكأنه إعلان/تسويق"
-    are_you_sure: "متأكد أنك تريد حظر {0}؟"
-    ban_user: "حظر المستخدم؟"
+    ads_marketing: 'هذا يبدو وكأنه إعلان/تسويق'
+    are_you_sure: 'متأكد أنك تريد حظر {0}؟'
+    ban_user: 'حظر المستخدم؟'
     banned: محظور
-    banned_user: "مستخدم محظور"
+    banned_user: 'مستخدم محظور'
     cancel: إلغاء
-    dont_like_username: "غير معجب باسم المستخدم"
-    flaggedaccounts: "أسماء المستخدمين المبلغ عنها"
+    commenter: معلق
+    dont_like_username: 'غير معجب باسم المستخدم'
+    flaggedaccounts: 'أسماء المستخدمين المبلغ عنها'
     flags: شارات
-    impersonating: "انتحال شخصية"
-    loading: "تحميل النتائج"
+    impersonating: 'انتحال شخصية'
+    loading: 'تحميل النتائج'
     moderator: مشرف
-    newsroom_role: "دور غرفة الأخبار"
-    no_flagged_accounts: "قائمة أسماء المستخدمين المبلغ عنها فارغة حاليا."
-    no_results: "لم يتم العثور على مستخدمين باسم المستخدم أو عنوان البريد الإلكتروني هذا. انهم يختبئون!"
-    offensive: "مسيء"
+    newsroom_role: 'دور غرفة الأخبار'
+    no_flagged_accounts: 'قائمة أسماء المستخدمين المبلغ عنها فارغة حاليا.'
+    no_results: 'لم يتم العثور على مستخدمين باسم المستخدم أو عنوان البريد الإلكتروني هذا. انهم يختبئون!'
+    offensive: مسيء
     other: أخرى
     people: أشخاص
-    role: "اختر الدور..."
-    select_status: "اختر الحالة..."
-    spam_ads: "بريد مؤذي/إعلانات"
-    staff: "فريق العمل"
+    role: 'اختر الدور...'
+    select_status: 'اختر الحالة...'
+    spam_ads: 'بريد مؤذي/إعلانات'
+    staff: 'فريق العمل'
     status: الحالة
-    username_and_email: "اسم المستخدم والبريد الإلكتروني"
-    yes_ban_user: "نعم إحظر المستخدم"
-    commenter: "معلق"
+    username_and_email: 'اسم المستخدم والبريد الإلكتروني'
+    yes_ban_user: 'نعم إحظر المستخدم'
   configure:
     apply: طبق
-    banned_word_text: "التعليقات التي تحتوي على هذه الكلمات أو العبارات سيتم حذفها آليا من جدول التعليقات. اطبع كلمة واضغط Enter أو Tab لزيادة الكلمة. اختياريا الصق قائمة مقسمة بالفصلات."
-    banned_words_title: "قائمة بالكلمات المحظورة"
-    close: "اغلق"
-    close_after: "اغلق التعليقات بعد"
-    close_stream: "اغلق الجدول"
-    close_stream_configuration: "تم إغلاق جدول التعليقات هذا. بفتحك لهذا الجدول سيتم قبول وعرض تعليقات جديدة"
-    closed_comments_desc: "اكتب رسالة ليتم عرضها عندما يتم إغلاق جدول التعليقات ولا يتم قبول أي تعليقات جديدة."
-    closed_comments_label: "اكتب رسالة..."
-    closed_stream_settings: "رسالة الجدول المغلق"
-    comment_count_error: "رجاء كتابة رقم صحيح."
-    comment_count_header: "الحد من طول التعليق"
+    banned_word_text: 'التعليقات التي تحتوي على هذه الكلمات أو العبارات سيتم حذفها آليا من جدول التعليقات. اطبع كلمة واضغط Enter أو Tab لزيادة الكلمة. اختياريا الصق قائمة مقسمة بالفصلات.'
+    banned_words_title: 'قائمة بالكلمات المحظورة'
+    close: اغلق
+    close_after: 'اغلق التعليقات بعد'
+    close_stream: 'اغلق الجدول'
+    close_stream_configuration: 'تم إغلاق جدول التعليقات هذا. بفتحك لهذا الجدول سيتم قبول وعرض تعليقات جديدة'
+    closed_comments_desc: 'اكتب رسالة ليتم عرضها عندما يتم إغلاق جدول التعليقات ولا يتم قبول أي تعليقات جديدة.'
+    closed_comments_label: 'اكتب رسالة...'
+    closed_stream_settings: 'رسالة الجدول المغلق'
+    comment_count_error: 'رجاء كتابة رقم صحيح.'
+    comment_count_header: 'الحد من طول التعليق'
     comment_count_text_post: حروف
-    comment_count_text_pre: "سيتم وضع حد للتعليقات عند"
+    comment_count_text_pre: 'سيتم وضع حد للتعليقات عند'
     comment_settings: إعدادات
-    comment_stream: "جدول التعليقات"
-    comment_stream_will_close: "سيتم إغلاق جدول التعليق"
+    comment_stream: 'جدول التعليقات'
+    comment_stream_will_close: 'سيتم إغلاق جدول التعليق'
     community: المجموعة
     configure: تهيئة
-    copy_and_paste: "انسخ والصق التعليمات البرمجية في الأسفل بنظام إدارة المحتوى لتضمين تعليقك داخل المقالات"
-    custom_css_url: "رابط CSS مخصص"
-    custom_css_url_desc: "رابط CSS الذي سيتجاوز أنماط جدول التعليقات المضمن. يمكن أن يكون داخلي أو خارجي."
+    copy_and_paste: 'انسخ والصق التعليمات البرمجية في الأسفل بنظام إدارة المحتوى لتضمين تعليقك داخل المقالات'
+    custom_css_url: 'رابط CSS مخصص'
+    custom_css_url_desc: 'رابط CSS الذي سيتجاوز أنماط جدول التعليقات المضمن. يمكن أن يكون داخلي أو خارجي.'
     days: أيام
-    description: "كإداري يمكنك تعديل إعدادات جدول التعليقات لهذه القصة:"
-    domain_list_text: "أدخل عناوين النطاقات التي سوف تسمح فيها لTalk.. مثلا بيئات التدريج و الإنتاج (مثلا localhost:3000 staging.domain.com domain.com)."
-    domain_list_title: "النطاقات المسموح بها"
-    edit_comment_timeframe_heading: "عدل الإطار الزمني للتعليق"
-    edit_comment_timeframe_text_pre: "سيكون لدى المعلقين"
-    edit_comment_timeframe_text_post: "ثوان لتحرير تعليقاتهم."
-    embed_comment_stream: "تضمين الجدول"
-    enable_premod_links_text: "يجب على المشرفين الموافقة على أي تعليق يحتوي على رابط قبل نشره."
-    enable_pre_moderation: "تمكين الإشراف المسبق"
-    enable_pre_moderation_text: "يجب على المشرفين الموافقة على أي تعليق قبل نشره."
-    enable_premod_links: "إشراف مسبق على التعليقات التي تحتوي على روابط"
-    enable_premod: "تمكين الإشراف المسبق"
-    enable_premod_description: "يجب على المشرفين الموافقة على أي تعليق قبل نشره."
-    enable_premod_links_description: "يجب على المشرفين الموافقة على أي تعليق يحتوي على رابط قبل نشره."
-    enable_questionbox: "اطرح سؤال على القراء"
-    enable_questionbox_description: "هذا السؤال سيظهر في الجزء العلوي من جدول التعليقات هذا. اسأل القراء عن مسألة معينة في المقال او اطرح أسئلة نقاشية.. الخ."
+    description: 'كإداري يمكنك تعديل إعدادات جدول التعليقات لهذه القصة:'
+    domain_list_text: 'أدخل عناوين النطاقات التي سوف تسمح فيها لTalk.. مثلا بيئات التدريج و الإنتاج (مثلا localhost:3000 staging.domain.com domain.com).'
+    domain_list_title: 'النطاقات المسموح بها'
+    edit_comment_timeframe_heading: 'عدل الإطار الزمني للتعليق'
+    edit_comment_timeframe_text_post: 'ثوان لتحرير تعليقاتهم.'
+    edit_comment_timeframe_text_pre: 'سيكون لدى المعلقين'
+    embed_comment_stream: 'تضمين الجدول'
+    enable_pre_moderation: 'تمكين الإشراف المسبق'
+    enable_pre_moderation_text: 'يجب على المشرفين الموافقة على أي تعليق قبل نشره.'
+    enable_premod: 'تمكين الإشراف المسبق'
+    enable_premod_description: 'يجب على المشرفين الموافقة على أي تعليق قبل نشره.'
+    enable_premod_links: 'إشراف مسبق على التعليقات التي تحتوي على روابط'
+    enable_premod_links_description: 'يجب على المشرفين الموافقة على أي تعليق يحتوي على رابط قبل نشره.'
+    enable_premod_links_text: 'يجب على المشرفين الموافقة على أي تعليق يحتوي على رابط قبل نشره.'
+    enable_questionbox: 'اطرح سؤال على القراء'
+    enable_questionbox_description: 'هذا السؤال سيظهر في الجزء العلوي من جدول التعليقات هذا. اسأل القراء عن مسألة معينة في المقال او اطرح أسئلة نقاشية.. الخ.'
     hours: ساعات
-    include_comment_stream: "ادراج وصف جدول التعليقات للقراء"
-    include_comment_stream_desc: "اكتب رسالة ليتم إضافتها إلى الجزء العلوي من جدول التعليقات. ضع موضوعا، اشمل القواعد الإرشادية للمجموعة .. الخ"
-    include_text: "ادرج النص هنا."
-    include_question_here: "اكتب سؤالك هنا:"
+    include_comment_stream: 'ادراج وصف جدول التعليقات للقراء'
+    include_comment_stream_desc: 'اكتب رسالة ليتم إضافتها إلى الجزء العلوي من جدول التعليقات. ضع موضوعا، اشمل القواعد الإرشادية للمجموعة .. الخ'
+    include_question_here: 'اكتب سؤالك هنا:'
+    include_text: 'ادرج النص هنا.'
     moderate: اشرف
-    moderation_settings: "اعدادات الإشراف"
-    open: "مفتوح"
-    open_stream: "افتح الجدول"
-    open_stream_configuration: "جدول التعليقات هذا مفتوح. بإغلاق هذا الجدول لن يتم قبول تعليقات جديدة، وستبقى التعليقات القديمة ظاهرة."
-    require_email_verification: "يلزم التحقق من البريد الإلكتروني"
-    require_email_verification_text: "يجب على المستخدمين الجدد التحقق من بريدهم الإلكتروني قبل التعليق"
-    save_changes: "احفظ التعديلات"
+    moderation_settings: 'اعدادات الإشراف'
+    open: مفتوح
+    open_stream: 'افتح الجدول'
+    open_stream_configuration: 'جدول التعليقات هذا مفتوح. بإغلاق هذا الجدول لن يتم قبول تعليقات جديدة، وستبقى التعليقات القديمة ظاهرة.'
+    require_email_verification: 'يلزم التحقق من البريد الإلكتروني'
+    require_email_verification_text: 'يجب على المستخدمين الجدد التحقق من بريدهم الإلكتروني قبل التعليق'
+    save_changes: 'احفظ التعديلات'
     shortcuts: اختصارات
-    sign_out: "خروج"
+    sign_out: خروج
     stories: قصص
-    stream_settings: "اعدادات الجدول"
-    suspect_word_title: "قائمة الكلمات المشبوهة"
-    suspect_word_text: "التعليقات التي تحتوي على هذه الكلمات أو العبارات سيتم تمييزها في جدول التعليقات. اطبع كلمة واضغط Enter أو Tab لزيادة الكلمة. اختياريا الصق قائمة مقسمة بالفصلات."
-    tech_settings: "إعدادات تقنية"
-    title: "تهيئة جدول التعليق"
+    stream_settings: 'اعدادات الجدول'
+    suspect_word_text: 'التعليقات التي تحتوي على هذه الكلمات أو العبارات سيتم تمييزها في جدول التعليقات. اطبع كلمة واضغط Enter أو Tab لزيادة الكلمة. اختياريا الصق قائمة مقسمة بالفصلات.'
+    suspect_word_title: 'قائمة الكلمات المشبوهة'
+    tech_settings: 'إعدادات تقنية'
+    title: 'تهيئة جدول التعليق'
     weeks: أسابيع
-    wordlist: "الكلمات المحظورة"
-  continue: "واصل"
+    wordlist: 'الكلمات المحظورة'
+  confirm_email:
+    click_to_confirm: 'إضغط في الأسفل لتأكيد البريد الألكتروني'
+    confirm: تأكيد
+  continue: واصل
   createdisplay:
-    check_the_form: "استمارة غير صالحة. يرجى التحقق من الحقول"
-    continue: "تابع بنفس اسم المستخدم الخاص بفيسبوك"
-    error_create: "حدث خطأ أثناء تغيير اسم المستخدم"
-    fake_comment_body: "هذا مثال للتعليق. يمكن للقراء تبادل الأفكار والآراء مع غرف الأخبار في قسم التعليقات."
-    fake_comment_date: "منذ دقيقة"
-    if_you_dont_change_your_name: "إذا لم تقم بتغيير اسم المستخدم الخاص بك في هذه الخطوة سوف يظهر اسم المستخدم الخاص بفيسبوك جنبا إلى جنب مع كل تعليقاتك."
-    required_field: "حقل مطلوب"
+    check_the_form: 'استمارة غير صالحة. يرجى التحقق من الحقول'
+    continue: 'تابع بنفس اسم المستخدم الخاص بفيسبوك'
+    error_create: 'حدث خطأ أثناء تغيير اسم المستخدم'
+    fake_comment_body: 'هذا مثال للتعليق. يمكن للقراء تبادل الأفكار والآراء مع غرف الأخبار في قسم التعليقات.'
+    fake_comment_date: 'منذ دقيقة'
+    if_you_dont_change_your_name: 'إذا لم تقم بتغيير اسم المستخدم الخاص بك في هذه الخطوة سوف يظهر اسم المستخدم الخاص بفيسبوك جنبا إلى جنب مع كل تعليقاتك.'
+    required_field: 'حقل مطلوب'
     save: حفظ
-    special_characters: "يمكن أن تحتوي أسماء المستخدمين على أحرف وأرقام و _ فقط"
-    username: اسم المستخدم
-    write_your_username: "عدل اسم المستخدم"
-    your_username: "يظهر اسم المستخدم في كل تعليق تنشره."
+    special_characters: 'يمكن أن تحتوي أسماء المستخدمين على أحرف وأرقام و _ فقط'
+    username: 'اسم المستخدم'
+    write_your_username: 'عدل اسم المستخدم'
+    your_username: 'يظهر اسم المستخدم في كل تعليق تنشره.'
   done: تم
   edit_comment:
-    body_input_label: "عدل هذا التعليق"
-    save_button: "حفظ التغييرات"
-    edit_window_expired: "لم يعد بإمكانك تعديل هذا التعليق. انتهت صلاحية نافذة الوقت للقيام بذلك. لماذا لا تنشر آخر؟"
-    edit_window_expired_close: "أغلق"
-    edit_window_timer_prefix: "نافذة التعديل : "
-    second: "ثانية"
-    seconds_plural: "ثوان"
-    minute: "دقيقة"
-    minutes_plural: "دقائق"
+    body_input_label: 'عدل هذا التعليق'
+    edit_window_expired: 'لم يعد بإمكانك تعديل هذا التعليق. انتهت صلاحية نافذة الوقت للقيام بذلك. لماذا لا تنشر آخر؟'
+    edit_window_expired_close: أغلق
+    edit_window_timer_prefix: 'نافذة التعديل : '
+    minute: دقيقة
+    minutes_plural: دقائق
+    save_button: 'حفظ التغييرات'
+    second: ثانية
+    seconds_plural: ثوان
   email:
-    suspended:
-      subject: "تم تعليق حسابك"
     banned:
-      subject: "تم حظر حسابك"
-      body: "وفقا لإرشادات مجتمع كورال بروجيكت، تم حظر حسابك. لم يعد مسموحا لك التعليق أو وضع إشارات أو التفاعل مع مجتمعنا."
+      body: 'وفقا لإرشادات مجتمع كورال بروجيكت، تم حظر حسابك. لم يعد مسموحا لك التعليق أو وضع إشارات أو التفاعل مع مجتمعنا.'
+      subject: 'تم حظر حسابك'
     confirm:
-      has_been_requested: "تم طلب تأكيد بالبريد الإلكتروني للحساب التالي:"
-      to_confirm: "لتأكيد الحساب، يرجى زيارة الرابط التالي:"
-      confirm_email: ".تأكيد عنوان البريد الإلكتروني"
-      if_you_did_not: "إذا لم تطلب ذلك، يمكنك تجاهل هذه الرسالة الإلكترونية."
-      subject: "تأكيد البريد الإلكتروني"
+      confirm_email: '.تأكيد عنوان البريد الإلكتروني'
+      has_been_requested: 'تم طلب تأكيد بالبريد الإلكتروني للحساب التالي:'
+      if_you_did_not: 'إذا لم تطلب ذلك، يمكنك تجاهل هذه الرسالة الإلكترونية.'
+      subject: 'تأكيد البريد الإلكتروني'
+      to_confirm: 'لتأكيد الحساب، يرجى زيارة الرابط التالي:'
     password_reset:
-      we_received_a_request: "لقد تلقينا طلبا لإعادة تعيين كلمة المرور. إذا لم تطلب هذا التغيير، فيمكنك تجاهل هذه الرسالة الإلكترونية."
-      if_you_did: "اذا فعلت،"
-      please_click: "الرجاء النقر هنا لإعادة تعيين كلمة المرور"
+      if_you_did: 'اذا فعلت،'
+      please_click: 'الرجاء النقر هنا لإعادة تعيين كلمة المرور'
+      we_received_a_request: 'لقد تلقينا طلبا لإعادة تعيين كلمة المرور. إذا لم تطلب هذا التغيير، فيمكنك تجاهل هذه الرسالة الإلكترونية.'
+    suspended:
+      subject: 'تم تعليق حسابك'
+  embed_comments_tab: تعليقات
   embedlink:
-    copy: "نسخ إلى الحافظة"
+    copy: 'نسخ إلى الحافظة'
   error:
-    COMMENT_PARENT_NOT_VISIBLE: "التعليق الذي ترد عليه تمت إزالته أو غير موجود."
-    EMAIL_VERIFICATION_TOKEN_INVALID: "رمز التحقق من البريد الإلكتروني غير صالح."
-    PASSWORD_RESET_TOKEN_INVALID: "رابط إعادة تعيين كلمة المرور غير صالح."
-    COMMENT_TOO_SHORT: "يجب أن تكون التعليقات أكثر من حرف واحد، يرجى مراجعة تعليقك وإعادة المحاولة."
-    NOT_AUTHORIZED: "غير مصرح لك بتنفيذ هذا الإجراء."
-    NO_SPECIAL_CHARACTERS: "يمكن أن تحتوي أسماء المستخدمين على أحرف, أرقام و _ فقط"
-    PASSWORD_LENGTH: "كلمة المرور قصيرة جدا"
-    PROFANITY_ERROR: "يجب ألا تحتوي أسماء المستخدمين على الألفاظ النابية. يرجى الاتصال بالإداري إذا كنت تعتقد أن هذا خطأ."
-    RATE_LIMIT_EXCEEDED: "تجاوز حد المعدل"
-    USERNAME_IN_USE: "اسم المستخدم قيد الاستخدام"
-    USERNAME_REQUIRED: "يجب إدخال اسم مستخدم"
-    EMAIL_NOT_VERIFIED: "لم يتم التحقق من عنوان البريد الإلكتروني"
-    EDIT_WINDOW_ENDED: "لم يعد بإمكانك تحرير هذا التعليق. نافذة الوقت للقيام بذلك قد انتهت صلاحيتها."
-    EDIT_USERNAME_NOT_AUTHORIZED: "ليس لديك إذن بتحديث اسم المستخدم الخاص بك."
-    SAME_USERNAME_PROVIDED: "يجب عليك تقديم اسم مستخدم مختلف."
-    EMAIL_IN_USE: "البريد الالكتروني قيد الاستخدام"
-    EMAIL_REQUIRED: "مطلوب عنوان البريد الإلكتروني"
-    LOGIN_MAXIMUM_EXCEEDED: "لقد أجريت العديد من محاولات إدخال كلمة المرور غير الناجحة. أرجو الإنتظار."
-    PASSWORD_REQUIRED: "يجب إدخال كلمة مرور"
-    COMMENTING_CLOSED: "تم إغلاق فاعلية التعليق"
-    NOT_FOUND: "المورد غير موجود"
-    ALREADY_EXISTS: "المورد موجود من قبل"
-    INVALID_ASSET_URL: "رابط المادة غير صالح"
-    CANNOT_IGNORE_STAFF: "لا يمكن تجاهل الموظفين."
-    email: "ليس بريدا إلكترونيا صالحا"
-    confirm_password: "كلمات المرور غير متطابقة. يرجى التحقق مرة أخرى"
-    network_error: "فشل الاتصال بالخادم. تحقق من اتصالك بالإنترنت وحاول مرة أخرى."
-    email_not_verified: "عنوان البريد الإلكتروني {0} لم يتم التحقق منه."
-    email_password: "مجموعة البريد الإلكتروني و / أو كلمة المرور غير صحيحة."
-    organization_name: "يجب أن يحتوي اسم المؤسسة على أحرف أو أرقام فقط."
-    password: "يجب أن تكون كلمة المرور 8 أحرف على الأقل"
-    username: "يمكن أن تحتوي أسماء المستخدمين على أرقام, أحرف و _ فقط"
-    unexpected: "حدث خطأ غير متوقع. آسف!"
-    required_field: "هذه الخانة مطلوبه"
-    temporarily_suspended: "حسابك معلق حاليا. سيتم إعادة تنشيطه {0}. يرجى الاتصال بنا إذا كان لديك أي أسئلة."
-  flag_comment: "الإبلاغ عن تعليق"
-  flag_reason: "سبب الإبلاغ (اختياري)"
-  flag_username: "بلغ عن اسم المستخدم"
-  framework:
-    banned_account_header: "حسابك محظور حاليا."
-    banned_account_body: "هذا يعني أنه لا يمكنك الإعجاب ، أو الإبلاغ ، أو كتابة التعليقات."
-    comment: تعليق
-    comment_is_ignored: "هذا التعليق مخفي لأنك تجاهلت هذا المستخدم."
-    comment_is_rejected: "لقد رفضت هذا التعليق."
-    comment_is_hidden: "هذا التعليق غير متاح."
-    comments: تعليقات
-    configure_stream: "تهيئة"
-    content_not_available: "هذا المحتوى غير متوفر"
-    edit_name:
-      button: أرسل
-      error: "يمكن أن تحتوي أسماء المستخدمين على أحرف, أرقام و _ فقط"
-      label: "اسم مستخدم جديد"
-      msg: "تم تعليق حسابك حاليا نظرا لأن اسم المستخدم قد اعتبر غير لائق. لاستعادة حسابك، يرجى إدخال اسم مستخدم جديد. يرجى الاتصال بنا إذا كان لديك أي أسئلة."
-    changed_name:
-      msg: "يتم مراجعة تغيير اسم المستخدم من قبل فريق الإشراف لدينا."
-    my_comments: "تعليقاتي"
-    my_profile: "ملفي"
-    new_count: "شاهد {0} أكثر {1}"
-    profile: الملف الشخصي
-    show_all_comments: "عرض كل التعليقات"
-    success_bio_update: "تم تحديث السيرة الذاتية"
-    success_name_update: "تم تحديث اسم المستخدم"
-    success_update_settings: "تم تطبيق التغييرات التي أجريتها على جدول التعليقات في هذه المقالة"
-    show_all_replies: عرض جميع الردود
-    show_more_replies: عرض المزيد من الردود
-    view_more_comments: "عرض مزيد من التعليقات"
-    view_reply: "عرض الرد"
-  from_settings_page: "من صفحة الملف الشخصي يمكنك مشاهدة سجل التعليقات."
-  like: إعجاب
-  loading_results: "جار تحميل النتائج"
-  marketing: "هذا يشبه الإعلان / التسويق"
-  moderate_this_stream: "أشرف على هذا الجدول"
+    ALREADY_EXISTS: 'المورد موجود من قبل'
+    CANNOT_IGNORE_STAFF: 'لا يمكن تجاهل الموظفين.'
+    COMMENT_PARENT_NOT_VISIBLE: 'التعليق الذي ترد عليه تمت إزالته أو غير موجود.'
+    COMMENT_TOO_SHORT: 'يجب أن تكون التعليقات أكثر من حرف واحد، يرجى مراجعة تعليقك وإعادة المحاولة.'
+    COMMENTING_CLOSED: 'تم إغلاق فاعلية التعليق'
+    confirm_password: 'كلمات المرور غير متطابقة. يرجى التحقق مرة أخرى'
+    EDIT_USERNAME_NOT_AUTHORIZED: 'ليس لديك إذن بتحديث اسم المستخدم الخاص بك.'
+    EDIT_WINDOW_ENDED: 'لم يعد بإمكانك تحرير هذا التعليق. نافذة الوقت للقيام بذلك قد انتهت صلاحيتها.'
+    email: 'ليس بريدا إلكترونيا صالحا'
+    EMAIL_IN_USE: 'البريد الالكتروني قيد الاستخدام'
+    email_not_verified: 'عنوان البريد الإلكتروني {0} لم يتم التحقق منه.'
+    EMAIL_NOT_VERIFIED: 'لم يتم التحقق من عنوان البريد الإلكتروني'
+    email_password: 'مجموعة البريد الإلكتروني و / أو كلمة المرور غير صحيحة.'
+    EMAIL_REQUIRED: 'مطلوب عنوان البريد الإلكتروني'
+    EMAIL_VERIFICATION_TOKEN_INVALID: 'رمز التحقق من البريد الإلكتروني غير صالح.'
+    INVALID_ASSET_URL: 'رابط المادة غير صالح'
+    LOGIN_MAXIMUM_EXCEEDED: 'لقد أجريت العديد من محاولات إدخال كلمة المرور غير الناجحة. أرجو الإنتظار.'
+    network_error: 'فشل الاتصال بالخادم. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.'
+    NO_SPECIAL_CHARACTERS: 'يمكن أن تحتوي أسماء المستخدمين على أحرف, أرقام و _ فقط'
+    NOT_AUTHORIZED: 'غير مصرح لك بتنفيذ هذا الإجراء.'
+    NOT_FOUND: 'المورد غير موجود'
+    organization_name: 'يجب أن يحتوي اسم المؤسسة على أحرف أو أرقام فقط.'
+    password: 'يجب أن تكون كلمة المرور 8 أحرف على الأقل'
+    PASSWORD_LENGTH: 'كلمة المرور قصيرة جدا'
+    PASSWORD_REQUIRED: 'يجب إدخال كلمة مرور'
+    PASSWORD_RESET_TOKEN_INVALID: 'رابط إعادة تعيين كلمة المرور غير صالح.'
+    PROFANITY_ERROR: 'يجب ألا تحتوي أسماء المستخدمين على الألفاظ النابية. يرجى الاتصال بالإداري إذا كنت تعتقد أن هذا خطأ.'
+    RATE_LIMIT_EXCEEDED: 'تجاوز حد المعدل'
+    required_field: 'هذه الخانة مطلوبه'
+    SAME_USERNAME_PROVIDED: 'يجب عليك تقديم اسم مستخدم مختلف.'
+    temporarily_suspended: 'حسابك معلق حاليا. سيتم إعادة تنشيطه {0}. يرجى الاتصال بنا إذا كان لديك أي أسئلة.'
+    unexpected: 'حدث خطأ غير متوقع. آسف!'
+    username: 'يمكن أن تحتوي أسماء المستخدمين على أرقام, أحرف و _ فقط'
+    USERNAME_IN_USE: 'اسم المستخدم قيد الاستخدام'
+    USERNAME_REQUIRED: 'يجب إدخال اسم مستخدم'
+  flag_comment: 'الإبلاغ عن تعليق'
+  flag_reason: 'سبب الإبلاغ (اختياري)'
+  flag_username: 'بلغ عن اسم المستخدم'
+  flagged_usernames:
+    notify_approved: '{0} وافق على اسم المستخدم {1}'
+    notify_changed: 'المستخدم {0} غير اسم المستخدم الخاص به إلى {1}'
+    notify_flagged: '{0} بلغ عن اسم المستخدم {1}'
+    notify_rejected: '{0} رفض اسم المستخدم {1}'
   flags:
     reasons:
-       user:
-         username_offensive: "مسيء"
-         username_nolike: "لم يعجبنى"
-         username_impersonating: "إنتحال شخصية"
-         username_spam: "غير مرغوب فيه"
-         username_other: "آخر"
-       comment:
-         comment_offensive: "مسيء"
-         comment_spam: "غير مرغوب فيه"
-         comment_noagree: "أعارض"
-         comment_other: "آخر"
-         suspect_word: "كلمة مشتبهة"
-         banned_word: "كلمة محظورة"
-         body_count: "يتجاوز النص الحد الأقصى للطول المسموح"
-         links: "رابط"
-  my_comment_history: "سجل التعليقات"
+      comment:
+        banned_word: 'كلمة محظورة'
+        body_count: 'يتجاوز النص الحد الأقصى للطول المسموح'
+        comment_noagree: أعارض
+        comment_offensive: مسيء
+        comment_other: آخر
+        comment_spam: 'غير مرغوب فيه'
+        links: رابط
+        suspect_word: 'كلمة مشتبهة'
+      user:
+        username_impersonating: 'إنتحال شخصية'
+        username_nolike: 'لم يعجبنى'
+        username_offensive: مسيء
+        username_other: آخر
+        username_spam: 'غير مرغوب فيه'
+  framework:
+    banned_account_body: 'هذا يعني أنه لا يمكنك الإعجاب ، أو الإبلاغ ، أو كتابة التعليقات.'
+    banned_account_header: 'حسابك محظور حاليا.'
+    changed_name:
+      msg: 'يتم مراجعة تغيير اسم المستخدم من قبل فريق الإشراف لدينا.'
+    comment: تعليق
+    comment_is_hidden: 'هذا التعليق غير متاح.'
+    comment_is_ignored: 'هذا التعليق مخفي لأنك تجاهلت هذا المستخدم.'
+    comment_is_rejected: 'لقد رفضت هذا التعليق.'
+    comments: تعليقات
+    configure_stream: تهيئة
+    content_not_available: 'هذا المحتوى غير متوفر'
+    edit_name:
+      button: أرسل
+      error: 'يمكن أن تحتوي أسماء المستخدمين على أحرف, أرقام و _ فقط'
+      label: 'اسم مستخدم جديد'
+      msg: 'تم تعليق حسابك حاليا نظرا لأن اسم المستخدم قد اعتبر غير لائق. لاستعادة حسابك، يرجى إدخال اسم مستخدم جديد. يرجى الاتصال بنا إذا كان لديك أي أسئلة.'
+    my_comments: تعليقاتي
+    my_profile: ملفي
+    new_count: 'شاهد {0} أكثر {1}'
+    profile: 'الملف الشخصي'
+    show_all_comments: 'عرض كل التعليقات'
+    show_all_replies: 'عرض جميع الردود'
+    show_more_replies: 'عرض المزيد من الردود'
+    success_bio_update: 'تم تحديث السيرة الذاتية'
+    success_name_update: 'تم تحديث اسم المستخدم'
+    success_update_settings: 'تم تطبيق التغييرات التي أجريتها على جدول التعليقات في هذه المقالة'
+    view_more_comments: 'عرض مزيد من التعليقات'
+    view_reply: 'عرض الرد'
+  from_settings_page: 'من صفحة الملف الشخصي يمكنك مشاهدة سجل التعليقات.'
+  like: إعجاب
+  loading_results: 'جار تحميل النتائج'
+  marketing: 'هذا يشبه الإعلان / التسويق'
+  moderate_this_stream: 'أشرف على هذا الجدول'
+  my_comment_history: 'سجل التعليقات'
   name: اسم
-  no_agree_comment: "لا أوافق على هذا التعليق"
-  no_like_bio: "أنا لا أحب هذه السيرة الذاتية"
-  no_like_username: "أنا لا أحب اسم المستخدم هذا"
-  already_flagged_username: "لقد سبق لك وضع علامة باسم المستخدم هذا."
+  no_agree_comment: 'لا أوافق على هذا التعليق'
+  no_like_bio: 'أنا لا أحب هذه السيرة الذاتية'
+  no_like_username: 'أنا لا أحب اسم المستخدم هذا'
   other: آخر
+  password_reset:
+    change_password: 'تغيير كلمة السر'
+    confirm_new_password: 'تأكيد كلمة السر الجديدة'
+    mail_sent: 'إذا كان لديك حساب مسجل، فقد تم إرسال رابط إعادة تعيين كلمة المرور إلى هذا البريد الإلكتروني'
+    new_password: 'كلمة السر الجديدة'
+    new_password_help: 'كلمة السر يجب أن تكون 8 أحرف على الأقل'
+    set_new_password: 'تغيير كلمة السر الخاصة بك'
   permalink: شارك
-  personal_info: "هذا التعليق يكشف عن معلومات تعريف شخصية"
+  personal_info: 'هذا التعليق يكشف عن معلومات تعريف شخصية'
   post: نشر
-  profile: الملف الشخصي
-  profile_settings: "إعدادات"
+  profile: 'الملف الشخصي'
+  profile_settings: إعدادات
   reply: رد
   report: أبلغ
-  report_notif: "شكرا على الإبلاغ عن هذا التعليق. تم إبلاغ فريق الإشراف لدينا وسيراجعه قريبًا."
-  report_notif_remove: "لقد تمت إزالة بلاغك."
-  reported: بلغ عنه
+  report_notif: 'شكرا على الإبلاغ عن هذا التعليق. تم إبلاغ فريق الإشراف لدينا وسيراجعه قريبًا.'
+  report_notif_remove: 'لقد تمت إزالة بلاغك.'
+  reported: 'بلغ عنه'
   settings:
-    from_settings_page: "من صفحة الملف الشخصي يمكنك مشاهدة سجل التعليقات."
-    my_comment_history: "سجل التعليقات"
-    profile: الملف الشخصي
-    profile_settings: "إعدادات الملف الشخصي"
-    sign_in: "تسجيل الدخول"
-    to_access: "للوصول إلى الملف الشخصي"
-    user_no_comment: "لم تترك تعليقا مطلقا. إنضم إلى المحادثة!"
+    from_settings_page: 'من صفحة الملف الشخصي يمكنك مشاهدة سجل التعليقات.'
+    my_comment_history: 'سجل التعليقات'
+    profile: 'الملف الشخصي'
+    profile_settings: 'إعدادات الملف الشخصي'
+    sign_in: 'تسجيل الدخول'
+    to_access: 'للوصول إلى الملف الشخصي'
+    user_no_comment: 'لم تترك تعليقا مطلقا. إنضم إلى المحادثة!'
+  step_1_header: 'بلغ عن مشكلة'
+  step_2_header: 'ساعدنا على الفهم'
+  step_3_header: 'شكرا لك على المساهمة الخاصة بك'
   stream:
-    all_comments: "كل التعليقات"
-    temporarily_suspended: "وفقا لإرشادات المجموعة {0}، تم تعليق حسابك مؤقتا. الرجاء إعادة الانضمام إلى المحادثة {1}."
-    comment_not_found: "تمت إزالة هذا التعليق أو أنه غير موجود."
-    no_comments: "لا توجد تعليقات حتى الآن، لماذا لا تكتب واحد؟"
-    no_comments_and_closed: "لم تكن هناك تعليقات على هذه المقالة."
-  step_1_header: "بلغ عن مشكلة"
-  step_2_header: "ساعدنا على الفهم"
-  step_3_header: "شكرا لك على المساهمة الخاصة بك"
-  thank_you: "نحن نقدر سلامتك وردود الفعل. سيراجع المشرف التقرير الخاص بك"
-  user_impersonating: "هذا المستخدم ينتحل شخصية"
-  user_no_comment: "لم تترك تعليقا مطلقا. إنضم إلى المحادثة!"
-  username_offensive: "اسم المستخدم هذا مسيء"
-  view_conversation: "عرض المحادثة"
+    all_comments: 'كل التعليقات'
+    comment_not_found: 'تمت إزالة هذا التعليق أو أنه غير موجود.'
+    no_comments: 'لا توجد تعليقات حتى الآن، لماذا لا تكتب واحد؟'
+    no_comments_and_closed: 'لم تكن هناك تعليقات على هذه المقالة.'
+    temporarily_suspended: 'وفقا لإرشادات المجموعة {0}، تم تعليق حسابك مؤقتا. الرجاء إعادة الانضمام إلى المحادثة {1}.'
+  thank_you: 'نحن نقدر سلامتك وردود الفعل. سيراجع المشرف التقرير الخاص بك'
+  user_impersonating: 'هذا المستخدم ينتحل شخصية'
+  user_no_comment: 'لم تترك تعليقا مطلقا. إنضم إلى المحادثة!'
+  username_offensive: 'اسم المستخدم هذا مسيء'
+  view_conversation: 'عرض المحادثة'
+  your_account_has_been_banned: 'تم حظر حسابك.'
+  your_account_has_been_suspended: 'تم تعليق حسابك مؤقتا.'
+  your_username_has_been_rejected: 'تم تعليق حسابك لعدم صلاحية اسم المستخدم الخاصة بك. لاستعادة حسابك رجاء أدخل اسم مستخدم جديدة.'
