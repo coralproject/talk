@@ -174,7 +174,11 @@ function actionDropUnused() {
   });
 }
 
-program.version('0.1.0').description('Tools to help manage i18n locales');
+program
+  .version('0.1.0')
+  .description(
+    'Tools to help manage i18n locales.\n  Currently this is limited to top level locales excluding the plugin locales.'
+  );
 
 program
   .command('sort')
