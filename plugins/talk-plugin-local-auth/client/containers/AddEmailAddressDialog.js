@@ -56,7 +56,10 @@ class AddEmailAddressDialog extends React.Component {
   render() {
     const { step } = this.state;
     const {
-      root: { me: { email }, settings: { requireEmailConfirmation } },
+      root: {
+        me: { email },
+        settings: { requireEmailConfirmation },
+      },
     } = this.props;
 
     return (
