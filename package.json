@@ -239,7 +239,7 @@
     "mocha-junit-reporter": "^1.12.1",
     "nightwatch": "^0.9.16",
     "nodemon": "^1.11.0",
-    "selenium-standalone": "^6.11.0",
+    "selenium-standalone": "^6.15.0",
     "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
     "yaml-lint": "^1.0.0"
