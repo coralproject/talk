@@ -159,7 +159,7 @@ class UserDetail extends React.Component {
     } = this.props;
 
     // if totalComments is 0, you're dividing by zero
-    let rejectedPercent = rejectedComments / totalComments * 100;
+    let rejectedPercent = (rejectedComments / totalComments) * 100;
 
     if (rejectedPercent === Infinity || isNaN(rejectedPercent)) {
       rejectedPercent = 0;

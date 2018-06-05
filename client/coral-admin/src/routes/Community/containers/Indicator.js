@@ -15,7 +15,11 @@ class IndicatorContainer extends Component {
         document: USERNAME_FLAGGED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { usernameFlagged: user } } }
+          {
+            subscriptionData: {
+              data: { usernameFlagged: user },
+            },
+          }
         ) => {
           return handleIndicatorChange(prev, user);
         },
@@ -24,7 +28,11 @@ class IndicatorContainer extends Component {
         document: USERNAME_APPROVED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { usernameApproved: user } } }
+          {
+            subscriptionData: {
+              data: { usernameApproved: user },
+            },
+          }
         ) => {
           return handleIndicatorChange(prev, user);
         },
@@ -33,7 +41,11 @@ class IndicatorContainer extends Component {
         document: USERNAME_REJECTED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { usernameRejected: user } } }
+          {
+            subscriptionData: {
+              data: { usernameRejected: user },
+            },
+          }
         ) => {
           return handleIndicatorChange(prev, user);
         },
@@ -42,7 +54,13 @@ class IndicatorContainer extends Component {
         document: USERNAME_CHANGED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { usernameChanged: { user } } } }
+          {
+            subscriptionData: {
+              data: {
+                usernameChanged: { user },
+              },
+            },
+          }
         ) => {
           return handleIndicatorChange(prev, user);
         },

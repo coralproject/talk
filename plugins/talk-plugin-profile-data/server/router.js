@@ -8,7 +8,11 @@ const stringify = require('csv-stringify');
 const { ErrDownloadToken } = require('./errors');
 
 async function verifyDownloadToken(
-  { connectors: { services: { Users } } },
+  {
+    connectors: {
+      services: { Users },
+    },
+  },
   token
 ) {
   const jwt = await Users.verifyToken(token, {
@@ -139,7 +143,12 @@ module.exports = router => {
         return;
       }
 
-      const { connectors: { graph: { Context }, errors } } = req.context;
+      const {
+        connectors: {
+          graph: { Context },
+          errors,
+        },
+      } = req.context;
 
       try {
         // Pull the userID and the date that the token was issued out of the

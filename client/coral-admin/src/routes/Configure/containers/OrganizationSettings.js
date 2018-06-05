@@ -37,7 +37,10 @@ export default compose(
       }
     `,
   }),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   mapProps(({ root, settings, updatePending, errors, ...rest }) => ({
     slotPassthrough: {
       root,

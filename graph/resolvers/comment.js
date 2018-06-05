@@ -16,19 +16,37 @@ const Comment = {
   hasParent({ parent_id }) {
     return !!parent_id;
   },
-  parent({ parent_id }, _, { loaders: { Comments } }) {
+  parent(
+    { parent_id },
+    _,
+    {
+      loaders: { Comments },
+    }
+  ) {
     if (parent_id == null) {
       return null;
     }
 
     return Comments.get.load(parent_id);
   },
-  user({ author_id }, _, { loaders: { Users } }) {
+  user(
+    { author_id },
+    _,
+    {
+      loaders: { Users },
+    }
+  ) {
     if (author_id) {
       return Users.getByID.load(author_id);
     }
   },
-  replies({ id, asset_id, reply_count }, { query }, { loaders: { Comments } }) {
+  replies(
+    { id, asset_id, reply_count },
+    { query },
+    {
+      loaders: { Comments },
+    }
+  ) {
     // Don't bother looking up replies if there aren't any there!
     if (reply_count === 0) {
       return {
@@ -44,17 +62,35 @@ const Comment = {
     return Comments.getByQuery(query);
   },
   replyCount: property('reply_count'),
-  actions({ id }, _, { loaders: { Actions } }) {
+  actions(
+    { id },
+    _,
+    {
+      loaders: { Actions },
+    }
+  ) {
     return Actions.getByID.load(id);
   },
-  action_summaries(comment, _, { loaders: { Actions } }) {
+  action_summaries(
+    comment,
+    _,
+    {
+      loaders: { Actions },
+    }
+  ) {
     if (comment.action_summaries) {
       return comment.action_summaries;
     }
 
     return Actions.getSummariesByItem.load(comment);
   },
-  asset({ asset_id }, _, { loaders: { Assets } }) {
+  asset(
+    { asset_id },
+    _,
+    {
+      loaders: { Assets },
+    }
+  ) {
     return Assets.getByID.load(asset_id);
   },
   editing: async (comment, _, { loaders: { Settings } }) => {
@@ -71,7 +107,13 @@ const Comment = {
       editableUntil: editableUntil,
     };
   },
-  async url(comment, args, { loaders: { Assets } }) {
+  async url(
+    comment,
+    args,
+    {
+      loaders: { Assets },
+    }
+  ) {
     const asset = await Assets.getByID.load(comment.asset_id);
     if (!asset) {
       return null;

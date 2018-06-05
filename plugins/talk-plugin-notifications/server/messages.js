@@ -37,7 +37,11 @@ const queueNotifications = async (ctx, userID, notifications) => {
   );
 
   // Pull out some useful tools.
-  const { connectors: { models: { User } } } = ctx;
+  const {
+    connectors: {
+      models: { User },
+    },
+  } = ctx;
 
   ctx.log.info(
     { notifications: notifications.length, userID },
@@ -67,7 +71,13 @@ const sendNotificationsBatch = async (ctx, notifications) => {
     map(
       notifications,
       async ({ handler, notification: { userID, context } }) => {
-        const { connectors: { services: { I18n: { t } } } } = ctx;
+        const {
+          connectors: {
+            services: {
+              I18n: { t },
+            },
+          },
+        } = ctx;
         const { category } = handler;
 
         // Compose the subject for the email.
@@ -181,7 +191,9 @@ const USER_CONFIRMATION_QUERY = `
 // returns undefined.
 const filterVerifiedNotification = ctx => async notification => {
   // Grab the user that we're supposed to be sending the notification to.
-  const { notification: { userID } } = notification;
+  const {
+    notification: { userID },
+  } = notification;
 
   // Check their confirmed status. This should have already been hit by the
   // loaders, so we shouldn't make any more database requests.

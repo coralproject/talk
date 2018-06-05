@@ -16,7 +16,12 @@ const {
 // generateDownloadLinks will generate a signed set of links for a given user to
 // download an archive of their data.
 async function generateDownloadLinks(ctx, userID) {
-  const { connectors: { url: { BASE_URL }, secrets } } = ctx;
+  const {
+    connectors: {
+      url: { BASE_URL },
+      secrets,
+    },
+  } = ctx;
 
   // Generate a token for the download link.
   const token = await secrets.jwt.sign(
@@ -42,7 +47,10 @@ async function sendDownloadLink(ctx) {
   const {
     user,
     loaders: { Settings },
-    connectors: { services: { Users, I18n, Limit }, models: { User } },
+    connectors: {
+      services: { Users, I18n, Limit },
+      models: { User },
+    },
   } = ctx;
 
   // downloadLinkLimiter can be used to limit downloads for the user's data to
@@ -107,7 +115,10 @@ async function sendDownloadLink(ctx) {
 async function requestDeletion({
   user,
   loaders: { Settings },
-  connectors: { models: { User }, services: { Users, I18n } },
+  connectors: {
+    models: { User },
+    services: { Users, I18n },
+  },
 }) {
   // Ensure the user doesn't already have a deletion scheduled.
   if (get(user, 'metadata.scheduledDeletionDate')) {
@@ -153,7 +164,10 @@ async function requestDeletion({
 async function cancelDeletion({
   user,
   loaders: { Settings },
-  connectors: { models: { User }, services: { I18n, Users } },
+  connectors: {
+    models: { User },
+    services: { I18n, Users },
+  },
 }) {
   // Ensure the user has a deletion scheduled.
   const scheduledDeletionDate = get(

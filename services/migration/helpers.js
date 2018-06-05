@@ -27,7 +27,7 @@ const processUpdates = async (model, updates) => {
 const debugProcessStatistics = (count, totalCount) => {
   if (totalCount > 0) {
     debug(
-      `processed ${(count / totalCount * 100).toFixed(
+      `processed ${((count / totalCount) * 100).toFixed(
         2
       )}% (${count}/${totalCount}) updates`
     );

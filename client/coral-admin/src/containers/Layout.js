@@ -81,4 +81,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LayoutContainer);

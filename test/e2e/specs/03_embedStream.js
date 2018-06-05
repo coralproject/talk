@@ -32,7 +32,9 @@ module.exports = {
   },
 
   'creates an user and user logs in': client => {
-    const { testData: { user } } = client.globals;
+    const {
+      testData: { user },
+    } = client.globals;
     const embedStream = client.page.embedStream();
 
     // Go back to default asset.
@@ -99,7 +101,9 @@ module.exports = {
     comments.logout();
   },
   'admin logs in': client => {
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
     const embedStream = client.page.embedStream();
 
     embedStream

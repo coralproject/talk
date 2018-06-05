@@ -20,7 +20,9 @@ module.exports = {
 
   'Admin logs in': client => {
     const adminPage = client.page.admin();
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
 
     adminPage.navigateAndLogin(admin);
   },
@@ -84,7 +86,9 @@ module.exports = {
     client.page.admin().logout();
   },
   'user logs in': client => {
-    const { testData: { user } } = client.globals;
+    const {
+      testData: { user },
+    } = client.globals;
     const embedStream = client.page.embedStream();
 
     embedStream
@@ -109,7 +113,9 @@ module.exports = {
   'user picks another username': client => {
     const embedStream = client.page.embedStream();
     const comments = embedStream.section.comments;
-    const { testData: { user } } = client.globals;
+    const {
+      testData: { user },
+    } = client.globals;
 
     comments
       .waitForElementVisible('@changeUsernameInput')
@@ -134,7 +140,9 @@ module.exports = {
   },
   'Admin accepts the user flag': client => {
     const adminPage = client.page.admin();
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
 
     adminPage.navigateAndLogin(admin);
 
@@ -152,7 +160,9 @@ module.exports = {
     client.page.admin().logout();
   },
   'user logs in to check comment': client => {
-    const { testData: { user } } = client.globals;
+    const {
+      testData: { user },
+    } = client.globals;
     const embedStream = client.page.embedStream();
 
     embedStream

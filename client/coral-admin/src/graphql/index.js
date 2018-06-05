@@ -66,7 +66,11 @@ export default {
         });
       },
     }),
-    SuspendUser: ({ variables: { input: { id, until } } }) => ({
+    SuspendUser: ({
+      variables: {
+        input: { id, until },
+      },
+    }) => ({
       update: proxy => {
         const fragmentId = `User_${id}`;
 
@@ -92,7 +96,11 @@ export default {
         });
       },
     }),
-    UnsuspendUser: ({ variables: { input: { id } } }) => ({
+    UnsuspendUser: ({
+      variables: {
+        input: { id },
+      },
+    }) => ({
       update: proxy => {
         const fragmentId = `User_${id}`;
         const data = proxy.readFragment({
@@ -117,7 +125,11 @@ export default {
         });
       },
     }),
-    BanUser: ({ variables: { input: { id } } }) => ({
+    BanUser: ({
+      variables: {
+        input: { id },
+      },
+    }) => ({
       update: proxy => {
         const fragmentId = `User_${id}`;
         const data = proxy.readFragment({
@@ -142,7 +154,11 @@ export default {
         });
       },
     }),
-    UnbanUser: ({ variables: { input: { id } } }) => ({
+    UnbanUser: ({
+      variables: {
+        input: { id },
+      },
+    }) => ({
       update: proxy => {
         const fragmentId = `User_${id}`;
         const data = proxy.readFragment({

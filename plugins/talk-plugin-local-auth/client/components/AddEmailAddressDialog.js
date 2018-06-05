@@ -142,7 +142,9 @@ class AddEmailAddressDialog extends React.Component {
 
   render() {
     const { errors, formData, showErrors, step } = this.state;
-    const { root: { settings } } = this.props;
+    const {
+      root: { settings },
+    } = this.props;
 
     return (
       <Dialog className={styles.dialog} open={true}>

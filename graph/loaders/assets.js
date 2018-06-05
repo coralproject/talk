@@ -2,7 +2,14 @@ const DataLoader = require('dataloader');
 const { URL } = require('url');
 const { singleJoinBy, SingletonResolver } = require('./util');
 
-const genAssetsByID = ({ connectors: { models: { Asset } } }, ids) =>
+const genAssetsByID = (
+  {
+    connectors: {
+      models: { Asset },
+    },
+  },
+  ids
+) =>
   Asset.find({
     id: {
       $in: ids,
@@ -10,7 +17,11 @@ const genAssetsByID = ({ connectors: { models: { Asset } } }, ids) =>
   }).then(singleJoinBy(ids, 'id'));
 
 const getAssetsByQuery = async (
-  { connectors: { services: { Assets } } },
+  {
+    connectors: {
+      services: { Assets },
+    },
+  },
   query
 ) => {
   // If we are requesting based on a limit, ask for one more than we want.
@@ -126,7 +137,12 @@ const findOrCreateAssetByURL = async (ctx, url) => {
 };
 
 const findByUrl = async (
-  { connectors: { errors, services: { Assets } } },
+  {
+    connectors: {
+      errors,
+      services: { Assets },
+    },
+  },
   asset_url
 ) => {
   // Try to validate that the url is valid. If the URL constructor throws an
