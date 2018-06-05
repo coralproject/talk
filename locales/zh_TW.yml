@@ -397,6 +397,13 @@ zh_TW:
   user_impersonating: 此用戶正在冒充
   user_no_comment: 您尚未評論過。加入對話吧！
   username_offensive: 這個用戶名有冒犯性
+  validators:
+    confirm_password: 密碼不匹配。請檢查。
+    required: 該字段必填
+    verify_email: 電子郵箱地址無效
+    verify_organization_name: 組織名稱只能包含字母或數字。
+    verify_password: 密碼必須至少8個字符
+    verify_username: 用戶名只能包含字母、數字和下劃線。
   view_conversation: 查看對話
   your_account_has_been_banned: 您的賬戶已被禁用。
   your_account_has_been_suspended: 您的賬戶已被暫停使用。

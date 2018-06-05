@@ -419,6 +419,12 @@ pt_BR:
   user_impersonating: 'Este usuário está representando'
   user_no_comment: 'Você nunca deixou um comentário. Participe da conversa!'
   username_offensive: 'Esse nome de usuário é ofensivo'
+  validators:
+    confirm_password: 'Suas senhas não coincidem. Por favor, tente novamente.'
+    verify_email: 'Não é um e-mail válido'
+    verify_organization_name: 'O nome da organização só deve conter letras ou números.'
+    verify_password: 'A senha deve conter pelo menos 8 caracteres'
+    verify_username: 'Nomes de usuários podem conter números de letras e _ somente'
   view_conversation: 'Ver conversa'
   your_account_has_been_banned: 'Sua conta foi banida.'
   your_account_has_been_suspended: 'Sua conta foi temporariamente suspensa.'

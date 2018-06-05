@@ -464,6 +464,12 @@ da:
   user_impersonating: 'Denne bruger efterligner'
   user_no_comment: 'Du har aldrig efterladt en kommentar. Deltag i samtalen'
   username_offensive: 'Dette brugernavn er stødende'
+  validators:
+    confirm_password: 'Kodeordene matcher ikke. Tjek venligst igen.'
+    verify_email: 'Ikke en gylding e-mail'
+    verify_organization_name: 'Organisationsnavn må kun indeholde bogstaver og tal.'
+    verify_password: 'Adgangskoden skal være mindst 8 tegn'
+    verify_username: 'Brugernavne kan kun indeholde bogstaver og _'
   view_conversation: 'Vis samtale'
   your_account_has_been_banned: 'Din konto er blevet banned.'
   your_account_has_been_suspended: 'Din konto er midlertidigt suspenderet'
