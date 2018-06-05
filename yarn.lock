@@ -9370,11 +9370,6 @@ react-dom@^15.3.1, react-dom@^15.4.2:
     object-assign "^4.1.0"
     prop-types "^15.5.10"
 
-<<<<<<< HEAD
-react-final-form@^3.4.2:
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.4.2.tgz#4fd3fe958c481c98c4d4970ee7679bc1ac4185dc"
-=======
 react-dom@^16.2.0:
   version "16.4.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.4.0.tgz#099f067dd5827ce36a29eaf9a6cdc7cbf6216b1e"
@@ -9383,7 +9378,10 @@ react-dom@^16.2.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.0"
->>>>>>> master
+
+react-final-form@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.4.2.tgz#4fd3fe958c481c98c4d4970ee7679bc1ac4185dc"
 
 react-input-autosize@^1.1.4:
   version "1.2.0"
