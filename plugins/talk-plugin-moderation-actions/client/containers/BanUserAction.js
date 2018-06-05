@@ -15,7 +15,10 @@ class BanUserActionContainer extends React.Component {
   };
 
   render() {
-    const { root: { me }, comment } = this.props;
+    const {
+      root: { me },
+      comment,
+    } = this.props;
     return me.id !== comment.user.id ? (
       <BanUserAction onBanUser={this.onBanUser} comment={this.props.comment} />
     ) : null;
@@ -30,6 +33,11 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const enhance = compose(connect(null, mapDispatchToProps));
+const enhance = compose(
+  connect(
+    null,
+    mapDispatchToProps
+  )
+);
 
 export default enhance(BanUserActionContainer);

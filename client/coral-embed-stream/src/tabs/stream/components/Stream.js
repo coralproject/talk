@@ -211,7 +211,10 @@ class Stream extends React.Component {
       root,
       appendItemArray,
       asset,
-      asset: { comment: highlightedComment, settings: { questionBoxEnable } },
+      asset: {
+        comment: highlightedComment,
+        settings: { questionBoxEnable },
+      },
       postComment,
       notify,
       updateItem,

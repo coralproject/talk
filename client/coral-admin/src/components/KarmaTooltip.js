@@ -27,7 +27,9 @@ class KarmaTooltip extends React.Component {
   };
 
   render() {
-    const { thresholds: { unreliable } } = this.props;
+    const {
+      thresholds: { unreliable },
+    } = this.props;
     const { menuVisible } = this.state;
 
     return (
@@ -68,6 +70,7 @@ class KarmaTooltip extends React.Component {
                 className={styles.link}
                 href={t('user_detail.karma_docs_link')}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 {t('user_detail.learn_more')}
               </a>

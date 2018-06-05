@@ -37,6 +37,9 @@ const withIgnoredUserSectionFragments = withFragments({
   `,
 });
 
-const enhance = compose(withIgnoredUserSectionFragments, withStopIgnoringUser);
+const enhance = compose(
+  withIgnoredUserSectionFragments,
+  withStopIgnoringUser
+);
 
 export default enhance(IgnoredUserSectionContainer);

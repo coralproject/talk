@@ -103,5 +103,8 @@ export default compose(
     size: props => props.size,
     defaultComponent: props => props.defaultComponent,
   }),
-  connect(mapStateToProps, null)
+  connect(
+    mapStateToProps,
+    null
+  )
 )(Slot);

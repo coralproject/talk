@@ -2,7 +2,11 @@ const { DISABLE_AUTOFLAG_SUSPECT_WORDS } = require('../../../config');
 
 // This phase checks the comment against the wordlist.
 module.exports = async (ctx, comment, { settings }) => {
-  const { connectors: { services: { Wordlist } } } = ctx;
+  const {
+    connectors: {
+      services: { Wordlist },
+    },
+  } = ctx;
 
   // Create a new instance of the Wordlist.
   const wl = new Wordlist();

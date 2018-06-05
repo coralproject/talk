@@ -46,7 +46,11 @@ class FlaggedAccountsContainer extends Component {
         document: USERNAME_FLAGGED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { usernameFlagged: user } } }
+          {
+            subscriptionData: {
+              data: { usernameFlagged: user },
+            },
+          }
         ) => {
           return handleFlaggedAccountsChange(prev, user, () => {
             const msg = t(
@@ -62,7 +66,11 @@ class FlaggedAccountsContainer extends Component {
         document: USERNAME_APPROVED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { usernameApproved: user } } }
+          {
+            subscriptionData: {
+              data: { usernameApproved: user },
+            },
+          }
         ) => {
           return handleFlaggedAccountsChange(prev, user, () => {
             const msg = t(
@@ -78,7 +86,11 @@ class FlaggedAccountsContainer extends Component {
         document: USERNAME_REJECTED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { usernameRejected: user } } }
+          {
+            subscriptionData: {
+              data: { usernameRejected: user },
+            },
+          }
         ) => {
           return handleFlaggedAccountsChange(prev, user, () => {
             const msg = t(
@@ -96,7 +108,9 @@ class FlaggedAccountsContainer extends Component {
           prev,
           {
             subscriptionData: {
-              data: { usernameChanged: { previousUsername, user } },
+              data: {
+                usernameChanged: { previousUsername, user },
+              },
             },
           }
         ) => {
@@ -297,7 +311,10 @@ const mapDispatchToProps = dispatch =>
   );
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(
+    null,
+    mapDispatchToProps
+  ),
   withApproveUsername,
   withQuery(
     gql`

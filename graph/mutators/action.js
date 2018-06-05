@@ -11,7 +11,9 @@ const { IGNORE_FLAGS_AGAINST_STAFF } = require('../../config');
  * @return {Promise}      resolves to the referenced item
  */
 const getActionItem = async (ctx, { item_id, item_type }) => {
-  const { loaders: { Comments, Users } } = ctx;
+  const {
+    loaders: { Comments, Users },
+  } = ctx;
 
   switch (item_type) {
     case 'COMMENTS': {
@@ -42,7 +44,13 @@ const createAction = async (
   ctx,
   { item_id, item_type, action_type, group_id, metadata = {} }
 ) => {
-  const { user = {}, pubsub, connectors: { services: { Actions } } } = ctx;
+  const {
+    user = {},
+    pubsub,
+    connectors: {
+      services: { Actions },
+    },
+  } = ctx;
 
   // Gets the item referenced by the action.
   const item = await getActionItem(ctx, { item_id, item_type });
@@ -107,7 +115,12 @@ const createAction = async (
  * @return {Promise}     resolves to the deleted action, or null if not found.
  */
 const deleteAction = (ctx, { id }) => {
-  const { user, connectors: { services: { Actions } } } = ctx;
+  const {
+    user,
+    connectors: {
+      services: { Actions },
+    },
+  } = ctx;
 
   return Actions.delete({ id, user_id: user.id });
 };

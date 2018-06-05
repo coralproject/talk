@@ -2,5 +2,10 @@
   "env": {
     "jest": true
   },
+  "settings": {
+    "react": {
+      "version": "15.0"
+    }
+  },
   "extends": "@coralproject/eslint-config-talk"
 }

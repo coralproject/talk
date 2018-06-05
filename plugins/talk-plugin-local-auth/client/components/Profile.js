@@ -114,7 +114,11 @@ class Profile extends React.Component {
 
   isSaveEnabled = () => {
     const { formData } = this.state;
-    const { root: { me: { username, email } } } = this.props;
+    const {
+      root: {
+        me: { username, email },
+      },
+    } = this.props;
     const formHasErrors = !!Object.keys(this.state.errors).length;
     const validUsername =
       formData.newUsername && formData.newUsername !== username;
@@ -166,7 +170,13 @@ class Profile extends React.Component {
 
   render() {
     const {
-      root: { me: { username, email, state: { status } } },
+      root: {
+        me: {
+          username,
+          email,
+          state: { status },
+        },
+      },
       notify,
     } = this.props;
     const { editing, formData, showDialog } = this.state;

@@ -10,7 +10,10 @@ import ApproveButton from './ApproveButton';
 const UserDetailCommentList = props => {
   const {
     root,
-    root: { user, comments: { nodes, hasNextPage } },
+    root: {
+      user,
+      comments: { nodes, hasNextPage },
+    },
     acceptComment,
     rejectComment,
     selectedCommentIds,

@@ -36,7 +36,11 @@ class DownloadCommentHistory extends Component {
   };
 
   render() {
-    const { root: { me: { lastAccountDownload } } } = this.props;
+    const {
+      root: {
+        me: { lastAccountDownload },
+      },
+    } = this.props;
 
     const now = new Date();
     const lastAccountDownloadDate =

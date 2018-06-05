@@ -135,7 +135,11 @@ class ChangePassword extends React.Component {
   };
 
   onForgotPassword = async () => {
-    const { root: { me: { email } } } = this.props;
+    const {
+      root: {
+        me: { email },
+      },
+    } = this.props;
 
     try {
       await this.props.forgotPassword(email);

@@ -1,7 +1,13 @@
 const { decorateWithTags, getRequestedFields } = require('./util');
 
 const Asset = {
-  async comment({ id }, { id: commentId }, { loaders: { Comments } }) {
+  async comment(
+    { id },
+    { id: commentId },
+    {
+      loaders: { Comments },
+    }
+  ) {
     // Load the comment from the database.
     const comment = await Comments.get.load(commentId);
     if (!comment) {
@@ -15,7 +21,13 @@ const Asset = {
 
     return comment;
   },
-  comments({ id }, { query, deep }, { loaders: { Comments } }) {
+  comments(
+    { id },
+    { query, deep },
+    {
+      loaders: { Comments },
+    }
+  ) {
     if (!deep) {
       query.parent_id = null;
     }
@@ -25,7 +37,13 @@ const Asset = {
 
     return Comments.getByQuery(query);
   },
-  commentCount({ id, commentCount }, { tags }, { loaders: { Comments } }) {
+  commentCount(
+    { id, commentCount },
+    { tags },
+    {
+      loaders: { Comments },
+    }
+  ) {
     if (commentCount != null) {
       return commentCount;
     }
@@ -46,7 +64,9 @@ const Asset = {
   totalCommentCount(
     { id, totalCommentCount },
     { tags },
-    { loaders: { Comments } }
+    {
+      loaders: { Comments },
+    }
   ) {
     if (totalCommentCount != null) {
       return totalCommentCount;
@@ -64,7 +84,14 @@ const Asset = {
 
     return Comments.countByAssetID.load(id);
   },
-  async settings({ settings = null }, _, { loaders: { Settings } }, info) {
+  async settings(
+    { settings = null },
+    _,
+    {
+      loaders: { Settings },
+    },
+    info
+  ) {
     // Get the fields we want from the settings.
     const fields = getRequestedFields(info);
 

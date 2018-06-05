@@ -170,6 +170,7 @@ class Comment extends React.Component {
                     className={styles.external}
                     href={`${comment.asset.url}?commentId=${comment.id}`}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <Icon name="open_in_new" /> {t('comment.view_context')}
                   </a>

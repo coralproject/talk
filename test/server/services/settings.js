@@ -7,8 +7,7 @@ describe('services.Settings', () => {
     Settings.init({
       moderation: 'PRE',
       wordlist: { banned: ['bannedWord'], suspect: [] },
-    })
-  );
+    }));
 
   describe('#retrieve()', () => {
     it('should have a moderation field defined', () => {

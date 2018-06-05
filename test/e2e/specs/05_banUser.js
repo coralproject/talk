@@ -21,7 +21,9 @@ module.exports = {
 
   'admin logs in': client => {
     const adminPage = client.page.admin();
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
 
     adminPage.navigateAndLogin(admin);
   },
@@ -53,7 +55,9 @@ module.exports = {
     comments.logout();
   },
   'user logs in': client => {
-    const { testData: { user } } = client.globals;
+    const {
+      testData: { user },
+    } = client.globals;
     const comments = client.page.embedStream().section.comments;
 
     comments.openLoginPopup(popup => popup.login(user));
@@ -72,7 +76,9 @@ module.exports = {
   },
   'admin logs in (2)': client => {
     const adminPage = client.page.admin();
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
 
     adminPage.navigateAndLogin(admin);
   },
@@ -100,7 +106,9 @@ module.exports = {
     embedStream.navigate().ready();
   },
   'user logs in 2': client => {
-    const { testData: { user } } = client.globals;
+    const {
+      testData: { user },
+    } = client.globals;
     const comments = client.page.embedStream().section.comments;
 
     comments.openLoginPopup(popup => popup.login(user));
@@ -134,7 +142,9 @@ module.exports = {
   },
   'admin logs in (3)': client => {
     const adminPage = client.page.admin();
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
 
     adminPage.navigateAndLogin(admin);
   },
