@@ -449,7 +449,6 @@ nl_NL:
     rejected: Afgewezen
     remove_ban: 'Verbanning verwijderen'
     remove_suspension: 'Schorsing opheffen'
-    reports: Rapportages
     suspend: 'Gebruiker schorsen'
     total_comments: 'Totaal aantal reacties'
     user_history: Accountgeschiedenis

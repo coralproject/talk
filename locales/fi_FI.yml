@@ -443,7 +443,6 @@ fi_FI:
     user_bio: 'Käyttäjän kuvaus'
     username_flags: 'liputusta käyttäjänimelle'
   user_detail:
-    account_history: 'Tilin historia'
     all: Kaikki
     ban: 'Aseta kirjoituskielto'
     email: Sähköposti
@@ -452,7 +451,6 @@ fi_FI:
     rejected: Hylätyt
     remove_ban: 'Poista kirjoituskielto'
     remove_suspension: 'Poista käyttökielto'
-    reports: Raportit
     suspend: 'Aseta väliaikainen käyttökielto'
     total_comments: 'Kommentteja yhteensä'
   user_impersonating: 'Käyttäjä on tekeytynyt toiseksi'

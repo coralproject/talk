@@ -1,14 +1,4 @@
 fr:
-  account_history:
-    action: Action
-    ban_removed: 'Bannissement levé'
-    date: Date
-    suspended: 'Suspendu, {0}'
-    suspension_removed: 'Suspension levée'
-    system: Système
-    taken_by: 'Prise par'
-    user_banned: 'Utilisateur banni'
-    username_status: 'Nom d’utilisateur {0}'
   admin_sidebar:
     sort_comments: 'Trier les commentaires'
     view_options: 'Afficher les options'
@@ -184,31 +174,15 @@ fr:
     your_username: 'Votre nom d’utilisateur apparait sur chaque commentaire publié.'
   done: Terminé
   edit_comment:
-    banned:
-      body: 'Conformément aux directives communautaires du projet Coral, votre compte a été banni. Vous ne pouvez désormais plus commenter, signaler ou collaborer avec notre communauté.'
-      subject: 'Votre compte a été banni'
     body_input_label: 'Modifier ce commentaire'
-    confirm:
-      confirm_email: 'Confirmer l’adresse électronique'
-      has_been_requested: 'Une confirmation de l’adresse électronique a été demandée pour le compte suivant :'
-      if_you_did_not: 'Si vous n’êtes pas à l’origine de cette requête, vous pouvez ignorer ce courriel en toute sécurité.'
-      subject: 'Confirmation adresse électronique'
-      to_confirm: 'Pour confirmer le compte, veuillez suivre le lien suivant :'
     edit_window_expired: 'Vous ne pouvez plus modifier ce commentaire. La fenêtre de temps pour le faire a expiré. Pourquoi ne pas en publier un autre ?'
     edit_window_expired_close: Fermer
     edit_window_timer_prefix: 'Fenêtre d''édition :'
-    email: null
     minute: minute
     minutes_plural: minutes
-    password_reset:
-      if_you_did: 'Si vous êtes à l’origine de cette requête,'
-      please_click: 'veuillez cliquez ici pour réinitialiser le mot de passe'
-      we_received_a_request: 'Nous avons reçu une demande de réinitialisation de votre mot de passe. Si vous n''avez pas demandé cette modification, vous pouvez ignorer ce courriel.'
     save_button: 'Sauvegarder les changements'
     second: seconde
     seconds_plural: secondes
-    suspended:
-      subject: 'Votre compte a été suspendu'
   embed_comments_tab: Commentaires
   embedlink:
     copy: 'Copier dans le presse-papier'
@@ -299,8 +273,6 @@ fr:
     success_bio_update: 'Votre biographie a été mise à jour'
     success_name_update: 'Votre nom d''utilisateur a été mis à jour'
     success_update_settings: 'Les modifications que vous avez apportées ont été appliqué es au fil de commentaires sur cet article'
-    view_all_replies: 'Voir {0} réponses'
-    view_all_replies_initial: 'Voir toutes les {0} réponses'
     view_more_comments: 'Voir plus de commentaires'
     view_reply: 'Voir la réponse'
   from_settings_page: 'Dans la page Profil, vous pouvez voir l''historique de vos commentaires.'
@@ -467,7 +439,6 @@ fr:
     user_bio: 'Bio de l''utilisateur'
     username_flags: 'Signaler pour ce nom d''utilisateur'
   user_detail:
-    account_history: 'Historique de compte'
     all: Tous
     ban: 'Bannir l’utilisateur'
     email: 'adresse électronique'
@@ -476,7 +447,6 @@ fr:
     rejected: Rejeté
     remove_ban: 'Lever le bannissement'
     remove_suspension: 'Lever la suspension'
-    reports: Signalements
     suspend: 'Suspendre l’utilisateur'
     total_comments: 'Nombre total de commentaires'
   user_impersonating: 'Cet utilisateur se fait passer pour quelqu''un d''autre'
