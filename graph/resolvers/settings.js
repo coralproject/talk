@@ -5,7 +5,13 @@ const Settings = {
   karmaThresholds: (
     settings,
     args,
-    { connectors: { services: { Karma: { THRESHOLDS } } } }
+    {
+      connectors: {
+        services: {
+          Karma: { THRESHOLDS },
+        },
+      },
+    }
   ) => THRESHOLDS,
 };
 

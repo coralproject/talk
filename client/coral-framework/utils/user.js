@@ -36,6 +36,24 @@ export const isBanned = user => {
 };
 
 /**
+ * isUsernameRejected
+ * retrieves boolean based on the username status
+ */
+
+export const isUsernameRejected = user => {
+  return get(user, 'state.status.username.status') === 'REJECTED';
+};
+
+/**
+ * isUsernameChanged
+ * retrieves boolean based on the username status
+ */
+
+export const isUsernameChanged = user => {
+  return get(user, 'state.status.username.status') === 'CHANGED';
+};
+
+/**
  * canUsernameBeUpdated
  * retrieves boolean whether a username can be updated or not
  */

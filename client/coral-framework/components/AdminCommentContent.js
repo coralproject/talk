@@ -78,7 +78,12 @@ function markLinks(body, keyPrefix) {
     matches.forEach((match, i) => {
       content.push(body.substring(index, match.index));
       content.push(
-        <a key={`${keyPrefix}_${i}`} href={match.url} target="_blank">
+        <a
+          key={`${keyPrefix}_${i}`}
+          href={match.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {match.text}
         </a>
       );

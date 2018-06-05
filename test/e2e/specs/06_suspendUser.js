@@ -19,7 +19,9 @@ module.exports = {
     client.end();
   },
   'user logs in': client => {
-    const { testData: { user } } = client.globals;
+    const {
+      testData: { user },
+    } = client.globals;
     const embedStream = client.page.embedStream();
     const comments = client.page.embedStream().section.comments;
 
@@ -48,7 +50,9 @@ module.exports = {
   },
   'admin logs in': client => {
     const adminPage = client.page.admin();
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
 
     adminPage.navigateAndLogin(admin);
   },
@@ -137,7 +141,9 @@ module.exports = {
     adminPage.logout();
   },
   'user logs in (2)': client => {
-    const { testData: { user } } = client.globals;
+    const {
+      testData: { user },
+    } = client.globals;
     const embedStream = client.page.embedStream();
     const comments = client.page.embedStream().section.comments;
 

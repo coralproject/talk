@@ -52,5 +52,8 @@ export default ({ sortBy = 'created_at', sortOrder = 'DESC', label }) =>
         );
       }
     }
-    return connect(mapStateToProps, mapDispatchToProps)(WithSortOption);
+    return connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(WithSortOption);
   });

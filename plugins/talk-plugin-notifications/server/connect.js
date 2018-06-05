@@ -6,7 +6,10 @@ const { map, reduce } = require('lodash');
 
 module.exports = connectors => {
   const {
-    graph: { subscriptions: { getBroker }, Context },
+    graph: {
+      subscriptions: { getBroker },
+      Context,
+    },
     services: { Mailer, Plugins },
   } = connectors;
 

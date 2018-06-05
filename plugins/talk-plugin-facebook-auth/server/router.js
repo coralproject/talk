@@ -5,7 +5,11 @@ module.exports = router => {
    */
   router.get('/api/v1/auth/facebook', (req, res, next) => {
     const {
-      connectors: { services: { Passport: { passport } } },
+      connectors: {
+        services: {
+          Passport: { passport },
+        },
+      },
     } = req.context;
 
     return passport.authenticate('facebook', {
@@ -22,7 +26,9 @@ module.exports = router => {
   router.get('/api/v1/auth/facebook/callback', (req, res, next) => {
     const {
       connectors: {
-        services: { Passport: { passport, HandleAuthPopupCallback } },
+        services: {
+          Passport: { passport, HandleAuthPopupCallback },
+        },
       },
     } = req.context;
 

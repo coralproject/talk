@@ -1,6 +1,6 @@
 {
   "name": "talk",
-  "version": "4.4.2",
+  "version": "4.5.0",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
   "private": true,
@@ -125,6 +125,7 @@
     "history": "^3.0.0",
     "hjson": "^3.1.1",
     "hjson-loader": "^1.0.0",
+    "https-proxy-agent": "^2.2.0",
     "immutability-helper": "^2.2.0",
     "imports-loader": "^0.7.1",
     "inquirer": "^3.2.2",
@@ -238,7 +239,7 @@
     "mocha-junit-reporter": "^1.12.1",
     "nightwatch": "^0.9.16",
     "nodemon": "^1.11.0",
-    "selenium-standalone": "^6.11.0",
+    "selenium-standalone": "^6.15.0",
     "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
     "yaml-lint": "^1.0.0"

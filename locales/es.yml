@@ -439,17 +439,22 @@ es:
     user_bio: "Bio de Usuario"
     username_flags: "reportes para este nombre de usuario"
   user_detail:
-    remove_suspension: "Cancelar suspensión"
+    suspended: 'Suspendido'
+    banned: 'Baneado'
+    username: 'Usuario'
+    username_needs_approval: 'El usuario necesita aprovación'
+    username_rejected: 'Usuario rechazado'
     suspend: "Suspender usuario"
+    email: "Correo electrónico"
+    reject_rate: "Promedio de rechazo"
+    all: "Todos"
+    rejected: "Rechazado"
+    remove_suspension: "Cancelar suspensión"
     remove_ban: "Cancelar bloqueo"
     ban: "Bloquear usuario"
     member_since: "Miembro desde"
-    email: "Email"
     total_comments: "Comentarios totales"
-    reject_rate: "Reject Rate"
     reports: "Reportes"
-    all: "Todo"
-    rejected: "Rechazar"
     user_history: "Historial del usuario"
   user_history:
     user_banned: "Usuario bloqueado"

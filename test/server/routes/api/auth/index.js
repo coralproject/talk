@@ -75,8 +75,7 @@ describe('/api/v1/auth/local', () => {
 
   describe('email confirmation enabled', () => {
     beforeEach(() =>
-      SettingsService.update({ requireEmailConfirmation: true })
-    );
+      SettingsService.update({ requireEmailConfirmation: true }));
 
     describe('#post', () => {
       it('should not allow a login from a user that is not confirmed', () => {

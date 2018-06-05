@@ -32,7 +32,9 @@ module.exports = connectors => {
 
       try {
         // Grab some settings.
-        const { loaders: { Settings } } = ctx;
+        const {
+          loaders: { Settings },
+        } = ctx;
         const {
           organizationName,
           organizationContactEmail,

@@ -6,4 +6,7 @@ import FacebookButton from '../components/FacebookButton';
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ onClick: loginWithFacebook }, dispatch);
 
-export default connect(null, mapDispatchToProps)(FacebookButton);
+export default connect(
+  null,
+  mapDispatchToProps
+)(FacebookButton);

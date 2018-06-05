@@ -12,7 +12,13 @@ class ModIndicatorSubscription extends React.Component {
         document: COMMENT_FEATURED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentFeatured: { comment } } } }
+          {
+            subscriptionData: {
+              data: {
+                commentFeatured: { comment },
+              },
+            },
+          }
         ) => {
           return this.props.handleCommentChange(prev, comment);
         },
@@ -21,7 +27,13 @@ class ModIndicatorSubscription extends React.Component {
         document: COMMENT_UNFEATURED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentUnfeatured: { comment } } } }
+          {
+            subscriptionData: {
+              data: {
+                commentUnfeatured: { comment },
+              },
+            },
+          }
         ) => {
           return this.props.handleCommentChange(prev, comment);
         },

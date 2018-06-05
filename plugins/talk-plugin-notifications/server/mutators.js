@@ -15,7 +15,12 @@ function reduceSettings(newSettings, newValue, key) {
  * Update the user notification settings.
  */
 async function updateNotificationSettings(ctx, settings) {
-  const { connectors: { models: { User } }, user } = ctx;
+  const {
+    connectors: {
+      models: { User },
+    },
+    user,
+  } = ctx;
 
   // Generate the settings set object, and just exit if we haven't changed
   // anything.
@@ -29,7 +34,9 @@ async function updateNotificationSettings(ctx, settings) {
 }
 
 module.exports = ctx => {
-  const { connectors: { errors: ErrNotAuthorized } } = ctx;
+  const {
+    connectors: { errors: ErrNotAuthorized },
+  } = ctx;
 
   let mutators = {
     User: {

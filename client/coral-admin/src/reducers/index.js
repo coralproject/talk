@@ -5,10 +5,12 @@ import moderation from './moderation';
 import install from './install';
 import banUserDialog from './banUserDialog';
 import suspendUserDialog from './suspendUserDialog';
+import rejectUsernameDialog from './rejectUsernameDialog';
 import userDetail from './userDetail';
 import ui from './ui';
 
 export default {
+  rejectUsernameDialog,
   banUserDialog,
   configure,
   suspendUserDialog,

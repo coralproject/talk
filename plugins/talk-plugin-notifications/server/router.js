@@ -12,7 +12,10 @@ module.exports = router => {
    */
   const verifyToken = (req, res, next) => {
     const {
-      connectors: { secrets: { jwt }, config: { JWT_ISSUER, JWT_AUDIENCE } },
+      connectors: {
+        secrets: { jwt },
+        config: { JWT_ISSUER, JWT_AUDIENCE },
+      },
     } = req.context;
     const { token: tokenString = '' } = req.body;
     if (!tokenString) {
@@ -50,7 +53,11 @@ module.exports = router => {
     '/api/v1/account/unsubscribe-notifications',
     verifyToken,
     async (req, res, next) => {
-      const { connectors: { models: { User } } } = req.context;
+      const {
+        connectors: {
+          models: { User },
+        },
+      } = req.context;
       const { user: userID } = req.token;
 
       try {

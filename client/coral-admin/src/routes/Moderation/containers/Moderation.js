@@ -71,7 +71,9 @@ class ModerationContainer extends Component {
   };
 
   get activeTab() {
-    const { root: { asset, settings } } = this.props;
+    const {
+      root: { asset, settings },
+    } = this.props;
     const id = getAssetId(this.props);
     const tab = getTab(this.props);
 
@@ -94,7 +96,11 @@ class ModerationContainer extends Component {
         variables,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentAdded: comment } } }
+          {
+            subscriptionData: {
+              data: { commentAdded: comment },
+            },
+          }
         ) => {
           return this.handleCommentChange(prev, comment);
         },
@@ -104,7 +110,11 @@ class ModerationContainer extends Component {
         variables,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentAccepted: comment } } }
+          {
+            subscriptionData: {
+              data: { commentAccepted: comment },
+            },
+          }
         ) => {
           const user =
             comment.status_history[comment.status_history.length - 1]
@@ -125,7 +135,11 @@ class ModerationContainer extends Component {
         variables,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentRejected: comment } } }
+          {
+            subscriptionData: {
+              data: { commentRejected: comment },
+            },
+          }
         ) => {
           const user =
             comment.status_history[comment.status_history.length - 1]
@@ -146,7 +160,11 @@ class ModerationContainer extends Component {
         variables,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentReset: comment } } }
+          {
+            subscriptionData: {
+              data: { commentReset: comment },
+            },
+          }
         ) => {
           const user =
             comment.status_history[comment.status_history.length - 1]
@@ -167,7 +185,11 @@ class ModerationContainer extends Component {
         variables,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentEdited: comment } } }
+          {
+            subscriptionData: {
+              data: { commentEdited: comment },
+            },
+          }
         ) => {
           return this.handleCommentChange(prev, comment);
         },
@@ -177,7 +199,11 @@ class ModerationContainer extends Component {
         variables,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentFlagged: comment } } }
+          {
+            subscriptionData: {
+              data: { commentFlagged: comment },
+            },
+          }
         ) => {
           return this.handleCommentChange(prev, comment);
         },
@@ -289,7 +315,11 @@ class ModerationContainer extends Component {
   };
 
   render() {
-    const { root, root: { asset, settings }, data } = this.props;
+    const {
+      root,
+      root: { asset, settings },
+      data,
+    } = this.props;
     const assetId = getAssetId(this.props);
 
     if (assetId) {
@@ -546,7 +576,10 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   withQueueConfig(baseQueueConfig),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withSetCommentStatus,
   withModQueueQuery
 )(ModerationContainer);

@@ -1,0 +1,80 @@
+.dialog {
+  border: none;
+  box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.header {
+  color: black;
+  font-size: 1.5em;
+  font-weight: 500;
+  margin: 0 0 8px 0;
+}
+
+.close {
+  display: block;
+  position: absolute;
+  top: 24px;
+  right: 20px;
+}
+
+.closeButton {
+  font-size: 24px;
+  line-height: 14px;
+  color: #363636;
+  &:hover {
+    color: #6b6b6b;
+  }
+}
+
+.legend {
+  padding: 0;
+  font-weight: bold;
+}
+
+div.radioGroup {
+  margin-top: 6px;
+}
+
+label.radioGroup {
+
+  &:global(.is-checked) > :global(.mdl-radio__outer-circle),
+  > :global(.mdl-radio__outer-circle) {
+    border-color: #212121;
+  }
+
+  > :global(.mdl-radio__inner-circle) {
+    background: #212121;
+  }
+
+  > :global(.mdl-radio__label) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+.messageInput {
+  border-radius: 3px;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.cancel {
+  margin-right: 5px;
+}
+
+.perform {
+  min-width: 90px;
+}
+
+.buttons {
+  margin-top: 8px;
+  margin-bottom: 6px;
+  text-align: right;
+}

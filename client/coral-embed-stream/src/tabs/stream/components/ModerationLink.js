@@ -18,6 +18,7 @@ const ModerationLink = props =>
         className="talk-embed-stream-moderation-link"
         href={`${BASE_PATH}admin/moderate/${props.assetId}`}
         target="_blank"
+        rel="noopener noreferrer"
       >
         {t('moderate_this_stream')}
       </a>
