@@ -198,7 +198,7 @@ program
 
 program
   .command('drop-unused')
-  .description('Drop translations that are not present in the en.js locale')
+  .description('Drop translations that are not present in the en locale')
   .action(actionDropUnused);
 
 program.parse(process.argv);
