@@ -50,11 +50,11 @@ de:
   common:
     copy: Kopieren
     error: 'Ein Problem ist aufgetreten.'
-    reaction: Reaktion
-    reactions: Reaktionen
-    replies: Antworten
-    reply: antworten
-    story: Artikel
+    reaction: 'Reaktion'
+    reactions: 'Reaktionen'
+    reply: 'Antwort' # noun, singular
+    replies: 'Antworten'
+    story: 'Artikel'
   community:
     account_creation_date: 'Datum der Kontoerstellung'
     active: Aktiv

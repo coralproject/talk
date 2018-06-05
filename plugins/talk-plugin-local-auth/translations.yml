@@ -141,7 +141,7 @@ de:
         item_3: "Kommentar-Benachrichtigungen erhalten, die Sie explizit angefordert haben"
       verify:
         title: "E-Mail-Adresse bestätigen"
-        description:  "Wir haben einen E-Mail an {0} geschickt. Bitte bestätigen Sie Ihre E-Mail-Adresse, um damit Benachrichtigungen über Änderungen am Benutzerkonto zu erhalten."
+        description:  "Wir haben eine E-Mail an {0} geschickt. Bitte bestätigen Sie Ihre E-Mail-Adresse, um damit Benachrichtigungen über Änderungen am Benutzerkonto zu erhalten."
       added:
         title: "E-Mail-Adresse hinzugefügt"
         description: "Ihre E-Mail-Adresse wurde dem Benutzerkonto hinzugefügt."

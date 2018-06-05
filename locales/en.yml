@@ -52,9 +52,9 @@ en:
     error: 'An error has occurred.'
     reaction: reaction
     reactions: reactions
-    replies: replies
-    reply: reply
-    story: Story
+    reply: 'reply' # noun, singular
+    replies: 'replies'
+    story: 'Story'
   community:
     account_creation_date: 'Account Creation Date'
     active: Active
