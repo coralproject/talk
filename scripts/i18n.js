@@ -111,6 +111,57 @@ function actionCopy(from, to, { force }) {
   }
 }
 
+function actionDropUnused() {
+  const enKeys = [];
+
+  const gatherKeys = (value, parentKey = '') => {
+    if (typeof value !== 'object' || Array.isArray(value)) {
+      return;
+    }
+    const keys = Object.keys(value);
+    keys.forEach(k => {
+      const path = `${parentKey ? `${parentKey}.` : ''}${k}`;
+      enKeys.push(path);
+      gatherKeys(value[k], path);
+    });
+  };
+
+  const dropUnusedKeys = (value, language, parentKey = '') => {
+    if (typeof value !== 'object' || Array.isArray(value)) {
+      return;
+    }
+    const keys = Object.keys(value);
+    keys.forEach(k => {
+      const path = `${parentKey ? `${parentKey}.` : ''}${k}`;
+      if (enKeys.indexOf(path) === -1) {
+        console.log(`Drop ${language}.${path}`);
+        delete value[k];
+        return;
+      }
+      dropUnusedKeys(value[k], language, path);
+    });
+  };
+
+  // Gather all possible translations in the en locale.
+  walk(data => {
+    const translations = data.en;
+    if (!translations) {
+      return;
+    }
+    gatherKeys(translations);
+  });
+
+  // Remove translations not in the en locale.
+  walk(data => {
+    const languages = Object.keys(data).filter(l => l !== 'en');
+    languages.forEach(language => {
+      const translations = data[language];
+      dropUnusedKeys(translations, language);
+    });
+    return data;
+  });
+}
+
 program.version('0.1.0').description('Tools to help manage i18n locales');
 
 program
@@ -128,6 +179,11 @@ program
   .description('Copy translation from one key to another')
   .option('-f, --force', 'Force overwrite')
   .action(actionCopy);
+
+program
+  .command('drop-unused')
+  .description('Drop translations that are not present in the en.js locale')
+  .action(actionDropUnused);
 
 program.parse(process.argv);
 
