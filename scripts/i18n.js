@@ -33,6 +33,9 @@ function walk(callback) {
   });
 }
 
+/**
+ * Sort translation keys alphabetically
+ */
 function actionSort() {
   walk((data, file) => {
     console.log(`Sorting ${file}`);
@@ -41,6 +44,9 @@ function actionSort() {
   console.log('All locales sorted'.green);
 }
 
+/**
+ * Delete a key from translations files
+ */
 function actionDelete(pathStr) {
   const pathArray = pathStr.split('.');
   const parentPathArray = pathArray.slice(0, pathArray.length - 1);
@@ -66,6 +72,9 @@ function actionDelete(pathStr) {
   }
 }
 
+/**
+ * Copy value of key to another key in translations files
+ */
 function actionCopy(from, to, { force }) {
   let found = false;
 
@@ -111,6 +120,9 @@ function actionCopy(from, to, { force }) {
   }
 }
 
+/**
+ * Drop all translation keys that are not also present in the EN locale.
+ */
 function actionDropUnused() {
   const enKeys = [];
 
