@@ -5,7 +5,10 @@ import { Button, Spinner, Icon } from 'coral-ui';
 import Story from './Story';
 
 const StorySearch = props => {
-  const { root: { assets }, data: { loading } } = props;
+  const {
+    root: { assets },
+    data: { loading },
+  } = props;
 
   if (!props.moderation.storySearchVisible) {
     return null;

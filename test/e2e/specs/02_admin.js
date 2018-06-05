@@ -22,7 +22,9 @@ module.exports = {
 
   'Admin logs in': client => {
     const adminPage = client.page.admin();
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
 
     adminPage.navigateAndLogin(admin);
   },

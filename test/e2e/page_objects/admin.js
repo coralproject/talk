@@ -57,15 +57,15 @@ module.exports = {
         sendButton: '.talk-admin-suspend-user-dialog-send',
       },
     },
-    usernameDialog: {
-      selector: '.talk-admin-reject-username-dialog',
+    rejectReportedUsernameDialog: {
+      selector: '.talk-admin-reject-reported-username-dialog',
       elements: {
-        step0: '.talk-admin-reject-username-dialog-step-0',
-        step1: '.talk-admin-reject-username-dialog-step-1',
-        buttons: '.talk-admin-reject-username-dialog-buttons',
-        suspend: '.talk-admin-reject-username-dialog-button-k',
+        step0: '.talk-admin-reject-reported-username-dialog-step-0',
+        step1: '.talk-admin-reject-reported-username-dialog-step-1',
+        buttons: '.talk-admin-reject-reported-username-dialog-buttons',
+        suspend: '.talk-admin-reject-reported-username-dialog-button-k',
         suspensionMessage:
-          '.talk-admin-reject-username-dialog-suspension-message',
+          '.talk-admin-reject-reported-username-dialog-suspension-message',
       },
     },
     moderate: {

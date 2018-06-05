@@ -18,7 +18,10 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
   const {
     user,
     loaders: { Settings },
-    connectors: { models: { User }, services: { Mailer, I18n, Users } },
+    connectors: {
+      models: { User },
+      services: { Mailer, I18n, Users },
+    },
   } = ctx;
 
   // Ensure that the user has a local profile associated with their account.
@@ -27,7 +30,7 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
   }
 
   // Ensure that the password provided matches what we have on file.
-  if (!await user.verifyPassword(confirmPassword)) {
+  if (!(await user.verifyPassword(confirmPassword))) {
     throw new ErrIncorrectPassword();
   }
 
@@ -81,7 +84,13 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
 
 // attachUserLocalAuth will attach a new local profile to an existing user.
 async function attachUserLocalAuth(ctx, email, password) {
-  const { user, connectors: { models: { User }, services: { Users } } } = ctx;
+  const {
+    user,
+    connectors: {
+      models: { User },
+      services: { Users },
+    },
+  } = ctx;
 
   // Ensure that the current user doesn't already have a local account
   // associated with them.

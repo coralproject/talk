@@ -5,7 +5,11 @@ const linkify = require('linkify-it')().tlds(require('tlds'));
 module.exports = (
   ctx,
   comment,
-  { asset: { settings: { premodLinksEnable } } }
+  {
+    asset: {
+      settings: { premodLinksEnable },
+    },
+  }
 ) => {
   if (premodLinksEnable && linkify.test(comment.body)) {
     // Add the flag related to Trust to the comment.

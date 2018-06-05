@@ -3,6 +3,20 @@ en:
   your_account_has_been_banned: Your account has been banned.
   your_username_has_been_rejected: Your account has been suspended because your username has been deemed inappropriate. To restore your account please enter a new username.
   embed_comments_tab: Comments
+  reject_username_dialog:
+    title: "Reject Username"
+    description: "Help us understand"
+    reason: "Reason"
+    message: "Reason for reporting (Optional)"
+    cancel: "Cancel"
+    reject_username: "Reject Username" 
+  flag_reasons:
+    username: 
+      offensive: "This username is offensive"
+      nolike: "I don't like this username"
+      impersonating: "This user is impersonating"
+      spam: "This looks like an ad/marketing"
+      other: "Other"
   bandialog:
     are_you_sure: "Are you sure you would like to ban {0}?"
     ban_user: "Ban User?"
@@ -459,6 +473,12 @@ en:
     user_bio: "User Bio"
     username_flags: "flags for this username"
   user_detail:
+    suspended: 'Suspended'
+    banned: 'Banned'
+    username: 'Username'
+    username_needs_approval: 'Username needs approval'
+    username_rejected: 'Username rejected'
+    reject_username: 'Reject Username'
     remove_suspension: "Remove Suspension"
     suspend: "Suspend User"
     remove_ban: "Remove Ban"

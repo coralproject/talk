@@ -5,4 +5,7 @@ import CheckToxicityHook from '../components/CheckToxicityHook';
 
 const mapDispatchToProps = dispatch => bindActionCreators({ notify }, dispatch);
 
-export default connect(null, mapDispatchToProps)(CheckToxicityHook);
+export default connect(
+  null,
+  mapDispatchToProps
+)(CheckToxicityHook);

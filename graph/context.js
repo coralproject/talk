@@ -149,7 +149,9 @@ class Context {
    * operations.
    */
   static forSystem() {
-    const { models: { User } } = connectors;
+    const {
+      models: { User },
+    } = connectors;
 
     // Create the system user.
     const user = new User({ system: true });

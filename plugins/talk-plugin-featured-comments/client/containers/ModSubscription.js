@@ -28,7 +28,13 @@ class ModSubscription extends React.Component {
         },
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentFeatured: { user, comment } } } }
+          {
+            subscriptionData: {
+              data: {
+                commentFeatured: { user, comment },
+              },
+            },
+          }
         ) => {
           const notifyText =
             this.props.user.id === user.id
@@ -50,7 +56,9 @@ class ModSubscription extends React.Component {
           prev,
           {
             subscriptionData: {
-              data: { commentUnfeatured: { user, comment } },
+              data: {
+                commentUnfeatured: { user, comment },
+              },
             },
           }
         ) => {
@@ -117,7 +125,10 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  connect(mapStateToProps, null),
+  connect(
+    mapStateToProps,
+    null
+  ),
   withVariables,
   withSubscribeToMore
 )(ModSubscription);

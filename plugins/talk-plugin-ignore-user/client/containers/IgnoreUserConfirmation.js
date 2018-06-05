@@ -65,7 +65,10 @@ const withIgnoreUserConfirmationFragments = withFragments({
 });
 
 const enhance = compose(
-  connect(null, mapDispatchToProps),
+  connect(
+    null,
+    mapDispatchToProps
+  ),
   withIgnoreUserConfirmationFragments,
   withIgnoreUser
 );

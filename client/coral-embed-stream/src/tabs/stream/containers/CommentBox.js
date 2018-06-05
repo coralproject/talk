@@ -215,7 +215,10 @@ const mapStateToProps = state => ({
 
 const enhance = compose(
   withHooks(['preSubmit', 'postSubmit']),
-  connect(mapStateToProps, null)
+  connect(
+    mapStateToProps,
+    null
+  )
 );
 
 export default enhance(CommentBox);

@@ -92,7 +92,11 @@ const actionDecrTransformer = ({ item_id, action_type, group_id }) => {
 
 // delUser will delete a given user with the specified id.
 const delUser = async (ctx, id) => {
-  const { connectors: { models: { User, Action, Comment } } } = ctx;
+  const {
+    connectors: {
+      models: { User, Action, Comment },
+    },
+  } = ctx;
 
   // Find the user we're removing.
   const user = await User.findOne({ id });
@@ -178,7 +182,9 @@ const changeUserPassword = async (ctx, oldPassword, newPassword) => {
   const {
     user,
     loaders: { Settings },
-    connectors: { services: { I18n } },
+    connectors: {
+      services: { I18n },
+    },
   } = ctx;
 
   // Verify the old password.

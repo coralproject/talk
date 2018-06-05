@@ -80,6 +80,7 @@ const mapStateToProps = state => ({
   currentUser: state.auth.user,
 });
 
-export default compose(connect(mapStateToProps), withProfileQuery)(
-  ProfileContainer
-);
+export default compose(
+  connect(mapStateToProps),
+  withProfileQuery
+)(ProfileContainer);

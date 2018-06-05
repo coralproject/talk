@@ -3,7 +3,11 @@ const get = require('lodash/get');
 // This phase checks to see if the user making the comment is allowed to do so
 // considering their reliability (Trust) status.
 module.exports = ctx => {
-  const { connectors: { services: { Karma } } } = ctx;
+  const {
+    connectors: {
+      services: { Karma },
+    },
+  } = ctx;
   const trust = get(ctx, 'user.metadata.trust', null);
 
   // If the user is not a reliable commenter (passed the unreliability

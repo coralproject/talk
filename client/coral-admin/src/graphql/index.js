@@ -66,7 +66,11 @@ export default {
         });
       },
     }),
-    SuspendUser: ({ variables: { input: { id, until } } }) => ({
+    SuspendUser: ({
+      variables: {
+        input: { id, until },
+      },
+    }) => ({
       update: proxy => {
         const fragmentId = `User_${id}`;
 
@@ -92,7 +96,11 @@ export default {
         });
       },
     }),
-    UnsuspendUser: ({ variables: { input: { id } } }) => ({
+    UnsuspendUser: ({
+      variables: {
+        input: { id },
+      },
+    }) => ({
       update: proxy => {
         const fragmentId = `User_${id}`;
         const data = proxy.readFragment({
@@ -117,7 +125,11 @@ export default {
         });
       },
     }),
-    BanUser: ({ variables: { input: { id } } }) => ({
+    BanUser: ({
+      variables: {
+        input: { id },
+      },
+    }) => ({
       update: proxy => {
         const fragmentId = `User_${id}`;
         const data = proxy.readFragment({
@@ -142,7 +154,11 @@ export default {
         });
       },
     }),
-    UnbanUser: ({ variables: { input: { id } } }) => ({
+    UnbanUser: ({
+      variables: {
+        input: { id },
+      },
+    }) => ({
       update: proxy => {
         const fragmentId = `User_${id}`;
         const data = proxy.readFragment({
@@ -194,6 +210,12 @@ export default {
       },
       updateQueries: {
         TalkAdmin_Community_FlaggedAccounts: (prev, { mutationResult }) => {
+          // No need to update, when user was not in the flagged users queue.
+          // TODO: this should be more generic, e.g. looking at the history.
+          if (!prev.flaggedUsers.nodes.find(node => node.id === id)) {
+            return prev;
+          }
+
           const decrement = {
             flaggedUsernamesCount: { $apply: count => count - 1 },
           };
@@ -214,35 +236,6 @@ export default {
           return updated;
         },
       },
-      update: proxy => {
-        proxy.writeFragment({
-          fragment: gql`
-            fragment Talk_ApproveUsername on User {
-              state {
-                status {
-                  username {
-                    status
-                  }
-                }
-              }
-            }
-          `,
-          id: `User_${id}`,
-          data: {
-            __typename: 'User',
-            state: {
-              __typename: 'UserState',
-              status: {
-                __typename: 'UserStatus',
-                username: {
-                  __typename: 'UsernameStatus',
-                  status: 'APPROVED',
-                },
-              },
-            },
-          },
-        });
-      },
     }),
     RejectUsername: ({ variables: { id } }) => ({
       optimisticResponse: {
@@ -254,6 +247,12 @@ export default {
       },
       updateQueries: {
         TalkAdmin_Community_FlaggedAccounts: (prev, { mutationResult }) => {
+          // No need to update, when user was not in the flagged users queue.
+          // TODO: this should be more generic, e.g. looking at the history.
+          if (!prev.flaggedUsers.nodes.find(node => node.id === id)) {
+            return prev;
+          }
+
           const decrement = {
             flaggedUsernamesCount: { $apply: count => count - 1 },
           };
@@ -273,35 +272,6 @@ export default {
           });
           return updated;
         },
-      },
-      update: proxy => {
-        proxy.writeFragment({
-          fragment: gql`
-            fragment Talk_RejectUsername on User {
-              state {
-                status {
-                  username {
-                    status
-                  }
-                }
-              }
-            }
-          `,
-          id: `User_${id}`,
-          data: {
-            __typename: 'User',
-            state: {
-              __typename: 'UserState',
-              status: {
-                __typename: 'UserStatus',
-                username: {
-                  __typename: 'UsernameStatus',
-                  status: 'REJECTED',
-                },
-              },
-            },
-          },
-        });
       },
     }),
     UpdateSettings: ({ variables: { input } }) => ({
