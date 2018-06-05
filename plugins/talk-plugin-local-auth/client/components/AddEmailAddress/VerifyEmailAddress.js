@@ -1,10 +1,9 @@
 import React from 'react';
-import cn from 'classnames';
 import PropTypes from 'prop-types';
-import styles from './AddEmailAddressDialog.css';
+import styles from './VerifyEmailAddress.css';
 import { t } from 'plugin-api/beta/client/services';
 
-const VerifyEmailAddress = ({ emailAddress, done }) => (
+const VerifyEmailAddress = ({ emailAddress, onDone }) => (
   <div>
     <h4 className={styles.title}>
       {t('talk-plugin-local-auth.add_email.verify.title')}
@@ -12,17 +11,17 @@ const VerifyEmailAddress = ({ emailAddress, done }) => (
     <p className={styles.description}>
       {t('talk-plugin-local-auth.add_email.verify.description', emailAddress)}
     </p>
-    <div className={styles.actions}>
-      <a className={cn(styles.button, styles.proceed)} onClick={done}>
+    <div>
+      <button className={styles.button} onClick={onDone}>
         {t('talk-plugin-local-auth.add_email.done')}
-      </a>
+      </button>
     </div>
   </div>
 );
 
 VerifyEmailAddress.propTypes = {
   emailAddress: PropTypes.string.isRequired,
-  done: PropTypes.func.isRequired,
+  onDone: PropTypes.func.isRequired,
 };
 
 export default VerifyEmailAddress;
