@@ -59,7 +59,7 @@ de:
   common:
     copy: 'Kopieren'
     error: 'Ein Problem ist aufgetreten.'
-    reply: 'antworten'
+    reply: 'Antwort' # noun, singular
     replies: 'Antworten'
     reaction: 'Reaktion'
     reactions: 'Reaktionen'
