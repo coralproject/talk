@@ -1,10 +1,14 @@
+const printBrowserLog = require('../helpers/printBrowserLog');
+const commentBody = 'Ban User Test';
+
 module.exports = {
   before: client => {
     client.setWindowPosition(0, 0);
     client.resizeWindow(1600, 1200);
   },
 
-  afterEach: (client, done) => {
+  afterEach: async (client, done) => {
+    await printBrowserLog(client);
     if (client.currentTest.results.failed) {
       throw new Error('Test Case failed, skipping all the rest');
     }
@@ -84,7 +88,7 @@ module.exports = {
       .waitForElementVisible('@firstRow')
       .waitForElementVisible('@dropdownStatus')
       .click('@dropdownStatus')
-      .waitForElementVisible('@dropdownStatusActive')
+      .waitForElementVisible('@optionRemoveBan')
       .click('@optionRemoveBan');
   },
   'admin logs out 2': client => {
@@ -108,5 +112,51 @@ module.exports = {
     comments
       .waitForElementVisible('@commentBoxTextarea')
       .waitForElementVisible('@commentBoxPostButton');
+  },
+  'user posts comment, karma should stop it from happening': client => {
+    const comments = client.page.embedStream().section.comments;
+
+    comments
+      .waitForElementVisible('@commentBoxTextarea')
+      .setValue('@commentBoxTextarea', commentBody)
+      .waitForElementVisible('@commentBoxPostButton')
+      .click('@commentBoxPostButton');
+
+    client.pause(2000);
+
+    comments.waitForElementNotPresent('@firstCommentContent');
+  },
+  'user logs out 3': client => {
+    const embedStream = client.page.embedStream();
+    const comments = embedStream.section.comments;
+
+    comments.logout();
+  },
+  'admin logs in (3)': client => {
+    const adminPage = client.page.admin();
+    const { testData: { admin } } = client.globals;
+
+    adminPage.navigateAndLogin(admin);
+  },
+  'admin goes to moderation queue reported': client => {
+    const adminPage = client.page.admin();
+
+    adminPage.goToModerate().goToQueue('reported');
+  },
+  'comment should be in reported queue': client => {
+    const moderate = client.page.admin().section.moderate;
+
+    moderate
+      .waitForElementVisible('@firstComment')
+      .getText('@firstCommentContent', result => {
+        moderate.assert.equal(result.value, commentBody);
+      });
+  },
+  'approve comment to restore karma': client => {
+    const moderate = client.page.admin().section.moderate;
+
+    moderate
+      .click('@firstCommentApprove')
+      .waitForElementNotPresent('@firstComment');
   },
 };

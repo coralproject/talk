@@ -65,7 +65,7 @@ class ChangeUsernameContentDialog extends React.Component {
           <form onSubmit={this.confirmChanges}>
             <InputField
               id="confirmNewUsername"
-              label="Re-enter new username"
+              label={t('talk-plugin-local-auth.change_username.re_enter')}
               name="confirmNewUsername"
               type="text"
               onChange={this.props.onChange}

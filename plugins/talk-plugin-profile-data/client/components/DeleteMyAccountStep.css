@@ -58,7 +58,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  } 
+  }
 }
 
 .title {
@@ -97,6 +97,7 @@
   color: #3B4A53;
   font-size: 1em;
   margin-bottom: 15px;
+  opacity: 1;
 }
 
 .block {

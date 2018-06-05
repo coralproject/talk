@@ -202,7 +202,7 @@ class People extends React.Component {
                         </td>
                         <td className="mdl-data-table__cell--non-numeric">
                           <Dropdown
-                            className={cn(
+                            toggleClassName={cn(
                               'talk-admin-community-people-dd-role',
                               styles.roleDropdown
                             )}

@@ -1,3 +1,6 @@
+const printBrowserLog = require('../helpers/printBrowserLog');
+const commentBody = 'Embed Stream Test';
+
 module.exports = {
   '@tags': ['embedStream', 'login'],
 
@@ -6,7 +9,8 @@ module.exports = {
     client.resizeWindow(1600, 1200);
   },
 
-  afterEach: (client, done) => {
+  afterEach: async (client, done) => {
+    await printBrowserLog(client);
     if (client.currentTest.results.failed) {
       throw new Error('Test Case failed, skipping all the rest');
     }
@@ -40,28 +44,26 @@ module.exports = {
   },
   'user posts a comment': client => {
     const comments = client.page.embedStream().section.comments;
-    const { testData: { comment } } = client.globals;
 
     comments
       .waitForElementVisible('@commentBoxTextarea')
-      .setValue('@commentBoxTextarea', comment.body)
+      .setValue('@commentBoxTextarea', commentBody)
       .waitForElementVisible('@commentBoxPostButton')
       .click('@commentBoxPostButton')
       .waitForElementVisible('@firstCommentContent')
       .getText('@firstCommentContent', result => {
-        comments.assert.equal(result.value, comment.body);
+        comments.assert.equal(result.value, commentBody);
       });
   },
 
   'signed in user sees comment history': client => {
     const profile = client.page.embedStream().goToProfileSection();
-    const { testData: { comment } } = client.globals;
 
     profile
       .waitForElementVisible('@myCommentHistory')
       .waitForElementVisible('@myCommentHistoryComment')
       .getText('@myCommentHistoryComment', result => {
-        profile.assert.equal(result.value, comment.body);
+        profile.assert.equal(result.value, commentBody);
       });
   },
   'user sees replies and reactions to comments': client => {

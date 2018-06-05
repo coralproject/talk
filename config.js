@@ -204,6 +204,9 @@ const CONFIG = {
   // STATIC_URI is the base uri where static files are hosted.
   STATIC_URI: process.env.TALK_STATIC_URI || process.env.TALK_ROOT_URL,
 
+  // SCRAPER_PROXY_URL is the url to be used as a proxy by the scraper
+  SCRAPER_PROXY_URL: process.env.TALK_SCRAPER_PROXY_URL || null,
+
   // The keepalive timeout (in ms) that should be used to send keep alive
   // messages through the websocket to keep the socket alive.
   KEEP_ALIVE: process.env.TALK_KEEP_ALIVE || '30s',

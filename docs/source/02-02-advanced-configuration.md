@@ -512,13 +512,14 @@ tracing of GraphQL requests.
 
 **Note: Apollo Engine is a premium service, charges may apply.**
 
-## TALK_ENABLE_STRICT_CSP
+<!-- TODO: re-add CSP once we've resolved issues with dynamic webpack loading. -->
+<!-- ## TALK_ENABLE_STRICT_CSP
 
 Setting this to `TRUE` will enforce the [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
 (or CSP). By default, this configuration is set to
 [report only](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Testing_your_policy)
 where the policy is not enforced, but any violations are reported to a provided
-URI. (Default `FALSE`)
+URI. (Default `FALSE`) -->
 
 ## ALLOW_NO_LIMIT_QUERIES
 
@@ -567,3 +568,7 @@ A JSON string representing the configuration passed to the
 [fetch](https://www.npmjs.com/package/node-fetch) call for the scraper. It
 can be used to set an authorization header, or change the user agent. (Default
 `{}`)
+
+## TALK_SCRAPER_PROXY_URL
+
+Sets a specific HTTP/S proxy to be used by the Asset Scraper using [https-proxy-agent](https://www.npmjs.com/package/https-proxy-agent). (Default `null`)

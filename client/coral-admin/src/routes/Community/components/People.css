@@ -133,6 +133,7 @@ th.header:nth-child(2), th.header:nth-child(3) {
 
 .roleDropdown {
   width: 150px;
+  text-align: left;
 }
 
 .roleOption {
