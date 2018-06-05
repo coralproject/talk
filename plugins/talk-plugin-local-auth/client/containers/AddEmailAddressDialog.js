@@ -112,7 +112,10 @@ const withData = withFragments({
 });
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withAttachLocalAuth,
   withData,
   excludeIf(

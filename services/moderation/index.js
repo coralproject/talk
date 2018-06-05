@@ -82,7 +82,9 @@ const compose = phases => async (ctx, comment, options) => {
  * @param {Object} comment comment object to use
  */
 const fetchOptions = async (ctx, comment) => {
-  const { loaders: { Settings, Assets } } = ctx;
+  const {
+    loaders: { Settings, Assets },
+  } = ctx;
 
   // Load the settings.
   const settings = await Settings.load();

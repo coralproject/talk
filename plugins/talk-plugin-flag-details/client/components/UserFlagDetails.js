@@ -5,7 +5,10 @@ import styles from './UserFlagDetails.css';
 
 class UserFlagDetails extends Component {
   render() {
-    const { comment: { actions }, viewUserDetail } = this.props;
+    const {
+      comment: { actions },
+      viewUserDetail,
+    } = this.props;
 
     const flagActions =
       actions && actions.filter(a => a.__typename === 'FlagAction');

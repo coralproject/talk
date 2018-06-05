@@ -51,7 +51,11 @@ const genUserByIDs = async (ctx, ids) => {
     return [];
   }
 
-  const { connectors: { models: { User } } } = ctx;
+  const {
+    connectors: {
+      models: { User },
+    },
+  } = ctx;
 
   return User.find({ id: { $in: ids } }).then(util.singleJoinBy(ids, 'id'));
 };
@@ -63,7 +67,12 @@ const genUserByIDs = async (ctx, ids) => {
  * @param  {Object} query     query terms to apply to the users query
  */
 const getUsersByQuery = async (
-  { user, connectors: { models: { User } } },
+  {
+    user,
+    connectors: {
+      models: { User },
+    },
+  },
   { limit, cursor, value = '', state, action_type, sortOrder }
 ) => {
   let query = User.find();
@@ -175,7 +184,12 @@ const getUsersByQuery = async (
  *                            query
  */
 const getCountByQuery = async (
-  { user, connectors: { models: { User } } },
+  {
+    user,
+    connectors: {
+      models: { User },
+    },
+  },
   { action_type, state }
 ) => {
   const query = User.find();

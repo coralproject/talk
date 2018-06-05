@@ -12,7 +12,9 @@ module.exports = {
     createComment: {
       async post(root, args, context, info, result) {
         debug(`Posting notification to Slack webhook: ${SLACK_WEBHOOK_URL}`);
-        const { comment: { body: text, created_at: createdAt } } = result;
+        const {
+          comment: { body: text, created_at: createdAt },
+        } = result;
         const username = context.user.username;
         process.nextTick(async () => {
           const response = await fetch(SLACK_WEBHOOK_URL, {

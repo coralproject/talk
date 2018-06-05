@@ -329,8 +329,7 @@ async function createSeedPlugin() {
     if (answers.addPluginsJson) {
       const pluginsJson = path.resolve(__dirname, '..', 'plugins.json');
 
-      fs
-        .readJson(pluginsJson)
+      fs.readJson(pluginsJson)
         .then(j => {
           // This is a client-side plugin, let's push this.
           if (answers.client) {

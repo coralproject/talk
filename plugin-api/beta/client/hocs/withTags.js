@@ -139,7 +139,10 @@ export default (tag, options = {}) =>
       }),
       withAddTag,
       withRemoveTag,
-      connect(mapStateToProps, null)
+      connect(
+        mapStateToProps,
+        null
+      )
     );
 
     WithTags.displayName = `WithTags(${getDisplayName(WrappedComponent)})`;

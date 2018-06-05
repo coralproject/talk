@@ -57,7 +57,9 @@ module.exports = {
   },
   'User fills step 3': client => {
     const step3 = client.page.install().section.step3;
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
 
     step3
       .setValue('@emailInput', admin.email)
