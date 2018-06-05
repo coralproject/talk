@@ -64,11 +64,12 @@ module.exports = {
       .waitForElementVisible('@flaggedUserRejectButton')
       .click('@flaggedUserRejectButton');
   },
-  'Admin suspends the user': client => {
+  'Admin continues the dialog and suspends the user': client => {
     const community = client.page.admin().section.community;
-    const usernameDialog = client.page.admin().section.usernameDialog;
+    const rejectReportedUsernameDialog = client.page.admin().section
+      .rejectReportedUsernameDialog;
 
-    usernameDialog
+    rejectReportedUsernameDialog
       .waitForElementVisible('@buttons')
       .waitForElementVisible('@step0')
       .waitForElementVisible('@suspend')
