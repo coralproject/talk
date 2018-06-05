@@ -73,7 +73,7 @@ en:
   common:
     copy: 'Copy'
     error: 'An error has occurred.'
-    reply: 'reply'
+    reply: 'reply' # noun, singular
     replies: 'replies'
     reaction: 'reaction'
     reactions: 'reactions'
