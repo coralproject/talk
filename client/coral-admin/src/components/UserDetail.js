@@ -33,6 +33,8 @@ import KarmaTooltip from './KarmaTooltip';
 import t from 'coral-framework/services/i18n';
 import { humanizeNumber } from 'coral-framework/helpers/numbers';
 
+const filterOutLocalProfiles = ({ provider }) => provider !== 'local';
+
 /**
  * getUserStatusArray
  * returns an array of active status(es)
@@ -263,6 +265,18 @@ class UserDetail extends React.Component {
           <div>
             <ul className={styles.userDetailList}>
               <li className={styles.userDetailItem}>
+                <Icon name="perm_identity" />
+                <span className={styles.userDetailItem}>
+                  {t('user_detail.id')}:
+                </span>
+                {user.id}{' '}
+                <ButtonCopyToClipboard
+                  className={styles.copyButton}
+                  icon="content_copy"
+                  copyText={user.id}
+                />
+              </li>
+              <li className={styles.userDetailItem}>
                 <Icon name="assignment_ind" />
                 <span className={styles.userDetailItem}>
                   {t('user_detail.member_since')}:
@@ -283,20 +297,22 @@ class UserDetail extends React.Component {
                 />
               </li>
 
-              {user.profiles.map(({ provider, id }) => (
-                <li key={id} className={styles.userDetailItem}>
-                  <Icon name="device_hub" />
-                  <span className={styles.userDetailItem}>
-                    {capitalize(provider)} {t('user_detail.id')}:
-                  </span>
-                  {id}{' '}
-                  <ButtonCopyToClipboard
-                    className={styles.copyButton}
-                    icon="content_copy"
-                    copyText={id}
-                  />
-                </li>
-              ))}
+              {user.profiles
+                .filter(filterOutLocalProfiles)
+                .map(({ provider, id }) => (
+                  <li key={id} className={styles.userDetailItem}>
+                    <Icon name="device_hub" />
+                    <span className={styles.userDetailItem}>
+                      {capitalize(provider)} {t('user_detail.id')}:
+                    </span>
+                    {id}{' '}
+                    <ButtonCopyToClipboard
+                      className={styles.copyButton}
+                      icon="content_copy"
+                      copyText={id}
+                    />
+                  </li>
+                ))}
             </ul>
 
             <ul className={styles.stats}>
