@@ -10,9 +10,9 @@ You're just one click away from trying Talk - all you need is a Heroku account a
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2Fcoralproject%2Ftalk&env[TALK_FACEBOOK_APP_ID]=ignore&env[TALK_FACEBOOK_APP_SECRET]=ignore)
 
-## Technical Documentation
+## Getting Started
 
-From getting up and running, to advanced configuration, to how to scale Talk, our [Talk Technical Docs](https://docs.coralproject.net/talk/) have everything you need to know.
+Check out our Quickstart and Install guides to get started with Talk in our [Technical Docs](https://docs.coralproject.net/talk/).
 
 ## Product Guide
 
@@ -21,6 +21,14 @@ Learn more about Talk, including a deep dive into features for commenters and mo
 ## Pre-Launch Guide
 
 You’ve installed Talk on your server, and you’re preparing to launch it on your site. The real community work starts now, before you go live. You have a unique opportunity pre-launch to set your community up for success. Read our [Talk Community Guide](https://blog.coralproject.net/youve-installed-talk-now-what/).
+
+## Advanced Usage
+
+For advanced configuration and usage of Talk, check out our [Configuration](https://docs.coralproject.net/talk/advanced-configuration/) and [Integration](https://docs.coralproject.net/talk/integrating/authentication/) how-tos. This covers topics in whih you will need dev support to fully customize and integrate Talk, such as SSO/authentication, creating and managing assets and articles, styling Talk with custom CSS, and setting up Notifications and SMTP support.
+
+## Versions & Upgrading
+
+The current recommended release version is v4.5.0. 4.5+ (and all future even-numbered versions) are considered stable LTS versions. We recommend 4.5+ for use in production environments. 
 
 ## More Resources
 
