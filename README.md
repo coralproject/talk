@@ -28,7 +28,7 @@ For advanced configuration and usage of Talk, check out our [Configuration](http
 
 ## Versions & Upgrading
 
-The current recommended release version is v4.5.0. 4.5+ (and all future even-numbered versions) are considered stable LTS versions. We recommend 4.5+ for use in production environments. 
+The current recommended release version is v4.5.0. ^4.5 (and all future even-numbered versions) are considered stable LTS versions. We recommend ^4.5 for use in production environments. 
 
 ## More Resources
 
