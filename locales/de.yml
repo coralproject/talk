@@ -140,7 +140,6 @@ de:
     open_stream: 'Kommentarbereich öffnen'
     open_stream_configuration: 'Dieser Kommentarbereich ist momentan geöffnet. Nach dem Schließen dieses Kommentarbereich wird es nicht mehr möglich sein, zu kommentieren. Bestehende Kommentare bleiben sichtbar.'
     organization_contact_email: 'E-Mail-Adresse der Organisation'
-    organization_details: 'Details zur Organisation'
     organization_info_copy: 'Wir verwenden diese Informationen in automatisierten E-Mail-Benachrichtigungen, die Talk versendet. Damit können Nutzer Ihre Organisation identifizieren und sie haben die Möglichkeit bei Problemen in Kontakt mit Ihnen zu treten.'
     organization_info_copy_2: 'Wir empfehlen, einee generische E-Mail-Adresse (z.B. community@yournewsroom.com) für diesen Zweck einzurichten. Die kann über die Zeit gleich bleiben, und gibt nach außen keine Namen preis, die von Nutzern im Fall von Konflikten für persönliche Angriffe missbraucht werden könnten.'
     organization_information: 'Über die Organisation'
