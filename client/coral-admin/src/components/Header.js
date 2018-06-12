@@ -79,6 +79,15 @@ const CoralHeader = ({
                     </MenuItem>
                     <MenuItem>
                       <a
+                        href="https://docs.coralproject.net/talk/how-talk-works/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Product Guide
+                      </a>
+                    </MenuItem>
+                    <MenuItem>
+                      <a
                         href="https://github.com/coralproject/talk/releases"
                         target="_blank"
                         rel="noopener noreferrer"
