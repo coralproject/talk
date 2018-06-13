@@ -5,6 +5,7 @@ import { Button, TextField, Alert } from 'coral-ui';
 import cn from 'classnames';
 import Recaptcha from 'coral-framework/components/Recaptcha';
 import External from './External';
+import t from 'coral-framework/services/i18n';
 
 class SignIn extends React.Component {
   recaptcha = null;
@@ -40,13 +41,13 @@ class SignIn extends React.Component {
           {errorMessage && <Alert>{errorMessage}</Alert>}
           <TextField
             id="email"
-            label="Email Address"
+            label={t('login.email_address')}
             value={email}
             onChange={this.handleEmailChange}
           />
           <TextField
             id="password"
-            label="Password"
+            label={t('login.password')}
             value={password}
             onChange={this.handlePasswordChange}
             type="password"
@@ -68,17 +69,17 @@ class SignIn extends React.Component {
             cStyle="black"
             full
           >
-            Sign In
+            {t('login.sign_in')}
           </Button>
           <p className={styles.forgotPasswordCTA}>
             {/* TODO: translate */}
-            Forgot your password?{' '}
+            {t('login.forgot_password')}{' '}
             <a
               href="#"
               className={styles.forgotPasswordLink}
               onClick={this.handleForgotPasswordLink}
             >
-              Request a new one.
+              {t('login.request_passowrd')}
             </a>
           </p>
         </form>

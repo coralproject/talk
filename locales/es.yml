@@ -135,7 +135,6 @@ es:
     open_stream: 'Abrir Hilo de Comentarios'
     open_stream_configuration: 'Este hilo de comentarios está abierto. Al cerrarlo no se podrán publicar nuevos comentarios pero todos los comentarios anteriores aún serán mostrados.'
     organization_contact_email: 'Email de la Organización'
-    organization_details: 'Detalles de la Organización'
     organization_info_copy: 'Nosotros usamos esta información en las notificaciones de email generadas por Talk. Esto conecta los mensajes de tu organización, y provee una forma para que los usuarios se comuniquen si tienen un inconveniente con su cuenta.'
     organization_info_copy_2: 'Recomendamos crear un email genérico (ej: community@yournewsroom.com) for this purpose. Esto significa que puede permanecer consistente con el tiempo y no expone un nombre que los usuarios puedan atacar si su cuenta fue bloqueada.'
     organization_information: 'Información de la Organización'
