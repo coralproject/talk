@@ -83,7 +83,7 @@ const CoralHeader = ({
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Product Guide
+                        {t('configure.product_guide_link')}
                       </a>
                     </MenuItem>
                     <MenuItem>
