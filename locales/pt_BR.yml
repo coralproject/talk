@@ -107,12 +107,15 @@ pt_BR:
     custom_css_url_desc: 'URL de uma folha de estilo CSS para substituir os estilos padrão dos comentários embutidos. Pode ser interno ou externo.'
     days: Dias
     description: 'Personalizar as configurações da lista de comentários para esta história.'
+    disable_commenting_desc: 'Escreva uma mensagem que será exibida enquanto os comentários estiverem desativados.'
+    disable_commenting_title: 'Desativar todos os comentários do site.'
     domain_list_text: 'Insira os domínios que você gostaria de permitir para o Talk, como seus ambientes de desenvolvimento, teste ou produção (ej. localhost:3000 staging.domain.com domain.com).'
     domain_list_title: 'Domínios permitidos'
     edit_comment_timeframe_heading: 'Período de tempo para editar comentários'
     edit_comment_timeframe_text_post: 'segundos para editar seus comentários.'
     edit_comment_timeframe_text_pre: 'Os usuários terão'
-    embed_comment_stream: 'Comentários embutidos'
+    edit_info: 'Alterar Informações'
+    embed_comment_stream: 'Incorporar stream de comentários'
     enable_pre_moderation: 'Habilitar pré-moderação'
     enable_pre_moderation_text: 'Demandar aprovação de moderadores para todos os comentários.'
     enable_premod: 'Habilitar pré-moderação'
@@ -132,8 +135,15 @@ pt_BR:
     open: Abrir
     open_stream: 'Abrir comentários'
     open_stream_configuration: 'Comentários abertos no momento. Ao fechar esta lista de comentários, nenhum novo comentário poderá ser enviado. Mas os comentários anteriores ainda serão exibidos.'
+    organization_contact_email: 'Email da organização'
+    organization_info_copy: 'Usamos essas informações em notificações de email geradas pelo Talk. Isso conecta as mensagens à sua organização e fornece uma maneira de os usuários entrarem em contato com você caso tenham um problema com a conta.'
+    organization_info_copy_2: 'Recomendamos a criação de uma conta de e-mail genérica (por exemplo, comunidade@suaredacao.com) para essa finalidade. Isso significa que ele pode permanecer consistente ao longo do tempo e não expor um nome que os usuários pudessem segmentar se a conta fosse bloqueada.'
+    organization_information: 'Informações da Organização'
+    organization_name: 'Nome da Organização'
+    report_bug_or_feedback: 'Relatar bug ou dar um feedback'
     require_email_verification: 'Requerer verificação de email'
     require_email_verification_text: 'Novos usuários devem verificar seu e-mail antes de comentar'
+    save: Salvar
     save_changes: 'Salvar alterações'
     shortcuts: Atalhos
     sign_out: Sair
@@ -143,12 +153,13 @@ pt_BR:
     suspect_word_title: 'Lista de palavras suspeitas'
     tech_settings: 'Configurações técnicas'
     title: 'Configurar comentários'
+    view_last_version: 'Ver últimos releases'
     weeks: Semanas
     wordlist: 'Palavras Proibidas'
   confirm_email:
     click_to_confirm: 'Clique abaixo para confirmar seu endereço de email'
     confirm: Confirmar
-  continue: Continua
+  continue: Continuar
   createdisplay:
     check_the_form: 'Formulário inválido. Verifique as entradas do formulário.'
     continue: 'Continue com o mesmo nome de usuário do Facebook'
@@ -284,7 +295,18 @@ pt_BR:
       title: 'Domínios permitidos'
   like: Gostar
   loading_results: 'Carregando resultados'
+  login:
+    email_address: 'Email'
+    forgot_password: 'Esqueceu sua senha?'
+    go_back: 'Voltar'
+    sign_in: 'Entrar'
+    sign_in_button: 'Entrar'
+    sign_in_message: 'Entre para interagir com a comunidade.'
+    password: Senha
+    request_passowrd: 'Recupere-a clicando aqui.'
+    team_sign_in: 'Team sign in'
   marketing: 'Isso parece um anúncio/marketing'
+  moderate_all_streams: 'Comentários moderados em todas as matérias'
   moderate_this_stream: 'Moderar comentários'
   modqueue:
     account: 'contas marcadas'
@@ -319,6 +341,7 @@ pt_BR:
     prev_comment: 'Vá para o comentário anterior'
     reject: Rejeitar
     rejected: Rejeitado
+    reported: Reportado
     reply: Responder
     select_stream: 'Selecione a lista'
     shift_key: ⇧
@@ -388,11 +411,14 @@ pt_BR:
     closed: Fechado
     empty_result: 'Nenhum resultado encontrado para esta pesquisa. Que tal refazer a pesquisa com termos diferentes?'
     filter_streams: 'Filtra as listas'
+    most_recent_stories: 'Matérias mais recentes'
     newest: 'O mais novo'
+    no_results: 'No results'
     oldest: 'O mais velho'
     open: Aberto
     pubdate: 'Data de publicação'
     search: Pesquisar
+    search_results: 'Pesquisar Resultados'
     sort_by: 'Ordenar por'
     status: 'Situação dos comentários'
     stream_status: 'Situação dos comentários'

@@ -34,7 +34,7 @@ class EmbedLink extends Component {
     `;
 
     return (
-      <ConfigureCard title={'Embed Comment Stream'}>
+      <ConfigureCard title={t('configure.embed_comment_stream')}>
         <p>{t('configure.copy_and_paste')}</p>
         <textarea
           rows={5}
