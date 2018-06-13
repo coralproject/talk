@@ -456,7 +456,7 @@ en:
   stream:
     all_comments: 'All Comments'
     comment_not_found: 'This comment has been removed or does not exist.'
-    no_comments: 'There are no comments yet, why don’t you write one?'
+    no_comments: 'There are no comments yet. Why don’t you write one?'
     no_comments_and_closed: 'There were no comments on this article.'
     temporarily_suspended: 'In accordance with {0}''s community guidelines, your account has been temporarily suspended. Please rejoin the conversation {1}.'
   streams:
