@@ -18,6 +18,10 @@
             "value": "",
             "required": true
         },
+        "MAILGUN_SMTP_PASSWORD": {
+            "value": "",
+            "required": true
+        },
         "NODE_ENV": "production",
         "REWRITE_ENV": "TALK_MONGO_URL:MONGO_URI,TALK_REDIS_URL:REDIS_URL,TALK_SMTP_HOST:MAILGUN_SMTP_SERVER,TALK_SMTP_PORT:MAILGUN_SMTP_PORT,TALK_SMTP_USERNAME:MAILGUN_SMTP_LOGIN,TALK_SMTP_PASSWORD:MAILGUN_SMTP_PASSWORD",
         "NPM_CONFIG_PRODUCTION": "false"
