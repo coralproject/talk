@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import styles from './Login.css';
 import Layout from 'coral-admin/src/components/Layout';
 import cn from 'classnames';
+import t from 'coral-framework/services/i18n';
 
 class LoginContainer extends Component {
   renderForm() {
@@ -19,8 +20,8 @@ class LoginContainer extends Component {
     return (
       <Layout fixedDrawer restricted={true}>
         <div className={cn(styles.layout, 'talk-admin-login')}>
-          <h1 className={styles.header}>Team sign in</h1>
-          <p className={styles.cta}>Sign in to interact with your community.</p>
+          <h1 className={styles.header}>{t('login.team_sign_in')}</h1>
+          <p className={styles.cta}>{t('login.sign_in_message')}</p>
           {this.renderForm()}
         </div>
       </Layout>
