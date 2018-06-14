@@ -12,3 +12,17 @@ en:
       confirm: "Confirm"
       are_unsubscribed: "You are now unsubscribed from all notifications."
       token_invalid: "Unsubscribe link is invalid, click the link from a more recent email or visit a comment stream and login to change your notification preferences"
+de:
+  talk-plugin-notifications:
+    templates:
+      digest:
+        subject: "Ihre Kommentaraktivität bei {0}"
+      footer: "Sie erhalten diese Benachrichtigung, weil Sie Community-Mitglied bei {0} sind und diese E-Mails abonniert haben."
+      links:
+        unsubscribe: "E-Mail-Benachrichtigungen abbestellen"
+    unsubscribe_page:
+      unsubscribe: "Kommentar-Benachrichtigungen abbestellen"
+      click_to_confirm: "Klicken Sie folgenden Link, um zu bestätigen, dass Sie alle Benachrichtigungen abbestellen möchten"
+      confirm: "Bestätigen"
+      are_unsubscribed: "Sie haben haben alle Benachrichtigungen erfolgreich abbestellt."
+      token_invalid: "Der Abbestell-Link ist ungültig. Klicken Sie den Link einer neueren E-Mail oder gehen Sie zu einem Kommentarbereich, melden Sie sich an und ändern Sie dort Ihre Benachrichtigungseinstellungen"

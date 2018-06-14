@@ -4,6 +4,8 @@ import styles from './SignIn.css';
 import { Button, TextField, Alert } from 'coral-ui';
 import cn from 'classnames';
 import Recaptcha from 'coral-framework/components/Recaptcha';
+import External from './External';
+import t from 'coral-framework/services/i18n';
 
 class SignIn extends React.Component {
   recaptcha = null;
@@ -33,48 +35,55 @@ class SignIn extends React.Component {
   render() {
     const { email, password, errorMessage, requireRecaptcha } = this.props;
     return (
-      <form className="talk-admin-login-sign-in" onSubmit={this.handleSubmit}>
-        {errorMessage && <Alert>{errorMessage}</Alert>}
-        <TextField
-          id="email"
-          label="Email Address"
-          value={email}
-          onChange={this.handleEmailChange}
-        />
-        <TextField
-          id="password"
-          label="Password"
-          value={password}
-          onChange={this.handlePasswordChange}
-          type="password"
-        />
-        {requireRecaptcha && (
-          <div className={styles.recaptcha}>
-            <Recaptcha
-              ref={this.handleRecaptchaRef}
-              onVerify={this.props.onRecaptchaVerify}
-            />
-          </div>
-        )}
-        <Button
-          className={cn(styles.signInButton, 'talk-admin-login-sign-in-button')}
-          type="submit"
-          cStyle="black"
-          full
-        >
-          Sign In
-        </Button>
-        <p className={styles.forgotPasswordCTA}>
-          Forgot your password?{' '}
-          <a
-            href="#"
-            className={styles.forgotPasswordLink}
-            onClick={this.handleForgotPasswordLink}
+      <div className="talk-admin-login-sign-in">
+        <External slot="authExternalAdminSignIn" />
+        <form onSubmit={this.handleSubmit}>
+          {errorMessage && <Alert>{errorMessage}</Alert>}
+          <TextField
+            id="email"
+            label={t('login.email_address')}
+            value={email}
+            onChange={this.handleEmailChange}
+          />
+          <TextField
+            id="password"
+            label={t('login.password')}
+            value={password}
+            onChange={this.handlePasswordChange}
+            type="password"
+          />
+          {requireRecaptcha && (
+            <div className={styles.recaptcha}>
+              <Recaptcha
+                ref={this.handleRecaptchaRef}
+                onVerify={this.props.onRecaptchaVerify}
+              />
+            </div>
+          )}
+          <Button
+            className={cn(
+              styles.signInButton,
+              'talk-admin-login-sign-in-button'
+            )}
+            type="submit"
+            cStyle="black"
+            full
           >
-            Request a new one.
-          </a>
-        </p>
-      </form>
+            {t('login.sign_in')}
+          </Button>
+          <p className={styles.forgotPasswordCTA}>
+            {/* TODO: translate */}
+            {t('login.forgot_password')}{' '}
+            <a
+              href="#"
+              className={styles.forgotPasswordLink}
+              onClick={this.handleForgotPasswordLink}
+            >
+              {t('login.request_passowrd')}
+            </a>
+          </p>
+        </form>
+      </div>
     );
   }
 }

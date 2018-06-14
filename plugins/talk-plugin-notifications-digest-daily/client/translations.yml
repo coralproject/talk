@@ -2,3 +2,7 @@ en:
   talk-plugin-notifications:
     digest_enum:
       DAILY: In a daily digest
+de:
+  talk-plugin-notifications:
+    digest_enum:
+      DAILY: Einmal täglich

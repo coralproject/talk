@@ -9,7 +9,8 @@ const path = require('path');
 const compression = require('compression');
 const plugins = require('../services/plugins');
 const staticTemplate = require('../middleware/staticTemplate');
-const staticMiddleware = require('express-static-gzip');
+const nonce = require('../middleware/nonce');
+const staticServer = require('express-static-gzip');
 const { DISABLE_STATIC_SERVER } = require('../config');
 const { passport } = require('../services/passport');
 const { MOUNT_PATH } = require('../url');
@@ -48,7 +49,7 @@ if (!DISABLE_STATIC_SERVER) {
   if (process.env.NODE_ENV === 'production') {
     router.use(
       '/static',
-      staticMiddleware(dist, {
+      staticServer(dist, {
         indexFromEmptyFile: false,
         enableBrotli: true,
         customCompressions: [
@@ -74,10 +75,13 @@ router.use(compression());
 // STATIC ROUTES
 //==============================================================================
 
-router.use('/admin', staticTemplate, require('./admin'));
-router.use('/account', staticTemplate, require('./account'));
-router.use('/login', staticTemplate, require('./login'));
-router.use('/embed', staticTemplate, require('./embed'));
+// TODO: re-add CSP once we've resolved issues with dynamic webpack loading.
+const staticMiddleware = [staticTemplate, nonce];
+
+router.use('/admin', ...staticMiddleware, require('./admin'));
+router.use('/account', ...staticMiddleware, require('./account'));
+router.use('/login', ...staticMiddleware, require('./login'));
+router.use('/embed', ...staticMiddleware, require('./embed'));
 
 //==============================================================================
 // PASSPORT MIDDLEWARE

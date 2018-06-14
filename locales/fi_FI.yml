@@ -1,465 +1,469 @@
 fi_FI:
-  your_account_has_been_suspended: Tilisi on väliaikasesti suljettu.
-  your_account_has_been_banned: Tilillesi on asetettu kirjoituskielto.
-  your_username_has_been_rejected: Tilisi on suljettu, koska käyttäjänimesi on epäsopiva. Vaihda käyttäjänimeä jatkaaksesi tilin käyttöä.
-  embed_comments_tab: Kommentit
+  admin_sidebar:
+    sort_comments: 'Järjestä kommentit'
+    view_options: 'Näytä asetukset'
+  already_flagged_username: 'Olet jo ilmiantanut tämän käyttäjänimen.'
   bandialog:
-    are_you_sure: "Haluatko varmasti asettaa kirjoituskiellon käyttäjätilille {0}?"
-    ban_user: "Estä käyttäjä?"
-    banned_user: "Estetty käyttäjä"
-    cancel: "Peruuta"
-    note: "Huom! {0}"
-    note_reject_comment: "Käyttäjän asettaminen kirjoituskieltoon asettaa myös kommentin Hylätyt-jonoon"
-    note_ban_user: "Käyttäjän kirjoituskielto estää kommentoinnin, kommentteihin reagoinnin, sekä kommenttien ilmiantamisen."
-    yes_ban_user: "Kyllä, aseta käyttäjälle kirjoituskielto"
-    write_a_message: "Kirjoita viesti"
-    send: "Lähetä"
-    notify_ban_headline: "Lähetä käyttäjälle ilmoitus kirjoituskiellosta"
-    notify_ban_description: "Tämä lähettää käyttäjälle sähköposti-ilmoituksen kirjoituskiellosta."
+    are_you_sure: 'Haluatko varmasti asettaa kirjoituskiellon käyttäjätilille {0}?'
+    ban_user: 'Estä käyttäjä?'
+    banned_user: 'Estetty käyttäjä'
+    cancel: Peruuta
     email_message_ban: "{0},\n\nTilläsi on rikottu kommentoinnin sääntöjä, jonka takia tilille on asetettu kirjoituskielto. Tiliä ei voida enää käyttää kommentointiin osallistumiseen tai kommenttien ilmiantamiseen. Ota yhteyttä moderointiin, jos tämä on tapahtunut mielestäsi väärin perustein."
-  bio_offensive: "Kuvaus on loukkaava"
-  cancel: "Peruuta"
-  confirm_email:
-    click_to_confirm: "Vahvista sähköpostiosoitteesi"
-    confirm: "Vahvista"
-  password_reset:
-    mail_sent: "Salasananvaihtolinkki on lähetetty rekisteröityyn sähköpostiosoitteeseen"
-    set_new_password: "Luo uusi salasana"
-    new_password: "Uusi salasana"
-    new_password_help: "Salasanan tulee olla vähintään 8 merkin pituinen"
-    confirm_new_password: "Vahvista uusi salasana"
-    change_password: "Vaihda salasana"
-  characters_remaining: "merkki(ä) jäljellä"
+    note: 'Huom! {0}'
+    note_ban_user: 'Käyttäjän kirjoituskielto estää kommentoinnin, kommentteihin reagoinnin, sekä kommenttien ilmiantamisen.'
+    note_reject_comment: 'Käyttäjän asettaminen kirjoituskieltoon asettaa myös kommentin Hylätyt-jonoon'
+    notify_ban_description: 'Tämä lähettää käyttäjälle sähköposti-ilmoituksen kirjoituskiellosta.'
+    notify_ban_headline: 'Lähetä käyttäjälle ilmoitus kirjoituskiellosta'
+    send: Lähetä
+    write_a_message: 'Kirjoita viesti'
+    yes_ban_user: 'Kyllä, aseta käyttäjälle kirjoituskielto'
+  bio_offensive: 'Kuvaus on loukkaava'
+  cancel: Peruuta
+  characters_remaining: 'merkki(ä) jäljellä'
   comment:
-    anon: "Anonyymi"
-    undo_reject: "Peruuta"
-    ban_user: "Estä käyttäjä"
-    comment: "Kommentoi"
+    anon: Anonyymi
+    ban_user: 'Estä käyttäjä'
+    comment: Kommentoi
     edited: Muokattu
-    flagged: "ilmiannettu"
-    view_context: "Näytä konteksti"
+    flagged: ilmiannettu
+    undo_reject: Peruuta
+    view_context: 'Näytä konteksti'
   comment_box:
-    post: "Lähetä"
-    cancel: "Peruuta"
-    reply: "Vastaa"
-    comment: "Kommentoi"
-    name: "Nimi"
-    comment_post_notif: "Kommenttisi on lähetetty."
-    comment_post_notif_premod: "Kiitos kommentistasi. Moderointitiimimme käsittelee kommenttisi mahdollisimman pian."
-    comment_post_banned_word:  "Kommenttisi sisältää vähintään yhden kielletyn sanan, joten kommenttiasi ei tulla julkaisemaan. Jos tämä ilmoitus on mielestäsi aiheeton, olethan yhteydessä moderointitiimiimme."
-    characters_remaining: "merkki(ä) jäljellä"
-  comment_offensive: "Kommentti on loukkaava"
-  comment_singular: Kommentti
+    cancel: Peruuta
+    characters_remaining: 'merkki(ä) jäljellä'
+    comment: Kommentoi
+    comment_post_banned_word: 'Kommenttisi sisältää vähintään yhden kielletyn sanan, joten kommenttiasi ei tulla julkaisemaan. Jos tämä ilmoitus on mielestäsi aiheeton, olethan yhteydessä moderointitiimiimme.'
+    comment_post_notif: 'Kommenttisi on lähetetty.'
+    comment_post_notif_premod: 'Kiitos kommentistasi. Moderointitiimimme käsittelee kommenttisi mahdollisimman pian.'
+    name: Nimi
+    post: Lähetä
+    reply: Vastaa
+  comment_offensive: 'Kommentti on loukkaava'
   comment_plural: Kommentit
-  comment_post_banned_word: "Kommenttisi sisältää vähintään yhden kielletyn sanan, joten kommenttiasi ei tulla julkaisemaan. Jos tämä ilmoitus on mielestäsi aiheeton, olethan yhteydessä moderointitiimiimme."
-  comment_post_notif: "Kommenttisi on lähetetty."
-  comment_post_notif_premod: "Kiitos kommentistasi. Moderointitiimimme käsittelee kommenttisi mahdollisimman pian."
+  comment_post_banned_word: 'Kommenttisi sisältää vähintään yhden kielletyn sanan, joten kommenttiasi ei tulla julkaisemaan. Jos tämä ilmoitus on mielestäsi aiheeton, olethan yhteydessä moderointitiimiimme.'
+  comment_post_notif: 'Kommenttisi on lähetetty.'
+  comment_post_notif_premod: 'Kiitos kommentistasi. Moderointitiimimme käsittelee kommenttisi mahdollisimman pian.'
+  comment_singular: Kommentti
   common:
-    copy: 'Kopioi'
+    copy: Kopioi
     error: 'Tapahtui virhe.'
-    reply: 'vastaa'
-    replies: 'vastaukset'
-    reaction: 'reaktio'
-    reactions: 'reaktiot'
-    story: 'Artikkeli'
-  flagged_usernames:
-    notify_approved: '{0} hyväksyi käyttäjänimen {1}'
-    notify_rejected: '{0} hylkäsi käyttäjänimen {1}'
-    notify_flagged: '{0} ilmiantoi käyttäjänimen {1}'
-    notify_changed: 'käyttäjä {0} vaihtoi käyttäjänimesä muotoon {1}'
+    reaction: reaktio
+    reactions: reaktiot
+    replies: vastaukset
+    reply: vastaa
+    story: Artikkeli
   community:
-    account_creation_date: "Tilin luontiaika"
+    account_creation_date: 'Tilin luontiaika'
     active: Aktiivinen
     admin: Ylläpitäjä
-    ads_marketing: "Vaikuttaa mainokselta"
-    are_you_sure: "Haluatka varmasti asettaa käyttäjlle {0} kirjoituskiellon?"
-    ban_user: "Estä käyttäjä?"
+    ads_marketing: 'Vaikuttaa mainokselta'
+    are_you_sure: 'Haluatka varmasti asettaa käyttäjlle {0} kirjoituskiellon?'
+    ban_user: 'Estä käyttäjä?'
     banned: Estetty
-    banned_user: "Estetty käyttäjä"
+    banned_user: 'Estetty käyttäjä'
     cancel: Peruuta
-    dont_like_username: "Epäsopiva käyttäjänimi"
-    flaggedaccounts: "Ilmiannetut käyttäjänimet"
+    commenter: Kommentoija
+    dont_like_username: 'Epäsopiva käyttäjänimi'
+    flaggedaccounts: 'Ilmiannetut käyttäjänimet'
     flags: Liputuksia
-    impersonating: "Toiseksi tekeytyminen"
-    loading: "Ladataan tuloksia"
+    impersonating: 'Toiseksi tekeytyminen'
+    loading: 'Ladataan tuloksia'
     moderator: Moderaattori
-    newsroom_role: "Uutishuoneen rooli"
-    no_flagged_accounts: "Ilmiannettujen nimimerkkien jono on tyhjä."
-    no_results: "Antamallasi hakusanalla ei löydy yhtään käyttäjää."
-    offensive: "Loukkaava"
+    newsroom_role: 'Uutishuoneen rooli'
+    no_flagged_accounts: 'Ilmiannettujen nimimerkkien jono on tyhjä.'
+    no_results: 'Antamallasi hakusanalla ei löydy yhtään käyttäjää.'
+    offensive: Loukkaava
     other: Muu
     people: Käyttäjät
-    role: "Valitse rooli..."
-    select_status: "Valitse tila..."
-    spam_ads: "Roskapostit/mainokset"
-    staff: "Työntekijä"
+    role: 'Valitse rooli...'
+    select_status: 'Valitse tila...'
+    spam_ads: Roskapostit/mainokset
+    staff: Työntekijä
     status: Tila
-    username_and_email: "Käyttäjänimi ja sähköposti"
-    yes_ban_user: "Kyllä, estä käyttäjä"
-    commenter: "Kommentoija"
+    username_and_email: 'Käyttäjänimi ja sähköposti'
+    yes_ban_user: 'Kyllä, estä käyttäjä'
   configure:
     apply: Käytä
-    banned_word_text: "Näitä sanoja tai fraaseja sisältävät kommentit poistetaan automaattisesti. Lisää uusi kirjoittamalla sana ja painamalla enter- tai tab-näppäintä. Vaihtoehtoisesti kopio lista, jossa sanat on eroteltu pilkuilla."
-    banned_words_title: "Estettyjen sanojen lista."
-    close: "Sulje"
-    close_after: "Sulje kommentit, kun on kulunut"
-    close_stream: "Sulje kommentointi"
-    close_stream_configuration: "Kommentointi suljettu. Kommentointi on mahdollista, jos avaat kommentoinnin uudelleen."
-    closed_comments_desc: "Kirjoita viesti, joka näytetään, kun kommenttivirta on suljettu ja uusia viestejä ei voi enää lähettää."
-    closed_comments_label: "Kirjoita viesti..."
-    closed_stream_settings: "Suljetun keskustelun ilmoitusviesti"
-    comment_count_error: "Syötä numero."
-    comment_count_header: "Rajoita kommentin pituutta"
+    banned_word_text: 'Näitä sanoja tai fraaseja sisältävät kommentit poistetaan automaattisesti. Lisää uusi kirjoittamalla sana ja painamalla enter- tai tab-näppäintä. Vaihtoehtoisesti kopio lista, jossa sanat on eroteltu pilkuilla.'
+    banned_words_title: 'Estettyjen sanojen lista.'
+    close: Sulje
+    close_after: 'Sulje kommentit, kun on kulunut'
+    close_stream: 'Sulje kommentointi'
+    close_stream_configuration: 'Kommentointi suljettu. Kommentointi on mahdollista, jos avaat kommentoinnin uudelleen.'
+    closed_comments_desc: 'Kirjoita viesti, joka näytetään, kun kommenttivirta on suljettu ja uusia viestejä ei voi enää lähettää.'
+    closed_comments_label: 'Kirjoita viesti...'
+    closed_stream_settings: 'Suljetun keskustelun ilmoitusviesti'
+    comment_count_error: 'Syötä numero.'
+    comment_count_header: 'Rajoita kommentin pituutta'
     comment_count_text_post: merkkiin
-    comment_count_text_pre: "Kommentin pituus rajoitetaan"
+    comment_count_text_pre: 'Kommentin pituus rajoitetaan'
     comment_settings: Asetukset
-    comment_stream: "Kommentit"
-    comment_stream_will_close: "Kommentointi sulkeutuu"
+    comment_stream: Kommentit
+    comment_stream_will_close: 'Kommentointi sulkeutuu'
     community: Yhteisö
-    configure: "Muokkaa asetuksia"
-    copy_and_paste: "Kopio ja liitä koodi sisällönhallintajärjestelmääsi upottaaksesi kommenttiosion artikkeliin."
-    custom_css_url: "CSS-tiedoston URL"
-    custom_css_url_desc: "CSS-tiedoston URL, jonka sisällöllä ylikirjoitetaan oletustyylit. Voi olla sisäinen tai ulkoinen."
+    configure: 'Muokkaa asetuksia'
+    copy_and_paste: 'Kopio ja liitä koodi sisällönhallintajärjestelmääsi upottaaksesi kommenttiosion artikkeliin.'
+    custom_css_url: 'CSS-tiedoston URL'
+    custom_css_url_desc: 'CSS-tiedoston URL, jonka sisällöllä ylikirjoitetaan oletustyylit. Voi olla sisäinen tai ulkoinen.'
     days: Päivää
-    description: "Ylläpitäjänä voit muokata tämän artikkelin kommentoinnin asetuksia:"
-    domain_list_text: "Syötä verkkotunnukset, joilla on lupa käyttää Talkia. Esimerkiksi lokaalikehitys-, QA- ja tuotantoympäristöt: localhost:3000 staging.domain.com domain.com."
-    domain_list_title: "Luviteut verkkotunnukset"
-    edit_comment_timeframe_heading: "Muokkaa kommentin muokkausaikaikkunaa"
-    edit_comment_timeframe_text_pre: "Kommentoijilla on"
-    edit_comment_timeframe_text_post: "sekuntia aikaa muokata kommenttejaan."
-    embed_comment_stream: "Upota keskustelu"
-    enable_premod_links_text: Moderaattorien tulee hyväksyä sellaisten kommenttien julkaisu, joissa on linkki.
-    enable_pre_moderation: "Esimoderointi päälle"
-    enable_pre_moderation_text: "Moderaattorien tulee hyväksyä kaikki julkaistavat kommentit."
-    enable_premod_links: "Esimoderoi kommentit, joissa on linkki"
-    enable_premod: "Esimoderointi päälle"
-    enable_premod_description: "Moderaattorien tulee hyväksyä kaikki julkaistavat kommentit."
-    enable_premod_links_description: "Moderaattorien tulee hyväksyä sellaisten kommenttien julkaisu, joissa on linkki."
-    enable_questionbox: "Kysy lukijoilta"
-    enable_questionbox_description: "Tämä kysymys tulee näkymään kommenttiosion ylälaidassa. Kysy artikkelin aiheesta tai ohjaa keskustelua kysymyksen avulla."
+    description: 'Ylläpitäjänä voit muokata tämän artikkelin kommentoinnin asetuksia:'
+    domain_list_text: 'Syötä verkkotunnukset, joilla on lupa käyttää Talkia. Esimerkiksi lokaalikehitys-, QA- ja tuotantoympäristöt: localhost:3000 staging.domain.com domain.com.'
+    domain_list_title: 'Luviteut verkkotunnukset'
+    edit_comment_timeframe_heading: 'Muokkaa kommentin muokkausaikaikkunaa'
+    edit_comment_timeframe_text_post: 'sekuntia aikaa muokata kommenttejaan.'
+    edit_comment_timeframe_text_pre: 'Kommentoijilla on'
+    embed_comment_stream: 'Upota keskustelu'
+    enable_pre_moderation: 'Esimoderointi päälle'
+    enable_pre_moderation_text: 'Moderaattorien tulee hyväksyä kaikki julkaistavat kommentit.'
+    enable_premod: 'Esimoderointi päälle'
+    enable_premod_description: 'Moderaattorien tulee hyväksyä kaikki julkaistavat kommentit.'
+    enable_premod_links: 'Esimoderoi kommentit, joissa on linkki'
+    enable_premod_links_description: 'Moderaattorien tulee hyväksyä sellaisten kommenttien julkaisu, joissa on linkki.'
+    enable_premod_links_text: 'Moderaattorien tulee hyväksyä sellaisten kommenttien julkaisu, joissa on linkki.'
+    enable_questionbox: 'Kysy lukijoilta'
+    enable_questionbox_description: 'Tämä kysymys tulee näkymään kommenttiosion ylälaidassa. Kysy artikkelin aiheesta tai ohjaa keskustelua kysymyksen avulla.'
     hours: Tuntia
-    include_comment_stream: "Sisällytä kommentoinnin kuvaus lukijoille"
-    include_comment_stream_desc: "Kirjoita kommenttiosion yläreunassa näkyvä viesti. Aseta keskustelun aihe, sisällytä sääntöjä tms."
-    include_text: "Lisää teksti tähän."
-    include_question_here: "Kirjoita kysymyksesi tähän:"
+    include_comment_stream: 'Sisällytä kommentoinnin kuvaus lukijoille'
+    include_comment_stream_desc: 'Kirjoita kommenttiosion yläreunassa näkyvä viesti. Aseta keskustelun aihe, sisällytä sääntöjä tms.'
+    include_question_here: 'Kirjoita kysymyksesi tähän:'
+    include_text: 'Lisää teksti tähän.'
     moderate: Moderoi
-    moderation_settings: "Moderointiasetukset"
-    open: "Avaa"
-    open_stream: "Avaa kommentointi"
-    open_stream_configuration: "Tämän artikkelin kommentointi on tällä hetkellä auki. Jos se suljetaan, ei kommentointi ole enää mahdollista, mutta vanhat kommentit jäävät näkyviin."
-    require_email_verification: "Vaadi sähköpostin vahvistus"
-    require_email_verification_text: "Uusien käyttäjien täytyy vahvistaa sähköpostiosoitteensa ennen kommentoinnin aloittamista"
-    save_changes: "Tallenna muutokset"
+    moderation_settings: Moderointiasetukset
+    open: Avaa
+    open_stream: 'Avaa kommentointi'
+    open_stream_configuration: 'Tämän artikkelin kommentointi on tällä hetkellä auki. Jos se suljetaan, ei kommentointi ole enää mahdollista, mutta vanhat kommentit jäävät näkyviin.'
+    require_email_verification: 'Vaadi sähköpostin vahvistus'
+    require_email_verification_text: 'Uusien käyttäjien täytyy vahvistaa sähköpostiosoitteensa ennen kommentoinnin aloittamista'
+    save_changes: 'Tallenna muutokset'
     shortcuts: Pikalinkit
-    sign_out: "Kirjaudu ulos"
+    sign_out: 'Kirjaudu ulos'
     stories: Artikkelitarinat
-    stream_settings: "Kommentoinnin asetukset"
-    suspect_word_title: "Epäilyttävien sanojen lista"
-    suspect_word_text: "Nämä sanat tai fraasit näkyvät korostettuina kommenteissa. Lisää uusi kirjoittamalla sana ja painamalla enter- tai tab-näppäintä. Vaihtoehtoisesti kopio lista, jossa sanat on eroteltu pilkuilla."
-    tech_settings: "Tekniset asetukset"
-    title: "Muokkaa kommentoinnin asetuksia"
+    stream_settings: 'Kommentoinnin asetukset'
+    suspect_word_text: 'Nämä sanat tai fraasit näkyvät korostettuina kommenteissa. Lisää uusi kirjoittamalla sana ja painamalla enter- tai tab-näppäintä. Vaihtoehtoisesti kopio lista, jossa sanat on eroteltu pilkuilla.'
+    suspect_word_title: 'Epäilyttävien sanojen lista'
+    tech_settings: 'Tekniset asetukset'
+    title: 'Muokkaa kommentoinnin asetuksia'
     weeks: Viikkoa
-    wordlist: "Kielletyt sanat"
-  continue: "Jatka"
+    wordlist: 'Kielletyt sanat'
+  confirm_email:
+    click_to_confirm: 'Vahvista sähköpostiosoitteesi'
+    confirm: Vahvista
+  continue: Jatka
   createdisplay:
-    check_the_form: "Tarkista syöttämäsi tiedot"
-    continue: "Käytä Facebook-käyttäjänimeä"
-    error_create: "Käyttäjänimen vaihdossa tapahtui virhe"
-    fake_comment_body: "Tämä on esimerkkikommentti. Lukijat voivat jakaa mielipiteitään ja näkemyksiään kommenttiosiossa."
-    fake_comment_date: "1 minuutti sitten"
-    if_you_dont_change_your_name: "Facebook-käyttäjänimesi näkyy kommenttiesi yhteydessä, ellet tässä vaiheessa vaihda käyttäjänimeäsi."
-    required_field: "Vaadittu tieto"
+    check_the_form: 'Tarkista syöttämäsi tiedot'
+    continue: 'Käytä Facebook-käyttäjänimeä'
+    error_create: 'Käyttäjänimen vaihdossa tapahtui virhe'
+    fake_comment_body: 'Tämä on esimerkkikommentti. Lukijat voivat jakaa mielipiteitään ja näkemyksiään kommenttiosiossa.'
+    fake_comment_date: '1 minuutti sitten'
+    if_you_dont_change_your_name: 'Facebook-käyttäjänimesi näkyy kommenttiesi yhteydessä, ellet tässä vaiheessa vaihda käyttäjänimeäsi.'
+    required_field: 'Vaadittu tieto'
     save: Tallenna
-    special_characters: "Käyttäjänimissä sallittuja merkkejä ovat ainoastaan kirjaimet, numerot, sekä alaviiva"
+    special_characters: 'Käyttäjänimissä sallittuja merkkejä ovat ainoastaan kirjaimet, numerot, sekä alaviiva'
     username: Käyttäjänimi
-    write_your_username: "Muokkaa käyttäjänimeäsi"
-    your_username: "Käyttäjänimesi näkyy jokaisen kommenttisi yhteydessä"
+    write_your_username: 'Muokkaa käyttäjänimeäsi'
+    your_username: 'Käyttäjänimesi näkyy jokaisen kommenttisi yhteydessä'
   done: Valmis
   edit_comment:
-    body_input_label: "Muokkaa tätä kommenttia"
-    save_button: "Tallenna muutokset"
-    edit_window_expired: "Et voi enää muokata tätä kommenttia, koska muokkauksen aikaikkuna on umpeutunut. Jätä sen sijaan uusi kommentti?"
-    edit_window_expired_close: "Sulje"
-    edit_window_timer_prefix: "Muokkauksen aikaikkunaa jäljellä: "
-    second: "sekunti"
-    seconds_plural: "sekuntia"
-    minute: "minuutti"
-    minutes_plural: "minuuttia"
+    body_input_label: 'Muokkaa tätä kommenttia'
+    edit_window_expired: 'Et voi enää muokata tätä kommenttia, koska muokkauksen aikaikkuna on umpeutunut. Jätä sen sijaan uusi kommentti?'
+    edit_window_expired_close: Sulje
+    edit_window_timer_prefix: 'Muokkauksen aikaikkunaa jäljellä: '
+    minute: minuutti
+    minutes_plural: minuuttia
+    save_button: 'Tallenna muutokset'
+    second: sekunti
+    seconds_plural: sekuntia
   email:
-    suspended:
-      subject: "Tilisi on väliaikaisesti suljettu"
     banned:
-      subject: "Tilisi on asetettu kirjoituskieltoon"
-      body: "Tilisi on asetettu kirjoituskieltoon. Et voi osallistua keskusteluun kirjoituskiellon aikana."
+      body: 'Tilisi on asetettu kirjoituskieltoon. Et voi osallistua keskusteluun kirjoituskiellon aikana.'
+      subject: 'Tilisi on asetettu kirjoituskieltoon'
     confirm:
-      has_been_requested: "Sähköpostivahvistus on pyydetty tilille:"
-      to_confirm: "Vahvista tili klikkaamalla seuraavaa linkkiä:"
-      confirm_email: "Vahvista sähköposti"
-      if_you_did_not: "Jätä tämä viesti huomioimatta, jos et ole tehnyt pyyntöä."
-      subject: "Sähköpostin vahvistus"
+      confirm_email: 'Vahvista sähköposti'
+      has_been_requested: 'Sähköpostivahvistus on pyydetty tilille:'
+      if_you_did_not: 'Jätä tämä viesti huomioimatta, jos et ole tehnyt pyyntöä.'
+      subject: 'Sähköpostin vahvistus'
+      to_confirm: 'Vahvista tili klikkaamalla seuraavaa linkkiä:'
     password_reset:
-      we_received_a_request: "Tilisi salasanan vaihtoa on pyydetty. Jätä tämä viesti huomioimatta, jos et ole tehnyt pyyntöä."
-      if_you_did: "Jos pyysit,"
-      please_click: "klikkaa tästä vaihtaaksesi salasanasi."
+      if_you_did: 'Jos pyysit,'
+      please_click: 'klikkaa tästä vaihtaaksesi salasanasi.'
+      we_received_a_request: 'Tilisi salasanan vaihtoa on pyydetty. Jätä tämä viesti huomioimatta, jos et ole tehnyt pyyntöä.'
+    suspended:
+      subject: 'Tilisi on väliaikaisesti suljettu'
+  embed_comments_tab: Kommentit
   embedlink:
-    copy: "Kopioi leikepöydälle"
+    copy: 'Kopioi leikepöydälle'
   error:
-    COMMENT_PARENT_NOT_VISIBLE: "Kommenttia, johon yrität vastata, ei enää ole."
-    EMAIL_VERIFICATION_TOKEN_INVALID: "Sähköpostin vahvistusvarmiste on epävalidi."
-    PASSWORD_RESET_TOKEN_INVALID: "Salasananvaihtolinkki on epävalidi."
-    COMMENT_TOO_SHORT: "Kommentin tulee olla vähintään kaksi merkkiä pitkä. Tarkista kirjoittamasi teksti."
-    NOT_AUTHORIZED: "Sinulla ei ole oikeutta suorittaa tätä toimintoa."
-    NO_SPECIAL_CHARACTERS: "Käyttäjänimissä sallittuja merkkejä ovat ainoastaan kirjaimet, numerot, sekä alaviiva"
-    PASSWORD_LENGTH: "Salasana on liian lyhyt"
-    PROFANITY_ERROR: "Käyttäjänimet eivät saa sisältää hävyttömyyksiä. Ota yhteyttä ylläpitoon, jos mielestäsi on tapahtunut virhe."
-    RATE_LIMIT_EXCEEDED: "Raja-arvo on ylittynyt"
-    USERNAME_IN_USE: "Käyttäjänimi jo käytössä"
-    USERNAME_REQUIRED: "Syötä käyttäjänimi"
-    EMAIL_NOT_VERIFIED: "Sähköpostiosoitetta ei ole vahvistettu"
-    EDIT_WINDOW_ENDED: "Et voi enää muokata tätä kommenttia, koska muokkauksen aikaikkuna on umpeutunut."
-    EDIT_USERNAME_NOT_AUTHORIZED: "Sinulla ei ole oikeutta päivittää tai muokata käyttäjänimeä."
-    SAME_USERNAME_PROVIDED: "Anna eri käyttäjänimi."
-    EMAIL_IN_USE: "Sähköpostiosoite on jo käytössä"
-    EMAIL_REQUIRED: "Syötä sähköpostiosoite"
-    LOGIN_MAXIMUM_EXCEEDED: "Olet tehnyt liian monta epäonnistunutta yritystä. Odota, ole hyvä."
-    PASSWORD_REQUIRED: "Syötä salasana"
-    COMMENTING_CLOSED: "Kommentointi on suljettu"
-    NOT_FOUND: "Resurssia ei löydy"
-    ALREADY_EXISTS: "Resurssi on jo olemassa"
-    INVALID_ASSET_URL: "Tarkista tiedoston URL"
-    CANNOT_IGNORE_STAFF: "Työntekijöitä ei voi jättää huomioimatta"
-    email: "Tarkista sähköpostiosoite"
-    confirm_password: "Salasanat eivät täsmää. Tarkista, ole hyvä."
-    network_error: "Palvelimeen yhdistäminen epäonnistui. Tarkista internetyhteytesi."
-    email_not_verified: "Sähköpostiosoitetta {0} ei ole vahvistettu."
-    email_password: "Sähköpostiosoite ja/tai salasana on väärä."
-    organization_name: "Organisaation nimessä voi käyttää vain kirjaimia ja numeroita."
-    password: "Salasanan tulee olla vähintään 8 merkkiä pitkä"
-    username: "Käyttäjänimissä sallittuja merkkejä ovat ainoastaan kirjaimet, numerot, sekä alaviiva"
-    unexpected: "Tapahtui odottamaton virhe. Pahiottelemme!"
-    required_field: "Tämä on vaadittu kenttä"
-    temporarily_suspended: "Tilisi on suljettu väliaikaisesti. Se aktivoituu uudelleen {0}. Ota yhteyttä, jos on sinulla on aiheesta kysyttävää."
-  flag_comment: "Ilmianna kommentti"
-  flag_reason: "Ilmiannon syy (ei pakollinen)"
-  flag_username: "Ilmianna käyttäjä"
-  framework:
-    banned_account_header: "Tilisi on kirjoituskiellossa"
-    banned_account_body: "Et pysty kirjoittamaan tai ilmiantamaan kommentteja."
-    comment: kommentti
-    comment_is_ignored: "Tämä kommentti on piilossa, koska olet päättänyt jättää kommentin kirjoittajan huomiotta."
-    comment_is_rejected: "Olet piilottanut tämän kommentin."
-    comment_is_hidden: "Tämä kommentti ei ole saatavilla."
-    comments: kommentit
-    configure_stream: "Muokkaa asetuksia"
-    content_not_available: "Sisältö ei ole saatavilla"
-    edit_name:
-      button: Lähetä
-      error: "Käyttäjänimissä sallittuja merkkejä ovat ainoastaan kirjaimet, numerot, sekä alaviiva"
-      label: "Uusi käyttäjänimi"
-      msg: "Tilisi on suljettu väliaikaisesti, koska käyttäjänimi on todettu sopimattomaksi. Vaihda käyttäjänimi, jos haluat jatkaa tilin käyttöä. Ole meihin yhteydessä, jos sinulla on aiheesta kysyttävää."
-    changed_name:
-      msg: "Käyttäjänimen vaihto on moderointitiimillämme tarkistuksessa."
-    my_comments: "Kommenttini"
-    my_profile: "Profiilini"
-    new_count: "Näytä {0} lisää {1}"
-    profile: Profiili
-    show_all_comments: "Näytä kaikki kommentit"
-    success_bio_update: "Kuvauksesi on päivitetty"
-    success_name_update: "Käyttäjänimesi on päivitetty"
-    success_update_settings: "Tekemäsi muutokset on otettu käyttöön"
-    show_all_replies: Näytä kaikki vastaukset
-    show_more_replies: Näytä lisää vastauksia
-    view_more_comments: "näytä lisää kommentteja"
-    view_reply: "näytä vastaus"
-  from_settings_page: "Näet kommentointihistoriasi profiilisivulta."
-  like: Tykkää
-  loading_results: "Ladataan tuloksia"
-  marketing: "Vaikuttaa mainokselta"
-  moderate_this_stream: "Moderoi tätä kommentointia"
+    ALREADY_EXISTS: 'Resurssi on jo olemassa'
+    CANNOT_IGNORE_STAFF: 'Työntekijöitä ei voi jättää huomioimatta'
+    COMMENT_PARENT_NOT_VISIBLE: 'Kommenttia, johon yrität vastata, ei enää ole.'
+    COMMENT_TOO_SHORT: 'Kommentin tulee olla vähintään kaksi merkkiä pitkä. Tarkista kirjoittamasi teksti.'
+    COMMENTING_CLOSED: 'Kommentointi on suljettu'
+    confirm_password: 'Salasanat eivät täsmää. Tarkista, ole hyvä.'
+    EDIT_USERNAME_NOT_AUTHORIZED: 'Sinulla ei ole oikeutta päivittää tai muokata käyttäjänimeä.'
+    EDIT_WINDOW_ENDED: 'Et voi enää muokata tätä kommenttia, koska muokkauksen aikaikkuna on umpeutunut.'
+    email: 'Tarkista sähköpostiosoite'
+    EMAIL_IN_USE: 'Sähköpostiosoite on jo käytössä'
+    email_not_verified: 'Sähköpostiosoitetta {0} ei ole vahvistettu.'
+    EMAIL_NOT_VERIFIED: 'Sähköpostiosoitetta ei ole vahvistettu'
+    email_password: 'Sähköpostiosoite ja/tai salasana on väärä.'
+    EMAIL_REQUIRED: 'Syötä sähköpostiosoite'
+    EMAIL_VERIFICATION_TOKEN_INVALID: 'Sähköpostin vahvistusvarmiste on epävalidi.'
+    INVALID_ASSET_URL: 'Tarkista tiedoston URL'
+    LOGIN_MAXIMUM_EXCEEDED: 'Olet tehnyt liian monta epäonnistunutta yritystä. Odota, ole hyvä.'
+    network_error: 'Palvelimeen yhdistäminen epäonnistui. Tarkista internetyhteytesi.'
+    NO_SPECIAL_CHARACTERS: 'Käyttäjänimissä sallittuja merkkejä ovat ainoastaan kirjaimet, numerot, sekä alaviiva'
+    NOT_AUTHORIZED: 'Sinulla ei ole oikeutta suorittaa tätä toimintoa.'
+    NOT_FOUND: 'Resurssia ei löydy'
+    organization_name: 'Organisaation nimessä voi käyttää vain kirjaimia ja numeroita.'
+    password: 'Salasanan tulee olla vähintään 8 merkkiä pitkä'
+    PASSWORD_LENGTH: 'Salasana on liian lyhyt'
+    PASSWORD_REQUIRED: 'Syötä salasana'
+    PASSWORD_RESET_TOKEN_INVALID: 'Salasananvaihtolinkki on epävalidi.'
+    PROFANITY_ERROR: 'Käyttäjänimet eivät saa sisältää hävyttömyyksiä. Ota yhteyttä ylläpitoon, jos mielestäsi on tapahtunut virhe.'
+    RATE_LIMIT_EXCEEDED: 'Raja-arvo on ylittynyt'
+    required_field: 'Tämä on vaadittu kenttä'
+    SAME_USERNAME_PROVIDED: 'Anna eri käyttäjänimi.'
+    temporarily_suspended: 'Tilisi on suljettu väliaikaisesti. Se aktivoituu uudelleen {0}. Ota yhteyttä, jos on sinulla on aiheesta kysyttävää.'
+    unexpected: 'Tapahtui odottamaton virhe. Pahiottelemme!'
+    username: 'Käyttäjänimissä sallittuja merkkejä ovat ainoastaan kirjaimet, numerot, sekä alaviiva'
+    USERNAME_IN_USE: 'Käyttäjänimi jo käytössä'
+    USERNAME_REQUIRED: 'Syötä käyttäjänimi'
+  flag_comment: 'Ilmianna kommentti'
+  flag_reason: 'Ilmiannon syy (ei pakollinen)'
+  flag_username: 'Ilmianna käyttäjä'
+  flagged_usernames:
+    notify_approved: '{0} hyväksyi käyttäjänimen {1}'
+    notify_changed: 'käyttäjä {0} vaihtoi käyttäjänimesä muotoon {1}'
+    notify_flagged: '{0} ilmiantoi käyttäjänimen {1}'
+    notify_rejected: '{0} hylkäsi käyttäjänimen {1}'
   flags:
     reasons:
-       user:
-         username_offensive: "Loukkaava"
-         username_nolike: "En tykkää"
-         username_impersonating: "Toisena esiintyminen"
-         username_spam: "Roskaviesti"
-         username_other: "Muu"
-       comment:
-         comment_offensive: "Loukkaava"
-         comment_spam: "Roskaviesti"
-         comment_noagree: "Olen eri mieltä"
-         comment_other: "Muu"
-         suspect_word: "Epäilyttävä sana"
-         banned_word: "Kielletty sana"
-         body_count: "Liian pitkä viesti"
-         trust: "Luotettava"
-         links: "Linkki"
+      comment:
+        banned_word: 'Kielletty sana'
+        body_count: 'Liian pitkä viesti'
+        comment_noagree: 'Olen eri mieltä'
+        comment_offensive: Loukkaava
+        comment_other: Muu
+        comment_spam: Roskaviesti
+        links: Linkki
+        suspect_word: 'Epäilyttävä sana'
+      user:
+        username_impersonating: 'Toisena esiintyminen'
+        username_nolike: 'En tykkää'
+        username_offensive: Loukkaava
+        username_other: Muu
+        username_spam: Roskaviesti
+  framework:
+    banned_account_body: 'Et pysty kirjoittamaan tai ilmiantamaan kommentteja.'
+    banned_account_header: 'Tilisi on kirjoituskiellossa'
+    changed_name:
+      msg: 'Käyttäjänimen vaihto on moderointitiimillämme tarkistuksessa.'
+    comment: kommentti
+    comment_is_hidden: 'Tämä kommentti ei ole saatavilla.'
+    comment_is_ignored: 'Tämä kommentti on piilossa, koska olet päättänyt jättää kommentin kirjoittajan huomiotta.'
+    comment_is_rejected: 'Olet piilottanut tämän kommentin.'
+    comments: kommentit
+    configure_stream: 'Muokkaa asetuksia'
+    content_not_available: 'Sisältö ei ole saatavilla'
+    edit_name:
+      button: Lähetä
+      error: 'Käyttäjänimissä sallittuja merkkejä ovat ainoastaan kirjaimet, numerot, sekä alaviiva'
+      label: 'Uusi käyttäjänimi'
+      msg: 'Tilisi on suljettu väliaikaisesti, koska käyttäjänimi on todettu sopimattomaksi. Vaihda käyttäjänimi, jos haluat jatkaa tilin käyttöä. Ole meihin yhteydessä, jos sinulla on aiheesta kysyttävää.'
+    my_comments: Kommenttini
+    my_profile: Profiilini
+    new_count: 'Näytä {0} lisää {1}'
+    profile: Profiili
+    show_all_comments: 'Näytä kaikki kommentit'
+    show_all_replies: 'Näytä kaikki vastaukset'
+    show_more_replies: 'Näytä lisää vastauksia'
+    success_bio_update: 'Kuvauksesi on päivitetty'
+    success_name_update: 'Käyttäjänimesi on päivitetty'
+    success_update_settings: 'Tekemäsi muutokset on otettu käyttöön'
+    view_more_comments: 'näytä lisää kommentteja'
+    view_reply: 'näytä vastaus'
+  from_settings_page: 'Näet kommentointihistoriasi profiilisivulta.'
+  install:
+    add_organization:
+      description: 'Kerro organisaatiosi nimi. Tämä näkyy uusien jäsenten kutsuissa.'
+      label: 'Organisaation nimi'
+      save: Tallenna
+    create:
+      confirm_password: 'Salasana uudelleen'
+      email: Sähköpostiosoite
+      password: Salasana
+      save: Tallenna
+      username: Käyttäjänimi
+    final:
+      close: 'Sulje asennusnäkymä'
+      description: 'Kiitos kun asensit Talkin! Lähetämme sähköpostinvarmistusviestin antamaasi osoitteeseen. Voit nyt aloittaa kommentoinnin käytön.'
+      launch: 'Käynnistä Talk'
+    initial:
+      description: 'Ota Talk käyttöön, vain muutama askel jäljellä'
+      submit: 'Aloita käyttö'
+    permitted_domains:
+      description: 'Syötä domainit, joilla on lupa käyttää Talkia. Esimerkiksi lokaalikehitys-, QA- ja tuotantoympäristöt: localhost:3000 staging.domain.com domain.com.'
+      submit: 'Lopeta asennus'
+      title: 'Sallitut domainit'
+  like: Tykkää
+  loading_results: 'Ladataan tuloksia'
+  marketing: 'Vaikuttaa mainokselta'
+  moderate_this_stream: 'Moderoi tätä kommentointia'
   modqueue:
-    account: "Liputuksia"
+    account: Liputuksia
     actions: Toiminnot
     all: kaikki
-    all_streams: "Kaikki keskustelut"
-    notify_edited: '{0} muokkasi kommenttia "{1}"'
-    notify_accepted: '{0} hyväksyi kommentin "{1}"'
-    notify_rejected: '{0} hylkäsi kommentin "{1}"'
-    notify_flagged: '{0} ilmiantoi kommentin "{1}"'
-    notify_reset: '{0} tyhjensi kommentin "{1}" tilan'
-    approve: "Hyväksy"
-    approved: "Hyväksytty"
-    ban_user: "Kirjoituskielto käyttäjälle"
+    all_streams: 'Kaikki keskustelut'
+    approve: Hyväksy
+    approved: Hyväksytty
+    ban_user: 'Kirjoituskielto käyttäjälle'
     billion: mrd
     close: Sulje
-    empty_queue: "Moderointijono on tyhjä."
+    empty_queue: 'Moderointijono on tyhjä.'
     flagged: liputettu
-    reported: ilmiannettu
-    less_detail: "Vähemmän yksityiskohtia"
+    jump_to_queue: 'Siirry tiettyyn jonoon'
+    less_detail: 'Vähemmän yksityiskohtia'
     likes: tykkäyksiä
     million: milj.
-    mod_faster: "Moderoi nopeammin käyttäen pikanäppäimiä"
-    moderate: "Moderoi →"
-    more_detail: "Enemmän yksityiskohtia"
-    new: Uusi
-    newest_first: "Uusin ensin"
+    mod_faster: 'Moderoi nopeammin käyttäen pikanäppäimiä'
+    moderate: 'Moderoi →'
+    more_detail: 'Enemmän yksityiskohtia'
     navigation: Navioginti
-    next_comment: "Seuraava kommentti"
-    toggle_search: "Avaa haku"
-    next_queue: "Vaihda jonoa"
-    oldest_first: "Vanhin ensin"
+    new: Uusi
+    newest_first: 'Uusin ensin'
+    next_comment: 'Seuraava kommentti'
+    next_queue: 'Vaihda jonoa'
+    notify_accepted: '{0} hyväksyi kommentin "{1}"'
+    notify_edited: '{0} muokkasi kommenttia "{1}"'
+    notify_flagged: '{0} ilmiantoi kommentin "{1}"'
+    notify_rejected: '{0} hylkäsi kommentin "{1}"'
+    notify_reset: '{0} tyhjensi kommentin "{1}" tilan'
+    oldest_first: 'Vanhin ensin'
     premod: esimoderoi
-    prev_comment: "Edellinen kommentti"
-    reject: "Hylkää"
-    rejected: "Hylätty"
-    reply: "Vastaa"
-    select_stream: "Valitse kommenttivirta"
-    shift_key: "⇧"
-    shortcuts: "Pikalinkit"
-    sort: "Järjestä"
-    show_shortcuts: "Näytä pikalinkit"
-    singleview: "Zen-moodi"
-    thismenu: "Avaa valikko"
-    jump_to_queue: "Siirry tiettyyn jonoon"
+    prev_comment: 'Edellinen kommentti'
+    reject: Hylkää
+    rejected: Hylätty
+    reply: Vastaa
+    reported: ilmiannettu
+    select_stream: 'Valitse kommenttivirta'
+    shift_key: ⇧
+    shortcuts: Pikalinkit
+    show_shortcuts: 'Näytä pikalinkit'
+    singleview: Zen-moodi
+    sort: Järjestä
+    thismenu: 'Avaa valikko'
     thousand: tuhatta
-    try_these: "Kokeile näitä"
-    view_more_shortcuts: "Näytä enemmän pikalinkkejä"
-  my_comment_history: "Kommentointihistoriani"
+    toggle_search: 'Avaa haku'
+    try_these: 'Kokeile näitä'
+    view_more_shortcuts: 'Näytä enemmän pikalinkkejä'
+  my_comment_history: Kommentointihistoriani
   name: Nimi
-  no_agree_comment: "En ole samaa mieltä"
-  no_like_bio: "En pidä kuvauksesta"
-  no_like_username: "En pidä käyttäjänimestä"
-  already_flagged_username: "Olet jo ilmiantanut tämän käyttäjänimen."
+  no_agree_comment: 'En ole samaa mieltä'
+  no_like_bio: 'En pidä kuvauksesta'
+  no_like_username: 'En pidä käyttäjänimestä'
   other: Muu
+  password_reset:
+    change_password: 'Vaihda salasana'
+    confirm_new_password: 'Vahvista uusi salasana'
+    mail_sent: 'Salasananvaihtolinkki on lähetetty rekisteröityyn sähköpostiosoitteeseen'
+    new_password: 'Uusi salasana'
+    new_password_help: 'Salasanan tulee olla vähintään 8 merkin pituinen'
+    set_new_password: 'Luo uusi salasana'
   permalink: Jaa
-  personal_info: "Kommentti sisältää henkilökohtaisesti tunnistettavia tietoja"
+  personal_info: 'Kommentti sisältää henkilökohtaisesti tunnistettavia tietoja'
   post: Lähetä
   profile: Profiili
   profile_settings: Profiiliasetukset
+  reject_username:
+    description_notify: 'Käyttökiellon asettaminen sulkee tilin väliaikaisesti.'
+    description_reject: 'Haluatko asettaa käyttökiellon, syynä {0}? Jos haluat, asetetaan käyttäjätili väliaikaseen käyttökieltoon, kunnes {0} on kirjoitettu uudelleen.'
+    email_message_reject: 'Toinen yhteisön jäsen on ilmiantanut käyttäjänimesi ja sen perusteella nimi on hylätty. Et voi enää osallistua keskusteluun. Ole ystävällisesti yhteydessä meihin, jos sinulla on asiasta kysyttävää.'
+    no_cancel: 'En, peruuta'
+    send: Lähetä
+    suspend_user: 'Aseta väliaikainen käyttökielto'
+    title_notify: 'Lähetä käyttäjälle tieto asetetusta käyttökiellosta'
+    title_reject: 'Huomasimme sinun hylänneen käyttäjänimen'
+    username: käyttäjänimi
+    write_message: 'Kirjoita viesti'
+    yes_suspend: 'Kyllä, sulje väliaikaisesti'
   reply: Vastaa
   report: Ilmianna
-  report_notif: "Kiitos ilmiannosta. Moderointitiimimme käsittelee tapauksen mahdollisimman pian."
-  report_notif_remove: "Ilmiantosi on poistettu."
+  report_notif: 'Kiitos ilmiannosta. Moderointitiimimme käsittelee tapauksen mahdollisimman pian.'
+  report_notif_remove: 'Ilmiantosi on poistettu.'
   reported: Ilmiannettu
   settings:
-    from_settings_page: "Näet kommenttihistoriasi profiilisivultasi."
-    my_comment_history: "Kommenttihistoriani"
+    from_settings_page: 'Näet kommenttihistoriasi profiilisivultasi.'
+    my_comment_history: Kommenttihistoriani
     profile: Profiili
-    profile_settings: "Profiiliasetukset"
-    sign_in: "Kirjaudu sisään"
-    to_access: "päästäksesi profiilisivulle"
-    user_no_comment: "Et ole jättänyt yhtään kommenttia. Liity keskusteluun!"
+    profile_settings: Profiiliasetukset
+    sign_in: 'Kirjaudu sisään'
+    to_access: 'päästäksesi profiilisivulle'
+    user_no_comment: 'Et ole jättänyt yhtään kommenttia. Liity keskusteluun!'
+  step_1_header: 'Ilmianna ongelma'
+  step_2_header: 'Kerro ilmiannon syy'
+  step_3_header: 'Kiitos panoksestasi'
   stream:
-    all_comments: "Kaikki kommentit"
-    temporarily_suspended: "Tilisi on väliaikasesti suljettu, koska et ole noudattanut {0}-sivuston sääntöjä. Voit liittyä keskusteluun uudelleen {1}."
-    comment_not_found: "Kommenttia ei ole olemassa."
-    no_comments: "Ei vielä kommentteja."
-    no_comments_and_closed: "Tässä artikkelissa ei vielä ollut kommentteja."
-  step_1_header: "Ilmianna ongelma"
-  step_2_header: "Kerro ilmiannon syy"
-  step_3_header: "Kiitos panoksestasi"
+    all_comments: 'Kaikki kommentit'
+    comment_not_found: 'Kommenttia ei ole olemassa.'
+    no_comments: 'Ei vielä kommentteja.'
+    no_comments_and_closed: 'Tässä artikkelissa ei vielä ollut kommentteja.'
+    temporarily_suspended: 'Tilisi on väliaikasesti suljettu, koska et ole noudattanut {0}-sivuston sääntöjä. Voit liittyä keskusteluun uudelleen {1}.'
   streams:
     all: Kaikki
     article: Artikkeli
     closed: Suljettu
-    empty_result: "Ei hakutuloksia. Kokeile laajentaa hakuasi."
-    filter_streams: "Suodata kommenttivirtoja"
+    empty_result: 'Ei hakutuloksia. Kokeile laajentaa hakuasi.'
+    filter_streams: 'Suodata kommenttivirtoja'
     newest: Uusin
     oldest: Vanhin
     open: Avoin
-    pubdate: "Julkaisupäivä"
+    pubdate: Julkaisupäivä
     search: Haku
-    sort_by: "Järjestä"
-    status: "Kommentoinnin tila"
-    stream_status: "Kommentoinnin tila"
+    sort_by: Järjestä
+    status: 'Kommentoinnin tila'
+    stream_status: 'Kommentoinnin tila'
   suspenduser:
-    title_suspend: "Aseta väliaikainen käyttökielto"
-    description_suspend: "Olet asettamassa käyttäjälle {0} väliaikasta käyttökieltoa. Tämä kommentti menee hylätyt-jonoon, ja käyttäjä {0} ei voi reagoida kommentteihin, ilmiantaa, tai vastata niihin, kunnes käyttökielto on päättynyt."
-    select_duration: "Käyttökiellon kesto"
-    one_hour: "1 tunti"
-    hours: "{0} tuntia"
-    days: "{0} päivää"
-    cancel: "Peruuta"
-    suspend_user: "Aseta väliaikainen käyttökielto"
-    email_message_suspend: "Hyvä {0}, tilisi on asetettu {1}-sivuston sääntöjenmukaiseen käyttökieltoon. Et voi osallistua keskusteluun käyttökiellon aikana. Voit liittyä keskusteluun uudelleen {2}."
-    title_notify: "Lähetä käyttäjälle tieto asetetusta käyttökiellosta"
-    notify_suspend_until: "Käyttäjä {0} on asetettu väliaikaiseen käyttökieltoon. Kielto päättyy automaattisesti {1}."
-    description_notify: "Käyttökiellon asettaminen sulkee tilin väliaikaisesti."
-    write_message: "Kirjoita viesti"
+    cancel: Peruuta
+    days: '{0} päivää'
+    description_notify: 'Käyttökiellon asettaminen sulkee tilin väliaikaisesti.'
+    description_suspend: 'Olet asettamassa käyttäjälle {0} väliaikasta käyttökieltoa. Tämä kommentti menee hylätyt-jonoon, ja käyttäjä {0} ei voi reagoida kommentteihin, ilmiantaa, tai vastata niihin, kunnes käyttökielto on päättynyt.'
+    email_message_suspend: 'Hyvä {0}, tilisi on asetettu {1}-sivuston sääntöjenmukaiseen käyttökieltoon. Et voi osallistua keskusteluun käyttökiellon aikana. Voit liittyä keskusteluun uudelleen {2}.'
+    hours: '{0} tuntia'
+    notify_suspend_until: 'Käyttäjä {0} on asetettu väliaikaiseen käyttökieltoon. Kielto päättyy automaattisesti {1}.'
+    one_hour: '1 tunti'
+    select_duration: 'Käyttökiellon kesto'
     send: Lähetä
-  reject_username:
-    username: käyttäjänimi
-    no_cancel: "En, peruuta"
-    description_reject: "Haluatko asettaa käyttökiellon, syynä {0}? Jos haluat, asetetaan käyttäjätili väliaikaseen käyttökieltoon, kunnes {0} on kirjoitettu uudelleen."
-    title_notify: "Lähetä käyttäjälle tieto asetetusta käyttökiellosta"
-    description_notify: "Käyttökiellon asettaminen sulkee tilin väliaikaisesti."
-    title_reject: "Huomasimme sinun hylänneen käyttäjänimen"
-    suspend_user: "Aseta väliaikainen käyttökielto"
-    yes_suspend: "Kyllä, sulje väliaikaisesti"
-    email_message_reject: "Toinen yhteisön jäsen on ilmiantanut käyttäjänimesi ja sen perusteella nimi on hylätty. Et voi enää osallistua keskusteluun. Ole ystävällisesti yhteydessä meihin, jos sinulla on asiasta kysyttävää." 
-    write_message: "Kirjoita viesti"
-    send: Lähetä
-  thank_you: "Arvostamme palautettasi. Moderaattorimme käy läpi tekemäsi ilmiannon."
+    suspend_user: 'Aseta väliaikainen käyttökielto'
+    title_notify: 'Lähetä käyttäjälle tieto asetetusta käyttökiellosta'
+    title_suspend: 'Aseta väliaikainen käyttökielto'
+    write_message: 'Kirjoita viesti'
+  thank_you: 'Arvostamme palautettasi. Moderaattorimme käy läpi tekemäsi ilmiannon.'
   user:
-    bio_flags: "liputusta kuvaukselle"
-    user_bio: "Käyttäjän kuvaus"
-    username_flags: "liputusta käyttäjänimelle"
+    bio_flags: 'liputusta kuvaukselle'
+    user_bio: 'Käyttäjän kuvaus'
+    username_flags: 'liputusta käyttäjänimelle'
   user_detail:
-    remove_suspension: "Poista käyttökielto"
-    suspend: "Aseta väliaikainen käyttökielto"
-    remove_ban: "Poista kirjoituskielto"
-    ban: "Aseta kirjoituskielto"
-    member_since: "Jäsenenä lähtien"
-    email: "Sähköposti"
-    total_comments: "Kommentteja yhteensä"
-    reject_rate: "Hylkäysaste"
-    reports: "Raportit"
-    all: "Kaikki"
-    rejected: "Hylätyt"
-    account_history: "Tilin historia"
-  user_impersonating: "Käyttäjä on tekeytynyt toiseksi"
-  user_no_comment: "Et ole jättänyt yhtään kommenttia. Liity mukaan keskusteluun!"
-  username_offensive: "Käyttäjänimi on loukkaava"
-  view_conversation: "Näytä keskustelu"
-  install:
-    initial:
-      description: "Ota Talk käyttöön, vain muutama askel jäljellä"
-      submit: "Aloita käyttö"
-    add_organization:
-      description: "Kerro organisaatiosi nimi. Tämä näkyy uusien jäsenten kutsuissa."
-      label: "Organisaation nimi"
-      save: "Tallenna"
-    create:
-      email: "Sähköpostiosoite"
-      username: "Käyttäjänimi"
-      password: "Salasana"
-      confirm_password: "Salasana uudelleen"
-      save: "Tallenna"
-    permitted_domains:
-      title: "Sallitut domainit"
-      description: "Syötä domainit, joilla on lupa käyttää Talkia. Esimerkiksi lokaalikehitys-, QA- ja tuotantoympäristöt: localhost:3000 staging.domain.com domain.com."
-      submit: "Lopeta asennus"
-    final:
-      description: "Kiitos kun asensit Talkin! Lähetämme sähköpostinvarmistusviestin antamaasi osoitteeseen. Voit nyt aloittaa kommentoinnin käytön."
-      launch: "Käynnistä Talk"
-      close: "Sulje asennusnäkymä"
-  admin_sidebar:
-    view_options: "Näytä asetukset"
-sort_comments: "Järjestä kommentit"
+    all: Kaikki
+    ban: 'Aseta kirjoituskielto'
+    email: Sähköposti
+    member_since: 'Jäsenenä lähtien'
+    reject_rate: Hylkäysaste
+    rejected: Hylätyt
+    remove_ban: 'Poista kirjoituskielto'
+    remove_suspension: 'Poista käyttökielto'
+    suspend: 'Aseta väliaikainen käyttökielto'
+    total_comments: 'Kommentteja yhteensä'
+  user_impersonating: 'Käyttäjä on tekeytynyt toiseksi'
+  user_no_comment: 'Et ole jättänyt yhtään kommenttia. Liity mukaan keskusteluun!'
+  username_offensive: 'Käyttäjänimi on loukkaava'
+  validators:
+    confirm_password: 'Salasanat eivät täsmää. Tarkista, ole hyvä.'
+    required: 'Tämä on vaadittu kenttä'
+    verify_email: 'Tarkista sähköpostiosoite'
+    verify_organization_name: 'Organisaation nimessä voi käyttää vain kirjaimia ja numeroita.'
+    verify_password: 'Salasanan tulee olla vähintään 8 merkkiä pitkä'
+    verify_username: 'Käyttäjänimissä sallittuja merkkejä ovat ainoastaan kirjaimet, numerot, sekä alaviiva'
+  view_conversation: 'Näytä keskustelu'
+  your_account_has_been_banned: 'Tilillesi on asetettu kirjoituskielto.'
+  your_account_has_been_suspended: 'Tilisi on väliaikasesti suljettu.'
+  your_username_has_been_rejected: 'Tilisi on suljettu, koska käyttäjänimesi on epäsopiva. Vaihda käyttäjänimeä jatkaaksesi tilin käyttöä.'

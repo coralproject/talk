@@ -6,11 +6,15 @@ import styles from './UserDetail.css';
 import UserHistory from './UserHistory';
 import { Slot } from 'coral-framework/components';
 import UserDetailCommentList from '../components/UserDetailCommentList';
+
 import {
-  getReliability,
   isSuspended,
+  isUsernameRejected,
+  isUsernameChanged,
   isBanned,
+  getKarma,
 } from 'coral-framework/utils/user';
+
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import {
@@ -25,7 +29,27 @@ import {
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import UserInfoTooltip from './UserInfoTooltip';
+import KarmaTooltip from './KarmaTooltip';
 import t from 'coral-framework/services/i18n';
+import { humanizeNumber } from 'coral-framework/helpers/numbers';
+
+const filterOutLocalProfiles = ({ provider }) => provider !== 'local';
+
+/**
+ * getUserStatusArray
+ * returns an array of active status(es)
+ * i.e if suspension is active, it returns suspension
+ */
+
+function getUserStatusArray(user) {
+  const statusMap = {
+    suspended: isSuspended,
+    banned: isBanned,
+    usernameRejected: isUsernameRejected,
+    usernameChanged: isUsernameChanged,
+  };
+  return Object.keys(statusMap).filter(k => statusMap[k](user));
+}
 
 class UserDetail extends React.Component {
   changeTab = tab => {
@@ -40,6 +64,12 @@ class UserDetail extends React.Component {
 
   showBanUserDialog = () =>
     this.props.showBanUserDialog({
+      userId: this.props.root.user.id,
+      username: this.props.root.user.username,
+    });
+
+  showRejectUsernameDialog = () =>
+    this.props.showRejectUsernameDialog({
       userId: this.props.root.user.id,
       username: this.props.root.user.username,
     });
@@ -64,22 +94,56 @@ class UserDetail extends React.Component {
     );
   }
 
-  getActionMenuLabel() {
-    const { root: { user } } = this.props;
+  getActionMenuLabel(user) {
+    const userStatusArr = getUserStatusArray(user);
+    const count = userStatusArr.length;
 
-    if (isBanned(user)) {
-      return 'Banned';
-    } else if (isSuspended(user)) {
-      return 'Suspended';
+    if (count > 1) {
+      return `Status (${count})`;
+    } else {
+      const activeStatus = userStatusArr[0];
+      switch (activeStatus) {
+        case 'suspended':
+          return t('user_detail.suspended');
+        case 'banned':
+          return t('user_detail.banned');
+        case 'usernameRejected':
+          return (
+            <span>
+              {t('user_detail.username')}
+              {` `}
+              <Icon name="cancel" />
+            </span>
+          );
+        case 'usernameChanged':
+          return (
+            <span>
+              {t('user_detail.username')}
+              {` `}
+              <Icon name="access_time" />
+            </span>
+          );
+        default:
+          return activeStatus;
+      }
     }
-
-    return '';
   }
+
+  goToReportedUsernames = () => {
+    const { router } = this.props;
+    router.push('/admin/community/flagged');
+  };
 
   renderLoaded() {
     const {
       root,
-      root: { me, user, totalComments, rejectedComments },
+      root: {
+        me,
+        user,
+        totalComments,
+        rejectedComments,
+        settings: { karmaThresholds },
+      },
       activeTab,
       selectedCommentIds,
       toggleSelect,
@@ -97,7 +161,7 @@ class UserDetail extends React.Component {
     } = this.props;
 
     // if totalComments is 0, you're dividing by zero
-    let rejectedPercent = rejectedComments / totalComments * 100;
+    let rejectedPercent = (rejectedComments / totalComments) * 100;
 
     if (rejectedPercent === Infinity || isNaN(rejectedPercent)) {
       rejectedPercent = 0;
@@ -105,6 +169,8 @@ class UserDetail extends React.Component {
 
     const banned = isBanned(user);
     const suspended = isSuspended(user);
+    const usernameRejected = isUsernameRejected(user);
+    const usernameChanged = isUsernameChanged(user);
 
     const slotPassthrough = {
       root,
@@ -137,7 +203,7 @@ class UserDetail extends React.Component {
                 },
                 'talk-admin-user-detail-actions-button'
               )}
-              label={this.getActionMenuLabel()}
+              label={this.getActionMenuLabel(user)}
             >
               {suspended ? (
                 <ActionsMenuItem onClick={() => unsuspendUser({ id: user.id })}>
@@ -164,6 +230,27 @@ class UserDetail extends React.Component {
                   {t('user_detail.ban')}
                 </ActionsMenuItem>
               )}
+
+              {usernameChanged && (
+                <ActionsMenuItem onClick={this.goToReportedUsernames}>
+                  {t('user_detail.username_needs_approval')}
+                  {` `}
+                  <Icon name="launch" />
+                </ActionsMenuItem>
+              )}
+
+              {usernameRejected && !usernameChanged ? (
+                <ActionsMenuItem disabled>
+                  {t('user_detail.username_rejected')}
+                </ActionsMenuItem>
+              ) : (
+                <ActionsMenuItem
+                  onClick={this.showRejectUsernameDialog}
+                  disabled={me.id === user.id || usernameChanged}
+                >
+                  {t('user_detail.reject_username')}
+                </ActionsMenuItem>
+              )}
             </ActionsMenu>
           )}
 
@@ -177,7 +264,19 @@ class UserDetail extends React.Component {
 
           <div>
             <ul className={styles.userDetailList}>
-              <li>
+              <li className={styles.userDetailItem}>
+                <Icon name="perm_identity" />
+                <span className={styles.userDetailItem}>
+                  {t('user_detail.id')}:
+                </span>
+                {user.id}{' '}
+                <ButtonCopyToClipboard
+                  className={styles.copyButton}
+                  icon="content_copy"
+                  copyText={user.id}
+                />
+              </li>
+              <li className={styles.userDetailItem}>
                 <Icon name="assignment_ind" />
                 <span className={styles.userDetailItem}>
                   {t('user_detail.member_since')}:
@@ -185,20 +284,35 @@ class UserDetail extends React.Component {
                 {new Date(user.created_at).toLocaleString()}
               </li>
 
-              {user.profiles.map(({ id }) => (
-                <li key={id}>
-                  <Icon name="email" />
-                  <span className={styles.userDetailItem}>
-                    {t('user_detail.email')}:
-                  </span>
-                  {id}{' '}
-                  <ButtonCopyToClipboard
-                    className={styles.copyButton}
-                    icon="content_copy"
-                    copyText={id}
-                  />
-                </li>
-              ))}
+              <li className={styles.userDetailItem}>
+                <Icon name="email" />
+                <span className={styles.userDetailItem}>
+                  {t('user_detail.email')}:
+                </span>
+                {user.email}{' '}
+                <ButtonCopyToClipboard
+                  className={styles.copyButton}
+                  icon="content_copy"
+                  copyText={user.email}
+                />
+              </li>
+
+              {user.profiles
+                .filter(filterOutLocalProfiles)
+                .map(({ provider, id }) => (
+                  <li key={id} className={styles.userDetailItem}>
+                    <Icon name="device_hub" />
+                    <span className={styles.userDetailItem}>
+                      {capitalize(provider)} {t('user_detail.id')}:
+                    </span>
+                    {id}{' '}
+                    <ButtonCopyToClipboard
+                      className={styles.copyButton}
+                      icon="content_copy"
+                      copyText={id}
+                    />
+                  </li>
+                ))}
             </ul>
 
             <ul className={styles.stats}>
@@ -216,18 +330,21 @@ class UserDetail extends React.Component {
                   {rejectedPercent.toFixed(1)}%
                 </span>
               </li>
-              <li className={styles.stat}>
-                <span className={styles.statItem}>
-                  {t('user_detail.reports')}
-                </span>
-                <span
-                  className={cn(
-                    styles.statReportResult,
-                    styles[getReliability(user.reliable.flagger)]
-                  )}
-                >
-                  {capitalize(getReliability(user.reliable.flagger))}
-                </span>
+              <li className={cn(styles.stat, styles.karmaStat)}>
+                <div>
+                  <span className={styles.statItem}>
+                    {t('user_detail.karma')}
+                  </span>
+                  <span
+                    className={cn(
+                      styles.statKarmaResult,
+                      styles[getKarma(user.reliable.commenter)]
+                    )}
+                  >
+                    {humanizeNumber(user.reliable.commenterKarma)}
+                  </span>
+                </div>
+                <KarmaTooltip thresholds={karmaThresholds.comment} />
               </li>
             </ul>
           </div>
@@ -339,6 +456,7 @@ class UserDetail extends React.Component {
 }
 
 UserDetail.propTypes = {
+  router: PropTypes.object.isRequired,
   userId: PropTypes.string.isRequired,
   hideUserDetail: PropTypes.func.isRequired,
   root: PropTypes.object.isRequired,
@@ -355,11 +473,13 @@ UserDetail.propTypes = {
   selectedCommentIds: PropTypes.array.isRequired,
   viewUserDetail: PropTypes.any.isRequired,
   loadMore: PropTypes.any.isRequired,
+  showRejectUsernameDialog: PropTypes.func,
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,
   unbanUser: PropTypes.func.isRequired,
   unsuspendUser: PropTypes.func.isRequired,
   modal: PropTypes.bool,
+  rejectUsername: PropTypes.func.isRequired,
 };
 
 export default UserDetail;

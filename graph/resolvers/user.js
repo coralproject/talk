@@ -16,20 +16,44 @@ const {
 const { property } = require('lodash');
 
 const User = {
-  action_summaries(user, _, { loaders: { Actions } }) {
+  action_summaries(
+    user,
+    _,
+    {
+      loaders: { Actions },
+    }
+  ) {
     return Actions.getSummariesByItem.load(user);
   },
-  actions({ id }, _, { loaders: { Actions } }) {
+  actions(
+    { id },
+    _,
+    {
+      loaders: { Actions },
+    }
+  ) {
     return Actions.getByID.load(id);
   },
-  comments({ id }, { query }, { loaders: { Comments } }) {
+  comments(
+    { id },
+    { query },
+    {
+      loaders: { Comments },
+    }
+  ) {
     // Set the author id on the query.
     query.author_id = id;
 
     return Comments.getByQuery(query);
   },
 
-  ignoredUsers({ ignoresUsers }, args, { loaders: { Users } }) {
+  ignoredUsers(
+    { ignoresUsers },
+    args,
+    {
+      loaders: { Users },
+    }
+  ) {
     // Return nothing if there is nothing to query for.
     if (!ignoresUsers || ignoresUsers.length <= 0) {
       return [];

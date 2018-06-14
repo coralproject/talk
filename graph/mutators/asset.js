@@ -63,7 +63,11 @@ const closeNow = async (ctx, id) =>
  * @param {String} id the asset's id to scrape
  */
 const scrapeAsset = async (ctx, id) => {
-  const { connectors: { services: { Scraper } } } = ctx;
+  const {
+    connectors: {
+      services: { Scraper },
+    },
+  } = ctx;
 
   return Scraper.create(ctx, id);
 };

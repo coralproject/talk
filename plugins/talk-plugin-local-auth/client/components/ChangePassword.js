@@ -135,7 +135,11 @@ class ChangePassword extends React.Component {
   };
 
   onForgotPassword = async () => {
-    const { root: { me: { email } } } = this.props;
+    const {
+      root: {
+        me: { email },
+      },
+    } = this.props;
 
     try {
       await this.props.forgotPassword(email);
@@ -185,7 +189,7 @@ class ChangePassword extends React.Component {
           >
             <InputField
               id="oldPassword"
-              label="Old Password"
+              label={t('talk-plugin-local-auth.change_password.old_password')}
               name="oldPassword"
               type="password"
               onChange={this.onChange}
@@ -205,7 +209,7 @@ class ChangePassword extends React.Component {
             </InputField>
             <InputField
               id="newPassword"
-              label="New Password"
+              label={t('talk-plugin-local-auth.change_password.new_password')}
               name="newPassword"
               type="password"
               onChange={this.onChange}
@@ -216,7 +220,9 @@ class ChangePassword extends React.Component {
             />
             <InputField
               id="confirmNewPassword"
-              label="Confirm New Password"
+              label={t(
+                'talk-plugin-local-auth.change_password.confirm_new_password'
+              )}
               name="confirmNewPassword"
               type="password"
               onChange={this.onChange}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {# Meta tags #}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    {% block meta %}{% endblock %}
+
+    {# Favicon Configuration #}
+    {% include "partials/favicon.njk" %}
+
+    {# CSP and security headers #}
+    {% block security %}{% endblock %}
+
+    {# Title #}
+    <title>{% block title %}{% endblock %}</title>
+
+    {# CSS #}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+    {% block css %}{% endblock %}
+
+    {# Static data injection #}
+    {% include "partials/data.njk" %}
+
+    {# Configuration #}
+    <base href="{{ BASE_URL }}"/>
+  </head>
+  <body>
+    {% block body %}
+    {% block html %}
+    <div id="root"></div>
+    {% endblock %}
+    {% endblock %}
+    {% block js %}{% endblock %}
+  </body>
+</html>

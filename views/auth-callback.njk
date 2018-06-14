@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% include "partials/data.njk" %}
+  </head>
+  <body>
+    <script type="application/json" id="auth">{{ encodeJSONForHTML(auth) | safe }}</script>
+    <script type="text/javascript" src="{{ resolve('coral-auth-callback/bundle.js') }}"></script>
+  </body>
+</html>

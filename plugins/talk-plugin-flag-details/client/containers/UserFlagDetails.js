@@ -15,7 +15,10 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const enhance = compose(
-  connect(null, mapDispatchToProps),
+  connect(
+    null,
+    mapDispatchToProps
+  ),
   withFragments({
     comment: gql`
       fragment CoralAdmin_UserFlagDetails_comment on Comment {

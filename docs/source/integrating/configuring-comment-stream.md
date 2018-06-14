@@ -10,17 +10,12 @@ Using plugins and configuration variables, you can modify the way the Talk comme
 
 To enable our default rich text editor plugin, you'll need to:
 
-1. Enable `talk-plugin-rich-text` as a server-side plugin
-2. Enable `talk-plugin-rich-text-pell` as a client-side plugin
-3. If you have `talk-plugin-comment-content` enabled, you will need to disable this (this supports hyperlinks in the comment body)
+1. Enable `talk-plugin-rich-text` as a server-side and client-side plugin
+2. If you have `talk-plugin-comment-content` enabled, you will need to disable this (this supports hyperlinks in the comment body)
 
 Out of the box, our Talk Editor supports Bold, Italic, and Blockquote.
 
 If you want to support another editor, you can create a plugin and replace the client-side one with the editor of your choice.
-
-For more information on our implementation, see https://github.com/coralproject/talk/pull/1391
-
-For more information on Pell, check out https://jaredreich.com/pell
 
 ### Sorting/Filtering the Stream
 

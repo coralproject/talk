@@ -41,7 +41,13 @@ class EmbedContainer extends React.Component {
           document: USER_BANNED_SUBSCRIPTION,
           updateQuery: (
             _,
-            { subscriptionData: { data: { userBanned: { state } } } }
+            {
+              subscriptionData: {
+                data: {
+                  userBanned: { state },
+                },
+              },
+            }
           ) => {
             notify('info', t('your_account_has_been_banned'));
             props.updateStatus(state.status);
@@ -51,7 +57,13 @@ class EmbedContainer extends React.Component {
           document: USER_SUSPENDED_SUBSCRIPTION,
           updateQuery: (
             _,
-            { subscriptionData: { data: { userSuspended: { state } } } }
+            {
+              subscriptionData: {
+                data: {
+                  userSuspended: { state },
+                },
+              },
+            }
           ) => {
             notify('info', t('your_account_has_been_suspended'));
             props.updateStatus(state.status);
@@ -61,7 +73,13 @@ class EmbedContainer extends React.Component {
           document: USERNAME_REJECTED_SUBSCRIPTION,
           updateQuery: (
             _,
-            { subscriptionData: { data: { usernameRejected: { state } } } }
+            {
+              subscriptionData: {
+                data: {
+                  usernameRejected: { state },
+                },
+              },
+            }
           ) => {
             notify('info', t('your_username_has_been_rejected'));
             props.updateStatus(state.status);
@@ -324,7 +342,10 @@ const mapDispatchToProps = dispatch =>
 
 export default compose(
   withPopupAuthHandler,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   branch(props => !props.checkedInitialLogin, renderComponent(Spinner)),
   withEmbedQuery
 )(EmbedContainer);

@@ -59,8 +59,14 @@ module.exports = {
       addTag: {
         async post(
           obj,
-          { tag: { name, id, item_type } },
-          { user, mutators: { Comment }, pubsub }
+          {
+            tag: { name, id, item_type },
+          },
+          {
+            user,
+            mutators: { Comment },
+            pubsub,
+          }
         ) {
           if (name === 'FEATURED' && item_type === 'COMMENTS') {
             const comment = await Comment.setStatus({
@@ -76,8 +82,14 @@ module.exports = {
       removeTag: {
         async post(
           obj,
-          { tag: { name, id, item_type } },
-          { user, loaders: { Comments }, pubsub }
+          {
+            tag: { name, id, item_type },
+          },
+          {
+            user,
+            loaders: { Comments },
+            pubsub,
+          }
         ) {
           if (name === 'FEATURED' && item_type === 'COMMENTS') {
             const comment = await Comments.get.load(id);

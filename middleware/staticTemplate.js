@@ -48,7 +48,7 @@ const attachStaticLocals = locals => {
   for (const key in TEMPLATE_LOCALS) {
     const value = TEMPLATE_LOCALS[key];
 
-    locals[key] = value;
+    merge(locals, { [key]: value });
   }
 };
 

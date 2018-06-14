@@ -1,0 +1,4 @@
+overrides:
+- files: "bin/cli*"
+  options:
+    parser: babylon

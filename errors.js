@@ -161,6 +161,24 @@ class ErrAssetCommentingClosed extends TalkError {
   }
 }
 
+// ErrCommentingDisabled is returned when a comment or action is attempted while
+// commenting has been disabled site-wide.
+class ErrCommentingDisabled extends TalkError {
+  constructor(message = null) {
+    super(
+      'asset commenting is closed',
+      {
+        status: 400,
+        translation_key: 'COMMENTING_DISABLED',
+      },
+      {
+        // Include the closedMessage in the metadata piece of the error.
+        message,
+      }
+    );
+  }
+}
+
 /**
  * ErrAuthentication is returned when there is an error authenticating and the
  * message is provided.
@@ -387,6 +405,7 @@ module.exports = {
   ErrAuthentication,
   ErrCannotIgnoreStaff,
   ErrCommentTooShort,
+  ErrCommentingDisabled,
   ErrContainsProfanity,
   ErrEditWindowHasEnded,
   ErrEmailAlreadyVerified,

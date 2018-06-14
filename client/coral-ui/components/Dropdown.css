@@ -1,30 +1,25 @@
 .dropdown {
+  display: inline-block;
   position: relative;
-  height: 34px;
-  background: #2c2c2c;
-  box-sizing: border-box;
-  color: white;
-  border-radius: 3px;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
-  line-height: 20px;
-
-  font-size: 0.98em;
-  border-radius: 3px;
-  cursor: pointer;
-
-  &.disabled {
-    color: #e5e5e5;
-    background: #888;
-    cursor: default;
-    pointer-events: none;
-  }
 }
 
 .toggle {
   padding: 8px 45px 8px 15px;
   outline: none;
+  color: white;
+  background: #2c2c2c;
+  border-radius: 3px;
+  height: 34px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+  line-height: 20px;
+  font-size: 0.98em;
 
   &:focus {
+    background: #888;
+  }
+
+  &:disabled {
+    color: #e5e5e5;
     background: #888;
   }
 }

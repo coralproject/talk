@@ -1,4 +1,6 @@
 const express = require('express');
+const nunjucks = require('nunjucks');
+const cons = require('consolidate');
 const trace = require('./middleware/trace');
 const logging = require('./middleware/logging');
 const path = require('path');
@@ -72,7 +74,26 @@ app.use(
 // VIEW CONFIGURATION
 //==============================================================================
 
-app.set('views', path.join(__dirname, 'views'));
+// configure the default views directory.
+const views = path.join(__dirname, 'views');
+app.set('views', views);
+
+// reconfigure nunjucks.
+cons.requires.nunjucks = nunjucks.configure(views, {
+  autoescape: true,
+  trimBlocks: true,
+  lstripBlocks: true,
+  watch: process.env.NODE_ENV === 'development',
+});
+
+// assign the nunjucks engine to .njk files.
+app.engine('njk', cons.nunjucks);
+
+// assign the ejs engine to .ejs and .html files.
+app.engine('ejs', cons.ejs);
+app.engine('html', cons.ejs);
+
+// set .ejs as the default extension.
 app.set('view engine', 'ejs');
 
 //==============================================================================

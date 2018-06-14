@@ -71,7 +71,7 @@ class RejectUsernameDialog extends Component {
       <Dialog
         className={cn(
           styles.suspendDialog,
-          'talk-admin-reject-username-dialog'
+          'talk-admin-reject-reported-username-dialog'
         )}
         id="rejectUsernameDialog"
         open={open}
@@ -85,7 +85,7 @@ class RejectUsernameDialog extends Component {
         <div
           className={cn(
             styles.container,
-            `talk-admin-reject-username-dialog-step-${stage}`
+            `talk-admin-reject-reported-username-dialog-step-${stage}`
           )}
         >
           <div className={styles.description}>
@@ -101,7 +101,7 @@ class RejectUsernameDialog extends Component {
                   <div className={styles.emailContainer}>
                     <textarea
                       rows={5}
-                      className={cn(styles.emailInput, 'talk-admin-reject-username-dialog-suspension-message')}
+                      className={cn(styles.emailInput, 'talk-admin-reject-reported-username-dialog-suspension-message')}
                       value={this.state.email}
                       onChange={this.onEmailChange}/>
                   </div>
@@ -110,7 +110,7 @@ class RejectUsernameDialog extends Component {
           <div
             className={cn(
               styles.modalButtons,
-              'talk-admin-reject-username-dialog-buttons'
+              'talk-admin-reject-reported-username-dialog-buttons'
             )}
           >
             {Object.keys(stages[stage].options).map((key, i) => (
@@ -118,7 +118,7 @@ class RejectUsernameDialog extends Component {
                 key={i}
                 className={cn(
                   'talk-admin-username-dialog-button',
-                  `talk-admin-reject-username-dialog-button-${key}`
+                  `talk-admin-reject-reported-username-dialog-button-${key}`
                 )}
                 onClick={this.onActionClick(stage, i)}
               >

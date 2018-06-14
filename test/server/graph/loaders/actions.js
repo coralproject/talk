@@ -12,7 +12,9 @@ describe('graph.loaders.Actions', () => {
         { item_id: 'comment_1' },
         { item_id: 'comment_2' },
       ]);
-      const { Actions: { getAuthoredByID } } = loaders({
+      const {
+        Actions: { getAuthoredByID },
+      } = loaders({
         user: { id: 'user_1' },
         connectors: { services: { Actions: { getUserActions: spy } } },
       });
@@ -34,7 +36,9 @@ describe('graph.loaders.Actions', () => {
   describe('#getSummariesByItem', () => {
     describe('logged out user', () => {
       it('does not include any user data', async () => {
-        const { Actions: { getSummariesByItem } } = loaders({
+        const {
+          Actions: { getSummariesByItem },
+        } = loaders({
           loaders: {
             Actions: {
               getAuthoredByID: {
@@ -72,7 +76,9 @@ describe('graph.loaders.Actions', () => {
 
     describe('logged in user', () => {
       it('does include user', async () => {
-        const { Actions: { getSummariesByItem } } = loaders({
+        const {
+          Actions: { getSummariesByItem },
+        } = loaders({
           loaders: {
             Actions: {
               getAuthoredByID: {

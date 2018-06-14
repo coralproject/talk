@@ -6,4 +6,7 @@ import GoogleButton from '../components/GoogleButton';
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ onClick: loginWithGoogle }, dispatch);
 
-export default connect(null, mapDispatchToProps)(GoogleButton);
+export default connect(
+  null,
+  mapDispatchToProps
+)(GoogleButton);

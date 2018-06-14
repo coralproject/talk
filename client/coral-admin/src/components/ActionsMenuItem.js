@@ -15,7 +15,7 @@ const ActionsMenuItem = props => (
 
 ActionsMenuItem.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 };
 
 export default ActionsMenuItem;

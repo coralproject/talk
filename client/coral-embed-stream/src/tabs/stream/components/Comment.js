@@ -117,8 +117,12 @@ export default class Comment extends React.Component {
   }
 
   componentWillReceiveProps(next) {
-    const { comment: { replies: prevReplies } } = this.props;
-    const { comment: { replies: nextReplies } } = next;
+    const {
+      comment: { replies: prevReplies },
+    } = this.props;
+    const {
+      comment: { replies: nextReplies },
+    } = next;
     if (
       prevReplies &&
       nextReplies &&
@@ -243,7 +247,10 @@ export default class Comment extends React.Component {
   }
 
   loadNewReplies = () => {
-    const { comment: { replies, replyCount, id }, emit } = this.props;
+    const {
+      comment: { replies, replyCount, id },
+      emit,
+    } = this.props;
     if (replyCount > replies.nodes.length) {
       this.setState({ loadingState: 'loading' });
       this.props
@@ -292,7 +299,11 @@ export default class Comment extends React.Component {
   // getVisibileReplies returns a list containing comments
   // which were authored by current user or comes before the `idCursor`.
   getVisibileReplies() {
-    const { comment: { replies }, currentUser, liveUpdates } = this.props;
+    const {
+      comment: { replies },
+      currentUser,
+      liveUpdates,
+    } = this.props;
     const idCursor = this.state.idCursors[0];
     const userId = currentUser ? currentUser.id : null;
 
@@ -745,10 +756,21 @@ export default class Comment extends React.Component {
 
     const id = `c_${comment.id}`;
 
+    // props that are passed down the slots.
+    const slotPassthrough = {
+      action: 'deleted',
+      comment,
+    };
+
     return (
       <div className={rootClassName} id={id}>
         {isCommentDeleted(comment) ? (
-          <CommentTombstone action="deleted" />
+          <Slot
+            fill="commentTombstone"
+            defaultComponent={CommentTombstone}
+            size={1}
+            passthrough={slotPassthrough}
+          />
         ) : (
           <div>
             {this.renderComment()}

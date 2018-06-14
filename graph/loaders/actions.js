@@ -6,7 +6,11 @@ const { first, get, merge, remove, groupBy, reduce, isNil } = require('lodash');
  * Gets actions based on their item id's.
  */
 const genActionsByItemID = (
-  { connectors: { services: { Actions } } },
+  {
+    connectors: {
+      services: { Actions },
+    },
+  },
   item_ids
 ) => {
   return Actions.findByItemIdArray(item_ids).then(
@@ -21,7 +25,12 @@ const genActionsByItemID = (
  * @param {Array<String>} itemIDs the items that we need to get the actions for
  */
 const genActionsAuthoredWithID = (
-  { user = {}, connectors: { services: { Actions } } },
+  {
+    user = {},
+    connectors: {
+      services: { Actions },
+    },
+  },
   itemIDs
 ) =>
   Actions.getUserActions(user.id, itemIDs).then(
@@ -50,7 +59,9 @@ const iterateActionCounts = action_counts =>
  * @param {Object} item the item that we're getting the actions for
  */
 async function getUserActions(ctx, { action_counts, id }) {
-  const { loaders: { Actions } } = ctx;
+  const {
+    loaders: { Actions },
+  } = ctx;
 
   // Get the total count for all action types.
   const totalActionCount = reduce(

@@ -81,4 +81,4 @@ TALK_JWT_SECRET=jX9y8G2ApcVLwyL{$6s3
 
 Be default, we sign our tokens with HMAC using a SHA-256 hash algorithm. If you
 want to change the signing algorithm, or use multiple signing/verifying keys,
-refer to our [Advanced Configuration](/talk/advanced-configuration/) documentation.
+refer to our [Advanced Configuration](/talk/advanced-configuration/#talk-jwt-secret) documentation.

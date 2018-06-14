@@ -25,7 +25,7 @@ If their next comment is also rejected, their user karma score is now `-2`, and 
 
 We strongly recommend not telling your community how this system works, or where the threshholds lie. Firstly, they might try to game the system to meet approval, and secondly, it makes it harder for you to change the threshhold in the future. We suggest using language such as "We hold back comments for approval for a variety of reasons, including content, account history, and more."
 
-If you see that a high proportion of first-time commenters on your site are abusive, you might want to change the threshhold to `0`, at least temporarily. You can configure your own Trust thresholds by using [TRUST_THRESHOLD](/talk/advanced-configuration/#trust-thresholds) in your site configuration.
+If you see that a high proportion of first-time commenters on your site are abusive, you might want to change the threshhold to `0`, at least temporarily. You can configure your own Trust thresholds by using [TRUST_THRESHOLDS](/talk/advanced-configuration/#trust-thresholds) in your site configuration.
 
 
 ## Reliable and Unreliable Flaggers
@@ -49,7 +49,7 @@ Here are the default thresholds:
 0 to +1: Neutral
 +2 and higher: Reliable
 ```
-You can configure your own Trust thresholds by using [TRUST_THRESHOLD](/talk/advanced-configuration/#trust-thresholds) in your
+You can configure your own Trust thresholds by using [TRUST_THRESHOLDS](/talk/advanced-configuration/#trust-thresholds) in your
 configuration.
 
 Note: Report Karma doesn't include reports of "I don't agree with this comment".

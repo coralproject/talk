@@ -31,6 +31,21 @@ image you can specify it with `--build-arg TALK_DEFAULT_LANG=en`.
 
 Specify the default translation language. (Default `en`)
 
+## TALK_WHITELISTED_LANGUAGES
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
+image you can specify it with `--build-arg TALK_WHITELISTED_LANGUAGES=en`.
+
+Specify the comma separated whitelisted languages that you want the Talk
+application to serve. This will override the available set of languages that
+Talk will allow to be served.
+
+If the [TALK_DEFAULT_LANG](#talk-default-lang) is not included in this list of
+whitelisted languages, then the first whitelisted language will become the
+default language. If this parameter is empty, then all languages supported by
+Talk will be whitelisted. (Default '')
+
 ## TALK_DEFAULT_STREAM_TAB
 
 This is a **Build Variable** and must be consumed during build. If using the
@@ -497,6 +512,15 @@ tracing of GraphQL requests.
 
 **Note: Apollo Engine is a premium service, charges may apply.**
 
+<!-- TODO: re-add CSP once we've resolved issues with dynamic webpack loading. -->
+<!-- ## TALK_ENABLE_STRICT_CSP
+
+Setting this to `TRUE` will enforce the [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+(or CSP). By default, this configuration is set to
+[report only](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Testing_your_policy)
+where the policy is not enforced, but any violations are reported to a provided
+URI. (Default `FALSE`) -->
+
 ## ALLOW_NO_LIMIT_QUERIES
 
 Setting this to `TRUE` will allow queries to execute without a limit (returns
@@ -544,3 +568,7 @@ A JSON string representing the configuration passed to the
 [fetch](https://www.npmjs.com/package/node-fetch) call for the scraper. It
 can be used to set an authorization header, or change the user agent. (Default
 `{}`)
+
+## TALK_SCRAPER_PROXY_URL
+
+Sets a specific HTTP/S proxy to be used by the Asset Scraper using [https-proxy-agent](https://www.npmjs.com/package/https-proxy-agent). (Default `null`)

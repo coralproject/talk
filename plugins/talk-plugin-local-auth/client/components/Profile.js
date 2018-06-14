@@ -114,7 +114,11 @@ class Profile extends React.Component {
 
   isSaveEnabled = () => {
     const { formData } = this.state;
-    const { root: { me: { username, email } } } = this.props;
+    const {
+      root: {
+        me: { username, email },
+      },
+    } = this.props;
     const formHasErrors = !!Object.keys(this.state.errors).length;
     const validUsername =
       formData.newUsername && formData.newUsername !== username;
@@ -166,7 +170,13 @@ class Profile extends React.Component {
 
   render() {
     const {
-      root: { me: { username, email, state: { status } } },
+      root: {
+        me: {
+          username,
+          email,
+          state: { status },
+        },
+      },
       notify,
     } = this.props;
     const { editing, formData, showDialog } = this.state;
@@ -223,11 +233,21 @@ class Profile extends React.Component {
                   disabled={!usernameCanBeUpdated}
                   columnDisplay
                 >
-                  <span className={styles.bottomText}>
-                    {t(
-                      'talk-plugin-local-auth.change_username.change_username_note'
+                  <div className={styles.bottomText}>
+                    <span>
+                      {t(
+                        'talk-plugin-local-auth.change_username.change_username_note'
+                      )}
+                    </span>
+                    {!usernameCanBeUpdated && (
+                      <b>
+                        {' '}
+                        {t(
+                          'talk-plugin-local-auth.change_username.is_not_eligible'
+                        )}
+                      </b>
                     )}
-                  </span>
+                  </div>
                 </InputField>
                 <InputField
                   icon="email"

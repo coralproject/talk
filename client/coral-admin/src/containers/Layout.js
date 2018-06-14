@@ -6,6 +6,7 @@ import Login from '../containers/Login';
 import { FullLoading } from '../components/FullLoading';
 import BanUserDialog from './BanUserDialog';
 import SuspendUserDialog from './SuspendUserDialog';
+import RejectUsernameDialog from './RejectUsernameDialog';
 import { toggleModal as toggleShortcutModal } from '../actions/moderation';
 import { logout } from 'coral-framework/actions/auth';
 import { can } from 'coral-framework/services/perms';
@@ -41,6 +42,7 @@ class LayoutContainer extends React.Component {
           >
             <BanUserDialog />
             <SuspendUserDialog />
+            <RejectUsernameDialog />
             <UserDetail />
             {children}
           </Layout>
@@ -79,4 +81,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LayoutContainer);

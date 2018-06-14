@@ -8,6 +8,7 @@ import Slot from 'coral-framework/components/Slot';
 import InfoBox from './InfoBox';
 import { can } from 'coral-framework/services/perms';
 import ModerationLink from './ModerationLink';
+import Markdown from 'coral-framework/components/Markdown';
 import RestrictedMessageBox from 'coral-framework/components/RestrictedMessageBox';
 import t, { timeago } from 'coral-framework/services/i18n';
 import CommentBox from '../containers/CommentBox';
@@ -181,7 +182,9 @@ class Stream extends React.Component {
                 setActiveReplyBox={setActiveReplyBox}
                 activeReplyBox={activeReplyBox}
                 notify={notify}
-                disableReply={asset.isClosed}
+                disableReply={
+                  asset.isClosed || asset.settings.disableCommenting
+                }
                 postComment={postComment}
                 currentUser={currentUser}
                 postFlag={postFlag}
@@ -208,14 +211,17 @@ class Stream extends React.Component {
       root,
       appendItemArray,
       asset,
-      asset: { comment: highlightedComment, settings: { questionBoxEnable } },
+      asset: {
+        comment: highlightedComment,
+        settings: { questionBoxEnable },
+      },
       postComment,
       notify,
       updateItem,
       currentUser,
     } = this.props;
     const { keepCommentBox } = this.state;
-    const open = !asset.isClosed;
+    const open = !(asset.isClosed || asset.settings.disableCommenting);
 
     const banned = get(currentUser, 'status.banned.status');
     const suspensionUntil = get(currentUser, 'status.suspension.until');
@@ -293,7 +299,13 @@ class Stream extends React.Component {
             )}
           </div>
         ) : (
-          <p>{asset.settings.closedMessage}</p>
+          <div>
+            {asset.isClosed ? (
+              <Markdown content={asset.settings.closedMessage} />
+            ) : (
+              <Markdown content={asset.settings.disableCommentingMessage} />
+            )}
+          </div>
         )}
 
         <Slot fill="stream" passthrough={slotPassthrough} />
