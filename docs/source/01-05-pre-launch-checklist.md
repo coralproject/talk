@@ -1,0 +1,39 @@
+---
+title: Pre-Launch Checklist
+permalink: /pre-launch-checklist/
+---
+- [ ] Do you have a hosting Provider?
+  - On your own bare metal servers?
+  - In the cloud?
+    - [AWS](/planning-architecture)
+    - [Google Cloud](/planning-architecture/)
+    - Heroku
+    - [Digital Ocean](/planning-architecture/)
+- [ ] Do you have a domain name for Talk?
+  - **Recommended**: On a subdomain on your main site (e.g. if your site is mysitefornews.org, you should server Talk from a subdomain like talk.mysitefornews.org) to avoid issues with third-party cookie sharing.
+- [ ] Do you have a MongoDB instance?
+  - A MongoDB [Docker instance](/installation-from-docker/) hosted alongside Talk?
+  - In an external MongoDB cluster?
+    - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+    - [mLab](https://mlab.com/)
+- [ ] Migrating comments from a legacy system?
+  - Use the [Talk Import](https://github.com/coralproject/talk-importer) framework
+- [ ] Do you want to provide single sign-on (SSO) by integrating with an external auth system
+  - See [Authenticating with Talk](/integrating/authentication/)
+- [ ] Social sign-on
+  - Facebook
+    - Install [talk-plugin-facebook-auth](/plugin/talk-plugin-facebook-auth/)
+  - Other
+    - See [Authenticating with Talk](/integrating/authentication/)
+- [ ] Toxic Comments Plugin
+  - [Request API Key from Google](https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md)
+  - Install [talk-plugin-toxic-comments](/plugin/talk-plugin-toxic-comments/)
+- [ ] Akismet Spam Detection Plugin
+  - Install [talk-plugin-akismet](/plugin/talk-plugin-akismet/)
+- [ ] Email Notifications
+  - See [Notifications](/integrating/notifications/)
+- [ ] Do you want to display comment counts?
+  - Use the GraphQL [CommentCountQuery](https://docs.coralproject.net/talk/api/graphql/#CommentCountQuery)
+  - Install [talk-plugin-deep-reply-count](/plugin/talk-plugin-deep-reply-count) if necessary.
+- [ ] Do you want to translate Talk to a different language?
+  - See [Translations and i18n](/integrating/translations-i18n)
