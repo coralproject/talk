@@ -1,17 +1,19 @@
 import loaders from './loaders';
-import { Request } from 'express';
 import { Db } from 'mongodb';
+import { Tenant } from 'talk-server/models/tenant';
 
 export interface ContextOptions {
-    req: Request;
+    tenant?: Tenant;
     db: Db;
 }
 
-export default class Context {
+export default class TenantContext {
     public loaders: ReturnType<typeof loaders>;
     public db: Db;
+    public tenant?: Tenant;
 
-    constructor({ req, db }: ContextOptions) {
+    constructor({ tenant, db }: ContextOptions) {
+        this.tenant = tenant;
         this.loaders = loaders(this);
         this.db = db;
     }

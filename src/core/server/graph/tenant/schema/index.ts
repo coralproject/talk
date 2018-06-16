@@ -2,11 +2,11 @@ import {
     addMockFunctionsToSchema,
     addResolveFunctionsToSchema,
 } from 'graphql-tools';
-import resolvers from 'talk-server/graph/resolvers';
+import resolvers from 'talk-server/graph/tenant/resolvers';
 import { getGraphQLProjectConfig } from 'graphql-config';
 
 // Load the configuration from the provided `.graphqlconfig` file.
-const config = getGraphQLProjectConfig();
+const config = getGraphQLProjectConfig(__dirname, 'tenant');
 
 // Get the GraphQLSchema from the configuration.
 const schema = config.getSchema();

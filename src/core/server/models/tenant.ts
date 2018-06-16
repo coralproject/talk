@@ -1,10 +1,16 @@
-import { Db } from 'mongodb';
+import { Db, Collection } from 'mongodb';
 import { defaultsDeep } from 'lodash';
 import dotize from 'dotize';
+import uuid from 'uuid';
+import { Omit } from 'talk-common/types';
 
-// selector is the single document selector for the Settings model stored in the
-// settings collection in MongoDB.
-const selector = { id: '1' };
+function collection(db: Db): Collection<Tenant> {
+    return db.collection<Tenant>('tenants');
+}
+
+export interface TenantResource {
+    readonly tenant_id: string;
+}
 
 export interface Wordlist {
     banned: string[];
@@ -16,7 +22,7 @@ export enum Moderation {
     POST = 'POST',
 }
 
-export interface Settings {
+export interface Tenant {
     readonly id: string;
 
     moderation: Moderation;
@@ -49,10 +55,9 @@ export interface Settings {
     domains: string[];
 }
 
-const defaultSettings: Settings = {
-    // Include the selector.
-    ...selector,
+export type CreateTenantInput = Omit<Tenant, 'id'>;
 
+const defaults: CreateTenantInput = {
     // Default to post moderation.
     moderation: Moderation.POST,
 
@@ -76,40 +81,48 @@ const defaultSettings: Settings = {
 
 export async function create(
     db: Db,
-    settingsInput: Partial<Settings>
-): Promise<Readonly<Settings>> {
-    const result = await db
-        .collection<Settings>('settings')
-        .findOneAndReplace(
-            selector,
-            defaultsDeep({}, settingsInput, defaultSettings),
-            {
-                upsert: true,
-                returnOriginal: false,
-            }
-        );
+    input: Partial<CreateTenantInput>
+): Promise<Readonly<Tenant>> {
+    const tenant = defaultsDeep({ id: uuid.v4() }, input, defaults);
 
-    return result.value;
+    await collection(db).insert(tenant);
+
+    return tenant;
 }
 
-export async function retrieve(db: Db): Promise<Readonly<Settings>> {
-    const settings = await db
-        .collection<Settings>('settings')
-        .findOne(selector);
-    if (!settings) {
-        throw new Error('settings not initialized'); // FIXME: return actual typed error
-    }
+export async function retrieve(db: Db, id: string): Promise<Readonly<Tenant>> {
+    return collection(db).findOne({ id });
+}
 
-    return settings;
+export async function retrieveMany(
+    db: Db,
+    ids: string[]
+): Promise<Readonly<Tenant>[]> {
+    const cursor = await collection(db).find({
+        id: {
+            $in: ids,
+        },
+    });
+
+    const tenants = await cursor.toArray();
+
+    return ids.map(id => tenants.find(tenant => tenant.id === id));
+}
+
+export async function retrieveAll(db: Db): Promise<Readonly<Tenant>[]> {
+    return collection(db)
+        .find({})
+        .toArray();
 }
 
 export async function update(
     db: Db,
-    update: Partial<Settings>
-): Promise<Readonly<Settings>> {
-    // Get the settings from the database.
-    const result = await db.collection<Settings>('settings').findOneAndUpdate(
-        selector,
+    id: string,
+    update: Partial<CreateTenantInput>
+): Promise<Readonly<Tenant>> {
+    // Get the tenant from the database.
+    const result = await collection(db).findOneAndUpdate(
+        { id },
         // Only update fields that have been updated.
         { $set: dotize(update) },
         // False to return the updated document instead of the original

@@ -1,7 +1,15 @@
-import { Db } from 'mongodb';
+import { Db, Collection } from 'mongodb';
 import { Omit, Sub } from 'talk-common/types';
 import { merge } from 'lodash';
 import uuid from 'uuid';
+import { Connection, Edge, Cursor } from 'talk-server/models/connection';
+import Query from 'talk-server/models/query';
+import { ActionCounts } from 'talk-server/models/actions';
+import { TenantResource } from 'talk-server/models/tenant';
+
+function collection(db: Db): Collection<Comment> {
+    return db.collection<Comment>('comments');
+}
 
 export interface BodyHistoryItem {
     body: string;
@@ -22,11 +30,7 @@ export enum CommentStatus {
     NONE = 'NONE',
 }
 
-export interface ActionCounts {
-    [_: string]: number;
-}
-
-export interface Comment {
+export interface Comment extends TenantResource {
     readonly id: string;
     parent_id?: string;
     author_id: string;
@@ -39,15 +43,24 @@ export interface Comment {
     reply_count: number;
     created_at: Date;
     deleted_at?: Date;
+    metadata?: {
+        [_: string]: any;
+    };
 }
 
 export type CreateCommentInput = Omit<
     Comment,
-    'id' | 'created_at' | 'reply_count' | 'body_history' | 'status_history'
+    | 'id'
+    | 'tenant_id'
+    | 'created_at'
+    | 'reply_count'
+    | 'body_history'
+    | 'status_history'
 >;
 
 export async function create(
     db: Db,
+    tenantID: string,
     input: CreateCommentInput
 ): Promise<Readonly<Comment>> {
     const now = new Date();
@@ -59,6 +72,7 @@ export async function create(
     // created.
     const defaults: Sub<Comment, CreateCommentInput> = {
         id: uuid.v4(),
+        tenant_id: tenantID,
         created_at: now,
         reply_count: 0,
         body_history: [
@@ -83,17 +97,200 @@ export async function create(
     // TODO: Check for existence of the asset ID before we create the comment.
 
     // Insert it into the database.
-    await db.collection<Comment>('comments').insertOne(comment);
+    await collection(db).insertOne(comment);
 
     // TODO: update reply count of parent if exists.
 
     return comment;
 }
 
-async function incrementReplyCount(db: Db, parentID: string): Promise<void> {
-    return null;
+export async function retrieve(
+    db: Db,
+    tenantID: string,
+    id: string
+): Promise<Readonly<Comment>> {
+    return collection(db).findOne({ id, tenant_id: tenantID });
 }
 
-export async function retrieve(db: Db, id: string): Promise<Comment> {
-    return null;
+export async function retrieveMany(
+    db: Db,
+    tenantID: string,
+    ids: string[]
+): Promise<Readonly<Comment>[]> {
+    const cursor = await collection(db).find({
+        id: {
+            $in: ids,
+        },
+        tenant_id: tenantID,
+    });
+
+    const comments = await cursor.toArray();
+
+    return ids.map(id => comments.find(comment => comment.id === id));
+}
+
+export enum CommentSort {
+    CREATED_AT_DESC = 'CREATED_AT_DESC',
+    CREATED_AT_ASC = 'CREATED_AT_ASC',
+    REPLIES_DESC = 'REPLIES_DESC',
+    RESPECT_DESC = 'RESPECT_DESC',
+}
+
+export interface ConnectionInput {
+    first: number;
+    orderBy: CommentSort;
+    after?: Cursor;
+}
+
+/**
+ * nodesToEdge converts a set of nodes and configuration options into a set of
+ * edges.
+ *
+ * @param input connection configuration
+ * @param nodes nodes returned from the query
+ */
+function nodesToEdge(
+    input: ConnectionInput,
+    nodes: Comment[]
+): Edge<Comment>[] {
+    let getCursor: (comment: Comment, index: number) => Cursor;
+    switch (input.orderBy) {
+        case CommentSort.CREATED_AT_DESC:
+        case CommentSort.CREATED_AT_ASC:
+            getCursor = comment => comment.created_at;
+            break;
+        case CommentSort.REPLIES_DESC:
+        case CommentSort.RESPECT_DESC:
+            getCursor = (_, index) =>
+                (input.after ? (input.after as number) : 0) + index + 1;
+            break;
+    }
+
+    return nodes.map((comment, index) => ({
+        node: comment,
+        cursor: getCursor(comment, index),
+    }));
+}
+
+/**
+ * retrieveRepliesConnection returns a Connection<Comment> for a given comments
+ * replies.
+ *
+ * @param db database connection
+ * @param parentID the parent id for the comment to retrieve
+ * @param input connection configuration
+ */
+export async function retrieveRepliesConnection(
+    db: Db,
+    tenantID: string,
+    assetID: string,
+    parentID: string,
+    input: ConnectionInput
+): Promise<Readonly<Connection<Comment>>> {
+    // Create the query.
+    const query = new Query(collection(db)).where({
+        tenant_id: tenantID,
+        asset_id: assetID,
+        parent_id: parentID,
+    });
+
+    // Return a connection for the comments query.
+    return retrieveConnection(input, query);
+}
+
+/**
+ * retrieveAssetConnection returns a Connection<Comment> for a given Asset's
+ * comments.
+ *
+ * @param db database connection
+ * @param assetID the Asset id for the comment to retrieve
+ * @param input connection configuration
+ */
+export async function retrieveAssetConnection(
+    db: Db,
+    tenantID: string,
+    assetID: string,
+    input: ConnectionInput
+): Promise<Readonly<Connection<Comment>>> {
+    // Create the query.
+    const query = new Query(collection(db)).where({
+        tenant_id: tenantID,
+        asset_id: assetID,
+        parent_id: null,
+    });
+
+    // Return a connection for the comments query.
+    return retrieveConnection(input, query);
+}
+
+/**
+ * retrieveConnection returns a Connection<Comment> for the given input and
+ * Query.
+ *
+ * @param input connection configuration
+ * @param query the Query for the set of nodes that should have the connection
+ *              configuration applied
+ */
+async function retrieveConnection(
+    input: ConnectionInput,
+    query: Query<Comment>
+): Promise<Readonly<Connection<Comment>>> {
+    // Apply some sorting options.
+    switch (input.orderBy) {
+        case CommentSort.CREATED_AT_DESC:
+            query.orderBy({ created_at: -1 });
+            if (input.after) {
+                query.where({ created_at: { $lt: input.after as Date } });
+            }
+            break;
+        case CommentSort.CREATED_AT_ASC:
+            query.orderBy({ created_at: 1 });
+            if (input.after) {
+                query.where({ created_at: { $gt: input.after as Date } });
+            }
+            break;
+        case CommentSort.REPLIES_DESC:
+            query.orderBy({ reply_count: -1, created_at: -1 });
+            if (input.after) {
+                query.after(input.after as number);
+            }
+            break;
+        case CommentSort.RESPECT_DESC:
+            query.orderBy({ 'action_counts.respect': -1, created_at: -1 });
+            if (input.after) {
+                query.after(input.after as number);
+            }
+            break;
+    }
+
+    // We load one more than the limit so we can determine if there is
+    // another page of entries.
+    query.first(input.first + 1);
+
+    // Get the cursor.
+    const cursor = await query.exec();
+
+    // Get the comments from the cursor.
+    const nodes = await cursor.toArray();
+
+    // The hasNextPage is always handled the same (ask for one more than we need,
+    // if there is one more, than there is more).
+    let hasNextPage = false;
+    if (input.first >= 0 && nodes.length > input.first) {
+        // There was one more than we expected! Set hasNextPage = true and remove
+        // the last item from the array that we requested.
+        hasNextPage = true;
+        nodes.splice(input.first, 1);
+    }
+
+    // Convert the nodes to edges.
+    const edges = nodesToEdge(input, nodes);
+
+    // Return the connection.
+    return {
+        edges,
+        pageInfo: {
+            hasNextPage,
+        },
+    };
 }

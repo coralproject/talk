@@ -221,7 +221,11 @@ type Comment {
     """
     replies will return the replies to this comment.
     """
-    replies(cursor: Cursor, limit: Int = 10): CommentsConnection
+    replies(
+        first: Int = 10
+        orderBy: COMMENT_SORT = CREATED_AT_DESC
+        after: Cursor
+    ): CommentsConnection
 }
 
 type PageInfo {
@@ -253,7 +257,7 @@ type CommentEdge {
     """
 
     """
-    id: ID
+    cursor: Cursor
 }
 
 """
@@ -276,9 +280,10 @@ type CommentsConnection {
 ################################################################################
 
 enum COMMENT_SORT {
-    CREATED_AT
-    REPLIES
-    RESPECT
+    CREATED_AT_DESC
+    CREATED_AT_ASC
+    REPLIES_DESC
+    RESPECT_DESC
 }
 
 """
@@ -305,7 +310,7 @@ type Asset {
     """
     comments(
         first: Int = 10
-        orderBy: COMMENT_SORT = CREATED_AT
+        orderBy: COMMENT_SORT = CREATED_AT_DESC
         after: Cursor
     ): CommentsConnection
 
@@ -356,11 +361,13 @@ type AssetsConnection {
 }
 
 ################################################################################
-## Queries
+## Query
 ################################################################################
 
-# Query is every query possible against this GraphQL server.
 type Query {
+    """
+    comment returns a specific comment.
+    """
     comment(id: ID!): Comment
 
     """
@@ -377,6 +384,11 @@ type Query {
     me is the current logged in User.
     """
     me: User
+
+    """
+    settings is the Settings for a given Tenant.
+    """
+    settings: Settings!
 }
 
 ################################################################################

@@ -8,65 +8,65 @@ dotenv.config();
 
 // Add custom format for the mongo uri scheme.
 convict.addFormat({
-  name: 'mongo-uri',
-  validate: (url: string) => {
-    Joi.assert(
-      url,
-      Joi.string().uri({
-        scheme: ['mongodb'],
-      })
-    );
-  },
+    name: 'mongo-uri',
+    validate: (url: string) => {
+        Joi.assert(
+            url,
+            Joi.string().uri({
+                scheme: ['mongodb'],
+            })
+        );
+    },
 });
 
 // Add custom format for the redis uri scheme.
 convict.addFormat({
-  name: 'redis-uri',
-  validate: (url: string) => {
-    Joi.assert(
-      url,
-      Joi.string().uri({
-        scheme: ['redis'],
-      })
-    );
-  },
+    name: 'redis-uri',
+    validate: (url: string) => {
+        Joi.assert(
+            url,
+            Joi.string().uri({
+                scheme: ['redis'],
+            })
+        );
+    },
 });
 
 export const config = convict({
-  env: {
-    doc: 'The application environment.',
-    format: ['production', 'development', 'test'],
-    default: 'development',
-    env: 'NODE_ENV',
-  },
-  port: {
-    doc: 'The port to bind.',
-    format: 'port',
-    default: 3000,
-    env: 'PORT',
-    arg: 'port',
-  },
-  mongodb: {
-    doc: 'The MongoDB database to connect to.',
-    format: 'mongo-uri',
-    default: 'mongodb://localhost/talk',
-    env: 'MONGODB',
-    arg: 'mongodb',
-  },
-  redis: {
-    doc: 'The Redis database to connect to.',
-    format: 'redis-uri',
-    default: 'redis://localhost:6379',
-    env: 'REDIS',
-    arg: 'redis',
-  },
-  secret: {
-    doc: 'The secret used to sign and verify JWTs',
-    format: '*',
-    default: null,
-    env: 'SECRET',
-    arg: 'secret',
-  },
+    env: {
+        doc: 'The application environment.',
+        format: ['production', 'development', 'test'],
+        default: 'development',
+        env: 'NODE_ENV',
+    },
+    port: {
+        doc: 'The port to bind.',
+        format: 'port',
+        default: 3000,
+        env: 'PORT',
+        arg: 'port',
+    },
+    mongodb: {
+        doc: 'The MongoDB database to connect to.',
+        format: 'mongo-uri',
+        default: 'mongodb://localhost/talk',
+        env: 'MONGODB',
+        arg: 'mongodb',
+    },
+    redis: {
+        doc: 'The Redis database to connect to.',
+        format: 'redis-uri',
+        default: 'redis://localhost:6379',
+        env: 'REDIS',
+        arg: 'redis',
+    },
+    secret: {
+        doc: 'The secret used to sign and verify JWTs',
+        format: '*',
+        default: null,
+        env: 'SECRET',
+        arg: 'secret',
+    },
 });
 
 export type Config = typeof config;

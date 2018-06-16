@@ -1,11 +1,16 @@
-import { Db } from 'mongodb';
-import { FilterQuery } from './types';
+import { Db, Collection } from 'mongodb';
+import Query, { FilterQuery } from './query';
 import { defaults } from 'lodash';
 import uuid from 'uuid';
 import { Omit } from 'talk-common/types';
 import dotize from 'dotize';
+import { TenantResource } from 'talk-server/models/tenant';
 
-export interface Asset {
+function collection(db: Db): Collection<Asset> {
+    return db.collection<Asset>('assets');
+}
+
+export interface Asset extends TenantResource {
     readonly id: string;
     url: string;
     scraped?: Date;
@@ -24,21 +29,28 @@ export interface Asset {
 
 export type CreateAssetInput = Pick<Asset, 'id' | 'url'>;
 
-export async function create(db: Db, input: CreateAssetInput): Promise<Asset> {
+export async function create(
+    db: Db,
+    tenantID: string,
+    input: CreateAssetInput
+): Promise<Asset> {
     const now = new Date();
 
     // Construct the filter.
-    const filter: FilterQuery<Asset> = {};
+    const query = new Query<Asset>(collection(db)).where({
+        tenant_id: tenantID,
+    });
     if (input.id) {
-        filter.id = input.id;
+        query.where({ id: input.id });
     } else {
-        filter.url = input.url;
+        query.where({ url: input.url });
     }
 
     // Craft the update object.
     const update: { $setOnInsert: Asset } = {
         $setOnInsert: defaults(input, {
             id: uuid.v4(),
+            tenant_id: tenantID,
             created_at: now,
         }),
     };
@@ -46,7 +58,7 @@ export async function create(db: Db, input: CreateAssetInput): Promise<Asset> {
     // Perform the upsert operation.
     const result = await db
         .collection<Asset>('assets')
-        .findOneAndUpdate(filter, update, {
+        .findOneAndUpdate(query.filter, update, {
             // Create the object if it doesn't already exist.
             upsert: true,
             // False to return the updated document instead of the original
@@ -57,24 +69,24 @@ export async function create(db: Db, input: CreateAssetInput): Promise<Asset> {
     return result.value;
 }
 
-export async function exists(db: Db, id: string): Promise<boolean> {
-    // TODO: implement
-    // const cursor = await db.collection<Asset>('assets').find({ id }).limit(1);
-
-    return null;
-}
-
-export async function retrieve(db: Db, id: string): Promise<Asset> {
-    return await db.collection<Asset>('assets').findOne({ id });
+export async function retrieve(
+    db: Db,
+    tenantID: string,
+    id: string
+): Promise<Asset> {
+    return await db
+        .collection<Asset>('assets')
+        .findOne({ id, tenant_id: tenantID });
 }
 
 export async function retrieveMany(
     db: Db,
+    tenantID: string,
     ids: string[]
 ): Promise<Array<Asset>> {
     const cursor = await db
         .collection<Asset>('assets')
-        .find({ id: { $in: ids } });
+        .find({ id: { $in: ids }, tenant_id: tenantID });
 
     const assets = await cursor.toArray();
 
@@ -83,16 +95,17 @@ export async function retrieveMany(
 
 export type UpdateAssetInput = Omit<
     Partial<Asset>,
-    'id' | 'url' | 'created_at'
+    'id' | 'tenant_id' | 'url' | 'created_at'
 >;
 
 export async function update(
     db: Db,
+    tenantID: string,
     id: string,
     update: UpdateAssetInput
 ): Promise<Readonly<Asset>> {
     const result = await db.collection<Asset>('assets').findOneAndUpdate(
-        { id },
+        { id, tenant_id: tenantID },
         // Only update fields that have been updated.
         { $set: dotize(update) },
         // False to return the updated document instead of the original

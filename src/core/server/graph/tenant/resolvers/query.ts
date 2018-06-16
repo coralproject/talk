@@ -1,4 +1,4 @@
-import Context from 'talk-server/graph/context';
+import Context from 'talk-server/graph/tenant/context';
 import { Asset } from 'talk-server/models/asset';
 
 export default {
@@ -7,6 +7,6 @@ export default {
         { id, url }: { id?: string; url: string },
         ctx: Context
     ): Promise<Asset> => {
-        return ctx.loaders.Asset.asset.load(id);
+        return ctx.loaders.Assets.asset.load(id);
     },
 };
