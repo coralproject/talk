@@ -1,0 +1,39 @@
+################################################################################
+## Custom Scalar Types
+################################################################################
+
+"""
+Time represented as an ISO8601 string.
+"""
+scalar Time
+
+"""
+Cursor represents a paginating cursor.
+"""
+scalar Cursor
+
+################################################################################
+## Tenant
+################################################################################
+
+type Tenant {
+    id: ID!
+
+    """
+    organizationName is the name of the organization.
+    """
+    organizationName: String
+
+    """
+    organizationContactEmail is the email of the organization.
+    """
+    organizationContactEmail: String
+}
+
+################################################################################
+## Query
+################################################################################
+
+type Query {
+    tenant(id: ID!): Tenant
+}

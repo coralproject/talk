@@ -2,7 +2,6 @@ import express, { Express, Router } from 'express';
 import { Db } from 'mongodb';
 
 import { Config } from 'talk-server/config';
-import schema from 'talk-server/graph/tenant/schema';
 import { create } from 'talk-server/services/mongodb';
 
 import serveStatic from './middleware/serveStatic';
@@ -13,6 +12,26 @@ import {
     error as errorLogger,
 } from './middleware/logging';
 import tenantGraphMiddleware from 'talk-server/graph/tenant/middleware';
+import managementGraphMiddleware from 'talk-server/graph/management/middleware';
+
+async function createManagementRouter(config: Config, db: Db): Promise<Router> {
+    const router = express.Router();
+
+    if (config.get('env') === 'development') {
+        // GraphiQL
+        router.get(
+            '/graphiql',
+            playground(() => ({
+                endpoint: `/api/management/graphql`,
+            }))
+        );
+    }
+
+    // Tenant API
+    router.use('/graphql', express.json(), managementGraphMiddleware(db));
+
+    return router;
+}
 
 async function createTenantRouter(config: Config, db: Db): Promise<Router> {
     const router = express.Router({ mergeParams: true });
@@ -39,6 +58,9 @@ async function createAPIRouter(config: Config, db: Db): Promise<Router> {
 
     // Configure the tenant routes.
     router.use('/tenant/:tenantID', await createTenantRouter(config, db));
+
+    // Configure the management routes.
+    router.use('/management', await createManagementRouter(config, db));
 
     return router;
 }
