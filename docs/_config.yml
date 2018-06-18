@@ -90,6 +90,8 @@ sidebar:
           url: /installation-from-source/
         - title: Planning your Talk Architecture
           url: /planning-architecture/
+        - title: Pre-Launch Checklist
+          url: /pre-launch-checklist/
     - title: Configuration
       children:
         - title: Required Configuration
