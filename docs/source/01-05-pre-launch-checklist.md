@@ -7,12 +7,11 @@ permalink: /pre-launch-checklist/
   - In the cloud:
     - [AWS](/talk/planning-architecture)
     - [Google Cloud](/talk/planning-architecture/)
-    - Heroku
     - [Digital Ocean](/talk/planning-architecture/)
 
 
 - [ ] Do you have a domain name for Talk?
-  - **Recommended**: You should host Talk on a subdomain on your main site (e.g. if your site is mysitefornews.org, you should server Talk from a subdomain like talk.mysitefornews.org) to avoid issues with third-party cookie sharing.
+  - **Recommended**: You should host Talk on a subdomain on your main site (e.g. if your site is mysitefornews.org, you should serve Talk from a subdomain like talk.mysitefornews.org) to avoid issues with third-party cookie sharing.
 
   
 - [ ] Do you have a MongoDB instance?
@@ -33,18 +32,19 @@ permalink: /pre-launch-checklist/
 - [ ] Do you want to use Social sign-on?
   - Facebook
     - Install [talk-plugin-facebook-auth](/talk/plugin/talk-plugin-facebook-auth/)
-  - Goole
+  - Google
     - Install [talk-plugin-google-auth](/talk/plugin/talk-plugin-google-auth/)
   - Other
     - See [Authenticating with Talk](/talk/integrating/authentication/)
 
 
 - [ ] Do you want to use our Toxic Comments Plugin to help you automatically moderate comments based on their likelihood of being toxic?
-  - [Request API Key from Google](https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md)
+  - [Request a free API Key from Google](https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md)
   - Install [talk-plugin-toxic-comments](/talk/plugin/talk-plugin-toxic-comments/)
 
 
 - [ ] Do you want to automatically prevent spam using the Akismet Spam Detection Plugin?
+  - [Request / pay for API Key from WordPress](https://akismet.com/)
   - Install [talk-plugin-akismet](/talk/plugin/talk-plugin-akismet/)
 
 
@@ -59,3 +59,8 @@ permalink: /pre-launch-checklist/
 
 - [ ] Do you want to translate Talk to a different language?
   - See [Translations and i18n](/talk/integrating/translations-i18n)
+  
+  
+- [ ] Do you want to send all new comments or all reported comments to a Slack channel?
+  - See [our blog for more information]( https://coralproject.net/blog/slacking-on/)
+ 
