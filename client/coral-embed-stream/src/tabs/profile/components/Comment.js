@@ -34,7 +34,7 @@ class Comment extends React.Component {
                 { [styles.countZero]: reactionCount === 0 }
               )}
             >
-              <Icon name="thumbs_up_down" />
+              <Icon name="thumbs_whatshot" />
               <span
                 className={cn(
                   styles.reactionCount,
