@@ -44,13 +44,13 @@ Your plans might include:
 
 ![[IMAGE] A screenshot of the pre-moderate option in the Configure tab](http://blog.coralproject.net/wp-content/uploads/2018/03/premod.png)
 
-* Not allowing comments on these topics at all. Following a series of racist responses, for instance, the CBC in Canada chose not to open comments at all on articles about indigenous Canadians. That's a perfectly valid response if you don't have the resources to ensure a civil discussion – if people really want to talk about it, they can go elsewhere.In this situation, we recommend publishing a note at the bottom of all articles where this applies, explaining your decision and directing people to where they can send letters to the editor or continue the discussion off site, so that your community members understand what is happening.
+* Not allowing comments on these topics at all. Following a series of racist responses, for instance, the CBC in Canada chose not to open comments at all on articles about indigenous Canadians. That's a perfectly valid response if you don't have the resources to ensure a civil discussion – if people really want to talk about it, they can go elsewhere. In this situation, we recommend publishing a note at the bottom of all articles where this applies, explaining your decision and directing people to where they can send letters to the editor or continue the discussion off site, so that your community members understand what is happening.
 
 Other options for contentious topics instead of comments:
 
 * Use a form to request answers on a specific question related to the article, and select only the best answers for display. This is how the Spotlight team at Boston Globe solicited responses to their series on racism in Boston, using our Ask tool. ([Learn more about Ask here.](https://coralproject.net/products/ask.html)) This also allows people to submit their thoughts anonymously.
 
-* Host a focused, more controlled online discussion about the topic over a fixed period of time, during which you apply more vigilant moderation than usual. You can write a note in the Ask A Question space described above to make that clear, such as "We will host an online conversation about this topic here on Friday between 11am and 3pm EST. Moderators will be present throughout, and our journalists will answer your questions about the topic."This allows community members to approach the topic more calmly than their initial reactions on reading the story, in a space where you can dedicate temporary, more intensive resources to ensuring civility (perhaps with pre-moderation), while still signaling your commitment to engagement around an important topic.
+* Host a focused, more controlled online discussion about the topic over a fixed period of time, during which you apply more vigilant moderation than usual. You can write a note in the Ask A Question space described above to make that clear, such as "We will host an online conversation about this topic here on Friday between 11am and 3pm EST. Moderators will be present throughout, and our journalists will answer your questions about the topic. "This allows community members to approach the topic more calmly than their initial reactions on reading the story, in a space where you can dedicate temporary, more intensive resources to ensuring civility (perhaps with pre-moderation), while still signaling your commitment to engagement around an important topic.
 
 ### 4. Have clear moderation strategies
 
@@ -66,9 +66,9 @@ The most important predictors of the success of an online community are:
 
 **We have a starter list of more than 1700 words/phrases that most sites choose to ban.** Email support@coralproject.net to request it.
 
-* If you don't have a very high comment volume and use Slack in your newsroom, you could integrate Slack moderation to keep tabs on new/reported comments. [Read more about our free Slack moderation plugin.](https://blog.coralproject.net/slacking-on/)
+* If you don't have a very high comment volume and use Slack in your newsroom, you could integrate Slack moderation to keep tabs on new/reported comments. [Read more about our free Slack moderation plugin.](https://coralproject.net/blog/slacking-on/)
 
-* Utilize [our Toxic Comments plugin](https://blog.coralproject.net/toxic-avenging/), developed with Google Jigsaw, to improve commenter behavior and use AI to help identify and prevent the most abusive comments from appearing on your site.
+* Utilize [our Toxic Comments plugin](https://coralproject.net/blog/toxic-avenging/), developed with Google Jigsaw, to improve commenter behavior and use AI to help identify and prevent the most abusive comments from appearing on your site.
 
 * Enable our [Akismet plugin](/talk/plugin/talk-plugin-akismet) to keep spam from appearing in your comments.
 
@@ -139,4 +139,4 @@ For the first month or so, we recommend including a link to the launch article m
 
 A regular space for conversation about the conversation is always welcome in any successful community, and is a great source of ideas for improvement.   
 
-**_We hope you enjoy using Talk, and that it helps your communities to thrive. If you have any questions or suggestions for this piece, or would like to try Talk on your site, please [contact us.](https://coralproject.net/contact.html)_**   
+**_We hope you enjoy using Talk, and that it helps your communities to thrive. If you have any questions or suggestions for this piece, or would like to try Talk on your site, please [contact us.](https://coralproject.net/contact)_**   
