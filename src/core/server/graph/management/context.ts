@@ -1,13 +1,13 @@
 import { Db } from 'mongodb';
 
-export interface ContextOptions {
+export interface ManagementContextOptions {
     db: Db;
 }
 
-export default class TenantContext {
+export default class ManagementContext {
     public db: Db;
 
-    constructor({ db }: ContextOptions) {
+    constructor({ db }: ManagementContextOptions) {
         this.db = db;
     }
 }

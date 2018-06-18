@@ -1,19 +1,23 @@
-# HTTP Routes
+# Design
 
-## Stream API
+## HTTP Routes
 
-/api/tenant/:tenantID/graphql
-/api/tenant/:tenantID/auth
+### Stream API
 
-## Tenant Management API
+/api/tenant/graphql
+/api/tenant/auth
 
-/api/graphql
-/api/auth
+### Tenant Management API
 
-# Folder structure
+/api/management/graphql
+/api/management/auth
 
+## Folder structure
+
+```text
 /graph/tenant <-- tenant's api (comments, assets, ...)
 /graph/management <-- tenant management api
+```
 
 1.  No tenants
 2.  Create a tenant <-- consuming the TMA

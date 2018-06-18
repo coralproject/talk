@@ -1,5 +1,7 @@
-import { addMockFunctionsToSchema } from 'graphql-tools';
+import { addResolveFunctionsToSchema } from 'graphql-tools';
 import { getGraphQLProjectConfig } from 'graphql-config';
+
+import resolvers from '../resolvers';
 
 // Load the configuration from the provided `.graphqlconfig` file.
 const config = getGraphQLProjectConfig(__dirname, 'management');
@@ -7,12 +9,7 @@ const config = getGraphQLProjectConfig(__dirname, 'management');
 // Get the GraphQLSchema from the configuration.
 const schema = config.getSchema();
 
-// Attach resolvers to the schema.
-addMockFunctionsToSchema({
-    schema,
-    mocks: {
-        Cursor: () => new Date().toISOString(),
-    },
-}); // FIXME: remove mocks
+// Attach the resolvers to the schema.
+addResolveFunctionsToSchema({ schema, resolvers });
 
 export default schema;

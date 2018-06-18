@@ -1,28 +1,34 @@
 import config, { Config } from './config';
 import express, { Express } from 'express';
 import http from 'http';
-import { createApp } from './app';
+import { createApp, startApp } from './app';
 import logger from './logger';
+import { create as createMongoDB } from './services/mongodb';
+import { create as createRedis } from 'talk-server/services/redis';
 
-export interface ServerOptions {}
+export interface ServerOptions {
+    config?: Config;
+}
 
 /**
  * Server provides an interface to create, start, and manage a Talk Server.
  */
 class Server {
-    // app is the root application that the server will bind to.
-    private app: Express;
+    // parentApp is the root application that the server will bind to.
+    private parentApp: Express;
 
     // config exposes application specific configuration.
     public config: Config;
 
-    // httpServer is the running instance of the HTTP server that will bind to the
-    // requested port.
+    // httpServer is the running instance of the HTTP server that will bind to
+    // the requested port.
     public httpServer: http.Server;
 
     constructor(options: ServerOptions) {
-        this.app = express();
-        this.config = config.validate({ allowed: 'strict' });
+        this.parentApp = express();
+        this.config = config
+            .load(options.config || {})
+            .validate({ allowed: 'strict' });
     }
 
     /**
@@ -31,21 +37,30 @@ class Server {
      *
      * @param parent the optional express application to bind the server to.
      */
-    start = (parent?: Express): Promise<Server> =>
-        new Promise(async resolve => {
-            const port = this.config.get('port');
+    public async start(parent?: Express) {
+        const port = this.config.get('port');
 
-            // Ensure we have an app to bind to.
-            parent = parent ? parent : this.app;
+        // Ensure we have an app to bind to.
+        parent = parent ? parent : this.parentApp;
 
-            // Create the Talk App, branching off from the parent app.
-            const app: Express = await createApp(parent, this.config);
+        // Setup MongoDB.
+        const mongo = await createMongoDB(config);
 
-            logger.info({ port }, 'now listening');
+        // Setup Redis.
+        const redis = await createRedis(config);
 
-            // Listen on the designated port.
-            this.httpServer = app.listen(port, () => resolve(this));
+        // Create the Talk App, branching off from the parent app.
+        const app = await createApp(parent, {
+            mongo,
+            redis,
+            config: this.config,
         });
+
+        // Start the application.
+        this.httpServer = await startApp(port, app);
+
+        logger.info({ port }, 'now listening');
+    }
 }
 
 export default Server;

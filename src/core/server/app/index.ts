@@ -1,78 +1,86 @@
 import express, { Express, Router } from 'express';
 import { Db } from 'mongodb';
+import http from 'http';
 
 import { Config } from 'talk-server/config';
 import { create } from 'talk-server/services/mongodb';
+import tenantGraphMiddleware from 'talk-server/graph/tenant/middleware';
+import managementGraphMiddleware from 'talk-server/graph/management/middleware';
 
 import serveStatic from './middleware/serveStatic';
-
 import playground from './middleware/playground';
 import {
     access as accessLogger,
     error as errorLogger,
 } from './middleware/logging';
-import tenantGraphMiddleware from 'talk-server/graph/tenant/middleware';
-import managementGraphMiddleware from 'talk-server/graph/management/middleware';
+import { Redis } from 'ioredis';
 
-async function createManagementRouter(config: Config, db: Db): Promise<Router> {
+export interface AppOptions {
+    config: Config;
+    mongo: Db;
+    redis: Redis;
+}
+
+async function createManagementRouter(opts: AppOptions): Promise<Router> {
     const router = express.Router();
 
-    if (config.get('env') === 'development') {
+    if (opts.config.get('env') === 'development') {
         // GraphiQL
         router.get(
             '/graphiql',
-            playground(() => ({
-                endpoint: `/api/management/graphql`,
-            }))
+            playground({
+                endpoint: '/api/management/graphql',
+            })
         );
     }
 
-    // Tenant API
-    router.use('/graphql', express.json(), managementGraphMiddleware(db));
+    // Management API
+    router.use(
+        '/graphql',
+        express.json(),
+        managementGraphMiddleware(opts.mongo)
+    );
 
     return router;
 }
 
-async function createTenantRouter(config: Config, db: Db): Promise<Router> {
-    const router = express.Router({ mergeParams: true });
+async function createTenantRouter(opts: AppOptions): Promise<Router> {
+    const router = express.Router();
 
-    if (config.get('env') === 'development') {
+    if (opts.config.get('env') === 'development') {
         // GraphiQL
         router.get(
             '/graphiql',
-            playground(req => ({
-                endpoint: `/api/tenant/${req.params.tenantID}/graphql`,
-            }))
+            playground({
+                endpoint: '/api/tenant/graphql',
+            })
         );
     }
 
     // Tenant API
-    router.use('/graphql', express.json(), tenantGraphMiddleware(db));
+    router.use('/graphql', express.json(), tenantGraphMiddleware(opts.mongo));
 
     return router;
 }
 
-async function createAPIRouter(config: Config, db: Db): Promise<Router> {
+async function createAPIRouter(opts: AppOptions): Promise<Router> {
     // Create a router.
-    const router = express.Router({ mergeParams: true });
+    const router = express.Router();
 
     // Configure the tenant routes.
-    router.use('/tenant/:tenantID', await createTenantRouter(config, db));
+    router.use('/tenant', await createTenantRouter(opts));
 
     // Configure the management routes.
-    router.use('/management', await createManagementRouter(config, db));
+    router.use('/management', await createManagementRouter(opts));
 
     return router;
 }
 
-async function createRouter(config: Config): Promise<Router> {
-    // Setup MongoDB.
-    const db = await create(config);
-
+async function createRouter(opts: AppOptions): Promise<Router> {
     // Create a router.
-    const router = express.Router({ mergeParams: true });
+    const router = express.Router();
 
-    router.use('/api', await createAPIRouter(config, db));
+    router.use('/api', await createAPIRouter(opts));
 
     return router;
 }
@@ -83,20 +91,32 @@ async function createRouter(config: Config): Promise<Router> {
  * @param parent the root application to attach the Talk routes/middleware to.
  */
 export async function createApp(
-    app: Express,
-    config: Config
+    parent: Express,
+    options: AppOptions
 ): Promise<Express> {
     // Logging
-    app.use(accessLogger);
+    parent.use(accessLogger);
 
     // Static Files
-    app.use(serveStatic);
+    parent.use(serveStatic);
 
     // Mount the router.
-    app.use(await createRouter(config));
+    parent.use(await createRouter(options));
 
     // Error Handling
-    app.use(errorLogger);
+    parent.use(errorLogger);
 
-    return app;
+    return parent;
 }
+
+/**
+ * startApp will start the given express application.
+ *
+ * @param port the port to listen on
+ * @param app the express application to start
+ */
+export const startApp = (port: number, app: Express): Promise<http.Server> =>
+    new Promise(async resolve => {
+        // Listen on the designated port.
+        const httpServer = app.listen(port, () => resolve(httpServer));
+    });

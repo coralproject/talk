@@ -1,9 +1,7 @@
-import {
-    addMockFunctionsToSchema,
-    addResolveFunctionsToSchema,
-} from 'graphql-tools';
-import resolvers from '../resolvers';
+import { addResolveFunctionsToSchema } from 'graphql-tools';
 import { getGraphQLProjectConfig } from 'graphql-config';
+
+import resolvers from '../resolvers';
 
 // Load the configuration from the provided `.graphqlconfig` file.
 const config = getGraphQLProjectConfig(__dirname, 'tenant');

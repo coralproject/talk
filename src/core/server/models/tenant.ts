@@ -1,8 +1,8 @@
 import { Db, Collection } from 'mongodb';
-import { defaultsDeep } from 'lodash';
+import { merge } from 'lodash';
 import dotize from 'dotize';
 import uuid from 'uuid';
-import { Omit } from 'talk-common/types';
+import { Omit, Sub } from 'talk-common/types';
 
 function collection(db: Db): Collection<Tenant> {
     return db.collection<Tenant>('tenants');
@@ -25,6 +25,10 @@ export enum Moderation {
 export interface Tenant {
     readonly id: string;
 
+    // Domain is set when the tenant is created, and is used to retrieve the
+    // specific tenant that the API request pertains to.
+    domain: string;
+
     moderation: Moderation;
     requireEmailConfirmation: boolean;
     infoBoxEnable: boolean;
@@ -45,8 +49,8 @@ export interface Tenant {
     editCommentWindowLength: number;
     charCountEnable: boolean;
     charCount?: number;
-    organizationName?: string;
-    organizationContactEmail?: string;
+    organizationName: string;
+    organizationContactEmail: string;
 
     // wordlist stores all the banned/suspect words.
     wordlist: Wordlist;
@@ -55,39 +59,65 @@ export interface Tenant {
     domains: string[];
 }
 
-export type CreateTenantInput = Omit<Tenant, 'id'>;
+/**
+ * CreateTenantInput is the set of properties that can be set when a given
+ * Tenant is created. The remainder of the properties are set from defaults and
+ * are modifiable via the update method.
+ */
+export type CreateTenantInput = Pick<
+    Tenant,
+    'domain' | 'organizationName' | 'organizationContactEmail' | 'domains'
+>;
 
-const defaults: CreateTenantInput = {
-    // Default to post moderation.
-    moderation: Moderation.POST,
-
-    // Email confirmation is default off.
-    requireEmailConfirmation: false,
-    infoBoxEnable: false,
-    questionBoxEnable: false,
-    premodLinksEnable: false,
-    autoCloseStream: false,
-    // Two weeks timeout.
-    closedTimeout: 60 * 60 * 24 * 7 * 2,
-    disableCommenting: false,
-    editCommentWindowLength: 30 * 1000,
-    charCountEnable: false,
-    wordlist: {
-        suspect: [],
-        banned: [],
-    },
-    domains: [],
-};
-
+/**
+ * create will create a new Tenant.
+ *
+ * @param db the MongoDB connection used to create the tenant.
+ * @param input the customizable parts of the Tenant available during creation
+ */
 export async function create(
     db: Db,
-    input: Partial<CreateTenantInput>
+    input: CreateTenantInput
 ): Promise<Readonly<Tenant>> {
-    const tenant = defaultsDeep({ id: uuid.v4() }, input, defaults);
+    const defaults: Sub<Tenant, CreateTenantInput> = {
+        // Create a new ID.
+        id: uuid.v4(),
 
+        // Default to post moderation.
+        moderation: Moderation.POST,
+
+        // Email confirmation is default off.
+        requireEmailConfirmation: false,
+        infoBoxEnable: false,
+        questionBoxEnable: false,
+        premodLinksEnable: false,
+        autoCloseStream: false,
+
+        // Two weeks timeout.
+        closedTimeout: 60 * 60 * 24 * 7 * 2,
+        disableCommenting: false,
+        editCommentWindowLength: 30 * 1000,
+        charCountEnable: false,
+        wordlist: {
+            suspect: [],
+            banned: [],
+        },
+    };
+
+    // Create the new Tenant by merging it together with the defaults.
+    const tenant = merge({}, input, defaults);
+
+    // Insert the Tenant into the database.
     await collection(db).insert(tenant);
 
     return tenant;
+}
+
+export async function retrieveByDomain(
+    db: Db,
+    domain: string
+): Promise<Readonly<Tenant>> {
+    return collection(db).findOne({ domain });
 }
 
 export async function retrieve(db: Db, id: string): Promise<Readonly<Tenant>> {
@@ -107,6 +137,23 @@ export async function retrieveMany(
     const tenants = await cursor.toArray();
 
     return ids.map(id => tenants.find(tenant => tenant.id === id));
+}
+
+export async function retrieveManyByDomain(
+    db: Db,
+    domains: string[]
+): Promise<Readonly<Tenant>[]> {
+    const cursor = await collection(db).find({
+        domain: {
+            $in: domains,
+        },
+    });
+
+    const tenants = await cursor.toArray();
+
+    return domains.map(domain =>
+        tenants.find(tenant => tenant.domain === domain)
+    );
 }
 
 export async function retrieveAll(db: Db): Promise<Readonly<Tenant>[]> {
