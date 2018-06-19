@@ -3954,9 +3954,9 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
-final-form@^4.6.1:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.6.1.tgz#e3f3058524c2eb8b950be452087ffe124e39554d"
+final-form@^4.8.1:
+  version "4.8.2"
+  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.8.2.tgz#905de0a5107f889b1eb86dbbdea96f2d40fcb20d"
 
 finalhandler@1.0.6:
   version "1.0.6"
@@ -6070,9 +6070,9 @@ jest@^22.4.3:
     import-local "^1.0.0"
     jest-cli "^22.4.4"
 
-joi@^13.0.0:
-  version "13.3.0"
-  resolved "https://registry.yarnpkg.com/joi/-/joi-13.3.0.tgz#4defd4333b539c5d10e444ab44f5a5583480f17c"
+joi@^13.4.0:
+  version "13.4.0"
+  resolved "https://registry.yarnpkg.com/joi/-/joi-13.4.0.tgz#afc359ee3d8bc5f9b9ba6cdc31b46d44af14cecc"
   dependencies:
     hoek "5.x.x"
     isemail "3.x.x"
@@ -6254,9 +6254,9 @@ jsonwebtoken@^7.0.0:
     ms "^2.0.0"
     xtend "^4.0.1"
 
-jsonwebtoken@^8.0.0:
-  version "8.2.2"
-  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.2.2.tgz#76d7993fda79660d71bd0f933109e1f133734b20"
+jsonwebtoken@^8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.3.0.tgz#056c90eee9a65ed6e6c72ddb0a1d325109aaf643"
   dependencies:
     jws "^3.1.5"
     lodash.includes "^4.3.0"
@@ -6267,7 +6267,6 @@ jsonwebtoken@^8.0.0:
     lodash.isstring "^4.0.1"
     lodash.once "^4.0.0"
     ms "^2.1.1"
-    xtend "^4.0.1"
 
 jsprim@^1.2.2:
   version "1.4.1"
@@ -6323,9 +6322,9 @@ jxLoader@*:
     promised-io "*"
     walker "1.x"
 
-kareem@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.1.0.tgz#d63197b57311830e4ceb3f34431f22f2de826a03"
+kareem@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.2.1.tgz#9950809415aa3cde62ab43b4f7b919d99816e015"
 
 keymaster@^1.6.2:
   version "1.6.2"
@@ -6446,9 +6445,9 @@ linkifyjs@^2.1.5:
     react "^16.2.0"
     react-dom "^16.2.0"
 
-lint-staged@^7.1.0:
-  version "7.1.3"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-7.1.3.tgz#0eb77b42131653808e02bc0eba66ad8ff8a8ca1f"
+lint-staged@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-7.2.0.tgz#bdf4bb7f2f37fe689acfaec9999db288a5b26888"
   dependencies:
     app-root-path "^2.0.1"
     chalk "^2.3.1"
@@ -7387,13 +7386,13 @@ mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
 
-mongoose@^5.1.1:
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.1.4.tgz#eda83a5d81149c8114b6cac5e8b419324f92cc4b"
+mongoose@^5.1.5:
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.1.5.tgz#0d0b4dc658deeb7ad9794af7453442ecf7fc7cb0"
   dependencies:
     async "2.6.1"
     bson "~1.0.5"
-    kareem "2.1.0"
+    kareem "2.2.1"
     lodash.get "4.4.2"
     mongodb "3.0.9"
     mongoose-legacy-pluralize "1.0.2"
@@ -7566,7 +7565,7 @@ nice-try@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.4.tgz#d93962f6c52f2c1558c0fbda6d512819f1efe1c4"
 
-nightwatch@^0.9.16:
+nightwatch@^0.9.21:
   version "0.9.21"
   resolved "https://registry.yarnpkg.com/nightwatch/-/nightwatch-0.9.21.tgz#9e794a7514b4fd5f46602d368e50515232ab9e90"
   dependencies:
@@ -9379,9 +9378,11 @@ react-dom@^16.2.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-final-form@^3.4.2:
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.4.2.tgz#4fd3fe958c481c98c4d4970ee7679bc1ac4185dc"
+react-final-form@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.6.0.tgz#1d96b7a8cd1d399a6b70ae7dcfe73f06053f9f4b"
+  dependencies:
+    react-lifecycles-compat "^3.0.4"
 
 react-input-autosize@^1.1.4:
   version "1.2.0"
@@ -9393,6 +9394,10 @@ react-input-autosize@^1.1.4:
 react-is@^16.4.0:
   version "16.4.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.0.tgz#cc9fdc855ac34d2e7d9d2eb7059bbc240d35ffcf"
+
+react-lifecycles-compat@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
 react-linkify@^0.2.1:
   version "0.2.2"
