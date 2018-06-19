@@ -144,6 +144,7 @@ en:
     organization_info_copy_2: 'We recommend creating a generic email account (eg. community@yournewsroom.com) for this purpose. This means it can remain consistent over time, and doesn''t expose a name that users could target if their account were blocked.'
     organization_information: 'Organization Information'
     organization_name: 'Organization Name'
+    product_guide_link: 'Product Guide'
     report_bug_or_feedback: 'Report a bug or give feedback'
     require_email_verification: 'Require Email Verification'
     require_email_verification_text: 'New Users must verify their email before commenting'
@@ -468,7 +469,7 @@ en:
   stream:
     all_comments: 'All Comments'
     comment_not_found: 'This comment has been removed or does not exist.'
-    no_comments: 'There are no comments yet, why don’t you write one?'
+    no_comments: 'There are no comments yet. Why don’t you write one?'
     no_comments_and_closed: 'There were no comments on this article.'
     temporarily_suspended: 'In accordance with {0}''s community guidelines, your account has been temporarily suspended. Please rejoin the conversation {1}.'
   streams:
