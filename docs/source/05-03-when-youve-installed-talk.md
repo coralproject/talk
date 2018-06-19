@@ -24,7 +24,7 @@ If you don't launch with a clear strategy for your community, the most disruptiv
 
 In Talk, the summary of your community code goes into the box at the top of the comments. You enter that text by clicking on the Configure tab at the top, and scroll down to Include Comment Stream Description: 
 
-![[IMAGE] A screenshot of the Configure options in Talk, with a pink arrow pointing to the place where Comment Stream Description can be added](http://blog.coralproject.net/wp-content/uploads/2018/03/streamdescription.png)
+![[IMAGE] A screenshot of the Configure options in Talk, with a pink arrow pointing to the place where Comment Stream Description can be added](http://coralproject.net/wp-content/uploads/2018/03/streamdescription.png)
 
 ### 3. Decide where you will and won't put comments
 
@@ -38,11 +38,11 @@ Your plans might include:
 
 * Watching the comments on these articles carefully, and posting a public note using the 'Ask a Question' box stating that you will delete comments, suspend/ban people, or close comments altogether if the conversation devolves (and then following through on that.) Here's where you can add that text from the article page:
 
-![[IMAGE] A screenshot of the Configure menu from the comments view](http://blog.coralproject.net/wp-content/uploads/2018/03/ask2.png)  
+![[IMAGE] A screenshot of the Configure menu from the comments view](http://coralproject.net/wp-content/uploads/2018/03/ask2.png)  
 
 * Setting the comments on these articles to pre-moderation, then writing a note in the Ask a Question box stating that all comments have to be approved before publication; The Washington Post does this in some breaking news situations. You can set the comments on a single story to pre-moderation via the Configure tab on the article's comments. 
 
-![[IMAGE] A screenshot of the pre-moderate option in the Configure tab](http://blog.coralproject.net/wp-content/uploads/2018/03/premod.png)
+![[IMAGE] A screenshot of the pre-moderate option in the Configure tab](http://coralproject.net/wp-content/uploads/2018/03/premod.png)
 
 * Not allowing comments on these topics at all. Following a series of racist responses, for instance, the CBC in Canada chose not to open comments at all on articles about indigenous Canadians. That's a perfectly valid response if you don't have the resources to ensure a civil discussion – if people really want to talk about it, they can go elsewhere. In this situation, we recommend publishing a note at the bottom of all articles where this applies, explaining your decision and directing people to where they can send letters to the editor or continue the discussion off site, so that your community members understand what is happening.
 
@@ -62,7 +62,7 @@ The most important predictors of the success of an online community are:
 
 #### Quickly:
 
-* Create Banned/Suspect word lists specific to your needs, to prevent the worst words being posted, and to auto-report comments you should keep an eye on.![](http://blog.coralproject.net/wp-content/uploads/2018/03/banned-suspect.jpg)
+* Create Banned/Suspect word lists specific to your needs, to prevent the worst words being posted, and to auto-report comments you should keep an eye on.![](http://coralproject.net/wp-content/uploads/2018/03/banned-suspect.jpg)
 
 **We have a starter list of more than 1700 words/phrases that most sites choose to ban.** Email support@coralproject.net to request it.
 
@@ -73,15 +73,15 @@ The most important predictors of the success of an online community are:
 * Enable our [Akismet plugin](/talk/plugin/talk-plugin-akismet) to keep spam from appearing in your comments.
 
 * Use keyboard shortcuts in the moderation queue to moderate quickly (type '?' in the moderation view to see the list of shortcuts), and if there is a sudden deluge of comments, ask for someone in your newsroom to help you moderate. Talk will notify you in the moderation interface if someone else moderates a comment that's already on your screen.
-*   Click on a community member's name in the moderation interface to review all their comments, and see if there is a clear pattern of abuse among their Rejected comments. You can also select all their recent comments and delete them in bulk.![A screenshot of the moderation interface with the user drawer on display. Pink arrows indicate the user name, which can be clicked to open the drawer, and the drawer itself.](http://blog.coralproject.net/wp-content/uploads/2018/03/userdrawer.jpg)
+*   Click on a community member's name in the moderation interface to review all their comments, and see if there is a clear pattern of abuse among their Rejected comments. You can also select all their recent comments and delete them in bulk.![A screenshot of the moderation interface with the user drawer on display. Pink arrows indicate the user name, which can be clicked to open the drawer, and the drawer itself.](http://coralproject.net/wp-content/uploads/2018/03/userdrawer.jpg)
 
 * Give people who need to step away from the conversation a 'time out' by suspending their account via the User drawer (click on the user's name anywhere in the moderation interface), and write a personalized note to them to explain why you took this action. Ban any users whose behavior is clearly offensive and/or abusive to an extreme degree.
 
-![A close up of the User Drawer with a large pink arrow indicating the Actions menu where users can be suspended or banned](http://blog.coralproject.net/wp-content/uploads/2018/03/suspend-ban.jpg)
+![A close up of the User Drawer with a large pink arrow indicating the Actions menu where users can be suspended or banned](http://coralproject.net/wp-content/uploads/2018/03/suspend-ban.jpg)
 
 * Reject the worst comments on the article page itself by using the small caret in the corner of each comment.
 
-![A screenshot of the comments stream with a moderation menu popped out and a large pink arrow pointing to the caret where moderators can unfold the moderation menu](http://blog.coralproject.net/wp-content/uploads/2018/03/caret-mod.jpg)
+![A screenshot of the comments stream with a moderation menu popped out and a large pink arrow pointing to the caret where moderators can unfold the moderation menu](http://coralproject.net/wp-content/uploads/2018/03/caret-mod.jpg)
 
 * If you find new commenters are causing a lot of trouble with their first comments, consider changing [the User Karma threshold](/talk/trust/) from negative one to zero, forcing every new commenter's first comment into pre-moderation.
 
@@ -92,9 +92,9 @@ The most important predictors of the success of an online community are:
 * Publicly discourage behavior in the comments that doesn't cross the line but suggests that the tone or focus could shift quickly in a direction you don't want. Point to relevant sections of your community guidelines. [Read more about defining and discouraging this kind of behavior here.](https://guides.coralproject.net/manage-a-successful-community/)
 * If people are sharing links to conspiracy sites or other unreliable sources, consider setting either the article (via the Configure tab on the article page) or the whole site (via Configure in the Admin view) to Pre-moderate Links, and delete any comments that link to sites that exceed your guidelines.
 
-![An image showing the Pre-moderate Links option in the moderation console](http://blog.coralproject.net/wp-content/uploads/2018/03/premodlinks-site.jpg) 
+![An image showing the Pre-moderate Links option in the moderation console](http://coralproject.net/wp-content/uploads/2018/03/premodlinks-site.jpg) 
 
-![A screenshot of the Configure tab in the comments stream with the Pre-Moderate Links option circled in pink](http://blog.coralproject.net/wp-content/uploads/2018/03/premodllinks-article.jpg)
+![A screenshot of the Configure tab in the comments stream with the Pre-Moderate Links option circled in pink](http://coralproject.net/wp-content/uploads/2018/03/premodllinks-article.jpg)
 
 * If the conversation is getting out of hand, set the article to Pre-moderation (via the Configure tab on the comments, see above) and tell your community members you've done it, via Ask a Question (see above). If the conversation doesn't improve, or you feel that it is beyond redemption, consider closing the article to comments altogether via the Configure tab or the Stories tab in the moderation view, and telling the community why you have done so.
 
