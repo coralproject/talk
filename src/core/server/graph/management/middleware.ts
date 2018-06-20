@@ -1,12 +1,13 @@
-import { graphqlExpress } from 'apollo-server-express';
-import schema from './schema';
-import Context from './context';
 import { Db } from 'mongodb';
+import { GraphQLSchema } from 'graphql';
 
-export default (db: Db) =>
-    graphqlExpress(async req => {
-        return {
-            schema,
-            context: new Context({ db }),
-        };
-    });
+import { graphqlMiddleware } from 'talk-server/graph/common/middleware';
+import { Config } from 'talk-server/config';
+
+import Context from './context';
+
+export default (schema: GraphQLSchema, config: Config, db: Db) =>
+    graphqlMiddleware(config, async () => ({
+        schema,
+        context: new Context({ db }),
+    }));

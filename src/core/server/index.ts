@@ -1,10 +1,14 @@
-import config, { Config } from './config';
 import express, { Express } from 'express';
 import http from 'http';
-import { createApp, startApp } from './app';
+
+import config, { Config } from './config';
+import { createApp, listenAndServe, attachSubscriptionHandlers } from './app';
 import logger from './logger';
-import { create as createMongoDB } from './services/mongodb';
-import { create as createRedis } from 'talk-server/services/redis';
+import { createMongoDB } from './services/mongodb';
+import { createRedisClient } from './services/redis';
+import getManagementSchema from 'talk-server/graph/management/schema';
+import getTenantSchema from 'talk-server/graph/tenant/schema';
+import { Schemas } from 'talk-server/graph/schemas';
 
 export interface ServerOptions {
     config?: Config;
@@ -16,6 +20,10 @@ export interface ServerOptions {
 class Server {
     // parentApp is the root application that the server will bind to.
     private parentApp: Express;
+
+    // schemas are the set of GraphQLSchema objects for each schema used by the
+    // server.
+    private schemas: Schemas;
 
     // config exposes application specific configuration.
     public config: Config;
@@ -29,6 +37,12 @@ class Server {
         this.config = config
             .load(options.config || {})
             .validate({ allowed: 'strict' });
+
+        // Load the graph schemas.
+        this.schemas = {
+            management: getManagementSchema(),
+            tenant: getTenantSchema(),
+        };
     }
 
     /**
@@ -47,17 +61,22 @@ class Server {
         const mongo = await createMongoDB(config);
 
         // Setup Redis.
-        const redis = await createRedis(config);
+        const redis = await createRedisClient(config);
 
         // Create the Talk App, branching off from the parent app.
-        const app = await createApp(parent, {
+        const app: Express = await createApp({
+            parent,
             mongo,
             redis,
             config: this.config,
+            schemas: this.schemas,
         });
 
-        // Start the application.
-        this.httpServer = await startApp(port, app);
+        // Start the application and store the resulting http.Server.
+        this.httpServer = await listenAndServe(app, port);
+
+        // Setup the websocket servers on the new http.Server.
+        attachSubscriptionHandlers(this.schemas, this.httpServer);
 
         logger.info({ port }, 'now listening');
     }

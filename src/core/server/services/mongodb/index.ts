@@ -6,7 +6,7 @@ import { Config } from 'talk-server/config';
  *
  * @param config application configuration.
  */
-export async function create(config: Config): Promise<Db> {
+export async function createMongoDB(config: Config): Promise<Db> {
     // Connect and create a client for MongoDB.
     const client = await MongoClient.connect(config.get('mongodb'));
 

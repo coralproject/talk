@@ -6,6 +6,6 @@ import { Config } from 'talk-server/config';
  *
  * @param config application configuration.
  */
-export async function create(config: Config): Promise<Redis> {
+export async function createRedisClient(config: Config): Promise<Redis> {
     return new RedisClient(config.get('redis'), {});
 }

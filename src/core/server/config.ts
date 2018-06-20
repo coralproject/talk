@@ -32,7 +32,7 @@ convict.addFormat({
     },
 });
 
-export const config = convict({
+const config = convict({
     env: {
         doc: 'The application environment.',
         format: ['production', 'development', 'test'],
@@ -66,6 +66,13 @@ export const config = convict({
         default: null,
         env: 'SECRET',
         arg: 'secret',
+    },
+    logging_level: {
+        doc: 'The logging level to print to the console',
+        format: ['fatal', 'error', 'warn', 'info', 'debug', 'trace'],
+        default: 'info',
+        env: 'LOGGING_LEVEL',
+        arg: 'logging',
     },
 });
 
