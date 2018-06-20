@@ -123,6 +123,10 @@
   dependencies:
     graphql-ast-tools "^0.2.2"
 
+"@coralproject/talk-plugin-auth-checkbox@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@coralproject/talk-plugin-auth-checkbox/-/talk-plugin-auth-checkbox-1.0.0.tgz#b9ae26ab5e327212f8ae7d04d1d8148cca50bfe0"
+
 "@easyops/git-exec-and-restage@^1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@easyops/git-exec-and-restage/-/git-exec-and-restage-1.0.4.tgz#51ee761def34502665dcfa1deb2bbd0e8a3f1ade"
