@@ -58,7 +58,6 @@
   "dependencies": {
     "@coralproject/gql-merge": "^0.1.0",
     "@coralproject/graphql-anywhere-optimized": "^0.1.0",
-    "@coralproject/talk-plugin-auth-checkbox": "^1.0.0",
     "apollo-client": "^1.9.1",
     "apollo-engine": "^0.8.1",
     "apollo-server-express": "^1.2.0",
