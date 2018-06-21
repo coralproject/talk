@@ -143,9 +143,9 @@ async function reconcileRemotePlugins({ dryRun, upgradeRemote }) {
 
   if (fetchable.length > 0) {
     console.log(
-      `$ yarn add --ignore-scripts --ignore-workspace-root-check ${fetchable.map(
-        ({ name, version }) => `${name}@${version}`.cyan
-      )}`
+      `$ yarn add --ignore-scripts --ignore-workspace-root-check ${fetchable
+        .map(({ name, version }) => `${name}@${version}`.cyan)
+        .join(' ')}`
     );
 
     if (!dryRun) {
@@ -162,7 +162,7 @@ async function reconcileRemotePlugins({ dryRun, upgradeRemote }) {
 
       if (output.status) {
         throw new Error(
-          'Could not install external plugins, errors occured during install'
+          'Could not install external plugins, errors occurred during install'
         );
       }
 
@@ -189,7 +189,7 @@ async function reconcileRemotePlugins({ dryRun, upgradeRemote }) {
 
       if (output.status) {
         throw new Error(
-          'Could not install external plugins, errors occured during install'
+          'Could not install external plugins, errors occurred during install'
         );
       }
 
@@ -329,27 +329,41 @@ async function createSeedPlugin() {
     if (answers.addPluginsJson) {
       const pluginsJson = path.resolve(__dirname, '..', 'plugins.json');
 
-      fs.readJson(pluginsJson)
-        .then(j => {
-          // This is a client-side plugin, let's push this.
-          if (answers.client) {
-            j.client.push(answers.pluginName);
+      let j;
+      try {
+        j = await fs.readJson(pluginsJson);
+      } catch (err) {
+        // Fallback to plugins.default.json if the plugins.json file does not
+        // exist.
+        const defaultPluginsJson = path.resolve(
+          __dirname,
+          '..',
+          'plugins.default.json'
+        );
 
-            const output = JSON.stringify(j, null, 2);
-            fs.writeFileSync(pluginsJson, output);
-          }
+        try {
+          j = await fs.readJson(defaultPluginsJson);
+        } catch (err) {
+          // Fallback to an empty one if that also, doesn't exist.
+          j = { client: [], server: [] };
+        }
+      }
 
-          // This is a server-side plugin, let's push this.
-          if (answers.server) {
-            j.server.push(answers.pluginName);
+      // This is a client-side plugin, let's push this.
+      if (answers.client) {
+        j.client.push(answers.pluginName);
 
-            const output = JSON.stringify(j, null, 2);
-            fs.writeFileSync(pluginsJson, output);
-          }
-        })
-        .catch(err => {
-          console.error(err);
-        });
+        const output = JSON.stringify(j, null, 2);
+        fs.writeFileSync(pluginsJson, output);
+      }
+
+      // This is a server-side plugin, let's push this.
+      if (answers.server) {
+        j.server.push(answers.pluginName);
+
+        const output = JSON.stringify(j, null, 2);
+        fs.writeFileSync(pluginsJson, output);
+      }
     }
 
     console.log(
