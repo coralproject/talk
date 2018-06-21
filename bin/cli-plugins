@@ -333,7 +333,20 @@ async function createSeedPlugin() {
       try {
         j = await fs.readJson(pluginsJson);
       } catch (err) {
-        j = { client: [], server: [] };
+        // Fallback to plugins.default.json if the plugins.json file does not
+        // exist.
+        const defaultPluginsJson = path.resolve(
+          __dirname,
+          '..',
+          'plugins.default.json'
+        );
+
+        try {
+          j = await fs.readJson(defaultPluginsJson);
+        } catch (err) {
+          // Fallback to an empty one if that also, doesn't exist.
+          j = { client: [], server: [] };
+        }
       }
 
       // This is a client-side plugin, let's push this.
