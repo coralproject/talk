@@ -189,7 +189,7 @@ async function reconcileRemotePlugins({ dryRun, upgradeRemote }) {
 
       if (output.status) {
         throw new Error(
-          'Could not install external plugins, errors occured during install'
+          'Could not install external plugins, errors occurred during install'
         );
       }
 
