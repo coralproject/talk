@@ -1,6 +1,6 @@
-import { GraphQLSchema } from 'graphql';
+import { GraphQLSchema } from "graphql";
 
 export interface Schemas {
-    management: GraphQLSchema;
-    tenant: GraphQLSchema;
+  management: GraphQLSchema;
+  tenant: GraphQLSchema;
 }

@@ -1,29 +1,29 @@
-import http from 'http';
-import { SubscriptionServer } from 'subscriptions-transport-ws';
-import { GraphQLSchema, execute, subscribe } from 'graphql';
+import http from "http";
+import { SubscriptionServer } from "subscriptions-transport-ws";
+import { GraphQLSchema, execute, subscribe } from "graphql";
 
 export interface SubscriptionMiddlewareOptions {
-    schema: GraphQLSchema;
-    path: string;
+  schema: GraphQLSchema;
+  path: string;
 }
 
 export function handleSubscriptions(
-    server: http.Server,
-    { schema, path }: SubscriptionMiddlewareOptions
+  server: http.Server,
+  { schema, path }: SubscriptionMiddlewareOptions
 ): SubscriptionServer {
-    // Configure some options for the subscription system.
-    const options = {
-        schema,
-        execute,
-        subscribe,
-    };
+  // Configure some options for the subscription system.
+  const options = {
+    schema,
+    execute,
+    subscribe,
+  };
 
-    // Configure the socket options for the websocket server. It needs to handle
-    // upgrade requests on that route.
-    const socketOption = {
-        server,
-        path,
-    };
+  // Configure the socket options for the websocket server. It needs to handle
+  // upgrade requests on that route.
+  const socketOption = {
+    server,
+    path,
+  };
 
-    return new SubscriptionServer(options, socketOption);
+  return new SubscriptionServer(options, socketOption);
 }

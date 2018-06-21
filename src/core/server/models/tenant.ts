@@ -1,62 +1,62 @@
-import { Db, Collection } from 'mongodb';
-import { merge } from 'lodash';
-import dotize from 'dotize';
-import uuid from 'uuid';
-import { Omit, Sub } from 'talk-common/types';
+import { Db, Collection } from "mongodb";
+import { merge } from "lodash";
+import dotize from "dotize";
+import uuid from "uuid";
+import { Omit, Sub } from "talk-common/types";
 
 function collection(db: Db): Collection<Tenant> {
-    return db.collection<Tenant>('tenants');
+  return db.collection<Tenant>("tenants");
 }
 
 export interface TenantResource {
-    readonly tenant_id: string;
+  readonly tenant_id: string;
 }
 
 export interface Wordlist {
-    banned: string[];
-    suspect: string[];
+  banned: string[];
+  suspect: string[];
 }
 
 export enum Moderation {
-    PRE = 'PRE',
-    POST = 'POST',
+  PRE = "PRE",
+  POST = "POST",
 }
 
 export interface Tenant {
-    readonly id: string;
+  readonly id: string;
 
-    // Domain is set when the tenant is created, and is used to retrieve the
-    // specific tenant that the API request pertains to.
-    domain: string;
+  // Domain is set when the tenant is created, and is used to retrieve the
+  // specific tenant that the API request pertains to.
+  domain: string;
 
-    moderation: Moderation;
-    requireEmailConfirmation: boolean;
-    infoBoxEnable: boolean;
-    infoBoxContent?: string;
-    questionBoxEnable: boolean;
-    questionBoxIcon?: string;
-    questionBoxContent?: string;
-    premodLinksEnable: boolean;
-    autoCloseStream: boolean;
-    closedTimeout: number;
-    closedMessage?: string;
-    customCssUrl?: string;
-    disableCommenting: boolean;
-    disableCommentingMessage?: string;
+  moderation: Moderation;
+  requireEmailConfirmation: boolean;
+  infoBoxEnable: boolean;
+  infoBoxContent?: string;
+  questionBoxEnable: boolean;
+  questionBoxIcon?: string;
+  questionBoxContent?: string;
+  premodLinksEnable: boolean;
+  autoCloseStream: boolean;
+  closedTimeout: number;
+  closedMessage?: string;
+  customCssUrl?: string;
+  disableCommenting: boolean;
+  disableCommentingMessage?: string;
 
-    // editCommentWindowLength is the length of time (in milliseconds) after a
-    // comment is posted that it can still be edited by the author.
-    editCommentWindowLength: number;
-    charCountEnable: boolean;
-    charCount?: number;
-    organizationName: string;
-    organizationContactEmail: string;
+  // editCommentWindowLength is the length of time (in milliseconds) after a
+  // comment is posted that it can still be edited by the author.
+  editCommentWindowLength: number;
+  charCountEnable: boolean;
+  charCount?: number;
+  organizationName: string;
+  organizationContactEmail: string;
 
-    // wordlist stores all the banned/suspect words.
-    wordlist: Wordlist;
+  // wordlist stores all the banned/suspect words.
+  wordlist: Wordlist;
 
-    // domains is the set of whitelisted domains.
-    domains: string[];
+  // domains is the set of whitelisted domains.
+  domains: string[];
 }
 
 /**
@@ -65,8 +65,8 @@ export interface Tenant {
  * are modifiable via the update method.
  */
 export type CreateTenantInput = Pick<
-    Tenant,
-    'domain' | 'organizationName' | 'organizationContactEmail' | 'domains'
+  Tenant,
+  "domain" | "organizationName" | "organizationContactEmail" | "domains"
 >;
 
 /**
@@ -76,106 +76,106 @@ export type CreateTenantInput = Pick<
  * @param input the customizable parts of the Tenant available during creation
  */
 export async function create(
-    db: Db,
-    input: CreateTenantInput
+  db: Db,
+  input: CreateTenantInput
 ): Promise<Readonly<Tenant>> {
-    const defaults: Sub<Tenant, CreateTenantInput> = {
-        // Create a new ID.
-        id: uuid.v4(),
+  const defaults: Sub<Tenant, CreateTenantInput> = {
+    // Create a new ID.
+    id: uuid.v4(),
 
-        // Default to post moderation.
-        moderation: Moderation.POST,
+    // Default to post moderation.
+    moderation: Moderation.POST,
 
-        // Email confirmation is default off.
-        requireEmailConfirmation: false,
-        infoBoxEnable: false,
-        questionBoxEnable: false,
-        premodLinksEnable: false,
-        autoCloseStream: false,
+    // Email confirmation is default off.
+    requireEmailConfirmation: false,
+    infoBoxEnable: false,
+    questionBoxEnable: false,
+    premodLinksEnable: false,
+    autoCloseStream: false,
 
-        // Two weeks timeout.
-        closedTimeout: 60 * 60 * 24 * 7 * 2,
-        disableCommenting: false,
-        editCommentWindowLength: 30 * 1000,
-        charCountEnable: false,
-        wordlist: {
-            suspect: [],
-            banned: [],
-        },
-    };
+    // Two weeks timeout.
+    closedTimeout: 60 * 60 * 24 * 7 * 2,
+    disableCommenting: false,
+    editCommentWindowLength: 30 * 1000,
+    charCountEnable: false,
+    wordlist: {
+      suspect: [],
+      banned: [],
+    },
+  };
 
-    // Create the new Tenant by merging it together with the defaults.
-    const tenant = merge({}, input, defaults);
+  // Create the new Tenant by merging it together with the defaults.
+  const tenant = merge({}, input, defaults);
 
-    // Insert the Tenant into the database.
-    await collection(db).insert(tenant);
+  // Insert the Tenant into the database.
+  await collection(db).insert(tenant);
 
-    return tenant;
+  return tenant;
 }
 
 export async function retrieveByDomain(
-    db: Db,
-    domain: string
+  db: Db,
+  domain: string
 ): Promise<Readonly<Tenant>> {
-    return collection(db).findOne({ domain });
+  return collection(db).findOne({ domain });
 }
 
 export async function retrieve(db: Db, id: string): Promise<Readonly<Tenant>> {
-    return collection(db).findOne({ id });
+  return collection(db).findOne({ id });
 }
 
 export async function retrieveMany(
-    db: Db,
-    ids: string[]
+  db: Db,
+  ids: string[]
 ): Promise<Readonly<Tenant>[]> {
-    const cursor = await collection(db).find({
-        id: {
-            $in: ids,
-        },
-    });
+  const cursor = await collection(db).find({
+    id: {
+      $in: ids,
+    },
+  });
 
-    const tenants = await cursor.toArray();
+  const tenants = await cursor.toArray();
 
-    return ids.map(id => tenants.find(tenant => tenant.id === id));
+  return ids.map(id => tenants.find(tenant => tenant.id === id));
 }
 
 export async function retrieveManyByDomain(
-    db: Db,
-    domains: string[]
+  db: Db,
+  domains: string[]
 ): Promise<Readonly<Tenant>[]> {
-    const cursor = await collection(db).find({
-        domain: {
-            $in: domains,
-        },
-    });
+  const cursor = await collection(db).find({
+    domain: {
+      $in: domains,
+    },
+  });
 
-    const tenants = await cursor.toArray();
+  const tenants = await cursor.toArray();
 
-    return domains.map(domain =>
-        tenants.find(tenant => tenant.domain === domain)
-    );
+  return domains.map(domain =>
+    tenants.find(tenant => tenant.domain === domain)
+  );
 }
 
 export async function retrieveAll(db: Db): Promise<Readonly<Tenant>[]> {
-    return collection(db)
-        .find({})
-        .toArray();
+  return collection(db)
+    .find({})
+    .toArray();
 }
 
 export async function update(
-    db: Db,
-    id: string,
-    update: Partial<CreateTenantInput>
+  db: Db,
+  id: string,
+  update: Partial<CreateTenantInput>
 ): Promise<Readonly<Tenant>> {
-    // Get the tenant from the database.
-    const result = await collection(db).findOneAndUpdate(
-        { id },
-        // Only update fields that have been updated.
-        { $set: dotize(update) },
-        // False to return the updated document instead of the original
-        // document.
-        { returnOriginal: false }
-    );
+  // Get the tenant from the database.
+  const result = await collection(db).findOneAndUpdate(
+    { id },
+    // Only update fields that have been updated.
+    { $set: dotize(update) },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
 
-    return result.value;
+  return result.value;
 }

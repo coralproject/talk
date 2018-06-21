@@ -1,4 +1,4 @@
-import Server, { ServerOptions } from './server';
+import Server, { ServerOptions } from "./server";
 
 /**
  * Create a Talk Server.
@@ -6,8 +6,8 @@ import Server, { ServerOptions } from './server';
  * @param options ServerOptions that will be used to configure Talk.
  */
 export default async function createTalk(
-    options: ServerOptions = {}
+  options: ServerOptions = {}
 ): Promise<Server> {
-    // Create the server with the provided options.
-    return new Server(options);
+  // Create the server with the provided options.
+  return new Server(options);
 }

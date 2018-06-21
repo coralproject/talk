@@ -1,15 +1,15 @@
 export type Cursor = Date | number | string;
 
 export interface Edge<T> {
-    node: T;
-    cursor: Cursor;
+  node: T;
+  cursor: Cursor;
 }
 
 export interface PageInfo {
-    hasNextPage: boolean;
+  hasNextPage: boolean;
 }
 
 export interface Connection<T> {
-    edges: Edge<T>[];
-    pageInfo: PageInfo;
+  edges: Edge<T>[];
+  pageInfo: PageInfo;
 }

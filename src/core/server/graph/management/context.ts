@@ -1,13 +1,13 @@
-import { Db } from 'mongodb';
+import { Db } from "mongodb";
 
 export interface ManagementContextOptions {
-    db: Db;
+  db: Db;
 }
 
 export default class ManagementContext {
-    public db: Db;
+  public db: Db;
 
-    constructor({ db }: ManagementContextOptions) {
-        this.db = db;
-    }
+  constructor({ db }: ManagementContextOptions) {
+    this.db = db;
+  }
 }

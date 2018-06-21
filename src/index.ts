@@ -1,5 +1,5 @@
-import createTalk from './core';
-import express from 'express';
+import createTalk from "./core";
+import express from "express";
 
 // Create the app that will serve as the mounting point for the Talk Server.
 const app = express();

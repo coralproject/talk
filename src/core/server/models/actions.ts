@@ -1,3 +1,3 @@
 export interface ActionCounts {
-    [_: string]: number;
+  [_: string]: number;
 }

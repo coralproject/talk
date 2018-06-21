@@ -1,6 +1,6 @@
-import { Db } from 'mongodb';
-import { Comment } from 'talk-server/models/comment';
+import { Db } from "mongodb";
+import { Comment } from "talk-server/models/comment";
 
 export async function create(db: Db): Promise<Comment> {
-    return null;
+  return null;
 }

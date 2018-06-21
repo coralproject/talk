@@ -1,4 +1,4 @@
-import serveStatic from 'express-static-gzip';
-import path from 'path';
+import serveStatic from "express-static-gzip";
+import path from "path";
 
-export default serveStatic(path.join(__dirname, '..', '..', 'dist'), {});
+export default serveStatic(path.join(__dirname, "..", "..", "dist"), {});

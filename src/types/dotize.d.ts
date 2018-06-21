@@ -1,5 +1,5 @@
-declare module 'dotize' {
-    export = dotize;
+declare module "dotize" {
+  export = dotize;
 
-    function dotize(obj: any): { [_: string]: any };
+  function dotize(obj: any): { [_: string]: any };
 }

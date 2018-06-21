@@ -1,6 +1,6 @@
-import { RequestHandler, ErrorRequestHandler } from 'express';
-import logger from '../../logger';
-import now from 'performance-now';
+import { RequestHandler, ErrorRequestHandler } from "express";
+import logger from "../../logger";
+import now from "performance-now";
 
 export const access: RequestHandler = (req, res, next) => {
   const startTime = now();
@@ -10,11 +10,11 @@ export const access: RequestHandler = (req, res, next) => {
     const responseTime = Math.round(now() - startTime);
 
     // Get some extra goodies from the request.
-    const userAgent = req.get('User-Agent');
+    const userAgent = req.get("User-Agent");
 
     // Reattach the old end, and finish.
     res.end = end;
-    if (typeof encodingOrCb === 'function') {
+    if (typeof encodingOrCb === "function") {
       res.end(chunk, encodingOrCb);
     } else {
       res.end(chunk, encodingOrCb, cb);
@@ -30,7 +30,7 @@ export const access: RequestHandler = (req, res, next) => {
         userAgent,
         responseTime,
       },
-      'http request'
+      "http request"
     );
   };
 
@@ -38,6 +38,6 @@ export const access: RequestHandler = (req, res, next) => {
 };
 
 export const error: ErrorRequestHandler = (err, req, res, next) => {
-  logger.error({ err }, 'http error');
+  logger.error({ err }, "http error");
   next(err);
 };

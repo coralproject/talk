@@ -1,47 +1,47 @@
-import { Express } from 'express';
-import { Db } from 'mongodb';
-import http from 'http';
-import { Redis } from 'ioredis';
+import { Express } from "express";
+import { Db } from "mongodb";
+import http from "http";
+import { Redis } from "ioredis";
 
-import { Config } from 'talk-server/config';
-import { Schemas } from 'talk-server/graph/schemas';
-import { handleSubscriptions } from 'talk-server/graph/common/subscriptions/middleware';
+import { Config } from "talk-server/config";
+import { Schemas } from "talk-server/graph/schemas";
+import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 
-import { createRouter } from './router';
-import serveStatic from './middleware/serveStatic';
+import { createRouter } from "./router";
+import serveStatic from "./middleware/serveStatic";
 import {
-    access as accessLogger,
-    error as errorLogger,
-} from './middleware/logging';
+  access as accessLogger,
+  error as errorLogger,
+} from "./middleware/logging";
 
 export interface AppOptions {
-    parent: Express;
-    config: Config;
-    mongo: Db;
-    redis: Redis;
-    schemas: Schemas;
+  parent: Express;
+  config: Config;
+  mongo: Db;
+  redis: Redis;
+  schemas: Schemas;
 }
 
 /**
  * createApp will create a Talk Express app that can be used to handle requests.
  */
 export async function createApp(options: AppOptions): Promise<Express> {
-    // Pull the parent out of the options.
-    const { parent } = options;
+  // Pull the parent out of the options.
+  const { parent } = options;
 
-    // Logging
-    parent.use(accessLogger);
+  // Logging
+  parent.use(accessLogger);
 
-    // Static Files
-    parent.use(serveStatic);
+  // Static Files
+  parent.use(serveStatic);
 
-    // Mount the router.
-    parent.use(await createRouter(options));
+  // Mount the router.
+  parent.use(await createRouter(options));
 
-    // Error Handling
-    parent.use(errorLogger);
+  // Error Handling
+  parent.use(errorLogger);
 
-    return parent;
+  return parent;
 }
 
 /**
@@ -51,13 +51,13 @@ export async function createApp(options: AppOptions): Promise<Express> {
  * @param port the port to listen on
  */
 export const listenAndServe = (
-    app: Express,
-    port: number
+  app: Express,
+  port: number
 ): Promise<http.Server> =>
-    new Promise(async resolve => {
-        // Listen on the designated port.
-        const httpServer = app.listen(port, () => resolve(httpServer));
-    });
+  new Promise(async resolve => {
+    // Listen on the designated port.
+    const httpServer = app.listen(port, () => resolve(httpServer));
+  });
 
 /**
  * attachSubscriptionHandlers attaches all the handlers to the http.Server to
@@ -67,18 +67,18 @@ export const listenAndServe = (
  * @param server the http.Server to attach the websocket upgraders to
  */
 export async function attachSubscriptionHandlers(
-    schemas: Schemas,
-    server: http.Server
+  schemas: Schemas,
+  server: http.Server
 ) {
-    // Setup the Management Subscription endpoint.
-    handleSubscriptions(server, {
-        schema: schemas.management,
-        path: '/api/management/live',
-    });
+  // Setup the Management Subscription endpoint.
+  handleSubscriptions(server, {
+    schema: schemas.management,
+    path: "/api/management/live",
+  });
 
-    // Setup the Tenant Subscription endpoint.
-    handleSubscriptions(server, {
-        schema: schemas.tenant,
-        path: '/api/tenant/live',
-    });
+  // Setup the Tenant Subscription endpoint.
+  handleSubscriptions(server, {
+    schema: schemas.tenant,
+    path: "/api/tenant/live",
+  });
 }
