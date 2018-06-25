@@ -1,8 +1,8 @@
-import { Db, Collection } from "mongodb";
-import { merge } from "lodash";
 import dotize from "dotize";
+import { merge } from "lodash";
+import { Collection, Db } from "mongodb";
+import { Sub } from "talk-common/types";
 import uuid from "uuid";
-import { Omit, Sub } from "talk-common/types";
 
 function collection(db: Db): Collection<Tenant> {
   return db.collection<Tenant>("tenants");
@@ -75,7 +75,7 @@ export type CreateTenantInput = Pick<
  * @param db the MongoDB connection used to create the tenant.
  * @param input the customizable parts of the Tenant available during creation
  */
-export async function create(
+export async function createTenant(
   db: Db,
   input: CreateTenantInput
 ): Promise<Readonly<Tenant>> {
@@ -113,7 +113,7 @@ export async function create(
   return tenant;
 }
 
-export async function retrieveByDomain(
+export async function retrieveTenantByDomain(
   db: Db,
   domain: string
 ): Promise<Readonly<Tenant>> {
@@ -124,10 +124,10 @@ export async function retrieve(db: Db, id: string): Promise<Readonly<Tenant>> {
   return collection(db).findOne({ id });
 }
 
-export async function retrieveMany(
+export async function retrieveManyTenants(
   db: Db,
   ids: string[]
-): Promise<Readonly<Tenant>[]> {
+): Promise<Array<Readonly<Tenant>>> {
   const cursor = await collection(db).find({
     id: {
       $in: ids,
@@ -139,10 +139,10 @@ export async function retrieveMany(
   return ids.map(id => tenants.find(tenant => tenant.id === id));
 }
 
-export async function retrieveManyByDomain(
+export async function retrieveManyTenantsByDomain(
   db: Db,
   domains: string[]
-): Promise<Readonly<Tenant>[]> {
+): Promise<Array<Readonly<Tenant>>> {
   const cursor = await collection(db).find({
     domain: {
       $in: domains,
@@ -156,13 +156,15 @@ export async function retrieveManyByDomain(
   );
 }
 
-export async function retrieveAll(db: Db): Promise<Readonly<Tenant>[]> {
+export async function retrieveAllTenants(
+  db: Db
+): Promise<Array<Readonly<Tenant>>> {
   return collection(db)
     .find({})
     .toArray();
 }
 
-export async function update(
+export async function updateTenant(
   db: Db,
   id: string,
   update: Partial<CreateTenantInput>

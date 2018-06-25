@@ -20,7 +20,7 @@ export default class Query<T> {
   private collection: Collection<T>;
   private skip?: number;
   private limit?: number;
-  private sort?: Object;
+  private sort?: object;
 
   constructor(collection: Collection<T>) {
     this.collection = collection;
@@ -61,7 +61,7 @@ export default class Query<T> {
    *
    * @param sort the sorting option for the documents
    */
-  public orderBy(sort: Object): Query<T> {
+  public orderBy(sort: object): Query<T> {
     this.sort = merge({}, this.sort || {}, sort);
     return this;
   }
@@ -69,7 +69,7 @@ export default class Query<T> {
   /**
    * exec will return a cursor to the query.
    */
-  async exec(): Promise<Cursor<T>> {
+  public async exec(): Promise<Cursor<T>> {
     let cursor = await this.collection.find(this.filter);
 
     if (this.limit) {

@@ -1,11 +1,8 @@
 import DataLoader from "dataloader";
-import {
-  Asset,
-  retrieveMany as retrieveManyAssets,
-} from "talk-server/models/asset";
-import Context from "talk-server/graph/tenant/context";
+import TenantContext from "talk-server/graph/tenant/context";
+import { Asset, retrieveManyAssets } from "talk-server/models/asset";
 
-export default (ctx: Context) => ({
+export default (ctx: TenantContext) => ({
   asset: new DataLoader<string, Asset>(ids =>
     retrieveManyAssets(ctx.db, ctx.tenant.id, ids)
   ),

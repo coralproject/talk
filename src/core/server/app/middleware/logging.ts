@@ -1,11 +1,11 @@
-import { RequestHandler, ErrorRequestHandler } from "express";
-import logger from "../../logger";
+import { ErrorRequestHandler, RequestHandler } from "express";
 import now from "performance-now";
+import logger from "../../logger";
 
 export const access: RequestHandler = (req, res, next) => {
   const startTime = now();
   const end = res.end;
-  res.end = (chunk: any, encodingOrCb?: string | Function, cb?: Function) => {
+  res.end = (chunk: any, encodingOrCb?: any, cb?: any) => {
     // Compute the end time.
     const responseTime = Math.round(now() - startTime);
 

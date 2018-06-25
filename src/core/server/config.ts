@@ -1,6 +1,6 @@
-import Joi from "joi";
 import convict from "convict";
 import dotenv from "dotenv";
+import Joi from "joi";
 
 // Apply all the configuration provided in the .env file if it isn't already in
 // the environment.

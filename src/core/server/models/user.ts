@@ -1,9 +1,9 @@
-import { ActionCounts } from "talk-server/models/actions";
-import { Db, Collection } from "mongodb";
-import uuid from "uuid";
-import { Omit, Sub } from "talk-common/types";
 import { merge } from "lodash";
+import { Collection, Db } from "mongodb";
+import { Omit, Sub } from "talk-common/types";
+import { ActionCounts } from "talk-server/models/actions";
 import { TenantResource } from "talk-server/models/tenant";
+import uuid from "uuid";
 
 function collection(db: Db): Collection<User> {
   return db.collection<User>("users");
@@ -61,7 +61,7 @@ export interface UserStatusHistory<T> {
 
 export interface UserStatusItem<T> {
   status: T; // TODO: migrate field
-  history: UserStatusHistory<T>[];
+  history: Array<UserStatusHistory<T>>;
 }
 
 export interface UserStatus {
@@ -152,7 +152,7 @@ export async function retrieveMany(
   db: Db,
   tenantID: string,
   ids: string[]
-): Promise<Readonly<User>[]> {
+): Promise<Array<Readonly<User>>> {
   const cursor = await collection(db).find({
     id: {
       $in: ids,

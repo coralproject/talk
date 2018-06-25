@@ -1,10 +1,10 @@
+import { resolveGraphqlOptions } from "apollo-server-core";
 import {
-  graphqlExpress,
   ExpressGraphQLOptionsFunction,
+  graphqlExpress,
   GraphQLOptions,
 } from "apollo-server-express";
-import { GraphQLError, FieldDefinitionNode, ValidationContext } from "graphql";
-import { resolveGraphqlOptions } from "apollo-server-core";
+import { FieldDefinitionNode, GraphQLError, ValidationContext } from "graphql";
 import { Config } from "talk-server/config";
 
 // Sourced from: https://github.com/apollographql/apollo-server/blob/958846887598491fadea57b3f9373d129300f250/packages/apollo-server-core/src/ApolloServer.ts#L46-L57
@@ -28,7 +28,7 @@ export const graphqlMiddleware = (
   // Generate the validation rules.
   const validationRules: Array<(context: ValidationContext) => any> = [];
 
-  if (config.get("env") !== "production") {
+  if (config.get("env") === "production") {
     // Disable introspection in production.
     validationRules.push(NoIntrospection);
   }

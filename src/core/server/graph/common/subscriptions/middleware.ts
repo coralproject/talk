@@ -1,6 +1,6 @@
+import { execute, GraphQLSchema, subscribe } from "graphql";
 import http from "http";
 import { SubscriptionServer } from "subscriptions-transport-ws";
-import { GraphQLSchema, execute, subscribe } from "graphql";
 
 export interface SubscriptionMiddlewareOptions {
   schema: GraphQLSchema;

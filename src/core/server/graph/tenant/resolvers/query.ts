@@ -3,7 +3,7 @@ import { Asset } from "talk-server/models/asset";
 
 export default {
   asset: async (
-    _: any,
+    source: void,
     { id, url }: { id?: string; url: string },
     ctx: TenantContext
   ): Promise<Asset> => {

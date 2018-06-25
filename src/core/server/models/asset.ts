@@ -1,10 +1,10 @@
-import { Db, Collection } from "mongodb";
-import Query, { FilterQuery } from "./query";
-import { defaults } from "lodash";
-import uuid from "uuid";
-import { Omit } from "talk-common/types";
 import dotize from "dotize";
+import { defaults } from "lodash";
+import { Collection, Db } from "mongodb";
+import { Omit } from "talk-common/types";
 import { TenantResource } from "talk-server/models/tenant";
+import uuid from "uuid";
+import Query from "./query";
 
 function collection(db: Db): Collection<Asset> {
   return db.collection<Asset>("assets");
@@ -29,7 +29,7 @@ export interface Asset extends TenantResource {
 
 export type CreateAssetInput = Pick<Asset, "id" | "url">;
 
-export async function create(
+export async function createAsset(
   db: Db,
   tenantID: string,
   input: CreateAssetInput
@@ -69,7 +69,7 @@ export async function create(
   return result.value;
 }
 
-export async function retrieve(
+export async function retrieveAsset(
   db: Db,
   tenantID: string,
   id: string
@@ -79,11 +79,11 @@ export async function retrieve(
     .findOne({ id, tenant_id: tenantID });
 }
 
-export async function retrieveMany(
+export async function retrieveManyAssets(
   db: Db,
   tenantID: string,
   ids: string[]
-): Promise<Array<Asset>> {
+): Promise<Asset[]> {
   const cursor = await db
     .collection<Asset>("assets")
     .find({ id: { $in: ids }, tenant_id: tenantID });
@@ -98,7 +98,7 @@ export type UpdateAssetInput = Omit<
   "id" | "tenant_id" | "url" | "created_at"
 >;
 
-export async function update(
+export async function updateAsset(
   db: Db,
   tenantID: string,
   id: string,

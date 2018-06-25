@@ -1,5 +1,5 @@
-import { addResolveFunctionsToSchema, IResolvers } from "graphql-tools";
 import { getGraphQLProjectConfig } from "graphql-config";
+import { addResolveFunctionsToSchema, IResolvers } from "graphql-tools";
 
 export default function loadSchema(projectName: string, resolvers: IResolvers) {
   // Load the configuration from the provided `.graphqlconfig` file.

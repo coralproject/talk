@@ -1,24 +1,14 @@
-import express, { Router } from "express";
+import express from "express";
+import passport from "passport";
 
-import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 import managementGraphMiddleware from "talk-server/graph/management/middleware";
+import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
 import { AppOptions } from "./index";
 import playground from "./middleware/playground";
 
 async function createManagementRouter(opts: AppOptions) {
   const router = express.Router();
-
-  if (opts.config.get("env") === "development") {
-    // GraphiQL
-    router.get(
-      "/graphiql",
-      playground({
-        endpoint: "/api/management/graphql",
-        subscriptionEndpoint: "/api/management/live",
-      })
-    );
-  }
 
   // Management API
   router.use(
@@ -37,17 +27,6 @@ async function createManagementRouter(opts: AppOptions) {
 async function createTenantRouter(opts: AppOptions) {
   const router = express.Router();
 
-  if (opts.config.get("env") === "development") {
-    // GraphiQL
-    router.get(
-      "/graphiql",
-      playground({
-        endpoint: "/api/tenant/graphql",
-        subscriptionEndpoint: "/api/tenant/live",
-      })
-    );
-  }
-
   // Tenant API
   router.use(
     "/graphql",
@@ -61,6 +40,9 @@ async function createTenantRouter(opts: AppOptions) {
 async function createAPIRouter(opts: AppOptions) {
   // Create a router.
   const router = express.Router();
+
+  // Setup Passport.
+  router.use(passport.initialize());
 
   // Configure the tenant routes.
   router.use("/tenant", await createTenantRouter(opts));
@@ -76,6 +58,26 @@ export async function createRouter(opts: AppOptions) {
   const router = express.Router();
 
   router.use("/api", await createAPIRouter(opts));
+
+  if (opts.config.get("env") === "development") {
+    // Tenant GraphiQL
+    router.get(
+      "/tenant/graphiql",
+      playground({
+        endpoint: "/api/tenant/graphql",
+        subscriptionEndpoint: "/api/tenant/live",
+      })
+    );
+
+    // Management GraphiQL
+    router.get(
+      "/management/graphiql",
+      playground({
+        endpoint: "/api/management/graphql",
+        subscriptionEndpoint: "/api/management/live",
+      })
+    );
+  }
 
   return router;
 }

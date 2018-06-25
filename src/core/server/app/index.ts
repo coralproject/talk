@@ -1,18 +1,18 @@
 import { Express } from "express";
-import { Db } from "mongodb";
 import http from "http";
 import { Redis } from "ioredis";
+import { Db } from "mongodb";
 
 import { Config } from "talk-server/config";
-import { Schemas } from "talk-server/graph/schemas";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
+import { Schemas } from "talk-server/graph/schemas";
 
-import { createRouter } from "./router";
-import serveStatic from "./middleware/serveStatic";
 import {
   access as accessLogger,
   error as errorLogger,
 } from "./middleware/logging";
+import serveStatic from "./middleware/serveStatic";
+import { createRouter } from "./router";
 
 export interface AppOptions {
   parent: Express;

@@ -1,5 +1,5 @@
-import { Asset } from "talk-server/models/asset";
 import Context from "talk-server/graph/tenant/context";
+import { Asset } from "talk-server/models/asset";
 import { ConnectionInput } from "talk-server/models/comment";
 
 export default {

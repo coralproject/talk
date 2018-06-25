@@ -1,8 +1,12 @@
-import { Db } from "mongodb";
-import { Redis } from "ioredis";
 import DataLoader from "dataloader";
+import { Redis } from "ioredis";
+import { Db } from "mongodb";
 
-import { Tenant, retrieveAll, retrieveMany } from "talk-server/models/tenant";
+import {
+  retrieveAllTenants,
+  retrieveManyTenants,
+  Tenant,
+} from "talk-server/models/tenant";
 
 const CacheUpdateChannel = "tenant";
 
@@ -18,7 +22,7 @@ export default class Cache {
     this.db = db;
 
     // Prepare the list of all tenant's maintained by this instance.
-    this.tenants = new DataLoader(ids => retrieveMany(db, ids));
+    this.tenants = new DataLoader(ids => retrieveManyTenants(db, ids));
 
     // Subscribe to tenant notifications.
     subscriber.subscribe(CacheUpdateChannel);
@@ -33,7 +37,7 @@ export default class Cache {
    */
   public async primeAll() {
     // Grab all the tenants for this node.
-    const tenants = await retrieveAll(this.db);
+    const tenants = await retrieveAllTenants(this.db);
 
     // Clear out all the items in the cache.
     this.tenants.clearAll();

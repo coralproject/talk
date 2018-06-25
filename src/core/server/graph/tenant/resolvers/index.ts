@@ -1,6 +1,7 @@
+import Cursor from "../../common/scalars/cursor";
 import Asset from "./asset";
 import Comment from "./comment";
-import Cursor from "../../common/scalars/cursor";
+import Mutation from "./mutation";
 import Query from "./query";
 
 export default {
@@ -8,4 +9,5 @@ export default {
   Comment,
   Cursor,
   Query,
+  Mutation,
 };

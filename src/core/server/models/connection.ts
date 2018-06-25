@@ -10,6 +10,6 @@ export interface PageInfo {
 }
 
 export interface Connection<T> {
-  edges: Edge<T>[];
+  edges: Array<Edge<T>>;
   pageInfo: PageInfo;
 }

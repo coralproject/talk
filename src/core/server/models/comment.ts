@@ -1,11 +1,11 @@
-import { Db, Collection } from "mongodb";
-import { Omit, Sub } from "talk-common/types";
 import { merge } from "lodash";
-import uuid from "uuid";
-import { Connection, Edge, Cursor } from "talk-server/models/connection";
-import Query from "talk-server/models/query";
+import { Collection, Db } from "mongodb";
+import { Omit, Sub } from "talk-common/types";
 import { ActionCounts } from "talk-server/models/actions";
+import { Connection, Cursor, Edge } from "talk-server/models/connection";
+import Query from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
+import uuid from "uuid";
 
 function collection(db: Db): Collection<Comment> {
   return db.collection<Comment>("comments");
@@ -116,7 +116,7 @@ export async function retrieveMany(
   db: Db,
   tenantID: string,
   ids: string[]
-): Promise<Readonly<Comment>[]> {
+): Promise<Array<Readonly<Comment>>> {
   const cursor = await collection(db).find({
     id: {
       $in: ids,
@@ -152,7 +152,7 @@ export interface ConnectionInput {
 function nodesToEdge(
   input: ConnectionInput,
   nodes: Comment[]
-): Edge<Comment>[] {
+): Array<Edge<Comment>> {
   let getCursor: (comment: Comment, index: number) => Cursor;
   switch (input.orderBy) {
     case CommentSort.CREATED_AT_DESC:

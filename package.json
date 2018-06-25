@@ -1,6 +1,6 @@
 {
   "name": "@coralproject/talk",
-  "version": "1.0.0",
+  "version": "5.0.0",
   "description": "A better commenting experience from Mozilla, The Washington Post, and The New York Times.",
   "scripts": {
     "start": "node dist/index.js",
@@ -28,6 +28,7 @@
     "lodash": "^4.17.10",
     "luxon": "^1.2.1",
     "mongodb": "^3.0.10",
+    "passport": "^0.4.0",
     "performance-now": "^2.1.0",
     "subscriptions-transport-ws": "^0.9.11",
     "uuid": "^3.2.1"
@@ -43,6 +44,7 @@
     "@types/lodash": "^4.14.109",
     "@types/luxon": "^0.5.3",
     "@types/mongodb": "^3.0.19",
+    "@types/passport": "^0.4.5",
     "@types/uuid": "^3.4.3",
     "@types/ws": "^5.1.2",
     "graphql-playground-middleware-express": "^1.7.0",
@@ -50,6 +52,9 @@
     "prettier": "^1.13.4",
     "ts-node": "^6.1.1",
     "tsconfig-paths": "^3.4.0",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.13.0",
+    "tslint-plugin-prettier": "^1.3.0",
     "typescript": "^2.9.1"
   }
 }

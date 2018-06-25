@@ -10,5 +10,6 @@
     "dist": true,
     ".vscode": true,
     "package-lock.json": true
-  }
+  },
+  "tslint.autoFixOnSave": true
 }

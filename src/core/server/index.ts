@@ -1,14 +1,14 @@
 import express, { Express } from "express";
 import http from "http";
 
+import getManagementSchema from "talk-server/graph/management/schema";
+import { Schemas } from "talk-server/graph/schemas";
+import getTenantSchema from "talk-server/graph/tenant/schema";
+import { attachSubscriptionHandlers, createApp, listenAndServe } from "./app";
 import config, { Config } from "./config";
-import { createApp, listenAndServe, attachSubscriptionHandlers } from "./app";
 import logger from "./logger";
 import { createMongoDB } from "./services/mongodb";
 import { createRedisClient } from "./services/redis";
-import getManagementSchema from "talk-server/graph/management/schema";
-import getTenantSchema from "talk-server/graph/tenant/schema";
-import { Schemas } from "talk-server/graph/schemas";
 
 export interface ServerOptions {
   config?: Config;

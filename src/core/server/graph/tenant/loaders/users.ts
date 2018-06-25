@@ -1,6 +1,6 @@
 import DataLoader from "dataloader";
-import { User, retrieveMany } from "talk-server/models/user";
 import Context from "talk-server/graph/tenant/context";
+import { retrieveMany, User } from "talk-server/models/user";
 
 export default (ctx: Context) => ({
   user: new DataLoader<string, User>(ids =>

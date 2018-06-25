@@ -1,4 +1,4 @@
-import { MongoClient, Db } from "mongodb";
+import { Db, MongoClient } from "mongodb";
 import { Config } from "talk-server/config";
 
 /**

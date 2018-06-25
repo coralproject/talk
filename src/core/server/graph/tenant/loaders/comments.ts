@@ -1,12 +1,12 @@
 import DataLoader from "dataloader";
+import Context from "talk-server/graph/tenant/context";
 import {
   Comment,
-  retrieveMany,
-  retrieveAssetConnection,
   ConnectionInput,
+  retrieveAssetConnection,
+  retrieveMany,
   retrieveRepliesConnection,
 } from "talk-server/models/comment";
-import Context from "talk-server/graph/tenant/context";
 
 export default (ctx: Context) => ({
   comment: new DataLoader((ids: string[]) =>
