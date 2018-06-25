@@ -62,5 +62,10 @@ permalink: /pre-launch-checklist/
   
   
 - [ ] Do you want to send all new comments or all reported comments to a Slack channel?
-  - See [our blog for more information]( https://coralproject.net/blog/slacking-on/)
+  - See [our blog for more information](https://coralproject.net/blog/slacking-on/)
+  
+  
+- [ ] Has your community team configured Talk to match your community strategy?
+  - See [our tutorial for more information](https://docs.coralproject.net/talk/when-youve-installed-talk/)
+ 
  
