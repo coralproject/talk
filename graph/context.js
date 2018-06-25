@@ -105,6 +105,17 @@ class Context {
   }
 
   /**
+   * Gets the root parent object.
+   */
+  get rootParent() {
+    let ctx = this;
+    while (ctx.parent) {
+      ctx = ctx.parent;
+    }
+    return ctx;
+  }
+
+  /**
    * graphql will execute a graph request for the current context.
    *
    * @param {String} requestString  A GraphQL language formatted string

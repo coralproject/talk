@@ -20,7 +20,12 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
     loaders: { Settings },
     connectors: {
       models: { User },
-      services: { Mailer, I18n, Users },
+      services: {
+        Mailer,
+        I18n,
+        Users,
+        Utils: { getRedirectUri },
+      },
     },
   } = ctx;
 
@@ -77,9 +82,12 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
     subject: I18n.t('email.email_change_original.subject'),
   });
 
+  // Try to get the root parent, and their redirect uri.
+  const redirectUri = getRedirectUri(ctx.rootParent);
+
   // Send off the email to the new email address that we need to verify the new
   // address.
-  await Users.sendEmailConfirmation(user, email);
+  await Users.sendEmailConfirmation(user, email, redirectUri);
 }
 
 // attachUserLocalAuth will attach a new local profile to an existing user.
@@ -88,7 +96,10 @@ async function attachUserLocalAuth(ctx, email, password) {
     user,
     connectors: {
       models: { User },
-      services: { Users },
+      services: {
+        Users,
+        Utils: { getRedirectUri },
+      },
     },
   } = ctx;
 
@@ -141,9 +152,12 @@ async function attachUserLocalAuth(ctx, email, password) {
       throw new Error('local auth attachment failed due to unexpected reason');
     }
 
+    // Try to get the root parent, and their redirect uri.
+    const redirectUri = getRedirectUri(ctx.rootParent);
+
     // Send off the email to the new email address that we need to verify the
     // new address.
-    await Users.sendEmailConfirmation(updatedUser, email);
+    await Users.sendEmailConfirmation(updatedUser, email, redirectUri);
   } catch (err) {
     if (err.code === 11000) {
       throw new ErrEmailTaken();

@@ -24,6 +24,13 @@ function dotize(object) {
   return result;
 }
 
+function getRedirectUri(req) {
+  if (typeof req.header === 'function') {
+    return req.header('X-Pym-Url') || req.header('Referer');
+  }
+}
+
 module.exports = {
   dotize,
+  getRedirectUri,
 };
