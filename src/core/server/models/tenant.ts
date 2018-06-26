@@ -116,18 +116,21 @@ export async function createTenant(
 export async function retrieveTenantByDomain(
   db: Db,
   domain: string
-): Promise<Readonly<Tenant>> {
+): Promise<Readonly<Tenant> | null> {
   return collection(db).findOne({ domain });
 }
 
-export async function retrieve(db: Db, id: string): Promise<Readonly<Tenant>> {
+export async function retrieve(
+  db: Db,
+  id: string
+): Promise<Readonly<Tenant> | null> {
   return collection(db).findOne({ id });
 }
 
 export async function retrieveManyTenants(
   db: Db,
   ids: string[]
-): Promise<Array<Readonly<Tenant>>> {
+): Promise<Array<Readonly<Tenant> | null>> {
   const cursor = await collection(db).find({
     id: {
       $in: ids,
@@ -136,13 +139,13 @@ export async function retrieveManyTenants(
 
   const tenants = await cursor.toArray();
 
-  return ids.map(id => tenants.find(tenant => tenant.id === id));
+  return ids.map(id => tenants.find(tenant => tenant.id === id) || null);
 }
 
 export async function retrieveManyTenantsByDomain(
   db: Db,
   domains: string[]
-): Promise<Array<Readonly<Tenant>>> {
+): Promise<Array<Readonly<Tenant> | null>> {
   const cursor = await collection(db).find({
     domain: {
       $in: domains,
@@ -151,8 +154,8 @@ export async function retrieveManyTenantsByDomain(
 
   const tenants = await cursor.toArray();
 
-  return domains.map(domain =>
-    tenants.find(tenant => tenant.domain === domain)
+  return domains.map(
+    domain => tenants.find(tenant => tenant.domain === domain) || null
   );
 }
 
@@ -168,7 +171,7 @@ export async function updateTenant(
   db: Db,
   id: string,
   update: Partial<CreateTenantInput>
-): Promise<Readonly<Tenant>> {
+): Promise<Readonly<Tenant> | null> {
   // Get the tenant from the database.
   const result = await collection(db).findOneAndUpdate(
     { id },
@@ -179,5 +182,5 @@ export async function updateTenant(
     { returnOriginal: false }
   );
 
-  return result.value;
+  return result.value || null;
 }

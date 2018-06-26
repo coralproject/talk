@@ -14,7 +14,7 @@ const CacheUpdateChannel = "tenant";
 // rather than grabbing it from the database every single call.
 export default class Cache {
   // private tenants: Map<string, Promise<Readonly<Tenant>>>;
-  private tenants: DataLoader<string, Readonly<Tenant>>;
+  private tenants: DataLoader<string, Readonly<Tenant> | null>;
   private db: Db;
 
   constructor(db: Db, subscriber: Redis) {
@@ -72,7 +72,7 @@ export default class Cache {
   /**
    * retrieve returns a promise that will resolve to the tenant for Talk.
    */
-  public async retrieve(id: string): Promise<Readonly<Tenant>> {
+  public async retrieve(id: string): Promise<Readonly<Tenant> | null> {
     return this.tenants.load(id);
   }
 

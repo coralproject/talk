@@ -12,7 +12,7 @@
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "noImplicitAny": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "noErrorTruncation": true,
     "sourceMap": true,
     "pretty": false,

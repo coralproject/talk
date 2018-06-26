@@ -1,6 +1,6 @@
 import express from "express";
-import passport from "passport";
 
+import tenantMiddleware from "talk-server/app/middleware/tenant";
 import managementGraphMiddleware from "talk-server/graph/management/middleware";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
@@ -27,6 +27,9 @@ async function createManagementRouter(opts: AppOptions) {
 async function createTenantRouter(opts: AppOptions) {
   const router = express.Router();
 
+  // Tenant identification middleware.
+  router.use(tenantMiddleware({ db: opts.mongo }));
+
   // Tenant API
   router.use(
     "/graphql",
@@ -40,9 +43,6 @@ async function createTenantRouter(opts: AppOptions) {
 async function createAPIRouter(opts: AppOptions) {
   // Create a router.
   const router = express.Router();
-
-  // Setup Passport.
-  router.use(passport.initialize());
 
   // Configure the tenant routes.
   router.use("/tenant", await createTenantRouter(opts));

@@ -108,7 +108,7 @@ export async function retrieve(
   db: Db,
   tenantID: string,
   id: string
-): Promise<Readonly<Comment>> {
+): Promise<Readonly<Comment> | null> {
   return collection(db).findOne({ id, tenant_id: tenantID });
 }
 
@@ -116,7 +116,7 @@ export async function retrieveMany(
   db: Db,
   tenantID: string,
   ids: string[]
-): Promise<Array<Readonly<Comment>>> {
+): Promise<Array<Readonly<Comment> | null>> {
   const cursor = await collection(db).find({
     id: {
       $in: ids,
@@ -126,7 +126,7 @@ export async function retrieveMany(
 
   const comments = await cursor.toArray();
 
-  return ids.map(id => comments.find(comment => comment.id === id));
+  return ids.map(id => comments.find(comment => comment.id === id) || null);
 }
 
 export enum CommentSort {

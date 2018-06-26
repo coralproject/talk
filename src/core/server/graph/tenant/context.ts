@@ -6,7 +6,7 @@ import mutators from "./mutators";
 
 export interface TenantContextOptions {
   db: Db;
-  tenant?: Tenant;
+  tenant: Tenant;
   user?: User;
 }
 
@@ -14,7 +14,7 @@ export default class TenantContext {
   public loaders: ReturnType<typeof loaders>;
   public mutators: ReturnType<typeof mutators>;
   public db: Db;
-  public tenant?: Tenant;
+  public tenant: Tenant;
   public user?: User;
 
   constructor({ user, tenant, db }: TenantContextOptions) {

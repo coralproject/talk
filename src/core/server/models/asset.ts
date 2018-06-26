@@ -33,7 +33,7 @@ export async function createAsset(
   db: Db,
   tenantID: string,
   input: CreateAssetInput
-): Promise<Asset> {
+): Promise<Readonly<Asset> | null> {
   const now = new Date();
 
   // Construct the filter.
@@ -66,14 +66,14 @@ export async function createAsset(
       returnOriginal: false,
     });
 
-  return result.value;
+  return result.value || null;
 }
 
 export async function retrieveAsset(
   db: Db,
   tenantID: string,
   id: string
-): Promise<Asset> {
+): Promise<Asset | null> {
   return await db
     .collection<Asset>("assets")
     .findOne({ id, tenant_id: tenantID });
@@ -83,14 +83,14 @@ export async function retrieveManyAssets(
   db: Db,
   tenantID: string,
   ids: string[]
-): Promise<Asset[]> {
+): Promise<Array<Asset | null>> {
   const cursor = await db
     .collection<Asset>("assets")
     .find({ id: { $in: ids }, tenant_id: tenantID });
 
   const assets = await cursor.toArray();
 
-  return ids.map(id => assets.find(asset => asset.id === id));
+  return ids.map(id => assets.find(asset => asset.id === id) || null);
 }
 
 export type UpdateAssetInput = Omit<
@@ -103,7 +103,7 @@ export async function updateAsset(
   tenantID: string,
   id: string,
   update: UpdateAssetInput
-): Promise<Readonly<Asset>> {
+): Promise<Readonly<Asset> | null> {
   const result = await db.collection<Asset>("assets").findOneAndUpdate(
     { id, tenant_id: tenantID },
     // Only update fields that have been updated.
@@ -113,5 +113,5 @@ export async function updateAsset(
     { returnOriginal: false }
   );
 
-  return result.value;
+  return result.value || null;
 }
