@@ -3,8 +3,6 @@ import { Environment, MutationConfig } from "relay-runtime";
 
 import { Omit } from "talk-framework/types";
 
-import { BadUserInputError, UnknownServerError } from "../errors";
-
 /**
  * Like `MutationConfig` but omits `onCompleted` and `onError`
  * because we are going to use a Promise API.
@@ -23,29 +21,6 @@ function getPayload(response: { [key: string]: any }): any {
   return response[keys[0]];
 }
 
-// Extract the payload from the response,
-// hide the clientMutationId detail.
-function getError(error: Error | Error[]): Error {
-  let e = error;
-  if (Array.isArray(e)) {
-    if (e.length > 1) {
-      // tslint:disable-next-line: no-console
-      console.error(`Unexpected Error array length, should be 1`, error);
-    }
-    e = e[0];
-  }
-
-  let err = e as Error;
-  if ((err as any).extensions) {
-    if ((err as any).code === "BAD_USER_INPUT") {
-      err = new BadUserInputError((err as any).extensions);
-    } else {
-      err = new UnknownServerError(err.message, (err as any).extensions);
-    }
-  }
-  return err;
-}
-
 /**
  * Normalizes response and error from `commitMutationPromise`.
  * Meaning `response` will directly contain the payload
@@ -60,7 +35,7 @@ export async function commitMutationPromiseNormalized<R, V>(
     const response = await commitMutationPromise(environment, config);
     return getPayload(response);
   } catch (e) {
-    throw getError(e);
+    throw e;
   }
 }
 
@@ -76,6 +51,9 @@ export function commitMutationPromise<R, V>(
       ...config,
       onCompleted: (response, errors) => {
         if (errors) {
+          // This should not happen, as the network layer
+          // will throw on errors which should result to
+          // `onError` rather than `onCompleted``.
           reject(errors);
           return;
         }
