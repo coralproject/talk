@@ -14,7 +14,7 @@
     "watch:relay:stream": "nodemon --config ./config/nodemon/relay-stream.json",
     "watch:server": "nodemon --config ./config/nodemon/server.json",
     "compile:css-types": "tcm src/core/client/",
-    "compile:relay:stream": "./patches/relay-compiler/bin/relay-compiler --src ./src/core/client/stream --schema ./src/schema.graphql --language typescript --artifactDirectory ./src/core/client/stream/__generated__ --no-watchman",
+    "compile:relay:stream": "./patches/relay-compiler/bin/relay-compiler --src ./src/core/client/stream --schema ./src/core/server/graph/tenant/schema/schema.graphql --language typescript --artifactDirectory ./src/core/client/stream/__generated__ --no-watchman",
     "start:development": "NODE_ENV=development ts-node -r tsconfig-paths/register src/index.ts",
     "lint": "npm-run-all lint:*",
     "lint:server": "tslint --fix --project ./tsconfig.json",
