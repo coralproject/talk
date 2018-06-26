@@ -1,5 +1,12 @@
 {
-    "execMap": {
-        "ts": "ts-node"
-    }
+  "execMap": {
+    "ts": "ts-node -r tsconfig-paths/register"
+  },
+  "ext": "ts,tsx,graphql",
+  "watch": [
+    "./src"
+  ],
+  "ignore": [
+    "./src/client"
+  ]
 }
