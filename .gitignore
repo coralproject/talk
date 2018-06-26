@@ -2,4 +2,15 @@ node_modules
 dist
 .env
 *.js
+npm-debug.log*
+yarn-error.log
 yarn.lock
+
+.idea/
+.docz
+*.swp
+*.DS_STORE
+
+*.css.d.ts
+__generated__
+

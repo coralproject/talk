@@ -1,0 +1,12 @@
+.textarea {
+	composes: body1 from "talk-ui/shared/typography.css";
+
+  display: block;
+  height: 100px;
+  width: 400px;
+  margin-bottom: calc(2px * $spacing-unit);
+}
+
+.postButton {
+  float: right;
+}

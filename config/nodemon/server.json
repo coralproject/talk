@@ -1,0 +1,10 @@
+{
+  "exec": "npm run serve",
+  "ext": "ts,graphql",
+  "watch": [
+    "../../src"
+  ],
+  "ignore": [
+    "../../src/client"
+  ]
+}

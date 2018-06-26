@@ -1,0 +1,78 @@
+.root {
+  composes: button from "talk-ui/shared/typography.css";
+  padding: 5px 20px;
+  border-radius: $round-corners;
+  background-color: transparent;
+  /* TODO: hover styles for the default button */
+}
+
+.fullWidth {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.primary {
+  background-color: $palette-primary-main;
+  color: #fff;
+
+  &:hover {
+    background-color: $palette-primary-light;
+  }
+
+  &:active {
+    background-color: $palette-primary-lighter;
+  }
+
+  &.invert {
+    background-color: transparent;
+    border: 1px solid $palette-primary-main;
+    color: $palette-primary-main;
+
+    &:hover {
+      border-color: $palette-primary-light;
+      color: $palette-primary-light;
+    }
+
+    &:active {
+      border-color: $palette-primary-lighter;
+      color: $palette-primary-lighter;
+    }
+  }
+}
+
+.secondary {
+  background-color: $palette-secondary-main;
+  color: #fff;
+
+  &:hover {
+    background-color: $palette-secondary-light;
+  }
+
+  &:active {
+    background-color: $palette-secondary-lighter;
+  }
+
+  &.invert {
+    background-color: transparent;
+    border: 1px solid $palette-secondary-main;
+    color: $palette-secondary-main;
+
+    &:hover {
+      border-color: $palette-secondary-light;
+      color: $palette-secondary-light;
+    }
+
+    &:active {
+      border-color: $palette-secondary-lighter;
+      color: $palette-secondary-lighter;
+    }
+  }
+}
+
+/**
+ * This seems to be the best way to target modern touch device browsers.
+ */
+@media (-moz-touch-enabled: 1), (pointer:coarse) {
+  /* TODO: Remove hover styles */
+}

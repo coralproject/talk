@@ -37,7 +37,7 @@ export const access: RequestHandler = (req, res, next) => {
   next();
 };
 
-export const error: ErrorRequestHandler = (err, req, res, next) => {
+export const error: ErrorRequestHandler = (err, _req, _res, next) => {
   logger.error({ err }, "http error");
   next(err);
 };

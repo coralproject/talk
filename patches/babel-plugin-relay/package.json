@@ -1,0 +1,25 @@
+{
+  "bugs": {
+    "url": "https://github.com/facebook/relay/issues"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.23.0",
+    "babel-types": "^6.24.1",
+    "graphql": "^0.13.0"
+  },
+  "description": "A Babel Plugin for use with Relay applications.",
+  "homepage": "https://facebook.github.io/relay/",
+  "keywords": [
+    "graphql",
+    "relay",
+    "babel",
+    "babel-plugin"
+  ],
+  "license": "MIT",
+  "name": "babel-plugin-relay",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/facebook/relay.git"
+  },
+  "version": "1.5.0-artsy.5"
+}

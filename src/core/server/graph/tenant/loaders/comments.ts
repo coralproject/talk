@@ -1,7 +1,6 @@
 import DataLoader from "dataloader";
 import Context from "talk-server/graph/tenant/context";
 import {
-  Comment,
   ConnectionInput,
   retrieveAssetConnection,
   retrieveMany,

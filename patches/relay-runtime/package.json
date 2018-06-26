@@ -1,0 +1,25 @@
+{
+  "bugs": {
+    "url": "https://github.com/facebook/relay/issues"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.23.0",
+    "fbjs": "^0.8.14"
+  },
+  "description": "A core runtime for building GraphQL-driven applications.",
+  "homepage": "https://facebook.github.io/relay/",
+  "keywords": [
+    "graphql",
+    "relay"
+  ],
+  "license": "MIT",
+  "name": "relay-runtime",
+  "peerDependencies": {
+    "@coral-forks/relay-compiler": "1.5.0-artsy.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/facebook/relay.git"
+  },
+  "version": "1.5.0-artsy.5"
+}

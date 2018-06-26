@@ -14,7 +14,7 @@ export interface CreateCommentPayload extends ClientMutationProps {
 
 const Mutation = {
   createComment: async (
-    source: void,
+    _source: void,
     input: CreateCommentInput,
     ctx: TenantContext
   ): Promise<CreateCommentPayload> => ({
