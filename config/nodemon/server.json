@@ -1,5 +1,5 @@
 {
-  "exec": "npm run serve",
+  "exec": "npm run start:development",
   "ext": "ts,graphql",
   "watch": [
     "../../src"
