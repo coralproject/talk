@@ -67,7 +67,7 @@ export interface UserStatusItem<T> {
 export interface UserStatus {
   username: UserStatusItem<UserUsernameStatus>;
   banned: UserStatusItem<boolean>;
-  suspension: UserStatusItem<Date>;
+  suspension: UserStatusItem<Date | null>;
 }
 
 export interface User extends TenantResource {
@@ -144,7 +144,7 @@ export async function retrieve(
   db: Db,
   tenantID: string,
   id: string
-): Promise<Readonly<User>> {
+): Promise<Readonly<User> | null> {
   return collection(db).findOne({ id, tenant_id: tenantID });
 }
 
@@ -152,7 +152,7 @@ export async function retrieveMany(
   db: Db,
   tenantID: string,
   ids: string[]
-): Promise<Array<Readonly<User>>> {
+): Promise<Array<Readonly<User> | null>> {
   const cursor = await collection(db).find({
     id: {
       $in: ids,
@@ -162,7 +162,7 @@ export async function retrieveMany(
 
   const users = await cursor.toArray();
 
-  return ids.map(id => users.find(comment => comment.id === id));
+  return ids.map(id => users.find(comment => comment.id === id) || null);
 }
 
 export async function updateRole(
@@ -170,12 +170,12 @@ export async function updateRole(
   tenantID: string,
   id: string,
   role: UserRole
-): Promise<Readonly<User>> {
+): Promise<Readonly<User> | null> {
   const result = await collection(db).findOneAndUpdate(
     { id, tenant_id: tenantID },
     { $set: { role } },
     { returnOriginal: false }
   );
 
-  return result.value;
+  return result.value || null;
 }

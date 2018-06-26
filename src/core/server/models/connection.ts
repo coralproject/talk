@@ -1,4 +1,4 @@
-export type Cursor = Date | number | string;
+export type Cursor = Date | number | string | null;
 
 export interface Edge<T> {
   node: T;

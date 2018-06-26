@@ -3,7 +3,7 @@ import { Kind } from "graphql/language";
 import { DateTime } from "luxon";
 import { Cursor } from "talk-server/models/connection";
 
-function parseIntegerCursor(value: string): number {
+function parseIntegerCursor(value: string): number | null {
   try {
     const cursor = parseInt(value, 10);
 

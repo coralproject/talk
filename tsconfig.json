@@ -1,24 +1,25 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "esModuleInterop": true,
-        "noImplicitAny": true,
-        "allowJs": true,
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "outDir": "dist",
-        "baseUrl": ".",
-        "pretty": false,
-        "removeComments": true,
-        // See https://github.com/prismagraphql/graphql-request/issues/26 for why we
-        // have to include "dom" here.
-        "lib": ["es6", "esnext.asynciterable", "dom"],
-        "paths": {
-            "talk-server/*": ["./src/core/server/*"],
-            "talk-common/*": ["./src/core/common/*"]
-        }
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules"]
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "allowJs": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "pretty": false,
+    "removeComments": true,
+    "strictNullChecks": true,
+    // See https://github.com/prismagraphql/graphql-request/issues/26 for why we
+    // have to include "dom" here.
+    "lib": ["es6", "esnext.asynciterable", "dom"],
+    "paths": {
+      "talk-server/*": ["./src/core/server/*"],
+      "talk-common/*": ["./src/core/common/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

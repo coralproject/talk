@@ -4,10 +4,8 @@ import { Asset } from "talk-server/models/asset";
 export default {
   asset: async (
     source: void,
-    { id, url }: { id?: string; url: string },
+    { id, url }: { id: string; url: string },
     ctx: TenantContext
-  ): Promise<Asset> => {
-    return ctx.loaders.Assets.asset.load(id);
-  },
+  ) => ctx.loaders.Assets.asset.load(id),
   settings: async (parent: any, args: any, ctx: TenantContext) => ctx.tenant,
 };
