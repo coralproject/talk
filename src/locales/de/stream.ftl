@@ -1,0 +1,1 @@
+postCommentForm-submit = Posten

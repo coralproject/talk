@@ -1,0 +1,13 @@
+# Extend graph with local types
+type Network {
+  isOffline: Boolean!
+}
+
+type Local {
+  network: Network!
+  assetID: String
+}
+
+extend type Query {
+  local: Local!
+}

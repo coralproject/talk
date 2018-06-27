@@ -1,0 +1,59 @@
+.heading1 {
+  font-size: calc(24rem / $rem-base);
+  font-weight: $font-weight-medium;
+  font-family: "Manuale";
+  line-height: calc(32em / 24);
+  letter-spacing: calc(0.2em / 16);
+  color: $palette-text-primary;
+}
+
+.heading2 {
+  font-size: calc(20rem / $rem-base);
+  font-weight: $font-weight-medium;
+  font-family: "Manuale";
+  line-height: calc(24em / 20);
+  color: $palette-text-primary;
+}
+
+.heading3 {
+  font-size: calc(18rem / $rem-base);
+  font-weight: $font-weight-medium;
+  font-family: "Manuale";
+  line-height: calc(20em / 18);
+  letter-spacing: calc(0.2em / 16);
+  color: $palette-text-primary;
+}
+
+.heading4 {
+  font-size: calc(16rem / $rem-base);
+  font-weight: $font-weight-medium;
+  font-family: "Manuale";
+  line-height: calc(18em / 16);
+  letter-spacing: calc(0.2em / 16);
+  color: $palette-text-primary;
+}
+
+.subtitle1 {}
+
+.subtitle2 {}
+
+.body2 {}
+
+.body1 {
+  font-size: calc(16rem / $rem-base);
+  font-weight: $font-weight-regular;
+  font-family: "Source Sans Pro";
+  line-height: calc(18em / 16);
+  letter-spacing: calc(0.2em / 16);
+  color: $palette-text-primary;
+}
+
+.button {
+  color: $palette-text-secondary;
+  font-family: "Source Sans Pro";
+  font-weight: $font-weight-medium;
+  font-size: 16px;
+  letter-spacing: calc(0.57em / 16);
+}
+
+.overline {}
