@@ -10,7 +10,7 @@ export interface MiddlewareOptions {
 
 export default (options: MiddlewareOptions) => async (
   req: Request,
-  _res: Response,
+  res: Response,
   next: NextFunction
 ) => {
   try {
