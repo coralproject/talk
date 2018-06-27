@@ -1,3 +1,4 @@
+import qs from "query-string";
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import {
@@ -17,6 +18,12 @@ export default async function initLocalState(environment: Environment) {
 
     // Create the Local Record which is the Root for the client states.
     const localRecord = createAndRetain(environment, s, LOCAL_ID, LOCAL_TYPE);
+
+    // Parse query params
+    const query = qs.parse(location.search);
+    if (query.assetID) {
+      localRecord.setValue(query.assetID, "assetID");
+    }
 
     // Create network Record
     const networkRecord = createAndRetain(
