@@ -37,6 +37,13 @@ const useYarn = fs.existsSync(paths.yarnLockFile);
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
+// Treat warnings as errors when we are in CI
+// TODO: This is currently turned off until we have
+// an optimized build.
+const treatWarningsAsErrors = false && process.env.CI &&
+  (typeof process.env.CI !== "string" ||
+    process.env.CI.toLowerCase() !== "false");
+
 // Warn and crash if required files are missing
 if (!checkRequiredFiles([paths.appStreamHtml, paths.appStreamIndex])) {
   process.exit(1);
@@ -124,9 +131,7 @@ function build(previousFileSizes) {
         return reject(new Error(messages.errors.join("\n\n")));
       }
       if (
-        process.env.CI &&
-        (typeof process.env.CI !== "string" ||
-          process.env.CI.toLowerCase() !== "false") &&
+        treatWarningsAsErrors &&
         messages.warnings.length
       ) {
         console.log(
