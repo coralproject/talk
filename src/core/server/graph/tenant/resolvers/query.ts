@@ -6,5 +6,5 @@ export default {
     { id }: { id: string; url: string },
     ctx: TenantContext
   ) => ctx.loaders.Assets.asset.load(id),
-  settings: async (_parent: any, _args: any, ctx: TenantContext) => ctx.tenant,
+  settings: async (parent: any, args: any, ctx: TenantContext) => ctx.tenant,
 };
