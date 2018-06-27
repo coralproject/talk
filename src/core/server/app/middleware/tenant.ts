@@ -16,7 +16,7 @@ export default (options: MiddlewareOptions) => async (
     const tenant = await retrieveTenantByDomain(options.db, req.hostname);
     if (!tenant) {
       // TODO: send a http.StatusNotFound?
-      return next(new Error("not found"));
+      return next(new Error("tenant not found"));
     }
 
     // Attach the tenant to the request.

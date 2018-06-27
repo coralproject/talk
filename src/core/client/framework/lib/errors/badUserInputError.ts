@@ -49,7 +49,7 @@ export default class BadUserInputError extends Error {
   public readonly origin: BadUserInputExtension;
 
   constructor(error: BadUserInputExtension) {
-    super("Form Arguments invalid");
+    super("BadUserInputError");
 
     // Maintains proper stack trace for where our error was thrown.
     if (Error.captureStackTrace) {

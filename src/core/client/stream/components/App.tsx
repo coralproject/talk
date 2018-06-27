@@ -3,24 +3,34 @@ import { StatelessComponent } from "react";
 
 import { Center } from "talk-ui/components";
 
-import CommentContainer from "../containers/CommentContainer";
+import AssetListContainer from "../containers/AssetListContainer";
 import PostCommentFormContainer from "../containers/PostCommentFormContainer";
+import StreamContainer from "../containers/StreamContainer";
 import Logo from "./Logo";
 
 export interface AppProps {
-  comments: ReadonlyArray<{ id: string }>;
+  assets?: any | null;
+  asset?: {
+    id: string;
+    isClosed: boolean;
+    comments: any | null;
+  } | null;
 }
 
 const App: StatelessComponent<AppProps> = props => {
-  return (
-    <Center>
-      <Logo gutterBottom />
-      {props.comments.map(comment => (
-        <CommentContainer key={comment.id} data={comment} gutterBottom />
-      ))}
-      <PostCommentFormContainer />
-    </Center>
-  );
+  if (props.assets) {
+    return <AssetListContainer assets={props.assets} />;
+  }
+  if (props.asset) {
+    return (
+      <Center>
+        <Logo gutterBottom />
+        <StreamContainer comments={props.asset.comments} />
+        <PostCommentFormContainer assetID={props.asset.id} />
+      </Center>
+    );
+  }
+  return <div>Asset not found </div>;
 };
 
 export default App;

@@ -242,12 +242,12 @@ type CommentEdge {
   """
   node is the Comment for this edge.
   """
-  node: Comment
+  node: Comment!
 
   """
 
   """
-  cursor: Cursor
+  cursor: Cursor!
 }
 
 """
@@ -332,12 +332,12 @@ type AssetEdge {
   """
   node is the Asset for this edge.
   """
-  node: Asset
+  node: Asset!
 
   """
 
   """
-  cursor: Cursor
+  cursor: Cursor!
 }
 
 """

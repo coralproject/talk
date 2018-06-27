@@ -42,13 +42,19 @@ const fetchQuery: FetchFunction = async (operation, variables) => {
         variables,
       }),
     });
+    if (response.status >= 500) {
+      throw new Error(`${response.status} ${response.statusText}`);
+    }
     const data = await response.json();
     if (data.errors) {
       throw getError(data.errors);
     }
     return data;
   } catch (err) {
-    throw new NetworkError(err);
+    if (err instanceof TypeError) {
+      throw new NetworkError(err);
+    }
+    throw err;
   }
 };
 

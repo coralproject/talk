@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { pick } from "lodash";
-import React from "react";
+import React, { ButtonHTMLAttributes } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
@@ -8,7 +8,9 @@ import { PropTypesOf } from "talk-ui/types";
 import BaseButton, { BaseButtonProps } from "../BaseButton";
 import * as styles from "./Button.css";
 
-interface InnerProps extends BaseButtonProps {
+// This should extend from BaseButton instead but we can't because of this bug
+// TODO: add bug link.
+interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.

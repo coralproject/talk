@@ -12,15 +12,26 @@ interface InnerProps {
 }
 
 const AppContainer: StatelessComponent<InnerProps> = props => {
-  return <App {...props.data as any} />;
+  return <App {...props.data} />;
 };
 
 const enhanced = withFragmentContainer<{ data: Data }>(
   graphql`
     fragment AppContainer on Query
-      @argumentDefinitions(assetID: { type: "ID" }) {
-      # TODO: connection
-      __typename
+      @argumentDefinitions(
+        assetID: { type: "ID!" }
+        showAssetList: { type: "Boolean!" }
+      ) {
+      assets @include(if: $showAssetList) {
+        ...AssetListContainer_assets
+      }
+      asset(id: $assetID) @skip(if: $showAssetList) {
+        id
+        isClosed
+        comments {
+          ...StreamContainer_comments
+        }
+      }
     }
   `
 )(AppContainer);

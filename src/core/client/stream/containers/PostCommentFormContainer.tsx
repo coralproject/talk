@@ -10,14 +10,14 @@ import { CreateCommentMutation, withCreateCommentMutation } from "../mutations";
 
 interface InnerProps {
   createComment: CreateCommentMutation;
+  assetID: string;
 }
 
 class PostCommentFormContainer extends Component<InnerProps> {
   private onSubmit: PostCommentFormProps["onSubmit"] = async (input, form) => {
     try {
       await this.props.createComment({
-        // TODO: assetID must be set.
-        assetID: null,
+        assetID: this.props.assetID,
         ...input,
       });
       form.reset();

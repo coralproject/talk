@@ -30,17 +30,20 @@ interface InnerProps {
 }
 
 const AppQuery: StatelessComponent<InnerProps> = props => {
-  if (!props.local.assetID) {
-    return <div>Asset ID not set</div>;
-  }
   return (
     <QueryRenderer<AppQueryVariables, AppQueryResponse>
       query={graphql`
-        query AppQuery {
+        query AppQuery($showAssetList: Boolean!, $assetID: ID!) {
           ...AppContainer
+            @arguments(showAssetList: $showAssetList, assetID: $assetID)
         }
       `}
-      variables={{}}
+      variables={{
+        // We cast `null` to any due to restrictions of the current graphql syntax.
+        assetID: props.local.assetID || (null as any),
+        // TODO: This is set to false, as server does not support querying assets yet.
+        showAssetList: !props.local.assetID && false,
+      }}
       render={render}
     />
   );

@@ -5,7 +5,7 @@
     "module": "esnext",
     "jsx": "preserve",
     "noEmit": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "lib": ["dom", "es7", "scripthost", "es2015", "esnext.asynciterable"],
     "baseUrl": "./",
     "paths": {
