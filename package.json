@@ -16,9 +16,10 @@
     "compile:css-types": "tcm src/core/client/",
     "compile:relay:stream": "relay-compiler --src ./src/core/client/stream --schema ./src/core/server/graph/tenant/schema/schema.graphql --language typescript --artifactDirectory ./src/core/client/stream/__generated__ --no-watchman",
     "start:development": "NODE_ENV=development ts-node -r tsconfig-paths/register src/index.ts",
-    "lint": "npm-run-all lint:*",
-    "lint:server": "tslint --fix --project ./tsconfig.json",
-    "lint:client": "tslint --fix --project ./src/core/client/tsconfig.json",
+    "lint-fix": "tslint --fix --project ./tsconfig.json && tslint --fix --project ./src/core/client/tsconfig.json",
+    "lint": "npm-run-all --parallel lint:*",
+    "lint:server": "tslint --project ./tsconfig.json",
+    "lint:client": "tslint --project ./src/core/client/tsconfig.json",
     "docz:watch": "docz dev"
   },
   "author": "",
