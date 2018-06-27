@@ -2,7 +2,7 @@ import { merge } from "lodash";
 import { Db } from "mongodb";
 import { Omit, Sub } from "talk-common/types";
 import { ActionCounts } from "talk-server/models/actions";
-import { Connection, Cursor, Edge } from "talk-server/models/connection";
+import { Connection, Cursor } from "talk-server/models/connection";
 import Query from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 import uuid from "uuid";

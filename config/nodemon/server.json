@@ -2,9 +2,9 @@
   "exec": "npm run start:development",
   "ext": "ts,graphql",
   "watch": [
-    "../../src"
+    "./src"
   ],
   "ignore": [
-    "../../src/client"
+    "./src/client"
   ]
 }

@@ -2,7 +2,7 @@
   "exec": "npm-run-all compile:relay:stream",
   "ext": "ts,tsx,graphql",
   "watch": [
-    "../../src/core/client/stream",
-    "../../src/core/**/*.graphql"
+    "./src/core/client/stream",
+    "./src/core/**/*.graphql"
   ]
 }
