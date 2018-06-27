@@ -1,11 +1,11 @@
 import dotize from "dotize";
 import { merge } from "lodash";
-import { Collection, Db } from "mongodb";
+import { Db } from "mongodb";
 import { Sub } from "talk-common/types";
 import uuid from "uuid";
 
-function collection(db: Db): Collection<Tenant> {
-  return db.collection<Tenant>("tenants");
+function collection(db: Db) {
+  return db.collection<Readonly<Tenant>>("tenants");
 }
 
 export interface TenantResource {
@@ -75,10 +75,7 @@ export type CreateTenantInput = Pick<
  * @param db the MongoDB connection used to create the tenant.
  * @param input the customizable parts of the Tenant available during creation
  */
-export async function createTenant(
-  db: Db,
-  input: CreateTenantInput
-): Promise<Readonly<Tenant>> {
+export async function createTenant(db: Db, input: CreateTenantInput) {
   const defaults: Sub<Tenant, CreateTenantInput> = {
     // Create a new ID.
     id: uuid.v4(),
@@ -105,7 +102,7 @@ export async function createTenant(
   };
 
   // Create the new Tenant by merging it together with the defaults.
-  const tenant = merge({}, input, defaults);
+  const tenant: Readonly<Tenant> = merge({}, input, defaults);
 
   // Insert the Tenant into the database.
   await collection(db).insert(tenant);
@@ -113,24 +110,15 @@ export async function createTenant(
   return tenant;
 }
 
-export async function retrieveTenantByDomain(
-  db: Db,
-  domain: string
-): Promise<Readonly<Tenant> | null> {
+export async function retrieveTenantByDomain(db: Db, domain: string) {
   return collection(db).findOne({ domain });
 }
 
-export async function retrieve(
-  db: Db,
-  id: string
-): Promise<Readonly<Tenant> | null> {
+export async function retrieve(db: Db, id: string) {
   return collection(db).findOne({ id });
 }
 
-export async function retrieveManyTenants(
-  db: Db,
-  ids: string[]
-): Promise<Array<Readonly<Tenant> | null>> {
+export async function retrieveManyTenants(db: Db, ids: string[]) {
   const cursor = await collection(db).find({
     id: {
       $in: ids,
@@ -142,10 +130,7 @@ export async function retrieveManyTenants(
   return ids.map(id => tenants.find(tenant => tenant.id === id) || null);
 }
 
-export async function retrieveManyTenantsByDomain(
-  db: Db,
-  domains: string[]
-): Promise<Array<Readonly<Tenant> | null>> {
+export async function retrieveManyTenantsByDomain(db: Db, domains: string[]) {
   const cursor = await collection(db).find({
     domain: {
       $in: domains,
@@ -159,9 +144,7 @@ export async function retrieveManyTenantsByDomain(
   );
 }
 
-export async function retrieveAllTenants(
-  db: Db
-): Promise<Array<Readonly<Tenant>>> {
+export async function retrieveAllTenants(db: Db) {
   return collection(db)
     .find({})
     .toArray();
@@ -171,7 +154,7 @@ export async function updateTenant(
   db: Db,
   id: string,
   update: Partial<CreateTenantInput>
-): Promise<Readonly<Tenant> | null> {
+) {
   // Get the tenant from the database.
   const result = await collection(db).findOneAndUpdate(
     { id },

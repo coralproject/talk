@@ -1,12 +1,12 @@
 import { merge } from "lodash";
-import { Collection, Db } from "mongodb";
+import { Db } from "mongodb";
 import { Omit, Sub } from "talk-common/types";
 import { ActionCounts } from "talk-server/models/actions";
 import { TenantResource } from "talk-server/models/tenant";
 import uuid from "uuid";
 
-function collection(db: Db): Collection<User> {
-  return db.collection<User>("users");
+function collection(db: Db) {
+  return db.collection<Readonly<User>>("users");
 }
 
 export interface Profile {
@@ -95,11 +95,7 @@ export type CreateUserInput = Omit<
   | "created_at"
 >;
 
-export async function create(
-  db: Db,
-  tenantID: string,
-  input: CreateUserInput
-): Promise<Readonly<User>> {
+export async function create(db: Db, tenantID: string, input: CreateUserInput) {
   const now = new Date();
 
   // // Pull out some useful properties from the input.
@@ -132,7 +128,7 @@ export async function create(
   };
 
   // Merge the defaults and the input together.
-  const user: User = merge({}, defaults, input);
+  const user: Readonly<User> = merge({}, defaults, input);
 
   // Insert it into the database.
   await collection(db).insertOne(user);
@@ -140,19 +136,11 @@ export async function create(
   return user;
 }
 
-export async function retrieve(
-  db: Db,
-  tenantID: string,
-  id: string
-): Promise<Readonly<User> | null> {
+export async function retrieve(db: Db, tenantID: string, id: string) {
   return collection(db).findOne({ id, tenant_id: tenantID });
 }
 
-export async function retrieveMany(
-  db: Db,
-  tenantID: string,
-  ids: string[]
-): Promise<Array<Readonly<User> | null>> {
+export async function retrieveMany(db: Db, tenantID: string, ids: string[]) {
   const cursor = await collection(db).find({
     id: {
       $in: ids,
@@ -170,7 +158,7 @@ export async function updateRole(
   tenantID: string,
   id: string,
   role: UserRole
-): Promise<Readonly<User> | null> {
+) {
   const result = await collection(db).findOneAndUpdate(
     { id, tenant_id: tenantID },
     { $set: { role } },

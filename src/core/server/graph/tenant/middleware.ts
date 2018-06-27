@@ -1,9 +1,9 @@
-import { Request } from "express";
 import { GraphQLSchema } from "graphql";
 import { Db } from "mongodb";
 
 import { Config } from "talk-server/config";
 import { graphqlMiddleware } from "talk-server/graph/common/middleware";
+import { Request } from "talk-server/types/express";
 
 import TenantContext from "./context";
 
