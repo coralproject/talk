@@ -2,7 +2,7 @@ import TenantContext from "talk-server/graph/tenant/context";
 
 export default {
   asset: async (
-    _source: void,
+    source: void,
     { id }: { id: string; url: string },
     ctx: TenantContext
   ) => ctx.loaders.Assets.asset.load(id),
