@@ -1,5 +1,5 @@
 {
-  "exec": "npm-run-all compile:relay:stream",
+  "exec": "npm-run-all compile:relay-stream",
   "ext": "ts,tsx,graphql",
   "watch": [
     "./src/core/client/stream",
