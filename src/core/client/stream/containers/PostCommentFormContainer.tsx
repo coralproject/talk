@@ -6,16 +6,20 @@ import { PropTypesOf } from "talk-framework/types";
 import PostCommentForm, {
   PostCommentFormProps,
 } from "../components/PostCommentForm";
-import { PostCommentMutation, withPostCommentMutation } from "../mutations";
+import { CreateCommentMutation, withCreateCommentMutation } from "../mutations";
 
 interface InnerProps {
-  postComment: PostCommentMutation;
+  createComment: CreateCommentMutation;
 }
 
 class PostCommentFormContainer extends Component<InnerProps> {
   private onSubmit: PostCommentFormProps["onSubmit"] = async (input, form) => {
     try {
-      await this.props.postComment(input);
+      await this.props.createComment({
+        // TODO: assetID must be set.
+        assetID: null,
+        ...input,
+      });
       form.reset();
     } catch (error) {
       if (error instanceof BadUserInputError) {
@@ -29,6 +33,6 @@ class PostCommentFormContainer extends Component<InnerProps> {
   }
 }
 
-const enhanced = withPostCommentMutation(PostCommentFormContainer);
+const enhanced = withCreateCommentMutation(PostCommentFormContainer);
 export type PostCommentFormContainerProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

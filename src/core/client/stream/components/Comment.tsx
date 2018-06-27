@@ -8,7 +8,9 @@ import * as styles from "./Comment.css";
 
 export interface CommentProps {
   className?: string;
-  author: string;
+  author: {
+    username: string;
+  };
   body: string;
   gutterBottom?: boolean;
 }
@@ -20,7 +22,7 @@ const Comment: StatelessComponent<CommentProps> = props => {
   return (
     <div className={rootClassName}>
       <Typography className={styles.author} gutterBottom>
-        {props.author}
+        {props.author.username}
       </Typography>
       <Typography>{props.body}</Typography>
     </div>

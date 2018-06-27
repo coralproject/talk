@@ -17,7 +17,9 @@ const CommentContainer: StatelessComponent<InnerProps> = props => {
 const enhanced = withFragmentContainer<{ data: Data }>(
   graphql`
     fragment CommentContainer on Comment {
-      author
+      author {
+        username
+      }
       body
     }
   `

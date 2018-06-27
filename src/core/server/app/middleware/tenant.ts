@@ -8,7 +8,7 @@ export interface MiddlewareOptions {
 
 export default (options: MiddlewareOptions) => async (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ) => {
   try {

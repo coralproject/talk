@@ -5,6 +5,7 @@ type Network {
 
 type Local {
   network: Network!
+  assetID: String
 }
 
 extend type Query {

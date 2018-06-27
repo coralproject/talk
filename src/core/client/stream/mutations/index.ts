@@ -1,2 +1,2 @@
-export * from "./PostCommentMutation";
+export * from "./CreateCommentMutation";
 export * from "./SetNetworkStatusMutation";

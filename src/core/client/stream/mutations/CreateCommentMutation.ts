@@ -7,21 +7,23 @@ import {
 } from "talk-framework/lib/relay";
 import { Omit } from "talk-framework/types";
 import {
-  PostCommentMutationResponse,
-  PostCommentMutationVariables,
-} from "talk-stream/__generated__/PostCommentMutation.graphql";
+  CreateCommentMutationResponse,
+  CreateCommentMutationVariables,
+} from "talk-stream/__generated__/CreateCommentMutation.graphql";
 
-export type PostCommentInput = Omit<
-  PostCommentMutationVariables["input"],
+export type CreateCommentInput = Omit<
+  CreateCommentMutationVariables["input"],
   "clientMutationId"
 >;
 
 const mutation = graphql`
-  mutation PostCommentMutation($input: PostCommentInput!) {
-    postComment(input: $input) {
+  mutation CreateCommentMutation($input: CreateCommentInput!) {
+    createComment(input: $input) {
       comment {
         id
-        author
+        author {
+          username
+        }
         body
       }
       clientMutationId
@@ -31,10 +33,10 @@ const mutation = graphql`
 
 let clientMutationId = 0;
 
-function commit(environment: Environment, input: PostCommentInput) {
+function commit(environment: Environment, input: CreateCommentInput) {
   return commitMutationPromiseNormalized<
-    PostCommentMutationResponse["postComment"],
-    PostCommentMutationVariables
+    CreateCommentMutationResponse["createComment"],
+    CreateCommentMutationVariables
   >(environment, {
     mutation,
     variables: {
@@ -44,7 +46,7 @@ function commit(environment: Environment, input: PostCommentInput) {
       },
     },
     updater: store => {
-      const payload = store.getRootField("postComment");
+      const payload = store.getRootField("createComment");
       if (payload) {
         const newRecord = payload.getLinkedRecord("comment")!;
         const root = store.getRoot();
@@ -59,11 +61,11 @@ function commit(environment: Environment, input: PostCommentInput) {
   });
 }
 
-export const withPostCommentMutation = createMutationContainer(
-  "postComment",
+export const withCreateCommentMutation = createMutationContainer(
+  "createComment",
   commit
 );
 
-export type PostCommentMutation = (
-  input: PostCommentInput
-) => Promise<PostCommentMutationResponse["postComment"]>;
+export type CreateCommentMutation = (
+  input: CreateCommentInput
+) => Promise<CreateCommentMutationResponse["createComment"]>;
