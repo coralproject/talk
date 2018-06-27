@@ -1,13 +1,13 @@
 import dotize from "dotize";
 import { defaults } from "lodash";
-import { Collection, Db } from "mongodb";
+import { Db } from "mongodb";
 import { Omit } from "talk-common/types";
 import { TenantResource } from "talk-server/models/tenant";
 import uuid from "uuid";
 import Query from "./query";
 
-function collection(db: Db): Collection<Asset> {
-  return db.collection<Asset>("assets");
+function collection(db: Db) {
+  return db.collection<Readonly<Asset>>("assets");
 }
 
 export interface Asset extends TenantResource {
@@ -33,7 +33,7 @@ export async function createAsset(
   db: Db,
   tenantID: string,
   input: CreateAssetInput
-): Promise<Readonly<Asset> | null> {
+) {
   const now = new Date();
 
   // Construct the filter.
@@ -56,37 +56,30 @@ export async function createAsset(
   };
 
   // Perform the upsert operation.
-  const result = await db
-    .collection<Asset>("assets")
-    .findOneAndUpdate(query.filter, update, {
-      // Create the object if it doesn't already exist.
-      upsert: true,
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    });
+  const result = await collection(db).findOneAndUpdate(query.filter, update, {
+    // Create the object if it doesn't already exist.
+    upsert: true,
+    // False to return the updated document instead of the original
+    // document.
+    returnOriginal: false,
+  });
 
   return result.value || null;
 }
 
-export async function retrieveAsset(
-  db: Db,
-  tenantID: string,
-  id: string
-): Promise<Asset | null> {
-  return await db
-    .collection<Asset>("assets")
-    .findOne({ id, tenant_id: tenantID });
+export async function retrieveAsset(db: Db, tenantID: string, id: string) {
+  return await collection(db).findOne({ id, tenant_id: tenantID });
 }
 
 export async function retrieveManyAssets(
   db: Db,
   tenantID: string,
   ids: string[]
-): Promise<Array<Asset | null>> {
-  const cursor = await db
-    .collection<Asset>("assets")
-    .find({ id: { $in: ids }, tenant_id: tenantID });
+) {
+  const cursor = await collection(db).find({
+    id: { $in: ids },
+    tenant_id: tenantID,
+  });
 
   const assets = await cursor.toArray();
 
@@ -103,8 +96,8 @@ export async function updateAsset(
   tenantID: string,
   id: string,
   update: UpdateAssetInput
-): Promise<Readonly<Asset> | null> {
-  const result = await db.collection<Asset>("assets").findOneAndUpdate(
+) {
+  const result = await collection(db).findOneAndUpdate(
     { id, tenant_id: tenantID },
     // Only update fields that have been updated.
     { $set: dotize(update) },

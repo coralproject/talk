@@ -1,5 +1,5 @@
 import { merge } from "lodash";
-import { Collection, Db } from "mongodb";
+import { Db } from "mongodb";
 import { Omit, Sub } from "talk-common/types";
 import { ActionCounts } from "talk-server/models/actions";
 import { Connection, Cursor, Edge } from "talk-server/models/connection";
@@ -7,8 +7,8 @@ import Query from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 import uuid from "uuid";
 
-function collection(db: Db): Collection<Comment> {
-  return db.collection<Comment>("comments");
+function collection(db: Db) {
+  return db.collection<Readonly<Comment>>("comments");
 }
 
 export interface BodyHistoryItem {
@@ -62,7 +62,7 @@ export async function create(
   db: Db,
   tenantID: string,
   input: CreateCommentInput
-): Promise<Readonly<Comment>> {
+) {
   const now = new Date();
 
   // Pull out some useful properties from the input.
@@ -90,7 +90,7 @@ export async function create(
   };
 
   // Merge the defaults and the input together.
-  const comment: Comment = merge({}, defaults, input);
+  const comment: Readonly<Comment> = merge({}, defaults, input);
 
   // TODO: Check for existence of the parent ID before we create the comment.
 
@@ -104,19 +104,11 @@ export async function create(
   return comment;
 }
 
-export async function retrieve(
-  db: Db,
-  tenantID: string,
-  id: string
-): Promise<Readonly<Comment> | null> {
+export async function retrieve(db: Db, tenantID: string, id: string) {
   return collection(db).findOne({ id, tenant_id: tenantID });
 }
 
-export async function retrieveMany(
-  db: Db,
-  tenantID: string,
-  ids: string[]
-): Promise<Array<Readonly<Comment> | null>> {
+export async function retrieveMany(db: Db, tenantID: string, ids: string[]) {
   const cursor = await collection(db).find({
     id: {
       $in: ids,
@@ -149,10 +141,7 @@ export interface ConnectionInput {
  * @param input connection configuration
  * @param nodes nodes returned from the query
  */
-function nodesToEdge(
-  input: ConnectionInput,
-  nodes: Comment[]
-): Array<Edge<Comment>> {
+function nodesToEdge(input: ConnectionInput, nodes: Comment[]) {
   let getCursor: (comment: Comment, index: number) => Cursor;
   switch (input.orderBy) {
     case CommentSort.CREATED_AT_DESC:
@@ -186,7 +175,7 @@ export async function retrieveRepliesConnection(
   assetID: string,
   parentID: string,
   input: ConnectionInput
-): Promise<Readonly<Connection<Comment>>> {
+) {
   // Create the query.
   const query = new Query(collection(db)).where({
     tenant_id: tenantID,
@@ -211,7 +200,7 @@ export async function retrieveAssetConnection(
   tenantID: string,
   assetID: string,
   input: ConnectionInput
-): Promise<Readonly<Connection<Comment>>> {
+) {
   // Create the query.
   const query = new Query(collection(db)).where({
     tenant_id: tenantID,
@@ -234,7 +223,7 @@ export async function retrieveAssetConnection(
 async function retrieveConnection(
   input: ConnectionInput,
   query: Query<Comment>
-): Promise<Readonly<Connection<Comment>>> {
+) {
   // Apply some sorting options.
   switch (input.orderBy) {
     case CommentSort.CREATED_AT_DESC:
@@ -287,10 +276,12 @@ async function retrieveConnection(
   const edges = nodesToEdge(input, nodes);
 
   // Return the connection.
-  return {
+  const connection: Readonly<Connection<Readonly<Comment>>> = {
     edges,
     pageInfo: {
       hasNextPage,
     },
   };
+
+  return connection;
 }
