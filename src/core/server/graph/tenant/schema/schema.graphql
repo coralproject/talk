@@ -31,9 +31,9 @@ enum MODERATION_MODE {
 }
 
 """
-Wordlist describes all the available wordlists.
+WordlistSettings describes all the available wordlists.
 """
-type Wordlist {
+type WordlistSettings {
   """
   banned words will by default reject the comment if it is found.
   """
@@ -46,7 +46,20 @@ type Wordlist {
 }
 
 # Settings stores the global settings for a given installation.
+
+################################################################################
+## Settings
+################################################################################
+
+"""
+Settings stores the global settings for a given Tenant.
+"""
 type Settings {
+  """
+  domain is the domain that is associated with this Tenant.
+  """
+  domain: String!
+
   """
   moderation is the moderation mode for all Asset's on the site.
   """
@@ -152,7 +165,7 @@ type Settings {
   """
   wordlist will return a given list of words.
   """
-  wordlist: Wordlist!
+  wordlist: WordlistSettings!
 
   """
   domains will return a given list of whitelisted domains.
@@ -222,8 +235,8 @@ type Comment {
   replies will return the replies to this comment.
   """
   replies(
-    first: Int = 10
-    orderBy: COMMENT_SORT = CREATED_AT_DESC
+    first: Int! = 10
+    orderBy: COMMENT_SORT! = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection
 }
@@ -299,8 +312,8 @@ type Asset {
   comments are the comments on the Asset.
   """
   comments(
-    first: Int = 10
-    orderBy: COMMENT_SORT = CREATED_AT_DESC
+    first: Int! = 10
+    orderBy: COMMENT_SORT! = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection
 

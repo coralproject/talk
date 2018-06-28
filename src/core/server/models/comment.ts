@@ -1,11 +1,13 @@
 import { merge } from "lodash";
 import { Db } from "mongodb";
+import uuid from "uuid";
+
 import { Omit, Sub } from "talk-common/types";
+import { GQLCOMMENT_SORT } from "talk-server/graph/tenant/schema/__generated__/types";
 import { ActionCounts } from "talk-server/models/actions";
 import { Connection, Cursor } from "talk-server/models/connection";
 import Query from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
-import uuid from "uuid";
 
 function collection(db: Db) {
   return db.collection<Readonly<Comment>>("comments");
@@ -121,16 +123,9 @@ export async function retrieveMany(db: Db, tenantID: string, ids: string[]) {
   return ids.map(id => comments.find(comment => comment.id === id) || null);
 }
 
-export enum CommentSort {
-  CREATED_AT_DESC = "CREATED_AT_DESC",
-  CREATED_AT_ASC = "CREATED_AT_ASC",
-  REPLIES_DESC = "REPLIES_DESC",
-  RESPECT_DESC = "RESPECT_DESC",
-}
-
 export interface ConnectionInput {
   first: number;
-  orderBy: CommentSort;
+  orderBy: GQLCOMMENT_SORT;
   after?: Cursor;
 }
 
@@ -144,12 +139,12 @@ export interface ConnectionInput {
 function nodesToEdge(input: ConnectionInput, nodes: Comment[]) {
   let getCursor: (comment: Comment, index: number) => Cursor;
   switch (input.orderBy) {
-    case CommentSort.CREATED_AT_DESC:
-    case CommentSort.CREATED_AT_ASC:
+    case GQLCOMMENT_SORT.CREATED_AT_DESC:
+    case GQLCOMMENT_SORT.CREATED_AT_ASC:
       getCursor = comment => comment.created_at;
       break;
-    case CommentSort.REPLIES_DESC:
-    case CommentSort.RESPECT_DESC:
+    case GQLCOMMENT_SORT.REPLIES_DESC:
+    case GQLCOMMENT_SORT.RESPECT_DESC:
       getCursor = (_, index) =>
         (input.after ? (input.after as number) : 0) + index + 1;
       break;
@@ -226,25 +221,25 @@ async function retrieveConnection(
 ) {
   // Apply some sorting options.
   switch (input.orderBy) {
-    case CommentSort.CREATED_AT_DESC:
+    case GQLCOMMENT_SORT.CREATED_AT_DESC:
       query.orderBy({ created_at: -1 });
       if (input.after) {
         query.where({ created_at: { $lt: input.after as Date } });
       }
       break;
-    case CommentSort.CREATED_AT_ASC:
+    case GQLCOMMENT_SORT.CREATED_AT_ASC:
       query.orderBy({ created_at: 1 });
       if (input.after) {
         query.where({ created_at: { $gt: input.after as Date } });
       }
       break;
-    case CommentSort.REPLIES_DESC:
+    case GQLCOMMENT_SORT.REPLIES_DESC:
       query.orderBy({ reply_count: -1, created_at: -1 });
       if (input.after) {
         query.after(input.after as number);
       }
       break;
-    case CommentSort.RESPECT_DESC:
+    case GQLCOMMENT_SORT.RESPECT_DESC:
       query.orderBy({ "action_counts.respect": -1, created_at: -1 });
       if (input.after) {
         query.after(input.after as number);

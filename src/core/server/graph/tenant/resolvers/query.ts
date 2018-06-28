@@ -1,10 +1,8 @@
-import TenantContext from "talk-server/graph/tenant/context";
+import { GQLQueryTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 
-export default {
-  asset: async (
-    source: void,
-    { id }: { id: string; url: string },
-    ctx: TenantContext
-  ) => ctx.loaders.Assets.asset.load(id),
-  settings: async (parent: any, args: any, ctx: TenantContext) => ctx.tenant,
+const Query: GQLQueryTypeResolver<void> = {
+  asset: (source, args, ctx) => ctx.loaders.Assets.asset.load(args.id),
+  settings: (parent, args, ctx) => ctx.tenant,
 };
+
+export default Query;
