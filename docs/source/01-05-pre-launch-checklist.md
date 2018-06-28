@@ -52,6 +52,10 @@ permalink: /pre-launch-checklist/
   - See [Notifications](/talk/integrating/notifications/)
 
 
+- [ ] Do you want to setup rich text (bold, italics, quotes)?
+  - Install [talk-plugin-rich-text](/talk/plugin/talk-plugin-rich-text)
+
+
 - [ ] Do you want to display comment counts?
   - Use the GraphQL [CommentCountQuery](https://docs.coralproject.net/talk/api/graphql/#CommentCountQuery)
   - Install [talk-plugin-deep-reply-count](/talk/plugin/talk-plugin-deep-reply-count) if necessary.
