@@ -48,7 +48,7 @@ Your plans might include:
 
 Other options for contentious topics instead of comments:
 
-* Use a form to request answers on a specific question related to the article, and select only the best answers for display. This is how the Spotlight team at Boston Globe solicited responses to their series on racism in Boston, using our Ask tool. ([Learn more about Ask here.](https://coralproject.net/products/ask.html)) This also allows people to submit their thoughts anonymously.
+* Use a form to request answers on a specific question related to the article, and select only the best answers for display. This is how the Spotlight team at Boston Globe solicited responses to their series on racism in Boston, using our Ask tool. ([Learn more about Ask here.](https://coralproject.net/ask)) This also allows people to submit their thoughts anonymously.
 
 * Host a focused, more controlled online discussion about the topic over a fixed period of time, during which you apply more vigilant moderation than usual. You can write a note in the Ask A Question space described above to make that clear, such as "We will host an online conversation about this topic here on Friday between 11am and 3pm EST. Moderators will be present throughout, and our journalists will answer your questions about the topic. "This allows community members to approach the topic more calmly than their initial reactions on reading the story, in a space where you can dedicate temporary, more intensive resources to ensuring civility (perhaps with pre-moderation), while still signaling your commitment to engagement around an important topic.
 
