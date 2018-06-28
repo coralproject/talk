@@ -133,7 +133,7 @@
     "inquirer-autocomplete-prompt": "^0.12.1",
     "ioredis": "3.1.4",
     "ip": "^1.1.5",
-    "jest": "^22.4.3",
+    "jest": "^23.0.0",
     "joi": "^13.4.0",
     "jsonwebtoken": "^8.3.0",
     "jwt-decode": "^2.2.0",
