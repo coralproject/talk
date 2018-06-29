@@ -20,25 +20,15 @@ const fs = require("fs");
 const chalk = require("chalk");
 const webpack = require("webpack");
 const WebpackDevServer = require("webpack-dev-server");
-const clearConsole = require("react-dev-utils/clearConsole");
-const checkRequiredFiles = require("react-dev-utils/checkRequiredFiles");
 const {
   choosePort,
   createCompiler,
   prepareProxy,
   prepareUrls,
 } = require("react-dev-utils/WebpackDevServerUtils");
-const openBrowser = require("react-dev-utils/openBrowser");
 const paths = require("../config/paths");
 const config = require("../config/webpack.config.dev");
 const createDevServerConfig = require("../config/webpackDevServer.config");
-
-const isInteractive = process.stdout.isTTY;
-
-// Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.appStreamHtml, paths.appStreamIndex])) {
-  process.exit(1);
-}
 
 const PORT = parseInt(process.env.DEV_SERVER_PORT, 10) || 8080;
 const HOST = process.env.HOST || "0.0.0.0";
@@ -85,11 +75,7 @@ choosePort(HOST, PORT)
       if (err) {
         return console.log(err);
       }
-      if (isInteractive) {
-        clearConsole();
-      }
       console.log(chalk.cyan("Starting the development server...\n"));
-      openBrowser(urls.localUrlForBrowser);
     });
 
     ["SIGINT", "SIGTERM"].forEach(function(sig) {
