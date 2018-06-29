@@ -1,9 +1,11 @@
 import { merge } from "lodash";
 import { Db } from "mongodb";
+import uuid from "uuid";
+
 import { Omit, Sub } from "talk-common/types";
+import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { ActionCounts } from "talk-server/models/actions";
 import { TenantResource } from "talk-server/models/tenant";
-import uuid from "uuid";
 
 function collection(db: Db) {
   return db.collection<Readonly<User>>("users");
@@ -11,6 +13,7 @@ function collection(db: Db) {
 
 export interface Profile {
   readonly id: string;
+  readonly type: string;
   provider: string;
 }
 
@@ -45,13 +48,6 @@ export enum UserUsernameStatus {
   CHANGED = "CHANGED",
 }
 
-export enum UserRole {
-  ADMIN = "ADMIN",
-  MODERATOR = "MODERATOR",
-  STAFF = "STAFF",
-  COMMENTER = "COMMENTER",
-}
-
 export interface UserStatusHistory<T> {
   status: T; // TODO: migrate field
   assigned_by?: string;
@@ -72,11 +68,13 @@ export interface UserStatus {
 
 export interface User extends TenantResource {
   readonly id: string;
-  username: string;
+  username: string | null;
   password?: string;
+  email?: string;
+  email_verified?: boolean;
   profiles: Profile[];
   tokens: Token[];
-  role: UserRole;
+  role: GQLUSER_ROLE;
   status: UserStatus;
   action_counts: ActionCounts;
   ignored_users: string[]; // TODO: migrate field
@@ -89,7 +87,6 @@ export type CreateUserInput = Omit<
   | "tenant_id"
   | "tokens"
   | "status"
-  | "role"
   | "action_counts"
   | "ignored_users"
   | "created_at"
@@ -98,15 +95,11 @@ export type CreateUserInput = Omit<
 export async function create(db: Db, tenantID: string, input: CreateUserInput) {
   const now = new Date();
 
-  // // Pull out some useful properties from the input.
-  // const { body, status } = input;
-
   // default are the properties set by the application when a new user is
   // created.
   const defaults: Sub<User, CreateUserInput> = {
     id: uuid.v4(),
     tenant_id: tenantID,
-    role: UserRole.COMMENTER,
     tokens: [],
     action_counts: {},
     ignored_users: [],
@@ -120,7 +113,9 @@ export async function create(db: Db, tenantID: string, input: CreateUserInput) {
         history: [],
       },
       username: {
-        status: UserUsernameStatus.SET,
+        status: input.username
+          ? UserUsernameStatus.SET
+          : UserUsernameStatus.UNSET,
         history: [],
       },
     },
@@ -153,11 +148,24 @@ export async function retrieveMany(db: Db, tenantID: string, ids: string[]) {
   return ids.map(id => users.find(comment => comment.id === id) || null);
 }
 
+export async function retrieveWithProfile(
+  db: Db,
+  tenantID: string,
+  profile: Profile
+) {
+  return collection(db).findOne({
+    tenant_id: tenantID,
+    profiles: {
+      $elemMatch: profile,
+    },
+  });
+}
+
 export async function updateRole(
   db: Db,
   tenantID: string,
   id: string,
-  role: UserRole
+  role: GQLUSER_ROLE
 ) {
   const result = await collection(db).findOneAndUpdate(
     { id, tenant_id: tenantID },

@@ -1,4 +1,10 @@
 ################################################################################
+## Custom Directives
+################################################################################
+
+directive @auth(roles: [USER_ROLE!]!) on FIELD_DEFINITION
+
+################################################################################
 ## Custom Scalar Types
 ################################################################################
 
@@ -45,7 +51,90 @@ type WordlistSettings {
   suspect: [String!]!
 }
 
-# Settings stores the global settings for a given installation.
+################################################################################
+## AuthSettings
+################################################################################
+
+##########################
+## LocalAuthIntegration
+##########################
+
+type LocalAuthIntegration {
+  enabled: Boolean!
+}
+
+##########################
+## SSOAuthIntegration
+##########################
+
+type SSOAuthIntegrationConfig {
+  key: String!
+}
+
+type SSOAuthIntegration {
+  enabled: Boolean!
+  config: SSOAuthIntegrationConfig @auth(roles: [ADMIN])
+}
+
+##########################
+## OIDCAuthIntegration
+##########################
+
+type OIDCAuthIntegrationConfig {
+  clientID: String!
+  clientSecret: String!
+  authorizationURL: String!
+  tokenURL: String!
+}
+
+type OIDCAuthIntegrationOptions {
+  name: String!
+}
+
+type OIDCAuthIntegration {
+  enabled: Boolean!
+  options: OIDCAuthIntegrationOptions
+  config: SSOAuthIntegrationConfig @auth(roles: [ADMIN])
+}
+
+##########################
+## GoogleAuthIntegration
+##########################
+
+type GoogleAuthIntegrationConfig {
+  clientID: String!
+  clientSecret: String!
+}
+
+type GoogleAuthIntegration {
+  enabled: Boolean!
+  config: GoogleAuthIntegrationConfig @auth(roles: [ADMIN])
+}
+
+##########################
+## FacebookAuthIntegration
+##########################
+
+type FacebookAuthIntegrationConfig {
+  clientID: String!
+  clientSecret: String!
+}
+
+type FacebookAuthIntegration {
+  enabled: Boolean!
+  config: FacebookAuthIntegrationConfig @auth(roles: [ADMIN])
+}
+
+"""
+AuthSettings contains all the settings related to authentication and authorization.
+"""
+type AuthSettings {
+  local: LocalAuthIntegration!
+  sso: SSOAuthIntegration!
+  oidc: OIDCAuthIntegration!
+  google: GoogleAuthIntegration!
+  facebook: FacebookAuthIntegration!
+}
 
 ################################################################################
 ## Settings
@@ -58,12 +147,12 @@ type Settings {
   """
   domain is the domain that is associated with this Tenant.
   """
-  domain: String!
+  domain: String @auth(roles: [ADMIN])
 
   """
   moderation is the moderation mode for all Asset's on the site.
   """
-  moderation: MODERATION_MODE!
+  moderation: MODERATION_MODE @auth(roles: [ADMIN])
 
   """
   Enables a requirement for email confirmation before a user can login.
@@ -100,7 +189,7 @@ type Settings {
   """
   premodLinksEnable will put all comments that contain links into premod.
   """
-  premodLinksEnable: Boolean!
+  premodLinksEnable: Boolean @auth(roles: [ADMIN])
 
   """
   autoCloseStream when true will auto close the stream when the `closeTimeout`
@@ -165,17 +254,28 @@ type Settings {
   """
   wordlist will return a given list of words.
   """
-  wordlist: WordlistSettings!
+  wordlist: WordlistSettings @auth(roles: [ADMIN])
 
   """
   domains will return a given list of whitelisted domains.
   """
-  domains: [String!]!
+  domains: [String!] @auth(roles: [ADMIN])
+
+  """
+  auth contains all the settings related to authentication and authorization.
+  """
+  auth: AuthSettings!
 }
 
 ################################################################################
 ## User
 ################################################################################
+
+enum USER_ROLE {
+  COMMENTER
+  MODERATOR
+  ADMIN
+}
 
 """
 User is someone that leaves Comments, and logs in.
@@ -190,6 +290,11 @@ type User {
   username is the name of the User visible to other Users.
   """
   username: String!
+
+  """
+  role is the current role of the User.
+  """
+  role: USER_ROLE!
 }
 
 ################################################################################

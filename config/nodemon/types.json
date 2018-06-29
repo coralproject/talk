@@ -1,0 +1,7 @@
+{
+  "exec": "npm run compile:server:types",
+  "ext": "graphql",
+  "watch": [
+    "./src/core/server/graph"
+  ]
+}
