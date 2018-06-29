@@ -36,10 +36,7 @@
     }
   },
   "include": [
-    "./**/*.ts",
-    "./**/*.tsx",
-    "./**/*.d.ts",
-    "../../types/**/*.d.ts"
+    "./**/*"
   ],
   "exclude": [
     "node_modules"

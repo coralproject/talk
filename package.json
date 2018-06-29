@@ -20,7 +20,7 @@
     "lint": "npm-run-all --parallel lint:*",
     "lint:server": "tslint --project ./tsconfig.json",
     "lint:client": "tslint --project ./src/core/client/tsconfig.json",
-    "lint:scripts": "tslint config/**/*.js scripts/**/*.js",
+    "lint:scripts": "tslint ./config/**/*.js ./scripts/**/*.js ./doczrc.js ./src/**/.*.js",
     "docz:watch": "docz dev"
   },
   "author": "",
