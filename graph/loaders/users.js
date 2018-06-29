@@ -110,6 +110,13 @@ const getUsersByQuery = async (
               },
             },
           },
+
+          // Search by the displayName metadata field.
+          {
+            'metadata.displayName': {
+              $regex,
+            },
+          },
         ],
       });
     }
