@@ -22,7 +22,6 @@ const fs = require("fs-extra");
 const webpack = require("webpack");
 const config = require("../config/webpack.config.prod");
 const paths = require("../config/paths");
-const checkRequiredFiles = require("react-dev-utils/checkRequiredFiles");
 const formatWebpackMessages = require("react-dev-utils/formatWebpackMessages");
 const printHostingInstructions = require("react-dev-utils/printHostingInstructions");
 const FileSizeReporter = require("react-dev-utils/FileSizeReporter");
@@ -39,14 +38,11 @@ const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 // Treat warnings as errors when we are in CI
 // TODO: This is currently turned off until we have
 // an optimized build.
-const treatWarningsAsErrors = false && process.env.CI &&
+const treatWarningsAsErrors =
+  false &&
+  process.env.CI &&
   (typeof process.env.CI !== "string" ||
     process.env.CI.toLowerCase() !== "false");
-
-// Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.appStreamHtml, paths.appStreamIndex])) {
-  process.exit(1);
-}
 
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
@@ -117,10 +113,7 @@ function build(previousFileSizes) {
         }
         return reject(new Error(messages.errors.join("\n\n")));
       }
-      if (
-        treatWarningsAsErrors &&
-        messages.warnings.length
-      ) {
+      if (treatWarningsAsErrors && messages.warnings.length) {
         console.log(
           chalk.yellow(
             "\nTreating warnings as errors because process.env.CI = true.\n" +
