@@ -5,10 +5,16 @@
   ],
   "rules": {
     "jsx-no-multiline-js": false,
-    "jsx-boolean-value": [true, "never"]
+    "jsx-boolean-value": [
+      true,
+      "never"
+    ]
   },
   "jsRules": {
     "jsx-no-multiline-js": false,
-    "jsx-boolean-value": [true, "never"]
+    "jsx-boolean-value": [
+      true,
+      "never"
+    ]
   }
 }

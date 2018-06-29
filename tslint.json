@@ -7,11 +7,18 @@
   "rules": {
     "prettier": true,
     "object-literal-sort-keys": false,
-    "interface-name": [true, "never-prefix"],
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
     "no-switch-case-fall-through": true,
     "member-ordering": false,
-    "variable-name": [true,
-      "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
     ]
   },
   "jsRules": {
@@ -19,8 +26,17 @@
     "object-literal-sort-keys": false,
     "no-switch-case-fall-through": true,
     "member-ordering": false,
-    "variable-name": [true,
-      "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ]
+  },
+  "linterOptions": {
+    "exclude": [
+      "**/node_modules/**/*"
     ]
   }
 }

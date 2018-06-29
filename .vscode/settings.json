@@ -11,5 +11,7 @@
     ".vscode": true,
     "package-lock.json": true
   },
-  "tslint.autoFixOnSave": true
+  "tslint.autoFixOnSave": true,
+  "tslint.jsEnable": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
