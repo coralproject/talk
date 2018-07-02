@@ -1,32 +1,108 @@
-import React, { StatelessComponent } from "react";
-import { graphql } from "react-relay";
+import React from "react";
+import { graphql, RelayPaginationProp } from "react-relay";
 
-import { withFragmentContainer } from "talk-framework/lib/relay";
+import { withPaginationContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
-import { StreamContainer_comments as Data } from "talk-stream/__generated__/StreamContainer_comments.graphql";
+import { StreamContainer_asset as Data } from "talk-stream/__generated__/StreamContainer_asset.graphql";
 
 import Stream from "../components/Stream";
 
 interface InnerProps {
-  comments: Data;
+  asset: Data;
+  relay: RelayPaginationProp;
 }
 
-const StreamContainer: StatelessComponent<InnerProps> = props => {
-  const comments = props.comments.edges.map(edge => edge.node);
-  return <Stream comments={comments} />;
-};
+class StreamContainer extends React.Component<InnerProps> {
+  public render() {
+    const comments = this.props.asset.comments
+      ? this.props.asset.comments.edges.map(edge => edge.node)
+      : null;
+    return (
+      <Stream
+        {...this.props.asset}
+        comments={comments}
+        onLoadMore={this.loadMore}
+        hasMore={this.props.relay.hasMore()}
+      />
+    );
+  }
 
-const enhanced = withFragmentContainer<{ comments: Data }>(
+  private loadMore = () => {
+    if (!this.props.relay.hasMore() || this.props.relay.isLoading()) {
+      return;
+    }
+
+    this.props.relay.loadMore(
+      10, // Fetch the next 10 feed items
+      error => {
+        if (error) {
+          // tslint:disable-next-line:no-console
+          console.error(error);
+        }
+      }
+    );
+  };
+}
+
+const enhanced = withPaginationContainer<{ asset: Data }, InnerProps>(
   graphql`
-    fragment StreamContainer_comments on CommentsConnection {
-      edges {
-        node {
-          id
-          ...CommentContainer
+    fragment StreamContainer_asset on Asset
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 5 }
+        cursor: { type: "Cursor" }
+        orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
+      ) {
+      id
+      isClosed
+      comments(first: $count, after: $cursor, orderBy: $orderBy)
+        @connection(key: "Stream_comments") {
+        edges {
+          node {
+            id
+            ...CommentContainer
+          }
         }
       }
     }
-  `
+  `,
+  {
+    direction: "forward",
+    getConnectionFromProps(props) {
+      return props.asset && props.asset.comments;
+    },
+    // This is also the default implementation of `getFragmentVariables` if it isn't provided.
+    getFragmentVariables(prevVars, totalCount) {
+      return {
+        ...prevVars,
+        count: totalCount,
+      };
+    },
+    getVariables(props, { count, cursor }, fragmentVariables) {
+      return {
+        count,
+        cursor,
+        orderBy: fragmentVariables.orderBy,
+        // assetID isn't specified as an @argument for the fragment, but it should be a
+        // variable available for the fragment under the query root.
+        assetID: props.asset.id,
+      };
+    },
+    query: graphql`
+      # Pagination query to be fetched upon calling 'loadMore'.
+      # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
+      query StreamContainerPaginationQuery(
+        $count: Int!
+        $cursor: Cursor
+        $orderBy: COMMENT_SORT!
+        $assetID: ID!
+      ) {
+        asset(id: $assetID) {
+          ...StreamContainer_asset
+            @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
+        }
+      }
+    `,
+  }
 )(StreamContainer);
 
 export type StreamContainerProps = PropTypesOf<typeof enhanced>;

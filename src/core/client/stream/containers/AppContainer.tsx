@@ -26,11 +26,7 @@ const enhanced = withFragmentContainer<{ data: Data }>(
         ...AssetListContainer_assets
       }
       asset(id: $assetID) @skip(if: $showAssetList) {
-        id
-        isClosed
-        comments {
-          ...StreamContainer_comments
-        }
+        ...StreamContainer_asset
       }
     }
   `

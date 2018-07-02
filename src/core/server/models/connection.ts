@@ -7,6 +7,7 @@ export interface Edge<T> {
 
 export interface PageInfo {
   hasNextPage: boolean;
+  endCursor: Cursor;
 }
 
 export interface Connection<T> {

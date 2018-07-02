@@ -1,10 +1,23 @@
 import {
-  ConnectionConfig,
+  ConnectionConfig as OrigConnectionConfig,
   createPaginationContainer,
   GraphQLTaggedNode,
+  PageInfo,
   RelayPaginationProp,
 } from "react-relay";
 import { InferableComponentEnhancerWithProps } from "recompose";
+import { Overwrite } from "talk-framework/types";
+
+// TODO: (cvle) Fix this type definition upstream.
+interface ConnectionData {
+  edges?: Readonly<any>;
+  pageInfo?: PageInfo;
+}
+
+type ConnectionConfig<T> = Overwrite<
+  OrigConnectionConfig<T>,
+  { getConnectionFromProps?(props: T): ConnectionData | undefined | null }
+>;
 
 /**
  * withPaginationContainer is a curried version of `createPaginationContainers`

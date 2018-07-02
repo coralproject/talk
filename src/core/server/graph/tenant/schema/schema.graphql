@@ -232,7 +232,10 @@ type PageInfo {
   """
   Indicates that there are more nodes after this subset.
   """
-  hasNextPage: Boolean!
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: Cursor
+  endCursor: Cursor
 }
 
 """

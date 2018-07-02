@@ -1,18 +1,36 @@
 import * as React from "react";
 import { StatelessComponent } from "react";
 
-import CommentContainer from "../containers/CommentContainer";
+import Logo from "talk-stream/components/Logo";
+import CommentContainer from "talk-stream/containers/CommentContainer";
+import PostCommentFormContainer from "talk-stream/containers/PostCommentFormContainer";
+import { Button } from "talk-ui/components";
 
 export interface StreamProps {
-  comments: ReadonlyArray<{ id: string }>;
+  id: string;
+  isClosed: boolean;
+  comments: ReadonlyArray<{ id: string }> | null;
+  onLoadMore: () => void;
+  hasMore: boolean;
 }
 
 const Stream: StatelessComponent<StreamProps> = props => {
+  if (props.comments === null) {
+    // TODO: (@cvle) What's the reason for this being null?
+    return <div>Comments unavailable</div>;
+  }
   return (
     <div>
+      <Logo gutterBottom />
+      <PostCommentFormContainer assetID={props.id} />
       {props.comments.map(comment => (
         <CommentContainer key={comment.id} data={comment} gutterBottom />
       ))}
+      {props.hasMore && (
+        <Button onClick={props.onLoadMore} secondary fullWidth>
+          Load More
+        </Button>
+      )}
     </div>
   );
 };

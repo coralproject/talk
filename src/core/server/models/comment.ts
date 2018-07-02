@@ -280,6 +280,7 @@ async function retrieveConnection(
     edges,
     pageInfo: {
       hasNextPage,
+      endCursor: (nodes.length && nodes[nodes.length - 1].created_at) || null,
     },
   };
 
