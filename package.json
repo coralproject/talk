@@ -21,8 +21,7 @@
     "lint:server": "tslint --project ./tsconfig.json",
     "lint:client": "tslint --project ./src/core/client/tsconfig.json",
     "lint:scripts": "tslint config/**/*.js scripts/**/*.js",
-    "docz:watch": "docz dev",
-    "build:dev": "NODE_ENV=development webpack --config ./config/webpack.config.dev.js"
+    "docz:watch": "docz dev"
   },
   "author": "",
   "license": "Apache-2.0",
