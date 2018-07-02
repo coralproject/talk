@@ -1,5 +1,5 @@
 export interface Watcher {
-  watch(path: string, extensions: string[]): AsyncIterable<string>;
+  watch(path: string, extensions: ReadonlyArray<string>): AsyncIterable<string>;
 }
 
 export interface Executor {

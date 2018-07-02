@@ -3,6 +3,8 @@ import { Watcher } from "./types";
 
 export default class ChokidarWatcher implements Watcher {
   public watch(path: string, extensions: string[]): AsyncIterable<string> {
+    // tslint:disable-next-line:no-console
+    console.log(`Chokidar watching ${path} for ${extensions} file changes`);
     const globs = extensions.map(e => `**/*.${e}`);
     const client = chokidar.watch(globs, {
       cwd: path,

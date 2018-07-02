@@ -1,26 +1,23 @@
-import ChokidarWatcher from "./watcher/ChokidarWatcher";
-import CommandExecutor from "./watcher/CommandExecutor";
-import { Executor } from "./watcher/types";
+import ChokidarWatcher from "./ChokidarWatcher";
+import { Executor } from "./types";
 
+export type Config = WatchConfig[];
+export interface WatchConfig {
+  path: string;
+  extensions: ReadonlyArray<string>;
+  executor: Executor;
+}
+
+// polyfill the async symbol.
 if (Symbol.asyncIterator === undefined) {
   (Symbol as any).asyncIterator = Symbol.for("asyncIterator");
 }
 
-export type Config = WatchConfig[];
-
-export interface WatchConfig {
-  path: string;
-  extensions: string[];
-  executor: Executor;
-}
-
 export default async function watch(config: Config) {
-  const client = new ChokidarWatcher();
+  const watcher = new ChokidarWatcher();
 
-  config.map(async ({ path, executor, extensions }) => {
-    for await (const filePath of client.watch(path, extensions)) {
-      // tslint:disable-next-line: no-console
-      console.log(filePath);
+  config.forEach(async ({ path, extensions, executor }) => {
+    for await (const filePath of watcher.watch(path, extensions as string[])) {
       executor.execute(filePath);
     }
   });
