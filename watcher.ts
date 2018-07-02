@@ -8,13 +8,6 @@ var log = console.log.bind(console);
 // path to watch
 const dir = path.resolve(__dirname, "./src");
 
-// types
-interface File {
-  name: string;
-}
-
-interface Watch {}
-
 // this performs a capability checks returning a promise if watchman is available in the system
 function capabilityCheck(client: watchman.Client) {
   return new Promise((resolve, reject) => {
@@ -41,7 +34,7 @@ function initializeWatchmanClient(
 
 // initializes a chokidar watcher client {
 function inializeChokidarClient(opts?: WatchOptions) {
-  return chokidar.watch("file", opts);
+  return chokidar.watch(["**/*.ts", "**/*.tsx"], opts);
 }
 
 // main init function
@@ -73,6 +66,7 @@ async function init() {
 
     const client = inializeChokidarClient({
       persistent: true,
+      cwd: dir, // base dir
     });
 
     client.on("change", path => {
@@ -112,21 +106,22 @@ function buildWatchmanSubscription(client: watchman.Client, watch: Watch) {
 
       resp.files.forEach((file: File) => {
         console.log(`file changed: ${file.name} ${JSON.stringify(file)}`);
-        runRelayCompiler();
+        // runRelayCompiler();
+        buildClient();
       });
     });
   });
 }
 
 // runs the relay compiler
-function runRelayCompiler() {
+function buildClient() {
   const command = "npm";
-  const args = ["run", "compile:relay:stream"];
+  const args = ["run", "build:dev"];
 
   const child = spawn(command, args, { stdio: "inherit" });
 
   child.on("data", data => {
-    log(chalk.grey(`buildClient ${data}`));
+    log(chalk.grey(`compiling ${data}`));
   });
 
   child.on("close", code => {
@@ -136,5 +131,12 @@ function runRelayCompiler() {
     }
   });
 }
+
+// types
+interface File {
+  name: string;
+}
+
+interface Watch {}
 
 init();
