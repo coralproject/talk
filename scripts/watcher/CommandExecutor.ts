@@ -1,17 +1,24 @@
 import spawn from "cross-spawn";
 import { Executor } from "./types";
 
+interface CommandExecutorOptions {
+  args?: ReadonlyArray<string>;
+}
+
 export default class CommandExecutor implements Executor {
   private cmd: string;
-  private args: ReadonlyArray<string>;
+  private args?: ReadonlyArray<string>;
 
-  constructor(cmd: string, args: ReadonlyArray<string>) {
+  constructor(cmd: string, opts: CommandExecutorOptions = {}) {
     this.cmd = cmd;
-    this.args = args || [];
+    this.args = opts.args;
   }
 
   public execute(filePath: string) {
-    const child = spawn(this.cmd, this.args as string[], { stdio: "inherit" });
+    const child = spawn(this.cmd, this.args as string[], {
+      stdio: "inherit",
+      shell: !this.args,
+    });
 
     child.on("close", (code: number) => {
       if (code !== 0) {

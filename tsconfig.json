@@ -3,6 +3,7 @@
     "target": "es5",
     "module": "commonjs",
     "allowJs": true,
+    "noEmit": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -12,19 +13,16 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noErrorTruncation": true,
-    "sourceMap": true,
-    "pretty": false,
-    "removeComments": true,
-    "outDir": "dist",
-    // See https://github.com/prismagraphql/graphql-request/issues/26 for why we
-    // have to include "dom" here.
-    "lib": ["es6", "esnext.asynciterable", "dom"],
-    "baseUrl": "./",
-    "paths": {
-      "talk-server/*": ["./src/core/server/*"],
-      "talk-common/*": ["./src/core/common/*"]
-    }
+    "lib": [
+      "es6",
+      "esnext.asynciterable"
+    ]
   },
-  "include": ["./src/**/*", "./scripts/**/*"],
-  "exclude": ["node_modules", "./src/core/client"]
+  "include": [
+    "./scripts/**/*",
+    "./config/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

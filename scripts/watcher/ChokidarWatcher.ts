@@ -1,13 +1,13 @@
 import chokidar from "chokidar";
-import { Watcher } from "./types";
+import { Watcher, WatchOptions } from "./types";
 
 export default class ChokidarWatcher implements Watcher {
-  public watch(path: string, extensions: string[]): AsyncIterable<string> {
-    // tslint:disable-next-line:no-console
-    console.log(`Chokidar watching ${path} for ${extensions} file changes`);
-    const globs = extensions.map(e => `**/*.${e}`);
-    const client = chokidar.watch(globs, {
-      cwd: path,
+  public watch(
+    paths: ReadonlyArray<string>,
+    options: WatchOptions = {}
+  ): AsyncIterable<string> {
+    const client = chokidar.watch(paths as string[], {
+      ignored: options.ignore,
     });
 
     // An array to hold all changes, that has not yet been yield.
