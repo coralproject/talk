@@ -6,7 +6,7 @@ import { Executor } from "./types";
 interface LongRunningExecutorOptions {
   args?: ReadonlyArray<string>;
 
-  // Specifiy the period in which the process is restarted at max once.
+  // Specify the period in which the process is restarted at max once.
   debounce?: number;
 }
 
@@ -46,7 +46,6 @@ export default class LongRunningExecutor implements Executor {
         return;
       }
       if (this.shouldRestart) {
-        // We killed it pipe because we wanted to restart it.
         this.spawnProcess();
       }
     });

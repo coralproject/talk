@@ -8,7 +8,7 @@ interface CommandExecutorOptions {
   // If true, allow spawning multiple processes.
   spawnMutiple?: boolean;
 
-  // Specifiy the period in which the process is started at max once.
+  // Specify the period in which the process is started at max once.
   debounce?: number | false;
 
   // If true, will run command upon initialization.

@@ -4,7 +4,7 @@ import path from "path";
 import ChokidarWatcher from "./ChokidarWatcher";
 import { Config, configSchema, WatchConfig, Watcher } from "./types";
 
-// polyfill the async symbol.
+// Polyfill the asyncIterator symbol.
 if (Symbol.asyncIterator === undefined) {
   (Symbol as any).asyncIterator = Symbol.for("asyncIterator");
 }
