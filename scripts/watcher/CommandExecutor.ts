@@ -23,22 +23,16 @@ export default class CommandExecutor implements Executor {
   private isRunning: boolean = false;
   private shouldRespawn: boolean = false;
   private spawnProcessDebounced?: (() => void) & Cancelable;
-  private debounce: number | false;
 
   constructor(cmd: string, opts: CommandExecutorOptions = {}) {
     this.cmd = cmd;
     this.args = opts.args;
     this.spawnMultiple = opts.spawnMutiple || false;
     this.runOnInit = opts.runOnInit || false;
-    this.debounce = opts.debounce || 1000;
-    if (this.debounce) {
-      this.spawnProcessDebounced = debounce(
-        () => this.spawnProcess(),
-        this.debounce,
-        {
-          leading: true,
-        }
-      );
+
+    const wait = opts.debounce === undefined ? 500 : opts.debounce;
+    if (wait) {
+      this.spawnProcessDebounced = debounce(() => this.spawnProcess(), wait);
     }
   }
 

@@ -23,10 +23,7 @@ export default class LongRunningExecutor implements Executor {
     this.args = opts.args;
     this.restartDebounced = debounce(
       () => this.restart(),
-      opts.debounce || 1000,
-      {
-        leading: true,
-      }
+      opts.debounce || 500
     );
   }
 
