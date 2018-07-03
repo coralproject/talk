@@ -28,7 +28,9 @@
     "e2e:ci": "./scripts/e2e-ci.sh",
     "heroku-postbuild": "npm-run-all plugins:reconcile build",
     "precommit": "npm-run-all lint-staged",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "talk": {
     "migration": {
@@ -215,7 +217,8 @@
     "webpack-manifest-plugin": "^2.0.0-rc.2",
     "webpack-sources": "^1.0.1",
     "yaml-loader": "^0.4.0",
-    "yamljs": "^0.2.10"
+    "yamljs": "^0.2.10",
+    "snyk": "^1.88.0"
   },
   "devDependencies": {
     "@coralproject/eslint-config-talk": "^0.1.0",
@@ -249,5 +252,6 @@
   },
   "engines": {
     "node": ">=8"
-  }
+  },
+  "snyk": true
 }
