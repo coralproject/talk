@@ -45,7 +45,7 @@ function setupCleanup(config: Config) {
 
 export default async function watch(config: Config) {
   Joi.assert(config, configSchema);
-  const watcher = config.watcher || new ChokidarWatcher();
+  const watcher = config.backend || new ChokidarWatcher();
   setupCleanup(config);
   for (const key of Object.keys(config.watchers)) {
     // tslint:disable-next-line:no-console
