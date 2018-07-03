@@ -12,5 +12,8 @@
     "package-lock.json": true
   },
   "tslint.autoFixOnSave": true,
-  "tslint.jsEnable": true
+  "tslint.jsEnable": true,
+  "files.associations": {
+    "*.css": "postcss"
+  }
 }
