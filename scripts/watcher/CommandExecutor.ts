@@ -1,11 +1,15 @@
 import spawn from "cross-spawn";
+import { Cancelable, debounce } from "lodash";
 
 import { Executor } from "./types";
 
 interface CommandExecutorOptions {
   args?: ReadonlyArray<string>;
-  // If true, will spawn a new process for each file change.
+  // If true, allow spawning multiple processes.
   spawnMutiple?: boolean;
+
+  // Specifiy the period in which the process is started at max once.
+  debounce?: number | false;
 
   // If true, will run command upon initialization.
   runOnInit?: boolean;
@@ -18,19 +22,39 @@ export default class CommandExecutor implements Executor {
   private runOnInit: boolean;
   private isRunning: boolean = false;
   private shouldRespawn: boolean = false;
+  private spawnProcessDebounced?: (() => void) & Cancelable;
+  private debounce: number | false;
 
   constructor(cmd: string, opts: CommandExecutorOptions = {}) {
     this.cmd = cmd;
     this.args = opts.args;
     this.spawnMultiple = opts.spawnMutiple || false;
     this.runOnInit = opts.runOnInit || false;
+    this.debounce = opts.debounce || 1000;
+    if (this.debounce) {
+      this.spawnProcessDebounced = debounce(
+        () => this.spawnProcess(),
+        this.debounce,
+        {
+          leading: true,
+        }
+      );
+    }
   }
 
   // This is called before watching starts.
   public onInit(): void {
     if (this.runOnInit) {
-      this.spawnProcess();
+      this.spawnProcessPotentiallyDebounced();
     }
+  }
+
+  private spawnProcessPotentiallyDebounced() {
+    if (this.spawnProcessDebounced) {
+      this.spawnProcessDebounced();
+      return;
+    }
+    this.spawnProcess();
   }
 
   private spawnProcess() {
@@ -52,12 +76,12 @@ export default class CommandExecutor implements Executor {
         console.log(`We had an error building ${code}`);
       }
       if (this.shouldRespawn) {
-        this.spawnProcess();
+        this.spawnProcessPotentiallyDebounced();
       }
     });
   }
 
   public execute(filePath: string) {
-    this.spawnProcess();
+    this.spawnProcessPotentiallyDebounced();
   }
 }

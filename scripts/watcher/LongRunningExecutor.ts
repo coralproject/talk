@@ -16,16 +16,18 @@ export default class LongRunningExecutor implements Executor {
   private process: ChildProcess | null = null;
   private isRunning: boolean = false;
   private shouldRestart: boolean = false;
-  private debounce: number;
   private restartDebounced: (() => void) & Cancelable;
 
   constructor(cmd: string, opts: LongRunningExecutorOptions = {}) {
     this.cmd = cmd;
     this.args = opts.args;
-    this.debounce = opts.debounce || 1000;
-    this.restartDebounced = debounce(() => this.restart(), this.debounce, {
-      leading: true,
-    });
+    this.restartDebounced = debounce(
+      () => this.restart(),
+      opts.debounce || 1000,
+      {
+        leading: true,
+      }
+    );
   }
 
   private spawnProcess() {
