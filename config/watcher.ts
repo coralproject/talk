@@ -8,7 +8,7 @@ import {
 const config: Config = {
   rootDir: path.resolve(__dirname, "../src"),
   watchers: {
-    compileRelay: {
+    compileRelayStream: {
       paths: [
         "core/client/stream/**/*.ts",
         "core/client/stream/**/*.tsx",
