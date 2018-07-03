@@ -16,11 +16,15 @@ const config: Config = {
         "core/client/server/**/*.graphql",
       ],
       ignore: ["core/**/*.d.ts"],
-      executor: new CommandExecutor("npm run compile:relay-stream"),
+      executor: new CommandExecutor("npm run compile:relay-stream", {
+        runOnInit: true,
+      }),
     },
     compileCSSTypes: {
       paths: ["**/*.css"],
-      executor: new CommandExecutor("npm run compile:css-types"),
+      executor: new CommandExecutor("npm run compile:css-types", {
+        runOnInit: true,
+      }),
     },
     runServer: {
       paths: ["core/**/*.ts", "core/locales/**/*.ftl"],
