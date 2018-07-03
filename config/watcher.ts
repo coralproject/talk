@@ -24,7 +24,7 @@ const config: Config = {
     },
     runServer: {
       paths: ["core/**/*.ts", "core/locales/**/*.ftl"],
-      ignore: ["client/**/*"],
+      ignore: ["core/client/**/*"],
       executor: new RestartingExecutor("npm run start:development"),
     },
     runWebpackDevServer: {
