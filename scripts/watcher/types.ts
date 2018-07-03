@@ -1,3 +1,5 @@
+import Joi from "joi";
+
 export interface WatchOptions {
   ignore?: ReadonlyArray<string>;
 }
@@ -27,3 +29,20 @@ export interface WatchConfig {
   ignore?: ReadonlyArray<string>;
   executor: Executor;
 }
+
+export const configSchema = Joi.object({
+  rootDir: Joi.string().optional(),
+  watchers: Joi.object().pattern(
+    /.*/,
+    Joi.object({
+      paths: Joi.array()
+        .items(Joi.string())
+        .unique(),
+      ignore: Joi.array()
+        .items(Joi.string())
+        .unique()
+        .optional(),
+      executor: Joi.object(),
+    })
+  ),
+});

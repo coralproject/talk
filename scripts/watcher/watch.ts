@@ -1,6 +1,8 @@
+import Joi from "joi";
 import path from "path";
+
 import ChokidarWatcher from "./ChokidarWatcher";
-import { Config, WatchConfig, Watcher } from "./types";
+import { Config, configSchema, WatchConfig, Watcher } from "./types";
 
 // polyfill the async symbol.
 if (Symbol.asyncIterator === undefined) {
@@ -42,6 +44,7 @@ function setupCleanup(config: Config) {
 }
 
 export default async function watch(config: Config) {
+  Joi.assert(config, configSchema);
   const watcher = new ChokidarWatcher();
   setupCleanup(config);
   for (const key of Object.keys(config.watchers)) {
