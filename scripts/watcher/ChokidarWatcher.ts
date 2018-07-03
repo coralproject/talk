@@ -41,7 +41,7 @@ export default class ChokidarWatcher implements Watcher {
         return;
       }
 
-      // There sis no pending request, save it into the queue.
+      // There is no pending request, save it into the queue.
       queue.unshift(pathFile);
     });
     return {
