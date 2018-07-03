@@ -2,7 +2,7 @@ import path from "path";
 import {
   CommandExecutor,
   Config,
-  RestartingExecutor,
+  LongRunningExecutor,
 } from "../scripts/watcher";
 
 const config: Config = {
@@ -29,11 +29,11 @@ const config: Config = {
     runServer: {
       paths: ["core/**/*.ts", "core/locales/**/*.ftl"],
       ignore: ["core/client/**/*"],
-      executor: new RestartingExecutor("npm run start:development"),
+      executor: new LongRunningExecutor("npm run start:development"),
     },
     runWebpackDevServer: {
       paths: [],
-      executor: new RestartingExecutor("npm run start:webpackDevServer"),
+      executor: new LongRunningExecutor("npm run start:webpackDevServer"),
     },
   },
 };

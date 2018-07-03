@@ -3,12 +3,12 @@ import spawn from "cross-spawn";
 import { throttle } from "lodash";
 import { Executor } from "./types";
 
-interface RestartingExecutorOptions {
+interface LongRunningExecutorOptions {
   args?: ReadonlyArray<string>;
   throttle?: number;
 }
 
-export default class RestartingExecutor implements Executor {
+export default class LongRunningExecutor implements Executor {
   private cmd: string;
   private args?: ReadonlyArray<string>;
   private process: ChildProcess | null = null;
@@ -16,7 +16,7 @@ export default class RestartingExecutor implements Executor {
   private shouldRestart: boolean = false;
   private throttle: number;
 
-  constructor(cmd: string, opts: RestartingExecutorOptions = {}) {
+  constructor(cmd: string, opts: LongRunningExecutorOptions = {}) {
     this.cmd = cmd;
     this.args = opts.args;
     this.throttle = opts.throttle || 1000;
@@ -63,7 +63,7 @@ export default class RestartingExecutor implements Executor {
     process.kill(-this.process!.pid, "SIGTERM");
   }
 
-  // This is kalled before watching starts.
+  // This is called before watching starts.
   public onInit(): void {
     this.spawnProcess();
   }
