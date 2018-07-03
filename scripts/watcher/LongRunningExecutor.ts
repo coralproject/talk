@@ -1,11 +1,13 @@
 import { ChildProcess } from "child_process";
 import spawn from "cross-spawn";
-import { throttle } from "lodash";
+import { Cancelable, debounce } from "lodash";
 import { Executor } from "./types";
 
 interface LongRunningExecutorOptions {
   args?: ReadonlyArray<string>;
-  throttle?: number;
+
+  // Specifiy the period in which the process is restarted at max once.
+  debounce?: number;
 }
 
 export default class LongRunningExecutor implements Executor {
@@ -14,12 +16,16 @@ export default class LongRunningExecutor implements Executor {
   private process: ChildProcess | null = null;
   private isRunning: boolean = false;
   private shouldRestart: boolean = false;
-  private throttle: number;
+  private debounce: number;
+  private restartDebounced: (() => void) & Cancelable;
 
   constructor(cmd: string, opts: LongRunningExecutorOptions = {}) {
     this.cmd = cmd;
     this.args = opts.args;
-    this.throttle = opts.throttle || 1000;
+    this.debounce = opts.debounce || 1000;
+    this.restartDebounced = debounce(() => this.restart(), this.debounce, {
+      leading: true,
+    });
   }
 
   private spawnProcess() {
@@ -48,13 +54,12 @@ export default class LongRunningExecutor implements Executor {
   }
 
   private restart(): void {
+    console.log("restart");
     this.shouldRestart = true;
     // Using the `-` will kill all child procceses in the group.
     // See: https://azimi.me/2014/12/31/kill-child_process-node-js.html
     process.kill(-this.process!.pid, "SIGTERM");
   }
-
-  private restartThrottle = throttle(() => this.restart(), this.throttle);
 
   private kill(): void {
     this.shouldRestart = false;
@@ -70,7 +75,7 @@ export default class LongRunningExecutor implements Executor {
 
   // This is called before exiting.
   public onCleanup() {
-    this.restartThrottle.cancel();
+    this.restartDebounced.cancel();
     if (this.isRunning) {
       this.kill();
     }
@@ -78,7 +83,7 @@ export default class LongRunningExecutor implements Executor {
 
   public execute(filePath: string) {
     if (this.isRunning) {
-      this.restartThrottle();
+      this.restartDebounced();
       return;
     }
     this.spawnProcess();
