@@ -54,7 +54,6 @@ export default class LongRunningExecutor implements Executor {
   }
 
   private restart(): void {
-    console.log("restart");
     this.shouldRestart = true;
     // Using the `-` will kill all child procceses in the group.
     // See: https://azimi.me/2014/12/31/kill-child_process-node-js.html
