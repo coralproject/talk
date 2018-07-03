@@ -11,6 +11,8 @@
             "cwd": "${workspaceFolder}",
             "program": "${workspaceFolder}/node_modules/.bin/ts-node",
             "args": [
+                "--project",
+                "${workspaceFolder}/src/tsconfig.json",
                 "-r",
                 "tsconfig-paths/register",
                 "${workspaceFolder}/src/index.ts"
