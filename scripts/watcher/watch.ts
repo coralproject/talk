@@ -1,19 +1,6 @@
 import path from "path";
 import ChokidarWatcher from "./ChokidarWatcher";
-import { Executor, Watcher } from "./types";
-
-export interface Config {
-  rootDir?: string;
-  watchers: {
-    [key: string]: WatchConfig;
-  };
-}
-
-export interface WatchConfig {
-  paths: ReadonlyArray<string>;
-  ignore?: ReadonlyArray<string>;
-  executor: Executor;
-}
+import { Config, WatchConfig, Watcher } from "./types";
 
 // polyfill the async symbol.
 if (Symbol.asyncIterator === undefined) {

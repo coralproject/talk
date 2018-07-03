@@ -14,3 +14,16 @@ export interface Executor {
   onCleanup?(): void;
   execute(filePath: string): void;
 }
+
+export interface Config {
+  rootDir?: string;
+  watchers: {
+    [key: string]: WatchConfig;
+  };
+}
+
+export interface WatchConfig {
+  paths: ReadonlyArray<string>;
+  ignore?: ReadonlyArray<string>;
+  executor: Executor;
+}
