@@ -19,6 +19,7 @@ export interface Executor {
 
 export interface Config {
   rootDir?: string;
+  watcher?: Watcher;
   watchers: {
     [key: string]: WatchConfig;
   };
@@ -32,6 +33,7 @@ export interface WatchConfig {
 
 export const configSchema = Joi.object({
   rootDir: Joi.string().optional(),
+  watcher: Joi.object().optional(),
   watchers: Joi.object().pattern(
     /.*/,
     Joi.object({
