@@ -43,6 +43,17 @@ jobs:
           name: Perform linting
           command: npm run lint
 
+  # unit_tests will run the unit tests.
+  unit_tests:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/coralproject/talk
+      - run:
+          name: Perform testing
+          command: npm run test
+
   # build will build the static assets and server typescript files.
   build:
     <<: *job_defaults
@@ -72,6 +83,9 @@ workflows:
     jobs:
       - npm_dependencies
       - lint:
+          requires:
+            - npm_dependencies
+      - unit_tests:
           requires:
             - npm_dependencies
       - build:
