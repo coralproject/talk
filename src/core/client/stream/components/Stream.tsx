@@ -27,7 +27,7 @@ const Stream: StatelessComponent<StreamProps> = props => {
         <CommentContainer key={comment.id} data={comment} gutterBottom />
       ))}
       {props.hasMore && (
-        <Button onClick={props.onLoadMore} secondary fullWidth>
+        <Button onClick={props.onLoadMore} secondary invert fullWidth>
           Load More
         </Button>
       )}
