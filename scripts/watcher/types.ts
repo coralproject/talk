@@ -17,6 +17,10 @@ export interface Executor {
   execute(filePath: string): void;
 }
 
+export interface Options {
+  only?: string[];
+}
+
 export interface Config {
   rootDir?: string;
   backend?: Watcher;
