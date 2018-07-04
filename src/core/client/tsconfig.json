@@ -4,8 +4,7 @@
     "target": "es2015",
     "module": "esnext",
     "jsx": "preserve",
-    "noEmit": true,
-    "strictNullChecks": true,
+    "allowJs": false,
     "lib": [
       "dom",
       "es7",

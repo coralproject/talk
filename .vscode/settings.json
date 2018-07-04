@@ -1,5 +1,8 @@
 {
   "editor.formatOnSave": true,
+  "files.associations": {
+    "*.css": "postcss"
+  },
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
