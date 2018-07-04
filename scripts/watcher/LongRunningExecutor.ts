@@ -6,7 +6,7 @@ import { Executor } from "./types";
 interface LongRunningExecutorOptions {
   args?: ReadonlyArray<string>;
 
-  // Specify the period in which the process is restarted at max once.
+  /** Specify the period in which the process is restarted at max once. */
   debounce?: number;
 }
 
