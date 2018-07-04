@@ -5,13 +5,13 @@ import { Executor } from "./types";
 
 interface CommandExecutorOptions {
   args?: ReadonlyArray<string>;
-  // If true, allow spawning multiple processes.
+  /** If true, allow spawning multiple processes. */
   spawnMutiple?: boolean;
 
-  // Specify the period in which the process is started at max once.
+  /** Specify the period in which the process is started at max once. */
   debounce?: number | false;
 
-  // If true, will run command upon initialization.
+  /** If true, will run command upon initialization. */
   runOnInit?: boolean;
 }
 
