@@ -8,7 +8,7 @@ module.exports = {
   setupFiles: ["<rootDir>/config/polyfills.js"],
   testMatch: [
     "**/__tests__/**/*.{js,jsx,mjs,ts,tsx}",
-    "**/*.(spec|test).{js,jsx,mjs,ts,tsx}",
+    "**/*.spec.{js,jsx,mjs,ts,tsx}",
   ],
   testEnvironment: "node",
   testURL: "http://localhost",
@@ -22,7 +22,12 @@ module.exports = {
     "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|ts|tsx)$",
   ],
   moduleNameMapper: {
-    "^react-native$": "react-native-web",
+    "^talk-admin/(.*)$": "<rootDir>/src/core/client/admin/$1",
+    "^talk-ui/(.*)$": "<rootDir>/src/core/client/ui/$1",
+    "^talk-stream/(.*)$": "<rootDir>/src/core/client/stream/$1",
+    "^talk-framework/(.*)$": "<rootDir>/src/core/client/framework/$1",
+    "^talk-common/(.*)$": "<rootDir>/src/core/common/$1",
+    "^talk-server/(.*)$": "<rootDir>/src/core/server/$1",
   },
   moduleFileExtensions: [
     "web.js",
