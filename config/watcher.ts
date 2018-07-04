@@ -10,7 +10,7 @@ const config: Config = {
   watchers: {
     compileGraphQLTypes: {
       paths: ["core/server/graph/**/*.graphql"],
-      executor: new CommandExecutor("npm run compile:server:types", {
+      executor: new CommandExecutor("npm run compile:graphql", {
         runOnInit: true,
       }),
     },
