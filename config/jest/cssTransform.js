@@ -2,7 +2,7 @@
 
 // Adapted version of https://github.com/Connormiha/jest-css-modules-transform
 // Copyright https://github.com/Connormiha/jest-css-modules-transform/graphs/contributors
-// This oututs `module.exports = cssObject` instead of `module.exports = { defaults: cssObject }`;
+// This oututs `module.exports = cssObject` instead of `module.exports = { default: cssObject }`;
 
 const { sep: pathSep, resolve } = require("path");
 const postcss = require("postcss");
