@@ -2,7 +2,7 @@ import Joi from "joi";
 import path from "path";
 
 import ChokidarWatcher from "./ChokidarWatcher";
-import { Config, configSchema, WatchConfig, Watcher } from "./types";
+import { Config, configSchema, Options, WatchConfig, Watcher } from "./types";
 
 // Polyfill the asyncIterator symbol.
 if (Symbol.asyncIterator === undefined) {
@@ -43,9 +43,22 @@ function setupCleanup(config: Config) {
   );
 }
 
-export default async function watch(config: Config) {
+function filterOnly(config: Config, only: string[]) {
+  for (const key of Object.keys(config.watchers)) {
+    if (only.indexOf(key) === -1) {
+      // tslint:disable-next-line:no-console
+      console.log(`Disabled watcher "${key}"`);
+      delete config.watchers[key];
+    }
+  }
+}
+
+export default async function watch(config: Config, options?: Options) {
   Joi.assert(config, configSchema);
   const watcher = config.backend || new ChokidarWatcher();
+  if (options && options.only && options.only.length > 0) {
+    filterOnly(config, options.only);
+  }
   setupCleanup(config);
   for (const key of Object.keys(config.watchers)) {
     // tslint:disable-next-line:no-console
