@@ -51,6 +51,9 @@ jobs:
       - attach_workspace:
           at: ~/coralproject/talk
       - run:
+          name: Compile schemas and types
+          command: npm run compile
+      - run:
           name: Perform testing
           command: npm run test
 
