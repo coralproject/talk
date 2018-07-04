@@ -8,6 +8,12 @@ import {
 const config: Config = {
   rootDir: path.resolve(__dirname, "../src"),
   watchers: {
+    compileGraphQLTypes: {
+      paths: ["core/server/graph/**/*.graphql"],
+      executor: new CommandExecutor("npm run compile:server:types", {
+        runOnInit: true,
+      }),
+    },
     compileRelayStream: {
       paths: [
         "core/client/stream/**/*.ts",

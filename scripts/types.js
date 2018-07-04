@@ -4,7 +4,7 @@ const { getGraphQLConfig } = require("graphql-config");
 const path = require("path");
 const fs = require("fs");
 
-function lint(files) {
+function lintAndWrite(files) {
   const linter = new Linter({ fix: true });
 
   for (const { fileName, types } of files) {
@@ -80,7 +80,7 @@ async function main() {
   }
 
   // Send the files off to the linter to be linted and written.
-  lint(files);
+  lintAndWrite(files);
 
   return files;
 }
@@ -88,9 +88,11 @@ async function main() {
 main()
   .then(files => {
     for (const { fileName } of files) {
+      // tslint:disable-next-line:no-console
       console.log(`Generated ${fileName}`);
     }
   })
   .catch(err => {
+    // tslint:disable-next-line:no-console
     console.error(err);
   });
