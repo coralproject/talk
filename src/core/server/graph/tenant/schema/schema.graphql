@@ -2,7 +2,14 @@
 ## Custom Directives
 ################################################################################
 
-directive @auth(roles: [USER_ROLE!]!) on FIELD_DEFINITION
+"""
+auth is a directive that will enforce authorization rules on the schema
+definition. It will restrict the viewer of the field based on roles or if the
+`userIDField` is specified, it will see if the current users ID equals the field
+specified. This allows users that own a specific resource (like a comment, or a
+flag) see their own content, but restrict it to everyone else.
+"""
+directive @auth(roles: [USER_ROLE!], userIDField: String) on FIELD_DEFINITION
 
 ################################################################################
 ## Custom Scalar Types
@@ -195,7 +202,7 @@ type Settings {
   autoCloseStream when true will auto close the stream when the `closeTimeout`
   amount of seconds have been reached.
   """
-  autoCloseStream: Boolean!
+  autoCloseStream: Boolean! @auth(roles: [ADMIN])
 
   """
   customCssUrl is the URL of the custom CSS used to display on the frontend.
@@ -254,12 +261,12 @@ type Settings {
   """
   wordlist will return a given list of words.
   """
-  wordlist: WordlistSettings @auth(roles: [ADMIN])
+  wordlist: WordlistSettings @auth(roles: [ADMIN, MODERATOR])
 
   """
   domains will return a given list of whitelisted domains.
   """
-  domains: [String!] @auth(roles: [ADMIN])
+  domains: [String!] @auth(roles: [ADMIN]) @auth(roles: [ADMIN])
 
   """
   auth contains all the settings related to authentication and authorization.
@@ -294,7 +301,7 @@ type User {
   """
   role is the current role of the User.
   """
-  role: USER_ROLE!
+  role: USER_ROLE! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
 }
 
 ################################################################################
@@ -561,7 +568,7 @@ type Mutation {
   """
   createComment will create a Comment as the current logged in User.
   """
-  createComment(input: CreateCommentInput!): CreateCommentPayload
+  createComment(input: CreateCommentInput!): CreateCommentPayload @auth
 }
 
 ################################################################################

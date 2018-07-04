@@ -1,4 +1,5 @@
 import { Db } from "mongodb";
+import CommonContext from "talk-server/graph/common/context";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import loaders from "./loaders";
@@ -10,16 +11,16 @@ export interface TenantContextOptions {
   user?: User;
 }
 
-export default class TenantContext {
+export default class TenantContext extends CommonContext {
   public loaders: ReturnType<typeof loaders>;
   public mutators: ReturnType<typeof mutators>;
   public db: Db;
   public tenant: Tenant;
-  public user?: User;
 
   constructor({ user, tenant, db }: TenantContextOptions) {
+    super({ user });
+
     this.tenant = tenant;
-    this.user = user;
     this.loaders = loaders(this);
     this.mutators = mutators(this);
     this.db = db;
