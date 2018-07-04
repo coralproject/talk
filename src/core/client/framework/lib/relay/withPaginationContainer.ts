@@ -24,7 +24,7 @@ type ConnectionConfig<T> = Overwrite<
  * from Relay.
  */
 export default <T, InnerProps>(
-  fragmentSpec: GraphQLTaggedNode,
+  fragmentSpec: { [P in keyof T]: GraphQLTaggedNode },
   connectionConfig: ConnectionConfig<InnerProps>
 ): InferableComponentEnhancerWithProps<
   T & { relay: RelayPaginationProp },

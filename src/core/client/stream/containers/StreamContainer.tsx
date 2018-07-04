@@ -45,26 +45,28 @@ class StreamContainer extends React.Component<InnerProps> {
 }
 
 const enhanced = withPaginationContainer<{ asset: Data }, InnerProps>(
-  graphql`
-    fragment StreamContainer_asset on Asset
-      @argumentDefinitions(
-        count: { type: "Int", defaultValue: 5 }
-        cursor: { type: "Cursor" }
-        orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
-      ) {
-      id
-      isClosed
-      comments(first: $count, after: $cursor, orderBy: $orderBy)
-        @connection(key: "Stream_comments") {
-        edges {
-          node {
-            id
-            ...CommentContainer
+  {
+    asset: graphql`
+      fragment StreamContainer_asset on Asset
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 5 }
+          cursor: { type: "Cursor" }
+          orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
+        ) {
+        id
+        isClosed
+        comments(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "Stream_comments") {
+          edges {
+            node {
+              id
+              ...CommentContainer
+            }
           }
         }
       }
-    }
-  `,
+    `,
+  },
   {
     direction: "forward",
     getConnectionFromProps(props) {

@@ -16,8 +16,8 @@ const AssetListContainer: StatelessComponent<InnerProps> = props => {
   return <AssetList assets={assets} />;
 };
 
-const enhanced = withFragmentContainer<{ assets: Data }>(
-  graphql`
+const enhanced = withFragmentContainer<{ assets: Data }>({
+  assets: graphql`
     fragment AssetListContainer_assets on AssetsConnection {
       edges {
         node {
@@ -26,8 +26,8 @@ const enhanced = withFragmentContainer<{ assets: Data }>(
         }
       }
     }
-  `
-)(AssetListContainer);
+  `,
+})(AssetListContainer);
 
 export type AssetListContainerProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

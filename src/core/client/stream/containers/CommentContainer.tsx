@@ -14,16 +14,16 @@ const CommentContainer: StatelessComponent<InnerProps> = props => {
   return <Comment {...rest} {...props.data} />;
 };
 
-const enhanced = withFragmentContainer<{ data: Data }>(
-  graphql`
+const enhanced = withFragmentContainer<{ data: Data }>({
+  data: graphql`
     fragment CommentContainer on Comment {
       author {
         username
       }
       body
     }
-  `
-)(CommentContainer);
+  `,
+})(CommentContainer);
 
 export type CommentContainerProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

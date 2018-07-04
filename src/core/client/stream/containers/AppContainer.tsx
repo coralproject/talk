@@ -15,8 +15,8 @@ const AppContainer: StatelessComponent<InnerProps> = props => {
   return <App {...props.data} />;
 };
 
-const enhanced = withFragmentContainer<{ data: Data }>(
-  graphql`
+const enhanced = withFragmentContainer<{ data: Data }>({
+  data: graphql`
     fragment AppContainer on Query
       @argumentDefinitions(
         assetID: { type: "ID!" }
@@ -29,8 +29,8 @@ const enhanced = withFragmentContainer<{ data: Data }>(
         ...StreamContainer_asset
       }
     }
-  `
-)(AppContainer);
+  `,
+})(AppContainer);
 
 export type AppContainerProps = PropTypesOf<typeof enhanced>;
 export default enhanced;
