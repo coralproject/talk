@@ -10,9 +10,13 @@ import { InferableComponentEnhancerWithProps } from "recompose";
  * withPaginationContainer is a curried version of `createPaginationContainers`
  * from Relay.
  */
-export default <T, InnerProps>(
+export default <T, InnerProps, FragmentVariables, QueryVariables>(
   fragmentSpec: { [P in keyof T]: GraphQLTaggedNode },
-  connectionConfig: ConnectionConfig<InnerProps>
+  connectionConfig: ConnectionConfig<
+    InnerProps,
+    FragmentVariables,
+    QueryVariables
+  >
 ): InferableComponentEnhancerWithProps<
   T & { relay: RelayPaginationProp },
   { [P in keyof T]: any }
