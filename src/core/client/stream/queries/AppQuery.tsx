@@ -1,10 +1,10 @@
 import * as React from "react";
 import { StatelessComponent } from "react";
+import { ReadyState } from "react-relay";
 
 import {
   graphql,
   QueryRenderer,
-  ReadyState,
   withLocalStateContainer,
 } from "talk-framework/lib/relay";
 import {

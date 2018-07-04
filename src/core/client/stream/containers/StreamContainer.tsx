@@ -49,9 +49,9 @@ const enhanced = withPaginationContainer<{ asset: Data }, InnerProps>(
     asset: graphql`
       fragment StreamContainer_asset on Asset
         @argumentDefinitions(
-          count: { type: "Int", defaultValue: 5 }
+          count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT", defaultValue: CREATED_AT_DESC }
+          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         ) {
         id
         isClosed
