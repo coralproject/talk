@@ -34,7 +34,7 @@ export enum CommentStatus {
 
 export interface Comment extends TenantResource {
   readonly id: string;
-  parent_id?: string;
+  parent_id: string | null;
   author_id: string;
   asset_id: string;
   body: string;
@@ -45,9 +45,7 @@ export interface Comment extends TenantResource {
   reply_count: number;
   created_at: Date;
   deleted_at?: Date;
-  metadata?: {
-    [_: string]: any;
-  };
+  metadata?: Record<string, any>;
 }
 
 export type CreateCommentInput = Omit<
@@ -60,7 +58,7 @@ export type CreateCommentInput = Omit<
   | "status_history"
 >;
 
-export async function create(
+export async function createComment(
   db: Db,
   tenantID: string,
   input: CreateCommentInput
@@ -106,11 +104,15 @@ export async function create(
   return comment;
 }
 
-export async function retrieve(db: Db, tenantID: string, id: string) {
+export async function retrieveComment(db: Db, tenantID: string, id: string) {
   return collection(db).findOne({ id, tenant_id: tenantID });
 }
 
-export async function retrieveMany(db: Db, tenantID: string, ids: string[]) {
+export async function retrieveManyComments(
+  db: Db,
+  tenantID: string,
+  ids: string[]
+) {
   const cursor = await collection(db).find({
     id: {
       $in: ids,
@@ -164,7 +166,7 @@ function nodesToEdge(input: ConnectionInput, nodes: Comment[]) {
  * @param parentID the parent id for the comment to retrieve
  * @param input connection configuration
  */
-export async function retrieveRepliesConnection(
+export async function retrieveCommentRepliesConnection(
   db: Db,
   tenantID: string,
   assetID: string,
@@ -190,7 +192,7 @@ export async function retrieveRepliesConnection(
  * @param assetID the Asset id for the comment to retrieve
  * @param input connection configuration
  */
-export async function retrieveAssetConnection(
+export async function retrieveCommentAssetConnection(
   db: Db,
   tenantID: string,
   assetID: string,

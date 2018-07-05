@@ -4,7 +4,7 @@ import { Omit } from "talk-common/types";
 import {
   Comment,
   CommentStatus,
-  create as createComment,
+  createComment,
   CreateCommentInput,
 } from "talk-server/models/comment";
 

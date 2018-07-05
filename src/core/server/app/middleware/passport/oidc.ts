@@ -1,41 +1,77 @@
 import jwt from "jsonwebtoken";
 import jwks, { JwksClient } from "jwks-rsa";
+import { Db } from "mongodb";
 import { Strategy as OAuth2Strategy } from "passport-oauth2";
 import { Strategy } from "passport-strategy";
 
 import { reconstructURL } from "talk-server/app/url";
+import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { OIDCAuthIntegration, Tenant } from "talk-server/models/tenant";
-import { User } from "talk-server/models/user";
+import { createUser, retrieveUserWithProfile } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
-export type OIDCStrategyOptions = any;
+import { VerifyCallback } from "./index";
 
 export interface Params {
   id_token?: string;
 }
 
-export type VerifyCallback = (
-  err?: Error | null,
-  user?: User | null,
-  info?: object
-) => void;
-
-export interface Token {
+export interface OIDCIDToken {
   iss: string;
   sub: string;
   email: string;
   email_verified?: boolean;
 }
 
-export type OIDCStrategyCallback = (
-  tenant: Tenant,
-  token: Token,
-  done: VerifyCallback
-) => void;
-
 export interface StrategyItem {
   strategy: OAuth2Strategy;
   jwksClient?: JwksClient;
+}
+
+export interface OIDCStrategyOptions {
+  db: Db;
+}
+
+export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
+  if (
+    (token as OIDCIDToken).iss &&
+    (token as OIDCIDToken).sub &&
+    (token as OIDCIDToken).email
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+export async function findOrCreateOIDCUser(
+  db: Db,
+  tenant: Tenant,
+  { iss, sub, email, email_verified }: OIDCIDToken
+) {
+  // Construct the profile that will be used to query for the user.
+  const profile = {
+    type: "oidc",
+    provider: iss,
+    id: sub,
+  };
+
+  // Try to lookup user given their id provided in the `sub` claim.
+  let user = await retrieveUserWithProfile(db, tenant.id, profile);
+  if (!user) {
+    // FIXME: implement rules.
+
+    // Create the new user, as one didn't exist before!
+    user = await createUser(db, tenant.id, {
+      username: null,
+      role: GQLUSER_ROLE.COMMENTER,
+      email,
+      email_verified,
+      profiles: [profile],
+    });
+  }
+
+  return user;
 }
 
 // FIXME: attach strategy to cache updates of the tenants
@@ -43,15 +79,28 @@ export interface StrategyItem {
 export default class OIDCStrategy extends Strategy {
   public name: string;
 
-  private verify: OIDCStrategyCallback;
+  private db: Db;
   private cache: Map<string, StrategyItem>;
 
-  constructor(options: OIDCStrategyOptions, verify: OIDCStrategyCallback) {
+  constructor({ db }: OIDCStrategyOptions) {
     super();
 
     this.name = "oidc";
     this.cache = new Map();
-    this.verify = verify;
+    this.db = db;
+  }
+
+  private async verify(
+    tenant: Tenant,
+    token: OIDCIDToken,
+    done: VerifyCallback
+  ) {
+    try {
+      const user = await findOrCreateOIDCUser(this.db, tenant, token);
+      return done(null, user);
+    } catch (err) {
+      return done(err);
+    }
   }
 
   private lookupJWKSClient(
@@ -139,7 +188,7 @@ export default class OIDCStrategy extends Strategy {
           return done(err);
         }
 
-        this.verify(tenant!, decoded as Token, done);
+        this.verify(tenant!, decoded as OIDCIDToken, done);
       }
     );
   }
@@ -183,6 +232,12 @@ export default class OIDCStrategy extends Strategy {
       throw new Error("integration not found");
     }
 
+    // Handle when the integration is enabled/disabled.
+    if (!integration.enabled) {
+      // TODO: return a better error.
+      throw new Error("integration not enabled");
+    }
+
     // Try to get the Tenant's cached integrations.
     let entry = this.cache.get(tenant.id);
     if (!entry) {
@@ -202,22 +257,30 @@ export default class OIDCStrategy extends Strategy {
   }
 
   public async authenticate(req: Request) {
-    // Lookup the strategy.
-    const strategy = await this.lookupStrategy(req);
-    if (!strategy) {
-      return;
+    try {
+      // Lookup the strategy.
+      const strategy = await this.lookupStrategy(req);
+      if (!strategy) {
+        throw new Error("strategy not found");
+      }
+
+      // Augment the strategy with the request method bindings.
+      strategy.error = this.error.bind(this);
+      strategy.fail = this.fail.bind(this);
+      strategy.pass = this.pass.bind(this);
+      strategy.redirect = this.redirect.bind(this);
+      strategy.success = this.success.bind(this);
+
+      // Authenticate with the strategy, binding the current context to the method
+      // to provide it with the augmented passport handlers. We also request the
+      // 'openid' scope so we can get an id_token back.
+      strategy.authenticate(req, { scope: "openid email", session: false });
+    } catch (err) {
+      return this.error(err);
     }
-
-    // Augment the strategy with the request method bindings.
-    strategy.error = this.error.bind(this);
-    strategy.fail = this.fail.bind(this);
-    strategy.pass = this.pass.bind(this);
-    strategy.redirect = this.redirect.bind(this);
-    strategy.success = this.success.bind(this);
-
-    // Authenticate with the strategy, binding the current context to the method
-    // to provide it with the augmented passport handlers. We also request the
-    // 'openid' scope so we can get an id_token back.
-    strategy.authenticate(req, { scope: "openid email", session: false });
   }
+}
+
+export function createOIDCStrategy({ db }: OIDCStrategyOptions) {
+  return new OIDCStrategy({ db });
 }

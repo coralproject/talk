@@ -210,7 +210,7 @@ export async function retrieveTenantByDomain(db: Db, domain: string) {
   return collection(db).findOne({ domain });
 }
 
-export async function retrieve(db: Db, id: string) {
+export async function retrieveTenant(db: Db, id: string) {
   return collection(db).findOne({ id });
 }
 

@@ -33,6 +33,11 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
   router.use(tenantMiddleware({ db: app.mongo }));
 
   router.use(options.passport.initialize());
+  router.use(
+    "/auth/local",
+    express.json(),
+    authenticate(options.passport, "local")
+  );
   router.use("/auth/oidc", authenticate(options.passport, "oidc"));
   router.use("/auth/oidc/callback", authenticate(options.passport, "oidc"));
   // router.use("/auth/google", options.passport.authenticate("google"));
@@ -64,6 +69,10 @@ async function createAPIRouter(app: AppOptions, options: RouterOptions) {
 }
 
 export interface RouterOptions {
+  /**
+   * passport is the instance of the Authenticator that can be used to create
+   * and mount new authentication middleware.
+   */
   passport: passport.Authenticator;
 }
 

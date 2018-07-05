@@ -1,9 +1,13 @@
+import bcrypt from "bcryptjs";
 import { merge } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
-import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLUSER_ROLE,
+  GQLUSER_USERNAME_STATUS,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { ActionCounts } from "talk-server/models/actions";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -14,38 +18,13 @@ function collection(db: Db) {
 export interface Profile {
   readonly id: string;
   readonly type: string;
-  provider: string;
+  provider?: string;
 }
 
 export interface Token {
   readonly id: string;
   name: string;
   active: boolean;
-}
-
-export enum UserUsernameStatus {
-  // UNSET is used when the username can be changed, and does not necessarily
-  // require moderator action to become active. This can be used when the user
-  // signs up with a social login and has the option of setting their own
-  // username.
-  UNSET = "UNSET",
-
-  // SET is used when the username has been set for the first time, but cannot
-  // change without the username being rejected by a moderator and that moderator
-  // agreeing that the username should be allowed to change.
-  SET = "SET",
-
-  // APPROVED is used when the username was changed, and subsequently approved by
-  // said moderator.
-  APPROVED = "APPROVED",
-
-  // REJECTED is used when the username was changed, and subsequently rejected by
-  // said moderator.
-  REJECTED = "REJECTED",
-
-  // CHANGED is used after a user has changed their username after it was
-  // rejected.
-  CHANGED = "CHANGED",
 }
 
 export interface UserStatusHistory<T> {
@@ -61,7 +40,7 @@ export interface UserStatusItem<T> {
 }
 
 export interface UserStatus {
-  username: UserStatusItem<UserUsernameStatus>;
+  username: UserStatusItem<GQLUSER_USERNAME_STATUS>;
   banned: UserStatusItem<boolean>;
   suspension: UserStatusItem<Date | null>;
 }
@@ -92,7 +71,11 @@ export type CreateUserInput = Omit<
   | "created_at"
 >;
 
-export async function create(db: Db, tenantID: string, input: CreateUserInput) {
+export async function createUser(
+  db: Db,
+  tenantID: string,
+  input: CreateUserInput
+) {
   const now = new Date();
 
   // default are the properties set by the application when a new user is
@@ -114,8 +97,8 @@ export async function create(db: Db, tenantID: string, input: CreateUserInput) {
       },
       username: {
         status: input.username
-          ? UserUsernameStatus.SET
-          : UserUsernameStatus.UNSET,
+          ? GQLUSER_USERNAME_STATUS.SET
+          : GQLUSER_USERNAME_STATUS.UNSET,
         history: [],
       },
     },
@@ -131,11 +114,15 @@ export async function create(db: Db, tenantID: string, input: CreateUserInput) {
   return user;
 }
 
-export async function retrieve(db: Db, tenantID: string, id: string) {
+export async function retrieveUser(db: Db, tenantID: string, id: string) {
   return collection(db).findOne({ id, tenant_id: tenantID });
 }
 
-export async function retrieveMany(db: Db, tenantID: string, ids: string[]) {
+export async function retrieveManyUsers(
+  db: Db,
+  tenantID: string,
+  ids: string[]
+) {
   const cursor = await collection(db).find({
     id: {
       $in: ids,
@@ -148,7 +135,7 @@ export async function retrieveMany(db: Db, tenantID: string, ids: string[]) {
   return ids.map(id => users.find(comment => comment.id === id) || null);
 }
 
-export async function retrieveWithProfile(
+export async function retrieveUserWithProfile(
   db: Db,
   tenantID: string,
   profile: Profile
@@ -161,7 +148,7 @@ export async function retrieveWithProfile(
   });
 }
 
-export async function updateRole(
+export async function updateUserRole(
   db: Db,
   tenantID: string,
   id: string,
@@ -174,4 +161,12 @@ export async function updateRole(
   );
 
   return result.value || null;
+}
+
+export async function verifyUserPassword(user: User, password: string) {
+  if (user.password) {
+    return bcrypt.compare(user.password, password);
+  }
+
+  return false;
 }
