@@ -5,10 +5,11 @@
   "scripts": {
     "start": "node dist/index.js",
     "test": "node scripts/test.js --env=jsdom",
-    "build": "npm-run-all --parallel compile:* && npm-run-all --parallel build:*",
+    "build": "npm-run-all compile --parallel build:*",
     "build:client": "node ./scripts/build.js",
     "build:server": "tsc -p ./src/tsconfig.json",
     "watch": "NODE_ENV=development ts-node ./scripts/watcher/bin/watcher.ts ./config/watcher.ts",
+    "compile": "npm-run-all --parallel compile:*",
     "compile:css-types": "tcm src/core/client/",
     "compile:relay-stream": "relay-compiler --src ./src/core/client/stream --schema $(ts-node ./scripts/schemaPath.ts tenant) --language typescript --artifactDirectory ./src/core/client/stream/__generated__ --no-watchman",
     "start:development": "NODE_ENV=development ts-node --project ./src/tsconfig.json -r tsconfig-paths/register ./src/index.ts",
