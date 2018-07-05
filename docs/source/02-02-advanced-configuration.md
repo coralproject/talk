@@ -60,6 +60,10 @@ When `TRUE`, disables flagging of comments that match the suspect word filter. (
 
 ## TALK_DISABLE_EMBED_POLYFILL
 
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
+image you can specify it with `--build-arg TALK_DISABLE_EMBED_POLYFILL=TRUE`.
+
 When set to `TRUE`, the build process will not include the
 [babel-polyfill](https://babeljs.io/docs/usage/polyfill/)
 in the embed.js target that is loaded on the page that loads the embed. (Default
