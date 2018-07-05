@@ -1,3 +1,4 @@
+const path = require("path");
 const paths = require("./paths");
 
 module.exports = {
@@ -40,4 +41,10 @@ module.exports = {
     "ts",
     "tsx",
   ],
+  globals: {
+    "ts-jest": {
+      useBabelrc: true,
+      tsConfigFile: path.resolve(__dirname, "tsconfig.jest.json"),
+    },
+  },
 };
