@@ -19,11 +19,11 @@ const paths = require("../config/paths");
 
 const jest = require("jest");
 let argv = process.argv.slice(2);
+argv.push("--config", paths.appJestConfig);
 
 // Watch unless on CI or in coverage mode
 if (!process.env.CI && argv.indexOf("--coverage") < 0) {
   argv.push("--watch");
-  argv.push("--config", paths.appJestConfig);
 }
 
 jest.run(argv);
