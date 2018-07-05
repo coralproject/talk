@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders username and body 1`] = `
+<div
+  className="root"
+>
+  <withPropsOnChange(Typography)
+    className="author"
+    gutterBottom={true}
+  >
+    Marvin
+  </withPropsOnChange(Typography)>
+  <withPropsOnChange(Typography)>
+    Woof
+  </withPropsOnChange(Typography)>
+</div>
+`;
+
+exports[`renders with gutterBottom 1`] = `
+<div
+  className="root gutterBottom"
+>
+  <withPropsOnChange(Typography)
+    className="author"
+    gutterBottom={true}
+  >
+    Marvin
+  </withPropsOnChange(Typography)>
+  <withPropsOnChange(Typography)>
+    Woof
+  </withPropsOnChange(Typography)>
+</div>
+`;
