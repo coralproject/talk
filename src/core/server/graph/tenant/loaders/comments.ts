@@ -7,8 +7,8 @@ import {
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   retrieveCommentAssetConnection,
-  retrieveManyComments,
   retrieveCommentRepliesConnection,
+  retrieveManyComments,
 } from "talk-server/models/comment";
 
 export default (ctx: Context) => ({
