@@ -11,12 +11,12 @@ import {
 
 import Stream from "../components/Stream";
 
-interface InnerProps {
+export interface InnerProps {
   asset: Data;
   relay: RelayPaginationProp;
 }
 
-class StreamContainer extends React.Component<InnerProps> {
+export class StreamContainer extends React.Component<InnerProps> {
   public render() {
     const comments = this.props.asset.comments
       ? this.props.asset.comments.edges.map(edge => edge.node)

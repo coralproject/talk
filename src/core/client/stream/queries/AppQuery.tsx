@@ -15,7 +15,7 @@ import { AppQueryLocal as Local } from "talk-stream/__generated__/AppQueryLocal.
 
 import AppContainer from "../containers/AppContainer";
 
-const render = ({ error, props }: ReadyState<AppQueryResponse>) => {
+export const render = ({ error, props }: ReadyState<AppQueryResponse>) => {
   if (error) {
     return <div>{error.message}</div>;
   }

@@ -9,7 +9,7 @@ import Comment, { CommentProps } from "../components/Comment";
 
 type InnerProps = { data: Data } & Omit<CommentProps, keyof Data>;
 
-const CommentContainer: StatelessComponent<InnerProps> = props => {
+export const CommentContainer: StatelessComponent<InnerProps> = props => {
   const { data, ...rest } = props;
   return <Comment {...rest} {...props.data} />;
 };

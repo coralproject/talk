@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders username and body 1`] = `
+<Stream
+  comments={
+    Array [
+      Object {
+        "id": "comment-1",
+      },
+      Object {
+        "id": "comment-2",
+      },
+    ]
+  }
+  id="asset-id"
+  isClosed={false}
+  onLoadMore={[Function]}
+/>
+`;

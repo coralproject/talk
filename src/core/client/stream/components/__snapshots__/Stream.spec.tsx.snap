@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <Logo
+    gutterBottom={true}
+  />
+  <withContext(createMutationContainer(PostCommentFormContainer))
+    assetID="asset-id"
+  />
+  <Relay(CommentContainer)
+    data={
+      Object {
+        "id": "comment-1",
+      }
+    }
+    gutterBottom={true}
+    key="comment-1"
+  />
+  <Relay(CommentContainer)
+    data={
+      Object {
+        "id": "comment-2",
+      }
+    }
+    gutterBottom={true}
+    key="comment-2"
+  />
+</div>
+`;
+
+exports[`renders when comments is null 1`] = `
+<div>
+  Comments unavailable
+</div>
+`;
+
+exports[`when there is more renders a load more button 1`] = `
+<div>
+  <Logo
+    gutterBottom={true}
+  />
+  <withContext(createMutationContainer(PostCommentFormContainer))
+    assetID="asset-id"
+  />
+  <Relay(CommentContainer)
+    data={
+      Object {
+        "id": "comment-1",
+      }
+    }
+    gutterBottom={true}
+    key="comment-1"
+  />
+  <Relay(CommentContainer)
+    data={
+      Object {
+        "id": "comment-2",
+      }
+    }
+    gutterBottom={true}
+    key="comment-2"
+  />
+  <withPropsOnChange(Button)
+    className="talk-stream--loadmore"
+    fullWidth={true}
+    invert={true}
+    onClick={[Function]}
+    secondary={true}
+  >
+    Load More
+  </withPropsOnChange(Button)>
+</div>
+`;
