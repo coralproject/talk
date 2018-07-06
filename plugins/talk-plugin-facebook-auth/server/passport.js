@@ -27,7 +27,7 @@ module.exports = passport => {
           try {
             const { id, provider, displayName } = profile;
 
-            user = await UsersService.findOrCreateExternalUser(
+            user = await UsersService.upsertSocialUser(
               req.context,
               id,
               provider,
