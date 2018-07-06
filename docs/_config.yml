@@ -164,6 +164,8 @@ sidebar:
           url: /when-youve-installed-talk/
     - title: Migrating
       children:
+        - title: Migrating from v3.x.x
+          url: /migration/3/
         - title: Migrating to v4.0.0
           url: /migration/4/
         - title: Migrating to v4.1.0
