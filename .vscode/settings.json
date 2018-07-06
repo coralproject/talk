@@ -9,11 +9,9 @@
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "node_modules": true,
-    "dist": true,
-    ".vscode": true,
-    "package-lock.json": true
+    ".vs": true
   },
+  "tslint.exclude": "**/node_modules/**",
   "tslint.autoFixOnSave": true,
   "tslint.jsEnable": true,
   "typescript.tsdk": "node_modules/typescript/lib"
