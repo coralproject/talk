@@ -9,7 +9,7 @@ module.exports = {
       plugins: [],
     },
     test: {
-      plugins: ["transform-es2015-modules-commonjs"],
+      plugins: ["@babel/transform-modules-commonjs"],
     },
   },
 };
