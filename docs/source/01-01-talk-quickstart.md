@@ -48,7 +48,7 @@ be used to setup Talk:
 version: '2'
 services:
   talk:
-    image: coralproject/talk:4.5.0
+    image: coralproject/talk:4.5
     restart: always
     ports:
       - "3000:3000"
