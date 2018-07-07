@@ -1,0 +1,14 @@
+.root {
+  background: #ffffff !important;
+  border: 1px solid #c9cacb;
+  box-sizing: border-box;
+  box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 1px;
+  color: #222 !important;
+  display: flex !important;
+
+  &:after,
+  &::before {
+    border-top-color: transparent !important;
+  }
+}
