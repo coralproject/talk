@@ -3,9 +3,17 @@
 }
 
 .gutterBottom {
-  margin-bottom: calc(2px * $spacing-unit);
+  margin-bottom: calc(2 px * $spacing-unit);
 }
 
 .author {
   font-weight: $font-weight-medium;
+}
+
+.shareButton {
+  padding: 10px 0;
+}
+
+.input {
+  margin-right: 5px;
 }
