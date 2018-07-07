@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loads more comments 1`] = `
+<div
+  className="root"
+>
+  <div>
+    <h1
+      className="root heading1 gutterBottom"
+    >
+      Talk NEO
+    </h1>
+    <form
+      autoComplete="off"
+      onSubmit={[Function]}
+    >
+      <div>
+        <textarea
+          className="textarea"
+          name="body"
+          onChange={[Function]}
+          value=""
+        />
+      </div>
+      <div
+        className="postButtonContainer"
+      >
+        <button
+          className="root root primary"
+          disabled={false}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+        >
+          Post
+        </button>
+      </div>
+    </form>
+    <div
+      className="root gutterBottom"
+    >
+      <p
+        className="root body1 gutterBottom author"
+      >
+        Markus
+      </p>
+      <p
+        className="root body1"
+      >
+        Joining Too
+      </p>
+    </div>
+    <div
+      className="root gutterBottom"
+    >
+      <p
+        className="root body1 gutterBottom author"
+      >
+        Lukas
+      </p>
+      <p
+        className="root body1"
+      >
+        What's up?
+      </p>
+    </div>
+    <div
+      className="root gutterBottom"
+    >
+      <p
+        className="root body1 gutterBottom author"
+      >
+        Isabelle
+      </p>
+      <p
+        className="root body1"
+      >
+        Hey!
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders comment stream 1`] = `
+<div
+  className="root"
+>
+  <div>
+    <h1
+      className="root heading1 gutterBottom"
+    >
+      Talk NEO
+    </h1>
+    <form
+      autoComplete="off"
+      onSubmit={[Function]}
+    >
+      <div>
+        <textarea
+          className="textarea"
+          name="body"
+          onChange={[Function]}
+          value=""
+        />
+      </div>
+      <div
+        className="postButtonContainer"
+      >
+        <button
+          className="root root primary"
+          disabled={false}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+        >
+          Post
+        </button>
+      </div>
+    </form>
+    <div
+      className="root gutterBottom"
+    >
+      <p
+        className="root body1 gutterBottom author"
+      >
+        Markus
+      </p>
+      <p
+        className="root body1"
+      >
+        Joining Too
+      </p>
+    </div>
+    <div
+      className="root gutterBottom"
+    >
+      <p
+        className="root body1 gutterBottom author"
+      >
+        Lukas
+      </p>
+      <p
+        className="root body1"
+      >
+        What's up?
+      </p>
+    </div>
+    <button
+      className="root root invert fullWidth secondary"
+      id="talk-stream--loadmore"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseDown={[Function]}
+    >
+      Load More
+    </button>
+  </div>
+</div>
+`;

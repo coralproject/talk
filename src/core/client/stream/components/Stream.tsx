@@ -28,7 +28,7 @@ const Stream: StatelessComponent<StreamProps> = props => {
       ))}
       {props.hasMore && (
         <Button
-          className={"talk-stream--loadmore"}
+          id={"talk-stream--loadmore"}
           onClick={props.onLoadMore}
           secondary
           invert

@@ -62,8 +62,8 @@ exports[`when there is more renders a load more button 1`] = `
     key="comment-2"
   />
   <withPropsOnChange(Button)
-    className="talk-stream--loadmore"
     fullWidth={true}
+    id="talk-stream--loadmore"
     invert={true}
     onClick={[Function]}
     secondary={true}
