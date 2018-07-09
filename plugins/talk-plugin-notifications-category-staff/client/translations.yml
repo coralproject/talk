@@ -1,3 +1,6 @@
+ar:
+  talk-plugin-notifications-category-staff:
+    toggle_description: يرد أحد الموظفين على تعليقي
 en:
   talk-plugin-notifications-category-staff:
     toggle_description: A staff member replies to my comment

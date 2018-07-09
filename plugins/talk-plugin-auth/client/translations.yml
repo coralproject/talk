@@ -15,6 +15,7 @@ ar:
       or: "أو"
       email: "البريد الإلكتروني"
       password: "كلمة المرور"
+      password_error: "يجب أن تكون كلمة المرور 8 أحرف على الأقل."
       forgot_your_pass: "نسيت كلمة المرور؟"
       need_an_account: "تحتاج الى حساب؟"
       register: "تسجيل"
@@ -43,6 +44,15 @@ ar:
       username: اسم المستخدم
       write_your_username: "عدل اسم المستخدم"
       your_username: "يظهر اسم المستخدم في كل تعليق تنشره."
+    change_password:
+      change_password: "تغيير كلمة المرور"
+      passwords_dont_match: "كلمات المرور غير متطابقة"
+      required_field: "هذه الخانة مطلوبه"
+      forgot_password: "نسيت كلمة المرور؟"
+      save: "حفظ"
+      cancel: "إلغاء"
+      edit: "تصحيح"
+      changed_password_msg: "كلمة المرور الخاصة بك تم تغييرها بنجاح"
 da:
   talk-plugin-auth:
     login:

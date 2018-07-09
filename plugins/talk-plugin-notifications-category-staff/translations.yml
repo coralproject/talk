@@ -1,3 +1,10 @@
+ar:
+  talk-plugin-notifications:
+    categories:
+      staff:
+        subject: "شخص ما في {0} قد رد على تعليقك"
+        body: "{0}\n{1} يعمل ل
+                {2} وقد رد على تعليقك: {3}"
 en:
   talk-plugin-notifications:
     categories:
