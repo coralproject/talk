@@ -5,27 +5,42 @@ import { Manager, Popper, Reference } from "react-popper";
 interface InnerProps {
   body: React.ReactElement<any>;
   children: React.ReactElement<any>;
+  placement?:
+    | "auto-start"
+    | "auto"
+    | "auto-end"
+    | "top-start"
+    | "top"
+    | "top-end"
+    | "right-start"
+    | "right"
+    | "right-end"
+    | "bottom-end"
+    | "bottom"
+    | "bottom-start"
+    | "left-end"
+    | "left"
+    | "left-start";
 }
 
 class Popover extends React.Component<InnerProps> {
   public render() {
-    const { children, body } = this.props;
+    const { children, body, placement = "top" } = this.props;
     return (
       <Manager>
         <Reference>
           {({ ref }) => React.cloneElement(children, { ref })}
         </Reference>
         <Popper
-          placement="left"
+          placement={placement}
           modifiers={{ preventOverflow: { enabled: false } }}
           eventsEnabled
           positionFixed={false}
         >
-          {({ ref, placement, style }) =>
+          {({ ref, style }) =>
             React.cloneElement(body, {
               ref,
               style,
-              "data-placement": placement,
             })
           }
         </Popper>
