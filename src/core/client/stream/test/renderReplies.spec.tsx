@@ -1,6 +1,7 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 import { RecordProxy } from "relay-runtime";
+import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
@@ -11,7 +12,10 @@ import { assetWithReplies } from "./fixtures";
 
 const resolvers = {
   Query: {
-    asset: () => assetWithReplies,
+    asset: sinon
+      .stub()
+      .withArgs(undefined, { id: assetWithReplies.id })
+      .returns(assetWithReplies),
   },
 };
 

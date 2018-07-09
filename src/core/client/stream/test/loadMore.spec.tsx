@@ -10,47 +10,53 @@ import AppQuery from "talk-stream/queries/AppQuery";
 import createEnvironment from "./createEnvironment";
 import { assets, comments } from "./fixtures";
 
+const connectionStub = sinon.stub();
+connectionStub.withArgs({ first: 5, orderBy: "CREATED_AT_DESC" }).returns({
+  edges: [
+    {
+      node: comments[0],
+      cursor: comments[0].createdAt,
+    },
+    {
+      node: comments[1],
+      cursor: comments[1].createdAt,
+    },
+  ],
+  pageInfo: {
+    endCursor: comments[1].createdAt,
+    hasNextPage: true,
+  },
+});
+connectionStub
+  .withArgs({
+    first: 10,
+    orderBy: "CREATED_AT_DESC",
+    after: comments[1].createdAt,
+  })
+  .returns({
+    edges: [
+      {
+        node: comments[2],
+        cursor: comments[2].createdAt,
+      },
+    ],
+    pageInfo: {
+      endCursor: comments[2].createdAt,
+      hasNextPage: false,
+    },
+  });
+
 const assetStub = {
   ...assets[0],
-  comments: {
-    edges: sinon
-      .stub()
-      .onFirstCall()
-      .returns([
-        {
-          node: comments[0],
-          cursor: comments[0].createdAt,
-        },
-        {
-          node: comments[1],
-          cursor: comments[1].createdAt,
-        },
-      ])
-      .onSecondCall()
-      .returns([
-        {
-          node: comments[2],
-          cursor: comments[2].createdAt,
-        },
-      ]),
-    pageInfo: sinon
-      .stub()
-      .onFirstCall()
-      .returns({
-        endCursor: comments[1].createdAt,
-        hasNextPage: true,
-      })
-      .onSecondCall()
-      .returns({
-        endCursor: comments[2].createdAt,
-        hasNextPage: false,
-      }),
-  },
+  comments: connectionStub,
 };
 
 const resolvers = {
   Query: {
-    asset: () => assetStub,
+    asset: sinon
+      .stub()
+      .withArgs(undefined, { id: assetStub.id })
+      .returns(assetStub),
   },
 };
 

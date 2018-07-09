@@ -10,38 +10,41 @@ import AppQuery from "talk-stream/queries/AppQuery";
 import createEnvironment from "./createEnvironment";
 import { assets, comments } from "./fixtures";
 
+const connectionStub = sinon.stub();
+connectionStub.withArgs({ first: 5, orderBy: "CREATED_AT_ASC" }).returns({
+  edges: [
+    {
+      node: comments[1],
+      cursor: comments[1].createdAt,
+    },
+  ],
+  pageInfo: {
+    endCursor: comments[1].createdAt,
+    hasNextPage: true,
+  },
+});
+connectionStub
+  .withArgs({
+    first: sinon.match(n => n > 10000),
+    orderBy: "CREATED_AT_ASC",
+    after: comments[1].createdAt,
+  })
+  .returns({
+    edges: [
+      {
+        node: comments[2],
+        cursor: comments[2].createdAt,
+      },
+    ],
+    pageInfo: {
+      endCursor: comments[2].createdAt,
+      hasNextPage: false,
+    },
+  });
+
 const commentStub = {
   ...comments[0],
-  replies: {
-    edges: sinon
-      .stub()
-      .onFirstCall()
-      .returns([
-        {
-          node: comments[1],
-          cursor: comments[1].createdAt,
-        },
-      ])
-      .onSecondCall()
-      .returns([
-        {
-          node: comments[2],
-          cursor: comments[2].createdAt,
-        },
-      ]),
-    pageInfo: sinon
-      .stub()
-      .onFirstCall()
-      .returns({
-        endCursor: comments[1].createdAt,
-        hasNextPage: true,
-      })
-      .onSecondCall()
-      .returns({
-        endCursor: comments[2].createdAt,
-        hasNextPage: false,
-      }),
-  },
+  replies: connectionStub,
 };
 
 const assetStub = {
@@ -61,8 +64,14 @@ const assetStub = {
 
 const resolvers = {
   Query: {
-    comment: () => commentStub,
-    asset: () => assetStub,
+    comment: sinon
+      .stub()
+      .withArgs(undefined, { id: commentStub.id })
+      .returns(commentStub),
+    asset: sinon
+      .stub()
+      .withArgs(undefined, { id: assetStub.id })
+      .returns(assetStub),
   },
 };
 
