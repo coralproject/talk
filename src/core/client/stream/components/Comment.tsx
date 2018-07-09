@@ -2,7 +2,7 @@ import cn from "classnames";
 import React from "react";
 import { StatelessComponent } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { Button, Input, Tooltip, Typography } from "talk-ui/components";
+import { Button, Input, Popover, Typography } from "talk-ui/components";
 import * as styles from "./Comment.css";
 
 export interface CommentProps {
@@ -15,6 +15,8 @@ export interface CommentProps {
   gutterBottom?: boolean;
 }
 
+// make a permalink popover
+
 const Comment: StatelessComponent<CommentProps> = props => {
   const rootClassName = cn(styles.root, props.className, {
     [styles.gutterBottom]: props.gutterBottom,
@@ -26,26 +28,18 @@ const Comment: StatelessComponent<CommentProps> = props => {
       </Typography>
       <Typography>{props.body}</Typography>
       <div className={cn("talk-comment-footer")}>
-        <Button
-          className={styles.shareButton}
-          data-tip
-          data-for="tooltip"
-          data-event="click"
+        <Popover
+          body={
+            <div>
+              <Input defaultValue={props.id} className={styles.input} />
+              <CopyToClipboard text={props.id}>
+                <Button primary>Copy</Button>
+              </CopyToClipboard>
+            </div>
+          }
         >
-          Share
-        </Button>
-
-        <Tooltip id="tooltip" effect="solid" clickable>
-          <Input defaultValue={props.id} className={styles.input} />
-          <CopyToClipboard
-            text={props.id}
-            onCopy={() => {
-              console.log("ey");
-            }}
-          >
-            <Button primary>Copy</Button>
-          </CopyToClipboard>
-        </Tooltip>
+          <Button className={styles.shareButton}>Share</Button>
+        </Popover>
       </div>
     </div>
   );
