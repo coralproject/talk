@@ -20,13 +20,8 @@ const enhanced = withFragmentContainer<{ data: Data }>(
     fragment AppContainer on Query
       @argumentDefinitions(
         assetID: { type: "ID!" }
-        commentID: { type: "ID" }
         showAssetList: { type: "Boolean!" }
-        showPermalink: { type: "Boolean!" }
       ) {
-      comment(id: $commentID) @include(if: $showPermalink) {
-        id
-      }
       assets @include(if: $showAssetList) {
         ...AssetListContainer_assets
       }

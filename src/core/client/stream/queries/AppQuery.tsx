@@ -33,19 +33,9 @@ const AppQuery: StatelessComponent<InnerProps> = props => {
   return (
     <QueryRenderer<AppQueryVariables, AppQueryResponse>
       query={graphql`
-        query AppQuery(
-          $assetID: ID!
-          $commentID: ID
-          $showAssetList: Boolean!
-          $showPermalink: Boolean!
-        ) {
+        query AppQuery($assetID: ID!, $showAssetList: Boolean!) {
           ...AppContainer
-            @arguments(
-              assetID: $assetID
-              commentID: $commentID
-              showAssetList: $showAssetList
-              showPermalink: $showPermalink
-            )
+            @arguments(assetID: $assetID, showAssetList: $showAssetList)
         }
       `}
       variables={{
@@ -53,9 +43,6 @@ const AppQuery: StatelessComponent<InnerProps> = props => {
         assetID: props.local.assetID || (null as any),
         // TODO: This is set to false, as server does not support querying assets yet.
         showAssetList: !props.local.assetID && false,
-
-        commentID: props.local.commentID || (null as any),
-        showPermalink: false,
       }}
       render={render}
     />
@@ -66,7 +53,6 @@ const enhanced = withLocalStateContainer<Local>(
   graphql`
     fragment AppQueryLocal on Local {
       assetID
-      commentID
     }
   `
 )(AppQuery);
