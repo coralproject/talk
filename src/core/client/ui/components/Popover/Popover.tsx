@@ -15,8 +15,13 @@ class Popover extends React.Component<InnerProps> {
         <Reference>
           {({ ref }) => React.cloneElement(children, { ref })}
         </Reference>
-        <Popper placement="right">
-          {({ ref, style, placement, arrowProps }) =>
+        <Popper
+          placement="left"
+          modifiers={{ preventOverflow: { enabled: false } }}
+          eventsEnabled
+          positionFixed={false}
+        >
+          {({ ref, placement, style }) =>
             React.cloneElement(body, {
               ref,
               style,

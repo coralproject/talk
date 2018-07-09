@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { InputHTMLAttributes, StatelessComponent } from "react";
 
-import * as styles from "./TextField";
+import * as styles from "./TextField.css";
 
 interface InnerProps extends InputHTMLAttributes<HTMLInputElement> {
   classes?: typeof styles;
