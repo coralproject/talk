@@ -1,4 +1,5 @@
 .root {
+  padding: 6px 10px;
   background: #ffffff !important;
   border: 1px solid #c9cacb;
   box-sizing: border-box;
@@ -11,4 +12,8 @@
   &::before {
     border-top-color: transparent !important;
   }
+}
+
+.clickable {
+  pointer-events: all;
 }

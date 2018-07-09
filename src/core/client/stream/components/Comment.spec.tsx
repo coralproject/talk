@@ -4,6 +4,7 @@ import Comment from "./Comment";
 
 it("renders username and body", () => {
   const props = {
+    id: "id",
     author: {
       username: "Marvin",
     },
@@ -16,6 +17,7 @@ it("renders username and body", () => {
 
 it("renders with gutterBottom", () => {
   const props = {
+    id: "id",
     author: {
       username: "Marvin",
     },

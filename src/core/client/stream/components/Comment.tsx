@@ -1,10 +1,12 @@
 import cn from "classnames";
 import React from "react";
 import { StatelessComponent } from "react";
+import CopyToClipboard from "react-copy-to-clipboard";
 import { Button, Input, Tooltip, Typography } from "talk-ui/components";
 import * as styles from "./Comment.css";
 
 export interface CommentProps {
+  id: string;
   className?: string;
   author: {
     username: string;
@@ -32,9 +34,17 @@ const Comment: StatelessComponent<CommentProps> = props => {
         >
           Share
         </Button>
-        <Tooltip id="tooltip" effect="solid">
-          <Input value="ad" className={styles.input} />
-          <Button primary>Copy</Button>
+
+        <Tooltip id="tooltip" effect="solid" clickable>
+          <Input defaultValue={props.id} className={styles.input} />
+          <CopyToClipboard
+            text={props.id}
+            onCopy={() => {
+              console.log("ey");
+            }}
+          >
+            <Button primary>Copy</Button>
+          </CopyToClipboard>
         </Tooltip>
       </div>
     </div>
