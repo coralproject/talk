@@ -163,6 +163,12 @@ Comment.index({
   created_at: -1,
 });
 
+Comment.index({
+  asset_id: 1,
+  parent_id: 1,
+  created_at: 1,
+});
+
 Comment.index(
   {
     'action_counts.flag': 1,
