@@ -1,22 +1,27 @@
 import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { Button, Input, Popover } from "talk-ui/components";
+import { Button, Popover, TextField } from "talk-ui/components";
+import * as styles from "./PermalinkPopover.css";
 
-class PermalinkPopover extends React.Component {
+interface InnerProps {
+  commentId: string;
+}
+
+class PermalinkPopover extends React.Component<InnerProps> {
   public render() {
-    const props = this.props;
+    const { commentId } = this.props;
     return (
       <Popover
         body={
-          <div>
-            <Input defaultValue={props.id} className={styles.input} />
-            <CopyToClipboard text={props.id}>
+          <div className={styles.root}>
+            <TextField defaultValue={commentId} className={styles.textField} />
+            <CopyToClipboard text={commentId}>
               <Button primary>Copy</Button>
             </CopyToClipboard>
           </div>
         }
       >
-        <button>Reference element</button>
+        <button className={styles.shareButton}>Share</button>
       </Popover>
     );
   }

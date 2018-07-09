@@ -9,11 +9,3 @@
 .author {
   font-weight: $font-weight-medium;
 }
-
-.shareButton {
-  padding: 10px 0;
-}
-
-.input {
-  margin-right: 5px;
-}

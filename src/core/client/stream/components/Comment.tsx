@@ -28,7 +28,7 @@ const Comment: StatelessComponent<CommentProps> = props => {
       </Typography>
       <Typography>{props.body}</Typography>
       <div className={cn("talk-comment-footer")}>
-        <PermalinkPopover />
+        <PermalinkPopover commentId={props.id} />
       </div>
     </div>
   );

@@ -1,0 +1,13 @@
+.shareButton {
+  composes: button from "talk-ui/shared/typography.css";
+  composes: buttonReset from "talk-ui/shared/buttonReset.css";
+  padding: 10px 0;
+}
+
+.textField {
+  margin-right: 5px;
+}
+
+.root {
+  background-color: #fff;
+}
