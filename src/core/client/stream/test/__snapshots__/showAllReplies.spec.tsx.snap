@@ -164,16 +164,20 @@ exports[`show all replies 1`] = `
             What's up?
           </p>
         </div>
-        <button
-          className="root root invert fullWidth secondary"
-          id="talk-reply-list--show-all--comment-0"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseDown={[Function]}
+        <div
+          className="root gutterBottom"
         >
-          Show All Replies
-        </button>
+          <p
+            className="root body1 gutterBottom author"
+          >
+            Isabelle
+          </p>
+          <p
+            className="root body1"
+          >
+            Hey!
+          </p>
+        </div>
       </div>
     </div>
   </div>

@@ -10,6 +10,40 @@ import AppQuery from "talk-stream/queries/AppQuery";
 import createEnvironment from "./createEnvironment";
 import { assets, comments } from "./fixtures";
 
+const commentStub = {
+  ...comments[0],
+  replies: {
+    edges: sinon
+      .stub()
+      .onFirstCall()
+      .returns([
+        {
+          node: comments[1],
+          cursor: comments[1].createdAt,
+        },
+      ])
+      .onSecondCall()
+      .returns([
+        {
+          node: comments[2],
+          cursor: comments[2].createdAt,
+        },
+      ]),
+    pageInfo: sinon
+      .stub()
+      .onFirstCall()
+      .returns({
+        endCursor: comments[1].createdAt,
+        hasNextPage: true,
+      })
+      .onSecondCall()
+      .returns({
+        endCursor: comments[2].createdAt,
+        hasNextPage: false,
+      }),
+  },
+};
+
 const assetStub = {
   ...assets[0],
   comments: {
@@ -18,40 +52,8 @@ const assetStub = {
     },
     edges: [
       {
-        node: {
-          ...comments[0],
-          replies: {
-            edges: sinon
-              .stub()
-              .onFirstCall()
-              .returns([
-                {
-                  node: comments[1],
-                  cursor: comments[1].createdAt,
-                },
-              ])
-              .onSecondCall()
-              .returns([
-                {
-                  node: comments[2],
-                  cursor: comments[2].createdAt,
-                },
-              ]),
-            pageInfo: sinon
-              .stub()
-              .onFirstCall()
-              .returns({
-                endCursor: comments[1].createdAt,
-                hasNextPage: true,
-              })
-              .onSecondCall()
-              .returns({
-                endCursor: comments[2].createdAt,
-                hasNextPage: false,
-              }),
-          },
-        },
-        cursor: comments[0].createdAt,
+        node: commentStub,
+        cursor: commentStub.createdAt,
       },
     ],
   },
@@ -59,6 +61,7 @@ const assetStub = {
 
 const resolvers = {
   Query: {
+    comment: () => commentStub,
     asset: () => assetStub,
   },
 };
