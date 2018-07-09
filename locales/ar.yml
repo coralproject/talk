@@ -1,4 +1,7 @@
 ar:
+  admin_sidebar:
+    sort_comments: 'فرز التعليقات'
+    view_options: 'عرض الخيارات'
   already_flagged_username: 'لقد سبق لك وضع علامة باسم المستخدم هذا.'
   bandialog:
     are_you_sure: 'أنت متأكد أنك تريد حظر {0}؟'
@@ -35,6 +38,9 @@ ar:
     name: الاسم
     post: نشر
     reply: رد
+  comment_history_blank:
+    info: 'سوف يظهر تاريخ تعليقاتك هنا'
+    title: 'لم تكتب أي تعليقات'
   comment_offensive: 'هذا التعليق مسيء'
   comment_plural: تعليقات
   comment_post_banned_word: 'تعليقك يحتوي على كلمة أو أكثر غير مسموح بها، لذا لن يتم نشره. إذا كنت تعتقد أن هذه الرسالة خطأ، رجاء الاتصال بفريق الإشراف لدينا.'
@@ -80,6 +86,7 @@ ar:
     username_and_email: 'اسم المستخدم والبريد الإلكتروني'
     yes_ban_user: 'نعم إحظر المستخدم'
   configure:
+    access_message: 'You must be an administrator to access config settings. Please find the nearest Admin and ask them to level you up!'
     apply: طبق
     banned_word_text: 'التعليقات التي تحتوي على هذه الكلمات أو العبارات سيتم حذفها آليا من جدول التعليقات. اطبع كلمة واضغط Enter أو Tab لزيادة الكلمة. اختياريا الصق قائمة مقسمة بالفصلات.'
     banned_words_title: 'قائمة بالكلمات المحظورة'
@@ -104,11 +111,14 @@ ar:
     custom_css_url_desc: 'رابط CSS الذي سيتجاوز أنماط جدول التعليقات المضمن. يمكن أن يكون داخلي أو خارجي.'
     days: أيام
     description: 'كإداري يمكنك تعديل إعدادات جدول التعليقات لهذه القصة:'
+    disable_commenting_desc: 'اكتب رسالة سيتم عرضها أثناء إلغاء تفعيل التعليقات.'
+    disable_commenting_title: 'إلغاء تفعيل التعليقات على مستوى الموقع'
     domain_list_text: 'أدخل عناوين النطاقات التي سوف تسمح فيها لTalk.. مثلا بيئات التدريج و الإنتاج (مثلا localhost:3000 staging.domain.com domain.com).'
     domain_list_title: 'النطاقات المسموح بها'
     edit_comment_timeframe_heading: 'عدل الإطار الزمني للتعليق'
     edit_comment_timeframe_text_post: 'ثوان لتحرير تعليقاتهم.'
     edit_comment_timeframe_text_pre: 'سيكون لدى المعلقين'
+    edit_info: 'تحرير المعلومات'
     embed_comment_stream: 'تضمين الجدول'
     enable_pre_moderation: 'تمكين الإشراف المسبق'
     enable_pre_moderation_text: 'يجب على المشرفين الموافقة على أي تعليق قبل نشره.'
@@ -129,9 +139,23 @@ ar:
     open: مفتوح
     open_stream: 'افتح الجدول'
     open_stream_configuration: 'جدول التعليقات هذا مفتوح. بإغلاق هذا الجدول لن يتم قبول تعليقات جديدة، وستبقى التعليقات القديمة ظاهرة.'
+    organization_contact_email: 'بريد المنظمة الالكتروني'
+    organization_info_copy: 'نستخدم هذه المعلومات في إشعارات البريد الإلكتروني التي يتم إنشاؤها بواسطة Talk. يعمل هذا على توصيل الرسائل إلى مؤسستك ، ويوفر طريقة للمستخدمين للاتصال بك إذا كانت لديهم مشكلة في حسابهم.'
+    organization_info_copy_2: 'We recommend creating a generic email account (eg. community@yournewsroom.com) for this purpose. This means it can remain consistent over time, and doesn''t expose a name that users could target if their account were blocked.'
+    organization_information: 'معلومات المنظمة'
+    organization_name: 'اسم المنظمة'
+    product_guide_link: 'دليل المنتج'
+    report_bug_or_feedback: 'Report a bug or give feedback'
     require_email_verification: 'يلزم التحقق من البريد الإلكتروني'
     require_email_verification_text: 'يجب على المستخدمين الجدد التحقق من بريدهم الإلكتروني قبل التعليق'
+    save: حفظ
     save_changes: 'احفظ التعديلات'
+    save_changes_dialog:
+      cancel: إلغاء
+      copy: 'لقد أجريت تغييرًا واحدًا أو أكثر بدون حفظ. هل تريد حفظ التغييرات أو تجاهلها؟'
+      discard: تجاهل
+      save_settings: 'احفظ التغييرات'
+      unsaved_changes: 'التغييرات غير المحفوظة'
     shortcuts: اختصارات
     sign_out: خروج
     stories: قصص
@@ -140,11 +164,13 @@ ar:
     suspect_word_title: 'قائمة الكلمات المشبوهة'
     tech_settings: 'إعدادات تقنية'
     title: 'تهيئة جدول التعليق'
+    view_last_version: 'عرض أحدث إصدار'
     weeks: أسابيع
     wordlist: 'الكلمات المحظورة'
   confirm_email:
     click_to_confirm: 'إضغط في الأسفل لتأكيد البريد الألكتروني'
     confirm: تأكيد
+    email_confirmation: 'تأكيد البريد الإلكتروني'
   continue: واصل
   createdisplay:
     check_the_form: 'استمارة غير صالحة. يرجى التحقق من الحقول'
@@ -180,9 +206,13 @@ ar:
       if_you_did_not: 'إذا لم تطلب ذلك، يمكنك تجاهل هذه الرسالة الإلكترونية.'
       subject: 'تأكيد البريد الإلكتروني'
       to_confirm: 'لتأكيد الحساب، يرجى زيارة الرابط التالي:'
+    password_change:
+      body: "تم تغيير كلمة المرور على حسابك. \n\n إذا لم تطلب هذا التغيير ، فيرجى الاتصال بنا على {0}."
+      subject: '{0} تغيير كلمة السر'
     password_reset:
       if_you_did: 'اذا فعلت،'
       please_click: 'الرجاء النقر هنا لإعادة تعيين كلمة المرور'
+      subject: 'إعادة ضبط كلمة المرور'
       we_received_a_request: 'لقد تلقينا طلبا لإعادة تعيين كلمة المرور. إذا لم تطلب هذا التغيير، فيمكنك تجاهل هذه الرسالة الإلكترونية.'
     suspended:
       subject: 'تم تعليق حسابك'
@@ -191,28 +221,35 @@ ar:
     copy: 'نسخ إلى الحافظة'
   error:
     ALREADY_EXISTS: 'المورد موجود من قبل'
+    AUTHENTICATION: 'حدث خطأ أثناء محاولة مصادقة حسابك.'
     CANNOT_IGNORE_STAFF: 'لا يمكن تجاهل الموظفين.'
     COMMENT_PARENT_NOT_VISIBLE: 'التعليق الذي ترد عليه تمت إزالته أو غير موجود.'
     COMMENT_TOO_SHORT: 'يجب أن تكون التعليقات أكثر من حرف واحد، يرجى مراجعة تعليقك وإعادة المحاولة.'
     COMMENTING_CLOSED: 'تم إغلاق فاعلية التعليق'
+    COMMENTING_DISABLED: 'التعليق معطّل حاليًا على هذا الموقع'
     confirm_password: 'كلمات المرور غير متطابقة. يرجى التحقق مرة أخرى'
+    DELETION_NOT_SCHEDULED: 'لم يكن من المقرر الحذف'
     EDIT_USERNAME_NOT_AUTHORIZED: 'ليس لديك إذن بتحديث اسم المستخدم الخاص بك.'
     EDIT_WINDOW_ENDED: 'لم يعد بإمكانك تحرير هذا التعليق. نافذة الوقت للقيام بذلك قد انتهت صلاحيتها.'
     email: 'ليس بريدا إلكترونيا صالحا'
+    EMAIL_ALREADY_VERIFIED: 'عنوان البريد الإلكتروني تم التحقق منه.'
     EMAIL_IN_USE: 'البريد الالكتروني قيد الاستخدام'
     email_not_verified: 'عنوان البريد الإلكتروني {0} لم يتم التحقق منه.'
     EMAIL_NOT_VERIFIED: 'لم يتم التحقق من عنوان البريد الإلكتروني'
     email_password: 'مجموعة البريد الإلكتروني و / أو كلمة المرور غير صحيحة.'
     EMAIL_REQUIRED: 'مطلوب عنوان البريد الإلكتروني'
     EMAIL_VERIFICATION_TOKEN_INVALID: 'رمز التحقق من البريد الإلكتروني غير صالح.'
+    INCORRECT_PASSWORD: 'كلمة سر خاطئة'
     INVALID_ASSET_URL: 'رابط المادة غير صالح'
     LOGIN_MAXIMUM_EXCEEDED: 'لقد أجريت العديد من محاولات إدخال كلمة المرور غير الناجحة. أرجو الإنتظار.'
     network_error: 'فشل الاتصال بالخادم. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.'
     NO_SPECIAL_CHARACTERS: 'يمكن أن تحتوي أسماء المستخدمين على أحرف, أرقام و _ فقط'
     NOT_AUTHORIZED: 'غير مصرح لك بتنفيذ هذا الإجراء.'
     NOT_FOUND: 'المورد غير موجود'
+    organization_contact_email: 'البريد الإلكتروني للمؤسسة غير صالح.'
     organization_name: 'يجب أن يحتوي اسم المؤسسة على أحرف أو أرقام فقط.'
     password: 'يجب أن تكون كلمة المرور 8 أحرف على الأقل'
+    PASSWORD_INCORRECT: 'تم إدخال كلمة المرور الحالية بشكل غير صحيح'
     PASSWORD_LENGTH: 'كلمة المرور قصيرة جدا'
     PASSWORD_REQUIRED: 'يجب إدخال كلمة مرور'
     PASSWORD_RESET_TOKEN_INVALID: 'رابط إعادة تعيين كلمة المرور غير صالح.'
@@ -227,6 +264,13 @@ ar:
     USERNAME_REQUIRED: 'يجب إدخال اسم مستخدم'
   flag_comment: 'الإبلاغ عن تعليق'
   flag_reason: 'سبب الإبلاغ (اختياري)'
+  flag_reasons:
+    username:
+      impersonating: 'هذا المستخدم ينتحل شخصية'
+      nolike: 'أنا لا أحب اسم المستخدم هذا'
+      offensive: 'اسم المستخدم هذا مسيء'
+      other: آخر
+      spam: 'هذا يشبه الإعلان / التسويق'
   flag_username: 'بلغ عن اسم المستخدم'
   flagged_usernames:
     notify_approved: '{0} وافق على اسم المستخدم {1}'
@@ -244,6 +288,7 @@ ar:
         comment_spam: 'غير مرغوب فيه'
         links: رابط
         suspect_word: 'كلمة مشتبهة'
+        trust: Karma
       user:
         username_impersonating: 'إنتحال شخصية'
         username_nolike: 'لم يعجبنى'
@@ -256,6 +301,7 @@ ar:
     changed_name:
       msg: 'يتم مراجعة تغيير اسم المستخدم من قبل فريق الإشراف لدينا.'
     comment: تعليق
+    comment_is_deleted: 'حذف هذا المعلق حسابه.'
     comment_is_hidden: 'هذا التعليق غير متاح.'
     comment_is_ignored: 'هذا التعليق مخفي لأنك تجاهلت هذا المستخدم.'
     comment_is_rejected: 'لقد رفضت هذا التعليق.'
@@ -280,10 +326,92 @@ ar:
     view_more_comments: 'عرض مزيد من التعليقات'
     view_reply: 'عرض الرد'
   from_settings_page: 'من صفحة الملف الشخصي يمكنك مشاهدة سجل التعليقات.'
+  install:
+    add_organization:
+      description: 'Please tell us the name of your organization. This will appear in emails when inviting new team members.'
+      label: 'Organization Name'
+      save: حفظ
+    create:
+      confirm_password: 'تأكيد كلمة المرور'
+      email: 'عنوان البريد الإلكتروني'
+      organization_contact_email: 'Organization Contact Email'
+      password: كلمه المرور
+      save: حفظ
+      username: اسم المستخدم
+    final:
+      close: 'Close this Installer'
+      description: 'Thanks for installing Talk! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now.'
+      launch: 'Launch Talk'
+    initial:
+      description: 'Let''s set up your Talk community in just a few short steps.'
+      submit: 'Get Started'
+    permitted_domains:
+      description: 'Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com).'
+      submit: 'Finish install'
+      title: 'Permitted domains'
   like: إعجاب
   loading_results: 'جار تحميل النتائج'
+  login:
+    email_address: 'البريد الإلكتروني'
+    forgot_password: 'نسيت كلمه المرور؟'
+    go_back: 'عُد'
+    sign_in: 'تسجيل الدخول'
+    sign_in_button: 'تسجيل الدخول'
+    sign_in_message: 'تسجيل الدخول للتفاعل مع مجتمعك.'
+    password: كلمه المرور
+    request_passowrd: 'اطلب واحدة جديده.'
+    team_sign_in: 'تسجيل الدخول لفريق العمل'
   marketing: 'هذا يشبه الإعلان / التسويق'
+  moderate_all_streams: 'Moderate comments on All Stories'
   moderate_this_stream: 'أشرف على هذا الجدول'
+  modqueue:
+    account: 'account flags'
+    actions: Actions
+    all: all
+    all_streams: 'All Streams'
+    approve: Approve
+    approved: Approved
+    ban_user: Ban
+    billion: B
+    close: Close
+    empty_queue: 'No more comments to moderate! You''re all caught up. Go have some ☕️'
+    flagged: flagged
+    jump_to_queue: 'Jump to specific queue'
+    less_detail: 'Less detail'
+    likes: likes
+    million: M
+    mod_faster: 'Moderate faster with keyboard shortcuts'
+    moderate: 'Moderate →'
+    more_detail: 'More detail'
+    navigation: Navigation
+    new: New
+    newest_first: 'Newest First'
+    next_comment: 'Go to the next comment'
+    next_queue: 'Switch queues'
+    notify_accepted: '{0} accepted comment "{1}"'
+    notify_edited: '{0} edited comment "{1}"'
+    notify_flagged: '{0} flagged comment "{1}"'
+    notify_rejected: '{0} rejected comment "{1}"'
+    notify_reset: '{0} reset status of comment "{1}"'
+    oldest_first: 'Oldest First'
+    premod: pre-mod
+    prev_comment: 'Go to the previous comment'
+    reject: Reject
+    rejected: Rejected
+    reply: Reply
+    reported: reported
+    select_stream: 'Select Stream'
+    shift_key: ⇧
+    shortcuts: Shortcuts
+    show_shortcuts: 'Show Shortcuts'
+    singleview: 'Zen mode'
+    sort: Sort
+    system_withheld: 'System Withheld'
+    thismenu: 'Open this menu'
+    thousand: k
+    toggle_search: 'Open search'
+    try_these: 'Try these'
+    view_more_shortcuts: 'View more shortcuts'
   my_comment_history: 'سجل التعليقات'
   name: اسم
   no_agree_comment: 'لا أوافق على هذا التعليق'
@@ -292,6 +420,7 @@ ar:
   other: آخر
   password_reset:
     change_password: 'تغيير كلمة السر'
+    change_password_help: 'يرجى إدخال كلمة مرور جديدة لاستخدامها لتسجيل الدخول. اجعلها آمنة!'
     confirm_new_password: 'تأكيد كلمة السر الجديدة'
     mail_sent: 'إذا كان لديك حساب مسجل، فقد تم إرسال رابط إعادة تعيين كلمة المرور إلى هذا البريد الإلكتروني'
     new_password: 'كلمة السر الجديدة'
@@ -302,6 +431,25 @@ ar:
   post: نشر
   profile: 'الملف الشخصي'
   profile_settings: إعدادات
+  reject_username:
+    description_notify: 'Suspending this user will temporarily disable their account.'
+    description_reject: 'Would you like to temporarily ban this user because of their {0}? Doing so will temporarily suspend this user until they rewrite their {0}.'
+    email_message_reject: 'Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please email us if you have any questions or concerns.'
+    no_cancel: 'No cancel'
+    send: Send
+    suspend_user: 'Suspend User'
+    title_notify: 'Notify the user of their temporary suspension'
+    title_reject: 'We noticed you rejected a username'
+    username: username
+    write_message: 'Write a message'
+    yes_suspend: 'Yes suspend'
+  reject_username_dialog:
+    cancel: إلغاء
+    description: 'ساعدنا على الفهم'
+    message: 'سبب الإبلاغ (اختياري)'
+    reason: السبب
+    reject_username: 'رفض اسم المستخدم'
+    title: 'رفض اسم المستخدم'
   reply: رد
   report: أبلغ
   report_notif: 'شكرا على الإبلاغ عن هذا التعليق. تم إبلاغ فريق الإشراف لدينا وسيراجعه قريبًا.'
@@ -324,17 +472,90 @@ ar:
     no_comments: 'لا توجد تعليقات حتى الآن، لماذا لا تكتب واحد؟'
     no_comments_and_closed: 'لم تكن هناك تعليقات على هذه المقالة.'
     temporarily_suspended: 'وفقا لإرشادات المجموعة {0}، تم تعليق حسابك مؤقتا. الرجاء إعادة الانضمام إلى المحادثة {1}.'
+  streams:
+    all: All
+    article: Story
+    closed: Closed
+    empty_result: 'No assets match this search. Maybe try widening your search?'
+    filter_streams: 'Filter Streams'
+    most_recent_stories: 'Most Recent Stories'
+    newest: Newest
+    no_results: 'No results'
+    oldest: Oldest
+    open: Open
+    pubdate: 'Publication Date'
+    search: Search
+    search_results: 'Search Results'
+    sort_by: 'Sort By'
+    status: 'Stream Status'
+    stream_status: 'Stream Status'
+  suspenduser:
+    cancel: Cancel
+    day: '{0} days'
+    days: '{0} days'
+    description_notify: 'Suspending this user will temporarily disable their account.'
+    description_suspend: 'You are suspending {0}. This comment will go to the Rejected queue, and {0} will not be allowed to like, report, reply or post until the suspension time is complete.'
+    email_message_suspend: "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}."
+    hour: '{0} hours'
+    hours: '{0} hours'
+    notify_suspend_until: 'User {0} has been temporarily suspended. This suspension will automatically end {1}.'
+    one_hour: '1 hour'
+    select_duration: 'Select suspension duration'
+    send: Send
+    suspend_user: 'Suspend User'
+    title_notify: 'Notify the user of their temporary suspension'
+    title_suspend: 'Suspend User'
+    write_message: 'Write a message'
   thank_you: 'نحن نقدر سلامتك وردود الفعل. سيراجع المشرف التقرير الخاص بك'
+  user:
+    bio_flags: 'flags for this bio'
+    user_bio: 'User Bio'
+    username_flags: 'flags for this username'
+  user_detail:
+    all: All
+    ban: 'Ban User'
+    banned: Banned
+    email: Email
+    id: ID
+    karma: Karma
+    karma_docs_link: 'https://docs.coralproject.net/talk/trust/#user-karma-score'
+    learn_more: 'Learn More'
+    member_since: 'Member Since'
+    reject_rate: 'Reject Rate'
+    reject_username: 'Reject Username'
+    rejected: Rejected
+    remove_ban: 'Remove Ban'
+    remove_suspension: 'Remove Suspension'
+    suspend: 'Suspend User'
+    suspended: Suspended
+    total_comments: 'Total Comments'
+    unreliable: Unreliable
+    user_history: 'User History'
+    user_karma_score: 'User Karma Score'
+    username: Username
+    username_needs_approval: 'Username needs approval'
+    username_rejected: 'Username rejected'
+  user_history:
+    action: Action
+    ban_removed: 'Ban removed'
+    date: Date
+    suspended: 'Suspended, {0}'
+    suspension_removed: 'Suspension removed'
+    system: System
+    taken_by: 'Taken By'
+    user_banned: 'User banned'
+    username_status: 'Username {0}'
   user_impersonating: 'هذا المستخدم ينتحل شخصية'
   user_no_comment: 'لم تترك تعليقا مطلقا. إنضم إلى المحادثة!'
   username_offensive: 'اسم المستخدم هذا مسيء'
   validators:
-    confirm_password: 'ﻚﻠﻣﺎﺗ ﺎﻠﻣﺭﻭﺭ ﻎﻳﺭ ﻢﺘﻃﺎﺒﻗﺓ. ﻱﺮﺟﻯ ﺎﻠﺘﺤﻘﻗ ﻡﺭﺓ ﺄﺧﺭﻯ'
-    required: 'ﻩﺬﻫ ﺎﻠﺧﺎﻧﺓ ﻢﻄﻟﻮﺒﻫ'
-    verify_email: 'ﻞﻴﺳ ﺏﺮﻳﺩﺍ ﺈﻠﻜﺗﺭﻮﻨﻳﺍ ﺹﺎﻠﺣﺍ'
-    verify_organization_name: 'ﻲﺠﺑ ﺄﻧ ﻲﺤﺗﻮﻳ ﺎﺴﻣ ﺎﻠﻣﺆﺴﺳﺓ ﻊﻟﻯ ﺄﺣﺮﻓ ﺃﻭ ﺃﺮﻗﺎﻣ ﻒﻘﻃ.'
-    verify_password: 'ﻲﺠﺑ ﺄﻧ ﺖﻛﻮﻧ ﻚﻠﻣﺓ ﺎﻠﻣﺭﻭﺭ 8 ﺄﺣﺮﻓ ﻊﻟﻯ ﺍﻸﻘﻟ'
-    verify_username: 'ﻲﻤﻜﻧ ﺄﻧ ﺖﺤﺗﻮﻳ ﺄﺴﻣﺍﺀ ﺎﻠﻤﺴﺘﺧﺪﻤﻴﻧ ﻊﻟﻯ ﺃﺮﻗﺎﻣ, ﺄﺣﺮﻓ ﻭ _ ﻒﻘﻃ'
+    confirm_email: 'عناوين البريد الإلكتروني لا تتطابق. يرجى التحقق مرة أخرى.'
+    confirm_password: 'كلمات المرور غير متطابقة. يرجى التحقق مرة أخرى'
+    required: 'هذه الخانة مطلوبة'
+    verify_email: 'ليس بريدا إلكترونيا صالحا'
+    verify_organization_name: 'يجب أن يحتوي اسم المؤسسة على أحرف أو أرقام فقط.'
+    verify_password: 'يجب أن تكون كامة المرور 8 أحرف على اﻷقل'
+    verify_username: 'يمكن أن تحتوي أسماء المستخدمين على أرقام, أحرف ﻭ _ فقط'
   view_conversation: 'عرض المحادثة'
   your_account_has_been_banned: 'تم حظر حسابك.'
   your_account_has_been_suspended: 'تم تعليق حسابك مؤقتا.'
