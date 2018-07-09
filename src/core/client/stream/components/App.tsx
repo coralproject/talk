@@ -15,9 +15,14 @@ export interface AppProps {
     isClosed: boolean;
     comments: any | null;
   } | null;
+  comment?: any | null;
 }
 
 const App: StatelessComponent<AppProps> = props => {
+  console.log(props);
+  if (props.comment) {
+    return <div>Comment</div>;
+  }
   if (props.assets) {
     return <AssetListContainer assets={props.assets} />;
   }
