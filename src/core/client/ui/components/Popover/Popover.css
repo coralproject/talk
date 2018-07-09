@@ -13,7 +13,3 @@
     border-top-color: transparent !important;
   }
 }
-
-.clickable {
-  pointer-events: all;
-}

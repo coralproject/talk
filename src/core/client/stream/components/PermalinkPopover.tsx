@@ -7,21 +7,56 @@ interface InnerProps {
   commentId: string;
 }
 
+interface State {
+  copied: boolean;
+  showBody: boolean;
+}
+
 class PermalinkPopover extends React.Component<InnerProps> {
+  public state: State = {
+    copied: false,
+    showBody: false,
+  };
+
+  public onCopy = async () => {
+    await this.toggleCopied();
+    setTimeout(() => {
+      this.toggleCopied();
+    }, 800);
+  };
+
+  public onClick = () => this.toggleShow();
+
+  public toggleShow = () => {
+    this.setState((state: State) => ({
+      showBody: !state.showBody,
+    }));
+  };
+
+  public toggleCopied = () => {
+    this.setState((state: State) => ({
+      copied: !state.copied,
+    }));
+  };
+
   public render() {
     const { commentId } = this.props;
+    const { copied, showBody } = this.state;
     return (
       <Popover
+        showBody={showBody}
         body={
           <div className={styles.root}>
             <TextField defaultValue={commentId} className={styles.textField} />
-            <CopyToClipboard text={commentId}>
-              <Button primary>Copy</Button>
+            <CopyToClipboard text={commentId} onCopy={this.onCopy}>
+              <Button primary>{copied ? "Copied!" : "Copy"}</Button>
             </CopyToClipboard>
           </div>
         }
       >
-        <button className={styles.shareButton}>Share</button>
+        <button className={styles.shareButton} onClick={this.onClick}>
+          Share
+        </button>
       </Popover>
     );
   }

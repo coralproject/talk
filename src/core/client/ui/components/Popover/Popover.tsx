@@ -1,10 +1,11 @@
 import React from "react";
 import { Manager, Popper, Reference } from "react-popper";
-// import * as styles from "./Popover.css";
+import * as styles from "./Popover.css";
 
 interface InnerProps {
   body: React.ReactElement<any>;
   children: React.ReactElement<any>;
+  showBody: boolean;
   placement?:
     | "auto-start"
     | "auto"
@@ -25,25 +26,28 @@ interface InnerProps {
 
 class Popover extends React.Component<InnerProps> {
   public render() {
-    const { children, body, placement = "top" } = this.props;
+    const { children, body, placement = "top", showBody = true } = this.props;
     return (
       <Manager>
         <Reference>
           {({ ref }) => React.cloneElement(children, { ref })}
         </Reference>
-        <Popper
-          placement={placement}
-          modifiers={{ preventOverflow: { enabled: false } }}
-          eventsEnabled
-          positionFixed={false}
-        >
-          {({ ref, style }) =>
-            React.cloneElement(body, {
-              ref,
-              style,
-            })
-          }
-        </Popper>
+        {showBody && (
+          <Popper
+            placement={placement}
+            modifiers={{ preventOverflow: { enabled: false } }}
+            eventsEnabled
+            positionFixed={false}
+          >
+            {({ ref, style }) =>
+              React.cloneElement(body, {
+                ref,
+                style,
+                className: styles.root,
+              })
+            }
+          </Popper>
+        )}
       </Manager>
     );
   }
