@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<Stream
-  assetID="asset-id"
+<ReplyList
+  commentID="comment-id"
   comments={
     Array [
       Object {
@@ -13,7 +13,8 @@ exports[`renders correctly 1`] = `
       },
     ]
   }
-  isClosed={false}
   onLoadMore={[Function]}
 />
 `;
+
+exports[`renders correctly when replies are null 1`] = `""`;

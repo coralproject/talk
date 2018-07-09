@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Indent>
+  <Relay(CommentContainer)
+    data={
+      Object {
+        "id": "comment-1",
+      }
+    }
+    gutterBottom={true}
+    key="comment-1"
+  />
+  <Relay(CommentContainer)
+    data={
+      Object {
+        "id": "comment-2",
+      }
+    }
+    gutterBottom={true}
+    key="comment-2"
+  />
+</Indent>
+`;
+
+exports[`when there is more renders a load more button 1`] = `
+<Indent>
+  <Relay(CommentContainer)
+    data={
+      Object {
+        "id": "comment-1",
+      }
+    }
+    gutterBottom={true}
+    key="comment-1"
+  />
+  <Relay(CommentContainer)
+    data={
+      Object {
+        "id": "comment-2",
+      }
+    }
+    gutterBottom={true}
+    key="comment-2"
+  />
+  <withPropsOnChange(Button)
+    fullWidth={true}
+    id="talk-reply-list--show-all--comment-id"
+    invert={true}
+    onClick={[Function]}
+    secondary={true}
+  >
+    Show All Replies
+  </withPropsOnChange(Button)>
+</Indent>
+`;

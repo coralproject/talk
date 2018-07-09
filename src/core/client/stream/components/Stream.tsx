@@ -1,13 +1,15 @@
 import * as React from "react";
 import { StatelessComponent } from "react";
 
-import Logo from "talk-stream/components/Logo";
-import CommentContainer from "talk-stream/containers/CommentContainer";
-import PostCommentFormContainer from "talk-stream/containers/PostCommentFormContainer";
 import { Button } from "talk-ui/components";
 
+import CommentContainer from "../containers/CommentContainer";
+import PostCommentFormContainer from "../containers/PostCommentFormContainer";
+import ReplyListContainer from "../containers/ReplyListContainer";
+import Logo from "./Logo";
+
 export interface StreamProps {
-  id: string;
+  assetID: string;
   isClosed: boolean;
   comments: ReadonlyArray<{ id: string }> | null;
   onLoadMore: () => void;
@@ -22,13 +24,16 @@ const Stream: StatelessComponent<StreamProps> = props => {
   return (
     <div>
       <Logo gutterBottom />
-      <PostCommentFormContainer assetID={props.id} />
+      <PostCommentFormContainer assetID={props.assetID} />
       {props.comments.map(comment => (
-        <CommentContainer key={comment.id} data={comment} gutterBottom />
+        <div key={comment.id}>
+          <CommentContainer data={comment} gutterBottom />
+          <ReplyListContainer comment={comment} />
+        </div>
       ))}
       {props.hasMore && (
         <Button
-          id={"talk-stream--loadmore"}
+          id={"talk-stream--load-more"}
           onClick={props.onLoadMore}
           secondary
           invert

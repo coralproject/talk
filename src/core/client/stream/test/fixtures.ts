@@ -49,3 +49,33 @@ export const assets = [
     },
   },
 ];
+
+export const commentWithReplies = {
+  id: "comment-with-replies",
+  author: users[0],
+  body: "I like yoghurt",
+  createdAt: "2018-07-06T18:24:00",
+  replies: {
+    edges: [
+      { node: comments[0], cursor: comments[0].createdAt },
+      { node: comments[1], cursor: comments[1].createdAt },
+    ],
+    pageInfo: {
+      hasNextPage: false,
+    },
+  },
+};
+
+export const assetWithReplies = {
+  id: "asset-with-replies",
+  isClosed: false,
+  comments: {
+    edges: [
+      { node: comments[0], cursor: comments[0].createdAt },
+      { node: commentWithReplies, cursor: commentWithReplies.createdAt },
+    ],
+    pageInfo: {
+      hasNextPage: false,
+    },
+  },
+};

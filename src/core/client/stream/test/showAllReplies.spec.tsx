@@ -13,38 +13,47 @@ import { assets, comments } from "./fixtures";
 const assetStub = {
   ...assets[0],
   comments: {
-    edges: sinon
-      .stub()
-      .onFirstCall()
-      .returns([
-        {
-          node: comments[0],
-          cursor: comments[0].createdAt,
+    pageInfo: {
+      hasNextPage: false,
+    },
+    edges: [
+      {
+        node: {
+          ...comments[0],
+          replies: {
+            edges: sinon
+              .stub()
+              .onFirstCall()
+              .returns([
+                {
+                  node: comments[1],
+                  cursor: comments[1].createdAt,
+                },
+              ])
+              .onSecondCall()
+              .returns([
+                {
+                  node: comments[2],
+                  cursor: comments[2].createdAt,
+                },
+              ]),
+            pageInfo: sinon
+              .stub()
+              .onFirstCall()
+              .returns({
+                endCursor: comments[1].createdAt,
+                hasNextPage: true,
+              })
+              .onSecondCall()
+              .returns({
+                endCursor: comments[2].createdAt,
+                hasNextPage: false,
+              }),
+          },
         },
-        {
-          node: comments[1],
-          cursor: comments[1].createdAt,
-        },
-      ])
-      .onSecondCall()
-      .returns([
-        {
-          node: comments[2],
-          cursor: comments[2].createdAt,
-        },
-      ]),
-    pageInfo: sinon
-      .stub()
-      .onFirstCall()
-      .returns({
-        endCursor: comments[1].createdAt,
-        hasNextPage: true,
-      })
-      .onSecondCall()
-      .returns({
-        endCursor: comments[2].createdAt,
-        hasNextPage: false,
-      }),
+        cursor: comments[0].createdAt,
+      },
+    ],
   },
 };
 
@@ -80,9 +89,9 @@ it("renders comment stream", async () => {
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
-it("loads more comments", async () => {
+it("show all replies", async () => {
   testRenderer.root
-    .findByProps({ id: "talk-stream--load-more" })
+    .findByProps({ id: `talk-reply-list--show-all--${comments[0].id}` })
     .props.onClick();
 
   // Wait for loading.

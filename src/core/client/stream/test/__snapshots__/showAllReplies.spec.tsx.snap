@@ -1,93 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loads more comments 1`] = `
-<div
-  className="root"
->
-  <div>
-    <h1
-      className="root heading1 gutterBottom"
-    >
-      Talk NEO
-    </h1>
-    <form
-      autoComplete="off"
-      onSubmit={[Function]}
-    >
-      <div>
-        <textarea
-          className="textarea"
-          name="body"
-          onChange={[Function]}
-          value=""
-        />
-      </div>
-      <div
-        className="postButtonContainer"
-      >
-        <button
-          className="root root primary"
-          disabled={false}
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseDown={[Function]}
-        >
-          Post
-        </button>
-      </div>
-    </form>
-    <div>
-      <div
-        className="root gutterBottom"
-      >
-        <p
-          className="root body1 gutterBottom author"
-        >
-          Markus
-        </p>
-        <p
-          className="root body1"
-        >
-          Joining Too
-        </p>
-      </div>
-    </div>
-    <div>
-      <div
-        className="root gutterBottom"
-      >
-        <p
-          className="root body1 gutterBottom author"
-        >
-          Lukas
-        </p>
-        <p
-          className="root body1"
-        >
-          What's up?
-        </p>
-      </div>
-    </div>
-    <div>
-      <div
-        className="root gutterBottom"
-      >
-        <p
-          className="root body1 gutterBottom author"
-        >
-          Isabelle
-        </p>
-        <p
-          className="root body1"
-        >
-          Hey!
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`renders comment stream 1`] = `
 <div
   className="root"
@@ -139,7 +51,81 @@ exports[`renders comment stream 1`] = `
           Joining Too
         </p>
       </div>
+      <div
+        style={
+          Object {
+            "marginBottom": "8px",
+            "marginLeft": "16px",
+            "marginTop": "8px",
+          }
+        }
+      >
+        <div
+          className="root gutterBottom"
+        >
+          <p
+            className="root body1 gutterBottom author"
+          >
+            Lukas
+          </p>
+          <p
+            className="root body1"
+          >
+            What's up?
+          </p>
+        </div>
+        <button
+          className="root root invert fullWidth secondary"
+          id="talk-reply-list--show-all--comment-0"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+        >
+          Show All Replies
+        </button>
+      </div>
     </div>
+  </div>
+</div>
+`;
+
+exports[`show all replies 1`] = `
+<div
+  className="root"
+>
+  <div>
+    <h1
+      className="root heading1 gutterBottom"
+    >
+      Talk NEO
+    </h1>
+    <form
+      autoComplete="off"
+      onSubmit={[Function]}
+    >
+      <div>
+        <textarea
+          className="textarea"
+          name="body"
+          onChange={[Function]}
+          value=""
+        />
+      </div>
+      <div
+        className="postButtonContainer"
+      >
+        <button
+          className="root root primary"
+          disabled={false}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+        >
+          Post
+        </button>
+      </div>
+    </form>
     <div>
       <div
         className="root gutterBottom"
@@ -147,25 +133,49 @@ exports[`renders comment stream 1`] = `
         <p
           className="root body1 gutterBottom author"
         >
-          Lukas
+          Markus
         </p>
         <p
           className="root body1"
         >
-          What's up?
+          Joining Too
         </p>
       </div>
+      <div
+        style={
+          Object {
+            "marginBottom": "8px",
+            "marginLeft": "16px",
+            "marginTop": "8px",
+          }
+        }
+      >
+        <div
+          className="root gutterBottom"
+        >
+          <p
+            className="root body1 gutterBottom author"
+          >
+            Lukas
+          </p>
+          <p
+            className="root body1"
+          >
+            What's up?
+          </p>
+        </div>
+        <button
+          className="root root invert fullWidth secondary"
+          id="talk-reply-list--show-all--comment-0"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+        >
+          Show All Replies
+        </button>
+      </div>
     </div>
-    <button
-      className="root root invert fullWidth secondary"
-      id="talk-stream--load-more"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onMouseDown={[Function]}
-    >
-      Load More
-    </button>
   </div>
 </div>
 `;

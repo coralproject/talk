@@ -15,7 +15,12 @@ const config: Config = {
         "core/client/stream/**/*.graphql",
         "core/client/server/**/*.graphql",
       ],
-      ignore: ["core/**/*.d.ts", "core/**/*.graphql.ts"],
+      ignore: [
+        "core/**/*.d.ts",
+        "core/**/*.graphql.ts",
+        "**/test/**/*",
+        "core/**/*.spec.*",
+      ],
       executor: new CommandExecutor("npm run compile:relay-stream", {
         runOnInit: true,
       }),

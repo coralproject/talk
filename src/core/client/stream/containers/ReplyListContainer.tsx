@@ -3,28 +3,28 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withPaginationContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
-import { StreamContainer_asset as Data } from "talk-stream/__generated__/StreamContainer_asset.graphql";
+import { ReplyListContainer_comment as Data } from "talk-stream/__generated__/ReplyListContainer_comment.graphql";
 import {
   COMMENT_SORT,
-  StreamContainerPaginationQueryVariables,
-} from "talk-stream/__generated__/StreamContainerPaginationQuery.graphql";
+  ReplyListContainerPaginationQueryVariables,
+} from "talk-stream/__generated__/ReplyListContainerPaginationQuery.graphql";
 
-import Stream from "../components/Stream";
+import ReplyList from "../components/ReplyList";
 
-interface InnerProps {
-  asset: Data;
+export interface InnerProps {
+  comment: Data;
   relay: RelayPaginationProp;
 }
 
-export class StreamContainer extends React.Component<InnerProps> {
+export class ReplyListContainer extends React.Component<InnerProps> {
   public render() {
-    const comments = this.props.asset.comments
-      ? this.props.asset.comments.edges.map(edge => edge.node)
-      : null;
+    if (this.props.comment.replies === null) {
+      return null;
+    }
+    const comments = this.props.comment.replies.edges.map(edge => edge.node);
     return (
-      <Stream
-        assetID={this.props.asset.id}
-        isClosed={this.props.asset.isClosed}
+      <ReplyList
+        commentID={this.props.comment.id}
         comments={comments}
         onLoadMore={this.loadMore}
         hasMore={this.props.relay.hasMore()}
@@ -38,7 +38,7 @@ export class StreamContainer extends React.Component<InnerProps> {
     }
 
     this.props.relay.loadMore(
-      10, // Fetch the next 10 feed items
+      999999999, // Fetch All Replies
       error => {
         if (error) {
           // tslint:disable-next-line:no-console
@@ -57,28 +57,26 @@ interface FragmentVariables {
 }
 
 const enhanced = withPaginationContainer<
-  { asset: Data },
+  { comment: Data },
   InnerProps,
   FragmentVariables,
-  StreamContainerPaginationQueryVariables
+  ReplyListContainerPaginationQueryVariables
 >(
   {
-    asset: graphql`
-      fragment StreamContainer_asset on Asset
+    comment: graphql`
+      fragment ReplyListContainer_comment on Comment
         @argumentDefinitions(
           count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
-          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
+          orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
         id
-        isClosed
-        comments(first: $count, after: $cursor, orderBy: $orderBy)
-          @connection(key: "Stream_comments") {
+        replies(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "ReplyList_replies") {
           edges {
             node {
               id
               ...CommentContainer
-              ...ReplyListContainer_comment
             }
           }
         }
@@ -88,7 +86,7 @@ const enhanced = withPaginationContainer<
   {
     direction: "forward",
     getConnectionFromProps(props) {
-      return props.asset && props.asset.comments;
+      return props.comment && props.comment.replies;
     },
     // This is also the default implementation of `getFragmentVariables` if it isn't provided.
     getFragmentVariables(prevVars, totalCount) {
@@ -102,28 +100,26 @@ const enhanced = withPaginationContainer<
         count,
         cursor,
         orderBy: fragmentVariables.orderBy,
-        // assetID isn't specified as an @argument for the fragment, but it should be a
-        // variable available for the fragment under the query root.
-        assetID: props.asset.id,
+        commentID: props.comment.id,
       };
     },
     query: graphql`
       # Pagination query to be fetched upon calling 'loadMore'.
       # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-      query StreamContainerPaginationQuery(
+      query ReplyListContainerPaginationQuery(
         $count: Int!
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
-        $assetID: ID!
+        $commentID: ID!
       ) {
-        asset(id: $assetID) {
-          ...StreamContainer_asset
+        comment(id: $commentID) {
+          ...ReplyListContainer_comment
             @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
         }
       }
     `,
   }
-)(StreamContainer);
+)(ReplyListContainer);
 
-export type StreamContainerProps = PropTypesOf<typeof enhanced>;
+export type ReplyListContainerProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

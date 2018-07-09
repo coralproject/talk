@@ -3,7 +3,6 @@ import { createFetch } from "relay-local-schema";
 import {
   commitLocalUpdate,
   Environment,
-  FetchFunction,
   Network,
   RecordProxy,
   RecordSource,

@@ -9,6 +9,16 @@ import Comment, { CommentProps } from "../components/Comment";
 
 type InnerProps = { data: Data } & Omit<CommentProps, keyof Data>;
 
+// tslint:disable-next-line:no-unused-expression
+graphql`
+  fragment CommentContainer_comment on Comment {
+    author {
+      username
+    }
+    body
+  }
+`;
+
 export const CommentContainer: StatelessComponent<InnerProps> = props => {
   const { data, ...rest } = props;
   return <Comment {...rest} {...props.data} />;
@@ -17,10 +27,7 @@ export const CommentContainer: StatelessComponent<InnerProps> = props => {
 const enhanced = withFragmentContainer<{ data: Data }>({
   data: graphql`
     fragment CommentContainer on Comment {
-      author {
-        username
-      }
-      body
+      ...CommentContainer_comment @relay(mask: false)
     }
   `,
 })(CommentContainer);

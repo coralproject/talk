@@ -4,7 +4,7 @@ import React from "react";
 
 import { StreamContainer } from "./StreamContainer";
 
-it("renders username and body", () => {
+it("renders correctly", () => {
   const props: any = {
     asset: {
       id: "asset-id",
