@@ -132,15 +132,30 @@ type FacebookAuthIntegration {
   config: FacebookAuthIntegrationConfig @auth(roles: [ADMIN])
 }
 
-"""
-AuthSettings contains all the settings related to authentication and authorization.
-"""
-type AuthSettings {
+type AuthIntegrations {
   local: LocalAuthIntegration!
   sso: SSOAuthIntegration!
   oidc: OIDCAuthIntegration!
   google: GoogleAuthIntegration!
   facebook: FacebookAuthIntegration!
+}
+
+"""
+AuthSettings contains all the settings related to authentication and
+authorization.
+"""
+type AuthSettings {
+  """
+  displayNameEnable when enabled, will allow Users to set and view their
+  displayName's.
+  """
+  displayNameEnable: Boolean!
+
+  """
+  integrations are the set of configurations for the variations of
+  authentication solutions.
+  """
+  integrations: AuthIntegrations!
 }
 
 ################################################################################
@@ -319,6 +334,21 @@ enum USER_USERNAME_STATUS {
   CHANGED
 }
 
+type LocalProfile {
+  id: String!
+}
+
+type OIDCProfile {
+  id: String!
+  provider: String!
+}
+
+type SSOProfile {
+  id: String!
+}
+
+union Profile = LocalProfile | OIDCProfile | SSOProfile
+
 """
 User is someone that leaves Comments, and logs in.
 """
@@ -332,6 +362,16 @@ type User {
   username is the name of the User visible to other Users.
   """
   username: String!
+
+  """
+  displayName is provided optionally when enabled and available.
+  """
+  displayName: String
+
+  """
+  profiles is the array of profiles assigned to the user.
+  """
+  profiles: [Profile!] @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
 
   """
   role is the current role of the User.

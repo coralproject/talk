@@ -34,11 +34,16 @@ export function createPassport({
 
 export const handle = (
   err: Error | null,
-  user: User | null
+  user?: User | null
 ): RequestHandler => (req: Request, res, next) => {
   if (err) {
     // TODO: wrap error?
     return next(err);
+  }
+
+  if (!user) {
+    // TODO: replace with better error.
+    return next(new Error("no user on request"));
   }
 
   // Set the cache control headers.

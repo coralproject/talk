@@ -39,7 +39,7 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
     express.json(),
     authenticate(options.passport, "local")
   );
-  router.use("/auth/local/signup", express.json(), signup);
+  router.use("/auth/local/signup", express.json(), signup({ db: app.mongo }));
   router.use("/auth/oidc", authenticate(options.passport, "oidc"));
   router.use("/auth/oidc/callback", authenticate(options.passport, "oidc"));
   // router.use("/auth/google", options.passport.authenticate("google"));

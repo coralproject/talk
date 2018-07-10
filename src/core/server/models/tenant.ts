@@ -4,7 +4,10 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Sub } from "talk-common/types";
-import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLMODERATION_MODE,
+  GQLUSER_ROLE,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 
 function collection(db: Db) {
   return db.collection<Readonly<Tenant>>("tenants");
@@ -17,11 +20,6 @@ export interface TenantResource {
 export interface Wordlist {
   banned: string[];
   suspect: string[];
-}
-
-export enum Moderation {
-  PRE = "PRE",
-  POST = "POST",
 }
 
 // AuthIntegrations.
@@ -90,8 +88,8 @@ export interface GoogleAuthIntegration extends AuthIntegration {
 
 export type LocalAuthIntegration = AuthIntegration;
 
-// Auth describes all of the possible auth integration configurations.
-export interface Auth {
+// AuthIntegrations describes all of the possible auth integration configurations.
+export interface AuthIntegrations {
   // local is the auth integration for the local auth.
   local: LocalAuthIntegration;
 
@@ -108,6 +106,11 @@ export interface Auth {
   facebook?: FacebookAuthIntegration;
 }
 
+export interface Auth {
+  integrations: AuthIntegrations;
+  displayNameEnable: boolean;
+}
+
 // Tenant definition.
 
 export interface Tenant {
@@ -117,7 +120,7 @@ export interface Tenant {
   // specific tenant that the API request pertains to.
   domain: string;
 
-  moderation: Moderation;
+  moderation: GQLMODERATION_MODE;
   requireEmailConfirmation: boolean;
   infoBoxEnable: boolean;
   infoBoxContent?: string;
@@ -172,7 +175,7 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
     id: uuid.v4(),
 
     // Default to post moderation.
-    moderation: Moderation.POST,
+    moderation: GQLMODERATION_MODE.POST,
 
     // Email confirmation is default off.
     requireEmailConfirmation: false,
@@ -191,8 +194,12 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
       banned: [],
     },
     auth: {
-      local: {
-        enabled: true,
+      // Disable the displayName by default.
+      displayNameEnable: false,
+      integrations: {
+        local: {
+          enabled: true,
+        },
       },
     },
   };

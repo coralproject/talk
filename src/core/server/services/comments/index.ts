@@ -2,7 +2,6 @@ import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
 import {
-  Comment,
   CommentStatus,
   createComment,
   CreateCommentInput,
@@ -13,11 +12,7 @@ export type CreateComment = Omit<
   "status" | "action_counts"
 >;
 
-export async function create(
-  db: Db,
-  tenantID: string,
-  input: CreateComment
-): Promise<Comment> {
+export async function create(db: Db, tenantID: string, input: CreateComment) {
   // TODO: run the comment through the moderation phases.
   const comment = await createComment(db, tenantID, {
     status: CommentStatus.ACCEPTED,

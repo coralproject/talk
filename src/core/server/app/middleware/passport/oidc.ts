@@ -7,7 +7,8 @@ import { Strategy } from "passport-strategy";
 import { reconstructURL } from "talk-server/app/url";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { OIDCAuthIntegration, Tenant } from "talk-server/models/tenant";
-import { createUser, retrieveUserWithProfile } from "talk-server/models/user";
+import { OIDCProfile, retrieveUserWithProfile } from "talk-server/models/user";
+import { create } from "talk-server/services/users";
 import { Request } from "talk-server/types/express";
 
 import { VerifyCallback } from "./index";
@@ -50,7 +51,7 @@ export async function findOrCreateOIDCUser(
   { iss, sub, email, email_verified }: OIDCIDToken
 ) {
   // Construct the profile that will be used to query for the user.
-  const profile = {
+  const profile: OIDCProfile = {
     type: "oidc",
     provider: iss,
     id: sub,
@@ -62,7 +63,7 @@ export async function findOrCreateOIDCUser(
     // FIXME: implement rules.
 
     // Create the new user, as one didn't exist before!
-    user = await createUser(db, tenant.id, {
+    user = await create(db, tenant.id, {
       username: null,
       role: GQLUSER_ROLE.COMMENTER,
       email,
@@ -157,7 +158,11 @@ export default class OIDCStrategy extends Strategy {
     const { tenant } = req;
 
     // Grab the JWKSClient.
-    const client = this.lookupJWKSClient(req, tenant!.id, tenant!.auth.oidc!);
+    const client = this.lookupJWKSClient(
+      req,
+      tenant!.id,
+      tenant!.auth.integrations.oidc!
+    );
 
     // Verify that the id_token is valid or not.
     jwt.verify(
@@ -180,7 +185,7 @@ export default class OIDCStrategy extends Strategy {
         });
       },
       {
-        issuer: tenant!.auth.oidc!.issuer,
+        issuer: tenant!.auth.integrations.oidc!.issuer,
       },
       (err, decoded) => {
         if (err) {
@@ -226,7 +231,7 @@ export default class OIDCStrategy extends Strategy {
 
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
-    const integration = tenant.auth.oidc;
+    const integration = tenant.auth.integrations.oidc;
     if (!integration) {
       // TODO: return a better error.
       throw new Error("integration not found");

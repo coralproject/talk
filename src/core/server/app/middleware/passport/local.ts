@@ -15,10 +15,10 @@ const verifyFactory = (db: Db) => async (
   done: VerifyCallback
 ) => {
   try {
+    // TODO: rate limit based on the IP address and user agent.
+
     // The tenant is guaranteed at this point.
     const tenant = req.tenant!;
-
-    // TODO: rate limit the ip address
 
     // Get the user from the database.
     const user = await retrieveUserWithProfile(db, tenant.id, {

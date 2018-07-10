@@ -15,11 +15,23 @@ function collection(db: Db) {
   return db.collection<Readonly<User>>("users");
 }
 
-export interface Profile {
-  readonly id: string;
-  readonly type: string;
-  provider?: string;
+export interface LocalProfile {
+  type: "local";
+  id: string;
 }
+
+export interface OIDCProfile {
+  type: "oidc";
+  id: string;
+  provider: string;
+}
+
+export interface SSOProfile {
+  type: "sso";
+  id: string;
+}
+
+export type Profile = LocalProfile | OIDCProfile | SSOProfile;
 
 export interface Token {
   readonly id: string;
@@ -28,14 +40,14 @@ export interface Token {
 }
 
 export interface UserStatusHistory<T> {
-  status: T; // TODO: migrate field
+  status: T;
   assigned_by?: string;
-  reason?: string; // TODO: migrate field
+  reason?: string;
   created_at: Date;
 }
 
 export interface UserStatusItem<T> {
-  status: T; // TODO: migrate field
+  status: T;
   history: Array<UserStatusHistory<T>>;
 }
 
@@ -48,6 +60,7 @@ export interface UserStatus {
 export interface User extends TenantResource {
   readonly id: string;
   username: string | null;
+  displayName?: string;
   password?: string;
   email?: string;
   email_verified?: boolean;
@@ -56,7 +69,7 @@ export interface User extends TenantResource {
   role: GQLUSER_ROLE;
   status: UserStatus;
   action_counts: ActionCounts;
-  ignored_users: string[]; // TODO: migrate field
+  ignored_users: string[];
   created_at: Date;
 }
 

@@ -3,7 +3,10 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
-import { GQLCOMMENT_SORT } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLCOMMENT_SORT,
+  GQLCOMMENT_STATUS,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { ActionCounts } from "talk-server/models/actions";
 import { Connection, Cursor } from "talk-server/models/connection";
 import Query from "talk-server/models/query";
@@ -19,17 +22,9 @@ export interface BodyHistoryItem {
 }
 
 export interface StatusHistoryItem {
-  status: CommentStatus; // TODO: migrate field
+  status: GQLCOMMENT_STATUS; // TODO: migrate field
   assigned_by?: string;
   created_at: Date;
-}
-
-export enum CommentStatus {
-  ACCEPTED = "ACCEPTED",
-  REJECTED = "REJECTED",
-  PREMOD = "PREMOD",
-  SYSTEM_WITHHELD = "SYSTEM_WITHHELD",
-  NONE = "NONE",
 }
 
 export interface Comment extends TenantResource {
@@ -39,7 +34,7 @@ export interface Comment extends TenantResource {
   asset_id: string;
   body: string;
   body_history: BodyHistoryItem[];
-  status: CommentStatus;
+  status: GQLCOMMENT_STATUS;
   status_history: StatusHistoryItem[];
   action_counts: ActionCounts;
   reply_count: number;
