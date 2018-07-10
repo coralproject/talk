@@ -49,7 +49,6 @@ class Button extends React.Component<InnerProps> {
       [classes.secondary]: secondary,
     });
 
-    console.log(this.props);
     return (
       <BaseButton
         className={rootClassName}
