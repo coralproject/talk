@@ -1,4 +1,4 @@
-import { NextFunction, RequestHandler, Response } from "express";
+import { RequestHandler } from "express";
 import { Db } from "mongodb";
 import passport, { Authenticator } from "passport";
 
