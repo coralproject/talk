@@ -3,10 +3,15 @@
 exports[`renders username and body 1`] = `
 <div
   className="Comment-root"
+  role="article"
 >
-  <Username>
-    Marvin
-  </Username>
+  <div
+    className="Comment-topBar"
+  >
+    <Username>
+      Marvin
+    </Username>
+  </div>
   <withPropsOnChange(Typography)>
     Woof
   </withPropsOnChange(Typography)>
@@ -16,10 +21,15 @@ exports[`renders username and body 1`] = `
 exports[`renders with gutterBottom 1`] = `
 <div
   className="Comment-root Comment-gutterBottom"
+  role="article"
 >
-  <Username>
-    Marvin
-  </Username>
+  <div
+    className="Comment-topBar"
+  >
+    <Username>
+      Marvin
+    </Username>
+  </div>
   <withPropsOnChange(Typography)>
     Woof
   </withPropsOnChange(Typography)>

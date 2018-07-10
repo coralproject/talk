@@ -1,11 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Typography)
+<span
   className="Username-root"
-  gutterBottom={true}
-  variant="heading2"
 >
   Marvin
-</withPropsOnChange(Typography)>
+</span>
 `;
