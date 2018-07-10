@@ -5,3 +5,7 @@
 .gutterBottom {
   margin-bottom: calc(2px * $spacing-unit);
 }
+
+.topBar {
+  margin-bottom: calc(1px * $spacing-unit);
+}

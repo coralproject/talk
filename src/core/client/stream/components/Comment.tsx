@@ -22,7 +22,9 @@ const Comment: StatelessComponent<CommentProps> = props => {
   });
   return (
     <div className={rootClassName}>
-      {props.author && <Username>{props.author.username}</Username>}
+      <div className={styles.topBar}>
+        {props.author && <Username>{props.author.username}</Username>}
+      </div>
       <Typography>{props.body}</Typography>
     </div>
   );
