@@ -10,7 +10,7 @@ import AppQuery from "talk-stream/queries/AppQuery";
 import createEnvironment from "./createEnvironment";
 import { assets, comments } from "./fixtures";
 
-const connectionStub = sinon.stub();
+const connectionStub = sinon.stub().throws();
 connectionStub.withArgs({ first: 5, orderBy: "CREATED_AT_ASC" }).returns({
   edges: [
     {
@@ -66,10 +66,12 @@ const resolvers = {
   Query: {
     comment: sinon
       .stub()
+      .throws()
       .withArgs(undefined, { id: commentStub.id })
       .returns(commentStub),
     asset: sinon
       .stub()
+      .throws()
       .withArgs(undefined, { id: assetStub.id })
       .returns(assetStub),
   },

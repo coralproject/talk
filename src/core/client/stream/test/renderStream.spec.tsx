@@ -14,6 +14,7 @@ const resolvers = {
   Query: {
     asset: sinon
       .stub()
+      .throws()
       .withArgs(undefined, { id: assets[0].id })
       .returns(assets[0]),
   },
