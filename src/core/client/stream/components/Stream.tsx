@@ -12,17 +12,13 @@ import Logo from "./Logo";
 export interface StreamProps {
   assetID: string;
   isClosed: boolean;
-  comments: ReadonlyArray<{ id: string }> | null;
+  comments: ReadonlyArray<{ id: string }>;
   onLoadMore: () => void;
   hasMore: boolean;
   disableLoadMore: boolean;
 }
 
 const Stream: StatelessComponent<StreamProps> = props => {
-  if (props.comments === null) {
-    // TODO: (@cvle) What's the reason for this being null?
-    return <div>Comments unavailable</div>;
-  }
   return (
     <div>
       <Logo gutterBottom />

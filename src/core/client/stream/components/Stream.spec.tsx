@@ -18,19 +18,6 @@ it("renders correctly", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-it("renders when comments is null", () => {
-  const props = {
-    assetID: "asset-id",
-    isClosed: false,
-    comments: null,
-    onLoadMore: noop,
-    disableLoadMore: false,
-    hasMore: false,
-  };
-  const wrapper = shallow(<Stream {...props} />);
-  expect(wrapper).toMatchSnapshot();
-});
-
 describe("when there is more", () => {
   const props = {
     assetID: "asset-id",

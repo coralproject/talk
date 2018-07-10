@@ -22,9 +22,7 @@ export class StreamContainer extends React.Component<InnerProps> {
   };
 
   public render() {
-    const comments = this.props.asset.comments
-      ? this.props.asset.comments.edges.map(edge => edge.node)
-      : null;
+    const comments = this.props.asset.comments.edges.map(edge => edge.node);
     return (
       <Stream
         assetID={this.props.asset.id}

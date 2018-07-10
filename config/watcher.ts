@@ -13,7 +13,7 @@ const config: Config = {
         "core/client/stream/**/*.ts",
         "core/client/stream/**/*.tsx",
         "core/client/stream/**/*.graphql",
-        "core/client/server/**/*.graphql",
+        "core/server/**/*.graphql",
       ],
       ignore: [
         "core/**/*.d.ts",
