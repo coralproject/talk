@@ -1,0 +1,4 @@
+.root {
+  composes: body1 from "talk-ui/shared/typography.css";
+  background-color: transparent;
+}

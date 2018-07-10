@@ -1,7 +1,9 @@
 import { LocalizationProvider } from "fluent-react/compat";
 import { MessageContext } from "fluent/compat";
 import React, { StatelessComponent } from "react";
+import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
+import { UIContext } from "talk-ui/components";
 
 export interface TalkContext {
   // relayEnvironment for our relay framework.
@@ -9,6 +11,9 @@ export interface TalkContext {
 
   // localMessages for our i18n framework.
   localeMessages: MessageContext[];
+
+  // formatter for timeago.
+  timeagoFormatter: Formatter;
 }
 
 const { Provider, Consumer } = React.createContext<TalkContext>({} as any);
@@ -27,7 +32,9 @@ export const TalkContextProvider: StatelessComponent<{
 }> = ({ value, children }) => (
   <Provider value={value}>
     <LocalizationProvider messages={value.localeMessages}>
-      {children}
+      <UIContext.Provider value={{ timeagoFormatter: value.timeagoFormatter }}>
+        {children}
+      </UIContext.Provider>
     </LocalizationProvider>
   </Provider>
 );

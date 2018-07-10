@@ -33,11 +33,14 @@
   color: $palette-text-primary;
 }
 
-.subtitle1 {}
+.subtitle1 {
+}
 
-.subtitle2 {}
+.subtitle2 {
+}
 
-.body2 {}
+.body2 {
+}
 
 .body1 {
   font-size: calc(16rem / $rem-base);
@@ -56,4 +59,5 @@
   letter-spacing: calc(0.57em / 16);
 }
 
-.overline {}
+.overline {
+}

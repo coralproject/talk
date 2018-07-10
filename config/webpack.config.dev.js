@@ -180,7 +180,7 @@ module.exports = {
 
                   // All available locales can be loadable on demand.
                   // To restrict available locales set:
-                  // availableLocales: ["en-US"]
+                  // availableLocales: ["en-US"],
                 },
               },
             ],

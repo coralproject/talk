@@ -43,7 +43,7 @@ async function createTenantRouter(opts: AppOptions) {
 async function createAPIRouter(opts: AppOptions) {
   // Create a router.
   const router = express.Router();
-
+  
   // Configure the tenant routes.
   router.use("/tenant", await createTenantRouter(opts));
 

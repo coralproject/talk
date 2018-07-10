@@ -203,6 +203,11 @@ type Comment {
   body: String
 
   """
+  createdAt is the date in which the comment was created.
+  """
+  createdAt: Time
+
+  """
   author is the User that authored the Comment.
   """
   author: User

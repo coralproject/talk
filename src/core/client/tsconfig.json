@@ -5,40 +5,17 @@
     "module": "esnext",
     "jsx": "preserve",
     "allowJs": false,
-    "lib": [
-      "dom",
-      "es7",
-      "scripthost",
-      "es2015",
-      "esnext.asynciterable"
-    ],
+    "lib": ["dom", "es7", "scripthost", "es2015", "esnext.asynciterable"],
     "baseUrl": "./",
     "paths": {
-      "talk-admin/*": [
-        "./admin/*"
-      ],
-      "talk-stream/*": [
-        "./stream/*"
-      ],
-      "talk-framework/*": [
-        "./framework/*"
-      ],
-      "talk-ui/*": [
-        "./ui/*"
-      ],
-      "talk-common/*": [
-        "../common/*"
-      ],
-      "talk-locales/*": [
-        "../../locales/*"
-      ]
+      "talk-admin/*": ["./admin/*"],
+      "talk-stream/*": ["./stream/*"],
+      "talk-framework/*": ["./framework/*"],
+      "talk-ui/*": ["./ui/*"],
+      "talk-common/*": ["../common/*"],
+      "talk-locales/*": ["../../locales/*"]
     }
   },
-  "include": [
-    "./**/*",
-    "../../types/**/*.d.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./**/*", "../../types/**/*.d.ts"],
+  "exclude": ["node_modules"]
 }

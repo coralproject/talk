@@ -1,4 +1,7 @@
+import { Localized } from "fluent-react/compat";
 import { noop } from "lodash";
+import React from "react";
+import { Formatter } from "react-timeago";
 import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
 import { generateMessages, LocalesData, negotiateLanguages } from "../i18n";
@@ -15,6 +18,25 @@ interface CreateContextArguments {
   // Init will be called after the context has been created.
   init?: ((context: TalkContext) => void | Promise<void>);
 }
+
+/**
+ * timeagoFormatter integrates timeago into our translation
+ * framework. It gets injected into the UIContext.
+ */
+export const timeagoFormatter: Formatter = (value, unit, suffix) => {
+  // We use 'in' instead of 'from now' for language consistency
+  const ourSuffix = suffix === "from now" ? "in" : suffix;
+  return (
+    <Localized
+      id="framework-timeago"
+      $value={value}
+      $unit={unit}
+      $suffix={ourSuffix}
+    >
+      <span>now</span>
+    </Localized>
+  );
+};
 
 /**
  * `createContext` manages the dependencies of our framework
@@ -46,6 +68,7 @@ export default async function createContext({
   const context = {
     relayEnvironment,
     localeMessages,
+    timeagoFormatter,
   };
 
   // Run custom initializations.

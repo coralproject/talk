@@ -20,6 +20,7 @@ const enhanced = withFragmentContainer<{ data: Data }>(
       author {
         username
       }
+      createdAt
       body
     }
   `
