@@ -91,12 +91,14 @@ module.exports = {
     const selectors = getCSSSelectors(textCSS, path);
     const component = basename(path, extname(path));
 
+    // Prefix class names with component name.
     Object.keys(selectors).forEach(k => {
       selectors[k] = selectors[k]
         .split(/\s+/)
         .map(v => `${component}-${v}`)
         .join(" ");
     });
+
     const exprt = JSON.stringify(selectors);
     return `module.exports = ${exprt}`;
   },
