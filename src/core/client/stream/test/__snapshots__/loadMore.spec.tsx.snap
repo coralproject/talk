@@ -41,7 +41,7 @@ exports[`loads more comments 1`] = `
         className="root gutterBottom"
       >
         <p
-          className="root body1 gutterBottom author"
+          className="root body1 gutterBottom root"
         >
           Markus
         </p>
@@ -57,7 +57,7 @@ exports[`loads more comments 1`] = `
         className="root gutterBottom"
       >
         <p
-          className="root body1 gutterBottom author"
+          className="root body1 gutterBottom root"
         >
           Lukas
         </p>
@@ -73,7 +73,7 @@ exports[`loads more comments 1`] = `
         className="root gutterBottom"
       >
         <p
-          className="root body1 gutterBottom author"
+          className="root body1 gutterBottom root"
         >
           Isabelle
         </p>
@@ -129,7 +129,7 @@ exports[`renders comment stream 1`] = `
         className="root gutterBottom"
       >
         <p
-          className="root body1 gutterBottom author"
+          className="root body1 gutterBottom root"
         >
           Markus
         </p>
@@ -145,7 +145,7 @@ exports[`renders comment stream 1`] = `
         className="root gutterBottom"
       >
         <p
-          className="root body1 gutterBottom author"
+          className="root body1 gutterBottom root"
         >
           Lukas
         </p>

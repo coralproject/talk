@@ -1,4 +1,7 @@
+import cn from "classnames";
 import React, { StatelessComponent } from "react";
+
+import * as styles from "./Indent.css";
 
 export interface IndentProps {
   level?: number;
@@ -6,11 +9,7 @@ export interface IndentProps {
 }
 
 const Indent: StatelessComponent<IndentProps> = props => {
-  return (
-    <div style={{ marginLeft: "16px", marginTop: "8px", marginBottom: "8px" }}>
-      {props.children}
-    </div>
-  );
+  return <div className={cn(styles.root, styles.level0)}>{props.children}</div>;
 };
 
 export default Indent;

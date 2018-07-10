@@ -1,0 +1,9 @@
+.root {
+  margin-left: 2px;
+  border-left: 2px solid;
+  padding-left: 5px;
+}
+
+.level0 {
+  border-color: $palette-secondary-darkest;
+}

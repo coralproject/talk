@@ -41,7 +41,7 @@ exports[`renders comment stream 1`] = `
         className="root gutterBottom"
       >
         <p
-          className="root body1 gutterBottom author"
+          className="root body1 gutterBottom root"
         >
           Markus
         </p>
@@ -52,19 +52,13 @@ exports[`renders comment stream 1`] = `
         </p>
       </div>
       <div
-        style={
-          Object {
-            "marginBottom": "8px",
-            "marginLeft": "16px",
-            "marginTop": "8px",
-          }
-        }
+        className="root level0"
       >
         <div
           className="root gutterBottom"
         >
           <p
-            className="root body1 gutterBottom author"
+            className="root body1 gutterBottom root"
           >
             Lukas
           </p>
@@ -131,7 +125,7 @@ exports[`show all replies 1`] = `
         className="root gutterBottom"
       >
         <p
-          className="root body1 gutterBottom author"
+          className="root body1 gutterBottom root"
         >
           Markus
         </p>
@@ -142,19 +136,13 @@ exports[`show all replies 1`] = `
         </p>
       </div>
       <div
-        style={
-          Object {
-            "marginBottom": "8px",
-            "marginLeft": "16px",
-            "marginTop": "8px",
-          }
-        }
+        className="root level0"
       >
         <div
           className="root gutterBottom"
         >
           <p
-            className="root body1 gutterBottom author"
+            className="root body1 gutterBottom root"
           >
             Lukas
           </p>
@@ -168,7 +156,7 @@ exports[`show all replies 1`] = `
           className="root gutterBottom"
         >
           <p
-            className="root body1 gutterBottom author"
+            className="root body1 gutterBottom root"
           >
             Isabelle
           </p>

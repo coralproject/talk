@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(Typography)
+  className="root"
+  gutterBottom={true}
+>
+  Marvin
+</withPropsOnChange(Typography)>
+`;

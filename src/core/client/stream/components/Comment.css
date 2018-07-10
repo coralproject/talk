@@ -5,7 +5,3 @@
 .gutterBottom {
   margin-bottom: calc(2px * $spacing-unit);
 }
-
-.author {
-  font-weight: $font-weight-medium;
-}

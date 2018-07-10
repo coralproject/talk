@@ -4,12 +4,9 @@ exports[`renders username and body 1`] = `
 <div
   className="root"
 >
-  <withPropsOnChange(Typography)
-    className="author"
-    gutterBottom={true}
-  >
+  <Username>
     Marvin
-  </withPropsOnChange(Typography)>
+  </Username>
   <withPropsOnChange(Typography)>
     Woof
   </withPropsOnChange(Typography)>
@@ -20,12 +17,9 @@ exports[`renders with gutterBottom 1`] = `
 <div
   className="root gutterBottom"
 >
-  <withPropsOnChange(Typography)
-    className="author"
-    gutterBottom={true}
-  >
+  <Username>
     Marvin
-  </withPropsOnChange(Typography)>
+  </Username>
   <withPropsOnChange(Typography)>
     Woof
   </withPropsOnChange(Typography)>
