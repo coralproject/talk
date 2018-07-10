@@ -382,8 +382,8 @@ type Comment {
   replies will return the replies to this comment.
   """
   replies(
-    first: Int! = 10
-    orderBy: COMMENT_SORT! = CREATED_AT_DESC
+    first: Int = 10
+    orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection
 }
@@ -459,8 +459,8 @@ type Asset {
   comments are the comments on the Asset.
   """
   comments(
-    first: Int! = 10
-    orderBy: COMMENT_SORT! = CREATED_AT_DESC
+    first: Int = 10
+    orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection
 
@@ -533,7 +533,7 @@ type Query {
   """
   asset is the Asset specified by its ID.
   """
-  asset(id: ID!): Asset
+  asset(id: ID, url: String!): Asset
 
   """
   me is the current logged in User.
