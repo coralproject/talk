@@ -4,6 +4,7 @@ exports[`renders correctly 1`] = `
 <withPropsOnChange(Typography)
   className="Username-root"
   gutterBottom={true}
+  variant="heading2"
 >
   Marvin
 </withPropsOnChange(Typography)>

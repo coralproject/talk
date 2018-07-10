@@ -9,8 +9,9 @@ import Indent from "./Indent";
 export interface ReplyListProps {
   commentID: string;
   comments: ReadonlyArray<{ id: string }>;
-  onLoadMore: () => void;
+  onShowAll: () => void;
   hasMore: boolean;
+  disableShowAll: boolean;
 }
 
 const ReplyList: StatelessComponent<ReplyListProps> = props => {
@@ -22,7 +23,8 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
       {props.hasMore && (
         <Button
           id={`talk-reply-list--show-all--${props.commentID}`}
-          onClick={props.onLoadMore}
+          onClick={props.onShowAll}
+          disabled={props.disableShowAll}
           secondary
           invert
           fullWidth

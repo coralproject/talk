@@ -44,6 +44,7 @@ exports[`when there is more renders a load more button 1`] = `
     key="comment-2"
   />
   <withPropsOnChange(Button)
+    disabled={false}
     fullWidth={true}
     id="talk-reply-list--show-all--comment-id"
     invert={true}

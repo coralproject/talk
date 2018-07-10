@@ -17,6 +17,10 @@ export interface InnerProps {
 }
 
 export class ReplyListContainer extends React.Component<InnerProps> {
+  public state = {
+    disableShowAll: false,
+  };
+
   public render() {
     if (this.props.comment.replies === null) {
       return null;
@@ -26,20 +30,23 @@ export class ReplyListContainer extends React.Component<InnerProps> {
       <ReplyList
         commentID={this.props.comment.id}
         comments={comments}
-        onLoadMore={this.loadMore}
+        onShowAll={this.showAll}
         hasMore={this.props.relay.hasMore()}
+        disableShowAll={this.state.disableShowAll}
       />
     );
   }
 
-  private loadMore = () => {
+  private showAll = () => {
     if (!this.props.relay.hasMore() || this.props.relay.isLoading()) {
       return;
     }
 
+    this.setState({ disableShowAll: true });
     this.props.relay.loadMore(
       999999999, // Fetch All Replies
       error => {
+        this.setState({ disableShowAll: false });
         if (error) {
           // tslint:disable-next-line:no-console
           console.error(error);

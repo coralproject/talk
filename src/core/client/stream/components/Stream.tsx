@@ -14,6 +14,7 @@ export interface StreamProps {
   comments: ReadonlyArray<{ id: string }> | null;
   onLoadMore: () => void;
   hasMore: boolean;
+  disableLoadMore: boolean;
 }
 
 const Stream: StatelessComponent<StreamProps> = props => {
@@ -38,6 +39,7 @@ const Stream: StatelessComponent<StreamProps> = props => {
           secondary
           invert
           fullWidth
+          disabled={props.disableLoadMore}
         >
           Load More
         </Button>

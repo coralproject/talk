@@ -11,7 +11,7 @@ export interface CommentProps {
 
 const Username: StatelessComponent<CommentProps> = props => {
   return (
-    <Typography className={styles.root} gutterBottom>
+    <Typography className={styles.root} variant="heading2" gutterBottom>
       {props.children}
     </Typography>
   );

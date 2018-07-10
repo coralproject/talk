@@ -40,11 +40,11 @@ exports[`renders comment stream 1`] = `
       <div
         className="Comment-root Comment-gutterBottom"
       >
-        <p
-          className="Typography-root Typography-body1 Typography-gutterBottom Username-root"
+        <h1
+          className="Typography-root Typography-heading2 Typography-gutterBottom Username-root"
         >
           Markus
-        </p>
+        </h1>
         <p
           className="Typography-root Typography-body1"
         >
@@ -57,11 +57,11 @@ exports[`renders comment stream 1`] = `
         <div
           className="Comment-root Comment-gutterBottom"
         >
-          <p
-            className="Typography-root Typography-body1 Typography-gutterBottom Username-root"
+          <h1
+            className="Typography-root Typography-heading2 Typography-gutterBottom Username-root"
           >
             Lukas
-          </p>
+          </h1>
           <p
             className="Typography-root Typography-body1"
           >
@@ -70,6 +70,7 @@ exports[`renders comment stream 1`] = `
         </div>
         <button
           className="BaseButton-root Button-root Button-invert Button-fullWidth Button-secondary"
+          disabled={false}
           id="talk-reply-list--show-all--comment-0"
           onBlur={[Function]}
           onClick={[Function]}
@@ -124,11 +125,11 @@ exports[`show all replies 1`] = `
       <div
         className="Comment-root Comment-gutterBottom"
       >
-        <p
-          className="Typography-root Typography-body1 Typography-gutterBottom Username-root"
+        <h1
+          className="Typography-root Typography-heading2 Typography-gutterBottom Username-root"
         >
           Markus
-        </p>
+        </h1>
         <p
           className="Typography-root Typography-body1"
         >
@@ -141,11 +142,11 @@ exports[`show all replies 1`] = `
         <div
           className="Comment-root Comment-gutterBottom"
         >
-          <p
-            className="Typography-root Typography-body1 Typography-gutterBottom Username-root"
+          <h1
+            className="Typography-root Typography-heading2 Typography-gutterBottom Username-root"
           >
             Lukas
-          </p>
+          </h1>
           <p
             className="Typography-root Typography-body1"
           >
@@ -155,11 +156,11 @@ exports[`show all replies 1`] = `
         <div
           className="Comment-root Comment-gutterBottom"
         >
-          <p
-            className="Typography-root Typography-body1 Typography-gutterBottom Username-root"
+          <h1
+            className="Typography-root Typography-heading2 Typography-gutterBottom Username-root"
           >
             Isabelle
-          </p>
+          </h1>
           <p
             className="Typography-root Typography-body1"
           >

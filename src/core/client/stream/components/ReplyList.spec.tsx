@@ -1,27 +1,29 @@
 import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
-import sinon from "sinon";
+import sinon, { SinonSpy } from "sinon";
 
-import ReplyList from "./ReplyList";
+import ReplyList, { ReplyListProps } from "./ReplyList";
 
 it("renders correctly", () => {
-  const props = {
+  const props: ReplyListProps = {
     commentID: "comment-id",
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
-    onLoadMore: noop,
+    onShowAll: noop,
     hasMore: false,
+    disableShowAll: false,
   };
   const wrapper = shallow(<ReplyList {...props} />);
   expect(wrapper).toMatchSnapshot();
 });
 
 describe("when there is more", () => {
-  const props = {
+  const props: ReplyListProps = {
     commentID: "comment-id",
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
-    onLoadMore: sinon.spy(),
+    onShowAll: sinon.spy(),
     hasMore: true,
+    disableShowAll: false,
   };
 
   const wrapper = shallow(<ReplyList {...props} />);
@@ -31,6 +33,6 @@ describe("when there is more", () => {
 
   it("calls onLoadMore", () => {
     wrapper.find("#talk-reply-list--show-all--comment-id").simulate("click");
-    expect(props.onLoadMore.calledOnce).toBe(true);
+    expect((props.onShowAll as SinonSpy).calledOnce).toBe(true);
   });
 });

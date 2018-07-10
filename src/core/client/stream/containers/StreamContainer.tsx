@@ -17,6 +17,10 @@ interface InnerProps {
 }
 
 export class StreamContainer extends React.Component<InnerProps> {
+  public state = {
+    disableLoadMore: false,
+  };
+
   public render() {
     const comments = this.props.asset.comments
       ? this.props.asset.comments.edges.map(edge => edge.node)
@@ -28,6 +32,7 @@ export class StreamContainer extends React.Component<InnerProps> {
         comments={comments}
         onLoadMore={this.loadMore}
         hasMore={this.props.relay.hasMore()}
+        disableLoadMore={this.state.disableLoadMore}
       />
     );
   }
@@ -36,10 +41,11 @@ export class StreamContainer extends React.Component<InnerProps> {
     if (!this.props.relay.hasMore() || this.props.relay.isLoading()) {
       return;
     }
-
+    this.setState({ disableLoadMore: true });
     this.props.relay.loadMore(
       10, // Fetch the next 10 feed items
       error => {
+        this.setState({ disableLoadMore: false });
         if (error) {
           // tslint:disable-next-line:no-console
           console.error(error);

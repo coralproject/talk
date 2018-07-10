@@ -40,11 +40,11 @@ exports[`renders comment stream 1`] = `
       <div
         className="Comment-root Comment-gutterBottom"
       >
-        <p
-          className="Typography-root Typography-body1 Typography-gutterBottom Username-root"
+        <h1
+          className="Typography-root Typography-heading2 Typography-gutterBottom Username-root"
         >
           Markus
-        </p>
+        </h1>
         <p
           className="Typography-root Typography-body1"
         >
@@ -56,11 +56,11 @@ exports[`renders comment stream 1`] = `
       <div
         className="Comment-root Comment-gutterBottom"
       >
-        <p
-          className="Typography-root Typography-body1 Typography-gutterBottom Username-root"
+        <h1
+          className="Typography-root Typography-heading2 Typography-gutterBottom Username-root"
         >
           Lukas
-        </p>
+        </h1>
         <p
           className="Typography-root Typography-body1"
         >
