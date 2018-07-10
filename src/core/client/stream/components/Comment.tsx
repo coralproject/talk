@@ -21,7 +21,7 @@ const Comment: StatelessComponent<CommentProps> = props => {
     [styles.gutterBottom]: props.gutterBottom,
   });
   return (
-    <div className={rootClassName}>
+    <div className={rootClassName} role="article">
       <div className={styles.topBar}>
         {props.author && <Username>{props.author.username}</Username>}
       </div>

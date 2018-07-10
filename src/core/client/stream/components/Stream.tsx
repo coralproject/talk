@@ -26,24 +26,27 @@ const Stream: StatelessComponent<StreamProps> = props => {
     <div>
       <Logo gutterBottom />
       <PostCommentFormContainer assetID={props.assetID} />
-      {props.comments.map(comment => (
-        <div key={comment.id}>
-          <CommentContainer data={comment} gutterBottom />
-          <ReplyListContainer comment={comment} />
-        </div>
-      ))}
-      {props.hasMore && (
-        <Button
-          id={"talk-stream--load-more"}
-          onClick={props.onLoadMore}
-          secondary
-          invert
-          fullWidth
-          disabled={props.disableLoadMore}
-        >
-          Load More
-        </Button>
-      )}
+      <div id="talk-stream--log" role="log" aria-live="polite">
+        {props.comments.map(comment => (
+          <div key={comment.id}>
+            <CommentContainer data={comment} gutterBottom />
+            <ReplyListContainer comment={comment} />
+          </div>
+        ))}
+        {props.hasMore && (
+          <Button
+            id={"talk-stream--load-more"}
+            onClick={props.onLoadMore}
+            secondary
+            invert
+            fullWidth
+            disabled={props.disableLoadMore}
+            aria-controls="talk-stream--log"
+          >
+            Load More
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

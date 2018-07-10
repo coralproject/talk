@@ -17,21 +17,24 @@ export interface ReplyListProps {
 const ReplyList: StatelessComponent<ReplyListProps> = props => {
   return (
     <Indent>
-      {props.comments.map(comment => (
-        <CommentContainer key={comment.id} data={comment} gutterBottom />
-      ))}
-      {props.hasMore && (
-        <Button
-          id={`talk-reply-list--show-all--${props.commentID}`}
-          onClick={props.onShowAll}
-          disabled={props.disableShowAll}
-          secondary
-          invert
-          fullWidth
-        >
-          Show All Replies
-        </Button>
-      )}
+      <div id={`talk-reply-list--log--${props.commentID}`} role="log">
+        {props.comments.map(comment => (
+          <CommentContainer key={comment.id} data={comment} gutterBottom />
+        ))}
+        {props.hasMore && (
+          <Button
+            id={`talk-reply-list--show-all--${props.commentID}`}
+            onClick={props.onShowAll}
+            disabled={props.disableShowAll}
+            secondary
+            invert
+            fullWidth
+            aria-controls={`talk-reply-list--log--${props.commentID}`}
+          >
+            Show All Replies
+          </Button>
+        )}
+      </div>
     </Indent>
   );
 };
