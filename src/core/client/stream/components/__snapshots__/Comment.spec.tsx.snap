@@ -2,7 +2,7 @@
 
 exports[`renders username and body 1`] = `
 <div
-  className="root"
+  className="Comment-root"
 >
   <Username>
     Marvin
@@ -15,7 +15,7 @@ exports[`renders username and body 1`] = `
 
 exports[`renders with gutterBottom 1`] = `
 <div
-  className="root gutterBottom"
+  className="Comment-root Comment-gutterBottom"
 >
   <Username>
     Marvin

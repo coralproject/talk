@@ -2,11 +2,11 @@
 
 exports[`renders comment stream 1`] = `
 <div
-  className="root"
+  className="Center-root"
 >
   <div>
     <h1
-      className="root heading1 gutterBottom"
+      className="Typography-root Typography-heading1 Typography-gutterBottom"
     >
       Talk NEO
     </h1>
@@ -16,17 +16,17 @@ exports[`renders comment stream 1`] = `
     >
       <div>
         <textarea
-          className="textarea"
+          className="PostCommentForm-textarea"
           name="body"
           onChange={[Function]}
           value=""
         />
       </div>
       <div
-        className="postButtonContainer"
+        className="PostCommentForm-postButtonContainer"
       >
         <button
-          className="root root primary"
+          className="BaseButton-root Button-root Button-primary"
           disabled={false}
           onBlur={[Function]}
           onFocus={[Function]}
@@ -38,15 +38,15 @@ exports[`renders comment stream 1`] = `
     </form>
     <div>
       <div
-        className="root gutterBottom"
+        className="Comment-root Comment-gutterBottom"
       >
         <p
-          className="root body1 gutterBottom root"
+          className="Typography-root Typography-body1 Typography-gutterBottom Username-root"
         >
           Markus
         </p>
         <p
-          className="root body1"
+          className="Typography-root Typography-body1"
         >
           Joining Too
         </p>
@@ -54,46 +54,46 @@ exports[`renders comment stream 1`] = `
     </div>
     <div>
       <div
-        className="root gutterBottom"
+        className="Comment-root Comment-gutterBottom"
       >
         <p
-          className="root body1 gutterBottom root"
+          className="Typography-root Typography-body1 Typography-gutterBottom Username-root"
         >
           Markus
         </p>
         <p
-          className="root body1"
+          className="Typography-root Typography-body1"
         >
           I like yoghurt
         </p>
       </div>
       <div
-        className="root level0"
+        className="Indent-root Indent-level0"
       >
         <div
-          className="root gutterBottom"
+          className="Comment-root Comment-gutterBottom"
         >
           <p
-            className="root body1 gutterBottom root"
+            className="Typography-root Typography-body1 Typography-gutterBottom Username-root"
           >
             Markus
           </p>
           <p
-            className="root body1"
+            className="Typography-root Typography-body1"
           >
             Joining Too
           </p>
         </div>
         <div
-          className="root gutterBottom"
+          className="Comment-root Comment-gutterBottom"
         >
           <p
-            className="root body1 gutterBottom root"
+            className="Typography-root Typography-body1 Typography-gutterBottom Username-root"
           >
             Lukas
           </p>
           <p
-            className="root body1"
+            className="Typography-root Typography-body1"
           >
             What's up?
           </p>
