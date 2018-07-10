@@ -18,14 +18,8 @@ const AppContainer: StatelessComponent<InnerProps> = props => {
 const enhanced = withFragmentContainer<{ data: Data }>({
   data: graphql`
     fragment AppContainer on Query
-      @argumentDefinitions(
-        assetID: { type: "ID!" }
-        showAssetList: { type: "Boolean!" }
-      ) {
-      assets @include(if: $showAssetList) {
-        ...AssetListContainer_assets
-      }
-      asset(id: $assetID) @skip(if: $showAssetList) {
+      @argumentDefinitions(assetID: { type: "ID!" }) {
+      asset(id: $assetID) {
         ...StreamContainer_asset
       }
     }

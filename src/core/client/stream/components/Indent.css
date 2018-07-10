@@ -1,7 +1,6 @@
 .root {
-  margin-left: 2px;
-  border-left: 2px solid;
-  padding-left: 5px;
+  border-left: 3px solid;
+  padding-left: calc(2px * $spacing-unit);
 }
 
 .level0 {
