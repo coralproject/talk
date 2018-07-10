@@ -1,4 +1,4 @@
-import { NextFunction, Response } from "express";
+import { NextFunction, RequestHandler, Response } from "express";
 import { Db } from "mongodb";
 import passport, { Authenticator } from "passport";
 
@@ -10,7 +10,7 @@ import { Request } from "talk-server/types/express";
 export type VerifyCallback = (
   err?: Error | null,
   user?: User | null,
-  info?: object
+  info?: { message: string }
 ) => void;
 
 export interface PassportOptions {
@@ -32,28 +32,33 @@ export function createPassport({
   return auth;
 }
 
+export const handle = (
+  err: Error | null,
+  user: User | null
+): RequestHandler => (req: Request, res, next) => {
+  if (err) {
+    // TODO: wrap error?
+    return next(err);
+  }
+
+  // Set the cache control headers.
+  res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
+  res.header("Expires", "-1");
+  res.header("Pragma", "no-cache");
+
+  // Send back the details!
+
+  // TODO: return the token instead of the user.
+  res.json({ user });
+};
+
 export const authenticate = (
   authenticator: passport.Authenticator,
-  name: string
-) => (req: Request, res: Response, next: NextFunction) =>
+  name: string,
+  options?: any
+): RequestHandler => (req: Request, res, next) =>
   authenticator.authenticate(
     name,
-    { session: false },
-    (err: Error | null, user: User | null) => {
-      if (err) {
-        // TODO: wrap error?
-        return next(err);
-      }
-
-      // Set the cache control headers.
-      res.header(
-        "Cache-Control",
-        "private, no-cache, no-store, must-revalidate"
-      );
-      res.header("Expires", "-1");
-      res.header("Pragma", "no-cache");
-
-      // Send back the details!
-      res.json({ user });
-    }
+    { ...options, session: false },
+    (err: Error | null, user: User | null) => handle(err, user)(req, res, next)
   )(req, res, next);

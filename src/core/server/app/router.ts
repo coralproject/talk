@@ -5,6 +5,7 @@ import tenantMiddleware from "talk-server/app/middleware/tenant";
 import managementGraphMiddleware from "talk-server/graph/management/middleware";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
+import { signup } from "talk-server/app/handlers/auth/local";
 import { authenticate } from "talk-server/app/middleware/passport";
 import { AppOptions } from "./index";
 import playground from "./middleware/playground";
@@ -38,6 +39,7 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
     express.json(),
     authenticate(options.passport, "local")
   );
+  router.use("/auth/local/signup", express.json(), signup);
   router.use("/auth/oidc", authenticate(options.passport, "oidc"));
   router.use("/auth/oidc/callback", authenticate(options.passport, "oidc"));
   // router.use("/auth/google", options.passport.authenticate("google"));

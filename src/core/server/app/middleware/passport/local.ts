@@ -8,13 +8,12 @@ import {
 } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
-async function verify(
-  db: Db,
+const verifyFactory = (db: Db) => async (
   req: Request,
   email: string,
   password: string,
   done: VerifyCallback
-) {
+) => {
   try {
     // The tenant is guaranteed at this point.
     const tenant = req.tenant!;
@@ -42,7 +41,7 @@ async function verify(
   } catch (err) {
     return done(err);
   }
-}
+};
 
 export interface LocalStrategyOptions {
   db: Db;
@@ -56,6 +55,6 @@ export function createLocalStrategy({ db }: LocalStrategyOptions) {
       session: false,
       passReqToCallback: true,
     },
-    verify.bind(null, db)
+    verifyFactory(db)
   );
 }
