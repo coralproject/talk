@@ -47,7 +47,7 @@ describe("when there is more", () => {
   });
 
   it("calls onLoadMore", () => {
-    wrapper.find("#talk-stream--load-more").simulate("click");
+    wrapper.find("#talk-comments-stream-loadMore").simulate("click");
     expect(props.onLoadMore.calledOnce).toBe(true);
   });
 

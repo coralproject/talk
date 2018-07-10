@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
 
@@ -26,7 +27,7 @@ const Stream: StatelessComponent<StreamProps> = props => {
     <div>
       <Logo gutterBottom />
       <PostCommentFormContainer assetID={props.assetID} />
-      <div id="talk-stream--log" role="log" aria-live="polite">
+      <div id="talk-comments-stream-log" role="log" aria-live="polite">
         {props.comments.map(comment => (
           <div key={comment.id}>
             <CommentContainer data={comment} gutterBottom />
@@ -34,17 +35,19 @@ const Stream: StatelessComponent<StreamProps> = props => {
           </div>
         ))}
         {props.hasMore && (
-          <Button
-            id={"talk-stream--load-more"}
-            onClick={props.onLoadMore}
-            secondary
-            invert
-            fullWidth
-            disabled={props.disableLoadMore}
-            aria-controls="talk-stream--log"
-          >
-            Load More
-          </Button>
+          <Localized id="comments-stream-loadMore">
+            <Button
+              id={"talk-comments-stream-loadMore"}
+              onClick={props.onLoadMore}
+              secondary
+              invert
+              fullWidth
+              disabled={props.disableLoadMore}
+              aria-controls="talk-comments-stream-log"
+            >
+              Load More
+            </Button>
+          </Localized>
         )}
       </div>
     </div>

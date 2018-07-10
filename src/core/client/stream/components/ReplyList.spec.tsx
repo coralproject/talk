@@ -32,7 +32,9 @@ describe("when there is more", () => {
   });
 
   it("calls onLoadMore", () => {
-    wrapper.find("#talk-reply-list--show-all--comment-id").simulate("click");
+    wrapper
+      .find("#talk-comments-replyList-showAll--comment-id")
+      .simulate("click");
     expect((props.onShowAll as SinonSpy).calledOnce).toBe(true);
   });
 });

@@ -36,36 +36,52 @@ exports[`renders comment stream 1`] = `
         </button>
       </div>
     </form>
-    <div>
-      <div
-        className="Comment-root Comment-gutterBottom"
-      >
-        <h1
-          className="Typography-root Typography-heading2 Typography-gutterBottom Username-root"
+    <div
+      aria-live="polite"
+      id="talk-comments-stream-log"
+      role="log"
+    >
+      <div>
+        <div
+          className="Comment-root Comment-gutterBottom"
+          role="article"
         >
-          Markus
-        </h1>
-        <p
-          className="Typography-root Typography-body1"
-        >
-          Joining Too
-        </p>
+          <div
+            className="Comment-topBar"
+          >
+            <span
+              className="Username-root"
+            >
+              Markus
+            </span>
+          </div>
+          <p
+            className="Typography-root Typography-body1"
+          >
+            Joining Too
+          </p>
+        </div>
       </div>
-    </div>
-    <div>
-      <div
-        className="Comment-root Comment-gutterBottom"
-      >
-        <h1
-          className="Typography-root Typography-heading2 Typography-gutterBottom Username-root"
+      <div>
+        <div
+          className="Comment-root Comment-gutterBottom"
+          role="article"
         >
-          Lukas
-        </h1>
-        <p
-          className="Typography-root Typography-body1"
-        >
-          What's up?
-        </p>
+          <div
+            className="Comment-topBar"
+          >
+            <span
+              className="Username-root"
+            >
+              Lukas
+            </span>
+          </div>
+          <p
+            className="Typography-root Typography-body1"
+          >
+            What's up?
+          </p>
+        </div>
       </div>
     </div>
   </div>

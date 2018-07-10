@@ -2,56 +2,71 @@
 
 exports[`renders correctly 1`] = `
 <Indent>
-  <Relay(CommentContainer)
-    data={
-      Object {
-        "id": "comment-1",
+  <div
+    id="talk-comments-replyList-log--comment-id"
+    role="log"
+  >
+    <Relay(CommentContainer)
+      data={
+        Object {
+          "id": "comment-1",
+        }
       }
-    }
-    gutterBottom={true}
-    key="comment-1"
-  />
-  <Relay(CommentContainer)
-    data={
-      Object {
-        "id": "comment-2",
+      gutterBottom={true}
+      key="comment-1"
+    />
+    <Relay(CommentContainer)
+      data={
+        Object {
+          "id": "comment-2",
+        }
       }
-    }
-    gutterBottom={true}
-    key="comment-2"
-  />
+      gutterBottom={true}
+      key="comment-2"
+    />
+  </div>
 </Indent>
 `;
 
 exports[`when there is more renders a load more button 1`] = `
 <Indent>
-  <Relay(CommentContainer)
-    data={
-      Object {
-        "id": "comment-1",
-      }
-    }
-    gutterBottom={true}
-    key="comment-1"
-  />
-  <Relay(CommentContainer)
-    data={
-      Object {
-        "id": "comment-2",
-      }
-    }
-    gutterBottom={true}
-    key="comment-2"
-  />
-  <withPropsOnChange(Button)
-    disabled={false}
-    fullWidth={true}
-    id="talk-reply-list--show-all--comment-id"
-    invert={true}
-    onClick={[Function]}
-    secondary={true}
+  <div
+    id="talk-comments-replyList-log--comment-id"
+    role="log"
   >
-    Show All Replies
-  </withPropsOnChange(Button)>
+    <Relay(CommentContainer)
+      data={
+        Object {
+          "id": "comment-1",
+        }
+      }
+      gutterBottom={true}
+      key="comment-1"
+    />
+    <Relay(CommentContainer)
+      data={
+        Object {
+          "id": "comment-2",
+        }
+      }
+      gutterBottom={true}
+      key="comment-2"
+    />
+    <Localized
+      id="comments-replyList-showAll"
+    >
+      <withPropsOnChange(Button)
+        aria-controls="talk-comments-replyList-log--comment-id"
+        disabled={false}
+        fullWidth={true}
+        id="talk-comments-replyList-showAll--comment-id"
+        invert={true}
+        onClick={[Function]}
+        secondary={true}
+      >
+        Show All Replies
+      </withPropsOnChange(Button)>
+    </Localized>
+  </div>
 </Indent>
 `;

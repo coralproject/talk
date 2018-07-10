@@ -89,7 +89,7 @@ it("renders comment stream", async () => {
 
 it("loads more comments", async () => {
   testRenderer.root
-    .findByProps({ id: "talk-stream--load-more" })
+    .findByProps({ id: "talk-comments-stream-loadMore" })
     .props.onClick();
 
   // Wait for loading.

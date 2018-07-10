@@ -105,7 +105,7 @@ it("renders comment stream", async () => {
 
 it("show all replies", async () => {
   testRenderer.root
-    .findByProps({ id: `talk-reply-list--show-all--${comments[0].id}` })
+    .findByProps({ id: `talk-comments-replyList-showAll--${comments[0].id}` })
     .props.onClick();
 
   // Wait for loading.

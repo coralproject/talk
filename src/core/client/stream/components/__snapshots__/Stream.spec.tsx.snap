@@ -9,42 +9,48 @@ exports[`renders correctly 1`] = `
     assetID="asset-id"
   />
   <div
-    key="comment-1"
+    aria-live="polite"
+    id="talk-comments-stream-log"
+    role="log"
   >
-    <Relay(CommentContainer)
-      data={
-        Object {
-          "id": "comment-1",
+    <div
+      key="comment-1"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-1",
+          }
         }
-      }
-      gutterBottom={true}
-    />
-    <Relay(ReplyListContainer)
-      comment={
-        Object {
-          "id": "comment-1",
+        gutterBottom={true}
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-1",
+          }
         }
-      }
-    />
-  </div>
-  <div
-    key="comment-2"
-  >
-    <Relay(CommentContainer)
-      data={
-        Object {
-          "id": "comment-2",
+      />
+    </div>
+    <div
+      key="comment-2"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-2",
+          }
         }
-      }
-      gutterBottom={true}
-    />
-    <Relay(ReplyListContainer)
-      comment={
-        Object {
-          "id": "comment-2",
+        gutterBottom={true}
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-2",
+          }
         }
-      }
-    />
+      />
+    </div>
   </div>
 </div>
 `;
@@ -64,53 +70,64 @@ exports[`when there is more disables load more button 1`] = `
     assetID="asset-id"
   />
   <div
-    key="comment-1"
+    aria-live="polite"
+    id="talk-comments-stream-log"
+    role="log"
   >
-    <Relay(CommentContainer)
-      data={
-        Object {
-          "id": "comment-1",
+    <div
+      key="comment-1"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-1",
+          }
         }
-      }
-      gutterBottom={true}
-    />
-    <Relay(ReplyListContainer)
-      comment={
-        Object {
-          "id": "comment-1",
+        gutterBottom={true}
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-1",
+          }
         }
-      }
-    />
+      />
+    </div>
+    <div
+      key="comment-2"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-2",
+          }
+        }
+        gutterBottom={true}
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+    </div>
+    <Localized
+      id="comments-stream-loadMore"
+    >
+      <withPropsOnChange(Button)
+        aria-controls="talk-comments-stream-log"
+        disabled={true}
+        fullWidth={true}
+        id="talk-comments-stream-loadMore"
+        invert={true}
+        onClick={[Function]}
+        secondary={true}
+      >
+        Load More
+      </withPropsOnChange(Button)>
+    </Localized>
   </div>
-  <div
-    key="comment-2"
-  >
-    <Relay(CommentContainer)
-      data={
-        Object {
-          "id": "comment-2",
-        }
-      }
-      gutterBottom={true}
-    />
-    <Relay(ReplyListContainer)
-      comment={
-        Object {
-          "id": "comment-2",
-        }
-      }
-    />
-  </div>
-  <withPropsOnChange(Button)
-    disabled={true}
-    fullWidth={true}
-    id="talk-stream--load-more"
-    invert={true}
-    onClick={[Function]}
-    secondary={true}
-  >
-    Load More
-  </withPropsOnChange(Button)>
 </div>
 `;
 
@@ -123,52 +140,63 @@ exports[`when there is more renders a load more button 1`] = `
     assetID="asset-id"
   />
   <div
-    key="comment-1"
+    aria-live="polite"
+    id="talk-comments-stream-log"
+    role="log"
   >
-    <Relay(CommentContainer)
-      data={
-        Object {
-          "id": "comment-1",
+    <div
+      key="comment-1"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-1",
+          }
         }
-      }
-      gutterBottom={true}
-    />
-    <Relay(ReplyListContainer)
-      comment={
-        Object {
-          "id": "comment-1",
+        gutterBottom={true}
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-1",
+          }
         }
-      }
-    />
+      />
+    </div>
+    <div
+      key="comment-2"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-2",
+          }
+        }
+        gutterBottom={true}
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+    </div>
+    <Localized
+      id="comments-stream-loadMore"
+    >
+      <withPropsOnChange(Button)
+        aria-controls="talk-comments-stream-log"
+        disabled={false}
+        fullWidth={true}
+        id="talk-comments-stream-loadMore"
+        invert={true}
+        onClick={[Function]}
+        secondary={true}
+      >
+        Load More
+      </withPropsOnChange(Button)>
+    </Localized>
   </div>
-  <div
-    key="comment-2"
-  >
-    <Relay(CommentContainer)
-      data={
-        Object {
-          "id": "comment-2",
-        }
-      }
-      gutterBottom={true}
-    />
-    <Relay(ReplyListContainer)
-      comment={
-        Object {
-          "id": "comment-2",
-        }
-      }
-    />
-  </div>
-  <withPropsOnChange(Button)
-    disabled={false}
-    fullWidth={true}
-    id="talk-stream--load-more"
-    invert={true}
-    onClick={[Function]}
-    secondary={true}
-  >
-    Load More
-  </withPropsOnChange(Button)>
 </div>
 `;

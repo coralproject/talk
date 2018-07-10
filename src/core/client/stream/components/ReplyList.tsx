@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
 
@@ -17,22 +18,24 @@ export interface ReplyListProps {
 const ReplyList: StatelessComponent<ReplyListProps> = props => {
   return (
     <Indent>
-      <div id={`talk-reply-list--log--${props.commentID}`} role="log">
+      <div id={`talk-comments-replyList-log--${props.commentID}`} role="log">
         {props.comments.map(comment => (
           <CommentContainer key={comment.id} data={comment} gutterBottom />
         ))}
         {props.hasMore && (
-          <Button
-            id={`talk-reply-list--show-all--${props.commentID}`}
-            onClick={props.onShowAll}
-            disabled={props.disableShowAll}
-            secondary
-            invert
-            fullWidth
-            aria-controls={`talk-reply-list--log--${props.commentID}`}
-          >
-            Show All Replies
-          </Button>
+          <Localized id="comments-replyList-showAll">
+            <Button
+              id={`talk-comments-replyList-showAll--${props.commentID}`}
+              aria-controls={`talk-comments-replyList-log--${props.commentID}`}
+              onClick={props.onShowAll}
+              disabled={props.disableShowAll}
+              secondary
+              invert
+              fullWidth
+            >
+              Show All Replies
+            </Button>
+          </Localized>
         )}
       </div>
     </Indent>
