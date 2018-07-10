@@ -1,6 +1,6 @@
 ---
-title: FAQ
-permalink: /faq/
+title: Troubleshooting Tips
+permalink: /troubleshooting-tips/
 ---
 
 ## I've installed Talk but I can't see the comment stream appear on my articles
