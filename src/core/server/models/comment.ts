@@ -5,11 +5,9 @@ import { ActionCounts } from "talk-server/models/actions";
 import {
   Connection,
   Cursor,
-  Edge,
   getPageInfo,
   nodesToEdges,
   NodeToCursorTransformer,
-  PageInfo,
 } from "talk-server/models/connection";
 import Query from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
