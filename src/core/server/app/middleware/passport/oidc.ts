@@ -63,7 +63,7 @@ export async function findOrCreateOIDCUser(
     // FIXME: implement rules.
 
     // Create the new user, as one didn't exist before!
-    user = await create(db, tenant.id, {
+    user = await create(db, tenant, {
       username: null,
       role: GQLUSER_ROLE.COMMENTER,
       email,

@@ -67,7 +67,7 @@ export const signup = ({ db }: SignupOptions): RequestHandler => async (
     };
 
     // Create the new user.
-    const user = await create(db, tenant.id, {
+    const user = await create(db, tenant, {
       email,
       username,
       displayName,
