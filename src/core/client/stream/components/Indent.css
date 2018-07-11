@@ -1,0 +1,8 @@
+.root {
+  border-left: 3px solid;
+  padding-left: calc(2px * $spacing-unit);
+}
+
+.level0 {
+  border-color: $palette-secondary-darkest;
+}

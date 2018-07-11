@@ -10,7 +10,7 @@ import { InferableComponentEnhancerWithProps } from "recompose";
  * from Relay.
  */
 export default <T>(
-  fragmentSpec: GraphQLTaggedNode,
+  fragmentSpec: { [P in keyof T]: GraphQLTaggedNode },
   refetchQuery: GraphQLTaggedNode
 ): InferableComponentEnhancerWithProps<
   T & { relay: RelayRefetchProp },

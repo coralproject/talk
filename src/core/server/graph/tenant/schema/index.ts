@@ -1,7 +1,7 @@
 import { attachDirectiveResolvers, IResolvers } from "graphql-tools";
 
+import { loadSchema } from "talk-common/graphql";
 import auth from "talk-server/graph/common/directives/auth";
-import loadSchema from "talk-server/graph/common/schema";
 import resolvers from "talk-server/graph/tenant/resolvers";
 
 export default function getTenantSchema() {

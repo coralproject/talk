@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<ReplyList
+  commentID="comment-id"
+  comments={
+    Array [
+      Object {
+        "id": "comment-1",
+      },
+      Object {
+        "id": "comment-2",
+      },
+    ]
+  }
+  disableShowAll={false}
+  onShowAll={[Function]}
+/>
+`;
+
+exports[`renders correctly when replies are null 1`] = `""`;
+
+exports[`when has more replies renders hasMore 1`] = `
+<ReplyList
+  commentID="comment-id"
+  comments={
+    Array [
+      Object {
+        "id": "comment-1",
+      },
+      Object {
+        "id": "comment-2",
+      },
+    ]
+  }
+  disableShowAll={false}
+  hasMore={true}
+  onShowAll={[Function]}
+/>
+`;
+
+exports[`when has more replies when showing all disables show all button 1`] = `
+<ReplyList
+  commentID="comment-id"
+  comments={
+    Array [
+      Object {
+        "id": "comment-1",
+      },
+      Object {
+        "id": "comment-2",
+      },
+    ]
+  }
+  disableShowAll={true}
+  hasMore={true}
+  onShowAll={[Function]}
+/>
+`;
+
+exports[`when has more replies when showing all enable show all button after loading is done 1`] = `
+<ReplyList
+  commentID="comment-id"
+  comments={
+    Array [
+      Object {
+        "id": "comment-1",
+      },
+      Object {
+        "id": "comment-2",
+      },
+    ]
+  }
+  disableShowAll={false}
+  hasMore={true}
+  onShowAll={[Function]}
+/>
+`;

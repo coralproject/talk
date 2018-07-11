@@ -7,7 +7,7 @@ const variables = {
   palette: {
     /* Primary colors */
     primary: {
-      darker: "#0D5B8F",
+      darkest: "#0D5B8F",
       dark: "#2B7EB5",
       main: "#3498DB",
       light: "#67B2E4",
@@ -15,7 +15,7 @@ const variables = {
     },
     /* Secondary colors */
     secondary: {
-      darker: "#404345",
+      darkest: "#404345",
       dark: "#65696B",
       main: "#787D80",
       light: "#9A9DA0",
@@ -23,7 +23,7 @@ const variables = {
     },
     /* Success colors */
     success: {
-      darker: "#03AB61",
+      darkest: "#03AB61",
       dark: "#02BD6B",
       main: "#00CD73",
       light: "#40D996",
@@ -31,7 +31,7 @@ const variables = {
     },
     /* Error colors */
     error: {
-      darker: "#F50F0C",
+      darkest: "#F50F0C",
       dark: "#FF1F1C",
       main: "#FA4643",
       light: "#F26563",

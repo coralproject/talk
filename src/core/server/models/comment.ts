@@ -8,7 +8,13 @@ import {
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { ActionCounts } from "talk-server/models/actions";
-import { Connection, Cursor } from "talk-server/models/connection";
+import {
+  Connection,
+  Cursor,
+  getPageInfo,
+  nodesToEdges,
+  NodeToCursorTransformer,
+} from "talk-server/models/connection";
 import Query from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -126,31 +132,18 @@ export interface ConnectionInput {
   after?: Cursor;
 }
 
-/**
- * nodesToEdge converts a set of nodes and configuration options into a set of
- * edges.
- *
- * @param input connection configuration
- * @param nodes nodes returned from the query
- */
-function nodesToEdge(input: ConnectionInput, nodes: Comment[]) {
-  let getCursor: (comment: Comment, index: number) => Cursor;
+function cursorGetterFactory(
+  input: ConnectionInput
+): NodeToCursorTransformer<Comment> {
   switch (input.orderBy) {
     case GQLCOMMENT_SORT.CREATED_AT_DESC:
     case GQLCOMMENT_SORT.CREATED_AT_ASC:
-      getCursor = comment => comment.created_at;
-      break;
+      return comment => comment.created_at;
     case GQLCOMMENT_SORT.REPLIES_DESC:
     case GQLCOMMENT_SORT.RESPECT_DESC:
-      getCursor = (_, index) =>
+      return (_, index) =>
         (input.after ? (input.after as number) : 0) + index + 1;
-      break;
   }
-
-  return nodes.map((comment, index) => ({
-    node: comment,
-    cursor: getCursor(comment, index),
-  }));
 }
 
 /**
@@ -215,8 +208,43 @@ export async function retrieveCommentAssetConnection(
 async function retrieveConnection(
   input: ConnectionInput,
   query: Query<Comment>
-) {
+): Promise<Readonly<Connection<Readonly<Comment>>>> {
   // Apply some sorting options.
+  applyInputToQuery(input, query);
+
+  // We load one more than the limit so we can determine if there is
+  // another page of entries. This gets trimmed off below after we've checked to
+  // see if this constitutes another page of edges.
+  query.first(input.first + 1);
+
+  // Get the cursor.
+  const cursor = await query.exec();
+
+  // Get the comments from the cursor.
+  const nodes = await cursor.toArray();
+
+  // Convert the nodes to edges (which will include the extra edge we don't need
+  // if there is more results).
+  const edges = nodesToEdges(nodes, cursorGetterFactory(input));
+
+  // Get the pageInfo for the connection. We will use this to also determine if
+  // we need to trim off the extra edge that we requested by comparing its
+  // hasNextPage parameter.
+  const pageInfo = getPageInfo(input, edges);
+  if (pageInfo.hasNextPage) {
+    // Because this means that we got one more than expected, we should trim off
+    // the extra edge that was retrieved.
+    edges.splice(input.first, 1);
+  }
+
+  // Return the connection.
+  return {
+    edges,
+    pageInfo,
+  };
+}
+
+function applyInputToQuery(input: ConnectionInput, query: Query<Comment>) {
   switch (input.orderBy) {
     case GQLCOMMENT_SORT.CREATED_AT_DESC:
       query.orderBy({ created_at: -1 });
@@ -243,37 +271,4 @@ async function retrieveConnection(
       }
       break;
   }
-
-  // We load one more than the limit so we can determine if there is
-  // another page of entries.
-  query.first(input.first + 1);
-
-  // Get the cursor.
-  const cursor = await query.exec();
-
-  // Get the comments from the cursor.
-  const nodes = await cursor.toArray();
-
-  // The hasNextPage is always handled the same (ask for one more than we need,
-  // if there is one more, than there is more).
-  let hasNextPage = false;
-  if (input.first >= 0 && nodes.length > input.first) {
-    // There was one more than we expected! Set hasNextPage = true and remove
-    // the last item from the array that we requested.
-    hasNextPage = true;
-    nodes.splice(input.first, 1);
-  }
-
-  // Convert the nodes to edges.
-  const edges = nodesToEdge(input, nodes);
-
-  // Return the connection.
-  const connection: Readonly<Connection<Readonly<Comment>>> = {
-    edges,
-    pageInfo: {
-      hasNextPage,
-    },
-  };
-
-  return connection;
 }

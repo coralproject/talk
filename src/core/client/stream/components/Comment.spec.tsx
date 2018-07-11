@@ -1,5 +1,6 @@
+import { shallow } from "enzyme";
 import React from "react";
-import { createRenderer } from "react-test-renderer/shallow";
+
 import Comment from "./Comment";
 
 it("renders username and body", () => {
@@ -9,9 +10,8 @@ it("renders username and body", () => {
     },
     body: "Woof",
   };
-  const renderer = createRenderer();
-  renderer.render(<Comment {...props} />);
-  expect(renderer.getRenderOutput()).toMatchSnapshot();
+  const wrapper = shallow(<Comment {...props} />);
+  expect(wrapper).toMatchSnapshot();
 });
 
 it("renders with gutterBottom", () => {
@@ -22,7 +22,6 @@ it("renders with gutterBottom", () => {
     body: "Woof",
     gutterBottom: true,
   };
-  const renderer = createRenderer();
-  renderer.render(<Comment {...props} />);
-  expect(renderer.getRenderOutput()).toMatchSnapshot();
+  const wrapper = shallow(<Comment {...props} />);
+  expect(wrapper).toMatchSnapshot();
 });

@@ -6,6 +6,6 @@
   margin-bottom: calc(2px * $spacing-unit);
 }
 
-.author {
-  font-weight: $font-weight-medium;
+.topBar {
+  margin-bottom: calc(1px * $spacing-unit);
 }

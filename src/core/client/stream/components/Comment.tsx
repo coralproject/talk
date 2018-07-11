@@ -5,6 +5,7 @@ import { StatelessComponent } from "react";
 import { Typography } from "talk-ui/components";
 
 import * as styles from "./Comment.css";
+import Username from "./Username";
 
 export interface CommentProps {
   className?: string;
@@ -20,10 +21,10 @@ const Comment: StatelessComponent<CommentProps> = props => {
     [styles.gutterBottom]: props.gutterBottom,
   });
   return (
-    <div className={rootClassName}>
-      <Typography className={styles.author} gutterBottom>
-        {props.author && props.author.username}
-      </Typography>
+    <div className={rootClassName} role="article">
+      <div className={styles.topBar}>
+        {props.author && <Username>{props.author.username}</Username>}
+      </div>
       <Typography>{props.body}</Typography>
     </div>
   );
