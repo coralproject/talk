@@ -45,24 +45,28 @@ class PermalinkPopover extends React.Component<InnerProps> {
     const { copied, showBody } = this.state;
     return (
       <Popover
-        showBody={showBody}
         body={
-          <div className={styles.root}>
-            <TextField defaultValue={commentId} className={styles.textField} />
-            <CopyToClipboard text={commentId} onCopy={this.onCopy}>
-              <Button primary>
-                {copied ? (
-                  <L id="copied">
-                    <span>Copied!</span>
-                  </L>
-                ) : (
-                  <L id="copy">
-                    <span>Copy</span>
-                  </L>
-                )}
-              </Button>
-            </CopyToClipboard>
-          </div>
+          showBody ? (
+            <div className={styles.root}>
+              <TextField
+                defaultValue={commentId}
+                className={styles.textField}
+              />
+              <CopyToClipboard text={commentId} onCopy={this.onCopy}>
+                <Button primary>
+                  {copied ? (
+                    <L id="copied">
+                      <span>Copied!</span>
+                    </L>
+                  ) : (
+                    <L id="copy">
+                      <span>Copy</span>
+                    </L>
+                  )}
+                </Button>
+              </CopyToClipboard>
+            </div>
+          ) : null
         }
       >
         <button className={styles.shareButton} onClick={this.onClick}>
