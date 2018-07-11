@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`map new speech prop to older aural prop 1`] = `
+<MediaQuery
+  aural={true}
+  values={Object {}}
+>
+  <div>
+    Hello World
+  </div>
+</MediaQuery>
+`;
+
+exports[`renders correctly 1`] = `
+<MediaQuery
+  component="div"
+  maxWidth="sm"
+  minWidth="xs"
+  screen={true}
+  values={Object {}}
+>
+  <div>
+    Hello World
+  </div>
+</MediaQuery>
+`;

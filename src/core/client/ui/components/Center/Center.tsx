@@ -1,5 +1,5 @@
 import cn from "classnames";
-import * as React from "react";
+import React from "react";
 import { ReactNode, StatelessComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";

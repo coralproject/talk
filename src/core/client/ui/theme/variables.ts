@@ -68,6 +68,15 @@ const variables = {
   fontWeightLight: 300,
   fontWeightRegular: 400,
   fontWeightMedium: 550,
+  /* Breakpoints */
+  breakpoints: {
+    xs: 0,
+    sm: 320,
+    md: 640,
+    lg: 1024,
+    xl: 1400,
+    xxl: 1600,
+  },
 };
 
 module.exports = variables;
