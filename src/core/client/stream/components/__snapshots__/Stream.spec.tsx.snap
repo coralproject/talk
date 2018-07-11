@@ -55,12 +55,6 @@ exports[`renders correctly 1`] = `
 </div>
 `;
 
-exports[`renders when comments is null 1`] = `
-<div>
-  Comments unavailable
-</div>
-`;
-
 exports[`when there is more disables load more button 1`] = `
 <div>
   <Logo
