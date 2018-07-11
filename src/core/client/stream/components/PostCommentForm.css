@@ -7,6 +7,7 @@
   margin-bottom: calc(2px * $spacing-unit);
 }
 
-.postButton {
-  float: right;
+.postButtonContainer {
+  display: flex;
+  justify-content: flex-end;
 }

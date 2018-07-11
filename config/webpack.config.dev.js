@@ -224,6 +224,11 @@ module.exports = {
                     jsx: "preserve",
                     noEmit: false,
                   },
+
+                  // Overwrites the behavior of `include` and `exclude` to only
+                  // include files that are actually being imported and which
+                  // are necessary to compile the bundle.
+                  onlyCompileBundledFiles: true,
                 },
               },
             ],

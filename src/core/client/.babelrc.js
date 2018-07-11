@@ -8,5 +8,8 @@ module.exports = {
     production: {
       plugins: [],
     },
+    test: {
+      plugins: ["@babel/transform-modules-commonjs"],
+    },
   },
 };

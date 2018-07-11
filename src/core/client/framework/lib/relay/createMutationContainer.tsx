@@ -1,5 +1,10 @@
 import * as React from "react";
-import { compose, hoistStatics, InferableComponentEnhancer } from "recompose";
+import {
+  compose,
+  hoistStatics,
+  InferableComponentEnhancer,
+  wrapDisplayName,
+} from "recompose";
 import { Environment } from "relay-runtime";
 
 import { withContext } from "../bootstrap";
@@ -19,6 +24,11 @@ function createMutationContainer<T extends string, I, R>(
     withContext(({ relayEnvironment }) => ({ relayEnvironment })),
     hoistStatics((WrappedComponent: React.ComponentType<any>) => {
       class CreateMutationContainer extends React.Component<any> {
+        public static displayName = wrapDisplayName(
+          WrappedComponent,
+          "createMutationContainer"
+        );
+
         private commit = (input: I) => {
           return commit(this.props.relayEnvironment, input);
         };
