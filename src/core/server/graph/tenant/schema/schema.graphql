@@ -586,9 +586,9 @@ type Query {
   assets(cursor: Cursor, limit: Int = 10): AssetsConnection
 
   """
-  asset is the Asset specified by its ID.
+  asset is the Asset specified by its ID/URL.
   """
-  asset(id: ID, url: String!): Asset
+  asset(id: ID, url: String): Asset
 
   """
   me is the current logged in User.
