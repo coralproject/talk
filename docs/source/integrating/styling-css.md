@@ -12,7 +12,7 @@ Plugins also have their own stylesheets located in the client directory.
 
 Here is an example stylesheet that we use on our [Coral Blog](https://coralproject.net/blog):
 
-
+```css
 /*
  * You can use this stylesheet as a place to get started
  * for styling your own version of Talk!
@@ -304,3 +304,4 @@ button.comment__action-button[disabled],
   visibility: hidden;
   display: none;
 }
+```

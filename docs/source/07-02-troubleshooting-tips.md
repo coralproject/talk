@@ -21,16 +21,16 @@ permalink: /troubleshooting-tips/
 
 If you're using your own custom auth plugin: 
 
-* Review the code and your server logs to ensure your plugin is working correctly. Check [our auth docs](https://docs.coralproject.net/talk/integrating/authentication/) for more tips.
+* Review the code and your server logs to ensure your plugin is working correctly. Check [our auth docs](/talk/integrating/authentication/) for more tips.
 * Ensure that your JWT token settings, especially expiry, is being set correctly. You can troubleshoot JWT related issues with the [JWT Debugger](https://jwt.io/).
 * See if you can isolate if it's a particular group of users that are experiencing this issue, e.g. mods, admins, subscribers? Confirm they have the appropriate permissions to comment.
-* Note if this is a new issue that happened after an upgrade - did you read the [migration docs](https://docs.coralproject.net/talk/migration/3/) and the [release notes](https://github.com/coralproject/talk/releases)? This might help you resolve the issue
-* Confirm that users who are affected have the correct `username.status`. If users have status `UNSET`, this is related to a bug with upgrading from 3.x to 4.x that has affected some organizations. Read more here about [upgrading from 3.x to 4.x](https://docs.coralproject.net/talk/migration/3/).
+* Note if this is a new issue that happened after an upgrade - did you read the [migration docs](/talk/migration/3/) and the [release notes](https://github.com/coralproject/talk/releases)? This might help you resolve the issue
+* Confirm that users who are affected have the correct `username.status`. If users have status `UNSET`, this is related to a bug with upgrading from 3.x to 4.x that has affected some organizations. Read more here about [upgrading from 3.x to 4.x](/talk/migration/3/).
 * If you're still experiencing issues, log a [support ticket](mailto:support@coralproject.net) so we can help diagnose the issue
 
 
 If you're using `talk-plugin-auth`:
 
 * See if you can isolate if it's a particular group of users that are experiencing this issue, e.g. mods, admins, subscribers? Confirm they have the appropriate permissions to comment.
-* Note if this is a new issue that happened after an upgrade - did you read the [migration docs](https://docs.coralproject.net/talk/migration/3/) and the [release notes](https://github.com/coralproject/talk/releases)? This might help you resolve the issue.
+* Note if this is a new issue that happened after an upgrade - did you read the [migration docs](/talk/migration/3/) and the [release notes](https://github.com/coralproject/talk/releases)? This might help you resolve the issue.
 * If you're still experiencing issues, log a [support ticket](mailto:support@coralproject.net) so we can help diagnose the issue
