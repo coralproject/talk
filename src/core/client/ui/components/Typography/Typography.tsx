@@ -16,7 +16,8 @@ type Variant =
   | "subtitle2"
   | "body1"
   | "body2"
-  | "button";
+  | "button"
+  | "timestamp";
 
 // Based on Typography Component of Material UI.
 // https://github.com/mui-org/material-ui/blob/303199d39b42a321d28347d8440d69166f872f27/packages/material-ui/src/Typography/Typography.js
@@ -129,6 +130,7 @@ Typography.defaultProps = {
     subtitle2: "h3",
     body1: "p",
     body2: "aside",
+    timestamp: "span",
   },
   noWrap: false,
   paragraph: false,

@@ -1,32 +1,27 @@
-import cn from "classnames";
 import React from "react";
 import { StatelessComponent } from "react";
 
-import { RelativeTime, Typography } from "talk-ui/components";
+import { Typography } from "talk-ui/components";
 
-import * as styles from "./Comment.css";
+import CommentTimestamp from "./CommentTimestamp";
+import CommentTopBar from "./CommentTopBar";
 import Username from "./Username";
 
 export interface CommentProps {
-  className?: string;
   author: {
     username: string;
   } | null;
   body: string | null;
   createdAt: string;
-  gutterBottom?: boolean;
 }
 
 const Comment: StatelessComponent<CommentProps> = props => {
-  const rootClassName = cn(styles.root, props.className, {
-    [styles.gutterBottom]: props.gutterBottom,
-  });
   return (
-    <div className={rootClassName} role="article">
-      <div className={styles.topBar}>
+    <div role="article">
+      <CommentTopBar>
         {props.author && <Username>{props.author.username}</Username>}
-        <RelativeTime date={props.createdAt} />
-      </div>
+        <CommentTimestamp>{props.createdAt}</CommentTimestamp>
+      </CommentTopBar>
       <Typography>{props.body}</Typography>
     </div>
   );
