@@ -58,7 +58,7 @@ const variables = {
     },
   },
   /* gitter and spacing */
-  spacingUnit: 5,
+  spacingUnit: 10,
   /* Borders */
   roundCorners: "2px",
   /* Typography */
