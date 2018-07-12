@@ -15,7 +15,7 @@ exports[`renders correctly 1`] = `
 <MediaQuery
   component="div"
   maxWidth={640}
-  minWidth={320}
+  minWidth={321}
   screen={true}
   values={Object {}}
 >

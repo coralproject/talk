@@ -4,7 +4,9 @@ exports[`loads more comments 1`] = `
 <div
   className="Flex-root Flex-justifyCenter"
 >
-  <div>
+  <div
+    className="Stream-root"
+  >
     <h1
       className="Typography-root Typography-heading1 Typography-gutterBottom"
     >
@@ -113,7 +115,9 @@ exports[`renders comment stream 1`] = `
 <div
   className="Flex-root Flex-justifyCenter"
 >
-  <div>
+  <div
+    className="Stream-root"
+  >
     <h1
       className="Typography-root Typography-heading1 Typography-gutterBottom"
     >
