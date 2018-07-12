@@ -5,6 +5,8 @@ import { Flex } from "talk-ui/components";
 
 import StreamContainer from "../containers/StreamContainer";
 
+import * as styles from "./App.css";
+
 export interface AppProps {
   asset: {} | null;
 }
@@ -12,7 +14,7 @@ export interface AppProps {
 const App: StatelessComponent<AppProps> = props => {
   if (props.asset) {
     return (
-      <Flex justifyContent="center">
+      <Flex justifyContent="center" className={styles.root}>
         <StreamContainer asset={props.asset} />
       </Flex>
     );
