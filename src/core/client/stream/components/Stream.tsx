@@ -8,6 +8,7 @@ import CommentContainer from "../containers/CommentContainer";
 import PostCommentFormContainer from "../containers/PostCommentFormContainer";
 import ReplyListContainer from "../containers/ReplyListContainer";
 import Logo from "./Logo";
+import * as styles from "./Stream.css";
 
 export interface StreamProps {
   assetID: string;
@@ -20,7 +21,7 @@ export interface StreamProps {
 
 const Stream: StatelessComponent<StreamProps> = props => {
   return (
-    <div>
+    <div className={styles.root}>
       <Logo gutterBottom />
       <PostCommentFormContainer assetID={props.assetID} />
       <div id="talk-comments-stream-log" role="log" aria-live="polite">
