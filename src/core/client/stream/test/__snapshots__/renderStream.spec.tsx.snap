@@ -2,7 +2,7 @@
 
 exports[`renders comment stream 1`] = `
 <div
-  className="Center-root"
+  className="Flex-root Flex-justifyCenter"
 >
   <div>
     <h1

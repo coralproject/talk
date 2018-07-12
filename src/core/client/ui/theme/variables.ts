@@ -70,13 +70,12 @@ const variables = {
   fontWeightMedium: 550,
   /* Breakpoints */
   breakpoints: {
-    xs: 0,
-    sm: 320,
-    md: 640,
-    lg: 1024,
-    xl: 1400,
-    xxl: 1600,
+    xs: 320,
+    sm: 640,
+    md: 1024,
+    lg: 1400,
+    xl: 1600,
   },
 };
 
-module.exports = variables;
+export default variables;

@@ -14,8 +14,8 @@ exports[`map new speech prop to older aural prop 1`] = `
 exports[`renders correctly 1`] = `
 <MediaQuery
   component="div"
-  maxWidth="sm"
-  minWidth="xs"
+  maxWidth={640}
+  minWidth={320}
   screen={true}
   values={Object {}}
 >

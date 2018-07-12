@@ -2,9 +2,13 @@ import React from "react";
 import { ReactNode, StatelessComponent } from "react";
 import Responsive from "react-responsive";
 
+import theme from "../../theme/variables";
+
+type Breakpoints = keyof typeof theme.breakpoints;
+
 interface InnerProps {
-  minWidth?: string;
-  maxWidth?: string;
+  minWidth?: Breakpoints;
+  maxWidth?: Breakpoints;
   children: ReactNode;
   className?: string;
   component?:
@@ -21,8 +25,13 @@ interface InnerProps {
 const MatchMedia: StatelessComponent<InnerProps> = props => {
   // TODO: Temporarily map newer speech to older aural type until
   // react-responsive supports the speech prop.
-  const { speech, ...rest } = props;
-  return <Responsive {...rest} aural={speech} />;
+  const { speech, minWidth, maxWidth, ...rest } = props;
+  const mapped = {
+    aural: speech,
+    minWidth: minWidth ? theme.breakpoints[minWidth] : undefined,
+    maxWidth: maxWidth ? theme.breakpoints[maxWidth] : undefined,
+  };
+  return <Responsive {...rest} {...mapped} />;
 };
 
 export default MatchMedia;

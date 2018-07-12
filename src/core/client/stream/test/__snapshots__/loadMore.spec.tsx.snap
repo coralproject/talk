@@ -2,7 +2,7 @@
 
 exports[`loads more comments 1`] = `
 <div
-  className="Center-root"
+  className="Flex-root Flex-justifyCenter"
 >
   <div>
     <h1
@@ -111,7 +111,7 @@ exports[`loads more comments 1`] = `
 
 exports[`renders comment stream 1`] = `
 <div
-  className="Center-root"
+  className="Flex-root Flex-justifyCenter"
 >
   <div>
     <h1

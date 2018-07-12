@@ -1,3 +1,6 @@
+// Allow importing typescript files.
+require("ts-node/register");
+
 const precss = require("precss");
 const autoprefixer = require("autoprefixer");
 const fontMagician = require("postcss-font-magician");
@@ -8,7 +11,7 @@ const flexbugsFixes = require("postcss-flexbugs-fixes");
 const paths = require("./paths");
 
 delete require.cache[paths.appThemeVariables];
-const variables = require(paths.appThemeVariables);
+const variables = require(paths.appThemeVariables).default;
 const flatKebabVariables = mapKeys(
   flat(variables, { delimiter: "-" }),
   (_, k) => kebabCase(k)

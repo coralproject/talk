@@ -2,6 +2,10 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="Flex-root"
-/>
+  className="Flex-root Flex-justifyCenter Flex-alignCenter Flex-directionRow"
+>
+  <div>
+    Hello World
+  </div>
+</div>
 `;
