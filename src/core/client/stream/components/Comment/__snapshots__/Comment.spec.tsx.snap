@@ -2,19 +2,16 @@
 
 exports[`renders username and body 1`] = `
 <div
-  className="Comment-root"
   role="article"
 >
-  <div
-    className="Comment-topBar"
-  >
+  <TopBar>
     <Username>
       Marvin
     </Username>
-    <withPropsOnChange(RelativeTime)
-      date="1995-12-17T06:24:00.000Z"
-    />
-  </div>
+    <Timestamp>
+      1995-12-17T06:24:00.000Z
+    </Timestamp>
+  </TopBar>
   <withPropsOnChange(Typography)>
     Woof
   </withPropsOnChange(Typography)>
@@ -23,19 +20,16 @@ exports[`renders username and body 1`] = `
 
 exports[`renders with gutterBottom 1`] = `
 <div
-  className="Comment-root Comment-gutterBottom"
   role="article"
 >
-  <div
-    className="Comment-topBar"
-  >
+  <TopBar>
     <Username>
       Marvin
     </Username>
-    <withPropsOnChange(RelativeTime)
-      date="1995-12-17T06:24:00.000Z"
-    />
-  </div>
+    <Timestamp>
+      1995-12-17T06:24:00.000Z
+    </Timestamp>
+  </TopBar>
   <withPropsOnChange(Typography)>
     Woof
   </withPropsOnChange(Typography)>

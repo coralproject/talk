@@ -2,7 +2,7 @@
 
 exports[`renders comment stream 1`] = `
 <div
-  className="Flex-root Flex-justifyCenter"
+  className="Flex-root App-root Flex-justifyCenter"
 >
   <div
     className="Stream-root"
@@ -40,24 +40,26 @@ exports[`renders comment stream 1`] = `
     </form>
     <div
       aria-live="polite"
+      className="Flex-root Flex-itemGutter Flex-directionColumn"
       id="talk-comments-stream-log"
       role="log"
     >
-      <div>
+      <div
+        className="Flex-root Flex-itemGutter Flex-directionColumn"
+      >
         <div
-          className="Comment-root Comment-gutterBottom"
           role="article"
         >
           <div
-            className="Comment-topBar"
+            className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
           >
             <span
-              className="Username-root"
+              className="Typography-root Typography-heading3 Username-root"
             >
               Markus
             </span>
             <time
-              className="RelativeTime-root"
+              className="Timestamp-root RelativeTime-root"
               dateTime="2018-07-06T21:24:00.000Z"
               title="2018-07-06T18:24:00"
             >
@@ -71,21 +73,22 @@ exports[`renders comment stream 1`] = `
           </p>
         </div>
       </div>
-      <div>
+      <div
+        className="Flex-root Flex-itemGutter Flex-directionColumn"
+      >
         <div
-          className="Comment-root Comment-gutterBottom"
           role="article"
         >
           <div
-            className="Comment-topBar"
+            className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
           >
             <span
-              className="Username-root"
+              className="Typography-root Typography-heading3 Username-root"
             >
               Lukas
             </span>
             <time
-              className="RelativeTime-root"
+              className="Timestamp-root RelativeTime-root"
               dateTime="2018-07-06T21:20:00.000Z"
               title="2018-07-06T18:20:00"
             >
