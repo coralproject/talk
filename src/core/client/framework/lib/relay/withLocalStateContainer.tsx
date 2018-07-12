@@ -1,6 +1,11 @@
 import * as React from "react";
 import { compose, hoistStatics, InferableComponentEnhancer } from "recompose";
-import { CSelector, CSnapshot, Environment } from "relay-runtime";
+import {
+  CSelector,
+  CSnapshot,
+  Environment,
+  GraphQLTaggedNode,
+} from "relay-runtime";
 
 import { withContext } from "../bootstrap";
 
@@ -25,7 +30,7 @@ export const LOCAL_ID = "client:root.local";
  * must have the `LOCAL_ID`.
  */
 function withLocalStateContainer<T>(
-  fragmentSpec: any
+  fragmentSpec: GraphQLTaggedNode
 ): InferableComponentEnhancer<{ local: T }> {
   return compose(
     withContext(({ relayEnvironment }) => ({ relayEnvironment })),
@@ -33,7 +38,7 @@ function withLocalStateContainer<T>(
       class LocalStateContainer extends React.Component<Props, any> {
         constructor(props: Props) {
           super(props);
-          const fragment = fragmentSpec.data().default;
+          const fragment = (fragmentSpec as any).data().default;
           if (fragment.kind !== "Fragment") {
             throw new Error("Expected fragment");
           }

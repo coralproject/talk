@@ -7,6 +7,7 @@ export { default as QueryRenderer } from "./QueryRenderer";
 export * from "./QueryRenderer";
 export { default as createMutationContainer } from "./createMutationContainer";
 export { default as createAndRetain } from "./createAndRetain";
+export { default as wrapFetchWithLogger } from "./wrapFetchWithLogger";
 export {
   commitMutationPromise,
   commitMutationPromiseNormalized,

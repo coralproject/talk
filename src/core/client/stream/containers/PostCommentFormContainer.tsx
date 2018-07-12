@@ -25,6 +25,8 @@ class PostCommentFormContainer extends Component<InnerProps> {
       if (error instanceof BadUserInputError) {
         return error.invalidArgsLocalized;
       }
+      // tslint:disable-next-line:no-console
+      console.error(error);
     }
     return undefined;
   };

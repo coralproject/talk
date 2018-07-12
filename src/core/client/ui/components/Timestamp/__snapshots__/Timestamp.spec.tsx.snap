@@ -2,7 +2,7 @@
 
 exports[`uses default formatter 1`] = `
 <time
-  className="root"
+  className="Timestamp-root"
   dateTime="2108-12-17T06:24:00.000Z"
   title="2108-12-17T06:24:00.000Z"
 >
@@ -12,7 +12,7 @@ exports[`uses default formatter 1`] = `
 
 exports[`uses formatter from context 1`] = `
 <time
-  className="root"
+  className="Timestamp-root"
   dateTime="2108-12-17T06:24:00.000Z"
   title="2108-12-17T06:24:00.000Z"
 >
@@ -22,10 +22,10 @@ exports[`uses formatter from context 1`] = `
 
 exports[`uses formatter from props 1`] = `
 <time
-  className="root"
+  className="Timestamp-root"
   dateTime="2108-12-17T06:24:00.000Z"
   title="2108-12-17T06:24:00.000Z"
 >
-  My Props Formatter
+  My Context Formatter
 </time>
 `;

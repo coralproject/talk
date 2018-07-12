@@ -1,78 +1,99 @@
 .root {
   composes: button from "talk-ui/shared/typography.css";
-  padding: 5px 20px;
-  border-radius: $round-corners;
-  background-color: transparent;
-  /* TODO: hover styles for the default button */
+
+  &:enabled,
+  &:disabled {
+    padding: 5px 20px;
+    border-radius: var(--round-corners);
+    background-color: transparent;
+    /* TODO: hover styles for the default button */
+  }
 }
 
-.fullWidth {
+.root:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.fullWidth:enabled,
+.fullWidth:disabled {
   display: block;
   width: 100%;
   box-sizing: border-box;
 }
 
-.primary {
-  background-color: $palette-primary-main;
+.primary:enabled,
+.primary:disabled {
+  background-color: var(--palette-primary-main);
   color: #fff;
+}
 
+.primary:enabled {
   &:hover {
-    background-color: $palette-primary-light;
+    background-color: var(--palette-primary-light);
   }
 
   &:active {
-    background-color: $palette-primary-lighter;
-  }
-
-  &.invert {
-    background-color: transparent;
-    border: 1px solid $palette-primary-main;
-    color: $palette-primary-main;
-
-    &:hover {
-      border-color: $palette-primary-light;
-      color: $palette-primary-light;
-    }
-
-    &:active {
-      border-color: $palette-primary-lighter;
-      color: $palette-primary-lighter;
-    }
+    background-color: var(--palette-primary-lighter);
   }
 }
 
-.secondary {
-  background-color: $palette-secondary-main;
-  color: #fff;
+.primary:enabled.invert,
+.primary:disabled.invert {
+  background-color: transparent;
+  border: 1px solid var(--palette-primary-main);
+  color: var(--palette-primary-main);
+}
 
+.primary:enabled.invert {
   &:hover {
-    background-color: $palette-secondary-light;
+    border-color: var(--palette-primary-light);
+    color: var(--palette-primary-light);
   }
 
   &:active {
-    background-color: $palette-secondary-lighter;
+    border-color: var(--palette-primary-lighter);
+    color: var(--palette-primary-lighter);
+  }
+}
+
+.secondary:enabled,
+.secondary:disabled {
+  background-color: var(--palette-secondary-main);
+  color: #fff;
+}
+
+.secondary:enabled {
+  &:hover {
+    background-color: var(--palette-secondary-light);
+  }
+  &:active {
+    background-color: var(--palette-secondary-lighter);
+  }
+}
+
+.secondary:enabled.invert,
+.secondary:disabled.invert {
+  background-color: transparent;
+  border: 1px solid var(--palette-secondary-main);
+  color: var(--palette-secondary-main);
+}
+
+.secondary:enabled.invert {
+  &:hover {
+    border-color: var(--palette-secondary-light);
+    color: var(--palette-secondary-light);
   }
 
-  &.invert {
-    background-color: transparent;
-    border: 1px solid $palette-secondary-main;
-    color: $palette-secondary-main;
-
-    &:hover {
-      border-color: $palette-secondary-light;
-      color: $palette-secondary-light;
-    }
-
-    &:active {
-      border-color: $palette-secondary-lighter;
-      color: $palette-secondary-lighter;
-    }
+  &:active {
+    border-color: var(--palette-secondary-lighter);
+    color: var(--palette-secondary-lighter);
   }
 }
 
 /**
  * This seems to be the best way to target modern touch device browsers.
  */
-@media (-moz-touch-enabled: 1), (pointer:coarse) {
+@media (-moz-touch-enabled: 1), (pointer: coarse) {
   /* TODO: Remove hover styles */
 }

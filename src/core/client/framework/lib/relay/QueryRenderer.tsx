@@ -1,24 +1,18 @@
 import React, { Component } from "react";
-import { QueryRenderer } from "react-relay";
-import { CacheConfig, GraphQLTaggedNode, RerunParam } from "relay-runtime";
+import {
+  QueryRenderer,
+  QueryRendererProps as QueryRendererPropsOrig,
+} from "react-relay";
+
+import { Omit } from "talk-framework/types";
 
 import { TalkContextConsumer } from "../bootstrap/TalkContext";
 
-// Taken from relay types and added Generic support for Variables and Response
-export interface QueryRendererProps<V, R> {
-  cacheConfig?: CacheConfig;
-  query?: GraphQLTaggedNode | null;
-  render(readyState: ReadyState<R>): React.ReactElement<any> | undefined | null;
-  variables: V;
-  rerunParamExperimental?: RerunParam;
-}
-
-// Taken from relay types and added Generic support for Variables and Response
-export interface ReadyState<R> {
-  error: Error | undefined | null;
-  props: R | undefined | null;
-  retry?(): void;
-}
+// Omit environment as we are passing this from the context.
+export type QueryRendererProps<V, R> = Omit<
+  QueryRendererPropsOrig<V, R>,
+  "environment"
+>;
 
 /**
  * TalkQueryRenderer is a wrappper around  Relay's `QueryRenderer`.

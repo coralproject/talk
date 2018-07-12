@@ -1,11 +1,10 @@
 .root {
-  width: 400px;
 }
 
 .gutterBottom {
-  margin-bottom: calc(2px * $spacing-unit);
+  margin-bottom: calc(1px * var(--spacing-unit));
 }
 
-.author {
-  font-weight: $font-weight-medium;
+.topBar {
+  margin-bottom: calc(0.5px * var(--spacing-unit));
 }
