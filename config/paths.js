@@ -53,7 +53,7 @@ module.exports = {
   appTsconfig: resolveApp("src/core/client/tsconfig.json"),
   appLocales: resolveApp("src/locales"),
   appThemeVariables: resolveApp("src/core/client/ui/theme/variables.ts"),
-  appThemeGlobalCSS: resolveApp("src/core/client/ui/theme/global.css"),
+  appThemeVariablesCSS: resolveApp("src/core/client/ui/theme/variables.css"),
   testsSetup: resolveApp("src/setupTests.js"),
   appNodeModules: resolveApp("node_modules"),
 

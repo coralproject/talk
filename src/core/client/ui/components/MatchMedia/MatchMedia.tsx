@@ -23,12 +23,12 @@ interface InnerProps {
 }
 
 const MatchMedia: StatelessComponent<InnerProps> = props => {
-  // TODO: Temporarily map newer speech to older aural type until
-  // react-responsive supports the speech prop.
   const { speech, minWidth, maxWidth, ...rest } = props;
   const mapped = {
+    // TODO: Temporarily map newer speech to older aural type until
+    // react-responsive supports the speech prop.
     aural: speech,
-    minWidth: minWidth ? theme.breakpoints[minWidth] : undefined,
+    minWidth: minWidth ? theme.breakpoints[minWidth] + 1 : undefined,
     maxWidth: maxWidth ? theme.breakpoints[maxWidth] : undefined,
   };
   return <Responsive {...rest} {...mapped} />;

@@ -33,7 +33,12 @@ const cssVariables = pickBy(
 // These are sass style variables used in media queries.
 const mediaQueryVariables = mapValues(
   pickBy(flatKebabVariables, (v, k) => k.startsWith("breakpoints-")),
-  v => `${v}px`
+  // Add unit to breakpoints.
+  // Add 1 to support mobile first approach where we start
+  // with the smallest screen and gradually add styling for the
+  // next bigger screen. This is realized using `min-width` without
+  // ever using `max-width`.
+  v => `${Number.parseInt(v) + 1}px`
 );
 
 module.exports = {
@@ -43,14 +48,16 @@ module.exports = {
   plugins: [
     postcssPrependImports({
       path: "",
-      files: [paths.appThemeGlobalCSS],
+      files: [paths.appThemeVariablesCSS],
     }),
     postcssImport(),
     postcssNested(),
     // Sass style variables to be used in media queries.
     postcssAdvancedVariables({ variables: mediaQueryVariables }),
     // CSS standard variables for everything else.
-    postcssVariables({ variables: cssVariables }),
+    postcssVariables({
+      variables: cssVariables,
+    }),
     postcssPresetEnv(),
     postcssFontMagician(),
     postcssFlexbugsFixes,

@@ -1,5 +1,0 @@
-@media (max-width: $breakpoints-sm) {
-  :root {
-    --spacing-unit: calc(0.5 * var(--spacing-unit));
-  }
-}
