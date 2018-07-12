@@ -8,8 +8,10 @@ import Timestamp from './Timestamp'
 
 # Timestamp
 
+Renders relative time until given `date`.
+
 ## Basic usage
 <Playground>
-  <Timestamp date={`2018-07-04T12:14:14.564Z`} />
+  <Timestamp date="2018-07-04T12:14"
+    formatter={(value, unit, suffix, timestamp) => "".concat(value, " ", unit, " ", suffix)} />
 </Playground>
-

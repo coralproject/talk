@@ -13,6 +13,7 @@ interface InnerProps {
   live?: boolean;
   classes: typeof styles;
   className?: string;
+  formatter?: Formatter;
 }
 
 const defaultFormatter: Formatter = (value, unit, suffix, timestamp: string) =>
@@ -20,7 +21,7 @@ const defaultFormatter: Formatter = (value, unit, suffix, timestamp: string) =>
 
 class Timestamp extends React.Component<InnerProps> {
   public render() {
-    const { date, classes, live, className } = this.props;
+    const { date, classes, live, className, formatter } = this.props;
     return (
       <UIContext.Consumer>
         {({ timeagoFormatter }) => (
@@ -28,7 +29,7 @@ class Timestamp extends React.Component<InnerProps> {
             date={date}
             className={cn(className, classes.root)}
             live={live}
-            formatter={timeagoFormatter || defaultFormatter}
+            formatter={timeagoFormatter || formatter || defaultFormatter}
           />
         )}
       </UIContext.Consumer>

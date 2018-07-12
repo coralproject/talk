@@ -15,7 +15,7 @@ it("uses default formatter", () => {
 
 it("uses formatter from context", () => {
   const context: any = {
-    timeagoFormatter: () => "My Formatter",
+    timeagoFormatter: () => "My Context Formatter",
   };
   const props = {
     date: new Date("December 17, 2108 03:24:00").toISOString(),
@@ -25,6 +25,16 @@ it("uses formatter from context", () => {
       <Timestamp {...props} />
     </UIContext.Provider>
   ).toJSON();
+
+  expect(tree).toMatchSnapshot();
+});
+
+it("uses formatter from props", () => {
+  const props = {
+    date: new Date("December 17, 2108 03:24:00").toISOString(),
+    formatter: () => "My Props Formatter",
+  };
+  const tree = create(<Timestamp {...props} />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
