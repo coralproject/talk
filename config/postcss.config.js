@@ -46,11 +46,14 @@ module.exports = {
   // https://github.com/facebookincubator/create-react-app/issues/2677
   ident: "postcss",
   plugins: [
+    // This allows us to define dynamic css variables.
     postcssPrependImports({
       path: "",
       files: [paths.appThemeVariablesCSS],
     }),
+    // Needed by above plugin.
     postcssImport(),
+    // Support nesting.
     postcssNested(),
     // Sass style variables to be used in media queries.
     postcssAdvancedVariables({ variables: mediaQueryVariables }),
@@ -58,9 +61,13 @@ module.exports = {
     postcssVariables({
       variables: cssVariables,
     }),
+    // Provides a modern CSS environment.
     postcssPresetEnv(),
+    // Does all the font handling logic.
     postcssFontMagician(),
+    // Fix known flexbox bugs.
     postcssFlexbugsFixes,
+    // Vendor prefixing.
     autoprefixer({
       browsers: [
         ">1%",
