@@ -9,7 +9,7 @@ type Breakpoints = keyof typeof theme.breakpoints;
 interface InnerProps {
   minWidth?: Breakpoints;
   maxWidth?: Breakpoints;
-  children: ReactNode;
+  children: ReactNode | ((matches: boolean) => React.ReactNode);
   className?: string;
   component?:
     | string

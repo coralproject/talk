@@ -1,0 +1,40 @@
+---
+name: MatchMedia
+menu: UI Kit
+---
+
+import { Playground, PropsTable } from 'docz'
+import MatchMedia from './MatchMedia'
+
+# MatchMedia
+
+`MatchMedia` uses media queries to provide responsive rendering.
+
+## Basic usage
+<Playground>
+  <MatchMedia maxWidth="xs">
+    I'm a very small screen
+  </MatchMedia>
+  <MatchMedia minWidth="xs" maxWidth="sm">
+    I'm a small screen
+  </MatchMedia>
+  <MatchMedia minWidth="sm" maxWidth="md">
+    I'm a medium screen
+  </MatchMedia>
+  <MatchMedia minWidth="md" maxWidth="lg">
+    I'm a large screen
+  </MatchMedia>
+  <MatchMedia minWidth="lg" maxWidth="xl">
+    I'm a very large screen
+  </MatchMedia>
+  <MatchMedia minWidth="xl">
+    I'm a super large screen
+  </MatchMedia>
+</Playground>
+
+## Using render props
+<Playground>
+  <MatchMedia minWidth="lg">
+    {matches => <span>{matches ? "I'm big" : "I'm small"}</span>}
+  </MatchMedia>
+</Playground>
