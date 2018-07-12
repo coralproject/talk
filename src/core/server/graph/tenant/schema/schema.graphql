@@ -233,8 +233,20 @@ type PageInfo {
   Indicates that there are more nodes after this subset.
   """
   hasNextPage: Boolean
+
+  """
+  Included for legacy Relay reasons. Always set to false.
+  """
   hasPreviousPage: Boolean
+
+  """
+  Included for legacy Relay reasons. Always set to null.
+  """
   startCursor: Cursor
+
+  """
+  Specifies the last node's cursor for forwards pagination.
+  """
   endCursor: Cursor
 }
 
