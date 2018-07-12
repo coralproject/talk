@@ -1,17 +1,17 @@
 ---
-name: Timestamp
+name: RelativeTime
 menu: UI Kit
 ---
 
 import { Playground } from 'docz'
-import Timestamp from './Timestamp'
+import RelativeTime from './RelativeTime'
 
-# Timestamp
+# RelativeTime
 
 Renders relative time until given `date`.
 
 ## Basic usage
 <Playground>
-  <Timestamp date="2018-07-04T12:14"
+  <RelativeTime date="2018-07-04T12:14"
     formatter={(value, unit, suffix, timestamp) => "".concat(value, " ", unit, " ", suffix)} />
 </Playground>

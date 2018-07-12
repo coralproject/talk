@@ -57,7 +57,7 @@ exports[`renders comment stream 1`] = `
               Markus
             </span>
             <time
-              className="Timestamp-root"
+              className="RelativeTime-root"
               dateTime="2018-07-06T21:24:00.000Z"
               title="2018-07-06T18:24:00"
             >
@@ -85,7 +85,7 @@ exports[`renders comment stream 1`] = `
               Lukas
             </span>
             <time
-              className="Timestamp-root"
+              className="RelativeTime-root"
               dateTime="2018-07-06T21:20:00.000Z"
               title="2018-07-06T18:20:00"
             >

@@ -2,7 +2,7 @@ import cn from "classnames";
 import React from "react";
 import { StatelessComponent } from "react";
 
-import { Timestamp, Typography } from "talk-ui/components";
+import { RelativeTime, Typography } from "talk-ui/components";
 
 import * as styles from "./Comment.css";
 import Username from "./Username";
@@ -25,7 +25,7 @@ const Comment: StatelessComponent<CommentProps> = props => {
     <div className={rootClassName} role="article">
       <div className={styles.topBar}>
         {props.author && <Username>{props.author.username}</Username>}
-        <Timestamp date={props.createdAt} />
+        <RelativeTime date={props.createdAt} />
       </div>
       <Typography>{props.body}</Typography>
     </div>

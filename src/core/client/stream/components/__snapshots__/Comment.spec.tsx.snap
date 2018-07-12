@@ -11,7 +11,7 @@ exports[`renders username and body 1`] = `
     <Username>
       Marvin
     </Username>
-    <withPropsOnChange(Timestamp)
+    <withPropsOnChange(RelativeTime)
       date="1995-12-17T06:24:00.000Z"
     />
   </div>
@@ -32,7 +32,7 @@ exports[`renders with gutterBottom 1`] = `
     <Username>
       Marvin
     </Username>
-    <withPropsOnChange(Timestamp)
+    <withPropsOnChange(RelativeTime)
       date="1995-12-17T06:24:00.000Z"
     />
   </div>

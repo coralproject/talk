@@ -6,7 +6,7 @@ import { UIContext } from "talk-ui/components";
 import { withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
-import * as styles from "./Timestamp.css";
+import * as styles from "./RelativeTime.css";
 
 interface InnerProps {
   date: string;
@@ -19,7 +19,7 @@ interface InnerProps {
 const defaultFormatter: Formatter = (value, unit, suffix, timestamp: string) =>
   new Date(timestamp).toISOString();
 
-class Timestamp extends React.Component<InnerProps> {
+class RelativeTime extends React.Component<InnerProps> {
   public render() {
     const { date, classes, live, className, formatter } = this.props;
     return (
@@ -37,6 +37,6 @@ class Timestamp extends React.Component<InnerProps> {
   }
 }
 
-const enhanced = withStyles(styles)(Timestamp);
-export type TimestampProps = PropTypesOf<typeof enhanced>;
+const enhanced = withStyles(styles)(RelativeTime);
+export type RelativeTimeProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

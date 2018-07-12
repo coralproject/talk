@@ -2,13 +2,13 @@ import React from "react";
 import { create } from "react-test-renderer";
 
 import UIContext from "../UIContext";
-import Timestamp from "./Timestamp";
+import RelativeTime from "./RelativeTime";
 
 it("uses default formatter", () => {
   const props = {
     date: new Date("December 17, 2108 03:24:00").toISOString(),
   };
-  const tree = create(<Timestamp {...props} />).toJSON();
+  const tree = create(<RelativeTime {...props} />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
@@ -22,7 +22,7 @@ it("uses formatter from context", () => {
   };
   const tree = create(
     <UIContext.Provider value={context}>
-      <Timestamp {...props} />
+      <RelativeTime {...props} />
     </UIContext.Provider>
   ).toJSON();
 
@@ -34,7 +34,7 @@ it("uses formatter from props", () => {
     date: new Date("December 17, 2108 03:24:00").toISOString(),
     formatter: () => "My Props Formatter",
   };
-  const tree = create(<Timestamp {...props} />).toJSON();
+  const tree = create(<RelativeTime {...props} />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
