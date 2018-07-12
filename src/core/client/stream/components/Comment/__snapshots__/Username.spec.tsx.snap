@@ -5,3 +5,19 @@ exports[`renders correctly 1`] = `
   minWidth="xs"
 />
 `;
+
+exports[`renders correctly on big screens 1`] = `
+<span
+  className="Typography-root Typography-heading2 Username-root"
+>
+  Marvin
+</span>
+`;
+
+exports[`renders correctly on small screens 1`] = `
+<span
+  className="Typography-root Typography-heading3 Username-root"
+>
+  Marvin
+</span>
+`;

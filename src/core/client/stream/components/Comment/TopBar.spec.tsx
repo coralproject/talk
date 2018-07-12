@@ -3,11 +3,11 @@ import TestRenderer from "react-test-renderer";
 
 import { UIContext, UIContextProps } from "talk-ui/components";
 
-import Username from "./Username";
+import TopBar from "./TopBar";
 
 it("renders correctly on small screens", () => {
   const props = {
-    children: "Marvin",
+    children: <div>Hello World</div>,
   };
 
   const context: UIContextProps = {
@@ -18,7 +18,7 @@ it("renders correctly on small screens", () => {
 
   const testRenderer = TestRenderer.create(
     <UIContext.Provider value={context}>
-      <Username {...props} />
+      <TopBar {...props} />
     </UIContext.Provider>
   );
   expect(testRenderer.toJSON()).toMatchSnapshot();
@@ -26,7 +26,7 @@ it("renders correctly on small screens", () => {
 
 it("renders correctly on big screens", () => {
   const props = {
-    children: "Marvin",
+    children: <div>Hello World</div>,
   };
 
   const context: UIContextProps = {
@@ -37,7 +37,7 @@ it("renders correctly on big screens", () => {
 
   const testRenderer = TestRenderer.create(
     <UIContext.Provider value={context}>
-      <Username {...props} />
+      <TopBar {...props} />
     </UIContext.Provider>
   );
   expect(testRenderer.toJSON()).toMatchSnapshot();

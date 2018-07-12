@@ -11,7 +11,7 @@ interface InnerProps {
   data: Data;
 }
 
-const AppContainer: StatelessComponent<InnerProps> = props => {
+export const AppContainer: StatelessComponent<InnerProps> = props => {
   return <App {...props.data} />;
 };
 

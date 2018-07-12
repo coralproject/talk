@@ -10,6 +10,7 @@ it("renders username and body", () => {
         username: "Marvin",
       },
       body: "Woof",
+      createdAt: new Date("December 17, 1995 03:24:00").toISOString(),
     },
   };
 

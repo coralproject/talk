@@ -1,10 +1,12 @@
 import React from "react";
+import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
 
-export interface UIContext {
-  timeagoFormatter: Formatter;
+export interface UIContextProps {
+  timeagoFormatter?: Formatter | null;
+  mediaQueryValues?: Partial<MediaQueryMatchers>;
 }
 
-const UIContext = React.createContext<UIContext>({} as any);
+const UIContext = React.createContext<UIContextProps>({} as any);
 
 export default UIContext;

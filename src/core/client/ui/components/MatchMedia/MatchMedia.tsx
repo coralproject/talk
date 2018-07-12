@@ -1,8 +1,9 @@
 import React from "react";
 import { ReactNode, StatelessComponent } from "react";
-import Responsive from "react-responsive";
+import Responsive, { MediaQueryMatchers } from "react-responsive";
 
 import theme from "../../theme/variables";
+import UIContext from "../UIContext";
 
 type Breakpoints = keyof typeof theme.breakpoints;
 
@@ -20,9 +21,10 @@ interface InnerProps {
   print?: boolean;
   screen?: boolean;
   speech?: boolean;
+  values?: Partial<MediaQueryMatchers>;
 }
 
-const MatchMedia: StatelessComponent<InnerProps> = props => {
+export const MatchMedia: StatelessComponent<InnerProps> = props => {
   const { speech, minWidth, maxWidth, ...rest } = props;
   const mapped = {
     // TODO: Temporarily map newer speech to older aural type until
@@ -34,4 +36,12 @@ const MatchMedia: StatelessComponent<InnerProps> = props => {
   return <Responsive {...rest} {...mapped} />;
 };
 
-export default MatchMedia;
+const MatchMediaWithContext: StatelessComponent<InnerProps> = props => (
+  <UIContext.Consumer>
+    {({ mediaQueryValues }) => (
+      <MatchMedia {...props} values={mediaQueryValues} />
+    )}
+  </UIContext.Consumer>
+);
+
+export default MatchMediaWithContext;

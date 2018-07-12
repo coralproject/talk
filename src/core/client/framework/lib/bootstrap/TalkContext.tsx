@@ -13,7 +13,7 @@ export interface TalkContext {
   localeMessages: MessageContext[];
 
   // formatter for timeago.
-  timeagoFormatter: Formatter;
+  timeagoFormatter: Formatter | null;
 }
 
 const { Provider, Consumer } = React.createContext<TalkContext>({} as any);

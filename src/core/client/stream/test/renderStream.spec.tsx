@@ -31,6 +31,7 @@ const environment = createEnvironment({
 
 const context: TalkContext = {
   relayEnvironment: environment,
+  timeagoFormatter: null,
   localeMessages: [],
 };
 
