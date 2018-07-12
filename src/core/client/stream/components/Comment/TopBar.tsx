@@ -4,14 +4,14 @@ import { StatelessComponent } from "react";
 
 import { Flex, MatchMedia } from "talk-ui/components";
 
-import * as styles from "./CommentTopBar.css";
+import * as styles from "./TopBar.css";
 
-export interface CommentTopBarProps {
+export interface TopBarProps {
   className?: string;
   children: React.ReactNode;
 }
 
-const CommentTopBar: StatelessComponent<CommentTopBarProps> = props => {
+const TopBar: StatelessComponent<TopBarProps> = props => {
   const rootClassName = cn(styles.root, props.className);
   return (
     <MatchMedia minWidth="xs">
@@ -29,4 +29,4 @@ const CommentTopBar: StatelessComponent<CommentTopBarProps> = props => {
   );
 };
 
-export default CommentTopBar;
+export default TopBar;

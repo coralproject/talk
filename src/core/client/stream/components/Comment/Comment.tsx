@@ -3,8 +3,8 @@ import { StatelessComponent } from "react";
 
 import { Typography } from "talk-ui/components";
 
-import CommentTimestamp from "./CommentTimestamp";
-import CommentTopBar from "./CommentTopBar";
+import Timestamp from "./Timestamp";
+import TopBar from "./TopBar";
 import Username from "./Username";
 
 export interface CommentProps {
@@ -18,10 +18,10 @@ export interface CommentProps {
 const Comment: StatelessComponent<CommentProps> = props => {
   return (
     <div role="article">
-      <CommentTopBar>
+      <TopBar>
         {props.author && <Username>{props.author.username}</Username>}
-        <CommentTimestamp>{props.createdAt}</CommentTimestamp>
-      </CommentTopBar>
+        <Timestamp>{props.createdAt}</Timestamp>
+      </TopBar>
       <Typography>{props.body}</Typography>
     </div>
   );
