@@ -100,6 +100,8 @@ const Typography: StatelessComponent<InnerProps> = props => {
     {
       [classes.colorPrimary]: color === "primary",
       [classes.colorSecondary]: color === "secondary",
+      [classes.colorError]: color === "error",
+      [classes.colorTextSecondary]: color === "textSecondary",
       [classes.noWrap]: noWrap,
       [classes.gutterBottom]: gutterBottom,
       [classes.paragraph]: paragraph,
