@@ -32,10 +32,10 @@ function prependRootDir(prepend: string, cfg: WatchConfig): WatchConfig {
 
 function setupCleanup(config: Config) {
   ["SIGINT", "SIGTERM"].forEach(signal =>
-    process.once(signal as any, () => {
+    process.once(signal as any, async () => {
       for (const key of Object.keys(config.watchers)) {
         if (config.watchers[key].executor.onCleanup) {
-          config.watchers[key].executor.onCleanup!();
+          await config.watchers[key].executor.onCleanup!();
         }
       }
       process.exit(0);

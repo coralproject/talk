@@ -1,6 +1,8 @@
 import { ChildProcess } from "child_process";
 import spawn from "cross-spawn";
 import { Cancelable, debounce } from "lodash";
+import psTree from "pstree.remy";
+
 import { Executor } from "./types";
 
 interface LongRunningExecutorOptions {
@@ -31,9 +33,6 @@ export default class LongRunningExecutor implements Executor {
     this.isRunning = true;
     this.process = spawn(this.cmd, this.args as string[], {
       stdio: "inherit",
-      // Have all child processes in their own group.
-      // See `process.kill` below.
-      detached: true,
       shell: !this.args,
     });
 
@@ -51,18 +50,43 @@ export default class LongRunningExecutor implements Executor {
     });
   }
 
-  private restart(): void {
+  private async restart(): Promise<void> {
     this.shouldRestart = true;
-    // Using the `-` will kill all child procceses in the group.
-    // See: https://azimi.me/2014/12/31/kill-child_process-node-js.html
-    process.kill(-this.process!.pid, "SIGTERM");
+    return this.internalKill();
   }
 
-  private kill(): void {
+  private async kill(): Promise<void> {
     this.shouldRestart = false;
-    // Using the `-` will kill all child procceses in the group.
-    // See: https://azimi.me/2014/12/31/kill-child_process-node-js.html
-    process.kill(-this.process!.pid, "SIGTERM");
+    return this.internalKill();
+  }
+
+  private async internalKill(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const signal = "SIGTERM";
+      if (process.platform === "win32") {
+        // Force kill (/F) the whole child tree (/T) by PID
+        spawn.sync("taskkill", [
+          "/pid",
+          this.process!.pid.toString(),
+          "/T",
+          "/F",
+        ]);
+        resolve();
+        return;
+      }
+
+      psTree(this.process!.pid, (err, kids) => {
+        if (err) {
+          reject(err);
+        }
+        spawn.sync("kill", [
+          `-${signal}`,
+          this.process!.pid.toString(),
+          ...kids.map(p => p.PID.toString()),
+        ]);
+        resolve();
+      });
+    });
   }
 
   // This is called before watching starts.
@@ -71,10 +95,10 @@ export default class LongRunningExecutor implements Executor {
   }
 
   // This is called before exiting.
-  public onCleanup() {
+  public async onCleanup() {
     this.restartDebounced.cancel();
     if (this.isRunning) {
-      this.kill();
+      await this.kill();
     }
   }
 

@@ -126,6 +126,7 @@
     "postcss-prepend-imports": "^1.0.1",
     "postcss-preset-env": "^5.2.1",
     "prettier": "^1.13.4",
+    "pstree.remy": "^1.1.0",
     "query-string": "^6.1.0",
     "raw-loader": "^0.5.1",
     "react": "^16.4.0",

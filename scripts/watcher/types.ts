@@ -13,7 +13,7 @@ export interface Watcher {
 
 export interface Executor {
   onInit?(): void;
-  onCleanup?(): void;
+  onCleanup?(): void | Promise<void>;
   execute(filePath: string): void;
 }
 
