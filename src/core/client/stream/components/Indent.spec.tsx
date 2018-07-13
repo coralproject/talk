@@ -1,5 +1,4 @@
 import { shallow } from "enzyme";
-import { noop } from "lodash";
 import React from "react";
 
 import { PropTypesOf } from "talk-framework/types";
