@@ -3,10 +3,10 @@
 exports[`uses default formatter 1`] = `
 <time
   className="RelativeTime-root"
-  dateTime="2018-12-17T06:24:00.000Z"
-  title="2018-12-17T03:24:00"
+  dateTime="2018-12-17T03:24:00.000Z"
+  title="2018-12-17T03:24:00.000Z"
 >
-  2018-12-17T06:24:00.000Z
+  2018-12-17T03:24:00.000Z
 </time>
 `;
 

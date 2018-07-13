@@ -8,7 +8,7 @@ import RelativeTime from "./RelativeTime";
 
 it("uses default formatter", () => {
   const props = {
-    date: "2018-12-17T03:24:00",
+    date: "2018-12-17T03:24:00.000Z",
   };
   const tree = create(<RelativeTime {...props} />).toJSON();
 
