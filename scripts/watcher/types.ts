@@ -5,14 +5,17 @@ export interface WatchOptions {
 }
 
 export interface Watcher {
+  onInit?(): void | Promise<void>;
+  onCleanup?(): void | Promise<void>;
   watch(
+    rootDir: string,
     paths: ReadonlyArray<string>,
     options?: WatchOptions
   ): AsyncIterable<string>;
 }
 
 export interface Executor {
-  onInit?(): void;
+  onInit?(): void | Promise<void>;
   onCleanup?(): void | Promise<void>;
   execute(filePath: string): void;
 }

@@ -1,47 +1,61 @@
-import chokidar from "chokidar";
-import path from "path";
+import { execSync } from "child_process";
+import sane from "sane";
+
 import { Watcher, WatchOptions } from "./types";
 
-function prependRootDir(
-  prepend: string,
-  paths: ReadonlyArray<string>
-): string[] {
-  const prependFunc = (p: string) => path.resolve(prepend, p);
-  return paths.map(prependFunc);
+interface SaneWatcherOptions {
+  /**
+   * Set to true to use watchman, false to disabled, and undefined
+   * for automatic detection.
+   */
+  watchman?: boolean;
+  /** Use polling, this might be required for network file systems. */
+  poll?: boolean;
 }
 
-export default class ChokidarWatcher implements Watcher {
+function canUseWatchman(): boolean {
+  try {
+    execSync("watchman --version", { stdio: ["ignore"] });
+    return true;
+    // tslint:disable-next-line:no-empty
+  } catch (e) {}
+  return false;
+}
+
+export default class SaneWatcher implements Watcher {
+  private watchman?: boolean;
+  private poll: boolean;
+
+  constructor(options: SaneWatcherOptions = {}) {
+    this.watchman = options.watchman;
+    this.poll = options.poll || false;
+
+    // Autodetect watchman.
+    if (this.watchman === undefined && canUseWatchman()) {
+      this.watchman = true;
+      // tslint:disable-next-line:no-console
+      console.log("Watchman detected");
+    }
+  }
+
   public watch(
     rootDir: string,
     paths: ReadonlyArray<string>,
     options: WatchOptions = {}
   ): AsyncIterable<string> {
-    const resolvedPaths = prependRootDir(rootDir, paths);
-    const client = chokidar.watch(resolvedPaths, {
-      ignored: options.ignore && prependRootDir(rootDir, options.ignore),
+    // Setup client
+    const client = sane(rootDir, {
+      glob: paths as string[],
+      ignored: options.ignore as string[],
+      watchman: this.watchman,
+      poll: this.poll,
     });
 
     // An array to hold all changes, that has not yet been yield.
     const queue: string[] = [];
-    let firstError: Error | null = null;
 
     // If this is set, a pending promise is waiting for the next result.
-    let pending:
-      | ({ resolve: (result: string) => void; reject: (error: Error) => void })
-      | null = null;
-
-    // Listen for errors
-    client.on("error", (error: Error) => {
-      // Resolve pending request.
-      if (pending) {
-        pending.reject(error);
-        pending = null;
-        return;
-      }
-      if (!firstError) {
-        firstError = error;
-      }
-    });
+    let pending: ({ resolve: (result: string) => void }) | null = null;
 
     // Listen for changes
     client.on("change", (pathFile: string) => {
@@ -55,6 +69,7 @@ export default class ChokidarWatcher implements Watcher {
       // There is no pending request, save it into the queue.
       queue.unshift(pathFile);
     });
+
     return {
       [Symbol.asyncIterator]() {
         return {
@@ -66,18 +81,8 @@ export default class ChokidarWatcher implements Watcher {
                     done: false,
                     value: pathFile,
                   }),
-                reject: (error: Error) =>
-                  reject({
-                    done: true,
-                    value: error,
-                  }),
               };
 
-              // We already have a change to return
-              if (firstError) {
-                wrapped.reject(firstError);
-                return;
-              }
               if (queue.length) {
                 wrapped.resolve(queue.pop()!);
                 return;
