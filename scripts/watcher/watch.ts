@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import Joi from "joi";
 import { pickBy } from "lodash";
 
@@ -21,7 +22,7 @@ async function beginWatch(
   }
   for await (const filePath of watcher.watch(rootDir, paths, { ignore })) {
     // tslint:disable-next-line:no-console
-    console.log(`Execute "${key}"`);
+    console.log(chalk.cyanBright(`Execute "${key}"`));
     executor.execute(filePath);
   }
 }
@@ -72,7 +73,7 @@ function filterOnly(
   return pickBy(watchers, (value, key) => {
     if (resolved.indexOf(key) === -1) {
       // tslint:disable-next-line:no-console
-      console.log(`Disabled watcher "${key}"`);
+      console.log(chalk.grey(`Disabled watcher "${key}"`));
       return false;
     }
     return true;
@@ -98,7 +99,7 @@ export default async function watch(config: Config, options: Options = {}) {
 
   for (const key of Object.keys(watchersConfigs)) {
     // tslint:disable-next-line:no-console
-    console.log(`Start watcher "${key}"`);
+    console.log(chalk.cyanBright(`Start watcher "${key}"`));
     const watcherConfig = watchersConfigs[key];
     beginWatch(watcher, key, watcherConfig, rootDir);
   }
