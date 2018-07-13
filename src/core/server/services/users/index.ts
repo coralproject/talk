@@ -1,12 +1,12 @@
 import { Db } from "mongodb";
 
 import { Tenant } from "talk-server/models/tenant";
-import { createUser, CreateUserInput } from "talk-server/models/user";
+import { upsertUser, UpsertUserInput } from "talk-server/models/user";
 
-export type CreateUser = CreateUserInput;
+export type UpsertUser = UpsertUserInput;
 
-export async function create(db: Db, tenant: Tenant, input: CreateUser) {
-  const user = await createUser(db, tenant.id, input);
+export async function upsert(db: Db, tenant: Tenant, input: UpsertUser) {
+  const user = await upsertUser(db, tenant.id, input);
 
   return user;
 }

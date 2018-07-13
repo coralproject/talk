@@ -12,11 +12,12 @@ export const validate = (schema: Joi.SchemaLike, body: any) => {
   const { value, error: err } = Joi.validate(body, schema, {
     stripUnknown: true,
     presence: "required",
+    abortEarly: false,
   });
 
   if (err) {
-    // TODO: return better error.
-    throw new Error("Validation Error");
+    // TODO: wrap error?
+    throw err;
   }
 
   return value;

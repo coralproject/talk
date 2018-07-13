@@ -1,27 +1,33 @@
 import jwt from "jsonwebtoken";
 import jwks, { JwksClient } from "jwks-rsa";
 import { Db } from "mongodb";
-import { Strategy as OAuth2Strategy } from "passport-oauth2";
+import { Strategy as OAuth2Strategy, VerifyCallback } from "passport-oauth2";
 import { Strategy } from "passport-strategy";
 
 import { reconstructURL } from "talk-server/app/url";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { OIDCAuthIntegration, Tenant } from "talk-server/models/tenant";
 import { OIDCProfile, retrieveUserWithProfile } from "talk-server/models/user";
-import { create } from "talk-server/services/users";
+import { upsert } from "talk-server/services/users";
 import { Request } from "talk-server/types/express";
-
-import { VerifyCallback } from "./index";
 
 export interface Params {
   id_token?: string;
 }
 
+/**
+ * OIDCIDToken describes the set of claims that are present in a ID Token. This
+ * interface confirms with the ID Token specification as defined:
+ * https://openid.net/specs/openid-connect-core-1_0.html#IDToken
+ */
 export interface OIDCIDToken {
+  aud: string;
   iss: string;
   sub: string;
-  email: string;
+  exp: number; // TODO: use this as the source for how long an OIDC user can be logged in for
+  email?: string;
   email_verified?: boolean;
+  picture?: string;
 }
 
 export interface StrategyItem {
@@ -48,13 +54,14 @@ export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
 export async function findOrCreateOIDCUser(
   db: Db,
   tenant: Tenant,
-  { iss, sub, email, email_verified }: OIDCIDToken
+  token: OIDCIDToken
 ) {
   // Construct the profile that will be used to query for the user.
   const profile: OIDCProfile = {
     type: "oidc",
-    provider: iss,
-    id: sub,
+    id: token.sub,
+    issuer: token.iss,
+    audience: token.aud,
   };
 
   // Try to lookup user given their id provided in the `sub` claim.
@@ -63,17 +70,23 @@ export async function findOrCreateOIDCUser(
     // FIXME: implement rules.
 
     // Create the new user, as one didn't exist before!
-    user = await create(db, tenant, {
+    user = await upsert(db, tenant, {
       username: null,
       role: GQLUSER_ROLE.COMMENTER,
-      email,
-      email_verified,
+      email: token.email,
+      email_verified: token.email_verified,
+      avatar: token.picture,
       profiles: [profile],
     });
   }
 
   return user;
 }
+
+/**
+ * OIDC_SCOPE is the set of scopes requested for users signing up via OIDC.
+ */
+const OIDC_SCOPE = "openid email profile";
 
 // FIXME: attach strategy to cache updates of the tenants
 
@@ -138,14 +151,14 @@ export default class OIDCStrategy extends Strategy {
     return entry.jwksClient;
   }
 
-  private verifyCallback(
+  private verifyCallback = (
     req: Request,
-    accessToken: string,
-    refreshToken: string,
+    accessToken: string, // ignore the access token, we don't use it.
+    refreshToken: string, // ignore the refresh token, we don't use it.
     params: Params,
-    profile: any,
+    profile: any, // we don't look inside the profile (yet).
     done: VerifyCallback
-  ) {
+  ) => {
     // Try to lookup user given their id provided in the `sub` claim of the
     // `id_token`.
     const { id_token } = params;
@@ -156,36 +169,30 @@ export default class OIDCStrategy extends Strategy {
 
     // Grab the tenant out of the request, as we need some more details.
     const { tenant } = req;
+    if (!tenant) {
+      // TODO: return a better error.
+      return done(new Error("tenant not found"));
+    }
+
+    // Get the integration from the tenant. If needed, it will be used to create
+    // a new strategy.
+    let integration: OIDCAuthIntegration;
+    try {
+      integration = getEnabledIntegration(tenant);
+    } catch (err) {
+      // TODO: wrap error?
+      return done(err);
+    }
 
     // Grab the JWKSClient.
-    const client = this.lookupJWKSClient(
-      req,
-      tenant!.id,
-      tenant!.auth.integrations.oidc!
-    );
+    const client = this.lookupJWKSClient(req, tenant.id, integration);
 
     // Verify that the id_token is valid or not.
     jwt.verify(
       id_token,
-      ({ kid }, callback) => {
-        if (!kid) {
-          // TODO: return better error.
-          return callback(new Error("no kid in id_token"));
-        }
-
-        // Get the signing key from the jwks provider.
-        client.getSigningKey(kid, (err, key) => {
-          if (err) {
-            // TODO: wrap error?
-            return callback(err);
-          }
-
-          const signingKey = key.publicKey || key.rsaPublicKey;
-          callback(null, signingKey);
-        });
-      },
+      this.keyFunc(client),
       {
-        issuer: tenant!.auth.integrations.oidc!.issuer,
+        issuer: integration.issuer,
       },
       (err, decoded) => {
         if (err) {
@@ -193,10 +200,39 @@ export default class OIDCStrategy extends Strategy {
           return done(err);
         }
 
-        this.verify(tenant!, decoded as OIDCIDToken, done);
+        // Delegate the verify method off to the passed in verify method.
+        this.verify(tenant, decoded as OIDCIDToken, done);
       }
     );
-  }
+  };
+
+  /**
+   * keyFunc will provide the secret based on the given jwkw client.
+   *
+   * @param client the jwks client for the specific request being made
+   */
+  private keyFunc = (client: jwks.JwksClient): jwt.KeyFunction => (
+    { kid },
+    callback
+  ) => {
+    if (!kid) {
+      // TODO: return better error.
+      return callback(new Error("no kid in id_token"));
+    }
+
+    // Get the signing key from the jwks provider.
+    client.getSigningKey(kid, (err, key) => {
+      if (err) {
+        // TODO: wrap error?
+        return callback(err);
+      }
+
+      // Grab the signingKey out of the provided key.
+      const signingKey = key.publicKey || key.rsaPublicKey;
+
+      callback(null, signingKey);
+    });
+  };
 
   private createStrategy(
     req: Request,
@@ -218,7 +254,7 @@ export default class OIDCStrategy extends Strategy {
         tokenURL,
         callbackURL,
       },
-      this.verifyCallback.bind(this)
+      this.verifyCallback
     );
   }
 
@@ -231,17 +267,7 @@ export default class OIDCStrategy extends Strategy {
 
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
-    const integration = tenant.auth.integrations.oidc;
-    if (!integration) {
-      // TODO: return a better error.
-      throw new Error("integration not found");
-    }
-
-    // Handle when the integration is enabled/disabled.
-    if (!integration.enabled) {
-      // TODO: return a better error.
-      throw new Error("integration not enabled");
-    }
+    const integration = getEnabledIntegration(tenant);
 
     // Try to get the Tenant's cached integrations.
     let entry = this.cache.get(tenant.id);
@@ -279,11 +305,30 @@ export default class OIDCStrategy extends Strategy {
       // Authenticate with the strategy, binding the current context to the method
       // to provide it with the augmented passport handlers. We also request the
       // 'openid' scope so we can get an id_token back.
-      strategy.authenticate(req, { scope: "openid email", session: false });
+      strategy.authenticate(req, {
+        scope: OIDC_SCOPE,
+        session: false,
+      });
     } catch (err) {
       return this.error(err);
     }
   }
+}
+
+function getEnabledIntegration(tenant: Tenant) {
+  const integration = tenant.auth.integrations.oidc;
+  if (!integration) {
+    // TODO: return a better error.
+    throw new Error("integration not found");
+  }
+
+  // Handle when the integration is enabled/disabled.
+  if (!integration.enabled) {
+    // TODO: return a better error.
+    throw new Error("integration not enabled");
+  }
+
+  return integration;
 }
 
 export function createOIDCStrategy({ db }: OIDCStrategyOptions) {

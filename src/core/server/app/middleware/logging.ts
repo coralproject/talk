@@ -2,7 +2,7 @@ import { ErrorRequestHandler, RequestHandler } from "express";
 import now from "performance-now";
 import logger from "../../logger";
 
-export const access: RequestHandler = (req, res, next) => {
+export const accessLogger: RequestHandler = (req, res, next) => {
   const startTime = now();
   const end = res.end;
   res.end = (chunk: any, encodingOrCb?: any, cb?: any) => {
@@ -37,7 +37,7 @@ export const access: RequestHandler = (req, res, next) => {
   next();
 };
 
-export const error: ErrorRequestHandler = (err, req, res, next) => {
-  logger.error({ err }, "http error");
+export const errorLogger: ErrorRequestHandler = (err, req, res, next) => {
+  logger.error(err, "http error");
   next(err);
 };

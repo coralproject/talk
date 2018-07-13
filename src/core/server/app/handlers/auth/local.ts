@@ -6,7 +6,7 @@ import { handle } from "talk-server/app/middleware/passport";
 import { validate } from "talk-server/app/request/body";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile } from "talk-server/models/user";
-import { create } from "talk-server/services/users";
+import { upsert } from "talk-server/services/users";
 import { Request } from "talk-server/types/express";
 
 export interface SignupBody {
@@ -67,12 +67,14 @@ export const signup = ({ db }: SignupOptions): RequestHandler => async (
     };
 
     // Create the new user.
-    const user = await create(db, tenant, {
+    const user = await upsert(db, tenant, {
       email,
       username,
       displayName,
       password,
       profiles: [profile],
+      // New users signing up via local auth will have the commenter role to
+      // start with.
       role: GQLUSER_ROLE.COMMENTER,
     });
 

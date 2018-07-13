@@ -6,6 +6,8 @@ import managementGraphMiddleware from "talk-server/graph/management/middleware";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
 import { signup } from "talk-server/app/handlers/auth/local";
+import { apiErrorHandler } from "talk-server/app/middleware/error";
+import { errorLogger } from "talk-server/app/middleware/logging";
 import { authenticate } from "talk-server/app/middleware/passport";
 import { AppOptions } from "./index";
 import playground from "./middleware/playground";
@@ -33,19 +35,11 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
   // Tenant identification middleware.
   router.use(tenantMiddleware({ db: app.mongo }));
 
+  // Setup Passport middleware.
   router.use(options.passport.initialize());
-  router.use(
-    "/auth/local",
-    express.json(),
-    authenticate(options.passport, "local")
-  );
-  router.use("/auth/local/signup", express.json(), signup({ db: app.mongo }));
-  router.use("/auth/oidc", authenticate(options.passport, "oidc"));
-  router.use("/auth/oidc/callback", authenticate(options.passport, "oidc"));
-  // router.use("/auth/google", options.passport.authenticate("google"));
-  // router.use("/auth/google/callback", options.passport.authenticate("google"));
-  // router.use("/auth/facebook", options.passport.authenticate("facebook"));
-  // router.use("/auth/facebook/callback", options.passport.authenticate("facebook"));
+
+  // Setup auth routes.
+  router.use("/auth", createNewAuthRouter(app, options));
 
   // Tenant API
   router.use(
@@ -53,6 +47,25 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
     express.json(),
     await tenantGraphMiddleware(app.schemas.tenant, app.config, app.mongo)
   );
+
+  return router;
+}
+
+function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
+  const router = express.Router();
+
+  router.post(
+    "/local",
+    express.json(),
+    authenticate(options.passport, "local")
+  );
+  router.post("/local/signup", express.json(), signup({ db: app.mongo }));
+  router.get("/oidc", authenticate(options.passport, "oidc"));
+  router.get("/oidc/callback", authenticate(options.passport, "oidc"));
+  // router.get("/google", options.passport.authenticate("google"));
+  // router.get("/google/callback", options.passport.authenticate("google"));
+  // router.get("/facebook", options.passport.authenticate("facebook"));
+  // router.get("/facebook/callback", options.passport.authenticate("facebook"));
 
   return router;
 }
@@ -66,6 +79,10 @@ async function createAPIRouter(app: AppOptions, options: RouterOptions) {
 
   // Configure the management routes.
   router.use("/management", await createManagementRouter(app, options));
+
+  // General API error handler.
+  router.use(errorLogger);
+  router.use(apiErrorHandler);
 
   return router;
 }

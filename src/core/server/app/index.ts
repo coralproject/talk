@@ -8,10 +8,7 @@ import { Config } from "talk-server/config";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
 
-import {
-  access as accessLogger,
-  error as errorLogger,
-} from "./middleware/logging";
+import { accessLogger, errorLogger } from "./middleware/logging";
 import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";
 
