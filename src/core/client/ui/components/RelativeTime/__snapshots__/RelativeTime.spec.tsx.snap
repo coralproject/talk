@@ -3,18 +3,18 @@
 exports[`uses default formatter 1`] = `
 <time
   className="RelativeTime-root"
-  dateTime="2108-12-17T06:24:00.000Z"
-  title="2108-12-17T06:24:00.000Z"
+  dateTime="2018-12-17T06:24:00.000Z"
+  title="2018-12-17T03:24:00"
 >
-  2108-12-17T06:24:00.000Z
+  2018-12-17T06:24:00.000Z
 </time>
 `;
 
 exports[`uses formatter from context 1`] = `
 <time
   className="RelativeTime-root"
-  dateTime="2108-12-17T06:24:00.000Z"
-  title="2108-12-17T06:24:00.000Z"
+  dateTime="2018-12-17T03:24:00.000Z"
+  title="2018-12-17T03:24:00.000Z"
 >
   My Context Formatter
 </time>
@@ -23,8 +23,8 @@ exports[`uses formatter from context 1`] = `
 exports[`uses formatter from props 1`] = `
 <time
   className="RelativeTime-root"
-  dateTime="2108-12-17T06:24:00.000Z"
-  title="2108-12-17T06:24:00.000Z"
+  dateTime="2018-12-17T03:24:00.000Z"
+  title="2018-12-17T03:24:00.000Z"
 >
   My Context Formatter
 </time>

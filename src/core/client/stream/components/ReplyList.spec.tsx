@@ -3,10 +3,12 @@ import { noop } from "lodash";
 import React from "react";
 import sinon, { SinonSpy } from "sinon";
 
-import ReplyList, { ReplyListProps } from "./ReplyList";
+import { PropTypesOf } from "talk-framework/types";
+
+import ReplyList from "./ReplyList";
 
 it("renders correctly", () => {
-  const props: ReplyListProps = {
+  const props: PropTypesOf<typeof ReplyList> = {
     commentID: "comment-id",
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
     onShowAll: noop,
@@ -18,7 +20,7 @@ it("renders correctly", () => {
 });
 
 describe("when there is more", () => {
-  const props: ReplyListProps = {
+  const props: PropTypesOf<typeof ReplyList> = {
     commentID: "comment-id",
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
     onShowAll: sinon.spy(),

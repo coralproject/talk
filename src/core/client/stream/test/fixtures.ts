@@ -18,19 +18,19 @@ export const comments = [
     id: "comment-0",
     author: users[0],
     body: "Joining Too",
-    createdAt: "2018-07-06T18:24:00",
+    createdAt: "2018-07-06T18:24:00.000Z",
   },
   {
     id: "comment-1",
     author: users[1],
     body: "What's up?",
-    createdAt: "2018-07-06T18:20:00",
+    createdAt: "2018-07-06T18:20:00.000Z",
   },
   {
     id: "comment-2",
     author: users[2],
     body: "Hey!",
-    createdAt: "2018-07-06T18:14:00",
+    createdAt: "2018-07-06T18:14:00.000Z",
   },
 ];
 
@@ -54,7 +54,7 @@ export const commentWithReplies = {
   id: "comment-with-replies",
   author: users[0],
   body: "I like yoghurt",
-  createdAt: "2018-07-06T18:24:00",
+  createdAt: "2018-07-06T18:24:00.000Z",
   replies: {
     edges: [
       { node: comments[0], cursor: comments[0].createdAt },

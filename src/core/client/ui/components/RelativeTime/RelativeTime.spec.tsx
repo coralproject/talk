@@ -1,12 +1,14 @@
 import React from "react";
 import { create } from "react-test-renderer";
 
+import { PropTypesOf } from "talk-ui/types";
+
 import UIContext from "../UIContext";
 import RelativeTime from "./RelativeTime";
 
 it("uses default formatter", () => {
   const props = {
-    date: new Date("December 17, 2108 03:24:00").toISOString(),
+    date: "2018-12-17T03:24:00",
   };
   const tree = create(<RelativeTime {...props} />).toJSON();
 
@@ -17,8 +19,8 @@ it("uses formatter from context", () => {
   const context: any = {
     timeagoFormatter: () => "My Context Formatter",
   };
-  const props = {
-    date: new Date("December 17, 2108 03:24:00").toISOString(),
+  const props: PropTypesOf<typeof RelativeTime> = {
+    date: "2018-12-17T03:24:00.000Z",
   };
   const tree = create(
     <UIContext.Provider value={context}>
@@ -31,7 +33,7 @@ it("uses formatter from context", () => {
 
 it("uses formatter from props", () => {
   const props = {
-    date: new Date("December 17, 2108 03:24:00").toISOString(),
+    date: "2018-12-17T03:24:00.000Z",
     formatter: () => "My Props Formatter",
   };
   const tree = create(<RelativeTime {...props} />).toJSON();

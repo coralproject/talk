@@ -1,12 +1,13 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 
+import { PropTypesOf } from "talk-framework/types";
 import { UIContext, UIContextProps } from "talk-ui/components";
 
 import TopBar from "./TopBar";
 
 it("renders correctly on small screens", () => {
-  const props = {
+  const props: PropTypesOf<typeof TopBar> = {
     children: <div>Hello World</div>,
   };
 
@@ -25,7 +26,7 @@ it("renders correctly on small screens", () => {
 });
 
 it("renders correctly on big screens", () => {
-  const props = {
+  const props: PropTypesOf<typeof TopBar> = {
     children: <div>Hello World</div>,
   };
 

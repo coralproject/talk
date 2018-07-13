@@ -60,10 +60,10 @@ exports[`loads more comments 1`] = `
             </span>
             <time
               className="Timestamp-root RelativeTime-root"
-              dateTime="2018-07-06T21:24:00.000Z"
-              title="2018-07-06T18:24:00"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
             >
-              2018-07-06T21:24:00.000Z
+              2018-07-06T18:24:00.000Z
             </time>
           </div>
           <p
@@ -89,10 +89,10 @@ exports[`loads more comments 1`] = `
             </span>
             <time
               className="Timestamp-root RelativeTime-root"
-              dateTime="2018-07-06T21:20:00.000Z"
-              title="2018-07-06T18:20:00"
+              dateTime="2018-07-06T18:20:00.000Z"
+              title="2018-07-06T18:20:00.000Z"
             >
-              2018-07-06T21:20:00.000Z
+              2018-07-06T18:20:00.000Z
             </time>
           </div>
           <p
@@ -118,10 +118,10 @@ exports[`loads more comments 1`] = `
             </span>
             <time
               className="Timestamp-root RelativeTime-root"
-              dateTime="2018-07-06T21:14:00.000Z"
-              title="2018-07-06T18:14:00"
+              dateTime="2018-07-06T18:14:00.000Z"
+              title="2018-07-06T18:14:00.000Z"
             >
-              2018-07-06T21:14:00.000Z
+              2018-07-06T18:14:00.000Z
             </time>
           </div>
           <p
@@ -196,10 +196,10 @@ exports[`renders comment stream 1`] = `
             </span>
             <time
               className="Timestamp-root RelativeTime-root"
-              dateTime="2018-07-06T21:24:00.000Z"
-              title="2018-07-06T18:24:00"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
             >
-              2018-07-06T21:24:00.000Z
+              2018-07-06T18:24:00.000Z
             </time>
           </div>
           <p
@@ -225,10 +225,10 @@ exports[`renders comment stream 1`] = `
             </span>
             <time
               className="Timestamp-root RelativeTime-root"
-              dateTime="2018-07-06T21:20:00.000Z"
-              title="2018-07-06T18:20:00"
+              dateTime="2018-07-06T18:20:00.000Z"
+              title="2018-07-06T18:20:00.000Z"
             >
-              2018-07-06T21:20:00.000Z
+              2018-07-06T18:20:00.000Z
             </time>
           </div>
           <p

@@ -1,28 +1,17 @@
 import { shallow } from "enzyme";
 import React from "react";
 
+import { PropTypesOf } from "talk-framework/types";
+
 import Comment from "./Comment";
 
 it("renders username and body", () => {
-  const props = {
+  const props: PropTypesOf<typeof Comment> = {
     author: {
       username: "Marvin",
     },
     body: "Woof",
-    createdAt: new Date("December 17, 1995 03:24:00").toISOString(),
-  };
-  const wrapper = shallow(<Comment {...props} />);
-  expect(wrapper).toMatchSnapshot();
-});
-
-it("renders with gutterBottom", () => {
-  const props = {
-    author: {
-      username: "Marvin",
-    },
-    body: "Woof",
-    createdAt: new Date("December 17, 1995 03:24:00").toISOString(),
-    gutterBottom: true,
+    createdAt: "1995-12-17T03:24:00.000Z",
   };
   const wrapper = shallow(<Comment {...props} />);
   expect(wrapper).toMatchSnapshot();

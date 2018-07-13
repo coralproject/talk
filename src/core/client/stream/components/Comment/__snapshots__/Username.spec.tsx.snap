@@ -1,11 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<MatchMedia
-  minWidth="xs"
-/>
-`;
-
 exports[`renders correctly on big screens 1`] = `
 <span
   className="Typography-root Typography-heading2 Username-root"

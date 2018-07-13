@@ -1,16 +1,18 @@
 import { shallow } from "enzyme";
 import React from "react";
 
+import { PropTypesOf } from "talk-framework/types";
+
 import { CommentContainer } from "./CommentContainer";
 
 it("renders username and body", () => {
-  const props = {
+  const props: PropTypesOf<typeof CommentContainer> = {
     data: {
       author: {
         username: "Marvin",
       },
       body: "Woof",
-      createdAt: new Date("December 17, 1995 03:24:00").toISOString(),
+      createdAt: "1995-12-17T03:24:00.000Z",
     },
   };
 

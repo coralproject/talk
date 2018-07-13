@@ -1,12 +1,13 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 
+import { PropTypesOf } from "talk-framework/types";
 import { UIContext, UIContextProps } from "talk-ui/components";
 
 import Username from "./Username";
 
 it("renders correctly on small screens", () => {
-  const props = {
+  const props: PropTypesOf<typeof Username> = {
     children: "Marvin",
   };
 
@@ -25,7 +26,7 @@ it("renders correctly on small screens", () => {
 });
 
 it("renders correctly on big screens", () => {
-  const props = {
+  const props: PropTypesOf<typeof Username> = {
     children: "Marvin",
   };
 

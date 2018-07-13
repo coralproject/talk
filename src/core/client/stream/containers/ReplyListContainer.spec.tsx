@@ -8,7 +8,7 @@ import ReplyList from "../components/ReplyList";
 import { ReplyListContainer } from "./ReplyListContainer";
 
 it("renders correctly", () => {
-  const props: any = {
+  const props: PropTypesOf<typeof ReplyListContainer> = {
     comment: {
       id: "comment-id",
       replies: {
@@ -18,14 +18,14 @@ it("renders correctly", () => {
     relay: {
       hasMore: noop,
       isLoading: noop,
-    },
+    } as any,
   };
   const wrapper = shallow(<ReplyListContainer {...props} />);
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders correctly when replies are null", () => {
-  const props: any = {
+  const props: PropTypesOf<typeof ReplyListContainer> = {
     comment: {
       id: "comment-id",
       replies: null,
@@ -33,7 +33,7 @@ it("renders correctly when replies are null", () => {
     relay: {
       hasMore: noop,
       isLoading: noop,
-    },
+    } as any,
   };
   const wrapper = shallow(<ReplyListContainer {...props} />);
   expect(wrapper).toMatchSnapshot();

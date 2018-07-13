@@ -9,25 +9,7 @@ exports[`renders username and body 1`] = `
       Marvin
     </Username>
     <Timestamp>
-      1995-12-17T06:24:00.000Z
-    </Timestamp>
-  </TopBar>
-  <withPropsOnChange(Typography)>
-    Woof
-  </withPropsOnChange(Typography)>
-</div>
-`;
-
-exports[`renders with gutterBottom 1`] = `
-<div
-  role="article"
->
-  <TopBar>
-    <Username>
-      Marvin
-    </Username>
-    <Timestamp>
-      1995-12-17T06:24:00.000Z
+      1995-12-17T03:24:00.000Z
     </Timestamp>
   </TopBar>
   <withPropsOnChange(Typography)>
