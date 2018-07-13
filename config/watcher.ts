@@ -59,6 +59,7 @@ const config: Config = {
       "compileRelayStream",
     ],
     docz: ["runDocz", "compileCSSTypes"],
+    jest: ["runJest", "compileCSSTypes", "compileRelayStream"],
   },
 };
 
