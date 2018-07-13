@@ -44,10 +44,6 @@ const config: Config = {
       paths: [],
       executor: new LongRunningExecutor("npm run docz -- dev"),
     },
-    runJest: {
-      paths: [],
-      executor: new LongRunningExecutor("npm run test"),
-    },
   },
   defaultSet: "client",
   sets: {
@@ -59,7 +55,7 @@ const config: Config = {
       "compileRelayStream",
     ],
     docz: ["runDocz", "compileCSSTypes"],
-    jest: ["runJest", "compileCSSTypes", "compileRelayStream"],
+    compile: ["compileCSSTypes", "compileRelayStream"],
   },
 };
 
