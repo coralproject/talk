@@ -19,7 +19,7 @@
     "lint:server": "tslint --project ./src/tsconfig.json",
     "lint:client": "tslint --project ./src/core/client/tsconfig.json",
     "lint:scripts": "tslint --project ./tsconfig.json",
-    "docz:watch": "docz dev"
+    "docz": "docz"
   },
   "author": "",
   "license": "Apache-2.0",

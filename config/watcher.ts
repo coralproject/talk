@@ -42,9 +42,7 @@ const config: Config = {
     },
     runDocz: {
       paths: [],
-      executor: new LongRunningExecutor(
-        "npm run docz:watch -- --websocketHost 192.168.5.5"
-      ),
+      executor: new LongRunningExecutor("npm run docz -- dev"),
     },
     runJest: {
       paths: [],
