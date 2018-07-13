@@ -28,14 +28,16 @@ async function beginWatch(
 function setupCleanup(watcher: Watcher, config: Config) {
   ["SIGINT", "SIGTERM"].forEach(signal =>
     process.once(signal as any, async () => {
+      const cleanups = [];
       if (watcher.onCleanup) {
-        await watcher.onCleanup();
+        cleanups.push(watcher.onCleanup());
       }
       for (const key of Object.keys(config.watchers)) {
         if (config.watchers[key].executor.onCleanup) {
-          await config.watchers[key].executor.onCleanup!();
+          cleanups.push(config.watchers[key].executor.onCleanup!());
         }
       }
+      await Promise.all(cleanups);
       process.exit(0);
     })
   );

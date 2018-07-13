@@ -43,32 +43,35 @@ export default class SaneWatcher implements Watcher {
     paths: ReadonlyArray<string>,
     options: WatchOptions = {}
   ): AsyncIterable<string> {
-    // Setup client
-    const client = sane(rootDir, {
-      glob: paths as string[],
-      ignored: options.ignore as string[],
-      watchman: this.watchman,
-      poll: this.poll,
-    });
-
     // An array to hold all changes, that has not yet been yield.
     const queue: string[] = [];
 
     // If this is set, a pending promise is waiting for the next result.
     let pending: ({ resolve: (result: string) => void }) | null = null;
 
-    // Listen for changes
-    client.on("change", (pathFile: string) => {
-      // Resolve pending request.
-      if (pending) {
-        pending.resolve(pathFile);
-        pending = null;
-        return;
-      }
+    // Only start client if we have something to watch.
+    if (paths.length) {
+      // Setup client
+      const client = sane(rootDir, {
+        glob: paths as string[],
+        ignored: options.ignore as string[],
+        watchman: this.watchman,
+        poll: this.poll,
+      });
 
-      // There is no pending request, save it into the queue.
-      queue.unshift(pathFile);
-    });
+      // Listen for changes
+      client.on("change", (pathFile: string) => {
+        // Resolve pending request.
+        if (pending) {
+          pending.resolve(pathFile);
+          pending = null;
+          return;
+        }
+
+        // There is no pending request, save it into the queue.
+        queue.unshift(pathFile);
+      });
+    }
 
     return {
       [Symbol.asyncIterator]() {
