@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { ChildProcess } from "child_process";
 import spawn from "cross-spawn";
 import { Cancelable, debounce } from "lodash";
@@ -41,7 +42,7 @@ export default class LongRunningExecutor implements Executor {
 
       if (code !== 0 && code !== null) {
         // tslint:disable-next-line: no-console
-        console.error(`Exit code returned ${code}`);
+        console.log(chalk.red(`Command exited with ${code}`));
         return;
       }
       if (this.shouldRestart) {

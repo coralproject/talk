@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { execSync } from "child_process";
 import sane from "sane";
 
@@ -34,7 +35,7 @@ export default class SaneWatcher implements Watcher {
     if (this.watchman === undefined && canUseWatchman()) {
       this.watchman = true;
       // tslint:disable-next-line:no-console
-      console.log("Watchman detected");
+      console.log(chalk.grey(`Watchman detected`));
     }
   }
 
