@@ -49,14 +49,14 @@ const config = convict({
   mongodb: {
     doc: "The MongoDB database to connect to.",
     format: "mongo-uri",
-    default: "mongodb://localhost/talk",
+    default: "mongodb://127.0.0.1:27017/talk",
     env: "MONGODB",
     arg: "mongodb",
   },
   redis: {
     doc: "The Redis database to connect to.",
     format: "redis-uri",
-    default: "redis://localhost:6379",
+    default: "redis://127.0.0.1:6379",
     env: "REDIS",
     arg: "redis",
   },
