@@ -1,7 +1,7 @@
 import * as React from "react";
 import { StatelessComponent } from "react";
 
-import { Center } from "talk-ui/components";
+import { Flex } from "talk-ui/components";
 
 import StreamContainer from "../containers/StreamContainer";
 
@@ -12,9 +12,9 @@ export interface AppProps {
 const App: StatelessComponent<AppProps> = props => {
   if (props.asset) {
     return (
-      <Center>
+      <Flex justifyContent="center">
         <StreamContainer asset={props.asset} />
-      </Center>
+      </Flex>
     );
   }
   return <div>Asset not found </div>;

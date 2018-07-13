@@ -3,8 +3,9 @@
 
   display: block;
   height: 100px;
-  width: 400px;
-  margin-bottom: calc(2px * $spacing-unit);
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: calc(1px * var(--spacing-unit));
 }
 
 .postButtonContainer {

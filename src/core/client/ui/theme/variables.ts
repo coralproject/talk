@@ -58,7 +58,8 @@ const variables = {
     },
   },
   /* gitter and spacing */
-  spacingUnit: 5,
+  spacingUnitSmall: 5,
+  spacingUnitLarge: 10,
   /* Borders */
   roundCorners: "2px",
   /* Typography */
@@ -68,6 +69,14 @@ const variables = {
   fontWeightLight: 300,
   fontWeightRegular: 400,
   fontWeightMedium: 550,
+  /* Breakpoints */
+  breakpoints: {
+    xs: 320,
+    sm: 640,
+    md: 1024,
+    lg: 1400,
+    xl: 1600,
+  },
 };
 
-module.exports = variables;
+export default variables;

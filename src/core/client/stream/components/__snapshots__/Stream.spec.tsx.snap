@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div>
+<div
+  className="Stream-root"
+>
   <Logo
     gutterBottom={true}
   />
@@ -56,7 +58,9 @@ exports[`renders correctly 1`] = `
 `;
 
 exports[`when there is more disables load more button 1`] = `
-<div>
+<div
+  className="Stream-root"
+>
   <Logo
     gutterBottom={true}
   />
@@ -126,7 +130,9 @@ exports[`when there is more disables load more button 1`] = `
 `;
 
 exports[`when there is more renders a load more button 1`] = `
-<div>
+<div
+  className="Stream-root"
+>
   <Logo
     gutterBottom={true}
   />
