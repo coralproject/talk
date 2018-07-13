@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders username and body 1`] = `
+<Comment
+  author={
+    Object {
+      "username": "Marvin",
+    }
+  }
+  body="Woof"
+/>
+`;

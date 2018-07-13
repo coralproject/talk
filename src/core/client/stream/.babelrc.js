@@ -1,5 +1,4 @@
 const path = require("path");
-
 module.exports = {
   extends: "../.babelrc.js",
   plugins: [

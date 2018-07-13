@@ -9,22 +9,28 @@ import Comment, { CommentProps } from "../components/Comment";
 
 type InnerProps = { data: Data } & Omit<CommentProps, keyof Data>;
 
-const CommentContainer: StatelessComponent<InnerProps> = props => {
+// tslint:disable-next-line:no-unused-expression
+graphql`
+  fragment CommentContainer_comment on Comment {
+    author {
+      username
+    }
+    body
+  }
+`;
+
+export const CommentContainer: StatelessComponent<InnerProps> = props => {
   const { data, ...rest } = props;
   return <Comment {...rest} {...props.data} />;
 };
 
-const enhanced = withFragmentContainer<{ data: Data }>(
-  graphql`
+const enhanced = withFragmentContainer<{ data: Data }>({
+  data: graphql`
     fragment CommentContainer on Comment {
-      id
-      author {
-        username
-      }
-      body
+      ...CommentContainer_comment @relay(mask: false)
     }
-  `
-)(CommentContainer);
+  `,
+})(CommentContainer);
 
 export type CommentContainerProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

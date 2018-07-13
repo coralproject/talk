@@ -39,11 +39,13 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
             </div>
           )}
         </Field>
-        <Localized id="postCommentForm-submit">
-          <Button className={styles.postButton} disabled={submitting} primary>
-            Post
-          </Button>
-        </Localized>
+        <div className={styles.postButtonContainer}>
+          <Localized id="comments-postCommentForm-post">
+            <Button disabled={submitting} primary>
+              Post
+            </Button>
+          </Localized>
+        </div>
       </form>
     )}
   </Form>

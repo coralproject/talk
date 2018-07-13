@@ -13,7 +13,7 @@ export const VALIDATION_REQUIRED = () => (
 );
 
 export const VALIDATION_TOO_SHORT = () => (
-  <Localized id="framework-validation-too-short">
+  <Localized id="framework-validation-tooShort">
     <span>This field is too short.</span>
   </Localized>
 );

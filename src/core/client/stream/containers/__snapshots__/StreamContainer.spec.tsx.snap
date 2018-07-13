@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Stream
+  assetID="asset-id"
+  comments={
+    Array [
+      Object {
+        "id": "comment-1",
+      },
+      Object {
+        "id": "comment-2",
+      },
+    ]
+  }
+  disableLoadMore={false}
+  isClosed={false}
+  onLoadMore={[Function]}
+/>
+`;
+
+exports[`when has more comments renders hasMore 1`] = `
+<Stream
+  assetID="asset-id"
+  comments={
+    Array [
+      Object {
+        "id": "comment-1",
+      },
+      Object {
+        "id": "comment-2",
+      },
+    ]
+  }
+  disableLoadMore={false}
+  hasMore={true}
+  isClosed={false}
+  onLoadMore={[Function]}
+/>
+`;
+
+exports[`when has more comments when loading more disables load more button 1`] = `
+<Stream
+  assetID="asset-id"
+  comments={
+    Array [
+      Object {
+        "id": "comment-1",
+      },
+      Object {
+        "id": "comment-2",
+      },
+    ]
+  }
+  disableLoadMore={true}
+  hasMore={true}
+  isClosed={false}
+  onLoadMore={[Function]}
+/>
+`;
+
+exports[`when has more comments when loading more enable load more button after loading is done 1`] = `
+<Stream
+  assetID="asset-id"
+  comments={
+    Array [
+      Object {
+        "id": "comment-1",
+      },
+      Object {
+        "id": "comment-2",
+      },
+    ]
+  }
+  disableLoadMore={false}
+  hasMore={true}
+  isClosed={false}
+  onLoadMore={[Function]}
+/>
+`;
