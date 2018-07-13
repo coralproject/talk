@@ -50,12 +50,12 @@ export default class LongRunningExecutor implements Executor {
     });
   }
 
-  private async restart(): Promise<void> {
+  private restart() {
     this.shouldRestart = true;
     return this.internalKill();
   }
 
-  private async kill(): Promise<void> {
+  private kill() {
     this.shouldRestart = false;
     return this.internalKill();
   }
