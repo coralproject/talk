@@ -21,15 +21,15 @@ export interface Executor {
 }
 
 export interface Options {
-  only?: string[];
+  only?: ReadonlyArray<string>;
 }
 
 export interface Config {
   rootDir?: string;
   backend?: Watcher;
-  watchers: {
-    [key: string]: WatchConfig;
-  };
+  watchers: Record<string, WatchConfig>;
+  defaultSet?: string;
+  sets?: Record<string, ReadonlyArray<string>>;
 }
 
 export interface WatchConfig {
@@ -54,4 +54,13 @@ export const configSchema = Joi.object({
       executor: Joi.object(),
     })
   ),
-});
+  defaultSet: Joi.string().optional(),
+  sets: Joi.object()
+    .pattern(
+      /.*/,
+      Joi.array()
+        .items(Joi.string())
+        .unique()
+    )
+    .optional(),
+}).with("defaultSet", "sets");

@@ -44,12 +44,33 @@ function setupCleanup(watcher: Watcher, config: Config) {
   );
 }
 
+function resolveSets(
+  sets: Record<string, ReadonlyArray<string>>,
+  value: ReadonlyArray<string>
+) {
+  const resolved: string[] = [];
+  value.forEach(v => {
+    if (v in sets) {
+      resolved.push(...sets[v]);
+      return;
+    }
+    resolved.push(v);
+  });
+  return resolved;
+}
+
 function filterOnly(
   watchers: Config["watchers"],
-  only: string[]
+  only: ReadonlyArray<string>,
+  sets?: Record<string, ReadonlyArray<string>>
 ): Config["watchers"] {
+  const resolved = sets ? resolveSets(sets, only) : only;
+  const unknown = resolved.filter(r => !(r in watchers));
+  if (unknown.length) {
+    throw new Error(`Watcher Configuration or Set for ${unknown} not found`);
+  }
   return pickBy(watchers, (value, key) => {
-    if (only.indexOf(key) === -1) {
+    if (resolved.indexOf(key) === -1) {
       // tslint:disable-next-line:no-console
       console.log(`Disabled watcher "${key}"`);
       return false;
@@ -58,18 +79,23 @@ function filterOnly(
   }) as Config["watchers"];
 }
 
-export default async function watch(config: Config, options?: Options) {
+export default async function watch(config: Config, options: Options = {}) {
   Joi.assert(config, configSchema);
   const watcher: Watcher = config.backend || new SaneWatcher();
   const rootDir = config.rootDir || process.cwd();
+  const defaultSet = config.defaultSet && [config.defaultSet];
+  const only = options.only && options.only.length ? options.only : defaultSet;
+
   let watchersConfigs = config.watchers;
-  if (options && options.only && options.only.length > 0) {
-    watchersConfigs = filterOnly(watchersConfigs, options.only);
+  if (only) {
+    watchersConfigs = filterOnly(watchersConfigs, only, config.sets);
   }
+
   setupCleanup(watcher, config);
   if (watcher.onInit) {
     await watcher.onInit();
   }
+
   for (const key of Object.keys(watchersConfigs)) {
     // tslint:disable-next-line:no-console
     console.log(`Start watcher "${key}"`);
