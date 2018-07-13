@@ -45,6 +45,7 @@ export default class LongRunningExecutor implements Executor {
         return;
       }
       if (this.shouldRestart) {
+        this.shouldRestart = false;
         this.spawnProcess();
       }
     });
