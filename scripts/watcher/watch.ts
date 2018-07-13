@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { pickBy } from "lodash";
 
 import SaneWatcher from "./SaneWatcher";
 import { Config, configSchema, Options, WatchConfig, Watcher } from "./types";
@@ -43,31 +44,36 @@ function setupCleanup(watcher: Watcher, config: Config) {
   );
 }
 
-function filterOnly(config: Config, only: string[]) {
-  for (const key of Object.keys(config.watchers)) {
+function filterOnly(
+  watchers: Config["watchers"],
+  only: string[]
+): Config["watchers"] {
+  return pickBy(watchers, (value, key) => {
     if (only.indexOf(key) === -1) {
       // tslint:disable-next-line:no-console
       console.log(`Disabled watcher "${key}"`);
-      delete config.watchers[key];
+      return false;
     }
-  }
+    return true;
+  }) as Config["watchers"];
 }
 
 export default async function watch(config: Config, options?: Options) {
   Joi.assert(config, configSchema);
   const watcher: Watcher = config.backend || new SaneWatcher();
   const rootDir = config.rootDir || process.cwd();
+  let watchersConfigs = config.watchers;
   if (options && options.only && options.only.length > 0) {
-    filterOnly(config, options.only);
+    watchersConfigs = filterOnly(watchersConfigs, options.only);
   }
   setupCleanup(watcher, config);
   if (watcher.onInit) {
     await watcher.onInit();
   }
-  for (const key of Object.keys(config.watchers)) {
+  for (const key of Object.keys(watchersConfigs)) {
     // tslint:disable-next-line:no-console
     console.log(`Start watcher "${key}"`);
-    const watcherConfig = config.watchers[key];
+    const watcherConfig = watchersConfigs[key];
     beginWatch(watcher, key, watcherConfig, rootDir);
   }
 }
