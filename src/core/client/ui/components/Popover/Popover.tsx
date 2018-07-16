@@ -1,18 +1,16 @@
 import React from "react";
+import { RefHandler } from "react-popper";
 import Attachment from "../Attachment";
 import * as styles from "./Popover.css";
 
 interface RenderProps {
-  toggleShow: () => void;
+  toggleShow?: () => void;
+  ref?: RefHandler;
 }
 
 interface InnerProps {
-  body: React.ReactElement<Props> | null;
-  children: (props: RenderProps) => React.ReactElement<any>;
-}
-
-interface Props {
-  ref: any;
+  body: React.ReactElement<any> | null;
+  children: (props: RenderProps) => any;
 }
 
 interface State {
@@ -33,7 +31,7 @@ class Popover extends React.Component<InnerProps> {
   public render() {
     const { body, children } = this.props;
     // const { show } = this.state;
-    console.log(children);
+    // console.log(children);
     return (
       <Attachment body={body} className={styles.root}>
         {({ ref }) => children({ toggleShow: this.toggleShow, ref })}

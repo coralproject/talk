@@ -36,7 +36,6 @@ class PermalinkPopover extends React.Component<InnerProps> {
     const { commentId, ref, style } = this.props;
     const { copied } = this.state;
 
-    console.log(this.props, "props");
     return (
       <div className={styles.root} ref={ref} style={style}>
         <TextField defaultValue={commentId} className={styles.textField} />
