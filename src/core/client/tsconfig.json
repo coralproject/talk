@@ -12,8 +12,7 @@
       "talk-stream/*": ["./stream/*"],
       "talk-framework/*": ["./framework/*"],
       "talk-ui/*": ["./ui/*"],
-      "talk-common/*": ["../common/*"],
-      "talk-locales/*": ["../../locales/*"]
+      "talk-common/*": ["../common/*"]
     }
   },
   "include": ["./**/*", "../../types/**/*.d.ts"],

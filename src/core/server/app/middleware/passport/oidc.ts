@@ -51,6 +51,50 @@ export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
   return false;
 }
 
+/**
+ * keyFunc will provide the secret based on the given jwkw client.
+ *
+ * @param client the jwks client for the specific request being made
+ */
+const signingKeyFactory = (client: jwks.JwksClient): jwt.KeyFunction => (
+  { kid },
+  callback
+) => {
+  if (!kid) {
+    // TODO: return better error.
+    return callback(new Error("no kid in id_token"));
+  }
+
+  // Get the signing key from the jwks provider.
+  client.getSigningKey(kid, (err, key) => {
+    if (err) {
+      // TODO: wrap error?
+      return callback(err);
+    }
+
+    // Grab the signingKey out of the provided key.
+    const signingKey = key.publicKey || key.rsaPublicKey;
+
+    callback(null, signingKey);
+  });
+};
+
+function getEnabledIntegration(tenant: Tenant) {
+  const integration = tenant.auth.integrations.oidc;
+  if (!integration) {
+    // TODO: return a better error.
+    throw new Error("integration not found");
+  }
+
+  // Handle when the integration is enabled/disabled.
+  if (!integration.enabled) {
+    // TODO: return a better error.
+    throw new Error("integration not enabled");
+  }
+
+  return integration;
+}
+
 export async function findOrCreateOIDCUser(
   db: Db,
   tenant: Tenant,
@@ -104,19 +148,6 @@ export default class OIDCStrategy extends Strategy {
     this.db = db;
   }
 
-  private async verify(
-    tenant: Tenant,
-    token: OIDCIDToken,
-    done: VerifyCallback
-  ) {
-    try {
-      const user = await findOrCreateOIDCUser(this.db, tenant, token);
-      return done(null, user);
-    } catch (err) {
-      return done(err);
-    }
-  }
-
   private lookupJWKSClient(
     req: Request,
     tenantID: string,
@@ -151,7 +182,7 @@ export default class OIDCStrategy extends Strategy {
     return entry.jwksClient;
   }
 
-  private verifyCallback = (
+  private userAuthenticatedCallback = (
     req: Request,
     accessToken: string, // ignore the access token, we don't use it.
     refreshToken: string, // ignore the refresh token, we don't use it.
@@ -190,48 +221,28 @@ export default class OIDCStrategy extends Strategy {
     // Verify that the id_token is valid or not.
     jwt.verify(
       id_token,
-      this.keyFunc(client),
+      signingKeyFactory(client),
       {
         issuer: integration.issuer,
       },
-      (err, decoded) => {
+      async (err, decoded) => {
         if (err) {
           // TODO: wrap error?
           return done(err);
         }
 
-        // Delegate the verify method off to the passed in verify method.
-        this.verify(tenant, decoded as OIDCIDToken, done);
+        try {
+          const user = await findOrCreateOIDCUser(
+            this.db,
+            tenant,
+            decoded as OIDCIDToken
+          );
+          return done(null, user);
+        } catch (err) {
+          return done(err);
+        }
       }
     );
-  };
-
-  /**
-   * keyFunc will provide the secret based on the given jwkw client.
-   *
-   * @param client the jwks client for the specific request being made
-   */
-  private keyFunc = (client: jwks.JwksClient): jwt.KeyFunction => (
-    { kid },
-    callback
-  ) => {
-    if (!kid) {
-      // TODO: return better error.
-      return callback(new Error("no kid in id_token"));
-    }
-
-    // Get the signing key from the jwks provider.
-    client.getSigningKey(kid, (err, key) => {
-      if (err) {
-        // TODO: wrap error?
-        return callback(err);
-      }
-
-      // Grab the signingKey out of the provided key.
-      const signingKey = key.publicKey || key.rsaPublicKey;
-
-      callback(null, signingKey);
-    });
   };
 
   private createStrategy(
@@ -254,7 +265,7 @@ export default class OIDCStrategy extends Strategy {
         tokenURL,
         callbackURL,
       },
-      this.verifyCallback
+      this.userAuthenticatedCallback
     );
   }
 
@@ -313,22 +324,6 @@ export default class OIDCStrategy extends Strategy {
       return this.error(err);
     }
   }
-}
-
-function getEnabledIntegration(tenant: Tenant) {
-  const integration = tenant.auth.integrations.oidc;
-  if (!integration) {
-    // TODO: return a better error.
-    throw new Error("integration not found");
-  }
-
-  // Handle when the integration is enabled/disabled.
-  if (!integration.enabled) {
-    // TODO: return a better error.
-    throw new Error("integration not enabled");
-  }
-
-  return integration;
 }
 
 export function createOIDCStrategy({ db }: OIDCStrategyOptions) {

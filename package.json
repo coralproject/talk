@@ -7,7 +7,7 @@
     "build:server": "tsc -p ./src/tsconfig.json",
     "build": "npm-run-all compile --parallel build:*",
     "compile:css-types": "tcm src/core/client/",
-    "compile:graphql": "node ./scripts/types.js",
+    "compile:schema": "node ./scripts/generateSchemaTypes.js",
     "compile:relay-stream": "relay-compiler --src ./src/core/client/stream --schema $(ts-node ./scripts/schemaPath.ts tenant) --language typescript --artifactDirectory ./src/core/client/stream/__generated__ --no-watchman",
     "compile": "npm-run-all --parallel compile:*",
     "docz:watch": "docz dev",

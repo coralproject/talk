@@ -9,8 +9,8 @@ const config: Config = {
   rootDir: path.resolve(__dirname, "../src"),
   watchers: {
     compileGraphQLTypes: {
-      paths: ["core/server/graph/**/*.graphql"],
-      executor: new CommandExecutor("npm run compile:graphql", {
+      paths: ["core/server/**/*.graphql"],
+      executor: new CommandExecutor("npm run compile:schema", {
         runOnInit: true,
       }),
     },

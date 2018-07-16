@@ -17,15 +17,9 @@ function lintAndWrite(files) {
 function getFileName(name) {
   return path.join(
     __dirname,
-    "..",
-    "src",
-    "core",
-    "server",
-    "graph",
+    "../src/core/server/graph",
     name,
-    "schema",
-    "__generated__",
-    "types.ts"
+    "schema/__generated__/types.ts"
   );
 }
 

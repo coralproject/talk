@@ -22,8 +22,7 @@ const SignupBodySchema = Joi.object().keys({
   email: Joi.string().trim(),
 });
 
-// Extends the default signup body schema with the displayName to allow it to be
-// sent.
+// Extends the default signup body schema to allow the displayName to be set.
 const SignupDisplayNameBodySchema = SignupBodySchema.keys({
   displayName: Joi.string().trim(),
 });
