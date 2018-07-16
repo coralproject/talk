@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import spawn from "cross-spawn";
 import { Cancelable, debounce } from "lodash";
 
@@ -65,9 +66,9 @@ export default class CommandExecutor implements Executor {
 
     child.on("close", (code: number) => {
       this.isRunning = false;
-      if (code !== 0) {
+      if (code !== 0 && code !== null) {
         // tslint:disable-next-line: no-console
-        console.log(`We had an error building ${code}`);
+        console.log(chalk.red(`Command exited with ${code}`));
       }
       if (this.shouldRespawn) {
         this.spawnProcessPotentiallyDebounced();

@@ -1,14 +1,22 @@
 import chokidar from "chokidar";
+import path from "path";
 import { Watcher, WatchOptions } from "./types";
+
+function prependRootDir(
+  prepend: string,
+  paths: ReadonlyArray<string>
+): string[] {
+  const prependFunc = (p: string) => path.resolve(prepend, p);
+  return paths.map(prependFunc);
+}
 
 export default class ChokidarWatcher implements Watcher {
   public watch(
+    rootDir: string,
     paths: ReadonlyArray<string>,
     options: WatchOptions = {}
   ): AsyncIterable<string> {
-    const client = chokidar.watch(paths as string[], {
-      ignored: options.ignore,
-    });
+    const resolvedPaths = prependRootDir(rootDir, paths);
 
     // An array to hold all changes, that has not yet been yield.
     const queue: string[] = [];
@@ -19,31 +27,38 @@ export default class ChokidarWatcher implements Watcher {
       | ({ resolve: (result: string) => void; reject: (error: Error) => void })
       | null = null;
 
-    // Listen for errors
-    client.on("error", (error: Error) => {
-      // Resolve pending request.
-      if (pending) {
-        pending.reject(error);
-        pending = null;
-        return;
-      }
-      if (!firstError) {
-        firstError = error;
-      }
-    });
+    // Only start client if we have something to watch.
+    if (paths.length) {
+      const client = chokidar.watch(resolvedPaths, {
+        ignored: options.ignore && prependRootDir(rootDir, options.ignore),
+      });
 
-    // Listen for changes
-    client.on("change", (pathFile: string) => {
-      // Resolve pending request.
-      if (pending) {
-        pending.resolve(pathFile);
-        pending = null;
-        return;
-      }
+      // Listen for errors
+      client.on("error", (error: Error) => {
+        // Resolve pending request.
+        if (pending) {
+          pending.reject(error);
+          pending = null;
+          return;
+        }
+        if (!firstError) {
+          firstError = error;
+        }
+      });
 
-      // There is no pending request, save it into the queue.
-      queue.unshift(pathFile);
-    });
+      // Listen for changes
+      client.on("change", (pathFile: string) => {
+        // Resolve pending request.
+        if (pending) {
+          pending.resolve(pathFile);
+          pending = null;
+          return;
+        }
+
+        // There is no pending request, save it into the queue.
+        queue.unshift(pathFile);
+      });
+    }
     return {
       [Symbol.asyncIterator]() {
         return {

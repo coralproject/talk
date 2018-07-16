@@ -1,3 +1,0 @@
-.root {
-  composes: heading4 from "talk-ui/shared/typography.css";
-}

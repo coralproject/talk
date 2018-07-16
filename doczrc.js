@@ -14,7 +14,7 @@ export default {
   source: "./src",
   typescript: true,
   host: process.env.HOST || "0.0.0.0",
-  port: parseInt(process.env.DOCZ_PORT, 10) || 3000,
+  port: parseInt(process.env.DOCZ_PORT, 10) || 3030,
   modifyBundlerConfig: config => {
     config.module.rules.push({
       test: /\.css$/,

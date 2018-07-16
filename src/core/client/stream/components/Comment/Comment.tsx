@@ -1,9 +1,9 @@
-import cn from "classnames";
 import React from "react";
 import { StatelessComponent } from "react";
 import { Typography } from "talk-ui/components";
-import * as styles from "./Comment.css";
-import PermalinkPopover from "./PermalinkPopover";
+import PermalinkPopover from "../PermalinkPopover";
+import Timestamp from "./Timestamp";
+import TopBar from "./TopBar";
 import Username from "./Username";
 
 export interface CommentProps {
@@ -13,20 +13,18 @@ export interface CommentProps {
     username: string;
   } | null;
   body: string | null;
-  gutterBottom?: boolean;
+  createdAt: string;
 }
 
 const Comment: StatelessComponent<CommentProps> = props => {
-  const rootClassName = cn(styles.root, props.className, {
-    [styles.gutterBottom]: props.gutterBottom,
-  });
   return (
-    <div className={rootClassName} role="article">
-      <div className={styles.topBar}>
+    <div role="article">
+      <TopBar>
         {props.author && <Username>{props.author.username}</Username>}
-      </div>
+        <Timestamp>{props.createdAt}</Timestamp>
+      </TopBar>
       <Typography>{props.body}</Typography>
-      <div className={cn("talk-comment-footer")}>
+      <div>
         <PermalinkPopover commentId={props.id} />
       </div>
     </div>

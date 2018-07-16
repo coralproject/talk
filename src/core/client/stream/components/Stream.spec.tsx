@@ -1,12 +1,14 @@
 import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
-import sinon from "sinon";
+import sinon, { SinonSpy } from "sinon";
 
-import Stream, { StreamProps } from "./Stream";
+import { PropTypesOf } from "talk-framework/types";
+
+import Stream from "./Stream";
 
 it("renders correctly", () => {
-  const props: StreamProps = {
+  const props: PropTypesOf<typeof Stream> = {
     assetID: "asset-id",
     isClosed: false,
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
@@ -19,7 +21,7 @@ it("renders correctly", () => {
 });
 
 describe("when there is more", () => {
-  const props = {
+  const props: PropTypesOf<typeof Stream> = {
     assetID: "asset-id",
     isClosed: false,
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
@@ -35,7 +37,7 @@ describe("when there is more", () => {
 
   it("calls onLoadMore", () => {
     wrapper.find("#talk-comments-stream-loadMore").simulate("click");
-    expect(props.onLoadMore.calledOnce).toBe(true);
+    expect((props.onLoadMore as SinonSpy).calledOnce).toBe(true);
   });
 
   const wrapperDisabledButton = shallow(<Stream {...props} disableLoadMore />);

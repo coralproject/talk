@@ -16,6 +16,7 @@ graphql`
       username
     }
     body
+    createdAt
   }
 `;
 

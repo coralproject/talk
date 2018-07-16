@@ -3,7 +3,7 @@ import React from "react";
 
 import { PropTypesOf } from "talk-ui/types";
 
-import MatchMedia from "./MatchMedia";
+import { MatchMedia } from "./MatchMedia";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof MatchMedia> = {

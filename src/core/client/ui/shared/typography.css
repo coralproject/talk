@@ -61,3 +61,12 @@
 
 .overline {
 }
+
+.timestamp {
+  color: var(--palette-text-secondary);
+  font-family: "Source Sans Pro";
+  font-weight: var(--font-weight-medium);
+  font-size: 14px;
+  line-height: calc(18em / 16);
+  letter-spacing: calc(0.2em / 16);
+}
