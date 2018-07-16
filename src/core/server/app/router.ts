@@ -1,14 +1,14 @@
 import express from "express";
 import passport from "passport";
 
+import { signupHandler } from "talk-server/app/handlers/auth/local";
+import { apiErrorHandler } from "talk-server/app/middleware/error";
+import { errorLogger } from "talk-server/app/middleware/logging";
+import { authenticate } from "talk-server/app/middleware/passport";
 import tenantMiddleware from "talk-server/app/middleware/tenant";
 import managementGraphMiddleware from "talk-server/graph/management/middleware";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
-import { signup } from "talk-server/app/handlers/auth/local";
-import { apiErrorHandler } from "talk-server/app/middleware/error";
-import { errorLogger } from "talk-server/app/middleware/logging";
-import { authenticate } from "talk-server/app/middleware/passport";
 import { AppOptions } from "./index";
 import playground from "./middleware/playground";
 
@@ -59,7 +59,11 @@ function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
     express.json(),
     authenticate(options.passport, "local")
   );
-  router.post("/local/signup", express.json(), signup({ db: app.mongo }));
+  router.post(
+    "/local/signup",
+    express.json(),
+    signupHandler({ db: app.mongo })
+  );
   router.get("/oidc", authenticate(options.passport, "oidc"));
   router.get("/oidc/callback", authenticate(options.passport, "oidc"));
   // router.get("/google", options.passport.authenticate("google"));

@@ -31,7 +31,7 @@ export interface SignupOptions {
   db: Db;
 }
 
-export const signup = ({ db }: SignupOptions): RequestHandler => async (
+export const signupHandler = ({ db }: SignupOptions): RequestHandler => async (
   req: Request,
   res,
   next
@@ -42,6 +42,7 @@ export const signup = ({ db }: SignupOptions): RequestHandler => async (
     // Tenant is guaranteed at this point.
     const tenant = req.tenant!;
 
+    // Check to ensure that the local integration has been enabled.
     if (!tenant.auth.integrations.local.enabled) {
       // TODO: replace with better error.
       return next(new Error("integration is disabled"));

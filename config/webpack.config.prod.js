@@ -39,7 +39,7 @@ if (env.stringified["process.env"].NODE_ENV !== '"production"') {
 // because of this bug https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/763.
 // TODO: Repalce with mini-css-extract-plugin once it supports HMR.
 // https://github.com/webpack-contrib/mini-css-extract-plugin
-const cssFilename = "static/css/[name].[md5:contenthash:hex:20].css";
+const cssFilename = "assets/css/[name].[md5:contenthash:hex:20].css";
 
 // ExtractTextPlugin expects the build output to be flat.
 // (See https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/27)
@@ -72,8 +72,8 @@ module.exports = {
     // Generated JS file names (with nested folders).
     // There will be one main bundle, and one file per asynchronous chunk.
     // We don't currently advertise code splitting but Webpack supports it.
-    filename: "static/js/[name].[chunkhash:8].js",
-    chunkFilename: "static/js/[name].[chunkhash:8].chunk.js",
+    filename: "assets/js/[name].[chunkhash:8].js",
+    chunkFilename: "assets/js/[name].[chunkhash:8].chunk.js",
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath: publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
@@ -210,7 +210,7 @@ module.exports = {
             loader: require.resolve("url-loader"),
             options: {
               limit: 10000,
-              name: "static/media/[name].[hash:8].[ext]",
+              name: "assets/media/[name].[hash:8].[ext]",
             },
           },
           // Process JS with Babel.
@@ -299,7 +299,7 @@ module.exports = {
             exclude: [/\.(js|jsx|mjs|ts|tsx)$/, /\.html$/, /\.json$/],
             loader: require.resolve("file-loader"),
             options: {
-              name: "static/media/[name].[hash:8].[ext]",
+              name: "assets/media/[name].[hash:8].[ext]",
             },
           },
         ],

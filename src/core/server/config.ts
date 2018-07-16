@@ -1,10 +1,5 @@
 import convict from "convict";
-import dotenv from "dotenv";
 import Joi from "joi";
-
-// Apply all the configuration provided in the .env file if it isn't already in
-// the environment.
-dotenv.config();
 
 // Add custom format for the mongo uri scheme.
 convict.addFormat({

@@ -3,6 +3,7 @@ import http from "http";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
+import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
 import { Config } from "talk-server/config";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
@@ -30,16 +31,17 @@ export async function createApp(options: AppOptions): Promise<Express> {
   // Logging
   parent.use(accessLogger);
 
-  // Static Files
-  parent.use(serveStatic);
-
   // Create some services for the router.
   const passport = createPassport({ db: options.mongo });
 
   // Mount the router.
   parent.use(await createRouter(options, { passport }));
 
+  // Static Files
+  parent.use(serveStatic);
+
   // Error Handling
+  parent.use(notFoundMiddleware);
   parent.use(errorLogger);
 
   return parent;
