@@ -19,7 +19,7 @@ const variables = {
       dark: "#65696B",
       main: "#787D80",
       light: "#9A9DA0",
-      lighter: "#636E72",
+      lighter: "#BBBEBF",
     },
     /* Success colors */
     success: {
