@@ -124,13 +124,18 @@ export async function upsertUser(
     created_at: now,
   };
 
+  let hashedPassword;
   if (input.password) {
     // Hash the user's password with bcrypt.
-    input.password = await bcrypt.hash(input.password, 10);
+    hashedPassword = await bcrypt.hash(input.password, 10);
   }
 
   // Merge the defaults and the input together.
-  const user: Readonly<User> = merge({}, defaults, input);
+  const user: Readonly<User> = merge({}, defaults, input, {
+    // Specified last in the merge call, it will override any existing password
+    // entry if it is defined.
+    password: hashedPassword,
+  });
 
   // Create a query that will utilize a findOneAndUpdate to facilitate an upsert
   // operation to ensure no user has the same profile and/or email address. If
