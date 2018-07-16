@@ -1,6 +1,7 @@
+import { Localized } from "fluent-react/compat";
 import React from "react";
 import { StatelessComponent } from "react";
-import { Typography } from "talk-ui/components";
+import { Popover, Typography } from "talk-ui/components";
 import PermalinkPopover from "../PermalinkPopover";
 import Timestamp from "./Timestamp";
 import TopBar from "./TopBar";
@@ -25,7 +26,15 @@ const Comment: StatelessComponent<CommentProps> = props => {
       </TopBar>
       <Typography>{props.body}</Typography>
       <div>
-        <PermalinkPopover commentId={props.id} />
+        <Popover body={<PermalinkPopover commentId={props.id} />}>
+          {({ toggleShow }) => (
+            <button onClick={toggleShow}>
+              <Localized id="comments-permalink-share">
+                <span>Share</span>
+              </Localized>
+            </button>
+          )}
+        </Popover>
       </div>
     </div>
   );

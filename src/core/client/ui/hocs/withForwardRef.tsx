@@ -9,14 +9,12 @@ import {
  * the `React.forwardRef` api.
  */
 function withForwardRef<T>(): InferableComponentEnhancerWithProps<
-  { forwardRef: any },
+  { forwardRef: Ref<any> },
   {}
 > {
   return WrappedComponent => {
     return React.forwardRef((props, ref) => (
-      ref as button={ref} className="FancyButton">
-        {props.children}
-      </button>
+      <WrappedComponent forwardRef={ref} />
     ));
   };
 }

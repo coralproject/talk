@@ -25,13 +25,17 @@ interface InnerProps {
     | "left-start";
 }
 
+interface Props {
+  ref: any;
+}
+
 class Attachment extends React.Component<InnerProps> {
   public render() {
     const { children, body, placement = "top", className } = this.props;
     return (
       <Manager>
         <Reference>
-          {({ ref }) => React.cloneElement(children, { ref })}
+          {(props: Props) => React.cloneElement(children, { ref: props.ref })}
         </Reference>
 
         <Popper
