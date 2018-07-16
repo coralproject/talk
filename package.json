@@ -47,17 +47,8 @@
     "mongodb": "^3.1.1",
     "passport": "^0.4.0",
     "performance-now": "^2.1.0",
-<<<<<<< HEAD
-    "rc-tooltip": "^3.7.2",
-    "react-copy-to-clipboard": "^5.0.1",
-    "react-popper": "^1.0.0-beta.6",
-    "react-tooltip": "^3.6.1",
-    "subscriptions-transport-ws": "^0.9.11",
-    "uuid": "^3.2.1"
-=======
     "subscriptions-transport-ws": "^0.9.12",
     "uuid": "^3.3.2"
->>>>>>> abfa39529ff398007bb67cd814c4217a97bdb38b
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.49",
@@ -148,6 +139,8 @@
     "react-responsive": "^4.1.0",
     "react-test-renderer": "^16.4.1",
     "react-timeago": "^4.1.9",
+    "react-copy-to-clipboard": "^5.0.1",
+    "react-popper": "^1.0.0-beta.6",
     "recompose": "^0.27.1",
     "relay-compiler": "github:coralproject/patched#relay-compiler",
     "relay-compiler-language-typescript": "github:coralproject/patched#relay-compiler-language-typescript",

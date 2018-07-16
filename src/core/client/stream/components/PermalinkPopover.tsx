@@ -55,11 +55,11 @@ class PermalinkPopover extends React.Component<InnerProps> {
               <CopyToClipboard text={commentId} onCopy={this.onCopy}>
                 <Button primary>
                   {copied ? (
-                    <L id="copied">
+                    <L id="comments-permalink-copied">
                       <span>Copied!</span>
                     </L>
                   ) : (
-                    <L id="copy">
+                    <L id="comments-permalink-copy">
                       <span>Copy</span>
                     </L>
                   )}
@@ -70,7 +70,7 @@ class PermalinkPopover extends React.Component<InnerProps> {
         }
       >
         <button className={styles.shareButton} onClick={this.onClick}>
-          <L id="share">
+          <L id="comments-permalink-share">
             <span>Share</span>
           </L>
         </button>
