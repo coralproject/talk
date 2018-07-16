@@ -3,10 +3,10 @@ import { FocusEvent, MouseEvent } from "react";
 import { hoistStatics } from "recompose";
 
 interface InjectedProps {
-  onFocus?: React.EventHandler<FocusEvent<any>>;
-  onBlur?: React.EventHandler<FocusEvent<any>>;
-  onMouseDown?: React.EventHandler<MouseEvent<any>>;
-  keyboardFocus?: boolean;
+  onFocus: React.EventHandler<FocusEvent<any>>;
+  onBlur: React.EventHandler<FocusEvent<any>>;
+  onMouseDown: React.EventHandler<MouseEvent<any>>;
+  keyboardFocus: boolean;
 }
 
 /**
@@ -61,4 +61,5 @@ export default hoistStatics<InjectedProps>(
 
     return WithKeyboardFocus as React.ComponentType<any>;
   }
-);
+  // TODO: workaround, add bug link.
+) as <T>(WrappedComponent: T) => T;
