@@ -30,10 +30,9 @@ class Popover extends React.Component<InnerProps> {
 
   public render() {
     const { body, children } = this.props;
-    // const { show } = this.state;
-    // console.log(children);
+    const { show } = this.state;
     return (
-      <Attachment body={body} className={styles.root}>
+      <Attachment body={show ? body : null} className={styles.root}>
         {({ ref }) => children({ toggleShow: this.toggleShow, ref })}
       </Attachment>
     );
