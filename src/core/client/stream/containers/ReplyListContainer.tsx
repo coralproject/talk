@@ -22,7 +22,10 @@ export class ReplyListContainer extends React.Component<InnerProps> {
   };
 
   public render() {
-    if (this.props.comment.replies === null) {
+    if (
+      this.props.comment.replies === null ||
+      this.props.comment.replies.edges.length === 0
+    ) {
       return null;
     }
     const comments = this.props.comment.replies.edges.map(edge => edge.node);

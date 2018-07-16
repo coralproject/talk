@@ -2,6 +2,54 @@
   display: flex;
 }
 
+.halfItemGutter {
+  & > * {
+    margin: 0 calc(0.5 * var(--spacing-unit)) 0 0;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 calc(0.5 * var(--spacing-unit));
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 calc(0.5 * var(--spacing-unit)) 0;
+    }
+  }
+  &.directionColumnReverese {
+    & > * {
+      margin: calc(0.5 * var(--spacing-unit)) 0 0 0;
+    }
+  }
+  & > *:last-child {
+    margin: 0;
+  }
+}
+
+.itemGutter {
+  & > * {
+    margin: 0 var(--spacing-unit) 0 0;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 var(--spacing-unit);
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 var(--spacing-unit) 0;
+    }
+  }
+  &.directionColumnReverese {
+    & > * {
+      margin: var(--spacing-unit) 0 0 0;
+    }
+  }
+  & > *:last-child {
+    margin: 0;
+  }
+}
+
 .justifyFlexStart {
   justify-content: flex-start;
 }

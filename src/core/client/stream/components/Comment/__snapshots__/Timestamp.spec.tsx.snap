@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(RelativeTime)
+  className="Timestamp-root"
+  date="1995-12-17T03:24:00.000Z"
+/>
+`;

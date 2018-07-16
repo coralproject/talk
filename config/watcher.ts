@@ -46,6 +46,22 @@ const config: Config = {
       paths: [],
       executor: new LongRunningExecutor("npm run start:webpackDevServer"),
     },
+    runDocz: {
+      paths: [],
+      executor: new LongRunningExecutor("npm run docz -- dev"),
+    },
+  },
+  defaultSet: "client",
+  sets: {
+    server: ["runServer"],
+    client: [
+      "runServer",
+      "runWebpackDevServer",
+      "compileCSSTypes",
+      "compileRelayStream",
+    ],
+    docz: ["runDocz", "compileCSSTypes"],
+    compile: ["compileCSSTypes", "compileRelayStream"],
   },
 };
 

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Flex
+  className="App-root"
+  justifyContent="center"
+>
+  <Relay(StreamContainer)
+    asset={Object {}}
+  />
+</Flex>
+`;
+
+exports[`renders correctly when asset is null 1`] = `
+<div>
+  Asset not found 
+</div>
+`;

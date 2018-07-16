@@ -43,6 +43,10 @@
   composes: overline from "talk-ui/shared/typography.css";
 }
 
+.timestamp {
+  composes: timestamp from "talk-ui/shared/typography.css";
+}
+
 .alignLeft {
   text-align: left;
 }
@@ -70,7 +74,7 @@
 }
 
 .paragraph {
-  margin-bottom: calc(1px * var(--spacing-unit));
+  margin-bottom: var(--spacing-unit);
 }
 
 .colorInherit {

@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
 
-import { Button } from "talk-ui/components";
+import { Button, Flex } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
 import PostCommentFormContainer from "../containers/PostCommentFormContainer";
@@ -24,12 +24,18 @@ const Stream: StatelessComponent<StreamProps> = props => {
     <div className={styles.root}>
       <Logo gutterBottom />
       <PostCommentFormContainer assetID={props.assetID} />
-      <div id="talk-comments-stream-log" role="log" aria-live="polite">
+      <Flex
+        direction="column"
+        id="talk-comments-stream-log"
+        role="log"
+        aria-live="polite"
+        itemGutter
+      >
         {props.comments.map(comment => (
-          <div key={comment.id}>
-            <CommentContainer data={comment} gutterBottom />
+          <Flex direction="column" key={comment.id} itemGutter>
+            <CommentContainer data={comment} />
             <ReplyListContainer comment={comment} />
-          </div>
+          </Flex>
         ))}
         {props.hasMore && (
           <Localized id="comments-stream-loadMore">
@@ -46,7 +52,7 @@ const Stream: StatelessComponent<StreamProps> = props => {
             </Button>
           </Localized>
         )}
-      </div>
+      </Flex>
     </div>
   );
 };

@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly on big screens 1`] = `
+<div
+  className="Flex-root TopBar-root Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+>
+  <div>
+    Hello World
+  </div>
+</div>
+`;
+
+exports[`renders correctly on small screens 1`] = `
+<div
+  className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+>
+  <div>
+    Hello World
+  </div>
+</div>
+`;
