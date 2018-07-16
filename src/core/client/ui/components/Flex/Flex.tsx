@@ -20,6 +20,7 @@ interface InnerProps {
   direction?: "row" | "column" | "row-reverse" | "column-reverse";
   itemGutter?: boolean | "half";
   className?: string;
+  wrap?: boolean | "reverse";
 }
 
 const Flex: StatelessComponent<InnerProps> = props => {
@@ -29,12 +30,15 @@ const Flex: StatelessComponent<InnerProps> = props => {
     alignItems,
     direction,
     itemGutter,
+    wrap,
     ...rest
   } = props;
 
   const classObject: Record<string, boolean> = {
     [styles.itemGutter]: itemGutter === true,
     [styles.halfItemGutter]: itemGutter === "half",
+    [styles.wrap]: wrap === true,
+    [styles.wrapReverse]: wrap === "reverse",
   };
 
   if (justifyContent) {

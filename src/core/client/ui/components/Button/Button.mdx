@@ -5,23 +5,26 @@ menu: UI Kit
 
 import { Playground } from 'docz'
 import Button from './Button'
+import Flex from '../Flex'
 
 # Button
 
 ## Basic usage
 <Playground>
-  <Button style={{margin: "0 10px 10px 0"}}>Push Me</Button>
-  <Button style={{margin: "0 10px 10px 0"}} disabled>Push Me</Button>
-  <Button style={{margin: "0 10px 10px 0"}} anchor>I'm an Anchor Tag</Button>
-  <Button style={{margin: "0 10px 10px 0"}} primary>Primary</Button>
-  <Button style={{margin: "0 10px 10px 0"}} primary disabled>Primary</Button>
-  <Button style={{margin: "0 10px 10px 0"}} secondary>Secondary</Button>
-  <Button style={{margin: "0 10px 10px 0"}} secondary disabled>Secondary</Button>
-  <Button style={{margin: "0 10px 10px 0"}} primary invert>Primary</Button>
-  <Button style={{margin: "0 10px 10px 0"}} primary invert disabled>Primary</Button>
-  <Button style={{margin: "0 10px 10px 0"}} secondary invert>Secondary</Button>
-  <Button style={{margin: "0 10px 10px 0"}} secondary invert disabled>Secondary</Button>
-  <Button style={{marginBottom: "10px"}} primary fullWidth>Full Width</Button>
-  <Button style={{marginBottom: "10px"}} primary invert fullWidth>Full Width Invert</Button>
+  <Flex itemGutter wrap>
+    <Button>Push Me</Button>
+    <Button disabled>Push Me</Button>
+    <Button anchor>I'm an Anchor Tag</Button>
+    <Button primary>Primary</Button>
+    <Button primary disabled>Primary</Button>
+    <Button secondary>Secondary</Button>
+    <Button secondary disabled>Secondary</Button>
+    <Button primary invert>Primary</Button>
+    <Button primary invert disabled>Primary</Button>
+    <Button secondary invert>Secondary</Button>
+    <Button secondary invert disabled>Secondary</Button>
+    <Button primary fullWidth>Full Width</Button>
+    <Button primary invert fullWidth>Full Width Invert</Button>
+  </Flex>
 </Playground>
 
