@@ -7,6 +7,8 @@ import { pascalCase } from "talk-common/utils";
 import * as styles from "./Flex.css";
 
 interface InnerProps {
+  id?: string;
+  role?: string;
   justifyContent?:
     | "flex-start"
     | "flex-end"
@@ -16,12 +18,24 @@ interface InnerProps {
     | "space-evenly";
   alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
   direction?: "row" | "column" | "row-reverse" | "column-reverse";
+  itemGutter?: boolean | "half";
+  className?: string;
 }
 
 const Flex: StatelessComponent<InnerProps> = props => {
-  const { justifyContent, alignItems, direction, ...rest } = props;
+  const {
+    className,
+    justifyContent,
+    alignItems,
+    direction,
+    itemGutter,
+    ...rest
+  } = props;
 
-  const classObject: Record<string, boolean> = {};
+  const classObject: Record<string, boolean> = {
+    [styles.itemGutter]: itemGutter === true,
+    [styles.halfItemGutter]: itemGutter === "half",
+  };
 
   if (justifyContent) {
     classObject[(styles as any)[`justify${pascalCase(justifyContent)}`]] = true;
@@ -35,7 +49,7 @@ const Flex: StatelessComponent<InnerProps> = props => {
     classObject[(styles as any)[`direction${pascalCase(direction)}`]] = true;
   }
 
-  const classNames: string = cn(styles.root, classObject);
+  const classNames: string = cn(styles.root, className, classObject);
 
   return <div className={classNames} {...rest} />;
 };

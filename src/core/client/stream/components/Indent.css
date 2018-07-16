@@ -1,6 +1,6 @@
 .root {
   border-left: 3px solid;
-  padding-left: calc(1px * var(--spacing-unit));
+  padding-left: var(--spacing-unit);
 }
 
 .level0 {

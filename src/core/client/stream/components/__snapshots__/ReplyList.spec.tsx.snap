@@ -2,8 +2,10 @@
 
 exports[`renders correctly 1`] = `
 <Indent>
-  <div
+  <Flex
+    direction="column"
     id="talk-comments-replyList-log--comment-id"
+    itemGutter={true}
     role="log"
   >
     <Relay(CommentContainer)
@@ -12,7 +14,6 @@ exports[`renders correctly 1`] = `
           "id": "comment-1",
         }
       }
-      gutterBottom={true}
       key="comment-1"
     />
     <Relay(CommentContainer)
@@ -21,17 +22,18 @@ exports[`renders correctly 1`] = `
           "id": "comment-2",
         }
       }
-      gutterBottom={true}
       key="comment-2"
     />
-  </div>
+  </Flex>
 </Indent>
 `;
 
 exports[`when there is more renders a load more button 1`] = `
 <Indent>
-  <div
+  <Flex
+    direction="column"
     id="talk-comments-replyList-log--comment-id"
+    itemGutter={true}
     role="log"
   >
     <Relay(CommentContainer)
@@ -40,7 +42,6 @@ exports[`when there is more renders a load more button 1`] = `
           "id": "comment-1",
         }
       }
-      gutterBottom={true}
       key="comment-1"
     />
     <Relay(CommentContainer)
@@ -49,7 +50,6 @@ exports[`when there is more renders a load more button 1`] = `
           "id": "comment-2",
         }
       }
-      gutterBottom={true}
       key="comment-2"
     />
     <Localized
@@ -67,6 +67,6 @@ exports[`when there is more renders a load more button 1`] = `
         Show All Replies
       </withPropsOnChange(Button)>
     </Localized>
-  </div>
+  </Flex>
 </Indent>
 `;
