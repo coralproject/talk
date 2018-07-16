@@ -39,6 +39,7 @@ class Button extends React.Component<InnerProps> {
       invert,
       primary,
       secondary,
+      disabled,
       ...rest
     } = this.props;
 
@@ -47,12 +48,15 @@ class Button extends React.Component<InnerProps> {
       [classes.fullWidth]: fullWidth,
       [classes.primary]: primary,
       [classes.secondary]: secondary,
+      [classes.regular]: !primary && !secondary,
+      [classes.disabled]: disabled,
     });
 
     return (
       <BaseButton
         className={rootClassName}
         classes={pick(classes, "keyboardFocus", "mouseHover")}
+        disabled={disabled}
         {...rest}
       />
     );

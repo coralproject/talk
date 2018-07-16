@@ -1,35 +1,39 @@
 .root {
   composes: button from "talk-ui/shared/typography.css";
 
-  &:enabled,
-  &:disabled {
-    padding: 5px 20px;
-    border-radius: var(--round-corners);
-    background-color: transparent;
-    /* TODO: hover styles for the default button */
-  }
+  padding: 5px 20px;
+  border-radius: var(--round-corners);
+  background-color: transparent;
 }
 
-.root:disabled {
+.root.disabled {
   opacity: 0.4;
   cursor: default;
 }
 
-.fullWidth:enabled,
-.fullWidth:disabled {
+.fullWidth {
   display: block;
   width: 100%;
   box-sizing: border-box;
 }
 
-.primary:enabled,
-.primary:disabled {
+.regular:not(.disabled) {
+  &.mouseHover {
+    color: var(--palette-secondary-light);
+  }
+  &:active {
+    color: var(--palette-secondary-lighter);
+  }
+}
+
+.primary,
+.primary:not(.disabled) {
   background-color: var(--palette-primary-main);
   color: #fff;
 }
 
-.primary:enabled {
-  &:hover {
+.primary:not(.disabled) {
+  &.mouseHover {
     background-color: var(--palette-primary-light);
   }
 
@@ -38,15 +42,15 @@
   }
 }
 
-.primary:enabled.invert,
-.primary:disabled.invert {
+.primary.invert,
+.primary.invert:not(.disabled) {
   background-color: transparent;
   border: 1px solid var(--palette-primary-main);
   color: var(--palette-primary-main);
 }
 
-.primary:enabled.invert {
-  &:hover {
+.primary.invert:not(.disabled) {
+  &.mouseHover {
     border-color: var(--palette-primary-light);
     color: var(--palette-primary-light);
   }
@@ -57,14 +61,14 @@
   }
 }
 
-.secondary:enabled,
-.secondary:disabled {
+.secondary,
+.secondary:not(.disabled) {
   background-color: var(--palette-secondary-main);
   color: #fff;
 }
 
-.secondary:enabled {
-  &:hover {
+.secondary:not(.disabled) {
+  &.mouseHover {
     background-color: var(--palette-secondary-light);
   }
   &:active {
@@ -72,15 +76,15 @@
   }
 }
 
-.secondary:enabled.invert,
-.secondary:disabled.invert {
+.secondary.invert,
+.secondary:not(.disabled).invert {
   background-color: transparent;
   border: 1px solid var(--palette-secondary-main);
   color: var(--palette-secondary-main);
 }
 
-.secondary:enabled.invert {
-  &:hover {
+.secondary:not(.disabled).invert {
+  &.mouseHover {
     border-color: var(--palette-secondary-light);
     color: var(--palette-secondary-light);
   }
@@ -89,11 +93,4 @@
     border-color: var(--palette-secondary-lighter);
     color: var(--palette-secondary-lighter);
   }
-}
-
-/**
- * This seems to be the best way to target modern touch device browsers.
- */
-@media (-moz-touch-enabled: 1), (pointer: coarse) {
-  /* TODO: Remove hover styles */
 }
