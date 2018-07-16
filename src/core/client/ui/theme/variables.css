@@ -1,0 +1,16 @@
+/*
+  Variables defined in `variables.ts` are already available
+  flattened and in kebab case.
+
+  These are additionally variables we define.
+*/
+
+:root {
+  --spacing-unit: var(--spacing-unit-small);
+}
+
+@media (min-width: $breakpoints-xs) {
+  :root {
+    --spacing-unit: var(--spacing-unit-large);
+  }
+}
