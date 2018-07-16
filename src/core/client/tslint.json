@@ -1,20 +1,13 @@
 {
-  "extends": [
-    "../../../tslint.json",
-    "tslint-react"
-  ],
+  "extends": ["../../../tslint.json", "tslint-react"],
   "rules": {
+    "jsx-curly-spacing": false,
     "jsx-no-multiline-js": false,
-    "jsx-boolean-value": [
-      true,
-      "never"
-    ]
+    "jsx-boolean-value": [true, "never"]
   },
   "jsRules": {
+    "jsx-curly-spacing": false,
     "jsx-no-multiline-js": false,
-    "jsx-boolean-value": [
-      true,
-      "never"
-    ]
+    "jsx-boolean-value": [true, "never"]
   }
 }

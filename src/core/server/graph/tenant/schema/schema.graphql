@@ -203,6 +203,11 @@ type Comment {
   body: String
 
   """
+  createdAt is the date in which the comment was created.
+  """
+  createdAt: Time
+
+  """
   author is the User that authored the Comment.
   """
   author: User
@@ -232,7 +237,22 @@ type PageInfo {
   """
   Indicates that there are more nodes after this subset.
   """
-  hasNextPage: Boolean!
+  hasNextPage: Boolean
+
+  """
+  Included for legacy Relay reasons. Always set to false.
+  """
+  hasPreviousPage: Boolean
+
+  """
+  Included for legacy Relay reasons. Always set to null.
+  """
+  startCursor: Cursor
+
+  """
+  Specifies the last node's cursor for forwards pagination.
+  """
+  endCursor: Cursor
 }
 
 """
@@ -302,7 +322,7 @@ type Asset {
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
-  ): CommentsConnection
+  ): CommentsConnection!
 
   """
   author is the authors listed in the meta tags for the Asset.

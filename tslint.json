@@ -7,10 +7,7 @@
   "rules": {
     "prettier": true,
     "object-literal-sort-keys": false,
-    "interface-name": [
-      true,
-      "never-prefix"
-    ],
+    "interface-name": [true, "never-prefix"],
     "no-switch-case-fall-through": true,
     "member-ordering": false,
     "variable-name": [
@@ -35,8 +32,6 @@
     ]
   },
   "linterOptions": {
-    "exclude": [
-      "**/node_modules/**/*"
-    ]
+    "exclude": ["**/node_modules/**/*"]
   }
 }

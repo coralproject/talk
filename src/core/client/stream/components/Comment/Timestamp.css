@@ -1,0 +1,3 @@
+.root {
+  composes: timestamp from "talk-ui/shared/typography.css";
+}

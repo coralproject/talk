@@ -180,7 +180,7 @@ module.exports = {
 
                   // All available locales can be loadable on demand.
                   // To restrict available locales set:
-                  // availableLocales: ["en-US"]
+                  // availableLocales: ["en-US"],
                 },
               },
             ],
@@ -224,6 +224,11 @@ module.exports = {
                     jsx: "preserve",
                     noEmit: false,
                   },
+
+                  // Overwrites the behavior of `include` and `exclude` to only
+                  // include files that are actually being imported and which
+                  // are necessary to compile the bundle.
+                  onlyCompileBundledFiles: true,
                 },
               },
             ],
@@ -242,6 +247,7 @@ module.exports = {
                 options: {
                   modules: true,
                   importLoaders: 1,
+                  localIdentName: "[name]-[local]-[hash:base64:5]",
                 },
               },
               {

@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import spawn from "cross-spawn";
 import { Cancelable, debounce } from "lodash";
 
@@ -5,13 +6,13 @@ import { Executor } from "./types";
 
 interface CommandExecutorOptions {
   args?: ReadonlyArray<string>;
-  // If true, allow spawning multiple processes.
+  /** If true, allow spawning multiple processes. */
   spawnMutiple?: boolean;
 
-  // Specify the period in which the process is started at max once.
+  /** Specify the period in which the process is started at max once. */
   debounce?: number | false;
 
-  // If true, will run command upon initialization.
+  /** If true, will run command upon initialization. */
   runOnInit?: boolean;
 }
 
@@ -65,9 +66,9 @@ export default class CommandExecutor implements Executor {
 
     child.on("close", (code: number) => {
       this.isRunning = false;
-      if (code !== 0) {
+      if (code !== 0 && code !== null) {
         // tslint:disable-next-line: no-console
-        console.log(`We had an error building ${code}`);
+        console.log(chalk.red(`Command exited with ${code}`));
       }
       if (this.shouldRespawn) {
         this.spawnProcessPotentiallyDebounced();

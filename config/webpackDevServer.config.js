@@ -9,6 +9,7 @@ const paths = require("./paths");
 const protocol = process.env.HTTPS === "true" ? "https" : "http";
 const host = process.env.HOST || "0.0.0.0";
 const serverPort = process.env.PORT || 3000;
+const doczPort = process.env.DOCZ_PORT || 3030;
 
 module.exports = function(proxy, allowedHost) {
   return {
@@ -81,8 +82,8 @@ module.exports = function(proxy, allowedHost) {
       disableDotRule: true,
     },
     public: allowedHost,
-    // Proxy to the graphql server.
     proxy: proxy || {
+      // Proxy to the graphql server.
       "/api": {
         target: `http://localhost:${serverPort}`,
       },

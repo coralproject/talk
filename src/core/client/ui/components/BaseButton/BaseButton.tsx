@@ -19,6 +19,8 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
   /** This is passed by the `withKeyboardFocus` HOC */
   keyboardFocus: boolean;
+
+  innerRef?: React.RefObject<HTMLDivElement> | any;
 }
 
 /**
@@ -31,6 +33,7 @@ const BaseButton: StatelessComponent<InnerProps> = ({
   classes,
   keyboardFocus,
   type: typeProp,
+  innerRef,
   ...rest
 }) => {
   let Element = "button";
@@ -53,7 +56,7 @@ const BaseButton: StatelessComponent<InnerProps> = ({
     [classes.keyboardFocus]: keyboardFocus,
   });
 
-  return <Element {...rest} className={rootClassName} />;
+  return <Element {...rest} className={rootClassName} ref={innerRef} />;
 };
 
 const enhanced = withStyles(styles)(withKeyboardFocus(BaseButton));
