@@ -1,0 +1,214 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="Stream-root"
+>
+  <Logo
+    gutterBottom={true}
+  />
+  <withContext(createMutationContainer(PostCommentFormContainer))
+    assetID="asset-id"
+  />
+  <Flex
+    aria-live="polite"
+    direction="column"
+    id="talk-comments-stream-log"
+    itemGutter={true}
+    role="log"
+  >
+    <Flex
+      direction="column"
+      itemGutter={true}
+      key="comment-1"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+    </Flex>
+    <Flex
+      direction="column"
+      itemGutter={true}
+      key="comment-2"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+    </Flex>
+  </Flex>
+</div>
+`;
+
+exports[`when there is more disables load more button 1`] = `
+<div
+  className="Stream-root"
+>
+  <Logo
+    gutterBottom={true}
+  />
+  <withContext(createMutationContainer(PostCommentFormContainer))
+    assetID="asset-id"
+  />
+  <Flex
+    aria-live="polite"
+    direction="column"
+    id="talk-comments-stream-log"
+    itemGutter={true}
+    role="log"
+  >
+    <Flex
+      direction="column"
+      itemGutter={true}
+      key="comment-1"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+    </Flex>
+    <Flex
+      direction="column"
+      itemGutter={true}
+      key="comment-2"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+    </Flex>
+    <Localized
+      id="comments-stream-loadMore"
+    >
+      <withPropsOnChange(Button)
+        aria-controls="talk-comments-stream-log"
+        disabled={true}
+        fullWidth={true}
+        id="talk-comments-stream-loadMore"
+        invert={true}
+        onClick={[Function]}
+        secondary={true}
+      >
+        Load More
+      </withPropsOnChange(Button)>
+    </Localized>
+  </Flex>
+</div>
+`;
+
+exports[`when there is more renders a load more button 1`] = `
+<div
+  className="Stream-root"
+>
+  <Logo
+    gutterBottom={true}
+  />
+  <withContext(createMutationContainer(PostCommentFormContainer))
+    assetID="asset-id"
+  />
+  <Flex
+    aria-live="polite"
+    direction="column"
+    id="talk-comments-stream-log"
+    itemGutter={true}
+    role="log"
+  >
+    <Flex
+      direction="column"
+      itemGutter={true}
+      key="comment-1"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+    </Flex>
+    <Flex
+      direction="column"
+      itemGutter={true}
+      key="comment-2"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+    </Flex>
+    <Localized
+      id="comments-stream-loadMore"
+    >
+      <withPropsOnChange(Button)
+        aria-controls="talk-comments-stream-log"
+        disabled={false}
+        fullWidth={true}
+        id="talk-comments-stream-loadMore"
+        invert={true}
+        onClick={[Function]}
+        secondary={true}
+      >
+        Load More
+      </withPropsOnChange(Button)>
+    </Localized>
+  </Flex>
+</div>
+`;

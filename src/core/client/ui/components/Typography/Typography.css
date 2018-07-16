@@ -11,19 +11,19 @@
   composes: heading2 from "talk-ui/shared/typography.css";
 }
 
-.heading3  {
+.heading3 {
   composes: heading3 from "talk-ui/shared/typography.css";
 }
 
-.heading4  {
+.heading4 {
   composes: heading4 from "talk-ui/shared/typography.css";
 }
 
-.subtitle1  {
+.subtitle1 {
   composes: subtitle1 from "talk-ui/shared/typography.css";
 }
 
-.subtitle2  {
+.subtitle2 {
   composes: subtitle2 from "talk-ui/shared/typography.css";
 }
 
@@ -31,7 +31,7 @@
   composes: body1 from "talk-ui/shared/typography.css";
 }
 
-.body2  {
+.body2 {
   composes: body2 from "talk-ui/shared/typography.css";
 }
 
@@ -41,6 +41,10 @@
 
 .overline {
   composes: overline from "talk-ui/shared/typography.css";
+}
+
+.timestamp {
+  composes: timestamp from "talk-ui/shared/typography.css";
 }
 
 .alignLeft {
@@ -70,7 +74,7 @@
 }
 
 .paragraph {
-  margin-bottom: calc(2px * $spacing-unit);
+  margin-bottom: var(--spacing-unit);
 }
 
 .colorInherit {
@@ -78,17 +82,17 @@
 }
 
 .colorPrimary {
-  color: $palette-primary-main;
+  color: var(--palette-primary-main);
 }
 
 .colorSecondary {
-  color: $palette-secondary-main;
+  color: var(--palette-secondary-main);
 }
 
 .colorTextSecondary {
-  color: $palette-text-secondary;
+  color: var(--palette-text-secondary);
 }
 
 .colorError {
-  color: $palette-error-main;
+  color: var(--palette-error-main);
 }

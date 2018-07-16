@@ -13,9 +13,14 @@ const config: Config = {
         "core/client/stream/**/*.ts",
         "core/client/stream/**/*.tsx",
         "core/client/stream/**/*.graphql",
-        "core/client/server/**/*.graphql",
+        "core/server/**/*.graphql",
       ],
-      ignore: ["core/**/*.d.ts"],
+      ignore: [
+        "core/**/*.d.ts",
+        "core/**/*.graphql.ts",
+        "**/test/**/*",
+        "core/**/*.spec.*",
+      ],
       executor: new CommandExecutor("npm run compile:relay-stream", {
         runOnInit: true,
       }),
@@ -35,6 +40,22 @@ const config: Config = {
       paths: [],
       executor: new LongRunningExecutor("npm run start:webpackDevServer"),
     },
+    runDocz: {
+      paths: [],
+      executor: new LongRunningExecutor("npm run docz -- dev"),
+    },
+  },
+  defaultSet: "client",
+  sets: {
+    server: ["runServer"],
+    client: [
+      "runServer",
+      "runWebpackDevServer",
+      "compileCSSTypes",
+      "compileRelayStream",
+    ],
+    docz: ["runDocz", "compileCSSTypes"],
+    compile: ["compileCSSTypes", "compileRelayStream"],
   },
 };
 

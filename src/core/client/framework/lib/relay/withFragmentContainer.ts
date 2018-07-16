@@ -6,7 +6,7 @@ import { InferableComponentEnhancerWithProps } from "recompose";
  * from Relay.
  */
 export default <T>(
-  fragmentSpec: GraphQLTaggedNode
+  fragmentSpec: { [P in keyof T]: GraphQLTaggedNode }
 ): InferableComponentEnhancerWithProps<T, { [P in keyof T]: any }> => (
   component: React.ComponentType<any>
 ) => createFragmentContainer(component, fragmentSpec) as any;

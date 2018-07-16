@@ -1,0 +1,99 @@
+.root {
+  display: flex;
+}
+
+.halfItemGutter {
+  & > * {
+    margin: 0 calc(0.5 * var(--spacing-unit)) 0 0;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 calc(0.5 * var(--spacing-unit));
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 calc(0.5 * var(--spacing-unit)) 0;
+    }
+  }
+  &.directionColumnReverese {
+    & > * {
+      margin: calc(0.5 * var(--spacing-unit)) 0 0 0;
+    }
+  }
+  & > *:last-child {
+    margin: 0;
+  }
+}
+
+.itemGutter {
+  & > * {
+    margin: 0 var(--spacing-unit) 0 0;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 var(--spacing-unit);
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 var(--spacing-unit) 0;
+    }
+  }
+  &.directionColumnReverese {
+    & > * {
+      margin: var(--spacing-unit) 0 0 0;
+    }
+  }
+  & > *:last-child {
+    margin: 0;
+  }
+}
+
+.justifyFlexStart {
+  justify-content: flex-start;
+}
+.justifyFlexEnd {
+  justify-content: flex-end;
+}
+.justifyCenter {
+  justify-content: center;
+}
+.justifySpaceBetween {
+  justify-content: space-between;
+}
+.justifySpaceAround {
+  justify-content: space-around;
+}
+.justifySpaceEvenly {
+  justify-content: space-evenly;
+}
+
+.alignFlexStart {
+  align-items: flex-start;
+}
+.alignFlexEnd {
+  align-items: flex-end;
+}
+.alignCenter {
+  align-items: center;
+}
+.alignBaseline {
+  align-items: baseline;
+}
+.alignStretch {
+  align-items: stretch;
+}
+
+.directionRow {
+  flex-direction: row;
+}
+.directionColumn {
+  flex-direction: column;
+}
+.directionRowReverse {
+  flex-direction: row-reverse;
+}
+.directionColumnReverse {
+  flex-direction: column-reverse;
+}

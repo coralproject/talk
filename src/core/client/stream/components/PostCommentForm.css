@@ -3,10 +3,12 @@
 
   display: block;
   height: 100px;
-  width: 400px;
-  margin-bottom: calc(2px * $spacing-unit);
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: var(--spacing-unit);
 }
 
-.postButton {
-  float: right;
+.postButtonContainer {
+  display: flex;
+  justify-content: flex-end;
 }

@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders comment stream 1`] = `
+<div
+  className="Flex-root App-root Flex-justifyCenter"
+>
+  <div
+    className="Stream-root"
+  >
+    <h1
+      className="Typography-root Typography-heading1 Typography-gutterBottom"
+    >
+      Talk NEO
+    </h1>
+    <form
+      autoComplete="off"
+      onSubmit={[Function]}
+    >
+      <div>
+        <textarea
+          className="PostCommentForm-textarea"
+          name="body"
+          onChange={[Function]}
+          value=""
+        />
+      </div>
+      <div
+        className="PostCommentForm-postButtonContainer"
+      >
+        <button
+          className="BaseButton-root Button-root Button-primary"
+          disabled={false}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+        >
+          Post
+        </button>
+      </div>
+    </form>
+    <div
+      aria-live="polite"
+      className="Flex-root Flex-itemGutter Flex-directionColumn"
+      id="talk-comments-stream-log"
+      role="log"
+    >
+      <div
+        className="Flex-root Flex-itemGutter Flex-directionColumn"
+      >
+        <div
+          role="article"
+        >
+          <div
+            className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+          >
+            <span
+              className="Typography-root Typography-heading3 Username-root"
+            >
+              Markus
+            </span>
+            <time
+              className="Timestamp-root RelativeTime-root"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
+            >
+              2018-07-06T18:24:00.000Z
+            </time>
+          </div>
+          <p
+            className="Typography-root Typography-body1"
+          >
+            Joining Too
+          </p>
+        </div>
+      </div>
+      <div
+        className="Flex-root Flex-itemGutter Flex-directionColumn"
+      >
+        <div
+          role="article"
+        >
+          <div
+            className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+          >
+            <span
+              className="Typography-root Typography-heading3 Username-root"
+            >
+              Markus
+            </span>
+            <time
+              className="Timestamp-root RelativeTime-root"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
+            >
+              2018-07-06T18:24:00.000Z
+            </time>
+          </div>
+          <p
+            className="Typography-root Typography-body1"
+          >
+            I like yoghurt
+          </p>
+        </div>
+        <div
+          className="Indent-root Indent-level0"
+        >
+          <div
+            className="Flex-root Flex-itemGutter Flex-directionColumn"
+            id="talk-comments-replyList-log--comment-with-replies"
+            role="log"
+          >
+            <div
+              role="article"
+            >
+              <div
+                className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+              >
+                <span
+                  className="Typography-root Typography-heading3 Username-root"
+                >
+                  Markus
+                </span>
+                <time
+                  className="Timestamp-root RelativeTime-root"
+                  dateTime="2018-07-06T18:24:00.000Z"
+                  title="2018-07-06T18:24:00.000Z"
+                >
+                  2018-07-06T18:24:00.000Z
+                </time>
+              </div>
+              <p
+                className="Typography-root Typography-body1"
+              >
+                Joining Too
+              </p>
+            </div>
+            <div
+              role="article"
+            >
+              <div
+                className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+              >
+                <span
+                  className="Typography-root Typography-heading3 Username-root"
+                >
+                  Lukas
+                </span>
+                <time
+                  className="Timestamp-root RelativeTime-root"
+                  dateTime="2018-07-06T18:20:00.000Z"
+                  title="2018-07-06T18:20:00.000Z"
+                >
+                  2018-07-06T18:20:00.000Z
+                </time>
+              </div>
+              <p
+                className="Typography-root Typography-body1"
+              >
+                What's up?
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

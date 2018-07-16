@@ -1,10 +1,10 @@
 import * as React from "react";
 import { StatelessComponent } from "react";
+import { ReadyState } from "react-relay";
 
 import {
   graphql,
   QueryRenderer,
-  ReadyState,
   withLocalStateContainer,
 } from "talk-framework/lib/relay";
 import {
@@ -15,7 +15,7 @@ import { AppQueryLocal as Local } from "talk-stream/__generated__/AppQueryLocal.
 
 import AppContainer from "../containers/AppContainer";
 
-const render = ({ error, props }: ReadyState<AppQueryResponse>) => {
+export const render = ({ error, props }: ReadyState<AppQueryResponse>) => {
   if (error) {
     return <div>{error.message}</div>;
   }
@@ -33,16 +33,12 @@ const AppQuery: StatelessComponent<InnerProps> = props => {
   return (
     <QueryRenderer<AppQueryVariables, AppQueryResponse>
       query={graphql`
-        query AppQuery($showAssetList: Boolean!, $assetID: ID!) {
-          ...AppContainer
-            @arguments(showAssetList: $showAssetList, assetID: $assetID)
+        query AppQuery($assetID: ID!) {
+          ...AppContainer @arguments(assetID: $assetID)
         }
       `}
       variables={{
-        // We cast `null` to any due to restrictions of the current graphql syntax.
-        assetID: props.local.assetID || (null as any),
-        // TODO: This is set to false, as server does not support querying assets yet.
-        showAssetList: !props.local.assetID && false,
+        assetID: props.local.assetID,
       }}
       render={render}
     />

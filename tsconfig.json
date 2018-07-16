@@ -13,18 +13,14 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noErrorTruncation": true,
-    "lib": [
-      "es6",
-      "esnext.asynciterable"
-    ]
+    "lib": ["es6", "esnext.asynciterable"]
   },
   "include": [
     "./src/**/.*.js",
     "./scripts/**/*",
     "./config/**/*",
+    "./test/**/*",
     "*.js"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
