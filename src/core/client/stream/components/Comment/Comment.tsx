@@ -27,8 +27,8 @@ const Comment: StatelessComponent<CommentProps> = props => {
       <Typography>{props.body}</Typography>
       <div>
         <Popover body={<PermalinkPopover commentId={props.id} />}>
-          {({ toggleShow }) => (
-            <button onClick={toggleShow}>
+          {({ toggleShow, ref }) => (
+            <button onClick={toggleShow} style={{ color: "red" }} ref={ref}>
               <Localized id="comments-permalink-share">
                 <span>Share</span>
               </Localized>

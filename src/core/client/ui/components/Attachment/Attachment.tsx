@@ -30,6 +30,7 @@ interface InnerProps {
 
 interface Props {
   ref: any;
+  style: CSSProperties;
 }
 
 class Attachment extends React.Component<InnerProps> {
@@ -44,11 +45,11 @@ class Attachment extends React.Component<InnerProps> {
           eventsEnabled
           positionFixed={false}
         >
-          {({ ref, style }) =>
+          {(props: Props) =>
             body
               ? React.cloneElement(body, {
-                  ref,
-                  style,
+                  innerRef: props.ref,
+                  style: props.style,
                 })
               : null
           }

@@ -1,13 +1,14 @@
 import { Localized } from "fluent-react/compat";
 import React, { CSSProperties } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { RefHandler } from "react-popper";
 import { Button, TextField } from "talk-ui/components";
 import * as styles from "./PermalinkPopover.css";
 
 interface InnerProps {
   commentId: string;
-  ref?: any;
   style?: CSSProperties;
+  innerRef?: RefHandler;
 }
 
 interface State {
@@ -33,11 +34,10 @@ class PermalinkPopover extends React.Component<InnerProps> {
   };
 
   public render() {
-    const { commentId, ref, style } = this.props;
+    const { commentId, style, innerRef } = this.props;
     const { copied } = this.state;
-
     return (
-      <div className={styles.root} ref={ref} style={style}>
+      <div className={styles.root} style={style} ref={innerRef}>
         <TextField defaultValue={commentId} className={styles.textField} />
         <CopyToClipboard text={commentId} onCopy={this.onCopy}>
           <Button primary>
