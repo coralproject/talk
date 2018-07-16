@@ -28,6 +28,8 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
   /** If set renders a button with secondary colors */
   secondary?: boolean;
+
+  innerRef?: React.RefObject<HTMLDivElement> | any;
 }
 
 class Button extends React.Component<InnerProps> {
@@ -39,6 +41,7 @@ class Button extends React.Component<InnerProps> {
       invert,
       primary,
       secondary,
+      innerRef,
       ...rest
     } = this.props;
 
@@ -53,6 +56,7 @@ class Button extends React.Component<InnerProps> {
       <BaseButton
         className={rootClassName}
         classes={pick(classes, "keyboardFocus")}
+        innerRef={innerRef}
         {...rest}
       />
     );
