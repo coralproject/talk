@@ -52,7 +52,7 @@ class Button extends React.Component<InnerProps> {
     return (
       <BaseButton
         className={rootClassName}
-        classes={pick(classes, "keyboardFocus")}
+        classes={pick(classes, "keyboardFocus", "mouseHover")}
         {...rest}
       />
     );

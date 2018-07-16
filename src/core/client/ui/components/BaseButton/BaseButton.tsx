@@ -2,7 +2,7 @@ import cn from "classnames";
 import React from "react";
 import { ButtonHTMLAttributes, StatelessComponent } from "react";
 
-import { withKeyboardFocus, withStyles } from "talk-ui/hocs";
+import { withKeyboardFocus, withMouseHover, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
 import * as styles from "./BaseButton.css";
@@ -18,7 +18,10 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   classes: typeof styles;
 
   /** This is passed by the `withKeyboardFocus` HOC */
-  keyboardFocus: boolean;
+  keyboardFocus?: boolean;
+
+  /** This is passed by the `withMouseHover` HOC */
+  mouseHover?: boolean;
 }
 
 /**
@@ -30,6 +33,7 @@ const BaseButton: StatelessComponent<InnerProps> = ({
   className,
   classes,
   keyboardFocus,
+  mouseHover,
   type: typeProp,
   ...rest
 }) => {
@@ -51,11 +55,14 @@ const BaseButton: StatelessComponent<InnerProps> = ({
 
   const rootClassName = cn(classes.root, className, {
     [classes.keyboardFocus]: keyboardFocus,
+    [classes.mouseHover]: mouseHover,
   });
 
   return <Element {...rest} className={rootClassName} />;
 };
 
-const enhanced = withStyles(styles)(withKeyboardFocus(BaseButton));
+const enhanced = withStyles(styles)(
+  withMouseHover(withKeyboardFocus(BaseButton))
+);
 export type BaseButtonProps = PropTypesOf<typeof enhanced>;
 export default enhanced;
