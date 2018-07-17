@@ -28,6 +28,49 @@ exports[`renders correctly 1`] = `
 </Indent>
 `;
 
+exports[`when there is more disables load more button 1`] = `
+<Indent>
+  <Flex
+    direction="column"
+    id="talk-comments-replyList-log--comment-id"
+    itemGutter={true}
+    role="log"
+  >
+    <Relay(CommentContainer)
+      data={
+        Object {
+          "id": "comment-1",
+        }
+      }
+      key="comment-1"
+    />
+    <Relay(CommentContainer)
+      data={
+        Object {
+          "id": "comment-2",
+        }
+      }
+      key="comment-2"
+    />
+    <Localized
+      id="comments-replyList-showAll"
+    >
+      <withPropsOnChange(Button)
+        aria-controls="talk-comments-replyList-log--comment-id"
+        disabled={true}
+        fullWidth={true}
+        id="talk-comments-replyList-showAll--comment-id"
+        invert={true}
+        onClick={[Function]}
+        secondary={true}
+      >
+        Show All Replies
+      </withPropsOnChange(Button)>
+    </Localized>
+  </Flex>
+</Indent>
+`;
+
 exports[`when there is more renders a load more button 1`] = `
 <Indent>
   <Flex
