@@ -1,6 +1,7 @@
 # job_environment will setup the environment for any job being executed.
 job_environment: &job_environment
   NODE_ENV: test
+  CI: true
 
 # job_defaults applies all the defaults for each job.
 job_defaults: &job_defaults
@@ -61,7 +62,9 @@ jobs:
           command: npm run compile
       - run:
           name: Perform testing
-          command: npm run test
+          # We're running these tests in band to avoid errors where the circleci
+          # test runner runs out of RAM trying to run them all in parallel.
+          command: npm run test -- --runInBand
 
   # build will build the static assets and server typescript files.
   build:
