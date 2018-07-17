@@ -55,12 +55,29 @@ const config = convict({
     env: "REDIS",
     arg: "redis",
   },
-  secret: {
-    doc: "The secret used to sign and verify JWTs",
+  signing_secret: {
+    doc: "",
     format: "*",
-    default: null,
-    env: "SECRET",
-    arg: "secret",
+    default: "keyboard cat", // TODO: (wyattjoh) evaluate best solution
+    env: "SIGNING_SECRET",
+    arg: "signingSecret",
+  },
+  signing_algorithm: {
+    doc: "",
+    format: [
+      "HS256",
+      "HS384",
+      "HS512",
+      "RS256",
+      "RS384",
+      "RS512",
+      "ES256",
+      "ES384",
+      "ES512",
+    ],
+    default: "HS256",
+    env: "SIGNING_ALGORITHM",
+    arg: "signingAlgorithm",
   },
   logging_level: {
     doc: "The logging level to print to the console",

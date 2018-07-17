@@ -2,7 +2,8 @@ import { RequestHandler } from "express";
 import Joi from "joi";
 import { Db } from "mongodb";
 
-import { handle } from "talk-server/app/middleware/passport";
+import { handleSuccessfulLogin } from "talk-server/app/middleware/passport";
+import { JWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
 import { validate } from "talk-server/app/request/body";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile } from "talk-server/models/user";
@@ -29,9 +30,10 @@ const SignupDisplayNameBodySchema = SignupBodySchema.keys({
 
 export interface SignupOptions {
   db: Db;
+  signingConfig: JWTSigningConfig;
 }
 
-export const signupHandler = ({ db }: SignupOptions): RequestHandler => async (
+export const signupHandler = (options: SignupOptions): RequestHandler => async (
   req: Request,
   res,
   next
@@ -67,7 +69,7 @@ export const signupHandler = ({ db }: SignupOptions): RequestHandler => async (
     };
 
     // Create the new user.
-    const user = await upsert(db, tenant, {
+    const user = await upsert(options.db, tenant, {
       email,
       username,
       displayName,
@@ -79,8 +81,8 @@ export const signupHandler = ({ db }: SignupOptions): RequestHandler => async (
     });
 
     // Send off to the passport handler.
-    return handle(null, user)(req, res, next);
+    return handleSuccessfulLogin(user, options.signingConfig, req, res, next);
   } catch (err) {
-    return handle(err)(req, res, next);
+    return next(err);
   }
 };

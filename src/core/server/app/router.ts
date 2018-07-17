@@ -9,6 +9,7 @@ import tenantMiddleware from "talk-server/app/middleware/tenant";
 import managementGraphMiddleware from "talk-server/graph/management/middleware";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
+import { createJWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
 import { AppOptions } from "./index";
 import playground from "./middleware/playground";
 
@@ -54,23 +55,26 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
 function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
   const router = express.Router();
 
+  // Create the signing config.
+  const signingConfig = createJWTSigningConfig(app.config);
+
+  // Mount the passport routes.
   router.post(
     "/local",
     express.json(),
-    authenticate(options.passport, "local")
+    authenticate(options.passport, signingConfig, "local")
   );
   router.post(
     "/local/signup",
     express.json(),
-    signupHandler({ db: app.mongo })
+    signupHandler({ db: app.mongo, signingConfig })
   );
-  router.post("/sso", authenticate(options.passport, "sso"));
-  router.get("/oidc", authenticate(options.passport, "oidc"));
-  router.get("/oidc/callback", authenticate(options.passport, "oidc"));
-  // router.get("/google", options.passport.authenticate("google"));
-  // router.get("/google/callback", options.passport.authenticate("google"));
-  // router.get("/facebook", options.passport.authenticate("facebook"));
-  // router.get("/facebook/callback", options.passport.authenticate("facebook"));
+  router.post("/sso", authenticate(options.passport, signingConfig, "sso"));
+  router.get("/oidc", authenticate(options.passport, signingConfig, "oidc"));
+  router.get(
+    "/oidc/callback",
+    authenticate(options.passport, signingConfig, "oidc")
+  );
 
   return router;
 }
