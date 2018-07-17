@@ -22,7 +22,11 @@ let argv = process.argv.slice(2);
 argv.push("--config", paths.appJestConfig);
 
 // Watch unless on CI or in coverage mode
-if (!process.env.CI && argv.indexOf("--coverage") < 0) {
+if (
+  !process.env.CI && // ensure that the ci env var is not set.
+  argv.indexOf("--ci") < 0 && // ensure that the ci flag is not passed
+  argv.indexOf("--coverage") < 0 // ensure that the coverage flag is not passed
+) {
   argv.push("--watch");
 }
 

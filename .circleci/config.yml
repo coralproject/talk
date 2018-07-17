@@ -1,7 +1,6 @@
 # job_environment will setup the environment for any job being executed.
 job_environment: &job_environment
   NODE_ENV: test
-  CI: true
 
 # job_defaults applies all the defaults for each job.
 job_defaults: &job_defaults
@@ -53,6 +52,10 @@ jobs:
   # unit_tests will run the unit tests.
   unit_tests:
     <<: *job_defaults
+    environment:
+      <<: *job_environment
+      CI: true
+      JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
     steps:
       - checkout
       - attach_workspace:
@@ -64,7 +67,11 @@ jobs:
           name: Perform testing
           # We're running these tests in band to avoid errors where the circleci
           # test runner runs out of RAM trying to run them all in parallel.
-          command: npm run test -- --runInBand
+          command: npm run test -- --ci --runInBand --testResultsProcessor="jest-junit"
+      - store_test_results:
+          path: reports/junit
+      - store_artifacts:
+          path: reports/junit
 
   # build will build the static assets and server typescript files.
   build:
