@@ -15,7 +15,7 @@ interface InjectedProps {
  * or touch.
  */
 const withMouseHover = hoistStatics<InjectedProps>(
-  <T extends InjectedProps>(WrappedComponent: React.ComponentType<T>) => {
+  <T extends InjectedProps>(BaseComponent: React.ComponentType<T>) => {
     class WithMouseHover extends React.Component<any> {
       public state = {
         mouseHover: false,
@@ -48,7 +48,7 @@ const withMouseHover = hoistStatics<InjectedProps>(
 
       public render() {
         return (
-          <WrappedComponent
+          <BaseComponent
             {...this.props}
             onMouseOver={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}
@@ -65,5 +65,5 @@ const withMouseHover = hoistStatics<InjectedProps>(
 
 // TODO: workaround, add bug link.
 export default withMouseHover as <P extends Partial<InjectedProps>>(
-  WrappedComponent: React.ComponentType<P>
+  BaseComponent: React.ComponentType<P>
 ) => React.ComponentType<P>;

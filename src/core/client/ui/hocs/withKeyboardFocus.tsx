@@ -15,7 +15,7 @@ interface InjectedProps {
  * or touch.
  */
 const withKeyboardFocus = hoistStatics<InjectedProps>(
-  <T extends InjectedProps>(WrappedComponent: React.ComponentType<T>) => {
+  <T extends InjectedProps>(BaseComponent: React.ComponentType<T>) => {
     class WithKeyboardFocus extends React.Component<any> {
       public state = {
         keyboardFocus: false,
@@ -48,7 +48,7 @@ const withKeyboardFocus = hoistStatics<InjectedProps>(
 
       public render() {
         return (
-          <WrappedComponent
+          <BaseComponent
             {...this.props}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
@@ -65,5 +65,5 @@ const withKeyboardFocus = hoistStatics<InjectedProps>(
 
 // TODO: workaround, add bug link.
 export default withKeyboardFocus as <P extends Partial<InjectedProps>>(
-  WrappedComponent: React.ComponentType<P>
+  BaseComponent: React.ComponentType<P>
 ) => React.ComponentType<P>;
