@@ -25,11 +25,11 @@ jobs:
           name: Update NPM
           command: sudo npm update -g npm
       - run:
-          name: Install dependencies
-          command: npm install
-      - run:
           name: Audit dependencies
           command: npm audit
+      - run:
+          name: Install dependencies
+          command: npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
