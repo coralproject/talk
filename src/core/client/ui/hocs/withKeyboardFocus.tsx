@@ -14,7 +14,7 @@ interface InjectedProps {
  * to indicate a focus on the element, that wasn't triggered by mouse
  * or touch.
  */
-export default hoistStatics<InjectedProps>(
+const withKeyboardFocus = hoistStatics<InjectedProps>(
   <T extends InjectedProps>(WrappedComponent: React.ComponentType<T>) => {
     class WithKeyboardFocus extends React.Component<any> {
       public state = {
@@ -61,5 +61,9 @@ export default hoistStatics<InjectedProps>(
 
     return WithKeyboardFocus as React.ComponentType<any>;
   }
-  // TODO: workaround, add bug link.
-) as <T>(WrappedComponent: T) => T;
+);
+
+// TODO: workaround, add bug link.
+export default withKeyboardFocus as <P extends Partial<InjectedProps>>(
+  WrappedComponent: React.ComponentType<P>
+) => React.ComponentType<P>;

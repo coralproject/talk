@@ -1,8 +1,9 @@
 import cn from "classnames";
-import React from "react";
+import React, { Ref } from "react";
 import { StatelessComponent } from "react";
 
 import { pascalCase } from "talk-common/utils";
+import { withForwardRef } from "talk-ui/hocs";
 
 import * as styles from "./Flex.css";
 
@@ -21,6 +22,12 @@ interface InnerProps {
   itemGutter?: boolean | "half";
   className?: string;
   wrap?: boolean | "reverse";
+
+  /** Ref to the root element */
+  ref?: Ref<HTMLDivElement>;
+
+  /** Internal: Forwarded Ref */
+  forwardRef?: Ref<HTMLDivElement>;
 }
 
 const Flex: StatelessComponent<InnerProps> = props => {
@@ -31,6 +38,7 @@ const Flex: StatelessComponent<InnerProps> = props => {
     direction,
     itemGutter,
     wrap,
+    forwardRef,
     ...rest
   } = props;
 
@@ -55,7 +63,7 @@ const Flex: StatelessComponent<InnerProps> = props => {
 
   const classNames: string = cn(styles.root, className, classObject);
 
-  return <div className={classNames} {...rest} />;
+  return <div ref={forwardRef} className={classNames} {...rest} />;
 };
 
-export default Flex;
+export default withForwardRef(Flex);
