@@ -64,6 +64,7 @@ function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
     express.json(),
     signupHandler({ db: app.mongo })
   );
+  router.post("/sso", authenticate(options.passport, "sso"));
   router.get("/oidc", authenticate(options.passport, "oidc"));
   router.get("/oidc/callback", authenticate(options.passport, "oidc"));
   // router.get("/google", options.passport.authenticate("google"));

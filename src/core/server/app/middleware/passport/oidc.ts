@@ -1,9 +1,11 @@
+import Joi from "joi";
 import jwt from "jsonwebtoken";
 import jwks, { JwksClient } from "jwks-rsa";
 import { Db } from "mongodb";
 import { Strategy as OAuth2Strategy, VerifyCallback } from "passport-oauth2";
 import { Strategy } from "passport-strategy";
 
+import { validate } from "talk-server/app/request/body";
 import { reconstructURL } from "talk-server/app/url";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { OIDCAuthIntegration, Tenant } from "talk-server/models/tenant";
@@ -28,6 +30,8 @@ export interface OIDCIDToken {
   email?: string;
   email_verified?: boolean;
   picture?: string;
+  name?: string;
+  nickname?: string;
 }
 
 export interface StrategyItem {
@@ -95,17 +99,50 @@ function getEnabledIntegration(tenant: Tenant) {
   return integration;
 }
 
+export const OIDCIDTokenSchema = Joi.object()
+  .keys({
+    sub: Joi.string(),
+    iss: Joi.string(),
+    aud: Joi.string(),
+    email: Joi.string(),
+    email_verified: Joi.boolean().default(false),
+    picture: Joi.string().default(undefined),
+  })
+  .optionalKeys(["picture", "email_verified"]);
+
+export const OIDCDisplayNameIDTokenSchema = OIDCIDTokenSchema.keys({
+  name: Joi.string().default(undefined),
+  nickname: Joi.string().default(undefined),
+}).optionalKeys(["name", "nickname"]);
+
 export async function findOrCreateOIDCUser(
   db: Db,
   tenant: Tenant,
   token: OIDCIDToken
 ) {
+  // Unpack/validate the token content.
+  const {
+    sub,
+    iss,
+    aud,
+    email,
+    email_verified,
+    picture,
+    name,
+    nickname,
+  }: OIDCIDToken = validate(
+    tenant.auth.displayNameEnable
+      ? OIDCDisplayNameIDTokenSchema
+      : OIDCIDTokenSchema,
+    token
+  );
+
   // Construct the profile that will be used to query for the user.
   const profile: OIDCProfile = {
     type: "oidc",
-    id: token.sub,
-    issuer: token.iss,
-    audience: token.aud,
+    id: sub,
+    issuer: iss,
+    audience: aud,
   };
 
   // Try to lookup user given their id provided in the `sub` claim.
@@ -113,16 +150,23 @@ export async function findOrCreateOIDCUser(
   if (!user) {
     // FIXME: implement rules.
 
+    // Default the displayName. When it is disabled, Joi will strip the
+    // displayName fields from the token, so it will fallback to undefined.
+    const displayName = nickname || name || undefined;
+
     // Create the new user, as one didn't exist before!
     user = await upsert(db, tenant, {
       username: null,
+      displayName,
       role: GQLUSER_ROLE.COMMENTER,
-      email: token.email,
-      email_verified: token.email_verified,
-      avatar: token.picture,
+      email,
+      email_verified,
+      avatar: picture,
       profiles: [profile],
     });
   }
+
+  // TODO: (wyattjoh) possibly update the user profile if the remaining details mismatch?
 
   return user;
 }
