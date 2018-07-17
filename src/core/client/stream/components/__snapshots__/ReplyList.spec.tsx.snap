@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <Indent>
-  <Flex
+  <withPropsOnChange(Flex)
     direction="column"
     id="talk-comments-replyList-log--comment-id"
     itemGutter={true}
@@ -24,13 +24,13 @@ exports[`renders correctly 1`] = `
       }
       key="comment-2"
     />
-  </Flex>
+  </withPropsOnChange(Flex)>
 </Indent>
 `;
 
 exports[`when there is more disables load more button 1`] = `
 <Indent>
-  <Flex
+  <withPropsOnChange(Flex)
     direction="column"
     id="talk-comments-replyList-log--comment-id"
     itemGutter={true}
@@ -67,13 +67,13 @@ exports[`when there is more disables load more button 1`] = `
         Show All Replies
       </withPropsOnChange(Button)>
     </Localized>
-  </Flex>
+  </withPropsOnChange(Flex)>
 </Indent>
 `;
 
 exports[`when there is more renders a load more button 1`] = `
 <Indent>
-  <Flex
+  <withPropsOnChange(Flex)
     direction="column"
     id="talk-comments-replyList-log--comment-id"
     itemGutter={true}
@@ -110,6 +110,6 @@ exports[`when there is more renders a load more button 1`] = `
         Show All Replies
       </withPropsOnChange(Button)>
     </Localized>
-  </Flex>
+  </withPropsOnChange(Flex)>
 </Indent>
 `;

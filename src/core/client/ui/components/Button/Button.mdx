@@ -5,6 +5,7 @@ menu: UI Kit
 
 import { Playground } from 'docz'
 import Button from './Button'
+import Icon from '../Icon'
 import Flex from '../Flex'
 
 # Button
@@ -27,4 +28,15 @@ import Flex from '../Flex'
     <Button primary invert fullWidth>Full Width Invert</Button>
   </Flex>
 </Playground>
+
+
+## Button with Icon
+<Playground>
+  <Flex itemGutter>
+    <Button><Icon>face</Icon><span>Push Me</span></Button>
+    <Button primary><Icon>bookmark</Icon><span>Push Me</span></Button>
+    <Button primary><span>Push Me</span><Icon>build</Icon></Button>
+  </Flex>
+</Playground>
+
 

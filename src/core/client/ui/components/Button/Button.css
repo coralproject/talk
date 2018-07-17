@@ -1,9 +1,20 @@
 .root {
   composes: button from "talk-ui/shared/typography.css";
 
-  padding: 5px 20px;
+  padding: 5px 15px;
   border-radius: var(--round-corners);
   background-color: transparent;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > * {
+    margin: 0 calc(0.5 * var(--spacing-unit)) 0 0;
+  }
+  & > *:last-child {
+    margin: 0;
+  }
 }
 
 .root.disabled {

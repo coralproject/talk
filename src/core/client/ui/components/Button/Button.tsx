@@ -64,7 +64,7 @@ class Button extends React.Component<InnerProps> {
         className={rootClassName}
         classes={pick(classes, "keyboardFocus", "mouseHover")}
         disabled={disabled}
-        ref={forwardRef}
+        forwardRef={forwardRef}
         {...rest}
       />
     );
