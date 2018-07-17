@@ -15,6 +15,9 @@ interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
 
   size?: "sm" | "md" | "lg" | "xl";
 
+  /** The name of the icon to render */
+  children: string;
+
   /** ref to the HTMLIconElement */
   ref?: Ref<HTMLSpanElement>;
 
