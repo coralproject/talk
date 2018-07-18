@@ -25,23 +25,21 @@ interface InnerProps {
 const defaultFormatter: Formatter = (value, unit, suffix, timestamp: string) =>
   new Date(timestamp).toISOString();
 
-class RelativeTime extends React.Component<InnerProps> {
-  public render() {
-    const { date, classes, live, className, formatter } = this.props;
-    return (
-      <UIContext.Consumer>
-        {({ timeagoFormatter }) => (
-          <TimeAgo
-            date={date}
-            className={cn(className, classes.root)}
-            live={live}
-            formatter={timeagoFormatter || formatter || defaultFormatter}
-          />
-        )}
-      </UIContext.Consumer>
-    );
-  }
-}
+const RelativeTime: React.StatelessComponent<InnerProps> = props => {
+  const { date, classes, live, className, formatter } = props;
+  return (
+    <UIContext.Consumer>
+      {({ timeagoFormatter }) => (
+        <TimeAgo
+          date={date}
+          className={cn(className, classes.root)}
+          live={live}
+          formatter={timeagoFormatter || formatter || defaultFormatter}
+        />
+      )}
+    </UIContext.Consumer>
+  );
+};
 
 const enhanced = withForwardRef(withStyles(styles)(RelativeTime));
 export type RelativeTimeProps = PropTypesOf<typeof enhanced>;
