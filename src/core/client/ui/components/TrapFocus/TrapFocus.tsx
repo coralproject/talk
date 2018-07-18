@@ -4,7 +4,7 @@ export interface Focusable {
   focus: () => void;
 }
 
-interface TrapFocusProps {
+export interface TrapFocusProps {
   firstFocusable: Focusable | null;
   lastFocusable: Focusable | null;
   children: React.ReactNode;
