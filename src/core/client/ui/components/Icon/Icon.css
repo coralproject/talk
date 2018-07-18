@@ -22,6 +22,7 @@
   overflow: hidden;
   vertical-align: middle;
   display: inline-block;
+  letter-spacing: 0;
 
   /* Enable Ligatures */
   font-feature-settings: "liga";
