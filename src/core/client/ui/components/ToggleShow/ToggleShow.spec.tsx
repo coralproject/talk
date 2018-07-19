@@ -18,13 +18,13 @@ it("renders correctly", () => {
   expect(tree).toMatchSnapshot();
 });
 
-it("should work correctly", () => {
+it("should hide the div", () => {
   const renderer = create(
     <ToggleShow>
       {({ toggleShow, show }) => (
         <div>
           {show && <div>SHOW ME</div>}
-          <button onClick={toggleShow}>Click me and I disapear</button>
+          <button onClick={toggleShow}>Click me and I disappear</button>
         </div>
       )}
     </ToggleShow>
