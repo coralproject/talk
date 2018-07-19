@@ -4,6 +4,7 @@ import { StatelessComponent } from "react";
 
 import { pascalCase } from "talk-common/utils";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
+import { PropTypesOf } from "talk-ui/types";
 
 import * as styles from "./Flex.css";
 
@@ -75,4 +76,6 @@ Flex.defaultProps = {
   alignItems: "center",
 };
 
-export default withForwardRef(withStyles(styles)(Flex));
+const enhanced = withForwardRef(withStyles(styles)(Flex));
+export default enhanced;
+export type FlexProps = PropTypesOf<typeof enhanced>;

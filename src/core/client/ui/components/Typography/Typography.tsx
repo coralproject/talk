@@ -144,5 +144,5 @@ Typography.defaultProps = {
 };
 
 const enhanced = withForwardRef(withStyles(styles)(Typography));
-export type CenterProps = PropTypesOf<typeof enhanced>;
+export type TypographyProps = PropTypesOf<typeof enhanced>;
 export default enhanced;
