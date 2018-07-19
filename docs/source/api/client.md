@@ -22,7 +22,7 @@ Feel free to check all the utilities here:  `talk/plugin-api`.
 
 #### Stream
 * `setSort`
-* `showSignInDialog``
+* `showSignInDialog`
 
 ### Import 
 ```

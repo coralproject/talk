@@ -1,3 +1,7 @@
+ar:
+  talk-plugin-notifications:
+    digest_enum:
+      DAILY: في ملخص يومي
 en:
   talk-plugin-notifications:
     digest_enum:
