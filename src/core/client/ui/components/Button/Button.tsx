@@ -15,7 +15,7 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
    */
-  classes: typeof styles & Partial<BaseButtonProps["classes"]>;
+  classes: typeof styles & BaseButtonProps["classes"];
 
   /** Size of the button */
   size?: "small" | "regular" | "large";
