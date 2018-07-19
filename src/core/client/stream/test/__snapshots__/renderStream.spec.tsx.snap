@@ -33,6 +33,9 @@ exports[`renders comment stream 1`] = `
           onBlur={[Function]}
           onFocus={[Function]}
           onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
         >
           Post
         </button>

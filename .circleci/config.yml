@@ -22,6 +22,12 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
+          name: Update NPM
+          command: sudo npm update -g npm
+      - run:
+          name: Audit dependencies
+          command: npm audit
+      - run:
           name: Install dependencies
           command: npm install
       - save_cache:
@@ -46,6 +52,10 @@ jobs:
   # unit_tests will run the unit tests.
   unit_tests:
     <<: *job_defaults
+    environment:
+      <<: *job_environment
+      CI: true
+      JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
     steps:
       - checkout
       - attach_workspace:
@@ -55,7 +65,13 @@ jobs:
           command: npm run compile
       - run:
           name: Perform testing
-          command: npm run test
+          # We're running these tests in band to avoid errors where the circleci
+          # test runner runs out of RAM trying to run them all in parallel.
+          command: npm run test -- --ci --runInBand --testResultsProcessor="jest-junit"
+      - store_test_results:
+          path: reports/junit
+      - store_artifacts:
+          path: reports/junit
 
   # build will build the static assets and server typescript files.
   build:

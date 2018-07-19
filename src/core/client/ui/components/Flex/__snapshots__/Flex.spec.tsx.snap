@@ -9,3 +9,43 @@ exports[`renders correctly 1`] = `
   </div>
 </div>
 `;
+
+exports[`renders with halfe item gutter 1`] = `
+<div
+  className="Flex-root Flex-halfItemGutter"
+>
+  <div>
+    Hello World
+  </div>
+</div>
+`;
+
+exports[`renders with item gutter 1`] = `
+<div
+  className="Flex-root Flex-itemGutter"
+>
+  <div>
+    Hello World
+  </div>
+</div>
+`;
+
+exports[`renders with wrap 1`] = `
+<div
+  className="Flex-root Flex-wrap"
+>
+  <div>
+    Hello World
+  </div>
+</div>
+`;
+
+exports[`renders with wrap reverse 1`] = `
+<div
+  className="Flex-root Flex-wrapReverse"
+>
+  <div>
+    Hello World
+  </div>
+</div>
+`;

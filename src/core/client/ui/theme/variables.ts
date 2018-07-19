@@ -19,7 +19,7 @@ const variables = {
       dark: "#65696B",
       main: "#787D80",
       light: "#9A9DA0",
-      lighter: "#636E72",
+      lighter: "#BBBEBF",
     },
     /* Success colors */
     success: {
@@ -68,7 +68,7 @@ const variables = {
   fontSize: 16,
   fontWeightLight: 300,
   fontWeightRegular: 400,
-  fontWeightMedium: 550,
+  fontWeightMedium: 600,
   /* Breakpoints */
   breakpoints: {
     xs: 320,

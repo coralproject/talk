@@ -34,7 +34,7 @@ function withLocalStateContainer<T>(
 ): InferableComponentEnhancer<{ local: T }> {
   return compose(
     withContext(({ relayEnvironment }) => ({ relayEnvironment })),
-    hoistStatics((WrappedComponent: React.ComponentType<any>) => {
+    hoistStatics((BaseComponent: React.ComponentType<any>) => {
       class LocalStateContainer extends React.Component<Props, any> {
         constructor(props: Props) {
           super(props);
@@ -65,7 +65,7 @@ function withLocalStateContainer<T>(
 
         public render() {
           const { relayEnvironment: _, ...rest } = this.props;
-          return <WrappedComponent {...rest} local={this.state.data} />;
+          return <BaseComponent {...rest} local={this.state.data} />;
         }
       }
       return LocalStateContainer as React.ComponentType<any>;

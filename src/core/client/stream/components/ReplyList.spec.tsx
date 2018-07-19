@@ -39,4 +39,11 @@ describe("when there is more", () => {
       .simulate("click");
     expect((props.onShowAll as SinonSpy).calledOnce).toBe(true);
   });
+
+  const wrapperDisabledButton = shallow(
+    <ReplyList {...props} disableShowAll />
+  );
+  it("disables load more button", () => {
+    expect(wrapperDisabledButton).toMatchSnapshot();
+  });
 });
