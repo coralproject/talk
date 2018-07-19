@@ -28,9 +28,6 @@ interface InnerProps {
   className?: string;
   wrap?: boolean | "reverse";
 
-  /** Ref to the root element */
-  ref?: Ref<HTMLDivElement>;
-
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLDivElement>;
 }

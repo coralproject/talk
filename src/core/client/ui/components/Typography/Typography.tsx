@@ -78,9 +78,6 @@ interface InnerProps extends HTMLAttributes<any> {
    */
   variant?: Variant;
 
-  /** Ref to the root element */
-  ref?: Ref<HTMLElement>;
-
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLElement>;
 }
