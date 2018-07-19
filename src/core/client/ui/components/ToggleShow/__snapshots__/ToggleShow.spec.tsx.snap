@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <div>
+    SHOW ME
+  </div>
+  <button
+    onClick={[Function]}
+  >
+    Click me and I disapear
+  </button>
+</div>
+`;
+
+exports[`should work correctly 1`] = `
+<div>
+  <button
+    onClick={[Function]}
+  >
+    Click me and I disapear
+  </button>
+</div>
+`;
