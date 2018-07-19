@@ -33,6 +33,9 @@ exports[`renders comment stream 1`] = `
           onBlur={[Function]}
           onFocus={[Function]}
           onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
         >
           Post
         </button>
@@ -114,6 +117,9 @@ exports[`renders comment stream 1`] = `
               onClick={[Function]}
               onFocus={[Function]}
               onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
             >
               Show All Replies
             </button>
@@ -158,6 +164,9 @@ exports[`show all replies 1`] = `
           onBlur={[Function]}
           onFocus={[Function]}
           onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
         >
           Post
         </button>

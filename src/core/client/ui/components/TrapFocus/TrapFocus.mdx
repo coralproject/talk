@@ -1,0 +1,39 @@
+---
+name: TrapFocus
+menu: UI Kit
+---
+
+import { Playground } from 'docz'
+import TrapFocus from './TrapFocus'
+
+# TrapFocus
+
+Traps focus inside component when using keyboard navigation for accessibility purposes.
+
+## Basic usage
+
+```ts
+import React from "react";
+
+class Dialog extends React.Component {
+  private firstFocusable: HTMLElement;
+  private lastFocusable: HTMLElement;
+
+  private setFirstFocusable = (ref: HTMLElement) => (this.firstFocusable = ref);
+  private setLastFocusable = (ref: HTMLElement) => (this.lastFocusable = ref);
+
+  public render() {
+    return (
+      <div>
+        <TrapFocus
+          firstFocusable={this.firstFocusable}
+          lastFocusable={this.lastFocusable}
+        >
+          <TextField ref={this.setFirstFocusable} />
+          <Button ref={this.setLastFocusable}>Send</Button>
+        </TrapFocus>
+      </div>
+    );
+  }
+}
+```

@@ -25,6 +25,10 @@ export default {
           options: {
             modules: true,
             importLoaders: 1,
+            localIdentName:
+              process.env.NODE_ENV === "production"
+                ? "[hash:base64]"
+                : "[name]-[local]-[hash:base64:5]",
           },
         },
         {

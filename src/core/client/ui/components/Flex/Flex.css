@@ -1,5 +1,8 @@
 .root {
   display: flex;
+  & > * {
+    flex-shrink: 0;
+  }
 }
 
 .halfItemGutter {
@@ -47,6 +50,51 @@
   }
   & > *:last-child {
     margin: 0;
+  }
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.wrapReverse {
+  flex-wrap: wrap-reverse;
+}
+
+.wrap,
+.wrapReverse {
+  &.itemGutter {
+    &:not(:empty) {
+      margin-top: calc(-1 * var(--spacing-unit));
+    }
+    & > * {
+      margin-top: var(--spacing-unit);
+    }
+  }
+  &.directionColumn.itemGutter {
+    &:not(:empty) {
+      margin-left: calc(-1 * var(--spacing-unit));
+    }
+    &.itemGutter > * {
+      margin-left: var(--spacing-unit);
+    }
+  }
+
+  &.halfItemGutter {
+    &:not(:empty) {
+      margin-top: calc(-0.5 * var(--spacing-unit));
+    }
+    & > * {
+      margin-top: calc(0.5 * var(--spacing-unit));
+    }
+  }
+  &.directionColumn.halfItemGutter {
+    &:not(:empty) {
+      margin-left: calc(-0.5 * var(--spacing-unit));
+    }
+    &.halfItemGutter > * {
+      margin-left: calc(0.5 * var(--spacing-unit));
+    }
   }
 }
 
