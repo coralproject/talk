@@ -74,4 +74,8 @@ const Flex: StatelessComponent<InnerProps> = props => {
   return <div ref={forwardRef} className={classNames} {...rest} />;
 };
 
+Flex.defaultProps = {
+  alignItems: "center",
+};
+
 export default withForwardRef(withStyles(styles)(Flex));

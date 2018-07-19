@@ -10,33 +10,62 @@ import Flex from '../Flex'
 
 # Button
 
-## Basic usage
+## Regular Button
 <Playground>
   <Flex itemGutter wrap>
     <Button>Push Me</Button>
+    <Button size="small">Push Me</Button>
+    <Button size="large">Push Me</Button>
+    <Button color="primary">Push Me</Button>
+    <Button color="error">Push Me</Button>
+    <Button color="success">Push Me</Button>
     <Button disabled>Push Me</Button>
-    <Button anchor>I'm an Anchor Tag</Button>
-    <Button primary>Primary</Button>
-    <Button primary disabled>Primary</Button>
-    <Button secondary>Secondary</Button>
-    <Button secondary disabled>Secondary</Button>
-    <Button primary invert>Primary</Button>
-    <Button primary invert disabled>Primary</Button>
-    <Button secondary invert>Secondary</Button>
-    <Button secondary invert disabled>Secondary</Button>
-    <Button primary fullWidth>Full Width</Button>
-    <Button primary invert fullWidth>Full Width Invert</Button>
-  </Flex>
-</Playground>
-
-
-## Button with Icon
-<Playground>
-  <Flex itemGutter>
     <Button><Icon>face</Icon><span>Push Me</span></Button>
-    <Button primary><Icon>bookmark</Icon><span>Push Me</span></Button>
-    <Button primary><span>Push Me</span><Icon>build</Icon></Button>
+    <Button fullWidth>Push Me</Button>
   </Flex>
 </Playground>
 
+## Filled Button
+<Playground>
+  <Flex itemGutter wrap>
+    <Button variant="filled">Push Me</Button>
+    <Button variant="filled" size="small">Push Me</Button>
+    <Button variant="filled" size="large">Push Me</Button>
+    <Button variant="filled" color="primary">Push Me</Button>
+    <Button variant="filled" color="error">Push Me</Button>
+    <Button variant="filled" color="success">Push Me</Button>
+    <Button variant="filled" disabled>Push Me</Button>
+    <Button variant="filled"><Icon>face</Icon><span>Push Me</span></Button>
+    <Button variant="filled" fullWidth>Push Me</Button>
+  </Flex>
+</Playground>
 
+## Outlined Button
+<Playground>
+  <Flex itemGutter wrap>
+    <Button variant="outlined">Push Me</Button>
+    <Button variant="outlined" size="small">Push Me</Button>
+    <Button variant="outlined" size="large">Push Me</Button>
+    <Button variant="outlined" color="primary">Push Me</Button>
+    <Button variant="outlined" color="error">Push Me</Button>
+    <Button variant="outlined" color="success">Push Me</Button>
+    <Button variant="outlined" disabled>Push Me</Button>
+    <Button variant="outlined"><Icon>face</Icon><span>Push Me</span></Button>
+    <Button variant="outlined" fullWidth>Push Me</Button>
+  </Flex>
+</Playground>
+
+## Ghost Button
+<Playground>
+  <Flex itemGutter wrap>
+    <Button variant="ghost">Push Me</Button>
+    <Button variant="ghost" size="small">Push Me</Button>
+    <Button variant="ghost" size="large">Push Me</Button>
+    <Button variant="ghost" color="primary">Push Me</Button>
+    <Button variant="ghost" color="error">Push Me</Button>
+    <Button variant="ghost" color="success">Push Me</Button>
+    <Button variant="ghost" disabled>Push Me</Button>
+    <Button variant="ghost"><Icon>face</Icon><span>Push Me</span></Button>
+    <Button variant="ghost" fullWidth>Push Me</Button>
+  </Flex>
+</Playground>
