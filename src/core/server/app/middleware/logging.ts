@@ -1,6 +1,7 @@
 import { ErrorRequestHandler, RequestHandler } from "express";
 import now from "performance-now";
-import logger from "../../logger";
+
+import logger from "talk-server/logger";
 
 export const accessLogger: RequestHandler = (req, res, next) => {
   const startTime = now();

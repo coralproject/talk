@@ -122,7 +122,7 @@ export async function signTokenString(
     ...options,
     jwtid: uuid.v4(),
     algorithm,
-    expiresIn: "1 day", // TODO: (wyattjoh) evalue allowing configuration?
+    expiresIn: "1 day", // TODO: (wyattjoh) evaluate allowing configuration?
     subject: user.id,
   });
 }
