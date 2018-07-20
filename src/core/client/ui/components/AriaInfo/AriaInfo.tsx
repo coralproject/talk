@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { HTMLAttributes, Ref, StatelessComponent } from "react";
+import React, { HTMLAttributes, StatelessComponent } from "react";
 
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
