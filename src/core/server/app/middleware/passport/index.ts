@@ -10,6 +10,7 @@ import {
 } from "talk-server/app/middleware/passport/jwt";
 import { createLocalStrategy } from "talk-server/app/middleware/passport/local";
 import { createOIDCStrategy } from "talk-server/app/middleware/passport/oidc";
+import { createSSOStrategy } from "talk-server/app/middleware/passport/sso";
 import { User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
@@ -36,6 +37,9 @@ export function createPassport({
 
   // Use the LocalStrategy.
   auth.use(createLocalStrategy({ db }));
+
+  // Use the SSOStrategy.
+  auth.use(createSSOStrategy({ db }));
 
   // Use the JWTStrategy.
   auth.use(createJWTStrategy({ db, signingConfig }));

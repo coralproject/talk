@@ -177,28 +177,6 @@ export default class SSOStrategy extends Strategy {
     return findOrCreateSSOUser(this.db, tenant, token);
   }
 
-  /**
-   * wrapNewTokenHandler wraps the token handling with a promise.
-   */
-  private wrapNewTokenHandler = (tenant: Tenant) => async (
-    err: Error | undefined,
-    token: OIDCIDToken | SSOToken
-  ) => {
-    if (err) {
-      return this.fail(err, 401);
-    }
-
-    try {
-      // Find or create the user based on the decoded token.
-      const user = await this.findOrCreateUser(tenant, token);
-
-      // The user was found or created!
-      return this.success(user, null);
-    } catch (err) {
-      return this.error(err);
-    }
-  };
-
   public authenticate(req: Request) {
     const { tenant } = req;
     if (!tenant) {
@@ -222,7 +200,26 @@ export default class SSOStrategy extends Strategy {
         // out in the future..
         algorithms: ["HS256"], // TODO: (wyattjoh) investigate replacing algorithm.
       },
-      this.wrapNewTokenHandler(tenant)
+      async (err: Error | undefined, decoded: OIDCIDToken | SSOToken) => {
+        if (err) {
+          // TODO: (wyattjoh) wrap error?
+          return this.error(err);
+        }
+
+        try {
+          // Find or create the user based on the decoded token.
+          const user = await this.findOrCreateUser(tenant, decoded);
+
+          // The user was found or created!
+          return this.success(user, null);
+        } catch (err) {
+          return this.error(err);
+        }
+      }
     );
   }
+}
+
+export function createSSOStrategy(options: SSOStrategyOptions) {
+  return new SSOStrategy(options);
 }
