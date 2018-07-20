@@ -12,11 +12,7 @@ type Variant =
   | "heading2"
   | "heading3"
   | "heading4"
-  | "subtitle1"
-  | "subtitle2"
-  | "body1"
-  | "body2"
-  | "button"
+  | "bodyCopy"
   | "timestamp";
 
 // Based on Typography Component of Material UI.
@@ -45,10 +41,10 @@ interface InnerProps extends HTMLAttributes<any> {
   color?:
     | "inherit"
     | "primary"
+    | "textPrimary"
     | "textSecondary"
-    | "secondary"
     | "error"
-    | "default";
+    | "success";
   /**
    * The component used for the root node.
    * Either a string to use a DOM element or a component.
@@ -102,10 +98,11 @@ const Typography: StatelessComponent<InnerProps> = props => {
     classes.root,
     classes[variant!],
     {
-      [classes.colorPrimary]: color === "primary",
-      [classes.colorSecondary]: color === "secondary",
-      [classes.colorError]: color === "error",
+      [classes.colorTextPrimary]: color === "textPrimary",
       [classes.colorTextSecondary]: color === "textSecondary",
+      [classes.colorPrimary]: color === "primary",
+      [classes.colorError]: color === "error",
+      [classes.colorSuccess]: color === "success",
       [classes.noWrap]: noWrap,
       [classes.gutterBottom]: gutterBottom,
       [classes.paragraph]: paragraph,
@@ -125,22 +122,19 @@ const Typography: StatelessComponent<InnerProps> = props => {
 
 Typography.defaultProps = {
   align: "inherit",
-  color: "default",
+  color: "textPrimary",
   gutterBottom: false,
   headlineMapping: {
     heading1: "h1",
     heading2: "h1",
     heading3: "h1",
     heading4: "h1",
-    subtitle1: "h2",
-    subtitle2: "h3",
-    body1: "p",
-    body2: "aside",
+    bodyCopy: "p",
     timestamp: "span",
   },
   noWrap: false,
   paragraph: false,
-  variant: "body1",
+  variant: "bodyCopy",
 };
 
 const enhanced = withForwardRef(withStyles(styles)(Typography));

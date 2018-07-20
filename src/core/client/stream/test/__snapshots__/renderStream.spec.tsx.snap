@@ -8,7 +8,7 @@ exports[`renders comment stream 1`] = `
     className="Stream-root"
   >
     <h1
-      className="Typography-root Typography-heading1 Typography-gutterBottom"
+      className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-gutterBottom"
     >
       Talk NEO
     </h1>
@@ -57,7 +57,7 @@ exports[`renders comment stream 1`] = `
             className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
           >
             <span
-              className="Typography-root Typography-heading3 Username-root"
+              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
             >
               Markus
             </span>
@@ -70,7 +70,7 @@ exports[`renders comment stream 1`] = `
             </time>
           </div>
           <p
-            className="Typography-root Typography-body1"
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Joining Too
           </p>
@@ -86,7 +86,7 @@ exports[`renders comment stream 1`] = `
             className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
           >
             <span
-              className="Typography-root Typography-heading3 Username-root"
+              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
             >
               Lukas
             </span>
@@ -99,7 +99,7 @@ exports[`renders comment stream 1`] = `
             </time>
           </div>
           <p
-            className="Typography-root Typography-body1"
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             What's up?
           </p>

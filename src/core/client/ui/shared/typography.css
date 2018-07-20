@@ -91,16 +91,7 @@
   color: var(--palette-text-primary);
 }
 
-.subtitle1 {
-}
-
-.subtitle2 {
-}
-
-.body2 {
-}
-
-.body1 {
+.bodyCopy {
   font-size: calc(16rem / var(--rem-base));
   font-weight: var(--font-weight-regular);
   font-family: "Source Sans Pro";
@@ -125,9 +116,6 @@
   font-size: 16px;
   line-height: calc(20em / 16);
   letter-spacing: calc(0.57em / 16);
-}
-
-.overline {
 }
 
 .timestamp {

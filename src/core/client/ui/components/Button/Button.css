@@ -46,7 +46,7 @@
 
 .variantRegular {
   &.colorRegular {
-    color: var(--palette-secondary-main);
+    color: var(--palette-grey-main);
   }
   &.colorPrimary {
     color: var(--palette-primary-main);
@@ -61,10 +61,10 @@
   &:not(.disabled) {
     &.colorRegular {
       &.mouseHover {
-        color: var(--palette-secondary-light);
+        color: var(--palette-grey-light);
       }
       &:active {
-        color: var(--palette-secondary-lighter);
+        color: var(--palette-grey-lighter);
       }
     }
     &.colorPrimary {
@@ -97,7 +97,7 @@
 .variantFilled {
   color: var(--palette-common-white);
   &.colorRegular {
-    background-color: var(--palette-secondary-main);
+    background-color: var(--palette-grey-main);
   }
   &.colorPrimary {
     background-color: var(--palette-primary-main);
@@ -112,10 +112,10 @@
   &:not(.disabled) {
     &.colorRegular {
       &.mouseHover {
-        background-color: var(--palette-secondary-light);
+        background-color: var(--palette-grey-light);
       }
       &:active {
-        background-color: var(--palette-secondary-lighter);
+        background-color: var(--palette-grey-lighter);
       }
     }
     &.colorPrimary {
@@ -147,7 +147,7 @@
 
 .variantOutlined {
   &.colorRegular {
-    color: var(--palette-secondary-main);
+    color: var(--palette-grey-main);
     border: 1px solid currentColor;
   }
   &.colorPrimary {
@@ -166,11 +166,11 @@
   &:not(.disabled) {
     &.colorRegular {
       &.mouseHover {
-        color: var(--palette-secondary-light);
+        color: var(--palette-grey-light);
         border: 1px solid currentColor;
       }
       &:active {
-        color: var(--palette-secondary-lighter);
+        color: var(--palette-grey-lighter);
         border: 1px solid currentColor;
       }
     }
@@ -209,7 +209,7 @@
 
 .variantGhost {
   &.colorRegular {
-    color: var(--palette-secondary-main);
+    color: var(--palette-grey-main);
   }
   &.colorPrimary {
     color: var(--palette-primary-main);
@@ -228,7 +228,7 @@
       }
       &:active {
         color: var(--palette-common-white);
-        background-color: var(--palette-secondary-main);
+        background-color: var(--palette-grey-main);
       }
     }
     &.colorPrimary {

@@ -15,7 +15,7 @@ const variables = {
       lightest: "#EBF5FB",
     },
     /* Secondary colors */
-    secondary: {
+    grey: {
       darkest: "#404345",
       dark: "#65696B",
       main: "#787D80",

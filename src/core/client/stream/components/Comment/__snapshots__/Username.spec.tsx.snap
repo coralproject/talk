@@ -2,7 +2,7 @@
 
 exports[`renders correctly on big screens 1`] = `
 <span
-  className="Typography-root Typography-heading2 Username-root"
+  className="Typography-root Typography-heading2 Typography-colorTextPrimary Username-root"
 >
   Marvin
 </span>
@@ -10,7 +10,7 @@ exports[`renders correctly on big screens 1`] = `
 
 exports[`renders correctly on small screens 1`] = `
 <span
-  className="Typography-root Typography-heading3 Username-root"
+  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
 >
   Marvin
 </span>
