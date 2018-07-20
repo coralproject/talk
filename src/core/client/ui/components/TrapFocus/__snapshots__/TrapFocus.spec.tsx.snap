@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <div
+    onFocus={[Function]}
+    tabIndex={0}
+  />
+  <span>
+    child1
+  </span>
+  <span>
+    child2
+  </span>
+  <div
+    onFocus={[Function]}
+    tabIndex={0}
+  />
+</div>
+`;

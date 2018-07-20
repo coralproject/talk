@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<h1
+  className="Typography-root Typography-heading1 Typography-colorTextSecondary Typography-noWrap Typography-gutterBottom Typography-alignLeft custom"
+>
+  Hello World
+</h1>
+`;

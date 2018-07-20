@@ -22,10 +22,10 @@ function createMutationContainer<T extends string, I, R>(
 ): InferableComponentEnhancer<{ [P in T]: (input: I) => Promise<R> }> {
   return compose(
     withContext(({ relayEnvironment }) => ({ relayEnvironment })),
-    hoistStatics((WrappedComponent: React.ComponentType<any>) => {
+    hoistStatics((BaseComponent: React.ComponentType<any>) => {
       class CreateMutationContainer extends React.Component<any> {
         public static displayName = wrapDisplayName(
-          WrappedComponent,
+          BaseComponent,
           "createMutationContainer"
         );
 
@@ -38,7 +38,7 @@ function createMutationContainer<T extends string, I, R>(
           const inject = {
             [propName]: this.commit,
           };
-          return <WrappedComponent {...rest} {...inject} />;
+          return <BaseComponent {...rest} {...inject} />;
         }
       }
       return CreateMutationContainer as React.ComponentType<any>;

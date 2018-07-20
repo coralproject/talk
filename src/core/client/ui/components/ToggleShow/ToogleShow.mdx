@@ -1,0 +1,22 @@
+---
+name: ToggleShow
+menu: UI Kit
+---
+
+import { Playground } from 'docz'
+import ToggleShow from './ToggleShow'
+
+# ToggleShow
+A Component that provides a render function to display nodes
+
+## Basic usage
+<Playground>
+  <ToggleShow>
+    {({ toggleShow, show }) => (
+      <div>
+        {show && <div>SHOW ME</div>}
+        <button onClick={toggleShow}>ClickMe and I disapear</button>
+      </div>
+    )}
+  </ToggleShow>
+</Playground>
