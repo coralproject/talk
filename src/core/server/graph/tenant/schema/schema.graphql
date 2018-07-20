@@ -361,7 +361,7 @@ type User {
   """
   username is the name of the User visible to other Users.
   """
-  username: String!
+  username: String
 
   """
   displayName is provided optionally when enabled and available.
