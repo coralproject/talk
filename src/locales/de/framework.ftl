@@ -22,7 +22,7 @@ framework-timeago =
       *[other] Minuten
     }
     [hour] { $value ->
-       [0] Stunde
+       [1] Stunde
       *[other] Stunden
     }
     [day] { $value ->
