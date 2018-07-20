@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <h1
-  className="Typography-root Typography-heading1 Typography-colorTextSecondary Typography-noWrap Typography-gutterBottom Typography-alignLeft"
+  className="Typography-root Typography-heading1 Typography-colorTextSecondary Typography-noWrap Typography-gutterBottom Typography-alignLeft custom"
 >
   Hello World
 </h1>

@@ -10,15 +10,6 @@ exports[`forwards ref 1`] = `
 </withPropsOnChange(WithMouseHover)>
 `;
 
-exports[`renders a primary colored ghost button with fullWidth 1`] = `
-<withPropsOnChange(WithMouseHover)
-  className=""
-  classes={Object {}}
->
-  Push me
-</withPropsOnChange(WithMouseHover)>
-`;
-
 exports[`renders a regular sized, primary colored ghost button with fullWidth 1`] = `
 <withPropsOnChange(WithMouseHover)
   className="sizeRegular colorPrimary variantGhost fullWidth"
