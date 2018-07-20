@@ -1,8 +1,10 @@
 import jwt, { SignOptions } from "jsonwebtoken";
 import uuid from "uuid";
 
+import { Db } from "mongodb";
+import { Strategy } from "passport-strategy";
 import { Config } from "talk-server/config";
-import { User } from "talk-server/models/user";
+import { retrieveUser, User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
 const authHeaderRegex = /(\S+)\s+(\S+)/;
@@ -125,4 +127,77 @@ export async function signTokenString(
     expiresIn: "1 day", // TODO: (wyattjoh) evaluate allowing configuration?
     subject: user.id,
   });
+}
+
+export interface JWTToken {
+  jti: string;
+  sub: string;
+  exp: number;
+  iss?: string;
+}
+
+export interface JWTStrategyOptions {
+  signingConfig: JWTSigningConfig;
+  db: Db;
+}
+
+export class JWTStrategy extends Strategy {
+  private signingConfig: JWTSigningConfig;
+  private db: Db;
+
+  public name: string;
+
+  constructor({ signingConfig, db }: JWTStrategyOptions) {
+    super();
+
+    this.name = "jwt";
+    this.signingConfig = signingConfig;
+    this.db = db;
+  }
+
+  public authenticate(req: Request) {
+    const { tenant } = req;
+    if (!tenant) {
+      // TODO: (wyattjoh) return a better error.
+      return this.error(new Error("tenant not found"));
+    }
+
+    // Lookup the token.
+    const token = extractJWTFromRequest(req);
+    if (!token) {
+      // TODO: (wyattjoh) return a better error.
+      return this.fail(new Error("no token on request"), 401);
+    }
+
+    jwt.verify(
+      token,
+      // Use the secret specified in the configuration.
+      this.signingConfig.secret,
+      {
+        // We need to verify that the token is for the specified tenant.
+        issuer: tenant.id,
+        // Use the algorithm specified in the configuration.
+        algorithms: [this.signingConfig.algorithm],
+      },
+      async (err: Error | undefined, { sub }: JWTToken) => {
+        if (err) {
+          return this.fail(err, 401);
+        }
+
+        try {
+          // Find the user.
+          const user = await retrieveUser(this.db, tenant.id, sub);
+
+          // Return them! The user may be null, but that's ok here.
+          this.success(user, null);
+        } catch (err) {
+          return this.error(err);
+        }
+      }
+    );
+  }
+}
+
+export function createJWTStrategy(options: JWTStrategyOptions) {
+  return new JWTStrategy(options);
 }

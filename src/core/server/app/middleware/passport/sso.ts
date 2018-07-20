@@ -182,7 +182,7 @@ export default class SSOStrategy extends Strategy {
    */
   private wrapNewTokenHandler = (tenant: Tenant) => async (
     err: Error | undefined,
-    decoded: OIDCIDToken | SSOToken
+    token: OIDCIDToken | SSOToken
   ) => {
     if (err) {
       return this.fail(err, 401);
@@ -190,7 +190,7 @@ export default class SSOStrategy extends Strategy {
 
     try {
       // Find or create the user based on the decoded token.
-      const user = await this.findOrCreateUser(tenant, decoded);
+      const user = await this.findOrCreateUser(tenant, token);
 
       // The user was found or created!
       return this.success(user, null);

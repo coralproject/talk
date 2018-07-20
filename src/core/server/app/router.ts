@@ -4,12 +4,11 @@ import passport from "passport";
 import { signupHandler } from "talk-server/app/handlers/auth/local";
 import { apiErrorHandler } from "talk-server/app/middleware/error";
 import { errorLogger } from "talk-server/app/middleware/logging";
-import { authenticate } from "talk-server/app/middleware/passport";
+import { wrapAuthz } from "talk-server/app/middleware/passport";
 import tenantMiddleware from "talk-server/app/middleware/tenant";
 import managementGraphMiddleware from "talk-server/graph/management/middleware";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
-import { createJWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
 import { AppOptions } from "./index";
 import playground from "./middleware/playground";
 
@@ -46,6 +45,9 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
   router.use(
     "/graphql",
     express.json(),
+    // Any users may submit their GraphQL requests with authentication, this
+    // middleware will unpack their user into the request.
+    options.passport.authenticate("jwt", { session: false }),
     await tenantGraphMiddleware(app.schemas.tenant, app.config, app.mongo)
   );
 
@@ -55,25 +57,22 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
 function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
   const router = express.Router();
 
-  // Create the signing config.
-  const signingConfig = createJWTSigningConfig(app.config);
-
   // Mount the passport routes.
   router.post(
     "/local",
     express.json(),
-    authenticate(options.passport, signingConfig, "local")
+    wrapAuthz(options.passport, app.signingConfig, "local")
   );
   router.post(
     "/local/signup",
     express.json(),
-    signupHandler({ db: app.mongo, signingConfig })
+    signupHandler({ db: app.mongo, signingConfig: app.signingConfig })
   );
-  router.post("/sso", authenticate(options.passport, signingConfig, "sso"));
-  router.get("/oidc", authenticate(options.passport, signingConfig, "oidc"));
+  router.post("/sso", wrapAuthz(options.passport, app.signingConfig, "sso"));
+  router.get("/oidc", wrapAuthz(options.passport, app.signingConfig, "oidc"));
   router.get(
     "/oidc/callback",
-    authenticate(options.passport, signingConfig, "oidc")
+    wrapAuthz(options.passport, app.signingConfig, "oidc")
   );
 
   return router;

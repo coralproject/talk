@@ -5,6 +5,7 @@ import { Db } from "mongodb";
 
 import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
+import { JWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
 import { Config } from "talk-server/config";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
@@ -19,6 +20,7 @@ export interface AppOptions {
   mongo: Db;
   redis: Redis;
   schemas: Schemas;
+  signingConfig: JWTSigningConfig;
 }
 
 /**
@@ -32,10 +34,17 @@ export async function createApp(options: AppOptions): Promise<Express> {
   parent.use(accessLogger);
 
   // Create some services for the router.
-  const passport = createPassport({ db: options.mongo });
+  const passport = createPassport({
+    db: options.mongo,
+    signingConfig: options.signingConfig,
+  });
 
   // Mount the router.
-  parent.use(await createRouter(options, { passport }));
+  parent.use(
+    await createRouter(options, {
+      passport,
+    })
+  );
 
   // Static Files
   parent.use(serveStatic);

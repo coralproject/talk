@@ -3,6 +3,7 @@ import { Db } from "mongodb";
 import passport, { Authenticator } from "passport";
 
 import {
+  createJWTStrategy,
   JWTSigningConfig,
   SigningTokenOptions,
   signTokenString,
@@ -20,10 +21,12 @@ export type VerifyCallback = (
 
 export interface PassportOptions {
   db: Db;
+  signingConfig: JWTSigningConfig;
 }
 
 export function createPassport({
   db,
+  signingConfig,
 }: PassportOptions): passport.Authenticator {
   // Create the authenticator.
   const auth = new Authenticator();
@@ -33,6 +36,9 @@ export function createPassport({
 
   // Use the LocalStrategy.
   auth.use(createLocalStrategy({ db }));
+
+  // Use the JWTStrategy.
+  auth.use(createJWTStrategy({ db, signingConfig }));
 
   return auth;
 }
@@ -74,7 +80,7 @@ export async function handleSuccessfulLogin(
 }
 
 /**
- * authenticate will wrap a authenticators authenticate method with one that
+ * wrapAuthz will wrap a authenticators authenticate method with one that
  * will return a valid login token for a valid login by a compatible strategy.
  *
  * @param authenticator the base authenticator instance
@@ -82,7 +88,7 @@ export async function handleSuccessfulLogin(
  * @param name the name of the authenticator to use
  * @param options any options to be passed to the authenticate call
  */
-export const authenticate = (
+export const wrapAuthz = (
   authenticator: passport.Authenticator,
   signingConfig: JWTSigningConfig,
   name: string,

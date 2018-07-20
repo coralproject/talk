@@ -15,12 +15,14 @@ export default class TenantContext extends CommonContext {
   public loaders: ReturnType<typeof loaders>;
   public mutators: ReturnType<typeof mutators>;
   public db: Db;
+  public user?: User;
   public tenant: Tenant;
 
   constructor({ user, tenant, db }: TenantContextOptions) {
     super({ user });
 
     this.tenant = tenant;
+    this.user = user;
     this.loaders = loaders(this);
     this.mutators = mutators(this);
     this.db = db;
