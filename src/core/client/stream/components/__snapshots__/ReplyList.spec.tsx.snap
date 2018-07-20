@@ -60,9 +60,8 @@ exports[`when there is more disables load more button 1`] = `
         disabled={true}
         fullWidth={true}
         id="talk-comments-replyList-showAll--comment-id"
-        invert={true}
         onClick={[Function]}
-        secondary={true}
+        variant="outlined"
       >
         Show All Replies
       </withPropsOnChange(Button)>
@@ -103,9 +102,8 @@ exports[`when there is more renders a load more button 1`] = `
         disabled={false}
         fullWidth={true}
         id="talk-comments-replyList-showAll--comment-id"
-        invert={true}
         onClick={[Function]}
-        secondary={true}
+        variant="outlined"
       >
         Show All Replies
       </withPropsOnChange(Button)>

@@ -15,47 +15,61 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
    */
-  classes: typeof styles & Partial<BaseButtonProps["classes"]>;
+  classes: typeof styles & BaseButtonProps["classes"];
+
+  /** Size of the button */
+  size?: "small" | "regular" | "large";
+
+  /** Color of the button */
+  color?: "regular" | "primary" | "error" | "success";
+
+  /** Variant of the button */
+  variant?: "regular" | "filled" | "outlined" | "ghost";
 
   /** If set renders a full width button */
   fullWidth?: boolean;
 
-  /** If set renders a button with inverted borders */
-  invert?: boolean;
-
-  /** If set renders a button with primary colors */
-  primary?: boolean;
-
-  /** If set renders a button with secondary colors */
-  secondary?: boolean;
-
-  /** ref to the HTMLButtonElement */
-  ref?: Ref<HTMLButtonElement>;
+  /** If set renders active state e.g. to implement toggle buttons */
+  active?: boolean;
 
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLButtonElement>;
 }
 
-class Button extends React.Component<InnerProps> {
+export class Button extends React.Component<InnerProps> {
+  public static defaultProps: Partial<InnerProps> = {
+    size: "regular",
+    variant: "regular",
+    color: "regular",
+  };
   public render() {
     const {
+      active,
       classes,
+      color,
       className,
+      size,
       fullWidth,
-      invert,
-      primary,
-      secondary,
       disabled,
       forwardRef,
+      variant,
       ...rest
     } = this.props;
 
     const rootClassName = cn(classes.root, className, {
-      [classes.invert]: invert,
+      [classes.sizeRegular]: size === "regular",
+      [classes.sizeSmall]: size === "small",
+      [classes.sizeLarge]: size === "large",
+      [classes.colorRegular]: color === "regular",
+      [classes.colorPrimary]: color === "primary",
+      [classes.colorError]: color === "error",
+      [classes.colorSuccess]: color === "success",
+      [classes.variantRegular]: variant === "regular",
+      [classes.variantFilled]: variant === "filled",
+      [classes.variantOutlined]: variant === "outlined",
+      [classes.variantGhost]: variant === "ghost",
       [classes.fullWidth]: fullWidth,
-      [classes.primary]: primary,
-      [classes.secondary]: secondary,
-      [classes.regular]: !primary && !secondary,
+      [classes.active]: active,
       [classes.disabled]: disabled,
     });
 

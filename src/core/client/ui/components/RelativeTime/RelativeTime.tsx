@@ -15,9 +15,6 @@ interface InnerProps {
   className?: string;
   formatter?: Formatter;
 
-  /** Ref to the root element */
-  ref?: Ref<HTMLDivElement>;
-
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLDivElement>;
 }

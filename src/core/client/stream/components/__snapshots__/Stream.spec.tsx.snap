@@ -126,9 +126,8 @@ exports[`when there is more disables load more button 1`] = `
         disabled={true}
         fullWidth={true}
         id="talk-comments-stream-loadMore"
-        invert={true}
         onClick={[Function]}
-        secondary={true}
+        variant="outlined"
       >
         Load More
       </withPropsOnChange(Button)>
@@ -202,9 +201,8 @@ exports[`when there is more renders a load more button 1`] = `
         disabled={false}
         fullWidth={true}
         id="talk-comments-stream-loadMore"
-        invert={true}
         onClick={[Function]}
-        secondary={true}
+        variant="outlined"
       >
         Load More
       </withPropsOnChange(Button)>
