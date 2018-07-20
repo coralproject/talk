@@ -156,17 +156,18 @@ export class JWTStrategy extends Strategy {
   }
 
   public authenticate(req: Request) {
+    // Lookup the token.
+    const token = extractJWTFromRequest(req);
+    if (!token) {
+      // There was no token on the request, so there was no user, so let's mark
+      // that the strategy was succesfull.
+      return this.success(null, null);
+    }
+
     const { tenant } = req;
     if (!tenant) {
       // TODO: (wyattjoh) return a better error.
       return this.error(new Error("tenant not found"));
-    }
-
-    // Lookup the token.
-    const token = extractJWTFromRequest(req);
-    if (!token) {
-      // TODO: (wyattjoh) return a better error.
-      return this.fail(new Error("no token on request"), 401);
     }
 
     jwt.verify(
