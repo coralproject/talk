@@ -5,6 +5,7 @@ menu: UI Kit
 
 import { Playground } from 'docz'
 import ToggleShow from './ToggleShow'
+import Flex from '../Flex'
 
 # ToggleShow
 A render props component to manage visible state.
@@ -13,10 +14,10 @@ A render props component to manage visible state.
 <Playground>
   <ToggleShow>
     {({ toggleShow, show }) => (
-      <div>
-        {show && <div>SHOW ME</div>}
-        <button onClick={toggleShow}>ClickMe and I disappear</button>
-      </div>
+      <Flex itemGutter direction="column">
+        {show && <div>Hello World!</div>}
+        <button onClick={toggleShow}>Toggle Show</button>
+      </Flex>
     )}
   </ToggleShow>
 </Playground>
