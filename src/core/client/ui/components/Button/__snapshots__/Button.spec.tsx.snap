@@ -19,6 +19,15 @@ exports[`renders a regular sized, primary colored ghost button with fullWidth 1`
 </withPropsOnChange(WithMouseHover)>
 `;
 
+exports[`renders active state 1`] = `
+<withPropsOnChange(WithMouseHover)
+  className="active"
+  classes={Object {}}
+>
+  Push me
+</withPropsOnChange(WithMouseHover)>
+`;
+
 exports[`renders correctly 1`] = `
 <withPropsOnChange(WithMouseHover)
   className=""

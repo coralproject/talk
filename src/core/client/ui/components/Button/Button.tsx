@@ -29,6 +29,9 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** If set renders a full width button */
   fullWidth?: boolean;
 
+  /** If set renders active state e.g. to implement toggle buttons */
+  active?: boolean;
+
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLButtonElement>;
 }
@@ -41,6 +44,7 @@ export class Button extends React.Component<InnerProps> {
   };
   public render() {
     const {
+      active,
       classes,
       color,
       className,
@@ -65,6 +69,7 @@ export class Button extends React.Component<InnerProps> {
       [classes.variantOutlined]: variant === "outlined",
       [classes.variantGhost]: variant === "ghost",
       [classes.fullWidth]: fullWidth,
+      [classes.active]: active,
       [classes.disabled]: disabled,
     });
 

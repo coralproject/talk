@@ -63,7 +63,8 @@
       &.mouseHover {
         color: var(--palette-grey-light);
       }
-      &:active {
+      &:active,
+      &.active {
         color: var(--palette-grey-lighter);
       }
     }
@@ -71,7 +72,8 @@
       &.mouseHover {
         color: var(--palette-primary-light);
       }
-      &:active {
+      &:active,
+      &.active {
         color: var(--palette-primary-lighter);
       }
     }
@@ -79,7 +81,8 @@
       &.mouseHover {
         color: var(--palette-error-light);
       }
-      &:active {
+      &:active,
+      &.active {
         color: var(--palette-error-lighter);
       }
     }
@@ -87,7 +90,8 @@
       &.mouseHover {
         color: var(--palette-success-light);
       }
-      &:active {
+      &:active,
+      &.active {
         color: var(--palette-success-lighter);
       }
     }
@@ -114,7 +118,8 @@
       &.mouseHover {
         background-color: var(--palette-grey-light);
       }
-      &:active {
+      &:active,
+      &.active {
         background-color: var(--palette-grey-lighter);
       }
     }
@@ -122,7 +127,8 @@
       &.mouseHover {
         background-color: var(--palette-primary-light);
       }
-      &:active {
+      &:active,
+      &.active {
         background-color: var(--palette-primary-lighter);
       }
     }
@@ -130,7 +136,8 @@
       &.mouseHover {
         background-color: var(--palette-error-light);
       }
-      &:active {
+      &:active,
+      &.active {
         background-color: var(--palette-error-lighter);
       }
     }
@@ -138,7 +145,8 @@
       &.mouseHover {
         background-color: var(--palette-success-light);
       }
-      &:active {
+      &:active,
+      &.active {
         background-color: var(--palette-success-lighter);
       }
     }
@@ -169,7 +177,8 @@
         color: var(--palette-grey-light);
         border: 1px solid currentColor;
       }
-      &:active {
+      &:active,
+      &.active {
         color: var(--palette-grey-lighter);
         border: 1px solid currentColor;
       }
@@ -179,7 +188,8 @@
         color: var(--palette-primary-light);
         border: 1px solid currentColor;
       }
-      &:active {
+      &:active,
+      &.active {
         color: var(--palette-primary-lighter);
         border: 1px solid currentColor;
       }
@@ -189,7 +199,8 @@
         color: var(--palette-error-light);
         border: 1px solid currentColor;
       }
-      &:active {
+      &:active,
+      &.active {
         color: var(--palette-error-lighter);
         border: 1px solid currentColor;
       }
@@ -199,7 +210,8 @@
         color: var(--palette-success-light);
         border: 1px solid currentColor;
       }
-      &:active {
+      &:active,
+      &.active {
         color: var(--palette-success-lighter);
         border: 1px solid currentColor;
       }
@@ -226,7 +238,9 @@
       &.mouseHover {
         border: 1px solid currentColor;
       }
-      &:active {
+      &:active,
+      &.active {
+        border: 1px solid currentColor;
         color: var(--palette-common-white);
         background-color: var(--palette-grey-main);
       }
@@ -235,7 +249,9 @@
       &.mouseHover {
         border: 1px solid currentColor;
       }
-      &:active {
+      &:active,
+      &.active {
+        border: 1px solid currentColor;
         color: var(--palette-common-white);
         background-color: var(--palette-primary-main);
       }
@@ -244,7 +260,9 @@
       &.mouseHover {
         border: 1px solid currentColor;
       }
-      &:active {
+      &:active,
+      &.active {
+        border: 1px solid currentColor;
         color: var(--palette-common-white);
         background-color: var(--palette-error-main);
       }
@@ -253,7 +271,9 @@
       &.mouseHover {
         border: 1px solid currentColor;
       }
-      &:active {
+      &:active,
+      &.active {
+        border: 1px solid currentColor;
         color: var(--palette-common-white);
         background-color: var(--palette-success-main);
       }

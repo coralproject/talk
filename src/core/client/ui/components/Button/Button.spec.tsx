@@ -47,3 +47,16 @@ it("renders a regular sized, primary colored ghost button with fullWidth", () =>
   renderer.render(<Button {...props} />);
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
+
+it("renders active state", () => {
+  const props: PropTypesOf<typeof Button> = {
+    active: true,
+    classes: {
+      active: "active",
+    } as any,
+    children: "Push me",
+  };
+  const renderer = ShallowRenderer.createRenderer();
+  renderer.render(<Button {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
+});
