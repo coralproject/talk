@@ -5,11 +5,16 @@ import Sinon from "sinon";
 import { PropTypesOf } from "talk-ui/types";
 import TrapFocus from "./TrapFocus";
 
+const FakeFocusable: any = class extends React.Component {
+  public focus = Sinon.spy();
+  public render() {
+    return null;
+  }
+};
+
 it("renders correctly", () => {
   const props: PropTypesOf<TrapFocus> = {
-    firstFocusable: null,
-    lastFocusable: null,
-    children: (
+    children: () => (
       <>
         <span>child1</span>
         <span>child2</span>
@@ -25,15 +30,13 @@ it("renders correctly", () => {
 });
 
 it("Change focus to `lastFocusable` when focus reaches beginning", () => {
-  const fakeHTMLElementBegin = { focus: Sinon.spy() };
-  const fakeHTMLElementEnd = { focus: Sinon.spy() };
   const props: PropTypesOf<TrapFocus> = {
-    firstFocusable: fakeHTMLElementBegin as any,
-    lastFocusable: fakeHTMLElementEnd as any,
-    children: (
+    children: ({ firstFocusableRef, lastFocusableRef }) => (
       <>
+        <FakeFocusable ref={firstFocusableRef} />
         <span>child1</span>
         <span>child2</span>
+        <FakeFocusable ref={lastFocusableRef} />
       </>
     ),
   };
@@ -43,20 +46,22 @@ it("Change focus to `lastFocusable` when focus reaches beginning", () => {
     </div>
   );
   renderer.root.findAllByProps({ tabIndex: 0 })[0].props.onFocus();
-  expect(fakeHTMLElementBegin.focus.called).toBe(false);
-  expect(fakeHTMLElementEnd.focus.called).toBe(true);
+  expect(
+    renderer.root.findAllByType(FakeFocusable)[0].instance.focus.called
+  ).toBe(false);
+  expect(
+    renderer.root.findAllByType(FakeFocusable)[1].instance.focus.called
+  ).toBe(true);
 });
 
-it("Change focus to `firstFocusable` when focus reaches the end", () => {
-  const fakeHTMLElementBegin = { focus: Sinon.spy() };
-  const fakeHTMLElementEnd = { focus: Sinon.spy() };
+it("Change focus to `firstFocusable` when focus reaches end", () => {
   const props: PropTypesOf<TrapFocus> = {
-    firstFocusable: fakeHTMLElementBegin as any,
-    lastFocusable: fakeHTMLElementEnd as any,
-    children: (
+    children: ({ firstFocusableRef, lastFocusableRef }) => (
       <>
+        <FakeFocusable ref={firstFocusableRef} />
         <span>child1</span>
         <span>child2</span>
+        <FakeFocusable ref={lastFocusableRef} />
       </>
     ),
   };
@@ -66,6 +71,10 @@ it("Change focus to `firstFocusable` when focus reaches the end", () => {
     </div>
   );
   renderer.root.findAllByProps({ tabIndex: 0 })[1].props.onFocus();
-  expect(fakeHTMLElementBegin.focus.called).toBe(true);
-  expect(fakeHTMLElementEnd.focus.called).toBe(false);
+  expect(
+    renderer.root.findAllByType(FakeFocusable)[0].instance.focus.called
+  ).toBe(true);
+  expect(
+    renderer.root.findAllByType(FakeFocusable)[1].instance.focus.called
+  ).toBe(false);
 });
