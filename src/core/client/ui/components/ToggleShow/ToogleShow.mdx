@@ -5,18 +5,22 @@ menu: UI Kit
 
 import { Playground } from 'docz'
 import ToggleShow from './ToggleShow'
+import Button from '../Button'
+import Flex from '../Flex'
 
 # ToggleShow
-A Component that provides a render function to display nodes
+A render props component to manage visible state.
 
 ## Basic usage
 <Playground>
   <ToggleShow>
     {({ toggleShow, show }) => (
-      <div>
-        {show && <div>SHOW ME</div>}
-        <button onClick={toggleShow}>ClickMe and I disapear</button>
-      </div>
+      <Flex itemGutter direction="column">
+        {show && <div>Hello World!</div>}
+        <Button onClick={toggleShow} variant="filled" color="primary">
+          Toggle Show
+        </Button>
+      </Flex>
     )}
   </ToggleShow>
 </Playground>
