@@ -42,7 +42,9 @@ const config: Config = {
     },
     runDocz: {
       paths: [],
-      executor: new LongRunningExecutor("npm run docz -- dev"),
+      executor: new LongRunningExecutor(
+        "NODE_ENV=development npm run docz -- dev"
+      ),
     },
   },
   defaultSet: "client",

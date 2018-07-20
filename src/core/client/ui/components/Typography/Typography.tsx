@@ -1,8 +1,8 @@
 import cn from "classnames";
-import React from "react";
+import React, { Ref } from "react";
 import { HTMLAttributes, ReactNode, StatelessComponent } from "react";
 
-import { withStyles } from "talk-ui/hocs";
+import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
 import * as styles from "./Typography.css";
@@ -77,6 +77,12 @@ interface InnerProps extends HTMLAttributes<any> {
    * Applies the theme typography styles.
    */
   variant?: Variant;
+
+  /** Ref to the root element */
+  ref?: Ref<HTMLElement>;
+
+  /** Internal: Forwarded Ref */
+  forwardRef?: Ref<HTMLElement>;
 }
 
 const Typography: StatelessComponent<InnerProps> = props => {
@@ -91,6 +97,7 @@ const Typography: StatelessComponent<InnerProps> = props => {
     noWrap,
     paragraph,
     variant,
+    forwardRef,
     ...rest
   } = props;
 
@@ -116,7 +123,7 @@ const Typography: StatelessComponent<InnerProps> = props => {
   const Component =
     component || (paragraph ? "p" : headlineMapping![variant!]) || "span";
 
-  return <Component className={rootClassName} {...rest} />;
+  return <Component ref={forwardRef} className={rootClassName} {...rest} />;
 };
 
 Typography.defaultProps = {
@@ -139,6 +146,6 @@ Typography.defaultProps = {
   variant: "body1",
 };
 
-const enhanced = withStyles(styles)(Typography);
+const enhanced = withForwardRef(withStyles(styles)(Typography));
 export type CenterProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

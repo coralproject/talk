@@ -1,8 +1,8 @@
 import cn from "classnames";
 import { pick } from "lodash";
-import React, { ButtonHTMLAttributes } from "react";
+import React, { ButtonHTMLAttributes, Ref } from "react";
 
-import { withStyles } from "talk-ui/hocs";
+import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
 import BaseButton, { BaseButtonProps } from "../BaseButton";
@@ -28,6 +28,12 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
   /** If set renders a button with secondary colors */
   secondary?: boolean;
+
+  /** ref to the HTMLButtonElement */
+  ref?: Ref<HTMLButtonElement>;
+
+  /** Internal: Forwarded Ref */
+  forwardRef?: Ref<HTMLButtonElement>;
 }
 
 class Button extends React.Component<InnerProps> {
@@ -39,6 +45,8 @@ class Button extends React.Component<InnerProps> {
       invert,
       primary,
       secondary,
+      disabled,
+      forwardRef,
       ...rest
     } = this.props;
 
@@ -47,18 +55,22 @@ class Button extends React.Component<InnerProps> {
       [classes.fullWidth]: fullWidth,
       [classes.primary]: primary,
       [classes.secondary]: secondary,
+      [classes.regular]: !primary && !secondary,
+      [classes.disabled]: disabled,
     });
 
     return (
       <BaseButton
         className={rootClassName}
-        classes={pick(classes, "keyboardFocus")}
+        classes={pick(classes, "keyboardFocus", "mouseHover")}
+        disabled={disabled}
+        forwardRef={forwardRef}
         {...rest}
       />
     );
   }
 }
 
-const enhanced = withStyles(styles)(Button);
+const enhanced = withForwardRef(withStyles(styles)(Button));
 export type ButtonProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

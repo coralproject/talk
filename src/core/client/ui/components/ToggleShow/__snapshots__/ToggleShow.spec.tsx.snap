@@ -13,12 +13,12 @@ exports[`renders correctly 1`] = `
 </div>
 `;
 
-exports[`should work correctly 1`] = `
+exports[`should hide the div 1`] = `
 <div>
   <button
     onClick={[Function]}
   >
-    Click me and I disapear
+    Click me and I disappear
   </button>
 </div>
 `;
