@@ -47,8 +47,9 @@ const Flex: StatelessComponent<InnerProps> = props => {
   } = props;
 
   let alignItemsWithDefault = alignItems;
-  if (!direction || !direction.startsWith("column")) {
-    alignItemsWithDefault = "center";
+  if (!alignItems) {
+    alignItemsWithDefault =
+      direction && direction.startsWith("column") ? "flex-start" : "center";
   }
 
   const classObject: Record<string, boolean> = {
