@@ -27,9 +27,6 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** This is passed by the `withMouseHover` HOC */
   mouseHover?: boolean;
 
-  /** ref to the HTMLButtonElement */
-  ref?: Ref<HTMLButtonElement>;
-
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLButtonElement>;
 }

@@ -4,6 +4,7 @@ import { StatelessComponent } from "react";
 
 import { pascalCase } from "talk-common/utils";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
+import { PropTypesOf } from "talk-ui/types";
 
 import * as styles from "./Flex.css";
 
@@ -28,9 +29,6 @@ interface InnerProps {
   className?: string;
   wrap?: boolean | "reverse";
 
-  /** Ref to the root element */
-  ref?: Ref<HTMLDivElement>;
-
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLDivElement>;
 }
@@ -48,6 +46,11 @@ const Flex: StatelessComponent<InnerProps> = props => {
     ...rest
   } = props;
 
+  let alignItemsWithDefault = alignItems;
+  if (!direction || !direction.startsWith("column")) {
+    alignItemsWithDefault = "center";
+  }
+
   const classObject: Record<string, boolean> = {
     [classes.itemGutter]: itemGutter === true,
     [classes.halfItemGutter]: itemGutter === "half",
@@ -61,8 +64,10 @@ const Flex: StatelessComponent<InnerProps> = props => {
     ] = true;
   }
 
-  if (alignItems) {
-    classObject[(classes as any)[`align${pascalCase(alignItems)}`]] = true;
+  if (alignItemsWithDefault) {
+    classObject[
+      (classes as any)[`align${pascalCase(alignItemsWithDefault)}`]
+    ] = true;
   }
 
   if (direction) {
@@ -74,4 +79,6 @@ const Flex: StatelessComponent<InnerProps> = props => {
   return <div ref={forwardRef} className={classNames} {...rest} />;
 };
 
-export default withForwardRef(withStyles(styles)(Flex));
+const enhanced = withForwardRef(withStyles(styles)(Flex));
+export default enhanced;
+export type FlexProps = PropTypesOf<typeof enhanced>;

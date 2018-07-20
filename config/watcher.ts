@@ -4,6 +4,8 @@ import {
   Config,
   LongRunningExecutor,
 } from "../scripts/watcher";
+// Ensure environment variables are read.
+import "./env";
 
 const config: Config = {
   rootDir: path.resolve(__dirname, "../src"),
@@ -42,9 +44,7 @@ const config: Config = {
     },
     runDocz: {
       paths: [],
-      executor: new LongRunningExecutor(
-        "NODE_ENV=development npm run docz -- dev"
-      ),
+      executor: new LongRunningExecutor("npm run docz -- dev"),
     },
   },
   defaultSet: "client",

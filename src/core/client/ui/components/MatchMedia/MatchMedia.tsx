@@ -2,6 +2,8 @@ import React from "react";
 import { ReactNode, StatelessComponent } from "react";
 import Responsive, { MediaQueryMatchers } from "react-responsive";
 
+import { PropTypesOf } from "talk-ui/types";
+
 import theme from "../../theme/variables";
 import UIContext from "../UIContext";
 
@@ -45,3 +47,4 @@ const MatchMediaWithContext: StatelessComponent<InnerProps> = props => (
 );
 
 export default MatchMediaWithContext;
+export type MatchMediaProps = PropTypesOf<typeof MatchMediaWithContext>;

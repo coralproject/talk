@@ -1,2 +1,1 @@
-export * from "./TrapFocus";
-export { default } from "./TrapFocus";
+export { default, TrapFocusProps } from "./TrapFocus";

@@ -1,2 +1,1 @@
-export * from "./RelativeTime";
-export { default } from "./RelativeTime";
+export { default, RelativeTimeProps } from "./RelativeTime";
