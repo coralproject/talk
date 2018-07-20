@@ -28,7 +28,7 @@ exports[`loads more comments 1`] = `
         className="PostCommentForm-postButtonContainer"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular"
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
           disabled={false}
           onBlur={[Function]}
           onFocus={[Function]}
@@ -43,12 +43,12 @@ exports[`loads more comments 1`] = `
     </form>
     <div
       aria-live="polite"
-      className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+      className="Flex-root Flex-itemGutter Flex-directionColumn"
       id="talk-comments-stream-log"
       role="log"
     >
       <div
-        className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+        className="Flex-root Flex-itemGutter Flex-directionColumn"
       >
         <div
           role="article"
@@ -77,7 +77,7 @@ exports[`loads more comments 1`] = `
         </div>
       </div>
       <div
-        className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+        className="Flex-root Flex-itemGutter Flex-directionColumn"
       >
         <div
           role="article"
@@ -106,7 +106,7 @@ exports[`loads more comments 1`] = `
         </div>
       </div>
       <div
-        className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+        className="Flex-root Flex-itemGutter Flex-directionColumn"
       >
         <div
           role="article"
@@ -167,7 +167,7 @@ exports[`renders comment stream 1`] = `
         className="PostCommentForm-postButtonContainer"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular"
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
           disabled={false}
           onBlur={[Function]}
           onFocus={[Function]}
@@ -182,12 +182,12 @@ exports[`renders comment stream 1`] = `
     </form>
     <div
       aria-live="polite"
-      className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+      className="Flex-root Flex-itemGutter Flex-directionColumn"
       id="talk-comments-stream-log"
       role="log"
     >
       <div
-        className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+        className="Flex-root Flex-itemGutter Flex-directionColumn"
       >
         <div
           role="article"
@@ -216,7 +216,7 @@ exports[`renders comment stream 1`] = `
         </div>
       </div>
       <div
-        className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+        className="Flex-root Flex-itemGutter Flex-directionColumn"
       >
         <div
           role="article"

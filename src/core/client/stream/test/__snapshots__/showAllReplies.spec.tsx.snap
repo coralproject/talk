@@ -28,7 +28,7 @@ exports[`renders comment stream 1`] = `
         className="PostCommentForm-postButtonContainer"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular"
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
           disabled={false}
           onBlur={[Function]}
           onFocus={[Function]}
@@ -43,12 +43,12 @@ exports[`renders comment stream 1`] = `
     </form>
     <div
       aria-live="polite"
-      className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+      className="Flex-root Flex-itemGutter Flex-directionColumn"
       id="talk-comments-stream-log"
       role="log"
     >
       <div
-        className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+        className="Flex-root Flex-itemGutter Flex-directionColumn"
       >
         <div
           role="article"
@@ -79,7 +79,7 @@ exports[`renders comment stream 1`] = `
           className="Indent-root Indent-level0"
         >
           <div
-            className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+            className="Flex-root Flex-itemGutter Flex-directionColumn"
             id="talk-comments-replyList-log--comment-0"
             role="log"
           >
@@ -159,7 +159,7 @@ exports[`show all replies 1`] = `
         className="PostCommentForm-postButtonContainer"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantRegular"
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
           disabled={false}
           onBlur={[Function]}
           onFocus={[Function]}
@@ -174,12 +174,12 @@ exports[`show all replies 1`] = `
     </form>
     <div
       aria-live="polite"
-      className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+      className="Flex-root Flex-itemGutter Flex-directionColumn"
       id="talk-comments-stream-log"
       role="log"
     >
       <div
-        className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+        className="Flex-root Flex-itemGutter Flex-directionColumn"
       >
         <div
           role="article"
@@ -210,7 +210,7 @@ exports[`show all replies 1`] = `
           className="Indent-root Indent-level0"
         >
           <div
-            className="Flex-root Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+            className="Flex-root Flex-itemGutter Flex-directionColumn"
             id="talk-comments-replyList-log--comment-0"
             role="log"
           >

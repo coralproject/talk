@@ -46,6 +46,11 @@ const Flex: StatelessComponent<InnerProps> = props => {
     ...rest
   } = props;
 
+  let alignItemsWithDefault = alignItems;
+  if (!direction || !direction.startsWith("column")) {
+    alignItemsWithDefault = "center";
+  }
+
   const classObject: Record<string, boolean> = {
     [classes.itemGutter]: itemGutter === true,
     [classes.halfItemGutter]: itemGutter === "half",
@@ -59,8 +64,10 @@ const Flex: StatelessComponent<InnerProps> = props => {
     ] = true;
   }
 
-  if (alignItems) {
-    classObject[(classes as any)[`align${pascalCase(alignItems)}`]] = true;
+  if (alignItemsWithDefault) {
+    classObject[
+      (classes as any)[`align${pascalCase(alignItemsWithDefault)}`]
+    ] = true;
   }
 
   if (direction) {
@@ -70,10 +77,6 @@ const Flex: StatelessComponent<InnerProps> = props => {
   const classNames: string = cn(classes.root, className, classObject);
 
   return <div ref={forwardRef} className={classNames} {...rest} />;
-};
-
-Flex.defaultProps = {
-  alignItems: "center",
 };
 
 const enhanced = withForwardRef(withStyles(styles)(Flex));
