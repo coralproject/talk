@@ -24,7 +24,7 @@ const AriaInfo: StatelessComponent<InnerProps> = props => {
 };
 
 AriaInfo.defaultProps = {
-  component: "span",
+  component: "div",
 };
 
 const enhanced = withForwardRef(withStyles(styles)(AriaInfo));
