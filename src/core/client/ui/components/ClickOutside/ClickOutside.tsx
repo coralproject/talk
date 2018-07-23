@@ -9,10 +9,11 @@ interface Props {
 class ClickOutside extends React.Component<Props> {
   public domNode: Element | null = null;
 
-  public handleClick = e => {
+  public handleClick = (e: MouseEvent) => {
     const { onClickOutside } = this.props;
-    if (!e || !this.domNode!.contains(e.target)) {
-      onClickOutside && onClickOutside(e);
+    if (!e || !this.domNode!.contains(e.target as HTMLInputElement)) {
+      // tslint:disable-next-line:no-unused-expression
+      onClickOutside && onClickOutside();
     }
   };
 
