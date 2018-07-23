@@ -2,7 +2,7 @@
   border-radius: var(--round-corners);
   background-color: transparent;
   position: relative;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;

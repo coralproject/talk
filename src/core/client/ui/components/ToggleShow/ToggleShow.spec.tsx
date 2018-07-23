@@ -9,7 +9,7 @@ it("renders correctly", () => {
       {({ toggleShow, show }) => (
         <div>
           {show && <div>SHOW ME</div>}
-          <button onClick={toggleShow}>Click me and I disapear</button>
+          <button onClick={toggleShow}>Click me and I disappear</button>
         </div>
       )}
     </ToggleShow>
