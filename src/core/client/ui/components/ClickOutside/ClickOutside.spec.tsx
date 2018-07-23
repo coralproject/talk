@@ -30,7 +30,7 @@ it("should detect click outside", () => {
   simulant.fire(container, "click");
 
   expect(onClickOutside.calledOnce).toEqual(true);
-  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.html()).toMatchSnapshot();
   wrapper.unmount();
 });
 
@@ -49,6 +49,6 @@ it("should ignore click inside", () => {
   simulant.fire(document.getElementById("click-outside-test-button")!, "click");
 
   expect(onClickOutside.calledOnce).toEqual(false);
-  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.html()).toMatchSnapshot();
   wrapper.unmount();
 });
