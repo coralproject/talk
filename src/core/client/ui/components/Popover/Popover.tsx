@@ -1,40 +1,84 @@
-import React from "react";
-import { RefHandler } from "react-popper";
-import Attachment from "../Attachment";
+import cn from "classnames";
+import React, { CSSProperties } from "react";
+import { Manager, Popper, Reference, RefHandler } from "react-popper";
+import AriaInfo from "../AriaInfo";
 import * as styles from "./Popover.css";
 
 interface RenderProps {
-  toggleShow?: () => void;
-  ref?: RefHandler;
+  toggleVisibility?: () => void;
+  forwardRef?: RefHandler;
 }
 
 interface InnerProps {
-  body: React.ReactElement<any> | null;
+  body: (props: RenderProps) => any;
+  // body: React.ReactElement<any> | null;
   children: (props: RenderProps) => any;
+  description: string;
+  id?: string;
+  onClose?: () => void;
+  className?: string;
 }
 
 interface State {
-  show: false;
+  visible: false;
+}
+
+interface Props {
+  ref: any;
+  style: CSSProperties;
 }
 
 class Popover extends React.Component<InnerProps> {
   public state: State = {
-    show: false,
+    visible: false,
   };
 
-  public toggleShow = () => {
+  public toggleVisibility = () => {
     this.setState((state: State) => ({
-      show: !state.show,
+      visible: !state.visible,
     }));
   };
 
   public render() {
-    const { body, children } = this.props;
-    const { show } = this.state;
+    const { id, body, children, description, className } = this.props;
+
+    const { visible } = this.state;
+
     return (
-      <Attachment body={show ? body : null} className={styles.root}>
-        {({ ref }) => children({ toggleShow: this.toggleShow, ref })}
-      </Attachment>
+      <Manager>
+        <Reference>
+          {(props: Props) => children({ forwardRef: props.ref })}
+        </Reference>
+        <Popper
+          modifiers={{ preventOverflow: { enabled: false } }}
+          eventsEnabled
+          positionFixed={false}
+        >
+          {(props: Props) => (
+            <div
+              id={id}
+              aria-role="popup"
+              aria-labelledby={`${id}-ariainfo`}
+              aria-hidden={!visible}
+            >
+              <AriaInfo id={`${id}-ariainfo`}>{description}</AriaInfo>
+
+              {/* <ClickOutside onClickOutside={onClose}> */}
+              <div
+                style={props.style}
+                className={cn(styles.root, className)}
+                ref={props.ref}
+              >
+                {body({
+                  toggleVisibility: this.toggleVisibility,
+                  forwardRef: props.ref,
+                })}
+              </div>
+              {/* </ClickOutside> */}
+            </div>
+          )}
+        </Popper>
+      </Manager>
     );
   }
 }

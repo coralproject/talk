@@ -26,9 +26,14 @@ const Comment: StatelessComponent<CommentProps> = props => {
       </TopBar>
       <Typography>{props.body}</Typography>
       <div>
-        <Popover body={<PermalinkPopover commentId={props.id} />}>
-          {({ toggleShow, ref }) => (
-            <Button onClick={toggleShow} innerRef={ref} primary>
+        <Popover
+          // tslint:disable-next-line:jsx-no-lambda
+          body={({ forwardRef }) => (
+            <PermalinkPopover commentId={props.id} forwardRef={forwardRef} />
+          )}
+        >
+          {({ toggleVisibility, forwardRef }) => (
+            <Button onClick={toggleVisibility} forwardRef={forwardRef}>
               <Localized id="comments-permalink-share">
                 <span>Share</span>
               </Localized>
