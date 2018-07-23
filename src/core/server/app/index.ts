@@ -3,7 +3,7 @@ import http from "http";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
-import { Config } from "talk-server/config";
+import { Config } from "talk-common/config";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
 
