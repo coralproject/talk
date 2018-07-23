@@ -1,5 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should detect click outside 1`] = `"<button class=\\"BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantFilled\\">Push Me</button>"`;
-
-exports[`should ignore click inside 1`] = `"<button id=\\"click-outside-test-button\\" class=\\"BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantFilled\\">Push Me</button>"`;
+exports[`should render correctly 1`] = `"<span>Hello World!</span>"`;

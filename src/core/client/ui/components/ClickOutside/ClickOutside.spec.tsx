@@ -1,9 +1,8 @@
-import { mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import React from "react";
 import simulant from "simulant";
 import sinon from "sinon";
 
-import Button from "../Button/Button";
 import ClickOutside from "./ClickOutside";
 
 let container: HTMLElement;
@@ -17,11 +16,22 @@ afterAll(() => {
   document.body.removeChild(container);
 });
 
+it("should render correctly", () => {
+  const noop = () => null;
+  const wrapper = mount(
+    <ClickOutside onClickOutside={noop}>
+      <span>Hello World!</span>
+    </ClickOutside>
+  );
+  expect(wrapper.html()).toMatchSnapshot();
+  wrapper.unmount();
+});
+
 it("should detect click outside", () => {
   const onClickOutside = sinon.spy();
   const wrapper = mount(
     <ClickOutside onClickOutside={onClickOutside}>
-      <Button variant="filled">Push Me</Button>
+      <span>Hello World!</span>
     </ClickOutside>,
     {
       attachTo: container,
@@ -30,7 +40,6 @@ it("should detect click outside", () => {
   simulant.fire(container, "click");
 
   expect(onClickOutside.calledOnce).toEqual(true);
-  expect(wrapper.html()).toMatchSnapshot();
   wrapper.unmount();
 });
 
@@ -38,17 +47,16 @@ it("should ignore click inside", () => {
   const onClickOutside = sinon.spy();
   const wrapper = mount(
     <ClickOutside onClickOutside={onClickOutside}>
-      <Button id="click-outside-test-button" variant="filled">
-        Push Me
-      </Button>
+      <button id="click-outside-test-button">Push Me</button>
     </ClickOutside>,
     {
       attachTo: container,
     }
   );
-  simulant.fire(document.getElementById("click-outside-test-button")!, "click");
+
+  const target = document.getElementById("click-outside-test-button")!;
+  simulant.fire(target, "click");
 
   expect(onClickOutside.calledOnce).toEqual(false);
-  expect(wrapper.html()).toMatchSnapshot();
   wrapper.unmount();
 });
