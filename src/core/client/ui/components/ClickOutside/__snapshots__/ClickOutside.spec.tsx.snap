@@ -1,77 +1,100 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<Dummy
-  onButtonClick={[Function]}
+exports[`should detect click outside 1`] = `
+<ClickOutside
+  onClickOutside={[Function]}
 >
-  <header
-    style={
-      Object {
-        "background": "blue",
-        "padding": "30px",
-      }
-    }
+  <withPropsOnChange(Button)
+    variant="filled"
   >
-    <ClickOutside
-      onClickOutside={[Function]}
+    <Button
+      classes={
+        Object {
+          "active": "Button-active",
+          "colorError": "Button-colorError",
+          "colorPrimary": "Button-colorPrimary",
+          "colorRegular": "Button-colorRegular",
+          "colorSuccess": "Button-colorSuccess",
+          "default": Object {
+            "active": "Button-active",
+            "colorError": "Button-colorError",
+            "colorPrimary": "Button-colorPrimary",
+            "colorRegular": "Button-colorRegular",
+            "colorSuccess": "Button-colorSuccess",
+            "disabled": "Button-disabled",
+            "disabled)": "Button-disabled)",
+            "fullWidth": "Button-fullWidth",
+            "mouseHover": "Button-mouseHover",
+            "root": "Button-root",
+            "sizeLarge": "Button-sizeLarge",
+            "sizeRegular": "Button-sizeRegular",
+            "sizeSmall": "Button-sizeSmall",
+            "variantFilled": "Button-variantFilled",
+            "variantGhost": "Button-variantGhost",
+            "variantOutlined": "Button-variantOutlined",
+            "variantRegular": "Button-variantRegular",
+          },
+          "disabled": "Button-disabled",
+          "disabled)": "Button-disabled)",
+          "fullWidth": "Button-fullWidth",
+          "mouseHover": "Button-mouseHover",
+          "root": "Button-root",
+          "sizeLarge": "Button-sizeLarge",
+          "sizeRegular": "Button-sizeRegular",
+          "sizeSmall": "Button-sizeSmall",
+          "variantFilled": "Button-variantFilled",
+          "variantGhost": "Button-variantGhost",
+          "variantOutlined": "Button-variantOutlined",
+          "variantRegular": "Button-variantRegular",
+        }
+      }
+      color="regular"
+      size="regular"
+      variant="filled"
     >
-      <withPropsOnChange(Button)
-        variant="filled"
+      <withPropsOnChange(WithMouseHover)
+        className="Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
+        classes={
+          Object {
+            "mouseHover": "Button-mouseHover",
+          }
+        }
       >
-        <Button
+        <WithMouseHover
+          className="Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
           classes={
             Object {
-              "active": "Button-active",
-              "colorError": "Button-colorError",
-              "colorPrimary": "Button-colorPrimary",
-              "colorRegular": "Button-colorRegular",
-              "colorSuccess": "Button-colorSuccess",
               "default": Object {
-                "active": "Button-active",
-                "colorError": "Button-colorError",
-                "colorPrimary": "Button-colorPrimary",
-                "colorRegular": "Button-colorRegular",
-                "colorSuccess": "Button-colorSuccess",
-                "disabled": "Button-disabled",
-                "disabled)": "Button-disabled)",
-                "fullWidth": "Button-fullWidth",
-                "mouseHover": "Button-mouseHover",
-                "root": "Button-root",
-                "sizeLarge": "Button-sizeLarge",
-                "sizeRegular": "Button-sizeRegular",
-                "sizeSmall": "Button-sizeSmall",
-                "variantFilled": "Button-variantFilled",
-                "variantGhost": "Button-variantGhost",
-                "variantOutlined": "Button-variantOutlined",
-                "variantRegular": "Button-variantRegular",
+                "keyboardFocus": "BaseButton-keyboardFocus",
+                "mouseHover": "BaseButton-mouseHover",
+                "root": "BaseButton-root",
               },
-              "disabled": "Button-disabled",
-              "disabled)": "Button-disabled)",
-              "fullWidth": "Button-fullWidth",
-              "mouseHover": "Button-mouseHover",
-              "root": "Button-root",
-              "sizeLarge": "Button-sizeLarge",
-              "sizeRegular": "Button-sizeRegular",
-              "sizeSmall": "Button-sizeSmall",
-              "variantFilled": "Button-variantFilled",
-              "variantGhost": "Button-variantGhost",
-              "variantOutlined": "Button-variantOutlined",
-              "variantRegular": "Button-variantRegular",
+              "keyboardFocus": "BaseButton-keyboardFocus",
+              "mouseHover": "BaseButton-mouseHover Button-mouseHover",
+              "root": "BaseButton-root",
             }
           }
-          color="regular"
-          size="regular"
-          variant="filled"
         >
-          <withPropsOnChange(WithMouseHover)
+          <WithKeyboardFocus
             className="Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
             classes={
               Object {
-                "mouseHover": "Button-mouseHover",
+                "default": Object {
+                  "keyboardFocus": "BaseButton-keyboardFocus",
+                  "mouseHover": "BaseButton-mouseHover",
+                  "root": "BaseButton-root",
+                },
+                "keyboardFocus": "BaseButton-keyboardFocus",
+                "mouseHover": "BaseButton-mouseHover Button-mouseHover",
+                "root": "BaseButton-root",
               }
             }
+            mouseHover={false}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
           >
-            <WithMouseHover
+            <BaseButton
               className="Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
               classes={
                 Object {
@@ -85,67 +108,175 @@ exports[`renders correctly 1`] = `
                   "root": "BaseButton-root",
                 }
               }
+              keyboardFocus={false}
+              mouseHover={false}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
             >
-              <WithKeyboardFocus
-                className="Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
-                classes={
-                  Object {
-                    "default": Object {
-                      "keyboardFocus": "BaseButton-keyboardFocus",
-                      "mouseHover": "BaseButton-mouseHover",
-                      "root": "BaseButton-root",
-                    },
-                    "keyboardFocus": "BaseButton-keyboardFocus",
-                    "mouseHover": "BaseButton-mouseHover Button-mouseHover",
-                    "root": "BaseButton-root",
-                  }
-                }
-                mouseHover={false}
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseDown={[Function]}
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
                 onTouchEnd={[Function]}
               >
-                <BaseButton
-                  className="Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
-                  classes={
-                    Object {
-                      "default": Object {
-                        "keyboardFocus": "BaseButton-keyboardFocus",
-                        "mouseHover": "BaseButton-mouseHover",
-                        "root": "BaseButton-root",
-                      },
-                      "keyboardFocus": "BaseButton-keyboardFocus",
-                      "mouseHover": "BaseButton-mouseHover Button-mouseHover",
-                      "root": "BaseButton-root",
-                    }
-                  }
-                  keyboardFocus={false}
-                  mouseHover={false}
-                  onBlur={[Function]}
-                  onFocus={[Function]}
-                  onMouseDown={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                >
-                  <button
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
-                    onBlur={[Function]}
-                    onFocus={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                  >
-                    Push Me
-                  </button>
-                </BaseButton>
-              </WithKeyboardFocus>
-            </WithMouseHover>
-          </withPropsOnChange(WithMouseHover)>
-        </Button>
-      </withPropsOnChange(Button)>
-    </ClickOutside>
-  </header>
-</Dummy>
+                Push Me
+              </button>
+            </BaseButton>
+          </WithKeyboardFocus>
+        </WithMouseHover>
+      </withPropsOnChange(WithMouseHover)>
+    </Button>
+  </withPropsOnChange(Button)>
+</ClickOutside>
+`;
+
+exports[`should ignore click inside 1`] = `
+<ClickOutside
+  onClickOutside={[Function]}
+>
+  <withPropsOnChange(Button)
+    id="click-outside-test-button"
+    variant="filled"
+  >
+    <Button
+      classes={
+        Object {
+          "active": "Button-active",
+          "colorError": "Button-colorError",
+          "colorPrimary": "Button-colorPrimary",
+          "colorRegular": "Button-colorRegular",
+          "colorSuccess": "Button-colorSuccess",
+          "default": Object {
+            "active": "Button-active",
+            "colorError": "Button-colorError",
+            "colorPrimary": "Button-colorPrimary",
+            "colorRegular": "Button-colorRegular",
+            "colorSuccess": "Button-colorSuccess",
+            "disabled": "Button-disabled",
+            "disabled)": "Button-disabled)",
+            "fullWidth": "Button-fullWidth",
+            "mouseHover": "Button-mouseHover",
+            "root": "Button-root",
+            "sizeLarge": "Button-sizeLarge",
+            "sizeRegular": "Button-sizeRegular",
+            "sizeSmall": "Button-sizeSmall",
+            "variantFilled": "Button-variantFilled",
+            "variantGhost": "Button-variantGhost",
+            "variantOutlined": "Button-variantOutlined",
+            "variantRegular": "Button-variantRegular",
+          },
+          "disabled": "Button-disabled",
+          "disabled)": "Button-disabled)",
+          "fullWidth": "Button-fullWidth",
+          "mouseHover": "Button-mouseHover",
+          "root": "Button-root",
+          "sizeLarge": "Button-sizeLarge",
+          "sizeRegular": "Button-sizeRegular",
+          "sizeSmall": "Button-sizeSmall",
+          "variantFilled": "Button-variantFilled",
+          "variantGhost": "Button-variantGhost",
+          "variantOutlined": "Button-variantOutlined",
+          "variantRegular": "Button-variantRegular",
+        }
+      }
+      color="regular"
+      id="click-outside-test-button"
+      size="regular"
+      variant="filled"
+    >
+      <withPropsOnChange(WithMouseHover)
+        className="Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
+        classes={
+          Object {
+            "mouseHover": "Button-mouseHover",
+          }
+        }
+        id="click-outside-test-button"
+      >
+        <WithMouseHover
+          className="Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
+          classes={
+            Object {
+              "default": Object {
+                "keyboardFocus": "BaseButton-keyboardFocus",
+                "mouseHover": "BaseButton-mouseHover",
+                "root": "BaseButton-root",
+              },
+              "keyboardFocus": "BaseButton-keyboardFocus",
+              "mouseHover": "BaseButton-mouseHover Button-mouseHover",
+              "root": "BaseButton-root",
+            }
+          }
+          id="click-outside-test-button"
+        >
+          <WithKeyboardFocus
+            className="Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
+            classes={
+              Object {
+                "default": Object {
+                  "keyboardFocus": "BaseButton-keyboardFocus",
+                  "mouseHover": "BaseButton-mouseHover",
+                  "root": "BaseButton-root",
+                },
+                "keyboardFocus": "BaseButton-keyboardFocus",
+                "mouseHover": "BaseButton-mouseHover Button-mouseHover",
+                "root": "BaseButton-root",
+              }
+            }
+            id="click-outside-test-button"
+            mouseHover={false}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <BaseButton
+              className="Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
+              classes={
+                Object {
+                  "default": Object {
+                    "keyboardFocus": "BaseButton-keyboardFocus",
+                    "mouseHover": "BaseButton-mouseHover",
+                    "root": "BaseButton-root",
+                  },
+                  "keyboardFocus": "BaseButton-keyboardFocus",
+                  "mouseHover": "BaseButton-mouseHover Button-mouseHover",
+                  "root": "BaseButton-root",
+                }
+              }
+              id="click-outside-test-button"
+              keyboardFocus={false}
+              mouseHover={false}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantFilled"
+                id="click-outside-test-button"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseDown={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+              >
+                Push Me
+              </button>
+            </BaseButton>
+          </WithKeyboardFocus>
+        </WithMouseHover>
+      </withPropsOnChange(WithMouseHover)>
+    </Button>
+  </withPropsOnChange(Button)>
+</ClickOutside>
 `;

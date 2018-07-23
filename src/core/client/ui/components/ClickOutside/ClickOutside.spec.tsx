@@ -1,34 +1,54 @@
 import { mount } from "enzyme";
 import React from "react";
-import ReactDOM from "react-dom";
 import simulant from "simulant";
 import sinon from "sinon";
 
 import Button from "../Button/Button";
 import ClickOutside from "./ClickOutside";
 
-export class Dummy extends React.Component<{ onButtonClick: () => void }> {
-  public render() {
-    return (
-      <header style={{ background: "blue", padding: "30px" }}>
-        <ClickOutside onClickOutside={this.props.onButtonClick}>
-          <Button variant="filled">Push Me</Button>
-        </ClickOutside>
-      </header>
-    );
-  }
-}
+let container: HTMLElement;
 
-it("renders correctly", () => {
-  const onButtonClick = sinon.spy();
-  const wrapper = mount(<Dummy onButtonClick={onButtonClick} />);
+beforeAll(() => {
+  container = document.createElement("div");
+  document.body.appendChild(container);
+});
 
-  const target = ReactDOM.findDOMNode(wrapper.find("header").instance());
-  simulant.fire(target, "click");
+afterAll(() => {
+  document.body.removeChild(container);
+});
 
-  // Uncomment this. This should work.
-  // wrapper.find("header").simulate('click');
-  // expect(onButtonClick.calledOnce).toEqual(true);
-  // expect(onButtonClick.called).toBeTruthy();
+it("should detect click outside", () => {
+  const onClickOutside = sinon.spy();
+  const wrapper = mount(
+    <ClickOutside onClickOutside={onClickOutside}>
+      <Button variant="filled">Push Me</Button>
+    </ClickOutside>,
+    {
+      attachTo: container,
+    }
+  );
+  simulant.fire(container, "click");
+
+  expect(onClickOutside.calledOnce).toEqual(true);
   expect(wrapper).toMatchSnapshot();
+  wrapper.unmount();
+});
+
+it("should ignore click inside", () => {
+  const onClickOutside = sinon.spy();
+  const wrapper = mount(
+    <ClickOutside onClickOutside={onClickOutside}>
+      <Button id="click-outside-test-button" variant="filled">
+        Push Me
+      </Button>
+    </ClickOutside>,
+    {
+      attachTo: container,
+    }
+  );
+  simulant.fire(document.getElementById("click-outside-test-button")!, "click");
+
+  expect(onClickOutside.calledOnce).toEqual(false);
+  expect(wrapper).toMatchSnapshot();
+  wrapper.unmount();
 });
