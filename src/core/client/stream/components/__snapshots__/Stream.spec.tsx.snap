@@ -10,14 +10,14 @@ exports[`renders correctly 1`] = `
   <withContext(createMutationContainer(PostCommentFormContainer))
     assetID="asset-id"
   />
-  <Flex
+  <withPropsOnChange(Flex)
     aria-live="polite"
     direction="column"
     id="talk-comments-stream-log"
     itemGutter={true}
     role="log"
   >
-    <Flex
+    <withPropsOnChange(Flex)
       direction="column"
       itemGutter={true}
       key="comment-1"
@@ -36,8 +36,8 @@ exports[`renders correctly 1`] = `
           }
         }
       />
-    </Flex>
-    <Flex
+    </withPropsOnChange(Flex)>
+    <withPropsOnChange(Flex)
       direction="column"
       itemGutter={true}
       key="comment-2"
@@ -56,8 +56,8 @@ exports[`renders correctly 1`] = `
           }
         }
       />
-    </Flex>
-  </Flex>
+    </withPropsOnChange(Flex)>
+  </withPropsOnChange(Flex)>
 </div>
 `;
 
@@ -71,14 +71,14 @@ exports[`when there is more disables load more button 1`] = `
   <withContext(createMutationContainer(PostCommentFormContainer))
     assetID="asset-id"
   />
-  <Flex
+  <withPropsOnChange(Flex)
     aria-live="polite"
     direction="column"
     id="talk-comments-stream-log"
     itemGutter={true}
     role="log"
   >
-    <Flex
+    <withPropsOnChange(Flex)
       direction="column"
       itemGutter={true}
       key="comment-1"
@@ -97,8 +97,8 @@ exports[`when there is more disables load more button 1`] = `
           }
         }
       />
-    </Flex>
-    <Flex
+    </withPropsOnChange(Flex)>
+    <withPropsOnChange(Flex)
       direction="column"
       itemGutter={true}
       key="comment-2"
@@ -117,7 +117,7 @@ exports[`when there is more disables load more button 1`] = `
           }
         }
       />
-    </Flex>
+    </withPropsOnChange(Flex)>
     <Localized
       id="comments-stream-loadMore"
     >
@@ -126,14 +126,13 @@ exports[`when there is more disables load more button 1`] = `
         disabled={true}
         fullWidth={true}
         id="talk-comments-stream-loadMore"
-        invert={true}
         onClick={[Function]}
-        secondary={true}
+        variant="outlined"
       >
         Load More
       </withPropsOnChange(Button)>
     </Localized>
-  </Flex>
+  </withPropsOnChange(Flex)>
 </div>
 `;
 
@@ -147,14 +146,14 @@ exports[`when there is more renders a load more button 1`] = `
   <withContext(createMutationContainer(PostCommentFormContainer))
     assetID="asset-id"
   />
-  <Flex
+  <withPropsOnChange(Flex)
     aria-live="polite"
     direction="column"
     id="talk-comments-stream-log"
     itemGutter={true}
     role="log"
   >
-    <Flex
+    <withPropsOnChange(Flex)
       direction="column"
       itemGutter={true}
       key="comment-1"
@@ -173,8 +172,8 @@ exports[`when there is more renders a load more button 1`] = `
           }
         }
       />
-    </Flex>
-    <Flex
+    </withPropsOnChange(Flex)>
+    <withPropsOnChange(Flex)
       direction="column"
       itemGutter={true}
       key="comment-2"
@@ -193,7 +192,7 @@ exports[`when there is more renders a load more button 1`] = `
           }
         }
       />
-    </Flex>
+    </withPropsOnChange(Flex)>
     <Localized
       id="comments-stream-loadMore"
     >
@@ -202,13 +201,12 @@ exports[`when there is more renders a load more button 1`] = `
         disabled={false}
         fullWidth={true}
         id="talk-comments-stream-loadMore"
-        invert={true}
         onClick={[Function]}
-        secondary={true}
+        variant="outlined"
       >
         Load More
       </withPropsOnChange(Button)>
     </Localized>
-  </Flex>
+  </withPropsOnChange(Flex)>
 </div>
 `;

@@ -2,13 +2,13 @@
 
 exports[`renders comment stream 1`] = `
 <div
-  className="Flex-root App-root Flex-justifyCenter"
+  className="Flex-root App-root Flex-justifyCenter Flex-alignCenter"
 >
   <div
     className="Stream-root"
   >
     <h1
-      className="Typography-root Typography-heading1 Typography-gutterBottom"
+      className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-gutterBottom"
     >
       Talk NEO
     </h1>
@@ -28,11 +28,14 @@ exports[`renders comment stream 1`] = `
         className="PostCommentForm-postButtonContainer"
       >
         <button
-          className="BaseButton-root Button-root Button-primary"
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
           disabled={false}
           onBlur={[Function]}
           onFocus={[Function]}
           onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
         >
           Post
         </button>
@@ -40,12 +43,12 @@ exports[`renders comment stream 1`] = `
     </form>
     <div
       aria-live="polite"
-      className="Flex-root Flex-itemGutter Flex-directionColumn"
+      className="Flex-root Flex-itemGutter Flex-alignFlexStart Flex-directionColumn"
       id="talk-comments-stream-log"
       role="log"
     >
       <div
-        className="Flex-root Flex-itemGutter Flex-directionColumn"
+        className="Flex-root Flex-itemGutter Flex-alignFlexStart Flex-directionColumn"
       >
         <div
           role="article"
@@ -54,7 +57,7 @@ exports[`renders comment stream 1`] = `
             className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
           >
             <span
-              className="Typography-root Typography-heading3 Username-root"
+              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
             >
               Markus
             </span>
@@ -67,14 +70,14 @@ exports[`renders comment stream 1`] = `
             </time>
           </div>
           <p
-            className="Typography-root Typography-body1"
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Joining Too
           </p>
         </div>
       </div>
       <div
-        className="Flex-root Flex-itemGutter Flex-directionColumn"
+        className="Flex-root Flex-itemGutter Flex-alignFlexStart Flex-directionColumn"
       >
         <div
           role="article"
@@ -83,7 +86,7 @@ exports[`renders comment stream 1`] = `
             className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
           >
             <span
-              className="Typography-root Typography-heading3 Username-root"
+              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
             >
               Lukas
             </span>
@@ -96,7 +99,7 @@ exports[`renders comment stream 1`] = `
             </time>
           </div>
           <p
-            className="Typography-root Typography-body1"
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             What's up?
           </p>

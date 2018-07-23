@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<Flex
+<withPropsOnChange(Flex)
   className="App-root"
   justifyContent="center"
 >
   <Relay(StreamContainer)
     asset={Object {}}
   />
-</Flex>
+</withPropsOnChange(Flex)>
 `;
 
 exports[`renders correctly when asset is null 1`] = `

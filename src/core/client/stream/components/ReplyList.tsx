@@ -34,8 +34,7 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
               aria-controls={`talk-comments-replyList-log--${props.commentID}`}
               onClick={props.onShowAll}
               disabled={props.disableShowAll}
-              secondary
-              invert
+              variant="outlined"
               fullWidth
             >
               Show All Replies

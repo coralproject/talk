@@ -1,2 +1,1 @@
-export * from "./MatchMedia";
-export { default } from "./MatchMedia";
+export { default, MatchMediaProps } from "./MatchMedia";

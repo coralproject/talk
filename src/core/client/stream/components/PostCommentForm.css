@@ -1,5 +1,5 @@
 .textarea {
-  composes: body1 from "talk-ui/shared/typography.css";
+  composes: bodyCopy from "talk-ui/shared/typography.css";
 
   display: block;
   height: 100px;

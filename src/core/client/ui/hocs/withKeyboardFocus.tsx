@@ -3,10 +3,10 @@ import { FocusEvent, MouseEvent } from "react";
 import { hoistStatics } from "recompose";
 
 interface InjectedProps {
-  onFocus?: React.EventHandler<FocusEvent<any>>;
-  onBlur?: React.EventHandler<FocusEvent<any>>;
-  onMouseDown?: React.EventHandler<MouseEvent<any>>;
-  keyboardFocus?: boolean;
+  onFocus: React.EventHandler<FocusEvent<any>>;
+  onBlur: React.EventHandler<FocusEvent<any>>;
+  onMouseDown: React.EventHandler<MouseEvent<any>>;
+  keyboardFocus: boolean;
 }
 
 /**
@@ -14,8 +14,8 @@ interface InjectedProps {
  * to indicate a focus on the element, that wasn't triggered by mouse
  * or touch.
  */
-export default hoistStatics<InjectedProps>(
-  <T extends InjectedProps>(WrappedComponent: React.ComponentType<T>) => {
+const withKeyboardFocus = hoistStatics<InjectedProps>(
+  <T extends InjectedProps>(BaseComponent: React.ComponentType<T>) => {
     class WithKeyboardFocus extends React.Component<any> {
       public state = {
         keyboardFocus: false,
@@ -48,7 +48,7 @@ export default hoistStatics<InjectedProps>(
 
       public render() {
         return (
-          <WrappedComponent
+          <BaseComponent
             {...this.props}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
@@ -62,3 +62,8 @@ export default hoistStatics<InjectedProps>(
     return WithKeyboardFocus as React.ComponentType<any>;
   }
 );
+
+// TODO: workaround, add bug link.
+export default withKeyboardFocus as <P extends Partial<InjectedProps>>(
+  BaseComponent: React.ComponentType<P>
+) => React.ComponentType<P>;

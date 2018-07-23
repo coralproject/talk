@@ -1,8 +1,8 @@
 import cn from "classnames";
-import React from "react";
+import React, { Ref } from "react";
 import { HTMLAttributes, ReactNode, StatelessComponent } from "react";
 
-import { withStyles } from "talk-ui/hocs";
+import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
 import * as styles from "./Typography.css";
@@ -12,11 +12,7 @@ type Variant =
   | "heading2"
   | "heading3"
   | "heading4"
-  | "subtitle1"
-  | "subtitle2"
-  | "body1"
-  | "body2"
-  | "button"
+  | "bodyCopy"
   | "timestamp";
 
 // Based on Typography Component of Material UI.
@@ -45,10 +41,10 @@ interface InnerProps extends HTMLAttributes<any> {
   color?:
     | "inherit"
     | "primary"
+    | "textPrimary"
     | "textSecondary"
-    | "secondary"
     | "error"
-    | "default";
+    | "success";
   /**
    * The component used for the root node.
    * Either a string to use a DOM element or a component.
@@ -77,6 +73,9 @@ interface InnerProps extends HTMLAttributes<any> {
    * Applies the theme typography styles.
    */
   variant?: Variant;
+
+  /** Internal: Forwarded Ref */
+  forwardRef?: Ref<HTMLElement>;
 }
 
 const Typography: StatelessComponent<InnerProps> = props => {
@@ -91,6 +90,7 @@ const Typography: StatelessComponent<InnerProps> = props => {
     noWrap,
     paragraph,
     variant,
+    forwardRef,
     ...rest
   } = props;
 
@@ -98,10 +98,11 @@ const Typography: StatelessComponent<InnerProps> = props => {
     classes.root,
     classes[variant!],
     {
-      [classes.colorPrimary]: color === "primary",
-      [classes.colorSecondary]: color === "secondary",
-      [classes.colorError]: color === "error",
+      [classes.colorTextPrimary]: color === "textPrimary",
       [classes.colorTextSecondary]: color === "textSecondary",
+      [classes.colorPrimary]: color === "primary",
+      [classes.colorError]: color === "error",
+      [classes.colorSuccess]: color === "success",
       [classes.noWrap]: noWrap,
       [classes.gutterBottom]: gutterBottom,
       [classes.paragraph]: paragraph,
@@ -116,29 +117,26 @@ const Typography: StatelessComponent<InnerProps> = props => {
   const Component =
     component || (paragraph ? "p" : headlineMapping![variant!]) || "span";
 
-  return <Component className={rootClassName} {...rest} />;
+  return <Component ref={forwardRef} className={rootClassName} {...rest} />;
 };
 
 Typography.defaultProps = {
   align: "inherit",
-  color: "default",
+  color: "textPrimary",
   gutterBottom: false,
   headlineMapping: {
     heading1: "h1",
     heading2: "h1",
     heading3: "h1",
     heading4: "h1",
-    subtitle1: "h2",
-    subtitle2: "h3",
-    body1: "p",
-    body2: "aside",
+    bodyCopy: "p",
     timestamp: "span",
   },
   noWrap: false,
   paragraph: false,
-  variant: "body1",
+  variant: "bodyCopy",
 };
 
-const enhanced = withStyles(styles)(Typography);
-export type CenterProps = PropTypesOf<typeof enhanced>;
+const enhanced = withForwardRef(withStyles(styles)(Typography));
+export type TypographyProps = PropTypesOf<typeof enhanced>;
 export default enhanced;
