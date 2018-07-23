@@ -45,7 +45,6 @@
     "mongodb": "^3.1.1",
     "passport": "^0.4.0",
     "performance-now": "^2.1.0",
-    "simulant": "^0.2.2",
     "subscriptions-transport-ws": "^0.9.12",
     "uuid": "^3.3.2"
   },
@@ -147,6 +146,7 @@
     "relay-runtime": "github:coralproject/patched#relay-runtime",
     "relay-test-utils": "github:coralproject/patched#relay-test-utils",
     "sane": "^2.5.2",
+    "simulant": "^0.2.2",
     "sinon": "^6.1.3",
     "style-loader": "^0.21.0",
     "ts-jest": "^23.0.0",
