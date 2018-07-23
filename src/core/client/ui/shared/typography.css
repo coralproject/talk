@@ -1,3 +1,61 @@
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300;
+  src: local("Source Sans Pro Light "), local("Source Sans Pro-Light"),
+    url("typeface-source-sans-pro/files/source-sans-pro-latin-300.woff2")
+      format("woff2"),
+    url("typeface-source-sans-pro/files/source-sans-pro-latin-300.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: local("Source Sans Pro Regular italic"),
+    local("Source Sans Pro-Regularitalic"),
+    url("typeface-source-sans-pro/files/source-sans-pro-latin-400.woff2")
+      format("woff2"),
+    url("typeface-source-sans-pro/files/source-sans-pro-latin-400.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: local("Source Sans Pro SemiBold italic"),
+    local("Source Sans Pro-SemiBolditalic"),
+    url("typeface-source-sans-pro/files/source-sans-pro-latin-600.woff2")
+      format("woff2"),
+    url("typeface-source-sans-pro/files/source-sans-pro-latin-600.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Manuale";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: local("Manuale Regular "), local("Manuale-Regular"),
+    url("typeface-manuale/files/manuale-latin-400.woff2") format("woff2"),
+    url("typeface-manuale/files/manuale-latin-400.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Manuale";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: local("Manuale SemiBold "), local("Manuale-SemiBold"),
+    url("typeface-manuale/files/manuale-latin-600.woff2") format("woff2"),
+    url("typeface-manuale/files/manuale-latin-600.woff") format("woff");
+}
+
 .heading1 {
   font-size: calc(24rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
@@ -33,16 +91,7 @@
   color: var(--palette-text-primary);
 }
 
-.subtitle1 {
-}
-
-.subtitle2 {
-}
-
-.body2 {
-}
-
-.body1 {
+.bodyCopy {
   font-size: calc(16rem / var(--rem-base));
   font-weight: var(--font-weight-regular);
   font-family: "Source Sans Pro";
@@ -55,11 +104,18 @@
   color: var(--palette-text-secondary);
   font-family: "Source Sans Pro";
   font-weight: var(--font-weight-medium);
-  font-size: 16px;
+  font-size: 14px;
+  line-height: calc(18em / 16);
   letter-spacing: calc(0.57em / 16);
 }
 
-.overline {
+.buttonLarge {
+  color: var(--palette-text-secondary);
+  font-family: "Source Sans Pro";
+  font-weight: var(--font-weight-medium);
+  font-size: 16px;
+  line-height: calc(20em / 16);
+  letter-spacing: calc(0.57em / 16);
 }
 
 .timestamp {

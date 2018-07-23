@@ -42,8 +42,7 @@ const Stream: StatelessComponent<StreamProps> = props => {
             <Button
               id={"talk-comments-stream-loadMore"}
               onClick={props.onLoadMore}
-              secondary
-              invert
+              variant="outlined"
               fullWidth
               disabled={props.disableLoadMore}
               aria-controls="talk-comments-stream-log"

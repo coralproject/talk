@@ -19,28 +19,16 @@
   composes: heading4 from "talk-ui/shared/typography.css";
 }
 
-.subtitle1 {
-  composes: subtitle1 from "talk-ui/shared/typography.css";
-}
-
-.subtitle2 {
-  composes: subtitle2 from "talk-ui/shared/typography.css";
-}
-
-.body1 {
-  composes: body1 from "talk-ui/shared/typography.css";
-}
-
-.body2 {
-  composes: body2 from "talk-ui/shared/typography.css";
+.bodyCopy {
+  composes: bodyCopy from "talk-ui/shared/typography.css";
 }
 
 .button {
   composes: button from "talk-ui/shared/typography.css";
 }
 
-.overline {
-  composes: overline from "talk-ui/shared/typography.css";
+.buttonLarge {
+  composes: buttonLarge from "talk-ui/shared/typography.css";
 }
 
 .timestamp {
@@ -85,8 +73,8 @@
   color: var(--palette-primary-main);
 }
 
-.colorSecondary {
-  color: var(--palette-secondary-main);
+.colorTextPrimary {
+  color: var(--palette-text-primary);
 }
 
 .colorTextSecondary {
@@ -95,4 +83,8 @@
 
 .colorError {
   color: var(--palette-error-main);
+}
+
+.colorSuccess {
+  color: var(--palette-success-main);
 }

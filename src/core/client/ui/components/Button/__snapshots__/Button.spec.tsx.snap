@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`forwards ref 1`] = `
+<withPropsOnChange(WithMouseHover)
+  className=""
+  classes={Object {}}
+  forwardRef={[Function]}
+>
+  Push me
+</withPropsOnChange(WithMouseHover)>
+`;
+
+exports[`renders a regular sized, primary colored ghost button with fullWidth 1`] = `
+<withPropsOnChange(WithMouseHover)
+  className="sizeRegular colorPrimary variantGhost fullWidth"
+  classes={Object {}}
+>
+  Push me
+</withPropsOnChange(WithMouseHover)>
+`;
+
+exports[`renders active state 1`] = `
+<withPropsOnChange(WithMouseHover)
+  className="active"
+  classes={Object {}}
+>
+  Push me
+</withPropsOnChange(WithMouseHover)>
+`;
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(WithMouseHover)
+  className=""
+  classes={
+    Object {
+      "keyboardFocus": "keyboardFocus",
+      "mouseHover": "mouseHover",
+    }
+  }
+>
+  Push me
+</withPropsOnChange(WithMouseHover)>
+`;

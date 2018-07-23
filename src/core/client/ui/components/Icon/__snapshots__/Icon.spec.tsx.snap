@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<span
+  className="Icon-root Icon-sm"
+>
+  face
+</span>
+`;
+
+exports[`renders correctly with specified size 1`] = `
+<span
+  className="Icon-root Icon-lg"
+>
+  bookmark
+</span>
+`;
