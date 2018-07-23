@@ -58,16 +58,24 @@ export interface AuthIntegration {
   enabled: boolean;
 }
 
+export interface DisplayNameAuthIntegration {
+  displayNameEnable: boolean;
+}
+
 // SSOAuthIntegration is an AuthIntegration that provides a secret to the admins
 // of a tenant, where they can sign a SSO payload with it to provide to the
 // embed to allow single sign on.
-export interface SSOAuthIntegration extends AuthIntegration {
+export interface SSOAuthIntegration
+  extends AuthIntegration,
+    DisplayNameAuthIntegration {
   key: string;
 }
 
 // OIDCAuthIntegration provides a way to store Open ID Connect credentials. This
 // will be used in the admin to provide staff logins for users.
-export interface OIDCAuthIntegration extends AuthIntegration {
+export interface OIDCAuthIntegration
+  extends AuthIntegration,
+    DisplayNameAuthIntegration {
   clientID: string;
   clientSecret: string;
   issuer: string;
@@ -108,7 +116,6 @@ export interface AuthIntegrations {
 
 export interface Auth {
   integrations: AuthIntegrations;
-  displayNameEnable: boolean;
 }
 
 // Tenant definition.
@@ -194,8 +201,6 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
       banned: [],
     },
     auth: {
-      // Disable the displayName by default.
-      displayNameEnable: false,
       integrations: {
         local: {
           enabled: true,

@@ -57,7 +57,7 @@ export async function findOrCreateSSOUser(
 
   // Unpack/validate the token content.
   const { id, email, username, displayName, avatar }: SSOUserProfile = validate(
-    tenant.auth.displayNameEnable
+    tenant.auth.integrations.sso!.displayNameEnable
       ? SSODisplayNameUserProfileSchema
       : SSOUserProfileSchema,
     token.user

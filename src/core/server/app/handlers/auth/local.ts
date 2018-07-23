@@ -23,11 +23,6 @@ const SignupBodySchema = Joi.object().keys({
   email: Joi.string().trim(),
 });
 
-// Extends the default signup body schema to allow the displayName to be set.
-const SignupDisplayNameBodySchema = SignupBodySchema.keys({
-  displayName: Joi.string().trim(),
-});
-
 export interface SignupOptions {
   db: Db;
   signingConfig: JWTSigningConfig;
@@ -50,15 +45,10 @@ export const signupHandler = (options: SignupOptions): RequestHandler => async (
       return next(new Error("integration is disabled"));
     }
 
-    // Get the fields from the body. We condition on the display name being
-    // enabled to allow the display name to be stripped in the event that the
-    // display name is not enabled, yielding a displayName being `undefined`,
-    // which will not be set in the resultant document. Validate will throw an
-    // error if the body does not conform to the specification.
-    const { username, password, email, displayName }: SignupBody = validate(
-      tenant.auth.displayNameEnable
-        ? SignupDisplayNameBodySchema
-        : SignupBodySchema,
+    // Get the fields from the body. Validate will throw an error if the body
+    // does not conform to the specification.
+    const { username, password, email }: SignupBody = validate(
+      SignupBodySchema,
       req.body
     );
 
@@ -72,7 +62,6 @@ export const signupHandler = (options: SignupOptions): RequestHandler => async (
     const user = await upsert(options.db, tenant, {
       email,
       username,
-      displayName,
       password,
       profiles: [profile],
       // New users signing up via local auth will have the commenter role to

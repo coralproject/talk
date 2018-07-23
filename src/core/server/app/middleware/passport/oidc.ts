@@ -131,7 +131,7 @@ export async function findOrCreateOIDCUser(
     name,
     nickname,
   }: OIDCIDToken = validate(
-    tenant.auth.displayNameEnable
+    tenant.auth.integrations.oidc!.displayNameEnable
       ? OIDCDisplayNameIDTokenSchema
       : OIDCIDTokenSchema,
     token
