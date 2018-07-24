@@ -1,13 +1,20 @@
-import { Promiseable } from "talk-common/types";
+import { Omit, Promiseable } from "talk-common/types";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
+import { Action } from "talk-server/models/actions";
 import { Asset } from "talk-server/models/asset";
 import { Tenant } from "talk-server/models/tenant";
 import { CreateComment } from "talk-server/services/comments";
 
 import { moderationPhases } from "./phases";
 
+// TODO: (wyattjoh) move into actions module.
+export type CreateAction = Omit<
+  Action,
+  "id" | "item_type" | "item_id" | "created_at"
+>;
+
 export interface PhaseResult {
-  actions: any[]; // FIXME: (wyattjoh) replace with an Action.
+  actions: CreateAction[];
   status: GQLCOMMENT_STATUS;
 }
 
@@ -32,7 +39,7 @@ export type IntermediateModerationPhase = (
 const compose = (
   phases: IntermediateModerationPhase[]
 ): ModerationPhase => async (asset, tenant, comment) => {
-  const actions: string[] = [];
+  const actions: CreateAction[] = [];
 
   // Loop over all the moderation phases and see if we've resolved the status.
   for (const phase of phases) {

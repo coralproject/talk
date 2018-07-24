@@ -1,4 +1,7 @@
-import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLACTION_TYPE,
+  GQLCOMMENT_STATUS,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
 
 export const commentLength: IntermediateModerationPhase = async (
@@ -22,15 +25,13 @@ export const commentLength: IntermediateModerationPhase = async (
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
       actions: [
-        // TODO: (wyattjoh) return the right flag/action.
-        // {
-        //   action_type: "FLAG",
-        //   user_id: null,
-        //   group_id: "BODY_COUNT",
-        //   metadata: {
-        //     count: comment.body.length,
-        //   },
-        // },
+        {
+          action_type: GQLACTION_TYPE.FLAG,
+          group_id: "BODY_COUNT",
+          metadata: {
+            count: comment.body.length,
+          },
+        },
       ],
     };
   }
