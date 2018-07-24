@@ -1,3 +1,4 @@
+import { Promiseable } from "talk-common/types";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Asset } from "talk-server/models/asset";
 import { Tenant } from "talk-server/models/tenant";
@@ -14,19 +15,15 @@ export type ModerationPhase = (
   asset: Asset,
   tenant: Tenant,
   comment: CreateComment
-) => Promise<PhaseResult>;
+) => Promiseable<PhaseResult>;
 
-export type IntermediatePhaseResult = Partial<PhaseResult>;
+export type IntermediatePhaseResult = Partial<PhaseResult> | undefined | void;
 
 export type IntermediateModerationPhase = (
   asset: Asset,
   tenant: Tenant,
   comment: CreateComment
-) =>
-  | Promise<IntermediatePhaseResult | undefined | void>
-  | IntermediatePhaseResult
-  | undefined
-  | void;
+) => Promiseable<IntermediatePhaseResult>;
 
 /**
  * compose will create a moderation pipeline for which is executable with the
@@ -34,7 +31,7 @@ export type IntermediateModerationPhase = (
  */
 const compose = (
   phases: IntermediateModerationPhase[]
-): ModerationPhase => async (asset, tenant, comment): Promise<PhaseResult> => {
+): ModerationPhase => async (asset, tenant, comment) => {
   const actions: string[] = [];
 
   // Loop over all the moderation phases and see if we've resolved the status.
@@ -47,8 +44,9 @@ const compose = (
 
       // If this result contained a status, then we've finished resolving
       // phases!
-      if (result.status) {
-        return { status: result.status, actions };
+      const { status } = result;
+      if (status) {
+        return { status, actions };
       }
     }
   }
