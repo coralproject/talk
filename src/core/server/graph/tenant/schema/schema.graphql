@@ -384,8 +384,34 @@ type User {
 ################################################################################
 
 enum COMMENT_STATUS {
+  """
+  The comment is not PREMOD, but was not applied a moderation status by a
+  moderator.
+  """
   NONE
+
+  """
+  The comment has been accepted by a moderator.
+  """
   ACCEPTED
+
+  """
+  The comment has been rejected by a moderator.
+  """
+  REJECTED
+
+  """
+  The comment was created while the asset's premoderation option was on, and
+  new comments that haven't been moderated yet are referred to as
+  "premoderated" or "premod" comments.
+  """
+  PREMOD
+
+  """
+  SYSTEM_WITHHELD represents a comment that was withheld by the system because
+  it was flagged by an internal process for further review.
+  """
+  SYSTEM_WITHHELD
 }
 
 """

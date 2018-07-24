@@ -5,7 +5,6 @@ import { create } from "talk-server/services/comments";
 
 export default (ctx: TenantContext) => ({
   create: (input: GQLCreateCommentInput): Promise<Comment> => {
-    // FIXME: remove user!
     return create(ctx.mongo, ctx.tenant, {
       author_id: ctx.user!.id,
       asset_id: input.assetID,

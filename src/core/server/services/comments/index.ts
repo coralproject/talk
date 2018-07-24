@@ -1,22 +1,54 @@
 import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
-import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
-import { createComment, CreateCommentInput } from "talk-server/models/comment";
+import { retrieveAsset } from "talk-server/models/asset";
+import {
+  createComment,
+  CreateCommentInput,
+  retrieveComment,
+} from "talk-server/models/comment";
 import { Tenant } from "talk-server/models/tenant";
+import { processForModeration } from "talk-server/services/comments/moderation";
 
 export type CreateComment = Omit<
   CreateCommentInput,
   "status" | "action_counts"
 >;
 
-export async function create(db: Db, tenant: Tenant, input: CreateComment) {
-  // TODO: run the comment through the moderation phases.
-  const comment = await createComment(db, tenant.id, {
-    status: GQLCOMMENT_STATUS.ACCEPTED,
+export async function create(mongo: Db, tenant: Tenant, input: CreateComment) {
+  const asset = await retrieveAsset(mongo, tenant.id, input.asset_id);
+  if (!asset) {
+    // TODO: (wyattjoh) return better error.
+    throw new Error("asset referenced does not exist");
+  }
+
+  // TODO: (wyattjoh) Check that the asset was visable.
+
+  if (input.parent_id) {
+    // Check to see that the reference parent ID exists.
+    const parent = await retrieveComment(mongo, tenant.id, input.parent_id);
+    if (!parent) {
+      // TODO: (wyattjoh) return better error.
+      throw new Error("parent comment referenced does not exist");
+    }
+
+    // TODO: (wyattjoh) Check that the parent comment was visable.
+  }
+
+  // Run the comment through the moderation phases.
+  const { status } = await processForModeration(asset, tenant, input);
+
+  // TODO: (wyattjoh) use the actions somehow.
+
+  const comment = await createComment(mongo, tenant.id, {
+    status,
     action_counts: {},
     ...input,
   });
+
+  if (input.parent_id) {
+    // TODO: update reply count of parent.
+  }
 
   return comment;
 }
