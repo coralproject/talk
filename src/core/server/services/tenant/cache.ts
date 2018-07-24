@@ -1,6 +1,7 @@
 import DataLoader from "dataloader";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
+import uuid from "uuid";
 
 import logger from "talk-server/logger";
 import {
@@ -10,7 +11,12 @@ import {
   Tenant,
 } from "talk-server/models/tenant";
 
-const CacheUpdateChannel = "tenant";
+const TenantUpdateChannel = "tenant";
+
+interface TenantUpdateMessage {
+  tenant: Tenant;
+  clientApplicationID: string;
+}
 
 // TenantCache provides an interface for retrieving tenant stored in local
 // memory rather than grabbing it from the database every single call.
@@ -18,19 +24,27 @@ export default class TenantCache {
   private tenantsByID: DataLoader<string, Readonly<Tenant> | null>;
   private tenantsByDomain: DataLoader<string, Readonly<Tenant> | null>;
   private mongo: Db;
+  private clientApplicationID: string;
 
   constructor(mongo: Db, subscriber: Redis) {
     // Save the Db reference.
     this.mongo = mongo;
 
+    // Create a new client application ID.
+    this.clientApplicationID = uuid.v4();
+
     // Prepare the list of all tenant's maintained by this instance.
-    this.tenantsByID = new DataLoader(ids => retrieveManyTenants(mongo, ids));
-    this.tenantsByDomain = new DataLoader(domains =>
-      retrieveManyTenantsByDomain(mongo, domains)
-    );
+    this.tenantsByID = new DataLoader(ids => {
+      logger.debug({ ids: ids.length }, "now loading tenants");
+      return retrieveManyTenants(mongo, ids);
+    });
+    this.tenantsByDomain = new DataLoader(domains => {
+      logger.debug({ domains: domains.length }, "now loading tenants");
+      return retrieveManyTenantsByDomain(mongo, domains);
+    });
 
     // Subscribe to tenant notifications.
-    subscriber.subscribe(CacheUpdateChannel);
+    subscriber.subscribe(TenantUpdateChannel);
 
     // Attach to messages on this connection so we can receive updates when
     // the tenant are changed.
@@ -46,12 +60,15 @@ export default class TenantCache {
 
     // Clear out all the items in the cache.
     this.tenantsByID.clearAll();
+    this.tenantsByDomain.clearAll();
 
     // Prime the cache with each of these tenants.
     tenants.forEach(tenant => {
       this.tenantsByID.prime(tenant.id, tenant);
       this.tenantsByDomain.prime(tenant.domain, tenant);
     });
+
+    logger.debug({ tenants: tenants.length }, "primed tenants");
   }
 
   /**
@@ -62,15 +79,23 @@ export default class TenantCache {
     message: string
   ): Promise<void> => {
     // Only do things when the message is for tenant.
-    if (channel !== CacheUpdateChannel) {
+    if (channel !== TenantUpdateChannel) {
       return;
     }
 
-    logger.debug("recieved updated tenant");
-
     try {
       // Updated tenant come from the messages.
-      const tenant: Tenant = JSON.parse(message);
+      const { tenant, clientApplicationID }: TenantUpdateMessage = JSON.parse(
+        message
+      );
+
+      // Check to see if this was the update issued by this instance.
+      if (clientApplicationID === this.clientApplicationID) {
+        // It was, so just return here, we already updated/handled it.
+        return;
+      }
+
+      logger.debug({ tenant_id: tenant.id }, "recieved updated tenant");
 
       // Update the tenant cache.
       this.tenantsByID.clear(tenant.id).prime(tenant.id, tenant);
@@ -106,6 +131,12 @@ export default class TenantCache {
     this.tenantsByDomain.clear(tenant.domain).prime(tenant.domain, tenant);
 
     // Notify the other nodes about the tenant change.
-    await conn.publish(CacheUpdateChannel, JSON.stringify(tenant));
+    const message: TenantUpdateMessage = {
+      tenant,
+      clientApplicationID: this.clientApplicationID,
+    };
+    await conn.publish(TenantUpdateChannel, JSON.stringify(message));
+
+    logger.debug({ tenant_id: tenant.id }, "updated tenant");
   }
 }
