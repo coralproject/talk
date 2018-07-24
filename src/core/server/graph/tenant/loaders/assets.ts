@@ -10,8 +10,8 @@ import { findOrCreate } from "talk-server/services/assets";
 
 export default (ctx: TenantContext) => ({
   findOrCreate: (input: FindOrCreateAssetInput) =>
-    findOrCreate(ctx.db, ctx.tenant, input),
+    findOrCreate(ctx.mongo, ctx.tenant, input),
   asset: new DataLoader<string, Asset | null>(ids =>
-    retrieveManyAssets(ctx.db, ctx.tenant.id, ids)
+    retrieveManyAssets(ctx.mongo, ctx.tenant.id, ids)
   ),
 });

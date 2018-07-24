@@ -4,10 +4,10 @@ import { Db } from "mongodb";
 import { Config } from "talk-server/config";
 import { graphqlMiddleware } from "talk-server/graph/common/middleware";
 
-import Context from "./context";
+import ManagementContext from "./context";
 
-export default (schema: GraphQLSchema, config: Config, db: Db) =>
+export default (schema: GraphQLSchema, config: Config, mongo: Db) =>
   graphqlMiddleware(config, async () => ({
     schema,
-    context: new Context({ db }),
+    context: new ManagementContext({ mongo }),
   }));

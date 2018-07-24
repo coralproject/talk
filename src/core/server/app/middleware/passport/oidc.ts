@@ -40,7 +40,7 @@ export interface StrategyItem {
 }
 
 export interface OIDCStrategyOptions {
-  db: Db;
+  mongo: Db;
 }
 
 export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
@@ -181,15 +181,15 @@ const OIDC_SCOPE = "openid email profile";
 export default class OIDCStrategy extends Strategy {
   public name: string;
 
-  private db: Db;
+  private mongo: Db;
   private cache: Map<string, StrategyItem>;
 
-  constructor({ db }: OIDCStrategyOptions) {
+  constructor({ mongo }: OIDCStrategyOptions) {
     super();
 
     this.name = "oidc";
     this.cache = new Map();
-    this.db = db;
+    this.mongo = mongo;
   }
 
   private lookupJWKSClient(
@@ -277,7 +277,7 @@ export default class OIDCStrategy extends Strategy {
 
         try {
           const user = await findOrCreateOIDCUser(
-            this.db,
+            this.mongo,
             tenant,
             decoded as OIDCIDToken
           );
@@ -370,6 +370,6 @@ export default class OIDCStrategy extends Strategy {
   }
 }
 
-export function createOIDCStrategy({ db }: OIDCStrategyOptions) {
-  return new OIDCStrategy({ db });
+export function createOIDCStrategy({ mongo }: OIDCStrategyOptions) {
+  return new OIDCStrategy({ mongo });
 }

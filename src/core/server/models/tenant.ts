@@ -3,7 +3,7 @@ import { merge } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
-import { Sub } from "talk-common/types";
+import { Omit, Sub } from "talk-common/types";
 import {
   GQLMODERATION_MODE,
   GQLUSER_ROLE,
@@ -118,8 +118,9 @@ export interface Auth {
   integrations: AuthIntegrations;
 }
 
-// Tenant definition.
-
+/**
+ * Tenant describes a given Tenant on Talk that has Assets, Comments, and Users.
+ */
 export interface Tenant {
   readonly id: string;
 
@@ -258,16 +259,18 @@ export async function retrieveAllTenants(db: Db) {
     .toArray();
 }
 
+export type UpdateTenantInput = Omit<Partial<Tenant>, "id" | "domain">;
+
 export async function updateTenant(
   db: Db,
   id: string,
-  update: Partial<CreateTenantInput>
+  update: UpdateTenantInput
 ) {
   // Get the tenant from the database.
   const result = await collection(db).findOneAndUpdate(
     { id },
     // Only update fields that have been updated.
-    { $set: dotize(update) },
+    { $set: dotize.convert(update) },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }

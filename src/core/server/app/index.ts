@@ -9,6 +9,7 @@ import { JWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
 import { Config } from "talk-server/config";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
+import TenantCache from "talk-server/services/tenant/cache";
 
 import { accessLogger, errorLogger } from "./middleware/logging";
 import serveStatic from "./middleware/serveStatic";
@@ -21,6 +22,7 @@ export interface AppOptions {
   redis: Redis;
   schemas: Schemas;
   signingConfig: JWTSigningConfig;
+  tenantCache: TenantCache;
 }
 
 /**
@@ -35,7 +37,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
 
   // Create some services for the router.
   const passport = createPassport({
-    db: options.mongo,
+    mongo: options.mongo,
     signingConfig: options.signingConfig,
   });
 

@@ -21,28 +21,28 @@ export type VerifyCallback = (
 ) => void;
 
 export interface PassportOptions {
-  db: Db;
+  mongo: Db;
   signingConfig: JWTSigningConfig;
 }
 
 export function createPassport({
-  db,
+  mongo,
   signingConfig,
 }: PassportOptions): passport.Authenticator {
   // Create the authenticator.
   const auth = new Authenticator();
 
   // Use the OIDC Strategy.
-  auth.use(createOIDCStrategy({ db }));
+  auth.use(createOIDCStrategy({ mongo }));
 
   // Use the LocalStrategy.
-  auth.use(createLocalStrategy({ db }));
+  auth.use(createLocalStrategy({ mongo }));
 
   // Use the SSOStrategy.
-  auth.use(createSSOStrategy({ db }));
+  auth.use(createSSOStrategy({ mongo }));
 
   // Use the JWTStrategy.
-  auth.use(createJWTStrategy({ db, signingConfig }));
+  auth.use(createJWTStrategy({ mongo, signingConfig }));
 
   return auth;
 }
@@ -98,18 +98,18 @@ export const wrapAuthz = (
   name: string,
   options?: any
 ): RequestHandler => (req: Request, res, next) =>
-  authenticator.authenticate(
-    name,
-    { ...options, session: false },
-    (err: Error | null, user: User | null) => {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        // TODO: (wyattjoh) replace with better error.
-        return next(new Error("no user on request"));
-      }
+    authenticator.authenticate(
+      name,
+      { ...options, session: false },
+      (err: Error | null, user: User | null) => {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          // TODO: (wyattjoh) replace with better error.
+          return next(new Error("no user on request"));
+        }
 
-      handleSuccessfulLogin(user, signingConfig, req, res, next);
-    }
-  )(req, res, next);
+        handleSuccessfulLogin(user, signingConfig, req, res, next);
+      }
+    )(req, res, next);

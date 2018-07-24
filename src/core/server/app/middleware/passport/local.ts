@@ -8,7 +8,7 @@ import {
 } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
-const verifyFactory = (db: Db) => async (
+const verifyFactory = (mongo: Db) => async (
   req: Request,
   email: string,
   password: string,
@@ -21,7 +21,7 @@ const verifyFactory = (db: Db) => async (
     const tenant = req.tenant!;
 
     // Get the user from the database.
-    const user = await retrieveUserWithProfile(db, tenant.id, {
+    const user = await retrieveUserWithProfile(mongo, tenant.id, {
       id: email,
       type: "local",
     });
@@ -44,10 +44,10 @@ const verifyFactory = (db: Db) => async (
 };
 
 export interface LocalStrategyOptions {
-  db: Db;
+  mongo: Db;
 }
 
-export function createLocalStrategy({ db }: LocalStrategyOptions) {
+export function createLocalStrategy({ mongo }: LocalStrategyOptions) {
   return new LocalStrategy(
     {
       usernameField: "email",
@@ -55,6 +55,6 @@ export function createLocalStrategy({ db }: LocalStrategyOptions) {
       session: false,
       passReqToCallback: true,
     },
-    verifyFactory(db)
+    verifyFactory(mongo)
   );
 }

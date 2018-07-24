@@ -17,7 +17,7 @@ import { upsert } from "talk-server/services/users";
 import { Request } from "talk-server/types/express";
 
 export interface SSOStrategyOptions {
-  db: Db;
+  mongo: Db;
 }
 
 export interface SSOUserProfile {
@@ -116,13 +116,13 @@ export function isSSOToken(token: SSOToken | object): token is SSOToken {
 export default class SSOStrategy extends Strategy {
   public name: string;
 
-  private db: Db;
+  private mongo: Db;
 
-  constructor({ db }: SSOStrategyOptions) {
+  constructor({ mongo }: SSOStrategyOptions) {
     super();
 
     this.name = "sso";
-    this.db = db;
+    this.mongo = mongo;
   }
 
   /**
@@ -162,7 +162,7 @@ export default class SSOStrategy extends Strategy {
     if (isOIDCToken(token)) {
       // The token provided for SSO contains an issuer claim. We're assuming
       // that this request is associated with an OpenID Connect provider.
-      return findOrCreateOIDCUser(this.db, tenant, token);
+      return findOrCreateOIDCUser(this.mongo, tenant, token);
     }
 
     // Check to see if this token is a SSO Token or not, if it isn't error out.
@@ -174,7 +174,7 @@ export default class SSOStrategy extends Strategy {
     // The token provided does not confirm to the OpenID Connect provider
     // spec, but id does conform to a SSOToken so we should expect the token to
     // contain the user profile.
-    return findOrCreateSSOUser(this.db, tenant, token);
+    return findOrCreateSSOUser(this.mongo, tenant, token);
   }
 
   public authenticate(req: Request) {

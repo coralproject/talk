@@ -138,21 +138,21 @@ export interface JWTToken {
 
 export interface JWTStrategyOptions {
   signingConfig: JWTSigningConfig;
-  db: Db;
+  mongo: Db;
 }
 
 export class JWTStrategy extends Strategy {
   private signingConfig: JWTSigningConfig;
-  private db: Db;
+  private mongo: Db;
 
   public name: string;
 
-  constructor({ signingConfig, db }: JWTStrategyOptions) {
+  constructor({ signingConfig, mongo }: JWTStrategyOptions) {
     super();
 
     this.name = "jwt";
     this.signingConfig = signingConfig;
-    this.db = db;
+    this.mongo = mongo;
   }
 
   public authenticate(req: Request) {
@@ -187,7 +187,7 @@ export class JWTStrategy extends Strategy {
 
         try {
           // Find the user.
-          const user = await retrieveUser(this.db, tenant.id, sub);
+          const user = await retrieveUser(this.mongo, tenant.id, sub);
 
           // Return them! The user may be null, but that's ok here.
           this.success(user, null);

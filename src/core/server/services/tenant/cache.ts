@@ -5,24 +5,28 @@ import { Db } from "mongodb";
 import {
   retrieveAllTenants,
   retrieveManyTenants,
+  retrieveManyTenantsByDomain,
   Tenant,
 } from "talk-server/models/tenant";
 
 const CacheUpdateChannel = "tenant";
 
-// Cache provides an interface for retrieving tenant stored in local memory
-// rather than grabbing it from the database every single call.
-export default class Cache {
-  // private tenants: Map<string, Promise<Readonly<Tenant>>>;
-  private tenants: DataLoader<string, Readonly<Tenant> | null>;
-  private db: Db;
+// TenantCache provides an interface for retrieving tenant stored in local
+// memory rather than grabbing it from the database every single call.
+export default class TenantCache {
+  private tenantsByID: DataLoader<string, Readonly<Tenant> | null>;
+  private tenantsByDomain: DataLoader<string, Readonly<Tenant> | null>;
+  private mongo: Db;
 
-  constructor(db: Db, subscriber: Redis) {
+  constructor(mongo: Db, subscriber: Redis) {
     // Save the Db reference.
-    this.db = db;
+    this.mongo = mongo;
 
     // Prepare the list of all tenant's maintained by this instance.
-    this.tenants = new DataLoader(ids => retrieveManyTenants(db, ids));
+    this.tenantsByID = new DataLoader(ids => retrieveManyTenants(mongo, ids));
+    this.tenantsByDomain = new DataLoader(domains =>
+      retrieveManyTenantsByDomain(mongo, domains)
+    );
 
     // Subscribe to tenant notifications.
     subscriber.subscribe(CacheUpdateChannel);
@@ -37,13 +41,16 @@ export default class Cache {
    */
   public async primeAll() {
     // Grab all the tenants for this node.
-    const tenants = await retrieveAllTenants(this.db);
+    const tenants = await retrieveAllTenants(this.mongo);
 
     // Clear out all the items in the cache.
-    this.tenants.clearAll();
+    this.tenantsByID.clearAll();
 
     // Prime the cache with each of these tenants.
-    tenants.forEach(tenant => this.tenants.prime(tenant.id, tenant));
+    tenants.forEach(tenant => {
+      this.tenantsByID.prime(tenant.id, tenant);
+      this.tenantsByDomain.prime(tenant.domain, tenant);
+    });
   }
 
   /**
@@ -63,17 +70,21 @@ export default class Cache {
       const tenant: Tenant = JSON.parse(message);
 
       // Update the tenant cache.
-      this.tenants.clear(tenant.id).prime(tenant.id, tenant);
+      this.tenantsByID.clear(tenant.id).prime(tenant.id, tenant);
+      this.tenantsByDomain.clear(tenant.domain).prime(tenant.domain, tenant);
     } catch (err) {
       // FIXME: handle the error
     }
   };
 
-  /**
-   * retrieve returns a promise that will resolve to the tenant for Talk.
-   */
-  public async retrieve(id: string): Promise<Readonly<Tenant> | null> {
-    return this.tenants.load(id);
+  public async retrieveByID(id: string): Promise<Readonly<Tenant> | null> {
+    return this.tenantsByID.load(id);
+  }
+
+  public async retrieveByDomain(
+    domain: string
+  ): Promise<Readonly<Tenant> | null> {
+    return this.tenantsByDomain.load(domain);
   }
 
   /**
@@ -85,7 +96,8 @@ export default class Cache {
    */
   public async update(conn: Redis, tenant: Tenant): Promise<void> {
     // Update the tenant in the local cache.
-    this.tenants.clear(tenant.id).prime(tenant.id, tenant);
+    this.tenantsByID.clear(tenant.id).prime(tenant.id, tenant);
+    this.tenantsByDomain.clear(tenant.domain).prime(tenant.domain, tenant);
 
     // Notify the other nodes about the tenant change.
     await conn.publish(CacheUpdateChannel, JSON.stringify(tenant));

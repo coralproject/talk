@@ -33,7 +33,7 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
   const router = express.Router();
 
   // Tenant identification middleware.
-  router.use(tenantMiddleware({ db: app.mongo }));
+  router.use(tenantMiddleware({ cache: app.tenantCache }));
 
   // Setup Passport middleware.
   router.use(options.passport.initialize());
@@ -48,7 +48,12 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
     // Any users may submit their GraphQL requests with authentication, this
     // middleware will unpack their user into the request.
     options.passport.authenticate("jwt", { session: false }),
-    await tenantGraphMiddleware(app.schemas.tenant, app.config, app.mongo)
+    await tenantGraphMiddleware({
+      schema: app.schemas.tenant,
+      config: app.config,
+      mongo: app.mongo,
+      redis: app.redis,
+    })
   );
 
   return router;
