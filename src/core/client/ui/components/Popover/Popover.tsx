@@ -4,10 +4,22 @@ import { Manager, Popper, Reference, RefHandler } from "react-popper";
 import AriaInfo from "../AriaInfo";
 import * as styles from "./Popover.css";
 
-interface RenderProps {
-  toggleVisibility?: () => void;
-  forwardRef?: RefHandler;
-}
+type Placement =
+  | "auto-start"
+  | "auto"
+  | "auto-end"
+  | "top-start"
+  | "top"
+  | "top-end"
+  | "right-start"
+  | "right"
+  | "right-end"
+  | "bottom-end"
+  | "bottom"
+  | "bottom-start"
+  | "left-end"
+  | "left"
+  | "left-start";
 
 interface InnerProps {
   body: (props: RenderProps) => any;
@@ -17,6 +29,7 @@ interface InnerProps {
   id?: string;
   onClose?: () => void;
   className?: string;
+  placement?: Placement;
 }
 
 interface State {
@@ -26,6 +39,11 @@ interface State {
 interface Props {
   ref: any;
   style: CSSProperties;
+}
+
+interface RenderProps {
+  toggleVisibility?: () => void;
+  forwardRef?: RefHandler;
 }
 
 class Popover extends React.Component<InnerProps> {
@@ -40,43 +58,58 @@ class Popover extends React.Component<InnerProps> {
   };
 
   public render() {
-    const { id, body, children, description, className } = this.props;
+    const {
+      id,
+      body,
+      children,
+      description,
+      className,
+      placement,
+    } = this.props;
 
     const { visible } = this.state;
 
     return (
       <Manager>
         <Reference>
-          {(props: Props) => children({ forwardRef: props.ref })}
+          {(props: Props) =>
+            children({
+              forwardRef: props.ref,
+              toggleVisibility: this.toggleVisibility,
+            })
+          }
         </Reference>
         <Popper
+          placement={placement}
           modifiers={{ preventOverflow: { enabled: false } }}
           eventsEnabled
           positionFixed={false}
         >
-          {(props: Props) => (
-            <div
-              id={id}
-              role="popup"
-              aria-labelledby={`${id}-ariainfo`}
-              aria-hidden={!visible}
-            >
-              <AriaInfo id={`${id}-ariainfo`}>{description}</AriaInfo>
-
-              {/* <ClickOutside onClickOutside={onClose}> */}
+          {(props: Props) =>
+            visible && (
               <div
-                style={props.style}
-                className={cn(styles.root, className)}
-                ref={props.ref}
+                id={id}
+                role="popup"
+                aria-labelledby={`${id}-ariainfo`}
+                aria-hidden={!visible}
               >
-                {body({
-                  toggleVisibility: this.toggleVisibility,
-                  forwardRef: props.ref,
-                })}
+                <AriaInfo id={`${id}-ariainfo`}>{description}</AriaInfo>
+
+                {/* <ClickOutside onClickOutside={onClose}> */}
+                <div
+                  style={props.style}
+                  className={cn(styles.root, className)}
+                  ref={props.ref}
+                >
+                  {body({
+                    toggleVisibility: this.toggleVisibility,
+                    forwardRef: props.ref,
+                  })}
+                </div>
+                {/* </ClickOutside> */}
               </div>
-              {/* </ClickOutside> */}
-            </div>
-          )}
+            )
+          }
         </Popper>
       </Manager>
     );

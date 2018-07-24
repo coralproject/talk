@@ -1,0 +1,29 @@
+---
+name: Popover
+menu: UI Kit
+---
+
+import { Playground, PropsTable } from 'docz'
+import Popover from './Popover'
+import Button from '../Button'
+
+# Popover
+
+`Popover` uses `react-popper`
+
+## Basic usage
+<Playground>
+  <Popover
+    // tslint:disable-next-line:jsx-no-lambda
+    placement="top"
+    body={({ toggleVisibility, forwardRef }) => (
+      <div>This is the body</div>
+    )}
+  >
+    {({ toggleVisibility, forwardRef }) => (
+      <Button onClick={toggleVisibility} forwardRef={forwardRef}>
+        Click me!
+      </Button>
+    )}
+  </Popover>
+</Playground>
