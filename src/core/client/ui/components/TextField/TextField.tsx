@@ -7,8 +7,8 @@ interface InnerProps extends InputHTMLAttributes<HTMLInputElement> {
   classes?: typeof styles;
 }
 
-const Input: StatelessComponent<InnerProps> = ({ className, ...rest }) => {
+const TextField: StatelessComponent<InnerProps> = ({ className, ...rest }) => {
   return <input {...rest} className={cn(styles.root, className)} />;
 };
 
-export default Input;
+export default TextField;

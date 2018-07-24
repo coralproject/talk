@@ -3,11 +3,6 @@
 }
 
 .root {
-  background-color: #ffffff;
-  border: 1px solid #c9cacb;
-  box-sizing: border-box;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 1px;
   padding: 6px 10px;
   display: flex;
 }

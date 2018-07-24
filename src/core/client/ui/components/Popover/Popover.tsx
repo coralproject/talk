@@ -13,7 +13,7 @@ interface InnerProps {
   body: (props: RenderProps) => any;
   // body: React.ReactElement<any> | null;
   children: (props: RenderProps) => any;
-  description: string;
+  description?: string;
   id?: string;
   onClose?: () => void;
   className?: string;
@@ -57,7 +57,7 @@ class Popover extends React.Component<InnerProps> {
           {(props: Props) => (
             <div
               id={id}
-              aria-role="popup"
+              role="popup"
               aria-labelledby={`${id}-ariainfo`}
               aria-hidden={!visible}
             >

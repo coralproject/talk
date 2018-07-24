@@ -28,8 +28,12 @@ const Comment: StatelessComponent<CommentProps> = props => {
       <div>
         <Popover
           // tslint:disable-next-line:jsx-no-lambda
-          body={({ forwardRef }) => (
-            <PermalinkPopover commentId={props.id} forwardRef={forwardRef} />
+          body={({ toggleVisibility, forwardRef }) => (
+            <PermalinkPopover
+              commentID={props.id}
+              forwardRef={forwardRef}
+              toggleVisibility={toggleVisibility}
+            />
           )}
         >
           {({ toggleVisibility, forwardRef }) => (
