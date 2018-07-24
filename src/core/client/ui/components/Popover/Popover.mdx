@@ -6,6 +6,7 @@ menu: UI Kit
 import { Playground, PropsTable } from 'docz'
 import Popover from './Popover'
 import Button from '../Button'
+import Typography from '../Typography'
 import ButtonIcon from '../Button/ButtonIcon'
 
 # Popover
@@ -15,10 +16,10 @@ import ButtonIcon from '../Button/ButtonIcon'
 ## Basic usage
 <Playground>
   <Popover
-    body={<div>This is the body</div>}
+    body={<div><Typography>This is the body</Typography></div>}
   >
     {({ toggleVisibility, forwardRef }) => (
-      <Button onClick={toggleVisibility} forwardRef={forwardRef}>
+      <Button onClick={toggleVisibility} forwardRef={forwardRef} variant="filled" color="primary">
         Click me!
       </Button>
     )}
@@ -31,16 +32,15 @@ import ButtonIcon from '../Button/ButtonIcon'
     placement="top"
     body={({ toggleVisibility, forwardRef }) => (
       <div>
-        This is the body
-        <Button onClick={toggleVisibility}>
+        <Button onClick={toggleVisibility} variant="filled" size="small">
           <ButtonIcon>close</ButtonIcon>
-          Close
         </Button>
+        <Typography>This is the body</Typography>
       </div>
     )}
   >
     {({ toggleVisibility, forwardRef }) => (
-      <Button onClick={toggleVisibility} forwardRef={forwardRef}>
+      <Button onClick={toggleVisibility} forwardRef={forwardRef} variant="filled" color="primary">
         Click me!
       </Button>
     )}
