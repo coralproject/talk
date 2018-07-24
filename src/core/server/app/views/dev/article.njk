@@ -1,0 +1,36 @@
+{% extends "templates/development.njk" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block meta %}
+<meta property="og:title" content="{{ title }}" />
+<meta property="og:description" content="A description of this article." />
+<meta property="article:author" content="A. J. Ournalist" />
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://coralproject.net/wp-content/uploads/2018/05/25926634151_5f0675915b_k-915x611@2x.jpg">
+<meta property="article:published" itemprop="datePublished" content="2016-11-16T11:46:06-05:00" />
+<meta property="article:modified" itemprop="dateModified" content="2016-11-16T12:09:44-05:00" />
+<meta property="article:section" itemprop="articleSection" content="The Section!" />
+{% endblock %}
+
+{% block html %}
+<div class="container mt-3">
+  <div class="alert alert-warning" role="alert">
+    This is a development page designed to assist developers to work with and
+    develop <a href="https://coralproject.net/talk/" class="alert-link">Talk</a>.
+    You should not see this page in production, if you do, ensure you have set
+    the environment variable <code>NODE_ENV=production</code> to switch on
+    <a href="#" class="alert-link">production mode</a>.
+  </div>
+  <div id="talk"></div>
+</div>
+{% endblock %}
+
+{% block js %}
+{# <script src="{{ resolve("embed.js") }}"></script> #}
+<script>
+  Coral.Talk.render(document.getElementById("talk"), {
+    talk: "{{ url }}",
+  });
+</script>
+{% endblock %}

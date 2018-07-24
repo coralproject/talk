@@ -1,7 +1,10 @@
+import cons from "consolidate";
 import { Express } from "express";
 import http from "http";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
+import nunjucks from "nunjucks";
+import path from "path";
 
 import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
@@ -29,6 +32,9 @@ export interface AppOptions {
  * createApp will create a Talk Express app that can be used to handle requests.
  */
 export async function createApp(options: AppOptions): Promise<Express> {
+  // Configure the application.
+  configureApplication(options);
+
   // Pull the parent out of the options.
   const { parent } = options;
 
@@ -72,6 +78,41 @@ export const listenAndServe = (
     // Listen on the designated port.
     const httpServer = app.listen(port, () => resolve(httpServer));
   });
+
+function configureApplication(options: AppOptions) {
+  const { parent } = options;
+
+  // Trust the first proxy in front of us, this will enable us to trust the fact
+  // that SSL was terminated correctly.
+  parent.set("trust proxy", 1);
+
+  // Setup the view config.
+  setupViews(options);
+}
+
+function setupViews(options: AppOptions) {
+  const { parent } = options;
+
+  // configure the default views directory.
+  const views = path.join(__dirname, "views");
+  parent.set("views", views);
+
+  // Reconfigure nunjucks.
+  (cons.requires as any).nunjucks = nunjucks.configure(views, {
+    autoescape: true,
+    trimBlocks: true,
+    lstripBlocks: true,
+    // In development, we should enable file watch mode.
+    watch: options.config.get("env") === "development",
+  });
+
+  // assign the nunjucks engine to .njk and .html files.
+  parent.engine("njk", cons.nunjucks);
+  parent.engine("html", cons.nunjucks);
+
+  // set .njk as the default extension.
+  parent.set("view engine", "njk");
+}
 
 /**
  * attachSubscriptionHandlers attaches all the handlers to the http.Server to

@@ -9,6 +9,7 @@ import tenantMiddleware from "talk-server/app/middleware/tenant";
 import managementGraphMiddleware from "talk-server/graph/management/middleware";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
+import { devHandler } from "talk-server/app/handlers/dev";
 import { AppOptions } from "./index";
 import playground from "./middleware/playground";
 
@@ -131,6 +132,13 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
         endpoint: "/api/management/graphql",
         subscriptionEndpoint: "/api/management/live",
       })
+    );
+
+    // Development route.
+    router.get(
+      "/dev",
+      tenantMiddleware({ cache: app.tenantCache }),
+      devHandler
     );
   }
 
