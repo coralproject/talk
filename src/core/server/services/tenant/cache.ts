@@ -2,6 +2,7 @@ import DataLoader from "dataloader";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
+import logger from "talk-server/logger";
 import {
   retrieveAllTenants,
   retrieveManyTenants,
@@ -65,6 +66,8 @@ export default class TenantCache {
       return;
     }
 
+    logger.debug("recieved updated tenant");
+
     try {
       // Updated tenant come from the messages.
       const tenant: Tenant = JSON.parse(message);
@@ -73,7 +76,10 @@ export default class TenantCache {
       this.tenantsByID.clear(tenant.id).prime(tenant.id, tenant);
       this.tenantsByDomain.clear(tenant.domain).prime(tenant.domain, tenant);
     } catch (err) {
-      // FIXME: handle the error
+      logger.error(
+        { err },
+        "an error occued while trying to parse/prime the tenant/tenant cache"
+      );
     }
   };
 
