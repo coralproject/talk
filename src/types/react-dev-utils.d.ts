@@ -1,17 +1,20 @@
 declare module "react-dev-utils/InterpolateHtmlPlugin" {
-  export default class InterpolateHtmlPlugin {
+  import { Plugin } from "webpack";
+  export default class InterpolateHtmlPlugin extends Plugin {
     constructor(env: Record<string, string>);
   }
 }
 
 declare module "react-dev-utils/ModuleScopePlugin" {
-  export default class ModuleScopePlugin {
+  import { Plugin } from "webpack";
+  export default class ModuleScopePlugin extends Plugin {
     constructor(rootPath: string, ignore: ReadonlyArray<string>);
   }
 }
 
 declare module "react-dev-utils/WatchMissingNodeModulesPlugin" {
-  export default class ModuleScopePlugin {
+  import { Plugin } from "webpack";
+  export default class ModuleScopePlugin extends Plugin {
     constructor(nodeModulesPath: string);
   }
 }

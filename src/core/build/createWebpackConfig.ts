@@ -1,6 +1,6 @@
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
-import HtmlWebpackPlugin from "html-webpack-plugin";
+import HtmlWebpackPlugin, { Options } from "html-webpack-plugin";
 import path from "path";
 import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
@@ -24,7 +24,7 @@ export default function createWebpackConfig({
   env = process.env as Record<string, string>,
   appendPlugins = [],
   disableSourcemaps,
-}: CreateWebpackConfig = {}): Configuration {
+}: CreateWebpackConfig = {}): Configuration[] {
   const envStringified = {
     "process.env": Object.keys(env).reduce<Record<string, string>>(
       (result, key) => {
@@ -36,6 +36,21 @@ export default function createWebpackConfig({
   };
 
   const isProduction = env.NODE_ENV === "production";
+
+  const htmlWebpackConfig: Options = {
+    minify: isProduction && {
+      removeComments: true,
+      collapseWhitespace: true,
+      removeRedundantAttributes: true,
+      useShortDoctype: true,
+      removeEmptyAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      keepClosingSlash: true,
+      minifyJS: true,
+      minifyCSS: true,
+      minifyURLs: true,
+    },
+  };
 
   const styleLoader = {
     loader: require.resolve("style-loader"),
@@ -98,12 +113,6 @@ export default function createWebpackConfig({
           // https://github.com/webpack-contrib/mini-css-extract-plugin
           filename: "static/css/[name].[md5:contenthash:hex:20].css",
         }),
-        // Generate a manifest file which contains a mapping of all asset filenames
-        // to their corresponding output file so that tools can pick it up without
-        // having to parse `index.html`.
-        new ManifestPlugin({
-          fileName: "asset-manifest.json",
-        }),
       ]
     : [
         // Add module names to factory functions so they appear in browser profiler.
@@ -121,10 +130,7 @@ export default function createWebpackConfig({
         new WatchMissingNodeModulesPlugin(paths.appNodeModules),
       ];
 
-  // This is the development configuration.
-  // It is focused on developer experience and fast rebuilds.
-  // The production configuration is different and lives in a separate file.
-  return {
+  const baseConfig: Configuration = {
     // Set webpack mode.
     mode: isProduction ? "production" : "development",
 
@@ -139,28 +145,6 @@ export default function createWebpackConfig({
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
     // The first two entry points enable "hot" CSS and auto-refreshes for JS.
-    entry: {
-      stream: [
-        // We ship polyfills by default:
-        paths.appPolyfill,
-        // Include an alternative client for WebpackDevServer. A client's job is to
-        // connect to WebpackDevServer by a socket and get notified about changes.
-        // When you save a file, the client will either apply hot updates (in case
-        // of CSS changes), or refresh the page (in case of JS changes). When you
-        // make a syntax error, this client will display a syntax error overlay.
-        // Note: instead of the default WebpackDevServer client, we use a custom one
-        // to bring better experience for Create React App users. You can replace
-        // the line below with these two lines if you prefer the stock client:
-        // require.resolve('webpack-dev-server/client') + '?/',
-        // require.resolve('webpack/hot/dev-server'),
-        require.resolve("react-dev-utils/webpackHotDevClient"),
-        // Finally, this is your app's code:
-        paths.appStreamIndex,
-        // We include the app code last so that if there is a runtime error during
-        // initialization, it doesn't blow up the WebpackDevServer client, and
-        // changing JS code would still trigger a refresh.
-      ],
-    },
     output: {
       // Add /* filename */ comments to generated require()s in the output.
       pathinfo: !isProduction,
@@ -168,7 +152,6 @@ export default function createWebpackConfig({
       path: paths.appDist,
       // Generated JS file names (with nested folders).
       // There will be one main bundle, and one file per asynchronous chunk.
-      // We don't currently advertise code splitting but Webpack supports it.
       filename: isProduction
         ? "static/js/[name].[chunkhash:8].js"
         : "static/js/[name].js",
@@ -350,28 +333,6 @@ export default function createWebpackConfig({
       ],
     },
     plugins: [
-      // Generates an `index.html` file with the <script> injected.
-      new HtmlWebpackPlugin({
-        inject: true,
-        template: paths.appStreamHtml,
-        minify: isProduction && {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeRedundantAttributes: true,
-          useShortDoctype: true,
-          removeEmptyAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          keepClosingSlash: true,
-          minifyJS: true,
-          minifyCSS: true,
-          minifyURLs: true,
-        },
-      }),
-      // Makes some environment variables available in index.html.
-      // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-      // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-      // In development, this will be an empty string.
-      new InterpolateHtmlPlugin(env),
       // Makes some environment variables available to the JS code, for example:
       // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
       new webpack.DefinePlugin(envStringified),
@@ -394,4 +355,91 @@ export default function createWebpackConfig({
       hints: isProduction && "warning",
     },
   };
+
+  return [
+    /* Webpack config for our different target, e.g. stream, admin... */
+    {
+      ...baseConfig,
+      entry: {
+        stream: [
+          // We ship polyfills by default
+          paths.appPolyfill,
+          // Include an alternative client for WebpackDevServer. A client's job is to
+          // connect to WebpackDevServer by a socket and get notified about changes.
+          // When you save a file, the client will either apply hot updates (in case
+          // of CSS changes), or refresh the page (in case of JS changes). When you
+          // make a syntax error, this client will display a syntax error overlay.
+          // Note: instead of the default WebpackDevServer client, we use a custom one
+          // to bring better experience for Create React App users. You can replace
+          // the line below with these two lines if you prefer the stock client:
+          // require.resolve('webpack-dev-server/client') + '?/',
+          // require.resolve('webpack/hot/dev-server'),
+          (isProduction && "") ||
+            require.resolve("react-dev-utils/webpackHotDevClient"),
+          paths.appStreamIndex,
+          // Remove deactivated entries.
+        ].filter(s => s),
+      },
+      plugins: [
+        ...baseConfig.plugins!,
+        // Generates an `stream.html` file with the <script> injected.
+        new HtmlWebpackPlugin({
+          filename: "stream.html",
+          template: paths.appStreamHTML,
+          chunks: ["stream"],
+          inject: "body",
+          ...htmlWebpackConfig,
+        }),
+        // Makes some environment variables available in index.html.
+        // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
+        // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+        // In development, this will be an empty string.
+        new InterpolateHtmlPlugin(env),
+        // Generate a manifest file which contains a mapping of all asset filenames
+        // to their corresponding output file so that tools can pick it up without
+        // having to parse `index.html`.
+        new ManifestPlugin({
+          fileName: "asset-manifest.json",
+        }),
+      ],
+    },
+    /* Webpack config for our embed */
+    {
+      ...baseConfig,
+      entry: [
+        // No polyfills for the embed.
+        (isProduction && "") ||
+          require.resolve("react-dev-utils/webpackHotDevClient"),
+        paths.appEmbedIndex,
+        // Remove deactivated entries.
+      ].filter(s => s),
+      output: {
+        library: "Coral",
+        // don't hash the embed, cache-busting must be completed by the requester
+        // as this lives in a static template on the embed site.
+        filename: "static/js/embed.js",
+      },
+      plugins: [
+        ...baseConfig.plugins!,
+        // Generates an `stream.html` file with the <script> injected.
+        new HtmlWebpackPlugin({
+          filename: "index.html",
+          template: paths.appEmbedHTML,
+          inject: "head",
+          ...htmlWebpackConfig,
+        }),
+        // Makes some environment variables available in index.html.
+        // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
+        // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+        // In development, this will be an empty string.
+        new InterpolateHtmlPlugin(env),
+        // Generate a manifest file which contains a mapping of all asset filenames
+        // to their corresponding output file so that tools can pick it up without
+        // having to parse `index.html`.
+        new ManifestPlugin({
+          fileName: "static/embed-manifest.json",
+        }),
+      ],
+    },
+  ];
 }
