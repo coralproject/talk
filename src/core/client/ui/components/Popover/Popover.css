@@ -1,15 +1,15 @@
 .root {
-  padding: 6px 10px;
-  background: #ffffff !important;
+  background: #ffffff;
   border: 1px solid #c9cacb;
   box-sizing: border-box;
   box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.25);
   border-radius: 1px;
-  color: #222 !important;
-  display: flex !important;
+  color: #222;
+  display: flex;
+  padding: 6px 10px;
 
   &:after,
   &::before {
-    border-top-color: transparent !important;
+    border-top-color: transparent;
   }
 }

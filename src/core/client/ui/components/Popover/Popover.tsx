@@ -57,6 +57,27 @@ class Popover extends React.Component<InnerProps> {
     }));
   };
 
+  public close = () => {
+    this.setState((state: State) => ({
+      visible: false,
+    }));
+  };
+
+  public handleEsc = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      this.close();
+    }
+  };
+
+  public componentDidMount() {
+    document.addEventListener("keydown", this.handleEsc, true);
+  }
+
+  public componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleEsc, true);
+  }
+
   public render() {
     const {
       id,
@@ -95,7 +116,7 @@ class Popover extends React.Component<InnerProps> {
               >
                 <AriaInfo id={`${id}-ariainfo`}>{description}</AriaInfo>
 
-                {/* <ClickOutside onClickOutside={onClose}> */}
+                {/* <ClickOutside onClickOutside={toggleVisibility}> */}
                 <div
                   style={props.style}
                   className={cn(styles.root, className)}
