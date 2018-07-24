@@ -9,15 +9,34 @@ import Button from '../Button'
 
 # Popover
 
-`Popover` uses `react-popper`
+`Popover` uses `react-popper` that has `Popper.js` behind.
 
 ## Basic usage
 <Playground>
   <Popover
     // tslint:disable-next-line:jsx-no-lambda
+    body={<div>This is the body</div>}
+  >
+    {({ toggleVisibility, forwardRef }) => (
+      <Button onClick={toggleVisibility} forwardRef={forwardRef}>
+        Click me!
+      </Button>
+    )}
+  </Popover>
+</Playground>
+
+#### Example with `placement=top`
+<Playground>
+  <Popover
+    // tslint:disable-next-line:jsx-no-lambda
     placement="top"
     body={({ toggleVisibility, forwardRef }) => (
-      <div>This is the body</div>
+      <div>
+        This is the body
+        <Button onClick={toggleVisibility}>
+          Close
+        </Button>
+      </div>
     )}
   >
     {({ toggleVisibility, forwardRef }) => (

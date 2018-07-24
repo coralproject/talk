@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, isValidElement } from "react";
 import { Manager, Popper, Reference, RefHandler } from "react-popper";
 import AriaInfo from "../AriaInfo";
 import * as styles from "./Popover.css";
@@ -22,7 +22,7 @@ type Placement =
   | "left-start";
 
 interface InnerProps {
-  body: (props: RenderProps) => any;
+  body: (props: RenderProps) => any | React.ReactElement<any>;
   // body: React.ReactElement<any> | null;
   children: (props: RenderProps) => any;
   description?: string;
@@ -101,10 +101,12 @@ class Popover extends React.Component<InnerProps> {
                   className={cn(styles.root, className)}
                   ref={props.ref}
                 >
-                  {body({
-                    toggleVisibility: this.toggleVisibility,
-                    forwardRef: props.ref,
-                  })}
+                  {isValidElement(body)
+                    ? body
+                    : body({
+                        toggleVisibility: this.toggleVisibility,
+                        forwardRef: props.ref,
+                      })}
                 </div>
                 {/* </ClickOutside> */}
               </div>
