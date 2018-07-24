@@ -135,8 +135,12 @@ export default class TenantCache {
       tenant,
       clientApplicationID: this.clientApplicationID,
     };
-    await conn.publish(TenantUpdateChannel, JSON.stringify(message));
 
-    logger.debug({ tenant_id: tenant.id }, "updated tenant");
+    const subscribers = await conn.publish(
+      TenantUpdateChannel,
+      JSON.stringify(message)
+    );
+
+    logger.debug({ tenant_id: tenant.id, subscribers }, "updated tenant");
   }
 }
