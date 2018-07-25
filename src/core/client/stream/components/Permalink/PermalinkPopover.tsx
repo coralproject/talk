@@ -2,14 +2,14 @@ import { Localized } from "fluent-react/compat";
 import React, { CSSProperties } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { RefHandler } from "react-popper";
-import { Button, Flex, TextField } from "talk-ui/components";
+import { Button, ClickOutside, Flex, TextField } from "talk-ui/components";
 import * as styles from "./PermalinkPopover.css";
 
 interface InnerProps {
   permalinkUrl: string;
   style?: CSSProperties;
   forwardRef?: RefHandler;
-  toggleVisibility?: () => any;
+  toggleVisibility: () => void;
 }
 
 interface State {
@@ -35,25 +35,27 @@ class PermalinkPopover extends React.Component<InnerProps> {
   };
 
   public render() {
-    const { permalinkUrl } = this.props;
+    const { permalinkUrl, toggleVisibility } = this.props;
     const { copied } = this.state;
     return (
-      <Flex>
-        <TextField defaultValue={permalinkUrl} className={styles.textField} />
-        <CopyToClipboard text={permalinkUrl} onCopy={this.onCopy}>
-          <Button color="primary" variant="filled">
-            {copied ? (
-              <Localized id="comments-permalink-copied">
-                <span>Copied!</span>
-              </Localized>
-            ) : (
-              <Localized id="comments-permalink-copy">
-                <span>Copy</span>
-              </Localized>
-            )}
-          </Button>
-        </CopyToClipboard>
-      </Flex>
+      <ClickOutside onClickOutside={toggleVisibility}>
+        <Flex>
+          <TextField defaultValue={permalinkUrl} className={styles.textField} />
+          <CopyToClipboard text={permalinkUrl} onCopy={this.onCopy}>
+            <Button color="primary" variant="filled">
+              {copied ? (
+                <Localized id="comments-permalink-copied">
+                  <span>Copied!</span>
+                </Localized>
+              ) : (
+                <Localized id="comments-permalink-copy">
+                  <span>Copy</span>
+                </Localized>
+              )}
+            </Button>
+          </CopyToClipboard>
+        </Flex>
+      </ClickOutside>
     );
   }
 }

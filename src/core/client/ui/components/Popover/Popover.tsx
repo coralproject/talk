@@ -42,7 +42,7 @@ interface Props {
 }
 
 interface RenderProps {
-  toggleVisibility?: () => void;
+  toggleVisibility: () => void;
   forwardRef?: RefHandler;
 }
 
@@ -115,8 +115,6 @@ class Popover extends React.Component<InnerProps> {
                 aria-hidden={!visible}
               >
                 <AriaInfo id={`${id}-ariainfo`}>{description}</AriaInfo>
-
-                {/* <ClickOutside onClickOutside={toggleVisibility}> */}
                 <div
                   style={props.style}
                   className={cn(styles.root, className)}
@@ -129,7 +127,6 @@ class Popover extends React.Component<InnerProps> {
                         forwardRef: props.ref,
                       })}
                 </div>
-                {/* </ClickOutside> */}
               </div>
             )
           }

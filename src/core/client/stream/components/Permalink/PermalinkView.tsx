@@ -2,7 +2,7 @@ import * as React from "react";
 import { StatelessComponent } from "react";
 
 import { Flex } from "talk-ui/components";
-import CommentContainer from "../containers/CommentContainer";
+import CommentContainer from "../../containers/CommentContainer";
 
 export interface InnerProps {
   comment: {} | null;

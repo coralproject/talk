@@ -2,7 +2,7 @@ import React from "react";
 import { StatelessComponent } from "react";
 import { Typography } from "talk-ui/components";
 
-import PermalinkContainer from "../Permalink/PermalinkContainer";
+import PermalinkContainer from "../../containers/PermalinkContainer";
 import Timestamp from "./Timestamp";
 import TopBar from "./TopBar";
 import Username from "./Username";
