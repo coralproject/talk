@@ -22,7 +22,10 @@ export const karma: IntermediateModerationPhase = (
   // comments away from the public eye until a moderator can manage them. This
   // of course can only be applied if the comment's current status is `NONE`,
   // we don't want to interfere if the comment was rejected.
-  if (isReliableCommenter(tenant, author) === false) {
+  if (
+    tenant.karma.enabled &&
+    isReliableCommenter(tenant.karma.thresholds, author) === false
+  ) {
     // Add the flag related to Trust to the comment.
     return {
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,

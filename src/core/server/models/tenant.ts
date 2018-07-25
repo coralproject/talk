@@ -78,6 +78,15 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
         },
       },
     },
+    karma: {
+      enabled: true,
+      thresholds: {
+        // By default, flaggers are reliable after one correct flag, and
+        // unreliable if there is an incorrect flag.
+        flag: { reliable: 1, unreliable: -1 },
+        comment: { reliable: 1, unreliable: -1 },
+      },
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.

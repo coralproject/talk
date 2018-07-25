@@ -1,21 +1,20 @@
 import { get } from "lodash";
 
-import { Tenant } from "talk-server/models/tenant";
+import { KarmaThresholds } from "talk-server/models/settings";
 import { User } from "talk-server/models/user";
 
 export const getCommentTrustScore = (user: User): number =>
   get(user, "metadata.trust.comment.karma", 0);
 
 export const isReliableCommenter = (
-  tenant: Tenant,
+  thresholds: KarmaThresholds,
   user: User
 ): boolean | null => {
   const score = getCommentTrustScore(user);
 
-  // TODO: (wyattjoh) use thresholds defined from the Tenant.
-  if (score >= 1) {
+  if (score >= thresholds.comment.reliable) {
     return true;
-  } else if (score <= -1) {
+  } else if (score <= thresholds.comment.unreliable) {
     return false;
   }
 
