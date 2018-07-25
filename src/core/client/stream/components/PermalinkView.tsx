@@ -1,26 +1,25 @@
 import * as React from "react";
 import { StatelessComponent } from "react";
 
-import { CommentProps } from "talk-stream/components/Comment";
 import { Flex } from "talk-ui/components";
 import CommentContainer from "../containers/CommentContainer";
 
-export interface AppProps {
-  comment: CommentProps | null;
+export interface InnerProps {
+  comment: {} | null;
 }
 
-const PermalinkView: StatelessComponent<AppProps> = props => {
+const PermalinkView: StatelessComponent<InnerProps> = props => {
   if (props.comment) {
     return (
       <Flex justifyContent="center">
-        <Flex direction="column" itemGutter>
+        <Flex direction="column">
           <CommentContainer data={props.comment} />
         </Flex>
       </Flex>
     );
   }
 
-  return <div> Error </div>;
+  return <div>Comment not found</div>;
 };
 
 export default PermalinkView;

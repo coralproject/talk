@@ -13,26 +13,41 @@ import {
 } from "talk-stream/__generated__/AppQuery.graphql";
 import { AppQueryLocal as Local } from "talk-stream/__generated__/AppQueryLocal.graphql";
 
+import PermalinkViewContainer from "talk-stream/containers/PermalinkViewContainer";
 import AppContainer from "../containers/AppContainer";
-import PermalinkViewQuery from "./PermalinkViewQuery";
-
-export const render = ({ error, props }: ReadyState<AppQueryResponse>) => {
-  if (error) {
-    return <div>{error.message}</div>;
-  }
-  if (props) {
-    return <AppContainer data={props} />;
-  }
-  return <div>Loading</div>;
-};
 
 interface InnerProps {
   local: Local;
 }
 
-const AppQuery: StatelessComponent<InnerProps> = props => {
-  if (props.local.commentID) {
-    return <PermalinkViewQuery commentID={props.local.commentID} />;
+// TODO (bc) refactor this into another component. break down the needs of each component.
+// (careful porting QueryRenderer into another stateless component)
+
+const AppQuery: StatelessComponent<InnerProps> = ({
+  local: { commentID, assetID },
+}) => {
+  if (commentID) {
+    return (
+      <QueryRenderer<AppQueryVariables, AppQueryResponse>
+        query={graphql`
+          query AppQuery_PermalinkViewContainer_Query($commentID: ID!) {
+            ...PermalinkViewContainerQuery @arguments(commentID: $commentID)
+          }
+        `}
+        variables={{
+          commentID,
+        }}
+        render={({ error, props }: ReadyState<AppQueryResponse>) => {
+          if (error) {
+            return <div>{error.message}</div>;
+          }
+          if (props) {
+            return <PermalinkViewContainer data={props} />;
+          }
+          return <div>Loading</div>;
+        }}
+      />
+    );
   }
 
   return (
@@ -43,9 +58,17 @@ const AppQuery: StatelessComponent<InnerProps> = props => {
         }
       `}
       variables={{
-        assetID: props.local.assetID,
+        assetID,
       }}
-      render={render}
+      render={({ error, props }: ReadyState<AppQueryResponse>) => {
+        if (error) {
+          return <div>{error.message}</div>;
+        }
+        if (props) {
+          return <AppContainer data={props} />;
+        }
+        return <div>Loading</div>;
+      }}
     />
   );
 };
@@ -55,6 +78,7 @@ const enhanced = withLocalStateContainer<Local>(
     fragment AppQueryLocal on Local {
       assetID
       commentID
+      origin
     }
   `
 )(AppQuery);

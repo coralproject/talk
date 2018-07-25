@@ -12,7 +12,6 @@ interface InnerProps {
 }
 
 export const AppContainer: StatelessComponent<InnerProps> = props => {
-  console.log("App query render", props);
   return <App {...props.data} />;
 };
 

@@ -5,17 +5,18 @@ import PermalinkPopover from "./PermalinkPopover";
 
 interface InnerProps {
   commentID: string;
+  origin: string | null;
 }
 
 class Permalink extends React.Component<InnerProps> {
   public render() {
-    const { commentID } = this.props;
+    const { commentID, origin } = this.props;
     return (
       <Popover
         placement="top"
         body={({ toggleVisibility, forwardRef }) => (
           <PermalinkPopover
-            commentID={commentID}
+            permalinkUrl={`${origin}/?commentID=${commentID}`}
             forwardRef={forwardRef}
             toggleVisibility={toggleVisibility}
           />

@@ -6,7 +6,7 @@ import { Button, Flex, TextField } from "talk-ui/components";
 import * as styles from "./PermalinkPopover.css";
 
 interface InnerProps {
-  commentID: string;
+  permalinkUrl: string;
   style?: CSSProperties;
   forwardRef?: RefHandler;
   toggleVisibility?: () => any;
@@ -35,12 +35,12 @@ class PermalinkPopover extends React.Component<InnerProps> {
   };
 
   public render() {
-    const { commentID } = this.props;
+    const { permalinkUrl } = this.props;
     const { copied } = this.state;
     return (
       <Flex>
-        <TextField defaultValue={commentID} className={styles.textField} />
-        <CopyToClipboard text={commentID} onCopy={this.onCopy}>
+        <TextField defaultValue={permalinkUrl} className={styles.textField} />
+        <CopyToClipboard text={permalinkUrl} onCopy={this.onCopy}>
           <Button color="primary" variant="filled">
             {copied ? (
               <Localized id="comments-permalink-copied">

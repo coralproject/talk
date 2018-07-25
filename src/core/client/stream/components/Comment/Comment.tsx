@@ -2,7 +2,7 @@ import React from "react";
 import { StatelessComponent } from "react";
 import { Typography } from "talk-ui/components";
 
-import Permalink from "../Permalink/Permalink";
+import PermalinkContainer from "../Permalink/PermalinkContainer";
 import Timestamp from "./Timestamp";
 import TopBar from "./TopBar";
 import Username from "./Username";
@@ -26,7 +26,7 @@ const Comment: StatelessComponent<CommentProps> = props => {
       </TopBar>
       <Typography>{props.body}</Typography>
       <div>
-        <Permalink commentID={props.id} />
+        <PermalinkContainer commentID={props.id} />
       </div>
     </div>
   );
