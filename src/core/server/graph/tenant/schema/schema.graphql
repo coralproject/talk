@@ -308,6 +308,7 @@ type Settings {
 
 enum USER_ROLE {
   COMMENTER
+  STAFF
   MODERATOR
   ADMIN
 }

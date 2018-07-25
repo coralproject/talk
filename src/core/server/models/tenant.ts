@@ -118,16 +118,7 @@ export interface Auth {
   integrations: AuthIntegrations;
 }
 
-/**
- * Tenant describes a given Tenant on Talk that has Assets, Comments, and Users.
- */
-export interface Tenant {
-  readonly id: string;
-
-  // Domain is set when the tenant is created, and is used to retrieve the
-  // specific tenant that the API request pertains to.
-  domain: string;
-
+export interface ModerationSettings {
   moderation: GQLMODERATION_MODE;
   requireEmailConfirmation: boolean;
   infoBoxEnable: boolean;
@@ -139,26 +130,42 @@ export interface Tenant {
   autoCloseStream: boolean;
   closedTimeout: number;
   closedMessage?: string;
-  customCssUrl?: string;
   disableCommenting: boolean;
   disableCommentingMessage?: string;
-
-  // editCommentWindowLength is the length of time (in milliseconds) after a
-  // comment is posted that it can still be edited by the author.
-  editCommentWindowLength: number;
   charCountEnable: boolean;
   charCount?: number;
-  organizationName: string;
-  organizationContactEmail: string;
+}
+
+export interface Settings extends ModerationSettings {
+  customCssUrl?: string;
+
+  /**
+   * editCommentWindowLength is the length of time (in milliseconds) after a
+   * comment is posted that it can still be edited by the author.
+   */
+  editCommentWindowLength: number;
 
   // wordlist stores all the banned/suspect words.
   wordlist: Wordlist;
 
-  // domains is the set of whitelisted domains.
-  domains: string[];
-
   // Set of configured authentication integrations.
   auth: Auth;
+}
+
+/**
+ * Tenant describes a given Tenant on Talk that has Assets, Comments, and Users.
+ */
+export interface Tenant extends Settings {
+  readonly id: string;
+
+  // Domain is set when the tenant is created, and is used to retrieve the
+  // specific tenant that the API request pertains to.
+  domain: string;
+
+  // domains is the set of whitelisted domains.
+  domains: string[];
+  organizationName: string;
+  organizationContactEmail: string;
 }
 
 /**

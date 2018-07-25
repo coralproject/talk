@@ -5,12 +5,18 @@ import {
   GQLACTION_TYPE,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
+import { ModerationSettings } from "talk-server/models/tenant";
 import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
 
 /**
  * The preloaded linkify instance with common tlds.
  */
 const testForLinks = linkify().tlds(tlds);
+
+const testPremodLinksEnable = (
+  settings: Partial<ModerationSettings>,
+  body: string
+) => settings.premodLinksEnable && testForLinks.test(body);
 
 // This phase checks the comment if it has any links in it if the check is
 // enabled.
@@ -20,7 +26,10 @@ export const links: IntermediateModerationPhase = (
   comment,
   author
 ) => {
-  if (tenant.premodLinksEnable && testForLinks.test(comment.body)) {
+  if (
+    testPremodLinksEnable(tenant, comment.body) ||
+    (asset.settings && testPremodLinksEnable(asset.settings, comment.body))
+  ) {
     // Add the flag related to Trust to the comment.
     return {
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,

@@ -1,4 +1,7 @@
-import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLUSER_ROLE,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
 
 // If a given user is a staff member, always approve their comment.
@@ -8,8 +11,7 @@ export const staff: IntermediateModerationPhase = (
   comment,
   author
 ) => {
-  // TODO: (wyattjoh) check to see if the user is staff.
-  if (false) {
+  if (author.role !== GQLUSER_ROLE.COMMENTER) {
     return {
       status: GQLCOMMENT_STATUS.ACCEPTED,
     };

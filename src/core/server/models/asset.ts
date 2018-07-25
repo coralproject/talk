@@ -4,7 +4,7 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit } from "talk-common/types";
-import { TenantResource } from "talk-server/models/tenant";
+import { ModerationSettings, TenantResource } from "talk-server/models/tenant";
 
 function collection(db: Db) {
   return db.collection<Readonly<Asset>>("assets");
@@ -25,6 +25,12 @@ export interface Asset extends TenantResource {
   publication_date?: Date;
   modified_date?: Date;
   created_at: Date;
+
+  /**
+   * settings provides a point where the settings can be overriden for a
+   * specific Asset.
+   */
+  settings?: Partial<ModerationSettings>;
 }
 
 export interface UpsertAssetInput {
