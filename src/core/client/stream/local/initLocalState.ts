@@ -21,8 +21,13 @@ export default async function initLocalState(environment: Environment) {
 
     // Parse query params
     const query = qs.parse(location.search);
+
     if (query.assetID) {
       localRecord.setValue(query.assetID, "assetID");
+    }
+
+    if (query.commentID) {
+      localRecord.setValue(query.commentID, "commentID");
     }
 
     // Create network Record

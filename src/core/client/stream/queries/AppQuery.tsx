@@ -14,6 +14,7 @@ import {
 import { AppQueryLocal as Local } from "talk-stream/__generated__/AppQueryLocal.graphql";
 
 import AppContainer from "../containers/AppContainer";
+import PermalinkViewQuery from "./PermalinkViewQuery";
 
 export const render = ({ error, props }: ReadyState<AppQueryResponse>) => {
   if (error) {
@@ -30,6 +31,10 @@ interface InnerProps {
 }
 
 const AppQuery: StatelessComponent<InnerProps> = props => {
+  if (props.local.commentID) {
+    return <PermalinkViewQuery commentID={props.local.commentID} />;
+  }
+
   return (
     <QueryRenderer<AppQueryVariables, AppQueryResponse>
       query={graphql`
@@ -49,6 +54,7 @@ const enhanced = withLocalStateContainer<Local>(
   graphql`
     fragment AppQueryLocal on Local {
       assetID
+      commentID
     }
   `
 )(AppQuery);
