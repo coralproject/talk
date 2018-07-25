@@ -98,18 +98,18 @@ export const wrapAuthz = (
   name: string,
   options?: any
 ): RequestHandler => (req: Request, res, next) =>
-    authenticator.authenticate(
-      name,
-      { ...options, session: false },
-      (err: Error | null, user: User | null) => {
-        if (err) {
-          return next(err);
-        }
-        if (!user) {
-          // TODO: (wyattjoh) replace with better error.
-          return next(new Error("no user on request"));
-        }
-
-        handleSuccessfulLogin(user, signingConfig, req, res, next);
+  authenticator.authenticate(
+    name,
+    { ...options, session: false },
+    (err: Error | null, user: User | null) => {
+      if (err) {
+        return next(err);
       }
-    )(req, res, next);
+      if (!user) {
+        // TODO: (wyattjoh) replace with better error.
+        return next(new Error("no user on request"));
+      }
+
+      handleSuccessfulLogin(user, signingConfig, req, res, next);
+    }
+  )(req, res, next);

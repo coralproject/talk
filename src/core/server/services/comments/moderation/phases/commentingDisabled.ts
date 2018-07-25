@@ -1,4 +1,4 @@
-import { ModerationSettings } from "talk-server/models/tenant";
+import { ModerationSettings } from "talk-server/models/settings";
 import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
 
 const testDisabledCommenting = (settings: Partial<ModerationSettings>) =>

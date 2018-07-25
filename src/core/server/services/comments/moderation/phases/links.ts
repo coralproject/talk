@@ -5,7 +5,7 @@ import {
   GQLACTION_TYPE,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ModerationSettings } from "talk-server/models/tenant";
+import { ModerationSettings } from "talk-server/models/settings";
 import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
 
 /**

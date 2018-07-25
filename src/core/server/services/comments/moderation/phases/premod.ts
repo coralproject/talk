@@ -2,7 +2,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLMODERATION_MODE,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ModerationSettings } from "talk-server/models/tenant";
+import { ModerationSettings } from "talk-server/models/settings";
 import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
 
 const testModerationMode = (settings: Partial<ModerationSettings>) =>

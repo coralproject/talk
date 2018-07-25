@@ -4,7 +4,8 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit } from "talk-common/types";
-import { ModerationSettings, TenantResource } from "talk-server/models/tenant";
+import { ModerationSettings } from "talk-server/models/settings";
+import { TenantResource } from "talk-server/models/tenant";
 
 function collection(db: Db) {
   return db.collection<Readonly<Asset>>("assets");
