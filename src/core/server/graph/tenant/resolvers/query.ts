@@ -6,5 +6,10 @@ export default {
     { id }: { id: string; url: string },
     ctx: TenantContext
   ) => ctx.loaders.Assets.asset.load(id),
+  comment: async (
+    source: void,
+    { id }: { id: string; url: string },
+    ctx: TenantContext
+  ) => ctx.loaders.Comments.comment.load(id),
   settings: async (parent: any, args: any, ctx: TenantContext) => ctx.tenant,
 };
