@@ -130,6 +130,33 @@ export interface Auth {
   integrations: AuthIntegrations;
 }
 
+/**
+ * Akismet provides integration with the Akismet Spam detection service.
+ */
+export interface AkismetIntegration {
+  /**
+   * When true, it will enable comments to be checked by Akismet.
+   */
+  enabled: boolean;
+
+  /**
+   * The key for the Akismet integration.
+   */
+  key?: string;
+
+  /**
+   * The site (blog) for the Akismet integration.
+   */
+  site?: string;
+}
+
+export interface ExternalIntegrations {
+  /**
+   * akismet provides integration with the Akismet Spam detection service.
+   */
+  akismet: AkismetIntegration;
+}
+
 export interface ModerationSettings {
   moderation: GQLMODERATION_MODE;
   requireEmailConfirmation: boolean;
@@ -211,4 +238,9 @@ export interface Settings extends ModerationSettings {
    * Set of configured authentication integrations.
    */
   auth: Auth;
+
+  /**
+   * Various integrations with external services.
+   */
+  integrations: ExternalIntegrations;
 }

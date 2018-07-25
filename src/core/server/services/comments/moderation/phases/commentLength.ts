@@ -8,11 +8,11 @@ import { IntermediateModerationPhase } from "talk-server/services/comments/moder
 const testCharCount = (settings: Partial<ModerationSettings>, length: number) =>
   settings.charCountEnable && settings.charCount && length > settings.charCount;
 
-export const commentLength: IntermediateModerationPhase = async (
+export const commentLength: IntermediateModerationPhase = async ({
   asset,
   tenant,
-  comment
-) => {
+  comment,
+}) => {
   const length = comment.body.length;
 
   // Check to see if the body is too short, if it is, then complain about it!

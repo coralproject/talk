@@ -6,6 +6,7 @@ import { Tenant } from "talk-server/models/tenant";
 import { CreateComment } from "talk-server/services/comments";
 
 import { User } from "talk-server/models/user";
+import { Request } from "talk-server/types/express";
 import { moderationPhases } from "./phases";
 
 // TODO: (wyattjoh) move into actions module.
@@ -19,20 +20,22 @@ export interface PhaseResult {
   status: GQLCOMMENT_STATUS;
 }
 
+export interface ModerationPhaseContext {
+  asset: Asset;
+  tenant: Tenant;
+  comment: CreateComment;
+  author: User;
+  req?: Request;
+}
+
 export type ModerationPhase = (
-  asset: Asset,
-  tenant: Tenant,
-  comment: CreateComment,
-  author: User
+  context: ModerationPhaseContext
 ) => Promiseable<PhaseResult>;
 
 export type IntermediatePhaseResult = Partial<PhaseResult> | void;
 
 export type IntermediateModerationPhase = (
-  asset: Asset,
-  tenant: Tenant,
-  comment: CreateComment,
-  author: User
+  context: ModerationPhaseContext
 ) => Promiseable<IntermediatePhaseResult>;
 
 /**
@@ -41,12 +44,12 @@ export type IntermediateModerationPhase = (
  */
 const compose = (
   phases: IntermediateModerationPhase[]
-): ModerationPhase => async (asset, tenant, comment, author) => {
+): ModerationPhase => async context => {
   const actions: CreateAction[] = [];
 
   // Loop over all the moderation phases and see if we've resolved the status.
   for (const phase of phases) {
-    const result = await phase(asset, tenant, comment, author);
+    const result = await phase(context);
     if (result) {
       if (result.actions) {
         actions.push(...result.actions);
@@ -69,9 +72,4 @@ const compose = (
 /**
  * process the comment and return moderation details.
  */
-export const processForModeration: ModerationPhase = async (
-  asset,
-  tenant,
-  comment,
-  author
-) => compose(moderationPhases)(asset, tenant, comment, author);
+export const processForModeration: ModerationPhase = compose(moderationPhases);

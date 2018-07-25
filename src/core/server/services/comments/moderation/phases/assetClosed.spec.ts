@@ -9,12 +9,12 @@ describe("assetClosed", () => {
     const asset = { closedAt: new Date() };
 
     expect(() =>
-      assetClosed(
-        asset as Asset,
-        (null as any) as Tenant,
-        (null as any) as Comment,
-        (null as any) as User
-      )
+      assetClosed({
+        asset: asset as Asset,
+        tenant: (null as any) as Tenant,
+        comment: (null as any) as Comment,
+        author: (null as any) as User,
+      })
     ).toThrow();
   });
 
@@ -22,21 +22,21 @@ describe("assetClosed", () => {
     const now = new Date();
 
     expect(
-      assetClosed(
-        { closedAt: new Date(now.getTime() + 60000) } as Asset,
-        (null as any) as Tenant,
-        (null as any) as Comment,
-        (null as any) as User
-      )
+      assetClosed({
+        asset: { closedAt: new Date(now.getTime() + 60000) } as Asset,
+        tenant: (null as any) as Tenant,
+        comment: (null as any) as Comment,
+        author: (null as any) as User,
+      })
     ).toBeUndefined();
 
     expect(
-      assetClosed(
-        {} as Asset,
-        (null as any) as Tenant,
-        (null as any) as Comment,
-        (null as any) as User
-      )
+      assetClosed({
+        asset: {} as Asset,
+        tenant: (null as any) as Tenant,
+        comment: (null as any) as Comment,
+        author: (null as any) as User,
+      })
     ).toBeUndefined();
   });
 });

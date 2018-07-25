@@ -10,12 +10,12 @@ import {
 
 // This phase checks to see if the user making the comment is allowed to do so
 // considering their reliability (Trust) status.
-export const karma: IntermediateModerationPhase = (
+export const karma: IntermediateModerationPhase = ({
   asset,
   tenant,
   comment,
-  author
-) => {
+  author,
+}) => {
   // If the user is not a reliable commenter (passed the unreliability
   // threshold by having too many rejected comments) then we can change the
   // status of the comment to `SYSTEM_WITHHELD`, therefore pushing the user's

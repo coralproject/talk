@@ -6,12 +6,12 @@ import { IntermediateModerationPhase } from "talk-server/services/comments/moder
 import { containsMatchingPhrase } from "talk-server/services/comments/moderation/wordlist";
 
 // This phase checks the comment against the wordlist.
-export const wordlist: IntermediateModerationPhase = (
+export const wordlist: IntermediateModerationPhase = ({
   asset,
   tenant,
   comment,
-  author
-) => {
+  author,
+}) => {
   // Decide the status based on whether or not the current asset/settings
   // has pre-mod enabled or not. If the comment was rejected based on the
   // wordlist, then reject it, otherwise if the moderation setting is

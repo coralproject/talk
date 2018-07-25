@@ -20,12 +20,12 @@ const testPremodLinksEnable = (
 
 // This phase checks the comment if it has any links in it if the check is
 // enabled.
-export const links: IntermediateModerationPhase = (
+export const links: IntermediateModerationPhase = ({
   asset,
   tenant,
   comment,
-  author
-) => {
+  author,
+}) => {
   if (
     testPremodLinksEnable(tenant, comment.body) ||
     (asset.settings && testPremodLinksEnable(asset.settings, comment.body))

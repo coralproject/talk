@@ -1,10 +1,12 @@
 import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
 
+import { premod } from "talk-server/services/comments/moderation/phases/premod";
 import { assetClosed } from "./assetClosed";
 import { commentingDisabled } from "./commentingDisabled";
 import { commentLength } from "./commentLength";
 import { karma } from "./karma";
 import { links } from "./links";
+import { spam } from "./spam";
 import { staff } from "./staff";
 import { wordlist } from "./wordlist";
 
@@ -19,4 +21,6 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   staff,
   links,
   karma,
+  spam,
+  premod,
 ];
