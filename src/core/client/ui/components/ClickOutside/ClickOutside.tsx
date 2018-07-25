@@ -1,12 +1,12 @@
 import React from "react";
 import { findDOMNode } from "react-dom";
 
-interface Props {
+export interface ClickOutsideProps {
   onClickOutside: () => void;
   children: React.ReactNode;
 }
 
-class ClickOutside extends React.Component<Props> {
+export class ClickOutside extends React.Component<ClickOutsideProps> {
   public domNode: Element | null = null;
 
   public handleClick = (e: MouseEvent) => {
@@ -30,4 +30,5 @@ class ClickOutside extends React.Component<Props> {
     return this.props.children;
   }
 }
+
 export default ClickOutside;
