@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 import { withLocalStateContainer } from "talk-framework/lib/relay";
 import { AppQueryLocal as Local } from "talk-stream/__generated__/AppQueryLocal.graphql";
 
-import Permalink from "./Permalink";
+import Permalink from "../components/Permalink/Permalink";
 
 interface InnerProps {
   local: Local;

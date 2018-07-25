@@ -20,8 +20,24 @@ interface InnerProps {
   local: Local;
 }
 
+interface WrappedProps {
+  data: any;
+}
+
 // TODO (bc) refactor this into another component. break down the needs of each component.
 // (careful porting QueryRenderer into another stateless component)
+
+export const renderWrapper = (
+  WrappedComponent: React.ComponentType<WrappedProps>
+) => ({ error, props }: ReadyState<AppQueryResponse>) => {
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+  if (props) {
+    return <WrappedComponent data={props} />;
+  }
+  return <div>Loading</div>;
+};
 
 const AppQuery: StatelessComponent<InnerProps> = ({
   local: { commentID, assetID },
@@ -37,15 +53,7 @@ const AppQuery: StatelessComponent<InnerProps> = ({
         variables={{
           commentID,
         }}
-        render={({ error, props }: ReadyState<AppQueryResponse>) => {
-          if (error) {
-            return <div>{error.message}</div>;
-          }
-          if (props) {
-            return <PermalinkViewContainer data={props} />;
-          }
-          return <div>Loading</div>;
-        }}
+        render={renderWrapper(PermalinkViewContainer)}
       />
     );
   }
@@ -60,15 +68,7 @@ const AppQuery: StatelessComponent<InnerProps> = ({
       variables={{
         assetID,
       }}
-      render={({ error, props }: ReadyState<AppQueryResponse>) => {
-        if (error) {
-          return <div>{error.message}</div>;
-        }
-        if (props) {
-          return <AppContainer data={props} />;
-        }
-        return <div>Loading</div>;
-      }}
+      render={renderWrapper(AppContainer)}
     />
   );
 };
