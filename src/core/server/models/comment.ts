@@ -1,4 +1,3 @@
-import { merge } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -91,7 +90,10 @@ export async function createComment(
   };
 
   // Merge the defaults and the input together.
-  const comment: Readonly<Comment> = merge({}, defaults, input);
+  const comment: Readonly<Comment> = {
+    ...defaults,
+    ...input,
+  };
 
   // Insert it into the database.
   await collection(db).insertOne(comment);

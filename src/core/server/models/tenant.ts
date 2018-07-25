@@ -1,5 +1,4 @@
 import dotize from "dotize";
-import { merge } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -90,7 +89,10 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
   };
 
   // Create the new Tenant by merging it together with the defaults.
-  const tenant: Readonly<Tenant> = merge({}, input, defaults);
+  const tenant: Readonly<Tenant> = {
+    ...defaults,
+    ...input,
+  };
 
   // Insert the Tenant into the database.
   await collection(db).insert(tenant);
