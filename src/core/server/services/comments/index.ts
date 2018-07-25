@@ -8,6 +8,7 @@ import {
   retrieveComment,
 } from "talk-server/models/comment";
 import { Tenant } from "talk-server/models/tenant";
+import { User } from "talk-server/models/user";
 import { processForModeration } from "talk-server/services/comments/moderation";
 
 export type CreateComment = Omit<
@@ -15,7 +16,12 @@ export type CreateComment = Omit<
   "status" | "action_counts"
 >;
 
-export async function create(mongo: Db, tenant: Tenant, input: CreateComment) {
+export async function create(
+  mongo: Db,
+  tenant: Tenant,
+  author: User,
+  input: CreateComment
+) {
   const asset = await retrieveAsset(mongo, tenant.id, input.asset_id);
   if (!asset) {
     // TODO: (wyattjoh) return better error.
@@ -36,7 +42,7 @@ export async function create(mongo: Db, tenant: Tenant, input: CreateComment) {
   }
 
   // Run the comment through the moderation phases.
-  const { status } = await processForModeration(asset, tenant, input);
+  const { status } = await processForModeration(asset, tenant, input, author);
 
   // TODO: (wyattjoh) use the actions somehow.
 

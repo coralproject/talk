@@ -5,6 +5,7 @@ import { Asset } from "talk-server/models/asset";
 import { Tenant } from "talk-server/models/tenant";
 import { CreateComment } from "talk-server/services/comments";
 
+import { User } from "talk-server/models/user";
 import { moderationPhases } from "./phases";
 
 // TODO: (wyattjoh) move into actions module.
@@ -21,15 +22,17 @@ export interface PhaseResult {
 export type ModerationPhase = (
   asset: Asset,
   tenant: Tenant,
-  comment: CreateComment
+  comment: CreateComment,
+  author: User
 ) => Promiseable<PhaseResult>;
 
-export type IntermediatePhaseResult = Partial<PhaseResult> | undefined | void;
+export type IntermediatePhaseResult = Partial<PhaseResult> | void;
 
 export type IntermediateModerationPhase = (
   asset: Asset,
   tenant: Tenant,
-  comment: CreateComment
+  comment: CreateComment,
+  author: User
 ) => Promiseable<IntermediatePhaseResult>;
 
 /**
@@ -38,12 +41,12 @@ export type IntermediateModerationPhase = (
  */
 const compose = (
   phases: IntermediateModerationPhase[]
-): ModerationPhase => async (asset, tenant, comment) => {
+): ModerationPhase => async (asset, tenant, comment, author) => {
   const actions: CreateAction[] = [];
 
   // Loop over all the moderation phases and see if we've resolved the status.
   for (const phase of phases) {
-    const result = await phase(asset, tenant, comment);
+    const result = await phase(asset, tenant, comment, author);
     if (result) {
       if (result.actions) {
         actions.push(...result.actions);
@@ -69,5 +72,6 @@ const compose = (
 export const processForModeration: ModerationPhase = async (
   asset,
   tenant,
-  comment
-) => compose(moderationPhases)(asset, tenant, comment);
+  comment,
+  author
+) => compose(moderationPhases)(asset, tenant, comment, author);
