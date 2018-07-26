@@ -23,7 +23,6 @@ type Placement =
 
 interface InnerProps {
   body: (props: RenderProps) => any | React.ReactElement<any>;
-  // body: React.ReactElement<any> | null;
   children: (props: RenderProps) => any;
   description?: string;
   id?: string;

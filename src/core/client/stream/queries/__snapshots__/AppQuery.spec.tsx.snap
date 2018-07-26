@@ -17,3 +17,9 @@ exports[`renders loading 1`] = `
   Loading
 </div>
 `;
+
+exports[`renders permalink view 1`] = `
+<Relay(PermalinkViewContainer)
+  data={Object {}}
+/>
+`;

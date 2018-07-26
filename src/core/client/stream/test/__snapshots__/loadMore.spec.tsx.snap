@@ -74,6 +74,9 @@ exports[`loads more comments 1`] = `
           >
             Joining Too
           </p>
+          <div
+            className="Comment-footer"
+          />
         </div>
       </div>
       <div
@@ -103,6 +106,9 @@ exports[`loads more comments 1`] = `
           >
             What's up?
           </p>
+          <div
+            className="Comment-footer"
+          />
         </div>
       </div>
       <div
@@ -132,6 +138,9 @@ exports[`loads more comments 1`] = `
           >
             Hey!
           </p>
+          <div
+            className="Comment-footer"
+          />
         </div>
       </div>
     </div>
@@ -213,6 +222,9 @@ exports[`renders comment stream 1`] = `
           >
             Joining Too
           </p>
+          <div
+            className="Comment-footer"
+          />
         </div>
       </div>
       <div
@@ -242,6 +254,9 @@ exports[`renders comment stream 1`] = `
           >
             What's up?
           </p>
+          <div
+            className="Comment-footer"
+          />
         </div>
       </div>
       <button

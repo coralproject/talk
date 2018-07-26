@@ -15,5 +15,12 @@ exports[`renders username and body 1`] = `
   <withPropsOnChange(Typography)>
     Woof
   </withPropsOnChange(Typography)>
+  <div
+    className="Comment-footer"
+  >
+    <withContext(LocalStateContainer)
+      commentID="comment-id"
+    />
+  </div>
 </div>
 `;

@@ -1,14 +1,27 @@
 import { shallow } from "enzyme";
 import React from "react";
 
-import { render } from "./AppQuery";
+import PermalinkViewContainer from "talk-stream/containers/PermalinkViewContainer";
+import AppContainer from "../containers/AppContainer";
+import { renderWrapper } from "./AppQuery";
+
+it("renders permalink view", () => {
+  const data = {
+    props: {} as any,
+    error: null,
+  };
+  const component = renderWrapper(PermalinkViewContainer);
+  const wrapper = shallow(React.createElement(() => component(data)));
+  expect(wrapper).toMatchSnapshot();
+});
 
 it("renders app", () => {
   const data = {
     props: {} as any,
     error: null,
   };
-  const wrapper = shallow(React.createElement(() => render(data)));
+  const component = renderWrapper(AppContainer);
+  const wrapper = shallow(React.createElement(() => component(data)));
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -17,7 +30,8 @@ it("renders loading", () => {
     props: null,
     error: null,
   };
-  const wrapper = shallow(React.createElement(() => render(data)));
+  const component = renderWrapper(AppContainer);
+  const wrapper = shallow(React.createElement(() => component(data)));
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -26,6 +40,7 @@ it("renders error", () => {
     props: null,
     error: new Error("error"),
   };
-  const wrapper = shallow(React.createElement(() => render(data)));
+  const component = renderWrapper(AppContainer);
+  const wrapper = shallow(React.createElement(() => component(data)));
   expect(wrapper).toMatchSnapshot();
 });
