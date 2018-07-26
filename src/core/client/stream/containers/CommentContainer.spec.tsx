@@ -8,6 +8,7 @@ import { CommentContainer } from "./CommentContainer";
 it("renders username and body", () => {
   const props: PropTypesOf<typeof CommentContainer> = {
     data: {
+      id: "comment-ID",
       author: {
         username: "Marvin",
       },
