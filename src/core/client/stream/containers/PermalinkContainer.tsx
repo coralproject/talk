@@ -10,21 +10,19 @@ interface InnerProps {
   commentID: string;
 }
 
-export const PermalinkContainer: StatelessComponent<InnerProps> = props => {
-  return (
-    <Permalink
-      {...props}
-      origin={props.local.origin}
-      assetID={props.local.assetID}
-    />
-  );
+export const PermalinkContainer: StatelessComponent<InnerProps> = ({
+  local,
+  commentID,
+}) => {
+  return local.assetURL ? (
+    <Permalink assetURL={local.assetURL} commentID={commentID} />
+  ) : null;
 };
 
 const enhanced = withLocalStateContainer<Local>(
   graphql`
     fragment PermalinkContainerLocal on Local {
-      assetID
-      origin
+      assetURL
     }
   `
 )(PermalinkContainer);

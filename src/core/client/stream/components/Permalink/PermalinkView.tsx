@@ -21,22 +21,27 @@ const PermalinkView: StatelessComponent<InnerProps> = props => {
   if (props.comment) {
     // TODO (bc) temporary needed to pass the assetID to go back to the correct asset until the backend
     // returns the correct asset url
-    const assetURL = `${location.origin}/?assetID=${query.assetID}`;
+    let assetURL: string = "";
+    if (query.assetID) {
+      assetURL = `${location.origin}/?assetID=${query.assetID}`;
+    }
 
     return (
       <div className={styles.root}>
         <Logo />
         <Flex direction="column" className={styles.comment}>
           <CommentContainer data={props.comment} />
-          <Button
-            variant="filled"
-            color="primary"
-            onClick={() => {
-              window.location.href = assetURL;
-            }}
-          >
-            Back to the Stream
-          </Button>
+          {assetURL && (
+            <Button
+              variant="filled"
+              color="primary"
+              onClick={() => {
+                window.location.href = assetURL;
+              }}
+            >
+              Back to the Stream
+            </Button>
+          )}
         </Flex>
       </div>
     );

@@ -5,21 +5,18 @@ import PermalinkPopover from "./PermalinkPopover";
 
 interface InnerProps {
   commentID: string;
-  origin: string | null;
-  assetID: string | null;
+  assetURL: string | null;
 }
 
 class Permalink extends React.Component<InnerProps> {
   public render() {
-    const { commentID, origin, assetID } = this.props;
+    const { commentID, assetURL } = this.props;
     return (
       <Popover
         placement="top"
         body={({ toggleVisibility, forwardRef }) => (
           <PermalinkPopover
-            // TODO (bc) temporary needed to pass the assetID to go back to the correct asset until the backend
-            // returns the correct asset url
-            permalinkUrl={`${origin}/?commentID=${commentID}&assetID=${assetID}`}
+            permalinkUrl={`${assetURL}&commentID=${commentID}`}
             forwardRef={forwardRef}
             toggleVisibility={toggleVisibility}
           />
