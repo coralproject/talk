@@ -36,10 +36,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
   parent.use(accessLogger);
 
   // Create some services for the router.
-  const passport = createPassport({
-    mongo: options.mongo,
-    signingConfig: options.signingConfig,
-  });
+  const passport = createPassport(options);
 
   // Mount the router.
   parent.use(
@@ -78,7 +75,7 @@ export const listenAndServe = (
  * handle websocket traffic by upgrading their http connections to websocket.
  *
  * @param schemas schemas for every schema this application handles
- * @param server the http.Server to attach the websocket upgraders to
+ * @param server the http.Server to attach the websocket upgrader to
  */
 export async function attachSubscriptionHandlers(
   schemas: Schemas,

@@ -67,7 +67,7 @@ export function createAsymmetricSigningConfig(
   secret: string
 ): JWTSigningConfig {
   return {
-    // Secrets have their newlines encoded with newline litterals.
+    // Secrets have their newlines encoded with newline literals.
     secret: Buffer.from(secret.replace(/\\n/g, "\n")),
     algorithm,
   };
@@ -160,7 +160,7 @@ export class JWTStrategy extends Strategy {
     const token = extractJWTFromRequest(req);
     if (!token) {
       // There was no token on the request, so there was no user, so let's mark
-      // that the strategy was succesfull.
+      // that the strategy was successful.
       return this.success(null, null);
     }
 

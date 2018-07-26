@@ -11,6 +11,7 @@ import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/type
 import { OIDCAuthIntegration } from "talk-server/models/settings";
 import { Tenant } from "talk-server/models/tenant";
 import { OIDCProfile, retrieveUserWithProfile } from "talk-server/models/user";
+import TenantCache from "talk-server/services/tenant/cache";
 import { upsert } from "talk-server/services/users";
 import { Request } from "talk-server/types/express";
 
@@ -38,10 +39,6 @@ export interface OIDCIDToken {
 export interface StrategyItem {
   strategy: OAuth2Strategy;
   jwksClient?: JwksClient;
-}
-
-export interface OIDCStrategyOptions {
-  mongo: Db;
 }
 
 export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
@@ -177,7 +174,10 @@ export async function findOrCreateOIDCUser(
  */
 const OIDC_SCOPE = "openid email profile";
 
-// FIXME: attach strategy to cache updates of the tenants
+export interface OIDCStrategyOptions {
+  mongo: Db;
+  tenantCache: TenantCache;
+}
 
 export default class OIDCStrategy extends Strategy {
   public name: string;
@@ -185,12 +185,19 @@ export default class OIDCStrategy extends Strategy {
   private mongo: Db;
   private cache: Map<string, StrategyItem>;
 
-  constructor({ mongo }: OIDCStrategyOptions) {
+  constructor({ mongo, tenantCache }: OIDCStrategyOptions) {
     super();
 
     this.name = "oidc";
     this.cache = new Map();
     this.mongo = mongo;
+
+    // Subscribe to updates with Tenants.
+    tenantCache.subscribe(tenant => {
+      // Delete the tenant cache item when the tenant changes. The refreshed
+      // Tenant will come in with the request.
+      this.cache.delete(tenant.id);
+    });
   }
 
   private lookupJWKSClient(
@@ -371,6 +378,6 @@ export default class OIDCStrategy extends Strategy {
   }
 }
 
-export function createOIDCStrategy({ mongo }: OIDCStrategyOptions) {
-  return new OIDCStrategy({ mongo });
+export function createOIDCStrategy(options: OIDCStrategyOptions) {
+  return new OIDCStrategy(options);
 }

@@ -12,6 +12,7 @@ import { createLocalStrategy } from "talk-server/app/middleware/passport/local";
 import { createOIDCStrategy } from "talk-server/app/middleware/passport/oidc";
 import { createSSOStrategy } from "talk-server/app/middleware/passport/sso";
 import { User } from "talk-server/models/user";
+import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
 
 export type VerifyCallback = (
@@ -23,26 +24,26 @@ export type VerifyCallback = (
 export interface PassportOptions {
   mongo: Db;
   signingConfig: JWTSigningConfig;
+  tenantCache: TenantCache;
 }
 
-export function createPassport({
-  mongo,
-  signingConfig,
-}: PassportOptions): passport.Authenticator {
+export function createPassport(
+  options: PassportOptions
+): passport.Authenticator {
   // Create the authenticator.
   const auth = new Authenticator();
 
   // Use the OIDC Strategy.
-  auth.use(createOIDCStrategy({ mongo }));
+  auth.use(createOIDCStrategy(options));
 
   // Use the LocalStrategy.
-  auth.use(createLocalStrategy({ mongo }));
+  auth.use(createLocalStrategy(options));
 
   // Use the SSOStrategy.
-  auth.use(createSSOStrategy({ mongo }));
+  auth.use(createSSOStrategy(options));
 
   // Use the JWTStrategy.
-  auth.use(createJWTStrategy({ mongo, signingConfig }));
+  auth.use(createJWTStrategy(options));
 
   return auth;
 }
@@ -92,7 +93,7 @@ export async function handleSuccessfulLogin(
  * @param name the name of the authenticator to use
  * @param options any options to be passed to the authenticate call
  */
-export const wrapAuthz = (
+export const wrapAuthorization = (
   authenticator: passport.Authenticator,
   signingConfig: JWTSigningConfig,
   name: string,
