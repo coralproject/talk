@@ -1,12 +1,12 @@
+import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
 import CommonContext from "talk-server/graph/common/context";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import TenantCache from "talk-server/services/tenant/cache";
-
-import { Redis } from "ioredis";
 import { Request } from "talk-server/types/express";
+
 import loaders from "./loaders";
 import mutators from "./mutators";
 
