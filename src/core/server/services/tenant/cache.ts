@@ -79,7 +79,7 @@ export default class TenantCache {
       this.tenantsByDomain.prime(tenant.domain, tenant);
     });
 
-    logger.debug({ tenants: tenants.length }, "primed tenants");
+    logger.debug({ tenants: tenants.length }, "primed all tenants");
   }
 
   /**

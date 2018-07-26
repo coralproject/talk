@@ -9,6 +9,7 @@ import { JWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
 import { Config } from "talk-server/config";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
+import { TaskQueue } from "talk-server/services/queue";
 import TenantCache from "talk-server/services/tenant/cache";
 
 import { accessLogger, errorLogger } from "./middleware/logging";
@@ -17,6 +18,7 @@ import { createRouter } from "./router";
 
 export interface AppOptions {
   parent: Express;
+  queue: TaskQueue;
   config: Config;
   mongo: Db;
   redis: Redis;

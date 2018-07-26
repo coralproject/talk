@@ -5,8 +5,9 @@ import { createJWTSigningConfig } from "talk-server/app/middleware/passport/jwt"
 import getManagementSchema from "talk-server/graph/management/schema";
 import { Schemas } from "talk-server/graph/schemas";
 import getTenantSchema from "talk-server/graph/tenant/schema";
-
+import { createQueue } from "talk-server/services/queue";
 import TenantCache from "talk-server/services/tenant/cache";
+
 import { attachSubscriptionHandlers, createApp, listenAndServe } from "./app";
 import config, { Config } from "./config";
 import logger from "./logger";
@@ -64,20 +65,24 @@ class Server {
     const mongo = await createMongoDB(config);
 
     // Setup Redis.
-    const redis = await createRedisClient(config);
+    const redis = createRedisClient(config);
 
     // Create the signing config.
     const signingConfig = createJWTSigningConfig(this.config);
 
     // Create the TenantCache.
-    const tenantCache = new TenantCache(mongo, await createRedisClient(config));
+    const tenantCache = new TenantCache(mongo, createRedisClient(config));
 
     // Prime the tenant cache so it'll be ready to serve now.
     await tenantCache.primeAll();
 
+    // Create the Job Queue.
+    const queue = createQueue({ config, mongo });
+
     // Create the Talk App, branching off from the parent app.
     const app: Express = await createApp({
       parent,
+      queue,
       mongo,
       redis,
       config: this.config,

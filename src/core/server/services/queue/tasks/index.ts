@@ -1,0 +1,66 @@
+import { Job, Queue } from "bull";
+
+import logger from "talk-server/logger";
+
+export interface TaskOptions<T, U = any> {
+  jobName: string;
+  jobProcessor: (job: Job<T>) => Promise<U>;
+}
+
+export class Task<T, U = any> {
+  private options: TaskOptions<T, U>;
+  private queue: Queue<T>;
+
+  constructor(queue: Queue<T>, options: TaskOptions<T, U>) {
+    this.queue = queue;
+    this.options = options;
+
+    // Sets up and attaches the job processor to the queue.
+    this.setupAndAttachProcessor();
+  }
+
+  /**
+   * Add will add the job to the queue to get processed. It's not needed to
+   * handle the job after it has been created.
+   *
+   * @param data the data for the job to add.
+   */
+  public async add(data: T) {
+    const job = await this.queue.add(this.options.jobName, data, {
+      // We always remove the job when it's complete, no need to fill up Redis
+      // with completed entries if we don't need to.
+      removeOnComplete: true,
+    });
+
+    logger.trace(
+      { job_id: job.id, job_name: this.options.jobName },
+      "added job to queue"
+    );
+
+    return job;
+  }
+
+  private setupAndAttachProcessor() {
+    this.queue.process(this.options.jobName, async (job: Job<T>) => {
+      logger.trace(
+        { job_id: job.id, job_name: this.options.jobName },
+        "processing job from queue"
+      );
+
+      // Send the job off to the job processor to be handled.
+      const promise: U = await this.options.jobProcessor(job);
+
+      logger.trace(
+        { job_id: job.id, job_name: this.options.jobName },
+        "processing completed"
+      );
+
+      return promise;
+    });
+
+    logger.trace(
+      { job_name: this.options.jobName },
+      "registered processor for job type"
+    );
+  }
+}

@@ -26,7 +26,9 @@
 
 ### Redis Clients
 
-1.  Tenant RedisPubSub Subscriber
-2.  Tenant RedisPubSub Publisher
-3.  Management RedisPubSub Subscriber
-4.  Management RedisPubSub Publisher
+1. Tenant RedisPubSub Subscriber *
+2. Tenant RedisPubSub Publisher
+3. Queue Subscriber *
+4. Queue Publisher
+5. Queue Client
+6. Queue Blocking Client
