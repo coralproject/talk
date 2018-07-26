@@ -3,7 +3,7 @@ import * as React from "react";
 import { StatelessComponent } from "react";
 
 import Logo from "talk-stream/components/Logo";
-import { Button, Flex } from "talk-ui/components";
+import { Button, Flex, Typography } from "talk-ui/components";
 import CommentContainer from "../../containers/CommentContainer";
 import * as styles from "./PermalinkView.css";
 
@@ -12,20 +12,22 @@ export interface InnerProps {
 }
 
 const PermalinkView: StatelessComponent<InnerProps> = props => {
+  let assetURL: string = "";
   const query = qs.parse(location.search);
 
   if (!query.assetID && !query.commentID) {
     return <div>Bad url: `assetID` and `commentID` params are needed</div>;
   }
 
-  if (props.comment) {
+  if (query.assetID) {
     // TODO (bc) temporary needed to pass the assetID to go back to the correct asset until the backend
     // returns the correct asset url
-    let assetURL: string = "";
     if (query.assetID) {
       assetURL = `${location.origin}/?assetID=${query.assetID}`;
     }
+  }
 
+  if (props.comment) {
     return (
       <div className={styles.root}>
         <Logo />
@@ -47,7 +49,25 @@ const PermalinkView: StatelessComponent<InnerProps> = props => {
     );
   }
 
-  return <div>Comment not found</div>;
+  return (
+    <div className={styles.root}>
+      <Logo />
+      <Typography className={styles.commentNotFound}>
+        Comment not found
+      </Typography>
+      {assetURL && (
+        <Button
+          variant="filled"
+          color="primary"
+          onClick={() => {
+            window.location.href = assetURL;
+          }}
+        >
+          Back to the Stream
+        </Button>
+      )}
+    </div>
+  );
 };
 
 export default PermalinkView;

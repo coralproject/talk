@@ -4,6 +4,7 @@
   margin: 20px auto;
 }
 
-.comment {
+.comment,
+.commentNotFound {
   margin: 20px auto;
 }
