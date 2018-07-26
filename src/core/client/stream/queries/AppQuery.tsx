@@ -78,7 +78,7 @@ const enhanced = withLocalStateContainer<Local>(
     fragment AppQueryLocal on Local {
       assetID
       commentID
-      origin
+      assetURL
     }
   `
 )(AppQuery);

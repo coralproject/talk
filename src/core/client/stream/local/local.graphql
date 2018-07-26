@@ -7,8 +7,7 @@ type Local {
   network: Network!
   assetID: String
   commentID: String
-  host: String
-  origin: String
+  assetURL: String
 }
 
 extend type Query {
