@@ -40,7 +40,7 @@ export async function create(
       throw new Error("parent comment referenced does not exist");
     }
 
-    // TODO: (wyattjoh) Check that the parent comment was visable.
+    // TODO: (wyattjoh) Check that the parent comment was visible.
   }
 
   // Run the comment through the moderation phases.

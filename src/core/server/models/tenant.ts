@@ -24,8 +24,9 @@ export interface Tenant extends Settings {
   // specific tenant that the API request pertains to.
   domain: string;
 
-  // domains is the set of whitelisted domains.
+  // domains is the list of domains that are allowed to have the iframe load on.
   domains: string[];
+
   organizationName: string;
   organizationContactEmail: string;
 }
@@ -84,6 +85,11 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
         // unreliable if there is an incorrect flag.
         flag: { reliable: 1, unreliable: -1 },
         comment: { reliable: 1, unreliable: -1 },
+      },
+    },
+    integrations: {
+      akismet: {
+        enabled: false,
       },
     },
   };
