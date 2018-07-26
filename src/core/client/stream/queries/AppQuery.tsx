@@ -24,7 +24,7 @@ interface WrappedProps {
   data: any;
 }
 
-// TODO (bc) refactor this into another component. break down the needs of each component.
+// TODO (bc) Break down the needs of each component into another file (maybe).
 // (careful porting QueryRenderer into another stateless component)
 
 export const renderWrapper = (

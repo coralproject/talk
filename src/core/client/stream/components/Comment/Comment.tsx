@@ -1,6 +1,7 @@
 import React from "react";
 import { StatelessComponent } from "react";
 import { Typography } from "talk-ui/components";
+import * as styles from "./Comment.css";
 
 import PermalinkContainer from "../../containers/PermalinkContainer";
 import Timestamp from "./Timestamp";
@@ -25,7 +26,7 @@ const Comment: StatelessComponent<CommentProps> = props => {
         <Timestamp>{props.createdAt}</Timestamp>
       </TopBar>
       <Typography>{props.body}</Typography>
-      <div>
+      <div className={styles.footer}>
         <PermalinkContainer commentID={props.id} />
       </div>
     </div>

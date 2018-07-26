@@ -1,0 +1,9 @@
+.root {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.comment {
+  margin: 20px auto;
+}
