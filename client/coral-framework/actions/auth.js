@@ -17,19 +17,19 @@ export const checkLogin = () => (
       if (!result.user) {
         cleanAuthData(localStorage);
         dispatch(checkLoginSuccess(null));
+        client.resetWebsocket();
         return;
       }
 
-      // Reset the websocket.
-      client.resetWebsocket();
-
       dispatch(checkLoginSuccess(result.user));
       pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
+      client.resetWebsocket();
     })
     .catch(error => {
       if (error.status && error.status === 401 && localStorage) {
         // Unauthorized.
         cleanAuthData(localStorage);
+        client.resetWebsocket();
       } else {
         console.error(error);
       }
