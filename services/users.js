@@ -84,9 +84,7 @@ async function upsertUser(
     status: {
       username: {
         status: usernameStatus,
-        history: {
-          status: usernameStatus,
-        },
+        history: [{ status: usernameStatus }],
       },
     },
   });
