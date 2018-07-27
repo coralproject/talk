@@ -177,7 +177,13 @@ export async function updateAsset(
   const result = await collection(db).findOneAndUpdate(
     { id, tenant_id: tenantID },
     // Only update fields that have been updated.
-    { $set: dotize.convert(update) },
+    {
+      $set: {
+        ...dotize.convert(update),
+        // Always update the updated at time.
+        updated_at: new Date(),
+      },
+    },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }
