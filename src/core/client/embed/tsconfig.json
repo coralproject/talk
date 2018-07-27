@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["dom", "es5"],
+    "types": [],
+    "paths": {}
+  },
+  "include": ["./**/*"],
+  "exclude": ["node_modules"]
+}

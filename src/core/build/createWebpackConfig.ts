@@ -274,6 +274,7 @@ export default function createWebpackConfig({
                 {
                   loader: "ts-loader",
                   options: {
+                    configFile: paths.appTsconfig,
                     compilerOptions: {
                       target: "es2015",
                       module: "esnext",
@@ -414,7 +415,7 @@ export default function createWebpackConfig({
         // Remove deactivated entries.
       ].filter(s => s),
       output: {
-        library: "Coral",
+        library: "Talk",
         // don't hash the embed, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
         filename: "static/js/embed.js",
