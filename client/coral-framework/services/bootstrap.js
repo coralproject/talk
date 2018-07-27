@@ -42,17 +42,13 @@ const getAuthToken = (store, storage) => {
   let state = store.getState();
 
   if (state.config && state.config.auth_token) {
-    // if an auth_token exists in config, use it.
-    return state.config.auth_token;
+    // If the embed is called with `embed.login(token)`, and the browser is not
+    // capable of storing the token in localStorage, then we would have
+    // persisted it to the redux state.
+    return state.config.auth_token || state.auth.token;
   } else if (!bowser.safari && !bowser.ios && storage) {
     // Use local storage auth tokens where there's a stable api.
     return storage.getItem('token');
-  } else if (state.auth && state.auth.token) {
-    // Use the redux token state if the remaining methods fall out. If the embed
-    // is called with `embed.login(token)`, and the browser is not capable of
-    // storing the token in localStorage, then we would have persisted it to the
-    // redux state.
-    return state.auth.token;
   }
 
   return null;
