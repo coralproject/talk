@@ -90,14 +90,14 @@ function generateTarget(target, context) {
       .common.map(
         file => `
       contents.push(require(${JSON.stringify(
-        path.join(getLocalePath(locale), file)
+        path.join(getLocalePath(locale), file).replace(/\\/g, "/")
       )}));
     `
       )
       .join("\n")}
       contents = contents.concat(suffixes.map(function(suffix) { return require(\`${path
         .join(getLocalePath(locale), target)
-        .replace(/\\/g, "\\\\")}\${suffix}\`); }));
+        .replace(/\\/g, "/")}\${suffix}\`); }));
       ret.bundled[${JSON.stringify(locale)}] = contents.join("\\n");
     }
   `
@@ -119,7 +119,9 @@ function generateTarget(target, context) {
           /* webpackChunkName: ${JSON.stringify(
             `${target}-locale-${locale}`
           )}, webpackMode: "lazy" */
-          ${JSON.stringify(path.join(getLocalePath(locale), file))}
+          ${JSON.stringify(
+            path.join(getLocalePath(locale), file).replace(/\\/g, "/")
+          )}
         )
       );
     `
@@ -132,7 +134,7 @@ function generateTarget(target, context) {
           )}, webpackMode: "lazy-once" */
           \`${path
             .join(getLocalePath(locale), target)
-            .replace(/\\/g, "\\\\")}\${suffix}\`
+            .replace(/\\/g, "/")}\${suffix}\`
         )
       }));
       return Promise.all(promises).then(function(modules) {
