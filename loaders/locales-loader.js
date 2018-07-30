@@ -1,11 +1,7 @@
 const loaderUtils = require("loader-utils");
 const fs = require("fs");
 const path = require("path");
-const camelCase = require("lodash/camelCase");
-const upperFirst = require("lodash/upperFirst");
 const memoize = require("lodash/memoize");
-
-const pascalCase = x => upperFirst(camelCase(x));
 
 /**
  * Default values for every param that can be passed in the loader query.
@@ -37,7 +33,7 @@ const DEFAULT_QUERY_VALUES = {
 };
 
 function getFiles(target, pathToLocale, context) {
-  const { pathToLocales, commonFiles } = context;
+  const { commonFiles } = context;
 
   const common = [];
   const suffixes = [];
@@ -63,15 +59,16 @@ function generateTarget(target, context) {
     defaultLocale,
     fallbackLocale,
     pathToLocales,
+    resourcePath,
     locales,
-    commonFiles,
     bundled,
   } = context;
   const getLocalePath = locale => path.join(pathToLocales, locale);
   const getLocaleFiles = memoize(locale =>
     getFiles(target, getLocalePath(locale), context)
   );
-  const loadables = locales.filter(local => !bundled.includes(local));
+
+  const loadables = locales.filter(locale => !bundled.includes(locale));
 
   return `
     var ret = {
@@ -92,13 +89,15 @@ function generateTarget(target, context) {
     ${getLocaleFiles(locale)
       .common.map(
         file => `
-      contents.push(require('${getLocalePath(locale)}/${file}'));
+      contents.push(require(${JSON.stringify(
+        path.join(getLocalePath(locale), file)
+      )}));
     `
       )
       .join("\n")}
-      contents = contents.concat(suffixes.map(function(suffix) { return require(\`${getLocalePath(
-        locale
-      )}/${target}\${suffix}\`); }));
+      contents = contents.concat(suffixes.map(function(suffix) { return require(\`${path
+        .join(getLocalePath(locale), target)
+        .replace(/\\/g, "\\\\")}\${suffix}\`); }));
       ret.bundled[${JSON.stringify(locale)}] = contents.join("\\n");
     }
   `
@@ -120,7 +119,7 @@ function generateTarget(target, context) {
           /* webpackChunkName: ${JSON.stringify(
             `${target}-locale-${locale}`
           )}, webpackMode: "lazy" */
-          '${getLocalePath(locale)}/${file}'
+          ${JSON.stringify(path.join(getLocalePath(locale), file))}
         )
       );
     `
@@ -131,7 +130,9 @@ function generateTarget(target, context) {
           /* webpackChunkName: ${JSON.stringify(
             `${target}-locale-${locale}`
           )}, webpackMode: "lazy-once" */
-          \`${getLocalePath(locale)}/${target}\${suffix}\`
+          \`${path
+            .join(getLocalePath(locale), target)
+            .replace(/\\/g, "\\\\")}\${suffix}\`
         )
       }));
       return Promise.all(promises).then(function(modules) {
@@ -188,7 +189,9 @@ module.exports = function(source) {
   }
 
   const context = {
+    // Use relative paths because it fails on Windows.
     pathToLocales,
+    resourcePath: this.resourcePath,
     defaultLocale,
     fallbackLocale,
     commonFiles,
