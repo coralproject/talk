@@ -7,7 +7,7 @@ Using plugins and configuration variables, you can modify the way the Admin look
 
 ### Creating a Custom Moderation Queue
 
-Talk can support custom pluggable mod queues, meaning you can write a plugin that has some logic and determines which comments should appear there. This works by adding a field modQueues` in the `index.js` of your client side plugin, like so:
+Talk can support custom pluggable mod queues, meaning you can write a plugin that has some logic and determines which comments should appear there. This works by adding a field `modQueues` in the `index.js` of your client side plugin, like so:
 
 ```
 	modQueues: {
