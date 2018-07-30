@@ -6,7 +6,7 @@ export interface ClickOutsideProps {
   children: React.ReactNode;
 }
 
-export class ClickOutside extends React.Component<ClickOutsideProps> {
+class ClickOutside extends React.Component<ClickOutsideProps> {
   public domNode: Element | null = null;
 
   public handleClick = (e: MouseEvent) => {

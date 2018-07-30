@@ -1,14 +1,11 @@
 import { Localized } from "fluent-react/compat";
 import React, { CSSProperties } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { RefHandler } from "react-popper";
 import { Button, ClickOutside, Flex, TextField } from "talk-ui/components";
-import * as styles from "./PermalinkPopover.css";
 
 interface InnerProps {
   permalinkUrl: string;
   style?: CSSProperties;
-  forwardRef?: RefHandler;
   toggleVisibility: () => void;
 }
 
@@ -39,8 +36,8 @@ class PermalinkPopover extends React.Component<InnerProps> {
     const { copied } = this.state;
     return (
       <ClickOutside onClickOutside={toggleVisibility}>
-        <Flex>
-          <TextField defaultValue={permalinkUrl} className={styles.textField} />
+        <Flex itemGutter="half">
+          <TextField defaultValue={permalinkUrl} />
           <CopyToClipboard text={permalinkUrl} onCopy={this.onCopy}>
             <Button color="primary" variant="filled">
               {copied ? (

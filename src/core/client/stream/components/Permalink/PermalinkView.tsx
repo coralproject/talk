@@ -19,31 +19,30 @@ const PermalinkView: StatelessComponent<InnerProps> = props => {
     return <div>Bad url: `assetID` and `commentID` params are needed</div>;
   }
 
+  // TODO: (bc) temporary needed to pass the assetID to go back to the correct asset until the backend
+  // returns the correct asset url
   if (query.assetID) {
-    // TODO (bc) temporary needed to pass the assetID to go back to the correct asset until the backend
-    // returns the correct asset url
-    if (query.assetID) {
-      assetURL = `${location.origin}/?assetID=${query.assetID}`;
-    }
+    assetURL = `${location.origin}/?assetID=${query.assetID}`;
   }
 
   if (props.comment) {
     return (
       <div className={styles.root}>
         <Logo />
+        {assetURL && (
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => {
+              window.location.href = assetURL;
+            }}
+            fullWidth
+          >
+            Show all Comments
+          </Button>
+        )}
         <Flex direction="column" className={styles.comment}>
           <CommentContainer data={props.comment} />
-          {assetURL && (
-            <Button
-              variant="filled"
-              color="primary"
-              onClick={() => {
-                window.location.href = assetURL;
-              }}
-            >
-              Back to the Stream
-            </Button>
-          )}
         </Flex>
       </div>
     );

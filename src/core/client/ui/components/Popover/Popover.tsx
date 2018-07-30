@@ -1,6 +1,12 @@
 import cn from "classnames";
-import React, { CSSProperties, isValidElement } from "react";
-import { Manager, Popper, Reference, RefHandler } from "react-popper";
+import React from "react";
+import {
+  Manager,
+  Popper,
+  PopperArrowProps,
+  Reference,
+  RefHandler,
+} from "react-popper";
 import AriaInfo from "../AriaInfo";
 import * as styles from "./Popover.css";
 
@@ -21,11 +27,11 @@ type Placement =
   | "left"
   | "left-start";
 
-interface InnerProps {
-  body: (props: RenderProps) => any | React.ReactElement<any>;
-  children: (props: RenderProps) => any;
+interface PopoverProps {
+  body: (props: RenderProps) => React.ReactNode | React.ReactElement<any>;
+  children: (props: RenderProps) => React.ReactNode;
   description?: string;
-  id?: string;
+  id: string;
   onClose?: () => void;
   className?: string;
   placement?: Placement;
@@ -35,17 +41,12 @@ interface State {
   visible: false;
 }
 
-interface Props {
-  ref: any;
-  style: CSSProperties;
-}
-
 interface RenderProps {
   toggleVisibility: () => void;
   forwardRef?: RefHandler;
 }
 
-class Popover extends React.Component<InnerProps> {
+class Popover extends React.Component<PopoverProps> {
   public state: State = {
     visible: false,
   };
@@ -92,7 +93,7 @@ class Popover extends React.Component<InnerProps> {
     return (
       <Manager>
         <Reference>
-          {(props: Props) =>
+          {(props: PopperArrowProps) =>
             children({
               forwardRef: props.ref,
               toggleVisibility: this.toggleVisibility,
@@ -105,7 +106,7 @@ class Popover extends React.Component<InnerProps> {
           eventsEnabled
           positionFixed={false}
         >
-          {(props: Props) =>
+          {(props: PopperArrowProps) =>
             visible && (
               <div
                 id={id}
@@ -119,12 +120,11 @@ class Popover extends React.Component<InnerProps> {
                   className={cn(styles.root, className)}
                   ref={props.ref}
                 >
-                  {isValidElement(body)
-                    ? body
-                    : body({
+                  {typeof body === "function"
+                    ? body({
                         toggleVisibility: this.toggleVisibility,
-                        forwardRef: props.ref,
-                      })}
+                      })
+                    : body}
                 </div>
               </div>
             )

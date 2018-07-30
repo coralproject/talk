@@ -3,11 +3,14 @@ import React, { InputHTMLAttributes, StatelessComponent } from "react";
 
 import * as styles from "./TextField.css";
 
-interface InnerProps extends InputHTMLAttributes<HTMLInputElement> {
+interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   classes?: typeof styles;
 }
 
-const TextField: StatelessComponent<InnerProps> = ({ className, ...rest }) => {
+const TextField: StatelessComponent<TextFieldProps> = ({
+  className,
+  ...rest
+}) => {
   return <input {...rest} className={cn(styles.root, className)} />;
 };
 

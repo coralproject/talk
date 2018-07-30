@@ -3,21 +3,21 @@ import React from "react";
 import { Button, ButtonIcon, Popover } from "talk-ui/components";
 import PermalinkPopover from "./PermalinkPopover";
 
-interface InnerProps {
+interface PermalinkProps {
   commentID: string;
   assetURL: string | null;
 }
 
-class Permalink extends React.Component<InnerProps> {
+class Permalink extends React.Component<PermalinkProps> {
   public render() {
     const { commentID, assetURL } = this.props;
     return (
       <Popover
+        id="permalink-popover"
         placement="top"
-        body={({ toggleVisibility, forwardRef }) => (
+        body={({ toggleVisibility }) => (
           <PermalinkPopover
             permalinkUrl={`${assetURL}&commentID=${commentID}`}
-            forwardRef={forwardRef}
             toggleVisibility={toggleVisibility}
           />
         )}

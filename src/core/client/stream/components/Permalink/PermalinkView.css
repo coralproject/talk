@@ -1,10 +1,10 @@
 .root {
   width: 100%;
   max-width: 400px;
-  margin: 20px auto;
+  margin: calc(0.5 * var(--spacing-unit)) auto;
 }
 
 .comment,
 .commentNotFound {
-  margin: 20px auto;
+  margin: calc(5 * var(--spacing-unit)) auto;
 }

@@ -1,1 +1,1 @@
-export { default, ClickOutside } from "./ClickOutside";
+export { default } from "./ClickOutside";
