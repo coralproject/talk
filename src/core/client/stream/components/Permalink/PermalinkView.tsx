@@ -1,4 +1,3 @@
-import qs from "query-string";
 import * as React from "react";
 import { StatelessComponent } from "react";
 
@@ -9,23 +8,14 @@ import * as styles from "./PermalinkView.css";
 
 export interface InnerProps {
   comment: {} | null;
+  assetURL: string | null;
 }
 
-const PermalinkView: StatelessComponent<InnerProps> = props => {
-  let assetURL: string = "";
-  const query = qs.parse(location.search);
-
-  if (!query.assetID && !query.commentID) {
-    return <div>Bad url: `assetID` and `commentID` params are needed</div>;
-  }
-
-  // TODO: (bc) temporary needed to pass the assetID to go back to the correct asset until the backend
-  // returns the correct asset url
-  if (query.assetID) {
-    assetURL = `${location.origin}/?assetID=${query.assetID}`;
-  }
-
-  if (props.comment) {
+const PermalinkView: StatelessComponent<InnerProps> = ({
+  assetURL,
+  comment,
+}) => {
+  if (comment) {
     return (
       <div className={styles.root}>
         <Logo />
@@ -42,7 +32,7 @@ const PermalinkView: StatelessComponent<InnerProps> = props => {
           </Button>
         )}
         <Flex direction="column" className={styles.comment}>
-          <CommentContainer data={props.comment} />
+          <CommentContainer data={comment} />
         </Flex>
       </div>
     );
@@ -62,7 +52,7 @@ const PermalinkView: StatelessComponent<InnerProps> = props => {
             window.location.href = assetURL;
           }}
         >
-          Back to the Stream
+          Show all Comments
         </Button>
       )}
     </div>

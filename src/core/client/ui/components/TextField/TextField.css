@@ -1,10 +1,5 @@
-// TODO: (bc) move this to typograhpy!
-
 .root {
-  font-family: "Source Sans Pro";
-  font-weight: 400;
-  font-size: 16px;
-  letter-spacing: calc(0.57em / 16);
+  composes: textField from "talk-ui/shared/typography.css";
   background: #ffffff;
   border: 1px solid #979797;
   box-sizing: border-box;
