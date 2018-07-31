@@ -102,7 +102,7 @@ sidebar:
       children:
         - title: Authentication
           url: /integrating/authentication/
-        - title: Asset Managment
+        - title: Asset Management
           url: /integrating/asset-management/
         - title: Configuring the Comment Stream
           url: /integrating/configuring-comment-stream/
