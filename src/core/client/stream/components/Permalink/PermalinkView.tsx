@@ -6,14 +6,16 @@ import { Button, Flex, Typography } from "talk-ui/components";
 import CommentContainer from "../../containers/CommentContainer";
 import * as styles from "./PermalinkView.css";
 
-export interface InnerProps {
+export interface PermalinkViewProps {
   comment: {} | null;
   assetURL: string | null;
+  onShowAllComments: () => void;
 }
 
-const PermalinkView: StatelessComponent<InnerProps> = ({
+const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
   assetURL,
   comment,
+  onShowAllComments,
 }) => {
   if (comment) {
     return (
@@ -23,9 +25,7 @@ const PermalinkView: StatelessComponent<InnerProps> = ({
           <Button
             variant="outlined"
             color="primary"
-            onClick={() => {
-              window.location.href = assetURL;
-            }}
+            onClick={onShowAllComments}
             fullWidth
           >
             Show all Comments
