@@ -1,4 +1,26 @@
 declare module "pym.js" {
+  export interface ChildSettings {
+    /**
+     * Callback invoked after receiving a resize event from the parent,
+     * sets module:pym.Child#settings.renderCallback
+     */
+    renderCallback?: Function;
+    /** xdomain to validate messages received */
+    xdomain?: string;
+    /** polling frequency in milliseconds to send height to parent */
+    polling?: number;
+    /**
+     * parent container id used when navigating the child
+     * iframe to a new page but we want to keep it responsive.
+     */
+    id?: string;
+    /**
+     * if passed it will be override the default parentUrl query string
+     * parameter name expected on the iframe src
+     */
+    parenturlparam?: string;
+  }
+
   /** The Child half of a responsive iframe.  */
   export class Child {
     /** The id of the parent container */
@@ -16,35 +38,13 @@ declare module "pym.js" {
     /** The title of the parent page from document.title. */
     parentTitle: string;
 
-    // TODO: what's the exact type of this.
     /** Stores the registered messageHandlers for each messageType */
-    messageHandlers: any;
+    messageHandlers: Record<string, Array<(message: string) => void>>;
 
-    // TODO: what's the exact type of this.
     /** RegularExpression to validate the received messages */
-    messageRegex: any;
+    messageRegex: RegExp;
 
-    constructor(config: {
-      /**
-       * Callback invoked after receiving a resize event from the parent,
-       * sets module:pym.Child#settings.renderCallback
-       */
-      renderCallback?: Function;
-      /** xdomain to validate messages received */
-      xdomain?: string;
-      /** polling frequency in milliseconds to send height to parent */
-      polling?: number;
-      /**
-       * parent container id used when navigating the child
-       * iframe to a new page but we want to keep it responsive.
-       */
-      id?: string;
-      /**
-       * if passed it will be override the default parentUrl query string
-       * parameter name expected on the iframe src
-       */
-      parenturlparam?: string;
-    });
+    constructor(config: ChildSettings);
 
     /** Navigate parent to a given url. */
     navigateParentTo(url: string): void;
@@ -74,6 +74,46 @@ declare module "pym.js" {
     sendMessage(messageType: string, message: string): void;
   }
 
+  export interface ParentSettings {
+    /** xdomain to validate messages received */
+    xdomain?: string;
+    /** if passed it will be assigned to the iframe title attribute */
+    title?: string;
+    /** if passed it will be assigned to the iframe name attribute */
+    name?: string;
+    /** if passed it will be assigned to the iframe id attribute */
+    id?: string;
+    /** if passed it will be assigned to the iframe allowfullscreen attribute */
+    allowfullscreen?: boolean;
+    /**
+     * if passed it will be assigned to the iframe sandbox attribute
+     * (we do not validate the syntax so be careful!!)
+     */
+    sandbox?: boolean;
+    /**
+     * if passed it will be override the default parentUrl query string
+     * parameter name passed to the iframe src
+     */
+    parenturlparam?: string;
+    /**
+     * if passed it will be override the default parentUrl query string
+     * parameter value passed to the iframe src
+     */
+    parenturlvalue?: string;
+    /**
+     * if passed and different than false it will strip the querystring
+     * params parentUrl and parentTitle passed to the iframe src
+     */
+    optionalparams?: string;
+    /** if passed it will activate scroll tracking on the parent */
+    trackscroll?: boolean;
+    /**
+     * if passed it will set the throttle wait in order to fire
+     * scroll messaging. Defaults to 100 ms.
+     */
+    scrollwait?: number;
+  }
+
   /** The Parent half of a response iframe. */
   export class Parent {
     /** The container DOM object */
@@ -85,67 +125,22 @@ declare module "pym.js" {
     /** The contained child iframe */
     iframe: HTMLElement;
 
-    // TODO: what's the exact type of this.
     /** Stores the registered messageHandlers for each messageType */
-    messageHandlers: any;
+    messageHandlers: Record<string, Array<(message: string) => void>>;
 
-    // TODO: what's the exact type of this.
     /** RegularExpression to validate the received messages */
-    messageRegex: any;
+    messageRegex: RegExp;
 
-    // TODO: what's the exact type of this.
     /**
      * The parent instance settings, updated by the values
      * passed in the config object
      */
-    settings: any;
+    settings: ParentSettings;
 
     /** The url that will be set as the iframe's src */
     url: string;
 
-    constructor(
-      id: string,
-      url: string,
-      config: {
-        /** xdomain to validate messages received */
-        xdomain?: string;
-        /** if passed it will be assigned to the iframe title attribute */
-        title?: string;
-        /** if passed it will be assigned to the iframe name attribute */
-        name?: string;
-        /** if passed it will be assigned to the iframe id attribute */
-        id?: string;
-        /** if passed it will be assigned to the iframe allowfullscreen attribute */
-        allowfullscreen?: boolean;
-        /**
-         * if passed it will be assigned to the iframe sandbox attribute
-         * (we do not validate the syntax so be careful!!)
-         */
-        sandbox?: boolean;
-        /**
-         * if passed it will be override the default parentUrl query string
-         * parameter name passed to the iframe src
-         */
-        parenturlparam?: string;
-        /**
-         * if passed it will be override the default parentUrl query string
-         * parameter value passed to the iframe src
-         */
-        parenturlvalue?: string;
-        /**
-         * if passed and different than false it will strip the querystring
-         * params parentUrl and parentTitle passed to the iframe src
-         */
-        optionalparams?: string;
-        /** if passed it will activate scroll tracking on the parent */
-        trackscroll?: boolean;
-        /**
-         * if passed it will set the throttle wait in order to fire
-         * scroll messaging. Defaults to 100 ms.
-         */
-        scrollwait?: number;
-      }
-    );
+    constructor(id: string, url: string, config: ParentSettings);
 
     /**
      * Bind a callback to a given messageType from the child.

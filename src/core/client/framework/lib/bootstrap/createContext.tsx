@@ -6,6 +6,8 @@ import React from "react";
 import { Formatter } from "react-timeago";
 import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
+import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
+
 import { generateMessages, LocalesData, negotiateLanguages } from "../i18n";
 import { fetchQuery } from "../network";
 import { TalkContext } from "./TalkContext";
@@ -64,6 +66,21 @@ export default async function createContext({
     store: new Store(new RecordSource()),
   });
 
+  // Listen for outside clicks.
+  let registerClickFarAway: ClickFarAwayRegister | undefined;
+  if (pym) {
+    registerClickFarAway = cb => {
+      pym.onMessage("click", cb);
+      // Return unlisten callback.
+      return () => {
+        const index = pym.messageHandlers.click.indexOf(cb);
+        if (index > -1) {
+          pym.messageHandlers.click.splice(index, 1);
+        }
+      };
+    };
+  }
+
   // Initialize i18n.
   const locales = negotiateLanguages(userLocales, localesData);
 
@@ -81,6 +98,7 @@ export default async function createContext({
     timeagoFormatter,
     pym,
     eventEmitter,
+    registerClickFarAway,
   };
 
   // Run custom initializations.
