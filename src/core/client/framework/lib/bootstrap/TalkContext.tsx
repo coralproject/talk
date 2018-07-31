@@ -1,24 +1,24 @@
 import { LocalizationProvider } from "fluent-react/compat";
 import { MessageContext } from "fluent/compat";
+import { Child as PymChild } from "pym.js";
 import React, { StatelessComponent } from "react";
 import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
+
 import { UIContext } from "talk-ui/components";
 
 export interface TalkContext {
-  // relayEnvironment for our relay framework.
+  /** relayEnvironment for our relay framework. */
   relayEnvironment: Environment;
 
-  // localMessages for our i18n framework.
+  /** localMessages for our i18n framework. */
   localeMessages: MessageContext[];
 
-  // formatter for timeago.
+  /** formatter for timeago. */
   timeagoFormatter?: Formatter;
 
-  // iFrame control.
-  // A pym child that interacts with the pym parent.
-  // TODO: typings for pym.
-  pym?: any;
+  /** A pym child that interacts with the pym parent. */
+  pym?: PymChild;
 }
 
 const { Provider, Consumer } = React.createContext<TalkContext>({} as any);

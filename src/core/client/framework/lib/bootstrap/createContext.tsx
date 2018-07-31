@@ -1,3 +1,4 @@
+import { EventEmitter2 } from "eventemitter2";
 import { Localized } from "fluent-react/compat";
 import { noop } from "lodash";
 import { Child as PymChild } from "pym.js";
@@ -10,19 +11,20 @@ import { fetchQuery } from "../network";
 import { TalkContext } from "./TalkContext";
 
 interface CreateContextArguments {
-  // Locales that the user accepts, usually `navigator.languages`.
+  /** Locales that the user accepts, usually `navigator.languages`. */
   userLocales: ReadonlyArray<string>;
 
-  // Locales data that is returned by our `locales-loader`.
+  /** Locales data that is returned by our `locales-loader`. */
   localesData: LocalesData;
 
-  // Init will be called after the context has been created.
+  /** Init will be called after the context has been created. */
   init?: ((context: TalkContext) => void | Promise<void>);
 
-  // iFrame control.
-  // A pym child that interacts with the pym parent.
-  // TODO: typings for pym.
+  /** A pym child that interacts with the pym parent. */
   pym?: PymChild;
+
+  /** Supports emitting and listening to events. */
+  eventEmitter?: EventEmitter2;
 }
 
 /**
@@ -54,6 +56,7 @@ export default async function createContext({
   userLocales,
   localesData,
   pym,
+  eventEmitter = new EventEmitter2({ wildcard: true }),
 }: CreateContextArguments): Promise<TalkContext> {
   // Initialize Relay.
   const relayEnvironment = new Environment({
@@ -77,6 +80,7 @@ export default async function createContext({
     localeMessages,
     timeagoFormatter,
     pym,
+    eventEmitter,
   };
 
   // Run custom initializations.
