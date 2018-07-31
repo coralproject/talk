@@ -14,6 +14,11 @@ export interface TalkContext {
 
   // formatter for timeago.
   timeagoFormatter?: Formatter;
+
+  // iFrame control.
+  // A pym child that interacts with the pym parent.
+  // TODO: typings for pym.
+  pym?: any;
 }
 
 const { Provider, Consumer } = React.createContext<TalkContext>({} as any);

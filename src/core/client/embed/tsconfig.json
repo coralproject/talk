@@ -5,6 +5,6 @@
     "types": [],
     "paths": {}
   },
-  "include": ["./**/*"],
+  "include": ["./**/*", "../../../types/pym.d.ts"],
   "exclude": ["node_modules"]
 }

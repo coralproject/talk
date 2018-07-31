@@ -17,6 +17,11 @@ interface CreateContextArguments {
 
   // Init will be called after the context has been created.
   init?: ((context: TalkContext) => void | Promise<void>);
+
+  // iFrame control.
+  // A pym child that interacts with the pym parent.
+  // TODO: typings for pym.
+  pym?: any;
 }
 
 /**
@@ -47,6 +52,7 @@ export default async function createContext({
   init = noop,
   userLocales,
   localesData,
+  pym,
 }: CreateContextArguments): Promise<TalkContext> {
   // Initialize Relay.
   const relayEnvironment = new Environment({
@@ -69,6 +75,7 @@ export default async function createContext({
     relayEnvironment,
     localeMessages,
     timeagoFormatter,
+    pym,
   };
 
   // Run custom initializations.
