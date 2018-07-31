@@ -180,14 +180,20 @@ export class JWTStrategy extends Strategy {
         // Use the algorithm specified in the configuration.
         algorithms: [this.signingConfig.algorithm],
       },
-      async (err: Error | undefined, { sub }: JWTToken) => {
+      async (err: Error | undefined, decoded: JWTToken) => {
         if (err) {
           return this.fail(err, 401);
         }
 
+        if (!decoded) {
+          // There was no token on the request, so there was no user, so let's
+          // mark that the strategy was successful.
+          return this.success(null, null);
+        }
+
         try {
           // Find the user.
-          const user = await retrieveUser(this.mongo, tenant.id, sub);
+          const user = await retrieveUser(this.mongo, tenant.id, decoded.sub);
 
           // Return them! The user may be null, but that's ok here.
           this.success(user, null);

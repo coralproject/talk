@@ -1,5 +1,5 @@
 import { Job, Queue } from "bull";
-import metascraper, { Scraper } from "metascraper";
+import cheerio from "cheerio";
 import { Db } from "mongodb";
 
 import logger from "talk-server/logger";
@@ -27,18 +27,11 @@ const createJobProcessor = (
   // Pull out the job data.
   const { assetID: id, assetURL: url, tenantID } = job.data;
 
-  // Grab the page HTML.
-  const res = await fetch(url, {});
-  const html = await res.text();
-
   // Get the metadata from the scraped html.
-  const meta = await scraper({
-    html,
-    url,
-  });
+  const meta = await scraper.scrape(url);
 
   // Update the Asset with the scraped details.
-  await updateAsset(options.mongo, tenantID, id, {
+  const asset = await updateAsset(options.mongo, tenantID, id, {
     title: meta.title || undefined,
     description: meta.description || undefined,
     image: meta.image ? meta.image : undefined,
@@ -48,19 +41,85 @@ const createJobProcessor = (
     section: meta.section || undefined,
     scraped: new Date(),
   });
+  if (!asset) {
+    logger.error(
+      {
+        job_id: job.id,
+        job_name: JOB_NAME,
+        asset_id: id,
+        asset_url: url,
+        tenant_id: tenantID,
+      },
+      "asset id/url not found, can not update"
+    );
+    return;
+  }
 
   logger.debug(
-    { job_id: job.id, job_name: JOB_NAME, asset_id: id, tenant_id: tenantID },
+    {
+      job_id: job.id,
+      job_name: JOB_NAME,
+      asset_id: asset.id,
+      tenant_id: tenantID,
+    },
     "scraped the asset"
   );
 };
+
+export type Rule = Record<
+  string,
+  Array<
+    (options: { htmlDom: CheerioSelector; url: string }) => string | undefined
+  >
+>;
+
+class Scraper {
+  private rules: Rule[];
+
+  constructor(rules: Rule[]) {
+    this.rules = rules;
+  }
+
+  public async scrape(url: string) {
+    // Grab the page HTML.
+    const res = await fetch(url, {});
+    const html = await res.text();
+
+    // Load the DOM.
+    const htmlDom = cheerio.load(html);
+
+    // Gather the results by evaluating each of the rules.
+    const metadata: Record<string, string | undefined> = {};
+
+    for (const rule of this.rules) {
+      for (const property in rule) {
+        if (!rule.hasOwnProperty(property)) {
+          continue;
+        }
+
+        // Proceed through each of the properties and try to find the mapped
+        // properties.
+        for (const getter of rule[property]) {
+          const value = getter({ htmlDom, url });
+          if (value && value.length > 0) {
+            metadata[property] = value;
+
+            break;
+          }
+        }
+      }
+    }
+
+    return metadata;
+  }
+}
 
 export function createScraperTask(
   queue: Queue<ScraperData>,
   options: ScrapeProcessorOptions
 ) {
   // Create the scraper object.
-  const scraper = metascraper.load([
+  const scraper = new Scraper([
     require("metascraper-title")(),
     require("metascraper-description")(),
     require("metascraper-image")(),

@@ -1,8 +1,8 @@
-import dotize from "dotize";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
+import { dotize } from "talk-common/utils/dotize";
 import { GQLMODERATION_MODE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Settings } from "talk-server/models/settings";
 
@@ -157,7 +157,7 @@ export async function updateTenant(
   const result = await collection(db).findOneAndUpdate(
     { id },
     // Only update fields that have been updated.
-    { $set: dotize.convert(update) },
+    { $set: dotize(update) },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }
