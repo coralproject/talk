@@ -11,6 +11,7 @@ function deriveKey(property: string, prefix?: string) {
 function reduce(
   result: Record<string, any>,
   obj: Record<string, any>,
+  ignoreArrays?: boolean,
   prefix?: string
 ) {
   for (const property in obj) {
@@ -22,9 +23,13 @@ function reduce(
     const key = deriveKey(property, prefix);
 
     if (isPlainObject(value)) {
-      reduce(result, value, key);
+      reduce(result, value, ignoreArrays, key);
     } else if (isArray(value)) {
-      throw new Error("arrays are not supported");
+      if (!ignoreArrays) {
+        value.forEach((item, index) => {
+          reduce(result, item, ignoreArrays, `${key}[${index}]`);
+        });
+      }
     } else {
       result[key] = value;
     }
@@ -33,5 +38,7 @@ function reduce(
   return result;
 }
 
-export const dotize = (obj: Record<string, any>): Record<string, any> =>
-  reduce({}, obj);
+export const dotize = (
+  obj: Record<string, any>,
+  ignoreArrays?: boolean
+): Record<string, any> => reduce({}, obj, ignoreArrays);

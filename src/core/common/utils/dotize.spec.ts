@@ -25,6 +25,35 @@ it("converts properties with dates", () => {
   });
 });
 
-it("errors when an array is included", () => {
-  expect(() => dotize({ an: { array: [1, 2, 3] } })).toThrowError();
+it("converts array properties when enabled", () => {
+  const input = {
+    a: [
+      { property: "with", an: "array" },
+      { value: [{ sometimes: "nested" }] },
+    ],
+    other: { times: "not" },
+  };
+  const output = dotize(input);
+
+  expect(output).toEqual({
+    "a[0].property": "with",
+    "a[0].an": "array",
+    "a[1].value[0].sometimes": "nested",
+    "other.times": "not",
+  });
+});
+
+it("does not converts array properties when disabled", () => {
+  const input = {
+    a: [
+      { property: "with", an: "array" },
+      { value: [{ sometimes: "nested" }] },
+    ],
+    other: { times: "not" },
+  };
+  const output = dotize(input, true);
+
+  expect(output).toEqual({
+    "other.times": "not",
+  });
 });
