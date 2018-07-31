@@ -1,5 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import { noop } from "lodash";
+import { Child as PymChild } from "pym.js";
 import React from "react";
 import { Formatter } from "react-timeago";
 import { Environment, Network, RecordSource, Store } from "relay-runtime";
@@ -21,7 +22,7 @@ interface CreateContextArguments {
   // iFrame control.
   // A pym child that interacts with the pym parent.
   // TODO: typings for pym.
-  pym?: any;
+  pym?: PymChild;
 }
 
 /**

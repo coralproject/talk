@@ -10,7 +10,7 @@ interface PymControlConfig {
 }
 
 export default class PymControl {
-  private pym: any;
+  private pym: pym.Parent;
   private cleanups: CleanupCallback[];
 
   constructor(config: PymControlConfig) {
@@ -28,7 +28,7 @@ export default class PymControl {
   }
 
   public sendMessage(id: string, raw?: string) {
-    this.pym.sendMessage(id, raw);
+    this.pym.sendMessage(id, raw || "");
   }
 
   public remove() {

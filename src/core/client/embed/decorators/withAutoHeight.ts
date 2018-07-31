@@ -1,11 +1,11 @@
 import { Decorator } from "./";
 
-const withAutoHeight: Decorator = (pym: any) => {
+const withAutoHeight: Decorator = pym => {
   // Resize parent iframe height when child height changes
-  let cachedHeight: number;
-  pym.onMessage("height", (height: number) => {
+  let cachedHeight: string;
+  pym.onMessage("height", (height: string) => {
     if (height !== cachedHeight) {
-      pym.el.firstChild.style.height = `${height}px`;
+      (pym.el.firstChild! as HTMLElement).style.height = `${height}px`;
       cachedHeight = height;
     }
   });

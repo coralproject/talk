@@ -1,9 +1,9 @@
 import { Decorator } from "./";
 
-const withIOSSafariWidthWorkaround: Decorator = (pym: any) => {
+const withIOSSafariWidthWorkaround: Decorator = pym => {
   // Workaround: IOS Safari ignores `width` but respects `min-width` value.
-  pym.el.firstChild.style.width = "1px";
-  pym.el.firstChild.style.minWidth = "100%";
+  (pym.el.firstChild! as HTMLElement).style.width = "1px";
+  (pym.el.firstChild! as HTMLElement).style.minWidth = "100%";
 };
 
 export default withIOSSafariWidthWorkaround;

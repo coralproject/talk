@@ -3,7 +3,7 @@ import qs from "query-string";
 import { buildURL } from "../utils";
 import { Decorator } from "./";
 
-const withCommentID: Decorator = (pym: any) => {
+const withCommentID: Decorator = pym => {
   // Remove the comment id from the query.
   pym.onMessage("view-all-comments", () => {
     const search = qs.stringify({
