@@ -1,13 +1,30 @@
-import React from "react";
+import React, { StatelessComponent } from "react";
 import { findDOMNode } from "react-dom";
+
+import UIContext from "../UIContext";
+
+export type ClickFarAwayCallback = () => void;
+export type ClickFarAwayUnlistenCallback = () => void;
+
+export type ClickFarAwayRegister = (
+  callback: ClickFarAwayCallback
+) => ClickFarAwayUnlistenCallback;
 
 interface Props {
   onClickOutside: () => void;
+
+  /**
+   * A way to listen for clicks that are e.g. outside of the
+   * current frame for `ClickOutside`
+   */
+  registerClickFarAway?: ClickFarAwayRegister;
+
   children: React.ReactNode;
 }
 
-class ClickOutside extends React.Component<Props> {
+export class ClickOutside extends React.Component<Props> {
   public domNode: Element | null = null;
+  private unlisten?: ClickFarAwayUnlistenCallback;
 
   public handleClick = (e: MouseEvent) => {
     const { onClickOutside } = this.props;
@@ -17,17 +34,43 @@ class ClickOutside extends React.Component<Props> {
     }
   };
 
+  public handleClickFarAway = () => {
+    const { onClickOutside } = this.props;
+    // tslint:disable-next-line:no-unused-expression
+    onClickOutside && onClickOutside();
+  };
+
   public componentDidMount() {
     this.domNode = findDOMNode(this) as Element;
     document.addEventListener("click", this.handleClick, true);
+
+    // Listen to far away clicks.
+    if (this.props.registerClickFarAway) {
+      this.unlisten = this.props.registerClickFarAway(this.handleClickFarAway);
+    }
   }
 
   public componentWillUnmount() {
     document.removeEventListener("click", this.handleClick, true);
+
+    // Unlisten to far away clicks.
+    if (this.unlisten) {
+      this.unlisten();
+      this.unlisten = undefined;
+    }
   }
 
   public render() {
     return this.props.children;
   }
 }
-export default ClickOutside;
+
+const ClickOutsideWithContext: StatelessComponent<Props> = props => (
+  <UIContext.Consumer>
+    {({ registerClickFarAway }) => (
+      <ClickOutside {...props} registerClickFarAway={registerClickFarAway} />
+    )}
+  </UIContext.Consumer>
+);
+
+export default ClickOutsideWithContext;
