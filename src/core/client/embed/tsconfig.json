@@ -2,9 +2,13 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "lib": ["dom", "es5"],
-    "types": [],
+    "types": ["jest"],
     "paths": {}
   },
-  "include": ["./**/*", "../../../types/pym.d.ts"],
+  "include": [
+    "./**/*",
+    "../../../types/pym.d.ts",
+    "../../../types/simulant.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

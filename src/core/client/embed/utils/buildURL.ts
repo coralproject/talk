@@ -1,6 +1,11 @@
-export default function buildURL(
-  { protocol, hostname, port, pathname, search, hash } = window.location
-) {
+export default function buildURL({
+  protocol = window.location.protocol,
+  hostname = window.location.hostname,
+  port = window.location.port,
+  pathname = window.location.pathname,
+  search = window.location.search,
+  hash = window.location.hash,
+} = {}) {
   if (search && search[0] !== "?") {
     search = `?${search}`;
   } else if (search === "?") {

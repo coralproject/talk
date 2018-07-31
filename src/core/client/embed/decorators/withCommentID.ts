@@ -12,7 +12,7 @@ const withCommentID: Decorator = pym => {
     });
 
     // Remove the commentId url param.
-    const url = buildURL({ ...location, search });
+    const url = buildURL({ search });
 
     // Change the url.
     window.history.replaceState({}, document.title, url);
@@ -26,7 +26,7 @@ const withCommentID: Decorator = pym => {
     });
 
     // Remove the commentId url param.
-    const url = buildURL({ ...location, search });
+    const url = buildURL({ search });
 
     // Change the url.
     window.history.replaceState({}, document.title, url);

@@ -4,7 +4,7 @@ import qs from "query-string";
 import {
   Decorator,
   withAutoHeight,
-  withClickOutside,
+  withClickEvent,
   withCommentID,
   withEventEmitter,
   withIOSSafariWidthWorkaround,
@@ -25,7 +25,7 @@ export function createPymControl(config: CreatePymControlConfig) {
   const streamDecorators: ReadonlyArray<Decorator> = [
     withIOSSafariWidthWorkaround,
     withAutoHeight,
-    withClickOutside,
+    withClickEvent,
     withCommentID,
     withEventEmitter(config.eventEmitter),
   ];
@@ -67,6 +67,8 @@ export function createStreamInterface(
     },
   };
 }
+
+export type StreamInterface = ReturnType<typeof createStreamInterface>;
 
 export interface CreateConfig {
   assetID?: string;

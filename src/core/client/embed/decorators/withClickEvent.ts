@@ -1,6 +1,6 @@
 import { Decorator } from "./";
 
-const withClickOutside: Decorator = pym => {
+const withClickEvent: Decorator = pym => {
   const handleClick = () => pym.sendMessage("click", "");
 
   // If the user clicks outside the embed, then tell the embed.
@@ -9,8 +9,8 @@ const withClickOutside: Decorator = pym => {
   // Return cleanup callback.
   return () => {
     // Remove the event listeners.
-    document.removeEventListener("click", handleClick);
+    document.removeEventListener("click", handleClick, true);
   };
 };
 
-export default withClickOutside;
+export default withClickEvent;
