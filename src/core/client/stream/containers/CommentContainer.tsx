@@ -7,7 +7,7 @@ import { CommentContainer as Data } from "talk-stream/__generated__/CommentConta
 
 import Comment from "../components/Comment";
 
-export interface InnerProps {
+interface InnerProps {
   data: Data;
 }
 
