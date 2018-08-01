@@ -1,0 +1,90 @@
+.root {
+  margin: 0;
+  padding: 0;
+}
+
+.heading1 {
+  composes: heading1 from "talk-ui/shared/typography.css";
+}
+
+.heading2 {
+  composes: heading2 from "talk-ui/shared/typography.css";
+}
+
+.heading3 {
+  composes: heading3 from "talk-ui/shared/typography.css";
+}
+
+.heading4 {
+  composes: heading4 from "talk-ui/shared/typography.css";
+}
+
+.bodyCopy {
+  composes: bodyCopy from "talk-ui/shared/typography.css";
+}
+
+.button {
+  composes: button from "talk-ui/shared/typography.css";
+}
+
+.buttonLarge {
+  composes: buttonLarge from "talk-ui/shared/typography.css";
+}
+
+.timestamp {
+  composes: timestamp from "talk-ui/shared/typography.css";
+}
+
+.alignLeft {
+  text-align: left;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignRight {
+  text-align: right;
+}
+
+.alignJustify {
+  text-align: justify;
+}
+
+.noWrap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gutterBottom {
+  margin-bottom: 0.35em;
+}
+
+.paragraph {
+  margin-bottom: var(--spacing-unit);
+}
+
+.colorInherit {
+  color: inherit;
+}
+
+.colorPrimary {
+  color: var(--palette-primary-main);
+}
+
+.colorTextPrimary {
+  color: var(--palette-text-primary);
+}
+
+.colorTextSecondary {
+  color: var(--palette-text-secondary);
+}
+
+.colorError {
+  color: var(--palette-error-main);
+}
+
+.colorSuccess {
+  color: var(--palette-success-main);
+}

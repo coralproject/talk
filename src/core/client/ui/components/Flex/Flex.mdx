@@ -1,0 +1,35 @@
+---
+name: Flex
+menu: UI Kit
+---
+
+import { Playground, PropsTable } from 'docz'
+import Flex from './Flex'
+import Button from '../Button'
+
+# Flex
+
+`Flex` is a wrapper around `flexbox`.
+
+## Justify content
+<Playground>
+  <Flex justifyContent="center">I'm centered</Flex>
+</Playground>
+
+## Align items
+<Playground>
+  <Flex alignItems="center" itemGutter>
+    <Button variant="filled">Push Me</Button>
+    <Button variant="filled" size="small">Push Me</Button>
+    <Button variant="filled" size="large">Push Me</Button>
+  </Flex>
+</Playground>
+
+## Direction
+<Playground>
+  <Flex direction="column" itemGutter>
+    <Button variant="filled">Push Me</Button>
+    <Button variant="filled">Push Me</Button>
+    <Button variant="filled">Push Me</Button>
+  </Flex>
+</Playground>

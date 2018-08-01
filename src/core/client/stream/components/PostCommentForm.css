@@ -1,0 +1,14 @@
+.textarea {
+  composes: bodyCopy from "talk-ui/shared/typography.css";
+
+  display: block;
+  height: 100px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: var(--spacing-unit);
+}
+
+.postButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+}

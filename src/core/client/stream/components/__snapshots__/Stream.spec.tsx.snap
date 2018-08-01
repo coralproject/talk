@@ -1,0 +1,212 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="Stream-root"
+>
+  <Logo
+    gutterBottom={true}
+  />
+  <withContext(createMutationContainer(PostCommentFormContainer))
+    assetID="asset-id"
+  />
+  <withPropsOnChange(Flex)
+    aria-live="polite"
+    direction="column"
+    id="talk-comments-stream-log"
+    itemGutter={true}
+    role="log"
+  >
+    <withPropsOnChange(Flex)
+      direction="column"
+      itemGutter={true}
+      key="comment-1"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+    </withPropsOnChange(Flex)>
+    <withPropsOnChange(Flex)
+      direction="column"
+      itemGutter={true}
+      key="comment-2"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+    </withPropsOnChange(Flex)>
+  </withPropsOnChange(Flex)>
+</div>
+`;
+
+exports[`when there is more disables load more button 1`] = `
+<div
+  className="Stream-root"
+>
+  <Logo
+    gutterBottom={true}
+  />
+  <withContext(createMutationContainer(PostCommentFormContainer))
+    assetID="asset-id"
+  />
+  <withPropsOnChange(Flex)
+    aria-live="polite"
+    direction="column"
+    id="talk-comments-stream-log"
+    itemGutter={true}
+    role="log"
+  >
+    <withPropsOnChange(Flex)
+      direction="column"
+      itemGutter={true}
+      key="comment-1"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+    </withPropsOnChange(Flex)>
+    <withPropsOnChange(Flex)
+      direction="column"
+      itemGutter={true}
+      key="comment-2"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+    </withPropsOnChange(Flex)>
+    <Localized
+      id="comments-stream-loadMore"
+    >
+      <withPropsOnChange(Button)
+        aria-controls="talk-comments-stream-log"
+        disabled={true}
+        fullWidth={true}
+        id="talk-comments-stream-loadMore"
+        onClick={[Function]}
+        variant="outlined"
+      >
+        Load More
+      </withPropsOnChange(Button)>
+    </Localized>
+  </withPropsOnChange(Flex)>
+</div>
+`;
+
+exports[`when there is more renders a load more button 1`] = `
+<div
+  className="Stream-root"
+>
+  <Logo
+    gutterBottom={true}
+  />
+  <withContext(createMutationContainer(PostCommentFormContainer))
+    assetID="asset-id"
+  />
+  <withPropsOnChange(Flex)
+    aria-live="polite"
+    direction="column"
+    id="talk-comments-stream-log"
+    itemGutter={true}
+    role="log"
+  >
+    <withPropsOnChange(Flex)
+      direction="column"
+      itemGutter={true}
+      key="comment-1"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+    </withPropsOnChange(Flex)>
+    <withPropsOnChange(Flex)
+      direction="column"
+      itemGutter={true}
+      key="comment-2"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+    </withPropsOnChange(Flex)>
+    <Localized
+      id="comments-stream-loadMore"
+    >
+      <withPropsOnChange(Button)
+        aria-controls="talk-comments-stream-log"
+        disabled={false}
+        fullWidth={true}
+        id="talk-comments-stream-loadMore"
+        onClick={[Function]}
+        variant="outlined"
+      >
+        Load More
+      </withPropsOnChange(Button)>
+    </Localized>
+  </withPropsOnChange(Flex)>
+</div>
+`;

@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "allowJs": true,
+    "noEmit": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noErrorTruncation": true,
+    "lib": ["es6", "esnext.asynciterable"]
+  },
+  "include": [
+    "./src/**/.*.js",
+    "./scripts/**/*",
+    "./config/**/*",
+    "./test/**/*",
+    "*.js"
+  ],
+  "exclude": ["node_modules"]
+}

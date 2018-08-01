@@ -1,0 +1,112 @@
+# job_environment will setup the environment for any job being executed.
+job_environment: &job_environment
+  NODE_ENV: test
+
+# job_defaults applies all the defaults for each job.
+job_defaults: &job_defaults
+  working_directory: ~/coralproject/talk
+  docker:
+    - image: circleci/node:8
+  environment:
+    <<: *job_environment
+
+version: 2
+jobs:
+  # npm_dependencies will install the dependencies used by all other steps.
+  npm_dependencies:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/coralproject/talk
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Update NPM
+          command: sudo npm update -g npm
+      - run:
+          name: Audit dependencies
+          command: npm audit
+      - run:
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - persist_to_workspace:
+          root: .
+          paths: node_modules
+
+  # lint will perform file linting.
+  lint:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/coralproject/talk
+      - run:
+          name: Perform linting
+          command: npm run lint
+
+  # unit_tests will run the unit tests.
+  unit_tests:
+    <<: *job_defaults
+    environment:
+      <<: *job_environment
+      CI: true
+      JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/coralproject/talk
+      - run:
+          name: Compile schemas and types
+          command: npm run compile
+      - run:
+          name: Perform testing
+          # We're running these tests in band to avoid errors where the circleci
+          # test runner runs out of RAM trying to run them all in parallel.
+          command: npm run test -- --ci --runInBand --testResultsProcessor="jest-junit"
+      - store_test_results:
+          path: reports/junit
+      - store_artifacts:
+          path: reports/junit
+
+  # build will build the static assets and server typescript files.
+  build:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/coralproject/talk
+      - restore_cache:
+          keys:
+            - build-cache-{{ .Branch }}-{{ .Revision }}
+            - build-cache-{{ .Branch }}-
+            - build-cache-
+      - run:
+          name: Build
+          command: npm run build
+      - save_cache:
+          key: build-cache-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ./dist
+      - persist_to_workspace:
+          root: .
+          paths: dist
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - npm_dependencies
+      - lint:
+          requires:
+            - npm_dependencies
+      - unit_tests:
+          requires:
+            - npm_dependencies
+      - build:
+          requires:
+            - npm_dependencies

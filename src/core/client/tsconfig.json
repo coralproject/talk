@@ -1,0 +1,20 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "esnext",
+    "jsx": "preserve",
+    "allowJs": false,
+    "lib": ["dom", "es7", "scripthost", "es2015", "esnext.asynciterable"],
+    "baseUrl": "./",
+    "paths": {
+      "talk-admin/*": ["./admin/*"],
+      "talk-stream/*": ["./stream/*"],
+      "talk-framework/*": ["./framework/*"],
+      "talk-ui/*": ["./ui/*"],
+      "talk-common/*": ["../common/*"]
+    }
+  },
+  "include": ["./**/*", "../../types/**/*.d.ts"],
+  "exclude": ["node_modules"]
+}

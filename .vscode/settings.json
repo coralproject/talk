@@ -1,0 +1,18 @@
+{
+  "editor.formatOnSave": true,
+  "files.associations": {
+    "*.css": "postcss"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    ".vs": true
+  },
+  "tslint.exclude": "**/node_modules/**",
+  "tslint.autoFixOnSave": true,
+  "tslint.jsEnable": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

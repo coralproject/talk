@@ -1,0 +1,80 @@
+---
+name: Workarounds
+---
+
+# Workarounds
+
+A place to write down temporary workarounds.
+
+## Babel
+
+Babel versions are currently locked to 7.0.0-beta.49 because of this bug:
+
+https://github.com/babel/babel/issues/8167#issuecomment-397295483
+
+## Relay Typescript
+
+We are using a patched version of `Relay` that adds support for `Typescript`. Big thanks to [@alloy](https://github.com/alloy) for his fork on https://github.com/alloy/relay. Patched packages can be found in the top level `patches` folder.
+
+This is no longer needed once https://github.com/facebook/relay/pull/2293 has been merged and released.
+
+## relay-compiler-language-typescript
+
+We have patched [relay-compiler-language-typescript](https://github.com/relay-tools/relay-compiler-language-typescript)  with an hack to fix an issue with `--noImplicitAny` support (https://github.com/relay-tools/relay-compiler-language-typescript/issues/48). Patched packages can be found in the top level `patches` folder.
+
+## Relay Client Side Schema Extensions
+
+We use Client Side Schema Extension in `Relay` to store client and UI related state. It works great, the only limitation currently is that locally created `Records` are garbage collected. We created a little helper in `talk-framework/lib/relay/createAndRetain.ts` that creates and retains these `Records` forever. Hopefully this gets resolved and we don't need to do this kind of manual lifecycle management.
+
+Related: https://github.com/facebook/relay/issues/1656#issuecomment-374079965
+
+```ts
+import { commitLocalUpdate, Environment } from "relay-runtime";
+
+import {
+  createAndRetain,
+  LOCAL_ID,
+  LOCAL_TYPE,
+} from "talk-framework/lib/relay";
+
+commitLocalUpdate(environment, s => {
+    const root = s.getRoot();
+    // Create the Local Record which is the Root for the client states.
+    const localRecord = createAndRetain(environment, s, LOCAL_ID, LOCAL_TYPE);
+    root.setLinkedRecord(localRecord, "local");
+});
+```
+
+## Type inference for `compose(...fn)`
+
+[recompose](https://github.com/acdlite/recompose) is a great library to work with Higher-Order-Components. `Typescript` is powerful enough to type a lot of HOC in a way that it works with type inference. However type inference currently does not work for `compose()` until this https://github.com/Microsoft/TypeScript/pull/24626 lands.
+
+That's why in many cases instead of doing this
+
+```ts
+export type ContainerProps {
+  …
+}
+
+const enhance = compose<InnerProps, ContainerProps>(
+  withLocalStateContainer(…),
+  withFragmentContainer(…)
+);
+
+export default enhance(Container);
+```
+
+We do this
+
+```ts
+const enhanced = withLocalStateContainer(
+  …
+)(
+  withFragmentContainer(
+    …
+  )(Container)
+);
+
+export type ContainerProps = ReturnPropTypes<typeof enhanced>;
+export default enhanced;
+```

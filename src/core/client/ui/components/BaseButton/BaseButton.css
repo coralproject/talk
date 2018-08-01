@@ -1,0 +1,13 @@
+.root {
+  composes: buttonReset from "talk-ui/shared/buttonReset.css";
+}
+
+.keyboardFocus {
+  outline-width: 3px;
+  outline-color: Highlight;
+  outline-color: -webkit-focus-ring-color;
+  outline-style: auto;
+}
+
+.mouseHover {
+}
