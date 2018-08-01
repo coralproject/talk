@@ -84,7 +84,7 @@ export async function handleSuccessfulLogin(
 }
 
 /**
- * wrapAuthz will wrap a authenticators authenticate method with one that
+ * wrapAuthn will wrap a authenticators authenticate method with one that
  * will return a valid login token for a valid login by a compatible strategy.
  *
  * @param authenticator the base authenticator instance
@@ -92,7 +92,7 @@ export async function handleSuccessfulLogin(
  * @param name the name of the authenticator to use
  * @param options any options to be passed to the authenticate call
  */
-export const wrapAuthz = (
+export const wrapAuthn = (
   authenticator: passport.Authenticator,
   signingConfig: JWTSigningConfig,
   name: string,
