@@ -40,7 +40,7 @@ const ValidationMessage: StatelessComponent<InnerProps> = props => {
     <div className={rootClassName} {...rest}>
       {color === "error" && (
         <Icon size="sm" className={classes.icon}>
-          face
+          warning
         </Icon>
       )}
       {children}

@@ -36,6 +36,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.xsm {
+  font-size: 14px;
+  width: 14px;
+}
 .sm {
   font-size: 18px;
   width: 18px;
