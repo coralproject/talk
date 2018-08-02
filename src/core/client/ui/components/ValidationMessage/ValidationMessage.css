@@ -12,6 +12,7 @@
   background-color: transparent;
   border: none;
   color: var(--palette-common-black);
+  padding-left: 40px;
 }
 
 .colorError {

@@ -3,10 +3,12 @@ name: ValidationMessage
 menu: UI Kit
 ---
 
-import { Playground } from 'docz'
+import { Playground, PropsTable} from 'docz'
 import ValidationMessage from './ValidationMessage'
-import
+import Flex from '../Flex'
+
 # ValidationMessage
+<PropsTable of={ValidationMessage} />
 
 ## Basic Use
 <Playground>
@@ -14,7 +16,7 @@ import
     <ValidationMessage>Account with this email address already exists. Try another email</ValidationMessage>
     <ValidationMessage>Please enter a valid email address</ValidationMessage>
     <ValidationMessage color="error">Invalid characters. Try again</ValidationMessage>
-    <ValidationMessage color="error" fullWidth>Invalid characters. Try again</ValidationMessage>z
+    <ValidationMessage color="error" fullWidth>Account with this email address already exists. Try another email. </ValidationMessage>
   </Flex>
 </Playground>
 
