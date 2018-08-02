@@ -76,6 +76,12 @@ type LocalAuthIntegration {
 
 type SSOAuthIntegrationConfig {
   key: String!
+
+  """
+  displayNameEnable when enabled, will allow Users to set and view their
+  displayName's.
+  """
+  displayNameEnable: Boolean!
 }
 
 type SSOAuthIntegration {
@@ -92,6 +98,12 @@ type OIDCAuthIntegrationConfig {
   clientSecret: String!
   authorizationURL: String!
   tokenURL: String!
+
+  """
+  displayNameEnable when enabled, will allow Users to set and view their
+  displayName's.
+  """
+  displayNameEnable: Boolean!
 }
 
 type OIDCAuthIntegrationOptions {
@@ -145,12 +157,6 @@ AuthSettings contains all the settings related to authentication and
 authorization.
 """
 type AuthSettings {
-  """
-  displayNameEnable when enabled, will allow Users to set and view their
-  displayName's.
-  """
-  displayNameEnable: Boolean!
-
   """
   integrations are the set of configurations for the variations of
   authentication solutions.
