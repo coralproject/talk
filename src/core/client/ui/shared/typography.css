@@ -144,3 +144,12 @@
   letter-spacing: calc(0.2em / 16);
   color: var(--palette-text-primary);
 }
+
+.inputLabel {
+  font-size: calc(18rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: "Manuale";
+  line-height: calc(18em / 16);
+  letter-spacing: calc(0.2em / 16);
+  color: var(--palette-text-primary);
+}

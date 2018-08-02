@@ -1,0 +1,14 @@
+import React from "react";
+import TestRenderer from "react-test-renderer";
+
+import { PropTypesOf } from "talk-ui/types";
+
+import InputLabel from "./InputLabel";
+
+it("renders correctly", () => {
+  const props: PropTypesOf<typeof InputLabel> = {
+    className: "custom",
+  };
+  const renderer = TestRenderer.create(<InputLabel>Hello</InputLabel>);
+  expect(renderer.toJSON()).toMatchSnapshot();
+});
