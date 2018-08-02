@@ -126,3 +126,12 @@
   line-height: calc(18em / 16);
   letter-spacing: calc(0.2em / 16);
 }
+
+.validationMessage {
+  color: var(--palette-common-black);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-medium);
+  font-size: 16px;
+  line-height: normal;
+  letter-spacing: calc(0.2em / 16);
+}

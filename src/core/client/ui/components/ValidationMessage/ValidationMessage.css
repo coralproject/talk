@@ -1,0 +1,23 @@
+.root {
+  composes: validationMessage from "talk-ui/shared/typography.css";
+  padding: 4px;
+}
+
+.colorRegular {
+  background-color: transparent;
+  border: none;
+  color: var(--palette-common-black);
+}
+
+.colorError {
+  background-color: var(--palette-error-light);
+  border-radius: 1px;
+  border-color: var(--palette-error-darkest);
+  border-left-width: 8px;
+  border-left-style: solid;
+  color: var(--palette-common-white);
+}
+
+.icon {
+  margin-right: 8px;
+}
