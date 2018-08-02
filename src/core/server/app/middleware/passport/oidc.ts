@@ -179,16 +179,14 @@ export interface OIDCStrategyOptions {
 }
 
 export default class OIDCStrategy extends Strategy {
-  public name: string;
+  public name = "oidc";
 
   private mongo: Db;
-  private cache: Map<string, StrategyItem>;
+  private cache = new Map<string, StrategyItem>();
 
   constructor({ mongo, tenantCache }: OIDCStrategyOptions) {
     super();
 
-    this.name = "oidc";
-    this.cache = new Map();
     this.mongo = mongo;
 
     // Subscribe to updates with Tenants.

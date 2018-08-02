@@ -142,15 +142,14 @@ export interface JWTStrategyOptions {
 }
 
 export class JWTStrategy extends Strategy {
+  public name = "jwt";
+
   private signingConfig: JWTSigningConfig;
   private mongo: Db;
-
-  public name: string;
 
   constructor({ signingConfig, mongo }: JWTStrategyOptions) {
     super();
 
-    this.name = "jwt";
     this.signingConfig = signingConfig;
     this.mongo = mongo;
   }
