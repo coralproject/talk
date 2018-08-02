@@ -9,7 +9,7 @@ import Username from "./Username";
 
 export interface CommentProps {
   author: {
-    username: string;
+    username: string | null;
   } | null;
   body: string | null;
   createdAt: string;
@@ -19,7 +19,8 @@ const Comment: StatelessComponent<CommentProps> = props => {
   return (
     <div role="article">
       <TopBar>
-        {props.author && <Username>{props.author.username}</Username>}
+        {props.author &&
+          props.author.username && <Username>{props.author.username}</Username>}
         <Timestamp>{props.createdAt}</Timestamp>
       </TopBar>
       <Typography>{props.body}</Typography>

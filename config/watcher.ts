@@ -8,6 +8,12 @@ import {
 const config: Config = {
   rootDir: path.resolve(__dirname, "../src"),
   watchers: {
+    compileSchema: {
+      paths: ["core/server/**/*.graphql"],
+      executor: new CommandExecutor("npm run compile:schema", {
+        runOnInit: true,
+      }),
+    },
     compileRelayStream: {
       paths: [
         "core/client/stream/**/*.ts",
@@ -47,7 +53,7 @@ const config: Config = {
   },
   defaultSet: "client",
   sets: {
-    server: ["runServer"],
+    server: ["compileSchema", "runServer"],
     client: [
       "runServer",
       "runWebpackDevServer",
@@ -55,7 +61,7 @@ const config: Config = {
       "compileRelayStream",
     ],
     docz: ["runDocz", "compileCSSTypes"],
-    compile: ["compileCSSTypes", "compileRelayStream"],
+    compile: ["compileSchema", "compileCSSTypes", "compileRelayStream"],
   },
 };
 

@@ -111,7 +111,7 @@ export default function createWebpackConfig({
           // because of this bug https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/763.
           // TODO: Repalce with mini-css-extract-plugin once it supports HMR.
           // https://github.com/webpack-contrib/mini-css-extract-plugin
-          filename: "static/css/[name].[md5:contenthash:hex:20].css",
+          filename: "assets/css/[name].[md5:contenthash:hex:20].css",
         }),
       ]
     : [
@@ -153,11 +153,11 @@ export default function createWebpackConfig({
       // Generated JS file names (with nested folders).
       // There will be one main bundle, and one file per asynchronous chunk.
       filename: isProduction
-        ? "static/js/[name].[chunkhash:8].js"
-        : "static/js/[name].js",
+        ? "assets/js/[name].[chunkhash:8].js"
+        : "assets/js/[name].js",
       chunkFilename: isProduction
-        ? "static/js/[name].[chunkhash:8].chunk.js"
-        : "static/js/[name].chunk.js",
+        ? "assets/js/[name].[chunkhash:8].chunk.js"
+        : "assets/js/[name].chunk.js",
       // We inferred the "public path" (such as / or /my-project) from homepage.
       publicPath,
       // Point sourcemap entries to original disk location (format as URL on Windows)
@@ -254,7 +254,7 @@ export default function createWebpackConfig({
               loader: require.resolve("url-loader"),
               options: {
                 limit: 10000,
-                name: "static/media/[name].[hash:8].[ext]",
+                name: "assets/media/[name].[hash:8].[ext]",
               },
             },
             // Process JS with Babel.
@@ -324,7 +324,7 @@ export default function createWebpackConfig({
               exclude: [/\.(js|ts|tsx)$/, /\.html$/, /\.json$/],
               loader: require.resolve("file-loader"),
               options: {
-                name: "static/media/[name].[hash:8].[ext]",
+                name: "assets/media/[name].[hash:8].[ext]",
               },
             },
           ],
@@ -418,7 +418,7 @@ export default function createWebpackConfig({
         library: "Talk",
         // don't hash the embed, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
-        filename: "static/js/embed.js",
+        filename: "assets/js/embed.js",
       },
       plugins: [
         ...baseConfig.plugins!,
@@ -438,7 +438,7 @@ export default function createWebpackConfig({
         // to their corresponding output file so that tools can pick it up without
         // having to parse `index.html`.
         new ManifestPlugin({
-          fileName: "static/embed-manifest.json",
+          fileName: "assets/embed-manifest.json",
         }),
       ],
     },
