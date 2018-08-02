@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import { merge } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -131,11 +130,14 @@ export async function upsertUser(
   }
 
   // Merge the defaults and the input together.
-  const user: Readonly<User> = merge({}, defaults, input, {
+  const user: Readonly<User> = {
+    ...defaults,
+    ...input,
+
     // Specified last in the merge call, it will override any existing password
     // entry if it is defined.
     password: hashedPassword,
-  });
+  };
 
   // Create a query that will utilize a findOneAndUpdate to facilitate an upsert
   // operation to ensure no user has the same profile and/or email address. If

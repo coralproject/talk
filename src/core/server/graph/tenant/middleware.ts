@@ -29,6 +29,7 @@ export default async ({
     return {
       schema,
       context: new TenantContext({
+        req,
         mongo,
         redis,
         tenant: tenant!,
