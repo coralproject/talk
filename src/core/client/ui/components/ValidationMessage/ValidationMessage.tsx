@@ -5,7 +5,7 @@ import { withStyles } from "talk-ui/hocs";
 import Icon from "../Icon";
 import * as styles from "./ValidationMessage.css";
 
-interface InnerProps {
+export interface ValidationMessageProps {
   /**
    * The content of the component.
    */
@@ -28,7 +28,7 @@ interface InnerProps {
   fullWidth?: boolean;
 }
 
-const ValidationMessage: StatelessComponent<InnerProps> = props => {
+const ValidationMessage: StatelessComponent<ValidationMessageProps> = props => {
   const { className, classes, color, fullWidth, children, ...rest } = props;
 
   const rootClassName = cn(
@@ -44,7 +44,7 @@ const ValidationMessage: StatelessComponent<InnerProps> = props => {
   return (
     <div className={rootClassName} {...rest}>
       {color === "error" && (
-        <Icon size="xsm" className={classes.icon}>
+        <Icon size="xs" className={classes.icon}>
           warning
         </Icon>
       )}

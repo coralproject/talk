@@ -1,1 +1,1 @@
-export { default } from "./ValidationMessage";
+export { default, ValidationMessageProps } from "./ValidationMessage";

@@ -13,7 +13,7 @@ interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
    */
   classes: typeof styles;
 
-  size?: "xsm" | "sm" | "md" | "lg" | "xl";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
 
   /** The name of the icon to render */
   children: string;
