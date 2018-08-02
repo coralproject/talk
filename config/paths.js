@@ -46,7 +46,7 @@ module.exports = {
   appPostCssConfig: resolveApp("config/postcss.config.js"),
   appJestConfig: resolveApp("config/jest.config.js"),
   appLoaders: resolveApp("loaders"),
-  appDist: resolveApp("dist"),
+  appDist: resolveApp("dist/static"),
   appPublic: resolveApp("public"),
   appPackageJson: resolveApp("package.json"),
   appSrc: resolveApp("src"),

@@ -1,6 +1,12 @@
 import { merge } from "lodash";
 import { Db } from "mongodb";
+import uuid from "uuid";
+
 import { Omit, Sub } from "talk-common/types";
+import {
+  GQLCOMMENT_SORT,
+  GQLCOMMENT_STATUS,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { ActionCounts } from "talk-server/models/actions";
 import {
   Connection,
@@ -11,7 +17,6 @@ import {
 } from "talk-server/models/connection";
 import Query from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
-import uuid from "uuid";
 
 function collection(db: Db) {
   return db.collection<Readonly<Comment>>("comments");
@@ -23,35 +28,25 @@ export interface BodyHistoryItem {
 }
 
 export interface StatusHistoryItem {
-  status: CommentStatus; // TODO: migrate field
+  status: GQLCOMMENT_STATUS; // TODO: migrate field
   assigned_by?: string;
   created_at: Date;
 }
 
-export enum CommentStatus {
-  ACCEPTED = "ACCEPTED",
-  REJECTED = "REJECTED",
-  PREMOD = "PREMOD",
-  SYSTEM_WITHHELD = "SYSTEM_WITHHELD",
-  NONE = "NONE",
-}
-
 export interface Comment extends TenantResource {
   readonly id: string;
-  parent_id?: string;
+  parent_id: string | null;
   author_id: string;
   asset_id: string;
   body: string;
   body_history: BodyHistoryItem[];
-  status: CommentStatus;
+  status: GQLCOMMENT_STATUS;
   status_history: StatusHistoryItem[];
   action_counts: ActionCounts;
   reply_count: number;
   created_at: Date;
   deleted_at?: Date;
-  metadata?: {
-    [_: string]: any;
-  };
+  metadata?: Record<string, any>;
 }
 
 export type CreateCommentInput = Omit<
@@ -64,7 +59,7 @@ export type CreateCommentInput = Omit<
   | "status_history"
 >;
 
-export async function create(
+export async function createComment(
   db: Db,
   tenantID: string,
   input: CreateCommentInput
@@ -110,11 +105,15 @@ export async function create(
   return comment;
 }
 
-export async function retrieve(db: Db, tenantID: string, id: string) {
+export async function retrieveComment(db: Db, tenantID: string, id: string) {
   return collection(db).findOne({ id, tenant_id: tenantID });
 }
 
-export async function retrieveMany(db: Db, tenantID: string, ids: string[]) {
+export async function retrieveManyComments(
+  db: Db,
+  tenantID: string,
+  ids: string[]
+) {
   const cursor = await collection(db).find({
     id: {
       $in: ids,
@@ -127,16 +126,9 @@ export async function retrieveMany(db: Db, tenantID: string, ids: string[]) {
   return ids.map(id => comments.find(comment => comment.id === id) || null);
 }
 
-export enum CommentSort {
-  CREATED_AT_DESC = "CREATED_AT_DESC",
-  CREATED_AT_ASC = "CREATED_AT_ASC",
-  REPLIES_DESC = "REPLIES_DESC",
-  RESPECT_DESC = "RESPECT_DESC",
-}
-
 export interface ConnectionInput {
   first: number;
-  orderBy: CommentSort;
+  orderBy: GQLCOMMENT_SORT;
   after?: Cursor;
 }
 
@@ -144,11 +136,11 @@ function cursorGetterFactory(
   input: ConnectionInput
 ): NodeToCursorTransformer<Comment> {
   switch (input.orderBy) {
-    case CommentSort.CREATED_AT_DESC:
-    case CommentSort.CREATED_AT_ASC:
+    case GQLCOMMENT_SORT.CREATED_AT_DESC:
+    case GQLCOMMENT_SORT.CREATED_AT_ASC:
       return comment => comment.created_at;
-    case CommentSort.REPLIES_DESC:
-    case CommentSort.RESPECT_DESC:
+    case GQLCOMMENT_SORT.REPLIES_DESC:
+    case GQLCOMMENT_SORT.RESPECT_DESC:
       return (_, index) =>
         (input.after ? (input.after as number) : 0) + index + 1;
   }
@@ -162,7 +154,7 @@ function cursorGetterFactory(
  * @param parentID the parent id for the comment to retrieve
  * @param input connection configuration
  */
-export async function retrieveRepliesConnection(
+export async function retrieveCommentRepliesConnection(
   db: Db,
   tenantID: string,
   assetID: string,
@@ -188,7 +180,7 @@ export async function retrieveRepliesConnection(
  * @param assetID the Asset id for the comment to retrieve
  * @param input connection configuration
  */
-export async function retrieveAssetConnection(
+export async function retrieveCommentAssetConnection(
   db: Db,
   tenantID: string,
   assetID: string,
@@ -254,25 +246,25 @@ async function retrieveConnection(
 
 function applyInputToQuery(input: ConnectionInput, query: Query<Comment>) {
   switch (input.orderBy) {
-    case CommentSort.CREATED_AT_DESC:
+    case GQLCOMMENT_SORT.CREATED_AT_DESC:
       query.orderBy({ created_at: -1 });
       if (input.after) {
         query.where({ created_at: { $lt: input.after as Date } });
       }
       break;
-    case CommentSort.CREATED_AT_ASC:
+    case GQLCOMMENT_SORT.CREATED_AT_ASC:
       query.orderBy({ created_at: 1 });
       if (input.after) {
         query.where({ created_at: { $gt: input.after as Date } });
       }
       break;
-    case CommentSort.REPLIES_DESC:
+    case GQLCOMMENT_SORT.REPLIES_DESC:
       query.orderBy({ reply_count: -1, created_at: -1 });
       if (input.after) {
         query.after(input.after as number);
       }
       break;
-    case CommentSort.RESPECT_DESC:
+    case GQLCOMMENT_SORT.RESPECT_DESC:
       query.orderBy({ "action_counts.respect": -1, created_at: -1 });
       if (input.after) {
         query.after(input.after as number);

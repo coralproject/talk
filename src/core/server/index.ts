@@ -1,9 +1,11 @@
 import express, { Express } from "express";
 import http from "http";
 
+import { createJWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
 import getManagementSchema from "talk-server/graph/management/schema";
 import { Schemas } from "talk-server/graph/schemas";
 import getTenantSchema from "talk-server/graph/tenant/schema";
+
 import { attachSubscriptionHandlers, createApp, listenAndServe } from "./app";
 import config, { Config } from "./config";
 import logger from "./logger";
@@ -63,6 +65,9 @@ class Server {
     // Setup Redis.
     const redis = await createRedisClient(config);
 
+    // Create the signing config.
+    const signingConfig = createJWTSigningConfig(this.config);
+
     // Create the Talk App, branching off from the parent app.
     const app: Express = await createApp({
       parent,
@@ -70,6 +75,7 @@ class Server {
       redis,
       config: this.config,
       schemas: this.schemas,
+      signingConfig,
     });
 
     // Start the application and store the resulting http.Server.
