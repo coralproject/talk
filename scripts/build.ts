@@ -44,11 +44,11 @@ const treatWarningsAsErrors =
 
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
-measureFileSizesBeforeBuild(paths.appDist)
+measureFileSizesBeforeBuild(paths.appDistStatic)
   .then((previousFileSizes: any) => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
-    fs.emptyDirSync(paths.appDist);
+    fs.emptyDirSync(paths.appDistStatic);
     // Merge with the public folder
     if (fs.pathExistsSync(paths.appPublic)) {
       copyPublicFolder();
@@ -79,7 +79,7 @@ measureFileSizesBeforeBuild(paths.appDist)
       printFileSizesAfterBuild(
         stats,
         previousFileSizes,
-        paths.appDist,
+        paths.appDistStatic,
         WARN_AFTER_BUNDLE_GZIP_SIZE,
         WARN_AFTER_CHUNK_GZIP_SIZE
       );
@@ -132,7 +132,7 @@ function build(previousFileSizes: any) {
 }
 
 function copyPublicFolder() {
-  fs.copySync(paths.appPublic, paths.appDist, {
+  fs.copySync(paths.appPublic, paths.appDistStatic, {
     dereference: true,
   });
 }

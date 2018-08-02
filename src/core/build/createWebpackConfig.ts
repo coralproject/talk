@@ -149,7 +149,7 @@ export default function createWebpackConfig({
       // Add /* filename */ comments to generated require()s in the output.
       pathinfo: !isProduction,
       // The dist folder.
-      path: paths.appDist,
+      path: paths.appDistStatic,
       // Generated JS file names (with nested folders).
       // There will be one main bundle, and one file per asynchronous chunk.
       filename: isProduction
@@ -415,6 +415,7 @@ export default function createWebpackConfig({
         // Remove deactivated entries.
       ].filter(s => s),
       output: {
+        ...baseConfig.output,
         library: "Talk",
         // don't hash the embed, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
@@ -424,7 +425,7 @@ export default function createWebpackConfig({
         ...baseConfig.plugins!,
         // Generates an `stream.html` file with the <script> injected.
         new HtmlWebpackPlugin({
-          filename: "index.html",
+          filename: "embed.html",
           template: paths.appEmbedHTML,
           inject: "head",
           ...htmlWebpackConfig,
@@ -438,7 +439,7 @@ export default function createWebpackConfig({
         // to their corresponding output file so that tools can pick it up without
         // having to parse `index.html`.
         new ManifestPlugin({
-          fileName: "assets/embed-manifest.json",
+          fileName: "embed-manifest.json",
         }),
       ],
     },

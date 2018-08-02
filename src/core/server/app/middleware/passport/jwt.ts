@@ -3,7 +3,7 @@ import uuid from "uuid";
 
 import { Db } from "mongodb";
 import { Strategy } from "passport-strategy";
-import { Config } from "talk-server/config";
+import { Config } from "talk-common/config";
 import { retrieveUser, User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 

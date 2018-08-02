@@ -64,6 +64,7 @@ export default function({
       disableDotRule: true,
     },
     public: allowedHost,
+    index: "embed.html",
     proxy: {
       // Proxy to the graphql server.
       "/api": {
