@@ -1,6 +1,6 @@
 import bunyan, { LogLevelString } from "bunyan";
 
-import config from "talk-server/config";
+import config from "talk-common/config";
 
 const logger = bunyan.createLogger({
   name: "talk",
