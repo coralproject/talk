@@ -1,12 +1,9 @@
-// Allow importing typescript files.
-require("ts-node/register");
-
 const kebabCase = require("lodash/kebabCase");
 const mapKeys = require("lodash/mapKeys");
 const mapValues = require("lodash/mapValues");
 const pickBy = require("lodash/pickBy");
 const flat = require("flat");
-const paths = require("./paths");
+const paths = require("./paths").default;
 const autoprefixer = require("autoprefixer");
 const postcssFontMagician = require("postcss-font-magician");
 const postcssFlexbugsFixes = require("postcss-flexbugs-fixes");

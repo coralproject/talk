@@ -3,10 +3,10 @@ import http from "http";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
+import { Config } from "talk-common/config";
 import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
 import { JWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
-import { Config } from "talk-server/config";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
 import TenantCache from "talk-server/services/tenant/cache";

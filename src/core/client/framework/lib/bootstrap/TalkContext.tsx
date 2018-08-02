@@ -1,19 +1,31 @@
 import { LocalizationProvider } from "fluent-react/compat";
 import { MessageContext } from "fluent/compat";
+import { Child as PymChild } from "pym.js";
 import React, { StatelessComponent } from "react";
 import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
+
 import { UIContext } from "talk-ui/components";
+import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 
 export interface TalkContext {
-  // relayEnvironment for our relay framework.
+  /** relayEnvironment for our relay framework. */
   relayEnvironment: Environment;
 
-  // localMessages for our i18n framework.
+  /** localMessages for our i18n framework. */
   localeMessages: MessageContext[];
 
-  // formatter for timeago.
+  /** formatter for timeago. */
   timeagoFormatter?: Formatter;
+
+  /**
+   * A way to listen for clicks that are e.g. outside of the
+   * current frame for `ClickOutside`
+   */
+  registerClickFarAway?: ClickFarAwayRegister;
+
+  /** A pym child that interacts with the pym parent. */
+  pym?: PymChild;
 }
 
 const { Provider, Consumer } = React.createContext<TalkContext>({} as any);
@@ -32,7 +44,12 @@ export const TalkContextProvider: StatelessComponent<{
 }> = ({ value, children }) => (
   <Provider value={value}>
     <LocalizationProvider messages={value.localeMessages}>
-      <UIContext.Provider value={{ timeagoFormatter: value.timeagoFormatter }}>
+      <UIContext.Provider
+        value={{
+          timeagoFormatter: value.timeagoFormatter,
+          registerClickFarAway: value.registerClickFarAway,
+        }}
+      >
         {children}
       </UIContext.Provider>
     </LocalizationProvider>
