@@ -7,3 +7,5 @@ export { default as Flex } from "./Flex";
 export { default as MatchMedia } from "./MatchMedia";
 export { default as TrapFocus } from "./TrapFocus";
 export { default as ValidationMessage } from "./ValidationMessage";
+export { default as InputLabel } from "./InputLabel";
+export { default as TextField } from "./TextField";
