@@ -1,13 +1,10 @@
 import dotize from "dotize";
-import { merge } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
-import {
-  GQLMODERATION_MODE,
-  GQLUSER_ROLE,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLMODERATION_MODE } from "talk-server/graph/tenant/schema/__generated__/types";
+import { Settings } from "talk-server/models/settings";
 
 function collection(db: Db) {
   return db.collection<Readonly<Tenant>>("tenants");
@@ -17,148 +14,21 @@ export interface TenantResource {
   readonly tenant_id: string;
 }
 
-export interface Wordlist {
-  banned: string[];
-  suspect: string[];
-}
-
-// AuthIntegrations.
-
-export interface EmailDomainRuleCondition {
-  // emailDomain is the domain name component of the email addresses that should
-  // match for this condition.
-  emailDomain: string;
-
-  // emailVerifiedRequired stipulates that this rule only applies when the user
-  // account has been marked as having their email address already verified.
-  emailVerifiedRequired: boolean;
-}
-
-// RoleRule describes the role assignment for when a user logs into Talk, how
-// they can have their account automatically upgraded to a specific role when
-// the domain for their email matches the one provided.
-export interface RoleRule extends Partial<EmailDomainRuleCondition> {
-  // role is the specific GQLUSER_ROLE that should be assigned to the newly created
-  // user depending on their email address.
-  role: GQLUSER_ROLE;
-}
-
-export interface AuthRules {
-  // roles allow the configuration of automatic role assignment based on the
-  // user's email address.
-  roles?: RoleRule[];
-
-  // restrictTo when populated, will restrict which users can login using this
-  // integration. If a user successfully logs in using the OIDCStrategy, but
-  // does not match the following rules, the user will not be created.
-  restrictTo?: EmailDomainRuleCondition[];
-}
-
-export interface AuthIntegration {
-  enabled: boolean;
-}
-
-export interface DisplayNameAuthIntegration {
-  displayNameEnable: boolean;
-}
-
-// SSOAuthIntegration is an AuthIntegration that provides a secret to the admins
-// of a tenant, where they can sign a SSO payload with it to provide to the
-// embed to allow single sign on.
-export interface SSOAuthIntegration
-  extends AuthIntegration,
-    DisplayNameAuthIntegration {
-  key: string;
-}
-
-// OIDCAuthIntegration provides a way to store Open ID Connect credentials. This
-// will be used in the admin to provide staff logins for users.
-export interface OIDCAuthIntegration
-  extends AuthIntegration,
-    DisplayNameAuthIntegration {
-  clientID: string;
-  clientSecret: string;
-  issuer: string;
-  authorizationURL: string;
-  jwksURI: string;
-  tokenURL: string;
-}
-
-export interface FacebookAuthIntegration extends AuthIntegration {
-  clientID: string;
-  clientSecret: string;
-}
-
-export interface GoogleAuthIntegration extends AuthIntegration {
-  clientID: string;
-  clientSecret: string;
-}
-
-export type LocalAuthIntegration = AuthIntegration;
-
-// AuthIntegrations describes all of the possible auth integration configurations.
-export interface AuthIntegrations {
-  // local is the auth integration for the local auth.
-  local: LocalAuthIntegration;
-
-  // sso is the external auth integration for the single sign on auth.
-  sso?: SSOAuthIntegration;
-
-  // sso is the external auth integration for the OpenID Connect auth.
-  oidc?: OIDCAuthIntegration;
-
-  // sso is the external auth integration for the Google auth.
-  google?: GoogleAuthIntegration;
-
-  // sso is the external auth integration for the Facebook auth.
-  facebook?: FacebookAuthIntegration;
-}
-
-export interface Auth {
-  integrations: AuthIntegrations;
-}
-
 /**
  * Tenant describes a given Tenant on Talk that has Assets, Comments, and Users.
  */
-export interface Tenant {
+export interface Tenant extends Settings {
   readonly id: string;
 
   // Domain is set when the tenant is created, and is used to retrieve the
   // specific tenant that the API request pertains to.
   domain: string;
 
-  moderation: GQLMODERATION_MODE;
-  requireEmailConfirmation: boolean;
-  infoBoxEnable: boolean;
-  infoBoxContent?: string;
-  questionBoxEnable: boolean;
-  questionBoxIcon?: string;
-  questionBoxContent?: string;
-  premodLinksEnable: boolean;
-  autoCloseStream: boolean;
-  closedTimeout: number;
-  closedMessage?: string;
-  customCssUrl?: string;
-  disableCommenting: boolean;
-  disableCommentingMessage?: string;
-
-  // editCommentWindowLength is the length of time (in milliseconds) after a
-  // comment is posted that it can still be edited by the author.
-  editCommentWindowLength: number;
-  charCountEnable: boolean;
-  charCount?: number;
-  organizationName: string;
-  organizationContactEmail: string;
-
-  // wordlist stores all the banned/suspect words.
-  wordlist: Wordlist;
-
-  // domains is the set of whitelisted domains.
+  // domains is the list of domains that are allowed to have the iframe load on.
   domains: string[];
 
-  // Set of configured authentication integrations.
-  auth: Auth;
+  organizationName: string;
+  organizationContactEmail: string;
 }
 
 /**
@@ -208,10 +78,27 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
         },
       },
     },
+    karma: {
+      enabled: true,
+      thresholds: {
+        // By default, flaggers are reliable after one correct flag, and
+        // unreliable if there is an incorrect flag.
+        flag: { reliable: 1, unreliable: -1 },
+        comment: { reliable: 1, unreliable: -1 },
+      },
+    },
+    integrations: {
+      akismet: {
+        enabled: false,
+      },
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.
-  const tenant: Readonly<Tenant> = merge({}, input, defaults);
+  const tenant: Readonly<Tenant> = {
+    ...defaults,
+    ...input,
+  };
 
   // Insert the Tenant into the database.
   await collection(db).insert(tenant);

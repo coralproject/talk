@@ -4,7 +4,7 @@ import passport from "passport";
 import { signupHandler } from "talk-server/app/handlers/auth/local";
 import { apiErrorHandler } from "talk-server/app/middleware/error";
 import { errorLogger } from "talk-server/app/middleware/logging";
-import { wrapAuthorization } from "talk-server/app/middleware/passport";
+import { wrapAuthn } from "talk-server/app/middleware/passport";
 import tenantMiddleware from "talk-server/app/middleware/tenant";
 import managementGraphMiddleware from "talk-server/graph/management/middleware";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
@@ -67,24 +67,18 @@ function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
   router.post(
     "/local",
     express.json(),
-    wrapAuthorization(options.passport, app.signingConfig, "local")
+    wrapAuthn(options.passport, app.signingConfig, "local")
   );
   router.post(
     "/local/signup",
     express.json(),
     signupHandler({ db: app.mongo, signingConfig: app.signingConfig })
   );
-  router.post(
-    "/sso",
-    wrapAuthorization(options.passport, app.signingConfig, "sso")
-  );
-  router.get(
-    "/oidc",
-    wrapAuthorization(options.passport, app.signingConfig, "oidc")
-  );
+  router.post("/sso", wrapAuthn(options.passport, app.signingConfig, "sso"));
+  router.get("/oidc", wrapAuthn(options.passport, app.signingConfig, "oidc"));
   router.get(
     "/oidc/callback",
-    wrapAuthorization(options.passport, app.signingConfig, "oidc")
+    wrapAuthn(options.passport, app.signingConfig, "oidc")
   );
 
   return router;

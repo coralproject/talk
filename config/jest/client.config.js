@@ -2,12 +2,12 @@ const path = require("path");
 
 module.exports = {
   displayName: "client",
-  rootDir: "../",
+  rootDir: "../../",
   roots: ["<rootDir>/src/core/client"],
   collectCoverageFrom: ["**/*.{js,jsx,mjs,ts,tsx}"],
   coveragePathIgnorePatterns: ["/node_modules/"],
   setupFiles: [
-    "<rootDir>/config/polyfills.js",
+    "<rootDir>/src/core/build/polyfills.js",
     "<rootDir>/src/core/client/test/setup.ts",
   ],
   testMatch: ["**/*.spec.{js,jsx,mjs,ts,tsx}"],

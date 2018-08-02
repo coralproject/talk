@@ -8,7 +8,8 @@ import { Strategy } from "passport-strategy";
 import { validate } from "talk-server/app/request/body";
 import { reconstructURL } from "talk-server/app/url";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import { OIDCAuthIntegration, Tenant } from "talk-server/models/tenant";
+import { OIDCAuthIntegration } from "talk-server/models/settings";
+import { Tenant } from "talk-server/models/tenant";
 import { OIDCProfile, retrieveUserWithProfile } from "talk-server/models/user";
 import TenantCache from "talk-server/services/tenant/cache";
 import { upsert } from "talk-server/services/users";
@@ -179,16 +180,14 @@ export interface OIDCStrategyOptions {
 }
 
 export default class OIDCStrategy extends Strategy {
-  public name: string;
+  public name = "oidc";
 
   private mongo: Db;
-  private cache: Map<string, StrategyItem>;
+  private cache = new Map<string, StrategyItem>();
 
   constructor({ mongo, tenantCache }: OIDCStrategyOptions) {
     super();
 
-    this.name = "oidc";
-    this.cache = new Map();
     this.mongo = mongo;
 
     // Subscribe to updates with Tenants.

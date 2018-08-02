@@ -1,3 +1,4 @@
+import pym from "pym.js";
 import React from "react";
 import { StatelessComponent } from "react";
 import ReactDOM from "react-dom";
@@ -23,6 +24,7 @@ async function main() {
     init,
     localesData,
     userLocales: navigator.languages,
+    pym: new pym.Child({ polling: 100 }),
   });
 
   const Index: StatelessComponent = () => (

@@ -1,11 +1,12 @@
+import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
 import CommonContext from "talk-server/graph/common/context";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import TenantCache from "talk-server/services/tenant/cache";
+import { Request } from "talk-server/types/express";
 
-import { Redis } from "ioredis";
 import loaders from "./loaders";
 import mutators from "./mutators";
 
@@ -14,6 +15,7 @@ export interface TenantContextOptions {
   redis: Redis;
   tenant: Tenant;
   tenantCache: TenantCache;
+  req?: Request;
   user?: User;
 }
 
@@ -27,13 +29,14 @@ export default class TenantContext extends CommonContext {
   public tenantCache: TenantCache;
 
   constructor({
+    req,
     user,
     tenant,
     mongo,
     redis,
     tenantCache,
   }: TenantContextOptions) {
-    super({ user });
+    super({ user, req });
 
     this.tenant = tenant;
     this.tenantCache = tenantCache;
