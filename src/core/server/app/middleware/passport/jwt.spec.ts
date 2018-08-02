@@ -1,11 +1,11 @@
 import sinon from "sinon";
 
+import { Config } from "talk-common/config";
 import {
   createJWTSigningConfig,
   extractJWTFromRequest,
   parseAuthHeader,
 } from "talk-server/app/middleware/passport/jwt";
-import { Config } from "talk-server/config";
 import { Request } from "talk-server/types/express";
 
 describe("parseAuthHeader", () => {

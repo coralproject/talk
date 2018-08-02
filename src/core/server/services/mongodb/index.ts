@@ -1,5 +1,5 @@
 import { Db, MongoClient } from "mongodb";
-import { Config } from "talk-server/config";
+import { Config } from "talk-common/config";
 
 /**
  * create will connect to the MongoDB instance identified in the configuration.

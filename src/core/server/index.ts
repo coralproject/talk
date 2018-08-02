@@ -1,13 +1,13 @@
 import express, { Express } from "express";
 import http from "http";
 
+import config, { Config } from "talk-common/config";
 import { createJWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
 import getManagementSchema from "talk-server/graph/management/schema";
 import { Schemas } from "talk-server/graph/schemas";
 import getTenantSchema from "talk-server/graph/tenant/schema";
 
 import { attachSubscriptionHandlers, createApp, listenAndServe } from "./app";
-import config, { Config } from "./config";
 import logger from "./logger";
 import { createMongoDB } from "./services/mongodb";
 import { createRedisClient } from "./services/redis";

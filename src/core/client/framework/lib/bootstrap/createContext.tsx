@@ -1,22 +1,32 @@
+import { EventEmitter2 } from "eventemitter2";
 import { Localized } from "fluent-react/compat";
 import { noop } from "lodash";
+import { Child as PymChild } from "pym.js";
 import React from "react";
 import { Formatter } from "react-timeago";
 import { Environment, Network, RecordSource, Store } from "relay-runtime";
+
+import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 
 import { generateMessages, LocalesData, negotiateLanguages } from "../i18n";
 import { fetchQuery } from "../network";
 import { TalkContext } from "./TalkContext";
 
 interface CreateContextArguments {
-  // Locales that the user accepts, usually `navigator.languages`.
+  /** Locales that the user accepts, usually `navigator.languages`. */
   userLocales: ReadonlyArray<string>;
 
-  // Locales data that is returned by our `locales-loader`.
+  /** Locales data that is returned by our `locales-loader`. */
   localesData: LocalesData;
 
-  // Init will be called after the context has been created.
+  /** Init will be called after the context has been created. */
   init?: ((context: TalkContext) => void | Promise<void>);
+
+  /** A pym child that interacts with the pym parent. */
+  pym?: PymChild;
+
+  /** Supports emitting and listening to events. */
+  eventEmitter?: EventEmitter2;
 }
 
 /**
@@ -47,12 +57,29 @@ export default async function createContext({
   init = noop,
   userLocales,
   localesData,
+  pym,
+  eventEmitter = new EventEmitter2({ wildcard: true }),
 }: CreateContextArguments): Promise<TalkContext> {
   // Initialize Relay.
   const relayEnvironment = new Environment({
     network: Network.create(fetchQuery),
     store: new Store(new RecordSource()),
   });
+
+  // Listen for outside clicks.
+  let registerClickFarAway: ClickFarAwayRegister | undefined;
+  if (pym) {
+    registerClickFarAway = cb => {
+      pym.onMessage("click", cb);
+      // Return unlisten callback.
+      return () => {
+        const index = pym.messageHandlers.click.indexOf(cb);
+        if (index > -1) {
+          pym.messageHandlers.click.splice(index, 1);
+        }
+      };
+    };
+  }
 
   // Initialize i18n.
   const locales = negotiateLanguages(userLocales, localesData);
@@ -69,6 +96,9 @@ export default async function createContext({
     relayEnvironment,
     localeMessages,
     timeagoFormatter,
+    pym,
+    eventEmitter,
+    registerClickFarAway,
   };
 
   // Run custom initializations.
