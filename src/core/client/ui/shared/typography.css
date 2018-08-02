@@ -131,7 +131,16 @@
   color: var(--palette-common-black);
   font-family: var(--font-family);
   font-weight: var(--font-weight-medium);
-  font-size: 16px;
+  font-size: calc(16rem / var(--rem-base));
   line-height: normal;
   letter-spacing: calc(0.2em / 16);
+}
+
+.textField {
+  font-size: calc(16rem / var(--rem-base));
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family);
+  line-height: calc(18em / 16);
+  letter-spacing: calc(0.2em / 16);
+  color: var(--palette-text-primary);
 }

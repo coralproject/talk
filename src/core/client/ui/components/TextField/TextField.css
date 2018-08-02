@@ -1,0 +1,27 @@
+.root {
+  composes: textField from "talk-ui/shared/typography.css";
+  position: relative;
+  display: inline-flex;
+  padding: 7px 10px;
+  box-sizing: border-box;
+  border-radius: 1px;
+}
+
+.colorRegular {
+  backgroun-color: var(--palette-common-white);
+  color: var(--palette-common-black);
+  border: 1px solid var(--palette-grey-light);
+}
+
+.colorError {
+  background-color: var(--palette-common-white);
+  border-color: var(--palette-error-main);
+  border: 2px solid #FA4643;
+}
+
+.fullWidth {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
