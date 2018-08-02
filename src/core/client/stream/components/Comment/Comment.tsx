@@ -23,7 +23,9 @@ const Comment: StatelessComponent<CommentProps> = props => {
         <Timestamp>{props.createdAt}</Timestamp>
       </TopBar>
       <Typography>{props.body}</Typography>
-      <ValidationMessage color="error">Hello</ValidationMessage>
+      <ValidationMessage color="error">
+        Invalid characters. Try again
+      </ValidationMessage>
     </div>
   );
 };

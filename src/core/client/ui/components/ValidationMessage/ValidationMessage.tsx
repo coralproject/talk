@@ -22,16 +22,21 @@ interface InnerProps {
    * Color of the ValidationMessage
    */
   color?: "regular" | "error";
+  /*
+  * If set renders a full width button
+  */
+  fullWidth?: boolean;
 }
 
 const ValidationMessage: StatelessComponent<InnerProps> = props => {
-  const { className, classes, color, children, ...rest } = props;
+  const { className, classes, color, fullWidth, children, ...rest } = props;
 
   const rootClassName = cn(
     classes.root,
     {
       [classes.colorRegular]: color === "regular",
       [classes.colorError]: color === "error",
+      [classes.fullWidth]: fullWidth,
     },
     className
   );
@@ -39,7 +44,7 @@ const ValidationMessage: StatelessComponent<InnerProps> = props => {
   return (
     <div className={rootClassName} {...rest}>
       {color === "error" && (
-        <Icon size="sm" className={classes.icon}>
+        <Icon size="xsm" className={classes.icon}>
           warning
         </Icon>
       )}
@@ -50,6 +55,7 @@ const ValidationMessage: StatelessComponent<InnerProps> = props => {
 
 ValidationMessage.defaultProps = {
   color: "regular",
+  fullWidth: false,
 };
 
 const enhanced = withStyles(styles)(ValidationMessage);

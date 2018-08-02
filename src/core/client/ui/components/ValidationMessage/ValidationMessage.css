@@ -1,6 +1,11 @@
 .root {
   composes: validationMessage from "talk-ui/shared/typography.css";
-  padding: 4px;
+  position: relative;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 7px 10px;
+  box-sizing: border-box;
 }
 
 .colorRegular {
@@ -16,6 +21,12 @@
   border-left-width: 8px;
   border-left-style: solid;
   color: var(--palette-common-white);
+}
+
+.fullWidth {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .icon {
