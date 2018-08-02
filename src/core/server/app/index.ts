@@ -9,6 +9,7 @@ import { createPassport } from "talk-server/app/middleware/passport";
 import { JWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
+import TenantCache from "talk-server/services/tenant/cache";
 
 import { accessLogger, errorLogger } from "./middleware/logging";
 import serveStatic from "./middleware/serveStatic";
@@ -21,6 +22,7 @@ export interface AppOptions {
   redis: Redis;
   schemas: Schemas;
   signingConfig: JWTSigningConfig;
+  tenantCache: TenantCache;
 }
 
 /**
@@ -34,10 +36,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
   parent.use(accessLogger);
 
   // Create some services for the router.
-  const passport = createPassport({
-    db: options.mongo,
-    signingConfig: options.signingConfig,
-  });
+  const passport = createPassport(options);
 
   // Mount the router.
   parent.use(
@@ -76,7 +75,7 @@ export const listenAndServe = (
  * handle websocket traffic by upgrading their http connections to websocket.
  *
  * @param schemas schemas for every schema this application handles
- * @param server the http.Server to attach the websocket upgraders to
+ * @param server the http.Server to attach the websocket upgrader to
  */
 export async function attachSubscriptionHandlers(
   schemas: Schemas,

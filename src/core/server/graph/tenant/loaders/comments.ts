@@ -14,7 +14,7 @@ import {
 
 export default (ctx: Context) => ({
   comment: new DataLoader((ids: string[]) =>
-    retrieveManyComments(ctx.db, ctx.tenant.id, ids)
+    retrieveManyComments(ctx.mongo, ctx.tenant.id, ids)
   ),
   forAsset: (
     assetID: string,
@@ -25,7 +25,7 @@ export default (ctx: Context) => ({
       after,
     }: AssetToCommentsArgs
   ) =>
-    retrieveCommentAssetConnection(ctx.db, ctx.tenant.id, assetID, {
+    retrieveCommentAssetConnection(ctx.mongo, ctx.tenant.id, assetID, {
       first,
       orderBy,
       after,
@@ -40,9 +40,15 @@ export default (ctx: Context) => ({
       after,
     }: CommentToRepliesArgs
   ) =>
-    retrieveCommentRepliesConnection(ctx.db, ctx.tenant.id, assetID, parentID, {
-      first,
-      orderBy,
-      after,
-    }),
+    retrieveCommentRepliesConnection(
+      ctx.mongo,
+      ctx.tenant.id,
+      assetID,
+      parentID,
+      {
+        first,
+        orderBy,
+        after,
+      }
+    ),
 });

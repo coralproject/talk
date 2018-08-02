@@ -12,6 +12,7 @@ import { createLocalStrategy } from "talk-server/app/middleware/passport/local";
 import { createOIDCStrategy } from "talk-server/app/middleware/passport/oidc";
 import { createSSOStrategy } from "talk-server/app/middleware/passport/sso";
 import { User } from "talk-server/models/user";
+import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
 
 export type VerifyCallback = (
@@ -21,28 +22,28 @@ export type VerifyCallback = (
 ) => void;
 
 export interface PassportOptions {
-  db: Db;
+  mongo: Db;
   signingConfig: JWTSigningConfig;
+  tenantCache: TenantCache;
 }
 
-export function createPassport({
-  db,
-  signingConfig,
-}: PassportOptions): passport.Authenticator {
+export function createPassport(
+  options: PassportOptions
+): passport.Authenticator {
   // Create the authenticator.
   const auth = new Authenticator();
 
   // Use the OIDC Strategy.
-  auth.use(createOIDCStrategy({ db }));
+  auth.use(createOIDCStrategy(options));
 
   // Use the LocalStrategy.
-  auth.use(createLocalStrategy({ db }));
+  auth.use(createLocalStrategy(options));
 
   // Use the SSOStrategy.
-  auth.use(createSSOStrategy({ db }));
+  auth.use(createSSOStrategy(options));
 
   // Use the JWTStrategy.
-  auth.use(createJWTStrategy({ db, signingConfig }));
+  auth.use(createJWTStrategy(options));
 
   return auth;
 }

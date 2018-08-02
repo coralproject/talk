@@ -26,6 +26,19 @@ Cursor represents a paginating cursor.
 scalar Cursor
 
 ################################################################################
+## Actions
+################################################################################
+
+enum ACTION_TYPE {
+  FLAG
+  DONTAGREE
+}
+
+enum ACTION_ITEM_TYPE {
+  COMMENTS
+}
+
+################################################################################
 ## Settings
 ################################################################################
 
@@ -287,7 +300,7 @@ type Settings {
   """
   domains will return a given list of whitelisted domains.
   """
-  domains: [String!] @auth(roles: [ADMIN]) @auth(roles: [ADMIN])
+  domains: [String!] @auth(roles: [ADMIN])
 
   """
   auth contains all the settings related to authentication and authorization.
@@ -301,6 +314,7 @@ type Settings {
 
 enum USER_ROLE {
   COMMENTER
+  STAFF
   MODERATOR
   ADMIN
 }
@@ -390,8 +404,34 @@ type User {
 ################################################################################
 
 enum COMMENT_STATUS {
+  """
+  The comment is not PREMOD, but was not applied a moderation status by a
+  moderator.
+  """
   NONE
+
+  """
+  The comment has been accepted by a moderator.
+  """
   ACCEPTED
+
+  """
+  The comment has been rejected by a moderator.
+  """
+  REJECTED
+
+  """
+  The comment was created while the asset's premoderation option was on, and
+  new comments that haven't been moderated yet are referred to as
+  "premoderated" or "premod" comments.
+  """
+  PREMOD
+
+  """
+  SYSTEM_WITHHELD represents a comment that was withheld by the system because
+  it was flagged by an internal process for further review.
+  """
+  SYSTEM_WITHHELD
 }
 
 """
@@ -662,6 +702,66 @@ type CreateCommentPayload {
 }
 
 ##################
+## updateSettings
+##################
+
+"""
+SettingsInput is the partial type of the Settings type for performing mutations.
+"""
+input SettingsInput {
+  moderation: MODERATION_MODE
+  requireEmailConfirmation: Boolean
+  infoBoxEnable: Boolean
+  infoBoxContent: String
+  questionBoxEnable: Boolean
+  questionBoxContent: String
+  questionBoxIcon: String
+  premodLinksEnable: Boolean
+  autoCloseStream: Boolean
+  customCssUrl: String
+  closedTimeout: Int
+  closedMessage: String
+  disableCommenting: Boolean
+  disableCommentingMessage: String
+  editCommentWindowLength: Int
+  charCountEnable: Boolean
+  charCount: Int
+  organizationName: String
+  organizationContactEmail: String
+  # wordlist: WordlistSettings @auth(roles: [ADMIN, MODERATOR])
+  domains: [String!]
+  # auth: AuthSettings!
+}
+
+"""
+UpdateSettingsInput provides the input for the updateSettings Mutation.
+"""
+input UpdateSettingsInput {
+  settings: SettingsInput!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+"""
+UpdateSettingsPayload contains the updated Settings after the updateSettings
+mutation.
+"""
+type UpdateSettingsPayload {
+  """
+  settings is the updated Settings.
+  """
+  settings: Settings
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -670,6 +770,11 @@ type Mutation {
   createComment will create a Comment as the current logged in User.
   """
   createComment(input: CreateCommentInput!): CreateCommentPayload @auth
+
+  """
+  updateSettings will update the Settings for the given Tenant.
+  """
+  updateSettings(input: UpdateSettingsInput!): UpdateSettingsPayload @auth(roles: [ADMIN])
 }
 
 ################################################################################
