@@ -8,7 +8,7 @@ export interface Config {
   assetURL?: string;
   rootURL?: string;
   id?: string;
-  events?: (eventEmitter: EventEmitter2) => null;
+  events?: (eventEmitter: EventEmitter2) => void;
 }
 
 export function render(config: Config = {}) {

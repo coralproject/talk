@@ -27,7 +27,7 @@ process.on("unhandledRejection", err => {
   throw err;
 });
 
-const PORT = 8080;
+const PORT = parseInt(process.env.DEV_SERVER_PORT!, 10) || 8080;
 const HOST = "0.0.0.0";
 
 if (process.env.HOST) {
@@ -77,14 +77,14 @@ choosePort(HOST, PORT)
     });
 
     ["SIGINT", "SIGTERM"].forEach((sig: any) => {
-      process.on(sig, () => {
+      process.once(sig, () => {
         devServer.close();
         process.exit();
       });
     });
   })
   .catch((err: Error) => {
-    if (err && err.message) {
+    if (err.message) {
       console.log(err.message);
     }
     process.exit(1);
