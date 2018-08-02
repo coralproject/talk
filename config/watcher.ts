@@ -4,8 +4,6 @@ import {
   Config,
   LongRunningExecutor,
 } from "../scripts/watcher";
-// Ensure environment variables are read.
-import "./env";
 
 const config: Config = {
   rootDir: path.resolve(__dirname, "../src"),

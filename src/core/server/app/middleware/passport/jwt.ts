@@ -3,7 +3,7 @@ import uuid from "uuid";
 
 import { Db } from "mongodb";
 import { Strategy } from "passport-strategy";
-import { Config } from "talk-server/config";
+import { Config } from "talk-common/config";
 import { retrieveUser, User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
@@ -142,15 +142,14 @@ export interface JWTStrategyOptions {
 }
 
 export class JWTStrategy extends Strategy {
+  public name = "jwt";
+
   private signingConfig: JWTSigningConfig;
   private mongo: Db;
-
-  public name: string;
 
   constructor({ signingConfig, mongo }: JWTStrategyOptions) {
     super();
 
-    this.name = "jwt";
     this.signingConfig = signingConfig;
     this.mongo = mongo;
   }

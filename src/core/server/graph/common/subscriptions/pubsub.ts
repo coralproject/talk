@@ -1,5 +1,5 @@
 import { RedisPubSub } from "graphql-redis-subscriptions";
-import { Config } from "talk-server/config";
+import { Config } from "talk-common/config";
 import { createRedisClient } from "talk-server/services/redis";
 
 export async function createPubSub(config: Config): Promise<RedisPubSub> {

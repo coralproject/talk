@@ -1,8 +1,20 @@
-"use strict";
+#!/usr/bin/env ts-node
+
+import chalk from "chalk";
+import fs from "fs-extra";
+import FileSizeReporter from "react-dev-utils/FileSizeReporter";
+import formatWebpackMessages from "react-dev-utils/formatWebpackMessages";
+import printBuildError from "react-dev-utils/printBuildError";
+import webpack from "webpack";
+
+import paths from "../config/paths";
+import createWebpackConfig from "../src/core/build/createWebpackConfig";
+import config, { createClientEnv } from "../src/core/common/config";
 
 // tslint:disable: no-console
 
-// Do this as the first thing so that any code reading it knows the right env.
+// Enforce environment to be production.
+config.validate().set("env", "production");
 process.env.BABEL_ENV = "production";
 process.env.NODE_ENV = "production";
 
@@ -12,20 +24,6 @@ process.env.NODE_ENV = "production";
 process.on("unhandledRejection", err => {
   throw err;
 });
-
-// Ensure environment variables are read.
-require("../config/env");
-
-const path = require("path");
-const chalk = require("chalk");
-const fs = require("fs-extra");
-const webpack = require("webpack");
-const config = require("../config/webpack.config.prod");
-const paths = require("../config/paths");
-const formatWebpackMessages = require("react-dev-utils/formatWebpackMessages");
-const printHostingInstructions = require("react-dev-utils/printHostingInstructions");
-const FileSizeReporter = require("react-dev-utils/FileSizeReporter");
-const printBuildError = require("react-dev-utils/printBuildError");
 
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
@@ -42,15 +40,15 @@ const treatWarningsAsErrors =
   false &&
   process.env.CI &&
   (typeof process.env.CI !== "string" ||
-    process.env.CI.toLowerCase() !== "false");
+    process.env.CI!.toLowerCase() !== "false");
 
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
-measureFileSizesBeforeBuild(paths.appDist)
-  .then(previousFileSizes => {
+measureFileSizesBeforeBuild(paths.appDistStatic)
+  .then((previousFileSizes: any) => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
-    fs.emptyDirSync(paths.appDist);
+    fs.emptyDirSync(paths.appDistStatic);
     // Merge with the public folder
     if (fs.pathExistsSync(paths.appPublic)) {
       copyPublicFolder();
@@ -59,7 +57,7 @@ measureFileSizesBeforeBuild(paths.appDist)
     return build(previousFileSizes);
   })
   .then(
-    ({ stats, previousFileSizes, warnings }) => {
+    ({ stats, previousFileSizes, warnings }: any) => {
       if (warnings.length) {
         console.log(chalk.yellow("Compiled with warnings.\n"));
         console.log(warnings.join("\n\n"));
@@ -81,13 +79,13 @@ measureFileSizesBeforeBuild(paths.appDist)
       printFileSizesAfterBuild(
         stats,
         previousFileSizes,
-        paths.appDist,
+        paths.appDistStatic,
         WARN_AFTER_BUNDLE_GZIP_SIZE,
         WARN_AFTER_CHUNK_GZIP_SIZE
       );
       console.log();
     },
-    err => {
+    (err: Error) => {
       console.log(chalk.red("Failed to compile.\n"));
       printBuildError(err);
       process.exit(1);
@@ -95,16 +93,18 @@ measureFileSizesBeforeBuild(paths.appDist)
   );
 
 // Create the production build and print the deployment instructions.
-function build(previousFileSizes) {
+function build(previousFileSizes: any) {
   console.log("Creating an optimized production build...");
-
-  let compiler = webpack(config);
+  const webpackConfig = createWebpackConfig({
+    env: createClientEnv(config),
+  });
+  const compiler = webpack(webpackConfig);
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       if (err) {
         return reject(err);
       }
-      const messages = formatWebpackMessages(stats.toJson({}, true));
+      const messages = formatWebpackMessages(stats.toJson({}));
       if (messages.errors.length) {
         // Only keep the first error. Others are often indicative
         // of the same problem, but confuse the reader with noise.
@@ -132,7 +132,7 @@ function build(previousFileSizes) {
 }
 
 function copyPublicFolder() {
-  fs.copySync(paths.appPublic, paths.appDist, {
+  fs.copySync(paths.appPublic, paths.appDistStatic, {
     dereference: true,
   });
 }

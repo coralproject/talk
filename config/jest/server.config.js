@@ -1,6 +1,6 @@
 module.exports = {
   displayName: "server",
-  rootDir: "../",
+  rootDir: "../../",
   roots: ["<rootDir>/src"],
   collectCoverageFrom: ["**/*.{js,jsx,mjs,ts,tsx}"],
   coveragePathIgnorePatterns: ["/node_modules/"],

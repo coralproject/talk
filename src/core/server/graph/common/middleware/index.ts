@@ -5,7 +5,7 @@ import {
   GraphQLOptions,
 } from "apollo-server-express";
 import { FieldDefinitionNode, GraphQLError, ValidationContext } from "graphql";
-import { Config } from "talk-server/config";
+import { Config } from "talk-common/config";
 
 // Sourced from: https://github.com/apollographql/apollo-server/blob/958846887598491fadea57b3f9373d129300f250/packages/apollo-server-core/src/ApolloServer.ts#L46-L57
 const NoIntrospection = (context: ValidationContext) => ({

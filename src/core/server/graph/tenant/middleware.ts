@@ -2,7 +2,7 @@ import { GraphQLSchema } from "graphql";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
-import { Config } from "talk-server/config";
+import { Config } from "talk-common/config";
 import { graphqlMiddleware } from "talk-server/graph/common/middleware";
 import { Request } from "talk-server/types/express";
 
