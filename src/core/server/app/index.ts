@@ -3,14 +3,15 @@ import http from "http";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
-import { Config } from "talk-server/config";
+import { Config } from "talk-common/config";
+import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
+import { createPassport } from "talk-server/app/middleware/passport";
+import { JWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
+import TenantCache from "talk-server/services/tenant/cache";
 
-import {
-  access as accessLogger,
-  error as errorLogger,
-} from "./middleware/logging";
+import { accessLogger, errorLogger } from "./middleware/logging";
 import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";
 
@@ -20,6 +21,8 @@ export interface AppOptions {
   mongo: Db;
   redis: Redis;
   schemas: Schemas;
+  signingConfig: JWTSigningConfig;
+  tenantCache: TenantCache;
 }
 
 /**
@@ -32,13 +35,21 @@ export async function createApp(options: AppOptions): Promise<Express> {
   // Logging
   parent.use(accessLogger);
 
+  // Create some services for the router.
+  const passport = createPassport(options);
+
+  // Mount the router.
+  parent.use(
+    await createRouter(options, {
+      passport,
+    })
+  );
+
   // Static Files
   parent.use(serveStatic);
 
-  // Mount the router.
-  parent.use(await createRouter(options));
-
   // Error Handling
+  parent.use(notFoundMiddleware);
   parent.use(errorLogger);
 
   return parent;
@@ -64,7 +75,7 @@ export const listenAndServe = (
  * handle websocket traffic by upgrading their http connections to websocket.
  *
  * @param schemas schemas for every schema this application handles
- * @param server the http.Server to attach the websocket upgraders to
+ * @param server the http.Server to attach the websocket upgrader to
  */
 export async function attachSubscriptionHandlers(
   schemas: Schemas,

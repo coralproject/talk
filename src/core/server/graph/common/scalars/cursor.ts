@@ -1,11 +1,15 @@
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
 import { DateTime } from "luxon";
+
 import { Cursor } from "talk-server/models/connection";
 
 function parseIntegerCursor(value: string): number | null {
   try {
     const cursor = parseInt(value, 10);
+    if (isNaN(cursor)) {
+      return null;
+    }
 
     return cursor;
   } catch (err) {

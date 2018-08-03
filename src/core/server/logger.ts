@@ -1,5 +1,12 @@
-import bunyan from "bunyan";
+import bunyan, { LogLevelString } from "bunyan";
 
-const logger = bunyan.createLogger({ name: "talk" });
+import config from "talk-common/config";
+
+const logger = bunyan.createLogger({
+  name: "talk",
+  serializers: bunyan.stdSerializers,
+  // TODO: (wyattjoh) move this into some managed instance?
+  level: config.get("logging_level") as LogLevelString,
+});
 
 export default logger;

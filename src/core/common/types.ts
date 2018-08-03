@@ -11,3 +11,5 @@ export type Sub<T, U> = Pick<T, Diff<keyof T, keyof U>>;
  * Make all properties in T writeable
  */
 export type Writeable<T> = { -readonly [P in keyof T]: T[P] };
+
+export type Promiseable<T> = Promise<T> | T;

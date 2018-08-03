@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["dom", "es5"],
+    "types": ["jest"],
+    "paths": {}
+  },
+  "include": [
+    "./**/*",
+    "../../../types/pym.d.ts",
+    "../../../types/simulant.d.ts"
+  ],
+  "exclude": ["node_modules"]
+}

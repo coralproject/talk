@@ -1,5 +1,5 @@
-import Cursor from "../../common/scalars/cursor";
+import { GQLResolver } from "talk-server/graph/management/schema/__generated__/types";
 
-export default {
-  Cursor,
-};
+const Resolvers: GQLResolver = {};
+
+export default Resolvers;

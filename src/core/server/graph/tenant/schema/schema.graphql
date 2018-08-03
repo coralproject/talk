@@ -1,4 +1,17 @@
 ################################################################################
+## Custom Directives
+################################################################################
+
+"""
+auth is a directive that will enforce authorization rules on the schema
+definition. It will restrict the viewer of the field based on roles or if the
+`userIDField` is specified, it will see if the current users ID equals the field
+specified. This allows users that own a specific resource (like a comment, or a
+flag) see their own content, but restrict it to everyone else.
+"""
+directive @auth(roles: [USER_ROLE!], userIDField: String) on FIELD_DEFINITION
+
+################################################################################
 ## Custom Scalar Types
 ################################################################################
 
@@ -11,6 +24,19 @@ scalar Time
 Cursor represents a paginating cursor.
 """
 scalar Cursor
+
+################################################################################
+## Actions
+################################################################################
+
+enum ACTION_TYPE {
+  FLAG
+  DONTAGREE
+}
+
+enum ACTION_ITEM_TYPE {
+  COMMENTS
+}
 
 ################################################################################
 ## Settings
@@ -31,9 +57,9 @@ enum MODERATION_MODE {
 }
 
 """
-Wordlist describes all the available wordlists.
+WordlistSettings describes all the available wordlists.
 """
-type Wordlist {
+type WordlistSettings {
   """
   banned words will by default reject the comment if it is found.
   """
@@ -45,12 +71,129 @@ type Wordlist {
   suspect: [String!]!
 }
 
-# Settings stores the global settings for a given installation.
+################################################################################
+## AuthSettings
+################################################################################
+
+##########################
+## LocalAuthIntegration
+##########################
+
+type LocalAuthIntegration {
+  enabled: Boolean!
+}
+
+##########################
+## SSOAuthIntegration
+##########################
+
+type SSOAuthIntegrationConfig {
+  key: String!
+
+  """
+  displayNameEnable when enabled, will allow Users to set and view their
+  displayName's.
+  """
+  displayNameEnable: Boolean!
+}
+
+type SSOAuthIntegration {
+  enabled: Boolean!
+  config: SSOAuthIntegrationConfig @auth(roles: [ADMIN])
+}
+
+##########################
+## OIDCAuthIntegration
+##########################
+
+type OIDCAuthIntegrationConfig {
+  clientID: String!
+  clientSecret: String!
+  authorizationURL: String!
+  tokenURL: String!
+
+  """
+  displayNameEnable when enabled, will allow Users to set and view their
+  displayName's.
+  """
+  displayNameEnable: Boolean!
+}
+
+type OIDCAuthIntegrationOptions {
+  name: String!
+}
+
+type OIDCAuthIntegration {
+  enabled: Boolean!
+  options: OIDCAuthIntegrationOptions
+  config: SSOAuthIntegrationConfig @auth(roles: [ADMIN])
+}
+
+##########################
+## GoogleAuthIntegration
+##########################
+
+type GoogleAuthIntegrationConfig {
+  clientID: String!
+  clientSecret: String!
+}
+
+type GoogleAuthIntegration {
+  enabled: Boolean!
+  config: GoogleAuthIntegrationConfig @auth(roles: [ADMIN])
+}
+
+##########################
+## FacebookAuthIntegration
+##########################
+
+type FacebookAuthIntegrationConfig {
+  clientID: String!
+  clientSecret: String!
+}
+
+type FacebookAuthIntegration {
+  enabled: Boolean!
+  config: FacebookAuthIntegrationConfig @auth(roles: [ADMIN])
+}
+
+type AuthIntegrations {
+  local: LocalAuthIntegration!
+  sso: SSOAuthIntegration!
+  oidc: OIDCAuthIntegration!
+  google: GoogleAuthIntegration!
+  facebook: FacebookAuthIntegration!
+}
+
+"""
+AuthSettings contains all the settings related to authentication and
+authorization.
+"""
+type AuthSettings {
+  """
+  integrations are the set of configurations for the variations of
+  authentication solutions.
+  """
+  integrations: AuthIntegrations!
+}
+
+################################################################################
+## Settings
+################################################################################
+
+"""
+Settings stores the global settings for a given Tenant.
+"""
 type Settings {
+  """
+  domain is the domain that is associated with this Tenant.
+  """
+  domain: String @auth(roles: [ADMIN])
+
   """
   moderation is the moderation mode for all Asset's on the site.
   """
-  moderation: MODERATION_MODE!
+  moderation: MODERATION_MODE @auth(roles: [ADMIN])
 
   """
   Enables a requirement for email confirmation before a user can login.
@@ -87,13 +230,13 @@ type Settings {
   """
   premodLinksEnable will put all comments that contain links into premod.
   """
-  premodLinksEnable: Boolean!
+  premodLinksEnable: Boolean @auth(roles: [ADMIN])
 
   """
   autoCloseStream when true will auto close the stream when the `closeTimeout`
   amount of seconds have been reached.
   """
-  autoCloseStream: Boolean!
+  autoCloseStream: Boolean! @auth(roles: [ADMIN])
 
   """
   customCssUrl is the URL of the custom CSS used to display on the frontend.
@@ -152,17 +295,79 @@ type Settings {
   """
   wordlist will return a given list of words.
   """
-  wordlist: Wordlist!
+  wordlist: WordlistSettings @auth(roles: [ADMIN, MODERATOR])
 
   """
   domains will return a given list of whitelisted domains.
   """
-  domains: [String!]!
+  domains: [String!] @auth(roles: [ADMIN])
+
+  """
+  auth contains all the settings related to authentication and authorization.
+  """
+  auth: AuthSettings!
 }
 
 ################################################################################
 ## User
 ################################################################################
+
+enum USER_ROLE {
+  COMMENTER
+  STAFF
+  MODERATOR
+  ADMIN
+}
+
+enum USER_USERNAME_STATUS {
+  """
+  UNSET is used when the username can be changed, and does not necessarily
+  require moderator action to become active. This can be used when the user
+  signs up with a social login and has the option of setting their own
+  username.
+  """
+  UNSET
+
+  """
+  SET is used when the username has been set for the first time, but cannot
+  change without the username being rejected by a moderator and that moderator
+  agreeing that the username should be allowed to change.
+  """
+  SET
+
+  """
+  APPROVED is used when the username was changed, and subsequently approved by
+  said moderator.
+  """
+  APPROVED
+
+  """
+  REJECTED is used when the username was changed, and subsequently rejected by
+  said moderator.
+  """
+  REJECTED
+
+  """
+  CHANGED is used after a user has changed their username after it was
+  rejected.
+  """
+  CHANGED
+}
+
+type LocalProfile {
+  id: String!
+}
+
+type OIDCProfile {
+  id: String!
+  provider: String!
+}
+
+type SSOProfile {
+  id: String!
+}
+
+union Profile = LocalProfile | OIDCProfile | SSOProfile
 
 """
 User is someone that leaves Comments, and logs in.
@@ -176,7 +381,22 @@ type User {
   """
   username is the name of the User visible to other Users.
   """
-  username: String!
+  username: String
+
+  """
+  displayName is provided optionally when enabled and available.
+  """
+  displayName: String
+
+  """
+  profiles is the array of profiles assigned to the user.
+  """
+  profiles: [Profile!] @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+
+  """
+  role is the current role of the User.
+  """
+  role: USER_ROLE! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
 }
 
 ################################################################################
@@ -184,8 +404,34 @@ type User {
 ################################################################################
 
 enum COMMENT_STATUS {
+  """
+  The comment is not PREMOD, but was not applied a moderation status by a
+  moderator.
+  """
   NONE
+
+  """
+  The comment has been accepted by a moderator.
+  """
   ACCEPTED
+
+  """
+  The comment has been rejected by a moderator.
+  """
+  REJECTED
+
+  """
+  The comment was created while the asset's premoderation option was on, and
+  new comments that haven't been moderated yet are referred to as
+  "premoderated" or "premod" comments.
+  """
+  PREMOD
+
+  """
+  SYSTEM_WITHHELD represents a comment that was withheld by the system because
+  it was flagged by an internal process for further review.
+  """
+  SYSTEM_WITHHELD
 }
 
 """
@@ -391,9 +637,9 @@ type Query {
   assets(cursor: Cursor, limit: Int = 10): AssetsConnection
 
   """
-  asset is the Asset specified by its ID.
+  asset is the Asset specified by its ID/URL.
   """
-  asset(id: ID!): Asset
+  asset(id: ID, url: String): Asset
 
   """
   me is the current logged in User.
@@ -456,6 +702,66 @@ type CreateCommentPayload {
 }
 
 ##################
+## updateSettings
+##################
+
+"""
+SettingsInput is the partial type of the Settings type for performing mutations.
+"""
+input SettingsInput {
+  moderation: MODERATION_MODE
+  requireEmailConfirmation: Boolean
+  infoBoxEnable: Boolean
+  infoBoxContent: String
+  questionBoxEnable: Boolean
+  questionBoxContent: String
+  questionBoxIcon: String
+  premodLinksEnable: Boolean
+  autoCloseStream: Boolean
+  customCssUrl: String
+  closedTimeout: Int
+  closedMessage: String
+  disableCommenting: Boolean
+  disableCommentingMessage: String
+  editCommentWindowLength: Int
+  charCountEnable: Boolean
+  charCount: Int
+  organizationName: String
+  organizationContactEmail: String
+  # wordlist: WordlistSettings @auth(roles: [ADMIN, MODERATOR])
+  domains: [String!]
+  # auth: AuthSettings!
+}
+
+"""
+UpdateSettingsInput provides the input for the updateSettings Mutation.
+"""
+input UpdateSettingsInput {
+  settings: SettingsInput!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+"""
+UpdateSettingsPayload contains the updated Settings after the updateSettings
+mutation.
+"""
+type UpdateSettingsPayload {
+  """
+  settings is the updated Settings.
+  """
+  settings: Settings
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -463,7 +769,12 @@ type Mutation {
   """
   createComment will create a Comment as the current logged in User.
   """
-  createComment(input: CreateCommentInput!): CreateCommentPayload
+  createComment(input: CreateCommentInput!): CreateCommentPayload @auth
+
+  """
+  updateSettings will update the Settings for the given Tenant.
+  """
+  updateSettings(input: UpdateSettingsInput!): UpdateSettingsPayload @auth(roles: [ADMIN])
 }
 
 ################################################################################

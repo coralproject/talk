@@ -1,24 +1,12 @@
-import { ClientMutationProps } from "talk-server/graph/common/resolvers/mutation";
-import TenantContext from "talk-server/graph/tenant/context";
-import { Comment } from "talk-server/models/comment";
+import { GQLMutationTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 
-export interface CreateCommentInput extends ClientMutationProps {
-  assetID: string;
-  parentID?: string;
-  body: string;
-}
-
-export interface CreateCommentPayload extends ClientMutationProps {
-  comment: Comment;
-}
-
-const Mutation = {
-  createComment: async (
-    source: void,
-    input: CreateCommentInput,
-    ctx: TenantContext
-  ): Promise<CreateCommentPayload> => ({
+const Mutation: GQLMutationTypeResolver<void> = {
+  createComment: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comment.create(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  updateSettings: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.update(input.settings),
     clientMutationId: input.clientMutationId,
   }),
 };

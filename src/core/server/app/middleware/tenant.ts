@@ -1,11 +1,10 @@
 import { NextFunction, Response } from "express";
-import { Db } from "mongodb";
 
-import { retrieveTenantByDomain } from "talk-server/models/tenant";
+import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
 
 export interface MiddlewareOptions {
-  db: Db;
+  cache: TenantCache;
 }
 
 export default (options: MiddlewareOptions) => async (
@@ -14,12 +13,17 @@ export default (options: MiddlewareOptions) => async (
   next: NextFunction
 ) => {
   try {
-    // TODO: replace with shared synced cache instead of direct db access.
-    const tenant = await retrieveTenantByDomain(options.db, req.hostname);
+    const { cache } = options;
+
+    // Attach the tenant to the request.
+    const tenant = await cache.retrieveByDomain(req.hostname);
     if (!tenant) {
       // TODO: send a http.StatusNotFound?
       return next(new Error("tenant not found"));
     }
+
+    // Attach the tenant cache to the request.
+    req.tenantCache = cache;
 
     // Attach the tenant to the request.
     req.tenant = tenant;
