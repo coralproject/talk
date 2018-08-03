@@ -7,11 +7,6 @@ exports[`renders comment stream 1`] = `
   <div
     className="Stream-root"
   >
-    <h1
-      className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-gutterBottom"
-    >
-      Talk NEO
-    </h1>
     <form
       autoComplete="off"
       onSubmit={[Function]}
@@ -144,11 +139,6 @@ exports[`show all replies 1`] = `
   <div
     className="Stream-root"
   >
-    <h1
-      className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-gutterBottom"
-    >
-      Talk NEO
-    </h1>
     <form
       autoComplete="off"
       onSubmit={[Function]}

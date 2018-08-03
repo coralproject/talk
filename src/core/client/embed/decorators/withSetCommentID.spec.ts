@@ -11,7 +11,7 @@ it("should add commentID", () => {
     },
   };
   withSetCommentID(fakePym as any);
-  expect(location.toString()).toBe("http://localhost/?commentId=comment-id");
+  expect(location.toString()).toBe("http://localhost/?commentID=comment-id");
   window.history.replaceState(previousState, document.title, previousLocation);
 });
 
@@ -21,7 +21,7 @@ it("should remove commentID", () => {
   window.history.replaceState(
     previousState,
     document.title,
-    "http://localhost/?commentId=comment-id"
+    "http://localhost/?commentID=comment-id"
   );
   const fakePym = {
     onMessage: (type: string, callback: () => void) => {
