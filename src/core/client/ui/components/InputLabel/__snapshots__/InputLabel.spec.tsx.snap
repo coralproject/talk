@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<p
+  className="Typography-root Typography-bodyCopy Typography-colorTextPrimary InputLabel-root custom"
+>
+  Hello
+</p>
+`;

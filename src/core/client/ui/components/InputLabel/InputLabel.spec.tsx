@@ -9,6 +9,8 @@ it("renders correctly", () => {
   const props: PropTypesOf<typeof InputLabel> = {
     className: "custom",
   };
-  const renderer = TestRenderer.create(<InputLabel>Hello</InputLabel>);
+  const renderer = TestRenderer.create(
+    <InputLabel {...props}>Hello</InputLabel>
+  );
   expect(renderer.toJSON()).toMatchSnapshot();
 });
