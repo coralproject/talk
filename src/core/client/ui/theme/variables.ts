@@ -4,6 +4,9 @@
  */
 
 const variables = {
+  elevation: {
+    main: "1px 0px 4px rgba(0, 0, 0, 0.25)",
+  },
   palette: {
     /* Primary colors */
     primary: {

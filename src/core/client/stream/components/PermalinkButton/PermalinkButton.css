@@ -1,5 +1,4 @@
 .popover {
   width: 350px;
   max-width: 80%;
-  margin-bottom: calc(0.5 * var(--spacing-unit));
 }

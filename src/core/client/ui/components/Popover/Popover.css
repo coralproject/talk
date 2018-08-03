@@ -1,15 +1,21 @@
 .root {
-  background: #ffffff;
-  border: 1px solid #c9cacb;
+  background: var(--palette-common-white);
+  border: 1px solid var(--palette-grey-light);
   box-sizing: border-box;
-  box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 1px;
-  color: #222;
-  display: flex;
+  box-shadow: var(--elevation-main);
+  border-radius: var(--round-corners);
   padding: calc(0.5 * var(--spacing-unit));
+}
 
-  &:after,
-  &::before {
-    border-top-color: transparent;
-  }
+.top {
+  margin-bottom: calc(0.5 * var(--spacing-unit));
+}
+.left {
+  margin-right: calc(0.5 * var(--spacing-unit));
+}
+.right {
+  margin-left: calc(0.5 * var(--spacing-unit));
+}
+.bottom {
+  margin-top: calc(0.5 * var(--spacing-unit));
 }

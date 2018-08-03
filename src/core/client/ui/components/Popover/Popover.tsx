@@ -11,9 +11,6 @@ import AriaInfo from "../AriaInfo";
 import * as styles from "./Popover.css";
 
 type Placement =
-  | "auto-start"
-  | "auto"
-  | "auto-end"
   | "top-start"
   | "top"
   | "top-end"
@@ -53,6 +50,9 @@ interface State {
 }
 
 class Popover extends React.Component<PopoverProps> {
+  public static defaultProps = {
+    placement: "top",
+  };
   public state: State = {
     visible: false,
   };
@@ -95,6 +95,12 @@ class Popover extends React.Component<PopoverProps> {
     } = this.props;
 
     const { visible } = this.state;
+    const popoverClassName = cn(styles.root, className, {
+      [styles.top]: placement!.startsWith("top"),
+      [styles.left]: placement!.startsWith("left"),
+      [styles.right]: placement!.startsWith("right"),
+      [styles.bottom]: placement!.startsWith("bottom"),
+    });
 
     return (
       <Manager>
@@ -119,7 +125,7 @@ class Popover extends React.Component<PopoverProps> {
               {visible && (
                 <div
                   style={props.style}
-                  className={cn(styles.root, className)}
+                  className={popoverClassName}
                   ref={props.ref}
                 >
                   {typeof body === "function"
