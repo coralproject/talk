@@ -1,13 +1,19 @@
 import { Db } from "mongodb";
 
+import CommonContext from "talk-server/graph/common/context";
+import { Request } from "talk-server/types/express";
+
 export interface ManagementContextOptions {
-  db: Db;
+  mongo: Db;
+  req?: Request;
 }
 
-export default class ManagementContext {
-  public db: Db;
+export default class ManagementContext extends CommonContext {
+  public mongo: Db;
 
-  constructor({ db }: ManagementContextOptions) {
-    this.db = db;
+  constructor({ req, mongo }: ManagementContextOptions) {
+    super({ req });
+
+    this.mongo = mongo;
   }
 }

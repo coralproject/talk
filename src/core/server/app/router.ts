@@ -1,5 +1,10 @@
 import express from "express";
+import passport from "passport";
 
+import { signupHandler } from "talk-server/app/handlers/auth/local";
+import { apiErrorHandler } from "talk-server/app/middleware/error";
+import { errorLogger } from "talk-server/app/middleware/logging";
+import { wrapAuthn } from "talk-server/app/middleware/passport";
 import tenantMiddleware from "talk-server/app/middleware/tenant";
 import managementGraphMiddleware from "talk-server/graph/management/middleware";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
@@ -7,7 +12,7 @@ import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 import { AppOptions } from "./index";
 import playground from "./middleware/playground";
 
-async function createManagementRouter(opts: AppOptions) {
+async function createManagementRouter(app: AppOptions, options: RouterOptions) {
   const router = express.Router();
 
   // Management API
@@ -15,51 +20,101 @@ async function createManagementRouter(opts: AppOptions) {
     "/graphql",
     express.json(),
     await managementGraphMiddleware(
-      opts.schemas.management,
-      opts.config,
-      opts.mongo
+      app.schemas.management,
+      app.config,
+      app.mongo
     )
   );
 
   return router;
 }
 
-async function createTenantRouter(opts: AppOptions) {
+async function createTenantRouter(app: AppOptions, options: RouterOptions) {
   const router = express.Router();
 
   // Tenant identification middleware.
-  router.use(tenantMiddleware({ db: opts.mongo }));
+  router.use(tenantMiddleware({ cache: app.tenantCache }));
+
+  // Setup Passport middleware.
+  router.use(options.passport.initialize());
+
+  // Setup auth routes.
+  router.use("/auth", createNewAuthRouter(app, options));
 
   // Tenant API
   router.use(
     "/graphql",
     express.json(),
-    await tenantGraphMiddleware(opts.schemas.tenant, opts.config, opts.mongo)
+    // Any users may submit their GraphQL requests with authentication, this
+    // middleware will unpack their user into the request.
+    options.passport.authenticate("jwt", { session: false }),
+    await tenantGraphMiddleware({
+      schema: app.schemas.tenant,
+      config: app.config,
+      mongo: app.mongo,
+      redis: app.redis,
+    })
   );
 
   return router;
 }
 
-async function createAPIRouter(opts: AppOptions) {
-  // Create a router.
+function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
   const router = express.Router();
 
-  // Configure the tenant routes.
-  router.use("/tenant", await createTenantRouter(opts));
-
-  // Configure the management routes.
-  router.use("/management", await createManagementRouter(opts));
+  // Mount the passport routes.
+  router.post(
+    "/local",
+    express.json(),
+    wrapAuthn(options.passport, app.signingConfig, "local")
+  );
+  router.post(
+    "/local/signup",
+    express.json(),
+    signupHandler({ db: app.mongo, signingConfig: app.signingConfig })
+  );
+  router.post("/sso", wrapAuthn(options.passport, app.signingConfig, "sso"));
+  router.get("/oidc", wrapAuthn(options.passport, app.signingConfig, "oidc"));
+  router.get(
+    "/oidc/callback",
+    wrapAuthn(options.passport, app.signingConfig, "oidc")
+  );
 
   return router;
 }
 
-export async function createRouter(opts: AppOptions) {
+async function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
   const router = express.Router();
 
-  router.use("/api", await createAPIRouter(opts));
+  // Configure the tenant routes.
+  router.use("/tenant", await createTenantRouter(app, options));
 
-  if (opts.config.get("env") === "development") {
+  // Configure the management routes.
+  router.use("/management", await createManagementRouter(app, options));
+
+  // General API error handler.
+  router.use(errorLogger);
+  router.use(apiErrorHandler);
+
+  return router;
+}
+
+export interface RouterOptions {
+  /**
+   * passport is the instance of the Authenticator that can be used to create
+   * and mount new authentication middleware.
+   */
+  passport: passport.Authenticator;
+}
+
+export async function createRouter(app: AppOptions, options: RouterOptions) {
+  // Create a router.
+  const router = express.Router();
+
+  router.use("/api", await createAPIRouter(app, options));
+
+  if (app.config.get("env") === "development") {
     // Tenant GraphiQL
     router.get(
       "/tenant/graphiql",
