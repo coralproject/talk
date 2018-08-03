@@ -1,9 +1,9 @@
 import React, { StatelessComponent } from "react";
 import { graphql } from "react-relay";
 import { withLocalStateContainer } from "talk-framework/lib/relay";
-import { AppQueryLocal as Local } from "talk-stream/__generated__/AppQueryLocal.graphql";
+import { PermalinkButtonContainerLocal as Local } from "talk-stream/__generated__/PermalinkButtonContainerLocal.graphql";
 
-import Permalink from "../components/Permalink/Permalink";
+import PermalinkButton from "../components/PermalinkButton";
 
 interface InnerProps {
   local: Local;
@@ -15,13 +15,13 @@ export const PermalinkContainer: StatelessComponent<InnerProps> = ({
   commentID,
 }) => {
   return local.assetURL ? (
-    <Permalink assetURL={local.assetURL} commentID={commentID} />
+    <PermalinkButton assetURL={local.assetURL} commentID={commentID} />
   ) : null;
 };
 
 const enhanced = withLocalStateContainer<Local>(
   graphql`
-    fragment PermalinkContainerLocal on Local {
+    fragment PermalinkButtonContainerLocal on Local {
       assetURL
     }
   `

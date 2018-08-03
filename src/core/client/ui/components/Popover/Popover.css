@@ -6,7 +6,7 @@
   border-radius: 1px;
   color: #222;
   display: flex;
-  padding: 6px 10px;
+  padding: calc(0.5 * var(--spacing-unit));
 
   &:after,
   &::before {

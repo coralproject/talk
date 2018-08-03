@@ -4,5 +4,5 @@
   border: 1px solid #979797;
   box-sizing: border-box;
   border-radius: 1px;
-  padding: 5px 20px;
+  padding: calc(0.5 * var(--spacing-unit));
 }

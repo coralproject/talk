@@ -1,9 +1,9 @@
-import * as React from "react";
-import { StatelessComponent } from "react";
+import React, { StatelessComponent } from "react";
 
 import Logo from "talk-stream/components/Logo";
 import { Button, Flex, Typography } from "talk-ui/components";
-import CommentContainer from "../../containers/CommentContainer";
+
+import CommentContainer from "../containers/CommentContainer";
 import * as styles from "./PermalinkView.css";
 
 export interface PermalinkViewProps {

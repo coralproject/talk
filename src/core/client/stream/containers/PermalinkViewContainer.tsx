@@ -10,7 +10,7 @@ import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
 } from "talk-stream/mutations";
-import PermalinkView from "../components/Permalink/PermalinkView";
+import PermalinkView from "../components/PermalinkView";
 
 interface PermalinkViewContainerProps {
   data: Data;
@@ -22,9 +22,7 @@ class PermalinkViewContainer extends React.Component<
   PermalinkViewContainerProps
 > {
   private showAllComments = () => {
-    const { local } = this.props;
-    window.location.href = local.assetURL!;
-    // mutation
+    this.props.setCommentID({ id: null });
   };
   public render() {
     const { data, local } = this.props;

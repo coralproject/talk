@@ -19,7 +19,7 @@ exports[`renders loading 1`] = `
 `;
 
 exports[`renders permalink view 1`] = `
-<Relay(PermalinkViewContainer)
+<withContext(createMutationContainer(Relay(withContext(LocalStateContainer))))
   data={Object {}}
 />
 `;

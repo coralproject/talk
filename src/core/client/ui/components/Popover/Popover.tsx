@@ -27,10 +27,21 @@ type Placement =
   | "left"
   | "left-start";
 
+interface BodyRenderProps {
+  toggleVisibility: () => void;
+  visible: boolean;
+}
+
+interface ChildrenRenderProps {
+  toggleVisibility: () => void;
+  forwardRef?: RefHandler;
+  visible: boolean;
+}
+
 interface PopoverProps {
-  body: (props: RenderProps) => React.ReactNode | React.ReactElement<any>;
-  children: (props: RenderProps) => React.ReactNode;
-  description?: string;
+  body: (props: BodyRenderProps) => React.ReactNode | React.ReactElement<any>;
+  children: (props: ChildrenRenderProps) => React.ReactNode;
+  description: string;
   id: string;
   onClose?: () => void;
   className?: string;
@@ -39,11 +50,6 @@ interface PopoverProps {
 
 interface State {
   visible: false;
-}
-
-interface RenderProps {
-  toggleVisibility: () => void;
-  forwardRef?: RefHandler;
 }
 
 class Popover extends React.Component<PopoverProps> {
@@ -97,24 +103,20 @@ class Popover extends React.Component<PopoverProps> {
             children({
               forwardRef: props.ref,
               toggleVisibility: this.toggleVisibility,
+              visible: this.state.visible,
             })
           }
         </Reference>
-        <Popper
-          placement={placement}
-          modifiers={{ preventOverflow: { enabled: false } }}
-          eventsEnabled
-          positionFixed={false}
-        >
-          {(props: PopperArrowProps) =>
-            visible && (
-              <div
-                id={id}
-                role="popup"
-                aria-labelledby={`${id}-ariainfo`}
-                aria-hidden={!visible}
-              >
-                <AriaInfo id={`${id}-ariainfo`}>{description}</AriaInfo>
+        <Popper placement={placement} eventsEnabled positionFixed={false}>
+          {(props: PopperArrowProps) => (
+            <div
+              id={id}
+              role="popup"
+              aria-labelledby={`${id}-ariainfo`}
+              aria-hidden={!visible}
+            >
+              <AriaInfo id={`${id}-ariainfo`}>{description}</AriaInfo>
+              {visible && (
                 <div
                   style={props.style}
                   className={cn(styles.root, className)}
@@ -123,12 +125,13 @@ class Popover extends React.Component<PopoverProps> {
                   {typeof body === "function"
                     ? body({
                         toggleVisibility: this.toggleVisibility,
+                        visible: this.state.visible,
                       })
                     : body}
                 </div>
-              </div>
-            )
-          }
+              )}
+            </div>
+          )}
         </Popper>
       </Manager>
     );

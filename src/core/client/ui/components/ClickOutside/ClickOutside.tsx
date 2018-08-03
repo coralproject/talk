@@ -2,7 +2,7 @@ import React from "react";
 import { findDOMNode } from "react-dom";
 
 export interface ClickOutsideProps {
-  onClickOutside: () => void;
+  onClickOutside: (e?: MouseEvent) => void;
   children: React.ReactNode;
 }
 
@@ -13,7 +13,7 @@ class ClickOutside extends React.Component<ClickOutsideProps> {
     const { onClickOutside } = this.props;
     if (!e || !this.domNode!.contains(e.target as HTMLInputElement)) {
       // tslint:disable-next-line:no-unused-expression
-      onClickOutside && onClickOutside();
+      onClickOutside && onClickOutside(e);
     }
   };
 

@@ -8,7 +8,9 @@ export interface SetNetworkStatusInput {
   isOffline: boolean;
 }
 
-export type SetNetworkStatusMutation = (input: SetNetworkStatusInput) => void;
+export type SetNetworkStatusMutation = (
+  input: SetNetworkStatusInput
+) => Promise<void>;
 
 async function commit(environment: Environment, input: SetNetworkStatusInput) {
   return commitLocalUpdate(environment, store => {
