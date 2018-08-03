@@ -4,7 +4,6 @@
   margin: calc(0.5 * var(--spacing-unit)) auto;
 }
 
-.comment,
-.commentNotFound {
-  margin: calc(5 * var(--spacing-unit)) auto;
+.button {
+  margin-bottom: calc(2 * var(--spacing-unit));
 }

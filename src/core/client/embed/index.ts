@@ -6,6 +6,7 @@ import createStreamInterface from "./Stream";
 export interface Config {
   assetID?: string;
   assetURL?: string;
+  commentID?: string;
   rootURL?: string;
   id?: string;
   events?: (eventEmitter: EventEmitter2) => void;
@@ -23,6 +24,7 @@ export function render(config: Config = {}) {
   return createStreamInterface({
     assetID: config.assetID || query.assetID,
     assetURL: config.assetURL || query.assetURL,
+    commentID: config.commentID || query.commentID,
     id: config.id || "talk-embed-stream",
     rootURL: config.rootURL || location.origin,
     eventEmitter,

@@ -1,6 +1,5 @@
 import React, { StatelessComponent } from "react";
 
-import Logo from "talk-stream/components/Logo";
 import { Button, Flex, Typography } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
@@ -17,43 +16,24 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
   comment,
   onShowAllComments,
 }) => {
-  if (comment) {
-    return (
-      <div className={styles.root}>
-        <Logo />
-        {assetURL && (
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={onShowAllComments}
-            fullWidth
-          >
-            Show all Comments
-          </Button>
-        )}
-        <Flex direction="column" className={styles.comment}>
-          <CommentContainer data={comment} />
-        </Flex>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.root}>
-      <Logo />
-      <Typography className={styles.commentNotFound}>
-        Comment not found
-      </Typography>
       {assetURL && (
         <Button
-          variant="filled"
+          variant="outlined"
           color="primary"
-          onClick={() => {
-            window.location.href = assetURL;
-          }}
+          onClick={onShowAllComments}
+          className={styles.button}
+          fullWidth
         >
           Show all Comments
         </Button>
+      )}
+      {!comment && <Typography>Comment not found</Typography>}
+      {comment && (
+        <Flex direction="column">
+          <CommentContainer data={comment} />
+        </Flex>
       )}
     </div>
   );
