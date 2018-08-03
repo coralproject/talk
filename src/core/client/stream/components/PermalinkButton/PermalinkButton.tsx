@@ -3,6 +3,7 @@ import React from "react";
 import { oncePerFrame } from "talk-common/utils";
 import { Button, ButtonIcon, ClickOutside, Popover } from "talk-ui/components";
 
+import * as styles from "./PermalinkButton.css";
 import PermalinkPopover from "./PermalinkPopover";
 
 interface PermalinkProps {
@@ -27,6 +28,7 @@ class Permalink extends React.Component<PermalinkProps> {
         id={popoverID}
         placement="top-start"
         description="A dialog showing a permalink to the comment"
+        className={styles.popover}
         body={({ toggleVisibility }) => (
           <ClickOutside
             onClickOutside={() =>
