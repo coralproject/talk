@@ -15,12 +15,6 @@
     "noErrorTruncation": true,
     "lib": ["es6", "esnext.asynciterable"]
   },
-  "include": [
-    "./src/**/.*.js",
-    "./scripts/**/*",
-    "./config/**/*",
-    "./test/**/*",
-    "*.js"
-  ],
+  "include": ["./src/**/.*.js", "./scripts/**/*", "./config/**/*", "*.js"],
   "exclude": ["node_modules"]
 }

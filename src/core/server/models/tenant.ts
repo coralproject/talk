@@ -1,8 +1,13 @@
 import dotize from "dotize";
 import { merge } from "lodash";
 import { Db } from "mongodb";
-import { Sub } from "talk-common/types";
 import uuid from "uuid";
+
+import { Sub } from "talk-common/types";
+import {
+  GQLMODERATION_MODE,
+  GQLUSER_ROLE,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 
 function collection(db: Db) {
   return db.collection<Readonly<Tenant>>("tenants");
@@ -17,10 +22,103 @@ export interface Wordlist {
   suspect: string[];
 }
 
-export enum Moderation {
-  PRE = "PRE",
-  POST = "POST",
+// AuthIntegrations.
+
+export interface EmailDomainRuleCondition {
+  // emailDomain is the domain name component of the email addresses that should
+  // match for this condition.
+  emailDomain: string;
+
+  // emailVerifiedRequired stipulates that this rule only applies when the user
+  // account has been marked as having their email address already verified.
+  emailVerifiedRequired: boolean;
 }
+
+// RoleRule describes the role assignment for when a user logs into Talk, how
+// they can have their account automatically upgraded to a specific role when
+// the domain for their email matches the one provided.
+export interface RoleRule extends Partial<EmailDomainRuleCondition> {
+  // role is the specific GQLUSER_ROLE that should be assigned to the newly created
+  // user depending on their email address.
+  role: GQLUSER_ROLE;
+}
+
+export interface AuthRules {
+  // roles allow the configuration of automatic role assignment based on the
+  // user's email address.
+  roles?: RoleRule[];
+
+  // restrictTo when populated, will restrict which users can login using this
+  // integration. If a user successfully logs in using the OIDCStrategy, but
+  // does not match the following rules, the user will not be created.
+  restrictTo?: EmailDomainRuleCondition[];
+}
+
+export interface AuthIntegration {
+  enabled: boolean;
+}
+
+export interface DisplayNameAuthIntegration {
+  displayNameEnable: boolean;
+}
+
+// SSOAuthIntegration is an AuthIntegration that provides a secret to the admins
+// of a tenant, where they can sign a SSO payload with it to provide to the
+// embed to allow single sign on.
+export interface SSOAuthIntegration
+  extends AuthIntegration,
+    DisplayNameAuthIntegration {
+  key: string;
+}
+
+// OIDCAuthIntegration provides a way to store Open ID Connect credentials. This
+// will be used in the admin to provide staff logins for users.
+export interface OIDCAuthIntegration
+  extends AuthIntegration,
+    DisplayNameAuthIntegration {
+  clientID: string;
+  clientSecret: string;
+  issuer: string;
+  authorizationURL: string;
+  jwksURI: string;
+  tokenURL: string;
+}
+
+export interface FacebookAuthIntegration extends AuthIntegration {
+  clientID: string;
+  clientSecret: string;
+}
+
+export interface GoogleAuthIntegration extends AuthIntegration {
+  clientID: string;
+  clientSecret: string;
+}
+
+export type LocalAuthIntegration = AuthIntegration;
+
+// AuthIntegrations describes all of the possible auth integration configurations.
+export interface AuthIntegrations {
+  // local is the auth integration for the local auth.
+  local: LocalAuthIntegration;
+
+  // sso is the external auth integration for the single sign on auth.
+  sso?: SSOAuthIntegration;
+
+  // sso is the external auth integration for the OpenID Connect auth.
+  oidc?: OIDCAuthIntegration;
+
+  // sso is the external auth integration for the Google auth.
+  google?: GoogleAuthIntegration;
+
+  // sso is the external auth integration for the Facebook auth.
+  facebook?: FacebookAuthIntegration;
+}
+
+export interface Auth {
+  integrations: AuthIntegrations;
+}
+
+// Tenant definition.
 
 export interface Tenant {
   readonly id: string;
@@ -29,7 +127,7 @@ export interface Tenant {
   // specific tenant that the API request pertains to.
   domain: string;
 
-  moderation: Moderation;
+  moderation: GQLMODERATION_MODE;
   requireEmailConfirmation: boolean;
   infoBoxEnable: boolean;
   infoBoxContent?: string;
@@ -57,6 +155,9 @@ export interface Tenant {
 
   // domains is the set of whitelisted domains.
   domains: string[];
+
+  // Set of configured authentication integrations.
+  auth: Auth;
 }
 
 /**
@@ -81,7 +182,7 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
     id: uuid.v4(),
 
     // Default to post moderation.
-    moderation: Moderation.POST,
+    moderation: GQLMODERATION_MODE.POST,
 
     // Email confirmation is default off.
     requireEmailConfirmation: false,
@@ -99,6 +200,13 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
       suspect: [],
       banned: [],
     },
+    auth: {
+      integrations: {
+        local: {
+          enabled: true,
+        },
+      },
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.
@@ -114,7 +222,7 @@ export async function retrieveTenantByDomain(db: Db, domain: string) {
   return collection(db).findOne({ domain });
 }
 
-export async function retrieve(db: Db, id: string) {
+export async function retrieveTenant(db: Db, id: string) {
   return collection(db).findOne({ id });
 }
 
