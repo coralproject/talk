@@ -1,5 +1,5 @@
 import { GQLAuthIntegrationsTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
-import { AuthIntegration, AuthIntegrations } from "talk-server/models/tenant";
+import { AuthIntegration, AuthIntegrations } from "talk-server/models/settings";
 
 const disabled: AuthIntegration = { enabled: false };
 

@@ -1,13 +1,11 @@
+// Apply all the configuration provided in the .env file.
+require("dotenv").config();
+
 const path = require("path");
 const fs = require("fs");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const extensions = [".ts", ".tsx", ".js"];
 const paths = require("./config/paths");
-
-// Ensure environment variables are read.
-require("./config/env");
-
-// const stringify = require('json-stringify-safe');
 
 export default {
   title: "Talk 5.0",

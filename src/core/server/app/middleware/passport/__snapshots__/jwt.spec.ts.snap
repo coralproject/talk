@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`createJWTSigningConfig parses a RSA certiciate 1`] = `
+exports[`createJWTSigningConfig parses a RSA certificate 1`] = `
 "-----BEGIN RSA PRIVATE KEY-----
 MIIEpQIBAAKCAQEAyxR2DVlvkQRquggUQTpHN+PxDs2iOiItGgn6u4+faUCdgGEV
 EnmG69//3lAZHnEQN9rkZS3/20zc41mTJnO7dslJbB316vWUSIwYcVY/VC9DTbk+

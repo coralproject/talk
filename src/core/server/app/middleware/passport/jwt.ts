@@ -3,7 +3,7 @@ import uuid from "uuid";
 
 import { Db } from "mongodb";
 import { Strategy } from "passport-strategy";
-import { Config } from "talk-server/config";
+import { Config } from "talk-common/config";
 import { retrieveUser, User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
@@ -67,7 +67,7 @@ export function createAsymmetricSigningConfig(
   secret: string
 ): JWTSigningConfig {
   return {
-    // Secrets have their newlines encoded with newline litterals.
+    // Secrets have their newlines encoded with newline literals.
     secret: Buffer.from(secret.replace(/\\n/g, "\n")),
     algorithm,
   };
@@ -138,21 +138,20 @@ export interface JWTToken {
 
 export interface JWTStrategyOptions {
   signingConfig: JWTSigningConfig;
-  db: Db;
+  mongo: Db;
 }
 
 export class JWTStrategy extends Strategy {
+  public name = "jwt";
+
   private signingConfig: JWTSigningConfig;
-  private db: Db;
+  private mongo: Db;
 
-  public name: string;
-
-  constructor({ signingConfig, db }: JWTStrategyOptions) {
+  constructor({ signingConfig, mongo }: JWTStrategyOptions) {
     super();
 
-    this.name = "jwt";
     this.signingConfig = signingConfig;
-    this.db = db;
+    this.mongo = mongo;
   }
 
   public authenticate(req: Request) {
@@ -160,7 +159,7 @@ export class JWTStrategy extends Strategy {
     const token = extractJWTFromRequest(req);
     if (!token) {
       // There was no token on the request, so there was no user, so let's mark
-      // that the strategy was succesfull.
+      // that the strategy was successful.
       return this.success(null, null);
     }
 
@@ -187,7 +186,7 @@ export class JWTStrategy extends Strategy {
 
         try {
           // Find the user.
-          const user = await retrieveUser(this.db, tenant.id, sub);
+          const user = await retrieveUser(this.mongo, tenant.id, sub);
 
           // Return them! The user may be null, but that's ok here.
           this.success(user, null);

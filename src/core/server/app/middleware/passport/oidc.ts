@@ -8,8 +8,10 @@ import { Strategy } from "passport-strategy";
 import { validate } from "talk-server/app/request/body";
 import { reconstructURL } from "talk-server/app/url";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import { OIDCAuthIntegration, Tenant } from "talk-server/models/tenant";
+import { OIDCAuthIntegration } from "talk-server/models/settings";
+import { Tenant } from "talk-server/models/tenant";
 import { OIDCProfile, retrieveUserWithProfile } from "talk-server/models/user";
+import TenantCache from "talk-server/services/tenant/cache";
 import { upsert } from "talk-server/services/users";
 import { Request } from "talk-server/types/express";
 
@@ -37,10 +39,6 @@ export interface OIDCIDToken {
 export interface StrategyItem {
   strategy: OAuth2Strategy;
   jwksClient?: JwksClient;
-}
-
-export interface OIDCStrategyOptions {
-  db: Db;
 }
 
 export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
@@ -176,20 +174,28 @@ export async function findOrCreateOIDCUser(
  */
 const OIDC_SCOPE = "openid email profile";
 
-// FIXME: attach strategy to cache updates of the tenants
+export interface OIDCStrategyOptions {
+  mongo: Db;
+  tenantCache: TenantCache;
+}
 
 export default class OIDCStrategy extends Strategy {
-  public name: string;
+  public name = "oidc";
 
-  private db: Db;
-  private cache: Map<string, StrategyItem>;
+  private mongo: Db;
+  private cache = new Map<string, StrategyItem>();
 
-  constructor({ db }: OIDCStrategyOptions) {
+  constructor({ mongo, tenantCache }: OIDCStrategyOptions) {
     super();
 
-    this.name = "oidc";
-    this.cache = new Map();
-    this.db = db;
+    this.mongo = mongo;
+
+    // Subscribe to updates with Tenants.
+    tenantCache.subscribe(tenant => {
+      // Delete the tenant cache item when the tenant changes. The refreshed
+      // Tenant will come in with the request.
+      this.cache.delete(tenant.id);
+    });
   }
 
   private lookupJWKSClient(
@@ -277,7 +283,7 @@ export default class OIDCStrategy extends Strategy {
 
         try {
           const user = await findOrCreateOIDCUser(
-            this.db,
+            this.mongo,
             tenant,
             decoded as OIDCIDToken
           );
@@ -370,6 +376,6 @@ export default class OIDCStrategy extends Strategy {
   }
 }
 
-export function createOIDCStrategy({ db }: OIDCStrategyOptions) {
-  return new OIDCStrategy({ db });
+export function createOIDCStrategy(options: OIDCStrategyOptions) {
+  return new OIDCStrategy(options);
 }
