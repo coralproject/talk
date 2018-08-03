@@ -7,8 +7,6 @@ const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const extensions = [".ts", ".tsx", ".js"];
 const paths = require("./config/paths");
 
-console.log(paths);
-
 export default {
   title: "Talk 5.0",
   source: "./src",
