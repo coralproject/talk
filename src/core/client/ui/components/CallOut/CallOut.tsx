@@ -2,10 +2,9 @@ import cn from "classnames";
 import React from "react";
 import { ReactNode, StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
-import Icon from "../Icon";
-import * as styles from "./ValidationMessage.css";
+import * as styles from "./CallOut.css";
 
-export interface ValidationMessageProps {
+export interface CallOutProps {
   /**
    * The content of the component.
    */
@@ -19,16 +18,16 @@ export interface ValidationMessageProps {
    */
   classes: typeof styles;
   /**
-   * Color of the ValidationMessage
+   * Color of the CallOut
    */
-  color?: "regular" | "error";
+  color?: "regular" | "primary" | "error";
   /*
-  * If set renders a full width message
+  * If set renders a full width CallOut
   */
   fullWidth?: boolean;
 }
 
-const ValidationMessage: StatelessComponent<ValidationMessageProps> = props => {
+const CallOut: StatelessComponent<CallOutProps> = props => {
   const { className, classes, color, fullWidth, children, ...rest } = props;
 
   const rootClassName = cn(
@@ -36,6 +35,7 @@ const ValidationMessage: StatelessComponent<ValidationMessageProps> = props => {
     {
       [classes.colorRegular]: color === "regular",
       [classes.colorError]: color === "error",
+      [classes.colorPrimary]: color === "primary",
       [classes.fullWidth]: fullWidth,
     },
     className
@@ -43,20 +43,15 @@ const ValidationMessage: StatelessComponent<ValidationMessageProps> = props => {
 
   return (
     <div className={rootClassName} {...rest}>
-      {color === "error" && (
-        <Icon size="xs" className={classes.icon}>
-          warning
-        </Icon>
-      )}
       {children}
     </div>
   );
 };
 
-ValidationMessage.defaultProps = {
+CallOut.defaultProps = {
   color: "regular",
   fullWidth: false,
 };
 
-const enhanced = withStyles(styles)(ValidationMessage);
+const enhanced = withStyles(styles)(CallOut);
 export default enhanced;
