@@ -1,7 +1,7 @@
 import React from "react";
 import { StatelessComponent } from "react";
 
-import { Typography, ValidationMessage } from "talk-ui/components";
+import { Typography } from "talk-ui/components";
 
 import Timestamp from "./Timestamp";
 import TopBar from "./TopBar";
@@ -23,9 +23,6 @@ const Comment: StatelessComponent<CommentProps> = props => {
         <Timestamp>{props.createdAt}</Timestamp>
       </TopBar>
       <Typography>{props.body}</Typography>
-      <ValidationMessage color="error">
-        Invalid characters. Try again
-      </ValidationMessage>
     </div>
   );
 };
