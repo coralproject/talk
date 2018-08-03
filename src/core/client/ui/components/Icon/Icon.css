@@ -37,18 +37,18 @@
 }
 
 .sm {
+  font-size: 14px;
+  width: 14px;
+}
+.md {
   font-size: 18px;
   width: 18px;
 }
-.md {
+.lg {
   font-size: 24px;
   width: 24px;
 }
-.lg {
+.xl {
   font-size: 36px;
   width: 36px;
-}
-.xl {
-  font-size: 48px;
-  width: 48px;
 }
