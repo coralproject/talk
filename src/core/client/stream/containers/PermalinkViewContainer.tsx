@@ -1,11 +1,8 @@
 import React from "react";
 import { graphql } from "react-relay";
-import {
-  withFragmentContainer,
-  withLocalStateContainer,
-} from "talk-framework/lib/relay";
-import { AppQueryLocal as Local } from "talk-stream/__generated__/AppQueryLocal.graphql";
-import { PermalinkViewContainerQuery as Data } from "talk-stream/__generated__/PermalinkViewContainerQuery.graphql";
+import { withFragmentContainer } from "talk-framework/lib/relay";
+import { PermalinkViewContainer_asset as AssetData } from "talk-stream/__generated__/PermalinkViewContainer_asset.graphql";
+import { PermalinkViewContainer_comment as CommentData } from "talk-stream/__generated__/PermalinkViewContainer_comment.graphql";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
@@ -13,8 +10,8 @@ import {
 import PermalinkView from "../components/PermalinkView";
 
 interface PermalinkViewContainerProps {
-  data: Data;
-  local: Local;
+  comment: CommentData;
+  asset: AssetData;
   setCommentID: SetCommentIDMutation;
 }
 
@@ -25,11 +22,11 @@ class PermalinkViewContainer extends React.Component<
     this.props.setCommentID({ id: null });
   };
   public render() {
-    const { data, local } = this.props;
+    const { comment, asset } = this.props;
     return (
       <PermalinkView
-        {...data}
-        assetURL={local.assetURL}
+        comment={comment}
+        assetURL={asset.url}
         onShowAllComments={this.showAllComments}
       />
     );
@@ -37,24 +34,18 @@ class PermalinkViewContainer extends React.Component<
 }
 
 const enhanced = withSetCommentIDMutation(
-  withFragmentContainer<{ data: Data }>({
-    data: graphql`
-      fragment PermalinkViewContainerQuery on Query
-        @argumentDefinitions(commentID: { type: "ID!" }) {
-        comment(id: $commentID) {
-          ...CommentContainer
-        }
+  withFragmentContainer<{ comment: CommentData; asset: AssetData }>({
+    comment: graphql`
+      fragment PermalinkViewContainer_comment on Comment {
+        ...CommentContainer
       }
     `,
-  })(
-    withLocalStateContainer<Local>(
-      graphql`
-        fragment PermalinkViewContainerLocal on Local {
-          assetURL
-        }
-      `
-    )(PermalinkViewContainer)
-  )
+    asset: graphql`
+      fragment PermalinkViewContainer_asset on Asset {
+        url
+      }
+    `,
+  })(PermalinkViewContainer)
 );
 
 export default enhanced;

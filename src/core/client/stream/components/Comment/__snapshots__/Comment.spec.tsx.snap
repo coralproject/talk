@@ -18,7 +18,7 @@ exports[`renders username and body 1`] = `
   <div
     className="Comment-footer"
   >
-    <withContext(LocalStateContainer)
+    <withContext(withLocalStateContainer(PermalinkContainer))
       commentID="comment-id"
     />
   </div>

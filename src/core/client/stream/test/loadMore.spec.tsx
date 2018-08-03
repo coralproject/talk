@@ -5,7 +5,7 @@ import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
-import AppQuery from "talk-stream/queries/AppQuery";
+import AppContainer from "talk-stream/containers/AppContainer";
 
 import createEnvironment from "./createEnvironment";
 import { assets, comments } from "./fixtures";
@@ -77,7 +77,7 @@ const context: TalkContext = {
 
 const testRenderer = TestRenderer.create(
   <TalkContextProvider value={context}>
-    <AppQuery />
+    <AppContainer />
   </TalkContextProvider>
 );
 

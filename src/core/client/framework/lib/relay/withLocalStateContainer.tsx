@@ -1,8 +1,14 @@
 import * as React from "react";
-import { compose, hoistStatics, InferableComponentEnhancer } from "recompose";
+import {
+  compose,
+  hoistStatics,
+  InferableComponentEnhancer,
+  wrapDisplayName,
+} from "recompose";
 import {
   CSelector,
   CSnapshot,
+  Disposable,
   Environment,
   GraphQLTaggedNode,
 } from "relay-runtime";
@@ -36,6 +42,12 @@ function withLocalStateContainer<T>(
     withContext(({ relayEnvironment }) => ({ relayEnvironment })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {
       class LocalStateContainer extends React.Component<Props, any> {
+        public static displayName = wrapDisplayName(
+          BaseComponent,
+          "withLocalStateContainer"
+        );
+        private subscription: Disposable;
+
         constructor(props: Props) {
           super(props);
           const fragment = (fragmentSpec as any).data().default;
@@ -53,7 +65,10 @@ function withLocalStateContainer<T>(
             variables: {},
           };
           const snapshot = props.relayEnvironment.lookup(selector);
-          props.relayEnvironment.subscribe(snapshot, this.updateSnapshot);
+          this.subscription = props.relayEnvironment.subscribe(
+            snapshot,
+            this.updateSnapshot
+          );
           this.state = {
             data: snapshot.data,
           };
@@ -62,6 +77,10 @@ function withLocalStateContainer<T>(
         private updateSnapshot = (snapshot: CSnapshot<any>) => {
           this.setState({ data: snapshot.data });
         };
+
+        public componentWillUnmount() {
+          this.subscription.dispose();
+        }
 
         public render() {
           const { relayEnvironment: _, ...rest } = this.props;

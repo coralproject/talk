@@ -1,18 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`renders permalink view 1`] = `
 <withPropsOnChange(Flex)
   className="App-root"
   justifyContent="center"
 >
-  <Relay(StreamContainer)
-    asset={Object {}}
-  />
+  <withContext(withLocalStateContainer(PermalinkViewQuery)) />
 </withPropsOnChange(Flex)>
 `;
 
-exports[`renders correctly when asset is null 1`] = `
-<div>
-  Asset not found 
-</div>
+exports[`renders stream 1`] = `
+<withPropsOnChange(Flex)
+  className="App-root"
+  justifyContent="center"
+>
+  <withContext(withLocalStateContainer(StreamQuery)) />
+</withPropsOnChange(Flex)>
 `;

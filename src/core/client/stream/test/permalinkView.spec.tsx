@@ -8,15 +8,39 @@ import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
 import AppContainer from "talk-stream/containers/AppContainer";
 
 import createEnvironment from "./createEnvironment";
-import { assets } from "./fixtures";
+import { assets, comments } from "./fixtures";
+
+const commentStub = {
+  ...comments[0],
+};
+
+const assetStub = {
+  ...assets[0],
+  comments: {
+    pageInfo: {
+      hasNextPage: false,
+    },
+    edges: [
+      {
+        node: commentStub,
+        cursor: commentStub.createdAt,
+      },
+    ],
+  },
+};
 
 const resolvers = {
   Query: {
+    comment: sinon
+      .stub()
+      .throws()
+      .withArgs(undefined, { id: commentStub.id })
+      .returns(commentStub),
     asset: sinon
       .stub()
       .throws()
-      .withArgs(undefined, { id: assets[0].id })
-      .returns(assets[0]),
+      .withArgs(undefined, { id: assetStub.id })
+      .returns(assetStub),
   },
 };
 
@@ -25,7 +49,8 @@ const environment = createEnvironment({
   logNetwork: false,
   resolvers,
   initLocalState: (localRecord: RecordProxy) => {
-    localRecord.setValue(assets[0].id, "assetID");
+    localRecord.setValue(assetStub.id, "assetID");
+    localRecord.setValue(commentStub.id, "commentID");
   },
 });
 
@@ -40,8 +65,18 @@ const testRenderer = TestRenderer.create(
   </TalkContextProvider>
 );
 
-it("renders comment stream", async () => {
+it("renders permalink view", async () => {
   // Wait for loading.
+  await timeout();
+  expect(testRenderer.toJSON()).toMatchSnapshot();
+});
+
+it("show all comments", async () => {
+  testRenderer.root
+    .findByProps({
+      id: "talk-comments-permalinkView-showAllComments",
+    })
+    .props.onClick();
   await timeout();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });

@@ -20,6 +20,7 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
     <div className={styles.root}>
       {assetURL && (
         <Button
+          id="talk-comments-permalinkView-showAllComments"
           variant="outlined"
           color="primary"
           onClick={onShowAllComments}
