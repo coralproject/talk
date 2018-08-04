@@ -1,7 +1,13 @@
 import { Localized } from "fluent-react/compat";
 import React from "react";
 import { oncePerFrame } from "talk-common/utils";
-import { Button, ButtonIcon, ClickOutside, Popover } from "talk-ui/components";
+import {
+  Button,
+  ButtonIcon,
+  ClickOutside,
+  MatchMedia,
+  Popover,
+} from "talk-ui/components";
 
 import * as styles from "./PermalinkButton.css";
 import PermalinkPopover from "./PermalinkPopover";
@@ -51,7 +57,9 @@ class Permalink extends React.Component<PermalinkProps> {
             active={visible}
             size="small"
           >
-            <ButtonIcon>share</ButtonIcon>
+            <MatchMedia minWidth="xs">
+              <ButtonIcon>share</ButtonIcon>
+            </MatchMedia>
             <Localized id="comments-permalink-share">
               <span>Share</span>
             </Localized>
