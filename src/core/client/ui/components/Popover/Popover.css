@@ -1,6 +1,6 @@
 .root {
   background: var(--palette-common-white);
-  border: 1px solid var(--palette-grey-light);
+  border: 1px solid var(--palette-grey-lighter);
   box-sizing: border-box;
   box-shadow: var(--elevation-main);
   border-radius: var(--round-corners);

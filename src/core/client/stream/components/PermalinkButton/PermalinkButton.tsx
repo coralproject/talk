@@ -12,8 +12,8 @@ interface PermalinkProps {
 }
 
 class Permalink extends React.Component<PermalinkProps> {
-  // Helpers that prevents calling toggleVisibility more then once per frame.
-  // In essence this means we'll only process an event only once.
+  // Helper that prevents calling toggleVisibility more then once per frame.
+  // In essence this means we'll process an event only once.
   // This might happen, when clicking on the button which will
   // cause its onClick to happen as well as onClickOutside.
   private toggleVisibilityOncePerFrame = oncePerFrame(

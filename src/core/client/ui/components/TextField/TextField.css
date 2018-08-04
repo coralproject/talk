@@ -1,8 +1,8 @@
 .root {
   composes: textField from "talk-ui/shared/typography.css";
-  background: #ffffff;
-  border: 1px solid #979797;
+  background: var(--palette-common-white);
+  border: 1px solid var(--palette-grey-lighter);
   box-sizing: border-box;
-  border-radius: 1px;
+  border-radius: var(--round-corners);
   padding: calc(0.5 * var(--spacing-unit));
 }
