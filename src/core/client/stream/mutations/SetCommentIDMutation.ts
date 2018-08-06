@@ -10,7 +10,7 @@ export interface SetCommentIDInput {
 
 export type SetCommentIDMutation = (input: SetCommentIDInput) => Promise<void>;
 
-async function commit(
+export async function commit(
   environment: Environment,
   input: SetCommentIDInput,
   { pym }: TalkContext
