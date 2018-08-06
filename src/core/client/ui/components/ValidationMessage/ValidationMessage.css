@@ -4,7 +4,7 @@
   display: inline-flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 7px 10px;
+  padding: calc(0.5 * var(--spacing-unit)) var(--spacing-unit)
   box-sizing: border-box;
 }
 
@@ -19,17 +19,16 @@
   background-color: var(--palette-error-light);
   border-radius: 1px;
   border-color: var(--palette-error-darkest);
-  border-left-width: 8px;
+  border-left-width: calc(0.5 * var(--spacing-unit));
   border-left-style: solid;
   color: var(--palette-common-white);
 }
 
 .fullWidth {
-  display: block;
+  display: flex;
   width: 100%;
-  box-sizing: border-box;
 }
 
 .icon {
-  margin-right: 8px;
+  margin-right: calc(0.5 * var(--spacing-unit));
 }

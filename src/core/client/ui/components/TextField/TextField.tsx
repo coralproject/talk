@@ -29,10 +29,22 @@ export interface TextFieldProps {
   * If set renders a full width button
   */
   fullWidth?: boolean;
+  /**
+   * Placeholder
+   */
+  placeholder?: string;
 }
 
 const TextField: StatelessComponent<TextFieldProps> = props => {
-  const { className, classes, color, fullWidth, value, ...rest } = props;
+  const {
+    className,
+    classes,
+    color,
+    fullWidth,
+    value,
+    placeholder,
+    ...rest
+  } = props;
 
   const rootClassName = cn(
     classes.root,
@@ -44,12 +56,20 @@ const TextField: StatelessComponent<TextFieldProps> = props => {
     className
   );
 
-  return <input className={rootClassName} value={value} {...rest} />;
+  return (
+    <input
+      className={rootClassName}
+      placeholder={placeholder}
+      value={value}
+      {...rest}
+    />
+  );
 };
 
 TextField.defaultProps = {
   color: "regular",
   fullWidth: false,
+  placeholder: "",
 };
 
 const enhanced = withStyles(styles)(TextField);
