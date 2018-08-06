@@ -1,10 +1,10 @@
 .root {
   composes: textField from "talk-ui/shared/typography.css";
   position: relative;
-  display: inline-flex;
-  padding: 7px 10px;
+  display: block;
+  padding: calc(0.5 * var(--spacing-unit));
   box-sizing: border-box;
-  border-radius: 1px;
+  border-radius: var(--round-corners);
 }
 
 .colorRegular {
@@ -20,8 +20,6 @@
 }
 
 .fullWidth {
-  display: block;
   width: 100%;
-  box-sizing: border-box;
 }
 
