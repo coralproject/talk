@@ -7,7 +7,7 @@ import {
 } from "recompose";
 import { Environment } from "relay-runtime";
 
-import { withContext } from "../bootstrap";
+import { TalkContext, withContext } from "../bootstrap";
 
 /**
  * createMutationContainer creates a HOC that
@@ -18,10 +18,14 @@ import { withContext } from "../bootstrap";
  */
 function createMutationContainer<T extends string, I, R>(
   propName: T,
-  commit: (environment: Environment, input: I) => Promise<R>
+  commit: (
+    environment: Environment,
+    input: I,
+    context: TalkContext
+  ) => Promise<R>
 ): InferableComponentEnhancer<{ [P in T]: (input: I) => Promise<R> }> {
   return compose(
-    withContext(({ relayEnvironment }) => ({ relayEnvironment })),
+    withContext(context => ({ context })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {
       class CreateMutationContainer extends React.Component<any> {
         public static displayName = wrapDisplayName(
@@ -30,7 +34,11 @@ function createMutationContainer<T extends string, I, R>(
         );
 
         private commit = (input: I) => {
-          return commit(this.props.relayEnvironment, input);
+          return commit(
+            this.props.context.relayEnvironment,
+            input,
+            this.props.context
+          );
         };
 
         public render() {

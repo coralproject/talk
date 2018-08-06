@@ -5,9 +5,9 @@ import {
   Decorator,
   withAutoHeight,
   withClickEvent,
-  withCommentID,
   withEventEmitter,
   withIOSSafariWidthWorkaround,
+  withSetCommentID,
 } from "./decorators";
 import PymControl from "./PymControl";
 import { ensureEndSlash } from "./utils";
@@ -15,6 +15,7 @@ import { ensureEndSlash } from "./utils";
 interface CreatePymControlConfig {
   assetID?: string;
   assetURL?: string;
+  commentID?: string;
   title?: string;
   eventEmitter: EventEmitter2;
   id: string;
@@ -26,13 +27,14 @@ export function createPymControl(config: CreatePymControlConfig) {
     withIOSSafariWidthWorkaround,
     withAutoHeight,
     withClickEvent,
-    withCommentID,
+    withSetCommentID,
     withEventEmitter(config.eventEmitter),
   ];
 
   const query = qs.stringify({
     assetID: config.assetID,
     assetURL: config.assetURL,
+    commentID: config.commentID,
   });
   const url = `${ensureEndSlash(config.rootURL)}stream.html?${query}`;
   return new PymControl({
@@ -73,6 +75,7 @@ export type StreamInterface = ReturnType<typeof createStreamInterface>;
 export interface CreateConfig {
   assetID?: string;
   assetURL?: string;
+  commentID?: string;
   title?: string;
   eventEmitter: EventEmitter2;
   id: string;

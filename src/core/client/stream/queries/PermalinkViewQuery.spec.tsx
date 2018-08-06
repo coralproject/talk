@@ -1,11 +1,14 @@
 import { shallow } from "enzyme";
 import React from "react";
 
-import { render } from "./AppQuery";
+import { render } from "./PermalinkViewQuery";
 
-it("renders app", () => {
+it("renders permalink view container", () => {
   const data = {
-    props: {} as any,
+    props: {
+      asset: {},
+      comment: {},
+    } as any,
     error: null,
   };
   const wrapper = shallow(React.createElement(() => render(data)));

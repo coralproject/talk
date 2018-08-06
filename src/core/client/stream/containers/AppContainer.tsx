@@ -1,30 +1,27 @@
-import React, { StatelessComponent } from "react";
-import { graphql } from "react-relay";
+import * as React from "react";
+import { StatelessComponent } from "react";
 
-import { withFragmentContainer } from "talk-framework/lib/relay";
-import { PropTypesOf } from "talk-framework/types";
-import { AppContainer as Data } from "talk-stream/__generated__/AppContainer.graphql";
+import { graphql, withLocalStateContainer } from "talk-framework/lib/relay";
+import { AppContainerLocal as Local } from "talk-stream/__generated__/AppContainerLocal.graphql";
 
 import App from "../components/App";
 
 interface InnerProps {
-  data: Data;
+  local: Local;
 }
 
-export const AppContainer: StatelessComponent<InnerProps> = props => {
-  return <App {...props.data} />;
+const AppContainer: StatelessComponent<InnerProps> = ({
+  local: { commentID },
+}) => {
+  return <App showPermalinkView={!!commentID} />;
 };
 
-const enhanced = withFragmentContainer<{ data: Data }>({
-  data: graphql`
-    fragment AppContainer on Query
-      @argumentDefinitions(assetID: { type: "ID!" }) {
-      asset(id: $assetID) {
-        ...StreamContainer_asset
-      }
+const enhanced = withLocalStateContainer<Local>(
+  graphql`
+    fragment AppContainerLocal on Local {
+      commentID
     }
-  `,
-})(AppContainer);
+  `
+)(AppContainer);
 
-export type AppContainerProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

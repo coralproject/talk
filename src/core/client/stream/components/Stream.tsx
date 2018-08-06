@@ -7,22 +7,20 @@ import { Button, Flex } from "talk-ui/components";
 import CommentContainer from "../containers/CommentContainer";
 import PostCommentFormContainer from "../containers/PostCommentFormContainer";
 import ReplyListContainer from "../containers/ReplyListContainer";
-import Logo from "./Logo";
 import * as styles from "./Stream.css";
 
 export interface StreamProps {
   assetID: string;
-  isClosed: boolean;
+  isClosed?: boolean;
   comments: ReadonlyArray<{ id: string }>;
-  onLoadMore: () => void;
-  hasMore: boolean;
-  disableLoadMore: boolean;
+  onLoadMore?: () => void;
+  hasMore?: boolean;
+  disableLoadMore?: boolean;
 }
 
 const Stream: StatelessComponent<StreamProps> = props => {
   return (
     <div className={styles.root}>
-      <Logo gutterBottom />
       <PostCommentFormContainer assetID={props.assetID} />
       <Flex
         direction="column"

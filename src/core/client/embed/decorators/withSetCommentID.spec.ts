@@ -1,17 +1,17 @@
-import withCommentID from "./withCommentID";
+import withSetCommentID from "./withSetCommentID";
 
 it("should add commentID", () => {
   const previousLocation = location.toString();
   const previousState = window.history.state;
   const fakePym = {
     onMessage: (type: string, callback: (id: string) => void) => {
-      if (type === "view-comment") {
+      if (type === "setCommentID") {
         callback("comment-id");
       }
     },
   };
-  withCommentID(fakePym as any);
-  expect(location.toString()).toBe("http://localhost/?commentId=comment-id");
+  withSetCommentID(fakePym as any);
+  expect(location.toString()).toBe("http://localhost/?commentID=comment-id");
   window.history.replaceState(previousState, document.title, previousLocation);
 });
 
@@ -21,16 +21,16 @@ it("should remove commentID", () => {
   window.history.replaceState(
     previousState,
     document.title,
-    "http://localhost/?commentId=comment-id"
+    "http://localhost/?commentID=comment-id"
   );
   const fakePym = {
     onMessage: (type: string, callback: () => void) => {
-      if (type === "view-all-comments") {
+      if (type === "setCommentID") {
         callback();
       }
     },
   };
-  withCommentID(fakePym as any);
+  withSetCommentID(fakePym as any);
   expect(location.toString()).toBe("http://localhost/");
   window.history.replaceState(previousState, document.title, previousLocation);
 });

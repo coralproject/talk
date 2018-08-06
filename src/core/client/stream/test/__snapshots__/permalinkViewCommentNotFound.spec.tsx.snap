@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders permalink view with unknown comment 1`] = `
+<div
+  className="Flex-root App-root Flex-justifyCenter Flex-alignCenter"
+>
+  <div
+    className="PermalinkView-root"
+  >
+    <button
+      className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantOutlined Button-fullWidth"
+      id="talk-comments-permalinkView-showAllComments"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseDown={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+    >
+      Show all Comments
+    </button>
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      Comment not found
+    </p>
+  </div>
+</div>
+`;
+
+exports[`show all comments 1`] = `
+<div
+  className="Flex-root App-root Flex-justifyCenter Flex-alignCenter"
+>
+  <div
+    className="Stream-root"
+  >
+    <form
+      autoComplete="off"
+      onSubmit={[Function]}
+    >
+      <div>
+        <textarea
+          className="PostCommentForm-textarea"
+          name="body"
+          onChange={[Function]}
+          value=""
+        />
+      </div>
+      <div
+        className="PostCommentForm-postButtonContainer"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+          disabled={false}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+        >
+          Post
+        </button>
+      </div>
+    </form>
+    <div
+      aria-live="polite"
+      className="Flex-root Flex-itemGutter Flex-alignFlexStart Flex-directionColumn"
+      id="talk-comments-stream-log"
+      role="log"
+    >
+      <div
+        className="Flex-root Flex-itemGutter Flex-alignFlexStart Flex-directionColumn"
+      >
+        <div
+          role="article"
+        >
+          <div
+            className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+          >
+            <span
+              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+            >
+              Markus
+            </span>
+            <time
+              className="Timestamp-root RelativeTime-root"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
+            >
+              2018-07-06T18:24:00.000Z
+            </time>
+          </div>
+          <p
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Joining Too
+          </p>
+          <div
+            className="Comment-footer"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

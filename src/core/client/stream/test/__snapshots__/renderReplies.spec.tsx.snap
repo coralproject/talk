@@ -7,11 +7,6 @@ exports[`renders comment stream 1`] = `
   <div
     className="Stream-root"
   >
-    <h1
-      className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-gutterBottom"
-    >
-      Talk NEO
-    </h1>
     <form
       autoComplete="off"
       onSubmit={[Function]}
@@ -74,6 +69,9 @@ exports[`renders comment stream 1`] = `
           >
             Joining Too
           </p>
+          <div
+            className="Comment-footer"
+          />
         </div>
       </div>
       <div
@@ -103,6 +101,9 @@ exports[`renders comment stream 1`] = `
           >
             I like yoghurt
           </p>
+          <div
+            className="Comment-footer"
+          />
         </div>
         <div
           className="Indent-root Indent-level0"
@@ -136,6 +137,9 @@ exports[`renders comment stream 1`] = `
               >
                 Joining Too
               </p>
+              <div
+                className="Comment-footer"
+              />
             </div>
             <div
               role="article"
@@ -161,6 +165,9 @@ exports[`renders comment stream 1`] = `
               >
                 What's up?
               </p>
+              <div
+                className="Comment-footer"
+              />
             </div>
           </div>
         </div>
