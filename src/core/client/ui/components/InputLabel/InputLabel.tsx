@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React from "react";
+import React, { ReactNode } from "react";
 import { StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
 import Typography from "../Typography";
@@ -9,7 +9,7 @@ export interface InputLabelProps {
   /**
    * The content of the component.
    */
-  children?: string;
+  children?: ReactNode;
   /**
    * Convenient prop to override the root styling.
    */
@@ -26,7 +26,7 @@ const InputLabelProps: StatelessComponent<InputLabelProps> = props => {
   const rootClassName = cn(classes.root, className);
 
   return (
-    <Typography className={rootClassName} {...rest}>
+    <Typography className={rootClassName} variant="inputLabel" {...rest}>
       {children}
     </Typography>
   );

@@ -1,6 +1,3 @@
 .root {
-  composes: inputLabel from "talk-ui/shared/typography.css";
-  position: relative;
   display: block;
-  box-sizing: border-box;
 }

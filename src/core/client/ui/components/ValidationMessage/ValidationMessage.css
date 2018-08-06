@@ -4,23 +4,16 @@
   display: inline-flex;
   justify-content: flex-start;
   align-items: center;
-  padding: calc(0.5 * var(--spacing-unit)) var(--spacing-unit)
+  padding: calc(0.5 * var(--spacing-unit)) var(--spacing-unit);
   box-sizing: border-box;
-}
-
-.colorRegular {
-  background-color: transparent;
-  border: none;
-  color: var(--palette-common-black);
-  padding-left: 40px;
+  border-radius: var(--round-corners);
+  border-left-width: calc(0.5 * var(--spacing-unit));
+  border-left-style: solid;
 }
 
 .colorError {
   background-color: var(--palette-error-light);
-  border-radius: 1px;
   border-color: var(--palette-error-darkest);
-  border-left-width: calc(0.5 * var(--spacing-unit));
-  border-left-style: solid;
   color: var(--palette-common-white);
 }
 
@@ -30,5 +23,5 @@
 }
 
 .icon {
-  margin-right: calc(0.5 * var(--spacing-unit));
+  margin-right: var(--spacing-unit);
 }

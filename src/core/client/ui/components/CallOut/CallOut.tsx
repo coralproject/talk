@@ -8,7 +8,7 @@ export interface CallOutProps {
   /**
    * The content of the component.
    */
-  children: string | ReactNode;
+  children: ReactNode;
   /**
    * Convenient prop to override the root styling.
    */

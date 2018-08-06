@@ -9,7 +9,7 @@ export interface ValidationMessageProps {
   /**
    * The content of the component.
    */
-  children: string | ReactNode;
+  children: ReactNode;
   /**
    * Convenient prop to override the root styling.
    */
@@ -18,10 +18,6 @@ export interface ValidationMessageProps {
    * Override or extend the styles applied to the component.
    */
   classes: typeof styles;
-  /**
-   * Color of the ValidationMessage
-   */
-  color?: "regular" | "error";
   /*
   * If set renders a full width message
   */
@@ -29,13 +25,12 @@ export interface ValidationMessageProps {
 }
 
 const ValidationMessage: StatelessComponent<ValidationMessageProps> = props => {
-  const { className, classes, color, fullWidth, children, ...rest } = props;
+  const { className, classes, fullWidth, children, ...rest } = props;
 
   const rootClassName = cn(
     classes.root,
+    classes.colorError,
     {
-      [classes.colorRegular]: color === "regular",
-      [classes.colorError]: color === "error",
       [classes.fullWidth]: fullWidth,
     },
     className
@@ -43,18 +38,15 @@ const ValidationMessage: StatelessComponent<ValidationMessageProps> = props => {
 
   return (
     <div className={rootClassName} {...rest}>
-      {color === "error" && (
-        <Icon size="sm" className={classes.icon}>
-          warning
-        </Icon>
-      )}
+      <Icon size="sm" className={classes.icon}>
+        warning
+      </Icon>
       {children}
     </div>
   );
 };
 
 ValidationMessage.defaultProps = {
-  color: "regular",
   fullWidth: false,
 };
 
