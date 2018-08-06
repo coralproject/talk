@@ -1,3 +1,5 @@
+require("ts-node/register");
+
 const kebabCase = require("lodash/kebabCase");
 const mapKeys = require("lodash/mapKeys");
 const mapValues = require("lodash/mapValues");
