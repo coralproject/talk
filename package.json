@@ -108,7 +108,6 @@
     "@types/react-relay": "github:coralproject/patched#types/react-relay",
     "@types/react-responsive": "^3.0.1",
     "@types/react-test-renderer": "^16.0.1",
-    "@types/react-tooltip": "^3.3.5",
     "@types/recompose": "^0.26.1",
     "@types/relay-runtime": "github:coralproject/patched#types/relay-runtime",
     "@types/sane": "^2.0.0",
