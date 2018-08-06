@@ -10,8 +10,8 @@ import {
 import PermalinkView from "../components/PermalinkView";
 
 interface PermalinkViewContainerProps {
-  comment: CommentData;
-  asset: AssetData;
+  comment: CommentData | null;
+  asset: AssetData | null;
   setCommentID: SetCommentIDMutation;
 }
 
@@ -26,7 +26,7 @@ class PermalinkViewContainer extends React.Component<
     return (
       <PermalinkView
         comment={comment}
-        assetURL={asset.url}
+        assetURL={(asset && asset.url) || null}
         onShowAllComments={this.showAllComments}
       />
     );
@@ -34,7 +34,10 @@ class PermalinkViewContainer extends React.Component<
 }
 
 const enhanced = withSetCommentIDMutation(
-  withFragmentContainer<{ comment: CommentData; asset: AssetData }>({
+  withFragmentContainer<{
+    comment: CommentData | null;
+    asset: AssetData | null;
+  }>({
     comment: graphql`
       fragment PermalinkViewContainer_comment on Comment {
         ...CommentContainer
