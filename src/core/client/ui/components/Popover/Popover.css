@@ -8,14 +8,14 @@
 }
 
 .top {
-  margin-bottom: calc(0.5 * var(--spacing-unit));
+  margin: calc(0.5 * var(--spacing-unit)) 0;
 }
 .left {
-  margin-right: calc(0.5 * var(--spacing-unit));
+  margin: 0 calc(0.5 * var(--spacing-unit));
 }
 .right {
-  margin-left: calc(0.5 * var(--spacing-unit));
+  margin: 0 calc(0.5 * var(--spacing-unit));
 }
 .bottom {
-  margin-top: calc(0.5 * var(--spacing-unit));
+  margin: calc(0.5 * var(--spacing-unit)) 0;
 }
