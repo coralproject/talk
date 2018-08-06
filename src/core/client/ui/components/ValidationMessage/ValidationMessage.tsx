@@ -44,7 +44,7 @@ const ValidationMessage: StatelessComponent<ValidationMessageProps> = props => {
   return (
     <div className={rootClassName} {...rest}>
       {color === "error" && (
-        <Icon size="xs" className={classes.icon}>
+        <Icon size="sm" className={classes.icon}>
           warning
         </Icon>
       )}
