@@ -15,8 +15,8 @@ interface PopupProps {
 
 export default class Popup extends Component<PopupProps> {
   private ref: Window | null = null;
-  private detectCloseInterval: NodeJS.Timer | null = null;
-  private resetCallbackInterval: NodeJS.Timer | null = null;
+  private detectCloseInterval: any = null;
+  private resetCallbackInterval: any = null;
 
   constructor(props: PopupProps) {
     super(props);
