@@ -10,3 +10,4 @@ export { default as Flex } from "./Flex";
 export { default as MatchMedia } from "./MatchMedia";
 export { default as TrapFocus } from "./TrapFocus";
 export { default as ClickOutside } from "./ClickOutside";
+export { default as Popup } from "./Popup";
