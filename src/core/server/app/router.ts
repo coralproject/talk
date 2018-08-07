@@ -2,6 +2,7 @@ import express from "express";
 import passport from "passport";
 
 import { signupHandler } from "talk-server/app/handlers/auth/local";
+import { streamHandler } from "talk-server/app/handlers/embed/stream";
 import { apiErrorHandler } from "talk-server/app/middleware/error";
 import { errorLogger } from "talk-server/app/middleware/logging";
 import { wrapAuthn } from "talk-server/app/middleware/passport";
@@ -9,7 +10,6 @@ import tenantMiddleware from "talk-server/app/middleware/tenant";
 import managementGraphMiddleware from "talk-server/graph/management/middleware";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
-import { devHandler } from "talk-server/app/handlers/dev";
 import { AppOptions } from "./index";
 import playground from "./middleware/playground";
 
@@ -133,14 +133,10 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
         subscriptionEndpoint: "/api/management/live",
       })
     );
-
-    // Development route.
-    router.get(
-      "/dev",
-      tenantMiddleware({ cache: app.tenantCache }),
-      devHandler
-    );
   }
+
+  // Handle the stream handler.
+  router.get("/embed/stream", streamHandler);
 
   return router;
 }

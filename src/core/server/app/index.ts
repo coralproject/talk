@@ -52,7 +52,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
   );
 
   // Static Files
-  parent.use(serveStatic);
+  parent.use("/assets", serveStatic);
 
   // Error Handling
   parent.use(notFoundMiddleware);
@@ -91,14 +91,11 @@ function setupViews(options: AppOptions) {
   const { parent } = options;
 
   // configure the default views directory.
-  const views = path.join(__dirname, "views");
+  const views = path.join(__dirname, "..", "..", "..", "static");
   parent.set("views", views);
 
   // Reconfigure nunjucks.
   (cons.requires as any).nunjucks = nunjucks.configure(views, {
-    autoescape: true,
-    trimBlocks: true,
-    lstripBlocks: true,
     // In development, we should enable file watch mode.
     watch: options.config.get("env") === "development",
   });
@@ -107,8 +104,8 @@ function setupViews(options: AppOptions) {
   parent.engine("njk", cons.nunjucks);
   parent.engine("html", cons.nunjucks);
 
-  // set .njk as the default extension.
-  parent.set("view engine", "njk");
+  // set .html as the default extension.
+  parent.set("view engine", "html");
 }
 
 /**

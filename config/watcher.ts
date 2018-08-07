@@ -10,7 +10,7 @@ const config: Config = {
   watchers: {
     compileSchema: {
       paths: ["core/server/**/*.graphql"],
-      executor: new CommandExecutor("npm run compile:schema", {
+      executor: new CommandExecutor("npx gulp server:schema", {
         runOnInit: true,
       }),
     },
