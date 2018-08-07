@@ -34,10 +34,49 @@ exports[`show all comments 1`] = `
   className="Flex-root App-root Flex-justifyCenter Flex-alignCenter"
 >
   <div
-    className="Stream-root"
+    className="Flex-root Stream-root Flex-itemGutter Flex-alignFlexStart Flex-directionColumn"
   >
+    <div
+      className="Flex-root Flex-alignCenter"
+    >
+      <span
+        className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserBox-joinText"
+      >
+        Join the conversation
+      </span>
+      <span
+        className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+      >
+        |
+      </span>
+      <button
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+      >
+        Sign In
+      </button>
+      <button
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+      >
+        Register
+      </button>
+    </div>
     <form
       autoComplete="off"
+      className="PostCommentForm-root"
       onSubmit={[Function]}
     >
       <div>

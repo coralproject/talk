@@ -1,3 +1,7 @@
+.root {
+  width: 100%;
+}
+
 .textarea {
   composes: bodyCopy from "talk-ui/shared/typography.css";
 

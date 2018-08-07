@@ -80,6 +80,10 @@ const Flex: StatelessComponent<InnerProps> = props => {
   return <div ref={forwardRef} className={classNames} {...rest} />;
 };
 
+Flex.defaultProps = {
+  wrap: true,
+};
+
 const enhanced = withForwardRef(withStyles(styles)(Flex));
 export default enhanced;
 export type FlexProps = PropTypesOf<typeof enhanced>;

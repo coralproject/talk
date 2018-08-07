@@ -3,7 +3,6 @@ import { Environment, RecordSource } from "relay-runtime";
 import { createRelayEnvironment } from "talk-framework/testHelpers";
 
 import { NETWORK_ID, NETWORK_TYPE } from "../local";
-
 import { commit } from "./SetNetworkStatusMutation";
 
 let environment: Environment;
