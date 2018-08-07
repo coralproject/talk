@@ -10,8 +10,8 @@ export type ClickFarAwayRegister = (
   callback: ClickFarAwayCallback
 ) => ClickFarAwayUnlistenCallback;
 
-interface Props {
-  onClickOutside: () => void;
+export interface ClickOutsideProps {
+  onClickOutside: (e?: MouseEvent) => void;
 
   /**
    * A way to listen for clicks that are e.g. outside of the
@@ -22,7 +22,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export class ClickOutside extends React.Component<Props> {
+export class ClickOutside extends React.Component<ClickOutsideProps> {
   public domNode: Element | null = null;
   private unlisten?: ClickFarAwayUnlistenCallback;
 
@@ -30,7 +30,7 @@ export class ClickOutside extends React.Component<Props> {
     const { onClickOutside } = this.props;
     if (!e || !this.domNode!.contains(e.target as HTMLInputElement)) {
       // tslint:disable-next-line:no-unused-expression
-      onClickOutside && onClickOutside();
+      onClickOutside && onClickOutside(e);
     }
   };
 
@@ -65,7 +65,9 @@ export class ClickOutside extends React.Component<Props> {
   }
 }
 
-const ClickOutsideWithContext: StatelessComponent<Props> = props => (
+const ClickOutsideWithContext: StatelessComponent<
+  ClickOutsideProps
+> = props => (
   <UIContext.Consumer>
     {({ registerClickFarAway }) => (
       <ClickOutside {...props} registerClickFarAway={registerClickFarAway} />

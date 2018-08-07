@@ -5,9 +5,9 @@ import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
-import AppQuery from "talk-stream/queries/AppQuery";
+import { createRelayEnvironment } from "talk-framework/testHelpers";
+import AppContainer from "talk-stream/containers/AppContainer";
 
-import createEnvironment from "./createEnvironment";
 import { assets, comments } from "./fixtures";
 
 const connectionStub = sinon.stub().throws();
@@ -61,10 +61,13 @@ const resolvers = {
   },
 };
 
-const environment = createEnvironment({
-  // Set this to true, to see graphql responses.
-  logNetwork: false,
-  resolvers,
+const environment = createRelayEnvironment({
+  network: {
+    // Set this to true, to see graphql responses.
+    logNetwork: false,
+    resolvers,
+    projectName: "tenant",
+  },
   initLocalState: (localRecord: RecordProxy) => {
     localRecord.setValue(assetStub.id, "assetID");
   },
@@ -77,7 +80,7 @@ const context: TalkContext = {
 
 const testRenderer = TestRenderer.create(
   <TalkContextProvider value={context}>
-    <AppQuery />
+    <AppContainer />
   </TalkContextProvider>
 );
 

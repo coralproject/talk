@@ -5,17 +5,17 @@ import { PropTypesOf } from "talk-framework/types";
 
 import App from "./App";
 
-it("renders correctly", () => {
+it("renders stream", () => {
   const props: PropTypesOf<typeof App> = {
-    asset: {},
+    showPermalinkView: false,
   };
   const wrapper = shallow(<App {...props} />);
   expect(wrapper).toMatchSnapshot();
 });
 
-it("renders correctly when asset is null", () => {
+it("renders permalink view", () => {
   const props: PropTypesOf<typeof App> = {
-    asset: null,
+    showPermalinkView: true,
   };
   const wrapper = shallow(<App {...props} />);
   expect(wrapper).toMatchSnapshot();

@@ -2,16 +2,19 @@ import React, { StatelessComponent } from "react";
 import { graphql } from "react-relay";
 
 import withFragmentContainer from "talk-framework/lib/relay/withFragmentContainer";
-import { Omit, PropTypesOf } from "talk-framework/types";
+import { PropTypesOf } from "talk-framework/types";
 import { CommentContainer as Data } from "talk-stream/__generated__/CommentContainer.graphql";
 
-import Comment, { CommentProps } from "../components/Comment";
+import Comment from "../components/Comment";
 
-type InnerProps = { data: Data } & Omit<CommentProps, keyof Data>;
+interface InnerProps {
+  data: Data;
+}
 
 // tslint:disable-next-line:no-unused-expression
 graphql`
   fragment CommentContainer_comment on Comment {
+    id
     author {
       username
     }

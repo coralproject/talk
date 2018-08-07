@@ -3,23 +3,26 @@ import { StatelessComponent } from "react";
 
 import { Flex } from "talk-ui/components";
 
-import StreamContainer from "../containers/StreamContainer";
+import PermalinkViewQuery from "../queries/PermalinkViewQuery";
+import StreamQuery from "../queries/StreamQuery";
 
 import * as styles from "./App.css";
 
 export interface AppProps {
-  asset: {} | null;
+  showPermalinkView: boolean;
 }
 
 const App: StatelessComponent<AppProps> = props => {
-  if (props.asset) {
-    return (
-      <Flex justifyContent="center" className={styles.root}>
-        <StreamContainer asset={props.asset} />
-      </Flex>
-    );
-  }
-  return <div>Asset not found </div>;
+  const view = props.showPermalinkView ? (
+    <PermalinkViewQuery />
+  ) : (
+    <StreamQuery />
+  );
+  return (
+    <Flex justifyContent="center" className={styles.root}>
+      {view}
+    </Flex>
+  );
 };
 
 export default App;

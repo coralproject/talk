@@ -21,8 +21,21 @@ export default async function initLocalState(environment: Environment) {
 
     // Parse query params
     const query = qs.parse(location.search);
+
     if (query.assetID) {
       localRecord.setValue(query.assetID, "assetID");
+    }
+
+    // Saving location host for permalink until we get the asset url - the url now points to the tenant
+    if (location && query.assetID) {
+      localRecord.setValue(
+        `${location.origin}/?assetID=${query.assetID}`,
+        "assetURL"
+      );
+    }
+
+    if (query.commentID) {
+      localRecord.setValue(query.commentID, "commentID");
     }
 
     // Create network Record

@@ -1,0 +1,21 @@
+.root {
+  background: var(--palette-common-white);
+  border: 1px solid var(--palette-grey-lighter);
+  box-sizing: border-box;
+  box-shadow: var(--elevation-main);
+  border-radius: var(--round-corners);
+  padding: calc(0.5 * var(--spacing-unit));
+}
+
+.top {
+  margin: calc(0.5 * var(--spacing-unit)) 0;
+}
+.left {
+  margin: 0 calc(0.5 * var(--spacing-unit));
+}
+.right {
+  margin: 0 calc(0.5 * var(--spacing-unit));
+}
+.bottom {
+  margin: calc(0.5 * var(--spacing-unit)) 0;
+}
