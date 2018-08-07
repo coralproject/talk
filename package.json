@@ -9,6 +9,7 @@
     "compile": "npm-run-all --parallel compile:*",
     "compile:css-types": "tcm src/core/client/",
     "compile:relay-stream": "ts-node ./scripts/compileRelay --src ./src/core/client/stream --schema tenant",
+    "compile:schema": "node ./scripts/generateSchemaTypes.js",
     "docz": "docz",
     "start": "node dist/index.js",
     "start:development": "NODE_ENV=development ts-node --project ./src/tsconfig.json -r tsconfig-paths/register ./src/index.ts",
