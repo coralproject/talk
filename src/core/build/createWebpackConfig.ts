@@ -407,26 +407,39 @@ export default function createWebpackConfig({
     /* Webpack config for our embed */
     {
       ...baseConfig,
-      entry: [
-        // No polyfills for the embed.
-        (isProduction && "") ||
-          require.resolve("react-dev-utils/webpackHotDevClient"),
-        paths.appEmbedIndex,
-        // Remove deactivated entries.
-      ].filter(s => s),
+      entry: {
+        embed: [
+          paths.appEmbedIndex,
+          (isProduction && "") ||
+            require.resolve("react-dev-utils/webpackHotDevClient"),
+        ],
+        auth: [
+          paths.appAuthIndex,
+          (isProduction && "") ||
+            require.resolve("react-dev-utils/webpackHotDevClient"),
+        ],
+      },
       output: {
         ...baseConfig.output,
         library: "Talk",
         // don't hash the embed, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
-        filename: "assets/js/embed.js",
+        filename: "assets/js/[name].js",
       },
       plugins: [
         ...baseConfig.plugins!,
         // Generates an `stream.html` file with the <script> injected.
         new HtmlWebpackPlugin({
+          chunks: ["embed"],
           filename: "embed.html",
           template: paths.appEmbedHTML,
+          inject: "head",
+          ...htmlWebpackConfig,
+        }),
+        new HtmlWebpackPlugin({
+          chunks: ["auth"],
+          filename: "auth.html",
+          template: paths.appAuthHTML,
           inject: "head",
           ...htmlWebpackConfig,
         }),
