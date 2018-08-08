@@ -347,7 +347,7 @@ const COMMENTS_EDITED_SUBSCRIPTION = gql`
 
 const LOAD_MORE_QUERY = gql`
   query CoralEmbedStream_LoadMoreComments(
-    $limit: Limit = 5
+    $limit: QueryLimit = 5
     $cursor: Cursor
     $parent_id: ID
     $asset_id: ID

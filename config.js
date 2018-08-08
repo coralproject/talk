@@ -267,10 +267,10 @@ const CONFIG = {
     process.env.TALK_DISABLE_IGNORE_FLAGS_AGAINST_STAFF !== 'TRUE',
 
   // QUERY_DEPTH_LIMIT sets the max. GraphQL query depth for graphql-depth-limit module
-  QUERY_DEPTH_LIMIT: process.env.TALK_QUERY_DEPTH_LIMIT || 100000000,
+  QUERY_DEPTH_LIMIT: process.env.TALK_QUERY_DEPTH_LIMIT || 15,
 
   // QUERY_MAX_LIMIT sets the limit for GraphQL query result size
-  QUERY_MAX_LIMIT: process.env.TALK_QUERY_MAX_LIMIT || 100,
+  QUERY_MAX_LIMIT: process.env.TALK_QUERY_MAX_LIMIT || 50,
 };
 
 //==============================================================================

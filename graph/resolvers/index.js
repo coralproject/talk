@@ -30,7 +30,7 @@ const UsernameStatusHistory = require('./username_status_history');
 const UserProfile = require('./user_profile');
 const UserState = require('./user_state');
 const ValidationUserError = require('./validation_user_error');
-const Limit = require('./limit');
+const QueryLimit = require('./query_limit');
 
 const plugins = require('../../services/plugins');
 
@@ -65,7 +65,7 @@ let resolvers = {
   UserProfile,
   UserState,
   ValidationUserError,
-  Limit,
+  QueryLimit,
 };
 
 /**

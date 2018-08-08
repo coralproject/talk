@@ -9,7 +9,7 @@ scalar Date
 scalar Cursor
 
 # Limit represents a query size limiter
-scalar Limit
+scalar QueryLimit
 
 ################################################################################
 ## Reliability
@@ -280,7 +280,7 @@ input UsersQuery {
   value: String = ""
 
   # Limit the number of results to be returned.
-  limit: Limit = 10
+  limit: QueryLimit = 10
 
   # Skip results from the last created_at timestamp.
   cursor: Cursor
@@ -296,7 +296,7 @@ input AssetsQuery {
   value: String = ""
 
   # Limit the number of results to be returned
-  limit: Limit = 10
+  limit: QueryLimit = 10
 
   # open filters assets that are open/closed/all. Not providing this parameter
   # will return all the assets, true will return assets that are open, and false
@@ -412,7 +412,7 @@ input CommentsQuery {
   action_type: ACTION_TYPE
 
   # Limit the number of results to be returned.
-  limit: Limit = 10
+  limit: QueryLimit = 10
 
   # Skip results from the last created_at timestamp.
   cursor: Cursor
@@ -444,7 +444,7 @@ input RepliesQuery {
   sortBy: SORT_COMMENTS_BY = CREATED_AT
 
   # Limit the number of results to be returned.
-  limit: Limit = 3
+  limit: QueryLimit = 3
 
   # Exclude comments ignored by the requesting user
   excludeIgnored: Boolean
