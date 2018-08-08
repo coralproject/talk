@@ -80,6 +80,28 @@ export default function createWebpackConfig({
     },
   ];
 
+  const localesOptions = {
+    pathToLocales: paths.appLocales,
+
+    // Default locale if non could be negotiated.
+    defaultLocale: "en-US",
+
+    // Fallback locale if a translation was not found.
+    // If not set, will use the text that is already
+    // in the code base.
+    fallbackLocale: "en-US",
+
+    // Common fluent files are always included in the locale bundles.
+    commonFiles: ["framework.ftl", "common.ftl"],
+
+    // Locales that come with the main bundle. Others are loaded on demand.
+    bundled: ["en-US"],
+
+    // All available locales can be loadable on demand.
+    // To restrict available locales set:
+    // availableLocales: ["en-US"],
+  };
+
   const additionalPlugins = isProduction
     ? [
         // Minify the code.
@@ -214,29 +236,26 @@ export default function createWebpackConfig({
                 {
                   loader: "locales-loader",
                   options: {
-                    pathToLocales: paths.appLocales,
-
-                    // Default locale if non could be negotiated.
-                    defaultLocale: "en-US",
-
-                    // Fallback locale if a translation was not found.
-                    // If not set, will use the text that is already
-                    // in the code base.
-                    fallbackLocale: "en-US",
-
-                    // Common fluent files are always included in the locale bundles.
-                    commonFiles: ["framework.ftl", "common.ftl"],
-
-                    // Locales that come with the main bundle. Others are loaded on demand.
-                    bundled: ["en-US"],
-
+                    ...localesOptions,
                     // Target specifies the prefix for fluent files to be loaded.
                     // ${target}-xyz.ftl and ${†arget}.ftl are loaded into the locales.
                     target: "stream",
-
-                    // All available locales can be loadable on demand.
-                    // To restrict available locales set:
-                    // availableLocales: ["en-US"],
+                  },
+                },
+              ],
+            },
+            {
+              test: paths.appAuthLocalesTemplate,
+              use: [
+                // This is the locales loader that loads available locales
+                // from a particular target.
+                {
+                  loader: "locales-loader",
+                  options: {
+                    ...localesOptions,
+                    // Target specifies the prefix for fluent files to be loaded.
+                    // ${target}-xyz.ftl and ${†arget}.ftl are loaded into the locales.
+                    target: "auth",
                   },
                 },
               ],
@@ -380,6 +399,24 @@ export default function createWebpackConfig({
           paths.appStreamIndex,
           // Remove deactivated entries.
         ].filter(s => s),
+        auth: [
+          // We ship polyfills by default
+          paths.appPolyfill,
+          // Include an alternative client for WebpackDevServer. A client's job is to
+          // connect to WebpackDevServer by a socket and get notified about changes.
+          // When you save a file, the client will either apply hot updates (in case
+          // of CSS changes), or refresh the page (in case of JS changes). When you
+          // make a syntax error, this client will display a syntax error overlay.
+          // Note: instead of the default WebpackDevServer client, we use a custom one
+          // to bring better experience for Create React App users. You can replace
+          // the line below with these two lines if you prefer the stock client:
+          // require.resolve('webpack-dev-server/client') + '?/',
+          // require.resolve('webpack/hot/dev-server'),
+          (isProduction && "") ||
+            require.resolve("react-dev-utils/webpackHotDevClient"),
+          paths.appAuthIndex,
+          // Remove deactivated entries.
+        ].filter(s => s),
       },
       plugins: [
         ...baseConfig.plugins!,
@@ -388,6 +425,14 @@ export default function createWebpackConfig({
           filename: "stream.html",
           template: paths.appStreamHTML,
           chunks: ["stream"],
+          inject: "body",
+          ...htmlWebpackConfig,
+        }),
+        // Generates an `auth.html` file with the <script> injected.
+        new HtmlWebpackPlugin({
+          filename: "auth.html",
+          template: paths.appAuthHTML,
+          chunks: ["auth"],
           inject: "body",
           ...htmlWebpackConfig,
         }),

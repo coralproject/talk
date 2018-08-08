@@ -1,10 +1,25 @@
 import * as React from "react";
 import { StatelessComponent } from "react";
 
+import { AppContainerLocal as Local } from "talk-auth/__generated__/AppContainerLocal.graphql";
+import { graphql, withLocalStateContainer } from "talk-framework/lib/relay";
+
 import App from "../components/App";
 
-const AppContainer: StatelessComponent = () => {
-  return <App />;
+interface InnerProps {
+  local: Local;
+}
+
+const AppContainer: StatelessComponent<InnerProps> = ({ local: { view } }) => {
+  return <App view={view} />;
 };
 
-export default AppContainer;
+const enhanced = withLocalStateContainer<Local>(
+  graphql`
+    fragment AppContainerLocal on Local {
+      view
+    }
+  `
+)(AppContainer);
+
+export default enhanced;

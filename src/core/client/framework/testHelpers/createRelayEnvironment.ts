@@ -31,12 +31,19 @@ export interface CreateRelayEnvironmentNetworkParams {
 export interface CreateRelayEnvironmentParams {
   /** If set, creates a network to a local graphql server with a local schema */
   network?: CreateRelayEnvironmentNetworkParams;
-  /** Allows to set initial state for Local state */
-  initLocalState?: (
-    local: RecordProxy,
-    source: RecordSourceProxy,
-    environment: Environment
-  ) => void;
+  /**
+   * Initializes an empty local state if true.
+   * When passing in a function it gets executed after
+   * the intialization. Defaults to true.
+   */
+  initLocalState?:
+    | ((
+        local: RecordProxy,
+        source: RecordSourceProxy,
+        environment: Environment
+      ) => void)
+    | false
+    | true;
   /** Use this source for creating the environment */
   source?: RecordSource;
 }
@@ -61,18 +68,20 @@ export default function createRelayEnvironment(
     network,
     store: new Store(params.source || new RecordSource()),
   });
-  commitLocalUpdate(environment, sourceProxy => {
-    const root = sourceProxy.getRoot();
-    const localRecord = createAndRetain(
-      environment,
-      sourceProxy,
-      LOCAL_ID,
-      LOCAL_TYPE
-    );
-    root.setLinkedRecord(localRecord, "local");
-    if (params.initLocalState) {
-      params.initLocalState!(localRecord, sourceProxy, environment);
-    }
-  });
+  if (params.initLocalState !== false) {
+    commitLocalUpdate(environment, sourceProxy => {
+      const root = sourceProxy.getRoot();
+      const localRecord = createAndRetain(
+        environment,
+        sourceProxy,
+        LOCAL_ID,
+        LOCAL_TYPE
+      );
+      root.setLinkedRecord(localRecord, "local");
+      if (typeof params.initLocalState === "function") {
+        params.initLocalState!(localRecord, sourceProxy, environment);
+      }
+    });
+  }
   return environment;
 }

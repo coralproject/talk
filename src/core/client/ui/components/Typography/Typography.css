@@ -23,6 +23,10 @@
   composes: bodyCopy from "talk-ui/shared/typography.css";
 }
 
+.bodyCopyBold {
+  composes: bodyCopyBold from "talk-ui/shared/typography.css";
+}
+
 .button {
   composes: button from "talk-ui/shared/typography.css";
 }

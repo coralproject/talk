@@ -1,0 +1,14 @@
+.root {
+  padding: var(--spacing-unit);
+  color: var(--palette-text-primary);
+}
+
+.text {
+  padding-right: calc(0.5 * var(--spacing-unit));
+  line-height: 1px;
+}
+
+.horizontalSeparator {
+  font-size: 1.3em;
+  color: var(--palette-text-primary);
+}
