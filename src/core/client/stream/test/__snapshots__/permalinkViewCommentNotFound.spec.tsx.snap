@@ -7,8 +7,9 @@ exports[`renders permalink view with unknown comment 1`] = `
   <div
     className="PermalinkView-root"
   >
-    <button
+    <a
       className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantOutlined Button-fullWidth"
+      href="http://localhost/"
       id="talk-comments-permalinkView-showAllComments"
       onBlur={[Function]}
       onClick={[Function]}
@@ -17,9 +18,10 @@ exports[`renders permalink view with unknown comment 1`] = `
       onMouseOut={[Function]}
       onMouseOver={[Function]}
       onTouchEnd={[Function]}
+      target="_parent"
     >
       Show all Comments
-    </button>
+    </a>
     <p
       className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
