@@ -28,7 +28,7 @@ export default {
   appEmbedIndex: resolveSrc("core/client/embed/index.ts"),
   appEmbedHTML: resolveSrc("core/client/embed/index.html"),
 
-  appAuthIndex: resolveSrc("core/client/auth/index.ts"),
+  appAuthIndex: resolveSrc("core/client/auth/index.tsx"),
   appAuthHTML: resolveSrc("core/client/auth/index.html"),
 
   appDistStatic: resolveApp("dist/static"),
