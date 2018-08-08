@@ -576,3 +576,11 @@ can be used to set an authorization header, or change the user agent. (Default
 ## TALK_SCRAPER_PROXY_URL
 
 Sets a specific HTTP/S proxy to be used by the Asset Scraper using [https-proxy-agent](https://www.npmjs.com/package/https-proxy-agent). (Default `null`)
+
+## TALK_QUERY_DEPTH_LIMIT
+
+Sets a maximum depth for GraphQL query to prevent DDoS queries using [graphql-depth-limit](https://github.com/stems/graphql-depth-limit) middleware. (Default `15`)
+
+## TALK_QUERY_MAX_LIMIT
+
+Sets a maximum value for the `$limit` variable in GraphQL queries. (Default `50`)
