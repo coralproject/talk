@@ -13,3 +13,11 @@ export {
   SetCommentIDMutation,
   SetCommentIDInput,
 } from "./SetCommentIDMutation";
+export {
+  withShowAuthPopupMutation,
+  ShowAuthPopupMutation,
+} from "./ShowAuthPopupMutation";
+export {
+  withSetAuthPopupStateMutation,
+  SetAuthPopupStateMutation,
+} from "./SetAuthPopupStateMutation";
