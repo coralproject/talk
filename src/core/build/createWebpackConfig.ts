@@ -407,37 +407,61 @@ export default function createWebpackConfig({
     /* Webpack config for our embed */
     {
       ...baseConfig,
-      entry: {
-        embed: [
-          paths.appEmbedIndex,
-          (isProduction && "") ||
-            require.resolve("react-dev-utils/webpackHotDevClient"),
-        ],
-        auth: [
-          paths.appAuthIndex,
-          (isProduction && "") ||
-            require.resolve("react-dev-utils/webpackHotDevClient"),
-        ],
-      },
+      entry: [
+        // No polyfills for the embed.
+        (isProduction && "") ||
+          require.resolve("react-dev-utils/webpackHotDevClient"),
+        paths.appEmbedIndex,
+        // Remove deactivated entries.
+      ].filter(s => s),
       output: {
         ...baseConfig.output,
         library: "Talk",
         // don't hash the embed, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
-        filename: "assets/js/[name].js",
+        filename: "assets/js/embed.js",
       },
       plugins: [
         ...baseConfig.plugins!,
         // Generates an `stream.html` file with the <script> injected.
         new HtmlWebpackPlugin({
-          chunks: ["embed"],
           filename: "embed.html",
           template: paths.appEmbedHTML,
           inject: "head",
           ...htmlWebpackConfig,
         }),
+        // Makes some environment variables available in index.html.
+        // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
+        // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+        // In development, this will be an empty string.
+        new InterpolateHtmlPlugin(env),
+        // Generate a manifest file which contains a mapping of all asset filenames
+        // to their corresponding output file so that tools can pick it up without
+        // having to parse `index.html`.
+        new ManifestPlugin({
+          fileName: "embed-manifest.json",
+        }),
+      ],
+    },
+    /* Webpack config for our auth */
+    {
+      ...baseConfig,
+      entry: [
+        // No polyfills for the embed.
+        (isProduction && "") ||
+          require.resolve("react-dev-utils/webpackHotDevClient"),
+        paths.appAuthIndex,
+        // Remove deactivated entries.
+      ].filter(s => s),
+      output: {
+        ...baseConfig.output,
+        library: "Talk",
+        filename: "assets/js/auth.js",
+      },
+      plugins: [
+        ...baseConfig.plugins!,
+        // Generates an `stream.html` file with the <script> injected.
         new HtmlWebpackPlugin({
-          chunks: ["auth"],
           filename: "auth.html",
           template: paths.appAuthHTML,
           inject: "head",
@@ -452,7 +476,7 @@ export default function createWebpackConfig({
         // to their corresponding output file so that tools can pick it up without
         // having to parse `index.html`.
         new ManifestPlugin({
-          fileName: "embed-manifest.json",
+          fileName: "auth-manifest.json",
         }),
       ],
     },
