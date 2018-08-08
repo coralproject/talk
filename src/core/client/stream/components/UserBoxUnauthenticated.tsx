@@ -2,14 +2,16 @@ import React, { StatelessComponent } from "react";
 
 import { Button, Flex, Typography } from "talk-ui/components";
 
-import * as styles from "./UserBox.css";
+import * as styles from "./UserBoxUnauthenticated.css";
 
-export interface UserBoxProps {
+export interface UserBoxUnauthenticatedProps {
   onSignIn: () => void;
   onRegister: () => void;
 }
 
-const UserBox: StatelessComponent<UserBoxProps> = props => {
+const UserBoxUnauthenticated: StatelessComponent<
+  UserBoxUnauthenticatedProps
+> = props => {
   return (
     <Flex>
       <Typography
@@ -37,4 +39,4 @@ const UserBox: StatelessComponent<UserBoxProps> = props => {
   );
 };
 
-export default UserBox;
+export default UserBoxUnauthenticated;

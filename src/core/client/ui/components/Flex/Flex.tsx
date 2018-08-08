@@ -77,7 +77,12 @@ const Flex: StatelessComponent<InnerProps> = props => {
 
   const classNames: string = cn(classes.root, className, classObject);
 
-  return <div ref={forwardRef} className={classNames} {...rest} />;
+  // The first div is required to support nested `Flex` components with itemGutters.
+  return (
+    <div>
+      <div ref={forwardRef} className={classNames} {...rest} />
+    </div>
+  );
 };
 
 Flex.defaultProps = {
