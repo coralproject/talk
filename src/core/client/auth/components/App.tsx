@@ -14,7 +14,7 @@ export interface AppProps {
 const App: StatelessComponent<AppProps> = props => {
   return (
     <Flex justifyContent="center" className={styles.root}>
-      Show view {props.view}
+      Current View: {props.view}
     </Flex>
   );
 };
