@@ -27,29 +27,23 @@ export const render = ({
     return <div>{error.message}</div>;
   }
   if (props) {
-    return (
-      <PermalinkViewContainer asset={props.asset} comment={props.comment} />
-    );
+    return <PermalinkViewContainer comment={props.comment} />;
   }
   return <div>Loading</div>;
 };
 
 const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
-  local: { commentID, assetID },
+  local: { commentID },
 }) => (
   <QueryRenderer<PermalinkViewQueryVariables, PermalinkViewQueryResponse>
     query={graphql`
-      query PermalinkViewQuery($assetID: ID!, $commentID: ID!) {
-        asset(id: $assetID) {
-          ...PermalinkViewContainer_asset
-        }
+      query PermalinkViewQuery($commentID: ID!) {
         comment(id: $commentID) {
           ...PermalinkViewContainer_comment
         }
       }
     `}
     variables={{
-      assetID,
       commentID,
     }}
     render={render}
@@ -59,7 +53,6 @@ const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
 const enhanced = withLocalStateContainer<Local>(
   graphql`
     fragment PermalinkViewQueryLocal on Local {
-      assetID
       commentID
     }
   `
