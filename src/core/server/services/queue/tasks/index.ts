@@ -1,18 +1,19 @@
-import { Job, Queue } from "bull";
+import Queue, { Job, Queue as QueueType } from "bull";
 
 import logger from "talk-server/logger";
 
 export interface TaskOptions<T, U = any> {
   jobName: string;
   jobProcessor: (job: Job<T>) => Promise<U>;
+  queue: Queue.QueueOptions;
 }
 
 export class Task<T, U = any> {
   private options: TaskOptions<T, U>;
-  private queue: Queue<T>;
+  private queue: QueueType<T>;
 
-  constructor(queue: Queue<T>, options: TaskOptions<T, U>) {
-    this.queue = queue;
+  constructor(options: TaskOptions<T, U>) {
+    this.queue = new Queue(options.jobName, options.queue);
     this.options = options;
 
     // Sets up and attaches the job processor to the queue.
@@ -41,7 +42,7 @@ export class Task<T, U = any> {
   }
 
   private setupAndAttachProcessor() {
-    this.queue.process(this.options.jobName, async (job: Job<T>) => {
+    this.queue.process(async (job: Job<T>) => {
       logger.trace(
         { job_id: job.id, job_name: this.options.jobName },
         "processing job from queue"

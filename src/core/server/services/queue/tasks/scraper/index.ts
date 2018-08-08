@@ -1,4 +1,4 @@
-import { Job, Queue } from "bull";
+import Queue, { Job } from "bull";
 import cheerio from "cheerio";
 import { Db } from "mongodb";
 
@@ -146,7 +146,7 @@ class Scraper {
 }
 
 export function createScraperTask(
-  queue: Queue<ScraperData>,
+  queue: Queue.QueueOptions,
   options: ScrapeProcessorOptions
 ) {
   // Create the scraper object.
@@ -160,8 +160,9 @@ export function createScraperTask(
     section(),
   ]);
 
-  return new Task(queue, {
+  return new Task({
     jobName: JOB_NAME,
     jobProcessor: createJobProcessor(options, scraper),
+    queue,
   });
 }

@@ -53,12 +53,13 @@ export interface TaskQueue {
 }
 
 export function createQueue(options: QueueOptions): TaskQueue {
-  // Create the processor queue.
-  const client = new Queue("talk", createQueueOptions(options.config));
+  // Create the processor queue options. This holds references to the Redis
+  // clients that are shared per queue.
+  const queueOptions = createQueueOptions(options.config);
 
   // Attach process functions to the various tasks in the queue.
-  const mailer = createMailerTask(client, options);
-  const scraper = createScraperTask(client, options);
+  const mailer = createMailerTask(queueOptions, options);
+  const scraper = createScraperTask(queueOptions, options);
 
   // Return the tasks + client.
   return {

@@ -1,4 +1,4 @@
-import { Job, Queue } from "bull";
+import Queue, { Job } from "bull";
 import { Db } from "mongodb";
 import { createTransport } from "nodemailer";
 
@@ -56,11 +56,12 @@ const createJobProcessor = (options: MailProcessorOptions) => {
 };
 
 export function createMailerTask(
-  queue: Queue<MailerData>,
+  queue: Queue.QueueOptions,
   options: MailProcessorOptions
 ) {
-  return new Task(queue, {
+  return new Task({
     jobName: JOB_NAME,
     jobProcessor: createJobProcessor(options),
+    queue,
   });
 }
