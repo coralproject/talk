@@ -20,7 +20,7 @@ export interface PostCommentFormProps {
 const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
   <Form onSubmit={props.onSubmit}>
     {({ handleSubmit, submitting }) => (
-      <form autoComplete="off" onSubmit={handleSubmit}>
+      <form autoComplete="off" onSubmit={handleSubmit} className={styles.root}>
         <Field name="body" validate={required}>
           {({ input, meta }) => (
             <div>

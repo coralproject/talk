@@ -1,9 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div
+<withPropsOnChange(Flex)
   className="Stream-root"
+  direction="column"
+  itemGutter={true}
 >
+  <withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(UserBoxContainer)))))) />
   <withContext(createMutationContainer(PostCommentFormContainer))
     assetID="asset-id"
   />
@@ -55,13 +58,16 @@ exports[`renders correctly 1`] = `
       />
     </withPropsOnChange(Flex)>
   </withPropsOnChange(Flex)>
-</div>
+</withPropsOnChange(Flex)>
 `;
 
 exports[`when there is more disables load more button 1`] = `
-<div
+<withPropsOnChange(Flex)
   className="Stream-root"
+  direction="column"
+  itemGutter={true}
 >
+  <withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(UserBoxContainer)))))) />
   <withContext(createMutationContainer(PostCommentFormContainer))
     assetID="asset-id"
   />
@@ -127,13 +133,16 @@ exports[`when there is more disables load more button 1`] = `
       </withPropsOnChange(Button)>
     </Localized>
   </withPropsOnChange(Flex)>
-</div>
+</withPropsOnChange(Flex)>
 `;
 
 exports[`when there is more renders a load more button 1`] = `
-<div
+<withPropsOnChange(Flex)
   className="Stream-root"
+  direction="column"
+  itemGutter={true}
 >
+  <withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(UserBoxContainer)))))) />
   <withContext(createMutationContainer(PostCommentFormContainer))
     assetID="asset-id"
   />
@@ -199,5 +208,5 @@ exports[`when there is more renders a load more button 1`] = `
       </withPropsOnChange(Button)>
     </Localized>
   </withPropsOnChange(Flex)>
-</div>
+</withPropsOnChange(Flex)>
 `;

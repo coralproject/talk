@@ -36,6 +36,9 @@ export default class Popup extends Component<PopupProps> {
   }
 
   private setCallbacks() {
+    if (!this.ref) {
+      return;
+    }
     this.ref!.onload = e => {
       if (this.detectCloseInterval) {
         clearInterval(this.detectCloseInterval);

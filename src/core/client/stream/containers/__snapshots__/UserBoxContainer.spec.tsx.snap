@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<React.Fragment>
+  <Popup
+    features="menubar=0,resizable=0,width=500,height=550,top=200,left=500"
+    focus={false}
+    href="/auth.html?view=SIGN_IN"
+    onBlur={[Function]}
+    onClose={[Function]}
+    onFocus={[Function]}
+    open={false}
+    title="Talk Auth"
+  />
+  <UserBoxUnauthenticated
+    onRegister={[Function]}
+    onSignIn={[Function]}
+  />
+</React.Fragment>
+`;

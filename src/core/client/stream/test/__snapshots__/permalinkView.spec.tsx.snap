@@ -1,57 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders permalink view 1`] = `
-<div
-  className="Flex-root App-root Flex-justifyCenter Flex-alignCenter"
->
+<div>
   <div
-    className="PermalinkView-root"
+    className="Flex-root App-root Flex-wrap Flex-justifyCenter Flex-alignCenter"
   >
-    <a
-      className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantOutlined Button-fullWidth"
-      href="http://localhost/"
-      id="talk-comments-permalinkView-showAllComments"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onMouseDown={[Function]}
-      onMouseOut={[Function]}
-      onMouseOver={[Function]}
-      onTouchEnd={[Function]}
-      target="_parent"
-    >
-      Show all Comments
-    </a>
     <div
-      className="Flex-root Flex-alignFlexStart Flex-directionColumn"
+      className="PermalinkView-root"
     >
-      <div
-        role="article"
+      <a
+        className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantOutlined Button-fullWidth"
+        href="http://localhost/"
+        id="talk-comments-permalinkView-showAllComments"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        target="_parent"
       >
+        Show all Comments
+      </a>
+      <div>
         <div
-          className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+          className="Flex-root Flex-wrap Flex-alignFlexStart Flex-directionColumn"
         >
-          <span
-            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+          <div
+            role="article"
           >
-            Markus
-          </span>
-          <time
-            className="Timestamp-root RelativeTime-root"
-            dateTime="2018-07-06T18:24:00.000Z"
-            title="2018-07-06T18:24:00.000Z"
-          >
-            2018-07-06T18:24:00.000Z
-          </time>
+            <div>
+              <div
+                className="Flex-root TopBar-root Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
+              >
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                >
+                  Markus
+                </span>
+                <time
+                  className="Timestamp-root RelativeTime-root"
+                  dateTime="2018-07-06T18:24:00.000Z"
+                  title="2018-07-06T18:24:00.000Z"
+                >
+                  2018-07-06T18:24:00.000Z
+                </time>
+              </div>
+            </div>
+            <p
+              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            >
+              Joining Too
+            </p>
+            <div
+              className="Comment-footer"
+            />
+          </div>
         </div>
-        <p
-          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-        >
-          Joining Too
-        </p>
-        <div
-          className="Comment-footer"
-        />
       </div>
     </div>
   </div>
@@ -59,77 +65,128 @@ exports[`renders permalink view 1`] = `
 `;
 
 exports[`show all comments 1`] = `
-<div
-  className="Flex-root App-root Flex-justifyCenter Flex-alignCenter"
->
+<div>
   <div
-    className="Stream-root"
+    className="Flex-root App-root Flex-wrap Flex-justifyCenter Flex-alignCenter"
   >
-    <form
-      autoComplete="off"
-      onSubmit={[Function]}
-    >
-      <div>
-        <textarea
-          className="PostCommentForm-textarea"
-          name="body"
-          onChange={[Function]}
-          value=""
-        />
-      </div>
+    <div>
       <div
-        className="PostCommentForm-postButtonContainer"
+        className="Flex-root Stream-root Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
       >
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-          disabled={false}
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseDown={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-        >
-          Post
-        </button>
-      </div>
-    </form>
-    <div
-      aria-live="polite"
-      className="Flex-root Flex-itemGutter Flex-alignFlexStart Flex-directionColumn"
-      id="talk-comments-stream-log"
-      role="log"
-    >
-      <div
-        className="Flex-root Flex-itemGutter Flex-alignFlexStart Flex-directionColumn"
-      >
-        <div
-          role="article"
-        >
+        <div>
           <div
-            className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+            className="Flex-root Flex-wrap Flex-alignCenter"
           >
             <span
-              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserBoxUnauthenticated-joinText"
             >
-              Markus
+              Join the conversation
             </span>
-            <time
-              className="Timestamp-root RelativeTime-root"
-              dateTime="2018-07-06T18:24:00.000Z"
-              title="2018-07-06T18:24:00.000Z"
+            <span
+              className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
             >
-              2018-07-06T18:24:00.000Z
-            </time>
+              |
+            </span>
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+            >
+              Sign in
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+            >
+              Register
+            </button>
           </div>
-          <p
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Joining Too
-          </p>
+        </div>
+        <form
+          autoComplete="off"
+          className="PostCommentForm-root"
+          onSubmit={[Function]}
+        >
+          <div>
+            <textarea
+              className="PostCommentForm-textarea"
+              name="body"
+              onChange={[Function]}
+              value=""
+            />
+          </div>
           <div
-            className="Comment-footer"
-          />
+            className="PostCommentForm-postButtonContainer"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+              disabled={false}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+            >
+              Post
+            </button>
+          </div>
+        </form>
+        <div>
+          <div
+            aria-live="polite"
+            className="Flex-root Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
+            id="talk-comments-stream-log"
+            role="log"
+          >
+            <div>
+              <div
+                className="Flex-root Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
+              >
+                <div
+                  role="article"
+                >
+                  <div>
+                    <div
+                      className="Flex-root TopBar-root Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
+                    >
+                      <span
+                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      >
+                        Markus
+                      </span>
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
+                      >
+                        2018-07-06T18:24:00.000Z
+                      </time>
+                    </div>
+                  </div>
+                  <p
+                    className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    Joining Too
+                  </p>
+                  <div
+                    className="Comment-footer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
