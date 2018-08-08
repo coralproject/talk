@@ -60,7 +60,7 @@ class Permalink extends React.Component<PermalinkProps> {
             <MatchMedia minWidth="xs">
               <ButtonIcon>share</ButtonIcon>
             </MatchMedia>
-            <Localized id="comments-permalink-share">
+            <Localized id="comments-permalinkButton-share">
               <span>Share</span>
             </Localized>
           </Button>
