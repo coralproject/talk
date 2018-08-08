@@ -19,8 +19,11 @@ clicks outside the component.
 Click the blue background. It should trigger an alert. Nothing should happen if you click the button.
 
 <Playground>
-  <div style={{background: 'blue', padding: '10px'}}>
-    <ClickOutside onClickOutside={() => alert('You clicked outside!')}>
+  <div id="outside" style={{background: 'blue', padding: '10px'}}>
+    <ClickOutside onClickOutside={e => {
+      if (e.srcElement.id === "outside") {
+        alert('You clicked outside!');
+      }}}>
       <Button variant="filled">Push Me</Button>
     </ClickOutside>
   </div>

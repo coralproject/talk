@@ -1,11 +1,13 @@
 import { shallow } from "enzyme";
 import React from "react";
 
-import { render } from "./AppQuery";
+import { render } from "./StreamQuery";
 
-it("renders app", () => {
+it("renders stream container", () => {
   const data = {
-    props: {} as any,
+    props: {
+      asset: {},
+    } as any,
     error: null,
   };
   const wrapper = shallow(React.createElement(() => render(data)));

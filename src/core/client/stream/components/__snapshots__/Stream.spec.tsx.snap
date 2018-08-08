@@ -4,9 +4,6 @@ exports[`renders correctly 1`] = `
 <div
   className="Stream-root"
 >
-  <Logo
-    gutterBottom={true}
-  />
   <withContext(createMutationContainer(PostCommentFormContainer))
     assetID="asset-id"
   />
@@ -65,9 +62,6 @@ exports[`when there is more disables load more button 1`] = `
 <div
   className="Stream-root"
 >
-  <Logo
-    gutterBottom={true}
-  />
   <withContext(createMutationContainer(PostCommentFormContainer))
     assetID="asset-id"
   />
@@ -140,9 +134,6 @@ exports[`when there is more renders a load more button 1`] = `
 <div
   className="Stream-root"
 >
-  <Logo
-    gutterBottom={true}
-  />
   <withContext(createMutationContainer(PostCommentFormContainer))
     assetID="asset-id"
   />

@@ -6,6 +6,8 @@ type Network {
 type Local {
   network: Network!
   assetID: String
+  commentID: String
+  assetURL: String
 }
 
 extend type Query {

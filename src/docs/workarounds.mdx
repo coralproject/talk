@@ -78,3 +78,26 @@ const enhanced = withLocalStateContainer(
 export type ContainerProps = ReturnPropTypes<typeof enhanced>;
 export default enhanced;
 ```
+
+A working chaining example looks like this:
+
+```
+const enhanced = withFragmentContainer<{ data: Data }>({
+  data: graphql`
+    fragment PermalinkViewContainerQuery on Query
+      @argumentDefinitions(commentID: { type: "ID!" }) {
+      comment(id: $commentID) {
+        ...CommentContainer
+      }
+    }
+  `,
+})(
+  withLocalStateContainer<Local>(
+    graphql`
+      fragment PermalinkViewContainerLocal on Local {
+        assetURL
+      }
+    `
+  )(PermalinkViewContainer)
+);
+```
