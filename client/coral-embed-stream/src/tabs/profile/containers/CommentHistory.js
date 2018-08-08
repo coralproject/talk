@@ -68,7 +68,7 @@ CommentHistoryContainer.propTypes = {
 };
 
 const LOAD_MORE_QUERY = gql`
-  query TalkEmbedStream_CommentHistory_LoadMoreComments($limit: Int, $cursor: Cursor) {
+  query TalkEmbedStream_CommentHistory_LoadMoreComments($limit: Limit, $cursor: Cursor) {
     me {
       comments(query: { limit: $limit, cursor: $cursor }) {
         nodes {

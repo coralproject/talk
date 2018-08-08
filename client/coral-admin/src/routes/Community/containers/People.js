@@ -137,7 +137,7 @@ const mapDispatchToProps = dispatch =>
 
 const LOAD_MORE_QUERY = gql`
   query TalkAdmin_Community_People_LoadMoreUsers(
-    $limit: Int
+    $limit: Limit
     $cursor: Cursor
     $value: String
   ) {
@@ -170,7 +170,7 @@ const LOAD_MORE_QUERY = gql`
 `;
 
 const SEARCH_QUERY = gql`
-  query TalkAdmin_Community_People_SearchUsers($value: String, $limit: Int) {
+  query TalkAdmin_Community_People_SearchUsers($value: String, $limit: Limit) {
     users(query: { value: $value, limit: $limit }) {
       hasNextPage
       endCursor

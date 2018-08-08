@@ -265,6 +265,13 @@ const CONFIG = {
   // against the staff members user account.
   IGNORE_FLAGS_AGAINST_STAFF:
     process.env.TALK_DISABLE_IGNORE_FLAGS_AGAINST_STAFF !== 'TRUE',
+  
+  // QUERY_DEPTH_LIMIT sets the max. GraphQL query depth for graphql-depth-limit module
+  QUERY_DEPTH_LIMIT: process.env.TALK_QUERY_DEPTH_LIMIT || 100000000,
+
+  // QUERY_MAX_LIMIT sets the limit for GraphQL query result size
+  QUERY_MAX_LIMIT: process.env.TALK_QUERY_MAX_LIMIT || 100,
+
 };
 
 //==============================================================================
