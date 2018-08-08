@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
 import { Button, Flex, Typography } from "talk-ui/components";
@@ -14,27 +15,33 @@ const UserBoxUnauthenticated: StatelessComponent<
 > = props => {
   return (
     <Flex>
-      <Typography
-        className={styles.joinText}
-        variant="bodyCopyBold"
-        component="span"
-      >
-        Join the conversation
-      </Typography>
+      <Localized id="comments-userBoxUnauthenticated-joinTheConversation">
+        <Typography
+          className={styles.joinText}
+          variant="bodyCopyBold"
+          component="span"
+        >
+          Join the conversation
+        </Typography>
+      </Localized>
       <Typography variant="bodyCopyBold" component="span">
         |
       </Typography>
-      <Button color="primary" size="small" onClick={props.onSignIn}>
-        Sign In
-      </Button>
-      <Button
-        color="primary"
-        size="small"
-        variant="outlined"
-        onClick={props.onRegister}
-      >
-        Register
-      </Button>
+      <Localized id="comments-userBoxUnauthenticated-signIn">
+        <Button color="primary" size="small" onClick={props.onSignIn}>
+          Sign in
+        </Button>
+      </Localized>
+      <Localized id="comments-userBoxUnauthenticated-register">
+        <Button
+          color="primary"
+          size="small"
+          variant="outlined"
+          onClick={props.onRegister}
+        >
+          Register
+        </Button>
+      </Localized>
     </Flex>
   );
 };
