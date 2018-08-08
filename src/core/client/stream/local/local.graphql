@@ -3,11 +3,24 @@ type Network {
   isOffline: Boolean!
 }
 
+enum View {
+  SIGN_UP
+  SIGN_IN
+  FORGOT_PASSWORD
+}
+
+type AuthPopup {
+  open: Boolean!
+  focus: Boolean!
+  view: View
+}
+
 type Local {
   network: Network!
   assetID: String
-  commentID: String
   assetURL: String
+  commentID: String
+  authPopup: AuthPopup!
 }
 
 extend type Query {

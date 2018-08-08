@@ -7,7 +7,12 @@ import {
   LOCAL_TYPE,
 } from "talk-framework/lib/relay";
 
-import { NETWORK_ID, NETWORK_TYPE } from "./constants";
+import {
+  AUTH_POPUP_ID,
+  AUTH_POPUP_TYPE,
+  NETWORK_ID,
+  NETWORK_TYPE,
+} from "./constants";
 
 /**
  * Initializes the local state, before we start the App.
@@ -18,6 +23,7 @@ export default async function initLocalState(environment: Environment) {
 
     // Create the Local Record which is the Root for the client states.
     const localRecord = createAndRetain(environment, s, LOCAL_ID, LOCAL_TYPE);
+    root.setLinkedRecord(localRecord, "local");
 
     // Parse query params
     const query = qs.parse(location.search);
@@ -47,6 +53,17 @@ export default async function initLocalState(environment: Environment) {
     );
     networkRecord.setValue(false, "isOffline");
     localRecord.setLinkedRecord(networkRecord, "network");
-    root.setLinkedRecord(localRecord, "local");
+
+    // Create authPopup Record
+    const authPopupRecord = createAndRetain(
+      environment,
+      s,
+      AUTH_POPUP_ID,
+      AUTH_POPUP_TYPE
+    );
+    authPopupRecord.setValue(false, "open");
+    authPopupRecord.setValue(false, "focus");
+    authPopupRecord.setValue("", "href");
+    localRecord.setLinkedRecord(authPopupRecord, "authPopup");
   });
 }

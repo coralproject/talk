@@ -24,6 +24,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     "^talk-admin/(.*)$": "<rootDir>/src/core/client/admin/$1",
+    "^talk-auth/(.*)$": "<rootDir>/src/core/client/auth/$1",
     "^talk-ui/(.*)$": "<rootDir>/src/core/client/ui/$1",
     "^talk-stream/(.*)$": "<rootDir>/src/core/client/stream/$1",
     "^talk-framework/(.*)$": "<rootDir>/src/core/client/framework/$1",
