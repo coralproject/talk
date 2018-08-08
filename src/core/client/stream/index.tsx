@@ -1,4 +1,4 @@
-import pym from "pym.js";
+import { Child as PymChild } from "pym.js";
 import React from "react";
 import { StatelessComponent } from "react";
 import ReactDOM from "react-dom";
@@ -12,10 +12,14 @@ import {
 import AppContainer from "./containers/AppContainer";
 import { initLocalState } from "./local";
 import localesData from "./locales";
+import { withSetCommentID } from "./pym";
+
+const pymFeatures = [withSetCommentID];
 
 // This is called when the context is first initialized.
-async function init({ relayEnvironment }: TalkContext) {
-  await initLocalState(relayEnvironment);
+async function init(context: TalkContext) {
+  await initLocalState(context.relayEnvironment);
+  pymFeatures.forEach(f => f(context));
 }
 
 async function main() {
@@ -24,7 +28,7 @@ async function main() {
     init,
     localesData,
     userLocales: navigator.languages,
-    pym: new pym.Child({ polling: 100 }),
+    pym: new PymChild({ polling: 100 }),
   });
 
   const Index: StatelessComponent = () => (
