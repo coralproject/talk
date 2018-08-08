@@ -68,11 +68,15 @@ it("renders permalink view with unknown comment", async () => {
 });
 
 it("show all comments", async () => {
+  const mockEvent = {
+    preventDefault: sinon.mock().once(),
+  };
   testRenderer.root
     .findByProps({
       id: "talk-comments-permalinkView-showAllComments",
     })
-    .props.onClick();
+    .props.onClick(mockEvent);
   await timeout();
   expect(testRenderer.toJSON()).toMatchSnapshot();
+  mockEvent.preventDefault.verify();
 });

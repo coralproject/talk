@@ -8,8 +8,9 @@ exports[`renders permalink view 1`] = `
     <div
       className="PermalinkView-root"
     >
-      <button
+      <a
         className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantOutlined Button-fullWidth"
+        href="http://localhost/"
         id="talk-comments-permalinkView-showAllComments"
         onBlur={[Function]}
         onClick={[Function]}
@@ -18,9 +19,10 @@ exports[`renders permalink view 1`] = `
         onMouseOut={[Function]}
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
+        target="_parent"
       >
         Show all Comments
-      </button>
+      </a>
       <div>
         <div
           className="Flex-root Flex-wrap Flex-alignFlexStart Flex-directionColumn"
@@ -95,7 +97,7 @@ exports[`show all comments 1`] = `
               onMouseOver={[Function]}
               onTouchEnd={[Function]}
             >
-              Sign In
+              Sign in
             </button>
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"

@@ -33,7 +33,7 @@ exports[`loads more comments 1`] = `
               onMouseOver={[Function]}
               onTouchEnd={[Function]}
             >
-              Sign In
+              Sign in
             </button>
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
@@ -235,7 +235,7 @@ exports[`renders comment stream 1`] = `
               onMouseOver={[Function]}
               onTouchEnd={[Function]}
             >
-              Sign In
+              Sign in
             </button>
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"

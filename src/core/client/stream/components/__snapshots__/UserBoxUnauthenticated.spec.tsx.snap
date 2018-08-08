@@ -2,33 +2,45 @@
 
 exports[`renders correctly 1`] = `
 <withPropsOnChange(Flex)>
-  <withPropsOnChange(Typography)
-    className="UserBoxUnauthenticated-joinText"
-    component="span"
-    variant="bodyCopyBold"
+  <Localized
+    id="comments-userBoxUnauthenticated-joinTheConversation"
   >
-    Join the conversation
-  </withPropsOnChange(Typography)>
+    <withPropsOnChange(Typography)
+      className="UserBoxUnauthenticated-joinText"
+      component="span"
+      variant="bodyCopyBold"
+    >
+      Join the conversation
+    </withPropsOnChange(Typography)>
+  </Localized>
   <withPropsOnChange(Typography)
     component="span"
     variant="bodyCopyBold"
   >
     |
   </withPropsOnChange(Typography)>
-  <withPropsOnChange(Button)
-    color="primary"
-    onClick={[Function]}
-    size="small"
+  <Localized
+    id="comments-userBoxUnauthenticated-signIn"
   >
-    Sign In
-  </withPropsOnChange(Button)>
-  <withPropsOnChange(Button)
-    color="primary"
-    onClick={[Function]}
-    size="small"
-    variant="outlined"
+    <withPropsOnChange(Button)
+      color="primary"
+      onClick={[Function]}
+      size="small"
+    >
+      Sign in
+    </withPropsOnChange(Button)>
+  </Localized>
+  <Localized
+    id="comments-userBoxUnauthenticated-register"
   >
-    Register
-  </withPropsOnChange(Button)>
+    <withPropsOnChange(Button)
+      color="primary"
+      onClick={[Function]}
+      size="small"
+      variant="outlined"
+    >
+      Register
+    </withPropsOnChange(Button)>
+  </Localized>
 </withPropsOnChange(Flex)>
 `;

@@ -3,6 +3,10 @@ import qs from "query-string";
 import { buildURL } from "../utils";
 import { Decorator } from "./";
 
+function getCurrentCommentID() {
+  return qs.parse(location.search).commentID;
+}
+
 const withSetCommentID: Decorator = pym => {
   // Add the permalink comment id to the query.
   pym.onMessage("setCommentID", (id: string) => {
@@ -15,8 +19,20 @@ const withSetCommentID: Decorator = pym => {
     const url = buildURL({ search });
 
     // Change the url.
-    window.history.replaceState({}, document.title, url);
+    window.history.pushState({}, document.title, url);
   });
+
+  // Send new commentID when history state changes.
+  const sendSetCommentID = (e: Event) => {
+    const commentID = getCurrentCommentID();
+    pym.sendMessage("setCommentID", commentID);
+  };
+  window.addEventListener("popstate", sendSetCommentID);
+
+  // Cleanup.
+  return () => {
+    window.removeEventListener("popstate", sendSetCommentID);
+  };
 };
 
 export default withSetCommentID;
