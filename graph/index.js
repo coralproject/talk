@@ -17,7 +17,7 @@ module.exports = {
     // Tracing request options, needed for Apollo Engine.
     tracing: ENABLE_TRACING,
     cacheControl: ENABLE_TRACING,
-    validationRules: [ depthLimit(QUERY_DEPTH_LIMIT) ]
+    validationRules: [depthLimit(QUERY_DEPTH_LIMIT)],
   }),
   createSubscriptionManager,
   connectors,
