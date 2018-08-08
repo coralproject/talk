@@ -36,6 +36,11 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
           </Button>
         </Localized>
       )}
+      {!comment && (
+        <Localized id="comments-permalinkView-commentNotFound">
+          <Typography>Comment not found</Typography>
+        </Localized>
+      )}
       {comment && (
         <Flex direction="column">
           <CommentContainer data={comment} />
