@@ -9,6 +9,7 @@
     "baseUrl": "./",
     "paths": {
       "talk-admin/*": ["./admin/*"],
+      "talk-auth/*": ["./auth/*"],
       "talk-stream/*": ["./stream/*"],
       "talk-framework/*": ["./framework/*"],
       "talk-ui/*": ["./ui/*"],

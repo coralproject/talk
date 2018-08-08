@@ -1,51 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div
-  className="Flex-root Flex-justifyCenter Flex-alignCenter Flex-directionRow"
->
-  <div>
-    Hello World
+<div>
+  <div
+    className="Flex-root Flex-wrap Flex-justifyCenter Flex-alignCenter Flex-directionRow"
+  >
+    <div>
+      Hello World
+    </div>
   </div>
 </div>
 `;
 
 exports[`renders with halfe item gutter 1`] = `
-<div
-  className="Flex-root Flex-halfItemGutter Flex-alignCenter"
->
-  <div>
-    Hello World
+<div>
+  <div
+    className="Flex-root Flex-halfItemGutter Flex-wrap Flex-alignCenter"
+  >
+    <div>
+      Hello World
+    </div>
   </div>
 </div>
 `;
 
 exports[`renders with item gutter 1`] = `
-<div
-  className="Flex-root Flex-itemGutter Flex-alignCenter"
->
-  <div>
-    Hello World
+<div>
+  <div
+    className="Flex-root Flex-itemGutter Flex-wrap Flex-alignCenter"
+  >
+    <div>
+      Hello World
+    </div>
   </div>
 </div>
 `;
 
 exports[`renders with wrap 1`] = `
-<div
-  className="Flex-root Flex-wrap Flex-alignCenter"
->
-  <div>
-    Hello World
+<div>
+  <div
+    className="Flex-root Flex-wrap Flex-alignCenter"
+  >
+    <div>
+      Hello World
+    </div>
   </div>
 </div>
 `;
 
 exports[`renders with wrap reverse 1`] = `
-<div
-  className="Flex-root Flex-wrapReverse Flex-alignCenter"
->
-  <div>
-    Hello World
+<div>
+  <div
+    className="Flex-root Flex-wrapReverse Flex-alignCenter"
+  >
+    <div>
+      Hello World
+    </div>
   </div>
 </div>
 `;

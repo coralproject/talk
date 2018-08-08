@@ -1,0 +1,13 @@
+enum View {
+  SIGN_UP
+  SIGN_IN
+  FORGOT_PASSWORD
+}
+
+type Local {
+  view: View!
+}
+
+extend type Query {
+  local: Local!
+}
