@@ -1,7 +1,7 @@
 import Queue from "bull";
 import { Db } from "mongodb";
 
-import { Config } from "talk-server/config";
+import { Config } from "talk-common/config";
 import { Task } from "talk-server/services/queue/tasks";
 import {
   createMailerTask,

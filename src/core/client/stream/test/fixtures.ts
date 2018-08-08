@@ -37,6 +37,7 @@ export const comments = [
 export const assets = [
   {
     id: "asset-1",
+    url: "http://localhost/assets/asset-1",
     isClosed: false,
     comments: {
       edges: [
@@ -68,6 +69,7 @@ export const commentWithReplies = {
 
 export const assetWithReplies = {
   id: "asset-with-replies",
+  url: "http://localhost/assets/asset-with-replies",
   isClosed: false,
   comments: {
     edges: [

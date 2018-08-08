@@ -114,14 +114,13 @@ export function isSSOToken(token: SSOToken | object): token is SSOToken {
 }
 
 export default class SSOStrategy extends Strategy {
-  public name: string;
+  public name = "sso";
 
   private mongo: Db;
 
   constructor({ mongo }: SSOStrategyOptions) {
     super();
 
-    this.name = "sso";
     this.mongo = mongo;
   }
 

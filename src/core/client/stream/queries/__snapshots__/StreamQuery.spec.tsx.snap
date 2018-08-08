@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders error 1`] = `
+<div>
+  error
+</div>
+`;
+
+exports[`renders loading 1`] = `
+<div>
+  Loading
+</div>
+`;
+
+exports[`renders stream container 1`] = `
+<Relay(StreamContainer)
+  asset={Object {}}
+/>
+`;

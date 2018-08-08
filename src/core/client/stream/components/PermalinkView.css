@@ -1,0 +1,7 @@
+.root {
+  width: 100%;
+}
+
+.button {
+  margin-bottom: calc(2 * var(--spacing-unit));
+}

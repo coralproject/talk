@@ -15,6 +15,9 @@ import * as styles from "./BaseButton.css";
 interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** If set renders an anchor tag instead */
   anchor?: boolean;
+  href?: string;
+  target?: string;
+
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.

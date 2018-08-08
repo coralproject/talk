@@ -1,13 +1,10 @@
+// Apply all the configuration provided in the .env file.
+require("dotenv").config();
+
 const path = require("path");
 const fs = require("fs");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const extensions = [".ts", ".tsx", ".js"];
-const paths = require("./config/paths");
-
-// Ensure environment variables are read.
-require("./config/env");
-
-// const stringify = require('json-stringify-safe');
 
 export default {
   title: "Talk 5.0",
@@ -35,14 +32,19 @@ export default {
           loader: require.resolve("postcss-loader"),
           options: {
             config: {
-              path: paths.appPostCssConfig,
+              // TODO: There is some weird issue with including paths.ts here
+              path: "./src/core/build/postcss.config",
             },
           },
         },
       ],
     });
     config.resolve.plugins = [
-      new TsconfigPathsPlugin({ extensions, configFile: paths.appTsconfig }),
+      new TsconfigPathsPlugin({
+        extensions,
+        // TODO: There is some weird issue with including paths.ts here
+        configFile: "./src/core/client/tsconfig.json",
+      }),
     ];
     // fs.writeFileSync(path.resolve(__dirname, "tmp"), stringify(config, null, 2));
     return config;

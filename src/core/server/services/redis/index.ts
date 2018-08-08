@@ -1,5 +1,5 @@
 import RedisClient, { Redis } from "ioredis";
-import { Config } from "talk-server/config";
+import { Config } from "talk-common/config";
 
 /**
  * create will connect to the Redis instance identified in the configuration.
