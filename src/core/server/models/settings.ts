@@ -209,7 +209,7 @@ export interface Karma {
 
   /**
    * karmaThresholds contains the currently set thresholds for triggering Trust
-   * beheviour.
+   * behavior.
    */
   thresholds: KarmaThresholds;
 }

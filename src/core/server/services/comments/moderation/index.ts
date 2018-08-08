@@ -3,8 +3,8 @@ import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__
 import { Action } from "talk-server/models/actions";
 import { Asset } from "talk-server/models/asset";
 import { Tenant } from "talk-server/models/tenant";
-import { CreateComment } from "talk-server/services/comments";
 
+import { Comment } from "talk-server/models/comment";
 import { User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 import { moderationPhases } from "./phases";
@@ -23,7 +23,7 @@ export interface PhaseResult {
 export interface ModerationPhaseContext {
   asset: Asset;
   tenant: Tenant;
-  comment: CreateComment;
+  comment: Partial<Comment>;
   author: User;
   req?: Request;
 }

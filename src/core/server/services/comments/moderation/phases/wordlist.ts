@@ -12,6 +12,11 @@ export const wordlist: IntermediateModerationPhase = ({
   comment,
   author,
 }) => {
+  // If there isn't a body, there can't be a bad word!
+  if (!comment.body) {
+    return;
+  }
+
   // Decide the status based on whether or not the current asset/settings
   // has pre-mod enabled or not. If the comment was rejected based on the
   // wordlist, then reject it, otherwise if the moderation setting is

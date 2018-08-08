@@ -5,12 +5,7 @@ import {
 import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
 
 // If a given user is a staff member, always approve their comment.
-export const staff: IntermediateModerationPhase = ({
-  asset,
-  tenant,
-  comment,
-  author,
-}) => {
+export const staff: IntermediateModerationPhase = ({ author }) => {
   if (author.role !== GQLUSER_ROLE.COMMENTER) {
     return {
       status: GQLCOMMENT_STATUS.ACCEPTED,

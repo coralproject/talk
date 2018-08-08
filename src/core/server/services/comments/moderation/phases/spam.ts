@@ -25,6 +25,11 @@ export const spam: IntermediateModerationPhase = async ({
     return;
   }
 
+  // If the comment doesn't have a body, it can't be spam!
+  if (!comment.body) {
+    return;
+  }
+
   // Create the Akismet client.
   const client = new Client({
     key: integration.key,

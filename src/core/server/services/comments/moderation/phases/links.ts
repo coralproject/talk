@@ -27,8 +27,9 @@ export const links: IntermediateModerationPhase = ({
   author,
 }) => {
   if (
-    testPremodLinksEnable(tenant, comment.body) ||
-    (asset.settings && testPremodLinksEnable(asset.settings, comment.body))
+    comment.body &&
+    (testPremodLinksEnable(tenant, comment.body) ||
+      (asset.settings && testPremodLinksEnable(asset.settings, comment.body)))
   ) {
     // Add the flag related to Trust to the comment.
     return {

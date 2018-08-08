@@ -12,7 +12,7 @@
     "compile:schema": "node ./scripts/generateSchemaTypes.js",
     "docz": "docz",
     "start": "node dist/index.js",
-    "start:development": "cross-env NODE_ENV=development ts-node --project ./src/tsconfig.json -r tsconfig-paths/register ./src/index.ts",
+    "start:development": "NODE_ENV=development ts-node --project ./src/tsconfig.json -r tsconfig-paths/register ./src/index.ts",
     "start:webpackDevServer": "ts-node ./scripts/start.ts",
     "lint": "npm-run-all --parallel lint:*",
     "lint:server": "tslint --project ./src/tsconfig.json",

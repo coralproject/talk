@@ -5,6 +5,10 @@ const Mutation: GQLMutationTypeResolver<void> = {
     comment: await ctx.mutators.Comment.create(input),
     clientMutationId: input.clientMutationId,
   }),
+  editComment: async (source, { input }, ctx) => ({
+    comment: await ctx.mutators.Comment.edit(input),
+    clientMutationId: input.clientMutationId,
+  }),
   updateSettings: async (source, { input }, ctx) => ({
     settings: await ctx.mutators.Settings.update(input.settings),
     clientMutationId: input.clientMutationId,
