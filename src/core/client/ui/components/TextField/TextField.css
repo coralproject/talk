@@ -8,7 +8,7 @@
 }
 
 .colorRegular {
-  backgroun-color: var(--palette-common-white);
+  background-color: var(--palette-common-white);
   color: var(--palette-common-black);
   border: 1px solid var(--palette-grey-light);
 }
@@ -16,10 +16,18 @@
 .colorError {
   background-color: var(--palette-common-white);
   border-color: var(--palette-error-main);
-  border: 2px solid #FA4643;
+  border: 2px solid var(--palette-error-darkest);
 }
 
 .fullWidth {
   width: 100%;
 }
 
+::placeholder {
+  font-family: var(--font-family);
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: calc(16rem / var(--rem-base));
+  color: var(--palette-grey-lighter);
+}
