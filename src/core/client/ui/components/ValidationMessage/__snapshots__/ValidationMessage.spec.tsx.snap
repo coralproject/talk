@@ -3,6 +3,7 @@
 exports[`renders correctly 1`] = `
 <div
   className="ValidationMessage-root ValidationMessage-colorError custom"
+  color="error"
 >
   <span
     className="Icon-root ValidationMessage-icon Icon-sm"
