@@ -27,6 +27,19 @@ convict.addFormat({
   },
 });
 
+// Add custom format for the smtp uri scheme.
+convict.addFormat({
+  name: "smtp-uri",
+  validate: (url: string) => {
+    Joi.assert(
+      url,
+      Joi.string().uri({
+        scheme: ["smtp", "smtps"],
+      })
+    );
+  },
+});
+
 const config = convict({
   env: {
     doc: "The application environment.",
@@ -45,14 +58,14 @@ const config = convict({
     doc: "The MongoDB database to connect to.",
     format: "mongo-uri",
     default: "mongodb://127.0.0.1:27017/talk",
-    env: "MONGODB",
+    env: "MONGODB_URI",
     arg: "mongodb",
   },
   redis: {
     doc: "The Redis database to connect to.",
     format: "redis-uri",
     default: "redis://127.0.0.1:6379",
-    env: "REDIS",
+    env: "REDIS_URI",
     arg: "redis",
   },
   signing_secret: {
@@ -85,6 +98,20 @@ const config = convict({
     default: "info",
     env: "LOGGING_LEVEL",
     arg: "logging",
+  },
+  smtp: {
+    uri: {
+      doc: "The SMTP connection url to send emails on",
+      format: "smtp-uri",
+      env: "SMTP_URI",
+      default: "smtp://127.0.0.1:2500",
+    },
+    from_address: {
+      doc: "The from address when emails are sent",
+      format: "email",
+      env: "SMTP_FROM_ADDRESS",
+      default: "noreply@coralproject.net",
+    },
   },
 });
 

@@ -27,8 +27,32 @@ const createJobProcessor = (
   // Pull out the job data.
   const { assetID: id, assetURL: url, tenantID } = job.data;
 
+  logger.debug(
+    {
+      job_id: job.id,
+      job_name: JOB_NAME,
+      asset_id: id,
+      asset_url: url,
+      tenant_id: tenantID,
+    },
+    "starting to scrap the asset"
+  );
+
   // Get the metadata from the scraped html.
   const meta = await scraper.scrape(url);
+  if (!meta) {
+    logger.error(
+      {
+        job_id: job.id,
+        job_name: JOB_NAME,
+        asset_id: id,
+        asset_url: url,
+        tenant_id: tenantID,
+      },
+      "asset at specified url not found, can not scrape"
+    );
+    return;
+  }
 
   // Update the Asset with the scraped details.
   const asset = await updateAsset(options.mongo, tenantID, id, {
@@ -50,7 +74,7 @@ const createJobProcessor = (
         asset_url: url,
         tenant_id: tenantID,
       },
-      "asset id/url not found, can not update"
+      "asset at specified id not found, can not update with metadata"
     );
     return;
   }
@@ -60,6 +84,7 @@ const createJobProcessor = (
       job_id: job.id,
       job_name: JOB_NAME,
       asset_id: asset.id,
+      asset_url: url,
       tenant_id: tenantID,
     },
     "scraped the asset"
@@ -82,7 +107,13 @@ class Scraper {
 
   public async scrape(url: string) {
     // Grab the page HTML.
+
+    // TODO: investigate adding scraping proxy support.
     const res = await fetch(url, {});
+    if (res.status !== 200) {
+      return;
+    }
+
     const html = await res.text();
 
     // Load the DOM.
