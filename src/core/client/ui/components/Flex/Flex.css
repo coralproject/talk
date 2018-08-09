@@ -31,6 +31,30 @@
   }
 }
 
+.doubleItemGutter {
+  & > * {
+    margin: 0 calc(2 * var(--spacing-unit)) 0 0 !important;
+  }
+  &.directionRowReverse {
+    & > * {
+      margin: 0 0 0 calc(2 * var(--spacing-unit)) !important;
+    }
+  }
+  &.directionColumn {
+    & > * {
+      margin: 0 0 calc(2 * var(--spacing-unit)) 0 !important;
+    }
+  }
+  &.directionColumnReverese {
+    & > * {
+      margin: calc(2 * var(--spacing-unit)) 0 0 0 !important;
+    }
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+
 .itemGutter {
   & > * {
     margin: 0 var(--spacing-unit) 0 0 !important;
@@ -96,6 +120,23 @@
     }
     &.halfItemGutter > * {
       margin-left: calc(0.5 * var(--spacing-unit)) !important;
+    }
+  }
+
+  &:not(.directionColumn).doubleItemGutter {
+    &:not(:empty) {
+      margin-top: calc(-2 * var(--spacing-unit)) !important;
+    }
+    & > * {
+      margin-top: calc(2 * var(--spacing-unit)) !important;
+    }
+  }
+  &.directionColumn.doubleItemGutter {
+    &:not(:empty) {
+      margin-left: calc(-2 * var(--spacing-unit)) !important;
+    }
+    &.doubleItemGutter > * {
+      margin-left: calc(2 * var(--spacing-unit)) !important;
     }
   }
 }
