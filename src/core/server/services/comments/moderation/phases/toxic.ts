@@ -92,7 +92,7 @@ export const toxic: IntermediateModerationPhase = async ({
     const isToxic = score > threshold;
     if (isToxic) {
       logger.trace(
-        { tenant_id: tenant.id, score, is_toxic: isToxic },
+        { tenant_id: tenant.id, score, is_toxic: isToxic, threshold },
         "comment was toxic"
       );
       return {
@@ -111,7 +111,7 @@ export const toxic: IntermediateModerationPhase = async ({
     }
 
     logger.trace(
-      { tenant_id: tenant.id, score, is_toxic: isToxic },
+      { tenant_id: tenant.id, score, is_toxic: isToxic, threshold },
       "comment was not toxic"
     );
   } catch (err) {

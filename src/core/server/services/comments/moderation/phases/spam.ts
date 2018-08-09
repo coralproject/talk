@@ -22,11 +22,13 @@ export const spam: IntermediateModerationPhase = async ({
 
   // We can only check for spam if this comment originated from a graphql
   // request via an HTTP call.
-  if (!req || !integration.enabled) {
-    logger.debug(
-      { tenant_id: tenant.id },
-      "request was not available or akismet integration was disabled"
-    );
+  if (!req) {
+    logger.debug({ tenant_id: tenant.id }, "request was not available");
+    return;
+  }
+
+  if (!integration.enabled) {
+    logger.debug({ tenant_id: tenant.id }, "akismet integration was disabled");
     return;
   }
 
