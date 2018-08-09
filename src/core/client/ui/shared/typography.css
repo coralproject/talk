@@ -132,7 +132,7 @@
   font-family: var(--font-family);
   font-weight: var(--font-weight-medium);
   font-size: calc(16rem / var(--rem-base));
-  line-height: normal;
+  line-height: calc(16rem / var(--rem-base));
   letter-spacing: calc(0.2em / 16);
 }
 
