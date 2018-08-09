@@ -43,6 +43,7 @@ const Flex: StatelessComponent<InnerProps> = props => {
     itemGutter,
     wrap,
     forwardRef,
+    children,
     ...rest
   } = props;
 
@@ -75,12 +76,13 @@ const Flex: StatelessComponent<InnerProps> = props => {
     classObject[(classes as any)[`direction${pascalCase(direction)}`]] = true;
   }
 
-  const classNames: string = cn(classes.root, className, classObject);
+  const rootClassNames: string = cn(classes.root, className);
+  const flexClassNames: string = cn(classes.flex, classObject);
 
   // The first div is required to support nested `Flex` components with itemGutters.
   return (
-    <div>
-      <div ref={forwardRef} className={classNames} {...rest} />
+    <div ref={forwardRef} className={rootClassNames} {...rest}>
+      <div className={flexClassNames}>{children}</div>
     </div>
   );
 };
