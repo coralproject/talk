@@ -28,7 +28,7 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: "regular" | "primary" | "error" | "success";
 
   /** Variant of the button */
-  variant?: "regular" | "filled" | "outlined" | "ghost";
+  variant?: "regular" | "filled" | "outlined" | "ghost" | "underlined";
 
   /** If set renders a full width button */
   fullWidth?: boolean;
@@ -72,6 +72,7 @@ export class Button extends React.Component<InnerProps> {
       [classes.variantFilled]: variant === "filled",
       [classes.variantOutlined]: variant === "outlined",
       [classes.variantGhost]: variant === "ghost",
+      [classes.variantUnderlined]: variant === "underlined",
       [classes.fullWidth]: fullWidth,
       [classes.active]: active,
       [classes.disabled]: disabled,

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { StatelessComponent } from "react";
+import * as styles from "./Auth.css";
 
 import { Button, Flex, Popup, Typography } from "talk-ui/components";
 
@@ -24,12 +25,20 @@ const Auth: StatelessComponent<AuthProps> = props => {
         onBlur={() => props.setFocus(false)}
         onClose={props.closePopup}
       />
-      <Flex justifyContent="center">
-        <Typography>Join the conversation </Typography> |
-        <Button color="primary" onClick={props.openPopup} disabled={props.open}>
+      <Flex itemGutter className={styles.root}>
+        <Typography>Join the conversation </Typography>
+        <span>|</span>
+        <Button
+          size="small"
+          color="primary"
+          variant="underlined"
+          onClick={props.openPopup}
+          disabled={props.open}
+        >
           Sign In
         </Button>
         <Button
+          size="small"
           color="primary"
           variant="outlined"
           onClick={props.openPopup}
