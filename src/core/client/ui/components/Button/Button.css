@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  border: 1px solid transparent;
+  border: 0px solid transparent;
 
   & > * {
     margin: 0 calc(0.5 * var(--spacing-unit)) 0 0;
@@ -154,6 +154,7 @@
 }
 
 .variantOutlined {
+  border: 1px solid transparent;
   &.colorRegular {
     color: var(--palette-grey-main);
     border: 1px solid currentColor;
@@ -220,6 +221,7 @@
 }
 
 .variantGhost {
+  border: 1px solid transparent;
   &.colorRegular {
     color: var(--palette-grey-main);
   }

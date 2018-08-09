@@ -4,10 +4,10 @@ import { StatelessComponent } from "react";
 
 import { Button, Flex } from "talk-ui/components";
 
-import AuthContainer from "../containers/AuthContainer";
 import CommentContainer from "../containers/CommentContainer";
 import PostCommentFormContainer from "../containers/PostCommentFormContainer";
 import ReplyListContainer from "../containers/ReplyListContainer";
+import UserBoxContainer from "../containers/UserBoxContainer";
 import * as styles from "./Stream.css";
 
 export interface StreamProps {
@@ -21,8 +21,8 @@ export interface StreamProps {
 
 const Stream: StatelessComponent<StreamProps> = props => {
   return (
-    <div className={styles.root}>
-      <AuthContainer />
+    <Flex className={styles.root} direction="column" itemGutter>
+      <UserBoxContainer />
       <PostCommentFormContainer assetID={props.assetID} />
       <Flex
         direction="column"
@@ -52,7 +52,7 @@ const Stream: StatelessComponent<StreamProps> = props => {
           </Localized>
         )}
       </Flex>
-    </div>
+    </Flex>
   );
 };
 
