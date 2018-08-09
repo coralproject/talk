@@ -3,6 +3,7 @@ import React, { StatelessComponent } from "react";
 
 import { Button, Flex, Typography } from "talk-ui/components";
 
+import MatchMedia from "talk-ui/components/MatchMedia";
 import * as styles from "./UserBoxUnauthenticated.css";
 
 export interface UserBoxUnauthenticatedProps {
@@ -14,19 +15,21 @@ const UserBoxUnauthenticated: StatelessComponent<
   UserBoxUnauthenticatedProps
 > = props => {
   return (
-    <Flex itemGutter>
-      <Localized id="comments-userBoxUnauthenticated-joinTheConversation">
-        <Typography
-          className={styles.joinText}
-          variant="bodyCopyBold"
-          component="span"
-        >
-          Join the conversation
+    <Flex>
+      <MatchMedia gteWidth="sm">
+        <Localized id="comments-userBoxUnauthenticated-joinTheConversation">
+          <Typography
+            className={styles.joinText}
+            variant="bodyCopyBold"
+            component="span"
+          >
+            Join the conversation
+          </Typography>
+        </Localized>
+        <Typography variant="bodyCopyBold" component="span">
+          |
         </Typography>
-      </Localized>
-      <Typography variant="bodyCopyBold" component="span">
-        |
-      </Typography>
+      </MatchMedia>
       <Localized id="comments-userBoxUnauthenticated-signIn">
         <Button
           color="primary"

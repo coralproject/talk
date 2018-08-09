@@ -1,7 +1,6 @@
 .root {
   display: flex;
   flex-direction: column;
-  margin-bottom: var(--spacing-unit);
   width: 100%;
   justify-content: space-between;
 

@@ -1,28 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders comment stream 1`] = `
-<div>
+<div
+  className="Flex-root App-root"
+>
   <div
-    className="Flex-root App-root Flex-wrap Flex-justifyCenter Flex-alignCenter"
+    className="Flex-flex Flex-wrap Flex-justifyCenter Flex-alignCenter"
   >
-    <div>
+    <div
+      className="Flex-root Stream-root"
+    >
       <div
-        className="Flex-root Stream-root Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
+        className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
       >
-        <div>
+        <div
+          className="Flex-root"
+        >
           <div
-            className="Flex-root Flex-wrap Flex-alignCenter"
+            className="Flex-flex Flex-wrap Flex-alignCenter"
           >
-            <span
-              className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserBoxUnauthenticated-joinText"
-            >
-              Join the conversation
-            </span>
-            <span
-              className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
-            >
-              |
-            </span>
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
               onBlur={[Function]}
@@ -79,23 +75,30 @@ exports[`renders comment stream 1`] = `
             </button>
           </div>
         </form>
-        <div>
+        <div
+          aria-live="polite"
+          className="Flex-root"
+          id="talk-comments-stream-log"
+          role="log"
+        >
           <div
-            aria-live="polite"
-            className="Flex-root Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
-            id="talk-comments-stream-log"
-            role="log"
+            className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
           >
-            <div>
+            <div
+              className="Flex-root"
+            >
               <div
-                className="Flex-root Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
+                className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
               >
                 <div
+                  className="Comment-root"
                   role="article"
                 >
-                  <div>
+                  <div
+                    className="Flex-root TopBar-root"
+                  >
                     <div
-                      className="Flex-root TopBar-root Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
+                      className="Flex-flex Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
                     >
                       <span
                         className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
@@ -122,16 +125,21 @@ exports[`renders comment stream 1`] = `
                 </div>
               </div>
             </div>
-            <div>
+            <div
+              className="Flex-root"
+            >
               <div
-                className="Flex-root Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
+                className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
               >
                 <div
+                  className="Comment-root"
                   role="article"
                 >
-                  <div>
+                  <div
+                    className="Flex-root TopBar-root"
+                  >
                     <div
-                      className="Flex-root TopBar-root Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
+                      className="Flex-flex Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
                     >
                       <span
                         className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
@@ -159,18 +167,23 @@ exports[`renders comment stream 1`] = `
                 <div
                   className="Indent-root Indent-level0"
                 >
-                  <div>
+                  <div
+                    className="Flex-root"
+                    id="talk-comments-replyList-log--comment-with-replies"
+                    role="log"
+                  >
                     <div
-                      className="Flex-root Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
-                      id="talk-comments-replyList-log--comment-with-replies"
-                      role="log"
+                      className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
                     >
                       <div
+                        className="Comment-root"
                         role="article"
                       >
-                        <div>
+                        <div
+                          className="Flex-root TopBar-root"
+                        >
                           <div
-                            className="Flex-root TopBar-root Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
+                            className="Flex-flex Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
                           >
                             <span
                               className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
@@ -196,11 +209,14 @@ exports[`renders comment stream 1`] = `
                         />
                       </div>
                       <div
+                        className="Comment-root"
                         role="article"
                       >
-                        <div>
+                        <div
+                          className="Flex-root TopBar-root"
+                        >
                           <div
-                            className="Flex-root TopBar-root Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
+                            className="Flex-flex Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
                           >
                             <span
                               className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"

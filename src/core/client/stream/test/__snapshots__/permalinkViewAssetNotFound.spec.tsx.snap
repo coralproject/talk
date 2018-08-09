@@ -1,9 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders permalink view with unknown asset 1`] = `
-<div>
+<div
+  className="Flex-root App-root"
+>
   <div
-    className="Flex-root App-root Flex-wrap Flex-justifyCenter Flex-alignCenter"
+    className="Flex-flex Flex-wrap Flex-justifyCenter Flex-alignCenter"
   >
     <div
       className="PermalinkView-root"
