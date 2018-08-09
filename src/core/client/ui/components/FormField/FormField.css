@@ -1,0 +1,5 @@
+.root {
+  display: block;
+  margin-bottom: var(--spacing-unit);
+  width: 100%;
+}
