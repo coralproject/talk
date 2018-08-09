@@ -20,7 +20,7 @@ const SignIn: StatelessComponent = props => {
 
         <FormField>
           <InputLabel>Email Address</InputLabel>
-          <TextField fullWidth />
+          <TextField />
         </FormField>
 
         <FormField>
@@ -29,18 +29,18 @@ const SignIn: StatelessComponent = props => {
             A unique identifier displayed on your comments. You may use “_” and
             “.”
           </Typography>
-          <TextField fullWidth />
+          <TextField />
         </FormField>
 
         <FormField>
           <InputLabel>Password</InputLabel>
           <Typography>Must be at least 8 characters</Typography>
-          <TextField fullWidth />
+          <TextField />
         </FormField>
 
         <FormField>
           <InputLabel>Confirm Password</InputLabel>
-          <TextField fullWidth />
+          <TextField />
         </FormField>
 
         <Button variant="filled" color="primary" size="large" fullWidth>

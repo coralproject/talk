@@ -72,7 +72,7 @@ const TextField: StatelessComponent<TextFieldProps> = props => {
 
 TextField.defaultProps = {
   color: "regular",
-  fullWidth: false,
+  fullWidth: true,
   placeholder: "",
 };
 

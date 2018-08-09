@@ -1,5 +1,15 @@
 .root {
-  display: block;
+  display: flex;
+  flex-direction: column;
   margin-bottom: var(--spacing-unit);
   width: 100%;
+  justify-content: space-between;
+
+  &.halfItemGutter > * {
+    margin-left: calc(0.5 * var(--spacing-unit)) !important;
+  }
+
+  &.itemGutter > * {
+    margin-top: var(--spacing-unit) !important;
+  }
 }
