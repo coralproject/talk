@@ -26,17 +26,28 @@ function getError(errors: Error[]): Error {
   return new GraphQLError(errors as any);
 }
 
+export type TokenGetter = () => string;
+type CreateFetch = (token?: TokenGetter) => FetchFunction;
+
 /**
- * fetchQuery is a simple implementation of the `FetchFunction`
+ * createFetch returns a simple implementation of the `FetchFunction`
  * required by Relay. It'll return a `NetworkError` on failure.
  */
-const fetchQuery: FetchFunction = async (operation, variables) => {
+const createFetch: CreateFetch = tokenGetter => async (
+  operation,
+  variables
+) => {
+  const token = tokenGetter && tokenGetter();
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
   try {
     const response = await fetch("/api/tenant/graphql", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
       body: JSON.stringify({
         query: operation.text,
         variables,
@@ -58,4 +69,4 @@ const fetchQuery: FetchFunction = async (operation, variables) => {
   }
 };
 
-export default fetchQuery;
+export default createFetch;

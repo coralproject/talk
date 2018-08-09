@@ -21,6 +21,7 @@ type Local {
   assetURL: String
   commentID: String
   authPopup: AuthPopup!
+  authToken: String
 }
 
 extend type Query {

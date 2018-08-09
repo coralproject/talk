@@ -18,6 +18,12 @@ export interface TalkContext {
   /** formatter for timeago. */
   timeagoFormatter?: Formatter;
 
+  /** Session Storage */
+  localStorage: Storage;
+
+  /** Session storage */
+  sessionStorage: Storage;
+
   /**
    * A way to listen for clicks that are e.g. outside of the
    * current frame for `ClickOutside`
