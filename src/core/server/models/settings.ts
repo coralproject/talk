@@ -49,7 +49,7 @@ export interface AuthRules {
   restrictTo?: EmailDomainRuleCondition[];
 }
 
-export interface AuthIntegration {
+export interface EnableableIntegration {
   enabled: boolean;
 }
 
@@ -63,7 +63,7 @@ export interface DisplayNameAuthIntegration {
  * embed to allow single sign on.
  */
 export interface SSOAuthIntegration
-  extends AuthIntegration,
+  extends EnableableIntegration,
     DisplayNameAuthIntegration {
   key: string;
 }
@@ -73,7 +73,7 @@ export interface SSOAuthIntegration
  * will be used in the admin to provide staff logins for users.
  */
 export interface OIDCAuthIntegration
-  extends AuthIntegration,
+  extends EnableableIntegration,
     DisplayNameAuthIntegration {
   clientID: string;
   clientSecret: string;
@@ -83,17 +83,17 @@ export interface OIDCAuthIntegration
   tokenURL: string;
 }
 
-export interface FacebookAuthIntegration extends AuthIntegration {
+export interface FacebookAuthIntegration extends EnableableIntegration {
   clientID: string;
   clientSecret: string;
 }
 
-export interface GoogleAuthIntegration extends AuthIntegration {
+export interface GoogleAuthIntegration extends EnableableIntegration {
   clientID: string;
   clientSecret: string;
 }
 
-export type LocalAuthIntegration = AuthIntegration;
+export type LocalAuthIntegration = EnableableIntegration;
 
 /**
  * AuthIntegrations describes all of the possible auth integration
@@ -133,12 +133,7 @@ export interface Auth {
 /**
  * Akismet provides integration with the Akismet Spam detection service.
  */
-export interface AkismetIntegration {
-  /**
-   * When true, it will enable comments to be checked by Akismet.
-   */
-  enabled: boolean;
-
+export interface AkismetIntegration extends EnableableIntegration {
   /**
    * The key for the Akismet integration.
    */
@@ -150,11 +145,36 @@ export interface AkismetIntegration {
   site?: string;
 }
 
+export interface PerspectiveIntegration extends EnableableIntegration {
+  /**
+   * The endpoint that Talk should use to communicate with the perspective API.
+   */
+  endpoint?: string;
+
+  /**
+   * The key for the Perspective API integration.
+   */
+  key?: string;
+
+  /**
+   * The threshold that given a specific toxic comment score, the comment will
+   * be marked by Talk as toxic.
+   */
+  threshold?: number;
+
+  /**
+   * When True, comments sent will not be stored by the Google Perspective API.
+   */
+  doNotStore?: boolean;
+}
+
 export interface ExternalIntegrations {
   /**
    * akismet provides integration with the Akismet Spam detection service.
    */
   akismet: AkismetIntegration;
+
+  perspective: PerspectiveIntegration;
 }
 
 export interface ModerationSettings {

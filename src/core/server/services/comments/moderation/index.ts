@@ -3,13 +3,13 @@ import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__
 import { Action } from "talk-server/models/actions";
 import { Asset } from "talk-server/models/asset";
 import { Tenant } from "talk-server/models/tenant";
-import { CreateComment } from "talk-server/services/comments";
-
 import { User } from "talk-server/models/user";
+import { CreateComment } from "talk-server/services/comments";
 import { Request } from "talk-server/types/express";
+
 import { moderationPhases } from "./phases";
 
-// TODO: (wyattjoh) move into actions module.
+// TODO: (wyattjoh) move into actions module once we have action methods.
 export type CreateAction = Omit<
   Action,
   "id" | "item_type" | "item_id" | "created_at"
@@ -18,6 +18,7 @@ export type CreateAction = Omit<
 export interface PhaseResult {
   actions: CreateAction[];
   status: GQLCOMMENT_STATUS;
+  metadata: Record<string, any>;
 }
 
 export interface ModerationPhaseContext {
@@ -42,31 +43,47 @@ export type IntermediateModerationPhase = (
  * compose will create a moderation pipeline for which is executable with the
  * passed actions.
  */
-const compose = (
+export const compose = (
   phases: IntermediateModerationPhase[]
 ): ModerationPhase => async context => {
-  const actions: CreateAction[] = [];
+  const final: PhaseResult = {
+    status: GQLCOMMENT_STATUS.NONE,
+    actions: [],
+    metadata: {},
+  };
 
   // Loop over all the moderation phases and see if we've resolved the status.
   for (const phase of phases) {
     const result = await phase(context);
     if (result) {
-      if (result.actions) {
-        actions.push(...result.actions);
+      // If this result contained actions, then we should push it into the
+      // other actions.
+      const { actions } = result;
+      if (actions) {
+        final.actions.push(...actions);
+      }
+
+      // If this result contained metadata, then we should merge it into the
+      // other metadata.
+      const { metadata } = result;
+      if (metadata) {
+        final.metadata = {
+          ...final.metadata,
+          ...metadata,
+        };
       }
 
       // If this result contained a status, then we've finished resolving
       // phases!
       const { status } = result;
       if (status) {
-        return { status, actions };
+        final.status = status;
+        break;
       }
     }
   }
 
-  // If we didn't determine a different comment from a previous itteration, set
-  // it to 'NONE'.
-  return { status: GQLCOMMENT_STATUS.NONE, actions };
+  return final;
 };
 
 /**

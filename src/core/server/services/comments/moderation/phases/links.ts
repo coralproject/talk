@@ -2,11 +2,15 @@ import linkify from "linkify-it";
 import tlds from "tlds";
 
 import {
+  GQLACTION_GROUP,
   GQLACTION_TYPE,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { ModerationSettings } from "talk-server/models/settings";
-import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
+import {
+  IntermediateModerationPhase,
+  IntermediatePhaseResult,
+} from "talk-server/services/comments/moderation";
 
 /**
  * The preloaded linkify instance with common tlds.
@@ -24,8 +28,7 @@ export const links: IntermediateModerationPhase = ({
   asset,
   tenant,
   comment,
-  author,
-}) => {
+}): IntermediatePhaseResult | void => {
   if (
     testPremodLinksEnable(tenant, comment.body) ||
     (asset.settings && testPremodLinksEnable(asset.settings, comment.body))
@@ -36,7 +39,7 @@ export const links: IntermediateModerationPhase = ({
       actions: [
         {
           action_type: GQLACTION_TYPE.FLAG,
-          group_id: "LINKS",
+          group_id: GQLACTION_GROUP.LINKS,
           metadata: {
             links: comment.body,
           },
@@ -44,6 +47,4 @@ export const links: IntermediateModerationPhase = ({
       ],
     };
   }
-
-  return;
 };

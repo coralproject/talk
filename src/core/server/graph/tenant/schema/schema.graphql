@@ -38,6 +38,16 @@ enum ACTION_ITEM_TYPE {
   COMMENTS
 }
 
+enum ACTION_GROUP {
+  SPAM_COMMENT
+  TOXIC_COMMENT
+  BODY_COUNT
+  TRUST
+  LINKS
+  BANNED_WORD
+  SUSPECT_WORD
+}
+
 ################################################################################
 ## Settings
 ################################################################################

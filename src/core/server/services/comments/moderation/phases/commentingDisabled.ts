@@ -1,5 +1,8 @@
 import { ModerationSettings } from "talk-server/models/settings";
-import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
+import {
+  IntermediateModerationPhase,
+  IntermediatePhaseResult,
+} from "talk-server/services/comments/moderation";
 
 const testDisabledCommenting = (settings: Partial<ModerationSettings>) =>
   settings.disableCommenting;
@@ -7,7 +10,7 @@ const testDisabledCommenting = (settings: Partial<ModerationSettings>) =>
 export const commentingDisabled: IntermediateModerationPhase = ({
   asset,
   tenant,
-}) => {
+}): IntermediatePhaseResult | void => {
   // Check to see if the asset has closed commenting.
   if (
     testDisabledCommenting(tenant) ||
