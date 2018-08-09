@@ -11,36 +11,43 @@ import {
   Typography,
 } from "talk-ui/components";
 
-const SignIn: StatelessComponent = props => {
+const SignUp: StatelessComponent = props => {
   return (
     <Flex itemGutter direction="column" className={styles.root}>
       <Typography variant="heading1" align="center">
-        Sign in to join the conversation
+        Sign up to join the conversation
       </Typography>
+
       <FormField>
         <InputLabel>Email Address</InputLabel>
         <TextField />
       </FormField>
+
+      <FormField>
+        <InputLabel>Username</InputLabel>
+        <Typography>
+          A unique identifier displayed on your comments. You may use “_” and
+          “.”
+        </Typography>
+        <TextField />
+      </FormField>
+
       <FormField>
         <InputLabel>Password</InputLabel>
+        <Typography>Must be at least 8 characters</Typography>
         <TextField />
-        <span className={styles.forgotPassword}>
-          <Button variant="underlined" color="primary">
-            Forgot your password?
-          </Button>
-        </span>
       </FormField>
+
+      <FormField>
+        <InputLabel>Confirm Password</InputLabel>
+        <TextField />
+      </FormField>
+
       <Button variant="filled" color="primary" size="large" fullWidth>
-        Sign in and join the conversation
+        Sign up and join the conversation
       </Button>
-      <Flex itemGutter="half" alignItems="center">
-        <Typography>Sign up and join the conversation</Typography>
-        <Button variant="underlined" size="small" color="primary">
-          Sign Up
-        </Button>
-      </Flex>
     </Flex>
   );
 };
 
-export default SignIn;
+export default SignUp;
