@@ -4,10 +4,10 @@ import { StatelessComponent } from "react";
 
 import { Button, Flex } from "talk-ui/components";
 
+import AuthContainer from "../containers/AuthContainer";
 import CommentContainer from "../containers/CommentContainer";
 import PostCommentFormContainer from "../containers/PostCommentFormContainer";
 import ReplyListContainer from "../containers/ReplyListContainer";
-import AuthContainer from "../containers/AuthContainer";
 import * as styles from "./Stream.css";
 
 export interface StreamProps {

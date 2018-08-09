@@ -1,7 +1,7 @@
 import * as React from "react";
 import { StatelessComponent } from "react";
 
-import { Flex, Button, Popup, Typography } from "talk-ui/components";
+import { Button, Flex, Popup, Typography } from "talk-ui/components";
 
 interface AuthProps {
   open: boolean;

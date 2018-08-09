@@ -3,30 +3,30 @@ import * as React from "react";
 import Auth from "../components/Auth";
 
 class AuthContainer extends React.Component {
-  state = {
+  public state = {
     open: false,
     focus: false,
   };
 
-  openPopup = () => {
+  public openPopup = () => {
     this.setState({
       open: true,
     });
   };
 
-  closePopup = () => {
+  public closePopup = () => {
     this.setState({
       open: false,
     });
   };
 
-  setFocus = (focus: boolean) => {
+  public setFocus = (focus: boolean) => {
     this.setState({
       focus,
     });
   };
 
-  render() {
+  public render() {
     const { open, focus } = this.state;
     return (
       <Auth
