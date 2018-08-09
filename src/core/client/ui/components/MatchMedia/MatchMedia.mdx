@@ -12,29 +12,29 @@ import MatchMedia from './MatchMedia'
 
 ## Basic usage
 <Playground>
-  <MatchMedia maxWidth="xs">
+  <MatchMedia lteWidth="xs">
     I'm a very small screen
   </MatchMedia>
-  <MatchMedia minWidth="xs" maxWidth="sm">
+  <MatchMedia gtWidth="xs" lteWidth="sm">
     I'm a small screen
   </MatchMedia>
-  <MatchMedia minWidth="sm" maxWidth="md">
+  <MatchMedia gtWidth="sm" lteWidth="md">
     I'm a medium screen
   </MatchMedia>
-  <MatchMedia minWidth="md" maxWidth="lg">
+  <MatchMedia gtWidth="md" lteWidth="lg">
     I'm a large screen
   </MatchMedia>
-  <MatchMedia minWidth="lg" maxWidth="xl">
+  <MatchMedia gtWidth="lg" lteWidth="xl">
     I'm a very large screen
   </MatchMedia>
-  <MatchMedia minWidth="xl">
+  <MatchMedia gtWidth="xl">
     I'm a super large screen
   </MatchMedia>
 </Playground>
 
 ## Using render props
 <Playground>
-  <MatchMedia minWidth="lg">
+  <MatchMedia lteWidth="lg">
     {matches => <span>{matches ? "I'm big" : "I'm small"}</span>}
   </MatchMedia>
 </Playground>

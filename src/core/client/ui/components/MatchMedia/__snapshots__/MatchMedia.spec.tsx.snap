@@ -14,9 +14,21 @@ exports[`map new speech prop to older aural prop 1`] = `
 exports[`renders correctly 1`] = `
 <MediaQuery
   component="div"
-  maxWidth={640}
-  minWidth={321}
+  maxWidth={320}
+  minWidth={640}
   screen={true}
+  values={Object {}}
+>
+  <div>
+    Hello World
+  </div>
+</MediaQuery>
+`;
+
+exports[`renders less than and great than correctly 1`] = `
+<MediaQuery
+  maxWidth={319}
+  minWidth={641}
   values={Object {}}
 >
   <div>

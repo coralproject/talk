@@ -2,23 +2,27 @@
 
 exports[`renders correctly 1`] = `
 <withPropsOnChange(Flex)>
-  <Localized
-    id="comments-userBoxUnauthenticated-joinTheConversation"
+  <MatchMediaWithContext
+    gteWidth="sm"
   >
+    <Localized
+      id="comments-userBoxUnauthenticated-joinTheConversation"
+    >
+      <withPropsOnChange(Typography)
+        className="UserBoxUnauthenticated-joinText"
+        component="span"
+        variant="bodyCopyBold"
+      >
+        Join the conversation
+      </withPropsOnChange(Typography)>
+    </Localized>
     <withPropsOnChange(Typography)
-      className="UserBoxUnauthenticated-joinText"
       component="span"
       variant="bodyCopyBold"
     >
-      Join the conversation
+      |
     </withPropsOnChange(Typography)>
-  </Localized>
-  <withPropsOnChange(Typography)
-    component="span"
-    variant="bodyCopyBold"
-  >
-    |
-  </withPropsOnChange(Typography)>
+  </MatchMediaWithContext>
   <Localized
     id="comments-userBoxUnauthenticated-signIn"
   >

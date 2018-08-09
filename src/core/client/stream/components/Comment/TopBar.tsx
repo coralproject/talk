@@ -14,7 +14,7 @@ export interface TopBarProps {
 const TopBar: StatelessComponent<TopBarProps> = props => {
   const rootClassName = cn(styles.root, props.className);
   return (
-    <MatchMedia minWidth="xs">
+    <MatchMedia gtWidth="xs">
       {matches => (
         <Flex
           className={rootClassName}

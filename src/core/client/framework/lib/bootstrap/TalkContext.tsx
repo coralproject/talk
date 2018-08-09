@@ -2,6 +2,7 @@ import { LocalizationProvider } from "fluent-react/compat";
 import { MessageContext } from "fluent/compat";
 import { Child as PymChild } from "pym.js";
 import React, { StatelessComponent } from "react";
+import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
 
@@ -17,6 +18,9 @@ export interface TalkContext {
 
   /** formatter for timeago. */
   timeagoFormatter?: Formatter;
+
+  /** media query values for testing purposes */
+  mediaQueryValues?: MediaQueryMatchers;
 
   /**
    * A way to listen for clicks that are e.g. outside of the
@@ -48,6 +52,7 @@ export const TalkContextProvider: StatelessComponent<{
         value={{
           timeagoFormatter: value.timeagoFormatter,
           registerClickFarAway: value.registerClickFarAway,
+          mediaQueryValues: value.mediaQueryValues,
         }}
       >
         {children}
