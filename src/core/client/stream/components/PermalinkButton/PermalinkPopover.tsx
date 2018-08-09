@@ -38,15 +38,19 @@ class PermalinkPopover extends React.Component<InnerProps> {
     const { copied } = this.state;
     return (
       <Flex itemGutter="half" className={styles.root}>
-        <TextField defaultValue={permalinkURL} className={styles.textField} />
+        <TextField
+          defaultValue={permalinkURL}
+          className={styles.textField}
+          readOnly
+        />
         <CopyToClipboard text={permalinkURL} onCopy={this.onCopy}>
           <Button color="primary" variant="filled" size="small">
             {copied ? (
-              <Localized id="comments-permalink-copied">
+              <Localized id="comments-permalinkPopover-copied">
                 <span>Copied!</span>
               </Localized>
             ) : (
-              <Localized id="comments-permalink-copy">
+              <Localized id="comments-permalinkPopover-copy">
                 <span>Copy</span>
               </Localized>
             )}
