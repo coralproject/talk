@@ -403,6 +403,18 @@ type User {
 ## Comment
 ################################################################################
 
+type EditInfo {
+  """
+  edited will be True when the Comment has been edited in the past.
+  """
+  edited: Boolean!
+
+  """
+  editableUntil is the time that the comment is editable until.
+  """
+  editableUntil: Time
+}
+
 enum COMMENT_STATUS {
   """
   The comment is not PREMOD, but was not applied a moderation status by a
@@ -449,7 +461,7 @@ type Comment {
   body: String
 
   """
-  createdAt is the date in which the comment was created.
+  createdAt is the date in which the Comment was created.
   """
   createdAt: Time
 
@@ -459,7 +471,7 @@ type Comment {
   author: User
 
   """
-  status represents the Comment's current Status.
+  status represents the Comment's current status.
   """
   status: COMMENT_STATUS!
 
@@ -470,13 +482,18 @@ type Comment {
   replyCount: Int
 
   """
-  replies will return the replies to this comment.
+  replies will return the replies to this Comment.
   """
   replies(
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection
+
+  """
+  editing returns details about the edit status of a Comment.
+  """
+  editing: EditInfo
 }
 
 type PageInfo {
