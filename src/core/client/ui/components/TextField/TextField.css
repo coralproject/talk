@@ -5,6 +5,8 @@
   padding: calc(0.5 * var(--spacing-unit));
   box-sizing: border-box;
   border-radius: var(--round-corners);
+  height: 36px;
+  line-height: 36px;
 }
 
 .colorRegular {
