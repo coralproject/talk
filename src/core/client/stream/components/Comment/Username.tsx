@@ -11,7 +11,7 @@ export interface UsernameProps {
 
 const Username: StatelessComponent<UsernameProps> = props => {
   return (
-    <MatchMedia minWidth="xs">
+    <MatchMedia gtWidth="xs">
       {matches => (
         <Typography
           variant={matches ? "heading2" : "heading3"}
