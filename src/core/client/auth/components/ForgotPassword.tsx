@@ -17,7 +17,7 @@ const ForgotPassword: StatelessComponent = props => {
       <Typography variant="heading1" align="center">
         Forgot Password
       </Typography>
-      <Typography variant="bodyCopy" align="center">
+      <Typography variant="bodyCopy">
         Enter your email address below and we will send you a link to reset your
         password.
       </Typography>
