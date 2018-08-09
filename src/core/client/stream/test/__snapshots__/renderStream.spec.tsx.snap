@@ -13,16 +13,6 @@ exports[`renders comment stream 1`] = `
           <div
             className="Flex-root Flex-wrap Flex-alignCenter"
           >
-            <span
-              className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserBoxUnauthenticated-joinText"
-            >
-              Join the conversation
-            </span>
-            <span
-              className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
-            >
-              |
-            </span>
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
               onBlur={[Function]}

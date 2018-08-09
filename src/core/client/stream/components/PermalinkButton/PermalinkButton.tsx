@@ -57,7 +57,7 @@ class Permalink extends React.Component<PermalinkProps> {
             active={visible}
             size="small"
           >
-            <MatchMedia minWidth="xs">
+            <MatchMedia gtWidth="xs">
               <ButtonIcon>share</ButtonIcon>
             </MatchMedia>
             <Localized id="comments-permalink-share">
