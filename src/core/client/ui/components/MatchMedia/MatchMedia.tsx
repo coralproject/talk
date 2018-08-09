@@ -10,8 +10,17 @@ import UIContext from "../UIContext";
 type Breakpoints = keyof typeof theme.breakpoints;
 
 interface InnerProps {
-  minWidth?: Breakpoints;
-  maxWidth?: Breakpoints;
+  /** greater than or equal width. */
+  gteWidth?: Breakpoints;
+
+  /** greater than width. */
+  gtWidth?: Breakpoints;
+
+  /** less than equals width. */
+  lteWidth?: Breakpoints;
+
+  /** less than equals width. */
+  ltWidth?: Breakpoints;
   children: ReactNode | ((matches: boolean) => React.ReactNode);
   className?: string;
   component?:
@@ -27,13 +36,21 @@ interface InnerProps {
 }
 
 export const MatchMedia: StatelessComponent<InnerProps> = props => {
-  const { speech, minWidth, maxWidth, ...rest } = props;
+  const { speech, gteWidth, gtWidth, lteWidth, ltWidth, ...rest } = props;
   const mapped = {
     // TODO: Temporarily map newer speech to older aural type until
     // react-responsive supports the speech prop.
     aural: speech,
-    minWidth: minWidth ? theme.breakpoints[minWidth] + 1 : undefined,
-    maxWidth: maxWidth ? theme.breakpoints[maxWidth] : undefined,
+    minWidth: gtWidth
+      ? theme.breakpoints[gtWidth] + 1
+      : gteWidth
+        ? theme.breakpoints[gteWidth]
+        : undefined,
+    maxWidth: ltWidth
+      ? theme.breakpoints[ltWidth] - 1
+      : lteWidth
+        ? theme.breakpoints[lteWidth]
+        : undefined,
   };
   return <Responsive {...rest} {...mapped} />;
 };
