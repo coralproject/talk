@@ -1,9 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly on big screens 1`] = `
-<div>
+<div
+  className="Flex-root TopBar-root"
+>
   <div
-    className="Flex-root TopBar-root Flex-itemGutter Flex-wrap Flex-alignBaseline Flex-directionRow"
+    className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignBaseline Flex-directionRow"
   >
     <div>
       Hello World
@@ -13,9 +15,11 @@ exports[`renders correctly on big screens 1`] = `
 `;
 
 exports[`renders correctly on small screens 1`] = `
-<div>
+<div
+  className="Flex-root TopBar-root"
+>
   <div
-    className="Flex-root TopBar-root Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
+    className="Flex-flex Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
   >
     <div>
       Hello World

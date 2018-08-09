@@ -20,7 +20,7 @@ export interface CommentProps {
 
 const Comment: StatelessComponent<CommentProps> = props => {
   return (
-    <div role="article">
+    <div role="article" className={styles.root}>
       <TopBar>
         {props.author &&
           props.author.username && <Username>{props.author.username}</Username>}
