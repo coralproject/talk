@@ -7,9 +7,9 @@ import {
   GQLACTION_GROUP,
   GQLACTION_TYPE,
   GQLCOMMENT_STATUS,
+  GQLPerspectiveExternalIntegration,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import logger from "talk-server/logger";
-import { PerspectiveIntegration } from "talk-server/models/settings";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -135,7 +135,7 @@ async function getScores(
     key,
     endpoint,
     doNotStore,
-  }: Required<Omit<PerspectiveIntegration, "enabled" | "threshold">>,
+  }: Required<Omit<GQLPerspectiveExternalIntegration, "enabled" | "threshold">>,
   timeout: number
 ) {
   try {

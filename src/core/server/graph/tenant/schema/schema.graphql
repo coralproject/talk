@@ -67,9 +67,9 @@ enum MODERATION_MODE {
 }
 
 """
-WordlistSettings describes all the available wordlists.
+Wordlist describes all the available wordlists.
 """
-type WordlistSettings {
+type Wordlist {
   """
   banned words will by default reject the comment if it is found.
   """
@@ -185,6 +185,111 @@ type AuthSettings {
   authentication solutions.
   """
   integrations: AuthIntegrations!
+}
+
+################################################################################
+## ExternalIntegrations
+################################################################################
+
+type AkismetExternalIntegration {
+  """
+  enabled when True will enable the integration.
+  """
+  enabled: Boolean!
+
+  """
+  The key for the Akismet integration.
+  """
+  key: String
+
+  """
+  The site (blog) for the Akismet integration.
+  """
+  site: String
+}
+
+type PerspectiveExternalIntegration {
+  """
+  enabled when True will enable the integration.
+  """
+  enabled: Boolean!
+
+  """
+  The endpoint that Talk should use to communicate with the perspective API.
+  """
+  endpoint: String
+
+  """
+  The key for the Perspective API integration.
+  """
+  key: String
+
+  """
+  The threshold that given a specific toxic comment score, the comment will
+  be marked by Talk as toxic.
+  """
+  threshold: Float
+
+  """
+  When True, comments sent will not be stored by the Google Perspective API.
+  """
+  doNotStore: Boolean
+}
+
+type ExternalIntegrations {
+  """
+  akismet provides integration with the Akismet Spam detection service.
+  """
+  akismet: AkismetExternalIntegration!
+
+  """
+  perspective provides integration with the Perspective API comment analysis
+  platform.
+  """
+  perspective: PerspectiveExternalIntegration!
+}
+
+################################################################################
+## Karma
+################################################################################
+
+"""
+KarmaThreshold defines the bounds for which a User will become unreliable or
+reliable based on their karma score. If the score is equal or less than the
+unreliable value, they are unreliable. If the score is equal or more than the
+reliable value, they are reliable. If they are neither reliable or unreliable
+then they are neutral.
+"""
+type KarmaThreshold {
+  reliable: Int!
+  unreliable: Int!
+}
+
+type KarmaThresholds {
+  """
+  flag represents karma settings in relation to how well a User's flagging
+  ability aligns with the moderation decicions made by moderators.
+  """
+  flag: KarmaThreshold!
+
+  """
+  comment represents the karma setting in relation to how well a User's comments are moderated.
+  """
+  comment: KarmaThreshold!
+}
+
+type Karma {
+  """
+  When true, checks will be completed to ensure that the Karma checks are
+  completed.
+  """
+  enabled: Boolean!
+
+  """
+  karmaThresholds contains the currently set thresholds for triggering Trust
+  beheviour.
+  """
+  thresholds: KarmaThresholds!
 }
 
 ################################################################################
@@ -305,7 +410,7 @@ type Settings {
   """
   wordlist will return a given list of words.
   """
-  wordlist: WordlistSettings @auth(roles: [ADMIN, MODERATOR])
+  wordlist: Wordlist @auth(roles: [ADMIN, MODERATOR])
 
   """
   domains will return a given list of whitelisted domains.
@@ -316,6 +421,17 @@ type Settings {
   auth contains all the settings related to authentication and authorization.
   """
   auth: AuthSettings!
+
+  """
+  integrations contains all the external integrations that can be enabled.
+  """
+  integrations: ExternalIntegrations @auth(roles: [ADMIN])
+
+  """
+  karma is the set of settings related to how user Trust and Karma are
+  handled.
+  """
+  karma: Karma @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################
@@ -738,7 +854,7 @@ input SettingsInput {
   charCount: Int
   organizationName: String
   organizationContactEmail: String
-  # wordlist: WordlistSettings @auth(roles: [ADMIN, MODERATOR])
+  # wordlist: Wordlist @auth(roles: [ADMIN, MODERATOR])
   domains: [String!]
   # auth: AuthSettings!
 }

@@ -1,12 +1,10 @@
 import {
+  GQLExternalIntegrations,
+  GQLKarma,
   GQLMODERATION_MODE,
   GQLUSER_ROLE,
+  GQLWordlist,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-
-export interface Wordlist {
-  banned: string[];
-  suspect: string[];
-}
 
 export interface EmailDomainRuleCondition {
   /**
@@ -130,53 +128,6 @@ export interface Auth {
   integrations: AuthIntegrations;
 }
 
-/**
- * Akismet provides integration with the Akismet Spam detection service.
- */
-export interface AkismetIntegration extends EnableableIntegration {
-  /**
-   * The key for the Akismet integration.
-   */
-  key?: string;
-
-  /**
-   * The site (blog) for the Akismet integration.
-   */
-  site?: string;
-}
-
-export interface PerspectiveIntegration extends EnableableIntegration {
-  /**
-   * The endpoint that Talk should use to communicate with the perspective API.
-   */
-  endpoint?: string;
-
-  /**
-   * The key for the Perspective API integration.
-   */
-  key?: string;
-
-  /**
-   * The threshold that given a specific toxic comment score, the comment will
-   * be marked by Talk as toxic.
-   */
-  threshold?: number;
-
-  /**
-   * When True, comments sent will not be stored by the Google Perspective API.
-   */
-  doNotStore?: boolean;
-}
-
-export interface ExternalIntegrations {
-  /**
-   * akismet provides integration with the Akismet Spam detection service.
-   */
-  akismet: AkismetIntegration;
-
-  perspective: PerspectiveIntegration;
-}
-
 export interface ModerationSettings {
   moderation: GQLMODERATION_MODE;
   requireEmailConfirmation: boolean;
@@ -195,45 +146,6 @@ export interface ModerationSettings {
   charCount?: number;
 }
 
-/**
- * KarmaThreshold defines the bounds for which a User will become unreliable or
- * reliable based on their karma score. If the score is equal or less than the
- * unreliable value, they are unreliable. If the score is equal or more than the
- * reliable value, they are reliable. If they are neither reliable or unreliable
- * then they are neutral.
- */
-export interface KarmaThreshold {
-  reliable: number;
-  unreliable: number;
-}
-
-export interface KarmaThresholds {
-  /**
-   * flag represents karma settings in relation to how well a User's flagging
-   * ability aligns with the moderation decicions made by moderators.
-   */
-  flag: KarmaThreshold;
-
-  /**
-   * comment represents the karma setting in relation to how well a User's comments are moderated.
-   */
-  comment: KarmaThreshold;
-}
-
-export interface Karma {
-  /**
-   * When true, checks will be completed to ensure that the Karma checks are
-   * completed.
-   */
-  enabled: boolean;
-
-  /**
-   * karmaThresholds contains the currently set thresholds for triggering Trust
-   * beheviour.
-   */
-  thresholds: KarmaThresholds;
-}
-
 export interface Settings extends ModerationSettings {
   customCssUrl?: string;
 
@@ -247,12 +159,12 @@ export interface Settings extends ModerationSettings {
    * karma is the set of settings related to how user Trust and Karma are
    * handled.
    */
-  karma: Karma;
+  karma: GQLKarma;
 
   /**
    * wordlist stores all the banned/suspect words.
    */
-  wordlist: Wordlist;
+  wordlist: GQLWordlist;
 
   /**
    * Set of configured authentication integrations.
@@ -262,5 +174,5 @@ export interface Settings extends ModerationSettings {
   /**
    * Various integrations with external services.
    */
-  integrations: ExternalIntegrations;
+  integrations: GQLExternalIntegrations;
 }

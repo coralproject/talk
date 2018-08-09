@@ -66,7 +66,7 @@ async function main() {
     file.types = await generateTSTypesAsString(schema, {
       tabSpaces: 2,
       typePrefix: "GQL",
-      strictNulls: true,
+      strictNulls: false,
       ...file.config,
     });
   }
