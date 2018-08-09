@@ -27,7 +27,7 @@
   font-family: var(--font-family);
   font-style: normal;
   font-weight: normal;
-  line-height: normal;
+  line-height: calc(16rem / var(--rem-base));
   font-size: calc(16rem / var(--rem-base));
   color: var(--palette-grey-lighter);
 }

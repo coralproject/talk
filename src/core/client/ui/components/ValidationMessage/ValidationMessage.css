@@ -1,5 +1,5 @@
 .root {
-  composes: validationMessage from "talk-ui/shared/typography.css";
+  composes: alertMessage from "talk-ui/shared/typography.css";
   position: relative;
   display: inline-flex;
   justify-content: flex-start;
