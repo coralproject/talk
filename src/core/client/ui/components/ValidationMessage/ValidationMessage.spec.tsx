@@ -8,7 +8,6 @@ import ValidationMessage from "./ValidationMessage";
 it("renders correctly", () => {
   const props: PropTypesOf<typeof ValidationMessage> = {
     className: "custom",
-    color: "error",
     children: "Hello World",
   };
   const renderer = TestRenderer.create(<ValidationMessage {...props} />);

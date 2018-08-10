@@ -1,0 +1,9 @@
+.root {
+  width: 330px;
+}
+
+.footer,
+.subFooter {
+  padding-top: var(--spacing-unit);
+  width: 100%;
+}

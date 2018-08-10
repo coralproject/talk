@@ -488,42 +488,5 @@ export default function createWebpackConfig({
         }),
       ],
     },
-    /* Webpack config for our auth */
-    {
-      ...baseConfig,
-      entry: [
-        // No polyfills for the embed.
-        (isProduction && "") ||
-          require.resolve("react-dev-utils/webpackHotDevClient"),
-        paths.appAuthIndex,
-        // Remove deactivated entries.
-      ].filter(s => s),
-      output: {
-        ...baseConfig.output,
-        library: "Talk",
-        filename: "assets/js/auth.js",
-      },
-      plugins: [
-        ...baseConfig.plugins!,
-        // Generates an `stream.html` file with the <script> injected.
-        new HtmlWebpackPlugin({
-          filename: "auth.html",
-          template: paths.appAuthHTML,
-          inject: "head",
-          ...htmlWebpackConfig,
-        }),
-        // Makes some environment variables available in index.html.
-        // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-        // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-        // In development, this will be an empty string.
-        new InterpolateHtmlPlugin(env),
-        // Generate a manifest file which contains a mapping of all asset filenames
-        // to their corresponding output file so that tools can pick it up without
-        // having to parse `index.html`.
-        new ManifestPlugin({
-          fileName: "auth-manifest.json",
-        }),
-      ],
-    },
   ];
 }

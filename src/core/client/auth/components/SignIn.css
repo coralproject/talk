@@ -1,0 +1,14 @@
+.root {
+  width: 330px;
+  padding-top: calc(5 * var(--spacing-unit));
+}
+
+.forgotPassword {
+  text-align: right;
+}
+
+.footer,
+.subFooter {
+  padding-top: var(--spacing-unit);
+  width: 100%;
+}

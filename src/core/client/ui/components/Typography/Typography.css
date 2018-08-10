@@ -39,6 +39,10 @@
   composes: inputLabel from "talk-ui/shared/typography.css";
 }
 
+.inputDescription {
+  composes: inputDescription from "talk-ui/shared/typography.css";
+}
+
 .timestamp {
   composes: timestamp from "talk-ui/shared/typography.css";
 }

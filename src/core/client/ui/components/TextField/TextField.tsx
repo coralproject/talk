@@ -33,6 +33,10 @@ export interface TextFieldProps {
    * Placeholder
    */
   placeholder?: string;
+  /**
+   * readOnly
+   */
+  readOnly?: boolean;
 }
 
 const TextField: StatelessComponent<TextFieldProps> = props => {
@@ -68,7 +72,7 @@ const TextField: StatelessComponent<TextFieldProps> = props => {
 
 TextField.defaultProps = {
   color: "regular",
-  fullWidth: false,
+  fullWidth: true,
   placeholder: "",
 };
 
