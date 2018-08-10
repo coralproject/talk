@@ -2,6 +2,7 @@ import express from "express";
 import passport from "passport";
 
 import { signupHandler } from "talk-server/app/handlers/auth/local";
+import { streamHandler } from "talk-server/app/handlers/embed/stream";
 import { apiErrorHandler } from "talk-server/app/middleware/error";
 import { errorLogger } from "talk-server/app/middleware/logging";
 import { wrapAuthn } from "talk-server/app/middleware/passport";
@@ -133,6 +134,9 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
       })
     );
   }
+
+  // Handle the stream handler.
+  router.get("/embed/stream", streamHandler);
 
   return router;
 }
