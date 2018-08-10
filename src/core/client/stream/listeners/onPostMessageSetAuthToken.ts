@@ -1,16 +1,13 @@
-import { commitLocalUpdate } from "react-relay";
-
 import { TalkContext } from "talk-framework/lib/bootstrap";
-import { LOCAL_ID } from "talk-framework/lib/relay";
+
+import { commit as setAuthToken } from "talk-framework/mutations/SetAuthTokenMutation";
 
 export default function onPostMessageSetAuthToken({
   relayEnvironment,
   postMessage,
 }: TalkContext) {
   // Auth popup will use this to handle a successful login.
-  postMessage!.on("setAuthToken", token => {
-    commitLocalUpdate(relayEnvironment, s => {
-      s.get(LOCAL_ID)!.setValue(token, "authToken");
-    });
+  postMessage!.on("setAuthToken", (authToken: string) => {
+    setAuthToken(relayEnvironment, { authToken });
   });
 }
