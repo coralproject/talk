@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(Flex)>
+  <MatchMediaWithContext
+    gteWidth="sm"
+  >
+    <Localized
+      id="comments-userBoxUnauthenticated-joinTheConversation"
+    >
+      <withPropsOnChange(Typography)
+        className="UserBoxUnauthenticated-joinText"
+        component="span"
+        variant="bodyCopyBold"
+      >
+        Join the conversation
+      </withPropsOnChange(Typography)>
+    </Localized>
+    <withPropsOnChange(Typography)
+      component="span"
+      variant="bodyCopyBold"
+    >
+      |
+    </withPropsOnChange(Typography)>
+  </MatchMediaWithContext>
+  <Localized
+    id="comments-userBoxUnauthenticated-signIn"
+  >
+    <withPropsOnChange(Button)
+      color="primary"
+      onClick={[Function]}
+      size="small"
+    >
+      Sign in
+    </withPropsOnChange(Button)>
+  </Localized>
+  <Localized
+    id="comments-userBoxUnauthenticated-register"
+  >
+    <withPropsOnChange(Button)
+      color="primary"
+      onClick={[Function]}
+      size="small"
+      variant="outlined"
+    >
+      Register
+    </withPropsOnChange(Button)>
+  </Localized>
+</withPropsOnChange(Flex)>
+`;

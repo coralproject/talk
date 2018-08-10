@@ -1,0 +1,20 @@
+---
+name: ValidationMessage
+menu: UI Kit
+---
+
+import { Playground } from 'docz'
+import ValidationMessage from './ValidationMessage.tsx'
+import Flex from '../Flex'
+
+# ValidationMessage
+
+## Basic Use
+<Playground>
+  <Flex itemGutter direction="column">
+    <ValidationMessage>Invalid characters. Try again</ValidationMessage>
+    <ValidationMessage fullWidth>Account with this email address already exists. Try another email. </ValidationMessage>
+  </Flex>
+</Playground>
+
+

@@ -2,6 +2,7 @@
 
 exports[`renders username and body 1`] = `
 <div
+  className="Comment-root"
   role="article"
 >
   <TopBar>

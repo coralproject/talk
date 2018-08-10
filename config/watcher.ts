@@ -10,7 +10,7 @@ const config: Config = {
   watchers: {
     compileSchema: {
       paths: ["core/server/**/*.graphql"],
-      executor: new CommandExecutor("npm run compile:schema", {
+      executor: new CommandExecutor("npx gulp server:schema", {
         runOnInit: true,
       }),
     },
@@ -28,6 +28,23 @@ const config: Config = {
         "core/**/*.spec.*",
       ],
       executor: new CommandExecutor("npm run compile:relay-stream", {
+        runOnInit: true,
+      }),
+    },
+    compileRelayAuth: {
+      paths: [
+        "core/client/auth/**/*.ts",
+        "core/client/auth/**/*.tsx",
+        "core/client/auth/**/*.graphql",
+        "core/server/**/*.graphql",
+      ],
+      ignore: [
+        "core/**/*.d.ts",
+        "core/**/*.graphql.ts",
+        "**/test/**/*",
+        "core/**/*.spec.*",
+      ],
+      executor: new CommandExecutor("npm run compile:relay-auth", {
         runOnInit: true,
       }),
     },
@@ -59,9 +76,15 @@ const config: Config = {
       "runWebpackDevServer",
       "compileCSSTypes",
       "compileRelayStream",
+      "compileRelayAuth",
     ],
     docz: ["runDocz", "compileCSSTypes"],
-    compile: ["compileSchema", "compileCSSTypes", "compileRelayStream"],
+    compile: [
+      "compileSchema",
+      "compileCSSTypes",
+      "compileRelayStream",
+      "compileRelayAuth",
+    ],
   },
 };
 

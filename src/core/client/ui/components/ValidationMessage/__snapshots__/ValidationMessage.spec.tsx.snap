@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="ValidationMessage-root ValidationMessage-colorError custom"
+>
+  <span
+    className="Icon-root ValidationMessage-icon Icon-sm"
+  >
+    warning
+  </span>
+  Hello World
+</div>
+`;

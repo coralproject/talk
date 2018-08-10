@@ -2,172 +2,249 @@
 
 exports[`renders comment stream 1`] = `
 <div
-  className="Flex-root App-root Flex-justifyCenter Flex-alignCenter"
+  className="Flex-root App-root"
 >
   <div
-    className="Stream-root"
+    className="Flex-flex Flex-wrap Flex-justifyCenter Flex-alignCenter"
   >
-    <form
-      autoComplete="off"
-      onSubmit={[Function]}
-    >
-      <div>
-        <textarea
-          className="PostCommentForm-textarea"
-          name="body"
-          onChange={[Function]}
-          value=""
-        />
-      </div>
-      <div
-        className="PostCommentForm-postButtonContainer"
-      >
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-          disabled={false}
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseDown={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-        >
-          Post
-        </button>
-      </div>
-    </form>
     <div
-      aria-live="polite"
-      className="Flex-root Flex-itemGutter Flex-alignFlexStart Flex-directionColumn"
-      id="talk-comments-stream-log"
-      role="log"
+      className="Flex-root Stream-root"
     >
       <div
-        className="Flex-root Flex-itemGutter Flex-alignFlexStart Flex-directionColumn"
+        className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
       >
         <div
-          role="article"
+          className="Flex-root"
         >
           <div
-            className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+            className="Flex-flex Flex-wrap Flex-alignCenter"
           >
-            <span
-              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
             >
-              Markus
-            </span>
-            <time
-              className="Timestamp-root RelativeTime-root"
-              dateTime="2018-07-06T18:24:00.000Z"
-              title="2018-07-06T18:24:00.000Z"
+              Sign in
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
             >
-              2018-07-06T18:24:00.000Z
-            </time>
+              Register
+            </button>
           </div>
-          <p
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Joining Too
-          </p>
-          <div
-            className="Comment-footer"
-          />
         </div>
-      </div>
-      <div
-        className="Flex-root Flex-itemGutter Flex-alignFlexStart Flex-directionColumn"
-      >
-        <div
-          role="article"
+        <form
+          autoComplete="off"
+          className="PostCommentForm-root"
+          onSubmit={[Function]}
         >
-          <div
-            className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
-          >
-            <span
-              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-            >
-              Markus
-            </span>
-            <time
-              className="Timestamp-root RelativeTime-root"
-              dateTime="2018-07-06T18:24:00.000Z"
-              title="2018-07-06T18:24:00.000Z"
-            >
-              2018-07-06T18:24:00.000Z
-            </time>
+          <div>
+            <textarea
+              className="PostCommentForm-textarea"
+              name="body"
+              onChange={[Function]}
+              value=""
+            />
           </div>
-          <p
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            I like yoghurt
-          </p>
           <div
-            className="Comment-footer"
-          />
-        </div>
+            className="PostCommentForm-postButtonContainer"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+              disabled={false}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+            >
+              Post
+            </button>
+          </div>
+        </form>
         <div
-          className="Indent-root Indent-level0"
+          aria-live="polite"
+          className="Flex-root"
+          id="talk-comments-stream-log"
+          role="log"
         >
           <div
-            className="Flex-root Flex-itemGutter Flex-alignFlexStart Flex-directionColumn"
-            id="talk-comments-replyList-log--comment-with-replies"
-            role="log"
+            className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
           >
             <div
-              role="article"
+              className="Flex-root"
             >
               <div
-                className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
               >
-                <span
-                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                <div
+                  className="Comment-root"
+                  role="article"
                 >
-                  Markus
-                </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
-                >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <div
+                    className="Flex-root TopBar-root"
+                  >
+                    <div
+                      className="Flex-flex Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
+                    >
+                      <span
+                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      >
+                        Markus
+                      </span>
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
+                      >
+                        2018-07-06T18:24:00.000Z
+                      </time>
+                    </div>
+                  </div>
+                  <p
+                    className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    Joining Too
+                  </p>
+                  <div
+                    className="Comment-footer"
+                  />
+                </div>
               </div>
-              <p
-                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-              >
-                Joining Too
-              </p>
-              <div
-                className="Comment-footer"
-              />
             </div>
             <div
-              role="article"
+              className="Flex-root"
             >
               <div
-                className="Flex-root TopBar-root Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
               >
-                <span
-                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                <div
+                  className="Comment-root"
+                  role="article"
                 >
-                  Lukas
-                </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:20:00.000Z"
-                  title="2018-07-06T18:20:00.000Z"
+                  <div
+                    className="Flex-root TopBar-root"
+                  >
+                    <div
+                      className="Flex-flex Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
+                    >
+                      <span
+                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      >
+                        Markus
+                      </span>
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
+                      >
+                        2018-07-06T18:24:00.000Z
+                      </time>
+                    </div>
+                  </div>
+                  <p
+                    className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    I like yoghurt
+                  </p>
+                  <div
+                    className="Comment-footer"
+                  />
+                </div>
+                <div
+                  className="Indent-root Indent-level0"
                 >
-                  2018-07-06T18:20:00.000Z
-                </time>
+                  <div
+                    className="Flex-root"
+                    id="talk-comments-replyList-log--comment-with-replies"
+                    role="log"
+                  >
+                    <div
+                      className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignFlexStart Flex-directionColumn"
+                    >
+                      <div
+                        className="Comment-root"
+                        role="article"
+                      >
+                        <div
+                          className="Flex-root TopBar-root"
+                        >
+                          <div
+                            className="Flex-flex Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
+                          >
+                            <span
+                              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            >
+                              Markus
+                            </span>
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </div>
+                        </div>
+                        <p
+                          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                        >
+                          Joining Too
+                        </p>
+                        <div
+                          className="Comment-footer"
+                        />
+                      </div>
+                      <div
+                        className="Comment-root"
+                        role="article"
+                      >
+                        <div
+                          className="Flex-root TopBar-root"
+                        >
+                          <div
+                            className="Flex-flex Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
+                          >
+                            <span
+                              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            >
+                              Lukas
+                            </span>
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:20:00.000Z"
+                              title="2018-07-06T18:20:00.000Z"
+                            >
+                              2018-07-06T18:20:00.000Z
+                            </time>
+                          </div>
+                        </div>
+                        <p
+                          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                        >
+                          What's up?
+                        </p>
+                        <div
+                          className="Comment-footer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <p
-                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-              >
-                What's up?
-              </p>
-              <div
-                className="Comment-footer"
-              />
             </div>
           </div>
         </div>

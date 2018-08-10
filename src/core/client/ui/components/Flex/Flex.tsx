@@ -25,7 +25,7 @@ interface InnerProps {
     | "space-evenly";
   alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
   direction?: "row" | "column" | "row-reverse" | "column-reverse";
-  itemGutter?: boolean | "half";
+  itemGutter?: boolean | "half" | "double";
   className?: string;
   wrap?: boolean | "reverse";
 
@@ -43,6 +43,7 @@ const Flex: StatelessComponent<InnerProps> = props => {
     itemGutter,
     wrap,
     forwardRef,
+    children,
     ...rest
   } = props;
 
@@ -55,6 +56,7 @@ const Flex: StatelessComponent<InnerProps> = props => {
   const classObject: Record<string, boolean> = {
     [classes.itemGutter]: itemGutter === true,
     [classes.halfItemGutter]: itemGutter === "half",
+    [classes.doubleItemGutter]: itemGutter === "double",
     [classes.wrap]: wrap === true,
     [classes.wrapReverse]: wrap === "reverse",
   };
@@ -75,9 +77,19 @@ const Flex: StatelessComponent<InnerProps> = props => {
     classObject[(classes as any)[`direction${pascalCase(direction)}`]] = true;
   }
 
-  const classNames: string = cn(classes.root, className, classObject);
+  const rootClassNames: string = cn(classes.root, className);
+  const flexClassNames: string = cn(classes.flex, classObject);
 
-  return <div ref={forwardRef} className={classNames} {...rest} />;
+  // The first div is required to support nested `Flex` components with itemGutters.
+  return (
+    <div ref={forwardRef} className={rootClassNames} {...rest}>
+      <div className={flexClassNames}>{children}</div>
+    </div>
+  );
+};
+
+Flex.defaultProps = {
+  wrap: true,
 };
 
 const enhanced = withForwardRef(withStyles(styles)(Flex));

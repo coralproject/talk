@@ -28,6 +28,9 @@ export default (options: MiddlewareOptions) => async (
     // Attach the tenant to the request.
     req.tenant = tenant;
 
+    // Attach the tenant to the view locals.
+    res.locals.tenant = tenant;
+
     next();
   } catch (err) {
     next(err);

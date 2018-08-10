@@ -1,6 +1,6 @@
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
-import ExtractTextPlugin from "extract-text-webpack-plugin";
 import HtmlWebpackPlugin, { Options } from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
@@ -8,6 +8,7 @@ import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import UglifyJsPlugin from "uglifyjs-webpack-plugin";
 import webpack, { Configuration } from "webpack";
 import ManifestPlugin from "webpack-manifest-plugin";
+
 import paths from "./paths";
 
 interface CreateWebpackConfig {
@@ -59,26 +60,27 @@ export default function createWebpackConfig({
     },
   };
 
-  const cssLoaders = [
-    {
-      loader: require.resolve("css-loader"),
-      options: {
-        modules: true,
-        importLoaders: 1,
-        localIdentName: "[name]-[local]-[hash:base64:5]",
-        minimize: isProduction,
-        sourceMap: isProduction && !disableSourcemaps,
-      },
-    },
-    {
-      loader: require.resolve("postcss-loader"),
-      options: {
-        config: {
-          path: paths.appPostCssConfig,
-        },
-      },
-    },
-  ];
+  const localesOptions = {
+    pathToLocales: paths.appLocales,
+
+    // Default locale if non could be negotiated.
+    defaultLocale: "en-US",
+
+    // Fallback locale if a translation was not found.
+    // If not set, will use the text that is already
+    // in the code base.
+    fallbackLocale: "en-US",
+
+    // Common fluent files are always included in the locale bundles.
+    commonFiles: ["framework.ftl", "common.ftl"],
+
+    // Locales that come with the main bundle. Others are loaded on demand.
+    bundled: ["en-US"],
+
+    // All available locales can be loadable on demand.
+    // To restrict available locales set:
+    // availableLocales: ["en-US"],
+  };
 
   const additionalPlugins = isProduction
     ? [
@@ -105,13 +107,9 @@ export default function createWebpackConfig({
           },
           sourceMap: !disableSourcemaps,
         }),
-        // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
-        new ExtractTextPlugin({
-          // We use [md5:contenthash:hex:20] instead of [contenthash:8]
-          // because of this bug https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/763.
-          // TODO: Repalce with mini-css-extract-plugin once it supports HMR.
-          // https://github.com/webpack-contrib/mini-css-extract-plugin
-          filename: "assets/css/[name].[md5:contenthash:hex:20].css",
+        new MiniCssExtractPlugin({
+          filename: "assets/css/[name].[hash].css",
+          chunkFilename: "assets/css/[id].[hash].css",
         }),
       ]
     : [
@@ -214,29 +212,26 @@ export default function createWebpackConfig({
                 {
                   loader: "locales-loader",
                   options: {
-                    pathToLocales: paths.appLocales,
-
-                    // Default locale if non could be negotiated.
-                    defaultLocale: "en-US",
-
-                    // Fallback locale if a translation was not found.
-                    // If not set, will use the text that is already
-                    // in the code base.
-                    fallbackLocale: "en-US",
-
-                    // Common fluent files are always included in the locale bundles.
-                    commonFiles: ["framework.ftl", "common.ftl"],
-
-                    // Locales that come with the main bundle. Others are loaded on demand.
-                    bundled: ["en-US"],
-
+                    ...localesOptions,
                     // Target specifies the prefix for fluent files to be loaded.
                     // ${target}-xyz.ftl and ${†arget}.ftl are loaded into the locales.
                     target: "stream",
-
-                    // All available locales can be loadable on demand.
-                    // To restrict available locales set:
-                    // availableLocales: ["en-US"],
+                  },
+                },
+              ],
+            },
+            {
+              test: paths.appAuthLocalesTemplate,
+              use: [
+                // This is the locales loader that loads available locales
+                // from a particular target.
+                {
+                  loader: "locales-loader",
+                  options: {
+                    ...localesOptions,
+                    // Target specifies the prefix for fluent files to be loaded.
+                    // ${target}-xyz.ftl and ${†arget}.ftl are loaded into the locales.
+                    target: "auth",
                   },
                 },
               ],
@@ -297,19 +292,27 @@ export default function createWebpackConfig({
             // in development "style" loader enables hot editing of CSS.
             {
               test: /\.css$/,
-              loader:
-                (isProduction &&
-                  ExtractTextPlugin.extract({
-                    fallback: styleLoader,
-                    use: cssLoaders,
-                  })) ||
-                undefined,
-              use:
-                (!isProduction && [
-                  require.resolve("style-loader"),
-                  ...cssLoaders,
-                ]) ||
-                undefined,
+              use: [
+                isProduction ? MiniCssExtractPlugin.loader : styleLoader,
+                {
+                  loader: require.resolve("css-loader"),
+                  options: {
+                    modules: true,
+                    importLoaders: 1,
+                    localIdentName: "[name]-[local]-[hash:base64:5]",
+                    minimize: isProduction,
+                    sourceMap: isProduction && !disableSourcemaps,
+                  },
+                },
+                {
+                  loader: require.resolve("postcss-loader"),
+                  options: {
+                    config: {
+                      path: paths.appPostCssConfig,
+                    },
+                  },
+                },
+              ],
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
@@ -380,6 +383,24 @@ export default function createWebpackConfig({
           paths.appStreamIndex,
           // Remove deactivated entries.
         ].filter(s => s),
+        auth: [
+          // We ship polyfills by default
+          paths.appPolyfill,
+          // Include an alternative client for WebpackDevServer. A client's job is to
+          // connect to WebpackDevServer by a socket and get notified about changes.
+          // When you save a file, the client will either apply hot updates (in case
+          // of CSS changes), or refresh the page (in case of JS changes). When you
+          // make a syntax error, this client will display a syntax error overlay.
+          // Note: instead of the default WebpackDevServer client, we use a custom one
+          // to bring better experience for Create React App users. You can replace
+          // the line below with these two lines if you prefer the stock client:
+          // require.resolve('webpack-dev-server/client') + '?/',
+          // require.resolve('webpack/hot/dev-server'),
+          (isProduction && "") ||
+            require.resolve("react-dev-utils/webpackHotDevClient"),
+          paths.appAuthIndex,
+          // Remove deactivated entries.
+        ].filter(s => s),
       },
       plugins: [
         ...baseConfig.plugins!,
@@ -388,6 +409,14 @@ export default function createWebpackConfig({
           filename: "stream.html",
           template: paths.appStreamHTML,
           chunks: ["stream"],
+          inject: "body",
+          ...htmlWebpackConfig,
+        }),
+        // Generates an `auth.html` file with the <script> injected.
+        new HtmlWebpackPlugin({
+          filename: "auth.html",
+          template: paths.appAuthHTML,
+          chunks: ["auth"],
           inject: "body",
           ...htmlWebpackConfig,
         }),
