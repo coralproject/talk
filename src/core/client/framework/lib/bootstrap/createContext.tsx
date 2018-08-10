@@ -6,6 +6,7 @@ import React from "react";
 import { Formatter } from "react-timeago";
 import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
+import { RestClient } from "talk-framework/lib/rest";
 import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 
 import { generateMessages, LocalesData, negotiateLanguages } from "../i18n";
@@ -99,6 +100,7 @@ export default async function createContext({
     pym,
     eventEmitter,
     registerClickFarAway,
+    rest: new RestClient("/api"),
   };
 
   // Run custom initializations.

@@ -6,6 +6,7 @@ import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
 
+import { RestClient } from "talk-framework/lib/rest";
 import { UIContext } from "talk-ui/components";
 import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 
@@ -21,6 +22,9 @@ export interface TalkContext {
 
   /** media query values for testing purposes */
   mediaQueryValues?: MediaQueryMatchers;
+
+  /** Rest client */
+  rest: RestClient;
 
   /**
    * A way to listen for clicks that are e.g. outside of the
