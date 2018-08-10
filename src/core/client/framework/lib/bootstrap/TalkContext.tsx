@@ -24,7 +24,7 @@ export interface TalkContext {
 
   /** Session storage */
   sessionStorage: Storage;
-  
+
   /** media query values for testing purposes */
   mediaQueryValues?: MediaQueryMatchers;
 
