@@ -1,6 +1,6 @@
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
-import ExtractTextPlugin from "extract-text-webpack-plugin";
 import HtmlWebpackPlugin, { Options } from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
@@ -8,6 +8,7 @@ import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import UglifyJsPlugin from "uglifyjs-webpack-plugin";
 import webpack, { Configuration } from "webpack";
 import ManifestPlugin from "webpack-manifest-plugin";
+
 import paths from "./paths";
 
 interface CreateWebpackConfig {
@@ -59,27 +60,6 @@ export default function createWebpackConfig({
     },
   };
 
-  const cssLoaders = [
-    {
-      loader: require.resolve("css-loader"),
-      options: {
-        modules: true,
-        importLoaders: 1,
-        localIdentName: "[name]-[local]-[hash:base64:5]",
-        minimize: isProduction,
-        sourceMap: isProduction && !disableSourcemaps,
-      },
-    },
-    {
-      loader: require.resolve("postcss-loader"),
-      options: {
-        config: {
-          path: paths.appPostCssConfig,
-        },
-      },
-    },
-  ];
-
   const localesOptions = {
     pathToLocales: paths.appLocales,
 
@@ -127,13 +107,9 @@ export default function createWebpackConfig({
           },
           sourceMap: !disableSourcemaps,
         }),
-        // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
-        new ExtractTextPlugin({
-          // We use [md5:contenthash:hex:20] instead of [contenthash:8]
-          // because of this bug https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/763.
-          // TODO: Repalce with mini-css-extract-plugin once it supports HMR.
-          // https://github.com/webpack-contrib/mini-css-extract-plugin
-          filename: "assets/css/[name].[md5:contenthash:hex:20].css",
+        new MiniCssExtractPlugin({
+          filename: "assets/css/[name].[hash].css",
+          chunkFilename: "assets/css/[id].[hash].css",
         }),
       ]
     : [
@@ -316,19 +292,27 @@ export default function createWebpackConfig({
             // in development "style" loader enables hot editing of CSS.
             {
               test: /\.css$/,
-              loader:
-                (isProduction &&
-                  ExtractTextPlugin.extract({
-                    fallback: styleLoader,
-                    use: cssLoaders,
-                  })) ||
-                undefined,
-              use:
-                (!isProduction && [
-                  require.resolve("style-loader"),
-                  ...cssLoaders,
-                ]) ||
-                undefined,
+              use: [
+                isProduction ? MiniCssExtractPlugin.loader : styleLoader,
+                {
+                  loader: require.resolve("css-loader"),
+                  options: {
+                    modules: true,
+                    importLoaders: 1,
+                    localIdentName: "[name]-[local]-[hash:base64:5]",
+                    minimize: isProduction,
+                    sourceMap: isProduction && !disableSourcemaps,
+                  },
+                },
+                {
+                  loader: require.resolve("postcss-loader"),
+                  options: {
+                    config: {
+                      path: paths.appPostCssConfig,
+                    },
+                  },
+                },
+              ],
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
