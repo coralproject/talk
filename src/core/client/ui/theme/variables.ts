@@ -64,8 +64,8 @@ const variables = {
   roundCorners: "2px",
   /* Typography */
   remBase: 16,
-  fontFamily: '"Source Sans Pro"',
-  fontSize: 16,
+  fontFamilySansSerif: '"Source Sans Pro"',
+  fontFamilySerif: '"Manuale"',
   fontWeightLight: 300,
   fontWeightRegular: 400,
   fontWeightMedium: 600,
