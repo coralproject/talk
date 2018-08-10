@@ -23,6 +23,7 @@ export default async function initLocalState(
   { localStorage }: TalkContext
 ) {
   commitLocalUpdate(environment, s => {
+    // TODO: (cvle) move local, auth token and network initialization to framework.
     const root = s.getRoot();
 
     // Create the Local Record which is the Root for the client states.

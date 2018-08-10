@@ -1,6 +1,7 @@
 import { Environment, RecordSource } from "relay-runtime";
 
 import { LOCAL_ID } from "talk-framework/lib/relay";
+import { createInMemoryStorage } from "talk-framework/lib/storage";
 import { createRelayEnvironment } from "talk-framework/testHelpers";
 
 import onPostMessageSetAuthToken from "./onPostMessageSetAuthToken";
@@ -24,6 +25,7 @@ it("Sets auth token", () => {
       },
     },
     relayEnvironment,
+    localStorage: createInMemoryStorage(),
   };
   onPostMessageSetAuthToken(context as any);
   expect(source.get(LOCAL_ID)!.authToken).toEqual(token);

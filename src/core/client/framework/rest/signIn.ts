@@ -1,12 +1,16 @@
 import { RestClient } from "../lib/rest";
 
 export interface SignInInput {
-  username: string;
+  email: string;
   password: string;
 }
 
+export interface SignInResponse {
+  token: string;
+}
+
 export default function signIn(rest: RestClient, input: SignInInput) {
-  return rest.fetch("/tenant/auth/local", {
+  return rest.fetch<SignInResponse>("/tenant/auth/local", {
     method: "POST",
     body: input,
   });

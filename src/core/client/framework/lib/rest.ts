@@ -21,7 +21,7 @@ const handleResp = (res: Response) => {
   if (res.status > 399) {
     return res.json().then((err: any) => {
       // TODO: sync error handling with server.
-      const message = err.message || res.status;
+      const message = err.message || err.error || res.status;
       const error = new Error(message);
       throw error;
     });
@@ -43,7 +43,7 @@ export class RestClient {
     this.tokenGetter = tokenGetter;
   }
 
-  public fetch(path: string, options: PartialRequestInit): Promise<Response> {
+  public fetch<T>(path: string, options: PartialRequestInit): Promise<T> {
     let opts = options;
     if (this.tokenGetter) {
       opts = merge({}, options, {

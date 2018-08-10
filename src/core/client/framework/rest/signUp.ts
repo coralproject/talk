@@ -6,8 +6,12 @@ export interface SignUpInput {
   email: string;
 }
 
+export interface SignUpResponse {
+  token: string;
+}
+
 export default function signUp(rest: RestClient, input: SignUpInput) {
-  return rest.fetch("/tenant/auth/local/signup", {
+  return rest.fetch<SignUpResponse>("/tenant/auth/local/signup", {
     method: "POST",
     body: input,
   });
