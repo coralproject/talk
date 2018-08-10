@@ -270,7 +270,7 @@ const CONFIG = {
   QUERY_DEPTH_LIMIT: process.env.TALK_QUERY_DEPTH_LIMIT || 15,
 
   // QUERY_MAX_LIMIT sets the limit for GraphQL query result size
-  QUERY_MAX_LIMIT: process.env.TALK_QUERY_MAX_LIMIT || 50,
+  QUERY_MAX_LIMIT: process.env.TALK_QUERY_MAX_LIMIT || 10000,
 };
 
 //==============================================================================

@@ -14,6 +14,9 @@ export const REPLY_COMMENTS_LOAD_DEPTH = parseInt(
 export const THREADING_LEVEL = parseInt(
   defaultTo(process.env.TALK_THREADING_LEVEL, '3')
 );
+export const ADDTL_NESTED_COMMENTS_ON_LOAD_MORE = parseInt(
+  defaultTo(process.env.TALK_QUERY_MAX_LIMIT, '999999')
+);
 
 export const ADD_COMMENT_BOX_TAG = `${prefix}_COMMENT_BOX_ADD_TAG`;
 export const ADD_COMMENT_CLASSNAME = 'ADD_COMMENT_CLASSNAME';
