@@ -1,3 +1,6 @@
+.root {
+  width: 100%;
+}
 .footer {
   margin-top: var(--spacing-unit);
 }

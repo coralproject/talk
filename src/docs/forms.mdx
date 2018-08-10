@@ -1,0 +1,52 @@
+---
+name: Forms
+route: '/forms'
+---
+
+# Forms
+
+Let's build some forms! We will use the following compoenents `InputLabel`, `Typography`, `TextField`, `ValidationMessage`
+
+### Examples
+
+import { Playground, PropsTable } from 'docz'
+import { InputLabel, ValidationMessage, TextField, Typography, Flex, Button} from '../core/client/ui/components'
+
+# InputLabel
+
+## Simple Form
+<Playground>
+  <Flex itemGutter direction="column" style={{width:330}}>
+    <Typography variant="heading1">Sign up to join the conversation</Typography>
+    <InputLabel>Email Address</InputLabel>
+    <TextField fullWidth/>
+    <InputLabel>Username</InputLabel>
+    <Typography>A unique identifier displayed on your comments. You may use “_” and “.”</Typography>
+    <TextField fullWidth/>
+    <InputLabel>Password</InputLabel>
+    <Typography>Must be at least 8 characters</Typography>
+    <TextField fullWidth/>
+    <InputLabel>Confirm Password</InputLabel>
+    <TextField fullWidth/>
+    <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
+  </Flex>
+</Playground>
+
+## Simple Form with error
+<Playground>
+  <Flex itemGutter direction="column" style={{width:330}}>
+    <Typography variant="heading1">Sign up to join the conversation</Typography>
+    <InputLabel>Email Address</InputLabel>
+    <TextField fullWidth />
+    <InputLabel>Username</InputLabel>
+    <Typography>A unique identifier displayed on your comments. You may use “_” and “.”</Typography>
+    <TextField defaultValue="something.com" color="error" fullWidth/>
+    <ValidationMessage color="error" fullWidth>Invalid characters. Try again.</ValidationMessage>
+    <InputLabel>Password</InputLabel>
+    <Typography>Must be at least 8 characters</Typography>
+    <TextField fullWidth/>
+    <InputLabel>Confirm Password</InputLabel>
+    <TextField fullWidth/>
+    <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
+  </Flex>
+</Playground>

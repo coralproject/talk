@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { MouseEvent, StatelessComponent } from "react";
 
 import { Button, Flex, Typography } from "talk-ui/components";
@@ -19,21 +20,27 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
   return (
     <div className={styles.root}>
       {showAllCommentsHref && (
-        <Button
-          id="talk-comments-permalinkView-showAllComments"
-          variant="outlined"
-          color="primary"
-          onClick={onShowAllComments}
-          className={styles.button}
-          href={showAllCommentsHref}
-          target="_parent"
-          fullWidth
-          anchor
-        >
-          Show all Comments
-        </Button>
+        <Localized id="comments-permalinkView-showAllComments">
+          <Button
+            id="talk-comments-permalinkView-showAllComments"
+            variant="outlined"
+            color="primary"
+            onClick={onShowAllComments}
+            className={styles.button}
+            href={showAllCommentsHref}
+            target="_parent"
+            fullWidth
+            anchor
+          >
+            Show all Comments
+          </Button>
+        </Localized>
       )}
-      {!comment && <Typography>Comment not found</Typography>}
+      {!comment && (
+        <Localized id="comments-permalinkView-commentNotFound">
+          <Typography>Comment not found</Typography>
+        </Localized>
+      )}
       {comment && (
         <Flex direction="column">
           <CommentContainer data={comment} />

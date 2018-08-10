@@ -1,4 +1,8 @@
 import serveStatic from "express-static-gzip";
 import path from "path";
 
-export default serveStatic(path.join(__dirname, "..", "..", "dist"), {});
+const staticPath = path.resolve(
+  path.join(__dirname, "..", "..", "..", "..", "static", "assets")
+);
+
+export default serveStatic(staticPath, { index: false });
