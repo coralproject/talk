@@ -9,10 +9,20 @@ import { default as MatchMediaWithContext, MatchMedia } from "./MatchMedia";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof MatchMedia> = {
-    minWidth: "xs",
-    maxWidth: "sm",
+    lteWidth: "xs",
+    gteWidth: "sm",
     component: "div",
     screen: true,
+    children: <div>Hello World</div>,
+  };
+  const wrapper = shallow(<MatchMedia {...props} />);
+  expect(wrapper).toMatchSnapshot();
+});
+
+it("renders less than and great than correctly", () => {
+  const props: PropTypesOf<typeof MatchMedia> = {
+    ltWidth: "xs",
+    gtWidth: "sm",
     children: <div>Hello World</div>,
   };
   const wrapper = shallow(<MatchMedia {...props} />);
@@ -37,7 +47,7 @@ it("should get mediaQueryValues from context", () => {
   };
   const wrapper = mount(
     <UIContext.Provider value={context}>
-      <MatchMediaWithContext maxWidth="xs">
+      <MatchMediaWithContext lteWidth="xs">
         <span>Hello World</span>
       </MatchMediaWithContext>
     </UIContext.Provider>
