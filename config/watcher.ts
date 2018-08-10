@@ -31,6 +31,23 @@ const config: Config = {
         runOnInit: true,
       }),
     },
+    compileRelayAuth: {
+      paths: [
+        "core/client/auth/**/*.ts",
+        "core/client/auth/**/*.tsx",
+        "core/client/auth/**/*.graphql",
+        "core/server/**/*.graphql",
+      ],
+      ignore: [
+        "core/**/*.d.ts",
+        "core/**/*.graphql.ts",
+        "**/test/**/*",
+        "core/**/*.spec.*",
+      ],
+      executor: new CommandExecutor("npm run compile:relay-auth", {
+        runOnInit: true,
+      }),
+    },
     compileCSSTypes: {
       paths: ["**/*.css"],
       executor: new CommandExecutor("npm run compile:css-types", {
@@ -59,9 +76,15 @@ const config: Config = {
       "runWebpackDevServer",
       "compileCSSTypes",
       "compileRelayStream",
+      "compileRelayAuth",
     ],
     docz: ["runDocz", "compileCSSTypes"],
-    compile: ["compileSchema", "compileCSSTypes", "compileRelayStream"],
+    compile: [
+      "compileSchema",
+      "compileCSSTypes",
+      "compileRelayStream",
+      "compileRelayAuth",
+    ],
   },
 };
 
