@@ -6,6 +6,7 @@ import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
 
+import { PostMessageService } from "talk-framework/lib/postMessage";
 import { UIContext } from "talk-ui/components";
 import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 
@@ -21,6 +22,9 @@ export interface TalkContext {
 
   /** media query values for testing purposes */
   mediaQueryValues?: MediaQueryMatchers;
+
+  /** postMessage service */
+  postMessage: PostMessageService;
 
   /**
    * A way to listen for clicks that are e.g. outside of the

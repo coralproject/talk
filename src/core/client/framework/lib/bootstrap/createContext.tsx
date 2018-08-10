@@ -10,6 +10,7 @@ import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 
 import { generateMessages, LocalesData, negotiateLanguages } from "../i18n";
 import { fetchQuery } from "../network";
+import { PostMessageService } from "../postMessage";
 import { TalkContext } from "./TalkContext";
 
 interface CreateContextArguments {
@@ -99,6 +100,7 @@ export default async function createContext({
     pym,
     eventEmitter,
     registerClickFarAway,
+    postMessage: new PostMessageService(),
   };
 
   // Run custom initializations.
