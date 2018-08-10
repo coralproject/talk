@@ -33,6 +33,10 @@ export interface TextFieldProps {
    * Placeholder
    */
   placeholder?: string;
+  /**
+   * Mark as readonly
+   */
+  readOnly?: boolean;
 }
 
 const TextField: StatelessComponent<TextFieldProps> = props => {

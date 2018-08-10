@@ -1,5 +1,5 @@
 .root {
-  composes: textField from "talk-ui/shared/typography.css";
+  composes: inputText placeholderPseudo from "talk-ui/shared/typography.css";
   position: relative;
   display: block;
   padding: calc(0.5 * var(--spacing-unit));
@@ -21,13 +21,4 @@
 
 .fullWidth {
   width: 100%;
-}
-
-::placeholder {
-  font-family: var(--font-family);
-  font-style: normal;
-  font-weight: normal;
-  line-height: calc(16rem / var(--rem-base));
-  font-size: calc(16rem / var(--rem-base));
-  color: var(--palette-grey-lighter);
 }
