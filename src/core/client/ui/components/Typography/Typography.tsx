@@ -14,6 +14,7 @@ type Variant =
   | "heading4"
   | "bodyCopy"
   | "bodyCopyBold"
+  | "inputLabel"
   | "timestamp";
 
 // Based on Typography Component of Material UI.
@@ -132,6 +133,7 @@ Typography.defaultProps = {
     heading4: "h1",
     bodyCopy: "p",
     bodyCopyBold: "p",
+    inputLabel: "label",
     timestamp: "span",
   },
   noWrap: false,
