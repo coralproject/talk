@@ -18,7 +18,7 @@ const pymFeatures = [withSetCommentID];
 
 // This is called when the context is first initialized.
 async function init(context: TalkContext) {
-  await initLocalState(context.relayEnvironment);
+  await initLocalState(context.relayEnvironment, context);
   pymFeatures.forEach(f => f(context));
 }
 
