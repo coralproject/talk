@@ -1,0 +1,34 @@
+.root {
+  composes: bodyCopy from "talk-ui/shared/typography.css";
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-unit);
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.colorRegular {
+  background-color: var(--palette-grey-lightest);
+  border-color: var(--palette-grey-light);
+  color: var(--palette-text-primary);
+}
+
+.colorPrimary {
+  background-color: var(--palette-primary-lightest);
+  border-color: var(--palette-primary-light);
+  color: var(--palette-text-primary);
+}
+
+.colorError {
+  background-color: var(--palette-error-lightest);
+  border-color: var(--palette-error-light);
+  color: var(--palette-text-primary);
+}
+
+.fullWidth {
+  display: flex;
+  width: 100%;
+}
