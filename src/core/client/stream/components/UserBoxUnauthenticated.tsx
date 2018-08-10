@@ -15,7 +15,7 @@ const UserBoxUnauthenticated: StatelessComponent<
   UserBoxUnauthenticatedProps
 > = props => {
   return (
-    <Flex>
+    <Flex itemGutter>
       <MatchMedia gteWidth="sm">
         <Localized id="comments-userBoxUnauthenticated-joinTheConversation">
           <Typography

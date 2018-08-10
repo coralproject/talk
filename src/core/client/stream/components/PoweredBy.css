@@ -1,0 +1,3 @@
+.text {
+  font-size: calc(14rem / var(--rem-base));
+}

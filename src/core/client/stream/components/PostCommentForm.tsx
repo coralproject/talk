@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
-
+import PoweredBy from "./PoweredBy";
 import { OnSubmit } from "talk-framework/lib/form";
 import { required } from "talk-framework/lib/validation";
 import { Button, Typography } from "talk-ui/components";
@@ -40,6 +40,7 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
           )}
         </Field>
         <div className={styles.postButtonContainer}>
+          <PoweredBy />
           <Localized id="comments-postCommentForm-post">
             <Button color="primary" variant="filled" disabled={submitting}>
               Post
