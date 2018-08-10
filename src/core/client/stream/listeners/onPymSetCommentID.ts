@@ -3,7 +3,7 @@ import { commitLocalUpdate } from "react-relay";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 
-export default function withSetCommentID({
+export default function onPymSetCommentID({
   relayEnvironment,
   pym,
 }: TalkContext) {
