@@ -10,6 +10,17 @@ it("post and subscribe to a message", done => {
   postMessage.send("test", "value", window);
 });
 
+it("should support complex value", done => {
+  const complex = { foo: "bar" };
+  const postMessage = new PostMessageService();
+  const cancel = postMessage.on("test", value => {
+    expect(value).toBe(complex);
+    done();
+    cancel();
+  });
+  postMessage.send("test", complex, window);
+});
+
 it("send to a different origin", done => {
   const postMessage = new PostMessageService();
   const cancelA = postMessage.on("testA", value => {
