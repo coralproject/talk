@@ -20,6 +20,12 @@ export interface TalkContext {
   /** formatter for timeago. */
   timeagoFormatter?: Formatter;
 
+  /** Session Storage */
+  localStorage: Storage;
+
+  /** Session storage */
+  sessionStorage: Storage;
+
   /** media query values for testing purposes */
   mediaQueryValues?: MediaQueryMatchers;
 

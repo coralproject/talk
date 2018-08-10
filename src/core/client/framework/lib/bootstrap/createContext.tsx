@@ -5,11 +5,16 @@ import { Child as PymChild } from "pym.js";
 import React from "react";
 import { Formatter } from "react-timeago";
 import { Environment, Network, RecordSource, Store } from "relay-runtime";
+import { LOCAL_ID } from "talk-framework/lib/relay";
+import {
+  createLocalStorage,
+  createSessionStorage,
+} from "talk-framework/lib/storage";
 
 import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 
 import { generateMessages, LocalesData, negotiateLanguages } from "../i18n";
-import { fetchQuery } from "../network";
+import { createFetch, TokenGetter } from "../network";
 import { PostMessageService } from "../postMessage";
 import { TalkContext } from "./TalkContext";
 
@@ -62,9 +67,17 @@ export default async function createContext({
   eventEmitter = new EventEmitter2({ wildcard: true }),
 }: CreateContextArguments): Promise<TalkContext> {
   // Initialize Relay.
+  const source = new RecordSource();
+  const tokenGetter: TokenGetter = () => {
+    const localState = source.get(LOCAL_ID);
+    if (localState) {
+      return localState.authToken || "";
+    }
+    return "";
+  };
   const relayEnvironment = new Environment({
-    network: Network.create(fetchQuery),
-    store: new Store(new RecordSource()),
+    network: Network.create(createFetch(tokenGetter)),
+    store: new Store(source),
   });
 
   // Listen for outside clicks.
@@ -101,6 +114,8 @@ export default async function createContext({
     eventEmitter,
     registerClickFarAway,
     postMessage: new PostMessageService(),
+    localStorage: createLocalStorage(),
+    sessionStorage: createSessionStorage(),
   };
 
   // Run custom initializations.
