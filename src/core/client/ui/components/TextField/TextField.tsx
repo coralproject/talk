@@ -34,7 +34,7 @@ export interface TextFieldProps {
    */
   placeholder?: string;
   /**
-   * readOnly
+   * Mark as readonly
    */
   readOnly?: boolean;
 }

@@ -14,7 +14,6 @@ export interface SignupBody {
   username: string;
   password: string;
   email: string;
-  displayName?: string;
 }
 
 const SignupBodySchema = Joi.object().keys({

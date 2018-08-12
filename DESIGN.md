@@ -30,3 +30,39 @@
 2.  Tenant RedisPubSub Publisher
 3.  Management RedisPubSub Subscriber
 4.  Management RedisPubSub Publisher
+
+## Scripts
+
+### Embed
+
+Embed Script - Renders the iFrame <-- does not have a html page in production (should be on server?)
+
+/dist/static/assets/embed.js            /static/embed.js
+
+### Stream
+
+Stream       - Renders the comment stream <-- data
+
+/dist/static/assets/stream.<HASH>.css   /static/assets/stream.<HASH>.css
+/dist/static/assets/stream.<HASH>.js    /static/assets/stream.<HASH>.js
+/dist/static/stream.html                /embed/stream
+
+### Admin
+
+Admin        - Renders the Admin page <-- data
+
+/dist/static/assets/admin.<HASH>.css    /static/assets/admin.<HASH>.css
+/dist/static/assets/admin.<HASH>.js     /static/assets/admin.<HASH>.js
+/dist/static/admin.html                 /admin
+
+## Development Routes
+
+
+localhost:3000
+    / -> /admin
+    /dev <-- server side html for dev/iframe integration
+
+localhost:8080
+    / -> localhost:3000/dev
+    /embed/stream <-- stream html (now is at /)
+    /admin <-- stream html (now is not there)
