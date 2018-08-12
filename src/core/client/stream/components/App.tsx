@@ -22,7 +22,6 @@ const App: StatelessComponent<AppProps> = props => {
       {view}
     </Flex>
   );
-  // return <div className={styles.root}>{view}</div>;
 };
 
 export default App;

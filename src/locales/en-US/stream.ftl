@@ -2,7 +2,7 @@
 
 ## Comments Tab
 
-comments-postCommentForm-post = Post
+comments-postCommentForm-submit = Submit
 comments-stream-loadMore = Load more
 comments-replyList-showAll = Show all
 

@@ -161,7 +161,7 @@
 
 .inputDescription {
   font-size: calc(14rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-regular);
   font-family: var(--font-family);
   line-height: calc(18em / 16);
   letter-spacing: calc(0.2em / 16);

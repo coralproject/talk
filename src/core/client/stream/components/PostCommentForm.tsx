@@ -15,6 +15,7 @@ interface FormProps {
 
 export interface PostCommentFormProps {
   onSubmit: OnSubmit<FormProps>;
+  signedIn: boolean;
 }
 
 const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
@@ -29,6 +30,7 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
                 name={input.name}
                 onChange={input.onChange}
                 value={input.value}
+                placeholder="Post a comment"
               />
               {meta.touched &&
                 (meta.error || meta.submitError) && (
@@ -40,11 +42,23 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
           )}
         </Field>
         <div className={styles.postButtonContainer}>
-          <Localized id="comments-postCommentForm-post">
-            <Button color="primary" variant="filled" disabled={submitting}>
-              Post
+          {props.signedIn ? (
+            <Localized id="comments-postCommentForm-submit">
+              <Button color="primary" variant="filled" disabled={submitting}>
+                Submit
+              </Button>
+            </Localized>
+          ) : (
+            <Button
+              color="primary"
+              variant="filled"
+              disabled
+              fullWidth
+              size="large"
+            >
+              Sign In and join the conversation
             </Button>
-          </Localized>
+          )}
         </div>
       </form>
     )}

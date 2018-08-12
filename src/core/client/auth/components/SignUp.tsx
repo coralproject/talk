@@ -32,7 +32,9 @@ const SignUp: StatelessComponent = props => {
         </FormField>
         <FormField>
           <InputLabel>Password</InputLabel>
-          <Typography>Must be at least 8 characters</Typography>
+          <Typography variant="inputDescription">
+            Must be at least 8 characters
+          </Typography>
           <TextField />
         </FormField>
         <FormField>
