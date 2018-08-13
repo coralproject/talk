@@ -11,7 +11,8 @@ import {
 } from "talk-stream/mutations";
 import { Popup } from "talk-ui/components";
 
-import UserBoxUnauthenticated from "../components/UserBoxUnauthenticated";
+import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
+// import UserBoxUnauthenticated from "../components/UserBoxUnauthenticated";
 
 interface InnerProps {
   local: Local;
@@ -23,7 +24,7 @@ export class UserBoxContainer extends Component<InnerProps> {
   private handleFocus = () => this.props.setAuthPopupState({ focus: true });
   private handleBlur = () => this.props.setAuthPopupState({ focus: false });
   private handleClose = () => this.props.setAuthPopupState({ open: false });
-  private handleSignIn = () => this.props.showAuthPopup({ view: "SIGN_IN" });
+  // private handleSignIn = () => this.props.showAuthPopup({ view: "SIGN_IN" });
   private handleRegister = () => this.props.showAuthPopup({ view: "SIGN_UP" });
 
   public render() {
@@ -44,10 +45,11 @@ export class UserBoxContainer extends Component<InnerProps> {
           onBlur={this.handleBlur}
           onClose={this.handleClose}
         />
-        <UserBoxUnauthenticated
+        <UserBoxAuthenticated onSignOut={this.handleRegister} />
+        {/* <UserBoxUnauthenticated
           onSignIn={this.handleSignIn}
           onRegister={this.handleRegister}
-        />
+        /> */}
       </>
     );
   }

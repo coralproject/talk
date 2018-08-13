@@ -1,10 +1,10 @@
 .root {
-  width: 100%;
+  flex-grow: 1;
 }
 
 .flex {
   display: flex;
-  width: 100%;
+  flex-grow: 1;
 }
 
 .halfItemGutter {
