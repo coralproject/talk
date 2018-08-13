@@ -37,7 +37,7 @@ export interface SignUpForm {
 const SignUp: StatelessComponent<SignUpForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
-      {({ handleSubmit, submitting, invalid }) => (
+      {({ handleSubmit, submitting }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <Flex itemGutter direction="column" className={styles.root}>
             <Flex direction="column">
