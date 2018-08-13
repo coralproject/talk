@@ -31,7 +31,7 @@ class PostCommentFormContainer extends Component<InnerProps> {
     return undefined;
   };
   public render() {
-    return <PostCommentForm onSubmit={this.onSubmit} />;
+    return <PostCommentForm onSubmit={this.onSubmit} signedIn={false} />;
   }
 }
 

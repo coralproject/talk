@@ -1,16 +1,11 @@
 import React, { StatelessComponent } from "react";
 import { Flex, Typography } from "talk-ui/components";
-import * as styles from "./PoweredBy.css";
 
-const PoweredBy: StatelessComponent = props => {
+const PoweredBy: StatelessComponent = () => {
   return (
     <Flex itemGutter="half">
-      <Typography className={styles.text} variant="bodyCopy">
-        Powered by
-      </Typography>
-      <Typography className={styles.text} variant="heading4">
-        The Coral Project
-      </Typography>
+      <Typography variant="bodyCopy">Powered by</Typography>
+      <Typography variant="heading4">The Coral Project</Typography>
     </Flex>
   );
 };

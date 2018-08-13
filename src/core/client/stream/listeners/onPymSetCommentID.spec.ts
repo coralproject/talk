@@ -3,7 +3,7 @@ import { Environment, RecordSource } from "relay-runtime";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import { createRelayEnvironment } from "talk-framework/testHelpers";
 
-import withSetCommentID from "./withSetCommentID";
+import onPymSetCommentID from "./onPymSetCommentID";
 
 let relayEnvironment: Environment;
 const source: RecordSource = new RecordSource();
@@ -25,7 +25,7 @@ it("Sets comment id", () => {
     },
     relayEnvironment,
   };
-  withSetCommentID(context as any);
+  onPymSetCommentID(context as any);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
 });
 
@@ -40,6 +40,6 @@ it("Sets comment id to null when empty", () => {
     },
     relayEnvironment,
   };
-  withSetCommentID(context as any);
+  onPymSetCommentID(context as any);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(null);
 });

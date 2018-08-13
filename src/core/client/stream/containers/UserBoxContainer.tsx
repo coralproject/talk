@@ -11,6 +11,7 @@ import {
 } from "talk-stream/mutations";
 import { Popup } from "talk-ui/components";
 
+// import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
 import UserBoxUnauthenticated from "../components/UserBoxUnauthenticated";
 
 interface InnerProps {
@@ -44,6 +45,7 @@ export class UserBoxContainer extends Component<InnerProps> {
           onBlur={this.handleBlur}
           onClose={this.handleClose}
         />
+        {/* <UserBoxAuthenticated onSignOut={this.handleRegister} /> */}
         <UserBoxUnauthenticated
           onSignIn={this.handleSignIn}
           onRegister={this.handleRegister}

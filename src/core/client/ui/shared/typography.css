@@ -59,33 +59,34 @@
 .heading1 {
   font-size: calc(24rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: "Manuale";
+  font-family: var(--font-family-serif);
   line-height: calc(32em / 24);
-  letter-spacing: calc(0.2em / 16);
+  letter-spacing: calc(0.2em / 24);
   color: var(--palette-text-primary);
 }
 
 .heading2 {
   font-size: calc(20rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: "Manuale";
+  font-family: var(--font-family-serif);
   line-height: calc(24em / 20);
+  letter-spacing: calc(0.2em / 20);
   color: var(--palette-text-primary);
 }
 
 .heading3 {
   font-size: calc(18rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: "Manuale";
+  font-family: var(--font-family-serif);
   line-height: calc(20em / 18);
-  letter-spacing: calc(0.2em / 16);
+  letter-spacing: calc(0.2em / 18);
   color: var(--palette-text-primary);
 }
 
 .heading4 {
   font-size: calc(16rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: "Manuale";
+  font-family: var(--font-family-serif);
   line-height: calc(18em / 16);
   letter-spacing: calc(0.2em / 16);
   color: var(--palette-text-primary);
@@ -94,7 +95,7 @@
 .bodyCopy {
   font-size: calc(16rem / var(--rem-base));
   font-weight: var(--font-weight-regular);
-  font-family: "Source Sans Pro";
+  font-family: var(--font-family-sans-serif);
   line-height: calc(18em / 16);
   letter-spacing: calc(0.2em / 16);
   color: var(--palette-text-primary);
@@ -107,44 +108,44 @@
 
 .button {
   color: var(--palette-text-secondary);
-  font-family: "Source Sans Pro";
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
-  font-size: 14px;
-  line-height: calc(18em / 16);
-  letter-spacing: calc(0.57em / 16);
+  font-size: calc(14rem / var(--rem-base));
+  line-height: calc(18em / 14);
+  letter-spacing: calc(0.57em / 14);
 }
 
 .buttonLarge {
   color: var(--palette-text-secondary);
-  font-family: "Source Sans Pro";
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
-  font-size: 16px;
+  font-size: calc(16rem / var(--rem-base));
   line-height: calc(20em / 16);
   letter-spacing: calc(0.57em / 16);
 }
 
 .timestamp {
   color: var(--palette-text-secondary);
-  font-family: "Source Sans Pro";
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
-  font-size: 14px;
-  line-height: calc(18em / 16);
-  letter-spacing: calc(0.2em / 16);
+  font-size: calc(14rem / var(--rem-base));
+  line-height: calc(18em / 14);
+  letter-spacing: 0;
 }
 
 .alertMessage {
   color: var(--palette-common-black);
-  font-family: var(--font-family);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
   font-size: calc(16rem / var(--rem-base));
-  line-height: normal;
-  letter-spacing: calc(0.2em / 16);
+  line-height: calc(16em / 16);
+  letter-spacing: calc(-0.1em / 16);
 }
 
-.textField {
-  font-size: calc(16rem / var(--rem-base));
+.inputText {
   font-weight: var(--font-weight-regular);
-  font-family: var(--font-family);
+  font-family: var(--font-family-sans-serif);
+  font-size: calc(16rem / var(--rem-base));
   line-height: calc(18em / 16);
   letter-spacing: calc(0.2em / 16);
   color: var(--palette-text-primary);
@@ -153,15 +154,15 @@
 .inputLabel {
   font-size: calc(18rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: "Manuale";
-  line-height: calc(18em / 16);
-  letter-spacing: calc(0.2em / 16);
+  font-family: var(--font-family-serif);
+  line-height: calc(18em / 18);
+  letter-spacing: calc(0.2em / 18);
   color: var(--palette-text-primary);
 }
 
 .inputDescription {
   font-size: calc(14rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-regular);
   font-family: var(--font-family);
   line-height: calc(18em / 16);
   letter-spacing: calc(0.2em / 16);
@@ -169,10 +170,19 @@
 }
 
 .placeholder {
-  font-family: var(--font-family);
-  font-style: normal;
-  font-weight: normal;
-  line-height: calc(16rem / var(--rem-base));
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-regular);
   font-size: calc(16rem / var(--rem-base));
+  line-height: calc(20em / 16);
+  letter-spacing: 0;
+  color: var(--palette-grey-lighter);
+}
+
+.placeholderPseudo::placeholder {
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-regular);
+  font-size: calc(16rem / var(--rem-base));
+  line-height: calc(20em / 16);
+  letter-spacing: 0;
   color: var(--palette-grey-lighter);
 }

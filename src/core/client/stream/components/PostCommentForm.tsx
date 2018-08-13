@@ -5,8 +5,8 @@ import { Field, Form } from "react-final-form";
 import PoweredBy from "./PoweredBy";
 import { OnSubmit } from "talk-framework/lib/form";
 import { required } from "talk-framework/lib/validation";
+import PoweredBy from "talk-stream/components/PoweredBy";
 import { Button, Typography } from "talk-ui/components";
-
 import * as styles from "./PostCommentForm.css";
 
 interface FormProps {
@@ -15,6 +15,7 @@ interface FormProps {
 
 export interface PostCommentFormProps {
   onSubmit: OnSubmit<FormProps>;
+  signedIn: boolean;
 }
 
 const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
@@ -29,6 +30,7 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
                 name={input.name}
                 onChange={input.onChange}
                 value={input.value}
+                placeholder="Post a comment"
               />
               {meta.touched &&
                 (meta.error || meta.submitError) && (
@@ -39,14 +41,26 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
             </div>
           )}
         </Field>
-        <div className={styles.postButtonContainer}>
-          <PoweredBy />
-          <Localized id="comments-postCommentForm-post">
-            <Button color="primary" variant="filled" disabled={submitting}>
-              Post
-            </Button>
-          </Localized>
-        </div>
+        {props.signedIn ? (
+          <div className={styles.postButtonContainer}>
+            <PoweredBy />
+            <Localized id="comments-postCommentForm-submit">
+              <Button color="primary" variant="filled" disabled={submitting}>
+                Submit
+              </Button>
+            </Localized>
+          </div>
+        ) : (
+          <Button
+            color="primary"
+            variant="filled"
+            disabled
+            fullWidth
+            size="large"
+          >
+            Sign In and join the conversation
+          </Button>
+        )}
       </form>
     )}
   </Form>
