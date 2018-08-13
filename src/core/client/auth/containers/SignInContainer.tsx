@@ -1,14 +1,26 @@
+import React, { Component } from "react";
 import { BadUserInputError } from "talk-framework/lib/errors";
 import SignIn, { SignInForm } from "../components/SignIn";
-
-import React, { Component } from "react";
-import { SignInMutation, withSignInMutation } from "../mutations";
+import {
+  SetViewMutation,
+  SignInMutation,
+  withSetViewMutation,
+  withSignInMutation,
+} from "../mutations";
 
 interface SignInContainerProps {
   signIn: SignInMutation;
+  setView: SetViewMutation;
 }
 
+export type View = "SIGN_UP" | "FORGOT_PASSWORD";
+
 class SignInContainer extends Component<SignInContainerProps> {
+  private setView = (view: View) => {
+    this.props.setView({
+      view,
+    });
+  };
   private onSubmit: SignInForm["onSubmit"] = async (input, form) => {
     try {
       await this.props.signIn(input);
@@ -23,9 +35,9 @@ class SignInContainer extends Component<SignInContainerProps> {
     return undefined;
   };
   public render() {
-    return <SignIn onSubmit={this.onSubmit} />;
+    return <SignIn onSubmit={this.onSubmit} setView={this.setView} />;
   }
 }
 
-const enhanced = withSignInMutation(SignInContainer);
+const enhanced = withSetViewMutation(withSignInMutation(SignInContainer));
 export default enhanced;

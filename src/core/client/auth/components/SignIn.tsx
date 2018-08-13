@@ -1,14 +1,12 @@
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
 import { OnSubmit } from "talk-framework/lib/form";
-
 import {
   composeValidators,
   required,
   validateEmail,
   validatePassword,
 } from "talk-framework/lib/validation";
-
 import {
   Button,
   Flex,
@@ -18,7 +16,7 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
-
+import { View } from "../containers/SignInContainer";
 import * as styles from "./SignIn.css";
 
 interface FormProps {
@@ -28,6 +26,7 @@ interface FormProps {
 
 export interface SignInForm {
   onSubmit: OnSubmit<FormProps>;
+  setView: (view: View) => void;
 }
 
 const SignIn: StatelessComponent<SignInForm> = props => {
@@ -84,7 +83,14 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                       </ValidationMessage>
                     )}
                   <span className={styles.forgotPassword}>
-                    <Button variant="underlined" color="primary" size="small">
+                    <Button
+                      variant="underlined"
+                      color="primary"
+                      size="small"
+                      onClick={() => {
+                        props.setView("FORGOT_PASSWORD");
+                      }}
+                    >
                       Forgot your password?
                     </Button>
                   </span>
@@ -102,7 +108,14 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                 className={styles.subFooter}
               >
                 <Typography>Don't have an account?</Typography>
-                <Button variant="underlined" size="small" color="primary">
+                <Button
+                  variant="underlined"
+                  size="small"
+                  color="primary"
+                  onClick={() => {
+                    props.setView("SIGN_UP");
+                  }}
+                >
                   Sign Up
                 </Button>
               </Flex>

@@ -10,8 +10,6 @@ import {
   validatePassword,
   validateUsername,
 } from "talk-framework/lib/validation";
-import * as styles from "./SignUp.css";
-
 import {
   Button,
   Flex,
@@ -22,6 +20,8 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
+import { View } from "../containers/SignUpContainer";
+import * as styles from "./SignUp.css";
 
 interface FormProps {
   email: string;
@@ -32,6 +32,7 @@ interface FormProps {
 
 export interface SignUpForm {
   onSubmit: OnSubmit<FormProps>;
+  setView: (view: View) => void;
 }
 
 const SignUp: StatelessComponent<SignUpForm> = props => {
@@ -163,7 +164,14 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                 className={styles.subFooter}
               >
                 <Typography>Already have an account?</Typography>
-                <Button variant="underlined" size="small" color="primary">
+                <Button
+                  variant="underlined"
+                  size="small"
+                  color="primary"
+                  onClick={() => {
+                    props.setView("SIGN_IN");
+                  }}
+                >
                   Sign In
                 </Button>
               </Flex>
