@@ -153,7 +153,13 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
               </Field>
             </Flex>
             <div className={styles.footer}>
-              <Button variant="filled" color="primary" size="large" fullWidth>
+              <Button
+                variant="filled"
+                color="primary"
+                size="large"
+                fullWidth
+                type="submit"
+              >
                 Sign up and join the conversation
               </Button>
               <Flex

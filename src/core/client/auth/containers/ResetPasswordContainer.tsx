@@ -1,10 +1,10 @@
-import * as React from "react";
-import { StatelessComponent } from "react";
-
+import React, { Component } from "react";
 import ResetPassword from "../components/ResetPassword";
 
-const ResetPasswordContainer: StatelessComponent = () => {
-  return <ResetPassword />;
-};
+class ResetPasswordContainer extends Component {
+  public render() {
+    return <ResetPassword />;
+  }
+}
 
 export default ResetPasswordContainer;
