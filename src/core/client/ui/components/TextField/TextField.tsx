@@ -42,6 +42,10 @@ export interface TextFieldProps {
    */
   name?: string;
   /**
+   * type
+   */
+  type?: string;
+  /**
    * onChange
    */
   onChange?: <T>(event: any) => void;
