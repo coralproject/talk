@@ -21,7 +21,7 @@ nl_NL:
     member_since: "Gebruiker sinds"
 pt_BR:
   talk-plugin-member-since:
-    member_since: "Member Since"
+    member_since: "Membro desde"
 zh_CN:
   talk-plugin-member-since:
     member_since: "成员加入日期"

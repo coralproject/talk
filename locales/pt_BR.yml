@@ -38,6 +38,9 @@ pt_BR:
     name: Nome
     post: Enviar
     reply: Responder
+  comment_history_blank:
+    info: 'Uma história de seus comentários irá aparecer aqui'
+    title: 'Você não escreveu nenhum comentário'
   comment_offensive: 'Este comentário é ofensivo'
   comment_plural: Comentários
   comment_post_banned_word: 'Seu comentário não foi publicado porque contém conteúdo inadequado.'
@@ -83,6 +86,7 @@ pt_BR:
     username_and_email: 'Nome de usuário e email'
     yes_ban_user: 'Sim, banir este usuário'
   configure:
+    access_message: 'Você deve ser um administrador para acessar as configurações. Por favor procure o administrador mais próximo e solicite acesso.’'
     apply: Aplicar
     banned_word_text: 'Os comentários que contenham essas palavras ou frases (não sensíveis a maiúsculas e minúsculas) serão automaticamente removidos da lista de comentários. Digite uma palavra e pressione Enter ou Tab para adicionar ou cole uma lista separada por vírgulas.'
     banned_words_title: 'Lista de palavras proibidas'
@@ -140,11 +144,19 @@ pt_BR:
     organization_info_copy_2: 'Recomendamos a criação de uma conta de e-mail genérica (por exemplo, comunidade@suaredacao.com) para essa finalidade. Isso significa que ele pode permanecer consistente ao longo do tempo e não expor um nome que os usuários pudessem segmentar se a conta fosse bloqueada.'
     organization_information: 'Informações da Organização'
     organization_name: 'Nome da Organização'
+    suspect_or_forbidden_words_placeholder: 'Palavra ou frase'
+    product_guide_link: 'Guia do Produto'
     report_bug_or_feedback: 'Relatar bug ou dar um feedback'
-    require_email_verification: 'Requerer verificação de email'
+    require_email_verification: 'Solicitar verificação de email'
     require_email_verification_text: 'Novos usuários devem verificar seu e-mail antes de comentar'
     save: Salvar
     save_changes: 'Salvar alterações'
+    save_changes_dialog:
+      cancel: Cancelar
+      copy: 'Você fez uma ou mais alterações sem salvar. Gostaria de salvar ou descartar suas alterações?'
+      discard: Discartar
+      save_settings: 'Configurações salvas'
+      unsaved_changes: 'Alterações não salvas'
     shortcuts: Atalhos
     sign_out: Sair
     stories: Histórias
@@ -159,6 +171,7 @@ pt_BR:
   confirm_email:
     click_to_confirm: 'Clique abaixo para confirmar seu endereço de email'
     confirm: Confirmar
+    email_confirmation: 'Confirmação de E-mail'
   continue: Continuar
   createdisplay:
     check_the_form: 'Formulário inválido. Verifique as entradas do formulário.'
@@ -194,45 +207,60 @@ pt_BR:
       if_you_did_not: 'Se você não solicitou isso, você pode ignorar este e-mail.'
       subject: 'Confirmação de e-mail'
       to_confirm: 'Para confirmar a conta, visite este link: '
+    password_change:
+      body: "A sua senha foi alterada.\n\nSe você não solicitou essa alteracão, por favor nos contate em {0}"
+      subject: '{0} password change'  
     password_reset:
       if_you_did: 'Se você solicitou isso, '
       please_click: 'clique aqui para redefinir sua senha.'
+      subject: 'Alteracao de Senha'
       we_received_a_request: 'Recebemos um pedido para redefinir sua senha. Se você não solicitou esta alteração, pode ignorar este e-mail.'
     suspended:
       subject: 'Sua conta foi suspensa'
   embed_comments_tab: Comentários
   embedlink:
-    copy: 'Copiar para área de transferência'
+    copy: 'Copiar conteúdo'
+    copied: 'Copiado'
   error:
     ALREADY_EXISTS: 'O recurso já existe'
+    AUTHENTICATION: ‘Ocorreu um erro durante a autenticação da sua conta’ 
     CANNOT_IGNORE_STAFF: 'Não é possível ignorar membros Staff.'
     COMMENT_PARENT_NOT_VISIBLE: 'O comentário que você está respondendo foi removido ou não existe.'
     COMMENT_TOO_SHORT: 'Seu comentário precisar ter mais de um caracter. Revise seu comentário e envie novamente'
     COMMENTING_CLOSED: 'Os comentários já estão fechados.'
+    COMMENTING_DISABLED: 'Commenting is currently disabled on this site'
     confirm_password: 'Suas senhas não coincidem. Por favor, tente novamente.'
+    DELETION_NOT_SCHEDULED: 'Deletion was not scheduled'
     EDIT_USERNAME_NOT_AUTHORIZED: 'Você não tem permissão para revisar seu nome de usuário.'
     EDIT_WINDOW_ENDED: 'Você não pode mais editar esse comentário. O tempo expirou.'
     email: 'Não é um e-mail válido'
+    EMAIL_ALREADY_VERIFIED: 'Endereço de e-mail já verificado '
     EMAIL_IN_USE: 'Endereço de e-mail já está em uso.'
     email_not_verified: 'O endereço de e-mail {0} não é verificado.'
     EMAIL_NOT_VERIFIED: 'E-mail não verificado'
     email_password: 'Combinação de e-mail e/ou senha incorreta.'
     EMAIL_REQUIRED: 'É necessário o endereço de e-mail.'
     EMAIL_VERIFICATION_TOKEN_INVALID: 'O token de verificação do email é inválido.'
+    INCORRECT_PASSWORD: 'Incorrect Password'
     INVALID_ASSET_URL: 'O URL do recurso é inválido'
     LOGIN_MAXIMUM_EXCEEDED: 'Você fez muitas tentativas de senha mal sucedidas. Espere alguns instantes.'
     network_error: 'Falha ao conectar-se ao servidor. Verifique a sua conexão com a internet e tente novamente.'
     NO_SPECIAL_CHARACTERS: 'Nomes de usuários podem conter números de letras e _ somente'
     NOT_AUTHORIZED: 'Você não está autorizado a executar esta ação.'
     NOT_FOUND: 'Recurso não encontrado'
+    organization_contact_email: 'O Email da organização não é válido.'
     organization_name: 'O nome da organização só deve conter letras ou números.'
     password: 'A senha deve conter pelo menos 8 caracteres'
+    PAGE_NOT_AVAILABLE_ROLE: 'Essa página só pode ser acessada para uso do time. Por favor entre em contato com um administrador caso queira fazer parte desse time.'
+    PASSWORD_INCORRECT: 'A senha inserida está incorreta'
     PASSWORD_LENGTH: 'A senha é muito curta'
     PASSWORD_REQUIRED: 'Você deve inserir uma senha.'
     PASSWORD_RESET_TOKEN_INVALID: 'Seu link de redefinição de senha é inválido.'
     PROFANITY_ERROR: 'Os nomes de usuários não devem conter palavrões. Entre em contato com o administrador se você acredita que isso seja incorreto.'
     RATE_LIMIT_EXCEEDED: 'Tentativas excedidas'
+    required_field: 'Esse campo é obrigatório'
     SAME_USERNAME_PROVIDED: 'Você deve enviar um nome de usuário diferente.'
+    temporarily_suspended: 'Sua conta está suspensa. Ela será reativada {0}. Por favor entre em contato caso tenha dúvidas.'
     unexpected: 'Ocorreu um erro inesperado. Desculpa!'
     username: 'Nomes de usuários podem conter números de letras e _ somente'
     USERNAME_IN_USE: 'Nome de usuário já em uso'
@@ -246,6 +274,7 @@ pt_BR:
     changed_name:
       msg: 'Sua alteração de nome de usuário está sendo analisada por nossa equipe de moderação.'
     comment: comentário
+    comment_is_deleted: 'This commenter has deleted their account.'
     comment_is_hidden: 'Este comentário não está disponível.'
     comment_is_ignored: 'Este comentário está oculto porque você ignorou esse usuário.'
     comment_is_rejected: 'Você rejeitou este comentário.'
@@ -303,6 +332,7 @@ pt_BR:
     sign_in_button: 'Entrar'
     sign_in_message: 'Entre para interagir com a comunidade.'
     password: Senha
+    reset_password_send_button: 'Recuperar Senha'
     request_passowrd: 'Recupere-a clicando aqui.'
     team_sign_in: 'Team sign in'
   marketing: 'Isso parece um anúncio/marketing'
@@ -316,6 +346,7 @@ pt_BR:
     approve: Aprovar
     approved: Aprovado
     ban_user: Banir
+    ban_user_actions: 'Banir Usuário'
     billion: B
     close: Fechar
     empty_queue: 'Não há mais comentários para moderar! Aproveite para relaxar e esticar as pernas'
@@ -336,6 +367,7 @@ pt_BR:
     notify_edited: '{0} editou o comentário "{1}"'
     notify_flagged: '{0} marcou o comentário "{1}"'
     notify_rejected: '{0} rejeitou o comentário "{1}"'
+    notify_reset: '{0} resetar status do comentário "{1}"'
     oldest_first: 'Mais velhos primeiro'
     premod: pré-moderação
     prev_comment: 'Vá para o comentário anterior'
@@ -349,6 +381,8 @@ pt_BR:
     show_shortcuts: 'Ver atalhos'
     singleview: 'Modo zen'
     sort: Ordenar
+    suspend: 'Suspender Usuário'
+    system_withheld: 'Sistema de Rejeição'
     thismenu: 'Abra este menu'
     thousand: k
     toggle_search: 'Abrir busca'
@@ -362,7 +396,9 @@ pt_BR:
   other: Outro
   password_reset:
     change_password: 'Alterar senha'
+    change_password_help: 'Please enter a new password to use to login. Make it secure!'
     confirm_new_password: 'Confirmar nova senha'
+    mail_sent: 'Se você tem uma conta registrada, um link para alterar sua senha foi enviado para o e-mail informado'
     new_password: 'Nova senha'
     new_password_help: 'A senha deve ter mais de 8 caracteres'
     set_new_password: 'Alterar sua senha'
@@ -383,6 +419,13 @@ pt_BR:
     username: 'nome de usuário'
     write_message: 'Escreve uma mensagem'
     yes_suspend: 'Sim suspender'
+    reject_username_dialog:
+      cancel: Cancel
+      description: 'Nos ajude a entender'
+      message: 'Motivo para reportar (Opcional)'
+      reason: Motivo
+      reject_username: 'Rejeitar nome de Usuário'
+      title: 'Rejeitar nome de Usuário'
   reply: Responder
   report: Denunciar
   report_notif: 'Obrigado por denunciar este comentário. Nossa equipe de moderação foi notificada e irá revisá-la em breve.'
@@ -398,7 +441,7 @@ pt_BR:
     user_no_comment: 'Você nunca deixou um comentário. Participe da conversa!'
   step_1_header: 'Relatar um problema'
   step_2_header: 'Ajude-nos a entender'
-  step_3_header: 'Obrigdo por sua contribuição'
+  step_3_header: 'Obrigado por sua contribuição'
   stream:
     all_comments: 'Todos os comentários'
     comment_not_found: 'Este comentário foi removido ou não existe.'
@@ -406,16 +449,16 @@ pt_BR:
     no_comments_and_closed: 'Não houve comentários sobre este artigo.'
     temporarily_suspended: 'De acordo com as diretrizes da comunidade de {0}, sua conta foi temporariamente suspensa. Por favor, volte para a conversa {1}.'
   streams:
-    all: Todos
+    all: Todas
     article: História
-    closed: Fechado
+    closed: Fechada
     empty_result: 'Nenhum resultado encontrado para esta pesquisa. Que tal refazer a pesquisa com termos diferentes?'
     filter_streams: 'Filtra as listas'
     most_recent_stories: 'Matérias mais recentes'
     newest: 'O mais novo'
-    no_results: 'No results'
+    no_results: 'Nenhum resultado'
     oldest: 'O mais velho'
-    open: Aberto
+    open: Aberta
     pubdate: 'Data de publicação'
     search: Pesquisar
     search_results: 'Pesquisar Resultados'
@@ -442,11 +485,36 @@ pt_BR:
     bio_flags: 'Marcadas para este perfil'
     user_bio: 'Perfil do usuário'
     username_flags: 'Marcadas para este usuário'
+  user_detail:
+    all: Todo
+    ban: 'Banir usuário'
+    banned: Banido
+    email: Email
+    id: ID
+    karma: Karma
+    karma_docs_link: 'https://docs.coralproject.net/talk/trust/#user-karma-score'
+    learn_more: 'Saiba Mais'
+    member_since: 'Membro desde'
+    reject_rate: 'Taxa de rejeição'
+    reject_username: 'Rejeitar Usuário'
+    rejected: Rejeitado
+    remove_ban: 'Remover Bloqueio'
+    remove_suspension: 'Remover Suspensão'
+    suspend: 'Suspender Ususário'
+    suspended: Suspenso
+    total_comments: 'Total de comentários'
+    unreliable: Não confiável
+    user_history: 'Histórico do usuário'
+    user_karma_score: 'Nota Usuário do Karma'
+    username: Usuário
+    username_needs_approval: 'Usuário precisa de aprovação'
+    username_rejected: 'Usuário rejeitado'
   user_impersonating: 'Este usuário está representando'
   user_no_comment: 'Você nunca deixou um comentário. Participe da conversa!'
   username_offensive: 'Esse nome de usuário é ofensivo'
   validators:
     confirm_password: 'Suas senhas não coincidem. Por favor, tente novamente.'
+    required: 'Esse campo é obrigatório'
     verify_email: 'Não é um e-mail válido'
     verify_organization_name: 'O nome da organização só deve conter letras ou números.'
     verify_password: 'A senha deve conter pelo menos 8 caracteres'

@@ -90,17 +90,18 @@ nl_NL:
     confirmation_title: Negeer {0}?
 pt_BR:
   talk-plugin-ignore-user:
+    blank_info: Atualmente você não está ignorando nenhum usuário
     section_title: "Usuários ignorados"
     section_info: "Porque você ignorou os seguintes comentadores, seus comentários estão ocultos."
-    stop_ignoring: "Pare de ignorar"
-    ignore_user: Ignore User
-    cancel: Cancel
-    confirmation: |
-      When you ignore a user, all comments they wrote on the site will be hidden from you. You can
-      undo this later from My Profile.
+    stop_ignoring: "Parar de ignorar"
+    ignore_user: Ignorar usuário
+    cancel: Cancelar
+    confirmation:
+      Quando você ignora um usuário, todos os comentários que ele ele(a) escreveu não serão exibidos para você. Você pode
+      desfazer isso depois no Meu Perfil
     notify_success: |
-      You are now ignoring {0}. You can undo this action from My Profile.
-    confirmation_title: Ignore {0}?
+      Agora você está ignorando {0}. Você pode desfazer essa ação em Meu Perfil.
+    confirmation_title: Ignorar {0}?
 zh_CN:
   talk-plugin-ignore-user:
     section_title: "被忽略用户"
