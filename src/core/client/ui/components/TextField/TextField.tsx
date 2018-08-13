@@ -37,6 +37,14 @@ export interface TextFieldProps {
    * Mark as readonly
    */
   readOnly?: boolean;
+  /**
+   * Name
+   */
+  name?: string;
+  /**
+   * onChange
+   */
+  onChange?: <T>(event: any) => void;
 }
 
 const TextField: StatelessComponent<TextFieldProps> = props => {
