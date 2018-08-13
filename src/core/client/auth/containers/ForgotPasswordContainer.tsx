@@ -1,10 +1,11 @@
-import * as React from "react";
-import { StatelessComponent } from "react";
-
+import React, { Component } from "react";
 import ForgotPassword from "../components/ForgotPassword";
 
-const ForgotPasswordContainer: StatelessComponent = () => {
-  return <ForgotPassword />;
-};
+class ForgotPasswordContainer extends Component {
+  public render() {
+    // tslint:disable-next-line:no-empty
+    return <ForgotPassword onSubmit={() => {}} />;
+  }
+}
 
 export default ForgotPasswordContainer;
