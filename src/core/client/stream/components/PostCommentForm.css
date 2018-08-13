@@ -17,5 +17,12 @@
 
 .postButtonContainer {
   display: flex;
-  justify-content: flex-end;
+
+  &:first-child {
+    flex-grow: 1;
+  }
+
+  &:last-child {
+    flex-grow: 0;
+  }
 }
