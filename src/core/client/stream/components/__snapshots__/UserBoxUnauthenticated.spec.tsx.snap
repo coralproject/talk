@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Flex)>
+<withPropsOnChange(Flex)
+  itemGutter={true}
+>
   <MatchMediaWithContext
     gteWidth="sm"
   >
@@ -30,6 +32,7 @@ exports[`renders correctly 1`] = `
       color="primary"
       onClick={[Function]}
       size="small"
+      variant="underlined"
     >
       Sign in
     </withPropsOnChange(Button)>

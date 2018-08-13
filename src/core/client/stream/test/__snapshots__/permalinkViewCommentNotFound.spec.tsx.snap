@@ -52,10 +52,10 @@ exports[`show all comments 1`] = `
           className="Flex-root"
         >
           <div
-            className="Flex-flex Flex-wrap Flex-alignCenter"
+            className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignCenter"
           >
             <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -90,25 +90,22 @@ exports[`show all comments 1`] = `
               className="PostCommentForm-textarea"
               name="body"
               onChange={[Function]}
+              placeholder="Post a comment"
               value=""
             />
           </div>
-          <div
-            className="PostCommentForm-postButtonContainer"
+          <button
+            className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
+            disabled={true}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
           >
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-              disabled={false}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseDown={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-            >
-              Post
-            </button>
-          </div>
+            Sign In and join the conversation
+          </button>
         </form>
         <div
           aria-live="polite"

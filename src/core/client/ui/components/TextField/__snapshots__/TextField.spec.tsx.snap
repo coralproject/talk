@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <input
-  className="TextField-root TextField-colorRegular custom"
+  className="TextField-root TextField-colorRegular TextField-fullWidth custom"
   defaultValue="Hello World"
   placeholder=""
 />
