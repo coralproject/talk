@@ -1,13 +1,11 @@
 import { Localized } from "fluent-react/compat";
-import * as React from "react";
-import { StatelessComponent } from "react";
+import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
-import PoweredBy from "./PoweredBy";
 import { OnSubmit } from "talk-framework/lib/form";
 import { required } from "talk-framework/lib/validation";
-import PoweredBy from "talk-stream/components/PoweredBy";
 import { Button, Typography } from "talk-ui/components";
 import * as styles from "./PostCommentForm.css";
+import PoweredBy from "./PoweredBy";
 
 interface FormProps {
   body: string;
@@ -58,7 +56,7 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
             fullWidth
             size="large"
           >
-            Sign In and join the conversation
+            Sign in and join the conversation
           </Button>
         )}
       </form>

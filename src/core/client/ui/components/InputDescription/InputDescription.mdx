@@ -1,36 +1,18 @@
 ---
-name: FormField
+name: InputDescription
 menu: UI Kit
 ---
 
 import { Playground, PropsTable } from 'docz'
-import FormField from './FormField'
-import { InputLabel, ValidationMessage, TextField, Typography, Flex, Button} from '../core/client/ui/components'
+import { InputDescription } from '../core/client/ui/components'
 
 # Flex
 
-`FormField` is to be used with Form Components `flexbox`.
-
-## Justify content
-<Playground>
-  <FormField>
-  </FormField>
-</Playground>
+`InputDescription` is to be used with Form Components.
 
 ## Align items
 <Playground>
   <Flex alignItems="center" itemGutter>
-    <Button variant="filled">Push Me</Button>
-    <Button variant="filled" size="small">Push Me</Button>
-    <Button variant="filled" size="large">Push Me</Button>
-  </Flex>
-</Playground>
-
-## Direction
-<Playground>
-  <Flex direction="column" itemGutter>
-    <Button variant="filled">Push Me</Button>
-    <Button variant="filled">Push Me</Button>
-    <Button variant="filled">Push Me</Button>
+    <InputDescription>This is a description</Button>
   </Flex>
 </Playground>

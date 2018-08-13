@@ -16,6 +16,7 @@ import {
   Button,
   Flex,
   FormField,
+  InputDescription,
   InputLabel,
   TextField,
   Typography,
@@ -36,7 +37,7 @@ export interface SignUpForm {
 const SignUp: StatelessComponent<SignUpForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
-      {({ handleSubmit, submitting }) => (
+      {({ handleSubmit, submitting, invalid }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <Flex itemGutter direction="column" className={styles.root}>
             <Flex direction="column">
@@ -74,10 +75,10 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                 {({ input, meta }) => (
                   <FormField>
                     <InputLabel>Username</InputLabel>
-                    <Typography variant="inputDescription">
+                    <InputDescription>
                       A unique identifier displayed on your comments. You may
                       use “_” and “.”
-                    </Typography>
+                    </InputDescription>
                     <TextField
                       name={input.name}
                       onChange={input.onChange}
@@ -101,9 +102,9 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                 {({ input, meta }) => (
                   <FormField>
                     <InputLabel>Password</InputLabel>
-                    <Typography variant="inputDescription">
+                    <InputDescription>
                       Must be at least 8 characters
-                    </Typography>
+                    </InputDescription>
                     <TextField
                       name={input.name}
                       onChange={input.onChange}
@@ -132,9 +133,9 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                 {({ input, meta }) => (
                   <FormField>
                     <InputLabel>Confirm Password</InputLabel>
-                    <Typography variant="inputDescription">
+                    <InputDescription>
                       Must be at least 8 characters
-                    </Typography>
+                    </InputDescription>
                     <TextField
                       name={input.name}
                       onChange={input.onChange}

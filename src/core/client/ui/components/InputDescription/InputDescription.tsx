@@ -1,43 +1,24 @@
-import cn from "classnames";
-import React, { ReactNode } from "react";
-import { StatelessComponent } from "react";
+import React, { ReactNode, StatelessComponent } from "react";
+import { Typography } from "talk-ui/components";
 
-import { withStyles } from "talk-ui/hocs";
-
-import * as styles from "./FormField.css";
-
-interface InnerProps {
+interface InputDescriptionProps {
   children: ReactNode;
-  classes: typeof styles;
   id?: string;
   className?: string;
-  itemGutter?: boolean | "half";
 }
 
-const FormField: StatelessComponent<InnerProps> = props => {
-  const { classes, className, children, itemGutter, ...rest } = props;
-
-  // TODO (bc): Use flex component once the extra div issue is solved.
+const InputDescription: StatelessComponent<InputDescriptionProps> = props => {
+  const { className, children, ...rest } = props;
   return (
-    <div
-      className={cn(
-        classes.root,
-        {
-          [classes.itemGutter]: itemGutter === true,
-          [classes.halfItemGutter]: itemGutter === "half",
-        },
-        className
-      )}
+    <Typography
+      variant="inputDescription"
+      color="textSecondary"
+      className={className}
       {...rest}
     >
       {children}
-    </div>
+    </Typography>
   );
 };
 
-FormField.defaultProps = {
-  itemGutter: true,
-};
-
-const enhanced = withStyles(styles)(FormField);
-export default enhanced;
+export default InputDescription;
