@@ -91,6 +91,9 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
       akismet: {
         enabled: false,
       },
+      perspective: {
+        enabled: false,
+      },
     },
   };
 

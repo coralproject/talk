@@ -1,8 +1,12 @@
 import {
+  GQLACTION_GROUP,
   GQLACTION_TYPE,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
+import {
+  IntermediateModerationPhase,
+  IntermediatePhaseResult,
+} from "talk-server/services/comments/moderation";
 import {
   getCommentTrustScore,
   isReliableCommenter,
@@ -10,7 +14,10 @@ import {
 
 // This phase checks to see if the user making the comment is allowed to do so
 // considering their reliability (Trust) status.
-export const karma: IntermediateModerationPhase = ({ tenant, author }) => {
+export const karma: IntermediateModerationPhase = ({
+  tenant,
+  author,
+}): IntermediatePhaseResult | void => {
   // If the user is not a reliable commenter (passed the unreliability
   // threshold by having too many rejected comments) then we can change the
   // status of the comment to `SYSTEM_WITHHELD`, therefore pushing the user's
@@ -27,7 +34,7 @@ export const karma: IntermediateModerationPhase = ({ tenant, author }) => {
       actions: [
         {
           action_type: GQLACTION_TYPE.FLAG,
-          group_id: "TRUST",
+          group_id: GQLACTION_GROUP.TRUST,
           metadata: {
             trust: getCommentTrustScore(author),
           },
@@ -35,6 +42,4 @@ export const karma: IntermediateModerationPhase = ({ tenant, author }) => {
       ],
     };
   }
-
-  return;
 };
