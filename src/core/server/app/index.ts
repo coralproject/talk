@@ -15,6 +15,7 @@ import { Schemas } from "talk-server/graph/schemas";
 import { TaskQueue } from "talk-server/services/queue";
 import TenantCache from "talk-server/services/tenant/cache";
 
+import { errorHandler } from "talk-server/app/middleware/error";
 import { accessLogger, errorLogger } from "./middleware/logging";
 import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";
@@ -59,6 +60,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
   // Error Handling
   parent.use(notFoundMiddleware);
   parent.use(errorLogger);
+  parent.use(errorHandler);
 
   return parent;
 }
