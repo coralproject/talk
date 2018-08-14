@@ -70,7 +70,11 @@ class Server {
     const signingConfig = createJWTSigningConfig(this.config);
 
     // Create the TenantCache.
-    const tenantCache = new TenantCache(mongo, await createRedisClient(config));
+    const tenantCache = new TenantCache(
+      mongo,
+      await createRedisClient(config),
+      config
+    );
 
     // Prime the tenant cache so it'll be ready to serve now.
     await tenantCache.primeAll();

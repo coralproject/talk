@@ -2,6 +2,7 @@ import { NextFunction, RequestHandler, Response } from "express";
 import { Db } from "mongodb";
 import passport, { Authenticator } from "passport";
 
+import { Config } from "talk-common/config";
 import {
   createJWTStrategy,
   JWTSigningConfig,
@@ -22,6 +23,7 @@ export type VerifyCallback = (
 ) => void;
 
 export interface PassportOptions {
+  config: Config;
   mongo: Db;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
