@@ -1,13 +1,13 @@
 import { get } from "lodash";
 
-import { KarmaThresholds } from "talk-server/models/settings";
+import { GQLKarmaThresholds } from "talk-server/graph/tenant/schema/__generated__/types";
 import { User } from "talk-server/models/user";
 
 export const getCommentTrustScore = (user: User): number =>
   get(user, "metadata.trust.comment.karma", 0);
 
 export const isReliableCommenter = (
-  thresholds: KarmaThresholds,
+  thresholds: GQLKarmaThresholds,
   user: User
 ): boolean | null => {
   const score = getCommentTrustScore(user);
