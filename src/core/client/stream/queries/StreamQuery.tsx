@@ -24,7 +24,7 @@ export const render = ({ error, props }: ReadyState<StreamQueryResponse>) => {
     return <div>{error.message}</div>;
   }
   if (props) {
-    return <StreamContainer asset={props.asset} />;
+    return <StreamContainer asset={props.asset} user={props.me} />;
   }
   return <div>Loading</div>;
 };
@@ -37,6 +37,12 @@ const StreamQuery: StatelessComponent<InnerProps> = ({
       query StreamQuery($assetID: ID!) {
         asset(id: $assetID) {
           ...StreamContainer_asset
+        }
+        me {
+          id
+          username
+          displayName
+          role
         }
       }
     `}

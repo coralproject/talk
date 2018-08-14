@@ -4,10 +4,12 @@ import React, { StatelessComponent } from "react";
 import { Button, Flex, Typography } from "talk-ui/components";
 
 import MatchMedia from "talk-ui/components/MatchMedia";
+import { User } from "../containers/UserBoxContainer";
 import * as styles from "./UserBoxAuthenticated.css";
 
 export interface UserBoxUnauthenticatedProps {
   onSignOut: () => void;
+  user: User;
 }
 
 const UserBoxAuthenticated: StatelessComponent<
@@ -23,7 +25,7 @@ const UserBoxAuthenticated: StatelessComponent<
             </Typography>
           </Localized>
           <Typography variant="bodyCopyBold" component="span">
-            okbel
+            {props.user.username}
           </Typography>
         </MatchMedia>
       </Flex>

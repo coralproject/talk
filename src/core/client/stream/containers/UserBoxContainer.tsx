@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Component } from "react";
-
 import { graphql, withLocalStateContainer } from "talk-framework/lib/relay";
 import { UserBoxContainerLocal as Local } from "talk-stream/__generated__/UserBoxContainerLocal.graphql";
 import {
@@ -11,11 +10,26 @@ import {
 } from "talk-stream/mutations";
 import { Popup } from "talk-ui/components";
 
-// import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
+import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
 import UserBoxUnauthenticated from "../components/UserBoxUnauthenticated";
+
+export type USER_ROLE =
+  | "ADMIN"
+  | "COMMENTER"
+  | "MODERATOR"
+  | "STAFF"
+  | "%future added value";
+
+export interface User {
+  id?: string;
+  username?: string | null;
+  displayName?: string | null;
+  role?: USER_ROLE;
+}
 
 interface InnerProps {
   local: Local;
+  user: User | null;
   showAuthPopup: ShowAuthPopupMutation;
   setAuthPopupState: SetAuthPopupStateMutation;
 }
@@ -32,7 +46,15 @@ export class UserBoxContainer extends Component<InnerProps> {
       local: {
         authPopup: { open, focus, view },
       },
+      user,
     } = this.props;
+
+    if (user) {
+      return (
+        <UserBoxAuthenticated onSignOut={this.handleRegister} user={user} />
+      );
+    }
+
     return (
       <>
         <Popup
@@ -45,7 +67,6 @@ export class UserBoxContainer extends Component<InnerProps> {
           onBlur={this.handleBlur}
           onClose={this.handleClose}
         />
-        {/* <UserBoxAuthenticated onSignOut={this.handleRegister} /> */}
         <UserBoxUnauthenticated
           onSignIn={this.handleSignIn}
           onRegister={this.handleRegister}
@@ -71,4 +92,5 @@ const enhanced = withSetAuthPopupStateMutation(
   )
 );
 
+// TODO: (bc) Add fragment here if composing is doable.
 export default enhanced;
