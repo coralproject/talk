@@ -1,18 +1,22 @@
 import {
+  GQLACTION_GROUP,
   GQLACTION_TYPE,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { ModerationSettings } from "talk-server/models/settings";
-import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
+import {
+  IntermediateModerationPhase,
+  IntermediatePhaseResult,
+} from "talk-server/services/comments/moderation";
 
 const testCharCount = (settings: Partial<ModerationSettings>, length: number) =>
   settings.charCountEnable && settings.charCount && length > settings.charCount;
 
-export const commentLength: IntermediateModerationPhase = async ({
+export const commentLength: IntermediateModerationPhase = ({
   asset,
   tenant,
   comment,
-}) => {
+}): IntermediatePhaseResult | void => {
   const length = comment.body.length;
 
   // Check to see if the body is too short, if it is, then complain about it!
@@ -32,7 +36,7 @@ export const commentLength: IntermediateModerationPhase = async ({
       actions: [
         {
           action_type: GQLACTION_TYPE.FLAG,
-          group_id: "BODY_COUNT",
+          group_id: GQLACTION_GROUP.BODY_COUNT,
           metadata: {
             count: length,
           },
@@ -40,6 +44,4 @@ export const commentLength: IntermediateModerationPhase = async ({
       ],
     };
   }
-
-  return;
 };
