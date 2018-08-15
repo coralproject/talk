@@ -9,6 +9,7 @@ import * as styles from "./UserBoxUnauthenticated.css";
 export interface UserBoxUnauthenticatedProps {
   onSignIn: () => void;
   onRegister: () => void;
+  onSignOff: () => void;
 }
 
 const UserBoxUnauthenticated: StatelessComponent<

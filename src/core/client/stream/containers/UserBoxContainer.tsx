@@ -11,7 +11,7 @@ import {
 import { Popup } from "talk-ui/components";
 
 import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
-import UserBoxUnauthenticated from "../components/UserBoxUnauthenticated";
+import UserBoxAuthenticatedContainer from "../containers/UserBoxAuthenticatedContainer";
 
 export type USER_ROLE =
   | "ADMIN"
@@ -67,7 +67,7 @@ export class UserBoxContainer extends Component<InnerProps> {
           onBlur={this.handleBlur}
           onClose={this.handleClose}
         />
-        <UserBoxUnauthenticated
+        <UserBoxAuthenticatedContainer
           onSignIn={this.handleSignIn}
           onRegister={this.handleRegister}
         />

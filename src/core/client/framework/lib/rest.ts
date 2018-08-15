@@ -32,7 +32,7 @@ const handleResp = (res: Response) => {
   }
 };
 
-type PartialRequestInit = Overwrite<Partial<RequestInit>, { body: any }>;
+type PartialRequestInit = Overwrite<Partial<RequestInit>, { body?: any }>;
 
 export class RestClient {
   public readonly uri: string;
