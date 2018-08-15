@@ -3,8 +3,6 @@ import { GoogleAuthIntegration } from "talk-server/models/settings";
 
 const GoogleAuthIntegration: GQLGoogleAuthIntegrationTypeResolver<
   GoogleAuthIntegration
-> = {
-  config: auth => auth,
-};
+> = {};
 
 export default GoogleAuthIntegration;

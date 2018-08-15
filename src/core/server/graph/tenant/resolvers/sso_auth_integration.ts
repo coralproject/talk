@@ -3,8 +3,6 @@ import { SSOAuthIntegration } from "talk-server/models/settings";
 
 const SSOAuthIntegration: GQLSSOAuthIntegrationTypeResolver<
   SSOAuthIntegration
-> = {
-  config: auth => auth,
-};
+> = {};
 
 export default SSOAuthIntegration;

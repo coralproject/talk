@@ -3,8 +3,6 @@ import { OIDCAuthIntegration } from "talk-server/models/settings";
 
 const OIDCAuthIntegration: GQLOIDCAuthIntegrationTypeResolver<
   OIDCAuthIntegration
-> = {
-  config: auth => auth,
-};
+> = {};
 
 export default OIDCAuthIntegration;

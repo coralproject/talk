@@ -97,74 +97,59 @@ type LocalAuthIntegration {
 ## SSOAuthIntegration
 ##########################
 
-type SSOAuthIntegrationConfig {
-  key: String!
+type SSOAuthIntegration {
+  enabled: Boolean!
+
+  """
+  key is the secret that is used to sign tokens.
+  """
+  key: String! @auth(roles: [ADMIN])
 
   """
   displayNameEnable when enabled, will allow Users to set and view their
   displayName's.
   """
-  displayNameEnable: Boolean!
-}
-
-type SSOAuthIntegration {
-  enabled: Boolean!
-  config: SSOAuthIntegrationConfig @auth(roles: [ADMIN])
+  displayNameEnable: Boolean! @auth(roles: [ADMIN])
 }
 
 ##########################
 ## OIDCAuthIntegration
 ##########################
 
-type OIDCAuthIntegrationConfig {
-  clientID: String!
-  clientSecret: String!
-  authorizationURL: String!
-  tokenURL: String!
+type OIDCAuthIntegration {
+  enabled: Boolean!
+
+  name: String! @auth(roles: [ADMIN])
+  clientID: String! @auth(roles: [ADMIN])
+  clientSecret: String! @auth(roles: [ADMIN])
+  authorizationURL: String! @auth(roles: [ADMIN])
+  tokenURL: String! @auth(roles: [ADMIN])
 
   """
   displayNameEnable when enabled, will allow Users to set and view their
   displayName's.
   """
-  displayNameEnable: Boolean!
-}
-
-type OIDCAuthIntegrationOptions {
-  name: String!
-}
-
-type OIDCAuthIntegration {
-  enabled: Boolean!
-  options: OIDCAuthIntegrationOptions
-  config: SSOAuthIntegrationConfig @auth(roles: [ADMIN])
+  displayNameEnable: Boolean! @auth(roles: [ADMIN])
 }
 
 ##########################
 ## GoogleAuthIntegration
 ##########################
 
-type GoogleAuthIntegrationConfig {
-  clientID: String!
-  clientSecret: String!
-}
-
 type GoogleAuthIntegration {
   enabled: Boolean!
-  config: GoogleAuthIntegrationConfig @auth(roles: [ADMIN])
+  clientID: String! @auth(roles: [ADMIN])
+  clientSecret: String! @auth(roles: [ADMIN])
 }
 
 ##########################
 ## FacebookAuthIntegration
 ##########################
 
-type FacebookAuthIntegrationConfig {
-  clientID: String!
-  clientSecret: String!
-}
-
 type FacebookAuthIntegration {
   enabled: Boolean!
-  config: FacebookAuthIntegrationConfig @auth(roles: [ADMIN])
+  clientID: String! @auth(roles: [ADMIN])
+  clientSecret: String! @auth(roles: [ADMIN])
 }
 
 type AuthIntegrations {

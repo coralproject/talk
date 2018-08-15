@@ -3,8 +3,6 @@ import { FacebookAuthIntegration } from "talk-server/models/settings";
 
 const FacebookAuthIntegration: GQLFacebookAuthIntegrationTypeResolver<
   FacebookAuthIntegration
-> = {
-  config: auth => auth,
-};
+> = {};
 
 export default FacebookAuthIntegration;
