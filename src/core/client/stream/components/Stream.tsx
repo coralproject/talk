@@ -26,7 +26,10 @@ const Stream: StatelessComponent<StreamProps> = props => {
   return (
     <Flex className={styles.root} direction="column" itemGutter>
       <UserBoxContainer user={props.user} />
-      <PostCommentFormContainer assetID={props.assetID} />
+      <PostCommentFormContainer
+        assetID={props.assetID}
+        signedIn={!!props.user}
+      />
       <Flex
         direction="column"
         id="talk-comments-stream-log"

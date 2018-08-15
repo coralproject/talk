@@ -23,9 +23,11 @@ export const render = ({ error, props }: ReadyState<StreamQueryResponse>) => {
   if (error) {
     return <div>{error.message}</div>;
   }
+
   if (props) {
     return <StreamContainer asset={props.asset} user={props.me} />;
   }
+
   return <div>Loading</div>;
 };
 
