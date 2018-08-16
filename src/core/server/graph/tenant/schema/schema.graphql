@@ -7,7 +7,8 @@ auth is a directive that will enforce authorization rules on the schema
 definition. It will restrict the viewer of the field based on roles or if the
 `userIDField` is specified, it will see if the current users ID equals the field
 specified. This allows users that own a specific resource (like a comment, or a
-flag) see their own content, but restrict it to everyone else.
+flag) see their own content, but restrict it to everyone else. If the directive
+is used without options, it simply requires a logged in user.
 """
 directive @auth(roles: [USER_ROLE!], userIDField: String) on FIELD_DEFINITION
 
@@ -82,7 +83,7 @@ type Wordlist {
 }
 
 ################################################################################
-## AuthSettings
+## Auth
 ################################################################################
 
 ##########################
@@ -97,39 +98,50 @@ type LocalAuthIntegration {
 ## SSOAuthIntegration
 ##########################
 
+"""
+SSOAuthIntegration is an AuthIntegration that provides a secret to the admins
+of a tenant, where they can sign a SSO payload with it to provide to the
+embed to allow single sign on.
+"""
 type SSOAuthIntegration {
   enabled: Boolean!
 
   """
   key is the secret that is used to sign tokens.
   """
-  key: String! @auth(roles: [ADMIN])
+  key: String @auth(roles: [ADMIN])
 
   """
   displayNameEnable when enabled, will allow Users to set and view their
   displayName's.
   """
-  displayNameEnable: Boolean! @auth(roles: [ADMIN])
+  displayNameEnable: Boolean @auth(roles: [ADMIN])
 }
 
 ##########################
 ## OIDCAuthIntegration
 ##########################
 
+"""
+OIDCAuthIntegration provides a way to store Open ID Connect credentials. This
+will be used in the admin to provide staff logins for users.
+"""
 type OIDCAuthIntegration {
   enabled: Boolean!
 
-  name: String! @auth(roles: [ADMIN])
-  clientID: String! @auth(roles: [ADMIN])
-  clientSecret: String! @auth(roles: [ADMIN])
-  authorizationURL: String! @auth(roles: [ADMIN])
-  tokenURL: String! @auth(roles: [ADMIN])
+  name: String
+  clientID: String @auth(roles: [ADMIN])
+  clientSecret: String @auth(roles: [ADMIN])
+  authorizationURL: String @auth(roles: [ADMIN])
+  tokenURL: String @auth(roles: [ADMIN])
+  jwksURI: String @auth(roles: [ADMIN])
+  issuer: String @auth(roles: [ADMIN])
 
   """
   displayNameEnable when enabled, will allow Users to set and view their
   displayName's.
   """
-  displayNameEnable: Boolean! @auth(roles: [ADMIN])
+  displayNameEnable: Boolean @auth(roles: [ADMIN])
 }
 
 ##########################
@@ -138,8 +150,8 @@ type OIDCAuthIntegration {
 
 type GoogleAuthIntegration {
   enabled: Boolean!
-  clientID: String! @auth(roles: [ADMIN])
-  clientSecret: String! @auth(roles: [ADMIN])
+  clientID: String @auth(roles: [ADMIN])
+  clientSecret: String @auth(roles: [ADMIN])
 }
 
 ##########################
@@ -148,8 +160,8 @@ type GoogleAuthIntegration {
 
 type FacebookAuthIntegration {
   enabled: Boolean!
-  clientID: String! @auth(roles: [ADMIN])
-  clientSecret: String! @auth(roles: [ADMIN])
+  clientID: String @auth(roles: [ADMIN])
+  clientSecret: String @auth(roles: [ADMIN])
 }
 
 type AuthIntegrations {
@@ -161,10 +173,10 @@ type AuthIntegrations {
 }
 
 """
-AuthSettings contains all the settings related to authentication and
+Auth contains all the settings related to authentication and
 authorization.
 """
-type AuthSettings {
+type Auth {
   """
   integrations are the set of configurations for the variations of
   authentication solutions.
@@ -288,7 +300,12 @@ type Settings {
   """
   domain is the domain that is associated with this Tenant.
   """
-  domain: String @auth(roles: [ADMIN])
+  domain: String! @auth(roles: [ADMIN])
+
+  """
+  domains will return a given list of whitelisted domains.
+  """
+  domains: [String!] @auth(roles: [ADMIN])
 
   """
   moderation is the moderation mode for all Asset's on the site.
@@ -398,14 +415,14 @@ type Settings {
   wordlist: Wordlist @auth(roles: [ADMIN, MODERATOR])
 
   """
-  domains will return a given list of whitelisted domains.
+  wordlist will return a given list of words.
   """
-  domains: [String!] @auth(roles: [ADMIN])
+  wordlist: Wordlist @auth(roles: [ADMIN, MODERATOR])
 
   """
   auth contains all the settings related to authentication and authorization.
   """
-  auth: AuthSettings!
+  auth: Auth!
 
   """
   integrations contains all the external integrations that can be enabled.
@@ -816,38 +833,323 @@ type CreateCommentPayload {
 ## updateSettings
 ##################
 
+input SettingsWordlistInput {
+  """
+  banned words will by default reject the comment if it is found.
+  """
+  banned: [String!]
+
+  """
+  suspect words will simply flag the comment.
+  """
+  suspect: [String!]
+}
+
+input SettingsLocalAuthIntegrationInput {
+  enabled: Boolean
+}
+
+input SettingsSSOAuthIntegrationInput {
+  enabled: Boolean
+
+  """
+  key is the secret that is used to sign tokens.
+  """
+  key: String
+
+  """
+  displayNameEnable when enabled, will allow Users to set and view their
+  displayName's.
+  """
+  displayNameEnable: Boolean
+}
+
+input SettingsOIDCAuthIntegrationInput {
+  enabled: Boolean
+
+  name: String
+  clientID: String
+  clientSecret: String
+  authorizationURL: String
+  tokenURL: String
+
+  """
+  displayNameEnable when enabled, will allow Users to set and view their
+  displayName's.
+  """
+  displayNameEnable: Boolean
+}
+
+input SettingsGoogleAuthIntegrationInput {
+  enabled: Boolean
+  clientID: String
+  clientSecret: String
+}
+
+input SettingsFacebookAuthIntegrationInput {
+  enabled: Boolean
+  clientID: String
+  clientSecret: String
+}
+
+input SettingsAuthIntegrationsInput {
+  local: SettingsLocalAuthIntegrationInput
+  sso: SettingsSSOAuthIntegrationInput
+  oidc: SettingsOIDCAuthIntegrationInput
+  google: SettingsGoogleAuthIntegrationInput
+  facebook: SettingsFacebookAuthIntegrationInput
+}
+
+"""
+Auth contains all the settings related to authentication and
+authorization.
+"""
+input SettingsAuthInput {
+  """
+  integrations are the set of configurations for the variations of
+  authentication solutions.
+  """
+  integrations: SettingsAuthIntegrationsInput
+}
+
+input SettingsAkismetExternalIntegrationInput {
+  """
+  enabled when True will enable the integration.
+  """
+  enabled: Boolean
+
+  """
+  The key for the Akismet integration.
+  """
+  key: String
+
+  """
+  The site (blog) for the Akismet integration.
+  """
+  site: String
+}
+
+input SettingsPerspectiveExternalIntegrationInput {
+  """
+  enabled when True will enable the integration.
+  """
+  enabled: Boolean
+
+  """
+  The endpoint that Talk should use to communicate with the perspective API.
+  """
+  endpoint: String
+
+  """
+  The key for the Perspective API integration.
+  """
+  key: String
+
+  """
+  The threshold that given a specific toxic comment score, the comment will
+  be marked by Talk as toxic.
+  """
+  threshold: Float
+
+  """
+  When True, comments sent will not be stored by the Google Perspective API.
+  """
+  doNotStore: Boolean
+}
+
+input SettingsExternalIntegrationsInput {
+  """
+  akismet provides integration with the Akismet Spam detection service.
+  """
+  akismet: SettingsAkismetExternalIntegrationInput
+
+  """
+  perspective provides integration with the Perspective API comment analysis
+  platform.
+  """
+  perspective: SettingsPerspectiveExternalIntegrationInput
+}
+
+"""
+KarmaThreshold defines the bounds for which a User will become unreliable or
+reliable based on their karma score. If the score is equal or less than the
+unreliable value, they are unreliable. If the score is equal or more than the
+reliable value, they are reliable. If they are neither reliable or unreliable
+then they are neutral.
+"""
+input SettingsKarmaThresholdInput {
+  reliable: Int
+  unreliable: Int
+}
+
+input SettingsKarmaThresholdsInput {
+  """
+  flag represents karma settings in relation to how well a User's flagging
+  ability aligns with the moderation decicions made by moderators.
+  """
+  flag: SettingsKarmaThresholdInput
+
+  """
+  comment represents the karma setting in relation to how well a User's comments are moderated.
+  """
+  comment: SettingsKarmaThresholdInput
+}
+
+input SettingsKarmaInput {
+  """
+  When true, checks will be completed to ensure that the Karma checks are
+  completed.
+  """
+  enabled: Boolean
+
+  """
+  karmaThresholds contains the currently set thresholds for triggering Trust
+  beheviour.
+  """
+  thresholds: SettingsKarmaThresholdsInput
+}
+
 """
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
 input SettingsInput {
-  moderation: MODERATION_MODE
-  requireEmailConfirmation: Boolean
-  infoBoxEnable: Boolean
-  infoBoxContent: String
-  questionBoxEnable: Boolean
-  questionBoxContent: String
-  questionBoxIcon: String
-  premodLinksEnable: Boolean
-  autoCloseStream: Boolean
-  customCssUrl: String
-  closedTimeout: Int
-  closedMessage: String
-  disableCommenting: Boolean
-  disableCommentingMessage: String
-  editCommentWindowLength: Int
-  charCountEnable: Boolean
-  charCount: Int
-  organizationName: String
-  organizationContactEmail: String
-  # wordlist: Wordlist @auth(roles: [ADMIN, MODERATOR])
+  """
+  domains will return a given list of whitelisted domains.
+  """
   domains: [String!]
-  # auth: AuthSettings!
+
+  """
+  moderation is the moderation mode for all Asset's on the site.
+  """
+  moderation: MODERATION_MODE
+
+  """
+  Enables a requirement for email confirmation before a user can login.
+  """
+  requireEmailConfirmation: Boolean
+
+  """
+  infoBoxEnable will enable the Info Box content visible above the question
+  box.
+  """
+  infoBoxEnable: Boolean
+
+  """
+  infoBoxContent is the content of the Info Box.
+  """
+  infoBoxContent: String
+
+  """
+  questionBoxEnable will enable the Question Box's content to be visible above
+  the comment box.
+  """
+  questionBoxEnable: Boolean
+
+  """
+  questionBoxContent is the content of the Question Box.
+  """
+  questionBoxContent: String
+
+  """
+  questionBoxIcon is the icon for the Question Box.
+  """
+  questionBoxIcon: String
+
+  """
+  premodLinksEnable will put all comments that contain links into premod.
+  """
+  premodLinksEnable: Boolean
+
+  """
+  autoCloseStream when true will auto close the stream when the `closeTimeout`
+  amount of seconds have been reached.
+  """
+  autoCloseStream: Boolean
+
+  """
+  customCssUrl is the URL of the custom CSS used to display on the frontend.
+  """
+  customCssUrl: String
+
+  """
+  closedTimeout is the amount of seconds from the created_at timestamp that a
+  given asset will be considered closed.
+  """
+  closedTimeout: Int
+
+  """
+  closedMessage is the message shown to the user when the given Asset is
+  closed.
+  """
+  closedMessage: String
+
+  """
+  disableCommenting will disable commenting site-wide.
+  """
+  disableCommenting: Boolean
+
+  """
+  disableCommentingMessage will be shown above the comment stream while
+  commenting is disabled site-wide.
+  """
+  disableCommentingMessage: String
+
+  """
+  editCommentWindowLength is the length of time (in milliseconds) after a
+  comment is posted that it can still be edited by the author.
+  """
+  editCommentWindowLength: Int
+
+  """
+  charCountEnable is true when the character count restriction is enabled.
+  """
+  charCountEnable: Boolean
+
+  """
+  charCount is the maximum number of characters a comment may be.
+  """
+  charCount: Int
+
+  """
+  organizationName is the name of the organization.
+  """
+  organizationName: String
+
+  """
+  organizationContactEmail is the email of the organization.
+  """
+  organizationContactEmail: String
+
+  """
+  wordlist will return a given list of words.
+  """
+  wordlist: SettingsWordlistInput
+
+  """
+  auth contains all the settings related to authentication and authorization.
+  """
+  auth: SettingsAuthInput
+
+  """
+  integrations contains all the external integrations that can be enabled.
+  """
+  integrations: SettingsExternalIntegrationsInput
+
+  """
+  karma is the set of settings related to how user Trust and Karma are
+  handled.
+  """
+  karma: SettingsKarmaInput
 }
 
 """
 UpdateSettingsInput provides the input for the updateSettings Mutation.
 """
 input UpdateSettingsInput {
+  """
+  settings is the partial set of settings that will be used as a patch against
+  the existing settings object.
+  """
   settings: SettingsInput!
 
   """
@@ -880,13 +1182,13 @@ type Mutation {
   """
   createComment will create a Comment as the current logged in User.
   """
-  createComment(input: CreateCommentInput!): CreateCommentPayload @auth
+  createComment(input: CreateCommentInput!): CreateCommentPayload
 
   """
   updateSettings will update the Settings for the given Tenant.
   """
   updateSettings(input: UpdateSettingsInput!): UpdateSettingsPayload
-    @auth(roles: [ADMIN])
+    @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################

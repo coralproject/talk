@@ -115,19 +115,18 @@ export function createJWTSigningConfig(config: Config): JWTSigningConfig {
 
 export type SigningTokenOptions = Pick<SignOptions, "audience" | "issuer">;
 
-export async function signTokenString(
+export const signTokenString = async (
   { algorithm, secret }: JWTSigningConfig,
   user: User,
   options: SigningTokenOptions
-) {
-  return jwt.sign({}, secret, {
+) =>
+  jwt.sign({}, secret, {
     ...options,
     jwtid: uuid.v4(),
     algorithm,
     expiresIn: "1 day", // TODO: (wyattjoh) evaluate allowing configuration?
     subject: user.id,
   });
-}
 
 export interface JWTToken {
   jti: string;

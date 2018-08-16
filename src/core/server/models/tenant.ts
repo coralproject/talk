@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 import uuid from "uuid";
 
-import { Omit, Sub } from "talk-common/types";
+import { DeepPartial, Omit, Sub } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
 import { GQLMODERATION_MODE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Settings } from "talk-server/models/settings";
@@ -76,6 +76,18 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
         local: {
           enabled: true,
         },
+        sso: {
+          enabled: false,
+        },
+        oidc: {
+          enabled: false,
+        },
+        google: {
+          enabled: false,
+        },
+        facebook: {
+          enabled: false,
+        },
       },
     },
     karma: {
@@ -149,7 +161,7 @@ export async function retrieveAllTenants(db: Db) {
     .toArray();
 }
 
-export type UpdateTenantInput = Omit<Partial<Tenant>, "id" | "domain">;
+export type UpdateTenantInput = Omit<DeepPartial<Tenant>, "id" | "domain">;
 
 export async function updateTenant(
   db: Db,

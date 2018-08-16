@@ -81,7 +81,7 @@ class Server {
     await tenantCache.primeAll();
 
     // Create the Job Queue.
-    const queue = createQueue({ config, mongo });
+    const queue = createQueue({ config, mongo, tenantCache });
 
     // Create the Talk App, branching off from the parent app.
     const app: Express = await createApp({

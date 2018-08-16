@@ -47,7 +47,11 @@ export default class TenantCache {
 
   private mongo: Db;
   private emitter = new EventEmitter();
-  private cachingEnabled: boolean;
+
+  /**
+   * cachingEnabled is true when tenant caching has been enabled.
+   */
+  public cachingEnabled: boolean;
 
   constructor(mongo: Db, subscriber: Redis, config: Config) {
     this.cachingEnabled = !config.get("disable_tenant_caching");

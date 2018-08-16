@@ -27,7 +27,7 @@ export class Task<T, U = any> {
    * @param data the data for the job to add.
    */
   public async add(data: T) {
-    const job = await this.queue.add(this.options.jobName, data, {
+    const job = await this.queue.add(data, {
       // We always remove the job when it's complete, no need to fill up Redis
       // with completed entries if we don't need to.
       removeOnComplete: true,

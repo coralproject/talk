@@ -1,15 +1,16 @@
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
+import { GQLSettingsInput } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   Tenant,
   updateTenant,
-  UpdateTenantInput,
+  // UpdateTenantInput,
 } from "talk-server/models/tenant";
 
 import TenantCache from "./cache";
 
-export type UpdateTenant = UpdateTenantInput;
+export type UpdateTenant = GQLSettingsInput;
 
 export async function update(
   db: Db,
