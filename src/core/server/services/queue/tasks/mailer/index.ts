@@ -1,5 +1,6 @@
 import Queue, { Job } from "bull";
 import htmlToText from "html-to-text";
+import Joi from "joi";
 import { Db } from "mongodb";
 import { createTransport } from "nodemailer";
 
@@ -24,6 +25,15 @@ export interface MailerData {
   tenantID: string;
 }
 
+const MailerDataSchema = Joi.object().keys({
+  message: Joi.object().keys({
+    to: Joi.string(),
+    subject: Joi.string(),
+    html: Joi.string(),
+  }),
+  tenantID: Joi.string(),
+});
+
 const createJobProcessor = (options: MailProcessorOptions) => {
   const { tenantCache } = options;
 
@@ -34,7 +44,25 @@ const createJobProcessor = (options: MailProcessorOptions) => {
   );
 
   return async (job: Job<MailerData>) => {
-    const { message, tenantID } = job.data;
+    const { value, error: err } = Joi.validate(job.data, MailerDataSchema, {
+      stripUnknown: true,
+      presence: "required",
+      abortEarly: false,
+    });
+    if (err) {
+      logger.error(
+        {
+          job_id: job.id,
+          job_name: JOB_NAME,
+          err,
+        },
+        "job data did not match expected schema"
+      );
+      return;
+    }
+
+    // Pull the data out of the validated model.
+    const { message, tenantID } = value;
 
     // Get the referenced tenant so we know who to send it from.
     const tenant = await tenantCache.retrieveByID(tenantID);

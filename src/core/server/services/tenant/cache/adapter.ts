@@ -21,13 +21,13 @@ export class TenantCacheAdapter<T> {
   ) {
     this.tenantCache = tenantCache;
     this.deconstructionFn = deconstructionFn;
+
+    // Subscribe to updates immediately.
+    this.subscribe();
   }
 
   public subscribe() {
-    if (this.tenantCache.cachingEnabled) {
-      // Unsubscribe from updates if we
-      this.unsubscribe();
-
+    if (this.tenantCache.cachingEnabled && !this.unsubscribeFn) {
       this.unsubscribeFn = this.tenantCache.subscribe(async tenant => {
         // Get the current set value for the item in the cache.
         const value = this.get(tenant.id);
@@ -78,11 +78,9 @@ export class TenantCacheAdapter<T> {
    * @param tenantID the tenantID for the cached item
    * @param value the value to set in the map (if caching is enabled)
    */
-  public set(tenantID: string, value: T): TenantCacheAdapter<T> {
+  public set(tenantID: string, value: T) {
     if (this.tenantCache.cachingEnabled) {
       this.cache.set(tenantID, value);
     }
-
-    return this;
   }
 }
