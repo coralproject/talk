@@ -177,7 +177,7 @@ export async function updateAsset(
   // Only update fields that have been updated.
   const update = {
     $set: {
-      ...dotize(input),
+      ...dotize(input, { embedArrays: true }),
       // Always update the updated at time.
       updated_at: new Date(),
     },

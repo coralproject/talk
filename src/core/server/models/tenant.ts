@@ -175,7 +175,7 @@ export async function updateTenant(
   const result = await collection(db).findOneAndUpdate(
     { id },
     // Only update fields that have been updated.
-    { $set: dotize(update) },
+    { $set: dotize(update, { embedArrays: true }) },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }

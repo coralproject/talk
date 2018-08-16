@@ -51,9 +51,17 @@ it("does not converts array properties when disabled", () => {
     ],
     other: { times: "not" },
   };
-  const output = dotize(input, true);
+  const output = dotize(input, { ignoreArrays: true });
 
   expect(output).toEqual({
     "other.times": "not",
+  });
+});
+
+it("does convert array properties properly", () => {
+  expect(
+    dotize({ wordlist: { banned: ["banned"] } }, { embedArrays: true })
+  ).toEqual({
+    "wordlist.banned": ["banned"],
   });
 });
