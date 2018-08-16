@@ -15,7 +15,7 @@ interface SignUpContainerProps {
 }
 
 interface SignUpContainerState {
-  errorMessage: string;
+  error: string | null;
 }
 
 export type View = "SIGN_IN";
@@ -24,7 +24,7 @@ class SignUpContainer extends Component<
   SignUpContainerProps,
   SignUpContainerState
 > {
-  public state = { errorMessage: "" };
+  public state = { error: "" };
   private setView = (view: View) => {
     this.props.setView({
       view,
@@ -32,15 +32,13 @@ class SignUpContainer extends Component<
   };
   private onSubmit: SignUpForm["onSubmit"] = async (input, form) => {
     try {
-      const res = await this.props.signUp(input);
-      console.log("response", res);
+      await this.props.signUp(input);
       form.reset();
     } catch (error) {
-      console.log("error", error);
+      this.setState({ error: error.message });
       if (error instanceof BadUserInputError) {
         return error.invalidArgsLocalized;
       }
-      this.setState({ errorMessage: `Something ${error}` });
       // tslint:disable-next-line:no-console
       console.error(error);
     }
@@ -51,7 +49,7 @@ class SignUpContainer extends Component<
       <SignUp
         onSubmit={this.onSubmit}
         setView={this.setView}
-        errorMessage={this.state.errorMessage}
+        error={this.state.error}
       />
     );
   }

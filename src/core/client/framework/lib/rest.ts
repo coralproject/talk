@@ -18,6 +18,11 @@ const buildOptions = (inputOptions: RequestInit = {}) => {
 };
 
 const handleResp = async (res: Response) => {
+  if (res.status === 404) {
+    const response = await res.text();
+    throw new Error(response);
+  }
+
   if (!res.ok) {
     const response = await res.json();
     throw new Error(response.error);
@@ -41,7 +46,7 @@ export class RestClient {
     this.tokenGetter = tokenGetter;
   }
 
-  public fetch<T>(path: string, options: PartialRequestInit): Promise<T> {
+  public async fetch<T>(path: string, options: PartialRequestInit): Promise<T> {
     let opts = options;
     if (this.tokenGetter) {
       opts = merge({}, options, {
@@ -50,10 +55,7 @@ export class RestClient {
         },
       });
     }
-    return fetch(`${this.uri}${path}`, buildOptions(opts))
-      .then(handleResp)
-      .catch(err => {
-        throw Error(err);
-      });
+    const response = await fetch(`${this.uri}${path}`, buildOptions(opts));
+    return handleResp(response);
   }
 }

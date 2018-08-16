@@ -11,10 +11,14 @@ export async function commit(
   input: SignOffInput,
   { rest, localStorage }: TalkContext
 ) {
-  await signOff(rest, input);
-  // tslint:disable-next-line:no-console
-  console.log("Signing off");
-  localStorage.removeItem("authToken");
+  try {
+    await signOff(rest, input);
+    localStorage.removeItem("authToken");
+  } catch (error) {
+    localStorage.removeItem("authToken");
+    // tslint:disable-next-line:no-console
+    console.error("error", error);
+  }
 }
 
 export const withSignOffMutation = createMutationContainer("signOff", commit);

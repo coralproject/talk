@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BadUserInputError } from "talk-framework/lib/errors";
+
 import SignIn, { SignInForm } from "../components/SignIn";
 import {
   SetViewMutation,
@@ -14,7 +15,7 @@ interface SignInContainerProps {
 }
 
 interface SignUpContainerState {
-  errorMessage: string;
+  error: string | null;
 }
 
 export type View = "SIGN_UP" | "FORGOT_PASSWORD";
@@ -23,7 +24,7 @@ class SignInContainer extends Component<
   SignInContainerProps,
   SignUpContainerState
 > {
-  public state = { errorMessage: "" };
+  public state = { error: null };
   private setView = (view: View) => {
     this.props.setView({
       view,
@@ -31,15 +32,13 @@ class SignInContainer extends Component<
   };
   private onSubmit: SignInForm["onSubmit"] = async (input, form) => {
     try {
-      const res = await this.props.signIn(input);
-      console.log(res);
-      // form.reset();
+      await this.props.signIn(input);
+      form.reset();
     } catch (error) {
+      this.setState({ error: error.message });
       if (error instanceof BadUserInputError) {
         return error.invalidArgsLocalized;
       }
-      console.log(error);
-      this.setState({ errorMessage: `Error: ${error}` });
       // tslint:disable-next-line:no-console
       console.error(error);
     }
@@ -50,7 +49,7 @@ class SignInContainer extends Component<
       <SignIn
         onSubmit={this.onSubmit}
         setView={this.setView}
-        errorMessage={this.state.errorMessage}
+        error={this.state.error}
       />
     );
   }
