@@ -19,12 +19,13 @@ const buildOptions = (inputOptions: RequestInit = {}) => {
 
 const handleResp = (res: Response) => {
   if (res.status > 399) {
-    return res.json().then((err: any) => {
-      // TODO: sync error handling with server.
-      const message = err.message || err.error || res.status;
-      const error = new Error(message);
-      throw error;
-    });
+    return res.text();
+    // TODO (bc): sync error handling with server.
+    // return res.json().then((err: any) => {
+    //   const message = err.message || err.error || res.status;
+    //   const error = new Error(message);
+    //   throw error;
+    // });
   } else if (res.status === 204) {
     return res.text();
   } else {

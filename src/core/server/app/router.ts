@@ -69,11 +69,16 @@ function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
     express.json(),
     wrapAuthn(options.passport, app.signingConfig, "local")
   );
+
+  // TODO (bc) - add delete user serverside
+  router.delete("/local", express.json());
+
   router.post(
     "/local/signup",
     express.json(),
     signupHandler({ db: app.mongo, signingConfig: app.signingConfig })
   );
+
   router.post("/sso", wrapAuthn(options.passport, app.signingConfig, "sso"));
   router.get("/oidc", wrapAuthn(options.passport, app.signingConfig, "oidc"));
   router.get(

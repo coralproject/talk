@@ -9,16 +9,12 @@ export type SignOffMutation = (input: SignOffInput) => Promise<void>;
 export async function commit(
   environment: Environment,
   input: SignOffInput,
-  { rest, postMessage }: TalkContext
+  { rest, localStorage }: TalkContext
 ) {
-  try {
-    await signOff(rest, input);
-    console.log("signing off");
-    // postMessage.send("setAuthToken", result.token, window.opener);
-    // window.close();
-  } catch (err) {
-    // postMessage.send("authError", err.toString(), window.opener);
-  }
+  await signOff(rest, input);
+  // tslint:disable-next-line:no-console
+  console.log("Signing off");
+  localStorage.removeItem("authToken");
 }
 
 export const withSignOffMutation = createMutationContainer("signOff", commit);
