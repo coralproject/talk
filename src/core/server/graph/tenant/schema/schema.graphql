@@ -290,6 +290,27 @@ type Karma {
 }
 
 ################################################################################
+## Email
+################################################################################
+
+type Email {
+  """
+  enabled when True, will enable the emailing functionality in Talk.
+  """
+  enabled: Boolean!
+
+  """
+  smtpURI is the SMTP connection url to send emails on.
+  """
+  smtpURI: String
+
+  """
+  fromAddress is the email address that will be used to send emails from.
+  """
+  fromAddress: String
+}
+
+################################################################################
 ## Settings
 ################################################################################
 
@@ -410,9 +431,9 @@ type Settings {
   organizationContactEmail: String
 
   """
-  wordlist will return a given list of words.
+  email is the set of credentials and settings associated with the organization.
   """
-  wordlist: Wordlist @auth(roles: [ADMIN, MODERATOR])
+  email: Email @auth(roles: [ADMIN])
 
   """
   wordlist will return a given list of words.
@@ -833,6 +854,23 @@ type CreateCommentPayload {
 ## updateSettings
 ##################
 
+input SettingsEmailInput {
+  """
+  enabled when True, will enable the emailing functionality in Talk.
+  """
+  enabled: Boolean
+
+  """
+  smtpURI is the SMTP connection url to send emails on.
+  """
+  smtpURI: String
+
+  """
+  fromAddress is the email address that will be used to send emails from.
+  """
+  fromAddress: String
+}
+
 input SettingsWordlistInput {
   """
   banned words will by default reject the comment if it is found.
@@ -1124,6 +1162,11 @@ input SettingsInput {
   wordlist will return a given list of words.
   """
   wordlist: SettingsWordlistInput
+
+  """
+  email is the set of credentials and settings associated with the organization.
+  """
+  email: SettingsEmailInput
 
   """
   auth contains all the settings related to authentication and authorization.

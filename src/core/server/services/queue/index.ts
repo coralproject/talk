@@ -12,6 +12,7 @@ import {
   ScraperData,
 } from "talk-server/services/queue/tasks/scraper";
 import { createRedisClient } from "talk-server/services/redis";
+import TenantCache from "talk-server/services/tenant/cache";
 
 const createQueueOptions = (config: Config): Queue.QueueOptions => {
   const client = createRedisClient(config);
@@ -45,6 +46,7 @@ const createQueueOptions = (config: Config): Queue.QueueOptions => {
 export interface QueueOptions {
   mongo: Db;
   config: Config;
+  tenantCache: TenantCache;
 }
 
 export interface TaskQueue {

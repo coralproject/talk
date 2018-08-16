@@ -90,6 +90,9 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
         },
       },
     },
+    email: {
+      enabled: false,
+    },
     karma: {
       enabled: true,
       thresholds: {
