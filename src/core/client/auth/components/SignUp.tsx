@@ -40,7 +40,6 @@ export interface SignUpForm {
 const SignUp: StatelessComponent<SignUpForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
-      {!!props.error && <CallOut>{props.error}</CallOut>}
       {({ handleSubmit, submitting }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <Flex itemGutter direction="column" className={styles.root}>
