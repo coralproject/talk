@@ -17,20 +17,17 @@ const buildOptions = (inputOptions: RequestInit = {}) => {
   return options;
 };
 
-const handleResp = (res: Response) => {
-  if (res.status > 399) {
-    return res.text();
-    // TODO (bc): sync error handling with server.
-    // return res.json().then((err: any) => {
-    //   const message = err.message || err.error || res.status;
-    //   const error = new Error(message);
-    //   throw error;
-    // });
-  } else if (res.status === 204) {
-    return res.text();
-  } else {
-    return res.json();
+const handleResp = async (res: Response) => {
+  if (!res.ok) {
+    const response = await res.json();
+    throw new Error(response.error);
   }
+
+  if (res.status === 204) {
+    return res.text();
+  }
+
+  return res.json();
 };
 
 type PartialRequestInit = Overwrite<Partial<RequestInit>, { body?: any }>;
@@ -53,6 +50,10 @@ export class RestClient {
         },
       });
     }
-    return fetch(`${this.uri}${path}`, buildOptions(opts)).then(handleResp);
+    return fetch(`${this.uri}${path}`, buildOptions(opts))
+      .then(handleResp)
+      .catch(err => {
+        throw Error(err);
+      });
   }
 }

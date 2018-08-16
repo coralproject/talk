@@ -63,8 +63,6 @@ export class Button extends React.Component<InnerProps> {
       ...rest
     } = this.props;
 
-    console.log("type", type, "---------");
-
     const rootClassName = cn(classes.root, className, {
       [classes.sizeRegular]: size === "regular",
       [classes.sizeSmall]: size === "small",

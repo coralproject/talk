@@ -50,8 +50,6 @@ const BaseButton: StatelessComponent<InnerProps> = ({
   type,
   ...rest
 }) => {
-  console.log("type", type, "Basebutton");
-
   let Element = "button";
 
   if (anchor) {

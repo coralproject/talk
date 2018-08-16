@@ -13,9 +13,17 @@ interface SignInContainerProps {
   setView: SetViewMutation;
 }
 
+interface SignUpContainerState {
+  errorMessage: string;
+}
+
 export type View = "SIGN_UP" | "FORGOT_PASSWORD";
 
-class SignInContainer extends Component<SignInContainerProps> {
+class SignInContainer extends Component<
+  SignInContainerProps,
+  SignUpContainerState
+> {
+  public state = { errorMessage: "" };
   private setView = (view: View) => {
     this.props.setView({
       view,
@@ -23,19 +31,28 @@ class SignInContainer extends Component<SignInContainerProps> {
   };
   private onSubmit: SignInForm["onSubmit"] = async (input, form) => {
     try {
-      await this.props.signIn(input);
-      form.reset();
+      const res = await this.props.signIn(input);
+      console.log(res);
+      // form.reset();
     } catch (error) {
       if (error instanceof BadUserInputError) {
         return error.invalidArgsLocalized;
       }
+      console.log(error);
+      this.setState({ errorMessage: `Error: ${error}` });
       // tslint:disable-next-line:no-console
       console.error(error);
     }
     return undefined;
   };
   public render() {
-    return <SignIn onSubmit={this.onSubmit} setView={this.setView} />;
+    return (
+      <SignIn
+        onSubmit={this.onSubmit}
+        setView={this.setView}
+        errorMessage={this.state.errorMessage}
+      />
+    );
   }
 }
 

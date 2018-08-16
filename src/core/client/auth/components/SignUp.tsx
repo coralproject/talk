@@ -12,6 +12,7 @@ import {
 } from "talk-framework/lib/validation";
 import {
   Button,
+  CallOut,
   Flex,
   FormField,
   InputDescription,
@@ -33,11 +34,13 @@ interface FormProps {
 export interface SignUpForm {
   onSubmit: OnSubmit<FormProps>;
   setView: (view: View) => void;
+  errorMessage: string;
 }
 
 const SignUp: StatelessComponent<SignUpForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
+      {props.errorMessage && <CallOut>{props.errorMessage}</CallOut>}
       {({ handleSubmit, submitting }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <Flex itemGutter direction="column" className={styles.root}>
@@ -155,7 +158,13 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
               </Field>
             </Flex>
             <div className={styles.footer}>
-              <Button variant="filled" color="primary" size="large" fullWidth>
+              <Button
+                variant="filled"
+                color="primary"
+                size="large"
+                fullWidth
+                type="submit"
+              >
                 Sign up and join the conversation
               </Button>
               <Flex
