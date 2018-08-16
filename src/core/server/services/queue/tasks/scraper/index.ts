@@ -4,7 +4,7 @@ import { Db } from "mongodb";
 
 import logger from "talk-server/logger";
 import { updateAsset } from "talk-server/models/asset";
-import { Task } from "talk-server/services/queue/tasks";
+import Task from "talk-server/services/queue/Task";
 import { modified } from "./rules/modified";
 import { section } from "./rules/section";
 

@@ -5,7 +5,7 @@ import {
   FindOrCreateAssetInput,
 } from "talk-server/models/asset";
 import { Tenant } from "talk-server/models/tenant";
-import { Task } from "talk-server/services/queue/tasks";
+import Task from "talk-server/services/queue/Task";
 import { ScraperData } from "talk-server/services/queue/tasks/scraper";
 
 export type FindOrCreateAsset = FindOrCreateAssetInput;

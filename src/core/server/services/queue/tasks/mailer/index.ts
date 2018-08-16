@@ -5,7 +5,7 @@ import { Db } from "mongodb";
 import { createTransport } from "nodemailer";
 
 import logger from "talk-server/logger";
-import { Task } from "talk-server/services/queue/tasks";
+import Task from "talk-server/services/queue/Task";
 import TenantCache from "talk-server/services/tenant/cache";
 import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
 

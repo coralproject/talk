@@ -1,5 +1,4 @@
 import Queue, { Job, Queue as QueueType } from "bull";
-
 import logger from "talk-server/logger";
 
 export interface TaskOptions<T, U = any> {
@@ -8,10 +7,9 @@ export interface TaskOptions<T, U = any> {
   queue: Queue.QueueOptions;
 }
 
-export class Task<T, U = any> {
+export default class Task<T, U = any> {
   private options: TaskOptions<T, U>;
   private queue: QueueType<T>;
-
   constructor(options: TaskOptions<T, U>) {
     this.queue = new Queue(options.jobName, options.queue);
     this.options = options;
@@ -37,10 +35,8 @@ export class Task<T, U = any> {
       { job_id: job.id, job_name: this.options.jobName },
       "added job to queue"
     );
-
     return job;
   }
-
   private setupAndAttachProcessor() {
     this.queue.process(async (job: Job<T>) => {
       logger.trace(
@@ -50,12 +46,10 @@ export class Task<T, U = any> {
 
       // Send the job off to the job processor to be handled.
       const promise: U = await this.options.jobProcessor(job);
-
       logger.trace(
         { job_id: job.id, job_name: this.options.jobName },
         "processing completed"
       );
-
       return promise;
     });
 
