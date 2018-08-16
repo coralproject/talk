@@ -48,6 +48,8 @@ de:
   comment_post_notif_premod: 'Vielen Dank für Ihren Kommentar. Unsere Moderatoren werden ihn in Kürze bearbeiten.'
   comment_singular: Kommentar
   common:
+    copied: 'Kopiert'
+    notsupported: 'Nicht unterstützt'
     copy: Kopieren
     error: 'Ein Problem ist aufgetreten.'
     reaction: 'Reaktion'
