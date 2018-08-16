@@ -10,7 +10,7 @@ import {
 } from "talk-stream/mutations";
 import { Popup } from "talk-ui/components";
 
-import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
+import UserBoxUnauthenticated from "talk-stream/components/UserBoxUnauthenticated";
 import UserBoxAuthenticatedContainer from "../containers/UserBoxAuthenticatedContainer";
 
 export type USER_ROLE =
@@ -50,9 +50,7 @@ export class UserBoxContainer extends Component<InnerProps> {
     } = this.props;
 
     if (user) {
-      return (
-        <UserBoxAuthenticated onSignOut={this.handleRegister} user={user} />
-      );
+      return <UserBoxAuthenticatedContainer user={user} />;
     }
 
     return (
@@ -67,7 +65,7 @@ export class UserBoxContainer extends Component<InnerProps> {
           onBlur={this.handleBlur}
           onClose={this.handleClose}
         />
-        <UserBoxAuthenticatedContainer
+        <UserBoxUnauthenticated
           onSignIn={this.handleSignIn}
           onRegister={this.handleRegister}
         />

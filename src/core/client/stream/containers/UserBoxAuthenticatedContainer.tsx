@@ -1,29 +1,25 @@
 import React, { Component } from "react";
-import UserBoxUnauthenticated from "talk-stream/components/UserBoxUnauthenticated";
-import { withSignOffMutation } from "../../auth/mutations";
+import UserBoxAuthenticated from "talk-stream/components/UserBoxAuthenticated";
+import { SignOffMutation, withSignOffMutation } from "../../auth/mutations";
+import { User } from "../containers/UserBoxContainer";
 
-interface SignInContainerProps {
-  onSignIn: () => void;
-  onRegister: () => void;
-  signOff: () => void;
+interface UserBoxAuthenticatedProps {
+  signOff: SignOffMutation;
+  user: User;
 }
 
-export type View = "SIGN_UP" | "FORGOT_PASSWORD";
-
-class UserBoxUnauthenticatedContainer extends Component<SignInContainerProps> {
-  private signOff = () => {
-    this.props.signOff();
+class UserBoxAuthenticatedContainer extends Component<
+  UserBoxAuthenticatedProps
+> {
+  private onSignOff = () => {
+    this.props.signOff({});
   };
   public render() {
     return (
-      <UserBoxUnauthenticated
-        onSignOff={this.signOff}
-        onRegister={this.props.onRegister}
-        onSignIn={this.props.onSignIn}
-      />
+      <UserBoxAuthenticated onSignOff={this.onSignOff} user={this.props.user} />
     );
   }
 }
 
-const enhanced = withSignOffMutation(UserBoxUnauthenticatedContainer);
+const enhanced = withSignOffMutation(UserBoxAuthenticatedContainer);
 export default enhanced;

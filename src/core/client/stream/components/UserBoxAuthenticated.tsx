@@ -7,13 +7,13 @@ import MatchMedia from "talk-ui/components/MatchMedia";
 import { User } from "../containers/UserBoxContainer";
 import * as styles from "./UserBoxAuthenticated.css";
 
-export interface UserBoxUnauthenticatedProps {
-  onSignOut: () => void;
+export interface UserBoxAuthenticatedProps {
+  onSignOff: () => void;
   user: User;
 }
 
 const UserBoxAuthenticated: StatelessComponent<
-  UserBoxUnauthenticatedProps
+  UserBoxAuthenticatedProps
 > = props => {
   return (
     <Flex itemGutter="half">
@@ -40,7 +40,7 @@ const UserBoxAuthenticated: StatelessComponent<
             color="primary"
             size="small"
             variant="underlined"
-            onClick={props.onSignOut}
+            onClick={props.onSignOff}
           >
             Sign Out
           </Button>
