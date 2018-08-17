@@ -14,7 +14,7 @@ import { User } from "../containers/UserBoxContainer";
 
 interface InnerProps {
   asset: Data;
-  user: User | null;
+  user: User | null | undefined;
   relay: RelayPaginationProp;
 }
 

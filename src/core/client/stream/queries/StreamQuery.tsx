@@ -37,7 +37,7 @@ const StreamQuery: StatelessComponent<InnerProps> = ({
 }) => (
   <QueryRenderer<StreamQueryVariables, StreamQueryResponse>
     query={graphql`
-      query StreamQuery($assetID: ID!) {
+      query StreamQuery($assetID: ID!, $signedIn: Boolean!) {
         asset(id: $assetID) {
           ...StreamContainer_asset
         }

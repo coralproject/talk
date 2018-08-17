@@ -29,7 +29,7 @@ export interface User {
 
 interface InnerProps {
   local: Local;
-  user: User | null;
+  user: User | null | undefined;
   showAuthPopup: ShowAuthPopupMutation;
   setAuthPopupState: SetAuthPopupStateMutation;
 }

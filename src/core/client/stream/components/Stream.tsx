@@ -19,7 +19,7 @@ export interface StreamProps {
   onLoadMore?: () => void;
   hasMore?: boolean;
   disableLoadMore?: boolean;
-  user: User | null;
+  user: User | null | undefined;
 }
 
 const Stream: StatelessComponent<StreamProps> = props => {
