@@ -13,8 +13,8 @@ import {
 } from "talk-stream/__generated__/PermalinkViewQuery.graphql";
 import { PermalinkViewQueryLocal as Local } from "talk-stream/__generated__/PermalinkViewQueryLocal.graphql";
 
-import PermalinkViewContainer from "../containers/PermalinkViewContainer";
 import { Spinner } from "talk-ui/components";
+import PermalinkViewContainer from "../containers/PermalinkViewContainer";
 
 interface InnerProps {
   local: Local;

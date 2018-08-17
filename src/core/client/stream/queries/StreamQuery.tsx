@@ -1,6 +1,5 @@
-import * as React from "react";
+import React, { StatelessComponent } from "react";
 import { ReadyState } from "react-relay";
-
 import {
   graphql,
   QueryRenderer,
@@ -11,10 +10,8 @@ import {
   StreamQueryVariables,
 } from "talk-stream/__generated__/StreamQuery.graphql";
 import { StreamQueryLocal as Local } from "talk-stream/__generated__/StreamQueryLocal.graphql";
-
-import StreamContainer from "../containers/StreamContainer";
-import { StatelessComponent } from "enzyme";
 import { Spinner } from "talk-ui/components";
+import StreamContainer from "../containers/StreamContainer";
 
 interface InnerProps {
   local: Local;
