@@ -28,6 +28,7 @@ export interface Tenant extends Settings {
   domains: string[];
 
   organizationName: string;
+  organizationURL: string;
   organizationContactEmail: string;
 }
 
@@ -38,7 +39,11 @@ export interface Tenant extends Settings {
  */
 export type CreateTenantInput = Pick<
   Tenant,
-  "domain" | "organizationName" | "organizationContactEmail" | "domains"
+  | "domain"
+  | "organizationName"
+  | "organizationURL"
+  | "organizationContactEmail"
+  | "domains"
 >;
 
 /**
