@@ -22,6 +22,7 @@ exports[`renders permalink view with unknown comment 1`] = `
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         target="_parent"
+        type="button"
       >
         Show all Comments
       </a>
@@ -63,6 +64,7 @@ exports[`show all comments 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               onTouchEnd={[Function]}
+              type="button"
             >
               Sign in
             </button>
@@ -75,6 +77,7 @@ exports[`show all comments 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               onTouchEnd={[Function]}
+              type="button"
             >
               Register
             </button>
@@ -103,8 +106,9 @@ exports[`show all comments 1`] = `
             onMouseOut={[Function]}
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
+            type="button"
           >
-            Sign In and join the conversation
+            Sign in and join the conversation
           </button>
         </form>
         <div

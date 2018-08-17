@@ -14,6 +14,7 @@ import { StreamQueryLocal as Local } from "talk-stream/__generated__/StreamQuery
 
 import StreamContainer from "../containers/StreamContainer";
 import { StatelessComponent } from "enzyme";
+import { Spinner } from "talk-ui/components";
 
 interface InnerProps {
   local: Local;
@@ -25,11 +26,10 @@ export const render = ({ error, props }: ReadyState<StreamQueryResponse>) => {
   }
 
   if (props) {
-    console.log(props);
     return <StreamContainer asset={props.asset} user={props.me} />;
   }
 
-  return <div>Loading</div>;
+  return <Spinner />;
 };
 
 const StreamQuery: StatelessComponent<InnerProps> = ({

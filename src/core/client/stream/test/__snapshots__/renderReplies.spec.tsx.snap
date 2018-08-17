@@ -28,6 +28,7 @@ exports[`renders comment stream 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               onTouchEnd={[Function]}
+              type="button"
             >
               Sign in
             </button>
@@ -40,6 +41,7 @@ exports[`renders comment stream 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               onTouchEnd={[Function]}
+              type="button"
             >
               Register
             </button>
@@ -68,8 +70,9 @@ exports[`renders comment stream 1`] = `
             onMouseOut={[Function]}
             onMouseOver={[Function]}
             onTouchEnd={[Function]}
+            type="button"
           >
-            Sign In and join the conversation
+            Sign in and join the conversation
           </button>
         </form>
         <div

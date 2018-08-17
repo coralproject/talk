@@ -84,7 +84,6 @@ const TextField: StatelessComponent<TextFieldProps> = props => {
 
 TextField.defaultProps = {
   color: "regular",
-  fullWidth: true,
   placeholder: "",
 };
 
