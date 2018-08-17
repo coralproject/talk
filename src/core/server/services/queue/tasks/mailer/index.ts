@@ -4,14 +4,17 @@ import Joi from "joi";
 import { Db } from "mongodb";
 import { createTransport } from "nodemailer";
 
+import { Config } from "talk-common/config";
 import logger from "talk-server/logger";
 import Task from "talk-server/services/queue/Task";
+import MailerContent from "talk-server/services/queue/tasks/mailer/content";
 import TenantCache from "talk-server/services/tenant/cache";
 import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
 
 const JOB_NAME = "mailer";
 
 export interface MailProcessorOptions {
+  config: Config;
   mongo: Db;
   tenantCache: TenantCache;
 }
@@ -170,13 +173,84 @@ const createJobProcessor = (options: MailProcessorOptions) => {
   };
 };
 
-export function createMailerTask(
+export interface MailerInput {
+  message: {
+    to: string;
+    subject: string;
+  };
+  template: {
+    name: string;
+    context: object;
+  };
+  tenantID: string;
+}
+
+export class Mailer {
+  private task: Task<MailerData>;
+  private content: MailerContent;
+  private tenantCache: TenantCache;
+
+  constructor(queue: Queue.QueueOptions, options: MailProcessorOptions) {
+    this.task = new Task<MailerData>({
+      jobName: JOB_NAME,
+      jobProcessor: createJobProcessor(options),
+      queue,
+    });
+    this.content = new MailerContent(options.config);
+    this.tenantCache = options.tenantCache;
+  }
+
+  public async add({ template, ...rest }: MailerInput) {
+    const { tenantID } = rest;
+
+    // All email templates require the tenant in order to insert the footer, so
+    // load it from the tenant cache here.
+    const tenant = await this.tenantCache.retrieveByID(tenantID);
+    if (!tenant) {
+      logger.error(
+        {
+          job_name: JOB_NAME,
+          tenant_id: tenantID,
+        },
+        "referenced tenant was not found"
+      );
+      // TODO: (wyattjoh) maybe throw an error here?
+      return;
+    }
+
+    if (!tenant.email.enabled) {
+      logger.error(
+        {
+          job_name: JOB_NAME,
+          tenant_id: tenantID,
+        },
+        "not adding email, it was disabled"
+      );
+      // TODO: (wyattjoh) maybe throw an error here?
+      return;
+    }
+
+    // Generate the HTML for the email template.
+    const html = this.content.generateHTML({
+      ...template,
+      context: {
+        ...template.context,
+        tenant,
+      },
+    });
+
+    // Return the job that'll add the email to the queue to be processed later.
+    return this.task.add({
+      ...rest,
+      message: {
+        ...rest.message,
+        html,
+      },
+    });
+  }
+}
+
+export const createMailerTask = (
   queue: Queue.QueueOptions,
   options: MailProcessorOptions
-) {
-  return new Task({
-    jobName: JOB_NAME,
-    jobProcessor: createJobProcessor(options),
-    queue,
-  });
-}
+) => new Mailer(queue, options);

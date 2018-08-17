@@ -5,7 +5,7 @@ import { Config } from "talk-common/config";
 import Task from "talk-server/services/queue/Task";
 import {
   createMailerTask,
-  MailerData,
+  Mailer,
 } from "talk-server/services/queue/tasks/mailer";
 import {
   createScraperTask,
@@ -50,7 +50,7 @@ export interface QueueOptions {
 }
 
 export interface TaskQueue {
-  mailer: Task<MailerData>;
+  mailer: Mailer;
   scraper: Task<ScraperData>;
 }
 

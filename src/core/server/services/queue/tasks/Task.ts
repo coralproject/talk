@@ -10,6 +10,7 @@ export interface TaskOptions<T, U = any> {
 export default class Task<T, U = any> {
   private options: TaskOptions<T, U>;
   private queue: QueueType<T>;
+
   constructor(options: TaskOptions<T, U>) {
     this.queue = new Queue(options.jobName, options.queue);
     this.options = options;
@@ -37,6 +38,7 @@ export default class Task<T, U = any> {
     );
     return job;
   }
+
   private setupAndAttachProcessor() {
     this.queue.process(async (job: Job<T>) => {
       logger.trace(
