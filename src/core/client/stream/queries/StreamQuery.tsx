@@ -1,5 +1,4 @@
 import * as React from "react";
-import { StatelessComponent } from "react";
 import { ReadyState } from "react-relay";
 
 import {
@@ -14,6 +13,7 @@ import {
 import { StreamQueryLocal as Local } from "talk-stream/__generated__/StreamQueryLocal.graphql";
 
 import StreamContainer from "../containers/StreamContainer";
+import { StatelessComponent } from "enzyme";
 
 interface InnerProps {
   local: Local;
@@ -25,6 +25,7 @@ export const render = ({ error, props }: ReadyState<StreamQueryResponse>) => {
   }
 
   if (props) {
+    console.log(props);
     return <StreamContainer asset={props.asset} user={props.me} />;
   }
 
@@ -32,7 +33,7 @@ export const render = ({ error, props }: ReadyState<StreamQueryResponse>) => {
 };
 
 const StreamQuery: StatelessComponent<InnerProps> = ({
-  local: { assetID },
+  local: { assetID, authToken },
 }) => (
   <QueryRenderer<StreamQueryVariables, StreamQueryResponse>
     query={graphql`
@@ -40,7 +41,7 @@ const StreamQuery: StatelessComponent<InnerProps> = ({
         asset(id: $assetID) {
           ...StreamContainer_asset
         }
-        me {
+        me @include(if: $signedIn) {
           id
           username
           displayName
@@ -50,6 +51,7 @@ const StreamQuery: StatelessComponent<InnerProps> = ({
     `}
     variables={{
       assetID,
+      signedIn: !!authToken,
     }}
     render={render}
   />
@@ -59,6 +61,7 @@ const enhanced = withLocalStateContainer<Local>(
   graphql`
     fragment StreamQueryLocal on Local {
       assetID
+      authToken
     }
   `
 )(StreamQuery);
