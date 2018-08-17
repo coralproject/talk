@@ -5,32 +5,18 @@ menu: UI Kit
 
 import { Playground, PropsTable } from 'docz'
 import FormField from './FormField'
-import { InputLabel, ValidationMessage, TextField, Typography, Flex, Button} from '../core/client/ui/components'
 
-# Flex
+# FormField
 
-`FormField` is to be used with Form Components `flexbox`.
+`FormField` is to be used with Form Components: `InputLabel`, `InputDescription`, `TextField`, `ValidationMessage`, etc.
+FormField manages the gutters between inner elements. It's a form field wrapper of the `Flex` Component.
 
 ## Justify content
 <Playground>
-  <FormField>
-  </FormField>
-</Playground>
-
-## Align items
-<Playground>
-  <Flex alignItems="center" itemGutter>
-    <Button variant="filled">Push Me</Button>
-    <Button variant="filled" size="small">Push Me</Button>
-    <Button variant="filled" size="large">Push Me</Button>
-  </Flex>
-</Playground>
-
-## Direction
-<Playground>
-  <Flex direction="column" itemGutter>
-    <Button variant="filled">Push Me</Button>
-    <Button variant="filled">Push Me</Button>
-    <Button variant="filled">Push Me</Button>
-  </Flex>
+    <FormField>
+      <InputLabel defaultValue="something.com" color="error" >Username</InputLabel>
+      <InputDescription>A unique identifier displayed on your comments. You may use “_” and “.”</InputDescription>
+      <TextField/>
+      <ValidationMessage>Invalid characters. Try again.</ValidationMessage>
+    </FormField>
 </Playground>
