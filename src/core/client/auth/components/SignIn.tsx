@@ -32,7 +32,6 @@ export interface SignInForm {
 }
 
 const SignIn: StatelessComponent<SignInForm> = props => {
-  console.log(props);
   return (
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting }) => (
