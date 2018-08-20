@@ -24,11 +24,9 @@ jobs:
       - run:
           name: Update NPM
           command: sudo npm update -g npm
-    #   Audit is disabled until we have a solution for ignoring specific
-    #   advisories that don't apply to our usecases.
-    #   - run:
-    #     name: Audit dependencies
-    #     command: npm audit
+      - run:
+          name: Audit dependencies
+          command: npm audit
       - run:
           name: Install dependencies
           command: npm install
