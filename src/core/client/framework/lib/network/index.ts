@@ -1,1 +1,1 @@
-export { default as fetchQuery } from "./fetchQuery";
+export { default as createFetch, TokenGetter } from "./fetchQuery";
