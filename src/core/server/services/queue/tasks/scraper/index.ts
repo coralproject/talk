@@ -1,12 +1,17 @@
 import Queue, { Job } from "bull";
 import cheerio from "cheerio";
+import authorScraper from "metascraper-author";
+import dateScraper from "metascraper-date";
+import descriptionScraper from "metascraper-description";
+import imageScraper from "metascraper-image";
+import titleScraper from "metascraper-title";
 import { Db } from "mongodb";
 
 import logger from "talk-server/logger";
 import { updateAsset } from "talk-server/models/asset";
 import Task from "talk-server/services/queue/Task";
-import { modified } from "./rules/modified";
-import { section } from "./rules/section";
+import { modifiedScraper } from "./rules/modified";
+import { sectionScraper } from "./rules/section";
 
 const JOB_NAME = "scraper";
 
@@ -151,13 +156,13 @@ export function createScraperTask(
 ) {
   // Create the scraper object.
   const scraper = new Scraper([
-    require("metascraper-title")(),
-    require("metascraper-description")(),
-    require("metascraper-image")(),
-    require("metascraper-author")(),
-    require("metascraper-date")(),
-    modified(),
-    section(),
+    authorScraper(),
+    dateScraper(),
+    descriptionScraper(),
+    imageScraper(),
+    titleScraper(),
+    modifiedScraper(),
+    sectionScraper(),
   ]);
 
   return new Task({
