@@ -4,6 +4,7 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { EventEmitter } from "events";
+import { Config } from "talk-common/config";
 import logger from "talk-server/logger";
 import {
   retrieveAllTenants,
@@ -29,21 +30,13 @@ export default class TenantCache {
   /**
    * tenantsByID reference the tenants that have been cached/retrieved by ID.
    */
-  private tenantsByID = new DataLoader<string, Readonly<Tenant> | null>(ids => {
-    logger.debug({ ids: ids.length }, "now loading tenants");
-    return retrieveManyTenants(this.mongo, ids);
-  });
+  private tenantsByID: DataLoader<string, Readonly<Tenant> | null>;
 
   /**
    * tenantsByDomain reference the tenants that have been cached/retrieved by
    * Domain.
    */
-  private tenantsByDomain = new DataLoader<string, Readonly<Tenant> | null>(
-    domains => {
-      logger.debug({ domains: domains.length }, "now loading tenants");
-      return retrieveManyTenantsByDomain(this.mongo, domains);
-    }
-  );
+  private tenantsByDomain: DataLoader<string, Readonly<Tenant> | null>;
 
   /**
    * Create a new client application ID. This prevents duplicated messages
@@ -54,23 +47,70 @@ export default class TenantCache {
 
   private mongo: Db;
   private emitter = new EventEmitter();
+  private cachingEnabled: boolean;
 
-  constructor(mongo: Db, subscriber: Redis) {
+  constructor(mongo: Db, subscriber: Redis, config: Config) {
+    this.cachingEnabled = !config.get("disable_tenant_caching");
+    if (!this.cachingEnabled) {
+      logger.warn("tenant caching is disabled");
+    } else {
+      logger.debug("tenant caching is enabled");
+    }
+
     // Save the Db reference.
     this.mongo = mongo;
 
-    // Attach to messages on this connection so we can receive updates when
-    // the tenant are changed.
-    subscriber.on("message", this.onMessage);
+    // Configure the data loaders.
+    this.tenantsByID = new DataLoader(
+      async ids => {
+        logger.debug({ ids: ids.length }, "now loading tenants");
+        const tenants = await retrieveManyTenants(this.mongo, ids);
+        logger.debug(
+          { tenants: tenants.filter(t => t !== null).length },
+          "loaded tenants"
+        );
+        return tenants;
+      },
+      {
+        cache: this.cachingEnabled,
+      }
+    );
 
-    // Subscribe to tenant notifications.
-    subscriber.subscribe(TENANT_UPDATE_CHANNEL);
+    this.tenantsByDomain = new DataLoader(
+      async domains => {
+        logger.debug({ domains: domains.length }, "now loading tenants");
+        const tenants = await retrieveManyTenantsByDomain(this.mongo, domains);
+        logger.debug(
+          { tenants: tenants.filter(t => t !== null).length },
+          "loaded tenants"
+        );
+        return tenants;
+      },
+      {
+        cache: this.cachingEnabled,
+      }
+    );
+
+    // We don't need updates if we aren't synced to tenant updates.
+    if (this.cachingEnabled) {
+      // Attach to messages on this connection so we can receive updates when
+      // the tenant are changed.
+      subscriber.on("message", this.onMessage);
+
+      // Subscribe to tenant notifications.
+      subscriber.subscribe(TENANT_UPDATE_CHANNEL);
+    }
   }
 
   /**
    * primeAll will load all the tenants into the cache on startup.
    */
   public async primeAll() {
+    if (!this.cachingEnabled) {
+      logger.debug("tenants not primed, caching disabled");
+      return;
+    }
+
     // Grab all the tenants for this node.
     const tenants = await retrieveAllTenants(this.mongo);
 

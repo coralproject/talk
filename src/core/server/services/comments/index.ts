@@ -16,7 +16,7 @@ import { Request } from "talk-server/types/express";
 
 export type CreateComment = Omit<
   CreateCommentInput,
-  "status" | "action_counts"
+  "status" | "action_counts" | "metadata"
 >;
 
 export async function create(
@@ -47,7 +47,7 @@ export async function create(
   }
 
   // Run the comment through the moderation phases.
-  const { status } = await processForModeration({
+  const { status, metadata } = await processForModeration({
     asset,
     tenant,
     comment: input,
@@ -61,6 +61,7 @@ export async function create(
     ...input,
     status,
     action_counts: {},
+    metadata,
   });
 
   if (input.parent_id) {

@@ -10,16 +10,24 @@ import {
 } from "talk-framework/lib/bootstrap";
 
 import AppContainer from "./containers/AppContainer";
+import {
+  onPostMessageAuthError,
+  onPostMessageSetAuthToken,
+  onPymSetCommentID,
+} from "./listeners";
 import { initLocalState } from "./local";
 import localesData from "./locales";
-import { withSetCommentID } from "./pym";
 
-const pymFeatures = [withSetCommentID];
+const listeners = [
+  onPymSetCommentID,
+  onPostMessageSetAuthToken,
+  onPostMessageAuthError,
+];
 
 // This is called when the context is first initialized.
 async function init(context: TalkContext) {
-  await initLocalState(context.relayEnvironment);
-  pymFeatures.forEach(f => f(context));
+  await initLocalState(context.relayEnvironment, context);
+  listeners.forEach(f => f(context));
 }
 
 async function main() {

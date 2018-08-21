@@ -34,7 +34,7 @@ export interface StatusHistoryItem {
 
 export interface Comment extends TenantResource {
   readonly id: string;
-  parent_id: string | null;
+  parent_id?: string;
   author_id: string;
   asset_id: string;
   body: string;

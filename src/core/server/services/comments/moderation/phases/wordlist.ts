@@ -1,17 +1,19 @@
 import {
+  GQLACTION_GROUP,
   GQLACTION_TYPE,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
+import {
+  IntermediateModerationPhase,
+  IntermediatePhaseResult,
+} from "talk-server/services/comments/moderation";
 import { containsMatchingPhrase } from "talk-server/services/comments/moderation/wordlist";
 
 // This phase checks the comment against the wordlist.
 export const wordlist: IntermediateModerationPhase = ({
-  asset,
   tenant,
   comment,
-  author,
-}) => {
+}): IntermediatePhaseResult | void => {
   // If there isn't a body, there can't be a bad word!
   if (!comment.body) {
     return;
@@ -28,7 +30,7 @@ export const wordlist: IntermediateModerationPhase = ({
       actions: [
         {
           action_type: GQLACTION_TYPE.FLAG,
-          group_id: "BANNED_WORD",
+          group_id: GQLACTION_GROUP.BANNED_WORD,
         },
       ],
     };
@@ -45,11 +47,9 @@ export const wordlist: IntermediateModerationPhase = ({
       actions: [
         {
           action_type: GQLACTION_TYPE.FLAG,
-          group_id: "SUSPECT_WORD",
+          group_id: GQLACTION_GROUP.SUSPECT_WORD,
         },
       ],
     };
   }
-
-  return;
 };

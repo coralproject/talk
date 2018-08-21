@@ -1,12 +1,10 @@
 import {
+  GQLExternalIntegrations,
+  GQLKarma,
   GQLMODERATION_MODE,
   GQLUSER_ROLE,
+  GQLWordlist,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-
-export interface Wordlist {
-  banned: string[];
-  suspect: string[];
-}
 
 export interface EmailDomainRuleCondition {
   /**
@@ -49,7 +47,7 @@ export interface AuthRules {
   restrictTo?: EmailDomainRuleCondition[];
 }
 
-export interface AuthIntegration {
+export interface EnableableIntegration {
   enabled: boolean;
 }
 
@@ -63,7 +61,7 @@ export interface DisplayNameAuthIntegration {
  * embed to allow single sign on.
  */
 export interface SSOAuthIntegration
-  extends AuthIntegration,
+  extends EnableableIntegration,
     DisplayNameAuthIntegration {
   key: string;
 }
@@ -73,7 +71,7 @@ export interface SSOAuthIntegration
  * will be used in the admin to provide staff logins for users.
  */
 export interface OIDCAuthIntegration
-  extends AuthIntegration,
+  extends EnableableIntegration,
     DisplayNameAuthIntegration {
   clientID: string;
   clientSecret: string;
@@ -83,17 +81,17 @@ export interface OIDCAuthIntegration
   tokenURL: string;
 }
 
-export interface FacebookAuthIntegration extends AuthIntegration {
+export interface FacebookAuthIntegration extends EnableableIntegration {
   clientID: string;
   clientSecret: string;
 }
 
-export interface GoogleAuthIntegration extends AuthIntegration {
+export interface GoogleAuthIntegration extends EnableableIntegration {
   clientID: string;
   clientSecret: string;
 }
 
-export type LocalAuthIntegration = AuthIntegration;
+export type LocalAuthIntegration = EnableableIntegration;
 
 /**
  * AuthIntegrations describes all of the possible auth integration
@@ -130,33 +128,6 @@ export interface Auth {
   integrations: AuthIntegrations;
 }
 
-/**
- * Akismet provides integration with the Akismet Spam detection service.
- */
-export interface AkismetIntegration {
-  /**
-   * When true, it will enable comments to be checked by Akismet.
-   */
-  enabled: boolean;
-
-  /**
-   * The key for the Akismet integration.
-   */
-  key?: string;
-
-  /**
-   * The site (blog) for the Akismet integration.
-   */
-  site?: string;
-}
-
-export interface ExternalIntegrations {
-  /**
-   * akismet provides integration with the Akismet Spam detection service.
-   */
-  akismet: AkismetIntegration;
-}
-
 export interface ModerationSettings {
   moderation: GQLMODERATION_MODE;
   requireEmailConfirmation: boolean;
@@ -175,45 +146,6 @@ export interface ModerationSettings {
   charCount?: number;
 }
 
-/**
- * KarmaThreshold defines the bounds for which a User will become unreliable or
- * reliable based on their karma score. If the score is equal or less than the
- * unreliable value, they are unreliable. If the score is equal or more than the
- * reliable value, they are reliable. If they are neither reliable or unreliable
- * then they are neutral.
- */
-export interface KarmaThreshold {
-  reliable: number;
-  unreliable: number;
-}
-
-export interface KarmaThresholds {
-  /**
-   * flag represents karma settings in relation to how well a User's flagging
-   * ability aligns with the moderation decicions made by moderators.
-   */
-  flag: KarmaThreshold;
-
-  /**
-   * comment represents the karma setting in relation to how well a User's comments are moderated.
-   */
-  comment: KarmaThreshold;
-}
-
-export interface Karma {
-  /**
-   * When true, checks will be completed to ensure that the Karma checks are
-   * completed.
-   */
-  enabled: boolean;
-
-  /**
-   * karmaThresholds contains the currently set thresholds for triggering Trust
-   * behavior.
-   */
-  thresholds: KarmaThresholds;
-}
-
 export interface Settings extends ModerationSettings {
   customCssUrl?: string;
 
@@ -227,12 +159,12 @@ export interface Settings extends ModerationSettings {
    * karma is the set of settings related to how user Trust and Karma are
    * handled.
    */
-  karma: Karma;
+  karma: GQLKarma;
 
   /**
    * wordlist stores all the banned/suspect words.
    */
-  wordlist: Wordlist;
+  wordlist: GQLWordlist;
 
   /**
    * Set of configured authentication integrations.
@@ -242,5 +174,5 @@ export interface Settings extends ModerationSettings {
   /**
    * Various integrations with external services.
    */
-  integrations: ExternalIntegrations;
+  integrations: GQLExternalIntegrations;
 }
