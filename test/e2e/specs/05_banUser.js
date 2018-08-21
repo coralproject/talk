@@ -1,3 +1,4 @@
+const printBrowserLog = require('../helpers/printBrowserLog');
 const commentBody = 'Ban User Test';
 
 module.exports = {
@@ -6,7 +7,8 @@ module.exports = {
     client.resizeWindow(1600, 1200);
   },
 
-  afterEach: (client, done) => {
+  afterEach: async (client, done) => {
+    await printBrowserLog(client);
     if (client.currentTest.results.failed) {
       throw new Error('Test Case failed, skipping all the rest');
     }
@@ -19,7 +21,9 @@ module.exports = {
 
   'admin logs in': client => {
     const adminPage = client.page.admin();
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
 
     adminPage.navigateAndLogin(admin);
   },
@@ -51,7 +55,9 @@ module.exports = {
     comments.logout();
   },
   'user logs in': client => {
-    const { testData: { user } } = client.globals;
+    const {
+      testData: { user },
+    } = client.globals;
     const comments = client.page.embedStream().section.comments;
 
     comments.openLoginPopup(popup => popup.login(user));
@@ -70,7 +76,9 @@ module.exports = {
   },
   'admin logs in (2)': client => {
     const adminPage = client.page.admin();
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
 
     adminPage.navigateAndLogin(admin);
   },
@@ -86,7 +94,7 @@ module.exports = {
       .waitForElementVisible('@firstRow')
       .waitForElementVisible('@dropdownStatus')
       .click('@dropdownStatus')
-      .waitForElementVisible('@dropdownStatusActive')
+      .waitForElementVisible('@optionRemoveBan')
       .click('@optionRemoveBan');
   },
   'admin logs out 2': client => {
@@ -98,7 +106,9 @@ module.exports = {
     embedStream.navigate().ready();
   },
   'user logs in 2': client => {
-    const { testData: { user } } = client.globals;
+    const {
+      testData: { user },
+    } = client.globals;
     const comments = client.page.embedStream().section.comments;
 
     comments.openLoginPopup(popup => popup.login(user));
@@ -132,7 +142,9 @@ module.exports = {
   },
   'admin logs in (3)': client => {
     const adminPage = client.page.admin();
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
 
     adminPage.navigateAndLogin(admin);
   },
@@ -153,9 +165,8 @@ module.exports = {
   'approve comment to restore karma': client => {
     const moderate = client.page.admin().section.moderate;
 
-    moderate.click('@firstCommentApprove');
-
-    // TODO: check why this fails.
-    //  .waitForElementNotPresent('@firstComment');
+    moderate
+      .click('@firstCommentApprove')
+      .waitForElementNotPresent('@firstComment');
   },
 };

@@ -1,3 +1,10 @@
+ar:
+  talk-plugin-notifications:
+    categories:
+      reply:
+        subject: "رد شخص ما على تعليقك على {0}"
+        body: "{0}\n{1} رد على تعليقك
+        {2}"
 en:
   talk-plugin-notifications:
     categories:

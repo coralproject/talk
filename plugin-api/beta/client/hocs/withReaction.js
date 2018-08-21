@@ -413,7 +413,9 @@ export default (reaction, options = {}) =>
               update: (
                 proxy,
                 {
-                  data: { [`create${Reaction}Action`]: { [reaction]: action } },
+                  data: {
+                    [`create${Reaction}Action`]: { [reaction]: action },
+                  },
                 }
               ) => {
                 const a = {
@@ -466,7 +468,10 @@ export default (reaction, options = {}) =>
         ${fragments.comment ? fragments.comment : ''}
       `,
       }),
-      connect(mapStateToProps, mapDispatchToProps),
+      connect(
+        mapStateToProps,
+        mapDispatchToProps
+      ),
       withDeleteReaction,
       withPostReaction
     );

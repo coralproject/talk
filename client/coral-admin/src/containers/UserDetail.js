@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import UserDetail from '../components/UserDetail';
 import withQuery from 'coral-framework/hocs/withQuery';
+import { withRouter } from 'react-router';
 import {
   getDefinitionName,
   getSlotFragmentSpreads,
@@ -21,11 +22,14 @@ import {
   withSetCommentStatus,
   withUnbanUser,
   withUnsuspendUser,
+  withRejectUsername,
+  withPostFlag,
 } from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
 import { showBanUserDialog } from 'actions/banUserDialog';
 import { showSuspendUserDialog } from 'actions/suspendUserDialog';
+import { showRejectUsernameDialog } from 'actions/rejectUsernameDialog';
 
 const commentConnectionFragment = gql`
   fragment CoralAdmin_UserDetail_CommentConnection on CommentConnection {
@@ -131,6 +135,7 @@ class UserDetailContainer extends React.Component {
         loading={loading}
         error={this.props.data && this.props.data.error}
         loadMore={this.loadMore}
+        rejectUsername={this.props.rejectUsername}
         {...this.props}
       />
     );
@@ -148,6 +153,7 @@ UserDetailContainer.propTypes = {
   selectedCommentIds: PropTypes.array,
   unbanUser: PropTypes.func.isRequired,
   unsuspendUser: PropTypes.func.isRequired,
+  rejectUsername: PropTypes.func.isRequired,
   userId: PropTypes.string,
 };
 
@@ -275,6 +281,7 @@ const mapDispatchToProps = dispatch => ({
     {
       showBanUserDialog,
       showSuspendUserDialog,
+      showRejectUsernameDialog,
       changeTab,
       clearUserDetailSelections,
       toggleSelectCommentInUserDetail,
@@ -287,9 +294,15 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withUserDetailQuery,
   withSetCommentStatus,
   withUnbanUser,
-  withUnsuspendUser
+  withUnsuspendUser,
+  withRejectUsername,
+  withPostFlag,
+  withRouter
 )(UserDetailContainer);

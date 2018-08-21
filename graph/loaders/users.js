@@ -51,7 +51,11 @@ const genUserByIDs = async (ctx, ids) => {
     return [];
   }
 
-  const { connectors: { models: { User } } } = ctx;
+  const {
+    connectors: {
+      models: { User },
+    },
+  } = ctx;
 
   return User.find({ id: { $in: ids } }).then(util.singleJoinBy(ids, 'id'));
 };
@@ -63,7 +67,12 @@ const genUserByIDs = async (ctx, ids) => {
  * @param  {Object} query     query terms to apply to the users query
  */
 const getUsersByQuery = async (
-  { user, connectors: { models: { User } } },
+  {
+    user,
+    connectors: {
+      models: { User },
+    },
+  },
   { limit, cursor, value = '', state, action_type, sortOrder }
 ) => {
   let query = User.find();
@@ -75,10 +84,10 @@ const getUsersByQuery = async (
 
     if (value.length > 0) {
       // Lowercase the search term and escape any regex characters.
-      value = escapeRegExp(value).toLowerCase();
+      value = escapeRegExp(value);
 
-      // Compile the prefix search regex.
-      const $regex = new RegExp(`^${value}`);
+      const lowercasedRegex = new RegExp(`^${value.toLowerCase()}`);
+      const notLowercasedRegex = new RegExp(`^${value}`);
 
       // Merge in the regex params.
       query.merge({
@@ -86,7 +95,7 @@ const getUsersByQuery = async (
           // Search by a prefix match on the username.
           {
             lowercaseUsername: {
-              $regex,
+              $regex: lowercasedRegex,
             },
           },
 
@@ -95,10 +104,17 @@ const getUsersByQuery = async (
             profiles: {
               $elemMatch: {
                 id: {
-                  $regex,
+                  $regex: lowercasedRegex,
                 },
                 provider: 'local',
               },
+            },
+          },
+
+          // Search by the displayName metadata field.
+          {
+            'metadata.displayName': {
+              $regex: notLowercasedRegex,
             },
           },
         ],
@@ -175,7 +191,12 @@ const getUsersByQuery = async (
  *                            query
  */
 const getCountByQuery = async (
-  { user, connectors: { models: { User } } },
+  {
+    user,
+    connectors: {
+      models: { User },
+    },
+  },
   { action_type, state }
 ) => {
   const query = User.find();

@@ -95,7 +95,10 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators({ updateUsername, updateStatus }, dispatch);
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withSetUsernameMutation,
   withSetUsername
 );

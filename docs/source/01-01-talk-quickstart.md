@@ -6,7 +6,7 @@ permalink: /
 Online comments are broken. Our open-source Talk tool rethinks how moderation,
 comment display, and conversation function, creating the opportunity for safer,
 smarter discussions around your work. Read more about our product features and
-goals [here](https://coralproject.net/products/talk.html). The
+goals [here](https://coralproject.net/talk). The
 documentation available here is pertaining to the technical details for
 installing, configuring, and deploying Talk.
 
@@ -48,7 +48,7 @@ be used to setup Talk:
 version: '2'
 services:
   talk:
-    image: coralproject/talk:latest
+    image: coralproject/talk:4.5
     restart: always
     ports:
       - "3000:3000"

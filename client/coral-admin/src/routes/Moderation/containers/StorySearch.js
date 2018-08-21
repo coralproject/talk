@@ -112,4 +112,7 @@ export const withAssetSearchQuery = withQuery(
   }
 );
 
-export default compose(withRouter, withAssetSearchQuery)(StorySearchContainer);
+export default compose(
+  withRouter,
+  withAssetSearchQuery
+)(StorySearchContainer);

@@ -1,3 +1,21 @@
+ar:
+  talk-plugin-notifications:
+    settings_title: إشعارات
+    settings_subtitle: تلقي الإشعارات متى
+    turn_off_all: لا أريد تلقي الإشعارات
+    banner_info:
+      title: التحقق من البريد الإلكتروني مطلوب
+      text: لتلقي إشعارات البريد الإلكتروني ، يجب أن يكون لديك عنوان بريد إلكتروني تم التحقق منه.
+      verify_now: تحقق من بريدك الالكتروني الآن
+    banner_success:
+      title: تم إرسال التحقق عبر البريد الإلكتروني
+      text: تم إرسال رسالة إلكترونية إلى {0} يحتوي على رابط التحقق.
+    banner_error:
+      title: خطأ
+      text: حدث خطأ في إرسال رسالة التحقق الخاصة بك. الرجاء معاودة المحاولة في وقت لاحق.
+    digest_option: إرسال الإشعارات
+    digest_enum:
+      NONE: فورا
 en:
   talk-plugin-notifications:
     settings_title: Notifications

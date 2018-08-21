@@ -1,5 +1,6 @@
 ar:
   talk-plugin-ignore-user:
+    blank_info: أنت لا تتجاهل حاليًا أي مستخدم
     section_title: المستخدمون الذين تم تجاهلهم
     section_info: لأنك تجاهلت المعلقين التاليين، يتم إخفاء تعليقاتهم.
     stop_ignoring: إيقاف التجاهل

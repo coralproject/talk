@@ -8,7 +8,7 @@ const util = require('./util');
 const program = require('commander');
 const inquirer = require('inquirer');
 const { stripIndent } = require('common-tags');
-const Table = require('cli-table');
+const Table = require('cli-table2');
 
 // Make things colorful!
 require('colors');

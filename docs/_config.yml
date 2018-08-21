@@ -90,6 +90,8 @@ sidebar:
           url: /installation-from-source/
         - title: Planning your Talk Architecture
           url: /planning-architecture/
+        - title: Pre-Launch Checklist
+          url: /pre-launch-checklist/
     - title: Configuration
       children:
         - title: Required Configuration
@@ -100,7 +102,7 @@ sidebar:
       children:
         - title: Authentication
           url: /integrating/authentication/
-        - title: Asset Managment
+        - title: Asset Management
           url: /integrating/asset-management/
         - title: Configuring the Comment Stream
           url: /integrating/configuring-comment-stream/
@@ -162,10 +164,18 @@ sidebar:
           url: /when-youve-installed-talk/
     - title: Migrating
       children:
+        - title: Migrating from v3.x.x
+          url: /migration/3/
         - title: Migrating to v4.0.0
           url: /migration/4/
         - title: Migrating to v4.1.0
           url: /migration/4.1/
+    - title: FAQ & Troubleshooting
+      children:
+        - title: FAQ
+          url: /faq/
+        - title: Troubleshooting Tips
+          url: /troubleshooting-tips/
     - title: Contact
       url: /contact/
 

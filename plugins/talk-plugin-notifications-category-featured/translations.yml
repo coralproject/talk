@@ -1,3 +1,10 @@
+ar:
+  talk-plugin-notifications:
+    categories:
+      featured:
+        subject: "تميَزت واحدة من تعليقاتك على {0}"
+        body: "{0}\n
+               حدد أحد أعضاء فريقنا هذا التعليق ليتم عرضه كتعليق مميز للقراء الآخرين: {1}"
 en:
   talk-plugin-notifications:
     categories:

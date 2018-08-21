@@ -7,7 +7,11 @@ const debug = require('debug')('talk:services:migration');
 const sc = require('snake-case');
 const helpers = require('./helpers');
 const { stripIndent } = require('common-tags');
-const { talk: { migration: { minVersion } } } = require('../../package.json');
+const {
+  talk: {
+    migration: { minVersion },
+  },
+} = require('../../package.json');
 
 const migrationTemplate = stripIndent`
   module.exports = {

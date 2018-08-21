@@ -200,7 +200,10 @@ const SEARCH_QUERY = gql`
 `;
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(
+    null,
+    mapDispatchToProps
+  ),
   withSetUserRole,
   withUnsuspendUser,
   withUnbanUser,

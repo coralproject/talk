@@ -17,19 +17,19 @@ export const checkLogin = () => (
       if (!result.user) {
         cleanAuthData(localStorage);
         dispatch(checkLoginSuccess(null));
+        client.resetWebsocket();
         return;
       }
 
-      // Reset the websocket.
-      client.resetWebsocket();
-
       dispatch(checkLoginSuccess(result.user));
       pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
+      client.resetWebsocket();
     })
     .catch(error => {
       if (error.status && error.status === 401 && localStorage) {
         // Unauthorized.
         cleanAuthData(localStorage);
+        client.resetWebsocket();
       } else {
         console.error(error);
       }
@@ -96,7 +96,13 @@ export const logout = () => async (
   _,
   { rest, client, pym, localStorage }
 ) => {
-  await rest('/auth', { method: 'DELETE' });
+  try {
+    await rest('/auth', { method: 'DELETE' });
+  } catch (err) {
+    // We ignore any REST related errors from the delete action, which may/may
+    // not have had a cookie/token attached to it. The logout action was still
+    // called, so we still want to cleanup.
+  }
 
   // Clear the auth data persisted to localStorage.
   cleanAuthData(localStorage);

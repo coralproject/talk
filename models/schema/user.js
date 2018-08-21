@@ -235,6 +235,15 @@ User.index({
   created_at: -1,
 });
 
+User.index(
+  {
+    'metadata.displayName': 1,
+  },
+  {
+    sparse: true,
+  }
+);
+
 // This query is executed often, to count the number of flagged accounts with
 // usernames.
 User.index({

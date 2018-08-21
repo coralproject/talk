@@ -1,3 +1,4 @@
+const printBrowserLog = require('../helpers/printBrowserLog');
 const commentBody = 'Embed Stream Test';
 
 module.exports = {
@@ -8,7 +9,8 @@ module.exports = {
     client.resizeWindow(1600, 1200);
   },
 
-  afterEach: (client, done) => {
+  afterEach: async (client, done) => {
+    await printBrowserLog(client);
     if (client.currentTest.results.failed) {
       throw new Error('Test Case failed, skipping all the rest');
     }
@@ -30,7 +32,9 @@ module.exports = {
   },
 
   'creates an user and user logs in': client => {
-    const { testData: { user } } = client.globals;
+    const {
+      testData: { user },
+    } = client.globals;
     const embedStream = client.page.embedStream();
 
     // Go back to default asset.
@@ -97,7 +101,9 @@ module.exports = {
     comments.logout();
   },
   'admin logs in': client => {
-    const { testData: { admin } } = client.globals;
+    const {
+      testData: { admin },
+    } = client.globals;
     const embedStream = client.page.embedStream();
 
     embedStream

@@ -55,7 +55,10 @@ export default compose(
   ${Settings.fragments.root}
 `,
   }),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withSlotElements({
     slot: 'profileSettings',
     propName: 'profileSettingsSlotElements',

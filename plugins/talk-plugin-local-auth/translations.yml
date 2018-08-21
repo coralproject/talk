@@ -1,3 +1,79 @@
+ar:
+  email:
+    email_change_original:
+      subject: تغيير البريد الإلكتروني
+      body: تم تغيير عنوان بريدك الإلكتروني من {0} إلى {1}. إذا لم تطلب هذا التغيير ، فيرجى الاتصال {2}.
+  error:
+    NO_LOCAL_PROFILE: لا يوجد عنوان بريد إلكتروني حالي مقترن بهذا الحساب.
+    LOCAL_PROFILE: هناك بريد إلكتروني مرتبط بهذا الحساب.
+    INCORRECT_PASSWORD: كلمة المرور المقدمة غير صحيحة.
+  talk-plugin-local-auth:
+    change_password:
+      change_password: "تغيير كلمة المرور"
+      passwords_dont_match: "كلمات المرور لا تتطابق"
+      required_field: "هذه الخانة مطلوبه"
+      forgot_password: "نسيت كلمة المرور؟"
+      old_password: "كلمة المرور القديمة"
+      new_password: "كلمة المرور الجديدة"
+      confirm_new_password: "تأكيد كلمة المرور الجديدة"
+      save: "حفظ"
+      cancel: "إلغاء"
+      edit: "تعديل"
+      changed_password_msg: "تغيير كلمة المرور - تم تغيير كلمة المرور الخاصة بك بنجاح"
+      forgot_password_sent: "نسيت كلمة المرور - لقد أرسلنا إليك رسالة بريد إلكتروني لاسترداد كلمة المرور الخاصة بك"
+    change_username:
+      change_username_note: "لا يمكن تغيير أسماء المستخدمين إلا مرة واحدة كل 14 يومًا."
+      is_not_eligible: "لا يمكنك حاليا تغيير اسم المستخدم الخاص بك."
+      save: "حفظ"
+      edit_profile: "تعديل الملف الشخصي"
+      cancel: "إلغاء"
+      confirm_username_change: "تأكيد تغيير اسم المستخدم"
+      description: "أنت تحاول تغيير اسم المستخدم الخاص بك. سوف يظهر اسم المستخدم الجديد الخاص بك على جميع تعليقاتك الماضية والتعليقات المستقبلية."
+      old_username: "اسم المستخدم القديم"
+      new_username: "اسم المستخدم الجديد"
+      re_enter: "أعد إدخال اسم مستخدم جديد"
+      bottom_note: "ملاحظة: لن تتمكن من تغيير اسم المستخدم الخاص بك مرة أخرى لمدة 14 يومًا"
+      confirm_changes: "تأكيد التغييرات"
+      username_does_not_match: "اسم المستخدم غير متطابق"
+      cant_be_equal: "يجب أن يكون {0} الجديد الخاص بك مختلفًا عن الحالي"
+      changed_username_success_msg: "اسم المستخدم تم تغييره - تم تغيير اسم المستخدم الخاص بك بنجاح. لن تتمكن من تغيير اسم المستخدم الخاص بك لمدة 14 يومًا."
+      change_username_attempt: "لا يمكن تحديث اسم المستخدم. لا يمكن تغيير أسماء المستخدمين إلا كل 14 يومًا."
+    change_email:
+      confirm_email_change: "تأكيد تغيير عنوان البريد الإلكتروني"
+      description: "أنت تحاول تغيير عنوان بريدك الإلكتروني. سيتم استخدام عنوان بريدك الإلكتروني الجديد لتسجيل الدخول ولتلقي إشعارات الحساب."
+      old_email: "عنوان البريد الإلكتروني القديم"
+      new_email: "عنوان البريد الإلكتروني الجديد"
+      enter_password: "أدخل كلمة المرور"
+      incorrect_password: "كلمة مرور خاطئة"
+      confirm_change: "تأكيد التغيير"
+      cancel: "إلغاء"
+      change_email_msg: "تم تغيير عنوان البريد الإلكتروني. سيتم استخدام عنوان البريد الإلكتروني هذا الآن لتسجيل الدخول ولإشعارات البريد الإلكتروني."
+    add_email:
+      add_email_address: "إضافة البريد الإلكتروني"
+      enter_email_address: "أدخل البريد الالكتروني:"
+      invalid_email_address: "البريد الإلكتروني غير صالح"
+      confirm_email_address: "أكد عنوان بريدك الإلكتروني:"
+      email_does_not_match: "عنوان البريد الإلكتروني غير مطابق"
+      insert_password: "إدخال كلمة المرور:"
+      confirm_password: "تأكيد كلمة المرور:"
+      required_field: "هذه الخانة مطلوبه"
+      done: "تم"
+      content:
+        title: "أضف عنوان بريد إلكتروني"
+        description: "لمزيد من الأمان ، نطلب من المستخدمين إضافة عنوان بريد إلكتروني إلى حساباتهم. سيتم استخدام عنوان بريدك الإلكتروني في:"
+        item_1: "تلقي التحديثات المتعلقة بأي تغييرات في حسابك (عنوان البريد الإلكتروني ، اسم المستخدم ، كلمة المرور ، إلخ.)"
+        item_2: "السماح لك بتنزيل تعليقاتك."
+        item_3: "إرسال إشعارات التعليقات التي اخترت استلامها."
+      verify:
+        title: "تحقق من عنوان البريد الإلكتروني الخاص بك"
+        description:  "لقد أرسلنا رسالة إلكترونية إلى {0} لإثبات ملكية حسابك. يجب عليك التحقق من عنوان بريدك الإلكتروني حتى يمكن استخدامه لتأكيد تعديلات الحساب والإشعارات."
+      added:
+        title: "تمت إضافة عنوان البريد الالكتروني"
+        description: "تمت إضافة عنوان بريدك الإلكتروني إلى حسابك."
+        subtitle: "هل تحتاج إلى تغيير عنوان بريدك الإلكتروني؟"
+        description_2: "يمكنك تغيير إعدادات حسابك من خلال زيارة"
+        path: "ملفي > الإعدادات"
+        alert: "تمت إضافة البريد الإلكتروني!"
 en:
   email:
     email_change_original:
@@ -47,7 +123,7 @@ en:
       incorrect_password: "Incorrect Password"
       confirm_change: "Confirm Change"
       cancel: "Cancel"
-      change_email_msg: "Email Address Changed - Your email address has been successfully changed. This email address will now be used for signing in and email notifications."
+      change_email_msg: "Email Address Changed. This email address will now be used for signing in and email notifications."
     add_email:
       add_email_address: "Add Email Address"
       enter_email_address: "Enter Email Address:"
@@ -55,6 +131,7 @@ en:
       confirm_email_address: "Confirm Email Address:"
       email_does_not_match: "Email Address does not match"
       insert_password: "Insert Password:"
+      confirm_password: "Confirm Password:"
       required_field: "This field is required"
       done: "Done"
       content:
@@ -140,7 +217,7 @@ de:
         item_3: "Kommentar-Benachrichtigungen erhalten, die Sie explizit angefordert haben"
       verify:
         title: "E-Mail-Adresse bestätigen"
-        description:  "Wir haben einen E-Mail an {0} geschickt. Bitte bestätigen Sie Ihre E-Mail-Adresse, um damit Benachrichtigungen über Änderungen am Benutzerkonto zu erhalten."
+        description:  "Wir haben eine E-Mail an {0} geschickt. Bitte bestätigen Sie Ihre E-Mail-Adresse, um damit Benachrichtigungen über Änderungen am Benutzerkonto zu erhalten."
       added:
         title: "E-Mail-Adresse hinzugefügt"
         description: "Ihre E-Mail-Adresse wurde dem Benutzerkonto hinzugefügt."

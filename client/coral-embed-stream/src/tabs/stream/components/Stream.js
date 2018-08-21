@@ -4,11 +4,11 @@ import StreamError from './StreamError';
 import Comment from '../containers/Comment';
 import BannedAccount from '../../../components/BannedAccount';
 import ChangeUsername from '../containers/ChangeUsername';
-import Markdown from 'coral-framework/components/Markdown';
 import Slot from 'coral-framework/components/Slot';
 import InfoBox from './InfoBox';
 import { can } from 'coral-framework/services/perms';
 import ModerationLink from './ModerationLink';
+import Markdown from 'coral-framework/components/Markdown';
 import RestrictedMessageBox from 'coral-framework/components/RestrictedMessageBox';
 import t, { timeago } from 'coral-framework/services/i18n';
 import CommentBox from '../containers/CommentBox';
@@ -211,7 +211,10 @@ class Stream extends React.Component {
       root,
       appendItemArray,
       asset,
-      asset: { comment: highlightedComment, settings: { questionBoxEnable } },
+      asset: {
+        comment: highlightedComment,
+        settings: { questionBoxEnable },
+      },
       postComment,
       notify,
       updateItem,
@@ -298,7 +301,7 @@ class Stream extends React.Component {
         ) : (
           <div>
             {asset.isClosed ? (
-              <p>{asset.settings.closedMessage}</p>
+              <Markdown content={asset.settings.closedMessage} />
             ) : (
               <Markdown content={asset.settings.disableCommentingMessage} />
             )}

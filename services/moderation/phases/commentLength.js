@@ -4,7 +4,11 @@ const { ErrCommentTooShort } = require('../../../errors');
 module.exports = (
   ctx,
   comment,
-  { asset: { settings: { charCountEnable, charCount } } }
+  {
+    asset: {
+      settings: { charCountEnable, charCount },
+    },
+  }
 ) => {
   // Check to see if the body is too short, if it is, then complain about it!
   if (comment.body.length < 2) {

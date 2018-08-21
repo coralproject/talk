@@ -73,7 +73,11 @@ const withSettingsToggle = settingsName => {
     mutations: {
       UpdateNotificationSettings: ({
         variables: { input },
-        state: { auth: { user: { id } } },
+        state: {
+          auth: {
+            user: { id },
+          },
+        },
       }) => ({
         update: proxy => {
           if (input[settingsName] === undefined) {

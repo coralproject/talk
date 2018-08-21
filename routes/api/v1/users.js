@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const UsersService = require('../../../services/users');
+const { getRedirectUri } = require('../../../services/utils');
 const { ErrMissingEmail, ErrNotFound } = require('../../../errors');
 const authorization = require('../../../middleware/authorization');
 const Limit = require('../../../services/limit');
@@ -8,7 +9,7 @@ const Limit = require('../../../services/limit');
 // create a local user.
 router.post('/', async (req, res, next) => {
   const { email, password, username } = req.body;
-  const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
+  const redirectUri = getRedirectUri(req);
 
   try {
     // Adjusted the user creation endpoint.

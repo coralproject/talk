@@ -1,5 +1,5 @@
 import React from 'react';
-const PropTypes = require('prop-types');
+import PropTypes from 'prop-types';
 import { ApolloProvider } from 'react-apollo';
 
 class TalkProvider extends React.Component {

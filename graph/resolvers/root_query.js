@@ -6,17 +6,36 @@ const {
 } = require('../../perms/constants');
 
 const RootQuery = {
-  assets(_, { query }, { loaders: { Assets } }) {
+  assets(
+    _,
+    { query },
+    {
+      loaders: { Assets },
+    }
+  ) {
     return Assets.getByQuery(query);
   },
-  asset(_, query, { loaders: { Assets } }) {
+  asset(
+    _,
+    query,
+    {
+      loaders: { Assets },
+    }
+  ) {
     if (query.id) {
       return Assets.getByID.load(query.id);
     }
 
     return Assets.getByURL(query.url);
   },
-  settings(_, args, { loaders: { Settings } }, info) {
+  settings(
+    _,
+    args,
+    {
+      loaders: { Settings },
+    },
+    info
+  ) {
     // Get the fields we want from the settings.
     const fields = getRequestedFields(info);
 
@@ -26,15 +45,33 @@ const RootQuery = {
 
   // This endpoint is used for loading moderation queues, so hide it in the
   // event that we aren't an admin.
-  async comments(_, { query }, { loaders: { Comments } }) {
+  async comments(
+    _,
+    { query },
+    {
+      loaders: { Comments },
+    }
+  ) {
     return Comments.getByQuery(query);
   },
 
-  comment(_, { id }, { loaders: { Comments } }) {
+  comment(
+    _,
+    { id },
+    {
+      loaders: { Comments },
+    }
+  ) {
     return Comments.get.load(id);
   },
 
-  async commentCount(_, { query }, { loaders: { Comments, Assets } }) {
+  async commentCount(
+    _,
+    { query },
+    {
+      loaders: { Comments, Assets },
+    }
+  ) {
     const { asset_url, asset_id } = query;
     if (
       (!asset_id || asset_id.length === 0) &&
@@ -50,7 +87,13 @@ const RootQuery = {
     return Comments.getCountByQuery(query);
   },
 
-  async userCount(_, { query }, { loaders: { Users } }) {
+  async userCount(
+    _,
+    { query },
+    {
+      loaders: { Users },
+    }
+  ) {
     return Users.getCountByQuery(query);
   },
 
@@ -65,13 +108,25 @@ const RootQuery = {
   },
 
   // this returns an arbitrary user
-  user(_, { id }, { loaders: { Users } }) {
+  user(
+    _,
+    { id },
+    {
+      loaders: { Users },
+    }
+  ) {
     return Users.getByID.load(id);
   },
 
   // This endpoint is used for loading the user moderation queues (users whose username has been flagged),
   // so hide it in the event that we aren't an admin.
-  users(_, { query }, { loaders: { Users } }) {
+  users(
+    _,
+    { query },
+    {
+      loaders: { Users },
+    }
+  ) {
     return Users.getByQuery(query);
   },
 };

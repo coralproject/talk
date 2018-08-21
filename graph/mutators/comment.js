@@ -14,7 +14,10 @@ const {
 } = require('../../perms/constants');
 
 const resolveTagsForComment = async (ctx, { asset_id, tags = [] }) => {
-  const { user, loaders: { Tags } } = ctx;
+  const {
+    user,
+    loaders: { Tags },
+  } = ctx;
   const item_type = 'COMMENTS';
 
   // Handle Tags
@@ -156,7 +159,11 @@ const createComment = async (
     metadata = {},
   }
 ) => {
-  const { user, loaders: { Comments }, pubsub } = ctx;
+  const {
+    user,
+    loaders: { Comments },
+    pubsub,
+  } = ctx;
 
   // Resolve the tags for the comment.
   tags = await resolveTagsForComment(ctx, { asset_id, tags });
@@ -202,7 +209,11 @@ const createComment = async (
  * @return {Promise}             resolves to a new comment
  */
 const createPublicComment = async (ctx, comment) => {
-  const { connectors: { services: { Moderation } } } = ctx;
+  const {
+    connectors: {
+      services: { Moderation },
+    },
+  } = ctx;
 
   // We then take the wordlist and the comment into consideration when
   // considering what status to assign the new comment, and resolve the new
@@ -245,7 +256,10 @@ const createActions = async (item_id, actions = []) =>
  * @param {String} status      the new status of the comment
  */
 const setStatus = async (ctx, { id, status }) => {
-  const { user, loaders: { Comments } } = ctx;
+  const {
+    user,
+    loaders: { Comments },
+  } = ctx;
 
   let comment = await CommentsService.pushStatus(
     id,
@@ -279,13 +293,32 @@ const setStatus = async (ctx, { id, status }) => {
  */
 const editComment = async (
   ctx,
-  { id, asset_id, edit: { body, metadata = {} } }
+  {
+    id,
+    asset_id,
+    edit: {
+      body,
+      metadata = {},
+      status: commentStatus,
+      actions: commentActions = [],
+    },
+  }
 ) => {
-  const { connectors: { services: { Moderation } } } = ctx;
+  const {
+    connectors: {
+      services: { Moderation },
+    },
+  } = ctx;
 
   // Build up the new comment we're setting. We need to check this with
   // moderation now.
-  let comment = { id, asset_id, body };
+  let comment = {
+    id,
+    asset_id,
+    body,
+    status: commentStatus,
+    actions: commentActions,
+  };
 
   // Determine the new status of the comment.
   const { actions, status } = await Moderation.process(ctx, comment);

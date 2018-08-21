@@ -10,7 +10,12 @@ import {
 
 class FlagDetails extends Component {
   render() {
-    const { comment: { actions }, more, root, comment } = this.props;
+    const {
+      comment: { actions },
+      more,
+      root,
+      comment,
+    } = this.props;
 
     const flagActions =
       actions && actions.filter(a => a.__typename === 'FlagAction');

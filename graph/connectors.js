@@ -54,6 +54,7 @@ const Subscriptions = require('../services/subscriptions');
 const Tags = require('../services/tags');
 const Tokens = require('../services/tokens');
 const Users = require('../services/users');
+const Utils = require('../services/utils');
 const Wordlist = require('../services/wordlist');
 
 // Connectors.
@@ -95,6 +96,7 @@ const defaultConnectors = {
     Tags,
     Tokens,
     Users,
+    Utils,
     Wordlist,
   },
   graph: {

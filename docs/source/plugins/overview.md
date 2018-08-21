@@ -109,7 +109,7 @@ If you deploy using Docker, you can extend from the `*-onbuild` image, an
 example `Dockerfile` for your project could be:
 
 ```Dockerfile
-FROM coralproject/talk:latest-onbuild
+FROM coralproject/talk:4.5-onbuild
 ```
 
 Where the directory for your instance would contain a `plugins.json` file
