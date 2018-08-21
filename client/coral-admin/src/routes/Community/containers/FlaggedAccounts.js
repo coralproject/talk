@@ -217,7 +217,7 @@ FlaggedAccountsContainer.propTypes = {
 };
 
 const LOAD_MORE_QUERY = gql`
-  query TalkAdmin_LoadMoreFlaggedAccounts($limit: Int, $cursor: Cursor) {
+  query TalkAdmin_LoadMoreFlaggedAccounts($limit: QueryLimit, $cursor: Cursor) {
     flaggedUsers: users(query:{
         action_type: FLAG,
         state: {

@@ -1,8 +1,9 @@
 const schema = require('./schema');
 const Context = require('./context');
 const { createSubscriptionManager } = require('./subscriptions');
-const { ENABLE_TRACING } = require('../config');
+const { ENABLE_TRACING, QUERY_DEPTH_LIMIT } = require('../config');
 const connectors = require('./connectors');
+const depthLimit = require('graphql-depth-limit');
 
 module.exports = {
   createGraphOptions: req => ({
@@ -16,6 +17,7 @@ module.exports = {
     // Tracing request options, needed for Apollo Engine.
     tracing: ENABLE_TRACING,
     cacheControl: ENABLE_TRACING,
+    validationRules: [depthLimit(QUERY_DEPTH_LIMIT)],
   }),
   createSubscriptionManager,
   connectors,

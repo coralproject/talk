@@ -431,7 +431,7 @@ const COMMENT_RESET_SUBSCRIPTION = gql`
 `;
 
 const LOAD_MORE_QUERY = gql`
-  query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Cursor, $sortOrder: SORT_ORDER, $asset_id: ID, $tags:[String!], $statuses:[COMMENT_STATUS!], $action_type: ACTION_TYPE) {
+  query CoralAdmin_Moderation_LoadMore($limit: QueryLimit = 10, $cursor: Cursor, $sortOrder: SORT_ORDER, $asset_id: ID, $tags:[String!], $statuses:[COMMENT_STATUS!], $action_type: ACTION_TYPE) {
     comments(query: {limit: $limit, cursor: $cursor, asset_id: $asset_id, statuses: $statuses, sortOrder: $sortOrder, action_type: $action_type, tags: $tags, excludeDeleted: true}) {
       nodes {
         ...${getDefinitionName(Comment.fragments.comment)}

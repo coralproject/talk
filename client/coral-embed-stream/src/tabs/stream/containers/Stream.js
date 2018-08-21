@@ -7,6 +7,7 @@ import {
   ADDTL_COMMENTS_ON_LOAD_MORE,
   ASSET_COMMENTS_LOAD_DEPTH,
   THREADING_LEVEL,
+  ADDTL_NESTED_COMMENTS_ON_LOAD_MORE,
 } from '../../../constants/stream';
 import {
   withPostComment,
@@ -152,7 +153,9 @@ class StreamContainer extends React.Component {
     return this.props.data.fetchMore({
       query: LOAD_MORE_QUERY,
       variables: {
-        limit: parent_id ? 999999 : ADDTL_COMMENTS_ON_LOAD_MORE,
+        limit: parent_id
+          ? ADDTL_NESTED_COMMENTS_ON_LOAD_MORE
+          : ADDTL_COMMENTS_ON_LOAD_MORE,
         cursor: comment.replies.endCursor,
         parent_id,
         asset_id: this.props.asset.id,
@@ -347,7 +350,7 @@ const COMMENTS_EDITED_SUBSCRIPTION = gql`
 
 const LOAD_MORE_QUERY = gql`
   query CoralEmbedStream_LoadMoreComments(
-    $limit: Int = 5
+    $limit: QueryLimit = 5
     $cursor: Cursor
     $parent_id: ID
     $asset_id: ID

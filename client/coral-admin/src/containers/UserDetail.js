@@ -159,7 +159,7 @@ UserDetailContainer.propTypes = {
 
 const LOAD_MORE_QUERY = gql`
   query CoralAdmin_Moderation_LoadMore(
-    $limit: Int = 10
+    $limit: QueryLimit = 10
     $cursor: Cursor
     $author_id: ID!
     $statuses: [COMMENT_STATUS!]
