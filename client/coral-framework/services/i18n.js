@@ -75,10 +75,15 @@ let TIMEAGO_INSTANCE;
 // detectLanguage will try to get the locale from storage if available,
 // otherwise will try to get it from the navigator, otherwise, it will fallback
 // to the default language.
-const detectLanguage = () =>
-  first(
+const detectLanguage = () => {
+  var browserLanguages = navigator.languages;
+  //IE11 and MS-EDGE do not provide navigator.languages
+  if (!browserLanguages) {
+    browserLanguages = [navigator.language];
+  }
+  return first(
     negotiateLanguages(
-      navigator.languages,
+      browserLanguages,
       whitelistedLanguages || supportedLocales,
       {
         defaultLocale,
@@ -86,6 +91,7 @@ const detectLanguage = () =>
       }
     )
   );
+};
 
 export function setupTranslations() {
   // locale
