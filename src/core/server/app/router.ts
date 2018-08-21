@@ -1,7 +1,10 @@
 import express from "express";
 import passport from "passport";
 
-import { signupHandler } from "talk-server/app/handlers/auth/local";
+import {
+  logoutHandler,
+  signupHandler,
+} from "talk-server/app/handlers/auth/local";
 import { streamHandler } from "talk-server/app/handlers/embed/stream";
 import { apiErrorHandler } from "talk-server/app/middleware/error";
 import { errorLogger } from "talk-server/app/middleware/logging";
@@ -64,15 +67,17 @@ function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
   const router = express.Router();
 
   // Mount the passport routes.
+  router.delete(
+    "/",
+    options.passport.authenticate("jwt", { session: false }),
+    logoutHandler({ redis: app.redis })
+  );
+
   router.post(
     "/local",
     express.json(),
     wrapAuthn(options.passport, app.signingConfig, "local")
   );
-
-  // TODO (bc) - add delete user serverside
-  router.delete("/local", express.json());
-
   router.post(
     "/local/signup",
     express.json(),
