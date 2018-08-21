@@ -7,7 +7,7 @@ import { Comment } from "talk-server/models/comment";
 import { create, edit } from "talk-server/services/comments";
 
 export default (ctx: TenantContext) => ({
-  create: (input: GQLCreateCommentInput): Promise<Comment | null> =>
+  create: (input: GQLCreateCommentInput) =>
     create(
       ctx.mongo,
       ctx.tenant,
@@ -20,7 +20,7 @@ export default (ctx: TenantContext) => ({
       },
       ctx.req
     ),
-  edit: (input: GQLEditCommentInput): Promise<Comment | null> =>
+  edit: (input: GQLEditCommentInput) =>
     edit(
       ctx.mongo,
       ctx.tenant,

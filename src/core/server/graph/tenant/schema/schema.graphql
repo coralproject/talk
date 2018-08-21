@@ -619,7 +619,7 @@ type Comment {
   """
   editing returns details about the edit status of a Comment.
   """
-  editing: EditInfo
+  editing: EditInfo!
 }
 
 type PageInfo {
