@@ -3,7 +3,7 @@
 exports[`renders correctly 1`] = `
 <React.Fragment>
   <Popup
-    features="menubar=0,resizable=0,width=350,height=600,top=200,left=500"
+    features="menubar=0,resizable=0,width=350,height=720,top=200,left=500"
     focus={false}
     href="/auth.html?view=SIGN_IN"
     onBlur={[Function]}
