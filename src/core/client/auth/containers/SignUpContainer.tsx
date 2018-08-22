@@ -1,19 +1,41 @@
+import React, { Component } from "react";
 import { BadUserInputError } from "talk-framework/lib/errors";
 import SignUp, { SignUpForm } from "../components/SignUp";
 
-import React, { Component } from "react";
-import { SignUpMutation, withSignUpMutation } from "../mutations";
+import {
+  SetViewMutation,
+  SignUpMutation,
+  withSetViewMutation,
+  withSignUpMutation,
+} from "../mutations";
 
 interface SignUpContainerProps {
   signUp: SignUpMutation;
+  setView: SetViewMutation;
 }
 
-class SignUpContainer extends Component<SignUpContainerProps> {
+interface SignUpContainerState {
+  error: string | null;
+}
+
+export type View = "SIGN_IN";
+
+class SignUpContainer extends Component<
+  SignUpContainerProps,
+  SignUpContainerState
+> {
+  public state = { error: "" };
+  private setView = (view: View) => {
+    this.props.setView({
+      view,
+    });
+  };
   private onSubmit: SignUpForm["onSubmit"] = async (input, form) => {
     try {
       await this.props.signUp(input);
       form.reset();
     } catch (error) {
+      this.setState({ error: error.message });
       if (error instanceof BadUserInputError) {
         return error.invalidArgsLocalized;
       }
@@ -23,9 +45,15 @@ class SignUpContainer extends Component<SignUpContainerProps> {
     return undefined;
   };
   public render() {
-    return <SignUp onSubmit={this.onSubmit} />;
+    return (
+      <SignUp
+        onSubmit={this.onSubmit}
+        setView={this.setView}
+        error={this.state.error}
+      />
+    );
   }
 }
 
-const enhanced = withSignUpMutation(SignUpContainer);
+const enhanced = withSetViewMutation(withSignUpMutation(SignUpContainer));
 export default enhanced;

@@ -10,17 +10,19 @@ import {
   validatePassword,
   validateUsername,
 } from "talk-framework/lib/validation";
-import * as styles from "./SignUp.css";
-
 import {
   Button,
+  CallOut,
   Flex,
   FormField,
+  InputDescription,
   InputLabel,
   TextField,
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
+import { View } from "../containers/SignUpContainer";
+import * as styles from "./SignUp.css";
 
 interface FormProps {
   email: string;
@@ -31,6 +33,8 @@ interface FormProps {
 
 export interface SignUpForm {
   onSubmit: OnSubmit<FormProps>;
+  setView: (view: View) => void;
+  error: string | null;
 }
 
 const SignUp: StatelessComponent<SignUpForm> = props => {
@@ -43,7 +47,11 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
               <Typography variant="heading1" align="center">
                 Sign up to join the conversation
               </Typography>
-
+              {props.error && (
+                <CallOut color="error" fullWidth>
+                  {props.error}
+                </CallOut>
+              )}
               <Field
                 name="email"
                 validate={composeValidators(required, validateEmail)}
@@ -74,10 +82,10 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                 {({ input, meta }) => (
                   <FormField>
                     <InputLabel>Username</InputLabel>
-                    <Typography variant="inputDescription">
+                    <InputDescription>
                       A unique identifier displayed on your comments. You may
                       use “_” and “.”
-                    </Typography>
+                    </InputDescription>
                     <TextField
                       name={input.name}
                       onChange={input.onChange}
@@ -101,9 +109,9 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                 {({ input, meta }) => (
                   <FormField>
                     <InputLabel>Password</InputLabel>
-                    <Typography variant="inputDescription">
+                    <InputDescription>
                       Must be at least 8 characters
-                    </Typography>
+                    </InputDescription>
                     <TextField
                       name={input.name}
                       onChange={input.onChange}
@@ -132,9 +140,9 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                 {({ input, meta }) => (
                   <FormField>
                     <InputLabel>Confirm Password</InputLabel>
-                    <Typography variant="inputDescription">
+                    <InputDescription>
                       Must be at least 8 characters
-                    </Typography>
+                    </InputDescription>
                     <TextField
                       name={input.name}
                       onChange={input.onChange}
@@ -168,7 +176,14 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                 className={styles.subFooter}
               >
                 <Typography>Already have an account?</Typography>
-                <Button variant="underlined" size="small" color="primary">
+                <Button
+                  variant="underlined"
+                  size="small"
+                  color="primary"
+                  onClick={() => {
+                    props.setView("SIGN_IN");
+                  }}
+                >
                   Sign In
                 </Button>
               </Flex>

@@ -1,9 +1,15 @@
 import { NextFunction, RequestHandler, Response } from "express";
+import { Redis } from "ioredis";
+import Joi from "joi";
+import jwt from "jsonwebtoken";
 import { Db } from "mongodb";
 import passport, { Authenticator } from "passport";
 
+import { Config } from "talk-common/config";
 import {
+  blacklistJWT,
   createJWTStrategy,
+  extractJWTFromRequest,
   JWTSigningConfig,
   SigningTokenOptions,
   signTokenString,
@@ -11,6 +17,7 @@ import {
 import { createLocalStrategy } from "talk-server/app/middleware/passport/local";
 import { createOIDCStrategy } from "talk-server/app/middleware/passport/oidc";
 import { createSSOStrategy } from "talk-server/app/middleware/passport/sso";
+import { validate } from "talk-server/app/request/body";
 import { User } from "talk-server/models/user";
 import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
@@ -22,7 +29,9 @@ export type VerifyCallback = (
 ) => void;
 
 export interface PassportOptions {
+  config: Config;
   mongo: Db;
+  redis: Redis;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
 }
@@ -46,6 +55,47 @@ export function createPassport(
   auth.use(createJWTStrategy(options));
 
   return auth;
+}
+
+interface LogoutToken {
+  jti: string;
+  exp: number;
+}
+
+const LogoutTokenSchema = Joi.object().keys({
+  jti: Joi.string(),
+  exp: Joi.number(),
+});
+
+export async function handleLogout(redis: Redis, req: Request, res: Response) {
+  // Extract the token from the request.
+  const token = extractJWTFromRequest(req);
+  if (!token) {
+    // TODO: (wyattjoh) return a better error.
+    throw new Error("logout requires a token on the request, none was found");
+  }
+
+  // Decode the token.
+  const decoded = jwt.decode(token, {});
+  if (!decoded) {
+    // TODO: (wyattjoh) return a better error.
+    throw new Error(
+      "logout requires a token on the request, token was invalid"
+    );
+  }
+
+  // Grab the JTI from the decoded token.
+  const { jti, exp }: LogoutToken = validate(LogoutTokenSchema, decoded);
+
+  // Compute the number of seconds that the token will be valid for.
+  const validFor = exp - Date.now() / 1000;
+  if (validFor > 0) {
+    // Invalidate the token, the expiry is in the future and it needs to be
+    // blacklisted.
+    await blacklistJWT(redis, jti, validFor);
+  }
+
+  return res.sendStatus(204);
 }
 
 export async function handleSuccessfulLogin(

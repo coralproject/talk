@@ -86,6 +86,14 @@ const config = convict({
     env: "LOGGING_LEVEL",
     arg: "logging",
   },
+  disable_tenant_caching: {
+    doc:
+      "Disables the tenant caching, all tenants will be loaded from MongoDB each time it's needed",
+    format: Boolean,
+    default: false,
+    env: "DISABLE_TENANT_CACHING",
+    arg: "disableTenantCaching",
+  },
 });
 
 export type Config = typeof config;

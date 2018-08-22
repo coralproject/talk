@@ -10,6 +10,8 @@ import ReplyListContainer from "../containers/ReplyListContainer";
 import UserBoxContainer from "../containers/UserBoxContainer";
 import * as styles from "./Stream.css";
 
+import { User } from "../containers/UserBoxContainer";
+
 export interface StreamProps {
   assetID: string;
   isClosed?: boolean;
@@ -17,13 +19,17 @@ export interface StreamProps {
   onLoadMore?: () => void;
   hasMore?: boolean;
   disableLoadMore?: boolean;
+  user: User | null | undefined;
 }
 
 const Stream: StatelessComponent<StreamProps> = props => {
   return (
     <Flex className={styles.root} direction="column" itemGutter>
-      <UserBoxContainer />
-      <PostCommentFormContainer assetID={props.assetID} />
+      <UserBoxContainer user={props.user} />
+      <PostCommentFormContainer
+        assetID={props.assetID}
+        signedIn={!!props.user}
+      />
       <Flex
         direction="column"
         id="talk-comments-stream-log"

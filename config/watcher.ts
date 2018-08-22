@@ -80,6 +80,7 @@ const config: Config = {
       "compileCSSTypes",
       "compileRelayStream",
       "compileRelayAuth",
+      "compileSchema",
     ],
     docz: ["runDocz", "compileCSSTypes"],
     compile: [

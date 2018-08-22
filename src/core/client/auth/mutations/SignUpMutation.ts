@@ -17,6 +17,7 @@ export async function commit(
     window.close();
   } catch (err) {
     postMessage.send("authError", err.toString(), window.opener);
+    throw Error(err.toString());
   }
 }
 

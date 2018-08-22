@@ -36,6 +36,8 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** If set renders active state e.g. to implement toggle buttons */
   active?: boolean;
 
+  type?: "submit" | "reset" | "button";
+
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLButtonElement>;
 }
@@ -57,6 +59,7 @@ export class Button extends React.Component<InnerProps> {
       disabled,
       forwardRef,
       variant,
+      type,
       ...rest
     } = this.props;
 
@@ -84,6 +87,7 @@ export class Button extends React.Component<InnerProps> {
         classes={pick(classes, "keyboardFocus", "mouseHover")}
         disabled={disabled}
         forwardRef={forwardRef}
+        type={type}
         {...rest}
       />
     );

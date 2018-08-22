@@ -3,7 +3,8 @@ import ResetPassword from "../components/ResetPassword";
 
 class ResetPasswordContainer extends Component {
   public render() {
-    return <ResetPassword />;
+    // tslint:disable-next-line:no-empty
+    return <ResetPassword onSubmit={() => {}} />;
   }
 }
 

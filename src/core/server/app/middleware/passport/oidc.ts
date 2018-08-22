@@ -5,6 +5,7 @@ import { Db } from "mongodb";
 import { Strategy as OAuth2Strategy, VerifyCallback } from "passport-oauth2";
 import { Strategy } from "passport-strategy";
 
+import { Config } from "talk-common/config";
 import { validate } from "talk-server/app/request/body";
 import { reconstructURL } from "talk-server/app/url";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
@@ -12,6 +13,7 @@ import { OIDCAuthIntegration } from "talk-server/models/settings";
 import { Tenant } from "talk-server/models/tenant";
 import { OIDCProfile, retrieveUserWithProfile } from "talk-server/models/user";
 import TenantCache from "talk-server/services/tenant/cache";
+import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
 import { upsert } from "talk-server/services/users";
 import { Request } from "talk-server/types/express";
 
@@ -177,25 +179,23 @@ const OIDC_SCOPE = "openid email profile";
 export interface OIDCStrategyOptions {
   mongo: Db;
   tenantCache: TenantCache;
+  config: Config;
 }
 
 export default class OIDCStrategy extends Strategy {
   public name = "oidc";
 
   private mongo: Db;
-  private cache = new Map<string, StrategyItem>();
+  private cache: TenantCacheAdapter<StrategyItem>;
 
-  constructor({ mongo, tenantCache }: OIDCStrategyOptions) {
+  constructor({ mongo, tenantCache, config }: OIDCStrategyOptions) {
     super();
 
     this.mongo = mongo;
+    this.cache = new TenantCacheAdapter(tenantCache, config);
 
-    // Subscribe to updates with Tenants.
-    tenantCache.subscribe(tenant => {
-      // Delete the tenant cache item when the tenant changes. The refreshed
-      // Tenant will come in with the request.
-      this.cache.delete(tenant.id);
-    });
+    // Connect the cache adapter.
+    this.cache.subscribe();
   }
 
   private lookupJWKSClient(

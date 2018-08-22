@@ -10,9 +10,11 @@ import {
 } from "talk-stream/__generated__/StreamContainerPaginationQuery.graphql";
 
 import Stream from "../components/Stream";
+import { User } from "../containers/UserBoxContainer";
 
 interface InnerProps {
   asset: Data;
+  user: User | null | undefined;
   relay: RelayPaginationProp;
 }
 
@@ -31,6 +33,7 @@ export class StreamContainer extends React.Component<InnerProps> {
         onLoadMore={this.loadMore}
         hasMore={this.props.relay.hasMore()}
         disableLoadMore={this.state.disableLoadMore}
+        user={this.props.user}
       />
     );
   }

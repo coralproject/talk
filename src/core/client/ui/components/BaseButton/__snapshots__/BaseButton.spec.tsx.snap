@@ -9,6 +9,7 @@ exports[`renders as anchor 1`] = `
   onMouseOut={[Function]}
   onMouseOver={[Function]}
   onTouchEnd={[Function]}
+  type="button"
 >
   Push Me
 </a>
@@ -23,6 +24,7 @@ exports[`renders correctly 1`] = `
   onMouseOut={[Function]}
   onMouseOver={[Function]}
   onTouchEnd={[Function]}
+  type="button"
 >
   Push Me
 </button>

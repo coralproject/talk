@@ -1,5 +1,7 @@
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
+import { OnSubmit } from "talk-framework/lib/form";
+import * as styles from "./SignIn.css";
 
 import {
   composeValidators,
@@ -17,14 +19,18 @@ import {
   ValidationMessage,
 } from "talk-ui/components";
 
-import * as styles from "./ForgotPassword.css";
+interface FormProps {
+  email: string;
+}
 
-const ForgotPassword: StatelessComponent = props => {
+export interface ForgotPasswordForm {
+  onSubmit: OnSubmit<FormProps>;
+}
+
+const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
   return (
-    // TODO (bc) add functionality when Forgot Password is done on the backend
-    // tslint:disable-next-line:no-empty
-    <Form onSubmit={() => {}}>
-      {({ handleSubmit, submitting }) => (
+    <Form onSubmit={props.onSubmit}>
+      {({ handleSubmit }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <Flex itemGutter direction="column" className={styles.root}>
             <Typography variant="heading1" align="center">

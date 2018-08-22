@@ -10,13 +10,11 @@ Let's build some forms! We will use the following compoenents `InputLabel`, `Typ
 ### Examples
 
 import { Playground, PropsTable } from 'docz'
-import { InputLabel, ValidationMessage, TextField, Typography, Flex, Button} from '../core/client/ui/components'
-
-# InputLabel
+import { InputLabel, CallOut, ValidationMessage, TextField, InputDescription, Flex, Button, FormField, Typography } from '../core/client/ui/components'
 
 ## Simple Form
 <Playground>
-  <Flex>
+  <Flex itemGutter direction="column">
     <Typography variant="heading1">Sign up to join the conversation</Typography>
 
     <FormField>
@@ -26,14 +24,13 @@ import { InputLabel, ValidationMessage, TextField, Typography, Flex, Button} fro
 
     <FormField>
       <InputLabel>Username</InputLabel>
-      <Typography>A unique identifier displayed on your comments. You may use “_” and “.”</Typography>
+      <InputDescription>A unique identifier displayed on your comments. You may use “_” and “.”</InputDescription>
       <TextField/>
     </FormField>
 
-
     <FormField>
       <InputLabel>Password</InputLabel>
-      <Typography>Must be at least 8 characters</Typography>
+      <InputDescription>Must be at least 8 characters</InputDescription>
       <TextField/>
     </FormField>
 
@@ -42,14 +39,14 @@ import { InputLabel, ValidationMessage, TextField, Typography, Flex, Button} fro
       <TextField/>
     </FormField>
 
-    <Button variant="filled" color="primary" size="large" >Sign up and join the conversation</Button>
+    <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
   </Flex>
 </Playground>
 
 ## Simple Form with error
 
 <Playground>
-  <Flex>
+  <Flex itemGutter direction="column">
     <Typography variant="heading1">Sign up to join the conversation</Typography>
 
     <FormField>
@@ -58,8 +55,8 @@ import { InputLabel, ValidationMessage, TextField, Typography, Flex, Button} fro
     </FormField>
 
     <FormField>
-      <InputLabel defaultValue="something.com" color="error" >Username</InputLabel>
-      <Typography>A unique identifier displayed on your comments. You may use “_” and “.”</Typography>
+      <InputLabel defaultValue="something.com">Username</InputLabel>
+      <InputDescription>A unique identifier displayed on your comments. You may use “_” and “.”</InputDescription>
       <TextField/>
       <ValidationMessage>Invalid characters. Try again.</ValidationMessage>
     </FormField>
@@ -67,7 +64,7 @@ import { InputLabel, ValidationMessage, TextField, Typography, Flex, Button} fro
 
     <FormField>
       <InputLabel>Password</InputLabel>
-      <Typography>Must be at least 8 characters</Typography>
+      <InputDescription>Must be at least 8 characters</InputDescription>
       <TextField/>
     </FormField>
 
@@ -76,6 +73,39 @@ import { InputLabel, ValidationMessage, TextField, Typography, Flex, Button} fro
       <TextField/>
     </FormField>
 
-    <Button variant="filled" color="primary" size="large" >Sign up and join the conversation</Button>
+    <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
+  </Flex>
+</Playground>
+
+## Simple Form with CallOut
+
+<Playground>
+  <Flex itemGutter direction="column">
+    <Typography variant="heading1">Sign up to join the conversation</Typography>
+    <CallOut color="error" fullWidth>The email address or password you entered is incorrect. Try again</CallOut>
+    <FormField>
+      <InputLabel>Email Address</InputLabel>
+      <TextField/>
+    </FormField>
+
+    <FormField>
+      <InputLabel defaultValue="something.com">Username</InputLabel>
+      <InputDescription>A unique identifier displayed on your comments. You may use “_” and “.”</InputDescription>
+      <TextField/>
+    </FormField>
+
+
+    <FormField>
+      <InputLabel>Password</InputLabel>
+      <InputDescription>Must be at least 8 characters</InputDescription>
+      <TextField/>
+    </FormField>
+
+    <FormField>
+      <InputLabel>Confirm Password</InputLabel>
+      <TextField/>
+    </FormField>
+
+    <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
   </Flex>
 </Playground>

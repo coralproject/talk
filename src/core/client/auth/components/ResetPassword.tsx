@@ -1,5 +1,7 @@
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
+import { OnSubmit } from "talk-framework/lib/form";
+import * as styles from "./SignIn.css";
 
 import {
   composeValidators,
@@ -12,20 +14,26 @@ import {
   Button,
   Flex,
   FormField,
+  InputDescription,
   InputLabel,
   TextField,
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
 
-import * as styles from "./ResetPassword.css";
+interface FormProps {
+  password: string;
+  confirmPassword: string;
+}
 
-const ResetPassword: StatelessComponent = props => {
+export interface ResetPasswordForm {
+  onSubmit: OnSubmit<FormProps>;
+}
+
+const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
   return (
-    // TODO (bc) add functionality when Reset Password is done on the backend
-    // tslint:disable-next-line:no-empty
-    <Form onSubmit={() => {}}>
-      {({ handleSubmit, submitting }) => (
+    <Form onSubmit={props.onSubmit}>
+      {({ handleSubmit }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <Flex itemGutter direction="column" className={styles.root}>
             <Typography variant="heading1" align="center">
@@ -38,9 +46,9 @@ const ResetPassword: StatelessComponent = props => {
               {({ input, meta }) => (
                 <FormField>
                   <InputLabel>Password</InputLabel>
-                  <Typography variant="inputDescription">
+                  <InputDescription>
                     Must be at least 8 characters
-                  </Typography>
+                  </InputDescription>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -69,9 +77,9 @@ const ResetPassword: StatelessComponent = props => {
               {({ input, meta }) => (
                 <FormField>
                   <InputLabel>Confirm Password</InputLabel>
-                  <Typography variant="inputDescription">
+                  <InputDescription>
                     Must be at least 8 characters
-                  </Typography>
+                  </InputDescription>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}

@@ -22,6 +22,7 @@ exports[`renders permalink view with unknown asset 1`] = `
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         target="_parent"
+        type="button"
       >
         Show all Comments
       </a>

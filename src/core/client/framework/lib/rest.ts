@@ -17,22 +17,25 @@ const buildOptions = (inputOptions: RequestInit = {}) => {
   return options;
 };
 
-const handleResp = (res: Response) => {
-  if (res.status > 399) {
-    return res.json().then((err: any) => {
-      // TODO: sync error handling with server.
-      const message = err.message || err.error || res.status;
-      const error = new Error(message);
-      throw error;
-    });
-  } else if (res.status === 204) {
-    return res.text();
-  } else {
-    return res.json();
+const handleResp = async (res: Response) => {
+  if (res.status === 404) {
+    const response = await res.text();
+    throw new Error(response);
   }
+
+  if (!res.ok) {
+    const response = await res.json();
+    throw new Error(response.error);
+  }
+
+  if (res.status === 204) {
+    return res.text();
+  }
+
+  return res.json();
 };
 
-type PartialRequestInit = Overwrite<Partial<RequestInit>, { body: any }>;
+type PartialRequestInit = Overwrite<Partial<RequestInit>, { body?: any }>;
 
 export class RestClient {
   public readonly uri: string;
@@ -43,7 +46,7 @@ export class RestClient {
     this.tokenGetter = tokenGetter;
   }
 
-  public fetch<T>(path: string, options: PartialRequestInit): Promise<T> {
+  public async fetch<T>(path: string, options: PartialRequestInit): Promise<T> {
     let opts = options;
     if (this.tokenGetter) {
       opts = merge({}, options, {
@@ -52,6 +55,7 @@ export class RestClient {
         },
       });
     }
-    return fetch(`${this.uri}${path}`, buildOptions(opts)).then(handleResp);
+    const response = await fetch(`${this.uri}${path}`, buildOptions(opts));
+    return handleResp(response);
   }
 }

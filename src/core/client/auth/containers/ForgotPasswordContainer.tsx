@@ -3,7 +3,8 @@ import ForgotPassword from "../components/ForgotPassword";
 
 class ForgotPasswordContainer extends Component {
   public render() {
-    return <ForgotPassword />;
+    // tslint:disable-next-line:no-empty
+    return <ForgotPassword onSubmit={() => {}} />;
   }
 }
 

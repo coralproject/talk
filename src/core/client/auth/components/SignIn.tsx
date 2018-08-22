@@ -1,8 +1,6 @@
-import * as React from "react";
-import { StatelessComponent } from "react";
+import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
 import { OnSubmit } from "talk-framework/lib/form";
-import * as styles from "./SignIn.css";
 
 import {
   composeValidators,
@@ -13,6 +11,7 @@ import {
 
 import {
   Button,
+  CallOut,
   Flex,
   FormField,
   InputLabel,
@@ -20,6 +19,8 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
+import { View } from "../containers/SignInContainer";
+import * as styles from "./SignIn.css";
 
 interface FormProps {
   email: string;
@@ -28,6 +29,8 @@ interface FormProps {
 
 export interface SignInForm {
   onSubmit: OnSubmit<FormProps>;
+  setView: (view: View) => void;
+  error: string | null;
 }
 
 const SignIn: StatelessComponent<SignInForm> = props => {
@@ -39,7 +42,11 @@ const SignIn: StatelessComponent<SignInForm> = props => {
             <Typography variant="heading1" align="center">
               Sign in to join the conversation
             </Typography>
-
+            {props.error && (
+              <CallOut color="error" fullWidth>
+                {props.error}
+              </CallOut>
+            )}
             <Field
               name="email"
               validate={composeValidators(required, validateEmail)}
@@ -70,9 +77,6 @@ const SignIn: StatelessComponent<SignInForm> = props => {
               {({ input, meta }) => (
                 <FormField>
                   <InputLabel>Password</InputLabel>
-                  <Typography variant="inputDescription">
-                    Must be at least 8 characters
-                  </Typography>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -87,7 +91,14 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                       </ValidationMessage>
                     )}
                   <span className={styles.forgotPassword}>
-                    <Button variant="underlined" color="primary" size="small">
+                    <Button
+                      variant="underlined"
+                      color="primary"
+                      size="small"
+                      onClick={() => {
+                        props.setView("FORGOT_PASSWORD");
+                      }}
+                    >
                       Forgot your password?
                     </Button>
                   </span>
@@ -111,7 +122,14 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                 className={styles.subFooter}
               >
                 <Typography>Don't have an account?</Typography>
-                <Button variant="underlined" size="small" color="primary">
+                <Button
+                  variant="underlined"
+                  size="small"
+                  color="primary"
+                  onClick={() => {
+                    props.setView("SIGN_UP");
+                  }}
+                >
                   Sign Up
                 </Button>
               </Flex>
