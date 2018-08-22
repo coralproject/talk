@@ -44,11 +44,14 @@ class SignInContainer extends Component<
     }
     return undefined;
   };
+  private goToForgotPassword = () => this.setView("FORGOT_PASSWORD");
+  private goToSignUp = () => this.setView("SIGN_UP");
   public render() {
     return (
       <SignIn
         onSubmit={this.onSubmit}
-        setView={this.setView}
+        goToForgotPassword={this.goToForgotPassword}
+        goToSignUp={this.goToSignUp}
         error={this.state.error}
       />
     );

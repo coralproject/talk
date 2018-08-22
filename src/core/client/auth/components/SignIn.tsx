@@ -19,7 +19,7 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
-import { View } from "../containers/SignInContainer";
+
 import * as styles from "./SignIn.css";
 
 interface FormProps {
@@ -29,7 +29,8 @@ interface FormProps {
 
 export interface SignInForm {
   onSubmit: OnSubmit<FormProps>;
-  setView: (view: View) => void;
+  goToSignUp: () => void;
+  goToForgotPassword: () => void;
   error: string | null;
 }
 
@@ -95,9 +96,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                       variant="underlined"
                       color="primary"
                       size="small"
-                      onClick={() => {
-                        props.setView("FORGOT_PASSWORD");
-                      }}
+                      onClick={props.goToForgotPassword}
                     >
                       Forgot your password?
                     </Button>
@@ -126,9 +125,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                   variant="underlined"
                   size="small"
                   color="primary"
-                  onClick={() => {
-                    props.setView("SIGN_UP");
-                  }}
+                  onClick={props.goToSignUp}
                 >
                   Sign Up
                 </Button>
