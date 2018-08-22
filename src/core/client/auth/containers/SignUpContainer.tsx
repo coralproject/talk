@@ -1,5 +1,5 @@
+import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
-import { BadUserInputError } from "talk-framework/lib/errors";
 import SignUp, { SignUpForm } from "../components/SignUp";
 
 import {
@@ -24,7 +24,6 @@ class SignUpContainer extends Component<
   SignUpContainerProps,
   SignUpContainerState
 > {
-  public state = { error: "" };
   private setView = (view: View) => {
     this.props.setView({
       view,
@@ -32,27 +31,15 @@ class SignUpContainer extends Component<
   };
   private onSubmit: SignUpForm["onSubmit"] = async (input, form) => {
     try {
-      await this.props.signUp(input);
+      return await this.props.signUp(input);
       form.reset();
     } catch (error) {
-      this.setState({ error: error.message });
-      if (error instanceof BadUserInputError) {
-        return error.invalidArgsLocalized;
-      }
-      // tslint:disable-next-line:no-console
-      console.error(error);
+      return { [FORM_ERROR]: error.message };
     }
-    return undefined;
   };
   private goToSignIn = () => this.setView("SIGN_IN");
   public render() {
-    return (
-      <SignUp
-        onSubmit={this.onSubmit}
-        goToSignIn={this.goToSignIn}
-        error={this.state.error}
-      />
-    );
+    return <SignUp onSubmit={this.onSubmit} goToSignIn={this.goToSignIn} />;
   }
 }
 

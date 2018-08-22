@@ -34,24 +34,25 @@ interface FormProps {
 export interface SignUpForm {
   onSubmit: OnSubmit<FormProps>;
   goToSignIn: () => void;
-  error: string | null;
 }
 
 const SignUp: StatelessComponent<SignUpForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
-      {({ handleSubmit, submitting }) => (
+      {({ handleSubmit, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <Flex itemGutter="double" direction="column" className={styles.root}>
             <Flex direction="column">
               <Typography variant="heading1" align="center">
                 Sign up to join the conversation
               </Typography>
-              {props.error && (
+
+              {submitError && (
                 <CallOut color="error" fullWidth>
-                  {props.error}
+                  {submitError}
                 </CallOut>
               )}
+
               <Field
                 name="email"
                 validate={composeValidators(required, validateEmail)}
