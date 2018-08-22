@@ -105,7 +105,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
               )}
             </Field>
 
-            <div className={styles.footer}>
+            <div>
               <Button
                 variant="filled"
                 color="primary"
@@ -115,11 +115,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
               >
                 Sign in and join the conversation
               </Button>
-              <Flex
-                itemGutter="half"
-                justifyContent="center"
-                className={styles.subFooter}
-              >
+              <Flex itemGutter="half" justifyContent="center">
                 <Typography>Don't have an account?</Typography>
                 <Button
                   variant="underlined"

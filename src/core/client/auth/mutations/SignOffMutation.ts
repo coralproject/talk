@@ -2,13 +2,11 @@ import { commitLocalUpdate, Environment } from "relay-runtime";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { createMutationContainer } from "talk-framework/lib/relay";
 import { LOCAL_ID } from "talk-framework/lib/relay/withLocalStateContainer";
-import { SignOffInput } from "talk-framework/rest";
 
-export type SignOffMutation = (input: SignOffInput) => Promise<void>;
+export type SignOffMutation = () => Promise<void>;
 
 export async function commit(
   environment: Environment,
-  input: SignOffInput,
   { localStorage }: TalkContext
 ) {
   return commitLocalUpdate(environment, store => {

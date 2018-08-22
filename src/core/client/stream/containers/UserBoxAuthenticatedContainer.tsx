@@ -12,7 +12,7 @@ class UserBoxAuthenticatedContainer extends Component<
   UserBoxAuthenticatedProps
 > {
   private onSignOff = () => {
-    this.props.signOff({});
+    this.props.signOff();
   };
   public render() {
     return (
