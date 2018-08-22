@@ -20,6 +20,7 @@ import {
   ValidationMessage,
 } from "talk-ui/components";
 
+import AutoHeightContainer from "../containers/AutoHeightContainer";
 import * as styles from "./SignIn.css";
 
 interface FormProps {
@@ -38,6 +39,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
+          <AutoHeightContainer />
           <Flex itemGutter="double" direction="column" className={styles.root}>
             <Typography variant="heading1" align="center">
               Sign in to join the conversation

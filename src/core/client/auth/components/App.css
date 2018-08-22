@@ -1,7 +1,7 @@
 /* Here we add global stylings for body and document */
 :global {
   body {
-    margin: "0";
+    margin: 0;
 
     /* Support for all WebKit browsers. */
     -webkit-font-smoothing: antialiased;
@@ -12,5 +12,6 @@
 
 .root {
   width: 100%;
-  padding-top: calc(5 * var(--spacing-unit));
+  padding: var(--spacing-unit);
+  box-sizing: border-box;
 }
