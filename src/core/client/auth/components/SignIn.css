@@ -1,6 +1,5 @@
 .root {
   width: 330px;
-  padding-top: calc(5 * var(--spacing-unit));
 }
 
 .forgotPassword {

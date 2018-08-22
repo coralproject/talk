@@ -1,8 +1,3 @@
-.root {
-  display: block;
-  text-align: center;
-}
-
 .spinner {
   animation: rotator 1.4s linear infinite;
 }

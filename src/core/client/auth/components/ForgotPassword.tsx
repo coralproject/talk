@@ -32,7 +32,7 @@ const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <Flex itemGutter direction="column" className={styles.root}>
+          <Flex itemGutter="double" direction="column" className={styles.root}>
             <Typography variant="heading1" align="center">
               Forgot Password
             </Typography>
@@ -62,11 +62,9 @@ const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
                 </FormField>
               )}
             </Field>
-            <div className={styles.footer}>
-              <Button variant="filled" color="primary" size="large" fullWidth>
-                Send Email
-              </Button>
-            </div>
+            <Button variant="filled" color="primary" size="large" fullWidth>
+              Send Email
+            </Button>
           </Flex>
         </form>
       )}

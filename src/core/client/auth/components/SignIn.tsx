@@ -38,7 +38,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <Flex itemGutter direction="column" className={styles.root}>
+          <Flex itemGutter="double" direction="column" className={styles.root}>
             <Typography variant="heading1" align="center">
               Sign in to join the conversation
             </Typography>

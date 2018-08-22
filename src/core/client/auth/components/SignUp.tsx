@@ -42,7 +42,7 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <Flex itemGutter direction="column" className={styles.root}>
+          <Flex itemGutter="double" direction="column" className={styles.root}>
             <Flex direction="column">
               <Typography variant="heading1" align="center">
                 Sign up to join the conversation

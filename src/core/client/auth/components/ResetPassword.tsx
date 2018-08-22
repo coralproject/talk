@@ -35,7 +35,7 @@ const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <Flex itemGutter direction="column" className={styles.root}>
+          <Flex itemGutter="double" direction="column" className={styles.root}>
             <Typography variant="heading1" align="center">
               Reset Password
             </Typography>
@@ -96,11 +96,9 @@ const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
                 </FormField>
               )}
             </Field>
-            <div className={styles.footer}>
-              <Button variant="filled" color="primary" size="large" fullWidth>
-                Reset Password
-              </Button>
-            </div>
+            <Button variant="filled" color="primary" size="large" fullWidth>
+              Reset Password
+            </Button>
           </Flex>
         </form>
       )}

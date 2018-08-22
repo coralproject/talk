@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React from "react";
+import React, { ChangeEvent, EventHandler } from "react";
 import { StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
 import * as styles from "./TextField.css";
@@ -42,13 +42,13 @@ export interface TextFieldProps {
    */
   name?: string;
   /**
-   * type
+   * type: Here we only allow text type values
    */
-  type?: string;
+  type?: "email" | "number" | "password" | "search" | "tel" | "text" | "url";
   /**
    * onChange
    */
-  onChange?: <T>(event: any) => void;
+  onChange?: EventHandler<ChangeEvent<HTMLInputElement>>;
 }
 
 const TextField: StatelessComponent<TextFieldProps> = props => {
@@ -85,6 +85,7 @@ const TextField: StatelessComponent<TextFieldProps> = props => {
 TextField.defaultProps = {
   color: "regular",
   placeholder: "",
+  type: "text",
 };
 
 const enhanced = withStyles(styles)(TextField);

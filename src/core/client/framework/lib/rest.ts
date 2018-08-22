@@ -17,6 +17,8 @@ const buildOptions = (inputOptions: RequestInit = {}) => {
   return options;
 };
 
+// TODO (bc): Wrap response errors into error objects once server errors have been defined
+
 const handleResp = async (res: Response) => {
   if (res.status === 404) {
     const response = await res.text();
