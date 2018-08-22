@@ -21,6 +21,8 @@ import {
   ValidationMessage,
 } from "talk-ui/components";
 
+import AutoHeightContainer from "../containers/AutoHeightContainer";
+
 interface FormProps {
   password: string;
   confirmPassword: string;
@@ -35,6 +37,7 @@ const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
+          <AutoHeightContainer />
           <Flex itemGutter="double" direction="column" className={styles.root}>
             <Typography variant="heading1" align="center">
               Reset Password
