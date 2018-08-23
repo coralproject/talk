@@ -107,7 +107,7 @@ const contextGenerator = req => {
 
     try {
       // Let's refetch the user from the database, as they may have changed.
-      const reFetchedUser = await User.find({ id: user.id });
+      const reFetchedUser = await User.findOne({ id: user.id });
       if (!reFetchedUser) {
         return null;
       }
