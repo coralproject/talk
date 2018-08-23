@@ -6,6 +6,7 @@ const { getPubsub } = require('./pubsub');
 const schema = require('../schema');
 const Context = require('../context');
 const plugins = require('../../services/plugins');
+const User = require('../../models/user');
 
 const { deserializeUser } = require('../../services/subscriptions');
 const setupFunctions = require('./setupFunctions');
@@ -59,31 +60,84 @@ const onConnect = async (connectionParams, connection) => {
     }`;
   }
 
+  try {
+    // Pull the user off of the upgrade request.
+    const hydratedRequest = await deserializeUser(connection.upgradeReq);
+
+    // Update the connections upgrade request, as we'll use that to verify that
+    // the user is allowed each operation.
+    connection.upgradeReq = hydratedRequest;
+  } catch (err) {
+    console.error(err);
+  }
+
   // Call all the hooks.
   await Promise.all(
     hooks.onConnect.map(hook => hook(connectionParams, connection))
   );
 };
 
-const onOperation = (parsedMessage, baseParams, connection) => {
-  // Cache the upgrade request.
-  let upgradeReq = connection.upgradeReq;
+const contextGenerator = req => {
+  // Pull the user(?) off the request.
+  const { user, jwt } = req;
 
-  // Attach the context per request.
-  baseParams.context = async () => {
-    let req;
+  if (!user || !jwt) {
+    // There is no valid user on the request, let it continue as is then.
+    return async () => new Context(req);
+  }
 
-    try {
-      req = await deserializeUser(upgradeReq);
-      debug(`user ${req.user ? 'was' : 'was not'} on websocket request`);
-    } catch (e) {
-      console.error(e);
+  // Provide a flag that can be used to short circuit invalid requests.
+  let expiredLogin = false;
 
-      return new Context({});
+  async function refetchUser() {
+    // Check to see if this request has been short circuited.
+    if (expiredLogin) {
+      // It has, let's exit here.
+      return null;
     }
 
+    // Validate that the JWT for this user has not expired.
+    const { exp = false } = jwt;
+    if (exp && exp < Date.now() / 1000) {
+      // Mark that this token has expired, don't bother performing this syscall
+      // again to check the time.
+      expiredLogin = true;
+      return null;
+    }
+
+    try {
+      // Let's refetch the user from the database, as they may have changed.
+      const reFetchedUser = await User.find({ id: user.id });
+      if (!reFetchedUser) {
+        return null;
+      }
+
+      return reFetchedUser;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  // Return the context builder function that'll use the passed context to
+  // generate future contexts.
+  return async () => {
+    // Refetch the user (potentially null).
+    const reFetchedUser = await refetchUser();
+
+    // Attach the reFetchedUser to the request.
+    req.user = reFetchedUser;
+
+    // Return the new context.
     return new Context(req);
   };
+};
+
+const onOperation = async (parsedMessage, baseParams, connection) => {
+  // Pull the upgrade request off of the connection.
+  const upgradeReq = connection.upgradeReq;
+
+  // Attach the context handler to the request.
+  baseParams.context = contextGenerator(upgradeReq);
 
   return baseParams;
 };
