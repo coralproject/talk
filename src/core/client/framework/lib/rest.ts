@@ -48,7 +48,10 @@ export class RestClient {
     this.tokenGetter = tokenGetter;
   }
 
-  public async fetch<T>(path: string, options: PartialRequestInit): Promise<T> {
+  public async fetch<T = {}>(
+    path: string,
+    options: PartialRequestInit
+  ): Promise<T> {
     let opts = options;
     if (this.tokenGetter) {
       opts = merge({}, options, {
