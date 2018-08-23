@@ -7,6 +7,7 @@ import {
   addGraphQLSubscriptions,
 } from 'subscriptions-transport-ws';
 import MessageTypes from 'subscriptions-transport-ws/dist/message-types';
+import { getStaticConfiguration } from 'coral-framework/services/staticConfiguration';
 
 // Redux middleware to report any errors to the console.
 export const apolloErrorReporter = () => next => action => {
@@ -31,23 +32,15 @@ function resolveToken(token) {
  */
 export function createClient(options = {}) {
   const { token, uri, liveUri, introspectionData } = options;
-  const wsClient = new SubscriptionClient(liveUri, {
-    reconnect: true,
-    lazy: true,
-    connectionParams: {
-      get token() {
-        return resolveToken(token);
-      },
-    },
-  });
-
-  const networkInterface = createNetworkInterface({
-    uri,
+  let networkInterface = createNetworkInterface({
+    uri: uri,
     opts: {
       credentials: 'same-origin',
     },
   });
 
+  let wsClient = null;
+  let { WEBSOCKET_CLIENT_DISABLE: websocket_client_disable } = getStaticConfiguration();
   networkInterface.use([
     {
       applyMiddleware(req, next) {
@@ -66,10 +59,22 @@ export function createClient(options = {}) {
     },
   ]);
 
-  const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
-    networkInterface,
-    wsClient
-  );
+  if (!websocket_client_disable) {
+    wsClient = new SubscriptionClient(liveUri, {
+      reconnect: true,
+      lazy: true,
+      connectionParams: {
+        get token() {
+          return resolveToken(token);
+        },
+      },
+    });
+
+    networkInterface = addGraphQLSubscriptions(
+      networkInterface,
+      wsClient
+    );
+  }
 
   const client = new ApolloClient({
     connectToDevTools: true,
@@ -84,10 +89,13 @@ export function createClient(options = {}) {
       }
       return null;
     },
-    networkInterface: networkInterfaceWithSubscriptions,
+    networkInterface: networkInterface
   });
 
   client.resetWebsocket = () => {
+    if (websocket_client_disable) {
+      return;
+    }
     // Close socket connection which will also unregister subscriptions on the server-side.
     wsClient.close();
 

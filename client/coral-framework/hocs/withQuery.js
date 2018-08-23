@@ -13,6 +13,7 @@ import get from 'lodash/get';
 import { notify } from 'coral-framework/actions/notification';
 import { Broadcast } from 'react-broadcast';
 import { compose } from 'recompose';
+import { getStaticConfiguration } from 'coral-framework/services/staticConfiguration';
 
 const withSkipOnErrors = reducer => (prev, action, ...rest) => {
   if (
@@ -23,6 +24,8 @@ const withSkipOnErrors = reducer => (prev, action, ...rest) => {
   }
   return reducer(prev, action, ...rest);
 };
+
+const { WEBSOCKET_CLIENT_DISABLE: websocket_client_disable } = getStaticConfiguration();
 
 function networkStatusToString(networkStatus) {
   switch (networkStatus) {
@@ -149,6 +152,9 @@ const createHOC = (document, config, { notifyOnError = true }) =>
       }
 
       subscribeToMoreThrottled = ({ document, variables, updateQuery }) => {
+        if (!websocket_client_disable) {
+          return;
+        }
         // We need to add the typenames and resolve fragments.
         const query = this.resolveDocument(document);
         const handler = (error, data) => {
@@ -240,19 +246,21 @@ const createHOC = (document, config, { notifyOnError = true }) =>
               return this.apolloData.refetch(...args);
             },
             subscribeToMore: stmArgs => {
-              const resolvedDocument = this.resolveDocument(stmArgs.document);
+              if (!websocket_client_disable) {
+                const resolvedDocument = this.resolveDocument(stmArgs.document);
 
-              // Resolve document fragments before passing it to `apollo-client`.
-              return this.apolloData.subscribeToMore({
-                ...stmArgs,
-                document: resolvedDocument,
-                onError: err => {
-                  if (stmArgs.onErr) {
-                    return stmArgs.onErr(err);
-                  }
-                  throw err;
-                },
-              });
+                // Resolve document fragments before passing it to `apollo-client`.
+                return this.apolloData.subscribeToMore({
+                  ...stmArgs,
+                  document: resolvedDocument,
+                  onError: err => {
+                    if (stmArgs.onErr) {
+                      return stmArgs.onErr(err);
+                    }
+                    throw err;
+                  },
+                });
+              }
             },
             fetchMore: lmArgs => {
               const resolvedDocument = this.resolveDocument(lmArgs.query);

@@ -35,7 +35,7 @@ class EmbedContainer extends React.Component {
   subscriptions = [];
 
   subscribeToUpdates(props = this.props) {
-    if (props.currentUser) {
+    if (props.currentUser && !this.props.config.static.WEBSOCKET_CLIENT_DISABLE) {
       const newSubscriptions = [
         {
           document: USER_BANNED_SUBSCRIPTION,

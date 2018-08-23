@@ -11,7 +11,7 @@ const {
   STATIC_ORIGIN,
 } = require('../url');
 
-const { RECAPTCHA_PUBLIC, WEBSOCKET_LIVE_URI } = require('../config');
+const { RECAPTCHA_PUBLIC, WEBSOCKET_LIVE_URI, WEBSOCKET_CLIENT_DISABLE } = require('../config');
 
 // Grab TALK_CLIENT_* environment variables.
 const TALK_CLIENT = /^TALK_CLIENT_/i;
@@ -27,6 +27,7 @@ const TALK_CLIENT_ENV = Object.keys(process.env)
     {
       TALK_RECAPTCHA_PUBLIC: RECAPTCHA_PUBLIC,
       LIVE_URI: WEBSOCKET_LIVE_URI,
+      WEBSOCKET_CLIENT_DISABLE: WEBSOCKET_CLIENT_DISABLE,
       STATIC_URL,
       STATIC_ORIGIN,
     }

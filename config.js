@@ -237,6 +237,8 @@ const CONFIG = {
 
   // WEBSOCKET_LIVE_URI is the absolute url to the live endpoint.
   WEBSOCKET_LIVE_URI: process.env.TALK_WEBSOCKET_LIVE_URI || null,
+  // WEBSOCKET_CLIENT_DISABLE is true when websocket is disable on client
+  WEBSOCKET_CLIENT_DISABLE: process.env.TALK_WEBSOCKET_CLIENT_DISABLE === 'TRUE',
 
   //------------------------------------------------------------------------------
   // SMTP Server configuration
