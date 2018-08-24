@@ -7,23 +7,21 @@ import { withStyles } from "talk-ui/hocs";
 import Flex from "../Flex";
 import * as styles from "./FormField.css";
 
-interface InnerProps extends HTMLAttributes<any> {
+interface InnerProps {
   children: ReactNode;
   classes: typeof styles;
   id?: string;
   className?: string;
-  itemGutter?: boolean | "half";
 }
 
 const FormField: StatelessComponent<InnerProps> = props => {
-  const { classes, className, children, itemGutter, ...rest } = props;
+  const { classes, className, children } = props;
 
   return (
     <Flex
       direction="column"
       className={cn(classes.root, className)}
       itemGutter="half"
-      {...rest}
     >
       {children}
     </Flex>
