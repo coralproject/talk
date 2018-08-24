@@ -1,12 +1,14 @@
 const { SubscriptionManager } = require('graphql-subscriptions');
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 const debug = require('debug')('talk:graph:subscriptions');
+const DataLoader = require('dataloader');
 
 const { getPubsub } = require('./pubsub');
 const schema = require('../schema');
 const Context = require('../context');
 const plugins = require('../../services/plugins');
 const User = require('../../models/user');
+const { singleJoinBy } = require('../loaders/util');
 
 const { deserializeUser } = require('../../services/subscriptions');
 const setupFunctions = require('./setupFunctions');
@@ -77,6 +79,25 @@ const onConnect = async (connectionParams, connection) => {
   );
 };
 
+/**
+ * batchedUserRefresher will get users based on ID for websocket user refresh
+ * operations to reduce load related to user refreshing.
+ */
+const batchedUserRefresher = new DataLoader(
+  userIDs => {
+    console.log(`OPERATION: refreshing ${userIDs.length} users.`);
+    return User.find({ id: { $in: userIDs } }).then(
+      singleJoinBy(userIDs, 'id')
+    );
+  },
+  {
+    // Disable the cache, as this dataloader is long lived, and the point of
+    // using this dataloader is to batch refetch operations rather than caching
+    // then as we normally would.
+    cache: false,
+  }
+);
+
 const contextGenerator = req => {
   // Pull the user(?) off the request.
   const { user, jwt } = req;
@@ -89,7 +110,7 @@ const contextGenerator = req => {
   // Provide a flag that can be used to short circuit invalid requests.
   let expiredLogin = false;
 
-  async function refetchUser() {
+  async function refreshUser() {
     // Check to see if this request has been short circuited.
     if (expiredLogin) {
       // It has, let's exit here.
@@ -106,13 +127,13 @@ const contextGenerator = req => {
     }
 
     try {
-      // Let's refetch the user from the database, as they may have changed.
-      const reFetchedUser = await User.findOne({ id: user.id });
-      if (!reFetchedUser) {
+      // Let's refresh the user from the database, as they may have changed.
+      const refreshedUser = await batchedUserRefresher.load(user.id);
+      if (!refreshedUser) {
         return null;
       }
 
-      return reFetchedUser;
+      return refreshedUser;
     } catch (err) {
       return null;
     }
@@ -121,11 +142,11 @@ const contextGenerator = req => {
   // Return the context builder function that'll use the passed context to
   // generate future contexts.
   return async () => {
-    // Refetch the user (potentially null).
-    const reFetchedUser = await refetchUser();
+    // Refresh the user (potentially null).
+    const refreshedUser = await refreshUser();
 
-    // Attach the reFetchedUser to the request.
-    req.user = reFetchedUser;
+    // Attach the refreshedUser to the request.
+    req.user = refreshedUser;
 
     // Return the new context.
     return new Context(req);
