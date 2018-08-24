@@ -4,6 +4,7 @@ import { StatelessComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
+import Flex from "../Flex";
 import * as styles from "./FormField.css";
 
 interface InnerProps {
@@ -17,21 +18,15 @@ interface InnerProps {
 const FormField: StatelessComponent<InnerProps> = props => {
   const { classes, className, children, itemGutter, ...rest } = props;
 
-  // TODO (bc): Use flex component once the extra div issue is solved.
   return (
-    <div
-      className={cn(
-        classes.root,
-        {
-          [classes.itemGutter]: itemGutter === true,
-          [classes.halfItemGutter]: itemGutter === "half",
-        },
-        className
-      )}
+    <Flex
+      direction="column"
+      className={cn(classes.root, className)}
+      itemGutter="half"
       {...rest}
     >
       {children}
-    </div>
+    </Flex>
   );
 };
 

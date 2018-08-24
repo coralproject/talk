@@ -14,29 +14,29 @@ import { InputLabel, CallOut, ValidationMessage, TextField, InputDescription, Fl
 
 ## Simple Form
 <Playground>
-  <Flex itemGutter direction="column">
+  <Flex itemGutter="double" direction="column">
     <Typography variant="heading1">Sign up to join the conversation</Typography>
 
     <FormField>
       <InputLabel>Email Address</InputLabel>
-      <TextField/>
+      <TextField fullWidth />
     </FormField>
 
     <FormField>
       <InputLabel>Username</InputLabel>
       <InputDescription>A unique identifier displayed on your comments. You may use “_” and “.”</InputDescription>
-      <TextField/>
+      <TextField fullWidth />
     </FormField>
 
     <FormField>
       <InputLabel>Password</InputLabel>
       <InputDescription>Must be at least 8 characters</InputDescription>
-      <TextField/>
+      <TextField fullWidth />
     </FormField>
 
     <FormField>
       <InputLabel>Confirm Password</InputLabel>
-      <TextField/>
+      <TextField fullWidth />
     </FormField>
 
     <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
@@ -46,31 +46,31 @@ import { InputLabel, CallOut, ValidationMessage, TextField, InputDescription, Fl
 ## Simple Form with error
 
 <Playground>
-  <Flex itemGutter direction="column">
+  <Flex itemGutter="double" direction="column">
     <Typography variant="heading1">Sign up to join the conversation</Typography>
 
     <FormField>
       <InputLabel>Email Address</InputLabel>
-      <TextField/>
+      <TextField fullWidth />
     </FormField>
 
     <FormField>
       <InputLabel defaultValue="something.com">Username</InputLabel>
       <InputDescription>A unique identifier displayed on your comments. You may use “_” and “.”</InputDescription>
-      <TextField/>
-      <ValidationMessage>Invalid characters. Try again.</ValidationMessage>
+      <TextField fullWidth/>
+      <ValidationMessage fullWidth>Invalid characters. Try again.</ValidationMessage>
     </FormField>
 
 
     <FormField>
       <InputLabel>Password</InputLabel>
       <InputDescription>Must be at least 8 characters</InputDescription>
-      <TextField/>
+      <TextField fullWidth/>
     </FormField>
 
     <FormField>
       <InputLabel>Confirm Password</InputLabel>
-      <TextField/>
+      <TextField fullWidth/>
     </FormField>
 
     <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
@@ -80,30 +80,30 @@ import { InputLabel, CallOut, ValidationMessage, TextField, InputDescription, Fl
 ## Simple Form with CallOut
 
 <Playground>
-  <Flex itemGutter direction="column">
+  <Flex itemGutter="double" direction="column">
     <Typography variant="heading1">Sign up to join the conversation</Typography>
     <CallOut color="error" fullWidth>The email address or password you entered is incorrect. Try again</CallOut>
     <FormField>
       <InputLabel>Email Address</InputLabel>
-      <TextField/>
+      <TextField fullWidth/>
     </FormField>
 
     <FormField>
       <InputLabel defaultValue="something.com">Username</InputLabel>
       <InputDescription>A unique identifier displayed on your comments. You may use “_” and “.”</InputDescription>
-      <TextField/>
+      <TextField fullWidth/>
     </FormField>
 
 
     <FormField>
       <InputLabel>Password</InputLabel>
       <InputDescription>Must be at least 8 characters</InputDescription>
-      <TextField/>
+      <TextField fullWidth/>
     </FormField>
 
     <FormField>
       <InputLabel>Confirm Password</InputLabel>
-      <TextField/>
+      <TextField fullWidth/>
     </FormField>
 
     <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
