@@ -112,7 +112,7 @@ class UserDetailComment extends React.Component {
                 />
                 <a
                   className={styles.external}
-                  href={`${comment.asset.url}?commentId=${comment.id}`}
+                  href={comment.asset.url.includes("?") ? `${comment.asset.url}&commentId=${comment.id}` : `${comment.asset.url}?commentId=${comment.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
