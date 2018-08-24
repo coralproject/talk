@@ -28,6 +28,7 @@ interface InnerProps {
   itemGutter?: boolean | "half" | "double";
   className?: string;
   wrap?: boolean | "reverse";
+  inline?: boolean;
 
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLDivElement>;
@@ -44,6 +45,7 @@ const Flex: StatelessComponent<InnerProps> = props => {
     wrap,
     forwardRef,
     children,
+    inline,
     ...rest
   } = props;
 
@@ -77,19 +79,38 @@ const Flex: StatelessComponent<InnerProps> = props => {
     classObject[(classes as any)[`direction${pascalCase(direction)}`]] = true;
   }
 
-  const rootClassNames: string = cn(classes.root, className);
+  const rootClassNames: string = cn(classes.root, className, {
+    [classes.inline]: inline === true,
+  });
   const flexClassNames: string = cn(classes.flex, classObject);
 
-  // The first div is required to support nested `Flex` components with itemGutters.
+  // text nodes can't be modified with css, so replace them with spans.
+  // Readd spaces at the beginning or end of text nodes because
+  // flex removes it.
+  const content = React.Children.map(children, child => {
+    if (typeof child === "string") {
+      return <span>{child.replace(/^ +| +$/g, "\xa0")}</span>;
+    }
+    return child;
+  });
+
+  if (wrap && itemGutter) {
+    // The first div is required to support nested `Flex` components with itemGutters.
+    return (
+      <div ref={forwardRef} className={rootClassNames} {...rest}>
+        <div className={flexClassNames}>{content}</div>
+      </div>
+    );
+  }
   return (
-    <div ref={forwardRef} className={rootClassNames} {...rest}>
-      <div className={flexClassNames}>{children}</div>
+    <div
+      ref={forwardRef}
+      className={cn(rootClassNames, flexClassNames)}
+      {...rest}
+    >
+      {content}
     </div>
   );
-};
-
-Flex.defaultProps = {
-  wrap: true,
 };
 
 const enhanced = withForwardRef(withStyles(styles)(Flex));

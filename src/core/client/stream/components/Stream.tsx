@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
 
-import { Button, Flex } from "talk-ui/components";
+import { Button, HorizontalGutter } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
 import PostCommentFormContainer from "../containers/PostCommentFormContainer";
@@ -22,21 +22,21 @@ export interface StreamProps {
 
 const Stream: StatelessComponent<StreamProps> = props => {
   return (
-    <Flex className={styles.root} direction="column" itemGutter>
-      <UserBoxContainer user={props.user} />
-      <PostCommentFormContainer assetID={props.assetID} />
-      <Flex
-        direction="column"
+    <HorizontalGutter className={styles.root}>
+      <HorizontalGutter size="half">
+        <UserBoxContainer user={props.user} />
+        <PostCommentFormContainer assetID={props.assetID} />
+      </HorizontalGutter>
+      <HorizontalGutter
         id="talk-comments-stream-log"
         role="log"
         aria-live="polite"
-        itemGutter
       >
         {props.comments.map(comment => (
-          <Flex direction="column" key={comment.id} itemGutter>
+          <HorizontalGutter key={comment.id}>
             <CommentContainer data={comment} />
             <ReplyListContainer comment={comment} />
-          </Flex>
+          </HorizontalGutter>
         ))}
         {props.hasMore && (
           <Localized id="comments-stream-loadMore">
@@ -52,8 +52,8 @@ const Stream: StatelessComponent<StreamProps> = props => {
             </Button>
           </Localized>
         )}
-      </Flex>
-    </Flex>
+      </HorizontalGutter>
+    </HorizontalGutter>
   );
 };
 

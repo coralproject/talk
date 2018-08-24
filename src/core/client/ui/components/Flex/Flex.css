@@ -1,10 +1,12 @@
 .root {
-  width: 100%;
 }
 
 .flex {
   display: flex;
-  width: 100%;
+}
+
+.inline {
+  width: auto;
 }
 
 .halfItemGutter {

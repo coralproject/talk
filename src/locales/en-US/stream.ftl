@@ -15,3 +15,9 @@ comments-permalinkView-commentNotFound = Comment not found
 comments-userBoxUnauthenticated-joinTheConversation = Join the conversation
 comments-userBoxUnauthenticated-signIn = Sign in
 comments-userBoxUnauthenticated-register = Register
+
+comments-userBoxAuthenticated-signedInAs =
+  Signed in as <username>Username</username>.
+
+comments-userBoxAuthenticated-notYou =
+  Not you? <button>Sign Out</button>

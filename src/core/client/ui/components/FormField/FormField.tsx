@@ -1,10 +1,10 @@
 import cn from "classnames";
-import React, { HTMLAttributes, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { StatelessComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
-import Flex from "../Flex";
+import HorizontalGutter from "../HorizontalGutter";
 import * as styles from "./FormField.css";
 
 interface InnerProps {
@@ -18,14 +18,13 @@ const FormField: StatelessComponent<InnerProps> = props => {
   const { classes, className, children, ...rest } = props;
 
   return (
-    <Flex
-      direction="column"
+    <HorizontalGutter
       className={cn(classes.root, className)}
-      itemGutter="half"
+      size="half"
       {...rest}
     >
       {children}
-    </Flex>
+    </HorizontalGutter>
   );
 };
 

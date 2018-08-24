@@ -21,12 +21,12 @@ const UserBoxUnauthenticated: StatelessComponent<
           <Typography
             className={styles.joinText}
             variant="bodyCopyBold"
-            component="span"
+            container="span"
           >
             Join the conversation
           </Typography>
         </Localized>
-        <Typography variant="bodyCopyBold" component="span">
+        <Typography variant="bodyCopyBold" container="span">
           |
         </Typography>
       </MatchMedia>

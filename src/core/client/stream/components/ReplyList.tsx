@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
 
-import { Button, Flex } from "talk-ui/components";
+import { Button, HorizontalGutter } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
 import Indent from "./Indent";
@@ -18,11 +18,9 @@ export interface ReplyListProps {
 const ReplyList: StatelessComponent<ReplyListProps> = props => {
   return (
     <Indent>
-      <Flex
-        direction="column"
+      <HorizontalGutter
         id={`talk-comments-replyList-log--${props.commentID}`}
         role="log"
-        itemGutter
       >
         {props.comments.map(comment => (
           <CommentContainer key={comment.id} data={comment} />
@@ -41,7 +39,7 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
             </Button>
           </Localized>
         )}
-      </Flex>
+      </HorizontalGutter>
     </Indent>
   );
 };

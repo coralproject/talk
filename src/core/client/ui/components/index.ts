@@ -17,3 +17,4 @@ export { default as Popup } from "./Popup";
 export { default as FormField } from "./FormField";
 export { default as InputDescription } from "./InputDescription";
 export { default as Spinner } from "./Spinner";
+export { default as HorizontalGutter } from "./HorizontalGutter";

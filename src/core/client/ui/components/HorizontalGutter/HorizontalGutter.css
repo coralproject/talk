@@ -1,0 +1,27 @@
+.root {
+}
+
+.half {
+  & > * {
+    margin: 0 0 calc(0.5 * var(--spacing-unit)) 0 !important;
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+.full {
+  & > * {
+    margin: 0 0 var(--spacing-unit) 0 !important;
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
+.double {
+  & > * {
+    margin: 0 0 calc(2 * var(--spacing-unit)) 0 !important;
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}

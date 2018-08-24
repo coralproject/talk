@@ -40,9 +40,7 @@ async function main() {
   });
 
   const Index: StatelessComponent = () => (
-    <TalkContextProvider
-      value={{ ...context, mediaQueryValues: { width: 640 } }}
-    >
+    <TalkContextProvider value={context}>
       <AppContainer />
     </TalkContextProvider>
   );
