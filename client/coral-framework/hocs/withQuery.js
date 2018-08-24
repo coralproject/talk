@@ -25,7 +25,9 @@ const withSkipOnErrors = reducer => (prev, action, ...rest) => {
   return reducer(prev, action, ...rest);
 };
 
-const { WEBSOCKET_CLIENT_DISABLE: websocket_client_disable } = getStaticConfiguration();
+const {
+  WEBSOCKET_CLIENT_DISABLE: websocket_client_disable,
+} = getStaticConfiguration();
 
 function networkStatusToString(networkStatus) {
   switch (networkStatus) {
@@ -152,7 +154,7 @@ const createHOC = (document, config, { notifyOnError = true }) =>
       }
 
       subscribeToMoreThrottled = ({ document, variables, updateQuery }) => {
-        if (!websocket_client_disable) {
+        if (websocket_client_disable) {
           return;
         }
         // We need to add the typenames and resolve fragments.
@@ -246,21 +248,22 @@ const createHOC = (document, config, { notifyOnError = true }) =>
               return this.apolloData.refetch(...args);
             },
             subscribeToMore: stmArgs => {
-              if (!websocket_client_disable) {
-                const resolvedDocument = this.resolveDocument(stmArgs.document);
-
-                // Resolve document fragments before passing it to `apollo-client`.
-                return this.apolloData.subscribeToMore({
-                  ...stmArgs,
-                  document: resolvedDocument,
-                  onError: err => {
-                    if (stmArgs.onErr) {
-                      return stmArgs.onErr(err);
-                    }
-                    throw err;
-                  },
-                });
+              if (websocket_client_disable) {
+                return null;
               }
+              const resolvedDocument = this.resolveDocument(stmArgs.document);
+
+              // Resolve document fragments before passing it to `apollo-client`.
+              return this.apolloData.subscribeToMore({
+                ...stmArgs,
+                document: resolvedDocument,
+                onError: err => {
+                  if (stmArgs.onErr) {
+                    return stmArgs.onErr(err);
+                  }
+                  throw err;
+                },
+              });
             },
             fetchMore: lmArgs => {
               const resolvedDocument = this.resolveDocument(lmArgs.query);
