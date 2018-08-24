@@ -15,13 +15,14 @@ interface InnerProps {
 }
 
 const FormField: StatelessComponent<InnerProps> = props => {
-  const { classes, className, children } = props;
+  const { classes, className, children, ...rest } = props;
 
   return (
     <Flex
       direction="column"
       className={cn(classes.root, className)}
       itemGutter="half"
+      {...rest}
     >
       {children}
     </Flex>
