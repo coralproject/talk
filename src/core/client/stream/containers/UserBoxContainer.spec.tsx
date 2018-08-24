@@ -14,10 +14,13 @@ it("renders correctly", () => {
         view: "SIGN_IN",
       },
     },
+    user: null,
     // tslint:disable-next-line:no-empty
     showAuthPopup: async () => {},
     // tslint:disable-next-line:no-empty
     setAuthPopupState: async () => {},
+    // tslint:disable-next-line:no-empty
+    signOut: async () => {},
   };
   const wrapper = shallow(<UserBoxContainer {...props} />);
   expect(wrapper).toMatchSnapshot();
