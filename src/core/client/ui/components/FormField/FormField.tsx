@@ -28,9 +28,5 @@ const FormField: StatelessComponent<InnerProps> = props => {
   );
 };
 
-FormField.defaultProps = {
-  itemGutter: true,
-};
-
 const enhanced = withStyles(styles)(FormField);
 export default enhanced;
