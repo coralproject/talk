@@ -114,7 +114,7 @@ export default async function createContext({
     pym,
     eventEmitter,
     registerClickFarAway,
-    rest: new RestClient("/api"),
+    rest: new RestClient("/api", tokenGetter),
     postMessage: new PostMessageService(),
     localStorage: createLocalStorage(),
     sessionStorage: createSessionStorage(),

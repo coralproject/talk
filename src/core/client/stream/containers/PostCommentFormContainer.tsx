@@ -11,7 +11,6 @@ import { CreateCommentMutation, withCreateCommentMutation } from "../mutations";
 interface InnerProps {
   createComment: CreateCommentMutation;
   assetID: string;
-  signedIn: boolean;
 }
 
 class PostCommentFormContainer extends Component<InnerProps> {
@@ -32,12 +31,7 @@ class PostCommentFormContainer extends Component<InnerProps> {
     return undefined;
   };
   public render() {
-    return (
-      <PostCommentForm
-        onSubmit={this.onSubmit}
-        signedIn={this.props.signedIn}
-      />
-    );
+    return <PostCommentForm onSubmit={this.onSubmit} />;
   }
 }
 

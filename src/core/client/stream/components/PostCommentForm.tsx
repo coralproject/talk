@@ -13,7 +13,6 @@ interface FormProps {
 
 export interface PostCommentFormProps {
   onSubmit: OnSubmit<FormProps>;
-  signedIn: boolean;
 }
 
 const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
@@ -39,26 +38,19 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
             </div>
           )}
         </Field>
-        {props.signedIn ? (
-          <div className={styles.postButtonContainer}>
-            <PoweredBy />
-            <Localized id="comments-postCommentForm-submit">
-              <Button color="primary" variant="filled" disabled={submitting}>
-                Submit
-              </Button>
-            </Localized>
-          </div>
-        ) : (
-          <Button
-            color="primary"
-            variant="filled"
-            disabled
-            fullWidth
-            size="large"
-          >
-            Sign in and join the conversation
-          </Button>
-        )}
+        <div className={styles.postButtonContainer}>
+          <PoweredBy />
+          <Localized id="comments-postCommentForm-submit">
+            <Button
+              color="primary"
+              variant="filled"
+              disabled={submitting}
+              type="submit"
+            >
+              Submit
+            </Button>
+          </Localized>
+        </div>
       </form>
     )}
   </Form>

@@ -22,6 +22,10 @@ type Local {
   commentID: String
   authPopup: AuthPopup!
   authToken: String
+  # Used to invalidate the `me` endpoint.
+  # This is incremented whenever the auth status
+  # might have changed.
+  authRevision: Int!
 }
 
 extend type Query {

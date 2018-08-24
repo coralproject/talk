@@ -1,22 +1,23 @@
 import * as React from "react";
 import { Component } from "react";
+
 import {
   graphql,
   withFragmentContainer,
   withLocalStateContainer,
 } from "talk-framework/lib/relay";
+import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
 import { UserBoxContainer_user as UserData } from "talk-stream/__generated__/UserBoxContainer_user.graphql";
 import { UserBoxContainerLocal as Local } from "talk-stream/__generated__/UserBoxContainerLocal.graphql";
+import UserBoxUnauthenticated from "talk-stream/components/UserBoxUnauthenticated";
 import {
   SetAuthPopupStateMutation,
   ShowAuthPopupMutation,
   withSetAuthPopupStateMutation,
   withShowAuthPopupMutation,
 } from "talk-stream/mutations";
-import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
 import { Popup } from "talk-ui/components";
 
-import UserBoxUnauthenticated from "talk-stream/components/UserBoxUnauthenticated";
 import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
 
 interface InnerProps {

@@ -30,25 +30,25 @@ export const render = ({ error, props }: ReadyState<StreamQueryResponse>) => {
 };
 
 const StreamQuery: StatelessComponent<InnerProps> = ({
-  local: { assetID, authToken },
+  local: { assetID, authRevision },
 }) => (
   <QueryRenderer<StreamQueryVariables, StreamQueryResponse>
     query={graphql`
-      query StreamQuery($assetID: ID!, $signedIn: Boolean!) {
+      query StreamQuery($assetID: ID!, $authRevision: Int!) {
         asset(id: $assetID) {
           ...StreamContainer_asset
         }
-        me @include(if: $signedIn) {
-          id
-          username
-          displayName
-          role
+        # authRevision is increment every time auth state has changed.
+        # This is basically a cache invalidation and causes relay
+        # to automatically update this query.
+        me(clientAuthRevision: $authRevision) {
+          ...StreamContainer_user
         }
       }
     `}
     variables={{
       assetID,
-      signedIn: !!authToken,
+      authRevision,
     }}
     render={render}
   />
@@ -58,7 +58,7 @@ const enhanced = withLocalStateContainer<Local>(
   graphql`
     fragment StreamQueryLocal on Local {
       assetID
-      authToken
+      authRevision
     }
   `
 )(StreamQuery);
