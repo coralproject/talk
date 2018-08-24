@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { ReactNode } from "react";
+import React, { HTMLAttributes, ReactNode } from "react";
 import { StatelessComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
@@ -7,7 +7,7 @@ import { withStyles } from "talk-ui/hocs";
 import Flex from "../Flex";
 import * as styles from "./FormField.css";
 
-interface InnerProps {
+interface InnerProps extends HTMLAttributes<any> {
   children: ReactNode;
   classes: typeof styles;
   id?: string;
