@@ -1,9 +1,11 @@
 import { ReactNode } from "react";
 import {
+  INVALID_CHARACTERS,
   INVALID_EMAIL,
-  INVALID_PASSWORD,
-  INVALID_USERNAME,
+  PASSWORD_TOO_SHORT,
   PASSWORDS_DO_NOT_MATCH,
+  USERNAME_TOO_LONG,
+  USERNAME_TOO_SHORT,
   VALIDATION_REQUIRED,
 } from "./messages";
 
@@ -47,19 +49,44 @@ export const validateEmail = createValidator(
 );
 
 /**
- * validateUsername is a Validator that checks that the value is a valid username.
+ * validateUsernameCharacters is a Validator that checks that the username only contains valid characters.
  */
-export const validateUsername = createValidator(
+export const validateUsernameCharacters = createValidator(
   v => /^[a-zA-Z0-9_.]+$/.test(v),
-  INVALID_USERNAME()
+  INVALID_CHARACTERS()
+);
+
+/**
+ * validateUsernameMinLength is a Validator that checks that the username has a min length of characters
+ */
+export const validateUsernameMinLength = createValidator(
+  v => v.length >= 3,
+  USERNAME_TOO_SHORT(3)
+);
+
+/**
+ * validateUsernameMaxLength is a Validator that checks that the username has a max length of characters
+ */
+export const validateUsernameMaxLength = createValidator(
+  v => v.length <= 20,
+  USERNAME_TOO_LONG(20)
+);
+
+/**
+ * validateUsername is a Validator that checks that the username is valid.
+ */
+export const validateUsername = composeValidators(
+  validateUsernameCharacters,
+  validateUsernameMinLength,
+  validateUsernameMaxLength
 );
 
 /**
  * validateUsername is a Validator that checks that the value is a valid username.
  */
 export const validatePassword = createValidator(
-  v => /^(?=.{8,}).*$/.test(v),
-  INVALID_PASSWORD()
+  v => v.length >= 8,
+  PASSWORD_TOO_SHORT(8)
 );
 
 /**s

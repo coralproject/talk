@@ -63,7 +63,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                     <InputLabel>Email Address</InputLabel>
                   </Localized>
                   <Localized
-                    id="signIn-emailAddressTextfield"
+                    id="signIn-emailAddressTextField"
                     attrs={{ placeholder: true }}
                   >
                     <TextField

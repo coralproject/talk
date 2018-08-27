@@ -12,9 +12,9 @@ export const VALIDATION_REQUIRED = () => (
   </Localized>
 );
 
-export const VALIDATION_TOO_SHORT = () => (
+export const VALIDATION_TOO_SHORT = (minLength: number) => (
   <Localized id="framework-validation-tooShort">
-    <span>This field is too short.</span>
+    <span>{"This field must contain at least {$minLength} characters."}</span>
   </Localized>
 );
 
@@ -24,15 +24,27 @@ export const INVALID_EMAIL = () => (
   </Localized>
 );
 
-export const INVALID_USERNAME = () => (
-  <Localized id="framework-validation-invalidUsername">
-    <span>Please enter a valid username.</span>
+export const INVALID_CHARACTERS = () => (
+  <Localized id="framework-validation-invalidCharacters">
+    <span>Invalid characters. Try again.</span>
   </Localized>
 );
 
-export const INVALID_PASSWORD = () => (
-  <Localized id="framework-validation-invalidUsername">
-    <span>Please enter a valid password.</span>
+export const USERNAME_TOO_SHORT = (minLength: number) => (
+  <Localized id="framework-validation-usernameTooShort" $minLength={minLength}>
+    <span>{"Usernames must contain at least {$minLength} characters."}</span>
+  </Localized>
+);
+
+export const USERNAME_TOO_LONG = (maxLength: number) => (
+  <Localized id="framework-validation-usernameTooLong" $maxLength={maxLength}>
+    <span>{"Usernames cannot be longer than {$maxLength} characters."}</span>
+  </Localized>
+);
+
+export const PASSWORD_TOO_SHORT = (minLength: number) => (
+  <Localized id="framework-validation-passwordTooShort" $minLength={minLength}>
+    <span>{"Password must contain at least {$minLength} characters."}</span>
   </Localized>
 );
 

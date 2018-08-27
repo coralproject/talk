@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
@@ -15,6 +16,7 @@ import {
   CallOut,
   Flex,
   FormField,
+  HorizontalGutter,
   InputDescription,
   InputLabel,
   TextField,
@@ -23,7 +25,6 @@ import {
 } from "talk-ui/components";
 
 import AutoHeightContainer from "../containers/AutoHeightContainer";
-import * as styles from "./SignUp.css";
 
 interface FormProps {
   email: string;
@@ -43,127 +44,151 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
       {({ handleSubmit, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <AutoHeightContainer />
-          <Flex itemGutter="double" direction="column" className={styles.root}>
-            <Flex direction="column">
+          <HorizontalGutter size="double">
+            <Localized id="signUp-signUpToJoinHeader">
               <Typography variant="heading1" align="center">
                 Sign up to join the conversation
               </Typography>
-
-              {submitError && (
-                <CallOut color="error" fullWidth>
-                  {submitError}
-                </CallOut>
-              )}
-
-              <Field
-                name="email"
-                validate={composeValidators(required, validateEmail)}
-              >
-                {({ input, meta }) => (
-                  <FormField>
+            </Localized>
+            {submitError && (
+              <CallOut color="error" fullWidth>
+                {submitError}
+              </CallOut>
+            )}
+            <Field
+              name="email"
+              validate={composeValidators(required, validateEmail)}
+            >
+              {({ input, meta }) => (
+                <FormField>
+                  <Localized id="signUp-emailAddressLabel">
                     <InputLabel>Email Address</InputLabel>
+                  </Localized>
+                  <Localized
+                    id="signUp-emailAddressTextField"
+                    attrs={{ placeholder: true }}
+                  >
                     <TextField
                       name={input.name}
                       onChange={input.onChange}
                       value={input.value}
                       placeholder="Email Address"
+                      fullWidth
                     />
-                    {meta.touched &&
-                      (meta.error || meta.submitError) && (
-                        <ValidationMessage>
-                          {meta.error || meta.submitError}
-                        </ValidationMessage>
-                      )}
-                  </FormField>
-                )}
-              </Field>
-
-              <Field
-                name="username"
-                validate={composeValidators(required, validateUsername)}
-              >
-                {({ input, meta }) => (
-                  <FormField>
+                  </Localized>
+                  {meta.touched &&
+                    (meta.error || meta.submitError) && (
+                      <ValidationMessage fullWidth>
+                        {meta.error || meta.submitError}
+                      </ValidationMessage>
+                    )}
+                </FormField>
+              )}
+            </Field>
+            <Field
+              name="username"
+              validate={composeValidators(required, validateUsername)}
+            >
+              {({ input, meta }) => (
+                <FormField>
+                  <Localized id="signUp-usernameLabel">
                     <InputLabel>Username</InputLabel>
+                  </Localized>
+                  <Localized id="signUp-usernameDescription">
                     <InputDescription>
                       A unique identifier displayed on your comments. You may
                       use “_” and “.”
                     </InputDescription>
+                  </Localized>
+                  <Localized
+                    id="signUp-usernameTextField"
+                    attrs={{ placeholder: true }}
+                  >
                     <TextField
                       name={input.name}
                       onChange={input.onChange}
                       value={input.value}
                       placeholder="Username"
+                      fullWidth
                     />
-                    {meta.touched &&
-                      (meta.error || meta.submitError) && (
-                        <ValidationMessage>
-                          {meta.error || meta.submitError}
-                        </ValidationMessage>
-                      )}
-                  </FormField>
-                )}
-              </Field>
-
-              <Field
-                name="password"
-                validate={composeValidators(required, validatePassword)}
-              >
-                {({ input, meta }) => (
-                  <FormField>
+                  </Localized>
+                  {meta.touched &&
+                    (meta.error || meta.submitError) && (
+                      <ValidationMessage fullWidth>
+                        {meta.error || meta.submitError}
+                      </ValidationMessage>
+                    )}
+                </FormField>
+              )}
+            </Field>
+            <Field
+              name="password"
+              validate={composeValidators(required, validatePassword)}
+            >
+              {({ input, meta }) => (
+                <FormField>
+                  <Localized id="signUp-passwordLabel">
                     <InputLabel>Password</InputLabel>
+                  </Localized>
+                  <Localized id="signUp-passwordDescription" $minLength={8}>
                     <InputDescription>
-                      Must be at least 8 characters
+                      {"Must be at least {$minLength} characters"}
                     </InputDescription>
+                  </Localized>
+                  <Localized
+                    id="signUp-passwordTextField"
+                    attrs={{ placeholder: true }}
+                  >
                     <TextField
                       name={input.name}
                       onChange={input.onChange}
                       value={input.value}
                       placeholder="Password"
                       type="password"
+                      fullWidth
                     />
-                    {meta.touched &&
-                      (meta.error || meta.submitError) && (
-                        <ValidationMessage>
-                          {meta.error || meta.submitError}
-                        </ValidationMessage>
-                      )}
-                  </FormField>
-                )}
-              </Field>
-
-              <Field
-                name="confirmPassword"
-                validate={composeValidators(
-                  required,
-                  validatePassword,
-                  validateEqualPasswords
-                )}
-              >
-                {({ input, meta }) => (
-                  <FormField>
+                  </Localized>
+                  {meta.touched &&
+                    (meta.error || meta.submitError) && (
+                      <ValidationMessage fullWidth>
+                        {meta.error || meta.submitError}
+                      </ValidationMessage>
+                    )}
+                </FormField>
+              )}
+            </Field>
+            <Field
+              name="confirmPassword"
+              validate={composeValidators(required, validateEqualPasswords)}
+            >
+              {({ input, meta }) => (
+                <FormField>
+                  <Localized id="signUp-confirmPasswordLabel">
                     <InputLabel>Confirm Password</InputLabel>
-                    <InputDescription>
-                      Must be at least 8 characters
-                    </InputDescription>
+                  </Localized>
+                  <Localized
+                    id="signUp-confirmPasswordTextField"
+                    attrs={{ placeholder: true }}
+                  >
                     <TextField
                       name={input.name}
                       onChange={input.onChange}
                       value={input.value}
                       placeholder="Confirm Password"
                       type="password"
+                      fullWidth
                     />
-                    {meta.touched &&
-                      (meta.error || meta.submitError) && (
-                        <ValidationMessage>
-                          {meta.error || meta.submitError}
-                        </ValidationMessage>
-                      )}
-                  </FormField>
-                )}
-              </Field>
-            </Flex>
-            <div>
+                  </Localized>
+                  {meta.touched &&
+                    (meta.error || meta.submitError) && (
+                      <ValidationMessage fullWidth>
+                        {meta.error || meta.submitError}
+                      </ValidationMessage>
+                    )}
+                </FormField>
+              )}
+            </Field>
+            <Localized id="signUp-signUpAndJoinButton">
               <Button
                 variant="filled"
                 color="primary"
@@ -173,19 +198,25 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
               >
                 Sign up and join the conversation
               </Button>
-              <Flex itemGutter="half" justifyContent="center">
-                <Typography>Already have an account?</Typography>
-                <Button
-                  variant="underlined"
-                  size="small"
-                  color="primary"
-                  onClick={props.onGotoSignIn}
-                >
-                  Sign In
-                </Button>
-              </Flex>
-            </div>
-          </Flex>
+            </Localized>
+            <Flex justifyContent="center">
+              <Localized
+                id="signUp-accountAvailableSignIn"
+                button={
+                  <Button
+                    variant="underlined"
+                    size="small"
+                    color="primary"
+                    onClick={props.onGotoSignIn}
+                  />
+                }
+              >
+                <Typography variant="bodyCopy" container={Flex}>
+                  {"Already have an account? <button>Sign In </button>"}
+                </Typography>
+              </Localized>
+            </Flex>
+          </HorizontalGutter>
         </form>
       )}
     </Form>
