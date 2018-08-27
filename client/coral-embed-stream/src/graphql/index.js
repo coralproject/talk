@@ -250,9 +250,10 @@ export default {
           if (
             !['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(comment.status)
           ) {
-            let comment_prev = findComment(prev.asset.comments.nodes, (c)=>c.id==comment.id)
-            comment.editing = {...comment_prev.editing, ...comment.editing}
-            return insertCommentIntoEmbedQuery(prev, {...comment_prev, ...comment});
+            let commentPrev = findComment(prev.asset.comments.nodes, (c) => c.id == comment.id)
+            let commentUpdated = update(commentPrev, { $merge: comment });
+            commentUpdated.editing = update(commentPrev.editing, { $merge: comment.editing });
+            return insertCommentIntoEmbedQuery(prev, commentUpdated);
           }
           return removeCommentFromEmbedQuery(prev, comment.id);
         },

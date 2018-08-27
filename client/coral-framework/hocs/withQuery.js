@@ -154,10 +154,8 @@ const createHOC = (document, config, { notifyOnError = true }) =>
       }
 
       subscribeToMoreThrottled = ({ document, variables, updateQuery }) => {
-        if (websocket_client_disable) {
-          return;
-        }
         // We need to add the typenames and resolve fragments.
+        // debugger
         const query = this.resolveDocument(document);
         const handler = (error, data) => {
           if (error) {
@@ -175,6 +173,9 @@ const createHOC = (document, config, { notifyOnError = true }) =>
             }
           }
         };
+        
+        if(!this.client)
+          return null;
 
         // Start subscription.
         const request = {
