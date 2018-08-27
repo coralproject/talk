@@ -16,7 +16,6 @@ signIn-passwordTextField =
 
 signIn-forgotYourPassword = Forgot your password?
 
-signIn-noAccountSignUp = Don't have an account? <button>Sign Up</button>
 
 ## Sign Up
 

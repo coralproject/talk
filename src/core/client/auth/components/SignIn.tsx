@@ -124,6 +124,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                   <Flex justifyContent="flex-end">
                     <Localized id="signIn-forgotYourPassword">
                       <Button
+                        id="signIn-gotoForgotPasswordButton"
                         variant="underlined"
                         color="primary"
                         size="small"
@@ -154,6 +155,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                 id="signIn-noAccountSignUp"
                 button={
                   <Button
+                    id="signIn-gotoSignUpButton"
                     variant="underlined"
                     size="small"
                     color="primary"

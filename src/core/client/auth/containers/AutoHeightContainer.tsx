@@ -7,17 +7,8 @@ import resizePopup from "../dom/resizePopup";
  * when this is mounted or updated.
  */
 export default class AutoHeightContainer extends Component {
-  private timeout: any = null;
-
-  private updateWindowSizeCallback = () => {
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
-      resizePopup();
-    }, 0);
-  };
-
   private updateWindowSize() {
-    window.requestAnimationFrame(this.updateWindowSizeCallback);
+    window.requestAnimationFrame(() => setTimeout(resizePopup, 0));
   }
 
   public componentDidMount() {

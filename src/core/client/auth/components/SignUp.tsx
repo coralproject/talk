@@ -229,6 +229,7 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                 id="signUp-accountAvailableSignIn"
                 button={
                   <Button
+                    id="signUp-gotoSignInButton"
                     variant="underlined"
                     size="small"
                     color="primary"

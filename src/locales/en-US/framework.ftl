@@ -6,7 +6,6 @@
 
 framework-validation-required = This field is required.
 framework-validation-tooShort = The field must contain at least {$minLength} characters.
-framework-validation-passwordTooShort = Password must contain at least {$minLength} characters.
 framework-validation-usernameTooShort = Username must contain at least {$minLength} characters.
 framework-validation-usernameTooLong = Usernames cannot be longer than {$maxLength} characters.
 framework-validation-invalidCharacters = Invalid characters. Try again.

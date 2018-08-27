@@ -5,6 +5,7 @@ import { withStyles } from "talk-ui/hocs";
 import * as styles from "./TextField.css";
 
 export interface TextFieldProps {
+  id?: string;
   /**
    * The content value of the component.
    */
