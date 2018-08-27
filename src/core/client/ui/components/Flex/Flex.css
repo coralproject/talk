@@ -5,10 +5,6 @@
   display: flex;
 }
 
-.inline {
-  width: auto;
-}
-
 .halfItemGutter {
   & > * {
     margin: 0 calc(0.5 * var(--spacing-unit)) 0 0 !important;

@@ -28,7 +28,6 @@ interface InnerProps {
   itemGutter?: boolean | "half" | "double";
   className?: string;
   wrap?: boolean | "reverse";
-  inline?: boolean;
 
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLDivElement>;
@@ -45,15 +44,8 @@ const Flex: StatelessComponent<InnerProps> = props => {
     wrap,
     forwardRef,
     children,
-    inline,
     ...rest
   } = props;
-
-  let alignItemsWithDefault = alignItems;
-  if (!alignItems) {
-    alignItemsWithDefault =
-      direction && direction.startsWith("column") ? "flex-start" : "center";
-  }
 
   const classObject: Record<string, boolean> = {
     [classes.itemGutter]: itemGutter === true,
@@ -69,19 +61,15 @@ const Flex: StatelessComponent<InnerProps> = props => {
     ] = true;
   }
 
-  if (alignItemsWithDefault) {
-    classObject[
-      (classes as any)[`align${pascalCase(alignItemsWithDefault)}`]
-    ] = true;
+  if (alignItems) {
+    classObject[(classes as any)[`align${pascalCase(alignItems)}`]] = true;
   }
 
   if (direction) {
     classObject[(classes as any)[`direction${pascalCase(direction)}`]] = true;
   }
 
-  const rootClassNames: string = cn(classes.root, className, {
-    [classes.inline]: inline === true,
-  });
+  const rootClassNames: string = cn(classes.root, className);
   const flexClassNames: string = cn(classes.flex, classObject);
 
   // text nodes can't be modified with css, so replace them with spans.

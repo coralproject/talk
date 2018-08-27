@@ -11,7 +11,3 @@
   border-radius: var(--round-corners);
   resize: vertical;
 }
-
-.poweredBy {
-  margin-top: calc(-0.5 * var(--spacing-unit));
-}

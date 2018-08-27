@@ -19,10 +19,10 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
   <Form onSubmit={props.onSubmit}>
     {({ handleSubmit, submitting }) => (
       <form autoComplete="off" onSubmit={handleSubmit} className={styles.root}>
-        <HorizontalGutter size="half">
+        <HorizontalGutter>
           <Field name="body" validate={required}>
             {({ input, meta }) => (
-              <div style={{ width: "100%" }}>
+              <div>
                 <textarea
                   className={styles.textarea}
                   name={input.name}
@@ -44,7 +44,7 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
             justifyContent="space-between"
             alignItems="flex-start"
           >
-            <PoweredBy />
+            <PoweredBy className={styles.poweredBy} />
             <Localized id="comments-postCommentForm-submit">
               <Button
                 color="primary"

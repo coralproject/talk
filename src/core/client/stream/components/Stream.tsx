@@ -8,6 +8,7 @@ import CommentContainer from "../containers/CommentContainer";
 import PostCommentFormContainer from "../containers/PostCommentFormContainer";
 import ReplyListContainer from "../containers/ReplyListContainer";
 import UserBoxContainer from "../containers/UserBoxContainer";
+import PostCommentFormFake from "./PostCommentFormFake";
 import * as styles from "./Stream.css";
 
 export interface StreamProps {
@@ -22,10 +23,14 @@ export interface StreamProps {
 
 const Stream: StatelessComponent<StreamProps> = props => {
   return (
-    <HorizontalGutter className={styles.root}>
+    <HorizontalGutter className={styles.root} size="double">
       <HorizontalGutter size="half">
         <UserBoxContainer user={props.user} />
-        <PostCommentFormContainer assetID={props.assetID} />
+        {props.user ? (
+          <PostCommentFormContainer assetID={props.assetID} />
+        ) : (
+          <PostCommentFormFake />
+        )}
       </HorizontalGutter>
       <HorizontalGutter
         id="talk-comments-stream-log"

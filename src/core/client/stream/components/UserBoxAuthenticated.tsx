@@ -11,14 +11,20 @@ export interface UserBoxAuthenticatedProps {
 const UserBoxAuthenticated: StatelessComponent<
   UserBoxAuthenticatedProps
 > = props => {
+  const Username = () => (
+    <Typography variant="bodyCopyBold" container="span">
+      {props.username}
+    </Typography>
+  );
+
   return (
     <Flex itemGutter="half" wrap>
       <Localized
         id="comments-userBoxAuthenticated-signedInAs"
-        username={<Typography variant="bodyCopyBold" container="span" />}
+        username={<Username />}
       >
         <Typography variant="bodyCopy" container="div">
-          {"Signed in as <username>Username</username>."}
+          {"Signed in as <username />."}
         </Typography>
       </Localized>
       <Localized
@@ -32,7 +38,7 @@ const UserBoxAuthenticated: StatelessComponent<
           />
         }
       >
-        <Typography variant="bodyCopy" container={<Flex inline wrap />}>
+        <Typography variant="bodyCopy" container={Flex}>
           {"Not you? <button>Sign Out</button>"}
         </Typography>
       </Localized>

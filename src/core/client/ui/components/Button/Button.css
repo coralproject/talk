@@ -287,67 +287,57 @@
   padding-right: 0;
   padding-left: 0;
   border-radius: 0;
+  border-bottom: 1px solid currentColor;
+  padding: 0;
 
   &.colorRegular {
     color: var(--palette-grey-main);
-    border-bottom: 1px solid currentColor;
   }
   &.colorPrimary {
     color: var(--palette-primary-main);
-    border-bottom: 1px solid currentColor;
   }
   &.colorError {
     color: var(--palette-error-main);
-    border-bottom: 1px solid currentColor;
   }
   &.colorSuccess {
     color: var(--palette-success-main);
-    border-bottom: 1px solid currentColor;
   }
 
   &:not(.disabled) {
     &.colorRegular {
       &.mouseHover {
         color: var(--palette-grey-light);
-        border-bottom: 1px solid currentColor;
       }
       &:active,
       &.active {
         color: var(--palette-grey-lighter);
-        border-bottom: 1px solid currentColor;
       }
     }
     &.colorPrimary {
       &.mouseHover {
         color: var(--palette-primary-light);
-        border-bottom: 1px solid currentColor;
       }
       &:active,
       &.active {
         color: var(--palette-primary-lighter);
-        border-bottom: 1px solid currentColor;
       }
     }
     &.colorError {
       &.mouseHover {
         color: var(--palette-error-light);
-        border-bottom: 1px solid currentColor;
       }
       &:active,
       &.active {
         color: var(--palette-error-lighter);
-        border-bottom: 1px solid currentColor;
       }
     }
     &.colorSuccess {
       &.mouseHover {
         color: var(--palette-success-light);
-        border-bottom: 1px solid currentColor;
       }
       &:active,
       &.active {
         color: var(--palette-success-lighter);
-        border-bottom: 1px solid currentColor;
       }
     }
   }
