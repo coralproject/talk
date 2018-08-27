@@ -41,7 +41,7 @@ export interface SignUpForm {
 const SignUp: StatelessComponent<SignUpForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
-      {({ handleSubmit, submitError }) => (
+      {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <AutoHeightContainer />
           <HorizontalGutter size="double">
@@ -73,6 +73,12 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                       onChange={input.onChange}
                       value={input.value}
                       placeholder="Email Address"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
                       fullWidth
                     />
                   </Localized>
@@ -109,6 +115,12 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                       onChange={input.onChange}
                       value={input.value}
                       placeholder="Username"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
                       fullWidth
                     />
                   </Localized>
@@ -145,6 +157,12 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                       value={input.value}
                       placeholder="Password"
                       type="password"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
                       fullWidth
                     />
                   </Localized>
@@ -176,6 +194,12 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                       value={input.value}
                       placeholder="Confirm Password"
                       type="password"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
                       fullWidth
                     />
                   </Localized>
@@ -193,8 +217,9 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                 variant="filled"
                 color="primary"
                 size="large"
-                fullWidth
                 type="submit"
+                disabled={submitting}
+                fullWidth
               >
                 Sign up and join the conversation
               </Button>
@@ -208,6 +233,7 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                     size="small"
                     color="primary"
                     onClick={props.onGotoSignIn}
+                    disabled={submitting}
                   />
                 }
               >

@@ -36,7 +36,7 @@ export interface ResetPasswordForm {
 const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
-      {({ handleSubmit, submitError }) => (
+      {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <AutoHeightContainer />
           <HorizontalGutter size="double">
@@ -77,6 +77,12 @@ const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
                       value={input.value}
                       placeholder="Password"
                       type="password"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
                       fullWidth
                     />
                   </Localized>
@@ -109,6 +115,12 @@ const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
                       value={input.value}
                       placeholder="Confirm Password"
                       type="password"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
                       fullWidth
                     />
                   </Localized>
@@ -122,7 +134,13 @@ const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
               )}
             </Field>
             <Localized id="resetPassword-resetPasswordButton">
-              <Button variant="filled" color="primary" size="large" fullWidth>
+              <Button
+                variant="filled"
+                color="primary"
+                size="large"
+                fullWidth
+                disabled={submitting}
+              >
                 Reset Password
               </Button>
             </Localized>

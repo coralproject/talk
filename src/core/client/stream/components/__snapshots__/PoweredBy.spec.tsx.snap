@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="custom"
+>
+  <withPropsOnChange(Typography)
+    color="textSecondary"
+    container="span"
+    variant="inputDescription"
+  >
+    Powered by
+  </withPropsOnChange(Typography)>
+   
+  <withPropsOnChange(Typography)
+    container="span"
+    variant="heading4"
+  >
+    The Coral Project
+  </withPropsOnChange(Typography)>
+</div>
+`;

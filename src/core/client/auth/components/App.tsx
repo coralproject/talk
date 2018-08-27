@@ -30,7 +30,7 @@ const renderView = (view: View) => {
     case "RESET_PASSWORD":
       return <ResetPasswordContainer />;
     default:
-      return <SignInContainer />;
+      throw new Error(`Unknown view ${view}`);
   }
 };
 

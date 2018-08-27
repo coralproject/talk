@@ -71,6 +71,12 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                       onChange={input.onChange}
                       value={input.value}
                       placeholder="Email Address"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
                       fullWidth
                     />
                   </Localized>
@@ -100,6 +106,12 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                       value={input.value}
                       placeholder="Password"
                       type="password"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
                       fullWidth
                     />
                   </Localized>
@@ -115,6 +127,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                         variant="underlined"
                         color="primary"
                         size="small"
+                        disabled={submitting}
                         onClick={props.onGotoForgotPassword}
                       >
                         Forgot your password?
@@ -130,6 +143,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                 color="primary"
                 size="large"
                 type="submit"
+                disabled={submitting}
                 fullWidth
               >
                 Sign in and join the conversation
@@ -143,6 +157,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                     variant="underlined"
                     size="small"
                     color="primary"
+                    disabled={submitting}
                     onClick={props.onGotoSignUp}
                   />
                 }

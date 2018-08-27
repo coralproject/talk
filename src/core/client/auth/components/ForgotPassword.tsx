@@ -33,7 +33,7 @@ export interface ForgotPasswordForm {
 const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
-      {({ handleSubmit, submitError }) => (
+      {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <AutoHeightContainer />
           <HorizontalGutter size="double">
@@ -71,7 +71,13 @@ const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
                       onChange={input.onChange}
                       value={input.value}
                       placeholder="Email Address"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
                       fullWidth
+                      disabled={submitting}
                     />
                   </Localized>
                   {meta.touched &&
@@ -84,7 +90,13 @@ const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
               )}
             </Field>
             <Localized id="forgotPassword-sendEmailButton">
-              <Button variant="filled" color="primary" size="large" fullWidth>
+              <Button
+                variant="filled"
+                color="primary"
+                size="large"
+                fullWidth
+                disabled={submitting}
+              >
                 Send Email
               </Button>
             </Localized>

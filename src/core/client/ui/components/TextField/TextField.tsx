@@ -49,6 +49,8 @@ export interface TextFieldProps {
    * onChange
    */
   onChange?: EventHandler<ChangeEvent<HTMLInputElement>>;
+
+  disabled?: boolean;
 }
 
 const TextField: StatelessComponent<TextFieldProps> = props => {
