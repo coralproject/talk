@@ -91,7 +91,7 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                     <InputLabel>Password</InputLabel>
                   </Localized>
                   <Localized
-                    id="signIn-passwordTextfield"
+                    id="signIn-passwordTextField"
                     attrs={{ placeholder: true }}
                   >
                     <TextField

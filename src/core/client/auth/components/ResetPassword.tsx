@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
 import { OnSubmit } from "talk-framework/lib/form";
@@ -11,8 +12,9 @@ import {
 
 import {
   Button,
-  Flex,
+  CallOut,
   FormField,
+  HorizontalGutter,
   InputDescription,
   InputLabel,
   TextField,
@@ -34,30 +36,50 @@ export interface ResetPasswordForm {
 const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
-      {({ handleSubmit }) => (
+      {({ handleSubmit, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <AutoHeightContainer />
-          <Flex itemGutter="double" direction="column">
-            <Typography variant="heading1" align="center">
-              Reset Password
-            </Typography>
+          <HorizontalGutter size="double">
+            <Localized id="resetPassword-resetPasswordHeader">
+              <Typography variant="heading1" align="center">
+                Reset Password
+              </Typography>
+            </Localized>
+            {submitError && (
+              <CallOut color="error" fullWidth>
+                {submitError}
+              </CallOut>
+            )}
             <Field
               name="password"
               validate={composeValidators(required, validatePassword)}
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>Password</InputLabel>
-                  <InputDescription>
-                    Must be at least 8 characters
-                  </InputDescription>
-                  <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
-                    placeholder="Password"
-                    type="password"
-                  />
+                  <Localized id="resetPassword-passwordLabel">
+                    <InputLabel>Password</InputLabel>
+                  </Localized>
+                  <Localized
+                    id="resetPassword-passwordDescription"
+                    $minLength={8}
+                  >
+                    <InputDescription>
+                      {"Must be at least {$minLength} characters"}
+                    </InputDescription>
+                  </Localized>
+                  <Localized
+                    id="resetPassword-passwordTextField"
+                    attrs={{ placeholder: true }}
+                  >
+                    <TextField
+                      name={input.name}
+                      onChange={input.onChange}
+                      value={input.value}
+                      placeholder="Password"
+                      type="password"
+                      fullWidth
+                    />
+                  </Localized>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
                       <ValidationMessage>
@@ -70,25 +92,26 @@ const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
 
             <Field
               name="confirmPassword"
-              validate={composeValidators(
-                required,
-                validatePassword,
-                validateEqualPasswords
-              )}
+              validate={composeValidators(required, validateEqualPasswords)}
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>Confirm Password</InputLabel>
-                  <InputDescription>
-                    Must be at least 8 characters
-                  </InputDescription>
-                  <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
-                    placeholder="Confirm Password"
-                    type="password"
-                  />
+                  <Localized id="resetPassword-confirmPasswordLabel">
+                    <InputLabel>Confirm Password</InputLabel>
+                  </Localized>
+                  <Localized
+                    id="resetPassword-confirmPasswordTextField"
+                    attrs={{ placeholder: true }}
+                  >
+                    <TextField
+                      name={input.name}
+                      onChange={input.onChange}
+                      value={input.value}
+                      placeholder="Confirm Password"
+                      type="password"
+                      fullWidth
+                    />
+                  </Localized>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
                       <ValidationMessage>
@@ -98,10 +121,12 @@ const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
                 </FormField>
               )}
             </Field>
-            <Button variant="filled" color="primary" size="large" fullWidth>
-              Reset Password
-            </Button>
-          </Flex>
+            <Localized id="resetPassword-resetPasswordButton">
+              <Button variant="filled" color="primary" size="large" fullWidth>
+                Reset Password
+              </Button>
+            </Localized>
+          </HorizontalGutter>
         </form>
       )}
     </Form>

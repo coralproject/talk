@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
 import { OnSubmit } from "talk-framework/lib/form";
@@ -10,8 +11,9 @@ import {
 
 import {
   Button,
-  Flex,
+  CallOut,
   FormField,
+  HorizontalGutter,
   InputLabel,
   TextField,
   Typography,
@@ -31,30 +33,47 @@ export interface ForgotPasswordForm {
 const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
-      {({ handleSubmit }) => (
+      {({ handleSubmit, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <AutoHeightContainer />
-          <Flex itemGutter="double" direction="column">
-            <Typography variant="heading1" align="center">
-              Forgot Password
-            </Typography>
-            <Typography variant="bodyCopy">
-              Enter your email address below and we will send you a link to
-              reset your password.
-            </Typography>
+          <HorizontalGutter size="double">
+            <Localized id="forgotPassword-forgotPasswordHeader">
+              <Typography variant="heading1" align="center">
+                Forgot Password
+              </Typography>
+            </Localized>
+            <Localized id="forgotPassword-enterEmailAndGetALink">
+              <Typography variant="bodyCopy">
+                Enter your email address below and we will send you a link to
+                reset your password.
+              </Typography>
+            </Localized>
+            {submitError && (
+              <CallOut color="error" fullWidth>
+                {submitError}
+              </CallOut>
+            )}
             <Field
               name="email"
               validate={composeValidators(required, validateEmail)}
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>Email Address</InputLabel>
-                  <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
-                    placeholder="Email Address"
-                  />
+                  <Localized id="forgotPassword-emailAddressLabel">
+                    <InputLabel>Email Address</InputLabel>
+                  </Localized>
+                  <Localized
+                    id="forgotPassword-emailAddressTextField"
+                    attrs={{ placeholder: true }}
+                  >
+                    <TextField
+                      name={input.name}
+                      onChange={input.onChange}
+                      value={input.value}
+                      placeholder="Email Address"
+                      fullWidth
+                    />
+                  </Localized>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
                       <ValidationMessage>
@@ -64,10 +83,12 @@ const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
                 </FormField>
               )}
             </Field>
-            <Button variant="filled" color="primary" size="large" fullWidth>
-              Send Email
-            </Button>
-          </Flex>
+            <Localized id="forgotPassword-sendEmailButton">
+              <Button variant="filled" color="primary" size="large" fullWidth>
+                Send Email
+              </Button>
+            </Localized>
+          </HorizontalGutter>
         </form>
       )}
     </Form>
