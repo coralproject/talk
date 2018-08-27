@@ -14,16 +14,22 @@ import { initLocalState } from "./local";
 import localesData from "./locales";
 
 /**
- * If fonts api is available, resize popup once
- * fonts are loaded!
+ * Adapt popup height to current content every 100ms.
+ *
+ * The goal is to smooth out height inconsistensies  e.g. when fonts
+ * are switched out or other resources being loaded that React has no influence
+ * over.
+ *
+ * This works in addition to <AutoHeightContainer /> which
+ * adapt popup height when React does an update.
  */
-if ((document as any).fonts) {
-  setTimeout(
-    requestAnimationFrame(() => () =>
-      (document as any).fonts.ready.then(resizePopup)
-    ),
-    200
-  );
+function pollPopupHeight(interval: number = 100) {
+  setTimeout(() => {
+    window.requestAnimationFrame(() => {
+      resizePopup();
+      pollPopupHeight(interval);
+    });
+  }, interval);
 }
 
 // This is called when the context is first initialized.
@@ -46,6 +52,7 @@ async function main() {
   );
 
   ReactDOM.render(<Index />, document.getElementById("app"));
+  pollPopupHeight();
 }
 
 main();
