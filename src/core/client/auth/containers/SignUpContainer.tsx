@@ -14,21 +14,7 @@ interface SignUpContainerProps {
   setView: SetViewMutation;
 }
 
-interface SignUpContainerState {
-  error: string | null;
-}
-
-export type View = "SIGN_IN";
-
-class SignUpContainer extends Component<
-  SignUpContainerProps,
-  SignUpContainerState
-> {
-  private setView = (view: View) => {
-    this.props.setView({
-      view,
-    });
-  };
+class SignUpContainer extends Component<SignUpContainerProps> {
   private onSubmit: SignUpForm["onSubmit"] = async (input, form) => {
     try {
       return await this.props.signUp(input);
@@ -37,9 +23,9 @@ class SignUpContainer extends Component<
       return { [FORM_ERROR]: error.message };
     }
   };
-  private goToSignIn = () => this.setView("SIGN_IN");
+  private goToSignIn = () => this.props.setView({ view: "SIGN_IN" });
   public render() {
-    return <SignUp onSubmit={this.onSubmit} goToSignIn={this.goToSignIn} />;
+    return <SignUp onSubmit={this.onSubmit} onGotoSignIn={this.goToSignIn} />;
   }
 }
 

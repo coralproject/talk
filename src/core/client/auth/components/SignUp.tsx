@@ -34,7 +34,7 @@ interface FormProps {
 
 export interface SignUpForm {
   onSubmit: OnSubmit<FormProps>;
-  goToSignIn: () => void;
+  onGotoSignIn: () => void;
 }
 
 const SignUp: StatelessComponent<SignUpForm> = props => {
@@ -179,7 +179,7 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                   variant="underlined"
                   size="small"
                   color="primary"
-                  onClick={props.goToSignIn}
+                  onClick={props.onGotoSignIn}
                 >
                   Sign In
                 </Button>

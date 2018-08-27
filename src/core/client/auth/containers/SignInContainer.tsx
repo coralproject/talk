@@ -13,21 +13,7 @@ interface SignInContainerProps {
   setView: SetViewMutation;
 }
 
-interface SignUpContainerState {
-  error: string | null;
-}
-
-export type View = "SIGN_UP" | "FORGOT_PASSWORD";
-
-class SignInContainer extends Component<
-  SignInContainerProps,
-  SignUpContainerState
-> {
-  private setView = (view: View) => {
-    this.props.setView({
-      view,
-    });
-  };
+class SignInContainer extends Component<SignInContainerProps> {
   private onSubmit: SignInForm["onSubmit"] = async (input, form) => {
     try {
       await this.props.signIn(input);
@@ -36,14 +22,15 @@ class SignInContainer extends Component<
       return { [FORM_ERROR]: error.message };
     }
   };
-  private goToForgotPassword = () => this.setView("FORGOT_PASSWORD");
-  private goToSignUp = () => this.setView("SIGN_UP");
+  private goToForgotPassword = () =>
+    this.props.setView({ view: "FORGOT_PASSWORD" });
+  private goToSignUp = () => this.props.setView({ view: "SIGN_UP" });
   public render() {
     return (
       <SignIn
         onSubmit={this.onSubmit}
-        goToForgotPassword={this.goToForgotPassword}
-        goToSignUp={this.goToSignUp}
+        onGotoForgotPassword={this.goToForgotPassword}
+        onGotoSignUp={this.goToSignUp}
       />
     );
   }

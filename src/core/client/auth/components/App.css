@@ -12,6 +12,7 @@
 
 .root {
   width: 100%;
-  padding: var(--spacing-unit);
+  padding: var(--spacing-unit) var(--spacing-unit) calc(2 * var(--spacing-unit))
+    var(--spacing-unit);
   box-sizing: border-box;
 }

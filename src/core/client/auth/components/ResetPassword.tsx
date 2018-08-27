@@ -1,7 +1,6 @@
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
 import { OnSubmit } from "talk-framework/lib/form";
-import * as styles from "./SignIn.css";
 
 import {
   composeValidators,
@@ -38,7 +37,7 @@ const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
       {({ handleSubmit }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <AutoHeightContainer />
-          <Flex itemGutter="double" direction="column" className={styles.root}>
+          <Flex itemGutter="double" direction="column">
             <Typography variant="heading1" align="center">
               Reset Password
             </Typography>
