@@ -24,7 +24,7 @@ const UserBoxAuthenticated: StatelessComponent<
         username={<Username />}
       >
         <Typography variant="bodyCopy" container="div">
-          {"Signed in as <username />."}
+          {"Signed in as <username></username>."}
         </Typography>
       </Localized>
       <Localized

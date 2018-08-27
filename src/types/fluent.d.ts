@@ -2,11 +2,11 @@
 declare module "*.ftl";
 
 declare module "fluent-react/compat" {
-  import { MessageContext } from "fluent/compat";
+  import { FluentBundle } from "fluent/compat";
   import { ComponentType } from "react";
 
   export interface LocalizationProviderProps {
-    messages: MessageContext[];
+    bundles: FluentBundle[];
   }
   export const LocalizationProvider: ComponentType<LocalizationProviderProps>;
 
@@ -30,14 +30,14 @@ declare module "fluent-langneg/compat" {
 }
 
 declare module "fluent/compat" {
-  export interface MessageContextOptions {
+  export interface FluentBundleOptions {
     functions: { [key: string]: (...args: any[]) => string };
     useIsolating: boolean;
     transform: ((s: string) => string);
   }
 
-  export class MessageContext {
-    constructor(locales: string, options?: MessageContext);
+  export class FluentBundle {
+    constructor(locales: string, options?: FluentBundleOptions);
     public locales: string[];
     public readonly messages: Iterator<[string, any]>;
     public hasMessage(id: string): boolean;

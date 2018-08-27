@@ -17,7 +17,7 @@ comments-userBoxUnauthenticated-signIn = Sign in
 comments-userBoxUnauthenticated-register = Register
 
 comments-userBoxAuthenticated-signedInAs =
-  Signed in as <username />.
+  Signed in as <username></username>.
 
 comments-userBoxAuthenticated-notYou =
   Not you? <button>Sign Out</button>
