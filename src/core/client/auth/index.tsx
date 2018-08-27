@@ -22,7 +22,7 @@ if ((document as any).fonts) {
     requestAnimationFrame(() => () =>
       (document as any).fonts.ready.then(resizePopup)
     ),
-    100
+    200
   );
 }
 
