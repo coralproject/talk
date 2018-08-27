@@ -1,5 +1,7 @@
 import { Component } from "react";
 
+import resizePopup from "../dom/resizePopup";
+
 /**
  * A container that adapts the window height to the current body size
  * when this is mounted or updated.
@@ -10,11 +12,7 @@ export default class AutoHeightContainer extends Component {
   private updateWindowSizeCallback = () => {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      const innerHeight = window.document.body.offsetHeight;
-      window.resizeTo(
-        window.outerWidth,
-        innerHeight + window.outerHeight - window.innerHeight
-      );
+      resizePopup();
     }, 0);
   };
 
