@@ -168,9 +168,11 @@ class Comment extends React.Component {
                 <div className={styles.commentContentFooter}>
                   <a
                     className={styles.external}
-                      href={comment.asset.url.includes('?')
+                    href={
+                      comment.asset.url.includes('?')
                         ? `${comment.asset.url}&commentId=${comment.id}`
-                        : `${comment.asset.url}?commentId=${comment.id}`}
+                        : `${comment.asset.url}?commentId=${comment.id}`
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                   >

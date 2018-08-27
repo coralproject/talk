@@ -79,7 +79,8 @@ class Comment extends React.Component {
             <li>
               <a
                 className={styles.viewLink}
-                  href={this.props.comment.asset.url.includes('?')
+                href={
+                  this.props.comment.asset.url.includes('?')
                     ? `${this.props.comment.asset.url}&commentId=${
                         this.props.comment.id
                       }`
