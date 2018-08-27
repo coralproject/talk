@@ -2,6 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <withPropsOnChange(Flex)
+  alignItems="center"
   itemGutter={true}
 >
   <MatchMediaWithContext
@@ -12,14 +13,14 @@ exports[`renders correctly 1`] = `
     >
       <withPropsOnChange(Typography)
         className="UserBoxUnauthenticated-joinText"
-        component="span"
+        container="span"
         variant="bodyCopyBold"
       >
         Join the conversation
       </withPropsOnChange(Typography)>
     </Localized>
     <withPropsOnChange(Typography)
-      component="span"
+      container="span"
       variant="bodyCopyBold"
     >
       |

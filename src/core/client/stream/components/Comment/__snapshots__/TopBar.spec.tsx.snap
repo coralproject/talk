@@ -2,28 +2,20 @@
 
 exports[`renders correctly on big screens 1`] = `
 <div
-  className="Flex-root TopBar-root"
+  className="Flex-root TopBar-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
 >
-  <div
-    className="Flex-flex Flex-itemGutter Flex-wrap Flex-alignBaseline Flex-directionRow"
-  >
-    <div>
-      Hello World
-    </div>
+  <div>
+    Hello World
   </div>
 </div>
 `;
 
 exports[`renders correctly on small screens 1`] = `
 <div
-  className="Flex-root TopBar-root"
+  className="Flex-root TopBar-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
 >
-  <div
-    className="Flex-flex Flex-halfItemGutter Flex-wrap Flex-alignBaseline Flex-directionColumn"
-  >
-    <div>
-      Hello World
-    </div>
+  <div>
+    Hello World
   </div>
 </div>
 `;
