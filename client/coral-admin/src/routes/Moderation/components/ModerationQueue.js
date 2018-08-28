@@ -16,8 +16,10 @@ import {
 import throttle from 'lodash/throttle';
 import key from 'keymaster';
 import cn from 'classnames';
+import { getStaticConfiguration } from 'coral-framework/services/staticConfiguration';
 
 const hasComment = (nodes, id) => nodes.some(node => node.id === id);
+const { WEBSOCKET_CLIENT_DISABLE: websocket_client_disable } = getStaticConfiguration();
 
 // resetCursors will return the id cursors of the first and second comment of
 // the current comment The spare cursor functions as a backup in case one
@@ -192,7 +194,10 @@ class ModerationQueue extends React.Component {
 
     // Comments changed.
     if (prevComments !== nextComments) {
-      const nextView = getVisibleComments(nextComments, idCursors[0]);
+      let nextView = getVisibleComments(nextComments, idCursors[0]);
+      if (websocket_client_disable) {
+        nextView = nextView.filter(comment => this.props.commentBelongToQueue(this.props.activeTab, comment));
+      }
       this.setState({ idCursors, view: nextView });
 
       // TODO: removing or adding a comment from the list seems to render incorrect, is this a bug?
@@ -428,11 +433,15 @@ class ModerationQueue extends React.Component {
 
     const view = this.state.view;
 
+    const commentLength = websocket_client_disable ?
+      comments.filter(comment => this.props.commentBelongToQueue(this.props.activeTab, comment)).length :
+      comments.length;
+
     return (
       <div className={rootClassName}>
         <ViewMore
           viewMore={() => this.viewNewComments()}
-          count={comments.length - view.length}
+          count={commentLength - view.length}
         />
         <WindowScroller onResize={this.reflowList}>
           {({ height, isScrolling, onChildScroll, scrollTop }) => (
