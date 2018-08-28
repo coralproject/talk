@@ -173,9 +173,6 @@ const createHOC = (document, config, { notifyOnError = true }) =>
             }
           }
         };
-        
-        if(!this.client)
-          return null;
 
         if (websocket_client_disable) {
           return () => null;
