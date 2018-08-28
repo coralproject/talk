@@ -1,4 +1,4 @@
-# Talk &middot; [![CircleCI](https://circleci.com/gh/coralproject/talk.svg?style=svg)](https://circleci.com/gh/coralproject/talk) &middot; [![NSP Status](https://nodesecurity.io/orgs/coralproject/projects/7bd7d26c-47ed-4a5f-8c4a-b919bf1c2946/badge)](https://nodesecurity.io/orgs/coralproject/projects/7bd7d26c-47ed-4a5f-8c4a-b919bf1c2946) &middot; [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
+# Talk &middot; [![CircleCI](https://circleci.com/gh/coralproject/talk.svg?style=svg)](https://circleci.com/gh/coralproject/talk) &middot; [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
 
 Online comments are broken. Our open-source commenting platform, Talk, rethinks how moderation, comment display, and conversation function, creating the opportunity for safer, smarter discussions around your work. [Read more about Talk here](https://coralproject.net/talk).
 
