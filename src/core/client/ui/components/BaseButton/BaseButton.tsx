@@ -32,6 +32,8 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLButtonElement>;
+
+  type?: "submit" | "reset" | "button";
 }
 
 /**
@@ -45,15 +47,15 @@ const BaseButton: StatelessComponent<InnerProps> = ({
   keyboardFocus,
   mouseHover,
   forwardRef,
-  type: typeProp,
+  type,
   ...rest
 }) => {
   let Element = "button";
+
   if (anchor) {
     Element = "a";
   }
 
-  let type = typeProp;
   if (anchor && type) {
     // tslint:disable:next-line: no-console
     console.warn(
@@ -69,7 +71,9 @@ const BaseButton: StatelessComponent<InnerProps> = ({
     [classes.mouseHover]: mouseHover,
   });
 
-  return <Element {...rest} className={rootClassName} ref={forwardRef} />;
+  return (
+    <Element {...rest} className={rootClassName} ref={forwardRef} type={type} />
+  );
 };
 
 const enhanced = withForwardRef(

@@ -13,6 +13,7 @@ import {
 } from "talk-stream/__generated__/PermalinkViewQuery.graphql";
 import { PermalinkViewQueryLocal as Local } from "talk-stream/__generated__/PermalinkViewQueryLocal.graphql";
 
+import { Spinner } from "talk-ui/components";
 import PermalinkViewContainer from "../containers/PermalinkViewContainer";
 
 interface InnerProps {
@@ -29,7 +30,7 @@ export const render = ({
   if (props) {
     return <PermalinkViewContainer comment={props.comment} />;
   }
-  return <div>Loading</div>;
+  return <Spinner />;
 };
 
 const PermalinkViewQuery: StatelessComponent<InnerProps> = ({

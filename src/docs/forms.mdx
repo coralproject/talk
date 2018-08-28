@@ -10,43 +10,102 @@ Let's build some forms! We will use the following compoenents `InputLabel`, `Typ
 ### Examples
 
 import { Playground, PropsTable } from 'docz'
-import { InputLabel, ValidationMessage, TextField, Typography, Flex, Button} from '../core/client/ui/components'
-
-# InputLabel
+import { InputLabel, CallOut, ValidationMessage, TextField, InputDescription, Flex, Button, FormField, Typography } from '../core/client/ui/components'
 
 ## Simple Form
 <Playground>
-  <Flex itemGutter direction="column" style={{width:330}}>
+  <Flex itemGutter="double" direction="column">
     <Typography variant="heading1">Sign up to join the conversation</Typography>
-    <InputLabel>Email Address</InputLabel>
-    <TextField fullWidth/>
-    <InputLabel>Username</InputLabel>
-    <Typography>A unique identifier displayed on your comments. You may use “_” and “.”</Typography>
-    <TextField fullWidth/>
-    <InputLabel>Password</InputLabel>
-    <Typography>Must be at least 8 characters</Typography>
-    <TextField fullWidth/>
-    <InputLabel>Confirm Password</InputLabel>
-    <TextField fullWidth/>
+
+    <FormField>
+      <InputLabel>Email Address</InputLabel>
+      <TextField fullWidth />
+    </FormField>
+
+    <FormField>
+      <InputLabel>Username</InputLabel>
+      <InputDescription>A unique identifier displayed on your comments. You may use “_” and “.”</InputDescription>
+      <TextField fullWidth />
+    </FormField>
+
+    <FormField>
+      <InputLabel>Password</InputLabel>
+      <InputDescription>Must be at least 8 characters</InputDescription>
+      <TextField fullWidth />
+    </FormField>
+
+    <FormField>
+      <InputLabel>Confirm Password</InputLabel>
+      <TextField fullWidth />
+    </FormField>
+
     <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
   </Flex>
 </Playground>
 
 ## Simple Form with error
+
 <Playground>
-  <Flex itemGutter direction="column" style={{width:330}}>
+  <Flex itemGutter="double" direction="column">
     <Typography variant="heading1">Sign up to join the conversation</Typography>
-    <InputLabel>Email Address</InputLabel>
-    <TextField fullWidth />
-    <InputLabel>Username</InputLabel>
-    <Typography>A unique identifier displayed on your comments. You may use “_” and “.”</Typography>
-    <TextField defaultValue="something.com" color="error" fullWidth/>
-    <ValidationMessage color="error" fullWidth>Invalid characters. Try again.</ValidationMessage>
-    <InputLabel>Password</InputLabel>
-    <Typography>Must be at least 8 characters</Typography>
-    <TextField fullWidth/>
-    <InputLabel>Confirm Password</InputLabel>
-    <TextField fullWidth/>
+
+    <FormField>
+      <InputLabel>Email Address</InputLabel>
+      <TextField fullWidth />
+    </FormField>
+
+    <FormField>
+      <InputLabel defaultValue="something.com">Username</InputLabel>
+      <InputDescription>A unique identifier displayed on your comments. You may use “_” and “.”</InputDescription>
+      <TextField color="error" fullWidth />
+      <ValidationMessage fullWidth>Invalid characters. Try again.</ValidationMessage>
+    </FormField>
+
+
+    <FormField>
+      <InputLabel>Password</InputLabel>
+      <InputDescription>Must be at least 8 characters</InputDescription>
+      <TextField fullWidth/>
+    </FormField>
+
+    <FormField>
+      <InputLabel>Confirm Password</InputLabel>
+      <TextField fullWidth/>
+    </FormField>
+
+    <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
+  </Flex>
+</Playground>
+
+## Simple Form with CallOut
+
+<Playground>
+  <Flex itemGutter="double" direction="column">
+    <Typography variant="heading1">Sign up to join the conversation</Typography>
+    <CallOut color="error" fullWidth>The email address or password you entered is incorrect. Try again</CallOut>
+    <FormField>
+      <InputLabel>Email Address</InputLabel>
+      <TextField fullWidth/>
+    </FormField>
+
+    <FormField>
+      <InputLabel defaultValue="something.com">Username</InputLabel>
+      <InputDescription>A unique identifier displayed on your comments. You may use “_” and “.”</InputDescription>
+      <TextField fullWidth/>
+    </FormField>
+
+
+    <FormField>
+      <InputLabel>Password</InputLabel>
+      <InputDescription>Must be at least 8 characters</InputDescription>
+      <TextField fullWidth/>
+    </FormField>
+
+    <FormField>
+      <InputLabel>Confirm Password</InputLabel>
+      <TextField fullWidth/>
+    </FormField>
+
     <Button variant="filled" color="primary" size="large" fullWidth>Sign up and join the conversation</Button>
   </Flex>
 </Playground>

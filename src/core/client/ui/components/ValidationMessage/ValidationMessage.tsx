@@ -1,7 +1,8 @@
 import cn from "classnames";
-import React from "react";
-import { ReactNode, StatelessComponent } from "react";
+import React, { ReactNode, StatelessComponent } from "react";
+
 import { withStyles } from "talk-ui/hocs";
+
 import Icon from "../Icon";
 import * as styles from "./ValidationMessage.css";
 

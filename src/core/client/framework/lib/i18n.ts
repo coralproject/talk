@@ -1,6 +1,6 @@
 import "fluent-intl-polyfill/compat";
 import { negotiateLanguages as negotiate } from "fluent-langneg/compat";
-import { MessageContext } from "fluent/compat";
+import { FluentBundle } from "fluent/compat";
 
 export interface BundledLocales {
   [locale: string]: string;
@@ -47,18 +47,20 @@ export function negotiateLanguages(
 }
 
 // Don't warn in production.
-let decorateWarnMissing = (cx: MessageContext) => cx;
+let decorateWarnMissing = (bundle: FluentBundle) => bundle;
 
 // Warn about missing locales if we are not in production.
 if (process.env.NODE_ENV !== "production") {
   decorateWarnMissing = (() => {
     const warnings: string[] = [];
-    return (cx: MessageContext) => {
-      const original = cx.hasMessage;
-      cx.hasMessage = (id: string) => {
-        const result = original.apply(cx, [id]);
+    return (bundle: FluentBundle) => {
+      const original = bundle.hasMessage;
+      bundle.hasMessage = (id: string) => {
+        const result = original.apply(bundle, [id]);
         if (!result) {
-          const warn = `${cx.locales} translation for key "${id}" not found`;
+          const warn = `${
+            bundle.locales
+          } translation for key "${id}" not found`;
           if (!warnings.includes(warn)) {
             // tslint:disable:next-line: no-console
             console.warn(warn);
@@ -67,7 +69,7 @@ if (process.env.NODE_ENV !== "production") {
         }
         return result;
       };
-      return cx;
+      return bundle;
     };
   })();
 }
@@ -79,21 +81,21 @@ if (process.env.NODE_ENV !== "production") {
  *
  * Use it in conjunction with `negotiateLanguages`.
  */
-export async function generateMessages(
+export async function generateBundles(
   locales: ReadonlyArray<string>,
   data: LocalesData
-): Promise<MessageContext[]> {
+): Promise<FluentBundle[]> {
   const promises = [];
 
   for (const locale of locales) {
-    const cx = new MessageContext(locale);
+    const bundle = new FluentBundle(locale);
     if (locale in data.bundled) {
-      cx.addMessages(data.bundled[locale]);
-      promises.push(decorateWarnMissing(cx));
+      bundle.addMessages(data.bundled[locale]);
+      promises.push(decorateWarnMissing(bundle));
     } else if (locale in data.loadables) {
       const content = await data.loadables[locale]();
-      cx.addMessages(content);
-      promises.push(decorateWarnMissing(cx));
+      bundle.addMessages(content);
+      promises.push(decorateWarnMissing(bundle));
     } else {
       throw Error(`Locale ${locale} not available`);
     }

@@ -6,7 +6,7 @@ import { LOCAL_ID } from "talk-framework/lib/relay/withLocalStateContainer";
 
 export interface SetViewInput {
   // TODO: replace with generated typescript types.
-  view: "SIGN_IN" | "SIGN_UP" | "FORGOT_PASSWORD";
+  view: "SIGN_IN" | "SIGN_UP" | "FORGOT_PASSWORD" | "RESET_PASSWORD";
 }
 
 export type SetViewMutation = (input: SetViewInput) => Promise<void>;

@@ -1,5 +1,13 @@
 import { ReactNode } from "react";
-import { VALIDATION_REQUIRED } from "./messages";
+import {
+  INVALID_CHARACTERS,
+  INVALID_EMAIL,
+  PASSWORD_TOO_SHORT,
+  PASSWORDS_DO_NOT_MATCH,
+  USERNAME_TOO_LONG,
+  USERNAME_TOO_SHORT,
+  VALIDATION_REQUIRED,
+} from "./messages";
 
 type Validator<T, V> = (v: T, values: V) => ReactNode;
 
@@ -31,3 +39,60 @@ export function composeValidators<T = any, V = any>(
  * required is a Validator that checks that the value is truthy.
  */
 export const required = createValidator(v => !!v, VALIDATION_REQUIRED());
+
+/**
+ * validateEmail is a Validator that checks that the value is an email.
+ */
+export const validateEmail = createValidator(
+  v => /^.+@.+\..+$/.test(v),
+  INVALID_EMAIL()
+);
+
+/**
+ * validateUsernameCharacters is a Validator that checks that the username only contains valid characters.
+ */
+export const validateUsernameCharacters = createValidator(
+  v => /^[a-zA-Z0-9_.]+$/.test(v),
+  INVALID_CHARACTERS()
+);
+
+/**
+ * validateUsernameMinLength is a Validator that checks that the username has a min length of characters
+ */
+export const validateUsernameMinLength = createValidator(
+  v => v.length >= 3,
+  USERNAME_TOO_SHORT(3)
+);
+
+/**
+ * validateUsernameMaxLength is a Validator that checks that the username has a max length of characters
+ */
+export const validateUsernameMaxLength = createValidator(
+  v => v.length <= 20,
+  USERNAME_TOO_LONG(20)
+);
+
+/**
+ * validateUsername is a Validator that checks that the username is valid.
+ */
+export const validateUsername = composeValidators(
+  validateUsernameCharacters,
+  validateUsernameMinLength,
+  validateUsernameMaxLength
+);
+
+/**
+ * validateUsername is a Validator that checks that the value is a valid username.
+ */
+export const validatePassword = createValidator(
+  v => v.length >= 8,
+  PASSWORD_TOO_SHORT(8)
+);
+
+/**s
+ * validateUsername is a Validator that checks that the value is a valid username.
+ */
+export const validateEqualPasswords = createValidator(
+  (v, values) => v === values.password,
+  PASSWORDS_DO_NOT_MATCH()
+);

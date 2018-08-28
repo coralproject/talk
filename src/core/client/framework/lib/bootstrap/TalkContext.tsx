@@ -1,5 +1,5 @@
 import { LocalizationProvider } from "fluent-react/compat";
-import { MessageContext } from "fluent/compat";
+import { FluentBundle } from "fluent/compat";
 import { Child as PymChild } from "pym.js";
 import React, { StatelessComponent } from "react";
 import { MediaQueryMatchers } from "react-responsive";
@@ -15,8 +15,8 @@ export interface TalkContext {
   /** relayEnvironment for our relay framework. */
   relayEnvironment: Environment;
 
-  /** localMessages for our i18n framework. */
-  localeMessages: MessageContext[];
+  /** localeBundles for our i18n framework. */
+  localeBundles: FluentBundle[];
 
   /** formatter for timeago. */
   timeagoFormatter?: Formatter;
@@ -61,7 +61,7 @@ export const TalkContextProvider: StatelessComponent<{
   value: TalkContext;
 }> = ({ value, children }) => (
   <Provider value={value}>
-    <LocalizationProvider messages={value.localeMessages}>
+    <LocalizationProvider bundles={value.localeBundles}>
       <UIContext.Provider
         value={{
           timeagoFormatter: value.timeagoFormatter,

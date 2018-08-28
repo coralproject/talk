@@ -14,7 +14,7 @@ import {
 import { RestClient } from "talk-framework/lib/rest";
 import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 
-import { generateMessages, LocalesData, negotiateLanguages } from "../i18n";
+import { generateBundles, LocalesData, negotiateLanguages } from "../i18n";
 import { createFetch, TokenGetter } from "../network";
 import { PostMessageService } from "../postMessage";
 import { TalkContext } from "./TalkContext";
@@ -104,17 +104,17 @@ export default async function createContext({
     console.log(`Negotiated locales ${JSON.stringify(locales)}`);
   }
 
-  const localeMessages = await generateMessages(locales, localesData);
+  const localeBundles = await generateBundles(locales, localesData);
 
   // Assemble context.
   const context = {
     relayEnvironment,
-    localeMessages,
+    localeBundles,
     timeagoFormatter,
     pym,
     eventEmitter,
     registerClickFarAway,
-    rest: new RestClient("/api"),
+    rest: new RestClient("/api", tokenGetter),
     postMessage: new PostMessageService(),
     localStorage: createLocalStorage(),
     sessionStorage: createSessionStorage(),
