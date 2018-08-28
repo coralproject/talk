@@ -5,16 +5,16 @@ menu: UI Kit
 
 import { Playground } from 'docz'
 import ValidationMessage from './ValidationMessage.tsx'
-import Flex from '../Flex'
+import HorizontalGutter from '../HorizontalGutter'
 
 # ValidationMessage
 
 ## Basic Use
 <Playground>
-  <Flex itemGutter direction="column">
+  <HorizontalGutter>
     <ValidationMessage>Invalid characters. Try again</ValidationMessage>
     <ValidationMessage fullWidth>Account with this email address already exists. Try another email. </ValidationMessage>
-  </Flex>
+  </HorizontalGutter>
 </Playground>
 
 

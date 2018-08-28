@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Flex)>
+<withPropsOnChange(Flex)
+  alignItems="center"
+  itemGutter={true}
+>
   <MatchMediaWithContext
     gteWidth="sm"
   >
@@ -10,14 +13,14 @@ exports[`renders correctly 1`] = `
     >
       <withPropsOnChange(Typography)
         className="UserBoxUnauthenticated-joinText"
-        component="span"
+        container="span"
         variant="bodyCopyBold"
       >
         Join the conversation
       </withPropsOnChange(Typography)>
     </Localized>
     <withPropsOnChange(Typography)
-      component="span"
+      container="span"
       variant="bodyCopyBold"
     >
       |
@@ -30,6 +33,7 @@ exports[`renders correctly 1`] = `
       color="primary"
       onClick={[Function]}
       size="small"
+      variant="underlined"
     >
       Sign in
     </withPropsOnChange(Button)>

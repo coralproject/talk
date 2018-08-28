@@ -55,7 +55,7 @@ it("renders with item gutter", () => {
   expect(renderer.toJSON()).toMatchSnapshot();
 });
 
-it("renders with halfe item gutter", () => {
+it("renders with half item gutter", () => {
   const props: PropTypesOf<typeof Flex> = {
     itemGutter: "half",
   };

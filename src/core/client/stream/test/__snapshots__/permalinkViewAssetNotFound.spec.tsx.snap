@@ -2,35 +2,32 @@
 
 exports[`renders permalink view with unknown asset 1`] = `
 <div
-  className="Flex-root App-root"
+  className="Flex-root App-root Flex-flex Flex-justifyCenter"
 >
   <div
-    className="Flex-flex Flex-wrap Flex-justifyCenter Flex-alignCenter"
+    className="PermalinkView-root"
   >
-    <div
-      className="PermalinkView-root"
+    <a
+      className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantOutlined Button-fullWidth"
+      href="http://localhost/"
+      id="talk-comments-permalinkView-showAllComments"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseDown={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      target="_parent"
+      type="button"
     >
-      <a
-        className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantOutlined Button-fullWidth"
-        href="http://localhost/"
-        id="talk-comments-permalinkView-showAllComments"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseDown={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        target="_parent"
-      >
-        Show all Comments
-      </a>
-      <p
-        className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-      >
-        Comment not found
-      </p>
-    </div>
+      Show all Comments
+    </a>
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      Comment not found
+    </p>
   </div>
 </div>
 `;

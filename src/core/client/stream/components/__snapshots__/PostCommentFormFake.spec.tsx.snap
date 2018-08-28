@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(HorizontalGutter)
+  className="PostCommentFormFake-root"
+>
+  <textarea
+    className="PostCommentFormFake-textarea"
+    disabled={true}
+    placeholder="Post a comment"
+  />
+  <Localized
+    id="comments-PostCommentFormFake-signInAndJoin"
+  >
+    <withPropsOnChange(Button)
+      color="primary"
+      disabled={true}
+      fullWidth={true}
+      type="submit"
+      variant="filled"
+    >
+      Sign in and join the conversation
+    </withPropsOnChange(Button)>
+  </Localized>
+</withPropsOnChange(HorizontalGutter)>
+`;

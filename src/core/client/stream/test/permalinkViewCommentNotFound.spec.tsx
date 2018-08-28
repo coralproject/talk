@@ -5,6 +5,9 @@ import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
+import { PostMessageService } from "talk-framework/lib/postMessage";
+import { RestClient } from "talk-framework/lib/rest";
+import { createInMemoryStorage } from "talk-framework/lib/storage";
 import AppContainer from "talk-stream/containers/AppContainer";
 
 import createEnvironment from "./createEnvironment";
@@ -47,12 +50,17 @@ const environment = createEnvironment({
   initLocalState: (localRecord: RecordProxy) => {
     localRecord.setValue(assetStub.id, "assetID");
     localRecord.setValue("unknown-comment-id", "commentID");
+    localRecord.setValue(0, "authRevision");
   },
 });
 
 const context: TalkContext = {
   relayEnvironment: environment,
-  localeMessages: [],
+  localeBundles: [],
+  localStorage: createInMemoryStorage(),
+  sessionStorage: createInMemoryStorage(),
+  rest: new RestClient("http://localhost/api"),
+  postMessage: new PostMessageService(),
 };
 
 const testRenderer = TestRenderer.create(

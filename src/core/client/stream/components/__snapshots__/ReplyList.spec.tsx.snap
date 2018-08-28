@@ -2,10 +2,8 @@
 
 exports[`renders correctly 1`] = `
 <Indent>
-  <withPropsOnChange(Flex)
-    direction="column"
+  <withPropsOnChange(HorizontalGutter)
     id="talk-comments-replyList-log--comment-id"
-    itemGutter={true}
     role="log"
   >
     <Relay(CommentContainer)
@@ -24,16 +22,14 @@ exports[`renders correctly 1`] = `
       }
       key="comment-2"
     />
-  </withPropsOnChange(Flex)>
+  </withPropsOnChange(HorizontalGutter)>
 </Indent>
 `;
 
 exports[`when there is more disables load more button 1`] = `
 <Indent>
-  <withPropsOnChange(Flex)
-    direction="column"
+  <withPropsOnChange(HorizontalGutter)
     id="talk-comments-replyList-log--comment-id"
-    itemGutter={true}
     role="log"
   >
     <Relay(CommentContainer)
@@ -66,16 +62,14 @@ exports[`when there is more disables load more button 1`] = `
         Show All Replies
       </withPropsOnChange(Button)>
     </Localized>
-  </withPropsOnChange(Flex)>
+  </withPropsOnChange(HorizontalGutter)>
 </Indent>
 `;
 
 exports[`when there is more renders a load more button 1`] = `
 <Indent>
-  <withPropsOnChange(Flex)
-    direction="column"
+  <withPropsOnChange(HorizontalGutter)
     id="talk-comments-replyList-log--comment-id"
-    itemGutter={true}
     role="log"
   >
     <Relay(CommentContainer)
@@ -108,6 +102,6 @@ exports[`when there is more renders a load more button 1`] = `
         Show All Replies
       </withPropsOnChange(Button)>
     </Localized>
-  </withPropsOnChange(Flex)>
+  </withPropsOnChange(HorizontalGutter)>
 </Indent>
 `;
