@@ -14,6 +14,7 @@ import { RestClient } from "talk-framework/lib/rest";
 import { createInMemoryStorage } from "talk-framework/lib/storage";
 
 import createEnvironment from "./createEnvironment";
+import createFluentBundle from "./createFluentBundle";
 
 const inputPredicate = (name: string) => (n: ReactTestInstance) => {
   return n.props.name === name && n.props.onChange;
@@ -31,7 +32,7 @@ beforeEach(() => {
 
   context = {
     relayEnvironment: environment,
-    localeBundles: [],
+    localeBundles: [createFluentBundle()],
     localStorage: createInMemoryStorage(),
     sessionStorage: createInMemoryStorage(),
     rest: new RestClient("http://localhost/api"),

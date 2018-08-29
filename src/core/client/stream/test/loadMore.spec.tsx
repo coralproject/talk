@@ -10,6 +10,7 @@ import { createInMemoryStorage } from "talk-framework/lib/storage";
 import AppContainer from "talk-stream/containers/AppContainer";
 
 import createEnvironment from "./createEnvironment";
+import createFluentBundle from "./createFluentBundle";
 import createNodeMock from "./createNodeMock";
 import { assets, comments } from "./fixtures";
 
@@ -78,7 +79,7 @@ beforeEach(() => {
 
   const context: TalkContext = {
     relayEnvironment: environment,
-    localeBundles: [],
+    localeBundles: [createFluentBundle()],
     localStorage: createInMemoryStorage(),
     sessionStorage: createInMemoryStorage(),
     rest: new RestClient("http://localhost/api"),

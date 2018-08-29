@@ -57,6 +57,7 @@ exports[`loads more comments 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Bold"
                   type="button"
                 >
                   <span
@@ -70,6 +71,7 @@ exports[`loads more comments 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Italic"
                   type="button"
                 >
                   <span
@@ -83,6 +85,7 @@ exports[`loads more comments 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Blockquote"
                   type="button"
                 >
                   <span
@@ -312,6 +315,7 @@ exports[`renders comment stream 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Bold"
                   type="button"
                 >
                   <span
@@ -325,6 +329,7 @@ exports[`renders comment stream 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Italic"
                   type="button"
                 >
                   <span
@@ -338,6 +343,7 @@ exports[`renders comment stream 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Blockquote"
                   type="button"
                 >
                   <span
@@ -483,7 +489,7 @@ exports[`renders comment stream 1`] = `
         onTouchEnd={[Function]}
         type="button"
       >
-        Load More
+        Load more
       </button>
     </div>
   </div>
