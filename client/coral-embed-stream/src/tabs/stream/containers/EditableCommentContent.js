@@ -83,7 +83,7 @@ class EditableCommentContentContainer extends React.Component {
       this.props.forEachHook('postSubmit', hook =>
         hook(response, this.handleInputChange)
       );
-      
+
       if (!this.unmounted) {
         this.setState({ loadingState: 'success' });
       }

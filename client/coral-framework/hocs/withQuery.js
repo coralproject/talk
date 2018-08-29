@@ -155,7 +155,6 @@ const createHOC = (document, config, { notifyOnError = true }) =>
 
       subscribeToMoreThrottled = ({ document, variables, updateQuery }) => {
         // We need to add the typenames and resolve fragments.
-        // debugger
         const query = this.resolveDocument(document);
         const handler = (error, data) => {
           if (error) {
