@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Typography } from "talk-ui/components";
 
@@ -9,16 +10,18 @@ interface Props {
 const PoweredBy: StatelessComponent<Props> = props => {
   return (
     <div className={cn(props.className)}>
-      <Typography
-        variant="inputDescription"
-        container="span"
-        color="textSecondary"
+      <Localized
+        id="comments-poweredBy"
+        logo={<Typography variant="heading4" container="span" />}
       >
-        Powered by
-      </Typography>{" "}
-      <Typography variant="heading4" container="span">
-        The Coral Project
-      </Typography>
+        <Typography
+          variant="inputDescription"
+          container="span"
+          color="textSecondary"
+        >
+          {"Powered by <logo>The Coral Project</logo>"}
+        </Typography>
+      </Localized>
     </div>
   );
 };

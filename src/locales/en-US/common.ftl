@@ -1,1 +1,1 @@
-
+-brand-name = The Coral Project

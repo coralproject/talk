@@ -13,9 +13,9 @@ exports[`renders username and body 1`] = `
       1995-12-17T03:24:00.000Z
     </Timestamp>
   </TopBar>
-  <withPropsOnChange(Typography)>
+  <HTMLContent>
     Woof
-  </withPropsOnChange(Typography)>
+  </HTMLContent>
   <div
     className="Comment-footer"
   >

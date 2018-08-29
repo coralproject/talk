@@ -101,11 +101,6 @@
   color: var(--palette-text-primary);
 }
 
-.bodyCopyBold {
-  composes: bodyCopy;
-  font-weight: var(--font-weight-medium);
-}
-
 .button {
   color: var(--palette-text-secondary);
   font-family: var(--font-family-sans-serif);

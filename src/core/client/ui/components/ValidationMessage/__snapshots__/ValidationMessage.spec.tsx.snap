@@ -5,6 +5,7 @@ exports[`renders correctly 1`] = `
   className="ValidationMessage-root ValidationMessage-colorError custom"
 >
   <span
+    aria-hidden="true"
     className="Icon-root ValidationMessage-icon Icon-sm"
   >
     warning

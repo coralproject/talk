@@ -1,11 +1,20 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
+
 import { OnSubmit } from "talk-framework/lib/form";
 import { required } from "talk-framework/lib/validation";
-import { Button, Flex, HorizontalGutter, Typography } from "talk-ui/components";
+import {
+  AriaInfo,
+  Button,
+  Flex,
+  HorizontalGutter,
+  Typography,
+} from "talk-ui/components";
+
 import * as styles from "./PostCommentForm.css";
 import PoweredBy from "./PoweredBy";
+import RTE from "./RTE";
 
 interface FormProps {
   body: string;
@@ -23,13 +32,22 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
           <Field name="body" validate={required}>
             {({ input, meta }) => (
               <div>
-                <textarea
-                  className={styles.textarea}
-                  name={input.name}
-                  onChange={input.onChange}
-                  value={input.value}
-                  placeholder="Post a comment"
-                />
+                <Localized id="comments-postCommentForm-rteLabel">
+                  <AriaInfo component="label" htmlFor="postCommentField">
+                    Post a comment
+                  </AriaInfo>
+                </Localized>
+                <Localized
+                  id="comments-postCommentForm-rte"
+                  attrs={{ placeholder: true }}
+                >
+                  <RTE
+                    inputId="postCommentField"
+                    onChange={({ html }) => input.onChange(html)}
+                    value={input.value}
+                    placeholder="Post a comment"
+                  />
+                </Localized>
                 {meta.touched &&
                   (meta.error || meta.submitError) && (
                     <Typography align="right" color="error" gutterBottom>

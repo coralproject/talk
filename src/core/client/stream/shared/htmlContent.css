@@ -1,0 +1,25 @@
+.root {
+  composes: bodyCopy from "talk-ui/shared/typography.css";
+
+  & * bold,
+  & * strong {
+    font-weight: var(--font-weight-medium);
+  }
+  & * italic,
+  & * em {
+    font-style: italic;
+  }
+  blockquote {
+    background-color: var(--palette-grey-lightest);
+    padding: var(--spacing-unit);
+    margin: calc(2 * var(--spacing-unit)) 0 calc(2 * var(--spacing-unit))
+      var(--spacing-unit);
+    border-radius: var(--round-corners);
+    &::after {
+      content: none;
+    }
+    &::before {
+      content: none;
+    }
+  }
+}

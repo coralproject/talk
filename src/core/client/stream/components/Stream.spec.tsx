@@ -15,9 +15,26 @@ it("renders correctly", () => {
     onLoadMore: noop,
     disableLoadMore: false,
     hasMore: false,
+    user: null,
   };
   const wrapper = shallow(<Stream {...props} />);
   expect(wrapper).toMatchSnapshot();
+});
+
+describe("when use is logged in", () => {
+  it("renders correctly", () => {
+    const props: PropTypesOf<typeof Stream> = {
+      assetID: "asset-id",
+      isClosed: false,
+      comments: [{ id: "comment-1" }, { id: "comment-2" }],
+      onLoadMore: noop,
+      disableLoadMore: false,
+      hasMore: false,
+      user: {},
+    };
+    const wrapper = shallow(<Stream {...props} />);
+    expect(wrapper).toMatchSnapshot();
+  });
 });
 
 describe("when there is more", () => {
@@ -28,6 +45,7 @@ describe("when there is more", () => {
     onLoadMore: sinon.spy(),
     disableLoadMore: false,
     hasMore: true,
+    user: null,
   };
 
   const wrapper = shallow(<Stream {...props} />);

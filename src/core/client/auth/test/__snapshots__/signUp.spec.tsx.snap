@@ -25,14 +25,27 @@ exports[`accepts correct password 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -48,14 +61,27 @@ exports[`accepts correct password 1`] = `
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="username"
           onChange={[Function]}
           placeholder="Username"
           type="text"
-          value="hans"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -101,6 +127,7 @@ exports[`accepts correct password 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -164,14 +191,27 @@ exports[`accepts correct password confirmation 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -187,14 +227,27 @@ exports[`accepts correct password confirmation 1`] = `
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="username"
           onChange={[Function]}
           placeholder="Username"
           type="text"
-          value="hans"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -210,14 +263,27 @@ exports[`accepts correct password confirmation 1`] = `
           Must be at least {$minLength} characters
         </p>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="password"
           onChange={[Function]}
           placeholder="Password"
           type="password"
-          value="testtest"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -228,7 +294,7 @@ exports[`accepts correct password confirmation 1`] = `
           Confirm Password
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="confirmPassword"
           onChange={[Function]}
@@ -236,6 +302,19 @@ exports[`accepts correct password confirmation 1`] = `
           type="password"
           value="testtest"
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            Passwords do not match. Try again.
+          </span>
+        </div>
       </div>
       <button
         className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
@@ -326,6 +405,7 @@ exports[`accepts valid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -361,6 +441,7 @@ exports[`accepts valid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -391,6 +472,7 @@ exports[`accepts valid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -454,14 +536,27 @@ exports[`accepts valid username 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -512,6 +607,7 @@ exports[`accepts valid username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -542,6 +638,7 @@ exports[`accepts valid username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -605,14 +702,27 @@ exports[`checks for invalid characters in username 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -640,6 +750,7 @@ exports[`checks for invalid characters in username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -675,6 +786,7 @@ exports[`checks for invalid characters in username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -705,6 +817,7 @@ exports[`checks for invalid characters in username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -780,6 +893,7 @@ exports[`checks for invalid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -815,6 +929,7 @@ exports[`checks for invalid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -850,6 +965,7 @@ exports[`checks for invalid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -880,6 +996,7 @@ exports[`checks for invalid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -943,14 +1060,27 @@ exports[`checks for too long username 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -978,6 +1108,7 @@ exports[`checks for too long username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1013,6 +1144,7 @@ exports[`checks for too long username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1043,6 +1175,7 @@ exports[`checks for too long username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1106,14 +1239,27 @@ exports[`checks for too short password 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1129,14 +1275,27 @@ exports[`checks for too short password 1`] = `
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="username"
           onChange={[Function]}
           placeholder="Username"
           type="text"
-          value="hans"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1164,6 +1323,7 @@ exports[`checks for too short password 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1194,6 +1354,7 @@ exports[`checks for too short password 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1257,14 +1418,27 @@ exports[`checks for too short username 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1292,6 +1466,7 @@ exports[`checks for too short username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1327,6 +1502,7 @@ exports[`checks for too short username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1357,6 +1533,7 @@ exports[`checks for too short username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1420,14 +1597,27 @@ exports[`checks for wrong password confirmation 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1443,14 +1633,27 @@ exports[`checks for wrong password confirmation 1`] = `
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="username"
           onChange={[Function]}
           placeholder="Username"
           type="text"
-          value="hans"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1466,14 +1669,27 @@ exports[`checks for wrong password confirmation 1`] = `
           Must be at least {$minLength} characters
         </p>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="password"
           onChange={[Function]}
           placeholder="Password"
           type="password"
-          value="testtest"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1496,6 +1712,7 @@ exports[`checks for wrong password confirmation 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1698,6 +1915,7 @@ exports[`shows error when submitting empty form 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1733,6 +1951,7 @@ exports[`shows error when submitting empty form 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1768,6 +1987,7 @@ exports[`shows error when submitting empty form 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1798,6 +2018,7 @@ exports[`shows error when submitting empty form 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -2112,11 +2333,6 @@ exports[`submits form successfully 1`] = `
         Sign up to join the conversation
       </h1>
       <div
-        className="CallOut-root CallOut-colorError CallOut-fullWidth"
-      >
-        Server Error
-      </div>
-      <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
@@ -2258,7 +2474,7 @@ exports[`submits form successfully 2`] = `
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
       </div>
       <div
@@ -2281,7 +2497,7 @@ exports[`submits form successfully 2`] = `
           onChange={[Function]}
           placeholder="Username"
           type="text"
-          value="hans"
+          value=""
         />
       </div>
       <div
@@ -2304,7 +2520,7 @@ exports[`submits form successfully 2`] = `
           onChange={[Function]}
           placeholder="Password"
           type="password"
-          value="testtest"
+          value=""
         />
       </div>
       <div
@@ -2322,7 +2538,7 @@ exports[`submits form successfully 2`] = `
           onChange={[Function]}
           placeholder="Confirm Password"
           type="password"
-          value="testtest"
+          value=""
         />
       </div>
       <button

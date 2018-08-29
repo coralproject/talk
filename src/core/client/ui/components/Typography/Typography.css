@@ -24,7 +24,8 @@
 }
 
 .bodyCopyBold {
-  composes: bodyCopyBold from "talk-ui/shared/typography.css";
+  composes: bodyCopy from "talk-ui/shared/typography.css";
+  font-weight: var(--font-weight-medium);
 }
 
 .button {

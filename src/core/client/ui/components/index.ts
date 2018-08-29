@@ -18,3 +18,5 @@ export { default as FormField } from "./FormField";
 export { default as InputDescription } from "./InputDescription";
 export { default as Spinner } from "./Spinner";
 export { default as HorizontalGutter } from "./HorizontalGutter";
+export { default as Icon } from "./Icon";
+export { default as AriaInfo } from "./AriaInfo";
