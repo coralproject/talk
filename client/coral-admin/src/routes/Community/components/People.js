@@ -176,7 +176,7 @@ class People extends React.Component {
                                   })
                                 }
                               >
-                                Suspend User
+                                {t('modqueue.suspend')}
                               </ActionsMenuItem>
                             )}
 
@@ -195,7 +195,7 @@ class People extends React.Component {
                                   })
                                 }
                               >
-                                Ban User
+                                {t('modqueue.ban_user_actions')}
                               </ActionsMenuItem>
                             )}
                           </ActionsMenu>

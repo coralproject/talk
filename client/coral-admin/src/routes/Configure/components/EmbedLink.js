@@ -53,7 +53,7 @@ class EmbedLink extends Component {
             {t('embedlink.copy')}
           </Button>
           <div className={styles.copiedText}>
-            {this.state.copied && 'Copied!'}
+            {this.state.copied && t('embedlink.copied')}
           </div>
         </div>
       </ConfigureCard>

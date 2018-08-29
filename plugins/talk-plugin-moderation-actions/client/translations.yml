@@ -84,16 +84,16 @@ nl_NL:
     ban_user_dialog_headline: "Gebruiker verbannen?"
 pt_BR:
   talk-plugin-moderation-actions:
-    reject_comment: "Reject"
-    approve_comment: "Approve"
-    approved_comment: "Approved"
-    moderation_actions: "Moderation Actions"
-    ban_user: "Ban User"
-    ban_user_dialog_sub: "Are you sure you would like to ban this user?"
-    ban_user_dialog_copy: "Note: Banning this user will also place this comment in the Rejected queue."
-    ban_user_dialog_cancel: "Cancel"
-    ban_user_dialog_yes: "Yes. Ban user"
-    ban_user_dialog_headline: "Ban User?"
+    reject_comment: "Rejeitar"
+    approve_comment: "Aprovar"
+    approved_comment: "Aprovado"
+    moderation_actions: "Ações"
+    ban_user: "Banir Usuário"
+    ban_user_dialog_sub: "Tem certeza que deseja banir esse usuário?"
+    ban_user_dialog_copy: "Nota: Banindo esse usuário também irá colocar esse comentário na fila de Rejeitado."
+    ban_user_dialog_cancel: "Cancelar"
+    ban_user_dialog_yes: "Sim. Banir usuário"
+    ban_user_dialog_headline: "Banir usuário?"
 zh_CN:
   talk-plugin-moderation-actions:
     reject_comment: "拒绝"

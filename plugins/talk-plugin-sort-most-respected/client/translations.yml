@@ -21,7 +21,7 @@ nl_NL:
     label: Meest gerespecteerd eerst
 pt_BR:
   talk-plugin-sort-most-respected:
-    label: Most respected first
+    label: Mais respeitados primeiro
 zh_CN:
   talk-plugin-sort-most-respected:
     label: "最多被赞在前"
