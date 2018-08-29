@@ -821,9 +821,9 @@ mutation.
 """
 type CreateCommentPayload {
   """
-  comment is the possibly created comment.
+  CommentEdge is the possibly created comment edge.
   """
-  comment: Comment
+  commentEdge: CommentEdge
 
   """
   clientMutationId is required for Relay support.
