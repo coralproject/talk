@@ -1,5 +1,8 @@
 import React from "react";
-import TestRenderer, { ReactTestInstance } from "react-test-renderer";
+import TestRenderer, {
+  ReactTestInstance,
+  ReactTestRenderer,
+} from "react-test-renderer";
 import { RecordProxy } from "relay-runtime";
 import sinon from "sinon";
 
@@ -12,32 +15,37 @@ import { createInMemoryStorage } from "talk-framework/lib/storage";
 
 import createEnvironment from "./createEnvironment";
 
-const environment = createEnvironment({
-  initLocalState: (localRecord: RecordProxy) => {
-    localRecord.setValue("SIGN_UP", "view");
-  },
-});
-
-const context: TalkContext = {
-  relayEnvironment: environment,
-  localeBundles: [],
-  localStorage: createInMemoryStorage(),
-  sessionStorage: createInMemoryStorage(),
-  rest: new RestClient("http://localhost/api"),
-  postMessage: new PostMessageService(),
-};
-
-const testRenderer = TestRenderer.create(
-  <TalkContextProvider value={context}>
-    <AppContainer />
-  </TalkContextProvider>
-);
-
 const inputPredicate = (name: string) => (n: ReactTestInstance) => {
   return n.props.name === name && n.props.onChange;
 };
 
-const form = testRenderer.root.findByType("form");
+let context: TalkContext;
+let testRenderer: ReactTestRenderer;
+let form: ReactTestInstance;
+beforeEach(() => {
+  const environment = createEnvironment({
+    initLocalState: (localRecord: RecordProxy) => {
+      localRecord.setValue("SIGN_UP", "view");
+    },
+  });
+
+  context = {
+    relayEnvironment: environment,
+    localeBundles: [],
+    localStorage: createInMemoryStorage(),
+    sessionStorage: createInMemoryStorage(),
+    rest: new RestClient("http://localhost/api"),
+    postMessage: new PostMessageService(),
+  };
+
+  testRenderer = TestRenderer.create(
+    <TalkContextProvider value={context}>
+      <AppContainer />
+    </TalkContextProvider>
+  );
+
+  form = testRenderer.root.findByType("form");
+});
 
 it("renders sign up form", async () => {
   expect(testRenderer.toJSON()).toMatchSnapshot();
@@ -52,6 +60,7 @@ it("checks for invalid email", async () => {
   form
     .find(inputPredicate("email"))
     .props.onChange({ target: { value: "invalid-email" } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
@@ -59,6 +68,7 @@ it("accepts valid email", async () => {
   form
     .find(inputPredicate("email"))
     .props.onChange({ target: { value: "hans@test.com" } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
@@ -66,6 +76,7 @@ it("checks for too short username", async () => {
   form
     .find(inputPredicate("username"))
     .props.onChange({ target: { value: "u" } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
@@ -73,6 +84,7 @@ it("checks for too long username", async () => {
   form
     .find(inputPredicate("username"))
     .props.onChange({ target: { value: "a".repeat(100) } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
@@ -80,6 +92,7 @@ it("checks for invalid characters in username", async () => {
   form
     .find(inputPredicate("username"))
     .props.onChange({ target: { value: "$%$§$%$§%" } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
@@ -87,6 +100,7 @@ it("accepts valid username", async () => {
   form
     .find(inputPredicate("username"))
     .props.onChange({ target: { value: "hans" } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
@@ -94,6 +108,7 @@ it("checks for too short password", async () => {
   form
     .find(inputPredicate("password"))
     .props.onChange({ target: { value: "pass" } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
@@ -101,6 +116,7 @@ it("accepts correct password", async () => {
   form
     .find(inputPredicate("password"))
     .props.onChange({ target: { value: "testtest" } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
@@ -108,6 +124,7 @@ it("checks for wrong password confirmation", async () => {
   form
     .find(inputPredicate("confirmPassword"))
     .props.onChange({ target: { value: "not-matching" } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
@@ -115,10 +132,24 @@ it("accepts correct password confirmation", async () => {
   form
     .find(inputPredicate("confirmPassword"))
     .props.onChange({ target: { value: "testtest" } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
 it("shows server error", async () => {
+  form
+    .find(inputPredicate("email"))
+    .props.onChange({ target: { value: "hans@test.com" } });
+  form
+    .find(inputPredicate("username"))
+    .props.onChange({ target: { value: "hans" } });
+  form
+    .find(inputPredicate("password"))
+    .props.onChange({ target: { value: "testtest" } });
+  form
+    .find(inputPredicate("confirmPassword"))
+    .props.onChange({ target: { value: "testtest" } });
+
   const windowMock = sinon.mock(window);
   windowMock.expects("resizeTo");
 
@@ -155,6 +186,19 @@ it("shows server error", async () => {
 });
 
 it("submits form successfully", async () => {
+  form
+    .find(inputPredicate("email"))
+    .props.onChange({ target: { value: "hans@test.com" } });
+  form
+    .find(inputPredicate("username"))
+    .props.onChange({ target: { value: "hans" } });
+  form
+    .find(inputPredicate("password"))
+    .props.onChange({ target: { value: "testtest" } });
+  form
+    .find(inputPredicate("confirmPassword"))
+    .props.onChange({ target: { value: "testtest" } });
+
   const windowMock = sinon.mock(window);
   windowMock.expects("close").once();
   windowMock.expects("resizeTo");

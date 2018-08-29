@@ -25,14 +25,27 @@ exports[`accepts correct password 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -155,6 +168,7 @@ exports[`accepts valid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -249,6 +263,7 @@ exports[`checks for invalid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -279,6 +294,7 @@ exports[`checks for invalid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -473,6 +489,7 @@ exports[`shows error when submitting empty form 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -503,6 +520,7 @@ exports[`shows error when submitting empty form 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -781,11 +799,6 @@ exports[`submits form successfully 1`] = `
       >
         Sign in to join the conversation
       </h1>
-      <div
-        className="CallOut-root CallOut-colorError CallOut-fullWidth"
-      >
-        Server Error
-      </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
