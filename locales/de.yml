@@ -218,6 +218,7 @@ de:
   embed_comments_tab: Kommentare
   embedlink:
     copy: 'In die Zwischenablage kopieren'
+    copied: 'Kopiert'
   error:
     ALREADY_EXISTS: 'Ressource existiert bereits'
     CANNOT_IGNORE_STAFF: 'Mitarbeiter können nicht ignoriert werden.'
