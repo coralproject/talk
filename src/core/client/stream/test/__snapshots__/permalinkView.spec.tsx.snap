@@ -21,7 +21,7 @@ exports[`renders permalink view 1`] = `
       target="_parent"
       type="button"
     >
-      Show all Comments
+      Show all comments
     </a>
     <div
       className="Comment-root"
@@ -116,6 +116,7 @@ exports[`show all comments 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Bold"
                   type="button"
                 >
                   <span
@@ -129,6 +130,7 @@ exports[`show all comments 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Italic"
                   type="button"
                 >
                   <span
@@ -142,6 +144,7 @@ exports[`show all comments 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Blockquote"
                   type="button"
                 >
                   <span

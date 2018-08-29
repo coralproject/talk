@@ -21,7 +21,7 @@ exports[`renders permalink view with unknown comment 1`] = `
       target="_parent"
       type="button"
     >
-      Show all Comments
+      Show all comments
     </a>
     <p
       className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
@@ -89,6 +89,7 @@ exports[`show all comments 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Bold"
                   type="button"
                 >
                   <span
@@ -102,6 +103,7 @@ exports[`show all comments 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Italic"
                   type="button"
                 >
                   <span
@@ -115,6 +117,7 @@ exports[`show all comments 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Blockquote"
                   type="button"
                 >
                   <span

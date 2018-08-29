@@ -57,6 +57,7 @@ exports[`renders comment stream 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Bold"
                   type="button"
                 >
                   <span
@@ -70,6 +71,7 @@ exports[`renders comment stream 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Italic"
                   type="button"
                 >
                   <span
@@ -83,6 +85,7 @@ exports[`renders comment stream 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Blockquote"
                   type="button"
                 >
                   <span
@@ -231,7 +234,7 @@ exports[`renders comment stream 1`] = `
               onTouchEnd={[Function]}
               type="button"
             >
-              Show All Replies
+              Show all
             </button>
           </div>
         </div>
@@ -298,6 +301,7 @@ exports[`show all replies 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Bold"
                   type="button"
                 >
                   <span
@@ -311,6 +315,7 @@ exports[`show all replies 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Italic"
                   type="button"
                 >
                   <span
@@ -324,6 +329,7 @@ exports[`show all replies 1`] = `
                   className="Button-button"
                   disabled={false}
                   onClick={[Function]}
+                  title="Blockquote"
                   type="button"
                 >
                   <span

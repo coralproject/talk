@@ -94,7 +94,7 @@ exports[`accepts correct password 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -157,8 +157,23 @@ exports[`accepts correct password 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -260,7 +275,7 @@ exports[`accepts correct password confirmation 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -336,8 +351,23 @@ exports[`accepts correct password confirmation 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -426,7 +456,7 @@ exports[`accepts valid email 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -502,8 +532,23 @@ exports[`accepts valid email 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -592,7 +637,7 @@ exports[`accepts valid username 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -668,8 +713,23 @@ exports[`accepts valid username 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -771,7 +831,7 @@ exports[`checks for invalid characters in username 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -847,8 +907,23 @@ exports[`checks for invalid characters in username 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -950,7 +1025,7 @@ exports[`checks for invalid email 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1026,8 +1101,23 @@ exports[`checks for invalid email 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -1114,7 +1204,7 @@ exports[`checks for too long username 1`] = `
             warning
           </span>
           <span>
-            Usernames cannot be longer than {$maxLength} characters.
+            Usernames cannot be longer than ⁨20⁩ characters.
           </span>
         </div>
       </div>
@@ -1129,7 +1219,7 @@ exports[`checks for too long username 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1205,8 +1295,23 @@ exports[`checks for too long username 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -1308,7 +1413,7 @@ exports[`checks for too short password 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1329,7 +1434,7 @@ exports[`checks for too short password 1`] = `
             warning
           </span>
           <span>
-            Password must contain at least {$minLength} characters.
+            Password must contain at least ⁨8⁩ characters.
           </span>
         </div>
       </div>
@@ -1384,8 +1489,23 @@ exports[`checks for too short password 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -1472,7 +1592,7 @@ exports[`checks for too short username 1`] = `
             warning
           </span>
           <span>
-            Usernames must contain at least {$minLength} characters.
+            Username must contain at least ⁨3⁩ characters.
           </span>
         </div>
       </div>
@@ -1487,7 +1607,7 @@ exports[`checks for too short username 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1563,8 +1683,23 @@ exports[`checks for too short username 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -1666,7 +1801,7 @@ exports[`checks for wrong password confirmation 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1742,8 +1877,23 @@ exports[`checks for wrong password confirmation 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -1819,7 +1969,7 @@ exports[`renders sign up form 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -1869,8 +2019,23 @@ exports[`renders sign up form 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -1972,7 +2137,7 @@ exports[`shows error when submitting empty form 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -2048,8 +2213,23 @@ exports[`shows error when submitting empty form 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -2125,7 +2305,7 @@ exports[`shows server error 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -2175,8 +2355,23 @@ exports[`shows server error 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
+            disabled={true}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -2257,7 +2452,7 @@ exports[`shows server error 2`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -2307,8 +2502,23 @@ exports[`shows server error 2`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -2384,7 +2594,7 @@ exports[`submits form successfully 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -2434,8 +2644,23 @@ exports[`submits form successfully 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
+            disabled={true}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -2511,7 +2736,7 @@ exports[`submits form successfully 2`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -2561,8 +2786,23 @@ exports[`submits form successfully 2`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
