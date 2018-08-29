@@ -49,6 +49,8 @@ en:
   comment_singular: Comment
   common:
     copy: Copy
+    copied: 'Copied'
+    notsupported: 'Not supported'
     error: 'An error has occurred.'
     reaction: reaction
     reactions: reactions

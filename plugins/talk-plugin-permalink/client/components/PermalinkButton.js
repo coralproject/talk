@@ -106,8 +106,8 @@ export default class PermalinkButton extends React.Component {
               ])}
             >
               {!copyFailure && !copySuccessful && t('common.copy')}
-              {copySuccessful && t('embedlink.copied')}
-              {copyFailure && 'Not supported'}
+              {copySuccessful && t('common.copied')}
+              {copyFailure && t('common.notsupported')}
             </Button>
           </div>
         </div>
