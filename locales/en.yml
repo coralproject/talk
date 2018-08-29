@@ -49,6 +49,8 @@ en:
   comment_singular: Comment
   common:
     copy: Copy
+    copied: 'Copied'
+    notsupported: 'Not supported'
     error: 'An error has occurred.'
     reaction: reaction
     reactions: reactions
@@ -144,6 +146,7 @@ en:
     organization_info_copy_2: 'We recommend creating a generic email account (eg. community@yournewsroom.com) for this purpose. This means it can remain consistent over time, and doesn''t expose a name that users could target if their account were blocked.'
     organization_information: 'Organization Information'
     organization_name: 'Organization Name'
+    suspect_or_forbidden_words_placeholder: 'Word or phrase'
     product_guide_link: 'Product Guide'
     report_bug_or_feedback: 'Report a bug or give feedback'
     require_email_verification: 'Require Email Verification'
@@ -219,6 +222,7 @@ en:
   embed_comments_tab: Comments
   embedlink:
     copy: 'Copy to Clipboard'
+    copied: 'Copied'
   error:
     ALREADY_EXISTS: 'Resource already exists'
     AUTHENTICATION: 'An error occurred trying to authenticate your account.'
@@ -249,6 +253,7 @@ en:
     organization_contact_email: 'Organization email is not valid.'
     organization_name: 'Organization name must only contain letters or numbers.'
     password: 'Password must be at least 8 characters'
+    PAGE_NOT_AVAILABLE_ROLE: 'This page is for team use only. Please contact an administrator if you want to join this team.' 
     PASSWORD_INCORRECT: 'Your current password was entered incorrectly'
     PASSWORD_LENGTH: 'Password is too short'
     PASSWORD_REQUIRED: 'Must input a password'
@@ -359,6 +364,7 @@ en:
     sign_in_button: 'Sign Inx'
     sign_in_message: 'Sign in to interact with your community.'
     password: Password
+    reset_password_send_button: 'Retrieve Password'
     request_passowrd: 'Request a new one.'
     team_sign_in: 'Team sign in'
   marketing: 'This looks like an ad/marketing'
@@ -372,6 +378,7 @@ en:
     approve: Approve
     approved: Approved
     ban_user: Ban
+    ban_user_actions: 'Ban User'
     billion: B
     close: Close
     empty_queue: 'No more comments to moderate! You''re all caught up. Go have some ☕️'
@@ -406,6 +413,7 @@ en:
     show_shortcuts: 'Show Shortcuts'
     singleview: 'Zen mode'
     sort: Sort
+    suspend: 'Suspend User'
     system_withheld: 'System Withheld'
     thismenu: 'Open this menu'
     thousand: k
@@ -560,3 +568,6 @@ en:
   your_account_has_been_banned: 'Your account has been banned.'
   your_account_has_been_suspended: 'Your account has been temporarily suspended.'
   your_username_has_been_rejected: 'Your account has been suspended because your username has been deemed inappropriate. To restore your account please enter a new username.'
+
+
+  
