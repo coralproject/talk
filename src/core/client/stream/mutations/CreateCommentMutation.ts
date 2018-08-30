@@ -9,13 +9,10 @@ import {
 } from "talk-framework/lib/relay";
 import { Omit } from "talk-framework/types";
 
-import {
-  CreateCommentMutationResponse,
-  CreateCommentMutationVariables,
-} from "talk-stream/__generated__/CreateCommentMutation.graphql";
+import { CreateCommentMutation } from "talk-stream/__generated__/CreateCommentMutation.graphql";
 
 export type CreateCommentInput = Omit<
-  CreateCommentMutationVariables["input"],
+  CreateCommentMutation["variables"]["input"],
   "clientMutationId"
 >;
 
@@ -26,8 +23,12 @@ const mutation = graphql`
         cursor
         node {
           id
-          ...CommentContainer
-          ...ReplyListContainer_comment
+          author {
+            id
+            username
+          }
+          body
+          createdAt
         }
       }
       clientMutationId
@@ -40,10 +41,7 @@ let clientMutationId = 0;
 function commit(environment: Environment, input: CreateCommentInput) {
   const me = getMe(environment)!;
   const currentDate = new Date().toISOString();
-  return commitMutationPromiseNormalized<
-    CreateCommentMutationResponse["createComment"],
-    CreateCommentMutationVariables
-  >(environment, {
+  return commitMutationPromiseNormalized<CreateCommentMutation>(environment, {
     mutation,
     variables: {
       input: {
@@ -63,14 +61,6 @@ function commit(environment: Environment, input: CreateCommentInput) {
               username: me.username,
             },
             body: input.body,
-            replies: {
-              edges: [],
-              pageInfo: {
-                endCursor: null,
-                hasNextPage: false,
-              },
-            },
-            __typename: "Comment",
           },
         },
         clientMutationId: (clientMutationId++).toString(),
@@ -100,4 +90,4 @@ export const withCreateCommentMutation = createMutationContainer(
 
 export type CreateCommentMutation = (
   input: CreateCommentInput
-) => Promise<CreateCommentMutationResponse["createComment"]>;
+) => Promise<CreateCommentMutation["response"]["createComment"]>;

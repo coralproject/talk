@@ -577,7 +577,7 @@ type Comment {
   """
   createdAt is the date in which the comment was created.
   """
-  createdAt: Time
+  createdAt: Time!
 
   """
   author is the User that authored the Comment.

@@ -1,7 +1,3 @@
-declare module "relay-runtime" {
-  export const ROOT_ID: string;
-}
-
 import { Environment, ROOT_ID } from "relay-runtime";
 
 export default function getMe(environment: Environment) {

@@ -76,7 +76,7 @@
     "@babel/polyfill": "7.0.0-beta.49",
     "@babel/preset-env": "7.0.0-beta.49",
     "@babel/preset-react": "7.0.0-beta.49",
-    "@coralproject/rte": "^0.10.6",
+    "@coralproject/rte": "^0.10.9",
     "@types/bcryptjs": "^2.4.1",
     "@types/bunyan": "^1.8.4",
     "@types/case-sensitive-paths-webpack-plugin": "^2.1.2",

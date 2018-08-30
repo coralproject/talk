@@ -20,6 +20,7 @@ it("renders correctly", () => {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
       },
     },
+    user: null,
     relay: {
       hasMore: noop,
       isLoading: noop,
@@ -39,6 +40,7 @@ describe("when has more comments", () => {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
       },
     },
+    user: null,
     relay: {
       hasMore: () => true,
       isLoading: () => false,

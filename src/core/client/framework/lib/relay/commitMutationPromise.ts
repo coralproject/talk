@@ -1,5 +1,5 @@
 import { commitMutation } from "react-relay";
-import { Environment, MutationConfig } from "relay-runtime";
+import { Environment, MutationConfig, OperationBase } from "relay-runtime";
 
 import { Omit } from "talk-framework/types";
 
@@ -7,8 +7,8 @@ import { Omit } from "talk-framework/types";
  * Like `MutationConfig` but omits `onCompleted` and `onError`
  * because we are going to use a Promise API.
  */
-export type MutationPromiseConfig<T, U> = Omit<
-  MutationConfig<T, U>,
+export type MutationPromiseConfig<T extends OperationBase> = Omit<
+  MutationConfig<T>,
   "onCompleted" | "onError"
 >;
 
@@ -27,10 +27,10 @@ function getPayload(response: { [key: string]: any }): any {
  * and errors are wrapped inside of application specific
  * error instances.
  */
-export async function commitMutationPromiseNormalized<R, V>(
+export async function commitMutationPromiseNormalized<T extends OperationBase>(
   environment: Environment,
-  config: MutationPromiseConfig<R, V>
-): Promise<R> {
+  config: MutationPromiseConfig<T>
+): Promise<T["response"][keyof T["response"]]> {
   try {
     const response = await commitMutationPromise(environment, config);
     return getPayload(response);
@@ -42,10 +42,10 @@ export async function commitMutationPromiseNormalized<R, V>(
 /**
  * Like `commitMutation` of the Relay API but returns a Promise.
  */
-export function commitMutationPromise<R, V>(
+export function commitMutationPromise<T extends OperationBase>(
   environment: Environment,
-  config: MutationPromiseConfig<R, V>
-): Promise<R> {
+  config: MutationPromiseConfig<T>
+): Promise<T["response"][keyof T["response"]]> {
   return new Promise((resolve, reject) => {
     commitMutation(environment, {
       ...config,
