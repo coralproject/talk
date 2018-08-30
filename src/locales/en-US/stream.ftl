@@ -2,6 +2,8 @@
 
 ## Comments Tab
 
+comments-streamQuery-assetNotFound = Asset not found
+
 comments-postCommentForm-submit = Submit
 comments-stream-loadMore = Load more
 comments-replyList-showAll = Show all

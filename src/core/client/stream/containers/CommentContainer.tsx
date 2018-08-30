@@ -28,7 +28,7 @@ export const CommentContainer: StatelessComponent<InnerProps> = props => {
   return <Comment {...rest} {...props.data} />;
 };
 
-const enhanced = withFragmentContainer<{ data: Data }>({
+const enhanced = withFragmentContainer<InnerProps>({
   data: graphql`
     fragment CommentContainer on Comment {
       ...CommentContainer_comment @relay(mask: false)

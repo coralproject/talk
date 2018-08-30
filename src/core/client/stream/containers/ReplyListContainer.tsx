@@ -67,7 +67,6 @@ interface FragmentVariables {
 }
 
 const enhanced = withPaginationContainer<
-  { comment: Data },
   InnerProps,
   FragmentVariables,
   ReplyListContainerPaginationQueryVariables

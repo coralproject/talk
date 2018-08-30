@@ -19,7 +19,7 @@ export const PermalinkContainer: StatelessComponent<InnerProps> = ({
   ) : null;
 };
 
-const enhanced = withLocalStateContainer<Local>(
+const enhanced = withLocalStateContainer(
   graphql`
     fragment PermalinkButtonContainerLocal on Local {
       assetURL

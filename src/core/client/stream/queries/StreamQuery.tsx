@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { ReadyState } from "react-relay";
 import {
@@ -23,6 +24,13 @@ export const render = ({
   }
 
   if (props) {
+    if (!props.asset) {
+      return (
+        <Localized id="comments-streamQuery-assetNotFound">
+          <div>Asset not found</div>
+        </Localized>
+      );
+    }
     return <StreamContainer asset={props.asset} user={props.me} />;
   }
 
@@ -54,7 +62,7 @@ const StreamQuery: StatelessComponent<InnerProps> = ({
   />
 );
 
-const enhanced = withLocalStateContainer<Local>(
+const enhanced = withLocalStateContainer(
   graphql`
     fragment StreamQueryLocal on Local {
       assetID

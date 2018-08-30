@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
 
+import { PropTypesOf } from "talk-framework/types";
 import { Button, HorizontalGutter } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
@@ -14,11 +15,14 @@ import * as styles from "./Stream.css";
 export interface StreamProps {
   assetID: string;
   isClosed?: boolean;
-  comments: ReadonlyArray<{ id: string }>;
+  comments: ReadonlyArray<
+    { id: string } & PropTypesOf<typeof CommentContainer>["data"] &
+      PropTypesOf<typeof ReplyListContainer>["comment"]
+  >;
   onLoadMore?: () => void;
   hasMore?: boolean;
   disableLoadMore?: boolean;
-  user: {} | null;
+  user: PropTypesOf<typeof UserBoxContainer>["user"] | null;
 }
 
 const Stream: StatelessComponent<StreamProps> = props => {

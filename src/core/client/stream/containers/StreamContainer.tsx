@@ -64,7 +64,6 @@ interface FragmentVariables {
 }
 
 const enhanced = withPaginationContainer<
-  { asset: AssetData; user: UserData | null },
   InnerProps,
   FragmentVariables,
   StreamContainerPaginationQueryVariables

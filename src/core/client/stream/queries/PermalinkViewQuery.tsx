@@ -48,7 +48,7 @@ const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
   />
 );
 
-const enhanced = withLocalStateContainer<Local>(
+const enhanced = withLocalStateContainer(
   graphql`
     fragment PermalinkViewQueryLocal on Local {
       commentID
