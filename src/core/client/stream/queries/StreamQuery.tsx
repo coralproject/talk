@@ -5,10 +5,7 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "talk-framework/lib/relay";
-import {
-  StreamQueryResponse,
-  StreamQueryVariables,
-} from "talk-stream/__generated__/StreamQuery.graphql";
+import { StreamQuery as QueryTypes } from "talk-stream/__generated__/StreamQuery.graphql";
 import { StreamQueryLocal as Local } from "talk-stream/__generated__/StreamQueryLocal.graphql";
 import { Spinner } from "talk-ui/components";
 import StreamContainer from "../containers/StreamContainer";
@@ -17,7 +14,10 @@ interface InnerProps {
   local: Local;
 }
 
-export const render = ({ error, props }: ReadyState<StreamQueryResponse>) => {
+export const render = ({
+  error,
+  props,
+}: ReadyState<QueryTypes["response"]>) => {
   if (error) {
     return <div>{error.message}</div>;
   }
@@ -32,7 +32,7 @@ export const render = ({ error, props }: ReadyState<StreamQueryResponse>) => {
 const StreamQuery: StatelessComponent<InnerProps> = ({
   local: { assetID, authRevision },
 }) => (
-  <QueryRenderer<StreamQueryVariables, StreamQueryResponse>
+  <QueryRenderer<QueryTypes>
     query={graphql`
       query StreamQuery($assetID: ID!, $authRevision: Int!) {
         asset(id: $assetID) {
@@ -47,7 +47,7 @@ const StreamQuery: StatelessComponent<InnerProps> = ({
       }
     `}
     variables={{
-      assetID,
+      assetID: assetID!,
       authRevision,
     }}
     render={render}

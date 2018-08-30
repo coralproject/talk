@@ -9,10 +9,10 @@ import {
 } from "talk-framework/lib/relay";
 import { Omit } from "talk-framework/types";
 
-import { CreateCommentMutation as CreateCommentType } from "talk-stream/__generated__/CreateCommentMutation.graphql";
+import { CreateCommentMutation as MutationTypes } from "talk-stream/__generated__/CreateCommentMutation.graphql";
 
 export type CreateCommentInput = Omit<
-  CreateCommentType["variables"]["input"],
+  MutationTypes["variables"]["input"],
   "clientMutationId"
 >;
 
@@ -41,7 +41,7 @@ let clientMutationId = 0;
 function commit(environment: Environment, input: CreateCommentInput) {
   const me = getMe(environment)!;
   const currentDate = new Date().toISOString();
-  return commitMutationPromiseNormalized<CreateCommentType>(environment, {
+  return commitMutationPromiseNormalized<MutationTypes>(environment, {
     mutation,
     variables: {
       input: {
@@ -90,4 +90,4 @@ export const withCreateCommentMutation = createMutationContainer(
 
 export type CreateCommentMutation = (
   input: CreateCommentInput
-) => Promise<CreateCommentType["response"]["createComment"]>;
+) => Promise<MutationTypes["response"]["createComment"]>;
