@@ -1,13 +1,14 @@
 import { Localized } from "fluent-react/compat";
 import React, { MouseEvent, StatelessComponent } from "react";
 
+import { PropTypesOf } from "talk-framework/types";
 import { Button, Typography } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
 import * as styles from "./PermalinkView.css";
 
 export interface PermalinkViewProps {
-  comment: {} | null;
+  comment: PropTypesOf<typeof CommentContainer>["data"] | null;
   showAllCommentsHref: string | null;
   onShowAllComments: (e: MouseEvent<any>) => void;
 }

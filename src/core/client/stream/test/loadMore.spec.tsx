@@ -1,12 +1,12 @@
 import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
-import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
 import { createInMemoryStorage } from "talk-framework/lib/storage";
+import { createSinonStub } from "talk-framework/testHelpers";
 import AppContainer from "talk-stream/containers/AppContainer";
 
 import createEnvironment from "./createEnvironment";
@@ -16,54 +16,55 @@ import { assets, comments } from "./fixtures";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
-  const connectionStub = sinon.stub().throws();
-  connectionStub.withArgs({ first: 5, orderBy: "CREATED_AT_DESC" }).returns({
-    edges: [
-      {
-        node: comments[0],
-        cursor: comments[0].createdAt,
-      },
-      {
-        node: comments[1],
-        cursor: comments[1].createdAt,
-      },
-    ],
-    pageInfo: {
-      endCursor: comments[1].createdAt,
-      hasNextPage: true,
-    },
-  });
-  connectionStub
-    .withArgs({
-      first: 10,
-      orderBy: "CREATED_AT_DESC",
-      after: comments[1].createdAt,
-    })
-    .returns({
-      edges: [
-        {
-          node: comments[2],
-          cursor: comments[2].createdAt,
-        },
-      ],
-      pageInfo: {
-        endCursor: comments[2].createdAt,
-        hasNextPage: false,
-      },
-    });
-
   const assetStub = {
     ...assets[0],
-    comments: connectionStub,
+    comments: createSinonStub(
+      s => s.throws(),
+      s =>
+        s.withArgs({ first: 5, orderBy: "CREATED_AT_DESC" }).returns({
+          edges: [
+            {
+              node: comments[0],
+              cursor: comments[0].createdAt,
+            },
+            {
+              node: comments[1],
+              cursor: comments[1].createdAt,
+            },
+          ],
+          pageInfo: {
+            endCursor: comments[1].createdAt,
+            hasNextPage: true,
+          },
+        }),
+      s =>
+        s
+          .withArgs({
+            first: 10,
+            orderBy: "CREATED_AT_DESC",
+            after: comments[1].createdAt,
+          })
+          .returns({
+            edges: [
+              {
+                node: comments[2],
+                cursor: comments[2].createdAt,
+              },
+            ],
+            pageInfo: {
+              endCursor: comments[2].createdAt,
+              hasNextPage: false,
+            },
+          })
+    ),
   };
 
   const resolvers = {
     Query: {
-      asset: sinon
-        .stub()
-        .throws()
-        .withArgs(undefined, { id: assetStub.id })
-        .returns(assetStub),
+      asset: createSinonStub(
+        s => s.throws(),
+        s => s.withArgs(undefined, { id: assetStub.id }).returns(assetStub)
+      ),
     },
   };
 

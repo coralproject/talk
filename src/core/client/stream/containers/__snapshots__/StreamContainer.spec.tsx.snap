@@ -16,6 +16,7 @@ exports[`renders correctly 1`] = `
   disableLoadMore={false}
   isClosed={false}
   onLoadMore={[Function]}
+  user={null}
 />
 `;
 
@@ -36,6 +37,7 @@ exports[`when has more comments renders hasMore 1`] = `
   hasMore={true}
   isClosed={false}
   onLoadMore={[Function]}
+  user={null}
 />
 `;
 
@@ -56,6 +58,7 @@ exports[`when has more comments when loading more disables load more button 1`] 
   hasMore={true}
   isClosed={false}
   onLoadMore={[Function]}
+  user={null}
 />
 `;
 
@@ -76,5 +79,6 @@ exports[`when has more comments when loading more enable load more button after 
   hasMore={true}
   isClosed={false}
   onLoadMore={[Function]}
+  user={null}
 />
 `;

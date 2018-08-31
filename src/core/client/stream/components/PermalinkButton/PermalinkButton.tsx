@@ -1,5 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React from "react";
+
 import { oncePerFrame } from "talk-common/utils";
 import {
   Button,

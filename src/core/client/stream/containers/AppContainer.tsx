@@ -16,7 +16,7 @@ const AppContainer: StatelessComponent<InnerProps> = ({
   return <App showPermalinkView={!!commentID} />;
 };
 
-const enhanced = withLocalStateContainer<Local>(
+const enhanced = withLocalStateContainer(
   graphql`
     fragment AppContainerLocal on Local {
       commentID

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, ReactNode } from "react";
 
 import { BadUserInputError } from "talk-framework/lib/errors";
 import { PropTypesOf } from "talk-framework/types";
@@ -11,6 +11,7 @@ import { CreateCommentMutation, withCreateCommentMutation } from "../mutations";
 interface InnerProps {
   createComment: CreateCommentMutation;
   assetID: string;
+  children?: ReactNode;
 }
 
 class PostCommentFormContainer extends Component<InnerProps> {
