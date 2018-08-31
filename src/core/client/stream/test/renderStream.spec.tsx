@@ -1,13 +1,13 @@
 import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
 import { RecordProxy } from "relay-runtime";
-import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
 import { createInMemoryStorage } from "talk-framework/lib/storage";
+import { createSinonStub } from "talk-framework/testHelpers";
 import AppContainer from "talk-stream/containers/AppContainer";
 
 import createEnvironment from "./createEnvironment";
@@ -19,11 +19,10 @@ let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const resolvers = {
     Query: {
-      asset: sinon
-        .stub()
-        .throws()
-        .withArgs(undefined, { id: assets[0].id })
-        .returns(assets[0]),
+      asset: createSinonStub(
+        s => s.throws(),
+        s => s.withArgs(undefined, { id: assets[0].id }).returns(assets[0])
+      ),
     },
   };
 

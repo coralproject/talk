@@ -8,6 +8,7 @@ import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
 import { createInMemoryStorage } from "talk-framework/lib/storage";
+import { createSinonStub } from "talk-framework/testHelpers";
 import AppContainer from "talk-stream/containers/AppContainer";
 
 import createEnvironment from "./createEnvironment";
@@ -38,16 +39,14 @@ beforeEach(() => {
 
   const resolvers = {
     Query: {
-      comment: sinon
-        .stub()
-        .throws()
-        .withArgs(undefined, { id: commentStub.id })
-        .returns(commentStub),
-      asset: sinon
-        .stub()
-        .throws()
-        .withArgs(undefined, { id: assetStub.id })
-        .returns(assetStub),
+      comment: createSinonStub(
+        s => s.throws(),
+        s => s.withArgs(undefined, { id: commentStub.id }).returns(commentStub)
+      ),
+      asset: createSinonStub(
+        s => s.throws(),
+        s => s.withArgs(undefined, { id: assetStub.id }).returns(assetStub)
+      ),
     },
   };
 
