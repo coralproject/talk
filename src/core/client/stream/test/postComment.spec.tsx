@@ -1,6 +1,7 @@
 import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
 import { RecordProxy } from "relay-runtime";
+import timekeeper from "timekeeper";
 
 import { timeout } from "talk-common/utils";
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
@@ -94,11 +95,13 @@ it("post a comment", async () => {
     .findByProps({ inputId: "comments-postCommentForm-field" })
     .props.onChange({ html: "<strong>Hello world!</strong>" });
 
+  timekeeper.travel(new Date("2018-07-06T18:24:00.000Z"));
   testRenderer.root
     .findByProps({ id: "comments-postCommentForm-form" })
     .props.onSubmit();
   // Test optimistic response.
   expect(testRenderer.toJSON()).toMatchSnapshot();
+  timekeeper.reset();
 
   // Wait for loading.
   await timeout();

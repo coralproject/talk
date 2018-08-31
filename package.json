@@ -209,6 +209,7 @@
     "simulant": "^0.2.2",
     "sinon": "^6.1.5",
     "style-loader": "^0.21.0",
+    "timekeeper": "^2.1.2",
     "ts-jest": "^23.0.0",
     "ts-loader": "^4.4.2",
     "ts-node": "^6.2.0",
