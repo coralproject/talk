@@ -46,7 +46,7 @@ beforeEach(() => {
                 node: {
                   id: "comment-x",
                   author: users[0],
-                  body: "<strong>Hello world</strong>",
+                  body: "<strong>Hello world! (from server)</strong>",
                   createdAt: "2018-07-06T18:24:00.000Z",
                 },
               },
@@ -97,8 +97,11 @@ it("post a comment", async () => {
   testRenderer.root
     .findByProps({ id: "comments-postCommentForm-form" })
     .props.onSubmit();
+  // Test optimistic response.
+  expect(testRenderer.toJSON()).toMatchSnapshot();
 
   // Wait for loading.
   await timeout();
+  // Test after server response.
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
