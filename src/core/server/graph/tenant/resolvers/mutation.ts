@@ -3,6 +3,7 @@ import { GQLMutationTypeResolver } from "talk-server/graph/tenant/schema/__gener
 const Mutation: GQLMutationTypeResolver<void> = {
   createComment: async (source, { input }, ctx) => {
     const comment = await ctx.mutators.Comment.create(input);
+    // TODO: (cvle) tell wyatt to take a look at this :-)
     return {
       commentEdge: {
         cursor: comment.created_at,
