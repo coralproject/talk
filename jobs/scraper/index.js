@@ -7,7 +7,7 @@ const fetch = require('node-fetch');
 const { merge } = require('lodash');
 const { version } = require('../../package.json');
 const { SCRAPER_HEADERS, SCRAPER_PROXY_URL } = require('../../config');
-const HttpsProxyAgent = require('https-proxy-agent');
+const ProxyAgent = require('proxy-agent');
 
 // Load the scraper with the rules.
 const metascraper = require('metascraper').load([
@@ -37,7 +37,7 @@ const headers = merge(
 );
 
 // Add proxy configuration if exists.
-const agent = SCRAPER_PROXY_URL ? new HttpsProxyAgent(SCRAPER_PROXY_URL) : null;
+const agent = SCRAPER_PROXY_URL ? new ProxyAgent(SCRAPER_PROXY_URL) : null;
 
 /**
  * Scrapes the given asset for metadata.
