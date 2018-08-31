@@ -5,6 +5,9 @@ import {
   GraphQLTaggedNode,
 } from "react-relay";
 import { InferableComponentEnhancerWithProps } from "recompose";
+import { wrapDisplayName } from "recompose";
+
+import hideForwardRef from "./hideForwardRef";
 import { FragmentKeysNoLocal } from "./types";
 
 /**
@@ -18,5 +21,10 @@ export default <T>(
 ): InferableComponentEnhancerWithProps<
   { [P in FragmentKeysNoLocal<T>]: T[P] },
   { [P in FragmentKeysNoLocal<T>]: FragmentOrRegularProp<T[P]> }
-> => (component: React.ComponentType<any>) =>
-  createFragmentContainer(component, fragmentSpec) as any;
+> => (component: React.ComponentType<any>) => {
+  const result = createFragmentContainer(component, fragmentSpec);
+  result.displayName = wrapDisplayName(component, "Relay");
+  // TODO: (cvle) We wrap this currently to hide the ForwardRef which is not
+  // well supported yet in enzyme.
+  return hideForwardRef(result) as any;
+};

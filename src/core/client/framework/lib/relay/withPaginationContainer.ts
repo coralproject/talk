@@ -5,8 +5,13 @@ import {
   GraphQLTaggedNode,
   RelayPaginationProp,
 } from "react-relay";
-import { InferableComponentEnhancerWithProps } from "recompose";
+import {
+  InferableComponentEnhancerWithProps,
+  wrapDisplayName,
+} from "recompose";
 import { Variables } from "relay-runtime";
+
+import hideForwardRef from "./hideForwardRef";
 import { FragmentKeysNoLocal } from "./types";
 
 // TODO: (cvle) at some point we might switch these to stock react-relay typings
@@ -44,5 +49,14 @@ export default <T, QueryVariables, FragmentVariables>(
 ): InferableComponentEnhancerWithProps<
   { [P in FragmentKeysNoLocal<T>]: T[P] } & { relay: RelayPaginationProp },
   { [P in FragmentKeysNoLocal<T>]: FragmentOrRegularProp<T[P]> }
-> => (component: React.ComponentType<any>) =>
-  createPaginationContainer(component, fragmentSpec, connectionConfig) as any;
+> => (component: React.ComponentType<any>) => {
+  const result = createPaginationContainer(
+    component,
+    fragmentSpec,
+    connectionConfig
+  );
+  result.displayName = wrapDisplayName(component, "Relay");
+  // TODO: (cvle) We wrap this currently to hide the ForwardRef which is not
+  // well supported yet in enzyme.
+  return hideForwardRef(result) as any;
+};
