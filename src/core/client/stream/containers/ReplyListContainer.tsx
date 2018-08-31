@@ -68,8 +68,8 @@ interface FragmentVariables {
 
 const enhanced = withPaginationContainer<
   InnerProps,
-  FragmentVariables,
-  ReplyListContainerPaginationQueryVariables
+  ReplyListContainerPaginationQueryVariables,
+  FragmentVariables
 >(
   {
     comment: graphql`
