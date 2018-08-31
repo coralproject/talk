@@ -3,6 +3,7 @@ export {
   CreateRelayEnvironmentParams,
 } from "./createRelayEnvironment";
 export { default as createFluentBundle } from "./createFluentBundle";
+export { default as createSinonStub } from "./createSinonStub";
 export {
   default as removeFragmentRefs,
   NoFragmentRefs,

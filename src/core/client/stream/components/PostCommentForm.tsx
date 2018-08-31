@@ -27,13 +27,21 @@ export interface PostCommentFormProps {
 const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
   <Form onSubmit={props.onSubmit}>
     {({ handleSubmit, submitting }) => (
-      <form autoComplete="off" onSubmit={handleSubmit} className={styles.root}>
+      <form
+        autoComplete="off"
+        onSubmit={handleSubmit}
+        className={styles.root}
+        id="comments-postCommentForm-form"
+      >
         <HorizontalGutter>
           <Field name="body" validate={required}>
             {({ input, meta }) => (
               <div>
                 <Localized id="comments-postCommentForm-rteLabel">
-                  <AriaInfo component="label" htmlFor="postCommentField">
+                  <AriaInfo
+                    component="label"
+                    htmlFor="comments-postCommentForm-field"
+                  >
                     Post a comment
                   </AriaInfo>
                 </Localized>
@@ -42,7 +50,7 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
                   attrs={{ placeholder: true }}
                 >
                   <RTE
-                    inputId="postCommentField"
+                    inputId="comments-postCommentForm-field"
                     onChange={({ html }) => input.onChange(html)}
                     value={input.value}
                     placeholder="Post a comment"
