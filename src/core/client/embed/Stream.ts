@@ -7,6 +7,7 @@ import {
   withClickEvent,
   withEventEmitter,
   withIOSSafariWidthWorkaround,
+  withPymStorage,
   withSetCommentID,
 } from "./decorators";
 import PymControl from "./PymControl";
@@ -29,6 +30,8 @@ export function createPymControl(config: CreatePymControlConfig) {
     withClickEvent,
     withSetCommentID,
     withEventEmitter(config.eventEmitter),
+    withPymStorage(localStorage, "localStorage"),
+    withPymStorage(sessionStorage, "sessionStorage"),
   ];
 
   const query = qs.stringify({

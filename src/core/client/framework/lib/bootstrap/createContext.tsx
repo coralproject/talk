@@ -8,6 +8,7 @@ import { Environment, Network, RecordSource, Store } from "relay-runtime";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import {
   createLocalStorage,
+  createPymStorage,
   createSessionStorage,
 } from "talk-framework/lib/storage";
 
@@ -116,8 +117,12 @@ export default async function createContext({
     registerClickFarAway,
     rest: new RestClient("/api", tokenGetter),
     postMessage: new PostMessageService(),
-    localStorage: createLocalStorage(),
-    sessionStorage: createSessionStorage(),
+    localStorage: pym
+      ? createPymStorage(pym, "localStorage")
+      : createLocalStorage(),
+    sessionStorage: pym
+      ? createPymStorage(pym, "sessionStorage")
+      : createSessionStorage(),
   };
 
   // Run custom initializations.
