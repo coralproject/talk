@@ -1,8 +1,8 @@
-import React from "react";
-import { StatelessComponent } from "react";
-import * as styles from "./Comment.css";
+import React, { ReactElement, StatelessComponent } from "react";
 
-import PermalinkButtonContainer from "../../containers/PermalinkButtonContainer";
+import { Flex } from "talk-ui/components";
+
+import * as styles from "./Comment.css";
 import HTMLContent from "./HTMLContent";
 import Timestamp from "./Timestamp";
 import TopBar from "./TopBar";
@@ -16,20 +16,21 @@ export interface CommentProps {
   } | null;
   body: string | null;
   createdAt: string;
+  footer?: ReactElement<any> | Array<ReactElement<any>>;
 }
 
 const Comment: StatelessComponent<CommentProps> = props => {
   return (
     <div role="article" className={styles.root}>
-      <TopBar>
+      <TopBar className={styles.topBar}>
         {props.author &&
           props.author.username && <Username>{props.author.username}</Username>}
         <Timestamp>{props.createdAt}</Timestamp>
       </TopBar>
       <HTMLContent>{props.body || ""}</HTMLContent>
-      <div className={styles.footer}>
-        <PermalinkButtonContainer commentID={props.id} />
-      </div>
+      <Flex className={styles.footer} direction="row" itemGutter="half">
+        {props.footer}
+      </Flex>
     </div>
   );
 };

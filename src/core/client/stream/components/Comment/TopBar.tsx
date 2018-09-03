@@ -4,15 +4,13 @@ import { StatelessComponent } from "react";
 
 import { Flex, MatchMedia } from "talk-ui/components";
 
-import * as styles from "./TopBar.css";
-
 export interface TopBarProps {
   className?: string;
   children: React.ReactNode;
 }
 
 const TopBar: StatelessComponent<TopBarProps> = props => {
-  const rootClassName = cn(styles.root, props.className);
+  const rootClassName = cn(props.className);
   return (
     <MatchMedia gtWidth="xs">
       {matches => (

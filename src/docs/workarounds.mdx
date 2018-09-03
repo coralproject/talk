@@ -87,7 +87,7 @@ const enhanced = withFragmentContainer<{ data: Data }>({
     fragment PermalinkViewContainerQuery on Query
       @argumentDefinitions(commentID: { type: "ID!" }) {
       comment(id: $commentID) {
-        ...CommentContainer
+        ...CommentContainer_comment
       }
     }
   `,

@@ -43,14 +43,14 @@ const StreamQuery: StatelessComponent<InnerProps> = ({
   <QueryRenderer<QueryTypes>
     query={graphql`
       query StreamQuery($assetID: ID!, $authRevision: Int!) {
-        asset(id: $assetID) {
-          ...StreamContainer_asset
-        }
         # authRevision is increment every time auth state has changed.
         # This is basically a cache invalidation and causes relay
         # to automatically update this query.
         me(clientAuthRevision: $authRevision) {
           ...StreamContainer_user
+        }
+        asset(id: $assetID) {
+          ...StreamContainer_asset
         }
       }
     `}

@@ -27,8 +27,7 @@ export class StreamContainer extends React.Component<InnerProps> {
     const comments = this.props.asset.comments.edges.map(edge => edge.node);
     return (
       <Stream
-        assetID={this.props.asset.id}
-        isClosed={this.props.asset.isClosed}
+        asset={this.props.asset}
         comments={comments}
         onLoadMore={this.loadMore}
         hasMore={this.props.relay.hasMore()}
@@ -83,11 +82,13 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               id
-              ...CommentContainer
+              ...CommentContainer_comment
               ...ReplyListContainer_comment
             }
           }
         }
+        ...CommentContainer_asset
+        ...ReplyListContainer_asset
       }
     `,
     user: graphql`

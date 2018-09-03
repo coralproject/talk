@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
 import { ReadyState } from "react-relay";
@@ -25,23 +26,36 @@ export const render = ({
     return <div>{error.message}</div>;
   }
   if (props) {
-    return <PermalinkViewContainer comment={props.comment} />;
+    if (!props.asset) {
+      return (
+        <Localized id="comments-permalinkViewQuery-assetNotFound">
+          <div>Asset not found</div>
+        </Localized>
+      );
+    }
+    return (
+      <PermalinkViewContainer comment={props.comment} asset={props.asset} />
+    );
   }
   return <Spinner />;
 };
 
 const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
-  local: { commentID },
+  local: { commentID, assetID },
 }) => (
   <QueryRenderer<QueryTypes>
     query={graphql`
-      query PermalinkViewQuery($commentID: ID!) {
+      query PermalinkViewQuery($commentID: ID!, $assetID: ID!) {
+        asset(id: $assetID) {
+          ...PermalinkViewContainer_asset
+        }
         comment(id: $commentID) {
           ...PermalinkViewContainer_comment
         }
       }
     `}
     variables={{
+      assetID: assetID!,
       commentID: commentID!,
     }}
     render={render}
@@ -51,6 +65,8 @@ const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
 const enhanced = withLocalStateContainer(
   graphql`
     fragment PermalinkViewQueryLocal on Local {
+      assetID
+      authRevision
       commentID
     }
   `

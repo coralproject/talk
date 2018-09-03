@@ -5,6 +5,7 @@ import { graphql } from "react-relay";
 import { withContext } from "talk-framework/lib/bootstrap";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 import { buildURL, parseURL } from "talk-framework/utils";
+import { PermalinkViewContainer_asset as AssetData } from "talk-stream/__generated__/PermalinkViewContainer_asset.graphql";
 import { PermalinkViewContainer_comment as CommentData } from "talk-stream/__generated__/PermalinkViewContainer_comment.graphql";
 import {
   SetCommentIDMutation,
@@ -15,6 +16,7 @@ import PermalinkView from "../components/PermalinkView";
 
 interface PermalinkViewContainerProps {
   comment: CommentData | null;
+  asset: AssetData;
   setCommentID: SetCommentIDMutation;
   pym: PymChild | undefined;
 }
@@ -37,9 +39,10 @@ class PermalinkViewContainer extends React.Component<
     return buildURL({ ...urlParts, search });
   }
   public render() {
-    const { comment } = this.props;
+    const { comment, asset } = this.props;
     return (
       <PermalinkView
+        asset={asset}
         comment={comment}
         showAllCommentsHref={this.getShowAllCommentsHref()}
         onShowAllComments={this.showAllComments}
@@ -53,9 +56,14 @@ const enhanced = withContext(ctx => ({
 }))(
   withSetCommentIDMutation(
     withFragmentContainer<PermalinkViewContainerProps>({
+      asset: graphql`
+        fragment PermalinkViewContainer_asset on Asset {
+          ...CommentContainer_asset
+        }
+      `,
       comment: graphql`
         fragment PermalinkViewContainer_comment on Comment {
-          ...CommentContainer
+          ...CommentContainer_comment
         }
       `,
     })(PermalinkViewContainer)
