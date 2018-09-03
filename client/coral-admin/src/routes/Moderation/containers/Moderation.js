@@ -486,11 +486,7 @@ const withModQueueQuery = withQuery(
       }
     `
     )}
-    ${
-      ''
-      /*
-     TODO: eventually we'll reintroduce counting..
-     Object.keys(queueConfig).map(
+    ${Object.keys(queueConfig).map(
       queue => `
       ${queue}Count: commentCount(query: {
         excludeDeleted: true,
@@ -512,8 +508,7 @@ const withModQueueQuery = withQuery(
         asset_id: $asset_id,
       })
     `
-    )*/
-    }
+    )}
     asset(id: $asset_id) @skip(if: $allAssets) {
       id
       title

@@ -139,10 +139,9 @@ class Moderation extends Component {
       key: queue,
       name: queueConfig[queue].name,
       icon: queueConfig[queue].icon,
+      count: root[`${queue}Count`],
       indicator:
         ['premod', 'reported'].includes(queue) && root[queue].nodes.length > 0,
-      // TODO: Eventually we'll reintroduce counting
-      // count: root[`${props.queue}Count`]
     }));
 
     const slotPassthrough = {
@@ -151,7 +150,6 @@ class Moderation extends Component {
       activeTab,
       handleCommentChange,
     };
-
     return (
       <div>
         <ModerationHeader

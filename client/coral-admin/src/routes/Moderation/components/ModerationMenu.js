@@ -5,6 +5,7 @@ import styles from './ModerationMenu.css';
 import { Icon } from 'coral-ui';
 import { Link } from 'react-router';
 import cn from 'classnames';
+import CountBadge from '../../../components/CountBadge';
 
 const ModerationMenu = ({ asset = {}, items, getModPath, activeTab }) => {
   return (
@@ -34,6 +35,7 @@ const ModerationMenu = ({ asset = {}, items, getModPath, activeTab }) => {
             >
               <Icon name={queue.icon} className={styles.tabIcon} /> {queue.name}{' '}
               {queue.indicator && <Indicator />}
+              <CountBadge count={queue.count} />
             </Link>
           ))}
         </div>
