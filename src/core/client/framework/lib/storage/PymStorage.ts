@@ -1,6 +1,20 @@
 import { Child, Parent } from "pym.js";
 import uuid from "uuid/v4";
-import { Storage } from "./interface";
+
+export interface PymStorage {
+  /**
+   * value = storage[key]
+   */
+  getItem(key: string): Promise<string | null>;
+  /**
+   * delete storage[key]
+   */
+  removeItem(key: string): Promise<void>;
+  /**
+   * storage[key] = value
+   */
+  setItem(key: string, value: string): Promise<void>;
+}
 
 type Pym = Child | Parent;
 
@@ -13,7 +27,7 @@ type Pym = Child | Parent;
 export default function createPymStorage(
   pym: Pym,
   type: "localStorage" | "sessionStorage"
-): Storage {
+): PymStorage {
   // A Map of requestID => {resolve, reject}
   const requests: Record<
     string,

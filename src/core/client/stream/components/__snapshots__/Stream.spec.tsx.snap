@@ -213,7 +213,7 @@ exports[`when use is logged in renders correctly 1`] = `
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
       user={Object {}}
     />
-    <withContext(createMutationContainer(PostCommentFormContainer))
+    <withContext(withContext(createMutationContainer(PostCommentFormContainer)))
       assetID="asset-id"
     />
   </withPropsOnChange(HorizontalGutter)>

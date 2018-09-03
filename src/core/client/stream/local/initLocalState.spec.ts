@@ -19,12 +19,14 @@ beforeEach(() => {
 });
 
 it("init local state", async () => {
-  initLocalState(environment, { localStorage: createInMemoryStorage() } as any);
+  await initLocalState(environment, {
+    localStorage: createInMemoryStorage(),
+  } as any);
   await timeout();
   expect(JSON.stringify(source.toJSON(), null, 2)).toMatchSnapshot();
 });
 
-it("set assetID from query", () => {
+it("set assetID from query", async () => {
   const assetID = "asset-id";
   const previousLocation = location.toString();
   const previousState = window.history.state;
@@ -33,12 +35,14 @@ it("set assetID from query", () => {
     document.title,
     `http://localhost/?assetID=${assetID}`
   );
-  initLocalState(environment, { localStorage: createInMemoryStorage() } as any);
+  await initLocalState(environment, {
+    localStorage: createInMemoryStorage(),
+  } as any);
   expect(source.get(LOCAL_ID)!.assetID).toBe(assetID);
   window.history.replaceState(previousState, document.title, previousLocation);
 });
 
-it("set commentID from query", () => {
+it("set commentID from query", async () => {
   const commentID = "comment-id";
   const previousLocation = location.toString();
   const previousState = window.history.state;
@@ -47,16 +51,18 @@ it("set commentID from query", () => {
     document.title,
     `http://localhost/?commentID=${commentID}`
   );
-  initLocalState(environment, { localStorage: createInMemoryStorage() } as any);
+  await initLocalState(environment, {
+    localStorage: createInMemoryStorage(),
+  } as any);
   expect(source.get(LOCAL_ID)!.commentID).toBe(commentID);
   window.history.replaceState(previousState, document.title, previousLocation);
 });
 
-it("set authToken from localStorage", () => {
+it("set authToken from localStorage", async () => {
   const authToken = "auth-token";
   const localStorage = createInMemoryStorage();
   localStorage.setItem("authToken", authToken);
-  initLocalState(environment, { localStorage } as any);
+  await initLocalState(environment, { localStorage } as any);
   expect(source.get(LOCAL_ID)!.authToken).toBe(authToken);
   localStorage.removeItem("authToken");
 });

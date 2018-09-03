@@ -117,12 +117,10 @@ export default async function createContext({
     registerClickFarAway,
     rest: new RestClient("/api", tokenGetter),
     postMessage: new PostMessageService(),
-    localStorage: pym
-      ? createPymStorage(pym, "localStorage")
-      : createLocalStorage(),
-    sessionStorage: pym
-      ? createPymStorage(pym, "sessionStorage")
-      : createSessionStorage(),
+    localStorage: createLocalStorage(),
+    sessionStorage: createSessionStorage(),
+    pymLocalStorage: pym && createPymStorage(pym, "localStorage"),
+    pymSessionStorage: pym && createPymStorage(pym, "sessionStorage"),
   };
 
   // Run custom initializations.

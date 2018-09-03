@@ -194,10 +194,10 @@ exports[`post a comment 1`] = `
             </span>
             <time
               className="Timestamp-root RelativeTime-root"
-              dateTime="2018-07-06T18:24:00.002Z"
-              title="2018-07-06T18:24:00.002Z"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
             >
-              2018-07-06T18:24:00.002Z
+              2018-07-06T18:24:00.000Z
             </time>
           </div>
           <div
