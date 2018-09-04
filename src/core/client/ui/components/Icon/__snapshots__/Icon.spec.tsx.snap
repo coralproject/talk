@@ -2,6 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <span
+  aria-hidden="true"
   className="Icon-root Icon-sm"
 >
   face
@@ -10,6 +11,7 @@ exports[`renders correctly 1`] = `
 
 exports[`renders correctly with specified size 1`] = `
 <span
+  aria-hidden="true"
   className="Icon-root Icon-lg"
 >
   bookmark

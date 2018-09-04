@@ -78,7 +78,7 @@ export class UserBoxContainer extends Component<InnerProps> {
 const enhanced = withSignOutMutation(
   withSetAuthPopupStateMutation(
     withShowAuthPopupMutation(
-      withLocalStateContainer<Local>(
+      withLocalStateContainer(
         graphql`
           fragment UserBoxContainerLocal on Local {
             authPopup {
@@ -89,7 +89,7 @@ const enhanced = withSignOutMutation(
           }
         `
       )(
-        withFragmentContainer<{ user: UserData | null }>({
+        withFragmentContainer<InnerProps>({
           user: graphql`
             fragment UserBoxContainer_user on User {
               username

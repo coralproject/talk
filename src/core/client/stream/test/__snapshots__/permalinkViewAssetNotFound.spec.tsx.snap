@@ -21,7 +21,7 @@ exports[`renders permalink view with unknown asset 1`] = `
       target="_parent"
       type="button"
     >
-      Show all Comments
+      Show all comments
     </a>
     <p
       className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"

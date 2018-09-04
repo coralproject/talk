@@ -23,7 +23,7 @@ export class ReplyListContainer extends React.Component<InnerProps> {
 
   public render() {
     if (
-      this.props.comment.replies === null ||
+      this.props.comment.replies == null ||
       this.props.comment.replies.edges.length === 0
     ) {
       return null;
@@ -67,10 +67,9 @@ interface FragmentVariables {
 }
 
 const enhanced = withPaginationContainer<
-  { comment: Data },
   InnerProps,
-  FragmentVariables,
-  ReplyListContainerPaginationQueryVariables
+  ReplyListContainerPaginationQueryVariables,
+  FragmentVariables
 >(
   {
     comment: graphql`

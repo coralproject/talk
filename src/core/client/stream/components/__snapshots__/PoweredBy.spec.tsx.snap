@@ -4,19 +4,22 @@ exports[`renders correctly 1`] = `
 <div
   className="custom"
 >
-  <withPropsOnChange(Typography)
-    color="textSecondary"
-    container="span"
-    variant="inputDescription"
+  <Localized
+    id="comments-poweredBy"
+    logo={
+      <withPropsOnChange(Typography)
+        container="span"
+        variant="heading4"
+      />
+    }
   >
-    Powered by
-  </withPropsOnChange(Typography)>
-   
-  <withPropsOnChange(Typography)
-    container="span"
-    variant="heading4"
-  >
-    The Coral Project
-  </withPropsOnChange(Typography)>
+    <withPropsOnChange(Typography)
+      color="textSecondary"
+      container="span"
+      variant="inputDescription"
+    >
+      Powered by &lt;logo&gt;The Coral Project&lt;/logo&gt;
+    </withPropsOnChange(Typography)>
+  </Localized>
 </div>
 `;

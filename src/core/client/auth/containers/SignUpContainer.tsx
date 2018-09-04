@@ -17,8 +17,8 @@ interface SignUpContainerProps {
 class SignUpContainer extends Component<SignUpContainerProps> {
   private onSubmit: SignUpForm["onSubmit"] = async (input, form) => {
     try {
-      return await this.props.signUp(input);
-      form.reset();
+      await this.props.signUp(input);
+      return form.reset();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }

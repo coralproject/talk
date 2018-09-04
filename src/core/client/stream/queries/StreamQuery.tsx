@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { ReadyState } from "react-relay";
 import {
@@ -5,10 +6,7 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "talk-framework/lib/relay";
-import {
-  StreamQueryResponse,
-  StreamQueryVariables,
-} from "talk-stream/__generated__/StreamQuery.graphql";
+import { StreamQuery as QueryTypes } from "talk-stream/__generated__/StreamQuery.graphql";
 import { StreamQueryLocal as Local } from "talk-stream/__generated__/StreamQueryLocal.graphql";
 import { Spinner } from "talk-ui/components";
 import StreamContainer from "../containers/StreamContainer";
@@ -17,12 +15,22 @@ interface InnerProps {
   local: Local;
 }
 
-export const render = ({ error, props }: ReadyState<StreamQueryResponse>) => {
+export const render = ({
+  error,
+  props,
+}: ReadyState<QueryTypes["response"]>) => {
   if (error) {
     return <div>{error.message}</div>;
   }
 
   if (props) {
+    if (!props.asset) {
+      return (
+        <Localized id="comments-streamQuery-assetNotFound">
+          <div>Asset not found</div>
+        </Localized>
+      );
+    }
     return <StreamContainer asset={props.asset} user={props.me} />;
   }
 
@@ -32,7 +40,7 @@ export const render = ({ error, props }: ReadyState<StreamQueryResponse>) => {
 const StreamQuery: StatelessComponent<InnerProps> = ({
   local: { assetID, authRevision },
 }) => (
-  <QueryRenderer<StreamQueryVariables, StreamQueryResponse>
+  <QueryRenderer<QueryTypes>
     query={graphql`
       query StreamQuery($assetID: ID!, $authRevision: Int!) {
         asset(id: $assetID) {
@@ -47,14 +55,14 @@ const StreamQuery: StatelessComponent<InnerProps> = ({
       }
     `}
     variables={{
-      assetID,
+      assetID: assetID!,
       authRevision,
     }}
     render={render}
   />
 );
 
-const enhanced = withLocalStateContainer<Local>(
+const enhanced = withLocalStateContainer(
   graphql`
     fragment StreamQueryLocal on Local {
       assetID

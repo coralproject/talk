@@ -25,14 +25,27 @@ exports[`accepts correct password 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -48,14 +61,27 @@ exports[`accepts correct password 1`] = `
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="username"
           onChange={[Function]}
           placeholder="Username"
           type="text"
-          value="hans"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -68,7 +94,7 @@ exports[`accepts correct password 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -101,6 +127,7 @@ exports[`accepts correct password 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -130,8 +157,23 @@ exports[`accepts correct password 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -164,14 +206,27 @@ exports[`accepts correct password confirmation 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -187,14 +242,27 @@ exports[`accepts correct password confirmation 1`] = `
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="username"
           onChange={[Function]}
           placeholder="Username"
           type="text"
-          value="hans"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -207,17 +275,30 @@ exports[`accepts correct password confirmation 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="password"
           onChange={[Function]}
           placeholder="Password"
           type="password"
-          value="testtest"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -228,7 +309,7 @@ exports[`accepts correct password confirmation 1`] = `
           Confirm Password
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="confirmPassword"
           onChange={[Function]}
@@ -236,6 +317,19 @@ exports[`accepts correct password confirmation 1`] = `
           type="password"
           value="testtest"
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            Passwords do not match. Try again.
+          </span>
+        </div>
       </div>
       <button
         className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
@@ -257,8 +351,23 @@ exports[`accepts correct password confirmation 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -326,6 +435,7 @@ exports[`accepts valid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -346,7 +456,7 @@ exports[`accepts valid email 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -361,6 +471,7 @@ exports[`accepts valid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -391,6 +502,7 @@ exports[`accepts valid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -420,8 +532,23 @@ exports[`accepts valid email 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -454,14 +581,27 @@ exports[`accepts valid username 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -497,7 +637,7 @@ exports[`accepts valid username 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -512,6 +652,7 @@ exports[`accepts valid username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -542,6 +683,7 @@ exports[`accepts valid username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -571,8 +713,23 @@ exports[`accepts valid username 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -605,14 +762,27 @@ exports[`checks for invalid characters in username 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -640,6 +810,7 @@ exports[`checks for invalid characters in username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -660,7 +831,7 @@ exports[`checks for invalid characters in username 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -675,6 +846,7 @@ exports[`checks for invalid characters in username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -705,6 +877,7 @@ exports[`checks for invalid characters in username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -734,8 +907,23 @@ exports[`checks for invalid characters in username 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -780,6 +968,7 @@ exports[`checks for invalid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -815,6 +1004,7 @@ exports[`checks for invalid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -835,7 +1025,7 @@ exports[`checks for invalid email 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -850,6 +1040,7 @@ exports[`checks for invalid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -880,6 +1071,7 @@ exports[`checks for invalid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -909,8 +1101,23 @@ exports[`checks for invalid email 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -943,14 +1150,27 @@ exports[`checks for too long username 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -978,12 +1198,13 @@ exports[`checks for too long username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
           </span>
           <span>
-            Usernames cannot be longer than {$maxLength} characters.
+            Usernames cannot be longer than ⁨20⁩ characters.
           </span>
         </div>
       </div>
@@ -998,7 +1219,7 @@ exports[`checks for too long username 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1013,6 +1234,7 @@ exports[`checks for too long username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1043,6 +1265,7 @@ exports[`checks for too long username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1072,8 +1295,23 @@ exports[`checks for too long username 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -1106,14 +1344,27 @@ exports[`checks for too short password 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1129,14 +1380,27 @@ exports[`checks for too short password 1`] = `
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="username"
           onChange={[Function]}
           placeholder="Username"
           type="text"
-          value="hans"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1149,7 +1413,7 @@ exports[`checks for too short password 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1164,12 +1428,13 @@ exports[`checks for too short password 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
           </span>
           <span>
-            Password must contain at least {$minLength} characters.
+            Password must contain at least ⁨8⁩ characters.
           </span>
         </div>
       </div>
@@ -1194,6 +1459,7 @@ exports[`checks for too short password 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1223,8 +1489,23 @@ exports[`checks for too short password 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -1257,14 +1538,27 @@ exports[`checks for too short username 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1292,12 +1586,13 @@ exports[`checks for too short username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
           </span>
           <span>
-            Usernames must contain at least {$minLength} characters.
+            Username must contain at least ⁨3⁩ characters.
           </span>
         </div>
       </div>
@@ -1312,7 +1607,7 @@ exports[`checks for too short username 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1327,6 +1622,7 @@ exports[`checks for too short username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1357,6 +1653,7 @@ exports[`checks for too short username 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1386,8 +1683,23 @@ exports[`checks for too short username 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -1420,14 +1732,27 @@ exports[`checks for wrong password confirmation 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1443,14 +1768,27 @@ exports[`checks for wrong password confirmation 1`] = `
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="username"
           onChange={[Function]}
           placeholder="Username"
           type="text"
-          value="hans"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1463,17 +1801,30 @@ exports[`checks for wrong password confirmation 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="password"
           onChange={[Function]}
           placeholder="Password"
           type="password"
-          value="testtest"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1496,6 +1847,7 @@ exports[`checks for wrong password confirmation 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1525,8 +1877,23 @@ exports[`checks for wrong password confirmation 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -1602,7 +1969,7 @@ exports[`renders sign up form 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -1652,8 +2019,23 @@ exports[`renders sign up form 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -1698,6 +2080,7 @@ exports[`shows error when submitting empty form 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1733,6 +2116,7 @@ exports[`shows error when submitting empty form 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1753,7 +2137,7 @@ exports[`shows error when submitting empty form 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1768,6 +2152,7 @@ exports[`shows error when submitting empty form 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1798,6 +2183,7 @@ exports[`shows error when submitting empty form 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -1827,8 +2213,23 @@ exports[`shows error when submitting empty form 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -1904,7 +2305,7 @@ exports[`shows server error 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -1954,8 +2355,23 @@ exports[`shows server error 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
+            disabled={true}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -2036,7 +2452,7 @@ exports[`shows server error 2`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -2086,8 +2502,23 @@ exports[`shows server error 2`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -2111,11 +2542,6 @@ exports[`submits form successfully 1`] = `
       >
         Sign up to join the conversation
       </h1>
-      <div
-        className="CallOut-root CallOut-colorError CallOut-fullWidth"
-      >
-        Server Error
-      </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
@@ -2168,7 +2594,7 @@ exports[`submits form successfully 1`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -2218,8 +2644,23 @@ exports[`submits form successfully 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
+            disabled={true}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>
@@ -2258,7 +2699,7 @@ exports[`submits form successfully 2`] = `
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
       </div>
       <div
@@ -2281,7 +2722,7 @@ exports[`submits form successfully 2`] = `
           onChange={[Function]}
           placeholder="Username"
           type="text"
-          value="hans"
+          value=""
         />
       </div>
       <div
@@ -2295,7 +2736,7 @@ exports[`submits form successfully 2`] = `
         <p
           className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
         >
-          Must be at least {$minLength} characters
+          Must be at least ⁨8⁩ characters
         </p>
         <input
           className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -2304,7 +2745,7 @@ exports[`submits form successfully 2`] = `
           onChange={[Function]}
           placeholder="Password"
           type="password"
-          value="testtest"
+          value=""
         />
       </div>
       <div
@@ -2322,7 +2763,7 @@ exports[`submits form successfully 2`] = `
           onChange={[Function]}
           placeholder="Confirm Password"
           type="password"
-          value="testtest"
+          value=""
         />
       </div>
       <button
@@ -2345,8 +2786,23 @@ exports[`submits form successfully 2`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Already have an account? &lt;button&gt;Sign In &lt;/button&gt;
+            Already have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </div>

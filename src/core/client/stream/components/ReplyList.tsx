@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
 
+import { PropTypesOf } from "talk-framework/types";
 import { Button, HorizontalGutter } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
@@ -9,7 +10,9 @@ import Indent from "./Indent";
 
 export interface ReplyListProps {
   commentID: string;
-  comments: ReadonlyArray<{ id: string }>;
+  comments: ReadonlyArray<
+    { id: string } & PropTypesOf<typeof CommentContainer>["data"]
+  >;
   onShowAll: () => void;
   hasMore: boolean;
   disableShowAll: boolean;

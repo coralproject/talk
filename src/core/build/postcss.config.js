@@ -37,7 +37,7 @@ const mediaQueryVariables = mapValues(
   // with the smallest screen and gradually add styling for the
   // next bigger screen. This is realized using `min-width` without
   // ever using `max-width`.
-  v => `${Number.parseInt(v) + 1}px`
+  v => `${Number.parseInt(v, 10) + 1}px`
 );
 
 module.exports = {

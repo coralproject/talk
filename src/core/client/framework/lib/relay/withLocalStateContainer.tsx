@@ -13,6 +13,7 @@ import {
   GraphQLTaggedNode,
 } from "relay-runtime";
 
+import { _RefType } from "react-relay";
 import { withContext } from "../bootstrap";
 
 interface Props {
@@ -35,9 +36,9 @@ export const LOCAL_ID = "client:root.local";
  * The `fragmentSpec` must be a `Fragment` on the `LOCAL_TYPE` which
  * must have the `LOCAL_ID`.
  */
-function withLocalStateContainer<T>(
+function withLocalStateContainer(
   fragmentSpec: GraphQLTaggedNode
-): InferableComponentEnhancer<{ local: T }> {
+): InferableComponentEnhancer<{ local: _RefType<any> }> {
   return compose(
     withContext(({ relayEnvironment }) => ({ relayEnvironment })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {

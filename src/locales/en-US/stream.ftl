@@ -2,6 +2,8 @@
 
 ## Comments Tab
 
+comments-streamQuery-assetNotFound = Asset not found
+
 comments-postCommentForm-submit = Submit
 comments-stream-loadMore = Load more
 comments-replyList-showAll = Show all
@@ -21,3 +23,24 @@ comments-userBoxAuthenticated-signedInAs =
 
 comments-userBoxAuthenticated-notYou =
   Not you? <button>Sign Out</button>
+
+comments-rte-bold =
+  .title = Bold
+
+comments-rte-italic =
+  .title = Italic
+
+comments-rte-blockquote =
+  .title = Blockquote
+
+comments-poweredBy = Powered by <logo>{ -brand-name }</logo>
+
+comments-postCommentFormFake-signInAndJoin = Sign in and join the conversation
+
+comments-postCommentForm-rteLabel = Post a comment
+
+comments-postCommentForm-rte =
+  .placeholder = { comments-postCommentForm-rteLabel }
+
+comments-postCommentFormFake-rte =
+  .placeholder = { comments-postCommentForm-rteLabel }

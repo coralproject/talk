@@ -25,7 +25,14 @@ interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
 const Icon: StatelessComponent<InnerProps> = props => {
   const { classes, className, size, forwardRef, ...rest } = props;
   const rootClassName = cn(classes.root, className, classes[size!]);
-  return <span className={rootClassName} {...rest} ref={forwardRef} />;
+  return (
+    <span
+      className={rootClassName}
+      aria-hidden="true"
+      {...rest}
+      ref={forwardRef}
+    />
+  );
 };
 
 Icon.defaultProps = {

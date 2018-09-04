@@ -43,11 +43,87 @@ exports[`renders comment stream 1`] = `
       <div
         className="HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
       >
-        <textarea
-          className="PostCommentFormFake-textarea"
-          disabled={true}
-          placeholder="Post a comment"
-        />
+        <div
+          aria-hidden="true"
+        >
+          <div>
+            <div
+              className=""
+            >
+              <div
+                className=" RTE-toolbarDisabled Toolbar-toolbar"
+              >
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Bold"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    format_bold
+                  </span>
+                </button>
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Italic"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    format_italic
+                  </span>
+                </button>
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Blockquote"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    format_quote
+                  </span>
+                </button>
+              </div>
+              <div
+                aria-hidden="true"
+                className="RTE-placeholder RTE-placeholder "
+              >
+                Post a comment
+              </div>
+              <div
+                aria-placeholder="Post a comment"
+                className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
+                contentEditable={false}
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "",
+                  }
+                }
+                disabled={true}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onCut={[Function]}
+                onFocus={[Function]}
+                onInput={[Function]}
+                onKeyDown={[Function]}
+                onPaste={[Function]}
+                onSelect={[Function]}
+              />
+            </div>
+          </div>
+        </div>
         <button
           className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
           disabled={true}
@@ -92,11 +168,14 @@ exports[`renders comment stream 1`] = `
               2018-07-06T18:24:00.000Z
             </time>
           </div>
-          <p
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Joining Too
-          </p>
+          <div
+            className="HTMLContent-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Joining Too",
+              }
+            }
+          />
           <div
             className="Comment-footer"
           />
@@ -129,11 +208,14 @@ exports[`renders comment stream 1`] = `
                   2018-07-06T18:20:00.000Z
                 </time>
               </div>
-              <p
-                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-              >
-                What's up?
-              </p>
+              <div
+                className="HTMLContent-root"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "What's up?",
+                  }
+                }
+              />
               <div
                 className="Comment-footer"
               />
@@ -152,7 +234,7 @@ exports[`renders comment stream 1`] = `
               onTouchEnd={[Function]}
               type="button"
             >
-              Show All Replies
+              Show all
             </button>
           </div>
         </div>
@@ -205,11 +287,87 @@ exports[`show all replies 1`] = `
       <div
         className="HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
       >
-        <textarea
-          className="PostCommentFormFake-textarea"
-          disabled={true}
-          placeholder="Post a comment"
-        />
+        <div
+          aria-hidden="true"
+        >
+          <div>
+            <div
+              className=""
+            >
+              <div
+                className=" RTE-toolbarDisabled Toolbar-toolbar"
+              >
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Bold"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    format_bold
+                  </span>
+                </button>
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Italic"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    format_italic
+                  </span>
+                </button>
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Blockquote"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    format_quote
+                  </span>
+                </button>
+              </div>
+              <div
+                aria-hidden="true"
+                className="RTE-placeholder RTE-placeholder "
+              >
+                Post a comment
+              </div>
+              <div
+                aria-placeholder="Post a comment"
+                className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
+                contentEditable={false}
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "",
+                  }
+                }
+                disabled={true}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onCut={[Function]}
+                onFocus={[Function]}
+                onInput={[Function]}
+                onKeyDown={[Function]}
+                onPaste={[Function]}
+                onSelect={[Function]}
+              />
+            </div>
+          </div>
+        </div>
         <button
           className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
           disabled={true}
@@ -254,11 +412,14 @@ exports[`show all replies 1`] = `
               2018-07-06T18:24:00.000Z
             </time>
           </div>
-          <p
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Joining Too
-          </p>
+          <div
+            className="HTMLContent-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Joining Too",
+              }
+            }
+          />
           <div
             className="Comment-footer"
           />
@@ -291,11 +452,14 @@ exports[`show all replies 1`] = `
                   2018-07-06T18:20:00.000Z
                 </time>
               </div>
-              <p
-                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-              >
-                What's up?
-              </p>
+              <div
+                className="HTMLContent-root"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "What's up?",
+                  }
+                }
+              />
               <div
                 className="Comment-footer"
               />
@@ -320,11 +484,14 @@ exports[`show all replies 1`] = `
                   2018-07-06T18:14:00.000Z
                 </time>
               </div>
-              <p
-                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-              >
-                Hey!
-              </p>
+              <div
+                className="HTMLContent-root"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "Hey!",
+                  }
+                }
+              />
               <div
                 className="Comment-footer"
               />

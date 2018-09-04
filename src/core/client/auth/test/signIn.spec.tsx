@@ -1,5 +1,8 @@
 import React from "react";
-import TestRenderer, { ReactTestInstance } from "react-test-renderer";
+import TestRenderer, {
+  ReactTestInstance,
+  ReactTestRenderer,
+} from "react-test-renderer";
 import { RecordProxy } from "relay-runtime";
 import sinon from "sinon";
 
@@ -11,33 +14,38 @@ import { RestClient } from "talk-framework/lib/rest";
 import { createInMemoryStorage } from "talk-framework/lib/storage";
 
 import createEnvironment from "./createEnvironment";
-
-const environment = createEnvironment({
-  initLocalState: (localRecord: RecordProxy) => {
-    localRecord.setValue("SIGN_IN", "view");
-  },
-});
-
-const context: TalkContext = {
-  relayEnvironment: environment,
-  localeBundles: [],
-  localStorage: createInMemoryStorage(),
-  sessionStorage: createInMemoryStorage(),
-  rest: new RestClient("http://localhost/api"),
-  postMessage: new PostMessageService(),
-};
-
-const testRenderer = TestRenderer.create(
-  <TalkContextProvider value={context}>
-    <AppContainer />
-  </TalkContextProvider>
-);
+import createFluentBundle from "./createFluentBundle";
 
 const inputPredicate = (name: string) => (n: ReactTestInstance) => {
   return n.props.name === name && n.props.onChange;
 };
 
-const form = testRenderer.root.findByType("form");
+let context: TalkContext;
+let testRenderer: ReactTestRenderer;
+let form: ReactTestInstance;
+beforeEach(() => {
+  const environment = createEnvironment({
+    initLocalState: (localRecord: RecordProxy) => {
+      localRecord.setValue("SIGN_IN", "view");
+    },
+  });
+
+  context = {
+    relayEnvironment: environment,
+    localeBundles: [createFluentBundle()],
+    localStorage: createInMemoryStorage(),
+    sessionStorage: createInMemoryStorage(),
+    rest: new RestClient("http://localhost/api"),
+    postMessage: new PostMessageService(),
+  };
+
+  testRenderer = TestRenderer.create(
+    <TalkContextProvider value={context}>
+      <AppContainer />
+    </TalkContextProvider>
+  );
+  form = testRenderer.root.findByType("form");
+});
 
 it("renders sign in form", async () => {
   expect(testRenderer.toJSON()).toMatchSnapshot();
@@ -52,6 +60,7 @@ it("checks for invalid email", async () => {
   form
     .find(inputPredicate("email"))
     .props.onChange({ target: { value: "invalid-email" } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
@@ -59,6 +68,7 @@ it("accepts valid email", async () => {
   form
     .find(inputPredicate("email"))
     .props.onChange({ target: { value: "hans@test.com" } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
@@ -66,10 +76,18 @@ it("accepts correct password", async () => {
   form
     .find(inputPredicate("password"))
     .props.onChange({ target: { value: "testtest" } });
+  form.props.onSubmit();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
 it("shows server error", async () => {
+  form
+    .find(inputPredicate("email"))
+    .props.onChange({ target: { value: "hans@test.com" } });
+  form
+    .find(inputPredicate("password"))
+    .props.onChange({ target: { value: "testtest" } });
+
   const windowMock = sinon.mock(window);
   windowMock.expects("resizeTo");
 
@@ -105,6 +123,13 @@ it("shows server error", async () => {
 });
 
 it("submits form successfully", async () => {
+  form
+    .find(inputPredicate("email"))
+    .props.onChange({ target: { value: "hans@test.com" } });
+  form
+    .find(inputPredicate("password"))
+    .props.onChange({ target: { value: "testtest" } });
+
   const windowMock = sinon.mock(window);
   windowMock.expects("close").once();
   windowMock.expects("resizeTo");

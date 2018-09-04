@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="HTMLContent-root"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "<span>Hello world</span>",
+    }
+  }
+/>
+`;
+
+exports[`sanitizes evil html 1`] = `
+<div
+  className="HTMLContent-root"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "<span title=\\"test\\">Hello world</span>
+      ",
+    }
+  }
+/>
+`;

@@ -2,13 +2,17 @@ import { shallow, ShallowWrapper } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
 
+import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
 
 import Stream from "../components/Stream";
 import { StreamContainer } from "./StreamContainer";
 
+// Remove relay refs so we can stub the props.
+const StreamContainerN = removeFragmentRefs(StreamContainer);
+
 it("renders correctly", () => {
-  const props: PropTypesOf<StreamContainer> = {
+  const props: PropTypesOf<typeof StreamContainerN> = {
     asset: {
       id: "asset-id",
       isClosed: false,
@@ -16,18 +20,19 @@ it("renders correctly", () => {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
       },
     },
+    user: null,
     relay: {
       hasMore: noop,
       isLoading: noop,
     } as any,
   };
-  const wrapper = shallow(<StreamContainer {...props} />);
+  const wrapper = shallow(<StreamContainerN {...props} />);
   expect(wrapper).toMatchSnapshot();
 });
 
 describe("when has more comments", () => {
   let finishLoading: ((error?: Error) => void) | null = null;
-  const props: PropTypesOf<StreamContainer> = {
+  const props: PropTypesOf<typeof StreamContainerN> = {
     asset: {
       id: "asset-id",
       isClosed: false,
@@ -35,6 +40,7 @@ describe("when has more comments", () => {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
       },
     },
+    user: null,
     relay: {
       hasMore: () => true,
       isLoading: () => false,
@@ -44,7 +50,7 @@ describe("when has more comments", () => {
 
   let wrapper: ShallowWrapper;
 
-  beforeAll(() => (wrapper = shallow(<StreamContainer {...props} />)));
+  beforeAll(() => (wrapper = shallow(<StreamContainerN {...props} />)));
 
   it("renders hasMore", () => {
     expect(wrapper).toMatchSnapshot();

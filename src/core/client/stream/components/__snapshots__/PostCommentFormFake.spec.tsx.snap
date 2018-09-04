@@ -4,13 +4,25 @@ exports[`renders correctly 1`] = `
 <withPropsOnChange(HorizontalGutter)
   className="PostCommentFormFake-root"
 >
-  <textarea
-    className="PostCommentFormFake-textarea"
-    disabled={true}
-    placeholder="Post a comment"
-  />
+  <div
+    aria-hidden="true"
+  >
+    <Localized
+      attrs={
+        Object {
+          "placeholder": true,
+        }
+      }
+      id="comments-postCommentFormFake-rte"
+    >
+      <RTE
+        disabled={true}
+        placeholder="Post a comment"
+      />
+    </Localized>
+  </div>
   <Localized
-    id="comments-PostCommentFormFake-signInAndJoin"
+    id="comments-postCommentFormFake-signInAndJoin"
   >
     <withPropsOnChange(Button)
       color="primary"

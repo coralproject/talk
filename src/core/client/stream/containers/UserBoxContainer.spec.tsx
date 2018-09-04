@@ -1,12 +1,16 @@
 import { shallow } from "enzyme";
 import React from "react";
 
+import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
 
 import { UserBoxContainer } from "./UserBoxContainer";
 
+// Remove relay refs so we can stub the props.
+const UserBoxContainerN = removeFragmentRefs(UserBoxContainer);
+
 it("renders correctly", () => {
-  const props: PropTypesOf<UserBoxContainer> = {
+  const props: PropTypesOf<typeof UserBoxContainerN> = {
     local: {
       authPopup: {
         open: false,
@@ -22,6 +26,6 @@ it("renders correctly", () => {
     // tslint:disable-next-line:no-empty
     signOut: async () => {},
   };
-  const wrapper = shallow(<UserBoxContainer {...props} />);
+  const wrapper = shallow(<UserBoxContainerN {...props} />);
   expect(wrapper).toMatchSnapshot();
 });

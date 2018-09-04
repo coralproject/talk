@@ -25,14 +25,27 @@ exports[`accepts correct password 1`] = `
           Email Address
         </label>
         <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          className="TextField-root TextField-colorError TextField-fullWidth"
           disabled={false}
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
           type="text"
-          value="hans@test.com"
+          value=""
         />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -91,8 +104,23 @@ exports[`accepts correct password 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+            Don't have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signIn-gotoSignUpButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
@@ -155,6 +183,7 @@ exports[`accepts valid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -203,8 +232,23 @@ exports[`accepts valid email 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+            Don't have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signIn-gotoSignUpButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
@@ -249,6 +293,7 @@ exports[`checks for invalid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -279,6 +324,7 @@ exports[`checks for invalid email 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -327,8 +373,23 @@ exports[`checks for invalid email 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+            Don't have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signIn-gotoSignUpButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
@@ -427,8 +488,23 @@ exports[`renders sign in form 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+            Don't have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signIn-gotoSignUpButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
@@ -473,6 +549,7 @@ exports[`shows error when submitting empty form 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -503,6 +580,7 @@ exports[`shows error when submitting empty form 1`] = `
           className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
         >
           <span
+            aria-hidden="true"
             className="Icon-root ValidationMessage-icon Icon-sm"
           >
             warning
@@ -551,8 +629,23 @@ exports[`shows error when submitting empty form 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+            Don't have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signIn-gotoSignUpButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
@@ -651,8 +744,23 @@ exports[`shows server error 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+            Don't have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
+            disabled={true}
+            id="signIn-gotoSignUpButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
@@ -756,8 +864,23 @@ exports[`shows server error 2`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+            Don't have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signIn-gotoSignUpButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
@@ -781,11 +904,6 @@ exports[`submits form successfully 1`] = `
       >
         Sign in to join the conversation
       </h1>
-      <div
-        className="CallOut-root CallOut-colorError CallOut-fullWidth"
-      >
-        Server Error
-      </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
@@ -861,8 +979,23 @@ exports[`submits form successfully 1`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+            Don't have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
+            disabled={true}
+            id="signIn-gotoSignUpButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
@@ -961,8 +1094,23 @@ exports[`submits form successfully 2`] = `
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
-            Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+            Don't have an account? 
           </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signIn-gotoSignUpButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign Up
+          </button>
         </div>
       </div>
     </div>
