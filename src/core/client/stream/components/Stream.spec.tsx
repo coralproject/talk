@@ -12,8 +12,10 @@ const StreamN = removeFragmentRefs(Stream);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof StreamN> = {
-    assetID: "asset-id",
-    isClosed: false,
+    asset: {
+      id: "asset-id",
+      isClosed: false,
+    },
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
     onLoadMore: noop,
     disableLoadMore: false,
@@ -27,8 +29,10 @@ it("renders correctly", () => {
 describe("when use is logged in", () => {
   it("renders correctly", () => {
     const props: PropTypesOf<typeof StreamN> = {
-      assetID: "asset-id",
-      isClosed: false,
+      asset: {
+        id: "asset-id",
+        isClosed: false,
+      },
       comments: [{ id: "comment-1" }, { id: "comment-2" }],
       onLoadMore: noop,
       disableLoadMore: false,
@@ -42,8 +46,10 @@ describe("when use is logged in", () => {
 
 describe("when there is more", () => {
   const props: PropTypesOf<typeof StreamN> = {
-    assetID: "asset-id",
-    isClosed: false,
+    asset: {
+      id: "asset-id",
+      isClosed: false,
+    },
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
     onLoadMore: sinon.spy(),
     disableLoadMore: false,

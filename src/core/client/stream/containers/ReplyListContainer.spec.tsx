@@ -13,6 +13,9 @@ const ReplyListContainerN = removeFragmentRefs(ReplyListContainer);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof ReplyListContainerN> = {
+    asset: {
+      id: "asset-id",
+    },
     comment: {
       id: "comment-id",
       replies: {
@@ -30,6 +33,9 @@ it("renders correctly", () => {
 
 it("renders correctly when replies are null", () => {
   const props: PropTypesOf<typeof ReplyListContainerN> = {
+    asset: {
+      id: "asset-id",
+    },
     comment: {
       id: "comment-id",
       replies: null,
@@ -46,6 +52,9 @@ it("renders correctly when replies are null", () => {
 describe("when has more replies", () => {
   let finishLoading: ((error?: Error) => void) | null = null;
   const props: PropTypesOf<typeof ReplyListContainerN> = {
+    asset: {
+      id: "asset-id",
+    },
     comment: {
       id: "comment-id",
       replies: {

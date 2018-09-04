@@ -62,7 +62,7 @@ exports[`renders comment stream 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-md"
                   >
                     format_bold
                   </span>
@@ -76,7 +76,7 @@ exports[`renders comment stream 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-md"
                   >
                     format_italic
                   </span>
@@ -90,7 +90,7 @@ exports[`renders comment stream 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-md"
                   >
                     format_quote
                   </span>
@@ -153,7 +153,7 @@ exports[`renders comment stream 1`] = `
           role="article"
         >
           <div
-            className="Flex-root TopBar-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+            className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
           >
             <span
               className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
@@ -177,8 +177,24 @@ exports[`renders comment stream 1`] = `
             }
           />
           <div
-            className="Comment-footer"
-          />
+            className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <span>
+                Reply
+              </span>
+            </button>
+          </div>
         </div>
         <div
           className="Indent-root Indent-level0"
@@ -193,7 +209,7 @@ exports[`renders comment stream 1`] = `
               role="article"
             >
               <div
-                className="Flex-root TopBar-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
               >
                 <span
                   className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
@@ -217,8 +233,24 @@ exports[`renders comment stream 1`] = `
                 }
               />
               <div
-                className="Comment-footer"
-              />
+                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Reply
+                  </span>
+                </button>
+              </div>
             </div>
             <button
               aria-controls="talk-comments-replyList-log--comment-0"
@@ -306,7 +338,7 @@ exports[`show all replies 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-md"
                   >
                     format_bold
                   </span>
@@ -320,7 +352,7 @@ exports[`show all replies 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-md"
                   >
                     format_italic
                   </span>
@@ -334,7 +366,7 @@ exports[`show all replies 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-md"
                   >
                     format_quote
                   </span>
@@ -397,7 +429,7 @@ exports[`show all replies 1`] = `
           role="article"
         >
           <div
-            className="Flex-root TopBar-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+            className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
           >
             <span
               className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
@@ -421,8 +453,24 @@ exports[`show all replies 1`] = `
             }
           />
           <div
-            className="Comment-footer"
-          />
+            className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <span>
+                Reply
+              </span>
+            </button>
+          </div>
         </div>
         <div
           className="Indent-root Indent-level0"
@@ -437,7 +485,7 @@ exports[`show all replies 1`] = `
               role="article"
             >
               <div
-                className="Flex-root TopBar-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
               >
                 <span
                   className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
@@ -461,15 +509,31 @@ exports[`show all replies 1`] = `
                 }
               />
               <div
-                className="Comment-footer"
-              />
+                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Reply
+                  </span>
+                </button>
+              </div>
             </div>
             <div
               className="Comment-root"
               role="article"
             >
               <div
-                className="Flex-root TopBar-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
               >
                 <span
                   className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
@@ -493,8 +557,24 @@ exports[`show all replies 1`] = `
                 }
               />
               <div
-                className="Comment-footer"
-              />
+                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Reply
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -10,6 +10,7 @@ exports[`renders loading 1`] = `<withPropsOnChange(Spinner) />`;
 
 exports[`renders permalink view container 1`] = `
 <withContext(withContext(createMutationContainer(Relay(PermalinkViewContainer))))
+  asset={Object {}}
   comment={Object {}}
 />
 `;

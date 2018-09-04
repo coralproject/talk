@@ -1,5 +1,5 @@
 import { graphql } from "react-relay";
-import { Environment } from "relay-runtime";
+import { Environment, RelayMutationConfig } from "relay-runtime";
 import uuid from "uuid/v4";
 
 import { getMe } from "talk-framework/helpers";
@@ -38,6 +38,39 @@ const mutation = graphql`
 
 let clientMutationId = 0;
 
+function getConfig(input: CreateCommentInput): RelayMutationConfig[] {
+  if (!input.parentID) {
+    return [
+      {
+        type: "RANGE_ADD",
+        connectionInfo: [
+          {
+            key: "Stream_comments",
+            rangeBehavior: "prepend",
+            filters: { orderBy: "CREATED_AT_DESC" },
+          },
+        ],
+        parentID: input.assetID,
+        edgeName: "edge",
+      },
+    ];
+  }
+  return [
+    {
+      type: "RANGE_ADD",
+      connectionInfo: [
+        {
+          key: "ReplyList_replies",
+          rangeBehavior: "append",
+          filters: { orderBy: "CREATED_AT_ASC" },
+        },
+      ],
+      parentID: input.parentID,
+      edgeName: "edge",
+    },
+  ];
+}
+
 function commit(environment: Environment, input: CreateCommentInput) {
   const me = getMe(environment)!;
   const currentDate = new Date().toISOString();
@@ -66,20 +99,7 @@ function commit(environment: Environment, input: CreateCommentInput) {
         clientMutationId: (clientMutationId++).toString(),
       },
     },
-    configs: [
-      {
-        type: "RANGE_ADD",
-        connectionInfo: [
-          {
-            key: "Stream_comments",
-            rangeBehavior: "prepend",
-            filters: { orderBy: "CREATED_AT_DESC" },
-          },
-        ],
-        parentID: input.assetID,
-        edgeName: "edge",
-      },
-    ],
+    configs: getConfig(input),
   });
 }
 

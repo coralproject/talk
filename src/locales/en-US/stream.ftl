@@ -44,3 +44,7 @@ comments-postCommentForm-rte =
 
 comments-postCommentFormFake-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
+
+comments-replyButton-reply = Reply
+
+comments-permalinkViewQuery-assetNotFound = { comments-streamQuery-assetNotFound }

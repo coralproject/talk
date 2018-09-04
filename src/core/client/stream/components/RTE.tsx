@@ -53,12 +53,12 @@ export interface RTEProps {
 const features = [
   <Localized key="bold" id="comments-rte-bold" attrs={{ title: true }}>
     <Bold>
-      <Icon>format_bold</Icon>
+      <Icon size="md">format_bold</Icon>
     </Bold>
   </Localized>,
   <Localized key="italic" id="comments-rte-italic" attrs={{ title: true }}>
     <Italic>
-      <Icon>format_italic</Icon>
+      <Icon size="md">format_italic</Icon>
     </Italic>
   </Localized>,
   <Localized
@@ -67,7 +67,7 @@ const features = [
     attrs={{ title: true }}
   >
     <Blockquote key="blockquote">
-      <Icon>format_quote</Icon>
+      <Icon size="md">format_quote</Icon>
     </Blockquote>
   </Localized>,
 ];

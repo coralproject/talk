@@ -25,9 +25,15 @@ export class CommentContainer extends Component<InnerProps, State> {
     showReplyDialog: false,
   };
 
-  private toggleReplyDialog = () => {
+  private openReplyDialog = () => {
     this.setState(state => ({
-      showReplyDialog: !state.showReplyDialog,
+      showReplyDialog: true,
+    }));
+  };
+
+  private closeReplyDialog = () => {
+    this.setState(state => ({
+      showReplyDialog: false,
     }));
   };
 
@@ -42,7 +48,7 @@ export class CommentContainer extends Component<InnerProps, State> {
           footer={
             <>
               <ReplyButton
-                onClick={this.toggleReplyDialog}
+                onClick={this.openReplyDialog}
                 active={showReplyDialog}
               />
               <PermalinkButtonContainer commentID={comment.id} />
@@ -53,7 +59,7 @@ export class CommentContainer extends Component<InnerProps, State> {
           <ReplyCommentFormContainer
             comment={comment}
             asset={asset}
-            onCancel={this.toggleReplyDialog}
+            onClose={this.closeReplyDialog}
           />
         )}
       </>

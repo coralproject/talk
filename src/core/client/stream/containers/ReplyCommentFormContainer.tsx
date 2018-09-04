@@ -1,4 +1,4 @@
-import React, { Component, EventHandler, MouseEvent } from "react";
+import React, { Component } from "react";
 import { graphql } from "react-relay";
 
 import { withContext } from "talk-framework/lib/bootstrap";
@@ -19,7 +19,7 @@ interface InnerProps {
   pymSessionStorage: PymStorage;
   comment: CommentData;
   asset: AssetData;
-  onCancel?: EventHandler<MouseEvent<any>>;
+  onClose?: () => void;
 }
 
 interface State {
@@ -27,10 +27,9 @@ interface State {
   initialized: boolean;
 }
 
-const contextKey = "postCommentFormBody";
-
 export class ReplyCommentFormContainer extends Component<InnerProps, State> {
   public state: State = { initialized: false };
+  private contextKey = `replyCommentFormBody-${this.props.comment.id}`;
 
   constructor(props: InnerProps) {
     super(props);
@@ -38,7 +37,7 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
   }
 
   private async init() {
-    const body = await this.props.pymSessionStorage.getItem(contextKey);
+    const body = await this.props.pymSessionStorage.getItem(this.contextKey);
     if (body) {
       this.setState({
         initialValues: {
@@ -51,6 +50,13 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
     });
   }
 
+  private handleOnCancel = () => {
+    this.props.pymSessionStorage.removeItem(this.contextKey);
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
+  };
+
   private handleOnSubmit: ReplyCommentFormProps["onSubmit"] = async (
     input,
     form
@@ -58,9 +64,13 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
     try {
       await this.props.createComment({
         assetID: this.props.asset.id,
+        parentID: this.props.comment.id,
         ...input,
       });
-      form.reset({});
+      this.props.pymSessionStorage.removeItem(this.contextKey);
+      if (this.props.onClose) {
+        this.props.onClose();
+      }
     } catch (error) {
       if (error instanceof BadUserInputError) {
         return error.invalidArgsLocalized;
@@ -73,9 +83,9 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
 
   private handleOnChange: ReplyCommentFormProps["onChange"] = state => {
     if (state.values.body) {
-      this.props.pymSessionStorage.setItem(contextKey, state.values.body);
+      this.props.pymSessionStorage.setItem(this.contextKey, state.values.body);
     } else {
-      this.props.pymSessionStorage.removeItem(contextKey);
+      this.props.pymSessionStorage.removeItem(this.contextKey);
     }
   };
 
@@ -88,6 +98,7 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
         initialValues={this.state.initialValues}
+        onCancel={this.handleOnCancel}
       />
     );
   }

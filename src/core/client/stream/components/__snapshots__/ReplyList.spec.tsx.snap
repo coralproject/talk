@@ -7,7 +7,12 @@ exports[`renders correctly 1`] = `
     role="log"
   >
     <Relay(CommentContainer)
-      data={
+      asset={
+        Object {
+          "id": "asset-id",
+        }
+      }
+      comment={
         Object {
           "id": "comment-1",
         }
@@ -15,7 +20,12 @@ exports[`renders correctly 1`] = `
       key="comment-1"
     />
     <Relay(CommentContainer)
-      data={
+      asset={
+        Object {
+          "id": "asset-id",
+        }
+      }
+      comment={
         Object {
           "id": "comment-2",
         }
@@ -33,7 +43,12 @@ exports[`when there is more disables load more button 1`] = `
     role="log"
   >
     <Relay(CommentContainer)
-      data={
+      asset={
+        Object {
+          "id": "asset-id",
+        }
+      }
+      comment={
         Object {
           "id": "comment-1",
         }
@@ -41,7 +56,12 @@ exports[`when there is more disables load more button 1`] = `
       key="comment-1"
     />
     <Relay(CommentContainer)
-      data={
+      asset={
+        Object {
+          "id": "asset-id",
+        }
+      }
+      comment={
         Object {
           "id": "comment-2",
         }
@@ -73,7 +93,12 @@ exports[`when there is more renders a load more button 1`] = `
     role="log"
   >
     <Relay(CommentContainer)
-      data={
+      asset={
+        Object {
+          "id": "asset-id",
+        }
+      }
+      comment={
         Object {
           "id": "comment-1",
         }
@@ -81,7 +106,12 @@ exports[`when there is more renders a load more button 1`] = `
       key="comment-1"
     />
     <Relay(CommentContainer)
-      data={
+      asset={
+        Object {
+          "id": "asset-id",
+        }
+      }
+      comment={
         Object {
           "id": "comment-2",
         }

@@ -22,13 +22,25 @@ exports[`renders correctly 1`] = `
       key="comment-1"
     >
       <Relay(CommentContainer)
-        data={
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
           Object {
             "id": "comment-1",
           }
         }
       />
       <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
         comment={
           Object {
             "id": "comment-1",
@@ -40,13 +52,25 @@ exports[`renders correctly 1`] = `
       key="comment-2"
     >
       <Relay(CommentContainer)
-        data={
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
           Object {
             "id": "comment-2",
           }
         }
       />
       <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
         comment={
           Object {
             "id": "comment-2",
@@ -80,13 +104,25 @@ exports[`when there is more disables load more button 1`] = `
       key="comment-1"
     >
       <Relay(CommentContainer)
-        data={
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
           Object {
             "id": "comment-1",
           }
         }
       />
       <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
         comment={
           Object {
             "id": "comment-1",
@@ -98,13 +134,25 @@ exports[`when there is more disables load more button 1`] = `
       key="comment-2"
     >
       <Relay(CommentContainer)
-        data={
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
           Object {
             "id": "comment-2",
           }
         }
       />
       <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
         comment={
           Object {
             "id": "comment-2",
@@ -152,13 +200,25 @@ exports[`when there is more renders a load more button 1`] = `
       key="comment-1"
     >
       <Relay(CommentContainer)
-        data={
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
           Object {
             "id": "comment-1",
           }
         }
       />
       <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
         comment={
           Object {
             "id": "comment-1",
@@ -170,13 +230,25 @@ exports[`when there is more renders a load more button 1`] = `
       key="comment-2"
     >
       <Relay(CommentContainer)
-        data={
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
           Object {
             "id": "comment-2",
           }
         }
       />
       <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
         comment={
           Object {
             "id": "comment-2",
@@ -226,13 +298,25 @@ exports[`when use is logged in renders correctly 1`] = `
       key="comment-1"
     >
       <Relay(CommentContainer)
-        data={
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
           Object {
             "id": "comment-1",
           }
         }
       />
       <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
         comment={
           Object {
             "id": "comment-1",
@@ -244,13 +328,25 @@ exports[`when use is logged in renders correctly 1`] = `
       key="comment-2"
     >
       <Relay(CommentContainer)
-        data={
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
           Object {
             "id": "comment-2",
           }
         }
       />
       <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
         comment={
           Object {
             "id": "comment-2",
