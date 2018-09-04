@@ -3,7 +3,6 @@ import {
   GQLCreateCommentInput,
   GQLEditCommentInput,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { Comment } from "talk-server/models/comment";
 import { create, edit } from "talk-server/services/comments";
 
 export default (ctx: TenantContext) => ({
