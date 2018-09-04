@@ -2,7 +2,7 @@
 
 exports[`renders body only 1`] = `
 <React.Fragment>
-  <Comment
+  <IndentedComment
     author={
       Object {
         "username": null,
@@ -22,13 +22,14 @@ exports[`renders body only 1`] = `
       </React.Fragment>
     }
     id="comment-id"
+    indentLevel={1}
   />
 </React.Fragment>
 `;
 
 exports[`renders username and body 1`] = `
 <React.Fragment>
-  <Comment
+  <IndentedComment
     author={
       Object {
         "username": "Marvin",
@@ -48,6 +49,7 @@ exports[`renders username and body 1`] = `
       </React.Fragment>
     }
     id="comment-id"
+    indentLevel={1}
   />
 </React.Fragment>
 `;

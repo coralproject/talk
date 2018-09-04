@@ -18,6 +18,7 @@ it("renders correctly", () => {
     onShowAll: noop,
     hasMore: false,
     disableShowAll: false,
+    indentLevel: 1,
   };
   const wrapper = shallow(<ReplyListN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -31,6 +32,7 @@ describe("when there is more", () => {
     onShowAll: sinon.spy(),
     hasMore: true,
     disableShowAll: false,
+    indentLevel: 1,
   };
 
   const wrapper = shallow(<ReplyListN {...props} />);

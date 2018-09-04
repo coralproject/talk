@@ -1,73 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<Indent>
-  <withPropsOnChange(HorizontalGutter)
-    id="talk-comments-replyList-log--comment-id"
-    role="log"
-  >
-    <Relay(CommentContainer)
-      asset={
-        Object {
-          "id": "asset-id",
-        }
+<withPropsOnChange(HorizontalGutter)
+  id="talk-comments-replyList-log--comment-id"
+  role="log"
+>
+  <Relay(CommentContainer)
+    asset={
+      Object {
+        "id": "asset-id",
       }
-      comment={
-        Object {
-          "id": "comment-1",
-        }
+    }
+    comment={
+      Object {
+        "id": "comment-1",
       }
-      key="comment-1"
-    />
-    <Relay(CommentContainer)
-      asset={
-        Object {
-          "id": "asset-id",
-        }
+    }
+    indentLevel={1}
+    key="comment-1"
+  />
+  <Relay(CommentContainer)
+    asset={
+      Object {
+        "id": "asset-id",
       }
-      comment={
-        Object {
-          "id": "comment-2",
-        }
+    }
+    comment={
+      Object {
+        "id": "comment-2",
       }
-      key="comment-2"
-    />
-  </withPropsOnChange(HorizontalGutter)>
-</Indent>
+    }
+    indentLevel={1}
+    key="comment-2"
+  />
+</withPropsOnChange(HorizontalGutter)>
 `;
 
 exports[`when there is more disables load more button 1`] = `
-<Indent>
-  <withPropsOnChange(HorizontalGutter)
-    id="talk-comments-replyList-log--comment-id"
-    role="log"
+<withPropsOnChange(HorizontalGutter)
+  id="talk-comments-replyList-log--comment-id"
+  role="log"
+>
+  <Relay(CommentContainer)
+    asset={
+      Object {
+        "id": "asset-id",
+      }
+    }
+    comment={
+      Object {
+        "id": "comment-1",
+      }
+    }
+    indentLevel={1}
+    key="comment-1"
+  />
+  <Relay(CommentContainer)
+    asset={
+      Object {
+        "id": "asset-id",
+      }
+    }
+    comment={
+      Object {
+        "id": "comment-2",
+      }
+    }
+    indentLevel={1}
+    key="comment-2"
+  />
+  <Indent
+    level={1}
+    noBorder={true}
   >
-    <Relay(CommentContainer)
-      asset={
-        Object {
-          "id": "asset-id",
-        }
-      }
-      comment={
-        Object {
-          "id": "comment-1",
-        }
-      }
-      key="comment-1"
-    />
-    <Relay(CommentContainer)
-      asset={
-        Object {
-          "id": "asset-id",
-        }
-      }
-      comment={
-        Object {
-          "id": "comment-2",
-        }
-      }
-      key="comment-2"
-    />
     <Localized
       id="comments-replyList-showAll"
     >
@@ -82,42 +87,47 @@ exports[`when there is more disables load more button 1`] = `
         Show All Replies
       </withPropsOnChange(Button)>
     </Localized>
-  </withPropsOnChange(HorizontalGutter)>
-</Indent>
+  </Indent>
+</withPropsOnChange(HorizontalGutter)>
 `;
 
 exports[`when there is more renders a load more button 1`] = `
-<Indent>
-  <withPropsOnChange(HorizontalGutter)
-    id="talk-comments-replyList-log--comment-id"
-    role="log"
+<withPropsOnChange(HorizontalGutter)
+  id="talk-comments-replyList-log--comment-id"
+  role="log"
+>
+  <Relay(CommentContainer)
+    asset={
+      Object {
+        "id": "asset-id",
+      }
+    }
+    comment={
+      Object {
+        "id": "comment-1",
+      }
+    }
+    indentLevel={1}
+    key="comment-1"
+  />
+  <Relay(CommentContainer)
+    asset={
+      Object {
+        "id": "asset-id",
+      }
+    }
+    comment={
+      Object {
+        "id": "comment-2",
+      }
+    }
+    indentLevel={1}
+    key="comment-2"
+  />
+  <Indent
+    level={1}
+    noBorder={true}
   >
-    <Relay(CommentContainer)
-      asset={
-        Object {
-          "id": "asset-id",
-        }
-      }
-      comment={
-        Object {
-          "id": "comment-1",
-        }
-      }
-      key="comment-1"
-    />
-    <Relay(CommentContainer)
-      asset={
-        Object {
-          "id": "asset-id",
-        }
-      }
-      comment={
-        Object {
-          "id": "comment-2",
-        }
-      }
-      key="comment-2"
-    />
     <Localized
       id="comments-replyList-showAll"
     >
@@ -132,6 +142,6 @@ exports[`when there is more renders a load more button 1`] = `
         Show All Replies
       </withPropsOnChange(Button)>
     </Localized>
-  </withPropsOnChange(HorizontalGutter)>
-</Indent>
+  </Indent>
+</withPropsOnChange(HorizontalGutter)>
 `;

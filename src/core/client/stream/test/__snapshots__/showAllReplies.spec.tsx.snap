@@ -197,12 +197,12 @@ exports[`renders comment stream 1`] = `
           </div>
         </div>
         <div
-          className="Indent-root Indent-level0"
+          className="HorizontalGutter-root HorizontalGutter-full"
+          id="talk-comments-replyList-log--comment-0"
+          role="log"
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
-            id="talk-comments-replyList-log--comment-0"
-            role="log"
+            className="Indent-root Indent-level1"
           >
             <div
               className="Comment-root"
@@ -252,6 +252,10 @@ exports[`renders comment stream 1`] = `
                 </button>
               </div>
             </div>
+          </div>
+          <div
+            className="Indent-root Indent-level1 Indent-noBorder"
+          >
             <button
               aria-controls="talk-comments-replyList-log--comment-0"
               className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-fullWidth"
@@ -473,12 +477,12 @@ exports[`show all replies 1`] = `
           </div>
         </div>
         <div
-          className="Indent-root Indent-level0"
+          className="HorizontalGutter-root HorizontalGutter-full"
+          id="talk-comments-replyList-log--comment-0"
+          role="log"
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
-            id="talk-comments-replyList-log--comment-0"
-            role="log"
+            className="Indent-root Indent-level1"
           >
             <div
               className="Comment-root"
@@ -528,6 +532,10 @@ exports[`show all replies 1`] = `
                 </button>
               </div>
             </div>
+          </div>
+          <div
+            className="Indent-root Indent-level1"
+          >
             <div
               className="Comment-root"
               role="article"

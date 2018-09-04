@@ -249,12 +249,12 @@ exports[`renders comment stream 1`] = `
           </div>
         </div>
         <div
-          className="Indent-root Indent-level0"
+          className="HorizontalGutter-root HorizontalGutter-full"
+          id="talk-comments-replyList-log--comment-with-replies"
+          role="log"
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
-            id="talk-comments-replyList-log--comment-with-replies"
-            role="log"
+            className="Indent-root Indent-level1"
           >
             <div
               className="Comment-root"
@@ -304,6 +304,10 @@ exports[`renders comment stream 1`] = `
                 </button>
               </div>
             </div>
+          </div>
+          <div
+            className="Indent-root Indent-level1"
+          >
             <div
               className="Comment-root"
               role="article"

@@ -14,6 +14,7 @@ import PermalinkButtonContainer from "./PermalinkButtonContainer";
 interface InnerProps {
   comment: CommentData;
   asset: AssetData;
+  indentLevel?: number;
 }
 
 interface State {

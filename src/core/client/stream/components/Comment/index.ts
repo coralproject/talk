@@ -1,1 +1,1 @@
-export { default, default as Comment, CommentProps } from "./Comment";
+export { default, default as IndentedComment } from "./IndentedComment";

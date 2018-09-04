@@ -39,6 +39,7 @@ export class ReplyListContainer extends React.Component<InnerProps> {
         onShowAll={this.showAll}
         hasMore={this.props.relay.hasMore()}
         disableShowAll={this.state.disableShowAll}
+        indentLevel={1}
       />
     );
   }

@@ -19,23 +19,25 @@ export interface ReplyListProps {
   onShowAll: () => void;
   hasMore: boolean;
   disableShowAll: boolean;
+  indentLevel?: number;
 }
 
 const ReplyList: StatelessComponent<ReplyListProps> = props => {
   return (
-    <Indent>
-      <HorizontalGutter
-        id={`talk-comments-replyList-log--${props.comment.id}`}
-        role="log"
-      >
-        {props.comments.map(comment => (
-          <CommentContainer
-            key={comment.id}
-            comment={comment}
-            asset={props.asset}
-          />
-        ))}
-        {props.hasMore && (
+    <HorizontalGutter
+      id={`talk-comments-replyList-log--${props.comment.id}`}
+      role="log"
+    >
+      {props.comments.map(comment => (
+        <CommentContainer
+          key={comment.id}
+          comment={comment}
+          asset={props.asset}
+          indentLevel={props.indentLevel}
+        />
+      ))}
+      {props.hasMore && (
+        <Indent level={props.indentLevel} noBorder>
           <Localized id="comments-replyList-showAll">
             <Button
               id={`talk-comments-replyList-showAll--${props.comment.id}`}
@@ -48,9 +50,9 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
               Show All Replies
             </Button>
           </Localized>
-        )}
-      </HorizontalGutter>
-    </Indent>
+        </Indent>
+      )}
+    </HorizontalGutter>
   );
 };
 
