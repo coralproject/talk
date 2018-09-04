@@ -101,6 +101,97 @@ export async function createComment(
   return comment;
 }
 
+export type EditCommentInput = Pick<
+  Comment,
+  "id" | "author_id" | "body" | "status"
+> & {
+  /**
+   * lastEditableCommentCreatedAt is the date that the last comment would have
+   * been editable. It is generally derived from the tenant's
+   * `editCommentWindowLength` property.
+   */
+  lastEditableCommentCreatedAt: Date;
+};
+
+export async function editComment(
+  db: Db,
+  tenantID: string,
+  input: EditCommentInput
+) {
+  const EDITABLE_STATUSES = [
+    GQLCOMMENT_STATUS.NONE,
+    GQLCOMMENT_STATUS.PREMOD,
+    GQLCOMMENT_STATUS.ACCEPTED,
+  ];
+  const createdAt = new Date();
+
+  const { id, body, lastEditableCommentCreatedAt, status, author_id } = input;
+
+  const result = await collection(db).findOneAndUpdate(
+    {
+      id,
+      tenant_id: tenantID,
+      author_id,
+      status: {
+        $in: EDITABLE_STATUSES,
+      },
+      deleted_at: null,
+      created_at: {
+        $gt: lastEditableCommentCreatedAt,
+      },
+    },
+    {
+      $set: {
+        body,
+        status,
+      },
+      $push: {
+        body_history: {
+          body,
+          created_at: createdAt,
+        },
+        status_history: {
+          type: status,
+          created_at: createdAt,
+        },
+      },
+    },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+  if (!result.value) {
+    // Try to get the comment.
+    const comment = await retrieveComment(db, tenantID, id);
+    if (!comment) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("comment not found");
+    }
+
+    if (comment.author_id !== author_id) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("comment author mismatch");
+    }
+
+    // Check to see if the comment had a status that was editable.
+    if (!EDITABLE_STATUSES.includes(comment.status)) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("comment status is not editable");
+    }
+
+    // Check to see if the edit window expired.
+    if (comment.created_at <= lastEditableCommentCreatedAt) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("edit window expired");
+    }
+
+    // TODO: (wyattjoh) return better error
+    throw new Error("comment edit failed for an unexpected reason");
+  }
+
+  return result.value;
+}
+
 export async function retrieveComment(db: Db, tenantID: string, id: string) {
   return collection(db).findOne({ id, tenant_id: tenantID });
 }
@@ -129,7 +220,7 @@ export interface ConnectionInput {
 }
 
 function cursorGetterFactory(
-  input: ConnectionInput
+  input: Pick<ConnectionInput, "orderBy" | "after">
 ): NodeToCursorTransformer<Comment> {
   switch (input.orderBy) {
     case GQLCOMMENT_SORT.CREATED_AT_DESC:

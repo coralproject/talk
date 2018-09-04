@@ -19,6 +19,10 @@ export const toxic: IntermediateModerationPhase = async ({
   tenant,
   comment,
 }): Promise<IntermediatePhaseResult | void> => {
+  if (!comment.body) {
+    return;
+  }
+
   const integration = tenant.integrations.perspective;
 
   if (!integration.enabled) {

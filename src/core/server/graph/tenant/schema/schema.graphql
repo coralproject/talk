@@ -552,6 +552,18 @@ type User {
 ## Comment
 ################################################################################
 
+type EditInfo {
+  """
+  edited will be True when the Comment has been edited in the past.
+  """
+  edited: Boolean!
+
+  """
+  editableUntil is the time that the comment is editable until.
+  """
+  editableUntil: Time
+}
+
 enum COMMENT_STATUS {
   """
   The comment is not PREMOD, but was not applied a moderation status by a
@@ -598,7 +610,7 @@ type Comment {
   body: String
 
   """
-  createdAt is the date in which the comment was created.
+  createdAt is the date in which the Comment was created.
   """
   createdAt: Time!
 
@@ -608,7 +620,7 @@ type Comment {
   author: User
 
   """
-  status represents the Comment's current Status.
+  status represents the Comment's current status.
   """
   status: COMMENT_STATUS!
 
@@ -619,13 +631,18 @@ type Comment {
   replyCount: Int
 
   """
-  replies will return the replies to this comment.
+  replies will return the replies to this Comment.
   """
   replies(
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection
+
+  """
+  editing returns details about the edit status of a Comment.
+  """
+  editing: EditInfo!
 }
 
 type PageInfo {
@@ -844,9 +861,54 @@ mutation.
 """
 type CreateCommentPayload {
   """
-  CommentEdge is the possibly created comment edge.
+  edge is the possibly created comment edge.
   """
-  commentEdge: CommentEdge
+  edge: CommentEdge
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## editComment
+##################
+
+"""
+EditCommentInput provides the input for the editComment Mutation.
+"""
+input EditCommentInput {
+  """
+  assetID is the ID of the Asset where we are editing a comment on.
+  """
+  assetID: ID!
+
+  """
+  commentID is the ID of the comment being edited.
+  """
+  commentID: ID!
+
+  """
+  body is the Comment body, the content of the Comment.
+  """
+  body: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+"""
+EditCommentPayload contains the edited Comment after the editComment
+mutation.
+"""
+type EditCommentPayload {
+  """
+  comment is the possibly edited comment.
+  """
+  comment: Comment
 
   """
   clientMutationId is required for Relay support.
@@ -1230,6 +1292,12 @@ type Mutation {
   createComment will create a Comment as the current logged in User.
   """
   createComment(input: CreateCommentInput!): CreateCommentPayload
+
+  """
+  editComment will allow the author of a comment to change the body within the
+  time allotment.
+  """
+  editComment(input: EditCommentInput!): EditCommentPayload @auth
 
   """
   updateSettings will update the Settings for the given Tenant.

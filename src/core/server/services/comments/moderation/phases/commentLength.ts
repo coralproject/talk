@@ -17,7 +17,7 @@ export const commentLength: IntermediateModerationPhase = ({
   tenant,
   comment,
 }): IntermediatePhaseResult | void => {
-  const length = comment.body.length;
+  const length = comment.body ? comment.body.length : 0;
 
   // Check to see if the body is too short, if it is, then complain about it!
   if (length < 2) {
