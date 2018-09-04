@@ -1,4 +1,3 @@
-import { Config } from "talk-common/config";
 import TenantCache from "talk-server/services/tenant/cache";
 
 export type DeconstructionFn<T> = (tenantID: string, value: T) => Promise<void>;
@@ -12,26 +11,23 @@ export type DeconstructionFn<T> = (tenantID: string, value: T) => Promise<void>;
 export class TenantCacheAdapter<T> {
   private cache = new Map<string, T>();
   private tenantCache: TenantCache;
-  private isCachingEnabled: boolean;
 
   private unsubscribeFn?: () => void;
   private deconstructionFn?: DeconstructionFn<T>;
 
   constructor(
     tenantCache: TenantCache,
-    config: Config,
     deconstructionFn?: DeconstructionFn<T>
   ) {
     this.tenantCache = tenantCache;
-    this.isCachingEnabled = !config.get("disable_tenant_caching");
     this.deconstructionFn = deconstructionFn;
+
+    // Subscribe to updates immediately.
+    this.subscribe();
   }
 
   public subscribe() {
-    if (this.isCachingEnabled) {
-      // Unsubscribe from updates if we
-      this.unsubscribe();
-
+    if (this.tenantCache.cachingEnabled && !this.unsubscribeFn) {
       this.unsubscribeFn = this.tenantCache.subscribe(async tenant => {
         // Get the current set value for the item in the cache.
         const value = this.get(tenant.id);
@@ -58,7 +54,7 @@ export class TenantCacheAdapter<T> {
    * This will disconnect the map/cache from getting updates.
    */
   public unsubscribe() {
-    if (this.isCachingEnabled && this.unsubscribeFn) {
+    if (this.tenantCache.cachingEnabled && this.unsubscribeFn) {
       this.unsubscribeFn();
     }
   }
@@ -69,7 +65,7 @@ export class TenantCacheAdapter<T> {
    * @param tenantID the tenantID for the cached item
    */
   public get(tenantID: string): T | undefined {
-    if (this.isCachingEnabled) {
+    if (this.tenantCache.cachingEnabled) {
       return this.cache.get(tenantID);
     }
 
@@ -82,11 +78,9 @@ export class TenantCacheAdapter<T> {
    * @param tenantID the tenantID for the cached item
    * @param value the value to set in the map (if caching is enabled)
    */
-  public set(tenantID: string, value: T): TenantCacheAdapter<T> {
-    if (this.isCachingEnabled) {
+  public set(tenantID: string, value: T) {
+    if (this.tenantCache.cachingEnabled) {
       this.cache.set(tenantID, value);
     }
-
-    return this;
   }
 }

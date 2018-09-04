@@ -141,19 +141,18 @@ export function createJWTSigningConfig(config: Config): JWTSigningConfig {
 
 export type SigningTokenOptions = Pick<SignOptions, "audience" | "issuer">;
 
-export async function signTokenString(
+export const signTokenString = async (
   { algorithm, secret }: JWTSigningConfig,
   user: User,
   options: SigningTokenOptions
-) {
-  return jwt.sign({}, secret, {
+) =>
+  jwt.sign({}, secret, {
     ...options,
     jwtid: uuid.v4(),
     algorithm,
     expiresIn: "1 day", // TODO: (wyattjoh) evaluate allowing configuration?
     subject: user.id,
   });
-}
 
 export interface JWTToken {
   jti: string;
@@ -208,17 +207,23 @@ export class JWTStrategy extends Strategy {
         // Use the algorithm specified in the configuration.
         algorithms: [this.signingConfig.algorithm],
       },
-      async (err: Error | undefined, { jti, sub }: JWTToken) => {
+      async (err: Error | undefined, decoded: JWTToken) => {
         if (err) {
           return this.fail(err, 401);
         }
 
-        try {
-          // Check to see if the token has been blacklisted.
-          await checkBlacklistJWT(this.redis, jti);
+        if (!decoded) {
+          // There was no token on the request, so there was no user, so let's
+          // mark that the strategy was successful.
+          return this.success(null, null);
+        }
 
-          // Find the user referenced by the token.
-          const user = await retrieveUser(this.mongo, tenant.id, sub);
+        try {
+          // Find the user.
+          const user = await retrieveUser(this.mongo, tenant.id, decoded.sub);
+
+          // Check to see if the token has been blacklisted.
+          await checkBlacklistJWT(this.redis, decoded.jti);
 
           // Return them! The user may be null, but that's ok here.
           this.success(user, null);

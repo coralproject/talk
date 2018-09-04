@@ -61,6 +61,7 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
       config: app.config,
       mongo: app.mongo,
       redis: app.redis,
+      queue: app.queue,
     })
   );
 
