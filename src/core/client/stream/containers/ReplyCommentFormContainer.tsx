@@ -67,6 +67,7 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
         parentID: this.props.comment.id,
         ...input,
       });
+
       this.props.pymSessionStorage.removeItem(this.contextKey);
       if (this.props.onClose) {
         this.props.onClose();
@@ -95,6 +96,7 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
     }
     return (
       <ReplyCommentForm
+        id={this.props.comment.id}
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
         initialValues={this.state.initialValues}

@@ -12,7 +12,7 @@ export class FakeStorage implements PymStorage {
     return Promise.resolve();
   }
   public getItem(key: string) {
-    return Promise.resolve(this.store[key]);
+    return Promise.resolve(this.store[key] || null);
   }
 }
 

@@ -48,3 +48,9 @@ comments-postCommentFormFake-rte =
 comments-replyButton-reply = Reply
 
 comments-permalinkViewQuery-assetNotFound = { comments-streamQuery-assetNotFound }
+
+comments-replyCommentForm-submit = Submit
+comments-replyCommentForm-cancel = Cancel
+comments-replyCommentForm-rteLabel = Write a reply
+comments-replyCommentForm-rte =
+  .placeholder = { comments-postCommentForm-rteLabel }

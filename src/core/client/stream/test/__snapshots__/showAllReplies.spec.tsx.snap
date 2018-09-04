@@ -181,6 +181,7 @@ exports[`renders comment stream 1`] = `
           >
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+              id="comments-commentContainer-replyButton"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -237,6 +238,7 @@ exports[`renders comment stream 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  id="comments-commentContainer-replyButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -461,6 +463,7 @@ exports[`show all replies 1`] = `
           >
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+              id="comments-commentContainer-replyButton"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -517,6 +520,7 @@ exports[`show all replies 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  id="comments-commentContainer-replyButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -569,6 +573,7 @@ exports[`show all replies 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  id="comments-commentContainer-replyButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}

@@ -14,6 +14,7 @@ exports[`renders body only 1`] = `
       <React.Fragment>
         <ReplyButton
           active={false}
+          id="comments-commentContainer-replyButton"
           onClick={[Function]}
         />
         <withContext(withLocalStateContainer(PermalinkContainer))
@@ -41,6 +42,7 @@ exports[`renders username and body 1`] = `
       <React.Fragment>
         <ReplyButton
           active={false}
+          id="comments-commentContainer-replyButton"
           onClick={[Function]}
         />
         <withContext(withLocalStateContainer(PermalinkContainer))

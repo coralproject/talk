@@ -18,6 +18,15 @@ interface InnerProps {
   relay: RelayPaginationProp;
 }
 
+// tslint:disable-next-line:no-unused-expression
+graphql`
+  fragment StreamContainer_comment on Comment {
+    id
+    ...CommentContainer_comment
+    ...ReplyListContainer_comment
+  }
+`;
+
 export class StreamContainer extends React.Component<InnerProps> {
   public state = {
     disableLoadMore: false,
@@ -81,9 +90,7 @@ const enhanced = withPaginationContainer<
           @connection(key: "Stream_comments") {
           edges {
             node {
-              id
-              ...CommentContainer_comment
-              ...ReplyListContainer_comment
+              ...StreamContainer_comment @relay(mask: false)
             }
           }
         }

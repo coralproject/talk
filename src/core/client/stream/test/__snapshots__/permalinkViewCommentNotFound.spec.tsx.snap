@@ -213,6 +213,7 @@ exports[`show all comments 1`] = `
           >
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+              id="comments-commentContainer-replyButton"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}

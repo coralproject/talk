@@ -22,13 +22,7 @@ const mutation = graphql`
       edge {
         cursor
         node {
-          id
-          author {
-            id
-            username
-          }
-          body
-          createdAt
+          ...StreamContainer_comment @relay(mask: false)
         }
       }
       clientMutationId
@@ -98,7 +92,7 @@ function commit(environment: Environment, input: CreateCommentInput) {
         },
         clientMutationId: (clientMutationId++).toString(),
       },
-    },
+    } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
     configs: getConfig(input),
   });
 }

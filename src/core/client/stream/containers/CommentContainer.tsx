@@ -49,6 +49,7 @@ export class CommentContainer extends Component<InnerProps, State> {
           footer={
             <>
               <ReplyButton
+                id={`comments-commentContainer-replyButton-${comment.id}`}
                 onClick={this.openReplyDialog}
                 active={showReplyDialog}
               />
