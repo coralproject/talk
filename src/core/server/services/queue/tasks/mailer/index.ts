@@ -100,7 +100,7 @@ const createJobProcessor = (options: MailProcessorOptions) => {
           job_name: JOB_NAME,
           tenant_id: tenantID,
         },
-        "email was enabled but configuration was missing"
+        "email was enabled but the smtpURI configuration was missing"
       );
       return;
     }
@@ -113,7 +113,7 @@ const createJobProcessor = (options: MailProcessorOptions) => {
           job_name: JOB_NAME,
           tenant_id: tenantID,
         },
-        "email was enabled but configuration was missing"
+        "email was enabled but the fromAddress configuration was missing"
       );
       return;
     }
