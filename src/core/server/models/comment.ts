@@ -220,7 +220,7 @@ export interface ConnectionInput {
 }
 
 function cursorGetterFactory(
-  input: ConnectionInput
+  input: Pick<ConnectionInput, "orderBy" | "after">
 ): NodeToCursorTransformer<Comment> {
   switch (input.orderBy) {
     case GQLCOMMENT_SORT.CREATED_AT_DESC:

@@ -7,9 +7,9 @@ const Mutation: GQLMutationTypeResolver<void> = {
   }),
   createComment: async (source, { input }, ctx) => {
     const comment = await ctx.mutators.Comment.create(input);
-    // TODO: (cvle) tell wyatt to take a look at this :-)
     return {
-      commentEdge: {
+      edge: {
+        // FIXME: (wyattjoh) when we're using a replies/respect sort, it is index based instead of date based, needs some work!
         cursor: comment.created_at,
         node: comment,
       },
