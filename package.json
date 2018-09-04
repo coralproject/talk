@@ -126,7 +126,7 @@
     "history": "^3.0.0",
     "hjson": "^3.1.1",
     "hjson-loader": "^1.0.0",
-    "https-proxy-agent": "^2.2.0",
+    "proxy-agent": "^3.0.1",
     "immutability-helper": "^2.2.0",
     "imports-loader": "^0.7.1",
     "inquirer": "^3.2.2",
