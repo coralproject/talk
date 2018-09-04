@@ -14,7 +14,7 @@ const AppContainer: StatelessComponent<InnerProps> = ({ local: { view } }) => {
   return <App view={view} />;
 };
 
-const enhanced = withLocalStateContainer<Local>(
+const enhanced = withLocalStateContainer(
   graphql`
     fragment AppContainerLocal on Local {
       view

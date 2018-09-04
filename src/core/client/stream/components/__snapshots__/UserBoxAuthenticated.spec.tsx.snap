@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(Flex)
+  itemGutter="half"
+  wrap={true}
+>
+  <Localized
+    id="comments-userBoxAuthenticated-signedInAs"
+    username={<Username />}
+  >
+    <withPropsOnChange(Typography)
+      container="div"
+      variant="bodyCopy"
+    >
+      Signed in as &lt;username&gt;&lt;/username&gt;.
+    </withPropsOnChange(Typography)>
+  </Localized>
+  <Localized
+    button={
+      <withPropsOnChange(Button)
+        color="primary"
+        onClick={[Function]}
+        size="small"
+        variant="underlined"
+      />
+    }
+    id="comments-userBoxAuthenticated-notYou"
+  >
+    <withPropsOnChange(Typography)
+      container={[Function]}
+      variant="bodyCopy"
+    >
+      Not you? &lt;button&gt;Sign Out&lt;/button&gt;
+    </withPropsOnChange(Typography)>
+  </Localized>
+</withPropsOnChange(Flex)>
+`;

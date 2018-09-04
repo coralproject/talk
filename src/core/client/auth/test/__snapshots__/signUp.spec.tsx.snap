@@ -1,0 +1,2811 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`accepts correct password 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value="testtest"
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`accepts correct password confirmation 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value="testtest"
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            Passwords do not match. Try again.
+          </span>
+        </div>
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`accepts valid email 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value="hans@test.com"
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`accepts valid username 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value="hans"
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`checks for invalid characters in username 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value="$%$§$%$§%"
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            Invalid characters. Try again.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`checks for invalid email 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value="invalid-email"
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            Please enter a valid email address.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`checks for too long username 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            Usernames cannot be longer than ⁨20⁩ characters.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`checks for too short password 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value="pass"
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            Password must contain at least ⁨8⁩ characters.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`checks for too short username 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value="u"
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            Username must contain at least ⁨3⁩ characters.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`checks for wrong password confirmation 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value="not-matching"
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            Passwords do not match. Try again.
+          </span>
+        </div>
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`renders sign up form 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value=""
+        />
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`shows error when submitting empty form 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorError TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value=""
+        />
+        <div
+          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root ValidationMessage-icon Icon-sm"
+          >
+            warning
+          </span>
+          <span>
+            This field is required.
+          </span>
+        </div>
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`shows server error 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={true}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value="hans@test.com"
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={true}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value="hans"
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={true}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value="testtest"
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={true}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value="testtest"
+        />
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
+        disabled={true}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
+            disabled={true}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`shows server error 2`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="CallOut-root CallOut-colorError CallOut-fullWidth"
+      >
+        Server Error
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value="hans@test.com"
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value="hans"
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value="testtest"
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value="testtest"
+        />
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`submits form successfully 1`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={true}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value="hans@test.com"
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={true}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value="hans"
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={true}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value="testtest"
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={true}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value="testtest"
+        />
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
+        disabled={true}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
+            disabled={true}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`submits form successfully 2`] = `
+<div
+  className="App-root"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      >
+        Sign up to join the conversation
+      </h1>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Email Address
+        </label>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Username
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          A unique identifier displayed on your comments. You may use “_” and “.”
+        </p>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Password
+        </label>
+        <p
+          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+        >
+          Must be at least ⁨8⁩ characters
+        </p>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="password"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      >
+        <label
+          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        >
+          Confirm Password
+        </label>
+        <input
+          className="TextField-root TextField-colorRegular TextField-fullWidth"
+          disabled={false}
+          name="confirmPassword"
+          onChange={[Function]}
+          placeholder="Confirm Password"
+          type="password"
+          value=""
+        />
+      </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        disabled={false}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign up and join the conversation
+      </button>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter"
+      >
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Already have an account? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            disabled={false}
+            id="signUp-gotoSignInButton"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseDown={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;

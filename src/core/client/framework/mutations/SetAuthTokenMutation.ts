@@ -23,6 +23,8 @@ export async function commit(
     } else {
       localStorage.removeItem("authToken");
     }
+    // Increment auth revision to indicate a change in auth state.
+    record.setValue(record.getValue("authRevision") + 1, "authRevision");
 
     // Force gc to trigger.
     environment

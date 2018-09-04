@@ -19,6 +19,9 @@ const config: Config = {
         "core/client/stream/**/*.ts",
         "core/client/stream/**/*.tsx",
         "core/client/stream/**/*.graphql",
+        "core/client/auth/**/*.ts",
+        "core/client/auth/**/*.tsx",
+        "core/client/auth/**/*.graphql",
         "core/server/**/*.graphql",
       ],
       ignore: [
@@ -77,6 +80,7 @@ const config: Config = {
       "compileCSSTypes",
       "compileRelayStream",
       "compileRelayAuth",
+      "compileSchema",
     ],
     docz: ["runDocz", "compileCSSTypes"],
     compile: [

@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <RTE
+    className="custom"
+    classNameDisabled=""
+    contentClassName="RTE-content"
+    contentClassNameDisabled=""
+    features={
+      Array [
+        <ForwardRef
+          attrs={
+            Object {
+              "title": true,
+            }
+          }
+          id="comments-rte-bold"
+        >
+          <Toggle>
+            <withPropsOnChange(Icon)>
+              format_bold
+            </withPropsOnChange(Icon)>
+          </Toggle>
+        </ForwardRef>,
+        <ForwardRef
+          attrs={
+            Object {
+              "title": true,
+            }
+          }
+          id="comments-rte-italic"
+        >
+          <Toggle>
+            <withPropsOnChange(Icon)>
+              format_italic
+            </withPropsOnChange(Icon)>
+          </Toggle>
+        </ForwardRef>,
+        <ForwardRef
+          attrs={
+            Object {
+              "title": true,
+            }
+          }
+          id="comments-rte-blockquote"
+        >
+          <Toggle>
+            <withPropsOnChange(Icon)>
+              format_quote
+            </withPropsOnChange(Icon)>
+          </Toggle>
+        </ForwardRef>,
+      ]
+    }
+    placeholder="Post a comment"
+    placeholderClassName="RTE-placeholder"
+    placeholderClassNameDisabled=""
+    toolbarClassName=""
+    toolbarClassNameDisabled=""
+    value="Hello world"
+  />
+</div>
+`;

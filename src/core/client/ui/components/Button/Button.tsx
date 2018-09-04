@@ -28,13 +28,15 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: "regular" | "primary" | "error" | "success";
 
   /** Variant of the button */
-  variant?: "regular" | "filled" | "outlined" | "ghost";
+  variant?: "regular" | "filled" | "outlined" | "ghost" | "underlined";
 
   /** If set renders a full width button */
   fullWidth?: boolean;
 
   /** If set renders active state e.g. to implement toggle buttons */
   active?: boolean;
+
+  type?: "submit" | "reset" | "button";
 
   /** Internal: Forwarded Ref */
   forwardRef?: Ref<HTMLButtonElement>;
@@ -57,6 +59,7 @@ export class Button extends React.Component<InnerProps> {
       disabled,
       forwardRef,
       variant,
+      type,
       ...rest
     } = this.props;
 
@@ -72,6 +75,7 @@ export class Button extends React.Component<InnerProps> {
       [classes.variantFilled]: variant === "filled",
       [classes.variantOutlined]: variant === "outlined",
       [classes.variantGhost]: variant === "ghost",
+      [classes.variantUnderlined]: variant === "underlined",
       [classes.fullWidth]: fullWidth,
       [classes.active]: active,
       [classes.disabled]: disabled,
@@ -83,6 +87,7 @@ export class Button extends React.Component<InnerProps> {
         classes={pick(classes, "keyboardFocus", "mouseHover")}
         disabled={disabled}
         forwardRef={forwardRef}
+        type={type}
         {...rest}
       />
     );

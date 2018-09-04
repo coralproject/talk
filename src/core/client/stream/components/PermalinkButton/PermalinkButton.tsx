@@ -1,5 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React from "react";
+
 import { oncePerFrame } from "talk-common/utils";
 import {
   Button,
@@ -28,7 +29,7 @@ class Permalink extends React.Component<PermalinkProps> {
 
   public render() {
     const { commentID, assetURL } = this.props;
-    const popoverID = "permalink-popover";
+    const popoverID = `permalink-popover-${commentID}`;
     return (
       <Popover
         id={popoverID}

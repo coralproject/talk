@@ -1,3 +1,4 @@
+import { pick } from "lodash";
 import { Environment } from "relay-runtime";
 
 import { TalkContext } from "talk-framework/lib/bootstrap";
@@ -12,11 +13,15 @@ export async function commit(
   { rest, postMessage }: TalkContext
 ) {
   try {
-    const result = await signUp(rest, input);
+    const result = await signUp(
+      rest,
+      pick(input, "email", "password", "username")
+    );
     postMessage.send("setAuthToken", result.token, window.opener);
     window.close();
   } catch (err) {
     postMessage.send("authError", err.toString(), window.opener);
+    throw err;
   }
 }
 

@@ -7,12 +7,10 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "talk-framework/lib/relay";
-import {
-  PermalinkViewQueryResponse,
-  PermalinkViewQueryVariables,
-} from "talk-stream/__generated__/PermalinkViewQuery.graphql";
+import { PermalinkViewQuery as QueryTypes } from "talk-stream/__generated__/PermalinkViewQuery.graphql";
 import { PermalinkViewQueryLocal as Local } from "talk-stream/__generated__/PermalinkViewQueryLocal.graphql";
 
+import { Spinner } from "talk-ui/components";
 import PermalinkViewContainer from "../containers/PermalinkViewContainer";
 
 interface InnerProps {
@@ -22,20 +20,20 @@ interface InnerProps {
 export const render = ({
   error,
   props,
-}: ReadyState<PermalinkViewQueryResponse>) => {
+}: ReadyState<QueryTypes["response"]>) => {
   if (error) {
     return <div>{error.message}</div>;
   }
   if (props) {
     return <PermalinkViewContainer comment={props.comment} />;
   }
-  return <div>Loading</div>;
+  return <Spinner />;
 };
 
 const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
   local: { commentID },
 }) => (
-  <QueryRenderer<PermalinkViewQueryVariables, PermalinkViewQueryResponse>
+  <QueryRenderer<QueryTypes>
     query={graphql`
       query PermalinkViewQuery($commentID: ID!) {
         comment(id: $commentID) {
@@ -44,13 +42,13 @@ const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
       }
     `}
     variables={{
-      commentID,
+      commentID: commentID!,
     }}
     render={render}
   />
 );
 
-const enhanced = withLocalStateContainer<Local>(
+const enhanced = withLocalStateContainer(
   graphql`
     fragment PermalinkViewQueryLocal on Local {
       commentID

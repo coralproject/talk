@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="custom"
+>
+  <Localized
+    id="comments-poweredBy"
+    logo={
+      <withPropsOnChange(Typography)
+        container="span"
+        variant="heading4"
+      />
+    }
+  >
+    <withPropsOnChange(Typography)
+      color="textSecondary"
+      container="span"
+      variant="inputDescription"
+    >
+      Powered by &lt;logo&gt;The Coral Project&lt;/logo&gt;
+    </withPropsOnChange(Typography)>
+  </Localized>
+</div>
+`;

@@ -1,13 +1,14 @@
 import { Localized } from "fluent-react/compat";
 import React, { MouseEvent, StatelessComponent } from "react";
 
-import { Button, Flex, Typography } from "talk-ui/components";
+import { PropTypesOf } from "talk-framework/types";
+import { Button, Typography } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
 import * as styles from "./PermalinkView.css";
 
 export interface PermalinkViewProps {
-  comment: {} | null;
+  comment: PropTypesOf<typeof CommentContainer>["data"] | null;
   showAllCommentsHref: string | null;
   onShowAllComments: (e: MouseEvent<any>) => void;
 }
@@ -41,11 +42,7 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
           <Typography>Comment not found</Typography>
         </Localized>
       )}
-      {comment && (
-        <Flex direction="column">
-          <CommentContainer data={comment} />
-        </Flex>
-      )}
+      {comment && <CommentContainer data={comment} />}
     </div>
   );
 };
