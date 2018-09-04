@@ -3,18 +3,18 @@ FROM node:8-alpine
 # Install installation dependancies.
 RUN apk --no-cache add git
 
-# Create app directory
+# Create app directory.
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-# Setup the environment.
+# Setup the environment for production.
 ENV NODE_ENV production
 
-# Bundle app source
+# Bundle application source.
 COPY . /usr/src/app
 
-# Install app dependencies and build static assets.
-RUN npm install && \
+# Install build static assets and clear caches.
+RUN NODE_ENV=development npm install && \
   npm run compile && \
   npm run build && \
   npm prune --production
