@@ -1,0 +1,30 @@
+# excluded because we'll likely need to rebuild this.
+node_modules
+
+# static assets are rebuild in the docker container.
+dist
+
+# tests are not run in the docker container.
+__tests__
+
+# we won't use the .git folder in production.
+.git
+
+# hide the environment config.
+.env
+
+# don't include logs.
+npm-debug.log*
+yarn-error.log
+
+# hide OS specific files.
+.idea/
+.vs
+.docz
+*.swp
+*.DS_STORE
+
+# hide generated files.
+*.css.d.ts
+__generated__
+
