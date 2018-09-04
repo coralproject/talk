@@ -1,8 +1,9 @@
+import { Redis } from "ioredis";
 import jwt, { SignOptions } from "jsonwebtoken";
-import uuid from "uuid";
-
 import { Db } from "mongodb";
 import { Strategy } from "passport-strategy";
+import uuid from "uuid";
+
 import { Config } from "talk-common/config";
 import { retrieveUser, User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
@@ -36,6 +37,31 @@ export function extractJWTFromRequest(req: Request) {
   }
 
   return null;
+}
+
+function generateJTIBlacklistKey(jti: string) {
+  // jtib: JTI Blacklist namespace.
+  return `jtib:${jti}`;
+}
+
+export async function blacklistJWT(
+  redis: Redis,
+  jti: string,
+  validFor: number
+) {
+  await redis.setex(
+    generateJTIBlacklistKey(jti),
+    Math.ceil(validFor),
+    Date.now()
+  );
+}
+
+export async function checkBlacklistJWT(redis: Redis, jti: string) {
+  const expiredAtString = await redis.get(generateJTIBlacklistKey(jti));
+  if (expiredAtString) {
+    // TODO: (wyattjoh) return a better error.
+    throw new Error("JWT exists in blacklist");
+  }
 }
 
 export enum AsymmetricSigningAlgorithm {
@@ -138,6 +164,7 @@ export interface JWTToken {
 export interface JWTStrategyOptions {
   signingConfig: JWTSigningConfig;
   mongo: Db;
+  redis: Redis;
 }
 
 export class JWTStrategy extends Strategy {
@@ -145,12 +172,14 @@ export class JWTStrategy extends Strategy {
 
   private signingConfig: JWTSigningConfig;
   private mongo: Db;
+  private redis: Redis;
 
-  constructor({ signingConfig, mongo }: JWTStrategyOptions) {
+  constructor({ signingConfig, mongo, redis }: JWTStrategyOptions) {
     super();
 
     this.signingConfig = signingConfig;
     this.mongo = mongo;
+    this.redis = redis;
   }
 
   public authenticate(req: Request) {
@@ -192,6 +221,9 @@ export class JWTStrategy extends Strategy {
         try {
           // Find the user.
           const user = await retrieveUser(this.mongo, tenant.id, decoded.sub);
+
+          // Check to see if the token has been blacklisted.
+          await checkBlacklistJWT(this.redis, decoded.jti);
 
           // Return them! The user may be null, but that's ok here.
           this.success(user, null);

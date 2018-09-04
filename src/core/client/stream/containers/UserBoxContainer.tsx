@@ -1,8 +1,15 @@
 import * as React from "react";
 import { Component } from "react";
 
-import { graphql, withLocalStateContainer } from "talk-framework/lib/relay";
+import {
+  graphql,
+  withFragmentContainer,
+  withLocalStateContainer,
+} from "talk-framework/lib/relay";
+import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
+import { UserBoxContainer_user as UserData } from "talk-stream/__generated__/UserBoxContainer_user.graphql";
 import { UserBoxContainerLocal as Local } from "talk-stream/__generated__/UserBoxContainerLocal.graphql";
+import UserBoxUnauthenticated from "talk-stream/components/UserBoxUnauthenticated";
 import {
   SetAuthPopupStateMutation,
   ShowAuthPopupMutation,
@@ -11,12 +18,14 @@ import {
 } from "talk-stream/mutations";
 import { Popup } from "talk-ui/components";
 
-import UserBoxUnauthenticated from "../components/UserBoxUnauthenticated";
+import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
 
 interface InnerProps {
   local: Local;
+  user: UserData | null;
   showAuthPopup: ShowAuthPopupMutation;
   setAuthPopupState: SetAuthPopupStateMutation;
+  signOut: SignOutMutation;
 }
 
 export class UserBoxContainer extends Component<InnerProps> {
@@ -31,13 +40,26 @@ export class UserBoxContainer extends Component<InnerProps> {
       local: {
         authPopup: { open, focus, view },
       },
+      user,
+      signOut,
     } = this.props;
+
+    if (user) {
+      return (
+        <UserBoxAuthenticated
+          onSignOut={signOut}
+          // TODO: why nullable?
+          username={user.username!}
+        />
+      );
+    }
+
     return (
       <>
         <Popup
           href={`/auth.html?view=${view}`}
           title="Talk Auth"
-          features="menubar=0,resizable=0,width=500,height=550,top=200,left=500"
+          features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
           open={open}
           focus={focus}
           onFocus={this.handleFocus}
@@ -53,19 +75,29 @@ export class UserBoxContainer extends Component<InnerProps> {
   }
 }
 
-const enhanced = withSetAuthPopupStateMutation(
-  withShowAuthPopupMutation(
-    withLocalStateContainer<Local>(
-      graphql`
-        fragment UserBoxContainerLocal on Local {
-          authPopup {
-            open
-            focus
-            view
+const enhanced = withSignOutMutation(
+  withSetAuthPopupStateMutation(
+    withShowAuthPopupMutation(
+      withLocalStateContainer(
+        graphql`
+          fragment UserBoxContainerLocal on Local {
+            authPopup {
+              open
+              focus
+              view
+            }
           }
-        }
-      `
-    )(UserBoxContainer)
+        `
+      )(
+        withFragmentContainer<InnerProps>({
+          user: graphql`
+            fragment UserBoxContainer_user on User {
+              username
+            }
+          `,
+        })(UserBoxContainer)
+      )
+    )
   )
 );
 

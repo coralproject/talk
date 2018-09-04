@@ -15,6 +15,7 @@ type Variant =
   | "bodyCopy"
   | "bodyCopyBold"
   | "inputLabel"
+  | "inputDescription"
   | "timestamp";
 
 // Based on Typography Component of Material UI.
@@ -28,7 +29,7 @@ interface InnerProps extends HTMLAttributes<any> {
   /**
    * The content of the component.
    */
-  children: ReactNode;
+  children?: ReactNode;
   /**
    * Override or extend the styles applied to the component.
    */
@@ -48,11 +49,11 @@ interface InnerProps extends HTMLAttributes<any> {
     | "error"
     | "success";
   /**
-   * The component used for the root node.
-   * Either a string to use a DOM element or a component.
+   * The container used for the root node.
+   * Either a string to use a DOM element, a component, or an element.
    * By default, it maps the variant to a good default headline component.
    */
-  component?: React.ComponentType<any> | string;
+  container?: React.ReactElement<any> | React.ComponentType<any> | string;
   /**
    * If `true`, the text will have a bottom margin.
    */
@@ -86,7 +87,7 @@ const Typography: StatelessComponent<InnerProps> = props => {
     classes,
     className,
     color,
-    component,
+    container,
     gutterBottom,
     headlineMapping,
     noWrap,
@@ -116,10 +117,20 @@ const Typography: StatelessComponent<InnerProps> = props => {
     className
   );
 
-  const Component =
-    component || (paragraph ? "p" : headlineMapping![variant!]) || "span";
+  const Container =
+    container || (paragraph ? "p" : headlineMapping![variant!]) || "span";
 
-  return <Component ref={forwardRef} className={rootClassName} {...rest} />;
+  const innerProps = {
+    ref: forwardRef,
+    className: rootClassName,
+    ...rest,
+  };
+
+  if (React.isValidElement<any>(Container)) {
+    return React.cloneElement(Container, innerProps);
+  } else {
+    return <Container {...innerProps} />;
+  }
 };
 
 Typography.defaultProps = {
@@ -133,8 +144,9 @@ Typography.defaultProps = {
     heading4: "h1",
     bodyCopy: "p",
     bodyCopyBold: "p",
-    inputLabel: "label",
     timestamp: "span",
+    inputLabel: "label",
+    inputDescription: "p",
   },
   noWrap: false,
   paragraph: false,

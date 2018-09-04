@@ -600,7 +600,7 @@ type Comment {
   """
   createdAt is the date in which the comment was created.
   """
-  createdAt: Time
+  createdAt: Time!
 
   """
   author is the User that authored the Comment.
@@ -792,8 +792,12 @@ type Query {
 
   """
   me is the current logged in User.
+
+  clientAuthRevision is an implementation detail that is only
+  used on the client to invalidate the cache.
+  TODO: This should move to a client side directive if this becomes possible.
   """
-  me: User
+  me(clientAuthRevision: Int): User
 
   """
   settings is the Settings for a given Tenant.
@@ -840,9 +844,9 @@ mutation.
 """
 type CreateCommentPayload {
   """
-  comment is the possibly created comment.
+  CommentEdge is the possibly created comment edge.
   """
-  comment: Comment
+  commentEdge: CommentEdge
 
   """
   clientMutationId is required for Relay support.

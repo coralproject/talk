@@ -52,9 +52,7 @@ const enhanced = withContext(ctx => ({
   pym: ctx.pym,
 }))(
   withSetCommentIDMutation(
-    withFragmentContainer<{
-      comment: CommentData | null;
-    }>({
+    withFragmentContainer<PermalinkViewContainerProps>({
       comment: graphql`
         fragment PermalinkViewContainer_comment on Comment {
           ...CommentContainer

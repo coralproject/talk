@@ -15,23 +15,28 @@ const UserBoxUnauthenticated: StatelessComponent<
   UserBoxUnauthenticatedProps
 > = props => {
   return (
-    <Flex>
+    <Flex itemGutter alignItems="center">
       <MatchMedia gteWidth="sm">
         <Localized id="comments-userBoxUnauthenticated-joinTheConversation">
           <Typography
             className={styles.joinText}
             variant="bodyCopyBold"
-            component="span"
+            container="span"
           >
             Join the conversation
           </Typography>
         </Localized>
-        <Typography variant="bodyCopyBold" component="span">
+        <Typography variant="bodyCopyBold" container="span">
           |
         </Typography>
       </MatchMedia>
       <Localized id="comments-userBoxUnauthenticated-signIn">
-        <Button color="primary" size="small" onClick={props.onSignIn}>
+        <Button
+          color="primary"
+          size="small"
+          variant="underlined"
+          onClick={props.onSignIn}
+        >
           Sign in
         </Button>
       </Localized>

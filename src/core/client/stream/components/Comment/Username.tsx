@@ -16,7 +16,7 @@ const Username: StatelessComponent<UsernameProps> = props => {
         <Typography
           variant={matches ? "heading2" : "heading3"}
           className={styles.root}
-          component="span"
+          container="span"
         >
           {props.children}
         </Typography>

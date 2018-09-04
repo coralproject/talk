@@ -47,12 +47,6 @@ const Flex: StatelessComponent<InnerProps> = props => {
     ...rest
   } = props;
 
-  let alignItemsWithDefault = alignItems;
-  if (!alignItems) {
-    alignItemsWithDefault =
-      direction && direction.startsWith("column") ? "flex-start" : "center";
-  }
-
   const classObject: Record<string, boolean> = {
     [classes.itemGutter]: itemGutter === true,
     [classes.halfItemGutter]: itemGutter === "half",
@@ -67,10 +61,8 @@ const Flex: StatelessComponent<InnerProps> = props => {
     ] = true;
   }
 
-  if (alignItemsWithDefault) {
-    classObject[
-      (classes as any)[`align${pascalCase(alignItemsWithDefault)}`]
-    ] = true;
+  if (alignItems) {
+    classObject[(classes as any)[`align${pascalCase(alignItems)}`]] = true;
   }
 
   if (direction) {
@@ -80,16 +72,33 @@ const Flex: StatelessComponent<InnerProps> = props => {
   const rootClassNames: string = cn(classes.root, className);
   const flexClassNames: string = cn(classes.flex, classObject);
 
-  // The first div is required to support nested `Flex` components with itemGutters.
+  // text nodes can't be modified with css, so replace them with spans.
+  // Readd spaces at the beginning or end of text nodes because
+  // flex removes it.
+  const content = React.Children.map(children, child => {
+    if (typeof child === "string") {
+      return <span>{child.replace(/^ +| +$/g, "\xa0")}</span>;
+    }
+    return child;
+  });
+
+  if (wrap && itemGutter) {
+    // The first div is required to support nested `Flex` components with itemGutters.
+    return (
+      <div ref={forwardRef} className={rootClassNames} {...rest}>
+        <div className={flexClassNames}>{content}</div>
+      </div>
+    );
+  }
   return (
-    <div ref={forwardRef} className={rootClassNames} {...rest}>
-      <div className={flexClassNames}>{children}</div>
+    <div
+      ref={forwardRef}
+      className={cn(rootClassNames, flexClassNames)}
+      {...rest}
+    >
+      {content}
     </div>
   );
-};
-
-Flex.defaultProps = {
-  wrap: true,
 };
 
 const enhanced = withForwardRef(withStyles(styles)(Flex));

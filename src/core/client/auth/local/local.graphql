@@ -2,6 +2,7 @@ enum View {
   SIGN_UP
   SIGN_IN
   FORGOT_PASSWORD
+  RESET_PASSWORD
 }
 
 type Local {

@@ -1,7 +1,7 @@
 @font-face {
   font-family: "Source Sans Pro";
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   font-weight: 300;
   src: local("Source Sans Pro Light "), local("Source Sans Pro-Light"),
     url("typeface-source-sans-pro/files/source-sans-pro-latin-300.woff2")
@@ -13,7 +13,7 @@
 @font-face {
   font-family: "Source Sans Pro";
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   font-weight: 400;
   src: local("Source Sans Pro Regular italic"),
     local("Source Sans Pro-Regularitalic"),
@@ -26,7 +26,7 @@
 @font-face {
   font-family: "Source Sans Pro";
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   font-weight: 600;
   src: local("Source Sans Pro SemiBold italic"),
     local("Source Sans Pro-SemiBolditalic"),
@@ -39,7 +39,7 @@
 @font-face {
   font-family: "Manuale";
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   font-weight: 400;
   src: local("Manuale Regular "), local("Manuale-Regular"),
     url("typeface-manuale/files/manuale-latin-400.woff2") format("woff2"),
@@ -49,7 +49,7 @@
 @font-face {
   font-family: "Manuale";
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   font-weight: 600;
   src: local("Manuale SemiBold "), local("Manuale-SemiBold"),
     url("typeface-manuale/files/manuale-latin-600.woff2") format("woff2"),
@@ -60,7 +60,7 @@
   font-size: calc(24rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
   font-family: var(--font-family-serif);
-  line-height: calc(32em / 24);
+  line-height: calc(26em / 24);
   letter-spacing: calc(0.2em / 24);
   color: var(--palette-text-primary);
 }
@@ -69,7 +69,7 @@
   font-size: calc(20rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
   font-family: var(--font-family-serif);
-  line-height: calc(24em / 20);
+  line-height: calc(22em / 20);
   letter-spacing: calc(0.2em / 20);
   color: var(--palette-text-primary);
 }
@@ -99,11 +99,6 @@
   line-height: calc(18em / 16);
   letter-spacing: calc(0.2em / 16);
   color: var(--palette-text-primary);
-}
-
-.bodyCopyBold {
-  composes: bodyCopy;
-  font-weight: var(--font-weight-medium);
 }
 
 .button {
@@ -158,6 +153,15 @@
   line-height: calc(18em / 18);
   letter-spacing: calc(0.2em / 18);
   color: var(--palette-text-primary);
+}
+
+.inputDescription {
+  font-size: calc(14rem / var(--rem-base));
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-sans-serif);
+  line-height: calc(18em / 16);
+  letter-spacing: calc(0.2em / 16);
+  color: var(--palette-text-secondary);
 }
 
 .placeholder {

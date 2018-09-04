@@ -1,12 +1,12 @@
 import { mapValues, once } from "lodash";
 import { ReactNode } from "react";
-import { VALIDATION_REQUIRED, VALIDATION_TOO_SHORT } from "../messages";
+import { VALIDATION_REQUIRED } from "../messages";
 
 /**
  * ValidationError represents all possible string values
  * that is responded by the server.
  */
-type ValidationError = "TOO_SHORT";
+type ValidationError = "REQUIRED";
 
 /**
  * InvalidArgsMap as responded by the server.
@@ -36,7 +36,6 @@ interface BadUserInputExtension {
  * Map server `ValidationError` to a translation message.
  */
 const validationMap = {
-  TOO_SHORT: VALIDATION_TOO_SHORT,
   REQUIRED: VALIDATION_REQUIRED,
 };
 

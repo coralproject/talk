@@ -1,18 +1,17 @@
 .root {
-  width: 100%;
 }
 
 .textarea {
   composes: bodyCopy from "talk-ui/shared/typography.css";
-
   display: block;
-  height: 100px;
+  height: 150px;
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: var(--spacing-unit);
+  padding: var(--spacing-unit);
+  border-radius: var(--round-corners);
+  resize: vertical;
 }
 
-.postButtonContainer {
-  display: flex;
-  justify-content: flex-end;
+.poweredBy {
+  margin-top: calc(-0.5 * var(--spacing-unit));
 }

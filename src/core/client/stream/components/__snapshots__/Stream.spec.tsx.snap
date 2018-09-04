@@ -1,25 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Flex)
+<withPropsOnChange(HorizontalGutter)
   className="Stream-root"
-  direction="column"
-  itemGutter={true}
+  size="double"
 >
-  <withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(UserBoxContainer)))))) />
-  <withContext(createMutationContainer(PostCommentFormContainer))
-    assetID="asset-id"
-  />
-  <withPropsOnChange(Flex)
+  <withPropsOnChange(HorizontalGutter)
+    size="half"
+  >
+    <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
+      user={null}
+    />
+    <PostCommentFormFake />
+  </withPropsOnChange(HorizontalGutter)>
+  <withPropsOnChange(HorizontalGutter)
     aria-live="polite"
-    direction="column"
     id="talk-comments-stream-log"
-    itemGutter={true}
     role="log"
   >
-    <withPropsOnChange(Flex)
-      direction="column"
-      itemGutter={true}
+    <withPropsOnChange(HorizontalGutter)
       key="comment-1"
     >
       <Relay(CommentContainer)
@@ -36,10 +35,8 @@ exports[`renders correctly 1`] = `
           }
         }
       />
-    </withPropsOnChange(Flex)>
-    <withPropsOnChange(Flex)
-      direction="column"
-      itemGutter={true}
+    </withPropsOnChange(HorizontalGutter)>
+    <withPropsOnChange(HorizontalGutter)
       key="comment-2"
     >
       <Relay(CommentContainer)
@@ -56,31 +53,30 @@ exports[`renders correctly 1`] = `
           }
         }
       />
-    </withPropsOnChange(Flex)>
-  </withPropsOnChange(Flex)>
-</withPropsOnChange(Flex)>
+    </withPropsOnChange(HorizontalGutter)>
+  </withPropsOnChange(HorizontalGutter)>
+</withPropsOnChange(HorizontalGutter)>
 `;
 
 exports[`when there is more disables load more button 1`] = `
-<withPropsOnChange(Flex)
+<withPropsOnChange(HorizontalGutter)
   className="Stream-root"
-  direction="column"
-  itemGutter={true}
+  size="double"
 >
-  <withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(UserBoxContainer)))))) />
-  <withContext(createMutationContainer(PostCommentFormContainer))
-    assetID="asset-id"
-  />
-  <withPropsOnChange(Flex)
+  <withPropsOnChange(HorizontalGutter)
+    size="half"
+  >
+    <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
+      user={null}
+    />
+    <PostCommentFormFake />
+  </withPropsOnChange(HorizontalGutter)>
+  <withPropsOnChange(HorizontalGutter)
     aria-live="polite"
-    direction="column"
     id="talk-comments-stream-log"
-    itemGutter={true}
     role="log"
   >
-    <withPropsOnChange(Flex)
-      direction="column"
-      itemGutter={true}
+    <withPropsOnChange(HorizontalGutter)
       key="comment-1"
     >
       <Relay(CommentContainer)
@@ -97,10 +93,8 @@ exports[`when there is more disables load more button 1`] = `
           }
         }
       />
-    </withPropsOnChange(Flex)>
-    <withPropsOnChange(Flex)
-      direction="column"
-      itemGutter={true}
+    </withPropsOnChange(HorizontalGutter)>
+    <withPropsOnChange(HorizontalGutter)
       key="comment-2"
     >
       <Relay(CommentContainer)
@@ -117,7 +111,7 @@ exports[`when there is more disables load more button 1`] = `
           }
         }
       />
-    </withPropsOnChange(Flex)>
+    </withPropsOnChange(HorizontalGutter)>
     <Localized
       id="comments-stream-loadMore"
     >
@@ -132,30 +126,29 @@ exports[`when there is more disables load more button 1`] = `
         Load More
       </withPropsOnChange(Button)>
     </Localized>
-  </withPropsOnChange(Flex)>
-</withPropsOnChange(Flex)>
+  </withPropsOnChange(HorizontalGutter)>
+</withPropsOnChange(HorizontalGutter)>
 `;
 
 exports[`when there is more renders a load more button 1`] = `
-<withPropsOnChange(Flex)
+<withPropsOnChange(HorizontalGutter)
   className="Stream-root"
-  direction="column"
-  itemGutter={true}
+  size="double"
 >
-  <withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(UserBoxContainer)))))) />
-  <withContext(createMutationContainer(PostCommentFormContainer))
-    assetID="asset-id"
-  />
-  <withPropsOnChange(Flex)
+  <withPropsOnChange(HorizontalGutter)
+    size="half"
+  >
+    <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
+      user={null}
+    />
+    <PostCommentFormFake />
+  </withPropsOnChange(HorizontalGutter)>
+  <withPropsOnChange(HorizontalGutter)
     aria-live="polite"
-    direction="column"
     id="talk-comments-stream-log"
-    itemGutter={true}
     role="log"
   >
-    <withPropsOnChange(Flex)
-      direction="column"
-      itemGutter={true}
+    <withPropsOnChange(HorizontalGutter)
       key="comment-1"
     >
       <Relay(CommentContainer)
@@ -172,10 +165,8 @@ exports[`when there is more renders a load more button 1`] = `
           }
         }
       />
-    </withPropsOnChange(Flex)>
-    <withPropsOnChange(Flex)
-      direction="column"
-      itemGutter={true}
+    </withPropsOnChange(HorizontalGutter)>
+    <withPropsOnChange(HorizontalGutter)
       key="comment-2"
     >
       <Relay(CommentContainer)
@@ -192,7 +183,7 @@ exports[`when there is more renders a load more button 1`] = `
           }
         }
       />
-    </withPropsOnChange(Flex)>
+    </withPropsOnChange(HorizontalGutter)>
     <Localized
       id="comments-stream-loadMore"
     >
@@ -207,6 +198,66 @@ exports[`when there is more renders a load more button 1`] = `
         Load More
       </withPropsOnChange(Button)>
     </Localized>
-  </withPropsOnChange(Flex)>
-</withPropsOnChange(Flex)>
+  </withPropsOnChange(HorizontalGutter)>
+</withPropsOnChange(HorizontalGutter)>
+`;
+
+exports[`when use is logged in renders correctly 1`] = `
+<withPropsOnChange(HorizontalGutter)
+  className="Stream-root"
+  size="double"
+>
+  <withPropsOnChange(HorizontalGutter)
+    size="half"
+  >
+    <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
+      user={Object {}}
+    />
+    <withContext(createMutationContainer(PostCommentFormContainer))
+      assetID="asset-id"
+    />
+  </withPropsOnChange(HorizontalGutter)>
+  <withPropsOnChange(HorizontalGutter)
+    aria-live="polite"
+    id="talk-comments-stream-log"
+    role="log"
+  >
+    <withPropsOnChange(HorizontalGutter)
+      key="comment-1"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-1",
+          }
+        }
+      />
+    </withPropsOnChange(HorizontalGutter)>
+    <withPropsOnChange(HorizontalGutter)
+      key="comment-2"
+    >
+      <Relay(CommentContainer)
+        data={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+      <Relay(ReplyListContainer)
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+      />
+    </withPropsOnChange(HorizontalGutter)>
+  </withPropsOnChange(HorizontalGutter)>
+</withPropsOnChange(HorizontalGutter)>
 `;
