@@ -5,11 +5,12 @@ import { Db } from "mongodb";
 import { Strategy as OAuth2Strategy, VerifyCallback } from "passport-oauth2";
 import { Strategy } from "passport-strategy";
 
-import { Config } from "talk-common/config";
 import { validate } from "talk-server/app/request/body";
 import { reconstructURL } from "talk-server/app/url";
-import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import { OIDCAuthIntegration } from "talk-server/models/settings";
+import {
+  GQLOIDCAuthIntegration,
+  GQLUSER_ROLE,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import { OIDCProfile, retrieveUserWithProfile } from "talk-server/models/user";
 import TenantCache from "talk-server/services/tenant/cache";
@@ -83,7 +84,9 @@ const signingKeyFactory = (client: jwks.JwksClient): jwt.KeyFunction => (
   });
 };
 
-function getEnabledIntegration(tenant: Tenant) {
+function getEnabledIntegration(
+  tenant: Tenant
+): Required<GQLOIDCAuthIntegration> {
   const integration = tenant.auth.integrations.oidc;
   if (!integration) {
     // TODO: return a better error.
@@ -96,7 +99,21 @@ function getEnabledIntegration(tenant: Tenant) {
     throw new Error("integration not enabled");
   }
 
-  return integration;
+  if (
+    !integration.name ||
+    !integration.clientID ||
+    !integration.clientSecret ||
+    !integration.authorizationURL ||
+    !integration.tokenURL ||
+    !integration.jwksURI ||
+    !integration.issuer
+  ) {
+    // TODO: return a better error.
+    throw new Error("integration not configured");
+  }
+
+  // TODO: (wyattjoh) for some reason, type guards above to not allow coercion to this required type.
+  return integration as Required<GQLOIDCAuthIntegration>;
 }
 
 export const OIDCIDTokenSchema = Joi.object()
@@ -179,7 +196,6 @@ const OIDC_SCOPE = "openid email profile";
 export interface OIDCStrategyOptions {
   mongo: Db;
   tenantCache: TenantCache;
-  config: Config;
 }
 
 export default class OIDCStrategy extends Strategy {
@@ -188,11 +204,11 @@ export default class OIDCStrategy extends Strategy {
   private mongo: Db;
   private cache: TenantCacheAdapter<StrategyItem>;
 
-  constructor({ mongo, tenantCache, config }: OIDCStrategyOptions) {
+  constructor({ mongo, tenantCache }: OIDCStrategyOptions) {
     super();
 
     this.mongo = mongo;
-    this.cache = new TenantCacheAdapter(tenantCache, config);
+    this.cache = new TenantCacheAdapter(tenantCache);
 
     // Connect the cache adapter.
     this.cache.subscribe();
@@ -201,7 +217,7 @@ export default class OIDCStrategy extends Strategy {
   private lookupJWKSClient(
     req: Request,
     tenantID: string,
-    oidc: OIDCAuthIntegration
+    oidc: Required<GQLOIDCAuthIntegration>
   ) {
     let entry = this.cache.get(tenantID);
     if (!entry) {
@@ -257,7 +273,7 @@ export default class OIDCStrategy extends Strategy {
 
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
-    let integration: OIDCAuthIntegration;
+    let integration: Required<GQLOIDCAuthIntegration>;
     try {
       integration = getEnabledIntegration(tenant);
     } catch (err) {
@@ -297,7 +313,7 @@ export default class OIDCStrategy extends Strategy {
 
   private createStrategy(
     req: Request,
-    integration: OIDCAuthIntegration
+    integration: Required<GQLOIDCAuthIntegration>
   ): OAuth2Strategy {
     const { clientID, clientSecret, authorizationURL, tokenURL } = integration;
 

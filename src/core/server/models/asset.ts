@@ -1,9 +1,9 @@
-import dotize from "dotize";
 import { defaults } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit } from "talk-common/types";
+import { dotize } from "talk-common/utils/dotize";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -172,12 +172,20 @@ export async function updateAsset(
   db: Db,
   tenantID: string,
   id: string,
-  update: UpdateAssetInput
+  input: UpdateAssetInput
 ) {
+  // Only update fields that have been updated.
+  const update = {
+    $set: {
+      ...dotize(input, { embedArrays: true }),
+      // Always update the updated at time.
+      updated_at: new Date(),
+    },
+  };
+
   const result = await collection(db).findOneAndUpdate(
     { id, tenant_id: tenantID },
-    // Only update fields that have been updated.
-    { $set: dotize.convert(update) },
+    update,
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }
