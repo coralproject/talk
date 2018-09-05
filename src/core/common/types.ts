@@ -12,4 +12,18 @@ export type Sub<T, U> = Pick<T, Diff<keyof T, keyof U>>;
  */
 export type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 
+/**
+ * Defines a type that may be a promise or a simple value return.
+ */
 export type Promiseable<T> = Promise<T> | T;
+
+/**
+ * Like Partial, but recurses down the object marking each field as Partial.
+ */
+export type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends Array<infer U>
+    ? Array<DeepPartial<U>>
+    : T[P] extends ReadonlyArray<infer V>
+      ? ReadonlyArray<DeepPartial<V>>
+      : DeepPartial<T[P]>
+};

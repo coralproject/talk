@@ -19,6 +19,10 @@ export const toxic: IntermediateModerationPhase = async ({
   tenant,
   comment,
 }): Promise<IntermediatePhaseResult | void> => {
+  if (!comment.body) {
+    return;
+  }
+
   const integration = tenant.integrations.perspective;
 
   if (!integration.enabled) {
@@ -34,7 +38,7 @@ export const toxic: IntermediateModerationPhase = async ({
     // The Toxic comment requires a key in order to communicate with the API.
     logger.error(
       { tenant_id: tenant.id },
-      "perspective integration was enabled but configuration was missing"
+      "perspective integration was enabled but the key configuration was missing"
     );
     return;
   }

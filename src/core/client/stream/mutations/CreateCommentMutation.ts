@@ -19,7 +19,7 @@ export type CreateCommentInput = Omit<
 const mutation = graphql`
   mutation CreateCommentMutation($input: CreateCommentInput!) {
     createComment(input: $input) {
-      commentEdge {
+      edge {
         cursor
         node {
           id
@@ -51,7 +51,7 @@ function commit(environment: Environment, input: CreateCommentInput) {
     },
     optimisticResponse: {
       createComment: {
-        commentEdge: {
+        edge: {
           cursor: currentDate,
           node: {
             id: uuid(),
@@ -77,7 +77,7 @@ function commit(environment: Environment, input: CreateCommentInput) {
           },
         ],
         parentID: input.assetID,
-        edgeName: "commentEdge",
+        edgeName: "edge",
       },
     ],
   });

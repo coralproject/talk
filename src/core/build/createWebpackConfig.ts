@@ -1,4 +1,5 @@
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
+import CompressionPlugin from "compression-webpack-plugin";
 import HtmlWebpackPlugin, { Options } from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
@@ -111,6 +112,8 @@ export default function createWebpackConfig({
           filename: "assets/css/[name].[hash].css",
           chunkFilename: "assets/css/[id].[hash].css",
         }),
+        // Pre-compress all the assets as they will be served as is.
+        new CompressionPlugin({}),
       ]
     : [
         // Add module names to factory functions so they appear in browser profiler.

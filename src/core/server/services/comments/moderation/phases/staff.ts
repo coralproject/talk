@@ -9,9 +9,6 @@ import {
 
 // If a given user is a staff member, always approve their comment.
 export const staff: IntermediateModerationPhase = ({
-  asset,
-  tenant,
-  comment,
   author,
 }): IntermediatePhaseResult | void => {
   if (author.role !== GQLUSER_ROLE.COMMENTER) {

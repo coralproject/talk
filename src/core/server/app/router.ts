@@ -13,6 +13,10 @@ import tenantMiddleware from "talk-server/app/middleware/tenant";
 import managementGraphMiddleware from "talk-server/graph/management/middleware";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
+import {
+  cacheHeadersMiddleware,
+  nocacheMiddleware,
+} from "talk-server/app/middleware/cacheHeaders";
 import { AppOptions } from "./index";
 import playground from "./middleware/playground";
 
@@ -57,6 +61,7 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
       config: app.config,
       mongo: app.mongo,
       redis: app.redis,
+      queue: app.queue,
     })
   );
 
@@ -123,7 +128,7 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
   const router = express.Router();
 
-  router.use("/api", await createAPIRouter(app, options));
+  router.use("/api", nocacheMiddleware, await createAPIRouter(app, options));
 
   if (app.config.get("env") === "development") {
     // Tenant GraphiQL
@@ -146,7 +151,7 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
   }
 
   // Handle the stream handler.
-  router.get("/embed/stream", streamHandler);
+  router.get("/embed/stream", cacheHeadersMiddleware("1h"), streamHandler);
 
   return router;
 }

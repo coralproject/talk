@@ -33,7 +33,8 @@ beforeEach(() => {
               },
             })
             .returns({
-              commentEdge: {
+              // TODO: add a type assertion here to ensure that if the type changes, that the test will fail
+              edge: {
                 cursor: "2018-07-06T18:24:00.000Z",
                 node: {
                   id: "comment-x",
@@ -72,15 +73,19 @@ it("post a comment", async () => {
     .props.onChange({ html: "<strong>Hello world!</strong>" });
 
   timekeeper.freeze(new Date("2018-07-06T18:24:00.000Z"));
+
   testRenderer.root
     .findByProps({ id: "comments-postCommentForm-form" })
     .props.onSubmit();
+
+  timekeeper.reset();
+
   // Test optimistic response.
   expect(testRenderer.toJSON()).toMatchSnapshot();
-  timekeeper.reset();
 
   // Wait for loading.
   await timeout();
+
   // Test after server response.
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });

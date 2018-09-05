@@ -45,14 +45,14 @@ const config = convict({
     doc: "The MongoDB database to connect to.",
     format: "mongo-uri",
     default: "mongodb://127.0.0.1:27017/talk",
-    env: "MONGODB",
+    env: "MONGODB_URI",
     arg: "mongodb",
   },
   redis: {
     doc: "The Redis database to connect to.",
     format: "redis-uri",
     default: "redis://127.0.0.1:6379",
-    env: "REDIS",
+    env: "REDIS_URI",
     arg: "redis",
   },
   signing_secret: {

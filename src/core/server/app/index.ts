@@ -12,8 +12,10 @@ import { createPassport } from "talk-server/app/middleware/passport";
 import { JWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
+import { TaskQueue } from "talk-server/services/queue";
 import TenantCache from "talk-server/services/tenant/cache";
 
+import { cacheHeadersMiddleware } from "talk-server/app/middleware/cacheHeaders";
 import { errorHandler } from "talk-server/app/middleware/error";
 import { accessLogger, errorLogger } from "./middleware/logging";
 import serveStatic from "./middleware/serveStatic";
@@ -21,6 +23,7 @@ import { createRouter } from "./router";
 
 export interface AppOptions {
   parent: Express;
+  queue: TaskQueue;
   config: Config;
   mongo: Db;
   redis: Redis;
@@ -47,13 +50,14 @@ export async function createApp(options: AppOptions): Promise<Express> {
 
   // Mount the router.
   parent.use(
+    "/",
     await createRouter(options, {
       passport,
     })
   );
 
   // Static Files
-  parent.use("/assets", serveStatic);
+  parent.use("/assets", cacheHeadersMiddleware("1w"), serveStatic);
 
   // Error Handling
   parent.use(notFoundMiddleware);

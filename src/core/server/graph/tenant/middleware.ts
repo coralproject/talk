@@ -4,6 +4,7 @@ import { Db } from "mongodb";
 
 import { Config } from "talk-common/config";
 import { graphqlMiddleware } from "talk-server/graph/common/middleware";
+import { TaskQueue } from "talk-server/services/queue";
 import { Request } from "talk-server/types/express";
 
 import TenantContext from "./context";
@@ -13,6 +14,7 @@ export interface TenantGraphQLMiddlewareOptions {
   config: Config;
   mongo: Db;
   redis: Redis;
+  queue: TaskQueue;
 }
 
 export default async ({
@@ -20,6 +22,7 @@ export default async ({
   config,
   mongo,
   redis,
+  queue,
 }: TenantGraphQLMiddlewareOptions) => {
   return graphqlMiddleware(config, async (req: Request) => {
     // Load the tenant and user from the request.
@@ -35,6 +38,7 @@ export default async ({
         tenant: tenant!,
         user,
         tenantCache,
+        queue,
       }),
     };
   });

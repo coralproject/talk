@@ -32,11 +32,24 @@ export const spam: IntermediateModerationPhase = async ({
     return;
   }
 
-  if (!integration.key || !integration.site) {
+  if (!integration.key) {
     logger.error(
       { tenant_id: tenant.id },
-      "akismet integration was enabled but configuration was missing"
+      "akismet integration was enabled but the key configuration was missing"
     );
+    return;
+  }
+
+  if (!integration.site) {
+    logger.error(
+      { tenant_id: tenant.id },
+      "akismet integration was enabled but the site configuration was missing"
+    );
+    return;
+  }
+
+  // If the comment doesn't have a body, it can't be spam!
+  if (!comment.body) {
     return;
   }
 

@@ -1,11 +1,13 @@
 import TenantContext from "talk-server/graph/tenant/context";
-import { GQLCreateCommentInput } from "talk-server/graph/tenant/schema/__generated__/types";
-import { Comment } from "talk-server/models/comment";
-import { create } from "talk-server/services/comments";
+import {
+  GQLCreateCommentInput,
+  GQLEditCommentInput,
+} from "talk-server/graph/tenant/schema/__generated__/types";
+import { create, edit } from "talk-server/services/comments";
 
 export default (ctx: TenantContext) => ({
-  create: (input: GQLCreateCommentInput): Promise<Comment> => {
-    return create(
+  create: (input: GQLCreateCommentInput) =>
+    create(
       ctx.mongo,
       ctx.tenant,
       ctx.user!,
@@ -16,6 +18,17 @@ export default (ctx: TenantContext) => ({
         parent_id: input.parentID,
       },
       ctx.req
-    );
-  },
+    ),
+  edit: (input: GQLEditCommentInput) =>
+    edit(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      {
+        id: input.commentID,
+        asset_id: input.assetID,
+        body: input.body,
+      },
+      ctx.req
+    ),
 });
