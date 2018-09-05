@@ -9,7 +9,7 @@ import { Environment } from "relay-runtime";
 import { BrowserInfo } from "talk-framework/lib/browserInfo";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
-import { PymStorage } from "talk-framework/lib/storage";
+import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { UIContext } from "talk-ui/components";
 import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 
@@ -30,10 +30,10 @@ export interface TalkContext {
   sessionStorage: Storage;
 
   /** Session Storage over pym */
-  pymLocalStorage?: PymStorage;
+  pymLocalStorage?: PromisifiedStorage;
 
   /** Session storage over pym */
-  pymSessionStorage?: PymStorage;
+  pymSessionStorage?: PromisifiedStorage;
 
   /** media query values for testing purposes */
   mediaQueryValues?: MediaQueryMatchers;

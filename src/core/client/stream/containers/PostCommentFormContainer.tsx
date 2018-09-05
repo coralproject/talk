@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { withContext } from "talk-framework/lib/bootstrap";
 import { BadUserInputError } from "talk-framework/lib/errors";
-import { PymStorage } from "talk-framework/lib/storage";
+import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { PropTypesOf } from "talk-framework/types";
 
 import PostCommentForm, {
@@ -13,7 +13,7 @@ import { CreateCommentMutation, withCreateCommentMutation } from "../mutations";
 interface InnerProps {
   createComment: CreateCommentMutation;
   assetID: string;
-  pymSessionStorage: PymStorage;
+  pymSessionStorage: PromisifiedStorage;
 }
 
 interface State {

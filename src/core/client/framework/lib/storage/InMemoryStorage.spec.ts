@@ -5,7 +5,7 @@ it("should set and unset values", () => {
   storage.setItem("test", "value");
   expect(storage.getItem("test")).toBe("value");
   storage.removeItem("test");
-  expect(storage.getItem("test")).toBeUndefined();
+  expect(storage.getItem("test")).toBeNull();
 });
 
 it("should return length", () => {

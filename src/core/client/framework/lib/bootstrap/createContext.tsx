@@ -9,6 +9,7 @@ import { getBrowserInfo } from "talk-framework/lib/browserInfo";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import {
   createLocalStorage,
+  createPromisifiedStorage,
   createPymStorage,
   createSessionStorage,
 } from "talk-framework/lib/storage";
@@ -57,6 +58,14 @@ export const timeagoFormatter: Formatter = (value, unit, suffix) => {
   );
 };
 
+function areWeInIframe() {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+}
+
 /**
  * `createContext` manages the dependencies of our framework
  * and returns a `TalkContext` that can be passed to the
@@ -69,6 +78,7 @@ export default async function createContext({
   pym,
   eventEmitter = new EventEmitter2({ wildcard: true }),
 }: CreateContextArguments): Promise<TalkContext> {
+  const inIframe = areWeInIframe();
   // Initialize Relay.
   const source = new RecordSource();
   const tokenGetter: TokenGetter = () => {
@@ -120,8 +130,12 @@ export default async function createContext({
     postMessage: new PostMessageService(),
     localStorage: createLocalStorage(),
     sessionStorage: createSessionStorage(),
-    pymLocalStorage: pym && createPymStorage(pym, "localStorage"),
-    pymSessionStorage: pym && createPymStorage(pym, "sessionStorage"),
+    pymLocalStorage:
+      (pym && (inIframe && createPymStorage(pym, "localStorage"))) ||
+      createPromisifiedStorage(createLocalStorage("talkPym")),
+    pymSessionStorage:
+      (pym && (inIframe && createPymStorage(pym, "sessionStorage"))) ||
+      createPromisifiedStorage(createSessionStorage("talkPym")),
     browserInfo: getBrowserInfo(),
   };
 

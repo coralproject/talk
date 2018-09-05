@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { withContext } from "talk-framework/lib/bootstrap";
 import { BadUserInputError } from "talk-framework/lib/errors";
 import { withFragmentContainer } from "talk-framework/lib/relay";
-import { PymStorage } from "talk-framework/lib/storage";
+import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { PropTypesOf } from "talk-framework/types";
 import { ReplyCommentFormContainer_asset as AssetData } from "talk-stream/__generated__/ReplyCommentFormContainer_asset.graphql";
 import { ReplyCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
@@ -17,7 +17,7 @@ import { CreateCommentMutation, withCreateCommentMutation } from "../mutations";
 
 interface InnerProps {
   createComment: CreateCommentMutation;
-  pymSessionStorage: PymStorage;
+  pymSessionStorage: PromisifiedStorage;
   comment: CommentData;
   asset: AssetData;
   onClose?: () => void;

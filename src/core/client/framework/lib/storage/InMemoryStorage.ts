@@ -28,7 +28,7 @@ class InMemoryStorage implements Storage {
   }
 
   public getItem(key: string) {
-    return this.storage[key];
+    return this.storage[key] || null;
   }
 
   public setItem(key: string, value: string) {

@@ -20,9 +20,9 @@ import {
  */
 export default async function initLocalState(
   environment: Environment,
-  { localStorage }: TalkContext
+  { pymLocalStorage }: TalkContext
 ) {
-  const authToken = await localStorage.getItem("authToken");
+  const authToken = await pymLocalStorage!.getItem("authToken");
 
   commitLocalUpdate(environment, s => {
     // TODO: (cvle) move local, auth token and network initialization to framework.
