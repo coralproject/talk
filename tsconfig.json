@@ -13,7 +13,12 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noErrorTruncation": true,
-    "lib": ["dom", "es6", "esnext.asynciterable"]
+    "lib": ["dom", "es6", "esnext.asynciterable"],
+    "plugins": [
+      {
+        "name": "typescript-snapshots-plugin"
+      }
+    ]
   },
   "include": [
     "./src/**/.*.js",
