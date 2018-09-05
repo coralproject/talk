@@ -39,7 +39,7 @@ beforeEach(() => {
             .returns({
               // TODO: add a type assertion here to ensure that if the type changes, that the test will fail
               edge: {
-                cursor: "2018-07-06T18:24:00.000Z",
+                cursor: null,
                 node: {
                   id: "comment-x",
                   author: users[0],
