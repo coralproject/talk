@@ -5,6 +5,11 @@ import withFragmentContainer from "talk-framework/lib/relay/withFragmentContaine
 import { PropTypesOf } from "talk-framework/types";
 import { CommentContainer_asset as AssetData } from "talk-stream/__generated__/CommentContainer_asset.graphql";
 import { CommentContainer_comment as CommentData } from "talk-stream/__generated__/CommentContainer_comment.graphql";
+import { CommentContainer_me as MeData } from "talk-stream/__generated__/CommentContainer_me.graphql";
+import {
+  ShowAuthPopupMutation,
+  withShowAuthPopupMutation,
+} from "talk-stream/mutations";
 
 import Comment from "../components/Comment";
 import ReplyButton from "../components/Comment/ReplyButton";
@@ -12,9 +17,11 @@ import ReplyCommentFormContainer from ".//ReplyCommentFormContainer";
 import PermalinkButtonContainer from "./PermalinkButtonContainer";
 
 interface InnerProps {
+  me: MeData | null;
   comment: CommentData;
   asset: AssetData;
   indentLevel?: number;
+  showAuthPopup: ShowAuthPopupMutation;
 }
 
 interface State {
@@ -27,9 +34,13 @@ export class CommentContainer extends Component<InnerProps, State> {
   };
 
   private openReplyDialog = () => {
-    this.setState(state => ({
-      showReplyDialog: true,
-    }));
+    if (this.props.me) {
+      this.setState(state => ({
+        showReplyDialog: true,
+      }));
+    } else {
+      this.props.showAuthPopup({ view: "SIGN_IN" });
+    }
   };
 
   private closeReplyDialog = () => {
@@ -69,24 +80,31 @@ export class CommentContainer extends Component<InnerProps, State> {
   }
 }
 
-const enhanced = withFragmentContainer<InnerProps>({
-  asset: graphql`
-    fragment CommentContainer_asset on Asset {
-      ...ReplyCommentFormContainer_asset
-    }
-  `,
-  comment: graphql`
-    fragment CommentContainer_comment on Comment {
-      id
-      author {
-        username
+const enhanced = withShowAuthPopupMutation(
+  withFragmentContainer<InnerProps>({
+    me: graphql`
+      fragment CommentContainer_me on User {
+        __typename
       }
-      body
-      createdAt
-      ...ReplyCommentFormContainer_comment
-    }
-  `,
-})(CommentContainer);
+    `,
+    asset: graphql`
+      fragment CommentContainer_asset on Asset {
+        ...ReplyCommentFormContainer_asset
+      }
+    `,
+    comment: graphql`
+      fragment CommentContainer_comment on Comment {
+        id
+        author {
+          username
+        }
+        body
+        createdAt
+        ...ReplyCommentFormContainer_comment
+      }
+    `,
+  })(CommentContainer)
+);
 
 export type CommentContainerProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

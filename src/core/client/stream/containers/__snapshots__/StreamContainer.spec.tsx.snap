@@ -33,8 +33,8 @@ exports[`renders correctly 1`] = `
     ]
   }
   disableLoadMore={false}
+  me={null}
   onLoadMore={[Function]}
-  user={null}
 />
 `;
 
@@ -72,8 +72,8 @@ exports[`when has more comments renders hasMore 1`] = `
   }
   disableLoadMore={false}
   hasMore={true}
+  me={null}
   onLoadMore={[Function]}
-  user={null}
 />
 `;
 
@@ -111,8 +111,8 @@ exports[`when has more comments when loading more disables load more button 1`] 
   }
   disableLoadMore={true}
   hasMore={true}
+  me={null}
   onLoadMore={[Function]}
-  user={null}
 />
 `;
 
@@ -150,7 +150,7 @@ exports[`when has more comments when loading more enable load more button after 
   }
   disableLoadMore={false}
   hasMore={true}
+  me={null}
   onLoadMore={[Function]}
-  user={null}
 />
 `;

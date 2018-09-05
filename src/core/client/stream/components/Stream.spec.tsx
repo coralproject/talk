@@ -20,7 +20,7 @@ it("renders correctly", () => {
     onLoadMore: noop,
     disableLoadMore: false,
     hasMore: false,
-    user: null,
+    me: null,
   };
   const wrapper = shallow(<StreamN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -37,7 +37,7 @@ describe("when use is logged in", () => {
       onLoadMore: noop,
       disableLoadMore: false,
       hasMore: false,
-      user: {},
+      me: {},
     };
     const wrapper = shallow(<StreamN {...props} />);
     expect(wrapper).toMatchSnapshot();
@@ -54,7 +54,7 @@ describe("when there is more", () => {
     onLoadMore: sinon.spy(),
     disableLoadMore: false,
     hasMore: true,
-    user: null,
+    me: null,
   };
 
   const wrapper = shallow(<StreamN {...props} />);

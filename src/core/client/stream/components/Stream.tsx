@@ -25,15 +25,19 @@ export interface StreamProps {
   onLoadMore?: () => void;
   hasMore?: boolean;
   disableLoadMore?: boolean;
-  user: PropTypesOf<typeof UserBoxContainer>["user"] | null;
+  me:
+    | PropTypesOf<typeof UserBoxContainer>["me"] &
+        PropTypesOf<typeof CommentContainer>["me"] &
+        PropTypesOf<typeof ReplyListContainer>["me"]
+    | null;
 }
 
 const Stream: StatelessComponent<StreamProps> = props => {
   return (
     <HorizontalGutter className={styles.root} size="double">
       <HorizontalGutter size="half">
-        <UserBoxContainer user={props.user} />
-        {props.user ? (
+        <UserBoxContainer me={props.me} />
+        {props.me ? (
           <PostCommentFormContainer assetID={props.asset.id} />
         ) : (
           <PostCommentFormFake />
@@ -46,8 +50,16 @@ const Stream: StatelessComponent<StreamProps> = props => {
       >
         {props.comments.map(comment => (
           <HorizontalGutter key={comment.id}>
-            <CommentContainer comment={comment} asset={props.asset} />
-            <ReplyListContainer comment={comment} asset={props.asset} />
+            <CommentContainer
+              me={props.me}
+              comment={comment}
+              asset={props.asset}
+            />
+            <ReplyListContainer
+              me={props.me}
+              comment={comment}
+              asset={props.asset}
+            />
           </HorizontalGutter>
         ))}
         {props.hasMore && (

@@ -31,7 +31,7 @@ export const render = ({
         </Localized>
       );
     }
-    return <StreamContainer asset={props.asset} user={props.me} />;
+    return <StreamContainer me={props.me} asset={props.asset} />;
   }
 
   return <Spinner />;
@@ -47,7 +47,7 @@ const StreamQuery: StatelessComponent<InnerProps> = ({
         # This is basically a cache invalidation and causes relay
         # to automatically update this query.
         me(clientAuthRevision: $authRevision) {
-          ...StreamContainer_user
+          ...StreamContainer_me
         }
         asset(id: $assetID) {
           ...StreamContainer_asset

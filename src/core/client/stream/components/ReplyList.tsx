@@ -10,6 +10,7 @@ import Indent from "./Indent";
 
 export interface ReplyListProps {
   asset: PropTypesOf<typeof CommentContainer>["asset"];
+  me: PropTypesOf<typeof CommentContainer>["me"];
   comment: {
     id: string;
   };
@@ -31,6 +32,7 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
       {props.comments.map(comment => (
         <CommentContainer
           key={comment.id}
+          me={props.me}
           comment={comment}
           asset={props.asset}
           indentLevel={props.indentLevel}

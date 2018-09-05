@@ -5,6 +5,7 @@ import { withPaginationContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
 import { ReplyListContainer_asset as AssetData } from "talk-stream/__generated__/ReplyListContainer_asset.graphql";
 import { ReplyListContainer_comment as CommentData } from "talk-stream/__generated__/ReplyListContainer_comment.graphql";
+import { ReplyListContainer_me as MeData } from "talk-stream/__generated__/ReplyListContainer_me.graphql";
 import {
   COMMENT_SORT,
   ReplyListContainerPaginationQueryVariables,
@@ -13,6 +14,7 @@ import {
 import ReplyList from "../components/ReplyList";
 
 export interface InnerProps {
+  me: MeData | null;
   asset: AssetData;
   comment: CommentData;
   relay: RelayPaginationProp;
@@ -33,6 +35,7 @@ export class ReplyListContainer extends React.Component<InnerProps> {
     const comments = this.props.comment.replies.edges.map(edge => edge.node);
     return (
       <ReplyList
+        me={this.props.me}
         comment={this.props.comment}
         comments={comments}
         asset={this.props.asset}
@@ -76,6 +79,11 @@ const enhanced = withPaginationContainer<
   FragmentVariables
 >(
   {
+    me: graphql`
+      fragment ReplyListContainer_me on User {
+        ...CommentContainer_me
+      }
+    `,
     asset: graphql`
       fragment ReplyListContainer_asset on Asset {
         ...CommentContainer_asset

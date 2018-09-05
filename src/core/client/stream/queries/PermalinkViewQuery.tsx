@@ -34,18 +34,32 @@ export const render = ({
       );
     }
     return (
-      <PermalinkViewContainer comment={props.comment} asset={props.asset} />
+      <PermalinkViewContainer
+        me={props.me}
+        comment={props.comment}
+        asset={props.asset}
+      />
     );
   }
   return <Spinner />;
 };
 
 const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
-  local: { commentID, assetID },
+  local: { commentID, assetID, authRevision },
 }) => (
   <QueryRenderer<QueryTypes>
     query={graphql`
-      query PermalinkViewQuery($commentID: ID!, $assetID: ID!) {
+      query PermalinkViewQuery(
+        $commentID: ID!
+        $assetID: ID!
+        $authRevision: Int!
+      ) {
+        # authRevision is increment every time auth state has changed.
+        # This is basically a cache invalidation and causes relay
+        # to automatically update this query.
+        me(clientAuthRevision: $authRevision) {
+          ...PermalinkViewContainer_me
+        }
         asset(id: $assetID) {
           ...PermalinkViewContainer_asset
         }
@@ -57,6 +71,7 @@ const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
     variables={{
       assetID: assetID!,
       commentID: commentID!,
+      authRevision,
     }}
     render={render}
   />

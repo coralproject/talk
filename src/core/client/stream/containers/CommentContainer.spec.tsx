@@ -1,4 +1,5 @@
 import { shallow } from "enzyme";
+import { noop } from "lodash";
 import React from "react";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
@@ -11,6 +12,7 @@ const CommentContainerN = removeFragmentRefs(CommentContainer);
 
 it("renders username and body", () => {
   const props: PropTypesOf<typeof CommentContainerN> = {
+    me: null,
     asset: {
       id: "asset-id",
     },
@@ -23,6 +25,7 @@ it("renders username and body", () => {
       createdAt: "1995-12-17T03:24:00.000Z",
     },
     indentLevel: 1,
+    showAuthPopup: noop as any,
   };
 
   const wrapper = shallow(<CommentContainerN {...props} />);
@@ -31,6 +34,7 @@ it("renders username and body", () => {
 
 it("renders body only", () => {
   const props: PropTypesOf<typeof CommentContainerN> = {
+    me: null,
     asset: {
       id: "asset-id",
     },
@@ -43,6 +47,7 @@ it("renders body only", () => {
       createdAt: "1995-12-17T03:24:00.000Z",
     },
     indentLevel: 1,
+    showAuthPopup: noop as any,
   };
 
   const wrapper = shallow(<CommentContainerN {...props} />);

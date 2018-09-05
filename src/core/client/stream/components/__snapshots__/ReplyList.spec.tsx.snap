@@ -5,7 +5,7 @@ exports[`renders correctly 1`] = `
   id="talk-comments-replyList-log--comment-id"
   role="log"
 >
-  <Relay(CommentContainer)
+  <withContext(createMutationContainer(Relay(CommentContainer)))
     asset={
       Object {
         "id": "asset-id",
@@ -19,7 +19,7 @@ exports[`renders correctly 1`] = `
     indentLevel={1}
     key="comment-1"
   />
-  <Relay(CommentContainer)
+  <withContext(createMutationContainer(Relay(CommentContainer)))
     asset={
       Object {
         "id": "asset-id",
@@ -41,7 +41,7 @@ exports[`when there is more disables load more button 1`] = `
   id="talk-comments-replyList-log--comment-id"
   role="log"
 >
-  <Relay(CommentContainer)
+  <withContext(createMutationContainer(Relay(CommentContainer)))
     asset={
       Object {
         "id": "asset-id",
@@ -55,7 +55,7 @@ exports[`when there is more disables load more button 1`] = `
     indentLevel={1}
     key="comment-1"
   />
-  <Relay(CommentContainer)
+  <withContext(createMutationContainer(Relay(CommentContainer)))
     asset={
       Object {
         "id": "asset-id",
@@ -96,7 +96,7 @@ exports[`when there is more renders a load more button 1`] = `
   id="talk-comments-replyList-log--comment-id"
   role="log"
 >
-  <Relay(CommentContainer)
+  <withContext(createMutationContainer(Relay(CommentContainer)))
     asset={
       Object {
         "id": "asset-id",
@@ -110,7 +110,7 @@ exports[`when there is more renders a load more button 1`] = `
     indentLevel={1}
     key="comment-1"
   />
-  <Relay(CommentContainer)
+  <withContext(createMutationContainer(Relay(CommentContainer)))
     asset={
       Object {
         "id": "asset-id",
