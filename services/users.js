@@ -98,8 +98,12 @@ async function upsertUser(
   // Save the user in the database.
   await user.save();
 
-  // Emit that the user was created.
-  ctx.pubsub.publish('userCreated', user);
+  if (ctx) {
+    // Emit that the user was created if the context is set.
+    ctx.pubsub.publish('userCreated', user);
+  }
+
+  return user;
 }
 
 // Users is the interface for the application to interact with the
