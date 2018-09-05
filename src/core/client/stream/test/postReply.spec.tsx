@@ -86,7 +86,7 @@ it("post a reply", async () => {
     .props.onClick();
 
   await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(testRenderer.toJSON()).toMatchSnapshot("open reply form");
 
   // Write reply .
   testRenderer.root
@@ -98,12 +98,12 @@ it("post a reply", async () => {
     .findByProps({ id: "comments-replyCommentForm-form-comment-0" })
     .props.onSubmit();
   // Test optimistic response.
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(testRenderer.toJSON()).toMatchSnapshot("optimistic response");
   timekeeper.reset();
 
   // Wait for loading.
   await timeout();
 
   // Test after server response.
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(testRenderer.toJSON()).toMatchSnapshot("server response");
 });

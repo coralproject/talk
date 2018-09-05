@@ -88,11 +88,11 @@ it("post a comment", async () => {
   timekeeper.reset();
 
   // Test optimistic response.
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(testRenderer.toJSON()).toMatchSnapshot("optimistic response");
 
   // Wait for loading.
   await timeout();
 
   // Test after server response.
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(testRenderer.toJSON()).toMatchSnapshot("server response");
 });

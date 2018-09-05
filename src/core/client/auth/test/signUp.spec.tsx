@@ -37,6 +37,7 @@ beforeEach(() => {
     sessionStorage: createInMemoryStorage(),
     rest: new RestClient("http://localhost/api"),
     postMessage: new PostMessageService(),
+    browserInfo: { ios: false },
   };
 
   testRenderer = TestRenderer.create(

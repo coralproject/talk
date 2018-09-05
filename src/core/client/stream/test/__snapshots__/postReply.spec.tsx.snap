@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`post a reply 1`] = `
+exports[`post a reply: open reply form 1`] = `
 <div
   className="Flex-root App-root Flex-flex Flex-justifyCenter"
 >
@@ -420,7 +420,7 @@ exports[`post a reply 1`] = `
 </div>
 `;
 
-exports[`post a reply 2`] = `
+exports[`post a reply: optimistic response 1`] = `
 <div
   className="Flex-root App-root Flex-flex Flex-justifyCenter"
 >
@@ -893,7 +893,7 @@ exports[`post a reply 2`] = `
 </div>
 `;
 
-exports[`post a reply 3`] = `
+exports[`post a reply: server response 1`] = `
 <div
   className="Flex-root App-root Flex-flex Flex-justifyCenter"
 >
