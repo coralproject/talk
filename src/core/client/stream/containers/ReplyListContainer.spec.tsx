@@ -26,6 +26,7 @@ it("renders correctly", () => {
       hasMore: noop,
       isLoading: noop,
     } as any,
+    me: null,
   };
   const wrapper = shallow(<ReplyListContainerN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -44,6 +45,7 @@ it("renders correctly when replies are null", () => {
       hasMore: noop,
       isLoading: noop,
     } as any,
+    me: null,
   };
   const wrapper = shallow(<ReplyListContainerN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -66,6 +68,7 @@ describe("when has more replies", () => {
       isLoading: () => false,
       loadMore: (_: any, callback: () => void) => (finishLoading = callback),
     } as any,
+    me: null,
   };
 
   let wrapper: ShallowWrapper;

@@ -19,6 +19,7 @@ it("renders correctly", () => {
     hasMore: false,
     disableShowAll: false,
     indentLevel: 1,
+    me: null,
   };
   const wrapper = shallow(<ReplyListN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -33,6 +34,7 @@ describe("when there is more", () => {
     hasMore: true,
     disableShowAll: false,
     indentLevel: 1,
+    me: null,
   };
 
   const wrapper = shallow(<ReplyListN {...props} />);
