@@ -363,6 +363,58 @@ describe('services.UsersService', () => {
     });
   });
 
+  describe('#upsertExternalUser', () => {
+    it('should return a user when the desired user is found', async () => {
+      const ctx = Context.forSystem();
+      let user = await UsersService.upsertExternalUser(
+        ctx,
+        'an-id',
+        'a-provider',
+        'a-display-name'
+      );
+
+      expect(user).to.be.defined;
+      expect(user.wasUpserted).to.be.true;
+
+      user = await UsersService.upsertExternalUser(
+        ctx,
+        'an-id',
+        'a-provider',
+        'a-display-name'
+      );
+
+      expect(user).to.be.defined;
+      expect(user.wasUpserted).to.be.false;
+    });
+
+    it('should return a user when the desired user is not found', async () => {
+      const ctx = Context.forSystem();
+      let user = await UsersService.upsertExternalUser(
+        ctx,
+        'an-id',
+        'a-provider',
+        'a-display-name'
+      );
+
+      expect(user).to.be.defined;
+      expect(user.wasUpserted).to.be.true;
+      expect(user).to.have.property('metadata');
+      expect(user.metadata).to.have.property('displayName', 'a-display-name');
+    });
+
+    it('should work if the context passed is null', async () => {
+      let user = await UsersService.upsertExternalUser(
+        null,
+        'an-id',
+        'a-provider',
+        'a-display-name'
+      );
+
+      expect(user).to.be.defined;
+      expect(user.wasUpserted).to.be.true;
+    });
+  });
+
   describe('#isValidUsername', () => {
     it('should not allow non-alphanumeric characters in usernames', () => {
       return UsersService.isValidUsername('hi🖕')

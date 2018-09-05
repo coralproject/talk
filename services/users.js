@@ -68,6 +68,8 @@ async function upsertUser(
     },
   });
   if (user) {
+    user.wasUpserted = false;
+    user.$ignore('wasUpserted');
     return user;
   }
 
@@ -102,6 +104,10 @@ async function upsertUser(
     // Emit that the user was created if the context is set.
     ctx.pubsub.publish('userCreated', user);
   }
+
+  // Indicate that the user was upserted.
+  user.wasUpserted = true;
+  user.$ignore('wasUpserted');
 
   return user;
 }
