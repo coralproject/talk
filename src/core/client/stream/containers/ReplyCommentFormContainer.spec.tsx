@@ -31,6 +31,7 @@ it("renders correctly", async () => {
       id: "comment-id",
     },
     pymSessionStorage: createFakePymStorage(),
+    autofocus: false,
   };
 
   const wrapper = shallow(<ReplyCommentFormContainerN {...props} />);
@@ -50,6 +51,7 @@ it("renders with initialValues", async () => {
       id: "comment-id",
     },
     pymSessionStorage: createFakePymStorage(),
+    autofocus: false,
   };
 
   await props.pymSessionStorage.setItem(
@@ -74,6 +76,7 @@ it("save values", async () => {
       id: "comment-id",
     },
     pymSessionStorage: createFakePymStorage(),
+    autofocus: false,
   };
 
   await props.pymSessionStorage.setItem(
@@ -111,6 +114,7 @@ it("creates a comment", async () => {
     },
     pymSessionStorage: createFakePymStorage(),
     onClose: onCloseStub,
+    autofocus: false,
   };
 
   await props.pymSessionStorage.setItem(
@@ -149,6 +153,7 @@ it("closes on cancel", async () => {
     },
     pymSessionStorage: createFakePymStorage(),
     onClose: onCloseStub,
+    autofocus: false,
   };
 
   await props.pymSessionStorage.setItem(

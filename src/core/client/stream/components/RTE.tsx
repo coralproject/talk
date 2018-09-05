@@ -1,6 +1,6 @@
 import { Blockquote, Bold, CoralRTE, Italic } from "@coralproject/rte";
 import { Localized as LocalizedOriginal } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { Ref, StatelessComponent } from "react";
 
 import { Icon } from "talk-ui/components";
 
@@ -47,6 +47,8 @@ export interface RTEProps {
   onChange?: (data: { html: string; text: string }) => void;
 
   disabled?: boolean;
+
+  forwardRef?: Ref<CoralRTE>;
 }
 
 // tslint:disable:jsx-wrap-multiline
@@ -83,6 +85,7 @@ const RTE: StatelessComponent<RTEProps> = props => {
     onChange,
     disabled,
     defaultValue,
+    forwardRef,
     ...rest
   } = props;
   return (
@@ -97,6 +100,7 @@ const RTE: StatelessComponent<RTEProps> = props => {
         disabled={disabled}
         placeholder={placeholder}
         features={features}
+        ref={forwardRef}
         {...rest}
       />
     </div>

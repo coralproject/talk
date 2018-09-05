@@ -6,6 +6,7 @@ import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
 
+import { BrowserInfo } from "talk-framework/lib/browserInfo";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
 import { PymStorage } from "talk-framework/lib/storage";
@@ -51,6 +52,9 @@ export interface TalkContext {
 
   /** A pym child that interacts with the pym parent. */
   pym?: PymChild;
+
+  /** Browser detection. */
+  browserInfo: BrowserInfo;
 }
 
 const { Provider, Consumer } = React.createContext<TalkContext>({} as any);

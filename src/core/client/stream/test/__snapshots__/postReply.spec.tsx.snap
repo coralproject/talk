@@ -816,7 +816,7 @@ exports[`post a reply 2`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                  id="comments-commentContainer-replyButton-96fdca5c-0068-4339-bc7e-1d09d55d56c5"
+                  id="comments-commentContainer-replyButton-comment-optimistic"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}

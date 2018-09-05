@@ -1,6 +1,12 @@
+import { CoralRTE } from "@coralproject/rte";
 import { FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
-import React, { EventHandler, MouseEvent, StatelessComponent } from "react";
+import React, {
+  EventHandler,
+  MouseEvent,
+  Ref,
+  StatelessComponent,
+} from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
 import { OnSubmit } from "talk-framework/lib/form";
@@ -26,6 +32,7 @@ export interface ReplyCommentFormProps {
   onCancel?: EventHandler<MouseEvent<any>>;
   onChange?: (state: FormState) => void;
   initialValues?: FormProps;
+  rteRef?: Ref<CoralRTE>;
 }
 
 const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
@@ -58,6 +65,7 @@ const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
                       onChange={({ html }) => input.onChange(html)}
                       value={input.value}
                       placeholder="Write a reply"
+                      forwardRef={props.rteRef}
                     />
                   </Localized>
                   {meta.touched &&

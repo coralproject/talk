@@ -46,6 +46,7 @@ export default function create(params: CreateParams) {
     pymSessionStorage: createFakePymStorage(),
     rest: new RestClient("http://localhost/api"),
     postMessage: new PostMessageService(),
+    browserInfo: { ios: false },
   };
 
   const testRenderer = TestRenderer.create(

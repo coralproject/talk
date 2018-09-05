@@ -1,3 +1,4 @@
+import { CoralRTE } from "@coralproject/rte";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
@@ -20,6 +21,7 @@ interface InnerProps {
   comment: CommentData;
   asset: AssetData;
   onClose?: () => void;
+  autofocus: boolean;
 }
 
 interface State {
@@ -35,6 +37,12 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
     super(props);
     this.init();
   }
+
+  private handleRTERef = (rte: CoralRTE | null) => {
+    if (rte && this.props.autofocus) {
+      rte.focus();
+    }
+  };
 
   private async init() {
     const body = await this.props.pymSessionStorage.getItem(this.contextKey);
@@ -101,12 +109,15 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
         onChange={this.handleOnChange}
         initialValues={this.state.initialValues}
         onCancel={this.handleOnCancel}
+        rteRef={this.handleRTERef}
       />
     );
   }
 }
-const enhanced = withContext(({ pymSessionStorage }) => ({
+const enhanced = withContext(({ pymSessionStorage, browserInfo }) => ({
   pymSessionStorage,
+  // Disable autofocus on ios and enable for the rest.
+  autofocus: !browserInfo.ios,
 }))(
   withCreateCommentMutation(
     withFragmentContainer<InnerProps>({
