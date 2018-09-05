@@ -22,8 +22,7 @@ function getContextKey(commentID: string) {
 
 it("renders correctly", async () => {
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    // tslint:disable-next-line:no-empty
-    createComment: (() => {}) as any,
+    createComment: noop as any,
     asset: {
       id: "asset-id",
     },
@@ -42,8 +41,7 @@ it("renders correctly", async () => {
 
 it("renders with initialValues", async () => {
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    // tslint:disable-next-line:no-empty
-    createComment: (() => {}) as any,
+    createComment: noop as any,
     asset: {
       id: "asset-id",
     },
@@ -67,8 +65,7 @@ it("renders with initialValues", async () => {
 
 it("save values", async () => {
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    // tslint:disable-next-line:no-empty
-    createComment: (() => {}) as any,
+    createComment: noop as any,
     asset: {
       id: "asset-id",
     },
@@ -104,7 +101,6 @@ it("creates a comment", async () => {
   const onCloseStub = sinon.stub();
 
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    // tslint:disable-next-line:no-empty
     createComment: createCommentStub,
     asset: {
       id: "asset-id",
@@ -143,8 +139,7 @@ it("creates a comment", async () => {
 it("closes on cancel", async () => {
   const onCloseStub = sinon.stub();
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    // tslint:disable-next-line:no-empty
-    createComment: (() => {}) as any,
+    createComment: noop as any,
     asset: {
       id: "asset-id",
     },
@@ -173,4 +168,29 @@ it("closes on cancel", async () => {
   expect(
     await props.pymSessionStorage.getItem(getContextKey(props.comment.id))
   ).toBeNull();
+});
+
+it("autofocuses", async () => {
+  const focusStub = sinon.stub();
+  const rte = { focus: focusStub };
+  const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
+    createComment: noop as any,
+    asset: {
+      id: "asset-id",
+    },
+    comment: {
+      id: "comment-id",
+    },
+    pymSessionStorage: createFakePymStorage(),
+    autofocus: true,
+  };
+
+  const wrapper = shallow(<ReplyCommentFormContainerN {...props} />);
+  await timeout();
+  wrapper.update();
+  wrapper
+    .findWhere(n => n.prop("rteRef"))
+    .props()
+    .rteRef(rte);
+  expect(focusStub.calledOnce).toBe(true);
 });
