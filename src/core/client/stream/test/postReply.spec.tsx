@@ -38,7 +38,7 @@ beforeEach(() => {
               },
             })
             .returns({
-              commentEdge: {
+              edge: {
                 cursor: "2018-07-06T18:24:00.000Z",
                 node: {
                   id: "comment-x",
