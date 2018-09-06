@@ -7,7 +7,7 @@ function createTestRenderer(initialView: string): ReactTestRenderer {
     // Set this to true, to see graphql responses.
     logNetwork: false,
     initLocalState: localRecord => {
-      localRecord.setValue("SIGN_IN", "view");
+      localRecord.setValue(initialView, "view");
     },
   });
   return testRenderer;
