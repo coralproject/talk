@@ -22,13 +22,13 @@ export interface TalkContext {
   /** formatter for timeago. */
   timeagoFormatter?: Formatter;
 
-  /** Session Storage */
+  /** Local Storage */
   localStorage: Storage;
 
   /** Session storage */
   sessionStorage: Storage;
 
-  /** Session Storage over pym */
+  /** Local Storage over pym */
   pymLocalStorage?: PymStorage;
 
   /** Session storage over pym */

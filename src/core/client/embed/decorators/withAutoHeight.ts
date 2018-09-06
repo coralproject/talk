@@ -1,4 +1,4 @@
-import { Decorator } from "./";
+import { Decorator } from "./types";
 
 const withAutoHeight: Decorator = pym => {
   // Resize parent iframe height when child height changes
