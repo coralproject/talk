@@ -13,16 +13,15 @@ export type SetAuthTokenMutation = (input: SetAuthTokenInput) => Promise<void>;
 export async function commit(
   environment: Environment,
   input: SetAuthTokenInput,
-  { localStorage, pymLocalStorage }: TalkContext
+  { localStorage }: TalkContext
 ) {
   return commitLocalUpdate(environment, store => {
     const record = store.get(LOCAL_ID)!;
     record.setValue(input.authToken, "authToken");
-    const storage = pymLocalStorage || localStorage;
     if (input.authToken) {
-      storage.setItem("authToken", input.authToken);
+      localStorage.setItem("authToken", input.authToken);
     } else {
-      storage.removeItem("authToken");
+      localStorage.removeItem("authToken");
     }
     // Increment auth revision to indicate a change in auth state.
     record.setValue(record.getValue("authRevision") + 1, "authRevision");

@@ -24,16 +24,10 @@ export interface TalkContext {
   timeagoFormatter?: Formatter;
 
   /** Local Storage */
-  localStorage: Storage;
+  localStorage: PromisifiedStorage;
 
   /** Session storage */
-  sessionStorage: Storage;
-
-  /** Session Storage over pym */
-  pymLocalStorage?: PromisifiedStorage;
-
-  /** Session storage over pym */
-  pymSessionStorage?: PromisifiedStorage;
+  sessionStorage: PromisifiedStorage;
 
   /** media query values for testing purposes */
   mediaQueryValues?: MediaQueryMatchers;

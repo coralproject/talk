@@ -20,7 +20,7 @@ class PymStorage implements PromisifiedStorage {
   /** Requests method with parameters over pym. */
   private call<T>(
     method: string,
-    parameters: { key: string; value?: string }
+    parameters: Record<string, any> = {}
   ): Promise<T> {
     const id = uuid();
     return new Promise((resolve, reject) => {
@@ -55,6 +55,15 @@ class PymStorage implements PromisifiedStorage {
     this.listen();
   }
 
+  get length() {
+    return this.call<number>("length");
+  }
+  public key(n: number) {
+    return this.call<string | null>("key", { n });
+  }
+  public clear() {
+    return this.call<void>("clear");
+  }
   public setItem(key: string, value: string) {
     return this.call<void>("setItem", { key, value });
   }

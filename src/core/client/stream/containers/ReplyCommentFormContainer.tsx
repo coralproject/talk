@@ -17,7 +17,7 @@ import { CreateCommentMutation, withCreateCommentMutation } from "../mutations";
 
 interface InnerProps {
   createComment: CreateCommentMutation;
-  pymSessionStorage: PromisifiedStorage;
+  sessionStorage: PromisifiedStorage;
   comment: CommentData;
   asset: AssetData;
   onClose?: () => void;
@@ -45,7 +45,7 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
   };
 
   private async init() {
-    const body = await this.props.pymSessionStorage.getItem(this.contextKey);
+    const body = await this.props.sessionStorage.getItem(this.contextKey);
     if (body) {
       this.setState({
         initialValues: {
@@ -59,7 +59,7 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
   }
 
   private handleOnCancel = () => {
-    this.props.pymSessionStorage.removeItem(this.contextKey);
+    this.props.sessionStorage.removeItem(this.contextKey);
     if (this.props.onClose) {
       this.props.onClose();
     }
@@ -76,7 +76,7 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
         ...input,
       });
 
-      this.props.pymSessionStorage.removeItem(this.contextKey);
+      this.props.sessionStorage.removeItem(this.contextKey);
       if (this.props.onClose) {
         this.props.onClose();
       }
@@ -92,9 +92,9 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
 
   private handleOnChange: ReplyCommentFormProps["onChange"] = state => {
     if (state.values.body) {
-      this.props.pymSessionStorage.setItem(this.contextKey, state.values.body);
+      this.props.sessionStorage.setItem(this.contextKey, state.values.body);
     } else {
-      this.props.pymSessionStorage.removeItem(this.contextKey);
+      this.props.sessionStorage.removeItem(this.contextKey);
     }
   };
 
@@ -114,8 +114,8 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
     );
   }
 }
-const enhanced = withContext(({ pymSessionStorage, browserInfo }) => ({
-  pymSessionStorage,
+const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
+  sessionStorage,
   // Disable autofocus on ios and enable for the rest.
   autofocus: !browserInfo.ios,
 }))(

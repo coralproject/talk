@@ -1,3 +1,5 @@
+import startsWith from "./startsWith";
+
 /**
  * PrefixedStorage decorates a Storage and prefixes keys in
  * getItem, setItem and removeItem with given prefix.
@@ -14,7 +16,7 @@ class PrefixedStorage implements Storage {
   get length() {
     let count = 0;
     for (let i = 0; i < this.storage.length; i++) {
-      if (this.storage.key(i)!.startsWith(this.prefix)) {
+      if (startsWith(this.storage.key(i)!, this.prefix)) {
         count++;
       }
     }
@@ -25,7 +27,7 @@ class PrefixedStorage implements Storage {
     const toBeDeleted = [];
     for (let i = 0; i < this.storage.length; i++) {
       const key = this.storage.key(i)!;
-      if (key.startsWith(this.prefix)) {
+      if (startsWith(key, this.prefix)) {
         toBeDeleted.push(key);
       }
     }
@@ -36,7 +38,7 @@ class PrefixedStorage implements Storage {
     let count = 0;
     for (let i = 0; i < this.storage.length; i++) {
       const key = this.storage.key(i)!;
-      if (key.startsWith(this.prefix)) {
+      if (startsWith(key, this.prefix)) {
         if (count === n) {
           return key;
         }

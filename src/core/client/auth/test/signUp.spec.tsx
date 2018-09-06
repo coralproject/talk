@@ -11,7 +11,7 @@ import { animationFrame, timeout } from "talk-common/utils";
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
-import { createInMemoryStorage } from "talk-framework/lib/storage";
+import { createPromisifiedStorage } from "talk-framework/lib/storage";
 
 import createEnvironment from "./createEnvironment";
 import createFluentBundle from "./createFluentBundle";
@@ -33,8 +33,8 @@ beforeEach(() => {
   context = {
     relayEnvironment: environment,
     localeBundles: [createFluentBundle()],
-    localStorage: createInMemoryStorage(),
-    sessionStorage: createInMemoryStorage(),
+    localStorage: createPromisifiedStorage(),
+    sessionStorage: createPromisifiedStorage(),
     rest: new RestClient("http://localhost/api"),
     postMessage: new PostMessageService(),
     browserInfo: { ios: false },

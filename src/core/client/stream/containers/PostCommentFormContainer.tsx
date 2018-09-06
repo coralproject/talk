@@ -13,7 +13,7 @@ import { CreateCommentMutation, withCreateCommentMutation } from "../mutations";
 interface InnerProps {
   createComment: CreateCommentMutation;
   assetID: string;
-  pymSessionStorage: PromisifiedStorage;
+  sessionStorage: PromisifiedStorage;
 }
 
 interface State {
@@ -32,7 +32,7 @@ export class PostCommentFormContainer extends Component<InnerProps, State> {
   }
 
   private async init() {
-    const body = await this.props.pymSessionStorage.getItem(contextKey);
+    const body = await this.props.sessionStorage.getItem(contextKey);
     if (body) {
       this.setState({
         initialValues: {
@@ -67,9 +67,9 @@ export class PostCommentFormContainer extends Component<InnerProps, State> {
 
   private handleOnChange: PostCommentFormProps["onChange"] = state => {
     if (state.values.body) {
-      this.props.pymSessionStorage.setItem(contextKey, state.values.body);
+      this.props.sessionStorage.setItem(contextKey, state.values.body);
     } else {
-      this.props.pymSessionStorage.removeItem(contextKey);
+      this.props.sessionStorage.removeItem(contextKey);
     }
   };
 
@@ -87,8 +87,8 @@ export class PostCommentFormContainer extends Component<InnerProps, State> {
   }
 }
 
-const enhanced = withContext(({ pymSessionStorage }) => ({
-  pymSessionStorage,
+const enhanced = withContext(({ sessionStorage }) => ({
+  sessionStorage,
 }))(withCreateCommentMutation(PostCommentFormContainer));
 export type PostCommentFormContainerProps = PropTypesOf<typeof enhanced>;
 export default enhanced;

@@ -33,24 +33,3 @@ it("Removes auth token from localStorage", () => {
   commit(environment, { authToken: null }, context as any);
   expect(context.localStorage.getItem("authToken")).toBeNull();
 });
-
-it("Sets auth token to pymLocalStorage", async () => {
-  const context = {
-    pymLocalStorage: createInMemoryStorage(),
-    localStorage: createInMemoryStorage(),
-  };
-  const authToken = "auth token";
-  commit(environment, { authToken }, context as any);
-  expect(source.get(LOCAL_ID)!.authToken).toEqual(authToken);
-  expect(await context.pymLocalStorage.getItem("authToken")).toEqual(authToken);
-});
-
-it("Removes auth token from pymLocalStorage", async () => {
-  const context = {
-    pymLocalStorage: createInMemoryStorage(),
-    localStorage: createInMemoryStorage(),
-  };
-  localStorage.setItem("authToken", "tmp");
-  commit(environment, { authToken: null }, context as any);
-  expect(await context.pymLocalStorage.getItem("authToken")).toBeNull();
-});

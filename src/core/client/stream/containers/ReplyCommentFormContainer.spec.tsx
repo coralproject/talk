@@ -3,13 +3,10 @@ import { noop } from "lodash";
 import React from "react";
 import sinon from "sinon";
 
-import { PropTypesOf } from "talk-framework/types";
-
 import { timeout } from "talk-common/utils";
-import {
-  createFakePymStorage,
-  removeFragmentRefs,
-} from "talk-framework/testHelpers";
+import { createPromisifiedStorage } from "talk-framework/lib/storage";
+import { removeFragmentRefs } from "talk-framework/testHelpers";
+import { PropTypesOf } from "talk-framework/types";
 import { ReplyCommentFormContainer } from "./ReplyCommentFormContainer";
 
 const ReplyCommentFormContainerN = removeFragmentRefs(
@@ -29,7 +26,7 @@ it("renders correctly", async () => {
     comment: {
       id: "comment-id",
     },
-    pymSessionStorage: createFakePymStorage(),
+    sessionStorage: createPromisifiedStorage(),
     autofocus: false,
   };
 
@@ -48,11 +45,11 @@ it("renders with initialValues", async () => {
     comment: {
       id: "comment-id",
     },
-    pymSessionStorage: createFakePymStorage(),
+    sessionStorage: createPromisifiedStorage(),
     autofocus: false,
   };
 
-  await props.pymSessionStorage.setItem(
+  await props.sessionStorage.setItem(
     getContextKey(props.comment.id),
     "Hello World!"
   );
@@ -72,11 +69,11 @@ it("save values", async () => {
     comment: {
       id: "comment-id",
     },
-    pymSessionStorage: createFakePymStorage(),
+    sessionStorage: createPromisifiedStorage(),
     autofocus: false,
   };
 
-  await props.pymSessionStorage.setItem(
+  await props.sessionStorage.setItem(
     getContextKey(props.comment.id),
     "Hello World!"
   );
@@ -89,7 +86,7 @@ it("save values", async () => {
     .props()
     .onChange({ values: { body: "changed" } });
   expect(
-    await props.pymSessionStorage.getItem(getContextKey(props.comment.id))
+    await props.sessionStorage.getItem(getContextKey(props.comment.id))
   ).toBe("changed");
 });
 
@@ -108,12 +105,12 @@ it("creates a comment", async () => {
     comment: {
       id: "comment-id",
     },
-    pymSessionStorage: createFakePymStorage(),
+    sessionStorage: createPromisifiedStorage(),
     onClose: onCloseStub,
     autofocus: false,
   };
 
-  await props.pymSessionStorage.setItem(
+  await props.sessionStorage.setItem(
     getContextKey(props.comment.id),
     "Hello World!"
   );
@@ -146,12 +143,12 @@ it("closes on cancel", async () => {
     comment: {
       id: "comment-id",
     },
-    pymSessionStorage: createFakePymStorage(),
+    sessionStorage: createPromisifiedStorage(),
     onClose: onCloseStub,
     autofocus: false,
   };
 
-  await props.pymSessionStorage.setItem(
+  await props.sessionStorage.setItem(
     getContextKey(props.comment.id),
     "Hello World!"
   );
@@ -166,7 +163,7 @@ it("closes on cancel", async () => {
 
   // Removes saved value.
   expect(
-    await props.pymSessionStorage.getItem(getContextKey(props.comment.id))
+    await props.sessionStorage.getItem(getContextKey(props.comment.id))
   ).toBeNull();
 });
 
@@ -181,7 +178,7 @@ it("autofocuses", async () => {
     comment: {
       id: "comment-id",
     },
-    pymSessionStorage: createFakePymStorage(),
+    sessionStorage: createPromisifiedStorage(),
     autofocus: true,
   };
 

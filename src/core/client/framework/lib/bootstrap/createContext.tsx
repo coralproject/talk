@@ -128,14 +128,12 @@ export default async function createContext({
     registerClickFarAway,
     rest: new RestClient("/api", tokenGetter),
     postMessage: new PostMessageService(),
-    localStorage: createLocalStorage(),
-    sessionStorage: createSessionStorage(),
-    pymLocalStorage:
-      (pym && (inIframe && createPymStorage(pym, "localStorage"))) ||
-      createPromisifiedStorage(createLocalStorage("talkPym")),
-    pymSessionStorage:
-      (pym && (inIframe && createPymStorage(pym, "sessionStorage"))) ||
-      createPromisifiedStorage(createSessionStorage("talkPym")),
+    localStorage:
+      (pym && inIframe && createPymStorage(pym, "localStorage")) ||
+      createPromisifiedStorage(createLocalStorage()),
+    sessionStorage:
+      (pym && inIframe && createPymStorage(pym, "sessionStorage")) ||
+      createPromisifiedStorage(createSessionStorage()),
     browserInfo: getBrowserInfo(),
   };
 

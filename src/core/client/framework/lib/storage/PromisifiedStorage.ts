@@ -1,4 +1,12 @@
+import createInMemoryStorage from "./InMemoryStorage";
+
 export interface PromisifiedStorage {
+  length: Promise<number>;
+
+  clear(): Promise<void>;
+
+  key(n: number): Promise<string | null>;
+
   /**
    * value = storage[key]
    */
@@ -23,6 +31,18 @@ class BackedPromisifedStorage implements PromisifiedStorage {
     this.storage = storage;
   }
 
+  get length() {
+    return Promise.resolve(this.storage.length);
+  }
+
+  public clear() {
+    return Promise.resolve(this.storage.clear());
+  }
+
+  public key(n: number) {
+    return Promise.resolve(this.storage.key(n));
+  }
+
   public getItem(key: string) {
     return Promise.resolve(this.storage.getItem(key));
   }
@@ -36,6 +56,8 @@ class BackedPromisifedStorage implements PromisifiedStorage {
   }
 }
 
-export default function createPromisifiedStorage(storage: Storage) {
+export default function createPromisifiedStorage(
+  storage: Storage = createInMemoryStorage()
+) {
   return new BackedPromisifedStorage(storage);
 }

@@ -3,10 +3,7 @@ import { Environment, RecordSource } from "relay-runtime";
 import { timeout } from "talk-common/utils";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { LOCAL_ID } from "talk-framework/lib/relay";
-import {
-  createInMemoryStorage,
-  createPromisifiedStorage,
-} from "talk-framework/lib/storage";
+import { createPromisifiedStorage } from "talk-framework/lib/storage";
 import { createRelayEnvironment } from "talk-framework/testHelpers";
 
 import initLocalState from "./initLocalState";
@@ -24,7 +21,7 @@ beforeEach(() => {
 
 it("init local state", async () => {
   const context: Partial<TalkContext> = {
-    pymLocalStorage: createPromisifiedStorage(createInMemoryStorage()),
+    localStorage: createPromisifiedStorage(),
   };
   await initLocalState(environment, context as any);
   await timeout();
@@ -33,7 +30,7 @@ it("init local state", async () => {
 
 it("set assetID from query", async () => {
   const context: Partial<TalkContext> = {
-    pymLocalStorage: createPromisifiedStorage(createInMemoryStorage()),
+    localStorage: createPromisifiedStorage(),
   };
   const assetID = "asset-id";
   const previousLocation = location.toString();
@@ -50,7 +47,7 @@ it("set assetID from query", async () => {
 
 it("set commentID from query", async () => {
   const context: Partial<TalkContext> = {
-    pymLocalStorage: createPromisifiedStorage(createInMemoryStorage()),
+    localStorage: createPromisifiedStorage(),
   };
   const commentID = "comment-id";
   const previousLocation = location.toString();
@@ -67,10 +64,10 @@ it("set commentID from query", async () => {
 
 it("set authToken from localStorage", async () => {
   const context: Partial<TalkContext> = {
-    pymLocalStorage: createPromisifiedStorage(createInMemoryStorage()),
+    localStorage: createPromisifiedStorage(),
   };
   const authToken = "auth-token";
-  context.pymLocalStorage!.setItem("authToken", authToken);
+  context.localStorage!.setItem("authToken", authToken);
   await initLocalState(environment, context as any);
   expect(source.get(LOCAL_ID)!.authToken).toBe(authToken);
 });

@@ -6,8 +6,7 @@ import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
-import { createInMemoryStorage } from "talk-framework/lib/storage";
-import { createFakePymStorage } from "talk-framework/testHelpers";
+import { createPromisifiedStorage } from "talk-framework/lib/storage";
 import AppContainer from "talk-stream/containers/AppContainer";
 
 import createEnvironment from "./createEnvironment";
@@ -40,10 +39,8 @@ export default function create(params: CreateParams) {
   const context: TalkContext = {
     relayEnvironment: environment,
     localeBundles: [createFluentBundle()],
-    localStorage: createInMemoryStorage(),
-    sessionStorage: createInMemoryStorage(),
-    pymLocalStorage: createFakePymStorage(),
-    pymSessionStorage: createFakePymStorage(),
+    localStorage: createPromisifiedStorage(),
+    sessionStorage: createPromisifiedStorage(),
     rest: new RestClient("http://localhost/api"),
     postMessage: new PostMessageService(),
     browserInfo: { ios: false },

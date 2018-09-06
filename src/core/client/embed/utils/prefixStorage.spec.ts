@@ -1,5 +1,5 @@
 import sinon from "sinon";
-import createInMemoryStorage from "./InMemoryStorage";
+import { createInMemoryStorage } from "../testUtils";
 import prefixStorage from "./prefixStorage";
 
 it("should get nth key", () => {
