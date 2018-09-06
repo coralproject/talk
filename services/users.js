@@ -68,6 +68,8 @@ async function upsertUser(
     },
   });
   if (user) {
+    user.wasUpserted = false;
+    user.$ignore('wasUpserted');
     return user;
   }
 
@@ -98,8 +100,16 @@ async function upsertUser(
   // Save the user in the database.
   await user.save();
 
-  // Emit that the user was created.
-  ctx.pubsub.publish('userCreated', user);
+  if (ctx) {
+    // Emit that the user was created if the context is set.
+    ctx.pubsub.publish('userCreated', user);
+  }
+
+  // Indicate that the user was upserted.
+  user.wasUpserted = true;
+  user.$ignore('wasUpserted');
+
+  return user;
 }
 
 // Users is the interface for the application to interact with the
