@@ -19,20 +19,4 @@ function mockReact() {
   };
 }
 
-export interface UUIDMock {
-  (): string;
-  setMockData(mockData: string[]): void;
-}
-
-function mockUUID(): UUIDMock {
-  const originalUUID = require.requireActual("uuid/v4");
-  let mockData: string[] = [];
-  const uuid: UUIDMock = (() => {
-    return (mockData.length && mockData.splice(0, 1)[0]) || originalUUID();
-  }) as any;
-  uuid.setMockData = (nextMockData: string[]) => (mockData = nextMockData);
-  return uuid;
-}
-
 jest.mock("react", () => mockReact());
-jest.mock("uuid/v4", () => mockUUID());

@@ -1,15 +1,11 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import timekeeper from "timekeeper";
-import uuid from "uuid/v4";
 
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
-import { UUIDMock } from "talk-test/mocks";
 
 import create from "./create";
 import { assets, users } from "./fixtures";
-
-const uuidMock = uuid as UUIDMock;
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
@@ -74,9 +70,6 @@ it("renders comment stream", async () => {
 });
 
 it("post a reply", async () => {
-  // set next UUID of the optimistic response.
-  uuidMock.setMockData(["comment-optimistic"]);
-
   // Wait for loading.
   await timeout();
 

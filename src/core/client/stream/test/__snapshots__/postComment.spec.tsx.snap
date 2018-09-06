@@ -213,7 +213,7 @@ exports[`post a comment: optimistic response 1`] = `
           >
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-              id="comments-commentContainer-replyButton-comment-optimistic"
+              id="comments-commentContainer-replyButton-uuid-0"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}

@@ -1,8 +1,8 @@
 import { graphql } from "react-relay";
 import { Environment, RelayMutationConfig } from "relay-runtime";
-import uuid from "uuid/v4";
 
 import { getMe } from "talk-framework/helpers";
+import { TalkContext } from "talk-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
@@ -65,7 +65,11 @@ function getConfig(input: CreateCommentInput): RelayMutationConfig[] {
   ];
 }
 
-function commit(environment: Environment, input: CreateCommentInput) {
+function commit(
+  environment: Environment,
+  input: CreateCommentInput,
+  { uuidGenerator }: TalkContext
+) {
   const me = getMe(environment)!;
   const currentDate = new Date().toISOString();
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
@@ -81,7 +85,7 @@ function commit(environment: Environment, input: CreateCommentInput) {
         edge: {
           cursor: currentDate,
           node: {
-            id: uuid(),
+            id: uuidGenerator(),
             createdAt: currentDate,
             author: {
               id: me.id,

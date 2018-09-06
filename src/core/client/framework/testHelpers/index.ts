@@ -8,3 +8,4 @@ export {
   default as removeFragmentRefs,
   NoFragmentRefs,
 } from "./removeFragmentRefs";
+export { default as createUUIDGenerator } from "./createUUIDGenerator";

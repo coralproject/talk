@@ -49,6 +49,9 @@ export interface TalkContext {
 
   /** Browser detection. */
   browserInfo: BrowserInfo;
+
+  /** Generates uuids. */
+  uuidGenerator: () => string;
 }
 
 const { Provider, Consumer } = React.createContext<TalkContext>({} as any);

@@ -3,20 +3,19 @@ import React from "react";
 import TestRenderer from "react-test-renderer";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 
+import AppContainer from "talk-auth/containers/AppContainer";
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
 import { createPromisifiedStorage } from "talk-framework/lib/storage";
-import AppContainer from "talk-stream/containers/AppContainer";
 import { createUUIDGenerator } from "talk-framework/testHelpers";
 
 import createEnvironment from "./createEnvironment";
 import createFluentBundle from "./createFluentBundle";
-import createNodeMock from "./createNodeMock";
 
 interface CreateParams {
   logNetwork?: boolean;
-  resolvers: IResolvers<any, any>;
+  resolvers?: IResolvers<any, any>;
   initLocalState?: (
     local: RecordProxy,
     source: RecordSourceProxy,
@@ -51,8 +50,7 @@ export default function create(params: CreateParams) {
   const testRenderer = TestRenderer.create(
     <TalkContextProvider value={context}>
       <AppContainer />
-    </TalkContextProvider>,
-    { createNodeMock }
+    </TalkContextProvider>
   );
 
   return { context, testRenderer };

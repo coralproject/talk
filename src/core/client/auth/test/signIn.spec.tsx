@@ -1,20 +1,10 @@
-import React from "react";
-import TestRenderer, {
-  ReactTestInstance,
-  ReactTestRenderer,
-} from "react-test-renderer";
-import { RecordProxy } from "relay-runtime";
+import { ReactTestInstance, ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import AppContainer from "talk-auth/containers/AppContainer";
 import { animationFrame, timeout } from "talk-common/utils";
-import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
-import { PostMessageService } from "talk-framework/lib/postMessage";
-import { RestClient } from "talk-framework/lib/rest";
-import { createPromisifiedStorage } from "talk-framework/lib/storage";
+import { TalkContext } from "talk-framework/lib/bootstrap";
 
-import createEnvironment from "./createEnvironment";
-import createFluentBundle from "./createFluentBundle";
+import create from "./create";
 
 const inputPredicate = (name: string) => (n: ReactTestInstance) => {
   return n.props.name === name && n.props.onChange;
@@ -24,27 +14,13 @@ let context: TalkContext;
 let testRenderer: ReactTestRenderer;
 let form: ReactTestInstance;
 beforeEach(() => {
-  const environment = createEnvironment({
-    initLocalState: (localRecord: RecordProxy) => {
+  ({ testRenderer, context } = create({
+    // Set this to true, to see graphql responses.
+    logNetwork: false,
+    initLocalState: localRecord => {
       localRecord.setValue("SIGN_IN", "view");
     },
-  });
-
-  context = {
-    relayEnvironment: environment,
-    localeBundles: [createFluentBundle()],
-    localStorage: createPromisifiedStorage(),
-    sessionStorage: createPromisifiedStorage(),
-    rest: new RestClient("http://localhost/api"),
-    postMessage: new PostMessageService(),
-    browserInfo: { ios: false },
-  };
-
-  testRenderer = TestRenderer.create(
-    <TalkContextProvider value={context}>
-      <AppContainer />
-    </TalkContextProvider>
-  );
+  }));
   form = testRenderer.root.findByType("form");
 });
 
