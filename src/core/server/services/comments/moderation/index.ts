@@ -1,6 +1,6 @@
 import { Omit, Promiseable } from "talk-common/types";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
-import { Action } from "talk-server/models/actions";
+import { CreateActionInput } from "talk-server/models/actions";
 import { Asset } from "talk-server/models/asset";
 import { Comment } from "talk-server/models/comment";
 import { Tenant } from "talk-server/models/tenant";
@@ -9,14 +9,10 @@ import { Request } from "talk-server/types/express";
 
 import { moderationPhases } from "./phases";
 
-// TODO: (wyattjoh) move into actions module once we have action methods.
-export type CreateAction = Omit<
-  Action,
-  "id" | "item_type" | "item_id" | "created_at"
->;
+export type ModerationAction = Omit<CreateActionInput, "item_id" | "item_type">;
 
 export interface PhaseResult {
-  actions: CreateAction[];
+  actions: ModerationAction[];
   status: GQLCOMMENT_STATUS;
   metadata: Record<string, any>;
 }

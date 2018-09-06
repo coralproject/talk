@@ -2,6 +2,7 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
+import { dotize } from "talk-common/utils/dotize";
 import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
@@ -358,4 +359,31 @@ function applyInputToQuery(input: ConnectionInput, query: Query<Comment>) {
       }
       break;
   }
+}
+
+/**
+ * updateCommentActionCounts will update the given comment's action counts.
+ *
+ * @param mongo the database handle
+ * @param tenantID the id of the tenant
+ * @param id the id of the comment being updated
+ * @param actionCounts the action counts to merge into the comment
+ */
+export async function updateCommentActionCounts(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  actionCounts: ActionCounts
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenant_id: tenantID },
+    // Update all the specific action counts that are associated with each of
+    // the counts.
+    { $inc: dotize({ action_counts: actionCounts }) },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return result.value;
 }

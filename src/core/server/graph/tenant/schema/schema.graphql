@@ -31,8 +31,22 @@ scalar Cursor
 ################################################################################
 
 enum ACTION_TYPE {
+  """
+  REACTION corresponds to a reaction to a comment from a user.
+  """
+  REACTION
+
+  """
+  FLAG corresponds to a flag action that indicates that the given resource needs
+  moderator attention.
+  """
   FLAG
-  DONTAGREE
+
+  """
+  DONT_AGREE corresponds to when a user marks a given comment that they don't
+  agree with.
+  """
+  DONT_AGREE
 }
 
 enum ACTION_ITEM_TYPE {
