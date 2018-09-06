@@ -1,4 +1,4 @@
-import { Decorator } from "./";
+import { Decorator } from "./types";
 
 const withPymStorage = (
   storage: Storage,

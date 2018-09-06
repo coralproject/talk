@@ -1,7 +1,7 @@
 import qs from "query-string";
 
 import { buildURL } from "../utils";
-import { Decorator } from "./";
+import { Decorator } from "./types";
 
 function getCurrentCommentID() {
   return qs.parse(location.search).commentID;

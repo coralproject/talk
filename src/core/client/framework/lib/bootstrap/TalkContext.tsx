@@ -23,7 +23,7 @@ export interface TalkContext {
   /** formatter for timeago. */
   timeagoFormatter?: Formatter;
 
-  /** Session Storage */
+  /** Local Storage */
   localStorage: Storage;
 
   /** Session storage */
