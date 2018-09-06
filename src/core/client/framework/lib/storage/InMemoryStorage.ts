@@ -38,6 +38,10 @@ class InMemoryStorage implements Storage {
   public removeItem(key: string) {
     delete this.storage[key];
   }
+
+  public toString() {
+    return JSON.stringify(this.storage);
+  }
 }
 
 export default function createInMemoryStorage() {

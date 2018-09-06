@@ -1,6 +1,7 @@
+import { FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
-import { Field, Form } from "react-final-form";
+import { Field, Form, FormSpy } from "react-final-form";
 
 import { OnSubmit } from "talk-framework/lib/form";
 import { required } from "talk-framework/lib/validation";
@@ -22,10 +23,12 @@ interface FormProps {
 
 export interface PostCommentFormProps {
   onSubmit: OnSubmit<FormProps>;
+  onChange?: (state: FormState) => void;
+  initialValues?: FormProps;
 }
 
 const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
-  <Form onSubmit={props.onSubmit}>
+  <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
     {({ handleSubmit, submitting }) => (
       <form
         autoComplete="off"
@@ -33,6 +36,7 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
         className={styles.root}
         id="comments-postCommentForm-form"
       >
+        <FormSpy onChange={props.onChange} />
         <HorizontalGutter>
           <Field name="body" validate={required}>
             {({ input, meta }) => (

@@ -22,6 +22,8 @@ export default async function initLocalState(
   environment: Environment,
   { localStorage }: TalkContext
 ) {
+  const authToken = await localStorage.getItem("authToken");
+
   commitLocalUpdate(environment, s => {
     // TODO: (cvle) move local, auth token and network initialization to framework.
     const root = s.getRoot();
@@ -31,7 +33,7 @@ export default async function initLocalState(
     root.setLinkedRecord(localRecord, "local");
 
     // Set auth token
-    localRecord.setValue(localStorage.getItem("authToken") || "", "authToken");
+    localRecord.setValue(authToken || "", "authToken");
 
     // Set initial auth revision, this is increment whenenver auth state might have changed.
     localRecord.setValue(0, "authRevision");

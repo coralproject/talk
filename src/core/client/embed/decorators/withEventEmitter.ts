@@ -1,6 +1,6 @@
 import { EventEmitter2 } from "eventemitter2";
 
-import { Decorator } from "./";
+import { Decorator } from "./types";
 
 const withEventEmitter = (eventEmitter: EventEmitter2): Decorator => pym => {
   // Pass events from iframe to the event emitter.

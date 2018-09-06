@@ -1,4 +1,4 @@
-import { Decorator } from "./";
+import { Decorator } from "./types";
 
 const withIOSSafariWidthWorkaround: Decorator = pym => {
   // Workaround: IOS Safari ignores `width` but respects `min-width` value.

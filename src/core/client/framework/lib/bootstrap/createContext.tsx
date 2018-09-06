@@ -8,6 +8,7 @@ import { Environment, Network, RecordSource, Store } from "relay-runtime";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import {
   createLocalStorage,
+  createPymStorage,
   createSessionStorage,
 } from "talk-framework/lib/storage";
 
@@ -118,6 +119,8 @@ export default async function createContext({
     postMessage: new PostMessageService(),
     localStorage: createLocalStorage(),
     sessionStorage: createSessionStorage(),
+    pymLocalStorage: pym && createPymStorage(pym, "localStorage"),
+    pymSessionStorage: pym && createPymStorage(pym, "sessionStorage"),
   };
 
   // Run custom initializations.
