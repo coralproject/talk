@@ -7,8 +7,8 @@ import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
 import { createPromisifiedStorage } from "talk-framework/lib/storage";
-import AppContainer from "talk-stream/containers/AppContainer";
 import { createUUIDGenerator } from "talk-framework/testHelpers";
+import AppContainer from "talk-stream/containers/AppContainer";
 
 import createEnvironment from "./createEnvironment";
 import createFluentBundle from "./createFluentBundle";
