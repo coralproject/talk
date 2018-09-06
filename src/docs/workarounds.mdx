@@ -12,16 +12,6 @@ Babel versions are currently locked to 7.0.0-beta.49 because of this bug:
 
 https://github.com/babel/babel/issues/8167#issuecomment-397295483
 
-## Relay Typescript
-
-We are using a patched version of `Relay` that adds support for `Typescript`. Big thanks to [@alloy](https://github.com/alloy) for his fork on https://github.com/alloy/relay. Patched packages can be found in the top level `patches` folder.
-
-This is no longer needed once https://github.com/facebook/relay/pull/2293 has been merged and released.
-
-## relay-compiler-language-typescript
-
-We have patched [relay-compiler-language-typescript](https://github.com/relay-tools/relay-compiler-language-typescript)  with an hack to fix an issue with `--noImplicitAny` support (https://github.com/relay-tools/relay-compiler-language-typescript/issues/48). Patched packages can be found in the top level `patches` folder.
-
 ## Relay Client Side Schema Extensions
 
 We use Client Side Schema Extension in `Relay` to store client and UI related state. It works great, the only limitation currently is that locally created `Records` are garbage collected. We created a little helper in `talk-framework/lib/relay/createAndRetain.ts` that creates and retains these `Records` forever. Hopefully this gets resolved and we don't need to do this kind of manual lifecycle management.
