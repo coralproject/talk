@@ -1,7 +1,9 @@
 import { Environment, RecordSource } from "relay-runtime";
+import sinon from "sinon";
 
+import { TalkContext } from "talk-framework/lib/bootstrap";
 import { LOCAL_ID } from "talk-framework/lib/relay";
-import { createInMemoryStorage } from "talk-framework/lib/storage";
+import { createPromisifiedStorage } from "talk-framework/lib/storage";
 import { createRelayEnvironment } from "talk-framework/testHelpers";
 
 import { commit } from "./SetAuthTokenMutation";
@@ -15,21 +17,29 @@ beforeAll(() => {
   });
 });
 
-it("Sets auth token to localStorage", () => {
-  const context = {
-    localStorage: createInMemoryStorage(),
+it("Sets auth token to localStorage", async () => {
+  const clearSessionStub = sinon.stub();
+  const context: Partial<TalkContext> = {
+    localStorage: createPromisifiedStorage(),
+    clearSession: clearSessionStub,
   };
   const authToken = "auth token";
-  commit(environment, { authToken }, context as any);
+  await commit(environment, { authToken }, context as any);
   expect(source.get(LOCAL_ID)!.authToken).toEqual(authToken);
-  expect(context.localStorage.getItem("authToken")).toEqual(authToken);
+  await expect(context.localStorage!.getItem("authToken")).resolves.toEqual(
+    authToken
+  );
+  expect(clearSessionStub.calledOnce).toBe(true);
 });
 
-it("Removes auth token from localStorage", () => {
-  const context = {
-    localStorage: createInMemoryStorage(),
+it("Removes auth token from localStorage", async () => {
+  const clearSessionStub = sinon.stub();
+  const context: Partial<TalkContext> = {
+    localStorage: createPromisifiedStorage(),
+    clearSession: clearSessionStub,
   };
   localStorage.setItem("authToken", "tmp");
-  commit(environment, { authToken: null }, context as any);
-  expect(context.localStorage.getItem("authToken")).toBeNull();
+  await commit(environment, { authToken: null }, context as any);
+  await expect(context.localStorage!.getItem("authToken")).resolves.toBeNull();
+  expect(clearSessionStub.calledOnce).toBe(true);
 });

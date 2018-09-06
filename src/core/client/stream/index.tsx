@@ -3,46 +3,40 @@ import React from "react";
 import { StatelessComponent } from "react";
 import ReactDOM from "react-dom";
 
-import {
-  createContext,
-  TalkContext,
-  TalkContextProvider,
-} from "talk-framework/lib/bootstrap";
+import { createManaged } from "talk-framework/lib/bootstrap";
 
 import AppContainer from "./containers/AppContainer";
 import {
-  onPostMessageAuthError,
-  onPostMessageSetAuthToken,
-  onPymSetCommentID,
+  OnPostMessageAuthError,
+  OnPostMessageSetAuthToken,
+  OnPymSetCommentID,
 } from "./listeners";
 import { initLocalState } from "./local";
 import localesData from "./locales";
 
-const listeners = [
-  onPymSetCommentID,
-  onPostMessageSetAuthToken,
-  onPostMessageAuthError,
-];
-
-// This is called when the context is first initialized.
-async function init(context: TalkContext) {
-  await initLocalState(context.relayEnvironment, context);
-  listeners.forEach(f => f(context));
-}
+const listeners = (
+  <>
+    <OnPymSetCommentID />
+    <OnPostMessageSetAuthToken />
+    <OnPostMessageAuthError />
+  </>
+);
 
 async function main() {
-  // Bootstrap our context.
-  const context = await createContext({
-    init,
+  const ManagedTalkContextProvider = await createManaged({
+    initLocalState,
     localesData,
     userLocales: navigator.languages,
     pym: new PymChild({ polling: 100 }),
   });
 
   const Index: StatelessComponent = () => (
-    <TalkContextProvider value={context}>
-      <AppContainer />
-    </TalkContextProvider>
+    <ManagedTalkContextProvider>
+      <>
+        {listeners}
+        <AppContainer />
+      </>
+    </ManagedTalkContextProvider>
   );
 
   ReactDOM.render(<Index />, document.getElementById("app"));

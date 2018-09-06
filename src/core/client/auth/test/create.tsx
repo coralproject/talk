@@ -1,4 +1,6 @@
+import { EventEmitter2 } from "eventemitter2";
 import { IResolvers } from "graphql-tools";
+import { noop } from "lodash";
 import React from "react";
 import TestRenderer from "react-test-renderer";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
@@ -29,7 +31,6 @@ export default function create(params: CreateParams) {
     logNetwork: params.logNetwork,
     resolvers: params.resolvers,
     initLocalState: (localRecord, source, env) => {
-      localRecord.setValue(0, "authRevision");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, env);
       }
@@ -45,6 +46,8 @@ export default function create(params: CreateParams) {
     postMessage: new PostMessageService(),
     browserInfo: { ios: false },
     uuidGenerator: createUUIDGenerator(),
+    eventEmitter: new EventEmitter2(),
+    clearSession: noop,
   };
 
   const testRenderer = TestRenderer.create(
