@@ -19,7 +19,10 @@ export interface PymStorage {
 }
 
 class PymStorageImpl implements PymStorage {
+  /** Instance to pym */
   private pym: Pym;
+
+  /** Requested storage type */
   private type: string;
 
   /** A Map of requestID => {resolve, reject} */
@@ -28,7 +31,7 @@ class PymStorageImpl implements PymStorage {
     { resolve: ((v: any) => void); reject: ((v: any) => void) }
   > = {};
 
-  // Requests method with parameters over pym.
+  /** Requests method with parameters over pym. */
   private call<T>(
     method: string,
     parameters: { key: string; value?: string }
@@ -43,6 +46,7 @@ class PymStorageImpl implements PymStorage {
     });
   }
 
+  /** Listen to pym responses */
   private listen() {
     // Receive successful responses.
     this.pym.onMessage(`pymStorage.${this.type}.response`, (msg: string) => {
