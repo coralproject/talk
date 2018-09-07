@@ -26,6 +26,7 @@ exports[`renders body only 1`] = `
     id="comment-id"
     indentLevel={1}
     me={null}
+    pending={false}
     showAuthPopup={[Function]}
   />
 </React.Fragment>
@@ -57,6 +58,7 @@ exports[`renders username and body 1`] = `
     id="comment-id"
     indentLevel={1}
     me={null}
+    pending={false}
     showAuthPopup={[Function]}
   />
 </React.Fragment>
