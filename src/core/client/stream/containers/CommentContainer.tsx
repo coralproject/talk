@@ -57,6 +57,7 @@ export class CommentContainer extends Component<InnerProps, State> {
         <Comment
           {...rest}
           {...comment}
+          blur={comment.pending || false}
           footer={
             <>
               <ReplyButton
@@ -100,6 +101,7 @@ const enhanced = withShowAuthPopupMutation(
         }
         body
         createdAt
+        pending
         ...ReplyCommentFormContainer_comment
       }
     `,
