@@ -8,14 +8,20 @@
   box-sizing: border-box;
   border-radius: var(--round-corners);
   border-width: 1px;
-  border-left-width: calc(0.8 * var(--spacing-unit));
   border-style: solid;
+  border-left-width: calc(0.8 * var(--spacing-unit));
 }
 
-.color {
+.colorInfo {
   background-color: var(--palette-common-white);
   border-color: var(--palette-grey-main);
   color: var(--palette-grey-main);
+}
+
+.colorValidation {
+  background-color: var(--palette-error-light);
+  border-color: var(--palette-error-darkest);
+  color: var(--palette-common-white);
 }
 
 .fullWidth {
@@ -25,5 +31,4 @@
 
 .icon {
   margin-right: calc(0.8 * var(--spacing-unit));
-  color: var(--palette-grey-main);
 }

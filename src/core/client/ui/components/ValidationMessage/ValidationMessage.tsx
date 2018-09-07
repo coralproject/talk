@@ -1,10 +1,5 @@
-import cn from "classnames";
 import React, { ReactNode, StatelessComponent } from "react";
-
-import { withStyles } from "talk-ui/hocs";
-
-import Icon from "../Icon";
-import * as styles from "./ValidationMessage.css";
+import Message from "../Message";
 
 export interface ValidationMessageProps {
   /**
@@ -16,34 +11,18 @@ export interface ValidationMessageProps {
    */
   className?: string;
   /**
-   * Override or extend the styles applied to the component.
+   * If set renders a full width message
    */
-  classes: typeof styles;
-  /*
-  * If set renders a full width message
-  */
   fullWidth?: boolean;
 }
 
 const ValidationMessage: StatelessComponent<ValidationMessageProps> = props => {
-  const { className, classes, fullWidth, children, ...rest } = props;
-
-  const rootClassName = cn(
-    classes.root,
-    classes.colorError,
-    {
-      [classes.fullWidth]: fullWidth,
-    },
-    className
-  );
+  const { className, fullWidth, children, ...rest } = props;
 
   return (
-    <div className={rootClassName} {...rest}>
-      <Icon size="sm" className={classes.icon}>
-        warning
-      </Icon>
+    <Message color="validation" icon="warning" className={className} {...rest}>
       {children}
-    </div>
+    </Message>
   );
 };
 
@@ -51,5 +30,4 @@ ValidationMessage.defaultProps = {
   fullWidth: false,
 };
 
-const enhanced = withStyles(styles)(ValidationMessage);
-export default enhanced;
+export default ValidationMessage;

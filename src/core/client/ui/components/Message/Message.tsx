@@ -27,15 +27,28 @@ export interface MessageProps {
   * Name of the icon, render if provided
   */
   icon?: string;
+  /*
+  * Name of color, "info" stays by default - common gray one
+  */
+  color?: "validation" | "info";
 }
 
 const Message: StatelessComponent<MessageProps> = props => {
-  const { className, classes, fullWidth, children, icon, ...rest } = props;
+  const {
+    className,
+    classes,
+    fullWidth,
+    children,
+    icon,
+    color,
+    ...rest
+  } = props;
 
   const rootClassName = cn(
     classes.root,
-    classes.color,
     {
+      [classes.colorInfo]: color === "info",
+      [classes.colorValidation]: color === "validation",
       [classes.fullWidth]: fullWidth,
     },
     className
@@ -54,6 +67,7 @@ const Message: StatelessComponent<MessageProps> = props => {
 };
 
 Message.defaultProps = {
+  color: "info",
   fullWidth: false,
 };
 
