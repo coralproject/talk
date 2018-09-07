@@ -130,6 +130,7 @@ exports[`post a reply: open reply form 1`] = `
                       "__html": "",
                     }
                   }
+                  disabled={false}
                   id="comments-postCommentForm-field"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -315,6 +316,7 @@ exports[`post a reply: open reply form 1`] = `
                         "__html": "",
                       }
                     }
+                    disabled={false}
                     id="comments-replyCommentForm-rte-comment-0"
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -550,6 +552,7 @@ exports[`post a reply: optimistic response 1`] = `
                       "__html": "",
                     }
                   }
+                  disabled={false}
                   id="comments-postCommentForm-field"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -675,7 +678,7 @@ exports[`post a reply: optimistic response 1`] = `
                   className=""
                 >
                   <div
-                    className="Toolbar-toolbar"
+                    className=" RTE-toolbarDisabled Toolbar-toolbar"
                   >
                     <button
                       className="Button-button"
@@ -722,13 +725,14 @@ exports[`post a reply: optimistic response 1`] = `
                   </div>
                   <div
                     aria-placeholder="Post a comment"
-                    className="RTE-contentEditable RTE-content"
-                    contentEditable={true}
+                    className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
+                    contentEditable={false}
                     dangerouslySetInnerHTML={
                       Object {
                         "__html": "<strong>Hello world!</strong>",
                       }
                     }
+                    disabled={true}
                     id="comments-replyCommentForm-rte-comment-0"
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -1023,6 +1027,7 @@ exports[`post a reply: server response 1`] = `
                       "__html": "",
                     }
                   }
+                  disabled={false}
                   id="comments-postCommentForm-field"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -1376,6 +1381,7 @@ exports[`renders comment stream 1`] = `
                       "__html": "",
                     }
                   }
+                  disabled={false}
                   id="comments-postCommentForm-field"
                   onBlur={[Function]}
                   onChange={[Function]}
