@@ -1,0 +1,29 @@
+.root {
+  composes: alertMessage from "talk-ui/shared/typography.css";
+  position: relative;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: calc(0.8 * var(--spacing-unit)) var(--spacing-unit);
+  box-sizing: border-box;
+  border-radius: var(--round-corners);
+  border-width: 1px;
+  border-left-width: calc(0.8 * var(--spacing-unit));
+  border-style: solid;
+}
+
+.color {
+  background-color: var(--palette-common-white);
+  border-color: var(--palette-grey-main);
+  color: var(--palette-grey-main);
+}
+
+.fullWidth {
+  display: flex;
+  width: 100%;
+}
+
+.icon {
+  margin-right: calc(0.8 * var(--spacing-unit));
+  color: var(--palette-grey-main);
+}
