@@ -34,11 +34,11 @@ exports[`accepts correct password 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -70,11 +70,11 @@ exports[`accepts correct password 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -124,11 +124,11 @@ exports[`accepts correct password 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -215,11 +215,11 @@ exports[`accepts correct password confirmation 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -251,11 +251,11 @@ exports[`accepts correct password confirmation 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -287,11 +287,11 @@ exports[`accepts correct password confirmation 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -318,11 +318,11 @@ exports[`accepts correct password confirmation 1`] = `
           value="testtest"
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -432,11 +432,11 @@ exports[`accepts valid email 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -468,11 +468,11 @@ exports[`accepts valid email 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -499,11 +499,11 @@ exports[`accepts valid email 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -590,11 +590,11 @@ exports[`accepts valid username 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -649,11 +649,11 @@ exports[`accepts valid username 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -680,11 +680,11 @@ exports[`accepts valid username 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -771,11 +771,11 @@ exports[`checks for invalid characters in username 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -807,11 +807,11 @@ exports[`checks for invalid characters in username 1`] = `
           value="$%$§$%$§%"
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -843,11 +843,11 @@ exports[`checks for invalid characters in username 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -874,11 +874,11 @@ exports[`checks for invalid characters in username 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -965,11 +965,11 @@ exports[`checks for invalid email 1`] = `
           value="invalid-email"
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1001,11 +1001,11 @@ exports[`checks for invalid email 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1037,11 +1037,11 @@ exports[`checks for invalid email 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1068,11 +1068,11 @@ exports[`checks for invalid email 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1159,11 +1159,11 @@ exports[`checks for too long username 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1195,11 +1195,11 @@ exports[`checks for too long username 1`] = `
           value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1231,11 +1231,11 @@ exports[`checks for too long username 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1262,11 +1262,11 @@ exports[`checks for too long username 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1353,11 +1353,11 @@ exports[`checks for too short password 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1389,11 +1389,11 @@ exports[`checks for too short password 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1425,11 +1425,11 @@ exports[`checks for too short password 1`] = `
           value="pass"
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1456,11 +1456,11 @@ exports[`checks for too short password 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1547,11 +1547,11 @@ exports[`checks for too short username 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1583,11 +1583,11 @@ exports[`checks for too short username 1`] = `
           value="u"
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1619,11 +1619,11 @@ exports[`checks for too short username 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1650,11 +1650,11 @@ exports[`checks for too short username 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1741,11 +1741,11 @@ exports[`checks for wrong password confirmation 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1777,11 +1777,11 @@ exports[`checks for wrong password confirmation 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1813,11 +1813,11 @@ exports[`checks for wrong password confirmation 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -1844,11 +1844,11 @@ exports[`checks for wrong password confirmation 1`] = `
           value="not-matching"
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -2077,11 +2077,11 @@ exports[`shows error when submitting empty form 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -2113,11 +2113,11 @@ exports[`shows error when submitting empty form 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -2149,11 +2149,11 @@ exports[`shows error when submitting empty form 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
@@ -2180,11 +2180,11 @@ exports[`shows error when submitting empty form 1`] = `
           value=""
         />
         <div
-          className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+          className="Message-root Message-colorValidation"
         >
           <span
             aria-hidden="true"
-            className="Icon-root ValidationMessage-icon Icon-sm"
+            className="Icon-root Message-icon Icon-md"
           >
             warning
           </span>
