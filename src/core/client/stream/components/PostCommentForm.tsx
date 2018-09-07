@@ -29,7 +29,7 @@ export interface PostCommentFormProps {
 
 const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
   <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
-    {({ handleSubmit, submitting }) => (
+    {({ handleSubmit, submitting, hasValidationErrors }) => (
       <form
         autoComplete="off"
         onSubmit={handleSubmit}
@@ -79,7 +79,7 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
               <Button
                 color="primary"
                 variant="filled"
-                disabled={submitting}
+                disabled={submitting || hasValidationErrors}
                 type="submit"
               >
                 Submit

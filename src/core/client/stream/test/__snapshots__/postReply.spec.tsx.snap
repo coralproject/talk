@@ -161,8 +161,8 @@ exports[`post a reply: open reply form 1`] = `
               </span>
             </div>
             <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-              disabled={false}
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+              disabled={true}
               onBlur={[Function]}
               onFocus={[Function]}
               onMouseDown={[Function]}
@@ -346,8 +346,8 @@ exports[`post a reply: open reply form 1`] = `
                 Cancel
               </button>
               <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-                disabled={false}
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+                disabled={true}
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseDown={[Function]}
@@ -581,8 +581,8 @@ exports[`post a reply: optimistic response 1`] = `
               </span>
             </div>
             <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-              disabled={false}
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+              disabled={true}
               onBlur={[Function]}
               onFocus={[Function]}
               onMouseDown={[Function]}
@@ -1054,8 +1054,8 @@ exports[`post a reply: server response 1`] = `
               </span>
             </div>
             <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-              disabled={false}
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+              disabled={true}
               onBlur={[Function]}
               onFocus={[Function]}
               onMouseDown={[Function]}
@@ -1407,8 +1407,8 @@ exports[`renders comment stream 1`] = `
               </span>
             </div>
             <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-              disabled={false}
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+              disabled={true}
               onBlur={[Function]}
               onFocus={[Function]}
               onMouseDown={[Function]}

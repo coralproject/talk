@@ -39,7 +39,7 @@ const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
   const inputID = `comments-replyCommentForm-rte-${props.id}`;
   return (
     <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
-      {({ handleSubmit, submitting }) => (
+      {({ handleSubmit, submitting, hasValidationErrors }) => (
         <form
           className={props.className}
           autoComplete="off"
@@ -91,7 +91,7 @@ const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
                 <Button
                   color="primary"
                   variant="filled"
-                  disabled={submitting}
+                  disabled={submitting || hasValidationErrors}
                   type="submit"
                 >
                   Submit
