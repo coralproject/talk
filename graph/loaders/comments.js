@@ -338,6 +338,8 @@ const getCommentsByQuery = async (
     excludeDeleted,
     tags,
     action_type,
+    timeFrom,
+    timeTo,
   }
 ) => {
   const query = CommentModel.find();
@@ -360,7 +362,12 @@ const getCommentsByQuery = async (
   if (statuses) {
     query.merge({ status: { $in: statuses } });
   }
-
+  if (timeFrom) {
+    query.merge({ created_at: { $gte: new Date(timeFrom) } });
+  }
+  if (timeTo) {
+    query.merge({ created_at: { $lte: new Date(timeTo) } });
+  }
   if (excludeDeleted) {
     // The null query matches documents that either contain the `deleted_at`
     // field whose value is null or that do not contain the `deleted_at` field.

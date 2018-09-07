@@ -429,6 +429,9 @@ input CommentsQuery {
 
   # excludeDeleted when true will exclude deleted comments from the response.
   excludeDeleted: Boolean = false
+
+  timeFrom: Date
+  timeTo: Date
 }
 
 input RepliesQuery {
