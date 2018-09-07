@@ -75,7 +75,7 @@ export const TalkContextConsumer = Consumer;
 export const TalkContextProvider: StatelessComponent<{
   value: TalkContext;
 }> = ({ value, children }) => (
-  <Provider value={value as any}>
+  <Provider value={value}>
     <LocalizationProvider bundles={value.localeBundles}>
       <UIContext.Provider
         value={{
