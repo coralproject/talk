@@ -5,7 +5,7 @@
 }
 
 .primary {
-  border-bottom: 1px solid #787d80;
+  border-bottom: 1px solid var(--palette-grey-main);
 }
 
 .secondary {
