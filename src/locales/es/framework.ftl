@@ -2,14 +2,12 @@
 ### All keys must start with `framework` because this file is shared
 ### among different targets.
 
+framework-timeago-just-now = Hace poco
 framework-timeago =
   { $value ->
-    [0] ahora
     *[other]
       { $suffix ->
         [ago] hace
-        [in] en
-        *[other] unknown suffix
       }
       { $value }
       { $unit ->

@@ -36,6 +36,7 @@ declare module "react-timeago" {
     live?: boolean;
     className: string;
     formatter?: Formatter;
+    minPeriod?: number;
   }
 
   const TimeAgo: React.ComponentType<TimeAgoProps>;

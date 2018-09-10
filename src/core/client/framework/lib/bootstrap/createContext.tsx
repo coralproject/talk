@@ -47,7 +47,16 @@ interface CreateContextArguments {
  */
 export const timeagoFormatter: Formatter = (value, unit, suffix) => {
   // We use 'in' instead of 'from now' for language consistency
-  const ourSuffix = suffix === "from now" ? "in" : suffix;
+  const ourSuffix = suffix === "from now" ? "noSuffix" : suffix;
+
+  if (unit === "second" && suffix === "ago") {
+    return (
+      <Localized id="framework-timeago-just-now">
+        <span>Just now</span>
+      </Localized>
+    );
+  }
+
   return (
     <Localized
       id="framework-timeago"

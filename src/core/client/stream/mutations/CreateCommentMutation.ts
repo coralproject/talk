@@ -92,6 +92,9 @@ function commit(
               username: me.username,
             },
             body: input.body,
+            editing: {
+              editableUntil: new Date(Date.now() + 10000),
+            },
           },
         },
         clientMutationId: (clientMutationId++).toString(),
