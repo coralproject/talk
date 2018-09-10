@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { timeago } from 'coral-framework/services/i18n';
+import cn from 'classnames';
+import styles from './TimeAgo.css';
 
 class TimeAgo extends React.Component {
   constructor(props) {
@@ -19,7 +21,11 @@ class TimeAgo extends React.Component {
     return (
       <span
         onClick={this.toggleDate}
-        style={{ cursor: 'pointer' }}
+        className={cn(
+          this.props.className,
+          styles.timeago,
+          'talk-comment-timeago'
+        )}
         title={titleDate}
       >
         {displayTime}
@@ -30,6 +36,7 @@ class TimeAgo extends React.Component {
 
 TimeAgo.propTypes = {
   datetime: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default TimeAgo;
