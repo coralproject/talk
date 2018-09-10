@@ -1,0 +1,25 @@
+---
+name: Tabs
+route: '/Tabs'
+---
+
+# Tabs
+
+### Examples
+
+import { Playground, PropsTable } from 'docz'
+import { Flex, TabBar, Tab, TabContent, TabPane } from '../core/client/ui/components'
+import Container from "react-with-state-props"
+
+## Simple Form
+<Playground>
+  <Container
+    state={{ activeId: "two" }}
+    render={props => (
+      <TabBar activeId={props.activeId} onTabClick={(id)=> props.setActiveId(id)}>
+        <Tab tabId="one">One</Tab>
+        <Tab tabId="two">Two</Tab>
+        <Tab tabId="three">Three</Tab>
+      </TabBar>
+    )}/>
+</Playground>

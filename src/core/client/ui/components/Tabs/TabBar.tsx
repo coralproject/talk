@@ -14,10 +14,12 @@ export interface TabBarProps {
   classes: typeof styles;
 
   color: "primary" | "secondary";
+
   activeId?: string;
   defaultActiveId?: string;
+
   onChange?: (activeId: string) => void;
-  onTabClick?: () => void;
+  onTabClick?: (tabId: string) => void;
 }
 
 const TabBar: StatelessComponent<TabBarProps> = props => {
@@ -44,8 +46,9 @@ const TabBar: StatelessComponent<TabBarProps> = props => {
 
   const tabs = React.Children.toArray(children).map(
     (child: React.ReactElement<any>, index: number) =>
+      console.log(child) ||
       React.cloneElement(child, {
-        tabId: index,
+        index,
         active:
           defaultActiveId && !activeId
             ? child.props.tabId === defaultActiveId

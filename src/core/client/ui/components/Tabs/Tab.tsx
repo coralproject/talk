@@ -16,44 +16,44 @@ export interface TabBarProps {
   tabId: string;
   active: boolean;
   color: string;
-  onTabClick?: () => void;
+  onTabClick?: (tabId: string) => void;
 }
 
-const TabBar: StatelessComponent<TabBarProps> = props => {
-  const {
-    className,
-    classes,
-    children,
-    tabId,
-    active,
-    color,
-    onTabClick,
-  } = props;
+class TabBar extends React.Component<TabBarProps> {
+  public handleTabClick = () => {
+    if (this.props.onTabClick) {
+      this.props.onTabClick(this.props.tabId);
+    }
+  };
 
-  const rootClassName = cn(
-    classes.root,
-    {
-      [classes.primary]: color === "primary",
-      [classes.secondary]: color === "secondary",
-      [classes.active]: active,
-    },
-    className
-  );
+  public render() {
+    const { className, classes, children, tabId, active, color } = this.props;
 
-  return (
-    <li
-      className={rootClassName}
-      key={tabId}
-      id={`${tabId}-tab`}
-      role="tab"
-      onClick={onTabClick}
-      aria-controls={tabId}
-      aria-selected={active}
-    >
-      {children}
-    </li>
-  );
-};
+    const rootClassName = cn(
+      classes.root,
+      {
+        [classes.primary]: color === "primary",
+        [classes.secondary]: color === "secondary",
+        [classes.active]: active,
+      },
+      className
+    );
+
+    return (
+      <li
+        className={rootClassName}
+        key={tabId}
+        id={`${tabId}-tab`}
+        role="tab"
+        onClick={this.handleTabClick}
+        aria-controls={tabId}
+        aria-selected={active}
+      >
+        {children}
+      </li>
+    );
+  }
+}
 
 const enhanced = withStyles(styles)(TabBar);
 export default enhanced;
