@@ -1,6 +1,6 @@
 import * as actions from '../constants/stream';
 import { buildUrl } from 'coral-framework/utils/url';
-import queryString from 'query-string';
+import queryString from 'querystringify';
 
 export const setActiveReplyBox = id => ({
   type: actions.SET_ACTIVE_REPLY_BOX,

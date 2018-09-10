@@ -9,6 +9,7 @@ import cn from 'classnames';
 import { getTotalReactionsCount } from 'coral-framework/utils';
 
 import t from 'coral-framework/services/i18n';
+import { buildCommentURL } from 'coral-framework/utils/url';
 
 class Comment extends React.Component {
   render() {
@@ -79,9 +80,10 @@ class Comment extends React.Component {
             <li>
               <a
                 className={styles.viewLink}
-                href={`${this.props.comment.asset.url}?commentId=${
+                href={buildCommentURL(
+                  this.props.comment.asset.url,
                   this.props.comment.id
-                }`}
+                )}
                 target="_parent"
               >
                 <Icon name="open_in_new" className={styles.iconView} />

@@ -1,4 +1,4 @@
-import queryString from 'query-string';
+import queryString from 'querystringify';
 import pym from 'pym.js';
 import EventEmitter from 'eventemitter2';
 import { buildUrl } from 'coral-framework/utils/url';
