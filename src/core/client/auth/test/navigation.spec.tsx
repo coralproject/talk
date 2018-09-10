@@ -1,38 +1,16 @@
-// Enable after this is solved: https://github.com/projectfluent/fluent.js/issues/280
+import { ReactTestRenderer } from "react-test-renderer";
 
-import React from "react";
-import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
-import { RecordProxy } from "relay-runtime";
-
-import AppContainer from "talk-auth/containers/AppContainer";
-import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
-import { PostMessageService } from "talk-framework/lib/postMessage";
-import { RestClient } from "talk-framework/lib/rest";
-import { createInMemoryStorage } from "talk-framework/lib/storage";
-
-import createEnvironment from "./createEnvironment";
-import createFluentBundle from "./createFluentBundle";
+import create from "./create";
 
 function createTestRenderer(initialView: string): ReactTestRenderer {
-  const environment = createEnvironment({
-    initLocalState: (localRecord: RecordProxy) => {
+  const { testRenderer } = create({
+    // Set this to true, to see graphql responses.
+    logNetwork: false,
+    initLocalState: localRecord => {
       localRecord.setValue(initialView, "view");
     },
   });
-
-  const context: TalkContext = {
-    relayEnvironment: environment,
-    localeBundles: [createFluentBundle()],
-    localStorage: createInMemoryStorage(),
-    sessionStorage: createInMemoryStorage(),
-    rest: new RestClient("http://localhost/api"),
-    postMessage: new PostMessageService(),
-  };
-  return TestRenderer.create(
-    <TalkContextProvider value={context}>
-      <AppContainer />
-    </TalkContextProvider>
-  );
+  return testRenderer;
 }
 
 it("renders sign in form", async () => {

@@ -13,6 +13,7 @@
       "talk-stream/*": ["./stream/*"],
       "talk-framework/*": ["./framework/*"],
       "talk-ui/*": ["./ui/*"],
+      "talk-test/*": ["./test/*"],
       "talk-common/*": ["../common/*"]
     }
   },

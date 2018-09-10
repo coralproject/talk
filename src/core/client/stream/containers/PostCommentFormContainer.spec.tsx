@@ -3,10 +3,9 @@ import { noop } from "lodash";
 import React from "react";
 import sinon from "sinon";
 
-import { PropTypesOf } from "talk-framework/types";
-
 import { timeout } from "talk-common/utils";
-import { createFakePymStorage } from "talk-framework/testHelpers";
+import { createPromisifiedStorage } from "talk-framework/lib/storage";
+import { PropTypesOf } from "talk-framework/types";
 import { PostCommentFormContainer } from "./PostCommentFormContainer";
 
 const contextKey = "postCommentFormBody";
@@ -16,7 +15,7 @@ it("renders correctly", async () => {
     // tslint:disable-next-line:no-empty
     createComment: (() => {}) as any,
     assetID: "asset-id",
-    pymSessionStorage: createFakePymStorage(),
+    sessionStorage: createPromisifiedStorage(),
   };
 
   const wrapper = shallow(<PostCommentFormContainer {...props} />);
@@ -30,10 +29,10 @@ it("renders with initialValues", async () => {
     // tslint:disable-next-line:no-empty
     createComment: (() => {}) as any,
     assetID: "asset-id",
-    pymSessionStorage: createFakePymStorage(),
+    sessionStorage: createPromisifiedStorage(),
   };
 
-  await props.pymSessionStorage.setItem(contextKey, "Hello World!");
+  await props.sessionStorage.setItem(contextKey, "Hello World!");
 
   const wrapper = shallow(<PostCommentFormContainer {...props} />);
   await timeout();
@@ -46,10 +45,10 @@ it("save values", async () => {
     // tslint:disable-next-line:no-empty
     createComment: (() => {}) as any,
     assetID: "asset-id",
-    pymSessionStorage: createFakePymStorage(),
+    sessionStorage: createPromisifiedStorage(),
   };
 
-  await props.pymSessionStorage.setItem(contextKey, "Hello World!");
+  await props.sessionStorage.setItem(contextKey, "Hello World!");
 
   const wrapper = shallow(<PostCommentFormContainer {...props} />);
   await timeout();
@@ -58,7 +57,7 @@ it("save values", async () => {
     .first()
     .props()
     .onChange({ values: { body: "changed" } });
-  expect(await props.pymSessionStorage.getItem(contextKey)).toBe("changed");
+  expect(await props.sessionStorage.getItem(contextKey)).toBe("changed");
 });
 
 it("creates a comment", async () => {
@@ -76,10 +75,10 @@ it("creates a comment", async () => {
     // tslint:disable-next-line:no-empty
     createComment: createCommentStub,
     assetID,
-    pymSessionStorage: createFakePymStorage(),
+    sessionStorage: createPromisifiedStorage(),
   };
 
-  await props.pymSessionStorage.setItem(contextKey, "Hello World!");
+  await props.sessionStorage.setItem(contextKey, "Hello World!");
 
   const wrapper = shallow(<PostCommentFormContainer {...props} />);
   await timeout();

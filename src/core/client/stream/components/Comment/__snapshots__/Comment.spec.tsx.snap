@@ -5,7 +5,9 @@ exports[`renders username and body 1`] = `
   className="Comment-root"
   role="article"
 >
-  <TopBar>
+  <TopBar
+    className="Comment-topBar"
+  >
     <Username>
       Marvin
     </Username>
@@ -16,12 +18,10 @@ exports[`renders username and body 1`] = `
   <HTMLContent>
     Woof
   </HTMLContent>
-  <div
+  <withPropsOnChange(Flex)
     className="Comment-footer"
-  >
-    <withContext(withLocalStateContainer(PermalinkContainer))
-      commentID="comment-id"
-    />
-  </div>
+    direction="row"
+    itemGutter="half"
+  />
 </div>
 `;

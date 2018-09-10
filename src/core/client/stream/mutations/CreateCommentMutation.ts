@@ -1,8 +1,8 @@
 import { graphql } from "react-relay";
-import { Environment } from "relay-runtime";
-import uuid from "uuid/v4";
+import { Environment, RelayMutationConfig } from "relay-runtime";
 
 import { getMe } from "talk-framework/helpers";
+import { TalkContext } from "talk-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
@@ -22,13 +22,7 @@ const mutation = graphql`
       edge {
         cursor
         node {
-          id
-          author {
-            id
-            username
-          }
-          body
-          createdAt
+          ...StreamContainer_comment @relay(mask: false)
         }
       }
       clientMutationId
@@ -38,7 +32,44 @@ const mutation = graphql`
 
 let clientMutationId = 0;
 
-function commit(environment: Environment, input: CreateCommentInput) {
+function getConfig(input: CreateCommentInput): RelayMutationConfig[] {
+  if (!input.parentID) {
+    return [
+      {
+        type: "RANGE_ADD",
+        connectionInfo: [
+          {
+            key: "Stream_comments",
+            rangeBehavior: "prepend",
+            filters: { orderBy: "CREATED_AT_DESC" },
+          },
+        ],
+        parentID: input.assetID,
+        edgeName: "edge",
+      },
+    ];
+  }
+  return [
+    {
+      type: "RANGE_ADD",
+      connectionInfo: [
+        {
+          key: "ReplyList_replies",
+          rangeBehavior: "append",
+          filters: { orderBy: "CREATED_AT_ASC" },
+        },
+      ],
+      parentID: input.parentID,
+      edgeName: "edge",
+    },
+  ];
+}
+
+function commit(
+  environment: Environment,
+  input: CreateCommentInput,
+  { uuidGenerator }: TalkContext
+) {
   const me = getMe(environment)!;
   const currentDate = new Date().toISOString();
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
@@ -54,7 +85,7 @@ function commit(environment: Environment, input: CreateCommentInput) {
         edge: {
           cursor: currentDate,
           node: {
-            id: uuid(),
+            id: uuidGenerator(),
             createdAt: currentDate,
             author: {
               id: me.id,
@@ -65,21 +96,8 @@ function commit(environment: Environment, input: CreateCommentInput) {
         },
         clientMutationId: (clientMutationId++).toString(),
       },
-    },
-    configs: [
-      {
-        type: "RANGE_ADD",
-        connectionInfo: [
-          {
-            key: "Stream_comments",
-            rangeBehavior: "prepend",
-            filters: { orderBy: "CREATED_AT_DESC" },
-          },
-        ],
-        parentID: input.assetID,
-        edgeName: "edge",
-      },
-    ],
+    } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
+    configs: getConfig(input),
   });
 }
 

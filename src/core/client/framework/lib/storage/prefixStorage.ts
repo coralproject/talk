@@ -12,27 +12,50 @@ class PrefixedStorage implements Storage {
   }
 
   get length() {
-    return this.storage.length;
+    let count = 0;
+    for (let i = 0; i < this.storage.length; i++) {
+      if (this.storage.key(i)!.startsWith(this.prefix)) {
+        count++;
+      }
+    }
+    return count;
   }
 
   public clear() {
-    this.storage.clear();
+    const toBeDeleted = [];
+    for (let i = 0; i < this.storage.length; i++) {
+      const key = this.storage.key(i)!;
+      if (key.startsWith(this.prefix)) {
+        toBeDeleted.push(key);
+      }
+    }
+    toBeDeleted.forEach(key => this.storage.removeItem(key));
   }
 
   public key(n: number) {
-    return this.storage.key(n);
+    let count = 0;
+    for (let i = 0; i < this.storage.length; i++) {
+      const key = this.storage.key(i)!;
+      if (key.startsWith(this.prefix)) {
+        if (count === n) {
+          return key;
+        }
+        count++;
+      }
+    }
+    return null;
   }
 
   public getItem(key: string) {
-    return this.storage.getItem(`${this.prefix}:${key}`);
+    return this.storage.getItem(`${this.prefix}${key}`);
   }
 
   public setItem(key: string, value: string) {
-    return this.storage.setItem(`${this.prefix}:${key}`, value);
+    return this.storage.setItem(`${this.prefix}${key}`, value);
   }
 
   public removeItem(key: string) {
-    return this.storage.removeItem(`${this.prefix}:${key}`);
+    return this.storage.removeItem(`${this.prefix}${key}`);
   }
 }
 

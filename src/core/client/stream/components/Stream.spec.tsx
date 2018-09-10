@@ -12,13 +12,15 @@ const StreamN = removeFragmentRefs(Stream);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof StreamN> = {
-    assetID: "asset-id",
-    isClosed: false,
+    asset: {
+      id: "asset-id",
+      isClosed: false,
+    },
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
     onLoadMore: noop,
     disableLoadMore: false,
     hasMore: false,
-    user: null,
+    me: null,
   };
   const wrapper = shallow(<StreamN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -27,13 +29,15 @@ it("renders correctly", () => {
 describe("when use is logged in", () => {
   it("renders correctly", () => {
     const props: PropTypesOf<typeof StreamN> = {
-      assetID: "asset-id",
-      isClosed: false,
+      asset: {
+        id: "asset-id",
+        isClosed: false,
+      },
       comments: [{ id: "comment-1" }, { id: "comment-2" }],
       onLoadMore: noop,
       disableLoadMore: false,
       hasMore: false,
-      user: {},
+      me: {},
     };
     const wrapper = shallow(<StreamN {...props} />);
     expect(wrapper).toMatchSnapshot();
@@ -42,13 +46,15 @@ describe("when use is logged in", () => {
 
 describe("when there is more", () => {
   const props: PropTypesOf<typeof StreamN> = {
-    assetID: "asset-id",
-    isClosed: false,
+    asset: {
+      id: "asset-id",
+      isClosed: false,
+    },
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
     onLoadMore: sinon.spy(),
     disableLoadMore: false,
     hasMore: true,
-    user: null,
+    me: null,
   };
 
   const wrapper = shallow(<StreamN {...props} />);

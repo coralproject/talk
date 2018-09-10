@@ -16,6 +16,7 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest",
     "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+    "^.+\\.ftl$": "<rootDir>/config/jest/contentTransform.js",
     "^(?!.*\\.(js|jsx|mjs|ts|tsx|css|json|ftl)$)":
       "<rootDir>/config/jest/fileTransform.js",
   },
@@ -30,7 +31,7 @@ module.exports = {
     "^talk-framework/(.*)$": "<rootDir>/src/core/client/framework/$1",
     "^talk-common/(.*)$": "<rootDir>/src/core/common/$1",
   },
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node", "ftl"],
   snapshotSerializers: ["enzyme-to-json/serializer"],
   globals: {
     "ts-jest": {

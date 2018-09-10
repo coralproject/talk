@@ -1,24 +1,10 @@
 import { Child, Parent } from "pym.js";
 import uuid from "uuid/v4";
+import { PromisifiedStorage } from "./PromisifiedStorage";
 
 type Pym = Child | Parent;
 
-export interface PymStorage {
-  /**
-   * value = storage[key]
-   */
-  getItem(key: string): Promise<string | null>;
-  /**
-   * delete storage[key]
-   */
-  removeItem(key: string): Promise<void>;
-  /**
-   * storage[key] = value
-   */
-  setItem(key: string, value: string): Promise<void>;
-}
-
-class PymStorageImpl implements PymStorage {
+class PymStorage implements PromisifiedStorage {
   /** Instance to pym */
   private pym: Pym;
 
@@ -34,7 +20,7 @@ class PymStorageImpl implements PymStorage {
   /** Requests method with parameters over pym. */
   private call<T>(
     method: string,
-    parameters: { key: string; value?: string }
+    parameters: Record<string, any> = {}
   ): Promise<T> {
     const id = uuid();
     return new Promise((resolve, reject) => {
@@ -69,6 +55,15 @@ class PymStorageImpl implements PymStorage {
     this.listen();
   }
 
+  get length() {
+    return this.call<number>("length");
+  }
+  public key(n: number) {
+    return this.call<string | null>("key", { n });
+  }
+  public clear() {
+    return this.call<void>("clear");
+  }
   public setItem(key: string, value: string) {
     return this.call<void>("setItem", { key, value });
   }
@@ -90,5 +85,5 @@ export default function createPymStorage(
   pym: Pym,
   type: "localStorage" | "sessionStorage"
 ): PymStorage {
-  return new PymStorageImpl(pym, type);
+  return new PymStorage(pym, type);
 }

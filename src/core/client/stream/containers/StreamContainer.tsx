@@ -4,7 +4,7 @@ import { graphql, RelayPaginationProp } from "react-relay";
 import { withPaginationContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
 import { StreamContainer_asset as AssetData } from "talk-stream/__generated__/StreamContainer_asset.graphql";
-import { StreamContainer_user as UserData } from "talk-stream/__generated__/StreamContainer_user.graphql";
+import { StreamContainer_me as MeData } from "talk-stream/__generated__/StreamContainer_me.graphql";
 import {
   COMMENT_SORT,
   StreamContainerPaginationQueryVariables,
@@ -14,9 +14,18 @@ import Stream from "../components/Stream";
 
 interface InnerProps {
   asset: AssetData;
-  user: UserData | null;
+  me: MeData | null;
   relay: RelayPaginationProp;
 }
+
+// tslint:disable-next-line:no-unused-expression
+graphql`
+  fragment StreamContainer_comment on Comment {
+    id
+    ...CommentContainer_comment
+    ...ReplyListContainer_comment
+  }
+`;
 
 export class StreamContainer extends React.Component<InnerProps> {
   public state = {
@@ -27,13 +36,12 @@ export class StreamContainer extends React.Component<InnerProps> {
     const comments = this.props.asset.comments.edges.map(edge => edge.node);
     return (
       <Stream
-        assetID={this.props.asset.id}
-        isClosed={this.props.asset.isClosed}
+        asset={this.props.asset}
         comments={comments}
         onLoadMore={this.loadMore}
         hasMore={this.props.relay.hasMore()}
         disableLoadMore={this.state.disableLoadMore}
-        user={this.props.user}
+        me={this.props.me}
       />
     );
   }
@@ -82,17 +90,19 @@ const enhanced = withPaginationContainer<
           @connection(key: "Stream_comments") {
           edges {
             node {
-              id
-              ...CommentContainer
-              ...ReplyListContainer_comment
+              ...StreamContainer_comment @relay(mask: false)
             }
           }
         }
+        ...CommentContainer_asset
+        ...ReplyListContainer_asset
       }
     `,
-    user: graphql`
-      fragment StreamContainer_user on User {
-        ...UserBoxContainer_user
+    me: graphql`
+      fragment StreamContainer_me on User {
+        ...ReplyListContainer_me
+        ...CommentContainer_me
+        ...UserBoxContainer_me
       }
     `,
   },
