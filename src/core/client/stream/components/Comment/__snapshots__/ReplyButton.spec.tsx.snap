@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(Button)
+  active={true}
+  id="id"
+  onClick={[Function]}
+  size="small"
+  variant="ghost"
+>
+  <MatchMediaWithContext
+    gtWidth="xs"
+  >
+    <withPropsOnChange(ButtonIcon)>
+      reply
+    </withPropsOnChange(ButtonIcon)>
+  </MatchMediaWithContext>
+  <Localized
+    id="comments-replyButton-reply"
+  >
+    <span>
+      Reply
+    </span>
+  </Localized>
+</withPropsOnChange(Button)>
+`;

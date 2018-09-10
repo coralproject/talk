@@ -1,8 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`renders level0 1`] = `
 <div
-  className="Indent-root Indent-level0"
+  className="Indent-root"
+>
+  <div>
+    Hello World
+  </div>
+</div>
+`;
+
+exports[`renders level1 1`] = `
+<div
+  className="Indent-root Indent-level1"
+>
+  <div>
+    Hello World
+  </div>
+</div>
+`;
+
+exports[`renders without border 1`] = `
+<div
+  className="Indent-root Indent-level1 Indent-noBorder"
 >
   <div>
     Hello World

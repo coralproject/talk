@@ -37,7 +37,7 @@ const Icon: StatelessComponent<InnerProps> = props => {
 
 Icon.defaultProps = {
   size: "sm",
-};
+} as Partial<InnerProps>;
 
 const enhanced = withForwardRef(withStyles(styles)(Icon));
 export type IconProps = PropTypesOf<typeof enhanced>;

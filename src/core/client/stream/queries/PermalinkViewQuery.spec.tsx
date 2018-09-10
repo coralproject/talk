@@ -6,6 +6,7 @@ import { render } from "./PermalinkViewQuery";
 it("renders permalink view container", () => {
   const data = {
     props: {
+      asset: {},
       comment: {},
     } as any,
     error: null,

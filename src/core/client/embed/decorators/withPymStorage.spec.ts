@@ -1,22 +1,7 @@
 import sinon from "sinon";
 
+import { createInMemoryStorage } from "../testUtils";
 import withPymStorage from "./withPymStorage";
-
-// tslint:disable:max-classes-per-file
-
-class FakeStorage {
-  public store: Record<string, string> = {};
-
-  public setItem(key: string, value: string) {
-    this.store[key] = value;
-  }
-  public removeItem(key: string) {
-    delete this.store[key];
-  }
-  public getItem(key: string) {
-    return this.store[key];
-  }
-}
 
 class PymStub {
   public listeners: Record<string, ((msg: string) => void)> = {};
@@ -38,10 +23,8 @@ class PymStub {
 describe("withPymStorage", () => {
   it("should set, get and remove item", () => {
     const pym = new PymStub("localStorage");
-    const storage = new FakeStorage();
-    withPymStorage(storage as any, "localStorage", "talkPymStorage:")(
-      pym as any
-    );
+    const storage = createInMemoryStorage();
+    withPymStorage(storage, "localStorage", "talk:")(pym as any);
     pym.listeners["pymStorage.localStorage.request"](
       JSON.stringify({
         id: "0",
@@ -49,7 +32,7 @@ describe("withPymStorage", () => {
         parameters: { key: "key", value: "test" },
       })
     );
-    expect(storage.store).toMatchSnapshot();
+    expect(storage.toString()).toMatchSnapshot();
     pym.listeners["pymStorage.localStorage.request"](
       JSON.stringify({
         id: "1",
@@ -64,15 +47,72 @@ describe("withPymStorage", () => {
         parameters: { key: "key" },
       })
     );
-    expect(storage.store).toMatchSnapshot();
+    expect(storage.toString()).toMatchSnapshot();
     expect(JSON.stringify(pym.messages)).toMatchSnapshot();
+  });
+  it("should get key of storage", () => {
+    const pym = new PymStub("localStorage");
+    const storage = createInMemoryStorage({
+      a: "1",
+      b: "2",
+      c: "3",
+    });
+    withPymStorage(storage, "localStorage", "")(pym as any);
+    pym.listeners["pymStorage.localStorage.request"](
+      JSON.stringify({
+        id: "0",
+        method: "key",
+        parameters: { n: 1 },
+      })
+    );
+    pym.listeners["pymStorage.localStorage.request"](
+      JSON.stringify({
+        id: "0",
+        method: "key",
+        parameters: { n: 3 },
+      })
+    );
+    expect(pym.messages).toMatchSnapshot();
+  });
+  it("should get length of storage", () => {
+    const pym = new PymStub("localStorage");
+    const storage = createInMemoryStorage({
+      a: "1",
+      b: "2",
+      c: "3",
+    });
+    withPymStorage(storage, "localStorage", "")(pym as any);
+    pym.listeners["pymStorage.localStorage.request"](
+      JSON.stringify({
+        id: "0",
+        method: "length",
+        parameters: {},
+      })
+    );
+    expect(pym.messages).toMatchSnapshot();
+  });
+  it("should clear storage", () => {
+    const pym = new PymStub("localStorage");
+    const storage = createInMemoryStorage({
+      a: "1",
+      b: "2",
+      c: "3",
+    });
+    withPymStorage(storage, "localStorage", "")(pym as any);
+    pym.listeners["pymStorage.localStorage.request"](
+      JSON.stringify({
+        id: "0",
+        method: "clear",
+        parameters: {},
+      })
+    );
+    expect(storage.toString()).toMatchSnapshot();
+    expect(pym.messages).toMatchSnapshot();
   });
   it("should handle unknown method", () => {
     const pym = new PymStub("localStorage");
-    const storage = new FakeStorage();
-    withPymStorage(storage as any, "localStorage", "talkPymStorage:")(
-      pym as any
-    );
+    const storage = createInMemoryStorage();
+    withPymStorage(storage, "localStorage", "talk:")(pym as any);
     pym.listeners["pymStorage.localStorage.request"](
       JSON.stringify({
         id: "0",
@@ -84,14 +124,12 @@ describe("withPymStorage", () => {
   });
   it("should handle handle errors", () => {
     const pym = new PymStub("localStorage");
-    const storage = new FakeStorage();
+    const storage = createInMemoryStorage();
     sinon
       .mock(storage)
       .expects("getItem")
       .throws("error");
-    withPymStorage(storage as any, "localStorage", "talkPymStorage:")(
-      pym as any
-    );
+    withPymStorage(storage, "localStorage", "talk:")(pym as any);
     pym.listeners["pymStorage.localStorage.request"](
       JSON.stringify({
         id: "0",
@@ -99,6 +137,6 @@ describe("withPymStorage", () => {
         parameters: {},
       })
     );
-    expect(JSON.stringify(pym.messages)).toMatchSnapshot();
+    expect(pym.messages).toMatchSnapshot();
   });
 });

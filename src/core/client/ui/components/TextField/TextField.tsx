@@ -89,7 +89,7 @@ TextField.defaultProps = {
   color: "regular",
   placeholder: "",
   type: "text",
-};
+} as Partial<TextFieldProps>;
 
 const enhanced = withStyles(styles)(TextField);
 export default enhanced;

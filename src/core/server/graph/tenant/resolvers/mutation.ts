@@ -9,8 +9,11 @@ const Mutation: GQLMutationTypeResolver<void> = {
     const comment = await ctx.mutators.Comment.create(input);
     return {
       edge: {
-        // FIXME: (wyattjoh) when we're using a replies/respect sort, it is index based instead of date based, needs some work!
-        cursor: comment.created_at,
+        // (cvle)
+        // Depending on the sort we can't determine the accurate cursor
+        // in a performant way, so we return null instead.
+        // It seems that Relay does not directly use this value...
+        cursor: null,
         node: comment,
       },
       clientMutationId: input.clientMutationId,

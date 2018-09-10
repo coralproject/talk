@@ -1,5 +1,11 @@
 .root {
 }
-.footer {
+.topBar {
+  margin-bottom: calc(0.5 * var(--spacing-unit));
+}
+.footer:not(:empty) {
+  margin-top: var(--spacing-unit);
+}
+.reply {
   margin-top: var(--spacing-unit);
 }

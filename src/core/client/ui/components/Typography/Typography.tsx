@@ -151,7 +151,7 @@ Typography.defaultProps = {
   noWrap: false,
   paragraph: false,
   variant: "bodyCopy",
-};
+} as Partial<InnerProps>;
 
 const enhanced = withForwardRef(withStyles(styles)(Typography));
 export type TypographyProps = PropTypesOf<typeof enhanced>;

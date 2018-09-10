@@ -18,7 +18,7 @@ it("renders correctly", () => {
         view: "SIGN_IN",
       },
     },
-    user: null,
+    me: null,
     // tslint:disable-next-line:no-empty
     showAuthPopup: async () => {},
     // tslint:disable-next-line:no-empty
