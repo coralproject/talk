@@ -55,7 +55,11 @@ const TabBar: StatelessComponent<TabBarProps> = props => {
       })
   );
 
-  return <ul className={rootClassName}>{tabs}</ul>;
+  return (
+    <ul className={rootClassName} role="tablist">
+      {tabs}
+    </ul>
+  );
 };
 
 TabBar.defaultProps = {

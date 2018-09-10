@@ -13,14 +13,22 @@ export interface TabBarProps {
    */
   classes: typeof styles;
 
-  tabId: number;
+  tabId: string;
   active: boolean;
   color: string;
   onTabClick?: () => void;
 }
 
 const TabBar: StatelessComponent<TabBarProps> = props => {
-  const { className, classes, children, tabId, active, color } = props;
+  const {
+    className,
+    classes,
+    children,
+    tabId,
+    active,
+    color,
+    onTabClick,
+  } = props;
 
   const rootClassName = cn(
     classes.root,
@@ -33,7 +41,15 @@ const TabBar: StatelessComponent<TabBarProps> = props => {
   );
 
   return (
-    <li className={rootClassName} key={tabId}>
+    <li
+      className={rootClassName}
+      key={tabId}
+      id={`${tabId}-tab`}
+      role="tab"
+      onClick={onTabClick}
+      aria-controls={tabId}
+      aria-selected={active}
+    >
       {children}
     </li>
   );
