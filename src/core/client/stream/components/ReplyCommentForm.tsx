@@ -66,6 +66,7 @@ const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
                       value={input.value}
                       placeholder="Write a reply"
                       forwardRef={props.rteRef}
+                      disabled={submitting}
                     />
                   </Localized>
                   {meta.touched &&

@@ -1,5 +1,6 @@
 .root {
   composes: bodyCopy from "talk-ui/shared/typography.css";
+  overflow-wrap: break-word;
 
   & * bold,
   & * strong {

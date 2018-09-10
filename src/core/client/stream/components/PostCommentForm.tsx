@@ -58,6 +58,7 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
                     onChange={({ html }) => input.onChange(html)}
                     value={input.value}
                     placeholder="Post a comment"
+                    disabled={submitting}
                   />
                 </Localized>
                 {meta.touched &&
