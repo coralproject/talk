@@ -1,0 +1,13 @@
+.root {
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.primary {
+  border-bottom: 1px solid #787d80;
+}
+
+.secondary {
+  border-bottom: 1px solid #e0e0e0;
+}
