@@ -1,0 +1,23 @@
+---
+name: TabContent
+menu: UI Kit
+---
+
+import { Playground, PropsTable } from 'docz'
+import HorizontalGutter from '../HorizontalGutter'
+
+import TabPane from './TabPane'
+import TabContent from './TabContent'
+
+# TabContent
+
+## Basic Use
+<Playground>
+  <HorizontalGutter>
+    <TabContent activeTab="one">
+      <TabPane tabId="one">Hola One</TabPane>
+      <TabPane tabId="two">Hola Two</TabPane>
+      <TabPane tabId="three">Hola Three</TabPane>
+    </TabContent>
+  </HorizontalGutter>
+</Playground>

@@ -1,0 +1,25 @@
+---
+name: TabBar
+menu: UI Kit
+---
+
+import { Playground, PropsTable } from 'docz'
+import HorizontalGutter from '../HorizontalGutter'
+
+
+import TabBar from './TabBar'
+import Tab from './Tab'
+
+# Tab
+`Tab` component is to be used within the `TabBar` component. This renders a Tab inside the Tab Bar.s
+
+## Basic Usage
+<Playground>
+  <HorizontalGutter>
+    <TabBar defaultActiveTab="one">
+      <Tab tabId="one">Tab one</Tab>
+      <Tab tabId="second">Active Tab</Tab>
+      <Tab tabId="three">Tab Three</Tab>
+    </TabBar>
+  </HorizontalGutter>
+</Playground>
