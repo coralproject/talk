@@ -14,7 +14,7 @@ const TabContent: StatelessComponent<TabContentProps> = props => {
         )
         .map((child: React.ReactElement<any>, i) =>
           React.cloneElement(child, {
-            tabId: child.props.tabId !== undefined ? child.props.tabId : i,
+            tabId: child.props.tabId ? child.props.tabId : i,
           })
         )}
     </>

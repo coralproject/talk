@@ -11,15 +11,42 @@ import { Playground, PropsTable } from 'docz'
 import { Flex, TabBar, Tab, TabContent, TabPane } from '../core/client/ui/components'
 import Container from "react-with-state-props"
 
-## Simple Form
+## Primary Tabs
 <Playground>
   <Container
     state={{ activeId: "two" }}
     render={props => (
-      <TabBar activeId={props.activeId} onTabClick={(id)=> props.setActiveId(id)}>
+      <div>
+      <TabBar activeTab={props.activeId} onTabClick={(id)=> props.setActiveId(id)}>
         <Tab tabId="one">One</Tab>
         <Tab tabId="two">Two</Tab>
         <Tab tabId="three">Three</Tab>
       </TabBar>
+      <TabContent activeTab={props.activeId}>
+        <TabPane tabId="one">Hola One</TabPane>
+        <TabPane tabId="two">Hola Two</TabPane>
+        <TabPane tabId="three">Hola Three</TabPane>
+      </TabContent>
+      </div>
+    )}/>
+</Playground>
+
+## Secondary Tabs
+<Playground>
+  <Container
+    state={{ activeId: "two" }}
+    render={props => (
+      <div>
+      <TabBar color="secondary" activeTab={props.activeId} onTabClick={(id)=> props.setActiveId(id)}>
+        <Tab tabId="one">One</Tab>
+        <Tab tabId="two">Two</Tab>
+        <Tab tabId="three">Three</Tab>
+      </TabBar>
+      <TabContent activeTab={props.activeId}>
+        <TabPane tabId="one">Hola One</TabPane>
+        <TabPane tabId="two">Hola Two</TabPane>
+        <TabPane tabId="three">Hola Three</TabPane>
+      </TabContent>
+      </div>
     )}/>
 </Playground>
