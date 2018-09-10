@@ -1,6 +1,9 @@
 import React, { StatelessComponent } from "react";
 
 export interface TabContentProps {
+  /**
+   * Active tab id/name
+   */
   activeTab?: string;
 }
 

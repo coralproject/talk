@@ -12,13 +12,21 @@ export interface TabBarProps {
    * Override or extend the styles applied to the component.
    */
   classes: typeof styles;
-
+  /**
+   * Color style variant
+   */
   color: "primary" | "secondary";
-
+  /**
+   * Active tab id/name
+   */
   activeTab?: string;
+  /**
+   * Default active tab id/name
+   */
   defaultActiveTab?: string;
-
-  onChange?: (activeId: string) => void;
+  /**
+   * Action taken on tab click
+   */
   onTabClick?: (tabId: string) => void;
 }
 
