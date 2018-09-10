@@ -9,30 +9,41 @@ import CommentContainer from "../containers/CommentContainer";
 import Indent from "./Indent";
 
 export interface ReplyListProps {
-  commentID: string;
+  asset: PropTypesOf<typeof CommentContainer>["asset"];
+  me: PropTypesOf<typeof CommentContainer>["me"];
+  comment: {
+    id: string;
+  };
   comments: ReadonlyArray<
-    { id: string } & PropTypesOf<typeof CommentContainer>["data"]
+    { id: string } & PropTypesOf<typeof CommentContainer>["comment"]
   >;
   onShowAll: () => void;
   hasMore: boolean;
   disableShowAll: boolean;
+  indentLevel?: number;
 }
 
 const ReplyList: StatelessComponent<ReplyListProps> = props => {
   return (
-    <Indent>
-      <HorizontalGutter
-        id={`talk-comments-replyList-log--${props.commentID}`}
-        role="log"
-      >
-        {props.comments.map(comment => (
-          <CommentContainer key={comment.id} data={comment} />
-        ))}
-        {props.hasMore && (
+    <HorizontalGutter
+      id={`talk-comments-replyList-log--${props.comment.id}`}
+      role="log"
+    >
+      {props.comments.map(comment => (
+        <CommentContainer
+          key={comment.id}
+          me={props.me}
+          comment={comment}
+          asset={props.asset}
+          indentLevel={props.indentLevel}
+        />
+      ))}
+      {props.hasMore && (
+        <Indent level={props.indentLevel} noBorder>
           <Localized id="comments-replyList-showAll">
             <Button
-              id={`talk-comments-replyList-showAll--${props.commentID}`}
-              aria-controls={`talk-comments-replyList-log--${props.commentID}`}
+              id={`talk-comments-replyList-showAll--${props.comment.id}`}
+              aria-controls={`talk-comments-replyList-log--${props.comment.id}`}
               onClick={props.onShowAll}
               disabled={props.disableShowAll}
               variant="outlined"
@@ -41,9 +52,9 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
               Show All Replies
             </Button>
           </Localized>
-        )}
-      </HorizontalGutter>
-    </Indent>
+        </Indent>
+      )}
+    </HorizontalGutter>
   );
 };
 

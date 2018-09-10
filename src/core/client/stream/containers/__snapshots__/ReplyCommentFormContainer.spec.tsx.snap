@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<ReplyCommentForm
+  id="comment-id"
+  onCancel={[Function]}
+  onChange={[Function]}
+  onSubmit={[Function]}
+  rteRef={[Function]}
+/>
+`;
+
+exports[`renders with initialValues 1`] = `
+<ReplyCommentForm
+  id="comment-id"
+  initialValues={
+    Object {
+      "body": "Hello World!",
+    }
+  }
+  onCancel={[Function]}
+  onChange={[Function]}
+  onSubmit={[Function]}
+  rteRef={[Function]}
+/>
+`;

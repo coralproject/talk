@@ -1,14 +1,15 @@
+import { prefixStorage } from "../utils";
 import { Decorator } from "./types";
 
 const withPymStorage = (
   storage: Storage,
   type: "localStorage" | "sessionStorage",
-  prefix = "talkPymStorage:"
+  prefix = "talk:"
 ): Decorator => pym => {
   pym.onMessage(`pymStorage.${type}.request`, (msg: any) => {
     const { id, method, parameters } = JSON.parse(msg);
-    const { key, value } = parameters;
-    const prefixedKey = `${prefix}${key}`;
+    const { n, key, value } = parameters;
+    const prefixedStorage = prefixStorage(storage, prefix);
 
     // Variable for the method return value.
     let result;
@@ -25,13 +26,22 @@ const withPymStorage = (
     try {
       switch (method) {
         case "setItem":
-          result = storage.setItem(prefixedKey, value);
+          result = prefixedStorage.setItem(key, value);
           break;
         case "getItem":
-          result = storage.getItem(prefixedKey);
+          result = prefixedStorage.getItem(key);
           break;
         case "removeItem":
-          result = storage.removeItem(prefixedKey);
+          result = prefixedStorage.removeItem(key);
+          break;
+        case "key":
+          result = prefixedStorage.key(n);
+          break;
+        case "length":
+          result = prefixedStorage.length;
+          break;
+        case "clear":
+          result = prefixedStorage.clear();
           break;
         default:
           sendError(`Unknown method ${method}`);

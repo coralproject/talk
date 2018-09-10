@@ -2,7 +2,26 @@
 
 exports[`renders correctly 1`] = `
 <Stream
-  assetID="asset-id"
+  asset={
+    Object {
+      "comments": Object {
+        "edges": Array [
+          Object {
+            "node": Object {
+              "id": "comment-1",
+            },
+          },
+          Object {
+            "node": Object {
+              "id": "comment-2",
+            },
+          },
+        ],
+      },
+      "id": "asset-id",
+      "isClosed": false,
+    }
+  }
   comments={
     Array [
       Object {
@@ -14,15 +33,33 @@ exports[`renders correctly 1`] = `
     ]
   }
   disableLoadMore={false}
-  isClosed={false}
+  me={null}
   onLoadMore={[Function]}
-  user={null}
 />
 `;
 
 exports[`when has more comments renders hasMore 1`] = `
 <Stream
-  assetID="asset-id"
+  asset={
+    Object {
+      "comments": Object {
+        "edges": Array [
+          Object {
+            "node": Object {
+              "id": "comment-1",
+            },
+          },
+          Object {
+            "node": Object {
+              "id": "comment-2",
+            },
+          },
+        ],
+      },
+      "id": "asset-id",
+      "isClosed": false,
+    }
+  }
   comments={
     Array [
       Object {
@@ -35,15 +72,33 @@ exports[`when has more comments renders hasMore 1`] = `
   }
   disableLoadMore={false}
   hasMore={true}
-  isClosed={false}
+  me={null}
   onLoadMore={[Function]}
-  user={null}
 />
 `;
 
 exports[`when has more comments when loading more disables load more button 1`] = `
 <Stream
-  assetID="asset-id"
+  asset={
+    Object {
+      "comments": Object {
+        "edges": Array [
+          Object {
+            "node": Object {
+              "id": "comment-1",
+            },
+          },
+          Object {
+            "node": Object {
+              "id": "comment-2",
+            },
+          },
+        ],
+      },
+      "id": "asset-id",
+      "isClosed": false,
+    }
+  }
   comments={
     Array [
       Object {
@@ -56,15 +111,33 @@ exports[`when has more comments when loading more disables load more button 1`] 
   }
   disableLoadMore={true}
   hasMore={true}
-  isClosed={false}
+  me={null}
   onLoadMore={[Function]}
-  user={null}
 />
 `;
 
 exports[`when has more comments when loading more enable load more button after loading is done 1`] = `
 <Stream
-  assetID="asset-id"
+  asset={
+    Object {
+      "comments": Object {
+        "edges": Array [
+          Object {
+            "node": Object {
+              "id": "comment-1",
+            },
+          },
+          Object {
+            "node": Object {
+              "id": "comment-2",
+            },
+          },
+        ],
+      },
+      "id": "asset-id",
+      "isClosed": false,
+    }
+  }
   comments={
     Array [
       Object {
@@ -77,8 +150,7 @@ exports[`when has more comments when loading more enable load more button after 
   }
   disableLoadMore={false}
   hasMore={true}
-  isClosed={false}
+  me={null}
   onLoadMore={[Function]}
-  user={null}
 />
 `;

@@ -1,8 +1,11 @@
 .root {
-  border-left: 3px solid;
-  padding-left: var(--spacing-unit);
 }
 
-.level0 {
-  border-color: var(--palette-grey-darkest);
+.level1 {
+  padding-left: var(--spacing-unit);
+  border-left: 3px solid var(--palette-grey-darkest);
+}
+
+.noBorder {
+  border: 0;
 }

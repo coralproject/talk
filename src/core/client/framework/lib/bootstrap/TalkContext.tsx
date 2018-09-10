@@ -6,9 +6,10 @@ import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
 
+import { BrowserInfo } from "talk-framework/lib/browserInfo";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
-import { PymStorage } from "talk-framework/lib/storage";
+import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { UIContext } from "talk-ui/components";
 import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 
@@ -23,16 +24,10 @@ export interface TalkContext {
   timeagoFormatter?: Formatter;
 
   /** Local Storage */
-  localStorage: Storage;
+  localStorage: PromisifiedStorage;
 
   /** Session storage */
-  sessionStorage: Storage;
-
-  /** Local Storage over pym */
-  pymLocalStorage?: PymStorage;
-
-  /** Session storage over pym */
-  pymSessionStorage?: PymStorage;
+  sessionStorage: PromisifiedStorage;
 
   /** media query values for testing purposes */
   mediaQueryValues?: MediaQueryMatchers;
@@ -51,6 +46,12 @@ export interface TalkContext {
 
   /** A pym child that interacts with the pym parent. */
   pym?: PymChild;
+
+  /** Browser detection. */
+  browserInfo: BrowserInfo;
+
+  /** Generates uuids. */
+  uuidGenerator: () => string;
 }
 
 const { Provider, Consumer } = React.createContext<TalkContext>({} as any);

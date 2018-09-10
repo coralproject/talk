@@ -2,7 +2,30 @@
 
 exports[`renders correctly 1`] = `
 <ReplyList
-  commentID="comment-id"
+  asset={
+    Object {
+      "id": "asset-id",
+    }
+  }
+  comment={
+    Object {
+      "id": "comment-id",
+      "replies": Object {
+        "edges": Array [
+          Object {
+            "node": Object {
+              "id": "comment-1",
+            },
+          },
+          Object {
+            "node": Object {
+              "id": "comment-2",
+            },
+          },
+        ],
+      },
+    }
+  }
   comments={
     Array [
       Object {
@@ -14,6 +37,8 @@ exports[`renders correctly 1`] = `
     ]
   }
   disableShowAll={false}
+  indentLevel={1}
+  me={null}
   onShowAll={[Function]}
 />
 `;
@@ -22,7 +47,30 @@ exports[`renders correctly when replies are null 1`] = `""`;
 
 exports[`when has more replies renders hasMore 1`] = `
 <ReplyList
-  commentID="comment-id"
+  asset={
+    Object {
+      "id": "asset-id",
+    }
+  }
+  comment={
+    Object {
+      "id": "comment-id",
+      "replies": Object {
+        "edges": Array [
+          Object {
+            "node": Object {
+              "id": "comment-1",
+            },
+          },
+          Object {
+            "node": Object {
+              "id": "comment-2",
+            },
+          },
+        ],
+      },
+    }
+  }
   comments={
     Array [
       Object {
@@ -35,13 +83,38 @@ exports[`when has more replies renders hasMore 1`] = `
   }
   disableShowAll={false}
   hasMore={true}
+  indentLevel={1}
+  me={null}
   onShowAll={[Function]}
 />
 `;
 
 exports[`when has more replies when showing all disables show all button 1`] = `
 <ReplyList
-  commentID="comment-id"
+  asset={
+    Object {
+      "id": "asset-id",
+    }
+  }
+  comment={
+    Object {
+      "id": "comment-id",
+      "replies": Object {
+        "edges": Array [
+          Object {
+            "node": Object {
+              "id": "comment-1",
+            },
+          },
+          Object {
+            "node": Object {
+              "id": "comment-2",
+            },
+          },
+        ],
+      },
+    }
+  }
   comments={
     Array [
       Object {
@@ -54,13 +127,38 @@ exports[`when has more replies when showing all disables show all button 1`] = `
   }
   disableShowAll={true}
   hasMore={true}
+  indentLevel={1}
+  me={null}
   onShowAll={[Function]}
 />
 `;
 
 exports[`when has more replies when showing all enable show all button after loading is done 1`] = `
 <ReplyList
-  commentID="comment-id"
+  asset={
+    Object {
+      "id": "asset-id",
+    }
+  }
+  comment={
+    Object {
+      "id": "comment-id",
+      "replies": Object {
+        "edges": Array [
+          Object {
+            "node": Object {
+              "id": "comment-1",
+            },
+          },
+          Object {
+            "node": Object {
+              "id": "comment-2",
+            },
+          },
+        ],
+      },
+    }
+  }
   comments={
     Array [
       Object {
@@ -73,6 +171,8 @@ exports[`when has more replies when showing all enable show all button after loa
   }
   disableShowAll={false}
   hasMore={true}
+  indentLevel={1}
+  me={null}
   onShowAll={[Function]}
 />
 `;

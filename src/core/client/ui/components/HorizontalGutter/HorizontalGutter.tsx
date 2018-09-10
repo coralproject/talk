@@ -30,7 +30,7 @@ const HorizontalGutter: StatelessComponent<InnerProps> = props => {
 
 HorizontalGutter.defaultProps = {
   size: "full",
-};
+} as Partial<InnerProps>;
 
 const enhanced = withForwardRef(withStyles(styles)(HorizontalGutter));
 export type HorizontalGutterProps = PropTypesOf<typeof enhanced>;

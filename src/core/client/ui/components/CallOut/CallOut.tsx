@@ -51,7 +51,7 @@ const CallOut: StatelessComponent<CallOutProps> = props => {
 CallOut.defaultProps = {
   color: "regular",
   fullWidth: false,
-};
+} as Partial<CallOutProps>;
 
 const enhanced = withStyles(styles)(CallOut);
 export default enhanced;
