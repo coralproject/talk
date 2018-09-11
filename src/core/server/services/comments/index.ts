@@ -98,7 +98,7 @@ export async function edit(
   }
 
   // Run the comment through the moderation phases.
-  const { status } = await processForModeration({
+  const { status, metadata } = await processForModeration({
     asset,
     tenant,
     comment: input,
@@ -113,6 +113,7 @@ export async function edit(
     author_id: author.id,
     body: input.body,
     status,
+    metadata,
     // The editable time is based on the current time, and the edit window
     // length. By subtracting the current date from the edit window length, we
     // get the maximum value for the `created_at` time that would be permitted
