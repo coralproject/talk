@@ -10,4 +10,5 @@ export {
   getShallowChanges,
   createDefaultResponseFragments,
   handlePopupAuth,
+  buildCommentURL,
 } from 'coral-framework/utils';

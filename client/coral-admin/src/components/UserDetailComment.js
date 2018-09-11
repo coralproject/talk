@@ -13,6 +13,8 @@ import CommentLabels from '../containers/CommentLabels';
 import ApproveButton from './ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
 import CommentDeletedTombstone from './CommentDeletedTombstone';
+
+import { buildCommentURL } from 'coral-framework/utils/url';
 import TimeAgo from 'coral-framework/components/TimeAgo';
 import t from 'coral-framework/services/i18n';
 
@@ -110,7 +112,7 @@ class UserDetailComment extends React.Component {
                 />
                 <a
                   className={styles.external}
-                  href={`${comment.asset.url}?commentId=${comment.id}`}
+                  href={buildCommentURL(comment.asset.url, comment.id)}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -16,6 +16,7 @@ import RejectButton from 'coral-admin/src/components/RejectButton';
 import CommentDeletedTombstone from '../../../components/CommentDeletedTombstone';
 import TimeAgo from 'coral-framework/components/TimeAgo';
 
+import { buildCommentURL } from 'coral-framework/utils/url';
 import t from 'coral-framework/services/i18n';
 
 class Comment extends React.Component {
@@ -170,7 +171,7 @@ class Comment extends React.Component {
                 <div className={styles.commentContentFooter}>
                   <a
                     className={styles.external}
-                    href={`${comment.asset.url}?commentId=${comment.id}`}
+                    href={buildCommentURL(comment.asset.url, comment.id)}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

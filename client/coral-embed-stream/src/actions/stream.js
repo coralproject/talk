@@ -1,6 +1,6 @@
 import * as actions from '../constants/stream';
 import { buildUrl } from 'coral-framework/utils/url';
-import queryString from 'query-string';
+import queryString from 'querystringify';
 
 export const setActiveReplyBox = id => ({
   type: actions.SET_ACTIVE_REPLY_BOX,
@@ -14,12 +14,13 @@ export const setSort = ({ sortOrder, sortBy }) => ({
 });
 
 export const viewAllComments = () => (dispatch, _, { pym }) => {
-  const search = queryString.stringify({
-    ...queryString.parse(location.search),
-    comment_id: undefined,
-  });
+  const query = queryString.parse(location.search);
 
   // remove the comment_id url param
+  delete query.comment_id;
+
+  const search = queryString.stringify(query);
+
   const url = buildUrl({ ...location, search });
 
   try {

@@ -1,4 +1,4 @@
-import queryString from 'query-string';
+import queryString from 'querystringify';
 
 import {
   FETCH_ASSETS_REQUEST,
