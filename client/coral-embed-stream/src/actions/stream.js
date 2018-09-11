@@ -14,12 +14,13 @@ export const setSort = ({ sortOrder, sortBy }) => ({
 });
 
 export const viewAllComments = () => (dispatch, _, { pym }) => {
-  const search = queryString.stringify({
-    ...queryString.parse(location.search),
-    comment_id: undefined,
-  });
+  const query = queryString.parse(location.search);
 
   // remove the comment_id url param
+  delete query.comment_id
+
+  const search = queryString.stringify(query);
+
   const url = buildUrl({ ...location, search });
 
   try {

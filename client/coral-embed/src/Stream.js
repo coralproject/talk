@@ -94,12 +94,13 @@ export default class Stream {
 
     // Remove the permalink comment id from the hash.
     this.pym.onMessage('coral-view-all-comments', () => {
-      const search = queryString.stringify({
-        ...queryString.parse(location.search),
-        commentId: undefined,
-      });
+      const query = queryString.parse(location.search);
 
       // Remove the commentId url param.
+      delete query.commentId;
+
+      const search = queryString.stringify(query);
+
       const url = buildUrl({ ...location, search });
 
       // Change the url.
