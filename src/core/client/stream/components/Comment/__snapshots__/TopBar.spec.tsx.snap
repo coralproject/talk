@@ -2,7 +2,7 @@
 
 exports[`renders correctly on big screens 1`] = `
 <div
-  className="Flex-root TopBar-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
 >
   <div>
     Hello World
@@ -12,7 +12,7 @@ exports[`renders correctly on big screens 1`] = `
 
 exports[`renders correctly on small screens 1`] = `
 <div
-  className="Flex-root TopBar-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
 >
   <div>
     Hello World

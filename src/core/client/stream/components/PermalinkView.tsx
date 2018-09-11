@@ -8,7 +8,9 @@ import CommentContainer from "../containers/CommentContainer";
 import * as styles from "./PermalinkView.css";
 
 export interface PermalinkViewProps {
-  comment: PropTypesOf<typeof CommentContainer>["data"] | null;
+  me: PropTypesOf<typeof CommentContainer>["me"];
+  asset: PropTypesOf<typeof CommentContainer>["asset"];
+  comment: PropTypesOf<typeof CommentContainer>["comment"] | null;
   showAllCommentsHref: string | null;
   onShowAllComments: (e: MouseEvent<any>) => void;
 }
@@ -16,7 +18,9 @@ export interface PermalinkViewProps {
 const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
   showAllCommentsHref,
   comment,
+  asset,
   onShowAllComments,
+  me,
 }) => {
   return (
     <div className={styles.root}>
@@ -42,7 +46,7 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
           <Typography>Comment not found</Typography>
         </Localized>
       )}
-      {comment && <CommentContainer data={comment} />}
+      {comment && <CommentContainer me={me} comment={comment} asset={asset} />}
     </div>
   );
 };

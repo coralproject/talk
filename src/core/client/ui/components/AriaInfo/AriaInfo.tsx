@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { AllHTMLAttributes, StatelessComponent } from "react";
+import React, { AllHTMLAttributes, Ref, StatelessComponent } from "react";
 
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
@@ -14,6 +14,8 @@ interface InnerProps extends AllHTMLAttributes<HTMLElement> {
   classes: typeof styles;
   component?: string;
   children: React.ReactNode;
+  /** Internal: Forwarded Ref */
+  forwardRef?: Ref<HTMLButtonElement>;
 }
 
 const AriaInfo: StatelessComponent<InnerProps> = props => {

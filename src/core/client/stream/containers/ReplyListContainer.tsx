@@ -3,7 +3,9 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withPaginationContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
-import { ReplyListContainer_comment as Data } from "talk-stream/__generated__/ReplyListContainer_comment.graphql";
+import { ReplyListContainer_asset as AssetData } from "talk-stream/__generated__/ReplyListContainer_asset.graphql";
+import { ReplyListContainer_comment as CommentData } from "talk-stream/__generated__/ReplyListContainer_comment.graphql";
+import { ReplyListContainer_me as MeData } from "talk-stream/__generated__/ReplyListContainer_me.graphql";
 import {
   COMMENT_SORT,
   ReplyListContainerPaginationQueryVariables,
@@ -12,7 +14,9 @@ import {
 import ReplyList from "../components/ReplyList";
 
 export interface InnerProps {
-  comment: Data;
+  me: MeData | null;
+  asset: AssetData;
+  comment: CommentData;
   relay: RelayPaginationProp;
 }
 
@@ -31,11 +35,14 @@ export class ReplyListContainer extends React.Component<InnerProps> {
     const comments = this.props.comment.replies.edges.map(edge => edge.node);
     return (
       <ReplyList
-        commentID={this.props.comment.id}
+        me={this.props.me}
+        comment={this.props.comment}
         comments={comments}
+        asset={this.props.asset}
         onShowAll={this.showAll}
         hasMore={this.props.relay.hasMore()}
         disableShowAll={this.state.disableShowAll}
+        indentLevel={1}
       />
     );
   }
@@ -72,6 +79,16 @@ const enhanced = withPaginationContainer<
   FragmentVariables
 >(
   {
+    me: graphql`
+      fragment ReplyListContainer_me on User {
+        ...CommentContainer_me
+      }
+    `,
+    asset: graphql`
+      fragment ReplyListContainer_asset on Asset {
+        ...CommentContainer_asset
+      }
+    `,
     comment: graphql`
       fragment ReplyListContainer_comment on Comment
         @argumentDefinitions(
@@ -85,7 +102,7 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               id
-              ...CommentContainer
+              ...CommentContainer_comment
             }
           }
         }
