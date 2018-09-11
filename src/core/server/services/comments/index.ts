@@ -1,8 +1,8 @@
 import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
-import { GQLACTION_ITEM_TYPE } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
+  ACTION_ITEM_TYPE,
   CreateActionInput,
   createActions,
   generateActionCounts,
@@ -79,7 +79,7 @@ export async function create(
       (action): CreateActionInput => ({
         ...action,
         item_id: comment.id,
-        item_type: GQLACTION_ITEM_TYPE.COMMENTS,
+        item_type: ACTION_ITEM_TYPE.COMMENTS,
       })
     );
 
