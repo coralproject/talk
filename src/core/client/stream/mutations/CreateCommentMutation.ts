@@ -72,6 +72,7 @@ function commit(
 ) {
   const me = getMe(environment)!;
   const currentDate = new Date().toISOString();
+  const id = uuidGenerator();
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
     mutation,
     variables: {
@@ -85,7 +86,7 @@ function commit(
         edge: {
           cursor: currentDate,
           node: {
-            id: uuidGenerator(),
+            id,
             createdAt: currentDate,
             author: {
               id: me.id,
@@ -100,6 +101,9 @@ function commit(
         clientMutationId: (clientMutationId++).toString(),
       },
     } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
+    optimisticUpdater: store => {
+      store.get(id)!.setValue(true, "pending");
+    },
     configs: getConfig(input),
   });
 }

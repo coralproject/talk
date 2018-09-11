@@ -26,6 +26,7 @@ it("renders username and body", () => {
       editing: {
         editableUntil: "1995-12-17T03:24:30.000Z",
       },
+      pending: false,
     },
     indentLevel: 1,
     showAuthPopup: noop as any,
@@ -51,6 +52,7 @@ it("renders body only", () => {
       editing: {
         editableUntil: "1995-12-17T03:24:30.000Z",
       },
+      pending: false,
     },
     indentLevel: 1,
     showAuthPopup: noop as any,

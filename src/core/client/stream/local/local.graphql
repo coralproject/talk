@@ -15,6 +15,10 @@ type AuthPopup {
   view: View
 }
 
+extend type Comment {
+  pending: Boolean
+}
+
 type Local {
   network: Network!
   assetID: String

@@ -2,6 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <Indent
+  className=""
   level={1}
 >
   <Comment

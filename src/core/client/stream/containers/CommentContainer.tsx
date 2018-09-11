@@ -112,6 +112,7 @@ export class CommentContainer extends Component<InnerProps, State> {
           author={comment.author}
           body={comment.body}
           createdAt={comment.createdAt}
+          blur={comment.pending || false}
           topBarRight={
             (editable && (
               <Localized id="comments-commentContainer-editButton">
@@ -174,6 +175,7 @@ const enhanced = withShowAuthPopupMutation(
         editing {
           editableUntil
         }
+        pending
         ...ReplyCommentFormContainer_comment
         ...EditCommentFormContainer_comment
       }
