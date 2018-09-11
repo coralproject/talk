@@ -14,6 +14,7 @@ import hoistStatics from 'recompose/hoistStatics';
 import * as PropTypes from 'prop-types';
 import { getDefinitionName } from '../utils';
 import { t, can } from 'plugin-api/beta/client/services';
+import { getStaticConfiguration } from 'coral-framework/services/staticConfiguration';
 
 import { showSignInDialog } from 'coral-embed-stream/src/actions/login';
 
@@ -186,6 +187,10 @@ export default (reaction, options = {}) =>
       constructor(props, context) {
         super(props, context);
 
+        let { WEBSOCKET_CLIENT_DISABLE: websocket_client_disable } = getStaticConfiguration();
+        if (websocket_client_disable) {
+          return;
+        }
         // Start subscriptions when it is first needed.
         if (instances === 0) {
           createdSubscription = context.client
@@ -460,9 +465,9 @@ export default (reaction, options = {}) =>
             }
           }
           ${
-            fragments.comment
-              ? `...${getDefinitionName(fragments.comment)}`
-              : ''
+          fragments.comment
+            ? `...${getDefinitionName(fragments.comment)}`
+            : ''
           }
         }
         ${fragments.comment ? fragments.comment : ''}

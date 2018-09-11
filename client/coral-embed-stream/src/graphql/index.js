@@ -2,6 +2,7 @@ import { gql } from 'react-apollo';
 import update from 'immutability-helper';
 import uuid from 'uuid/v4';
 import {
+  findComment,
   insertCommentIntoEmbedQuery,
   removeCommentFromEmbedQuery,
 } from './utils';
@@ -249,7 +250,10 @@ export default {
           if (
             !['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(comment.status)
           ) {
-            return null;
+            let commentPrev = findComment(prev.asset.comments.nodes, (c) => c.id == comment.id)
+            let commentUpdated = update(commentPrev, { $merge: comment });
+            commentUpdated.editing = update(commentPrev.editing, { $merge: comment.editing });
+            return insertCommentIntoEmbedQuery(prev, commentUpdated);
           }
           return removeCommentFromEmbedQuery(prev, comment.id);
         },

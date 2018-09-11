@@ -74,9 +74,9 @@ class ModSubscription extends React.Component {
         },
       },
     ];
-    this.subscriptions = configs.map(config =>
-      this.props.subscribeToMore(config)
-    );
+    this.subscriptions = configs
+      .map(config => this.props.subscribeToMore(config))
+      .filter(config => config);
   }
 
   componentWillUnmount() {

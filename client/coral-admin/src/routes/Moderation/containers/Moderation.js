@@ -210,9 +210,9 @@ class ModerationContainer extends Component {
       },
     ];
 
-    this.subscriptions = parameters.map(param =>
-      this.props.data.subscribeToMoreThrottled(param)
-    );
+    this.subscriptions = parameters
+      .map(param => this.props.data.subscribeToMoreThrottled(param))
+      .filter(param => param);
   }
 
   unsubscribe() {

@@ -13,6 +13,7 @@ import get from 'lodash/get';
 import { notify } from 'coral-framework/actions/notification';
 import { Broadcast } from 'react-broadcast';
 import { compose } from 'recompose';
+import { getStaticConfiguration } from 'coral-framework/services/staticConfiguration';
 
 const withSkipOnErrors = reducer => (prev, action, ...rest) => {
   if (
@@ -23,6 +24,10 @@ const withSkipOnErrors = reducer => (prev, action, ...rest) => {
   }
   return reducer(prev, action, ...rest);
 };
+
+const {
+  WEBSOCKET_CLIENT_DISABLE: websocket_client_disable,
+} = getStaticConfiguration();
 
 function networkStatusToString(networkStatus) {
   switch (networkStatus) {
@@ -168,6 +173,10 @@ const createHOC = (document, config, { notifyOnError = true }) =>
           }
         };
 
+        if (websocket_client_disable) {
+          return () => null;
+        }
+
         // Start subscription.
         const request = {
           query,
@@ -240,6 +249,9 @@ const createHOC = (document, config, { notifyOnError = true }) =>
               return this.apolloData.refetch(...args);
             },
             subscribeToMore: stmArgs => {
+              if (websocket_client_disable) {
+                return null;
+              }
               const resolvedDocument = this.resolveDocument(stmArgs.document);
 
               // Resolve document fragments before passing it to `apollo-client`.
