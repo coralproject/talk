@@ -10,7 +10,7 @@ exports[`renders correctly 1`] = `
 
 exports[`renders icon 1`] = `
 <div
-  className="Message-root Message-colorGrey custom"
+  className="Message-root Message-colorGrey"
 >
   <span
     aria-hidden="true"

@@ -34,9 +34,14 @@ exports[`accepts correct password 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -175,9 +180,14 @@ exports[`accepts valid email 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -280,9 +290,14 @@ exports[`checks for invalid email 1`] = `
           value="invalid-email"
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             Please enter a valid email address.
           </span>
@@ -306,9 +321,14 @@ exports[`checks for invalid email 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -526,9 +546,14 @@ exports[`shows error when submitting empty form 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -552,9 +577,14 @@ exports[`shows error when submitting empty form 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>

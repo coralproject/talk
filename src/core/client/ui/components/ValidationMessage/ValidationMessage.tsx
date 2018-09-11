@@ -1,5 +1,6 @@
 import React, { ReactNode, StatelessComponent } from "react";
 import Message from "../Message";
+import MessageIcon from "../Message/MessageIcon";
 
 export interface ValidationMessageProps {
   /**
@@ -24,12 +25,8 @@ const ValidationMessage: StatelessComponent<ValidationMessageProps> = props => {
   const { className, fullWidth, children, icon, ...rest } = props;
 
   return (
-    <Message
-      color="validation"
-      icon={icon ? icon : "warning"}
-      className={className}
-      {...rest}
-    >
+    <Message color="error" className={className} {...rest}>
+      <MessageIcon>warning</MessageIcon>
       {children}
     </Message>
   );

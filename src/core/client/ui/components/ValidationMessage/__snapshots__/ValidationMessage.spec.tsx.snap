@@ -2,9 +2,14 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="Message-root custom"
-  icon="warning"
+  className="Message-root Message-colorError custom"
 >
+  <span
+    aria-hidden="true"
+    className="Icon-root MessageIcon-root Icon-sm"
+  >
+    warning
+  </span>
   Hello World
 </div>
 `;

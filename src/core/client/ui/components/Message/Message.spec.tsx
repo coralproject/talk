@@ -16,12 +16,8 @@ it("renders correctly", () => {
 });
 
 it("renders icon", () => {
-  const props: PropTypesOf<typeof Message> = {
-    className: "custom",
-  };
-
   const renderer = TestRenderer.create(
-    <Message {...props}>
+    <Message>
       <MessageIcon>alert</MessageIcon>Alert Message
     </Message>
   );

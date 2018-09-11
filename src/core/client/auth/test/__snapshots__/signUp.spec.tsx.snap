@@ -34,9 +34,14 @@ exports[`accepts correct password 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -65,9 +70,14 @@ exports[`accepts correct password 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -114,9 +124,14 @@ exports[`accepts correct password 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -200,9 +215,14 @@ exports[`accepts correct password confirmation 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -231,9 +251,14 @@ exports[`accepts correct password confirmation 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -262,9 +287,14 @@ exports[`accepts correct password confirmation 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -288,9 +318,14 @@ exports[`accepts correct password confirmation 1`] = `
           value="testtest"
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             Passwords do not match. Try again.
           </span>
@@ -397,9 +432,14 @@ exports[`accepts valid email 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -428,9 +468,14 @@ exports[`accepts valid email 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -454,9 +499,14 @@ exports[`accepts valid email 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -540,9 +590,14 @@ exports[`accepts valid username 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -594,9 +649,14 @@ exports[`accepts valid username 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -620,9 +680,14 @@ exports[`accepts valid username 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -706,9 +771,14 @@ exports[`checks for invalid characters in username 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -737,9 +807,14 @@ exports[`checks for invalid characters in username 1`] = `
           value="$%$§$%$§%"
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             Invalid characters. Try again.
           </span>
@@ -768,9 +843,14 @@ exports[`checks for invalid characters in username 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -794,9 +874,14 @@ exports[`checks for invalid characters in username 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -880,9 +965,14 @@ exports[`checks for invalid email 1`] = `
           value="invalid-email"
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             Please enter a valid email address.
           </span>
@@ -911,9 +1001,14 @@ exports[`checks for invalid email 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -942,9 +1037,14 @@ exports[`checks for invalid email 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -968,9 +1068,14 @@ exports[`checks for invalid email 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1054,9 +1159,14 @@ exports[`checks for too long username 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1085,9 +1195,14 @@ exports[`checks for too long username 1`] = `
           value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             Usernames cannot be longer than ⁨20⁩ characters.
           </span>
@@ -1116,9 +1231,14 @@ exports[`checks for too long username 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1142,9 +1262,14 @@ exports[`checks for too long username 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1228,9 +1353,14 @@ exports[`checks for too short password 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1259,9 +1389,14 @@ exports[`checks for too short password 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1290,9 +1425,14 @@ exports[`checks for too short password 1`] = `
           value="pass"
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             Password must contain at least ⁨8⁩ characters.
           </span>
@@ -1316,9 +1456,14 @@ exports[`checks for too short password 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1402,9 +1547,14 @@ exports[`checks for too short username 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1433,9 +1583,14 @@ exports[`checks for too short username 1`] = `
           value="u"
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             Username must contain at least ⁨3⁩ characters.
           </span>
@@ -1464,9 +1619,14 @@ exports[`checks for too short username 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1490,9 +1650,14 @@ exports[`checks for too short username 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1576,9 +1741,14 @@ exports[`checks for wrong password confirmation 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1607,9 +1777,14 @@ exports[`checks for wrong password confirmation 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1638,9 +1813,14 @@ exports[`checks for wrong password confirmation 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1664,9 +1844,14 @@ exports[`checks for wrong password confirmation 1`] = `
           value="not-matching"
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             Passwords do not match. Try again.
           </span>
@@ -1892,9 +2077,14 @@ exports[`shows error when submitting empty form 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1923,9 +2113,14 @@ exports[`shows error when submitting empty form 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1954,9 +2149,14 @@ exports[`shows error when submitting empty form 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
@@ -1980,9 +2180,14 @@ exports[`shows error when submitting empty form 1`] = `
           value=""
         />
         <div
-          className="Message-root"
-          icon="warning"
+          className="Message-root Message-colorError"
         >
+          <span
+            aria-hidden="true"
+            className="Icon-root MessageIcon-root Icon-sm"
+          >
+            warning
+          </span>
           <span>
             This field is required.
           </span>
