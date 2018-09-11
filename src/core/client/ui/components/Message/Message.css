@@ -12,13 +12,13 @@
   border-left-width: calc(0.8 * var(--spacing-unit));
 }
 
-.colorInfo {
+.colorGrey {
   background-color: var(--palette-common-white);
   border-color: var(--palette-grey-main);
   color: var(--palette-grey-main);
 }
 
-.colorValidation {
+.colorError {
   background-color: var(--palette-error-light);
   border-color: var(--palette-error-darkest);
   color: var(--palette-common-white);
