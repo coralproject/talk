@@ -45,6 +45,9 @@ beforeEach(() => {
                     edges: [],
                     pageInfo: { endCursor: null, hasNextPage: false },
                   },
+                  editing: {
+                    editableUntil: "2018-07-06T18:24:30.000Z",
+                  },
                 },
               },
               clientMutationId: "0",

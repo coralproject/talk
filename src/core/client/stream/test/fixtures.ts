@@ -20,6 +20,9 @@ export const comments = [
     body: "Joining Too",
     createdAt: "2018-07-06T18:24:00.000Z",
     replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+    editing: {
+      editableUntil: "2018-07-06T18:24:30.000Z",
+    },
   },
   {
     id: "comment-1",
@@ -27,6 +30,9 @@ export const comments = [
     body: "What's up?",
     createdAt: "2018-07-06T18:20:00.000Z",
     replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+    editing: {
+      editableUntil: "2018-07-06T18:20:30.000Z",
+    },
   },
   {
     id: "comment-2",
@@ -34,6 +40,9 @@ export const comments = [
     body: "Hey!",
     createdAt: "2018-07-06T18:14:00.000Z",
     replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+    editing: {
+      editableUntil: "2018-07-06T18:14:30.000Z",
+    },
   },
 ];
 
@@ -67,6 +76,9 @@ export const commentWithReplies = {
     pageInfo: {
       hasNextPage: false,
     },
+  },
+  editing: {
+    editableUntil: "2018-07-06T18:24:30.000Z",
   },
 };
 

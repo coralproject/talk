@@ -34,7 +34,7 @@ const Comment: StatelessComponent<CommentProps> = props => {
             )}
           <Timestamp>{props.createdAt}</Timestamp>
         </TopBarLeft>
-        <div>{props.topBarRight}</div>
+        {props.topBarRight && <div>{props.topBarRight}</div>}
       </Flex>
       <HTMLContent>{props.body || ""}</HTMLContent>
       <Flex className={styles.footer} direction="row" itemGutter="half">

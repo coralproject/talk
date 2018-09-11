@@ -5,16 +5,20 @@ exports[`renders username and body 1`] = `
   className="Comment-root"
   role="article"
 >
-  <TopBar
+  <withPropsOnChange(Flex)
     className="Comment-topBar"
+    direction="row"
+    justifyContent="space-between"
   >
-    <Username>
-      Marvin
-    </Username>
-    <Timestamp>
-      1995-12-17T03:24:00.000Z
-    </Timestamp>
-  </TopBar>
+    <TopBarLeft>
+      <Username>
+        Marvin
+      </Username>
+      <Timestamp>
+        1995-12-17T03:24:00.000Z
+      </Timestamp>
+    </TopBarLeft>
+  </withPropsOnChange(Flex)>
   <HTMLContent>
     Woof
   </HTMLContent>

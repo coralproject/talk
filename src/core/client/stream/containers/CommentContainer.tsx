@@ -94,7 +94,7 @@ export class CommentContainer extends Component<InnerProps, State> {
   }
 
   public render() {
-    const { comment, asset, ...rest } = this.props;
+    const { comment, asset, indentLevel } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     if (showEditDialog) {
       return (
@@ -108,8 +108,10 @@ export class CommentContainer extends Component<InnerProps, State> {
     return (
       <>
         <Comment
-          {...rest}
-          {...comment}
+          indentLevel={indentLevel}
+          author={comment.author}
+          body={comment.body}
+          createdAt={comment.createdAt}
           topBarRight={
             (editable && (
               <Localized id="comments-commentContainer-editButton">

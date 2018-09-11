@@ -23,6 +23,9 @@ it("renders username and body", () => {
       },
       body: "Woof",
       createdAt: "1995-12-17T03:24:00.000Z",
+      editing: {
+        editableUntil: "1995-12-17T03:24:30.000Z",
+      },
     },
     indentLevel: 1,
     showAuthPopup: noop as any,
@@ -45,6 +48,9 @@ it("renders body only", () => {
       },
       body: "Woof",
       createdAt: "1995-12-17T03:24:00.000Z",
+      editing: {
+        editableUntil: "1995-12-17T03:24:30.000Z",
+      },
     },
     indentLevel: 1,
     showAuthPopup: noop as any,
