@@ -116,6 +116,7 @@ export class CommentContainer extends Component<InnerProps, State> {
             (editable && (
               <Localized id="comments-commentContainer-editButton">
                 <Button
+                  id={`comments-commentContainer-editButton-${comment.id}`}
                   color="primary"
                   variant="underlined"
                   onClick={this.openEditDialog}

@@ -1,4 +1,4 @@
-import React, { ReactElement, StatelessComponent } from "react";
+import React, { StatelessComponent } from "react";
 
 import { Flex } from "talk-ui/components";
 
