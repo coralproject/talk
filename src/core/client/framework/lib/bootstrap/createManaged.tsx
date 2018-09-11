@@ -14,6 +14,7 @@ import {
   createPromisifiedStorage,
   createPymStorage,
   createSessionStorage,
+  PromisifiedStorage,
 } from "talk-framework/lib/storage";
 
 import { RestClient } from "talk-framework/lib/rest";
@@ -158,6 +159,30 @@ function createMangedTalkContextProvider(
 }
 
 /**
+ * resolveLocalStorage decides which local storage to use in the context
+ */
+function resolveLocalStorage(pym?: PymChild): PromisifiedStorage {
+  if (pym && areWeInIframe()) {
+    // Use local storage over pym when we have pym and are in an iframe.
+    return createPymStorage(pym, "localStorage");
+  }
+  // Use promisified, prefixed local storage.
+  return createPromisifiedStorage(createLocalStorage());
+}
+
+/**
+ * resolveSessionStorage decides which session storage to use in the context
+ */
+function resolveSessionStorage(pym?: PymChild): PromisifiedStorage {
+  if (pym && areWeInIframe()) {
+    // Use session storage over pym when we have pym and are in an iframe.
+    return createPymStorage(pym, "sessionStorage");
+  }
+  // Use promisified, prefixed session storage.
+  return createPromisifiedStorage(createSessionStorage());
+}
+
+/**
  * `createManaged` establishes the dependencies of our framework
  * and returns a `ManagedTalkContextProvider` that provides the context
  * to the rest of the application.
@@ -167,10 +192,8 @@ export default async function createManaged({
   userLocales,
   localesData,
   pym,
-  eventEmitter = new EventEmitter2({ wildcard: true }),
+  eventEmitter = new EventEmitter2({ wildcard: true, maxListeners: 20 }),
 }: CreateContextArguments): Promise<ComponentType> {
-  const inIframe = areWeInIframe();
-
   // Listen for outside clicks.
   let registerClickFarAway: ClickFarAwayRegister | undefined;
   if (pym) {
@@ -196,12 +219,8 @@ export default async function createManaged({
 
   const localeBundles = await generateBundles(locales, localesData);
 
-  const localStorage =
-    (pym && inIframe && createPymStorage(pym, "localStorage")) ||
-    createPromisifiedStorage(createLocalStorage());
-  const sessionStorage =
-    (pym && inIframe && createPymStorage(pym, "sessionStorage")) ||
-    createPromisifiedStorage(createSessionStorage());
+  const localStorage = resolveLocalStorage(pym);
+  const sessionStorage = resolveSessionStorage(pym);
 
   const { environment, tokenGetter } = createRelayEnvironment();
 

@@ -47,7 +47,7 @@ export default function create(params: CreateParams) {
     postMessage: new PostMessageService(),
     browserInfo: { ios: false },
     uuidGenerator: createUUIDGenerator(),
-    eventEmitter: new EventEmitter2(),
+    eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),
     clearSession: noop,
   };
 
