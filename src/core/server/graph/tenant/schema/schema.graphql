@@ -30,37 +30,184 @@ scalar Cursor
 ## Actions
 ################################################################################
 
-enum ACTION_TYPE {
-  """
-  REACTION corresponds to a reaction to a comment from a user.
-  """
-  REACTION
+"""
+CommentAction describes an Action that is left on a Comment.
+"""
+interface CommentAction {
+  id: ID!
 
   """
-  FLAG corresponds to a flag action that indicates that the given resource needs
-  moderator attention.
+  comment is the Comment that the CommentAction is about.
   """
-  FLAG
+  comment: Comment!
 
   """
-  DONT_AGREE corresponds to when a user marks a given comment that they don't
-  agree with.
+  User when available indicates the user that left the CommentAction, otherwise
+  it is implied that the CommentAction was left by the system.
   """
-  DONT_AGREE
+  user: User
+
+  """
+  createdAt is the time that the CommentAction was created.
+  """
+  createdAt: Time!
 }
 
-enum ACTION_ITEM_TYPE {
-  COMMENTS
+"""
+COMMENT_FLAG_REPORTED_REASON is a reason that is reported by a User on a
+Comment.
+"""
+enum COMMENT_FLAG_REPORTED_REASON {
+  """
+  COMMENT_REPORTED_OFFENSIVE is used when a User reported a Comment as being
+  offensive.
+  """
+  COMMENT_REPORTED_OFFENSIVE
+
+  """
+  COMMENT_REPORTED_SPAM is used when a User reported a Comment as appearing like
+  spam.
+  """
+  COMMENT_REPORTED_SPAM
 }
 
-enum ACTION_GROUP {
-  SPAM_COMMENT
-  TOXIC_COMMENT
-  BODY_COUNT
-  TRUST
-  LINKS
-  BANNED_WORD
-  SUSPECT_WORD
+"""
+COMMENT_FLAG_DETECTED_REASON is a reason that is detected by the system on a
+Comment.
+"""
+enum COMMENT_FLAG_DETECTED_REASON {
+  """
+  COMMENT_DETECTED_TOXIC is used when the Comment was detected as being toxic by
+  the system.
+  """
+  COMMENT_DETECTED_TOXIC
+
+  """
+  COMMENT_DETECTED_SPAM is used when the Comment was detected as having spam by
+  the system.
+  """
+  COMMENT_DETECTED_SPAM
+
+  """
+  COMMENT_DETECTED_BODY_COUNT is used when the Comment was detected as exceeding
+  the body length by the system.
+  """
+  COMMENT_DETECTED_BODY_COUNT
+
+  """
+  COMMENT_DETECTED_TRUST is used when the Comment being left was done by a User
+  that has a low karma/trust score.
+  """
+  COMMENT_DETECTED_TRUST
+
+  """
+  COMMENT_DETECTED_LINKS is used when the Comment was detected as containing
+  links.
+  """
+  COMMENT_DETECTED_LINKS
+
+  """
+  COMMENT_DETECTED_BANNED_WORD is used when the Comment was detected as
+  containing a banned word.
+  """
+  COMMENT_DETECTED_BANNED_WORD
+
+  """
+  COMMENT_DETECTED_SUSPECT_WORD is used when the Comment was detected as
+  containing a suspect word.
+  """
+  COMMENT_DETECTED_SUSPECT_WORD
+}
+
+"""
+COMMENT_FLAG_REASON is the union of the COMMENT_FLAG_REPORTED_REASON
+and COMMENT_FLAG_DETECTED_REASON types.
+"""
+enum COMMENT_FLAG_REASON {
+  COMMENT_REPORTED_OFFENSIVE
+  COMMENT_REPORTED_SPAM
+  COMMENT_DETECTED_TOXIC
+  COMMENT_DETECTED_SPAM
+  COMMENT_DETECTED_BODY_COUNT
+  COMMENT_DETECTED_TRUST
+  COMMENT_DETECTED_LINKS
+  COMMENT_DETECTED_BANNED_WORD
+  COMMENT_DETECTED_SUSPECT_WORD
+}
+
+"""
+CommentFlagAction represents a flag Action left on a Comment.
+"""
+type CommentFlagAction implements CommentAction {
+  id: ID!
+
+  """
+  reason is the reason that the CommentFlagAction was added.
+  """
+  reason: COMMENT_FLAG_REASON!
+
+  """
+  comment is the Comment that the CommentReactionAction is about.
+  """
+  comment: Comment!
+
+  """
+  User when available indicates the user that left the CommentReactionAction,
+  otherwise it is implied that the CommentReactionAction was left by the system.
+  """
+  user: User
+
+  """
+  createdAt is the time that the CommentReactionAction was created.
+  """
+  createdAt: Time!
+}
+
+"""
+CommentReactionAction represents a reaction Action left on a Comment.
+"""
+type CommentReactionAction implements CommentAction {
+  id: ID!
+
+  """
+  comment is the Comment that the CommentReactionAction is about.
+  """
+  comment: Comment!
+
+  """
+  User when available indicates the user that left the CommentReactionAction,
+  otherwise it is implied that the CommentReactionAction was left by the system.
+  """
+  user: User
+
+  """
+  createdAt is the time that the CommentReactionAction was created.
+  """
+  createdAt: Time!
+}
+
+"""
+CommentDontAgreeAction represents a don't agree Action left on a Comment.
+"""
+type CommentDontAgreeAction implements CommentAction {
+  id: ID!
+
+  """
+  comment is the Comment that the CommentDontAgreeAction is about.
+  """
+  comment: Comment!
+
+  """
+  User when available indicates the user that left the CommentDontAgreeAction,
+  otherwise it is implied that the CommentDontAgreeAction was left by the
+  system.
+  """
+  user: User
+
+  """
+  createdAt is the time that the CommentDontAgreeAction was created.
+  """
+  createdAt: Time!
 }
 
 ################################################################################

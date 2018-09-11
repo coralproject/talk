@@ -4,12 +4,12 @@ import fetch from "node-fetch";
 
 import { Omit } from "talk-common/types";
 import {
-  GQLACTION_GROUP,
-  GQLACTION_TYPE,
+  GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
   GQLPerspectiveExternalIntegration,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import logger from "talk-server/logger";
+import { ACTION_TYPE } from "talk-server/models/actions";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -103,8 +103,8 @@ export const toxic: IntermediateModerationPhase = async ({
         status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
         actions: [
           {
-            action_type: GQLACTION_TYPE.FLAG,
-            group_id: GQLACTION_GROUP.TOXIC_COMMENT,
+            action_type: ACTION_TYPE.FLAG,
+            reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC,
           },
         ],
         metadata: {

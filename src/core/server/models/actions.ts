@@ -1,12 +1,10 @@
+import Joi from "joi";
+import { pick } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
-import {
-  GQLACTION_GROUP,
-  GQLACTION_ITEM_TYPE,
-  GQLACTION_TYPE,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_FLAG_REASON } from "talk-server/graph/tenant/schema/__generated__/types";
 import { FilterQuery } from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -16,59 +14,81 @@ function collection(db: Db) {
 
 export type ActionCounts = Record<string, number>;
 
+export enum ACTION_TYPE {
+  /**
+   * REACTION corresponds to a reaction to a comment from a user.
+   */
+  REACTION = "REACTION",
+
+  /**
+   * FLAG corresponds to a flag action that indicates that the given resource needs
+   * moderator attention.
+   */
+  FLAG = "FLAG",
+
+  /**
+   * DONT_AGREE corresponds to when a user marks a given comment that they don't
+   * agree with.
+   */
+  DONT_AGREE = "DONT_AGREE",
+}
+
+export enum ACTION_ITEM_TYPE {
+  COMMENTS = "COMMENTS",
+}
+
 export interface Action extends TenantResource {
   readonly id: string;
-  action_type: GQLACTION_TYPE;
-  item_type: GQLACTION_ITEM_TYPE;
+  action_type: ACTION_TYPE;
+  item_type: ACTION_ITEM_TYPE;
   item_id: string;
-  group_id?: GQLACTION_GROUP;
+  reason?: GQLCOMMENT_FLAG_REASON;
   user_id?: string;
   created_at: Date;
   metadata?: Record<string, any>;
 }
 
-const validActionCombinations: Record<
-  GQLACTION_ITEM_TYPE,
-  Record<GQLACTION_TYPE, Record<GQLACTION_GROUP, true> | true>
-> = {
-  [GQLACTION_ITEM_TYPE.COMMENTS]: {
-    [GQLACTION_TYPE.REACTION]: true,
-    [GQLACTION_TYPE.DONT_AGREE]: true,
-    [GQLACTION_TYPE.FLAG]: {
-      [GQLACTION_GROUP.SPAM_COMMENT]: true,
-      [GQLACTION_GROUP.TOXIC_COMMENT]: true,
-      [GQLACTION_GROUP.BODY_COUNT]: true,
-      [GQLACTION_GROUP.TRUST]: true,
-      [GQLACTION_GROUP.LINKS]: true,
-      [GQLACTION_GROUP.BANNED_WORD]: true,
-      [GQLACTION_GROUP.SUSPECT_WORD]: true,
-    },
+const ActionSchema = [
+  // Flags
+  {
+    item_type: ACTION_ITEM_TYPE.COMMENTS,
+    action_type: ACTION_TYPE.FLAG,
+    // Only reasons for the flag action will be allowed here, and it must be
+    // specified.
+    reason: Object.keys(GQLCOMMENT_FLAG_REASON),
   },
-};
+  // Don't Agree
+  {
+    item_type: ACTION_ITEM_TYPE.COMMENTS,
+    action_type: ACTION_TYPE.DONT_AGREE,
+  },
+  // Reaction
+  {
+    item_type: ACTION_ITEM_TYPE.COMMENTS,
+    action_type: ACTION_TYPE.REACTION,
+  },
+];
 
+/**
+ * validateAction is used to validate that a specific action conforms to the
+ * expected schema, `ActionSchema`.
+ */
 export function validateAction(
-  action: Pick<Action, "item_type" | "action_type" | "group_id">
+  action: Pick<Action, "item_type" | "action_type" | "reason">
 ) {
-  if (!(action.item_type in validActionCombinations)) {
-    throw new Error("invalid item_type");
-  }
-
-  const itemType = validActionCombinations[action.item_type];
-  if (!(action.action_type in itemType)) {
-    throw new Error("invalid action_type");
-  }
-
-  const actionType = itemType[action.action_type];
-  if (action.group_id) {
-    if (actionType === true) {
-      throw new Error("invalid action_type");
+  const { error } = Joi.validate(
+    // In typescript, this isn't an issue, but when this is transpiled to
+    // javascript, it will contain additional elements.
+    pick(action, ["item_type", "action_type", "reason"]),
+    ActionSchema,
+    {
+      presence: "required",
+      abortEarly: false,
     }
-
-    if (!(action.group_id in actionType)) {
-      throw new Error("invalid action_type");
-    }
-  } else if (actionType !== true) {
-    throw new Error("invalid action_type");
+  );
+  if (error) {
+    // TODO: wrap error?
+    throw error;
   }
 }
 
@@ -93,9 +113,6 @@ export async function createAction(
   tenantID: string,
   input: CreateActionInput
 ): Promise<CreateActionResultObject> {
-  // Validate that the action is valid, if it isn't, this will throw an error.
-  validateAction(input);
-
   // Create a new ID for the action.
   const id = uuid.v4();
 
@@ -119,7 +136,7 @@ export async function createAction(
     action_type: input.action_type,
     item_type: input.item_type,
     item_id: input.item_id,
-    group_id: input.group_id,
+    reason: input.reason,
     user_id: input.user_id,
   };
 
@@ -191,11 +208,11 @@ export function generateActionCounts(...actions: Action[]): ActionCounts {
     // Add the action type to the action counts.
     incr(actionType);
 
-    // Check if the group id is set.
-    const groupID = action.group_id && action.group_id.toLowerCase();
-    if (groupID) {
+    // Check if the reason is set.
+    const reason = action.reason && action.reason.toLowerCase();
+    if (reason) {
       // Add the action type to the action counts.
-      incr(actionType, groupID);
+      incr(actionType, reason);
     }
   }
 

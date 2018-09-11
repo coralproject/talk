@@ -1,8 +1,8 @@
 import {
-  GQLACTION_GROUP,
-  GQLACTION_TYPE,
+  GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
+import { ACTION_TYPE } from "talk-server/models/actions";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -29,8 +29,8 @@ export const wordlist: IntermediateModerationPhase = ({
       status: GQLCOMMENT_STATUS.REJECTED,
       actions: [
         {
-          action_type: GQLACTION_TYPE.FLAG,
-          group_id: GQLACTION_GROUP.BANNED_WORD,
+          action_type: ACTION_TYPE.FLAG,
+          reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
         },
       ],
     };
@@ -46,8 +46,8 @@ export const wordlist: IntermediateModerationPhase = ({
     return {
       actions: [
         {
-          action_type: GQLACTION_TYPE.FLAG,
-          group_id: GQLACTION_GROUP.SUSPECT_WORD,
+          action_type: ACTION_TYPE.FLAG,
+          reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
         },
       ],
     };

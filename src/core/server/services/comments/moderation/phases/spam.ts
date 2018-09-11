@@ -1,11 +1,11 @@
 import { Client } from "akismet-api";
 
 import {
-  GQLACTION_GROUP,
-  GQLACTION_TYPE,
+  GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import logger from "talk-server/logger";
+import { ACTION_TYPE } from "talk-server/models/actions";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -110,8 +110,8 @@ export const spam: IntermediateModerationPhase = async ({
         status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
         actions: [
           {
-            action_type: GQLACTION_TYPE.FLAG,
-            group_id: GQLACTION_GROUP.SPAM_COMMENT,
+            action_type: ACTION_TYPE.FLAG,
+            reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM,
           },
         ],
         metadata: {
