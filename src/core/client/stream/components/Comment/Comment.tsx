@@ -15,8 +15,8 @@ export interface CommentProps {
   } | null;
   body: string | null;
   createdAt: string;
-  topBarRight?: ReactElement<any> | Array<ReactElement<any>>;
-  footer?: ReactElement<any> | Array<ReactElement<any>>;
+  topBarRight?: React.ReactNode;
+  footer?: React.ReactNode;
 }
 
 const Comment: StatelessComponent<CommentProps> = props => {

@@ -12,6 +12,8 @@ it("renders username and body", () => {
     },
     body: "Woof",
     createdAt: "1995-12-17T03:24:00.000Z",
+    topBarRight: "topBarRight",
+    footer: "footer",
   };
   const wrapper = shallow(<Comment {...props} />);
   expect(wrapper).toMatchSnapshot();

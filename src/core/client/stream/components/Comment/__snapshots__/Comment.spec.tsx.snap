@@ -18,6 +18,9 @@ exports[`renders username and body 1`] = `
         1995-12-17T03:24:00.000Z
       </Timestamp>
     </TopBarLeft>
+    <div>
+      topBarRight
+    </div>
   </withPropsOnChange(Flex)>
   <HTMLContent>
     Woof
@@ -26,6 +29,8 @@ exports[`renders username and body 1`] = `
     className="Comment-footer"
     direction="row"
     itemGutter="half"
-  />
+  >
+    footer
+  </withPropsOnChange(Flex)>
 </div>
 `;
