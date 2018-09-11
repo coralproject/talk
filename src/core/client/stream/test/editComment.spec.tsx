@@ -7,8 +7,7 @@ import { createSinonStub } from "talk-framework/testHelpers";
 import create from "./create";
 import { assets, users } from "./fixtures";
 
-let testRenderer: ReactTestRenderer;
-beforeEach(() => {
+function createTestRenderer() {
   const resolvers = {
     Query: {
       asset: createSinonStub(
@@ -45,22 +44,25 @@ beforeEach(() => {
     },
   };
 
-  timekeeper.freeze(assets[0].comments.edges[0].node.createdAt);
-  ({ testRenderer } = create({
+  const { testRenderer } = create({
     // Set this to true, to see graphql responses.
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue(assets[0].id, "assetID");
     },
-  }));
-});
+  });
+  return testRenderer;
+}
 
 afterAll(() => {
   timekeeper.reset();
 });
 
 it("edit a comment", async () => {
+  timekeeper.freeze(assets[0].comments.edges[0].node.createdAt);
+  const testRenderer = createTestRenderer();
+
   // Wait for loading.
   await timeout();
   expect(testRenderer.toJSON()).toMatchSnapshot("render stream");
@@ -87,4 +89,46 @@ it("edit a comment", async () => {
 
   // Test after server response.
   expect(testRenderer.toJSON()).toMatchSnapshot("server response");
+});
+
+it("cancel edit", async () => {
+  timekeeper.freeze(assets[0].comments.edges[0].node.createdAt);
+  const testRenderer = createTestRenderer();
+
+  await timeout();
+
+  // Open edit form.
+  testRenderer.root
+    .findByProps({ id: "comments-commentContainer-editButton-comment-0" })
+    .props.onClick();
+
+  // Cacnel edit form.
+  testRenderer.root
+    .findByProps({ id: "comments-editCommentForm-cancelButton-comment-0" })
+    .props.onClick();
+  expect(testRenderer.toJSON()).toMatchSnapshot("edit canceled");
+});
+
+it("shows expiry message", async () => {
+  timekeeper.freeze(assets[0].comments.edges[0].node.createdAt);
+  const testRenderer = createTestRenderer();
+
+  await timeout();
+  jest.useFakeTimers();
+  // Open edit form.
+  testRenderer.root
+    .findByProps({ id: "comments-commentContainer-editButton-comment-0" })
+    .props.onClick();
+
+  timekeeper.reset();
+  jest.runOnlyPendingTimers();
+
+  // Show edit time expired.
+  expect(testRenderer.toJSON()).toMatchSnapshot("edit time expired");
+
+  // Close edit form.
+  testRenderer.root
+    .findByProps({ id: "comments-editCommentForm-closeButton-comment-0" })
+    .props.onClick();
+  expect(testRenderer.toJSON()).toMatchSnapshot("edit form closed");
 });
