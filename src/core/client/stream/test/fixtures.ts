@@ -19,18 +19,21 @@ export const comments = [
     author: users[0],
     body: "Joining Too",
     createdAt: "2018-07-06T18:24:00.000Z",
+    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   },
   {
     id: "comment-1",
     author: users[1],
     body: "What's up?",
     createdAt: "2018-07-06T18:20:00.000Z",
+    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   },
   {
     id: "comment-2",
     author: users[2],
     body: "Hey!",
     createdAt: "2018-07-06T18:14:00.000Z",
+    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   },
 ];
 

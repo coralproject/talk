@@ -7,7 +7,7 @@ import {
   withLocalStateContainer,
 } from "talk-framework/lib/relay";
 import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
-import { UserBoxContainer_user as UserData } from "talk-stream/__generated__/UserBoxContainer_user.graphql";
+import { UserBoxContainer_me as MeData } from "talk-stream/__generated__/UserBoxContainer_me.graphql";
 import { UserBoxContainerLocal as Local } from "talk-stream/__generated__/UserBoxContainerLocal.graphql";
 import UserBoxUnauthenticated from "talk-stream/components/UserBoxUnauthenticated";
 import {
@@ -22,7 +22,7 @@ import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
 
 interface InnerProps {
   local: Local;
-  user: UserData | null;
+  me: MeData | null;
   showAuthPopup: ShowAuthPopupMutation;
   setAuthPopupState: SetAuthPopupStateMutation;
   signOut: SignOutMutation;
@@ -40,16 +40,16 @@ export class UserBoxContainer extends Component<InnerProps> {
       local: {
         authPopup: { open, focus, view },
       },
-      user,
+      me,
       signOut,
     } = this.props;
 
-    if (user) {
+    if (me) {
       return (
         <UserBoxAuthenticated
           onSignOut={signOut}
           // TODO: why nullable?
-          username={user.username!}
+          username={me.username!}
         />
       );
     }
@@ -90,8 +90,8 @@ const enhanced = withSignOutMutation(
         `
       )(
         withFragmentContainer<InnerProps>({
-          user: graphql`
-            fragment UserBoxContainer_user on User {
+          me: graphql`
+            fragment UserBoxContainer_me on User {
               username
             }
           `,

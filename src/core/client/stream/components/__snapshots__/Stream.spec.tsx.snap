@@ -9,7 +9,7 @@ exports[`renders correctly 1`] = `
     size="half"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
-      user={null}
+      me={null}
     />
     <PostCommentFormFake />
   </withPropsOnChange(HorizontalGutter)>
@@ -21,37 +21,65 @@ exports[`renders correctly 1`] = `
     <withPropsOnChange(HorizontalGutter)
       key="comment-1"
     >
-      <Relay(CommentContainer)
-        data={
+      <withContext(createMutationContainer(Relay(CommentContainer)))
+        asset={
           Object {
-            "id": "comment-1",
+            "id": "asset-id",
+            "isClosed": false,
           }
         }
-      />
-      <Relay(ReplyListContainer)
         comment={
           Object {
             "id": "comment-1",
           }
         }
+        me={null}
+      />
+      <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
+          Object {
+            "id": "comment-1",
+          }
+        }
+        me={null}
       />
     </withPropsOnChange(HorizontalGutter)>
     <withPropsOnChange(HorizontalGutter)
       key="comment-2"
     >
-      <Relay(CommentContainer)
-        data={
+      <withContext(createMutationContainer(Relay(CommentContainer)))
+        asset={
           Object {
-            "id": "comment-2",
+            "id": "asset-id",
+            "isClosed": false,
           }
         }
-      />
-      <Relay(ReplyListContainer)
         comment={
           Object {
             "id": "comment-2",
           }
         }
+        me={null}
+      />
+      <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+        me={null}
       />
     </withPropsOnChange(HorizontalGutter)>
   </withPropsOnChange(HorizontalGutter)>
@@ -67,7 +95,7 @@ exports[`when there is more disables load more button 1`] = `
     size="half"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
-      user={null}
+      me={null}
     />
     <PostCommentFormFake />
   </withPropsOnChange(HorizontalGutter)>
@@ -79,37 +107,65 @@ exports[`when there is more disables load more button 1`] = `
     <withPropsOnChange(HorizontalGutter)
       key="comment-1"
     >
-      <Relay(CommentContainer)
-        data={
+      <withContext(createMutationContainer(Relay(CommentContainer)))
+        asset={
           Object {
-            "id": "comment-1",
+            "id": "asset-id",
+            "isClosed": false,
           }
         }
-      />
-      <Relay(ReplyListContainer)
         comment={
           Object {
             "id": "comment-1",
           }
         }
+        me={null}
+      />
+      <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
+          Object {
+            "id": "comment-1",
+          }
+        }
+        me={null}
       />
     </withPropsOnChange(HorizontalGutter)>
     <withPropsOnChange(HorizontalGutter)
       key="comment-2"
     >
-      <Relay(CommentContainer)
-        data={
+      <withContext(createMutationContainer(Relay(CommentContainer)))
+        asset={
           Object {
-            "id": "comment-2",
+            "id": "asset-id",
+            "isClosed": false,
           }
         }
-      />
-      <Relay(ReplyListContainer)
         comment={
           Object {
             "id": "comment-2",
           }
         }
+        me={null}
+      />
+      <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+        me={null}
       />
     </withPropsOnChange(HorizontalGutter)>
     <Localized
@@ -139,7 +195,7 @@ exports[`when there is more renders a load more button 1`] = `
     size="half"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
-      user={null}
+      me={null}
     />
     <PostCommentFormFake />
   </withPropsOnChange(HorizontalGutter)>
@@ -151,37 +207,65 @@ exports[`when there is more renders a load more button 1`] = `
     <withPropsOnChange(HorizontalGutter)
       key="comment-1"
     >
-      <Relay(CommentContainer)
-        data={
+      <withContext(createMutationContainer(Relay(CommentContainer)))
+        asset={
           Object {
-            "id": "comment-1",
+            "id": "asset-id",
+            "isClosed": false,
           }
         }
-      />
-      <Relay(ReplyListContainer)
         comment={
           Object {
             "id": "comment-1",
           }
         }
+        me={null}
+      />
+      <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
+          Object {
+            "id": "comment-1",
+          }
+        }
+        me={null}
       />
     </withPropsOnChange(HorizontalGutter)>
     <withPropsOnChange(HorizontalGutter)
       key="comment-2"
     >
-      <Relay(CommentContainer)
-        data={
+      <withContext(createMutationContainer(Relay(CommentContainer)))
+        asset={
           Object {
-            "id": "comment-2",
+            "id": "asset-id",
+            "isClosed": false,
           }
         }
-      />
-      <Relay(ReplyListContainer)
         comment={
           Object {
             "id": "comment-2",
           }
         }
+        me={null}
+      />
+      <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+        me={null}
       />
     </withPropsOnChange(HorizontalGutter)>
     <Localized
@@ -211,7 +295,7 @@ exports[`when use is logged in renders correctly 1`] = `
     size="half"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
-      user={Object {}}
+      me={Object {}}
     />
     <withContext(withContext(createMutationContainer(PostCommentFormContainer)))
       assetID="asset-id"
@@ -225,37 +309,65 @@ exports[`when use is logged in renders correctly 1`] = `
     <withPropsOnChange(HorizontalGutter)
       key="comment-1"
     >
-      <Relay(CommentContainer)
-        data={
+      <withContext(createMutationContainer(Relay(CommentContainer)))
+        asset={
           Object {
-            "id": "comment-1",
+            "id": "asset-id",
+            "isClosed": false,
           }
         }
-      />
-      <Relay(ReplyListContainer)
         comment={
           Object {
             "id": "comment-1",
           }
         }
+        me={Object {}}
+      />
+      <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
+          Object {
+            "id": "comment-1",
+          }
+        }
+        me={Object {}}
       />
     </withPropsOnChange(HorizontalGutter)>
     <withPropsOnChange(HorizontalGutter)
       key="comment-2"
     >
-      <Relay(CommentContainer)
-        data={
+      <withContext(createMutationContainer(Relay(CommentContainer)))
+        asset={
           Object {
-            "id": "comment-2",
+            "id": "asset-id",
+            "isClosed": false,
           }
         }
-      />
-      <Relay(ReplyListContainer)
         comment={
           Object {
             "id": "comment-2",
           }
         }
+        me={Object {}}
+      />
+      <Relay(ReplyListContainer)
+        asset={
+          Object {
+            "id": "asset-id",
+            "isClosed": false,
+          }
+        }
+        comment={
+          Object {
+            "id": "comment-2",
+          }
+        }
+        me={Object {}}
       />
     </withPropsOnChange(HorizontalGutter)>
   </withPropsOnChange(HorizontalGutter)>

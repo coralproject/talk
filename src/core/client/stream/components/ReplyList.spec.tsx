@@ -12,11 +12,14 @@ const ReplyListN = removeFragmentRefs(ReplyList);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof ReplyListN> = {
-    commentID: "comment-id",
+    asset: { id: "asset-id" },
+    comment: { id: "comment-id" },
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
     onShowAll: noop,
     hasMore: false,
     disableShowAll: false,
+    indentLevel: 1,
+    me: null,
   };
   const wrapper = shallow(<ReplyListN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -24,11 +27,14 @@ it("renders correctly", () => {
 
 describe("when there is more", () => {
   const props: PropTypesOf<typeof ReplyListN> = {
-    commentID: "comment-id",
+    asset: { id: "asset-id" },
+    comment: { id: "comment-id" },
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
     onShowAll: sinon.spy(),
     hasMore: true,
     disableShowAll: false,
+    indentLevel: 1,
+    me: null,
   };
 
   const wrapper = shallow(<ReplyListN {...props} />);

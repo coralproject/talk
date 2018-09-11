@@ -31,7 +31,7 @@ export const ButtonIcon: StatelessComponent<InnerProps> = props => {
 
 ButtonIcon.defaultProps = {
   size: "sm",
-};
+} as Partial<InnerProps>;
 
 const enhanced = withForwardRef(withStyles(styles)(ButtonIcon));
 export type ButtonIconProps = PropTypesOf<typeof enhanced>;

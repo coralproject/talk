@@ -18,7 +18,9 @@ exports[`renders correctly 1`] = `
           id="comments-rte-bold"
         >
           <Toggle>
-            <withPropsOnChange(Icon)>
+            <withPropsOnChange(Icon)
+              size="md"
+            >
               format_bold
             </withPropsOnChange(Icon)>
           </Toggle>
@@ -32,7 +34,9 @@ exports[`renders correctly 1`] = `
           id="comments-rte-italic"
         >
           <Toggle>
-            <withPropsOnChange(Icon)>
+            <withPropsOnChange(Icon)
+              size="md"
+            >
               format_italic
             </withPropsOnChange(Icon)>
           </Toggle>
@@ -46,7 +50,9 @@ exports[`renders correctly 1`] = `
           id="comments-rte-blockquote"
         >
           <Toggle>
-            <withPropsOnChange(Icon)>
+            <withPropsOnChange(Icon)
+              size="md"
+            >
               format_quote
             </withPropsOnChange(Icon)>
           </Toggle>

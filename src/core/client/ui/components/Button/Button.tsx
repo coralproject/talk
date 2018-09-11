@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { pick } from "lodash";
-import React, { ButtonHTMLAttributes, Ref } from "react";
+import React, { Ref } from "react";
 
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
@@ -10,7 +10,7 @@ import * as styles from "./Button.css";
 
 // This should extend from BaseButton instead but we can't because of this bug
 // TODO: add bug link.
-interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface InnerProps extends BaseButtonProps {
   /** If set renders an anchor tag instead */
   anchor?: boolean;
   href?: string;

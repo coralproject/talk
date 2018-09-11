@@ -840,7 +840,7 @@ type CommentEdge {
   """
 
   """
-  cursor: Cursor!
+  cursor: Cursor
 }
 
 """

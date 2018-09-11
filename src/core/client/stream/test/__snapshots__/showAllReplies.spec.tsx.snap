@@ -62,7 +62,7 @@ exports[`renders comment stream 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-md"
                   >
                     format_bold
                   </span>
@@ -76,7 +76,7 @@ exports[`renders comment stream 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-md"
                   >
                     format_italic
                   </span>
@@ -90,7 +90,7 @@ exports[`renders comment stream 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-md"
                   >
                     format_quote
                   </span>
@@ -149,51 +149,72 @@ exports[`renders comment stream 1`] = `
         className="HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="Comment-root"
-          role="article"
+          className="Indent-root"
         >
           <div
-            className="Flex-root TopBar-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+            className="Comment-root"
+            role="article"
           >
-            <span
-              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+            <div
+              className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
             >
-              Markus
-            </span>
-            <time
-              className="Timestamp-root RelativeTime-root"
-              dateTime="2018-07-06T18:24:00.000Z"
-              title="2018-07-06T18:24:00.000Z"
-            >
-              2018-07-06T18:24:00.000Z
-            </time>
-          </div>
-          <div
-            className="HTMLContent-root"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "Joining Too",
+              <span
+                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              >
+                Markus
+              </span>
+              <time
+                className="Timestamp-root RelativeTime-root"
+                dateTime="2018-07-06T18:24:00.000Z"
+                title="2018-07-06T18:24:00.000Z"
+              >
+                2018-07-06T18:24:00.000Z
+              </time>
+            </div>
+            <div
+              className="HTMLContent-root"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "Joining Too",
+                }
               }
-            }
-          />
-          <div
-            className="Comment-footer"
-          />
+            />
+            <div
+              className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                id="comments-commentContainer-replyButton-comment-0"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseDown={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                <span>
+                  Reply
+                </span>
+              </button>
+            </div>
+          </div>
         </div>
         <div
-          className="Indent-root Indent-level0"
+          className="HorizontalGutter-root HorizontalGutter-full"
+          id="talk-comments-replyList-log--comment-0"
+          role="log"
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
-            id="talk-comments-replyList-log--comment-0"
-            role="log"
+            className="Indent-root Indent-level1"
           >
             <div
               className="Comment-root"
               role="article"
             >
               <div
-                className="Flex-root TopBar-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
               >
                 <span
                   className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
@@ -217,9 +238,30 @@ exports[`renders comment stream 1`] = `
                 }
               />
               <div
-                className="Comment-footer"
-              />
+                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  id="comments-commentContainer-replyButton-comment-1"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Reply
+                  </span>
+                </button>
+              </div>
             </div>
+          </div>
+          <div
+            className="Indent-root Indent-level1 Indent-noBorder"
+          >
             <button
               aria-controls="talk-comments-replyList-log--comment-0"
               className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-fullWidth"
@@ -306,7 +348,7 @@ exports[`show all replies 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-md"
                   >
                     format_bold
                   </span>
@@ -320,7 +362,7 @@ exports[`show all replies 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-md"
                   >
                     format_italic
                   </span>
@@ -334,7 +376,7 @@ exports[`show all replies 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                    className="Icon-root Icon-md"
                   >
                     format_quote
                   </span>
@@ -393,51 +435,72 @@ exports[`show all replies 1`] = `
         className="HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="Comment-root"
-          role="article"
+          className="Indent-root"
         >
           <div
-            className="Flex-root TopBar-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+            className="Comment-root"
+            role="article"
           >
-            <span
-              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+            <div
+              className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
             >
-              Markus
-            </span>
-            <time
-              className="Timestamp-root RelativeTime-root"
-              dateTime="2018-07-06T18:24:00.000Z"
-              title="2018-07-06T18:24:00.000Z"
-            >
-              2018-07-06T18:24:00.000Z
-            </time>
-          </div>
-          <div
-            className="HTMLContent-root"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "Joining Too",
+              <span
+                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              >
+                Markus
+              </span>
+              <time
+                className="Timestamp-root RelativeTime-root"
+                dateTime="2018-07-06T18:24:00.000Z"
+                title="2018-07-06T18:24:00.000Z"
+              >
+                2018-07-06T18:24:00.000Z
+              </time>
+            </div>
+            <div
+              className="HTMLContent-root"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "Joining Too",
+                }
               }
-            }
-          />
-          <div
-            className="Comment-footer"
-          />
+            />
+            <div
+              className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                id="comments-commentContainer-replyButton-comment-0"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseDown={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                <span>
+                  Reply
+                </span>
+              </button>
+            </div>
+          </div>
         </div>
         <div
-          className="Indent-root Indent-level0"
+          className="HorizontalGutter-root HorizontalGutter-full"
+          id="talk-comments-replyList-log--comment-0"
+          role="log"
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
-            id="talk-comments-replyList-log--comment-0"
-            role="log"
+            className="Indent-root Indent-level1"
           >
             <div
               className="Comment-root"
               role="article"
             >
               <div
-                className="Flex-root TopBar-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
               >
                 <span
                   className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
@@ -461,15 +524,36 @@ exports[`show all replies 1`] = `
                 }
               />
               <div
-                className="Comment-footer"
-              />
+                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  id="comments-commentContainer-replyButton-comment-1"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Reply
+                  </span>
+                </button>
+              </div>
             </div>
+          </div>
+          <div
+            className="Indent-root Indent-level1"
+          >
             <div
               className="Comment-root"
               role="article"
             >
               <div
-                className="Flex-root TopBar-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
               >
                 <span
                   className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
@@ -493,8 +577,25 @@ exports[`show all replies 1`] = `
                 }
               />
               <div
-                className="Comment-footer"
-              />
+                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  id="comments-commentContainer-replyButton-comment-2"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Reply
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
