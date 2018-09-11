@@ -14,8 +14,10 @@ import ApproveButton from './ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
 import CommentDeletedTombstone from './CommentDeletedTombstone';
 
-import t, { timeago } from 'coral-framework/services/i18n';
 import { buildCommentURL } from 'coral-framework/utils/url';
+import TimeAgo from 'coral-framework/components/TimeAgo';
+import t from 'coral-framework/services/i18n';
+
 
 class UserDetailComment extends React.Component {
   approve = () =>
@@ -74,9 +76,7 @@ class UserDetailComment extends React.Component {
               checked={selected}
               onChange={e => toggleSelect(e.target.value, e.target.checked)}
             />
-            <span className={styles.created}>
-              {timeago(comment.created_at)}
-            </span>
+            <TimeAgo className={styles.created} datetime={comment.created_at} />
             {comment.editing && comment.editing.edited ? (
               <span>
                 &nbsp;<span className={styles.editedMarker}>
