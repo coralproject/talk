@@ -1,4 +1,3 @@
-import { ReactTestRenderer } from "react-test-renderer";
 import timekeeper from "timekeeper";
 
 import { timeout } from "talk-common/utils";
