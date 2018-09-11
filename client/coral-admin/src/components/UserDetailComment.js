@@ -18,7 +18,6 @@ import { buildCommentURL } from 'coral-framework/utils/url';
 import TimeAgo from 'coral-framework/components/TimeAgo';
 import t from 'coral-framework/services/i18n';
 
-
 class UserDetailComment extends React.Component {
   approve = () =>
     this.props.comment.status === 'ACCEPTED'

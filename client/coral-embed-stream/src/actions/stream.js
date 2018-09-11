@@ -17,7 +17,7 @@ export const viewAllComments = () => (dispatch, _, { pym }) => {
   const query = queryString.parse(location.search);
 
   // remove the comment_id url param
-  delete query.comment_id
+  delete query.comment_id;
 
   const search = queryString.stringify(query);
 
