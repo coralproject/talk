@@ -14,8 +14,9 @@ import cn from 'classnames';
 import ApproveButton from 'coral-admin/src/components/ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
 import CommentDeletedTombstone from '../../../components/CommentDeletedTombstone';
+import TimeAgo from 'coral-framework/components/TimeAgo';
 
-import t, { timeago } from 'coral-framework/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 class Comment extends React.Component {
   ref = null;
@@ -126,9 +127,10 @@ class Comment extends React.Component {
                 {comment.user.username}
               </span>
 
-              <span className={styles.created}>
-                {timeago(comment.created_at)}
-              </span>
+              <TimeAgo
+                className={styles.created}
+                datetime={comment.created_at}
+              />
               {comment.editing && comment.editing.edited ? (
                 <span>
                   &nbsp;<span className={styles.editedMarker}>
