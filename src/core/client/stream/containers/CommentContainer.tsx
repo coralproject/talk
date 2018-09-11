@@ -99,7 +99,6 @@ export class CommentContainer extends Component<InnerProps, State> {
     if (showEditDialog) {
       return (
         <EditCommentFormContainer
-          asset={asset}
           comment={comment}
           onClose={this.closeEditDialog}
         />
@@ -161,7 +160,6 @@ const enhanced = withShowAuthPopupMutation(
     asset: graphql`
       fragment CommentContainer_asset on Asset {
         ...ReplyCommentFormContainer_asset
-        ...EditCommentFormContainer_asset
       }
     `,
     comment: graphql`
