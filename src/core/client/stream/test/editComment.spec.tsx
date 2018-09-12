@@ -15,7 +15,7 @@ function createTestRenderer() {
       ),
       me: createSinonStub(
         s => s.throws(),
-        s => s.withArgs(undefined, { clientAuthRevision: 0 }).returns(users[0])
+        s => s.withArgs(undefined).returns(users[0])
       ),
     },
     Mutation: {
