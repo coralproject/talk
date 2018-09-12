@@ -629,13 +629,13 @@ exports[`edit a comment: edit form 1`] = `
               </div>
             </div>
             <div
-              className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+              className="Message-root Message-colorGrey Message-fullWidth"
             >
               <span
                 aria-hidden="true"
-                className="Icon-root ValidationMessage-icon Icon-sm"
+                className="Icon-root MessageIcon-root Icon-sm"
               >
-                warning
+                alarm
               </span>
               <span>
                 Edit: 
@@ -1048,13 +1048,13 @@ exports[`edit a comment: optimistic response 1`] = `
               </div>
             </div>
             <div
-              className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+              className="Message-root Message-colorGrey Message-fullWidth"
             >
               <span
                 aria-hidden="true"
-                className="Icon-root ValidationMessage-icon Icon-sm"
+                className="Icon-root MessageIcon-root Icon-sm"
               >
-                warning
+                alarm
               </span>
               <span>
                 Edit: 
@@ -2481,11 +2481,11 @@ exports[`shows expiry message: edit time expired 1`] = `
               </div>
             </div>
             <div
-              className="ValidationMessage-root ValidationMessage-colorError ValidationMessage-fullWidth"
+              className="Message-root Message-colorError Message-fullWidth"
             >
               <span
                 aria-hidden="true"
-                className="Icon-root ValidationMessage-icon Icon-sm"
+                className="Icon-root MessageIcon-root Icon-sm"
               >
                 warning
               </span>

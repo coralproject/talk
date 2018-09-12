@@ -15,6 +15,8 @@ import {
   Button,
   Flex,
   HorizontalGutter,
+  Message,
+  MessageIcon,
   RelativeTime,
   Typography,
   ValidationMessage,
@@ -102,14 +104,15 @@ const EditCommentForm: StatelessComponent<EditCommentFormProps> = props => {
                 </ValidationMessage>
               </Localized>
             ) : (
-              <ValidationMessage fullWidth>
+              <Message fullWidth>
+                <MessageIcon>alarm</MessageIcon>
                 <Localized
                   id="comments-editCommentForm-editRemainingTime"
                   time={<RelativeTime date={props.editableUntil} live />}
                 >
                   <span>{"Edit: <time></time> remaining"}</span>
                 </Localized>
-              </ValidationMessage>
+              </Message>
             )}
             <Flex direction="row" justifyContent="flex-end" itemGutter="half">
               {props.expired ? (
