@@ -151,7 +151,7 @@ exports[`cancel edit: edit canceled 1`] = `
               className="PostCommentForm-poweredBy"
             >
               <span
-                className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Powered by 
                 <span
@@ -205,13 +205,17 @@ exports[`cancel edit: edit canceled 1`] = `
                 >
                   Markus
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </div>
               </div>
               <div>
                 <button
@@ -282,13 +286,17 @@ exports[`cancel edit: edit canceled 1`] = `
                 >
                   Lukas
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:20:00.000Z"
-                  title="2018-07-06T18:20:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:20:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:20:00.000Z"
+                    title="2018-07-06T18:20:00.000Z"
+                  >
+                    2018-07-06T18:20:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
@@ -478,7 +486,7 @@ exports[`edit a comment: edit form 1`] = `
               className="PostCommentForm-poweredBy"
             >
               <span
-                className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Powered by 
                 <span
@@ -697,13 +705,17 @@ exports[`edit a comment: edit form 1`] = `
                 >
                   Lukas
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:20:00.000Z"
-                  title="2018-07-06T18:20:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:20:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:20:00.000Z"
+                    title="2018-07-06T18:20:00.000Z"
+                  >
+                    2018-07-06T18:20:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
@@ -893,7 +905,7 @@ exports[`edit a comment: optimistic response 1`] = `
               className="PostCommentForm-poweredBy"
             >
               <span
-                className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Powered by 
                 <span
@@ -1112,13 +1124,17 @@ exports[`edit a comment: optimistic response 1`] = `
                 >
                   Lukas
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:20:00.000Z"
-                  title="2018-07-06T18:20:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:20:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:20:00.000Z"
+                    title="2018-07-06T18:20:00.000Z"
+                  >
+                    2018-07-06T18:20:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
@@ -1308,7 +1324,7 @@ exports[`edit a comment: render stream 1`] = `
               className="PostCommentForm-poweredBy"
             >
               <span
-                className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Powered by 
                 <span
@@ -1362,13 +1378,17 @@ exports[`edit a comment: render stream 1`] = `
                 >
                   Markus
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </div>
               </div>
               <div>
                 <button
@@ -1439,13 +1459,17 @@ exports[`edit a comment: render stream 1`] = `
                 >
                   Lukas
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:20:00.000Z"
-                  title="2018-07-06T18:20:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:20:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:20:00.000Z"
+                    title="2018-07-06T18:20:00.000Z"
+                  >
+                    2018-07-06T18:20:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
@@ -1635,7 +1659,7 @@ exports[`edit a comment: server response 1`] = `
               className="PostCommentForm-poweredBy"
             >
               <span
-                className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Powered by 
                 <span
@@ -1689,13 +1713,26 @@ exports[`edit a comment: server response 1`] = `
                 >
                   Markus
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                  <div
+                    className="EditedMarker-root"
+                  >
+                    (
+                    <span>
+                      Edited
+                    </span>
+                    )
+                  </div>
+                </div>
               </div>
               <div>
                 <button
@@ -1766,13 +1803,17 @@ exports[`edit a comment: server response 1`] = `
                 >
                   Lukas
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:20:00.000Z"
-                  title="2018-07-06T18:20:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:20:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:20:00.000Z"
+                    title="2018-07-06T18:20:00.000Z"
+                  >
+                    2018-07-06T18:20:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
@@ -1962,7 +2003,7 @@ exports[`shows expiry message: edit form closed 1`] = `
               className="PostCommentForm-poweredBy"
             >
               <span
-                className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Powered by 
                 <span
@@ -2016,13 +2057,17 @@ exports[`shows expiry message: edit form closed 1`] = `
                 >
                   Markus
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </div>
               </div>
               <div>
                 <button
@@ -2093,13 +2138,17 @@ exports[`shows expiry message: edit form closed 1`] = `
                 >
                   Lukas
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:20:00.000Z"
-                  title="2018-07-06T18:20:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:20:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:20:00.000Z"
+                    title="2018-07-06T18:20:00.000Z"
+                  >
+                    2018-07-06T18:20:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
@@ -2289,7 +2338,7 @@ exports[`shows expiry message: edit time expired 1`] = `
               className="PostCommentForm-poweredBy"
             >
               <span
-                className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Powered by 
                 <span
@@ -2485,13 +2534,17 @@ exports[`shows expiry message: edit time expired 1`] = `
                 >
                   Lukas
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:20:00.000Z"
-                  title="2018-07-06T18:20:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:20:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:20:00.000Z"
+                    title="2018-07-06T18:20:00.000Z"
+                  >
+                    2018-07-06T18:20:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div

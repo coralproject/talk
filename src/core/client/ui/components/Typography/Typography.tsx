@@ -15,7 +15,7 @@ type Variant =
   | "bodyCopy"
   | "bodyCopyBold"
   | "inputLabel"
-  | "inputDescription"
+  | "detail"
   | "timestamp";
 
 // Based on Typography Component of Material UI.
@@ -146,7 +146,7 @@ Typography.defaultProps = {
     bodyCopyBold: "p",
     timestamp: "span",
     inputLabel: "label",
-    inputDescription: "p",
+    detail: "p",
   },
   noWrap: false,
   paragraph: false,

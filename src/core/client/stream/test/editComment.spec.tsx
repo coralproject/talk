@@ -36,6 +36,9 @@ function createTestRenderer() {
               comment: {
                 id: assets[0].comments.edges[0].node.id,
                 body: "Edited! (from server)",
+                editing: {
+                  edited: true,
+                },
               },
               clientMutationId: "0",
             })

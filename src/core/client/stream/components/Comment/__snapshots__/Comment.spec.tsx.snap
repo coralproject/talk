@@ -14,9 +14,16 @@ exports[`renders username and body 1`] = `
       <Username>
         Marvin
       </Username>
-      <Timestamp>
-        1995-12-17T03:24:00.000Z
-      </Timestamp>
+      <withPropsOnChange(Flex)
+        alignItems="baseline"
+        direction="row"
+        itemGutter={true}
+      >
+        <Timestamp>
+          1995-12-17T03:24:00.000Z
+        </Timestamp>
+        <EditedMarker />
+      </withPropsOnChange(Flex)>
     </TopBarLeft>
     <div>
       topBarRight

@@ -19,6 +19,9 @@ const mutation = graphql`
     editComment(input: $input) {
       comment {
         body
+        editing {
+          edited
+        }
       }
       clientMutationId
     }
@@ -40,6 +43,9 @@ function commit(environment: Environment, input: EditCommentInput) {
       editComment: {
         id: input.commentID,
         body: input.body,
+        editing: {
+          edited: true,
+        },
         clientMutationId: (clientMutationId++).toString(),
       },
     } as any, // TODO: (cvle) generated types should contain one for the optimistic response.

@@ -3,6 +3,7 @@ import React, { StatelessComponent } from "react";
 import { Flex } from "talk-ui/components";
 
 import * as styles from "./Comment.css";
+import EditedMarker from "./EditedMarker";
 import HTMLContent from "./HTMLContent";
 import Timestamp from "./Timestamp";
 import TopBarLeft from "./TopBarLeft";
@@ -17,6 +18,7 @@ export interface CommentProps {
   createdAt: string;
   topBarRight?: React.ReactNode;
   footer?: React.ReactNode;
+  showEditedMarker?: boolean;
 }
 
 const Comment: StatelessComponent<CommentProps> = props => {
@@ -32,7 +34,10 @@ const Comment: StatelessComponent<CommentProps> = props => {
             props.author.username && (
               <Username>{props.author.username}</Username>
             )}
-          <Timestamp>{props.createdAt}</Timestamp>
+          <Flex direction="row" alignItems="baseline" itemGutter>
+            <Timestamp>{props.createdAt}</Timestamp>
+            {props.showEditedMarker && <EditedMarker />}
+          </Flex>
         </TopBarLeft>
         {props.topBarRight && <div>{props.topBarRight}</div>}
       </Flex>

@@ -21,6 +21,7 @@ export const comments = [
     createdAt: "2018-07-06T18:24:00.000Z",
     replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
     editing: {
+      edited: false,
       editableUntil: "2018-07-06T18:24:30.000Z",
     },
   },
@@ -31,6 +32,7 @@ export const comments = [
     createdAt: "2018-07-06T18:20:00.000Z",
     replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
     editing: {
+      edited: false,
       editableUntil: "2018-07-06T18:20:30.000Z",
     },
   },
@@ -41,6 +43,7 @@ export const comments = [
     createdAt: "2018-07-06T18:14:00.000Z",
     replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
     editing: {
+      edited: false,
       editableUntil: "2018-07-06T18:14:30.000Z",
     },
   },
@@ -78,6 +81,7 @@ export const commentWithReplies = {
     },
   },
   editing: {
+    edited: false,
     editableUntil: "2018-07-06T18:24:30.000Z",
   },
 };

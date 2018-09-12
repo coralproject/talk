@@ -46,6 +46,7 @@ beforeEach(() => {
                     pageInfo: { endCursor: null, hasNextPage: false },
                   },
                   editing: {
+                    edited: false,
                     editableUntil: "2018-07-06T18:24:30.000Z",
                   },
                 },

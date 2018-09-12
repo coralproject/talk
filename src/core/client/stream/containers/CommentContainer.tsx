@@ -113,6 +113,7 @@ export class CommentContainer extends Component<InnerProps, State> {
           body={comment.body}
           createdAt={comment.createdAt}
           blur={comment.pending || false}
+          showEditedMarker={comment.editing.edited}
           topBarRight={
             (editable && (
               <Localized id="comments-commentContainer-editButton">
@@ -173,6 +174,7 @@ const enhanced = withShowAuthPopupMutation(
         body
         createdAt
         editing {
+          edited
           editableUntil
         }
         pending

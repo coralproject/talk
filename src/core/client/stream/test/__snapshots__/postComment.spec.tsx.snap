@@ -145,7 +145,7 @@ exports[`post a comment: optimistic response 1`] = `
               className="PostCommentForm-poweredBy"
             >
               <span
-                className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Powered by 
                 <span
@@ -199,13 +199,17 @@ exports[`post a comment: optimistic response 1`] = `
                 >
                   Markus
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </div>
               </div>
               <div>
                 <button
@@ -276,13 +280,17 @@ exports[`post a comment: optimistic response 1`] = `
                 >
                   Markus
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
@@ -337,13 +345,17 @@ exports[`post a comment: optimistic response 1`] = `
                 >
                   Lukas
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:20:00.000Z"
-                  title="2018-07-06T18:20:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:20:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:20:00.000Z"
+                    title="2018-07-06T18:20:00.000Z"
+                  >
+                    2018-07-06T18:20:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
@@ -533,7 +545,7 @@ exports[`post a comment: server response 1`] = `
               className="PostCommentForm-poweredBy"
             >
               <span
-                className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Powered by 
                 <span
@@ -587,13 +599,17 @@ exports[`post a comment: server response 1`] = `
                 >
                   Markus
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
@@ -648,13 +664,17 @@ exports[`post a comment: server response 1`] = `
                 >
                   Markus
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
@@ -709,13 +729,17 @@ exports[`post a comment: server response 1`] = `
                 >
                   Lukas
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:20:00.000Z"
-                  title="2018-07-06T18:20:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:20:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:20:00.000Z"
+                    title="2018-07-06T18:20:00.000Z"
+                  >
+                    2018-07-06T18:20:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
@@ -905,7 +929,7 @@ exports[`renders comment stream 1`] = `
               className="PostCommentForm-poweredBy"
             >
               <span
-                className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Powered by 
                 <span
@@ -959,13 +983,17 @@ exports[`renders comment stream 1`] = `
                 >
                   Markus
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
@@ -1020,13 +1048,17 @@ exports[`renders comment stream 1`] = `
                 >
                   Lukas
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:20:00.000Z"
-                  title="2018-07-06T18:20:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:20:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:20:00.000Z"
+                    title="2018-07-06T18:20:00.000Z"
+                  >
+                    2018-07-06T18:20:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div

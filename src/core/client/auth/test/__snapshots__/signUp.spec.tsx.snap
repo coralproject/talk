@@ -56,7 +56,7 @@ exports[`accepts correct password 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -92,7 +92,7 @@ exports[`accepts correct password 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -237,7 +237,7 @@ exports[`accepts correct password confirmation 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -273,7 +273,7 @@ exports[`accepts correct password confirmation 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -418,7 +418,7 @@ exports[`accepts valid email 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -454,7 +454,7 @@ exports[`accepts valid email 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -612,7 +612,7 @@ exports[`accepts valid username 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -635,7 +635,7 @@ exports[`accepts valid username 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -793,7 +793,7 @@ exports[`checks for invalid characters in username 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -829,7 +829,7 @@ exports[`checks for invalid characters in username 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -987,7 +987,7 @@ exports[`checks for invalid email 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -1023,7 +1023,7 @@ exports[`checks for invalid email 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -1181,7 +1181,7 @@ exports[`checks for too long username 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -1217,7 +1217,7 @@ exports[`checks for too long username 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -1375,7 +1375,7 @@ exports[`checks for too short password 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -1411,7 +1411,7 @@ exports[`checks for too short password 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -1569,7 +1569,7 @@ exports[`checks for too short username 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -1605,7 +1605,7 @@ exports[`checks for too short username 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -1763,7 +1763,7 @@ exports[`checks for wrong password confirmation 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -1799,7 +1799,7 @@ exports[`checks for wrong password confirmation 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -1944,7 +1944,7 @@ exports[`renders sign up form 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -1967,7 +1967,7 @@ exports[`renders sign up form 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -2099,7 +2099,7 @@ exports[`shows error when submitting empty form 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -2135,7 +2135,7 @@ exports[`shows error when submitting empty form 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -2280,7 +2280,7 @@ exports[`shows server error 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -2303,7 +2303,7 @@ exports[`shows server error 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -2427,7 +2427,7 @@ exports[`shows server error 2`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -2450,7 +2450,7 @@ exports[`shows server error 2`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -2569,7 +2569,7 @@ exports[`submits form successfully 1`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -2592,7 +2592,7 @@ exports[`submits form successfully 1`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>
@@ -2711,7 +2711,7 @@ exports[`submits form successfully 2`] = `
           Username
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           A unique identifier displayed on your comments. You may use “_” and “.”
         </p>
@@ -2734,7 +2734,7 @@ exports[`submits form successfully 2`] = `
           Password
         </label>
         <p
-          className="Typography-root Typography-inputDescription Typography-colorTextSecondary"
+          className="Typography-root Typography-detail Typography-colorTextSecondary"
         >
           Must be at least ⁨8⁩ characters
         </p>

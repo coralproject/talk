@@ -198,13 +198,17 @@ exports[`show all comments 1`] = `
                 >
                   Markus
                 </span>
-                <time
-                  className="Timestamp-root RelativeTime-root"
-                  dateTime="2018-07-06T18:24:00.000Z"
-                  title="2018-07-06T18:24:00.000Z"
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                 >
-                  2018-07-06T18:24:00.000Z
-                </time>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </div>
               </div>
             </div>
             <div
