@@ -1,9 +1,9 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React from "react";
 import { withStyles } from "talk-ui/hocs";
 import * as styles from "./Tab.css";
 
-export interface TabBarProps {
+export interface TabProps {
   /**
    * Convenient prop to override the root styling.
    */
@@ -30,7 +30,7 @@ export interface TabBarProps {
   onTabClick?: (tabId: string) => void;
 }
 
-class TabBar extends React.Component<TabBarProps> {
+class Tab extends React.Component<TabProps> {
   public handleTabClick = () => {
     if (this.props.onTabClick) {
       this.props.onTabClick(this.props.tabId);
@@ -53,7 +53,7 @@ class TabBar extends React.Component<TabBarProps> {
     return (
       <li
         className={rootClassName}
-        key={tabId}
+        key={`${tabId}-tab`}
         id={`${tabId}-tab`}
         role="tab"
         onClick={this.handleTabClick}
@@ -66,5 +66,5 @@ class TabBar extends React.Component<TabBarProps> {
   }
 }
 
-const enhanced = withStyles(styles)(TabBar);
+const enhanced = withStyles(styles)(Tab);
 export default enhanced;

@@ -55,7 +55,7 @@ const TabBar: StatelessComponent<TabBarProps> = props => {
   const tabs = React.Children.toArray(children).map(
     (child: React.ReactElement<any>, index: number) =>
       React.cloneElement(child, {
-        index,
+        tabId: child.props.tabId ? child.props.tabId : index,
         active:
           defaultActiveTab && !activeTab
             ? child.props.tabId === defaultActiveTab
