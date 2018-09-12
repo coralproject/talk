@@ -8,7 +8,6 @@ import { BadUserInputError } from "talk-framework/lib/errors";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
 
-import { EditCommentFormContainer_asset as AssetData } from "talk-stream/__generated__/EditCommentFormContainer_asset.graphql";
 import { EditCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/EditCommentFormContainer_comment.graphql";
 
 import EditCommentForm, {
@@ -20,7 +19,6 @@ interface InnerProps {
   editComment: EditCommentMutation;
   comment: CommentData;
   onClose?: () => void;
-  asset: AssetData;
   autofocus: boolean;
 }
 
@@ -74,7 +72,6 @@ export class EditCommentFormContainer extends Component<InnerProps, State> {
   ) => {
     try {
       await this.props.editComment({
-        assetID: this.props.asset.id,
         commentID: this.props.comment.id,
         body: input.body,
       });
@@ -114,11 +111,6 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
 }))(
   withEditCommentMutation(
     withFragmentContainer<InnerProps>({
-      asset: graphql`
-        fragment EditCommentFormContainer_asset on Asset {
-          id
-        }
-      `,
       comment: graphql`
         fragment EditCommentFormContainer_comment on Comment {
           id
