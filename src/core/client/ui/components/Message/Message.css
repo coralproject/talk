@@ -4,12 +4,12 @@
   display: inline-flex;
   justify-content: flex-start;
   align-items: center;
-  padding: calc(0.8 * var(--spacing-unit)) var(--spacing-unit);
+  padding: calc(0.5 * var(--spacing-unit)) var(--spacing-unit);
   box-sizing: border-box;
   border-radius: var(--round-corners);
   border-width: 1px;
   border-style: solid;
-  border-left-width: calc(0.8 * var(--spacing-unit));
+  border-left-width: calc(0.5 * var(--spacing-unit));
 }
 
 .colorGrey {
@@ -27,8 +27,4 @@
 .fullWidth {
   display: flex;
   width: 100%;
-}
-
-.icon {
-  margin-right: calc(0.8 * var(--spacing-unit));
 }
