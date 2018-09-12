@@ -21,9 +21,9 @@ export interface TabProps {
    */
   active?: boolean;
   /**
-   * Color style variant
+   * Style variant
    */
-  color?: "primary" | "secondary";
+  variant?: "primary" | "secondary";
   /**
    * Action taken on tab click
    */
@@ -38,13 +38,13 @@ class Tab extends React.Component<TabProps> {
   };
 
   public render() {
-    const { className, classes, children, tabId, active, color } = this.props;
+    const { className, classes, children, tabId, active, variant } = this.props;
 
     const rootClassName = cn(
       classes.root,
       {
-        [classes.primary]: color === "primary",
-        [classes.secondary]: color === "secondary",
+        [classes.primary]: variant === "primary",
+        [classes.secondary]: variant === "secondary",
         [classes.active]: active,
       },
       className

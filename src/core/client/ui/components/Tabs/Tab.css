@@ -13,7 +13,7 @@
 }
 
 .root.primary {
-  background: #f2f2f2;
+  background: var(--palette-grey-lightest);
   color: var(--palette-grey-main);
   border: 1px solid var(--palette-grey-main);
   border-left-width: 0;
@@ -32,7 +32,7 @@
     background-color: var(--palette-common-white);
     color: var(--palette-common-black);
     border-bottom-color: var(--palette-common-white);
-    border-top-width: 5px;
+    border-top-width: calc(0.5 * var(--spacing-unit));
     border-top-color: var(--palette-primary-main);
   }
 }
