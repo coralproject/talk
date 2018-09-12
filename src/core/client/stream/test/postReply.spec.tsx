@@ -11,14 +11,8 @@ let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const resolvers = {
     Query: {
-      asset: createSinonStub(
-        s => s.throws(),
-        s => s.withArgs(undefined, { id: assets[0].id }).returns(assets[0])
-      ),
-      me: createSinonStub(
-        s => s.throws(),
-        s => s.withArgs(undefined, { clientAuthRevision: 0 }).returns(users[0])
-      ),
+      asset: createSinonStub(s => s.throws(), s => s.returns(assets[0])),
+      me: createSinonStub(s => s.throws(), s => s.returns(users[0])),
     },
     Mutation: {
       createComment: createSinonStub(
