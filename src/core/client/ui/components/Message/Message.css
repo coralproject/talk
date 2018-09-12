@@ -7,8 +7,15 @@
   padding: calc(0.5 * var(--spacing-unit)) var(--spacing-unit);
   box-sizing: border-box;
   border-radius: var(--round-corners);
+  border-width: 1px;
+  border-style: solid;
   border-left-width: calc(0.5 * var(--spacing-unit));
-  border-left-style: solid;
+}
+
+.colorGrey {
+  background-color: var(--palette-common-white);
+  border-color: var(--palette-grey-main);
+  color: var(--palette-grey-main);
 }
 
 .colorError {
@@ -20,8 +27,4 @@
 .fullWidth {
   display: flex;
   width: 100%;
-}
-
-.icon {
-  margin-right: var(--spacing-unit);
 }
