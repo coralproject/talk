@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<li
+  aria-controls="three"
+  className="Tab-root"
+  id="three-tab"
+  onClick={[Function]}
+  role="tab"
+>
+  Three
+</li>
+`;

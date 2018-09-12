@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<ul
+  className="TabBar-root TabBar-primary"
+  role="tablist"
+>
+  <li
+    aria-controls="one"
+    aria-selected={true}
+    className="Tab-root Tab-primary Tab-active"
+    id="one-tab"
+    onClick={[Function]}
+    role="tab"
+  >
+    One
+  </li>
+  <li
+    aria-controls="two"
+    aria-selected={false}
+    className="Tab-root Tab-primary"
+    id="two-tab"
+    onClick={[Function]}
+    role="tab"
+  >
+    Two
+  </li>
+  <li
+    aria-controls="three"
+    aria-selected={false}
+    className="Tab-root Tab-primary"
+    id="three-tab"
+    onClick={[Function]}
+    role="tab"
+  >
+    Three
+  </li>
+</ul>
+`;
