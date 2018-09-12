@@ -34,7 +34,7 @@ exports[`accepts correct password 1`] = `
           value=""
         />
         <div
-          className="Message-root Message-colorError"
+          className="Message-root Message-colorError Message-fullWidth"
         >
           <span
             aria-hidden="true"
@@ -180,7 +180,7 @@ exports[`accepts valid email 1`] = `
           value=""
         />
         <div
-          className="Message-root Message-colorError"
+          className="Message-root Message-colorError Message-fullWidth"
         >
           <span
             aria-hidden="true"
@@ -290,7 +290,7 @@ exports[`checks for invalid email 1`] = `
           value="invalid-email"
         />
         <div
-          className="Message-root Message-colorError"
+          className="Message-root Message-colorError Message-fullWidth"
         >
           <span
             aria-hidden="true"
@@ -321,7 +321,7 @@ exports[`checks for invalid email 1`] = `
           value=""
         />
         <div
-          className="Message-root Message-colorError"
+          className="Message-root Message-colorError Message-fullWidth"
         >
           <span
             aria-hidden="true"
@@ -546,7 +546,7 @@ exports[`shows error when submitting empty form 1`] = `
           value=""
         />
         <div
-          className="Message-root Message-colorError"
+          className="Message-root Message-colorError Message-fullWidth"
         >
           <span
             aria-hidden="true"
@@ -577,7 +577,7 @@ exports[`shows error when submitting empty form 1`] = `
           value=""
         />
         <div
-          className="Message-root Message-colorError"
+          className="Message-root Message-colorError Message-fullWidth"
         >
           <span
             aria-hidden="true"
