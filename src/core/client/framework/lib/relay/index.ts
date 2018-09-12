@@ -13,3 +13,6 @@ export {
   commitMutationPromiseNormalized,
 } from "./commitMutationPromise";
 export { graphql } from "react-relay";
+export {
+  default as commitLocalUpdatePromisified,
+} from "./commitLocalUpdatePromisified";
