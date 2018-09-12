@@ -809,12 +809,8 @@ type Query {
 
   """
   me is the current logged in User.
-
-  clientAuthRevision is an implementation detail that is only
-  used on the client to invalidate the cache.
-  TODO: This should move to a client side directive if this becomes possible.
   """
-  me(clientAuthRevision: Int): User
+  me: User
 
   """
   settings is the Settings for a given Tenant.

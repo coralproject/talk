@@ -1,3 +1,7 @@
-export * from "./TalkContext";
-export { default as createContext } from "./createContext";
+export {
+  TalkContext,
+  TalkContextConsumer,
+  TalkContextProvider,
+} from "./TalkContext";
+export { default as createManaged } from "./createManaged";
 export { default as withContext } from "./withContext";

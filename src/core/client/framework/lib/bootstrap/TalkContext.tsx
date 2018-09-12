@@ -1,3 +1,4 @@
+import { EventEmitter2 } from "eventemitter2";
 import { LocalizationProvider } from "fluent-react/compat";
 import { FluentBundle } from "fluent/compat";
 import { Child as PymChild } from "pym.js";
@@ -52,6 +53,12 @@ export interface TalkContext {
 
   /** Generates uuids. */
   uuidGenerator: () => string;
+
+  /** A event emitter */
+  eventEmitter: EventEmitter2;
+
+  /** Clear session data. */
+  clearSession: () => void;
 }
 
 const { Provider, Consumer } = React.createContext<TalkContext>({} as any);
