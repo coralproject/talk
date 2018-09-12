@@ -25,7 +25,6 @@ function createTestRenderer() {
           s
             .withArgs(undefined, {
               input: {
-                assetID: assets[0].id,
                 commentID: assets[0].comments.edges[0].node.id,
                 body: "Edited!",
                 clientMutationId: "0",
