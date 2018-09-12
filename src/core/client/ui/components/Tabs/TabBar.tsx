@@ -15,7 +15,7 @@ export interface TabBarProps {
   /**
    * Color style variant
    */
-  color: "primary" | "secondary";
+  color?: "primary" | "secondary";
   /**
    * Active tab id/name
    */

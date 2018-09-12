@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React from "react";
+import React, { ReactNode } from "react";
 import { withStyles } from "talk-ui/hocs";
 import * as styles from "./Tab.css";
 
@@ -19,11 +19,11 @@ export interface TabProps {
   /**
    * Active status
    */
-  active: boolean;
+  active?: boolean;
   /**
    * Color style variant
    */
-  color: "primary" | "secondary";
+  color?: "primary" | "secondary";
   /**
    * Action taken on tab click
    */
