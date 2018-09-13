@@ -19,6 +19,7 @@ it("renders username and body", () => {
     comment: {
       id: "comment-id",
       author: {
+        id: "author-id",
         username: "Marvin",
       },
       body: "Woof",
@@ -46,6 +47,7 @@ it("renders body only", () => {
     comment: {
       id: "comment-id",
       author: {
+        id: "author-id",
         username: null,
       },
       body: "Woof",
