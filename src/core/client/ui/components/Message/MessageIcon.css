@@ -1,0 +1,5 @@
+.root {
+  &:first-child {
+    margin-right: calc(0.5 * var(--spacing-unit));
+  }
+}

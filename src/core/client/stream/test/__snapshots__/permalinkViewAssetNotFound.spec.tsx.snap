@@ -5,7 +5,14 @@ exports[`renders permalink view with unknown asset 1`] = `
   className="Flex-root App-root Flex-flex Flex-justifyCenter"
 >
   <div>
-    Asset not found
+    Unknown argument "clientAuthRevision" on field "me" of type "Query".
+
+GraphQL request (6:6)
+5: ) {
+6:   me(clientAuthRevision: $authRevision) {
+        ^
+7:     ...PermalinkViewContainer_me
+
   </div>
 </div>
 `;
