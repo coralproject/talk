@@ -3,8 +3,8 @@ import timekeeper from "timekeeper";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import create from "../create";
 import { assets, users } from "../fixtures";
+import create from "./create";
 
 function createTestRenderer() {
   const resolvers = {

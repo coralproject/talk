@@ -2,7 +2,7 @@ import { ReactTestRenderer } from "react-test-renderer";
 
 import { timeout } from "talk-common/utils";
 
-import create from "../create";
+import create from "./create";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {

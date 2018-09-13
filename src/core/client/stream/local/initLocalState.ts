@@ -75,5 +75,8 @@ export default async function initLocalState(
     authPopupRecord.setValue(false, "focus");
     authPopupRecord.setValue("", "href");
     localRecord.setLinkedRecord(authPopupRecord, "authPopup");
+
+    // Set active tab
+    localRecord.setValue("COMMENTS", "activeTab");
   });
 }
