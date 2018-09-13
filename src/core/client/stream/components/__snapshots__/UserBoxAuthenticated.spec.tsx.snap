@@ -6,7 +6,7 @@ exports[`renders correctly 1`] = `
   wrap={true}
 >
   <Localized
-    id="comments-userBoxAuthenticated-signedInAs"
+    id="general-userBoxAuthenticated-signedInAs"
     username={<Username />}
   >
     <withPropsOnChange(Typography)
@@ -25,7 +25,7 @@ exports[`renders correctly 1`] = `
         variant="underlined"
       />
     }
-    id="comments-userBoxAuthenticated-notYou"
+    id="general-userBoxAuthenticated-notYou"
   >
     <withPropsOnChange(Typography)
       container={[Function]}

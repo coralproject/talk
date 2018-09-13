@@ -1,5 +1,17 @@
 ### Localization for Embed Stream
 
+## General
+
+general-userBoxUnauthenticated-joinTheConversation = Join the conversation
+general-userBoxUnauthenticated-signIn = Sign in
+general-userBoxUnauthenticated-register = Register
+
+general-userBoxAuthenticated-signedInAs =
+  Signed in as <username></username>.
+
+general-userBoxAuthenticated-notYou =
+  Not you? <button>Sign Out</button>
+
 ## Comments Tab
 
 comments-streamQuery-assetNotFound = Asset not found
@@ -13,16 +25,6 @@ comments-permalinkPopover-copy = Copy
 comments-permalinkPopover-copied = Copied
 comments-permalinkView-showAllComments = Show all comments
 comments-permalinkView-commentNotFound = Comment not found
-
-comments-userBoxUnauthenticated-joinTheConversation = Join the conversation
-comments-userBoxUnauthenticated-signIn = Sign in
-comments-userBoxUnauthenticated-register = Register
-
-comments-userBoxAuthenticated-signedInAs =
-  Signed in as <username></username>.
-
-comments-userBoxAuthenticated-notYou =
-  Not you? <button>Sign Out</button>
 
 comments-rte-bold =
   .title = Bold
