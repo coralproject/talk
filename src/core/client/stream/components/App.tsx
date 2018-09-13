@@ -3,8 +3,8 @@ import { StatelessComponent } from "react";
 
 import { Flex } from "talk-ui/components";
 
-import PermalinkViewQuery from "../queries/PermalinkViewQuery";
-import StreamQuery from "../queries/StreamQuery";
+import PermalinkViewQuery from "../tabs/comments/queries/PermalinkViewQuery";
+import StreamQuery from "../tabs/comments/queries/StreamQuery";
 import * as styles from "./App.css";
 
 export interface AppProps {

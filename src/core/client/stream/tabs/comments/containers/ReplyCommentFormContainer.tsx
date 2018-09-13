@@ -9,11 +9,14 @@ import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { PropTypesOf } from "talk-framework/types";
 import { ReplyCommentFormContainer_asset as AssetData } from "talk-stream/__generated__/ReplyCommentFormContainer_asset.graphql";
 import { ReplyCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
+import {
+  CreateCommentMutation,
+  withCreateCommentMutation,
+} from "talk-stream/mutations";
 
 import ReplyCommentForm, {
   ReplyCommentFormProps,
 } from "../components/ReplyCommentForm";
-import { CreateCommentMutation, withCreateCommentMutation } from "../mutations";
 
 interface InnerProps {
   createComment: CreateCommentMutation;

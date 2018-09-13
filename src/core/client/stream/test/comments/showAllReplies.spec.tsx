@@ -4,13 +4,48 @@ import sinon from "sinon";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import create from "./create";
-import { assets, comments } from "./fixtures";
+import create from "../create";
+import { assets, comments } from "../fixtures";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const commentStub = {
     ...comments[0],
+    replies: createSinonStub(
+      s => s.throws(),
+      s =>
+        s.withArgs({ first: 5, orderBy: "CREATED_AT_ASC" }).returns({
+          edges: [
+            {
+              node: comments[1],
+              cursor: comments[1].createdAt,
+            },
+          ],
+          pageInfo: {
+            endCursor: comments[1].createdAt,
+            hasNextPage: true,
+          },
+        }),
+      s =>
+        s
+          .withArgs({
+            first: sinon.match(n => n > 10000),
+            orderBy: "CREATED_AT_ASC",
+            after: comments[1].createdAt,
+          })
+          .returns({
+            edges: [
+              {
+                node: comments[2],
+                cursor: comments[2].createdAt,
+              },
+            ],
+            pageInfo: {
+              endCursor: comments[2].createdAt,
+              hasNextPage: false,
+            },
+          })
+    ),
   };
 
   const assetStub = {
@@ -47,27 +82,22 @@ beforeEach(() => {
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue(assetStub.id, "assetID");
-      localRecord.setValue(commentStub.id, "commentID");
     },
   }));
 });
 
-it("renders permalink view", async () => {
+it("renders comment stream", async () => {
   // Wait for loading.
   await timeout();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
-it("show all comments", async () => {
-  const mockEvent = {
-    preventDefault: sinon.mock().once(),
-  };
+it("show all replies", async () => {
   testRenderer.root
-    .findByProps({
-      id: "talk-comments-permalinkView-showAllComments",
-    })
-    .props.onClick(mockEvent);
+    .findByProps({ id: `talk-comments-replyList-showAll--${comments[0].id}` })
+    .props.onClick();
+
+  // Wait for loading.
   await timeout();
   expect(testRenderer.toJSON()).toMatchSnapshot();
-  mockEvent.preventDefault.verify();
 });

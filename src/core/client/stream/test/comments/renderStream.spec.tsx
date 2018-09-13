@@ -1,15 +1,19 @@
 import { ReactTestRenderer } from "react-test-renderer";
 
 import { timeout } from "talk-common/utils";
+import { createSinonStub } from "talk-framework/testHelpers";
 
-import create from "./create";
+import create from "../create";
+import { assets } from "../fixtures";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const resolvers = {
     Query: {
-      comment: () => null,
-      asset: () => null,
+      asset: createSinonStub(
+        s => s.throws(),
+        s => s.withArgs(undefined, { id: assets[0].id }).returns(assets[0])
+      ),
     },
   };
 
@@ -18,13 +22,12 @@ beforeEach(() => {
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue("unknown-asset-id", "assetID");
-      localRecord.setValue("unknown-comment-id", "commentID");
+      localRecord.setValue(assets[0].id, "assetID");
     },
   }));
 });
 
-it("renders permalink view with unknown asset", async () => {
+it("renders comment stream", async () => {
   // Wait for loading.
   await timeout();
   expect(testRenderer.toJSON()).toMatchSnapshot();

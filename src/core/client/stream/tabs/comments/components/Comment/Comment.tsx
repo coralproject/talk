@@ -1,11 +1,11 @@
 import React, { StatelessComponent } from "react";
 
+import HTMLContent from "talk-stream/components/HTMLContent";
+import Timestamp from "talk-stream/components/Timestamp";
 import { Flex } from "talk-ui/components";
 
 import * as styles from "./Comment.css";
 import EditedMarker from "./EditedMarker";
-import HTMLContent from "./HTMLContent";
-import Timestamp from "./Timestamp";
 import TopBarLeft from "./TopBarLeft";
 import Username from "./Username";
 
