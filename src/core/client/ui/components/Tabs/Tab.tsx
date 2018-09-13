@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { ReactNode } from "react";
+import React from "react";
 import { withStyles } from "talk-ui/hocs";
 import * as styles from "./Tab.css";
 
@@ -55,12 +55,17 @@ class Tab extends React.Component<TabProps> {
         className={rootClassName}
         key={`${tabId}-tab`}
         id={`${tabId}-tab`}
-        role="tab"
+        role="presentation"
         onClick={this.handleTabClick}
-        aria-controls={tabId}
-        aria-selected={active}
       >
-        {children}
+        <button
+          aria-controls={tabId}
+          role="tab"
+          aria-selected={active}
+          onClick={this.handleTabClick}
+        >
+          {children}
+        </button>
       </li>
     );
   }
