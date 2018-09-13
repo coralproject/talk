@@ -5,6 +5,7 @@ exports[`renders body only 1`] = `
   <IndentedComment
     author={
       Object {
+        "id": "author-id",
         "username": null,
       }
     }
@@ -34,6 +35,7 @@ exports[`renders username and body 1`] = `
   <IndentedComment
     author={
       Object {
+        "id": "author-id",
         "username": "Marvin",
       }
     }
