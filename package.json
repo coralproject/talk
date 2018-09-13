@@ -201,7 +201,7 @@
     "smoothscroll-polyfill": "^0.3.5",
     "snake-case": "2.1.0",
     "style-loader": "^0.16.0",
-    "subscriptions-transport-ws": "^0.7.2",
+    "subscriptions-transport-ws": "^0.8.3",
     "supports-color": "^4",
     "timeago.js": "^2.0.3",
     "timekeeper": "^1.0.0",
