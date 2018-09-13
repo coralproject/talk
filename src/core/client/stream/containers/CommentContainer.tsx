@@ -40,16 +40,29 @@ export class CommentContainer extends Component<InnerProps, State> {
   public state = {
     showReplyDialog: false,
     showEditDialog: false,
-    editable: isBeforeDate(this.props.comment.editing.editableUntil),
+    editable: this.isEditable(),
   };
 
   constructor(props: InnerProps) {
     super(props);
-    this.uneditableTimer = this.updateWhenNotEditable();
+    if (this.isEditable()) {
+      this.uneditableTimer = this.updateWhenNotEditable();
+    }
   }
 
   public componentWillUnmount() {
     clearTimeout(this.uneditableTimer);
+  }
+
+  private isEditable() {
+    const isMyComment = !!(
+      this.props.me &&
+      this.props.comment.author &&
+      this.props.me.id === this.props.comment.author.id
+    );
+    return (
+      isMyComment && isBeforeDate(this.props.comment.editing.editableUntil)
+    );
   }
 
   private openReplyDialog = () => {
@@ -155,7 +168,7 @@ const enhanced = withShowAuthPopupMutation(
   withFragmentContainer<InnerProps>({
     me: graphql`
       fragment CommentContainer_me on User {
-        __typename
+        id
       }
     `,
     asset: graphql`
@@ -167,6 +180,7 @@ const enhanced = withShowAuthPopupMutation(
       fragment CommentContainer_comment on Comment {
         id
         author {
+          id
           username
         }
         body
