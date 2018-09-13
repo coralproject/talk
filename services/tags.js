@@ -59,7 +59,9 @@ class TagsService {
       asset = await Assets.findById(id);
     }
 
-    // FIXME: comments ...
+    // Lodash has issues with determining property existence when the object
+    // is a Mongoose model, this is likely related to how Mongoose proxies the
+    // object, but this concrete check works.
     if (
       asset &&
       asset.settings &&
