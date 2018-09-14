@@ -2,12 +2,25 @@
 
 exports[`renders correctly 1`] = `
 <li
-  aria-controls="three"
   className="Tab-root"
   id="three-tab"
   onClick={[Function]}
-  role="tab"
+  role="presentation"
 >
-  Three
+  <button
+    aria-controls="three"
+    className="BaseButton-root"
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onMouseDown={[Function]}
+    onMouseOut={[Function]}
+    onMouseOver={[Function]}
+    onTouchEnd={[Function]}
+    role="tab"
+    type="button"
+  >
+    Three
+  </button>
 </li>
 `;

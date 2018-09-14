@@ -1,14 +1,14 @@
 ---
 name: Tabs
-route: '/Tabs'
+menu: UI Kit
 ---
 
 # Tabs
 
 ### Examples
 
-import { Playground, PropsTable } from 'docz'
-import { Flex, TabBar, Tab, TabContent, TabPane } from '../core/client/ui/components'
+import { Playground } from 'docz'
+import { Flex, TabBar, Tab, TabContent, TabPane } from './index'
 import Container from "react-with-state-props"
 
 ## Primary Tabs
@@ -37,7 +37,7 @@ import Container from "react-with-state-props"
     state={{ activeId: "two" }}
     render={props => (
       <div>
-      <TabBar color="secondary" activeTab={props.activeId} onTabClick={(id)=> props.setActiveId(id)}>
+      <TabBar variant="secondary" activeTab={props.activeId} onTabClick={(id)=> props.setActiveId(id)}>
         <Tab tabId="one">One</Tab>
         <Tab tabId="two">Two</Tab>
         <Tab tabId="three">Three</Tab>

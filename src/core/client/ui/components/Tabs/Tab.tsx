@@ -1,6 +1,7 @@
 import cn from "classnames";
 import React from "react";
 import { withStyles } from "talk-ui/hocs";
+import BaseButton from "../BaseButton";
 import * as styles from "./Tab.css";
 
 export interface TabProps {
@@ -58,14 +59,14 @@ class Tab extends React.Component<TabProps> {
         role="presentation"
         onClick={this.handleTabClick}
       >
-        <button
+        <BaseButton
           aria-controls={tabId}
           role="tab"
           aria-selected={active}
           onClick={this.handleTabClick}
         >
           {children}
-        </button>
+        </BaseButton>
       </li>
     );
   }

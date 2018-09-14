@@ -13,9 +13,9 @@ export interface TabBarProps {
    */
   classes: typeof styles;
   /**
-   * Color style variant
+   * Style variant
    */
-  color?: "primary" | "secondary";
+  variant?: "primary" | "secondary";
   /**
    * Active tab id/name
    */
@@ -37,7 +37,7 @@ const TabBar: StatelessComponent<TabBarProps> = props => {
     children,
     onTabClick,
     activeTab,
-    color,
+    variant,
     defaultActiveTab,
   } = props;
 
@@ -45,8 +45,8 @@ const TabBar: StatelessComponent<TabBarProps> = props => {
     classes.root,
     [
       {
-        [classes.primary]: color === "primary",
-        [classes.secondary]: color === "secondary",
+        [classes.primary]: variant === "primary",
+        [classes.secondary]: variant === "secondary",
       },
     ],
     className
@@ -60,7 +60,7 @@ const TabBar: StatelessComponent<TabBarProps> = props => {
           defaultActiveTab && !activeTab
             ? child.props.tabId === defaultActiveTab
             : child.props.tabId === activeTab,
-        color,
+        variant,
         onTabClick,
       })
   );
@@ -73,7 +73,7 @@ const TabBar: StatelessComponent<TabBarProps> = props => {
 };
 
 TabBar.defaultProps = {
-  color: "primary",
+  variant: "primary",
 };
 
 const enhanced = withStyles(styles)(TabBar);
