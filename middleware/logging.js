@@ -1,4 +1,5 @@
 const { logger } = require('../services/logging');
+const { ErrHTTPNotFound } = require('../errors');
 const now = require('performance-now');
 
 const log = (req, res, next) => {
@@ -33,7 +34,12 @@ const log = (req, res, next) => {
 };
 
 const error = (err, req, res, next) => {
-  logger.error({ err }, 'http error');
+  // Don't log out an error for ErrHTTPNotFound as this is already
+  // logged with the included request logger.
+  if (!(err instanceof ErrHTTPNotFound)) {
+    logger.error({ err }, 'http error');
+  }
+
   next(err);
 };
 
