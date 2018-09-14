@@ -17,7 +17,7 @@ export interface StreamConfig {
   assetID?: string;
   assetURL?: string;
   commentID?: string;
-  title?: string;
+  title: string;
   eventEmitter: EventEmitter2;
   id: string;
   rootURL: string;
@@ -85,7 +85,7 @@ export class StreamEmbed {
     const url = `${ensureEndSlash(this.config.rootURL)}stream.html?${query}`;
     this.pymControl = new PymControl({
       id: this.config.id,
-      title: this.config.title || "Talk Embed Stream",
+      title: this.config.title,
       decorators: streamDecorators,
       url,
     });
