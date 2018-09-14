@@ -2,7 +2,7 @@ const SetupService = require('../services/setup');
 const authentication = require('../middleware/authentication');
 const logging = require('../middleware/logging');
 const cookieParser = require('cookie-parser');
-const { TalkError, ErrNotFound } = require('../errors');
+const { TalkError, ErrHTTPNotFound } = require('../errors');
 const express = require('express');
 const i18n = require('../middleware/i18n');
 const path = require('path');
@@ -146,7 +146,7 @@ router.use(require('./plugins'));
 
 // Catch 404 and forward to error handler.
 router.use((req, res, next) => {
-  next(new ErrNotFound());
+  next(new ErrHTTPNotFound());
 });
 
 // Add logging for errors.
