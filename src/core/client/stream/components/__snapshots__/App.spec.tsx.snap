@@ -1,10 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders comments 1`] = `
-<withPropsOnChange(Flex)
+<withPropsOnChange(HorizontalGutter)
   className="App-root"
-  justifyContent="center"
 >
-  <withContext(withLocalStateContainer(CommentsPaneContainer)) />
-</withPropsOnChange(Flex)>
+  <withPropsOnChange(TabBar)
+    activeTab="COMMENTS"
+    onTabClick={[Function]}
+  >
+    <withPropsOnChange(Tab)
+      tabId="COMMENTS"
+    >
+      Comments
+    </withPropsOnChange(Tab)>
+    <withPropsOnChange(Tab)
+      tabId="PROFILE"
+    >
+      My Profile
+    </withPropsOnChange(Tab)>
+  </withPropsOnChange(TabBar)>
+  <TabContent
+    activeTab="COMMENTS"
+  >
+    <TabPane
+      tabId="COMMENTS"
+    >
+      <withContext(withLocalStateContainer(CommentsPaneContainer)) />
+    </TabPane>
+    <TabPane
+      tabId="PROFILE"
+    >
+      <ProfileQuery />
+    </TabPane>
+  </TabContent>
+</withPropsOnChange(HorizontalGutter)>
 `;

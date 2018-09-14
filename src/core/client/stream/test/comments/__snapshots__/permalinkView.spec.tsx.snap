@@ -2,89 +2,146 @@
 
 exports[`renders permalink view 1`] = `
 <div
-  className="Flex-root App-root Flex-flex Flex-justifyCenter"
+  className="HorizontalGutter-root App-root HorizontalGutter-full"
 >
-  <div
-    className="PermalinkView-root"
+  <ul
+    className="TabBar-root TabBar-primary"
+    role="tablist"
   >
-    <a
-      className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantOutlined Button-fullWidth"
-      href="http://localhost/"
-      id="talk-comments-permalinkView-showAllComments"
-      onBlur={[Function]}
+    <li
+      className="Tab-root Tab-primary Tab-active"
+      id="COMMENTS-tab"
       onClick={[Function]}
-      onFocus={[Function]}
-      onMouseDown={[Function]}
-      onMouseOut={[Function]}
-      onMouseOver={[Function]}
-      onTouchEnd={[Function]}
-      target="_parent"
-      type="button"
+      role="presentation"
     >
-      Show all comments
-    </a>
+      <button
+        aria-controls="COMMENTS"
+        aria-selected={true}
+        className="BaseButton-root"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        Comments
+      </button>
+    </li>
+    <li
+      className="Tab-root Tab-primary"
+      id="PROFILE-tab"
+      onClick={[Function]}
+      role="presentation"
+    >
+      <button
+        aria-controls="PROFILE"
+        aria-selected={false}
+        className="BaseButton-root"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        My Profile
+      </button>
+    </li>
+  </ul>
+  <section
+    aria-labelledby="COMMENTS-tab"
+    id="COMMENTS"
+    role="tabpanel"
+  >
     <div
-      className="Indent-root"
+      className="PermalinkView-root"
     >
+      <a
+        className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantOutlined Button-fullWidth"
+        href="http://localhost/"
+        id="talk-comments-permalinkView-showAllComments"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        target="_parent"
+        type="button"
+      >
+        Show all comments
+      </a>
       <div
-        className="Comment-root"
-        role="article"
+        className="Indent-root"
       >
         <div
-          className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+          className="Comment-root"
+          role="article"
         >
           <div
-            className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+            className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
           >
-            <span
-              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-            >
-              Markus
-            </span>
             <div
-              className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+              className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
             >
-              <time
-                className="Timestamp-root RelativeTime-root"
-                dateTime="2018-07-06T18:24:00.000Z"
-                title="2018-07-06T18:24:00.000Z"
+              <span
+                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
               >
-                2018-07-06T18:24:00.000Z
-              </time>
+                Markus
+              </span>
+              <div
+                className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+              >
+                <time
+                  className="Timestamp-root RelativeTime-root"
+                  dateTime="2018-07-06T18:24:00.000Z"
+                  title="2018-07-06T18:24:00.000Z"
+                >
+                  2018-07-06T18:24:00.000Z
+                </time>
+              </div>
             </div>
           </div>
-        </div>
-        <div
-          className="HTMLContent-root"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Joining Too",
+          <div
+            className="HTMLContent-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Joining Too",
+              }
             }
-          }
-        />
-        <div
-          className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
-        >
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-            id="comments-commentContainer-replyButton-comment-0"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseDown={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
+          />
+          <div
+            className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
           >
-            <span>
-              Reply
-            </span>
-          </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+              id="comments-commentContainer-replyButton-comment-0"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <span>
+                Reply
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>
 `;
 
