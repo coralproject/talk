@@ -18,7 +18,16 @@
   <h1 style="text-align: center" }>Talk 5.0 – Embed Stream</h1>
   <div id="coralStreamEmbed" style="max-width: 640px; margin: 0 auto"></div>
   <script>
-    window.TalkEmbed = Talk.render(document.getElementById('coralStreamEmbed'));
+    const TalkStreamEmbed = Coral.Talk.createStreamEmbed({
+      id: 'coralStreamEmbed',
+      events: eventEmitter => {
+        eventEmitter.on("showPermalink", () => {
+          console.log("HELLO Permalink!");
+        });
+      },
+    });
+    window.TalkStreamEmbed = TalkStreamEmbed;
+    TalkStreamEmbed.render();
   </script>
 </body>
 

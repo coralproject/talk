@@ -1,6 +1,6 @@
 import sinon from "sinon";
 
-import { createStreamInterface } from "./Stream";
+import { createStreamInterface } from "./StreamEmbed";
 
 it("should call eventEmitter.on", () => {
   const control = {};

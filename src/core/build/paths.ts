@@ -31,6 +31,8 @@ export default {
 
   appEmbedIndex: resolveSrc("core/client/embed/index.ts"),
   appEmbedHTML: resolveSrc("core/client/embed/index.html"),
+  appEmbedLongHTML: resolveSrc("core/client/embed/long.html"),
+  appEmbedLongButtonHTML: resolveSrc("core/client/embed/longButton.html"),
 
   appDistStatic: resolveApp("dist/static"),
   appPublic: resolveApp("public"),

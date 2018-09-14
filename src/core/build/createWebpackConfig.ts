@@ -448,7 +448,7 @@ export default function createWebpackConfig({
       ].filter(s => s),
       output: {
         ...baseConfig.output,
-        library: "Talk",
+        library: "Coral",
         // don't hash the embed, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
         filename: "assets/js/embed.js",
