@@ -22,7 +22,7 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
   me: graphql`
     fragment ProfileContainer_me on User {
       ...UserBoxContainer_me
-      ...CommentHistoryContainer_me
+      ...CommentsHistoryContainer_me
     }
   `,
 })(StreamContainer);

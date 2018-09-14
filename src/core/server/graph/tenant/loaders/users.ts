@@ -1,6 +1,5 @@
 import DataLoader from "dataloader";
 import Context from "talk-server/graph/tenant/context";
-// import { retrieveCommentUserConnection } from "talk-server/models/comment";
 import { retrieveManyUsers, User } from "talk-server/models/user";
 
 export default (ctx: Context) => ({
