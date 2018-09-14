@@ -9,11 +9,14 @@ import { withFragmentContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
 
 import { EditCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/EditCommentFormContainer_comment.graphql";
+import {
+  EditCommentMutation,
+  withEditCommentMutation,
+} from "talk-stream/mutations";
 
 import EditCommentForm, {
   EditCommentFormProps,
 } from "../components/EditCommentForm";
-import { EditCommentMutation, withEditCommentMutation } from "../mutations";
 
 interface InnerProps {
   editComment: EditCommentMutation;

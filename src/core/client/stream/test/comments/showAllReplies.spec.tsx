@@ -1,24 +1,21 @@
 import { ReactTestRenderer } from "react-test-renderer";
+import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
+import { assets, comments } from "../fixtures";
 import create from "./create";
-import { assets, comments } from "./fixtures";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
-  const assetStub = {
-    ...assets[0],
-    comments: createSinonStub(
+  const commentStub = {
+    ...comments[0],
+    replies: createSinonStub(
       s => s.throws(),
       s =>
-        s.withArgs({ first: 5, orderBy: "CREATED_AT_DESC" }).returns({
+        s.withArgs({ first: 5, orderBy: "CREATED_AT_ASC" }).returns({
           edges: [
-            {
-              node: comments[0],
-              cursor: comments[0].createdAt,
-            },
             {
               node: comments[1],
               cursor: comments[1].createdAt,
@@ -32,8 +29,8 @@ beforeEach(() => {
       s =>
         s
           .withArgs({
-            first: 10,
-            orderBy: "CREATED_AT_DESC",
+            first: sinon.match(n => n > 10000),
+            orderBy: "CREATED_AT_ASC",
             after: comments[1].createdAt,
           })
           .returns({
@@ -51,8 +48,27 @@ beforeEach(() => {
     ),
   };
 
+  const assetStub = {
+    ...assets[0],
+    comments: {
+      pageInfo: {
+        hasNextPage: false,
+      },
+      edges: [
+        {
+          node: commentStub,
+          cursor: commentStub.createdAt,
+        },
+      ],
+    },
+  };
+
   const resolvers = {
     Query: {
+      comment: createSinonStub(
+        s => s.throws(),
+        s => s.withArgs(undefined, { id: commentStub.id }).returns(commentStub)
+      ),
       asset: createSinonStub(
         s => s.throws(),
         s => s.withArgs(undefined, { id: assetStub.id }).returns(assetStub)
@@ -76,9 +92,9 @@ it("renders comment stream", async () => {
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
-it("loads more comments", async () => {
+it("show all replies", async () => {
   testRenderer.root
-    .findByProps({ id: "talk-comments-stream-loadMore" })
+    .findByProps({ id: `talk-comments-replyList-showAll--${comments[0].id}` })
     .props.onClick();
 
   // Wait for loading.

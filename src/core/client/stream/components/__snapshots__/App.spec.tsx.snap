@@ -1,19 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders permalink view 1`] = `
+exports[`renders comments 1`] = `
 <withPropsOnChange(Flex)
   className="App-root"
   justifyContent="center"
 >
-  <withContext(withLocalStateContainer(PermalinkViewQuery)) />
-</withPropsOnChange(Flex)>
-`;
-
-exports[`renders stream 1`] = `
-<withPropsOnChange(Flex)
-  className="App-root"
-  justifyContent="center"
->
-  <withContext(withLocalStateContainer(StreamQuery)) />
+  <withContext(withLocalStateContainer(CommentsPaneContainer)) />
 </withPropsOnChange(Flex)>
 `;

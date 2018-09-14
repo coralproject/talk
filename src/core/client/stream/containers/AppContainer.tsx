@@ -11,15 +11,15 @@ interface InnerProps {
 }
 
 const AppContainer: StatelessComponent<InnerProps> = ({
-  local: { commentID },
+  local: { activeTab },
 }) => {
-  return <App showPermalinkView={!!commentID} />;
+  return <App activeTab={activeTab} />;
 };
 
 const enhanced = withLocalStateContainer(
   graphql`
     fragment AppContainerLocal on Local {
-      commentID
+      activeTab
     }
   `
 )(AppContainer);

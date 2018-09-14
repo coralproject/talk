@@ -20,7 +20,7 @@ const UserBoxAuthenticated: StatelessComponent<
   return (
     <Flex itemGutter="half" wrap>
       <Localized
-        id="comments-userBoxAuthenticated-signedInAs"
+        id="general-userBoxAuthenticated-signedInAs"
         username={<Username />}
       >
         <Typography variant="bodyCopy" container="div">
@@ -28,7 +28,7 @@ const UserBoxAuthenticated: StatelessComponent<
         </Typography>
       </Localized>
       <Localized
-        id="comments-userBoxAuthenticated-notYou"
+        id="general-userBoxAuthenticated-notYou"
         button={
           <Button
             color="primary"

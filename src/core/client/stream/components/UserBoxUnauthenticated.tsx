@@ -17,7 +17,7 @@ const UserBoxUnauthenticated: StatelessComponent<
   return (
     <Flex itemGutter alignItems="center">
       <MatchMedia gteWidth="sm">
-        <Localized id="comments-userBoxUnauthenticated-joinTheConversation">
+        <Localized id="general-userBoxUnauthenticated-joinTheConversation">
           <Typography
             className={styles.joinText}
             variant="bodyCopyBold"
@@ -30,7 +30,7 @@ const UserBoxUnauthenticated: StatelessComponent<
           |
         </Typography>
       </MatchMedia>
-      <Localized id="comments-userBoxUnauthenticated-signIn">
+      <Localized id="general-userBoxUnauthenticated-signIn">
         <Button
           color="primary"
           size="small"
@@ -40,7 +40,7 @@ const UserBoxUnauthenticated: StatelessComponent<
           Sign in
         </Button>
       </Localized>
-      <Localized id="comments-userBoxUnauthenticated-register">
+      <Localized id="general-userBoxUnauthenticated-register">
         <Button
           color="primary"
           size="small"
