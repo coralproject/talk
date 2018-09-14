@@ -5,7 +5,6 @@ const Assets = require('./assets');
 const Settings = require('./settings');
 const { ADD_COMMENT_TAG } = require('../perms/constants');
 const { ErrNotAuthorized } = require('../errors');
-const { get, has } = require('lodash');
 
 const updateModel = async (item_type, query, update) => {
   // Get the model to update with.
@@ -60,8 +59,16 @@ class TagsService {
       asset = await Assets.findById(id);
     }
 
-    if (asset && has(asset, 'settings.tags')) {
-      return get(asset, 'settings.tags');
+    // Lodash has issues with determining property existence when the object
+    // is a Mongoose model, this is likely related to how Mongoose proxies the
+    // object, but this concrete check works.
+    if (
+      asset &&
+      asset.settings &&
+      asset.settings.tags &&
+      Array.isArray(asset.settings.tags)
+    ) {
+      return asset.settings.tags;
     }
 
     // Extract the tags from the settings object.
