@@ -16,7 +16,7 @@ import createEnvironment from "./createEnvironment";
 import createFluentBundle from "./createFluentBundle";
 import createNodeMock from "./createNodeMock";
 
-interface CreateParams {
+export interface CreateParams {
   logNetwork?: boolean;
   resolvers: IResolvers<any, any>;
   initLocalState?: (

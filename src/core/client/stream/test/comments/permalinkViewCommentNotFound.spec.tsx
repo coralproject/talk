@@ -4,8 +4,8 @@ import sinon from "sinon";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
+import { assets, comments } from "../fixtures";
 import create from "./create";
-import { assets, comments } from "./fixtures";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {

@@ -5,10 +5,13 @@ import { BadUserInputError } from "talk-framework/lib/errors";
 import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { PropTypesOf } from "talk-framework/types";
 
+import {
+  CreateCommentMutation,
+  withCreateCommentMutation,
+} from "talk-stream/mutations";
 import PostCommentForm, {
   PostCommentFormProps,
 } from "../components/PostCommentForm";
-import { CreateCommentMutation, withCreateCommentMutation } from "../mutations";
 
 interface InnerProps {
   createComment: CreateCommentMutation;

@@ -20,6 +20,5 @@ export { default as Spinner } from "./Spinner";
 export { default as HorizontalGutter } from "./HorizontalGutter";
 export { default as Icon } from "./Icon";
 export { default as AriaInfo } from "./AriaInfo";
-export { default as Message } from "./Message";
 export { Tab, TabBar, TabContent, TabPane } from "./Tabs";
 export { default as Message, MessageIcon } from "./Message";

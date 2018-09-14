@@ -3,12 +3,12 @@ import * as React from "react";
 import { StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
+import UserBoxContainer from "talk-stream/containers/UserBoxContainer";
 import { Button, HorizontalGutter } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
 import PostCommentFormContainer from "../containers/PostCommentFormContainer";
 import ReplyListContainer from "../containers/ReplyListContainer";
-import UserBoxContainer from "../containers/UserBoxContainer";
 import PostCommentFormFake from "./PostCommentFormFake";
 import * as styles from "./Stream.css";
 

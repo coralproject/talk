@@ -9,7 +9,7 @@ exports[`renders correctly 1`] = `
     gteWidth="sm"
   >
     <Localized
-      id="comments-userBoxUnauthenticated-joinTheConversation"
+      id="general-userBoxUnauthenticated-joinTheConversation"
     >
       <withPropsOnChange(Typography)
         className="UserBoxUnauthenticated-joinText"
@@ -27,7 +27,7 @@ exports[`renders correctly 1`] = `
     </withPropsOnChange(Typography)>
   </MatchMediaWithContext>
   <Localized
-    id="comments-userBoxUnauthenticated-signIn"
+    id="general-userBoxUnauthenticated-signIn"
   >
     <withPropsOnChange(Button)
       color="primary"
@@ -39,7 +39,7 @@ exports[`renders correctly 1`] = `
     </withPropsOnChange(Button)>
   </Localized>
   <Localized
-    id="comments-userBoxUnauthenticated-register"
+    id="general-userBoxUnauthenticated-register"
   >
     <withPropsOnChange(Button)
       color="primary"
