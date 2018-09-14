@@ -26,3 +26,7 @@ export {
   withSetAuthPopupStateMutation,
   SetAuthPopupStateMutation,
 } from "./SetAuthPopupStateMutation";
+export {
+  withSetActiveTabMutation,
+  SetActiveTabMutation,
+} from "./SetActiveTabMutation";
