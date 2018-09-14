@@ -6,10 +6,10 @@
 
 framework-validation-required = Dies ist ein Pflichtpfeld.
 
+framework-timeago-just-now = Gerade eben
 framework-timeago =
   { $suffix ->
     [ago] vor
-    [in] in
   }
   { $value }
   { $unit ->

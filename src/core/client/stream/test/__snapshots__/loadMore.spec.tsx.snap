@@ -156,20 +156,28 @@ exports[`loads more comments 1`] = `
             role="article"
           >
             <div
-              className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+              className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
             >
-              <span
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
               >
-                Markus
-              </span>
-              <time
-                className="Timestamp-root RelativeTime-root"
-                dateTime="2018-07-06T18:24:00.000Z"
-                title="2018-07-06T18:24:00.000Z"
-              >
-                2018-07-06T18:24:00.000Z
-              </time>
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                >
+                  Markus
+                </span>
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                >
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </div>
+              </div>
             </div>
             <div
               className="HTMLContent-root"
@@ -213,20 +221,28 @@ exports[`loads more comments 1`] = `
             role="article"
           >
             <div
-              className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+              className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
             >
-              <span
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
               >
-                Lukas
-              </span>
-              <time
-                className="Timestamp-root RelativeTime-root"
-                dateTime="2018-07-06T18:20:00.000Z"
-                title="2018-07-06T18:20:00.000Z"
-              >
-                2018-07-06T18:20:00.000Z
-              </time>
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                >
+                  Lukas
+                </span>
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                >
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:20:00.000Z"
+                    title="2018-07-06T18:20:00.000Z"
+                  >
+                    2018-07-06T18:20:00.000Z
+                  </time>
+                </div>
+              </div>
             </div>
             <div
               className="HTMLContent-root"
@@ -270,20 +286,28 @@ exports[`loads more comments 1`] = `
             role="article"
           >
             <div
-              className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+              className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
             >
-              <span
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
               >
-                Isabelle
-              </span>
-              <time
-                className="Timestamp-root RelativeTime-root"
-                dateTime="2018-07-06T18:14:00.000Z"
-                title="2018-07-06T18:14:00.000Z"
-              >
-                2018-07-06T18:14:00.000Z
-              </time>
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                >
+                  Isabelle
+                </span>
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                >
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:14:00.000Z"
+                    title="2018-07-06T18:14:00.000Z"
+                  >
+                    2018-07-06T18:14:00.000Z
+                  </time>
+                </div>
+              </div>
             </div>
             <div
               className="HTMLContent-root"
@@ -477,20 +501,28 @@ exports[`renders comment stream 1`] = `
             role="article"
           >
             <div
-              className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+              className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
             >
-              <span
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
               >
-                Markus
-              </span>
-              <time
-                className="Timestamp-root RelativeTime-root"
-                dateTime="2018-07-06T18:24:00.000Z"
-                title="2018-07-06T18:24:00.000Z"
-              >
-                2018-07-06T18:24:00.000Z
-              </time>
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                >
+                  Markus
+                </span>
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                >
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </div>
+              </div>
             </div>
             <div
               className="HTMLContent-root"
@@ -534,20 +566,28 @@ exports[`renders comment stream 1`] = `
             role="article"
           >
             <div
-              className="Flex-root Comment-topBar Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+              className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
             >
-              <span
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
               >
-                Lukas
-              </span>
-              <time
-                className="Timestamp-root RelativeTime-root"
-                dateTime="2018-07-06T18:20:00.000Z"
-                title="2018-07-06T18:20:00.000Z"
-              >
-                2018-07-06T18:20:00.000Z
-              </time>
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                >
+                  Lukas
+                </span>
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                >
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:20:00.000Z"
+                    title="2018-07-06T18:20:00.000Z"
+                  >
+                    2018-07-06T18:20:00.000Z
+                  </time>
+                </div>
+              </div>
             </div>
             <div
               className="HTMLContent-root"

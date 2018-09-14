@@ -2,6 +2,7 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
+import { dotize } from "talk-common/utils/dotize";
 import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
@@ -103,7 +104,7 @@ export async function createComment(
 
 export type EditCommentInput = Pick<
   Comment,
-  "id" | "author_id" | "body" | "status"
+  "id" | "author_id" | "body" | "status" | "metadata"
 > & {
   /**
    * lastEditableCommentCreatedAt is the date that the last comment would have
@@ -125,7 +126,16 @@ export async function editComment(
   ];
   const createdAt = new Date();
 
-  const { id, body, lastEditableCommentCreatedAt, status, author_id } = input;
+  const {
+    id,
+    body,
+    lastEditableCommentCreatedAt,
+    status,
+    author_id,
+    metadata,
+  } = input;
+
+  // TODO: (wyattjoh) consider resetting the action counts if we're starting fresh with a new comment
 
   const result = await collection(db).findOneAndUpdate(
     {
@@ -144,6 +154,10 @@ export async function editComment(
       $set: {
         body,
         status,
+        // Embed all the metadata properties, this may override the existing
+        // metadata, but we won't replace metadata that has been recalculated.
+        // TODO: (wyattjoh) consider if we want to replace the metadata for edited comments instead of supplementing it
+        ...dotize({ metadata }),
       },
       $push: {
         body_history: {
