@@ -10,6 +10,7 @@ import { Field, Form } from "react-final-form";
 
 import { OnSubmit } from "talk-framework/lib/form";
 import { required } from "talk-framework/lib/validation";
+import Timestamp from "talk-stream/components/Timestamp";
 import {
   AriaInfo,
   Button,
@@ -22,7 +23,7 @@ import {
   ValidationMessage,
 } from "talk-ui/components";
 
-import { Timestamp, TopBarLeft, Username } from "./Comment";
+import { TopBarLeft, Username } from "./Comment";
 import RTE from "./RTE";
 
 interface FormProps {

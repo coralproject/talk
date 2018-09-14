@@ -3,8 +3,8 @@ import { ReactTestRenderer } from "react-test-renderer";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
+import { assets } from "../fixtures";
 import create from "./create";
-import { assets } from "./fixtures";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {

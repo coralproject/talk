@@ -9,6 +9,10 @@ enum View {
   FORGOT_PASSWORD
 }
 
+enum Tab {
+  COMMENTS
+}
+
 type AuthPopup {
   open: Boolean!
   focus: Boolean!
@@ -26,6 +30,7 @@ type Local {
   commentID: String
   authPopup: AuthPopup!
   authToken: String
+  activeTab: Tab!
 }
 
 extend type Query {

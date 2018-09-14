@@ -5,17 +5,9 @@ import { PropTypesOf } from "talk-framework/types";
 
 import App from "./App";
 
-it("renders stream", () => {
+it("renders comments", () => {
   const props: PropTypesOf<typeof App> = {
-    showPermalinkView: false,
-  };
-  const wrapper = shallow(<App {...props} />);
-  expect(wrapper).toMatchSnapshot();
-});
-
-it("renders permalink view", () => {
-  const props: PropTypesOf<typeof App> = {
-    showPermalinkView: true,
+    activeTab: "COMMENTS",
   };
   const wrapper = shallow(<App {...props} />);
   expect(wrapper).toMatchSnapshot();

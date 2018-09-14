@@ -3,20 +3,22 @@ import { StatelessComponent } from "react";
 
 import { Flex } from "talk-ui/components";
 
-import PermalinkViewQuery from "../queries/PermalinkViewQuery";
-import StreamQuery from "../queries/StreamQuery";
+import CommentsPaneContainer from "../tabs/comments/containers/CommentsPaneContainer";
 import * as styles from "./App.css";
 
 export interface AppProps {
-  showPermalinkView: boolean;
+  activeTab: "COMMENTS" | "%future added value";
 }
 
 const App: StatelessComponent<AppProps> = props => {
-  const view = props.showPermalinkView ? (
-    <PermalinkViewQuery />
-  ) : (
-    <StreamQuery />
-  );
+  let view: React.ReactElement<any>;
+  switch (props.activeTab) {
+    case "COMMENTS":
+      view = <CommentsPaneContainer />;
+      break;
+    default:
+      throw new Error(`Unknown tab ${props.activeTab}`);
+  }
   return (
     <Flex justifyContent="center" className={styles.root}>
       {view}
