@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authorization = require('../../../middleware/authorization');
-const errors = require('../../../errors');
+const { ErrHTTPNotFound } = require('../../../errors');
 const AssetsService = require('../../../services/assets');
 const AssetModel = require('../../../models/asset');
 
@@ -90,7 +90,7 @@ router.get(
       // Send back the asset.
       let asset = await AssetsService.findById(req.params.asset_id);
       if (!asset) {
-        return next(errors.ErrNotFound);
+        return next(new ErrHTTPNotFound());
       }
 
       return res.json(asset);
