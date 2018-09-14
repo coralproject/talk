@@ -14,11 +14,7 @@ const PoweredBy: StatelessComponent<Props> = props => {
         id="comments-poweredBy"
         logo={<Typography variant="heading4" container="span" />}
       >
-        <Typography
-          variant="inputDescription"
-          container="span"
-          color="textSecondary"
-        >
+        <Typography variant="detail" container="span" color="textSecondary">
           {"Powered by <logo>The Coral Project</logo>"}
         </Typography>
       </Localized>

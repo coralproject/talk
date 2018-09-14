@@ -4,10 +4,10 @@ import TestRenderer from "react-test-renderer";
 import { PropTypesOf } from "talk-framework/types";
 import { UIContext, UIContextProps } from "talk-ui/components";
 
-import TopBar from "./TopBar";
+import TopBarLeft from "./TopBarLeft";
 
 it("renders correctly on small screens", () => {
-  const props: PropTypesOf<typeof TopBar> = {
+  const props: PropTypesOf<typeof TopBarLeft> = {
     children: <div>Hello World</div>,
   };
 
@@ -19,14 +19,14 @@ it("renders correctly on small screens", () => {
 
   const testRenderer = TestRenderer.create(
     <UIContext.Provider value={context}>
-      <TopBar {...props} />
+      <TopBarLeft {...props} />
     </UIContext.Provider>
   );
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
 it("renders correctly on big screens", () => {
-  const props: PropTypesOf<typeof TopBar> = {
+  const props: PropTypesOf<typeof TopBarLeft> = {
     children: <div>Hello World</div>,
   };
 
@@ -38,7 +38,7 @@ it("renders correctly on big screens", () => {
 
   const testRenderer = TestRenderer.create(
     <UIContext.Provider value={context}>
-      <TopBar {...props} />
+      <TopBarLeft {...props} />
     </UIContext.Provider>
   );
   expect(testRenderer.toJSON()).toMatchSnapshot();

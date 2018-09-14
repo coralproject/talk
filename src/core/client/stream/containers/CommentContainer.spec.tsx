@@ -19,10 +19,15 @@ it("renders username and body", () => {
     comment: {
       id: "comment-id",
       author: {
+        id: "author-id",
         username: "Marvin",
       },
       body: "Woof",
       createdAt: "1995-12-17T03:24:00.000Z",
+      editing: {
+        edited: false,
+        editableUntil: "1995-12-17T03:24:30.000Z",
+      },
       pending: false,
     },
     indentLevel: 1,
@@ -42,10 +47,15 @@ it("renders body only", () => {
     comment: {
       id: "comment-id",
       author: {
+        id: "author-id",
         username: null,
       },
       body: "Woof",
       createdAt: "1995-12-17T03:24:00.000Z",
+      editing: {
+        edited: false,
+        editableUntil: "1995-12-17T03:24:30.000Z",
+      },
       pending: false,
     },
     indentLevel: 1,

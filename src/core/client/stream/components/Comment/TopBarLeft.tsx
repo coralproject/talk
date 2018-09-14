@@ -4,12 +4,12 @@ import { StatelessComponent } from "react";
 
 import { Flex, MatchMedia } from "talk-ui/components";
 
-export interface TopBarProps {
+export interface TopBarLeftProps {
   className?: string;
   children: React.ReactNode;
 }
 
-const TopBar: StatelessComponent<TopBarProps> = props => {
+const TopBarLeft: StatelessComponent<TopBarLeftProps> = props => {
   const rootClassName = cn(props.className);
   return (
     <MatchMedia gtWidth="xs">
@@ -27,4 +27,4 @@ const TopBar: StatelessComponent<TopBarProps> = props => {
   );
 };
 
-export default TopBar;
+export default TopBarLeft;
