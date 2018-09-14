@@ -11,7 +11,7 @@ const InputDescription: StatelessComponent<InputDescriptionProps> = props => {
   const { className, children, ...rest } = props;
   return (
     <Typography
-      variant="inputDescription"
+      variant="detail"
       color="textSecondary"
       className={className}
       {...rest}

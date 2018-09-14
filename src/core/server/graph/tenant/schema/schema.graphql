@@ -876,11 +876,6 @@ EditCommentInput provides the input for the editComment Mutation.
 """
 input EditCommentInput {
   """
-  assetID is the ID of the Asset where we are editing a comment on.
-  """
-  assetID: ID!
-
-  """
   commentID is the ID of the comment being edited.
   """
   commentID: ID!

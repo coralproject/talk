@@ -35,6 +35,10 @@ beforeEach(() => {
                   author: users[0],
                   body: "<strong>Hello world! (from server)</strong>",
                   createdAt: "2018-07-06T18:24:00.000Z",
+                  editing: {
+                    edited: false,
+                    editableUntil: "2018-07-06T18:24:30.000Z",
+                  },
                 },
               },
               clientMutationId: "0",
