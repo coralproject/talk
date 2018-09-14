@@ -25,6 +25,8 @@ const enhanced = withFragmentContainer<CommentHistoryContainerProps>({
           node {
             id
             body
+            createdAt
+            replyCount
           }
         }
       }

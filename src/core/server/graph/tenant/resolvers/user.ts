@@ -2,7 +2,7 @@ import { GQLUserTypeResolver } from "talk-server/graph/tenant/schema/__generated
 import { User } from "talk-server/models/User";
 
 const User: GQLUserTypeResolver<User> = {
-  comments: (asset, input, ctx) =>
+  comments: (_, input, ctx) =>
     ctx.user ? ctx.loaders.Comments.forUser(ctx.user.id, input) : [],
 };
 
