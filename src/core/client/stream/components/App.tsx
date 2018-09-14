@@ -1,7 +1,13 @@
 import * as React from "react";
 import { StatelessComponent } from "react";
 
-import { Flex } from "talk-ui/components";
+import {
+  HorizontalGutter,
+  Tab,
+  TabBar,
+  TabContent,
+  TabPane,
+} from "talk-ui/components";
 
 import CommentsPaneContainer from "../tabs/comments/containers/CommentsPaneContainer";
 import * as styles from "./App.css";
@@ -11,18 +17,19 @@ export interface AppProps {
 }
 
 const App: StatelessComponent<AppProps> = props => {
-  let view: React.ReactElement<any>;
-  switch (props.activeTab) {
-    case "COMMENTS":
-      view = <CommentsPaneContainer />;
-      break;
-    default:
-      throw new Error(`Unknown tab ${props.activeTab}`);
-  }
   return (
-    <Flex justifyContent="center" className={styles.root}>
-      {view}
-    </Flex>
+    <HorizontalGutter className={styles.root}>
+      <TabBar activeTab={props.activeTab}>
+        <Tab tabId="COMMENTS">Comments</Tab>
+        <Tab tabId="PROFILE">My Profile</Tab>
+      </TabBar>
+      <TabContent activeTab={props.activeTab}>
+        <TabPane tabId="COMMENTS">
+          <CommentsPaneContainer />
+        </TabPane>
+        <TabPane tabId="PROFILE">My profileeeeee</TabPane>
+      </TabContent>
+    </HorizontalGutter>
   );
 };
 
