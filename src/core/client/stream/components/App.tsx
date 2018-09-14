@@ -12,7 +12,7 @@ import {
 import { SetActiveTabMutation } from "talk-stream/mutations";
 
 import CommentsPaneContainer from "../tabs/comments/containers/CommentsPaneContainer";
-import ProfileContainer from "../tabs/profile/containers/ProfileContainer";
+import ProfileQuery from "../tabs/profile/queries/ProfileQuery";
 import * as styles from "./App.css";
 
 export interface AppProps {
@@ -35,7 +35,7 @@ const App: StatelessComponent<AppProps> = props => {
           <CommentsPaneContainer />
         </TabPane>
         <TabPane tabId="PROFILE">
-          <ProfileContainer />
+          <ProfileQuery />
         </TabPane>
       </TabContent>
     </HorizontalGutter>

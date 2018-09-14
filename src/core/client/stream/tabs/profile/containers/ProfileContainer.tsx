@@ -12,13 +12,17 @@ interface ProfileContainerProps {
 
 export class StreamContainer extends React.Component<ProfileContainerProps> {
   public render() {
-    return <Profile me={this.props.me} />;
+    if (this.props.me) {
+      return <Profile me={this.props.me} />;
+    }
+    return null;
   }
 }
 const enhanced = withFragmentContainer<ProfileContainerProps>({
   me: graphql`
     fragment ProfileContainer_me on User {
       ...UserBoxContainer_me
+      ...CommentHistoryContainer_me
     }
   `,
 })(StreamContainer);
