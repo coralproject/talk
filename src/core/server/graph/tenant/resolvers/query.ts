@@ -5,7 +5,7 @@ const Query: GQLQueryTypeResolver<void> = {
   comment: (source, { id }, ctx) =>
     id ? ctx.loaders.Comments.comment.load(id) : null,
   settings: (source, args, ctx) => ctx.tenant,
-  me: (source, args, ctx) => ctx.user,
+  me: (source, args, ctx) => ctx.loaders.Users.me,
 };
 
 export default Query;
