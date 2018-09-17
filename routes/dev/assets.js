@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const casual = require('casual');
-const { ErrNotFound } = require('../../errors');
+const { ErrHTTPNotFound } = require('../../errors');
 const Asset = require('../../models/asset');
 
 router.get('/id/:asset_id', async (req, res, next) => {
   try {
     const asset = await Asset.findOne({ id: req.params.asset_id });
     if (asset === null) {
-      throw new ErrNotFound();
+      throw new ErrHTTPNotFound();
     }
 
     res.render('dev/article.njk', {

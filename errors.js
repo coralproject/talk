@@ -231,6 +231,15 @@ class ErrContainsProfanity extends TalkError {
   }
 }
 
+class ErrHTTPNotFound extends TalkError {
+  constructor() {
+    super('http not found', {
+      translation_key: 'NOT_FOUND',
+      status: 404,
+    });
+  }
+}
+
 class ErrNotFound extends TalkError {
   constructor() {
     super('not found', {
@@ -432,4 +441,5 @@ module.exports = {
   ErrSpecialChars,
   ErrUsernameTaken,
   ExtendableError,
+  ErrHTTPNotFound,
 };
