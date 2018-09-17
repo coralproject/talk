@@ -9,6 +9,7 @@ export interface Config {
   commentID?: string;
   rootURL?: string;
   id?: string;
+  autoRender?: boolean;
   events?: (eventEmitter: EventEmitter2) => void;
 }
 
@@ -53,6 +54,7 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     commentID: config.commentID || query.commentID,
     id: config.id || "talk-embed-stream",
     rootURL: config.rootURL || getLocationOrigin(),
+    autoRender: config.autoRender,
     eventEmitter,
   });
 }

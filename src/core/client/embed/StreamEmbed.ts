@@ -10,6 +10,7 @@ import {
   withPymStorage,
   withSetCommentID,
 } from "./decorators";
+import onIntersect from "./onIntersect";
 import PymControl, {
   defaultPymControlFactory,
   PymControlFactory,
@@ -20,6 +21,7 @@ export interface StreamEmbedConfig {
   assetID?: string;
   assetURL?: string;
   commentID?: string;
+  autoRender?: boolean;
   title: string;
   eventEmitter: EventEmitter2;
   id: string;
@@ -39,6 +41,13 @@ export class StreamEmbed {
     this.pymControlFactory = pymControlFactory;
     if (config.commentID) {
       setTimeout(() => config.eventEmitter.emit("showPermalink"), 0);
+    }
+    if (config.autoRender) {
+      onIntersect(document.getElementById(config.id)!, () => {
+        if (!this.rendered) {
+          this.render();
+        }
+      });
     }
   }
 
