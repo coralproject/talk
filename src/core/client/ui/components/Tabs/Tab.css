@@ -19,26 +19,28 @@
   }
 }
 
+.root:first-child .primary {
+  border-top-left-radius: var(--round-corners);
+}
+
+.root:last-child .primary {
+  border-top-right-radius: var(--round-corners);
+}
+
 .primary {
+  position: relative;
   background: var(--palette-grey-lightest);
   color: var(--palette-grey-main);
   border: 1px solid var(--palette-grey-lighter);
   padding: calc(0.5 * var(--spacing-unit)) calc(var(--spacing-unit) * 2);
-
-  &:first-child {
-    border-top-left-radius: var(--round-corners);
-  }
-
-  &:last-child {
-    border-top-right-radius: var(--round-corners);
-  }
-
   &.active {
     background-color: var(--palette-common-white);
     color: var(--palette-common-black);
-    border-bottom-color: var(--palette-common-white);
+    border-bottom: 0;
     border-top-width: calc(0.5 * var(--spacing-unit));
     border-top-color: var(--palette-primary-main);
+    border-radius: 0;
+    z-index: 10;
   }
 }
 
