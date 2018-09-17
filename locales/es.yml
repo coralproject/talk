@@ -139,7 +139,7 @@ es:
     organization_info_copy_2: 'Recomendamos crear un email genérico (ej: community@yournewsroom.com) for this purpose. Esto significa que puede permanecer consistente con el tiempo y no expone un nombre que los usuarios puedan atacar si su cuenta fue bloqueada.'
     organization_information: 'Información de la Organización'
     organization_name: 'Nombre de la Organización'
-    product_guide_link: 'Guía de Talk’
+    product_guide_link: 'Guía de Talk'
     report_bug_or_feedback: 'Registrar un error de Talk'
     require_email_verification: 'Necesita confirmación su correo'
     require_email_verification_text: 'Nuevos usuarios deben confirmar sus correos antes de comentar'
