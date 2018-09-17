@@ -370,4 +370,4 @@ es:
         subtitle: "¿Necesita cambiar su dirección de correo electrónico?"
         description_2: "Puedes cambiar la configuración de tu cuenta visitando"
         path: "Mi perfil > Configuración"
-        alerta: "¡Correo electrónico agregado!"
+        alert: "¡Correo electrónico agregado!"
