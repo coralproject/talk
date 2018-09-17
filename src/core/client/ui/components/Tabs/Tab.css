@@ -22,8 +22,16 @@
 .primary {
   background: var(--palette-grey-lightest);
   color: var(--palette-grey-main);
-  border: 1px solid var(--palette-grey-main);
+  border: 1px solid var(--palette-grey-lighter);
   padding: calc(0.5 * var(--spacing-unit)) calc(var(--spacing-unit) * 2);
+
+  &:first-child {
+    border-top-left-radius: var(--round-corners);
+  }
+
+  &:last-child {
+    border-top-right-radius: var(--round-corners);
+  }
 
   &.active {
     background-color: var(--palette-common-white);
