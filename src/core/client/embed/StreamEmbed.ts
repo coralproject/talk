@@ -43,11 +43,15 @@ export class StreamEmbed {
       setTimeout(() => config.eventEmitter.emit("showPermalink"), 0);
     }
     if (config.autoRender) {
-      onIntersect(document.getElementById(config.id)!, () => {
-        if (!this.rendered) {
-          this.render();
-        }
-      });
+      if (config.commentID) {
+        this.render();
+      } else {
+        onIntersect(document.getElementById(config.id)!, () => {
+          if (!this.rendered) {
+            this.render();
+          }
+        });
+      }
     }
   }
 
