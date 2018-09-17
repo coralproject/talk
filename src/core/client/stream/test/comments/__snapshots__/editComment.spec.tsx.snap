@@ -196,6 +196,7 @@ exports[`cancel edit: edit canceled 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-0"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -277,6 +278,7 @@ exports[`cancel edit: edit canceled 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-1"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -696,6 +698,7 @@ exports[`edit a comment: edit form 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-1"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -1115,6 +1118,7 @@ exports[`edit a comment: optimistic response 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-1"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -1369,6 +1373,7 @@ exports[`edit a comment: render stream 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-0"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -1450,6 +1455,7 @@ exports[`edit a comment: render stream 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-1"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -1704,6 +1710,7 @@ exports[`edit a comment: server response 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-0"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -1794,6 +1801,7 @@ exports[`edit a comment: server response 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-1"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -2048,6 +2056,7 @@ exports[`shows expiry message: edit form closed 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-0"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -2129,6 +2138,7 @@ exports[`shows expiry message: edit form closed 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-1"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -2525,6 +2535,7 @@ exports[`shows expiry message: edit time expired 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-1"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"

@@ -196,6 +196,7 @@ exports[`post a reply: open reply form 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-0"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -388,6 +389,7 @@ exports[`post a reply: open reply form 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-1"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -642,6 +644,7 @@ exports[`post a reply: optimistic response 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-0"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -829,6 +832,7 @@ exports[`post a reply: optimistic response 1`] = `
             >
               <div
                 className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                id="comment-uuid-0"
               >
                 <div
                   className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -911,6 +915,7 @@ exports[`post a reply: optimistic response 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-1"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -1165,6 +1170,7 @@ exports[`post a reply: server response 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-0"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -1231,6 +1237,7 @@ exports[`post a reply: server response 1`] = `
             >
               <div
                 className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                id="comment-comment-x"
               >
                 <div
                   className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -1297,6 +1304,7 @@ exports[`post a reply: server response 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-1"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -1551,6 +1559,7 @@ exports[`renders comment stream 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-0"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -1616,6 +1625,7 @@ exports[`renders comment stream 1`] = `
           >
             <div
               className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              id="comment-comment-1"
             >
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
