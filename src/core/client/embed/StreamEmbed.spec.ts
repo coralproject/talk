@@ -1,70 +1,143 @@
+import { EventEmitter2 } from "eventemitter2";
+import { omit } from "lodash";
 import sinon from "sinon";
 
-import { createStreamInterface } from "./StreamEmbed";
+import { PymControlConfig } from "./PymControl";
+import { StreamEmbed, StreamEmbedConfig } from "./StreamEmbed";
 
-it("should call eventEmitter.on", () => {
-  const control = {};
-  const cb = () => "";
-  const eventEmitter = {
-    on: sinon
-      .mock()
-      .once()
-      .withArgs("eventName", cb),
+it("should throw when calling pym dependent methods but was not rendered", () => {
+  const config: StreamEmbedConfig = {
+    title: "StreamEmbed",
+    eventEmitter: new EventEmitter2(),
+    id: "container-id",
+    rootURL: "http://localhost/",
   };
-  const stream = createStreamInterface(control as any, eventEmitter as any);
-  stream.on("eventName", cb);
-  eventEmitter.on.verify();
+  const streamEmbed = new StreamEmbed(config);
+  [
+    () => streamEmbed.login("token"),
+    () => streamEmbed.logout(),
+    () => streamEmbed.remove(),
+  ].forEach(cb => {
+    expect(cb).toThrow();
+  });
+});
+it("should return rendered", () => {
+  const config: StreamEmbedConfig = {
+    title: "StreamEmbed",
+    eventEmitter: new EventEmitter2(),
+    id: "container-id",
+    rootURL: "http://localhost/",
+  };
+  const pymControl = {
+    remove: sinon.stub(),
+  };
+  const fakeFactory: any = () => pymControl;
+  const streamEmbed = new StreamEmbed(config, fakeFactory);
+  expect(streamEmbed.rendered).toBe(false);
+  streamEmbed.render();
+  expect(streamEmbed.rendered).toBe(true);
+  streamEmbed.remove();
+  expect(streamEmbed.rendered).toBe(false);
+  expect(pymControl.remove.called).toBe(true);
 });
 
-it("should call eventEmitter.off", () => {
-  const control = {};
-  const cb = () => "";
-  const eventEmitter = {
-    off: sinon
-      .mock()
-      .once()
-      .withArgs("eventName", cb),
+it("should relay events methods to event emitter", () => {
+  const config: StreamEmbedConfig = {
+    title: "StreamEmbed",
+    eventEmitter: new EventEmitter2(),
+    id: "container-id",
+    rootURL: "http://localhost/",
   };
-  const stream = createStreamInterface(control as any, eventEmitter as any);
-  stream.off("eventName", cb);
-  eventEmitter.off.verify();
+  // tslint:disable-next-line:no-empty
+  const callback = () => {};
+  const fakeFactory: any = () => ({});
+  const emitterMock = sinon.mock(config.eventEmitter);
+  emitterMock
+    .expects("on")
+    .withArgs("event", callback)
+    .once();
+  emitterMock
+    .expects("off")
+    .withArgs("event", callback)
+    .once();
+  const streamEmbed = new StreamEmbed(config, fakeFactory);
+  streamEmbed.on("event", callback);
+  streamEmbed.off("event", callback);
 });
 
-it("should call control.login", () => {
-  const control = {
-    sendMessage: sinon
-      .mock()
-      .once()
-      .withArgs("login", "token"),
+it("should send login message to PymControl", () => {
+  const config: StreamEmbedConfig = {
+    title: "StreamEmbed",
+    eventEmitter: new EventEmitter2(),
+    id: "container-id",
+    rootURL: "http://localhost/",
   };
-  const eventEmitter = {};
-  const stream = createStreamInterface(control as any, eventEmitter as any);
-  stream.login("token");
-  control.sendMessage.verify();
+  const pymControl = {
+    // tslint:disable-next-line:no-empty
+    sendMessage: () => {},
+  };
+  const pymControlMock = sinon.mock(pymControl);
+  pymControlMock.expects("sendMessage").withArgs("login", "token");
+  const fakeFactory: any = () => pymControl;
+  const streamEmbed = new StreamEmbed(config, fakeFactory);
+  streamEmbed.render();
+  streamEmbed.login("token");
+  pymControlMock.verify();
 });
 
-it("should call control.logout", () => {
-  const control = {
-    sendMessage: sinon
-      .mock()
-      .once()
-      .withArgs("logout"),
+it("should send logout message to PymControl", () => {
+  const config: StreamEmbedConfig = {
+    title: "StreamEmbed",
+    eventEmitter: new EventEmitter2(),
+    id: "container-id",
+    rootURL: "http://localhost/",
   };
-  const eventEmitter = {};
-  const stream = createStreamInterface(control as any, eventEmitter as any);
-  stream.logout();
-  control.sendMessage.verify();
+  const pymControl = {
+    // tslint:disable-next-line:no-empty
+    sendMessage: () => {},
+  };
+  const pymControlMock = sinon.mock(pymControl);
+  pymControlMock.expects("sendMessage").withArgs("logout");
+  const fakeFactory: any = () => pymControl;
+  const streamEmbed = new StreamEmbed(config, fakeFactory);
+  streamEmbed.render();
+  streamEmbed.logout();
+  pymControlMock.verify();
 });
 
-it("should call control.remove", () => {
-  const control = {
-    remove: sinon
-      .mock()
-      .once()
-      .withArgs(),
+it("should pass default values to pymControl", () => {
+  const config: StreamEmbedConfig = {
+    title: "StreamEmbed",
+    eventEmitter: new EventEmitter2(),
+    id: "container-id",
+    rootURL: "http://localhost/",
   };
-  const eventEmitter = {};
-  const stream = createStreamInterface(control as any, eventEmitter as any);
-  stream.remove();
-  control.remove.verify();
+  let pymControlConfig: PymControlConfig | null = null;
+  const fakeFactory: any = (cfg: PymControlConfig) => {
+    pymControlConfig = cfg;
+    return {};
+  };
+  const streamEmbed = new StreamEmbed(config, fakeFactory);
+  streamEmbed.render();
+  expect(omit(pymControlConfig, "decorators")).toMatchSnapshot();
+});
+
+it("should pass correct values to pymControl", () => {
+  const config: StreamEmbedConfig = {
+    title: "StreamEmbed",
+    eventEmitter: new EventEmitter2(),
+    id: "container-id",
+    rootURL: "http://localhost/",
+    commentID: "comment-id",
+    assetID: "asset-id",
+    assetURL: "asset-url",
+  };
+  let pymControlConfig: PymControlConfig | null = null;
+  const fakeFactory: any = (cfg: PymControlConfig) => {
+    pymControlConfig = cfg;
+    return {};
+  };
+  const streamEmbed = new StreamEmbed(config, fakeFactory);
+  streamEmbed.render();
+  expect(omit(pymControlConfig, "decorators")).toMatchSnapshot();
 });

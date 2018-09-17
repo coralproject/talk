@@ -10,10 +10,13 @@ import {
   withPymStorage,
   withSetCommentID,
 } from "./decorators";
-import PymControl from "./PymControl";
+import PymControl, {
+  defaultPymControlFactory,
+  PymControlFactory,
+} from "./PymControl";
 import { ensureEndSlash } from "./utils";
 
-export interface StreamConfig {
+export interface StreamEmbedConfig {
   assetID?: string;
   assetURL?: string;
   commentID?: string;
@@ -24,11 +27,16 @@ export interface StreamConfig {
 }
 
 export class StreamEmbed {
-  private config: StreamConfig;
+  private config: StreamEmbedConfig;
   private pymControl?: PymControl;
+  private pymControlFactory: PymControlFactory;
 
-  constructor(config: StreamConfig) {
+  constructor(
+    config: StreamEmbedConfig,
+    pymControlFactory = defaultPymControlFactory
+  ) {
     this.config = config;
+    this.pymControlFactory = pymControlFactory;
     if (config.commentID) {
       setTimeout(() => config.eventEmitter.emit("showPermalink"), 0);
     }
@@ -60,7 +68,12 @@ export class StreamEmbed {
 
   public remove() {
     this.assertRendered();
-    return this.pymControl!.remove();
+    this.pymControl!.remove();
+    this.pymControl = undefined;
+  }
+
+  get rendered() {
+    return !!this.pymControl;
   }
 
   public render() {
@@ -82,8 +95,10 @@ export class StreamEmbed {
       assetURL: this.config.assetURL,
       commentID: this.config.commentID,
     });
-    const url = `${ensureEndSlash(this.config.rootURL)}stream.html?${query}`;
-    this.pymControl = new PymControl({
+    const url = `${ensureEndSlash(this.config.rootURL)}stream.html${
+      query ? `?${query}` : ""
+    }`;
+    this.pymControl = this.pymControlFactory({
       id: this.config.id,
       title: this.config.title,
       decorators: streamDecorators,
@@ -92,6 +107,6 @@ export class StreamEmbed {
   }
 }
 
-export default function createStreamEmbed(config: StreamConfig) {
+export default function createStreamEmbed(config: StreamEmbedConfig) {
   return new StreamEmbed(config);
 }

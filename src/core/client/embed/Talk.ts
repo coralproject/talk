@@ -12,6 +12,15 @@ export interface Config {
   events?: (eventEmitter: EventEmitter2) => void;
 }
 
+function getLocationOrigin() {
+  return (
+    location.origin ||
+    `${window.location.protocol}//${window.location.hostname}${
+      window.location.port ? `:${window.location.port}` : ""
+    }`
+  );
+}
+
 function resolveAssetURL() {
   const canonical = document.querySelector(
     'link[rel="canonical"]'
@@ -25,11 +34,7 @@ function resolveAssetURL() {
     "This page does not include a canonical link tag. Talk has inferred this asset_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages."
   );
 
-  const origin = `${window.location.protocol}//${window.location.hostname}${
-    window.location.port ? `:${window.location.port}` : ""
-  }`;
-
-  return origin + window.location.pathname;
+  return getLocationOrigin() + window.location.pathname;
 }
 
 export function createStreamEmbed(config: Config): StreamEmbed {
@@ -47,7 +52,7 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     assetURL: config.assetURL || resolveAssetURL(),
     commentID: config.commentID || query.commentID,
     id: config.id || "talk-embed-stream",
-    rootURL: config.rootURL || location.origin,
+    rootURL: config.rootURL || getLocationOrigin(),
     eventEmitter,
   });
 }
