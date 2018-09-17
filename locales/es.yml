@@ -139,6 +139,8 @@ es:
     organization_info_copy_2: 'Recomendamos crear un email genérico (ej: community@yournewsroom.com) for this purpose. Esto significa que puede permanecer consistente con el tiempo y no expone un nombre que los usuarios puedan atacar si su cuenta fue bloqueada.'
     organization_information: 'Información de la Organización'
     organization_name: 'Nombre de la Organización'
+    product_guide_link: 'Guía de Talk'
+    report_bug_or_feedback: 'Registrar un error de Talk'
     require_email_verification: 'Necesita confirmación su correo'
     require_email_verification_text: 'Nuevos usuarios deben confirmar sus correos antes de comentar'
     save: Guardar
@@ -157,6 +159,7 @@ es:
     suspect_word_title: 'Lista de palabras sospechosas'
     tech_settings: 'Configuración Técnica'
     title: 'Configurar los comentarios'
+    view_last_version: 'Ver la versión de Talk'
     weeks: Semanas
     wordlist: 'Palabras Suspendidas'
   confirm_email:
@@ -324,6 +327,17 @@ es:
       submit: 'Terminar la Instalación'
       title: 'Dominios permitidos'
   like: 'Me gusta'
+  login:
+    email_address: 'Dirección de correo'
+    forgot_password: '¿Olvidaste tu contraseña?'
+    go_back: 'Regresar'
+    sign_in: 'Entrar'
+    sign_in_button: 'Entrar'
+    sign_in_message: 'Regístrese para interactuar con su comunidad.'
+    password: Contraseña
+    reset_password_send_button: 'Recuperar Contraseña'
+    request_password: 'Solicita uno nuevo.'
+    team_sign_in: 'Entrada del equipo'
   loading_results: 'Cargando Resultados'
   marketing: 'Esto parece una propaganda'
   moderate_this_stream: 'Moderar este hilo de comentarios'
