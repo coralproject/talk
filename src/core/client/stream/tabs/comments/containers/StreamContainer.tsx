@@ -135,7 +135,7 @@ const enhanced = withPaginationContainer<
         $count: Int!
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
-        $assetID: ID!
+        $assetID: ID
       ) {
         asset(id: $assetID) {
           ...StreamContainer_asset

@@ -45,15 +45,19 @@ export const render = ({
 };
 
 const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
-  local: { commentID, assetID },
+  local: { commentID, assetID, assetURL },
 }) => (
   <QueryRenderer<QueryTypes>
     query={graphql`
-      query PermalinkViewQuery($commentID: ID!, $assetID: ID!) {
+      query PermalinkViewQuery(
+        $commentID: ID!
+        $assetID: ID
+        $assetURL: String
+      ) {
         me {
           ...PermalinkViewContainer_me
         }
-        asset(id: $assetID) {
+        asset(id: $assetID, url: $assetURL) {
           ...PermalinkViewContainer_asset
         }
         comment(id: $commentID) {
@@ -62,8 +66,9 @@ const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
       }
     `}
     variables={{
-      assetID: assetID!,
       commentID: commentID!,
+      assetID,
+      assetURL,
     }}
     render={render}
   />
@@ -74,6 +79,7 @@ const enhanced = withLocalStateContainer(
     fragment PermalinkViewQueryLocal on Local {
       assetID
       commentID
+      assetURL
     }
   `
 )(PermalinkViewQuery);

@@ -11,7 +11,10 @@ function createTestRenderer() {
     Query: {
       asset: createSinonStub(
         s => s.throws(),
-        s => s.withArgs(undefined, { id: assets[0].id }).returns(assets[0])
+        s =>
+          s
+            .withArgs(undefined, { id: assets[0].id, url: null })
+            .returns(assets[0])
       ),
       me: createSinonStub(
         s => s.throws(),

@@ -14,7 +14,7 @@ beforeEach(() => {
         s => s.throws(),
         s =>
           s
-            .withArgs(undefined, { id: assetWithReplies.id })
+            .withArgs(undefined, { id: assetWithReplies.id, url: null })
             .returns(assetWithReplies)
       ),
     },
