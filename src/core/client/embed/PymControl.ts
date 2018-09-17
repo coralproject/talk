@@ -25,6 +25,7 @@ export default class PymControl {
       title: config.title,
       id: `${config.id}_iframe`,
       name: `${config.id}_iframe`,
+      optionalparams: "",
     });
 
     this.cleanups = decorators
