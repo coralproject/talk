@@ -54,13 +54,13 @@ class Tab extends React.Component<TabProps> {
     return (
       <li
         className={styles.root}
-        key={`${tabId}-tab`}
-        id={`${tabId}-tab`}
+        key={tabId}
+        id={`tab-${tabId}`}
         role="presentation"
       >
         <BaseButton
           className={buttonClassName}
-          aria-controls={tabId}
+          aria-controls={`tabPane-${tabId}`}
           role="tab"
           aria-selected={active}
           onClick={this.handleTabClick}
