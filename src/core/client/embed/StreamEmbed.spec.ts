@@ -141,3 +141,26 @@ it("should pass correct values to pymControl", () => {
   streamEmbed.render();
   expect(omit(pymControlConfig, "decorators")).toMatchSnapshot();
 });
+
+it("should emit showPermalink", () => {
+  jest.useFakeTimers();
+  const config: StreamEmbedConfig = {
+    title: "StreamEmbed",
+    eventEmitter: new EventEmitter2(),
+    id: "container-id",
+    rootURL: "http://localhost/",
+    commentID: "comment-id",
+  };
+  // tslint:disable-next-line:no-empty
+  const fakeFactory: any = () => ({});
+  const emitterMock = sinon.mock(config.eventEmitter);
+  emitterMock
+    .expects("emit")
+    .withArgs("showPermalink")
+    .once();
+  // tslint:disable-next-line:no-unused-expression
+  new StreamEmbed(config, fakeFactory);
+  jest.runOnlyPendingTimers();
+  jest.useRealTimers();
+  emitterMock.verify();
+});
