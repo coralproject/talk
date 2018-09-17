@@ -24,7 +24,7 @@ const HistoryComment: StatelessComponent<CommentHistoryProps> = props => {
   return (
     <HorizontalGutter>
       <Flex direction="row" justifyContent="space-between">
-        <Typography variant="bodyCopy">
+        <Typography variant="bodyCopy" headlineMapping={{ bodyCopy: "div" }}>
           {props.comment.body && (
             <HTMLContent>{props.comment.body}</HTMLContent>
           )}
