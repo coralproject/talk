@@ -41,8 +41,8 @@ class Tab extends React.Component<TabProps> {
   public render() {
     const { className, classes, children, tabId, active, variant } = this.props;
 
-    const rootClassName = cn(
-      classes.root,
+    const buttonClassName = cn(
+      classes.button,
       {
         [classes.primary]: variant === "primary",
         [classes.secondary]: variant === "secondary",
@@ -53,13 +53,13 @@ class Tab extends React.Component<TabProps> {
 
     return (
       <li
-        className={rootClassName}
+        className={styles.root}
         key={`${tabId}-tab`}
         id={`${tabId}-tab`}
         role="presentation"
-        onClick={this.handleTabClick}
       >
         <BaseButton
+          className={buttonClassName}
           aria-controls={tabId}
           role="tab"
           aria-selected={active}
