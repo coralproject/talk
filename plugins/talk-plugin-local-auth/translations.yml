@@ -225,7 +225,7 @@ pt_BR:
         subtitle: "Precisa alterar seu endereço de email?"
         description_2: "Você pode alterar as configurações da sua conta em"
         path: "Meu Perfil > Configurações"
-      alert: "Email adicionado!" 
+      alert: "Email adicionado!"
 de:
   email:
     email_change_original:
@@ -303,6 +303,14 @@ de:
         alert: "E-Mail-Adresse hinzugefügt!"
 es:
   talk-plugin-local-auth:
+    email:
+      email_change_original:
+        subject: Cambio de correo electrónico
+        body: Su dirección de correo electrónico ha cambiado de {0} a {1}. Si no solicitó este cambio, póngase en contacto con {2}.
+    error:
+      NO_LOCAL_PROFILE: No hay una dirección de correo electrónico asociada a esta cuenta.
+      LOCAL_PROFILE: Una dirección de correo electrónico ya está asociada a esta cuenta.
+      INCORRECT_PASSWORD: La contraseña dada fue incorrecta.
     change_password:
       change_password: "Cambiar Contraseña"
       passwords_dont_match: "Las contraseñas no coinciden"
@@ -328,3 +336,38 @@ es:
       username_does_not_match: "El usuario no coincide"
       changed_username_success_msg: "Usuario Actualizado - Tu usuario ha sido exitosamente actualizado. No podrás cambiar el usuario por 14 días."
       change_username_attempt: "El usuario no puede ser actualizado. Los usuarios pueden ser cambiados cada 14 días."
+    change_email:
+      confirm_email_change: "Confirmar cambio de dirección de correo electrónico"
+      description: "Está intentando cambiar su dirección de correo electrónico. Su nueva dirección de correo electrónico se usará para iniciar sesión y recibir notificaciones de la cuenta."
+      new_email: "Nueva dirección de correo electrónico"
+      enter_password: "Introducir la contraseña"
+      incorrect_password: "Contraseña incorrecta"
+      confirm_change: "Confirmar cambio"
+      cancel: "Cancelar"
+      change_email_msg: "Dirección de correo electrónico modificada. Esta dirección de correo electrónico ahora se utilizará para iniciar sesión y notificaciones por correo electrónico."
+    add_email:
+      add_email_address: "Agregar dirección de correo electrónico"
+      enter_email_address: "Introducir la dirección de correo electrónico:"
+      invalid_email_address: "Dirección de correo electrónico no válida"
+      confirm_email_address: "Confirmar el correo:"
+      email_does_not_match: "La dirección de Email no coincide"
+      insert_password: "Insertar contraseña:"
+      confirm_password: "Confirmar contraseña:"
+      required_field: "Este campo es requerido"
+      done: "Hecho"
+      content:
+        title: "Agregar una dirección de correo electrónico"
+        description: "Para su seguridad adicional, solicitamos a los usuarios que agreguen una dirección de correo electrónico a sus cuentas. Su dirección de correo electrónico se usará para:"
+        item_1: "Recibe actualizaciones sobre cualquier cambio en tu cuenta (dirección de correo electrónico, nombre de usuario, contraseña, etc.)"
+        item_2: "Permitir que descargues tus comentarios."
+        item_3: "Envía notificaciones de comentarios que hayas elegido recibir."
+      verify:
+        title: "Verificar su dirección de correo electrónico"
+        description: "Hemos enviado un correo electrónico a {0} para verificar su cuenta. Debe verificar su dirección de correo electrónico para que se pueda usar para notificaciones y notificaciones de cambio de cuenta."
+      added:
+        title: "Dirección de correo electrónico agregada"
+        description: "Su dirección de correo electrónico ha sido agregada a su cuenta."
+        subtitle: "¿Necesita cambiar su dirección de correo electrónico?"
+        description_2: "Puedes cambiar la configuración de tu cuenta visitando"
+        path: "Mi perfil > Configuración"
+        alert: "¡Correo electrónico agregado!"

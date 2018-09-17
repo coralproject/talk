@@ -14,7 +14,7 @@
     "start": "NODE_ENV=production ./bin/cli-serve -j -w",
     "prebuild": "npm-run-all clean generate-introspection",
     "build": "NODE_ENV=production parallel-webpack --bail",
-    "lint:yaml": "yamllint locales/*.yml",
+    "lint:yaml": "yamllint locales/*.y{a,}ml plugins/**/*.y{a,}ml",
     "lint:js": "eslint bin/cli* .",
     "lint": "npm-run-all lint:*",
     "plugins:reconcile": "./bin/cli plugins reconcile",

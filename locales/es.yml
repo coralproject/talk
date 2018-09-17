@@ -280,7 +280,7 @@ es:
     comment_is_ignored: 'Este comentario está escondido porque has ignorado al usuario.'
     comment_is_rejected: 'Has rechazado este comentario.'
     comments: comentarios
-    configure_stream: 'Configurar Hilo de Comentarios'
+    configure_stream: 'Configurar'
     content_not_available: 'Este contenido no se encuentra disponible'
     edit_name:
       button: Enviar
