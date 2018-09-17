@@ -85,7 +85,7 @@ const onConnect = async (connectionParams, connection) => {
  */
 const batchedUserRefresher = new DataLoader(
   userIDs => {
-    console.log(`OPERATION: refreshing ${userIDs.length} users.`);
+    debug(`OPERATION: refreshing ${userIDs.length} users.`);
     return User.find({ id: { $in: userIDs } }).then(
       singleJoinBy(userIDs, 'id')
     );
