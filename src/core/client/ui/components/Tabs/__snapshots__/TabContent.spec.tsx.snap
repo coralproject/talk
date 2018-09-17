@@ -2,8 +2,8 @@
 
 exports[`renders correctly 1`] = `
 <section
-  aria-labelledby="one-tab"
-  id="one"
+  aria-labelledby="tab-one"
+  id="tabPane-one"
   role="tabpanel"
 >
   Hola One
