@@ -73,6 +73,43 @@ en:
       body: "You have cancelled your account deletion request for {0}. Your account is now reactivated."
   error:
     DOWNLOAD_TOKEN_INVALID: "Your download link is not valid."
+es:
+  download_landing:
+    download_your_account: "Descargue su historial de comentarios"
+    download_details: "Su historial de comentarios se descargará en un archivo .zip. Después de descomprimir el historial de comentarios, tendrá un archivo de valores separados por comas (o .csv) que podrá importar fácilmente en su aplicación de hoja de cálculo favorita."
+    all_information_included: "Para cada uno de sus comentarios se incluye la siguiente información:"
+    information_included:
+      date: "Cuando escribiste el comentario"
+      url: "La URL del enlace permanente para el comentario"
+      body: "El texto de comentario"
+      asset_url: "La URL del artículo o historia donde aparece el comentario"
+    confirm: "Descargar el historial de mis comentarios"
+  email:
+    download:
+      subject: "Sus comentarios están listos para su descarga desde {0}"
+      download_link_ready: "Haga clic aquí para descargar sus comentarios de {0} a partir de {1}:"
+      download_archive: "Descargar archivo"
+    delete:
+      subject: "Su cuenta para {0} está programada para ser eliminada"
+      body: |
+        Se recibió una solicitud para eliminar su cuenta. Su cuenta está programada para ser eliminada {1}.
+
+        Después de ese momento, todos sus comentarios serán eliminados del sitio, todos sus comentarios serán eliminados de nuestra base de datos y su nombre de usuario y dirección de correo electrónico serán eliminados de nuestro sistema.
+
+        Si cambia de opinión, puede iniciar sesión en su cuenta y cancelar la solicitud antes de la hora programada para la eliminación de su cuenta.
+    deleted:
+      subject: "Su cuenta para {0} ha sido eliminada"
+      body: |
+        Su cuenta de comentarista para {0} ahora se borró. ¡Sentimos verte partir!
+
+        Si desea volver a unirse a la discusión en el futuro, puede registrarse para obtener una nueva cuenta.
+
+        Si desea darnos su opinión sobre por qué se fue y qué podemos hacer para mejorar la experiencia de comentarios, envíenos un correo electrónico a {1}.
+    cancelDelete:
+      subject: "La solicitud de eliminación de su cuenta para {0} ha sido cancelada"
+      body: "Ha cancelado la solicitud de eliminación de cuenta para {0}. Su cuenta ahora está reactivada."
+  error:
+    DOWNLOAD_TOKEN_INVALID: "Su enlace de descarga no es válido."
 de:
   download_landing:
     download_your_account: "Mein Kommentar-Archiv herunterladen"
