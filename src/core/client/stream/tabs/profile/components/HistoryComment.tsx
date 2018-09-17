@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
 import Timestamp from "talk-stream/components/Timestamp";
@@ -32,13 +33,15 @@ const HistoryComment: StatelessComponent<CommentHistoryProps> = props => {
         <HorizontalGutter className={styles.sideBar}>
           <Flex direction="row" alignItems="center" itemGutter="half">
             <Icon className={styles.icon}>launch</Icon>
-            <BaseButton
-              className={styles.button}
-              onClick={props.goToConversation}
-              anchor
-            >
-              View Conversation
-            </BaseButton>
+            <Localized id="commentHistory-viewConversation">
+              <BaseButton
+                className={styles.button}
+                onClick={props.goToConversation}
+                anchor
+              >
+                View Conversation
+              </BaseButton>
+            </Localized>
           </Flex>
           <Flex direction="row" alignItems="center" itemGutter="half">
             <Icon className={styles.icon}>schedule</Icon>
@@ -54,7 +57,9 @@ const HistoryComment: StatelessComponent<CommentHistoryProps> = props => {
           className={styles.text}
         >
           <Icon className={styles.icon}>reply</Icon>
-          <span>Replies {props.comment.replyCount}</span>
+          <Localized id="commentHistory-replies">
+            <span>Replies {props.comment.replyCount}</span>
+          </Localized>
         </Flex>
       )}
     </HorizontalGutter>

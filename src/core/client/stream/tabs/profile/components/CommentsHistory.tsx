@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
 import { CommentsHistoryContainer_me as MeData } from "talk-stream/__generated__/CommentsHistoryContainer_me.graphql";
@@ -13,7 +14,9 @@ const CommentsHistory: StatelessComponent<CommentHistoryProps> = props => {
   const comments = props.me.comments.edges.map(edge => edge.node);
   return (
     <HorizontalGutter size="double">
-      <Typography variant="heading3">Comment History</Typography>
+      <Localized id="commentHistory-commentHistory">
+        <Typography variant="heading3">Comment History</Typography>
+      </Localized>
       {comments.map(comment => (
         <HistoryComment
           key={comment.id}
