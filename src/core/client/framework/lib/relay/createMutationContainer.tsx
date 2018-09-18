@@ -42,10 +42,11 @@ function createMutationContainer<T extends string, I, R>(
         };
 
         public render() {
+          const { context: _, ...rest } = this.props;
           const inject = {
             [propName]: this.commit,
           };
-          return <BaseComponent {...this.props} {...inject} />;
+          return <BaseComponent {...rest} {...inject} />;
         }
       }
       return CreateMutationContainer as React.ComponentType<any>;
