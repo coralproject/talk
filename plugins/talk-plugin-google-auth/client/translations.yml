@@ -8,17 +8,17 @@ en:
     sign_up: "Sign up with Google"
 es:
   talk-plugin-google-auth:
-    google_sign_in: "Entrar con Google"
-    google_sign_up: "Registrarse con Google"
+    sign_in: "Entrar con Google"
+    sign_up: "Registrarse con Google"
 fr:
   talk-plugin-google-auth:
-    google_sign_in: "Connectez-vous avec Google"
-    google_sign_up: "Inscrivez-vous avec Google"
+    sign_in: "Connectez-vous avec Google"
+    sign_up: "Inscrivez-vous avec Google"
 zh_CN:
   talk-plugin-google-auth:
-    google_sign_in: "使用 Google 帐号"
-    google_sign_up: "使用 Google 帐号"
+    sign_in: "使用 Google 帐号"
+    sign_up: "使用 Google 帐号"
 zh_TW:
   talk-plugin-google-auth:
-    google_sign_in: "使用 Google 帳號"
-    google_sign_up: "使用 Google 帳號"
+    sign_in: "使用 Google 帳號"
+    sign_up: "使用 Google 帳號"
