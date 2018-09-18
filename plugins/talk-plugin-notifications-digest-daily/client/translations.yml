@@ -6,7 +6,7 @@ en:
   talk-plugin-notifications:
     digest_enum:
       DAILY: In a daily digest
-en:
+es:
   talk-plugin-notifications:
     digest_enum:
       DAILY: En un resumen diario
