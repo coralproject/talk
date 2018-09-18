@@ -34,6 +34,24 @@ en:
     digest_option: Send notifications
     digest_enum:
       NONE: Immediately
+es:
+  talk-plugin-notifications:
+    settings_title: Notificaciones
+    settings_subtitle: Reciba notificaciones cuando
+    turn_off_all: No quiero recibir notificaciones
+    banner_info:
+      title: Se requiere verificación de correo electrónico
+      text: Para recibir notificaciones por correo electrónico, debe tener una dirección de correo electrónico verificada.
+      verify_now: Verifica tu correo electrónico ahora.
+    banner_success:
+      title: Verificación del correo electrónico enviada
+      text: Se envió un correo electrónico a {0} que contiene un enlace de verificación.
+    banner_error:
+      title: Error
+      text: Ha habido un error al enviar su correo electrónico de verificación. Por favor, inténtelo de nuevo más tarde.
+    digest_option: Enviar notificaciones
+    digest_enum:
+      NONE: Inmediatamente
 de:
   talk-plugin-notifications:
     settings_title: Benachrichtigungen

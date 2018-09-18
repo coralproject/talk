@@ -11,6 +11,12 @@ en:
       reply:
         subject: "Someone has replied to your comment on {0}"
         body: "{0}\n{1} replied to your comment: {2}"
+es:
+  talk-plugin-notifications:
+    categories:
+      reply:
+        subject: "Alguien ha respondido a tu comentario en {0}"
+        body: "{0}\n{1} respondió a tu comentario: {2}"
 de:
   talk-plugin-notifications:
     categories:
