@@ -4,6 +4,9 @@ ar:
 en:
   talk-plugin-notifications-category-featured:
     toggle_description: My comment is featured
+en:
+  talk-plugin-notifications-category-featured:
+    toggle_description: Mi comentario esta presentado
 de:
   talk-plugin-notifications-category-featured:
     toggle_description: Mein Kommentar wird empfohlen
