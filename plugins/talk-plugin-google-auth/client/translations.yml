@@ -13,7 +13,7 @@ es:
 fr:
   talk-plugin-google-auth:
     sign_in: "Connectez-vous avec Google"
-    ign_up: "Inscrivez-vous avec Google"
+    sign_up: "Inscrivez-vous avec Google"
 zh_CN:
   talk-plugin-google-auth:
     sign_in: "使用 Google 帐号"
