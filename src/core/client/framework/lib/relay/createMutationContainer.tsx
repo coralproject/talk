@@ -42,11 +42,10 @@ function createMutationContainer<T extends string, I, R>(
         };
 
         public render() {
-          const { relayEnvironment: _, ...rest } = this.props;
           const inject = {
             [propName]: this.commit,
           };
-          return <BaseComponent {...rest} {...inject} />;
+          return <BaseComponent {...this.props} {...inject} />;
         }
       }
       return CreateMutationContainer as React.ComponentType<any>;

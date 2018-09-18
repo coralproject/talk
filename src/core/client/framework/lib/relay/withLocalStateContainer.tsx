@@ -39,6 +39,7 @@ export const LOCAL_ID = "client:root.local";
 function withLocalStateContainer(
   fragmentSpec: GraphQLTaggedNode
 ): InferableComponentEnhancer<{ local: _RefType<any> }> {
+  const fragment = (fragmentSpec as any).data().default;
   return compose(
     withContext(({ relayEnvironment }) => ({ relayEnvironment })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {
@@ -49,9 +50,7 @@ function withLocalStateContainer(
         );
         private subscription: Disposable;
 
-        constructor(props: Props) {
-          super(props);
-          const fragment = (fragmentSpec as any).data().default;
+        private subscribe(environment: Environment) {
           if (fragment.kind !== "Fragment") {
             throw new Error("Expected fragment");
           }
@@ -65,22 +64,42 @@ function withLocalStateContainer(
             node: { selections: fragment.selections },
             variables: {},
           };
-          const snapshot = props.relayEnvironment.lookup(selector);
-          this.subscription = props.relayEnvironment.subscribe(
+          const snapshot = environment.lookup(selector);
+          this.subscription = environment.subscribe(
             snapshot,
             this.updateSnapshot
           );
-          this.state = {
-            data: snapshot.data,
-          };
+          this.updateSnapshot(snapshot);
+        }
+
+        constructor(props: Props) {
+          super(props);
+          this.subscribe(props.relayEnvironment);
         }
 
         private updateSnapshot = (snapshot: CSnapshot<any>) => {
-          this.setState({ data: snapshot.data });
+          const nextState = { data: snapshot.data };
+          // State has not been initialized yet.
+          if (!this.state) {
+            this.state = nextState;
+            return;
+          }
+          this.setState(nextState);
         };
 
-        public componentWillUnmount() {
+        private unsubscribe() {
           this.subscription.dispose();
+        }
+
+        public componentWillReceiveProps(next: Props) {
+          if (this.props.relayEnvironment !== next.relayEnvironment) {
+            this.unsubscribe();
+            this.subscribe(next.relayEnvironment);
+          }
+        }
+
+        public componentWillUnmount() {
+          this.unsubscribe();
         }
 
         public render() {
