@@ -472,6 +472,26 @@ type Email {
 }
 
 ################################################################################
+## ReactionConfiguration
+################################################################################
+
+"""
+ReactionConfiguration stores the configuration for reactions used across this
+Tenant.
+"""
+type ReactionConfiguration {
+  """
+  label is the string placed beside the reaction icon to provide better context.
+  """
+  label: String!
+
+  """
+  icon is the string representing the icon to be used for the reactions.
+  """
+  icon: String!
+}
+
+################################################################################
 ## Settings
 ################################################################################
 
@@ -584,22 +604,22 @@ type Settings {
   """
   organizationName is the name of the organization.
   """
-  organizationName: String
+  organizationName: String!
 
   """
   organizationContactEmail is the email of the organization.
   """
-  organizationContactEmail: String
+  organizationContactEmail: String!
 
   """
   email is the set of credentials and settings associated with the organization.
   """
-  email: Email @auth(roles: [ADMIN])
+  email: Email! @auth(roles: [ADMIN])
 
   """
   wordlist will return a given list of words.
   """
-  wordlist: Wordlist @auth(roles: [ADMIN, MODERATOR])
+  wordlist: Wordlist! @auth(roles: [ADMIN, MODERATOR])
 
   """
   auth contains all the settings related to authentication and authorization.
@@ -609,13 +629,18 @@ type Settings {
   """
   integrations contains all the external integrations that can be enabled.
   """
-  integrations: ExternalIntegrations @auth(roles: [ADMIN])
+  integrations: ExternalIntegrations! @auth(roles: [ADMIN])
 
   """
   karma is the set of settings related to how user Trust and Karma are
   handled.
   """
-  karma: Karma @auth(roles: [ADMIN, MODERATOR])
+  karma: Karma! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  reaction specifies the configuration for reactions.
+  """
+  reaction: ReactionConfiguration! @auth(roles: [ADMIN])
 }
 
 ################################################################################

@@ -4,6 +4,7 @@ import {
   GQLExternalIntegrations,
   GQLKarma,
   GQLMODERATION_MODE,
+  GQLReactionConfiguration,
   GQLWordlist,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 
@@ -101,4 +102,9 @@ export interface Settings extends ModerationSettings {
    * Various integrations with external services.
    */
   integrations: GQLExternalIntegrations;
+
+  /**
+   * reaction specifies the configuration for reactions.
+   */
+  reaction: GQLReactionConfiguration;
 }

@@ -49,10 +49,10 @@ export type CreateTenantInput = Pick<
 /**
  * create will create a new Tenant.
  *
- * @param db the MongoDB connection used to create the tenant.
+ * @param mongo the MongoDB connection used to create the tenant.
  * @param input the customizable parts of the Tenant available during creation
  */
-export async function createTenant(db: Db, input: CreateTenantInput) {
+export async function createTenant(mongo: Db, input: CreateTenantInput) {
   const defaults: Sub<Tenant, CreateTenantInput> = {
     // Create a new ID.
     id: uuid.v4(),
@@ -115,6 +115,12 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
         enabled: false,
       },
     },
+    reaction: {
+      // By default, the standard reaction style will use the Respect with the
+      // handshake.
+      label: "Respect",
+      icon: "handshake",
+    },
   };
 
   // Create the new Tenant by merging it together with the defaults.
@@ -124,7 +130,7 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
   };
 
   // Insert the Tenant into the database.
-  await collection(db).insert(tenant);
+  await collection(mongo).insert(tenant);
 
   return tenant;
 }
