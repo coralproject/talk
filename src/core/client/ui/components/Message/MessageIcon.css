@@ -1,0 +1,7 @@
+.root {
+  align-self: flex-start;
+  margin-top: 1px;
+  &:first-child {
+    margin-right: calc(0.5 * var(--spacing-unit));
+  }
+}

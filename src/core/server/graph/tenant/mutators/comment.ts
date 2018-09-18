@@ -26,7 +26,6 @@ export default (ctx: TenantContext) => ({
       ctx.user!,
       {
         id: input.commentID,
-        asset_id: input.assetID,
         body: input.body,
       },
       ctx.req

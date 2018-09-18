@@ -1,0 +1,3 @@
+.root {
+  composes: detail from "talk-ui/shared/typography.css";
+}

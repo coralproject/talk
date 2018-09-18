@@ -35,9 +35,6 @@ export default async function initLocalState(
     // Set auth token
     localRecord.setValue(authToken || "", "authToken");
 
-    // Set initial auth revision, this is increment whenenver auth state might have changed.
-    localRecord.setValue(0, "authRevision");
-
     // Parse query params
     const query = qs.parse(location.search);
 
@@ -78,5 +75,8 @@ export default async function initLocalState(
     authPopupRecord.setValue(false, "focus");
     authPopupRecord.setValue("", "href");
     localRecord.setLinkedRecord(authPopupRecord, "authPopup");
+
+    // Set active tab
+    localRecord.setValue("COMMENTS", "activeTab");
   });
 }

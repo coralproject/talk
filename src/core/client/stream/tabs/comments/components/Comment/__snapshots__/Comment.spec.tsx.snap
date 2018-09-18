@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders username and body 1`] = `
+<div
+  className="Comment-root"
+  role="article"
+>
+  <withPropsOnChange(Flex)
+    className="Comment-topBar"
+    direction="row"
+    justifyContent="space-between"
+  >
+    <TopBarLeft>
+      <Username>
+        Marvin
+      </Username>
+      <withPropsOnChange(Flex)
+        alignItems="baseline"
+        direction="row"
+        itemGutter={true}
+      >
+        <Timestamp>
+          1995-12-17T03:24:00.000Z
+        </Timestamp>
+        <EditedMarker />
+      </withPropsOnChange(Flex)>
+    </TopBarLeft>
+    <div>
+      topBarRight
+    </div>
+  </withPropsOnChange(Flex)>
+  <HTMLContent>
+    Woof
+  </HTMLContent>
+  <withPropsOnChange(Flex)
+    className="Comment-footer"
+    direction="row"
+    itemGutter="half"
+  >
+    footer
+  </withPropsOnChange(Flex)>
+</div>
+`;

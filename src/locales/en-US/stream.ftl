@@ -1,5 +1,17 @@
 ### Localization for Embed Stream
 
+## General
+
+general-userBoxUnauthenticated-joinTheConversation = Join the conversation
+general-userBoxUnauthenticated-signIn = Sign in
+general-userBoxUnauthenticated-register = Register
+
+general-userBoxAuthenticated-signedInAs =
+  Signed in as <username></username>.
+
+general-userBoxAuthenticated-notYou =
+  Not you? <button>Sign Out</button>
+
 ## Comments Tab
 
 comments-streamQuery-assetNotFound = Asset not found
@@ -13,16 +25,6 @@ comments-permalinkPopover-copy = Copy
 comments-permalinkPopover-copied = Copied
 comments-permalinkView-showAllComments = Show all comments
 comments-permalinkView-commentNotFound = Comment not found
-
-comments-userBoxUnauthenticated-joinTheConversation = Join the conversation
-comments-userBoxUnauthenticated-signIn = Sign in
-comments-userBoxUnauthenticated-register = Register
-
-comments-userBoxAuthenticated-signedInAs =
-  Signed in as <username></username>.
-
-comments-userBoxAuthenticated-notYou =
-  Not you? <button>Sign Out</button>
 
 comments-rte-bold =
   .title = Bold
@@ -53,4 +55,16 @@ comments-replyCommentForm-submit = Submit
 comments-replyCommentForm-cancel = Cancel
 comments-replyCommentForm-rteLabel = Write a reply
 comments-replyCommentForm-rte =
-  .placeholder = { comments-postCommentForm-rteLabel }
+  .placeholder = { comments-replyCommentForm-rteLabel }
+
+comments-commentContainer-editButton = Edit
+
+comments-editCommentForm-saveChanges = Save Changes
+comments-editCommentForm-cancel = Cancel
+comments-editCommentForm-close = Close
+comments-editCommentForm-rteLabel = Edit comment
+comments-editCommentForm-rte =
+  .placeholder = { comments-editCommentForm-rteLabel }
+comments-editCommentForm-editRemainingTime = Edit: <time></time> remaining
+comments-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
+comments-editedMarker-edited = Edited

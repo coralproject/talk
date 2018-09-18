@@ -13,6 +13,8 @@ framework-validation-invalidEmail = Please enter a valid email address.
 framework-validation-passwordTooShort = Password must contain at least {$minLength} characters.
 framework-validation-passwordsDoNotMatch = Passwords do not match. Try again.
 
+framework-timeago-just-now = Just now
+
 framework-timeago-time =
   { $value }
   { $unit ->
@@ -48,12 +50,7 @@ framework-timeago-time =
   }
 
 framework-timeago =
-  { $value ->
-    [0] now
-    *[other]
-      { $suffix ->
-        [ago] {framework-timeago-time} ago
-        [in] in {framework-timeago-time}
-        *[other] unknown suffix
-      }
+  { $suffix ->
+    [ago] {framework-timeago-time} ago
+    [noSuffix] {framework-timeago-time}
   }

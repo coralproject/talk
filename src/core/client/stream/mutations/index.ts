@@ -4,6 +4,11 @@ export {
   CreateCommentInput,
 } from "./CreateCommentMutation";
 export {
+  withEditCommentMutation,
+  EditCommentMutation,
+  EditCommentInput,
+} from "./EditCommentMutation";
+export {
   withSetNetworkStatusMutation,
   SetNetworkStatusMutation,
   SetNetworkStatusInput,
@@ -21,3 +26,7 @@ export {
   withSetAuthPopupStateMutation,
   SetAuthPopupStateMutation,
 } from "./SetAuthPopupStateMutation";
+export {
+  withSetActiveTabMutation,
+  SetActiveTabMutation,
+} from "./SetActiveTabMutation";

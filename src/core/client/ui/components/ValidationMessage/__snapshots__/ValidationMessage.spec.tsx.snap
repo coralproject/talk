@@ -2,11 +2,11 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="ValidationMessage-root ValidationMessage-colorError custom"
+  className="Message-root Message-colorError custom"
 >
   <span
     aria-hidden="true"
-    className="Icon-root ValidationMessage-icon Icon-sm"
+    className="Icon-root MessageIcon-root Icon-sm"
   >
     warning
   </span>

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="Message-root Message-colorGrey custom"
+>
+  Hello World
+</div>
+`;
+
+exports[`renders icon 1`] = `
+<div
+  className="Message-root Message-colorGrey"
+>
+  <span
+    aria-hidden="true"
+    className="Icon-root MessageIcon-root Icon-sm"
+  >
+    alert
+  </span>
+  Alert Message
+</div>
+`;

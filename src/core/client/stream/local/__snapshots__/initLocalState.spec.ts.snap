@@ -13,13 +13,13 @@ exports[`init local state 1`] = `
     \\"__id\\": \\"client:root.local\\",
     \\"__typename\\": \\"Local\\",
     \\"authToken\\": \\"\\",
-    \\"authRevision\\": 0,
     \\"network\\": {
       \\"__ref\\": \\"client:root.local.network\\"
     },
     \\"authPopup\\": {
       \\"__ref\\": \\"client:root.local.authPopup\\"
-    }
+    },
+    \\"activeTab\\": \\"COMMENTS\\"
   },
   \\"client:root.local.network\\": {
     \\"__id\\": \\"client:root.local.network\\",
