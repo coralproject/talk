@@ -94,45 +94,6 @@ export async function create(
   return comment;
 }
 
-async function addCommentActions(
-  mongo: Db,
-  tenant: Tenant,
-  comment: Readonly<Comment>,
-  inputs: CreateActionInput[]
-): Promise<Readonly<Comment>> {
-  // Create each of the actions, returning each of the action results.
-  const results = await createActions(mongo, tenant.id, inputs);
-
-  // Get the actions that were upserted.
-  const upsertedActions = results
-    .filter(({ wasUpserted }) => wasUpserted)
-    .map(({ action }) => action);
-
-  if (upsertedActions.length > 0) {
-    // Compute the action counts.
-    const actionCounts = generateActionCounts(...upsertedActions);
-
-    // Update the comment action counts here.
-    const updatedComment = await updateCommentActionCounts(
-      mongo,
-      tenant.id,
-      comment.id,
-      actionCounts
-    );
-
-    // Check to see if there was an actual comment returned (there should
-    // have been, we just created it!).
-    if (!updatedComment) {
-      // TODO: (wyattjoh) return a better error.
-      throw new Error("could not update comment action counts");
-    }
-
-    return updatedComment;
-  }
-
-  return comment;
-}
-
 export type EditComment = Omit<
   EditCommentInput,
   "status" | "author_id" | "lastEditableCommentCreatedAt"
@@ -160,15 +121,13 @@ export async function edit(
   }
 
   // Run the comment through the moderation phases.
-  const { status, metadata } = await processForModeration({
+  const { status, metadata, actions } = await processForModeration({
     asset,
     tenant,
     comment: input,
     author,
     req,
   });
-
-  // TODO: (wyattjoh) use the actions somehow.
 
   comment = await editComment(mongo, tenant.id, {
     id: input.id,
@@ -184,6 +143,68 @@ export async function edit(
       Date.now() - tenant.editCommentWindowLength
     ),
   });
+  if (!comment) {
+    // TODO: replace to match error returned by the models/comments.ts
+    throw new Error("comment not found");
+  }
+
+  if (actions.length > 0) {
+    // The actions coming from the moderation phases didn't know the item_id
+    // at the time, and we didn't want the repetitive nature of adding the
+    // item_type each time, so this mapping function adds them!
+    const inputs = actions.map(
+      (action): CreateActionInput => ({
+        ...action,
+        // Strict null check seems to have failed here... Null checking was done
+        // above where we errored if the comment was falsely.
+        item_id: comment!.id,
+        item_type: ACTION_ITEM_TYPE.COMMENTS,
+      })
+    );
+
+    // Insert and handle creating the actions.
+    comment = await addCommentActions(mongo, tenant, comment, inputs);
+  }
+
+  return comment;
+}
+
+async function addCommentActions(
+  mongo: Db,
+  tenant: Tenant,
+  comment: Readonly<Comment>,
+  inputs: CreateActionInput[]
+): Promise<Readonly<Comment>> {
+  // Create each of the actions, returning each of the action results.
+  const results = await createActions(mongo, tenant.id, inputs);
+
+  // Get the actions that were upserted, we only want to increment the action
+  // counts of actions that were just created.
+  const upsertedActions = results
+    .filter(({ wasUpserted }) => wasUpserted)
+    .map(({ action }) => action);
+
+  if (upsertedActions.length > 0) {
+    // Compute the action counts.
+    const actionCounts = generateActionCounts(...upsertedActions);
+
+    // Update the comment action counts here.
+    const updatedComment = await updateCommentActionCounts(
+      mongo,
+      tenant.id,
+      comment.id,
+      actionCounts
+    );
+
+    // Check to see if there was an actual comment returned (there should
+    // have been, we just created it!).
+    if (!updatedComment) {
+      // TODO: (wyattjoh) return a better error.
+      throw new Error("could not update comment action counts");
+    }
+
+    return updatedComment;
+  }
 
   return comment;
 }
