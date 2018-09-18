@@ -11,6 +11,12 @@ en:
       staff:
         subject: "Someone at {0} has replied to your comment"
         body: "{0}\n{1} works for {2} and has replied to your comment: {3}"
+es:
+  talk-plugin-notifications:
+    categories:
+      staff:
+        subject: "Alguien en {0} ha respondido a tu comentario"
+        body: "{0}\n{1} trabaja para {2} y ha respondido a tu comentario: {3}"
 de:
   talk-plugin-notifications:
     categories:
