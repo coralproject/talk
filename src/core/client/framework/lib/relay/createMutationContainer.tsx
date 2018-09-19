@@ -42,7 +42,7 @@ function createMutationContainer<T extends string, I, R>(
         };
 
         public render() {
-          const { relayEnvironment: _, ...rest } = this.props;
+          const { context: _, ...rest } = this.props;
           const inject = {
             [propName]: this.commit,
           };

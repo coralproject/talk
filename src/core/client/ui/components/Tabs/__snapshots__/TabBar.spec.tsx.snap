@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<ul
+  className="TabBar-root TabBar-primary"
+  role="tablist"
+>
+  <li
+    className="Tab-root"
+    id="tab-one"
+    role="presentation"
+  >
+    <button
+      aria-controls="tabPane-one"
+      aria-selected={true}
+      className="BaseButton-root Tab-button Tab-primary Tab-active"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseDown={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      role="tab"
+      type="button"
+    >
+      One
+    </button>
+  </li>
+  <li
+    className="Tab-root"
+    id="tab-two"
+    role="presentation"
+  >
+    <button
+      aria-controls="tabPane-two"
+      aria-selected={false}
+      className="BaseButton-root Tab-button Tab-primary"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseDown={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      role="tab"
+      type="button"
+    >
+      Two
+    </button>
+  </li>
+  <li
+    className="Tab-root"
+    id="tab-three"
+    role="presentation"
+  >
+    <button
+      aria-controls="tabPane-three"
+      aria-selected={false}
+      className="BaseButton-root Tab-button Tab-primary"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseDown={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      role="tab"
+      type="button"
+    >
+      Three
+    </button>
+  </li>
+</ul>
+`;
