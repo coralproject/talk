@@ -435,7 +435,7 @@ es:
   step_2_header: 'Ayúdanos a comprender'
   step_3_header: 'Gracias por tu participación'
   stream:
-    all_comments: 'Todos los comentarios'
+    all_comments: 'Todos'
     comment_not_found: 'Este comentario ha sido eliminado o no existe.'
     no_comments: 'Todavía no hay comentarios. ¿Por qué no escribes uno?'
     no_comments_and_closed: 'No hubo comentarios en este artículo.'
