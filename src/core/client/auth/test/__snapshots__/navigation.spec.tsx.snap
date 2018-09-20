@@ -140,7 +140,7 @@ exports[`navigates to sign in form 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign in and join the conversation
+        Sign in to Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -282,7 +282,7 @@ exports[`navigates to sign up form 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -397,7 +397,7 @@ exports[`renders sign in form 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign in and join the conversation
+        Sign in to Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
