@@ -21,7 +21,7 @@ exports[`renders permalink view 1`] = `
       target="_parent"
       type="button"
     >
-      Show all comments
+      Show All Comments
     </a>
     <div
       className="Indent-root"
@@ -227,7 +227,7 @@ exports[`show all comments 1`] = `
           onTouchEnd={[Function]}
           type="submit"
         >
-          Sign in and join the conversation
+          Sign in and Join the Conversation
         </button>
       </div>
     </div>

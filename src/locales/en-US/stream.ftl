@@ -17,13 +17,13 @@ general-userBoxAuthenticated-notYou =
 comments-streamQuery-assetNotFound = Asset not found
 
 comments-postCommentForm-submit = Submit
-comments-stream-loadMore = Load more
-comments-replyList-showAll = Show all
+comments-stream-loadMore = Load More
+comments-replyList-showAll = Show All
 
 comments-permalinkButton-share = Share
 comments-permalinkPopover-copy = Copy
 comments-permalinkPopover-copied = Copied
-comments-permalinkView-showAllComments = Show all comments
+comments-permalinkView-showAllComments = Show All Comments
 comments-permalinkView-commentNotFound = Comment not found
 
 comments-rte-bold =
@@ -37,7 +37,7 @@ comments-rte-blockquote =
 
 comments-poweredBy = Powered by <logo>{ -brand-name }</logo>
 
-comments-postCommentFormFake-signInAndJoin = Sign in and join the conversation
+comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
 
 comments-postCommentForm-rteLabel = Post a comment
 
