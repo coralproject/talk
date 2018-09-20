@@ -2,41 +2,20 @@ import { Redis } from "ioredis";
 import jwt, { SignOptions } from "jsonwebtoken";
 import { Db } from "mongodb";
 import { Strategy } from "passport-strategy";
+import { Bearer } from "permit";
 import uuid from "uuid";
 
 import { Config } from "talk-common/config";
 import { retrieveUser, User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
-const authHeaderRegex = /(\S+)\s+(\S+)/;
-
-export function parseAuthHeader(header: string) {
-  const matches = header.match(authHeaderRegex);
-  if (!matches || matches.length < 3) {
-    return null;
-  }
-
-  return {
-    scheme: matches[1].toLowerCase(),
-    value: matches[2],
-  };
-}
-
 export function extractJWTFromRequest(req: Request) {
-  const header = req.get("authorization");
-  if (header) {
-    const parts = parseAuthHeader(header);
-    if (parts && parts.scheme === "bearer") {
-      return parts.value;
-    }
-  }
+  const permit = new Bearer({
+    basic: "password",
+    query: "access_token",
+  });
 
-  const token: string | undefined | false = req.query && req.query.access_token;
-  if (token) {
-    return token;
-  }
-
-  return null;
+  return permit.check(req);
 }
 
 function generateJTIBlacklistKey(jti: string) {

@@ -4,29 +4,8 @@ import { Config } from "talk-common/config";
 import {
   createJWTSigningConfig,
   extractJWTFromRequest,
-  parseAuthHeader,
 } from "talk-server/app/middleware/passport/jwt";
 import { Request } from "talk-server/types/express";
-
-describe("parseAuthHeader", () => {
-  it("parses valid headers", () => {
-    const parsed = {
-      scheme: "bearer",
-      value: "token",
-    };
-
-    expect(parseAuthHeader("Bearer token")).toEqual(parsed);
-
-    expect(parseAuthHeader("bearer token")).toEqual(parsed);
-
-    expect(parseAuthHeader("bearer  token")).toEqual(parsed);
-  });
-
-  it("parses invalid headers", () => {
-    expect(parseAuthHeader("this-is-a-wrong-header")).toEqual(null);
-    expect(parseAuthHeader("bearerthis-is-a-wrong-header")).toEqual(null);
-  });
-});
 
 describe("extractJWTFromRequest", () => {
   it("extracts the token from header", () => {
