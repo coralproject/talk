@@ -40,6 +40,8 @@ export class StreamEmbed {
     this.config = config;
     this.pymControlFactory = pymControlFactory;
     if (config.commentID) {
+      // Delay emit of `showPermalink` event to allow
+      // user enough time to setup event listeners.
       setTimeout(() => config.eventEmitter.emit("showPermalink"), 0);
     }
     if (config.autoRender) {
