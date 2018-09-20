@@ -47,6 +47,28 @@ export const comments = [
       editableUntil: "2018-07-06T18:14:30.000Z",
     },
   },
+  {
+    id: "comment-3",
+    author: users[2],
+    body: "Comment Body 3",
+    createdAt: "2018-07-06T18:14:00.000Z",
+    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+    editing: {
+      edited: false,
+      editableUntil: "2018-07-06T18:14:30.000Z",
+    },
+  },
+  {
+    id: "comment-4",
+    author: users[2],
+    body: "Comment Body 4",
+    createdAt: "2018-07-06T18:14:00.000Z",
+    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+    editing: {
+      edited: false,
+      editableUntil: "2018-07-06T18:14:30.000Z",
+    },
+  },
 ];
 
 export const assets = [
@@ -73,8 +95,8 @@ export const commentWithReplies = {
   createdAt: "2018-07-06T18:24:00.000Z",
   replies: {
     edges: [
-      { node: comments[0], cursor: comments[0].createdAt },
-      { node: comments[1], cursor: comments[1].createdAt },
+      { node: comments[3], cursor: comments[3].createdAt },
+      { node: comments[4], cursor: comments[4].createdAt },
     ],
     pageInfo: {
       hasNextPage: false,
