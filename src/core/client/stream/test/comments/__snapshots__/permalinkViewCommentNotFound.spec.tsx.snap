@@ -21,7 +21,7 @@ exports[`renders permalink view with unknown comment 1`] = `
       target="_parent"
       type="button"
     >
-      Show all comments
+      Show All Comments
     </a>
     <p
       className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
@@ -167,7 +167,7 @@ exports[`show all comments 1`] = `
           onTouchEnd={[Function]}
           type="submit"
         >
-          Sign in and join the conversation
+          Sign in and Join the Conversation
         </button>
       </div>
     </div>
