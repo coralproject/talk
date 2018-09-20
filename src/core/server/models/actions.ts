@@ -193,6 +193,54 @@ export async function createActions(
   return Promise.all(inputs.map(input => createAction(mongo, tenantID, input)));
 }
 
+export type DeleteActionInput = Pick<
+  Action,
+  "action_type" | "item_type" | "item_id" | "reason" | "user_id"
+>;
+
+/**
+ * The result returned by `deleteAction`.
+ */
+export interface DeletedActionResultObject {
+  /**
+   * action is the action that was deleted.
+   */
+  action?: Action;
+
+  /**
+   * wasDeleted is true when the action that was supposed to be deleted was
+   * actually deleted.
+   */
+  wasDeleted: boolean;
+}
+
+/**
+ * deleteAction will delete the action based on the form of the action rather
+ * than a specific action by ID.
+ */
+export async function deleteAction(
+  mongo: Db,
+  tenantID: string,
+  input: DeleteActionInput
+): Promise<DeletedActionResultObject> {
+  // Extract the filter parameters.
+  const filter: FilterQuery<Action> = {
+    tenant_id: tenantID,
+    action_type: input.action_type,
+    item_type: input.item_type,
+    item_id: input.item_id,
+    reason: input.reason,
+    user_id: input.user_id,
+  };
+
+  // Remove the action from the database, returning the action that was deleted.
+  const result = await collection(mongo).findOneAndDelete(filter);
+  return {
+    action: result.value,
+    wasDeleted: Boolean(result.ok && result.value),
+  };
+}
+
 /**
  * ACTION_COUNT_JOIN_CHAR is the character that is used to separate the reason
  * from the action type when storing the action counts in the models.
@@ -211,12 +259,12 @@ export function encodeActionCounts(...actions: Action[]): EncodedActionCounts {
   // Loop over the actions, and increment them.
   for (const action of actions) {
     for (const key of encodeActionCountKeys(action)) {
-    if (key in actionCounts) {
-      actionCounts[key]++;
-    } else {
-      actionCounts[key] = 1;
+      if (key in actionCounts) {
+        actionCounts[key]++;
+      } else {
+        actionCounts[key] = 1;
+      }
     }
-  }
   }
 
   return actionCounts;
@@ -293,12 +341,12 @@ function decodeActionCountKey(key: string): DecodedActionCountKey {
 
   // Merge in the reason if it's provided. If we got here, we know that the
   // reason is a GQLCOMMENT_FLAG_REASON.
-    if (reason) {
+  if (reason) {
     result.reason = reason as GQLCOMMENT_FLAG_REASON;
-    }
+  }
 
   return result;
-  }
+}
 
 /**
  * decodeActionCounts will take the encoded action counts and decode them into
@@ -355,7 +403,7 @@ export function decodeActionCounts(
         break;
       default:
         throw new Error("unexpected action type");
-  }
+    }
   });
 
   return actionCounts;
