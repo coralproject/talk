@@ -14,7 +14,7 @@ Learn more about Talk, including a deep dive into features for commenters and mo
 
 ## Pre-Launch Guide
 
-You’ve installed Talk on your server, and you’re preparing to launch it on your site. The real community work starts now, before you go live. You have a unique opportunity pre-launch to set your community up for success. Read our [Talk Community Guide](https://blog.coralproject.net/youve-installed-talk-now-what/).
+You’ve installed Talk on your server, and you’re preparing to launch it on your site. The real community work starts now, before you go live. You have a unique opportunity pre-launch to set your community up for success. Read our [Talk Community Guide](https://coralproject.net/blog/youve-installed-talk-now-what/).
 
 ## Advanced Usage
 
