@@ -135,7 +135,7 @@ exports[`loads more comments 1`] = `
           onTouchEnd={[Function]}
           type="submit"
         >
-          Sign in and join the conversation
+          Sign in and Join the Conversation
         </button>
       </div>
     </div>
@@ -483,7 +483,7 @@ exports[`renders comment stream 1`] = `
           onTouchEnd={[Function]}
           type="submit"
         >
-          Sign in and join the conversation
+          Sign in and Join the Conversation
         </button>
       </div>
     </div>
@@ -639,7 +639,7 @@ exports[`renders comment stream 1`] = `
         onTouchEnd={[Function]}
         type="button"
       >
-        Load more
+        Load More
       </button>
     </div>
   </div>
