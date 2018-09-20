@@ -3,11 +3,12 @@ import {
   Action,
   ACTION_ITEM_TYPE,
   ACTION_TYPE,
-  generateActionCounts,
+  decodeActionCounts,
+  encodeActionCounts,
   validateAction,
 } from "talk-server/models/actions";
 
-describe("#generateActionCounts", () => {
+describe("#encodeActionCounts", () => {
   it("generates the action counts correctly", () => {
     const actions = [
       { action_type: ACTION_TYPE.DONT_AGREE },
@@ -20,18 +21,36 @@ describe("#generateActionCounts", () => {
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
       },
     ];
-    const actionCounts = generateActionCounts(...(actions as Action[]));
+    const actionCounts = encodeActionCounts(...(actions as Action[]));
 
-    expect(actionCounts).toEqual({
-      [ACTION_TYPE.DONT_AGREE.toLowerCase()]: 1,
-      [ACTION_TYPE.FLAG.toLowerCase()]: 2,
-      [ACTION_TYPE.FLAG.toLowerCase() +
-      "_" +
-      GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD.toLowerCase()]: 1,
-      [ACTION_TYPE.FLAG.toLowerCase() +
-      "_" +
-      GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT.toLowerCase()]: 1,
-    });
+    expect(actionCounts).toMatchSnapshot();
+  });
+});
+
+describe("#decodeActionCounts", () => {
+  it("parses the action counts correctly", () => {
+    const actions = [
+      { action_type: ACTION_TYPE.REACTION },
+      { action_type: ACTION_TYPE.REACTION },
+      { action_type: ACTION_TYPE.REACTION },
+      { action_type: ACTION_TYPE.DONT_AGREE },
+      {
+        action_type: ACTION_TYPE.FLAG,
+        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
+      },
+      {
+        action_type: ACTION_TYPE.FLAG,
+        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
+      },
+    ];
+
+    const modelActionCounts = encodeActionCounts(...(actions as Action[]));
+
+    expect(modelActionCounts).toMatchSnapshot();
+
+    const actionCounts = decodeActionCounts(modelActionCounts);
+
+    expect(actionCounts).toMatchSnapshot();
   });
 });
 

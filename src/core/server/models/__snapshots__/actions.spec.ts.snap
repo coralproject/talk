@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#decodeActionCounts parses the action counts correctly 1`] = `
+Object {
+  "DONT_AGREE": 1,
+  "FLAG": 2,
+  "FLAG__COMMENT_DETECTED_BANNED_WORD": 1,
+  "FLAG__COMMENT_DETECTED_BODY_COUNT": 1,
+  "REACTION": 3,
+}
+`;
+
+exports[`#decodeActionCounts parses the action counts correctly 2`] = `
+Object {
+  "DONT_AGREE": Object {
+    "total": 1,
+  },
+  "FLAG": Object {
+    "reasons": Object {
+      "COMMENT_DETECTED_BANNED_WORD": 1,
+      "COMMENT_DETECTED_BODY_COUNT": 1,
+      "COMMENT_DETECTED_LINKS": 0,
+      "COMMENT_DETECTED_SPAM": 0,
+      "COMMENT_DETECTED_SUSPECT_WORD": 0,
+      "COMMENT_DETECTED_TOXIC": 0,
+      "COMMENT_DETECTED_TRUST": 0,
+      "COMMENT_REPORTED_OFFENSIVE": 0,
+      "COMMENT_REPORTED_SPAM": 0,
+    },
+    "total": 2,
+  },
+  "REACTION": Object {
+    "total": 3,
+  },
+}
+`;
+
+exports[`#encodeActionCounts generates the action counts correctly 1`] = `
+Object {
+  "DONT_AGREE": 1,
+  "FLAG": 2,
+  "FLAG__COMMENT_DETECTED_BANNED_WORD": 1,
+  "FLAG__COMMENT_DETECTED_BODY_COUNT": 1,
+}
+`;
+
+exports[`#generateActionCounts generates the action counts correctly 1`] = `
+Object {
+  "DONT_AGREE": 1,
+  "FLAG": 2,
+  "FLAG__COMMENT_DETECTED_BANNED_WORD": 1,
+  "FLAG__COMMENT_DETECTED_BODY_COUNT": 1,
+}
+`;

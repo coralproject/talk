@@ -12,8 +12,6 @@ function collection(db: Db) {
   return db.collection<Readonly<Action>>("actions");
 }
 
-export type ActionCounts = Record<string, number>;
-
 export enum ACTION_TYPE {
   /**
    * REACTION corresponds to a reaction to a comment from a user.
@@ -21,16 +19,30 @@ export enum ACTION_TYPE {
   REACTION = "REACTION",
 
   /**
-   * FLAG corresponds to a flag action that indicates that the given resource needs
-   * moderator attention.
-   */
-  FLAG = "FLAG",
-
-  /**
    * DONT_AGREE corresponds to when a user marks a given comment that they don't
    * agree with.
    */
   DONT_AGREE = "DONT_AGREE",
+
+  /**
+   * FLAG corresponds to a flag action that indicates that the given resource needs
+   * moderator attention.
+   */
+  FLAG = "FLAG",
+}
+
+export type EncodedActionCounts = Record<string, number>;
+
+export interface ActionCountGroup {
+  total: number;
+}
+
+export interface ActionCounts {
+  [ACTION_TYPE.REACTION]: ActionCountGroup;
+  [ACTION_TYPE.DONT_AGREE]: ActionCountGroup;
+  [ACTION_TYPE.FLAG]: ActionCountGroup & {
+    reasons: Record<GQLCOMMENT_FLAG_REASON, number>;
+  };
 }
 
 export enum ACTION_ITEM_TYPE {
@@ -182,44 +194,169 @@ export async function createActions(
 }
 
 /**
- * generateActionCounts will take a list of actions, and generate action counts
+ * ACTION_COUNT_JOIN_CHAR is the character that is used to separate the reason
+ * from the action type when storing the action counts in the models.
+ */
+export const ACTION_COUNT_JOIN_CHAR = "__";
+
+/**
+ * encodeActionCounts will take a list of actions, and generate action counts
  * from it.
  *
  * @param actions list of actions to generate the action counts from
  */
-export function generateActionCounts(...actions: Action[]): ActionCounts {
-  const actionCounts: ActionCounts = {};
+export function encodeActionCounts(...actions: Action[]): EncodedActionCounts {
+  const actionCounts: EncodedActionCounts = {};
 
-  /**
-   * increment the key in the action counts variable.
-   */
-  function incr(...keys: string[]) {
-    const key = keys.join("_");
+  // Loop over the actions, and increment them.
+  for (const action of actions) {
+    for (const key of encodeActionCountKeys(action)) {
     if (key in actionCounts) {
       actionCounts[key]++;
     } else {
       actionCounts[key] = 1;
     }
   }
+  }
 
-  function transform(action: Action) {
-    const actionType = action.action_type.toLowerCase();
+  return actionCounts;
+}
 
-    // Add the action type to the action counts.
-    incr(actionType);
+/**
+ * encodeActionCountKeys encodes the action into string keys which represents
+ * the groupings as seen in `EncodedActionCounts`.
+ */
+function encodeActionCountKeys(action: Action): string[] {
+  const keys = [action.action_type as string];
+  if (action.reason) {
+    keys.push(
+      [action.action_type as string, action.reason as string].join(
+        ACTION_COUNT_JOIN_CHAR
+      )
+    );
+  }
+  return keys;
+}
 
-    // Check if the reason is set.
-    const reason = action.reason && action.reason.toLowerCase();
-    if (reason) {
-      // Add the action type to the action counts.
-      incr(actionType, reason);
+interface DecodedActionCountKey {
+  /**
+   * actionType stores the action type referenced by the key.
+   */
+  actionType: ACTION_TYPE;
+
+  /**
+   * reason stores the reason referenced by the key if the actionType is FLAG.
+   */
+  reason?: GQLCOMMENT_FLAG_REASON;
+}
+
+/**
+ * decodeActionCountGroup will unpack the key as it is encoded into the separate
+ * actionType and reason.
+ */
+function decodeActionCountKey(key: string): DecodedActionCountKey {
+  let actionType: string = "";
+  let reason: string = "";
+
+  if (key.indexOf(ACTION_COUNT_JOIN_CHAR) >= 0) {
+    const keys = key.split(ACTION_COUNT_JOIN_CHAR);
+    if (keys.length !== 2) {
+      throw new Error(
+        "invalid action count contained more than two components"
+      );
     }
+
+    actionType = keys[0];
+    reason = keys[1];
+
+    // Validate that the action type is flag.
+    if (actionType !== ACTION_TYPE.FLAG) {
+      throw new Error("invalid action type, expected only flag to have reason");
+    }
+
+    // Validate that the reason is valid.
+    if (!reason || !(reason in GQLCOMMENT_FLAG_REASON)) {
+      throw new Error("expected flag to have a reason that was valid");
+    }
+  } else {
+    actionType = key;
   }
 
-  // Loop over the actions, and increment them.
-  for (const action of actions) {
-    transform(action);
+  // Validate that the action type is valid.
+  if (!actionType || !(actionType in ACTION_TYPE)) {
+    throw new Error("expected action to have an action type that was valid");
   }
+
+  const result: DecodedActionCountKey = {
+    actionType: actionType as ACTION_TYPE,
+  };
+
+  // Merge in the reason if it's provided. If we got here, we know that the
+  // reason is a GQLCOMMENT_FLAG_REASON.
+    if (reason) {
+    result.reason = reason as GQLCOMMENT_FLAG_REASON;
+    }
+
+  return result;
+  }
+
+/**
+ * decodeActionCounts will take the encoded action counts and decode them into
+ * a useable format.
+ *
+ * @param encodedActionCounts the action counts to decode
+ */
+export function decodeActionCounts(
+  encodedActionCounts: EncodedActionCounts
+): ActionCounts {
+  // Default all the action counts to zero.
+  const actionCounts: ActionCounts = {
+    [ACTION_TYPE.REACTION]: {
+      total: 0,
+    },
+    [ACTION_TYPE.DONT_AGREE]: {
+      total: 0,
+    },
+    [ACTION_TYPE.FLAG]: {
+      total: 0,
+      reasons: Object.keys(GQLCOMMENT_FLAG_REASON).reduce(
+        (reasons, reason) => ({
+          ...reasons,
+          [reason]: 0,
+        }),
+        {}
+      ) as Record<GQLCOMMENT_FLAG_REASON, number>,
+    },
+  };
+
+  // Loop over all the encoded action counts to extract each of the action
+  // counts as they are encoded.
+  Object.entries(encodedActionCounts).forEach(([key, count]) => {
+    // Pull out the action type and the reason from the key.
+    const { actionType, reason } = decodeActionCountKey(key);
+
+    // Handle the different types and reasons.
+    switch (actionType) {
+      case ACTION_TYPE.REACTION:
+        actionCounts[ACTION_TYPE.REACTION].total += count;
+        break;
+      case ACTION_TYPE.DONT_AGREE:
+        actionCounts[ACTION_TYPE.DONT_AGREE].total += count;
+        break;
+      case ACTION_TYPE.FLAG:
+        // When we have a reason, we are incrementing for that particular reason
+        // rather than incrementing for the total. If we don't have a reason, we
+        // just got the updated reason.
+        if (reason) {
+          actionCounts[ACTION_TYPE.FLAG].reasons[reason] += count;
+        } else {
+          actionCounts[ACTION_TYPE.FLAG].total += count;
+        }
+        break;
+      default:
+        throw new Error("unexpected action type");
+  }
+  });
 
   return actionCounts;
 }

@@ -7,7 +7,7 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ActionCounts } from "talk-server/models/actions";
+import { EncodedActionCounts } from "talk-server/models/actions";
 import {
   Connection,
   Cursor,
@@ -42,7 +42,7 @@ export interface Comment extends TenantResource {
   body_history: BodyHistoryItem[];
   status: GQLCOMMENT_STATUS;
   status_history: StatusHistoryItem[];
-  action_counts: ActionCounts;
+  action_counts: EncodedActionCounts;
   reply_count: number;
   created_at: Date;
   deleted_at?: Date;
@@ -386,7 +386,7 @@ export async function updateCommentActionCounts(
   mongo: Db,
   tenantID: string,
   id: string,
-  actionCounts: ActionCounts
+  actionCounts: EncodedActionCounts
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenant_id: tenantID },

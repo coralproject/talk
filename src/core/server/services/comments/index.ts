@@ -5,7 +5,7 @@ import {
   ACTION_ITEM_TYPE,
   CreateActionInput,
   createActions,
-  generateActionCounts,
+  encodeActionCounts,
 } from "talk-server/models/actions";
 import { retrieveAsset } from "talk-server/models/asset";
 import {
@@ -186,7 +186,7 @@ async function addCommentActions(
 
   if (upsertedActions.length > 0) {
     // Compute the action counts.
-    const actionCounts = generateActionCounts(...upsertedActions);
+    const actionCounts = encodeActionCounts(...upsertedActions);
 
     // Update the comment action counts here.
     const updatedComment = await updateCommentActionCounts(
