@@ -288,6 +288,7 @@ export default function createWebpackConfig({
                 },
               ],
             },
+            // Makes sure node_modules are transpiled the way we need them to be.
             {
               test: /\.js$/,
               include: /node_modules\//,
@@ -301,9 +302,6 @@ export default function createWebpackConfig({
                         { targets: "last 2 versions, ie 11", modules: false },
                       ],
                     ],
-                    // This is a feature of `babel-loader` for webpack (not Babel itself).
-                    // It enables caching results in ./node_modules/.cache/babel-loader/
-                    // directory for faster rebuilds.
                     cacheDirectory: true,
                   },
                 },
@@ -454,13 +452,12 @@ export default function createWebpackConfig({
     {
       ...baseConfig,
       entry: [
-        /* Use minimal amount of polyfills */
+        /* Use minimal amount of polyfills (for IE) */
         "core-js/fn/object/assign",
         "core-js/fn/symbol",
         "core-js/fn/symbol/iterator",
         ...devServerEntries,
         paths.appEmbedIndex,
-        // Remove deactivated entries.
       ],
       output: {
         ...baseConfig.output,
