@@ -148,7 +148,7 @@ exports[`accepts correct password 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -342,7 +342,7 @@ exports[`accepts correct password confirmation 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -523,7 +523,7 @@ exports[`accepts valid email 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -704,7 +704,7 @@ exports[`accepts valid username 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -898,7 +898,7 @@ exports[`checks for invalid characters in username 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -1092,7 +1092,7 @@ exports[`checks for invalid email 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -1286,7 +1286,7 @@ exports[`checks for too long username 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -1480,7 +1480,7 @@ exports[`checks for too short password 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -1674,7 +1674,7 @@ exports[`checks for too short username 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -1868,7 +1868,7 @@ exports[`checks for wrong password confirmation 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -2010,7 +2010,7 @@ exports[`renders sign up form 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -2204,7 +2204,7 @@ exports[`shows error when submitting empty form 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -2346,7 +2346,7 @@ exports[`shows server error 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -2493,7 +2493,7 @@ exports[`shows server error 2`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -2635,7 +2635,7 @@ exports[`submits form successfully 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -2777,7 +2777,7 @@ exports[`submits form successfully 2`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign up and join the conversation
+        Sign up and Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"

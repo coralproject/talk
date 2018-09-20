@@ -4,7 +4,7 @@
 
 signIn-signInToJoinHeader = Sign in to join the conversation
 
-signIn-signInAndJoinButton = Sign in and join the conversation
+signIn-signInAndJoinButton = Sign in to Join the Conversation
 
 signIn-emailAddressLabel = Email Address
 signIn-emailAddressTextField =
@@ -22,7 +22,7 @@ signIn-noAccountSignUp = Don't have an account? <button>Sign Up</button>
 
 signUp-signUpToJoinHeader = Sign up to join the conversation
 
-signUp-signUpAndJoinButton = Sign up and join the conversation
+signUp-signUpAndJoinButton = Sign up and Join the Conversation
 
 signUp-emailAddressLabel = Email Address
 signUp-emailAddressTextField =

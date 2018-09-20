@@ -95,7 +95,7 @@ exports[`accepts correct password 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign in and join the conversation
+        Sign in to Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -223,7 +223,7 @@ exports[`accepts valid email 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign in and join the conversation
+        Sign in to Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -364,7 +364,7 @@ exports[`checks for invalid email 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign in and join the conversation
+        Sign in to Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -479,7 +479,7 @@ exports[`renders sign in form 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign in and join the conversation
+        Sign in to Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -620,7 +620,7 @@ exports[`shows error when submitting empty form 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign in and join the conversation
+        Sign in to Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -735,7 +735,7 @@ exports[`shows server error 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign in and join the conversation
+        Sign in to Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -855,7 +855,7 @@ exports[`shows server error 2`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign in and join the conversation
+        Sign in to Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -970,7 +970,7 @@ exports[`submits form successfully 1`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign in and join the conversation
+        Sign in to Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
@@ -1085,7 +1085,7 @@ exports[`submits form successfully 2`] = `
         onTouchEnd={[Function]}
         type="submit"
       >
-        Sign in and join the conversation
+        Sign in to Join the Conversation
       </button>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
