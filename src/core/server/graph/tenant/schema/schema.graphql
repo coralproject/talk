@@ -31,29 +31,6 @@ scalar Cursor
 ################################################################################
 
 """
-CommentAction describes an Action that is left on a Comment.
-"""
-interface CommentAction {
-  id: ID!
-
-  """
-  comment is the Comment that the CommentAction is about.
-  """
-  comment: Comment!
-
-  """
-  User when available indicates the user that left the CommentAction, otherwise
-  it is implied that the CommentAction was left by the system.
-  """
-  user: User
-
-  """
-  createdAt is the time that the CommentAction was created.
-  """
-  createdAt: Time!
-}
-
-"""
 COMMENT_FLAG_REPORTED_REASON is a reason that is reported by a User on a
 Comment.
 """
@@ -133,81 +110,6 @@ enum COMMENT_FLAG_REASON {
   COMMENT_DETECTED_LINKS
   COMMENT_DETECTED_BANNED_WORD
   COMMENT_DETECTED_SUSPECT_WORD
-}
-
-"""
-CommentFlagAction represents a flag Action left on a Comment.
-"""
-type CommentFlagAction implements CommentAction {
-  id: ID!
-
-  """
-  reason is the reason that the CommentFlagAction was added.
-  """
-  reason: COMMENT_FLAG_REASON!
-
-  """
-  comment is the Comment that the CommentReactionAction is about.
-  """
-  comment: Comment!
-
-  """
-  User when available indicates the user that left the CommentReactionAction,
-  otherwise it is implied that the CommentReactionAction was left by the system.
-  """
-  user: User
-
-  """
-  createdAt is the time that the CommentReactionAction was created.
-  """
-  createdAt: Time!
-}
-
-"""
-CommentReactionAction represents a reaction Action left on a Comment.
-"""
-type CommentReactionAction implements CommentAction {
-  id: ID!
-
-  """
-  comment is the Comment that the CommentReactionAction is about.
-  """
-  comment: Comment!
-
-  """
-  User when available indicates the user that left the CommentReactionAction,
-  otherwise it is implied that the CommentReactionAction was left by the system.
-  """
-  user: User
-
-  """
-  createdAt is the time that the CommentReactionAction was created.
-  """
-  createdAt: Time!
-}
-
-"""
-CommentDontAgreeAction represents a don't agree Action left on a Comment.
-"""
-type CommentDontAgreeAction implements CommentAction {
-  id: ID!
-
-  """
-  comment is the Comment that the CommentDontAgreeAction is about.
-  """
-  comment: Comment!
-
-  """
-  User when available indicates the user that left the CommentDontAgreeAction,
-  otherwise it is implied that the CommentDontAgreeAction was left by the
-  system.
-  """
-  user: User
-
-  """
-  createdAt is the time that the CommentDontAgreeAction was created.
-  """
-  createdAt: Time!
 }
 
 type ReactionActionCounts {
