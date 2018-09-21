@@ -12,10 +12,10 @@ Object {
 
 exports[`#decodeActionCounts parses the action counts correctly 2`] = `
 Object {
-  "DONT_AGREE": Object {
+  "dontAgree": Object {
     "total": 1,
   },
-  "FLAG": Object {
+  "flag": Object {
     "reasons": Object {
       "COMMENT_DETECTED_BANNED_WORD": 1,
       "COMMENT_DETECTED_BODY_COUNT": 1,
@@ -29,7 +29,7 @@ Object {
     },
     "total": 2,
   },
-  "REACTION": Object {
+  "reaction": Object {
     "total": 3,
   },
 }

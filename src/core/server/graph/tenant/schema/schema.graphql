@@ -112,11 +112,25 @@ enum COMMENT_FLAG_REASON {
   COMMENT_DETECTED_SUSPECT_WORD
 }
 
+"""
+ReactionActionCounts stores all the counts for the counts for the reaction
+action on a given item.
+"""
 type ReactionActionCounts {
+  """
+  total is the total number of reactions against a given item.
+  """
   total: Int!
 }
 
+"""
+DontAgreeActionCounts stores all the counts for the counts for the dontAgree
+action on a given item.
+"""
 type DontAgreeActionCounts {
+  """
+  total is the total number of dontAgree actions against a given item.
+  """
   total: Int!
 }
 
@@ -132,15 +146,65 @@ type FlagReasonActionCounts {
   COMMENT_DETECTED_SUSPECT_WORD: Int!
 }
 
+"""
+FlagActionCounts stores all the counts for the counts for the flag action on a
+given item and the reason counts.
+"""
 type FlagActionCounts {
+  """
+  total is the total number of flags against a given item.
+  """
   total: Int!
+
+  """
+  reasons stores the counts for the various reasons that an item could be
+  flagged for.
+  """
   reasons: FlagReasonActionCounts!
 }
 
+"""
+ActionCounts returns the counts of each action for an item.
+"""
 type ActionCounts {
+  """
+  reaction returns the counts for the reaction action on an item.
+  """
   reaction: ReactionActionCounts!
-  dontagree: DontAgreeActionCounts!
-  flag: FlagActionCounts!
+
+  """
+  dontAgree returns the counts for the dontAgree action on an item. This edge is
+  restricted to administrators and moderators.
+  """
+  dontAgree: DontAgreeActionCounts! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  flag returns the counts for the flag action on an item. This edge is
+  restricted to administrators and moderators.
+  """
+  flag: FlagActionCounts! @auth(roles: [ADMIN, MODERATOR])
+}
+
+"""
+ActionPresence returns whether or not a given item has one of the following
+actions on it. This is typically used to determine if a given user has left
+one of the following actions.
+"""
+type ActionPresence {
+  """
+  reaction is true when a reaction action was left on an item.
+  """
+  reaction: Boolean!
+
+  """
+  dontAgree is true when a dontAgree action was left on an item.
+  """
+  dontAgree: Boolean!
+
+  """
+  flag is true when a flag action was left on an item.
+  """
+  flag: Boolean!
 }
 
 ################################################################################
@@ -769,10 +833,10 @@ type Comment {
   actionCounts: ActionCounts!
 
   """
-  authoredActionCounts stores the counts of all the actions for the Comment as
-  it is written by the current User.
+  authoredActionPresence stores the presense information for all the actions
+  left by the current User on this Comment.
   """
-  authoredActionCounts: ActionCounts! @auth
+  authoredActionPresence: ActionPresence! @auth
 }
 
 type PageInfo {
@@ -940,7 +1004,7 @@ type Query {
   """
   me is the current logged in User.
   """
-  me: User @auth
+  me: User
 
   """
   settings is the Settings for a given Tenant.

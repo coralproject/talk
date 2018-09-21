@@ -4,7 +4,11 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
-import { GQLCOMMENT_FLAG_REASON } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLActionCounts,
+  GQLActionPresence,
+  GQLCOMMENT_FLAG_REASON,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { FilterQuery } from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -35,14 +39,6 @@ export type EncodedActionCounts = Record<string, number>;
 
 export interface ActionCountGroup {
   total: number;
-}
-
-export interface ActionCounts {
-  [ACTION_TYPE.REACTION]: ActionCountGroup;
-  [ACTION_TYPE.DONT_AGREE]: ActionCountGroup;
-  [ACTION_TYPE.FLAG]: ActionCountGroup & {
-    reasons: Record<GQLCOMMENT_FLAG_REASON, number>;
-  };
 }
 
 export enum ACTION_ITEM_TYPE {
@@ -194,35 +190,49 @@ export async function createActions(
 }
 
 /**
- * retrieveManyAuthoredActionCounts returns the action counts for a specific
+ * retrieveManyAuthoredActionPresence returns the action presence for a specific
  * user.
  */
-export async function retrieveManyAuthoredActionCounts(
+export async function retrieveManyAuthoredActionPresence(
   mongo: Db,
   tenantID: string,
   userID: string | null,
   itemType: ACTION_ITEM_TYPE,
   itemIDs: string[]
-) {
-  const cursor = await collection(mongo).find({
-    tenant_id: tenantID,
-    user_id: userID,
-    item_type: itemType,
-    item_id: { $in: itemIDs },
-  });
+): Promise<GQLActionPresence[]> {
+  const cursor = await collection(mongo).find(
+    {
+      tenant_id: tenantID,
+      user_id: userID,
+      item_type: itemType,
+      item_id: { $in: itemIDs },
+    },
+    {
+      // We only need the item_id and action_type from the database.
+      projection: {
+        item_id: 1,
+        action_type: 1,
+      },
+    }
+  );
 
   const actions = await cursor.toArray();
 
   // For each of the actions returned by the query, group the actions by the
-  // item id. Then compute the action counts for each of these action groups,
-  // which can be used to determine existence of actions.
+  // item id. Then compute the action presence for each of the actions.
   return itemIDs
     .map(itemID => actions.filter(action => action.item_id === itemID))
     .map(itemActions =>
       itemActions.reduce(
-        (actionCounts, { action_type, reason }) =>
-          incrementActionCounts(actionCounts, action_type, reason),
-        createEmptyActionCounts()
+        (actionPresence, { action_type }) => ({
+          ...actionPresence,
+          [action_type.toLowerCase()]: true,
+        }),
+        {
+          reaction: false,
+          dontAgree: false,
+          flag: false,
+        }
       )
     );
 }
@@ -385,16 +395,18 @@ function decodeActionCountKey(key: string): DecodedActionCountKey {
 /**
  * createEmptyActionCounts creates a default/empty set of action counts.
  */
-function createEmptyActionCounts(): ActionCounts {
+function createEmptyActionCounts(): GQLActionCounts {
   return {
-    [ACTION_TYPE.REACTION]: {
+    reaction: {
       total: 0,
     },
-    [ACTION_TYPE.DONT_AGREE]: {
+    dontAgree: {
       total: 0,
     },
-    [ACTION_TYPE.FLAG]: {
+    flag: {
       total: 0,
+      // Note that this isn't type checked.. We force it because TS can't
+      // understand the reduce.
       reasons: Object.keys(GQLCOMMENT_FLAG_REASON).reduce(
         (reasons, reason) => ({
           ...reasons,
@@ -414,9 +426,9 @@ function createEmptyActionCounts(): ActionCounts {
  */
 export function decodeActionCounts(
   encodedActionCounts: EncodedActionCounts
-): ActionCounts {
+): GQLActionCounts {
   // Default all the action counts to zero.
-  const actionCounts: ActionCounts = createEmptyActionCounts();
+  const actionCounts: GQLActionCounts = createEmptyActionCounts();
 
   // Loop over all the encoded action counts to extract each of the action
   // counts as they are encoded.
@@ -432,26 +444,26 @@ export function decodeActionCounts(
 }
 
 function incrementActionCounts(
-  actionCounts: ActionCounts,
+  actionCounts: GQLActionCounts,
   actionType: ACTION_TYPE,
   reason: GQLCOMMENT_FLAG_REASON | undefined,
   count: number = 1
 ) {
   switch (actionType) {
     case ACTION_TYPE.REACTION:
-      actionCounts[ACTION_TYPE.REACTION].total += count;
+      actionCounts.reaction.total += count;
       break;
     case ACTION_TYPE.DONT_AGREE:
-      actionCounts[ACTION_TYPE.DONT_AGREE].total += count;
+      actionCounts.dontAgree.total += count;
       break;
     case ACTION_TYPE.FLAG:
       // When we have a reason, we are incrementing for that particular reason
       // rather than incrementing for the total. If we don't have a reason, we
       // just got the updated reason.
       if (reason) {
-        actionCounts[ACTION_TYPE.FLAG].reasons[reason] += count;
+        actionCounts.flag.reasons[reason] += count;
       } else {
-        actionCounts[ACTION_TYPE.FLAG].total += count;
+        actionCounts.flag.total += count;
       }
       break;
     default:

@@ -19,8 +19,8 @@ const Comment: GQLCommentTypeResolver<Comment> = {
   replies: (comment, input, ctx) =>
     ctx.loaders.Comments.forParent(comment.asset_id, comment.id, input),
   actionCounts: comment => decodeActionCounts(comment.action_counts),
-  authoredActionCounts: (comment, input, ctx) =>
-    ctx.loaders.Comments.retrieveAuthoredActionCounts.load(comment.id),
+  authoredActionPresence: (comment, input, ctx) =>
+    ctx.loaders.Comments.retrieveAuthoredActionPresence.load(comment.id),
 };
 
 export default Comment;

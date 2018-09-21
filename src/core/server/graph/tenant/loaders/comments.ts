@@ -4,12 +4,12 @@ import Context from "talk-server/graph/tenant/context";
 import {
   AssetToCommentsArgs,
   CommentToRepliesArgs,
+  GQLActionPresence,
   GQLCOMMENT_SORT,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   ACTION_ITEM_TYPE,
-  ActionCounts,
-  retrieveManyAuthoredActionCounts,
+  retrieveManyAuthoredActionPresence,
 } from "talk-server/models/actions";
 import {
   retrieveCommentAssetConnection,
@@ -21,9 +21,9 @@ export default (ctx: Context) => ({
   comment: new DataLoader((ids: string[]) =>
     retrieveManyComments(ctx.mongo, ctx.tenant.id, ids)
   ),
-  retrieveAuthoredActionCounts: new DataLoader<string, ActionCounts>(
+  retrieveAuthoredActionPresence: new DataLoader<string, GQLActionPresence>(
     (itemIDs: string[]) =>
-      retrieveManyAuthoredActionCounts(
+      retrieveManyAuthoredActionPresence(
         ctx.mongo,
         ctx.tenant.id,
         // This should only ever be accessed when a user is logged in.
