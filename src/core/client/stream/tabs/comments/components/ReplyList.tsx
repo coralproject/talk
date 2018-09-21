@@ -21,6 +21,17 @@ export interface ReplyListProps {
   hasMore: boolean;
   disableShowAll: boolean;
   indentLevel?: number;
+  ReplyListComponent?: React.ComponentType<any>;
+}
+
+function getReplyListElement(
+  { ReplyListComponent, me, asset }: ReplyListProps,
+  comment: PropTypesOf<typeof CommentContainer>["comment"]
+) {
+  if (!ReplyListComponent) {
+    return null;
+  }
+  return <ReplyListComponent me={me} comment={comment} asset={asset} />;
 }
 
 const ReplyList: StatelessComponent<ReplyListProps> = props => {
@@ -30,13 +41,16 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
       role="log"
     >
       {props.comments.map(comment => (
-        <CommentContainer
-          key={comment.id}
-          me={props.me}
-          comment={comment}
-          asset={props.asset}
-          indentLevel={props.indentLevel}
-        />
+        <HorizontalGutter key={comment.id}>
+          <CommentContainer
+            key={comment.id}
+            me={props.me}
+            comment={comment}
+            asset={props.asset}
+            indentLevel={props.indentLevel}
+          />
+          {getReplyListElement(props, comment)}
+        </HorizontalGutter>
       ))}
       {props.hasMore && (
         <Indent level={props.indentLevel} noBorder>

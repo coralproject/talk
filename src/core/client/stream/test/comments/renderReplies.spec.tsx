@@ -3,7 +3,7 @@ import { ReactTestRenderer } from "react-test-renderer";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assetWithReplies } from "../fixtures";
+import { assetWithDeepReplies } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -14,8 +14,8 @@ beforeEach(() => {
         s => s.throws(),
         s =>
           s
-            .withArgs(undefined, { id: assetWithReplies.id, url: null })
-            .returns(assetWithReplies)
+            .withArgs(undefined, { id: assetWithDeepReplies.id, url: null })
+            .returns(assetWithDeepReplies)
       ),
     },
   };
@@ -25,7 +25,7 @@ beforeEach(() => {
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue(assetWithReplies.id, "assetID");
+      localRecord.setValue(assetWithDeepReplies.id, "assetID");
     },
   }));
 });
