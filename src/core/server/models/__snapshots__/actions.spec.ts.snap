@@ -43,12 +43,3 @@ Object {
   "FLAG__COMMENT_DETECTED_BODY_COUNT": 1,
 }
 `;
-
-exports[`#generateActionCounts generates the action counts correctly 1`] = `
-Object {
-  "DONT_AGREE": 1,
-  "FLAG": 2,
-  "FLAG__COMMENT_DETECTED_BANNED_WORD": 1,
-  "FLAG__COMMENT_DETECTED_BODY_COUNT": 1,
-}
-`;
