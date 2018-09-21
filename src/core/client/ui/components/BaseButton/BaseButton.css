@@ -1,6 +1,5 @@
 .root {
   composes: buttonReset from "talk-ui/shared/buttonReset.css";
-  text-transform: capitalize;
 }
 
 .keyboardFocus {
