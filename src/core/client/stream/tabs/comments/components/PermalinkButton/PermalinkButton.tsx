@@ -15,7 +15,7 @@ import PermalinkPopover from "./PermalinkPopover";
 
 interface PermalinkProps {
   commentID: string;
-  assetURL: string | null;
+  url: string;
 }
 
 class Permalink extends React.Component<PermalinkProps> {
@@ -28,7 +28,7 @@ class Permalink extends React.Component<PermalinkProps> {
   );
 
   public render() {
-    const { commentID, assetURL } = this.props;
+    const { commentID, url } = this.props;
     const popoverID = `permalink-popover-${commentID}`;
     return (
       <Popover
@@ -43,7 +43,7 @@ class Permalink extends React.Component<PermalinkProps> {
             }
           >
             <PermalinkPopover
-              permalinkURL={`${assetURL}&commentID=${commentID}`}
+              permalinkURL={url}
               toggleVisibility={toggleVisibility}
             />
           </ClickOutside>

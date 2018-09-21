@@ -1,4 +1,5 @@
 import { ReactTestRenderer } from "react-test-renderer";
+import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
@@ -55,7 +56,15 @@ beforeEach(() => {
     Query: {
       asset: createSinonStub(
         s => s.throws(),
-        s => s.withArgs(undefined, { id: assetStub.id }).returns(assetStub)
+        s =>
+          s
+            .withArgs(
+              undefined,
+              sinon
+                .match({ id: assetStub.id, url: null })
+                .or(sinon.match({ id: assetStub.id }))
+            )
+            .returns(assetStub)
       ),
     },
   };
