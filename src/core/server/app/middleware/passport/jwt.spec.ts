@@ -10,38 +10,28 @@ import { Request } from "talk-server/types/express";
 describe("extractJWTFromRequest", () => {
   it("extracts the token from header", () => {
     const req = {
-      get: sinon
-        .stub()
-        .withArgs("authorization")
-        .returns("Bearer token"),
+      headers: {
+        authorization: "Bearer token",
+      },
+      url: "",
     };
 
     expect(extractJWTFromRequest((req as any) as Request)).toEqual("token");
-    expect(req.get.calledOnce).toBeTruthy();
 
-    req.get.reset();
-    req.get.returns(null);
+    delete req.headers.authorization;
+
     expect(extractJWTFromRequest((req as any) as Request)).toEqual(null);
-    expect(req.get.calledOnce).toBeTruthy();
   });
 
   it("extracts the token from query string", () => {
     const req = {
-      get: sinon
-        .stub()
-        .withArgs("authorization")
-        .returns(null),
-      query: { access_token: "token" },
+      url: "",
     };
+    expect(extractJWTFromRequest((req as any) as Request)).toEqual(null);
+
+    req.url = "https://talk.coralproject.net/api?access_token=token";
 
     expect(extractJWTFromRequest((req as any) as Request)).toEqual("token");
-    expect(req.get.calledOnce).toBeTruthy();
-
-    delete req.query.access_token;
-
-    req.get.reset();
-    expect(extractJWTFromRequest((req as any) as Request)).toEqual(null);
-    expect(req.get.calledOnce).toBeTruthy();
   });
 });
 

@@ -15,7 +15,7 @@ export function extractJWTFromRequest(req: Request) {
     query: "access_token",
   });
 
-  return permit.check(req);
+  return permit.check(req) || null;
 }
 
 function generateJTIBlacklistKey(jti: string) {
