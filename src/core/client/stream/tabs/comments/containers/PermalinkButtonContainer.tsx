@@ -1,6 +1,7 @@
 import React, { StatelessComponent } from "react";
 import { graphql } from "react-relay";
 import { withLocalStateContainer } from "talk-framework/lib/relay";
+import { modifyQuery } from "talk-framework/utils";
 import { PermalinkButtonContainerLocal as Local } from "talk-stream/__generated__/PermalinkButtonContainerLocal.graphql";
 
 import PermalinkButton from "../components/PermalinkButton";
@@ -15,7 +16,10 @@ export const PermalinkContainer: StatelessComponent<InnerProps> = ({
   commentID,
 }) => {
   return local.assetURL ? (
-    <PermalinkButton assetURL={local.assetURL} commentID={commentID} />
+    <PermalinkButton
+      commentID={commentID}
+      url={modifyQuery(local.assetURL, { commentID })}
+    />
   ) : null;
 };
 

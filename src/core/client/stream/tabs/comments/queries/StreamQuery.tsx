@@ -38,21 +38,22 @@ export const render = ({
 };
 
 const StreamQuery: StatelessComponent<InnerProps> = ({
-  local: { assetID },
+  local: { assetID, assetURL },
 }) => (
   <QueryRenderer<QueryTypes>
     query={graphql`
-      query StreamQuery($assetID: ID!) {
+      query StreamQuery($assetID: ID, $assetURL: String) {
         me {
           ...StreamContainer_me
         }
-        asset(id: $assetID) {
+        asset(id: $assetID, url: $assetURL) {
           ...StreamContainer_asset
         }
       }
     `}
     variables={{
-      assetID: assetID!,
+      assetID,
+      assetURL,
     }}
     render={render}
   />
@@ -62,6 +63,7 @@ const enhanced = withLocalStateContainer(
   graphql`
     fragment StreamQueryLocal on Local {
       assetID
+      assetURL
     }
   `
 )(StreamQuery);
