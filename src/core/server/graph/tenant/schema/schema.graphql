@@ -833,10 +833,10 @@ type Comment {
   actionCounts: ActionCounts!
 
   """
-  authoredActionPresence stores the presense information for all the actions
+  myActionPresence stores the presense information for all the actions
   left by the current User on this Comment.
   """
-  authoredActionPresence: ActionPresence! @auth
+  myActionPresence: ActionPresence
 }
 
 type PageInfo {

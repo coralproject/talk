@@ -9,7 +9,7 @@ import {
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   ACTION_ITEM_TYPE,
-  retrieveManyAuthoredActionPresence,
+  retrieveManyUserActionPresence,
 } from "talk-server/models/actions";
 import {
   retrieveCommentAssetConnection,
@@ -21,9 +21,9 @@ export default (ctx: Context) => ({
   comment: new DataLoader((ids: string[]) =>
     retrieveManyComments(ctx.mongo, ctx.tenant.id, ids)
   ),
-  retrieveAuthoredActionPresence: new DataLoader<string, GQLActionPresence>(
+  retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
     (itemIDs: string[]) =>
-      retrieveManyAuthoredActionPresence(
+      retrieveManyUserActionPresence(
         ctx.mongo,
         ctx.tenant.id,
         // This should only ever be accessed when a user is logged in.

@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { pick } from "lodash";
+import { camelCase, pick } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -190,10 +190,10 @@ export async function createActions(
 }
 
 /**
- * retrieveManyAuthoredActionPresence returns the action presence for a specific
+ * retrieveManyUserActionPresence returns the action presence for a specific
  * user.
  */
-export async function retrieveManyAuthoredActionPresence(
+export async function retrieveManyUserActionPresence(
   mongo: Db,
   tenantID: string,
   userID: string | null,
@@ -226,7 +226,7 @@ export async function retrieveManyAuthoredActionPresence(
       itemActions.reduce(
         (actionPresence, { action_type }) => ({
           ...actionPresence,
-          [action_type.toLowerCase()]: true,
+          [camelCase(action_type)]: true,
         }),
         {
           reaction: false,
