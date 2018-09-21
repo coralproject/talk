@@ -17,9 +17,9 @@ export interface ReplyListProps {
   comments: ReadonlyArray<
     { id: string } & PropTypesOf<typeof CommentContainer>["comment"]
   >;
-  onShowAll: () => void;
-  hasMore: boolean;
-  disableShowAll: boolean;
+  onShowAll?: () => void;
+  hasMore?: boolean;
+  disableShowAll?: boolean;
   indentLevel?: number;
   ReplyListComponent?: React.ComponentType<any>;
 }

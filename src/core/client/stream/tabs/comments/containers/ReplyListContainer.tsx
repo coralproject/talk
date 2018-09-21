@@ -3,6 +3,7 @@ import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 import { withProps } from "recompose";
 
 import { withPaginationContainer } from "talk-framework/lib/relay";
+import { PropTypesOf } from "talk-framework/types";
 import { ReplyListContainer1_asset as AssetData } from "talk-stream/__generated__/ReplyListContainer1_asset.graphql";
 import { ReplyListContainer1_comment as CommentData } from "talk-stream/__generated__/ReplyListContainer1_comment.graphql";
 import { ReplyListContainer1_me as MeData } from "talk-stream/__generated__/ReplyListContainer1_me.graphql";
@@ -12,6 +13,7 @@ import {
 } from "talk-stream/__generated__/ReplyListContainer1PaginationQuery.graphql";
 
 import ReplyList from "../components/ReplyList";
+import LocalReplyListContainer from "./LocalReplyListContainer";
 
 export interface InnerProps {
   me: MeData | null;
@@ -121,11 +123,13 @@ const ReplyListContainer5 = createReplyListContainer(
     me: graphql`
       fragment ReplyListContainer5_me on User {
         ...CommentContainer_me
+        ...LocalReplyListContainer_me
       }
     `,
     asset: graphql`
       fragment ReplyListContainer5_asset on Asset {
         ...CommentContainer_asset
+        ...LocalReplyListContainer_asset
       }
     `,
     comment: graphql`
@@ -142,6 +146,7 @@ const ReplyListContainer5 = createReplyListContainer(
             node {
               id
               ...CommentContainer_comment
+              ...LocalReplyListContainer_comment
             }
           }
         }
@@ -162,7 +167,10 @@ const ReplyListContainer5 = createReplyListContainer(
           @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
       }
     }
-  `
+  `,
+  (props: PropTypesOf<typeof LocalReplyListContainer>) => (
+    <LocalReplyListContainer {...props} indentLevel={6} />
+  )
 );
 
 const ReplyListContainer4 = createReplyListContainer(

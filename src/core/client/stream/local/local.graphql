@@ -21,6 +21,7 @@ type AuthPopup {
 
 extend type Comment {
   pending: Boolean
+  localReplies: CommentsConnection
 }
 
 type Local {
