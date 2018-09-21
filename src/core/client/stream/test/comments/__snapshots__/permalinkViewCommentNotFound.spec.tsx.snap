@@ -184,60 +184,64 @@ exports[`show all comments 1`] = `
           className="Indent-root"
         >
           <div
-            className="Comment-root"
-            role="article"
+            className=""
           >
             <div
-              className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+              className="Comment-root"
+              role="article"
             >
               <div
-                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
               >
-                <span
-                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                >
-                  Markus
-                </span>
                 <div
-                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                 >
-                  <time
-                    className="Timestamp-root RelativeTime-root"
-                    dateTime="2018-07-06T18:24:00.000Z"
-                    title="2018-07-06T18:24:00.000Z"
+                  <span
+                    className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                   >
-                    2018-07-06T18:24:00.000Z
-                  </time>
+                    Markus
+                  </span>
+                  <div
+                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                  >
+                    <time
+                      className="Timestamp-root RelativeTime-root"
+                      dateTime="2018-07-06T18:24:00.000Z"
+                      title="2018-07-06T18:24:00.000Z"
+                    >
+                      2018-07-06T18:24:00.000Z
+                    </time>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              className="HTMLContent-root"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "Joining Too",
+              <div
+                className="HTMLContent-root"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "Joining Too",
+                  }
                 }
-              }
-            />
-            <div
-              className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
-            >
-              <button
-                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                id="comments-commentContainer-replyButton-comment-0"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseDown={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
+              />
+              <div
+                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
               >
-                <span>
-                  Reply
-                </span>
-              </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  id="comments-commentContainer-replyButton-comment-0"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Reply
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

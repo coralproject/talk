@@ -35,7 +35,7 @@ exports[`renders correctly 1`] = `
         }
         me={null}
       />
-      <Relay(ReplyListContainer)
+      <withProps(Relay(ReplyListContainer))
         asset={
           Object {
             "id": "asset-id",
@@ -67,7 +67,7 @@ exports[`renders correctly 1`] = `
         }
         me={null}
       />
-      <Relay(ReplyListContainer)
+      <withProps(Relay(ReplyListContainer))
         asset={
           Object {
             "id": "asset-id",
@@ -121,7 +121,7 @@ exports[`when there is more disables load more button 1`] = `
         }
         me={null}
       />
-      <Relay(ReplyListContainer)
+      <withProps(Relay(ReplyListContainer))
         asset={
           Object {
             "id": "asset-id",
@@ -153,7 +153,7 @@ exports[`when there is more disables load more button 1`] = `
         }
         me={null}
       />
-      <Relay(ReplyListContainer)
+      <withProps(Relay(ReplyListContainer))
         asset={
           Object {
             "id": "asset-id",
@@ -221,7 +221,7 @@ exports[`when there is more renders a load more button 1`] = `
         }
         me={null}
       />
-      <Relay(ReplyListContainer)
+      <withProps(Relay(ReplyListContainer))
         asset={
           Object {
             "id": "asset-id",
@@ -253,7 +253,7 @@ exports[`when there is more renders a load more button 1`] = `
         }
         me={null}
       />
-      <Relay(ReplyListContainer)
+      <withProps(Relay(ReplyListContainer))
         asset={
           Object {
             "id": "asset-id",
@@ -323,7 +323,7 @@ exports[`when use is logged in renders correctly 1`] = `
         }
         me={Object {}}
       />
-      <Relay(ReplyListContainer)
+      <withProps(Relay(ReplyListContainer))
         asset={
           Object {
             "id": "asset-id",
@@ -355,7 +355,7 @@ exports[`when use is logged in renders correctly 1`] = `
         }
         me={Object {}}
       />
-      <Relay(ReplyListContainer)
+      <withProps(Relay(ReplyListContainer))
         asset={
           Object {
             "id": "asset-id",

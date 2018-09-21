@@ -12,13 +12,19 @@ export interface IndentProps {
 
 const Indent: StatelessComponent<IndentProps> = props => {
   return (
-    <div
-      className={cn(props.className, styles.root, {
-        [styles.level1]: props.level === 1,
-        [styles.noBorder]: props.noBorder,
-      })}
-    >
-      {props.children}
+    <div className={cn(props.className, styles.root)}>
+      <div
+        className={cn({
+          [styles.level1]: props.level === 1,
+          [styles.level2]: props.level === 2,
+          [styles.level3]: props.level === 3,
+          [styles.level4]: props.level === 4,
+          [styles.level5]: props.level === 5,
+          [styles.noBorder]: props.noBorder,
+        })}
+      >
+        {props.children}
+      </div>
     </div>
   );
 };
