@@ -7,6 +7,11 @@ import {
   GQLCOMMENT_SORT,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
+  ACTION_ITEM_TYPE,
+  ActionCounts,
+  retrieveManyAuthoredActionCounts,
+} from "talk-server/models/actions";
+import {
   retrieveCommentAssetConnection,
   retrieveCommentRepliesConnection,
   retrieveManyComments,
@@ -15,6 +20,17 @@ import {
 export default (ctx: Context) => ({
   comment: new DataLoader((ids: string[]) =>
     retrieveManyComments(ctx.mongo, ctx.tenant.id, ids)
+  ),
+  retrieveAuthoredActionCounts: new DataLoader<string, ActionCounts>(
+    (itemIDs: string[]) =>
+      retrieveManyAuthoredActionCounts(
+        ctx.mongo,
+        ctx.tenant.id,
+        // This should only ever be accessed when a user is logged in.
+        ctx.user!.id,
+        ACTION_ITEM_TYPE.COMMENTS,
+        itemIDs
+      )
   ),
   forAsset: (
     assetID: string,

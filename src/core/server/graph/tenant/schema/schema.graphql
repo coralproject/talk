@@ -210,6 +210,37 @@ type CommentDontAgreeAction implements CommentAction {
   createdAt: Time!
 }
 
+type ReactionActionCounts {
+  total: Int!
+}
+
+type DontAgreeActionCounts {
+  total: Int!
+}
+
+type FlagReasonActionCounts {
+  COMMENT_REPORTED_OFFENSIVE: Int!
+  COMMENT_REPORTED_SPAM: Int!
+  COMMENT_DETECTED_TOXIC: Int!
+  COMMENT_DETECTED_SPAM: Int!
+  COMMENT_DETECTED_BODY_COUNT: Int!
+  COMMENT_DETECTED_TRUST: Int!
+  COMMENT_DETECTED_LINKS: Int!
+  COMMENT_DETECTED_BANNED_WORD: Int!
+  COMMENT_DETECTED_SUSPECT_WORD: Int!
+}
+
+type FlagActionCounts {
+  total: Int!
+  reasons: FlagReasonActionCounts!
+}
+
+type ActionCounts {
+  reaction: ReactionActionCounts!
+  dontagree: DontAgreeActionCounts!
+  flag: FlagActionCounts!
+}
+
 ################################################################################
 ## Settings
 ################################################################################
@@ -829,6 +860,17 @@ type Comment {
   editing returns details about the edit status of a Comment.
   """
   editing: EditInfo!
+
+  """
+  actionCounts stores the counts of all the actions for the Comment.
+  """
+  actionCounts: ActionCounts!
+
+  """
+  authoredActionCounts stores the counts of all the actions for the Comment as
+  it is written by the current User.
+  """
+  authoredActionCounts: ActionCounts! @auth
 }
 
 type PageInfo {
@@ -996,7 +1038,7 @@ type Query {
   """
   me is the current logged in User.
   """
-  me: User
+  me: User @auth
 
   """
   settings is the Settings for a given Tenant.

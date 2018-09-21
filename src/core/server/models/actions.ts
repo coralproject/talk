@@ -193,6 +193,40 @@ export async function createActions(
   return Promise.all(inputs.map(input => createAction(mongo, tenantID, input)));
 }
 
+/**
+ * retrieveManyAuthoredActionCounts returns the action counts for a specific
+ * user.
+ */
+export async function retrieveManyAuthoredActionCounts(
+  mongo: Db,
+  tenantID: string,
+  userID: string | null,
+  itemType: ACTION_ITEM_TYPE,
+  itemIDs: string[]
+) {
+  const cursor = await collection(mongo).find({
+    tenant_id: tenantID,
+    user_id: userID,
+    item_type: itemType,
+    item_id: { $in: itemIDs },
+  });
+
+  const actions = await cursor.toArray();
+
+  // For each of the actions returned by the query, group the actions by the
+  // item id. Then compute the action counts for each of these action groups,
+  // which can be used to determine existence of actions.
+  return itemIDs
+    .map(itemID => actions.filter(action => action.item_id === itemID))
+    .map(itemActions =>
+      itemActions.reduce(
+        (actionCounts, { action_type, reason }) =>
+          incrementActionCounts(actionCounts, action_type, reason),
+        createEmptyActionCounts()
+      )
+    );
+}
+
 export type DeleteActionInput = Pick<
   Action,
   "action_type" | "item_type" | "item_id" | "reason" | "user_id"
@@ -349,16 +383,10 @@ function decodeActionCountKey(key: string): DecodedActionCountKey {
 }
 
 /**
- * decodeActionCounts will take the encoded action counts and decode them into
- * a useable format.
- *
- * @param encodedActionCounts the action counts to decode
+ * createEmptyActionCounts creates a default/empty set of action counts.
  */
-export function decodeActionCounts(
-  encodedActionCounts: EncodedActionCounts
-): ActionCounts {
-  // Default all the action counts to zero.
-  const actionCounts: ActionCounts = {
+function createEmptyActionCounts(): ActionCounts {
+  return {
     [ACTION_TYPE.REACTION]: {
       total: 0,
     },
@@ -376,35 +404,59 @@ export function decodeActionCounts(
       ) as Record<GQLCOMMENT_FLAG_REASON, number>,
     },
   };
+}
+
+/**
+ * decodeActionCounts will take the encoded action counts and decode them into
+ * a useable format.
+ *
+ * @param encodedActionCounts the action counts to decode
+ */
+export function decodeActionCounts(
+  encodedActionCounts: EncodedActionCounts
+): ActionCounts {
+  // Default all the action counts to zero.
+  const actionCounts: ActionCounts = createEmptyActionCounts();
 
   // Loop over all the encoded action counts to extract each of the action
   // counts as they are encoded.
-  Object.entries(encodedActionCounts).forEach(([key, count]) => {
+  Object.entries(encodedActionCounts).map(([key, count]) => {
     // Pull out the action type and the reason from the key.
     const { actionType, reason } = decodeActionCountKey(key);
 
     // Handle the different types and reasons.
-    switch (actionType) {
-      case ACTION_TYPE.REACTION:
-        actionCounts[ACTION_TYPE.REACTION].total += count;
-        break;
-      case ACTION_TYPE.DONT_AGREE:
-        actionCounts[ACTION_TYPE.DONT_AGREE].total += count;
-        break;
-      case ACTION_TYPE.FLAG:
-        // When we have a reason, we are incrementing for that particular reason
-        // rather than incrementing for the total. If we don't have a reason, we
-        // just got the updated reason.
-        if (reason) {
-          actionCounts[ACTION_TYPE.FLAG].reasons[reason] += count;
-        } else {
-          actionCounts[ACTION_TYPE.FLAG].total += count;
-        }
-        break;
-      default:
-        throw new Error("unexpected action type");
-    }
+    incrementActionCounts(actionCounts, actionType, reason, count);
   });
+
+  return actionCounts;
+}
+
+function incrementActionCounts(
+  actionCounts: ActionCounts,
+  actionType: ACTION_TYPE,
+  reason: GQLCOMMENT_FLAG_REASON | undefined,
+  count: number = 1
+) {
+  switch (actionType) {
+    case ACTION_TYPE.REACTION:
+      actionCounts[ACTION_TYPE.REACTION].total += count;
+      break;
+    case ACTION_TYPE.DONT_AGREE:
+      actionCounts[ACTION_TYPE.DONT_AGREE].total += count;
+      break;
+    case ACTION_TYPE.FLAG:
+      // When we have a reason, we are incrementing for that particular reason
+      // rather than incrementing for the total. If we don't have a reason, we
+      // just got the updated reason.
+      if (reason) {
+        actionCounts[ACTION_TYPE.FLAG].reasons[reason] += count;
+      } else {
+        actionCounts[ACTION_TYPE.FLAG].total += count;
+      }
+      break;
+    default:
+      throw new Error("unexpected action type");
+  }
 
   return actionCounts;
 }
