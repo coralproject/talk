@@ -47,6 +47,39 @@ export const comments = [
       editableUntil: "2018-07-06T18:14:30.000Z",
     },
   },
+  {
+    id: "comment-3",
+    author: users[2],
+    body: "Comment Body 3",
+    createdAt: "2018-07-06T18:14:00.000Z",
+    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+    editing: {
+      edited: false,
+      editableUntil: "2018-07-06T18:14:30.000Z",
+    },
+  },
+  {
+    id: "comment-4",
+    author: users[2],
+    body: "Comment Body 4",
+    createdAt: "2018-07-06T18:14:00.000Z",
+    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+    editing: {
+      edited: false,
+      editableUntil: "2018-07-06T18:14:30.000Z",
+    },
+  },
+  {
+    id: "comment-5",
+    author: users[2],
+    body: "Comment Body 5",
+    createdAt: "2018-07-06T18:14:00.000Z",
+    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+    editing: {
+      edited: false,
+      editableUntil: "2018-07-06T18:14:30.000Z",
+    },
+  },
 ];
 
 export const assets = [
@@ -73,8 +106,28 @@ export const commentWithReplies = {
   createdAt: "2018-07-06T18:24:00.000Z",
   replies: {
     edges: [
-      { node: comments[0], cursor: comments[0].createdAt },
-      { node: comments[1], cursor: comments[1].createdAt },
+      { node: comments[3], cursor: comments[3].createdAt },
+      { node: comments[4], cursor: comments[4].createdAt },
+    ],
+    pageInfo: {
+      hasNextPage: false,
+    },
+  },
+  editing: {
+    edited: false,
+    editableUntil: "2018-07-06T18:24:30.000Z",
+  },
+};
+
+export const commentWithDeepReplies = {
+  id: "comment-with-deep-replies",
+  author: users[0],
+  body: "I like yoghurt",
+  createdAt: "2018-07-06T18:24:00.000Z",
+  replies: {
+    edges: [
+      { node: commentWithReplies, cursor: commentWithReplies.createdAt },
+      { node: comments[5], cursor: comments[5].createdAt },
     ],
     pageInfo: {
       hasNextPage: false,
@@ -94,6 +147,24 @@ export const assetWithReplies = {
     edges: [
       { node: comments[0], cursor: comments[0].createdAt },
       { node: commentWithReplies, cursor: commentWithReplies.createdAt },
+    ],
+    pageInfo: {
+      hasNextPage: false,
+    },
+  },
+};
+
+export const assetWithDeepReplies = {
+  id: "asset-with-deep-replies",
+  url: "http://localhost/assets/asset-with-replies",
+  isClosed: false,
+  comments: {
+    edges: [
+      { node: comments[0], cursor: comments[0].createdAt },
+      {
+        node: commentWithDeepReplies,
+        cursor: commentWithDeepReplies.createdAt,
+      },
     ],
     pageInfo: {
       hasNextPage: false,
