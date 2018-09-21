@@ -120,6 +120,7 @@ export class CommentContainer extends Component<InnerProps, State> {
     return (
       <>
         <Comment
+          id={`comment-${comment.id}`}
           indentLevel={indentLevel}
           author={comment.author}
           body={comment.body}

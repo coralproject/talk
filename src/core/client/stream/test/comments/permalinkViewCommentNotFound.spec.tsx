@@ -33,7 +33,10 @@ beforeEach(() => {
       comment: () => null,
       asset: createSinonStub(
         s => s.throws(),
-        s => s.withArgs(undefined, { id: assetStub.id }).returns(assetStub)
+        s =>
+          s
+            .withArgs(undefined, { id: assetStub.id, url: null })
+            .returns(assetStub)
       ),
     },
   };

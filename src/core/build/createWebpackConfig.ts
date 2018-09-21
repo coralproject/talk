@@ -448,25 +448,41 @@ export default function createWebpackConfig({
       ].filter(s => s),
       output: {
         ...baseConfig.output,
-        library: "Talk",
+        library: "Coral",
         // don't hash the embed, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
         filename: "assets/js/embed.js",
       },
       plugins: [
         ...baseConfig.plugins!,
-        // Generates an `stream.html` file with the <script> injected.
-        new HtmlWebpackPlugin({
-          filename: "embed.html",
-          template: paths.appEmbedHTML,
-          inject: "head",
-          ...htmlWebpackConfig,
-        }),
-        // Makes some environment variables available in index.html.
-        // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-        // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-        // In development, this will be an empty string.
-        new InterpolateHtmlPlugin(env),
+        ...(isProduction
+          ? []
+          : [
+              // Generates an `embed.html` file with the <script> injected.
+              new HtmlWebpackPlugin({
+                filename: "embed.html",
+                template: paths.appEmbedHTML,
+                inject: "head",
+                ...htmlWebpackConfig,
+              }),
+              new HtmlWebpackPlugin({
+                filename: "article.html",
+                template: paths.appEmbedArticleHTML,
+                inject: "head",
+                ...htmlWebpackConfig,
+              }),
+              new HtmlWebpackPlugin({
+                filename: "articleButton.html",
+                template: paths.appEmbedArticleButtonHTML,
+                inject: "head",
+                ...htmlWebpackConfig,
+              }),
+              // Makes some environment variables available in index.html.
+              // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
+              // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+              // In development, this will be an empty string.
+              new InterpolateHtmlPlugin(env),
+            ]),
         // Generate a manifest file which contains a mapping of all asset filenames
         // to their corresponding output file so that tools can pick it up without
         // having to parse `index.html`.
