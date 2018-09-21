@@ -134,7 +134,7 @@
     "@types/react-relay": "^1.3.9",
     "@types/react-responsive": "^3.0.1",
     "@types/react-test-renderer": "^16.0.1",
-    "@types/recompose": "github:coralproject/patched#types/recompose",
+    "@types/recompose": "^0.26.5",
     "@types/relay-runtime": "^1.3.6",
     "@types/sane": "^2.0.0",
     "@types/sinon": "^5.0.1",
