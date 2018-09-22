@@ -316,12 +316,6 @@ export async function retrieveCommentParentsConnection(
   comment: Comment,
   { last: limit, before: skip = -1 }: { last: number; before?: number }
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
-  // // Get the base comment, which stores the references to all it's parents.
-  // const comment = await retrieveComment(mongo, tenantID, commentID);
-  // if (!comment) {
-  //   throw new Error("comment not found");
-  // }
-
   // Return nothing if this comment does not have any parents.
   if (!comment.parent_id) {
     return {
