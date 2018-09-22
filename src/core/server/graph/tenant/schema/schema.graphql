@@ -666,7 +666,8 @@ type Comment {
   parent: Comment
 
   """
-  rootParent is the comment that is not a reply to another Comment.
+  rootParent is the highest level parent Comment. This Comment would have been
+  left on the Asset itself.
   """
   rootParent: Comment
 
