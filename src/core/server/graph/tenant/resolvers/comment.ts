@@ -24,6 +24,31 @@ const Comment: GQLCommentTypeResolver<Comment> = {
   parentCount: comment =>
     comment.parent_id ? comment.grandparent_ids.length + 1 : 0,
   replyCount: comment => comment.child_ids.length,
+  rootParent: (comment, input, ctx, info) => {
+    // If there isn't a parent, then return nothing!
+    if (!comment.parent_id) {
+      return null;
+    }
+
+    // rootParentID is the root parent id for a given comment.
+    const rootParentID =
+      comment.grandparent_ids.length > 0
+        ? comment.grandparent_ids[0]
+        : comment.parent_id;
+
+    // Get the field names of the fields being requested, if it's only the ID,
+    // we have that, so no need to make a database request.
+    const fields = getRequestedFields<GQLComment>(info);
+    if (fields.length === 1 && fields[0] === "id") {
+      return {
+        id: rootParentID,
+      };
+    }
+
+    // We want more than the ID! Get the comment!
+    // TODO: (wyattjoh) if the parent and the parents (containing the parent) are requested, the parent comment is retrieved from the database twice. Investigate ways of reducing i/o.
+    return ctx.loaders.Comments.comment.load(rootParentID);
+  },
   parent: (comment, input, ctx, info) => {
     // If there isn't a parent, then return nothing!
     if (!comment.parent_id) {

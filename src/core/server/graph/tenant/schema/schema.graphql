@@ -666,6 +666,11 @@ type Comment {
   parent: Comment
 
   """
+  rootParent is the comment that is not a reply to another Comment.
+  """
+  rootParent: Comment
+
+  """
   parents returns a CommentsConnection that allows accessing direct parents of
   the given Comment.
   """
