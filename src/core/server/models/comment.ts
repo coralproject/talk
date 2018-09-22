@@ -348,7 +348,7 @@ export async function retrieveCommentParentsConnection(
     }
 
     return {
-      edges: nodesToEdges([parent], () => -1),
+      edges: [{ node: parent, cursor: 0 }],
       pageInfo: {
         hasNextPage: false,
         hasPreviousPage: comment.grandparent_ids.length > 0,
