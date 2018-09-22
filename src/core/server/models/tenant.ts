@@ -71,7 +71,9 @@ export async function createTenant(db: Db, input: CreateTenantInput) {
     closedTimeout: 60 * 60 * 24 * 7 * 2,
     disableCommenting: false,
     editCommentWindowLength: 30 * 1000,
-    charCountEnable: false,
+    charCount: {
+      enabled: false,
+    },
     wordlist: {
       suspect: [],
       banned: [],

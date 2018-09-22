@@ -75,6 +75,7 @@
     "passport-strategy": "^1.0.0",
     "performance-now": "^2.1.0",
     "permit": "^0.2.4",
+    "striptags": "^3.1.1",
     "subscriptions-transport-ws": "^0.9.12",
     "tlds": "^1.203.1",
     "uuid": "^3.3.2"

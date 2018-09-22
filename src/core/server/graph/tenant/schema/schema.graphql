@@ -290,6 +290,27 @@ type Karma {
 }
 
 ################################################################################
+## CharCount
+################################################################################
+
+type CharCount {
+  """
+  enabled when true, enables the character count moderation phase.
+  """
+  enabled: Boolean!
+
+  """
+  min is the smallest length of a Comment that may be posted.
+  """
+  min: Int
+
+  """
+  max is the largest length of a Comment that may be posted.
+  """
+  max: Int
+}
+
+################################################################################
 ## Email
 ################################################################################
 
@@ -411,14 +432,9 @@ type Settings {
   editCommentWindowLength: Int!
 
   """
-  charCountEnable is true when the character count restriction is enabled.
+  charCount stores the character count moderation settings.
   """
-  charCountEnable: Boolean!
-
-  """
-  charCount is the maximum number of characters a comment may be.
-  """
-  charCount: Int
+  charCount: CharCount!
 
   """
   organizationName is the name of the organization.
@@ -1104,6 +1120,23 @@ input SettingsKarmaInput {
   thresholds: SettingsKarmaThresholdsInput
 }
 
+input SettingsCharCountInput {
+  """
+  enabled when true, enables the character count moderation phase.
+  """
+  enabled: Boolean
+
+  """
+  min is the smallest length of a Comment that may be posted.
+  """
+  min: Int
+
+  """
+  max is the largest length of a Comment that may be posted.
+  """
+  max: Int
+}
+
 """
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
@@ -1196,16 +1229,6 @@ input SettingsInput {
   editCommentWindowLength: Int
 
   """
-  charCountEnable is true when the character count restriction is enabled.
-  """
-  charCountEnable: Boolean
-
-  """
-  charCount is the maximum number of characters a comment may be.
-  """
-  charCount: Int
-
-  """
   organizationName is the name of the organization.
   """
   organizationName: String
@@ -1240,6 +1263,11 @@ input SettingsInput {
   handled.
   """
   karma: SettingsKarmaInput
+
+  """
+  charCount stores the character count moderation settings.
+  """
+  charCount: SettingsCharCountInput
 }
 
 """
