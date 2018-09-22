@@ -641,6 +641,11 @@ type Comment {
   status: COMMENT_STATUS!
 
   """
+  parentCount is the number of direct parents for this Comment.
+  """
+  parentCount: Int
+
+  """
   replyCount is the number of replies. Only direct replies to this Comment
   are counted. Deleted comments are included in this count.
   """
@@ -654,6 +659,17 @@ type Comment {
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection
+
+  """
+  parent is the immediate parent of a given comment.
+  """
+  parent: Comment
+
+  """
+  parents returns a CommentsConnection that allows accessing direct parents of
+  the given Comment.
+  """
+  parents(last: Int = 1, before: Cursor): CommentsConnection
 
   """
   editing returns details about the edit status of a Comment.
