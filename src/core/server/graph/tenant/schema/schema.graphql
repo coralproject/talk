@@ -265,7 +265,7 @@ type KarmaThreshold {
 type KarmaThresholds {
   """
   flag represents karma settings in relation to how well a User's flagging
-  ability aligns with the moderation decicions made by moderators.
+  ability aligns with the moderation decisions made by moderators.
   """
   flag: KarmaThreshold!
 
@@ -284,7 +284,7 @@ type Karma {
 
   """
   karmaThresholds contains the currently set thresholds for triggering Trust
-  beheviour.
+  behavior.
   """
   thresholds: KarmaThresholds!
 }
@@ -698,6 +698,50 @@ type CommentsConnection {
 }
 
 ################################################################################
+## CommentCounts
+################################################################################
+
+type CommentStatusCounts {
+  """
+  The comment is not PREMOD, but was not applied a moderation status by a
+  moderator.
+  """
+  NONE: Int!
+
+  """
+  The comment has been accepted by a moderator.
+  """
+  ACCEPTED: Int!
+
+  """
+  The comment has been rejected by a moderator.
+  """
+  REJECTED: Int!
+
+  """
+  The comment was created while the asset's premoderation option was on, and
+  new comments that haven't been moderated yet are referred to as
+  "premoderated" or "premod" comments.
+  """
+  PREMOD: Int!
+
+  """
+  SYSTEM_WITHHELD represents a comment that was withheld by the system because
+  it was flagged by an internal process for further review.
+  """
+  SYSTEM_WITHHELD: Int!
+}
+
+type CommentCounts {
+  """
+  totalVisible will return the count of all visible Comments.
+  """
+  totalVisible: Int!
+
+  statuses: CommentStatusCounts! @auth(roles: [ADMIN, MODERATOR])
+}
+
+################################################################################
 ## Asset
 ################################################################################
 
@@ -750,6 +794,11 @@ type Asset {
   isClosed returns true when the Asset is currently closed for commenting.
   """
   isClosed: Boolean!
+
+  """
+  commentCounts stores all the counts of Comments that are left on the Comment.
+  """
+  commentCounts: CommentCounts!
 
   """
   createdAt is the date that the Asset was created at.
@@ -1080,7 +1129,7 @@ input SettingsKarmaThresholdInput {
 input SettingsKarmaThresholdsInput {
   """
   flag represents karma settings in relation to how well a User's flagging
-  ability aligns with the moderation decicions made by moderators.
+  ability aligns with the moderation decisions made by moderators.
   """
   flag: SettingsKarmaThresholdInput
 
@@ -1099,7 +1148,7 @@ input SettingsKarmaInput {
 
   """
   karmaThresholds contains the currently set thresholds for triggering Trust
-  beheviour.
+  behavior.
   """
   thresholds: SettingsKarmaThresholdsInput
 }
