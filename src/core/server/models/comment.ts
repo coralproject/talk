@@ -10,6 +10,7 @@ import {
 import { ActionCounts } from "talk-server/models/actions";
 import {
   Connection,
+  createConnection,
   Cursor,
   getPageInfo,
   nodesToEdges,
@@ -28,7 +29,7 @@ export interface BodyHistoryItem {
 }
 
 export interface StatusHistoryItem {
-  status: GQLCOMMENT_STATUS; // TODO: migrate field
+  status: GQLCOMMENT_STATUS;
   assigned_by?: string;
   created_at: Date;
 }
@@ -44,7 +45,8 @@ export interface Comment extends TenantResource {
   status_history: StatusHistoryItem[];
   action_counts: ActionCounts;
   grandparent_ids: string[];
-  child_ids: string[];
+  reply_ids: string[];
+  reply_count: number;
   created_at: Date;
   deleted_at?: Date;
   metadata?: Record<string, any>;
@@ -55,8 +57,8 @@ export type CreateCommentInput = Omit<
   | "id"
   | "tenant_id"
   | "created_at"
-  // child_ids are always empty for a new comment.
-  | "child_ids"
+  | "reply_ids"
+  | "reply_count"
   | "body_history"
   | "status_history"
 >;
@@ -77,7 +79,8 @@ export async function createComment(
     id: uuid.v4(),
     tenant_id: tenantID,
     created_at: now,
-    child_ids: [],
+    reply_ids: [],
+    reply_count: 0,
     body_history: [
       {
         body,
@@ -121,9 +124,8 @@ export async function pushChildCommentIDOntoParent(
       id: parentID,
     },
     {
-      $push: {
-        child_ids: childID,
-      },
+      $push: { reply_ids: childID },
+      $inc: { reply_count: 1 },
     }
   );
 
@@ -318,25 +320,23 @@ export async function retrieveCommentParentsConnection(
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
   // Return nothing if this comment does not have any parents.
   if (!comment.parent_id) {
-    return {
-      edges: [],
+    return createConnection({
       pageInfo: {
         hasNextPage: false,
         hasPreviousPage: false,
       },
-    };
+    });
   }
 
   // TODO: (wyattjoh) maybe throw an error when the limit is zero?
 
   if (limit <= 0) {
-    return {
-      edges: [],
+    return createConnection({
       pageInfo: {
         hasNextPage: false,
         hasPreviousPage: false,
       },
-    };
+    });
   }
 
   // If the last paramter is 1, and the after paramter is either unset or equal

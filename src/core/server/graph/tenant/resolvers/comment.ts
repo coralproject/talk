@@ -4,6 +4,7 @@ import {
   GQLCommentTypeResolver,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Comment } from "talk-server/models/comment";
+import { createConnection } from "talk-server/models/connection";
 
 const Comment: GQLCommentTypeResolver<Comment> = {
   editing: (comment, input, ctx) => ({
@@ -20,10 +21,14 @@ const Comment: GQLCommentTypeResolver<Comment> = {
   author: (comment, input, ctx) =>
     ctx.loaders.Users.user.load(comment.author_id),
   replies: (comment, input, ctx) =>
-    ctx.loaders.Comments.forParent(comment.asset_id, comment.id, input),
+    comment.reply_count > 0
+      ? ctx.loaders.Comments.forParent(comment.asset_id, comment.id, input)
+      : createConnection(),
   parentCount: comment =>
     comment.parent_id ? comment.grandparent_ids.length + 1 : 0,
-  replyCount: comment => comment.child_ids.length,
+  depth: comment =>
+    comment.parent_id ? comment.grandparent_ids.length + 1 : 0,
+  replyCount: comment => comment.reply_count,
   rootParent: (comment, input, ctx, info) => {
     // If there isn't a parent, then return nothing!
     if (!comment.parent_id) {
@@ -69,7 +74,10 @@ const Comment: GQLCommentTypeResolver<Comment> = {
     return ctx.loaders.Comments.comment.load(comment.parent_id);
   },
   parents: (comment, input, ctx) =>
-    ctx.loaders.Comments.parents(comment, input),
+    // Some resolver optimization.
+    comment.parent_id
+      ? ctx.loaders.Comments.parents(comment, input)
+      : createConnection(),
 };
 
 export default Comment;

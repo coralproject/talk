@@ -641,15 +641,21 @@ type Comment {
   status: COMMENT_STATUS!
 
   """
-  parentCount is the number of direct parents for this Comment.
+  parentCount is the number of direct parents for this Comment. Currently this
+  value is the same as depth.
   """
-  parentCount: Int
+  parentCount: Int!
+
+  """
+  depth is the number of levels that a given comment is deep.
+  """
+  depth: Int!
 
   """
   replyCount is the number of replies. Only direct replies to this Comment
   are counted. Deleted comments are included in this count.
   """
-  replyCount: Int
+  replyCount: Int!
 
   """
   replies will return the replies to this Comment.
@@ -658,7 +664,7 @@ type Comment {
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
-  ): CommentsConnection
+  ): CommentsConnection!
 
   """
   parent is the immediate parent of a given comment.
@@ -675,7 +681,7 @@ type Comment {
   parents returns a CommentsConnection that allows accessing direct parents of
   the given Comment.
   """
-  parents(last: Int = 1, before: Cursor): CommentsConnection
+  parents(last: Int = 1, before: Cursor): CommentsConnection!
 
   """
   editing returns details about the edit status of a Comment.
@@ -834,11 +840,6 @@ type Query {
   comment returns a specific comment.
   """
   comment(id: ID!): Comment
-
-  """
-  assets returns a AssetsConnection.
-  """
-  assets(cursor: Cursor, limit: Int = 10): AssetsConnection
 
   """
   asset is the Asset specified by its ID/URL.
