@@ -1,9 +1,9 @@
-import { defaults } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
+import { EncodedActionCounts } from "talk-server/models/actions";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -26,6 +26,11 @@ export interface Asset extends TenantResource {
   publication_date?: Date;
   modified_date?: Date;
   created_at: Date;
+
+  /**
+   * action_counts stores all the action counts for all Comment's on this Asset.
+   */
+  action_counts: EncodedActionCounts;
 
   /**
    * settings provides a point where the settings can be overriden for a
@@ -51,17 +56,13 @@ export async function upsertAsset(
   // Create the asset, optionally sourcing the id from the input, additionally
   // porting in the tenant_id.
   const update: { $setOnInsert: Asset } = {
-    $setOnInsert: defaults(
-      {
-        url,
-        tenant_id: tenantID,
-        created_at: now,
-      },
-      { id },
-      {
-        id: uuid.v4(),
-      }
-    ),
+    $setOnInsert: {
+      id: id ? id : uuid.v4(),
+      url,
+      tenant_id: tenantID,
+      created_at: now,
+      action_counts: {},
+    },
   };
 
   // Perform the find and update operation to try and find and or create the
@@ -192,4 +193,32 @@ export async function updateAsset(
   );
 
   return result.value || null;
+}
+
+/**
+ * updateAssetActionCounts will update the given comment's action counts on
+ * the Asset.
+ *
+ * @param mongo the database handle
+ * @param tenantID the id of the Tenant
+ * @param id the id of the Asset being updated
+ * @param actionCounts the action counts to merge into the Asset
+ */
+export async function updateAssetActionCounts(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  actionCounts: EncodedActionCounts
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenant_id: tenantID },
+    // Update all the specific action counts that are associated with each of
+    // the counts.
+    { $inc: dotize({ action_counts: actionCounts }) },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return result.value;
 }

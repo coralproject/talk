@@ -7,7 +7,10 @@ import {
   createActions,
   encodeActionCounts,
 } from "talk-server/models/actions";
-import { retrieveAsset } from "talk-server/models/asset";
+import {
+  retrieveAsset,
+  updateAssetActionCounts,
+} from "talk-server/models/asset";
 import {
   Comment,
   createComment,
@@ -85,6 +88,7 @@ export async function create(
 
     // Insert and handle creating the actions.
     comment = await addCommentActions(mongo, tenant, comment, inputs);
+    // asse
   }
 
   if (input.parent_id) {
@@ -193,6 +197,14 @@ async function addCommentActions(
       mongo,
       tenant.id,
       comment.id,
+      actionCounts
+    );
+
+    // Update the Asset with the updated action counts.
+    await updateAssetActionCounts(
+      mongo,
+      tenant.id,
+      comment.asset_id,
       actionCounts
     );
 

@@ -378,9 +378,9 @@ function applyInputToQuery(input: ConnectionInput, query: Query<Comment>) {
  * updateCommentActionCounts will update the given comment's action counts.
  *
  * @param mongo the database handle
- * @param tenantID the id of the tenant
- * @param id the id of the comment being updated
- * @param actionCounts the action counts to merge into the comment
+ * @param tenantID the id of the Tenant
+ * @param id the id of the Comment being updated
+ * @param actionCounts the action counts to merge into the Comment
  */
 export async function updateCommentActionCounts(
   mongo: Db,
