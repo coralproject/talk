@@ -11,6 +11,7 @@ export interface IndentProps {
 }
 
 const levels = [
+  "",
   styles.level1,
   styles.level2,
   styles.level3,
@@ -19,14 +20,11 @@ const levels = [
   styles.level6,
 ];
 
-function getLevelClassName(level?: number) {
-  if (!level) {
-    return "";
-  }
-  if (level - 1 > levels.length) {
+function getLevelClassName(level: number = 0) {
+  if (!(level in levels)) {
     throw new Error(`Indent level ${level} does not exist`);
   }
-  return levels[level - 1];
+  return levels[level];
 }
 
 const Indent: StatelessComponent<IndentProps> = props => {
