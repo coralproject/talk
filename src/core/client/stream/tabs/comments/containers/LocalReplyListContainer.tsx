@@ -16,6 +16,12 @@ interface InnerProps {
   comment: CommentData;
 }
 
+/**
+ * LocalReplyListContainer renders the replies from the endpoint
+ * `localReplies` instead of `replies`. This is e.g. used for the
+ * ultimate threading level to only display the newly created comments
+ * from the current user.
+ */
 export class LocalReplyListContainer extends Component<InnerProps> {
   public render() {
     if (!this.props.comment.localReplies) {

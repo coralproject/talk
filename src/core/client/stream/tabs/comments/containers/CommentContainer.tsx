@@ -26,7 +26,12 @@ interface InnerProps {
   asset: AssetData;
   indentLevel?: number;
   showAuthPopup: ShowAuthPopupMutation;
+  /**
+   * localReply will integrate the mutation response into
+   * localReplies
+   */
   localReply?: boolean;
+  /** disableReplies will remove the ReplyButton */
   disableReplies?: boolean;
 }
 
