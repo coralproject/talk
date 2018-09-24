@@ -34,14 +34,14 @@ it("renders correctly", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-it("renders correctly when replies are null", () => {
+it("renders correctly when replies are empty", () => {
   const props: PropTypesOf<typeof ReplyListContainerN> = {
     asset: {
       id: "asset-id",
     },
     comment: {
       id: "comment-id",
-      replies: null,
+      replies: { edges: [] },
     },
     relay: {
       hasMore: noop,
