@@ -159,7 +159,6 @@ function commit(
     updater: store => {
       sharedUpdater(store, input);
     },
-    // configs: getConfig(input),
   });
 }
 
