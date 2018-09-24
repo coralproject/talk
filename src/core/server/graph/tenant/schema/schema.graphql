@@ -1475,7 +1475,7 @@ type UpdateSettingsPayload {
 }
 
 ##################
-## Mutation
+## createCommentReaction
 ##################
 
 input CreateCommentReactionInput {
@@ -1493,6 +1493,34 @@ input CreateCommentReactionInput {
 type CreateCommentReactionPayload {
   """
   comment is the Comment that the Reaction was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## deleteCommentReaction
+##################
+
+input DeleteCommentReactionInput {
+  """
+  commentID is the Comment's ID that we want to delete a Reaction on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteCommentReactionPayload {
+  """
+  comment is the Comment that the Reaction was deleted on.
   """
   comment: Comment
 
@@ -1529,6 +1557,14 @@ type Mutation {
   user on a Comment.
   """
   createCommentReaction(
+    input: CreateCommentReactionInput!
+  ): CreateCommentReactionPayload @auth
+
+  """
+  deleteCommentReaction will delete a Reaction authored by the current logged in
+  user on a Comment if it exists.
+  """
+  deleteCommentReaction(
     input: CreateCommentReactionInput!
   ): CreateCommentReactionPayload @auth
 }

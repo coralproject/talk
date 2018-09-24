@@ -2,11 +2,13 @@ import TenantContext from "talk-server/graph/tenant/context";
 import {
   GQLCreateCommentInput,
   GQLCreateCommentReactionInput,
+  GQLDeleteCommentReactionInput,
   GQLEditCommentInput,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   create,
-  createCommentReaction,
+  createReaction,
+  deleteReaction,
   edit,
 } from "talk-server/services/comments";
 
@@ -36,7 +38,11 @@ export default (ctx: TenantContext) => ({
       ctx.req
     ),
   createReaction: (input: GQLCreateCommentReactionInput) =>
-    createCommentReaction(ctx.mongo, ctx.tenant, ctx.user!, {
+    createReaction(ctx.mongo, ctx.tenant, ctx.user!, {
+      item_id: input.commentID,
+    }),
+  deleteReaction: (input: GQLDeleteCommentReactionInput) =>
+    deleteReaction(ctx.mongo, ctx.tenant, ctx.user!, {
       item_id: input.commentID,
     }),
 });

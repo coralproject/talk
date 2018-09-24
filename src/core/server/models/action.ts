@@ -316,6 +316,27 @@ export function encodeActionCounts(...actions: Action[]): EncodedActionCounts {
 }
 
 /**
+ * invertEncodedActionCounts will allow inverting of the action count object.
+ *
+ * @param actionCounts the encoded action counts to invert
+ */
+export function invertEncodedActionCounts(
+  actionCounts: EncodedActionCounts
+): EncodedActionCounts {
+  for (const key in actionCounts) {
+    if (!actionCounts.hasOwnProperty(key)) {
+      continue;
+    }
+
+    if (actionCounts[key] > 0) {
+      actionCounts[key] = -actionCounts[key];
+    }
+  }
+
+  return actionCounts;
+}
+
+/**
  * encodeActionCountKeys encodes the action into string keys which represents
  * the groupings as seen in `EncodedActionCounts`.
  */

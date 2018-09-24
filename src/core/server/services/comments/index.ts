@@ -6,7 +6,10 @@ import {
   ACTION_TYPE,
   CreateActionInput,
   createActions,
+  deleteAction,
+  DeleteActionInput,
   encodeActionCounts,
+  invertEncodedActionCounts,
 } from "talk-server/models/action";
 import {
   retrieveAsset,
@@ -222,9 +225,50 @@ async function addCommentActions(
   return comment;
 }
 
+async function deleteCommentAction(
+  mongo: Db,
+  tenant: Tenant,
+  comment: Readonly<Comment>,
+  input: DeleteActionInput
+): Promise<Readonly<Comment>> {
+  // Create each of the actions, returning each of the action results.
+  const { wasDeleted, action } = await deleteAction(mongo, tenant.id, input);
+  if (wasDeleted) {
+    // Compute the action counts, and invert them (because we're deleting an
+    // action).
+    const actionCounts = invertEncodedActionCounts(encodeActionCounts(action!));
+
+    // Update the comment action counts here.
+    const updatedComment = await updateCommentActionCounts(
+      mongo,
+      tenant.id,
+      comment.id,
+      actionCounts
+    );
+
+    // Update the Asset with the updated action counts.
+    await updateAssetActionCounts(
+      mongo,
+      tenant.id,
+      comment.asset_id,
+      actionCounts
+    );
+
+    // Check to see if there was an actual comment returned.
+    if (!updatedComment) {
+      // TODO: (wyattjoh) return a better error.
+      throw new Error("could not update comment action counts");
+    }
+
+    return updatedComment;
+  }
+
+  return comment;
+}
+
 export type CreateCommentReaction = Pick<CreateActionInput, "item_id">;
 
-export async function createCommentReaction(
+export async function createReaction(
   mongo: Db,
   tenant: Tenant,
   author: User,
@@ -246,6 +290,32 @@ export async function createCommentReaction(
       user_id: author.id,
     },
   ]);
+
+  return comment;
+}
+
+export type DeleteCommentReaction = Pick<DeleteActionInput, "item_id">;
+
+export async function deleteReaction(
+  mongo: Db,
+  tenant: Tenant,
+  author: User,
+  input: DeleteCommentReaction
+) {
+  // Get the Comment that we are leaving the Action on.
+  let comment = await retrieveComment(mongo, tenant.id, input.item_id);
+  if (!comment) {
+    // TODO: replace to match error returned by the models/comments.ts
+    throw new Error("comment not found");
+  }
+
+  // Add the comment actions, and return the Comment that we just updated.
+  comment = await deleteCommentAction(mongo, tenant, comment, {
+    action_type: ACTION_TYPE.REACTION,
+    item_type: ACTION_ITEM_TYPE.COMMENTS,
+    item_id: input.item_id,
+    user_id: author.id,
+  });
 
   return comment;
 }
