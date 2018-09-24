@@ -1,13 +1,17 @@
 import TenantContext from "talk-server/graph/tenant/context";
 import {
+  GQLCreateCommentFlagInput,
   GQLCreateCommentInput,
   GQLCreateCommentReactionInput,
+  GQLDeleteCommentFlagInput,
   GQLDeleteCommentReactionInput,
   GQLEditCommentInput,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   create,
+  createFlag,
   createReaction,
+  deleteFlag,
   deleteReaction,
   edit,
 } from "talk-server/services/comments";
@@ -43,6 +47,15 @@ export default (ctx: TenantContext) => ({
     }),
   deleteReaction: (input: GQLDeleteCommentReactionInput) =>
     deleteReaction(ctx.mongo, ctx.tenant, ctx.user!, {
+      item_id: input.commentID,
+    }),
+  createFlag: (input: GQLCreateCommentFlagInput) =>
+    createFlag(ctx.mongo, ctx.tenant, ctx.user!, {
+      item_id: input.commentID,
+      reason: input.reason,
+    }),
+  deleteFlag: (input: GQLDeleteCommentFlagInput) =>
+    deleteFlag(ctx.mongo, ctx.tenant, ctx.user!, {
       item_id: input.commentID,
     }),
 });

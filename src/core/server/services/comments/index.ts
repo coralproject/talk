@@ -1,6 +1,7 @@
 import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
+import { GQLCOMMENT_FLAG_REPORTED_REASON } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   ACTION_ITEM_TYPE,
   ACTION_TYPE,
@@ -312,6 +313,63 @@ export async function deleteReaction(
   // Add the comment actions, and return the Comment that we just updated.
   comment = await deleteCommentAction(mongo, tenant, comment, {
     action_type: ACTION_TYPE.REACTION,
+    item_type: ACTION_ITEM_TYPE.COMMENTS,
+    item_id: input.item_id,
+    user_id: author.id,
+  });
+
+  return comment;
+}
+
+export type CreateCommentFlag = Pick<CreateActionInput, "item_id"> & {
+  reason: GQLCOMMENT_FLAG_REPORTED_REASON;
+};
+
+export async function createFlag(
+  mongo: Db,
+  tenant: Tenant,
+  author: User,
+  input: CreateCommentFlag
+) {
+  // Get the Comment that we are leaving the Action on.
+  let comment = await retrieveComment(mongo, tenant.id, input.item_id);
+  if (!comment) {
+    // TODO: replace to match error returned by the models/comments.ts
+    throw new Error("comment not found");
+  }
+
+  // Add the comment actions, and return the Comment that we just updated.
+  comment = await addCommentActions(mongo, tenant, comment, [
+    {
+      action_type: ACTION_TYPE.FLAG,
+      reason: input.reason,
+      item_type: ACTION_ITEM_TYPE.COMMENTS,
+      item_id: input.item_id,
+      user_id: author.id,
+    },
+  ]);
+
+  return comment;
+}
+
+export type DeleteCommentFlag = Pick<DeleteActionInput, "item_id">;
+
+export async function deleteFlag(
+  mongo: Db,
+  tenant: Tenant,
+  author: User,
+  input: DeleteCommentFlag
+) {
+  // Get the Comment that we are leaving the Action on.
+  let comment = await retrieveComment(mongo, tenant.id, input.item_id);
+  if (!comment) {
+    // TODO: replace to match error returned by the models/comments.ts
+    throw new Error("comment not found");
+  }
+
+  // Add the comment actions, and return the Comment that we just updated.
+  comment = await deleteCommentAction(mongo, tenant, comment, {
+    action_type: ACTION_TYPE.FLAG,
     item_type: ACTION_ITEM_TYPE.COMMENTS,
     item_id: input.item_id,
     user_id: author.id,

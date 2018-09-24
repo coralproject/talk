@@ -7,7 +7,9 @@ import { Omit, Sub } from "talk-common/types";
 import {
   GQLActionCounts,
   GQLActionPresence,
+  GQLCOMMENT_FLAG_DETECTED_REASON,
   GQLCOMMENT_FLAG_REASON,
+  GQLCOMMENT_FLAG_REPORTED_REASON,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { FilterQuery } from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
@@ -45,12 +47,20 @@ export enum ACTION_ITEM_TYPE {
   COMMENTS = "COMMENTS",
 }
 
+/**
+ * FLAG_REASON is the reason that a given Flag has been created.
+ */
+export type FLAG_REASON =
+  | GQLCOMMENT_FLAG_DETECTED_REASON
+  | GQLCOMMENT_FLAG_REPORTED_REASON
+  | GQLCOMMENT_FLAG_REASON;
+
 export interface Action extends TenantResource {
   readonly id: string;
   action_type: ACTION_TYPE;
   item_type: ACTION_ITEM_TYPE;
   item_id: string;
-  reason?: GQLCOMMENT_FLAG_REASON;
+  reason?: FLAG_REASON;
   user_id?: string;
   created_at: Date;
   metadata?: Record<string, any>;
@@ -274,9 +284,14 @@ export async function deleteAction(
     action_type: input.action_type,
     item_type: input.item_type,
     item_id: input.item_id,
-    reason: input.reason,
     user_id: input.user_id,
   };
+
+  // Only add the reason to the filter if it's been specified, otherwise we'll
+  // never match a Flag that has an unspecified reason.
+  if (input.reason) {
+    filter.reason = input.reason;
+  }
 
   // Remove the action from the database, returning the action that was deleted.
   const result = await collection(mongo).findOneAndDelete(filter);

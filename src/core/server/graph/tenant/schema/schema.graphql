@@ -1531,6 +1531,67 @@ type DeleteCommentReactionPayload {
 }
 
 ##################
+## createCommentFlag
+##################
+
+input CreateCommentFlagInput {
+  """
+  commentID is the Comment's ID that we want to create a Flag on.
+  """
+  commentID: ID!
+
+  """
+  reason is the selected reason why the Flag is being created.
+  """
+  reason: COMMENT_FLAG_REPORTED_REASON!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateCommentFlagPayload {
+  """
+  comment is the Comment that the Flag was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## deleteCommentFlag
+##################
+
+input DeleteCommentFlagInput {
+  """
+  commentID is the Comment's ID that we want to delete a Flag on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteCommentFlagPayload {
+  """
+  comment is the Comment that the Flag was deleted on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -1554,7 +1615,7 @@ type Mutation {
 
   """
   createCommentReaction will create a Reaction authored by the current logged in
-  user on a Comment.
+  User on a Comment.
   """
   createCommentReaction(
     input: CreateCommentReactionInput!
@@ -1562,11 +1623,25 @@ type Mutation {
 
   """
   deleteCommentReaction will delete a Reaction authored by the current logged in
-  user on a Comment if it exists.
+  User on a Comment if it exists.
   """
   deleteCommentReaction(
     input: CreateCommentReactionInput!
   ): CreateCommentReactionPayload @auth
+
+  """
+  createCommentFlag will create a Flag authored by the current logged in User on
+  a given Comment.
+  """
+  createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload
+    @auth
+
+  """
+  deleteCommentFlag will create a Flag authored by the current logged in User on
+  a given Comment.
+  """
+  deleteCommentFlag(input: DeleteCommentFlagInput!): DeleteCommentFlagPayload
+    @auth
 }
 
 ################################################################################
