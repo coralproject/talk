@@ -366,7 +366,7 @@ function applyInputToQuery(input: ConnectionInput, query: Query<Comment>) {
       }
       break;
     case GQLCOMMENT_SORT.RESPECT_DESC:
-      query.orderBy({ "action_counts.respect": -1, created_at: -1 });
+      query.orderBy({ "action_counts.REACTION": -1, created_at: -1 });
       if (input.after) {
         query.after(input.after as number);
       }
