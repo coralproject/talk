@@ -186,6 +186,7 @@ export async function createActions(
   tenantID: string,
   inputs: CreateActionInput[]
 ): Promise<CreateActionResultObject[]> {
+  // TODO: (wyattjoh) replace with a batch write.
   return Promise.all(inputs.map(input => createAction(mongo, tenantID, input)));
 }
 

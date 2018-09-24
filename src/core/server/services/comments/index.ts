@@ -6,7 +6,7 @@ import {
   CreateActionInput,
   createActions,
   encodeActionCounts,
-} from "talk-server/models/actions";
+} from "talk-server/models/action";
 import {
   retrieveAsset,
   updateAssetActionCounts,

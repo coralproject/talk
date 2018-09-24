@@ -7,7 +7,7 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { EncodedActionCounts } from "talk-server/models/actions";
+import { EncodedActionCounts } from "talk-server/models/action";
 import {
   Connection,
   Cursor,

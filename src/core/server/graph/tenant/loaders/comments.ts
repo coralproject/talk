@@ -10,7 +10,7 @@ import {
 import {
   ACTION_ITEM_TYPE,
   retrieveManyUserActionPresence,
-} from "talk-server/models/actions";
+} from "talk-server/models/action";
 import {
   retrieveCommentAssetConnection,
   retrieveCommentRepliesConnection,

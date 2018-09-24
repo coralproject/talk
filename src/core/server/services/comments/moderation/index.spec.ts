@@ -2,7 +2,7 @@ import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ACTION_TYPE } from "talk-server/models/actions";
+import { ACTION_TYPE } from "talk-server/models/action";
 import {
   compose,
   ModerationPhaseContext,

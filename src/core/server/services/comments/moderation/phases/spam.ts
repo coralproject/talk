@@ -5,7 +5,7 @@ import {
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import logger from "talk-server/logger";
-import { ACTION_TYPE } from "talk-server/models/actions";
+import { ACTION_TYPE } from "talk-server/models/action";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,

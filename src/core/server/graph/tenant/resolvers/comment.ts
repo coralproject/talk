@@ -1,5 +1,5 @@
 import { GQLCommentTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
-import { decodeActionCounts } from "talk-server/models/actions";
+import { decodeActionCounts } from "talk-server/models/action";
 import { Comment } from "talk-server/models/comment";
 
 const Comment: GQLCommentTypeResolver<Comment> = {

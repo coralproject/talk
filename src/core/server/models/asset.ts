@@ -3,7 +3,7 @@ import uuid from "uuid";
 
 import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
-import { EncodedActionCounts } from "talk-server/models/actions";
+import { EncodedActionCounts } from "talk-server/models/action";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
 
