@@ -931,9 +931,10 @@ type Asset {
   ): CommentsConnection!
 
   """
-  actionCounts stores the counts of all the actions for the Comment.
+  actionCounts stores the counts of all the actions against this Asset and it's
+  Comments.
   """
-  actionCounts: ActionCounts!
+  actionCounts: ActionCounts! @auth(roles: [ADMIN, MODERATOR])
 
   """
   author is the authors listed in the meta tags for the Asset.
