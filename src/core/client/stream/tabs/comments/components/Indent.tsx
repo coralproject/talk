@@ -20,6 +20,7 @@ const Indent: StatelessComponent<IndentProps> = props => {
           [styles.level3]: props.level === 3,
           [styles.level4]: props.level === 4,
           [styles.level5]: props.level === 5,
+          [styles.level6]: props.level === 6,
           [styles.noBorder]: props.noBorder,
         })}
       >

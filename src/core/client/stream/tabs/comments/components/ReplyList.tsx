@@ -22,6 +22,8 @@ export interface ReplyListProps {
   disableShowAll?: boolean;
   indentLevel?: number;
   ReplyListComponent?: React.ComponentType<any>;
+  localReply?: boolean;
+  disableReplies?: boolean;
 }
 
 function getReplyListElement(
@@ -48,6 +50,8 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
             comment={comment}
             asset={props.asset}
             indentLevel={props.indentLevel}
+            localReply={props.localReply}
+            disableReplies={props.disableReplies}
           />
           {getReplyListElement(props, comment)}
         </HorizontalGutter>

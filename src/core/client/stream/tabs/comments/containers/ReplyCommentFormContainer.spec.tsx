@@ -92,7 +92,7 @@ it("save values", async () => {
 
 it("creates a comment", async () => {
   const assetID = "asset-id";
-  const input = { body: "Hello World!" };
+  const input = { body: "Hello World!", local: false };
   const createCommentStub = sinon.stub();
   const form = { reset: noop };
   const onCloseStub = sinon.stub();

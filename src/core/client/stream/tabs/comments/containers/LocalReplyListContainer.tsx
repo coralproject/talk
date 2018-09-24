@@ -25,9 +25,10 @@ export class LocalReplyListContainer extends Component<InnerProps> {
       <ReplyList
         me={this.props.me}
         comment={this.props.comment}
-        comments={this.props.comment.localReplies.edges.map(e => e.node)}
+        comments={this.props.comment.localReplies}
         asset={this.props.asset}
         indentLevel={this.props.indentLevel}
+        disableReplies
       />
     );
   }
@@ -48,12 +49,8 @@ const enhanced = withFragmentContainer<InnerProps>({
     fragment LocalReplyListContainer_comment on Comment {
       id
       localReplies {
-        edges {
-          node {
-            id
-            ...CommentContainer_comment
-          }
-        }
+        id
+        ...CommentContainer_comment
       }
     }
   `,
