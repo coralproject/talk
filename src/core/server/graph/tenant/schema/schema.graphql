@@ -1478,6 +1478,34 @@ type UpdateSettingsPayload {
 ## Mutation
 ##################
 
+input CreateCommentReactionInput {
+  """
+  commentID is the Comment's ID that we want to create a Reaction on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateCommentReactionPayload {
+  """
+  comment is the Comment that the Reaction was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## Mutation
+##################
+
 type Mutation {
   """
   createComment will create a Comment as the current logged in User.
@@ -1495,6 +1523,14 @@ type Mutation {
   """
   updateSettings(input: UpdateSettingsInput!): UpdateSettingsPayload
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  createCommentReaction will create a Reaction authored by the current logged in
+  user on a Comment.
+  """
+  createCommentReaction(
+    input: CreateCommentReactionInput!
+  ): CreateCommentReactionPayload @auth
 }
 
 ################################################################################

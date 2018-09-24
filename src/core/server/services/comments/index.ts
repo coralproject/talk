@@ -3,6 +3,7 @@ import { Db } from "mongodb";
 import { Omit } from "talk-common/types";
 import {
   ACTION_ITEM_TYPE,
+  ACTION_TYPE,
   CreateActionInput,
   createActions,
   encodeActionCounts,
@@ -217,6 +218,34 @@ async function addCommentActions(
 
     return updatedComment;
   }
+
+  return comment;
+}
+
+export type CreateCommentReaction = Pick<CreateActionInput, "item_id">;
+
+export async function createCommentReaction(
+  mongo: Db,
+  tenant: Tenant,
+  author: User,
+  input: CreateCommentReaction
+) {
+  // Get the Comment that we are leaving the Action on.
+  let comment = await retrieveComment(mongo, tenant.id, input.item_id);
+  if (!comment) {
+    // TODO: replace to match error returned by the models/comments.ts
+    throw new Error("comment not found");
+  }
+
+  // Add the comment actions, and return the Comment that we just updated.
+  comment = await addCommentActions(mongo, tenant, comment, [
+    {
+      action_type: ACTION_TYPE.REACTION,
+      item_type: ACTION_ITEM_TYPE.COMMENTS,
+      item_id: input.item_id,
+      user_id: author.id,
+    },
+  ]);
 
   return comment;
 }
