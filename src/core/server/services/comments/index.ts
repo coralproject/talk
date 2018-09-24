@@ -1,32 +1,18 @@
 import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
-import { GQLCOMMENT_FLAG_REPORTED_REASON } from "talk-server/graph/tenant/schema/__generated__/types";
+import { ACTION_ITEM_TYPE, CreateActionInput } from "talk-server/models/action";
+import { retrieveAsset } from "talk-server/models/asset";
 import {
-  ACTION_ITEM_TYPE,
-  ACTION_TYPE,
-  CreateActionInput,
-  createActions,
-  deleteAction,
-  DeleteActionInput,
-  encodeActionCounts,
-  invertEncodedActionCounts,
-} from "talk-server/models/action";
-import {
-  retrieveAsset,
-  updateAssetActionCounts,
-} from "talk-server/models/asset";
-import {
-  Comment,
   createComment,
   CreateCommentInput,
   editComment,
   EditCommentInput,
   retrieveComment,
-  updateCommentActionCounts,
 } from "talk-server/models/comment";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
+import { addCommentActions } from "talk-server/services/comments/actions";
 import { processForModeration } from "talk-server/services/comments/moderation";
 import { Request } from "talk-server/types/express";
 
@@ -174,206 +160,6 @@ export async function edit(
     // Insert and handle creating the actions.
     comment = await addCommentActions(mongo, tenant, comment, inputs);
   }
-
-  return comment;
-}
-
-async function addCommentActions(
-  mongo: Db,
-  tenant: Tenant,
-  comment: Readonly<Comment>,
-  inputs: CreateActionInput[]
-): Promise<Readonly<Comment>> {
-  // Create each of the actions, returning each of the action results.
-  const results = await createActions(mongo, tenant.id, inputs);
-
-  // Get the actions that were upserted, we only want to increment the action
-  // counts of actions that were just created.
-  const upsertedActions = results
-    .filter(({ wasUpserted }) => wasUpserted)
-    .map(({ action }) => action);
-
-  if (upsertedActions.length > 0) {
-    // Compute the action counts.
-    const actionCounts = encodeActionCounts(...upsertedActions);
-
-    // Update the comment action counts here.
-    const updatedComment = await updateCommentActionCounts(
-      mongo,
-      tenant.id,
-      comment.id,
-      actionCounts
-    );
-
-    // Update the Asset with the updated action counts.
-    await updateAssetActionCounts(
-      mongo,
-      tenant.id,
-      comment.asset_id,
-      actionCounts
-    );
-
-    // Check to see if there was an actual comment returned (there should
-    // have been, we just created it!).
-    if (!updatedComment) {
-      // TODO: (wyattjoh) return a better error.
-      throw new Error("could not update comment action counts");
-    }
-
-    return updatedComment;
-  }
-
-  return comment;
-}
-
-async function deleteCommentAction(
-  mongo: Db,
-  tenant: Tenant,
-  comment: Readonly<Comment>,
-  input: DeleteActionInput
-): Promise<Readonly<Comment>> {
-  // Create each of the actions, returning each of the action results.
-  const { wasDeleted, action } = await deleteAction(mongo, tenant.id, input);
-  if (wasDeleted) {
-    // Compute the action counts, and invert them (because we're deleting an
-    // action).
-    const actionCounts = invertEncodedActionCounts(encodeActionCounts(action!));
-
-    // Update the comment action counts here.
-    const updatedComment = await updateCommentActionCounts(
-      mongo,
-      tenant.id,
-      comment.id,
-      actionCounts
-    );
-
-    // Update the Asset with the updated action counts.
-    await updateAssetActionCounts(
-      mongo,
-      tenant.id,
-      comment.asset_id,
-      actionCounts
-    );
-
-    // Check to see if there was an actual comment returned.
-    if (!updatedComment) {
-      // TODO: (wyattjoh) return a better error.
-      throw new Error("could not update comment action counts");
-    }
-
-    return updatedComment;
-  }
-
-  return comment;
-}
-
-export type CreateCommentReaction = Pick<CreateActionInput, "item_id">;
-
-export async function createReaction(
-  mongo: Db,
-  tenant: Tenant,
-  author: User,
-  input: CreateCommentReaction
-) {
-  // Get the Comment that we are leaving the Action on.
-  let comment = await retrieveComment(mongo, tenant.id, input.item_id);
-  if (!comment) {
-    // TODO: replace to match error returned by the models/comments.ts
-    throw new Error("comment not found");
-  }
-
-  // Add the comment actions, and return the Comment that we just updated.
-  comment = await addCommentActions(mongo, tenant, comment, [
-    {
-      action_type: ACTION_TYPE.REACTION,
-      item_type: ACTION_ITEM_TYPE.COMMENTS,
-      item_id: input.item_id,
-      user_id: author.id,
-    },
-  ]);
-
-  return comment;
-}
-
-export type DeleteCommentReaction = Pick<DeleteActionInput, "item_id">;
-
-export async function deleteReaction(
-  mongo: Db,
-  tenant: Tenant,
-  author: User,
-  input: DeleteCommentReaction
-) {
-  // Get the Comment that we are leaving the Action on.
-  let comment = await retrieveComment(mongo, tenant.id, input.item_id);
-  if (!comment) {
-    // TODO: replace to match error returned by the models/comments.ts
-    throw new Error("comment not found");
-  }
-
-  // Add the comment actions, and return the Comment that we just updated.
-  comment = await deleteCommentAction(mongo, tenant, comment, {
-    action_type: ACTION_TYPE.REACTION,
-    item_type: ACTION_ITEM_TYPE.COMMENTS,
-    item_id: input.item_id,
-    user_id: author.id,
-  });
-
-  return comment;
-}
-
-export type CreateCommentFlag = Pick<CreateActionInput, "item_id"> & {
-  reason: GQLCOMMENT_FLAG_REPORTED_REASON;
-};
-
-export async function createFlag(
-  mongo: Db,
-  tenant: Tenant,
-  author: User,
-  input: CreateCommentFlag
-) {
-  // Get the Comment that we are leaving the Action on.
-  let comment = await retrieveComment(mongo, tenant.id, input.item_id);
-  if (!comment) {
-    // TODO: replace to match error returned by the models/comments.ts
-    throw new Error("comment not found");
-  }
-
-  // Add the comment actions, and return the Comment that we just updated.
-  comment = await addCommentActions(mongo, tenant, comment, [
-    {
-      action_type: ACTION_TYPE.FLAG,
-      reason: input.reason,
-      item_type: ACTION_ITEM_TYPE.COMMENTS,
-      item_id: input.item_id,
-      user_id: author.id,
-    },
-  ]);
-
-  return comment;
-}
-
-export type DeleteCommentFlag = Pick<DeleteActionInput, "item_id">;
-
-export async function deleteFlag(
-  mongo: Db,
-  tenant: Tenant,
-  author: User,
-  input: DeleteCommentFlag
-) {
-  // Get the Comment that we are leaving the Action on.
-  let comment = await retrieveComment(mongo, tenant.id, input.item_id);
-  if (!comment) {
-    // TODO: replace to match error returned by the models/comments.ts
-    throw new Error("comment not found");
-  }
-
-  // Add the comment actions, and return the Comment that we just updated.
-  comment = await deleteCommentAction(mongo, tenant, comment, {
-    action_type: ACTION_TYPE.FLAG,
-    item_type: ACTION_ITEM_TYPE.COMMENTS,
-    item_id: input.item_id,
-    user_id: author.id,
-  });
 
   return comment;
 }

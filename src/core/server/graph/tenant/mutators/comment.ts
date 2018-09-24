@@ -7,14 +7,13 @@ import {
   GQLDeleteCommentReactionInput,
   GQLEditCommentInput,
 } from "talk-server/graph/tenant/schema/__generated__/types";
+import { create, edit } from "talk-server/services/comments";
 import {
-  create,
   createFlag,
   createReaction,
   deleteFlag,
   deleteReaction,
-  edit,
-} from "talk-server/services/comments";
+} from "talk-server/services/comments/actions";
 
 export default (ctx: TenantContext) => ({
   create: (input: GQLCreateCommentInput) =>
