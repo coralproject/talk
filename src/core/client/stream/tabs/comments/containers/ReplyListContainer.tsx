@@ -12,6 +12,7 @@ import {
   ReplyListContainer1PaginationQueryVariables,
 } from "talk-stream/__generated__/ReplyListContainer1PaginationQuery.graphql";
 
+import { StatelessComponent } from "enzyme";
 import ReplyList from "../components/ReplyList";
 import LocalReplyListContainer from "./LocalReplyListContainer";
 
@@ -120,6 +121,13 @@ function createReplyListContainer(
   );
 }
 
+/**
+ * LastReplyList uses the LocalReplyListContainer.
+ */
+const LastReplyList: StatelessComponent<
+  PropTypesOf<typeof LocalReplyListContainer>
+> = props => <LocalReplyListContainer {...props} indentLevel={6} />;
+
 const ReplyListContainer5 = createReplyListContainer(
   5,
   {
@@ -171,9 +179,7 @@ const ReplyListContainer5 = createReplyListContainer(
       }
     }
   `,
-  (props: PropTypesOf<typeof LocalReplyListContainer>) => (
-    <LocalReplyListContainer {...props} indentLevel={6} />
-  ),
+  LastReplyList,
   true
 );
 
