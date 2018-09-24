@@ -29,6 +29,7 @@ it("renders correctly", () => {
     me: null,
     indentLevel: 1,
     ReplyListComponent: () => null,
+    localReply: false,
   };
   const wrapper = shallow(<ReplyListContainerN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -50,6 +51,7 @@ it("renders correctly when replies are empty", () => {
     me: null,
     indentLevel: 1,
     ReplyListComponent: undefined,
+    localReply: false,
   };
   const wrapper = shallow(<ReplyListContainerN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -75,6 +77,7 @@ describe("when has more replies", () => {
     me: null,
     indentLevel: 1,
     ReplyListComponent: undefined,
+    localReply: false,
   };
 
   let wrapper: ShallowWrapper;

@@ -26,6 +26,13 @@ interface InnerProps {
   asset: AssetData;
   indentLevel?: number;
   showAuthPopup: ShowAuthPopupMutation;
+  /**
+   * localReply will integrate the mutation response into
+   * localReplies
+   */
+  localReply?: boolean;
+  /** disableReplies will remove the ReplyButton */
+  disableReplies?: boolean;
 }
 
 interface State {
@@ -107,7 +114,13 @@ export class CommentContainer extends Component<InnerProps, State> {
   }
 
   public render() {
-    const { comment, asset, indentLevel } = this.props;
+    const {
+      comment,
+      asset,
+      indentLevel,
+      localReply,
+      disableReplies,
+    } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     if (showEditDialog) {
       return (
@@ -144,11 +157,13 @@ export class CommentContainer extends Component<InnerProps, State> {
           }
           footer={
             <>
-              <ReplyButton
-                id={`comments-commentContainer-replyButton-${comment.id}`}
-                onClick={this.openReplyDialog}
-                active={showReplyDialog}
-              />
+              {!disableReplies && (
+                <ReplyButton
+                  id={`comments-commentContainer-replyButton-${comment.id}`}
+                  onClick={this.openReplyDialog}
+                  active={showReplyDialog}
+                />
+              )}
               <PermalinkButtonContainer commentID={comment.id} />
             </>
           }
@@ -158,6 +173,7 @@ export class CommentContainer extends Component<InnerProps, State> {
             comment={comment}
             asset={asset}
             onClose={this.closeReplyDialog}
+            localReply={localReply}
           />
         )}
       </>
