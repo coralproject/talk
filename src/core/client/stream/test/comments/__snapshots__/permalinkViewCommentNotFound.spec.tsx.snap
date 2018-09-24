@@ -9,16 +9,14 @@ exports[`renders permalink view with unknown comment 1`] = `
     role="tablist"
   >
     <li
-      className="Tab-root Tab-primary Tab-active"
-      id="COMMENTS-tab"
-      onClick={[Function]}
+      className="Tab-root"
+      id="tab-COMMENTS"
       role="presentation"
     >
-<<<<<<< HEAD
       <button
-        aria-controls="COMMENTS"
+        aria-controls="tabPane-COMMENTS"
         aria-selected={true}
-        className="BaseButton-root"
+        className="BaseButton-root Tab-button Tab-primary Tab-active"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -32,39 +30,10 @@ exports[`renders permalink view with unknown comment 1`] = `
         Comments
       </button>
     </li>
-    <li
-      className="Tab-root Tab-primary"
-      id="PROFILE-tab"
-      onClick={[Function]}
-      role="presentation"
-=======
-      Show All Comments
-    </a>
-    <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
->>>>>>> 65156c052820a6676b17c2fb7ff5df56b3183d47
-    >
-      <button
-        aria-controls="PROFILE"
-        aria-selected={false}
-        className="BaseButton-root"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseDown={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        role="tab"
-        type="button"
-      >
-        My Profile
-      </button>
-    </li>
   </ul>
   <section
-    aria-labelledby="COMMENTS-tab"
-    id="COMMENTS"
+    aria-labelledby="tab-COMMENTS"
+    id="tabPane-COMMENTS"
     role="tabpanel"
   >
     <div
@@ -84,7 +53,7 @@ exports[`renders permalink view with unknown comment 1`] = `
         target="_parent"
         type="button"
       >
-        Show all comments
+        Show All Comments
       </a>
       <p
         className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"

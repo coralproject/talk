@@ -13,11 +13,6 @@ exports[`renders comments 1`] = `
     >
       Comments
     </withPropsOnChange(Tab)>
-    <withPropsOnChange(Tab)
-      tabId="PROFILE"
-    >
-      My Profile
-    </withPropsOnChange(Tab)>
   </withPropsOnChange(TabBar)>
   <TabContent
     activeTab="COMMENTS"
