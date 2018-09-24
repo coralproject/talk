@@ -416,6 +416,12 @@ export default function createWebpackConfig({
           paths.appAuthIndex,
           // Remove deactivated entries.
         ],
+        admin: [
+          // We ship polyfills by default
+          paths.appPolyfill,
+          ...devServerEntries,
+          paths.appAdminIndex,
+        ],
       },
       plugins: [
         ...baseConfig.plugins!,
@@ -432,6 +438,14 @@ export default function createWebpackConfig({
           filename: "auth.html",
           template: paths.appAuthHTML,
           chunks: ["auth"],
+          inject: "body",
+          ...htmlWebpackConfig,
+        }),
+        // Generates an `admin.html` file with the <script> injected.
+        new HtmlWebpackPlugin({
+          filename: "admin.html",
+          template: paths.appAdminHTML,
+          chunks: ["admin"],
           inject: "body",
           ...htmlWebpackConfig,
         }),

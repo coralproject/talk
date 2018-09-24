@@ -16,6 +16,9 @@ const config: Config = {
     },
     compileRelayStream: {
       paths: [
+        "core/client/admin/**/*.ts",
+        "core/client/admin/**/*.tsx",
+        "core/client/admin/**/*.graphql",
         "core/client/stream/**/*.ts",
         "core/client/stream/**/*.tsx",
         "core/client/stream/**/*.graphql",

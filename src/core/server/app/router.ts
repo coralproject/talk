@@ -1,6 +1,7 @@
 import express from "express";
 import passport from "passport";
 
+import { adminHandler } from "talk-server/app/handlers/admin/admin";
 import {
   logoutHandler,
   signupHandler,
@@ -152,6 +153,9 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
 
   // Handle the stream handler.
   router.get("/embed/stream", cacheHeadersMiddleware("1h"), streamHandler);
+
+  // Handle the stream handler.
+  router.get("/admin", adminHandler);
 
   return router;
 }
