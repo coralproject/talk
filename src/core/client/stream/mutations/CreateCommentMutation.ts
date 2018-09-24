@@ -31,6 +31,9 @@ function sharedUpdater(
   }
 }
 
+/**
+ * update integrates new comment into the CommentConnection.
+ */
 function update(store: RecordSourceSelectorProxy, input: CreateCommentInput) {
   // Get the payload returned from the server.
   const payload = store.getRootField("createComment")!;
@@ -69,6 +72,9 @@ function update(store: RecordSourceSelectorProxy, input: CreateCommentInput) {
   }
 }
 
+/**
+ * localUpdate is like update but updates the `localReplies` endpoint.
+ */
 function localUpdate(
   store: RecordSourceSelectorProxy,
   input: CreateCommentInput
