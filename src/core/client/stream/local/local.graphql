@@ -20,7 +20,10 @@ type AuthPopup {
 }
 
 extend type Comment {
+  # pending is true during the optimistic response.
   pending: Boolean
+  # localReplies contains only comments created by the user
+  # on the ultimate threading level.
   localReplies: [Comment!]
 }
 
