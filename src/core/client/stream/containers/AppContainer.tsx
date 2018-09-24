@@ -16,16 +16,23 @@ interface InnerProps {
 }
 
 const AppContainer: StatelessComponent<InnerProps> = ({
-  local: { activeTab },
+  local: { activeTab, authToken },
   setActiveTab,
 }) => {
-  return <App activeTab={activeTab} setActiveTab={setActiveTab} />;
+  return (
+    <App
+      activeTab={activeTab}
+      setActiveTab={setActiveTab}
+      signedIn={!!authToken}
+    />
+  );
 };
 
 const enhanced = withLocalStateContainer(
   graphql`
     fragment AppContainerLocal on Local {
       activeTab
+      authToken
     }
   `
 )(withSetActiveTabMutation(AppContainer));

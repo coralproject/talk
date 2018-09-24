@@ -18,6 +18,7 @@ import * as styles from "./App.css";
 export interface AppProps {
   activeTab: "COMMENTS" | "PROFILE" | "%future added value";
   setActiveTab: SetActiveTabMutation;
+  signedIn: boolean;
 }
 
 const App: StatelessComponent<AppProps> = props => {
@@ -28,7 +29,7 @@ const App: StatelessComponent<AppProps> = props => {
         onTabClick={tab => props.setActiveTab({ tab })}
       >
         <Tab tabId="COMMENTS">Comments</Tab>
-        <Tab tabId="PROFILE">My Profile</Tab>
+        {props.signedIn && <Tab tabId="PROFILE">My Profile</Tab>}
       </TabBar>
       <TabContent activeTab={props.activeTab}>
         <TabPane tabId="COMMENTS">
