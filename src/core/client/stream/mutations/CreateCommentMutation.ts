@@ -1,5 +1,9 @@
 import { graphql } from "react-relay";
-import { Environment, RelayMutationConfig } from "relay-runtime";
+import {
+  ConnectionHandler,
+  Environment,
+  RecordSourceSelectorProxy,
+} from "relay-runtime";
 
 import { getMe } from "talk-framework/helpers";
 import { TalkContext } from "talk-framework/lib/bootstrap";
@@ -14,7 +18,85 @@ import { CreateCommentMutation as MutationTypes } from "talk-stream/__generated_
 export type CreateCommentInput = Omit<
   MutationTypes["variables"]["input"],
   "clientMutationId"
->;
+> & { local?: boolean };
+
+function sharedUpdater(
+  store: RecordSourceSelectorProxy,
+  input: CreateCommentInput
+) {
+  if (input.local) {
+    localUpdate(store, input);
+  } else {
+    update(store, input);
+  }
+}
+
+/**
+ * update integrates new comment into the CommentConnection.
+ */
+function update(store: RecordSourceSelectorProxy, input: CreateCommentInput) {
+  // Get the payload returned from the server.
+  const payload = store.getRootField("createComment")!;
+
+  // Get the edge of the newly created comment.
+  const newEdge = payload.getLinkedRecord("edge")!;
+
+  // Get parent proxy.
+  const parentProxy = input.parentID
+    ? store.get(input.parentID)
+    : store.get(input.assetID);
+
+  const connectionKey = input.parentID
+    ? "ReplyList_replies"
+    : "Stream_comments";
+
+  const filters = input.parentID
+    ? { orderBy: "CREATED_AT_ASC" }
+    : { orderBy: "CREATED_AT_DESC" };
+
+  const where = input.parentID ? "append" : "prepend";
+
+  if (parentProxy) {
+    const con = ConnectionHandler.getConnection(
+      parentProxy,
+      connectionKey,
+      filters
+    );
+    if (con) {
+      if (where === "prepend") {
+        ConnectionHandler.insertEdgeBefore(con, newEdge);
+      } else {
+        ConnectionHandler.insertEdgeAfter(con, newEdge);
+      }
+    }
+  }
+}
+
+/**
+ * localUpdate is like update but updates the `localReplies` endpoint.
+ */
+function localUpdate(
+  store: RecordSourceSelectorProxy,
+  input: CreateCommentInput
+) {
+  // Get the payload returned from the server.
+  const payload = store.getRootField("createComment")!;
+
+  // Get the edge of the newly created comment.
+  const newEdge = payload.getLinkedRecord("edge")!;
+  const newComment = newEdge.getLinkedRecord("node");
+
+  // Get parent proxy.
+  const parentProxy = store.get(input.parentID!);
+
+  if (parentProxy) {
+    const localReplies = parentProxy.getLinkedRecords("localReplies");
+    const nextLocalReplies = localReplies
+      ? localReplies.concat(newComment)
+      : [newComment];
+    parentProxy.setLinkedRecords(nextLocalReplies, "localReplies");
+  }
+}
 
 const mutation = graphql`
   mutation CreateCommentMutation($input: CreateCommentInput!) {
@@ -32,39 +114,6 @@ const mutation = graphql`
 
 let clientMutationId = 0;
 
-function getConfig(input: CreateCommentInput): RelayMutationConfig[] {
-  if (!input.parentID) {
-    return [
-      {
-        type: "RANGE_ADD",
-        connectionInfo: [
-          {
-            key: "Stream_comments",
-            rangeBehavior: "prepend",
-            filters: { orderBy: "CREATED_AT_DESC" },
-          },
-        ],
-        parentID: input.assetID,
-        edgeName: "edge",
-      },
-    ];
-  }
-  return [
-    {
-      type: "RANGE_ADD",
-      connectionInfo: [
-        {
-          key: "ReplyList_replies",
-          rangeBehavior: "append",
-          filters: { orderBy: "CREATED_AT_ASC" },
-        },
-      ],
-      parentID: input.parentID,
-      edgeName: "edge",
-    },
-  ];
-}
-
 function commit(
   environment: Environment,
   input: CreateCommentInput,
@@ -77,7 +126,9 @@ function commit(
     mutation,
     variables: {
       input: {
-        ...input,
+        assetID: input.assetID,
+        parentID: input.parentID,
+        body: input.body,
         clientMutationId: clientMutationId.toString(),
       },
     },
@@ -102,9 +153,12 @@ function commit(
       },
     } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
     optimisticUpdater: store => {
+      sharedUpdater(store, input);
       store.get(id)!.setValue(true, "pending");
     },
-    configs: getConfig(input),
+    updater: store => {
+      sharedUpdater(store, input);
+    },
   });
 }
 

@@ -19,8 +19,10 @@ exports[`renders correctly 1`] = `
           "id": "comment-1",
         }
       }
+      disableReplies={false}
       indentLevel={1}
       key="comment-1"
+      localReply={false}
       me={null}
     />
   </withPropsOnChange(HorizontalGutter)>
@@ -38,8 +40,10 @@ exports[`renders correctly 1`] = `
           "id": "comment-2",
         }
       }
+      disableReplies={false}
       indentLevel={1}
       key="comment-2"
+      localReply={false}
       me={null}
     />
   </withPropsOnChange(HorizontalGutter)>
