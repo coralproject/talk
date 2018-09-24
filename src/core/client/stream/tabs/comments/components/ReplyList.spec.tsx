@@ -20,6 +20,8 @@ it("renders correctly", () => {
     disableShowAll: false,
     indentLevel: 1,
     me: null,
+    localReply: false,
+    disableReplies: false,
   };
   const wrapper = shallow(<ReplyListN {...props} />);
   expect(wrapper).toMatchSnapshot();
