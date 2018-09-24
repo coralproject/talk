@@ -5,36 +5,44 @@ exports[`renders correctly 1`] = `
   id="talk-comments-replyList-log--comment-id"
   role="log"
 >
-  <withContext(createMutationContainer(Relay(CommentContainer)))
-    asset={
-      Object {
-        "id": "asset-id",
-      }
-    }
-    comment={
-      Object {
-        "id": "comment-1",
-      }
-    }
-    indentLevel={1}
+  <withPropsOnChange(HorizontalGutter)
     key="comment-1"
-    me={null}
-  />
-  <withContext(createMutationContainer(Relay(CommentContainer)))
-    asset={
-      Object {
-        "id": "asset-id",
+  >
+    <withContext(createMutationContainer(Relay(CommentContainer)))
+      asset={
+        Object {
+          "id": "asset-id",
+        }
       }
-    }
-    comment={
-      Object {
-        "id": "comment-2",
+      comment={
+        Object {
+          "id": "comment-1",
+        }
       }
-    }
-    indentLevel={1}
+      indentLevel={1}
+      key="comment-1"
+      me={null}
+    />
+  </withPropsOnChange(HorizontalGutter)>
+  <withPropsOnChange(HorizontalGutter)
     key="comment-2"
-    me={null}
-  />
+  >
+    <withContext(createMutationContainer(Relay(CommentContainer)))
+      asset={
+        Object {
+          "id": "asset-id",
+        }
+      }
+      comment={
+        Object {
+          "id": "comment-2",
+        }
+      }
+      indentLevel={1}
+      key="comment-2"
+      me={null}
+    />
+  </withPropsOnChange(HorizontalGutter)>
 </withPropsOnChange(HorizontalGutter)>
 `;
 
@@ -43,36 +51,44 @@ exports[`when there is more disables load more button 1`] = `
   id="talk-comments-replyList-log--comment-id"
   role="log"
 >
-  <withContext(createMutationContainer(Relay(CommentContainer)))
-    asset={
-      Object {
-        "id": "asset-id",
-      }
-    }
-    comment={
-      Object {
-        "id": "comment-1",
-      }
-    }
-    indentLevel={1}
+  <withPropsOnChange(HorizontalGutter)
     key="comment-1"
-    me={null}
-  />
-  <withContext(createMutationContainer(Relay(CommentContainer)))
-    asset={
-      Object {
-        "id": "asset-id",
+  >
+    <withContext(createMutationContainer(Relay(CommentContainer)))
+      asset={
+        Object {
+          "id": "asset-id",
+        }
       }
-    }
-    comment={
-      Object {
-        "id": "comment-2",
+      comment={
+        Object {
+          "id": "comment-1",
+        }
       }
-    }
-    indentLevel={1}
+      indentLevel={1}
+      key="comment-1"
+      me={null}
+    />
+  </withPropsOnChange(HorizontalGutter)>
+  <withPropsOnChange(HorizontalGutter)
     key="comment-2"
-    me={null}
-  />
+  >
+    <withContext(createMutationContainer(Relay(CommentContainer)))
+      asset={
+        Object {
+          "id": "asset-id",
+        }
+      }
+      comment={
+        Object {
+          "id": "comment-2",
+        }
+      }
+      indentLevel={1}
+      key="comment-2"
+      me={null}
+    />
+  </withPropsOnChange(HorizontalGutter)>
   <Indent
     level={1}
     noBorder={true}
@@ -100,36 +116,44 @@ exports[`when there is more renders a load more button 1`] = `
   id="talk-comments-replyList-log--comment-id"
   role="log"
 >
-  <withContext(createMutationContainer(Relay(CommentContainer)))
-    asset={
-      Object {
-        "id": "asset-id",
-      }
-    }
-    comment={
-      Object {
-        "id": "comment-1",
-      }
-    }
-    indentLevel={1}
+  <withPropsOnChange(HorizontalGutter)
     key="comment-1"
-    me={null}
-  />
-  <withContext(createMutationContainer(Relay(CommentContainer)))
-    asset={
-      Object {
-        "id": "asset-id",
+  >
+    <withContext(createMutationContainer(Relay(CommentContainer)))
+      asset={
+        Object {
+          "id": "asset-id",
+        }
       }
-    }
-    comment={
-      Object {
-        "id": "comment-2",
+      comment={
+        Object {
+          "id": "comment-1",
+        }
       }
-    }
-    indentLevel={1}
+      indentLevel={1}
+      key="comment-1"
+      me={null}
+    />
+  </withPropsOnChange(HorizontalGutter)>
+  <withPropsOnChange(HorizontalGutter)
     key="comment-2"
-    me={null}
-  />
+  >
+    <withContext(createMutationContainer(Relay(CommentContainer)))
+      asset={
+        Object {
+          "id": "asset-id",
+        }
+      }
+      comment={
+        Object {
+          "id": "comment-2",
+        }
+      }
+      indentLevel={1}
+      key="comment-2"
+      me={null}
+    />
+  </withPropsOnChange(HorizontalGutter)>
   <Indent
     level={1}
     noBorder={true}

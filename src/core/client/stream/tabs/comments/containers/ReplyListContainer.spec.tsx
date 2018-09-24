@@ -27,6 +27,8 @@ it("renders correctly", () => {
       isLoading: noop,
     } as any,
     me: null,
+    indentLevel: 1,
+    ReplyListComponent: () => null,
   };
   const wrapper = shallow(<ReplyListContainerN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -46,6 +48,8 @@ it("renders correctly when replies are null", () => {
       isLoading: noop,
     } as any,
     me: null,
+    indentLevel: 1,
+    ReplyListComponent: undefined,
   };
   const wrapper = shallow(<ReplyListContainerN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -69,6 +73,8 @@ describe("when has more replies", () => {
       loadMore: (_: any, callback: () => void) => (finishLoading = callback),
     } as any,
     me: null,
+    indentLevel: 1,
+    ReplyListComponent: undefined,
   };
 
   let wrapper: ShallowWrapper;

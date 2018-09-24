@@ -42,12 +42,8 @@ export default async function initLocalState(
       localRecord.setValue(query.assetID, "assetID");
     }
 
-    // Saving location host for permalink until we get the asset url - the url now points to the tenant
-    if (location && query.assetID) {
-      localRecord.setValue(
-        `${location.origin}/?assetID=${query.assetID}`,
-        "assetURL"
-      );
+    if (query.assetURL) {
+      localRecord.setValue(query.assetURL, "assetURL");
     }
 
     if (query.commentID) {

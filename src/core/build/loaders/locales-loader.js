@@ -95,9 +95,9 @@ function generateTarget(target, context) {
     `
       )
       .join("\n")}
-      contents = contents.concat(suffixes.map(function(suffix) { return require(\`${path
+      contents = contents.concat(suffixes.map(function(suffix) { return require("${path
         .join(getLocalePath(locale), target)
-        .replace(/\\/g, "/")}\${suffix}\`); }));
+        .replace(/\\/g, "/")}" + suffix); }));
       ret.bundled[${JSON.stringify(locale)}] = contents.join("\\n");
     }
   `
@@ -132,9 +132,9 @@ function generateTarget(target, context) {
           /* webpackChunkName: ${JSON.stringify(
             `${target}-locale-${locale}`
           )}, webpackMode: "lazy-once" */
-          \`${path
+          "${path
             .join(getLocalePath(locale), target)
-            .replace(/\\/g, "/")}\${suffix}\`
+            .replace(/\\/g, "/")}" + suffix
         )
       }));
       return Promise.all(promises).then(function(modules) {

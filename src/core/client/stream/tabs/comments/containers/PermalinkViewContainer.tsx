@@ -40,6 +40,18 @@ class PermalinkViewContainer extends React.Component<
     // Remove the commentId url param.
     return buildURL({ ...urlParts, search });
   }
+
+  public componentDidMount() {
+    if (this.props.pym) {
+      const scrollTo = this.props.comment
+        ? document
+            .getElementById(`comment-${this.props.comment.id}`)!
+            .getBoundingClientRect().top + window.pageYOffset
+        : 50;
+      setTimeout(() => this.props.pym!.scrollParentToChildPos(scrollTo), 100);
+    }
+  }
+
   public render() {
     const { comment, asset, me } = this.props;
     return (
@@ -66,6 +78,7 @@ const enhanced = withContext(ctx => ({
       `,
       comment: graphql`
         fragment PermalinkViewContainer_comment on Comment {
+          id
           ...CommentContainer_comment
         }
       `,
