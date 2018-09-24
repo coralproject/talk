@@ -31,6 +31,14 @@ const Mutation: GQLMutationTypeResolver<void> = {
     comment: await ctx.mutators.Comment.deleteReaction(input),
     clientMutationId: input.clientMutationId,
   }),
+  createCommentDontAgree: async (source, { input }, ctx) => ({
+    comment: await ctx.mutators.Comment.createDontAgree(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  deleteCommentDontAgree: async (source, { input }, ctx) => ({
+    comment: await ctx.mutators.Comment.deleteDontAgree(input),
+    clientMutationId: input.clientMutationId,
+  }),
   createCommentFlag: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comment.createFlag(input),
     clientMutationId: input.clientMutationId,

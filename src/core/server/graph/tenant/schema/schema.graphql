@@ -1531,6 +1531,62 @@ type DeleteCommentReactionPayload {
 }
 
 ##################
+## createCommentDontAgree
+##################
+
+input CreateCommentDontAgreeInput {
+  """
+  commentID is the Comment's ID that we want to create a DontAgree on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateCommentDontAgreePayload {
+  """
+  comment is the Comment that the DontAgree was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## deleteCommentDontAgree
+##################
+
+input DeleteCommentDontAgreeInput {
+  """
+  commentID is the Comment's ID that we want to delete a DontAgree on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteCommentDontAgreePayload {
+  """
+  comment is the Comment that the DontAgree was deleted on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## createCommentFlag
 ##################
 
@@ -1628,6 +1684,22 @@ type Mutation {
   deleteCommentReaction(
     input: CreateCommentReactionInput!
   ): CreateCommentReactionPayload @auth
+
+  """
+  createCommentDontAgree will create a DontAgree authored by the current logged in
+  User on a Comment.
+  """
+  createCommentDontAgree(
+    input: CreateCommentDontAgreeInput!
+  ): CreateCommentDontAgreePayload @auth
+
+  """
+  deleteCommentDontAgree will delete a DontAgree authored by the current logged in
+  User on a Comment if it exists.
+  """
+  deleteCommentDontAgree(
+    input: CreateCommentDontAgreeInput!
+  ): CreateCommentDontAgreePayload @auth
 
   """
   createCommentFlag will create a Flag authored by the current logged in User on

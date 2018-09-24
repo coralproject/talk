@@ -161,6 +161,38 @@ export async function deleteReaction(
   });
 }
 
+export type CreateCommentDontAgree = Pick<CreateActionInput, "item_id">;
+
+export async function createDontAgree(
+  mongo: Db,
+  tenant: Tenant,
+  author: User,
+  input: CreateCommentDontAgree
+) {
+  return addCommentAction(mongo, tenant, {
+    action_type: ACTION_TYPE.DONT_AGREE,
+    item_type: ACTION_ITEM_TYPE.COMMENTS,
+    item_id: input.item_id,
+    user_id: author.id,
+  });
+}
+
+export type DeleteCommentDontAgree = Pick<DeleteActionInput, "item_id">;
+
+export async function deleteDontAgree(
+  mongo: Db,
+  tenant: Tenant,
+  author: User,
+  input: DeleteCommentDontAgree
+) {
+  return removeCommentAction(mongo, tenant, {
+    action_type: ACTION_TYPE.DONT_AGREE,
+    item_type: ACTION_ITEM_TYPE.COMMENTS,
+    item_id: input.item_id,
+    user_id: author.id,
+  });
+}
+
 export type CreateCommentFlag = Pick<CreateActionInput, "item_id"> & {
   reason: GQLCOMMENT_FLAG_REPORTED_REASON;
 };
