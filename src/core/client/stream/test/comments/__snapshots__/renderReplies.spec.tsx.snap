@@ -51,6 +51,7 @@ exports[`renders comment stream 1`] = `
         role="tab"
         type="button"
       >
+<<<<<<< HEAD
         My Profile
       </button>
     </li>
@@ -60,6 +61,104 @@ exports[`renders comment stream 1`] = `
     id="COMMENTS"
     role="tabpanel"
   >
+=======
+        <div
+          aria-hidden="true"
+        >
+          <div>
+            <div
+              className=""
+            >
+              <div
+                className=" RTE-toolbarDisabled Toolbar-toolbar"
+              >
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Bold"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_bold
+                  </span>
+                </button>
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Italic"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_italic
+                  </span>
+                </button>
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Blockquote"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_quote
+                  </span>
+                </button>
+              </div>
+              <div
+                aria-hidden="true"
+                className="RTE-placeholder RTE-placeholder "
+              >
+                Post a comment
+              </div>
+              <div
+                aria-placeholder="Post a comment"
+                className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
+                contentEditable={false}
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "",
+                  }
+                }
+                disabled={true}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onCut={[Function]}
+                onFocus={[Function]}
+                onInput={[Function]}
+                onKeyDown={[Function]}
+                onPaste={[Function]}
+                onSelect={[Function]}
+              />
+            </div>
+          </div>
+        </div>
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
+          disabled={true}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="submit"
+        >
+          Sign in and Join the Conversation
+        </button>
+      </div>
+    </div>
+>>>>>>> 65156c052820a6676b17c2fb7ff5df56b3183d47
     <div
       className="HorizontalGutter-root Stream-root HorizontalGutter-double"
     >
@@ -69,6 +168,7 @@ exports[`renders comment stream 1`] = `
         <div
           className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"
         >
+<<<<<<< HEAD
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
             onBlur={[Function]}
@@ -206,6 +306,10 @@ exports[`renders comment stream 1`] = `
         >
           <div
             className="Indent-root"
+=======
+          <div
+            className=""
+>>>>>>> 65156c052820a6676b17c2fb7ff5df56b3183d47
           >
             <div
               className="Comment-root"
@@ -213,6 +317,7 @@ exports[`renders comment stream 1`] = `
             >
               <div
                 className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                id="comment-comment-0"
               >
                 <div
                   className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -266,11 +371,23 @@ exports[`renders comment stream 1`] = `
             </div>
           </div>
         </div>
+<<<<<<< HEAD
         <div
           className="HorizontalGutter-root HorizontalGutter-full"
         >
           <div
             className="Indent-root"
+=======
+      </div>
+      <div
+        className="HorizontalGutter-root HorizontalGutter-full"
+      >
+        <div
+          className="Indent-root"
+        >
+          <div
+            className=""
+>>>>>>> 65156c052820a6676b17c2fb7ff5df56b3183d47
           >
             <div
               className="Comment-root"
@@ -278,6 +395,7 @@ exports[`renders comment stream 1`] = `
             >
               <div
                 className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                id="comment-comment-with-deep-replies"
               >
                 <div
                   className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -313,7 +431,11 @@ exports[`renders comment stream 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+<<<<<<< HEAD
                   id="comments-commentContainer-replyButton-comment-with-replies"
+=======
+                  id="comments-commentContainer-replyButton-comment-with-deep-replies"
+>>>>>>> 65156c052820a6676b17c2fb7ff5df56b3183d47
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -454,6 +576,298 @@ exports[`renders comment stream 1`] = `
                       Reply
                     </span>
                   </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+          id="talk-comments-replyList-log--comment-with-deep-replies"
+          role="log"
+        >
+          <div
+            className="HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
+              className="Indent-root"
+            >
+              <div
+                className="Indent-level1"
+              >
+                <div
+                  className="Comment-root"
+                  role="article"
+                >
+                  <div
+                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    id="comment-comment-with-replies"
+                  >
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                    >
+                      <span
+                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      >
+                        Markus
+                      </span>
+                      <div
+                        className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                      >
+                        <time
+                          className="Timestamp-root RelativeTime-root"
+                          dateTime="2018-07-06T18:24:00.000Z"
+                          title="2018-07-06T18:24:00.000Z"
+                        >
+                          2018-07-06T18:24:00.000Z
+                        </time>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "I like yoghurt",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                  >
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      id="comments-commentContainer-replyButton-comment-with-replies"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Reply
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+              id="talk-comments-replyList-log--comment-with-replies"
+              role="log"
+            >
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
+              >
+                <div
+                  className="Indent-root"
+                >
+                  <div
+                    className="Indent-level2"
+                  >
+                    <div
+                      className="Comment-root"
+                      role="article"
+                    >
+                      <div
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-3"
+                      >
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Isabelle
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:14:00.000Z"
+                              title="2018-07-06T18:14:00.000Z"
+                            >
+                              2018-07-06T18:14:00.000Z
+                            </time>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="HTMLContent-root"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "Comment Body 3",
+                          }
+                        }
+                      />
+                      <div
+                        className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      >
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          id="comments-commentContainer-replyButton-comment-3"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Reply
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
+              >
+                <div
+                  className="Indent-root"
+                >
+                  <div
+                    className="Indent-level2"
+                  >
+                    <div
+                      className="Comment-root"
+                      role="article"
+                    >
+                      <div
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-4"
+                      >
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Isabelle
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:14:00.000Z"
+                              title="2018-07-06T18:14:00.000Z"
+                            >
+                              2018-07-06T18:14:00.000Z
+                            </time>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="HTMLContent-root"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "Comment Body 4",
+                          }
+                        }
+                      />
+                      <div
+                        className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      >
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          id="comments-commentContainer-replyButton-comment-4"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Reply
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
+              className="Indent-root"
+            >
+              <div
+                className="Indent-level1"
+              >
+                <div
+                  className="Comment-root"
+                  role="article"
+                >
+                  <div
+                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    id="comment-comment-5"
+                  >
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                    >
+                      <span
+                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      >
+                        Isabelle
+                      </span>
+                      <div
+                        className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                      >
+                        <time
+                          className="Timestamp-root RelativeTime-root"
+                          dateTime="2018-07-06T18:14:00.000Z"
+                          title="2018-07-06T18:14:00.000Z"
+                        >
+                          2018-07-06T18:14:00.000Z
+                        </time>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "Comment Body 5",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                  >
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      id="comments-commentContainer-replyButton-comment-5"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Reply
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

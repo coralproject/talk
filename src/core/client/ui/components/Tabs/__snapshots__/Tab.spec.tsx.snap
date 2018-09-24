@@ -3,13 +3,12 @@
 exports[`renders correctly 1`] = `
 <li
   className="Tab-root"
-  id="three-tab"
-  onClick={[Function]}
+  id="tab-three"
   role="presentation"
 >
   <button
-    aria-controls="three"
-    className="BaseButton-root"
+    aria-controls="tabPane-three"
+    className="BaseButton-root Tab-button"
     onBlur={[Function]}
     onClick={[Function]}
     onFocus={[Function]}

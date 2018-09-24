@@ -194,6 +194,22 @@ exports[`renders comment stream 1`] = `
             Sign in and join the conversation
           </button>
         </div>
+<<<<<<< HEAD
+=======
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
+          disabled={true}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="submit"
+        >
+          Sign in and Join the Conversation
+        </button>
+>>>>>>> 65156c052820a6676b17c2fb7ff5df56b3183d47
       </div>
       <div
         aria-live="polite"
@@ -205,7 +221,11 @@ exports[`renders comment stream 1`] = `
           className="HorizontalGutter-root HorizontalGutter-full"
         >
           <div
+<<<<<<< HEAD
             className="Indent-root"
+=======
+            className=""
+>>>>>>> 65156c052820a6676b17c2fb7ff5df56b3183d47
           >
             <div
               className="Comment-root"
@@ -213,6 +233,10 @@ exports[`renders comment stream 1`] = `
             >
               <div
                 className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+<<<<<<< HEAD
+=======
+                id="comment-comment-0"
+>>>>>>> 65156c052820a6676b17c2fb7ff5df56b3183d47
               >
                 <div
                   className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
@@ -270,7 +294,11 @@ exports[`renders comment stream 1`] = `
           className="HorizontalGutter-root HorizontalGutter-full"
         >
           <div
+<<<<<<< HEAD
             className="Indent-root"
+=======
+            className=""
+>>>>>>> 65156c052820a6676b17c2fb7ff5df56b3183d47
           >
             <div
               className="Comment-root"
@@ -278,18 +306,31 @@ exports[`renders comment stream 1`] = `
             >
               <div
                 className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+<<<<<<< HEAD
+=======
+                id="comment-comment-1"
+>>>>>>> 65156c052820a6676b17c2fb7ff5df56b3183d47
               >
                 <div
                   className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                 >
                   <span
                     className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+<<<<<<< HEAD
                   >
                     Lukas
                   </span>
                   <div
                     className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                   >
+=======
+                  >
+                    Lukas
+                  </span>
+                  <div
+                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                  >
+>>>>>>> 65156c052820a6676b17c2fb7ff5df56b3183d47
                     <time
                       className="Timestamp-root RelativeTime-root"
                       dateTime="2018-07-06T18:20:00.000Z"

@@ -17,9 +17,9 @@ const TabPane: StatelessComponent<TabBarProps> = props => {
     <section
       className={className}
       key={tabId}
-      id={tabId}
+      id={`tabPane-${tabId}`}
       role="tabpanel"
-      aria-labelledby={`${tabId}-tab`}
+      aria-labelledby={`tab-${tabId}`}
     >
       {children}
     </section>

@@ -23,7 +23,7 @@ graphql`
   fragment StreamContainer_comment on Comment {
     id
     ...CommentContainer_comment
-    ...ReplyListContainer_comment
+    ...ReplyListContainer1_comment
   }
 `;
 
@@ -95,12 +95,12 @@ const enhanced = withPaginationContainer<
           }
         }
         ...CommentContainer_asset
-        ...ReplyListContainer_asset
+        ...ReplyListContainer1_asset
       }
     `,
     me: graphql`
       fragment StreamContainer_me on User {
-        ...ReplyListContainer_me
+        ...ReplyListContainer1_me
         ...CommentContainer_me
         ...UserBoxContainer_me
       }
@@ -135,7 +135,7 @@ const enhanced = withPaginationContainer<
         $count: Int!
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
-        $assetID: ID!
+        $assetID: ID
       ) {
         asset(id: $assetID) {
           ...StreamContainer_asset

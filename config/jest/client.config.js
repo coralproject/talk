@@ -10,6 +10,8 @@ module.exports = {
     "<rootDir>/src/core/build/polyfills.js",
     "<rootDir>/src/core/client/test/setup.ts",
   ],
+  setupTestFrameworkScriptFile:
+    "<rootDir>/src/core/client/test/setupTestFramework.ts",
   testMatch: ["**/*.spec.{js,jsx,mjs,ts,tsx}"],
   testEnvironment: "node",
   testURL: "http://localhost",

@@ -288,6 +288,25 @@ export default function createWebpackConfig({
                 },
               ],
             },
+            // Makes sure node_modules are transpiled the way we need them to be.
+            {
+              test: /\.js$/,
+              include: /node_modules\//,
+              use: [
+                {
+                  loader: require.resolve("babel-loader"),
+                  options: {
+                    presets: [
+                      [
+                        "@babel/env",
+                        { targets: "last 2 versions, ie 11", modules: false },
+                      ],
+                    ],
+                    cacheDirectory: true,
+                  },
+                },
+              ],
+            },
             // "postcss" loader applies autoprefixer to our CSS.
             // "css" loader resolves paths in CSS and adds assets as dependencies.
             // "style" loader turns CSS into JS modules that inject <style> tags.
@@ -363,6 +382,22 @@ export default function createWebpackConfig({
     },
   };
 
+  const devServerEntries = isProduction
+    ? []
+    : [
+        // Include an alternative client for WebpackDevServer. A client's job is to
+        // connect to WebpackDevServer by a socket and get notified about changes.
+        // When you save a file, the client will either apply hot updates (in case
+        // of CSS changes), or refresh the page (in case of JS changes). When you
+        // make a syntax error, this client will display a syntax error overlay.
+        // Note: instead of the default WebpackDevServer client, we use a custom one
+        // to bring better experience for Create React App users. You can replace
+        // the line below with these two lines if you prefer the stock client:
+        // require.resolve('webpack-dev-server/client') + '?/',
+        // require.resolve('webpack/hot/dev-server'),
+        require.resolve("react-dev-utils/webpackHotDevClient"),
+      ];
+
   return [
     /* Webpack config for our different target, e.g. stream, admin... */
     {
@@ -371,39 +406,16 @@ export default function createWebpackConfig({
         stream: [
           // We ship polyfills by default
           paths.appPolyfill,
-          // Include an alternative client for WebpackDevServer. A client's job is to
-          // connect to WebpackDevServer by a socket and get notified about changes.
-          // When you save a file, the client will either apply hot updates (in case
-          // of CSS changes), or refresh the page (in case of JS changes). When you
-          // make a syntax error, this client will display a syntax error overlay.
-          // Note: instead of the default WebpackDevServer client, we use a custom one
-          // to bring better experience for Create React App users. You can replace
-          // the line below with these two lines if you prefer the stock client:
-          // require.resolve('webpack-dev-server/client') + '?/',
-          // require.resolve('webpack/hot/dev-server'),
-          (isProduction && "") ||
-            require.resolve("react-dev-utils/webpackHotDevClient"),
+          ...devServerEntries,
           paths.appStreamIndex,
-          // Remove deactivated entries.
-        ].filter(s => s),
+        ],
         auth: [
           // We ship polyfills by default
           paths.appPolyfill,
-          // Include an alternative client for WebpackDevServer. A client's job is to
-          // connect to WebpackDevServer by a socket and get notified about changes.
-          // When you save a file, the client will either apply hot updates (in case
-          // of CSS changes), or refresh the page (in case of JS changes). When you
-          // make a syntax error, this client will display a syntax error overlay.
-          // Note: instead of the default WebpackDevServer client, we use a custom one
-          // to bring better experience for Create React App users. You can replace
-          // the line below with these two lines if you prefer the stock client:
-          // require.resolve('webpack-dev-server/client') + '?/',
-          // require.resolve('webpack/hot/dev-server'),
-          (isProduction && "") ||
-            require.resolve("react-dev-utils/webpackHotDevClient"),
+          ...devServerEntries,
           paths.appAuthIndex,
           // Remove deactivated entries.
-        ].filter(s => s),
+        ],
       },
       plugins: [
         ...baseConfig.plugins!,
@@ -440,33 +452,50 @@ export default function createWebpackConfig({
     {
       ...baseConfig,
       entry: [
-        // No polyfills for the embed.
-        (isProduction && "") ||
-          require.resolve("react-dev-utils/webpackHotDevClient"),
+        /* Use minimal amount of polyfills (for IE) */
+        "core-js/fn/object/assign",
+        "core-js/fn/symbol",
+        "core-js/fn/symbol/iterator",
+        ...devServerEntries,
         paths.appEmbedIndex,
-        // Remove deactivated entries.
-      ].filter(s => s),
+      ],
       output: {
         ...baseConfig.output,
-        library: "Talk",
+        library: "Coral",
         // don't hash the embed, cache-busting must be completed by the requester
         // as this lives in a static template on the embed site.
         filename: "assets/js/embed.js",
       },
       plugins: [
         ...baseConfig.plugins!,
-        // Generates an `stream.html` file with the <script> injected.
-        new HtmlWebpackPlugin({
-          filename: "embed.html",
-          template: paths.appEmbedHTML,
-          inject: "head",
-          ...htmlWebpackConfig,
-        }),
-        // Makes some environment variables available in index.html.
-        // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-        // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-        // In development, this will be an empty string.
-        new InterpolateHtmlPlugin(env),
+        ...(isProduction
+          ? []
+          : [
+              // Generates an `embed.html` file with the <script> injected.
+              new HtmlWebpackPlugin({
+                filename: "embed.html",
+                template: paths.appEmbedHTML,
+                inject: "head",
+                ...htmlWebpackConfig,
+              }),
+              new HtmlWebpackPlugin({
+                filename: "article.html",
+                template: paths.appEmbedArticleHTML,
+                inject: "head",
+                ...htmlWebpackConfig,
+              }),
+              new HtmlWebpackPlugin({
+                filename: "articleButton.html",
+                template: paths.appEmbedArticleButtonHTML,
+                inject: "head",
+                ...htmlWebpackConfig,
+              }),
+              // Makes some environment variables available in index.html.
+              // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
+              // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+              // In development, this will be an empty string.
+              new InterpolateHtmlPlugin(env),
+            ]),
         // Generate a manifest file which contains a mapping of all asset filenames
         // to their corresponding output file so that tools can pick it up without
         // having to parse `index.html`.

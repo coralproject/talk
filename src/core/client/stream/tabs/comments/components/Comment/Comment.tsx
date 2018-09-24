@@ -10,6 +10,7 @@ import TopBarLeft from "./TopBarLeft";
 import Username from "./Username";
 
 export interface CommentProps {
+  id?: string;
   className?: string;
   author: {
     username: string | null;
@@ -28,6 +29,7 @@ const Comment: StatelessComponent<CommentProps> = props => {
         className={styles.topBar}
         direction="row"
         justifyContent="space-between"
+        id={props.id}
       >
         <TopBarLeft>
           {props.author &&

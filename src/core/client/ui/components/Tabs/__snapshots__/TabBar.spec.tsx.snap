@@ -6,15 +6,14 @@ exports[`renders correctly 1`] = `
   role="tablist"
 >
   <li
-    className="Tab-root Tab-primary Tab-active"
-    id="one-tab"
-    onClick={[Function]}
+    className="Tab-root"
+    id="tab-one"
     role="presentation"
   >
     <button
-      aria-controls="one"
+      aria-controls="tabPane-one"
       aria-selected={true}
-      className="BaseButton-root"
+      className="BaseButton-root Tab-button Tab-primary Tab-active"
       onBlur={[Function]}
       onClick={[Function]}
       onFocus={[Function]}
@@ -29,15 +28,14 @@ exports[`renders correctly 1`] = `
     </button>
   </li>
   <li
-    className="Tab-root Tab-primary"
-    id="two-tab"
-    onClick={[Function]}
+    className="Tab-root"
+    id="tab-two"
     role="presentation"
   >
     <button
-      aria-controls="two"
+      aria-controls="tabPane-two"
       aria-selected={false}
-      className="BaseButton-root"
+      className="BaseButton-root Tab-button Tab-primary"
       onBlur={[Function]}
       onClick={[Function]}
       onFocus={[Function]}
@@ -52,15 +50,14 @@ exports[`renders correctly 1`] = `
     </button>
   </li>
   <li
-    className="Tab-root Tab-primary"
-    id="three-tab"
-    onClick={[Function]}
+    className="Tab-root"
+    id="tab-three"
     role="presentation"
   >
     <button
-      aria-controls="three"
+      aria-controls="tabPane-three"
       aria-selected={false}
-      className="BaseButton-root"
+      className="BaseButton-root Tab-button Tab-primary"
       onBlur={[Function]}
       onClick={[Function]}
       onFocus={[Function]}
