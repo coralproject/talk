@@ -27,10 +27,12 @@ const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
       <Flex direction="row" justifyContent="space-between">
         <Typography variant="bodyCopy" container="div">
           {props.comment.body && (
-            <HTMLContent>{props.comment.body}</HTMLContent>
+            <HTMLContent className={styles.body}>
+              {props.comment.body}
+            </HTMLContent>
           )}
         </Typography>
-        <HorizontalGutter className={styles.sideBar}>
+        <Flex className={styles.sideBar} direction="column">
           <Flex direction="row" alignItems="center" itemGutter="half">
             <ButtonIcon className={styles.icon}>launch</ButtonIcon>
             <Localized id="profile-historyComment-viewConversation">
@@ -47,7 +49,7 @@ const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
             <ButtonIcon className={styles.icon}>schedule</ButtonIcon>
             <Timestamp>{props.comment.createdAt}</Timestamp>
           </Flex>
-        </HorizontalGutter>
+        </Flex>
       </Flex>
       {!!props.comment.replyCount && (
         <Flex

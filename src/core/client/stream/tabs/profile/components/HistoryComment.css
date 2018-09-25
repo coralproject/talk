@@ -9,4 +9,9 @@
 
 .sideBar {
   min-width: 180px;
+  padding-left: var(--spacing-unit);
+}
+
+.body {
+  word-break: break-all;
 }

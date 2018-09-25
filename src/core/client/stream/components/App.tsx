@@ -30,7 +30,7 @@ const App: StatelessComponent<AppProps> = props => {
         <Tab tabId="COMMENTS">Comments</Tab>
         <Tab tabId="PROFILE">My Profile</Tab>
       </TabBar>
-      <TabContent activeTab={props.activeTab}>
+      <TabContent activeTab={props.activeTab} className={styles.tabContent}>
         <TabPane tabId="COMMENTS">
           <CommentsPaneContainer />
         </TabPane>
