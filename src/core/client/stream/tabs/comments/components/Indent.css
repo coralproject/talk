@@ -30,6 +30,12 @@
   border-left: 3px solid var(--palette-grey-lighter);
 }
 
+.level6 {
+  padding-left: var(--spacing-unit);
+  margin-left: calc(5 * var(--spacing-unit));
+  border-left: 3px solid var(--palette-grey-lightest);
+}
+
 .noBorder {
   border: 0;
 }

@@ -25,6 +25,7 @@ interface InnerProps {
   asset: AssetData;
   onClose?: () => void;
   autofocus: boolean;
+  localReply?: boolean;
 }
 
 interface State {
@@ -76,6 +77,7 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
       await this.props.createComment({
         assetID: this.props.asset.id,
         parentID: this.props.comment.id,
+        local: this.props.localReply,
         ...input,
       });
 
