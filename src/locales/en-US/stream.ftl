@@ -70,3 +70,4 @@ comments-editCommentForm-editTimeExpired = Edit time has expired. You can no lon
 comments-editedMarker-edited = Edited
 
 comments-respectButton-respect = Respect
+comments-respectButton-respected = Respected

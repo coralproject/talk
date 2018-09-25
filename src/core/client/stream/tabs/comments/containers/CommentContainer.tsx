@@ -166,7 +166,7 @@ export class CommentContainer extends Component<InnerProps, State> {
                 />
               )}
               <PermalinkButtonContainer commentID={comment.id} />
-              <RespectButtonContainer commentID={comment.id} />
+              <RespectButtonContainer comment={comment} />
             </>
           }
         />
@@ -211,6 +211,7 @@ const enhanced = withShowAuthPopupMutation(
         pending
         ...ReplyCommentFormContainer_comment
         ...EditCommentFormContainer_comment
+        ...RespectButtonContainer_comment
       }
     `,
   })(CommentContainer)
