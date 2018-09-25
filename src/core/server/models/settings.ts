@@ -1,5 +1,6 @@
 import {
   GQLAuth,
+  GQLCharCount,
   GQLEmail,
   GQLExternalIntegrations,
   GQLKarma,
@@ -62,8 +63,7 @@ export interface ModerationSettings {
   closedMessage?: string;
   disableCommenting: boolean;
   disableCommentingMessage?: string;
-  charCountEnable: boolean;
-  charCount?: number;
+  charCount: GQLCharCount;
 }
 
 export interface Settings extends ModerationSettings {

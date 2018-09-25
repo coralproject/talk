@@ -1,3 +1,5 @@
+import { merge } from "lodash";
+
 export type Cursor = Date | number | string | null;
 
 export interface Edge<T> {
@@ -15,6 +17,25 @@ export interface PageInfo {
 export interface Connection<T> {
   edges: Array<Edge<T>>;
   pageInfo: PageInfo;
+}
+
+/**
+ * createConnection will create a base Connection that can be used to satisfy
+ * the Connection<T> interface.
+ *
+ * @param connection the base connection to optionally merge with the default base
+ * connection details.
+ */
+export function createConnection<T>(
+  connection: Partial<Connection<T>> = {}
+): Connection<T> {
+  return merge(
+    {
+      edges: [],
+      pageInfo: {},
+    },
+    connection
+  );
 }
 
 export interface PaginationArgs {
