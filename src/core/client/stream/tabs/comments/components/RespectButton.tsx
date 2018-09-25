@@ -3,10 +3,14 @@ import React from "react";
 
 import { Button, ButtonIcon, MatchMedia } from "talk-ui/components";
 
-class RespectButton extends React.Component {
+interface RespectButtonProps {
+  onButtonClick: () => {};
+}
+
+class RespectButton extends React.Component<RespectButtonProps> {
   public render() {
     return (
-      <Button variant="ghost" size="small">
+      <Button variant="ghost" size="small" onClick={this.props.onButtonClick}>
         <MatchMedia gtWidth="xs">
           <ButtonIcon>thumb_up_alt</ButtonIcon>
         </MatchMedia>

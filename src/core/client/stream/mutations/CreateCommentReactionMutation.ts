@@ -44,7 +44,7 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
   });
 }
 
-export const withEditCommentMutation = createMutationContainer(
+export const withCreateCommentReactionMutation = createMutationContainer(
   "createCommentReaction",
   commit
 );

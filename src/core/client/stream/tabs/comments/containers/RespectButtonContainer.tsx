@@ -1,9 +1,26 @@
-import React, { StatelessComponent } from "react";
+import React from "react";
 
+import {
+  CreateCommentReactionMutation,
+  withCreateCommentReactionMutation,
+} from "../../../mutations";
 import RespectButton from "../components/RespectButton";
 
-export const RespectButtonContainer: StatelessComponent = () => {
-  return <RespectButton />;
-};
+interface RespectButtonContainerProps {
+  createCommentReaction: CreateCommentReactionMutation;
+  commentID: string;
+}
 
-export default RespectButtonContainer;
+class RespectButtonContainer extends React.Component<
+  RespectButtonContainerProps
+> {
+  private onButtonClick = () =>
+    this.props.createCommentReaction({
+      commentID: this.props.commentID,
+    });
+  public render() {
+    return <RespectButton onButtonClick={this.onButtonClick} />;
+  }
+}
+
+export default withCreateCommentReactionMutation(RespectButtonContainer);

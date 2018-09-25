@@ -166,7 +166,7 @@ export class CommentContainer extends Component<InnerProps, State> {
                 />
               )}
               <PermalinkButtonContainer commentID={comment.id} />
-              <RespectButtonContainer />
+              <RespectButtonContainer commentID={comment.id} />
             </>
           }
         />
