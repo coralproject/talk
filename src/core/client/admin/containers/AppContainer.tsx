@@ -1,7 +1,7 @@
 import * as React from "react";
 import { StatelessComponent } from "react";
 
-import { AppContainerLocal as Local } from "talk-auth/__generated__/AppContainerLocal.graphql";
+import { AppContainerLocal as Local } from "talk-admin/__generated__/AppContainerLocal.graphql";
 import { graphql, withLocalStateContainer } from "talk-framework/lib/relay";
 
 import App from "../components/App";
