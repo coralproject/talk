@@ -239,6 +239,22 @@ export default function createWebpackConfig({
                 },
               ],
             },
+            {
+              test: paths.appAdminLocalesTemplate,
+              use: [
+                // This is the locales loader that loads available locales
+                // from a particular target.
+                {
+                  loader: "locales-loader",
+                  options: {
+                    ...localesOptions,
+                    // Target specifies the prefix for fluent files to be loaded.
+                    // ${target}-xyz.ftl and ${†arget}.ftl are loaded into the locales.
+                    target: "admin",
+                  },
+                },
+              ],
+            },
             // Loader for our fluent files.
             {
               test: /\.ftl$/,

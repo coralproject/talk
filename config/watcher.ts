@@ -16,15 +16,15 @@ const config: Config = {
     },
     compileRelayStream: {
       paths: [
-        "core/client/admin/**/*.ts",
-        "core/client/admin/**/*.tsx",
-        "core/client/admin/**/*.graphql",
         "core/client/stream/**/*.ts",
         "core/client/stream/**/*.tsx",
         "core/client/stream/**/*.graphql",
         "core/client/auth/**/*.ts",
         "core/client/auth/**/*.tsx",
         "core/client/auth/**/*.graphql",
+        "core/client/admin/**/*.ts",
+        "core/client/admin/**/*.tsx",
+        "core/client/admin/**/*.graphql",
         "core/server/**/*.graphql",
       ],
       ignore: [
@@ -34,6 +34,23 @@ const config: Config = {
         "core/**/*.spec.*",
       ],
       executor: new CommandExecutor("npm run compile:relay-stream", {
+        runOnInit: true,
+      }),
+    },
+    compileRelayAdmin: {
+      paths: [
+        "core/client/admin/**/*.ts",
+        "core/client/admin/**/*.tsx",
+        "core/client/admin/**/*.graphql",
+        "core/server/**/*.graphql",
+      ],
+      ignore: [
+        "core/**/*.d.ts",
+        "core/**/*.graphql.ts",
+        "**/test/**/*",
+        "core/**/*.spec.*",
+      ],
+      executor: new CommandExecutor("npm run compile:relay-admin", {
         runOnInit: true,
       }),
     },
@@ -83,6 +100,7 @@ const config: Config = {
       "compileCSSTypes",
       "compileRelayStream",
       "compileRelayAuth",
+      "compileRelayAdmin",
       "compileSchema",
     ],
     docz: ["runDocz", "compileCSSTypes"],

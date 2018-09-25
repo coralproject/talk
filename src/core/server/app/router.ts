@@ -50,6 +50,9 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
   // Setup auth routes.
   router.use("/auth", createNewAuthRouter(app, options));
 
+  // Handle the admin handler.
+  router.get("/admin", adminHandler);
+
   // Tenant API
   router.use(
     "/graphql",
@@ -153,9 +156,6 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
 
   // Handle the stream handler.
   router.get("/embed/stream", cacheHeadersMiddleware("1h"), streamHandler);
-
-  // Handle the stream handler.
-  router.get("/admin", adminHandler);
 
   return router;
 }
