@@ -370,16 +370,20 @@ export async function retrieveCommentParentsConnection(
   // Loop over the list to ensure that none of the entries is null (indicating
   // that there was a misplaced parent). We can assert the type here because we
   // will throw an error and abort if one of the comments are null.
-  const nodes = parents.filter(parentComment => {
+  parents.forEach(parentComment => {
     if (!parentComment) {
       // TODO: (wyattjoh) replace with a better error.
       throw new Error("parent id specified does not exist");
     }
 
     return true;
-  }) as Array<Readonly<Comment>>;
+  });
 
-  const edges = nodesToEdges(nodes, (_, index) => index + skip + 1).reverse();
+  const edges = nodesToEdges(
+    // We can't have a null parent after the forEach filter above.
+    parents as Array<Readonly<Comment>>,
+    (_, index) => index + skip + 1
+  ).reverse();
 
   // Return the resolved connection.
   return {
