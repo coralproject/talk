@@ -12,27 +12,20 @@ import App from "../components/App";
 
 interface InnerProps {
   local: Local;
-  onsetActiveTab: SetActiveTabMutation;
+  setActiveTab: SetActiveTabMutation;
 }
 
 const AppContainer: StatelessComponent<InnerProps> = ({
-  local: { activeTab, authToken },
+  local: { activeTab },
   setActiveTab,
 }) => {
-  return (
-    <App
-      activeTab={activeTab}
-      onActiveTab={setActiveTab}
-      signedIn={!!authToken}
-    />
-  );
+  return <App activeTab={activeTab} onActiveTab={setActiveTab} />;
 };
 
 const enhanced = withLocalStateContainer(
   graphql`
     fragment AppContainerLocal on Local {
       activeTab
-      authToken
     }
   `
 )(withSetActiveTabMutation(AppContainer));

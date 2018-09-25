@@ -16,9 +16,8 @@ import ProfileQuery from "../tabs/profile/queries/ProfileQuery";
 import * as styles from "./App.css";
 
 export interface AppProps {
-  activeTab: "COMMENTS" | "PROFILE" | "%future added value";
+  activeTab: "COMMENTS" | "PROFILE" | "%future added value" | string;
   onActiveTab: SetActiveTabMutation;
-  signedIn: boolean;
 }
 
 const App: StatelessComponent<AppProps> = props => {
@@ -29,7 +28,7 @@ const App: StatelessComponent<AppProps> = props => {
         onTabClick={tab => props.onActiveTab({ tab })}
       >
         <Tab tabId="COMMENTS">Comments</Tab>
-        {props.signedIn && <Tab tabId="PROFILE">My Profile</Tab>}
+        <Tab tabId="PROFILE">My Profile</Tab>
       </TabBar>
       <TabContent activeTab={props.activeTab}>
         <TabPane tabId="COMMENTS">

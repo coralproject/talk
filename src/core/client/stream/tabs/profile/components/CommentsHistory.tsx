@@ -5,13 +5,13 @@ import { HorizontalGutter, Typography } from "talk-ui/components";
 import HistoryComment from "./HistoryComment";
 
 interface Me {
-  comments: {
-    edges: Array<{
-      node: {
-        id: string;
-        body: string | null;
-        createdAt: any;
-        replyCount: number | null;
+  readonly comments: {
+    readonly edges: ReadonlyArray<{
+      readonly node: {
+        readonly id: string;
+        readonly body: string | null;
+        readonly createdAt: any;
+        readonly replyCount: number | null;
       };
     }>;
   };
