@@ -70,6 +70,6 @@ comments-editCommentForm-editTimeExpired = Edit time has expired. You can no lon
 comments-editedMarker-edited = Edited
 
 ## Profile Tab
-profile-viewConversation = View Conversation
-profile-replies= Replies
-profile-commentHistory= Comment History
+profile-historyComment-viewConversation = View Conversation
+profile-historyComment-replies = Replies
+profile-historyComment-commentHistory = Comment History

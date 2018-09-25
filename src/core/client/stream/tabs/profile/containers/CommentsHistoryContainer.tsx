@@ -16,7 +16,7 @@ interface CommentsHistoryContainerProps {
 export class CommentsHistoryContainer extends React.Component<
   CommentsHistoryContainerProps
 > {
-  private goToConversation = () => {
+  private onGoToConversation = () => {
     if (this.props.local.assetURL) {
       window.open(this.props.local.assetURL, "_blank");
     }
@@ -25,7 +25,7 @@ export class CommentsHistoryContainer extends React.Component<
     return (
       <CommentsHistory
         me={this.props.me}
-        goToConversation={this.goToConversation}
+        onGoToConversation={this.onGoToConversation}
       />
     );
   }

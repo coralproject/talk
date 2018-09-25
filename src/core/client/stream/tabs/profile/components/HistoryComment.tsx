@@ -4,39 +4,39 @@ import { StatelessComponent } from "react";
 import Timestamp from "talk-stream/components/Timestamp";
 import {
   BaseButton,
+  ButtonIcon,
   Flex,
   HorizontalGutter,
-  Icon,
   Typography,
 } from "talk-ui/components";
 import HTMLContent from "../../../components/HTMLContent";
 import * as styles from "./HistoryComment.css";
 
-export interface CommentHistoryProps {
+export interface HistoryCommentProps {
   comment: {
     body: string | null;
     createdAt: string;
     replyCount: number | null;
   };
-  goToConversation: () => void;
+  onGoToConversation: () => void;
 }
 
-const HistoryComment: StatelessComponent<CommentHistoryProps> = props => {
+const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
   return (
     <HorizontalGutter>
       <Flex direction="row" justifyContent="space-between">
-        <Typography variant="bodyCopy" headlineMapping={{ bodyCopy: "div" }}>
+        <Typography variant="bodyCopy" container="div">
           {props.comment.body && (
             <HTMLContent>{props.comment.body}</HTMLContent>
           )}
         </Typography>
         <HorizontalGutter className={styles.sideBar}>
           <Flex direction="row" alignItems="center" itemGutter="half">
-            <Icon className={styles.icon}>launch</Icon>
-            <Localized id="profile-viewConversation">
+            <ButtonIcon className={styles.icon}>launch</ButtonIcon>
+            <Localized id="profile-historyComment-viewConversation">
               <BaseButton
                 className={styles.button}
-                onClick={props.goToConversation}
+                onClick={props.onGoToConversation}
                 anchor
               >
                 View Conversation
@@ -44,7 +44,7 @@ const HistoryComment: StatelessComponent<CommentHistoryProps> = props => {
             </Localized>
           </Flex>
           <Flex direction="row" alignItems="center" itemGutter="half">
-            <Icon className={styles.icon}>schedule</Icon>
+            <ButtonIcon className={styles.icon}>schedule</ButtonIcon>
             <Timestamp>{props.comment.createdAt}</Timestamp>
           </Flex>
         </HorizontalGutter>
@@ -54,10 +54,10 @@ const HistoryComment: StatelessComponent<CommentHistoryProps> = props => {
           direction="row"
           alignItems="center"
           itemGutter="half"
-          className={styles.text}
+          className={styles.replies}
         >
-          <Icon className={styles.icon}>reply</Icon>
-          <Localized id="profile-replies">
+          <ButtonIcon className={styles.icon}>reply</ButtonIcon>
+          <Localized id="profile-historyComment-replies">
             <span>Replies {props.comment.replyCount}</span>
           </Localized>
         </Flex>
