@@ -69,7 +69,7 @@ comments-editCommentForm-editRemainingTime = Edit: <time></time> remaining
 comments-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
 comments-editedMarker-edited = Edited
 
-## Comment History
-commentHistory-viewConversation = View Conversation
-commentHistory-replies = Replies
-commentHistory-commentHistory = Comment History
+## Profile Tab
+profile-viewConversation = View Conversation
+profile-replies= Replies
+profile-commentHistory= Comment History

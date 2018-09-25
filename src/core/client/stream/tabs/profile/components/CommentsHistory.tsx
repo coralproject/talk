@@ -5,16 +5,16 @@ import { CommentsHistoryContainer_me as MeData } from "talk-stream/__generated__
 import { HorizontalGutter, Typography } from "talk-ui/components";
 import HistoryComment from "./HistoryComment";
 
-export interface CommentHistoryProps {
+export interface CommentsHistoryProps {
   goToConversation: () => void;
   me: MeData;
 }
 
-const CommentsHistory: StatelessComponent<CommentHistoryProps> = props => {
+const CommentsHistory: StatelessComponent<CommentsHistoryProps> = props => {
   const comments = props.me.comments.edges.map(edge => edge.node);
   return (
     <HorizontalGutter size="double">
-      <Localized id="commentHistory-commentHistory">
+      <Localized id="profile-commentHistory">
         <Typography variant="heading3">Comment History</Typography>
       </Localized>
       {comments.map(comment => (

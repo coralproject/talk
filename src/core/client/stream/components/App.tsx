@@ -17,7 +17,7 @@ import * as styles from "./App.css";
 
 export interface AppProps {
   activeTab: "COMMENTS" | "PROFILE" | "%future added value";
-  setActiveTab: SetActiveTabMutation;
+  onActiveTab: SetActiveTabMutation;
   signedIn: boolean;
 }
 
@@ -26,7 +26,7 @@ const App: StatelessComponent<AppProps> = props => {
     <HorizontalGutter className={styles.root}>
       <TabBar
         activeTab={props.activeTab}
-        onTabClick={tab => props.setActiveTab({ tab })}
+        onTabClick={tab => props.onActiveTab({ tab })}
       >
         <Tab tabId="COMMENTS">Comments</Tab>
         {props.signedIn && <Tab tabId="PROFILE">My Profile</Tab>}

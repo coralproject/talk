@@ -12,7 +12,7 @@ import App from "../components/App";
 
 interface InnerProps {
   local: Local;
-  setActiveTab: SetActiveTabMutation;
+  onsetActiveTab: SetActiveTabMutation;
 }
 
 const AppContainer: StatelessComponent<InnerProps> = ({
@@ -22,7 +22,7 @@ const AppContainer: StatelessComponent<InnerProps> = ({
   return (
     <App
       activeTab={activeTab}
-      setActiveTab={setActiveTab}
+      onActiveTab={setActiveTab}
       signedIn={!!authToken}
     />
   );

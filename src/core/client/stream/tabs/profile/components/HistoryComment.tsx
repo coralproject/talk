@@ -33,7 +33,7 @@ const HistoryComment: StatelessComponent<CommentHistoryProps> = props => {
         <HorizontalGutter className={styles.sideBar}>
           <Flex direction="row" alignItems="center" itemGutter="half">
             <Icon className={styles.icon}>launch</Icon>
-            <Localized id="commentHistory-viewConversation">
+            <Localized id="profile-viewConversation">
               <BaseButton
                 className={styles.button}
                 onClick={props.goToConversation}
@@ -57,7 +57,7 @@ const HistoryComment: StatelessComponent<CommentHistoryProps> = props => {
           className={styles.text}
         >
           <Icon className={styles.icon}>reply</Icon>
-          <Localized id="commentHistory-replies">
+          <Localized id="profile-replies">
             <span>Replies {props.comment.replyCount}</span>
           </Localized>
         </Flex>
