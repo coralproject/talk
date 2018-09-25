@@ -7,7 +7,7 @@ import {
   GQLUSER_ROLE,
   GQLUSER_USERNAME_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { EncodedActionCounts } from "talk-server/models/actions";
+import { EncodedActionCounts } from "talk-server/models/action";
 import { FilterQuery } from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 

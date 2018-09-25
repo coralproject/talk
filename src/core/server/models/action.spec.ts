@@ -6,7 +6,7 @@ import {
   decodeActionCounts,
   encodeActionCounts,
   validateAction,
-} from "talk-server/models/actions";
+} from "talk-server/models/action";
 
 describe("#encodeActionCounts", () => {
   it("generates the action counts correctly", () => {

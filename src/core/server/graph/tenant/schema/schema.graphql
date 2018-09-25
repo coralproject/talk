@@ -931,9 +931,10 @@ type Asset {
   ): CommentsConnection!
 
   """
-  actionCounts stores the counts of all the actions for the Comment.
+  actionCounts stores the counts of all the actions against this Asset and it's
+  Comments.
   """
-  actionCounts: ActionCounts!
+  actionCounts: ActionCounts! @auth(roles: [ADMIN, MODERATOR])
 
   """
   author is the authors listed in the meta tags for the Asset.
@@ -1474,6 +1475,179 @@ type UpdateSettingsPayload {
 }
 
 ##################
+## createCommentReaction
+##################
+
+input CreateCommentReactionInput {
+  """
+  commentID is the Comment's ID that we want to create a Reaction on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateCommentReactionPayload {
+  """
+  comment is the Comment that the Reaction was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## deleteCommentReaction
+##################
+
+input DeleteCommentReactionInput {
+  """
+  commentID is the Comment's ID that we want to delete a Reaction on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteCommentReactionPayload {
+  """
+  comment is the Comment that the Reaction was deleted on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## createCommentDontAgree
+##################
+
+input CreateCommentDontAgreeInput {
+  """
+  commentID is the Comment's ID that we want to create a DontAgree on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateCommentDontAgreePayload {
+  """
+  comment is the Comment that the DontAgree was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## deleteCommentDontAgree
+##################
+
+input DeleteCommentDontAgreeInput {
+  """
+  commentID is the Comment's ID that we want to delete a DontAgree on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteCommentDontAgreePayload {
+  """
+  comment is the Comment that the DontAgree was deleted on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## createCommentFlag
+##################
+
+input CreateCommentFlagInput {
+  """
+  commentID is the Comment's ID that we want to create a Flag on.
+  """
+  commentID: ID!
+
+  """
+  reason is the selected reason why the Flag is being created.
+  """
+  reason: COMMENT_FLAG_REPORTED_REASON!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateCommentFlagPayload {
+  """
+  comment is the Comment that the Flag was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## deleteCommentFlag
+##################
+
+input DeleteCommentFlagInput {
+  """
+  commentID is the Comment's ID that we want to delete a Flag on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteCommentFlagPayload {
+  """
+  comment is the Comment that the Flag was deleted on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -1494,6 +1668,52 @@ type Mutation {
   """
   updateSettings(input: UpdateSettingsInput!): UpdateSettingsPayload
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  createCommentReaction will create a Reaction authored by the current logged in
+  User on a Comment.
+  """
+  createCommentReaction(
+    input: CreateCommentReactionInput!
+  ): CreateCommentReactionPayload @auth
+
+  """
+  deleteCommentReaction will delete a Reaction authored by the current logged in
+  User on a Comment if it exists.
+  """
+  deleteCommentReaction(
+    input: CreateCommentReactionInput!
+  ): CreateCommentReactionPayload @auth
+
+  """
+  createCommentDontAgree will create a DontAgree authored by the current logged in
+  User on a Comment.
+  """
+  createCommentDontAgree(
+    input: CreateCommentDontAgreeInput!
+  ): CreateCommentDontAgreePayload @auth
+
+  """
+  deleteCommentDontAgree will delete a DontAgree authored by the current logged in
+  User on a Comment if it exists.
+  """
+  deleteCommentDontAgree(
+    input: CreateCommentDontAgreeInput!
+  ): CreateCommentDontAgreePayload @auth
+
+  """
+  createCommentFlag will create a Flag authored by the current logged in User on
+  a given Comment.
+  """
+  createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload
+    @auth
+
+  """
+  deleteCommentFlag will create a Flag authored by the current logged in User on
+  a given Comment.
+  """
+  deleteCommentFlag(input: DeleteCommentFlagInput!): DeleteCommentFlagPayload
+    @auth
 }
 
 ################################################################################

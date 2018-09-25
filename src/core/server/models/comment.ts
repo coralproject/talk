@@ -7,7 +7,7 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { EncodedActionCounts } from "talk-server/models/actions";
+import { EncodedActionCounts } from "talk-server/models/action";
 import {
   Connection,
   Cursor,
@@ -366,7 +366,7 @@ function applyInputToQuery(input: ConnectionInput, query: Query<Comment>) {
       }
       break;
     case GQLCOMMENT_SORT.RESPECT_DESC:
-      query.orderBy({ "action_counts.respect": -1, created_at: -1 });
+      query.orderBy({ "action_counts.REACTION": -1, created_at: -1 });
       if (input.after) {
         query.after(input.after as number);
       }

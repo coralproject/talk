@@ -1,27 +1,18 @@
 import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
+import { ACTION_ITEM_TYPE, CreateActionInput } from "talk-server/models/action";
+import { retrieveAsset } from "talk-server/models/asset";
 import {
-  ACTION_ITEM_TYPE,
-  CreateActionInput,
-  createActions,
-  encodeActionCounts,
-} from "talk-server/models/actions";
-import {
-  retrieveAsset,
-  updateAssetActionCounts,
-} from "talk-server/models/asset";
-import {
-  Comment,
   createComment,
   CreateCommentInput,
   editComment,
   EditCommentInput,
   retrieveComment,
-  updateCommentActionCounts,
 } from "talk-server/models/comment";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
+import { addCommentActions } from "talk-server/services/comments/actions";
 import { processForModeration } from "talk-server/services/comments/moderation";
 import { Request } from "talk-server/types/express";
 
@@ -168,54 +159,6 @@ export async function edit(
 
     // Insert and handle creating the actions.
     comment = await addCommentActions(mongo, tenant, comment, inputs);
-  }
-
-  return comment;
-}
-
-async function addCommentActions(
-  mongo: Db,
-  tenant: Tenant,
-  comment: Readonly<Comment>,
-  inputs: CreateActionInput[]
-): Promise<Readonly<Comment>> {
-  // Create each of the actions, returning each of the action results.
-  const results = await createActions(mongo, tenant.id, inputs);
-
-  // Get the actions that were upserted, we only want to increment the action
-  // counts of actions that were just created.
-  const upsertedActions = results
-    .filter(({ wasUpserted }) => wasUpserted)
-    .map(({ action }) => action);
-
-  if (upsertedActions.length > 0) {
-    // Compute the action counts.
-    const actionCounts = encodeActionCounts(...upsertedActions);
-
-    // Update the comment action counts here.
-    const updatedComment = await updateCommentActionCounts(
-      mongo,
-      tenant.id,
-      comment.id,
-      actionCounts
-    );
-
-    // Update the Asset with the updated action counts.
-    await updateAssetActionCounts(
-      mongo,
-      tenant.id,
-      comment.asset_id,
-      actionCounts
-    );
-
-    // Check to see if there was an actual comment returned (there should
-    // have been, we just created it!).
-    if (!updatedComment) {
-      // TODO: (wyattjoh) return a better error.
-      throw new Error("could not update comment action counts");
-    }
-
-    return updatedComment;
   }
 
   return comment;
