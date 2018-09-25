@@ -5,6 +5,7 @@ import { Localized } from "fluent-react/compat";
 import { Button } from "talk-ui/components";
 
 export interface ShowConversationLinkProps {
+  id?: string;
   href?: string;
   onClick?: EventHandler<MouseEvent>;
 }
@@ -15,6 +16,7 @@ const ShowConversationLink: StatelessComponent<
   return (
     <Localized id="comments-showConversationLink-readMore">
       <Button
+        id={props.id}
         variant="underlined"
         color="primary"
         href={props.href}

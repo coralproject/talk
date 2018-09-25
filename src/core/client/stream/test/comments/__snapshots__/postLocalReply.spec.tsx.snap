@@ -223,32 +223,36 @@ exports[`post a reply: open reply form 1`] = `
                 </div>
               </div>
               <div
-                className="HTMLContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "body 0",
-                  }
-                }
-              />
-              <div
-                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                  id="comments-commentContainer-replyButton-comment-with-deepest-replies"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseDown={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
+                <div
+                  className="HTMLContent-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "body 0",
+                    }
+                  }
+                />
+                <div
+                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                 >
-                  <span>
-                    Reply
-                  </span>
-                </button>
+                  <button
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    id="comments-commentContainer-replyButton-comment-with-deepest-replies"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span>
+                      Reply
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -297,32 +301,36 @@ exports[`post a reply: open reply form 1`] = `
                     </div>
                   </div>
                   <div
-                    className="HTMLContent-root"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "body 1",
-                      }
-                    }
-                  />
-                  <div
-                    className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    className="HorizontalGutter-root HorizontalGutter-full"
                   >
-                    <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                      id="comments-commentContainer-replyButton-comment-with-deepest-replies-1"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      type="button"
+                    <div
+                      className="HTMLContent-root"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "body 1",
+                        }
+                      }
+                    />
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                     >
-                      <span>
-                        Reply
-                      </span>
-                    </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        id="comments-commentContainer-replyButton-comment-with-deepest-replies-1"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Reply
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -371,32 +379,36 @@ exports[`post a reply: open reply form 1`] = `
                         </div>
                       </div>
                       <div
-                        className="HTMLContent-root"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "body 2",
-                          }
-                        }
-                      />
-                      <div
-                        className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        className="HorizontalGutter-root HorizontalGutter-full"
                       >
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          id="comments-commentContainer-replyButton-comment-with-deepest-replies-2"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "body 2",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                         >
-                          <span>
-                            Reply
-                          </span>
-                        </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-with-deepest-replies-2"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -445,32 +457,36 @@ exports[`post a reply: open reply form 1`] = `
                             </div>
                           </div>
                           <div
-                            className="HTMLContent-root"
-                            dangerouslySetInnerHTML={
-                              Object {
-                                "__html": "body 3",
-                              }
-                            }
-                          />
-                          <div
-                            className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="HorizontalGutter-root HorizontalGutter-full"
                           >
-                            <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                              id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
-                              onBlur={[Function]}
-                              onClick={[Function]}
-                              onFocus={[Function]}
-                              onMouseDown={[Function]}
-                              onMouseOut={[Function]}
-                              onMouseOver={[Function]}
-                              onTouchEnd={[Function]}
-                              type="button"
+                            <div
+                              className="HTMLContent-root"
+                              dangerouslySetInnerHTML={
+                                Object {
+                                  "__html": "body 3",
+                                }
+                              }
+                            />
+                            <div
+                              className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                             >
-                              <span>
-                                Reply
-                              </span>
-                            </button>
+                              <button
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onMouseDown={[Function]}
+                                onMouseOut={[Function]}
+                                onMouseOver={[Function]}
+                                onTouchEnd={[Function]}
+                                type="button"
+                              >
+                                <span>
+                                  Reply
+                                </span>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -519,32 +535,36 @@ exports[`post a reply: open reply form 1`] = `
                                 </div>
                               </div>
                               <div
-                                className="HTMLContent-root"
-                                dangerouslySetInnerHTML={
-                                  Object {
-                                    "__html": "body 4",
-                                  }
-                                }
-                              />
-                              <div
-                                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                className="HorizontalGutter-root HorizontalGutter-full"
                               >
-                                <button
-                                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                                  id="comments-commentContainer-replyButton-comment-with-deepest-replies-4"
-                                  onBlur={[Function]}
-                                  onClick={[Function]}
-                                  onFocus={[Function]}
-                                  onMouseDown={[Function]}
-                                  onMouseOut={[Function]}
-                                  onMouseOver={[Function]}
-                                  onTouchEnd={[Function]}
-                                  type="button"
+                                <div
+                                  className="HTMLContent-root"
+                                  dangerouslySetInnerHTML={
+                                    Object {
+                                      "__html": "body 4",
+                                    }
+                                  }
+                                />
+                                <div
+                                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                                 >
-                                  <span>
-                                    Reply
-                                  </span>
-                                </button>
+                                  <button
+                                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                    id="comments-commentContainer-replyButton-comment-with-deepest-replies-4"
+                                    onBlur={[Function]}
+                                    onClick={[Function]}
+                                    onFocus={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseOut={[Function]}
+                                    onMouseOver={[Function]}
+                                    onTouchEnd={[Function]}
+                                    type="button"
+                                  >
+                                    <span>
+                                      Reply
+                                    </span>
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -593,19 +613,40 @@ exports[`post a reply: open reply form 1`] = `
                                     </div>
                                   </div>
                                   <div
-                                    className="HTMLContent-root"
-                                    dangerouslySetInnerHTML={
-                                      Object {
-                                        "__html": "body 5",
-                                      }
-                                    }
-                                  />
-                                  <div
-                                    className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                    className="HorizontalGutter-root HorizontalGutter-full"
                                   >
-                                    <button
-                                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
-                                      id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
+                                    <div
+                                      className="HTMLContent-root"
+                                      dangerouslySetInnerHTML={
+                                        Object {
+                                          "__html": "body 5",
+                                        }
+                                      }
+                                    />
+                                    <div
+                                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                    >
+                                      <button
+                                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
+                                        id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
+                                        onBlur={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseOut={[Function]}
+                                        onMouseOver={[Function]}
+                                        onTouchEnd={[Function]}
+                                        type="button"
+                                      >
+                                        <span>
+                                          Reply
+                                        </span>
+                                      </button>
+                                    </div>
+                                    <a
+                                      className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                                      href="http://localhost/assets/asset-with-replies?commentID=comment-with-deepest-replies-5"
+                                      id="comments-commentContainer-showConversation-comment-with-deepest-replies-5"
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
@@ -613,12 +654,11 @@ exports[`post a reply: open reply form 1`] = `
                                       onMouseOut={[Function]}
                                       onMouseOver={[Function]}
                                       onTouchEnd={[Function]}
+                                      target="_parent"
                                       type="button"
                                     >
-                                      <span>
-                                        Reply
-                                      </span>
-                                    </button>
+                                      Read More of this Conversation &gt;
+                                    </a>
                                   </div>
                                 </div>
                               </div>
@@ -989,32 +1029,36 @@ exports[`post a reply: optimistic response 1`] = `
                 </div>
               </div>
               <div
-                className="HTMLContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "body 0",
-                  }
-                }
-              />
-              <div
-                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                  id="comments-commentContainer-replyButton-comment-with-deepest-replies"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseDown={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
+                <div
+                  className="HTMLContent-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "body 0",
+                    }
+                  }
+                />
+                <div
+                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                 >
-                  <span>
-                    Reply
-                  </span>
-                </button>
+                  <button
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    id="comments-commentContainer-replyButton-comment-with-deepest-replies"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span>
+                      Reply
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1063,32 +1107,36 @@ exports[`post a reply: optimistic response 1`] = `
                     </div>
                   </div>
                   <div
-                    className="HTMLContent-root"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "body 1",
-                      }
-                    }
-                  />
-                  <div
-                    className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    className="HorizontalGutter-root HorizontalGutter-full"
                   >
-                    <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                      id="comments-commentContainer-replyButton-comment-with-deepest-replies-1"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      type="button"
+                    <div
+                      className="HTMLContent-root"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "body 1",
+                        }
+                      }
+                    />
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                     >
-                      <span>
-                        Reply
-                      </span>
-                    </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        id="comments-commentContainer-replyButton-comment-with-deepest-replies-1"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Reply
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1137,32 +1185,36 @@ exports[`post a reply: optimistic response 1`] = `
                         </div>
                       </div>
                       <div
-                        className="HTMLContent-root"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "body 2",
-                          }
-                        }
-                      />
-                      <div
-                        className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        className="HorizontalGutter-root HorizontalGutter-full"
                       >
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          id="comments-commentContainer-replyButton-comment-with-deepest-replies-2"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "body 2",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                         >
-                          <span>
-                            Reply
-                          </span>
-                        </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-with-deepest-replies-2"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1211,32 +1263,36 @@ exports[`post a reply: optimistic response 1`] = `
                             </div>
                           </div>
                           <div
-                            className="HTMLContent-root"
-                            dangerouslySetInnerHTML={
-                              Object {
-                                "__html": "body 3",
-                              }
-                            }
-                          />
-                          <div
-                            className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="HorizontalGutter-root HorizontalGutter-full"
                           >
-                            <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                              id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
-                              onBlur={[Function]}
-                              onClick={[Function]}
-                              onFocus={[Function]}
-                              onMouseDown={[Function]}
-                              onMouseOut={[Function]}
-                              onMouseOver={[Function]}
-                              onTouchEnd={[Function]}
-                              type="button"
+                            <div
+                              className="HTMLContent-root"
+                              dangerouslySetInnerHTML={
+                                Object {
+                                  "__html": "body 3",
+                                }
+                              }
+                            />
+                            <div
+                              className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                             >
-                              <span>
-                                Reply
-                              </span>
-                            </button>
+                              <button
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onMouseDown={[Function]}
+                                onMouseOut={[Function]}
+                                onMouseOver={[Function]}
+                                onTouchEnd={[Function]}
+                                type="button"
+                              >
+                                <span>
+                                  Reply
+                                </span>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1285,32 +1341,36 @@ exports[`post a reply: optimistic response 1`] = `
                                 </div>
                               </div>
                               <div
-                                className="HTMLContent-root"
-                                dangerouslySetInnerHTML={
-                                  Object {
-                                    "__html": "body 4",
-                                  }
-                                }
-                              />
-                              <div
-                                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                className="HorizontalGutter-root HorizontalGutter-full"
                               >
-                                <button
-                                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                                  id="comments-commentContainer-replyButton-comment-with-deepest-replies-4"
-                                  onBlur={[Function]}
-                                  onClick={[Function]}
-                                  onFocus={[Function]}
-                                  onMouseDown={[Function]}
-                                  onMouseOut={[Function]}
-                                  onMouseOver={[Function]}
-                                  onTouchEnd={[Function]}
-                                  type="button"
+                                <div
+                                  className="HTMLContent-root"
+                                  dangerouslySetInnerHTML={
+                                    Object {
+                                      "__html": "body 4",
+                                    }
+                                  }
+                                />
+                                <div
+                                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                                 >
-                                  <span>
-                                    Reply
-                                  </span>
-                                </button>
+                                  <button
+                                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                    id="comments-commentContainer-replyButton-comment-with-deepest-replies-4"
+                                    onBlur={[Function]}
+                                    onClick={[Function]}
+                                    onFocus={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseOut={[Function]}
+                                    onMouseOver={[Function]}
+                                    onTouchEnd={[Function]}
+                                    type="button"
+                                  >
+                                    <span>
+                                      Reply
+                                    </span>
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -1359,19 +1419,40 @@ exports[`post a reply: optimistic response 1`] = `
                                     </div>
                                   </div>
                                   <div
-                                    className="HTMLContent-root"
-                                    dangerouslySetInnerHTML={
-                                      Object {
-                                        "__html": "body 5",
-                                      }
-                                    }
-                                  />
-                                  <div
-                                    className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                    className="HorizontalGutter-root HorizontalGutter-full"
                                   >
-                                    <button
-                                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
-                                      id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
+                                    <div
+                                      className="HTMLContent-root"
+                                      dangerouslySetInnerHTML={
+                                        Object {
+                                          "__html": "body 5",
+                                        }
+                                      }
+                                    />
+                                    <div
+                                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                    >
+                                      <button
+                                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
+                                        id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
+                                        onBlur={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseOut={[Function]}
+                                        onMouseOver={[Function]}
+                                        onTouchEnd={[Function]}
+                                        type="button"
+                                      >
+                                        <span>
+                                          Reply
+                                        </span>
+                                      </button>
+                                    </div>
+                                    <a
+                                      className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                                      href="http://localhost/assets/asset-with-replies?commentID=comment-with-deepest-replies-5"
+                                      id="comments-commentContainer-showConversation-comment-with-deepest-replies-5"
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
@@ -1379,12 +1460,11 @@ exports[`post a reply: optimistic response 1`] = `
                                       onMouseOut={[Function]}
                                       onMouseOver={[Function]}
                                       onTouchEnd={[Function]}
+                                      target="_parent"
                                       type="button"
                                     >
-                                      <span>
-                                        Reply
-                                      </span>
-                                    </button>
+                                      Read More of this Conversation &gt;
+                                    </a>
                                   </div>
                                 </div>
                               </div>
@@ -1570,16 +1650,20 @@ exports[`post a reply: optimistic response 1`] = `
                                         </div>
                                       </div>
                                       <div
-                                        className="HTMLContent-root"
-                                        dangerouslySetInnerHTML={
-                                          Object {
-                                            "__html": "<strong>Hello world!</strong>",
+                                        className="HorizontalGutter-root HorizontalGutter-full"
+                                      >
+                                        <div
+                                          className="HTMLContent-root"
+                                          dangerouslySetInnerHTML={
+                                            Object {
+                                              "__html": "<strong>Hello world!</strong>",
+                                            }
                                           }
-                                        }
-                                      />
-                                      <div
-                                        className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
-                                      />
+                                        />
+                                        <div
+                                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                        />
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -1824,32 +1908,36 @@ exports[`post a reply: server response 1`] = `
                 </div>
               </div>
               <div
-                className="HTMLContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "body 0",
-                  }
-                }
-              />
-              <div
-                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                  id="comments-commentContainer-replyButton-comment-with-deepest-replies"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseDown={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
+                <div
+                  className="HTMLContent-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "body 0",
+                    }
+                  }
+                />
+                <div
+                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                 >
-                  <span>
-                    Reply
-                  </span>
-                </button>
+                  <button
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    id="comments-commentContainer-replyButton-comment-with-deepest-replies"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span>
+                      Reply
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1898,32 +1986,36 @@ exports[`post a reply: server response 1`] = `
                     </div>
                   </div>
                   <div
-                    className="HTMLContent-root"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "body 1",
-                      }
-                    }
-                  />
-                  <div
-                    className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    className="HorizontalGutter-root HorizontalGutter-full"
                   >
-                    <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                      id="comments-commentContainer-replyButton-comment-with-deepest-replies-1"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      type="button"
+                    <div
+                      className="HTMLContent-root"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "body 1",
+                        }
+                      }
+                    />
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                     >
-                      <span>
-                        Reply
-                      </span>
-                    </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        id="comments-commentContainer-replyButton-comment-with-deepest-replies-1"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Reply
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1972,32 +2064,36 @@ exports[`post a reply: server response 1`] = `
                         </div>
                       </div>
                       <div
-                        className="HTMLContent-root"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "body 2",
-                          }
-                        }
-                      />
-                      <div
-                        className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        className="HorizontalGutter-root HorizontalGutter-full"
                       >
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          id="comments-commentContainer-replyButton-comment-with-deepest-replies-2"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "body 2",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                         >
-                          <span>
-                            Reply
-                          </span>
-                        </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-with-deepest-replies-2"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2046,32 +2142,36 @@ exports[`post a reply: server response 1`] = `
                             </div>
                           </div>
                           <div
-                            className="HTMLContent-root"
-                            dangerouslySetInnerHTML={
-                              Object {
-                                "__html": "body 3",
-                              }
-                            }
-                          />
-                          <div
-                            className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="HorizontalGutter-root HorizontalGutter-full"
                           >
-                            <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                              id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
-                              onBlur={[Function]}
-                              onClick={[Function]}
-                              onFocus={[Function]}
-                              onMouseDown={[Function]}
-                              onMouseOut={[Function]}
-                              onMouseOver={[Function]}
-                              onTouchEnd={[Function]}
-                              type="button"
+                            <div
+                              className="HTMLContent-root"
+                              dangerouslySetInnerHTML={
+                                Object {
+                                  "__html": "body 3",
+                                }
+                              }
+                            />
+                            <div
+                              className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                             >
-                              <span>
-                                Reply
-                              </span>
-                            </button>
+                              <button
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onMouseDown={[Function]}
+                                onMouseOut={[Function]}
+                                onMouseOver={[Function]}
+                                onTouchEnd={[Function]}
+                                type="button"
+                              >
+                                <span>
+                                  Reply
+                                </span>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -2120,32 +2220,36 @@ exports[`post a reply: server response 1`] = `
                                 </div>
                               </div>
                               <div
-                                className="HTMLContent-root"
-                                dangerouslySetInnerHTML={
-                                  Object {
-                                    "__html": "body 4",
-                                  }
-                                }
-                              />
-                              <div
-                                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                className="HorizontalGutter-root HorizontalGutter-full"
                               >
-                                <button
-                                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                                  id="comments-commentContainer-replyButton-comment-with-deepest-replies-4"
-                                  onBlur={[Function]}
-                                  onClick={[Function]}
-                                  onFocus={[Function]}
-                                  onMouseDown={[Function]}
-                                  onMouseOut={[Function]}
-                                  onMouseOver={[Function]}
-                                  onTouchEnd={[Function]}
-                                  type="button"
+                                <div
+                                  className="HTMLContent-root"
+                                  dangerouslySetInnerHTML={
+                                    Object {
+                                      "__html": "body 4",
+                                    }
+                                  }
+                                />
+                                <div
+                                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                                 >
-                                  <span>
-                                    Reply
-                                  </span>
-                                </button>
+                                  <button
+                                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                    id="comments-commentContainer-replyButton-comment-with-deepest-replies-4"
+                                    onBlur={[Function]}
+                                    onClick={[Function]}
+                                    onFocus={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseOut={[Function]}
+                                    onMouseOver={[Function]}
+                                    onTouchEnd={[Function]}
+                                    type="button"
+                                  >
+                                    <span>
+                                      Reply
+                                    </span>
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -2194,19 +2298,40 @@ exports[`post a reply: server response 1`] = `
                                     </div>
                                   </div>
                                   <div
-                                    className="HTMLContent-root"
-                                    dangerouslySetInnerHTML={
-                                      Object {
-                                        "__html": "body 5",
-                                      }
-                                    }
-                                  />
-                                  <div
-                                    className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                    className="HorizontalGutter-root HorizontalGutter-full"
                                   >
-                                    <button
-                                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                                      id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
+                                    <div
+                                      className="HTMLContent-root"
+                                      dangerouslySetInnerHTML={
+                                        Object {
+                                          "__html": "body 5",
+                                        }
+                                      }
+                                    />
+                                    <div
+                                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                    >
+                                      <button
+                                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                        id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
+                                        onBlur={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseOut={[Function]}
+                                        onMouseOver={[Function]}
+                                        onTouchEnd={[Function]}
+                                        type="button"
+                                      >
+                                        <span>
+                                          Reply
+                                        </span>
+                                      </button>
+                                    </div>
+                                    <a
+                                      className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                                      href="http://localhost/assets/asset-with-replies?commentID=comment-with-deepest-replies-5"
+                                      id="comments-commentContainer-showConversation-comment-with-deepest-replies-5"
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
@@ -2214,12 +2339,11 @@ exports[`post a reply: server response 1`] = `
                                       onMouseOut={[Function]}
                                       onMouseOver={[Function]}
                                       onTouchEnd={[Function]}
+                                      target="_parent"
                                       type="button"
                                     >
-                                      <span>
-                                        Reply
-                                      </span>
-                                    </button>
+                                      Read More of this Conversation &gt;
+                                    </a>
                                   </div>
                                 </div>
                               </div>
@@ -2268,16 +2392,20 @@ exports[`post a reply: server response 1`] = `
                                         </div>
                                       </div>
                                       <div
-                                        className="HTMLContent-root"
-                                        dangerouslySetInnerHTML={
-                                          Object {
-                                            "__html": "<strong>Hello world! (from server)</strong>",
+                                        className="HorizontalGutter-root HorizontalGutter-full"
+                                      >
+                                        <div
+                                          className="HTMLContent-root"
+                                          dangerouslySetInnerHTML={
+                                            Object {
+                                              "__html": "<strong>Hello world! (from server)</strong>",
+                                            }
                                           }
-                                        }
-                                      />
-                                      <div
-                                        className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
-                                      />
+                                        />
+                                        <div
+                                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                        />
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -2522,32 +2650,36 @@ exports[`renders comment stream 1`] = `
                 </div>
               </div>
               <div
-                className="HTMLContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "body 0",
-                  }
-                }
-              />
-              <div
-                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                  id="comments-commentContainer-replyButton-comment-with-deepest-replies"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseDown={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
+                <div
+                  className="HTMLContent-root"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "body 0",
+                    }
+                  }
+                />
+                <div
+                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                 >
-                  <span>
-                    Reply
-                  </span>
-                </button>
+                  <button
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    id="comments-commentContainer-replyButton-comment-with-deepest-replies"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span>
+                      Reply
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -2596,32 +2728,36 @@ exports[`renders comment stream 1`] = `
                     </div>
                   </div>
                   <div
-                    className="HTMLContent-root"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "body 1",
-                      }
-                    }
-                  />
-                  <div
-                    className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    className="HorizontalGutter-root HorizontalGutter-full"
                   >
-                    <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                      id="comments-commentContainer-replyButton-comment-with-deepest-replies-1"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      type="button"
+                    <div
+                      className="HTMLContent-root"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "body 1",
+                        }
+                      }
+                    />
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                     >
-                      <span>
-                        Reply
-                      </span>
-                    </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        id="comments-commentContainer-replyButton-comment-with-deepest-replies-1"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Reply
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2670,32 +2806,36 @@ exports[`renders comment stream 1`] = `
                         </div>
                       </div>
                       <div
-                        className="HTMLContent-root"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "body 2",
-                          }
-                        }
-                      />
-                      <div
-                        className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        className="HorizontalGutter-root HorizontalGutter-full"
                       >
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          id="comments-commentContainer-replyButton-comment-with-deepest-replies-2"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "body 2",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                         >
-                          <span>
-                            Reply
-                          </span>
-                        </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-with-deepest-replies-2"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2744,32 +2884,36 @@ exports[`renders comment stream 1`] = `
                             </div>
                           </div>
                           <div
-                            className="HTMLContent-root"
-                            dangerouslySetInnerHTML={
-                              Object {
-                                "__html": "body 3",
-                              }
-                            }
-                          />
-                          <div
-                            className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="HorizontalGutter-root HorizontalGutter-full"
                           >
-                            <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                              id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
-                              onBlur={[Function]}
-                              onClick={[Function]}
-                              onFocus={[Function]}
-                              onMouseDown={[Function]}
-                              onMouseOut={[Function]}
-                              onMouseOver={[Function]}
-                              onTouchEnd={[Function]}
-                              type="button"
+                            <div
+                              className="HTMLContent-root"
+                              dangerouslySetInnerHTML={
+                                Object {
+                                  "__html": "body 3",
+                                }
+                              }
+                            />
+                            <div
+                              className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                             >
-                              <span>
-                                Reply
-                              </span>
-                            </button>
+                              <button
+                                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onMouseDown={[Function]}
+                                onMouseOut={[Function]}
+                                onMouseOver={[Function]}
+                                onTouchEnd={[Function]}
+                                type="button"
+                              >
+                                <span>
+                                  Reply
+                                </span>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -2818,32 +2962,36 @@ exports[`renders comment stream 1`] = `
                                 </div>
                               </div>
                               <div
-                                className="HTMLContent-root"
-                                dangerouslySetInnerHTML={
-                                  Object {
-                                    "__html": "body 4",
-                                  }
-                                }
-                              />
-                              <div
-                                className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                className="HorizontalGutter-root HorizontalGutter-full"
                               >
-                                <button
-                                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                                  id="comments-commentContainer-replyButton-comment-with-deepest-replies-4"
-                                  onBlur={[Function]}
-                                  onClick={[Function]}
-                                  onFocus={[Function]}
-                                  onMouseDown={[Function]}
-                                  onMouseOut={[Function]}
-                                  onMouseOver={[Function]}
-                                  onTouchEnd={[Function]}
-                                  type="button"
+                                <div
+                                  className="HTMLContent-root"
+                                  dangerouslySetInnerHTML={
+                                    Object {
+                                      "__html": "body 4",
+                                    }
+                                  }
+                                />
+                                <div
+                                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                                 >
-                                  <span>
-                                    Reply
-                                  </span>
-                                </button>
+                                  <button
+                                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                    id="comments-commentContainer-replyButton-comment-with-deepest-replies-4"
+                                    onBlur={[Function]}
+                                    onClick={[Function]}
+                                    onFocus={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseOut={[Function]}
+                                    onMouseOver={[Function]}
+                                    onTouchEnd={[Function]}
+                                    type="button"
+                                  >
+                                    <span>
+                                      Reply
+                                    </span>
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -2892,19 +3040,40 @@ exports[`renders comment stream 1`] = `
                                     </div>
                                   </div>
                                   <div
-                                    className="HTMLContent-root"
-                                    dangerouslySetInnerHTML={
-                                      Object {
-                                        "__html": "body 5",
-                                      }
-                                    }
-                                  />
-                                  <div
-                                    className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                    className="HorizontalGutter-root HorizontalGutter-full"
                                   >
-                                    <button
-                                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                                      id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
+                                    <div
+                                      className="HTMLContent-root"
+                                      dangerouslySetInnerHTML={
+                                        Object {
+                                          "__html": "body 5",
+                                        }
+                                      }
+                                    />
+                                    <div
+                                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                                    >
+                                      <button
+                                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                        id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
+                                        onBlur={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseOut={[Function]}
+                                        onMouseOver={[Function]}
+                                        onTouchEnd={[Function]}
+                                        type="button"
+                                      >
+                                        <span>
+                                          Reply
+                                        </span>
+                                      </button>
+                                    </div>
+                                    <a
+                                      className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                                      href="http://localhost/assets/asset-with-replies?commentID=comment-with-deepest-replies-5"
+                                      id="comments-commentContainer-showConversation-comment-with-deepest-replies-5"
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
@@ -2912,12 +3081,11 @@ exports[`renders comment stream 1`] = `
                                       onMouseOut={[Function]}
                                       onMouseOver={[Function]}
                                       onTouchEnd={[Function]}
+                                      target="_parent"
                                       type="button"
                                     >
-                                      <span>
-                                        Reply
-                                      </span>
-                                    </button>
+                                      Read More of this Conversation &gt;
+                                    </a>
                                   </div>
                                 </div>
                               </div>

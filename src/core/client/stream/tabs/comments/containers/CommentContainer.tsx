@@ -185,6 +185,9 @@ export class CommentContainer extends Component<InnerProps, State> {
               </ButtonsBar>
               {showConversationLink && (
                 <ShowConversationLink
+                  id={`comments-commentContainer-showConversation-${
+                    comment.id
+                  }`}
                   onClick={this.handleShowConversation}
                   href={getURLWithCommentID(
                     this.props.asset.url,
