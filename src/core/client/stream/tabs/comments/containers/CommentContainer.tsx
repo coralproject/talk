@@ -19,6 +19,7 @@ import ReplyButton from "../components/Comment/ReplyButton";
 import EditCommentFormContainer from "./EditCommentFormContainer";
 import PermalinkButtonContainer from "./PermalinkButtonContainer";
 import ReplyCommentFormContainer from "./ReplyCommentFormContainer";
+import RespectButtonContainer from "./RespectButtonContainer";
 
 interface InnerProps {
   me: MeData | null;
@@ -150,6 +151,7 @@ export class CommentContainer extends Component<InnerProps, State> {
                 active={showReplyDialog}
               />
               <PermalinkButtonContainer commentID={comment.id} />
+              <RespectButtonContainer />
             </>
           }
         />
