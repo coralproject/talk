@@ -35,3 +35,7 @@ export {
   CreateCommentReactionMutation,
   CreateCommentReactionInput,
 } from "./CreateCommentReactionMutation";
+export {
+  withDeleteCommentReactionMutation,
+  DeleteCommentReactionMutation,
+} from "./DeleteCommentReactionMutation";

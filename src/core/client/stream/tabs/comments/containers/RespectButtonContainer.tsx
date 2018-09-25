@@ -5,22 +5,34 @@ import { RespectButtonContainer_comment as CommentData } from "talk-stream/__gen
 
 import {
   CreateCommentReactionMutation,
+  DeleteCommentReactionMutation,
   withCreateCommentReactionMutation,
+  withDeleteCommentReactionMutation,
 } from "../../../mutations";
 import RespectButton from "../components/RespectButton";
 
 interface RespectButtonContainerProps {
   createCommentReaction: CreateCommentReactionMutation;
+  deleteCommentReaction: DeleteCommentReactionMutation;
   comment: CommentData;
 }
 
 class RespectButtonContainer extends React.Component<
   RespectButtonContainerProps
 > {
-  private onButtonClick = () =>
-    this.props.createCommentReaction({
+  private onButtonClick = () => {
+    const input = {
       commentID: this.props.comment.id,
-    });
+    };
+
+    // const { createCommentReaction, deleteCommentReaction } = this.props;
+    // const { myActionPresence } = this.props.comment;
+
+    // return myActionPresence
+    //   ? deleteCommentReaction(input)
+    //   : createCommentReaction(input);
+    return this.props.createCommentReaction(input);
+  };
   public render() {
     const {
       actionCounts: {
@@ -31,17 +43,22 @@ class RespectButtonContainer extends React.Component<
   }
 }
 
-export default withCreateCommentReactionMutation(
-  withFragmentContainer<RespectButtonContainerProps>({
-    comment: graphql`
-      fragment RespectButtonContainer_comment on Comment {
-        id
-        actionCounts {
-          reaction {
-            total
+export default withDeleteCommentReactionMutation(
+  withCreateCommentReactionMutation(
+    withFragmentContainer<RespectButtonContainerProps>({
+      comment: graphql`
+        fragment RespectButtonContainer_comment on Comment {
+          id
+          actionCounts {
+            reaction {
+              total
+            }
+          }
+          myActionPresence {
+            reaction
           }
         }
-      }
-    `,
-  })(RespectButtonContainer)
+      `,
+    })(RespectButtonContainer)
+  )
 );
