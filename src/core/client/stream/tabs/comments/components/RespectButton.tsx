@@ -5,18 +5,19 @@ import { Button, ButtonIcon, MatchMedia } from "talk-ui/components";
 
 interface RespectButtonProps {
   onButtonClick: () => {};
-  total: number;
+  totalReactions: number;
+  reacted: boolean | null;
 }
 
 class RespectButton extends React.Component<RespectButtonProps> {
   public render() {
-    return !!this.props.total ? (
+    return this.props.reacted ? (
       <Button variant="ghost" size="small" onClick={this.props.onButtonClick}>
         <MatchMedia gtWidth="xs">
           <ButtonIcon>thumb_up_alt</ButtonIcon>
         </MatchMedia>
         <Localized id="comments-respectButton-respected">
-          <span>{this.props.total} Respected</span>
+          <span>{this.props.totalReactions} Respected</span>
         </Localized>
       </Button>
     ) : (

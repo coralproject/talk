@@ -25,21 +25,34 @@ class RespectButtonContainer extends React.Component<
       commentID: this.props.comment.id,
     };
 
-    // const { createCommentReaction, deleteCommentReaction } = this.props;
-    // const { myActionPresence } = this.props.comment;
+    const { createCommentReaction, deleteCommentReaction } = this.props;
+    const reacted =
+      this.props.comment.myActionPresence &&
+      this.props.comment.myActionPresence.reaction;
 
-    // return myActionPresence
-    //   ? deleteCommentReaction(input)
-    //   : createCommentReaction(input);
-    return this.props.createCommentReaction(input);
+    return reacted
+      ? deleteCommentReaction(input)
+      : createCommentReaction(input);
   };
   public render() {
     const {
       actionCounts: {
-        reaction: { total },
+        reaction: { total: totalReactions },
       },
     } = this.props.comment;
-    return <RespectButton onButtonClick={this.onButtonClick} total={total} />;
+
+    const reacted =
+      this.props.comment.myActionPresence &&
+      this.props.comment.myActionPresence.reaction;
+
+    console.log(this.props.comment);
+    return (
+      <RespectButton
+        onButtonClick={this.onButtonClick}
+        totalReactions={totalReactions}
+        reacted={reacted}
+      />
+    );
   }
 }
 
@@ -49,13 +62,13 @@ export default withDeleteCommentReactionMutation(
       comment: graphql`
         fragment RespectButtonContainer_comment on Comment {
           id
+          myActionPresence {
+            reaction
+          }
           actionCounts {
             reaction {
               total
             }
-          }
-          myActionPresence {
-            reaction
           }
         }
       `,

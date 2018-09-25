@@ -19,6 +19,9 @@ const mutation = graphql`
             total
           }
         }
+        myActionPresence {
+          reaction
+        }
       }
       clientMutationId
     }

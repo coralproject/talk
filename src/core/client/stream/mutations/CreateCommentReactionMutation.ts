@@ -24,13 +24,16 @@ const mutation = graphql`
             total
           }
         }
+        myActionPresence {
+          reaction
+        }
       }
       clientMutationId
     }
   }
 `;
 
-const clientMutationId = 0;
+let clientMutationId = 0;
 
 function commit(environment: Environment, input: CreateCommentReactionInput) {
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
@@ -41,6 +44,17 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
         clientMutationId: clientMutationId.toString(),
       },
     },
+    optimisticResponse: {
+      createCommentReaction: {
+        comment: {
+          id: input.commentID,
+          myActionPresence: {
+            reaction: true,
+          },
+        },
+        clientMutationId: (clientMutationId++).toString(),
+      },
+    } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
   });
 }
 
