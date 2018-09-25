@@ -45,7 +45,7 @@ exports[`renders correctly 1`] = `
 />
 `;
 
-exports[`renders correctly when replies are null 1`] = `""`;
+exports[`renders correctly when replies are empty 1`] = `""`;
 
 exports[`when has more replies renders hasMore 1`] = `
 <ReplyList

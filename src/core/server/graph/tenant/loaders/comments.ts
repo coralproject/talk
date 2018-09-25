@@ -3,15 +3,36 @@ import DataLoader from "dataloader";
 import Context from "talk-server/graph/tenant/context";
 import {
   AssetToCommentsArgs,
+  CommentToParentsArgs,
   CommentToRepliesArgs,
   GQLCOMMENT_SORT,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
+  Comment,
   retrieveCommentAssetConnection,
+  retrieveCommentParentsConnection,
   retrieveCommentRepliesConnection,
   retrieveCommentUserConnection,
   retrieveManyComments,
 } from "talk-server/models/comment";
+import { Connection } from "talk-server/models/connection";
+
+/**
+ * primeCommentsFromConnection will prime a given context with the comments
+ * retrieved via a connection.
+ *
+ * @param ctx graph context to use to prime the loaders.
+ */
+const primeCommentsFromConnection = (ctx: Context) => (
+  connection: Readonly<Connection<Readonly<Comment>>>
+) => {
+  // For each of the edges, prime the comment loader.
+  connection.edges.forEach(({ node }) => {
+    ctx.loaders.Comments.comment.prime(node.id, node);
+  });
+
+  return connection;
+};
 
 export default (ctx: Context) => ({
   comment: new DataLoader((ids: string[]) =>
@@ -44,7 +65,7 @@ export default (ctx: Context) => ({
       first,
       orderBy,
       after,
-    }),
+    }).then(primeCommentsFromConnection(ctx)),
   forParent: (
     assetID: string,
     parentID: string,
@@ -65,5 +86,11 @@ export default (ctx: Context) => ({
         orderBy,
         after,
       }
-    ),
+    ).then(primeCommentsFromConnection(ctx)),
+  parents: (comment: Comment, { last = 1, before }: CommentToParentsArgs) =>
+    retrieveCommentParentsConnection(ctx.mongo, ctx.tenant.id, comment, {
+      last,
+      // The cursor passed here is always going to be a number.
+      before: before as number,
+    }).then(primeCommentsFromConnection(ctx)),
 });
