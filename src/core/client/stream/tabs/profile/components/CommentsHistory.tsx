@@ -18,14 +18,14 @@ interface Me {
 }
 
 interface CommentsHistoryProps {
-  goToConversation: () => void;
+  onGoToConversation: () => void;
   me: Me;
 }
 
 const CommentsHistory: StatelessComponent<CommentsHistoryProps> = props => {
   const comments = props.me.comments.edges.map(edge => edge.node);
   return (
-    <HorizontalGutter size="double">
+    <HorizontalGutter>
       <Localized id="profile-historyComment-commentHistory">
         <Typography variant="heading3">Comment History</Typography>
       </Localized>
@@ -33,7 +33,7 @@ const CommentsHistory: StatelessComponent<CommentsHistoryProps> = props => {
         <HistoryComment
           key={comment.id}
           comment={comment}
-          goToConversation={props.goToConversation}
+          onGoToConversation={props.onGoToConversation}
         />
       ))}
     </HorizontalGutter>
