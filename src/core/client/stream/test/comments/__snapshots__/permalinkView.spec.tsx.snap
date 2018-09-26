@@ -4,15 +4,91 @@ exports[`renders permalink view 1`] = `
 <div
   className="Flex-root App-root Flex-flex Flex-justifyCenter"
 >
-  <div>
-    Cannot return null for non-nullable field Comment.actionCounts.
-
-GraphQL request (72:3)
-71:   }
-72:   actionCounts {
-      ^
-73:     reaction {
-
+  <div
+    className="PermalinkView-root"
+  >
+    <a
+      className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantOutlined Button-fullWidth"
+      href="http://localhost/"
+      id="talk-comments-permalinkView-showAllComments"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseDown={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      target="_parent"
+      type="button"
+    >
+      Show All Comments
+    </a>
+    <div
+      className="Indent-root"
+    >
+      <div
+        className=""
+      >
+        <div
+          className="Comment-root"
+          role="article"
+        >
+          <div
+            className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+            id="comment-comment-0"
+          >
+            <div
+              className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+            >
+              <span
+                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              >
+                Markus
+              </span>
+              <div
+                className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+              >
+                <time
+                  className="Timestamp-root RelativeTime-root"
+                  dateTime="2018-07-06T18:24:00.000Z"
+                  title="2018-07-06T18:24:00.000Z"
+                >
+                  2018-07-06T18:24:00.000Z
+                </time>
+              </div>
+            </div>
+          </div>
+          <div
+            className="HTMLContent-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Joining Too",
+              }
+            }
+          />
+          <div
+            className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+              id="comments-commentContainer-replyButton-comment-0"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <span>
+                Reply
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

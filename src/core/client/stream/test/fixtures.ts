@@ -24,6 +24,11 @@ export const comments = [
       edited: false,
       editableUntil: "2018-07-06T18:24:30.000Z",
     },
+    actionCounts: {
+      reaction: {
+        total: 0,
+      },
+    },
   },
   {
     id: "comment-1",
@@ -34,6 +39,11 @@ export const comments = [
     editing: {
       edited: false,
       editableUntil: "2018-07-06T18:20:30.000Z",
+    },
+    actionCounts: {
+      reaction: {
+        total: 0,
+      },
     },
   },
   {
@@ -46,6 +56,11 @@ export const comments = [
       edited: false,
       editableUntil: "2018-07-06T18:14:30.000Z",
     },
+    actionCounts: {
+      reaction: {
+        total: 0,
+      },
+    },
   },
   {
     id: "comment-3",
@@ -56,6 +71,11 @@ export const comments = [
     editing: {
       edited: false,
       editableUntil: "2018-07-06T18:14:30.000Z",
+    },
+    actionCounts: {
+      reaction: {
+        total: 0,
+      },
     },
   },
   {
@@ -68,6 +88,11 @@ export const comments = [
       edited: false,
       editableUntil: "2018-07-06T18:14:30.000Z",
     },
+    actionCounts: {
+      reaction: {
+        total: 0,
+      },
+    },
   },
   {
     id: "comment-5",
@@ -78,6 +103,11 @@ export const comments = [
     editing: {
       edited: false,
       editableUntil: "2018-07-06T18:14:30.000Z",
+    },
+    actionCounts: {
+      reaction: {
+        total: 0,
+      },
     },
   },
 ];
@@ -117,6 +147,11 @@ export const commentWithReplies = {
     edited: false,
     editableUntil: "2018-07-06T18:24:30.000Z",
   },
+  actionCounts: {
+    reaction: {
+      total: 0,
+    },
+  },
 };
 
 export const commentWithDeepReplies = {
@@ -136,6 +171,11 @@ export const commentWithDeepReplies = {
   editing: {
     edited: false,
     editableUntil: "2018-07-06T18:24:30.000Z",
+  },
+  actionCounts: {
+    reaction: {
+      total: 0,
+    },
   },
 };
 
