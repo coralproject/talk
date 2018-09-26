@@ -6,9 +6,9 @@ import { Db } from "mongodb";
 import passport, { Authenticator } from "passport";
 
 import { Config } from "talk-common/config";
-import { createLocalStrategy } from "talk-server/app/middleware/passport/local";
 import { JWTStrategy } from "talk-server/app/middleware/passport/strategies/jwt";
-import { createOIDCStrategy } from "talk-server/app/middleware/passport/strategies/oidc";
+import { createLocalStrategy } from "talk-server/app/middleware/passport/strategies/local";
+import OIDCStrategy from "talk-server/app/middleware/passport/strategies/oidc";
 import { validate } from "talk-server/app/request/body";
 import { User } from "talk-server/models/user";
 import {
@@ -41,11 +41,11 @@ export function createPassport(
   // Create the authenticator.
   const auth = new Authenticator();
 
-  // Use the OIDC Strategy.
-  auth.use(createOIDCStrategy(options));
-
   // Use the LocalStrategy.
   auth.use(createLocalStrategy(options));
+
+  // Use the OIDC Strategy.
+  auth.use(new OIDCStrategy(options));
 
   // Use the SSOStrategy.
   auth.use(new JWTStrategy(options));
