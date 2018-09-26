@@ -121,7 +121,8 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
       // By default, the standard reaction style will use the Respect with the
       // handshake.
       label: "Respect",
-      icon: "handshake",
+      labelActive: "Respected",
+      icon: "thumb_up",
     },
   };
 

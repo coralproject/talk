@@ -7,6 +7,7 @@ import { PropTypesOf } from "talk-framework/types";
 import { ReplyListContainer1_asset as AssetData } from "talk-stream/__generated__/ReplyListContainer1_asset.graphql";
 import { ReplyListContainer1_comment as CommentData } from "talk-stream/__generated__/ReplyListContainer1_comment.graphql";
 import { ReplyListContainer1_me as MeData } from "talk-stream/__generated__/ReplyListContainer1_me.graphql";
+import { ReplyListContainer1_settings as SettingsData } from "talk-stream/__generated__/ReplyListContainer1_settings.graphql";
 import {
   COMMENT_SORT,
   ReplyListContainer1PaginationQueryVariables,
@@ -20,6 +21,7 @@ export interface InnerProps {
   me: MeData | null;
   asset: AssetData;
   comment: CommentData;
+  settings: SettingsData;
   relay: RelayPaginationProp;
   indentLevel: number;
   ReplyListComponent: React.ComponentType<any> | undefined;
@@ -51,6 +53,7 @@ export class ReplyListContainer extends React.Component<InnerProps> {
         comment={this.props.comment}
         comments={comments}
         asset={this.props.asset}
+        settings={this.props.settings}
         onShowAll={this.showAll}
         hasMore={this.props.relay.hasMore()}
         disableShowAll={this.state.disableShowAll}
@@ -86,6 +89,7 @@ function createReplyListContainer(
     me: GraphQLTaggedNode;
     asset: GraphQLTaggedNode;
     comment: GraphQLTaggedNode;
+    settings: GraphQLTaggedNode;
   },
   query: GraphQLTaggedNode,
   ReplyListComponent?: React.ComponentType<any>,
@@ -135,6 +139,12 @@ const ReplyListContainer5 = createReplyListContainer(
       fragment ReplyListContainer5_me on User {
         ...CommentContainer_me
         ...LocalReplyListContainer_me
+      }
+    `,
+    settings: graphql`
+      fragment ReplyListContainer5_settings on Settings {
+        ...LocalReplyListContainer_settings
+        ...CommentContainer_settings
       }
     `,
     asset: graphql`
@@ -192,6 +202,12 @@ const ReplyListContainer4 = createReplyListContainer(
         ...CommentContainer_me
       }
     `,
+    settings: graphql`
+      fragment ReplyListContainer4_settings on Settings {
+        ...ReplyListContainer5_settings
+        ...CommentContainer_settings
+      }
+    `,
     asset: graphql`
       fragment ReplyListContainer4_asset on Asset {
         ...ReplyListContainer5_asset
@@ -244,6 +260,12 @@ const ReplyListContainer3 = createReplyListContainer(
       fragment ReplyListContainer3_me on User {
         ...ReplyListContainer4_me
         ...CommentContainer_me
+      }
+    `,
+    settings: graphql`
+      fragment ReplyListContainer3_settings on Settings {
+        ...ReplyListContainer4_settings
+        ...CommentContainer_settings
       }
     `,
     asset: graphql`
@@ -300,6 +322,12 @@ const ReplyListContainer2 = createReplyListContainer(
         ...CommentContainer_me
       }
     `,
+    settings: graphql`
+      fragment ReplyListContainer2_settings on Settings {
+        ...ReplyListContainer3_settings
+        ...CommentContainer_settings
+      }
+    `,
     asset: graphql`
       fragment ReplyListContainer2_asset on Asset {
         ...ReplyListContainer3_asset
@@ -352,6 +380,12 @@ const ReplyListContainer1 = createReplyListContainer(
       fragment ReplyListContainer1_me on User {
         ...ReplyListContainer2_me
         ...CommentContainer_me
+      }
+    `,
+    settings: graphql`
+      fragment ReplyListContainer1_settings on Settings {
+        ...ReplyListContainer2_settings
+        ...CommentContainer_settings
       }
     `,
     asset: graphql`

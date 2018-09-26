@@ -499,14 +499,30 @@ Tenant.
 """
 type ReactionConfiguration {
   """
+  icon is the string representing the icon to be used for the reactions.
+  """
+  icon: String!
+
+  """
+
+  """
+  iconActive: String
+
+  """
   label is the string placed beside the reaction icon to provide better context.
   """
   label: String!
 
   """
-  icon is the string representing the icon to be used for the reactions.
+  labelActive is the string placed beside the reaction icon to provide better
+  context when it has been selected.
   """
-  icon: String!
+  labelActive: String
+
+  """
+  color is the hex color code that can be used to change the color of the button.
+  """
+  color: String
 }
 
 ################################################################################
@@ -653,7 +669,7 @@ type Settings {
   """
   reaction specifies the configuration for reactions.
   """
-  reaction: ReactionConfiguration! @auth(roles: [ADMIN])
+  reaction: ReactionConfiguration!
 }
 
 ################################################################################

@@ -17,6 +17,7 @@ export interface ReplyListProps {
   comments: ReadonlyArray<
     { id: string } & PropTypesOf<typeof CommentContainer>["comment"]
   >;
+  settings: PropTypesOf<typeof CommentContainer>["settings"];
   onShowAll?: () => void;
   hasMore?: boolean;
   disableShowAll?: boolean;
@@ -49,6 +50,7 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
             me={props.me}
             comment={comment}
             asset={props.asset}
+            settings={props.settings}
             indentLevel={props.indentLevel}
             localReply={props.localReply}
             disableReplies={props.disableReplies}

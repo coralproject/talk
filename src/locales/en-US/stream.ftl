@@ -68,6 +68,3 @@ comments-editCommentForm-rte =
 comments-editCommentForm-editRemainingTime = Edit: <time></time> remaining
 comments-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
 comments-editedMarker-edited = Edited
-
-comments-respectButton-respect = Respect
-comments-respectButton-respected = Respected
