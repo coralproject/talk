@@ -62,7 +62,7 @@ beforeEach(() => {
 
   ({ testRenderer } = create({
     // Set this to true, to see graphql responses.
-    logNetwork: true,
+    logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue(assetWithDeepestReplies.id, "assetID");
