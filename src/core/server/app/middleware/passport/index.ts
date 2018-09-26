@@ -6,19 +6,18 @@ import { Db } from "mongodb";
 import passport, { Authenticator } from "passport";
 
 import { Config } from "talk-common/config";
+import { createLocalStrategy } from "talk-server/app/middleware/passport/local";
+import { JWTStrategy } from "talk-server/app/middleware/passport/strategies/jwt";
+import { createOIDCStrategy } from "talk-server/app/middleware/passport/strategies/oidc";
+import { validate } from "talk-server/app/request/body";
+import { User } from "talk-server/models/user";
 import {
   blacklistJWT,
-  createJWTStrategy,
   extractJWTFromRequest,
   JWTSigningConfig,
   SigningTokenOptions,
   signTokenString,
-} from "talk-server/app/middleware/passport/jwt";
-import { createLocalStrategy } from "talk-server/app/middleware/passport/local";
-import { createOIDCStrategy } from "talk-server/app/middleware/passport/oidc";
-import { createSSOStrategy } from "talk-server/app/middleware/passport/sso";
-import { validate } from "talk-server/app/request/body";
-import { User } from "talk-server/models/user";
+} from "talk-server/services/jwt";
 import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
 
@@ -49,10 +48,7 @@ export function createPassport(
   auth.use(createLocalStrategy(options));
 
   // Use the SSOStrategy.
-  auth.use(createSSOStrategy(options));
-
-  // Use the JWTStrategy.
-  auth.use(createJWTStrategy(options));
+  auth.use(new JWTStrategy(options));
 
   return auth;
 }

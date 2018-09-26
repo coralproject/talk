@@ -56,7 +56,6 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
     // Any users may submit their GraphQL requests with authentication, this
     // middleware will unpack their user into the request.
     options.passport.authenticate("jwt", { session: false }),
-    options.passport.authenticate("sso", { session: false }),
     await tenantGraphMiddleware({
       schema: app.schemas.tenant,
       config: app.config,

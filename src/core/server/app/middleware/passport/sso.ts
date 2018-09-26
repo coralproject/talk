@@ -3,16 +3,16 @@ import jwt, { KeyFunctionCallback } from "jsonwebtoken";
 import { Db } from "mongodb";
 import { Strategy } from "passport-strategy";
 
-import { extractJWTFromRequest } from "talk-server/app/middleware/passport/jwt";
 import {
   findOrCreateOIDCUser,
   isOIDCToken,
   OIDCIDToken,
-} from "talk-server/app/middleware/passport/oidc";
+} from "talk-server/app/middleware/passport/strategies/oidc";
 import { validate } from "talk-server/app/request/body";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import { retrieveUserWithProfile, SSOProfile } from "talk-server/models/user";
+import { extractJWTFromRequest } from "talk-server/services/jwt";
 import { upsert } from "talk-server/services/users";
 import { Request } from "talk-server/types/express";
 
