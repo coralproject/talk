@@ -7,16 +7,16 @@ import nunjucks from "nunjucks";
 import path from "path";
 
 import { Config } from "talk-common/config";
+import { cacheHeadersMiddleware } from "talk-server/app/middleware/cacheHeaders";
+import { errorHandler } from "talk-server/app/middleware/error";
 import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
-import { JWTSigningConfig } from "talk-server/app/middleware/passport/jwt";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
+import { JWTSigningConfig } from "talk-server/services/jwt";
 import { TaskQueue } from "talk-server/services/queue";
 import TenantCache from "talk-server/services/tenant/cache";
 
-import { cacheHeadersMiddleware } from "talk-server/app/middleware/cacheHeaders";
-import { errorHandler } from "talk-server/app/middleware/error";
 import { accessLogger, errorLogger } from "./middleware/logging";
 import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";

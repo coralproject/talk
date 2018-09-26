@@ -6,19 +6,18 @@ import { Db } from "mongodb";
 import passport, { Authenticator } from "passport";
 
 import { Config } from "talk-common/config";
+import { JWTStrategy } from "talk-server/app/middleware/passport/strategies/jwt";
+import { createLocalStrategy } from "talk-server/app/middleware/passport/strategies/local";
+import OIDCStrategy from "talk-server/app/middleware/passport/strategies/oidc";
+import { validate } from "talk-server/app/request/body";
+import { User } from "talk-server/models/user";
 import {
   blacklistJWT,
-  createJWTStrategy,
   extractJWTFromRequest,
   JWTSigningConfig,
   SigningTokenOptions,
   signTokenString,
-} from "talk-server/app/middleware/passport/jwt";
-import { createLocalStrategy } from "talk-server/app/middleware/passport/local";
-import { createOIDCStrategy } from "talk-server/app/middleware/passport/oidc";
-import { createSSOStrategy } from "talk-server/app/middleware/passport/sso";
-import { validate } from "talk-server/app/request/body";
-import { User } from "talk-server/models/user";
+} from "talk-server/services/jwt";
 import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
 
@@ -42,17 +41,14 @@ export function createPassport(
   // Create the authenticator.
   const auth = new Authenticator();
 
-  // Use the OIDC Strategy.
-  auth.use(createOIDCStrategy(options));
-
   // Use the LocalStrategy.
   auth.use(createLocalStrategy(options));
 
-  // Use the SSOStrategy.
-  auth.use(createSSOStrategy(options));
+  // Use the OIDC Strategy.
+  auth.use(new OIDCStrategy(options));
 
-  // Use the JWTStrategy.
-  auth.use(createJWTStrategy(options));
+  // Use the SSOStrategy.
+  auth.use(new JWTStrategy(options));
 
   return auth;
 }
@@ -114,9 +110,6 @@ export async function handleSuccessfulLogin(
     if (tenant) {
       // Attach the tenant's id to the issued token as a `iss` claim.
       options.issuer = tenant.id;
-
-      // TODO: (wyattjoh) evaluate the possibility when we have multiple
-      // integrations per type to use the integration id as the audience.
     }
 
     // Grab the token.

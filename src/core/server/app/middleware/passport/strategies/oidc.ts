@@ -391,7 +391,3 @@ export default class OIDCStrategy extends Strategy {
     }
   }
 }
-
-export function createOIDCStrategy(options: OIDCStrategyOptions) {
-  return new OIDCStrategy(options);
-}
