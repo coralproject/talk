@@ -45,7 +45,6 @@ class RespectButtonContainer extends React.Component<
       this.props.comment.myActionPresence &&
       this.props.comment.myActionPresence.reaction;
 
-    console.log(totalReactions);
     return (
       <RespectButton
         onButtonClick={this.onButtonClick}

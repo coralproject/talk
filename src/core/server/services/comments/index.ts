@@ -2,7 +2,10 @@ import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
 import { ACTION_ITEM_TYPE, CreateActionInput } from "talk-server/models/action";
-import { retrieveAsset } from "talk-server/models/asset";
+import {
+  retrieveAsset,
+  updateCommentStatusCount,
+} from "talk-server/models/asset";
 import {
   createComment,
   CreateCommentInput,
@@ -102,6 +105,11 @@ export async function create(
     );
   }
 
+  // Increment the status count for the particular status on the Asset.
+  await updateCommentStatusCount(mongo, tenant.id, asset.id, {
+    [status]: 1,
+  });
+
   return comment;
 }
 
@@ -118,7 +126,7 @@ export async function edit(
   req?: Request
 ) {
   // Get the comment that we're editing.
-  let comment = await retrieveComment(mongo, tenant.id, input.id);
+  const comment = await retrieveComment(mongo, tenant.id, input.id);
   if (!comment) {
     // TODO: replace to match error returned by the models/comments.ts
     throw new Error("comment not found");
@@ -140,7 +148,7 @@ export async function edit(
     req,
   });
 
-  comment = await editComment(mongo, tenant.id, {
+  let editedComment = await editComment(mongo, tenant.id, {
     id: input.id,
     author_id: author.id,
     body: input.body,
@@ -174,8 +182,17 @@ export async function edit(
     );
 
     // Insert and handle creating the actions.
-    comment = await addCommentActions(mongo, tenant, comment, inputs);
+    editedComment = await addCommentActions(mongo, tenant, comment, inputs);
   }
 
-  return comment;
+  if (comment.status !== editedComment.status) {
+    // Increment the status count for the particular status on the Asset, and
+    // decrement the status on the comment's previous status.
+    await updateCommentStatusCount(mongo, tenant.id, asset.id, {
+      [comment.status]: -1,
+      [editedComment.status]: 1,
+    });
+  }
+
+  return editedComment;
 }
