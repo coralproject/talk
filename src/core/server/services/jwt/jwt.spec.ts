@@ -1,11 +1,8 @@
 import sinon from "sinon";
 
 import { Config } from "talk-common/config";
-import {
-  createJWTSigningConfig,
-  extractJWTFromRequest,
-} from "talk-server/app/middleware/passport/jwt";
 import { Request } from "talk-server/types/express";
+import { createJWTSigningConfig, extractJWTFromRequest } from ".";
 
 describe("extractJWTFromRequest", () => {
   it("extracts the token from header", () => {
