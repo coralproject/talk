@@ -42,6 +42,14 @@ exports[`renders correctly 1`] = `
   localReply={false}
   me={null}
   onShowAll={[Function]}
+  settings={
+    Object {
+      "reaction": Object {
+        "icon": "thumb_up_alt",
+        "label": "Respect",
+      },
+    }
+  }
 />
 `;
 
@@ -89,6 +97,14 @@ exports[`when has more replies renders hasMore 1`] = `
   localReply={false}
   me={null}
   onShowAll={[Function]}
+  settings={
+    Object {
+      "reaction": Object {
+        "icon": "thumb_up_alt",
+        "label": "Respect",
+      },
+    }
+  }
 />
 `;
 
@@ -134,6 +150,14 @@ exports[`when has more replies when showing all disables show all button 1`] = `
   localReply={false}
   me={null}
   onShowAll={[Function]}
+  settings={
+    Object {
+      "reaction": Object {
+        "icon": "thumb_up_alt",
+        "label": "Respect",
+      },
+    }
+  }
 />
 `;
 
@@ -179,5 +203,13 @@ exports[`when has more replies when showing all enable show all button after loa
   localReply={false}
   me={null}
   onShowAll={[Function]}
+  settings={
+    Object {
+      "reaction": Object {
+        "icon": "thumb_up_alt",
+        "label": "Respect",
+      },
+    }
+  }
 />
 `;

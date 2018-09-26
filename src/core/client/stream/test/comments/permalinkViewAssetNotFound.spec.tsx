@@ -1,7 +1,9 @@
 import { ReactTestRenderer } from "react-test-renderer";
 
 import { timeout } from "talk-common/utils";
+import { createSinonStub } from "talk-framework/testHelpers";
 
+import { settings } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -10,6 +12,10 @@ beforeEach(() => {
     Query: {
       comment: () => null,
       asset: () => null,
+      settings: createSinonStub(
+        s => s.throws(),
+        s => s.withArgs(undefined).returns(settings)
+      ),
     },
   };
 

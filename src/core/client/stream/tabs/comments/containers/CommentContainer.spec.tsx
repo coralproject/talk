@@ -30,6 +30,12 @@ it("renders username and body", () => {
       },
       pending: false,
     },
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
     indentLevel: 1,
     showAuthPopup: noop as any,
     localReply: false,
@@ -60,6 +66,12 @@ it("renders body only", () => {
       },
       pending: false,
     },
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
     indentLevel: 1,
     showAuthPopup: noop as any,
   };
@@ -87,6 +99,12 @@ it("hide reply button", () => {
         editableUntil: "1995-12-17T03:24:30.000Z",
       },
       pending: false,
+    },
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
     },
     indentLevel: 1,
     showAuthPopup: noop as any,

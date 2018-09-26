@@ -4,7 +4,7 @@ import timekeeper from "timekeeper";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, users } from "../fixtures";
+import { assets, settings, users } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -13,6 +13,10 @@ beforeEach(() => {
     Query: {
       asset: createSinonStub(s => s.throws(), s => s.returns(assets[0])),
       me: createSinonStub(s => s.throws(), s => s.returns(users[0])),
+      settings: createSinonStub(
+        s => s.throws(),
+        s => s.withArgs(undefined).returns(settings)
+      ),
     },
     Mutation: {
       createComment: createSinonStub(

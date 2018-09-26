@@ -4,7 +4,7 @@ import timekeeper from "timekeeper";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assetWithDeepestReplies, users } from "../fixtures";
+import { assetWithDeepestReplies, settings, users } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -16,6 +16,7 @@ beforeEach(() => {
         s => s.returns(assetWithDeepestReplies)
       ),
       me: createSinonStub(s => s.throws(), s => s.returns(users[0])),
+      settings: createSinonStub(s => s.returns(settings)),
     },
     Mutation: {
       createComment: createSinonStub(
@@ -61,7 +62,7 @@ beforeEach(() => {
 
   ({ testRenderer } = create({
     // Set this to true, to see graphql responses.
-    logNetwork: false,
+    logNetwork: true,
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue(assetWithDeepestReplies.id, "assetID");

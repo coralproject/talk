@@ -1,3 +1,10 @@
+export const settings = {
+  reaction: {
+    icon: "thumb_up_alt",
+    label: "Respect",
+  },
+};
+
 export const users = [
   {
     id: "user-0",

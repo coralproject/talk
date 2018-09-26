@@ -22,6 +22,12 @@ it("renders correctly", () => {
     me: null,
     localReply: false,
     disableReplies: false,
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
   };
   const wrapper = shallow(<ReplyListN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -37,6 +43,12 @@ describe("when there is more", () => {
     disableShowAll: false,
     indentLevel: 1,
     me: null,
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
   };
 
   const wrapper = shallow(<ReplyListN {...props} />);
