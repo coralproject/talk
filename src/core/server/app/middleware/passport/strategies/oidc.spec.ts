@@ -1,7 +1,7 @@
 import {
   OIDCDisplayNameIDTokenSchema,
   OIDCIDTokenSchema,
-} from "talk-server/app/middleware/passport/oidc";
+} from "talk-server/app/middleware/passport/strategies/oidc";
 import { validate } from "talk-server/app/request/body";
 
 describe("OIDCIDTokenSchema", () => {

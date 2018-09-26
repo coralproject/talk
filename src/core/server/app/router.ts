@@ -89,7 +89,6 @@ function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
     signupHandler({ db: app.mongo, signingConfig: app.signingConfig })
   );
 
-  router.post("/sso", wrapAuthn(options.passport, app.signingConfig, "sso"));
   router.get("/oidc", wrapAuthn(options.passport, app.signingConfig, "oidc"));
   router.get(
     "/oidc/callback",

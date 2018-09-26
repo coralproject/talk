@@ -290,6 +290,27 @@ type Karma {
 }
 
 ################################################################################
+## CharCount
+################################################################################
+
+type CharCount {
+  """
+  enabled when true, enables the character count moderation phase.
+  """
+  enabled: Boolean!
+
+  """
+  min is the smallest length of a Comment that may be posted.
+  """
+  min: Int
+
+  """
+  max is the largest length of a Comment that may be posted.
+  """
+  max: Int
+}
+
+################################################################################
 ## Email
 ################################################################################
 
@@ -411,14 +432,9 @@ type Settings {
   editCommentWindowLength: Int!
 
   """
-  charCountEnable is true when the character count restriction is enabled.
+  charCount stores the character count moderation settings.
   """
-  charCountEnable: Boolean!
-
-  """
-  charCount is the maximum number of characters a comment may be.
-  """
-  charCount: Int
+  charCount: CharCount!
 
   """
   organizationName is the name of the organization.
@@ -625,10 +641,21 @@ type Comment {
   status: COMMENT_STATUS!
 
   """
+  parentCount is the number of direct parents for this Comment. Currently this
+  value is the same as depth.
+  """
+  parentCount: Int!
+
+  """
+  depth is the number of levels that a given comment is deep.
+  """
+  depth: Int!
+
+  """
   replyCount is the number of replies. Only direct replies to this Comment
   are counted. Deleted comments are included in this count.
   """
-  replyCount: Int
+  replyCount: Int!
 
   """
   replies will return the replies to this Comment.
@@ -637,7 +664,24 @@ type Comment {
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
-  ): CommentsConnection
+  ): CommentsConnection!
+
+  """
+  parent is the immediate parent of a given comment.
+  """
+  parent: Comment
+
+  """
+  rootParent is the highest level parent Comment. This Comment would have been
+  left on the Asset itself.
+  """
+  rootParent: Comment
+
+  """
+  parents returns a CommentsConnection that allows accessing direct parents of
+  the given Comment.
+  """
+  parents(last: Int = 1, before: Cursor): CommentsConnection!
 
   """
   editing returns details about the edit status of a Comment.
@@ -845,11 +889,6 @@ type Query {
   comment returns a specific comment.
   """
   comment(id: ID!): Comment
-
-  """
-  assets returns a AssetsConnection.
-  """
-  assets(cursor: Cursor, limit: Int = 10): AssetsConnection
 
   """
   asset is the Asset specified by its ID/URL.
@@ -1153,6 +1192,23 @@ input SettingsKarmaInput {
   thresholds: SettingsKarmaThresholdsInput
 }
 
+input SettingsCharCountInput {
+  """
+  enabled when true, enables the character count moderation phase.
+  """
+  enabled: Boolean
+
+  """
+  min is the smallest length of a Comment that may be posted.
+  """
+  min: Int
+
+  """
+  max is the largest length of a Comment that may be posted.
+  """
+  max: Int
+}
+
 """
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
@@ -1245,16 +1301,6 @@ input SettingsInput {
   editCommentWindowLength: Int
 
   """
-  charCountEnable is true when the character count restriction is enabled.
-  """
-  charCountEnable: Boolean
-
-  """
-  charCount is the maximum number of characters a comment may be.
-  """
-  charCount: Int
-
-  """
   organizationName is the name of the organization.
   """
   organizationName: String
@@ -1289,6 +1335,11 @@ input SettingsInput {
   handled.
   """
   karma: SettingsKarmaInput
+
+  """
+  charCount stores the character count moderation settings.
+  """
+  charCount: SettingsCharCountInput
 }
 
 """
