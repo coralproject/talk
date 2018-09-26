@@ -15,5 +15,5 @@ declare module "jsonwebtoken" {
     secretOrPublicKey: string | Buffer | KeyFunction,
     options?: VerifyOptions,
     callback?: VerifyCallback
-  ): void;
+  ): object | string;
 }

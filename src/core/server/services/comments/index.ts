@@ -7,6 +7,7 @@ import {
   CreateCommentInput,
   editComment,
   EditCommentInput,
+  pushChildCommentIDOntoParent,
   retrieveComment,
 } from "talk-server/models/comment";
 import { Tenant } from "talk-server/models/tenant";
@@ -16,7 +17,7 @@ import { Request } from "talk-server/types/express";
 
 export type CreateComment = Omit<
   CreateCommentInput,
-  "status" | "action_counts" | "metadata"
+  "status" | "action_counts" | "metadata" | "grandparent_ids"
 >;
 
 export async function create(
@@ -35,6 +36,7 @@ export async function create(
 
   // TODO: (wyattjoh) Check that the asset was visible.
 
+  const grandparentIDs: string[] = [];
   if (input.parent_id) {
     // Check to see that the reference parent ID exists.
     const parent = await retrieveComment(mongo, tenant.id, input.parent_id);
@@ -44,6 +46,13 @@ export async function create(
     }
 
     // TODO: (wyattjoh) Check that the parent comment was visible.
+
+    // Push the parent's parent id's into the comment's grandparent id's.
+    grandparentIDs.push(...parent.grandparent_ids);
+    if (parent.parent_id) {
+      // If this parent has a parent, push it down as well.
+      grandparentIDs.push(parent.parent_id);
+    }
   }
 
   // Run the comment through the moderation phases.
@@ -61,11 +70,18 @@ export async function create(
     ...input,
     status,
     action_counts: {},
+    grandparent_ids: grandparentIDs,
     metadata,
   });
 
   if (input.parent_id) {
-    // TODO: update reply count of parent.
+    // Push the child's ID onto the parent.
+    await pushChildCommentIDOntoParent(
+      mongo,
+      tenant.id,
+      input.parent_id,
+      comment.id
+    );
   }
 
   return comment;

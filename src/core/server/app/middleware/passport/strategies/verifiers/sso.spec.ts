@@ -2,7 +2,7 @@ import {
   isSSOToken,
   SSODisplayNameUserProfileSchema,
   SSOUserProfileSchema,
-} from "talk-server/app/middleware/passport/sso";
+} from "talk-server/app/middleware/passport/strategies/verifiers/sso";
 import { validate } from "talk-server/app/request/body";
 
 describe("isSSOToken", () => {

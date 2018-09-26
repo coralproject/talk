@@ -39,12 +39,13 @@ exports[`renders correctly 1`] = `
   }
   disableShowAll={false}
   indentLevel={1}
+  localReply={false}
   me={null}
   onShowAll={[Function]}
 />
 `;
 
-exports[`renders correctly when replies are null 1`] = `""`;
+exports[`renders correctly when replies are empty 1`] = `""`;
 
 exports[`when has more replies renders hasMore 1`] = `
 <ReplyList
@@ -85,6 +86,7 @@ exports[`when has more replies renders hasMore 1`] = `
   disableShowAll={false}
   hasMore={true}
   indentLevel={1}
+  localReply={false}
   me={null}
   onShowAll={[Function]}
 />
@@ -129,6 +131,7 @@ exports[`when has more replies when showing all disables show all button 1`] = `
   disableShowAll={true}
   hasMore={true}
   indentLevel={1}
+  localReply={false}
   me={null}
   onShowAll={[Function]}
 />
@@ -173,6 +176,7 @@ exports[`when has more replies when showing all enable show all button after loa
   disableShowAll={false}
   hasMore={true}
   indentLevel={1}
+  localReply={false}
   me={null}
   onShowAll={[Function]}
 />
