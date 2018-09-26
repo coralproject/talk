@@ -171,3 +171,110 @@ export const assetWithDeepReplies = {
     },
   },
 };
+
+export const commentWithDeepestReplies = {
+  ...commentWithReplies,
+  id: "comment-with-deepest-replies",
+  body: "body 0",
+  replies: {
+    ...commentWithReplies.replies,
+    edges: [
+      {
+        cursor: commentWithReplies.createdAt,
+        node: {
+          ...commentWithReplies,
+          id: "comment-with-deepest-replies-1",
+          body: "body 1",
+          replies: {
+            ...commentWithReplies.replies,
+            edges: [
+              {
+                cursor: commentWithReplies.createdAt,
+                node: {
+                  ...commentWithReplies,
+                  id: "comment-with-deepest-replies-2",
+                  body: "body 2",
+                  replies: {
+                    ...commentWithReplies.replies,
+                    edges: [
+                      {
+                        cursor: commentWithReplies.createdAt,
+                        node: {
+                          ...commentWithReplies,
+                          id: "comment-with-deepest-replies-3",
+                          body: "body 3",
+                          replies: {
+                            ...commentWithReplies.replies,
+                            edges: [
+                              {
+                                cursor: commentWithReplies.createdAt,
+                                node: {
+                                  ...commentWithReplies,
+                                  id: "comment-with-deepest-replies-4",
+                                  body: "body 4",
+                                  replies: {
+                                    ...commentWithReplies.replies,
+                                    edges: [
+                                      {
+                                        cursor: commentWithReplies.createdAt,
+                                        node: {
+                                          ...commentWithReplies,
+                                          id: "comment-with-deepest-replies-5",
+                                          body: "body 5",
+                                          replies: {
+                                            ...commentWithReplies.replies,
+                                            edges: [
+                                              {
+                                                cursor:
+                                                  commentWithReplies.createdAt,
+                                                node: {
+                                                  ...commentWithReplies,
+                                                  id:
+                                                    "comment-with-deepest-replies-6",
+                                                  body: "body 6",
+                                                  replies: {
+                                                    ...commentWithReplies.replies,
+                                                    edges: [],
+                                                  },
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      },
+                                    ],
+                                  },
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+    ],
+  },
+};
+
+export const assetWithDeepestReplies = {
+  id: "asset-with-deepest-replies",
+  url: "http://localhost/assets/asset-with-replies",
+  isClosed: false,
+  comments: {
+    edges: [
+      {
+        node: commentWithDeepestReplies,
+        cursor: commentWithDeepestReplies.createdAt,
+      },
+    ],
+    pageInfo: {
+      hasNextPage: false,
+    },
+  },
+};

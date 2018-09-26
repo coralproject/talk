@@ -4,14 +4,17 @@ import timekeeper from "timekeeper";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, users } from "../fixtures";
+import { assetWithDeepestReplies, users } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const resolvers = {
     Query: {
-      asset: createSinonStub(s => s.throws(), s => s.returns(assets[0])),
+      asset: createSinonStub(
+        s => s.throws(),
+        s => s.returns(assetWithDeepestReplies)
+      ),
       me: createSinonStub(s => s.throws(), s => s.returns(users[0])),
     },
     Mutation: {
@@ -21,13 +24,13 @@ beforeEach(() => {
           s
             .withArgs(undefined, {
               input: {
-                assetID: assets[0].id,
+                assetID: assetWithDeepestReplies.id,
+                parentID: "comment-with-deepest-replies-5",
                 body: "<strong>Hello world!</strong>",
                 clientMutationId: "0",
               },
             })
             .returns({
-              // TODO: add a type assertion here to ensure that if the type changes, that the test will fail
               edge: {
                 cursor: null,
                 node: {
@@ -35,11 +38,14 @@ beforeEach(() => {
                   author: users[0],
                   body: "<strong>Hello world! (from server)</strong>",
                   createdAt: "2018-07-06T18:24:00.000Z",
+                  replies: {
+                    edges: [],
+                    pageInfo: { endCursor: null, hasNextPage: false },
+                  },
                   editing: {
                     edited: false,
                     editableUntil: "2018-07-06T18:24:30.000Z",
                   },
-                  replies: { edges: [], pageInfo: {} },
                 },
               },
               clientMutationId: "0",
@@ -53,7 +59,7 @@ beforeEach(() => {
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue(assets[0].id, "assetID");
+      localRecord.setValue(assetWithDeepestReplies.id, "assetID");
     },
   }));
 });
@@ -64,23 +70,37 @@ it("renders comment stream", async () => {
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
-it("post a comment", async () => {
+it("post a reply", async () => {
   // Wait for loading.
   await timeout();
+
+  // Open reply form.
   testRenderer.root
-    .findByProps({ inputId: "comments-postCommentForm-field" })
+    .findByProps({
+      id:
+        "comments-commentContainer-replyButton-comment-with-deepest-replies-5",
+    })
+    .props.onClick();
+
+  await timeout();
+  expect(testRenderer.toJSON()).toMatchSnapshot("open reply form");
+
+  // Write reply .
+  testRenderer.root
+    .findByProps({
+      inputId: "comments-replyCommentForm-rte-comment-with-deepest-replies-5",
+    })
     .props.onChange({ html: "<strong>Hello world!</strong>" });
 
   timekeeper.freeze(new Date("2018-07-06T18:24:00.000Z"));
-
   testRenderer.root
-    .findByProps({ id: "comments-postCommentForm-form" })
+    .findByProps({
+      id: "comments-replyCommentForm-form-comment-with-deepest-replies-5",
+    })
     .props.onSubmit();
-
-  timekeeper.reset();
-
   // Test optimistic response.
   expect(testRenderer.toJSON()).toMatchSnapshot("optimistic response");
+  timekeeper.reset();
 
   // Wait for loading.
   await timeout();
