@@ -1307,7 +1307,7 @@ exports[`post a reply: server response 1`] = `
                 className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
               >
                 <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                   id="comments-commentContainer-replyButton-comment-0"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -1341,127 +1341,97 @@ exports[`post a reply: server response 1`] = `
             </div>
           </div>
         </div>
-        <form
-          autoComplete="off"
-          id="comments-replyCommentForm-form-comment-0"
-          onSubmit={[Function]}
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+          id="talk-comments-replyList-log--comment-0"
+          role="log"
         >
           <div
             className="HorizontalGutter-root HorizontalGutter-full"
           >
-            <div>
-              <label
-                className="AriaInfo-root"
-                htmlFor="comments-replyCommentForm-rte-comment-0"
+            <div
+              className="Indent-root"
+            >
+              <div
+                className="Indent-level1"
               >
-                Write a reply
-              </label>
-              <div>
                 <div
-                  className=""
+                  className="Comment-root"
+                  role="article"
                 >
                   <div
-                    className="Toolbar-toolbar"
+                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    id="comment-comment-x"
+                  >
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                    >
+                      <span
+                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      >
+                        Markus
+                      </span>
+                      <div
+                        className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                      >
+                        <time
+                          className="Timestamp-root RelativeTime-root"
+                          dateTime="2018-07-06T18:24:00.000Z"
+                          title="2018-07-06T18:24:00.000Z"
+                        >
+                          2018-07-06T18:24:00.000Z
+                        </time>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "<strong>Hello world! (from server)</strong>",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Comment-footer Flex-flex Flex-halfItemGutter Flex-directionRow"
                   >
                     <button
-                      className="Button-button"
-                      disabled={false}
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      id="comments-commentContainer-replyButton-comment-x"
+                      onBlur={[Function]}
                       onClick={[Function]}
-                      title="Bold"
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
                       type="button"
                     >
-                      <span
-                        aria-hidden="true"
-                        className="Icon-root Icon-md"
-                      >
-                        format_bold
+                      <span>
+                        Reply
                       </span>
                     </button>
                     <button
-                      className="Button-button"
-                      disabled={false}
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
                       onClick={[Function]}
-                      title="Italic"
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
                       type="button"
                     >
-                      <span
-                        aria-hidden="true"
-                        className="Icon-root Icon-md"
-                      >
-                        format_italic
-                      </span>
-                    </button>
-                    <button
-                      className="Button-button"
-                      disabled={false}
-                      onClick={[Function]}
-                      title="Blockquote"
-                      type="button"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="Icon-root Icon-md"
-                      >
-                        format_quote
+                      <span>
+                        Respect
                       </span>
                     </button>
                   </div>
-                  <div
-                    aria-placeholder="Write a reply"
-                    className="RTE-contentEditable RTE-content"
-                    contentEditable={true}
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "<strong>Hello world!</strong>",
-                      }
-                    }
-                    disabled={false}
-                    id="comments-replyCommentForm-rte-comment-0"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onCut={[Function]}
-                    onFocus={[Function]}
-                    onInput={[Function]}
-                    onKeyDown={[Function]}
-                    onPaste={[Function]}
-                    onSelect={[Function]}
-                  />
                 </div>
               </div>
             </div>
-            <div
-              className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow"
-            >
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
-                disabled={false}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseDown={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
-              >
-                Cancel
-              </button>
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-                disabled={false}
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseDown={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="submit"
-              >
-                Submit
-              </button>
-            </div>
           </div>
-        </form>
+        </div>
       </div>
       <div
         className="HorizontalGutter-root HorizontalGutter-full"

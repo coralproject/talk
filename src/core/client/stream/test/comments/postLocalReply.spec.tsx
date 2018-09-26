@@ -46,6 +46,11 @@ beforeEach(() => {
                     edited: false,
                     editableUntil: "2018-07-06T18:24:30.000Z",
                   },
+                  actionCounts: {
+                    reaction: {
+                      total: 0,
+                    },
+                  },
                 },
               },
               clientMutationId: "0",
