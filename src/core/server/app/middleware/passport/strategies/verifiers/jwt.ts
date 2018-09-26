@@ -7,19 +7,19 @@ import { retrieveUser } from "talk-server/models/user";
 import { checkBlacklistJWT, JWTSigningConfig } from "talk-server/services/jwt";
 
 export interface JWTToken {
+  // aud: string;
   jti: string;
   sub: string;
   exp: number;
-  aud: string;
   iss: string;
 }
 
 export function isJWTToken(token: JWTToken | object): token is JWTToken {
   return (
+    // typeof (token as JWTToken).aud === "string" &&
     typeof (token as JWTToken).jti === "string" &&
     typeof (token as JWTToken).sub === "string" &&
     typeof (token as JWTToken).exp === "number" &&
-    typeof (token as JWTToken).aud === "string" &&
     typeof (token as JWTToken).iss === "string"
   );
 }
@@ -42,7 +42,7 @@ export class JWTVerifier {
   }
 
   public supports(token: JWTToken | object, tenant: Tenant): token is JWTToken {
-    return isJWTToken(token);
+    return isJWTToken(token) && token.iss === tenant.id;
   }
 
   public async verify(tokenString: string, token: JWTToken, tenant: Tenant) {

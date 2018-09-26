@@ -105,9 +105,7 @@ export async function handleSuccessfulLogin(
     // Grab the tenant from the request.
     const { tenant } = req;
 
-    const options: SigningTokenOptions = {
-      audience: "jwt",
-    };
+    const options: SigningTokenOptions = {};
 
     if (tenant) {
       // Attach the tenant's id to the issued token as a `iss` claim.
