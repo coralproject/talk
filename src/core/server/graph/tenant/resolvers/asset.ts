@@ -8,6 +8,7 @@ const Asset: GQLAssetTypeResolver<Asset> = {
   // TODO: implement this.
   isClosed: () => false,
   actionCounts: asset => decodeActionCounts(asset.action_counts),
+  commentCounts: asset => asset.comment_counts,
 };
 
 export default Asset;

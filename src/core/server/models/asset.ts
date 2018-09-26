@@ -3,6 +3,7 @@ import uuid from "uuid";
 
 import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
+import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
 import { EncodedActionCounts } from "talk-server/models/action";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
@@ -11,12 +12,24 @@ function collection(db: Db) {
   return db.collection<Readonly<Asset>>("assets");
 }
 
+// TODO: (wyattjoh) write a test to verify that this set of counts is always in sync with GQLCOMMENT_STATUS.
+export interface CommentStatusCounts {
+  [GQLCOMMENT_STATUS.ACCEPTED]: number;
+  [GQLCOMMENT_STATUS.NONE]: number;
+  [GQLCOMMENT_STATUS.PREMOD]: number;
+  [GQLCOMMENT_STATUS.REJECTED]: number;
+  [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: number;
+}
+
 export interface Asset extends TenantResource {
   readonly id: string;
   url: string;
   scraped?: Date;
   closedAt?: Date;
   closedMessage?: string;
+  created_at: Date;
+  modified_date?: Date;
+
   title?: string;
   description?: string;
   image?: string;
@@ -24,8 +37,6 @@ export interface Asset extends TenantResource {
   subsection?: string;
   author?: string;
   publication_date?: Date;
-  modified_date?: Date;
-  created_at: Date;
 
   /**
    * action_counts stores all the action counts for all Comment's on this Asset.
@@ -33,7 +44,13 @@ export interface Asset extends TenantResource {
   action_counts: EncodedActionCounts;
 
   /**
-   * settings provides a point where the settings can be overriden for a
+   * comment_counts stores the different counts for each comment on the Asset
+   * according to their statuses.
+   */
+  comment_counts: CommentStatusCounts;
+
+  /**
+   * settings provides a point where the settings can be overridden for a
    * specific Asset.
    */
   settings?: Partial<ModerationSettings>;
@@ -62,13 +79,17 @@ export async function upsertAsset(
       tenant_id: tenantID,
       created_at: now,
       action_counts: {},
+      comment_counts: createEmptyCommentCounts(),
     },
   };
 
   // Perform the find and update operation to try and find and or create the
   // asset.
   const { value: asset } = await collection(db).findOneAndUpdate(
-    { url },
+    {
+      url,
+      tenant_id: tenantID,
+    },
     update,
     {
       // Create the object if it doesn't already exist.
@@ -88,6 +109,48 @@ export async function upsertAsset(
   }
 
   return asset;
+}
+
+/**
+ * updateCommentStatusCount increments the number of status counts for the
+ * given Asset ID.
+ *
+ * @param mongo the database handle
+ * @param tenantID the tenant that the Asset is on.
+ * @param id the ID of the Asset.
+ * @param commentStatusCounts the update document that contains a positive or
+ *  negative number of comments to increment on the given Asset.
+ */
+export async function updateCommentStatusCount(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  commentStatusCounts: Partial<CommentStatusCounts>
+) {
+  const { value: asset } = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenant_id: tenantID,
+    },
+    // Update all the specific comment status counts that are associated with
+    // each of the counts.
+    { $inc: dotize({ comment_counts: commentStatusCounts }) },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return asset;
+}
+
+function createEmptyCommentCounts(): CommentStatusCounts {
+  return {
+    [GQLCOMMENT_STATUS.ACCEPTED]: 0,
+    [GQLCOMMENT_STATUS.NONE]: 0,
+    [GQLCOMMENT_STATUS.PREMOD]: 0,
+    [GQLCOMMENT_STATUS.REJECTED]: 0,
+    [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: 0,
+  };
 }
 
 export interface FindOrCreateAssetInput {
