@@ -10,6 +10,7 @@ import {
 import { EncodedActionCounts } from "talk-server/models/action";
 import {
   Connection,
+  createConnection,
   Cursor,
   getPageInfo,
   nodesToEdges,
@@ -28,7 +29,7 @@ export interface BodyHistoryItem {
 }
 
 export interface StatusHistoryItem {
-  status: GQLCOMMENT_STATUS; // TODO: migrate field
+  status: GQLCOMMENT_STATUS;
   assigned_by?: string;
   created_at: Date;
 }
@@ -43,6 +44,8 @@ export interface Comment extends TenantResource {
   status: GQLCOMMENT_STATUS;
   status_history: StatusHistoryItem[];
   action_counts: EncodedActionCounts;
+  grandparent_ids: string[];
+  reply_ids: string[];
   reply_count: number;
   created_at: Date;
   deleted_at?: Date;
@@ -54,6 +57,7 @@ export type CreateCommentInput = Omit<
   | "id"
   | "tenant_id"
   | "created_at"
+  | "reply_ids"
   | "reply_count"
   | "body_history"
   | "status_history"
@@ -75,6 +79,7 @@ export async function createComment(
     id: uuid.v4(),
     tenant_id: tenantID,
     created_at: now,
+    reply_ids: [],
     reply_count: 0,
     body_history: [
       {
@@ -100,6 +105,31 @@ export async function createComment(
   await collection(db).insertOne(comment);
 
   return comment;
+}
+
+/**
+ * pushChildCommentIDOntoParent will push the new child comment's ID onto the
+ * parent comment so it can reference direct children.
+ */
+export async function pushChildCommentIDOntoParent(
+  mongo: Db,
+  tenantID: string,
+  parentID: string,
+  childID: string
+) {
+  // This pushes the new child ID onto the parent comment.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenant_id: tenantID,
+      id: parentID,
+    },
+    {
+      $push: { reply_ids: childID },
+      $inc: { reply_count: 1 },
+    }
+  );
+
+  return result.value;
 }
 
 export type EditCommentInput = Pick<
@@ -271,6 +301,100 @@ export async function retrieveCommentRepliesConnection(
 
   // Return a connection for the comments query.
   return retrieveConnection(input, query);
+}
+
+/**
+ * retrieveCommentParentsConnection will return a comment connection used to
+ * represent the parents of a given comment.
+ *
+ * @param mongo the database connection to use when retrieving comments
+ * @param tenantID the tenant id for where the comment exists
+ * @param commentID the id of the comment to retrieve parents of
+ * @param pagination pagination options to paginate the results
+ */
+export async function retrieveCommentParentsConnection(
+  mongo: Db,
+  tenantID: string,
+  comment: Comment,
+  { last: limit, before: skip = -1 }: { last: number; before?: number }
+): Promise<Readonly<Connection<Readonly<Comment>>>> {
+  // Return nothing if this comment does not have any parents.
+  if (!comment.parent_id) {
+    return createConnection({
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+      },
+    });
+  }
+
+  // TODO: (wyattjoh) maybe throw an error when the limit is zero?
+
+  if (limit <= 0) {
+    return createConnection({
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+      },
+    });
+  }
+
+  // If the last paramter is 1, and the after paramter is either unset or equal
+  // to zero, then all we have to return is the direct parent.
+  if (limit === 1 && skip < 0) {
+    const parent = await retrieveComment(mongo, tenantID, comment.parent_id);
+    if (!parent) {
+      throw new Error("parent comment not found");
+    }
+
+    return {
+      edges: [{ node: parent, cursor: 0 }],
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: comment.grandparent_ids.length > 0,
+        endCursor: 0,
+        startCursor: 0,
+      },
+    };
+  }
+
+  // Create a list of all the comment parent ids, in reverse order.
+  const parentIDs = [comment.parent_id, ...comment.grandparent_ids.reverse()];
+
+  // Fetch the subset of the comment id's that we are going to query for.
+  const parentIDSubset = parentIDs.slice(skip + 1, skip + 1 + limit);
+
+  // Retrieve the parents via the subset list.
+  const parents = await retrieveManyComments(mongo, tenantID, parentIDSubset);
+
+  // Loop over the list to ensure that none of the entries is null (indicating
+  // that there was a misplaced parent). We can assert the type here because we
+  // will throw an error and abort if one of the comments are null.
+  parents.forEach(parentComment => {
+    if (!parentComment) {
+      // TODO: (wyattjoh) replace with a better error.
+      throw new Error("parent id specified does not exist");
+    }
+
+    return true;
+  });
+
+  const edges = nodesToEdges(
+    // We can't have a null parent after the forEach filter above.
+    parents as Array<Readonly<Comment>>,
+    (_, index) => index + skip + 1
+  ).reverse();
+
+  // Return the resolved connection.
+  return {
+    edges,
+    pageInfo: {
+      hasNextPage: false,
+      hasPreviousPage: parentIDs.length > limit + skip,
+      startCursor: edges.length > 0 ? edges[0].cursor : null,
+      endCursor: edges.length > 0 ? edges[edges.length - 1].cursor : null,
+    },
+  };
 }
 
 /**
