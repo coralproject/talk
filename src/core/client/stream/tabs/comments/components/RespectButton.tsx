@@ -11,18 +11,21 @@ interface RespectButtonProps {
 
 class RespectButton extends React.Component<RespectButtonProps> {
   public render() {
-    return this.props.reacted ? (
+    const { totalReactions, reacted } = this.props;
+    return reacted ? (
       <Button variant="ghost" size="small" onClick={this.props.onButtonClick}>
         <MatchMedia gtWidth="xs">
+          {!!totalReactions && <span>{totalReactions}</span>}
           <ButtonIcon>thumb_up_alt</ButtonIcon>
         </MatchMedia>
         <Localized id="comments-respectButton-respected">
-          <span>{this.props.totalReactions} Respected</span>
+          <span>Respected</span>
         </Localized>
       </Button>
     ) : (
       <Button variant="ghost" size="small" onClick={this.props.onButtonClick}>
         <MatchMedia gtWidth="xs">
+          {!!totalReactions && <span>{totalReactions}</span>}
           <ButtonIcon>thumb_up_alt</ButtonIcon>
         </MatchMedia>
         <Localized id="comments-respectButton-respect">
