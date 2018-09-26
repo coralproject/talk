@@ -91,6 +91,15 @@ export async function findOrCreateSSOUser(
   return user;
 }
 
+function decodeToken(token: string): OIDCIDToken | SSOToken | object {
+  const decoded = jwt.decode(token);
+  if (!decoded || typeof decoded === "string") {
+    return {};
+  }
+
+  return decoded;
+}
+
 /**
  * isSSOUserProfile will check if the given profile is a SSOUserProfile.
  *
@@ -132,11 +141,6 @@ export default class SSOStrategy extends Strategy {
     done: KeyFunctionCallback
   ) => {
     const integration = tenant.auth.integrations.sso;
-    if (!integration) {
-      // TODO: (wyattjoh) return a better error.
-      return done(new Error("integration not found"));
-    }
-
     if (!integration.enabled) {
       // TODO: (wyattjoh) return a better error.
       return done(new Error("integration not enabled"));
@@ -176,18 +180,41 @@ export default class SSOStrategy extends Strategy {
     return findOrCreateSSOUser(this.mongo, tenant, token);
   }
 
+  private checkStrategyViability(token: string, tenant: Tenant) {
+    const integration = tenant.auth.integrations.sso;
+    if (!integration.enabled) {
+      // The integration is not enabled.
+      return false;
+    }
+
+    // If the token is neither a SSO token or a OIDC token, then this strategy
+    // cannot handle it.
+    const decoded = decodeToken(token);
+    if (!isSSOToken(decoded) && !isOIDCToken(decoded)) {
+      return false;
+    }
+
+    return true;
+  }
+
   public authenticate(req: Request) {
+    // Lookup the token.
+    const token = extractJWTFromRequest(req);
+    if (!token) {
+      // There was no token on the request, so there was no user, so let's mark
+      // that the strategy was successful.
+      return this.pass();
+    }
+
     const { tenant } = req;
     if (!tenant) {
       // TODO: (wyattjoh) return a better error.
       return this.error(new Error("tenant not found"));
     }
 
-    // Lookup the token.
-    const token = extractJWTFromRequest(req);
-    if (!token) {
-      // TODO: (wyattjoh) return a better error.
-      return this.fail(new Error("no token on request"), 400);
+    if (!this.checkStrategyViability(token, tenant)) {
+      // The integration is not enabled.
+      return this.pass();
     }
 
     // Perform the JWT validation.

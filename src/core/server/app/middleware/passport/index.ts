@@ -109,14 +109,13 @@ export async function handleSuccessfulLogin(
     // Grab the tenant from the request.
     const { tenant } = req;
 
-    const options: SigningTokenOptions = {};
+    const options: SigningTokenOptions = {
+      audience: "jwt",
+    };
 
     if (tenant) {
       // Attach the tenant's id to the issued token as a `iss` claim.
       options.issuer = tenant.id;
-
-      // TODO: (wyattjoh) evaluate the possibility when we have multiple
-      // integrations per type to use the integration id as the audience.
     }
 
     // Grab the token.

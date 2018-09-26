@@ -6,6 +6,7 @@ import { Bearer } from "permit";
 import uuid from "uuid";
 
 import { Config } from "talk-common/config";
+import { Tenant } from "talk-server/models/tenant";
 import { retrieveUser, User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
@@ -133,11 +134,21 @@ export const signTokenString = async (
     subject: user.id,
   });
 
+function getTokenAudience(token: string): string {
+  const decoded = jwt.decode(token);
+  if (decoded && typeof decoded !== "string") {
+    return decoded.aud;
+  }
+
+  return "";
+}
+
 export interface JWTToken {
   jti: string;
   sub: string;
   exp: number;
-  iss?: string;
+  aud: string;
+  iss: string;
 }
 
 export interface JWTStrategyOptions {
@@ -161,19 +172,39 @@ export class JWTStrategy extends Strategy {
     this.redis = redis;
   }
 
+  private checkStrategyViability(token: string, tenant: Tenant) {
+    const integration = tenant.auth.integrations.local;
+    if (!integration.enabled) {
+      // The integration is not enabled.
+      return false;
+    }
+
+    // Get the token audience and verify if this is for this strategy or not.
+    const audience = getTokenAudience(token);
+    if (audience !== "jwt") {
+      return false;
+    }
+
+    return true;
+  }
+
   public authenticate(req: Request) {
     // Lookup the token.
     const token = extractJWTFromRequest(req);
     if (!token) {
       // There was no token on the request, so there was no user, so let's mark
       // that the strategy was successful.
-      return this.success(null, null);
+      return this.pass();
     }
 
     const { tenant } = req;
     if (!tenant) {
       // TODO: (wyattjoh) return a better error.
       return this.error(new Error("tenant not found"));
+    }
+
+    if (!this.checkStrategyViability(token, tenant)) {
+      return this.pass();
     }
 
     jwt.verify(

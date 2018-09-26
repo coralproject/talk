@@ -56,6 +56,7 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
     // Any users may submit their GraphQL requests with authentication, this
     // middleware will unpack their user into the request.
     options.passport.authenticate("jwt", { session: false }),
+    options.passport.authenticate("sso", { session: false }),
     await tenantGraphMiddleware({
       schema: app.schemas.tenant,
       config: app.config,
@@ -89,7 +90,6 @@ function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
     signupHandler({ db: app.mongo, signingConfig: app.signingConfig })
   );
 
-  router.post("/sso", wrapAuthn(options.passport, app.signingConfig, "sso"));
   router.get("/oidc", wrapAuthn(options.passport, app.signingConfig, "oidc"));
   router.get(
     "/oidc/callback",
