@@ -147,6 +147,11 @@ function commit(
             editing: {
               editableUntil: new Date(Date.now() + 10000),
             },
+            actionCounts: {
+              reaction: {
+                total: 0,
+              },
+            },
           },
         },
         clientMutationId: (clientMutationId++).toString(),
