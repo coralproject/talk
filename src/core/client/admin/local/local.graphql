@@ -1,10 +1,4 @@
-enum View {
-  MODERATE
-}
-
-type Local {
-  view: View!
-}
+type Local {}
 
 extend type Query {
   local: Local!
