@@ -1,12 +1,15 @@
 import React, { StatelessComponent } from "react";
 import { HorizontalGutter } from "talk-ui/components";
-import NavigationContainer from "../containers/NavigationContainer";
+import styles from "./App.css";
+import Navigation from "./Navigation";
 
 const App: StatelessComponent = ({ children }) => (
-  <HorizontalGutter>
-    <NavigationContainer />
-    {children}
-  </HorizontalGutter>
+  <div className={styles.root}>
+    <HorizontalGutter>
+      <Navigation />
+      {children}
+    </HorizontalGutter>
+  </div>
 );
 
 export default App;

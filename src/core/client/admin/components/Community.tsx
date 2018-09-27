@@ -1,8 +1,10 @@
 import React, { StatelessComponent } from "react";
-import { HorizontalGutter } from "talk-ui/components";
+import { HorizontalGutter, Typography } from "talk-ui/components";
 
 const Community: StatelessComponent = ({ children }) => (
-  <HorizontalGutter>Community</HorizontalGutter>
+  <HorizontalGutter>
+    <Typography variant="heading3">Community</Typography>
+  </HorizontalGutter>
 );
 
 export default Community;

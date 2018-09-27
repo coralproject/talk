@@ -1,25 +1,39 @@
+import { Link } from "found";
 import React, { StatelessComponent } from "react";
 import { Button, Flex, Typography } from "talk-ui/components";
+import styles from "./Navigation.css";
 
-export interface AppProps {
-  goToModerate: () => void;
-  goToCommunity: () => void;
-  goToStories: () => void;
-  goToConfigure: () => void;
-}
-
-const Navigation: StatelessComponent<AppProps> = ({
-  goToModerate,
-  goToCommunity,
-  goToStories,
-  goToConfigure,
-}) => (
+const Navigation: StatelessComponent = () => (
   <Flex itemGutter="double">
     <Typography variant="heading1">Talk</Typography>
-    <Button onClick={goToModerate}>Moderate</Button>
-    <Button onClick={goToCommunity}>Community</Button>
-    <Button onClick={goToStories}>Stories</Button>
-    <Button onClick={goToConfigure}>Configure</Button>
+    <Link
+      to="/admin/moderate"
+      className={styles.link}
+      activeClassName={styles.active}
+    >
+      <Button>Moderate</Button>
+    </Link>
+    <Link
+      to="/admin/community"
+      className={styles.link}
+      activeClassName={styles.active}
+    >
+      <Button>Community</Button>
+    </Link>
+    <Link
+      to="/admin/stories"
+      className={styles.link}
+      activeClassName={styles.active}
+    >
+      <Button>Stories</Button>
+    </Link>
+    <Link
+      to="/admin/configure"
+      className={styles.link}
+      activeClassName={styles.active}
+    >
+      <Button>Configure</Button>
+    </Link>
   </Flex>
 );
 
