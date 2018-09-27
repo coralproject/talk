@@ -239,6 +239,22 @@ export default function createWebpackConfig({
                 },
               ],
             },
+            {
+              test: paths.appInstallLocalesTemplate,
+              use: [
+                // This is the locales loader that loads available locales
+                // from a particular target.
+                {
+                  loader: "locales-loader",
+                  options: {
+                    ...localesOptions,
+                    // Target specifies the prefix for fluent files to be loaded.
+                    // ${target}-xyz.ftl and ${†arget}.ftl are loaded into the locales.
+                    target: "install",
+                  },
+                },
+              ],
+            },
             // Loader for our fluent files.
             {
               test: /\.ftl$/,
@@ -414,6 +430,13 @@ export default function createWebpackConfig({
           paths.appPolyfill,
           ...devServerEntries,
           paths.appAuthIndex,
+          // Remove deactivated entries.
+        ],
+        install: [
+          // We ship polyfills by default
+          paths.appPolyfill,
+          ...devServerEntries,
+          paths.appInstallIndex,
           // Remove deactivated entries.
         ],
       },

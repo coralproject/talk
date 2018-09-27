@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import * as styles from "./App.css";
+
+import MainBar from "./MainBar";
 import Wizard from "./Wizard";
+
+import InitialStep from "../steps/InitialStep";
 
 interface AppState {
   step: number;
@@ -27,14 +31,20 @@ class App extends Component<{}, AppState> {
   public render() {
     return (
       <div className={styles.root}>
-        <Wizard
-          currentStep={this.state.step}
-          nextStep={this.nextStep}
-          previousStep={this.previousStep}
-          goToStep={this.goToStep}
-        >
-          <div>Hola!</div>
-        </Wizard>
+        <MainBar />
+        <div className={styles.container}>
+          <Wizard
+            currentStep={this.state.step}
+            nextStep={this.nextStep}
+            previousStep={this.previousStep}
+            goToStep={this.goToStep}
+          >
+            <InitialStep />
+            <div>Step 2!</div>
+            <div>Step 3!</div>
+            <div>Step 4!</div>
+          </Wizard>
+        </div>
       </div>
     );
   }

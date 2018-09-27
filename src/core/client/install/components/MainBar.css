@@ -1,0 +1,14 @@
+.root {
+  width: 100%;
+  border-bottom: 2px solid var(--palette-grey-main);
+  padding: var(--spacing-unit);
+  box-sizing: border-box;
+}
+
+.container {
+  width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}

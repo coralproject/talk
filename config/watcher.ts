@@ -19,9 +19,6 @@ const config: Config = {
         "core/client/stream/**/*.ts",
         "core/client/stream/**/*.tsx",
         "core/client/stream/**/*.graphql",
-        "core/client/auth/**/*.ts",
-        "core/client/auth/**/*.tsx",
-        "core/client/auth/**/*.graphql",
         "core/server/**/*.graphql",
       ],
       ignore: [
@@ -48,6 +45,23 @@ const config: Config = {
         "core/**/*.spec.*",
       ],
       executor: new CommandExecutor("npm run compile:relay-auth", {
+        runOnInit: true,
+      }),
+    },
+    compileRelayInstall: {
+      paths: [
+        "core/client/install/**/*.ts",
+        "core/client/install/**/*.tsx",
+        "core/client/install/**/*.graphql",
+        "core/server/**/*.graphql",
+      ],
+      ignore: [
+        "core/**/*.d.ts",
+        "core/**/*.graphql.ts",
+        "**/test/**/*",
+        "core/**/*.spec.*",
+      ],
+      executor: new CommandExecutor("npm run compile:relay-install", {
         runOnInit: true,
       }),
     },
@@ -80,6 +94,7 @@ const config: Config = {
       "compileCSSTypes",
       "compileRelayStream",
       "compileRelayAuth",
+      "compileRelayInstall",
       "compileSchema",
     ],
     docz: ["runDocz", "compileCSSTypes"],
@@ -88,6 +103,7 @@ const config: Config = {
       "compileCSSTypes",
       "compileRelayStream",
       "compileRelayAuth",
+      "compileRelayInstall",
     ],
   },
 };

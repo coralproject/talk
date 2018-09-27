@@ -12,7 +12,12 @@
 
 .root {
   width: 100%;
+  box-sizing: border-box;
+}
+
+.container {
   padding: var(--spacing-unit) var(--spacing-unit) calc(2 * var(--spacing-unit))
     var(--spacing-unit);
-  box-sizing: border-box;
+  width: 1080px;
+  margin: 0 auto;
 }
