@@ -1,16 +1,16 @@
+import { Router, withRouter } from "found";
 import React, { Component } from "react";
 import Navigation from "../components/Navigation";
-import { SetViewMutation, withSetViewMutation } from "../mutations";
 
 interface NavigationContainerProps {
-  setView: SetViewMutation;
+  router: Router;
 }
 
 class NavigationContainer extends Component<NavigationContainerProps> {
-  private goToModerate = () => this.props.setView({ view: "MODERATE" });
-  private goToCommunity = () => this.props.setView({ view: "COMMUNITY" });
-  private goToStories = () => this.props.setView({ view: "STORIES" });
-  private goToConfigure = () => this.props.setView({ view: "CONFIGURE" });
+  private goToModerate = () => this.props.router.replace("/admin/moderate");
+  private goToCommunity = () => this.props.router.replace("/admin/community");
+  private goToStories = () => this.props.router.replace("/admin/stories");
+  private goToConfigure = () => this.props.router.replace("/admin/configures");
   public render() {
     return (
       <Navigation
@@ -23,4 +23,4 @@ class NavigationContainer extends Component<NavigationContainerProps> {
   }
 }
 
-export default withSetViewMutation(NavigationContainer);
+export default withRouter(NavigationContainer);
