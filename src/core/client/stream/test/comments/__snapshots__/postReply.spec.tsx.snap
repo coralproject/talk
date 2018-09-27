@@ -426,10 +426,10 @@ exports[`post a reply: open reply form 1`] = `
                   >
                     <time
                       className="Timestamp-root RelativeTime-root"
-                      dateTime="2018-07-06T18:20:00.000Z"
-                      title="2018-07-06T18:20:00.000Z"
+                      dateTime="2018-07-06T18:24:00.000Z"
+                      title="2018-07-06T18:24:00.000Z"
                     >
-                      2018-07-06T18:20:00.000Z
+                      2018-07-06T18:24:00.000Z
                     </time>
                   </div>
                 </div>
@@ -1013,10 +1013,10 @@ exports[`post a reply: optimistic response 1`] = `
                   >
                     <time
                       className="Timestamp-root RelativeTime-root"
-                      dateTime="2018-07-06T18:20:00.000Z"
-                      title="2018-07-06T18:20:00.000Z"
+                      dateTime="2018-07-06T18:24:00.000Z"
+                      title="2018-07-06T18:24:00.000Z"
                     >
-                      2018-07-06T18:20:00.000Z
+                      2018-07-06T18:24:00.000Z
                     </time>
                   </div>
                 </div>
@@ -1463,10 +1463,10 @@ exports[`post a reply: server response 1`] = `
                   >
                     <time
                       className="Timestamp-root RelativeTime-root"
-                      dateTime="2018-07-06T18:20:00.000Z"
-                      title="2018-07-06T18:20:00.000Z"
+                      dateTime="2018-07-06T18:24:00.000Z"
+                      title="2018-07-06T18:24:00.000Z"
                     >
-                      2018-07-06T18:20:00.000Z
+                      2018-07-06T18:24:00.000Z
                     </time>
                   </div>
                 </div>
@@ -1822,10 +1822,10 @@ exports[`renders comment stream 1`] = `
                   >
                     <time
                       className="Timestamp-root RelativeTime-root"
-                      dateTime="2018-07-06T18:20:00.000Z"
-                      title="2018-07-06T18:20:00.000Z"
+                      dateTime="2018-07-06T18:24:00.000Z"
+                      title="2018-07-06T18:24:00.000Z"
                     >
-                      2018-07-06T18:20:00.000Z
+                      2018-07-06T18:24:00.000Z
                     </time>
                   </div>
                 </div>

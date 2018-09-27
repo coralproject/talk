@@ -5,7 +5,7 @@ import timekeeper from "timekeeper";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, settings, users } from "../fixtures";
+import { assets, baseComment, settings, users } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -39,20 +39,10 @@ beforeEach(() => {
               edge: {
                 cursor: null,
                 node: {
+                  ...baseComment,
                   id: "comment-x",
                   author: users[0],
                   body: "<strong>Hello world! (from server)</strong>",
-                  createdAt: "2018-07-06T18:24:00.000Z",
-                  editing: {
-                    edited: false,
-                    editableUntil: "2018-07-06T18:24:30.000Z",
-                  },
-                  replies: { edges: [], pageInfo: {} },
-                  actionCounts: {
-                    reaction: {
-                      total: 0,
-                    },
-                  },
                 },
               },
               clientMutationId: "0",
@@ -84,7 +74,7 @@ it("post a comment", async () => {
     .findByProps({ inputId: "comments-postCommentForm-field" })
     .props.onChange({ html: "<strong>Hello world!</strong>" });
 
-  timekeeper.freeze(new Date("2018-07-06T18:24:00.000Z"));
+  timekeeper.freeze(new Date(baseComment.createdAt));
 
   testRenderer.root
     .findByProps({ id: "comments-postCommentForm-form" })
