@@ -9,7 +9,7 @@ import ReactDOM from "react-dom";
 import { createManaged } from "talk-framework/lib/bootstrap";
 
 import { TalkContextConsumer } from "talk-framework/lib/bootstrap/TalkContext";
-import AppContainer from "./containers/AppContainer";
+import App from "./components/App";
 import { initLocalState } from "./local";
 import localesData from "./locales";
 
@@ -23,7 +23,7 @@ async function main() {
   const Router = createFarceRouter({
     historyProtocol: new BrowserProtocol(),
     historyMiddlewares: [queryMiddleware],
-    routeConfig: makeRouteConfig(<Route path="/" Component={AppContainer} />),
+    routeConfig: makeRouteConfig(<Route path="/" Component={App} />),
     render: createRender({}),
   });
 

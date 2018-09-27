@@ -50,9 +50,6 @@ async function createTenantRouter(app: AppOptions, options: RouterOptions) {
   // Setup auth routes.
   router.use("/auth", createNewAuthRouter(app, options));
 
-  // Handle the admin handler.
-  router.get("/admin", adminHandler);
-
   // Tenant API
   router.use(
     "/graphql",
@@ -130,6 +127,9 @@ export interface RouterOptions {
 export async function createRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
   const router = express.Router();
+
+  // Handle the admin handler.
+  router.get("/admin", adminHandler);
 
   router.use("/api", nocacheMiddleware, await createAPIRouter(app, options));
 
