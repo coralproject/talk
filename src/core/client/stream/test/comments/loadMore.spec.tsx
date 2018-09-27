@@ -66,10 +66,7 @@ beforeEach(() => {
             )
             .returns(assetStub)
       ),
-      settings: createSinonStub(
-        s => s.throws(),
-        s => s.withArgs(undefined).returns(settings)
-      ),
+      settings: sinon.stub().returns(settings),
     },
   };
 

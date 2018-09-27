@@ -1,4 +1,5 @@
 import { ReactTestRenderer } from "react-test-renderer";
+import sinon from "sinon";
 import timekeeper from "timekeeper";
 
 import { timeout } from "talk-common/utils";
@@ -11,11 +12,14 @@ let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const resolvers = {
     Query: {
-      asset: createSinonStub(s => s.throws(), s => s.returns(assets[0])),
-      me: createSinonStub(s => s.throws(), s => s.returns(users[0])),
-      settings: createSinonStub(
+      settings: sinon.stub().returns(settings),
+      me: sinon.stub().returns(users[0]),
+      asset: createSinonStub(
         s => s.throws(),
-        s => s.withArgs(undefined).returns(settings)
+        s =>
+          s
+            .withArgs(undefined, { id: assets[0].id, url: null })
+            .returns(assets[0])
       ),
     },
     Mutation: {

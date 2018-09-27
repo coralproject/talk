@@ -65,6 +65,7 @@ beforeEach(() => {
 
   const resolvers = {
     Query: {
+      settings: sinon.stub().returns(settings),
       comment: createSinonStub(
         s => s.throws(),
         s => s.withArgs(undefined, { id: commentStub.id }).returns(commentStub)
@@ -75,10 +76,6 @@ beforeEach(() => {
           s
             .withArgs(undefined, { id: assetStub.id, url: null })
             .returns(assetStub)
-      ),
-      settings: createSinonStub(
-        s => s.throws(),
-        s => s.withArgs(undefined).returns(settings)
       ),
     },
   };
