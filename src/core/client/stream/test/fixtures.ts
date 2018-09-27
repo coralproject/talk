@@ -1,7 +1,8 @@
 export const settings = {
   reaction: {
-    icon: "thumb_up_alt",
+    icon: "thumb_up",
     label: "Respect",
+    labelActive: "Respected",
   },
 };
 

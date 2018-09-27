@@ -2,7 +2,6 @@
 
 exports[`renders correctly 1`] = `
 <ReplyList
-  ReplyListComponent={[Function]}
   asset={
     Object {
       "id": "asset-id",
@@ -31,9 +30,51 @@ exports[`renders correctly 1`] = `
     Array [
       Object {
         "id": "comment-1",
+        "replyListElement": <ReplyListComponent
+          asset={
+            Object {
+              "id": "asset-id",
+            }
+          }
+          comment={
+            Object {
+              "id": "comment-1",
+            }
+          }
+          me={null}
+          settings={
+            Object {
+              "reaction": Object {
+                "icon": "thumb_up_alt",
+                "label": "Respect",
+              },
+            }
+          }
+        />,
       },
       Object {
         "id": "comment-2",
+        "replyListElement": <ReplyListComponent
+          asset={
+            Object {
+              "id": "asset-id",
+            }
+          }
+          comment={
+            Object {
+              "id": "comment-2",
+            }
+          }
+          me={null}
+          settings={
+            Object {
+              "reaction": Object {
+                "icon": "thumb_up_alt",
+                "label": "Respect",
+              },
+            }
+          }
+        />,
       },
     ]
   }
@@ -85,9 +126,11 @@ exports[`when has more replies renders hasMore 1`] = `
     Array [
       Object {
         "id": "comment-1",
+        "replyListElement": undefined,
       },
       Object {
         "id": "comment-2",
+        "replyListElement": undefined,
       },
     ]
   }
@@ -138,9 +181,11 @@ exports[`when has more replies when showing all disables show all button 1`] = `
     Array [
       Object {
         "id": "comment-1",
+        "replyListElement": undefined,
       },
       Object {
         "id": "comment-2",
+        "replyListElement": undefined,
       },
     ]
   }
@@ -191,9 +236,11 @@ exports[`when has more replies when showing all enable show all button after loa
     Array [
       Object {
         "id": "comment-1",
+        "replyListElement": undefined,
       },
       Object {
         "id": "comment-2",
+        "replyListElement": undefined,
       },
     ]
   }

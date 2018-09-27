@@ -15,26 +15,17 @@ export interface ReplyListProps {
     id: string;
   };
   comments: ReadonlyArray<
-    { id: string } & PropTypesOf<typeof CommentContainer>["comment"]
+    { id: string; replyListElement?: React.ReactElement<any> } & PropTypesOf<
+      typeof CommentContainer
+    >["comment"]
   >;
   settings: PropTypesOf<typeof CommentContainer>["settings"];
   onShowAll?: () => void;
   hasMore?: boolean;
   disableShowAll?: boolean;
   indentLevel?: number;
-  ReplyListComponent?: React.ComponentType<any>;
   localReply?: boolean;
   disableReplies?: boolean;
-}
-
-function getReplyListElement(
-  { ReplyListComponent, me, asset }: ReplyListProps,
-  comment: PropTypesOf<typeof CommentContainer>["comment"]
-) {
-  if (!ReplyListComponent) {
-    return null;
-  }
-  return <ReplyListComponent me={me} comment={comment} asset={asset} />;
 }
 
 const ReplyList: StatelessComponent<ReplyListProps> = props => {
@@ -55,7 +46,7 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
             localReply={props.localReply}
             disableReplies={props.disableReplies}
           />
-          {getReplyListElement(props, comment)}
+          {comment.replyListElement}
         </HorizontalGutter>
       ))}
       {props.hasMore && (
