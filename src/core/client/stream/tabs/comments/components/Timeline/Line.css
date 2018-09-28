@@ -1,0 +1,5 @@
+.root {
+  border-left: 2px dashed var(--palette-grey-main);
+  padding-left: var(--spacing-unit);
+  margin-left: calc(0.5 * var(--spacing-unit));
+}

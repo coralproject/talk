@@ -68,18 +68,21 @@ const enhanced = withContext(ctx => ({
     withFragmentContainer<PermalinkViewContainerProps>({
       asset: graphql`
         fragment PermalinkViewContainer_asset on Asset {
-          ...CommentContainer_asset
+          ...ConversationThreadContainer_asset
+          ...ReplyListContainer1_asset
         }
       `,
       comment: graphql`
         fragment PermalinkViewContainer_comment on Comment {
           id
-          ...CommentContainer_comment
+          ...ConversationThreadContainer_comment
+          ...ReplyListContainer1_comment
         }
       `,
       me: graphql`
         fragment PermalinkViewContainer_me on User {
-          ...CommentContainer_me
+          ...ConversationThreadContainer_me
+          ...ReplyListContainer1_me
         }
       `,
     })(PermalinkViewContainer)

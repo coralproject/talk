@@ -693,12 +693,12 @@ type PageInfo {
   """
   Indicates that there are more nodes after this subset.
   """
-  hasNextPage: Boolean
+  hasNextPage: Boolean!
 
   """
   Included for legacy Relay reasons. Always set to false.
   """
-  hasPreviousPage: Boolean
+  hasPreviousPage: Boolean!
 
   """
   Included for legacy Relay reasons. Always set to null.

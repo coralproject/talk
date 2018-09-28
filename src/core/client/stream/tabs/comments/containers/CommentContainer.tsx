@@ -16,7 +16,7 @@ import {
   withShowAuthPopupMutation,
 } from "talk-stream/mutations";
 
-import { Button } from "talk-ui/components";
+import { Button, HorizontalGutter } from "talk-ui/components";
 import Comment, {
   ButtonsBar,
   ShowConversationLink,
@@ -147,11 +147,11 @@ export class CommentContainer extends Component<InnerProps, State> {
       );
     }
     return (
-      <>
+      <HorizontalGutter>
         <Comment
           id={`comment-${comment.id}`}
           indentLevel={indentLevel}
-          author={comment.author}
+          username={comment.author && comment.author.username}
           body={comment.body}
           createdAt={comment.createdAt}
           blur={comment.pending || false}
@@ -206,7 +206,7 @@ export class CommentContainer extends Component<InnerProps, State> {
             localReply={localReply}
           />
         )}
-      </>
+      </HorizontalGutter>
     );
   }
 }

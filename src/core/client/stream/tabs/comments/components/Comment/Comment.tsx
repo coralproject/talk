@@ -12,9 +12,7 @@ import Username from "./Username";
 export interface CommentProps {
   id?: string;
   className?: string;
-  author: {
-    username: string | null;
-  } | null;
+  username: string | null;
   body: string | null;
   createdAt: string;
   topBarRight?: React.ReactNode;
@@ -32,10 +30,7 @@ const Comment: StatelessComponent<CommentProps> = props => {
         id={props.id}
       >
         <TopBarLeft>
-          {props.author &&
-            props.author.username && (
-              <Username>{props.author.username}</Username>
-            )}
+          {props.username && <Username>{props.username}</Username>}
           <Flex direction="row" alignItems="baseline" itemGutter>
             <Timestamp>{props.createdAt}</Timestamp>
             {props.showEditedMarker && <EditedMarker />}
