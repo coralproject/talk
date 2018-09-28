@@ -3,16 +3,17 @@ import { WizardProps } from "../components/Wizard";
 
 export interface WizardProps {
   currentStep: number;
-  nextStep: () => void;
-  previousStep: () => void;
+  goToNextStep?: () => void;
+  goToPreviousStep?: () => void;
   goToStep: (step: number) => void;
+  className?: string;
   children: ReactNode;
 }
 
 export interface WizardChildProps {
   currentStep?: number;
-  nextStep?: () => void;
-  previousStep?: () => void;
+  goToNextStep?: () => void;
+  goToPreviousStep?: () => void;
   goToStep?: (step: number) => void;
 }
 
@@ -21,9 +22,10 @@ class Wizard extends Component<WizardProps> {
     const {
       children,
       currentStep,
-      nextStep,
-      previousStep,
+      goToNextStep,
+      goToPreviousStep,
       goToStep,
+      className,
     } = this.props;
 
     const wizardChilds = React.Children.toArray(children)
@@ -31,13 +33,13 @@ class Wizard extends Component<WizardProps> {
       .map((child: React.ReactElement<any>, index: number) =>
         React.cloneElement(child, {
           currentStep,
-          nextStep,
-          previousStep,
+          goToNextStep,
+          goToPreviousStep,
           goToStep,
         })
       );
 
-    return <section>{wizardChilds}</section>;
+    return <section className={className}>{wizardChilds}</section>;
   }
 }
 

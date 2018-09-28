@@ -8,6 +8,7 @@ import {
 } from "talk-framework/lib/validation";
 import {
   Button,
+  CallOut,
   FormField,
   HorizontalGutter,
   InputLabel,
@@ -38,6 +39,12 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
               Please tell us the name of your organization. This will appear in
               emails when inviting new team members.
             </Typography>
+
+            {submitError && (
+              <CallOut color="error" fullWidth>
+                {submitError}
+              </CallOut>
+            )}
 
             <Field
               name="organizationName"

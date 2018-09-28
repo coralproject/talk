@@ -5,11 +5,15 @@ import {
   composeValidators,
   required,
   validateEmail,
+  validateEqualPasswords,
+  validatePassword,
 } from "talk-framework/lib/validation";
 import {
   Button,
+  CallOut,
   FormField,
   HorizontalGutter,
+  InputDescription,
   InputLabel,
   TextField,
   Typography,
@@ -17,15 +21,17 @@ import {
 } from "talk-ui/components";
 
 interface FormProps {
-  organizationName: string;
-  organizationContactEmail: string;
+  email: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
 }
 
-export interface AddOrganizationForm {
+export interface CreateYourAccountForm {
   onSubmit: OnSubmit<FormProps>;
 }
 
-const CreateYourAccount: StatelessComponent<AddOrganizationForm> = props => {
+const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
@@ -34,6 +40,12 @@ const CreateYourAccount: StatelessComponent<AddOrganizationForm> = props => {
             <Typography variant="heading1" align="center">
               Create Your Account
             </Typography>
+
+            {submitError && (
+              <CallOut color="error" fullWidth>
+                {submitError}
+              </CallOut>
+            )}
 
             <Field
               name="email"
@@ -69,6 +81,10 @@ const CreateYourAccount: StatelessComponent<AddOrganizationForm> = props => {
               {({ input, meta }) => (
                 <FormField>
                   <InputLabel>Username</InputLabel>
+                  <InputDescription>
+                    A unique identifier displayed on your comments. You may use
+                    “_” and “.”
+                  </InputDescription>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -92,15 +108,22 @@ const CreateYourAccount: StatelessComponent<AddOrganizationForm> = props => {
               )}
             </Field>
 
-            <Field name="password" validate={composeValidators(required)}>
+            <Field
+              name="password"
+              validate={composeValidators(required, validatePassword)}
+            >
               {({ input, meta }) => (
                 <FormField>
                   <InputLabel>Password</InputLabel>
+                  <InputDescription>
+                    Must be at least 8 characters
+                  </InputDescription>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
                     value={input.value}
                     placeholder="Password"
+                    type="password"
                     color={
                       meta.touched && (meta.error || meta.submitError)
                         ? "error"
@@ -118,10 +141,9 @@ const CreateYourAccount: StatelessComponent<AddOrganizationForm> = props => {
                 </FormField>
               )}
             </Field>
-
             <Field
               name="confirmPassword"
-              validate={composeValidators(required)}
+              validate={composeValidators(required, validateEqualPasswords)}
             >
               {({ input, meta }) => (
                 <FormField>
@@ -131,6 +153,7 @@ const CreateYourAccount: StatelessComponent<AddOrganizationForm> = props => {
                     onChange={input.onChange}
                     value={input.value}
                     placeholder="Confirm Password"
+                    type="password"
                     color={
                       meta.touched && (meta.error || meta.submitError)
                         ? "error"

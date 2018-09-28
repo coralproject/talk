@@ -10,7 +10,7 @@
     "compile:css-types": "tcm src/core/client/",
     "compile:relay-stream": "ts-node ./scripts/compileRelay --src ./src/core/client/stream --schema tenant",
     "compile:relay-auth": "ts-node ./scripts/compileRelay --src ./src/core/client/auth --schema tenant",
-    "compile:relay-install": "ts-node ./scripts/compileRelay --src ./src/core/client/auth --schema tenant",
+    "compile:relay-install": "ts-node ./scripts/compileRelay --src ./src/core/client/install --schema tenant",
     "compile:schema": "node ./scripts/generateSchemaTypes.js",
     "docz": "docz",
     "start": "node dist/index.js",
