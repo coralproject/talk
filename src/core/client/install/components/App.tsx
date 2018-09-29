@@ -1,55 +1,50 @@
 import React, { Component } from "react";
 import * as styles from "./App.css";
 
-import MainBar from "./MainBar";
-import Wizard from "./Wizard";
-
+import { FormData } from "../containers/AppContainer";
 import FinalStep from "../steps/components/FinalStep";
 import InitialStep from "../steps/components/InitialStep";
 import AddOrganizationContainer from "../steps/containers/AddOrganizationContainer";
 import CreateYourAccountContainer from "../steps/containers/CreateYourAccountContainer";
 import PermittedDomainsContainer from "../steps/containers/PermittedDomainsContainer";
+import MainBar from "./MainBar";
+import Wizard from "./Wizard";
 
-interface AppState {
-  step: number;
+export interface AppProps {
+  currentStep: number;
+  goToNextStep?: () => void;
+  goToPreviousStep?: () => void;
+  goToStep: (step: number) => void;
+  saveData: (newData: {}) => void;
+  data: Partial<FormData>;
 }
 
-class App extends Component<{}, AppState> {
-  public state = {
-    step: 0,
-  };
-
-  private goToNextStep = () =>
-    this.setState(({ step }) => ({
-      step: step + 1,
-    }));
-
-  private goToPreviousStep = () =>
-    this.setState(({ step }) => ({
-      step: step - 1,
-    }));
-
-  private goToStep = (step: number) =>
-    this.setState({
-      step,
-    });
-
+class App extends Component<AppProps> {
   public render() {
     return (
       <div className={styles.root}>
         <MainBar />
         <div className={styles.container}>
           <Wizard
-            currentStep={this.state.step}
-            goToNextStep={this.goToNextStep}
-            goToPreviousStep={this.goToPreviousStep}
-            goToStep={this.goToStep}
+            currentStep={this.props.currentStep}
+            goToNextStep={this.props.goToNextStep}
+            goToPreviousStep={this.props.goToPreviousStep}
+            goToStep={this.props.goToStep}
             className={styles.panes}
           >
             <InitialStep />
-            <AddOrganizationContainer />
-            <CreateYourAccountContainer />
-            <PermittedDomainsContainer />
+            <AddOrganizationContainer
+              data={this.props.data}
+              saveData={this.props.saveData}
+            />
+            <CreateYourAccountContainer
+              data={this.props.data}
+              saveData={this.props.saveData}
+            />
+            <PermittedDomainsContainer
+              data={this.props.data}
+              saveData={this.props.saveData}
+            />
             <FinalStep />
           </Wizard>
         </div>

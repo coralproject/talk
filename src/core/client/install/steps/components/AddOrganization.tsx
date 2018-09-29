@@ -9,6 +9,7 @@ import {
 import {
   Button,
   CallOut,
+  Flex,
   FormField,
   HorizontalGutter,
   InputLabel,
@@ -16,6 +17,7 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
+import { FormData } from "../../containers/AppContainer";
 
 interface FormProps {
   organizationName: string;
@@ -24,11 +26,19 @@ interface FormProps {
 
 export interface AddOrganizationForm {
   onSubmit: OnSubmit<FormProps>;
+  handleGoToPreviousStep: () => void;
+  data: Partial<FormData>;
 }
 
 const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
   return (
-    <Form onSubmit={props.onSubmit}>
+    <Form
+      onSubmit={props.onSubmit}
+      initialValues={{
+        organizationName: props.data.organizationName,
+        organizationContactEmail: props.data.organizationContactEmail,
+      }}
+    >
       {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <HorizontalGutter size="double">
@@ -105,17 +115,30 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                 </FormField>
               )}
             </Field>
+            <Flex direction="row" itemGutter>
+              <Button
+                onClick={props.handleGoToPreviousStep}
+                variant="filled"
+                color="regular"
+                size="large"
+                type="submit"
+                disabled={submitting}
+                fullWidth
+              >
+                Back
+              </Button>
 
-            <Button
-              variant="filled"
-              color="primary"
-              size="large"
-              type="submit"
-              disabled={submitting}
-              fullWidth
-            >
-              Save
-            </Button>
+              <Button
+                variant="filled"
+                color="primary"
+                size="large"
+                type="submit"
+                disabled={submitting}
+                fullWidth
+              >
+                Save
+              </Button>
+            </Flex>
           </HorizontalGutter>
         </form>
       )}

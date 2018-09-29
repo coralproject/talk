@@ -11,6 +11,7 @@ import {
 import {
   Button,
   CallOut,
+  Flex,
   FormField,
   HorizontalGutter,
   InputDescription,
@@ -19,6 +20,7 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
+import { FormData } from "../../containers/AppContainer";
 
 interface FormProps {
   email: string;
@@ -29,6 +31,8 @@ interface FormProps {
 
 export interface CreateYourAccountForm {
   onSubmit: OnSubmit<FormProps>;
+  handleGoToPreviousStep: () => void;
+  data: Partial<FormData>;
 }
 
 const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
@@ -172,16 +176,30 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
               )}
             </Field>
 
-            <Button
-              variant="filled"
-              color="primary"
-              size="large"
-              type="submit"
-              disabled={submitting}
-              fullWidth
-            >
-              Save
-            </Button>
+            <Flex direction="row" itemGutter>
+              <Button
+                onClick={props.handleGoToPreviousStep}
+                variant="filled"
+                color="regular"
+                size="large"
+                type="submit"
+                disabled={submitting}
+                fullWidth
+              >
+                Back
+              </Button>
+
+              <Button
+                variant="filled"
+                color="primary"
+                size="large"
+                type="submit"
+                disabled={submitting}
+                fullWidth
+              >
+                Save
+              </Button>
+            </Flex>
           </HorizontalGutter>
         </form>
       )}

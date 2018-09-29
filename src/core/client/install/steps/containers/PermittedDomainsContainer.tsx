@@ -1,5 +1,6 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
+import { FormData } from "../../containers/AppContainer";
 
 import PermittedDomains, {
   PermittedDomainsForm,
@@ -13,6 +14,8 @@ import {
 interface PermittedDomainsContainerProps {
   updateSettings: UpdateSettingsMutation;
   goToNextStep?: () => void;
+  data: Partial<FormData>;
+  saveData: (newData: {}) => void;
 }
 
 class CreateYourAccountContainer extends Component<
