@@ -97,6 +97,11 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
   res.json({ user, token });
 };
 
+const generateAuthPopupCallbackCSP = req =>
+  req.locals.STATIC_URL && req.locals.BASE_URL !== req.locals.STATIC_URL
+    ? `default-src 'self' ${req.locals.STATIC_URL};`
+    : "default-src 'self';";
+
 /**
  * Returns the response to the login attempt via a popup callback with some JS.
  */
@@ -106,7 +111,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
   res.header('Pragma', 'no-cache');
 
   // Ensure the only scripts that can run here are those on the Talk domain.
-  res.header('Content-Security-Policy', "default-src 'self';");
+  res.header('Content-Security-Policy', generateAuthPopupCallbackCSP(req));
 
   // Attach static locals to the response locals object.
   attachStaticLocals(res.locals);
