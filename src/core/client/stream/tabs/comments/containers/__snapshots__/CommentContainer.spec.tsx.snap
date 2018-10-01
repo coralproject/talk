@@ -1,14 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`hide reply button 1`] = `
-<React.Fragment>
+<withPropsOnChange(HorizontalGutter)>
   <IndentedComment
-    author={
-      Object {
-        "id": "author-id",
-        "username": "Marvin",
-      }
-    }
     blur={false}
     body="Woof"
     createdAt="1995-12-17T03:24:00.000Z"
@@ -24,19 +18,14 @@ exports[`hide reply button 1`] = `
     id="comment-comment-id"
     indentLevel={1}
     showEditedMarker={false}
+    username="Marvin"
   />
-</React.Fragment>
+</withPropsOnChange(HorizontalGutter)>
 `;
 
 exports[`renders body only 1`] = `
-<React.Fragment>
+<withPropsOnChange(HorizontalGutter)>
   <IndentedComment
-    author={
-      Object {
-        "id": "author-id",
-        "username": null,
-      }
-    }
     blur={false}
     body="Woof"
     createdAt="1995-12-17T03:24:00.000Z"
@@ -57,19 +46,14 @@ exports[`renders body only 1`] = `
     id="comment-comment-id"
     indentLevel={1}
     showEditedMarker={false}
+    username={null}
   />
-</React.Fragment>
+</withPropsOnChange(HorizontalGutter)>
 `;
 
 exports[`renders username and body 1`] = `
-<React.Fragment>
+<withPropsOnChange(HorizontalGutter)>
   <IndentedComment
-    author={
-      Object {
-        "id": "author-id",
-        "username": "Marvin",
-      }
-    }
     blur={false}
     body="Woof"
     createdAt="1995-12-17T03:24:00.000Z"
@@ -90,19 +74,14 @@ exports[`renders username and body 1`] = `
     id="comment-comment-id"
     indentLevel={1}
     showEditedMarker={false}
+    username="Marvin"
   />
-</React.Fragment>
+</withPropsOnChange(HorizontalGutter)>
 `;
 
 exports[`shows conversation link 1`] = `
-<React.Fragment>
+<withPropsOnChange(HorizontalGutter)>
   <IndentedComment
-    author={
-      Object {
-        "id": "author-id",
-        "username": "Marvin",
-      }
-    }
     blur={false}
     body="Woof"
     createdAt="1995-12-17T03:24:00.000Z"
@@ -128,6 +107,7 @@ exports[`shows conversation link 1`] = `
     id="comment-comment-id"
     indentLevel={1}
     showEditedMarker={false}
+    username="Marvin"
   />
-</React.Fragment>
+</withPropsOnChange(HorizontalGutter)>
 `;
