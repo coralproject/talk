@@ -54,9 +54,11 @@ const ConversationThread: StatelessComponent<
             </Circle>
           )}
           {props.hasMore && (
-            <Button onClick={props.loadMore} disabled={props.disableLoadMore}>
-              View previous comments
-            </Button>
+            <Localized id="comments-conversationThread-viewPreviousComments">
+              <Button onClick={props.loadMore} disabled={props.disableLoadMore}>
+                View previous comments
+              </Button>
+            </Localized>
           )}
           {props.parents.map((parent, i) => (
             <Circle key={parent.id} hollow={props.hasMore || i > 0}>

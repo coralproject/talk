@@ -13,14 +13,59 @@ export const users = [
   },
 ];
 
-export const comments = [
+function denormalizeComment(comment: any, parents: any[] = []) {
+  const replyNodes =
+    (comment.replies &&
+      comment.replies.edges.map((edge: any) =>
+        denormalizeComment(edge, [...parents, comment])
+      )) ||
+    [];
+  const repliesPageInfo = (comment.replies && comment.replies.pageInfo) || {
+    endCursor: null,
+    hasNextPage: false,
+  };
+  return {
+    ...comment,
+    replies: { edges: replyNodes, pageInfo: repliesPageInfo },
+    replyCount: replyNodes.length,
+    parentCount: parents.length,
+    parents: {
+      edges: parents,
+      pageInfo: { startCursor: null, hasPreviousPage: false },
+    },
+  };
+}
+
+function denormalizeComments(commentList: any[]) {
+  return commentList.map(c => denormalizeComment(c));
+}
+
+function denormalizeAsset(asset: any) {
+  const commentNodes =
+    (asset.comments &&
+      asset.comments.edges.map((edge: any) => denormalizeComment(edge, 0))) ||
+    [];
+  const commentsPageInfo = (asset.comments && asset.comments.pageInfo) || {
+    endCursor: null,
+    hasNextPage: false,
+  };
+  return {
+    ...asset,
+    comments: { edges: commentNodes, pageInfo: commentsPageInfo },
+  };
+}
+
+function denormalizeAssets(assetList: any[]) {
+  return assetList.map(a => denormalizeAsset(a));
+}
+
+export const comments = denormalizeComments([
   {
     id: "comment-0",
     author: users[0],
     body: "Joining Too",
     createdAt: "2018-07-06T18:24:00.000Z",
     replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    replyCount: 0,
     editing: {
       edited: false,
       editableUntil: "2018-07-06T18:24:30.000Z",
@@ -32,7 +77,6 @@ export const comments = [
     body: "What's up?",
     createdAt: "2018-07-06T18:20:00.000Z",
     replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    replyCount: 0,
     editing: {
       edited: false,
       editableUntil: "2018-07-06T18:20:30.000Z",
@@ -44,7 +88,6 @@ export const comments = [
     body: "Hey!",
     createdAt: "2018-07-06T18:14:00.000Z",
     replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    replyCount: 0,
     editing: {
       edited: false,
       editableUntil: "2018-07-06T18:14:30.000Z",
@@ -56,7 +99,6 @@ export const comments = [
     body: "Comment Body 3",
     createdAt: "2018-07-06T18:14:00.000Z",
     replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    replyCount: 0,
     editing: {
       edited: false,
       editableUntil: "2018-07-06T18:14:30.000Z",
@@ -68,7 +110,6 @@ export const comments = [
     body: "Comment Body 4",
     createdAt: "2018-07-06T18:14:00.000Z",
     replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    replyCount: 0,
     editing: {
       edited: false,
       editableUntil: "2018-07-06T18:14:30.000Z",
@@ -80,15 +121,14 @@ export const comments = [
     body: "Comment Body 5",
     createdAt: "2018-07-06T18:14:00.000Z",
     replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    replyCount: 0,
     editing: {
       edited: false,
       editableUntil: "2018-07-06T18:14:30.000Z",
     },
   },
-];
+]);
 
-export const assets = [
+export const assets = denormalizeAssets([
   {
     id: "asset-1",
     url: "http://localhost/assets/asset-1",
@@ -103,9 +143,9 @@ export const assets = [
       },
     },
   },
-];
+]);
 
-export const commentWithReplies = {
+export const commentWithReplies = denormalizeComment({
   id: "comment-with-replies",
   author: users[0],
   body: "I like yoghurt",
@@ -124,9 +164,9 @@ export const commentWithReplies = {
     edited: false,
     editableUntil: "2018-07-06T18:24:30.000Z",
   },
-};
+});
 
-export const commentWithDeepReplies = {
+export const commentWithDeepReplies = denormalizeComment({
   id: "comment-with-deep-replies",
   author: users[0],
   body: "I like yoghurt",
@@ -145,9 +185,9 @@ export const commentWithDeepReplies = {
     edited: false,
     editableUntil: "2018-07-06T18:24:30.000Z",
   },
-};
+});
 
-export const assetWithReplies = {
+export const assetWithReplies = denormalizeAsset({
   id: "asset-with-replies",
   url: "http://localhost/assets/asset-with-replies",
   isClosed: false,
@@ -160,9 +200,9 @@ export const assetWithReplies = {
       hasNextPage: false,
     },
   },
-};
+});
 
-export const assetWithDeepReplies = {
+export const assetWithDeepReplies = denormalizeAsset({
   id: "asset-with-deep-replies",
   url: "http://localhost/assets/asset-with-replies",
   isClosed: false,
@@ -178,9 +218,9 @@ export const assetWithDeepReplies = {
       hasNextPage: false,
     },
   },
-};
+});
 
-export const commentWithDeepestReplies = {
+export const commentWithDeepestReplies = denormalizeAsset({
   ...commentWithReplies,
   id: "comment-with-deepest-replies",
   body: "body 0",
@@ -275,9 +315,9 @@ export const commentWithDeepestReplies = {
       },
     ],
   },
-};
+});
 
-export const assetWithDeepestReplies = {
+export const assetWithDeepestReplies = denormalizeAsset({
   id: "asset-with-deepest-replies",
   url: "http://localhost/assets/asset-with-replies",
   isClosed: false,
@@ -292,4 +332,4 @@ export const assetWithDeepestReplies = {
       hasNextPage: false,
     },
   },
-};
+});

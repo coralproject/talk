@@ -39,7 +39,10 @@ beforeEach(() => {
                     edited: false,
                     editableUntil: "2018-07-06T18:24:30.000Z",
                   },
-                  replies: { edges: [], pageInfo: {} },
+                  replies: {
+                    edges: [],
+                    pageInfo: { endCursor: null, hasNextPage: false },
+                  },
                 },
               },
               clientMutationId: "0",
