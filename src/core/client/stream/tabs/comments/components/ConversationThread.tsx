@@ -55,7 +55,11 @@ const ConversationThread: StatelessComponent<
           )}
           {props.hasMore && (
             <Localized id="comments-conversationThread-viewPreviousComments">
-              <Button onClick={props.loadMore} disabled={props.disableLoadMore}>
+              <Button
+                onClick={props.loadMore}
+                disabled={props.disableLoadMore}
+                id="comments-conversationThread-viewPreviousComments"
+              >
                 View previous comments
               </Button>
             </Localized>
