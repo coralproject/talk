@@ -6,6 +6,7 @@ const Asset: GQLAssetTypeResolver<Asset> = {
     ctx.loaders.Comments.forAsset(asset.id, input),
   // TODO: implement this.
   isClosed: () => false,
+  commentCounts: asset => asset.comment_counts,
 };
 
 export default Asset;
