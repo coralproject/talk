@@ -696,6 +696,11 @@ type Comment {
   editing returns details about the edit status of a Comment.
   """
   editing: EditInfo!
+
+  """
+  asset is the Asset that the Comment was written on.
+  """
+  asset: Asset!
 }
 
 type PageInfo {
