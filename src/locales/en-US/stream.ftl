@@ -71,5 +71,6 @@ comments-editedMarker-edited = Edited
 
 ## Profile Tab
 profile-historyComment-viewConversation = View Conversation
-profile-historyComment-replies = Replies
+profile-historyComment-replies = Replies {$replyCount}
 profile-historyComment-commentHistory = Comment History
+profile-historyComment-story = Story {$title}

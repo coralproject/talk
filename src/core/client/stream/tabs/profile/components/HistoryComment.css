@@ -3,7 +3,8 @@
 }
 
 .button,
-.replies {
+.replies,
+.story {
   composes: button from "talk-ui/shared/typography.css";
 }
 

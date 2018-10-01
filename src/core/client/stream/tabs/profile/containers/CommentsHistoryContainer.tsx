@@ -40,6 +40,9 @@ const enhanced = withSetCommentIDMutation(
               body
               createdAt
               replyCount
+              asset {
+                title
+              }
             }
           }
         }

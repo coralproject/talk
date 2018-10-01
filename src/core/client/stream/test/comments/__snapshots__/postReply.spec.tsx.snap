@@ -30,9 +30,32 @@ exports[`post a reply: open reply form 1`] = `
         Comments
       </button>
     </li>
+    <li
+      className="Tab-root"
+      id="tab-PROFILE"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-PROFILE"
+        aria-selected={false}
+        className="BaseButton-root Tab-button Tab-primary"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        My Profile
+      </button>
+    </li>
   </ul>
   <section
     aria-labelledby="tab-COMMENTS"
+    className="App-tabContent"
     id="tabPane-COMMENTS"
     role="tabpanel"
   >
@@ -519,9 +542,32 @@ exports[`post a reply: optimistic response 1`] = `
         Comments
       </button>
     </li>
+    <li
+      className="Tab-root"
+      id="tab-PROFILE"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-PROFILE"
+        aria-selected={false}
+        className="BaseButton-root Tab-button Tab-primary"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        My Profile
+      </button>
+    </li>
   </ul>
   <section
     aria-labelledby="tab-COMMENTS"
+    className="App-tabContent"
     id="tabPane-COMMENTS"
     role="tabpanel"
   >
@@ -1094,9 +1140,32 @@ exports[`post a reply: server response 1`] = `
         Comments
       </button>
     </li>
+    <li
+      className="Tab-root"
+      id="tab-PROFILE"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-PROFILE"
+        aria-selected={false}
+        className="BaseButton-root Tab-button Tab-primary"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        My Profile
+      </button>
+    </li>
   </ul>
   <section
     aria-labelledby="tab-COMMENTS"
+    className="App-tabContent"
     id="tabPane-COMMENTS"
     role="tabpanel"
   >
@@ -1532,9 +1601,32 @@ exports[`renders comment stream 1`] = `
         Comments
       </button>
     </li>
+    <li
+      className="Tab-root"
+      id="tab-PROFILE"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-PROFILE"
+        aria-selected={false}
+        className="BaseButton-root Tab-button Tab-primary"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        My Profile
+      </button>
+    </li>
   </ul>
   <section
     aria-labelledby="tab-COMMENTS"
+    className="App-tabContent"
     id="tabPane-COMMENTS"
     role="tabpanel"
   >

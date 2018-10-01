@@ -17,6 +17,9 @@ export interface HistoryCommentProps {
     body: string | null;
     createdAt: string;
     replyCount: number | null;
+    asset: {
+      title: string | null;
+    };
   };
   onGoToConversation: () => void;
 }
@@ -59,11 +62,27 @@ const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
           className={styles.replies}
         >
           <ButtonIcon className={styles.icon}>reply</ButtonIcon>
-          <Localized id="profile-historyComment-replies">
-            <span>Replies {props.comment.replyCount}</span>
+          <Localized
+            id="profile-historyComment-replies"
+            $replyCount={props.comment.replyCount}
+          >
+            <span>{"Replies {$replyCount}"}</span>
           </Localized>
         </Flex>
       )}
+      <Flex
+        direction="row"
+        alignItems="center"
+        itemGutter="half"
+        className={styles.story}
+      >
+        <Localized
+          id="profile-historyComment-story"
+          $title={props.comment.asset.title}
+        >
+          <span>{"Story: {$title}"}</span>
+        </Localized>
+      </Flex>
     </HorizontalGutter>
   );
 };

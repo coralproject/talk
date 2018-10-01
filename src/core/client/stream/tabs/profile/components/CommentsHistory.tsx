@@ -12,6 +12,9 @@ interface Me {
         readonly body: string | null;
         readonly createdAt: any;
         readonly replyCount: number | null;
+        readonly asset: {
+          readonly title: string | null;
+        };
       };
     }>;
   };
