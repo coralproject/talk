@@ -18,7 +18,7 @@ interface Me {
 }
 
 interface CommentsHistoryProps {
-  onGoToConversation: () => void;
+  onGoToConversation: (id: string) => void;
   me: Me;
 }
 
@@ -33,7 +33,7 @@ const CommentsHistory: StatelessComponent<CommentsHistoryProps> = props => {
         <HistoryComment
           key={comment.id}
           comment={comment}
-          onGoToConversation={props.onGoToConversation}
+          onGoToConversation={() => props.onGoToConversation(comment.id)}
         />
       ))}
     </HorizontalGutter>

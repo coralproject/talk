@@ -8,18 +8,21 @@ import { CommentsHistoryContainer_me as CommentsData } from "talk-stream/__gener
 import { CommentsHistoryContainerLocal as Local } from "talk-stream/__generated__/CommentsHistoryContainerLocal.graphql";
 import CommentsHistory from "../components/CommentsHistory";
 
+import {
+  SetCommentIDMutation,
+  withSetCommentIDMutation,
+} from "talk-stream/mutations";
+
 interface CommentsHistoryContainerProps {
-  local: Local;
+  setCommentID: SetCommentIDMutation;
   me: CommentsData;
 }
 
 export class CommentsHistoryContainer extends React.Component<
   CommentsHistoryContainerProps
 > {
-  private onGoToConversation = () => {
-    if (this.props.local.assetURL) {
-      window.open(this.props.local.assetURL, "_blank");
-    }
+  private onGoToConversation = (id: string) => {
+    this.props.setCommentID({ id });
   };
   public render() {
     return (
@@ -30,29 +33,24 @@ export class CommentsHistoryContainer extends React.Component<
     );
   }
 }
-const enhanced = withFragmentContainer<CommentsHistoryContainerProps>({
-  me: graphql`
-    fragment CommentsHistoryContainer_me on User {
-      comments {
-        edges {
-          node {
-            id
-            body
-            createdAt
-            replyCount
+
+const enhanced = withSetCommentIDMutation(
+  withFragmentContainer<CommentsHistoryContainerProps>({
+    me: graphql`
+      fragment CommentsHistoryContainer_me on User {
+        comments {
+          edges {
+            node {
+              id
+              body
+              createdAt
+              replyCount
+            }
           }
         }
       }
-    }
-  `,
-})(
-  withLocalStateContainer(
-    graphql`
-      fragment CommentsHistoryContainerLocal on Local {
-        assetURL
-      }
-    `
-  )(CommentsHistoryContainer)
+    `,
+  })(CommentsHistoryContainer)
 );
 
 export default enhanced;
