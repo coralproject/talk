@@ -1,32 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders comments 1`] = `
-<withPropsOnChange(HorizontalGutter)
-  className="App-root"
->
-  <withPropsOnChange(TabBar)
-    activeTab="COMMENTS"
-    onTabClick={[Function]}
-  >
-    <withPropsOnChange(Tab)
-      tabId="COMMENTS"
-    >
-      Comments
-    </withPropsOnChange(Tab)>
-  </withPropsOnChange(TabBar)>
-  <TabContent
-    activeTab="COMMENTS"
-  >
-    <TabPane
-      tabId="COMMENTS"
-    >
-      <withContext(withLocalStateContainer(CommentsPaneContainer)) />
-    </TabPane>
-    <TabPane
-      tabId="PROFILE"
-    >
-      <ProfileQuery />
-    </TabPane>
-  </TabContent>
-</withPropsOnChange(HorizontalGutter)>
-`;
+exports[`renders comments 1`] = `<Consumer />`;
