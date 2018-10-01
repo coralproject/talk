@@ -3,7 +3,7 @@ import { commitLocalUpdate, Environment } from "relay-runtime";
 import { createMutationContainer, LOCAL_ID } from "talk-framework/lib/relay";
 
 export interface SetActiveTabInput {
-  tab: "COMMENTS" | "PROFILE" | "%future added value" | string;
+  tab: "COMMENTS" | "PROFILE" | "%future added value";
 }
 
 export type SetActiveTabMutation = (input: SetActiveTabInput) => Promise<void>;

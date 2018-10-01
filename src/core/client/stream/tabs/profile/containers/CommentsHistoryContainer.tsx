@@ -20,9 +20,10 @@ export class CommentsHistoryContainer extends React.Component<
     this.props.setCommentID({ id });
   };
   public render() {
+    const comments = this.props.me.comments.edges.map(edge => edge.node);
     return (
       <CommentsHistory
-        me={this.props.me}
+        comments={comments}
         onGoToConversation={this.onGoToConversation}
       />
     );
