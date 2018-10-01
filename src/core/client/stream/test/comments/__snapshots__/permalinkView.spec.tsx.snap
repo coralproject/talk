@@ -45,6 +45,194 @@ exports[`renders permalink view 1`] = `
             className="Circle-circleContainer"
           >
             <div
+              className="Circle-circleSubContainer"
+            >
+              <svg
+                className="Circle-circle"
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="50"
+                />
+              </svg>
+            </div>
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div
+                className="Indent-root"
+              >
+                <div
+                  className=""
+                >
+                  <div
+                    className="Comment-root"
+                    role="article"
+                  >
+                    <div
+                      className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                      id="comment-comment-1"
+                    >
+                      <div
+                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                      >
+                        <span
+                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                        >
+                          Lukas
+                        </span>
+                        <div
+                          className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                        >
+                          <time
+                            className="Timestamp-root RelativeTime-root"
+                            dateTime="2018-07-06T18:20:00.000Z"
+                            title="2018-07-06T18:20:00.000Z"
+                          >
+                            2018-07-06T18:20:00.000Z
+                          </time>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="HorizontalGutter-root HorizontalGutter-full"
+                    >
+                      <div
+                        className="HTMLContent-root"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "What's up?",
+                          }
+                        }
+                      />
+                      <div
+                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      >
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          id="comments-commentContainer-replyButton-comment-1"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Reply
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="Circle-circleContainer"
+          >
+            <div
+              className="Circle-circleSubContainer"
+            >
+              <svg
+                className="Circle-circle"
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="50"
+                  cy="50"
+                  fill="none"
+                  r="40"
+                  strokeWidth="8"
+                />
+              </svg>
+            </div>
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div
+                className="Indent-root"
+              >
+                <div
+                  className=""
+                >
+                  <div
+                    className="Comment-root"
+                    role="article"
+                  >
+                    <div
+                      className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                      id="comment-comment-2"
+                    >
+                      <div
+                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                      >
+                        <span
+                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                        >
+                          Isabelle
+                        </span>
+                        <div
+                          className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                        >
+                          <time
+                            className="Timestamp-root RelativeTime-root"
+                            dateTime="2018-07-06T18:14:00.000Z"
+                            title="2018-07-06T18:14:00.000Z"
+                          >
+                            2018-07-06T18:14:00.000Z
+                          </time>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="HorizontalGutter-root HorizontalGutter-full"
+                    >
+                      <div
+                        className="HTMLContent-root"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "Hey!",
+                          }
+                        }
+                      />
+                      <div
+                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      >
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          id="comments-commentContainer-replyButton-comment-2"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Reply
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="Circle-circleContainer"
+          >
+            <div
               className="Circle-circleSubContainer Circle-end"
             >
               <svg

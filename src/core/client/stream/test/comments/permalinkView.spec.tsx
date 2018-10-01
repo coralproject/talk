@@ -11,6 +11,22 @@ let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const commentStub = {
     ...comments[0],
+    parentCount: 2,
+    parents: {
+      pageInfo: {
+        hasPreviousPage: false,
+      },
+      edges: [
+        {
+          node: comments[1],
+          cursor: comments[1].createdAt,
+        },
+        {
+          node: comments[2],
+          cursor: comments[2].createdAt,
+        },
+      ],
+    },
   };
 
   const assetStub = {
