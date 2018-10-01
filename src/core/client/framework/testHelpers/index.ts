@@ -9,3 +9,4 @@ export {
   NoFragmentRefs,
 } from "./removeFragmentRefs";
 export { default as createUUIDGenerator } from "./createUUIDGenerator";
+export * from "./denormalize";
