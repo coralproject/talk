@@ -1,17 +1,12 @@
 import React from "react";
 import { graphql } from "react-relay";
-import {
-  withFragmentContainer,
-  withLocalStateContainer,
-} from "talk-framework/lib/relay";
+import { withFragmentContainer } from "talk-framework/lib/relay";
 import { CommentsHistoryContainer_me as CommentsData } from "talk-stream/__generated__/CommentsHistoryContainer_me.graphql";
-import { CommentsHistoryContainerLocal as Local } from "talk-stream/__generated__/CommentsHistoryContainerLocal.graphql";
-import CommentsHistory from "../components/CommentsHistory";
-
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
 } from "talk-stream/mutations";
+import CommentsHistory from "../components/CommentsHistory";
 
 interface CommentsHistoryContainerProps {
   setCommentID: SetCommentIDMutation;
