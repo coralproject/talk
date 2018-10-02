@@ -2,23 +2,27 @@ import React from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "talk-framework/lib/relay";
+import { ProfileContainer_asset as AssetData } from "talk-stream/__generated__/ProfileContainer_asset.graphql";
 import { ProfileContainer_me as MeData } from "talk-stream/__generated__/ProfileContainer_me.graphql";
 
 import Profile from "../components/Profile";
 
 interface ProfileContainerProps {
-  me: MeData | null;
+  me: MeData;
+  asset: AssetData;
 }
 
 export class StreamContainer extends React.Component<ProfileContainerProps> {
   public render() {
-    if (this.props.me) {
-      return <Profile me={this.props.me} />;
-    }
-    return null;
+    return <Profile me={this.props.me} asset={this.props.asset} />;
   }
 }
 const enhanced = withFragmentContainer<ProfileContainerProps>({
+  asset: graphql`
+    fragment ProfileContainer_asset on Asset {
+      ...CommentsHistoryContainer_asset
+    }
+  `,
   me: graphql`
     fragment ProfileContainer_me on User {
       ...UserBoxContainer_me

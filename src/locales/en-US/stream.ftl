@@ -12,6 +12,9 @@ general-userBoxAuthenticated-signedInAs =
 general-userBoxAuthenticated-notYou =
   Not you? <button>Sign Out</button>
 
+general-app-commentsTab = Comments
+general-app-myProfileTab = My Profile
+
 ## Comments Tab
 
 comments-streamQuery-assetNotFound = Asset not found
@@ -75,4 +78,5 @@ profile-historyComment-viewConversation = View Conversation
 profile-historyComment-replies = Replies {$replyCount}
 profile-historyComment-commentHistory = Comment History
 profile-historyComment-story = Story: {$title}
-
+profile-historyComment-errorLoadingProfile = Error loading profile
+profile-historyComment-assetNotFound = Asset not found
