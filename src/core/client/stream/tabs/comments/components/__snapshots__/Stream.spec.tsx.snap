@@ -21,7 +21,7 @@ exports[`renders correctly 1`] = `
     <withPropsOnChange(HorizontalGutter)
       key="comment-1"
     >
-      <withContext(createMutationContainer(Relay(CommentContainer)))
+      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
         asset={
           Object {
             "id": "asset-id",
@@ -53,7 +53,7 @@ exports[`renders correctly 1`] = `
     <withPropsOnChange(HorizontalGutter)
       key="comment-2"
     >
-      <withContext(createMutationContainer(Relay(CommentContainer)))
+      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
         asset={
           Object {
             "id": "asset-id",
@@ -107,7 +107,7 @@ exports[`when there is more disables load more button 1`] = `
     <withPropsOnChange(HorizontalGutter)
       key="comment-1"
     >
-      <withContext(createMutationContainer(Relay(CommentContainer)))
+      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
         asset={
           Object {
             "id": "asset-id",
@@ -139,7 +139,7 @@ exports[`when there is more disables load more button 1`] = `
     <withPropsOnChange(HorizontalGutter)
       key="comment-2"
     >
-      <withContext(createMutationContainer(Relay(CommentContainer)))
+      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
         asset={
           Object {
             "id": "asset-id",
@@ -207,7 +207,7 @@ exports[`when there is more renders a load more button 1`] = `
     <withPropsOnChange(HorizontalGutter)
       key="comment-1"
     >
-      <withContext(createMutationContainer(Relay(CommentContainer)))
+      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
         asset={
           Object {
             "id": "asset-id",
@@ -239,7 +239,7 @@ exports[`when there is more renders a load more button 1`] = `
     <withPropsOnChange(HorizontalGutter)
       key="comment-2"
     >
-      <withContext(createMutationContainer(Relay(CommentContainer)))
+      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
         asset={
           Object {
             "id": "asset-id",
@@ -309,7 +309,7 @@ exports[`when use is logged in renders correctly 1`] = `
     <withPropsOnChange(HorizontalGutter)
       key="comment-1"
     >
-      <withContext(createMutationContainer(Relay(CommentContainer)))
+      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
         asset={
           Object {
             "id": "asset-id",
@@ -341,7 +341,7 @@ exports[`when use is logged in renders correctly 1`] = `
     <withPropsOnChange(HorizontalGutter)
       key="comment-2"
     >
-      <withContext(createMutationContainer(Relay(CommentContainer)))
+      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
         asset={
           Object {
             "id": "asset-id",

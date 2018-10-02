@@ -31,9 +31,11 @@ exports[`renders correctly 1`] = `
     Array [
       Object {
         "id": "comment-1",
+        "showConversationLink": false,
       },
       Object {
         "id": "comment-2",
+        "showConversationLink": false,
       },
     ]
   }
@@ -77,9 +79,11 @@ exports[`when has more replies renders hasMore 1`] = `
     Array [
       Object {
         "id": "comment-1",
+        "showConversationLink": false,
       },
       Object {
         "id": "comment-2",
+        "showConversationLink": false,
       },
     ]
   }
@@ -122,9 +126,11 @@ exports[`when has more replies when showing all disables show all button 1`] = `
     Array [
       Object {
         "id": "comment-1",
+        "showConversationLink": false,
       },
       Object {
         "id": "comment-2",
+        "showConversationLink": false,
       },
     ]
   }
@@ -167,9 +173,11 @@ exports[`when has more replies when showing all enable show all button after loa
     Array [
       Object {
         "id": "comment-1",
+        "showConversationLink": false,
       },
       Object {
         "id": "comment-2",
+        "showConversationLink": false,
       },
     ]
   }
