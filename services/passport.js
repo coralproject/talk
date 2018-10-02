@@ -19,6 +19,7 @@ const ms = require('ms');
 const _ = require('lodash');
 const { attachStaticLocals } = require('../middleware/staticTemplate');
 const { encodeJSONForHTML } = require('./response');
+const { STATIC_URL, BASE_URL } = require('../url');
 
 // Create a redis client to use for authentication.
 const { createClientFactory } = require('./redis');
@@ -98,6 +99,15 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
 };
 
 /**
+ * authPopupCallbackCSP is the header sent via Content-Security-Policy when
+ * a social callback request is being made.
+ */
+const authPopupCallbackCSP = (() =>
+  STATIC_URL && BASE_URL !== STATIC_URL
+    ? `default-src 'self' ${STATIC_URL.replace(/\/$/, '')};`
+    : "default-src 'self';")();
+
+/**
  * Returns the response to the login attempt via a popup callback with some JS.
  */
 const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
@@ -106,7 +116,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
   res.header('Pragma', 'no-cache');
 
   // Ensure the only scripts that can run here are those on the Talk domain.
-  res.header('Content-Security-Policy', "default-src 'self';");
+  res.header('Content-Security-Policy', authPopupCallbackCSP);
 
   // Attach static locals to the response locals object.
   attachStaticLocals(res.locals);
