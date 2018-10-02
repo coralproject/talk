@@ -9,6 +9,15 @@ interface StepBarProps {
 class StepBar extends Component<StepBarProps> {
   public render() {
     const { children } = this.props;
+    const steps = React.Children.toArray(children);
+    const stepCount = steps.length;
+    const stepsToRender = steps.map(
+      (child: React.ReactElement<any>, index: number) =>
+        React.cloneElement(child, {
+          isLast: stepCount - 1 === index,
+        })
+    );
+
     return (
       <div className={styles.root}>
         <Flex
@@ -17,8 +26,7 @@ class StepBar extends Component<StepBarProps> {
           alignItems="center"
           justifyContent="center"
         >
-          <span className={styles.line} />
-          {children}
+          {stepsToRender}
         </Flex>
       </div>
     );
