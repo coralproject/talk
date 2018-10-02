@@ -4,6 +4,11 @@ exports[`renders sign in 1`] = `
 <div
   className="App-root"
 >
-  <withContext(createMutationContainer(withContext(createMutationContainer(SignInContainer)))) />
+  <MainBar />
+  <div
+    className="App-container"
+  >
+    <WizardContainer />
+  </div>
 </div>
 `;
