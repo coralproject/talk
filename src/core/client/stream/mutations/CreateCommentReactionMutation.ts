@@ -18,15 +18,7 @@ const mutation = graphql`
   mutation CreateCommentReactionMutation($input: CreateCommentReactionInput!) {
     createCommentReaction(input: $input) {
       comment {
-        id
-        actionCounts {
-          reaction {
-            total
-          }
-        }
-        myActionPresence {
-          reaction
-        }
+        ...ReactionButtonContainer_comment
       }
       clientMutationId
     }
@@ -36,6 +28,12 @@ const mutation = graphql`
 let clientMutationId = 0;
 
 function commit(environment: Environment, input: CreateCommentReactionInput) {
+  const source = environment.getStore().getSource();
+
+  const currentCount = source.get(
+    source.get(source.get(input.commentID)!.actionCounts.__ref)!.reaction.__ref
+  )!.total;
+
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
     mutation,
     variables: {
@@ -51,6 +49,7 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
           myActionPresence: {
             reaction: true,
           },
+          actionCounts: currentCount,
         },
         clientMutationId: (clientMutationId++).toString(),
       },

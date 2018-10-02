@@ -13,15 +13,7 @@ const mutation = graphql`
   mutation DeleteCommentReactionMutation($input: CreateCommentReactionInput!) {
     deleteCommentReaction(input: $input) {
       comment {
-        id
-        actionCounts {
-          reaction {
-            total
-          }
-        }
-        myActionPresence {
-          reaction
-        }
+        ...ReactionButtonContainer_comment
       }
       clientMutationId
     }

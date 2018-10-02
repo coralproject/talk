@@ -18,8 +18,8 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
     const { totalReactions, reacted } = this.props;
     return (
       <Button variant="ghost" size="small" onClick={this.props.onButtonClick}>
+        {!!totalReactions && <span>{totalReactions}</span>}
         <MatchMedia gtWidth="xs">
-          {!!totalReactions && <span>{totalReactions}</span>}
           <ButtonIcon>
             {reacted
               ? this.props.iconActive
