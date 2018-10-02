@@ -171,6 +171,12 @@ export async function retrieveAllTenants(db: Db) {
     .toArray();
 }
 
+export async function countTenants(mongo: Db) {
+  return collection(mongo)
+    .find({})
+    .count();
+}
+
 export type UpdateTenantInput = Omit<DeepPartial<Tenant>, "id" | "domain">;
 
 export async function updateTenant(

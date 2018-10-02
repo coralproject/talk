@@ -13,6 +13,7 @@ import tenantMiddleware from "talk-server/app/middleware/tenant";
 import managementGraphMiddleware from "talk-server/graph/management/middleware";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
+import { tenantInstallHandler } from "talk-server/app/handlers/install/tenant";
 import {
   cacheHeadersMiddleware,
   nocacheMiddleware,
@@ -39,6 +40,17 @@ async function createManagementRouter(app: AppOptions, options: RouterOptions) {
 
 async function createTenantRouter(app: AppOptions, options: RouterOptions) {
   const router = express.Router();
+
+  // Tenant setup handler.
+  router.use(
+    "/install",
+    express.json(),
+    tenantInstallHandler({
+      cache: app.tenantCache,
+      redis: app.redis,
+      mongo: app.mongo,
+    })
+  );
 
   // Tenant identification middleware.
   router.use(tenantMiddleware({ cache: app.tenantCache }));
