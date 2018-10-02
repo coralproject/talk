@@ -1,6 +1,13 @@
 import { Db, MongoClient } from "mongodb";
 import { Config } from "talk-common/config";
 
+export async function createMongoClient(config: Config): Promise<MongoClient> {
+  return MongoClient.connect(
+    config.get("mongodb"),
+    { useNewUrlParser: true }
+  );
+}
+
 /**
  * create will connect to the MongoDB instance identified in the configuration.
  *
@@ -8,10 +15,7 @@ import { Config } from "talk-common/config";
  */
 export async function createMongoDB(config: Config): Promise<Db> {
   // Connect and create a client for MongoDB.
-  const client = await MongoClient.connect(
-    config.get("mongodb"),
-    { useNewUrlParser: true }
-  );
+  const client = await createMongoClient(config);
 
   // Return the database handle, which defaults to the database name provided
   // in the config connection string.
