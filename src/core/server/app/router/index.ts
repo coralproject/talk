@@ -1,124 +1,13 @@
-import express from "express";
-import passport from "passport";
+import express, { Router } from "express";
 
 import { AppOptions } from "talk-server/app";
-import {
-  logoutHandler,
-  signupHandler,
-} from "talk-server/app/handlers/auth/local";
 import { nocacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
-import { apiErrorHandler } from "talk-server/app/middleware/error";
-import { errorLogger } from "talk-server/app/middleware/logging";
-import { wrapAuthn } from "talk-server/app/middleware/passport";
 import playground from "talk-server/app/middleware/playground";
-import tenantMiddleware from "talk-server/app/middleware/tenant";
-import managementGraphMiddleware from "talk-server/graph/management/middleware";
-import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
+import { RouterOptions } from "talk-server/app/router/types";
+import logger from "talk-server/logger";
 
-import { createClientTargetHandler } from "./client";
-
-async function createManagementRouter(app: AppOptions, options: RouterOptions) {
-  const router = express.Router();
-
-  // Management API
-  router.use(
-    "/graphql",
-    express.json(),
-    await managementGraphMiddleware(
-      app.schemas.management,
-      app.config,
-      app.mongo
-    )
-  );
-
-  return router;
-}
-
-async function createTenantRouter(app: AppOptions, options: RouterOptions) {
-  const router = express.Router();
-
-  // Tenant identification middleware.
-  router.use(tenantMiddleware({ cache: app.tenantCache }));
-
-  // Setup Passport middleware.
-  router.use(options.passport.initialize());
-
-  // Setup auth routes.
-  router.use("/auth", createNewAuthRouter(app, options));
-
-  // Tenant API
-  router.use(
-    "/graphql",
-    express.json(),
-    // Any users may submit their GraphQL requests with authentication, this
-    // middleware will unpack their user into the request.
-    options.passport.authenticate("jwt", { session: false }),
-    await tenantGraphMiddleware({
-      schema: app.schemas.tenant,
-      config: app.config,
-      mongo: app.mongo,
-      redis: app.redis,
-      queue: app.queue,
-    })
-  );
-
-  return router;
-}
-
-function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
-  const router = express.Router();
-
-  // Mount the passport routes.
-  router.delete(
-    "/",
-    options.passport.authenticate("jwt", { session: false }),
-    logoutHandler({ redis: app.redis })
-  );
-
-  router.post(
-    "/local",
-    express.json(),
-    wrapAuthn(options.passport, app.signingConfig, "local")
-  );
-  router.post(
-    "/local/signup",
-    express.json(),
-    signupHandler({ db: app.mongo, signingConfig: app.signingConfig })
-  );
-
-  router.get("/oidc", wrapAuthn(options.passport, app.signingConfig, "oidc"));
-  router.get(
-    "/oidc/callback",
-    wrapAuthn(options.passport, app.signingConfig, "oidc")
-  );
-
-  return router;
-}
-
-async function createAPIRouter(app: AppOptions, options: RouterOptions) {
-  // Create a router.
-  const router = express.Router();
-
-  // Configure the tenant routes.
-  router.use("/tenant", await createTenantRouter(app, options));
-
-  // Configure the management routes.
-  router.use("/management", await createManagementRouter(app, options));
-
-  // General API error handler.
-  router.use(errorLogger);
-  router.use(apiErrorHandler);
-
-  return router;
-}
-
-export interface RouterOptions {
-  /**
-   * passport is the instance of the Authenticator that can be used to create
-   * and mount new authentication middleware.
-   */
-  passport: passport.Authenticator;
-}
+import { createAPIRouter } from "./api";
+import { createClientTargetRouter } from "./client";
 
 export async function createRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
@@ -126,29 +15,46 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
 
   router.use("/api", nocacheMiddleware, await createAPIRouter(app, options));
 
-  if (app.config.get("env") === "development") {
-    // Tenant GraphiQL
-    router.get(
-      "/tenant/graphiql",
-      playground({
-        endpoint: "/api/tenant/graphql",
-        subscriptionEndpoint: "/api/tenant/live",
-      })
-    );
-
-    // Management GraphiQL
-    router.get(
-      "/management/graphiql",
-      playground({
-        endpoint: "/api/management/graphql",
-        subscriptionEndpoint: "/api/management/live",
-      })
-    );
+  // Attach the GraphiQL if enabled.
+  if (app.config.get("enable_graphiql")) {
+    attachGraphiQL(router, app);
   }
 
   // Add the client targets.
-  router.get("/embed/stream", createClientTargetHandler({ view: "stream" }));
-  router.get("/admin", createClientTargetHandler({ view: "admin" }));
+  router.get("/embed/stream", createClientTargetRouter({ view: "stream" }));
+  router.get("/admin", createClientTargetRouter({ view: "admin" }));
 
   return router;
+}
+
+/**
+ * attachGraphiQL will attach the GraphiQL routes to the router.
+ *
+ * @param router the router to attach the GraphiQL routes to
+ * @param app the application to read the configuration from
+ */
+function attachGraphiQL(router: Router, app: AppOptions) {
+  if (app.config.get("env") === "production") {
+    logger.warn(
+      "enable_graphiql is enabled, but we're in production mode, this is not recommended"
+    );
+  }
+
+  // Tenant GraphiQL
+  router.get(
+    "/tenant/graphiql",
+    playground({
+      endpoint: "/api/tenant/graphql",
+      subscriptionEndpoint: "/api/tenant/live",
+    })
+  );
+
+  // Management GraphiQL
+  router.get(
+    "/management/graphiql",
+    playground({
+      endpoint: "/api/management/graphql",
+      subscriptionEndpoint: "/api/management/live",
+    })
+  );
 }

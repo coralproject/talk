@@ -14,7 +14,7 @@ export interface ClientTargetHandlerOptions {
   cacheDuration?: string;
 }
 
-export function createClientTargetHandler({
+export function createClientTargetRouter({
   view,
   cacheDuration = "1h",
 }: ClientTargetHandlerOptions) {
