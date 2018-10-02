@@ -10,9 +10,9 @@ menu: UI Kit
 import { Flex, Step, StepBar } from './index'
 
 <Playground>
-    <StepBar>
-      <Step completed>Create Admin Account</Step>
-      <Step completed>Create Admin Account</Step>
-      <Step active>Create Admin Account</Step>
+    <StepBar currentStep={1}>
+      <Step>Create Admin Account</Step>
+      <Step>Add Organization Details</Step>
+      <Step>Add Permitted Domains</Step>
     </StepBar>
 </Playground>

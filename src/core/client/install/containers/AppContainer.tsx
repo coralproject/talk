@@ -12,7 +12,6 @@ export interface FormData {
 }
 
 interface AppContainerState {
-  step: number;
   data: Partial<FormData>;
 }
 
@@ -30,42 +29,13 @@ class WizardContainer extends Component<{}, AppContainerState> {
     },
   };
 
-  private goToNextStep = () =>
-    this.setState(({ step }) => ({
-      step: step + 1,
-    }));
-
-  private goToPreviousStep = () =>
-    this.setState(
-      ({ step }) => ({
-        step: step - 1,
-      }),
-      () => {
-        console.log(this.state);
-      }
-    );
-
-  private goToStep = (step: number) =>
-    this.setState({
-      step,
-    });
-
   private saveData = (newData: Partial<FormData>) =>
     this.setState(({ data }) => ({
       data: { ...data, ...newData },
     }));
 
   public render() {
-    return (
-      <App
-        currentStep={this.state.step}
-        goToNextStep={this.goToNextStep}
-        goToPreviousStep={this.goToPreviousStep}
-        goToStep={this.goToStep}
-        saveData={this.saveData}
-        data={this.state.data}
-      />
-    );
+    return <App saveData={this.saveData} data={this.state.data} />;
   }
 }
 

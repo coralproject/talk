@@ -2,6 +2,7 @@ import React, { Component, ReactNode } from "react";
 import { Step, StepBar } from "talk-ui/components";
 import { WizardProps } from "../components/Wizard";
 import Header from "./Header";
+import * as styles from "./Wizard.css";
 
 export interface WizardProps {
   currentStep: number;
@@ -43,7 +44,7 @@ class Wizard extends Component<WizardProps> {
       );
 
     return (
-      <div>
+      <div className={styles.root}>
         <Header />
         {currentStep !== 0 &&
           currentStep !== wizardChildren.length - 1 && (
