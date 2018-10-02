@@ -7,7 +7,7 @@ import MainBar from "./MainBar";
 
 export interface AppProps {
   saveData: (newData: {}) => void;
-  data: Partial<FormData>;
+  data: FormData;
 }
 
 class App extends Component<AppProps> {

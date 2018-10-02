@@ -27,7 +27,7 @@ interface FormProps {
 export interface AddOrganizationForm {
   onSubmit: OnSubmit<FormProps>;
   handleGoToPreviousStep: () => void;
-  data: Partial<FormData>;
+  data: FormData;
 }
 
 const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {

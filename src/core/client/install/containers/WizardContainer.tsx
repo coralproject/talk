@@ -9,7 +9,7 @@ import { FormData } from "./AppContainer";
 
 interface WizardContainerProps {
   saveData: (newData: {}) => void;
-  data: Partial<FormData>;
+  data: FormData;
 }
 
 interface WizardContainerState {

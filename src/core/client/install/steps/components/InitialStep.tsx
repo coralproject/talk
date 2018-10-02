@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, HorizontalGutter, Typography } from "talk-ui/components";
+import { Button, Flex, Typography } from "talk-ui/components";
 
 import { WizardChildProps } from "../../components/Wizard";
 
@@ -12,18 +12,23 @@ class InitialStep extends Component<WizardChildProps> {
 
   public render() {
     return (
-      <HorizontalGutter>
+      <Flex direction="column" justifyContent="center" itemGutter="double">
         <Typography variant="bodyCopy">
-          Let's set up your Talk community in just a few short steps
+          The remainder of the Talk installation will take about ten minutes.
+          Once you complete the following three steps, you will have a free
+          installation and provision Mongo and Redis.
         </Typography>
-        <Button
-          onClick={this.handleGoToNextStep}
-          color="primary"
-          variant="filled"
-        >
-          Get Started
-        </Button>
-      </HorizontalGutter>
+        <Flex justifyContent="center">
+          <Button
+            onClick={this.handleGoToNextStep}
+            color="primary"
+            variant="filled"
+            fullWidth={false}
+          >
+            Get Started
+          </Button>
+        </Flex>
+      </Flex>
     );
   }
 }

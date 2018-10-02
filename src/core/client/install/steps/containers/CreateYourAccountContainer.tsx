@@ -6,13 +6,10 @@ import CreateYourAccount, {
   CreateYourAccountForm,
 } from "../components/CreateYourAccount";
 
-import { SignUpMutation, withSignUpMutation } from "../mutations";
-
 interface SignUpContainerProps {
-  signUp: SignUpMutation;
   goToNextStep?: () => void;
   goToPreviousStep?: () => void;
-  data: Partial<FormData>;
+  data: FormData;
   saveData: (newData: {}) => void;
 }
 
@@ -29,8 +26,6 @@ class CreateYourAccountContainer extends Component<SignUpContainerProps> {
   };
   private onSubmit: CreateYourAccountForm["onSubmit"] = async (input, form) => {
     try {
-      // await this.props.signUp(input);
-      // form.reset();
       this.props.saveData(input);
       return this.handleGoToNextStep();
     } catch (error) {
@@ -48,4 +43,4 @@ class CreateYourAccountContainer extends Component<SignUpContainerProps> {
   }
 }
 
-export default withSignUpMutation(CreateYourAccountContainer);
+export default CreateYourAccountContainer;

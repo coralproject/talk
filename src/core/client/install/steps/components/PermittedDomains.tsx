@@ -1,7 +1,6 @@
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
 import { OnSubmit } from "talk-framework/lib/form";
-
 import {
   Button,
   CallOut,
@@ -13,6 +12,7 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
+import { FormData } from "../../containers/AppContainer";
 
 interface FormProps {
   domains: string;
@@ -20,6 +20,8 @@ interface FormProps {
 
 export interface PermittedDomainsForm {
   onSubmit: OnSubmit<FormProps>;
+  handleGoToPreviousStep: () => void;
+  data: FormData;
 }
 
 const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {

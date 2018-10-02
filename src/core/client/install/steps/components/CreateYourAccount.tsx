@@ -32,7 +32,7 @@ interface FormProps {
 export interface CreateYourAccountForm {
   onSubmit: OnSubmit<FormProps>;
   handleGoToPreviousStep: () => void;
-  data: Partial<FormData>;
+  data: FormData;
 }
 
 const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {

@@ -4,15 +4,16 @@ import App from "../components/App";
 export interface FormData {
   organizationName: string;
   organizationContactEmail: string;
+  organizationURL: string;
   email: string;
   username: string;
   password: string;
   confirmPassword: string;
-  domains: string;
+  domains: string[];
 }
 
 interface AppContainerState {
-  data: Partial<FormData>;
+  data: FormData;
 }
 
 class WizardContainer extends Component<{}, AppContainerState> {
@@ -21,18 +22,24 @@ class WizardContainer extends Component<{}, AppContainerState> {
     data: {
       organizationContactEmail: "",
       organizationName: "",
+      organizationURL: "",
       email: "",
       username: "",
       password: "",
       confirmPassword: "",
-      domains: "",
+      domains: [],
     },
   };
 
-  private saveData = (newData: Partial<FormData>) =>
-    this.setState(({ data }) => ({
-      data: { ...data, ...newData },
-    }));
+  private saveData = (newData: FormData) =>
+    this.setState(
+      ({ data }) => ({
+        data: { ...data, ...newData },
+      }),
+      () => {
+        console.log(this.state.data);
+      }
+    );
 
   public render() {
     return <App saveData={this.saveData} data={this.state.data} />;

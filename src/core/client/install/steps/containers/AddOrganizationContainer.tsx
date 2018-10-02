@@ -6,16 +6,10 @@ import AddOrganization, {
   AddOrganizationForm,
 } from "../components/AddOrganization";
 
-import {
-  UpdateSettingsMutation,
-  withUpdateSettingsMutation,
-} from "../mutations";
-
 interface AddOrganizationContainerProps {
-  updateSettings: UpdateSettingsMutation;
   goToNextStep?: () => void;
   goToPreviousStep?: () => void;
-  data: Partial<FormData>;
+  data: FormData;
   saveData: (newData: {}) => void;
 }
 
@@ -34,9 +28,6 @@ class CreateYourAccountContainer extends Component<
   };
   private onSubmit: AddOrganizationForm["onSubmit"] = async (input, form) => {
     try {
-      //  ERROR NOT AUTHORIZED
-      // await this.props.updateSettings({ settings: { ...input } });
-      // form.reset();
       this.props.saveData(input);
       return this.handleGoToNextStep();
     } catch (error) {
@@ -54,4 +45,4 @@ class CreateYourAccountContainer extends Component<
   }
 }
 
-export default withUpdateSettingsMutation(CreateYourAccountContainer);
+export default CreateYourAccountContainer;
