@@ -5,6 +5,7 @@ const { merge } = require('lodash');
 
 const {
   BASE_URL,
+  BASE_ORIGIN,
   BASE_PATH,
   MOUNT_PATH,
   STATIC_URL,
@@ -29,6 +30,7 @@ const TALK_CLIENT_ENV = Object.keys(process.env)
       LIVE_URI: WEBSOCKET_LIVE_URI,
       STATIC_URL,
       STATIC_ORIGIN,
+      BASE_ORIGIN,
     }
   );
 
