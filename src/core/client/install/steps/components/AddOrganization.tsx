@@ -18,6 +18,7 @@ import {
   ValidationMessage,
 } from "talk-ui/components";
 import { FormData } from "../../containers/AppContainer";
+import * as styles from "./styles.css";
 
 interface FormProps {
   organizationName: string;
@@ -37,10 +38,15 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
       initialValues={{
         organizationName: props.data.organizationName,
         organizationContactEmail: props.data.organizationContactEmail,
+        organizationURL: props.data.organizationURL,
       }}
     >
       {({ handleSubmit, submitting, submitError }) => (
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        <form
+          autoComplete="off"
+          onSubmit={handleSubmit}
+          className={styles.form}
+        >
           <HorizontalGutter size="double">
             <Typography variant="heading1" align="center">
               Add Organization
@@ -98,6 +104,36 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                     onChange={input.onChange}
                     value={input.value}
                     placeholder="Organization Contact Email"
+                    color={
+                      meta.touched && (meta.error || meta.submitError)
+                        ? "error"
+                        : "regular"
+                    }
+                    disabled={submitting}
+                    fullWidth
+                  />
+                  {meta.touched &&
+                    (meta.error || meta.submitError) && (
+                      <ValidationMessage fullWidth>
+                        {meta.error || meta.submitError}
+                      </ValidationMessage>
+                    )}
+                </FormField>
+              )}
+            </Field>
+
+            <Field
+              name="organizationURL"
+              validate={composeValidators(required)}
+            >
+              {({ input, meta }) => (
+                <FormField>
+                  <InputLabel>Organization URL</InputLabel>
+                  <TextField
+                    name={input.name}
+                    onChange={input.onChange}
+                    value={input.value}
+                    placeholder="Organization URL"
                     color={
                       meta.touched && (meta.error || meta.submitError)
                         ? "error"

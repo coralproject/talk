@@ -1,3 +1,4 @@
+import cn from "classnames";
 import React, { Component, ReactNode } from "react";
 import Flex from "../Flex";
 import * as styles from "./StepBar.css";
@@ -5,6 +6,7 @@ import * as styles from "./StepBar.css";
 interface StepBarProps {
   children: ReactNode;
   currentStep: number;
+  className?: string;
 }
 
 class StepBar extends Component<StepBarProps> {
@@ -22,7 +24,7 @@ class StepBar extends Component<StepBarProps> {
       );
 
     return (
-      <div className={styles.root}>
+      <div className={cn(styles.root, this.props.className)}>
         <Flex
           direction="row"
           itemGutter="double"

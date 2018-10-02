@@ -1,0 +1,15 @@
+.root {
+  padding: calc(4 * var(--spacing-unit)) 0;
+}
+
+.headline {
+}
+
+.headlineMain {
+}
+
+.subHeadline {
+}
+
+.subHeadlineMain {
+}

@@ -45,10 +45,10 @@ class Wizard extends Component<WizardProps> {
 
     return (
       <div className={styles.root}>
-        <Header />
+        <Header main={currentStep === 0} />
         {currentStep !== 0 &&
           currentStep !== wizardChildren.length - 1 && (
-            <StepBar currentStep={currentStep - 1}>
+            <StepBar currentStep={currentStep - 1} className={styles.stepBar}>
               <Step hidden>Start</Step>
               <Step>Create Admin Account</Step>
               <Step>Add Organization Details</Step>

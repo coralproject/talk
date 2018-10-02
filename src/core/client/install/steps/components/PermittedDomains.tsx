@@ -13,6 +13,7 @@ import {
   ValidationMessage,
 } from "talk-ui/components";
 import { FormData } from "../../containers/AppContainer";
+import * as styles from "./styles.css";
 
 interface FormProps {
   domains: string;
@@ -26,9 +27,18 @@ export interface PermittedDomainsForm {
 
 const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
   return (
-    <Form onSubmit={props.onSubmit}>
+    <Form
+      onSubmit={props.onSubmit}
+      initialValues={{
+        domains: props.data.domains.join(","),
+      }}
+    >
       {({ handleSubmit, submitting, submitError }) => (
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        <form
+          autoComplete="off"
+          onSubmit={handleSubmit}
+          className={styles.form}
+        >
           <HorizontalGutter size="double">
             <Typography variant="heading1" align="center">
               Permitted Domains

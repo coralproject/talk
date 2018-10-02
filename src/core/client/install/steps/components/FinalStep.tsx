@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Button, Flex, HorizontalGutter, Typography } from "talk-ui/components";
+import { Button, Flex, Typography } from "talk-ui/components";
 
 import { WizardChildProps } from "../../components/Wizard";
 
-class InitialStep extends Component<WizardChildProps> {
+class FinalStep extends Component<WizardChildProps> {
   // tslint:disable-next-line:no-empty
   private handleLaunchTalk = () => {};
 
@@ -12,7 +12,7 @@ class InitialStep extends Component<WizardChildProps> {
 
   public render() {
     return (
-      <HorizontalGutter>
+      <Flex direction="column" justifyContent="center" itemGutter="double">
         <Typography variant="bodyCopy">
           Thanks for installing Talk! We sent an email to verify your email
           address. While you finish setting up the account, you can start
@@ -30,9 +30,9 @@ class InitialStep extends Component<WizardChildProps> {
             Go to Admin
           </Button>
         </Flex>
-      </HorizontalGutter>
+      </Flex>
     );
   }
 }
 
-export default InitialStep;
+export default FinalStep;

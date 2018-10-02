@@ -21,6 +21,7 @@ import {
   ValidationMessage,
 } from "talk-ui/components";
 import { FormData } from "../../containers/AppContainer";
+import * as styles from "./styles.css";
 
 interface FormProps {
   email: string;
@@ -37,9 +38,19 @@ export interface CreateYourAccountForm {
 
 const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
   return (
-    <Form onSubmit={props.onSubmit}>
+    <Form
+      onSubmit={props.onSubmit}
+      initialValues={{
+        email: props.data.email,
+        username: props.data.username,
+      }}
+    >
       {({ handleSubmit, submitting, submitError }) => (
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        <form
+          autoComplete="off"
+          onSubmit={handleSubmit}
+          className={styles.form}
+        >
           <HorizontalGutter size="double">
             <Typography variant="heading1" align="center">
               Create an Administrator Account
