@@ -30,15 +30,11 @@ exports[`renders username and body 1`] = `
       topBarRight
     </div>
   </withPropsOnChange(Flex)>
-  <HTMLContent>
-    Woof
-  </HTMLContent>
-  <withPropsOnChange(Flex)
-    className="Comment-footer"
-    direction="row"
-    itemGutter="half"
-  >
+  <withPropsOnChange(HorizontalGutter)>
+    <HTMLContent>
+      Woof
+    </HTMLContent>
     footer
-  </withPropsOnChange(Flex)>
+  </withPropsOnChange(HorizontalGutter)>
 </div>
 `;

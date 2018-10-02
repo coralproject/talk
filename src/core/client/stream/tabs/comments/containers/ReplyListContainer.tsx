@@ -11,10 +11,14 @@ import {
   COMMENT_SORT,
   ReplyListContainer1PaginationQueryVariables,
 } from "talk-stream/__generated__/ReplyListContainer1PaginationQuery.graphql";
+import { ReplyListContainer5_comment as Comment5Data } from "talk-stream/__generated__/ReplyListContainer5_comment.graphql";
 
 import { StatelessComponent } from "enzyme";
 import ReplyList from "../components/ReplyList";
 import LocalReplyListContainer from "./LocalReplyListContainer";
+
+type UnpackArray<T> = T extends ReadonlyArray<infer U> ? U : any;
+type ReplyNode5 = UnpackArray<Comment5Data["replies"]["edges"]>["node"];
 
 export interface InnerProps {
   me: MeData | null;
@@ -44,7 +48,11 @@ export class ReplyListContainer extends React.Component<InnerProps> {
     ) {
       return null;
     }
-    const comments = this.props.comment.replies.edges.map(edge => edge.node);
+    const comments = this.props.comment.replies.edges.map(edge => ({
+      ...edge.node,
+      // ReplyListContainer5 contains replyCount.
+      showConversationLink: ((edge.node as any) as ReplyNode5).replyCount > 0,
+    }));
     return (
       <ReplyList
         me={this.props.me}
@@ -156,6 +164,7 @@ const ReplyListContainer5 = createReplyListContainer(
           edges {
             node {
               id
+              replyCount
               ...CommentContainer_comment
               ...LocalReplyListContainer_comment
             }
