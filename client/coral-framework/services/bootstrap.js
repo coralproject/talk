@@ -136,7 +136,7 @@ export async function createContext({
   });
 
   const staticConfig = getStaticConfiguration();
-  let { LIVE_URI: liveUri, STATIC_ORIGIN: origin } = staticConfig;
+  let { LIVE_URI: liveUri, BASE_ORIGIN: origin } = staticConfig;
   if (liveUri == null) {
     // The protocol must match the origin protocol, secure/insecure.
     const protocol = location.protocol === 'https:' ? 'wss' : 'ws';

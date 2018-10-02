@@ -4,7 +4,7 @@ import { createPostMessage } from 'coral-framework/services/postMessage';
 
 document.addEventListener('DOMContentLoaded', () => {
   const staticConfig = getStaticConfiguration();
-  const { STATIC_ORIGIN: origin } = staticConfig;
+  const { BASE_ORIGIN: origin } = staticConfig;
   const postMessage = createPostMessage(origin);
 
   // Get the auth element and parse it as JSON by decoding it.
