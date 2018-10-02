@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import * as styles from "./App.css";
 
+import { Step, StepBar } from "talk-ui/components";
 import { FormData } from "../containers/AppContainer";
 import FinalStep from "../steps/components/FinalStep";
 import InitialStep from "../steps/components/InitialStep";
@@ -25,6 +26,12 @@ class App extends Component<AppProps> {
       <div className={styles.root}>
         <MainBar />
         <div className={styles.container}>
+          <StepBar>
+            <Step completed>Create Admin Account</Step>
+            <Step active>Add Organization Details</Step>
+            <Step>Add Permitted Domains</Step>
+          </StepBar>
+
           <Wizard
             currentStep={this.props.currentStep}
             goToNextStep={this.props.goToNextStep}
