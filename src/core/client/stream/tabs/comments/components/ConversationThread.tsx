@@ -42,55 +42,58 @@ const ConversationThread: StatelessComponent<
           <Typography variant="heading4">Conversation Thread</Typography>
         </Localized>
       </Flex>
-      <Line>
-        <HorizontalGutter>
-          {props.rootParent && (
-            <Circle>
-              <RootParent
-                id={props.rootParent.id}
-                username={props.rootParent.username}
-                createdAt={props.rootParent.createdAt}
-              />
-            </Circle>
-          )}
-          {props.hasMore && (
+      <HorizontalGutter container={<Line dashed />}>
+        {props.rootParent && (
+          <Circle>
+            <RootParent
+              id={props.rootParent.id}
+              username={props.rootParent.username}
+              createdAt={props.rootParent.createdAt}
+            />
+          </Circle>
+        )}
+        {props.hasMore && (
+          <Circle hollow className={styles.loadMore}>
             <Localized id="comments-conversationThread-viewPreviousComments">
               <Button
                 onClick={props.loadMore}
                 disabled={props.disableLoadMore}
                 id="comments-conversationThread-viewPreviousComments"
+                variant="underlined"
               >
                 View previous comments
               </Button>
             </Localized>
-          )}
-          {props.parents.map((parent, i) => (
-            <Circle key={parent.id} hollow={props.hasMore || i > 0}>
-              <CommentContainer
-                comment={parent}
-                asset={props.asset}
-                me={props.me}
-                localReply
-              />
-              {props.me && (
-                <LocalReplyListContainer
-                  asset={props.asset}
-                  me={props.me}
-                  comment={parent}
-                  indentLevel={1}
-                />
-              )}
-            </Circle>
-          ))}
-          <Circle end>
+          </Circle>
+        )}
+      </HorizontalGutter>
+      <HorizontalGutter container={Line}>
+        {props.parents.map((parent, i) => (
+          <Circle key={parent.id} hollow={props.hasMore || i > 0}>
             <CommentContainer
-              comment={props.comment}
+              comment={parent}
               asset={props.asset}
               me={props.me}
+              localReply
             />
+            {props.me && (
+              <LocalReplyListContainer
+                asset={props.asset}
+                me={props.me}
+                comment={parent}
+                indentLevel={1}
+              />
+            )}
           </Circle>
-        </HorizontalGutter>
-      </Line>
+        ))}
+        <Circle end>
+          <CommentContainer
+            comment={props.comment}
+            asset={props.asset}
+            me={props.me}
+          />
+        </Circle>
+      </HorizontalGutter>
     </div>
   );
 };

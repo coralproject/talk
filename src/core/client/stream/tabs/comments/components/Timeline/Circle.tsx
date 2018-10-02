@@ -5,13 +5,14 @@ import { StatelessComponent } from "react";
 import styles from "./Circle.css";
 
 export interface CircleProps {
+  className?: string;
   hollow?: boolean;
   end?: boolean;
 }
 
 const Circle: StatelessComponent<CircleProps> = props => {
   return (
-    <div className={styles.circleContainer}>
+    <div className={cn(styles.circleContainer, props.className)}>
       <div
         className={cn(styles.circleSubContainer, { [styles.end]: props.end })}
       >
