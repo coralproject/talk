@@ -31,7 +31,6 @@ class Wizard extends Component<WizardProps> {
     } = this.props;
 
     const wizardChildren = React.Children.toArray(children);
-
     const wizardChildrenToRender = wizardChildren
       .filter((child, i) => i === currentStep)
       .map((child: React.ReactElement<any>, index: number) =>
@@ -46,12 +45,14 @@ class Wizard extends Component<WizardProps> {
     return (
       <div>
         <Header />
-        {this.props.currentStep !== 0 &&
-          this.props.currentStep !== wizardChildren.length - 1 && (
-            <StepBar>
-              <Step completed>Create Admin Account</Step>
-              <Step active>Add Organization Details</Step>
+        {currentStep !== 0 &&
+          currentStep !== wizardChildren.length - 1 && (
+            <StepBar currentStep={currentStep - 1}>
+              <Step hidden>Start</Step>
+              <Step>Create Admin Account</Step>
+              <Step>Add Organization Details</Step>
               <Step>Add Permitted Domains</Step>
+              <Step hidden>Finish</Step>
             </StepBar>
           )}
         <section className={className}>{wizardChildrenToRender}</section>

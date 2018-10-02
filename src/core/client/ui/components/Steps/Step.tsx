@@ -9,12 +9,16 @@ interface StepProps {
   children: ReactText;
   active?: boolean;
   completed?: boolean;
-  isLast?: boolean;
+  last?: boolean;
+  hidden?: boolean;
 }
 
 class Step extends Component<StepProps> {
   public render() {
-    const { children, completed, active, isLast } = this.props;
+    const { children, completed, active, last, hidden } = this.props;
+    if (hidden) {
+      return null;
+    }
     return (
       <div className={styles.root}>
         <Flex
@@ -24,7 +28,7 @@ class Step extends Component<StepProps> {
           itemGutter
         >
           <Circle completed={completed} active={active} />
-          {!isLast && <Line completed={completed} />}
+          {!last && <Line completed={completed} />}
         </Flex>
         <Typography className={styles.text}>{children}</Typography>
       </div>

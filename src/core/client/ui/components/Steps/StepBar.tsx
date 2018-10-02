@@ -4,19 +4,22 @@ import * as styles from "./StepBar.css";
 
 interface StepBarProps {
   children: ReactNode;
+  currentStep: number;
 }
 
 class StepBar extends Component<StepBarProps> {
   public render() {
-    const { children } = this.props;
+    const { children, currentStep } = this.props;
     const steps = React.Children.toArray(children);
-    const stepCount = steps.length;
-    const stepsToRender = steps.map(
-      (child: React.ReactElement<any>, index: number) =>
+    const stepsToRender = steps
+      .filter((child: React.ReactElement<any>) => !child.props.hidden)
+      .map((child: React.ReactElement<any>, index: number, arr) =>
         React.cloneElement(child, {
-          isLast: stepCount - 1 === index,
+          last: arr.length - 1 === index,
+          active: currentStep === index,
+          completed: currentStep > index,
         })
-    );
+      );
 
     return (
       <div className={styles.root}>
