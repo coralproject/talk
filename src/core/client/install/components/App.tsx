@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import * as styles from "./App.css";
 
-import { Step, StepBar } from "talk-ui/components";
 import { FormData } from "../containers/AppContainer";
 import FinalStep from "../steps/components/FinalStep";
 import InitialStep from "../steps/components/InitialStep";
@@ -22,29 +21,29 @@ export interface AppProps {
 
 class App extends Component<AppProps> {
   public render() {
+    const {
+      currentStep,
+      goToNextStep,
+      goToPreviousStep,
+      goToStep,
+    } = this.props;
     return (
       <div className={styles.root}>
         <MainBar />
         <div className={styles.container}>
-          <StepBar>
-            <Step completed>Create Admin Account</Step>
-            <Step active>Add Organization Details</Step>
-            <Step>Add Permitted Domains</Step>
-          </StepBar>
-
           <Wizard
-            currentStep={this.props.currentStep}
-            goToNextStep={this.props.goToNextStep}
-            goToPreviousStep={this.props.goToPreviousStep}
-            goToStep={this.props.goToStep}
+            currentStep={currentStep}
+            goToNextStep={goToNextStep}
+            goToPreviousStep={goToPreviousStep}
+            goToStep={goToStep}
             className={styles.panes}
           >
             <InitialStep />
-            <AddOrganizationContainer
+            <CreateYourAccountContainer
               data={this.props.data}
               saveData={this.props.saveData}
             />
-            <CreateYourAccountContainer
+            <AddOrganizationContainer
               data={this.props.data}
               saveData={this.props.saveData}
             />

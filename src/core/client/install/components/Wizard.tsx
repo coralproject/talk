@@ -1,5 +1,7 @@
 import React, { Component, ReactNode } from "react";
+import { Step, StepBar } from "talk-ui/components";
 import { WizardProps } from "../components/Wizard";
+import Header from "./Header";
 
 export interface WizardProps {
   currentStep: number;
@@ -28,7 +30,9 @@ class Wizard extends Component<WizardProps> {
       className,
     } = this.props;
 
-    const wizardChilds = React.Children.toArray(children)
+    const wizardChildren = React.Children.toArray(children);
+
+    const wizardChildrenToRender = wizardChildren
       .filter((child, i) => i === currentStep)
       .map((child: React.ReactElement<any>, index: number) =>
         React.cloneElement(child, {
@@ -39,7 +43,20 @@ class Wizard extends Component<WizardProps> {
         })
       );
 
-    return <section className={className}>{wizardChilds}</section>;
+    return (
+      <div>
+        <Header />
+        {this.props.currentStep !== 0 &&
+          this.props.currentStep !== wizardChildren.length - 1 && (
+            <StepBar>
+              <Step completed>Create Admin Account</Step>
+              <Step active>Add Organization Details</Step>
+              <Step>Add Permitted Domains</Step>
+            </StepBar>
+          )}
+        <section className={className}>{wizardChildrenToRender}</section>
+      </div>
+    );
   }
 }
 

@@ -42,7 +42,13 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
         <form autoComplete="off" onSubmit={handleSubmit}>
           <HorizontalGutter size="double">
             <Typography variant="heading1" align="center">
-              Create Your Account
+              Create an Administrator Account
+            </Typography>
+            <Typography>
+              Error base on balls club stretch manager, dead ball era third
+              baseman. Balk wrigley 4-bagger appeal line drive unearned run
+              umpire. Forkball shortstop dead ball era hardball right field
+              second baseman pinch hitter.
             </Typography>
 
             {submitError && (
