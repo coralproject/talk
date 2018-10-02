@@ -27,7 +27,7 @@ class InitialStep extends Component<WizardChildProps> {
             color="primary"
             variant="filled"
           >
-            Launch Talk
+            Go to Admin
           </Button>
         </Flex>
       </HorizontalGutter>

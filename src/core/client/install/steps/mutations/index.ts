@@ -1,6 +1,1 @@
-export { withSignUpMutation, SignUpMutation } from "./SignUpMutation";
-export {
-  withUpdateSettingsMutation,
-  UpdateSettingsMutation,
-  UpdateSettingsInput,
-} from "./UpdateSettingsMutation";
+export { withInstallMutation, InstallMutation } from "./InstallMutation";

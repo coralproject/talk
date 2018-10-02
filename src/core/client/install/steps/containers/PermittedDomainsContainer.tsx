@@ -6,13 +6,10 @@ import PermittedDomains, {
   PermittedDomainsForm,
 } from "../components/PermittedDomains";
 
-import {
-  UpdateSettingsMutation,
-  withUpdateSettingsMutation,
-} from "../mutations";
+import { InstallMutation, withInstallMutation } from "../mutations";
 
 interface PermittedDomainsContainerProps {
-  updateSettings: UpdateSettingsMutation;
+  install: InstallMutation;
   goToNextStep?: () => void;
   data: Partial<FormData>;
   saveData: (newData: {}) => void;
@@ -41,4 +38,4 @@ class CreateYourAccountContainer extends Component<
   }
 }
 
-export default withUpdateSettingsMutation(CreateYourAccountContainer);
+export default withInstallMutation(CreateYourAccountContainer);
