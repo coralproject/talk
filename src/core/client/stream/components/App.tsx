@@ -13,9 +13,11 @@ import CommentsPaneContainer from "../tabs/comments/containers/CommentsPaneConta
 import ProfileQuery from "../tabs/profile/queries/ProfileQuery";
 import * as styles from "./App.css";
 
+type TabValue = "COMMENTS" | "PROFILE" | "%future added value";
+
 export interface AppProps {
-  activeTab: "COMMENTS" | "PROFILE" | "%future added value";
-  onTabClick: (tab: string) => void;
+  activeTab: TabValue;
+  onTabClick: (tab: TabValue) => void;
 }
 
 const App: StatelessComponent<AppProps> = props => {
