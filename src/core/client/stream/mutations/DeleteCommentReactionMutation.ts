@@ -31,6 +31,14 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
         clientMutationId: clientMutationId.toString(),
       },
     },
+    optimisticResponse: {
+      deleteCommentReaction: {
+        comment: {
+          id: input.commentID,
+        },
+        clientMutationId: clientMutationId.toString(),
+      },
+    } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
   });
 }
 
