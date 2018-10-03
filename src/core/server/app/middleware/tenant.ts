@@ -7,14 +7,12 @@ export interface MiddlewareOptions {
   cache: TenantCache;
 }
 
-export default (options: MiddlewareOptions) => async (
+export default ({ cache }: MiddlewareOptions) => async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { cache } = options;
-
     // Attach the tenant to the request.
     const tenant = await cache.retrieveByDomain(req.hostname);
     if (!tenant) {
@@ -22,11 +20,15 @@ export default (options: MiddlewareOptions) => async (
       return next(new Error("tenant not found"));
     }
 
-    // Attach the tenant cache to the request.
-    req.tenantCache = cache;
-
-    // Attach the tenant to the request.
-    req.tenant = tenant;
+    // Set Talk on the request.
+    req.talk = {
+      cache: {
+        // Attach the tenant cache to the request.
+        tenant: cache,
+      },
+      // Attach the tenant to the request.
+      tenant,
+    };
 
     // Attach the tenant to the view locals.
     res.locals.tenant = tenant;

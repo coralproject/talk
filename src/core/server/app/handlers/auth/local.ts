@@ -40,7 +40,7 @@ export const signupHandler = (options: SignupOptions): RequestHandler => async (
     // TODO: rate limit based on the IP address and user agent.
 
     // Tenant is guaranteed at this point.
-    const tenant = req.tenant!;
+    const tenant = req.talk!.tenant!;
 
     // Check to ensure that the local integration has been enabled.
     if (!tenant.auth.integrations.local.enabled) {
@@ -92,7 +92,7 @@ export const logoutHandler = (options: LogoutOptions): RequestHandler => async (
     // TODO: rate limit based on the IP address and user agent.
 
     // Tenant is guaranteed at this point.
-    const tenant = req.tenant!;
+    const tenant = req.talk!.tenant!;
 
     // Check to ensure that the local integration has been enabled.
     if (!tenant.auth.integrations.local.enabled) {

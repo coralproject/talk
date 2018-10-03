@@ -102,8 +102,8 @@ export async function handleSuccessfulLogin(
   next: NextFunction
 ) {
   try {
-    // Grab the tenant from the request.
-    const { tenant } = req;
+    // Talk is guaranteed at this point.
+    const { tenant } = req.talk!;
 
     const options: SigningTokenOptions = {};
 

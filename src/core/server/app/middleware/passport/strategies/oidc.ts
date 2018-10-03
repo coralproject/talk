@@ -265,7 +265,7 @@ export default class OIDCStrategy extends Strategy {
     }
 
     // Grab the tenant out of the request, as we need some more details.
-    const { tenant } = req;
+    const { tenant } = req.talk!;
     if (!tenant) {
       // TODO: return a better error.
       return done(new Error("tenant not found"));
@@ -336,7 +336,7 @@ export default class OIDCStrategy extends Strategy {
   }
 
   private async lookupStrategy(req: Request) {
-    const { tenant } = req;
+    const { tenant } = req.talk!;
     if (!tenant) {
       // TODO: return a better error.
       throw new Error("tenant not found");
