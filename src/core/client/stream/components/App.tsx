@@ -11,6 +11,7 @@ import {
 } from "talk-ui/components";
 
 import { PropTypesOf } from "talk-ui/types";
+import IfLoggedInContainer from "../containers/IfLoggedInContainer";
 import CommentsPaneContainer from "../tabs/comments/containers/CommentsPaneContainer";
 import ProfileQuery from "../tabs/profile/queries/ProfileQuery";
 import * as styles from "./App.css";
@@ -29,9 +30,11 @@ const CommentsTab: StatelessComponent<PropTypesOf<typeof Tab>> = props => (
 );
 
 const MyProfileTab: StatelessComponent<PropTypesOf<typeof Tab>> = props => (
-  <Localized id="general-app-myProfileTab">
-    <Tab {...props}>My Profile</Tab>
-  </Localized>
+  <IfLoggedInContainer>
+    <Localized id="general-app-myProfileTab">
+      <Tab {...props}>My Profile</Tab>
+    </Localized>
+  </IfLoggedInContainer>
 );
 
 const App: StatelessComponent<AppProps> = props => {
