@@ -70,16 +70,13 @@ function wrapResponse(req: Request, res: Response) {
 
       // For each of the responses, zip up their id's into the objects, and
       // string concat them together to ensure we get the right request.
-      const gqlResponse = responses.reduce((body: string, payload, idx) => {
+      const gqlResponse = responses.reduce((body: object[], payload, idx) => {
         const id = ids[idx];
-        body += JSON.stringify({ id, payload });
-        if (responses.length - 1 > idx) {
-          body += ",";
-        }
+        body.push({ id, payload });
         return body;
-      }, "");
+      }, []);
 
-      const response = `[${gqlResponse}]`;
+      const response = JSON.stringify(gqlResponse);
 
       return flush(response, {
         "Content-Type": "application/json",
