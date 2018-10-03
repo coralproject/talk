@@ -9,7 +9,7 @@ export const nocacheMiddleware: RequestHandler = (req, res, next) => {
   next();
 };
 
-export const cacheHeadersMiddleware = (duration: string): RequestHandler => {
+export const cacheHeadersMiddleware = (duration?: string): RequestHandler => {
   const maxAge = duration ? Math.floor(ms(duration) / 1000) : false;
   if (!maxAge) {
     return nocacheMiddleware;
