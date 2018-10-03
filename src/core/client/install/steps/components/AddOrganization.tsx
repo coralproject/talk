@@ -5,6 +5,7 @@ import {
   composeValidators,
   required,
   validateEmail,
+  validateURL,
 } from "talk-framework/lib/validation";
 import {
   Button,
@@ -124,7 +125,7 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
 
             <Field
               name="organizationURL"
-              validate={composeValidators(required)}
+              validate={composeValidators(required, validateURL)}
             >
               {({ input, meta }) => (
                 <FormField>

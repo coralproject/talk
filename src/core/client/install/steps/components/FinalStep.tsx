@@ -4,12 +4,6 @@ import { Button, Flex, Typography } from "talk-ui/components";
 import { WizardChildProps } from "../../components/Wizard";
 
 class FinalStep extends Component<WizardChildProps> {
-  // tslint:disable-next-line:no-empty
-  private handleLaunchTalk = () => {};
-
-  // tslint:disable-next-line:no-empty
-  private handleClose = () => {};
-
   public render() {
     return (
       <Flex direction="column" justifyContent="center" itemGutter="double">
@@ -18,15 +12,17 @@ class FinalStep extends Component<WizardChildProps> {
           address. While you finish setting up the account, you can start
           engaging with your readers now.
         </Typography>
-        <Flex direction="row" itemGutter>
-          <Button onClick={this.handleClose} color="regular" variant="filled">
-            Close this Installer
-          </Button>
+        <Flex direction="row" itemGutter justifyContent="center">
           <Button
-            onClick={this.handleLaunchTalk}
-            color="primary"
+            anchor
+            color="regular"
             variant="filled"
+            href="https://docs.coralproject.net"
+            target="_blank"
           >
+            Go to the Docs
+          </Button>
+          <Button anchor color="primary" variant="filled" href="/admin">
             Go to Admin
           </Button>
         </Flex>
