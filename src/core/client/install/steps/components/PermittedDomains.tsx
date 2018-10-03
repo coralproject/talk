@@ -1,9 +1,11 @@
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
 import { OnSubmit } from "talk-framework/lib/form";
+
 import {
   Button,
   CallOut,
+  Flex,
   FormField,
   HorizontalGutter,
   InputDescription,
@@ -85,16 +87,30 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
               )}
             </Field>
 
-            <Button
-              variant="filled"
-              color="primary"
-              size="large"
-              type="submit"
-              disabled={submitting}
-              fullWidth
-            >
-              Finish install
-            </Button>
+            <Flex direction="row" itemGutter>
+              <Button
+                onClick={props.handleGoToPreviousStep}
+                variant="filled"
+                color="regular"
+                size="large"
+                type="submit"
+                disabled={submitting}
+                fullWidth
+              >
+                Back
+              </Button>
+
+              <Button
+                variant="filled"
+                color="primary"
+                size="large"
+                type="submit"
+                disabled={submitting}
+                fullWidth
+              >
+                Finish Install
+              </Button>
+            </Flex>
           </HorizontalGutter>
         </form>
       )}
