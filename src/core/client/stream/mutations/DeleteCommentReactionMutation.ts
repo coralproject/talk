@@ -23,6 +23,10 @@ const mutation = graphql`
 const clientMutationId = 0;
 
 function commit(environment: Environment, input: CreateCommentReactionInput) {
+  const source = environment.getStore().getSource();
+  const currentCount = source.get(
+    source.get(source.get(input.commentID)!.actionCounts.__ref)!.reaction.__ref
+  )!.total;
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
     mutation,
     variables: {
@@ -35,6 +39,10 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
       deleteCommentReaction: {
         comment: {
           id: input.commentID,
+          myActionPresence: {
+            reaction: false,
+          },
+          actionCounts: currentCount - 1,
         },
         clientMutationId: clientMutationId.toString(),
       },
