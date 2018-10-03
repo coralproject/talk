@@ -9,6 +9,7 @@ import {
 } from "talk-framework/lib/validation";
 import {
   Button,
+  ButtonIcon,
   CallOut,
   Flex,
   FormField,
@@ -173,7 +174,10 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                 disabled={submitting}
                 fullWidth
               >
-                Save
+                Next
+                <ButtonIcon className={styles.buttonIcon}>
+                  arrow_forward
+                </ButtonIcon>
               </Button>
             </Flex>
           </HorizontalGutter>

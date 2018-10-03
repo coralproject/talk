@@ -3,13 +3,18 @@
 }
 
 .headline {
+  font-size: 1.2rem;
 }
 
 .headlineMain {
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
 .subHeadline {
+  font-size: 1.5rem;
 }
 
 .subHeadlineMain {
+  font-size: 2rem;
 }

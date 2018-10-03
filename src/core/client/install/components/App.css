@@ -8,7 +8,7 @@
     /* Support for Firefox. */
     -moz-osx-font-smoothing: grayscale;
     background-color: #f2f2f2;
-    color: #3b4a53;
+    color: var(--palette-text-primary);
   }
 }
 

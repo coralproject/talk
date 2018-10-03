@@ -32,14 +32,9 @@ class WizardContainer extends Component<{}, AppContainerState> {
   };
 
   private saveData = (newData: FormData) =>
-    this.setState(
-      ({ data }) => ({
-        data: { ...data, ...newData },
-      }),
-      () => {
-        console.log(this.state.data);
-      }
-    );
+    this.setState(({ data }) => ({
+      data: { ...data, ...newData },
+    }));
 
   public render() {
     return <App saveData={this.saveData} data={this.state.data} />;
