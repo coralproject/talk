@@ -58,7 +58,7 @@ function wrapResponse(req: Request, res: Response) {
 
       // Parse the responses, if it's not an array, then skip it.
       const responses: object[] | any = JSON.parse(chunk);
-      if (!Array.isArray(responses)) {
+      if (!Array.isArray(responses) || responses.length === 0) {
         return flush(chunk);
       }
 
@@ -72,9 +72,7 @@ function wrapResponse(req: Request, res: Response) {
       // string concat them together to ensure we get the right request.
       const gqlResponse = responses.reduce((body: string, payload, idx) => {
         const id = ids[idx];
-        body += `{"id": ${JSON.stringify(id)},"payload":${JSON.stringify(
-          payload
-        )}}`;
+        body += JSON.stringify({ id, payload });
         if (responses.length - 1 > idx) {
           body += ",";
         }
