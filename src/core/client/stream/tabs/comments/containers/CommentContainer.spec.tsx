@@ -125,6 +125,13 @@ it("shows conversation link", () => {
     asset: {
       url: "http://localhost/asset",
     },
+    settings: {
+      reaction: {
+        icon: "thumb_up",
+        label: "Respect",
+        labelActive: "Respected",
+      },
+    },
     comment: {
       id: "comment-id",
       author: {
