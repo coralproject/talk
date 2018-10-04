@@ -123,8 +123,8 @@ da:
     enable_questionbox: 'Stil et spørgsmål til læserne'
     enable_questionbox_description: 'Dette spørgsmål vises øverst i denne kommentarstrøm. Stil et spørgsmål til læserne om et bestemt problem i artiklen eller stil spørgsmål til diskussion mv.'
     hours: Timer
-    include_comment_stream: 'Inkluder kommentarstrømmens beskrivelse for læsere'
-    include_comment_stream_desc: 'Skriv en besked, der skal tilføjes øverst i din kommentarstrøm. Indsæt et emne der omfatter fællesskabsretningslinjer mv.'
+    code_of_conduct_summary: 'Inkluder kommentarstrømmens beskrivelse for læsere'
+    code_of_conduct_summary_desc: 'Skriv en besked, der skal tilføjes øverst i din kommentarstrøm. Indsæt et emne der omfatter fællesskabsretningslinjer mv.'
     include_question_here: 'Stil dit spørgsmål her:'
     include_text: 'Medtag din tekst her.'
     moderate: Moderat
