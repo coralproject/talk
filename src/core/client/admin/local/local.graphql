@@ -1,4 +1,6 @@
-type Local {}
+type Local {
+  authToken: String
+}
 
 extend type Query {
   local: Local!
