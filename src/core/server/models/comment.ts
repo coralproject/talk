@@ -423,6 +423,30 @@ export async function retrieveCommentAssetConnection(
 }
 
 /**
+ * retrieveCommentUserConnection returns a Connection<Comment> for a given User's
+ * comments.
+ *
+ * @param db database connection
+ * @param userID the User id for the comment to retrieve
+ * @param input connection configuration
+ */
+export async function retrieveCommentUserConnection(
+  db: Db,
+  tenantID: string,
+  userID: string,
+  input: ConnectionInput
+) {
+  // Create the query.
+  const query = new Query(collection(db)).where({
+    tenant_id: tenantID,
+    author_id: userID,
+  });
+
+  // Return a connection for the comments query.
+  return retrieveConnection(input, query);
+}
+
+/**
  * retrieveConnection returns a Connection<Comment> for the given input and
  * Query.
  *

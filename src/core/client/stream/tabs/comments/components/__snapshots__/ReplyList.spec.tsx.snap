@@ -8,7 +8,7 @@ exports[`renders correctly 1`] = `
   <withPropsOnChange(HorizontalGutter)
     key="comment-1"
   >
-    <withContext(createMutationContainer(Relay(CommentContainer)))
+    <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
       asset={
         Object {
           "id": "asset-id",
@@ -24,12 +24,13 @@ exports[`renders correctly 1`] = `
       key="comment-1"
       localReply={false}
       me={null}
+      showConversationLink={false}
     />
   </withPropsOnChange(HorizontalGutter)>
   <withPropsOnChange(HorizontalGutter)
     key="comment-2"
   >
-    <withContext(createMutationContainer(Relay(CommentContainer)))
+    <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
       asset={
         Object {
           "id": "asset-id",
@@ -38,6 +39,7 @@ exports[`renders correctly 1`] = `
       comment={
         Object {
           "id": "comment-2",
+          "showConversationLink": true,
         }
       }
       disableReplies={false}
@@ -45,6 +47,7 @@ exports[`renders correctly 1`] = `
       key="comment-2"
       localReply={false}
       me={null}
+      showConversationLink={true}
     />
   </withPropsOnChange(HorizontalGutter)>
 </withPropsOnChange(HorizontalGutter)>
@@ -58,7 +61,7 @@ exports[`when there is more disables load more button 1`] = `
   <withPropsOnChange(HorizontalGutter)
     key="comment-1"
   >
-    <withContext(createMutationContainer(Relay(CommentContainer)))
+    <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
       asset={
         Object {
           "id": "asset-id",
@@ -72,12 +75,13 @@ exports[`when there is more disables load more button 1`] = `
       indentLevel={1}
       key="comment-1"
       me={null}
+      showConversationLink={false}
     />
   </withPropsOnChange(HorizontalGutter)>
   <withPropsOnChange(HorizontalGutter)
     key="comment-2"
   >
-    <withContext(createMutationContainer(Relay(CommentContainer)))
+    <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
       asset={
         Object {
           "id": "asset-id",
@@ -91,6 +95,7 @@ exports[`when there is more disables load more button 1`] = `
       indentLevel={1}
       key="comment-2"
       me={null}
+      showConversationLink={false}
     />
   </withPropsOnChange(HorizontalGutter)>
   <Indent
@@ -123,7 +128,7 @@ exports[`when there is more renders a load more button 1`] = `
   <withPropsOnChange(HorizontalGutter)
     key="comment-1"
   >
-    <withContext(createMutationContainer(Relay(CommentContainer)))
+    <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
       asset={
         Object {
           "id": "asset-id",
@@ -137,12 +142,13 @@ exports[`when there is more renders a load more button 1`] = `
       indentLevel={1}
       key="comment-1"
       me={null}
+      showConversationLink={false}
     />
   </withPropsOnChange(HorizontalGutter)>
   <withPropsOnChange(HorizontalGutter)
     key="comment-2"
   >
-    <withContext(createMutationContainer(Relay(CommentContainer)))
+    <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
       asset={
         Object {
           "id": "asset-id",
@@ -156,6 +162,7 @@ exports[`when there is more renders a load more button 1`] = `
       indentLevel={1}
       key="comment-2"
       me={null}
+      showConversationLink={false}
     />
   </withPropsOnChange(HorizontalGutter)>
   <Indent

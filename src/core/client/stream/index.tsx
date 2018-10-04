@@ -4,8 +4,8 @@ import { StatelessComponent } from "react";
 import ReactDOM from "react-dom";
 
 import { createManaged } from "talk-framework/lib/bootstrap";
+import AppContainer from "talk-stream/containers/AppContainer";
 
-import AppContainer from "./containers/AppContainer";
 import {
   OnPostMessageAuthError,
   OnPostMessageSetAuthToken,
