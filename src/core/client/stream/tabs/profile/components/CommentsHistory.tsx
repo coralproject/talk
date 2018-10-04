@@ -5,17 +5,18 @@ import { HorizontalGutter, Typography } from "talk-ui/components";
 import HistoryComment from "./HistoryComment";
 
 interface Comment {
-  readonly id: string;
-  readonly body: string | null;
-  readonly createdAt: any;
-  readonly replyCount: number | null;
-  readonly asset: {
-    readonly title: string | null;
+  id: string;
+  body: string | null;
+  createdAt: any;
+  replyCount: number | null;
+  asset: {
+    title: string | null;
   };
+  conversationURL: string;
+  onGotoConversation: (e: React.MouseEvent) => void;
 }
 
 interface CommentsHistoryProps {
-  onGoToConversation: (id: string) => void;
   comments: Comment[];
 }
 
@@ -26,11 +27,7 @@ const CommentsHistory: StatelessComponent<CommentsHistoryProps> = props => {
         <Typography variant="heading3">Comment History</Typography>
       </Localized>
       {props.comments.map(comment => (
-        <HistoryComment
-          key={comment.id}
-          comment={comment}
-          onGoToConversation={() => props.onGoToConversation(comment.id)}
-        />
+        <HistoryComment key={comment.id} {...comment} />
       ))}
     </HorizontalGutter>
   );

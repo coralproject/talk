@@ -1,10 +1,21 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { ReadyState } from "react-relay";
-import { graphql, QueryRenderer } from "talk-framework/lib/relay";
+
+import {
+  graphql,
+  QueryRenderer,
+  withLocalStateContainer,
+} from "talk-framework/lib/relay";
 import { ProfileQuery as QueryTypes } from "talk-stream/__generated__/ProfileQuery.graphql";
+import { ProfileQueryLocal as Local } from "talk-stream/__generated__/ProfileQueryLocal.graphql";
 import { Spinner } from "talk-ui/components";
+
 import ProfileContainer from "../containers/ProfileContainer";
+
+interface InnerProps {
+  local: Local;
+}
 
 export const render = ({
   error,
@@ -17,31 +28,53 @@ export const render = ({
   if (props) {
     if (!props.me) {
       return (
-        <div>
-          <Localized id="general-profileQuery-errorLoading">
-            <span>Error loading profile</span>
-          </Localized>
-        </div>
+        <Localized id="profile-profileQuery-errorLoadingProfile">
+          <div>Error loading profile</div>
+        </Localized>
       );
     }
-    return <ProfileContainer me={props.me} />;
+    if (!props.asset) {
+      return (
+        <Localized id="comments-profileQuery-assetNotFound">
+          <div>Asset not found</div>
+        </Localized>
+      );
+    }
+    return <ProfileContainer me={props.me} asset={props.asset} />;
   }
 
   return <Spinner />;
 };
 
-const ProfileQuery: StatelessComponent = () => (
+const ProfileQuery: StatelessComponent<InnerProps> = ({
+  local: { assetID, assetURL },
+}) => (
   <QueryRenderer<QueryTypes>
     query={graphql`
-      query ProfileQuery {
+      query ProfileQuery($assetID: ID, $assetURL: String) {
+        asset(id: $assetID, url: $assetURL) {
+          ...ProfileContainer_asset
+        }
         me {
           ...ProfileContainer_me
         }
       }
     `}
-    variables={{}}
+    variables={{
+      assetID,
+      assetURL,
+    }}
     render={render}
   />
 );
 
-export default ProfileQuery;
+const enhanced = withLocalStateContainer(
+  graphql`
+    fragment ProfileQueryLocal on Local {
+      assetID
+      assetURL
+    }
+  `
+)(ProfileQuery);
+
+export default enhanced;

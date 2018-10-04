@@ -12,11 +12,8 @@ general-userBoxAuthenticated-signedInAs =
 general-userBoxAuthenticated-notYou =
   Not you? <button>Sign Out</button>
 
-## General App Tabs
-general-app-commentTab = Comments
+general-app-commentsTab = Comments
 general-app-myProfileTab = My Profile
-
-general-profileQuery-errorLoading = Error loading profile
 
 ## Comments Tab
 
@@ -74,9 +71,12 @@ comments-editCommentForm-rte =
 comments-editCommentForm-editRemainingTime = Edit: <time></time> remaining
 comments-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
 comments-editedMarker-edited = Edited
+comments-showConversationLink-readMore = Read More of this Conversation >
 
 ## Profile Tab
 profile-historyComment-viewConversation = View Conversation
 profile-historyComment-replies = Replies {$replyCount}
 profile-historyComment-commentHistory = Comment History
 profile-historyComment-story = Story: {$title}
+profile-historyComment-errorLoadingProfile = Error loading profile
+profile-historyComment-assetNotFound = Asset not found

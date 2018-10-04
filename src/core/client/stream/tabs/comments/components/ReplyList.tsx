@@ -15,7 +15,9 @@ export interface ReplyListProps {
     id: string;
   };
   comments: ReadonlyArray<
-    { id: string } & PropTypesOf<typeof CommentContainer>["comment"]
+    { id: string; showConversationLink?: boolean } & PropTypesOf<
+      typeof CommentContainer
+    >["comment"]
   >;
   onShowAll?: () => void;
   hasMore?: boolean;
@@ -52,6 +54,7 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
             indentLevel={props.indentLevel}
             localReply={props.localReply}
             disableReplies={props.disableReplies}
+            showConversationLink={!!comment.showConversationLink}
           />
           {getReplyListElement(props, comment)}
         </HorizontalGutter>

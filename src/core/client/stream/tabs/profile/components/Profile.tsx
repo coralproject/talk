@@ -6,17 +6,18 @@ import { HorizontalGutter } from "talk-ui/components";
 import CommentsHistoryContainer from "../containers/CommentsHistoryContainer";
 
 export interface ProfileProps {
-  me:
-    | PropTypesOf<typeof UserBoxContainer>["me"] &
-        PropTypesOf<typeof CommentsHistoryContainer>["me"]
-    | null;
+  asset: PropTypesOf<typeof CommentsHistoryContainer>["asset"];
+  me: PropTypesOf<typeof UserBoxContainer>["me"] &
+    PropTypesOf<typeof CommentsHistoryContainer>["me"];
 }
 
 const Profile: StatelessComponent<ProfileProps> = props => {
   return (
     <HorizontalGutter size="double">
       <UserBoxContainer me={props.me} />
-      {props.me && <CommentsHistoryContainer me={props.me} />}
+      {props.me && (
+        <CommentsHistoryContainer me={props.me} asset={props.asset} />
+      )}
     </HorizontalGutter>
   );
 };
