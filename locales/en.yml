@@ -496,6 +496,7 @@ en:
     oldest: Oldest
     open: Open
     pubdate: 'Publication Date'
+    refetch_assets: 'Refetch assets'
     search: Search
     search_results: 'Search Results'
     sort_by: 'Sort By'

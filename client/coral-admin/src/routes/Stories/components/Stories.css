@@ -23,6 +23,7 @@
 }
 
 .searchBox {
+  box-sizing: border-box;
   width: 100%;
   padding: 9px;
   border: 1px solid #ccc;
@@ -41,15 +42,19 @@
   outline: none;
 }
 
+.refetchButton {
+  margin-top: 30px;
+}
+
 .optionHeader {
   font-size: 16px;
   font-weight: 900;
-  margin-top: 15px;
+  margin-top: 30px;
 }
 
 .optionDetail {
   font-size: 16px;
-  margin-top: 3px;
+  margin-top: 15px;
 }
 
 .streamsTable {
@@ -82,12 +87,8 @@
   display: none;
 }
 
-.radioGroup {
-  margin-top: 5px;
-  span {
-    margin-bottom: 7px;
-    display: inline-block;
-  }
+.radioGroup div {
+  margin-top: 10px;
 }
 
 .statusDropdown {

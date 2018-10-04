@@ -19,13 +19,9 @@ class StoriesContainer extends Component {
   }
 
   onSearchChange = e => {
-    const { value } = e.target;
-
-    this.props.setSearchValue(value);
+    this.props.setSearchValue(e.target.value);
     clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.fetchAssets();
-    }, 350);
+    this.timer = setTimeout(this.fetchAssets, 350);
   };
 
   onSettingChange = setting => e => {
@@ -75,6 +71,7 @@ class StoriesContainer extends Component {
         onStatusChange={this.onStatusChange}
         onSettingChange={this.onSettingChange}
         onSearchChange={this.onSearchChange}
+        onRefetchAssets={this.fetchAssets}
       />
     );
   }

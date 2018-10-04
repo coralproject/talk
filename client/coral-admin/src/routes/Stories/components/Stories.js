@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import { Dropdown, Option, Paginate, Icon } from 'coral-ui';
+import { Dropdown, Option, Paginate, Button, Icon } from 'coral-ui';
 import { DataTable, TableHeader, RadioGroup, Radio } from 'react-mdl';
 import t from 'coral-framework/services/i18n';
 import styles from './Stories.css';
@@ -40,6 +40,7 @@ class Stories extends Component {
       onSearchChange,
       onSettingChange,
       onPageChange,
+      onRefetchAssets,
       asc,
     } = this.props;
     const rows = assets.ids.map(id => assets.byId[id]);
@@ -57,6 +58,15 @@ class Stories extends Component {
               placeholder={t('streams.search')}
             />
           </div>
+          <Button
+            onClick={onRefetchAssets}
+            className={styles.refetchButton}
+            cStyle="cancel"
+            icon="refresh"
+            full
+          >
+            {t('streams.refetch_assets')}
+          </Button>
           <div className={styles.optionHeader}>
             {t('streams.filter_streams')}
           </div>
@@ -129,6 +139,7 @@ Stories.propTypes = {
   onSearchChange: PropTypes.func.isRequired,
   onPageChange: PropTypes.func.isRequired,
   onSettingChange: PropTypes.func.isRequired,
+  onRefetchAssets: PropTypes.func.isRequired,
 };
 
 export default Stories;
