@@ -1,14 +1,9 @@
 import { shallow } from "enzyme";
 import React from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-
-import App from "./App";
+import AppContainer from "../containers/AppContainer";
 
 it("renders comments", () => {
-  const props: PropTypesOf<typeof App> = {
-    activeTab: "COMMENTS",
-  };
-  const wrapper = shallow(<App {...props} />);
+  const wrapper = shallow(<AppContainer />);
   expect(wrapper).toMatchSnapshot();
 });

@@ -8,6 +8,7 @@ import CommentCounts from "./comment_counts";
 import Mutation from "./mutation";
 import Profile from "./profile";
 import Query from "./query";
+import User from "./user";
 
 const Resolvers: GQLResolver = {
   Asset,
@@ -18,6 +19,7 @@ const Resolvers: GQLResolver = {
   Mutation,
   Profile,
   Query,
+  User,
 };
 
 export default Resolvers;

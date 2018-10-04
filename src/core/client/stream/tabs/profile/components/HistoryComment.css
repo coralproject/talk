@@ -1,0 +1,18 @@
+.icon {
+  color: var(--palette-text-secondary);
+}
+
+.button,
+.replies,
+.story {
+  composes: button from "talk-ui/shared/typography.css";
+}
+
+.sideBar {
+  min-width: 180px;
+  padding-left: var(--spacing-unit);
+}
+
+.body {
+  word-break: break-all;
+}

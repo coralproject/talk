@@ -62,6 +62,7 @@ it("show all comments", async () => {
   const mockEvent = {
     preventDefault: sinon.mock().once(),
   };
+
   testRenderer.root
     .findByProps({
       id: "talk-comments-permalinkView-showAllComments",
