@@ -27,7 +27,7 @@ exports[`renders permalink view 1`] = `
         role="tab"
         type="button"
       >
-        Comments
+        ⁨commentCount⁩ Comments
       </button>
     </li>
   </ul>
@@ -158,7 +158,7 @@ exports[`show all comments 1`] = `
         role="tab"
         type="button"
       >
-        Comments
+        ⁨commentCount⁩ Comments
       </button>
     </li>
   </ul>
