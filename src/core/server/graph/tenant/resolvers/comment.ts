@@ -84,6 +84,8 @@ const Comment: GQLCommentTypeResolver<Comment> = {
     comment.parent_id
       ? ctx.loaders.Comments.parents(comment, input)
       : createConnection(),
+  asset: (comment, input, ctx) =>
+    ctx.loaders.Assets.asset.load(comment.asset_id),
 };
 
 export default Comment;

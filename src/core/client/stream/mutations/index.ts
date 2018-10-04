@@ -27,6 +27,7 @@ export {
   SetAuthPopupStateMutation,
 } from "./SetAuthPopupStateMutation";
 export {
+  SetActiveTabInput,
   withSetActiveTabMutation,
   SetActiveTabMutation,
 } from "./SetActiveTabMutation";

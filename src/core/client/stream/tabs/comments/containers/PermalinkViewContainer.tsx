@@ -1,10 +1,10 @@
 import { Child as PymChild } from "pym.js";
-import qs from "query-string";
 import React, { MouseEvent } from "react";
 import { graphql } from "react-relay";
+
+import { getURLWithCommentID } from "talk-framework/helpers";
 import { withContext } from "talk-framework/lib/bootstrap";
 import { withFragmentContainer } from "talk-framework/lib/relay";
-import { buildURL, parseURL } from "talk-framework/utils";
 import { PermalinkViewContainer_asset as AssetData } from "talk-stream/__generated__/PermalinkViewContainer_asset.graphql";
 import { PermalinkViewContainer_comment as CommentData } from "talk-stream/__generated__/PermalinkViewContainer_comment.graphql";
 import { PermalinkViewContainer_me as MeData } from "talk-stream/__generated__/PermalinkViewContainer_me.graphql";
@@ -34,13 +34,8 @@ class PermalinkViewContainer extends React.Component<
   };
   private getShowAllCommentsHref() {
     const { pym } = this.props;
-    const urlParts = parseURL((pym && pym.parentUrl) || window.location.href);
-    const search = qs.stringify({
-      ...qs.parse(urlParts.search),
-      commentID: undefined,
-    });
-    // Remove the commentId url param.
-    return buildURL({ ...urlParts, search });
+    const url = (pym && pym.parentUrl) || window.location.href;
+    return getURLWithCommentID(url, undefined);
   }
 
   public componentDidMount() {

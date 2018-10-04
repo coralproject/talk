@@ -1,8 +1,9 @@
 import { Localized } from "fluent-react/compat";
-import React, { Component } from "react";
+import React, { Component, MouseEvent } from "react";
 import { graphql } from "react-relay";
 
 import { isBeforeDate } from "talk-common/utils";
+import { getURLWithCommentID } from "talk-framework/helpers";
 import withFragmentContainer from "talk-framework/lib/relay/withFragmentContainer";
 import { PropTypesOf } from "talk-framework/types";
 import { CommentContainer_asset as AssetData } from "talk-stream/__generated__/CommentContainer_asset.graphql";
@@ -10,13 +11,18 @@ import { CommentContainer_comment as CommentData } from "talk-stream/__generated
 import { CommentContainer_me as MeData } from "talk-stream/__generated__/CommentContainer_me.graphql";
 import { CommentContainer_settings as SettingsData } from "talk-stream/__generated__/CommentContainer_settings.graphql";
 import {
+  SetCommentIDMutation,
   ShowAuthPopupMutation,
+  withSetCommentIDMutation,
   withShowAuthPopupMutation,
 } from "talk-stream/mutations";
 
 import ReactionButtonContainer from "talk-stream/tabs/comments/containers/ReactionButtonContainer";
 import { Button } from "talk-ui/components";
-import Comment from "../components/Comment";
+import Comment, {
+  ButtonsBar,
+  ShowConversationLink,
+} from "../components/Comment";
 import ReplyButton from "../components/Comment/ReplyButton";
 import EditCommentFormContainer from "./EditCommentFormContainer";
 import PermalinkButtonContainer from "./PermalinkButtonContainer";
@@ -29,6 +35,7 @@ interface InnerProps {
   settings: SettingsData;
   indentLevel?: number;
   showAuthPopup: ShowAuthPopupMutation;
+  setCommentID: SetCommentIDMutation;
   /**
    * localReply will integrate the mutation response into
    * localReplies
@@ -36,6 +43,8 @@ interface InnerProps {
   localReply?: boolean;
   /** disableReplies will remove the ReplyButton */
   disableReplies?: boolean;
+  /** showConversationLink will render a link to the conversation */
+  showConversationLink?: boolean;
 }
 
 interface State {
@@ -116,6 +125,12 @@ export class CommentContainer extends Component<InnerProps, State> {
     return;
   }
 
+  private handleShowConversation = (e: MouseEvent) => {
+    e.preventDefault();
+    this.props.setCommentID({ id: this.props.comment.id });
+    return false;
+  };
+
   public render() {
     const {
       comment,
@@ -124,6 +139,7 @@ export class CommentContainer extends Component<InnerProps, State> {
       indentLevel,
       localReply,
       disableReplies,
+      showConversationLink,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     if (showEditDialog) {
@@ -161,18 +177,32 @@ export class CommentContainer extends Component<InnerProps, State> {
           }
           footer={
             <>
-              {!disableReplies && (
-                <ReplyButton
-                  id={`comments-commentContainer-replyButton-${comment.id}`}
-                  onClick={this.openReplyDialog}
-                  active={showReplyDialog}
-                />
-              )}
-              <PermalinkButtonContainer commentID={comment.id} />
-              {this.props.me && (
-                <ReactionButtonContainer
-                  comment={comment}
-                  settings={settings}
+              <ButtonsBar>
+                {!disableReplies && (
+                  <ReplyButton
+                    id={`comments-commentContainer-replyButton-${comment.id}`}
+                    onClick={this.openReplyDialog}
+                    active={showReplyDialog}
+                  />
+                )}
+                <PermalinkButtonContainer commentID={comment.id} />
+                {this.props.me && (
+                  <ReactionButtonContainer
+                    comment={comment}
+                    settings={settings}
+                  />
+                )}
+              </ButtonsBar>
+              {showConversationLink && (
+                <ShowConversationLink
+                  id={`comments-commentContainer-showConversation-${
+                    comment.id
+                  }`}
+                  onClick={this.handleShowConversation}
+                  href={getURLWithCommentID(
+                    this.props.asset.url,
+                    this.props.comment.id
+                  )}
                 />
               )}
             </>
@@ -191,43 +221,46 @@ export class CommentContainer extends Component<InnerProps, State> {
   }
 }
 
-const enhanced = withShowAuthPopupMutation(
-  withFragmentContainer<InnerProps>({
-    me: graphql`
-      fragment CommentContainer_me on User {
-        id
-      }
-    `,
-    asset: graphql`
-      fragment CommentContainer_asset on Asset {
-        ...ReplyCommentFormContainer_asset
-      }
-    `,
-    comment: graphql`
-      fragment CommentContainer_comment on Comment {
-        id
-        author {
+const enhanced = withSetCommentIDMutation(
+  withShowAuthPopupMutation(
+    withFragmentContainer<InnerProps>({
+      me: graphql`
+        fragment CommentContainer_me on User {
           id
-          username
         }
-        body
-        createdAt
-        editing {
-          edited
-          editableUntil
+      `,
+      asset: graphql`
+        fragment CommentContainer_asset on Asset {
+          url
+          ...ReplyCommentFormContainer_asset
         }
-        pending
-        ...ReplyCommentFormContainer_comment
-        ...EditCommentFormContainer_comment
-        ...ReactionButtonContainer_comment
-      }
-    `,
-    settings: graphql`
-      fragment CommentContainer_settings on Settings {
-        ...ReactionButtonContainer_settings
-      }
-    `,
-  })(CommentContainer)
+      `,
+      comment: graphql`
+        fragment CommentContainer_comment on Comment {
+          id
+          author {
+            id
+            username
+          }
+          body
+          createdAt
+          editing {
+            edited
+            editableUntil
+          }
+          pending
+          ...ReplyCommentFormContainer_comment
+          ...EditCommentFormContainer_comment
+          ...ReactionButtonContainer_comment
+        }
+      `,
+      settings: graphql`
+        fragment CommentContainer_settings on Settings {
+          ...ReactionButtonContainer_settings
+        }
+      `,
+    })(CommentContainer)
+  )
 );
 
 export type CommentContainerProps = PropTypesOf<typeof enhanced>;

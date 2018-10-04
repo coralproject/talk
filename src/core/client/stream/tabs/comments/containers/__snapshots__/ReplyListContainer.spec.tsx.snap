@@ -51,6 +51,7 @@ exports[`renders correctly 1`] = `
             }
           }
         />,
+        "showConversationLink": false,
       },
       Object {
         "id": "comment-2",
@@ -75,6 +76,7 @@ exports[`renders correctly 1`] = `
             }
           }
         />,
+        "showConversationLink": false,
       },
     ]
   }
@@ -127,10 +129,12 @@ exports[`when has more replies renders hasMore 1`] = `
       Object {
         "id": "comment-1",
         "replyListElement": undefined,
+        "showConversationLink": false,
       },
       Object {
         "id": "comment-2",
         "replyListElement": undefined,
+        "showConversationLink": false,
       },
     ]
   }
@@ -182,10 +186,12 @@ exports[`when has more replies when showing all disables show all button 1`] = `
       Object {
         "id": "comment-1",
         "replyListElement": undefined,
+        "showConversationLink": false,
       },
       Object {
         "id": "comment-2",
         "replyListElement": undefined,
+        "showConversationLink": false,
       },
     ]
   }
@@ -237,10 +243,12 @@ exports[`when has more replies when showing all enable show all button after loa
       Object {
         "id": "comment-1",
         "replyListElement": undefined,
+        "showConversationLink": false,
       },
       Object {
         "id": "comment-2",
         "replyListElement": undefined,
+        "showConversationLink": false,
       },
     ]
   }

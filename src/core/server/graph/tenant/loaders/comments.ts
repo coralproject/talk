@@ -17,6 +17,7 @@ import {
   retrieveCommentAssetConnection,
   retrieveCommentParentsConnection,
   retrieveCommentRepliesConnection,
+  retrieveCommentUserConnection,
   retrieveManyComments,
 } from "talk-server/models/comment";
 import { Connection } from "talk-server/models/connection";
@@ -53,6 +54,20 @@ export default (ctx: Context) => ({
         itemIDs
       )
   ),
+  forUser: (
+    userID: string,
+    // Apply the graph schema defaults at the loader.
+    {
+      first = 10,
+      orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
+      after,
+    }: AssetToCommentsArgs
+  ) =>
+    retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
+      first,
+      orderBy,
+      after,
+    }),
   forAsset: (
     assetID: string,
     // Apply the graph schema defaults at the loader.

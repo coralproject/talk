@@ -26,6 +26,7 @@ export const baseComment = {
   body: "Comment Body",
   createdAt: "2018-07-06T18:24:00.000Z",
   replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+  replyCount: 0,
   editing: {
     edited: false,
     editableUntil: "2018-07-06T18:24:30.000Z",
@@ -90,6 +91,7 @@ export const commentWithReplies = {
       hasNextPage: false,
     },
   },
+  replyCount: 2,
 };
 
 export const commentWithDeepReplies = {
@@ -106,12 +108,14 @@ export const commentWithDeepReplies = {
       hasNextPage: false,
     },
   },
+  replyCount: 2,
 };
 
 export const commentWithDeepestReplies = {
   ...baseComment,
   id: "comment-with-deepest-replies",
   body: "body 0",
+  replyCount: 1,
   replies: {
     ...baseComment.replies,
     edges: [
@@ -121,6 +125,7 @@ export const commentWithDeepestReplies = {
           ...baseComment,
           id: "comment-with-deepest-replies-1",
           body: "body 1",
+          replyCount: 1,
           replies: {
             ...baseComment.replies,
             edges: [
@@ -130,6 +135,7 @@ export const commentWithDeepestReplies = {
                   ...baseComment,
                   id: "comment-with-deepest-replies-2",
                   body: "body 2",
+                  replyCount: 1,
                   replies: {
                     ...baseComment.replies,
                     edges: [
@@ -139,6 +145,7 @@ export const commentWithDeepestReplies = {
                           ...baseComment,
                           id: "comment-with-deepest-replies-3",
                           body: "body 3",
+                          replyCount: 1,
                           replies: {
                             ...baseComment.replies,
                             edges: [
@@ -148,6 +155,7 @@ export const commentWithDeepestReplies = {
                                   ...baseComment,
                                   id: "comment-with-deepest-replies-4",
                                   body: "body 4",
+                                  replyCount: 1,
                                   replies: {
                                     ...baseComment.replies,
                                     edges: [
@@ -157,6 +165,7 @@ export const commentWithDeepestReplies = {
                                           ...baseComment,
                                           id: "comment-with-deepest-replies-5",
                                           body: "body 5",
+                                          replyCount: 1,
                                           replies: {
                                             ...baseComment.replies,
                                             edges: [
@@ -167,6 +176,7 @@ export const commentWithDeepestReplies = {
                                                   id:
                                                     "comment-with-deepest-replies-6",
                                                   body: "body 6",
+                                                  replyCount: 1,
                                                   replies: {
                                                     ...baseComment.replies,
                                                     edges: [],

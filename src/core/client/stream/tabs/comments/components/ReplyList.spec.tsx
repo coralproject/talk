@@ -14,7 +14,10 @@ it("renders correctly", () => {
   const props: PropTypesOf<typeof ReplyListN> = {
     asset: { id: "asset-id" },
     comment: { id: "comment-id" },
-    comments: [{ id: "comment-1" }, { id: "comment-2" }],
+    comments: [
+      { id: "comment-1" },
+      { id: "comment-2", showConversationLink: true },
+    ],
     onShowAll: noop,
     hasMore: false,
     disableShowAll: false,
