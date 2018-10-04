@@ -31,6 +31,23 @@ const config: Config = {
         runOnInit: true,
       }),
     },
+    compileRelayAdmin: {
+      paths: [
+        "core/client/admin/**/*.ts",
+        "core/client/admin/**/*.tsx",
+        "core/client/admin/**/*.graphql",
+        "core/server/**/*.graphql",
+      ],
+      ignore: [
+        "core/**/*.d.ts",
+        "core/**/*.graphql.ts",
+        "**/test/**/*",
+        "core/**/*.spec.*",
+      ],
+      executor: new CommandExecutor("npm run compile:relay-admin", {
+        runOnInit: true,
+      }),
+    },
     compileRelayAuth: {
       paths: [
         "core/client/auth/**/*.ts",
@@ -95,6 +112,7 @@ const config: Config = {
       "compileRelayStream",
       "compileRelayAuth",
       "compileRelayInstall",
+      "compileRelayAdmin",
       "compileSchema",
     ],
     docz: ["runDocz", "compileCSSTypes"],

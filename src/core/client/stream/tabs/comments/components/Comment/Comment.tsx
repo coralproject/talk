@@ -2,7 +2,7 @@ import React, { StatelessComponent } from "react";
 
 import HTMLContent from "talk-stream/components/HTMLContent";
 import Timestamp from "talk-stream/components/Timestamp";
-import { Flex } from "talk-ui/components";
+import { Flex, HorizontalGutter } from "talk-ui/components";
 
 import * as styles from "./Comment.css";
 import EditedMarker from "./EditedMarker";
@@ -43,10 +43,10 @@ const Comment: StatelessComponent<CommentProps> = props => {
         </TopBarLeft>
         {props.topBarRight && <div>{props.topBarRight}</div>}
       </Flex>
-      <HTMLContent>{props.body || ""}</HTMLContent>
-      <Flex className={styles.footer} direction="row" itemGutter="half">
+      <HorizontalGutter>
+        <HTMLContent>{props.body || ""}</HTMLContent>
         {props.footer}
-      </Flex>
+      </HorizontalGutter>
     </div>
   );
 };

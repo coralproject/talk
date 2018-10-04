@@ -14,9 +14,11 @@ exports[`hide reply button 1`] = `
     createdAt="1995-12-17T03:24:00.000Z"
     footer={
       <React.Fragment>
-        <withContext(withLocalStateContainer(PermalinkContainer))
-          commentID="comment-id"
-        />
+        <ButtonsBar>
+          <withContext(withLocalStateContainer(PermalinkContainer))
+            commentID="comment-id"
+          />
+        </ButtonsBar>
       </React.Fragment>
     }
     id="comment-comment-id"
@@ -40,14 +42,16 @@ exports[`renders body only 1`] = `
     createdAt="1995-12-17T03:24:00.000Z"
     footer={
       <React.Fragment>
-        <ReplyButton
-          active={false}
-          id="comments-commentContainer-replyButton-comment-id"
-          onClick={[Function]}
-        />
-        <withContext(withLocalStateContainer(PermalinkContainer))
-          commentID="comment-id"
-        />
+        <ButtonsBar>
+          <ReplyButton
+            active={false}
+            id="comments-commentContainer-replyButton-comment-id"
+            onClick={[Function]}
+          />
+          <withContext(withLocalStateContainer(PermalinkContainer))
+            commentID="comment-id"
+          />
+        </ButtonsBar>
       </React.Fragment>
     }
     id="comment-comment-id"
@@ -71,13 +75,53 @@ exports[`renders username and body 1`] = `
     createdAt="1995-12-17T03:24:00.000Z"
     footer={
       <React.Fragment>
-        <ReplyButton
-          active={false}
-          id="comments-commentContainer-replyButton-comment-id"
+        <ButtonsBar>
+          <ReplyButton
+            active={false}
+            id="comments-commentContainer-replyButton-comment-id"
+            onClick={[Function]}
+          />
+          <withContext(withLocalStateContainer(PermalinkContainer))
+            commentID="comment-id"
+          />
+        </ButtonsBar>
+      </React.Fragment>
+    }
+    id="comment-comment-id"
+    indentLevel={1}
+    showEditedMarker={false}
+  />
+</React.Fragment>
+`;
+
+exports[`shows conversation link 1`] = `
+<React.Fragment>
+  <IndentedComment
+    author={
+      Object {
+        "id": "author-id",
+        "username": "Marvin",
+      }
+    }
+    blur={false}
+    body="Woof"
+    createdAt="1995-12-17T03:24:00.000Z"
+    footer={
+      <React.Fragment>
+        <ButtonsBar>
+          <ReplyButton
+            active={false}
+            id="comments-commentContainer-replyButton-comment-id"
+            onClick={[Function]}
+          />
+          <withContext(withLocalStateContainer(PermalinkContainer))
+            commentID="comment-id"
+          />
+        </ButtonsBar>
+        <ShowConversationLink
+          href="http://localhost/asset?commentID=comment-id"
+          id="comments-commentContainer-showConversation-comment-id"
           onClick={[Function]}
-        />
-        <withContext(withLocalStateContainer(PermalinkContainer))
-          commentID="comment-id"
         />
       </React.Fragment>
     }

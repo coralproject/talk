@@ -1,0 +1,5 @@
+type Local {}
+
+extend type Query {
+  local: Local!
+}
