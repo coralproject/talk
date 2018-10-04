@@ -4,7 +4,7 @@ import { StatelessComponent } from "react";
 import ReactDOM from "react-dom";
 
 import { createManaged } from "talk-framework/lib/bootstrap";
-import AppContainer from "talk-stream/containers/AppContainer";
+import AppQuery from "talk-stream/queries/AppQuery";
 
 import {
   OnPostMessageAuthError,
@@ -34,7 +34,7 @@ async function main() {
     <ManagedTalkContextProvider>
       <>
         {listeners}
-        <AppContainer />
+        <AppQuery />
       </>
     </ManagedTalkContextProvider>
   );

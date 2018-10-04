@@ -35,6 +35,16 @@ function sharedUpdater(
  * update integrates new comment into the CommentConnection.
  */
 function update(store: RecordSourceSelectorProxy, input: CreateCommentInput) {
+  // Updating Comment Count
+  const asset = store.get(input.assetID);
+  if (asset) {
+    const record = asset.getLinkedRecord("commentCounts");
+    if (record) {
+      const currentCount = record.getValue("totalVisible");
+      record.setValue(currentCount + 1, "totalVisible");
+    }
+  }
+
   // Get the payload returned from the server.
   const payload = store.getRootField("createComment")!;
 

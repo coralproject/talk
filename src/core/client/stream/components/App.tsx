@@ -20,11 +20,16 @@ type TabValue = "COMMENTS" | "PROFILE" | "%future added value";
 export interface AppProps {
   activeTab: TabValue;
   onTabClick: (tab: TabValue) => void;
+  commentCount: number;
 }
 
-const CommentsTab: StatelessComponent<PropTypesOf<typeof Tab>> = props => (
-  <Localized id="general-app-commentsTab">
-    <Tab {...props}>Comments</Tab>
+interface CommentsTabProps extends PropTypesOf<typeof Tab> {
+  commentCount: number;
+}
+
+const CommentsTab: StatelessComponent<CommentsTabProps> = props => (
+  <Localized id="general-app-commentsTab" $commentCount={props.commentCount}>
+    <Tab {...props}>{"{$commentCount} Comments"}</Tab>
   </Localized>
 );
 
@@ -40,7 +45,7 @@ const App: StatelessComponent<AppProps> = props => {
   return (
     <HorizontalGutter className={styles.root}>
       <TabBar activeTab={props.activeTab} onTabClick={props.onTabClick}>
-        <CommentsTab tabId="COMMENTS" />
+        <CommentsTab tabId="COMMENTS" commentCount={props.commentCount} />
         <MyProfileTab tabId="PROFILE" />
       </TabBar>
       <TabContent activeTab={props.activeTab} className={styles.tabContent}>

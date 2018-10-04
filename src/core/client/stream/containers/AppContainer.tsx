@@ -13,6 +13,7 @@ import App from "../components/App";
 interface InnerProps {
   local: Local;
   setActiveTab: SetActiveTabMutation;
+  commentCount: number;
 }
 
 class AppContainer extends React.Component<InnerProps> {
@@ -23,9 +24,16 @@ class AppContainer extends React.Component<InnerProps> {
   public render() {
     const {
       local: { activeTab },
+      commentCount,
     } = this.props;
 
-    return <App activeTab={activeTab} onTabClick={this.handleSetActiveTab} />;
+    return (
+      <App
+        activeTab={activeTab}
+        onTabClick={this.handleSetActiveTab}
+        commentCount={commentCount}
+      />
+    );
   }
 }
 
