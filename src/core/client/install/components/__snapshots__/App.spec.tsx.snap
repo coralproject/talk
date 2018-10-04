@@ -8,7 +8,21 @@ exports[`renders sign in 1`] = `
   <div
     className="App-container"
   >
-    <WizardContainer />
+    <WizardContainer
+      data={
+        Object {
+          "confirmPassword": "",
+          "domains": Array [],
+          "email": "",
+          "organizationContactEmail": "",
+          "organizationName": "",
+          "organizationURL": "",
+          "password": "",
+          "username": "",
+        }
+      }
+      saveData={[Function]}
+    />
   </div>
 </div>
 `;
