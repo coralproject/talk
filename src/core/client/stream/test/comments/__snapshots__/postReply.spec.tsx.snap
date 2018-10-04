@@ -2,264 +2,112 @@
 
 exports[`post a reply: open reply form 1`] = `
 <div
-  className="Flex-root App-root Flex-flex Flex-justifyCenter"
+  className="HorizontalGutter-root App-root HorizontalGutter-full"
 >
-  <div
-    className="HorizontalGutter-root Stream-root HorizontalGutter-double"
+  <ul
+    className="TabBar-root TabBar-primary"
+    role="tablist"
+  >
+    <li
+      className="Tab-root"
+      id="tab-COMMENTS"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-COMMENTS"
+        aria-selected={true}
+        className="BaseButton-root Tab-button Tab-primary Tab-active"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        Comments
+      </button>
+    </li>
+    <li
+      className="Tab-root"
+      id="tab-PROFILE"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-PROFILE"
+        aria-selected={false}
+        className="BaseButton-root Tab-button Tab-primary"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        My Profile
+      </button>
+    </li>
+  </ul>
+  <section
+    aria-labelledby="tab-COMMENTS"
+    className="App-tabContent"
+    id="tabPane-COMMENTS"
+    role="tabpanel"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-half"
+      className="HorizontalGutter-root Stream-root HorizontalGutter-double"
     >
       <div
-        className="Flex-root"
+        className="HorizontalGutter-root HorizontalGutter-half"
       >
         <div
-          className="Flex-flex Flex-halfItemGutter Flex-wrap"
+          className="Flex-root"
         >
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Signed in as 
-            <span
-              className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
-            >
-              Markus
-            </span>
-            .
-          </div>
-          <div
-            className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
-          >
-            <span>
-              Not you? 
-            </span>
-            <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseDown={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
-            >
-              Sign Out
-            </button>
-          </div>
-        </div>
-      </div>
-      <form
-        autoComplete="off"
-        className="PostCommentForm-root"
-        id="comments-postCommentForm-form"
-        onSubmit={[Function]}
-      >
-        <div
-          className="HorizontalGutter-root HorizontalGutter-full"
-        >
-          <div>
-            <label
-              className="AriaInfo-root"
-              htmlFor="comments-postCommentForm-field"
-            >
-              Post a comment
-            </label>
-            <div>
-              <div
-                className=""
-              >
-                <div
-                  className="Toolbar-toolbar"
-                >
-                  <button
-                    className="Button-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Bold"
-                    type="button"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_bold
-                    </span>
-                  </button>
-                  <button
-                    className="Button-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Italic"
-                    type="button"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_italic
-                    </span>
-                  </button>
-                  <button
-                    className="Button-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Blockquote"
-                    type="button"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_quote
-                    </span>
-                  </button>
-                </div>
-                <div
-                  aria-hidden="true"
-                  className="RTE-placeholder RTE-placeholder"
-                >
-                  Post a comment
-                </div>
-                <div
-                  aria-placeholder="Post a comment"
-                  className="RTE-contentEditable RTE-content"
-                  contentEditable={true}
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "",
-                    }
-                  }
-                  disabled={false}
-                  id="comments-postCommentForm-field"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onCut={[Function]}
-                  onFocus={[Function]}
-                  onInput={[Function]}
-                  onKeyDown={[Function]}
-                  onPaste={[Function]}
-                  onSelect={[Function]}
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
+            className="Flex-flex Flex-halfItemGutter Flex-wrap"
           >
             <div
-              className="PostCommentForm-poweredBy"
+              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
+              Signed in as 
               <span
-                className="Typography-root Typography-detail Typography-colorTextSecondary"
+                className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
               >
-                Powered by 
-                <span
-                  className="Typography-root Typography-heading4 Typography-colorTextPrimary"
-                >
-                  ⁨The Coral Project⁩
-                </span>
+                Markus
               </span>
+              .
             </div>
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
-              disabled={true}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseDown={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div
-      aria-live="polite"
-      className="HorizontalGutter-root HorizontalGutter-full"
-      id="talk-comments-stream-log"
-      role="log"
-    >
-      <div
-        className="HorizontalGutter-root HorizontalGutter-full"
-      >
-        <div
-          className="Indent-root"
-        >
-          <div
-            className=""
-          >
             <div
-              className="Comment-root"
-              role="article"
+              className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
             >
-              <div
-                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                id="comment-comment-0"
+              <span>
+                Not you? 
+              </span>
+              <button
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseDown={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
-                <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
-                >
-                  <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                  >
-                    Markus
-                  </span>
-                  <div
-                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
-                  >
-                    <time
-                      className="Timestamp-root RelativeTime-root"
-                      dateTime="2018-07-06T18:24:00.000Z"
-                      title="2018-07-06T18:24:00.000Z"
-                    >
-                      2018-07-06T18:24:00.000Z
-                    </time>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="HorizontalGutter-root HorizontalGutter-full"
-              >
-                <div
-                  className="HTMLContent-root"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Joining Too",
-                    }
-                  }
-                />
-                <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
-                >
-                  <button
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
-                    id="comments-commentContainer-replyButton-comment-0"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
-                  >
-                    <span>
-                      Reply
-                    </span>
-                  </button>
-                </div>
-              </div>
+                Sign Out
+              </button>
             </div>
           </div>
         </div>
         <form
           autoComplete="off"
-          id="comments-replyCommentForm-form-comment-0"
+          className="PostCommentForm-root"
+          id="comments-postCommentForm-form"
           onSubmit={[Function]}
         >
           <div
@@ -268,9 +116,9 @@ exports[`post a reply: open reply form 1`] = `
             <div>
               <label
                 className="AriaInfo-root"
-                htmlFor="comments-replyCommentForm-rte-comment-0"
+                htmlFor="comments-postCommentForm-field"
               >
-                Write a reply
+                Post a comment
               </label>
               <div>
                 <div
@@ -326,10 +174,10 @@ exports[`post a reply: open reply form 1`] = `
                     aria-hidden="true"
                     className="RTE-placeholder RTE-placeholder"
                   >
-                    Write a reply
+                    Post a comment
                   </div>
                   <div
-                    aria-placeholder="Write a reply"
+                    aria-placeholder="Post a comment"
                     className="RTE-contentEditable RTE-content"
                     contentEditable={true}
                     dangerouslySetInnerHTML={
@@ -338,7 +186,7 @@ exports[`post a reply: open reply form 1`] = `
                       }
                     }
                     disabled={false}
-                    id="comments-replyCommentForm-rte-comment-0"
+                    id="comments-postCommentForm-field"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onCut={[Function]}
@@ -352,22 +200,22 @@ exports[`post a reply: open reply form 1`] = `
               </div>
             </div>
             <div
-              className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow"
+              className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
             >
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
-                disabled={false}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseDown={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
+              <div
+                className="PostCommentForm-poweredBy"
               >
-                Cancel
-              </button>
+                <span
+                  className="Typography-root Typography-detail Typography-colorTextSecondary"
+                >
+                  Powered by 
+                  <span
+                    className="Typography-root Typography-heading4 Typography-colorTextPrimary"
+                  >
+                    ⁨The Coral Project⁩
+                  </span>
+                </span>
+              </div>
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
                 disabled={true}
@@ -386,73 +234,281 @@ exports[`post a reply: open reply form 1`] = `
         </form>
       </div>
       <div
+        aria-live="polite"
         className="HorizontalGutter-root HorizontalGutter-full"
+        id="talk-comments-stream-log"
+        role="log"
       >
         <div
-          className="Indent-root"
+          className="HorizontalGutter-root HorizontalGutter-full"
         >
           <div
-            className=""
+            className="Indent-root"
           >
             <div
-              className="Comment-root"
-              role="article"
+              className=""
             >
               <div
-                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                id="comment-comment-1"
+                className="Comment-root"
+                role="article"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  id="comment-comment-0"
                 >
-                  <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                  >
-                    Lukas
-                  </span>
                   <div
-                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                   >
-                    <time
-                      className="Timestamp-root RelativeTime-root"
-                      dateTime="2018-07-06T18:20:00.000Z"
-                      title="2018-07-06T18:20:00.000Z"
+                    <span
+                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
-                      2018-07-06T18:20:00.000Z
-                    </time>
+                      Markus
+                    </span>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    >
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
+                      >
+                        2018-07-06T18:24:00.000Z
+                      </time>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "Joining Too",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                  >
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
+                      id="comments-commentContainer-replyButton-comment-0"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Reply
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form
+            autoComplete="off"
+            id="comments-replyCommentForm-form-comment-0"
+            onSubmit={[Function]}
+          >
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div>
+                <label
+                  className="AriaInfo-root"
+                  htmlFor="comments-replyCommentForm-rte-comment-0"
+                >
+                  Write a reply
+                </label>
+                <div>
+                  <div
+                    className=""
+                  >
+                    <div
+                      className="Toolbar-toolbar"
+                    >
+                      <button
+                        className="Button-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bold"
+                        type="button"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_bold
+                        </span>
+                      </button>
+                      <button
+                        className="Button-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Italic"
+                        type="button"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_italic
+                        </span>
+                      </button>
+                      <button
+                        className="Button-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Blockquote"
+                        type="button"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_quote
+                        </span>
+                      </button>
+                    </div>
+                    <div
+                      aria-hidden="true"
+                      className="RTE-placeholder RTE-placeholder"
+                    >
+                      Write a reply
+                    </div>
+                    <div
+                      aria-placeholder="Write a reply"
+                      className="RTE-contentEditable RTE-content"
+                      contentEditable={true}
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "",
+                        }
+                      }
+                      disabled={false}
+                      id="comments-replyCommentForm-rte-comment-0"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onCut={[Function]}
+                      onFocus={[Function]}
+                      onInput={[Function]}
+                      onKeyDown={[Function]}
+                      onPaste={[Function]}
+                      onSelect={[Function]}
+                    />
                   </div>
                 </div>
               </div>
               <div
-                className="HorizontalGutter-root HorizontalGutter-full"
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+                  disabled={true}
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+        >
+          <div
+            className="Indent-root"
+          >
+            <div
+              className=""
+            >
+              <div
+                className="Comment-root"
+                role="article"
               >
                 <div
-                  className="HTMLContent-root"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "What's up?",
-                    }
-                  }
-                />
-                <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                  className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  id="comment-comment-1"
                 >
-                  <button
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                    id="comments-commentContainer-replyButton-comment-1"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                   >
-                    <span>
-                      Reply
+                    <span
+                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                    >
+                      Lukas
                     </span>
-                  </button>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    >
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:20:00.000Z"
+                        title="2018-07-06T18:20:00.000Z"
+                      >
+                        2018-07-06T18:20:00.000Z
+                      </time>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "What's up?",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                  >
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      id="comments-commentContainer-replyButton-comment-1"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Reply
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -460,270 +516,118 @@ exports[`post a reply: open reply form 1`] = `
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>
 `;
 
 exports[`post a reply: optimistic response 1`] = `
 <div
-  className="Flex-root App-root Flex-flex Flex-justifyCenter"
+  className="HorizontalGutter-root App-root HorizontalGutter-full"
 >
-  <div
-    className="HorizontalGutter-root Stream-root HorizontalGutter-double"
+  <ul
+    className="TabBar-root TabBar-primary"
+    role="tablist"
+  >
+    <li
+      className="Tab-root"
+      id="tab-COMMENTS"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-COMMENTS"
+        aria-selected={true}
+        className="BaseButton-root Tab-button Tab-primary Tab-active"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        Comments
+      </button>
+    </li>
+    <li
+      className="Tab-root"
+      id="tab-PROFILE"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-PROFILE"
+        aria-selected={false}
+        className="BaseButton-root Tab-button Tab-primary"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        My Profile
+      </button>
+    </li>
+  </ul>
+  <section
+    aria-labelledby="tab-COMMENTS"
+    className="App-tabContent"
+    id="tabPane-COMMENTS"
+    role="tabpanel"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-half"
+      className="HorizontalGutter-root Stream-root HorizontalGutter-double"
     >
       <div
-        className="Flex-root"
+        className="HorizontalGutter-root HorizontalGutter-half"
       >
         <div
-          className="Flex-flex Flex-halfItemGutter Flex-wrap"
+          className="Flex-root"
         >
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Signed in as 
-            <span
-              className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
-            >
-              Markus
-            </span>
-            .
-          </div>
-          <div
-            className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
-          >
-            <span>
-              Not you? 
-            </span>
-            <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseDown={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
-            >
-              Sign Out
-            </button>
-          </div>
-        </div>
-      </div>
-      <form
-        autoComplete="off"
-        className="PostCommentForm-root"
-        id="comments-postCommentForm-form"
-        onSubmit={[Function]}
-      >
-        <div
-          className="HorizontalGutter-root HorizontalGutter-full"
-        >
-          <div>
-            <label
-              className="AriaInfo-root"
-              htmlFor="comments-postCommentForm-field"
-            >
-              Post a comment
-            </label>
-            <div>
-              <div
-                className=""
-              >
-                <div
-                  className="Toolbar-toolbar"
-                >
-                  <button
-                    className="Button-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Bold"
-                    type="button"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_bold
-                    </span>
-                  </button>
-                  <button
-                    className="Button-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Italic"
-                    type="button"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_italic
-                    </span>
-                  </button>
-                  <button
-                    className="Button-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Blockquote"
-                    type="button"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_quote
-                    </span>
-                  </button>
-                </div>
-                <div
-                  aria-hidden="true"
-                  className="RTE-placeholder RTE-placeholder"
-                >
-                  Post a comment
-                </div>
-                <div
-                  aria-placeholder="Post a comment"
-                  className="RTE-contentEditable RTE-content"
-                  contentEditable={true}
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "",
-                    }
-                  }
-                  disabled={false}
-                  id="comments-postCommentForm-field"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onCut={[Function]}
-                  onFocus={[Function]}
-                  onInput={[Function]}
-                  onKeyDown={[Function]}
-                  onPaste={[Function]}
-                  onSelect={[Function]}
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
+            className="Flex-flex Flex-halfItemGutter Flex-wrap"
           >
             <div
-              className="PostCommentForm-poweredBy"
+              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
+              Signed in as 
               <span
-                className="Typography-root Typography-detail Typography-colorTextSecondary"
+                className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
               >
-                Powered by 
-                <span
-                  className="Typography-root Typography-heading4 Typography-colorTextPrimary"
-                >
-                  ⁨The Coral Project⁩
-                </span>
+                Markus
               </span>
+              .
             </div>
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
-              disabled={true}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseDown={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div
-      aria-live="polite"
-      className="HorizontalGutter-root HorizontalGutter-full"
-      id="talk-comments-stream-log"
-      role="log"
-    >
-      <div
-        className="HorizontalGutter-root HorizontalGutter-full"
-      >
-        <div
-          className="Indent-root"
-        >
-          <div
-            className=""
-          >
             <div
-              className="Comment-root"
-              role="article"
+              className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
             >
-              <div
-                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                id="comment-comment-0"
+              <span>
+                Not you? 
+              </span>
+              <button
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseDown={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
-                <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
-                >
-                  <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                  >
-                    Markus
-                  </span>
-                  <div
-                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
-                  >
-                    <time
-                      className="Timestamp-root RelativeTime-root"
-                      dateTime="2018-07-06T18:24:00.000Z"
-                      title="2018-07-06T18:24:00.000Z"
-                    >
-                      2018-07-06T18:24:00.000Z
-                    </time>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="HorizontalGutter-root HorizontalGutter-full"
-              >
-                <div
-                  className="HTMLContent-root"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Joining Too",
-                    }
-                  }
-                />
-                <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
-                >
-                  <button
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
-                    id="comments-commentContainer-replyButton-comment-0"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
-                  >
-                    <span>
-                      Reply
-                    </span>
-                  </button>
-                </div>
-              </div>
+                Sign Out
+              </button>
             </div>
           </div>
         </div>
         <form
           autoComplete="off"
-          id="comments-replyCommentForm-form-comment-0"
+          className="PostCommentForm-root"
+          id="comments-postCommentForm-form"
           onSubmit={[Function]}
         >
           <div
@@ -732,16 +636,16 @@ exports[`post a reply: optimistic response 1`] = `
             <div>
               <label
                 className="AriaInfo-root"
-                htmlFor="comments-replyCommentForm-rte-comment-0"
+                htmlFor="comments-postCommentForm-field"
               >
-                Write a reply
+                Post a comment
               </label>
               <div>
                 <div
                   className=""
                 >
                   <div
-                    className=" RTE-toolbarDisabled Toolbar-toolbar"
+                    className="Toolbar-toolbar"
                   >
                     <button
                       className="Button-button"
@@ -787,16 +691,22 @@ exports[`post a reply: optimistic response 1`] = `
                     </button>
                   </div>
                   <div
-                    aria-placeholder="Write a reply"
-                    className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
-                    contentEditable={false}
+                    aria-hidden="true"
+                    className="RTE-placeholder RTE-placeholder"
+                  >
+                    Post a comment
+                  </div>
+                  <div
+                    aria-placeholder="Post a comment"
+                    className="RTE-contentEditable RTE-content"
+                    contentEditable={true}
                     dangerouslySetInnerHTML={
                       Object {
-                        "__html": "<strong>Hello world!</strong>",
+                        "__html": "",
                       }
                     }
-                    disabled={true}
-                    id="comments-replyCommentForm-rte-comment-0"
+                    disabled={false}
+                    id="comments-postCommentForm-field"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onCut={[Function]}
@@ -810,22 +720,22 @@ exports[`post a reply: optimistic response 1`] = `
               </div>
             </div>
             <div
-              className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow"
+              className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
             >
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-disabled"
-                disabled={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseDown={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
+              <div
+                className="PostCommentForm-poweredBy"
               >
-                Cancel
-              </button>
+                <span
+                  className="Typography-root Typography-detail Typography-colorTextSecondary"
+                >
+                  Powered by 
+                  <span
+                    className="Typography-root Typography-heading4 Typography-colorTextPrimary"
+                  >
+                    ⁨The Coral Project⁩
+                  </span>
+                </span>
+              </div>
               <button
                 className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
                 disabled={true}
@@ -842,95 +752,297 @@ exports[`post a reply: optimistic response 1`] = `
             </div>
           </div>
         </form>
+      </div>
+      <div
+        aria-live="polite"
+        className="HorizontalGutter-root HorizontalGutter-full"
+        id="talk-comments-stream-log"
+        role="log"
+      >
         <div
           className="HorizontalGutter-root HorizontalGutter-full"
-          id="talk-comments-replyList-log--comment-0"
-          role="log"
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
+            className="Indent-root"
           >
             <div
-              className="IndentedComment-blur Indent-root"
+              className=""
             >
               <div
-                className="Indent-level1"
+                className="Comment-root"
+                role="article"
               >
                 <div
-                  className="Comment-root"
-                  role="article"
+                  className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  id="comment-comment-0"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                    id="comment-uuid-0"
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                   >
-                    <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                    <span
+                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
-                      <span
-                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      Markus
+                    </span>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    >
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
                       >
-                        Markus
-                      </span>
-                      <div
-                        className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
-                      >
-                        <time
-                          className="Timestamp-root RelativeTime-root"
-                          dateTime="2018-07-06T18:24:00.000Z"
-                          title="2018-07-06T18:24:00.000Z"
-                        >
-                          2018-07-06T18:24:00.000Z
-                        </time>
-                      </div>
-                    </div>
-                    <div>
-                      <button
-                        className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-                        id="comments-commentContainer-editButton-uuid-0"
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseOut={[Function]}
-                        onMouseOver={[Function]}
-                        onTouchEnd={[Function]}
-                        type="button"
-                      >
-                        Edit
-                      </button>
+                        2018-07-06T18:24:00.000Z
+                      </time>
                     </div>
                   </div>
+                </div>
+                <div
+                  className="HorizontalGutter-root HorizontalGutter-full"
+                >
                   <div
-                    className="HorizontalGutter-root HorizontalGutter-full"
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "Joining Too",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                  >
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
+                      id="comments-commentContainer-replyButton-comment-0"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Reply
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form
+            autoComplete="off"
+            id="comments-replyCommentForm-form-comment-0"
+            onSubmit={[Function]}
+          >
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div>
+                <label
+                  className="AriaInfo-root"
+                  htmlFor="comments-replyCommentForm-rte-comment-0"
+                >
+                  Write a reply
+                </label>
+                <div>
+                  <div
+                    className=""
                   >
                     <div
-                      className="HTMLContent-root"
+                      className=" RTE-toolbarDisabled Toolbar-toolbar"
+                    >
+                      <button
+                        className="Button-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Bold"
+                        type="button"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_bold
+                        </span>
+                      </button>
+                      <button
+                        className="Button-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Italic"
+                        type="button"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_italic
+                        </span>
+                      </button>
+                      <button
+                        className="Button-button"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Blockquote"
+                        type="button"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="Icon-root Icon-md"
+                        >
+                          format_quote
+                        </span>
+                      </button>
+                    </div>
+                    <div
+                      aria-placeholder="Write a reply"
+                      className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
+                      contentEditable={false}
                       dangerouslySetInnerHTML={
                         Object {
                           "__html": "<strong>Hello world!</strong>",
                         }
                       }
+                      disabled={true}
+                      id="comments-replyCommentForm-rte-comment-0"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onCut={[Function]}
+                      onFocus={[Function]}
+                      onInput={[Function]}
+                      onKeyDown={[Function]}
+                      onPaste={[Function]}
+                      onSelect={[Function]}
                     />
+                  </div>
+                </div>
+              </div>
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-disabled"
+                  disabled={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+                  disabled={true}
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+          <div
+            className="HorizontalGutter-root HorizontalGutter-full"
+            id="talk-comments-replyList-log--comment-0"
+            role="log"
+          >
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div
+                className="IndentedComment-blur Indent-root"
+              >
+                <div
+                  className="Indent-level1"
+                >
+                  <div
+                    className="Comment-root"
+                    role="article"
+                  >
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                      id="comment-uuid-0"
                     >
-                      <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                        id="comments-commentContainer-replyButton-uuid-0"
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseOut={[Function]}
-                        onMouseOver={[Function]}
-                        onTouchEnd={[Function]}
-                        type="button"
+                      <div
+                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                       >
-                        <span>
-                          Reply
+                        <span
+                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                        >
+                          Markus
                         </span>
-                      </button>
+                        <div
+                          className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                        >
+                          <time
+                            className="Timestamp-root RelativeTime-root"
+                            dateTime="2018-07-06T18:24:00.000Z"
+                            title="2018-07-06T18:24:00.000Z"
+                          >
+                            2018-07-06T18:24:00.000Z
+                          </time>
+                        </div>
+                      </div>
+                      <div>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                          id="comments-commentContainer-editButton-uuid-0"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          Edit
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      className="HorizontalGutter-root HorizontalGutter-full"
+                    >
+                      <div
+                        className="HTMLContent-root"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "<strong>Hello world!</strong>",
+                          }
+                        }
+                      />
+                      <div
+                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      >
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          id="comments-commentContainer-replyButton-uuid-0"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Reply
+                          </span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -938,75 +1050,75 @@ exports[`post a reply: optimistic response 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="HorizontalGutter-root HorizontalGutter-full"
-      >
         <div
-          className="Indent-root"
+          className="HorizontalGutter-root HorizontalGutter-full"
         >
           <div
-            className=""
+            className="Indent-root"
           >
             <div
-              className="Comment-root"
-              role="article"
+              className=""
             >
               <div
-                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                id="comment-comment-1"
+                className="Comment-root"
+                role="article"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  id="comment-comment-1"
                 >
-                  <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                  >
-                    Lukas
-                  </span>
                   <div
-                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                   >
-                    <time
-                      className="Timestamp-root RelativeTime-root"
-                      dateTime="2018-07-06T18:20:00.000Z"
-                      title="2018-07-06T18:20:00.000Z"
+                    <span
+                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
-                      2018-07-06T18:20:00.000Z
-                    </time>
+                      Lukas
+                    </span>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    >
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:20:00.000Z"
+                        title="2018-07-06T18:20:00.000Z"
+                      >
+                        2018-07-06T18:20:00.000Z
+                      </time>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                className="HorizontalGutter-root HorizontalGutter-full"
-              >
                 <div
-                  className="HTMLContent-root"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "What's up?",
-                    }
-                  }
-                />
-                <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                  className="HorizontalGutter-root HorizontalGutter-full"
                 >
-                  <button
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                    id="comments-commentContainer-replyButton-comment-1"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "What's up?",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                   >
-                    <span>
-                      Reply
-                    </span>
-                  </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      id="comments-commentContainer-replyButton-comment-1"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Reply
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1014,340 +1126,396 @@ exports[`post a reply: optimistic response 1`] = `
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>
 `;
 
 exports[`post a reply: server response 1`] = `
 <div
-  className="Flex-root App-root Flex-flex Flex-justifyCenter"
+  className="HorizontalGutter-root App-root HorizontalGutter-full"
 >
-  <div
-    className="HorizontalGutter-root Stream-root HorizontalGutter-double"
+  <ul
+    className="TabBar-root TabBar-primary"
+    role="tablist"
+  >
+    <li
+      className="Tab-root"
+      id="tab-COMMENTS"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-COMMENTS"
+        aria-selected={true}
+        className="BaseButton-root Tab-button Tab-primary Tab-active"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        Comments
+      </button>
+    </li>
+    <li
+      className="Tab-root"
+      id="tab-PROFILE"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-PROFILE"
+        aria-selected={false}
+        className="BaseButton-root Tab-button Tab-primary"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        My Profile
+      </button>
+    </li>
+  </ul>
+  <section
+    aria-labelledby="tab-COMMENTS"
+    className="App-tabContent"
+    id="tabPane-COMMENTS"
+    role="tabpanel"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-half"
+      className="HorizontalGutter-root Stream-root HorizontalGutter-double"
     >
       <div
-        className="Flex-root"
+        className="HorizontalGutter-root HorizontalGutter-half"
       >
         <div
-          className="Flex-flex Flex-halfItemGutter Flex-wrap"
+          className="Flex-root"
         >
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-          >
-            Signed in as 
-            <span
-              className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
-            >
-              Markus
-            </span>
-            .
-          </div>
-          <div
-            className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
-          >
-            <span>
-              Not you? 
-            </span>
-            <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseDown={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
-            >
-              Sign Out
-            </button>
-          </div>
-        </div>
-      </div>
-      <form
-        autoComplete="off"
-        className="PostCommentForm-root"
-        id="comments-postCommentForm-form"
-        onSubmit={[Function]}
-      >
-        <div
-          className="HorizontalGutter-root HorizontalGutter-full"
-        >
-          <div>
-            <label
-              className="AriaInfo-root"
-              htmlFor="comments-postCommentForm-field"
-            >
-              Post a comment
-            </label>
-            <div>
-              <div
-                className=""
-              >
-                <div
-                  className="Toolbar-toolbar"
-                >
-                  <button
-                    className="Button-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Bold"
-                    type="button"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_bold
-                    </span>
-                  </button>
-                  <button
-                    className="Button-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Italic"
-                    type="button"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_italic
-                    </span>
-                  </button>
-                  <button
-                    className="Button-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Blockquote"
-                    type="button"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_quote
-                    </span>
-                  </button>
-                </div>
-                <div
-                  aria-hidden="true"
-                  className="RTE-placeholder RTE-placeholder"
-                >
-                  Post a comment
-                </div>
-                <div
-                  aria-placeholder="Post a comment"
-                  className="RTE-contentEditable RTE-content"
-                  contentEditable={true}
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "",
-                    }
-                  }
-                  disabled={false}
-                  id="comments-postCommentForm-field"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onCut={[Function]}
-                  onFocus={[Function]}
-                  onInput={[Function]}
-                  onKeyDown={[Function]}
-                  onPaste={[Function]}
-                  onSelect={[Function]}
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
+            className="Flex-flex Flex-halfItemGutter Flex-wrap"
           >
             <div
-              className="PostCommentForm-poweredBy"
+              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
+              Signed in as 
               <span
-                className="Typography-root Typography-detail Typography-colorTextSecondary"
+                className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
               >
-                Powered by 
-                <span
-                  className="Typography-root Typography-heading4 Typography-colorTextPrimary"
-                >
-                  ⁨The Coral Project⁩
-                </span>
+                Markus
               </span>
+              .
             </div>
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
-              disabled={true}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseDown={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div
-      aria-live="polite"
-      className="HorizontalGutter-root HorizontalGutter-full"
-      id="talk-comments-stream-log"
-      role="log"
-    >
-      <div
-        className="HorizontalGutter-root HorizontalGutter-full"
-      >
-        <div
-          className="Indent-root"
-        >
-          <div
-            className=""
-          >
             <div
-              className="Comment-root"
-              role="article"
+              className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
             >
-              <div
-                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                id="comment-comment-0"
+              <span>
+                Not you? 
+              </span>
+              <button
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseDown={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
-                <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
-                >
-                  <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                  >
-                    Markus
-                  </span>
-                  <div
-                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
-                  >
-                    <time
-                      className="Timestamp-root RelativeTime-root"
-                      dateTime="2018-07-06T18:24:00.000Z"
-                      title="2018-07-06T18:24:00.000Z"
-                    >
-                      2018-07-06T18:24:00.000Z
-                    </time>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="HorizontalGutter-root HorizontalGutter-full"
-              >
-                <div
-                  className="HTMLContent-root"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Joining Too",
-                    }
-                  }
-                />
-                <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
-                >
-                  <button
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                    id="comments-commentContainer-replyButton-comment-0"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
-                  >
-                    <span>
-                      Reply
-                    </span>
-                  </button>
-                </div>
-              </div>
+                Sign Out
+              </button>
             </div>
           </div>
         </div>
-        <div
-          className="HorizontalGutter-root HorizontalGutter-full"
-          id="talk-comments-replyList-log--comment-0"
-          role="log"
+        <form
+          autoComplete="off"
+          className="PostCommentForm-root"
+          id="comments-postCommentForm-form"
+          onSubmit={[Function]}
         >
           <div
             className="HorizontalGutter-root HorizontalGutter-full"
           >
-            <div
-              className="Indent-root"
-            >
-              <div
-                className="Indent-level1"
+            <div>
+              <label
+                className="AriaInfo-root"
+                htmlFor="comments-postCommentForm-field"
               >
+                Post a comment
+              </label>
+              <div>
                 <div
-                  className="Comment-root"
-                  role="article"
+                  className=""
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                    id="comment-comment-x"
+                    className="Toolbar-toolbar"
                   >
-                    <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                    <button
+                      className="Button-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Bold"
+                      type="button"
                     >
                       <span
-                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        Markus
+                        format_bold
                       </span>
-                      <div
-                        className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    </button>
+                    <button
+                      className="Button-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Italic"
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
                       >
-                        <time
-                          className="Timestamp-root RelativeTime-root"
-                          dateTime="2018-07-06T18:24:00.000Z"
-                          title="2018-07-06T18:24:00.000Z"
-                        >
-                          2018-07-06T18:24:00.000Z
-                        </time>
-                      </div>
-                    </div>
+                        format_italic
+                      </span>
+                    </button>
+                    <button
+                      className="Button-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Blockquote"
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
+                      >
+                        format_quote
+                      </span>
+                    </button>
                   </div>
                   <div
-                    className="HorizontalGutter-root HorizontalGutter-full"
+                    aria-hidden="true"
+                    className="RTE-placeholder RTE-placeholder"
+                  >
+                    Post a comment
+                  </div>
+                  <div
+                    aria-placeholder="Post a comment"
+                    className="RTE-contentEditable RTE-content"
+                    contentEditable={true}
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "",
+                      }
+                    }
+                    disabled={false}
+                    id="comments-postCommentForm-field"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onCut={[Function]}
+                    onFocus={[Function]}
+                    onInput={[Function]}
+                    onKeyDown={[Function]}
+                    onPaste={[Function]}
+                    onSelect={[Function]}
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
+            >
+              <div
+                className="PostCommentForm-poweredBy"
+              >
+                <span
+                  className="Typography-root Typography-detail Typography-colorTextSecondary"
+                >
+                  Powered by 
+                  <span
+                    className="Typography-root Typography-heading4 Typography-colorTextPrimary"
+                  >
+                    ⁨The Coral Project⁩
+                  </span>
+                </span>
+              </div>
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+                disabled={true}
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseDown={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div
+        aria-live="polite"
+        className="HorizontalGutter-root HorizontalGutter-full"
+        id="talk-comments-stream-log"
+        role="log"
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+        >
+          <div
+            className="Indent-root"
+          >
+            <div
+              className=""
+            >
+              <div
+                className="Comment-root"
+                role="article"
+              >
+                <div
+                  className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  id="comment-comment-0"
+                >
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  >
+                    <span
+                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                    >
+                      Markus
+                    </span>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    >
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
+                      >
+                        2018-07-06T18:24:00.000Z
+                      </time>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "Joining Too",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                  >
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      id="comments-commentContainer-replyButton-comment-0"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Reply
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="HorizontalGutter-root HorizontalGutter-full"
+            id="talk-comments-replyList-log--comment-0"
+            role="log"
+          >
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div
+                className="Indent-root"
+              >
+                <div
+                  className="Indent-level1"
+                >
+                  <div
+                    className="Comment-root"
+                    role="article"
                   >
                     <div
-                      className="HTMLContent-root"
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "<strong>Hello world! (from server)</strong>",
-                        }
-                      }
-                    />
-                    <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                      id="comment-comment-x"
                     >
-                      <button
-                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                        id="comments-commentContainer-replyButton-comment-x"
-                        onBlur={[Function]}
-                        onClick={[Function]}
-                        onFocus={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseOut={[Function]}
-                        onMouseOver={[Function]}
-                        onTouchEnd={[Function]}
-                        type="button"
+                      <div
+                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                       >
-                        <span>
-                          Reply
+                        <span
+                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                        >
+                          Markus
                         </span>
-                      </button>
+                        <div
+                          className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                        >
+                          <time
+                            className="Timestamp-root RelativeTime-root"
+                            dateTime="2018-07-06T18:24:00.000Z"
+                            title="2018-07-06T18:24:00.000Z"
+                          >
+                            2018-07-06T18:24:00.000Z
+                          </time>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="HorizontalGutter-root HorizontalGutter-full"
+                    >
+                      <div
+                        className="HTMLContent-root"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "<strong>Hello world! (from server)</strong>",
+                          }
+                        }
+                      />
+                      <div
+                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      >
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          id="comments-commentContainer-replyButton-comment-x"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Reply
+                          </span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1355,75 +1523,75 @@ exports[`post a reply: server response 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="HorizontalGutter-root HorizontalGutter-full"
-      >
         <div
-          className="Indent-root"
+          className="HorizontalGutter-root HorizontalGutter-full"
         >
           <div
-            className=""
+            className="Indent-root"
           >
             <div
-              className="Comment-root"
-              role="article"
+              className=""
             >
               <div
-                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                id="comment-comment-1"
+                className="Comment-root"
+                role="article"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  id="comment-comment-1"
                 >
-                  <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                  >
-                    Lukas
-                  </span>
                   <div
-                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                   >
-                    <time
-                      className="Timestamp-root RelativeTime-root"
-                      dateTime="2018-07-06T18:20:00.000Z"
-                      title="2018-07-06T18:20:00.000Z"
+                    <span
+                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
-                      2018-07-06T18:20:00.000Z
-                    </time>
+                      Lukas
+                    </span>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    >
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:20:00.000Z"
+                        title="2018-07-06T18:20:00.000Z"
+                      >
+                        2018-07-06T18:20:00.000Z
+                      </time>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                className="HorizontalGutter-root HorizontalGutter-full"
-              >
                 <div
-                  className="HTMLContent-root"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "What's up?",
-                    }
-                  }
-                />
-                <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                  className="HorizontalGutter-root HorizontalGutter-full"
                 >
-                  <button
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                    id="comments-commentContainer-replyButton-comment-1"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "What's up?",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                   >
-                    <span>
-                      Reply
-                    </span>
-                  </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      id="comments-commentContainer-replyButton-comment-1"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Reply
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1431,336 +1599,392 @@ exports[`post a reply: server response 1`] = `
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>
 `;
 
 exports[`renders comment stream 1`] = `
 <div
-  className="Flex-root App-root Flex-flex Flex-justifyCenter"
+  className="HorizontalGutter-root App-root HorizontalGutter-full"
 >
-  <div
-    className="HorizontalGutter-root Stream-root HorizontalGutter-double"
+  <ul
+    className="TabBar-root TabBar-primary"
+    role="tablist"
+  >
+    <li
+      className="Tab-root"
+      id="tab-COMMENTS"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-COMMENTS"
+        aria-selected={true}
+        className="BaseButton-root Tab-button Tab-primary Tab-active"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        Comments
+      </button>
+    </li>
+    <li
+      className="Tab-root"
+      id="tab-PROFILE"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-PROFILE"
+        aria-selected={false}
+        className="BaseButton-root Tab-button Tab-primary"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        My Profile
+      </button>
+    </li>
+  </ul>
+  <section
+    aria-labelledby="tab-COMMENTS"
+    className="App-tabContent"
+    id="tabPane-COMMENTS"
+    role="tabpanel"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-half"
+      className="HorizontalGutter-root Stream-root HorizontalGutter-double"
     >
       <div
-        className="Flex-root"
+        className="HorizontalGutter-root HorizontalGutter-half"
       >
         <div
-          className="Flex-flex Flex-halfItemGutter Flex-wrap"
+          className="Flex-root"
         >
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Flex-flex Flex-halfItemGutter Flex-wrap"
           >
-            Signed in as 
-            <span
-              className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+            <div
+              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
-              Markus
-            </span>
-            .
-          </div>
-          <div
-            className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
-          >
-            <span>
-              Not you? 
-            </span>
-            <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseDown={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
+              Signed in as 
+              <span
+                className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+              >
+                Markus
+              </span>
+              .
+            </div>
+            <div
+              className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
             >
-              Sign Out
-            </button>
+              <span>
+                Not you? 
+              </span>
+              <button
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseDown={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
         </div>
+        <form
+          autoComplete="off"
+          className="PostCommentForm-root"
+          id="comments-postCommentForm-form"
+          onSubmit={[Function]}
+        >
+          <div
+            className="HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div>
+              <label
+                className="AriaInfo-root"
+                htmlFor="comments-postCommentForm-field"
+              >
+                Post a comment
+              </label>
+              <div>
+                <div
+                  className=""
+                >
+                  <div
+                    className="Toolbar-toolbar"
+                  >
+                    <button
+                      className="Button-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Bold"
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
+                      >
+                        format_bold
+                      </span>
+                    </button>
+                    <button
+                      className="Button-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Italic"
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
+                      >
+                        format_italic
+                      </span>
+                    </button>
+                    <button
+                      className="Button-button"
+                      disabled={false}
+                      onClick={[Function]}
+                      title="Blockquote"
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-md"
+                      >
+                        format_quote
+                      </span>
+                    </button>
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    className="RTE-placeholder RTE-placeholder"
+                  >
+                    Post a comment
+                  </div>
+                  <div
+                    aria-placeholder="Post a comment"
+                    className="RTE-contentEditable RTE-content"
+                    contentEditable={true}
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "",
+                      }
+                    }
+                    disabled={false}
+                    id="comments-postCommentForm-field"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onCut={[Function]}
+                    onFocus={[Function]}
+                    onInput={[Function]}
+                    onKeyDown={[Function]}
+                    onPaste={[Function]}
+                    onSelect={[Function]}
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
+            >
+              <div
+                className="PostCommentForm-poweredBy"
+              >
+                <span
+                  className="Typography-root Typography-detail Typography-colorTextSecondary"
+                >
+                  Powered by 
+                  <span
+                    className="Typography-root Typography-heading4 Typography-colorTextPrimary"
+                  >
+                    ⁨The Coral Project⁩
+                  </span>
+                </span>
+              </div>
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+                disabled={true}
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseDown={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
-      <form
-        autoComplete="off"
-        className="PostCommentForm-root"
-        id="comments-postCommentForm-form"
-        onSubmit={[Function]}
+      <div
+        aria-live="polite"
+        className="HorizontalGutter-root HorizontalGutter-full"
+        id="talk-comments-stream-log"
+        role="log"
       >
         <div
           className="HorizontalGutter-root HorizontalGutter-full"
         >
-          <div>
-            <label
-              className="AriaInfo-root"
-              htmlFor="comments-postCommentForm-field"
-            >
-              Post a comment
-            </label>
-            <div>
-              <div
-                className=""
-              >
-                <div
-                  className="Toolbar-toolbar"
-                >
-                  <button
-                    className="Button-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Bold"
-                    type="button"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_bold
-                    </span>
-                  </button>
-                  <button
-                    className="Button-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Italic"
-                    type="button"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_italic
-                    </span>
-                  </button>
-                  <button
-                    className="Button-button"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="Blockquote"
-                    type="button"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-md"
-                    >
-                      format_quote
-                    </span>
-                  </button>
-                </div>
-                <div
-                  aria-hidden="true"
-                  className="RTE-placeholder RTE-placeholder"
-                >
-                  Post a comment
-                </div>
-                <div
-                  aria-placeholder="Post a comment"
-                  className="RTE-contentEditable RTE-content"
-                  contentEditable={true}
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "",
-                    }
-                  }
-                  disabled={false}
-                  id="comments-postCommentForm-field"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onCut={[Function]}
-                  onFocus={[Function]}
-                  onInput={[Function]}
-                  onKeyDown={[Function]}
-                  onPaste={[Function]}
-                  onSelect={[Function]}
-                />
-              </div>
-            </div>
-          </div>
           <div
-            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-alignFlexStart Flex-directionRow"
+            className="Indent-root"
           >
             <div
-              className="PostCommentForm-poweredBy"
-            >
-              <span
-                className="Typography-root Typography-detail Typography-colorTextSecondary"
-              >
-                Powered by 
-                <span
-                  className="Typography-root Typography-heading4 Typography-colorTextPrimary"
-                >
-                  ⁨The Coral Project⁩
-                </span>
-              </span>
-            </div>
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
-              disabled={true}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseDown={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div
-      aria-live="polite"
-      className="HorizontalGutter-root HorizontalGutter-full"
-      id="talk-comments-stream-log"
-      role="log"
-    >
-      <div
-        className="HorizontalGutter-root HorizontalGutter-full"
-      >
-        <div
-          className="Indent-root"
-        >
-          <div
-            className=""
-          >
-            <div
-              className="Comment-root"
-              role="article"
+              className=""
             >
               <div
-                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                id="comment-comment-0"
+                className="Comment-root"
+                role="article"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  id="comment-comment-0"
                 >
-                  <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                  >
-                    Markus
-                  </span>
                   <div
-                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                   >
-                    <time
-                      className="Timestamp-root RelativeTime-root"
-                      dateTime="2018-07-06T18:24:00.000Z"
-                      title="2018-07-06T18:24:00.000Z"
+                    <span
+                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
-                      2018-07-06T18:24:00.000Z
-                    </time>
+                      Markus
+                    </span>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    >
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
+                      >
+                        2018-07-06T18:24:00.000Z
+                      </time>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                className="HorizontalGutter-root HorizontalGutter-full"
-              >
                 <div
-                  className="HTMLContent-root"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Joining Too",
-                    }
-                  }
-                />
-                <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                  className="HorizontalGutter-root HorizontalGutter-full"
                 >
-                  <button
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                    id="comments-commentContainer-replyButton-comment-0"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "Joining Too",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                   >
-                    <span>
-                      Reply
-                    </span>
-                  </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      id="comments-commentContainer-replyButton-comment-0"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Reply
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="HorizontalGutter-root HorizontalGutter-full"
-      >
         <div
-          className="Indent-root"
+          className="HorizontalGutter-root HorizontalGutter-full"
         >
           <div
-            className=""
+            className="Indent-root"
           >
             <div
-              className="Comment-root"
-              role="article"
+              className=""
             >
               <div
-                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                id="comment-comment-1"
+                className="Comment-root"
+                role="article"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  id="comment-comment-1"
                 >
-                  <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                  >
-                    Lukas
-                  </span>
                   <div
-                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                   >
-                    <time
-                      className="Timestamp-root RelativeTime-root"
-                      dateTime="2018-07-06T18:20:00.000Z"
-                      title="2018-07-06T18:20:00.000Z"
+                    <span
+                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
-                      2018-07-06T18:20:00.000Z
-                    </time>
+                      Lukas
+                    </span>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    >
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:20:00.000Z"
+                        title="2018-07-06T18:20:00.000Z"
+                      >
+                        2018-07-06T18:20:00.000Z
+                      </time>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                className="HorizontalGutter-root HorizontalGutter-full"
-              >
                 <div
-                  className="HTMLContent-root"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "What's up?",
-                    }
-                  }
-                />
-                <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                  className="HorizontalGutter-root HorizontalGutter-full"
                 >
-                  <button
-                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                    id="comments-commentContainer-replyButton-comment-1"
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    type="button"
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "What's up?",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                   >
-                    <span>
-                      Reply
-                    </span>
-                  </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      id="comments-commentContainer-replyButton-comment-1"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Reply
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1768,6 +1992,6 @@ exports[`renders comment stream 1`] = `
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>
 `;

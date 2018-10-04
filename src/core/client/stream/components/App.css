@@ -14,3 +14,7 @@
 .root {
   width: 100%;
 }
+
+.tabContent {
+  padding-top: var(--spacing-unit);
+}

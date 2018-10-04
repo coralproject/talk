@@ -5,7 +5,7 @@
 """
 auth is a directive that will enforce authorization rules on the schema
 definition. It will restrict the viewer of the field based on roles or if the
-`userIDField` is specified, it will see if the current users ID equals the field
+`userIDField` is specified, it  will see if the current users ID equals the field
 specified. This allows users that own a specific resource (like a comment, or a
 flag) see their own content, but restrict it to everyone else. If the directive
 is used without options, it simply requires a logged in user.
@@ -562,6 +562,15 @@ type User {
   role is the current role of the User.
   """
   role: USER_ROLE! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+
+  """
+  comments are the comments of the User.
+  """
+  comments(
+    first: Int = 10
+    orderBy: COMMENT_SORT = CREATED_AT_DESC
+    after: Cursor
+  ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
 }
 
 ################################################################################
@@ -687,6 +696,11 @@ type Comment {
   editing returns details about the edit status of a Comment.
   """
   editing: EditInfo!
+
+  """
+  asset is the Asset that the Comment was written on.
+  """
+  asset: Asset!
 }
 
 type PageInfo {
