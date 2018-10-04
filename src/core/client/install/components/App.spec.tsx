@@ -7,7 +7,19 @@ import App from "./App";
 
 it("renders sign in", () => {
   const props: PropTypesOf<typeof App> = {
-    view: "STEP_ONE",
+    saveData: () => {
+      //
+    },
+    data: {
+      organizationName: "",
+      organizationContactEmail: "",
+      organizationURL: "",
+      email: "",
+      username: "",
+      password: "",
+      confirmPassword: "",
+      domains: [],
+    },
   };
   const wrapper = shallow(<App {...props} />);
   expect(wrapper).toMatchSnapshot();
