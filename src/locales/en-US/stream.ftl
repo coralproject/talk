@@ -78,5 +78,5 @@ profile-historyComment-viewConversation = View Conversation
 profile-historyComment-replies = Replies {$replyCount}
 profile-historyComment-commentHistory = Comment History
 profile-historyComment-story = Story: {$title}
-profile-historyComment-errorLoadingProfile = Error loading profile
-profile-historyComment-assetNotFound = Asset not found
+profile-profileQuery-errorLoadingProfile = Error loading profile
+profile-profileQuery-assetNotFound = Asset not found
