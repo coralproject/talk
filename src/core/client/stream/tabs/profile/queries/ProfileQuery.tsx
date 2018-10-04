@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { ReadyState } from "react-relay";
 import { graphql, QueryRenderer } from "talk-framework/lib/relay";
@@ -15,7 +16,13 @@ export const render = ({
 
   if (props) {
     if (!props.me) {
-      return <div>Error loading profile</div>;
+      return (
+        <div>
+          <Localized id="general-profileQuery-errorLoading">
+            <span>Error loading profile</span>
+          </Localized>
+        </div>
+      );
     }
     return <ProfileContainer me={props.me} />;
   }

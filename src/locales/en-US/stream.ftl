@@ -12,6 +12,12 @@ general-userBoxAuthenticated-signedInAs =
 general-userBoxAuthenticated-notYou =
   Not you? <button>Sign Out</button>
 
+## General App Tabs
+general-app-commentTab = Comments
+general-app-myProfileTab = My Profile
+
+general-profileQuery-errorLoading = Error loading profile
+
 ## Comments Tab
 
 comments-streamQuery-assetNotFound = Asset not found

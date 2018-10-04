@@ -1,6 +1,6 @@
+import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { StatelessComponent } from "react";
-
 import {
   HorizontalGutter,
   Tab,
@@ -22,8 +22,16 @@ const App: StatelessComponent<AppProps> = props => {
   return (
     <HorizontalGutter className={styles.root}>
       <TabBar activeTab={props.activeTab} onTabClick={props.onTabClick}>
-        <Tab tabId="COMMENTS">Comments</Tab>
-        <Tab tabId="PROFILE">My Profile</Tab>
+        <Tab tabId="COMMENTS">
+          <Localized id="general-app-commentTab">
+            <span>Comments</span>
+          </Localized>
+        </Tab>
+        <Tab tabId="PROFILE">
+          <Localized id="general-app-myProfileTab">
+            <span>My Profile</span>
+          </Localized>
+        </Tab>
       </TabBar>
       <TabContent activeTab={props.activeTab} className={styles.tabContent}>
         <TabPane tabId="COMMENTS">
