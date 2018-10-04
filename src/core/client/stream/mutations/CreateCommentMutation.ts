@@ -40,6 +40,7 @@ function update(store: RecordSourceSelectorProxy, input: CreateCommentInput) {
   if (asset) {
     const record = asset.getLinkedRecord("commentCounts");
     if (record) {
+      // TODO: when we have moderation, we'll need to be careful here.
       const currentCount = record.getValue("totalVisible");
       record.setValue(currentCount + 1, "totalVisible");
     }
