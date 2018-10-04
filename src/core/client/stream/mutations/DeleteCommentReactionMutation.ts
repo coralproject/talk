@@ -42,7 +42,11 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
           myActionPresence: {
             reaction: false,
           },
-          actionCounts: currentCount - 1,
+          actionCounts: {
+            reaction: {
+              total: currentCount - 1,
+            },
+          },
         },
         clientMutationId: clientMutationId.toString(),
       },
