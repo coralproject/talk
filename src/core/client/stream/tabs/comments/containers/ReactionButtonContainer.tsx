@@ -22,7 +22,7 @@ interface ReactionButtonContainerProps {
 class ReactionButtonContainer extends React.Component<
   ReactionButtonContainerProps
 > {
-  private onButtonClick = () => {
+  private handleClick = () => {
     const input = {
       commentID: this.props.comment.id,
     };
@@ -32,9 +32,7 @@ class ReactionButtonContainer extends React.Component<
       this.props.comment.myActionPresence &&
       this.props.comment.myActionPresence.reaction;
 
-    return reacted
-      ? deleteCommentReaction(input)
-      : createCommentReaction(input);
+    reacted ? deleteCommentReaction(input) : createCommentReaction(input);
   };
   public render() {
     const {
@@ -52,7 +50,7 @@ class ReactionButtonContainer extends React.Component<
 
     return (
       <ReactionButton
-        onButtonClick={this.onButtonClick}
+        onClick={this.handleClick}
         totalReactions={totalReactions}
         reacted={reacted}
         label={label}
