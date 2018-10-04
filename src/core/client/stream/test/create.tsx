@@ -15,6 +15,7 @@ import AppContainer from "talk-stream/containers/AppContainer";
 import createEnvironment from "./createEnvironment";
 import createFluentBundle from "./createFluentBundle";
 import createNodeMock from "./createNodeMock";
+import { comments } from "./fixtures";
 
 export interface CreateParams {
   logNetwork?: boolean;
@@ -53,7 +54,7 @@ export default function create(params: CreateParams) {
 
   const testRenderer = TestRenderer.create(
     <TalkContextProvider value={context}>
-      <AppContainer />
+      <AppContainer commentCount={comments.length} />
     </TalkContextProvider>,
     { createNodeMock }
   );

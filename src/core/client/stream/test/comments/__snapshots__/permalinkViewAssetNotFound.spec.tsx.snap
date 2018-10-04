@@ -27,7 +27,7 @@ exports[`renders permalink view with unknown asset 1`] = `
         role="tab"
         type="button"
       >
-        ⁨commentCount⁩ Comments
+        ⁨6⁩ Comments
       </button>
     </li>
   </ul>
