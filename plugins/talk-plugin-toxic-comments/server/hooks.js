@@ -1,5 +1,6 @@
 const { getScores, isToxic } = require('./perspective');
 const { ErrToxic } = require('./errors');
+const debug = require('debug')('talk:plugin:toxic-comments');
 
 function handlePositiveToxic(input) {
   input.status = 'SYSTEM_WITHHELD';
@@ -20,7 +21,7 @@ async function getScore(body) {
     scores = await getScores(body);
   } catch (err) {
     // Warn and let mutation pass.
-    console.trace(err); // TODO: log/handle this differently?
+    debug('Error sending to API: %o', err);
     return;
   }
 

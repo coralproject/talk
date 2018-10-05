@@ -6,6 +6,7 @@ const {
   API_TIMEOUT,
   DO_NOT_STORE,
 } = require('./config');
+const debug = require('debug')('talk:plugin:toxic-comments');
 
 /**
  * Get scores from the perspective api
@@ -13,6 +14,8 @@ const {
  * @return {object}        object containing toxicity scores
  */
 async function getScores(text) {
+  debug('Sending to Perspective: %o', text);
+
   const response = await fetch(
     `${API_ENDPOINT}/comments:analyze?key=${API_KEY}`,
     {
@@ -25,7 +28,6 @@ async function getScores(text) {
         comment: {
           text,
         },
-
         // TODO: support other languages.
         languages: ['en'],
         doNotStore: DO_NOT_STORE,
@@ -36,7 +38,22 @@ async function getScores(text) {
       }),
     }
   );
+
   const data = await response.json();
+
+  // If we get an error, just say it's not a toxic comment.
+  if (data.error) {
+    debug('Recieved Error when submitting: %o', data.error);
+    return {
+      TOXICITY: {
+        summaryScore: 0.0,
+      },
+      SEVERE_TOXICITY: {
+        summaryScore: 0.0,
+      },
+    };
+  }
+
   return {
     TOXICITY: {
       summaryScore: data.attributeScores.TOXICITY.summaryScore.value,
