@@ -215,7 +215,7 @@ es:
     CANNOT_IGNORE_STAFF: 'No puede ignorar a miembros del Staff.'
     COMMENT_PARENT_NOT_VISIBLE: 'El comentario a la que estás contestando ha sido eliminado o no existe.'
     COMMENT_TOO_SHORT: 'Tu comentario debe tener algo escrito'
-    COMMENT_TOO_LONG: 'El texto exede el límite permitido'
+    COMMENT_TOO_LONG: 'El texto excede el límite permitido'
     COMMENTING_CLOSED: 'Los comentarios ya estan cerrados'
     confirm_password: 'Las contraseñas no coinciden. Inténtelo nuevamente'
     EDIT_USERNAME_NOT_AUTHORIZED: 'No tiene permiso para editar el nombre de usuario.'
