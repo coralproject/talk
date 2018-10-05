@@ -28,7 +28,6 @@ async function getScores(text) {
         comment: {
           text,
         },
-
         // TODO: support other languages.
         languages: ['en'],
         doNotStore: DO_NOT_STORE,
@@ -39,28 +38,30 @@ async function getScores(text) {
       }),
     }
   );
+
   const data = await response.json();
 
   // If we get an error, just say it's not a toxic comment.
-  let retData = {
-    TOXICITY: {
-      summaryScore: 0.0,
-    },
-    SEVERE_TOXICITY: {
-      summaryScore: 0.0,
-    },
-  };
-
   if (data.error) {
     debug('Recieved Error when submitting: %o', data.error);
-  } else {
-    retData.TOXICITY.summaryScore =
-      data.attributeScores.TOXICITY.summaryScore.value;
-    retData.SEVERE_TOXICITY.summaryScore =
-      data.attributeScores.SEVERE_TOXICITY.summaryScore.value;
+    return {
+      TOXICITY: {
+        summaryScore: 0.0,
+      },
+      SEVERE_TOXICITY: {
+        summaryScore: 0.0,
+      },
+    };
   }
 
-  return retData;
+  return {
+    TOXICITY: {
+      summaryScore: data.attributeScores.TOXICITY.summaryScore.value,
+    },
+    SEVERE_TOXICITY: {
+      summaryScore: data.attributeScores.SEVERE_TOXICITY.summaryScore.value,
+    },
+  };
 }
 
 /**
