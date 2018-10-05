@@ -433,7 +433,7 @@ exports[`renders comment stream 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ Comments
+        ⁨6⁩ Comments
       </button>
     </li>
   </ul>

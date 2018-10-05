@@ -10,12 +10,12 @@ import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
 import { createPromisifiedStorage } from "talk-framework/lib/storage";
 import { createUUIDGenerator } from "talk-framework/testHelpers";
+import AppContainer from "talk-stream/containers/AppContainer";
 
 import createEnvironment from "./createEnvironment";
 import createFluentBundle from "./createFluentBundle";
 import createNodeMock from "./createNodeMock";
-
-import AppQuery from "../queries/AppQuery";
+import { comments } from "./fixtures";
 
 export interface CreateParams {
   logNetwork?: boolean;
@@ -54,7 +54,7 @@ export default function create(params: CreateParams) {
 
   const testRenderer = TestRenderer.create(
     <TalkContextProvider value={context}>
-      <AppQuery />
+      <AppContainer commentCount={comments.length} />
     </TalkContextProvider>,
     { createNodeMock }
   );

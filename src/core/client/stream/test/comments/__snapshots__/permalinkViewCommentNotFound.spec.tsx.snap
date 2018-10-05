@@ -27,7 +27,7 @@ exports[`renders permalink view with unknown comment 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ Comments
+        ⁨6⁩ Comments
       </button>
     </li>
   </ul>
