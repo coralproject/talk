@@ -248,7 +248,11 @@ module.exports = router => {
 };
 ```
 
+<<<<<<< HEAD
 As you can see from the previous step of [Creating a New Asset Route](#Creating%20a%20New%20Asset%20Route)
+=======
+As you can see from the previous step of [Creating a New Asset Route](#creating-a-New-Asset-Route)
+>>>>>>> 444fc12493c9790190dcc453b6b3f7886e97bb6e
 , we have added the new `PUT` route to the router. This is a simple addition
 that allows your CMS to call into Talk when the asset has updated it's title,
 it's url (or really anything in the [AssetSchema](https://github.com/coralproject/talk/blob/master/models/asset.js)) to keep the Talk Admin and links up to date.

@@ -144,9 +144,9 @@ Some queries you may notice seem to return `null` or an error of
 route that requires authorization. You can perform authorization a few ways in
 Talk:
 
-1. As a [Bearer Token](#Bearer-Token)
-2. As a [Query Parameter](#Query-Parameter)
-3. As a [Cookie](#Cookie)
+1. As a [Bearer Token](#bearer-token)
+2. As a [Query Parameter](#query-parameter)
+3. As a [Cookie](#cookie)
 
 Essentially, you need to get access to a JWT token that you can use to authorize
 your requests. Generating one is simple, you can use the CLI tools in Talk to do
