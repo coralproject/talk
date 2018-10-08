@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 import { Button, Flex, Typography } from "talk-ui/components";
 
@@ -14,9 +15,11 @@ class InitialStep extends Component<WizardChildProps> {
     return (
       <Flex direction="column" justifyContent="center" itemGutter="double">
         <Typography variant="bodyCopy">
-          The remainder of the Talk installation will take about ten minutes.
-          Once you complete the following three steps, you will have a free
-          installation and provision Mongo and Redis.
+          <Localized id="install-initialStep-copy">
+            The remainder of the Talk installation will take about ten minutes.
+            Once you complete the following three steps, you will have a free
+            installation and provision Mongo and Redis.
+          </Localized>
         </Typography>
         <Flex justifyContent="center">
           <Button
@@ -25,7 +28,9 @@ class InitialStep extends Component<WizardChildProps> {
             variant="filled"
             fullWidth={false}
           >
-            Get Started
+            <Localized id="install-initialStep-getStarted">
+              Get Started
+            </Localized>
           </Button>
         </Flex>
       </Flex>

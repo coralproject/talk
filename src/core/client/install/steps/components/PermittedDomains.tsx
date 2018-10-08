@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
 import { OnSubmit } from "talk-framework/lib/form";
@@ -43,12 +44,16 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
         >
           <HorizontalGutter size="double">
             <Typography variant="heading1" align="center">
-              Permitted Domains
+              <Localized id="install-permittedDomains-title">
+                Permitted Domains
+              </Localized>
             </Typography>
             <Typography variant="bodyCopy" align="center">
-              Enter the domains you would like to permit for Talk, e.g. your
-              local, staging and production environments (ex. localhost:3000,
-              staging.domain.com, domain.com).
+              <Localized id="install-permittedDomains-description">
+                Enter the domains you would like to permit for Talk, e.g. your
+                local, staging and production environments (ex. localhost:3000,
+                staging.domain.com, domain.com).
+              </Localized>
             </Typography>
 
             {submitError && (
@@ -60,9 +65,15 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
             <Field name="domains">
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>Permitted Domains</InputLabel>
+                  <InputLabel>
+                    <Localized id="install-permittedDomains-permttedDomains">
+                      Permitted Domains
+                    </Localized>
+                  </InputLabel>
                   <InputDescription>
-                    Insert domains separated by comma
+                    <Localized id="install-permittedDomains-permttedDomainsDescription">
+                      Insert domains separated by comma
+                    </Localized>
                   </InputDescription>
                   <TextField
                     name={input.name}
@@ -97,7 +108,7 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
                 disabled={submitting}
                 fullWidth
               >
-                Back
+                <Localized id="install-back">Back</Localized>
               </Button>
 
               <Button
@@ -108,7 +119,7 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
                 disabled={submitting}
                 fullWidth
               >
-                Finish Install
+                <Localized id="install-finishInstall">Finish Install</Localized>
               </Button>
             </Flex>
           </HorizontalGutter>

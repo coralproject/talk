@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
 import { OnSubmit } from "talk-framework/lib/form";
@@ -51,11 +52,15 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
         >
           <HorizontalGutter size="double">
             <Typography variant="heading1" align="center">
-              Add Organization
+              <Localized id="install-addOrganization-title">
+                Add Organization
+              </Localized>
             </Typography>
             <Typography variant="bodyCopy" align="center">
-              Please tell us the name of your organization. This will appear in
-              emails when inviting new team members.
+              <Localized id="install-addOrganization-description">
+                Please tell us the name of your organization. This will appear
+                in emails when inviting new team members.
+              </Localized>
             </Typography>
 
             {submitError && (
@@ -70,7 +75,11 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>Organization Name</InputLabel>
+                  <InputLabel>
+                    <Localized id="install-addOrganization-orgName">
+                      Organization Name
+                    </Localized>
+                  </InputLabel>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -100,7 +109,11 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>Organization Contact Email</InputLabel>
+                  <InputLabel>
+                    <Localized id="install-addOrganization-orgEmail">
+                      Organization Contact Email
+                    </Localized>
+                  </InputLabel>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -130,7 +143,11 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>Organization URL</InputLabel>
+                  <InputLabel>
+                    <Localized id="install-addOrganization-orgURL">
+                      Organization URL
+                    </Localized>
+                  </InputLabel>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -163,7 +180,7 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                 disabled={submitting}
                 fullWidth
               >
-                Back
+                <Localized id="install-back">Back</Localized>
               </Button>
 
               <Button
@@ -174,7 +191,7 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                 disabled={submitting}
                 fullWidth
               >
-                Next
+                <Localized id="install-next">Next</Localized>
                 <ButtonIcon className={styles.buttonIcon}>
                   arrow_forward
                 </ButtonIcon>

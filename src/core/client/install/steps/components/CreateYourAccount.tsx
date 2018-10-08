@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
 import { OnSubmit } from "talk-framework/lib/form";
@@ -54,13 +55,9 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
         >
           <HorizontalGutter size="double">
             <Typography variant="heading1" align="center">
-              Create an Administrator Account
-            </Typography>
-            <Typography>
-              Error base on balls club stretch manager, dead ball era third
-              baseman. Balk wrigley 4-bagger appeal line drive unearned run
-              umpire. Forkball shortstop dead ball era hardball right field
-              second baseman pinch hitter.
+              <Localized id="install-createYourAccount-title">
+                Create an Administrator Account
+              </Localized>
             </Typography>
 
             {submitError && (
@@ -75,7 +72,11 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>Email</InputLabel>
+                  <InputLabel>
+                    <Localized id="install-createYourAccount-email">
+                      Email
+                    </Localized>
+                  </InputLabel>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -102,10 +103,16 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
             <Field name="username" validate={composeValidators(required)}>
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>Username</InputLabel>
+                  <InputLabel>
+                    <Localized id="install-createYourAccount-username">
+                      Username
+                    </Localized>
+                  </InputLabel>
                   <InputDescription>
-                    A unique identifier displayed on your comments. You may use
-                    “_” and “.”
+                    <Localized id="install-createYourAccount-usernameDescription">
+                      A unique identifier displayed on your comments. You may
+                      use “_” and “.”
+                    </Localized>
                   </InputDescription>
                   <TextField
                     name={input.name}
@@ -136,9 +143,15 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>Password</InputLabel>
+                  <InputLabel>
+                    <Localized id="install-createYourAccount-password">
+                      Password
+                    </Localized>
+                  </InputLabel>
                   <InputDescription>
-                    Must be at least 8 characters
+                    <Localized id="install-createYourAccount-passwordDescription">
+                      Must be at least 8 characters
+                    </Localized>
                   </InputDescription>
                   <TextField
                     name={input.name}
@@ -169,7 +182,11 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>Confirm Password</InputLabel>
+                  <InputLabel>
+                    <Localized id="install-createYourAccount-confirmPassword">
+                      Confirm Password
+                    </Localized>
+                  </InputLabel>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -204,7 +221,7 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
                 disabled={submitting}
                 fullWidth
               >
-                Back
+                <Localized id="install-back">Back</Localized>
               </Button>
 
               <Button
@@ -215,7 +232,7 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
                 disabled={submitting}
                 fullWidth
               >
-                Next
+                <Localized id="install-next">Next</Localized>
                 <ButtonIcon className={styles.buttonIcon}>
                   arrow_forward
                 </ButtonIcon>

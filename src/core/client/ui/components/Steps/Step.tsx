@@ -1,4 +1,4 @@
-import React, { Component, ReactText } from "react";
+import React, { Component, ReactNode, ReactText } from "react";
 import Flex from "../Flex";
 import Typography from "../Typography";
 import Circle from "./Circle";
@@ -6,7 +6,7 @@ import Line from "./Line";
 import * as styles from "./Step.css";
 
 interface StepProps {
-  children: ReactText;
+  children: ReactText | ReactNode;
   active?: boolean;
   completed?: boolean;
   last?: boolean;

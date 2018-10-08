@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { Component, ReactNode } from "react";
 import { Step, StepBar } from "talk-ui/components";
 import { WizardProps } from "../components/Wizard";
@@ -50,9 +51,21 @@ class Wizard extends Component<WizardProps> {
           currentStep !== wizardChildren.length - 1 && (
             <StepBar currentStep={currentStep - 1} className={styles.stepBar}>
               <Step hidden>Start</Step>
-              <Step>Create Admin Account</Step>
-              <Step>Add Organization Details</Step>
-              <Step>Add Permitted Domains</Step>
+              <Step>
+                <Localized id="install-createYourAccount-stepTitle">
+                  Create Admin Account
+                </Localized>
+              </Step>
+              <Step>
+                <Localized id="install-addOrganization-stepTitle">
+                  Add Organization Details
+                </Localized>
+              </Step>
+              <Step>
+                <Localized id="install-permittedDomains-stepTitle">
+                  Add Permitted Domains
+                </Localized>
+              </Step>
               <Step hidden>Finish</Step>
             </StepBar>
           )}

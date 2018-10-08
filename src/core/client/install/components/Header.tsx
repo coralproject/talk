@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Flex, Typography } from "talk-ui/components";
 import * as styles from "./Header.css";
@@ -28,7 +29,7 @@ const Header: StatelessComponent<HeaderProps> = ({ main }) => {
         })}
         variant="heading1"
       >
-        Talk Installation Wizard
+        <Localized id="install-title">Talk Installation Wizard</Localized>
       </Typography>
     </Flex>
   );
