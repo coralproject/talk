@@ -31,7 +31,13 @@ export const render = ({
         </Localized>
       );
     }
-    return <StreamContainer me={props.me} asset={props.asset} />;
+    return (
+      <StreamContainer
+        settings={props.settings}
+        me={props.me}
+        asset={props.asset}
+      />
+    );
   }
 
   return <Spinner />;
@@ -48,6 +54,9 @@ const StreamQuery: StatelessComponent<InnerProps> = ({
         }
         asset(id: $assetID, url: $assetURL) {
           ...StreamContainer_asset
+        }
+        settings {
+          ...StreamContainer_settings
         }
       }
     `}

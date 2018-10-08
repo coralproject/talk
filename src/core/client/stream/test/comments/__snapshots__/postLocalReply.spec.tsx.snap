@@ -307,6 +307,21 @@ exports[`post a reply: open reply form 1`] = `
                         Reply
                       </span>
                     </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -383,6 +398,21 @@ exports[`post a reply: open reply form 1`] = `
                         >
                           <span>
                             Reply
+                          </span>
+                        </button>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Respect
                           </span>
                         </button>
                       </div>
@@ -463,6 +493,21 @@ exports[`post a reply: open reply form 1`] = `
                                 Reply
                               </span>
                             </button>
+                            <button
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseDown={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span>
+                                Respect
+                              </span>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -539,6 +584,21 @@ exports[`post a reply: open reply form 1`] = `
                                 >
                                   <span>
                                     Reply
+                                  </span>
+                                </button>
+                                <button
+                                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onFocus={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseOut={[Function]}
+                                  onMouseOver={[Function]}
+                                  onTouchEnd={[Function]}
+                                  type="button"
+                                >
+                                  <span>
+                                    Respect
                                   </span>
                                 </button>
                               </div>
@@ -619,6 +679,21 @@ exports[`post a reply: open reply form 1`] = `
                                         Reply
                                       </span>
                                     </button>
+                                    <button
+                                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                      onBlur={[Function]}
+                                      onClick={[Function]}
+                                      onFocus={[Function]}
+                                      onMouseDown={[Function]}
+                                      onMouseOut={[Function]}
+                                      onMouseOver={[Function]}
+                                      onTouchEnd={[Function]}
+                                      type="button"
+                                    >
+                                      <span>
+                                        Respect
+                                      </span>
+                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -695,6 +770,21 @@ exports[`post a reply: open reply form 1`] = `
                                         >
                                           <span>
                                             Reply
+                                          </span>
+                                        </button>
+                                        <button
+                                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                          onBlur={[Function]}
+                                          onClick={[Function]}
+                                          onFocus={[Function]}
+                                          onMouseDown={[Function]}
+                                          onMouseOut={[Function]}
+                                          onMouseOver={[Function]}
+                                          onTouchEnd={[Function]}
+                                          type="button"
+                                        >
+                                          <span>
+                                            Respect
                                           </span>
                                         </button>
                                       </div>
@@ -1169,6 +1259,21 @@ exports[`post a reply: optimistic response 1`] = `
                         Reply
                       </span>
                     </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1245,6 +1350,21 @@ exports[`post a reply: optimistic response 1`] = `
                         >
                           <span>
                             Reply
+                          </span>
+                        </button>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Respect
                           </span>
                         </button>
                       </div>
@@ -1325,6 +1445,21 @@ exports[`post a reply: optimistic response 1`] = `
                                 Reply
                               </span>
                             </button>
+                            <button
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseDown={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span>
+                                Respect
+                              </span>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -1401,6 +1536,21 @@ exports[`post a reply: optimistic response 1`] = `
                                 >
                                   <span>
                                     Reply
+                                  </span>
+                                </button>
+                                <button
+                                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onFocus={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseOut={[Function]}
+                                  onMouseOver={[Function]}
+                                  onTouchEnd={[Function]}
+                                  type="button"
+                                >
+                                  <span>
+                                    Respect
                                   </span>
                                 </button>
                               </div>
@@ -1481,6 +1631,21 @@ exports[`post a reply: optimistic response 1`] = `
                                         Reply
                                       </span>
                                     </button>
+                                    <button
+                                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                      onBlur={[Function]}
+                                      onClick={[Function]}
+                                      onFocus={[Function]}
+                                      onMouseDown={[Function]}
+                                      onMouseOut={[Function]}
+                                      onMouseOver={[Function]}
+                                      onTouchEnd={[Function]}
+                                      type="button"
+                                    >
+                                      <span>
+                                        Respect
+                                      </span>
+                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -1557,6 +1722,21 @@ exports[`post a reply: optimistic response 1`] = `
                                         >
                                           <span>
                                             Reply
+                                          </span>
+                                        </button>
+                                        <button
+                                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                          onBlur={[Function]}
+                                          onClick={[Function]}
+                                          onFocus={[Function]}
+                                          onMouseDown={[Function]}
+                                          onMouseOut={[Function]}
+                                          onMouseOver={[Function]}
+                                          onTouchEnd={[Function]}
+                                          type="button"
+                                        >
+                                          <span>
+                                            Respect
                                           </span>
                                         </button>
                                       </div>
@@ -1773,7 +1953,23 @@ exports[`post a reply: optimistic response 1`] = `
                                           />
                                           <div
                                             className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
-                                          />
+                                          >
+                                            <button
+                                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                              onBlur={[Function]}
+                                              onClick={[Function]}
+                                              onFocus={[Function]}
+                                              onMouseDown={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                              onTouchEnd={[Function]}
+                                              type="button"
+                                            >
+                                              <span>
+                                                Respect
+                                              </span>
+                                            </button>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -2104,6 +2300,21 @@ exports[`post a reply: server response 1`] = `
                         Reply
                       </span>
                     </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -2180,6 +2391,21 @@ exports[`post a reply: server response 1`] = `
                         >
                           <span>
                             Reply
+                          </span>
+                        </button>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Respect
                           </span>
                         </button>
                       </div>
@@ -2260,6 +2486,21 @@ exports[`post a reply: server response 1`] = `
                                 Reply
                               </span>
                             </button>
+                            <button
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseDown={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span>
+                                Respect
+                              </span>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -2336,6 +2577,21 @@ exports[`post a reply: server response 1`] = `
                                 >
                                   <span>
                                     Reply
+                                  </span>
+                                </button>
+                                <button
+                                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onFocus={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseOut={[Function]}
+                                  onMouseOver={[Function]}
+                                  onTouchEnd={[Function]}
+                                  type="button"
+                                >
+                                  <span>
+                                    Respect
                                   </span>
                                 </button>
                               </div>
@@ -2416,6 +2672,21 @@ exports[`post a reply: server response 1`] = `
                                         Reply
                                       </span>
                                     </button>
+                                    <button
+                                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                      onBlur={[Function]}
+                                      onClick={[Function]}
+                                      onFocus={[Function]}
+                                      onMouseDown={[Function]}
+                                      onMouseOut={[Function]}
+                                      onMouseOver={[Function]}
+                                      onTouchEnd={[Function]}
+                                      type="button"
+                                    >
+                                      <span>
+                                        Respect
+                                      </span>
+                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -2492,6 +2763,21 @@ exports[`post a reply: server response 1`] = `
                                         >
                                           <span>
                                             Reply
+                                          </span>
+                                        </button>
+                                        <button
+                                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                          onBlur={[Function]}
+                                          onClick={[Function]}
+                                          onFocus={[Function]}
+                                          onMouseDown={[Function]}
+                                          onMouseOut={[Function]}
+                                          onMouseOver={[Function]}
+                                          onTouchEnd={[Function]}
+                                          type="button"
+                                        >
+                                          <span>
+                                            Respect
                                           </span>
                                         </button>
                                       </div>
@@ -2571,7 +2857,23 @@ exports[`post a reply: server response 1`] = `
                                           />
                                           <div
                                             className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
-                                          />
+                                          >
+                                            <button
+                                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                              onBlur={[Function]}
+                                              onClick={[Function]}
+                                              onFocus={[Function]}
+                                              onMouseDown={[Function]}
+                                              onMouseOut={[Function]}
+                                              onMouseOver={[Function]}
+                                              onTouchEnd={[Function]}
+                                              type="button"
+                                            >
+                                              <span>
+                                                Respect
+                                              </span>
+                                            </button>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -2902,6 +3204,21 @@ exports[`renders comment stream 1`] = `
                         Reply
                       </span>
                     </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -2978,6 +3295,21 @@ exports[`renders comment stream 1`] = `
                         >
                           <span>
                             Reply
+                          </span>
+                        </button>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Respect
                           </span>
                         </button>
                       </div>
@@ -3058,6 +3390,21 @@ exports[`renders comment stream 1`] = `
                                 Reply
                               </span>
                             </button>
+                            <button
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseDown={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span>
+                                Respect
+                              </span>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -3134,6 +3481,21 @@ exports[`renders comment stream 1`] = `
                                 >
                                   <span>
                                     Reply
+                                  </span>
+                                </button>
+                                <button
+                                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onFocus={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseOut={[Function]}
+                                  onMouseOver={[Function]}
+                                  onTouchEnd={[Function]}
+                                  type="button"
+                                >
+                                  <span>
+                                    Respect
                                   </span>
                                 </button>
                               </div>
@@ -3214,6 +3576,21 @@ exports[`renders comment stream 1`] = `
                                         Reply
                                       </span>
                                     </button>
+                                    <button
+                                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                      onBlur={[Function]}
+                                      onClick={[Function]}
+                                      onFocus={[Function]}
+                                      onMouseDown={[Function]}
+                                      onMouseOut={[Function]}
+                                      onMouseOver={[Function]}
+                                      onTouchEnd={[Function]}
+                                      type="button"
+                                    >
+                                      <span>
+                                        Respect
+                                      </span>
+                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -3290,6 +3667,21 @@ exports[`renders comment stream 1`] = `
                                         >
                                           <span>
                                             Reply
+                                          </span>
+                                        </button>
+                                        <button
+                                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                          onBlur={[Function]}
+                                          onClick={[Function]}
+                                          onFocus={[Function]}
+                                          onMouseDown={[Function]}
+                                          onMouseOut={[Function]}
+                                          onMouseOver={[Function]}
+                                          onTouchEnd={[Function]}
+                                          type="button"
+                                        >
+                                          <span>
+                                            Respect
                                           </span>
                                         </button>
                                       </div>

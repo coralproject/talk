@@ -22,6 +22,12 @@ it("renders correctly", () => {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
       },
     },
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
     relay: {
       hasMore: noop,
       isLoading: noop,
@@ -49,6 +55,12 @@ it("renders correctly when replies are empty", () => {
       isLoading: noop,
     } as any,
     me: null,
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
     indentLevel: 1,
     ReplyListComponent: undefined,
     localReply: false,
@@ -67,6 +79,12 @@ describe("when has more replies", () => {
       id: "comment-id",
       replies: {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
+      },
+    },
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
       },
     },
     relay: {

@@ -4,6 +4,7 @@ import uuid from "uuid";
 import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
+import { EncodedActionCounts } from "talk-server/models/action";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -36,6 +37,11 @@ export interface Asset extends TenantResource {
   subsection?: string;
   author?: string;
   publication_date?: Date;
+
+  /**
+   * action_counts stores all the action counts for all Comment's on this Asset.
+   */
+  action_counts: EncodedActionCounts;
 
   /**
    * comment_counts stores the different counts for each comment on the Asset
@@ -72,6 +78,7 @@ export async function upsertAsset(
       url,
       tenant_id: tenantID,
       created_at: now,
+      action_counts: {},
       comment_counts: createEmptyCommentCounts(),
     },
   };
@@ -249,4 +256,32 @@ export async function updateAsset(
   );
 
   return result.value || null;
+}
+
+/**
+ * updateAssetActionCounts will update the given comment's action counts on
+ * the Asset.
+ *
+ * @param mongo the database handle
+ * @param tenantID the id of the Tenant
+ * @param id the id of the Asset being updated
+ * @param actionCounts the action counts to merge into the Asset
+ */
+export async function updateAssetActionCounts(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  actionCounts: EncodedActionCounts
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenant_id: tenantID },
+    // Update all the specific action counts that are associated with each of
+    // the counts.
+    { $inc: dotize({ action_counts: actionCounts }) },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return result.value;
 }
