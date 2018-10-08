@@ -10,7 +10,8 @@ import {
 } from "talk-ui/components";
 
 import { PropTypesOf } from "talk-ui/types";
-import IfLoggedInContainer from "../containers/IfLoggedInContainer";
+import CommentsCountQuery from "../queries/CommentsCountQuery";
+import IfLoggedInQuery from "../queries/IfLoggedInQuery";
 import CommentsPaneContainer from "../tabs/comments/containers/CommentsPaneContainer";
 import ProfileQuery from "../tabs/profile/queries/ProfileQuery";
 import * as styles from "./App.css";
@@ -20,32 +21,25 @@ type TabValue = "COMMENTS" | "PROFILE" | "%future added value";
 export interface AppProps {
   activeTab: TabValue;
   onTabClick: (tab: TabValue) => void;
-  commentCount: number;
 }
 
-interface CommentsTabProps extends PropTypesOf<typeof Tab> {
-  commentCount: number;
-}
-
-const CommentsTab: StatelessComponent<CommentsTabProps> = props => (
-  <Localized id="general-app-commentsTab" $commentCount={props.commentCount}>
-    <Tab {...props}>{"{$commentCount} Comments"}</Tab>
-  </Localized>
+const CommentsTab: StatelessComponent<PropTypesOf<typeof Tab>> = props => (
+  <CommentsCountQuery {...props} />
 );
 
 const MyProfileTab: StatelessComponent<PropTypesOf<typeof Tab>> = props => (
-  <IfLoggedInContainer>
+  <IfLoggedInQuery>
     <Localized id="general-app-myProfileTab">
       <Tab {...props}>My Profile</Tab>
     </Localized>
-  </IfLoggedInContainer>
+  </IfLoggedInQuery>
 );
 
 const App: StatelessComponent<AppProps> = props => {
   return (
     <HorizontalGutter className={styles.root}>
       <TabBar activeTab={props.activeTab} onTabClick={props.onTabClick}>
-        <CommentsTab tabId="COMMENTS" commentCount={props.commentCount} />
+        <CommentsTab tabId="COMMENTS" />
         <MyProfileTab tabId="PROFILE" />
       </TabBar>
       <TabContent activeTab={props.activeTab} className={styles.tabContent}>
