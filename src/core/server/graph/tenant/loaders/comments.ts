@@ -5,8 +5,13 @@ import {
   AssetToCommentsArgs,
   CommentToParentsArgs,
   CommentToRepliesArgs,
+  GQLActionPresence,
   GQLCOMMENT_SORT,
 } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  ACTION_ITEM_TYPE,
+  retrieveManyUserActionPresence,
+} from "talk-server/models/action";
 import {
   Comment,
   retrieveCommentAssetConnection,
@@ -37,6 +42,17 @@ const primeCommentsFromConnection = (ctx: Context) => (
 export default (ctx: Context) => ({
   comment: new DataLoader((ids: string[]) =>
     retrieveManyComments(ctx.mongo, ctx.tenant.id, ids)
+  ),
+  retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
+    (itemIDs: string[]) =>
+      retrieveManyUserActionPresence(
+        ctx.mongo,
+        ctx.tenant.id,
+        // This should only ever be accessed when a user is logged in.
+        ctx.user!.id,
+        ACTION_ITEM_TYPE.COMMENTS,
+        itemIDs
+      )
   ),
   forUser: (
     userID: string,

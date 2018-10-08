@@ -18,6 +18,8 @@ export interface StreamProps {
     isClosed?: boolean;
   } & PropTypesOf<typeof CommentContainer>["asset"] &
     PropTypesOf<typeof ReplyListContainer>["asset"];
+  settings: PropTypesOf<typeof CommentContainer>["settings"] &
+    PropTypesOf<typeof ReplyListContainer>["settings"];
   comments: ReadonlyArray<
     { id: string } & PropTypesOf<typeof CommentContainer>["comment"] &
       PropTypesOf<typeof ReplyListContainer>["comment"]
@@ -52,10 +54,12 @@ const Stream: StatelessComponent<StreamProps> = props => {
           <HorizontalGutter key={comment.id}>
             <CommentContainer
               me={props.me}
+              settings={props.settings}
               comment={comment}
               asset={props.asset}
             />
             <ReplyListContainer
+              settings={props.settings}
               me={props.me}
               comment={comment}
               asset={props.asset}

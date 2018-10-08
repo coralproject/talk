@@ -7,6 +7,9 @@ import {
   Reference,
   RefHandler,
 } from "react-popper";
+
+import { withStyles } from "talk-ui/hocs";
+
 import AriaInfo from "../AriaInfo";
 import * as styles from "./Popover.css";
 
@@ -43,6 +46,7 @@ interface PopoverProps {
   onClose?: () => void;
   className?: string;
   placement?: Placement;
+  classes: typeof styles;
 }
 
 interface State {
@@ -50,7 +54,7 @@ interface State {
 }
 
 class Popover extends React.Component<PopoverProps> {
-  public static defaultProps = {
+  public static defaultProps: Partial<PopoverProps> = {
     placement: "top",
   };
   public state: State = {
@@ -92,56 +96,61 @@ class Popover extends React.Component<PopoverProps> {
       description,
       className,
       placement,
+      classes,
     } = this.props;
 
     const { visible } = this.state;
-    const popoverClassName = cn(styles.root, className, {
-      [styles.top]: placement!.startsWith("top"),
-      [styles.left]: placement!.startsWith("left"),
-      [styles.right]: placement!.startsWith("right"),
-      [styles.bottom]: placement!.startsWith("bottom"),
+    const popoverClassName = cn(classes.popover, {
+      [classes.top]: placement!.startsWith("top"),
+      [classes.left]: placement!.startsWith("left"),
+      [classes.right]: placement!.startsWith("right"),
+      [classes.bottom]: placement!.startsWith("bottom"),
     });
 
     return (
-      <Manager>
-        <Reference>
-          {(props: PopperArrowProps) =>
-            children({
-              forwardRef: props.ref,
-              toggleVisibility: this.toggleVisibility,
-              visible: this.state.visible,
-            })
-          }
-        </Reference>
-        <Popper placement={placement} eventsEnabled positionFixed={false}>
-          {(props: PopperArrowProps) => (
-            <div
-              id={id}
-              role="popup"
-              aria-labelledby={`${id}-ariainfo`}
-              aria-hidden={!visible}
-            >
-              <AriaInfo id={`${id}-ariainfo`}>{description}</AriaInfo>
-              {visible && (
-                <div
-                  style={props.style}
-                  className={popoverClassName}
-                  ref={props.ref}
-                >
-                  {typeof body === "function"
-                    ? body({
-                        toggleVisibility: this.toggleVisibility,
-                        visible: this.state.visible,
-                      })
-                    : body}
-                </div>
-              )}
-            </div>
-          )}
-        </Popper>
-      </Manager>
+      <div className={cn(classes.root, className)}>
+        <Manager>
+          <Reference>
+            {(props: PopperArrowProps) =>
+              children({
+                forwardRef: props.ref,
+                toggleVisibility: this.toggleVisibility,
+                visible: this.state.visible,
+              })
+            }
+          </Reference>
+          <Popper placement={placement} eventsEnabled positionFixed={false}>
+            {(props: PopperArrowProps) => (
+              <div
+                id={id}
+                role="popup"
+                aria-labelledby={`${id}-ariainfo`}
+                aria-hidden={!visible}
+              >
+                <AriaInfo id={`${id}-ariainfo`}>{description}</AriaInfo>
+                {visible && (
+                  <div
+                    style={props.style}
+                    className={popoverClassName}
+                    ref={props.ref}
+                  >
+                    {typeof body === "function"
+                      ? body({
+                          toggleVisibility: this.toggleVisibility,
+                          visible: this.state.visible,
+                        })
+                      : body}
+                  </div>
+                )}
+              </div>
+            )}
+          </Popper>
+        </Manager>
+      </div>
     );
   }
 }
 
-export default Popover;
+const enhanced = withStyles(styles)(Popover);
+
+export default enhanced;
