@@ -18,6 +18,7 @@ interface InnerProps extends PropTypesOf<typeof Tab> {
 class CommentsCountQuery extends Component<InnerProps> {
   public render() {
     const { assetID, assetURL } = this.props.local;
+    const { local: _, ...rest } = this.props;
     return (
       <QueryRenderer<QueryTypes>
         query={graphql`
@@ -42,7 +43,7 @@ class CommentsCountQuery extends Component<InnerProps> {
             return (
               <CommentCountTab
                 commentCount={props.asset.commentCounts.totalVisible}
-                {...this.props}
+                {...rest}
               />
             );
           }
