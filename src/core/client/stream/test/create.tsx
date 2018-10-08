@@ -15,7 +15,7 @@ import createEnvironment from "./createEnvironment";
 import createFluentBundle from "./createFluentBundle";
 import createNodeMock from "./createNodeMock";
 
-import AppQuery from "../queries/AppQuery";
+import AppContainer from "../containers/AppContainer";
 
 export interface CreateParams {
   logNetwork?: boolean;
@@ -54,7 +54,7 @@ export default function create(params: CreateParams) {
 
   const testRenderer = TestRenderer.create(
     <TalkContextProvider value={context}>
-      <AppQuery />
+      <AppContainer />
     </TalkContextProvider>,
     { createNodeMock }
   );

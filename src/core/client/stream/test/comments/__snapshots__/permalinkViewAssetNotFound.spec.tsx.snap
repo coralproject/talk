@@ -1,7 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders permalink view with unknown asset 1`] = `
-<div>
-  Asset not found
+<div
+  className="HorizontalGutter-root App-root HorizontalGutter-full"
+>
+  <ul
+    className="TabBar-root TabBar-primary"
+    role="tablist"
+  >
+    <svg
+      className="Spinner-spinner"
+      height="40px"
+      viewBox="0 0 66 66"
+      width="40px"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        className="Spinner-path"
+        cx="33"
+        cy="33"
+        fill="none"
+        r="30"
+        strokeLinecap="round"
+        strokeWidth="6"
+      />
+    </svg>
+  </ul>
+  <section
+    aria-labelledby="tab-COMMENTS"
+    className="App-tabContent"
+    id="tabPane-COMMENTS"
+    role="tabpanel"
+  >
+    <div>
+      Asset not found
+    </div>
+  </section>
 </div>
 `;
