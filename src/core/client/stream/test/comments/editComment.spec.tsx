@@ -1,9 +1,10 @@
+import sinon from "sinon";
 import timekeeper from "timekeeper";
 
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, users } from "../fixtures";
+import { assets, settings, users } from "../fixtures";
 import create from "./create";
 
 function createTestRenderer() {
@@ -16,10 +17,8 @@ function createTestRenderer() {
             .withArgs(undefined, { id: assets[0].id, url: null })
             .returns(assets[0])
       ),
-      me: createSinonStub(
-        s => s.throws(),
-        s => s.withArgs(undefined).returns(users[0])
-      ),
+      me: sinon.stub().returns(users[0]),
+      settings: sinon.stub().returns(settings),
     },
     Mutation: {
       editComment: createSinonStub(

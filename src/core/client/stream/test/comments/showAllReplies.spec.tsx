@@ -4,7 +4,7 @@ import sinon from "sinon";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, comments } from "../fixtures";
+import { assets, comments, settings } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -65,6 +65,7 @@ beforeEach(() => {
 
   const resolvers = {
     Query: {
+      settings: sinon.stub().returns(settings),
       comment: createSinonStub(
         s => s.throws(),
         s => s.withArgs(undefined, { id: commentStub.id }).returns(commentStub)

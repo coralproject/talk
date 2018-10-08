@@ -1,9 +1,10 @@
 import { ReactTestRenderer } from "react-test-renderer";
+import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assetWithDeepReplies } from "../fixtures";
+import { assetWithDeepReplies, settings } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -17,6 +18,7 @@ beforeEach(() => {
             .withArgs(undefined, { id: assetWithDeepReplies.id, url: null })
             .returns(assetWithDeepReplies)
       ),
+      settings: sinon.stub().returns(settings),
     },
   };
 

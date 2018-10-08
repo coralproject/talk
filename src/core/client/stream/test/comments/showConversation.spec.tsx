@@ -4,7 +4,7 @@ import sinon from "sinon";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assetWithDeepestReplies, comments } from "../fixtures";
+import { assetWithDeepestReplies, comments, settings } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -25,6 +25,7 @@ beforeEach(() => {
               id: "comment-with-deepest-replies-5",
             })
       ),
+      settings: sinon.stub().returns(settings),
     },
   };
 
