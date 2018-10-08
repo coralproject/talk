@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 
 import { graphql, QueryRenderer } from "talk-framework/lib/relay";
-import { IfLoggedInContainerQuery as QueryTypes } from "talk-stream/__generated__/IfLoggedInContainerQuery.graphql";
+import { IfLoggedInQuery as QueryTypes } from "talk-stream/__generated__/IfLoggedInQuery.graphql";
 
 class IfLoggedInContainer extends Component {
   public render() {
     return (
       <QueryRenderer<QueryTypes>
         query={graphql`
-          query IfLoggedInContainerQuery {
+          query IfLoggedInQuery {
             me {
               id
             }

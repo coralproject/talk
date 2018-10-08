@@ -215,6 +215,9 @@ export const baseAsset = {
       hasNextPage: false,
     },
   },
+  commentCounts: {
+    totalVisible: 0,
+  },
 };
 
 export const assets = [
@@ -231,6 +234,9 @@ export const assets = [
         hasNextPage: false,
       },
     },
+    commentCounts: {
+      totalVisible: 2,
+    },
   },
 ];
 
@@ -246,6 +252,9 @@ export const assetWithReplies = {
     pageInfo: {
       hasNextPage: false,
     },
+  },
+  commentCounts: {
+    totalVisible: 2,
   },
 };
 
@@ -265,6 +274,9 @@ export const assetWithDeepReplies = {
       hasNextPage: false,
     },
   },
+  commentCounts: {
+    totalVisible: 2,
+  },
 };
 
 export const assetWithDeepestReplies = {
@@ -281,5 +293,8 @@ export const assetWithDeepestReplies = {
     pageInfo: {
       hasNextPage: false,
     },
+  },
+  commentCounts: {
+    totalVisible: 1,
   },
 };
