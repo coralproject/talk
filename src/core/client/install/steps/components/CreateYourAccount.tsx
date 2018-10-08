@@ -54,11 +54,11 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
           className={styles.form}
         >
           <HorizontalGutter size="double">
-            <Typography variant="heading1" align="center">
-              <Localized id="install-createYourAccount-title">
+            <Localized id="install-createYourAccount-title">
+              <Typography variant="heading1" align="center">
                 Create an Administrator Account
-              </Localized>
-            </Typography>
+              </Typography>
+            </Localized>
 
             {submitError && (
               <CallOut color="error" fullWidth>
@@ -72,11 +72,9 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>
-                    <Localized id="install-createYourAccount-email">
-                      Email
-                    </Localized>
-                  </InputLabel>
+                  <Localized id="install-createYourAccount-email">
+                    <InputLabel>Email</InputLabel>
+                  </Localized>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -103,17 +101,15 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
             <Field name="username" validate={composeValidators(required)}>
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>
-                    <Localized id="install-createYourAccount-username">
-                      Username
-                    </Localized>
-                  </InputLabel>
-                  <InputDescription>
-                    <Localized id="install-createYourAccount-usernameDescription">
+                  <Localized id="install-createYourAccount-username">
+                    <InputLabel>Username</InputLabel>
+                  </Localized>
+                  <Localized id="install-createYourAccount-usernameDescription">
+                    <InputDescription>
                       A unique identifier displayed on your comments. You may
                       use “_” and “.”
-                    </Localized>
-                  </InputDescription>
+                    </InputDescription>
+                  </Localized>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -143,16 +139,14 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>
-                    <Localized id="install-createYourAccount-password">
-                      Password
-                    </Localized>
-                  </InputLabel>
-                  <InputDescription>
-                    <Localized id="install-createYourAccount-passwordDescription">
+                  <Localized id="install-createYourAccount-password">
+                    <InputLabel>Password</InputLabel>
+                  </Localized>
+                  <Localized id="install-createYourAccount-passwordDescription">
+                    <InputDescription>
                       Must be at least 8 characters
-                    </Localized>
-                  </InputDescription>
+                    </InputDescription>
+                  </Localized>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -182,11 +176,9 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>
-                    <Localized id="install-createYourAccount-confirmPassword">
-                      Confirm Password
-                    </Localized>
-                  </InputLabel>
+                  <Localized id="install-createYourAccount-confirmPassword">
+                    <InputLabel>Confirm Password</InputLabel>
+                  </Localized>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -212,31 +204,35 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
             </Field>
 
             <Flex direction="row" itemGutter>
-              <Button
-                onClick={props.handleGoToPreviousStep}
-                variant="filled"
-                color="regular"
-                size="large"
-                type="submit"
-                disabled={submitting}
-                fullWidth
-              >
-                <Localized id="install-back">Back</Localized>
-              </Button>
+              <Localized id="install-back">
+                <Button
+                  onClick={props.handleGoToPreviousStep}
+                  variant="filled"
+                  color="regular"
+                  size="large"
+                  type="submit"
+                  disabled={submitting}
+                  fullWidth
+                >
+                  Back
+                </Button>
+              </Localized>
 
-              <Button
-                variant="filled"
-                color="primary"
-                size="large"
-                type="submit"
-                disabled={submitting}
-                fullWidth
-              >
-                <Localized id="install-next">Next</Localized>
-                <ButtonIcon className={styles.buttonIcon}>
-                  arrow_forward
-                </ButtonIcon>
-              </Button>
+              <Localized id="install-next">
+                <Button
+                  variant="filled"
+                  color="primary"
+                  size="large"
+                  type="submit"
+                  disabled={submitting}
+                  fullWidth
+                >
+                  Next
+                  <ButtonIcon className={styles.buttonIcon}>
+                    arrow_forward
+                  </ButtonIcon>
+                </Button>
+              </Localized>
             </Flex>
           </HorizontalGutter>
         </form>

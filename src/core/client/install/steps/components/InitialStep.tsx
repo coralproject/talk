@@ -14,24 +14,24 @@ class InitialStep extends Component<WizardChildProps> {
   public render() {
     return (
       <Flex direction="column" justifyContent="center" itemGutter="double">
-        <Typography variant="bodyCopy">
-          <Localized id="install-initialStep-copy">
+        <Localized id="install-initialStep-copy">
+          <Typography variant="bodyCopy">
             The remainder of the Talk installation will take about ten minutes.
             Once you complete the following three steps, you will have a free
             installation and provision Mongo and Redis.
-          </Localized>
-        </Typography>
+          </Typography>
+        </Localized>
         <Flex justifyContent="center">
-          <Button
-            onClick={this.handleGoToNextStep}
-            color="primary"
-            variant="filled"
-            fullWidth={false}
-          >
-            <Localized id="install-initialStep-getStarted">
+          <Localized id="install-initialStep-getStarted">
+            <Button
+              onClick={this.handleGoToNextStep}
+              color="primary"
+              variant="filled"
+              fullWidth={false}
+            >
               Get Started
-            </Localized>
-          </Button>
+            </Button>
+          </Localized>
         </Flex>
       </Flex>
     );

@@ -7,28 +7,30 @@ class FinalStep extends Component<WizardChildProps> {
   public render() {
     return (
       <Flex direction="column" justifyContent="center" itemGutter="double">
-        <Typography variant="bodyCopy">
-          <Localized id="install-finalStep-description">
+        <Localized id="install-finalStep-description">
+          <Typography variant="bodyCopy">
             Thanks for installing Talk! We sent an email to verify your email
             address. While you finish setting up the account, you can start
             engaging with your readers now.
-          </Localized>
-        </Typography>
+          </Typography>
+        </Localized>
         <Flex direction="row" itemGutter justifyContent="center">
-          <Button
-            anchor
-            color="regular"
-            variant="filled"
-            href="https://docs.coralproject.net"
-            target="_blank"
-          >
-            <Localized id="install-finalStep-goToTheDocs">
+          <Localized id="install-finalStep-goToTheDocs">
+            <Button
+              anchor
+              color="regular"
+              variant="filled"
+              href="https://docs.coralproject.net"
+              target="_blank"
+            >
               Go to the Docs
-            </Localized>
-          </Button>
-          <Button anchor color="primary" variant="filled" href="/admin">
-            <Localized id="install-finalStep-goToAdmin">Go to Admin</Localized>
-          </Button>
+            </Button>
+          </Localized>
+          <Localized id="install-finalStep-goToAdmin">
+            <Button anchor color="primary" variant="filled" href="/admin">
+              Go to Admin
+            </Button>
+          </Localized>
         </Flex>
       </Flex>
     );

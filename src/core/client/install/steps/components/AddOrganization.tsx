@@ -51,17 +51,17 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
           className={styles.form}
         >
           <HorizontalGutter size="double">
-            <Typography variant="heading1" align="center">
-              <Localized id="install-addOrganization-title">
+            <Localized id="install-addOrganization-title">
+              <Typography variant="heading1" align="center">
                 Add Organization
-              </Localized>
-            </Typography>
-            <Typography variant="bodyCopy" align="center">
-              <Localized id="install-addOrganization-description">
+              </Typography>
+            </Localized>
+            <Localized id="install-addOrganization-description">
+              <Typography variant="bodyCopy" align="center">
                 Please tell us the name of your organization. This will appear
                 in emails when inviting new team members.
-              </Localized>
-            </Typography>
+              </Typography>
+            </Localized>
 
             {submitError && (
               <CallOut color="error" fullWidth>
@@ -75,11 +75,9 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>
-                    <Localized id="install-addOrganization-orgName">
-                      Organization Name
-                    </Localized>
-                  </InputLabel>
+                  <Localized id="install-addOrganization-orgName">
+                    <InputLabel>Organization Name</InputLabel>
+                  </Localized>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -109,11 +107,9 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>
-                    <Localized id="install-addOrganization-orgEmail">
-                      Organization Contact Email
-                    </Localized>
-                  </InputLabel>
+                  <Localized id="install-addOrganization-orgEmail">
+                    <InputLabel>Organization Contact Email</InputLabel>
+                  </Localized>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -143,11 +139,9 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
             >
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>
-                    <Localized id="install-addOrganization-orgURL">
-                      Organization URL
-                    </Localized>
-                  </InputLabel>
+                  <Localized id="install-addOrganization-orgURL">
+                    <InputLabel>Organization URL</InputLabel>
+                  </Localized>
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -171,31 +165,34 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
               )}
             </Field>
             <Flex direction="row" itemGutter>
-              <Button
-                onClick={props.handleGoToPreviousStep}
-                variant="filled"
-                color="regular"
-                size="large"
-                type="submit"
-                disabled={submitting}
-                fullWidth
-              >
-                <Localized id="install-back">Back</Localized>
-              </Button>
-
-              <Button
-                variant="filled"
-                color="primary"
-                size="large"
-                type="submit"
-                disabled={submitting}
-                fullWidth
-              >
-                <Localized id="install-next">Next</Localized>
-                <ButtonIcon className={styles.buttonIcon}>
-                  arrow_forward
-                </ButtonIcon>
-              </Button>
+              <Localized id="install-back">
+                <Button
+                  onClick={props.handleGoToPreviousStep}
+                  variant="filled"
+                  color="regular"
+                  size="large"
+                  type="submit"
+                  disabled={submitting}
+                  fullWidth
+                >
+                  Back
+                </Button>
+              </Localized>
+              <Localized id="install-next">
+                <Button
+                  variant="filled"
+                  color="primary"
+                  size="large"
+                  type="submit"
+                  disabled={submitting}
+                  fullWidth
+                >
+                  Next
+                  <ButtonIcon className={styles.buttonIcon}>
+                    arrow_forward
+                  </ButtonIcon>
+                </Button>
+              </Localized>
             </Flex>
           </HorizontalGutter>
         </form>

@@ -23,14 +23,16 @@ const Header: StatelessComponent<HeaderProps> = ({ main }) => {
       >
         The Coral Project
       </Typography>
-      <Typography
-        className={cn(styles.subHeadline, {
-          [styles.subHeadlineMain]: main,
-        })}
-        variant="heading1"
-      >
-        <Localized id="install-title">Talk Installation Wizard</Localized>
-      </Typography>
+      <Localized id="install-title">
+        <Typography
+          className={cn(styles.subHeadline, {
+            [styles.subHeadlineMain]: main,
+          })}
+          variant="heading1"
+        >
+          Talk Installation Wizard
+        </Typography>
+      </Localized>
     </Flex>
   );
 };

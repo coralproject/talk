@@ -43,18 +43,18 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
           className={styles.form}
         >
           <HorizontalGutter size="double">
-            <Typography variant="heading1" align="center">
-              <Localized id="install-permittedDomains-title">
+            <Localized id="install-permittedDomains-title">
+              <Typography variant="heading1" align="center">
                 Permitted Domains
-              </Localized>
-            </Typography>
-            <Typography variant="bodyCopy" align="center">
-              <Localized id="install-permittedDomains-description">
+              </Typography>
+            </Localized>
+            <Localized id="install-permittedDomains-description">
+              <Typography variant="bodyCopy" align="center">
                 Enter the domains you would like to permit for Talk, e.g. your
                 local, staging and production environments (ex. localhost:3000,
                 staging.domain.com, domain.com).
-              </Localized>
-            </Typography>
+              </Typography>
+            </Localized>
 
             {submitError && (
               <CallOut color="error" fullWidth>
@@ -65,16 +65,15 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
             <Field name="domains">
               {({ input, meta }) => (
                 <FormField>
-                  <InputLabel>
-                    <Localized id="install-permittedDomains-permttedDomains">
-                      Permitted Domains
-                    </Localized>
-                  </InputLabel>
-                  <InputDescription>
-                    <Localized id="install-permittedDomains-permttedDomainsDescription">
+                  <Localized id="install-permittedDomains-permttedDomains">
+                    <InputLabel>Permitted Domains</InputLabel>
+                  </Localized>
+                  <Localized id="install-permittedDomains-permttedDomainsDescription">
+                    <InputDescription>
                       Insert domains separated by comma
-                    </Localized>
-                  </InputDescription>
+                    </InputDescription>
+                  </Localized>
+
                   <TextField
                     name={input.name}
                     onChange={input.onChange}
@@ -99,28 +98,31 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
             </Field>
 
             <Flex direction="row" itemGutter>
-              <Button
-                onClick={props.handleGoToPreviousStep}
-                variant="filled"
-                color="regular"
-                size="large"
-                type="submit"
-                disabled={submitting}
-                fullWidth
-              >
-                <Localized id="install-back">Back</Localized>
-              </Button>
-
-              <Button
-                variant="filled"
-                color="primary"
-                size="large"
-                type="submit"
-                disabled={submitting}
-                fullWidth
-              >
-                <Localized id="install-finishInstall">Finish Install</Localized>
-              </Button>
+              <Localized id="install-back">
+                <Button
+                  onClick={props.handleGoToPreviousStep}
+                  variant="filled"
+                  color="regular"
+                  size="large"
+                  type="submit"
+                  disabled={submitting}
+                  fullWidth
+                >
+                  Back
+                </Button>
+              </Localized>
+              <Localized id="install-finishInstall">
+                <Button
+                  variant="filled"
+                  color="primary"
+                  size="large"
+                  type="submit"
+                  disabled={submitting}
+                  fullWidth
+                >
+                  Finish Install
+                </Button>
+              </Localized>
             </Flex>
           </HorizontalGutter>
         </form>
