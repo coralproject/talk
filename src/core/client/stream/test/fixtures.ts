@@ -93,6 +93,9 @@ export const assets = [
     id: "asset-1",
     url: "http://localhost/assets/asset-1",
     isClosed: false,
+    commentCounts: {
+      totalVisible: 2,
+    },
     comments: {
       edges: [
         { node: comments[0], cursor: comments[0].createdAt },
@@ -160,6 +163,9 @@ export const assetWithReplies = {
       hasNextPage: false,
     },
   },
+  commentCounts: {
+    totalVisible: 1,
+  },
 };
 
 export const assetWithDeepReplies = {
@@ -177,6 +183,9 @@ export const assetWithDeepReplies = {
     pageInfo: {
       hasNextPage: false,
     },
+  },
+  commentCounts: {
+    totalVisible: 1,
   },
 };
 
@@ -291,5 +300,8 @@ export const assetWithDeepestReplies = {
     pageInfo: {
       hasNextPage: false,
     },
+  },
+  commentCounts: {
+    totalVisible: 1,
   },
 };

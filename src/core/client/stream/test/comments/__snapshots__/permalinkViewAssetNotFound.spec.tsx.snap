@@ -1,45 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders permalink view with unknown asset 1`] = `
-<div
-  className="HorizontalGutter-root App-root HorizontalGutter-full"
->
-  <ul
-    className="TabBar-root TabBar-primary"
-    role="tablist"
-  >
-    <li
-      className="Tab-root"
-      id="tab-COMMENTS"
-      role="presentation"
-    >
-      <button
-        aria-controls="tabPane-COMMENTS"
-        aria-selected={true}
-        className="BaseButton-root Tab-button Tab-primary Tab-active"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseDown={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        role="tab"
-        type="button"
-      >
-        ⁨6⁩ Comments
-      </button>
-    </li>
-  </ul>
-  <section
-    aria-labelledby="tab-COMMENTS"
-    className="App-tabContent"
-    id="tabPane-COMMENTS"
-    role="tabpanel"
-  >
-    <div>
-      Asset not found
-    </div>
-  </section>
+<div>
+  Asset not found
 </div>
 `;

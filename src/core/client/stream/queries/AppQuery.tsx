@@ -32,9 +32,7 @@ export const render = ({
       );
     }
 
-    return (
-      <AppContainer commentCount={props.asset.commentCounts.totalVisible} />
-    );
+    return <AppContainer asset={props.asset} />;
   }
 
   return <Spinner />;
@@ -47,9 +45,7 @@ const AppQuery: StatelessComponent<InnerProps> = ({
     query={graphql`
       query AppQuery($assetID: ID, $assetURL: String) {
         asset(id: $assetID, url: $assetURL) {
-          commentCounts {
-            totalVisible
-          }
+          ...AppContainer_asset
         }
       }
     `}
