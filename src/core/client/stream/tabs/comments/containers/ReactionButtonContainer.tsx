@@ -2,6 +2,7 @@ import React from "react";
 import { graphql } from "react-relay";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 import { ReactionButtonContainer_comment as CommentData } from "talk-stream/__generated__/ReactionButtonContainer_comment.graphql";
+import { ReactionButtonContainer_me as MeData } from "talk-stream/__generated__/ReactionButtonContainer_me.graphql";
 import { ReactionButtonContainer_settings as SettingsData } from "talk-stream/__generated__/ReactionButtonContainer_settings.graphql";
 
 import {
@@ -12,17 +13,30 @@ import {
 } from "talk-stream/mutations";
 import ReactionButton from "talk-stream/tabs/comments/components/ReactionButton";
 
+import {
+  ShowAuthPopupMutation,
+  withShowAuthPopupMutation,
+} from "talk-stream/mutations";
+
 interface ReactionButtonContainerProps {
   createCommentReaction: CreateCommentReactionMutation;
   deleteCommentReaction: DeleteCommentReactionMutation;
   comment: CommentData;
   settings: SettingsData;
+  me: MeData | null;
+  showAuthPopup: ShowAuthPopupMutation;
 }
 
 class ReactionButtonContainer extends React.Component<
   ReactionButtonContainerProps
 > {
+  private handleSignIn = () => this.props.showAuthPopup({ view: "SIGN_IN" });
+
   private handleClick = () => {
+    if (this.props.me === null) {
+      return this.handleSignIn();
+    }
+
     const input = {
       commentID: this.props.comment.id,
     };
@@ -32,7 +46,9 @@ class ReactionButtonContainer extends React.Component<
       this.props.comment.myActionPresence &&
       this.props.comment.myActionPresence.reaction;
 
-    reacted ? deleteCommentReaction(input) : createCommentReaction(input);
+    return reacted
+      ? deleteCommentReaction(input)
+      : createCommentReaction(input);
   };
   public render() {
     const {
@@ -62,32 +78,39 @@ class ReactionButtonContainer extends React.Component<
   }
 }
 
-export default withDeleteCommentReactionMutation(
-  withCreateCommentReactionMutation(
-    withFragmentContainer<ReactionButtonContainerProps>({
-      comment: graphql`
-        fragment ReactionButtonContainer_comment on Comment {
-          id
-          myActionPresence {
-            reaction
+export default withShowAuthPopupMutation(
+  withDeleteCommentReactionMutation(
+    withCreateCommentReactionMutation(
+      withFragmentContainer<ReactionButtonContainerProps>({
+        me: graphql`
+          fragment ReactionButtonContainer_me on User {
+            id
           }
-          actionCounts {
-            reaction {
-              total
+        `,
+        comment: graphql`
+          fragment ReactionButtonContainer_comment on Comment {
+            id
+            myActionPresence {
+              reaction
+            }
+            actionCounts {
+              reaction {
+                total
+              }
             }
           }
-        }
-      `,
-      settings: graphql`
-        fragment ReactionButtonContainer_settings on Settings {
-          reaction {
-            label
-            labelActive
-            icon
-            iconActive
+        `,
+        settings: graphql`
+          fragment ReactionButtonContainer_settings on Settings {
+            reaction {
+              label
+              labelActive
+              icon
+              iconActive
+            }
           }
-        }
-      `,
-    })(ReactionButtonContainer)
+        `,
+      })(ReactionButtonContainer)
+    )
   )
 );
