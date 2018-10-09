@@ -37,7 +37,7 @@ const config = convict({
   enable_graphiql: {
     doc: "When true, this will enable the GraphiQL routes",
     format: Boolean,
-    default: false,
+    default: true,
     env: "ENABLE_GRAPHIQL",
     arg: "enableGraphiQL",
   },
