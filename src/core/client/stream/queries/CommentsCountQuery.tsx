@@ -39,7 +39,7 @@ class CommentsCountQuery extends Component<InnerProps> {
             return <div>{error.message}</div>;
           }
 
-          if (props && props.asset && props.asset.commentCounts.totalVisible) {
+          if (props && props.asset) {
             return (
               <CommentCountTab
                 commentCount={props.asset.commentCounts.totalVisible}
