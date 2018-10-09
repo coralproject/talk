@@ -40,12 +40,7 @@ class PermalinkViewContainer extends React.Component<
 
   public componentDidMount() {
     if (this.props.pym) {
-      const scrollTo = this.props.comment
-        ? document
-            .getElementById(`comment-${this.props.comment.id}`)!
-            .getBoundingClientRect().top + window.pageYOffset
-        : 50;
-      setTimeout(() => this.props.pym!.scrollParentToChildPos(scrollTo), 100);
+      setTimeout(() => this.props.pym!.scrollParentToChildPos(0), 100);
     }
   }
 
