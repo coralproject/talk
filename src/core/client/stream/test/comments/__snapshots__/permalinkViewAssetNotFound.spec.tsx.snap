@@ -8,28 +8,23 @@ exports[`renders permalink view with unknown asset 1`] = `
     className="TabBar-root TabBar-primary"
     role="tablist"
   >
-    <li
-      className="Tab-root"
-      id="tab-COMMENTS"
-      role="presentation"
+    <svg
+      className="Spinner-spinner"
+      height="40px"
+      viewBox="0 0 66 66"
+      width="40px"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <button
-        aria-controls="tabPane-COMMENTS"
-        aria-selected={true}
-        className="BaseButton-root Tab-button Tab-primary Tab-active"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseDown={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        role="tab"
-        type="button"
-      >
-        Comments
-      </button>
-    </li>
+      <circle
+        className="Spinner-path"
+        cx="33"
+        cy="33"
+        fill="none"
+        r="30"
+        strokeLinecap="round"
+        strokeWidth="6"
+      />
+    </svg>
   </ul>
   <section
     aria-labelledby="tab-COMMENTS"

@@ -1,7 +1,9 @@
 import { ReactTestRenderer } from "react-test-renderer";
+import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 
+import { settings } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -10,6 +12,7 @@ beforeEach(() => {
     Query: {
       comment: () => null,
       asset: () => null,
+      settings: sinon.stub().returns(settings),
     },
   };
 

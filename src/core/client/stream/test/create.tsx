@@ -10,11 +10,12 @@ import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
 import { createPromisifiedStorage } from "talk-framework/lib/storage";
 import { createUUIDGenerator } from "talk-framework/testHelpers";
-import AppContainer from "talk-stream/containers/AppContainer";
 
 import createEnvironment from "./createEnvironment";
 import createFluentBundle from "./createFluentBundle";
 import createNodeMock from "./createNodeMock";
+
+import AppContainer from "../containers/AppContainer";
 
 export interface CreateParams {
   logNetwork?: boolean;
