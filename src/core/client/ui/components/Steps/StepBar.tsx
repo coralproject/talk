@@ -27,7 +27,7 @@ class StepBar extends Component<StepBarProps> {
       <div className={cn(styles.root, this.props.className)}>
         <Flex
           direction="row"
-          itemGutter="double"
+          itemGutter
           alignItems="center"
           justifyContent="center"
         >
