@@ -51,7 +51,7 @@ exports[`renders comment stream 1`] = `
               className=""
             >
               <div
-                className=" RTE-toolbarDisabled Toolbar-toolbar"
+                className="RTE-toolbar  RTE-toolbarDisabled Toolbar-toolbar"
               >
                 <button
                   className="Button-button"

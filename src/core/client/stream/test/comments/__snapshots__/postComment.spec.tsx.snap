@@ -70,7 +70,7 @@ exports[`post a comment: optimistic response 1`] = `
                 className=""
               >
                 <div
-                  className=" RTE-toolbarDisabled Toolbar-toolbar"
+                  className="RTE-toolbar  RTE-toolbarDisabled Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -503,7 +503,7 @@ exports[`post a comment: server response 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -926,7 +926,7 @@ exports[`renders comment stream 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"

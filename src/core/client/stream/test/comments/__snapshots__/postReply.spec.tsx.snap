@@ -70,7 +70,7 @@ exports[`post a reply: open reply form 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -280,7 +280,7 @@ exports[`post a reply: open reply form 1`] = `
                     className=""
                   >
                     <div
-                      className="Toolbar-toolbar"
+                      className="RTE-toolbar Toolbar-toolbar"
                     >
                       <button
                         className="Button-button"
@@ -542,7 +542,7 @@ exports[`post a reply: optimistic response 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -752,7 +752,7 @@ exports[`post a reply: optimistic response 1`] = `
                     className=""
                   >
                     <div
-                      className=" RTE-toolbarDisabled Toolbar-toolbar"
+                      className="RTE-toolbar  RTE-toolbarDisabled Toolbar-toolbar"
                     >
                       <button
                         className="Button-button"
@@ -1108,7 +1108,7 @@ exports[`post a reply: server response 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -1537,7 +1537,7 @@ exports[`renders comment stream 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"

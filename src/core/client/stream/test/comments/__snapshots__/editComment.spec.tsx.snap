@@ -70,7 +70,7 @@ exports[`cancel edit: edit canceled 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -431,7 +431,7 @@ exports[`edit a comment: edit form 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -586,7 +586,7 @@ exports[`edit a comment: edit form 1`] = `
                   className=""
                 >
                   <div
-                    className="Toolbar-toolbar"
+                    className="RTE-toolbar Toolbar-toolbar"
                   >
                     <button
                       className="Button-button"
@@ -863,7 +863,7 @@ exports[`edit a comment: optimistic response 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -1018,7 +1018,7 @@ exports[`edit a comment: optimistic response 1`] = `
                   className=""
                 >
                   <div
-                    className=" RTE-toolbarDisabled Toolbar-toolbar"
+                    className="RTE-toolbar  RTE-toolbarDisabled Toolbar-toolbar"
                   >
                     <button
                       className="Button-button"
@@ -1295,7 +1295,7 @@ exports[`edit a comment: render stream 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -1656,7 +1656,7 @@ exports[`edit a comment: server response 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -2026,7 +2026,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -2387,7 +2387,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                 className=""
               >
                 <div
-                  className="Toolbar-toolbar"
+                  className="RTE-toolbar Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -2542,7 +2542,7 @@ exports[`shows expiry message: edit time expired 1`] = `
                   className=""
                 >
                   <div
-                    className=" RTE-toolbarDisabled Toolbar-toolbar"
+                    className="RTE-toolbar  RTE-toolbarDisabled Toolbar-toolbar"
                   >
                     <button
                       className="Button-button"
