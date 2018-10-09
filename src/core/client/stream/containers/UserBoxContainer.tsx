@@ -57,7 +57,11 @@ export class UserBoxContainer extends Component<InnerProps> {
     return (
       <>
         <Popup
-          href={`/auth.html?view=${view}`}
+          href={`${
+            process.env.NODE_ENV !== "development"
+              ? "/embed/auth"
+              : "/auth.html"
+          }?view=${view}`}
           title="Talk Auth"
           features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
           open={open}
