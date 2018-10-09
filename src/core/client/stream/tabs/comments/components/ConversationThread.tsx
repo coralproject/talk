@@ -38,6 +38,19 @@ export interface ConversationThreadProps {
 const ConversationThread: StatelessComponent<
   ConversationThreadProps
 > = props => {
+  if (props.remaining === 0 && props.parents.length === 0) {
+    return (
+      <div className={cn(props.className, styles.root)}>
+        <CommentContainer
+          comment={props.comment}
+          asset={props.asset}
+          settings={props.settings}
+          me={props.me}
+          highlight
+        />
+      </div>
+    );
+  }
   return (
     <div className={cn(props.className, styles.root)}>
       <HorizontalGutter container={<Line dashed />}>

@@ -1,5 +1,4 @@
 .root {
-  padding-right: calc(2 * var(--spacing-unit));
 }
 
 .loadMore {
