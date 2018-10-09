@@ -43,10 +43,7 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
     createClientTargetRouter({ view: "install", cacheDuration: "" })
   );
 
-  // if (app.config.get("env") === "development") {
-  // } else {
-  // }
-
+  // Handle the root path.
   router.get(
     "/",
     installedMiddleware({ tenantCache: app.tenantCache }),
