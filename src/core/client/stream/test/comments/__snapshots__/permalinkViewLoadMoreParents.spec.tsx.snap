@@ -101,205 +101,209 @@ exports[`renders permalink view 1`] = `
         </a>
       </div>
       <div
-        className="ConversationThread-root"
+        className="HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dashed"
+          className="ConversationThread-root"
         >
           <div
-            className="Circle-circleContainer"
+            className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dashed"
           >
             <div
-              className="Circle-circleSubContainer"
-            >
-              <svg
-                className="Circle-circle"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="50"
-                />
-              </svg>
-            </div>
-            <div
-              className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-              id="comment-2"
+              className="Circle-circleContainer"
             >
               <div
-                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                className="Circle-circleSubContainer"
               >
-                <span
-                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                <svg
+                  className="Circle-circle"
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  Isabelle
-                </span>
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                </svg>
+              </div>
+              <div
+                className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                id="comment-2"
+              >
                 <div
-                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                 >
-                  <time
-                    className="Timestamp-root RelativeTime-root"
-                    dateTime="2018-07-06T18:24:00.000Z"
-                    title="2018-07-06T18:24:00.000Z"
+                  <span
+                    className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                   >
-                    2018-07-06T18:24:00.000Z
-                  </time>
+                    Isabelle
+                  </span>
+                  <div
+                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                  >
+                    <time
+                      className="Timestamp-root RelativeTime-root"
+                      dateTime="2018-07-06T18:24:00.000Z"
+                      title="2018-07-06T18:24:00.000Z"
+                    >
+                      2018-07-06T18:24:00.000Z
+                    </time>
+                  </div>
                 </div>
+              </div>
+            </div>
+            <div
+              className="Circle-circleContainer ConversationThread-loadMore"
+            >
+              <div
+                className="Circle-circleSubContainer"
+              >
+                <svg
+                  className="Circle-circle"
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    fill="none"
+                    r="40"
+                    strokeWidth="8"
+                  />
+                </svg>
+              </div>
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined"
+                  disabled={false}
+                  id="comments-conversationThread-showHiddenComments"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  SHOW HIDDEN COMMENTS
+                </button>
+                <span
+                  className="Counter-root"
+                >
+                  2
+                </span>
               </div>
             </div>
           </div>
           <div
-            className="Circle-circleContainer ConversationThread-loadMore"
+            className="Line-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="Circle-circleSubContainer"
-            >
-              <svg
-                className="Circle-circle"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="50"
-                  cy="50"
-                  fill="none"
-                  r="40"
-                  strokeWidth="8"
-                />
-              </svg>
-            </div>
-            <div
-              className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
-            >
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined"
-                disabled={false}
-                id="comments-conversationThread-showHiddenComments"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseDown={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
-              >
-                SHOW HIDDEN COMMENTS
-              </button>
-              <span
-                className="Counter-root"
-              >
-                2
-              </span>
-            </div>
-          </div>
-        </div>
-        <div
-          className="Line-root HorizontalGutter-root HorizontalGutter-full"
-        >
-          <div
-            className="Circle-circleContainer"
-          >
-            <div
-              className="Circle-circleSubContainer Circle-end"
-            >
-              <svg
-                className="Circle-circle"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="50"
-                />
-              </svg>
-            </div>
-            <div
-              className="HorizontalGutter-root HorizontalGutter-full"
+              className="Circle-circleContainer"
             >
               <div
-                className="Indent-root"
+                className="Circle-circleSubContainer Circle-end"
+              >
+                <svg
+                  className="Circle-circle"
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                </svg>
+              </div>
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
                 <div
-                  className=""
+                  className="Indent-root"
                 >
                   <div
-                    className="Comment-root Comment-highlight"
-                    role="article"
+                    className=""
                   >
                     <div
-                      className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                      id="comment-comment-0"
+                      className="Comment-root Comment-highlight"
+                      role="article"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-0"
                       >
-                        <span
-                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                        >
-                          Markus
-                        </span>
                         <div
-                          className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                         >
-                          <time
-                            className="Timestamp-root RelativeTime-root"
-                            dateTime="2018-07-06T18:24:00.000Z"
-                            title="2018-07-06T18:24:00.000Z"
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                           >
-                            2018-07-06T18:24:00.000Z
-                          </time>
+                            Markus
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      className="HorizontalGutter-root HorizontalGutter-full"
-                    >
                       <div
-                        className="HTMLContent-root"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "Joining Too",
-                          }
-                        }
-                      />
-                      <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        className="HorizontalGutter-root HorizontalGutter-full"
                       >
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          id="comments-commentContainer-replyButton-comment-0"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "Joining Too",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                         >
-                          <span>
-                            Reply
-                          </span>
-                        </button>
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <span>
-                            Respect
-                          </span>
-                        </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-0"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -308,10 +312,10 @@ exports[`renders permalink view 1`] = `
             </div>
           </div>
         </div>
+        <div
+          className="PermalinkView-replyList"
+        />
       </div>
-      <div
-        className="PermalinkView-replyList"
-      />
     </div>
   </section>
 </div>
@@ -418,333 +422,337 @@ exports[`views pervious comments 1`] = `
         </a>
       </div>
       <div
-        className="ConversationThread-root"
+        className="HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dashed"
-        />
-        <div
-          className="Line-root HorizontalGutter-root HorizontalGutter-full"
+          className="ConversationThread-root"
         >
           <div
-            className="Circle-circleContainer"
+            className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dashed"
+          />
+          <div
+            className="Line-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="Circle-circleSubContainer"
-            >
-              <svg
-                className="Circle-circle"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="50"
-                />
-              </svg>
-            </div>
-            <div
-              className="HorizontalGutter-root HorizontalGutter-full"
+              className="Circle-circleContainer"
             >
               <div
-                className="Indent-root"
+                className="Circle-circleSubContainer"
+              >
+                <svg
+                  className="Circle-circle"
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                </svg>
+              </div>
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
                 <div
-                  className=""
+                  className="Indent-root"
                 >
                   <div
-                    className="Comment-root"
-                    role="article"
+                    className=""
                   >
                     <div
-                      className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                      id="comment-comment-1"
+                      className="Comment-root"
+                      role="article"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-1"
                       >
-                        <span
-                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                        >
-                          Lukas
-                        </span>
                         <div
-                          className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                         >
-                          <time
-                            className="Timestamp-root RelativeTime-root"
-                            dateTime="2018-07-06T18:24:00.000Z"
-                            title="2018-07-06T18:24:00.000Z"
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                           >
-                            2018-07-06T18:24:00.000Z
-                          </time>
+                            Lukas
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      className="HorizontalGutter-root HorizontalGutter-full"
-                    >
                       <div
-                        className="HTMLContent-root"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "What's up?",
-                          }
-                        }
-                      />
-                      <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        className="HorizontalGutter-root HorizontalGutter-full"
                       >
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          id="comments-commentContainer-replyButton-comment-1"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "What's up?",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                         >
-                          <span>
-                            Reply
-                          </span>
-                        </button>
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <span>
-                            Respect
-                          </span>
-                        </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-1"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            className="Circle-circleContainer"
-          >
             <div
-              className="Circle-circleSubContainer"
-            >
-              <svg
-                className="Circle-circle"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="50"
-                  cy="50"
-                  fill="none"
-                  r="40"
-                  strokeWidth="8"
-                />
-              </svg>
-            </div>
-            <div
-              className="HorizontalGutter-root HorizontalGutter-full"
+              className="Circle-circleContainer"
             >
               <div
-                className="Indent-root"
+                className="Circle-circleSubContainer"
+              >
+                <svg
+                  className="Circle-circle"
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    fill="none"
+                    r="40"
+                    strokeWidth="8"
+                  />
+                </svg>
+              </div>
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
                 <div
-                  className=""
+                  className="Indent-root"
                 >
                   <div
-                    className="Comment-root"
-                    role="article"
+                    className=""
                   >
                     <div
-                      className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                      id="comment-comment-2"
+                      className="Comment-root"
+                      role="article"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-2"
                       >
-                        <span
-                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                        >
-                          Isabelle
-                        </span>
                         <div
-                          className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                         >
-                          <time
-                            className="Timestamp-root RelativeTime-root"
-                            dateTime="2018-07-06T18:24:00.000Z"
-                            title="2018-07-06T18:24:00.000Z"
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                           >
-                            2018-07-06T18:24:00.000Z
-                          </time>
+                            Isabelle
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      className="HorizontalGutter-root HorizontalGutter-full"
-                    >
                       <div
-                        className="HTMLContent-root"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "Hey!",
-                          }
-                        }
-                      />
-                      <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        className="HorizontalGutter-root HorizontalGutter-full"
                       >
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          id="comments-commentContainer-replyButton-comment-2"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "Hey!",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                         >
-                          <span>
-                            Reply
-                          </span>
-                        </button>
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <span>
-                            Respect
-                          </span>
-                        </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-2"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            className="Circle-circleContainer"
-          >
             <div
-              className="Circle-circleSubContainer Circle-end"
-            >
-              <svg
-                className="Circle-circle"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="50"
-                />
-              </svg>
-            </div>
-            <div
-              className="HorizontalGutter-root HorizontalGutter-full"
+              className="Circle-circleContainer"
             >
               <div
-                className="Indent-root"
+                className="Circle-circleSubContainer Circle-end"
+              >
+                <svg
+                  className="Circle-circle"
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                </svg>
+              </div>
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
                 <div
-                  className=""
+                  className="Indent-root"
                 >
                   <div
-                    className="Comment-root Comment-highlight"
-                    role="article"
+                    className=""
                   >
                     <div
-                      className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                      id="comment-comment-0"
+                      className="Comment-root Comment-highlight"
+                      role="article"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-0"
                       >
-                        <span
-                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                        >
-                          Markus
-                        </span>
                         <div
-                          className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                         >
-                          <time
-                            className="Timestamp-root RelativeTime-root"
-                            dateTime="2018-07-06T18:24:00.000Z"
-                            title="2018-07-06T18:24:00.000Z"
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                           >
-                            2018-07-06T18:24:00.000Z
-                          </time>
+                            Markus
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      className="HorizontalGutter-root HorizontalGutter-full"
-                    >
                       <div
-                        className="HTMLContent-root"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "Joining Too",
-                          }
-                        }
-                      />
-                      <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        className="HorizontalGutter-root HorizontalGutter-full"
                       >
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          id="comments-commentContainer-replyButton-comment-0"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "Joining Too",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
                         >
-                          <span>
-                            Reply
-                          </span>
-                        </button>
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <span>
-                            Respect
-                          </span>
-                        </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-0"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -753,10 +761,10 @@ exports[`views pervious comments 1`] = `
             </div>
           </div>
         </div>
+        <div
+          className="PermalinkView-replyList"
+        />
       </div>
-      <div
-        className="PermalinkView-replyList"
-      />
     </div>
   </section>
 </div>

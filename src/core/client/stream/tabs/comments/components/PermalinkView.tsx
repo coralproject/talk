@@ -67,7 +67,7 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
         </Localized>
       )}
       {comment && (
-        <>
+        <HorizontalGutter>
           <ConversationThreadContainer
             me={me}
             comment={comment}
@@ -82,7 +82,7 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
               settings={settings}
             />
           </div>
-        </>
+        </HorizontalGutter>
       )}
     </HorizontalGutter>
   );

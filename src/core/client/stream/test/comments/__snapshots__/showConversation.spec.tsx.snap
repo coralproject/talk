@@ -889,116 +889,94 @@ exports[`shows conversation 1`] = `
         </a>
       </div>
       <div
-        className="ConversationThread-root"
+        className="HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dashed"
-        />
-        <div
-          className="Line-root HorizontalGutter-root HorizontalGutter-full"
+          className="ConversationThread-root"
         >
           <div
-            className="Circle-circleContainer"
+            className="HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="Circle-circleSubContainer Circle-end"
-            >
-              <svg
-                className="Circle-circle"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="50"
-                />
-              </svg>
-            </div>
-            <div
-              className="HorizontalGutter-root HorizontalGutter-full"
+              className="Indent-root"
             >
               <div
-                className="Indent-root"
+                className=""
               >
                 <div
-                  className=""
+                  className="Comment-root Comment-highlight"
+                  role="article"
                 >
                   <div
-                    className="Comment-root Comment-highlight"
-                    role="article"
+                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    id="comment-comment-with-deepest-replies-5"
                   >
                     <div
-                      className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                      id="comment-comment-with-deepest-replies-5"
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                     >
-                      <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                      <span
+                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                       >
-                        <span
-                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                        Markus
+                      </span>
+                      <div
+                        className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                      >
+                        <time
+                          className="Timestamp-root RelativeTime-root"
+                          dateTime="2018-07-06T18:24:00.000Z"
+                          title="2018-07-06T18:24:00.000Z"
                         >
-                          Markus
-                        </span>
-                        <div
-                          className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
-                        >
-                          <time
-                            className="Timestamp-root RelativeTime-root"
-                            dateTime="2018-07-06T18:24:00.000Z"
-                            title="2018-07-06T18:24:00.000Z"
-                          >
-                            2018-07-06T18:24:00.000Z
-                          </time>
-                        </div>
+                          2018-07-06T18:24:00.000Z
+                        </time>
                       </div>
                     </div>
+                  </div>
+                  <div
+                    className="HorizontalGutter-root HorizontalGutter-full"
+                  >
                     <div
-                      className="HorizontalGutter-root HorizontalGutter-full"
-                    >
-                      <div
-                        className="HTMLContent-root"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "Joining Too",
-                          }
+                      className="HTMLContent-root"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "Joining Too",
                         }
-                      />
-                      <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      }
+                    />
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    >
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
                       >
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <span>
-                            Reply
-                          </span>
-                        </button>
-                        <button
-                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                          onBlur={[Function]}
-                          onClick={[Function]}
-                          onFocus={[Function]}
-                          onMouseDown={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                          onTouchEnd={[Function]}
-                          type="button"
-                        >
-                          <span>
-                            Respect
-                          </span>
-                        </button>
-                      </div>
+                        <span>
+                          Reply
+                        </span>
+                      </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Respect
+                        </span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1006,10 +984,10 @@ exports[`shows conversation 1`] = `
             </div>
           </div>
         </div>
+        <div
+          className="PermalinkView-replyList"
+        />
       </div>
-      <div
-        className="PermalinkView-replyList"
-      />
     </div>
   </section>
 </div>
