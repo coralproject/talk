@@ -3,8 +3,7 @@
 }
 
 .replyList {
-  margin-top: var(--spacing-unit);
-  margin-left: calc(2 * var(--spacing-unit));
+  padding-left: calc(2 * var(--spacing-unit));
 }
 
 .title1 {

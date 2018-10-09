@@ -1,5 +1,4 @@
 .root {
-  padding: var(--spacing-unit);
   padding-right: calc(2 * var(--spacing-unit));
 }
 
