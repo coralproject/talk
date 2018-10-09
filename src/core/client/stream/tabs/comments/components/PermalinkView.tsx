@@ -37,10 +37,14 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
     <HorizontalGutter className={styles.root} size="double">
       <UserBoxContainer me={me} />
       <Flex alignItems="center" justifyContent="center" direction="column">
-        <Typography className={styles.title1}>
-          You are currently viewing a
-        </Typography>
-        <Typography className={styles.title2}>SINGLE CONVERSATION</Typography>
+        <Localized id="comments-permalinkView-currentViewing">
+          <Typography className={styles.title1}>
+            You are currently viewing a
+          </Typography>
+        </Localized>
+        <Localized id="comments-permalinkView-singleConversation">
+          <Typography className={styles.title2}>SINGLE CONVERSATION</Typography>
+        </Localized>
         {showAllCommentsHref && (
           <Localized id="comments-permalinkView-viewFullDiscussion">
             <Button

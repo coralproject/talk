@@ -73,6 +73,8 @@ comments-editCommentForm-editTimeExpired = Edit time has expired. You can no lon
 comments-editedMarker-edited = Edited
 comments-showConversationLink-readMore = Read More of this Conversation >
 comments-conversationThread-showHiddenComments = SHOW HIDDEN COMMENTS
+comments-permalinkView-currentViewing = You are currently viewing a
+comments-permalinkView-singleConversation = SINGLE CONVERSATION
 
 ## Profile Tab
 profile-historyComment-viewConversation = View Conversation
