@@ -40,6 +40,7 @@
     "bunyan": "^1.8.12",
     "cheerio": "^1.0.0-rc.2",
     "consolidate": "0.14.0",
+    "content-security-policy-builder": "^2.0.0",
     "convict": "^4.3.1",
     "dataloader": "^1.4.0",
     "dotenv": "^6.0.0",

@@ -7,7 +7,7 @@ export interface MiddlewareOptions {
   cache: TenantCache;
 }
 
-export default (options: MiddlewareOptions) => async (
+export const tenantMiddleware = (options: MiddlewareOptions) => async (
   req: Request,
   res: Response,
   next: NextFunction

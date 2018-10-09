@@ -21,8 +21,28 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
   }
 
   // Add the client targets.
-  router.get("/embed/stream", createClientTargetRouter({ view: "stream" }));
-  router.get("/admin", createClientTargetRouter({ view: "admin" }));
+  router.use(
+    "/embed/stream",
+    createClientTargetRouter({
+      view: "stream",
+      tenantCache: app.tenantCache,
+      csp: { embeddable: true },
+    })
+  );
+  router.use(
+    "/embed/auth",
+    createClientTargetRouter({
+      view: "auth",
+      tenantCache: app.tenantCache,
+    })
+  );
+  router.use(
+    "/admin",
+    createClientTargetRouter({
+      view: "admin",
+      tenantCache: app.tenantCache,
+    })
+  );
 
   return router;
 }
