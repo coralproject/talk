@@ -8,7 +8,7 @@ import PermittedDomainsContainer from "../steps/containers/PermittedDomainsConta
 import { FormData } from "./AppContainer";
 
 interface WizardContainerProps {
-  saveData: (newData: {}) => void;
+  onSaveData: (newData: {}) => void;
   data: FormData;
 }
 
@@ -50,15 +50,15 @@ class WizardContainer extends Component<
         <InitialStep />
         <CreateYourAccountContainer
           data={this.props.data}
-          saveData={this.props.saveData}
+          onSaveData={this.props.onSaveData}
         />
         <AddOrganizationContainer
           data={this.props.data}
-          saveData={this.props.saveData}
+          onSaveData={this.props.onSaveData}
         />
         <PermittedDomainsContainer
           data={this.props.data}
-          saveData={this.props.saveData}
+          onSaveData={this.props.onSaveData}
         />
         <FinalStep />
       </Wizard>

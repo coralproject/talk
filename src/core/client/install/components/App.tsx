@@ -6,7 +6,7 @@ import WizardContainer from "../containers/WizardContainer";
 import MainBar from "./MainBar";
 
 export interface AppProps {
-  saveData: (newData: {}) => void;
+  onSaveData: (newData: {}) => void;
   data: FormData;
 }
 
@@ -17,7 +17,7 @@ class App extends Component<AppProps> {
         <MainBar />
         <div className={styles.container}>
           <WizardContainer
-            saveData={this.props.saveData}
+            onSaveData={this.props.onSaveData}
             data={this.props.data}
           />
         </div>

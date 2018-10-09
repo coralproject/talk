@@ -21,7 +21,7 @@ exports[`renders sign in 1`] = `
           "username": "",
         }
       }
-      saveData={[Function]}
+      onSaveData={[Function]}
     />
   </div>
 </div>

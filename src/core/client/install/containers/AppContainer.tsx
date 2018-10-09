@@ -31,13 +31,13 @@ class WizardContainer extends Component<{}, AppContainerState> {
     },
   };
 
-  private saveData = (newData: FormData) =>
+  private onSaveData = (newData: FormData) =>
     this.setState(({ data }) => ({
       data: { ...data, ...newData },
     }));
 
   public render() {
-    return <App saveData={this.saveData} data={this.state.data} />;
+    return <App onSaveData={this.onSaveData} data={this.state.data} />;
   }
 }
 

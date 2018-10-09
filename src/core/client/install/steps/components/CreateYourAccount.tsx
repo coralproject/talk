@@ -208,35 +208,21 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
             </Field>
 
             <Flex direction="row" itemGutter>
-              <Localized id="install-back">
-                <Button
-                  onClick={props.handleGoToPreviousStep}
-                  variant="filled"
-                  color="regular"
-                  size="large"
-                  type="submit"
-                  disabled={submitting}
-                  fullWidth
-                >
-                  Back
-                </Button>
-              </Localized>
-
-              <Localized id="install-next">
-                <Button
-                  variant="filled"
-                  color="primary"
-                  size="large"
-                  type="submit"
-                  disabled={submitting}
-                  fullWidth
-                >
-                  Next
-                  <ButtonIcon className={styles.buttonIcon}>
-                    arrow_forward
-                  </ButtonIcon>
-                </Button>
-              </Localized>
+              <Button
+                variant="filled"
+                color="primary"
+                size="large"
+                type="submit"
+                disabled={submitting}
+                fullWidth
+              >
+                <Localized id="install-next">
+                  <span>Next</span>
+                </Localized>
+                <ButtonIcon className={styles.buttonIcon}>
+                  arrow_forward
+                </ButtonIcon>
+              </Button>
             </Flex>
           </HorizontalGutter>
         </form>

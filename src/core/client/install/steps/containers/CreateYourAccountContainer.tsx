@@ -10,7 +10,7 @@ interface SignUpContainerProps {
   goToNextStep?: () => void;
   goToPreviousStep?: () => void;
   data: FormData;
-  saveData: (newData: {}) => void;
+  onSaveData: (newData: {}) => void;
 }
 
 class CreateYourAccountContainer extends Component<SignUpContainerProps> {
@@ -26,7 +26,7 @@ class CreateYourAccountContainer extends Component<SignUpContainerProps> {
   };
   private onSubmit: CreateYourAccountForm["onSubmit"] = async (input, form) => {
     try {
-      this.props.saveData(input);
+      this.props.onSaveData(input);
       return this.handleGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };

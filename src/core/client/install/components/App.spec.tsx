@@ -7,7 +7,7 @@ import App from "./App";
 
 it("renders sign in", () => {
   const props: PropTypesOf<typeof App> = {
-    saveData: () => {
+    onSaveData: () => {
       //
     },
     data: {

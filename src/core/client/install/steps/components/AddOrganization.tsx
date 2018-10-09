@@ -178,21 +178,21 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                   Back
                 </Button>
               </Localized>
-              <Localized id="install-next">
-                <Button
-                  variant="filled"
-                  color="primary"
-                  size="large"
-                  type="submit"
-                  disabled={submitting}
-                  fullWidth
-                >
-                  Next
-                  <ButtonIcon className={styles.buttonIcon}>
-                    arrow_forward
-                  </ButtonIcon>
-                </Button>
-              </Localized>
+              <Button
+                variant="filled"
+                color="primary"
+                size="large"
+                type="submit"
+                disabled={submitting}
+                fullWidth
+              >
+                <Localized id="install-next">
+                  <span>Next</span>
+                </Localized>
+                <ButtonIcon className={styles.buttonIcon}>
+                  arrow_forward
+                </ButtonIcon>
+              </Button>
             </Flex>
           </HorizontalGutter>
         </form>
