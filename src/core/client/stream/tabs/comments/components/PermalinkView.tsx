@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { MouseEvent, StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
-import { Button, Typography } from "talk-ui/components";
+import { Button, Flex, Typography } from "talk-ui/components";
 
 import ReplyListContainer from "talk-stream/tabs/comments/containers/ReplyListContainer";
 import ConversationThreadContainer from "../containers/ConversationThreadContainer";
@@ -30,23 +30,28 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
 }) => {
   return (
     <div className={styles.root}>
-      {showAllCommentsHref && (
-        <Localized id="comments-permalinkView-showAllComments">
-          <Button
-            id="talk-comments-permalinkView-showAllComments"
-            variant="outlined"
-            color="primary"
-            onClick={onShowAllComments}
-            className={styles.button}
-            href={showAllCommentsHref}
-            target="_parent"
-            fullWidth
-            anchor
-          >
-            Show all Comments
-          </Button>
-        </Localized>
-      )}
+      <Flex alignItems="center" justifyContent="center" direction="column">
+        <Typography className={styles.title1}>
+          You are currently viewing a
+        </Typography>
+        <Typography className={styles.title2}>SINGLE CONVERSATION</Typography>
+        {showAllCommentsHref && (
+          <Localized id="comments-permalinkView-viewFullDiscussion">
+            <Button
+              id="talk-comments-permalinkView-viewFullDiscussion"
+              variant="underlined"
+              color="primary"
+              onClick={onShowAllComments}
+              className={styles.button}
+              href={showAllCommentsHref}
+              target="_parent"
+              anchor
+            >
+              View Full Discussion
+            </Button>
+          </Localized>
+        )}
+      </Flex>
       {!comment && (
         <Localized id="comments-permalinkView-commentNotFound">
           <Typography>Comment not found</Typography>

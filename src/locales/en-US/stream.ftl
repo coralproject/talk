@@ -23,7 +23,7 @@ comments-replyList-showAll = Show All
 comments-permalinkButton-share = Share
 comments-permalinkPopover-copy = Copy
 comments-permalinkPopover-copied = Copied
-comments-permalinkView-showAllComments = Show All Comments
+comments-permalinkView-viewFullDiscussion = View Full Discussion
 comments-permalinkView-commentNotFound = Comment not found
 
 comments-rte-bold =

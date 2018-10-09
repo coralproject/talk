@@ -10,3 +10,20 @@
   margin-top: var(--spacing-unit);
   margin-left: calc(2 * var(--spacing-unit));
 }
+
+.title1 {
+  font-size: calc(14rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: calc(20em / 16);
+  letter-spacing: calc(0.2em / 16);
+  color: var(--palette-text-primary);
+}
+.title2 {
+  font-size: calc(18rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: calc(20em / 16);
+  letter-spacing: calc(0.2em / 16);
+  color: var(--palette-text-primary);
+}

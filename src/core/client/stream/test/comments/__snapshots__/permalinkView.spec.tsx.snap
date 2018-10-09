@@ -10,7 +10,7 @@ exports[`renders permalink view 1`] = `
     <a
       className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantOutlined Button-fullWidth"
       href="http://localhost/"
-      id="talk-comments-permalinkView-showAllComments"
+      id="talk-comments-permalinkView-viewFullDiscussion"
       onBlur={[Function]}
       onClick={[Function]}
       onFocus={[Function]}
