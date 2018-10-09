@@ -88,7 +88,7 @@ exports[`renders permalink view 1`] = `
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular"
             disabled={false}
-            id="comments-conversationThread-viewPreviousComments"
+            id="comments-conversationThread-showHiddenComments"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}

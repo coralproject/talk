@@ -70,5 +70,4 @@ comments-editCommentForm-editTimeExpired = Edit time has expired. You can no lon
 comments-editedMarker-edited = Edited
 
 comments-showConversationLink-readMore = Read More of this Conversation >
-comments-conversationThread-conversationThread = Converation Thread
-comments-conversationThread-viewPreviousComments = View previous comments
+comments-conversationThread-showHiddenComments = SHOW HIDDEN COMMENTS

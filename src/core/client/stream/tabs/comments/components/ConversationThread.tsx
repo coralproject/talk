@@ -3,12 +3,13 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
-import { Button, Flex, HorizontalGutter, Typography } from "talk-ui/components";
+import { Button, Flex, HorizontalGutter } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
 import LocalReplyListContainer from "../containers/LocalReplyListContainer";
 import { RootParent } from "./Comment";
 import * as styles from "./ConversationThread.css";
+import Counter from "./Counter";
 import { Circle, Line } from "./Timeline";
 
 export interface ConversationThreadProps {
@@ -18,9 +19,9 @@ export interface ConversationThreadProps {
   asset: PropTypesOf<typeof CommentContainer>["asset"] &
     PropTypesOf<typeof LocalReplyListContainer>["asset"];
   comment: PropTypesOf<typeof CommentContainer>["comment"];
-  hasMore: boolean;
   disableLoadMore: boolean;
   loadMore: () => void;
+  remaining: number;
   parents: Array<
     { id: string } & PropTypesOf<typeof CommentContainer>["comment"] &
       PropTypesOf<typeof LocalReplyListContainer>["comment"]
@@ -37,11 +38,6 @@ const ConversationThread: StatelessComponent<
 > = props => {
   return (
     <div className={cn(props.className, styles.root)}>
-      <Flex justifyContent="center">
-        <Localized id="comments-conversationThread-conversationThread">
-          <Typography variant="heading4">Conversation Thread</Typography>
-        </Localized>
-      </Flex>
       <HorizontalGutter container={<Line dashed />}>
         {props.rootParent && (
           <Circle>
@@ -52,24 +48,27 @@ const ConversationThread: StatelessComponent<
             />
           </Circle>
         )}
-        {props.hasMore && (
+        {props.remaining > 0 && (
           <Circle hollow className={styles.loadMore}>
-            <Localized id="comments-conversationThread-viewPreviousComments">
-              <Button
-                onClick={props.loadMore}
-                disabled={props.disableLoadMore}
-                id="comments-conversationThread-viewPreviousComments"
-                variant="underlined"
-              >
-                View previous comments
-              </Button>
-            </Localized>
+            <Flex alignItems="center" itemGutter="half">
+              <Localized id="comments-conversationThread-showHiddenComments">
+                <Button
+                  onClick={props.loadMore}
+                  disabled={props.disableLoadMore}
+                  id="comments-conversationThread-showHiddenComments"
+                  variant="underlined"
+                >
+                  Show hidden comments
+                </Button>
+              </Localized>
+              <Counter>{props.remaining}</Counter>
+            </Flex>
           </Circle>
         )}
       </HorizontalGutter>
       <HorizontalGutter container={Line}>
         {props.parents.map((parent, i) => (
-          <Circle key={parent.id} hollow={props.hasMore || i > 0}>
+          <Circle key={parent.id} hollow={!!props.remaining || i > 0}>
             <CommentContainer
               comment={parent}
               asset={props.asset}
@@ -91,6 +90,7 @@ const ConversationThread: StatelessComponent<
             comment={props.comment}
             asset={props.asset}
             me={props.me}
+            highlight
           />
         </Circle>
       </HorizontalGutter>

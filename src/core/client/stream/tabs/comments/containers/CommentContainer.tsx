@@ -42,6 +42,7 @@ interface InnerProps {
   disableReplies?: boolean;
   /** showConversationLink will render a link to the conversation */
   showConversationLink?: boolean;
+  highlight?: boolean;
 }
 
 interface State {
@@ -136,6 +137,7 @@ export class CommentContainer extends Component<InnerProps, State> {
       localReply,
       disableReplies,
       showConversationLink,
+      highlight,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     if (showEditDialog) {
@@ -156,6 +158,7 @@ export class CommentContainer extends Component<InnerProps, State> {
           createdAt={comment.createdAt}
           blur={comment.pending || false}
           showEditedMarker={comment.editing.edited}
+          highlight={highlight}
           topBarRight={
             (editable && (
               <Localized id="comments-commentContainer-editButton">

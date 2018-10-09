@@ -95,7 +95,7 @@ it("views pervious comments", async () => {
     .find(
       node =>
         node.props.onClick &&
-        node.props.id === "comments-conversationThread-viewPreviousComments"
+        node.props.id === "comments-conversationThread-showHiddenComments"
     )
     .props.onClick();
   await timeout();

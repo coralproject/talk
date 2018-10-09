@@ -57,9 +57,9 @@ class ConversationThreadContainer extends React.Component<
         asset={asset}
         comment={comment}
         parents={comment.parents.edges.map(edge => edge.node)}
-        hasMore={hasMore}
         disableLoadMore={this.state.disableLoadMore}
         loadMore={this.loadMore}
+        remaining={comment.parentCount - comment.parents.edges.length}
         rootParent={
           (hasMore &&
             comment &&

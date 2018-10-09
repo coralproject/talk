@@ -1,3 +1,4 @@
+import cn from "classnames";
 import React, { StatelessComponent } from "react";
 
 import HTMLContent from "talk-stream/components/HTMLContent";
@@ -18,11 +19,15 @@ export interface CommentProps {
   topBarRight?: React.ReactNode;
   footer?: React.ReactNode;
   showEditedMarker?: boolean;
+  highlight?: boolean;
 }
 
 const Comment: StatelessComponent<CommentProps> = props => {
   return (
-    <div role="article" className={styles.root}>
+    <div
+      role="article"
+      className={cn(styles.root, { [styles.highlight]: props.highlight })}
+    >
       <Flex
         className={styles.topBar}
         direction="row"
