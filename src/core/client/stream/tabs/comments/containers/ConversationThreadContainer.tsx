@@ -7,6 +7,7 @@ import { withPaginationContainer } from "talk-framework/lib/relay";
 import { ConversationThreadContainer_asset as AssetData } from "talk-stream/__generated__/ConversationThreadContainer_asset.graphql";
 import { ConversationThreadContainer_comment as CommentData } from "talk-stream/__generated__/ConversationThreadContainer_comment.graphql";
 import { ConversationThreadContainer_me as MeData } from "talk-stream/__generated__/ConversationThreadContainer_me.graphql";
+import { ConversationThreadContainer_settings as SettingsData } from "talk-stream/__generated__/ConversationThreadContainer_settings.graphql";
 import { ConversationThreadContainerPaginationQueryVariables } from "talk-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
 import {
   SetCommentIDMutation,
@@ -18,6 +19,7 @@ import ConversationThread from "../components/ConversationThread";
 interface ConversationThreadContainerProps {
   comment: CommentData;
   asset: AssetData;
+  settings: SettingsData;
   me: MeData | null;
   setCommentID: SetCommentIDMutation;
   pym: PymChild | undefined;
@@ -49,13 +51,14 @@ class ConversationThreadContainer extends React.Component<
   };
 
   public render() {
-    const { comment, asset, me } = this.props;
+    const { comment, asset, me, settings } = this.props;
     const hasMore = this.props.relay.hasMore();
     return (
       <ConversationThread
         me={me}
         asset={asset}
         comment={comment}
+        settings={settings}
         parents={comment.parents.edges.map(edge => edge.node)}
         disableLoadMore={this.state.disableLoadMore}
         loadMore={this.loadMore}
@@ -96,6 +99,12 @@ const enhanced = withContext(ctx => ({
           fragment ConversationThreadContainer_asset on Asset {
             ...CommentContainer_asset
             ...LocalReplyListContainer_asset
+          }
+        `,
+        settings: graphql`
+          fragment ConversationThreadContainer_settings on Settings {
+            ...CommentContainer_settings
+            ...LocalReplyListContainer_settings
           }
         `,
         comment: graphql`

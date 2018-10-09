@@ -7,7 +7,7 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ActionCounts } from "talk-server/models/actions";
+import { EncodedActionCounts } from "talk-server/models/action";
 import {
   Connection,
   createConnection,
@@ -43,7 +43,7 @@ export interface Comment extends TenantResource {
   body_history: BodyHistoryItem[];
   status: GQLCOMMENT_STATUS;
   status_history: StatusHistoryItem[];
-  action_counts: ActionCounts;
+  action_counts: EncodedActionCounts;
   grandparent_ids: string[];
   reply_ids: string[];
   reply_count: number;
@@ -425,6 +425,30 @@ export async function retrieveCommentAssetConnection(
 }
 
 /**
+ * retrieveCommentUserConnection returns a Connection<Comment> for a given User's
+ * comments.
+ *
+ * @param db database connection
+ * @param userID the User id for the comment to retrieve
+ * @param input connection configuration
+ */
+export async function retrieveCommentUserConnection(
+  db: Db,
+  tenantID: string,
+  userID: string,
+  input: ConnectionInput
+) {
+  // Create the query.
+  const query = new Query(collection(db)).where({
+    tenant_id: tenantID,
+    author_id: userID,
+  });
+
+  // Return a connection for the comments query.
+  return retrieveConnection(input, query);
+}
+
+/**
  * retrieveConnection returns a Connection<Comment> for the given input and
  * Query.
  *
@@ -492,10 +516,37 @@ function applyInputToQuery(input: ConnectionInput, query: Query<Comment>) {
       }
       break;
     case GQLCOMMENT_SORT.RESPECT_DESC:
-      query.orderBy({ "action_counts.respect": -1, created_at: -1 });
+      query.orderBy({ "action_counts.REACTION": -1, created_at: -1 });
       if (input.after) {
         query.after(input.after as number);
       }
       break;
   }
+}
+
+/**
+ * updateCommentActionCounts will update the given comment's action counts.
+ *
+ * @param mongo the database handle
+ * @param tenantID the id of the Tenant
+ * @param id the id of the Comment being updated
+ * @param actionCounts the action counts to merge into the Comment
+ */
+export async function updateCommentActionCounts(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  actionCounts: EncodedActionCounts
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenant_id: tenantID },
+    // Update all the specific action counts that are associated with each of
+    // the counts.
+    { $inc: dotize({ action_counts: actionCounts }) },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return result.value;
 }

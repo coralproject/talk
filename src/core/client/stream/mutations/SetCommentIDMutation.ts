@@ -18,6 +18,7 @@ export async function commit(
   return commitLocalUpdate(environment, store => {
     const record = store.get(LOCAL_ID)!;
     record.setValue(input.id, "commentID");
+    record.setValue("COMMENTS", "activeTab");
     if (pym) {
       // This sets the comment id on the parent url.
       pym.sendMessage("setCommentID", input.id || "");

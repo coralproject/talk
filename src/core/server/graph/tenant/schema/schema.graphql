@@ -5,7 +5,7 @@
 """
 auth is a directive that will enforce authorization rules on the schema
 definition. It will restrict the viewer of the field based on roles or if the
-`userIDField` is specified, it will see if the current users ID equals the field
+`userIDField` is specified, it  will see if the current users ID equals the field
 specified. This allows users that own a specific resource (like a comment, or a
 flag) see their own content, but restrict it to everyone else. If the directive
 is used without options, it simply requires a logged in user.
@@ -30,23 +30,181 @@ scalar Cursor
 ## Actions
 ################################################################################
 
-enum ACTION_TYPE {
-  FLAG
-  DONTAGREE
+"""
+COMMENT_FLAG_REPORTED_REASON is a reason that is reported by a User on a
+Comment.
+"""
+enum COMMENT_FLAG_REPORTED_REASON {
+  """
+  COMMENT_REPORTED_OFFENSIVE is used when a User reported a Comment as being
+  offensive.
+  """
+  COMMENT_REPORTED_OFFENSIVE
+
+  """
+  COMMENT_REPORTED_SPAM is used when a User reported a Comment as appearing like
+  spam.
+  """
+  COMMENT_REPORTED_SPAM
 }
 
-enum ACTION_ITEM_TYPE {
-  COMMENTS
+"""
+COMMENT_FLAG_DETECTED_REASON is a reason that is detected by the system on a
+Comment.
+"""
+enum COMMENT_FLAG_DETECTED_REASON {
+  """
+  COMMENT_DETECTED_TOXIC is used when the Comment was detected as being toxic by
+  the system.
+  """
+  COMMENT_DETECTED_TOXIC
+
+  """
+  COMMENT_DETECTED_SPAM is used when the Comment was detected as having spam by
+  the system.
+  """
+  COMMENT_DETECTED_SPAM
+
+  """
+  COMMENT_DETECTED_BODY_COUNT is used when the Comment was detected as exceeding
+  the body length by the system.
+  """
+  COMMENT_DETECTED_BODY_COUNT
+
+  """
+  COMMENT_DETECTED_TRUST is used when the Comment being left was done by a User
+  that has a low karma/trust score.
+  """
+  COMMENT_DETECTED_TRUST
+
+  """
+  COMMENT_DETECTED_LINKS is used when the Comment was detected as containing
+  links.
+  """
+  COMMENT_DETECTED_LINKS
+
+  """
+  COMMENT_DETECTED_BANNED_WORD is used when the Comment was detected as
+  containing a banned word.
+  """
+  COMMENT_DETECTED_BANNED_WORD
+
+  """
+  COMMENT_DETECTED_SUSPECT_WORD is used when the Comment was detected as
+  containing a suspect word.
+  """
+  COMMENT_DETECTED_SUSPECT_WORD
 }
 
-enum ACTION_GROUP {
-  SPAM_COMMENT
-  TOXIC_COMMENT
-  BODY_COUNT
-  TRUST
-  LINKS
-  BANNED_WORD
-  SUSPECT_WORD
+"""
+COMMENT_FLAG_REASON is the union of the COMMENT_FLAG_REPORTED_REASON
+and COMMENT_FLAG_DETECTED_REASON types.
+"""
+enum COMMENT_FLAG_REASON {
+  COMMENT_REPORTED_OFFENSIVE
+  COMMENT_REPORTED_SPAM
+  COMMENT_DETECTED_TOXIC
+  COMMENT_DETECTED_SPAM
+  COMMENT_DETECTED_BODY_COUNT
+  COMMENT_DETECTED_TRUST
+  COMMENT_DETECTED_LINKS
+  COMMENT_DETECTED_BANNED_WORD
+  COMMENT_DETECTED_SUSPECT_WORD
+}
+
+"""
+ReactionActionCounts stores all the counts for the counts for the reaction
+action on a given item.
+"""
+type ReactionActionCounts {
+  """
+  total is the total number of reactions against a given item.
+  """
+  total: Int!
+}
+
+"""
+DontAgreeActionCounts stores all the counts for the counts for the dontAgree
+action on a given item.
+"""
+type DontAgreeActionCounts {
+  """
+  total is the total number of dontAgree actions against a given item.
+  """
+  total: Int!
+}
+
+type FlagReasonActionCounts {
+  COMMENT_REPORTED_OFFENSIVE: Int!
+  COMMENT_REPORTED_SPAM: Int!
+  COMMENT_DETECTED_TOXIC: Int!
+  COMMENT_DETECTED_SPAM: Int!
+  COMMENT_DETECTED_BODY_COUNT: Int!
+  COMMENT_DETECTED_TRUST: Int!
+  COMMENT_DETECTED_LINKS: Int!
+  COMMENT_DETECTED_BANNED_WORD: Int!
+  COMMENT_DETECTED_SUSPECT_WORD: Int!
+}
+
+"""
+FlagActionCounts stores all the counts for the counts for the flag action on a
+given item and the reason counts.
+"""
+type FlagActionCounts {
+  """
+  total is the total number of flags against a given item.
+  """
+  total: Int!
+
+  """
+  reasons stores the counts for the various reasons that an item could be
+  flagged for.
+  """
+  reasons: FlagReasonActionCounts!
+}
+
+"""
+ActionCounts returns the counts of each action for an item.
+"""
+type ActionCounts {
+  """
+  reaction returns the counts for the reaction action on an item.
+  """
+  reaction: ReactionActionCounts!
+
+  """
+  dontAgree returns the counts for the dontAgree action on an item. This edge is
+  restricted to administrators and moderators.
+  """
+  dontAgree: DontAgreeActionCounts! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  flag returns the counts for the flag action on an item. This edge is
+  restricted to administrators and moderators.
+  """
+  flag: FlagActionCounts! @auth(roles: [ADMIN, MODERATOR])
+}
+
+"""
+ActionPresence returns whether or not a given item has one of the following
+actions on it. This is typically used to determine if a given user has left
+one of the following actions.
+"""
+type ActionPresence {
+  """
+  reaction is true when a reaction action was left on an item.
+  """
+  reaction: Boolean!
+
+  """
+  dontAgree is true when a dontAgree action was left on an item.
+  """
+  dontAgree: Boolean!
+
+  """
+  flag is true when a flag action was left on an item.
+  """
+  flag: Boolean!
 }
 
 ################################################################################
@@ -332,6 +490,42 @@ type Email {
 }
 
 ################################################################################
+## ReactionConfiguration
+################################################################################
+
+"""
+ReactionConfiguration stores the configuration for reactions used across this
+Tenant.
+"""
+type ReactionConfiguration {
+  """
+  icon is the string representing the icon to be used for the reactions.
+  """
+  icon: String!
+
+  """
+
+  """
+  iconActive: String
+
+  """
+  label is the string placed beside the reaction icon to provide better context.
+  """
+  label: String!
+
+  """
+  labelActive is the string placed beside the reaction icon to provide better
+  context when it has been selected.
+  """
+  labelActive: String
+
+  """
+  color is the hex color code that can be used to change the color of the button.
+  """
+  color: String
+}
+
+################################################################################
 ## Settings
 ################################################################################
 
@@ -439,22 +633,22 @@ type Settings {
   """
   organizationName is the name of the organization.
   """
-  organizationName: String
+  organizationName: String!
 
   """
   organizationContactEmail is the email of the organization.
   """
-  organizationContactEmail: String
+  organizationContactEmail: String!
 
   """
   email is the set of credentials and settings associated with the organization.
   """
-  email: Email @auth(roles: [ADMIN])
+  email: Email! @auth(roles: [ADMIN])
 
   """
   wordlist will return a given list of words.
   """
-  wordlist: Wordlist @auth(roles: [ADMIN, MODERATOR])
+  wordlist: Wordlist! @auth(roles: [ADMIN, MODERATOR])
 
   """
   auth contains all the settings related to authentication and authorization.
@@ -464,13 +658,18 @@ type Settings {
   """
   integrations contains all the external integrations that can be enabled.
   """
-  integrations: ExternalIntegrations @auth(roles: [ADMIN])
+  integrations: ExternalIntegrations! @auth(roles: [ADMIN])
 
   """
   karma is the set of settings related to how user Trust and Karma are
   handled.
   """
-  karma: Karma @auth(roles: [ADMIN, MODERATOR])
+  karma: Karma! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  reaction specifies the configuration for reactions.
+  """
+  reaction: ReactionConfiguration!
 }
 
 ################################################################################
@@ -562,6 +761,15 @@ type User {
   role is the current role of the User.
   """
   role: USER_ROLE! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+
+  """
+  comments are the comments of the User.
+  """
+  comments(
+    first: Int = 10
+    orderBy: COMMENT_SORT = CREATED_AT_DESC
+    after: Cursor
+  ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
 }
 
 ################################################################################
@@ -687,6 +895,22 @@ type Comment {
   editing returns details about the edit status of a Comment.
   """
   editing: EditInfo!
+
+  """
+  actionCounts stores the counts of all the actions for the Comment.
+  """
+  actionCounts: ActionCounts!
+
+  """
+  myActionPresence stores the presense information for all the actions
+  left by the current User on this Comment.
+  """
+  myActionPresence: ActionPresence
+
+  """
+  asset is the Asset that the Comment was written on.
+  """
+  asset: Asset!
 }
 
 type PageInfo {
@@ -823,6 +1047,12 @@ type Asset {
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection!
+
+  """
+  actionCounts stores the counts of all the actions against this Asset and it's
+  Comments.
+  """
+  actionCounts: ActionCounts! @auth(roles: [ADMIN, MODERATOR])
 
   """
   author is the authors listed in the meta tags for the Asset.
@@ -1375,6 +1605,179 @@ type UpdateSettingsPayload {
 }
 
 ##################
+## createCommentReaction
+##################
+
+input CreateCommentReactionInput {
+  """
+  commentID is the Comment's ID that we want to create a Reaction on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateCommentReactionPayload {
+  """
+  comment is the Comment that the Reaction was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## deleteCommentReaction
+##################
+
+input DeleteCommentReactionInput {
+  """
+  commentID is the Comment's ID that we want to delete a Reaction on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteCommentReactionPayload {
+  """
+  comment is the Comment that the Reaction was deleted on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## createCommentDontAgree
+##################
+
+input CreateCommentDontAgreeInput {
+  """
+  commentID is the Comment's ID that we want to create a DontAgree on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateCommentDontAgreePayload {
+  """
+  comment is the Comment that the DontAgree was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## deleteCommentDontAgree
+##################
+
+input DeleteCommentDontAgreeInput {
+  """
+  commentID is the Comment's ID that we want to delete a DontAgree on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteCommentDontAgreePayload {
+  """
+  comment is the Comment that the DontAgree was deleted on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## createCommentFlag
+##################
+
+input CreateCommentFlagInput {
+  """
+  commentID is the Comment's ID that we want to create a Flag on.
+  """
+  commentID: ID!
+
+  """
+  reason is the selected reason why the Flag is being created.
+  """
+  reason: COMMENT_FLAG_REPORTED_REASON!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateCommentFlagPayload {
+  """
+  comment is the Comment that the Flag was created on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## deleteCommentFlag
+##################
+
+input DeleteCommentFlagInput {
+  """
+  commentID is the Comment's ID that we want to delete a Flag on.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteCommentFlagPayload {
+  """
+  comment is the Comment that the Flag was deleted on.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -1395,6 +1798,52 @@ type Mutation {
   """
   updateSettings(input: UpdateSettingsInput!): UpdateSettingsPayload
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  createCommentReaction will create a Reaction authored by the current logged in
+  User on a Comment.
+  """
+  createCommentReaction(
+    input: CreateCommentReactionInput!
+  ): CreateCommentReactionPayload @auth
+
+  """
+  deleteCommentReaction will delete a Reaction authored by the current logged in
+  User on a Comment if it exists.
+  """
+  deleteCommentReaction(
+    input: CreateCommentReactionInput!
+  ): CreateCommentReactionPayload @auth
+
+  """
+  createCommentDontAgree will create a DontAgree authored by the current logged in
+  User on a Comment.
+  """
+  createCommentDontAgree(
+    input: CreateCommentDontAgreeInput!
+  ): CreateCommentDontAgreePayload @auth
+
+  """
+  deleteCommentDontAgree will delete a DontAgree authored by the current logged in
+  User on a Comment if it exists.
+  """
+  deleteCommentDontAgree(
+    input: CreateCommentDontAgreeInput!
+  ): CreateCommentDontAgreePayload @auth
+
+  """
+  createCommentFlag will create a Flag authored by the current logged in User on
+  a given Comment.
+  """
+  createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload
+    @auth
+
+  """
+  deleteCommentFlag will create a Flag authored by the current logged in User on
+  a given Comment.
+  """
+  deleteCommentFlag(input: DeleteCommentFlagInput!): DeleteCommentFlagPayload
+    @auth
 }
 
 ################################################################################

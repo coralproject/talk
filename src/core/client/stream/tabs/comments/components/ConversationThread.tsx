@@ -18,6 +18,8 @@ export interface ConversationThreadProps {
     (PropTypesOf<typeof LocalReplyListContainer>["me"] | null);
   asset: PropTypesOf<typeof CommentContainer>["asset"] &
     PropTypesOf<typeof LocalReplyListContainer>["asset"];
+  settings: PropTypesOf<typeof CommentContainer>["settings"] &
+    PropTypesOf<typeof LocalReplyListContainer>["settings"];
   comment: PropTypesOf<typeof CommentContainer>["comment"];
   disableLoadMore: boolean;
   loadMore: () => void;
@@ -73,12 +75,14 @@ const ConversationThread: StatelessComponent<
               comment={parent}
               asset={props.asset}
               me={props.me}
+              settings={props.settings}
               localReply
             />
             {props.me && (
               <LocalReplyListContainer
                 asset={props.asset}
                 me={props.me}
+                settings={props.settings}
                 comment={parent}
                 indentLevel={1}
               />
@@ -89,6 +93,7 @@ const ConversationThread: StatelessComponent<
           <CommentContainer
             comment={props.comment}
             asset={props.asset}
+            settings={props.settings}
             me={props.me}
             highlight
           />

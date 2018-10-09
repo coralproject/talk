@@ -27,6 +27,16 @@ export {
   SetAuthPopupStateMutation,
 } from "./SetAuthPopupStateMutation";
 export {
+  SetActiveTabInput,
   withSetActiveTabMutation,
   SetActiveTabMutation,
 } from "./SetActiveTabMutation";
+export {
+  withCreateCommentReactionMutation,
+  CreateCommentReactionMutation,
+  CreateCommentReactionInput,
+} from "./CreateCommentReactionMutation";
+export {
+  withDeleteCommentReactionMutation,
+  DeleteCommentReactionMutation,
+} from "./DeleteCommentReactionMutation";

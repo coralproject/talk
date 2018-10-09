@@ -34,6 +34,13 @@ const config = convict({
     default: "development",
     env: "NODE_ENV",
   },
+  enable_graphiql: {
+    doc: "When true, this will enable the GraphiQL routes",
+    format: Boolean,
+    default: false,
+    env: "ENABLE_GRAPHIQL",
+    arg: "enableGraphiQL",
+  },
   port: {
     doc: "The port to bind.",
     format: "port",

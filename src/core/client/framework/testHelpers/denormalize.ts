@@ -37,6 +37,9 @@ export function denormalizeAsset(asset: any) {
   return {
     ...asset,
     comments: { edges: commentNodes, pageInfo: commentsPageInfo },
+    commentCounts: {
+      totalVisible: commentNodes.length,
+    },
   };
 }
 

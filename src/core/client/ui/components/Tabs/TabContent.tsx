@@ -5,10 +5,14 @@ export interface TabContentProps {
    * Active tab id/name
    */
   activeTab?: string;
+  /**
+   * classNames
+   */
+  className?: string;
 }
 
 const TabContent: StatelessComponent<TabContentProps> = props => {
-  const { children, activeTab } = props;
+  const { children, activeTab, className } = props;
   return (
     <>
       {React.Children.toArray(children)
@@ -18,6 +22,7 @@ const TabContent: StatelessComponent<TabContentProps> = props => {
         .map((child: React.ReactElement<any>, i) =>
           React.cloneElement(child, {
             tabId: child.props.tabId ? child.props.tabId : i,
+            className,
           })
         )}
     </>

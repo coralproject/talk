@@ -5,6 +5,14 @@ import {
   denormalizeComments,
 } from "talk-framework/testHelpers";
 
+export const settings = {
+  reaction: {
+    icon: "thumb_up",
+    label: "Respect",
+    labelActive: "Respected",
+  },
+};
+
 export const users = [
   {
     id: "user-0",
@@ -20,97 +28,67 @@ export const users = [
   },
 ];
 
+export const baseComment = {
+  author: users[0],
+  body: "Comment Body",
+  createdAt: "2018-07-06T18:24:00.000Z",
+  replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+  replyCount: 0,
+  editing: {
+    edited: false,
+    editableUntil: "2018-07-06T18:24:30.000Z",
+  },
+  actionCounts: {
+    reaction: {
+      total: 0,
+    },
+  },
+};
+
 export const comments = denormalizeComments([
   {
+    ...baseComment,
     id: "comment-0",
     author: users[0],
     body: "Joining Too",
-    createdAt: "2018-07-06T18:24:00.000Z",
-    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    editing: {
-      edited: false,
-      editableUntil: "2018-07-06T18:24:30.000Z",
-    },
   },
   {
+    ...baseComment,
     id: "comment-1",
     author: users[1],
     body: "What's up?",
-    createdAt: "2018-07-06T18:20:00.000Z",
-    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    editing: {
-      edited: false,
-      editableUntil: "2018-07-06T18:20:30.000Z",
-    },
   },
   {
+    ...baseComment,
     id: "comment-2",
     author: users[2],
     body: "Hey!",
-    createdAt: "2018-07-06T18:14:00.000Z",
-    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    editing: {
-      edited: false,
-      editableUntil: "2018-07-06T18:14:30.000Z",
-    },
   },
   {
+    ...baseComment,
     id: "comment-3",
     author: users[2],
     body: "Comment Body 3",
-    createdAt: "2018-07-06T18:14:00.000Z",
-    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    editing: {
-      edited: false,
-      editableUntil: "2018-07-06T18:14:30.000Z",
-    },
   },
   {
+    ...baseComment,
     id: "comment-4",
     author: users[2],
     body: "Comment Body 4",
-    createdAt: "2018-07-06T18:14:00.000Z",
-    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    editing: {
-      edited: false,
-      editableUntil: "2018-07-06T18:14:30.000Z",
-    },
   },
   {
+    ...baseComment,
     id: "comment-5",
     author: users[2],
     body: "Comment Body 5",
-    createdAt: "2018-07-06T18:14:00.000Z",
-    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    editing: {
-      edited: false,
-      editableUntil: "2018-07-06T18:14:30.000Z",
-    },
-  },
-]);
-
-export const assets = denormalizeAssets([
-  {
-    id: "asset-1",
-    url: "http://localhost/assets/asset-1",
-    isClosed: false,
-    comments: {
-      edges: [
-        { node: comments[0], cursor: comments[0].createdAt },
-        { node: comments[1], cursor: comments[1].createdAt },
-      ],
-      pageInfo: {
-        hasNextPage: false,
-      },
-    },
   },
 ]);
 
 export const commentWithReplies = denormalizeComment({
+  ...baseComment,
   id: "comment-with-replies",
   author: users[0],
   body: "I like yoghurt",
-  createdAt: "2018-07-06T18:24:00.000Z",
   replies: {
     edges: [
       { node: comments[3], cursor: comments[3].createdAt },
@@ -121,17 +99,13 @@ export const commentWithReplies = denormalizeComment({
     },
   },
   replyCount: 2,
-  editing: {
-    edited: false,
-    editableUntil: "2018-07-06T18:24:30.000Z",
-  },
 });
 
 export const commentWithDeepReplies = denormalizeComment({
+  ...baseComment,
   id: "comment-with-deep-replies",
   author: users[0],
   body: "I like yoghurt",
-  createdAt: "2018-07-06T18:24:00.000Z",
   replies: {
     edges: [
       { node: commentWithReplies, cursor: commentWithReplies.createdAt },
@@ -142,114 +116,76 @@ export const commentWithDeepReplies = denormalizeComment({
     },
   },
   replyCount: 2,
-  editing: {
-    edited: false,
-    editableUntil: "2018-07-06T18:24:30.000Z",
-  },
 });
 
-export const assetWithReplies = denormalizeAsset({
-  id: "asset-with-replies",
-  url: "http://localhost/assets/asset-with-replies",
-  isClosed: false,
-  comments: {
-    edges: [
-      { node: comments[0], cursor: comments[0].createdAt },
-      { node: commentWithReplies, cursor: commentWithReplies.createdAt },
-    ],
-    pageInfo: {
-      hasNextPage: false,
-    },
-  },
-});
-
-export const assetWithDeepReplies = denormalizeAsset({
-  id: "asset-with-deep-replies",
-  url: "http://localhost/assets/asset-with-replies",
-  isClosed: false,
-  comments: {
-    edges: [
-      { node: comments[0], cursor: comments[0].createdAt },
-      {
-        node: commentWithDeepReplies,
-        cursor: commentWithDeepReplies.createdAt,
-      },
-    ],
-    pageInfo: {
-      hasNextPage: false,
-    },
-  },
-});
-
-export const commentWithDeepestReplies = denormalizeAsset({
-  ...commentWithReplies,
+export const commentWithDeepestReplies = denormalizeComment({
+  ...baseComment,
   id: "comment-with-deepest-replies",
   body: "body 0",
   replyCount: 1,
   replies: {
-    ...commentWithReplies.replies,
+    ...baseComment.replies,
     edges: [
       {
-        cursor: commentWithReplies.createdAt,
+        cursor: baseComment.createdAt,
         node: {
-          ...commentWithReplies,
+          ...baseComment,
           id: "comment-with-deepest-replies-1",
           body: "body 1",
           replyCount: 1,
           replies: {
-            ...commentWithReplies.replies,
+            ...baseComment.replies,
             edges: [
               {
-                cursor: commentWithReplies.createdAt,
+                cursor: baseComment.createdAt,
                 node: {
-                  ...commentWithReplies,
+                  ...baseComment,
                   id: "comment-with-deepest-replies-2",
                   body: "body 2",
                   replyCount: 1,
                   replies: {
-                    ...commentWithReplies.replies,
+                    ...baseComment.replies,
                     edges: [
                       {
-                        cursor: commentWithReplies.createdAt,
+                        cursor: baseComment.createdAt,
                         node: {
-                          ...commentWithReplies,
+                          ...baseComment,
                           id: "comment-with-deepest-replies-3",
                           body: "body 3",
                           replyCount: 1,
                           replies: {
-                            ...commentWithReplies.replies,
+                            ...baseComment.replies,
                             edges: [
                               {
-                                cursor: commentWithReplies.createdAt,
+                                cursor: baseComment.createdAt,
                                 node: {
-                                  ...commentWithReplies,
+                                  ...baseComment,
                                   id: "comment-with-deepest-replies-4",
                                   body: "body 4",
                                   replyCount: 1,
                                   replies: {
-                                    ...commentWithReplies.replies,
+                                    ...baseComment.replies,
                                     edges: [
                                       {
-                                        cursor: commentWithReplies.createdAt,
+                                        cursor: baseComment.createdAt,
                                         node: {
-                                          ...commentWithReplies,
+                                          ...baseComment,
                                           id: "comment-with-deepest-replies-5",
                                           body: "body 5",
                                           replyCount: 1,
                                           replies: {
-                                            ...commentWithReplies.replies,
+                                            ...baseComment.replies,
                                             edges: [
                                               {
-                                                cursor:
-                                                  commentWithReplies.createdAt,
+                                                cursor: baseComment.createdAt,
                                                 node: {
-                                                  ...commentWithReplies,
+                                                  ...baseComment,
                                                   id:
                                                     "comment-with-deepest-replies-6",
                                                   body: "body 6",
                                                   replyCount: 1,
                                                   replies: {
-                                                    ...commentWithReplies.replies,
+                                                    ...baseComment.replies,
                                                     edges: [],
                                                   },
                                                 },
@@ -278,10 +214,73 @@ export const commentWithDeepestReplies = denormalizeAsset({
   },
 });
 
+export const baseAsset = {
+  isClosed: false,
+  comments: {
+    edges: [],
+    pageInfo: {
+      hasNextPage: false,
+    },
+  },
+  commentCounts: {
+    totalVisible: 0,
+  },
+};
+
+export const assets = denormalizeAssets([
+  {
+    ...baseAsset,
+    id: "asset-1",
+    url: "http://localhost/assets/asset-1",
+    comments: {
+      edges: [
+        { node: comments[0], cursor: comments[0].createdAt },
+        { node: comments[1], cursor: comments[1].createdAt },
+      ],
+      pageInfo: {
+        hasNextPage: false,
+      },
+    },
+  },
+]);
+
+export const assetWithReplies = denormalizeAsset({
+  ...baseAsset,
+  id: "asset-with-replies",
+  url: "http://localhost/assets/asset-with-replies",
+  comments: {
+    edges: [
+      { node: comments[0], cursor: comments[0].createdAt },
+      { node: commentWithReplies, cursor: commentWithReplies.createdAt },
+    ],
+    pageInfo: {
+      hasNextPage: false,
+    },
+  },
+});
+
+export const assetWithDeepReplies = denormalizeAsset({
+  ...baseAsset,
+  id: "asset-with-deep-replies",
+  url: "http://localhost/assets/asset-with-replies",
+  comments: {
+    edges: [
+      { node: comments[0], cursor: comments[0].createdAt },
+      {
+        node: commentWithDeepReplies,
+        cursor: commentWithDeepReplies.createdAt,
+      },
+    ],
+    pageInfo: {
+      hasNextPage: false,
+    },
+  },
+});
+
 export const assetWithDeepestReplies = denormalizeAsset({
+  ...baseAsset,
   id: "asset-with-deepest-replies",
   url: "http://localhost/assets/asset-with-replies",
-  isClosed: false,
   comments: {
     edges: [
       {

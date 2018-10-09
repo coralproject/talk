@@ -1,0 +1,7 @@
+.link {
+  text-decoration: none;
+}
+
+.active {
+  border-bottom: 3px solid var(--palette-primary-main);
+}

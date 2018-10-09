@@ -1,27 +1,42 @@
-import * as React from "react";
-import { StatelessComponent } from "react";
+import React from "react";
 
 import { graphql, withLocalStateContainer } from "talk-framework/lib/relay";
 import { AppContainerLocal as Local } from "talk-stream/__generated__/AppContainerLocal.graphql";
+import {
+  SetActiveTabInput,
+  SetActiveTabMutation,
+  withSetActiveTabMutation,
+} from "talk-stream/mutations";
 
 import App from "../components/App";
 
 interface InnerProps {
   local: Local;
+  setActiveTab: SetActiveTabMutation;
 }
 
-const AppContainer: StatelessComponent<InnerProps> = ({
-  local: { activeTab },
-}) => {
-  return <App activeTab={activeTab} />;
-};
+class AppContainer extends React.Component<InnerProps> {
+  private handleSetActiveTab = (tab: SetActiveTabInput["tab"]) => {
+    this.props.setActiveTab({ tab });
+  };
 
-const enhanced = withLocalStateContainer(
-  graphql`
-    fragment AppContainerLocal on Local {
-      activeTab
-    }
-  `
-)(AppContainer);
+  public render() {
+    const {
+      local: { activeTab },
+    } = this.props;
+
+    return <App activeTab={activeTab} onTabClick={this.handleSetActiveTab} />;
+  }
+}
+
+const enhanced = withSetActiveTabMutation(
+  withLocalStateContainer(
+    graphql`
+      fragment AppContainerLocal on Local {
+        activeTab
+      }
+    `
+  )(AppContainer)
+);
 
 export default enhanced;

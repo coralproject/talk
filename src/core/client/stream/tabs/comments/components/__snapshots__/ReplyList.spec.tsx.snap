@@ -24,6 +24,14 @@ exports[`renders correctly 1`] = `
       key="comment-1"
       localReply={false}
       me={null}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
       showConversationLink={false}
     />
   </withPropsOnChange(HorizontalGutter)>
@@ -47,6 +55,14 @@ exports[`renders correctly 1`] = `
       key="comment-2"
       localReply={false}
       me={null}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
       showConversationLink={true}
     />
   </withPropsOnChange(HorizontalGutter)>
@@ -75,6 +91,14 @@ exports[`when there is more disables load more button 1`] = `
       indentLevel={1}
       key="comment-1"
       me={null}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
       showConversationLink={false}
     />
   </withPropsOnChange(HorizontalGutter)>
@@ -95,6 +119,14 @@ exports[`when there is more disables load more button 1`] = `
       indentLevel={1}
       key="comment-2"
       me={null}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
       showConversationLink={false}
     />
   </withPropsOnChange(HorizontalGutter)>
@@ -142,6 +174,14 @@ exports[`when there is more renders a load more button 1`] = `
       indentLevel={1}
       key="comment-1"
       me={null}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
       showConversationLink={false}
     />
   </withPropsOnChange(HorizontalGutter)>
@@ -162,6 +202,14 @@ exports[`when there is more renders a load more button 1`] = `
       indentLevel={1}
       key="comment-2"
       me={null}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
       showConversationLink={false}
     />
   </withPropsOnChange(HorizontalGutter)>

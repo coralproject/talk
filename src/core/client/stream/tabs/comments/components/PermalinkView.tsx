@@ -17,6 +17,8 @@ export interface PermalinkViewProps {
     | PropTypesOf<typeof ConversationThreadContainer>["comment"] &
         PropTypesOf<typeof ReplyListContainer>["comment"]
     | null;
+  settings: PropTypesOf<typeof ConversationThreadContainer>["settings"] &
+    PropTypesOf<typeof ReplyListContainer>["settings"];
   showAllCommentsHref: string | null;
   onShowAllComments: (e: MouseEvent<any>) => void;
 }
@@ -24,6 +26,7 @@ export interface PermalinkViewProps {
 const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
   showAllCommentsHref,
   comment,
+  settings,
   asset,
   onShowAllComments,
   me,
@@ -63,9 +66,15 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
             me={me}
             comment={comment}
             asset={asset}
+            settings={settings}
           />
           <div className={styles.replyList}>
-            <ReplyListContainer me={me} comment={comment} asset={asset} />
+            <ReplyListContainer
+              me={me}
+              comment={comment}
+              asset={asset}
+              settings={settings}
+            />
           </div>
         </>
       )}
