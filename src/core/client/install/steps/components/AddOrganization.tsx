@@ -164,27 +164,13 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                 </FormField>
               )}
             </Field>
-            <Flex direction="row" itemGutter>
-              <Localized id="install-back">
-                <Button
-                  onClick={props.handleonGoToPreviousStep}
-                  variant="filled"
-                  color="regular"
-                  size="large"
-                  type="submit"
-                  disabled={submitting}
-                  fullWidth
-                >
-                  Back
-                </Button>
-              </Localized>
+            <Flex direction="row-reverse" itemGutter>
               <Button
                 variant="filled"
                 color="primary"
                 size="large"
                 type="submit"
                 disabled={submitting}
-                fullWidth
               >
                 <Localized id="install-next">
                   <span>Next</span>
@@ -193,6 +179,18 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                   arrow_forward
                 </ButtonIcon>
               </Button>
+              <Localized id="install-back">
+                <Button
+                  onClick={props.handleonGoToPreviousStep}
+                  variant="filled"
+                  color="regular"
+                  size="large"
+                  type="submit"
+                  disabled={submitting}
+                >
+                  Back
+                </Button>
+              </Localized>
             </Flex>
           </HorizontalGutter>
         </form>

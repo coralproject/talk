@@ -97,7 +97,18 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
               )}
             </Field>
 
-            <Flex direction="row" itemGutter>
+            <Flex direction="row-reverse" itemGutter>
+              <Localized id="install-finishInstall">
+                <Button
+                  variant="filled"
+                  color="primary"
+                  size="large"
+                  type="submit"
+                  disabled={submitting}
+                >
+                  Finish Install
+                </Button>
+              </Localized>
               <Localized id="install-back">
                 <Button
                   onClick={props.handleonGoToPreviousStep}
@@ -106,21 +117,8 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
                   size="large"
                   type="submit"
                   disabled={submitting}
-                  fullWidth
                 >
                   Back
-                </Button>
-              </Localized>
-              <Localized id="install-finishInstall">
-                <Button
-                  variant="filled"
-                  color="primary"
-                  size="large"
-                  type="submit"
-                  disabled={submitting}
-                  fullWidth
-                >
-                  Finish Install
                 </Button>
               </Localized>
             </Flex>

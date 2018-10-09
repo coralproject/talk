@@ -207,14 +207,13 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
               )}
             </Field>
 
-            <Flex direction="row" itemGutter>
+            <Flex direction="row-reverse">
               <Button
                 variant="filled"
                 color="primary"
                 size="large"
                 type="submit"
                 disabled={submitting}
-                fullWidth
               >
                 <Localized id="install-next">
                   <span>Next</span>
