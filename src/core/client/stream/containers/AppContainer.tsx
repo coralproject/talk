@@ -29,12 +29,14 @@ class AppContainer extends React.Component<InnerProps> {
   }
 }
 
-const enhanced = withLocalStateContainer(
-  graphql`
-    fragment AppContainerLocal on Local {
-      activeTab
-    }
-  `
-)(withSetActiveTabMutation(AppContainer));
+const enhanced = withSetActiveTabMutation(
+  withLocalStateContainer(
+    graphql`
+      fragment AppContainerLocal on Local {
+        activeTab
+      }
+    `
+  )(AppContainer)
+);
 
 export default enhanced;

@@ -35,6 +35,17 @@ function sharedUpdater(
  * update integrates new comment into the CommentConnection.
  */
 function update(store: RecordSourceSelectorProxy, input: CreateCommentInput) {
+  // Updating Comment Count
+  const asset = store.get(input.assetID);
+  if (asset) {
+    const record = asset.getLinkedRecord("commentCounts");
+    if (record) {
+      // TODO: when we have moderation, we'll need to be careful here.
+      const currentCount = record.getValue("totalVisible");
+      record.setValue(currentCount + 1, "totalVisible");
+    }
+  }
+
   // Get the payload returned from the server.
   const payload = store.getRootField("createComment")!;
 
@@ -146,6 +157,11 @@ function commit(
             body: input.body,
             editing: {
               editableUntil: new Date(Date.now() + 10000),
+            },
+            actionCounts: {
+              reaction: {
+                total: 0,
+              },
             },
           },
         },
