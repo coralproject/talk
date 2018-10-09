@@ -35,7 +35,7 @@ interface FormProps {
 
 export interface CreateYourAccountForm {
   onSubmit: OnSubmit<FormProps>;
-  handleGoToPreviousStep: () => void;
+  handleonGoToPreviousStep: () => void;
   data: FormData;
 }
 

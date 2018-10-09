@@ -5,9 +5,9 @@ import { Button, Flex, Typography } from "talk-ui/components";
 import { WizardChildProps } from "../../components/Wizard";
 
 class InitialStep extends Component<WizardChildProps> {
-  private handleGoToNextStep = () => {
-    if (this.props.goToNextStep) {
-      this.props.goToNextStep();
+  private handleonGoToNextStep = () => {
+    if (this.props.onGoToNextStep) {
+      this.props.onGoToNextStep();
     }
   };
 
@@ -24,7 +24,7 @@ class InitialStep extends Component<WizardChildProps> {
         <Flex justifyContent="center">
           <Localized id="install-initialStep-getStarted">
             <Button
-              onClick={this.handleGoToNextStep}
+              onClick={this.handleonGoToNextStep}
               color="primary"
               variant="filled"
               fullWidth={false}

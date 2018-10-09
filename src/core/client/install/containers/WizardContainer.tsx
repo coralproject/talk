@@ -24,17 +24,17 @@ class WizardContainer extends Component<
     step: 0,
   };
 
-  private goToNextStep = () =>
+  private onGoToNextStep = () =>
     this.setState(({ step }) => ({
       step: step + 1,
     }));
 
-  private goToPreviousStep = () =>
+  private onGoToPreviousStep = () =>
     this.setState(({ step }) => ({
       step: step - 1,
     }));
 
-  private goToStep = (step: number) =>
+  private onGoToStep = (step: number) =>
     this.setState({
       step,
     });
@@ -43,9 +43,9 @@ class WizardContainer extends Component<
     return (
       <Wizard
         currentStep={this.state.step}
-        goToNextStep={this.goToNextStep}
-        goToPreviousStep={this.goToPreviousStep}
-        goToStep={this.goToStep}
+        onGoToNextStep={this.onGoToNextStep}
+        onGoToPreviousStep={this.onGoToPreviousStep}
+        onGoToStep={this.onGoToStep}
       >
         <InitialStep />
         <CreateYourAccountContainer

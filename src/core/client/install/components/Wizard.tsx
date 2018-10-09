@@ -7,18 +7,18 @@ import * as styles from "./Wizard.css";
 
 export interface WizardProps {
   currentStep: number;
-  goToNextStep?: () => void;
-  goToPreviousStep?: () => void;
-  goToStep: (step: number) => void;
+  onGoToNextStep?: () => void;
+  onGoToPreviousStep?: () => void;
+  onGoToStep: (step: number) => void;
   className?: string;
   children: ReactNode;
 }
 
 export interface WizardChildProps {
   currentStep?: number;
-  goToNextStep?: () => void;
-  goToPreviousStep?: () => void;
-  goToStep?: (step: number) => void;
+  onGoToNextStep?: () => void;
+  onGoToPreviousStep?: () => void;
+  onGoToStep?: (step: number) => void;
 }
 
 class Wizard extends Component<WizardProps> {
@@ -26,9 +26,9 @@ class Wizard extends Component<WizardProps> {
     const {
       children,
       currentStep,
-      goToNextStep,
-      goToPreviousStep,
-      goToStep,
+      onGoToNextStep,
+      onGoToPreviousStep,
+      onGoToStep,
       className,
     } = this.props;
 
@@ -38,9 +38,9 @@ class Wizard extends Component<WizardProps> {
       .map((child: React.ReactElement<any>, index: number) =>
         React.cloneElement(child, {
           currentStep,
-          goToNextStep,
-          goToPreviousStep,
-          goToStep,
+          onGoToNextStep,
+          onGoToPreviousStep,
+          onGoToStep,
         })
       );
 

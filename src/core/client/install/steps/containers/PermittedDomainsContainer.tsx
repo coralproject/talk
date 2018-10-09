@@ -10,8 +10,8 @@ import { InstallMutation, withInstallMutation } from "../mutations";
 
 interface PermittedDomainsContainerProps {
   install: InstallMutation;
-  goToNextStep?: () => void;
-  goToPreviousStep?: () => void;
+  onGoToNextStep?: () => void;
+  onGoToPreviousStep?: () => void;
   data: FormData;
   onSaveData: (newData: {}) => void;
 }
@@ -45,14 +45,14 @@ function shapeFinalData(data: FormData): InstallInput {
 class CreateYourAccountContainer extends Component<
   PermittedDomainsContainerProps
 > {
-  private handleGoToNextStep = () => {
-    if (this.props.goToNextStep) {
-      this.props.goToNextStep();
+  private handleonGoToNextStep = () => {
+    if (this.props.onGoToNextStep) {
+      this.props.onGoToNextStep();
     }
   };
-  private handleGoToPreviousStep = () => {
-    if (this.props.goToPreviousStep) {
-      this.props.goToPreviousStep();
+  private handleonGoToPreviousStep = () => {
+    if (this.props.onGoToPreviousStep) {
+      this.props.onGoToPreviousStep();
     }
   };
   private onSubmit: PermittedDomainsForm["onSubmit"] = async (input, form) => {
@@ -60,7 +60,7 @@ class CreateYourAccountContainer extends Component<
       const domains = input.domains.split(",");
       this.props.onSaveData({ domains });
       this.props.install(shapeFinalData(this.props.data));
-      return this.handleGoToNextStep();
+      return this.handleonGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }
@@ -70,7 +70,7 @@ class CreateYourAccountContainer extends Component<
       <PermittedDomains
         data={this.props.data}
         onSubmit={this.onSubmit}
-        handleGoToPreviousStep={this.handleGoToPreviousStep}
+        handleonGoToPreviousStep={this.handleonGoToPreviousStep}
       />
     );
   }

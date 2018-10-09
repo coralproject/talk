@@ -7,8 +7,8 @@ import AddOrganization, {
 } from "../components/AddOrganization";
 
 interface AddOrganizationContainerProps {
-  goToNextStep?: () => void;
-  goToPreviousStep?: () => void;
+  onGoToNextStep?: () => void;
+  onGoToPreviousStep?: () => void;
   data: FormData;
   onSaveData: (newData: {}) => void;
 }
@@ -16,20 +16,20 @@ interface AddOrganizationContainerProps {
 class CreateYourAccountContainer extends Component<
   AddOrganizationContainerProps
 > {
-  private handleGoToNextStep = () => {
-    if (this.props.goToNextStep) {
-      this.props.goToNextStep();
+  private handleonGoToNextStep = () => {
+    if (this.props.onGoToNextStep) {
+      this.props.onGoToNextStep();
     }
   };
-  private handleGoToPreviousStep = () => {
-    if (this.props.goToPreviousStep) {
-      this.props.goToPreviousStep();
+  private handleonGoToPreviousStep = () => {
+    if (this.props.onGoToPreviousStep) {
+      this.props.onGoToPreviousStep();
     }
   };
   private onSubmit: AddOrganizationForm["onSubmit"] = async (input, form) => {
     try {
       this.props.onSaveData(input);
-      return this.handleGoToNextStep();
+      return this.handleonGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }
@@ -39,7 +39,7 @@ class CreateYourAccountContainer extends Component<
       <AddOrganization
         data={this.props.data}
         onSubmit={this.onSubmit}
-        handleGoToPreviousStep={this.handleGoToPreviousStep}
+        handleonGoToPreviousStep={this.handleonGoToPreviousStep}
       />
     );
   }

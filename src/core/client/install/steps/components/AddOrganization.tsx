@@ -30,7 +30,7 @@ interface FormProps {
 
 export interface AddOrganizationForm {
   onSubmit: OnSubmit<FormProps>;
-  handleGoToPreviousStep: () => void;
+  handleonGoToPreviousStep: () => void;
   data: FormData;
 }
 
@@ -167,7 +167,7 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
             <Flex direction="row" itemGutter>
               <Localized id="install-back">
                 <Button
-                  onClick={props.handleGoToPreviousStep}
+                  onClick={props.handleonGoToPreviousStep}
                   variant="filled"
                   color="regular"
                   size="large"
