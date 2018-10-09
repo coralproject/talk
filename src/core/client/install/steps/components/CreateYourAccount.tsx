@@ -8,6 +8,7 @@ import {
   validateEmail,
   validateEqualPasswords,
   validatePassword,
+  validateUsername,
 } from "talk-framework/lib/validation";
 import {
   Button,
@@ -98,7 +99,10 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
               )}
             </Field>
 
-            <Field name="username" validate={composeValidators(required)}>
+            <Field
+              name="username"
+              validate={composeValidators(required, validateUsername)}
+            >
               {({ input, meta }) => (
                 <FormField>
                   <Localized id="install-createYourAccount-username">
