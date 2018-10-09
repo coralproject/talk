@@ -27,7 +27,7 @@ exports[`post a reply: open reply form 1`] = `
         role="tab"
         type="button"
       >
-        Comments
+        ⁨2⁩ Comments
       </button>
     </li>
     <li
@@ -305,6 +305,21 @@ exports[`post a reply: open reply form 1`] = `
                     >
                       <span>
                         Reply
+                      </span>
+                    </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
                       </span>
                     </button>
                   </div>
@@ -470,10 +485,10 @@ exports[`post a reply: open reply form 1`] = `
                     >
                       <time
                         className="Timestamp-root RelativeTime-root"
-                        dateTime="2018-07-06T18:20:00.000Z"
-                        title="2018-07-06T18:20:00.000Z"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
                       >
-                        2018-07-06T18:20:00.000Z
+                        2018-07-06T18:24:00.000Z
                       </time>
                     </div>
                   </div>
@@ -506,6 +521,21 @@ exports[`post a reply: open reply form 1`] = `
                     >
                       <span>
                         Reply
+                      </span>
+                    </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
                       </span>
                     </button>
                   </div>
@@ -547,7 +577,7 @@ exports[`post a reply: optimistic response 1`] = `
         role="tab"
         type="button"
       >
-        Comments
+        ⁨3⁩ Comments
       </button>
     </li>
     <li
@@ -825,6 +855,21 @@ exports[`post a reply: optimistic response 1`] = `
                     >
                       <span>
                         Reply
+                      </span>
+                    </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
                       </span>
                     </button>
                   </div>
@@ -1042,6 +1087,21 @@ exports[`post a reply: optimistic response 1`] = `
                             Reply
                           </span>
                         </button>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Respect
+                          </span>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -1080,10 +1140,10 @@ exports[`post a reply: optimistic response 1`] = `
                     >
                       <time
                         className="Timestamp-root RelativeTime-root"
-                        dateTime="2018-07-06T18:20:00.000Z"
-                        title="2018-07-06T18:20:00.000Z"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
                       >
-                        2018-07-06T18:20:00.000Z
+                        2018-07-06T18:24:00.000Z
                       </time>
                     </div>
                   </div>
@@ -1116,6 +1176,21 @@ exports[`post a reply: optimistic response 1`] = `
                     >
                       <span>
                         Reply
+                      </span>
+                    </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
                       </span>
                     </button>
                   </div>
@@ -1157,7 +1232,7 @@ exports[`post a reply: server response 1`] = `
         role="tab"
         type="button"
       >
-        Comments
+        ⁨3⁩ Comments
       </button>
     </li>
     <li
@@ -1435,6 +1510,21 @@ exports[`post a reply: server response 1`] = `
                     >
                       <span>
                         Reply
+                      </span>
+                    </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
                       </span>
                     </button>
                   </div>
@@ -1515,6 +1605,21 @@ exports[`post a reply: server response 1`] = `
                             Reply
                           </span>
                         </button>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Respect
+                          </span>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -1553,10 +1658,10 @@ exports[`post a reply: server response 1`] = `
                     >
                       <time
                         className="Timestamp-root RelativeTime-root"
-                        dateTime="2018-07-06T18:20:00.000Z"
-                        title="2018-07-06T18:20:00.000Z"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
                       >
-                        2018-07-06T18:20:00.000Z
+                        2018-07-06T18:24:00.000Z
                       </time>
                     </div>
                   </div>
@@ -1589,6 +1694,21 @@ exports[`post a reply: server response 1`] = `
                     >
                       <span>
                         Reply
+                      </span>
+                    </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
                       </span>
                     </button>
                   </div>
@@ -1630,7 +1750,7 @@ exports[`renders comment stream 1`] = `
         role="tab"
         type="button"
       >
-        Comments
+        ⁨2⁩ Comments
       </button>
     </li>
     <li
@@ -1910,6 +2030,21 @@ exports[`renders comment stream 1`] = `
                         Reply
                       </span>
                     </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1946,10 +2081,10 @@ exports[`renders comment stream 1`] = `
                     >
                       <time
                         className="Timestamp-root RelativeTime-root"
-                        dateTime="2018-07-06T18:20:00.000Z"
-                        title="2018-07-06T18:20:00.000Z"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
                       >
-                        2018-07-06T18:20:00.000Z
+                        2018-07-06T18:24:00.000Z
                       </time>
                     </div>
                   </div>
@@ -1982,6 +2117,21 @@ exports[`renders comment stream 1`] = `
                     >
                       <span>
                         Reply
+                      </span>
+                    </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
                       </span>
                     </button>
                   </div>

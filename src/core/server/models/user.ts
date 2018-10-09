@@ -7,7 +7,7 @@ import {
   GQLUSER_ROLE,
   GQLUSER_USERNAME_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ActionCounts } from "talk-server/models/actions";
+import { EncodedActionCounts } from "talk-server/models/action";
 import { FilterQuery } from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -70,7 +70,7 @@ export interface User extends TenantResource {
   tokens: Token[];
   role: GQLUSER_ROLE;
   status: UserStatus;
-  action_counts: ActionCounts;
+  action_counts: EncodedActionCounts;
   ignored_users: string[];
   created_at: Date;
 }

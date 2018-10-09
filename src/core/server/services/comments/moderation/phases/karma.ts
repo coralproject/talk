@@ -1,8 +1,8 @@
 import {
-  GQLACTION_GROUP,
-  GQLACTION_TYPE,
+  GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
+import { ACTION_TYPE } from "talk-server/models/action";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -33,8 +33,8 @@ export const karma: IntermediateModerationPhase = ({
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
-          action_type: GQLACTION_TYPE.FLAG,
-          group_id: GQLACTION_GROUP.TRUST,
+          action_type: ACTION_TYPE.FLAG,
+          reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC,
           metadata: {
             trust: getCommentTrustScore(author),
           },

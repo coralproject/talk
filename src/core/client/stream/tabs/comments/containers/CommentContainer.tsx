@@ -9,6 +9,7 @@ import { PropTypesOf } from "talk-framework/types";
 import { CommentContainer_asset as AssetData } from "talk-stream/__generated__/CommentContainer_asset.graphql";
 import { CommentContainer_comment as CommentData } from "talk-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_me as MeData } from "talk-stream/__generated__/CommentContainer_me.graphql";
+import { CommentContainer_settings as SettingsData } from "talk-stream/__generated__/CommentContainer_settings.graphql";
 import {
   SetCommentIDMutation,
   ShowAuthPopupMutation,
@@ -16,6 +17,7 @@ import {
   withShowAuthPopupMutation,
 } from "talk-stream/mutations";
 
+import ReactionButtonContainer from "talk-stream/tabs/comments/containers/ReactionButtonContainer";
 import { Button } from "talk-ui/components";
 import Comment, {
   ButtonsBar,
@@ -30,6 +32,7 @@ interface InnerProps {
   me: MeData | null;
   comment: CommentData;
   asset: AssetData;
+  settings: SettingsData;
   indentLevel?: number;
   showAuthPopup: ShowAuthPopupMutation;
   setCommentID: SetCommentIDMutation;
@@ -131,6 +134,7 @@ export class CommentContainer extends Component<InnerProps, State> {
   public render() {
     const {
       comment,
+      settings,
       asset,
       indentLevel,
       localReply,
@@ -182,6 +186,12 @@ export class CommentContainer extends Component<InnerProps, State> {
                   />
                 )}
                 <PermalinkButtonContainer commentID={comment.id} />
+                {this.props.me && (
+                  <ReactionButtonContainer
+                    comment={comment}
+                    settings={settings}
+                  />
+                )}
               </ButtonsBar>
               {showConversationLink && (
                 <ShowConversationLink
@@ -241,6 +251,12 @@ const enhanced = withSetCommentIDMutation(
           pending
           ...ReplyCommentFormContainer_comment
           ...EditCommentFormContainer_comment
+          ...ReactionButtonContainer_comment
+        }
+      `,
+      settings: graphql`
+        fragment CommentContainer_settings on Settings {
+          ...ReactionButtonContainer_settings
         }
       `,
     })(CommentContainer)

@@ -1,18 +1,26 @@
 import { ReactTestRenderer } from "react-test-renderer";
+import sinon from "sinon";
 import timekeeper from "timekeeper";
 
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, users } from "../fixtures";
+import { assets, baseComment, settings, users } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const resolvers = {
     Query: {
-      asset: createSinonStub(s => s.throws(), s => s.returns(assets[0])),
-      me: createSinonStub(s => s.throws(), s => s.returns(users[0])),
+      settings: sinon.stub().returns(settings),
+      me: sinon.stub().returns(users[0]),
+      asset: createSinonStub(
+        s => s.throws(),
+        s =>
+          s
+            .withArgs(undefined, { id: assets[0].id, url: null })
+            .returns(assets[0])
+      ),
     },
     Mutation: {
       createComment: createSinonStub(
@@ -31,15 +39,10 @@ beforeEach(() => {
               edge: {
                 cursor: null,
                 node: {
+                  ...baseComment,
                   id: "comment-x",
                   author: users[0],
                   body: "<strong>Hello world! (from server)</strong>",
-                  createdAt: "2018-07-06T18:24:00.000Z",
-                  editing: {
-                    edited: false,
-                    editableUntil: "2018-07-06T18:24:30.000Z",
-                  },
-                  replies: { edges: [], pageInfo: {} },
                 },
               },
               clientMutationId: "0",
@@ -71,7 +74,7 @@ it("post a comment", async () => {
     .findByProps({ inputId: "comments-postCommentForm-field" })
     .props.onChange({ html: "<strong>Hello world!</strong>" });
 
-  timekeeper.freeze(new Date("2018-07-06T18:24:00.000Z"));
+  timekeeper.freeze(new Date(baseComment.createdAt));
 
   testRenderer.root
     .findByProps({ id: "comments-postCommentForm-form" })
