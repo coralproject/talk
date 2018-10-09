@@ -2,11 +2,11 @@
   display: inline-block;
   width: 200px;
   height: 0px;
-  border: 2px solid #9a9da0;
+  border: 1px solid var(--palette-grey-light);
   box-sizing: border-box;
   z-index: 1;
 }
 
 .completed {
-  border-color: #00cd73;
+  border-color: var(--palette-success-main);
 }

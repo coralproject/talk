@@ -52,12 +52,20 @@ class Wizard extends Component<WizardProps> {
             <StepBar currentStep={currentStep - 1} className={styles.stepBar}>
               <Step hidden>Start</Step>
               <Step>
-                <Localized id="">
+                <Localized id="install-createYourAccount-stepTitle">
                   <span>Create Admin Account</span>
                 </Localized>
               </Step>
-              <Step>Add Organization Details</Step>
-              <Step>Add Permitted Domains</Step>
+              <Step>
+                <Localized id="install-addOrganization-stepTitle">
+                  <span>Add Organization Details</span>
+                </Localized>
+              </Step>
+              <Step>
+                <Localized id="install-permittedDomains-stepTitle">
+                  <span>Add Permitted Domains</span>
+                </Localized>
+              </Step>
               <Step hidden>Finish</Step>
             </StepBar>
           )}
