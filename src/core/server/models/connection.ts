@@ -34,7 +34,7 @@ export function createConnection<T>(
       edges: [],
       pageInfo: {
         hasNextPage: false,
-        hasPreviousePage: false,
+        hasPreviousPage: false,
       },
     },
     connection
